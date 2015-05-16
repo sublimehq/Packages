@@ -10,7 +10,7 @@ variables:
   operator: '[!#%&\*\+\-/:<=>?\\^|~©®][!#%&\*\+\-/:<=>?@\\^|~©®]*'
   simple_name: '[A-Za-z_][A-Za-z_0-9]*'
   name_with_op: '({{operator}}|{{simple_name}}_{{operator}})'
-  name: '({{simple_name}}|{{operator}}|{{simple_name}}_{{operator}})'
+  name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}})'
   full_name: '({{operator}}\s|{{simple_name}}_{{operator}}\s|{{simple_name}}\s?)'
 
   tagname: '@[A-Za-z_0-9]+'
@@ -98,7 +98,7 @@ contexts:
       push: class_signature
 
     # function/method definition
-    - match: '(def)\s({{full_name}})'
+    - match: '(def)\s({{name}})'
       captures:
          1: keyword.declaration.scala
          2: entity.name.function.declaration
@@ -116,7 +116,7 @@ contexts:
       captures:
         1: keyword.declaration.scala
         2: entity.name.type.declaration
-        3: keyword.operator.scala
+        3: keyword.eq.scala
       push: type
 
     # language constants
@@ -207,7 +207,7 @@ contexts:
     - match: '{{name}}'
       scope: support.type.scala
     - match: '='
-      scope: keyword.operator.scala
+      scope: keyword.eq.scala
       pop: true
     - match: '(,|$)'
       pop: true
@@ -342,7 +342,7 @@ contexts:
         - match: '\)'
           pop: true
         - match: '=\s'
-          scope: keyword.operator.scala
+          scope: keyword.eq.scala
           set:
             - match: '\)'
               pop: true
@@ -364,13 +364,13 @@ contexts:
         - match: '$'
           pop: false
         - match: '='
-          scope: 'keyword.operator.scala'
+          scope: 'keyword.eq.scala'
           pop: true
         - match: '[\)\{]'
           pop: true
         - include: 'type'
     - match: '='
-      scope: 'keyword.operator.scala'
+      scope: 'keyword.eq.scala'
       pop: true
     - match: '(\{)'
       pop: true
