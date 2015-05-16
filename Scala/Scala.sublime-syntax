@@ -1,0 +1,436 @@
+%YAML 1.2
+---
+name: Scala
+file_extensions: [.scala, .sbt]
+scope: 'source.scala'
+
+variables:
+  # see this SO question for more details:
+  # http://stackoverflow.com/questions/7656937/valid-identifier-characters-in-scala
+  operator: '[!#%&\*\+\-/:<=>?\\^|~©®][!#%&\*\+\-/:<=>?@\\^|~©®]*'
+  simple_name: '[A-Za-z_][A-Za-z_0-9]*'
+  name_with_op: '({{operator}}|{{simple_name}}_{{operator}})'
+  name: '({{simple_name}}|{{operator}}|{{simple_name}}_{{operator}})'
+  full_name: '({{operator}}\s|{{simple_name}}_{{operator}}\s|{{simple_name}}\s?)'
+
+  tagname: '@[A-Za-z_0-9]+'
+
+  xml_open_tag: '<[A-Za-z]*>'
+  xml_close_tag: "<\/[A-Za-z]*>"
+
+  # integers
+  hex_numeral: '0[xX][0-9a-fA-F]+'
+  decimal_numeral: '[1-9][0-9]*[lL]'
+  integers: '({{hex_numeral}}|{{decimal_numeral}})'
+
+  # floating point numbers
+  exponent: '[eE][\+\-]?[0-9]*'
+  floating_point: '[0-9]*(\.[0-9]+)?{{exponent}}?[fFdD]?'
+
+  # characters
+  escaped_char: \\([btnfr"'\\]|u[0-9a-fA-F]{4})
+
+contexts:
+  prototype:
+    - include: 'comments'
+
+  # comments
+  comments:
+    - match: '\s*//.*$'
+      scope: comment.line.double-slash.scala
+    - match: '\s*/\*\*'
+      push:
+        - meta_scope: comment.block.documentation.scala
+        - match: '\*/'
+          pop: true
+    - match: '\s*/\*'
+      push:
+        - meta_scope: comment.block.scala
+        - match: '\*/'
+          pop: true
+
+  # punctuation:
+  #   - match: (\.|\,)
+  #     scope: keyword.operator.scala
+
+  main:
+    # annotations
+    - match: '{{tagname}}'
+      scope: entity.name.tag
+
+    # embedded xml see:
+    # http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#xml-mode
+    - match: '[\s\(\{]{{xml_open_tag}}'
+      scope: entity.name.tag
+      push: xml
+    - match: '{{xml_close_tag}}'
+      scope: invalid.illegal.xml-close-tag
+
+    # language keywords
+    - match: \b(if|else|for|while|match|case)\b
+      scope: keyword.control.flow.scala
+    - match: \b(try|catch|finally)\b
+      scope: keyword.control.exception.scala
+    - match: \b(throw)\b
+      scope: keyword.control.jump.scala
+    - match: \b(this|super)\b
+      scope: variable.language.scala
+    - match: \b(new)\s{{name}}
+      captures:
+        1: keyword.control.new.scala
+        2: entity.name.class
+    - match: \b(sealed|abstract|final)\b
+      scope: storage.modifier.other.scala
+    - match: \b(private|protected)\b
+      scope: storage.modifier.access.scala
+
+    # packages/object declaration
+    - match: '\b(package)\s(({{simple_name}}\.)*{{simple_name}})'
+      captures:
+        1: keyword.other.scoping.scala
+        2: entity.name.package.scala
+
+    # class declaration
+    - match: '\b(trait|class|object)\s{{name}}'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.name.class.declaration
+      push: class_signature
+
+    # function/method definition
+    - match: '(def)\s({{full_name}})'
+      captures:
+         1: keyword.declaration.scala
+         2: entity.name.function.declaration
+      push: signature
+
+    # val/var declaration
+    - match: '\b(val|var)\s{{full_name}}'
+      captures:
+        1: keyword.declaration.stable.scala
+        2: entity.name.val.declaration
+      push: optional_type
+
+    # type declaration
+    - match: '\b(type)\s{{full_name}}(=)'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.name.type.declaration
+        3: keyword.operator.scala
+      push: type
+
+    # language constants
+    - match: \b(true|false|None|Nil|null)\b
+      scope: constant.language.scala
+    # characters
+    - match: "'\\\\'"
+      scope: invalid.illegal.lone-escape.scala
+    - match: "'{{escaped_char}}'"
+      scope: constant.character.escape.scala
+    - match: "'.'"
+      scope: constant.character.scala
+    - match: "'[^']+'"
+      scope: invalid.illegal.not_a_char.scala
+    # - match: "(\\'\\\\.\\')"
+    #   scope: constant.character.literal.scala
+    # numbers
+    - match: '{{hex_numeral}}'
+      scope: constant.numeric.scala
+    - match: '{{decimal_numeral}}'
+      scope: constant.numeric.scala
+    - match: '([0-9]+(\.[0-9]+)?([eE][+\-]?[0-9]+)?[fFdD]?)'
+      scope: constant.numeric.scala
+
+    # import
+    - match: \bimport\b
+      scope: meta.import.scala keyword.other.import
+      push: import
+
+    # string
+    - match: '"""'
+      push: triple_string
+    - match: 's"'
+      push: s_string
+    - match: 'f"'
+      push: f_string
+    - match: 'raw"'
+      push: raw_string
+    - match: '"'
+      push: string
+
+    - match: '=>'
+      scope: support.function.builtin.scala
+    - match: '\s{{operator}}'
+      scope: keyword.operator.scala
+    - match: \b(println|print)\b
+      scope: support.function.builtin.scala
+
+    - match: \]
+      scope: invalid.illegal.stray-bracket-end
+    - match: \[
+      scope: invalid.illegal.stray-bracket-start
+    # extends and with can be found on a newline
+    - match: '^\s*(extends|with)\s{{name}}'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.other.inherited-class.scala
+      set: extends
+
+    # - include: punctuation
+
+  # type
+  type:
+    # tuple of type
+    - match: '\('
+      push:
+        - match: '\)'
+          pop: true
+        - match: '[$,]'
+          pop: false
+        - include: type
+    - match: '\b(with)\b'
+      scope: 'keyword.declaration.scala'
+    # type parameter
+    - match: '\['
+      push:
+        - match: '\]'
+          pop: true
+        - match: '[$,]'
+          pop: false
+        - include: type
+    - match: "<:"
+      scope: keyword.operator.scala
+    - match: '=>'
+      scope: support.function.builtin.scala
+    - match: \]|\)
+      scope: invalid.illegal.stray-bracket-end
+    - match: '{{name}}'
+      scope: support.type.scala
+    - match: '='
+      scope: keyword.operator.scala
+      pop: true
+    - match: '(,|$)'
+      pop: true
+    # - include: punctuation
+
+
+  import:
+    - meta_content_scope: meta.import.scala
+    - match: ([a-z][A-Za-z_0-9]*)
+      scope: variable.package.scala
+    - match: '{{simple_name}}'
+      scope: variable.import.scala
+    - match: _
+      scope: variable.import.scala
+      pop: true
+    - match: $
+      pop: true
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: import
+    # - include: punctuation
+
+  string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.scala
+    - include: 'escaped'
+    - match: '"'
+      pop: true
+    - match: "[^\"]*$"
+      scope: invalid.string.newline
+      pop: true
+
+
+  raw_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.scala
+    - match: '"'
+      pop: true
+    - match: "[^\"]*$"
+      scope: invalid.string.newline
+      pop: true
+    - match: \\u[0-9a-fA-F]{4}
+      scope: constant.character.escape.scala
+
+  triple_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.triple.scala
+    - include: 'escaped'
+    - match: '"""'
+      pop: true
+
+  s_string:
+    - meta_include_prototype: false
+    - meta_scope: string.interpolated.scala
+    - match: '(\$)\{'
+      scope: 'constant.other.place-holder.scala'
+      push:
+        - meta_scope: source.scala
+        - match: '\}'
+          scope: 'constant.other.place-holder.scala'
+          pop: true
+        - include: 'main'
+    - match: '(\$){{name}}'
+      captures:
+        1: 'constant.other.place-holder.scala'
+        2: source.scala
+    - match: '"'
+      pop: true
+    - include: 'escaped'
+
+  # f_string, see:
+  # http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html#detail
+  # /!\ this implementation may allow incorrect combinaisons
+  f_string:
+    - meta_include_prototype: false
+    - meta_scope: string.interpolated.scala
+    - include: s_string
+    # constant formatting
+    - match: '%[%n]'
+      scope: 'constant.other.place-holder.scala'
+    # general formatting
+    - match: '%\-?#?[bBhHsS]'
+      scope: 'constant.other.place-holder.scala'
+    # character formatting
+    - match: '%\-?[cC]'
+      scope: 'constant.other.place-holder.scala'
+    # date-time formatting
+    - match: '%\-?[tT][HIklMSLNpzZsQBbhAaCYyjmdeRTrDFc]?'
+      scope: 'constant.other.place-holder.scala'
+    # floating point formatting
+    - match: '%[\+\-# 0\(,]*[\.0-9]*[feEgGaA]'
+      scope: 'constant.other.place-holder.scala'
+    # integer formatting
+    - match: '%[\+\-# 0\(,]*[doxX]'
+      scope: 'constant.other.place-holder.scala'
+
+  escaped:
+    - match: '{{escaped_char}}'
+      scope: constant.character.escape.scala
+    - match: \\[0-7]{1,3}
+      scope: constant.character.escape.scala
+    - match: \\
+      scope: invalid.illegal.lone-escape.scala
+
+  # method signature
+  signature:
+    # - meta_scope: 'signature.scala'
+    - match: '\('
+      push: 'params'
+    - match: '\['
+      push: 'type_params'
+    - include: 'optional_type'
+
+  type_params:
+    # - meta_scope: 'type_params.scala'
+    - match: '\]'
+      pop: true
+    - match: '[$,]'
+      pop: false
+    - include: 'type'
+
+  params:
+    - meta_scope: 'params.scala'
+    - match: '\b(implicit)\b'
+      scope: 'storage.modifier.other'
+    - match: '{{full_name}}:'
+      captures:
+        1: variable.parameter
+      set:
+        - match: '\)'
+          pop: true
+        - match: '=\s'
+          scope: keyword.operator.scala
+          set:
+            - match: '\)'
+              pop: true
+            - include: main
+        - match: ','
+          set: params
+        - match: '$'
+          pop: false
+        - include: type
+    - match: '\)'
+      pop: true
+    - match: '($|,)'
+      pop: false
+
+  optional_type:
+    - match: ':'
+      set:
+        # - meta_scope: 'optional_type.scala'
+        - match: '$'
+          pop: false
+        - match: '='
+          scope: 'keyword.operator.scala'
+          pop: true
+        - match: '[\)\{]'
+          pop: true
+        - include: 'type'
+    - match: '='
+      scope: 'keyword.operator.scala'
+      pop: true
+    - match: '(\{)'
+      pop: true
+    - match: '$'
+      pop: true
+    # - include: 'type'
+    # - match: expr
+    #   scope: variable.parameter
+    # push:
+    #   - match: ","
+    #     pop: true
+
+  # class signature
+  class_signature:
+    # - meta_scope: 'signature.scala'
+    - match: '\('
+      push: 'params'
+    - match: '\['
+      push: 'type_params'
+    - match: '\b(extends|with)\s{{name}}'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.other.inherited-class.scala
+      set: extends
+    - include: 'optional_type'
+
+  extends:
+    # - meta_scope: extends
+    - match: '\b(with)\s{{name}}'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.other.inherited-class.scala
+    - match: '\{'
+      pop: true
+    - match: '\('
+      push:
+        - match: '\)'
+          pop: true
+        - include: main
+    - include: type
+
+  xml:
+    - meta_scope: text.xml
+    - match: '({{xml_open_tag}})([^\{]*)({{xml_close_tag}})'
+      captures:
+        1: entity.name.tag
+        2: string.unquoted.xml
+        3: entity.name.tag
+    - match: '\{'
+      captures:
+        1: entity.name.tag
+      push:
+        - meta_scope: source.scala
+        - match: '\}'
+          pop: true
+        - include: main
+    - match: '{{xml_open_tag}}'
+      scope: entity.name.tag
+      push: xml
+    - match: '{{xml_close_tag}}'
+      scope: entity.name.tag
+      pop: true
+
