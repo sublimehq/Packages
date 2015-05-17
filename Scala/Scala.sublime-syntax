@@ -96,9 +96,9 @@ contexts:
       push: signature
 
     # val/var declaration
-    - match: '\b(val|var)\s{{full_name}}'
+    - match: '\b(val|var)\s{{name}}'
       captures:
-        1: keyword.declaration.stable.scala
+        1: keyword.declaration.scala
         2: entity.name.val.declaration
       push: optional_type
 
@@ -166,7 +166,7 @@ contexts:
 
     # import
     - match: \bimport\b
-      scope: meta.import.scala keyword.other.import
+      scope: keyword.other.import
       push: import
 
     # extends and with can be found on a newline
@@ -205,6 +205,11 @@ contexts:
     - match: \]
       scope: invalid.illegal.stray-bracket-end
 
+    # try to match class name
+    - match: '[A-Z]{{name}}?'
+      scope: entity.name.class
+    - match: '{{name}}'
+      # scope: variable.other
     # - include: punctuation
 
   # type
@@ -244,13 +249,11 @@ contexts:
 
 
   import:
-    - meta_content_scope: meta.import.scala
-    - match: ([a-z][A-Za-z_0-9]*)
+    - meta_scope: meta.import.scala
+    - match: '({{name}}\.)*'
       scope: variable.package.scala
-    - match: '{{simple_name}}'
-      scope: variable.import.scala
     - match: _
-      scope: variable.import.scala
+      scope: constant.language.scala
       pop: true
     - match: $
       pop: true
@@ -258,7 +261,12 @@ contexts:
       push:
         - match: \}
           pop: true
-        - include: import
+        - match: '[A-Z]{{name}}?'
+          scope: entity.name.class
+        - match: '{{name}}'
+          scope: entity.name.method
+
+        # - include: import
     # - include: punctuation
 
   string:
@@ -375,6 +383,8 @@ contexts:
           set:
             - match: '\)'
               pop: true
+            - match: ','
+              set: params
             - include: main
         - match: ','
           set: params
@@ -465,7 +475,7 @@ contexts:
 
   scaladoc:
     - meta_scope: comment.block.documentation.scala
-    - match: '@(author|version|since|return)'
+    - match: '@(author|version|since|return)\b'
       scope: keyword.other.documentation.scaladoc.scala
     # - match: '\{\s*@link\s+#'
     #   push:
