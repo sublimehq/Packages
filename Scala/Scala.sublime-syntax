@@ -13,7 +13,7 @@ variables:
   # see this SO question for more details:
   # http://stackoverflow.com/questions/7656937/valid-identifier-characters-in-scala
   operator: '[!#%&\*\+\-/:<=>?\\^|~©®][!#%&\*\+\-/:<=>?@\\^|~©®]*'
-  simple_name: '[A-Za-z_][A-Za-z_0-9]*'
+  simple_name: '[A-Za-z_\p{L}][A-Za-z\p{L}_0-9]*'
   name_with_op: '({{operator}}|{{simple_name}}_{{operator}})'
   name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}})'
   full_name: '({{operator}}\s|{{simple_name}}_{{operator}}\s|{{simple_name}}\s?)'
@@ -43,8 +43,6 @@ contexts:
   comments:
     - match: '//.*$'
       scope: comment.line.double-slash.scala
-    - match: '/\*\*'
-      push: scaladoc
     - match: '/\*'
       push:
         - meta_scope: comment.block.scala
@@ -57,6 +55,10 @@ contexts:
 
   main:
     #TODO: forSome
+
+    # scaladoc is triggered only on new line
+    - match: '^\s*/\*\*'
+      push: scaladoc
 
     # skips opening
     - match: ^\s*
@@ -103,7 +105,7 @@ contexts:
       push: optional_type
 
     # type declaration
-    - match: '\b(type)\s{{full_name}}(=)'
+    - match: '\b(type)\s* {{full_name}}\s*({{operator}}?)'
       captures:
         1: keyword.declaration.scala
         2: entity.name.type.declaration
@@ -373,8 +375,7 @@ contexts:
     - match: '\b(implicit)\b'
       scope: 'storage.modifier.other'
     - match: '{{full_name}}:'
-      captures:
-        1: variable.parameter
+      scope: variable.parameter
       set:
         - match: '\)'
           pop: true
@@ -474,27 +475,111 @@ contexts:
       pop: true
 
   scaladoc:
+    - meta_include_prototype: false
     - meta_scope: comment.block.documentation.scala
-    - match: '@(author|version|since|return)\b'
-      scope: keyword.other.documentation.scaladoc.scala
-    # - match: '\{\s*@link\s+#'
-    #   push:
-    #     - match: '\}'
-    #       pop: true
-    #     - include: main
-    - match: '\{\s*(@link)\s+#{{name}}'
-      captures:
-        1: keyword.other.documentation.scaladoc.link.scala
-        2: entity.name.package
-      # push: main
+    - match: '@(author|version|since)\b'
+      scope: keyword.documentation.inventory.scala
+    - match: '@(note|example|usecase)\b'
+      scope: keyword.documentation.usage.scala
+    - match: '@(todo)\b'
+      scope: keyword.documentation.other.scala
+      # scope: comment.todo.scala
+    - match: '@(return|constructor)\b'
+      scope: keyword.documentation.parameter.scala
     - match: '(@param)\s+{{name}}'
       captures:
-        1: keyword.other.documentation.scaladoc.scala
+        1: keyword.documentation.parameter.scala
         2: variable.parameter
+    - match: '(@tparam)\s+{{name}}'
+      captures:
+        1: keyword.documentation.parameter.scala
+        2: support.type.scala
+    - match: '(@throws)\s+{{name}}'
+      captures:
+        1: keyword.documentation.parameter.scala
+        2: support.type.scala
     - match: '(@see)\s+{{name}}'
       captures:
-        1: keyword.other.documentation.scaladoc.link.scala
+        1: keyword.documentation.link.scala
         2: entity.name.package.scala
-    - match: '\*/'
+    - match: '(\$){{name}}'
+      captures:
+        1: constant.other.place-holder.scala
+        2: entity.name.macro
+    - match: '(@define)\s+{{name}}\s'
+      captures:
+        1: keyword.documentation.other.scala
+        2: entity.name.macro.declaration
+    - match: '@(inheritdoc)\b'
+      scope: keyword.documentation.other.scala
+
+    - include: scaladoc-markup
+
+  scaladoc-markup:
+    - match: '^\s*\*/'
       pop: true
+    - match: '^\s*\*'
+      scope: comment.block.documentation.scala
+    - match: '^(\s*.).*$'
+      captures:
+        1: invalid.illegal.missing-asterisk
+    - match: "'''"
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.bold
+        - match: "'''"
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: "''"
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.italic
+        - match: "''"
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: '__'
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.underline
+        - match: '__'
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: '\^'
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.superscipt
+        - match: '\^'
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: ',,'
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.subscipt
+        - match: ',,'
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: '`'
+      scope: constant.character.escaped.scaladoc
+      set:
+        - meta_content_scope : markup.monospace
+        - match: '`'
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+    - match: '\{\{\{'
+      scope: constant.character.escaped.scaladoc
+      set:
+        - match: '\}\}\}'
+          scope: constant.character.escaped.scaladoc
+          set: scaladoc
+        - include: scaladoc-markup
+        - match: .
+          scope : markup.code
+
+
 
