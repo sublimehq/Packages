@@ -194,11 +194,11 @@ contexts:
     - match: '{{reserved_op}}'
       scope: support.function.builtin.scala
     - match: ';'
-      scope: constant.character.separator.semi-colon
+      scope: punctuation.separator.semi-colon
     - match: ','
-      scope: constant.character.separator.coma
+      scope: punctuation.separator.coma
     - match: '\.'
-      scope: constant.character.separator.dot
+      scope: punctuation.separator.dot
     - match: \b(Array|List|Map)\b
       scope: support.class.builtin.scala
     - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)\b
@@ -312,16 +312,16 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: string.interpolated.scala
     - match: '(\$)\{'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
       push:
         - meta_scope: source.scala
         - match: '\}'
-          scope: 'constant.other.place-holder.scala'
+          scope: 'string.formatting.scala'
           pop: true
         - include: 'main'
     - match: '(\$){{name}}'
       captures:
-        1: 'constant.other.place-holder.scala'
+        1: 'string.formatting.scala'
         2: source.scala
     - match: '"'
       pop: true
@@ -336,22 +336,22 @@ contexts:
     - include: s_string
     # constant formatting
     - match: '%[%n]'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
     # general formatting
     - match: '%\-?#?[bBhHsS]'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
     # character formatting
     - match: '%\-?[cC]'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
     # date-time formatting
     - match: '%\-?[tT][HIklMSLNpzZsQBbhAaCYyjmdeRTrDFc]?'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
     # floating point formatting
     - match: '%[\+\-# 0\(,]*[\.0-9]*[feEgGaA]'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
     # integer formatting
     - match: '%[\+\-# 0\(,]*[doxX]'
-      scope: 'constant.other.place-holder.scala'
+      scope: 'string.formatting.scala'
 
   escaped:
     - match: '{{escaped_char}}'
@@ -387,7 +387,7 @@ contexts:
         1: variable.parameter
       set:
         - match: '\s*(:)\s*'
-          scope: constant.character.separator.colon
+          scope: punctuation.separator.colon
           set:
           - match: '\)'
             pop: true
@@ -400,7 +400,7 @@ contexts:
                 set: params
               - include: main
           - match: ','
-            scope: constant.character.separator.coma
+            scope: punctuation.separator.coma
             set: params
           - match: '$'
             pop: false
@@ -414,7 +414,7 @@ contexts:
 
   optional_type:
     - match: ':'
-      scope: constant.character.separator.colon
+      scope: punctuation.separator.colon
       set:
         # - meta_scope: 'optional_type.scala'
         - match: '$'
@@ -462,7 +462,7 @@ contexts:
         1: variable.parameter
       set:
         - match: '\s*(:)\s*'
-          scope: constant.character.separator.colon
+          scope: punctuation.separator.colon
           set:
           - match: '\)'
             pop: true
@@ -472,11 +472,11 @@ contexts:
               - match: '\)'
                 pop: true
               - match: ','
-                scope: constant.character.separator.coma
+                scope: punctuation.separator.coma
                 set: class_params
               - include: main
           - match: ','
-            scope: constant.character.separator.coma
+            scope: punctuation.separator.coma
             set: class_params
           - match: '$'
             pop: false
@@ -554,7 +554,7 @@ contexts:
         2: entity.name.package.scala
     - match: '(\$){{name}}'
       captures:
-        1: constant.other.place-holder.scala
+        1: string.formatting.scala
         2: entity.name.macro
     - match: '(@define)\s+{{name}}\s'
       captures:
