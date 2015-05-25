@@ -8,7 +8,7 @@ scope: 'source.scala'
 variables:
 
   # _ : = => <- <: <% >: # @
-  reserved_op: '(_|:|=|=>|<-|<:|<%|>:|#)'
+  reserved_op: '(_|:|=>|=|<-|<:|<%|>:|#)'
 
   # see this SO question for more details:
   # http://stackoverflow.com/questions/7656937/valid-identifier-characters-in-scala
@@ -26,14 +26,19 @@ variables:
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
   decimal_numeral: '[1-9][0-9]*[lL]'
-  integers: '({{hex_numeral}}|{{decimal_numeral}})'
+  integers: '({{hex_numeral}}|{{decimal_numeral}}|0)'
 
   # floating point numbers
-  exponent: '[eE][\+\-]?[0-9]*'
-  floating_point: '[0-9]*(\.[0-9]+)?{{exponent}}?[fFdD]?'
-
+  exponent: '[eE][+\-]?[0-9]+'
+  floating_point: '[0-9]+(?:\.[0-9]+)?(?:{{exponent}})?[fFdD]?'
+  number: '({{hex_numeral}}|{{decimal_numeral}}|{{floating_point}}|0)'
   # characters
   escaped_char: \\([btnfr"'\\]|u[0-9a-fA-F]{4})
+  char: '(?:{{escaped_char}}|.)'
+  string: '(f|s|raw)?\"[^\"]*\"'
+  literal: '({{number}}|{{char}}|{{string}})'
+  variable: '({{name}}\.)*{{name}}'
+  value: '({{literal}}|{{variable}})'
 
 contexts:
   prototype:
@@ -105,7 +110,7 @@ contexts:
       push: optional_type
 
     # type declaration
-    - match: '\b(type)\s* {{full_name}}\s*({{operator}}?)'
+    - match: '\b(type)\s+{{name}}'
       captures:
         1: keyword.declaration.scala
         2: entity.name.type.declaration
@@ -123,7 +128,7 @@ contexts:
       scope: variable.language.scala
     - match: \b(new)\s{{name}}
       captures:
-        1: keyword.control.new.scala
+        1: keyword.declaration.new.scala
         2: entity.name.class
     - match: \b(sealed|abstract|final|lazy|override)\b
       scope: storage.modifier.other.scala
@@ -156,14 +161,9 @@ contexts:
       scope: constant.character.scala
     - match: "'[^']+'"
       scope: invalid.illegal.not_a_char.scala
-    # - match: "(\\'\\\\.\\')"
-    #   scope: constant.character.literal.scala
+
     # numbers
-    - match: '{{hex_numeral}}'
-      scope: constant.numeric.scala
-    - match: '{{decimal_numeral}}'
-      scope: constant.numeric.scala
-    - match: '([0-9]+(\.[0-9]+)?([eE][+\-]?[0-9]+)?[fFdD]?)'
+    - match: '{{number}}'
       scope: constant.numeric.scala
 
     # import
@@ -191,8 +191,16 @@ contexts:
       push: string
 
     # builtin and operators
-    - match: '(=>|\?\?\?)\s'
+    - match: '{{reserved_op}}'
       scope: support.function.builtin.scala
+    - match: ';'
+      scope: constant.character.separator.semi-colon
+    - match: ','
+      scope: constant.character.separator.coma
+    - match: '\.'
+      scope: constant.character.separator.dot
+    - match: \b(Array|List|Map)\b
+      scope: support.class.builtin.scala
     - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)\b
       scope: support.function.builtin.scala
     - match: '{{operator}}'
@@ -374,24 +382,31 @@ contexts:
     - meta_scope: 'params.scala'
     - match: '\b(implicit)\b'
       scope: 'storage.modifier.other'
-    - match: '{{full_name}}:'
-      scope: variable.parameter
+    - match: '{{name}}'
+      captures:
+        1: variable.parameter
       set:
-        - match: '\)'
-          pop: true
-        - match: '=\s'
-          scope: keyword.eq.scala
+        - match: '\s*(:)\s*'
+          scope: constant.character.separator.colon
           set:
-            - match: '\)'
-              pop: true
-            - match: ','
-              set: params
-            - include: main
-        - match: ','
-          set: params
-        - match: '$'
-          pop: false
-        - include: type
+          - match: '\)'
+            pop: true
+          - match: '=\s'
+            scope: keyword.eq.scala
+            set:
+              - match: '\)'
+                pop: true
+              - match: ','
+                set: params
+              - include: main
+          - match: ','
+            scope: constant.character.separator.coma
+            set: params
+          - match: '$'
+            pop: false
+          - include: type
+        - match: (.*)
+          scope: invalid.illegal.expected_col
     - match: '\)'
       pop: true
     - match: '($|,)'
@@ -399,6 +414,7 @@ contexts:
 
   optional_type:
     - match: ':'
+      scope: constant.character.separator.colon
       set:
         # - meta_scope: 'optional_type.scala'
         - match: '$'
@@ -427,7 +443,7 @@ contexts:
   class_signature:
     # - meta_scope: 'signature.scala'
     - match: '\('
-      push: 'params'
+      push: 'class_params'
     - match: '\['
       push: 'type_params'
     - match: '\b(extends|with)\s{{name}}'
@@ -436,6 +452,41 @@ contexts:
         2: entity.other.inherited-class.scala
       set: extends
     - include: 'optional_type'
+
+  class_params:
+    # - meta_scope: 'class_params.scala'
+    - match: '\b(implicit|val|protected|private)\b'
+      scope: 'storage.modifier.other'
+    - match: '{{name}}'
+      captures:
+        1: variable.parameter
+      set:
+        - match: '\s*(:)\s*'
+          scope: constant.character.separator.colon
+          set:
+          - match: '\)'
+            pop: true
+          - match: '=\s'
+            scope: keyword.eq.scala
+            set:
+              - match: '\)'
+                pop: true
+              - match: ','
+                scope: constant.character.separator.coma
+                set: class_params
+              - include: main
+          - match: ','
+            scope: constant.character.separator.coma
+            set: class_params
+          - match: '$'
+            pop: false
+          - include: type
+        - match: (.*)
+          scope: invalid.illegal.expected_col
+    - match: '\)'
+      pop: true
+    - match: '($|,)'
+      pop: false
 
   extends:
     # - meta_scope: extends
@@ -482,8 +533,7 @@ contexts:
     - match: '@(note|example|usecase)\b'
       scope: keyword.documentation.usage.scala
     - match: '@(todo)\b'
-      scope: keyword.documentation.other.scala
-      # scope: comment.todo.scala
+      scope: keyword.documentation.other.scala comment.todo.scala
     - match: '@(return|constructor)\b'
       scope: keyword.documentation.parameter.scala
     - match: '(@param)\s+{{name}}'
@@ -516,7 +566,7 @@ contexts:
     - include: scaladoc-markup
 
   scaladoc-markup:
-    - match: '^\s*\*/'
+    - match: '\s*\*/'
       pop: true
     - match: '^\s*\*'
       scope: comment.block.documentation.scala
