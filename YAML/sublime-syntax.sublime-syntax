@@ -52,10 +52,13 @@ contexts:
       captures:
         1: punctuation.definition.variable.yaml
 
-    # double quoted
-    - match: '"'
+    # double quoted regex
+    - match: '(-)\s+(match)\s*(:)\s*(")'
       captures:
-        0: punctuation.definition.string.begin.yaml
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+        4: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: string.quoted.double.yaml
         - match: '"'
@@ -65,9 +68,12 @@ contexts:
         - include: regex
 
     # simple quoted regex
-    - match: "'"
+    - match: '(-)\s+(match)\s*(:)\s*('')'
       captures:
-        0: punctuation.definition.string.begin.yaml
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+        4: punctuation.definition.string.begin.yaml
       push:
         # - meta_scope: string.quoted.single.yaml
         - match: "''"
@@ -76,6 +82,22 @@ contexts:
           captures:
             0: punctuation.definition.string.end.yaml
           pop: true
+        - include: regex
+
+    # unquoted regex
+    - match: '(-)\s+(match)\s*(:)\s*'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+
+      push:
+        - match: $
+          pop: true
+        - match: '(?<=^| )(#).*$'
+          scope: comment.line.number-sign.yaml
+          captures:
+            1: punctuation.definition.comment.yaml
         - include: regex
 
     - match: '(\<\<): ((\*).*)$'
@@ -88,8 +110,17 @@ contexts:
       scope: comment.line.number-sign.yaml
       captures:
         1: punctuation.definition.comment.yaml
-    - match: (#).*?(?=%>)
+
+    - match: '\s*(scope|include)\s*(:)\s*(.*)'
+      captures:
+        1: meta.tag.yaml entity.name.tag
+        2: punctuation.separator.key-value
+        3: string.unquoted.yaml
+
     - match: "-"
+      scope: keyword.operator.symbol
+
+    - match: (#).*?(?=%>)
       scope: keyword.operator.symbol
 
     - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
@@ -126,7 +157,7 @@ contexts:
   character-class:
     - match: '\\[sbdw]'
       scope: constant.language.syntax
-    - match: '(?<=[\[&]\^)'
+    - match: '(?<=[\[&])\^'
       scope: keyword.operator.syntax
     - match: '&&'
       scope: keyword.operator.syntax
