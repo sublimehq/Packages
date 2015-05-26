@@ -48,7 +48,7 @@ contexts:
   comments:
     - match: '//.*$'
       scope: comment.line.double-slash.scala
-    - match: '/\*'
+    - match: '/\*[^*]'
       push:
         - meta_scope: comment.block.scala
         - match: '\*/'
@@ -74,7 +74,7 @@ contexts:
 
     # embedded xml see:
     # http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#xml-mode
-    - match: '[\s\(\{]{{xml_open_tag}}'
+    - match: '[\s({]{{xml_open_tag}}'
       scope: entity.name.tag
       push: xml
     - match: '{{xml_close_tag}}'
@@ -110,7 +110,7 @@ contexts:
       push: optional_type
 
     # type declaration
-    - match: '\b(type)\s+{{name}}'
+    - match: '\b(type)\s+{{name}}\s*(=|<:|<%)'
       captures:
         1: keyword.declaration.scala
         2: entity.name.type.declaration
@@ -194,12 +194,12 @@ contexts:
     - match: '{{reserved_op}}'
       scope: support.function.builtin.scala
     - match: ';'
-      scope: punctuation.separator.semi-colon
+      scope: punctuation.separator.semi-colon.scala
     - match: ','
-      scope: punctuation.separator.coma
+      scope: punctuation.separator.coma.scala
     - match: '\.'
-      scope: punctuation.separator.dot
-    - match: \b(Array|List|Map)\b
+      scope: punctuation.separator.dot.scala
+    - match: \b(Array|List|Map|Some)\b
       scope: support.class.builtin.scala
     - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)\b
       scope: support.function.builtin.scala
@@ -242,10 +242,10 @@ contexts:
         - match: '[$,]'
           pop: false
         - include: type
-    - match: "<:"
-      scope: keyword.operator.scala
+    - match: '(<:|<%)'
+      scope: keyword.operator.type-bound.scala
     - match: '=>'
-      scope: support.function.builtin.scala
+      scope: support.function.func-type.scala
     - match: \]|\)
       scope: invalid.illegal.stray-bracket-end
     - match: '{{name}}'
@@ -387,7 +387,7 @@ contexts:
         1: variable.parameter
       set:
         - match: '\s*(:)\s*'
-          scope: punctuation.separator.colon
+          scope: punctuation.separator.colon.scala
           set:
           - match: '\)'
             pop: true
@@ -400,7 +400,7 @@ contexts:
                 set: params
               - include: main
           - match: ','
-            scope: punctuation.separator.coma
+            scope: punctuation.separator.coma.scala
             set: params
           - match: '$'
             pop: false
@@ -414,7 +414,7 @@ contexts:
 
   optional_type:
     - match: ':'
-      scope: punctuation.separator.colon
+      scope: punctuation.separator.colon.scala
       set:
         # - meta_scope: 'optional_type.scala'
         - match: '$'
@@ -422,7 +422,7 @@ contexts:
         - match: '='
           scope: 'keyword.eq.scala'
           pop: true
-        - match: '[\)\{]'
+        - match: '[){]'
           pop: true
         - include: 'type'
     - match: '='
@@ -462,7 +462,7 @@ contexts:
         1: variable.parameter
       set:
         - match: '\s*(:)\s*'
-          scope: punctuation.separator.colon
+          scope: punctuation.separator.colon.scala
           set:
           - match: '\)'
             pop: true
@@ -472,11 +472,11 @@ contexts:
               - match: '\)'
                 pop: true
               - match: ','
-                scope: punctuation.separator.coma
+                scope: punctuation.separator.coma.scala
                 set: class_params
               - include: main
           - match: ','
-            scope: punctuation.separator.coma
+            scope: punctuation.separator.coma.scala
             set: class_params
           - match: '$'
             pop: false
@@ -505,7 +505,7 @@ contexts:
 
   xml:
     - meta_scope: text.xml
-    - match: '({{xml_open_tag}})([^\{]*)({{xml_close_tag}})'
+    - match: '({{xml_open_tag}})([^{]*)({{xml_close_tag}})'
       captures:
         1: entity.name.tag
         2: string.unquoted.xml
