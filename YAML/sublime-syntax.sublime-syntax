@@ -11,21 +11,35 @@ variables:
   variable: '(\{\{)([a-zA-Z_0-9])(\}\})'
 
 contexts:
-  main:
-    - match: '^(\s*)(?:(-)|(?:(-\s*)?(\w+\s*(:))))\s*(\||>)'
+  comment:
+    - match: '^\s*(#)(.*$)'
       captures:
-        2: punctuation.definition.entry.yaml
-        3: punctuation.definition.entry.yaml
-        4: entity.name.tag.yaml
-        5: punctuation.separator.key-value.yaml
-      push:
-        - meta_scope: string.unquoted.block.yaml
-        - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
-          pop: true
+        1: comment.line.number-sign.yaml punctuation.definition.comment.yaml
+        2: comment.line.number-sign.yaml
+    - match: '(?<=^| )(#).*$'
+      scope: comment.line.number-sign.yaml
+      captures:
+        1: punctuation.definition.comment.yaml
 
-    # Keyword literals
-    - match: \b(true|false|null)\s*(?=$|,|\}|\])
-      scope: constant.yaml
+  main:
+    - include: comment
+    - match: '^(first_line_match)(:)'
+      captures:
+        1: keyword.other.syntax
+        2: punctuation.separator.key-value
+      push:
+        - match: $
+          pop: true
+        - include: comment
+        - include: regex
+
+    - match: ^contexts
+      scope: keyword.scope.contexts.syntax
+      push: contexts_
+
+    - match: ^variables
+      scope: keyword.scope.variables.syntax
+      push: variables_
 
     # Numbers
     # Note that the YAML 1.2 spec and http://www.yaml.org/refcard.html
@@ -40,6 +54,7 @@ contexts:
         2: entity.name.tag.yaml
         3: punctuation.separator.key-value.yaml
         4: punctuation.definition.entry.yaml
+
     - match: (\w.*?)(:)( |$)\s*((\!\!)omap)?
       scope: meta.tag.yaml
       captures:
@@ -47,10 +62,97 @@ contexts:
         2: punctuation.separator.key-value.yaml
         3: keyword.other.omap.yaml
         4: punctuation.definition.keyword.yaml
+
     - match: (\&|\*)\w.*?$
       scope: variable.other.yaml
       captures:
         1: punctuation.definition.variable.yaml
+
+    - match: '(\<\<): ((\*).*)$'
+      scope: keyword.operator.merge-key.yaml
+      captures:
+        1: entity.name.tag.yaml
+        2: keyword.operator.merge-key.yaml
+        3: punctuation.definition.keyword.yaml
+
+    - match: "-"
+      scope: keyword.operator.symbol
+
+    - match: (#).*?(?=%>)
+      scope: keyword.operator.symbol
+
+    - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
+      scope: string.unquoted.yaml
+
+  variables_:
+    - meta_scope: meta.variables
+    - include: comment
+    - match: '^(?=\w)'
+      pop: true
+
+    # double quoted regex
+    - match: '\s*([\w_]*)\s*(:)\s*(")'
+      captures:
+        1: entity.name.function.declaration
+        2: punctuation.separator.key-value
+        3: punctuation.definition.string.begin.yaml
+      push:
+        - meta_scope: string.quoted.double.yaml
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.yaml
+          pop: true
+        - include: regex
+
+    # simple quoted regex
+    - match: '\s*([\w_]*)\s*(:)\s*('')'
+      captures:
+        1: entity.name.function.declaration
+        2: punctuation.separator.key-value
+        3: punctuation.definition.string.begin.yaml
+      push:
+        # - meta_scope: string.quoted.single.yaml
+        - match: "''"
+          scope: constant.character.escape.yaml
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.yaml
+          pop: true
+        - include: regex
+
+    # block regex
+    - match: '(\s*)([\w_]*)\s*(:)\s*(>-)\s*$'
+      captures:
+        2: entity.name.function.declaration
+        3: punctuation.separator.key-value
+        4: punctuation.definition.block.begin
+      push:
+        - meta_content_scope: string.unquoted.block.yaml
+        - include: comment
+        - include: regex
+        - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
+          pop: true
+
+    # unquoted regex
+    - match: '\s*([\w_]*)\s*(:)\s*'
+      captures:
+        1: entity.name.function.declaration
+        2: punctuation.separator.key-value
+      push:
+        - match: $
+          pop: true
+        - include: comment
+        - include: regex
+
+  contexts_:
+    - meta_scope: meta.contexts
+    - include: comment
+    - match: '^(?=\w)'
+      pop: true
+
+    # Keyword literals
+    - match: \b(true|false|null)\s*(?=$|,|\}|\])
+      scope: constant.yaml
 
     # double quoted regex
     - match: '(-)\s+(match)\s*(:)\s*(")'
@@ -84,69 +186,154 @@ contexts:
           pop: true
         - include: regex
 
+    # # block
+    # - match: '^(\s*)(?:(-)|(?:(-\s*)?(\w+\s*(:))))\s*(\||>)'
+    #   captures:
+    #     2: punctuation.definition.entry.yaml
+    #     3: punctuation.definition.entry.yaml
+    #     4: entity.name.tag.yaml
+    #     5: punctuation.separator.key-value.yaml
+    #   push:
+    #     - meta_scope: string.unquoted.block.yaml
+    #     - match: '^(?!^\1)|^(?=\1(-|(?:  )?\w+\s*:)|#)'
+    #       pop: true
+
+    # block regex
+    - match: '(-)\s+(match)\s*(:)\s*(>-)'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+        4: punctuation.definition.block.begin
+      push:
+        - meta_scope: string.unquoted.block.yaml
+        - match: '^(?!^\1)|^(?=\1(-|(?:  )?\w+\s*:)|#)'
+          pop: true
+        - include: regex
+
     # unquoted regex
     - match: '(-)\s+(match)\s*(:)\s*'
       captures:
         1: keyword.operator.symbol
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-
       push:
         - match: $
           pop: true
-        - match: '(?<=^| )(#).*$'
-          scope: comment.line.number-sign.yaml
-          captures:
-            1: punctuation.definition.comment.yaml
+        - include: comment
         - include: regex
 
-    - match: '(\<\<): ((\*).*)$'
-      scope: keyword.operator.merge-key.yaml
+    # captures
+    - match: '^(\s*)(captures)\s*(:)\s*$'
       captures:
-        1: entity.name.tag.yaml
-        2: keyword.operator.merge-key.yaml
-        3: punctuation.definition.keyword.yaml
-    - match: '(?<=^| )(#).*$'
-      scope: comment.line.number-sign.yaml
-      captures:
-        1: punctuation.definition.comment.yaml
+        2: keyword.control.flow.syntax
+        3: punctuation.separator.key-value
+      push:
+        - meta_content_scope: meta.capturing.yaml
+        - include: comment
+        - match: '^(\s*)(\d+)\s*(:)'
+          captures:
+            2: variable.other.captured
+            3: punctuation.separator.key-value
+          push: scope
+        - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
+          pop: true
 
-    - match: '\s*(scope|include)\s*(:)\s*(.*)'
+    # scope
+    - match: '\s*(scope)\s*(:)\s*'
       captures:
         1: meta.tag.yaml entity.name.tag
         2: punctuation.separator.key-value
-        3: string.unquoted.yaml
+      push: scope
 
-    - match: "-"
-      scope: keyword.operator.symbol
+    # include
+    - match: '\s*(-)\s*(include)\s*(:)\s*'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+      push: scope
 
-    - match: (#).*?(?=%>)
-      scope: keyword.operator.symbol
+    # push
+    - match: '\s*(push)\s*(:)\s*'
+      captures:
+        1: keyword.control.flow.push.syntax
+        2: punctuation.separator.key-value
+      push: scope
 
-    - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
-      scope: string.unquoted.yaml
+    # pop
+    - match: '\s*(pop)\s*(:)\s*(false|true)\b'
+      captures:
+        1: keyword.control.flow.pop.syntax
+        2: punctuation.separator.key-value
+        3: constant.syntax
+
+    # meta_scope and meta_content_scope
+    - match: '\s*(-)\s*(meta_(?:content_)?scope)\s*(:)\s*'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+      push: scope
+
+    # meta_include_prototype
+    - match: '\s*(-)\s*(meta_include_prototype)\s*(:)\s*(false|true)\b'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+        4: constant.syntax
+
+    # others:
+    - match: '\s+([\w_-]*)\s*(:)'
+      captures:
+        1: entity.name.function.declaration.syntax entity.name.scope.declaration.syntax
+        2: punctuation.separator.key-value
 
   regex:
     - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
       captures:
+        1: punctuation.definition.variable.begin.syntax
         2: variable.other.variables
+        3: punctuation.definition.variable.end.syntax
+    - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
+      captures:
+        1: constant.language.syntax
+        2: punctuation.definition.variable.begin.syntax
+        3: variable.other.variables
+        4: punctuation.definition.variable.end.syntax
     - match: '(\?)(=|:|!|<=|<!)'
       scope: support.function.syntax
       # captures:
       #   1: keyword.operator.syntax
       #   2: punctuation.separator
-    - match: '\\[sSbdDwWhH]'
+    - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
     - match: '\\\d+'
       scope: variable.other.captured
-    - match: '[.+*|^$?]'
+    - match: '[.+*|^\$?]'
       scope: keyword.operator.syntax
-    - match: '\\[.+*|^$?]'
+    - match: '\\[.+*|^\$?]'
       scope: constant.language.syntax
-    - match: '\\[\\\[\]\(\)\{\}]'
+    - match: '\\[\\\[\](){}]'
       scope: constant.character.escape.yaml
-    - match: '[\(\)\{\}]'
+    - match: '(\()(\?:)'
+      captures:
+        1: punctuation.separator
+        2: support.function.syntax
+      push:
+        - match: \)
+          scope: punctuation.separator
+          pop: true
+        - include: regex
+    - match: '\('
       scope: punctuation.separator
+      push:
+        - meta_scope: meta.captured
+        - match: \)
+          scope: punctuation.separator
+          pop: true
+        - include: regex
     - match: '\['
       scope: punctuation.separator
       push:
@@ -160,12 +347,21 @@ contexts:
     - match: '(?<=[\[&])\^'
       scope: keyword.operator.syntax
     - match: '&&'
-      scope: keyword.operator.syntax
+      scope: keyword.operator.logical.and.syntax
     - match: '\\[\\\[\]\-]'
       scope: constant.character.escape.yaml
     - match: '[^\[](-)[^\]]'
       captures:
-        1: keyword.operator.syntax
+        1: keyword.operator.range.syntax
     - match: '\]'
       scope: punctuation.separator
       pop: true
+
+  scope:
+    - match: '[\w\d-]*'
+      scope: entity.name.scope.syntax
+    - match: '\.'
+      scope: punctuation.separator.dot.syntax
+    - match: $
+      pop: true
+    - include: comment #comment
