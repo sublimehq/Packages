@@ -127,7 +127,8 @@ contexts:
         3: punctuation.separator.key-value
         4: punctuation.definition.block.begin
       push:
-        - meta_content_scope: string.unquoted.block.yaml
+        # - meta_content_scope: string.unquoted.block.yaml
+        - meta_content_scope: meta.regex.unquoted.syntax
         - include: comment
         - include: regex
         - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
@@ -293,15 +294,15 @@ contexts:
   regex:
     - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
       captures:
-        1: punctuation.definition.variable.begin.syntax
+        1: punctuation.definition.parameters.begin.syntax
         2: variable.other.variables
-        3: punctuation.definition.variable.end.syntax
+        3: punctuation.definition.parameters.end.syntax
     - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
       captures:
         1: constant.language.syntax
-        2: punctuation.definition.variable.begin.syntax
+        2: punctuation.definition.parameters.begin.syntax
         3: variable.other.variables
-        4: punctuation.definition.variable.end.syntax
+        4: punctuation.definition.parameters.end.syntax
     - match: '(\?)(=|:|!|<=|<!)'
       scope: support.function.syntax
       # captures:
@@ -317,6 +318,14 @@ contexts:
       scope: constant.language.syntax
     - match: '\\[\\\[\](){}]'
       scope: constant.character.escape.yaml
+    - match: '(\{)(\d*)((,)(\d*))?(\})'
+      captures:
+        1: punctuation.definition.begin.syntax
+        2: constant.numeric
+        4: punctuation.separator.coma
+        5: constant.numeric
+        6: punctuation.definition.end.syntax
+
     - match: '(\()(\?:)'
       captures:
         1: punctuation.separator
@@ -342,13 +351,13 @@ contexts:
         - include: character-class
 
   character-class:
-    - match: '\\[sbdw]'
+    - match: '\\[sSdDwWhH]'
       scope: constant.language.syntax
     - match: '(?<=[\[&])\^'
       scope: keyword.operator.syntax
     - match: '&&'
       scope: keyword.operator.logical.and.syntax
-    - match: '\\[\\\[\]\-]'
+    - match: '\\[\\\[\]\-\$]'
       scope: constant.character.escape.yaml
     - match: '[^\[](-)[^\]]'
       captures:
@@ -356,6 +365,17 @@ contexts:
     - match: '\]'
       scope: punctuation.separator
       pop: true
+    - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
+      captures:
+        1: punctuation.definition.parameters.begin.syntax
+        2: variable.other.variables
+        3: punctuation.definition.parameters.end.syntax
+    - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
+      captures:
+        1: constant.language.syntax
+        2: punctuation.definition.parameters.begin.syntax
+        3: variable.other.variables
+        4: punctuation.definition.parameters.end.syntax
 
   scope:
     - match: '[\w\d-]*'
