@@ -65,6 +65,17 @@ contexts:
     - match: '^\s*/\*\*'
       push: scaladoc
 
+    - match: '\}'
+      scope: invalid.illegal.unexpected.closing-bracket
+
+    - match: '\{'
+      scope: punctuation.definition.block.begin.scala
+      push:
+        - match: '\}'
+          scope: punctuation.definition.block.end.scala
+          pop: true
+        - include: main
+
     # skips opening
     - match: ^\s*
 
@@ -88,37 +99,67 @@ contexts:
         2: entity.name.package.scala
 
     # class declaration
-    - match: '\b(case\s)?(trait|class|object)\s{{name}}'
+    - match: '\b(case\s*class)\s{{name}}'
       captures:
-        1: keyword.declaration.scala
-        2: keyword.declaration.scala
+        1: storage.type.class.case-class.scala
+        2: entity.name.class.scala
+      push: class_signature
+
+    - match: '\b(class)\s{{name}}'
+      captures:
+        1: storage.type.class.class.scala
+        2: entity.name.class.scala
+      push: class_signature
+
+    - match: '\b(case\s)?(object)\s{{name}}'
+      captures:
+        1: storage.modifier.other.case.scala
+        2: storage.type.class.object.scala
         3: entity.name.class.scala
+      push: class_signature
+
+    - match: '(trait)\s{{name}}'
+      captures:
+        1: storage.type.class.trait.scala
+        2: entity.name.class.scala
       push: class_signature
 
     # function/method definition
     - match: '(def)\s({{name}})'
       captures:
-         1: keyword.declaration.scala
+         1: storage.type.function.scala
          2: entity.name.function.scala
       push: signature
 
     # val/var declaration
-    - match: '\b(val|var)\s{{name}}'
-      captures:
-        1: keyword.declaration.scala
-        2: entity.name.val.scala
-      push: optional_type
+    - match: '\b(val)\s+'
+      scope: storage.type.variable.val.scala
+      push: pattern
+    - match: '\b(var)\s+'
+      scope: storage.type.variable.var.scala
+      push: pattern
 
     # type declaration
     - match: '\b(type)\s+{{name}}\s*(=|<:|<%)'
       captures:
-        1: keyword.declaration.scala
+        1: storage.type.variable.type.scala
         2: entity.name.type.scala
         3: keyword.eq.scala
       push: type
 
     # language keywords
-    - match: \b(if|else|for|while|do|match|case|return|yield)\b
+    - match: \b(if)\s+(\()
+      captures:
+        1: keyword.control.flow.if.scala
+        2: punctuation.definition.expression.conditional.begin.scala
+      push:
+        - meta_scope: meta.if.condition
+        - match: '\)'
+          scope: punctuation.definition.expression.conditional.end.scala
+          pop: true
+        - include: main
+
+    - match: \b(else|for|while|do|match|case|return|yield)\b
       scope: keyword.control.flow.scala
     - match: \b(try|catch|finally)\b
       scope: keyword.control.exception.scala
@@ -168,13 +209,6 @@ contexts:
       scope: keyword.other.import
       push: import
 
-    # extends and with can be found on a newline
-    - match: '(extends|with)\s{{name}}'
-      captures:
-        1: keyword.declaration.scala
-        2: entity.other.inherited-class.scala
-      set: extends
-
     # string detection
     - match: '"""'
       scope: punctuation.definition.string.quoted.triple.begin.scala
@@ -192,15 +226,50 @@ contexts:
       scope: punctuation.definition.string.quoted.double.begin.scala
       push: string
 
+    # function calls
+    - match: \b(Array|List|Map|Some)(\()\b
+      captures:
+        1: support.class.builtin.scala
+        2: punctuation.definition.parameters.begin.scala
+      push: function_args
+    - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)(\()\b
+      captures:
+        1: support.function.builtin.scala
+        2: punctuation.definition.parameters.begin.scala
+      push: function_args
+    - match: '{{name}}(\()'
+      captures:
+        1: variable.function
+        2: punctuation.definition.parameters.begin.scala
+      push: function_args
+
+    # tuples
+    - match: '\)'
+      scope: invalid.illegal.unexpected.closing-par
+    - match: '(\()'
+      captures:
+        1: punctuation.definition.array.begin.scala
+      push:
+        - meta_scope: meta.tuple
+        - match: ','
+          scope: punctuation.separator.coma.scala
+        - match: '\)'
+          scope: punctuation.definition.array.end.scala
+          pop: true
+        - include: main
+
     # builtin and operators
+    - match: '(=)\s'
+      captures:
+        1: keyword.operator.assignment
     - match: '{{reserved_op}}'
       scope: support.function.builtin.scala
     - match: ';'
-      scope: punctuation.separator.semi-colon.scala
+      scope: punctuation.terminator.statement.scala
     - match: ','
-      scope: punctuation.separator.coma.scala
+      scope: invalid.illegal.unexpected.coma
     - match: '\.'
-      scope: punctuation.separator.dot.scala
+      scope: keyword.operator.accessor.scala
     - match: \b(Array|List|Map|Some)\b
       scope: support.class.builtin.scala
     - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)\b
@@ -209,13 +278,7 @@ contexts:
       scope: keyword.operator.scala
 
     # type parameters
-    - match: \[
-      push:
-        - match: \]
-          pop: true
-        - include: type
-    - match: \]
-      scope: invalid.illegal.stray-bracket-end
+    - include: type_bracket
 
     # try to match class name
     - match: '[A-Z]{{name}}?'
@@ -233,36 +296,43 @@ contexts:
         - match: '\)'
           scope: punctuation.definition.parameters.end.scala
           pop: true
-        - match: '[$,]'
+        - match: $
           pop: false
-        - include: type
+        - match: ','
+          scope: punctuation.separator.coma
     - match: '\b(with)\b'
       scope: keyword.declaration.scala
     # type parameter
-    - match: '\['
-      scope: punctuation.definition.parameters.begin.scala
-      push:
-        - match: '\]'
-          scope: punctuation.definition.parameters.end.scala
-          pop: true
-        - match: '[$,]'
-          pop: false
-        - include: type
+    - include: type_bracket
     - match: '(<:|<%)'
       scope: keyword.operator.type-bound.scala
     - match: '=>'
       scope: support.function.func-type.scala
-    - match: \]|\)
-      scope: invalid.illegal.stray-bracket-end
+    - match: \)
+      scope: invalid.illegal.unexpected.closing-par
     - match: '{{name}}'
       scope: variable.other.type
-    - match: '='
-      scope: keyword.eq.scala
+    - match: '(?=,|=)'
       pop: true
-    - match: '(,|$)'
+    - match: '$'
       pop: true
     # - include: punctuation
 
+  type_bracket:
+    - match: '\['
+      scope: punctuation.definition.parameters.begin.scala
+      push:
+        - meta_scope: meta.parameters.type
+        - match: '\]'
+          scope: punctuation.definition.parameters.end.scala
+          pop: true
+        - match: ','
+          scope: punctuation.separator.coma.type-tuple.scala
+        - match: $
+          pop: false
+        - include: type
+    - match: \]
+      scope: invalid.illegal.stray-bracket-end
 
   import:
     - meta_scope: meta.import.scala
@@ -387,14 +457,14 @@ contexts:
 
   # method signature
   signature:
-    # - meta_scope: 'signature.scala'
+    - meta_scope: signature.scala
     - match: '\('
-      push: 'params'
+      push: params
       scope: punctuation.definition.parameters.begin.scala
     - match: '\['
       scope: punctuation.definition.parameters.begin.scala
-      push: 'type_params'
-    - include: 'optional_type'
+      push: type_params
+    - include: function_return_type
 
   type_params:
     # - meta_scope: 'type_params.scala'
@@ -403,7 +473,7 @@ contexts:
       pop: true
     - match: '[$,]'
       pop: false
-    - include: 'type'
+    - include: type
 
   params:
     - meta_scope: 'params.scala'
@@ -414,7 +484,7 @@ contexts:
         1: variable.parameter
       set:
         - match: '\s*(:)\s*'
-          scope: punctuation.separator.colon.scala
+          scope: punctuation.definition.type.scala
           set:
           - match: '\)'
             scope: punctuation.definition.parameters.end.scala
@@ -442,81 +512,100 @@ contexts:
     - match: '($|,)'
       pop: false
 
-  optional_type:
+  function_return_type:
+    - meta_content_scope: meta.def.return-type.scala
     - match: ':'
-      scope: punctuation.separator.colon.scala
+      scope: punctuation.definition.type.scala
       set:
-        # - meta_scope: 'optional_type.scala'
-        - match: '$'
+        - meta_scope: function_return_type.scala
+        - match: $
           pop: false
-        - match: '='
-          scope: 'keyword.eq.scala'
-          pop: true
-        - match: '[){]'
-          pop: true
+        - match: '=\s*$?'
+          scope: keyword.eq.scala
+          set: function_code
+        - match: '(?=\{)'
+          set: function_code
         - include: 'type'
-    - match: '='
-      scope: 'keyword.eq.scala'
+    - match: =\s
+      scope: punctuation.definition.function.declaration
+      set: function_code
+    - match: '(?=\{)'
+      set: function_code
+    - match: '(?=\w)'
       pop: true
-    - match: '(\{)'
-      pop: true
-    - match: '$'
-      pop: true
-    # - include: 'type'
-    # - match: expr
-    #   scope: variable.parameter
-    # push:
-    #   - match: ","
-    #     pop: true
+
+
+  function_code:
+    - meta_scope: meta.def.scala
+    - match: $
+    - match: '^(\s*)(?=[^{])'
+      captures:
+        1: string.unquoted.block-indent
+      set:
+        - meta_scope: meta.def.scala
+        - include: main
+        - match: $
+          pop: true
+    - match: '(?=[^{])'
+      captures:
+        1: string.unquoted.block-indent
+      set:
+        - meta_scope: meta.def.scala
+        - include: main
+        - match: $
+          pop: true
+    - match: \s*
+    - match: '\{'
+      push:
+        - match: '\}'
+          pop: true
+        - include: main
 
   # class signature
   class_signature:
-    # - meta_scope: 'signature.scala'
+    - meta_scope: meta.class.scala
     - match: '\('
       scope: punctuation.definition.parameters.begin.scala
-      push: 'class_params'
+      push: class_params
     - match: '\['
       scope: punctuation.definition.parameters.begin.scala
-      push: 'type_params'
-    - match: '\b(extends|with)\s{{name}}'
+      push: type_params
+    - match: '\s*\b(extends|with)\s{{name}}'
       captures:
         1: keyword.declaration.scala
         2: entity.other.inherited-class.scala
-      set: extends
-    - include: 'optional_type'
+      push: extends
+    - match: '\{'
+      scope: punctuation.definition.class.begin.scala
+      push:
+        - match: '\}'
+          scope: punctuation.definition.class.end.scala
+          pop: true
+        - include: main
+    - match: \s*(?=\w)
+      pop: true
+    # - include: 'function_return_type'
 
   class_params:
-    # - meta_scope: 'class_params.scala'
+    - meta_content_scope: meta.constructor.scala
     - match: '\b(implicit|val|protected|private)\b'
-      scope: 'storage.modifier.other'
-    - match: '{{name}}'
+      scope: storage.modifier.other
+    - match: '{{name}}\s*(:)\s*'
       captures:
         1: variable.parameter
-      set:
-        - match: '\s*(:)\s*'
-          scope: punctuation.separator.colon.scala
+        2: punctuation.definition.type.scala
+      push:
+        - match: (?=\)|,)
+          pop: true
+        - match: '=\s'
+          scope: keyword.eq.scala
           set:
-          - match: '\)'
-            scope: punctuation.definition.parameters.end.scala
-            pop: true
-          - match: '=\s'
-            scope: keyword.eq.scala
-            set:
-              - match: '\)'
-                scope: punctuation.definition.parameters.end.scala
-                pop: true
-              - match: ','
-                scope: punctuation.separator.coma.scala
-                set: class_params
-              - include: main
-          - match: ','
-            scope: punctuation.separator.coma.scala
-            set: class_params
-          - match: '$'
-            pop: false
-          - include: type
-        - match: (.*)
-          scope: invalid.illegal.expected_col
+            - match: (?=\)|,)
+              pop: true
+            - include: main
+        - match: '$'
+          pop: false
+        - include: type
     - match: '\)'
       scope: punctuation.definition.parameters.end.scala
       pop: true
@@ -524,21 +613,101 @@ contexts:
       pop: false
 
   extends:
-    # - meta_scope: extends
-    - match: '\b(with)\s{{name}}'
+    # - meta_scope: meta.extends.scala
+    - match: '\s*\b(with)\s{{name}}'
       captures:
         1: keyword.declaration.scala
         2: entity.other.inherited-class.scala
-    - match: '(?=\{)'
-      pop: true
     - match: '\('
       scope: punctuation.definition.parameters.begin.scala
       push:
+        - meta_content_scope: source.scala
         - match: '\)'
           scope: punctuation.definition.parameters.end.scala
           pop: true
+        - match: ','
+          scope: punctuation.separator.coma.scala
         - include: main
+    - match: '(?=\{)'
+      pop: true
+    - match: '$'
     - include: type
+
+  function_args:
+    - meta_content_scope: meta.function_args
+    - match: ','
+      scope: punctuation.separator.coma.scala
+    - match: \)
+      scope: punctuation.definition.parameters.end.scala
+      pop: true
+    - include: main
+
+  pattern:
+    - match: '\s*{{name}}?\s*(\()'
+      captures:
+        1: variable.other.type.unapply
+        2: punctuation.definition.comprehension.array.begin.scala
+      set: [pattern_ended, pattern_inside_unapply]
+    - match: '(?=\S)'
+      set: [pattern_ended, pattern_typed_name]
+
+  pattern_typed_name:
+    - match: '{{name}}\s*(:)\s'
+      captures:
+        1: entity.name.val.scala
+        2: punctuation.definition.type.scala
+      set:
+        - match: '(?=\)|,|=)'
+          pop: true
+        - include: type
+    - match: '{{name}}\s*(?==\s|\)|,)'
+      captures:
+        1: entity.name.val.scala
+      pop: true
+    - match: '{{name}}\s+{{name}}\s+'
+      captures:
+        1: entity.name.val.scala
+        2: keyword.operator.infix-pattern
+    - match: '\S+'
+      scope: invalid.illegal.expected.pattern
+
+  pattern_ended:
+    - match: =>
+      scope: keyword.operator.matching
+      pop: true
+    - match: =
+      scope: keyword.operator.assignment
+      pop: true
+    - match: \s+
+    - match: '{{name}}\s+(\()'
+      captures:
+        1: keyword.operator.infix-pattern
+        2: punctuation.definition.comprehension.array.begin.scala
+      push: pattern_inside_unapply
+    - match: '{{name}}\s+'
+      scope: keyword.operator.infix-pattern
+      push: pattern_typed_name
+    - match: (\S*)
+      scope: invalid.illegal.expected.assignment
+      pop: true
+
+  pattern_inside_unapply:
+    # - meta_scope: inside_unnaply
+    - match: '(?==)'
+    - match: '=\s'
+      scope: invalid.illegal.unexpected-eq
+    - match: ','
+      scope: punctuation.separator.array-element
+    - match: '\)'
+      scope: punctuation.definition.comprehension.array.end.scala
+      pop: true
+    - match: '{{name}}?\s*(\()'
+      captures:
+        1: variable.other.type.unapply
+        2: punctuation.definition.comprehension.array.begin.scala
+      push: pattern_inside_unapply
+    - match: '(?=\S)'
+      push: pattern_typed_name
 
   xml:
     - meta_scope: text.xml
