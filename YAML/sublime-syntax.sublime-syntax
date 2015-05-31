@@ -262,6 +262,12 @@ contexts:
         2: punctuation.separator.key-value
       push: scope
 
+    # set
+    - match: '\s*(set)\s*(:)\s*'
+      captures:
+        1: keyword.control.flow.push.syntax
+        2: punctuation.separator.key-value
+
     # pop
     - match: '\s*(pop)\s*(:)\s*(false|true)\b'
       captures:
