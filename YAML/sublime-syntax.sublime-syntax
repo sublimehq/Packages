@@ -33,8 +33,10 @@ contexts:
         - include: comment
         - include: regex
 
-    - match: ^contexts
-      scope: keyword.scope.contexts.syntax
+    - match: ^(contexts)(:)
+      captures:
+        1: keyword.scope.contexts.syntax
+        2: punctuation.separator.key-value
       push: contexts_
 
     - match: ^variables
@@ -236,7 +238,7 @@ contexts:
           captures:
             2: variable.other.captured
             3: punctuation.separator.key-value
-          push: scope
+          push: scope_
         - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
           pop: true
 
@@ -245,7 +247,7 @@ contexts:
       captures:
         1: meta.tag.yaml entity.name.tag
         2: punctuation.separator.key-value
-      push: scope
+      push: scope_
 
     # include
     - match: '\s*(-)\s*(include)\s*(:)\s*'
@@ -253,14 +255,14 @@ contexts:
         1: keyword.operator.symbol
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-      push: scope
+      push: scope_
 
     # push
     - match: '\s*(push)\s*(:)\s*'
       captures:
         1: keyword.control.flow.push.syntax
         2: punctuation.separator.key-value
-      push: scope
+      push: scope_
 
     # set
     - match: '\s*(set)\s*(:)\s*'
@@ -281,7 +283,7 @@ contexts:
         1: keyword.operator.symbol
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-      push: scope
+      push: scope_
 
     # meta_include_prototype
     - match: '\s*(-)\s*(meta_include_prototype)\s*(:)\s*(false|true)\b'
@@ -294,21 +296,21 @@ contexts:
     # others:
     - match: '\s+([\w_-]*)\s*(:)'
       captures:
-        1: entity.name.function.declaration.syntax entity.name.scope.declaration.syntax
+        1: entity.name.function.declaration.syntax entity.name.class.declaration.syntax
         2: punctuation.separator.key-value
 
   regex:
     - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
       captures:
-        1: punctuation.definition.parameters.begin.syntax
+        1: punctuation.definition.arguments.begin.syntax
         2: variable.other.variables
-        3: punctuation.definition.parameters.end.syntax
+        3: punctuation.definition.arguments.end.syntax
     - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
       captures:
         1: constant.language.syntax
-        2: punctuation.definition.parameters.begin.syntax
+        2: punctuation.definition.arguments.begin.syntax
         3: variable.other.variables
-        4: punctuation.definition.parameters.end.syntax
+        4: punctuation.definition.arguments.end.syntax
     - match: '(\?)(=|:|!|<=|<!)'
       scope: support.function.syntax
       # captures:
@@ -334,23 +336,23 @@ contexts:
 
     - match: '(\()(\?:)'
       captures:
-        1: punctuation.separator
+        1: punctuation.definition.block
         2: support.function.syntax
       push:
         - match: \)
-          scope: punctuation.separator
+          scope: punctuation.definition.block
           pop: true
         - include: regex
     - match: '\('
-      scope: punctuation.separator
+      scope: punctuation.definition.block
       push:
-        - meta_scope: meta.captured
+        - meta_scope: meta.group.capturing.regexp
         - match: \)
-          scope: punctuation.separator
+          scope: punctuation.definition.block
           pop: true
         - include: regex
     - match: '\['
-      scope: punctuation.separator
+      scope: punctuation.definition.arguments
       push:
         - match: "''"
           scope: constant.character.escape.yaml
@@ -369,7 +371,7 @@ contexts:
       captures:
         1: keyword.operator.range.syntax
     - match: '\]'
-      scope: punctuation.separator
+      scope: punctuation.definition.arguments
       pop: true
     - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
       captures:
@@ -383,11 +385,11 @@ contexts:
         3: variable.other.variables
         4: punctuation.definition.parameters.end.syntax
 
-  scope:
+  scope_:
     - match: '[\w\d-]*'
       scope: entity.name.scope.syntax
     - match: '\.'
-      scope: punctuation.separator.dot.syntax
+      scope: keyword.operator.accessor
     - match: $
       pop: true
     - include: comment #comment
