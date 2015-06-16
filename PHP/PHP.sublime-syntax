@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+name: PHP
+file_extensions:
+  - php
+  - php3
+  - php4
+  - php5
+  - phps
+  - phtml
+first_line_match: '^#!.*(?<!-)php[0-9]{0,1}\b'
+scope: embedding.php
+contexts:
+  main:
+    - match: ''
+      push: 'scope:text.html.basic'
+      with_prototype:
+        - match: '<\?(?i:php|=)?(?![^?]*\?>)'
+          captures:
+            0: punctuation.section.embedded.begin.php
+          push:
+            - meta_scope: meta.embedded.block.php
+            - meta_content_scope: source.php
+            - match: (\?)>
+              captures:
+                0: punctuation.section.embedded.end.php
+                1: source.php
+              pop: true
+            - include: 'scope:source.php'
+        - match: <\?(?i:php|=)?
+          captures:
+            0: punctuation.section.embedded.begin.php
+          push:
+            - meta_scope: meta.embedded.line.php
+            - meta_content_scope: source.php
+            - match: (\?)>
+              captures:
+                0: punctuation.section.embedded.end.php
+                1: source.php
+              pop: true
+            - include: 'scope:source.php'

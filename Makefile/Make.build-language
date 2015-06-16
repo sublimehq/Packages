@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>Makefile Build Results</string>
+    <key>patterns</key>
+    <array>
+        <dict>
+            <key>match</key>
+            <string>^(..[^:\n]*):([0-9]+):?([0-9]+)?:? </string>
+            <key>name</key>
+            <string>entity.name.filename</string>
+            <!--
+            <key>captures</key>
+            <dict>
+                <key>2</key>
+                <dict>
+                    <key>name</key>
+                    <string>constant.numeric.line-number</string>
+                </dict>
+                <key>3</key>
+                <dict>
+                    <key>name</key>
+                    <string>constant.numeric.column-number</string>
+                </dict>
+            </dict>
+            -->
+        </dict>
+        <dict>
+            <key>match</key>
+            <string>\berror: </string>
+            <key>name</key>
+            <string>message.error</string>
+        </dict>
+        <dict>
+            <key>match</key>
+            <string>^\[.+\]$</string>
+            <key>name</key>
+            <string>comment</string>
+        </dict>
+    </array>
+    <key>scopeName</key>
+    <string>source.build_results</string>
+</dict>
+</plist>

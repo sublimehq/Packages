@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+name: SQL (Rails)
+file_extensions:
+  - erbsql
+  - sql.erb
+scope: source.sql.ruby
+contexts:
+  main:
+    - match: <%+(?!>)=?
+      push:
+        - meta_scope: source.ruby.rails.embedded.sql
+        - match: "%>"
+          pop: true
+        - match: "#.*?(?=%>)"
+          scope: comment.line.number-sign.ruby
+        - include: "Ruby on Rails.sublime-syntax"
+    - include: 'scope:source.sql'

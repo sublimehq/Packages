@@ -1,0 +1,16 @@
+{
+	"shell_cmd": "make",
+	"file_regex": "^(..[^:\n]*):([0-9]+):?([0-9]+)?:? (.*)$",
+	"working_dir": "${folder:${project_path:${file_path}}}",
+	"selector": "source.makefile",
+	"syntax": "Packages/Makefile/Make.build-language",
+	"keyfiles": ["Makefile", "makefile"],
+
+	"variants":
+	[
+		{
+			"name": "Clean",
+			"shell_cmd": "make clean"
+		}
+	]
+}

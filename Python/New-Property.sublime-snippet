@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[property
+def ${1:foo}(self):
+    return self.${2:_$1}
+$0]]></content>
+    <tabTrigger>property</tabTrigger>
+    <scope>source.python meta.function.decorator</scope>
+    <description>New Property</description>
+</snippet>

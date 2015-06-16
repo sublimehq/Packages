@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+name: HTML (Rails)
+file_extensions:
+  - rhtml
+  - erb
+  - html.erb
+scope: text.html.ruby
+contexts:
+  main:
+    - match: ''
+      push: 'scope:text.html.basic'
+      with_prototype:
+        - match: "<%+#"
+          captures:
+            0: punctuation.definition.comment.erb
+          push:
+            - meta_scope: comment.block.erb
+            - match: "%>"
+              pop: true
+        - match: "<%+(?!>)[-=]?"
+          captures:
+            0: punctuation.section.embedded.ruby
+          push:
+            - meta_scope: source.ruby.rails.embedded.html
+            - match: "-?%>"
+              pop: true
+            - match: (#).*?(?=-?%>)
+              scope: comment.line.number-sign.ruby
+              captures:
+                1: punctuation.definition.comment.ruby
+            - include: "Ruby on Rails.sublime-syntax"

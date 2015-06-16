@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>source.c++</string>
+    <key>settings</key>
+    <dict>
+        <key>symbolIndexTransformation</key>
+        <string>/.*::([A-Za-z0-9_~]+)/$1/;</string>
+    </dict>
+</dict>
+</plist>

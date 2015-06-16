@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List: Inner Region</string>
+	<key>scope</key>
+	<string>source.cs meta.class.body meta.toc-list.region</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+		s/\s{2,}/ /g;
+		s/.*/  #$0/g;
+	</string>
+	</dict>
+	<key>uuid</key>
+	<string>7D4DD7C5-7FEF-4576-947C-F0CA6BABF30C</string>
+</dict>
+</plist>

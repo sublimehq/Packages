@@ -1,0 +1,89 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: YAML
+file_extensions:
+  - yaml
+  - yml
+  - sublime-syntax
+first_line_match: ^%YAML( 1.\d)?$
+scope: source.yaml
+contexts:
+  main:
+    - match: ^(\s*)(?:(-)|(?:(-\s*)?(\w+\s*(:))))\s*(\||>)
+      captures:
+        2: punctuation.definition.entry.yaml
+        3: punctuation.definition.entry.yaml
+        4: entity.name.tag.yaml
+        5: punctuation.separator.key-value.yaml
+      push:
+        - meta_scope: string.unquoted.block.yaml
+        - match: ^(?!^\1)|^(?=\1(-|\w+\s*:)|#)
+          pop: true
+
+    # Keyword literals
+    - match: \b(true|false|null)\s*(?=$|,|\}|\])
+      scope: constant.yaml
+
+    # Numbers
+    # Note that the YAML 1.2 spec and http://www.yaml.org/refcard.html
+    # disagree on the representation of octal numbers, 0o644 vs 0644. Many
+    # implementation seem support use the 0644 syntax.
+    - match: '(?:([+-]?(\d+)(\.\d*)?(e[+-]?\d+)?)|0o\d+|0x[0-9a-fA-F]+|[+-]?(?:.inf|.Inf|.NAN))\s*(?=$|,|\}|\])'
+      scope: constant.numeric.yaml
+    - match: '(?:(?:(-\s*)?(\w+\s*(:)))|(-))\s*([0-9]{4}-[0-9]{2}-[0-9]{2})\s*$'
+      scope: constant.other.date.yaml
+      captures:
+        1: punctuation.definition.entry.yaml
+        2: entity.name.tag.yaml
+        3: punctuation.separator.key-value.yaml
+        4: punctuation.definition.entry.yaml
+    - match: (\w.*?)(:)( |$)\s*((\!\!)omap)?
+      scope: meta.tag.yaml
+      captures:
+        1: entity.name.tag.yaml
+        2: punctuation.separator.key-value.yaml
+        3: keyword.other.omap.yaml
+        4: punctuation.definition.keyword.yaml
+    - match: (\&|\*)\w.*?$
+      scope: variable.other.yaml
+      captures:
+        1: punctuation.definition.variable.yaml
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.yaml
+      push:
+        - meta_scope: string.quoted.double.yaml
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.yaml
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.yaml
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.yaml
+      push:
+        - meta_scope: string.quoted.single.yaml
+        - match: "''"
+          scope: constant.character.escape.yaml
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.yaml
+          pop: true
+    - match: '(\<\<): ((\*).*)$'
+      scope: keyword.operator.merge-key.yaml
+      captures:
+        1: entity.name.tag.yaml
+        2: keyword.operator.merge-key.yaml
+        3: punctuation.definition.keyword.yaml
+    - match: '(?<=^| )(#).*$'
+      scope: comment.line.number-sign.yaml
+      captures:
+        1: punctuation.definition.comment.yaml
+    - match: (#).*?(?=%>)
+    - match: "-"
+      scope: keyword.operator.symbol
+
+    - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
+      scope: string.unquoted.yaml
