@@ -34,6 +34,8 @@ def get_tag_to_attributes():
         'dir' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
         'div' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
         'dl' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
+        'figure' : ['accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'],
+        'figcaption' : ['accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'],
         'font' : ['class', 'color', 'dir', 'face', 'id', 'lang', 'size', 'style', 'title'],
         'form' : ['accept-charset', 'accept', 'action', 'class', 'dir', 'enctype', 'id', 'lang', 'method', 'name', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onreset', 'onsubmit', 'style', 'target', 'title'],
         'frame' : ['class', 'frameborder', 'id', 'longdesc', 'marginheight', 'marginwidth', 'name', 'noresize', 'scrolling', 'src', 'style', 'title'],
@@ -157,7 +159,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         """ generate a default completion list for HTML """
         default_list = []
         normal_tags = (["abbr", "acronym", "address", "applet", "area", "b", "base", "big", "blockquote", "body", "button", "center", "caption",
-            "cdata", "cite", "col", "colgroup", "code", "div", "dd", "del", "dfn", "dl", "dt", "em", "fieldset", "font", "form", "frame", "frameset",
+            "cdata", "cite", "col", "colgroup", "code", "div", "dd", "del", "dfn", "dl", "dt", "em", "fieldset", "figure", "figcaption", "font", "form", "frame", "frameset",
             "head", "h1", "h2", "h3", "h4", "h5", "h6", "i", "ins", "kbd", "li", "label", "legend", "map", "noframes", "object", "ol", "optgroup", "option",
             "p", "pre", "span", "samp", "select", "small", "strong", "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title",
             "tr", "tt", "u", "ul", "var", "article", "aside", "audio", "canvas", "footer", "header", "nav", "section", "video"])
@@ -365,4 +367,3 @@ class Unittest(unittest.TestCase):
         # should give just one completion, and suppress word based completion
         self.assertEqual(completion_list, [('td.class', '<td class="class">$1</td>$0')])
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
-
