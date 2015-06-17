@@ -198,7 +198,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(this|super|self)\b</string>
+					<string>\b(this|super)\b</string>
 					<key>name</key>
 					<string>variable.language.scala</string>
 				</dict>
