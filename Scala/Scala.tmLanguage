@@ -561,7 +561,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.symbol</string>
+					<string>constant.other.symbol</string>
 				</dict>
 			</dict>
 			<key>match</key>
