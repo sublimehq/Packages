@@ -215,6 +215,41 @@
 			<key>patterns</key>
 			<array>
 				<dict>
+					<key>begin</key>
+					<string>\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*=</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.scala</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>[αβ]</string>
+							<key>name</key>
+							<string>comment.block.empty.scala</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>$self</string>
+						</dict>
+					</array>
+					<key>end</key>
+					<string>\}\)#λ</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.scala</string>
+						</dict>
+					</dict>
+				</dict>
+				<dict>
 					<key>captures</key>
 					<dict>
 						<key>1</key>
