@@ -492,7 +492,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b(new)\s+([^\s\{\(\[]+)</string>
+			<string>\b(new)\s+([^\s\{\(\}\)\[]+)</string>
 		</dict>
 		<key>keywords</key>
 		<dict>
