@@ -371,15 +371,16 @@ contexts:
   type:
     # tuple of type
     - match: '\('
-      scope: punctuation.definition.arguments.begin.scala
+      scope: punctuation.definition.array.begin.scala
       push:
         - match: '\)'
-          scope: punctuation.definition.arguments.end.scala
+          scope: punctuation.definition.array.end.scala
           pop: true
         - match: $
           pop: false
         - match: ','
-          scope: punctuation.separator.array
+          scope: punctuation.separator.array-element.scala
+        - include: type
     - match: '\b(with)\b'
       scope: keyword.declaration.scala
     # type parameter
@@ -391,7 +392,14 @@ contexts:
     - match: \)
       scope: invalid.illegal.unexpected.closing-par
     - match: '{{operator}}'
-      scope: keyword.operator.scala
+      scope: keyword.operator.type.scala
+    - match: '(List|Array|Map|Int|Float|Double|String|Char|Boolean)'
+      scope: support.language.type
+    - match: '({{name}}(\.))*(type)'
+      captures:
+        2: variable.other.scala
+        3: keyword.operator.access.scala
+        4: support.language.type.scala
     - match: '{{name}}'
       scope: variable.other.type.scala
     - match: '(?=,|=)'
@@ -424,7 +432,7 @@ contexts:
     - match: '{{name}}'
       scope: variable.module.scala
     - match: \.
-      scope: punctuation.separator.dot
+      scope: keyword.operator.access.scala
     - match: $
       pop: true
     - match: \{
@@ -775,10 +783,10 @@ contexts:
       scope: invalid.illegal.expected.pattern
 
   pattern_ended:
-    - match: =>
+    - match: =>\s
       scope: punctuation.separator.key-value.switch.scala
       pop: true
-    - match: =
+    - match: =\s
       scope: keyword.operator.assignment
       pop: true
     - match: \s+
