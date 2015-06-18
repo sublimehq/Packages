@@ -2,7 +2,7 @@
 ---
 name: Scala
 file_extensions: [.scala, .sbt]
-scope: 'source.scala'
+scope: source.scala
 
 
 variables:
@@ -58,12 +58,15 @@ contexts:
   #   - match: (\.|\,)
   #     scope: keyword.operator.scala
 
+  scaladoc_open:
+    - match: '^\s*/\*\*'
+      push: scaladoc
+
   main:
     #TODO: forSome
 
     # scaladoc is triggered only on new line
-    - match: '^\s*/\*\*'
-      push: scaladoc
+    - include: scaladoc_open
 
     - match: '\}'
       scope: invalid.illegal.unexpected.closing-bracket
@@ -91,13 +94,26 @@ contexts:
     - match: '{{xml_close_tag}}'
       scope: invalid.illegal.xml-close-tag
 
+    # package object declaration
+    - match: '\b(package)\s+(object)\s+(({{simple_name}}\.)*{{simple_name}})'
+      captures:
+        0: meta.class.identifier.scala
+        1: storage.type.module
+        2: storage.type.class.object.package.scala
+        3: entity.name.class.scala
+      push:
+        - meta_scope: meta.class.scala
+        - include: main
 
-    # packages/object declaration
-    - match: '\b(package)\s(({{simple_name}}\.)*{{simple_name}})'
+    # package declaration
+    - match: '\b(package)\s+(({{simple_name}}\.)*{{simple_name}})'
       captures:
         0: meta.package.identifier.scala
-        1: keyword.other.scoping.scala
-        2: entity.name.package.scala
+        1: storage.type.module
+        2: entity.name.module.scala
+      push:
+        - meta_scope: meta.package.scala
+        - include: main
 
     # class declaration
     - match: '\b(case\s*class)\s{{name}}'
@@ -130,11 +146,11 @@ contexts:
       push: class_signature
 
     # function/method definition
-    - match: '((def)\s({{name}}))'
+    - match: '((def)\s{{name}})'
       captures:
-         1: meta.method.identifier.scala
-         2: storage.type.function.scala
-         3: entity.name.function.scala
+        1: meta.method.identifier.scala
+        2: storage.type.function.scala
+        3: entity.name.function.scala
       push: [signature_end, signature]
 
     # val/var declaration
@@ -152,9 +168,22 @@ contexts:
         2: entity.name.class.scala
         3: keyword.operator.assignment.scala
       push: type
+    - match: '\b(type)\s+{{name}}'
+      captures:
+        1: storage.type.variable.type.scala
+        2: entity.name.class.scala
+      push:
+        - match: '(=|<:|<%)'
+          scope: keyword.operator.assignment.scala
+          set: type
+        - include: type_bracket
+        - match: $
+          pop: true
+        - match: (?=})
+          pop: true
 
     # pattern matching
-    - match: \b{{name}}\s+(match)\b
+    - match: '\b{{name}}\s+(match)\b'
       captures:
         1: variable.other
         2: keyword.control.switch.scala
@@ -173,7 +202,7 @@ contexts:
           scope: invalid.illegal.expected_block
 
     # language keywords
-    - match: \b(if)\s+(\()
+    - match: \b(if)\s*(\()
       captures:
         1: keyword.control.conditional.if.scala
         2: punctuation.definition.expression.conditional.begin.scala
@@ -194,25 +223,30 @@ contexts:
       scope: keyword.control.jump.scala
     - match: \b(this|super)\b
       scope: variable.language.scala
-    - match: \b(new)\s{{name}}
-      captures:
-        1: keyword.declaration.new.scala
-        2: variable.other.type.scala
-    - match: \b(sealed|abstract|final|lazy|override)\b
-      scope: storage.modifier.other.scala
 
     # private/protected with modifier
     - match: '\b(private|protected)\s*\[(this)\]'
       captures:
-        1: storage.modifier.other.scala
+        1: storage.modifier.access.scala
         2: variable.language.scala
+    - match: '\b(private|protected)\s*(\[)([A-Z]{{name}})(\])'
+      captures:
+        1: storage.modifier.access.scala
+        2: punctuation.definition.arguments.begin.scala
+        3: entity.name.class.scala
+        5: punctuation.definition.arguments.end.scala
     - match: '\b(private|protected)\s*(\[){{name}}(\])'
       captures:
-        1: storage.modifier.other.scala
-        2: punctuation.declaration.arguments.begin.scala
-        3: punctuation.declaration.arguments.end.scala
+        1: storage.modifier.access.scala
+        2: punctuation.definition.arguments.begin.scala
+        3: entity.name.module.scala
+        4: punctuation.definition.arguments.end.scala
     - match: \b(private|protected)\b
       scope: storage.modifier.access.scala
+    - match: \b(implicit)\b
+      scope: storage.modifier.access.implicit.scala
+    - match: \b(sealed|abstract|final|lazy|override)\b
+      scope: storage.modifier.other.scala
 
     # language constants
     - match: \b(true|false|null)\b
@@ -256,7 +290,7 @@ contexts:
     # function calls
     - match: \b(Array|List|Map|Some)(\()
       captures:
-        1: support.class.constructor.scala meta.invocation
+        1: support.class entity.name.constructor.scala meta.invocation
         2: punctuation.definition.arguments.constructor.begin.scala
       push: function_args
     - match: \b(assert|assume|classOf|identity|implicitly|locally|manifest|optManifest|print|printf|println|require)(\()
@@ -264,9 +298,15 @@ contexts:
         1: support.function.scala meta.invocation
         2: punctuation.definition.arguments.begin.scala
       push: function_args
+
+    - match: \b(new)\s{{name}}
+      captures:
+        1: keyword.declaration.new.scala
+        2: entity.name.constructor.scala
+
     - match: '([A-Z]{{name}})(\()'
       captures:
-        1: variable.other.type.constructor meta.invocation
+        1: entity.name.constructor.scala meta.invocation
         3: punctuation.definition.arguments.begin.scala
       push: function_args
     - match: '{{name}}(\()'
@@ -274,7 +314,7 @@ contexts:
         1: variable.function meta.invocation
         2: punctuation.definition.arguments.begin.scala
       push: function_args
-    - match: '(?<=\))(\()'
+    - match: '(?<=[)\]])(\()'
       captures:
         1: punctuation.definition.arguments.begin.scala
       push: function_args
@@ -282,6 +322,7 @@ contexts:
       captures:
         1: punctuation.definition.arguments.begin.scala
       push: function_args
+
     # tuples
     - match: '\)'
       scope: invalid.illegal.unexpected.closing-par
@@ -291,7 +332,7 @@ contexts:
       push:
         - meta_scope: meta.tuple
         - match: ','
-          scope: punctuation.separator.array.scala
+          scope: punctuation.separator.array-element.scala
         - match: '\)'
           scope: punctuation.definition.array.end.scala
           pop: true
@@ -349,8 +390,10 @@ contexts:
       scope: support.function.func-type.scala
     - match: \)
       scope: invalid.illegal.unexpected.closing-par
+    - match: '{{operator}}'
+      scope: keyword.operator.scala
     - match: '{{name}}'
-      scope: variable.other.type
+      scope: variable.other.type.scala
     - match: '(?=,|=)'
       pop: true
     - match: '$'
@@ -379,7 +422,7 @@ contexts:
       scope: constant.language.scala
       pop: true
     - match: '{{name}}'
-      scope: variable.package.scala
+      scope: variable.module.scala
     - match: \.
       scope: punctuation.separator.dot
     - match: $
@@ -521,7 +564,7 @@ contexts:
       set: function_code
     - match: '(?=\{)'
       set: function_code
-    - match: '(?=\w)'
+    - match: '(?=\S)'
       pop: true
     # abstract method, no code
     - match: $
@@ -557,7 +600,7 @@ contexts:
                 scope: punctuation.definition.parameters.function.end.scala
                 pop: true
               - match: ','
-                scope: punctuation.separator.parameters.function.scala
+                scope: punctuation.separator.parameter.function.scala
                 set: params
               - include: main
           - match: ','
@@ -578,16 +621,12 @@ contexts:
     - meta_scope: meta.def.scala
     - match: $
     - match: '^(\s*)(?=[^{])'
-      captures:
-        1: string.unquoted.block-indent
       set:
         - meta_scope: meta.def.scala
         - include: main
         - match: $
           pop: true
     - match: '(?=[^{])'
-      captures:
-        1: string.unquoted.block-indent
       set:
         - meta_scope: meta.def.scala
         - include: main
@@ -606,18 +645,18 @@ contexts:
   class_signature:
     - meta_scope: meta.class.scala
     - match: '\('
-      scope: punctuation.definition.parameters.class.begin.scala
+      scope: punctuation.definition.parameters.constructor.begin.scala
       push: class_params
     - match: '\['
-      scope: punctuation.definition.parameters.class.type.begin.scala
+      scope: punctuation.definition.parameters.constructor.type.begin.scala
       push:
-        - meta_scope: meta.class.identifier
+        - meta_scope: meta.class.identifier.scala
         - match: '\]'
-          scope: punctuation.definition.parameters.class.type.end.scala
+          scope: punctuation.definition.parameters.constructor.type.end.scala
           pop: true
         - match: $
         - match: ','
-          scope: punctuation.separator.parameters.class.type
+          scope: punctuation.separator.parameter.class.type
         - include: type
 
     - match: '\s*\b(extends|with)\s{{name}}'
@@ -632,14 +671,16 @@ contexts:
           scope: punctuation.definition.class.body.end.scala
           pop: true
         - include: main
-    - match: \s*(?=\w)
+    - match: (?=\S)
       pop: true
 
   class_params:
     # - meta_content_scope: meta.constructor.scala
     - meta_scope: meta.class.identifier
-    - match: '\b(implicit|val|protected|private)\b'
-      scope: storage.modifier.other
+    - match: '\b(val|protected|private)\b'
+      scope: storage.modifier.access.scala
+    - match: '\b(implicit)\b'
+      scope: storage.modifier.other.implicit.scala
     - match: '{{name}}\s*(:)\s*'
       captures:
         1: variable.parameter.class.scala
@@ -657,7 +698,7 @@ contexts:
           pop: false
         - include: type
     - match: '\)'
-      scope: punctuation.definition.parameters.class.end.scala
+      scope: punctuation.definition.parameters.constructor.end.scala
       pop: true
     - match: '($|,)'
       pop: false
@@ -669,11 +710,11 @@ contexts:
         1: storage.modifier.extends.scala
         2: entity.other.inherited-class.scala
     - match: '\('
-      scope: punctuation.definition.parameters.class.begin.scala
+      scope: punctuation.definition.parameters.constructor.begin.scala
       push:
         - meta_content_scope: source.scala
         - match: '\)'
-          scope: punctuation.definition.parameters.class.end.scala
+          scope: punctuation.definition.parameters.constructor.end.scala
           pop: true
         - match: ','
           scope: punctuation.separator.argument.scala
@@ -695,7 +736,7 @@ contexts:
   pattern:
     - match: '\s*{{name}}?\s*(\()'
       captures:
-        1: variable.other.type.constructor.unapply
+        1: entity.name.constructor.unapply
         2: punctuation.definition.array.begin.scala
       set: [pattern_ended, pattern_inside_unapply]
     - match: '(?=\S)'
@@ -788,7 +829,6 @@ contexts:
         - include: main
 
   catch_block:
-    - meta_scope: catch_or_nothing
     - match: (catch)\b
       scope: keyword.control.trycatch.catch.scala
       set:
@@ -885,7 +925,7 @@ contexts:
     - match: '(@see)\s+{{name}}'
       captures:
         1: keyword.documentation.link.scala
-        2: entity.name.package.scala
+        2: entity.name.module.scala
     - match: '(\$){{name}}'
       captures:
         1: punctuation.definition.string.interpolated.element.scala
@@ -910,7 +950,7 @@ contexts:
     - match: "'''"
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.bold
+        - meta_content_scope: markup.bold
         - match: "'''"
           scope: constant.character.escaped.scaladoc
           set: scaladoc
@@ -918,7 +958,7 @@ contexts:
     - match: "''"
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.italic
+        - meta_content_scope: markup.italic
         - match: "''"
           scope: constant.character.escaped.scaladoc
           set: scaladoc
@@ -926,7 +966,7 @@ contexts:
     - match: '__'
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.underline
+        - meta_content_scope: markup.underline
         - match: '__'
           scope: constant.character.escaped.scaladoc
           set: scaladoc
@@ -934,7 +974,7 @@ contexts:
     - match: '\^'
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.superscipt
+        - meta_content_scope: markup.superscipt
         - match: '\^'
           scope: constant.character.escaped.scaladoc
           set: scaladoc
@@ -942,7 +982,7 @@ contexts:
     - match: ',,'
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.subscipt
+        - meta_content_scope: markup.subscipt
         - match: ',,'
           scope: constant.character.escaped.scaladoc
           set: scaladoc
@@ -950,7 +990,7 @@ contexts:
     - match: '`'
       scope: constant.character.escaped.scaladoc
       set:
-        - meta_content_scope : markup.monospace
+        - meta_content_scope: markup.monospace
         - match: '`'
           scope: constant.character.escaped.scaladoc
           set: scaladoc
