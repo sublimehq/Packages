@@ -198,7 +198,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(this|super|self)\b</string>
+					<string>\b(this|super)\b</string>
 					<key>name</key>
 					<string>variable.language.scala</string>
 				</dict>
@@ -214,6 +214,41 @@
 		<dict>
 			<key>patterns</key>
 			<array>
+				<dict>
+					<key>begin</key>
+					<string>\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*=</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.scala</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>[αβ]</string>
+							<key>name</key>
+							<string>comment.block.empty.scala</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>$self</string>
+						</dict>
+					</array>
+					<key>end</key>
+					<string>\}\)#λ</string>
+					<key>endCaptures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>comment.block.scala</string>
+						</dict>
+					</dict>
+				</dict>
 				<dict>
 					<key>captures</key>
 					<dict>
@@ -457,7 +492,7 @@
 				</dict>
 			</dict>
 			<key>match</key>
-			<string>\b(new)\s+([^\s\{\(\[]+)</string>
+			<string>\b(new)\s+([^\s\{\(\}\)\[]+)</string>
 		</dict>
 		<key>keywords</key>
 		<dict>
@@ -526,7 +561,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>entity.name.symbol</string>
+					<string>constant.other.symbol</string>
 				</dict>
 			</dict>
 			<key>match</key>
@@ -558,7 +593,7 @@
 					<key>begin</key>
 					<string>"""</string>
 					<key>end</key>
-					<string>"""</string>
+					<string>"""(?!")</string>
 					<key>name</key>
 					<string>string.quoted.triple.scala</string>
 				</dict>
@@ -585,6 +620,78 @@
 						</dict>
 					</array>
 				</dict>
+				<dict>
+					<key>begin</key>
+					<string>([a-zA-Z$_][a-zA-Z0-9$_]*)"</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.quoted.interpolated.scala</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\n</string>
+							<key>name</key>
+							<string>invalid.string.newline</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\\.</string>
+							<key>name</key>
+							<string>constant.character.escape.scala</string>
+						</dict>
+						<dict>
+							<key>match</key>
+							<string>\$[a-zA-Z$_][a-zA-Z0-9$_]*</string>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>\$\{</string>
+							<key>end</key>
+							<string>\}</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>variable.parameter</string>
+								</dict>
+							</dict>
+							<key>endCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>variable.parameter</string>
+								</dict>
+							</dict>
+							<key>name</key>
+							<string>source.scala.embedded</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#nest-curly-and-self</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>$self</string>
+								</dict>
+							</array>
+						</dict>
+					</array>
+					<key>end</key>
+					<string>"</string>
+					<key>name</key>
+					<string>string.quoted.interpolated.scala</string>
+				</dict>
 			</array>
 		</dict>
 		<key>xml-attribute</key>
@@ -607,6 +714,37 @@
 					</dict>
 					<key>match</key>
 					<string>(\w+)=("[^"]*")</string>
+				</dict>
+			</array>
+		</dict>
+		<key>nest-curly-and-self</key>
+		<dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>begin</key>
+					<string>\{</string>
+					<key>captures</key>
+					<dict>
+						<key>0</key>
+						<dict>
+							<key>name</key>
+							<string>punctuation.section.scope.scala</string>
+						</dict>
+					</dict>
+					<key>end</key>
+					<string>\}</string>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>include</key>
+							<string>#nest-curly-and-self</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>$self</string>
 				</dict>
 			</array>
 		</dict>
