@@ -1,0 +1,177 @@
+%YAML 1.2
+---
+name: Swift
+file_extensions: [swift]
+scope: source.swift
+prototype:
+  - include: main
+
+contexts:
+  main:
+###################################################### COMMENTS
+    - match: (//+)\s+(MARK:) ?(.*)
+      scope: comment.line
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.definition.comment
+        3: meta.toc-list
+    - match: (//+).*
+      scope: comment.line
+      captures:
+        1: punctuation.definition.comment
+    - match: (/\*)
+      scope: punctuation.definition.comment
+      push: comment_block
+###################################################### ENUMS
+    - match: (?<=[^\)\w])\.([a-zA-Z]\w*)\(
+      captures:
+       1: constant.language.enum
+      push: enum
+    - match: (?<=[^\)\w])\.[a-zA-Z]\w*
+      scope: constant.language.enum
+###################################################### CONSTANTS
+    - match: \btrue\b
+      scope: constant.language.true
+    - match: \bfalse\b
+      scope: constant.language.false
+    - match: \bnil\b
+      scope: constant.language.nil
+###################################################### KEYWORDS
+    - match: \b(self|super)\b
+      scope: keyword.variable
+    - match: \b_\b
+      scope: constant.language.other
+    - match: \b(import|typealias)\b
+      scope: keyword.other.import
+    - match: \b(count|map|filter)\b
+      scope: support.function
+###################################################### NUMERICS
+    - match: \d+\.\d+
+      scope: constant.numeric.float
+    - match: 0[xX][\da-fA-F]+
+      scope: constant.numeric.hexadecimal
+    - match: 0[oO][0-7]+
+      scope: constant.numeric.octal
+    - match: 0[bB][01]+
+      scope: constant.numeric.binary
+    - match: \d{1,3}(_\d+)*
+      scope: constant.numeric.decimal
+    - match: \d+
+      scope: constant.numeric.decimal
+###################################################### TYPES
+    # class func
+    - match: \b(class)\s+(?=func)
+      scope: meta.function storage.type.function
+    # types that have a parent class
+    - match: \b(enum|class|protocol|extension)\s+((\w+)\s*(:)\s+(\w+))
+      scope: entity.name.type
+      captures:
+        1: keyword.entity
+        2: entity.name.type
+        3: support.class
+        4: keyword.operator
+        5: support.class
+    # types that don't need a parent class
+    - match: \b(enum|class|protocol|extension)\s+(\w+)
+      scope: entity.name.type
+      captures:
+        1: keyword.entity
+        2: entity.name.type support.class
+    # types that *cannot* have a parent class (but DO)
+    - match: '\b(struct)\s+(\w+)\s+(:.*)'
+      scope: entity.name.type
+      captures:
+        1: keyword.entity
+        2: entity.name.type support.class
+        3: invalid
+    # types that *cannot* have a parent class (and do not)
+    - match: \b(struct)\s+(\w+)
+      scope: entity.name.type
+      captures:
+        1: keyword.entity
+        2: entity.name.type support.class
+###################################################### CONTROL
+    - match: \b(if|where|else|for|while|switch)\b
+      scope: keyword.control
+    - match: \b(break|return|case|continue|default)\b
+      scope: keyword.control
+###################################################### VARIABLES
+    - match: \b(var|let)\b
+      captures:
+        1: keyword.other
+###################################################### STRING
+    - match: '"'
+      push: string_double
+###################################################### MODIFIERS
+    - match: \b(weak|lazy|convenience|public|internal|private|final|static|override|required)\b
+      scope: storage.modifier
+    - match: '@\w+'
+      scope: storage.type.decorator
+###################################################### SUPPORT
+    # "system" classes:
+    - match: \b([A-Z]{2})\w+
+      scope: support.class
+    - match: \b(String|Array|Int\d*|Float|Double)\w+
+      scope: support.class
+    # user classes:
+    - match: \b([A-Z])\w*
+      scope: support.class
+###################################################### FUNCTIONS
+    - match: '\b(func)\s+(\w+)\s*\('
+      captures:
+        1: storage.type.function
+        2: entity.name.function variable.function
+      push: function_params
+    - match: '\b(deinit|init)\s*\('
+      captures:
+        1: storage.type.function
+        2: entity.name.function variable.function
+      push: function_params
+    - match: \b(func)\s+(\w+)
+      captures:
+        1: storage.type.function
+        2: entity.name.function variable.function
+    - match: \b(func|deinit|init)\b
+      scope: entity.name.type storage.type.function
+###################################################### VARIABLES
+    - match: '(\w+):'
+      captures:
+        1: variable.parameter
+    - match: \b\w+
+      scope: variable.other
+    - match: '[-+=<>^$#@!~*\\|&?\/.]*'
+      scope: keyword.operator
+    - match: '\('
+      push: paren_expr
+######################################################
+  comment_block:
+    - meta_scope: comment.block
+    - match: \*/
+      pop: true
+  function_params:
+    - include: main
+    - meta_scope: meta.function meta.toc-list
+    - match: '\)'
+      pop: true
+  string_double:
+    - meta_scope: string.quoted.double
+    - match: '\\\('
+      scope: punctuation.section.embedded
+      set: embedded
+    - match: \\.
+      scope: constant.character.escape.c
+    - match: '"'
+      pop: true
+  embedded:
+    - include: main
+    - match: '\)'
+      scope: punctuation.section.embedded
+      set: string_double
+  paren_expr:
+    - include: main
+    - match: '\)'
+      pop: true
+  enum:
+    - include: main
+    - match: '\)'
+      pop: true
