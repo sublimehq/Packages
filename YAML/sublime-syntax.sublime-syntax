@@ -236,6 +236,23 @@ contexts:
       pop: true
     - include: comment
     - include: regex_common
+    - match: '(\()(\?:)'
+      captures:
+        1: punctuation.definition.block
+        2: support.function.syntax
+      push:
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_unquoted
+    - match: '\('
+      scope: punctuation.definition.block
+      push:
+        - meta_scope: meta.group.capturing.regexp
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_unquoted
 
   regex_common:
     - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
@@ -267,23 +284,6 @@ contexts:
         5: constant.numeric
         6: punctuation.definition.end.syntax
 
-    - match: '(\()(\?:)'
-      captures:
-        1: punctuation.definition.block
-        2: support.function.syntax
-      push:
-        - match: \)
-          scope: punctuation.definition.block
-          pop: true
-        - include: regex_common
-    - match: '\('
-      scope: punctuation.definition.block
-      push:
-        - meta_scope: meta.group.capturing.regexp
-        - match: \)
-          scope: punctuation.definition.block
-          pop: true
-        - include: regex_common
     - match: '\['
       scope: punctuation.definition.arguments
       push:
@@ -306,6 +306,23 @@ contexts:
         2: variable.other.variables
         3: punctuation.definition.arguments.end.syntax
     - include: regex_common
+    - match: '(\()(\?:)'
+      captures:
+        1: punctuation.definition.block
+        2: support.function.syntax
+      push:
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_simple
+    - match: '\('
+      scope: punctuation.definition.block
+      push:
+        - meta_scope: meta.group.capturing.regexp
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_simple
 
   regex_double:
     - meta_scope: string.quoted.double.yaml
@@ -314,6 +331,23 @@ contexts:
         0: punctuation.definition.string.double.end.yaml
       pop: true
     - include: regex_unquoted
+    - match: '(\()(\?:)'
+      captures:
+        1: punctuation.definition.block
+        2: support.function.syntax
+      push:
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_double
+    - match: '\('
+      scope: punctuation.definition.block
+      push:
+        - meta_scope: meta.group.capturing.regexp
+        - match: \)
+          scope: punctuation.definition.block
+          pop: true
+        - include: regex_double
 
   character_class:
     - match: '\\[sSdDwWhH]'
