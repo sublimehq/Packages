@@ -12,76 +12,172 @@ def match(rex, str):
 def make_completion(tag):
     # make it look like
     # ("table\tTag", "table>$1</table>"),
-    return (tag + "\tTag", tag + ">$0</" + tag + '>')
+    return (tag + '\tTag', tag + '>$0</' + tag + '>')
 
 def get_tag_to_attributes():
-    # maps tags to all available attributes
-    return (
-        {'a' : ['accesskey', 'charset', 'class', 'coords', 'dir', 'href', 'hreflang', 'id', 'lang', 'name', 'onblur', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'rel', 'rev', 'shape', 'style', 'tabindex', 'target', 'title', 'type'],
-        'applet' : ['align', 'alt', 'archive', 'class', 'code', 'codebase', 'height', 'hspace', 'id', 'name', 'object', 'style', 'title', 'vspace', 'width'],
-        'area' : ['accesskey', 'alt', 'class', 'coords', 'dir', 'href', 'id', 'lang', 'nohref', 'onblur', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'shape', 'style', 'tabindex', 'target', 'title'],
+    """
+    Returns a dictionary with attributes accociated to tags
+    This assumes that all tags can have global attributes as per MDN:
+    https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes
+    """
+
+    # Map tags to specific attributes applicable for that tag
+    tag_dict = {
+        'a' : ['charset', 'coords', 'download', 'href', 'hreflang', 'media', 'name', 'ping', 'rel', 'rev', 'shape', 'target', 'type'],
+        'abbr' : ['title'],
+        'address' : [],
+        'applet' : ['align', 'alt', 'archive', 'code', 'codebase', 'height', 'hspace', 'name', 'object', 'vspace', 'width'],
+        'area' : ['alt', 'coords', 'download', 'href', 'hreflang', 'media', 'nohref', 'rel', 'shape', 'target'],
+        'article' : [],
+        'aside' : [],
+        'audio' : ['autoplay', 'buffered', 'controls', 'loop', 'muted', 'played', 'preload', 'src', 'volume'],
+        'b' : [],
         'base' : ['href', 'target'],
-        'basefont' : ['color', 'face', 'id', 'size'],
-        'bdo' : ['class', 'dir', 'id', 'lang', 'style', 'title'],
-        'blockquote' : ['cite', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'body' : ['alink', 'background', 'bgcolor', 'class', 'dir', 'id', 'lang', 'link', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onunload', 'style', 'text', 'title', 'vlink'],
-        'br' : ['class', 'clear', 'id', 'style', 'title'],
-        'button' : ['accesskey', 'class', 'dir', 'disabled', 'id', 'lang', 'name', 'onblur', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'tabindex', 'title', 'type', 'value'],
-        'caption' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'col' : ['align', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'span', 'style', 'title', 'valign', 'width'],
-        'colgroup' : ['align', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'span', 'style', 'title', 'valign', 'width'],
-        'del' : ['cite', 'class', 'datetime', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'dir' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'div' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'dl' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'figure' : ['accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'],
-        'figcaption' : ['accesskey', 'class', 'contenteditable', 'contextmenu', 'dir', 'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'],
-        'font' : ['class', 'color', 'dir', 'face', 'id', 'lang', 'size', 'style', 'title'],
-        'form' : ['accept-charset', 'accept', 'action', 'class', 'dir', 'enctype', 'id', 'lang', 'method', 'name', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onreset', 'onsubmit', 'style', 'target', 'title'],
-        'frame' : ['class', 'frameborder', 'id', 'longdesc', 'marginheight', 'marginwidth', 'name', 'noresize', 'scrolling', 'src', 'style', 'title'],
-        'frameset' : ['class', 'cols', 'id', 'onload', 'onunload', 'rows', 'style', 'title'],
-        'h1' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'h2' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'h3' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'h4' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'h5' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'h6' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'head' : ['dir', 'lang', 'profile'],
-        'hr' : ['align', 'class', 'dir', 'id', 'lang', 'noshade', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'size', 'style', 'title', 'width'],
-        'html' : ['dir', 'lang', 'version'],
-        'iframe' : ['align', 'class', 'frameborder', 'height', 'id', 'longdesc', 'marginheight', 'marginwidth', 'name', 'scrolling', 'src', 'style', 'title', 'width'],
-        'img' : ['align', 'alt', 'border', 'class', 'dir', 'height', 'hspace', 'id', 'ismap', 'lang', 'longdesc', 'name', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'src', 'style', 'title', 'usemap', 'vspace', 'width'],
-        'input' : ['accept', 'accesskey', 'align', 'alt', 'checked', 'class', 'dir', 'disabled', 'id', 'ismap', 'lang', 'maxlength', 'name', 'onblur', 'onchange', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onselect', 'readonly', 'size', 'src', 'style', 'tabindex', 'title', 'type', 'usemap', 'value'],
-        'ins' : ['cite', 'class', 'datetime', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'isindex' : ['class', 'dir', 'id', 'lang', 'prompt', 'style', 'title'],
-        'label' : ['accesskey', 'class', 'dir', 'for', 'id', 'lang', 'onblur', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'legend' : ['accesskey', 'align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'li' : ['class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'type', 'value'],
-        'link' : ['charset', 'class', 'dir', 'href', 'hreflang', 'id', 'lang', 'media', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'rel', 'rev', 'style', 'target', 'title', 'type'],
-        'map' : ['class', 'dir', 'id', 'lang', 'name', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'menu' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'meta' : ['content', 'dir', 'http-equiv', 'lang', 'name', 'scheme'],
-        'object' : ['align', 'archive', 'border', 'class', 'classid', 'codebase', 'codetype', 'data', 'declare', 'dir', 'height', 'hspace', 'id', 'lang', 'name', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'standby', 'style', 'tabindex', 'title', 'type', 'usemap', 'vspace', 'width'],
-        'ol' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'start', 'style', 'title', 'type'],
-        'optgroup' : ['class', 'dir', 'disabled', 'id', 'label', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'option' : ['class', 'dir', 'disabled', 'id', 'label', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'selected', 'style', 'title', 'value'],
-        'p' : ['align', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'param' : ['id', 'name', 'type', 'value', 'valuetype'],
-        'pre' : ['class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'width'],
-        'q' : ['cite', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title'],
-        'script' : ['charset', 'defer', 'language', 'src', 'type'],
-        'select' : ['class', 'dir', 'disabled', 'id', 'lang', 'multiple', 'name', 'onblur', 'onchange', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'size', 'style', 'tabindex', 'title'],
-        'style' : ['dir', 'lang', 'media', 'title', 'type'],
-        'table' : ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'class', 'dir', 'frame', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'rules', 'style', 'summary', 'title', 'width'],
-        'tbody' : ['align', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'valign'],
-        'td' : ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'class', 'colspan', 'dir', 'headers', 'height', 'id', 'lang', 'nowrap', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'rowspan', 'scope', 'style', 'title', 'valign', 'width'],
-        'textarea' : ['accesskey', 'class', 'cols', 'dir', 'disabled', 'id', 'lang', 'name', 'onblur', 'onchange', 'onclick', 'ondblclick', 'onfocus', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onselect', 'readonly', 'rows', 'style', 'tabindex', 'title'],
-        'tfoot' : ['align', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'valign'],
-        'th' : ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'class', 'colspan', 'dir', 'headers', 'height', 'id', 'lang', 'nowrap', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'rowspan', 'scope', 'style', 'title', 'valign', 'width'],
-        'thead' : ['align', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'valign'],
-        'tr' : ['align', 'bgcolor', 'char', 'charoff', 'class', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'valign'],
-        'ul' : ['class', 'compact', 'dir', 'id', 'lang', 'onclick', 'ondblclick', 'onkeydown', 'onkeypress', 'onkeyup', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'style', 'title', 'type'],}
-        )
+        'basefont' : ['color', 'face', 'size'],
+        'bdi' : [],
+        'bdo' : [],
+        'blockquote' : ['cite'],
+        'body' : ['alink', 'background', 'bgcolor', 'link', 'onafterprint', 'onbeforeprint', 'onbeforeunload', 'onhashchange', 'onmessage', 'onoffline', 'ononline', 'onpopstate', 'onredo', 'onstorage', 'onundo', 'onunload', 'text', 'vlink'],
+        'br' : ['clear'],
+        'button' : ['autofocus', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'name', 'type', 'value'],
+        'canvas' : ['height', 'width'],
+        'caption' : ['align'],
+        'cite' : [],
+        'code' : [],
+        'col' : ['align', 'char', 'charoff', 'span', 'valign', 'width'],
+        'colgroup' : ['align', 'char', 'charoff', 'span', 'valign', 'width'],
+        'content' : ['select'],
+        'data' : ['value'],
+        'datalist' : [],
+        'dd' : [],
+        'del' : ['cite', 'datetime'],
+        'details' : ['open'],
+        'dfn' : [],
+        'dir' : ['compact'],
+        'div' : ['align'],
+        'dl' : ['compact'],
+        'dt' : [],
+        'element' : [],
+        'em' : [],
+        'embed' : ['height', 'src', 'type', 'width'],
+        'fieldset' : ['disabled', 'form', 'name'],
+        'figcaption' : [],
+        'figure' : [],
+        'font' : ['color', 'face', 'size'],
+        'footer' : [],
+        'form' : ['accept-charset', 'accept', 'action', 'autocomplete', 'enctype', 'method', 'name', 'novalidate', 'target'],
+        'frame' : ['frameborder', 'longdesc', 'marginheight', 'marginwidth', 'name', 'noresize', 'scrolling', 'src'],
+        'frameset' : ['cols', 'onunload', 'rows'],
+        'h1' : ['align'],
+        'h2' : ['align'],
+        'h3' : ['align'],
+        'h4' : ['align'],
+        'h5' : ['align'],
+        'h6' : ['align'],
+        'head' : ['profile'],
+        'header' : [],
+        'hr' : ['align', 'noshade', 'size', 'width'],
+        'html' : ['manifest', 'version', 'xmlns'],
+        'i' : [],
+        'iframe' : ['align', 'frameborder', 'height', 'longdesc', 'marginheight', 'marginwidth', 'name', 'sandbox', 'scrolling', 'seamless', 'src', 'srcdoc', 'width'],
+        'img' : ['align', 'alt', 'border', 'crossorigin', 'height', 'hspace', 'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap', 'vspace', 'width'],
+        'input' : ['accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave', 'checked', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'height', 'inputmode', 'ismap', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'selectionDirection', 'size', 'spellcheck', 'src', 'step', 'tabindex', 'type', 'usemap', 'value', 'width'],
+        'ins' : ['cite', 'datetime'],
+        'isindex' : ['prompt'],
+        'kbd' : [],
+        'keygen' : ['autofocus', 'challenge', 'disabled', 'form', 'keytype', 'name'],
+        'label' : ['for', 'form'],
+        'legend' : [],
+        'li' : ['type', 'value'],
+        'link' : ['charset', 'crossorigin', 'href', 'hreflang', 'media', 'rel', 'rev', 'sizes', 'target', 'type'],
+        'main' : [],
+        'map' : ['name'],
+        'mark' : [],
+        'menu' : ['compact'],
+        'meta' : ['charset', 'content', 'http-equiv', 'name', 'scheme'],
+        'meter' : ['value', 'min', 'max', 'low', 'high', 'optimum', 'form'],
+        'nav' : [],
+        'noframes' : [],
+        'noscript' : [],
+        'object' : ['align', 'archive', 'border', 'classid', 'codebase', 'codetype', 'data', 'declare', 'form', 'height', 'hspace', 'name', 'standby', 'type', 'typemustmatch', 'usemap', 'vspace', 'width'],
+        'ol' : ['compact', 'reversed', 'start', 'type'],
+        'optgroup' : ['disabled', 'label'],
+        'option' : ['disabled', 'label', 'selected', 'value'],
+        'output' : ['for', 'form', 'name'],
+        'p' : ['align'],
+        'param' : ['name', 'type', 'value', 'valuetype'],
+        'picture' : [],
+        'pre' : ['width'],
+        'progres' : ['max', 'value'],
+        'q' : ['cite'],
+        'rp' : [],
+        'rt' : [],
+        'rtc' : [],
+        's' : [],
+        'samp' : [],
+        'script' : ['async', 'charset', 'defer', 'language', 'src', 'type'],
+        'section' : [],
+        'select' : ['autofocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size'],
+        'shadow' : [],
+        'small' : [],
+        'source' : ['src', 'type'],
+        'span' : [],
+        'strong' : [],
+        'style' : ['disabled', 'media', 'scoped', 'title', 'type'],
+        'sub' : [],
+        'summary': [],
+        'sup' : [],
+        'table' : ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'frame', 'rules', 'summary', 'width'],
+        'tbody' : ['align', 'char', 'charoff', 'valign'],
+        'td' : ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan', 'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign', 'width'],
+        'template' : ['content'],
+        'textarea' : ['autocomplete', 'autofocus', 'cols', 'disabled', 'form', 'maxlength', 'minlength', 'name', 'placeholder', 'readonly', 'required', 'rows', 'selectionDirection', 'selectionEnd', 'selectionStart', 'spellcheck', 'wrap'],
+        'tfoot' : ['align', 'char', 'charoff', 'valign'],
+        'th' : ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan', 'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign', 'width'],
+        'thead' : ['align', 'char', 'charoff', 'valign'],
+        'time' : ['datetime'],
+        'title' : [],
+        'tr' : ['align', 'bgcolor', 'char', 'charoff', 'valign'],
+        'track' : ['default', 'kind', 'label', 'src', 'srclang'],
+        'u' : [],
+        'ul' : ['compact', 'type'],
+        'var' : [],
+        'video' : ['autoplay', 'autobuffer', 'buffered', 'controls', 'crossorigin', 'height', 'loop', 'muted', 'played', 'preload', 'poster', 'src', 'width'],
+        'wbr' : []
+    }
+
+    # Assume that global attributes are common to all HTML elements
+    global_attributes = [
+        'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir',
+        'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
+    ]
+
+    # Extend `global_attributes` by the event handler attributes
+    global_attributes.extend([
+        'onabort', 'onautocomplete', 'onautocompleteerror', 'onblur',
+        'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
+        'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick', 'ondrag',
+        'ondragend', 'ondragenter', 'ondragexit', 'ondragleave', 'ondragover',
+        'ondragstart', 'ondrop', 'ondurationchange', 'onemptied', 'onended',
+        'onerror', 'onfocus', 'oninput', 'oninvalid', 'onkeydown',
+        'onkeypress', 'onkeyup', 'onload', 'onloadeddata', 'onloadedmetadata',
+        'onloadstart', 'onmousedown', 'onmouseenter', 'onmouseleave',
+        'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup',
+        'onmousewheel', 'onpause', 'onplay', 'onplaying', 'onprogress',
+        'onratechange', 'onreset', 'onresize', 'onscroll', 'onseeked',
+        'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled', 'onsubmit',
+        'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange', 'onwaiting'
+    ])
+
+    for attributes in tag_dict.values():
+        attributes.extend(global_attributes)
+
+    # Remove `dir` attribute from `bdi` key, because it is *not* inherited
+    # from the global attributes
+    if 'bdi' in tag_dict:
+        tag_dict['bdi'] = [attr for attr in tag_dict['bdi'] if attr != 'dir']
+
+    return tag_dict
 
 
 class HtmlTagCompletions(sublime_plugin.EventListener):
@@ -103,8 +199,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0],
-                "text.html - source"):
+        if not view.match_selector(locations[0], "text.html - source"):
             return []
 
         # check if we are inside a tag
@@ -156,26 +251,46 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         return (completion_list, flags)
 
     def default_completion_list(self):
-        """ generate a default completion list for HTML """
+        """
+        Generate a default completion list for HTML
+        """
         default_list = []
-        normal_tags = (["abbr", "acronym", "address", "applet", "area", "b", "base", "big", "blockquote", "body", "button", "center", "caption",
-            "cdata", "cite", "col", "colgroup", "code", "div", "dd", "del", "dfn", "dl", "dt", "em", "fieldset", "figure", "figcaption", "font", "form", "frame", "frameset",
-            "head", "h1", "h2", "h3", "h4", "h5", "h6", "i", "ins", "kbd", "li", "label", "legend", "map", "noframes", "object", "ol", "optgroup", "option",
-            "p", "pre", "span", "samp", "select", "small", "strong", "sub", "sup", "table", "tbody", "td", "textarea", "tfoot", "th", "thead", "title",
-            "tr", "tt", "u", "ul", "var", "article", "aside", "audio", "canvas", "footer", "header", "nav", "section", "video"])
+        normal_tags = ([
+            'abbr', 'acronym', 'address', 'applet', 'area', 'article', 'aside',
+            'audio', 'b', 'base', 'basefont', 'bdi', 'bdo', 'big', 'blockquote',
+            'body', 'button', 'center', 'canvas', 'caption', 'cdata',
+            'cite', 'col', 'colgroup', 'code', 'content', 'data', 'datalist',
+            'dir', 'div', 'dd', 'del', 'details', 'dfn', 'dl', 'dt', 'element',
+            'em', 'embed', 'fieldset', 'figure', 'figcaption', 'font', 'footer',
+            'form', 'frame', 'frameset', 'head', 'header', 'h1', 'h2', 'h3',
+            'h4', 'h5', 'h6', 'i', 'input', 'ins', 'isindex', 'kbd', 'keygen',
+            'li', 'label', 'legend', 'main', 'map', 'mark', 'meter',
+            'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup',
+            'option', 'output', 'p', 'picture', 'pre', 'q', 'rp',
+            'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'select', 'shadow',
+            'small', 'span', 'strong', 'sub', 'summary', 'sup',
+            'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th',
+            'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul', 'var',
+            'video'
+        ])
 
         for tag in normal_tags:
             default_list.append(make_completion(tag))
             default_list.append(make_completion(tag.upper()))
 
         default_list += ([
-            ("a\tTag", "a href=\"$1\">$0</a>"),
-            ("iframe\tTag", "iframe src=\"$1\">$0</iframe>"),
-            ("link\tTag", "link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">"),
-            ("script\tTag", "script type=\"${1:text/javascript}\">$0</script>"),
-            ("style\tTag", "style type=\"${1:text/css}\">$0</style>"),
-            ("img\tTag", "img src=\"$1\">"),
-            ("param\tTag", "param name=\"$1\" value=\"$2\">")
+            ('a\tTag', 'a href=\"$1\">$0</a>'),
+            ('audio\tTag', 'audio src=\"$1\">$0</audio>'),
+            ('iframe\tTag', 'iframe src=\"$1\">$0</iframe>'),
+            ('img\tTag', 'img src=\"$1\">'),
+            ('link\tTag', 'link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">'),
+            ('param\tTag', 'param name=\"$1\" value=\"$2\">'),
+            ('progress\tTag', 'progress value=\"$1\" max=\"$2\">'),
+            ('script\tTag', 'script type=\"${1:text/javascript}\">$0</script>'),
+            ('source\tTag', 'source src=\"$1\" type=\"$2\">'),
+            ('style\tTag', 'style type=\"${1:text/css}\">$0</style>'),
+            ('track\tTag', 'track kind=\"$1\" src=\"$2\">'),
+            ('video\tTag', 'video src=\"$1\">$0</video>')
         ])
 
         return default_list
@@ -216,9 +331,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         expr = expr[::-1]
 
         if op == '.':
-            snippet = "<{0} class=\"{1}\">$1</{0}>$0".format(tag, arg)
+            snippet = '<{0} class=\"{1}\">$1</{0}>$0'.format(tag, arg)
         else:
-            snippet = "<{0} id=\"{1}\">$1</{0}>$0".format(tag, arg)
+            snippet = '<{0} id=\"{1}\">$1</{0}>$0'.format(tag, arg)
 
         return [(expr, snippet)]
 
@@ -240,7 +355,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 # found the open tag
                 tag = line_head[i + 1:space_index]
                 break
-            if c == ' ':
+            elif c == ' ':
                 space_index = i
             i -= 1
 
@@ -257,7 +372,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 # found end tag
                 suffix = ''
                 break
-            if c == '<':
+            elif c == '<':
                 # found another open tag, need to close this one
                 break
 
