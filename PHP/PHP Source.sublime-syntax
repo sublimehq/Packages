@@ -442,7 +442,7 @@ contexts:
       captures:
         1: storage.type.trait.php
         2: entity.name.type.trait.php
-    - match: \s*\b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|switch|use|while)\b
+    - match: \s*\b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|yield|switch|use|while)\b
       scope: keyword.control.php
     - match: (?i)\b((?:require|include)(?:_once)?)\b\s*
       captures:
