@@ -460,7 +460,7 @@ contexts:
             3: punctuation.definition.variable.php
           pop: true
         - include: namespace
-    - match: \b(catch|try|throw|exception)\b
+    - match: \b(catch|try|throw|exception|finally)\b
       scope: keyword.control.exception.php
     - match: (?i)\b(function)\s*(&\s*)?(?=\()
       captures:
