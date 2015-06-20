@@ -386,6 +386,8 @@ contexts:
                   pop: true
                 - match: \\
                   scope: punctuation.separator.inheritance.php
+                - match: '(?i)([a-z_][a-z_0-9]*)?(?=[^a-z0-9_\\])'
+                  scope: entity.other.inherited-class.php
         - match: \s*,\s*
     - match: '(?i)^\s*(abstract|final)?\s*(class)\s+([a-z0-9_]+)\s*'
       captures:
