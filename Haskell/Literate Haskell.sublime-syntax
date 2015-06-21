@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Literate Haskell
+file_extensions:
+  - lhs
+scope: text.tex.latex.haskell
+contexts:
+  main:
+    - match: '^((\\)begin)({)code(})(\s*\n)?'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: punctuation.definition.arguments.end.latex
+      push:
+        - meta_scope: meta.function.embedded.haskell.latex
+        - meta_content_scope: source.haskell.embedded.latex
+        - match: '^((\\)end)({)code(})'
+          pop: true
+        - include: scope:source.haskell
+    - include: scope:text.tex.latex

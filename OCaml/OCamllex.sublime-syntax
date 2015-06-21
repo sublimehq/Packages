@@ -1,0 +1,147 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: OCamllex
+file_extensions:
+  - mll
+scope: source.ocamllex
+contexts:
+  main:
+    - match: '^\s*({)'
+      captures:
+        1: punctuation.section.embedded.ocaml.begin.ocamllex
+      push:
+        - meta_scope: meta.embedded.ocaml
+        - match: '^\s*(})'
+          captures:
+            1: punctuation.section.embedded.ocaml.end.ocamllex
+          pop: true
+        - include: scope:source.ocaml
+    - match: '\b(let)\s+([a-z][a-zA-Z0-9''_]*)\s+='
+      captures:
+        1: keyword.other.pattern-definition.ocamllex
+        2: entity.name.type.pattern.stupid-goddamn-hack.ocamllex
+      push:
+        - meta_scope: meta.pattern-definition.ocaml
+        - match: ^(?:\s*let)|(?:\s*(rule|$))
+          pop: true
+        - include: match-patterns
+    - match: '(rule|and)\s+([a-z][a-zA-Z0-9_]*)\s+(=)\s+(parse)(?=\s*$)|((?<!\|)(\|)(?!\|))'
+      captures:
+        1: keyword.other.ocamllex
+        2: entity.name.function.entrypoint.ocamllex
+        3: keyword.operator.ocamllex
+        4: keyword.other.ocamllex
+        5: punctuation.separator.match-pattern.ocamllex
+      push:
+        - meta_scope: meta.pattern-match.ocaml
+        - match: (?:^\s*((and)\b|(?=\|)|$))
+          captures:
+            3: keyword.other.entry-definition.ocamllex
+          pop: true
+        - include: match-patterns
+        - include: actions
+    - include: strings
+    - include: comments
+    - match: "="
+      scope: keyword.operator.symbol.ocamllex
+    - match: \(
+      push:
+        - meta_scope: meta.paren-group.ocamllex
+        - match: \)
+          pop: true
+        - include: main
+    - match: (’|‘|“|”)
+      scope: invalid.illegal.unrecognized-character.ocamllex
+  actions:
+    - match: '[^\'']({)'
+      captures:
+        1: punctuation.definition.action.begin.ocamllex
+      push:
+        - meta_scope: meta.action.ocamllex
+        - match: "(})"
+          captures:
+            1: punctuation.definition.action.end.ocamllex
+          pop: true
+        - include: scope:source.ocaml
+  chars:
+    - match: '('')([^\\]|\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]))('')'
+      scope: constant.character.ocamllex
+      captures:
+        1: punctuation.definition.char.begin.ocamllex
+        4: punctuation.definition.char.end.ocamllex
+  comments:
+    - match: \(\*(?:(\*)| ( )\*)\)
+      scope: comment.block.ocaml
+      captures:
+        1: comment.block.empty.ocaml
+        2: comment.block.empty.ocaml
+    - match: \(\*
+      push:
+        - meta_scope: comment.block.ocaml
+        - match: \*\)
+          pop: true
+        - include: comments
+    - match: '(?=[^\\])(")'
+      push:
+        - meta_scope: comment.block.string.quoted.double.ocaml
+        - match: '"'
+          pop: true
+        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
+          scope: comment.block.string.constant.character.escape.ocaml
+  match-patterns:
+    - match: (\()
+      captures:
+        1: punctuation.definition.sub-pattern.begin.ocamllex
+      push:
+        - meta_scope: meta.pattern.sub-pattern.ocamllex
+        - match: (\))
+          captures:
+            1: punctuation.definition.sub-pattern.end.ocamllex
+          pop: true
+        - include: match-patterns
+    - match: "[a-z][a-zA-Z0-9'_]"
+      scope: entity.name.type.pattern.reference.stupid-goddamn-hack.ocamllex
+    - match: \bas\b
+      scope: keyword.other.pattern.ocamllex
+    - match: eof
+      scope: constant.language.eof.ocamllex
+    - match: _
+      scope: constant.language.universal-match.ocamllex
+    - match: '(\[)(\^?)'
+      captures:
+        1: punctuation.definition.character-class.begin.ocamllex
+        2: punctuation.definition.character-class.negation.ocamllex
+      push:
+        - meta_scope: meta.pattern.character-class.ocamllex
+        - match: '(])(?!\'')'
+          captures:
+            1: punctuation.definition.character-class.end.ocamllex
+          pop: true
+        - match: "-"
+          scope: punctuation.separator.character-class.range.ocamllex
+        - include: chars
+    - match: \*|\+|\?
+      scope: keyword.operator.pattern.modifier.ocamllex
+    - match: \|
+      scope: keyword.operator.pattern.alternation.ocamllex
+    - include: chars
+    - include: strings
+  strings:
+    - match: '(?=[^\\])(")'
+      captures:
+        1: punctuation.definition.string.begin.ocaml
+      push:
+        - meta_scope: string.quoted.double.ocamllex
+        - match: (")
+          captures:
+            1: punctuation.definition.string.end.ocaml
+          pop: true
+        - match: '\\$[ \t]*'
+          scope: punctuation.separator.string.ignore-eol.ocaml
+        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
+          scope: constant.character.string.escape.ocaml
+        - match: '\\[\|\(\)1-9$^.*+?\[\]]'
+          scope: constant.character.regexp.escape.ocaml
+        - match: '\\(?!(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]|[\|\(\)1-9$^.*+?\[\]]|$[ \t]*))(?:.)'
+          scope: invalid.illegal.character.string.escape

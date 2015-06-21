@@ -1,0 +1,191 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: reStructuredText
+comment: syntax highlighting for reStructuredText http://docutils.sourceforge.net, based on rst mode from jEdit
+file_extensions:
+  - rst
+  - rest
+scope: text.restructuredtext
+contexts:
+  main:
+    - match: '^([ \t]*)(?=\S)'
+      push:
+        - meta_content_scope: meta.paragraph.restructuredtext
+        - match: ^(?!\1(?=\S))
+          pop: true
+        - include: inline
+  inline:
+    - match: '^([ \t]*)((\.\.)\sraw(::)) html'
+      comment: directives.html
+      captures:
+        2: meta.directive.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+      push:
+        - match: '^(?!\1[ \t])'
+          pop: true
+        - include: scope:text.html.basic
+    - match: '(\.\.)\s[A-z][A-z0-9-_]+(::)\s*$'
+      comment: directives
+      scope: meta.other.directive.restructuredtext
+      captures:
+        1: punctuation.definition.directive.restructuredtext
+        2: punctuation.separator.key-value.restructuredtext
+    - match: '^([ \t]*).*?((::))'
+      comment: verbatim blocks
+      captures:
+        2: markup.raw.restructuredtext
+        3: punctuation.definition.raw.restructuredtext
+      push:
+        - meta_scope: meta.raw.block.restructuredtext
+        - match: '^(?=\1[^\s]+)'
+          pop: true
+        - match: .+
+          scope: markup.raw.restructuredtext
+    - match: "::"
+      comment: directives
+      scope: meta.startraw.restructuredtext
+    - match: '(\*\*)[^*]+(\*\*)'
+      comment: strong emphasis
+      scope: markup.bold.restructuredtext
+      captures:
+        1: punctuation.definition.italic.restructuredtext
+        2: punctuation.definition.italic.restructuredtext
+    - match: '(\*)\w[^*]+\w(\*)'
+      comment: emphasis
+      scope: markup.italic.restructuredtext
+      captures:
+        1: punctuation.definition.italic.restructuredtext
+        2: punctuation.definition.italic.restructuredtext
+    - match: '(\.\.)\s+(_)([\w\s]+)(:)\s+(.*)'
+      comment: replacement
+      scope: meta.link.reference.def.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: punctuation.definition.string.restructuredtext
+        3: string.other.link.title.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+        5: markup.underline.link.restructuredtext
+    - match: '(\|)[^|]+(\|_{0,2})'
+      comment: substitution
+      scope: markup.underline.substitution.restructuredtext
+      captures:
+        1: punctuation.definition.substitution.restructuredtext
+    - match: \b(\w+)(_)\b
+      comment: links `...`_ or `...`__
+      scope: meta.link.reference
+      captures:
+        1: string.other.link.title.restructuredtext
+        2: punctuation.definition.link.restructuredtext
+    - match: '(`)([\w\s]+)(`_)'
+      comment: links `...`_ or `...`__
+      scope: meta.link.reference
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: string.other.link.title.restructuredtext
+        3: punctuation.definition.link.restructuredtext
+    - match: '(`)([\w\s]+)\s+(<)(.*?)(>)(`_)'
+      comment: links `...`_
+      scope: meta.link.inline.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: string.other.link.title.restructuredtext
+        3: punctuation.definition.location.restructuredtext
+        4: markup.underline.link.restructuredtext
+        5: punctuation.definition.location.restructuredtext
+        6: punctuation.definition.link.restructuredtext
+    - match: '^(\.\.)\s+((\[)(((#?)[^]]*?)|\*)(\]))\s+(.*)'
+      comment: replacement
+      scope: meta.link.footnote.def.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: constant.other.footnote.link.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        6: punctuation.definition.constant.restructuredtext
+        7: punctuation.definition.constant.restructuredtext
+        8: string.other.footnote.restructuredtext
+    - match: '((\[)[0-9]+(\]))(_)'
+      comment: "footnote reference: [0]_"
+      scope: meta.link.footnote.numeric.restructuredtext
+      captures:
+        1: constant.other.footnote.link
+        2: punctuation.definition.constant.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        4: punctuation.definition.constant.restructuredtext
+    - match: '((\[#)[A-z0-9_]*(\]))(_)'
+      comment: "footnote reference [#]_ or [#foo]_"
+      scope: meta.link.footnote.auto.restructuredtext
+      captures:
+        1: constant.other.footnote.link
+        2: punctuation.definition.constant.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        4: punctuation.definition.constant.restructuredtext
+    - match: '((\[)\*(\]))(_)'
+      comment: "footnote reference [*]_"
+      scope: meta.link.footnote.symbol.auto.restructuredtext
+      captures:
+        1: constant.other.footnote.link.restructuredtext
+        2: punctuation.definition.constant.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        4: punctuation.definition.constant.restructuredtext
+    - match: '^(\.\.)\s+((\[)[A-z][A-z0-9]*(\]))(_)\s+(.*)'
+      comment: replacement
+      scope: meta.link.citation.def.restructuredtext
+      captures:
+        1: punctuation.definition.link.restructuredtext
+        2: constant.other.citation.link.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        4: punctuation.definition.constant.restructuredtext
+        5: punctuation.definition.constant.restructuredtext
+        6: string.other.citation.restructuredtext
+    - match: '((\[)[A-z][A-z0-9_-]*(\]))(_)'
+      comment: citation reference
+      scope: meta.link.citation.restructuredtext
+      captures:
+        1: constant.other.citation.link.restructuredtext
+        2: punctuation.definition.constant.restructuredtext
+        3: punctuation.definition.constant.restructuredtext
+        4: punctuation.definition.constant.restructuredtext
+    - match: "``"
+      comment: inline literal
+      captures:
+        0: punctuation.definition.raw.restructuredtext
+      push:
+        - meta_scope: markup.raw.restructuredtext
+        - match: "``"
+          pop: true
+    - match: "(`)[^`]+(`)(?!_)"
+      comment: intepreted text
+      scope: markup.other.command.restructuredtext
+      captures:
+        1: punctuation.definition.intepreted.restructuredtext
+        2: punctuation.definition.intepreted.restructuredtext
+    - match: '(:)[A-z][A-z0-9  =\s\t_]*(:)'
+      comment: field list
+      scope: entity.name.tag.restructuredtext
+      captures:
+        1: punctuation.definition.field.restructuredtext
+        2: punctuation.definition.field.restructuredtext
+    - match: '\+-[+-]+'
+      comment: table
+      scope: markup.other.table.restructuredtext
+      captures:
+        0: punctuation.definition.table.restructuredtext
+    - match: '\+=[+=]+'
+      comment: table
+      scope: markup.other.table.restructuredtext
+      captures:
+        0: punctuation.definition.table.restructuredtext
+    - match: '(^(=|-|~|`|#|"|\^|\+|\*){3,}$){1,1}?'
+      scope: markup.heading.restructuredtext
+      captures:
+        1: punctuation.definition.heading.restructuredtext
+    - match: ^(\.\.)
+      comment: comment
+      captures:
+        1: punctuation.definition.comment.restructuredtext
+      push:
+        - meta_scope: comment.line.double-dot.restructuredtext
+        - match: $\n?
+          pop: true

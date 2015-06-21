@@ -1,0 +1,500 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: LaTeX
+file_extensions:
+  - tex
+first_line_match: '^\\documentclass(?!.*\{beamer\})'
+scope: text.tex.latex
+contexts:
+  main:
+    - match: '(?=\s)(?<=\\[\w@]|\\[\w@]{2}|\\[\w@]{3}|\\[\w@]{4}|\\[\w@]{5}|\\[\w@]{6})\s'
+      scope: meta.space-after-command.latex
+    - match: '((\\)(?:usepackage|documentclass))(?:(\[)([^\]]*)(\]))?(\{)'
+      captures:
+        1: keyword.control.preamble.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.latex
+        5: punctuation.definition.arguments.end.latex
+        6: punctuation.definition.arguments.begin.latex
+      push:
+        - meta_scope: meta.preamble.latex
+        - meta_content_scope: support.class.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)(?:include|input))(\{)'
+      captures:
+        1: keyword.control.include.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+      push:
+        - meta_scope: meta.include.latex
+        - meta_content_scope: support.class.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.end.latex
+          pop: true
+        - include: main
+    - match: |-
+        (?x)
+        (                         # Capture 1
+          (\\)                      # Marker
+          (?:
+            (?:sub){0,2}section             # Functions
+            | (?:sub)?paragraph
+            | chapter|part|addpart
+            | addchap|addsec|minisec
+          )
+          (?:\*)?                     # Optional Unnumbered
+        )
+        (?:
+          (\[)([^\[]*?)(\])               # Optional Title
+        )??
+        (\{)                        # Opening Bracket
+      comment: this works OK with all kinds of crazy stuff as long as section is one line
+      captures:
+        1: support.function.section.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.optional.begin.latex
+        4: entity.name.section.latex
+        5: punctuation.definition.arguments.optional.end.latex
+        6: punctuation.definition.arguments.begin.latex
+      push:
+        - meta_scope: meta.function.section.latex
+        - meta_content_scope: entity.name.section.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.end.latex
+          pop: true
+        - include: main
+    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+        6: punctuation.definition.arguments.optional.begin.latex
+        7: punctuation.definition.arguments.optional.end.latex
+        8: comment.line.percentage.latex
+      push:
+        - meta_scope: meta.function.embedded.java.latex
+        - meta_content_scope: source.java.embedded
+        - match: '((\\)end)(\{)(lstlisting)(\})'
+          pop: true
+        - include: scope:source.java
+    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Python)\n?)'
+      comment: Put the lstlisting match before the more general environment listing. Someday it would be nice to make this rule general enough to figure out which language is inside the lstlisting environment rather than my own personal use for python. --Brad
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+        6: punctuation.definition.arguments.optional.begin.latex
+        7: punctuation.definition.arguments.optional.end.latex
+        8: comment.line.percentage.latex
+      push:
+        - meta_scope: meta.function.embedded.python.latex
+        - meta_content_scope: source.python.embedded
+        - match: '((\\)end)(\{)(lstlisting)(\})'
+          pop: true
+        - include: scope:source.python
+    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%.*\n?)?'
+      comment: Put the lstlisting match before the more general environment listing. Someday it would be nice to make this rule general enough to figure out which language is inside the lstlisting environment rather than my own personal use for python. --Brad
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+        6: punctuation.definition.arguments.optional.begin.latex
+        7: punctuation.definition.arguments.optional.end.latex
+        8: comment.line.percentage.latex
+      push:
+        - meta_scope: meta.function.embedded.generic.latex
+        - meta_content_scope: source.generic.embedded
+        - match: '((\\)end)(\{)(lstlisting)(\})'
+          pop: true
+    - match: '(?:\s*)((\\)begin)(\{)((?:V|v)erbatim|alltt)(\})'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+      push:
+        - meta_scope: meta.function.verbatim.latex
+        - meta_content_scope: markup.raw.verbatim.latex
+        - match: '((\\)end)(\{)(\4)(\})'
+          pop: true
+    - match: '(?:\s*)((\\)(?:url|href))(\{)([^}]*)(\})'
+      scope: meta.function.link.url.latex
+      captures:
+        1: support.function.url.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: markup.underline.link.latex
+        5: punctuation.definition.arguments.end.latex
+    - match: '(?:\s*)((\\)begin)(\{)(document)(\})'
+      comment: 'These two patterns match the \begin{document} and \end{document} commands, so that the environment matching pattern following them will ignore those commands.'
+      scope: meta.function.begin-document.latex
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+    - match: '(?:\s*)((\\)end)(\{)(document)(\})'
+      scope: meta.function.end-document.latex
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+    - match: |-
+        (?x)
+          (?:\s*)                   # Optional whitespace
+          ((\\)begin)                 # Marker - Function
+          (\{)                    # Open Bracket
+            (
+              (?:
+                align|equation|eqnarray     # Argument
+                | multline|aligned|alignat
+                | split|gather|gathered
+              )
+              (?:\*)?               # Optional Unnumbered
+            )
+          (\})                    # Close Bracket
+          (\s*\n)?        # Match to end of line absent of content
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+      push:
+        - meta_scope: meta.function.environment.math.latex
+        - meta_content_scope: string.other.math.block.environment.latex
+        - match: |-
+            (?x)
+              (?:\s*)                   # Optional whitespace
+              ((\\)end)                 # Marker - Function
+              (\{)                    # Open Bracket
+                (\4)        # Previous capture from begin
+              (\})                    # Close Bracket
+              (?:\s*\n)?        # Match to end of line absent of content
+          pop: true
+        - include: $top_level_main
+    - match: |-
+        (?x)
+          (?:\s*)                   # Optional whitespace
+          ((\\)begin)                 # Marker - Function
+          (\{)                    # Open Bracket
+            (array|tabular[xy*]?)
+          (\})                    # Close Bracket
+          (\s*\n)?        # Match to end of line absent of content
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.end.latex
+      push:
+        - meta_scope: meta.function.environment.tabular.latex
+        - meta_content_scope: meta.data.environment.tabular.latex
+        - match: |-
+            (?x)
+              (?:\s*)                   # Optional whitespace
+              ((\\)end)                 # Marker - Function
+              (\{)                    # Open Bracket
+                (\4)        # Previous capture from begin
+              (\})                    # Close Bracket
+              (?:\s*\n)?        # Match to end of line absent of content
+          pop: true
+        - match: \\
+          scope: punctuation.definition.table.row.latex
+        - match: '(?:^|(?<=\\\\))(?!\\\\|\s*\\end\{(?:tabular|array))'
+          push:
+            - meta_scope: meta.row.environment.tabular.latex
+            - match: '(?=\\\\|\s*\\end\{(?:tabular|array))'
+              pop: true
+            - match: "&"
+              scope: punctuation.definition.table.cell.latex
+            - match: (?:^|(?<=&))((?!&|\\\\|$))
+              push:
+                - meta_scope: meta.cell.environment.tabular.latex
+                - match: '(?=&|\\\\|\s*\\end\{(?:tabular|array))'
+                  pop: true
+                - include: $top_level_main
+            - include: $top_level_main
+        - include: $top_level_main
+    - match: '(?:\s*)((\\)begin)(\{)(itemize|enumerate|description|list)(\})'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.latex
+      push:
+        - meta_scope: meta.function.environment.list.latex
+        - match: '((\\)end)(\{)(\4)(\})(?:\s*\n)?'
+          pop: true
+        - include: $top_level_main
+    - match: '(?:\s*)((\\)begin)(\{)(\w+[*]?)(\})'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.arguments.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.arguments.latex
+      push:
+        - meta_scope: meta.function.environment.general.latex
+        - match: '((\\)end)(\{)(\4)(\})(?:\s*\n)?'
+          pop: true
+        - include: $top_level_main
+    - match: (\\)(newcommand|renewcommand)\b
+      scope: storage.type.function.latex
+      captures:
+        1: punctuation.definition.function.latex
+    - match: '((\\)marginpar)(\{)'
+      captures:
+        1: support.function.marginpar.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.marginpar.begin.latex
+      push:
+        - meta_content_scope: meta.paragraph.margin.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.marginpar.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '((\\)footnote)(\{)'
+      captures:
+        1: support.function.footnote.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.footnote.begin.latex
+      push:
+        - meta_content_scope: meta.footnote.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.footnote.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '((\\)emph)(\{)'
+      captures:
+        1: support.function.emph.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.emph.begin.latex
+      push:
+        - meta_scope: meta.function.emph.latex
+        - meta_content_scope: markup.italic.emph.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.emph.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '((\\)textit)(\{)'
+      comment: |
+        We put the keyword in a capture and name this capture, so that disabling spell checking for “keyword” won't be inherited by the argument to \textit{...}.
+
+        Put specific matches for particular LaTeX keyword.functions before the last two more general functions
+      captures:
+        1: support.function.textit.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.textit.begin.latex
+      push:
+        - meta_scope: meta.function.textit.latex
+        - meta_content_scope: markup.italic.textit.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.textit.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '((\\)textbf)(\{)'
+      captures:
+        1: support.function.textbf.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.textbf.begin.latex
+      push:
+        - meta_scope: meta.function.textbf.latex
+        - meta_content_scope: markup.bold.textbf.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.textbf.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '((\\)texttt)(\{)'
+      captures:
+        1: support.function.texttt.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.texttt.begin.latex
+      push:
+        - meta_scope: meta.function.texttt.latex
+        - meta_content_scope: markup.raw.texttt.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.texttt.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: (\\)item\b
+      scope: meta.scope.item.latex
+      captures:
+        0: keyword.other.item.latex
+        1: punctuation.definition.keyword.latex
+    - match: |-
+        (?x)
+          (
+            (\\)                    # Marker
+            (?:foot)?(?:full)?(?:no)?(?:short)?   # Function Name
+            [cC]ite
+            (?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*
+            \*?                     # Optional Unabreviated
+          )
+          (?:(\[)[^\]]*(\]))?               # Optional
+          (?:(\[)[^\]]*(\]))?               #   Arguments
+          (\{)                      # Opening Bracket
+      captures:
+        1: keyword.control.cite.latex
+        2: punctuation.definition.keyword.latex
+        3: punctuation.definition.arguments.optional.begin.latex
+        4: punctuation.definition.arguments.optional.end.latex
+        5: punctuation.definition.arguments.optional.begin.latex
+        6: punctuation.definition.arguments.optional.end.latex
+        7: punctuation.definition.arguments.latex
+      push:
+        - meta_scope: meta.citation.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.latex
+          pop: true
+        - match: '[\w:.]+'
+          scope: constant.other.reference.citation.latex
+    - match: '((\\)(?:\w*[r|R]ef\*?))(\{)'
+      captures:
+        1: keyword.control.ref.latex
+        2: punctuation.definition.keyword.latex
+        3: punctuation.definition.arguments.begin.latex
+      push:
+        - meta_scope: meta.reference.label.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.begin.latex
+          pop: true
+        - match: '[a-zA-Z0-9\.,:/*!^_-]'
+          scope: constant.other.reference.label.latex
+    - match: '((\\)label)(\{)'
+      captures:
+        1: keyword.control.label.latex
+        2: punctuation.definition.keyword.latex
+        3: punctuation.definition.arguments.begin.latex
+      push:
+        - meta_scope: meta.definition.label.latex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.arguments.end.latex
+          pop: true
+        - match: '[a-zA-Z0-9\.,:/*!^_-]'
+          scope: variable.parameter.definition.label.latex
+    - match: '((\\)verb[\*]?)\s*((\\)scantokens)(\{)'
+      captures:
+        1: support.function.verb.latex
+        2: punctuation.definition.function.latex
+        3: support.function.verb.latex
+        4: punctuation.definition.verb.latex
+        5: punctuation.definition.begin.latex
+      push:
+        - meta_scope: meta.function.verb.latex
+        - meta_content_scope: markup.raw.verb.latex
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)verb[\*]?)\s*((?<=\s)\S|[^a-zA-Z])(.*?)(\3|$)'
+      scope: meta.function.verb.latex
+      captures:
+        1: support.function.verb.latex
+        2: punctuation.definition.function.latex
+        3: punctuation.definition.verb.latex
+        4: markup.raw.verb.latex
+        5: punctuation.definition.verb.latex
+    - match: '"`'
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.quoted.double.european.latex
+        - match: '"'''
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: "``"
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.quoted.double.latex
+        - match: '''''|"'
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '">'
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.quoted.double.guillemot.latex
+        - match: '"<'
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '"<'
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.quoted.double.guillemot.latex
+        - match: '">'
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: \\\(
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.other.math.latex
+        - match: \\\)
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: '\\\['
+      captures:
+        0: punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: string.other.math.latex
+        - match: '\\\]'
+          captures:
+            0: punctuation.definition.string.end.latex
+          pop: true
+        - include: $top_level_main
+    - match: (?<!\S)'.*?'
+      scope: invalid.illegal.string.quoted.single.latex
+    - match: (?<!\S)".*?"
+      scope: invalid.illegal.string.quoted.double.latex
+    - match: (\\)(text(s(terling|ixoldstyle|urd|e(ction|venoldstyle|rvicemark))|yen|n(ineoldstyle|umero|aira)|c(ircledP|o(py(left|right)|lonmonetary)|urrency|e(nt(oldstyle)?|lsius))|t(hree(superior|oldstyle|quarters(emdash)?)|i(ldelow|mes)|w(o(superior|oldstyle)|elveudash)|rademark)|interrobang(down)?|zerooldstyle|o(hm|ne(superior|half|oldstyle|quarter)|penbullet|rd(feminine|masculine))|d(i(scount|ed|v(orced)?)|o(ng|wnarrow|llar(oldstyle)?)|egree|agger(dbl)?|blhyphen(char)?)|uparrow|p(ilcrow|e(so|r(t(housand|enthousand)|iodcentered))|aragraph|m)|e(stimated|ightoldstyle|uro)|quotes(traight(dblbase|base)|ingle)|f(iveoldstyle|ouroldstyle|lorin|ractionsolidus)|won|l(not|ira|e(ftarrow|af)|quill|angle|brackdbl)|a(s(cii(caron|dieresis|acute|grave|macron|breve)|teriskcentered)|cutedbl)|r(ightarrow|e(cipe|ferencemark|gistered)|quill|angle|brackdbl)|g(uarani|ravedbl)|m(ho|inus|u(sicalnote)?|arried)|b(igcircle|orn|ullet|lank|a(ht|rdbl)|rokenbar)))\b
+      scope: constant.character.latex
+      captures:
+        1: punctuation.definition.constant.latex
+    - match: '(?:<|>)(\{)\$(\})'
+      scope: meta.column-specials.latex
+      captures:
+        1: punctuation.definition.column-specials.begin.latex
+        2: punctuation.definition.column-specials.end.latex
+    - include: scope:text.tex

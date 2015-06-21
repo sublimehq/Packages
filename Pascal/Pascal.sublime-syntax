@@ -1,0 +1,87 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Pascal
+file_extensions:
+  - pas
+  - p
+scope: source.pascal
+contexts:
+  main:
+    - match: \b(?i:(absolute|abstract|all|and|and_then|array|as|asm|attribute|begin|bindable|case|class|const|constructor|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|nil|not|object|of|only|operator|or|or_else|otherwise|packed|pow|private|program|property|protected|public|published|qualified|record|repeat|resident|restricted|segment|set|shl|shr|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with|xor))\b
+      scope: keyword.control.pascal
+    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
+      scope: meta.function.prototype.pascal
+      captures:
+        1: storage.type.prototype.pascal
+        2: entity.name.function.prototype.pascal
+    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)
+      scope: meta.function.pascal
+      captures:
+        1: storage.type.function.pascal
+        2: entity.name.function.pascal
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
+      scope: constant.numeric.pascal
+    - match: '(^[ \t]+)?(?=--)'
+      captures:
+        1: punctuation.whitespace.comment.leading.pascal
+      push:
+        - match: (?!\G)
+          pop: true
+        - match: "--"
+          captures:
+            0: punctuation.definition.comment.pascal
+          push:
+            - meta_scope: comment.line.double-dash.pascal.one
+            - match: \n
+              pop: true
+    - match: '(^[ \t]+)?(?=//)'
+      captures:
+        1: punctuation.whitespace.comment.leading.pascal
+      push:
+        - match: (?!\G)
+          pop: true
+        - match: //
+          captures:
+            0: punctuation.definition.comment.pascal
+          push:
+            - meta_scope: comment.line.double-slash.pascal.two
+            - match: \n
+              pop: true
+    - match: \(\*
+      captures:
+        0: punctuation.definition.comment.pascal
+      push:
+        - meta_scope: comment.block.pascal.one
+        - match: \*\)
+          pop: true
+    - match: '\{'
+      captures:
+        0: punctuation.definition.comment.pascal
+      push:
+        - meta_scope: comment.block.pascal.two
+        - match: '\}'
+          pop: true
+    - match: '"'
+      comment: Double quoted strings are an extension and (generally) support C-style escape sequences.
+      captures:
+        0: punctuation.definition.string.begin.pascal
+      push:
+        - meta_scope: string.quoted.double.pascal
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.pascal
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.pascal
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.pascal
+      push:
+        - meta_scope: string.quoted.single.pascal
+        - match: "''"
+          scope: constant.character.escape.apostrophe.pascal
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.pascal
+          pop: true

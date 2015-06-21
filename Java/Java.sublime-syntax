@@ -1,0 +1,365 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Java
+file_extensions:
+  - java
+  - bsh
+scope: source.java
+contexts:
+  main:
+    - match: '^\s*(package)\b(?:\s*([^ ;$]+)\s*(;)?)?'
+      scope: meta.package.java
+      captures:
+        1: keyword.other.package.java
+        2: storage.modifier.package.java
+        3: punctuation.terminator.java
+    - match: '^\s*(import)\b(?:\s*([^ ;$]+)\s*(;)?)?'
+      scope: meta.import.java
+      captures:
+        1: keyword.other.import.java
+        2: storage.modifier.import.java
+        3: punctuation.terminator.java
+    - include: code
+  all-types:
+    - include: primitive-arrays
+    - include: primitive-types
+    - include: object-types
+  annotations:
+    - match: '(@[^ (]+)(\()'
+      captures:
+        1: storage.type.annotation.java
+        2: punctuation.definition.annotation-arguments.begin.java
+      push:
+        - meta_scope: meta.declaration.annotation.java
+        - match: (\))
+          captures:
+            1: punctuation.definition.annotation-arguments.end.java
+          pop: true
+        - match: (\w*)\s*(=)
+          captures:
+            1: constant.other.key.java
+            2: keyword.operator.assignment.java
+        - include: code
+        - match: ","
+          scope: punctuation.seperator.property.java
+    - match: '@\w*'
+      scope: storage.type.annotation.java
+  anonymous-classes-and-new:
+    - match: \bnew\b
+      captures:
+        0: keyword.control.new.java
+      push:
+        - match: '(?<=\)|\])(?!\s*{)|(?<=})|(?=;)'
+          pop: true
+        - match: '(\w+)\s*(?=\[)'
+          captures:
+            1: storage.type.java
+          push:
+            - match: '}|(?=;|\))'
+              pop: true
+            - match: '\['
+              push:
+                - match: '\]'
+                  pop: true
+                - include: code
+            - match: "{"
+              push:
+                - match: "(?=})"
+                  pop: true
+                - include: code
+        - match: (?=\w.*\()
+          push:
+            - match: (?<=\))
+              pop: true
+            - include: object-types
+            - match: \(
+              captures:
+                1: storage.type.java
+              push:
+                - match: \)
+                  pop: true
+                - include: code
+        - match: "{"
+          push:
+            - meta_scope: meta.inner-class.java
+            - match: "}"
+              pop: true
+            - include: class-body
+  assertions:
+    - match: \b(assert)\s
+      captures:
+        1: keyword.control.assert.java
+      push:
+        - meta_scope: meta.declaration.assertion.java
+        - match: $
+          pop: true
+        - match: ":"
+          scope: keyword.operator.assert.expression-seperator.java
+        - include: code
+  class:
+    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
+      push:
+        - meta_scope: meta.class.java
+        - match: "}"
+          captures:
+            0: punctuation.section.class.end.java
+          pop: true
+        - include: storage-modifiers
+        - include: comments
+        - match: (class|(?:@)?interface|enum)\s+(\w+)
+          scope: meta.class.identifier.java
+          captures:
+            1: storage.modifier.java
+            2: entity.name.type.class.java
+        - match: extends
+          captures:
+            0: storage.modifier.extends.java
+          push:
+            - meta_scope: meta.definition.class.inherited.classes.java
+            - match: "(?={|implements)"
+              pop: true
+            - include: object-types-inherited
+            - include: comments
+        - match: (implements)\s
+          captures:
+            1: storage.modifier.implements.java
+          push:
+            - meta_scope: meta.definition.class.implemented.interfaces.java
+            - match: '(?=\s*extends|\{)'
+              pop: true
+            - include: object-types-inherited
+            - include: comments
+        - match: "{"
+          push:
+            - meta_scope: meta.class.body.java
+            - match: "(?=})"
+              pop: true
+            - include: class-body
+  class-body:
+    - include: comments
+    - include: class
+    - include: enums
+    - include: methods
+    - include: annotations
+    - include: storage-modifiers
+    - include: code
+  code:
+    - include: comments
+    - include: class
+    - match: "{"
+      push:
+        - match: "}"
+          pop: true
+        - include: code
+    - include: assertions
+    - include: parens
+    - include: constants-and-special-vars
+    - include: anonymous-classes-and-new
+    - include: keywords
+    - include: storage-modifiers
+    - include: strings
+    - include: all-types
+  comments:
+    - match: /\*\*/
+      scope: comment.block.empty.java
+      captures:
+        0: punctuation.definition.comment.java
+    - include: scope:text.html.javadoc
+    - include: comments-inline
+  comments-inline:
+    - match: /\*
+      captures:
+        0: punctuation.definition.comment.java
+      push:
+        - meta_scope: comment.block.java
+        - match: \*/
+          pop: true
+    - match: \s*((//).*$\n?)
+      captures:
+        1: comment.line.double-slash.java
+        2: punctuation.definition.comment.java
+  constants-and-special-vars:
+    - match: \b(true|false|null)\b
+      scope: constant.language.java
+    - match: \b(this|super)\b
+      scope: variable.language.java
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
+      scope: constant.numeric.java
+    - match: '(\.)?\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
+      scope: constant.other.java
+      captures:
+        1: keyword.operator.dereference.java
+  enums:
+    - match: '^(?=\s*[A-Z0-9_]+\s*({|\(|,))'
+      push:
+        - match: "(?=;|})"
+          pop: true
+        - match: \w+
+          captures:
+            0: constant.other.enum.java
+          push:
+            - meta_scope: meta.enum.java
+            - match: "(?=,|;|})"
+              pop: true
+            - include: parens
+            - match: "{"
+              push:
+                - match: "}"
+                  pop: true
+                - include: class-body
+  keywords:
+    - match: \b(try|catch|finally|throw)\b
+      scope: keyword.control.catch-exception.java
+    - match: '\?|:'
+      scope: keyword.control.java
+    - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
+      scope: keyword.control.java
+    - match: \b(instanceof)\b
+      scope: keyword.operator.java
+    - match: (==|!=|<=|>=|<>|<|>)
+      scope: keyword.operator.comparison.java
+    - match: (=)
+      scope: keyword.operator.assignment.java
+    - match: (\-\-|\+\+)
+      scope: keyword.operator.increment-decrement.java
+    - match: (\-|\+|\*|\/|%)
+      scope: keyword.operator.arithmetic.java
+    - match: (!|&&|\|\|)
+      scope: keyword.operator.logical.java
+    - match: (?<=\S)\.(?=\S)
+      scope: keyword.operator.dereference.java
+    - match: ;
+      scope: punctuation.terminator.java
+  methods:
+    - match: '(?!new)(?=\w.*\s+)(?=[^=]+\()'
+      push:
+        - meta_scope: meta.method.java
+        - match: "}|(?=;)"
+          pop: true
+        - include: storage-modifiers
+        - match: (\w+)\s*\(
+          captures:
+            1: entity.name.function.java
+          push:
+            - meta_scope: meta.method.identifier.java
+            - match: \)
+              pop: true
+            - include: parameters
+        - match: (?=\w.*\s+\w+\s*\()
+          push:
+            - meta_scope: meta.method.return-type.java
+            - match: (?=\w+\s*\()
+              pop: true
+            - include: all-types
+        - include: throws
+        - match: "{"
+          push:
+            - meta_scope: meta.method.body.java
+            - match: "(?=})"
+              pop: true
+            - include: code
+  object-types:
+    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
+      push:
+        - meta_scope: storage.type.generic.java
+        - match: '>|[^\w\s,\?<\[\]]'
+          pop: true
+        - include: object-types
+        - match: <
+          comment: This is just to support <>'s with no actual type prefix
+          push:
+            - meta_scope: storage.type.generic.java
+            - match: '>|[^\w\s,\[\]<]'
+              pop: true
+    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)(?=\[)'
+      push:
+        - meta_scope: storage.type.object.array.java
+        - match: '(?=[^\]\s])'
+          pop: true
+        - match: '\['
+          push:
+            - match: '\]'
+              pop: true
+            - include: code
+    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*\b'
+      scope: storage.type.java
+      captures:
+        1: keyword.operator.dereference.java
+  object-types-inherited:
+    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
+      push:
+        - meta_scope: entity.other.inherited-class.java
+        - match: '>|[^\w\s,<]'
+          pop: true
+        - include: object-types
+        - match: <
+          comment: This is just to support <>'s with no actual type prefix
+          push:
+            - meta_scope: storage.type.generic.java
+            - match: '>|[^\w\s,<]'
+              pop: true
+    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*'
+      scope: entity.other.inherited-class.java
+      captures:
+        1: keyword.operator.dereference.java
+  parameters:
+    - match: final
+      scope: storage.modifier.java
+    - include: primitive-arrays
+    - include: primitive-types
+    - include: object-types
+    - match: \w+
+      scope: variable.parameter.java
+  parens:
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: code
+  primitive-arrays:
+    - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)(\[\])*\b'
+      scope: storage.type.primitive.array.java
+  primitive-types:
+    - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
+      scope: storage.type.primitive.java
+  storage-modifiers:
+    - match: \b(public|private|protected|static|final|native|synchronized|abstract|threadsafe|transient)\b
+      captures:
+        1: storage.modifier.java
+  strings:
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.java
+      push:
+        - meta_scope: string.quoted.double.java
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.java
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.java
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.java
+      push:
+        - meta_scope: string.quoted.single.java
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.java
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.java
+  throws:
+    - match: throws
+      captures:
+        0: storage.modifier.java
+      push:
+        - meta_scope: meta.throwables.java
+        - match: "(?={|;)"
+          pop: true
+        - include: object-types
+  values:
+    - include: strings
+    - include: object-types
+    - include: constants-and-special-vars
