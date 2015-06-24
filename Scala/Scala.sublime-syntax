@@ -185,7 +185,7 @@ contexts:
     # pattern matching
     - match: '\b{{name}}\s+(match)\b'
       captures:
-        1: variable.other
+        1: variable.other.scala
         2: keyword.control.switch.scala
       push:
         - match: \s*\{
@@ -298,8 +298,10 @@ contexts:
 
     - match: \b(new)\s{{name}}
       captures:
-        1: keyword.declaration.new.scala
-        2: entity.name.constructor.scala
+        1: keyword.operator.new.scala
+        # 2: entity.name.type.new.scala
+        2: variable.other.type.scala meta.instantiation.scala
+      push: [constructor_block, constructor_mixin, constructor_arguments, constructor_type_arguments]
 
     - match: '([A-Z]{{name}})(\()'
       captures:
@@ -619,8 +621,9 @@ contexts:
           - match: '$'
             pop: false
           - include: type
-        - match: (.*)
+        - match: '.*\)'
           scope: invalid.illegal.expected_col
+          pop: true
     - match: '\)'
       scope: punctuation.definition.parameters.function.end.scala
       pop: true
@@ -935,6 +938,63 @@ contexts:
             - meta_scope: meta.block.conditional.scala
             - include: line_of_code
     - match: (?=\S)
+      pop: true
+
+  constructor_type_arguments:
+    - match: '\['
+      scope: punctuation.definition.arguments.type.begin.scala
+      set:
+        - meta_scope: meta.arguments.type
+        - match: '\]'
+          scope: punctuation.definition.arguments.type.end.scala
+          pop: true
+        - match: ','
+          scope: punctuation.separator.argument.type.scala
+        - match: $
+          pop: false
+        - include: type
+    - match: '(?=\S|$)'
+      pop: true
+
+  constructor_arguments:
+    - meta_scope: constructor_arguments
+    - match: \(
+      scope: punctuation.definition.arguments.begin.scala
+      push:
+        - match: \)
+          scope: punctuation.definition.arguments.end.scala
+          pop: true
+        - match: ','
+          scope: punctuation.separator.argument.scala
+        - include: main
+    - match: (?=\S|$)
+      pop: true
+
+  constructor_mixin:
+    - meta_scope: constructor_mixin
+    - match: \b(with)\b
+      scope: keyword.operator.new.with.scala
+      push:
+        - match: (?=\bwith\b)
+          pop: true
+        - match: (?=\{|$)
+          pop: true
+        - match: '{{name}}'
+          scope: variable.other.type.scala meta.instantiation.scala
+          set: constructor_type_arguments
+    - match: (?=\S|$)
+      pop: true
+
+  constructor_block:
+    - match: \{
+      scope: punctuation.definition.class.body.begin.scala
+      set:
+        - meta_scope: meta.class.anonymous.scala
+        - match: \}
+          scope: punctuation.definition.class.body.end.scala
+          pop: true
+        - include: main
+    - match: (?=\S|$)
       pop: true
 
   line_of_code:
