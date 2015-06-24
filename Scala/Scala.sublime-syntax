@@ -36,6 +36,9 @@ variables:
   string: '(f|s|raw)?\"[^\"]*\"'
   literal: '({{number}}|{{char}}|{{string}})'
 
+  # for pattern matching
+  pattern_end: '(?=\)|,|=\s|=>\s|<-\s|if\b)'
+
 contexts:
   prototype:
     - include: 'comments'
@@ -760,10 +763,10 @@ contexts:
         1: keyword.wildcard.pattern-matching.scala
         2: punctuation.separator.key-value.type.scala
       set:
-        - match: '(?=\)|,|=\s|=>\s|<-\s)'
+        - match: '{{pattern_end}}'
           pop: true
         - include: type
-    - match: '(_)\s*(?=\)|,|=\s|=>\s|<-\s)'
+    - match: '(_)\s*{{pattern_end}}'
       captures:
         1: keyword.wildcard.pattern-matching.scala
       pop: true
@@ -772,10 +775,10 @@ contexts:
         1: entity.name.val.scala
         2: punctuation.separator.key-value.type.scala
       set:
-        - match: '(?=\)|,|=)'
+        - match: '{{pattern_end}}'
           pop: true
         - include: type
-    - match: '{{name}}\s*(?==\s|\)|,|=>\s)'
+    - match: '{{name}}\s*{{pattern_end}}'
       captures:
         1: entity.name.val.scala
       pop: true
@@ -802,6 +805,11 @@ contexts:
     - match: '{{name}}\s+'
       scope: keyword.operator.infix-pattern
       push: pattern_typed_name
+    - match: (if)\b
+      captures:
+        1: keyword.control.conditional.if.scala
+      push: if_condition
+
     - match: (\S*)
       scope: invalid.illegal.expected.assignment
       pop: true
