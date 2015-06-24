@@ -266,6 +266,13 @@ contexts:
       # captures:
       #   1: keyword.operator.syntax
       #   2: punctuation.separator
+    - match: '(\?)((-)?([imx]))*(:)'
+      captures:
+        1: support.function.syntax
+        3: keyword
+        4: keyword
+        5: support.function.syntax
+
     - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
     - match: '\\\d+'
