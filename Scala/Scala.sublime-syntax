@@ -46,13 +46,22 @@ contexts:
 
   # comments
   comments:
-    - match: '//.*$'
-      scope: comment.line.double-slash.scala
+    - match: '//'
+      push:
+        - meta_scope: comment.line.double-slash.scala
+        - match: $
+          pop: true
+        - include: comments_in
     - match: '/\*[^*]'
       push:
         - meta_scope: comment.block.scala
         - match: '\*/'
           pop: true
+        - include: comments_in
+
+  comments_in:
+    - match: (?i:todo|hack)
+      scope: comment.line.todo
 
   # punctuation:
   #   - match: (\.|\,)
@@ -94,16 +103,36 @@ contexts:
     - match: '{{xml_close_tag}}'
       scope: invalid.illegal.xml-close-tag
 
-    # package object declaration
-    - match: '\b(package)\s+(object)\s+(({{simple_name}}\.)*{{simple_name}})'
+    # class declaration
+    - match: '\b(case\s*class)\s+{{name}}'
       captures:
         0: meta.class.identifier.scala
-        1: storage.type.module
-        2: storage.type.class.object.package.scala
-        3: entity.name.class.scala
-      push:
-        - meta_scope: meta.class.scala
-        - include: main
+        1: storage.type.class.case-class.scala
+        2: entity.name.class.scala
+      push: class_signature
+
+    - match: '\b(class)\s+{{name}}'
+      captures:
+        0: meta.class.identifier.scala
+        1: storage.type.class.class.scala
+        2: entity.name.class.scala
+      push: class_signature
+
+    - match: '\b((case)\s+|(package)\s+)?(object)\s+{{name}}'
+      captures:
+        0: meta.class.identifier.scala
+        2: storage.modifier.other.case.scala
+        3: storage.modifier.other.package.scala
+        4: storage.type.class.object.scala
+        5: entity.name.class.scala
+      push: class_signature
+
+    - match: '(trait)\s+{{name}}'
+      captures:
+        0: meta.class.identifier.scala
+        1: storage.type.class.trait.scala
+        2: entity.name.class.scala
+      push: class_signature
 
     # package declaration
     - match: '\b(package)\s+(({{simple_name}}\.)*{{simple_name}})'
@@ -115,38 +144,8 @@ contexts:
         - meta_scope: meta.package.scala
         - include: main
 
-    # class declaration
-    - match: '\b(case\s*class)\s{{name}}'
-      captures:
-        0: meta.class.identifier.scala
-        1: storage.type.class.case-class.scala
-        2: entity.name.class.scala
-      push: class_signature
-
-    - match: '\b(class)\s{{name}}'
-      captures:
-        0: meta.class.identifier.scala
-        1: storage.type.class.class.scala
-        2: entity.name.class.scala
-      push: class_signature
-
-    - match: '\b(case\s)?(object)\s{{name}}'
-      captures:
-        0: meta.class.identifier.scala
-        1: storage.modifier.other.case.scala
-        2: storage.type.class.object.scala
-        3: entity.name.class.scala
-      push: class_signature
-
-    - match: '(trait)\s{{name}}'
-      captures:
-        0: meta.class.identifier.scala
-        1: storage.type.class.trait.scala
-        2: entity.name.class.scala
-      push: class_signature
-
     # function/method definition
-    - match: '((def)\s{{name}})'
+    - match: '((def)\s+{{name}})'
       captures:
         1: meta.method.identifier.scala
         2: storage.type.function.scala
