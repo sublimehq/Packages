@@ -18,10 +18,8 @@ variables:
   name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}})'
   full_name: '({{operator}}\s|{{simple_name}}_{{operator}}\s|{{simple_name}}\s?)'
 
-  tagname: '@{{name}}'
-
   xml_open_tag: '<[A-Za-z]*>'
-  xml_close_tag: "</[A-Za-z]*>"
+  xml_close_tag: '</[A-Za-z]*>'
 
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
@@ -37,8 +35,6 @@ variables:
   char: '(?:{{escaped_char}}|.)'
   string: '(f|s|raw)?\"[^\"]*\"'
   literal: '({{number}}|{{char}}|{{string}})'
-  variable: '({{name}}\.)*{{name}}'
-  value: '({{literal}}|{{variable}})'
 
 contexts:
   prototype:
@@ -92,12 +88,12 @@ contexts:
     - match: ^\s*
 
     # annotations
-    - match: '{{tagname}}'
+    - match: '@{{name}}'
       scope: entity.name.tag
 
     # embedded xml see:
     # http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#xml-mode
-    - match: '[\s({]{{xml_open_tag}}'
+    - match: '(?<=\s|\(|{){{xml_open_tag}}'
       scope: entity.name.tag
       push: xml
     - match: '{{xml_close_tag}}'
@@ -263,7 +259,7 @@ contexts:
 
     # import
     - match: \bimport\b
-      scope: keyword.other.import
+      scope: storage.type.module.import.scala
       push: import
 
     # string detection
@@ -405,7 +401,7 @@ contexts:
         4: variable.other.type.scala
     - match: '{{name}}'
       scope: variable.other.type.scala
-    - match: '(?=,|=)'
+    - match: '(?=,|=|})'
       pop: true
     - match: '$'
       pop: true
@@ -428,9 +424,9 @@ contexts:
       scope: invalid.illegal.stray-bracket-end
 
   import:
-    - meta_scope: meta.import.scala
+    # - meta_scope: meta.import.scala
     - match: _
-      scope: constant.language.scala
+      scope: storage.modifier.module.wildcard.scala
       pop: true
     - match: '{{name}}'
       scope: variable.module.scala
@@ -440,27 +436,27 @@ contexts:
       pop: true
     - match: \{
       scope: punctuation.definition.module-binding.begin.scala
-      push:
-        - match: \}
-          scope: punctuation.definition.module-binding.end.scala
+      set:
+        - match: (\})(.*)$
+          captures:
+            1: punctuation.definition.module-binding.end.scala
+            2: invalid.illegal.expected.eol
           pop: true
         - match: ','
-          scope: punctuation.separator.module-binding
+          scope: punctuation.separator.module-binding.scala
         - match: '{{name}}\s*(=>)\s*(_)'
           captures:
-            1: meta.import.suppressed.scala
-            2: support.function.mapping.scala
-            3: constant.language.underscore.scala
-        - match: '(=>)\s*({{name}})'
+            1: variable.other.type
+            2: storage.modifier.module.as.scala
+            3: storage.modifier.module.discard.scala
+        - match: '{{name}}\s*(=>)\s*({{name}})'
           captures:
-            1: support.function.mapping.scala
-            2: entity.name.class.imported
-        - match: '([A-Z]{{name}}?)\s*(?=[,}])'
+            1: variable.other.type.scala
+            2: storage.modifier.module.as.scala
+            3: entity.name.class.imported.scala
+        - match: '{{name}}'
           captures:
-            1: entity.name.class.imported
-
-        # - include: import
-    # - include: punctuation
+            1: entity.name.class.imported.scala
 
   string:
     - meta_include_prototype: false
@@ -635,15 +631,19 @@ contexts:
     - match: '^(\s*)(?=[^{])'
       set:
         - meta_scope: meta.def.scala
-        - include: main
         - match: $
           pop: true
+        - match: (?=})
+          pop: true
+        - include: main
     - match: '(?=[^{])'
       set:
         - meta_scope: meta.def.scala
-        - include: main
+        - match: (?=})
+          pop: true
         - match: $
           pop: true
+        - include: main
     - match: \s*
     - match: '\{'
       scope: punctuation.definition.function.body.begin.scala
@@ -998,6 +998,8 @@ contexts:
 
   line_of_code:
     - match: $
+      pop: true
+    - match: '(?=\)|}|;)'
       pop: true
     - include: main
 
