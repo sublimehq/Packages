@@ -355,7 +355,9 @@ contexts:
         2: punctuation.definition.string.ruby
       push:
         - meta_content_scope: string.regexp.classic.ruby
-        - match: "((/[eimnosux]*))"
+        - match: "((/)([eimnosux]*))"
+          captures:
+            1: punctuation.definition.string.ruby
           pop: true
         - include: regex_sub
     - match: '%r\{'
