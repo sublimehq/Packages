@@ -30,6 +30,7 @@ contexts:
     - match: '^(?=\S[^:]+::?(?!\=))'
       push:
         - meta_scope: entity.name.function.makefile
+        - include: target
         - match: (::?)(?!\=)
           pop: true
         - include: variable
