@@ -163,6 +163,7 @@ contexts:
         - match: \b(const|override)\b
           scope: storage.modifier.c
         - include: block
+    - include: operators
   access:
     - match: '\.[a-zA-Z_][a-zA-Z_0-9]*\b(?!\s*\()'
       scope: variable.other.dot-access.c
@@ -247,6 +248,15 @@ contexts:
           pop: true
         - include: disabled
         - include: pragma-mark
+  operators:
+    - match: <\=|>\=|\=\=|<|>|\!\=
+      scope: keyword.operator.comparison.c
+    - match: \+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\=
+      scope: keyword.operator.assignment.augmented.c
+    - match: \+|\-|\*|\*\*|/|//|%|<<|>>|&|\||\^|~
+      scope: keyword.operator.arithmetic.c
+    - match: \=
+      scope: keyword.operator.assignment.c
   parens:
     - match: \(
       push:
