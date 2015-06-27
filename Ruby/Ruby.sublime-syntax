@@ -102,7 +102,7 @@ contexts:
     - match: '\b(initialize|new|loop|include|extend|raise|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected)\b(?![?!])'
       comment: everything being a method but having a special function is a..
       scope: keyword.other.special-method.ruby
-    - match: \b(require|gem)\b
+    - match: \b(require|require_relative|gem)\b
       captures:
         1: keyword.other.special-method.ruby
       push:
