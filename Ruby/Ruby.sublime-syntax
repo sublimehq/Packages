@@ -319,7 +319,7 @@ contexts:
            (?:
              ^                      # beginning of line
            | (?<=                   # or look-behind on:
-               [=>~(?:\[,|&;]
+               [=><~(?:\[,|&;]
              | [\s;]if\s			# keywords
              | [\s;]elsif\s
              | [\s;]while\s
