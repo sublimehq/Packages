@@ -108,7 +108,7 @@ def get_tag_to_attributes():
         'param' : ['name', 'type', 'value', 'valuetype'],
         'picture' : [],
         'pre' : ['width'],
-        'progres' : ['max', 'value'],
+        'progress' : ['max', 'value'],
         'q' : ['cite'],
         'rp' : [],
         'rt' : [],
