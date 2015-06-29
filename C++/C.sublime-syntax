@@ -244,7 +244,10 @@ contexts:
     - match: ^\s*#\s*if(n?def)?\b.*$
       comment: eat nested preprocessor if(def)s
       push:
-        - match: ^\s*#\s*endif\b.*$
+        - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - include: disabled
         - include: pragma-mark
@@ -351,6 +354,9 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - match: ^\s*(#\s*(else)\b).*
           captures:
@@ -373,7 +379,10 @@ contexts:
         1: meta.preprocessor.c
         2: keyword.control.import.c
       push:
-        - match: ^\s*(#\s*(endif)\b).*$
+        - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - include: $top_level_main
   preprocessor-rule-other-block:
@@ -382,7 +391,10 @@ contexts:
         1: meta.preprocessor.c
         2: keyword.control.import.c
       push:
-        - match: ^\s*(#\s*(endif)\b).*$
+        - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - include: block_innards
   sizeof:
