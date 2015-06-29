@@ -76,5 +76,5 @@ key:with:colon: yes, I know
   - unquoted_block2: |-
     Start of the block
     Still in block
-    - new_entry: value
-#     ^ entity.name.tag.yaml
+    - also: in the block
+#   ^ string.unquoted.block.yaml
