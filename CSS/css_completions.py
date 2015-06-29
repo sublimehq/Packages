@@ -132,15 +132,15 @@ PROPERTY_DICT = {
     'clip': ['rect($1)', 'auto'],
     'color': ['<color>'],
     'columns': ['auto'],
-    'columns-count': ['auto', '<number>'],
-    'columns-fill': ['auto', 'balance'],
-    'columns-gap': ['normal', '<length>'],
-    'columns-rule': ['<border_width>', '<border_style>', '<color>'],
-    'columns-rule-color': ['<color>'],
-    'columns-rule-style': ['<border_style>'],
-    'columns-rule-width': ['<border_width>'],
-    'columns-span': ['none'],
-    'columns-width': ['auto', '<length>'],
+    'column-count': ['auto', '<number>'],
+    'column-fill': ['auto', 'balance'],
+    'column-gap': ['normal', '<length>'],
+    'column-rule': ['<border_width>', '<border_style>', '<color>'],
+    'column-rule-color': ['<color>'],
+    'column-rule-style': ['<border_style>'],
+    'column-rule-width': ['<border_width>'],
+    'column-span': ['none'],
+    'column-width': ['auto', '<length>'],
     'content': [
         'none', 'normal', '<string>', '<uri>', 'attr($1)',
         'open-quote', 'close-quote', 'no-open-quote', 'no-close-quote'
@@ -162,6 +162,11 @@ PROPERTY_DICT = {
         'ruby-text-container', 'run-in'
     ],
     'empty-cells': ['show', 'hide'],
+    'filter': [
+        '<uri>', 'url($1)', 'blur($1)', 'brightness($1)', 'contrast($1)',
+        'drop-shadow($1)', 'grayscale($1)', 'hue-rotate($1)', 'invert($1)',
+        'opacity($1)', 'saturate($1)', 'sepia($1)'
+    ],
     'flex': ['none'],
     'flex-grow': ['<number>'],
     'flex-shrink': ['<number>'],
@@ -179,7 +184,7 @@ PROPERTY_DICT = {
         'caption', 'icon', 'menu', 'message-box', 'small-caption', 'status-bar'
     ],
     'font-family': ['<generic_name>'],
-    'font-feature-settings': ['normal'],
+    'font-feature-settings': ['normal', '<string>'],
     'font-kerning': ['auto', 'normal', 'none'],
     'font-language-override': ['normal', '<string>'],
     'font-size': [
@@ -209,7 +214,7 @@ PROPERTY_DICT = {
         'historical-ligatures', 'no-historical-ligatures', 'contextual',
         'no-contextual'
     ],
-    'font-variant-numerics': [
+    'font-variant-numeric': [
         'normal', 'ordinal', 'slashed-zero', 'lining-nums', 'oldstyle-nums',
         'proportional-nums', 'tabular-nums', 'diagonal-fractions',
         'stacked-fractions'
