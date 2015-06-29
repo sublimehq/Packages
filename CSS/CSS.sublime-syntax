@@ -387,7 +387,7 @@ contexts:
         ((no-)?(common|discretionary|historical))-ligatures|
         (no-)?contextual|
         all|
-        jis04|jis78|jis83|jis90|simplified|traditional|(full|proportional)-width|ruby|
+        jis04|jis78|jis83|jis90|simplified|traditional|(full|proportional)-width|ruby|(no-)?open-quote|(no-)?close-quote|
         startColorStr|EndColorStr)\b
       scope: support.constant.property-value.css
     - match: \b(circle|ellipse|inset)(?!\()\b
@@ -549,8 +549,9 @@ contexts:
             border-image(-outset|-repeat|-slice|-source|-width)?|
             box-sizing|
             box-align|box-pack|box-orient|box-direction|box-flex|(box-ordinal-)?group|
+            break-(before|after)|
             clip-(path|rule)|
-            column(-count|-fill|-gap|-rule|-rule-color|-rule-style|-rule-width|-span|-width)|
+            column(-(rule-style|count|fill|gap|rule|rule-color|rule-width|span|width))?|
             (alignment|dominant)-baseline|
             alignment-adjust|
             baseline-shift|
@@ -596,15 +597,15 @@ contexts:
             osx-font-smoothing|
             font(?:(?:-)(?:effect|emphasize(-position|-style)?|family|feature-settings|kerning|language-override|size(?:-adjust)?|smoothing|stretch|style|synthesis|variant(?:-alternates|-caps|-east-asian|-ligatures|-numeric|-position)?|weight))?|
             height|
-            image-rendering|
+            image-rendering|ime-mode|
             left|letter-spacing|line-height|list-style-image|list-style-position|list-style-type|list-style|
             margin-bottom|margin-left|margin-right|margin-top|marker-offset|margin|marks|max-height|max-width|min-height|min-width|
             object-fit|object-position|opacity|orphans|outline-color|outline-style|outline-width|outline|overflow(-[xy])?|
             padding-bottom|padding-left|padding-right|padding-top|padding|page-break-after|page-break-before|page-break-inside|page|pause-after|pause-before|pause|pitch-range|pitch|play-during|pointer-events|position|
             quotes|
             resize|richness|right|
-            size|speak-header|speak-numeral|speak-punctuation|speech-rate|speak|src|stress|
-            table-layout|text-(align|decoration|indent|rendering|shadow|transform)|top|text-justify
+            size|speak-header|speak-numeral|speak-punctuation|speech-rate|speak|src|stress|scroll-behavior|
+            table-layout|text-(decoration-line|decoration-style|align|decoration|indent|rendering|shadow|transform|underline-position)|top|text-justify|
             unicode-(?:bidi|range)|
             vertical-align|visibility|voice-family|volume|
             white-space|widows|width|word-(spacing|wrap)|
@@ -626,7 +627,7 @@ contexts:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
           pop: true
-        - match: '\b(a|abbr|acronym|address|area|article|aside|audio|b|base|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|datalist|dd|del|details|dfn|dialog|div|dl|dt|em|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|(h[1-6])|head|header|hgroup|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|math|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|ul|var|video|svg)\b'
+        - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|(h[1-6])|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr)\b'
           scope: entity.name.tag.css
         - match: '(\.)[a-zA-Z0-9_-]+'
           scope: entity.other.attribute-name.class.css
