@@ -739,7 +739,9 @@ contexts:
       captures:
         1: punctuation.separator.variable.ruby
       push:
+        - meta_scope: meta.variable.block.ruby
         - match: (\|)
+          scope: punctuation.separator.variable.ruby
           pop: true
         - match: "[_a-zA-Z][_a-zA-Z0-9]*"
           scope: variable.other.block.ruby
