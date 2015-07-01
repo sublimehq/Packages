@@ -90,7 +90,19 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\\.</string>
+					<string>\\([abfnrtv\\"']|\r?\n|\n\r?|\d\d?\d?)</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\[xX][0-9a-fA-F][0-9a-fA-F]</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\u\{[0-9a-fA-F]{,7}\}</string>
 					<key>name</key>
 					<string>constant.character.escape.lua</string>
 				</dict>
@@ -123,7 +135,19 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\\.</string>
+					<string>\\([abfnrtv\\"']|\r?\n|\n\r?|\d\d?\d?)</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\[xX][0-9a-fA-F][0-9a-fA-F]</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\u\{[0-9a-fA-F]{,7}\}</string>
 					<key>name</key>
 					<string>constant.character.escape.lua</string>
 				</dict>
