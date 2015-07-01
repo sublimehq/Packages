@@ -418,6 +418,8 @@ contexts:
       push:
         - meta_scope: meta.scope.if-block.shell
         - match: \b(fi)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - include: main
   math:
