@@ -37,7 +37,7 @@ variables:
   literal: '({{number}}|{{char}}|{{string}})'
 
   # for pattern matching
-  pattern_end: '(?=\)|,|=\s|=>\s|<-\s|if\b)'
+  pattern_end: '(?=\)|,|=\s|<-\s)'
 
 contexts:
   prototype:
@@ -194,7 +194,7 @@ contexts:
               pop: true
             - match: \b(case)\b
               scope: keyword.control.switch.case.scala
-              push: pattern
+              push: [pattern_case_arrow, pattern_case_if, pattern_case]
             - include: main
         - match: (\s*)\S
           scope: invalid.illegal.expected_block
@@ -212,7 +212,7 @@ contexts:
       push: [finally_block, catch_block, try_block]
 
     - match: \b(throw)\b
-      scope: keyword.control.jump.scala
+      scope: keyword.control.trycatch.throw.scala
     - match: \b(this|super)\b
       scope: variable.language.scala
 
@@ -243,22 +243,7 @@ contexts:
     - match: \b(sealed|abstract|final|lazy|override)\b
       scope: storage.modifier.other.scala
 
-    # language constants
-    - match: \b(true|false|null)\b
-      scope: constant.language.scala
-    # characters
-    - match: "'\\\\'"
-      scope: invalid.illegal.lone-escape.scala
-    - match: "'{{escaped_char}}'"
-      scope: constant.character.escape.scala
-    - match: "'.'"
-      scope: constant.character.scala
-    - match: "'[^']+'"
-      scope: invalid.illegal.not_a_char.scala
-
-    # numbers
-    - match: '{{number}}'
-      scope: constant.numeric.scala
+    - include: literals
 
     # import
     - match: \bimport\b
@@ -363,6 +348,25 @@ contexts:
     - match: '{{name}}'
       scope: variable.other.scala
     # - include: punctuation
+
+  # bools, numbers, chars, simple strings
+  literals:
+    # language constants
+    - match: \b(true|false|null)\b
+      scope: constant.language.scala
+    # characters
+    - match: "'\\\\'"
+      scope: invalid.illegal.lone-escape.scala
+    - match: "'{{escaped_char}}'"
+      scope: constant.character.escape.scala
+    - match: "'.'"
+      scope: constant.character.scala
+    - match: "'[^']+'"
+      scope: invalid.illegal.not_a_char.scala
+
+    # numbers
+    - match: '{{number}}'
+      scope: constant.numeric.scala
 
   # type
   type:
@@ -751,8 +755,8 @@ contexts:
   pattern:
     - match: '\s*{{name}}?\s*(\()'
       captures:
-        1: entity.name.constructor.unapply
-        2: punctuation.definition.array.begin.scala
+        1: entity.name.constructor.unapply.scala
+        2: punctuation.definition.arguments.begin.scala
       set: [pattern_ended, pattern_inside_unapply]
     - match: '(?=\S)'
       set: [pattern_ended, pattern_typed_name]
@@ -800,7 +804,7 @@ contexts:
     - match: '{{name}}\s+(\()'
       captures:
         1: keyword.operator.infix-pattern
-        2: punctuation.definition.array.begin.scala
+        2: punctuation.definition.arguments.begin.scala
       push: pattern_inside_unapply
     - match: '{{name}}\s+'
       scope: keyword.operator.infix-pattern
@@ -820,17 +824,69 @@ contexts:
     - match: '=\s'
       scope: invalid.illegal.unexpected-eq
     - match: ','
-      scope: punctuation.separator.array-element
+      scope: punctuation.separator.argument
     - match: '\)'
-      scope: punctuation.definition.array.end.scala
+      scope: punctuation.definition.arguments.end.scala
       pop: true
     - match: '{{name}}?\s*(\()'
       captures:
         1: variable.other.type.unapply
-        2: punctuation.definition.array.begin.scala
+        2: punctuation.definition.arguments.begin.scala
       push: pattern_inside_unapply
     - match: '(?=\S)'
       push: pattern_typed_name
+
+  pattern_case:
+    - match: '_'
+      scope: keyword.wildcard.pattern-matching.scala
+    - match: ':\s'
+      scope: punctuation.separator.key-value.type.scala
+      set:
+        - match: '(?==>\s|if\b)'
+          pop: true
+        - include: type
+    - match: '(?==>\s|if\b)'
+      pop: true
+    - match: '{{name}}\s*(\()'
+      captures:
+        1: entity.name.val.scala
+        2: punctuation.definition.arguments.begin.scala
+      push: pattern_case_inside
+    - match: '{{operator}}\s+{{name}}\s+'
+      captures:
+        1: keyword.operator.infix-pattern
+        2: entity.name.val.scala
+    - match: '{{name}}'
+      scope: entity.name.val.scala
+
+  pattern_case_inside:
+    - match: '\)'
+      scope: punctuation.definition.arguments.end.scala
+      pop: true
+    - match: ':\b'
+      set:
+        - match: '\)|,'
+          pop: true
+        - include: type
+    - match: '\)'
+      pop: true
+    - include: pattern_case
+
+  pattern_case_if:
+    - match: (if)\b
+      captures:
+        1: keyword.control.conditional.if.scala
+      set: if_condition
+    - match: (?=\S)
+      pop: true
+
+  pattern_case_arrow:
+    - match: \s*(=>)\s
+      scope: punctuation.separator.key-value.switch.scala
+      pop: true
+    - match: (\S)
+      scope: invalid.illegal.expected.arrow
+      pop: true
 
   try_block:
     - meta_scope: meta.trycatch.try.scala
@@ -861,7 +917,7 @@ contexts:
               pop: true
             - match: \b(case)\b
               scope: keyword.control.trycatch.case.scala
-              push: pattern
+              push: [pattern_case_arrow, pattern_case_if, pattern_case]
             - include: main
         - match: \}
           scope: punctuation.definition.block.trycatch.end.scala
@@ -964,7 +1020,7 @@ contexts:
       pop: true
 
   constructor_arguments:
-    - meta_scope: constructor_arguments
+    # - meta_scope: constructor_arguments
     - match: \(
       scope: punctuation.definition.arguments.begin.scala
       push:
@@ -978,7 +1034,7 @@ contexts:
       pop: true
 
   constructor_mixin:
-    - meta_scope: constructor_mixin
+    # - meta_scope: constructor_mixin
     - match: \b(with)\b
       scope: keyword.operator.new.with.scala
       push:
@@ -996,7 +1052,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.class.body.begin.scala
       set:
-        - meta_scope: meta.class.anonymous.scala
+        - meta_scope: meta.anonymous.class.scala
         - match: \}
           scope: punctuation.definition.class.body.end.scala
           pop: true
