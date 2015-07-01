@@ -1,0 +1,195 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+# Converted from Makefile Improved by Kay-Uwe (Kiwi) Lorenz
+# Includes a few improvement like special-target, a bit more shell command, better variable recognition, fix ifeq/ifneq missing highlight ...
+name: Makefile
+file_extensions:
+  - GNUmakefile
+  - makefile
+  - Makefile
+  - OCamlMakefile
+  - make
+  - mak
+scope: source.makefile
+contexts:
+  main:
+    - include: comment
+    - include: directive
+    - match: '^ *((export)\s+)?((?:\w|[-_])+)\s*((\?|\+|::|:)?=)'
+      captures:
+        2: keyword.control.makefile
+        3: variable.other.makefile
+        4: keyword.operator.assignment.makefile
+      push:
+        - meta_content_scope: string.unquoted.makefile
+        - include: variable
+        - include: line_continuation
+        - match: (?<!\\)$(?=\n)
+          pop: true
+    - match: '^(?=\S[^:]+::?(?!\=))'
+      push:
+        - meta_scope: entity.name.function.makefile
+        - include: target
+        - match: (::?)(?!\=)
+          pop: true
+        - include: variable
+    - match: (?<=:)\s*
+      push:
+        - meta_scope: meta.function.prerequisites.makefile
+        - match: (?=^\t)|(?<!\\)$(?=\n)
+          pop: true
+        - include: variable
+        - include: directive
+        - include: target
+        - include: comment
+        - match: '\s*(\w+)\s*((\?|\+|::|:)?=)'
+          captures:
+            1: variable.other.makefile
+            2: keyword.operator.assignment.makefile
+          push:
+            - meta_content_scope: string.unquoted.makefile
+            - include: variable
+            - include: line_continuation
+            - match: (?<!\\)$(?=\n)
+              pop: true
+        - include: line_continuation
+    - match: ^\s*\b(\-??include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
+      scope: meta.keyword.control.makefile
+      captures:
+        1: keyword.control.makefile
+      push:
+        - meta_scope: meta.directive.include.makefile
+        - include: variable
+        - match: \n
+          pop: true
+    - match: ^(?=\t)
+      push:
+        - meta_scope: meta.function.body.makefile
+        - match: ^(?!\t)
+          pop: true
+        - include: at
+        - include: string
+        - include: variable
+        - include: comment
+        - include: backtick
+        - include: shell
+        - include: line_continuation
+  directive:
+    - match: ^\s*(ifeq|ifneq)\s*\(
+      captures:
+        1: keyword.control.makefile
+      push:
+        - meta_scope: meta.directive.condition.makefile
+        - include: string
+        - include: variable
+        - include: shell
+        - match: \)
+          pop: true
+  comment:
+    - match: ^\s*(\#)
+      captures:
+        1: punctuation.definition.comment.makefile
+      push:
+        - meta_scope: comment.line.number-sign.makefile
+        - match: $\n
+          pop: true
+        - match: (?<!\\)\\$\n
+          scope: punctuation.separator.continuation.makefile
+    - match: '\#'
+      captures:
+        0: punctuation.definition.comment.makefile
+      push:
+        - meta_scope: comment.line.number-sign.makefile
+        - match: $\n
+          pop: true
+        - match: (?<!\\)\\$\n
+          scope: punctuation.separator.continuation.makefile
+  at:
+    - match: ^\t+\@
+      scope: support.variable.makefile
+  backtick:
+    - match: "`"
+      push:
+        - meta_scope: string.interpolated.backtick.makefile
+        - match: "`"
+          pop: true
+        - include: scope:source.shell
+  shell:
+    - match: '(?x) (?<=[\s\(])\b(?:for|in|do|done|while|if|then|fi|elif|read|echo|case|esac|exit|die|printf)\b'
+      scope: support.function.builtin.makefile
+    - match: '(?x) (?: \;\; | \; | \[\[ | \]\] | \&\& | \|\| | \! | = | > | < | & | \| )'
+      scope: keyword.operator.makefile
+    - match: '(?x) \b(?:cp|mv|rm|cat|ls|\[|\]|find|grep|awk|perl|mkdir|rmdir|cd|cwd|pwd|svn|git|hg|scp|make|ps|sed|python|ruby|setenv|export|echo|test|source|ln|touch)\b'
+      scope: support.function.makefile
+    - match: '(?x) (?<=\s)(?: \-[\w\-]+ )'
+      scope: entity.other.attribute-name.makefile
+    - include: line_continuation
+    - match: \b(true|false)\b
+      scope: constant.other.makefile
+    - include: variable
+  string:
+    - match: '(?<!\\)(["''])'
+      push:
+        - meta_scope: string.source.makefile
+        - match: (?<!\\)\1
+          pop: true
+        - include: string_escapes
+        - include: variable
+  string_escapes:
+    - match: \\.
+      scope: constant.character.escape.makefile
+  line_continuation:
+    - match: \\\n
+      scope: punctuation.separator.continuation.makefile
+  variable:
+    - match: (?x) (\$\() (subst|patsubst|strip|findstring|filter|filter-out|sort|word|wordlist|words|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|wildcard|realpath|abspath|if|or|and|foreach|file|call|value|eval|origin|flavor|error|warning|info|guile) \s
+      captures:
+        1: punctuation.definition.variable.begin.makefile
+        2: support.function.builtin.makefile
+      push:
+        - meta_scope: meta.support.function.makefile
+        - match: (\))
+          captures:
+            1: punctuation.definition.variable.end.makefile
+          pop: true
+        - include: variable
+        - include: string
+    - match: (?x) (\$\() (shell) \s
+      captures:
+        1: punctuation.definition.variable.begin.makefile
+        2: support.function.builtin.makefile
+      push:
+        - meta_scope: meta.support.function.makefile
+        - match: (\))
+          captures:
+            1: punctuation.definition.variable.end.makefile
+          pop: true
+        - include: shell
+    - match: '(\$?\$\{)'
+      captures:
+        1: punctuation.definition.variable.begin.makefile
+      push:
+        - meta_scope: variable.source.makefile
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.variable.end.makefile
+          pop: true
+        - include: variable
+    - match: (\$?\$\()
+      captures:
+        1: punctuation.definition.variable.begin.makefile
+      push:
+        - meta_scope: variable.source.makefile
+        - match: (\))
+          captures:
+            1: punctuation.definition.variable.end.makefile
+          pop: true
+        - include: variable
+    - match: '\$?\$[$<*^@+?]'
+      scope: support.variable.makefile
+    - match: \%
+      scope: keyword.operator.percent.makefile
+  target:
+    - match: (\.PHONY|\.SUFFIXES|\.DEFAULT|\.PRECIOUS|\.INTERMEDIATE|\.SECONDARY|\.SECONDARY|\.SECONDEXPANSION|\.DELETE_ON_ERROR|\.IGNORE|\.LOW_RESOLUTION_TIME|\.LOW_RESOLUTION_TIME|\.SILENT|\.EXPORT_ALL_VARIABLES|\.NOTPARALLEL|\.ONESHELL|\.POSIX|\bFORCE)\b
+      scope: constant.other.target.makefile

@@ -1,0 +1,645 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: OCaml
+file_extensions:
+  - ml
+  - mli
+scope: source.ocaml
+contexts:
+  main:
+    - match: '\b(let)\s+(module)\s+([A-Z][a-zA-Z0-9''_]*)\s*(=)'
+      scope: meta.module.binding
+      captures:
+        1: keyword.other.module-binding.ocaml
+        2: keyword.other.module-definition.ocaml
+        3: support.other.module.ocaml
+        4: punctuation.separator.module-binding.ocmal
+    - match: '\b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_'']*)\b|([a-z_][a-zA-Z0-9_'']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))'
+      captures:
+        1: keyword.other.function-definition.ocaml
+        3: keyword.other.funtion-definition.ocaml
+        4: entity.name.function.ocaml
+        5: entity.name.function.ocaml
+      push:
+        - meta_scope: meta.function.ocaml
+        - match: '(?:(:)\s*([^=]+))?(?:(=)|(=)\s*(?=fun(?:ction)\b))'
+          captures:
+            1: punctuation.separator.function.type-constraint.ocaml
+            2: storage.type.ocaml
+            3: keyword.operator.ocaml
+            4: keyword.operator.ocaml
+          pop: true
+        - include: variables
+    - match: (\(|\s)(?=fun\s)
+      captures:
+        1: punctuation.definition.function.anonymous.ocaml
+      push:
+        - meta_scope: meta.function.anonymous.ocaml
+        - match: (\))
+          captures:
+            1: punctuation.definition.function.anonymous.ocaml
+          pop: true
+        - match: (?<=(\(|\s))(fun)\s
+          captures:
+            2: keyword.other.function-definition.ocaml
+          push:
+            - meta_scope: meta.function.anonymous.definition.ocaml
+            - match: (->)
+              captures:
+                1: punctuation.separator.function-definition.ocaml
+              pop: true
+            - include: variables
+        - include: main
+    - match: ^\s*(?=type\s)
+      push:
+        - meta_scope: meta.type-definition-group.ocaml
+        - match: \b(?=let|end|val)|^\s*$
+          pop: true
+        - match: '\b(type|and)\s+([^=]*)(=)?'
+          captures:
+            1: keyword.other.type-definition.ocaml
+            2: storage.type.ocaml
+            3: punctuation.separator.type-definition.ocaml
+          push:
+            - meta_scope: meta.type-definition.ocaml
+            - match: (?=\b(type|and|let|end|val)\b)|(?=^\s*$)
+              pop: true
+            - include: typedefs
+    - match: \b(with|function)(?=(\s*$|.*->))\b|((?<!\S)(\|)(?=(\w|\s).*->))
+      captures:
+        1: keyword.control.match-definition.ocaml
+        2: keyword.other.function-definition.ocaml
+        3: keyword.control.match-definition.ocaml
+      push:
+        - meta_scope: meta.pattern-match.ocaml
+        - match: (?:(->)|\b(when)\b|\s(?=\|))
+          captures:
+            1: punctuation.separator.match-definition.ocaml
+            2: keyword.control.match-condition.ocaml
+          pop: true
+        - include: matchpatterns
+    - match: '^[ \t]*(class\s+type\s+)((\[\s*(''[A-Za-z][a-zA-Z0-9_'']*(?:\s*,\s*''[A-Za-z][a-zA-Z0-9_'']*)*)\s*\]\s+)?[a-z_][a-zA-Z0-9''_]*)'
+      scope: meta.class.type-definition.ocaml
+      captures:
+        1: keyword.other.class-type-definition.ocaml
+        2: entity.name.type.class-type.ocaml
+        4: storage.type.ocaml
+    - match: '^[ \t]*(class)(?:\s+(?!(?:virtual)\s+))((\[\s*(''[A-Za-z][a-zA-Z0-9_'']*(?:\s*,\s*''[A-Za-z][a-zA-Z0-9_'']*)*)\s*\]\s+)?[a-z_][a-zA-Z0-9''_]*)'
+      captures:
+        1: keyword.other.class-definition.ocaml
+        2: entity.name.type.class.ocaml
+        4: storage.type.ocaml
+      push:
+        - meta_scope: meta.class.ocaml
+        - match: (=)
+          captures:
+            1: keyword.operator.ocaml
+          pop: true
+        - include: variables
+    - match: '^[ \t]*(class\s+virtual\s+)((\[\s*(''[A-Za-z][a-zA-Z0-9_'']*(?:\s*,\s*''[A-Za-z][a-zA-Z0-9_'']*)*)\s*\]\s+)?[a-z_][a-zA-Z0-9''_]*)'
+      captures:
+        1: keyword.other.class-definition.ocaml
+        2: entity.name.type.class.ocaml
+        4: storage.type.ocaml
+      push:
+        - meta_scope: meta.class.virtual.ocaml
+        - match: (=)
+          captures:
+            1: keyword.operator.ocaml
+          pop: true
+        - include: variables
+    - match: '^[ \t]*(class\s+type\s+virtual)((\[\s*(''[A-Za-z][a-zA-Z0-9_'']*(?:\s*,\s*''[A-Za-z][a-zA-Z0-9_'']*)*)\s*\]\s+)?[a-z_][a-zA-Z0-9''_]*)'
+      scope: meta.class.virtual.type-definition.ocaml
+      captures:
+        1: keyword.other.class-type-definition.ocaml
+        2: entity.name.type.class-type.ocaml
+        4: storage.type.ocaml
+    - match: '(\{)'
+      captures:
+        1: punctuation.definition.record.ocaml
+      push:
+        - meta_scope: meta.record.ocaml
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.record.ocaml
+          pop: true
+        - match: \bwith\b
+          scope: keyword.other.language.ocaml
+        - match: '(\bmutable\s+)?\b([a-z_][a-zA-Z0-9_'']*)\s*(:)'
+          captures:
+            1: keyword.other.storage.modifier.ocaml
+            2: source.ocaml
+            3: punctuation.definition.record.ocaml
+          push:
+            - meta_scope: meta.record.definition.ocaml
+            - match: "(;|(?=}))"
+              captures:
+                1: keyword.operator.ocaml
+              pop: true
+            - include: typedefs
+        - include: main
+    - match: '\b(object)\s*(?:(\()(_?[a-z]+)(\)))?\s*$'
+      captures:
+        1: keyword.other.object-definition.ocaml
+        2: punctuation.definition.self-binding.ocaml
+        3: entity.name.type.self-binding.ocaml
+        4: punctuation.definition.self-binding.ocaml
+      push:
+        - meta_scope: meta.object.ocaml
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.object.ocaml
+            2: punctuation.terminator.expression.ocaml
+          pop: true
+        - match: '\b(method)\s+(virtual\s+)?(private\s+)?([a-z_][a-zA-Z0-9''_]*)'
+          captures:
+            1: keyword.other.method-definition.ocaml
+            2: keyword.other.method-definition.ocaml
+            3: keyword.other.method-restriction.ocaml
+            4: entity.name.function.method.ocaml
+          push:
+            - meta_scope: meta.method.ocaml
+            - match: (=|:)
+              captures:
+                1: keyword.operator.ocaml
+              pop: true
+            - include: variables
+        - match: '(constraint)\s+([a-z_''][a-zA-Z0-9''_]*)\s+(=)'
+          captures:
+            1: keyword.other.language.ocaml
+            2: storage.type.ocaml
+            3: keyword.operator.ocaml
+          push:
+            - meta_scope: meta.object.type-constraint.ocaml
+            - match: '(#[a-z_][a-zA-Z0-9''_]*)|(int|char|float|string|list|array|bool|unit|exn|option|int32|int64|nativeint|format4|lazy_t)|([a-z_][a-zA-Z0-9''_]*)\s*$'
+              captures:
+                1: storage.type.polymorphic-variant.ocaml
+                2: storage.type.ocaml
+                3: storage.type.ocaml
+              pop: true
+        - include: main
+    - match: '(?<=\w|\)|'')(#)[a-z_][a-zA-Z0-9''_]*'
+      scope: meta.method-call.ocaml
+      captures:
+        1: punctuation.separator.method-call.ocaml
+    - match: '^[ \t]*(module)\s+([A-Z_][a-zA-Z0-9''_]*)(?:\s*(:)\s*([A-Z][a-zA-Z0-9''_]*)?)?'
+      scope: meta.module.ocaml
+      captures:
+        1: keyword.other.module-definition.ocaml
+        2: entity.name.type.module.ocaml
+        3: punctuation.separator.module-definition.ocaml
+        4: entity.name.type.module-type.ocaml
+    - match: '^[ \t]*(module\s+type\s+)([A-Z][a-zA-Z0-9''_]*)'
+      scope: meta.module.type.ocaml
+      captures:
+        1: keyword.other.module-type-definition.ocaml
+        2: entity.name.type.module-type.ocaml
+    - match: \b(sig)\b
+      captures:
+        1: keyword.other.module.signature.ocaml
+      push:
+        - meta_scope: meta.module.signature.ocaml
+        - match: \b(end)\b
+          captures:
+            1: keyword.other.module.signature.ocaml
+            2: punctuation.terminator.expression.ocaml
+            3: keyword.operator.ocaml
+          pop: true
+        - include: module-signature
+        - include: main
+    - match: \b(struct)\b
+      captures:
+        1: keyword.other.module.structure.ocaml
+      push:
+        - meta_scope: meta.module.structure.ocaml
+        - match: \b(end)\b
+          captures:
+            1: keyword.other.module.structure.ocaml
+          pop: true
+        - include: main
+    - include: moduleref
+    - match: '\b(open)\s+([A-Z][a-zA-Z0-9''_]*)(?=(\.[A-Z][a-zA-Z0-9_]*)*)'
+      captures:
+        1: keyword.other.ocaml
+        2: support.other.module.ocaml
+      push:
+        - meta_scope: meta.module.open.ocaml
+        - match: (\s|$)
+          pop: true
+        - match: '(\.)([A-Z][a-zA-Z0-9''_]*)'
+          scope: support.other.module.ocaml
+          captures:
+            1: punctuation.separator.module-reference.ocaml
+    - match: '\b(exception)\s+([A-Z][a-zA-Z0-9''_]*)\b'
+      scope: meta.exception.ocaml
+      captures:
+        1: keyword.other.ocaml
+        2: entity.name.type.exception.ocaml
+    - match: '(?=(\[<)(?![^\[]+?[^>]]))'
+      push:
+        - meta_scope: source.camlp4.embedded.ocaml
+        - match: "(>])"
+          captures:
+            1: punctuation.definition.camlp4-stream.ocaml
+          pop: true
+        - include: scope:source.camlp4.ocaml
+    - include: strings
+    - include: constants
+    - include: comments
+    - include: lists
+    - include: arrays
+    - match: '(\()(?=(~[a-z][a-zA-Z0-9_]*:|("(\\"|[^"])*")|[^\(\)~"])+(?<!:)(:>|:(?![:=])))'
+      captures:
+        1: punctuation.section.type-constraint.ocaml
+      push:
+        - meta_scope: meta.type-constraint.ocaml
+        - match: '(?<!:)(:>|:(?![:=]))(.*?)(\))'
+          captures:
+            1: punctuation.separator.type-constraint.ocaml
+            2: storage.type.ocaml
+            3: punctuation.section.type-constraint.ocaml
+          pop: true
+        - include: main
+    - match: '^[ \t]*#[a-zA-Z]+'
+      scope: keyword.other.directive.ocaml
+    - match: '^[ \t]*#[0-9]*'
+      scope: keyword.other.directive.line-number.ocaml
+    - include: storagetypes
+    - match: \b(mutable|ref)\b
+      scope: keyword.other.storage.modifier.ocaml
+    - match: '`[A-Za-z][a-zA-Z0-9''_]*\b'
+      scope: entity.name.type.variant.polymorphic.ocaml
+    - match: '\b[A-Z][a-zA-Z0-9''_]*\b'
+      scope: entity.name.type.variant.ocaml
+    - match: "!=|:=|>|<"
+      scope: keyword.operator.symbol.ocaml
+    - match: '[*+/-]\.'
+      scope: keyword.operator.infix.floating-point.ocaml
+    - match: ~-\.
+      scope: keyword.operator.prefix.floating-point.ocaml
+    - match: "::"
+      scope: punctuation.definition.list.constructor.ocaml
+    - match: ;;
+      scope: punctuation.terminator.expression.ocaml
+    - match: ;
+      scope: punctuation.separator.ocaml
+    - match: "->"
+      scope: punctuation.separator.function-return.ocaml
+    - match: '[=<>@^&+\-*/$%|][|!$%&*+./:<=>?@^~-]*'
+      scope: keyword.operator.infix.ocaml
+    - match: '\bnot\b|!|[!\?~][!$%&*+./:<=>?@^~-]+'
+      scope: keyword.operator.prefix.ocaml
+    - match: "~[a-z][a-z0-9'_]*(:)?"
+      scope: entity.name.tag.label.ocaml
+      captures:
+        1: punctuation.separator.argument-label.ocaml
+    - match: \b(begin)\b
+      captures:
+        1: keyword.control.begin-end.ocaml
+      push:
+        - meta_scope: meta.begin-end-group.ocaml
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.begin-end.ocaml
+          pop: true
+        - include: main
+    - match: \b(for)\b
+      captures:
+        1: keyword.control.for-loop.ocaml
+      push:
+        - meta_scope: meta.for-loop.ocaml
+        - match: \b(done)\b
+          captures:
+            1: keyword.control.for-loop.ocaml
+          pop: true
+        - match: \bdo\b
+          scope: keyword.control.loop.ocaml
+        - include: main
+    - match: \b(while)\b
+      captures:
+        1: keyword.control.while-loop.ocaml
+      push:
+        - meta_scope: meta.while-loop.ocaml
+        - match: \b(done)\b
+          captures:
+            1: keyword.control.while-loop.ocaml
+          pop: true
+        - match: \bdo\b
+          scope: keyword.control.loop.ocaml
+        - include: main
+    - match: \(
+      push:
+        - meta_scope: meta.paren-group.ocaml
+        - match: \)
+          pop: true
+        - include: main
+    - match: \b(and|land|lor|lsl|lsr|lxor|mod|or)\b
+      scope: keyword.operator.ocaml
+    - match: \b(downto|if|else|match|then|to|when|with|try)\b
+      scope: keyword.control.ocaml
+    - match: \b(as|assert|class|constraint|exception|functor|in|include|inherit|initializer|lazy|let|mod|module|mutable|new|object|open|private|rec|sig|struct|type|virtual)\b
+      scope: keyword.other.ocaml
+    - include: module-signature
+    - match: (’|‘|“|”)
+      scope: invalid.illegal.unrecognized-character.ocaml
+  arrays:
+    - match: '(\[\|)'
+      captures:
+        1: punctuation.definition.array.begin.ocaml
+      push:
+        - meta_scope: meta.array.ocaml
+        - match: '(\|])'
+          captures:
+            1: punctuation.definition.array.end.ocaml
+          pop: true
+        - include: arrays
+        - include: main
+  comments:
+    - match: \(\*+(\*)\)
+      scope: comment.block.ocaml
+      captures:
+        1: comment.block.empty.ocaml
+    - match: \(\*
+      push:
+        - meta_scope: comment.block.ocaml
+        - match: \*\)
+          pop: true
+        - include: comments
+    - match: '(?=[^\\])(")'
+      push:
+        - meta_scope: comment.block.string.quoted.double.ocaml
+        - match: '"'
+          pop: true
+        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
+          scope: comment.block.string.constant.character.escape.ocaml
+  constants:
+    - match: '(?:\[\s*(\])|\((\))|\(\s*(\)))'
+      scope: constant.language.pseudo-variable.ocaml
+      captures:
+        1: meta.empty-typing-pair.ocaml
+        2: meta.empty-typing-pair.parens.ocaml
+        3: meta.empty-typing-pair.ocaml
+    - match: \b(true|false)\b
+      scope: constant.language.boolean.ocaml
+    - match: '\b-?[0-9][0-9_]*((\.([0-9][0-9_]*([eE][+-]??[0-9][0-9_]*)?)?)|([eE][+-]??[0-9][0-9_]*))'
+      scope: constant.numeric.floating-point.ocaml
+    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))n'
+      scope: constant.numeric.integer.nativeint.ocaml
+    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))L'
+      scope: constant.numeric.integer.int64.ocaml
+    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))l'
+      scope: constant.numeric.integer.int32.ocaml
+    - match: '\b(-?((0(x|X)[0-9a-fA-F][0-9a-fA-F_]*)|(0(o|O)[0-7][0-7_]*)|(0(b|B)[01][01_]*)|([0-9][0-9_]*)))'
+      scope: constant.numeric.integer.ocaml
+    - match: '''(.|\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]))'''
+      scope: constant.character.ocaml
+  definite_storagetypes:
+    - include: storagetypes
+    - match: '\b[a-zA-Z0-9''_]+\b'
+      scope: storage.type.ocaml
+  lists:
+    - match: '(\[)(?!\||<|>)'
+      captures:
+        1: punctuation.definition.list.begin.ocaml
+      push:
+        - meta_scope: meta.list.ocaml
+        - match: '(?<!\||>)(])'
+          captures:
+            1: punctuation.definition.list.end.ocaml
+          pop: true
+        - include: lists
+        - include: main
+  matchpatterns:
+    - match: \b_\b
+      scope: constant.language.universal-match.ocaml
+    - match: \|(?=\s*\S)
+      scope: punctuation.separator.match-pattern.ocaml
+    - match: (\()(?=(?!=.*?->).*?\|)
+      captures:
+        1: punctuation.definition.match-option.ocaml
+      push:
+        - meta_scope: meta.match-option.ocaml
+        - match: (\))
+          captures:
+            1: punctuation.definition.match-option.ocaml
+          pop: true
+        - match: \|
+          scope: punctuation.separator.match-option.ocaml
+        - include: matchpatterns
+    - include: moduleref
+    - include: constants
+    - include: variables
+    - include: main
+  module-signature:
+    - match: '(val)\s+([a-z_][a-zA-Z0-9_'']*)\s*(:)'
+      captures:
+        1: keyword.other.ocaml
+        2: entity.name.type.value-signature.ocaml
+        3: punctuation.separator.type-constraint.ocaml
+      push:
+        - meta_scope: meta.module.signature.val.ocaml
+        - match: (?=\b(type|val|external|class|module|end)\b)|^\s*$
+          pop: true
+        - match: '(\?)([a-z][a-zA-Z0-9_]*)\s*(:)'
+          scope: variable.parameter.ameter.optional.ocaml
+          captures:
+            1: punctuation.definition.optional-parameter.ocaml
+            2: entity.name.tag.label.optional.ocaml
+            3: punctuation.separator.optional-parameter.ocaml
+        - match: '([a-z][a-zA-Z0-9''_]*)\s*(:)\s*'
+          captures:
+            1: entity.name.tag.label.ocaml
+            2: punctuation.separator.label.ocaml
+            3: storage.type.ocaml
+          push:
+            - meta_scope: variable.parameter.labeled.ocaml
+            - match: \s
+              pop: true
+            - include: definite_storagetypes
+        - include: typedefs
+    - match: '(external)\s+([a-z_][a-zA-Z0-9_'']*)\s*(:)'
+      captures:
+        1: keyword.other.ocaml
+        2: entity.name.type.external-signature.ocaml
+        3: punctuation.separator.type-constraint.ocaml
+      push:
+        - meta_scope: meta.module.signature.external.ocaml
+        - match: (?=\b(type|val|external|class|module|let|end)\b)|^\s*$
+          pop: true
+        - match: '(\?)([a-z][a-zA-Z0-9_]*)\s*(:)'
+          scope: variable.parameter.optional.ocaml
+          captures:
+            1: punctuation.definition.optional-parameter.ocaml
+            2: entity.name.tag.label.optional.ocaml
+            3: punctuation.separator.optional-parameter.ocaml
+        - match: '(~)([a-z][a-zA-Z0-9''_]*)\s*(:)\s*'
+          captures:
+            1: punctuation.definition.labeled-parameter.ocaml
+            2: entity.name.tag.label.ocaml
+            3: punctuation.separator.label.ocaml
+          push:
+            - meta_scope: variable.parameter.labeled.ocaml
+            - match: \s
+              pop: true
+            - include: variables
+        - include: strings
+        - include: typedefs
+  moduleref:
+    - match: '\b([A-Z][a-zA-Z0-9''_]*)(\.)'
+      scope: meta.module-reference.ocaml
+  storagetypes:
+    - match: \b(int|char|float|string|list|array|bool|unit|exn|option|int32|int64|nativeint|format4|lazy_t)\b
+      scope: storage.type.ocaml
+    - match: "#[a-z_][a-zA-Z0-9_]*"
+      scope: storage.type.variant.polymorphic.ocaml
+  strings:
+    - match: '(?=[^\\])(")'
+      captures:
+        1: punctuation.definition.string.begin.ocaml
+      push:
+        - meta_scope: string.quoted.double.ocaml
+        - match: (")
+          captures:
+            1: punctuation.definition.string.end.ocaml
+          pop: true
+        - match: '\\$[ \t]*'
+          scope: punctuation.separator.string.ignore-eol.ocaml
+        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
+          scope: constant.character.string.escape.ocaml
+        - match: '\\[\|\(\)1-9$^.*+?\[\]]'
+          scope: constant.character.regexp.escape.ocaml
+        - match: '\\(?!(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\]|[\|\(\)1-9$^.*+?\[\]]|$[ \t]*))(?:.)'
+          scope: invalid.illegal.character.string.escape
+  typedefs:
+    - match: \|
+      scope: punctuation.separator.variant-definition.ocaml
+    - include: comments
+    - match: \(
+      push:
+        - meta_scope: meta.paren-group.ocaml
+        - match: \)
+          pop: true
+        - include: typedefs
+    - match: \bof\b
+      scope: keyword.other.ocaml
+    - include: storagetypes
+    - match: '(?<=\s|\()[''a-z_][a-zA-Z0-9_]*\b'
+      scope: storage.type.ocaml
+    - match: '\b((?:[A-Z][a-zA-Z0-9''_]*)(?:\.[A-Z][a-zA-Z0-9''_]+)*)(\.[a-zA-Z0-9''_]+)'
+      scope: meta.module.type.ocaml
+      captures:
+        1: support.other.module.ocaml
+        2: storage.type.module.ocaml
+    - match: '(\[(>|<)?)'
+      captures:
+        1: punctuation.definition.polymorphic-variant.ocaml
+      push:
+        - meta_scope: meta.polymorphic-variant.definition.ocaml
+        - match: '(\])'
+          captures:
+            1: punctuation.definition.polymorphic-variant.ocaml
+          pop: true
+        - include: typedefs
+    - include: main
+    - match: \|
+      scope: punctuation.separator.algebraic-type.ocaml
+  variables:
+    - match: \(\)
+      scope: variable.parameter.unit.ocaml
+    - include: constants
+    - include: moduleref
+    - match: '(~)([a-z][a-zA-Z0-9''_]*)(\s*:\s*)?'
+      captures:
+        1: punctuation.definition.labeled-parameter.ocaml
+        2: entity.name.tag.label.ocaml
+        3: punctuation.separator.label.ocaml
+      push:
+        - meta_scope: variable.parameter.labeled.ocaml
+        - match: (?=(->|\s))
+          pop: true
+        - include: variables
+    - match: '(\?)([a-z][a-zA-Z0-9_]*)'
+      scope: variable.parameter.optional.ocaml
+      captures:
+        1: punctuation.definition.optional-parameter.ocaml
+        2: entity.name.tag.label.optional.ocaml
+    - match: '(\?)(\()([a-z_][a-zA-Z0-9''_]*)\s*(=)'
+      captures:
+        1: punctuation.definition.optional-parameter.ocaml
+        2: punctuation.definition.optional-parameter.ocaml
+        3: entity.name.tag.label.optional.ocaml
+        4: punctuation.separator.optional-parameter-assignment.ocaml
+      push:
+        - meta_scope: variable.parameter.optional.ocaml
+        - match: (\))
+          captures:
+            1: punctuation.definition.optional-parameter.ocaml
+          pop: true
+        - include: main
+    - match: '(\()(?=(~[a-z][a-zA-Z0-9_]*:|("(\\"|[^"])*")|[^\(\)~"])+(?<!:)(:>|:(?![:=])))'
+      captures:
+        1: punctuation.section.type-constraint.ocaml
+      push:
+        - meta_scope: meta.parameter.type-constrained.ocaml
+        - match: (\))
+          captures:
+            1: punctuation.section.type-constraint.ocaml
+          pop: true
+        - match: "(?<!:)(:>|:(?![:=]))"
+          captures:
+            1: punctuation.separator.type-constraint.ocaml
+          push:
+            - meta_scope: storage.type.ocaml
+            - match: (?=\))
+              pop: true
+            - match: \(
+              push:
+                - meta_scope: meta.paren.group
+                - match: \)
+                  pop: true
+        - include: variables
+    - include: comments
+    - match: \(
+      push:
+        - meta_scope: meta.paren-group.ocaml
+        - match: \)
+          pop: true
+        - include: variables
+    - match: (\()
+      captures:
+        1: punctuation.definition.tuple.ocaml
+      push:
+        - meta_scope: variable.parameter.tuple.ocaml
+        - match: (\))
+          captures:
+            1: punctuation.definition.tuple.ocaml
+          pop: true
+        - include: matchpatterns
+        - include: variables
+        - match: ","
+          scope: punctuation.separator.tuple.ocaml
+    - match: '(\{)'
+      captures:
+        1: punctuation.definition.record.ocaml
+      push:
+        - meta_scope: variable.parameter.record.ocaml
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.record.ocaml
+          pop: true
+        - include: moduleref
+        - match: '\b([a-z][a-zA-Z0-9''_]*)\s*(=)'
+          captures:
+            1: entity.name.tag.record.ocaml
+            2: punctuation.separator.record.field-assignment.ocaml
+          push:
+            - meta_scope: meta.recordfield.match.ocaml
+            - match: '(;)|(?=\})'
+              captures:
+                1: punctuation.separator.record.ocaml
+              pop: true
+            - include: matchpatterns
+    - include: storagetypes
+    - match: '\b[a-z_][a-zA-Z0-9''_]*'
+      scope: variable.parameter.ocaml

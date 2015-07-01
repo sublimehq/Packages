@@ -1,0 +1,13 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Objective-C++
+file_extensions:
+  - mm
+  - M
+  - h
+scope: source.objc++
+contexts:
+  main:
+    - include: scope:source.c++
+    - include: scope:source.objc

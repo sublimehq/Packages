@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Regular Expression
+comment: Matches Oniguruma's Ruby regexp syntax (TextMate uses Oniguruma in Ruby mode).
+file_extensions:
+  - re
+scope: source.regexp
+contexts:
+  main:
+    - match: \|
+      scope: keyword.operator.regexp
+    - match: '\\[bBAZzG^$]'
+      scope: keyword.control.anchors.regexp
+    - include: character_class
+    - include: escaped_char
+    - match: '\[(?:\^?\])?'
+      push:
+        - meta_scope: keyword.control.set.regexp
+        - match: '\]'
+          pop: true
+        - include: character_class
+        - include: escaped_char
+        - match: .-.
+          scope: constant.other.range.regexp
+        - match: .&&.
+          scope: keyword.operator.intersection.regexp
+    - match: \(
+      push:
+        - meta_scope: string.regexp.group
+        - match: \)
+          pop: true
+        - include: scope:source.regexp
+        - match: '(?<=\()\?(<[=!]|>|=|:|!)'
+          scope: constant.other.assertion.regexp
+        - match: '(?<=\()\?#'
+          scope: comment.line.number-sign.regexp
+    - match: \\(\n\d+|\k\w+|(?<!\|)\g\w+)
+      scope: keyword.other.backref-and-recursion.regexp
+    - match: '\\([tvnrbfae]|[0-8]{3}|x\H\H\{7\H{7}\}|x\H\H|c\d+|C-\d+|M-\d+|M-\\C-\d+)'
+      scope: constant.character.escape.regexp
+    - match: '((?<!\()[?*+][?+]?)|\{\d*,\d*\}'
+      scope: keyword.operator.quantifier.regexp
+  character_class:
+    - match: '\\[wWsSdDhH]'
+      scope: keyword.control.character-class.regexp
+  escaped_char:
+    - match: \\.
+      comment: escaped character
+      scope: constant.character.escape.regexp

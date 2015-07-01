@@ -14,3 +14,13 @@ $ ln -s `pwd`/Packages/Python ~/Library/Application\ Support/Sublime\ Text\ 3/Pa
 After you've finished, keep in mind that you're now overriding a default package, and when Sublime Text updates to a new version, unless you pull the latest changes from the repository, you'll run the risk of having an out-of-date package.
 
 On Windows, rather than fiddling around with symlinks, the simplest approach would likely be to download the portable version, and clone this repository directly as a subdirectory of `Data`.
+
+## Pull Requests
+
+Pull requests for new packages won't be accepted at this stage, as it can cause issues for users who have a package with the same name via Package Control. There are some planned changes in the future that will address this.
+
+Complex plugins such as auto complete systems and linters should generally be in a standalone package, rather than included in the default set.
+
+## Missing Packages
+
+This repository only contains syntax definition focused packages. Notably, Packages such as 'Default' and 'Theme - Default' are not included.

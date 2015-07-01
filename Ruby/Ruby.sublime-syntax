@@ -99,10 +99,10 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b(initialize|new|loop|include|extend|raise|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected)\b(?![?!])'
+    - match: '\b(initialize|new|loop|include|extend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected)\b(?![?!])'
       comment: everything being a method but having a special function is a..
       scope: keyword.other.special-method.ruby
-    - match: \b(require|gem)\b
+    - match: \b(require|require_relative|gem)\b
       captures:
         1: keyword.other.special-method.ruby
       push:
@@ -319,7 +319,7 @@ contexts:
            (?:
              ^                      # beginning of line
            | (?<=                   # or look-behind on:
-               [=>~(?:\[,|&;]
+               [=><~(?:\[,|&;]
              | [\s;]if\s			# keywords
              | [\s;]elsif\s
              | [\s;]while\s
@@ -354,8 +354,10 @@ contexts:
         1: string.regexp.classic.ruby
         2: punctuation.definition.string.ruby
       push:
-        - meta_content_scope: string.regexp.classic.ruby
-        - match: "((/[eimnosux]*))"
+        - meta_scope: string.regexp.classic.ruby
+        - match: "((/)([eimnosux]*))"
+          captures:
+            1: punctuation.definition.string.ruby
           pop: true
         - include: regex_sub
     - match: '%r\{'
@@ -737,7 +739,9 @@ contexts:
       captures:
         1: punctuation.separator.variable.ruby
       push:
+        - meta_scope: meta.variable.block.ruby
         - match: (\|)
+          scope: punctuation.separator.variable.ruby
           pop: true
         - match: "[_a-zA-Z][_a-zA-Z0-9]*"
           scope: variable.other.block.ruby

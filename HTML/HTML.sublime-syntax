@@ -226,8 +226,101 @@ contexts:
             1: meta.toc-list.id.html
         - match: ''
           pop: true
+  tag-style-attribute:
+    - match: \b(style)\b\s*(=)
+      captures:
+        1: entity.other.attribute-name.style.html
+        2: punctuation.separator.key-value.html
+      push:
+        - meta_scope: meta.attribute-with-value.style.html
+        - match: '"'
+          scope: string.quoted.double punctuation.definition.string.begin.html
+          push:
+            - meta_scope: source.css
+            - match: '"'
+              scope: string.quoted.double punctuation.definition.string.end.html
+              pop: true
+            - match: ''
+              # An anonymous context with an include is used here rather than
+              # a direct push, so that if the target context isn't found it's
+              # only a warning rather than an error. This will likely happen
+              # if the user has replaced the default CSS syntax
+              push:
+                - include: 'CSS.sublime-syntax#rule-list-body'
+              with_prototype:
+                - match: '(?=")'
+                  pop: true
+                - include: entities
+        - match: "'"
+          scope: string.quoted.single punctuation.definition.string.begin.html
+          push:
+            - meta_scope: source.css
+            - match: "'"
+              scope: string.quoted.single punctuation.definition.string.end.html
+              pop: true
+            - match: ''
+              # An anonymous context with an include is used here rather than
+              # a direct push, so that if the target context isn't found it's
+              # only a warning rather than an error. This will likely happen
+              # if the user has replaced the default CSS syntax
+              push:
+                - include: 'CSS.sublime-syntax#rule-list-body'
+              with_prototype:
+                - match: "(?=')"
+                  pop: true
+                - include: entities
+        - match: ''
+          pop: true
+
+  tag-event-attribute:
+    - match: |-
+        (?x)\b(
+        onabort|onautocomplete|onautocompleteerror|onblur|oncancel|oncanplay|
+        oncanplaythrough|onchange|onclick|onclose|oncontextmenu|oncuechange|
+        ondblclick|ondrag|ondragend|ondragenter|ondragexit|ondragleave|ondragover|
+        ondragstart|ondrop|ondurationchange|onemptied|onended|onerror|onfocus|
+        oninput|oninvalid|onkeydown|onkeypress|onkeyup|onload|onloadeddata|
+        onloadedmetadata|onloadstart|onmousedown|onmouseenter|onmouseleave|
+        onmousemove|onmouseout|onmouseover|onmouseup|onmousewheel|onpause|onplay|
+        onplaying|onprogress|onratechange|onreset|onresize|onscroll|onseeked|
+        onseeking|onselect|onshow|onsort|onstalled|onsubmit|onsuspend|
+        ontimeupdate|ontoggle|onvolumechange|onwaiting)\b\s*(=)
+      captures:
+        1: entity.other.attribute-name.event.html
+        2: punctuation.separator.key-value.html
+      push:
+        - meta_scope: meta.attribute-with-value.event.html
+        - match: '"'
+          scope: string.quoted.double punctuation.definition.string.begin.html
+          push:
+            - match: '"'
+              scope: string.quoted.double punctuation.definition.string.end.html
+              pop: true
+            - match: ''
+              push: 'scope:source.js'
+              with_prototype:
+                - match: '(?=")'
+                  pop: true
+                - include: entities
+        - match: "'"
+          scope: string.quoted.single punctuation.definition.string.begin.html
+          push:
+            - match: "'"
+              scope: string.quoted.single punctuation.definition.string.end.html
+              pop: true
+            - match: ''
+              push: 'scope:source.js'
+              with_prototype:
+                - match: "(?=')"
+                  pop: true
+                - include: entities
+        - match: ''
+          pop: true
+
   tag-stuff:
     - include: tag-id-attribute
+    - include: tag-style-attribute
+    - include: tag-event-attribute
     - include: tag-generic-attribute
     - include: string-double-quoted
     - include: string-single-quoted

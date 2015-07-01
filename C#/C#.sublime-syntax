@@ -1,0 +1,277 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: "C#"
+file_extensions:
+  - cs
+scope: source.cs
+contexts:
+  main:
+    - match: '^\s*(using)\s+([^ ;]*);'
+      scope: meta.keyword.using.source.cs
+      captures:
+        1: keyword.other.using.source.cs
+    - match: '^\s*((namespace)\s+([\w.]+))'
+      captures:
+        1: meta.namespace.identifier.source.cs
+        2: keyword.other.namespace.source.cs
+        3: entity.name.type.namespace.source.cs
+      push:
+        - meta_scope: meta.namespace.source.cs
+        - match: "}"
+          captures:
+            0: punctuation.section.namespace.end.source.cs
+          pop: true
+        - match: "{"
+          captures:
+            0: punctuation.section.namespace.begin.source.cs
+          push:
+            - meta_scope: meta.namespace.body.source.cs
+            - match: "(?=})"
+              pop: true
+            - include: code
+    - include: code
+  block:
+    - match: "{"
+      captures:
+        0: punctuation.section.block.begin.source.cs
+      push:
+        - meta_scope: meta.block.source.cs
+        - match: "}"
+          captures:
+            0: punctuation.section.block.end.source.cs
+          pop: true
+        - include: code
+  builtinTypes:
+    - match: \b(bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|object|short|ushort|string|void|class|struct|enum|interface)\b
+      scope: storage.type.source.cs
+  class:
+    - match: '(?=\w?[\w\s]*(?:class|struct|interface|enum)\s+\w+)'
+      push:
+        - meta_scope: meta.class.source.cs
+        - match: "}"
+          captures:
+            0: punctuation.section.class.end.source.cs
+          pop: true
+        - include: storage-modifiers
+        - include: comments
+        - match: (class|struct|interface|enum)\s+(\w+)
+          scope: meta.class.identifier.source.cs
+          captures:
+            1: storage.modifier.source.cs
+            2: entity.name.type.class.source.cs
+        - match: ":"
+          push:
+            - match: "(?={)"
+              pop: true
+            - match: '\s*,?([A-Za-z_]\w*)\b'
+              captures:
+                1: storage.type.source.cs
+        - match: "{"
+          captures:
+            0: punctuation.section.class.begin.source.cs
+          push:
+            - meta_scope: meta.class.body.source.cs
+            - match: "(?=})"
+              pop: true
+            - include: method
+            - include: code
+  code:
+    - include: block
+    - include: comments
+    - include: class
+    - include: constants
+    - include: storage-modifiers
+    - include: keywords
+    - include: preprocessor
+    - include: method-call
+    - include: builtinTypes
+  comments:
+    - match: ///
+      captures:
+        0: punctuation.definition.comment.source.cs
+      push:
+        - meta_scope: comment.block.documentation.source.cs
+        - match: $\n?
+          pop: true
+        - include: scope:text.xml
+    - match: /\*
+      captures:
+        0: punctuation.definition.comment.source.cs
+      push:
+        - meta_scope: comment.block.source.cs
+        - match: \*/\n?
+          pop: true
+    - match: //
+      captures:
+        1: punctuation.definition.comment.source.cs
+      push:
+        - meta_scope: comment.line.double-slash.source.cs
+        - match: $\n?
+          pop: true
+  constants:
+    - match: \b(true|false|null|this|base)\b
+      scope: constant.language.source.cs
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
+      scope: constant.numeric.source.cs
+    - match: '@"([^"]|"")*"'
+      scope: string.quoted.double.literal.source.cs
+      captures:
+        0: punctuation.definition.string.begin.source.cs
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.source.cs
+      push:
+        - meta_scope: string.quoted.double.source.cs
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.source.cs
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.source.cs
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.source.cs
+      push:
+        - meta_scope: string.quoted.single.source.cs
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.source.cs
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.source.cs
+  keywords:
+    - match: \b(if|else|while|for|foreach|in|do|return|continue|break|switch|case|default|goto|throw|try|catch|finally|lock|yield)\b
+      scope: keyword.control.source.cs
+    - match: \b(from|where|select|group|into|orderby|join|let|on|equals|by|ascending|descending)\b
+      scope: keyword.linq.source.cs
+    - match: \b(new|is|as|using|checked|unchecked|typeof|sizeof|override|readonly|stackalloc)\b
+      scope: keyword.operator.source.cs
+    - match: \b(var|event|delegate|add|remove|set|get|value)\b
+      scope: keyword.other.source.cs
+  method:
+    - match: '\['
+      push:
+        - meta_scope: meta.method.annotation.source.cs
+        - match: '\]'
+          pop: true
+        - include: constants
+        - include: preprocessor
+        - include: builtinTypes
+    - match: '(?=\bnew\s+)(?=[\w<].*\s+)(?=[^=]+\()'
+      push:
+        - meta_scope: meta.new-object.source.cs
+        - match: "(?={|;)"
+          pop: true
+        - include: code
+    - match: '(?!new)(?=[\w<].*\s+)(?=[^=]+\()'
+      push:
+        - meta_scope: meta.method.source.cs
+        - match: "(})|(?=;)"
+          captures:
+            1: punctuation.section.method.end.source.cs
+          pop: true
+        - include: storage-modifiers
+        - match: '([\w.]+)\s*\('
+          captures:
+            1: entity.name.function.source.cs
+          push:
+            - meta_scope: meta.method.identifier.source.cs
+            - match: \)
+              pop: true
+            - include: parameters
+        - match: '(?=\w.*\s+[\w.]+\s*\()'
+          push:
+            - meta_scope: meta.method.return-type.source.cs
+            - match: '(?=[\w.]+\s*\()'
+              pop: true
+            - include: builtinTypes
+        - match: ':\s*(this|base)\s*\('
+          captures:
+            1: constant.language.source.cs
+          push:
+            - meta_scope: meta.method.base-call.source.cs
+            - match: \)
+              pop: true
+            - include: builtinTypes
+        - match: "{"
+          captures:
+            0: punctuation.section.method.begin.source.cs
+          push:
+            - meta_scope: meta.method.body.source.cs
+            - match: "(?=})"
+              pop: true
+            - include: code
+    - match: '(?!new)(?=[\w<].*\s+)(?=[^=]+\{)'
+      push:
+        - meta_scope: meta.property.source.cs
+        - match: "}"
+          captures:
+            0: punctuation.section.property.end.source.cs
+          pop: true
+        - include: storage-modifiers
+        - match: '([\w.]+)\s*(?={)'
+          captures:
+            1: entity.name.function.source.cs
+          push:
+            - meta_scope: meta.method.identifier.source.cs
+            - match: "(?={)"
+              pop: true
+        - match: '(?=\w.*\s+[\w.]+\s*\{)'
+          push:
+            - meta_scope: meta.method.return-type.source.cs
+            - match: '(?=[\w.]+\s*\{)'
+              pop: true
+            - include: builtinTypes
+        - match: "{"
+          captures:
+            0: punctuation.section.property.begin.source.cs
+          push:
+            - meta_scope: meta.method.body.source.cs
+            - match: "(?=})"
+              pop: true
+            - include: code
+  method-call:
+    - match: '([\w$]+)(\()'
+      captures:
+        1: meta.method.source.cs
+        2: punctuation.definition.method-parameters.begin.source.cs
+      push:
+        - meta_scope: meta.method-call.source.cs
+        - match: \)
+          captures:
+            0: punctuation.definition.method-parameters.end.source.cs
+          pop: true
+        - match: ","
+          scope: punctuation.definition.seperator.parameter.source.cs
+        - include: code
+  parameters:
+    - match: '\b(ref|params|out)?\s*\b([\w.\[\]]+)\s+(\w+)\s*(=)?'
+      captures:
+        1: storage.type.modifier.source.cs
+        2: storage.type.generic.source.cs
+        3: variable.parameter.function.source.cs
+        4: keyword.operator.assignment.source.cs
+      push:
+        - match: '(?:(,)|(?=[\)]))'
+          captures:
+            1: punctuation.definition.separator.parameter.source.cs
+          pop: true
+        - include: constants
+        - include: block
+  preprocessor:
+    - match: ^\s*#\s*(region)\b(.*)$
+      scope: meta.preprocessor.source.cs
+      captures:
+        2: meta.toc-list.region.source.cs
+    - match: ^\s*#\s*(define)\b\s*(\S*)
+      scope: meta.preprocessor.source.cs
+      captures:
+        2: entity.name.function.preprocessor.source.cs
+    - match: ^\s*#\s*(if|else|elif|endif|define|undef|warning|error|line|pragma|region|endregion)\b
+      scope: meta.preprocessor.source.cs
+      captures:
+        2: keyword.control.import.source.cs
+  storage-modifiers:
+    - match: \b(event|delegate|internal|public|protected|private|static|const|new|sealed|abstract|virtual|override|extern|unsafe|readonly|volatile|implicit|explicit|operator)\b
+      scope: storage.modifier.source.cs

@@ -1,0 +1,87 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Java Server Page (JSP)
+file_extensions:
+  - jsp
+scope: text.html.jsp
+contexts:
+  main:
+    - match: <%--
+      captures:
+        0: punctuation.definition.comment.jsp
+      push:
+        - meta_scope: comment.block.jsp
+        - match: "--%>"
+          pop: true
+    - match: <%@
+      captures:
+        0: punctuation.section.directive.jsp
+      push:
+        - meta_scope: meta.directive.jsp
+        - match: "%>"
+          pop: true
+        - match: \w+
+          captures:
+            0: keyword.other.directive.jsp
+          push:
+            - match: (?=%>)
+              pop: true
+            - match: \w+
+              scope: constant.other.directive.attribute.jsp
+            - match: "="
+              scope: keyword.operator.assignment.jsp
+            - match: '"'
+              captures:
+                0: punctuation.definition.string.begin.jsp
+              push:
+                - meta_scope: string.quoted.double.jsp
+                - match: '"'
+                  captures:
+                    0: punctuation.definition.string.end.jsp
+                  pop: true
+                - match: \\.
+                  scope: constant.character.escape.jsp
+            - match: "'"
+              captures:
+                0: punctuation.definition.string.begin.jsp
+              push:
+                - meta_scope: string.quoted.single.jsp
+                - match: "'"
+                  captures:
+                    0: punctuation.definition.string.end.jsp
+                  pop: true
+                - match: \\.
+                  scope: constant.character.escape.jsp
+    - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
+      captures:
+        1: punctuation.section.embedded.jsp
+        2: meta.tag.block.jsp
+      push:
+        - match: (?<=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>)
+          pop: true
+        - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
+          captures:
+            1: meta.tag.block.jsp
+            2: punctuation.section.embedded.jsp
+        - match: '(?<!\n)(?!</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})'
+          push:
+            - meta_scope: source.java.embedded.html
+            - match: '(?=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})|\n'
+              pop: true
+            - include: scope:source.java
+        - match: "{"
+          push:
+            - match: "}"
+              pop: true
+            - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
+              captures:
+                1: meta.tag.block.jsp
+                2: punctuation.section.embedded.jsp
+              push:
+                - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%[!=]?)"
+                  pop: true
+                - include: scope:text.html.jsp
+            - include: scope:source.java
+        - include: scope:source.java
+    - include: scope:text.html.basic

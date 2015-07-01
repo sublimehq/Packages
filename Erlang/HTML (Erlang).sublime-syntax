@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: HTML (Erlang)
+file_extensions:
+  - yaws
+scope: text.html.erlang.yaws
+contexts:
+  main:
+    - match: <erl>
+      captures:
+        0: punctuation.section.embedded.erlang
+      push:
+        - meta_scope: source.erlang.embedded.html
+        - match: </erl>
+          pop: true
+        - include: scope:source.erlang
+    - include: scope:text.html.basic

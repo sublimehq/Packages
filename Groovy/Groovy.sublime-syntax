@@ -1,0 +1,446 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Groovy
+file_extensions:
+  - groovy
+  - gvy
+scope: source.groovy
+contexts:
+  main:
+    - match: ^(#!).+$\n
+      scope: comment.line.hashbang.groovy
+      captures:
+        1: punctuation.definition.comment.groovy
+    - match: '^\s*(package)\s+([^ ;]+)'
+      scope: meta.package.groovy
+      captures:
+        1: keyword.other.package.groovy
+        2: storage.type.package.groovy
+    - match: '^\s*(import)\s+([^ ;$]+);?'
+      scope: meta.import.groovy
+      captures:
+        1: keyword.other.import.groovy
+        2: storage.type.import.groovy
+    - include: groovy
+  class-object:
+    - match: |-
+        (?x)
+            \b(
+              (?:[a-z]\w*\.)* # Optional package specification
+              [A-Z]\w+\b # Class name
+              (?:<(?:[\w, ]*)>)? # Optional Generics
+              (?:\[\s*\])* # Optional brackets (array)
+            )\b
+      scope: storage.type.class.groovy
+  classes:
+    - match: |-
+        (?x)^\s*
+        (?:(?:\b(?:(public|private|protected)|(static)|(final)|(native|synchronized|abstract|threadsafe|transient))\b\s*)*) # modifier
+        (class)\s+
+        (\w+)\s* # identifier
+      captures:
+        1: storage.modifier.access-control.groovy
+        2: storage.modifier.static.groovy
+        3: storage.modifier.final.groovy
+        4: storage.modifier.other.groovy
+        5: storage.type.class.groovy
+        6: entity.name.type.class.groovy
+      push:
+        - meta_scope: meta.definition.class.groovy
+        - match: $
+          pop: true
+        - match: '(extends)\s+([a-zA-Z0-9_\.]+(?:<(?:[a-zA-Z0-9_, ])+>)?)\s*'
+          scope: meta.definition.class.inherited.classes.groovy
+          captures:
+            1: storage.modifier.extends.groovy
+            2: entity.other.inherited-class.groovy
+        - match: (implements)\s
+          captures:
+            1: storage.modifier.implements.groovy
+          push:
+            - meta_scope: meta.definition.class.implemented.interfaces.groovy
+            - match: '(?=\s*extends|$|\{)'
+              pop: true
+            - match: '((?:[a-z]\w*.)*[A-Z]\w*)\s*(?:(,)|$|\{)'
+              captures:
+                1: entity.other.inherited-class.interface.groovy
+                2: punctuation.definition.implemented.interfaces.separator.groovy
+  comment-block:
+    - match: /\*
+      captures:
+        0: punctuation.definition.comment.groovy
+      push:
+        - meta_scope: comment.block.groovy
+        - match: \*/
+          pop: true
+  comments:
+    - match: /\*\*/
+      scope: comment.block.empty.groovy
+      captures:
+        0: punctuation.definition.comment.groovy
+    - include: scope:text.html.javadoc
+    - include: comment-block
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.groovy
+      captures:
+        1: punctuation.definition.comment.groovy
+  constants:
+    - match: '\b([A-Z][A-Z0-9_]+)\b'
+      scope: constant.other.groovy
+    - match: \b(true|false|null)\b
+      scope: constant.language.groovy
+  groovy:
+    - include: classes
+    - include: methods
+    - include: groovy-code
+  groovy-code:
+    - include: groovy-code-minus-map-keys
+    - include: map-keys
+  groovy-code-minus-map-keys:
+    - include: comments
+    - include: support-functions
+    - include: keyword-language
+    - include: values
+    - include: keyword-operator
+    - include: storage-types
+    - include: storage-modifiers
+  keyword:
+    - include: keyword-operator
+    - include: keyword-language
+  keyword-language:
+    - match: \b(try|catch|finally|throw)\b
+      scope: keyword.control.exception.groovy
+    - match: \b(return|break|continue|default|do|while|for|switch|if|else)\b
+      scope: keyword.control.groovy
+    - match: \bcase\b
+      captures:
+        0: keyword.control.groovy
+      push:
+        - meta_scope: meta.case.groovy
+        - match: ":"
+          captures:
+            0: punctuation.definition.case-terminator.groovy
+          pop: true
+        - include: groovy-code-minus-map-keys
+    - match: \b(new)\b
+      scope: keyword.other.new.groovy
+    - match: \b(assert)\s
+      captures:
+        1: keyword.control.assert.groovy
+      push:
+        - meta_scope: meta.declaration.assertion.groovy
+        - match: $
+          pop: true
+        - match: ":"
+          scope: keyword.operator.assert.expression-seperator.groovy
+        - include: groovy-code-minus-map-keys
+    - match: \b(throws)\b
+      scope: keyword.other.throws.groovy
+  keyword-operator:
+    - match: \b(as)\b
+      scope: keyword.operator.as.groovy
+    - match: \b(is)\b
+      scope: keyword.operator.is.groovy
+    - match: '\?\:'
+      scope: keyword.operator.elvis.groovy
+    - match: \.\.
+      scope: keyword.operator.range.groovy
+    - match: \->
+      scope: keyword.operator.arrow.groovy
+    - match: <<
+      scope: keyword.operator.leftshift.groovy
+    - match: (?<=\S)\.(?=\S)
+      scope: keyword.operator.navigation.groovy
+    - match: (?<=\S)\?\.(?=\S)
+      scope: keyword.operator.safe-navigation.groovy
+    - match: \?
+      captures:
+        0: keyword.operator.ternary.groovy
+      push:
+        - meta_scope: meta.evaluation.ternary.groovy
+        - match: $
+          pop: true
+        - match: ":"
+          scope: keyword.operator.ternary.expression-seperator.groovy
+        - include: groovy-code-minus-map-keys
+    - match: "==~"
+      scope: keyword.operator.match.groovy
+    - match: "=~"
+      scope: keyword.operator.find.groovy
+    - match: \b(instanceof)\b
+      scope: keyword.operator.instanceof.groovy
+    - match: (===|==|!=|<=|>=|<=>|<>|<|>|<<)
+      scope: keyword.operator.comparison.groovy
+    - match: "="
+      scope: keyword.operator.assignment.groovy
+    - match: (\-\-|\+\+)
+      scope: keyword.operator.increment-decrement.groovy
+    - match: (\-|\+|\*|\/|%)
+      scope: keyword.operator.arithmetic.groovy
+    - match: (!|&&|\|\|)
+      scope: keyword.operator.logical.groovy
+  map-keys:
+    - match: (\w+)\s*(:)
+      captures:
+        1: constant.other.key.groovy
+        2: punctuation.definition.seperator.key-value.groovy
+  method-call:
+    - match: (\w+)(\()
+      captures:
+        1: meta.method.groovy
+        2: punctuation.definition.method-parameters.begin.groovy
+      push:
+        - meta_scope: meta.method-call.groovy
+        - match: \)
+          captures:
+            0: punctuation.definition.method-parameters.end.groovy
+          pop: true
+        - match: ","
+          scope: punctuation.definition.seperator.parameter.groovy
+        - include: groovy-code
+  method-declaration-remainder:
+    - match: \(
+      captures:
+        0: punctuation.definition.parameters.begin.groovy
+      push:
+        - meta_content_scope: meta.definition.method.parameters.groovy
+        - match: \)
+          captures:
+            0: punctuation.definition.parameters.end.groovy
+          pop: true
+        - match: |-
+            (?x)\s*
+              (
+                (?:boolean|byte|char|short|int|float|long|double|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)
+              )?
+              \s*
+              ([a-z_][A-Za-z0-9_]*) # variable
+          scope: meta.definition.method.parameter.groovy
+          captures:
+            1: storage.type.parameter.groovy
+            2: variable.parameter.groovy
+        - match: '(boolean|byte|char|short|int|float|long|double|(?:\w+\.)*[A-Z]\w*\b(?:<(?:[\w, ]*)>)?(?:\[\s*\])*)'
+          scope: meta.definition.method.parameter.groovy
+          captures:
+            1: storage.type.parameter.groovy
+        - match: ","
+          scope: punctuation.definition.parameters.seperator.groovy
+        - include: comment-block
+    - match: (?<=\))\s*(throws)\s
+      captures:
+        1: storage.modifier.throws.groovy
+      push:
+        - meta_scope: meta.definition.method.throwables.groovy
+        - match: '(?=$|\{)'
+          pop: true
+        - match: '((?:[a-z]\w*.)*[A-Z]\w*)\s*(?:(,)|$|\{)'
+          captures:
+            1: storage.type.throwable.groovy
+            2: punctuation.definition.throwables.seperator.groovy
+  methods:
+    - match: |-
+        (?x)^\s*
+          (?: # zero or more modifiers
+            (?:
+              (public|private|protected)|(final)|(native|synchronized|abstract|threadsafe|transient)
+            )
+            \s+
+          )?
+          \s*
+          ([A-Z](?:[a-zA-Z0-9_])+) # constructor/class name
+          \s*
+          (?=\()
+      captures:
+        1: storage.modifier.access-control.groovy
+        2: storage.modifier.final.groovy
+        3: storage.modifier.other.groovy
+        4: entity.name.function.constructor.groovy
+        5: punctuation.definition.parameters.begin.groovy
+      push:
+        - meta_scope: meta.definition.constructor.groovy
+        - match: '{|$\n?'
+          pop: true
+        - include: method-declaration-remainder
+    - match: |-
+        (?x)^\s*
+          (?:
+            (?: # or modifier and optional type
+              (?:(?:\b(public|private|protected)|(static)|(final)|(native|synchronized|abstract|threadsafe|transient))\b\s+)+\s* # modifier
+              (?:\b
+                (void)
+                |
+                (boolean|byte|char|short|int|float|long|double) # primitive
+                |
+                ( # or class type
+                  (?:\w+\.)*[A-Z]\w+\b # Class name
+                  (?:<(?:[\w, ]*)>)? # optional Generic type
+                  (?:\[\s*\])* # zero or more square brackets (array)
+                )
+              )?
+            )
+            |
+            (?:\b # or type by itself
+              (def)
+              |
+              (void)
+              |
+              (boolean|byte|char|short|int|float|long|double) # primitive
+              |
+              ( # or class type
+                (?:\w+\.)*[A-Z]\w+\b # Class name
+                (?:<(?:[\w, ]*)>)? # optional generics info
+                (?:\[\s*\])* # zero or more square brackets (array)
+              )
+            )
+          )
+          \s*
+          (\w+) # method name
+          \s*
+          (?=\() # opening parens
+      captures:
+        1: storage.modifier.access-control.groovy
+        2: storage.modifier.static.groovy
+        3: storage.modifier.final.groovy
+        4: storage.modifier.other.groovy
+        5: storage.type.return-type.void.groovy
+        6: storage.type.return-type.primitive.groovy
+        7: storage.type.return-type.class.groovy
+        8: storage.type.return-type.def.groovy
+        9: storage.type.return-type.void.groovy
+        10: storage.type.return-type.primitive.groovy
+        11: storage.type.return-type.class.groovy
+        12: entity.name.function.groovy
+      push:
+        - meta_scope: meta.definition.method.groovy
+        - match: '{|$\n?'
+          pop: true
+        - include: method-declaration-remainder
+  nest_curly:
+    - match: '\{'
+      captures:
+        0: punctuation.section.scope.groovy
+      push:
+        - match: '\}'
+          pop: true
+        - include: nest_curly
+  numbers:
+    - match: '((0(x|X)[0-9a-fA-F]*)|(\+|-)?\b(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
+      scope: constant.numeric.groovy
+  regexp:
+    - match: "/(?=[^/]+/)"
+      captures:
+        0: punctuation.definition.string.regexp.begin.groovy
+      push:
+        - meta_scope: string.regexp.groovy
+        - match: /
+          captures:
+            0: punctuation.definition.string.regexp.end.groovy
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.groovy
+  storage-modifiers:
+    - match: \b(private|protected|public)\b
+      scope: storage.modifier.access-control.groovy
+    - match: \b(static)\b
+      scope: storage.modifier.static.groovy
+    - match: \b(final)\b
+      scope: storage.modifier.final.groovy
+    - match: \b(native|synchronized|abstract|threadsafe|transient)\b
+      scope: storage.modifier.other.groovy
+  storage-types:
+    - match: '(@[^ (]+)(\()'
+      captures:
+        1: storage.type.annotation.groovy
+        2: punctuation.definition.annotation-arguments.begin.groovy
+      push:
+        - meta_scope: meta.declaration.annotation.groovy
+        - match: (\))
+          captures:
+            1: punctuation.definition.annotation-arguments.end.groovy
+          pop: true
+        - match: (\w*)\s*(=)
+          captures:
+            1: constant.other.key.groovy
+            2: keyword.operator.assignment.groovy
+        - include: values
+        - match: ","
+          scope: punctuation.definition.seperator.groovy
+    - match: '@\S+'
+      scope: storage.type.annotation.groovy
+    - match: \b(def)\b
+      scope: storage.type.def.groovy
+    - match: '\b(boolean|byte|char|short|int|float|long|double)(?:\[\s*\])*\b'
+      scope: storage.type.primitive.groovy
+  string-quoted-double:
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.groovy
+      push:
+        - meta_scope: string.quoted.double.groovy
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.groovy
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.groovy
+        - match: \$\w+
+          scope: variable.other.interpolated.groovy
+        - match: '\$\{'
+          captures:
+            0: punctuation.section.embedded.groovy
+          push:
+            - meta_scope: source.groovy.embedded.source
+            - match: '\}'
+              pop: true
+            - include: nest_curly
+  string-quoted-single:
+    - match: "'"
+      captures:
+        0: punctuation.definition.string.begin.groovy
+      push:
+        - meta_scope: string.quoted.single.groovy
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.end.groovy
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.groovy
+  strings:
+    - include: string-quoted-double
+    - include: string-quoted-single
+    - include: regexp
+  structures:
+    - match: '\['
+      captures:
+        0: punctuation.definition.structure.begin.groovy
+      push:
+        - meta_scope: meta.structure.groovy
+        - match: '\]'
+          captures:
+            0: punctuation.definition.structure.end.groovy
+          pop: true
+        - include: groovy-code
+        - match: ","
+          scope: punctuation.definition.separator.groovy
+  support-functions:
+    - match: (?x)\b(?:sprintf|print(?:f|ln)?)\b
+      scope: support.function.print.groovy
+    - match: |-
+        (?x)\b(?:shouldFail|fail(?:NotEquals)?|ass(?:ume|ert(?:S(?:cript|ame)|N(?:ot(?:Same|
+        Null)|ull)|Contains|T(?:hat|oString|rue)|Inspect|Equals|False|Length|
+        ArrayEquals)))\b
+      scope: support.function.testing.groovy
+    - match: (?x)\b(?:sleep|inspect|dump|use|with)\b
+      scope: support.function.other.groovy
+  values:
+    - include: variables
+    - include: strings
+    - include: numbers
+    - include: constants
+    - include: class-object
+    - include: structures
+    - include: method-call
+  variables:
+    - match: \b(this|super)\b
+      scope: variable.language.groovy

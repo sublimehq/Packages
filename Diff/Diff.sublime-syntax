@@ -1,0 +1,71 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Diff
+file_extensions:
+  - diff
+  - patch
+first_line_match: |-
+  (?x)^
+      (===\ modified\ file
+      |==== \s* // .+ \s - \s .+ \s+ ====
+      |Index:[ ]
+      |---\ [^%]
+      |\*\*\*.*\d{4}\s*$
+      |\d+(,\d+)* (a|d|c) \d+(,\d+)* $
+      |diff\ --git[ ]
+      )
+
+scope: source.diff
+contexts:
+  main:
+    - match: '^((\*{15})|(={67})|(-{3}))$\n?'
+      scope: meta.separator.diff
+      captures:
+        1: punctuation.definition.separator.diff
+    - match: ^\d+(,\d+)*(a|d|c)\d+(,\d+)*$\n?
+      scope: meta.diff.range.normal
+    - match: ^(@@)\s*(.+?)\s*(@@)($\n?)?
+      scope: meta.diff.range.unified
+      captures:
+        1: punctuation.definition.range.diff
+        2: meta.toc-list.line-number.diff
+        3: punctuation.definition.range.diff
+    - match: '^(((\-{3}) .+ (\-{4}))|((\*{3}) .+ (\*{4})))$\n?'
+      scope: meta.diff.range.context
+      captures:
+        3: punctuation.definition.range.diff
+        4: punctuation.definition.range.diff
+        6: punctuation.definition.range.diff
+        7: punctuation.definition.range.diff
+    - match: '(^(((-{3}) .+)|((\*{3}) .+))$\n?|^(={4}) .+(?= - ))'
+      scope: meta.diff.header.from-file
+      captures:
+        4: punctuation.definition.from-file.diff
+        6: punctuation.definition.from-file.diff
+        7: punctuation.definition.from-file.diff
+    - match: '(^(\+{3}) .+$\n?| (-) .* (={4})$\n?)'
+      scope: meta.diff.header.to-file
+      captures:
+        2: punctuation.definition.to-file.diff
+        3: punctuation.definition.to-file.diff
+        4: punctuation.definition.to-file.diff
+    - match: ^(((>)( .*)?)|((\+).*))$\n?
+      scope: markup.inserted.diff
+      captures:
+        3: punctuation.definition.inserted.diff
+        6: punctuation.definition.inserted.diff
+    - match: ^(!).*$\n?
+      scope: markup.changed.diff
+      captures:
+        1: punctuation.definition.inserted.diff
+    - match: ^(((<)( .*)?)|((-).*))$\n?
+      scope: markup.deleted.diff
+      captures:
+        3: punctuation.definition.inserted.diff
+        6: punctuation.definition.inserted.diff
+    - match: ^Index(:) (.+)$\n?
+      scope: meta.diff.index
+      captures:
+        1: punctuation.separator.key-value.diff
+        2: meta.toc-list.file-name.diff

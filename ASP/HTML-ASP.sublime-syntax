@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: HTML (ASP)
+file_extensions:
+  - asp
+scope: text.html.asp
+contexts:
+  main:
+    - match: <%=?
+      captures:
+        0: punctuation.section.embedded.begin.asp
+      push:
+        - meta_scope: source.asp.embedded.html
+        - match: "%>"
+          captures:
+            0: punctuation.section.embedded.end.asp
+          pop: true
+        - match: (').*?(?=%>)
+          scope: comment.line.apostrophe.asp
+          captures:
+            1: punctuation.definition.comment.asp
+        - include: scope:source.asp
+    - include: scope:text.html.basic

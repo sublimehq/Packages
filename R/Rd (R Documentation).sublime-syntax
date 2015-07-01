@@ -1,0 +1,71 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Rd (R Documentation)
+file_extensions:
+  - rd
+scope: text.tex.latex.rd
+contexts:
+  main:
+    - match: '((\\)(?:alias|docType|keyword|name|title))(\{)'
+      captures:
+        1: keyword.other.section.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.arguments.begin.rd
+      push:
+        - meta_scope: meta.section.rd
+        - meta_content_scope: entity.name.tag.rd
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.arguments.end.rd
+          pop: true
+        - include: main
+    - match: '((\\)(?:details|format|references|source))(\{)'
+      captures:
+        1: keyword.other.section.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.arguments.begin.rd
+      push:
+        - meta_scope: meta.section.rd
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.arguments.end.rd
+          pop: true
+        - include: main
+    - match: '((\\)(?:usage))(\{)(?:\n)?'
+      captures:
+        1: keyword.other.usage.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.arguments.begin.rd
+      push:
+        - meta_scope: meta.usage.rd
+        - meta_content_scope: source.r.embedded
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.arguments.end.rd
+          pop: true
+        - include: scope:source.r
+    - match: '((\\)(?:examples))(\{)(?:\n)?'
+      captures:
+        1: keyword.other.examples.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.arguments.begin.rd
+      push:
+        - meta_scope: meta.examples.rd
+        - meta_content_scope: source.r.embedded
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.arguments.end.rd
+          pop: true
+        - include: scope:source.r
+    - match: '((\\)(?:author))(\{)([\w\s]+?)\s+(<)([^>]*)(>)'
+      scope: meta.author.rd
+      captures:
+        1: keyword.other.author.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.arguments.begin.rd
+        4: entity.name.tag.author.rd
+        5: punctuation.definition.link.rd
+        6: markup.underline.link.rd
+        7: punctuation.definition.link.rd
+    - include: scope:text.tex.latex

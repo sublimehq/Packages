@@ -1,0 +1,186 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Textile
+file_extensions:
+  - textile
+first_line_match: textile
+scope: text.html.textile
+contexts:
+  main:
+    - match: '(^h[1-6]([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+      captures:
+        1: entity.name.tag.heading.textile
+        3: entity.name.type.textile
+        4: entity.name.tag.heading.textile
+      push:
+        - meta_scope: markup.heading.textile
+        - match: ^$
+          pop: true
+        - include: inline
+        - include: scope:text.html.basic
+    - match: '(^bq([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+      captures:
+        1: entity.name.tag.blockquote.textile
+        3: entity.name.type.textile
+        4: entity.name.tag.blockquote.textile
+      push:
+        - meta_scope: markup.quote.textile
+        - match: ^$
+          pop: true
+        - include: inline
+        - include: scope:text.html.basic
+    - match: '(^fn[0-9]+([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+      captures:
+        1: entity.name.tag.footnote.textile
+        3: entity.name.type.textile
+        4: entity.name.tag.footnote.textile
+      push:
+        - meta_scope: markup.other.footnote.textile
+        - match: ^$
+          pop: true
+        - include: inline
+        - include: scope:text.html.basic
+    - match: '(^table([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+      captures:
+        1: entity.name.tag.footnote.textile
+        3: entity.name.type.textile
+        4: entity.name.tag.footnote.textile
+      push:
+        - meta_scope: markup.other.table.textile
+        - match: ^$
+          pop: true
+        - include: inline
+        - include: scope:text.html.basic
+    - match: ^(?=\S)
+      push:
+        - meta_scope: meta.paragraph.textile
+        - match: ^$
+          pop: true
+        - match: '(^p([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+          scope: entity.name.section.paragraph.textile
+          captures:
+            1: entity.name.tag.paragraph.textile
+            3: entity.name.type.textile
+            4: entity.name.tag.paragraph.textile
+        - include: inline
+        - include: scope:text.html.basic
+    - include: scope:text.html.basic
+  inline:
+    - match: "&(?![A-Za-z0-9]+;)"
+      comment: "& is handled automagically by textile, so we match it to avoid text.html.basic from flagging it"
+      scope: text.html.textile
+    - match: '^\*+(\([^)]*\)|{[^}]*})*(\s+|$)'
+      scope: markup.list.unnumbered.textile
+      captures:
+        1: entity.name.type.textile
+    - match: '^#+(\([^)]*\)|{[^}]*})*\s+'
+      scope: markup.list.numbered.textile
+      captures:
+        1: entity.name.type.textile
+    - match: |-
+        (?x)
+              "               # Start name, etc
+                (?:             # Attributes
+                  # I swear, this is how the language is defined,
+                  # couldnt make it up if I tried.
+                  (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+                    # Class, Style, Lang
+                  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+                    # Style, Lang, Class
+                  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+                    # Lang, Style, Class
+                )?
+                ([^"]+?)          # Link name
+                \s?             # Optional whitespace
+                (?:\(([^)]+?)\))?
+              ":                # End name
+              (\w[-\w_]*)           # Linkref
+              (?=[^\w\/;]*?(<|\s|$))      # Catch closing punctuation
+                              #  and end of meta.link
+      scope: meta.link.reference.textile
+      captures:
+        1: string.other.link.title.textile
+        2: string.other.link.description.title.textile
+        3: constant.other.reference.link.textile
+    - match: |-
+        (?x)
+              "               # Start name, etc
+                (?:             # Attributes
+                  # I swear, this is how the language is defined,
+                  # couldnt make it up if I tried.
+                  (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+                    # Class, Style, Lang
+                  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+                    # Style, Lang, Class
+                  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+                    # Lang, Style, Class
+                )?
+                ([^"]+?)          # Link name
+                \s?             # Optional whitespace
+                (?:\(([^)]+?)\))?
+              ":                # End Name
+              (\S*?(?:\w|\/|;))       # URL
+              (?=[^\w\/;]*?(<|\s|$))      # Catch closing punctuation
+                              #  and end of meta.link
+      scope: meta.link.inline.textile
+      captures:
+        1: string.other.link.title.textile
+        2: string.other.link.description.title.textile
+        3: markup.underline.link.textile
+    - match: |-
+        (?x)
+              \!                    # Open image
+              (\<|\=|\>)?               # Optional alignment
+              (?:                   # Attributes
+                # I swear, this is how the language is defined,
+                # couldnt make it up if I tried.
+                (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+                  # Class, Style, Lang
+                | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+                  # Style, Lang, Class
+                | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+                  # Lang, Style, Class
+              )?
+              (?:\.[ ])?                      # Optional
+              ([^\s(!]+?)                   # Image URL
+              \s?                           # Optional space
+              (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?     # Optional title
+              \!                    # Close image
+              (?:
+                :
+                (\S*?(?:\w|\/|;))         # URL
+                (?=[^\w\/;]*?(<|\s|$))        # Catch closing punctuation
+              )?
+      scope: meta.image.inline.textile
+      captures:
+        2: markup.underline.link.image.textile
+        3: string.other.link.description.textile
+        4: markup.underline.link.textile
+    - match: '\|(\([^)]*\)|{[^}]*})*(\\\||.)+\|'
+      scope: markup.other.table.cell.textile
+      captures:
+        1: entity.name.type.textile
+    - match: '\B(\*\*?)((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\1\B'
+      scope: markup.bold.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '\B-((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)-\B'
+      scope: markup.deleted.textile
+      captures:
+        2: entity.name.type.textile
+    - match: '\B\+((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\+\B'
+      scope: markup.inserted.textile
+      captures:
+        2: entity.name.type.textile
+    - match: '(?:\b|\s)_((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)_(?:\b|\s)'
+      scope: markup.italic.textile
+      captures:
+        2: entity.name.type.textile
+    - match: '\B([@\^~%]|\?\?)((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\1'
+      scope: markup.italic.phrasemodifiers.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '(?<!w)\[[0-9+]\]'
+      comment: Footnotes
+      scope: entity.name.tag.textile

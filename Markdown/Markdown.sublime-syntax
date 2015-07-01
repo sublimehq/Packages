@@ -1,0 +1,463 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Markdown
+file_extensions:
+  - mdown
+  - markdown
+  - markdn
+  - md
+scope: text.html.markdown
+contexts:
+  main:
+    - match: |-
+        (?x)^
+        (?= [ ]{,3}>.
+        | ([ ]{4}|\t)(?!$)
+        | [#]{1,6}\s*+
+        | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+        )
+      comment: |
+        We could also use an empty end match and set
+                        applyEndPatternLast, but then we must be sure that the begin
+                        pattern will only match stuff matched by the sub-patterns.
+      push:
+        - meta_scope: meta.block-level.markdown
+        - match: |-
+            (?x)^
+            (?! [ ]{,3}>.
+            | ([ ]{4}|\t)
+            | [#]{1,6}\s*+
+            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            )
+          pop: true
+        - include: block_quote
+        - include: block_raw
+        - include: heading
+        - include: separator
+    - match: '^[ ]{0,3}([*+-])(?=\s)'
+      captures:
+        1: punctuation.definition.list_item.markdown
+      push:
+        - meta_scope: markup.list.unnumbered.markdown
+        - match: ^(?=\S)
+          pop: true
+        - include: list-paragraph
+    - match: '^[ ]{0,3}[0-9]+(\.)(?=\s)'
+      captures:
+        1: punctuation.definition.list_item.markdown
+      push:
+        - meta_scope: markup.list.numbered.markdown
+        - match: ^(?=\S)
+          pop: true
+        - include: list-paragraph
+    - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)(?!.*?</\1>)'
+      comment: Markdown formatting is disabled inside block-level tags.
+      push:
+        - meta_scope: meta.disable-markdown
+        - match: (?<=^</\1>$\n)
+          pop: true
+        - include: scope:text.html.basic
+    - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)'
+      comment: Same rule but for one line disables.
+      push:
+        - meta_scope: meta.disable-markdown
+        - match: $\n?
+          pop: true
+        - include: scope:text.html.basic
+    - match: |-
+        (?x:
+          \s*           # Leading whitespace
+          (\[)(.+?)(\])(:)    # Reference name
+          [ \t]*          # Optional whitespace
+          (<?)(\S+?)(>?)      # The url
+          [ \t]*          # Optional whitespace
+          (?:
+              ((\().+?(\)))   # Match title in quotes…
+            | ((").+?("))   # or in parens.
+          )?            # Title is optional
+          \s*           # Optional whitespace
+          $
+        )
+      scope: meta.link.reference.def.markdown
+      captures:
+        1: punctuation.definition.constant.markdown
+        2: constant.other.reference.link.markdown
+        3: punctuation.definition.constant.markdown
+        4: punctuation.separator.key-value.markdown
+        5: punctuation.definition.link.markdown
+        6: markup.underline.link.markdown
+        7: punctuation.definition.link.markdown
+        8: string.other.link.description.title.markdown
+        9: punctuation.definition.string.begin.markdown
+        10: punctuation.definition.string.end.markdown
+        11: string.other.link.description.title.markdown
+        12: punctuation.definition.string.begin.markdown
+        13: punctuation.definition.string.end.markdown
+    - match: '^(?=\S)(?![=-]{3,}(?=$))'
+      push:
+        - meta_scope: meta.paragraph.markdown
+        - match: '^(?:\s*$|(?=[ ]{,3}>.))|(?=[ \t]*\n)(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n|(?=^#)'
+          pop: true
+        - include: inline
+        - include: scope:text.html.basic
+        - match: '^(={3,})(?=[ \t]*$)'
+          scope: markup.heading.1.markdown
+          captures:
+            1: punctuation.definition.heading.markdown
+        - match: '^(-{3,})(?=[ \t]*$)'
+          scope: markup.heading.2.markdown
+          captures:
+            1: punctuation.definition.heading.markdown
+  ampersand:
+    - match: "&(?!([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+);)"
+      comment: |
+        Markdown will convert this for us. We match it so that the
+                        HTML grammar will not mark it up as invalid.
+      scope: meta.other.valid-ampersand.markdown
+  block_quote:
+    - match: '\G[ ]{,3}(>)(?!$)[ ]?'
+      comment: |
+        We terminate the block quote when seeing an empty line, a
+                        separator or a line with leading > characters. The latter is
+                        to “reset” the quote level for quoted lines.
+      captures:
+        1: punctuation.definition.blockquote.markdown
+      push:
+        - meta_scope: markup.quote.markdown
+        - match: |-
+            (?x)^
+            (?= \s*$
+            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            | [ ]{,3}>.
+            )
+          pop: true
+        - match: |-
+            (?x)\G
+            (?= [ ]{,3}>.
+            )
+          push:
+            - match: ^
+              pop: true
+            - include: block_quote
+        - match: |-
+            (?x)\G
+            (?= ([ ]{4}|\t)
+            | [#]{1,6}\s*+
+            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            )
+          push:
+            - include: block_raw
+            - include: heading
+            - include: separator
+            - match: ^
+              pop: true
+        - match: |-
+            (?x)\G
+            (?! $
+            | [ ]{,3}>.
+            | ([ ]{4}|\t)
+            | [#]{1,6}\s*+
+            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            )
+          push:
+            - match: $|(?<=\n)
+              pop: true
+            - include: inline
+  block_raw:
+    - match: '\G([ ]{4}|\t).*$\n?'
+      scope: markup.raw.block.markdown
+  bold:
+    - match: |-
+        (?x)
+          (\*\*|__)(?=\S)               # Open
+          (?=
+            (
+                <[^>]*+>              # HTML tags
+              | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
+                                # Raw
+              | \\[\\`*_{}\[\]()#.!+\->]?+      # Escapes
+              | \[
+              (
+                      (?<square>          # Named group
+                    [^\[\]\\]       # Match most chars
+                        | \\.           # Escaped chars
+                        | \[ \g<square>*+ \]    # Nested brackets
+                      )*+
+                \]
+                (
+                  (             # Reference Link
+                    [ ]?          # Optional space
+                    \[[^\]]*+\]       # Ref name
+                  )
+                  | (             # Inline Link
+                    \(            # Opening paren
+                      [ \t]*+       # Optional whtiespace
+                      <?(.*?)>?     # URL
+                      [ \t]*+       # Optional whtiespace
+                      (         # Optional Title
+                        (?<title>['"])
+                        (.*?)
+                        \k<title>
+                      )?
+                    \)
+                  )
+                )
+              )
+              | (?!(?<=\S)\1).            # Everything besides
+                                # style closer
+            )++
+            (?<=\S)\1               # Close
+          )
+      captures:
+        1: punctuation.definition.bold.markdown
+      push:
+        - meta_scope: markup.bold.markdown
+        - match: (?<=\S)(\1)
+          pop: true
+        - match: "(?=<[^>]*?>)"
+          push:
+            - include: scope:text.html.basic
+            - match: (?<=>)
+              pop: true
+        - include: escape
+        - include: ampersand
+        - include: bracket
+        - include: raw
+        - include: italic
+        - include: image-inline
+        - include: link-inline
+        - include: link-inet
+        - include: link-email
+        - include: image-ref
+        - include: link-ref-literal
+        - include: link-ref
+  bracket:
+    - match: '<(?![a-z/?\$!])'
+      comment: |
+        Markdown will convert this for us. We match it so that the
+                        HTML grammar will not mark it up as invalid.
+      scope: meta.other.valid-bracket.markdown
+  escape:
+    - match: '\\[-`*_#+.!(){}\[\]\\>]'
+      scope: constant.character.escape.markdown
+  heading:
+    - match: '\G(#{1,6})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.markdown
+      push:
+        - meta_scope: markup.heading.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - match: \s*(#*)$\n?
+          pop: true
+        - include: inline
+  image-inline:
+    - match: |-
+        (?x:
+                \!              # Images start with !
+                (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
+                              # Match the link text.
+                ([ ])?            # Space not allowed
+                (\()            # Opening paren for url
+                  (<?)(\S+?)(>?)      # The url
+                  [ \t]*          # Optional whitespace
+                  (?:
+                      ((\().+?(\)))   # Match title in parens…
+                    | ((").+?("))   # or in quotes.
+                  )?            # Title is optional
+                  \s*           # Optional whitespace
+                (\))
+               )
+      scope: meta.image.inline.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.description.markdown
+        3: punctuation.definition.string.end.markdown
+        5: invalid.illegal.whitespace.markdown
+        6: punctuation.definition.metadata.markdown
+        7: punctuation.definition.link.markdown
+        8: markup.underline.link.image.markdown
+        9: punctuation.definition.link.markdown
+        10: string.other.link.description.title.markdown
+        11: punctuation.definition.string.markdown
+        12: punctuation.definition.string.markdown
+        13: string.other.link.description.title.markdown
+        14: punctuation.definition.string.markdown
+        15: punctuation.definition.string.markdown
+        16: punctuation.definition.metadata.markdown
+  image-ref:
+    - match: '\!(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
+      scope: meta.image.reference.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.description.markdown
+        4: punctuation.definition.string.begin.markdown
+        5: punctuation.definition.constant.markdown
+        6: constant.other.reference.link.markdown
+        7: punctuation.definition.constant.markdown
+  inline:
+    - include: escape
+    - include: ampersand
+    - include: bracket
+    - include: raw
+    - include: bold
+    - include: italic
+    - include: line-break
+    - include: image-inline
+    - include: link-inline
+    - include: link-inet
+    - include: link-email
+    - include: image-ref
+    - include: link-ref-literal
+    - include: link-ref
+  italic:
+    - match: |-
+        (?x)
+          (\*|_)(?=\S)                # Open
+          (?=
+            (
+                <[^>]*+>              # HTML tags
+              | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
+                                # Raw
+              | \\[\\`*_{}\[\]()#.!+\->]?+      # Escapes
+              | \[
+              (
+                      (?<square>          # Named group
+                    [^\[\]\\]       # Match most chars
+                        | \\.           # Escaped chars
+                        | \[ \g<square>*+ \]    # Nested brackets
+                      )*+
+                \]
+                (
+                  (             # Reference Link
+                    [ ]?          # Optional space
+                    \[[^\]]*+\]       # Ref name
+                  )
+                  | (             # Inline Link
+                    \(            # Opening paren
+                      [ \t]*+       # Optional whtiespace
+                      <?(.*?)>?     # URL
+                      [ \t]*+       # Optional whtiespace
+                      (         # Optional Title
+                        (?<title>['"])
+                        (.*?)
+                        \k<title>
+                      )?
+                    \)
+                  )
+                )
+              )
+              | \1\1                # Must be bold closer
+              | (?!(?<=\S)\1).            # Everything besides
+                                # style closer
+            )++
+            (?<=\S)\1               # Close
+          )
+      captures:
+        1: punctuation.definition.italic.markdown
+      push:
+        - meta_scope: markup.italic.markdown
+        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+          pop: true
+        - match: "(?=<[^>]*?>)"
+          push:
+            - include: scope:text.html.basic
+            - match: (?<=>)
+              pop: true
+        - include: escape
+        - include: ampersand
+        - include: bracket
+        - include: raw
+        - include: bold
+        - include: image-inline
+        - include: link-inline
+        - include: link-inet
+        - include: link-email
+        - include: image-ref
+        - include: link-ref-literal
+        - include: link-ref
+  line-break:
+    - match: " {2,}$"
+      scope: meta.dummy.line-break
+  link-email:
+    - match: '(<)((?:mailto:)?[-.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
+      scope: meta.link.email.lt-gt.markdown
+      captures:
+        1: punctuation.definition.link.markdown
+        2: markup.underline.link.markdown
+        4: punctuation.definition.link.markdown
+  link-inet:
+    - match: (<)((?:https?|ftp)://.*?)(>)
+      scope: meta.link.inet.markdown
+      captures:
+        1: punctuation.definition.link.markdown
+        2: markup.underline.link.markdown
+        3: punctuation.definition.link.markdown
+  link-inline:
+    - match: |-
+        (?x:
+                (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
+                              # Match the link text.
+                ([ ])?            # Space not allowed
+                (\()            # Opening paren for url
+                  (<?)(.*?)(>?)     # The url
+                  [ \t]*          # Optional whitespace
+                  (?:
+                      ((\().+?(\)))   # Match title in parens…
+                    | ((").+?("))   # or in quotes.
+                  )?            # Title is optional
+                  \s*           # Optional whitespace
+                (\))
+               )
+      scope: meta.link.inline.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.title.markdown
+        4: punctuation.definition.string.end.markdown
+        5: invalid.illegal.whitespace.markdown
+        6: punctuation.definition.metadata.markdown
+        7: punctuation.definition.link.markdown
+        8: markup.underline.link.markdown
+        9: punctuation.definition.link.markdown
+        10: string.other.link.description.title.markdown
+        11: punctuation.definition.string.begin.markdown
+        12: punctuation.definition.string.end.markdown
+        13: string.other.link.description.title.markdown
+        14: punctuation.definition.string.begin.markdown
+        15: punctuation.definition.string.end.markdown
+        16: punctuation.definition.metadata.markdown
+  link-ref:
+    - match: '(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)([^\]]*+)(\])'
+      scope: meta.link.reference.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.title.markdown
+        4: punctuation.definition.string.end.markdown
+        5: punctuation.definition.constant.begin.markdown
+        6: constant.other.reference.link.markdown
+        7: punctuation.definition.constant.end.markdown
+  link-ref-literal:
+    - match: '(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(\])'
+      scope: meta.link.reference.literal.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.title.markdown
+        4: punctuation.definition.string.end.markdown
+        5: punctuation.definition.constant.begin.markdown
+        6: punctuation.definition.constant.end.markdown
+  list-paragraph:
+    - match: \G\s+(?=\S)
+      push:
+        - meta_scope: meta.paragraph.list.markdown
+        - match: ^\s*$
+          pop: true
+        - include: inline
+  raw:
+    - match: '(`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)'
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.markdown
+        3: punctuation.definition.raw.markdown
+  separator:
+    - match: '\G[ ]{,3}([-*_])([ ]{,2}\1){2,}[ \t]*$\n?'
+      scope: meta.separator.markdown

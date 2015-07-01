@@ -1,0 +1,744 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Erlang
+comment: The recognition of function definitions and compiler directives (such as module, record and macro definitions) requires that each of the aforementioned constructs must be the first string inside a line (except for whitespace).  Also, the function/module/record/macro names must be given unquoted.  -- desp
+file_extensions:
+  - erl
+  - hrl
+  - Emakefile
+  - emakefile
+scope: source.erlang
+contexts:
+  main:
+    - include: module-directive
+    - include: import-export-directive
+    - include: record-directive
+    - include: define-directive
+    - include: macro-directive
+    - include: directive
+    - include: function
+    - include: everything-else
+  comment:
+    - match: (%)
+      captures:
+        1: punctuation.definition.comment.erlang
+      push:
+        - meta_scope: comment.line.erlang
+        - match: $\n?
+          pop: true
+  atom:
+    - match: (')
+      captures:
+        1: punctuation.definition.symbol.begin.erlang
+      push:
+        - meta_scope: constant.other.symbol.quoted.single.erlang
+        - match: (')
+          captures:
+            1: punctuation.definition.symbol.end.erlang
+          pop: true
+        - match: '(\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3})'
+          scope: constant.other.symbol.escape.erlang
+          captures:
+            1: punctuation.definition.escape.erlang
+            3: punctuation.definition.escape.erlang
+        - match: \\\^?.?
+          scope: invalid.illegal.atom.erlang
+    - match: '[a-z][a-zA-Z\d@_]*+'
+      scope: constant.other.symbol.unquoted.erlang
+  binary:
+    - match: (<<)
+      captures:
+        1: punctuation.definition.binary.begin.erlang
+      push:
+        - meta_scope: meta.structure.binary.erlang
+        - match: (>>)
+          captures:
+            1: punctuation.definition.binary.end.erlang
+          pop: true
+        - match: (,)|(:)
+          captures:
+            1: punctuation.separator.binary.erlang
+            2: punctuation.separator.value-size.erlang
+        - include: internal-type-specifiers
+        - include: everything-else
+  character:
+    - match: '(\$)((\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3}))'
+      scope: constant.character.erlang
+      captures:
+        1: punctuation.definition.character.erlang
+        2: constant.character.escape.erlang
+        3: punctuation.definition.escape.erlang
+        5: punctuation.definition.escape.erlang
+    - match: \$\\\^?.?
+      scope: invalid.illegal.character.erlang
+    - match: (\$)\S
+      scope: constant.character.erlang
+      captures:
+        1: punctuation.definition.character.erlang
+    - match: \$.?
+      scope: invalid.illegal.character.erlang
+  define-directive:
+    - match: '^\s*+(-)\s*+(define)\s*+(\()\s*+([a-zA-Z\d@_]++)\s*+(,)'
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.define.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.function.macro.definition.erlang
+        5: punctuation.separator.parameters.erlang
+      push:
+        - meta_scope: meta.directive.define.erlang
+        - match: (\))\s*+(\.)
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+            2: punctuation.section.directive.end.erlang
+          pop: true
+        - include: everything-else
+    - match: '(?=^\s*+-\s*+define\s*+\(\s*+[a-zA-Z\d@_]++\s*+\()'
+      push:
+        - meta_scope: meta.directive.define.erlang
+        - match: (\))\s*+(\.)
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+            2: punctuation.section.directive.end.erlang
+          pop: true
+        - match: '^\s*+(-)\s*+(define)\s*+(\()\s*+([a-zA-Z\d@_]++)\s*+(\()'
+          captures:
+            1: punctuation.section.directive.begin.erlang
+            2: keyword.control.directive.define.erlang
+            3: punctuation.definition.parameters.begin.erlang
+            4: entity.name.function.macro.definition.erlang
+            5: punctuation.definition.parameters.begin.erlang
+          push:
+            - match: (\))\s*(,)
+              captures:
+                1: punctuation.definition.parameters.end.erlang
+                2: punctuation.separator.parameters.erlang
+              pop: true
+            - match: ","
+              scope: punctuation.separator.parameters.erlang
+            - include: everything-else
+        - match: \|\||\||:|;|,|\.|->
+          scope: punctuation.separator.define.erlang
+        - include: everything-else
+  directive:
+    - match: '^\s*+(-)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\()'
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.erlang
+        3: punctuation.definition.parameters.begin.erlang
+      push:
+        - meta_scope: meta.directive.erlang
+        - match: (\))\s*+(\.)
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+            2: punctuation.section.directive.end.erlang
+          pop: true
+        - include: everything-else
+    - match: '^\s*+(-)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\.)'
+      scope: meta.directive.erlang
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.erlang
+        3: punctuation.section.directive.end.erlang
+  everything-else:
+    - include: comment
+    - include: record-usage
+    - include: macro-usage
+    - include: expression
+    - include: keyword
+    - include: textual-operator
+    - include: function-call
+    - include: tuple
+    - include: list
+    - include: binary
+    - include: parenthesized-expression
+    - include: character
+    - include: number
+    - include: atom
+    - include: string
+    - include: symbolic-operator
+    - include: variable
+  expression:
+    - match: \b(if)\b
+      captures:
+        1: keyword.control.if.erlang
+      push:
+        - meta_scope: meta.expression.if.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: internal-expression-punctuation
+        - include: everything-else
+    - match: \b(case)\b
+      captures:
+        1: keyword.control.case.erlang
+      push:
+        - meta_scope: meta.expression.case.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: internal-expression-punctuation
+        - include: everything-else
+    - match: \b(receive)\b
+      captures:
+        1: keyword.control.receive.erlang
+      push:
+        - meta_scope: meta.expression.receive.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: internal-expression-punctuation
+        - include: everything-else
+    - match: '\b(fun)\s*+(([a-z][a-zA-Z\d@_]*+)\s*+(:)\s*+)?([a-z][a-zA-Z\d@_]*+)\s*(/)'
+      captures:
+        1: keyword.control.fun.erlang
+        3: entity.name.type.class.module.erlang
+        4: punctuation.separator.module-function.erlang
+        5: entity.name.function.erlang
+        6: punctuation.separator.function-arity.erlang
+    - match: \b(fun)\b
+      captures:
+        1: keyword.control.fun.erlang
+      push:
+        - meta_scope: meta.expression.fun.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - match: (?=\()
+          push:
+            - match: (;)|(?=\bend\b)
+              captures:
+                1: punctuation.separator.clauses.erlang
+              pop: true
+            - include: internal-function-parts
+        - include: everything-else
+    - match: \b(try)\b
+      captures:
+        1: keyword.control.try.erlang
+      push:
+        - meta_scope: meta.expression.try.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: internal-expression-punctuation
+        - include: everything-else
+    - match: \b(begin)\b
+      captures:
+        1: keyword.control.begin.erlang
+      push:
+        - meta_scope: meta.expression.begin.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: internal-expression-punctuation
+        - include: everything-else
+    - match: \b(query)\b
+      captures:
+        1: keyword.control.query.erlang
+      push:
+        - meta_scope: meta.expression.query.erlang
+        - match: \b(end)\b
+          captures:
+            1: keyword.control.end.erlang
+          pop: true
+        - include: everything-else
+  function:
+    - match: '^\s*+([a-z][a-zA-Z\d@_]*+)\s*+(?=\()'
+      captures:
+        1: entity.name.function.definition.erlang
+      push:
+        - meta_scope: meta.function.erlang
+        - match: (\.)
+          captures:
+            1: punctuation.terminator.function.erlang
+          pop: true
+        - match: '^\s*+([a-z][a-zA-Z\d@_]*+)\s*+(?=\()'
+          captures:
+            1: entity.name.function.erlang
+        - match: (?=\()
+          push:
+            - match: (;)|(?=\.)
+              captures:
+                1: punctuation.separator.clauses.erlang
+              pop: true
+            - include: parenthesized-expression
+            - include: internal-function-parts
+        - include: everything-else
+  function-call:
+    - match: '(?=[a-z][a-zA-Z\d@_]*+\s*+(\(|:\s*+[a-z][a-zA-Z\d@_]*+\s*+\())'
+      push:
+        - meta_scope: meta.function-call.erlang
+        - match: (\))
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+          pop: true
+        - match: ((erlang)\s*+(:)\s*+)?(is_atom|is_binary|is_constant|is_float|is_function|is_integer|is_list|is_number|is_pid|is_port|is_reference|is_tuple|is_record|abs|element|hd|length|node|round|self|size|tl|trunc)\s*+(\()
+          captures:
+            2: entity.name.type.class.module.erlang
+            3: punctuation.separator.module-function.erlang
+            4: entity.name.function.guard.erlang
+            5: punctuation.definition.parameters.begin.erlang
+          push:
+            - match: (?=\))
+              pop: true
+            - match: ","
+              scope: punctuation.separator.parameters.erlang
+            - include: everything-else
+        - match: '(([a-z][a-zA-Z\d@_]*+)\s*+(:)\s*+)?([a-z][a-zA-Z\d@_]*+)\s*+(\()'
+          captures:
+            2: entity.name.type.class.module.erlang
+            3: punctuation.separator.module-function.erlang
+            4: entity.name.function.erlang
+            5: punctuation.definition.parameters.begin.erlang
+          push:
+            - match: (?=\))
+              pop: true
+            - match: ","
+              scope: punctuation.separator.parameters.erlang
+            - include: everything-else
+  import-export-directive:
+    - match: '^\s*+(-)\s*+(import)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(,)'
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.import.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.type.class.module.erlang
+        5: punctuation.separator.parameters.erlang
+      push:
+        - meta_scope: meta.directive.import.erlang
+        - match: (\))\s*+(\.)
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+            2: punctuation.section.directive.end.erlang
+          pop: true
+        - include: internal-function-list
+    - match: ^\s*+(-)\s*+(export)\s*+(\()
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.export.erlang
+        3: punctuation.definition.parameters.begin.erlang
+      push:
+        - meta_scope: meta.directive.export.erlang
+        - match: (\))\s*+(\.)
+          captures:
+            1: punctuation.definition.parameters.end.erlang
+            2: punctuation.section.directive.end.erlang
+          pop: true
+        - include: internal-function-list
+  internal-expression-punctuation:
+    - match: (->)|(;)|(,)
+      captures:
+        1: punctuation.separator.clause-head-body.erlang
+        2: punctuation.separator.clauses.erlang
+        3: punctuation.separator.expressions.erlang
+  internal-function-list:
+    - match: '(\[)'
+      captures:
+        1: punctuation.definition.list.begin.erlang
+      push:
+        - meta_scope: meta.structure.list.function.erlang
+        - match: '(\])'
+          captures:
+            1: punctuation.definition.list.end.erlang
+          pop: true
+        - match: '([a-z][a-zA-Z\d@_]*+)\s*+(/)'
+          captures:
+            1: entity.name.function.erlang
+            2: punctuation.separator.function-arity.erlang
+          push:
+            - match: '(,)|(?=\])'
+              captures:
+                1: punctuation.separator.list.erlang
+              pop: true
+            - include: everything-else
+        - include: everything-else
+  internal-function-parts:
+    - match: (?=\()
+      push:
+        - match: (->)
+          captures:
+            1: punctuation.separator.clause-head-body.erlang
+          pop: true
+        - match: (\()
+          captures:
+            1: punctuation.definition.parameters.begin.erlang
+          push:
+            - match: (\))
+              captures:
+                1: punctuation.definition.parameters.end.erlang
+              pop: true
+            - match: ","
+              scope: punctuation.separator.parameters.erlang
+            - include: everything-else
+        - match: ",|;"
+          scope: punctuation.separator.guards.erlang
+        - include: everything-else
+    - match: ","
+      scope: punctuation.separator.expressions.erlang
+    - include: everything-else
+  internal-record-body:
+    - match: '(\{)'
+      captures:
+        1: punctuation.definition.class.record.begin.erlang
+      push:
+        - meta_scope: meta.structure.record.erlang
+        - match: '(?=\})'
+          pop: true
+        - match: '(([a-z][a-zA-Z\d@_]*+)|(_))\s*+(=)'
+          captures:
+            2: variable.other.field.erlang
+            3: variable.language.omitted.field.erlang
+            4: keyword.operator.assignment.erlang
+          push:
+            - match: '(,)|(?=\})'
+              captures:
+                1: punctuation.separator.class.record.erlang
+              pop: true
+            - include: everything-else
+        - match: '([a-z][a-zA-Z\d@_]*+)\s*+(,)?'
+          captures:
+            1: variable.other.field.erlang
+            2: punctuation.separator.class.record.erlang
+        - include: everything-else
+  internal-type-specifiers:
+    - match: (/)
+      captures:
+        1: punctuation.separator.value-type.erlang
+      push:
+        - match: (?=,|:|>>)
+          pop: true
+        - match: (integer|float|binary)|(signed|unsigned)|(big|little|native)|(unit)|(-)
+          captures:
+            1: storage.type.erlang
+            2: storage.modifier.signedness.erlang
+            3: storage.modifier.endianness.erlang
+            4: storage.modifier.unit.erlang
+            5: punctuation.separator.type-specifiers.erlang
+  keyword:
+    - match: \b(after|begin|case|catch|cond|end|fun|if|let|of|query|try|receive|when)\b
+      scope: keyword.control.erlang
+  list:
+    - match: '(\[)'
+      captures:
+        1: punctuation.definition.list.begin.erlang
+      push:
+        - meta_scope: meta.structure.list.erlang
+        - match: '(\])'
+          captures:
+            1: punctuation.definition.list.end.erlang
+          pop: true
+        - match: \||\|\||,
+          scope: punctuation.separator.list.erlang
+        - include: everything-else
+  macro-directive:
+    - match: '^\s*+(-)\s*+(ifdef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)'
+      scope: meta.directive.ifdef.erlang
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.ifdef.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.function.macro.erlang
+        5: punctuation.definition.parameters.end.erlang
+        6: punctuation.section.directive.end.erlang
+    - match: '^\s*+(-)\s*+(ifndef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)'
+      scope: meta.directive.ifndef.erlang
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.ifndef.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.function.macro.erlang
+        5: punctuation.definition.parameters.end.erlang
+        6: punctuation.section.directive.end.erlang
+    - match: '^\s*+(-)\s*+(undef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)'
+      scope: meta.directive.undef.erlang
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.undef.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.function.macro.erlang
+        5: punctuation.definition.parameters.end.erlang
+        6: punctuation.section.directive.end.erlang
+  macro-usage:
+    - match: '(\?\??)\s*+([a-zA-Z\d@_]++)'
+      scope: meta.macro-usage.erlang
+      captures:
+        1: keyword.operator.macro.erlang
+        2: entity.name.function.macro.erlang
+  module-directive:
+    - match: '^\s*+(-)\s*+(module)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\))\s*+(\.)'
+      scope: meta.directive.module.erlang
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.module.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.type.class.module.definition.erlang
+        5: punctuation.definition.parameters.end.erlang
+        6: punctuation.section.directive.end.erlang
+  number:
+    - match: (?=\d)
+      push:
+        - match: (?!\d)
+          pop: true
+        - match: '\d++(\.)\d++(([eE][\+\-])?\d++)?'
+          scope: constant.numeric.float.erlang
+          captures:
+            1: punctuation.separator.integer-float.erlang
+            3: punctuation.separator.float-exponent.erlang
+        - match: "2(#)[0-1]++"
+          scope: constant.numeric.integer.binary.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "3(#)[0-2]++"
+          scope: constant.numeric.integer.base-3.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "4(#)[0-3]++"
+          scope: constant.numeric.integer.base-4.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "5(#)[0-4]++"
+          scope: constant.numeric.integer.base-5.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "6(#)[0-5]++"
+          scope: constant.numeric.integer.base-6.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "7(#)[0-6]++"
+          scope: constant.numeric.integer.base-7.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "8(#)[0-7]++"
+          scope: constant.numeric.integer.octal.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: "9(#)[0-8]++"
+          scope: constant.numeric.integer.base-9.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '10(#)\d++'
+          scope: constant.numeric.integer.decimal.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '11(#)[\daA]++'
+          scope: constant.numeric.integer.base-11.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '12(#)[\da-bA-B]++'
+          scope: constant.numeric.integer.base-12.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '13(#)[\da-cA-C]++'
+          scope: constant.numeric.integer.base-13.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '14(#)[\da-dA-D]++'
+          scope: constant.numeric.integer.base-14.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '15(#)[\da-eA-E]++'
+          scope: constant.numeric.integer.base-15.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '16(#)\h++'
+          scope: constant.numeric.integer.hexadecimal.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '17(#)[\da-gA-G]++'
+          scope: constant.numeric.integer.base-17.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '18(#)[\da-hA-H]++'
+          scope: constant.numeric.integer.base-18.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '19(#)[\da-iA-I]++'
+          scope: constant.numeric.integer.base-19.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '20(#)[\da-jA-J]++'
+          scope: constant.numeric.integer.base-20.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '21(#)[\da-kA-K]++'
+          scope: constant.numeric.integer.base-21.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '22(#)[\da-lA-L]++'
+          scope: constant.numeric.integer.base-22.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '23(#)[\da-mA-M]++'
+          scope: constant.numeric.integer.base-23.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '24(#)[\da-nA-N]++'
+          scope: constant.numeric.integer.base-24.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '25(#)[\da-oA-O]++'
+          scope: constant.numeric.integer.base-25.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '26(#)[\da-pA-P]++'
+          scope: constant.numeric.integer.base-26.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '27(#)[\da-qA-Q]++'
+          scope: constant.numeric.integer.base-27.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '28(#)[\da-rA-R]++'
+          scope: constant.numeric.integer.base-28.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '29(#)[\da-sA-S]++'
+          scope: constant.numeric.integer.base-29.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '30(#)[\da-tA-T]++'
+          scope: constant.numeric.integer.base-30.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '31(#)[\da-uA-U]++'
+          scope: constant.numeric.integer.base-31.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '32(#)[\da-vA-V]++'
+          scope: constant.numeric.integer.base-32.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '33(#)[\da-wA-W]++'
+          scope: constant.numeric.integer.base-33.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '34(#)[\da-xA-X]++'
+          scope: constant.numeric.integer.base-34.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '35(#)[\da-yA-Y]++'
+          scope: constant.numeric.integer.base-35.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '36(#)[\da-zA-Z]++'
+          scope: constant.numeric.integer.base-36.erlang
+          captures:
+            1: punctuation.separator.base-integer.erlang
+        - match: '\d++#[\da-zA-Z]++'
+          scope: invalid.illegal.integer.erlang
+        - match: \d++
+          scope: constant.numeric.integer.decimal.erlang
+  parenthesized-expression:
+    - match: (\()
+      captures:
+        1: punctuation.section.expression.begin.erlang
+      push:
+        - meta_scope: meta.expression.parenthesized
+        - match: (\))
+          captures:
+            1: punctuation.section.expression.end.erlang
+          pop: true
+        - include: everything-else
+  record-directive:
+    - match: '^\s*+(-)\s*+(record)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(,)'
+      captures:
+        1: punctuation.section.directive.begin.erlang
+        2: keyword.control.directive.import.erlang
+        3: punctuation.definition.parameters.begin.erlang
+        4: entity.name.type.class.record.definition.erlang
+        5: punctuation.separator.parameters.erlang
+      push:
+        - meta_scope: meta.directive.record.erlang
+        - match: '((\}))\s*+(\))\s*+(\.)'
+          captures:
+            1: meta.structure.record.erlang
+            2: punctuation.definition.class.record.end.erlang
+            3: punctuation.definition.parameters.end.erlang
+            4: punctuation.section.directive.end.erlang
+          pop: true
+        - include: internal-record-body
+  record-usage:
+    - match: '(#)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\.)\s*+([a-z][a-zA-Z\d@_]*+)'
+      scope: meta.record-usage.erlang
+      captures:
+        1: keyword.operator.record.erlang
+        2: entity.name.type.class.record.erlang
+        3: punctuation.separator.record-field.erlang
+        4: variable.other.field.erlang
+    - match: '(#)\s*+([a-z][a-zA-Z\d@_]*+)'
+      captures:
+        1: keyword.operator.record.erlang
+        2: entity.name.type.class.record.erlang
+      push:
+        - meta_scope: meta.record-usage.erlang
+        - match: '((\}))'
+          captures:
+            1: meta.structure.record.erlang
+            2: punctuation.definition.class.record.end.erlang
+          pop: true
+        - include: internal-record-body
+  string:
+    - match: (")
+      captures:
+        1: punctuation.definition.string.begin.erlang
+      push:
+        - meta_scope: string.quoted.double.erlang
+        - match: (")
+          captures:
+            1: punctuation.definition.string.end.erlang
+          pop: true
+        - match: '(\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3})'
+          scope: constant.character.escape.erlang
+          captures:
+            1: punctuation.definition.escape.erlang
+            3: punctuation.definition.escape.erlang
+        - match: \\\^?.?
+          scope: invalid.illegal.string.erlang
+        - match: '(~)((\-)?\d++|(\*))?((\.)(\d++|(\*)))?((\.)((\*)|.))?[~cfegswpWPBX#bx\+ni]'
+          scope: constant.other.placeholder.erlang
+          captures:
+            1: punctuation.definition.placeholder.erlang
+            3: punctuation.separator.placeholder-parts.erlang
+            4: punctuation.separator.placeholder-parts.erlang
+            6: punctuation.separator.placeholder-parts.erlang
+            8: punctuation.separator.placeholder-parts.erlang
+            10: punctuation.separator.placeholder-parts.erlang
+            12: punctuation.separator.placeholder-parts.erlang
+        - match: '(~)(\*)?(\d++)?[~du\-#fsacl]'
+          scope: constant.other.placeholder.erlang
+          captures:
+            1: punctuation.definition.placeholder.erlang
+            2: punctuation.separator.placeholder-parts.erlang
+        - match: ~.?
+          scope: invalid.illegal.string.erlang
+  symbolic-operator:
+    - match: \+\+|\+|--|-|\*|/=|/|=/=|=:=|==|=<|=|<-|<|>=|>|!
+      scope: keyword.operator.symbolic.erlang
+  textual-operator:
+    - match: \b(andalso|band|and|bxor|xor|bor|orelse|or|bnot|not|bsl|bsr|div|rem)\b
+      scope: keyword.operator.textual.erlang
+  tuple:
+    - match: '(\{)'
+      captures:
+        1: punctuation.definition.tuple.begin.erlang
+      push:
+        - meta_scope: meta.structure.tuple.erlang
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.tuple.end.erlang
+          pop: true
+        - match: ","
+          scope: punctuation.separator.tuple.erlang
+        - include: everything-else
+  variable:
+    - match: '(_[a-zA-Z\d@_]++|[A-Z][a-zA-Z\d@_]*+)|(_)'
+      captures:
+        1: variable.other.erlang
+        2: variable.language.omitted.erlang

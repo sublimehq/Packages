@@ -18,8 +18,14 @@ contexts:
         5: punctuation.separator.key-value.yaml
       push:
         - meta_scope: string.unquoted.block.yaml
-        - match: ^(?!^\1)|^(?=\1(-|\w+\s*:)|#)
-          pop: true
+        # Match first non-empty string to extract the indentation level
+        - include: comment
+        - match: ^(\s+)
+          set:
+          - meta_scope: string.unquoted.block.yaml
+          - include: comment
+          - match: ^(?!^\1|$)
+            pop: true
 
     # Keyword literals
     - match: \b(true|false|null)\s*(?=$|,|\}|\])
@@ -77,13 +83,15 @@ contexts:
         1: entity.name.tag.yaml
         2: keyword.operator.merge-key.yaml
         3: punctuation.definition.keyword.yaml
-    - match: '(?<=^| )(#).*$'
-      scope: comment.line.number-sign.yaml
-      captures:
-        1: punctuation.definition.comment.yaml
+    - include: comment
     - match: (#).*?(?=%>)
     - match: "-"
       scope: keyword.operator.symbol
 
     - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
       scope: string.unquoted.yaml
+  comment:
+    - match: '(?<=^| )(#).*$'
+      scope: comment.line.number-sign.yaml
+      captures:
+        1: punctuation.definition.comment.yaml
