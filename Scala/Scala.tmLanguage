@@ -622,6 +622,66 @@
 				</dict>
 				<dict>
 					<key>begin</key>
+					<string>([a-zA-Z$_][a-zA-Z0-9$_]*)"""</string>
+					<key>beginCaptures</key>
+					<dict>
+						<key>1</key>
+						<dict>
+							<key>name</key>
+							<string>string.quoted.triple.interpolated.scala</string>
+						</dict>
+					</dict>
+					<key>patterns</key>
+					<array>
+						<dict>
+							<key>match</key>
+							<string>\$[a-zA-Z$_][a-zA-Z0-9$_]*</string>
+							<key>name</key>
+							<string>variable.parameter</string>
+						</dict>
+						<dict>
+							<key>begin</key>
+							<string>\$\{</string>
+							<key>end</key>
+							<string>\}</string>
+							<key>beginCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>variable.parameter</string>
+								</dict>
+							</dict>
+							<key>endCaptures</key>
+							<dict>
+								<key>0</key>
+								<dict>
+									<key>name</key>
+									<string>variable.parameter</string>
+								</dict>
+							</dict>
+							<key>name</key>
+							<string>source.scala.embedded</string>
+							<key>patterns</key>
+							<array>
+								<dict>
+									<key>include</key>
+									<string>#nest-curly-and-self</string>
+								</dict>
+								<dict>
+									<key>include</key>
+									<string>$self</string>
+								</dict>
+							</array>
+						</dict>
+					</array>
+					<key>end</key>
+					<string>"""(?!")</string>
+					<key>name</key>
+					<string>string.quoted.triple.interpolated.scala</string>
+				</dict>
+				<dict>
+					<key>begin</key>
 					<string>([a-zA-Z$_][a-zA-Z0-9$_]*)"</string>
 					<key>beginCaptures</key>
 					<dict>
