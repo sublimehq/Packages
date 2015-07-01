@@ -453,7 +453,7 @@ contexts:
           pop: true
         - include: main
   pipeline:
-    - match: \b(time)\b
+    - match: '(?:^|\s)(a(?:[r]|wk)|b(?:[g]|zip)|c(?:[dp]|a[lt]|h(?:mod|own)|m([p]|ake))|d(?:[dfu]|c(?:_shell(-t|))|i(?:[r]|ff|rcmp))|expand|f(?:[g]|i(?:le|nd)|mt|usermount)|h(?:alt|ead|istory|ost(?:id|name|))|i([d]|n(dent|fo))|join|kill|l(?:[lns]|ast|ess|ocate)|m(?:[v]|a(?:[n]|il|ke)|kdir|o(?:re|unt))|news|p([sy]|asswd|erl|hp|ython[\d.]*)|r([m]|login|sh|who)|s(?:c(?:[p]|reen)|e[dq]|ftp|hl|ize|leep|ort|p(?:ell|lit)|sh(?:fs|))|t(?:[r]|a(?:[r]|il|lk)|e(?:[e]|lnet|st)|ime|ouch|ty)|u(?:mask|name|ptime|sers(?:add|))|w(?:[c]|ait|get|h(?:[o]|atis|ere|ich)|)|xz|zip)(?:$|\s)'
       scope: keyword.other.shell
     - match: "[|!]"
       scope: keyword.operator.pipe.shell
