@@ -435,6 +435,8 @@ contexts:
     - match: \d+
       scope: constant.numeric.integer.shell
   pathname:
+    - match: '(?<=[a-zA-Z0-9_])=(?=\s*$|[^\s])'
+      scope: keyword.operator.assign.shell
     - match: (?<=\s|:|=|^)~
       scope: keyword.operator.tilde.shell
     - match: \*|\?
