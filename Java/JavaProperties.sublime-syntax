@@ -1,0 +1,25 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Java Properties
+file_extensions:
+  - properties
+scope: source.java-props
+contexts:
+  main:
+    - match: '([#!])(.+)?$\n?'
+      scope: comment.line.number-sign.java-props
+      captures:
+        1: punctuation.definition.comment.java-props
+    - match: /\*
+      captures:
+        0: punctuation.definition.comment.java-props
+      push:
+        - meta_scope: comment.block.java-props
+        - match: \*/
+          pop: true
+    - match: "^([^:=]+)([:=])(.*)$"
+      comment: Not compliant with the properties file spec, but this works for me, and I'm the one who counts around here.
+      captures:
+        1: keyword.other.java-props
+        2: punctuation.separator.key-value.java-props

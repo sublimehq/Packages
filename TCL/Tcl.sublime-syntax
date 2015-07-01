@@ -1,0 +1,145 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Tcl
+file_extensions:
+  - tcl
+scope: source.tcl
+contexts:
+  main:
+    - match: (?<=^|;)\s*((#))
+      captures:
+        1: comment.line.number-sign.tcl
+        2: punctuation.definition.comment.tcl
+      push:
+        - meta_content_scope: comment.line.number-sign.tcl
+        - match: \n
+          pop: true
+        - match: (\\\\|\\\n)
+    - match: '(?<=^|[\[{;])\s*(if|while|for|catch|return|break|continue|switch|exit|foreach)\b'
+      captures:
+        1: keyword.control.tcl
+    - match: '(?<=^|})\s*(then|elseif|else)\b'
+      captures:
+        1: keyword.control.tcl
+    - match: '^\s*(proc)\s+([^\s]+)'
+      captures:
+        1: keyword.other.tcl
+        2: entity.name.function.tcl
+    - match: '(?<=^|[\[{;])\s*(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b'
+      captures:
+        1: keyword.other.tcl
+    - match: '(?<=^|[\[{;])\s*(regexp|regsub)\b\s*'
+      comment: special-case regexp/regsub keyword in order to handle the expression
+      captures:
+        1: keyword.other.tcl
+      push:
+        - match: '[\n;\]]'
+          pop: true
+        - match: \\(?:.|\n)
+          scope: constant.character.escape.tcl
+        - match: '-\w+\s*'
+          comment: switch for regexp
+        - match: '--\s*'
+          comment: end of switches
+          push:
+            - include: regexp
+            - match: ""
+              pop: true
+        - include: regexp
+    - include: escape
+    - include: variable
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.tcl
+      push:
+        - meta_scope: string.quoted.double.tcl
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.tcl
+          pop: true
+        - include: escape
+        - include: variable
+        - include: embedded
+  bare-string:
+    - match: (?:^|(?<=\s))"
+      comment: matches a single quote-enclosed word without scoping
+      push:
+        - match: '"([^\s\]]*)'
+          captures:
+            1: invalid.illegal.tcl
+          pop: true
+        - include: escape
+        - include: variable
+  braces:
+    - match: '(?:^|(?<=\s))\{'
+      comment: matches a single brace-enclosed word
+      push:
+        - match: '\}([^\s\]]*)'
+          captures:
+            1: invalid.illegal.tcl
+          pop: true
+        - match: '\\[{}\n]'
+          scope: constant.character.escape.tcl
+        - include: inner-braces
+  embedded:
+    - match: '\['
+      captures:
+        0: punctuation.section.embedded.begin.tcl
+      push:
+        - meta_scope: source.tcl.embedded
+        - match: '\]'
+          captures:
+            0: punctuation.section.embedded.end.tcl
+          pop: true
+        - include: scope:source.tcl
+  escape:
+    - match: '\\(\d{1,3}|x[a-fA-F0-9]+|u[a-fA-F0-9]{1,4}|.|\n)'
+      scope: constant.character.escape.tcl
+  inner-braces:
+    - match: '\{'
+      comment: matches a nested brace in a brace-enclosed word
+      push:
+        - match: '\}'
+          pop: true
+        - match: '\\[{}\n]'
+          scope: constant.character.escape.tcl
+        - include: inner-braces
+  regexp:
+    - match: '(?=\S)(?![\n;\]])'
+      comment: matches a single word, named as a regexp, then swallows the rest of the command
+      push:
+        - match: '(?=[\n;\]])'
+          pop: true
+        - match: '(?=[^ \t\n;])'
+          push:
+            - meta_scope: string.regexp.tcl
+            - match: '(?=[ \t\n;])'
+              pop: true
+            - include: braces
+            - include: bare-string
+            - include: escape
+            - include: variable
+        - match: '[ \t]'
+          comment: swallow the rest of the command
+          push:
+            - match: '(?=[\n;\]])'
+              pop: true
+            - include: variable
+            - include: embedded
+            - include: escape
+            - include: braces
+            - include: string
+  string:
+    - match: (?:^|(?<=\s))(?=")
+      comment: matches a single quote-enclosed word with scoping
+      push:
+        - meta_scope: string.quoted.double.tcl
+        - include: bare-string
+        - match: ""
+          pop: true
+  variable:
+    - match: '(\$)((?:[a-zA-Z0-9_]|::)+(\([^\)]+\))?|\{[^\}]*\})'
+      scope: variable.other.tcl
+      captures:
+        1: punctuation.definition.variable.tcl

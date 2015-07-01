@@ -1,0 +1,164 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: OCamlyacc
+file_extensions:
+  - mly
+scope: source.ocamlyacc
+contexts:
+  main:
+    - match: '(%{)\s*$'
+      captures:
+        1: punctuation.section.header.begin.ocamlyacc
+      push:
+        - meta_scope: meta.header.ocamlyacc
+        - match: '^\s*(%})'
+          captures:
+            1: punctuation.section.header.end.ocamlyacc
+          pop: true
+        - include: scope:source.ocaml
+    - match: '(?<=%})\s*$'
+      push:
+        - meta_scope: meta.declarations.ocamlyacc
+        - match: (?:^)(?=%%)
+          pop: true
+        - include: comments
+        - include: declaration-matches
+    - match: (%%)\s*$
+      captures:
+        1: punctuation.section.rules.begin.ocamlyacc
+      push:
+        - meta_scope: meta.rules.ocamlyacc
+        - match: ^\s*(%%)
+          captures:
+            1: punctuation.section.rules.end.ocamlyacc
+          pop: true
+        - include: comments
+        - include: rules
+    - include: scope:source.ocaml
+    - include: comments
+    - match: (’|‘|“|”)
+      scope: invalid.illegal.unrecognized-character.ocaml
+  comments:
+    - match: /\*
+      push:
+        - meta_scope: comment.block.ocamlyacc
+        - match: \*/
+          pop: true
+        - include: comments
+    - match: '(?=[^\\])(")'
+      push:
+        - meta_scope: comment.block.string.quoted.double.ocamlyacc
+        - match: '"'
+          pop: true
+        - match: '\\(x[a-fA-F0-9][a-fA-F0-9]|[0-2]\d\d|[bnrt''"\\])'
+          scope: comment.block.string.constant.character.escape.ocamlyacc
+  declaration-matches:
+    - match: (%)(token)
+      captures:
+        1: keyword.other.decorator.token.ocamlyacc
+        2: keyword.other.token.ocamlyacc
+      push:
+        - meta_scope: meta.token.declaration.ocamlyacc
+        - match: ^\s*($|(^\s*(?=%)))
+          pop: true
+        - include: symbol-types
+        - match: "[A-Z][A-Za-z0-9_]*"
+          scope: entity.name.type.token.ocamlyacc
+        - include: comments
+    - match: (%)(left|right|nonassoc)
+      captures:
+        1: keyword.other.decorator.token.associativity.ocamlyacc
+        2: keyword.other.token.associativity.ocamlyacc
+      push:
+        - meta_scope: meta.token.associativity.ocamlyacc
+        - match: (^\s*$)|(^\s*(?=%))
+          pop: true
+        - match: "[A-Z][A-Za-z0-9_]*"
+          scope: entity.name.type.token.ocamlyacc
+        - match: "[a-z][A-Za-z0-9_]*"
+          scope: entity.name.function.non-terminal.reference.ocamlyacc
+        - include: comments
+    - match: (%)(start)
+      captures:
+        1: keyword.other.decorator.start-symbol.ocamlyacc
+        2: keyword.other.start-symbol.ocamlyacc
+      push:
+        - meta_scope: meta.start-symbol.ocamlyacc
+        - match: (^\s*$)|(^\s*(?=%))
+          pop: true
+        - match: "[a-z][A-Za-z0-9_]*"
+          scope: entity.name.function.non-terminal.reference.ocamlyacc
+        - include: comments
+    - match: (%)(type)
+      captures:
+        1: keyword.other.decorator.symbol-type.ocamlyacc
+        2: keyword.other.symbol-type.ocamlyacc
+      push:
+        - meta_scope: meta.symbol-type.ocamlyacc
+        - match: $\s*(?!%)
+          pop: true
+        - include: symbol-types
+        - match: "[A-Z][A-Za-z0-9_]*"
+          scope: entity.name.type.token.reference.ocamlyacc
+        - match: "[a-z][A-Za-z0-9_]*"
+          scope: entity.name.function.non-terminal.reference.ocamlyacc
+        - include: comments
+  precs:
+    - match: '(%)(prec)\s+(([a-z][a-zA-Z0-9_]*)|(([A-Z][a-zA-Z0-9_]*)))'
+      scope: meta.precidence.declaration
+      captures:
+        1: keyword.other.decorator.precedence.ocamlyacc
+        2: keyword.other.precedence.ocamlyacc
+        4: entity.name.function.non-terminal.reference.ocamlyacc
+        5: entity.name.type.token.reference.ocamlyacc
+  references:
+    - match: "[a-z][a-zA-Z0-9_]*"
+      scope: entity.name.function.non-terminal.reference.ocamlyacc
+    - match: "[A-Z][a-zA-Z0-9_]*"
+      scope: entity.name.type.token.reference.ocamlyacc
+  rule-patterns:
+    - match: ((?<!\||:)(\||:)(?!\||:))
+      captures:
+        0: punctuation.separator.rule.ocamlyacc
+      push:
+        - meta_scope: meta.rule-match.ocaml
+        - match: \s*(?=\||;)
+          pop: true
+        - include: precs
+        - include: semantic-actions
+        - include: references
+        - include: comments
+  rules:
+    - match: "[a-z][a-zA-Z_]*"
+      captures:
+        0: entity.name.function.non-terminal.ocamlyacc
+      push:
+        - meta_scope: meta.non-terminal.ocamlyacc
+        - match: ;
+          captures:
+            0: punctuation.separator.rule.ocamlyacc
+          pop: true
+        - include: rule-patterns
+  semantic-actions:
+    - match: '[^\'']({)'
+      captures:
+        1: punctuation.definition.action.semantic.ocamlyacc
+      push:
+        - meta_scope: meta.action.semantic.ocamlyacc
+        - match: "(})"
+          captures:
+            1: punctuation.definition.action.semantic.ocamlyacc
+          pop: true
+        - include: scope:source.ocaml
+  symbol-types:
+    - match: <
+      captures:
+        0: punctuation.definition.type-declaration.begin.ocamlyacc
+      push:
+        - meta_scope: meta.token.type-declaration.ocamlyacc
+        - match: ">"
+          captures:
+            0: punctuation.definition.type-declaration.end.ocamlyacc
+          pop: true
+        - include: scope:source.ocaml

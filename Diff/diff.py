@@ -29,7 +29,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
             v = self.window.new_file()
             v.set_name(os.path.basename(files[1]) + " -> " + os.path.basename(files[0]))
             v.set_scratch(True)
-            v.assign_syntax('Packages/Diff/Diff.tmLanguage')
+            v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
             v.run_command('append', {'characters': difftxt})
 
     def is_visible(self, files):
@@ -63,11 +63,11 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             v = self.view.window().new_file()
             v.set_name("Unsaved Changes: " + os.path.basename(self.view.file_name()))
             v.set_scratch(True)
-            v.assign_syntax('Packages/Diff/Diff.tmLanguage')
+            v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
         else:
             win = self.view.window()
             v = win.create_output_panel('unsaved_changes')
-            v.assign_syntax('Packages/Diff/Diff.tmLanguage')
+            v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
             v.settings().set('word_wrap', self.view.settings().get('word_wrap'))
 
         v.run_command('append', {'characters': difftxt})
