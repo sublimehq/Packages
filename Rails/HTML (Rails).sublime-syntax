@@ -24,6 +24,7 @@ contexts:
           push:
             - meta_scope: source.ruby.rails.embedded.html
             - match: "-?%>"
+              scope: punctuation.section.embedded.ruby
               pop: true
             - match: (#).*?(?=-?%>)
               scope: comment.line.number-sign.ruby
