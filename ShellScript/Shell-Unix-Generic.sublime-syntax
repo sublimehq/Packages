@@ -14,6 +14,9 @@ file_extensions:
   - .textmate_init
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
+variables:
+  cmdExternal: '7za|apropos|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bash|bc|brew|bzip2|cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clang\+\+|clear|cmake|cmp|comm|cp|cron|crontab|csh|csplit|cut|date|dc|dd|ddrescue|depmod|df|diff|diff3|dig|dir|dircolors|dirname|dmesg|du|egrep|eject|env|expand|expect|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|g\+\+|gawk|gcc|git|grep|groupadd|groupdel|groupmd|groups|gzip|head|hg|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|join|killall|kmod|less|link|llvm|ln|locate|logname|look|loout|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsod|lsof|lua|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nl|notify-se|nslookup|nstat|op|open|openssl|paste|paswd|pathchk|perl|php|ping|pkill|pr|printcap|ps|pv|py|python|python3|quota|quotachec|quotactl|ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|sftp|sh|shutdown|sleep|slocate|sort|split|sqlite|sqlite3|ssh|stat|strace|su|sudo|sum|susend|svn|sync|tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|umount|uname|unexpand|unil|uniq|units|unrar|unshar|updatedb|uptime|useradd|userdel|usermod|users|uudecode|uuencode|vmstat|watch|wc|wget|whatis|whereis|who|whoami|write|xargs|xdg-open|xz|yum|zip|zsh'
+  cmdBuiltin: 'alias|bg|bind|break|builtin|caller|cd|command|compgen|complete|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|nice|nohup|popd|printf|pushd|pwd|read|readarray|readonly|return|set|shift|shopt|source|suspend|test|time|times|trap|true|type|ulimit|umask|unalias|unset|wait'
 contexts:
   main:
     - include: comment
@@ -453,7 +456,7 @@ contexts:
           pop: true
         - include: main
   pipeline:
-    - match: '\b(7za|apropos|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bash|bc|brew|bzip2|cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clang\+\+|clear|cmake|cmp|comm|cp|cron|crontab|csh|csplit|cut|date|dc|dd|ddrescue|depmod|df|diff|diff3|dig|dir|dircolors|dirname|dmesg|du|egrep|eject|env|expand|expect|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|g\+\+|gawk|gcc|git|grep|groupadd|groupdel|groupmd|groups|gzip|head|hg|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|join|killall|kmod|less|link|llvm|ln|locate|logname|look|loout|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsod|lsof|lua|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nl|notify-se|nslookup|nstat|op|open|openssl|paste|paswd|pathchk|perl|php|ping|pkill|pr|printcap|ps|pv|py|python|python3|quota|quotachec|quotactl|ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|sftp|sh|shutdown|sleep|slocate|sort|split|sqlite|sqlite3|ssh|stat|strace|su|sudo|sum|susend|svn|sync|tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|umount|uname|unexpand|unil|uniq|units|unrar|unshar|updatedb|uptime|useradd|userdel|usermod|users|uudecode|uuencode|vmstat|watch|wc|wget|whatis|whereis|who|whoami|write|xargs|xdg-open|xz|yum|zip|zsh)\b'
+    - match: '\b({{cmdExternal}})\b'
       scope: support.function.external.shell
     - match: "[|!]"
       scope: keyword.operator.pipe.shell
@@ -516,7 +519,7 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<![-/])\b(alias|bg|bind|break|builtin|caller|cd|command|compgen|complete|declare|dirs|disown|echo|enable|eval|exec|exit|export|false|fc|fg|getopts|hash|help|history|jobs|kill|let|local|logout|nice|nohup|popd|printf|pushd|pwd|read|readarray|readonly|return|set|shift|shopt|source|suspend|test|time|times|trap|true|type|ulimit|umask|unalias|unset|wait)\b'
+    - match: '(?<![-/])\b({{cmdBuiltin}})\b'
       scope: support.function.builtin.shell
   variable:
     - match: '(\$)[-*@#?$!0_]'
