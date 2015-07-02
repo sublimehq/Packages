@@ -181,10 +181,9 @@ contexts:
           pop: true
 
     # pattern matching
-    - match: '\b{{name}}\s+(match)\b'
+    - match: \b(match)\b
       captures:
-        1: variable.other.scala
-        2: keyword.control.switch.scala
+        1: keyword.control.switch.scala
       push:
         - match: \s*\{
           scope: punctuation.definition.block.switch.begin
@@ -194,9 +193,9 @@ contexts:
               pop: true
             - match: \b(case)\b
               scope: keyword.control.switch.case.scala
-              push: [pattern_case_arrow, pattern_case_if, pattern_case]
+              push: [pattern_match_arrow, pattern_match_if, pattern_match]
             - include: main
-        - match: (\s*)\S
+        - match: (\s*)(?=\S)
           scope: invalid.illegal.expected_block
 
     # language keywords
@@ -205,8 +204,11 @@ contexts:
         1: keyword.control.conditional.if.scala
       push: [else_block, if_block, if_condition]
 
-    - match: \b(for|while|do|match|case|return|yield)\b
-      scope: keyword.control.flow.scala
+    - match: \b(for)\s*(\()
+      captures:
+        1: keyword.control.loop.for.scala
+      push: [for_block, for_generator]
+
     - match: \b(try)\b
       scope: keyword.control.trycatch.try.scala
       push: [finally_block, catch_block, try_block]
@@ -216,7 +218,9 @@ contexts:
     - match: \b(this|super)\b
       scope: variable.language.scala
 
-    - match: \b(else|catch|finally)\b
+    - match: \b(while|do|match|case|return|yield)\b
+      scope: keyword.control.flow.scala
+    - match: \b(else|case|catch|finally)\b
       scope: keyword.control.scala invalid.illegal.unexpected.keyword
 
     # private/protected with modifier
@@ -794,13 +798,9 @@ contexts:
       scope: invalid.illegal.expected.pattern
 
   pattern_ended:
-    - match: =>\s
-      scope: punctuation.separator.key-value.switch.scala
-      pop: true
-    - match: =\s
+    - match: (=|<-)\s
       scope: keyword.operator.assignment
       pop: true
-    - match: \s+
     - match: '{{name}}\s+(\()'
       captures:
         1: keyword.operator.infix-pattern
@@ -809,11 +809,6 @@ contexts:
     - match: '{{name}}\s+'
       scope: keyword.operator.infix-pattern
       push: pattern_typed_name
-    - match: (if)\b
-      captures:
-        1: keyword.control.conditional.if.scala
-      push: if_condition
-
     - match: (\S*)
       scope: invalid.illegal.expected.assignment
       pop: true
@@ -836,7 +831,7 @@ contexts:
     - match: '(?=\S)'
       push: pattern_typed_name
 
-  pattern_case:
+  pattern_match:
     - match: '_'
       scope: keyword.wildcard.pattern-matching.scala
     - match: ':\s'
@@ -851,15 +846,13 @@ contexts:
       captures:
         1: entity.name.val.scala
         2: punctuation.definition.arguments.begin.scala
-      push: pattern_case_inside
-    - match: '{{operator}}\s+{{name}}\s+'
-      captures:
-        1: keyword.operator.infix-pattern
-        2: entity.name.val.scala
+      push: pattern_match_inside
+    - match: '{{operator}}'
+      scope: keyword.operator.scala
     - match: '{{name}}'
       scope: entity.name.val.scala
 
-  pattern_case_inside:
+  pattern_match_inside:
     - match: '\)'
       scope: punctuation.definition.arguments.end.scala
       pop: true
@@ -870,9 +863,9 @@ contexts:
         - include: type
     - match: '\)'
       pop: true
-    - include: pattern_case
+    - include: pattern_match
 
-  pattern_case_if:
+  pattern_match_if:
     - match: (if)\b
       captures:
         1: keyword.control.conditional.if.scala
@@ -880,7 +873,7 @@ contexts:
     - match: (?=\S)
       pop: true
 
-  pattern_case_arrow:
+  pattern_match_arrow:
     - match: \s*(=>)\s
       scope: punctuation.separator.key-value.switch.scala
       pop: true
@@ -917,7 +910,7 @@ contexts:
               pop: true
             - match: \b(case)\b
               scope: keyword.control.trycatch.case.scala
-              push: [pattern_case_arrow, pattern_case_if, pattern_case]
+              push: [pattern_match_arrow, pattern_match_if, pattern_match]
             - include: main
         - match: \}
           scope: punctuation.definition.block.trycatch.end.scala
@@ -963,7 +956,7 @@ contexts:
 
   if_block:
     # - meta_scope: meta.block.conditional.scala
-    - include: scaladoc_open
+    # - include: scaladoc_open
     - match: \{
       scope: punctuation.definition.block.conditional.begin.scala
       set:
@@ -1002,6 +995,28 @@ contexts:
             - include: line_of_code
     - match: (?=\S)
       pop: true
+
+  for_generator:
+    - match: \)
+      scope: punctuation.definition.expression.loop.end.scala
+      pop: true
+    - match: ';'
+      scope: punctuation
+
+  for_block:
+    - match: \{
+      scope: punctuation.definition.block.conditional.begin.scala
+      set:
+        - meta_scope: meta.block.conditional.scala
+        - match: \}
+          scope: punctuation.definition.block.conditional.end.scala
+          pop: true
+        - include: main
+    - match: (?=\S)
+      set:
+        - match: (?=else\b)
+          pop: true
+        - include: line_of_code
 
   constructor_type_arguments:
     - match: '\['
