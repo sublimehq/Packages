@@ -517,9 +517,9 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<![-/.])\b({{cmdBuiltin}})\b'
+    - match: '(?<![-/.])\b({{cmdBuiltin}})(?=\s|$)'
       scope: support.function.builtin.shell
-    - match: '(?<![-/.])\b({{cmdExternal}})\b'
+    - match: '(?<![-/.])\b({{cmdExternal}})(?=\s|$)'
       scope: support.function.external.shell
   variable:
     - match: '(\$)[-*@#?$!0_]'
