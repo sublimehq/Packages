@@ -59,7 +59,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?&lt;![\d.])\s0x[a-fA-F\d]+|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?</string>
+			<string>(?&lt;![\d.])\b0[xX][a-fA-F\d\.]+([pP][\-\+]?\d+)?|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?</string>
 			<key>name</key>
 			<string>constant.numeric.lua</string>
 		</dict>
@@ -90,7 +90,19 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\\.</string>
+					<string>\\([abfnrtv\\"']|\r?\n|\n\r?|\d\d?\d?)</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\[xX][0-9a-fA-F][0-9a-fA-F]</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\u\{[0-9a-fA-F]{,7}\}</string>
 					<key>name</key>
 					<string>constant.character.escape.lua</string>
 				</dict>
@@ -123,7 +135,19 @@
 			<array>
 				<dict>
 					<key>match</key>
-					<string>\\.</string>
+					<string>\\([abfnrtv\\"']|\r?\n|\n\r?|\d\d?\d?)</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\[xX][0-9a-fA-F][0-9a-fA-F]</string>
+					<key>name</key>
+					<string>constant.character.escape.lua</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\\u\{[0-9a-fA-F]{,7}\}</string>
 					<key>name</key>
 					<string>constant.character.escape.lua</string>
 				</dict>
@@ -203,13 +227,13 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?&lt;![^.]\.|:)\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b(?=[( {])</string>
+			<string>(?&lt;![^.]\.|:)\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b(?=[( {"'\[])</string>
 			<key>name</key>
 			<string>support.function.lua</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>(?&lt;![^.]\.|:)\b(coroutine\.(create|resume|running|status|wrap|yield)|string\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\.(concat|insert|maxn|remove|sort)|math\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(cpath|loaded|loadlib|path|preload|seeall)|debug\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\b(?=[( {])</string>
+			<string>(?&lt;![^.]\.|:)\b(coroutine\.(create|resume|running|status|wrap|yield)|string\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\.(concat|insert|maxn|remove|sort)|math\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(cpath|loaded|loadlib|path|preload|seeall)|debug\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\b(?=[( {"'\[])</string>
 			<key>name</key>
 			<string>support.function.library.lua</string>
 		</dict>
