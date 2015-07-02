@@ -11,6 +11,7 @@ file_extensions:
   - OCamlMakefile
   - make
   - mak
+  - mk
 scope: source.makefile
 contexts:
   main:
