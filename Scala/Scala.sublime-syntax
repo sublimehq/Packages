@@ -51,12 +51,16 @@ contexts:
         - match: $
           pop: true
         - include: comments_in
-    - match: '/\*[^*]'
+    # scaladoc is triggered only on new line
+    - match: '^\s*/\*\*'
+      push: scaladoc
+    - match: '/\*'
       push:
         - meta_scope: comment.block.scala
         - match: '\*/'
           pop: true
         - include: comments_in
+
 
   comments_in:
     - match: (?i:todo|hack)
@@ -66,16 +70,8 @@ contexts:
   #   - match: (\.|\,)
   #     scope: keyword.operator.scala
 
-  scaladoc_open:
-    - match: '^\s*/\*\*'
-      push: scaladoc
-
   main:
     #TODO: forSome
-
-    # scaladoc is triggered only on new line
-    - include: scaladoc_open
-
     - match: '\}'
       scope: invalid.illegal.unexpected.closing-bracket
 
@@ -154,10 +150,10 @@ contexts:
     # val/var declaration
     - match: '\b(val)\s+'
       scope: storage.type.variable.val.scala
-      push: pattern
+      push: pattern_val
     - match: '\b(var)\s+'
       scope: storage.type.variable.var.scala
-      push: pattern
+      push: pattern_val
 
     # type declaration
     - match: '\b(type)\s+{{name}}\s*(=|<:|<%)'
@@ -756,80 +752,58 @@ contexts:
       pop: true
     - include: main
 
-  pattern:
-    - match: '\s*{{name}}?\s*(\()'
+  pattern_val:
+    - match: '_'
+      scope: keyword.wildcard.pattern-matching.scala
+    - match: '({{simple_name}}\s*|{{operator}}\s)?(:)\s'
+      captures:
+        1: entity.name.val.scala
+        2: punctuation.separator.key-value.type.scala
+      set:
+        - match: '(?=(=|<-)\s)'
+          pop: true
+        - include: type
+    - match: '({{simple_name}}\s*|{{operator}}\s)?\s*(?=(=|<-)\s)'
+      captures:
+        1: entity.name.val.scala
+      pop: true
+    - match: '{{operator}}'
+      scope: keyword.operator.scala
+    - match: '{{name}}?(\()'
       captures:
         1: entity.name.constructor.unapply.scala
-        2: punctuation.definition.arguments.begin.scala
-      set: [pattern_ended, pattern_inside_unapply]
-    - match: '(?=\S)'
-      set: [pattern_ended, pattern_typed_name]
+        2: punctuation.definition.arguments.constructor.begin.scala
+      push: pattern_val_inside
+    - match: '{{name}}'
+      scope: entity.name.val.scala
 
-  pattern_typed_name:
-    - match: '(_)\s*(:)\s'
-      captures:
-        1: keyword.wildcard.pattern-matching.scala
-        2: punctuation.separator.key-value.type.scala
-      set:
-        - match: '{{pattern_end}}'
-          pop: true
-        - include: type
-    - match: '(_)\s*{{pattern_end}}'
-      captures:
-        1: keyword.wildcard.pattern-matching.scala
+  pattern_val_inside:
+    - match: \)
+      scope: punctuation.definition.arguments.constructor.end.scala
       pop: true
-    - match: '{{name}}\s*(:)\s'
+    - match: '({{simple_name}}\s*|{{operator}}\s)?(:)\s'
       captures:
         1: entity.name.val.scala
         2: punctuation.separator.key-value.type.scala
       set:
-        - match: '{{pattern_end}}'
+        - match: \)
+          scope: punctuation.definition.arguments.constructor.end.scala
           pop: true
+        - match: ','
+          scope: punctuation.separator.argument.scala
+          set: pattern_val_inside
         - include: type
-    - match: '{{name}}\s*{{pattern_end}}'
-      captures:
-        1: entity.name.val.scala
-      pop: true
-    - match: '{{name}}\s+{{name}}\s+'
-      captures:
-        1: entity.name.val.scala
-        2: keyword.operator.infix-pattern
-    - match: '\S+'
-      scope: invalid.illegal.expected.pattern
+    - match: ','
+      scope: punctuation.separator.argument.scala
+    - include: pattern_val
 
-  pattern_ended:
-    - match: (=|<-)\s
+  pattern_val_eq:
+    - match: \s*(=|<-)\s
       scope: keyword.operator.assignment
       pop: true
-    - match: '{{name}}\s+(\()'
-      captures:
-        1: keyword.operator.infix-pattern
-        2: punctuation.definition.arguments.begin.scala
-      push: pattern_inside_unapply
-    - match: '{{name}}\s+'
-      scope: keyword.operator.infix-pattern
-      push: pattern_typed_name
-    - match: (\S*)
-      scope: invalid.illegal.expected.assignment
+    - match: (\S)
+      scope: invalid.illegal.expected.equal
       pop: true
-
-  pattern_inside_unapply:
-    # - meta_scope: inside_unnaply
-    - match: '(?==)'
-    - match: '=\s'
-      scope: invalid.illegal.unexpected-eq
-    - match: ','
-      scope: punctuation.separator.argument
-    - match: '\)'
-      scope: punctuation.definition.arguments.end.scala
-      pop: true
-    - match: '{{name}}?\s*(\()'
-      captures:
-        1: variable.other.type.unapply
-        2: punctuation.definition.arguments.begin.scala
-      push: pattern_inside_unapply
-    - match: '(?=\S)'
-      push: pattern_typed_name
 
   pattern_match:
     - match: '_'
@@ -956,7 +930,6 @@ contexts:
 
   if_block:
     # - meta_scope: meta.block.conditional.scala
-    # - include: scaladoc_open
     - match: \{
       scope: punctuation.definition.block.conditional.begin.scala
       set:
@@ -973,7 +946,6 @@ contexts:
 
   else_block:
     - meta_scope: meta.block.conditional.scala
-    - include: scaladoc_open
     - match: (else\s+if)\s*
       captures:
         1: keyword.control.conditional.elseif.scala
@@ -1002,6 +974,7 @@ contexts:
       pop: true
     - match: ';'
       scope: punctuation
+      push: pattern_val
 
   for_block:
     - match: \{
