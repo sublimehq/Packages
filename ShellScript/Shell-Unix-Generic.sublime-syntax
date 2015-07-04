@@ -581,7 +581,7 @@ contexts:
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
-    - match: '(?=[()<>&;!|]|$)'
+    - match: '(?=[`()<>&;!|]|$)'
       pop: true
     - include: string
     - include: variable
