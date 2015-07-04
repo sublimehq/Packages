@@ -423,6 +423,8 @@ contexts:
       push:
         - meta_scope: meta.scope.for-loop.shell
         - match: \b(done)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - include: main
     - match: '\b(for)\s+((?:[^\s\\]|\\.)+)\b'
@@ -442,6 +444,8 @@ contexts:
       push:
         - meta_scope: meta.scope.while-loop.shell
         - match: \b(done)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - include: main
     - match: '\b(select)\s+((?:[^\s\\]|\\.)+)\b'
@@ -461,13 +465,17 @@ contexts:
       push:
         - meta_scope: meta.scope.case-block.shell
         - match: \b(esac)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - match: \b(?:in)\b
           captures:
             1: keyword.control.shell
           push:
             - meta_scope: meta.scope.case-body.shell
-            - match: (?=\b(?:esac)\b)
+            - match: \b(esac)\b
+              captures:
+                1: keyword.control.shell
               pop: true
             - include: comment
             - include: case-clause
