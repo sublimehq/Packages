@@ -95,7 +95,7 @@ contexts:
     - include: keyword
     - include: support
   comment:
-    - match: '(?<!\S)(#)(?!\{).*$\n?'
+    - match: '(?<!\S)(#)(?!\{).*$'
       scope: comment.line.number-sign.shell
       captures:
         1: punctuation.definition.comment.shell
@@ -588,6 +588,7 @@ contexts:
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
+    - meta_content_scope: cmdArgs
     - match: '(?=[`()<>&;!|]|\n)'
       pop: true
     - match: '(\\)\n'
