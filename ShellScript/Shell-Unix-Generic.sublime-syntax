@@ -627,3 +627,4 @@ contexts:
           captures:
             1: punctuation.section.array.shell
             3: punctuation.section.array.shell
+        - include: string
