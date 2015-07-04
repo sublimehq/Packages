@@ -530,6 +530,7 @@ contexts:
     - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
       comment: "valid: &>word >&word >word [n]>&[n] [n]<word [n]>word [n]>>word [n]<&word (last one is duplicate)"
       scope: keyword.operator.redirect.shell
+      push: cmdArgs
   string:
     - match: \\.
       scope: constant.character.escape.shell
