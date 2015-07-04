@@ -571,8 +571,19 @@ contexts:
       scope: support.function.builtin.shell
     - match: '(?<![+-/.])\b({{cmdBuiltin}})(?=\s|$)'
       scope: support.function.builtin.shell
+      push: cmdArgs
     - match: '(?<![+-/.])\b({{cmdExternal}})(?=\s|$)'
       scope: support.function.external.shell
+      push: cmdArgs
+  cmdArgs:
+    - match: '(?=[()<>&;!|]|$)'
+      pop: true
+    - include: string
+    - include: variable
+    - include: interpolation
+    - include: heredoc
+    - include: herestring
+    - include: pathname
   variable:
     - match: '(\$)[-*@#?$!0_]'
       scope: variable.other.special.shell
