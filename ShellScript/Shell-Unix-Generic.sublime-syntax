@@ -59,7 +59,7 @@ variables:
   )'
   cmdBuiltin: '(?x:
     alias|
-    bg|bind|break|builtin|
+    bg|bind|builtin|
     caller|cd|command|compgen|complete|
     declare|dirs|disown|
     echo|enable|eval|exec|exit|export|
@@ -415,7 +415,7 @@ contexts:
           pop: true
         - include: main
   keyword:
-    - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b
+    - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|break|esac|while|until|return)\b
       scope: keyword.control.shell
   list:
     - match: ;|&&|&|\|\|
