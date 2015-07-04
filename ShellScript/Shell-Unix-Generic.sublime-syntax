@@ -63,9 +63,9 @@ variables:
     let|local|logout|
     nice|nohup|
     popd|printf|pushd|pwd|
-    read|readarray|readonly|return|
+    read|readarray|readonly|
     set|shift|shopt|source|suspend|
-    test|time|times|trap|true|type|
+    test|time|times|trap|true|type|typeset|
     ulimit|umask|unalias|unset|
     wait
   )'
@@ -399,8 +399,6 @@ contexts:
   keyword:
     - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b
       scope: keyword.control.shell
-    - match: '(?<![-/])\b(?:export|declare|typeset|local|readonly)\b'
-      scope: storage.modifier.shell
   list:
     - match: ;|&&|&|\|\|
       scope: keyword.operator.list.shell
