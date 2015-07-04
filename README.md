@@ -23,4 +23,4 @@ Complex plugins such as auto complete systems and linters should generally be in
 
 ## Missing Packages
 
-This repository only contains syntax definition focused packages. Notably, Packages such as 'Default' and 'Theme - Default' are not included.
+This repository only contains syntax definition focused packages. Notably, packages such as 'Default' and 'Theme - Default' are not included.
