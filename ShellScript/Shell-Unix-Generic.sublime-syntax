@@ -593,6 +593,7 @@ contexts:
     - match: '(\\)\n'
       captures:
         1: punctuation.definition.multiline.shell
+    - include: comment
     - include: string
     - include: variable
     - include: interpolation
