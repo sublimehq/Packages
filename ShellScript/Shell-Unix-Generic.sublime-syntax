@@ -136,6 +136,15 @@ contexts:
           pop: true
         - include: logical-expression
         - include: main
+    - match: '(\[)'
+      captures:
+        1: punctuation.definition.logical-expression.shell
+      push:
+        - meta_scope: meta.scope.logical-expression.shell
+        - match: '(\])'
+          pop: true
+        - include: logical-expression
+        - include: main
     - match: '(\({2})'
       captures:
         0: punctuation.definition.string.begin.shell
