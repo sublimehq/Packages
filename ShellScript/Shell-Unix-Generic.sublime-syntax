@@ -196,7 +196,7 @@ contexts:
           pop: true
         - include: main
   heredoc:
-    - match: (<<)-("|'|)(RUBY)\2
+    - match: (<<-)\s*("|'|)(RUBY)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -220,7 +220,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:source.ruby
-    - match: (<<)-("|'|)(PYTHON)\2
+    - match: (<<-)\s*("|'|)(PYTHON)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -244,7 +244,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:source.python
-    - match: (<<)-("|'|)(APPLESCRIPT)\2
+    - match: (<<-)\s*("|'|)(APPLESCRIPT)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -268,7 +268,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:source.applescript
-    - match: (<<)-("|'|)(HTML)\2
+    - match: (<<-)\s*("|'|)(HTML)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -292,7 +292,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:text.html.basic
-    - match: (<<)-("|'|)(MARKDOWN)\2
+    - match: (<<-)\s*("|'|)(MARKDOWN)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -316,7 +316,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:text.html.markdown
-    - match: (<<)-("|'|)(TEXTILE)\2
+    - match: (<<-)\s*("|'|)(TEXTILE)\2
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
@@ -340,7 +340,7 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:text.html.textile
-    - match: (<<)-?("|'|\s*)(EOF)\n
+    - match: (<<-?)\s*("|'|\s*)(EOF)\n
       captures:
         1: keyword.operator.heredoc.shell
         3: keyword.control.heredoc-token.shell
