@@ -468,7 +468,7 @@ contexts:
           captures:
             1: keyword.control.shell
           pop: true
-        - match: \b(?:in)\b
+        - match: \b(in)\b
           captures:
             1: keyword.control.shell
           push:
