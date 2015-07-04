@@ -587,8 +587,11 @@ contexts:
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
-    - match: '(?=[`()<>&;!|]|$)'
+    - match: '(?=[`()<>&;!|]|$\n)'
       pop: true
+    - match: '(\\)$\n'
+      captures:
+        1: punctuation.definition.multiline.shell
     - include: string
     - include: variable
     - include: interpolation
