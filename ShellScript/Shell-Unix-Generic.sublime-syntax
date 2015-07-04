@@ -23,12 +23,12 @@ variables:
     7za|
     apropos|apt-get|aptitude|ar|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
-    cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clang\+\+|
+    cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|
     clear|cmake|cmp|comm|cp|cron|crontab|csh|csplit|cut|
     date|dc|dd|ddrescue|depmod|df|diff|diff3|dig|dir|dircolors|dirname|dmesg|du|
     egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
-    g\+\+|gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
+    gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
     head|hg|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
