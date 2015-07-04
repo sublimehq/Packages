@@ -331,6 +331,16 @@ contexts:
             1: keyword.control.heredoc-token.shell
           pop: true
         - include: scope:text.html.textile
+    - match: (<<)-?("|'|\s*)(EOF)\n
+      captures:
+        1: keyword.operator.heredoc.shell
+        3: keyword.control.heredoc-token.shell
+      push:
+        - meta_content_scope: string.unquoted.heredoc.shell
+        - match: ^(EOF)\b
+          captures:
+            1: keyword.control.heredoc-token.shell
+          pop: true
     - match: (<<)-("|'|)\\?(\w+)\2
       captures:
         1: keyword.operator.heredoc.shell
