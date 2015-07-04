@@ -15,6 +15,10 @@ file_extensions:
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 variables:
+  cmdExternalNotEndWithWord: '(?x:
+    clang\+\+|
+    g\+\+
+  )'
   cmdExternal: '(?x:
     7za|
     apropos|apt-get|aptitude|ar|aspell|autoconf|awk|
@@ -567,10 +571,13 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<![+-/.])\b({{cmdBuiltin}})(?=\s|$)'
+    - match: '(?<![+-/.])\b({{cmdBuiltin}})\b'
       scope: support.function.builtin.shell
       push: cmdArgs
-    - match: '(?<![+-/.])\b({{cmdExternal}})(?=\s|$)'
+    - match: '(?<![+-/.])\b({{cmdExternal}})\b'
+      scope: support.function.external.shell
+      push: cmdArgs
+    - match: '(?<![+-/.])\b({{cmdExternalNotEndWithWord}})(?=[\s`)]|$)'
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
