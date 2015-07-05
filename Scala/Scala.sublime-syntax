@@ -655,11 +655,11 @@ contexts:
       pop: false
 
   function_code:
-    - meta_scope: meta.def.scala
+    - meta_scope: meta.method.scala
     - match: $
     - match: '^(\s*)(?=[^{])'
       set:
-        - meta_scope: meta.def.scala
+        - meta_scope: meta.method.scala
         - match: $
           pop: true
         - match: (?=})
@@ -667,7 +667,7 @@ contexts:
         - include: main
     - match: '(?=[^{])'
       set:
-        - meta_scope: meta.def.scala
+        - meta_scope: meta.method.scala
         - match: (?=})
           pop: true
         - match: $
@@ -684,7 +684,7 @@ contexts:
 
   # class signature
   class_signature:
-    - meta_scope: meta.class.scala
+    - meta_content_scope: meta.class.scala
     - match: '\('
       scope: punctuation.definition.parameters.constructor.begin.scala
       push: class_params
@@ -717,7 +717,7 @@ contexts:
 
   class_params:
     # - meta_content_scope: meta.constructor.scala
-    - meta_scope: meta.class.identifier
+    - meta_scope: meta.class.identifier.scala
     - match: '\b(val|protected|private)\b'
       scope: storage.modifier.access.scala
     - match: '\b(implicit)\b'
