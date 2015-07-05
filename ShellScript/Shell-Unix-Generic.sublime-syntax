@@ -688,7 +688,13 @@ contexts:
                 - include: interpolation
             - include: string
             - include: interpolation
-        - match: '!|\*|@|#{1,2}|%{1,2}|\^{1,2}|,{1,2}'
+        # matching: ${foo,,}
+        - match: ',{1,2}'
+          scope: keyword.operator.lowercase.shell
+        # matching: ${foo^^}
+        - match: '\^{1,2}'
+          scope: keyword.operator.uppercase.shell
+        - match: '!|\*|@|#{1,2}|%{1,2}'
           scope: keyword.operator.expansion.shell
         - match: '(\[)([^\]]+)(\])'
           captures:
