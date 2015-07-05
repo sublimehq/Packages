@@ -674,6 +674,15 @@ contexts:
                     - include: interpolation
                 - include: string
                 - include: interpolation
+            # matching: ${var##Pattern}
+            - match: '#{1,2}'
+              scope: keyword.operator.substringremoval.shell
+              push:
+                - meta_content_scope: meta.reset.color
+                - match: '(?=})'
+                  pop: true
+                - include: string
+                - include: interpolation
             # matching: ${foo:+bar}
             - match: ':?[+\-=?]'
               scope: keyword.operator.substringreplacement.shell
