@@ -652,6 +652,13 @@ contexts:
           push:
             - match: '(?=})'
               pop: true
+        - match: '!'
+          scope: keyword.operator.match.shell
+          push:
+            - match: '(?=})'
+              pop: true
+            - match: '[@*](?=\})'
+              scope: keyword.operator.match.shell
         # match variable name
         - match: '[a-zA-Z_][\da-zA-Z_]'
           set:
@@ -724,3 +731,5 @@ contexts:
             - include: interpolation
         - include: string
         - include: interpolation
+
+
