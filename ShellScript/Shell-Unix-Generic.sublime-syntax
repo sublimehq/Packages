@@ -647,58 +647,71 @@ contexts:
         - meta_scope: variable.other.bracket.shell
         - match: '\}'
           pop: true
-        # matching: ${var/Pattern/Replacement}
-        - match: '/[#%/]?'
-          scope: keyword.operator.substringreplacement.shell
+        - match: '#'
+          scope: keyword.operator.length.shell
           push:
-            - meta_content_scope: meta.reset.color
             - match: '(?=})'
               pop: true
-            - match: '/'
+        # match variable name
+        - match: '[a-zA-Z_][\da-zA-Z_]'
+          set:
+            - meta_scope: variable.other.bracket.shell
+            - match: '\}'
+              pop: true
+            # matching: ${var/Pattern/Replacement}
+            - match: '/[#%/]?'
               scope: keyword.operator.substringreplacement.shell
               push:
+                - meta_content_scope: meta.reset.color
+                - match: '(?=})'
+                  pop: true
+                - match: '/'
+                  scope: keyword.operator.substringreplacement.shell
+                  push:
+                    - match: '(?=})'
+                      pop: true
+                    - include: string
+                    - include: interpolation
+                - include: string
+                - include: interpolation
+            # matching: ${foo:+bar}
+            - match: ':?[+\-=?]'
+              scope: keyword.operator.substringreplacement.shell
+              push:
+                - meta_content_scope: meta.reset.color
                 - match: '(?=})'
                   pop: true
                 - include: string
                 - include: interpolation
-            - include: string
-            - include: interpolation
-        # matching: ${foo:+bar}
-        - match: ':?[+\-=?]'
-          scope: keyword.operator.substringreplacement.shell
-          push:
-            - meta_content_scope: meta.reset.color
-            - match: '(?=})'
-              pop: true
-            - include: string
-            - include: interpolation
-        # matching: ${var:pos:len}
-        - match: ':'
-          scope: keyword.operator.expansion.shell
-          puch:
-            - meta_content_scope: meta.reset.color
-            - match: '(?=})'
-              pop: true
+            # matching: ${var:pos:len}
             - match: ':'
               scope: keyword.operator.expansion.shell
-              push:
+              puch:
+                - meta_content_scope: meta.reset.color
                 - match: '(?=})'
                   pop: true
+                - match: ':'
+                  scope: keyword.operator.expansion.shell
+                  push:
+                    - match: '(?=})'
+                      pop: true
+                    - include: string
+                    - include: interpolation
                 - include: string
                 - include: interpolation
+            # matching: ${foo,,}
+            - match: ',{1,2}'
+              scope: keyword.operator.lowercase.shell
+            # matching: ${foo^^}
+            - match: '\^{1,2}'
+              scope: keyword.operator.uppercase.shell
+            - match: '!|\*|@|#{1,2}|%{1,2}'
+              scope: keyword.operator.expansion.shell
+            - match: '(\[)([^\]]+)(\])'
+              captures:
+                1: punctuation.section.array.shell
+                3: punctuation.section.array.shell
             - include: string
             - include: interpolation
-        # matching: ${foo,,}
-        - match: ',{1,2}'
-          scope: keyword.operator.lowercase.shell
-        # matching: ${foo^^}
-        - match: '\^{1,2}'
-          scope: keyword.operator.uppercase.shell
-        - match: '!|\*|@|#{1,2}|%{1,2}'
-          scope: keyword.operator.expansion.shell
-        - match: '(\[)([^\]]+)(\])'
-          captures:
-            1: punctuation.section.array.shell
-            3: punctuation.section.array.shell
         - include: string
         - include: interpolation
