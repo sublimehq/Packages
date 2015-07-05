@@ -796,6 +796,7 @@ contexts:
       push:
         - meta_scope: source.ruby.embedded.source
         - match: '\}'
+          scope: punctuation.section.embedded.ruby
           pop: true
         - include: nest_curly_and_self
         - include: main
