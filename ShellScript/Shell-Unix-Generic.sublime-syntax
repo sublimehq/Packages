@@ -647,37 +647,40 @@ contexts:
         - meta_scope: variable.other.bracket.shell
         - match: '\}'
           pop: true
-        - match: '#'
-          scope: keyword.operator.length.shell
-          push:
-            - match: '(?=})'
-              pop: true
-        - match: '!'
-          scope: keyword.operator.match.shell
-          push:
-            - match: '(?=})'
-              pop: true
-            - match: '[@*](?=\})'
-              scope: keyword.operator.match.shell
-        # match variable name
-        - match: '[a-zA-Z_][\da-zA-Z_]'
-          push:
-            - meta_scope: variable.other.bracket.shell
-            - match: '(?=})'
-              pop: true
-            - match: '(\[)([^\]]+)(\])'
-              captures:
-                1: punctuation.section.array.shell
-                3: punctuation.section.array.shell
-            - include: variable_substringReplacement
-            - include: variable_caseConversion
-            - include: string
-            - include: interpolation
+        - match: '(\[)([^\]]+)(\])'
+          captures:
+            1: punctuation.section.array.shell
+            3: punctuation.section.array.shell
+        - include: variable_firstMatchOperator
+        - include: variable_firstMatchVariable
         - include: string
         - include: interpolation
 
   # some helper context...
 
+  variable_firstMatchOperator:
+    - match: '#'
+      scope: keyword.operator.length.shell
+      push:
+        - match: '(?=})'
+          pop: true
+    - match: '!'
+      scope: keyword.operator.match.shell
+      push:
+        - match: '(?=})'
+          pop: true
+        - match: '[@*](?=\})'
+          scope: keyword.operator.match.shell
+  variable_firstMatchVariable:
+    - match: '[a-zA-Z_][\da-zA-Z_]'
+      push:
+        - meta_scope: variable.other.bracket.shell
+        - match: '(?=})'
+          pop: true
+        - include: variable_substringReplacement
+        - include: variable_caseConversion
+        - include: string
+        - include: interpolation
   variable_substringReplacement:
     # matching: ${var/Pattern/Replacement}
     - match: '/[#%/]?'
