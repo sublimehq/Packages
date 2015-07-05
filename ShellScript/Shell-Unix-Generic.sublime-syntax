@@ -665,8 +665,6 @@ contexts:
             - meta_scope: variable.other.bracket.shell
             - match: '(?=})'
               pop: true
-            - match: '!|\*|@|#{1,2}|%{1,2}'
-              scope: keyword.operator.expansion.shell
             - match: '(\[)([^\]]+)(\])'
               captures:
                 1: punctuation.section.array.shell
@@ -698,7 +696,7 @@ contexts:
         - include: string
         - include: interpolation
     # matching: ${var##Pattern}
-    - match: '#{1,2}'
+    - match: '[#%]{1,2}'
       scope: keyword.operator.substringremoval.shell
       push:
         - meta_content_scope: meta.reset.color
