@@ -615,7 +615,6 @@ contexts:
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
-    - meta_content_scope: cmdArgs
     - match: '(?=[`()<>&;!|]|\n)'
       pop: true
     - match: '(\\)\n'
