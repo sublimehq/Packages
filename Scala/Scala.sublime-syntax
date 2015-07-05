@@ -14,9 +14,9 @@ variables:
   # http://stackoverflow.com/questions/7656937/valid-identifier-characters-in-scala
   operator: '[!#%&\*\+\-/:<=>?\\^|~©®][!#%&\*\+\-/:<=>?@\\^|~©®]*'
   simple_name: '[A-Za-z_\p{L}][A-Za-z\p{L}_0-9]*'
-  name_with_op: '({{operator}}|{{simple_name}}_{{operator}})'
-  name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}})'
-  full_name: '({{operator}}\s|{{simple_name}}_{{operator}}\s|{{simple_name}}\s?)'
+  quoted_name: '`[^`]*`'
+
+  name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}}|{{quoted_name}})'
 
   xml_open_tag: '<[A-Za-z]*>'
   xml_close_tag: '</[A-Za-z]*>'
@@ -130,6 +130,21 @@ contexts:
       push: class_signature
 
     # package declaration
+    - match: '\b(package)\s+({{simple_name}})(\.)*({{simple_name}})\s+(\{)'
+      captures:
+        0: meta.package.identifier.scala
+        1: storage.type.module
+        2: entity.name.module.scala
+        3: keyword.operator.accessor.scala
+        4: entity.name.module.scala
+        5: punctuation.definition.module-binding.begin.scala
+      push:
+        - meta_scope: meta.package.scala
+        - match: \}
+          scope: punctuation.definition.module-binding.begin.scala
+          pop: true
+        - include: main
+
     - match: '\b(package)\s+(({{simple_name}}\.)*{{simple_name}})'
       captures:
         0: meta.package.identifier.scala
@@ -156,19 +171,14 @@ contexts:
       push: pattern_val
 
     # type declaration
-    - match: '\b(type)\s+{{name}}\s*(=|<:|<%)'
-      captures:
-        1: storage.type.variable.type.scala
-        2: entity.name.class.scala
-        3: keyword.operator.assignment.scala
-      push: type
     - match: '\b(type)\s+{{name}}'
       captures:
         1: storage.type.variable.type.scala
         2: entity.name.class.scala
       push:
-        - match: '(=|<:|<%)'
-          scope: keyword.operator.assignment.scala
+        - match: '(=|<:|<%)(\b|\s)'
+          captures:
+            1: keyword.operator.assignment.scala
           set: type
         - include: type_bracket
         - match: $
@@ -177,13 +187,16 @@ contexts:
           pop: true
 
     # pattern matching
-    - match: \b(match)\b
+    - match: '(?:{{name}}?\s+)(match)\b'
       captures:
-        1: keyword.control.switch.scala
+        1: variable.other.scala
+        2: keyword.control.switch.scala
       push:
+        - meta_scope: meta.block.conditional.switch.scala
         - match: \s*\{
           scope: punctuation.definition.block.switch.begin
           set:
+            - meta_scope: meta.block.conditional.switch.scala
             - match: \}
               scope: punctuation.definition.block.switch.end
               pop: true
@@ -203,7 +216,8 @@ contexts:
     - match: \b(for)\s*(\()
       captures:
         1: keyword.control.loop.for.scala
-      push: [for_block, for_generator]
+        2: punctuation.definition.expression.loop.begin.scala
+      push: [for_block, for_generator, for_arrow, pattern_val]
 
     - match: \b(try)\b
       scope: keyword.control.trycatch.try.scala
@@ -214,7 +228,14 @@ contexts:
     - match: \b(this|super)\b
       scope: variable.language.scala
 
-    - match: \b(while|do|match|case|return|yield)\b
+    - match: \bdo\b
+      scope: keyword.control.loop.do.scala
+      push: [do_condition, while_block]
+    - match: \bwhile\b
+      scope: keyword.control.loop.while.scala
+      push: [while_block, while_condition]
+
+    - match: \b(match|case|return|yield)\b
       scope: keyword.control.flow.scala
     - match: \b(else|case|catch|finally)\b
       scope: keyword.control.scala invalid.illegal.unexpected.keyword
@@ -243,8 +264,6 @@ contexts:
     - match: \b(sealed|abstract|final|lazy|override)\b
       scope: storage.modifier.other.scala
 
-    - include: literals
-
     # import
     - match: \bimport\b
       scope: storage.type.module.import.scala
@@ -263,9 +282,9 @@ contexts:
     - match: 'raw"'
       scope: punctuation.definition.string.quoted.raw.begin.scala
       push: raw_string
-    - match: '"'
-      scope: punctuation.definition.string.quoted.double.begin.scala
-      push: string
+
+    # ints, floats, strings, chars, booleans
+    - include: literals
 
     # function calls
     - match: \b(Array|List|Map|Some)(\()
@@ -367,6 +386,10 @@ contexts:
     # numbers
     - match: '{{number}}'
       scope: constant.numeric.scala
+    # strings
+    - match: '"'
+      scope: punctuation.definition.string.quoted.double.begin.scala
+      push: string
 
   # type
   type:
@@ -399,12 +422,12 @@ contexts:
     - match: '({{name}}(\.))*(type)'
       captures:
         2: variable.other.scala
-        3: keyword.operator.access.scala
+        3: keyword.operator.accessor.scala
         4: support.language.type.scala
     - match: '({{name}}(\.))*{{name}}'
       captures:
         2: variable.other.scala
-        3: keyword.operator.access.scala
+        3: keyword.operator.accessor.scala
         4: variable.other.type.scala
     - match: '{{name}}'
       scope: variable.other.type.scala
@@ -431,14 +454,13 @@ contexts:
       scope: invalid.illegal.stray-bracket-end
 
   import:
-    # - meta_scope: meta.import.scala
     - match: _
       scope: storage.modifier.module.wildcard.scala
       pop: true
     - match: '{{name}}'
       scope: variable.module.scala
     - match: \.
-      scope: keyword.operator.access.scala
+      scope: keyword.operator.accessor.scala
     - match: $
       pop: true
     - match: \{
@@ -825,6 +847,7 @@ contexts:
       scope: keyword.operator.scala
     - match: '{{name}}'
       scope: entity.name.val.scala
+    - include: literals
 
   pattern_match_inside:
     - match: '\)'
@@ -840,10 +863,12 @@ contexts:
     - include: pattern_match
 
   pattern_match_if:
-    - match: (if)\b
-      captures:
-        1: keyword.control.conditional.if.scala
-      set: if_condition
+    - match: \s*if\b
+      scope: keyword.control.conditional.if.scala
+      set:
+        - match: '(?==>\s)'
+          pop: true
+        - include: main
     - match: (?=\S)
       pop: true
 
@@ -856,11 +881,9 @@ contexts:
       pop: true
 
   try_block:
-    - meta_scope: meta.trycatch.try.scala
     - match: \{
       scope: punctuation.definition.block.trycatch.begin.scala
       set:
-        - meta_scope: meta.trycatch.try.scala
         - match: \}
           scope: punctuation.definition.block.trycatch.end.scala
           pop: true
@@ -878,7 +901,6 @@ contexts:
         - match: \s*\{
           scope: punctuation.definition.block.trycatch.begin.scala
           set:
-            - meta_scope: meta.trycatch.catch.scala
             - match: \}
               scope: punctuation.definition.block.trycatch.end.scala
               pop: true
@@ -896,21 +918,22 @@ contexts:
       pop: true
 
   finally_block:
-    - match: (finally)\b
+    - meta_scope: meta.block.trycatch.scala
+    - match: (finally)\b\s*
       scope: keyword.control.trycatch.finally.scala
       set:
         - match: \s*
         - match: \{
           scope: punctuation.definition.block.trycatch.begin.scala
           set:
-            - meta_scope: meta.trycatch.finally.scala
+            - meta_scope: meta.block.trycatch.scala
             - match: \}
               scope: punctuation.definition.block.trycatch.end.scala
               pop: true
             - include: main
         - match: (?=\S)
           set:
-            - meta_scope: meta.trycatch.finally.scala
+            - meta_scope: meta.block.trycatch.scala
             - include: line_of_code
     - match: (?=\S)
       pop: true
@@ -933,7 +956,6 @@ contexts:
     - match: \{
       scope: punctuation.definition.block.conditional.begin.scala
       set:
-        - meta_scope: meta.block.conditional.scala
         - match: \}
           scope: punctuation.definition.block.conditional.end.scala
           pop: true
@@ -946,11 +968,11 @@ contexts:
 
   else_block:
     - meta_scope: meta.block.conditional.scala
-    - match: (else\s+if)\s*
+    - match: (else\s+if)\b\s*
       captures:
         1: keyword.control.conditional.elseif.scala
       push: [if_block, if_condition]
-    - match: (else)\b
+    - match: (else)\s*
       scope: keyword.control.conditional.else.scala
       set:
         - match: \s*\{
@@ -968,28 +990,75 @@ contexts:
     - match: (?=\S)
       pop: true
 
+  for_arrow:
+    - match: <-
+      scope: punctuation.separator.key-value
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected.assignment
+      pop: true
+
   for_generator:
     - match: \)
       scope: punctuation.definition.expression.loop.end.scala
       pop: true
     - match: ';'
-      scope: punctuation
-      push: pattern_val
+      scope: punctuation.separator.loop-expression.scala
+      push: [for_arrow, pattern_val]
+    - include: main
 
   for_block:
+    - meta_scope: meta.block.loop.for.scala
     - match: \{
-      scope: punctuation.definition.block.conditional.begin.scala
+      scope: punctuation.definition.block.loop.begin.scala
       set:
-        - meta_scope: meta.block.conditional.scala
+        - meta_scope: meta.block.loop.scala
         - match: \}
-          scope: punctuation.definition.block.conditional.end.scala
+          scope: punctuation.definition.block.loop.end.scala
           pop: true
         - include: main
     - match: (?=\S)
       set:
-        - match: (?=else\b)
-          pop: true
+        - meta_scope: meta.block.loop.scala
         - include: line_of_code
+
+  while_block:
+    - meta_scope: meta.block.loop.while.scala
+    - match: \{
+      scope: punctuation.definition.block.loop.begin.scala
+      set:
+        - meta_scope: meta.block.loop.while.scala
+        - match: '\}'
+          scope: punctuation.definition.block.loop.begin.scala
+          pop: true
+        - include: main
+    - match: (?=\S)
+      set:
+        - meta_scope: meta.block.loop.while.scala
+        - include: line_of_code
+
+  do_condition:
+    - meta_scope: meta.block.loop.while.scala
+    - match: \b(while)\b
+      scope: keyword.control.loop.while.scala
+      set: while_condition
+    - match: \S
+      scope: invalid.illegal.expected.while
+      pop: true
+
+  while_condition:
+    - meta_scope: meta.block.loop.while.scala
+    - match: \(
+      scope: punctuation.definition.expression.loop.begin.scala
+      set:
+        - meta_scope: meta.block.loop.while.scala
+        - match: '\)'
+          scope: punctuation.definition.expression.loop.end.scala
+          pop: true
+        - include: main
+    - match: \S
+      scope: invalid.illegal.expected.condition
+      pop: true
 
   constructor_type_arguments:
     - match: '\['
