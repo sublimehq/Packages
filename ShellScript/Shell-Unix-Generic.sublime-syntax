@@ -651,6 +651,7 @@ contexts:
         - match: '/[#%/]?'
           scope: keyword.operator.substringreplacement.shell
           push:
+            - meta_content_scope: meta.reset.color
             - match: '(?=})'
               pop: true
             - match: '/'
