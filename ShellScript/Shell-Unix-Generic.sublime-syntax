@@ -672,7 +672,7 @@ contexts:
         - match: '[@*](?=\})'
           scope: keyword.operator.match.shell
   variable_firstMatchVariable:
-    - match: '[a-zA-Z_][\da-zA-Z_]'
+    - match: '[a-zA-Z_][\da-zA-Z_]*'
       push:
         - meta_scope: variable.other.bracket.shell
         - match: '(?=})'
