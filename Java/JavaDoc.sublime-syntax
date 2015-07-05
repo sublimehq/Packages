@@ -1,0 +1,223 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JavaDoc
+file_extensions: []
+scope: text.html.javadoc
+contexts:
+  main:
+    - match: (/\*\*)\s*$
+      captures:
+        1: punctuation.definition.comment.begin.javadoc
+      push:
+        - meta_scope: comment.block.documentation.javadoc
+        - match: \*/
+          captures:
+            0: punctuation.definition.comment.javadoc
+          pop: true
+        - include: invalid
+        - match: \*\s*(?=\w)
+          push:
+            - meta_scope: meta.documentation.comment.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)param)
+          captures:
+            1: keyword.other.documentation.param.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.param.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)return)
+          captures:
+            1: keyword.other.documentation.return.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.return.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)throws)
+          captures:
+            1: keyword.other.documentation.throws.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.throws.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)exception)
+          captures:
+            1: keyword.other.documentation.exception.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.exception.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)author)
+          captures:
+            1: keyword.other.documentation.author.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.author.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)version)
+          captures:
+            1: keyword.other.documentation.version.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.version.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)see)
+          captures:
+            1: keyword.other.documentation.see.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.see.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)since)
+          captures:
+            1: keyword.other.documentation.since.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.since.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)serial)
+          captures:
+            1: keyword.other.documentation.serial.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.serial.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)serialField)
+          captures:
+            1: keyword.other.documentation.serialField.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.serialField.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)serialData)
+          captures:
+            1: keyword.other.documentation.serialData.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.serialData.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)deprecated)
+          captures:
+            1: keyword.other.documentation.deprecated.javadoc
+            2: punctuation.definition.keyword.javadoc
+          push:
+            - meta_scope: meta.documentation.tag.deprecated.javadoc
+            - meta_content_scope: text.html
+            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
+              pop: true
+            - include: inline
+        - match: \*\s*((\@)\S+)\s
+          captures:
+            1: keyword.other.documentation.custom.javadoc
+            2: punctuation.definition.keyword.javadoc
+  inline:
+    - include: invalid
+    - include: inline-formatting
+    - include: scope:text.html.basic
+    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]+(?<![.?:])"
+      scope: markup.underline.link
+  inline-formatting:
+    - match: '(\{)((\@)code)'
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.code.javadoc
+        3: punctuation.definition.keyword.javadoc
+      push:
+        - meta_scope: meta.directive.code.javadoc
+        - meta_content_scope: markup.raw.code.javadoc
+        - match: '\}'
+          captures:
+            0: punctuation.definition.directive.end.javadoc
+          pop: true
+    - match: '(\{)((\@)literal)'
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.literal.javadoc
+        3: punctuation.definition.keyword.javadoc
+      push:
+        - meta_scope: meta.directive.literal.javadoc
+        - meta_content_scope: markup.raw.literal.javadoc
+        - match: '\}'
+          captures:
+            0: punctuation.definition.directive.end.javadoc
+          pop: true
+    - match: '(\{)((\@)docRoot)(\})'
+      scope: meta.directive.docRoot.javadoc
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.docRoot.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: punctuation.definition.directive.end.javadoc
+    - match: '(\{)((\@)inheritDoc)(\})'
+      scope: meta.directive.inheritDoc.javadoc
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.inheritDoc.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: punctuation.definition.directive.end.javadoc
+    - match: '(\{)((\@)link)(?:\s+(\S+?))?(?:\s+(.+?))?\s*(\})'
+      scope: meta.directive.link.javadoc
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.link.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: markup.underline.link.javadoc
+        5: string.other.link.title.javadoc
+        6: punctuation.definition.directive.end.javadoc
+    - match: '(\{)((\@)linkplain)(?:\s+(\S+?))?(?:\s+(.+?))?\s*(\})'
+      scope: meta.directive.linkplain.javadoc
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.linkplain.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: markup.underline.linkplain.javadoc
+        5: string.other.link.title.javadoc
+        6: punctuation.definition.directive.end.javadoc
+    - match: '(\{)((\@)value)\s*(\S+?)?\s*(\})'
+      scope: meta.directive.value.javadoc
+      captures:
+        1: punctuation.definition.directive.begin.javadoc
+        2: keyword.other.documentation.directive.value.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: variable.other.javadoc
+        5: punctuation.definition.directive.end.javadoc
+  invalid:
+    - match: ^(?!\s*\*).*$\n?
+      scope: invalid.illegal.missing-asterisk.javadoc

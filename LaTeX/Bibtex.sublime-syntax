@@ -1,0 +1,131 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: BibTeX
+comment: |
+  Grammar based on description from http://artis.imag.fr/~Xavier.Decoret/resources/xdkbibtex/bibtex_summary.html#comment
+
+      TODO: Does not support @preamble
+file_extensions:
+  - bib
+scope: text.bibtex
+contexts:
+  main:
+    - match: "@Comment"
+      captures:
+        0: punctuation.definition.comment.bibtex
+      push:
+        - meta_scope: comment.line.at-sign.bibtex
+        - match: $\n?
+          pop: true
+    - match: '((@)String)\s*(\{)\s*([a-zA-Z]*)'
+      captures:
+        1: keyword.other.string-constant.bibtex
+        2: punctuation.definition.keyword.bibtex
+        3: punctuation.section.string-constant.begin.bibtex
+        4: variable.other.bibtex
+      push:
+        - meta_scope: meta.string-constant.braces.bibtex
+        - match: '\}'
+          captures:
+            0: punctuation.section.string-constant.end.bibtex
+          pop: true
+        - include: string_content
+    - match: '((@)String)\s*(\()\s*([a-zA-Z]*)'
+      captures:
+        1: keyword.other.string-constant.bibtex
+        2: punctuation.definition.keyword.bibtex
+        3: punctuation.section.string-constant.begin.bibtex
+        4: variable.other.bibtex
+      push:
+        - meta_scope: meta.string-constant.parenthesis.bibtex
+        - match: \)
+          captures:
+            0: punctuation.section.string-constant.end.bibtex
+          pop: true
+        - include: string_content
+    - match: '((@)[a-zA-Z]+)\s*(\{)\s*([^\s,]*)'
+      captures:
+        1: keyword.other.entry-type.bibtex
+        2: punctuation.definition.keyword.bibtex
+        3: punctuation.section.entry.begin.bibtex
+        4: entity.name.type.entry-key.bibtex
+      push:
+        - meta_scope: meta.entry.braces.bibtex
+        - match: '\}'
+          captures:
+            0: punctuation.section.entry.end.bibtex
+          pop: true
+        - match: '([a-zA-Z]+)\s*(\=)'
+          captures:
+            1: string.unquoted.key.bibtex
+            2: punctuation.separator.key-value.bibtex
+          push:
+            - meta_scope: meta.key-assignment.bibtex
+            - match: "(?=[,}])"
+              pop: true
+            - include: string_content
+            - include: integer
+    - match: '((@)[a-zA-Z]+)\s*(\()\s*([^\s,]*)'
+      captures:
+        1: keyword.other.entry-type.bibtex
+        2: punctuation.definition.keyword.bibtex
+        3: punctuation.section.entry.begin.bibtex
+        4: entity.name.type.entry-key.bibtex
+      push:
+        - meta_scope: meta.entry.parenthesis.bibtex
+        - match: \)
+          captures:
+            0: punctuation.section.entry.end.bibtex
+          pop: true
+        - match: '([a-zA-Z]+)\s*(\=)'
+          captures:
+            1: string.unquoted.key.bibtex
+            2: punctuation.separator.key-value.bibtex
+          push:
+            - meta_scope: meta.key-assignment.bibtex
+            - match: "(?=[,)])"
+              pop: true
+            - include: string_content
+            - include: integer
+    - match: '[^@\n]'
+      push:
+        - meta_scope: comment.block.bibtex
+        - match: (?=@)
+          pop: true
+  integer:
+    - match: \d+
+      scope: constant.numeric.bibtex
+  nested_braces:
+    - match: '\{'
+      captures:
+        0: punctuation.definition.group.begin.bibtex
+      push:
+        - match: '\}'
+          captures:
+            0: punctuation.definition.group.end.bibtex
+          pop: true
+        - include: nested_braces
+  string_content:
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.bibtex
+      push:
+        - meta_scope: string.quoted.double.bibtex
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.bibtex
+          pop: true
+        - include: nested_braces
+    - match: '\{'
+      captures:
+        0: punctuation.definition.string.begin.bibtex
+      push:
+        - meta_scope: string.quoted.other.braces.bibtex
+        - match: '\}'
+          captures:
+            0: punctuation.definition.string.end.bibtex
+          pop: true
+        - match: "@"
+          scope: invalid.illegal.at-sign.bibtex
+        - include: nested_braces

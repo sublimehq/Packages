@@ -1,0 +1,9 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text
+file_extensions:
+  - txt
+scope: text.plain
+contexts:
+  main: []
