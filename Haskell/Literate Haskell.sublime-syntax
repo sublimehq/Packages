@@ -17,6 +17,11 @@ contexts:
         - meta_scope: meta.function.embedded.haskell.latex
         - meta_content_scope: source.haskell.embedded.latex
         - match: '^((\\)end)({)code(})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: punctuation.definition.arguments.end.latex
           pop: true
         - include: scope:source.haskell
     - include: scope:text.tex.latex

@@ -93,6 +93,8 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.source.cs
         - match: $\n?
+          captures:
+            0: punctuation.definition.comment.source.cs
           pop: true
         - include: scope:text.xml
     - match: /\*
@@ -101,6 +103,8 @@ contexts:
       push:
         - meta_scope: comment.block.source.cs
         - match: \*/\n?
+          captures:
+            0: punctuation.definition.comment.source.cs
           pop: true
     - match: //
       captures:
@@ -108,6 +112,8 @@ contexts:
       push:
         - meta_scope: comment.line.double-slash.source.cs
         - match: $\n?
+          captures:
+            1: punctuation.definition.comment.source.cs
           pop: true
   constants:
     - match: \b(true|false|null|this|base)\b
@@ -216,6 +222,8 @@ contexts:
           push:
             - meta_scope: meta.method.identifier.source.cs
             - match: "(?={)"
+              captures:
+                1: entity.name.function.source.cs
               pop: true
         - match: '(?=\w.*\s+[\w.]+\s*\{)'
           push:

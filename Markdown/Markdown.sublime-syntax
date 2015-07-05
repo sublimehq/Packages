@@ -12,10 +12,10 @@ contexts:
   main:
     - match: |-
         (?x)^
-        (?= [ ]{,3}>.
-        | ([ ]{4}|\t)(?!$)
-        | [#]{1,6}\s*+
-        | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+        (?=	[ ]{,3}>.
+        |	([ ]{4}|\t)(?!$)
+        |	[#]{1,6}\s*+
+        |	[ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
         )
       comment: |
         We could also use an empty end match and set
@@ -25,10 +25,10 @@ contexts:
         - meta_scope: meta.block-level.markdown
         - match: |-
             (?x)^
-            (?! [ ]{,3}>.
-            | ([ ]{4}|\t)
-            | [#]{1,6}\s*+
-            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            (?!	[ ]{,3}>.
+            |	([ ]{4}|\t)
+            |	[#]{1,6}\s*+
+            |	[ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
             )
           pop: true
         - include: block_quote
@@ -41,6 +41,8 @@ contexts:
       push:
         - meta_scope: markup.list.unnumbered.markdown
         - match: ^(?=\S)
+          captures:
+            1: punctuation.definition.list_item.markdown
           pop: true
         - include: list-paragraph
     - match: '^[ ]{0,3}[0-9]+(\.)(?=\s)'
@@ -49,6 +51,8 @@ contexts:
       push:
         - meta_scope: markup.list.numbered.markdown
         - match: ^(?=\S)
+          captures:
+            1: punctuation.definition.list_item.markdown
           pop: true
         - include: list-paragraph
     - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)(?!.*?</\1>)'
@@ -67,17 +71,17 @@ contexts:
         - include: scope:text.html.basic
     - match: |-
         (?x:
-          \s*           # Leading whitespace
-          (\[)(.+?)(\])(:)    # Reference name
-          [ \t]*          # Optional whitespace
-          (<?)(\S+?)(>?)      # The url
-          [ \t]*          # Optional whitespace
-          (?:
-              ((\().+?(\)))   # Match title in quotes…
-            | ((").+?("))   # or in parens.
-          )?            # Title is optional
-          \s*           # Optional whitespace
-          $
+        	\s*						# Leading whitespace
+        	(\[)(.+?)(\])(:)		# Reference name
+        	[ \t]*					# Optional whitespace
+        	(<?)(\S+?)(>?)			# The url
+        	[ \t]*					# Optional whitespace
+        	(?:
+        		  ((\().+?(\)))		# Match title in quotes…
+        		| ((").+?("))		# or in parens.
+        	)?						# Title is optional
+        	\s*						# Optional whitespace
+        	$
         )
       scope: meta.link.reference.def.markdown
       captures:
@@ -127,14 +131,14 @@ contexts:
         - meta_scope: markup.quote.markdown
         - match: |-
             (?x)^
-            (?= \s*$
-            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
-            | [ ]{,3}>.
+            (?=	\s*$
+            |	[ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            |	[ ]{,3}>.
             )
           pop: true
         - match: |-
             (?x)\G
-            (?= [ ]{,3}>.
+            (?=	[ ]{,3}>.
             )
           push:
             - match: ^
@@ -142,9 +146,9 @@ contexts:
             - include: block_quote
         - match: |-
             (?x)\G
-            (?= ([ ]{4}|\t)
-            | [#]{1,6}\s*+
-            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            (?=	([ ]{4}|\t)
+            |	[#]{1,6}\s*+
+            |	[ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
             )
           push:
             - include: block_raw
@@ -154,11 +158,11 @@ contexts:
               pop: true
         - match: |-
             (?x)\G
-            (?! $
-            | [ ]{,3}>.
-            | ([ ]{4}|\t)
-            | [#]{1,6}\s*+
-            | [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            (?!	$
+            |	[ ]{,3}>.
+            |	([ ]{4}|\t)
+            |	[#]{1,6}\s*+
+            |	[ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
             )
           push:
             - match: $|(?<=\n)
@@ -170,50 +174,52 @@ contexts:
   bold:
     - match: |-
         (?x)
-          (\*\*|__)(?=\S)               # Open
-          (?=
-            (
-                <[^>]*+>              # HTML tags
-              | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
-                                # Raw
-              | \\[\\`*_{}\[\]()#.!+\->]?+      # Escapes
-              | \[
-              (
-                      (?<square>          # Named group
-                    [^\[\]\\]       # Match most chars
-                        | \\.           # Escaped chars
-                        | \[ \g<square>*+ \]    # Nested brackets
-                      )*+
-                \]
-                (
-                  (             # Reference Link
-                    [ ]?          # Optional space
-                    \[[^\]]*+\]       # Ref name
-                  )
-                  | (             # Inline Link
-                    \(            # Opening paren
-                      [ \t]*+       # Optional whtiespace
-                      <?(.*?)>?     # URL
-                      [ \t]*+       # Optional whtiespace
-                      (         # Optional Title
-                        (?<title>['"])
-                        (.*?)
-                        \k<title>
-                      )?
-                    \)
-                  )
-                )
-              )
-              | (?!(?<=\S)\1).            # Everything besides
-                                # style closer
-            )++
-            (?<=\S)\1               # Close
-          )
+        	(\*\*|__)(?=\S)								# Open
+        	(?=
+        		(
+        		    <[^>]*+>							# HTML tags
+        		  | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
+        												# Raw
+        		  | \\[\\`*_{}\[\]()#.!+\->]?+			# Escapes
+        		  | \[
+        			(
+        			        (?<square>					# Named group
+        						[^\[\]\\]				# Match most chars
+        			          | \\.						# Escaped chars
+        			          | \[ \g<square>*+ \]		# Nested brackets
+        			        )*+
+        				\]
+        				(
+        					(							# Reference Link
+        						[ ]?					# Optional space
+        						\[[^\]]*+\]				# Ref name
+        					)
+        				  | (							# Inline Link
+        						\(						# Opening paren
+        							[ \t]*+				# Optional whtiespace
+        							<?(.*?)>?			# URL
+        							[ \t]*+				# Optional whtiespace
+        							(					# Optional Title
+        								(?<title>['"])
+        								(.*?)
+        								\k<title>
+        							)?
+        						\)
+        					)
+        				)
+        			)
+        		  | (?!(?<=\S)\1).						# Everything besides
+        												# style closer
+        		)++
+        		(?<=\S)\1								# Close
+        	)
       captures:
         1: punctuation.definition.bold.markdown
       push:
         - meta_scope: markup.bold.markdown
         - match: (?<=\S)(\1)
+          captures:
+            1: punctuation.definition.bold.markdown
           pop: true
         - match: "(?=<[^>]*?>)"
           push:
@@ -249,25 +255,27 @@ contexts:
         - meta_scope: markup.heading.markdown
         - meta_content_scope: entity.name.section.markdown
         - match: \s*(#*)$\n?
+          captures:
+            1: punctuation.definition.heading.markdown
           pop: true
         - include: inline
   image-inline:
     - match: |-
         (?x:
-                \!              # Images start with !
-                (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
-                              # Match the link text.
-                ([ ])?            # Space not allowed
-                (\()            # Opening paren for url
-                  (<?)(\S+?)(>?)      # The url
-                  [ \t]*          # Optional whitespace
-                  (?:
-                      ((\().+?(\)))   # Match title in parens…
-                    | ((").+?("))   # or in quotes.
-                  )?            # Title is optional
-                  \s*           # Optional whitespace
-                (\))
-               )
+        				\!							# Images start with !
+        				(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
+        											# Match the link text.
+        				([ ])?						# Space not allowed
+        				(\()						# Opening paren for url
+        					(<?)(\S+?)(>?)			# The url
+        					[ \t]*					# Optional whitespace
+        					(?:
+        						  ((\().+?(\)))		# Match title in parens…
+        						| ((").+?("))		# or in quotes.
+        					)?						# Title is optional
+        					\s*						# Optional whitespace
+        				(\))
+        			 )
       scope: meta.image.inline.markdown
       captures:
         1: punctuation.definition.string.begin.markdown
@@ -313,51 +321,53 @@ contexts:
   italic:
     - match: |-
         (?x)
-          (\*|_)(?=\S)                # Open
-          (?=
-            (
-                <[^>]*+>              # HTML tags
-              | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
-                                # Raw
-              | \\[\\`*_{}\[\]()#.!+\->]?+      # Escapes
-              | \[
-              (
-                      (?<square>          # Named group
-                    [^\[\]\\]       # Match most chars
-                        | \\.           # Escaped chars
-                        | \[ \g<square>*+ \]    # Nested brackets
-                      )*+
-                \]
-                (
-                  (             # Reference Link
-                    [ ]?          # Optional space
-                    \[[^\]]*+\]       # Ref name
-                  )
-                  | (             # Inline Link
-                    \(            # Opening paren
-                      [ \t]*+       # Optional whtiespace
-                      <?(.*?)>?     # URL
-                      [ \t]*+       # Optional whtiespace
-                      (         # Optional Title
-                        (?<title>['"])
-                        (.*?)
-                        \k<title>
-                      )?
-                    \)
-                  )
-                )
-              )
-              | \1\1                # Must be bold closer
-              | (?!(?<=\S)\1).            # Everything besides
-                                # style closer
-            )++
-            (?<=\S)\1               # Close
-          )
+        	(\*|_)(?=\S)								# Open
+        	(?=
+        		(
+        		    <[^>]*+>							# HTML tags
+        		  | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
+        												# Raw
+        		  | \\[\\`*_{}\[\]()#.!+\->]?+			# Escapes
+        		  | \[
+        			(
+        			        (?<square>					# Named group
+        						[^\[\]\\]				# Match most chars
+        			          | \\.						# Escaped chars
+        			          | \[ \g<square>*+ \]		# Nested brackets
+        			        )*+
+        				\]
+        				(
+        					(							# Reference Link
+        						[ ]?					# Optional space
+        						\[[^\]]*+\]				# Ref name
+        					)
+        				  | (							# Inline Link
+        						\(						# Opening paren
+        							[ \t]*+				# Optional whtiespace
+        							<?(.*?)>?			# URL
+        							[ \t]*+				# Optional whtiespace
+        							(					# Optional Title
+        								(?<title>['"])
+        								(.*?)
+        								\k<title>
+        							)?
+        						\)
+        					)
+        				)
+        			)
+        		  | \1\1								# Must be bold closer
+        		  | (?!(?<=\S)\1).						# Everything besides
+        												# style closer
+        		)++
+        		(?<=\S)\1								# Close
+        	)
       captures:
         1: punctuation.definition.italic.markdown
       push:
         - meta_scope: markup.italic.markdown
         - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+          captures:
+            1: punctuation.definition.italic.markdown
           pop: true
         - match: "(?=<[^>]*?>)"
           push:
@@ -396,19 +406,19 @@ contexts:
   link-inline:
     - match: |-
         (?x:
-                (\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
-                              # Match the link text.
-                ([ ])?            # Space not allowed
-                (\()            # Opening paren for url
-                  (<?)(.*?)(>?)     # The url
-                  [ \t]*          # Optional whitespace
-                  (?:
-                      ((\().+?(\)))   # Match title in parens…
-                    | ((").+?("))   # or in quotes.
-                  )?            # Title is optional
-                  \s*           # Optional whitespace
-                (\))
-               )
+        				(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])
+        											# Match the link text.
+        				([ ])?						# Space not allowed
+        				(\()						# Opening paren for url
+        					(<?)(.*?)(>?)			# The url
+        					[ \t]*					# Optional whitespace
+        					(?:
+        						  ((\().+?(\)))		# Match title in parens…
+        						| ((").+?("))		# or in quotes.
+        					)?						# Title is optional
+        					\s*						# Optional whitespace
+        				(\))
+        			 )
       scope: meta.link.inline.markdown
       captures:
         1: punctuation.definition.string.begin.markdown

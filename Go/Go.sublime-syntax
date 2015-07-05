@@ -62,6 +62,8 @@ contexts:
       push:
         - meta_scope: comment.block.go
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.go
           pop: true
     - match: \*/.*\n
       scope: invalid.illegal.stray-commend-end.go

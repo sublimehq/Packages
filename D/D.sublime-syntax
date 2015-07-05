@@ -54,6 +54,8 @@ contexts:
           push:
             - meta_scope: meta.definition.class.extends.d
             - match: "(?={)"
+              captures:
+                1: storage.modifier.d
               pop: true
             - include: all-types
     - match: |-
@@ -77,6 +79,8 @@ contexts:
           push:
             - meta_scope: meta.definition.class.extends.d
             - match: "(?={)"
+              captures:
+                1: storage.modifier.d
               pop: true
             - include: all-types
     - match: |-
@@ -91,6 +95,9 @@ contexts:
       push:
         - meta_scope: meta.definition.constructor.d
         - match: "(?={)"
+          captures:
+            1: storage.modifier.d
+            3: entity.name.function.constructor.d
           pop: true
         - include: $top_level_main
     - match: |-
@@ -208,6 +215,8 @@ contexts:
       push:
         - meta_scope: comment.block.d
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.d
           pop: true
     - match: /\+
       captures:
@@ -215,6 +224,8 @@ contexts:
       push:
         - meta_scope: comment.block.nested.d
         - match: \+/
+          captures:
+            0: punctuation.definition.comment.d
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.d
@@ -238,6 +249,8 @@ contexts:
       push:
         - meta_scope: meta.definition.throws.d
         - match: "(?={)"
+          captures:
+            1: keyword.other.class-fns.d
           pop: true
         - include: all-types
   storage-type-d:
