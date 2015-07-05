@@ -648,7 +648,7 @@ contexts:
         - meta_scope: variable.other.bracket.shell
         - match: '\}'
           pop: true
-        - match: '!|:[-=?]?|\*|@|#{1,2}|%{1,2}|/'
+        - match: '!|:?[+-=?]|\*|@|#{1,2}|%{1,2}|\^{1,2}|,{1,2}|/'
           scope: keyword.operator.expansion.shell
         - match: '(\[)([^\]]+)(\])'
           captures:
