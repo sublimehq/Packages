@@ -733,11 +733,21 @@ contexts:
         - include: string
         - include: interpolation
   variable_caseConversion:
-    # matching: ${foo,,}
+    # matching: ${foo,,Pattern}
     - match: ',{1,2}'
       scope: keyword.operator.lowercase.shell
-    # matching: ${foo^^}
+      push:
+        - meta_content_scope: meta.reset.color
+        - match: '(?=})'
+          pop: true
+        - include: string
+        - include: interpolation
+    # matching: ${foo^^Pattern}
     - match: '\^{1,2}'
       scope: keyword.operator.uppercase.shell
-    - match: '!|\*|@|#{1,2}|%{1,2}'
-      scope: keyword.operator.expansion.shell
+      push:
+        - meta_content_scope: meta.reset.color
+        - match: '(?=})'
+          pop: true
+        - include: string
+        - include: interpolation
