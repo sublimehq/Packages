@@ -25,32 +25,34 @@ variables:
   )'
   cmdExternal: '(?x:
     7za|
-    apropos|apt-get|aptitude|ar|aspell|autoconf|awk|
+    apropos|apt-get|aptitude|ar|aria2|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
     cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|
-    clear|cmake|cmp|comm|cp|cron|crontab|csh|csplit|cut|
-    date|dc|dd|ddrescue|depmod|df|diff|diff3|dig|dir|dircolors|dirname|dmesg|du|
-    egrep|eject|env|expand|expect|expr|
+    clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|cut|
+    date|dc|dd|ddrescue|deb|depmod|df|diff|diff3|dig|dir|dircolors|dirname|
+    dmesg|dpkg|du|
+    easy_install|egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
     gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
     head|hg|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
     killall|kmod|
-    less|link|llvm|ln|locate|logname|look|loout|lpc|lpr|lprint|lprintd|lprintq|
-    lprm|ls|lsod|lsof|lua|
+    less|lftp|link|llvm|ln|locate|logname|look|loout|lpc|lpr|lprint|lprintd|
+    lprintq|lprm|ls|lsod|lsof|lua|
     mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|
-    most|mount|mtools|mtr|mutt|mv|mysql|
-    netstat|nl|notify-se|nslookup|nstat|
+    most|mount|mtools|mtr|mutt|mv|mysql|mysqldump
+    netstat|nl|notify-se|npm|nslookup|nstat|
     op|open|openssl|
-    paste|paswd|pathchk|perl|php|ping|pkill|pr|printcap|ps|pv|py|python|python3|
-    quota|quotachec|quotactl|
-    ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rsync|ruby|
-    scp|screen|sdiff|sed|select|seq|sftp|sh|shutdown|sleep|slocate|sort|split|
-    sqlite|sqlite3|ssh|stat|strace|sum|susend|svn|sync|
+    pandoc|paste|patch|paswd|pathchk|pear|pecl|
+    perl|php|ping|pip|pip3|pkill|pr|printcap|ps|pv|py|python|python3|
+    qmake|quota|quotachec|quotactl|
+    ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rpm|rsync|ruby|
+    scp|screen|sdiff|sed|select|seq|service|sftp|sh|shutdown|sleep|slocate|sort|
+    split|sqlite|sqlite3|ssh|sshfs|stat|strace|sum|susend|svn|sync|
     tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|
-    umount|uname|unexpand|unil|uniq|units|unrar|unshar|updatedb|uptime|useradd|
-    userdel|usermod|users|uudecode|uuencode|
+    umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
+    useradd|userdel|usermod|users|uudecode|uuencode|
     vmstat|
     watch|wc|wget|whatis|whereis|who|whoami|write|
     xargs|xdg-open|xz|
