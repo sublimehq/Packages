@@ -16,7 +16,6 @@ first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[
 scope: source.shell
 variables:
   cmdPrevilege: '(?x:
-    su|
     sudo
   )'
   cmdExternalNotEndWithWord: '(?x:
@@ -49,7 +48,7 @@ variables:
     qmake|quota|quotachec|quotactl|
     ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rpm|rsync|ruby|
     scp|screen|sdiff|sed|select|seq|service|sftp|sh|shutdown|sleep|slocate|sort|
-    split|sqlite|sqlite3|ssh|sshfs|stat|strace|sum|susend|svn|sync|
+    split|sqlite|sqlite3|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|
     tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|
     umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
     useradd|userdel|usermod|users|uudecode|uuencode|
