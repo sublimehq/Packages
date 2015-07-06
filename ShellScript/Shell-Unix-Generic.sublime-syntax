@@ -654,6 +654,7 @@ contexts:
         - include: variable_firstMatchOperator
         - include: variable_firstMatchVariable
         - include: string
+        - include: variable
         - include: interpolation
 
   # some helper context...
@@ -695,8 +696,10 @@ contexts:
             - match: '(?=})'
               pop: true
             - include: string
+            - include: variable
             - include: interpolation
         - include: string
+        - include: variable
         - include: interpolation
     # matching: ${var##Pattern}
     - match: '[#%]{1,2}'
@@ -706,6 +709,7 @@ contexts:
         - match: '(?=})'
           pop: true
         - include: string
+        - include: variable
         - include: interpolation
     # matching: ${foo:+bar}
     - match: ':?[+\-=?]'
@@ -715,6 +719,7 @@ contexts:
         - match: '(?=})'
           pop: true
         - include: string
+        - include: variable
         - include: interpolation
     # matching: ${var:pos:len}
     - match: ':'
@@ -729,8 +734,10 @@ contexts:
             - match: '(?=})'
               pop: true
             - include: string
+            - include: variable
             - include: interpolation
         - include: string
+        - include: variable
         - include: interpolation
   variable_caseConversion:
     # matching: ${foo,,Pattern}
@@ -741,6 +748,7 @@ contexts:
         - match: '(?=})'
           pop: true
         - include: string
+        - include: variable
         - include: interpolation
     # matching: ${foo^^Pattern}
     - match: '\^{1,2}'
@@ -750,4 +758,5 @@ contexts:
         - match: '(?=})'
           pop: true
         - include: string
+        - include: variable
         - include: interpolation
