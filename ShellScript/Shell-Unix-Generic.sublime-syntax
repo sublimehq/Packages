@@ -724,7 +724,7 @@ contexts:
     # matching: ${var:pos:len}
     - match: ':'
       scope: keyword.operator.expansion.shell
-      puch:
+      push:
         - meta_content_scope: meta.reset.color
         - match: '(?=})'
           pop: true
