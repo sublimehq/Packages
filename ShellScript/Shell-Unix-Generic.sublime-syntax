@@ -15,7 +15,7 @@ file_extensions:
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 variables:
-  cmdPrevilege: '(?x:
+  cmdPrivilege: '(?x:
     sudo
   )'
   cmdExternalNotEndWithWord: '(?x:
@@ -602,7 +602,7 @@ contexts:
         - match: \\c.
           scope: constant.character.escape.control-char.shell
   support:
-    - match: '(?<![+-/.])\b({{cmdPrevilege}})\b'
+    - match: '(?<![+-/.])\b({{cmdPrivilege}})\b'
       scope: support.function.external.shell
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
