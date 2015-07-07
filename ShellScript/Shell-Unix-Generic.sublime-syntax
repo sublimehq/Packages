@@ -555,7 +555,7 @@ contexts:
             0: punctuation.definition.string.end.shell
           pop: true
         - include: main
-    - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
+    - match: '(&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>)[!|]?'
       comment: "valid: &>word >&word >word [n]>&[n] [n]<word [n]>word [n]>>word [n]<&word (last one is duplicate)"
       scope: keyword.operator.redirect.shell
       push: cmdArgs
@@ -617,7 +617,7 @@ contexts:
       push: cmdArgs
   cmdArgs:
     - meta_content_scope: meta.reset.color
-    - match: '(?=[`()<>&;!|]|\n)'
+    - match: '(?=[`()<>&;|]|\n)'
       pop: true
     - match: '(\\)\n'
       captures:
