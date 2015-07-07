@@ -602,17 +602,17 @@ contexts:
         - match: \\c.
           scope: constant.character.escape.control-char.shell
   support:
-    - match: '(?<![+-/.])\b({{cmdPrivilege}})\b'
-      scope: support.function.external.shell
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<![+-/.])\b({{cmdBuiltin}})\b'
+    - match: '(?<=[\s`(]|^)({{cmdPrivilege}})(?=[\s`)]|$)'
+      scope: support.function.external.shell
+    - match: '(?<=[\s`(]|^)({{cmdBuiltin}})(?=[\s`)]|$)'
       scope: support.function.builtin.shell
       push: cmdArgs
-    - match: '(?<![+-/.])\b({{cmdExternal}})\b'
+    - match: '(?<=[\s`(]|^)({{cmdExternal}})(?=[\s`)]|$)'
       scope: support.function.external.shell
       push: cmdArgs
-    - match: '(?<![+-/.])\b({{cmdExternalNotEndWithWord}})(?=[\s`)]|$)'
+    - match: '(?<=[\s`(]|^)({{cmdExternalNotEndWithWord}})(?=[\s`)]|$)'
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
