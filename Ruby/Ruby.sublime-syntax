@@ -53,6 +53,7 @@ file_extensions:
   - irbrc
   - capfile
   - Gemfile
+  - config.ru
 first_line_match: ^#!/.*\bruby
 scope: source.ruby
 contexts:
