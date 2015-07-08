@@ -579,7 +579,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(synchronized|@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b</string>
+					<string>\b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b</string>
 					<key>name</key>
 					<string>storage.modifier.other</string>
 				</dict>
