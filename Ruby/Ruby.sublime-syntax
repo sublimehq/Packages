@@ -81,6 +81,11 @@ contexts:
     - match: (?<!\.)\belse(\s)+if\b
       comment: else if is a common mistake carried over from other languages. it works if you put in a second end, but it’s never what you want.
       scope: invalid.deprecated.ruby
+    - match: '(?>[a-zA-Z_]\w*(?>[?!])?)(:)(?!:)'
+      comment: symbols
+      scope: constant.other.symbol.ruby.19syntax
+      captures:
+        1: punctuation.definition.constant.ruby
     - match: '(?<!\.)\b(BEGIN|begin|case|class|else|elsif|END|end|ensure|for|if|in|module|rescue|then|unless|until|when|while)\b(?![?!])'
       comment: everything being a reserved word, not a value and needing a 'end' is a..
       scope: keyword.control.ruby
@@ -563,11 +568,6 @@ contexts:
     - match: '(?<!:)(:)(?>[a-zA-Z_]\w*(?>[?!]|=(?![>=]))?|===?|>[>=]?|<[<=]?|<=>|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?|@@?[a-zA-Z_]\w*)'
       comment: symbols
       scope: constant.other.symbol.ruby
-      captures:
-        1: punctuation.definition.constant.ruby
-    - match: '(?>[a-zA-Z_]\w*(?>[?!])?)(:)(?!:)'
-      comment: symbols
-      scope: constant.other.symbol.ruby.19syntax
       captures:
         1: punctuation.definition.constant.ruby
     - match: ^=begin
