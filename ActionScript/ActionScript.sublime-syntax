@@ -51,6 +51,8 @@ contexts:
       push:
         - meta_scope: comment.block.actionscript.2
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.actionscript.2
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.actionscript.2

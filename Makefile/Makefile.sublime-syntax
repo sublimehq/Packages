@@ -11,6 +11,7 @@ file_extensions:
   - OCamlMakefile
   - make
   - mak
+  - mk
 scope: source.makefile
 contexts:
   main:
@@ -122,8 +123,6 @@ contexts:
       scope: keyword.operator.makefile
     - match: '(?x) \b(?:cp|mv|rm|cat|ls|\[|\]|find|grep|awk|perl|mkdir|rmdir|cd|cwd|pwd|svn|git|hg|scp|make|ps|sed|python|ruby|setenv|export|echo|test|source|ln|touch)\b'
       scope: support.function.makefile
-    - match: '(?x) (?<=\s)(?: \-[\w\-]+ )'
-      scope: entity.other.attribute-name.makefile
     - include: line_continuation
     - match: \b(true|false)\b
       scope: constant.other.makefile
