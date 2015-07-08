@@ -193,6 +193,8 @@ contexts:
         - meta_scope: comment.block.haskell
         - include: block_comment
         - match: '-\}'
+          captures:
+            0: punctuation.definition.comment.haskell
           pop: true
   comments:
     - match: (--).*$\n?

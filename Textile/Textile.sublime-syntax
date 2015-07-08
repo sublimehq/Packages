@@ -16,6 +16,10 @@ contexts:
       push:
         - meta_scope: markup.heading.textile
         - match: ^$
+          captures:
+            1: entity.name.tag.heading.textile
+            3: entity.name.type.textile
+            4: entity.name.tag.heading.textile
           pop: true
         - include: inline
         - include: scope:text.html.basic
@@ -27,6 +31,10 @@ contexts:
       push:
         - meta_scope: markup.quote.textile
         - match: ^$
+          captures:
+            1: entity.name.tag.blockquote.textile
+            3: entity.name.type.textile
+            4: entity.name.tag.blockquote.textile
           pop: true
         - include: inline
         - include: scope:text.html.basic
@@ -38,6 +46,10 @@ contexts:
       push:
         - meta_scope: markup.other.footnote.textile
         - match: ^$
+          captures:
+            1: entity.name.tag.footnote.textile
+            3: entity.name.type.textile
+            4: entity.name.tag.footnote.textile
           pop: true
         - include: inline
         - include: scope:text.html.basic
@@ -49,6 +61,10 @@ contexts:
       push:
         - meta_scope: markup.other.table.textile
         - match: ^$
+          captures:
+            1: entity.name.tag.footnote.textile
+            3: entity.name.type.textile
+            4: entity.name.tag.footnote.textile
           pop: true
         - include: inline
         - include: scope:text.html.basic
@@ -80,24 +96,24 @@ contexts:
         1: entity.name.type.textile
     - match: |-
         (?x)
-              "               # Start name, etc
-                (?:             # Attributes
-                  # I swear, this is how the language is defined,
-                  # couldnt make it up if I tried.
-                  (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-                    # Class, Style, Lang
-                  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-                    # Style, Lang, Class
-                  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-                    # Lang, Style, Class
-                )?
-                ([^"]+?)          # Link name
-                \s?             # Optional whitespace
-                (?:\(([^)]+?)\))?
-              ":                # End name
-              (\w[-\w_]*)           # Linkref
-              (?=[^\w\/;]*?(<|\s|$))      # Catch closing punctuation
-                              #  and end of meta.link
+        			"								# Start name, etc
+        				(?:							# Attributes
+        					# I swear, this is how the language is defined,
+        					# couldnt make it up if I tried.
+        					(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+        						# Class, Style, Lang
+        				  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+        						# Style, Lang, Class
+        				  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+        						# Lang, Style, Class
+        				)?
+        				([^"]+?)					# Link name
+        				\s?							# Optional whitespace
+        				(?:\(([^)]+?)\))?
+        			":								# End name
+        			(\w[-\w_]*)						# Linkref
+        			(?=[^\w\/;]*?(<|\s|$))			# Catch closing punctuation
+        											#  and end of meta.link
       scope: meta.link.reference.textile
       captures:
         1: string.other.link.title.textile
@@ -105,24 +121,24 @@ contexts:
         3: constant.other.reference.link.textile
     - match: |-
         (?x)
-              "               # Start name, etc
-                (?:             # Attributes
-                  # I swear, this is how the language is defined,
-                  # couldnt make it up if I tried.
-                  (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-                    # Class, Style, Lang
-                  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-                    # Style, Lang, Class
-                  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-                    # Lang, Style, Class
-                )?
-                ([^"]+?)          # Link name
-                \s?             # Optional whitespace
-                (?:\(([^)]+?)\))?
-              ":                # End Name
-              (\S*?(?:\w|\/|;))       # URL
-              (?=[^\w\/;]*?(<|\s|$))      # Catch closing punctuation
-                              #  and end of meta.link
+        			"								# Start name, etc
+        				(?:							# Attributes
+        					# I swear, this is how the language is defined,
+        					# couldnt make it up if I tried.
+        					(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+        						# Class, Style, Lang
+        				  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+        						# Style, Lang, Class
+        				  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+        						# Lang, Style, Class
+        				)?
+        				([^"]+?)					# Link name
+        				\s?							# Optional whitespace
+        				(?:\(([^)]+?)\))?
+        			":								# End Name
+        			(\S*?(?:\w|\/|;))				# URL
+        			(?=[^\w\/;]*?(<|\s|$))			# Catch closing punctuation
+        											#  and end of meta.link
       scope: meta.link.inline.textile
       captures:
         1: string.other.link.title.textile
@@ -130,28 +146,28 @@ contexts:
         3: markup.underline.link.textile
     - match: |-
         (?x)
-              \!                    # Open image
-              (\<|\=|\>)?               # Optional alignment
-              (?:                   # Attributes
-                # I swear, this is how the language is defined,
-                # couldnt make it up if I tried.
-                (?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
-                  # Class, Style, Lang
-                | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
-                  # Style, Lang, Class
-                | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
-                  # Lang, Style, Class
-              )?
-              (?:\.[ ])?                      # Optional
-              ([^\s(!]+?)                   # Image URL
-              \s?                           # Optional space
-              (?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?     # Optional title
-              \!                    # Close image
-              (?:
-                :
-                (\S*?(?:\w|\/|;))         # URL
-                (?=[^\w\/;]*?(<|\s|$))        # Catch closing punctuation
-              )?
+        			\!										# Open image
+        			(\<|\=|\>)?								# Optional alignment
+        			(?:										# Attributes
+        				# I swear, this is how the language is defined,
+        				# couldnt make it up if I tried.
+        				(?:\([^)]+\))?(?:\{[^}]+\})?(?:\[[^\]]+\])?
+        					# Class, Style, Lang
+        			  | (?:\{[^}]+\})?(?:\[[^\]]+\])?(?:\([^)]+\))?
+        					# Style, Lang, Class
+        			  | (?:\[[^\]]+\])?(?:\{[^}]+\})?(?:\([^)]+\))?
+        					# Lang, Style, Class
+        			)?
+        			(?:\.[ ])?            					# Optional
+        			([^\s(!]+?)         					# Image URL
+        			\s?                						# Optional space
+        			(?:\(((?:[^\(\)]|\([^\)]+\))+?)\))?   	# Optional title
+        			\!										# Close image
+        			(?:
+        				:
+        				(\S*?(?:\w|\/|;))					# URL
+        				(?=[^\w\/;]*?(<|\s|$))				# Catch closing punctuation
+        			)?
       scope: meta.image.inline.textile
       captures:
         2: markup.underline.link.image.textile

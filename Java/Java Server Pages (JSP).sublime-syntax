@@ -13,6 +13,8 @@ contexts:
       push:
         - meta_scope: comment.block.jsp
         - match: "--%>"
+          captures:
+            0: punctuation.definition.comment.jsp
           pop: true
     - match: <%@
       captures:
@@ -20,6 +22,8 @@ contexts:
       push:
         - meta_scope: meta.directive.jsp
         - match: "%>"
+          captures:
+            0: punctuation.section.directive.jsp
           pop: true
         - match: \w+
           captures:
@@ -80,6 +84,9 @@ contexts:
                 2: punctuation.section.embedded.jsp
               push:
                 - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%[!=]?)"
+                  captures:
+                    1: meta.tag.block.jsp
+                    2: punctuation.section.embedded.jsp
                   pop: true
                 - include: scope:text.html.jsp
             - include: scope:source.java

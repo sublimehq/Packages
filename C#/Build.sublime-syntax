@@ -13,6 +13,8 @@ contexts:
       push:
         - meta_scope: comment.block.nant
         - match: "-->"
+          captures:
+            0: punctuation.definition.comment.nant
           pop: true
     - match: "(</?)([-_a-zA-Z0-9:]+)"
       captures:
@@ -21,6 +23,9 @@ contexts:
       push:
         - meta_scope: meta.tag.nant
         - match: (/?>)
+          captures:
+            1: punctuation.definition.tag.nant
+            2: entity.name.tag.nant
           pop: true
         - match: " ([a-zA-Z-]+)"
           scope: entity.other.attribute-name.nant

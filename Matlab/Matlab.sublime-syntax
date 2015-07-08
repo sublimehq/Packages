@@ -69,6 +69,8 @@ contexts:
       push:
         - meta_scope: comment.block.percentage.matlab
         - match: '%\}\s*\n'
+          captures:
+            1: punctuation.definition.comment.matlab
           pop: true
     - match: (%).*$\n?
       scope: comment.line.percentage.matlab

@@ -54,6 +54,8 @@ contexts:
       push:
         - meta_scope: comment.block.pascal.one
         - match: \*\)
+          captures:
+            0: punctuation.definition.comment.pascal
           pop: true
     - match: '\{'
       captures:
@@ -61,6 +63,8 @@ contexts:
       push:
         - meta_scope: comment.block.pascal.two
         - match: '\}'
+          captures:
+            0: punctuation.definition.comment.pascal
           pop: true
     - match: '"'
       comment: Double quoted strings are an extension and (generally) support C-style escape sequences.

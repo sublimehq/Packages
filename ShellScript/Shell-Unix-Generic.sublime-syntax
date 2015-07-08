@@ -50,6 +50,8 @@ contexts:
           push:
             - meta_scope: meta.scope.case-pattern.shell
             - match: \)
+              captures:
+                0: punctuation.definition.case-pattern.shell
               pop: true
             - match: \|
               scope: punctuation.separator.pipe-sign.shell
@@ -70,6 +72,8 @@ contexts:
       push:
         - meta_scope: meta.scope.logical-expression.shell
         - match: '(\]{2})'
+          captures:
+            1: punctuation.definition.logical-expression.shell
           pop: true
         - include: logical-expression
         - include: main
@@ -89,6 +93,8 @@ contexts:
       push:
         - meta_scope: meta.scope.subshell.shell
         - match: (\))
+          captures:
+            1: punctuation.definition.subshell.shell
           pop: true
         - include: main
     - match: '(?<=\s|^)(\{)(?=\s|$)'
@@ -97,6 +103,8 @@ contexts:
       push:
         - meta_scope: meta.scope.group.shell
         - match: '(?<=^|;)\s*(\})'
+          captures:
+            1: punctuation.definition.group.shell
           pop: true
         - include: main
   function-definition:
@@ -362,6 +370,8 @@ contexts:
       push:
         - meta_scope: meta.scope.for-loop.shell
         - match: \b(done)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - include: main
     - match: '\b(for)\s+((?:[^\s\\]|\\.)+)\b'
@@ -381,6 +391,8 @@ contexts:
       push:
         - meta_scope: meta.scope.while-loop.shell
         - match: \b(done)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - include: main
     - match: '\b(select)\s+((?:[^\s\\]|\\.)+)\b'
@@ -400,6 +412,8 @@ contexts:
       push:
         - meta_scope: meta.scope.case-block.shell
         - match: \b(esac)\b
+          captures:
+            1: keyword.control.shell
           pop: true
         - match: \b(?:in)\b
           captures:
@@ -539,6 +553,8 @@ contexts:
       push:
         - meta_scope: variable.other.bracket.shell
         - match: '\}'
+          captures:
+            0: punctuation.definition.variable.shell
           pop: true
         - match: '!|:[-=?]?|\*|@|#{1,2}|%{1,2}|/'
           scope: keyword.operator.expansion.shell

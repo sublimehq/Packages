@@ -21,6 +21,14 @@ contexts:
         - meta_scope: meta.interface-or-protocol.objc
         - meta_content_scope: meta.scope.interface.objc
         - match: ((@)end)\b
+          captures:
+            1: storage.type.objc
+            2: punctuation.definition.storage.type.objc
+            4: entity.name.type.objc
+            6: punctuation.definition.entity.other.inherited-class.objc
+            7: entity.other.inherited-class.objc
+            8: meta.divider.objc
+            9: meta.inherited-class.objc
           pop: true
         - include: interface_innards
     - match: '((@)(implementation))\s+([A-Za-z_][A-Za-z0-9_]*)\s*(?::\s*([A-Za-z][A-Za-z0-9]*))?'
@@ -33,6 +41,11 @@ contexts:
         - meta_scope: meta.implementation.objc
         - meta_content_scope: meta.scope.implementation.objc
         - match: ((@)end)\b
+          captures:
+            1: storage.type.objc
+            2: punctuation.definition.storage.type.objc
+            4: entity.name.type.objc
+            5: entity.other.inherited-class.objc
           pop: true
         - include: implementation_innards
     - match: '@"'
@@ -141,6 +154,8 @@ contexts:
       push:
         - meta_scope: comment.block.objc
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.objc
           pop: true
     - match: //
       captures:
@@ -231,7 +246,7 @@ contexts:
     - match: |-
         (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
         (\b
-          (?!(while|for|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
+        	(?!(while|for|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
         )
          \s*(\()
       scope: meta.function-call.c
@@ -276,6 +291,9 @@ contexts:
           push:
             - meta_scope: meta.return-type.objc
             - match: (\))\s*(\w+\b)
+              captures:
+                1: punctuation.definition.type.objc
+                2: entity.name.function.objc
               pop: true
             - include: protocol_list
             - include: protocol_type_qualifier
@@ -321,6 +339,10 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
+            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b)
           captures:
@@ -328,6 +350,9 @@ contexts:
             2: keyword.control.import.else.c
           push:
             - match: (?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: interface_innards
         - match: ""
@@ -345,6 +370,10 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
+            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b)
           captures:
@@ -352,6 +381,9 @@ contexts:
             2: keyword.control.import.else.c
           push:
             - match: (?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: interface_innards
         - match: ""
@@ -369,6 +401,10 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
+            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b).*
           captures:
@@ -377,6 +413,9 @@ contexts:
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.c
             - match: (?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: disabled
             - include: pragma-mark
@@ -393,6 +432,10 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b.*?(?:(?=(?://|/\*))|$))
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
+            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b).*
           captures:
@@ -401,6 +444,9 @@ contexts:
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.c
             - match: (?=^\s*#\s*endif\b.*?(?:(?=(?://|/\*))|$))
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: disabled
             - include: pragma-mark
@@ -416,6 +462,9 @@ contexts:
         2: keyword.control.import.c
       push:
         - match: ^\s*(#\s*(endif)\b).*?(?:(?=(?://|/\*))|$)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.c
           pop: true
         - include: implementation_innards
   preprocessor-rule-other-interface:
@@ -425,6 +474,9 @@ contexts:
         2: keyword.control.import.c
       push:
         - match: ^\s*(#\s*(endif)\b).*?(?:(?=(?://|/\*))|$)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.c
           pop: true
         - include: interface_innards
   properties:
