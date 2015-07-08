@@ -23,6 +23,8 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.js
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.js
           pop: true
     - match: /\*
       captures:
@@ -30,6 +32,8 @@ contexts:
       push:
         - meta_scope: comment.block.js
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.js
           pop: true
     - match: (<!--|-->)
       scope: comment.block.html.js
