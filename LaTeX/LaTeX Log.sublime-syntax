@@ -1,0 +1,50 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: LaTeX Log
+first_line_match: "This is (pdf|pdfe)?TeXk?, Version "
+scope: text.log.latex
+contexts:
+  main:
+    - match: ".*Warning:"
+      scope: invalid.deprecated
+    - match: '[^:]*:\d*:.*'
+      scope: invalid.deprecated
+    - match: .*Error|^!.*
+      scope: invalid.illegal
+    - match: .*\.sty
+      scope: entity.name.function
+    - match: .*\.cls
+      scope: entity.name.type.class
+    - match: .*\.cfg
+      scope: entity.name.tag.configuration
+    - match: .*\.def
+      scope: entity.name.tag.definition
+    - match: .*Info.*
+      scope: comment.block.documentation
+    - match: ".*FiXme:"
+      scope: meta.log.latex.fixme
+    - match: (Overfull|Underfull)
+      captures:
+        1: keyword.control.hyphenation.latex
+      push:
+        - meta_scope: meta.log.latex.hyphenation
+        - match: '(\[\]\n)'
+          captures:
+            1: keyword.control.hyphenation.latex
+          pop: true
+        - match: '[0-9]+\-\-[0-9]+'
+          scope: variable.parameter.hyphenation.latex2
+    - match: (<)
+      captures:
+        0: punctuation.definition.string.begin.log.latex
+      push:
+        - meta_scope: string.unquoted.other.filename.log.latex
+        - match: (>)
+          captures:
+            0: punctuation.definition.string.end.log.latex
+          pop: true
+        - match: (.*/.*\.pdf)
+          scope: support.function.with-arg.latex
+          captures:
+            1: entity.name.function.filename.latex

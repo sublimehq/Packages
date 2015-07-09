@@ -1,0 +1,79 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: TeX
+file_extensions:
+  - sty
+  - cls
+scope: text.tex
+contexts:
+  main:
+    - match: (\\)(backmatter|else|fi|frontmatter|ftrue|mainmatter|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|undefined|vbox|vmode|void|x)?)\b
+      scope: keyword.control.tex
+      captures:
+        1: punctuation.definition.keyword.tex
+    - match: ((\\)catcode)`(?:\\)?.(=)(\d+)
+      scope: meta.catcode.tex
+      captures:
+        1: keyword.control.catcode.tex
+        2: punctuation.definition.keyword.tex
+        3: punctuation.separator.key-value.tex
+        4: constant.numeric.category.tex
+    - match: (%:).*$\n?
+      scope: comment.line.percentage.semicolon.texshop.tex
+      captures:
+        1: punctuation.definition.comment.tex
+    - match: ^%!TEX (\S*) =\s*(.*)\s*$
+      scope: comment.line.percentage.directive.texshop.tex
+    - match: (%).*$\n?
+      scope: comment.line.percentage.tex
+      captures:
+        1: punctuation.definition.comment.tex
+    - match: '\{'
+      captures:
+        0: punctuation.section.group.tex
+      push:
+        - meta_scope: meta.group.braces.tex
+        - match: '\}'
+          captures:
+            0: punctuation.section.group.tex
+          pop: true
+        - include: $top_level_main
+    - match: '[\[\]]'
+      scope: punctuation.definition.brackets.tex
+    - match: \$\$
+      captures:
+        0: punctuation.definition.string.begin.tex
+      push:
+        - meta_scope: string.other.math.block.tex
+        - match: \$\$
+          captures:
+            0: punctuation.definition.string.end.tex
+          pop: true
+        - include: scope:text.tex.math
+        - include: main
+    - match: \\\\
+      scope: constant.character.newline.tex
+    - match: \$
+      captures:
+        0: punctuation.definition.string.begin.tex
+      push:
+        - meta_scope: string.other.math.tex
+        - match: \$
+          captures:
+            0: punctuation.definition.string.end.tex
+          pop: true
+        - match: \\\$
+          scope: constant.character.escape.tex
+        - include: scope:text.tex.math
+        - include: main
+    - match: '(\\)[A-Za-z@]+'
+      scope: support.function.general.tex
+      captures:
+        1: punctuation.definition.function.tex
+    - match: '(\\)[^a-zA-Z@]'
+      scope: constant.character.escape.tex
+      captures:
+        1: punctuation.definition.keyword.tex
+    - match: "«press a-z and space for greek letter»[a-zA-Z]*"
+      scope: meta.placeholder.greek.tex

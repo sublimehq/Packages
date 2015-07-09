@@ -1,0 +1,28 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: MultiMarkdown
+first_line_match: ^Format:\s*(?i:complete)\s*$
+scope: text.html.markdown.multimarkdown
+contexts:
+  main:
+    - match: '^([A-Za-z0-9]+)(:)\s*'
+      captures:
+        1: keyword.other.multimarkdown
+        2: punctuation.separator.key-value.multimarkdown
+      push:
+        - meta_scope: meta.header.multimarkdown
+        - match: "^$|^(?=[A-Za-z0-9]+:)"
+          pop: true
+        - match: .+
+          comment: |
+            The reason for not setting scopeName = "string.unquoted"
+                                    (for the parent rule) is that we do not want
+                                    newlines to be marked as string.unquoted
+          scope: string.unquoted.multimarkdown
+    - match: "^(?!=[A-Za-z0-9]+:)"
+      push:
+        - meta_scope: meta.content.multimarkdown
+        - match: ^(?=not)possible$
+          pop: true
+        - include: scope:text.html.markdown
