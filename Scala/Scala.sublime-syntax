@@ -1,0 +1,266 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Scala
+file_extensions:
+  - scala
+scope: source.scala
+contexts:
+  main:
+    - include: storage-modifiers
+    - include: keywords
+    - include: declarations
+    - include: inheritance
+    - include: imports
+    - include: comments
+    - include: block-comments
+    - include: strings
+    - include: initialization
+    - include: constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: empty-parentheses
+    - include: parameter-list
+    - include: qualifiedClassName
+    - include: xml-literal
+  block-comments:
+    - match: /\*
+      push:
+        - meta_scope: comment.block.scala
+        - match: \*/
+          pop: true
+        - include: block-comments
+        - match: |-
+            (?x)
+            			(?! /\*)
+            			(?! \*/)
+
+  char-literal:
+    - match: '''\\?.'''
+      scope: constant.character.literal.scala
+  comments:
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.scala
+      captures:
+        1: punctuation.definition.comment.scala
+    - match: /\*\*/
+      scope: comment.block.empty.scala
+      captures:
+        0: punctuation.definition.comment.scala
+    - match: (^\s*)?/\*\*
+      captures:
+        0: punctuation.definition.comment.scala
+      push:
+        - meta_scope: comment.block.documentation.scala
+        - match: \*/(\s*\n)?
+          captures:
+            0: punctuation.definition.comment.scala
+          pop: true
+        - match: (@\w+\s)
+          scope: keyword.other.documentation.scaladoc.scala
+        - match: '\{@link\s+[^\}]*\}'
+          scope: keyword.other.documentation.scaladoc.link.scala
+  constants:
+    - match: \b(false|null|true|Nil|None)\b
+      scope: constant.language.scala
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
+      scope: constant.numeric.scala
+    - match: \b(this|super)\b
+      scope: variable.language.scala
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+  declarations:
+    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
+      captures:
+        0: comment.block.scala
+      push:
+        - match: '\}\)#λ'
+          captures:
+            0: comment.block.scala
+          pop: true
+        - match: "[αβ]"
+          scope: comment.block.empty.scala
+        - include: main
+    - match: |-
+        (?x)
+        \b(def)\s+
+        (([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`|[^\w\[\(\:\_\s]+)
+      captures:
+        1: keyword.declaration.scala
+        2: entity.name.function.declaration
+    - match: '(case)?\b(class|trait|object)\s+([^\s\{\(\[]+)'
+      captures:
+        1: keyword.declaration.scala
+        2: keyword.declaration.scala
+        3: entity.name.class.declaration
+    - match: '\b(type)\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.name.type.declaration
+    - match: '\b(?:(val)|(var))\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)?'
+      captures:
+        1: keyword.declaration.stable.scala
+        2: keyword.declaration.volatile.scala
+        3: entity.name.val.declaration
+    - match: '\b(package object)\s+([^\s\{\(\[]+)'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.name.class.declaration
+    - match: '\b(package)\s+([\w\.]+)'
+      scope: meta.package.scala
+      captures:
+        1: keyword.other.scoping.scala
+        2: entity.name.package.scala
+  empty-parentheses:
+    - match: \(\)
+      scope: meta.parentheses.scala
+  imports:
+    - match: \b(import)\s+
+      captures:
+        1: keyword.other.import.scala
+      push:
+        - meta_scope: meta.import.scala
+        - match: '(?<=[\n;])'
+          pop: true
+        - include: comments
+        - match: '([^\s{;.]+)\s*\.\s*'
+          scope: variable.package.scala
+        - match: '([^\s{;.]+)\s*'
+          scope: variable.import.scala
+        - match: "{"
+          push:
+            - meta_scope: meta.import.selector.scala
+            - match: "}"
+              pop: true
+            - match: |-
+                (?x) \s*
+                				([^\s.,}]+) \s*
+                				(=>) \s*
+                				([^\s.,}]+) \s*
+
+              captures:
+                1: variable.import.renamed-from.scala
+                2: keyword.other.arrow.scala
+                3: variable.import.renamed-to.scala
+            - match: '([^\s.,}]+)'
+              scope: variable.import.scala
+  inheritance:
+    - match: '(extends|with)\s+([^\s\{\(\[\]]+)'
+      captures:
+        1: keyword.declaration.scala
+        2: entity.other.inherited-class.scala
+  initialization:
+    - match: '\b(new)\s+([^\s\{\(\}\)\[]+)'
+      captures:
+        1: keyword
+        2: entity.name.class
+  keywords:
+    - match: \b(return|throw)\b
+      scope: keyword.control.flow.jump.scala
+    - match: \b(else|if|do|while|for|yield|match|case)\b
+      scope: keyword.control.flow.scala
+    - match: \b(catch|finally|try)\b
+      scope: keyword.control.exception.scala
+  nest-curly-and-self:
+    - match: '\{'
+      captures:
+        0: punctuation.section.scope.scala
+      push:
+        - match: '\}'
+          captures:
+            0: punctuation.section.scope.scala
+          pop: true
+        - include: nest-curly-and-self
+    - include: main
+  parameter-list:
+    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*([A-Za-z0-9][\w|_|?|\.]*)?,?'
+      captures:
+        1: variable.parameter
+        2: entity.name.class
+  qualifiedClassName:
+    - match: '(\b([A-Z][\w]*))'
+      captures:
+        1: entity.name.class
+  scala-symbol:
+    - match: ('\w+)
+      captures:
+        1: constant.other.symbol
+  storage-modifiers:
+    - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
+      scope: storage.modifier.access
+    - match: \b(synchronized|@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
+      scope: storage.modifier.other
+  strings:
+    - match: '"""'
+      push:
+        - meta_scope: string.quoted.triple.scala
+        - match: '"""(?!")'
+          pop: true
+    - match: (?<!\\)"
+      push:
+        - meta_scope: string.quoted.double.scala
+        - match: '"'
+          pop: true
+        - match: \n
+          scope: invalid.string.newline
+        - match: \\.
+          scope: constant.character.escape.scala
+    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)"""'
+      captures:
+        1: string.quoted.triple.interpolated.scala
+      push:
+        - meta_scope: string.quoted.triple.interpolated.scala
+        - match: '"""(?!")'
+          pop: true
+        - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
+          scope: variable.parameter
+        - match: '\$\{'
+          captures:
+            0: variable.parameter
+          push:
+            - meta_scope: source.scala.embedded
+            - match: '\}'
+              captures:
+                0: variable.parameter
+              pop: true
+            - include: nest-curly-and-self
+            - include: main
+    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)"'
+      captures:
+        1: string.quoted.interpolated.scala
+      push:
+        - meta_scope: string.quoted.interpolated.scala
+        - match: '"'
+          pop: true
+        - match: \n
+          scope: invalid.string.newline
+        - match: \\.
+          scope: constant.character.escape.scala
+        - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
+          scope: variable.parameter
+        - match: '\$\{'
+          captures:
+            0: variable.parameter
+          push:
+            - meta_scope: source.scala.embedded
+            - match: '\}'
+              captures:
+                0: variable.parameter
+              pop: true
+            - include: nest-curly-and-self
+            - include: main
+  xml-attribute:
+    - match: '(\w+)=("[^"]*")'
+      captures:
+        1: entity.other.attribute-name
+        2: string.quoted.double
+  xml-literal:
+    - match: "</?([a-zA-Z0-9]+)"
+      captures:
+        1: entity.name.tag
+      push:
+        - meta_scope: text.xml
+        - match: /?>
+          pop: true
+        - include: xml-literal
+        - include: xml-attribute
