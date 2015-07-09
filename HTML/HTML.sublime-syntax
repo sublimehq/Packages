@@ -189,8 +189,10 @@ contexts:
           pop: true
         - include: entities
   tag-generic-attribute:
-    - match: '(?<=[^=])\b([a-zA-Z0-9:-]+)'
-      scope: entity.other.attribute-name.html
+    - match: '(?<=[^=])\b([a-zA-Z0-9:-]+)\s*(=?)'
+      captures:
+        1: entity.other.attribute-name.html
+        2: punctuation.separator.key-value.html
   tag-id-attribute:
     - match: \b(id)\b\s*(=)
       captures:
