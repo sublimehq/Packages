@@ -1,8 +1,7 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
 name: Regular Expression
-comment: Matches Oniguruma's Ruby regexp syntax (TextMate uses Oniguruma in Ruby mode).
+comment: Matches Oniguruma's Ruby regexp syntax
 file_extensions:
   - re
 scope: source.regexp
@@ -46,5 +45,4 @@ contexts:
       scope: keyword.control.character-class.regexp
   escaped_char:
     - match: \\.
-      comment: escaped character
       scope: constant.character.escape.regexp
