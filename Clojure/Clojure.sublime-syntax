@@ -422,7 +422,6 @@ contexts:
                         - match: (?=\))
                           pop: true
                         - include: parameters_body
-        - comment: Need to match a single expression like binding-exp
   function_name:
     - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
       comment: symbol matching
