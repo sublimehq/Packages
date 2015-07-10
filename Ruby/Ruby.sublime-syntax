@@ -54,6 +54,7 @@ file_extensions:
   - capfile
   - Gemfile
   - Vagrantfile
+  - config.ru
 first_line_match: ^#!/.*\bruby
 scope: source.ruby
 contexts:
