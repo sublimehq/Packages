@@ -263,7 +263,7 @@ contexts:
       push:
         - match: '\}'
           captures:
-            1: punctuation.section.property-list.css
+            0: punctuation.section.property-list.css
           pop: true
         - include: rule-list
   property-values:
