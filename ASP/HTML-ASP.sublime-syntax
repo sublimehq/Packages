@@ -8,13 +8,11 @@ scope: text.html.asp
 contexts:
   main:
     - match: <%=?
-      captures:
-        0: punctuation.section.embedded.begin.asp
+      scope: punctuation.section.embedded.begin.asp
       push:
         - meta_scope: source.asp.embedded.html
         - match: "%>"
-          captures:
-            0: punctuation.section.embedded.end.asp
+          scope: punctuation.section.embedded.end.asp
           pop: true
         - match: (').*?(?=%>)
           scope: comment.line.apostrophe.asp

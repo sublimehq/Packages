@@ -32,24 +32,20 @@ contexts:
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.c
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.c
+      scope: punctuation.definition.string.begin.c
       push:
         - meta_scope: string.quoted.double.c
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.c
+          scope: punctuation.definition.string.end.c
           pop: true
         - include: string_escaped_char
         - include: string_placeholder
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.c
+      scope: punctuation.definition.string.begin.c
       push:
         - meta_scope: string.quoted.single.c
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.c
+          scope: punctuation.definition.string.end.c
           pop: true
         - include: string_escaped_char
     - match: |-
@@ -102,22 +98,18 @@ contexts:
         - match: (?>\\\s*\n)
           scope: punctuation.separator.continuation.c
         - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.c
+          scope: punctuation.definition.string.begin.c
           push:
             - meta_scope: string.quoted.double.include.c
             - match: '"'
-              captures:
-                0: punctuation.definition.string.end.c
+              scope: punctuation.definition.string.end.c
               pop: true
         - match: <
-          captures:
-            0: punctuation.definition.string.begin.c
+          scope: punctuation.definition.string.begin.c
           push:
             - meta_scope: string.quoted.other.lt-gt.include.c
             - match: ">"
-              captures:
-                0: punctuation.definition.string.end.c
+              scope: punctuation.definition.string.end.c
               pop: true
     - include: pragma-mark
     - match: ^\s*#\s*(define|defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\b
@@ -224,13 +216,11 @@ contexts:
       captures:
         1: meta.toc-list.banner.block.c
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.block.c
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.c
+          scope: punctuation.definition.comment.c
           pop: true
     - match: \*/.*\n
       scope: invalid.illegal.stray-comment-end.c
@@ -239,8 +229,7 @@ contexts:
       captures:
         1: meta.toc-list.banner.line.c
     - match: //
-      captures:
-        0: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.line.double-slash.c++
         - match: $\n?

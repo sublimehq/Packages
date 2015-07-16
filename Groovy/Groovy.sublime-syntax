@@ -75,13 +75,11 @@ contexts:
                 2: punctuation.definition.implemented.interfaces.separator.groovy
   comment-block:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.groovy
+      scope: punctuation.definition.comment.groovy
       push:
         - meta_scope: comment.block.groovy
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.groovy
+          scope: punctuation.definition.comment.groovy
           pop: true
   comments:
     - match: /\*\*/
@@ -123,13 +121,11 @@ contexts:
     - match: \b(return|break|continue|default|do|while|for|switch|if|else)\b
       scope: keyword.control.groovy
     - match: \bcase\b
-      captures:
-        0: keyword.control.groovy
+      scope: keyword.control.groovy
       push:
         - meta_scope: meta.case.groovy
         - match: ":"
-          captures:
-            0: punctuation.definition.case-terminator.groovy
+          scope: punctuation.definition.case-terminator.groovy
           pop: true
         - include: groovy-code-minus-map-keys
     - match: \b(new)\b
@@ -164,8 +160,7 @@ contexts:
     - match: (?<=\S)\?\.(?=\S)
       scope: keyword.operator.safe-navigation.groovy
     - match: \?
-      captures:
-        0: keyword.operator.ternary.groovy
+      scope: keyword.operator.ternary.groovy
       push:
         - meta_scope: meta.evaluation.ternary.groovy
         - match: $
@@ -202,21 +197,18 @@ contexts:
       push:
         - meta_scope: meta.method-call.groovy
         - match: \)
-          captures:
-            0: punctuation.definition.method-parameters.end.groovy
+          scope: punctuation.definition.method-parameters.end.groovy
           pop: true
         - match: ","
           scope: punctuation.definition.seperator.parameter.groovy
         - include: groovy-code
   method-declaration-remainder:
     - match: \(
-      captures:
-        0: punctuation.definition.parameters.begin.groovy
+      scope: punctuation.definition.parameters.begin.groovy
       push:
         - meta_content_scope: meta.definition.method.parameters.groovy
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.end.groovy
+          scope: punctuation.definition.parameters.end.groovy
           pop: true
         - match: |-
             (?x)\s*
@@ -329,12 +321,10 @@ contexts:
         - include: method-declaration-remainder
   nest_curly:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.groovy
+      scope: punctuation.section.scope.groovy
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.groovy
+          scope: punctuation.section.scope.groovy
           pop: true
         - include: nest_curly
   numbers:
@@ -342,13 +332,11 @@ contexts:
       scope: constant.numeric.groovy
   regexp:
     - match: "/(?=[^/]+/)"
-      captures:
-        0: punctuation.definition.string.regexp.begin.groovy
+      scope: punctuation.definition.string.regexp.begin.groovy
       push:
         - meta_scope: string.regexp.groovy
         - match: /
-          captures:
-            0: punctuation.definition.string.regexp.end.groovy
+          scope: punctuation.definition.string.regexp.end.groovy
           pop: true
         - match: \\.
           scope: constant.character.escape.groovy
@@ -387,37 +375,31 @@ contexts:
       scope: storage.type.primitive.groovy
   string-quoted-double:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.groovy
+      scope: punctuation.definition.string.begin.groovy
       push:
         - meta_scope: string.quoted.double.groovy
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.groovy
+          scope: punctuation.definition.string.end.groovy
           pop: true
         - match: \\.
           scope: constant.character.escape.groovy
         - match: \$\w+
           scope: variable.other.interpolated.groovy
         - match: '\$\{'
-          captures:
-            0: punctuation.section.embedded.groovy
+          scope: punctuation.section.embedded.groovy
           push:
             - meta_scope: source.groovy.embedded.source
             - match: '\}'
-              captures:
-                0: punctuation.section.embedded.groovy
+              scope: punctuation.section.embedded.groovy
               pop: true
             - include: nest_curly
   string-quoted-single:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.groovy
+      scope: punctuation.definition.string.begin.groovy
       push:
         - meta_scope: string.quoted.single.groovy
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.groovy
+          scope: punctuation.definition.string.end.groovy
           pop: true
         - match: \\.
           scope: constant.character.escape.groovy
@@ -427,13 +409,11 @@ contexts:
     - include: regexp
   structures:
     - match: '\['
-      captures:
-        0: punctuation.definition.structure.begin.groovy
+      scope: punctuation.definition.structure.begin.groovy
       push:
         - meta_scope: meta.structure.groovy
         - match: '\]'
-          captures:
-            0: punctuation.definition.structure.end.groovy
+          scope: punctuation.definition.structure.end.groovy
           pop: true
         - include: groovy-code
         - match: ","

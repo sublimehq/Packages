@@ -17,8 +17,7 @@ contexts:
       push: 'scope:text.html.basic'
       with_prototype:
         - match: '<\?(?i:php|=)?(?![^?]*\?>)'
-          captures:
-            0: punctuation.section.embedded.begin.php
+          scope: punctuation.section.embedded.begin.php
           push:
             - meta_scope: meta.embedded.block.php
             - meta_content_scope: source.php
@@ -29,8 +28,7 @@ contexts:
               pop: true
             - include: 'scope:source.php'
         - match: <\?(?i:php|=)?
-          captures:
-            0: punctuation.section.embedded.begin.php
+          scope: punctuation.section.embedded.begin.php
           push:
             - meta_scope: meta.embedded.line.php
             - meta_content_scope: source.php

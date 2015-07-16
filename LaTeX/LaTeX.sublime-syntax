@@ -22,8 +22,7 @@ contexts:
         - meta_scope: meta.preamble.latex
         - meta_content_scope: support.class.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.end.latex
+          scope: punctuation.definition.arguments.end.latex
           pop: true
         - include: main
     - match: '((\\)(?:include|input))(\{)'
@@ -35,8 +34,7 @@ contexts:
         - meta_scope: meta.include.latex
         - meta_content_scope: support.class.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.end.latex
+          scope: punctuation.definition.arguments.end.latex
           pop: true
         - include: main
     - match: |-
@@ -67,8 +65,7 @@ contexts:
         - meta_scope: meta.function.section.latex
         - meta_content_scope: entity.name.section.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.end.latex
+          scope: punctuation.definition.arguments.end.latex
           pop: true
         - include: main
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)'
@@ -327,8 +324,7 @@ contexts:
       push:
         - meta_content_scope: meta.paragraph.margin.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.marginpar.end.latex
+          scope: punctuation.definition.marginpar.end.latex
           pop: true
         - include: $top_level_main
     - match: '((\\)footnote)(\{)'
@@ -339,8 +335,7 @@ contexts:
       push:
         - meta_content_scope: meta.footnote.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.footnote.end.latex
+          scope: punctuation.definition.footnote.end.latex
           pop: true
         - include: $top_level_main
     - match: '((\\)emph)(\{)'
@@ -352,8 +347,7 @@ contexts:
         - meta_scope: meta.function.emph.latex
         - meta_content_scope: markup.italic.emph.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.emph.end.latex
+          scope: punctuation.definition.emph.end.latex
           pop: true
         - include: $top_level_main
     - match: '((\\)textit)(\{)'
@@ -369,8 +363,7 @@ contexts:
         - meta_scope: meta.function.textit.latex
         - meta_content_scope: markup.italic.textit.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.textit.end.latex
+          scope: punctuation.definition.textit.end.latex
           pop: true
         - include: $top_level_main
     - match: '((\\)textbf)(\{)'
@@ -382,8 +375,7 @@ contexts:
         - meta_scope: meta.function.textbf.latex
         - meta_content_scope: markup.bold.textbf.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.textbf.end.latex
+          scope: punctuation.definition.textbf.end.latex
           pop: true
         - include: $top_level_main
     - match: '((\\)texttt)(\{)'
@@ -395,8 +387,7 @@ contexts:
         - meta_scope: meta.function.texttt.latex
         - meta_content_scope: markup.raw.texttt.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.texttt.end.latex
+          scope: punctuation.definition.texttt.end.latex
           pop: true
         - include: $top_level_main
     - match: (\\)item\b
@@ -427,8 +418,7 @@ contexts:
       push:
         - meta_scope: meta.citation.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.latex
+          scope: punctuation.definition.arguments.latex
           pop: true
         - match: '[\w:.]+'
           scope: constant.other.reference.citation.latex
@@ -440,8 +430,7 @@ contexts:
       push:
         - meta_scope: meta.reference.label.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.begin.latex
+          scope: punctuation.definition.arguments.begin.latex
           pop: true
         - match: '[a-zA-Z0-9\.,:/*!^_-]'
           scope: constant.other.reference.label.latex
@@ -453,8 +442,7 @@ contexts:
       push:
         - meta_scope: meta.definition.label.latex
         - match: '\}'
-          captures:
-            0: punctuation.definition.arguments.end.latex
+          scope: punctuation.definition.arguments.end.latex
           pop: true
         - match: '[a-zA-Z0-9\.,:/*!^_-]'
           scope: variable.parameter.definition.label.latex
@@ -482,63 +470,51 @@ contexts:
         4: markup.raw.verb.latex
         5: punctuation.definition.verb.latex
     - match: '"`'
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.quoted.double.european.latex
         - match: '"'''
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: "``"
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.quoted.double.latex
         - match: '''''|"'
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: '">'
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.quoted.double.guillemot.latex
         - match: '"<'
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: '"<'
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.quoted.double.guillemot.latex
         - match: '">'
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: \\\(
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.other.math.latex
         - match: \\\)
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: '\\\['
-      captures:
-        0: punctuation.definition.string.begin.latex
+      scope: punctuation.definition.string.begin.latex
       push:
         - meta_scope: string.other.math.latex
         - match: '\\\]'
-          captures:
-            0: punctuation.definition.string.end.latex
+          scope: punctuation.definition.string.end.latex
           pop: true
         - include: $top_level_main
     - match: (?<!\S)'.*?'

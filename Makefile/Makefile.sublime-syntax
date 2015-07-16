@@ -98,8 +98,7 @@ contexts:
         - match: (?<!\\)\\$\n
           scope: punctuation.separator.continuation.makefile
     - match: '\#'
-      captures:
-        0: punctuation.definition.comment.makefile
+      scope: punctuation.definition.comment.makefile
       push:
         - meta_scope: comment.line.number-sign.makefile
         - match: $\n

@@ -40,8 +40,7 @@ contexts:
         - include: string-double-quoted
         - include: string-single-quoted
     - match: <!--
-      captures:
-        0: punctuation.definition.comment.html
+      scope: punctuation.definition.comment.html
       push:
         - meta_scope: comment.block.html
         - match: '--\s*>'
@@ -49,16 +48,14 @@ contexts:
         - match: "--"
           scope: invalid.illegal.bad-comments-or-CDATA.html
     - match: <!
-      captures:
-        0: punctuation.definition.tag.html
+      scope: punctuation.definition.tag.html
       push:
         - meta_scope: meta.tag.sgml.html
         - match: ">"
           scope: punctuation.definition.tag.html
           pop: true
         - match: (?i:DOCTYPE)
-          captures:
-            0: entity.name.tag.doctype.html
+          scope: entity.name.tag.doctype.html
           push:
             - meta_scope: meta.tag.sgml.doctype.html
             - match: (?=>)
@@ -169,24 +166,20 @@ contexts:
       scope: invalid.illegal.bad-ampersand.html
   string-double-quoted:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.html
+      scope: punctuation.definition.string.begin.html
       push:
         - meta_scope: string.quoted.double.html
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.html
+          scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
   string-single-quoted:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.html
+      scope: punctuation.definition.string.begin.html
       push:
         - meta_scope: string.quoted.single.html
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.html
+          scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
   tag-generic-attribute:
@@ -202,25 +195,21 @@ contexts:
       push:
         - meta_scope: meta.attribute-with-value.id.html
         - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.html
+          scope: punctuation.definition.string.begin.html
           push:
             - meta_scope: string.quoted.double.html
             - meta_content_scope: meta.toc-list.id.html
             - match: '"'
-              captures:
-                0: punctuation.definition.string.end.html
+              scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: "'"
-          captures:
-            0: punctuation.definition.string.begin.html
+          scope: punctuation.definition.string.begin.html
           push:
             - meta_scope: string.quoted.single.html
             - meta_content_scope: meta.toc-list.id.html
             - match: "'"
-              captures:
-                0: punctuation.definition.string.end.html
+              scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: '(?<==)\s*((?:[^\s<>/''"]|/(?!>))+)'

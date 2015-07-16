@@ -49,13 +49,11 @@ contexts:
           pop: true
         - include: implementation_innards
     - match: '@"'
-      captures:
-        0: punctuation.definition.string.begin.objc
+      scope: punctuation.definition.string.begin.objc
       push:
         - meta_scope: string.quoted.double.objc
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.objc
+          scope: punctuation.definition.string.end.objc
           pop: true
         - match: '\\(\\|[abefnrtv''"?]|[0-3]\d{,2}|[4-7]\d?|x[a-zA-Z0-9]+)'
           scope: constant.character.escape.objc
@@ -149,17 +147,14 @@ contexts:
     - include: bracketed_content
   comment:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.objc
+      scope: punctuation.definition.comment.objc
       push:
         - meta_scope: comment.block.objc
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.objc
+          scope: punctuation.definition.comment.objc
           pop: true
     - match: //
-      captures:
-        0: punctuation.definition.comment.objc
+      scope: punctuation.definition.comment.objc
       push:
         - meta_scope: comment.line.double-slash.c++
         - match: $\n?
@@ -168,13 +163,11 @@ contexts:
           scope: punctuation.separator.continuation.c++
   bracketed_content:
     - match: '\['
-      captures:
-        0: punctuation.section.scope.begin.objc
+      scope: punctuation.section.scope.begin.objc
       push:
         - meta_scope: meta.bracketed.objc
         - match: '\]'
-          captures:
-            0: punctuation.section.scope.end.objc
+          scope: punctuation.section.scope.end.objc
           pop: true
         - match: (?=predicateWithFormat:)(?<=NSPredicate )(predicateWithFormat:)
           captures:
@@ -193,13 +186,11 @@ contexts:
               captures:
                 1: punctuation.separator.arguments.objc
             - match: '@"'
-              captures:
-                0: punctuation.definition.string.begin.objc
+              scope: punctuation.definition.string.begin.objc
               push:
                 - meta_scope: string.quoted.double.objc
                 - match: '"'
-                  captures:
-                    0: punctuation.definition.string.end.objc
+                  scope: punctuation.definition.string.end.objc
                   pop: true
                 - match: \b(AND|OR|NOT|IN)\b
                   scope: keyword.operator.logical.predicate.cocoa

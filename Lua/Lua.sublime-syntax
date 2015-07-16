@@ -20,13 +20,11 @@ contexts:
     - match: '(?<![\d.])\b0[xX][a-fA-F\d\.]+([pP][\-\+]?\d+)?|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?'
       scope: constant.numeric.lua
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.lua
+      scope: punctuation.definition.string.begin.lua
       push:
         - meta_scope: string.quoted.single.lua
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.lua
+          scope: punctuation.definition.string.end.lua
           pop: true
         - match: '\\([abfnrtv\\"'']|\r?\n|\n\r?|\d\d?\d?)'
           scope: constant.character.escape.lua
@@ -35,13 +33,11 @@ contexts:
         - match: '\\u\{[0-9a-fA-F]{,7}\}'
           scope: constant.character.escape.lua
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.lua
+      scope: punctuation.definition.string.begin.lua
       push:
         - meta_scope: string.quoted.double.lua
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.lua
+          scope: punctuation.definition.string.end.lua
           pop: true
         - match: '\\([abfnrtv\\"'']|\r?\n|\n\r?|\d\d?\d?)'
           scope: constant.character.escape.lua
@@ -50,22 +46,18 @@ contexts:
         - match: '\\u\{[0-9a-fA-F]{,7}\}'
           scope: constant.character.escape.lua
     - match: '(?<!--)\[(=*)\['
-      captures:
-        0: punctuation.definition.string.begin.lua
+      scope: punctuation.definition.string.begin.lua
       push:
         - meta_scope: string.quoted.other.multiline.lua
         - match: '\]\1\]'
-          captures:
-            0: punctuation.definition.string.end.lua
+          scope: punctuation.definition.string.end.lua
           pop: true
     - match: '--\[(=*)\['
-      captures:
-        0: punctuation.definition.comment.lua
+      scope: punctuation.definition.comment.lua
       push:
         - meta_scope: comment.block.lua
         - match: '\]\1\]'
-          captures:
-            0: punctuation.definition.comment.lua
+          scope: punctuation.definition.comment.lua
           pop: true
     - match: '(--)(?!\[\[).*$\n?'
       scope: comment.line.double-dash.lua

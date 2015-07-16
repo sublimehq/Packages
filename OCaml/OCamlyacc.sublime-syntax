@@ -119,8 +119,7 @@ contexts:
       scope: entity.name.type.token.reference.ocamlyacc
   rule-patterns:
     - match: ((?<!\||:)(\||:)(?!\||:))
-      captures:
-        0: punctuation.separator.rule.ocamlyacc
+      scope: punctuation.separator.rule.ocamlyacc
       push:
         - meta_scope: meta.rule-match.ocaml
         - match: \s*(?=\||;)
@@ -131,13 +130,11 @@ contexts:
         - include: comments
   rules:
     - match: "[a-z][a-zA-Z_]*"
-      captures:
-        0: entity.name.function.non-terminal.ocamlyacc
+      scope: entity.name.function.non-terminal.ocamlyacc
       push:
         - meta_scope: meta.non-terminal.ocamlyacc
         - match: ;
-          captures:
-            0: punctuation.separator.rule.ocamlyacc
+          scope: punctuation.separator.rule.ocamlyacc
           pop: true
         - include: rule-patterns
   semantic-actions:
@@ -153,12 +150,10 @@ contexts:
         - include: scope:source.ocaml
   symbol-types:
     - match: <
-      captures:
-        0: punctuation.definition.type-declaration.begin.ocamlyacc
+      scope: punctuation.definition.type-declaration.begin.ocamlyacc
       push:
         - meta_scope: meta.token.type-declaration.ocamlyacc
         - match: ">"
-          captures:
-            0: punctuation.definition.type-declaration.end.ocamlyacc
+          scope: punctuation.definition.type-declaration.end.ocamlyacc
           pop: true
         - include: scope:source.ocaml

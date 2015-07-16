@@ -12,8 +12,7 @@ scope: text.bibtex
 contexts:
   main:
     - match: "@Comment"
-      captures:
-        0: punctuation.definition.comment.bibtex
+      scope: punctuation.definition.comment.bibtex
       push:
         - meta_scope: comment.line.at-sign.bibtex
         - match: $\n?
@@ -27,8 +26,7 @@ contexts:
       push:
         - meta_scope: meta.string-constant.braces.bibtex
         - match: '\}'
-          captures:
-            0: punctuation.section.string-constant.end.bibtex
+          scope: punctuation.section.string-constant.end.bibtex
           pop: true
         - include: string_content
     - match: '((@)String)\s*(\()\s*([a-zA-Z]*)'
@@ -40,8 +38,7 @@ contexts:
       push:
         - meta_scope: meta.string-constant.parenthesis.bibtex
         - match: \)
-          captures:
-            0: punctuation.section.string-constant.end.bibtex
+          scope: punctuation.section.string-constant.end.bibtex
           pop: true
         - include: string_content
     - match: '((@)[a-zA-Z]+)\s*(\{)\s*([^\s,]*)'
@@ -53,8 +50,7 @@ contexts:
       push:
         - meta_scope: meta.entry.braces.bibtex
         - match: '\}'
-          captures:
-            0: punctuation.section.entry.end.bibtex
+          scope: punctuation.section.entry.end.bibtex
           pop: true
         - match: '([a-zA-Z]+)\s*(\=)'
           captures:
@@ -75,8 +71,7 @@ contexts:
       push:
         - meta_scope: meta.entry.parenthesis.bibtex
         - match: \)
-          captures:
-            0: punctuation.section.entry.end.bibtex
+          scope: punctuation.section.entry.end.bibtex
           pop: true
         - match: '([a-zA-Z]+)\s*(\=)'
           captures:
@@ -98,33 +93,27 @@ contexts:
       scope: constant.numeric.bibtex
   nested_braces:
     - match: '\{'
-      captures:
-        0: punctuation.definition.group.begin.bibtex
+      scope: punctuation.definition.group.begin.bibtex
       push:
         - match: '\}'
-          captures:
-            0: punctuation.definition.group.end.bibtex
+          scope: punctuation.definition.group.end.bibtex
           pop: true
         - include: nested_braces
   string_content:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.bibtex
+      scope: punctuation.definition.string.begin.bibtex
       push:
         - meta_scope: string.quoted.double.bibtex
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.bibtex
+          scope: punctuation.definition.string.end.bibtex
           pop: true
         - include: nested_braces
     - match: '\{'
-      captures:
-        0: punctuation.definition.string.begin.bibtex
+      scope: punctuation.definition.string.begin.bibtex
       push:
         - meta_scope: string.quoted.other.braces.bibtex
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.bibtex
+          scope: punctuation.definition.string.end.bibtex
           pop: true
         - match: "@"
           scope: invalid.illegal.at-sign.bibtex

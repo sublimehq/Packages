@@ -125,48 +125,41 @@ contexts:
         2: punctuation.section.scope.end.sql
   comments:
     - match: "--"
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.line.double-dash.sql
         - match: \n
           pop: true
     - match: "#"
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.line.number-sign.sql
         - match: \n
           pop: true
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.block.c
         - match: \*/
           pop: true
   regexps:
     - match: /(?=\S.*/)
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.sql
         - match: /
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
     - match: '%r\{'
       comment: We should probably handle nested bracket pairs!?! -- Allan
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.modr.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
   string_escape:
@@ -180,42 +173,34 @@ contexts:
         3: punctuation.definition.string.end.sql
   strings:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.single.sql
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.other.backtick.sql
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.double.sql
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
     - match: '%\{'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.other.quoted.brackets.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation

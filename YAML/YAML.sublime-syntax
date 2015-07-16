@@ -56,26 +56,22 @@ contexts:
       captures:
         1: punctuation.definition.variable.yaml
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.yaml
+      scope: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: string.quoted.double.yaml
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.yaml
+          scope: punctuation.definition.string.end.yaml
           pop: true
         - match: \\.
           scope: constant.character.escape.yaml
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.yaml
+      scope: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: string.quoted.single.yaml
         - match: "''"
           scope: constant.character.escape.yaml
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.yaml
+          scope: punctuation.definition.string.end.yaml
           pop: true
     - match: '(\<\<): ((\*).*)$'
       scope: keyword.operator.merge-key.yaml
