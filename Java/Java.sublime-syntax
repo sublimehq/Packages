@@ -75,7 +75,7 @@ contexts:
             - include: object-types
             - match: \(
               captures:
-                1: storage.type.java
+                0: storage.type.java
               push:
                 - match: \)
                   pop: true
