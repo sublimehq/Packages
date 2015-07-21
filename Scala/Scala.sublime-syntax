@@ -226,7 +226,7 @@ contexts:
     - match: \b(throw)\b
       scope: keyword.control.trycatch.throw.scala
     - match: \b(this|super)\b
-      scope: variable.language.scala
+      scope: support.variable.scala
 
     - match: \bdo\b
       scope: keyword.control.loop.do.scala
@@ -244,7 +244,7 @@ contexts:
     - match: '\b(private|protected)\s*\[(this)\]'
       captures:
         1: storage.modifier.access.scala
-        2: variable.language.scala
+        2: support.variable.scala
     - match: '\b(private|protected)\s*(\[)([A-Z]{{name}})(\])'
       captures:
         1: storage.modifier.access.scala
@@ -418,12 +418,12 @@ contexts:
     - match: '{{operator}}'
       scope: keyword.operator.type.scala
     - match: '(List|Array|Map|Int|Float|Double|String|Char|Boolean)'
-      scope: support.language.type.scala
+      scope: support.type.scala
     - match: '({{name}}(\.))*(type)'
       captures:
         2: variable.other.scala
         3: keyword.operator.accessor.scala
-        4: support.language.type.scala
+        4: support.type.scala
     - match: '({{name}}(\.))*{{name}}'
       captures:
         2: variable.other.scala
@@ -840,8 +840,8 @@ contexts:
       pop: true
     - match: '{{name}}\s*(\()'
       captures:
-        1: entity.name.val.scala
-        2: punctuation.definition.arguments.begin.scala
+        1: entity.name.constructor.unapply.scala
+        2: punctuation.definition.arguments.constructor.begin.scala
       push: pattern_match_inside
     - match: '{{operator}}'
       scope: keyword.operator.scala
@@ -851,15 +851,18 @@ contexts:
 
   pattern_match_inside:
     - match: '\)'
-      scope: punctuation.definition.arguments.end.scala
+      scope: punctuation.definition.arguments.constructor.end.scala
       pop: true
     - match: ':\b'
       set:
-        - match: '\)|,'
+        - match: '(?=\)|,)'
           pop: true
+        - match: ','
+          scope: punctuation.separator.argument.scala
+          set: pattern_match_inside
         - include: type
-    - match: '\)'
-      pop: true
+    - match: ','
+      scope: punctuation.separator.argument.scala
     - include: pattern_match
 
   pattern_match_if:
