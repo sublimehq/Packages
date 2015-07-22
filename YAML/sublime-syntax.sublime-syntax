@@ -157,7 +157,7 @@ contexts:
         - include: comment
         - match: '^(\s*)(\d+)\s*(:)'
           captures:
-            2: variable.other.captured
+            2: support.variable
             3: punctuation.separator.key-value
           push: scope_
         - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
@@ -276,7 +276,7 @@ contexts:
     - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
     - match: '\\\d+'
-      scope: variable.other.captured
+      scope: support.variable
     - match: '[.+*|^\$?]'
       scope: keyword.operator.syntax
     - match: '\\[.+*|^\$?]'
