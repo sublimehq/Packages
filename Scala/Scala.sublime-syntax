@@ -14,9 +14,11 @@ variables:
   # http://stackoverflow.com/questions/7656937/valid-identifier-characters-in-scala
   operator: '[!#%&\*\+\-/:<=>?\\^|~©®][!#%&\*\+\-/:<=>?@\\^|~©®]*'
   simple_name: '[A-Za-z_\p{L}][A-Za-z\p{L}_0-9]*'
+  simple_cap_name: '[A-Z][A-Za-z\p{L}_0-9]*'
   quoted_name: '`[^`]*`'
 
   name: '({{operator}}|{{simple_name}}_{{operator}}|{{simple_name}}|{{quoted_name}})'
+  cap_name: '({{simple_cap_name}}_{{operator}}|{{simple_cap_name}})'
 
   xml_open_tag: '<[A-Za-z]*>'
   xml_close_tag: '</[A-Za-z]*>'
@@ -247,12 +249,12 @@ contexts:
         2: punctuation.definition.arguments.begin.scala
         3: support.variable.scala
         4: punctuation.definition.arguments.end.scala
-    - match: '\b(private|protected)\s*(\[)([A-Z]{{name}})(\])'
+    - match: '\b(private|protected)\s*(\[){{cap_name}}(\])'
       captures:
         1: storage.modifier.access.scala
         2: punctuation.definition.arguments.begin.scala
         3: entity.name.class.scala
-        5: punctuation.definition.arguments.end.scala
+        4: punctuation.definition.arguments.end.scala
     - match: '\b(private|protected)\s*(\[){{name}}(\])'
       captures:
         1: storage.modifier.access.scala
@@ -307,10 +309,10 @@ contexts:
         2: variable.other.type.scala meta.instantiation.scala
       push: [constructor_block, constructor_mixin, constructor_arguments, constructor_type_arguments]
 
-    - match: '([A-Z]{{name}})(\()'
+    - match: '{{cap_name}}(\()'
       captures:
         1: entity.name.constructor.scala meta.invocation
-        3: punctuation.definition.arguments.begin.scala
+        2: punctuation.definition.arguments.begin.scala
       push: function_args
     - match: '{{name}}(\()'
       captures:
@@ -364,7 +366,7 @@ contexts:
     - include: type_bracket
 
     # try to match class name
-    - match: '[A-Z]{{name}}?'
+    - match: '{{cap_name}}'
       scope: variable.other.type.scala
     - match: '{{name}}'
       scope: variable.other.scala
