@@ -6,7 +6,6 @@
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control.makefile
 #       ^ support.function.builtin.makefile
-#                  ^ entity.other.attribute-name.makefile
 #                                                  ^ keyword.operator.makefile
 #                                                           ^ support.variable.makefile
 	include $(MAKEFILE_PATH)Makefile.Defs
@@ -41,7 +40,6 @@ $(EXECUTABLE): $(OBJECTS)
 #                ^ variable.source.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	#   <- support.variable.makefile
-	#                            ^ entity.other.attribute-name.makefile
 	#                               ^ support.variable.makefile
 
 .PHONY: help

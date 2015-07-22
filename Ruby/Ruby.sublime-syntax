@@ -53,6 +53,8 @@ file_extensions:
   - irbrc
   - capfile
   - Gemfile
+  - Vagrantfile
+  - config.ru
 first_line_match: ^#!/.*\bruby
 scope: source.ruby
 contexts:
@@ -80,6 +82,11 @@ contexts:
     - match: (?<!\.)\belse(\s)+if\b
       comment: else if is a common mistake carried over from other languages. it works if you put in a second end, but it’s never what you want.
       scope: invalid.deprecated.ruby
+    - match: '(?>[a-zA-Z_]\w*(?>[?!])?)(:)(?!:)'
+      comment: symbols
+      scope: constant.other.symbol.ruby.19syntax
+      captures:
+        1: punctuation.definition.constant.ruby
     - match: '(?<!\.)\b(BEGIN|begin|case|class|else|elsif|END|end|ensure|for|if|in|module|rescue|then|unless|until|when|while)\b(?![?!])'
       comment: everything being a reserved word, not a value and needing a 'end' is a..
       scope: keyword.control.ruby
@@ -108,6 +115,8 @@ contexts:
       push:
         - meta_scope: meta.require.ruby
         - match: $|(?=#)
+          captures:
+            1: keyword.other.special-method.ruby
           pop: true
         - include: main
     - match: '(@)[a-zA-Z_]\w*'
@@ -199,6 +208,8 @@ contexts:
       push:
         - meta_scope: constant.other.symbol.single-quoted.ruby
         - match: "'"
+          captures:
+            0: punctuation.definition.constant.ruby
           pop: true
         - match: '\\[''\\]'
           scope: constant.character.escape.ruby
@@ -208,6 +219,8 @@ contexts:
       push:
         - meta_scope: constant.other.symbol.double-quoted.ruby
         - match: '"'
+          captures:
+            0: punctuation.definition.constant.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -564,11 +577,6 @@ contexts:
       scope: constant.other.symbol.ruby
       captures:
         1: punctuation.definition.constant.ruby
-    - match: '(?>[a-zA-Z_]\w*(?>[?!])?)(:)(?!:)'
-      comment: symbols
-      scope: constant.other.symbol.ruby.19syntax
-      captures:
-        1: punctuation.definition.constant.ruby
     - match: ^=begin
       comment: multiline comments
       captures:
@@ -576,6 +584,8 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.ruby
         - match: ^=end
+          captures:
+            0: punctuation.definition.comment.ruby
           pop: true
     - match: '(?:^[ \t]+)?(#).*$\n?'
       scope: comment.line.number-sign.ruby
@@ -613,13 +623,15 @@ contexts:
       push:
         - meta_content_scope: text.plain
         - match: (?=not)impossible
+          captures:
+            0: string.unquoted.program-block.ruby
           pop: true
         - match: (?=<?xml|<(?i:html\b)|!DOCTYPE (?i:html\b))
           push:
             - meta_scope: text.html.embedded.ruby
             - match: (?=not)impossible
               pop: true
-            - include: 'scope:text.html.basic'
+            - include: scope:text.html.basic
     - match: '(?><<-("?)((?:[_\w]+_|)HTML)\b\1)'
       comment: heredoc with embedded HTML and indented terminator
       captures:
@@ -632,7 +644,7 @@ contexts:
             0: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
-        - include: 'scope:text.html.basic'
+        - include: scope:text.html.basic
         - include: interpolated_ruby
         - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)SQL)\b\1)'
@@ -647,7 +659,7 @@ contexts:
             0: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
-        - include: 'scope:source.sql'
+        - include: scope:source.sql
         - include: interpolated_ruby
         - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)CSS)\b\1)'
@@ -796,6 +808,8 @@ contexts:
       push:
         - meta_scope: source.ruby.embedded.source
         - match: '\}'
+          captures:
+            0: punctuation.section.embedded.ruby
           pop: true
         - include: nest_curly_and_self
         - include: main
@@ -817,6 +831,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\]'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: nest_brackets
   nest_brackets_i:
@@ -825,6 +841,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\]'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -835,6 +853,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\]'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_brackets_r
@@ -844,6 +864,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\}'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: nest_curly
   nest_curly_and_self:
@@ -852,6 +874,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\}'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: nest_curly_and_self
     - include: main
@@ -861,6 +885,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\}'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -871,6 +897,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: '\}'
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_curly_r
@@ -880,6 +908,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \>
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: nest_ltgt
   nest_ltgt_i:
@@ -888,6 +918,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \>
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -898,6 +930,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \>
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_ltgt_r
@@ -907,6 +941,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \)
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: nest_parens
   nest_parens_i:
@@ -915,6 +951,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \)
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -925,6 +963,8 @@ contexts:
         0: punctuation.section.scope.ruby
       push:
         - match: \)
+          captures:
+            0: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_parens_r
@@ -942,6 +982,8 @@ contexts:
       push:
         - meta_scope: string.regexp.character-class.ruby
         - match: '\]'
+          captures:
+            0: punctuation.definition.character-class.ruby
           pop: true
         - include: escaped_char
     - match: \(
@@ -950,6 +992,8 @@ contexts:
       push:
         - meta_scope: string.regexp.group.ruby
         - match: \)
+          captures:
+            0: punctuation.definition.group.ruby
           pop: true
         - include: regex_sub
     - match: '(?<=^|\s)(#)\s[[a-zA-Z0-9,. \t?!-][^\x{00}-\x{7F}]]*$'

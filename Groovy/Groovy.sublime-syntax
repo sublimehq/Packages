@@ -49,6 +49,13 @@ contexts:
       push:
         - meta_scope: meta.definition.class.groovy
         - match: $
+          captures:
+            1: storage.modifier.access-control.groovy
+            2: storage.modifier.static.groovy
+            3: storage.modifier.final.groovy
+            4: storage.modifier.other.groovy
+            5: storage.type.class.groovy
+            6: entity.name.type.class.groovy
           pop: true
         - match: '(extends)\s+([a-zA-Z0-9_\.]+(?:<(?:[a-zA-Z0-9_, ])+>)?)\s*'
           scope: meta.definition.class.inherited.classes.groovy
@@ -73,6 +80,8 @@ contexts:
       push:
         - meta_scope: comment.block.groovy
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.groovy
           pop: true
   comments:
     - match: /\*\*/
@@ -148,7 +157,7 @@ contexts:
       scope: keyword.operator.range.groovy
     - match: \->
       scope: keyword.operator.arrow.groovy
-    - match: <<
+    - match: "<<"
       scope: keyword.operator.leftshift.groovy
     - match: (?<=\S)\.(?=\S)
       scope: keyword.operator.navigation.groovy
@@ -233,6 +242,8 @@ contexts:
       push:
         - meta_scope: meta.definition.method.throwables.groovy
         - match: '(?=$|\{)'
+          captures:
+            1: storage.modifier.throws.groovy
           pop: true
         - match: '((?:[a-z]\w*.)*[A-Z]\w*)\s*(?:(,)|$|\{)'
           captures:
@@ -322,6 +333,8 @@ contexts:
         0: punctuation.section.scope.groovy
       push:
         - match: '\}'
+          captures:
+            0: punctuation.section.scope.groovy
           pop: true
         - include: nest_curly
   numbers:
@@ -392,6 +405,8 @@ contexts:
           push:
             - meta_scope: source.groovy.embedded.source
             - match: '\}'
+              captures:
+                0: punctuation.section.embedded.groovy
               pop: true
             - include: nest_curly
   string-quoted-single:

@@ -39,6 +39,8 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.php
           pop: true
         - include: php_doc
     - match: /\*
@@ -47,6 +49,8 @@ contexts:
       push:
         - meta_scope: comment.block.php
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.php
           pop: true
     - match: (//).*?($\n?|(?=\?>))
       scope: comment.line.double-slash.php
@@ -182,6 +186,11 @@ contexts:
       push:
         - meta_scope: meta.function.argument.default.php
         - match: '(?=,|\)|/[/*]|\#)'
+          captures:
+            1: storage.modifier.reference.php
+            2: variable.other.php
+            3: punctuation.definition.variable.php
+            4: keyword.operator.assignment.php
           pop: true
         - include: parameter-default-types
   function-call:
@@ -223,7 +232,7 @@ contexts:
             - meta_content_scope: text.html
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:text.html.basic'
+            - include: scope:text.html.basic
             - include: interpolation
         - match: (<<<)\s*(XML)\s*$\n?
           captures:
@@ -235,7 +244,7 @@ contexts:
             - meta_content_scope: text.xml
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:text.xml'
+            - include: scope:text.xml
             - include: interpolation
         - match: (<<<)\s*(SQL)\s*$\n?
           captures:
@@ -247,7 +256,7 @@ contexts:
             - meta_content_scope: source.sql
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:source.sql'
+            - include: scope:source.sql
             - include: interpolation
         - match: (<<<)\s*(JAVASCRIPT)\s*$\n?
           captures:
@@ -259,7 +268,7 @@ contexts:
             - meta_content_scope: source.js
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:source.js'
+            - include: scope:source.js
             - include: interpolation
         - match: (<<<)\s*(JSON)\s*$\n?
           captures:
@@ -271,7 +280,7 @@ contexts:
             - meta_content_scope: source.json
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:source.json'
+            - include: scope:source.json
             - include: interpolation
         - match: (<<<)\s*(CSS)\s*$\n?
           captures:
@@ -283,7 +292,7 @@ contexts:
             - meta_content_scope: source.css
             - match: (?=^\2\b)
               pop: true
-            - include: 'scope:source.css'
+            - include: scope:source.css
             - include: interpolation
         - match: '(<<<)\s*([a-zA-Z_]+[a-zA-Z0-9_]*)'
           captures:
@@ -602,7 +611,7 @@ contexts:
     - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
-    - match: <<|>>|~|\^|&|\|
+    - match: '<<|>>|~|\^|&|\|'
       scope: keyword.operator.bitwise.php
     - match: (===|==|!==|!=|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.php
@@ -756,6 +765,8 @@ contexts:
           push:
             - meta_scope: string.regexp.character-class.php
             - match: '\]'
+              captures:
+                0: punctuation.definition.character-class.php
               pop: true
             - include: interpolation
         - match: "[$^+*]"
@@ -787,6 +798,8 @@ contexts:
           push:
             - meta_scope: string.regexp.character-class.php
             - match: '\]'
+              captures:
+                0: punctuation.definition.character-class.php
               pop: true
             - match: '\\[\\''\[\]]'
               scope: constant.character.escape.php
@@ -832,7 +845,7 @@ contexts:
               pop: true
             - include: interpolation
         - include: interpolation
-        - include: 'scope:source.sql'
+        - include: scope:source.sql
   sql-string-single-quoted:
     - match: '''\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b)'
       captures:
@@ -860,7 +873,7 @@ contexts:
             Unclosed strings must be captured to avoid them eating the remainder of the PHP script
                                 Sample case: $sql = "SELECT * FROM bar WHERE foo = '" . $variable . "'"
           scope: string.quoted.double.unclosed.sql
-        - include: 'scope:source.sql'
+        - include: scope:source.sql
   string-backtick:
     - match: "`"
       captures:

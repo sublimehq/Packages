@@ -54,10 +54,11 @@ contexts:
       push:
         - meta_scope: meta.tag.sgml.html
         - match: ">"
+          scope: punctuation.definition.tag.html
           pop: true
         - match: (?i:DOCTYPE)
           captures:
-            1: entity.name.tag.doctype.html
+            0: entity.name.tag.doctype.html
           push:
             - meta_scope: meta.tag.sgml.doctype.html
             - match: (?=>)
@@ -189,8 +190,10 @@ contexts:
           pop: true
         - include: entities
   tag-generic-attribute:
-    - match: '(?<=[^=])\b([a-zA-Z0-9:-]+)'
-      scope: entity.other.attribute-name.html
+    - match: '(?<=[^=])\b([a-zA-Z0-9:-]+)\s*(=?)'
+      captures:
+        1: entity.other.attribute-name.html
+        2: punctuation.separator.key-value.html
   tag-id-attribute:
     - match: \b(id)\b\s*(=)
       captures:

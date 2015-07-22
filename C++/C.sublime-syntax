@@ -34,6 +34,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c.include
         - match: (?=(?://|/\*))|$
+          captures:
+            1: keyword.control.import.include.c
           pop: true
         - match: (?>\\\s*\n)
           scope: punctuation.separator.continuation.c
@@ -62,6 +64,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c
         - match: (?=(?://|/\*))|$
+          captures:
+            1: keyword.control.import.c
           pop: true
         - match: (?>\\\s*\n)
           scope: punctuation.separator.continuation.c
@@ -191,6 +195,8 @@ contexts:
       push:
         - meta_scope: comment.block.c
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.c
           pop: true
     - match: \*/.*\n
       scope: invalid.illegal.stray-comment-end.c
@@ -310,6 +316,9 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - match: ^\s*(#\s*(else)\b)
           captures:
@@ -317,6 +326,9 @@ contexts:
             2: keyword.control.import.else.c
           push:
             - match: (?=^\s*#\s*endif\b.*$)
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: $top_level_main
         - match: ""
@@ -334,6 +346,9 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
           pop: true
         - match: ^\s*(#\s*(else)\b)
           captures:
@@ -341,6 +356,9 @@ contexts:
             2: keyword.control.import.else.c
           push:
             - match: (?=^\s*#\s*endif\b.*$)
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: block_innards
         - match: ""
@@ -358,6 +376,10 @@ contexts:
         3: constant.numeric.preprocessor.c
       push:
         - match: ^\s*(#\s*(endif)\b)
+          captures:
+            1: meta.preprocessor.c
+            2: keyword.control.import.if.c
+            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b).*
           captures:
@@ -366,6 +388,9 @@ contexts:
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch
             - match: (?=^\s*#\s*endif\b.*$)
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: disabled
             - include: pragma-mark
@@ -393,6 +418,9 @@ contexts:
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch.in-block
             - match: (?=^\s*#\s*endif\b.*$)
+              captures:
+                1: meta.preprocessor.c
+                2: keyword.control.import.else.c
               pop: true
             - include: disabled
             - include: pragma-mark

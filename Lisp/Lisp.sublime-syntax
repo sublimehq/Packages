@@ -1,0 +1,52 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Lisp
+file_extensions:
+  - lisp
+  - cl
+  - l
+  - mud
+  - el
+scope: source.lisp
+contexts:
+  main:
+    - match: (;).*$\n?
+      scope: comment.line.semicolon.lisp
+      captures:
+        1: punctuation.definition.comment.lisp
+    - match: (\b(?i:(defun|defmethod|defmacro))\b)(\s+)((\w|\-|\!|\?)*)
+      scope: meta.function.lisp
+      captures:
+        2: storage.type.function-type.lisp
+        4: entity.name.function.lisp
+    - match: '(#)(\w|[\\+-=<>''"&#])+'
+      scope: constant.character.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+    - match: (\*)(\S*)(\*)
+      scope: variable.other.global.lisp
+      captures:
+        1: punctuation.definition.variable.lisp
+        3: punctuation.definition.variable.lisp
+    - match: \b(?i:case|do|let|loop|if|else|when)\b
+      scope: keyword.control.lisp
+    - match: \b(?i:eq|neq|and|or)\b
+      scope: keyword.operator.lisp
+    - match: \b(?i:null|nil)\b
+      scope: constant.language.lisp
+    - match: \b(?i:cons|car|cdr|cond|lambda|format|setq|setf|quote|eval|append|list|listp|memberp|t|load|progn)\b
+      scope: support.function.lisp
+    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
+      scope: constant.numeric.lisp
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.lisp
+      push:
+        - meta_scope: string.quoted.double.lisp
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.lisp
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.lisp

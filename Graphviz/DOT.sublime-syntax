@@ -41,4 +41,6 @@ contexts:
       push:
         - meta_scope: comment.block.dot
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.dot
           pop: true

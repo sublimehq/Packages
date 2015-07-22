@@ -1,0 +1,1156 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Clojure
+comment: 'Symbol pattern : [a-zA-Z+!\-_?0-9*~#@''`/.$=]'
+file_extensions:
+  - clj
+scope: source.clojure
+contexts:
+  main:
+    - include: comment
+    - include: function
+    - include: function_multi_method
+    - include: macro
+    - include: namespace
+    - include: sexpr
+  comment:
+    - match: (;;).*(;;)$\n?
+      scope: comment.line.semicolon.double.banner.clojure
+      captures:
+        1: punctuation.definition.comment.clojure
+    - match: (;;).*$\n?
+      scope: comment.line.semicolon.double.clojure
+      captures:
+        1: punctuation.definition.comment.clojure
+    - match: ^(;).*$\n?
+      scope: comment.line.semicolon.start.clojure
+      captures:
+        1: punctuation.definition.comment.clojure
+    - match: (;).*$\n?
+      scope: comment.line.semicolon.clojure
+      captures:
+        1: punctuation.definition.comment.clojure
+  all:
+    - include: function
+    - include: function_multi_method
+    - include: lambda
+    - include: macro
+    - include: comment
+    - include: expr
+    - include: sexpr
+  binding:
+    - include: comment
+    - include: metadata
+    - match: '\['
+      captures:
+        0: punctuation.definition.vector.begin.clojure
+      push:
+        - meta_scope: meta.structure.binding.vector.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?<=\[)'
+          comment: "TODO: merge with parameters ??"
+          push:
+            - meta_scope: meta.parameters.vector.clojure
+            - match: '\]'
+              captures:
+                0: punctuation.definition.vector.end.clojure
+              pop: true
+            - include: comment
+            - include: metadata
+            - include: parameters_variable
+            - match: \&
+              scope: keyword.operator.varargs.clojure
+            - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              scope: keyword.operator.symbolargs.clojure
+            - include: parameters
+            - include: parameters_map
+            - include: all
+        - include: binding_exp
+    - match: '\{'
+      captures:
+        0: punctuation.definition.map.begin.clojure
+      push:
+        - meta_scope: meta.structure.binding.map.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?<=\{)'
+          comment: "TODO: merge with map ??"
+          push:
+            - meta_scope: meta.function.parameters.map.clojure
+            - match: '\}'
+              captures:
+                0: punctuation.definition.map.end.clojure
+              pop: true
+            - include: comment
+            - include: metadata
+            - include: parameters_variable
+            - match: '(:as|:or|:keys|:strs|:syms)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              scope: keyword.operator.symbolargs.clojure
+            - include: parameters
+            - include: parameters_map
+            - include: all
+        - include: binding_exp
+    - match: '(:let|:when|:while)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      captures:
+        1: keyword.operator.symbolargs.clojure
+      push:
+        - meta_scope: meta.structure.binding.symbolargs.clojure
+        - match: '(?=\])'
+          pop: true
+        - include: binding_exp
+    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      comment: symbol matching
+      push:
+        - meta_scope: meta.structure.binding.symbole.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: variable.parameter.clojure
+            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: keyword
+            - include: operator
+            - include: number
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: '(?=\])'
+              pop: true
+            - include: binding_exp
+    - match: '[^\s]'
+      push:
+        - meta_scope: invalid.illegal.bindings.clojure
+        - match: '[^\]]'
+          pop: true
+  binding_exp:
+    - include: comment
+    - include: metadata
+    - include: operator_special
+    - match: '(\(\)|{}|\[\]|#{})'
+      captures:
+        1: constant.language.clojure
+      push:
+        - meta_scope: meta.structure.binding_exp.constant.language.clojure
+        - match: '(?=\])'
+          pop: true
+        - include: binding
+    - match: (?=#?\()
+      push:
+        - meta_scope: meta.structure.binding_exp.sexp.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: (?=#?\()
+          push:
+            - match: (?<=\))
+              pop: true
+            - include: function
+            - include: function_multi_method
+            - include: lambda
+            - include: macro
+            - include: sexpr
+        - include: binding
+    - match: '(\[)'
+      push:
+        - meta_scope: meta.structure.binding_exp.vector.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?<=\[)'
+          comment: "TODO: merge with vector"
+          captures:
+            0: punctuation.definition.vector.begin.clojure
+          push:
+            - meta_scope: meta.expression.vector.clojure
+            - match: '\]'
+              captures:
+                0: punctuation.definition.vector.end.clojure
+              pop: true
+            - include: all
+        - include: binding
+    - match: '(\{)'
+      push:
+        - meta_scope: meta.structure.binding_exp.map.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?<=\{)'
+          comment: "TODO: merge with map"
+          captures:
+            0: punctuation.definition.map.begin.clojure
+          push:
+            - meta_scope: meta.expression.map.clojure
+            - match: "}"
+              captures:
+                0: punctuation.definition.map.end.clojure
+              pop: true
+            - include: all
+        - include: binding
+    - match: '(?=#\{)'
+      push:
+        - meta_scope: meta.structure.binding_exp.set.clojure
+        - match: '(?=\])'
+          pop: true
+        - include: set
+        - include: binding
+    - match: (?=")|(?=\\)|(?=\:)|(?=\#")
+      push:
+        - meta_scope: meta.structure.binding_exp.string.clojure
+        - match: '(?=\])'
+          pop: true
+        - include: string
+        - include: binding
+    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      comment: symbol matching
+      push:
+        - meta_scope: meta.structure.binding_exp.symbole.clojure
+        - match: '(?=\])'
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: keyword
+            - include: operator
+            - include: number
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: '(?=\])'
+              pop: true
+            - include: binding
+    - match: '[^\s]'
+      push:
+        - meta_scope: invalid.illegal.bindings.clojure
+        - match: '[^\]]'
+          pop: true
+  bindings_form:
+    - match: '\['
+      comment: bindings followed by all
+      push:
+        - meta_scope: meta.structure.bindings.clojure
+        - match: (?=\))
+          pop: true
+        - match: '(?<=\[)'
+          push:
+            - match: '\]'
+              pop: true
+            - include: binding
+        - match: '(?<=\])'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+  expr:
+    - include: keyword
+    - include: operator
+    - include: string
+    - include: vector
+    - include: map
+    - include: set
+    - include: metadata
+    - include: number
+    - include: symbol
+  function:
+    - match: \(\s*(defn\-?)\s
+      captures:
+        1: storage.type.function.type.clojure
+      push:
+        - meta_scope: meta.function.clojure
+        - match: \)
+          captures:
+            1: punctuation.terminator.function.clojure
+          pop: true
+        - include: comment
+        - include: metadata
+        - match: \s*
+        - include: function_name
+        - include: function_body_comment
+  function_body:
+    - match: '\(\s*(?=\[)'
+      push:
+        - meta_scope: meta.function.body.code.clojure
+        - match: \)
+          pop: true
+        - include: parameters_body
+    - match: '(?=\[)'
+      push:
+        - meta_scope: meta.function.body.clojure
+        - match: (?=\))
+          pop: true
+        - include: parameters_body
+  function_body_comment:
+    - match: '"'
+      captures:
+        0: string.quoted.double.begin.clojure
+      push:
+        - meta_scope: string.docstring.clojure
+        - match: '"'
+          captures:
+            0: string.quoted.double.end.clojure
+          pop: true
+        - include: string_escape
+    - match: '\{'
+      captures:
+        0: comment.punctuation.definition.metadata.begin.clojure
+      push:
+        - meta_scope: meta.metadata.map.clojure
+        - match: '\}'
+          captures:
+            0: comment.punctuation.definition.metadata.end.clojure
+          pop: true
+        - include: metadata_patterns
+    - include: function_body
+  function_multi_method:
+    - match: \(\s*(defmethod\-?)\s+
+      captures:
+        1: storage.type.function.type.clojure
+      push:
+        - meta_scope: meta.function.multi_method.clojure
+        - match: \)
+          pop: true
+        - include: comment
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: (?=\))
+              pop: true
+            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              push:
+                - meta_scope: meta.function.multi_method.name.clojure
+                - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                  pop: true
+                - include: function_name
+            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              push:
+                - match: (?=\))
+                  pop: true
+                - include: comment
+                - include: metadata
+                - include: operator_special
+                - match: '(\(\)|{}|\[\]|#{})'
+                  captures:
+                    1: constant.language.clojure
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.constant.language.clojure
+                    - match: (?=\))
+                      pop: true
+                    - include: parameters_body
+                - match: (?=#?\()
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.sexp.clojure
+                    - match: (?=\))
+                      pop: true
+                    - match: (?=#?\()
+                      push:
+                        - match: (?<=\))
+                          pop: true
+                        - include: function
+                        - include: function_multi_method
+                        - include: lambda
+                        - include: macro
+                        - include: sexpr
+                    - include: parameters_body
+                - match: '(\[)'
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.vector.clojure
+                    - match: (?=\))
+                      pop: true
+                    - match: '(?<=\[)'
+                      comment: "TODO: merge with vector"
+                      captures:
+                        0: punctuation.definition.vector.begin.clojure
+                      push:
+                        - meta_scope: meta.expression.vector.clojure
+                        - match: '(\])'
+                          captures:
+                            1: punctuation.definition.vector.end.clojure
+                          pop: true
+                        - include: all
+                    - match: '(?<=\])\s*'
+                      push:
+                        - match: (?=\))
+                          pop: true
+                        - include: parameters_body
+                - match: '(\{)'
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.map.clojure
+                    - match: (?=\))
+                      pop: true
+                    - match: '(?<=\{)'
+                      comment: "TODO: merge with map"
+                      captures:
+                        0: punctuation.definition.map.begin.clojure
+                      push:
+                        - meta_scope: meta.expression.map.clojure
+                        - match: "}"
+                          captures:
+                            0: punctuation.definition.map.end.clojure
+                          pop: true
+                        - include: all
+                    - include: parameters_body
+                - match: '(?=#\{)'
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.set.clojure
+                    - match: (?=\))
+                      pop: true
+                    - include: set
+                    - include: parameters_body
+                - match: (?=")|(?=\\)|(?=\:)|(?=\#")
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.string.clojure
+                    - match: (?=\))
+                      pop: true
+                    - include: string
+                    - include: parameters_body
+                - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                  comment: symbol matching
+                  push:
+                    - meta_scope: meta.structure.multi_method_exp.symbole.clojure
+                    - match: (?=\))
+                      pop: true
+                    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                      push:
+                        - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                          pop: true
+                        - include: symbol_java_inherited_class
+                        - include: keyword
+                        - include: operator
+                        - include: number
+                        - include: symbol
+                    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                      push:
+                        - match: (?=\))
+                          pop: true
+                        - include: parameters_body
+  function_name:
+    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      comment: symbol matching
+      push:
+        - meta_scope: entity.name.function.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - include: keyword
+        - include: operator
+        - match: '-(?=[a-zA-Z+!\-_?*~#@''`/.$=])'
+          captures:
+            0: keyword.operator.prefix.genclass.clojure
+          push:
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - include: symbol
+  genclass_parameters:
+    - include: gencommon_parameters
+    - match: (:extends)\s+
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.extends.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - include: symbol_java_inherited_class
+    - match: '(:implements)\s+(\[)'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.implements.clojure
+        - match: '\]'
+          pop: true
+        - include: symbol_java_inherited_class
+        - include: all
+    - match: '(:constructors)\s+(\{)'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.constructors.clojure
+        - match: '\}'
+          pop: true
+        - match: '\['
+          push:
+            - meta_scope: meta.other.genclass.constructor.signature.clojure
+            - match: '\]'
+              pop: true
+            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              comment: "TODO: make a rule java Class (storage)"
+              push:
+                - meta_scope: storage.type.java.clojure
+                - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                  pop: true
+                - include: symbol
+            - include: all
+        - include: all
+    - match: '(:exposes)\s+(\{)'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.exposes.clojure
+        - match: '\}'
+          pop: true
+        - match: '\{'
+          push:
+            - meta_scope: meta.other.genclass.exposes.get_set.clojure
+            - match: '\}'
+              pop: true
+            - match: ":(get|set)"
+              scope: support.other.keyword.genclass.clojure
+            - include: all
+        - include: all
+    - match: ':(init|main|factory|state|prefix|load-impl-ns|implements|constructors|exposes|impl-ns|exposes-methods|methods)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      captures:
+        0: support.other.keyword.genclass.clojure
+    - include: all
+  gencommon_parameters:
+    - include: comment
+    - match: '(:name)\s+(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.name.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: entity.name.namespace.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+    - match: '(:methods)\s+(\[)'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.methods.clojure
+        - match: '\]'
+          pop: true
+        - match: '\['
+          push:
+            - meta_scope: meta.other.genclass.method.signature.clojure
+            - match: '\]'
+              pop: true
+            - match: '\['
+              push:
+                - meta_scope: meta.other.genclass.method.args.signature.clojure
+                - match: '\]'
+                  pop: true
+                - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                  comment: "TODO: make a rule java Class (storage)"
+                  push:
+                    - meta_scope: storage.type.java.clojure
+                    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                      pop: true
+                    - include: symbol
+                - include: all
+            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=]+\s*])'
+              push:
+                - meta_scope: storage.type.java.genclass.return_type.clojure
+                - match: .|$
+                  pop: true
+                - include: symbol
+            - include: all
+        - include: all
+  geninterface_parameters:
+    - include: gencommon_parameters
+    - match: '(:extends)\s+(\[)'
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.other.genclass.implements.clojure
+        - match: '\]'
+          pop: true
+        - include: symbol_java_inherited_class
+        - include: all
+  keyword:
+    - match: '(?<![*+!_?\-])\b((if-not|if|cond|do|let|loop|recur|throw|try|catch|finally|new|trampoline)\b|(set!|swap!|compare-and-set!))(?![*+!_?\-])'
+      scope: keyword.control.clojure
+    - match: '(?<![*+!_?\-])\b(monitor-enter|monitor-exit|assoc|touch|drop|take|concat|prn|into|cons|first|flatten|rest|frest|rrest|second|lazy-cat|lazy-cons|conj|await|range|iterate)\b(?![*+!_?\-])'
+      scope: keyword.other.clojure
+    - match: '(?<![*+!_?\-])\b(str|print(ln)?|eval|def|defmacro|defn|quote|var|fn|defmulti|defmethod|map|list|hash-map|vector|agent|declare|intern|macroexpand|macroexpand-1)\b(?![*+!_?\-])'
+      scope: storage.clojure
+    - match: '(?<![*+!_?\-])\b(->|\.\.|amap|and|areduce|assert|binding|comment|cond|definline|(def[a-z\-]*)|defmatch|defmethod|defmulti|defn|defn-|defonce|defstruct|delay|doc|doseq|dosync|dotimes|doto|fn|for|if-let|lazy-cons|let|locking|loop|memfn|ns|or|prefer-method|proxy-super|proxy|refer-clojure|remove-method|sync|time|when-first|when-let|when-not|when|while|with-in-str|with-local-vars|with-open|with-out-str|with-precision|memoize)\b(?![*+!_?\-])'
+      scope: support.function.match.clojure
+    - match: '(?<![*+!_?\-])\b(rational|associative|branch|class|coll|contains|decimal|delay|distinct|empty|end|even|every|false|float|fn|identical|instance|integer|isa|keyword|list|map|neg|nil|not-any|not-every|number|odd|pos|ratio|reversible|seq|sequential|set|sorted|special-symbol|string|symbol|true|var|zero|vector|ifn)(\?)(?![*+!_?\-])'
+      scope: support.function.tester.clojure
+      captures:
+        2: keyword.other.mark.clojure
+    - match: '(?<![*+!_?\-])\b(not(=)|list(\*)|io(!))(?![*+!_?\-])'
+      scope: support.function.clojure
+      captures:
+        2: keyword.other.mark.clojure
+        3: keyword.other.mark.clojure
+        4: keyword.other.mark.clojure
+    - match: '(?<![*+!_?\-])\b(zipper|zipmap|xml-zip|xml-seq|with-meta|vector-zip|vector|vec|var-set|var-get|vals|val|use|update-proxy|update-in|up|union|underive|unchecked-subtract|unchecked-negate|unchecked-multiply|unchecked-inc|unchecked-divide|unchecked-dec|unchecked-add|tree-seq|to-array-2d|to-array|test|take-while|take-nth|symbol|supers|subvec|subseq|subs|struct-map|struct|str|split-with|split-at|sorted-set|sorted-map-by|sorted-map|sort-by|sort|some|slurp|shutdown-agents|short|set-validator|set|seque|seq-zip|seq|send-off|send|select-keys|select|rsubseq|rseq|root|rights|right|rfirst|reverse|resultset-seq|resolve|require|replicate|replace|repeatedly|repeat|rename-keys|rename|remove-ns|remove|rem|refer|ref-set|ref|reduce|read-string|read-line|read|re-seq|re-pattern|re-matches|re-matcher|re-groups|re-find|rationalize|rand-int|rand|quot|pvec|psummary|psort|proxy-mappings|project|prn-str|println-str|println|printf|print-str|print|preduce|pr-str|pr|pop|pmin|pmax|pmap|pfilter-nils|pfilter-dupes|peek|pdistinct|path|partition|partial|parse|parents|par|pany|num|nthrest|nth|ns-unmap|ns-unalias|ns-resolve|ns-refers|ns-publics|ns-name|ns-map|ns-interns|ns-imports|ns-aliases|not=|not-empty|not|node|next|newline|namespace|name|min-key|min|meta|merge-with|merge|max-key|max|matchexpand-1|matchexpand|mapcat|map-invert|map|make-node|make-hierarchy|make-array|long-array|long|loaded-libs|load-string|load-reader|load-file|load|list*|list|line-seq|lefts|left|last|keyword|keys|key|join|iterator-seq|into-array|intersection|interpose|interleave|int-array|int|inspect-tree|inspect-table|insert-right|insert-left|insert-child|index|inc|in-ns|import|identity|hash-set|hash-map|hash|get-validator|get-proxy-class|get-in|get|gensym|gen-class|gen-interface|gen-and-save-class|gen-and-load-class|format|force|fnseq|flush|float-array|float|find-var|find-ns|find-doc|find|filter|file-seq|ffirst|eval|enumeration-seq|ensure|empty|edit|drop-while|drop-last|down|double-array|double|dorun|doall|distinct|dissoc|disj|difference|descendants|derive|deref|dec|cycle|create-struct|create-ns|count|construct-proxy|constantly|conj|complement|compare|comparator|comp|commute|clojure.set|clojure.parallel|clojure.inspector|clear-agent-errors|class|children|char|cast|cache-seq|byte|butlast|boolean|bit-xor|bit-test|bit-shift-right|bit-shift-left|bit-set|bit-or|bit-not|bit-flip|bit-clear|bit-and-not|bit-and|bigint|bigdec|bean|bases|await-for|assoc-in|aset-short|aset-long|aset-int|aset-float|aset-double|aset-char|aset-byte|aset-boolean|aset|array-map|apply|append-child|ancestors|alter-var-root|alter|all-ns|alias|alength|aget|agent-errors|agent|add-classpath|aclone|accessor|compile|longs|doubles|ints|floats|atom)\b(?![*+!_?\-])'
+      scope: support.function.clojure
+    - match: '(?<![*+!_?\-])\b(true|false|nil)\b(?![*+!_?\-])'
+      scope: constant.language.clojure
+    - match: '(\(\)|{}|\[\]|#{})'
+      scope: constant.language.clojure
+    - match: '(?<![*+!_?\-])\b:(private|doc|test|tag)\b(?![*+!_?\-])'
+      comment: "TODO : clean this ?"
+      scope: storage.modifier.clojure
+    - match: '(?<![*+!_?\-])\b:(file|line|name|ns|match|argslist)\b(?![*+!_?\-])'
+      comment: "TODO : clean this ?"
+      scope: support.variable.clojure
+    - match: '(?<![*+!_?\-])\*(agent|allow-unresolved-vars|command-line-args|compile-files|compile-path|err|file|flush-on-newline|in|macro-meta|math-context|ns|out|print-dup|print-length|print-level|print-meta|print-readably|proxy-classes|use-context-classloader|warn-on-reflection)\*(?![*+!_?\-])'
+      scope: support.variable.global.clojure
+  lambda:
+    - match: \(\s*(fn)\s+
+      captures:
+        1: storage.type.function.type.clojure
+      push:
+        - meta_scope: meta.function.lambda.clojure
+        - match: \)
+          pop: true
+        - include: comment
+        - include: function_name
+        - include: function_body
+    - match: (#)\(
+      captures:
+        1: storage.type.function.type.clojure
+      push:
+        - meta_scope: meta.function.lambda.clojure
+        - match: \)
+          pop: true
+        - include: sexpr_special
+        - include: all
+  macro:
+    - match: \(\s*(\b(defmacro\-?))\s+
+      captures:
+        1: storage.type.function.type.clojure
+      push:
+        - meta_scope: meta.function.macro.clojure
+        - match: \)
+          pop: true
+        - include: comment
+        - include: metadata
+        - match: \s*
+        - include: function_name
+        - include: function_body_comment
+  map:
+    - match: "{(?!})"
+      captures:
+        0: punctuation.definition.map.begin.clojure
+      push:
+        - meta_scope: meta.expression.map.clojure
+        - match: "(?<!{)}"
+          captures:
+            0: punctuation.definition.map.end.clojure
+          pop: true
+        - include: all
+  metadata:
+    - match: '#?\^{'
+      captures:
+        0: comment.punctuation.definition.metadata.begin.clojure
+      push:
+        - meta_scope: punctuation.metadata.map.clojure
+        - match: "}"
+          captures:
+            0: comment.punctuation.definition.metadata.end.clojure
+          pop: true
+        - include: metadata_patterns
+    - match: '#?\^"'
+      captures:
+        0: comment.punctuation.definition.metadata.begin.clojure
+      push:
+        - meta_scope: string.metadata.clojure
+        - match: '"'
+          captures:
+            0: comment.punctuation.definition.metadata.end.clojure
+          pop: true
+    - match: '(#?\^)([a-zA-Z+!\-_?0-9*/.$=]+)'
+      scope: punctuation.metadata.class.clojure
+      captures:
+        1: comment.punctuation.definition.metadata.begin.clojure
+        2: storage.type.java.clojure
+  metadata_patterns:
+    - match: '(:tag|:doc|:arglists|:private|:macro|:name|:ns|:inline-arities|:inline|:line|:file)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      scope: support.other.keyword.namespace.clojure
+    - match: '(?<=:tag)\s+([a-zA-Z+!\-_?0-9*/.$=]+)'
+      scope: storage.type.java.clojure
+    - match: (?<=:doc)\s+"
+      captures:
+        0: string.quoted.double.begin.clojure
+      push:
+        - meta_scope: string.docstring.clojure
+        - match: '"'
+          captures:
+            0: string.quoted.double.end.clojure
+          pop: true
+        - include: string_escape
+    - include: all
+  namespace:
+    - match: \(\s*(ns)\b
+      captures:
+        1: support.function.namespace.clojure
+      push:
+        - meta_scope: meta.function.namespace.clojure
+        - match: \)
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: entity.name.namespace.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - include: namespace_body
+  namespace_body:
+    - match: '(:refer-clojure|:require|:use|:import|:load|:exclude|:as|:only)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      scope: support.other.keyword.namespace.clojure
+    - match: \(\s*(:gen-class)
+      captures:
+        1: support.other.keyword.genclass.clojure
+      push:
+        - meta_scope: meta.function.genclass_form.clojure
+        - match: \)
+          pop: true
+        - include: genclass_parameters
+    - include: symbol
+    - include: string
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: namespace_body
+    - match: '\['
+      push:
+        - match: '\]'
+          pop: true
+        - include: namespace_body
+  number:
+    - match: '(-|\+)?\b[0-9]+(/)[0-9]+\b'
+      scope: constant.numeric.float.ratio.clojure
+      captures:
+        2: keyword.operator.arithmetic.ratio.clojure
+    - match: '[-+]?\b[0-9]+((\.[0-9]+([eE][-+]?[0-9]+)?)|((\.[0-9]+)?[eE][-+]?[0-9]+))?\b'
+      scope: constant.numeric.float.clojure
+    - match: '[-+]?\b[0-9]+(((\.[0-9])?+([eE][-+]?[0-9]+)?)|((\.[0-9]+)?[eE][-+]?[0-9]+))[M]?\b'
+      scope: constant.numeric.big_decimal.clojure
+    - match: '(-|\+)?\b(0)([0-7]+|([89]))([0-9]*)\b'
+      scope: constant.numeric.integer.octal.clojure
+      captures:
+        2: keyword.operator.arithmetic.octal.clojure
+        4: invalid.illegal.integer.octal.clojure
+        5: invalid.illegal.integer.octal.clojure
+    - match: '(-|\+)?\b[0-9]+\b'
+      scope: constant.numeric.integer.clojure
+    - match: '(-|\+)?\b(0[xX])[0-9A-Fa-f]+\b'
+      scope: constant.numeric.integer.hexa.clojure
+      captures:
+        2: keyword.operator.arithmetic.hexa.clojure
+  operator:
+    - match: '(?<![a-zA-Z0-9*+!_?\-])(\*|/|\<|\<=|=|==|\>|\>=|-\>)(?![a-zA-Z0-9*+!_?\-])'
+      scope: keyword.operator.clojure
+    - match: '(?<![a-zA-Z0-9*+!_?\-])(-|\+)(?![a-zA-Z0-9*+!_?\-])'
+      scope: keyword.operator.clojure
+    - match: '(?<![a-zA-Z0-9*+!_?\-])(\.|\.\.)(?![a-zA-Z0-9*+!_?\-])'
+      scope: keyword.operator.class.clojure
+    - match: '%(\d+|&)?'
+      scope: variable.parameter.literal.clojure
+    - include: operator_special
+  operator_special:
+    - match: "`|~@|~"
+      scope: keyword.control.operator.clojure
+    - match: "#'|@"
+      scope: storage.type.function.type.clojure
+    - match: "'"
+      scope: constant.other.quote
+    - match: \^
+      scope: constant.other.metadata.read.clojure
+  parameters:
+    - match: '\['
+      captures:
+        0: punctuation.definition.vector.begin.clojure
+      push:
+        - meta_scope: meta.parameters.vector.clojure
+        - match: '\]'
+          captures:
+            0: punctuation.definition.vector.end.clojure
+          pop: true
+        - match: \&
+          scope: keyword.operator.varargs.clojure
+        - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          scope: keyword.operator.symbolargs.clojure
+        - include: comment
+        - include: metadata
+        - include: parameters_variable
+        - include: parameters
+        - include: parameters_map
+  parameters_body:
+    - include: parameters_function
+    - match: '(?<=\])'
+      push:
+        - meta_scope: meta.function.body.code.clojure
+        - match: (?=\))
+          pop: true
+        - include: all
+  parameters_function:
+    - match: '\['
+      captures:
+        0: punctuation.definition.vector.begin.clojure
+      push:
+        - meta_scope: meta.function.parameters.vector.clojure
+        - match: '\]'
+          captures:
+            0: punctuation.definition.vector.end.clojure
+          pop: true
+        - match: \&
+          scope: keyword.operator.varargs.clojure
+        - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          scope: keyword.operator.symbolargs.clojure
+        - include: comment
+        - include: metadata
+        - include: parameters_variable
+        - include: parameters
+        - include: parameters_map
+  parameters_map:
+    - match: '\{'
+      captures:
+        0: punctuation.definition.map.begin.clojure
+      push:
+        - meta_scope: meta.function.parameters.map.clojure
+        - match: '\}'
+          captures:
+            0: punctuation.definition.map.end.clojure
+          pop: true
+        - include: parameters_variable
+        - match: '(:as|:or|:keys|:strs|:syms)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          scope: keyword.operator.symbolargs.clojure
+        - include: parameters
+        - include: parameters_map
+        - include: all
+  parameters_variable:
+    - match: '(?=[a-zA-Z+!\-_?0-9*~@''`/.$=])'
+      comment: symbol matching TODO:operator number => error ?
+      push:
+        - meta_scope: variable.parameter.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - include: keyword
+        - include: operator
+        - include: number
+        - include: symbol
+  set:
+    - match: "#{"
+      captures:
+        0: punctuation.definition.set.begin.clojure
+      push:
+        - meta_scope: meta.expression.set.clojure
+        - match: "}"
+          captures:
+            0: punctuation.definition.set.end.clojure
+          pop: true
+        - include: all
+  sexpr:
+    - match: \((?!\))
+      push:
+        - meta_scope: meta.sexpr.clojure
+        - match: (?<!\()\)
+          pop: true
+        - include: sexpr_special
+        - include: all
+  sexpr_special:
+    - match: '(?<=\()\s*(let|loop|doseq|dotimes|binding|for|if-let|when-let|with-local-vars|with-open)\s+(?=\[)'
+      captures:
+        1: keyword.control.clojure
+      push:
+        - meta_scope: meta.function.let_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: bindings_form
+    - match: (?<=\()\s*(def|declare|defstruct|defonce|defmulti)\s+
+      captures:
+        1: storage.type.variable.clojure
+      push:
+        - meta_scope: meta.function.def_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: metadata
+        - match: \s*
+        - include: function_name
+        - match: (?<=$|.)
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+    - match: (?<=\()\s*(prefer-method)\s+
+      captures:
+        1: storage.type.variable.clojure
+      push:
+        - meta_scope: meta.function.def_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: metadata
+        - match: \s*
+        - include: function_name
+        - match: (?<=$|.)
+          push:
+            - match: (?=\))
+              pop: true
+            - include: symbol_java_inherited_class
+            - include: all
+    - match: (?<=\()\s*(instance(\?))\s+
+      captures:
+        1: support.function.tester.clojure
+        2: keyword.other.mark.clojure
+      push:
+        - meta_scope: meta.function.isInstance_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: symbol_java_class_form_body
+    - match: (?<=\()\s*(cast)\s+
+      captures:
+        1: support.function.clojure
+      push:
+        - meta_scope: meta.function.cast_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: symbol_java_class_form_body
+    - match: '(?<=\()\s*((new)\s+|(?=[a-zA-Z][a-zA-Z.]*\.(\s+|$|\))))'
+      captures:
+        2: keyword.control.clojure
+      push:
+        - meta_scope: meta.function.new_form.clojure
+        - match: (?=\))
+          pop: true
+        - match: '(?=([a-z]+\.)*[A-Z][a-zA-Z]*(\$[A-Z][a-zA-Z]*)?)'
+          push:
+            - meta_scope: storage.type.java.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+        - include: all
+    - match: '(?<=\()\s*((\.\.?)\s+(?=([a-z]+\.)*[A-Z][a-zA-Z]*(\$[A-Z][a-zA-Z]*)?))'
+      captures:
+        2: keyword.control.clojure
+      push:
+        - meta_scope: meta.function.member_access_form.clojure
+        - match: (?=\))
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: storage.type.java.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+        - include: all
+    - match: (?<=\()\s*(gen-class)\s+
+      captures:
+        1: support.function.clojure
+      push:
+        - meta_scope: meta.function.genclass_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: genclass_parameters
+    - match: (?<=\()\s*(gen-interface)\s+
+      captures:
+        1: support.function.clojure
+      push:
+        - meta_scope: meta.function.geninterface_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: geninterface_parameters
+    - match: (?<=\()\s*((catch)\s+)
+      captures:
+        2: keyword.control.clojure
+      push:
+        - meta_scope: meta.function.catch_form.clojure
+        - match: (?=\))
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol_java_class_form_body
+        - match: '\s+(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: variable.parameter.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+        - include: all
+    - match: (?<=\()\s*(((set|swap|compare-and-set)(\!))\s+)
+      captures:
+        2: keyword.control.clojure
+        3: keyword.other.mark.clojure
+      push:
+        - meta_scope: meta.function.setvar_form.clojure
+        - match: (?=\))
+          pop: true
+        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - meta_scope: variable.parameter.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+              pop: true
+            - include: symbol
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: all
+        - include: all
+    - match: (?<=\()\s*(proxy)\s+
+      captures:
+        1: keyword.control.clojure
+      push:
+        - meta_scope: meta.function.proxy_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: comment
+        - match: '(?=\[)'
+          push:
+            - match: (?=\))
+              pop: true
+            - include: comment
+            - match: '\['
+              push:
+                - match: '\]'
+                  pop: true
+                - match: '(?=([a-z]+\.)*[A-Z][a-zA-Z]*)'
+                  push:
+                    - meta_scope: entity.other.inherited-class.java.proxy.clojure
+                    - match: "(?![a-zA-Z.])"
+                      pop: true
+                    - include: symbol
+                - include: all
+            - match: '(?<=\])'
+              push:
+                - match: (?=\))
+                  pop: true
+                - include: comment
+                - match: '(?=\[)'
+                  push:
+                    - meta_scope: meta.function.body.proxy_form.clojure
+                    - match: (?=\))
+                      pop: true
+                    - include: comment
+                    - include: parameters
+                    - match: '(?<=\])'
+                      push:
+                        - match: (?=\))
+                          pop: true
+                        - include: comment
+                        - match: \(\s*
+                          push:
+                            - meta_scope: meta.function.proxy.method.clojure
+                            - match: \)
+                              pop: true
+                            - include: comment
+                            - include: function_name
+                            - include: function_body_comment
+  string:
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.clojure
+      push:
+        - meta_scope: string.quoted.double.clojure
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.clojure
+          pop: true
+        - include: string_escape
+    - match: '\\(u[0-9a-fA-F]{4}|newline|tab|space|backspace|formfeed|return|[^\s])'
+      scope: constant.character.escape.clojure
+    - match: '(\:{1,2})(?=[a-zA-Z+!\-_?0-9*/.$=])'
+      comment: . is OK in symbol ?
+      captures:
+        1: keyword.operator.symbole.clojure
+      push:
+        - meta_scope: constant.string.symbole.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - include: symbol
+    - match: '#"'
+      captures:
+        0: punctuation.definition.string.begin.clojure
+      push:
+        - meta_scope: string.regexp.clojure
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.clojure
+          pop: true
+        - include: scope:source.regexp
+  string_escape:
+    - match: '\\(u[0-9a-fA-F]{4}|b|t|n|f|r|"|''|\\|[0-3]?[0-7]{1,2}|(.))'
+      scope: constant.character.escape.clojure
+      captures:
+        2: invalid.illegal.escape.string.clojure
+  symbol:
+    - match: '\b[A-Z_]{2,}\b'
+      scope: constant.other.java.clojure
+    - match: '(?<![a-zA-Z+!\-_?0-9*])\*[a-z\-]{2,}\*(?![a-zA-Z+!\-_?0-9*])'
+      scope: source.symbol.global.clojure
+    - match: '(?=[a-zA-Z+!\-_?0-9*=])'
+      push:
+        - meta_scope: source.symbol.clojure
+        - match: '(?![a-zA-Z+!\-_?0-9*=])'
+          pop: true
+        - match: "[0-9]"
+          push:
+            - meta_scope: invalid.illegal.symbol.clojure
+            - match: '(?![a-zA-Z+!\-_?0-9*=])'
+              pop: true
+        - match: "[a-zA-Z]"
+          push:
+            - match: '([+!\-_?*=#])?(?![a-zA-Z+!\-_?0-9*=])'
+              captures:
+                1: keyword.other.mark.clojure
+              pop: true
+        - match: '[+!\-_?*=]'
+          push:
+            - match: '(?![a-zA-Z+!\-_?0-9*=])'
+              pop: true
+    - match: '(?<=[a-zA-Z+!\-_?0-9*])\.(?=[a-zA-Z+!\-_?0-9*])'
+      scope: keyword.operator.classpath.clojure
+    - match: '(?<=[a-zA-Z+!\-_?0-9*])(/|\$)(?=[a-zA-Z+!\-_?0-9*])'
+      scope: keyword.operator.qualified.clojure
+  symbol_java_class:
+    - match: '(?=([a-z]+\.)*[A-Z][a-zA-Z]*(\$[A-Z][a-zA-Z]*)?)'
+      comment: "TODO : use it"
+      push:
+        - meta_scope: storage.type.java.clojure
+        - match: "(?![a-zA-Z.$])"
+          pop: true
+        - include: symbol
+  symbol_java_class_form_body:
+    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      push:
+        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+          pop: true
+        - include: symbol_java_inherited_class
+    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+      push:
+        - match: (?=\))
+          pop: true
+        - include: all
+    - include: all
+  symbol_java_inherited_class:
+    - match: '(?=([a-z]+\.)*[A-Z][a-zA-Z]*(\$[A-Z][a-zA-Z]*)?)'
+      push:
+        - meta_scope: entity.other.inherited-class.java.clojure
+        - match: "(?![a-zA-Z.$])"
+          pop: true
+        - include: symbol
+  vector:
+    - match: '\[(?!\])'
+      captures:
+        0: punctuation.definition.vector.begin.clojure
+      push:
+        - meta_scope: meta.expression.vector.clojure
+        - match: '(?<!\[)\]'
+          captures:
+            0: punctuation.definition.vector.end.clojure
+          pop: true
+        - include: all
