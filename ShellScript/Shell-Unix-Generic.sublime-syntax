@@ -6,6 +6,11 @@ file_extensions:
   - sh
   - bash
   - zsh
+  - .bash_aliases
+  - .bash_functions
+  - .bash_logout
+  - .bash_profile
+  - .bash_variables
   - .bashrc
   - .bash_profile
   - .bash_login
