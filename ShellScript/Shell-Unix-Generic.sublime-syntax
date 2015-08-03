@@ -8,14 +8,14 @@ file_extensions:
   - zsh
   - .bash_aliases
   - .bash_functions
+  - .bash_login
   - .bash_logout
+  - .bash_logout
+  - .bash_profile
   - .bash_profile
   - .bash_variables
   - .bashrc
-  - .bash_profile
-  - .bash_login
   - .profile
-  - .bash_logout
   - .textmate_init
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
