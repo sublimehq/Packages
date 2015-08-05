@@ -124,6 +124,7 @@ PROPERTY_DICT = {
     'bottom': ['<length>', '<percentage>', 'auto'],
     'box-decoration-break': ['slice', 'clone'],
     'box-shadow': ['none', 'inset', '<color>'],
+    'box-sizing': ['content-box', 'border-box'],
     'break-after': ['<break_before_after>', '<break_inside>'],
     'break-before': ['<break_before_after>', '<break_inside>'],
     'break-inside': ['<break_inside>'],
