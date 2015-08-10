@@ -7,6 +7,7 @@ file_extensions:
   - bash
   - zsh
   - ksh
+  - csh
   - .bashrc
   - .bash_profile
   - .bash_login
@@ -15,7 +16,7 @@ file_extensions:
   - .textmate_init
   - .kshrc
   - .mkshrc
-first_line_match: '^#!.*\b(bash|zsh|sh|tcsh|mksh|dtksh|ksh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
+first_line_match: '^#!.*\b(bash|zsh|sh|tcsh|csh|mksh|dtksh|ksh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 contexts:
   main:
