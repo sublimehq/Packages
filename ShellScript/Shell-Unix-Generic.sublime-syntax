@@ -1,18 +1,24 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-name: Shell Script (Bash)
+name: Shell Script
 file_extensions:
   - sh
   - bash
   - zsh
+  - ksh
+  - csh
   - .bashrc
   - .bash_profile
   - .bash_login
   - .profile
+  - .login
   - .bash_logout
   - .textmate_init
-first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
+  - .kshrc
+  - .mkshrc
+  - .cshrc
+first_line_match: '^#!.*\b(bash|zsh|sh|tcsh|csh|mksh|dtksh|ksh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 contexts:
   main:
@@ -350,7 +356,7 @@ contexts:
           pop: true
         - include: main
   keyword:
-    - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b
+    - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|break|continue|esac|while|until|return)\b
       scope: keyword.control.shell
     - match: '(?<![-/])\b(?:export|declare|typeset|local|readonly)\b'
       scope: storage.modifier.shell
@@ -469,7 +475,7 @@ contexts:
   pipeline:
     - match: '\b(clang\+\+|g\+\+)'
       scope: keyword.other.shell
-    - match: '\b(7za|alias|apropos|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bash|bc|bg|bind|brew|builtin|bzip2|cal|cat|cc|cd|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clear|cmake|cmp|comm|command|cp|cron|crontab|crontab|csh|lua|csplit|cut|date|dc|dd|ddrescue|declare|depmod|df|diff3?|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|thtool|eval|exec|exit|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|gcc|getopts|git|grep|groupadd|groupdel|groupmd|groups|gzip|hash|head|help|hg|history|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|jobs|join|kill|killall|kmod|less|let|link|llvm|ln|local|locate|logname|loout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsod|lsof|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nice|nl|nohup|notify-se|nslookup|nstat|op|open|openssl|paswd|paste|pathchk|perl|php|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|py|python[\d.]*|quota|quotachec|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|remsync|renae|renice|return|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|set|sftp|sh|shift|shopt|shutdown|sleep|slocate|sort|source|split|sqlite3?|ssh|stat|strace|su|sudo|sum|susend|svn|sync|tail|tar|tcsh|tee|test|time|timeout|times|top|touch|tput|tr|tracerout|trap|true|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unset|unshar|unil|updatedb|uptime|useradd|userdel|usermod|users|uudecode|uuencode|vmstat|wait|watch|wc|wget|whatis|whereis|which|while|who|whoami|write|xargs|xdg-open|xz|yum|zip|zsh)\b'
+    - match: '\b(7za|alias|apropos|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bash|bc|bg|bind|brew|builtin|bzip2|cal|cat|cc|cd|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clear|cmake|cmp|comm|command|cp|cron|crontab|crontab|csh|lua|csplit|cut|date|dc|dd|ddrescue|declare|depmod|df|diff3?|dig|dir|dircolors|dirname|dirs|dmesg|dtksh|du|egrep|eject|enable|env|thtool|eval|exec|exit|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|gawk|gcc|getopts|git|grep|groupadd|groupdel|groupmd|groups|gzip|hash|head|help|hg|history|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|jobs|join|kill|killall|kmod|ksh|less|let|link|llvm|ln|local|locate|logname|loout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsod|lsof|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mksh|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nice|nl|nohup|notify-se|nslookup|nstat|op|open|openssl|paswd|paste|pathchk|perl|php|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|py|python[\d.]*|quota|quotachec|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|remsync|renae|renice|return|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|set|sftp|sh|shift|shopt|shutdown|sleep|slocate|sort|source|split|sqlite3?|ssh|stat|strace|su|sudo|sum|susend|svn|sync|tail|tar|tcsh|tee|test|time|timeout|times|top|touch|tput|tr|tracerout|trap|true|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unset|unshar|unil|updatedb|uptime|useradd|userdel|usermod|users|uudecode|uuencode|vmstat|wait|watch|wc|wget|whatis|whereis|which|while|who|whoami|write|xargs|xdg-open|xz|yum|zip|zsh)\b'
       scope: keyword.other.shell
     - match: "[|!]"
       scope: keyword.operator.pipe.shell
@@ -532,7 +538,7 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<![-/])\b(?:alias|bg|bind|break|builtin|caller|cd|command|compgen|complete|dirs|disown|echo|enable|eval|exec|exit|false|fc|fg|getopts|hash|help|history|jobs|kill|let|logout|popd|printf|pushd|pwd|read|readonly|set|shift|shopt|source|suspend|test|times|trap|true|type|ulimit|umask|unalias|unset|wait)\b'
+    - match: '(?<![-/])\b(?:alias|bg|bind|builtin|caller|cd|command|compgen|complete|dirs|disown|echo|enable|eval|exec|exit|false|fc|fg|getopts|hash|help|history|jobs|kill|let|logout|popd|print|printf|pushd|pwd|read|readonly|set|shift|shopt|source|suspend|test|times|trap|true|type|ulimit|umask|unalias|unset|wait)\b'
       scope: support.function.builtin.shell
   variable:
     - match: '(\$)[-*@#?$!0_]'
