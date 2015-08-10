@@ -1,7 +1,7 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-name: Shell Script (Bash)
+name: Shell Script
 file_extensions:
   - sh
   - bash
