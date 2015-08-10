@@ -12,10 +12,12 @@ file_extensions:
   - .bash_profile
   - .bash_login
   - .profile
+  - .login
   - .bash_logout
   - .textmate_init
   - .kshrc
   - .mkshrc
+  - .cshrc
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh|csh|mksh|dtksh|ksh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 contexts:
