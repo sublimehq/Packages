@@ -679,10 +679,10 @@ contexts:
         - include: main
     - match: \s*
     - match: '\{'
-      scope: punctuation.definition.function.body.begin.scala
+      scope: punctuation.section.function.body.begin.scala
       push:
         - match: '\}'
-          scope: punctuation.definition.function.body.end.scala
+          scope: punctuation.section.function.body.end.scala
           pop: true
         - include: main
 
@@ -710,10 +710,10 @@ contexts:
         2: entity.other.inherited-class.scala
       push: extends
     - match: '\{'
-      scope: punctuation.definition.class.body.begin.scala
+      scope: punctuation.section.class.body.begin.scala
       push:
         - match: '\}'
-          scope: punctuation.definition.class.body.end.scala
+          scope: punctuation.section.class.body.end.scala
           pop: true
         - include: main
     - match: (?=\S)
@@ -1118,11 +1118,11 @@ contexts:
 
   constructor_block:
     - match: \{
-      scope: punctuation.definition.class.body.begin.scala
+      scope: punctuation.section.class.body.begin.scala
       set:
         - meta_scope: meta.anonymous.class.scala
         - match: \}
-          scope: punctuation.definition.class.body.end.scala
+          scope: punctuation.section.class.body.end.scala
           pop: true
         - include: main
     - match: (?=\S|$)
