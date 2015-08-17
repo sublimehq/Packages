@@ -507,13 +507,13 @@ contexts:
       captures:
         1: keyword.control.trycatch.using.cs
         2: punctuation.definition.expression.trycatch.using.cs
-      set: [catch_block, for_var_assignment, var_declaration]
+      set: [using_block, for_var_assignment, var_declaration]
 
     - match: \b(fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
         2: punctuation.definition.expression.other.fixed.cs
-      set: [catch_block, for_var_assignment, var_declaration]
+      set: [using_block, for_var_assignment, var_declaration]
 
     - match: \bdo\b
       scope: keyword.control.loop.do.cs
@@ -995,6 +995,24 @@ contexts:
       scope: invalid.illegal
       pop: true
 
+  using_block:
+    - meta_scope: meta.block.trycatch.cs
+    - match: \)
+      scope: punctuation.definition.expression.trycatch.using.end.cs
+      set:
+      - match: \{
+        scope: punctuation.section.block.trycatch.begin.cs
+        set:
+          - meta_scope: meta.block.trycatch.cs
+          - match: \}
+            scope: punctuation.section.block.trycatch.end.cs
+            pop: true
+          - include: code_block_in
+      - match: (?=\S)
+        pop: true
+    - match: (?=\S)
+      pop: true
+
   if_condition:
     - match: '\('
       scope: punctuation.definition.expression.conditional.end.cs
@@ -1180,7 +1198,7 @@ contexts:
         - match: '\)'
           scope: punctuation.definition.expression.loop.end.cs
           pop: true
-        - include: line_of_code
+        - include: line_of_code_in
     - match: \S
       scope: invalid.illegal.expected.condition
       pop: true
