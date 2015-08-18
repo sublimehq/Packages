@@ -611,6 +611,12 @@ contexts:
       pop: true
 
   keywords:
+    - match: '\b(this|base)\s*(\[)'
+      captures:
+        1: support.variable.cs
+        2: punctuation.definition.accessor.begin.cs
+      push: accessor_arguments
+
     - match: \b(this|base)\b
       scope: support.variable.cs
     - match: \b(await)\b
@@ -750,6 +756,7 @@ contexts:
       push: arguments
     - match: '{{name}}(\[)'
       captures:
+        1: variable.other.cs
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
     - match: '{{cap_name}}(\.)'
@@ -777,6 +784,7 @@ contexts:
         - match: ':'
           scope: keyword.operator.ternary.cs
           pop: true
+        - include: line_of_code_in
 
     - match: '(\()\s*({{base_type}}|{{name}})\s*(\))'
       captures:
