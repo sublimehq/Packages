@@ -1204,7 +1204,7 @@ contexts:
       scope: comment.block.documentation.scala
     - match: '^(\s*.).*$'
       captures:
-        1: invalid.illegal.missing-asterisk
+        1: invalid.deprecated.missing-asterisk
     - match: "'''"
       scope: constant.character.escaped.scaladoc
       set:
