@@ -334,8 +334,7 @@ contexts:
   regex_double:
     - meta_scope: string.quoted.double.yaml
     - match: '"'
-      captures:
-        0: punctuation.definition.string.double.end.yaml
+      scope: punctuation.definition.function.end.syntax
       pop: true
     - include: regex_unquoted
     - match: '(\()(\?:)'
