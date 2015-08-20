@@ -366,6 +366,9 @@ contexts:
         - match: ','
           scope: punctuation.separator.inherited-class.cs
         - include: type
+    - match: (=>)
+      scope: punctuation.section.function.begin.cs
+      set: line_of_code
 
     - match: \{
       scope: punctuation.section.function.begin.cs
@@ -765,10 +768,10 @@ contexts:
 
     # path strings
     - match: '@"'
-      scope: punctuation.definition.string.interpolated.begin.cs
+      scope: punctuation.definition.string.raw.begin.cs
       push: escaped_string
 
-    - match: '{{name}}(<)(?=[^.]*>\()'
+    - match: '{{name}}(<)(?=[^(]*>\()'
       captures:
         0: meta.function-call
         1: variable.function.cs
@@ -808,14 +811,12 @@ contexts:
         1: variable.other.cs
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
-    - match: '{{cap_name}}(\.)'
-      captures:
-        1: variable.scope.cs
-        2: keyword.operator.accessor.cs
-    - match: '{{name}}(\.)'
+
+    - match: '{{name}}(\??)(\.)'
       captures:
         1: variable.other.cs
-        2: keyword.operator.accessor.cs
+        2: keyword.operator.cs
+        3: keyword.operator.accessor.cs
 
     - match: '\b({{reserved}})\b'
       scope: keyword.other.cs
@@ -903,6 +904,8 @@ contexts:
       scope: support.type.other.cs
     - match: '{{name}}'
       scope: variable.other.type
+    - match: \.
+      scope: keyword.operator.accessor.cs
     - match: '\*'
       scope: support.type.cs
     - match: '<'
@@ -991,15 +994,17 @@ contexts:
   escaped_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.raw.cs
+    - match: '""'
+      scope: constant.character.escape.cs
     - match: '"'
       scope: punctuation.definition.string.quoted.raw.end.cs
       pop: true
 
   escaped:
     - match: '{{escaped_char}}'
-      scope: constant.character.escape.scala
+      scope: constant.character.escape.cs
     - match: \\
-      scope: invalid.illegal.lone-escape.scala
+      scope: invalid.illegal.lone-escape.cs
 
   enumerable_constructor:
     - match: \}
