@@ -729,8 +729,9 @@ contexts:
       scope: variable.language.cs
     - match: \b(select|from|where|groupby|ascending|descending)\b
       scope: support.function.sql.cs
-    - match: \.
+    - match: \??\.
       scope: keyword.operator.accessor.cs
+
     - match: '{{assign_op}}'
       scope: keyword.operator.assignment.cs
     - match: '{{bin_op}}|{{unary_op}}'
@@ -812,12 +813,6 @@ contexts:
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
 
-    - match: '{{name}}(\??)(\.)'
-      captures:
-        1: variable.other.cs
-        2: keyword.operator.cs
-        3: keyword.operator.accessor.cs
-
     - match: '\b({{reserved}})\b'
       scope: keyword.other.cs
 
@@ -869,8 +864,8 @@ contexts:
     - meta_content_scope: debug.arguments
     - match: '{{name}}\s*(:)'
       captures:
-        1: variable.other.parameter.cs
-        2: punctuation.separator.key-value.parameter.cs
+        1: variable.parameter.cs
+        2: punctuation.separator.argument.value.cs
       push: line_of_code_in
     - match: ','
       scope: punctuation.separator.argument.cs
