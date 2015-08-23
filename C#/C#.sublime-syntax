@@ -13,7 +13,7 @@ variables:
 
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
-  decimal_numeral: '[1-9][0-9]*(?i:ul|lu|u|l)'
+  decimal_numeral: '[1-9][0-9]*(?i:ul|lu|u|l)?'
   integers: '({{hex_numeral}}|{{decimal_numeral}}|0)'
 
   # floating point numbers
@@ -81,8 +81,68 @@ contexts:
       scope: comment.line.todo
 
   preprocessor_option:
-    - match: '#.*'
+    - match: '(#define|#undef)\s+{{name}}'
+      captures:
+        1: entity.name.tag.cs
+        2: constant.numeric.cs
+    - match: '(#(el)?if)'
       scope: entity.name.tag.cs
+      push:
+        - match: '\(|\)'
+          scope: punctuation.definition.expression.cs
+        - match: '&&|\|\||!'
+          scope: keyword.operator.logical.cs
+        - match: '\b(true|false)\b'
+          scope: constant.language.cs
+        - match: '{{name}}'
+          scope: constant.numeric.cs
+        - include: option_done
+    - match: '#(else|endif|endregion)'
+      scope: entity.name.tag.cs
+      push: option_done
+    - match: '(#error|#warning|#region)\s*'
+      scope: entity.name.tag.cs
+      push: option_message
+    - match: '(#line)\s+(default|hidden)'
+      captures:
+        1: entity.name.tag.cs
+        2: entity.name.tag.cs
+      push: option_done
+    - match: '(#line)\s+({{decimal_numeral}})\s+(".*")'
+      captures:
+        1: entity.name.tag.cs
+        2: constant.numeric.cs
+        3: string.quoted.double.cs
+      push: option_done
+    - match: '(#pragma\s+checksum)\s+(".*")\s+("\{)(.*)(\}")\s+("\{)(.*)(\}")'
+      captures:
+        1: entity.name.tag.cs
+        2: string.quoted.double.cs
+        3: punctuation.definition.hash.begin.cs
+        4: constant.numeric.cs
+        5: punctuation.definition.hash.begin.cs
+        6: punctuation.definition.hash.begin.cs
+        7: constant.numeric.cs
+        8: punctuation.definition.hash.begin.cs
+      push: option_done
+
+    - match: '#pragma.*'
+      scope: entity.name.tag.cs
+
+    - match: '#(.*)'
+      scope: invalid.illegal.cs
+
+  option_message:
+    - meta_content_scope: string.unquoted.cs
+    - include: comments
+    - match: $
+      pop: true
+  option_done:
+    - include: comments
+    - match: $
+      pop: true
+    - match: \S
+      scope: invalid.illegal.cs
 
   main:
     - match: '\}'
