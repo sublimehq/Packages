@@ -44,22 +44,15 @@ variables:
 contexts:
   prototype:
     - include: comments
-    - include: preprocessor_option
+    - match: '#'
+      push: preprocessor_option
 
     # comments
   comments:
     - match: '^\s*(///)'
       captures:
-        1: punctuation.definition.comment.cs
-      push:
-      - meta_scope: comment.block.documentation.cs
-      - match: '<[A-Za-z]*>'
-        scope: entity.name.tag.begin.cs
-      - match: '</[A-Za-z]*>'
-        scope: entity.name.tag.end.cs
-      - match: $
-        pop: true
-      - include: comments_in
+        1: punctuation.definition.comment.documentation.cs
+      push: documentation
     - match: '//'
       scope: punctuation.definition.comment.cs
       push:
@@ -81,11 +74,12 @@ contexts:
       scope: comment.line.todo
 
   preprocessor_option:
-    - match: '(#define|#undef)\s+{{name}}'
+    - meta_scope: meta.preprocessor
+    - match: '(define|undef)\s+{{name}}'
       captures:
         1: entity.name.tag.cs
         2: constant.numeric.cs
-    - match: '(#(el)?if)'
+    - match: '((el)?if)'
       scope: entity.name.tag.cs
       push:
         - match: '\(|\)'
@@ -97,24 +91,24 @@ contexts:
         - match: '{{name}}'
           scope: constant.numeric.cs
         - include: option_done
-    - match: '#(else|endif|endregion)'
+    - match: '(else|endif|endregion)'
       scope: entity.name.tag.cs
       push: option_done
-    - match: '(#error|#warning|#region)\s*'
+    - match: '(error|warning|region)\s*'
       scope: entity.name.tag.cs
       push: option_message
-    - match: '(#line)\s+(default|hidden)'
+    - match: '(line)\s+(default|hidden)'
       captures:
         1: entity.name.tag.cs
         2: entity.name.tag.cs
       push: option_done
-    - match: '(#line)\s+({{decimal_numeral}})\s+(".*")'
+    - match: '(line)\s+({{decimal_numeral}})\s+(".*")'
       captures:
         1: entity.name.tag.cs
         2: constant.numeric.cs
         3: string.quoted.double.cs
       push: option_done
-    - match: '(#pragma\s+checksum)\s+(".*")\s+("\{)(.*)(\}")\s+("\{)(.*)(\}")'
+    - match: '(pragma\s+checksum)\s+(".*")\s+("\{)(.*)(\}")\s+("\{)(.*)(\}")'
       captures:
         1: entity.name.tag.cs
         2: string.quoted.double.cs
@@ -126,11 +120,13 @@ contexts:
         8: punctuation.definition.hash.begin.cs
       push: option_done
 
-    - match: '#pragma.*'
+    - match: 'pragma.*'
       scope: entity.name.tag.cs
 
-    - match: '#(.*)'
+    - match: '(.*)'
       scope: invalid.illegal.cs
+    - match: $
+      pop: true
 
   option_message:
     - meta_content_scope: string.unquoted.cs
@@ -218,7 +214,7 @@ contexts:
           pop: true
 
   class_declaration:
-    - match: '\b(static|abstract|partial|sealed)\b'
+    - match: '\b(static|unsafe|abstract|partial|sealed)\b'
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
@@ -536,7 +532,7 @@ contexts:
       scope: variable.parameter.cs
     - match: '='
       scope: punctuation.separator.definition.default-value.cs
-      set: line_of_code_in
+      push: line_of_code_in
     - match: ','
       scope: punctuation.separator.parameter.function.cs
       pop: true
@@ -631,7 +627,7 @@ contexts:
       captures:
         1: keyword.control.other.fixed.cs
         2: punctuation.definition.expression.other.fixed.cs
-      set: [using_block, for_var_assignment, var_declaration]
+      set: [using_block, for_var_assignment, line_of_code]
 
     - match: \bdo\b
       scope: keyword.control.loop.do.cs
@@ -1372,3 +1368,34 @@ contexts:
     - match: \S
       scope: invalid.illegal.expected.condition
       pop: true
+
+  documentation:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.cs
+    - match: '(<){{name}}'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.begin.cs
+      push:
+        - meta_include_prototype: false
+        - match: '{{name}}\s*(=)'
+          captures:
+            1: variable.parameter.cs
+            2: punctuation.separator.argument.value.cs
+        # 3: punctuation.definition.tag.end.cs
+        - match: '>'
+          scope: punctuation.definition.tag.end.cs
+          pop: true
+    - match: '(</){{name}}(>)'
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: entity.name.tag.end.cs
+        3: punctuation.definition.tag.end.cs
+    - match: '^\s*(///)'
+      captures:
+        1: punctuation.definition.comment.documentation.cs
+    - match: '^\s*(?!///)'
+      pop: true
+    - include: comments_in
+    - match: .
+      scope: text.documentation.cs
