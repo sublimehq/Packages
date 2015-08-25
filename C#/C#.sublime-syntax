@@ -709,11 +709,11 @@ contexts:
       scope: entity.name.tag.cs
       pop: true
 
-    # - match: '{{name}}\s+{{name}}'
-    #   captures:
-    #     1: variable.other.type
-    #     2: entity.name.variable.cs
-    #   set: variables_declaration
+    - match: '{{name}}\s+{{name}}'
+      captures:
+        1: variable.other.type
+        2: entity.name.variable.cs
+      set: variables_declaration
 
     - match: '(?=\S)'
       set: [line_of_code_in]
@@ -727,7 +727,7 @@ contexts:
     - match: '{{name}}'
       scope: entity.name.variable.cs
     - match: '(,)'
-      scope: invalid.illegal
+      scope: punctuation.separator.variables.cs
     - match: ';'
       scope: punctuation.terminator.statement.cs
     - match: '(?=\})'
