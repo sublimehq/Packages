@@ -897,6 +897,8 @@ contexts:
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
 
+    - match: '({{base_type}})\b'
+      scope: support.type.cs
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
 
