@@ -185,6 +185,9 @@ contexts:
       scope: variable.module.cs
     - match: \.
       scope: punctuation.separator.module.cs
+    - match: '<'
+      scope: punctuation.definition.arguments.type.begin.cs
+      push: type_argument
     - match: ';'
       scope: punctuation.definition.module.end.cs
       pop: true
@@ -1008,8 +1011,6 @@ contexts:
       pop: true
 
   type_argument:
-    - match: '\b(in|out)\b'
-      scope: storage.modifier.cs
     - match: ','
       scope: punctuation.separator.type.cs
     - match: '(>)(\[,*\])*'
@@ -1419,7 +1420,7 @@ contexts:
             1: variable.parameter.cs
             2: punctuation.separator.argument.value.cs
         # 3: punctuation.definition.tag.end.cs
-        - match: '>'
+        - match: '/?>'
           scope: punctuation.definition.tag.end.cs
           pop: true
     - match: '(</){{name}}(>)'
