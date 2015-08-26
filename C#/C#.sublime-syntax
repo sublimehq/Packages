@@ -94,9 +94,16 @@ contexts:
     - match: '(else|endif|endregion)'
       scope: entity.name.tag.cs
       push: option_done
-    - match: '(error|warning|region)\s*'
+    - match: '(error|warning)\s*'
       scope: entity.name.tag.cs
       push: option_message
+    - match: '(region)\s*'
+      scope: entity.name.tag.cs
+      push:
+        - meta_content_scope: meta.toc-list.region comment.line.cs
+        - include: comments
+        - match: $
+          pop: true
     - match: '(line)\s+(default|hidden)'
       captures:
         1: entity.name.tag.cs
@@ -337,6 +344,15 @@ contexts:
             1: storage.modifier.cs
             2: variable.other.type.cs
             3: punctuation.separator.type.cs
+        - match: '(?:(global)|{{name}})\s*(::)'
+          captures:
+            1: support.module.cs
+            2: variable.module.cs
+            3: keyword.operator.accessor.module.cs
+        - match: '{{name}}(\.)'
+          captures:
+            1: variable.module.cs
+            2: keyword.operator.accessor.module.cs
         - match: '{{name}}'
           scope: entity.other.inherited-class.cs
         - match: ','
@@ -512,6 +528,8 @@ contexts:
         0: meta.method.identifier
         1: entity.other.inherited-class.cs
         2: keyword.operator.accessor.cs
+    - match: '{{name}}'
+      scope: entity.name.variable.property.cs
     - match: '(?=\{)'
       set: method_accessor
 
@@ -567,6 +585,7 @@ contexts:
           push: method_body
         - match: '{{visibility}}'
           scope: storage.modifier.access.cs
+        - include: tag
     - match: \S
       scope: invalid.illegal
       pop: true
@@ -580,6 +599,15 @@ contexts:
             1: entity.name.tag
             2: punctuation.definition.arguments.begin
           push: arguments
+        - match: '{{name}}(\.)'
+          captures:
+            1: variable.module.cs
+            2: keyword.operator.accessor.module.cs
+        - match: '(?:(global)|{{name}})\s*(::)'
+          captures:
+            1: support.module.cs
+            2: variable.module.cs
+            3: keyword.operator.accessor.module.cs
         - match: '{{name}}'
           scope: entity.name.tag
         - match: ','
@@ -723,6 +751,17 @@ contexts:
     - match: '{{name}}\s*(:)(?!:)'
       scope: entity.name.tag.cs
       pop: true
+
+    - match: '(?:(global)|{{name}})\s*(::)'
+      captures:
+        1: support.module.cs
+        2: variable.module.cs
+        3: keyword.operator.accessor.module.cs
+
+    - match: '{{name}}(\.)'
+      captures:
+        1: variable.other.cs
+        2: keyword.operator.accessor.cs
 
     - match: '{{name}}\s+{{name}}'
       captures:
@@ -905,13 +944,11 @@ contexts:
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
 
-    - match: '(?:(global)|{{name}})\s*(::){{name}}?'
+    - match: '(?:(global)|{{name}})\s*(::)'
       captures:
         1: support.module.cs
         2: variable.module.cs
         3: keyword.operator.accessor.module.cs
-        4: variable.module.cs
-      pop: true
 
     - match: '{{name}}'
       scope: variable.other.cs
@@ -983,7 +1020,11 @@ contexts:
     - include: line_of_code_in
 
   type:
-
+    - match: '(?:(global)|{{name}})\s*(::)'
+      captures:
+        1: support.module.cs
+        2: variable.module.cs
+        3: keyword.operator.accessor.module.cs
     - match: '(?:({{base_type}})|{{name}})'
       captures:
         1: support.type.cs
