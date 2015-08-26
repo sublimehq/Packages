@@ -196,11 +196,11 @@ contexts:
       push:
         - meta_scope: meta.block.conditional.switch.scala
         - match: \s*\{
-          scope: punctuation.definition.block.switch.begin
+          scope: punctuation.section.switch.begin
           set:
             - meta_scope: meta.block.conditional.switch.scala
             - match: \}
-              scope: punctuation.definition.block.switch.end
+              scope: punctuation.section.switch.end
               pop: true
             - match: \b(case)\b
               scope: keyword.control.switch.case.scala
@@ -893,10 +893,10 @@ contexts:
 
   try_block:
     - match: \{
-      scope: punctuation.definition.block.trycatch.begin.scala
+      scope: punctuation.section.trycatch.begin.scala
       set:
         - match: \}
-          scope: punctuation.definition.block.trycatch.end.scala
+          scope: punctuation.section.trycatch.end.scala
           pop: true
         - include: main
     - match: (?=\S)
@@ -910,17 +910,17 @@ contexts:
       scope: keyword.control.trycatch.catch.scala
       set:
         - match: \s*\{
-          scope: punctuation.definition.block.trycatch.begin.scala
+          scope: punctuation.section.trycatch.begin.scala
           set:
             - match: \}
-              scope: punctuation.definition.block.trycatch.end.scala
+              scope: punctuation.section.trycatch.end.scala
               pop: true
             - match: \b(case)\b
               scope: keyword.control.trycatch.case.scala
               push: [pattern_match_arrow, pattern_match_if, pattern_match]
             - include: main
         - match: \}
-          scope: punctuation.definition.block.trycatch.end.scala
+          scope: punctuation.section.trycatch.end.scala
           pop: true
         - match: (\s*)(?=\S)
           scope: invalid.illegal.expected_block
@@ -935,11 +935,11 @@ contexts:
       set:
         - match: \s*
         - match: \{
-          scope: punctuation.definition.block.trycatch.begin.scala
+          scope: punctuation.section.trycatch.begin.scala
           set:
             - meta_scope: meta.block.trycatch.scala
             - match: \}
-              scope: punctuation.definition.block.trycatch.end.scala
+              scope: punctuation.section.trycatch.end.scala
               pop: true
             - include: main
         - match: (?=\S)
@@ -965,10 +965,10 @@ contexts:
   if_block:
     # - meta_scope: meta.block.conditional.scala
     - match: \{
-      scope: punctuation.definition.block.conditional.begin.scala
+      scope: punctuation.section.conditional.begin.scala
       set:
         - match: \}
-          scope: punctuation.definition.block.conditional.end.scala
+          scope: punctuation.section.conditional.end.scala
           pop: true
         - include: main
     - match: (?=\S)
@@ -987,11 +987,11 @@ contexts:
       scope: keyword.control.conditional.else.scala
       set:
         - match: \s*\{
-          scope: punctuation.definition.block.conditional.begin.scala
+          scope: punctuation.section.conditional.begin.scala
           set:
             - meta_scope: meta.block.conditional.scala
             - match: \}
-              scope: punctuation.definition.block.conditional.end.scala
+              scope: punctuation.section.conditional.end.scala
               pop: true
             - include: main
         - match: (?=\S)
@@ -1021,11 +1021,11 @@ contexts:
   for_block:
     - meta_scope: meta.block.loop.for.scala
     - match: \{
-      scope: punctuation.definition.block.loop.begin.scala
+      scope: punctuation.section.loop.begin.scala
       set:
         - meta_scope: meta.block.loop.scala
         - match: \}
-          scope: punctuation.definition.block.loop.end.scala
+          scope: punctuation.section.loop.end.scala
           pop: true
         - include: main
     - match: (?=\S)
@@ -1036,11 +1036,11 @@ contexts:
   while_block:
     - meta_scope: meta.block.loop.while.scala
     - match: \{
-      scope: punctuation.definition.block.loop.begin.scala
+      scope: punctuation.section.loop.begin.scala
       set:
         - meta_scope: meta.block.loop.while.scala
         - match: '\}'
-          scope: punctuation.definition.block.loop.begin.scala
+          scope: punctuation.section.loop.begin.scala
           pop: true
         - include: main
     - match: (?=\S)
