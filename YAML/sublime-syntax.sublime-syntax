@@ -9,6 +9,7 @@ scope: source.yaml
 
 variables:
   variable: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
+  escaped_char: \\(?>[0atnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
 
 contexts:
   comment:
@@ -269,36 +270,44 @@ contexts:
         - include: regex_unquoted
 
   regex_common:
-    - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
+    - match: '(\\(?:p|P))(\{)(\^?)([a-zA-Z_0-9]*)(\})'
       captures:
-        1: constant.language.syntax
+        1: support.function.syntax
         2: punctuation.definition.arguments.begin.syntax
-        3: variable.other.variables
-        4: punctuation.definition.arguments.end.syntax
-    - match: '(?<=\()(\?)?(-?[imx])*(=|:|!|<=|<!)'
+        3: keyword.operator.syntax
+        4: variable.other.variables
+        5: punctuation.definition.arguments.end.syntax
+    - match: '(?<=\()(\?)(-?[imx])*(:|(?=\)))'
       captures:
         1: support.function.syntax
-        2: keyword
+        2: support.function.syntax
         3: support.function.syntax
-    - match: '(?<=\()(\?)?(-?[imx])*(?=\))'
+    - match: '(?<=\()(\?)(=|:|!|<=|<!|>)'
       captures:
         1: support.function.syntax
-        2: keyword
-      # scope: support.function.syntax
-      # captures:
-      #   1: keyword.operator.syntax
-      #   2: punctuation.separator
-    # - match: '(\?)((-)?([imx]))*(:)?'
-
+        2: support.function.syntax
+    - match: '(?<=\()(\?)(=|:|!|<=|<!|>)'
+      captures:
+        1: support.function.syntax
+        2: support.function.syntax
+    #   (?<name>subexp), (?'name'subexp)
+    - match: '(?<=\()(\?)(<)([a-zA-Z]*)(>)'
+      captures:
+        1: support.function.syntax
+        2: punctuation.definition.variable.syntax
+        3: entity.name.variable.syntax
+        4: punctuation.definition.variable.syntax
     - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
+    - match: '{{escaped_char}}'
+      scope: constant.character.syntax
     - match: '\\\d+'
       scope: support.variable
     - match: '[.+*|^\$?]'
       scope: keyword.operator.syntax
     - match: '\\[.+*|^\$?]'
       scope: constant.language.syntax
-    - match: '\\[\\\[\](){}]'
+    - match: '\\[\[\](){}]'
       scope: constant.character.escape.yaml
     - match: '(\{)(\d*)((,)(\d*))?(\})'
       captures:
@@ -381,6 +390,10 @@ contexts:
       scope: keyword.operator.logical.and.syntax
     - match: '\\[\\\[\]\-\$]'
       scope: constant.character.escape.yaml
+    - match: '{{escaped_char}}'
+      scope: constant.character.syntax
+    - match: '\\b'
+      scope: constant.character.syntax
     - match: '[^\[](-)[^\]]'
       captures:
         1: keyword.operator.range.syntax
