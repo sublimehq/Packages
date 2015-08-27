@@ -91,18 +91,17 @@ contexts:
       pop: true
 
     # block regex
-    - match: '(\s*)([\w_]*)\s*(:)\s*(>-)\s*$'
+    - match: '^(\s*)([\w_]*)\s*(:)\s*(>-|\|-|\|)'
       captures:
         2: entity.name.function.declaration
         3: punctuation.separator.key-value
         4: punctuation.definition.block.begin
       push:
-        # - meta_content_scope: string.unquoted.block.yaml
-        - meta_content_scope: meta.regex.unquoted.syntax
-        - include: comment
-        - include: regex_unquoted
-        - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
+        - meta_content_scope: string.unquoted.yaml
+        - match: ^(?!^\1\s\s)
           pop: true
+        - include: regex_unquo
+        - include: regex_unquoted
 
     # inline regex
     - match: '\s*([\w_]+)\s*(:)\s*'
@@ -122,18 +121,23 @@ contexts:
       scope: constant.yaml
 
     # block regex
-    - match: '(-)\s+(match)\s*(:)\s*(>-)'
+    - match: '(^\s*)(-)\s+(match)\s*(:)\s*(>-|\|-|\|)'
       captures:
-        1: keyword.operator.symbol
-        2: meta.tag.yaml entity.name.tag
-        3: punctuation.separator.key-value
-        4: punctuation.definition.block.begin
+        2: keyword.operator.symbol
+        3: meta.tag.yaml entity.name.tag
+        4: punctuation.separator.key-value
+        5: punctuation.definition.block.begin
       push:
-        - meta_scope: string.unquoted.block.yaml
-        - match: '^(?!^\1)|^(?=\1(-|(?:  )?\w+\s*:)|#)'
+        - meta_content_scope: string.unquoted.yaml
+        - match: ^(?!^\1\s\s\s\s)
           pop: true
-        - match: $
         - include: regex_unquoted
+      # push:
+      #   - meta_scope: string.unquoted.block.yaml
+      #   - match: '^(?!^\1)|^(?=\1(-|(?:  )?\w+\s*:)|#)'
+      #     pop: true
+      #   - match: $
+      #   - include: regex_unquoted_line
 
     # inline regex
     - match: '(-)\s+(match)\s*(:)\s*'
@@ -148,7 +152,7 @@ contexts:
         - include: regex
 
     # captures
-    - match: '^(\s*)(captures)\s*(:)\s*$'
+    - match: '^(\s*)(captures)\s*(:)\s*'
       captures:
         2: keyword.control.flow.syntax
         3: punctuation.separator.key-value
@@ -196,7 +200,7 @@ contexts:
       captures:
         1: keyword.control.flow.pop.syntax
         2: punctuation.separator.key-value
-        3: constant.syntax
+        3: constant.language.syntax
 
     # meta_scope and meta_content_scope
     - match: '\s*(-)\s*(meta_(?:content_)?scope)\s*(:)\s*'
@@ -212,7 +216,7 @@ contexts:
         1: keyword.operator.symbol
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-        4: constant.syntax
+        4: constant.language.syntax
 
     # others:
     - match: '\s+([\w_-]*)\s*(:)'
@@ -228,15 +232,25 @@ contexts:
       scope: punctuation.definition.function.begin.yaml
       set: regex_double
     - match: (?=\S)
-      set: regex_unquoted
+      set: regex_unquoted_line
+
+  regex_unquoted_line:
+    - meta_content_scope: string.unquoted.yaml
+    - match: '\s+(#)(.*)$'
+      captures:
+        0: comment.line.number-sign.yaml
+        1: punctuation.definition.comment.yaml
+      pop: true
+    - match: $
+      pop: true
+    - include: regex_unquoted
 
   regex_unquoted:
     - meta_scope: string.unquoted.yaml
-    - match: $
-      pop: true
-    - include: comment
+    - match: \s+(#.*)$
+      scope: comment.line.syntax
     - include: regex_common
-    - match: '(\()(\?:)'
+    - match: '(\()(?=\?)'
       captures:
         1: punctuation.definition.block
         2: support.function.syntax
@@ -261,17 +275,20 @@ contexts:
         2: punctuation.definition.arguments.begin.syntax
         3: variable.other.variables
         4: punctuation.definition.arguments.end.syntax
-    - match: '(\?)(=|:|!|<=|<!)'
-      scope: support.function.syntax
+    - match: '(?<=\()(\?)?(-?[imx])*(=|:|!|<=|<!)'
+      captures:
+        1: support.function.syntax
+        2: keyword
+        3: support.function.syntax
+    - match: '(?<=\()(\?)?(-?[imx])*(?=\))'
+      captures:
+        1: support.function.syntax
+        2: keyword
+      # scope: support.function.syntax
       # captures:
       #   1: keyword.operator.syntax
       #   2: punctuation.separator
-    - match: '(\?)((-)?([imx]))*(:)'
-      captures:
-        1: support.function.syntax
-        3: keyword
-        4: keyword
-        5: support.function.syntax
+    # - match: '(\?)((-)?([imx]))*(:)?'
 
     - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
@@ -297,6 +314,11 @@ contexts:
         - match: "''"
           scope: constant.character.escape.yaml
         - include: character_class
+    - match: '{{variable}}'
+      captures:
+        1: punctuation.definition.arguments.begin.syntax
+        2: variable.other.variables
+        3: punctuation.definition.arguments.end.syntax
 
   regex_simple:
     - meta_content_scope: meta.regex.simple
@@ -307,13 +329,8 @@ contexts:
         0: punctuation.definition.function.end.yaml
       pop: true
     # - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
-    - match: '{{variable}}'
-      captures:
-        1: punctuation.definition.arguments.begin.syntax
-        2: variable.other.variables
-        3: punctuation.definition.arguments.end.syntax
     - include: regex_common
-    - match: '(\()(\?:)'
+    - match: '(\()(?=\?)'
       captures:
         1: punctuation.definition.block
         2: support.function.syntax
@@ -337,7 +354,7 @@ contexts:
       scope: punctuation.definition.function.end.syntax
       pop: true
     - include: regex_unquoted
-    - match: '(\()(\?:)'
+    - match: '(\()(?=\?)'
       captures:
         1: punctuation.definition.block
         2: support.function.syntax
@@ -390,3 +407,15 @@ contexts:
     - match: $
       pop: true
     - include: comment #comment
+
+  # skip_comment_before_scalar:
+  #   - match: '^\s*(#)(.*$)'
+  #     captures:
+  #       1: comment.line.number-sign.yaml punctuation.definition.comment.yaml
+  #       2: comment.line.number-sign.yaml
+  #   - match: '(?<=^| )(#).*$'
+  #     scope: comment.line.number-sign.yaml
+  #     captures:
+  #       1: punctuation.definition.comment.yaml
+  #   - match: (?=\S)
+  #     set: regex_unquoted_line
