@@ -13,7 +13,7 @@ variables:
 
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
-  decimal_numeral: '[1-9][0-9]*(?i:ul|lu|u|l)?'
+  decimal_numeral: '[1-9][0-9]*(?i:ul|lu|u|l)'
   integers: '({{hex_numeral}}|{{decimal_numeral}}|0)'
 
   # floating point numbers
@@ -769,6 +769,9 @@ contexts:
         2: entity.name.variable.cs
       set: variables_declaration
 
+    - match: \.
+      scope: keyword.operator.accessor.cs
+
     - match: '(?=\S)'
       set: [line_of_code_in]
 
@@ -966,7 +969,7 @@ contexts:
     - match: '(\()\s*({{base_type}}|{{name}})\s*(\))'
       captures:
         1: punctuation.definition.expression.begin.cs
-        2: support.language.type.cs
+        2: support.type.cs
         3: variable.other.type.cs
         4: punctuation.definition.expression.end.cs
 
