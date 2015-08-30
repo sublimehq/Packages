@@ -332,9 +332,10 @@ contexts:
           captures:
             0: meta.brace.curly.js
           pop: true
-        - match: \b(extends)\b
+        - match: \b(extends)\b ([_$a-zA-Z][$\w]*)?
           captures:
             1: storage.modifier.extends.js
+            2: entity.other.inherited-class.js
           push:
             - meta_scope: meta.class.extends.js
             - match: "(?={)"
