@@ -612,7 +612,7 @@ contexts:
       captures:
         1: storage.type.js
         2: storage.type.accessor.js
-        3: entity.name.accessor.js
+        3: entity.name.function.accessor.js
       push:
         - meta_scope: meta.accessor.js
         - match: (?<=\))
