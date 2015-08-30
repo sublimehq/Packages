@@ -174,7 +174,7 @@ contexts:
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
+        3: support.constant.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
         6: storage.type.js
@@ -197,7 +197,7 @@ contexts:
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
+        3: support.constant.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
         6: storage.type.js
@@ -426,7 +426,7 @@ contexts:
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
+        3: support.constant.prototype.js
         4: keyword.operator.accessor.js
         5: entity.name.function.js
         6: storage.type.js
@@ -754,13 +754,13 @@ contexts:
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
+        3: support.constant.prototype.js
     - match: '([_$a-zA-Z][$\w]*)(\.)(prototype)\s*=\s*'
       scope: meta.prototype.declaration.js
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: variable.language.prototype.js
+        3: support.constant.prototype.js
   literal-punctuation:
     - match: \;
       scope: punctuation.terminator.statement.js
