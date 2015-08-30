@@ -944,6 +944,8 @@ contexts:
       scope: support.class.error.js
     - match: (?<!\.)\b(debugger)\b
       scope: keyword.other.js
+    - match: \$(?=(\(|\.))
+      scope: keyword.other.jquery.js
     - match: (?<!\.)\b(document|window)\b
       scope: support.type.object.dom.js
     - match: |-
