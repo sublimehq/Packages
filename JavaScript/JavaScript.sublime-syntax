@@ -452,11 +452,10 @@ contexts:
         2: keyword.operator.accessor.js
         3: entity.name.function.js
         4: keyword.operator.js
-        5: storage.type.function.js
-        6: storage.type.js
-        7: storage.type.function.js
-        8: keyword.generator.asterisk.js
-        9: entity.name.function.js
+        5: storage.type.js
+        6: storage.type.function.js
+        7: keyword.generator.asterisk.js
+        8: entity.name.function.js
       push:
         - meta_scope: meta.function.static.js
         - match: (?<=\))
