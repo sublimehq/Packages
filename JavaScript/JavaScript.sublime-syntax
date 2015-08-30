@@ -936,7 +936,7 @@ contexts:
   support:
     - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap)\b
       scope: support.class.builtin.js
-    - match: (?<!\.)\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b(?=\()
+    - match: (?<!\.)\b(clearTimeout|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|setTimeout|unescape)\b(?=\()
       scope: support.function.js
     - match: \.(shift|sort|splice|unshift|pop|push|reverse)\b(?=\()
       scope: support.function.mutator.js
