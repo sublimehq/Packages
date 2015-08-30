@@ -938,7 +938,7 @@ contexts:
       scope: support.class.builtin.js
     - match: (?<!\.)\b(clearTimeout|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|setTimeout|unescape)\b(?=\()
       scope: support.function.js
-    - match: \.(shift|sort|splice|unshift|pop|push|reverse)\b(?=\()
+    - match: (?<=\.)(shift|sort|splice|unshift|pop|push|reverse)\b(?=\()
       scope: support.function.mutator.js
     - match: (?<!\.)\b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
