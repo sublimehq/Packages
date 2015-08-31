@@ -9,7 +9,7 @@ scope: source.yaml
 
 variables:
   variable: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
-  escaped_char: \\(?>[0atnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
+  escaped_char: \\(?>[0atnvfre "/\\N_Lp]|x[0-9a-fA-F]{1,2}|x\{[0-9a-fA-F]{1,8}\}|u\d{4}|U\d{8}|c\d+|C-\d+|M-\d+|M-\\C-\d+)
 
 contexts:
   comment:
@@ -277,7 +277,7 @@ contexts:
         3: keyword.operator.syntax
         4: variable.other.variables
         5: punctuation.definition.arguments.end.syntax
-    - match: '(?<=\()(\?)(-?[imx])*(:|(?=\)))'
+    - match: '(?<=\()(\?)((?:-?[imx]){,3})(:|(?=\)))'
       captures:
         1: support.function.syntax
         2: support.function.syntax
@@ -290,13 +290,49 @@ contexts:
       captures:
         1: support.function.syntax
         2: support.function.syntax
+    - match: '(?<=\()(\?#)([^)]*)'
+      captures:
+        0: comment.line.number-sign.syntax
+        1: punctuation.definition.comment.syntax
+
     #   (?<name>subexp), (?'name'subexp)
     - match: '(?<=\()(\?)(<)([a-zA-Z]*)(>)'
       captures:
         1: support.function.syntax
-        2: punctuation.definition.variable.syntax
+        2: punctuation.definition.arguments.begin.syntax
         3: entity.name.variable.syntax
-        4: punctuation.definition.variable.syntax
+        4: punctuation.definition.arguments.end.syntax
+    - match: '(?<=\()(\?)('')([a-zA-Z]*)('')'
+      captures:
+        1: support.function.syntax
+        2: punctuation.definition.arguments.begin.syntax
+        3: entity.name.variable.syntax
+        4: punctuation.definition.arguments.end.syntax
+
+    - match: '(\\g|\\k)(<)([a-zA-Z]*)(\+|-)?([0-9]*)(>)'
+      captures:
+        1: support.function.syntax
+        2: punctuation.definition.arguments.begin.syntax
+        3: variable.other.regexp
+        4: keyword.operator.arithmetic
+        5: constant.numeric.regexp
+        6: punctuation.definition.arguments.end.syntax
+    - match: '(\\g|\\k)('')([a-zA-Z]*)(\+|-)?([0-9]*)('')'
+      captures:
+        1: support.function.syntax
+        2: punctuation.definition.arguments.begin.syntax
+        3: variable.other.regexp
+        4: keyword.operator.arithmetic
+        5: constant.numeric.regexp
+        6: punctuation.definition.arguments.end.syntax
+
+    # - match: '(\\g|\\k)(<|'')([a-zA-Z]*)(''|>)'
+    #   captures:
+    #     1: support.function.syntax
+    #     2: punctuation.definition.arguments.begin.syntax
+    #     3: variable.other.regexp
+    #     4: punctuation.definition.arguments.end.syntax
+
     - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
     - match: '{{escaped_char}}'
