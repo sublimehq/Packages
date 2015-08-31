@@ -424,15 +424,20 @@ contexts:
       scope: keyword.operator.syntax
     - match: '&&'
       scope: keyword.operator.logical.and.syntax
+    - match: '\['
+      scope: punctuation.definition.arguments
+      push: character_class
     - match: '\\[\\\[\]\-\$]'
       scope: constant.character.escape.yaml
     - match: '{{escaped_char}}'
       scope: constant.character.syntax
     - match: '\\b'
       scope: constant.character.syntax
-    - match: '[^\[](-)[^\]]'
+    - match: '([^\[])(-)([^\]])'
       captures:
-        1: keyword.operator.range.syntax
+        1: constant.character
+        2: keyword.operator.range.syntax
+        3: constant.character
     - match: '\]'
       scope: punctuation.definition.arguments
       pop: true
@@ -449,13 +454,13 @@ contexts:
         4: punctuation.definition.parameters.end.syntax
 
   scope_:
+    - include: comment #comment
     - match: '[\w\d-]*'
       scope: entity.name.scope.syntax
     - match: '\.'
       scope: keyword.operator.accessor
     - match: $
       pop: true
-    - include: comment #comment
 
   # skip_comment_before_scalar:
   #   - match: '^\s*(#)(.*$)'
