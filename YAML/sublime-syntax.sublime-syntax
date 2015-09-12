@@ -195,6 +195,7 @@ contexts:
       captures:
         1: keyword.control.flow.push.syntax
         2: punctuation.separator.key-value
+      push: scope_
 
     # pop
     - match: '\s*(pop)\s*(:)\s*(false|true)\b'
@@ -218,6 +219,14 @@ contexts:
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
         4: constant.language.syntax
+
+    # comment
+    - match: '\s*(-?)\s*(comment)\s*(:)\s*(.*)$'
+      captures:
+        1: keyword.operator.symbol
+        2: meta.tag.yaml entity.name.tag
+        3: punctuation.separator.key-value
+        4: comment.line.syntax
 
     # others:
     - match: '\s+([\w_-]*)\s*(:)'
@@ -270,13 +279,8 @@ contexts:
         - include: regex_unquoted
 
   regex_common:
-    - match: '(\\(?:p|P))(\{)(\^?)([a-zA-Z_0-9]*)(\})'
-      captures:
-        1: support.function.syntax
-        2: punctuation.definition.arguments.begin.syntax
-        3: keyword.operator.syntax
-        4: variable.other.variables
-        5: punctuation.definition.arguments.end.syntax
+    - include: character
+    - include: variable_call
     - match: '(?<=\()(\?)((?:-?[imx]){,3})(:|(?=\)))'
       captures:
         1: support.function.syntax
@@ -333,12 +337,8 @@ contexts:
     #     3: variable.other.regexp
     #     4: punctuation.definition.arguments.end.syntax
 
-    - match: '\\[sSbBzZdDwWhHAG]'
-      scope: constant.language.syntax
-    - match: '{{escaped_char}}'
-      scope: constant.character.syntax
     - match: '\\\d+'
-      scope: support.variable
+      scope: support.variable.syntax
     - match: '[.+*|^\$?]'
       scope: keyword.operator.syntax
     - match: '\\[.+*|^\$?]'
@@ -352,18 +352,12 @@ contexts:
         4: punctuation.separator.coma
         5: constant.numeric
         6: punctuation.definition.end.syntax
-
     - match: '\['
-      scope: punctuation.definition.arguments
+      scope: punctuation.definition.arguments.begin.syntax
       push:
         - match: "''"
           scope: constant.character.escape.yaml
         - include: character_class
-    - match: '{{variable}}'
-      captures:
-        1: punctuation.definition.arguments.begin.syntax
-        2: variable.other.variables
-        3: punctuation.definition.arguments.end.syntax
 
   regex_simple:
     - meta_content_scope: meta.regex.simple
@@ -417,9 +411,35 @@ contexts:
           pop: true
         - include: regex_double
 
-  character_class:
-    - match: '\\[sSdDwWhH]'
+  character:
+    - match: '\\[sSbBzZdDwWhHAG]'
       scope: constant.language.syntax
+    - match: '(\[:)(\^?)(\w*)(:\])'
+      captures:
+        1: punctuation.definition.arguments.begin.syntax
+        2: keyword.operator.syntax
+        3: variable.other.variables
+        4: punctuation.definition.arguments.end.syntax
+    - match: '(\\(?:p|P))(\{)(\^?)([a-zA-Z_0-9]*)(\})'
+      captures:
+        1: support.function.syntax
+        2: punctuation.definition.arguments.begin.syntax
+        3: keyword.operator.syntax
+        4: variable.other.variables
+        5: punctuation.definition.arguments.end.syntax
+    - match: '{{escaped_char}}'
+      scope: constant.character.syntax
+
+  variable_call:
+    - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
+      captures:
+        1: punctuation.definition.parameters.begin.syntax
+        2: variable.other.variables
+        3: punctuation.definition.parameters.end.syntax
+
+  character_class:
+    - include: character
+    - include: variable_call
     - match: '(?<=[\[&])\^'
       scope: keyword.operator.syntax
     - match: '&&'
@@ -429,8 +449,6 @@ contexts:
       push: character_class
     - match: '\\[\\\[\]\-\$]'
       scope: constant.character.escape.yaml
-    - match: '{{escaped_char}}'
-      scope: constant.character.syntax
     - match: '\\b'
       scope: constant.character.syntax
     - match: '([^\[])(-)([^\]])'
@@ -441,27 +459,17 @@ contexts:
     - match: '\]'
       scope: punctuation.definition.arguments
       pop: true
-    - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
-      captures:
-        1: punctuation.definition.parameters.begin.syntax
-        2: variable.other.variables
-        3: punctuation.definition.parameters.end.syntax
-    - match: '(\\p)(\{)([a-zA-Z_0-9]*)(\})'
-      captures:
-        1: constant.language.syntax
-        2: punctuation.definition.parameters.begin.syntax
-        3: variable.other.variables
-        4: punctuation.definition.parameters.end.syntax
 
   scope_:
-    - include: comment #comment
     - match: '[\w\d-]*'
       scope: entity.name.scope.syntax
     - match: '\.'
-      scope: keyword.operator.accessor
+      scope: keyword.operator.accessor.syntax
+    - match: \".*\"
+      scope: string.quoted.double.file.syntax
     - match: $
       pop: true
-
+    - include: comment #comment
   # skip_comment_before_scalar:
   #   - match: '^\s*(#)(.*$)'
   #     captures:
