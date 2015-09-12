@@ -12,7 +12,8 @@ variables:
   escaped_char: \\(?>[0atnvfre "/\\N_Lp]|x[0-9a-fA-F]{1,2}|x\{[0-9a-fA-F]{1,8}\}|u\d{4}|U\d{8}|c\d+|C-\d+|M-\d+|M-\\C-\d+)
 
 contexts:
-  comment:
+
+  comments:
     - match: '^\s*(#)(.*$)'
       captures:
         1: comment.line.number-sign.yaml punctuation.definition.comment.yaml
@@ -23,7 +24,7 @@ contexts:
         1: punctuation.definition.comment.yaml
 
   main:
-    - include: comment
+    - include: comments
     - match: '^(first_line_match)(:)'
       captures:
         1: keyword.other.syntax
@@ -77,17 +78,17 @@ contexts:
         3: punctuation.definition.keyword.yaml
 
     - match: '-'
-      scope: keyword.operator.symbol
+      scope: punctuation.section.begin.yaml
 
     - match: (#).*?(?=%>)
-      scope: keyword.operator.symbol
+      scope: punctuation.section.begin.yaml
 
     - match: '[^''"%\-:?@`&*!,#|>\s\[\]{}](?:[^\[\]{}:#,]|:[^ ]|(?<! )#)*'
       scope: string.unquoted.yaml
 
   variables_:
     - meta_scope: meta.variables
-    - include: comment
+    - include: comments
     - match: '^(?=\w)'
       pop: true
 
@@ -113,7 +114,7 @@ contexts:
 
   contexts_:
     - meta_scope: meta.contexts
-    - include: comment
+    - include: comments
     - match: '^(?=\w)'
       pop: true
 
@@ -124,7 +125,7 @@ contexts:
     # block regex
     - match: '(^\s*)(-)\s+(match)\s*(:)\s*(>-|\|-|\|)'
       captures:
-        2: keyword.operator.symbol
+        2: punctuation.section.begin.yaml
         3: meta.tag.yaml entity.name.tag
         4: punctuation.separator.key-value
         5: punctuation.definition.block.begin
@@ -143,13 +144,13 @@ contexts:
     # inline regex
     - match: '(-)\s+(match)\s*(:)\s*'
       captures:
-        1: keyword.operator.symbol
+        1: punctuation.section.begin.yaml
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
       push:
         - match: $
           pop: true
-        - include: comment
+        - include: comments
         - include: regex
 
     # captures
@@ -159,12 +160,12 @@ contexts:
         3: punctuation.separator.key-value
       push:
         - meta_content_scope: meta.capturing.yaml
-        - include: comment
+        - include: comments
         - match: '^(\s*)(\d+)\s*(:)'
           captures:
             2: support.variable
             3: punctuation.separator.key-value
-          push: scope_
+          push: scopes_
         - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
           pop: true
 
@@ -173,29 +174,35 @@ contexts:
       captures:
         1: meta.tag.yaml entity.name.tag
         2: punctuation.separator.key-value
-      push: scope_
+      push: scopes_
 
     # include
     - match: '\s*(-)\s*(include)\s*(:)\s*'
       captures:
-        1: keyword.operator.symbol
+        1: punctuation.section.begin.yaml
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-      push: scope_
+      push: scopes_
 
     # push
-    - match: '\s*(push)\s*(:)\s*'
+    - match: '\s*(push)\s*(:)'
       captures:
         1: keyword.control.flow.push.syntax
         2: punctuation.separator.key-value
-      push: scope_
+      push: scopes_
 
     # set
     - match: '\s*(set)\s*(:)\s*'
       captures:
         1: keyword.control.flow.push.syntax
         2: punctuation.separator.key-value
-      push: scope_
+      push: scopes_
+
+    # with_prototype
+    - match: '\s*(with_prototype)\s*(:)\s*'
+      captures:
+        1: keyword.control.flow.push.syntax
+        2: punctuation.separator.key-value
 
     # pop
     - match: '\s*(pop)\s*(:)\s*(false|true)\b'
@@ -207,15 +214,15 @@ contexts:
     # meta_scope and meta_content_scope
     - match: '\s*(-)\s*(meta_(?:content_)?scope)\s*(:)\s*'
       captures:
-        1: keyword.operator.symbol
+        1: punctuation.section.begin.yaml
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
-      push: scope_
+      push: scopes_
 
     # meta_include_prototype
     - match: '\s*(-)\s*(meta_include_prototype)\s*(:)\s*(false|true)\b'
       captures:
-        1: keyword.operator.symbol
+        1: punctuation.section.begin.yaml
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
         4: constant.language.syntax
@@ -223,10 +230,23 @@ contexts:
     # comment
     - match: '\s*(-?)\s*(comment)\s*(:)\s*(.*)$'
       captures:
-        1: keyword.operator.symbol
+        1: punctuation.section.begin.yaml
         2: meta.tag.yaml entity.name.tag
         3: punctuation.separator.key-value
         4: comment.line.syntax
+
+    # string, used to link to another file syntax
+    - match: \s*(-)\s*(\")(.*)(\")
+      captures:
+        1: punctuation.section.begin.yaml
+        2: punctuation.definition.string.syntax
+        3: string.quoted.double.file.syntax
+        4: punctuation.definition.string.syntax
+
+    # string, used to link to another file syntax
+    - match: '\s*(-)\s*(?=$| #)'
+      captures:
+        1: punctuation.section.begin.yaml
 
     # others:
     - match: '\s+([\w_-]*)\s*(:)'
@@ -460,16 +480,45 @@ contexts:
       scope: punctuation.definition.arguments
       pop: true
 
-  scope_:
+  scopes_:
+    - meta_scope: debug.scope.inline
     - match: '[\w\d-]*'
       scope: entity.name.scope.syntax
     - match: '\.'
       scope: keyword.operator.accessor.syntax
     - match: \".*\"
       scope: string.quoted.double.file.syntax
+    - match: \[
+      scope: punctuation.definition.array.begin.syntax
+      push:
+        - match: ','
+          scope: punctuation.separator.array-element.syntax
+        - match: '\]'
+          scope: punctuation.definition.array.end.syntax
+        - include: scopes_
+
     - match: $
       pop: true
-    - include: comment #comment
+    - include: comments #comment
+
+  scope_block:
+    - meta_scope: debug.scope.block
+    - match: '(\s*)(-)\s*($|(?= #))'
+      captures:
+        2: punctuation.section.begin.yaml
+      push:
+        - match: (\1)(?=)
+    - match: '\s*(-)\s*(?=\")'
+      captures:
+        1: punctuation.section.begin.yaml
+      push: scope_inline
+    - match: '\s*(-)\s*(?=[^:]*$)'
+      captures:
+        1: punctuation.section.begin.yaml
+      push: scope_inline
+    - match: (?=.)
+      pop: true
+
   # skip_comment_before_scalar:
   #   - match: '^\s*(#)(.*$)'
   #     captures:
