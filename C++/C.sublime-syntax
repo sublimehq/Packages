@@ -26,7 +26,7 @@ contexts:
       scope: variable.other.readwrite.global.mac-classic.c
     - match: '\bs[A-Z]\w*\b'
       scope: variable.other.readwrite.static.mac-classic.c
-    - match: \b(NULL|true|false|TRUE|FALSE)\b
+    - match: \b(__func__|NULL|true|false|TRUE|FALSE)\b
       scope: constant.language.c
     - include: sizeof
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
@@ -137,6 +137,8 @@ contexts:
       scope: support.type.pthread.c
     - match: \b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t)\b
       scope: support.type.stdint.c
+    - match: \b(__FILE__|__FUNCTION__|__LINE__)\b
+      scope: support.constant.c
     - match: \b(noErr|kNilOptions|kInvalidID|kVariableLengthArray)\b
       scope: support.constant.mac-classic.c
     - match: \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
@@ -150,7 +152,7 @@ contexts:
                | (?= \s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name
              )
         )
-        (\s*) (?!(while|for|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()
+        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()
         (
           (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
           (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
@@ -166,7 +168,7 @@ contexts:
           pop: true
         - include: comments
         - include: parens
-        - match: \b(const|override)\b
+        - match: \b(const|final|noexcept|override)\b
           scope: storage.modifier.c
         - include: block
   access:
@@ -192,7 +194,7 @@ contexts:
     - match: |-
         (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
         (\b
-          (?!(while|for|do|if|else|switch|catch|enumerate|return|r?iterate)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
+          (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
         )
          \s*(\()
       scope: meta.function-call.c
