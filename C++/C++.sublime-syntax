@@ -27,7 +27,7 @@ contexts:
       scope: storage.modifier.c++
     - match: \b(private:|protected:|public:)
       scope: storage.modifier.c++
-    - match: \b(catch|operator|try|throw|using)\b
+    - match: \b(catch|noexcept|operator|static_assert|try|throw|using)\b
       scope: keyword.control.c++
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
       scope: keyword.control.c++
@@ -42,11 +42,11 @@ contexts:
       scope: storage.type.template.c++
     - match: \b(const_cast|dynamic_cast|reinterpret_cast|static_cast)\b\s*
       scope: keyword.operator.cast.c++
-    - match: \b(and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
+    - match: \b(alignof|and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
       scope: keyword.operator.c++
-    - match: \b(class|wchar_t|nullptr_t)\b
+    - match: \b(char16_t|char32_t|class|decltype|wchar_t|nullptr_t)\b
       scope: storage.type.c++
-    - match: \b(export|mutable|typename)\b
+    - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
     - match: |-
         (?x)
