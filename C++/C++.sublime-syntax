@@ -48,6 +48,15 @@ contexts:
       scope: storage.type.c++
     - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
+    - match: '(?:L|u8|u|U)?R"([^\(\)\\ ]{0,16})\('
+      captures:
+        0: punctuation.definition.string.begin.c++
+      push:
+        - meta_scope: string.quoted.double.c++
+        - match: '\)\1"'
+          captures:
+            0: punctuation.definition.string.end.c++
+          pop: true
     - match: |-
         (?x)
           (?:  ^                                 # begin-of-line
