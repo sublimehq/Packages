@@ -9,7 +9,7 @@ contexts:
   main:
     - match: \|
       scope: keyword.operator.regexp
-    - match: '\\[bBAZzG^$]'
+    - match: '\\[bBAZzG]|[\^$]'
       scope: keyword.control.anchors.regexp
     - include: character_class
     - include: escaped_char
