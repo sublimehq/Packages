@@ -9,7 +9,7 @@
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
       s/^\s*([^\)]+)/ $1/;  # pad</string>
