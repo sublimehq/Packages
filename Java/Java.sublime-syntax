@@ -46,7 +46,7 @@ contexts:
     - match: '@\w*'
       scope: storage.type.annotation.java
   anonymous-classes-and-new:
-    - match: \bnew\b
+    - match: \b(?<!::)new\b
       captures:
         0: keyword.control.new.java
       push:
