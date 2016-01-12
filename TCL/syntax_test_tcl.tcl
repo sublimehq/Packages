@@ -17,7 +17,7 @@ puts "Not Highlighting"
 
 
 # -------------------------------------------------------------------------- #
-# Issue 131: https://github.com/SublimeTextIssues/DefaultPackages/issues/134
+# Issue 131: https://github.com/SublimeTextIssues/DefaultPackages/issues/131
 # -------------------------------------------------------------------------- #
 set ok1 {["]"]}
 set ok2 {["][]"]}
