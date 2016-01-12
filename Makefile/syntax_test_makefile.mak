@@ -13,6 +13,12 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 endif
 # <- keyword.control.makefile
 
+-include $(MAKEFILE_PATH)Makefile.Defs
+# <- keyword.control.makefile
+
+sinclude $(MAKEFILE_PATH)Makefile.Defs
+# <- keyword.control.makefile
+
 CC=g++
 # <- variable.other.makefile
 # ^ keyword.operator.assignment.makefile

@@ -55,7 +55,7 @@ contexts:
             - match: (?<!\\)$(?=\n)
               pop: true
         - include: line_continuation
-    - match: ^\s*\b(\-??include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
+    - match: ^\s*((?:-|s)?include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
       scope: meta.keyword.control.makefile
       captures:
         1: keyword.control.makefile
