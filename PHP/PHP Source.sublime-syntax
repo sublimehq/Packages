@@ -122,7 +122,7 @@ contexts:
       push:
         - meta_scope: meta.function.argument.array.php
         - meta_content_scope: meta.array.php
-        - match: [\)\]]
+        - match: '[\)\]]'
           captures:
             0: punctuation.definition.array.end.php
           pop: true
