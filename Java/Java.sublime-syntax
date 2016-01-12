@@ -47,8 +47,7 @@ contexts:
       scope: storage.type.annotation.java
   anonymous-classes-and-new:
     - match: \bnew\b
-      captures:
-        0: keyword.control.new.java
+      scope: keyword.control.new.java
       push:
         - match: '(?<=\)|\])(?!\s*{)|(?<=})|(?=;)'
           pop: true
@@ -102,8 +101,7 @@ contexts:
       push:
         - meta_scope: meta.class.java
         - match: "}"
-          captures:
-            0: punctuation.section.class.end.java
+          scope: punctuation.section.class.end.java
           pop: true
         - include: storage-modifiers
         - include: comments
@@ -113,8 +111,7 @@ contexts:
             1: storage.modifier.java
             2: entity.name.type.class.java
         - match: extends
-          captures:
-            0: storage.modifier.extends.java
+          scope: storage.modifier.extends.java
           push:
             - meta_scope: meta.definition.class.inherited.classes.java
             - match: "(?={|implements)"
@@ -169,13 +166,11 @@ contexts:
     - include: comments-inline
   comments-inline:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.java
+      scope: punctuation.definition.comment.java
       push:
         - meta_scope: comment.block.java
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.java
+          scope: punctuation.definition.comment.java
           pop: true
     - match: \s*((//).*$\n?)
       captures:
@@ -198,8 +193,7 @@ contexts:
         - match: "(?=;|})"
           pop: true
         - match: \w+
-          captures:
-            0: constant.other.enum.java
+          scope: constant.other.enum.java
           push:
             - meta_scope: meta.enum.java
             - match: "(?=,|;|})"
@@ -331,31 +325,26 @@ contexts:
         1: storage.modifier.java
   strings:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.java
+      scope: punctuation.definition.string.begin.java
       push:
         - meta_scope: string.quoted.double.java
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.java
+          scope: punctuation.definition.string.end.java
           pop: true
         - match: \\.
           scope: constant.character.escape.java
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.java
+      scope: punctuation.definition.string.begin.java
       push:
         - meta_scope: string.quoted.single.java
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.java
+          scope: punctuation.definition.string.end.java
           pop: true
         - match: \\.
           scope: constant.character.escape.java
   throws:
     - match: throws
-      captures:
-        0: storage.modifier.java
+      scope: storage.modifier.java
       push:
         - meta_scope: meta.throwables.java
         - match: "(?={|;)"

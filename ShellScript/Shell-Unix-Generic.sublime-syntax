@@ -41,17 +41,14 @@ contexts:
       push:
         - meta_scope: meta.scope.case-clause.shell
         - match: ;;
-          captures:
-            0: punctuation.terminator.case-clause.shell
+          scope: punctuation.terminator.case-clause.shell
           pop: true
         - match: (\(|(?=\S))
-          captures:
-            0: punctuation.definition.case-pattern.shell
+          scope: punctuation.definition.case-pattern.shell
           push:
             - meta_scope: meta.scope.case-pattern.shell
             - match: \)
-              captures:
-                0: punctuation.definition.case-pattern.shell
+              scope: punctuation.definition.case-pattern.shell
               pop: true
             - match: \|
               scope: punctuation.separator.pipe-sign.shell
@@ -78,13 +75,11 @@ contexts:
         - include: logical-expression
         - include: main
     - match: '(\({2})'
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.other.math.shell
         - match: '(\){2})'
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - include: math
     - match: (\()
@@ -116,8 +111,7 @@ contexts:
       push:
         - meta_scope: meta.function.shell
         - match: ;|&|$
-          captures:
-            0: punctuation.definition.function.shell
+          scope: punctuation.definition.function.shell
           pop: true
         - include: main
     - match: '\b([^\s\\=]+)\s*(\(\))'
@@ -127,8 +121,7 @@ contexts:
       push:
         - meta_scope: meta.function.shell
         - match: ;|&|$
-          captures:
-            0: punctuation.definition.function.shell
+          scope: punctuation.definition.function.shell
           pop: true
         - include: main
   heredoc:
@@ -318,35 +311,29 @@ contexts:
         2: string.unquoted.herestring.shell
   interpolation:
     - match: '\$\({2}'
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.other.math.shell
         - match: '\){2}'
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - include: math
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.interpolated.backtick.shell
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - match: '\\[`\\$]'
           scope: constant.character.escape.shell
         - include: main
     - match: \$\(
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.interpolated.dollar.shell
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - include: main
   keyword:
@@ -475,13 +462,11 @@ contexts:
       scope: keyword.operator.pipe.shell
   redirection:
     - match: '[><]\('
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.interpolated.process-substitution.shell
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - include: main
     - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
@@ -491,35 +476,29 @@ contexts:
     - match: \\.
       scope: constant.character.escape.shell
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.quoted.single.shell
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
     - match: \$?"
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.quoted.double.shell
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - match: '\\[\$`"\\\n]'
           scope: constant.character.escape.shell
         - include: variable
         - include: interpolation
     - match: \$'
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.quoted.single.dollar.shell
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
         - match: \\(a|b|e|f|n|r|t|v|\\|')
           scope: constant.character.escape.ansi-c.shell
@@ -548,13 +527,11 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
     - match: '\$\{'
-      captures:
-        0: punctuation.definition.variable.shell
+      scope: punctuation.definition.variable.shell
       push:
         - meta_scope: variable.other.bracket.shell
         - match: '\}'
-          captures:
-            0: punctuation.definition.variable.shell
+          scope: punctuation.definition.variable.shell
           pop: true
         - match: '!|:[-=?]?|\*|@|#{1,2}|%{1,2}|/'
           scope: keyword.operator.expansion.shell

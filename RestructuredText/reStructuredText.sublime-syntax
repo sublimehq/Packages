@@ -156,13 +156,11 @@ contexts:
         4: punctuation.definition.constant.restructuredtext
     - match: "``"
       comment: inline literal
-      captures:
-        0: punctuation.definition.raw.restructuredtext
+      scope: punctuation.definition.raw.restructuredtext
       push:
         - meta_scope: markup.raw.restructuredtext
         - match: "``"
-          captures:
-            0: punctuation.definition.raw.restructuredtext
+          scope: punctuation.definition.raw.restructuredtext
           pop: true
     - match: "(`)[^`]+(`)(?!_)"
       comment: intepreted text

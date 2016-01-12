@@ -527,24 +527,20 @@ contexts:
       captures:
         1: punctuation.definition.comment.applescript
     - match: \(\*
-      captures:
-        0: punctuation.definition.comment.applescript
+      scope: punctuation.definition.comment.applescript
       push:
         - meta_scope: comment.block.applescript
         - match: \*\)
-          captures:
-            0: punctuation.definition.comment.applescript
+          scope: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
   comments.nested:
     - match: \(\*
-      captures:
-        0: punctuation.definition.comment.applescript
+      scope: punctuation.definition.comment.applescript
       push:
         - meta_scope: comment.block.applescript
         - match: \*\)
-          captures:
-            0: punctuation.definition.comment.applescript
+          scope: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
   data-structures:

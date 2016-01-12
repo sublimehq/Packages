@@ -17,13 +17,11 @@ contexts:
     - match: \b(bgcolor|center|clusterrank|color|comment|compound|concentrate|fillcolor|fontname|fontpath|fontsize|label|labeljust|labelloc|layers|margin|mclimit|nodesep|nslimit|nslimit1|ordering|orientation|page|pagedir|quantum|rank|rankdir|ranksep|ratio|remincross|rotate|samplepoints|searchsize|size|style|URL)\b
       scope: support.constant.attribute.graph.dot
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.dot
+      scope: punctuation.definition.string.begin.dot
       push:
         - meta_scope: string.quoted.double.dot
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.dot
+          scope: punctuation.definition.string.end.dot
           pop: true
         - match: \\.
           scope: constant.character.escape.dot
@@ -36,11 +34,9 @@ contexts:
       captures:
         1: punctuation.definition.comment.dot
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.dot
+      scope: punctuation.definition.comment.dot
       push:
         - meta_scope: comment.block.dot
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.dot
+          scope: punctuation.definition.comment.dot
           pop: true

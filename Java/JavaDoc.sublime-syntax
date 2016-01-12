@@ -12,8 +12,7 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.javadoc
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.javadoc
+          scope: punctuation.definition.comment.javadoc
           pop: true
         - include: invalid
         - match: \*\s*(?=\w)
@@ -163,8 +162,7 @@ contexts:
         - meta_scope: meta.directive.code.javadoc
         - meta_content_scope: markup.raw.code.javadoc
         - match: '\}'
-          captures:
-            0: punctuation.definition.directive.end.javadoc
+          scope: punctuation.definition.directive.end.javadoc
           pop: true
     - match: '(\{)((\@)literal)'
       captures:
@@ -175,8 +173,7 @@ contexts:
         - meta_scope: meta.directive.literal.javadoc
         - meta_content_scope: markup.raw.literal.javadoc
         - match: '\}'
-          captures:
-            0: punctuation.definition.directive.end.javadoc
+          scope: punctuation.definition.directive.end.javadoc
           pop: true
     - match: '(\{)((\@)docRoot)(\})'
       scope: meta.directive.docRoot.javadoc

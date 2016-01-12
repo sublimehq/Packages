@@ -7,8 +7,7 @@ scope: source.r-console
 contexts:
   main:
     - match: "^> "
-      captures:
-        0: punctuation.section.embedded.r-console
+      scope: punctuation.section.embedded.r-console
       push:
         - meta_scope: source.r.embedded.r-console
         - match: \n|\z

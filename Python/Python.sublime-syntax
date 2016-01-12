@@ -19,8 +19,7 @@ variables:
 contexts:
   main:
     - match: "#"
-      captures:
-        0: punctuation.definition.comment.python
+      scope: punctuation.definition.comment.python
       push:
         - meta_scope: comment.line.number-sign.python
         - match: \n
@@ -50,7 +49,7 @@ contexts:
         1: storage.modifier.global.python
     - match: \b(nonlocal)\b
       captures:
-        1: storage.modifier.nonlocal.python        
+        1: storage.modifier.nonlocal.python
     - match: \b(?:(import)|(from))\b
       captures:
         1: keyword.control.import.python
@@ -546,8 +545,7 @@ contexts:
         -
           - meta_scope: string.quoted.double.block.raw-regex.python
           - match: '"""'
-            captures:
-              0: punctuation.definition.string.end.python
+            scope: punctuation.definition.string.end.python
             pop: true
         - "Regular Expressions (Python).sublime-syntax"
       with_prototype:
@@ -583,8 +581,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.block.raw.python
         - match: '"""'
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_unicode_char
@@ -596,8 +593,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.block.python
         - match: '"""'
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_unicode_char
@@ -636,8 +632,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.block.sql.python
         - match: '"""'
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_char
@@ -661,8 +656,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.block.python
         - match: '"""'
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_char
@@ -688,8 +682,7 @@ contexts:
         -
           - meta_scope: string.quoted.single.block.raw-regex.python
           - match: "'''"
-            captures:
-              0: punctuation.definition.string.end.python
+            scope: punctuation.definition.string.end.python
             pop: true
         - "Regular Expressions (Python).sublime-syntax"
       with_prototype:
@@ -725,8 +718,7 @@ contexts:
       push:
         - meta_scope: string.quoted.single.block.raw.python
         - match: "'''"
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_unicode_char
@@ -738,8 +730,7 @@ contexts:
       push:
         - meta_scope: string.quoted.single.block.python
         - match: "'''"
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_unicode_char
@@ -778,8 +769,7 @@ contexts:
       push:
         - meta_scope: string.quoted.single.block.python
         - match: "'''"
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_char
@@ -803,8 +793,7 @@ contexts:
       push:
         - meta_scope: string.quoted.single.block.python
         - match: "'''"
-          captures:
-            0: punctuation.definition.string.end.python
+          scope: punctuation.definition.string.end.python
           pop: true
         - include: constant_placeholder
         - include: escaped_char

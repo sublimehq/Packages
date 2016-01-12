@@ -30,38 +30,32 @@ contexts:
       captures:
         1: punctuation.definition.comment.tex
     - match: '\{'
-      captures:
-        0: punctuation.section.group.tex
+      scope: punctuation.section.group.tex
       push:
         - meta_scope: meta.group.braces.tex
         - match: '\}'
-          captures:
-            0: punctuation.section.group.tex
+          scope: punctuation.section.group.tex
           pop: true
         - include: $top_level_main
     - match: '[\[\]]'
       scope: punctuation.definition.brackets.tex
     - match: \$\$
-      captures:
-        0: punctuation.definition.string.begin.tex
+      scope: punctuation.definition.string.begin.tex
       push:
         - meta_scope: string.other.math.block.tex
         - match: \$\$
-          captures:
-            0: punctuation.definition.string.end.tex
+          scope: punctuation.definition.string.end.tex
           pop: true
         - include: scope:text.tex.math
         - include: main
     - match: \\\\
       scope: constant.character.newline.tex
     - match: \$
-      captures:
-        0: punctuation.definition.string.begin.tex
+      scope: punctuation.definition.string.begin.tex
       push:
         - meta_scope: string.other.math.tex
         - match: \$
-          captures:
-            0: punctuation.definition.string.end.tex
+          scope: punctuation.definition.string.end.tex
           pop: true
         - match: \\\$
           scope: constant.character.escape.tex

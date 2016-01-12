@@ -48,13 +48,11 @@ contexts:
       captures:
         0: punctuation.definition.comment.scala
     - match: (^\s*)?/\*\*
-      captures:
-        0: punctuation.definition.comment.scala
+      scope: punctuation.definition.comment.scala
       push:
         - meta_scope: comment.block.documentation.scala
         - match: \*/(\s*\n)?
-          captures:
-            0: punctuation.definition.comment.scala
+          scope: punctuation.definition.comment.scala
           pop: true
         - match: (@\w+\s)
           scope: keyword.other.documentation.scaladoc.scala
@@ -71,12 +69,10 @@ contexts:
       scope: storage.type.primitive.scala
   declarations:
     - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
-      captures:
-        0: comment.block.scala
+      scope: comment.block.scala
       push:
         - match: '\}\)#λ'
-          captures:
-            0: comment.block.scala
+          scope: comment.block.scala
           pop: true
         - match: "[αβ]"
           scope: comment.block.empty.scala
@@ -163,12 +159,10 @@ contexts:
       scope: keyword.control.exception.scala
   nest-curly-and-self:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.scala
+      scope: punctuation.section.scope.scala
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.scala
+          scope: punctuation.section.scope.scala
           pop: true
         - include: nest-curly-and-self
     - include: main
@@ -215,13 +209,11 @@ contexts:
         - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
           scope: variable.parameter
         - match: '\$\{'
-          captures:
-            0: variable.parameter
+          scope: variable.parameter
           push:
             - meta_scope: source.scala.embedded
             - match: '\}'
-              captures:
-                0: variable.parameter
+              scope: variable.parameter
               pop: true
             - include: nest-curly-and-self
             - include: main
@@ -239,13 +231,11 @@ contexts:
         - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
           scope: variable.parameter
         - match: '\$\{'
-          captures:
-            0: variable.parameter
+          scope: variable.parameter
           push:
             - meta_scope: source.scala.embedded
             - match: '\}'
-              captures:
-                0: variable.parameter
+              scope: variable.parameter
               pop: true
             - include: nest-curly-and-self
             - include: main

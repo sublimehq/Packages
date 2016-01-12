@@ -18,22 +18,18 @@ contexts:
   comments:
     - include: special-comments-conditional-compilation
     - match: /\*\*(?!/)
-      captures:
-        0: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.documentation.js
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.js
           pop: true
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.js
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.js
           pop: true
     - match: (<!--|-->)
       scope: comment.block.html.js
@@ -58,13 +54,11 @@ contexts:
     - include: literal-punctuation
   curly-brackets:
     - match: '\{'
-      captures:
-        0: meta.brace.curly.js
+      scope: meta.brace.curly.js
       push:
         - meta_scope: meta.group.braces.curly
         - match: '\}'
-          captures:
-            0: meta.brace.curly.js
+          scope: meta.brace.curly.js
           pop: true
         - include: main
   expression:
@@ -90,12 +84,10 @@ contexts:
     - include: literal-variable
   function-declaration-parameters:
     - match: \(
-      captures:
-        0: punctuation.definition.parameters.begin.js
+      scope: punctuation.definition.parameters.begin.js
       push:
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.end.js
+          scope: punctuation.definition.parameters.end.js
           pop: true
         - match: (?<!\.)\.\.\.
           scope: keyword.operator.spread.js
@@ -104,8 +96,7 @@ contexts:
         - match: ","
           scope: punctuation.separator.parameter.function.js
         - match: "="
-          captures:
-            0: keyword.operator.assignment.js
+          scope: keyword.operator.assignment.js
           push:
             - meta_scope: meta.parameter.optional.js
             - match: "(?=[,)])"
@@ -329,8 +320,7 @@ contexts:
       push:
         - meta_scope: meta.class.js
         - match: "}"
-          captures:
-            0: meta.brace.curly.js
+          scope: meta.brace.curly.js
           pop: true
         - match: \b(extends)\b
           captures:
@@ -341,8 +331,7 @@ contexts:
               pop: true
             - include: expression
         - match: "{"
-          captures:
-            0: meta.brace.curly.js
+          scope: meta.brace.curly.js
           push:
             - match: "(?=})"
               pop: true
@@ -368,12 +357,10 @@ contexts:
       push:
         - meta_scope: meta.for.js
         - match: \)
-          captures:
-            0: meta.brace.round.js
+          scope: meta.brace.round.js
           pop: true
         - match: \(
-          captures:
-            0: meta.brace.round.js
+          scope: meta.brace.round.js
           push:
             - match: (?=\))
               pop: true
@@ -550,8 +537,7 @@ contexts:
         )\s*:)
       push:
         - match: ":"
-          captures:
-            0: punctuation.separator.key-value.js
+          scope: punctuation.separator.key-value.js
           pop: true
         - include: literal-string
     - match: '(?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)'
@@ -774,18 +760,15 @@ contexts:
       push:
         - meta_scope: string.quasi.js
         - match: "`"
-          captures:
-            0: punctuation.definition.quasi.end.js
+          scope: punctuation.definition.quasi.end.js
           pop: true
         - include: string-content
         - match: '\${'
-          captures:
-            0: punctuation.quasi.element.begin.js
+          scope: punctuation.quasi.element.begin.js
           push:
             - meta_scope: entity.quasi.element.js
             - match: "}"
-              captures:
-                0: punctuation.quasi.element.end.js
+              scope: punctuation.quasi.element.end.js
               pop: true
             - include: expression
   literal-regexp:
@@ -810,8 +793,7 @@ contexts:
         - include: scope:source.regexp.js
   literal-string:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.js
+      scope: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.quoted.single.js
         - match: (')|(\n)
@@ -821,8 +803,7 @@ contexts:
           pop: true
         - include: string-content
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.js
+      scope: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.quoted.double.js
         - match: (")|(\n)
@@ -838,13 +819,11 @@ contexts:
       push:
         - meta_scope: meta.switch.js
         - match: '\}'
-          captures:
-            0: meta.brace.curly.js
+          scope: meta.brace.curly.js
           pop: true
         - include: round-brackets
         - match: '\{'
-          captures:
-            0: meta.brace.curly.js
+          scope: meta.brace.curly.js
           push:
             - match: "(?=})"
               pop: true
@@ -884,21 +863,18 @@ contexts:
       scope: variable.other.readwrite.js
   round-brackets:
     - match: \(
-      captures:
-        0: meta.brace.round.js
+      scope: meta.brace.round.js
       push:
         - meta_scope: meta.group.braces.round
         - match: \)
-          captures:
-            0: meta.brace.round.js
+          scope: meta.brace.round.js
           pop: true
         - include: expression
     - match: \)
       scope: invalid.illegal.stray.brace.round.js
   special-comments-conditional-compilation:
     - match: /\*(?=@)
-      captures:
-        0: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.block.conditional.js
         - match: \*/
@@ -919,13 +895,11 @@ contexts:
         1: punctuation.definition.variable.js
   square-brackets:
     - match: '\['
-      captures:
-        0: meta.brace.square.js
+      scope: meta.brace.square.js
       push:
         - meta_scope: meta.group.braces.square
         - match: '\]'
-          captures:
-            0: meta.brace.square.js
+          scope: meta.brace.square.js
           pop: true
         - include: expression
   string-content:

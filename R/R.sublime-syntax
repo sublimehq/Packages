@@ -36,24 +36,20 @@ contexts:
     - match: (\.\.\.|\$|:|\~)
       scope: keyword.other.r
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.r
+      scope: punctuation.definition.string.begin.r
       push:
         - meta_scope: string.quoted.double.r
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.r
+          scope: punctuation.definition.string.end.r
           pop: true
         - match: \\.
           scope: constant.character.escape.r
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.r
+      scope: punctuation.definition.string.begin.r
       push:
         - meta_scope: string.quoted.single.r
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.r
+          scope: punctuation.definition.string.end.r
           pop: true
         - match: \\.
           scope: constant.character.escape.r

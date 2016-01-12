@@ -22,37 +22,31 @@ contexts:
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\b'
       scope: constant.numeric.actionscript.2
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.actionscript.2
+      scope: punctuation.definition.string.begin.actionscript.2
       push:
         - meta_scope: string.quoted.double.actionscript.2
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.actionscript.2
+          scope: punctuation.definition.string.end.actionscript.2
           pop: true
         - match: \\.
           scope: constant.character.escape.actionscript.2
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.actionscript.2
+      scope: punctuation.definition.string.begin.actionscript.2
       push:
         - meta_scope: string.quoted.single.actionscript.2
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.actionscript.2
+          scope: punctuation.definition.string.end.actionscript.2
           pop: true
         - match: \\.
           scope: constant.character.escape.actionscript.2
     - match: \b(BACKSPACE|CAPSLOCK|CONTROL|DELETEKEY|DOWN|END|ENTER|HOME|INSERT|LEFT|LN10|LN2|LOG10E|LOG2E|MAX_VALUE|MIN_VALUE|NEGATIVE_INFINITY|NaN|PGDN|PGUP|PI|POSITIVE_INFINITY|RIGHT|SPACE|SQRT1_2|SQRT2|UP)\b
       scope: support.constant.actionscript.2
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.actionscript.2
+      scope: punctuation.definition.comment.actionscript.2
       push:
         - meta_scope: comment.block.actionscript.2
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.actionscript.2
+          scope: punctuation.definition.comment.actionscript.2
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.actionscript.2
@@ -74,8 +68,7 @@ contexts:
       push:
         - meta_scope: meta.function.actionscript.2
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.end.actionscript.2
+          scope: punctuation.definition.parameters.end.actionscript.2
           pop: true
         - match: '[^,)\n]+'
           scope: variable.parameter.function.actionscript.2

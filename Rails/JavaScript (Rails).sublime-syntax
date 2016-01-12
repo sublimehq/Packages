@@ -7,15 +7,13 @@ scope: source.js.rails
 contexts:
   main:
     - match: "<%+#"
-      captures:
-        0: punctuation.definition.comment.erb
+      scope: punctuation.definition.comment.erb
       push:
         - meta_scope: comment.block.erb
         - match: "%>"
           pop: true
     - match: "<%+(?!>)[-=]?"
-      captures:
-        0: punctuation.section.embedded.ruby
+      scope: punctuation.section.embedded.ruby
       push:
         - meta_scope: source.ruby.rails.erb
         - match: "-?%>"

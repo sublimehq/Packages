@@ -15,13 +15,11 @@ contexts:
   main:
     - include: line_comment
     - match: ^=
-      captures:
-        0: punctuation.definition.comment.perl
+      scope: punctuation.definition.comment.perl
       push:
         - meta_scope: comment.block.documentation.perl
         - match: ^=cut
-          captures:
-            0: punctuation.definition.comment.perl
+          scope: punctuation.definition.comment.perl
           pop: true
     - include: variable
     - match: '\b(?=qr\s*[^\s\w])'
@@ -174,72 +172,60 @@ contexts:
             - include: escaped_char
             - include: nested_parens
         - match: '\{'
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.nested_braces.perl
             - match: '\}'
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
             - include: nested_braces_interpolated
         - match: '\['
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.nested_brackets.perl
             - match: '\]'
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
             - include: nested_brackets_interpolated
         - match: "<"
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.nested_ltgt.perl
             - match: ">"
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
             - include: nested_ltgt_interpolated
         - match: \(
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.nested_parens.perl
             - match: \)
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
             - include: nested_parens_interpolated
         - match: "'"
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.single_quote.perl
             - match: "'"
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - match: '\\[''\\]'
               scope: constant.character.escape.perl
         - match: '([^\s\w\[({<;])'
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.format.simple_delimiter.perl
             - match: \1
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
@@ -272,24 +258,20 @@ contexts:
               pop: true
             - include: escaped_char
         - match: "'"
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.replaceXXX.format.single_quote.perl
             - match: "'"
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - match: '\\[''\\]'
               scope: constant.character.escape.perl.perl
         - match: '([^\s\w\[({<])'
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.replaceXXX.format.simple_delimiter.perl
             - match: \1
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
@@ -315,23 +297,19 @@ contexts:
               pop: true
             - include: escaped_char
         - match: "'"
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.replace.extended.simple_delimiter.perl
             - match: '''(?=[egimos]*x[egimos]*)\b'
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
         - match: (.)
-          captures:
-            0: punctuation.definition.string.perl
+          scope: punctuation.definition.string.perl
           push:
             - meta_scope: string.regexp.replace.extended.simple_delimiter.perl
             - match: '\1(?=[egimos]*x[egimos]*)\b'
-              captures:
-                0: punctuation.definition.string.perl
+              scope: punctuation.definition.string.perl
               pop: true
             - include: escaped_char
             - include: variable
@@ -345,8 +323,7 @@ contexts:
         1: punctuation.definition.string.perl
         5: punctuation.definition.string.perl
     - match: (?<!\\)(\~\s*\/)
-      captures:
-        0: punctuation.definition.string.perl
+      scope: punctuation.definition.string.perl
       push:
         - meta_scope: string.regexp.find.extended.perl
         - match: '\/([cgimos]*x[cgimos]*)\b'
@@ -390,49 +367,41 @@ contexts:
         2: punctuation.definition.string.perl
         5: punctuation.definition.string.perl
     - match: \b(m)\s*(?<!\\)\(
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.regexp.find-m-paren.perl
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_parens_interpolated
         - include: variable
     - match: '\b(m)\s*(?<!\\)\{'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.regexp.find-m-brace.perl
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_braces_interpolated
         - include: variable
     - match: '\b(m)\s*(?<!\\)\['
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.regexp.find-m-bracket.perl
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_brackets_interpolated
         - include: variable
     - match: \b(m)\s*(?<!\\)\<
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.regexp.find-m-ltgt.perl
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_ltgt_interpolated
@@ -759,228 +728,188 @@ contexts:
         - include: escaped_char
         - include: variable
     - match: '\bqq\s*([^\(\{\[\<\w\s])'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.qq.perl
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: variable
     - match: '\bqx\s*([^''\(\{\[\<\w\s])'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx.perl
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: variable
     - match: \bqx\s*'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx.single-quote.perl
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.double.perl
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: variable
     - match: '\bqw?\s*([^\(\{\[\<\w\s])'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.q.perl
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.single.perl
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - match: '\\[''\\]'
           scope: constant.character.escape.perl
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.perl
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: variable
     - match: \bqq\s*\(
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.qq-paren.perl
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_parens_interpolated
         - include: variable
     - match: '\bqq\s*\{'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.qq-brace.perl
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_braces_interpolated
         - include: variable
     - match: '\bqq\s*\['
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.qq-bracket.perl
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_brackets_interpolated
         - include: variable
     - match: \bqq\s*\<
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.qq-ltgt.perl
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_ltgt_interpolated
         - include: variable
     - match: \bqx\s*\(
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx-paren.perl
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_parens_interpolated
         - include: variable
     - match: '\bqx\s*\{'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx-brace.perl
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_braces_interpolated
         - include: variable
     - match: '\bqx\s*\['
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx-bracket.perl
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_brackets_interpolated
         - include: variable
     - match: \bqx\s*\<
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.interpolated.qx-ltgt.perl
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_ltgt_interpolated
         - include: variable
     - match: \bqw?\s*\(
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.q-paren.perl
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_parens
     - match: '\bqw?\s*\{'
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.q-brace.perl
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_braces
     - match: '\bqw?\s*\['
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.q-bracket.perl
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_brackets
     - match: \bqw?\s*\<
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.quoted.other.q-ltgt.perl
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
         - include: escaped_char
         - include: nested_ltgt
     - match: ^__\w+__
-      captures:
-        0: punctuation.definition.string.begin.perl
+      scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: string.unquoted.program-block.perl
         - match: $
-          captures:
-            0: punctuation.definition.string.end.perl
+          scope: punctuation.definition.string.end.perl
           pop: true
     - match: '\b(format)\s+([A-Za-z]+)\s*='
       captures:

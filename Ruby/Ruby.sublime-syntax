@@ -164,8 +164,7 @@ contexts:
         - meta_scope: meta.function.method.with-arguments.ruby
         - meta_content_scope: variable.parameter.function.ruby
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.ruby
+          scope: punctuation.definition.parameters.ruby
           pop: true
         - include: main
     - match: |-
@@ -203,24 +202,20 @@ contexts:
     - match: '\b(0[xX]\h(?>_?\h)*|\d(?>_?\d)*(\.(?![^[:space:][:digit:]])(?>_?\d)*)?([eE][-+]?\d(?>_?\d)*)?|0[bB][01]+)\b'
       scope: constant.numeric.ruby
     - match: ":'"
-      captures:
-        0: punctuation.definition.constant.ruby
+      scope: punctuation.definition.constant.ruby
       push:
         - meta_scope: constant.other.symbol.single-quoted.ruby
         - match: "'"
-          captures:
-            0: punctuation.definition.constant.ruby
+          scope: punctuation.definition.constant.ruby
           pop: true
         - match: '\\[''\\]'
           scope: constant.character.escape.ruby
     - match: ':"'
-      captures:
-        0: punctuation.definition.constant.ruby
+      scope: punctuation.definition.constant.ruby
       push:
         - meta_scope: constant.other.symbol.double-quoted.ruby
         - match: '"'
-          captures:
-            0: punctuation.definition.constant.ruby
+          scope: punctuation.definition.constant.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -229,101 +224,85 @@ contexts:
       scope: keyword.operator.assignment.augmented.ruby
     - match: "'"
       comment: single quoted string (does not allow interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.single.ruby
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: \\'|\\\\
           scope: constant.character.escape.ruby
     - match: '"'
       comment: double quoted string (allows for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.double.ruby
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
     - match: "`"
       comment: execute string (allows for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
     - match: '%x\{'
       comment: execute string (allow for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_curly_i
     - match: '%x\['
       comment: execute string (allow for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_brackets_i
     - match: '%x\<'
       comment: execute string (allow for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_ltgt_i
     - match: '%x\('
       comment: execute string (allow for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_parens_i
     - match: '%x([^\w])'
       comment: execute string (allow for interpolation)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.interpolated.ruby
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
@@ -375,200 +354,168 @@ contexts:
         - include: regex_sub
     - match: '%r\{'
       comment: regular expressions (literal)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.regexp.mod-r.ruby
         - match: '\}[eimnosux]*'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
         - include: nest_curly_r
     - match: '%r\['
       comment: regular expressions (literal)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.regexp.mod-r.ruby
         - match: '\][eimnosux]*'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
         - include: nest_brackets_r
     - match: '%r\('
       comment: regular expressions (literal)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.regexp.mod-r.ruby
         - match: '\)[eimnosux]*'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
         - include: nest_parens_r
     - match: '%r\<'
       comment: regular expressions (literal)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.regexp.mod-r.ruby
         - match: '\>[eimnosux]*'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
         - include: nest_ltgt_r
     - match: '%r([^\w])'
       comment: regular expressions (literal)
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.regexp.mod-r.ruby
         - match: '\1[eimnosux]*'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
     - match: '%[QWSR]?\('
       comment: literal capable of interpolation ()
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.upper.ruby
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_parens_i
     - match: '%[QWSR]?\['
       comment: "literal capable of interpolation []"
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.upper.ruby
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_brackets_i
     - match: '%[QWSR]?\<'
       comment: literal capable of interpolation <>
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.upper.ruby
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_ltgt_i
     - match: '%[QWSR]?\{'
       comment: "literal capable of interpolation -- {}"
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.double.ruby.mod
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_curly_i
     - match: '%[QWSR]([^\w])'
       comment: literal capable of interpolation -- wildcard
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.upper.ruby
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
     - match: '%([^\w\s=])'
       comment: literal capable of interpolation -- wildcard
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.other.ruby
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
     - match: '%[qws]\('
       comment: literal incapable of interpolation -- ()
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.lower.ruby
         - match: \)
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: \\\)|\\\\
           scope: constant.character.escape.ruby
         - include: nest_parens
     - match: '%[qws]\<'
       comment: literal incapable of interpolation -- <>
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.lower.ruby
         - match: \>
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: \\\>|\\\\
           scope: constant.character.escape.ruby
         - include: nest_ltgt
     - match: '%[qws]\['
       comment: "literal incapable of interpolation -- []"
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.lower.ruby
         - match: '\]'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: '\\\]|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_brackets
     - match: '%[qws]\{'
       comment: "literal incapable of interpolation -- {}"
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.lower.ruby
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: '\\\}|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_curly
     - match: '%[qws]([^\w])'
       comment: literal incapable of interpolation -- wildcard
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.quoted.other.literal.lower.ruby
         - match: \1
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - match: \\.
           comment: Cant be named because its not neccesarily an escape.
@@ -579,13 +526,11 @@ contexts:
         1: punctuation.definition.constant.ruby
     - match: ^=begin
       comment: multiline comments
-      captures:
-        0: punctuation.definition.comment.ruby
+      scope: punctuation.definition.comment.ruby
       push:
         - meta_scope: comment.block.documentation.ruby
         - match: ^=end
-          captures:
-            0: punctuation.definition.comment.ruby
+          scope: punctuation.definition.comment.ruby
           pop: true
     - match: '(?:^[ \t]+)?(#).*$\n?'
       scope: comment.line.number-sign.ruby
@@ -618,13 +563,11 @@ contexts:
       scope: constant.numeric.ruby
     - match: ^__END__\n
       comment: __END__ marker
-      captures:
-        0: string.unquoted.program-block.ruby
+      scope: string.unquoted.program-block.ruby
       push:
         - meta_content_scope: text.plain
         - match: (?=not)impossible
-          captures:
-            0: string.unquoted.program-block.ruby
+          scope: string.unquoted.program-block.ruby
           pop: true
         - match: (?=<?xml|<(?i:html\b)|!DOCTYPE (?i:html\b))
           push:
@@ -634,14 +577,12 @@ contexts:
             - include: scope:text.html.basic
     - match: '(?><<-("?)((?:[_\w]+_|)HTML)\b\1)'
       comment: heredoc with embedded HTML and indented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.embedded.html.ruby
         - meta_content_scope: text.html.embedded.ruby
         - match: \s*\2$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: scope:text.html.basic
@@ -649,14 +590,12 @@ contexts:
         - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)SQL)\b\1)'
       comment: heredoc with embedded SQL and indented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.embedded.sql.ruby
         - meta_content_scope: text.sql.embedded.ruby
         - match: \s*\2$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: scope:source.sql
@@ -664,14 +603,12 @@ contexts:
         - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)CSS)\b\1)'
       comment: heredoc with embedded css and intented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.embedded.css.ruby
         - meta_content_scope: text.css.embedded.ruby
         - match: \s*\2$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: 'scope:source.css'
@@ -679,14 +616,12 @@ contexts:
         - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)(?:JS|JAVASCRIPT))\b\1)'
       comment: heredoc with embedded javascript and intented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.embedded.js.ruby
         - meta_content_scope: text.js.embedded.ruby
         - match: \s*\2$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: 'scope:source.js'
@@ -709,40 +644,34 @@ contexts:
     #     - include: escaped_char
     - match: '(?><<-("?)((?:[_\w]+_|)RUBY)\b\1)'
       comment: heredoc with embedded ruby and intented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.embedded.ruby.ruby
         - meta_content_scope: text.ruby.embedded.ruby
         - match: \s*\2$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: main
         - include: interpolated_ruby
         - include: escaped_char
     - match: (?>\=\s*<<(\w+))
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.heredoc.ruby
         - match: ^\1$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: interpolated_ruby
         - include: escaped_char
     - match: (?><<-(\w+))
       comment: heredoc with indented terminator
-      captures:
-        0: punctuation.definition.string.begin.ruby
+      scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: string.unquoted.heredoc.ruby
         - match: \s*\1$
-          captures:
-            0: punctuation.definition.string.end.ruby
+          scope: punctuation.definition.string.end.ruby
           pop: true
         - include: heredoc
         - include: interpolated_ruby
@@ -803,13 +732,11 @@ contexts:
         0: punctuation.section.embedded.ruby
         1: source.ruby.embedded.source.empty
     - match: '#\{'
-      captures:
-        0: punctuation.section.embedded.ruby
+      scope: punctuation.section.embedded.ruby
       push:
         - meta_scope: source.ruby.embedded.source
         - match: '\}'
-          captures:
-            0: punctuation.section.embedded.ruby
+          scope: punctuation.section.embedded.ruby
           pop: true
         - include: nest_curly_and_self
         - include: main
@@ -827,144 +754,118 @@ contexts:
         1: punctuation.definition.variable.ruby
   nest_brackets:
     - match: '\['
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\]'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: nest_brackets
   nest_brackets_i:
     - match: '\['
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\]'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_brackets_i
   nest_brackets_r:
     - match: '\['
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\]'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_brackets_r
   nest_curly:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: nest_curly
   nest_curly_and_self:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: nest_curly_and_self
     - include: main
   nest_curly_i:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_curly_i
   nest_curly_r:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_curly_r
   nest_ltgt:
     - match: \<
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \>
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: nest_ltgt
   nest_ltgt_i:
     - match: \<
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \>
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_ltgt_i
   nest_ltgt_r:
     - match: \<
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \>
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_ltgt_r
   nest_parens:
     - match: \(
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \)
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: nest_parens
   nest_parens_i:
     - match: \(
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \)
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_parens_i
   nest_parens_r:
     - match: \(
-      captures:
-        0: punctuation.section.scope.ruby
+      scope: punctuation.section.scope.ruby
       push:
         - match: \)
-          captures:
-            0: punctuation.section.scope.ruby
+          scope: punctuation.section.scope.ruby
           pop: true
         - include: regex_sub
         - include: nest_parens_r
@@ -977,23 +878,19 @@ contexts:
         1: punctuation.definition.arbitrary-repitition.ruby
         3: punctuation.definition.arbitrary-repitition.ruby
     - match: '\[(?:\^?\])?'
-      captures:
-        0: punctuation.definition.character-class.ruby
+      scope: punctuation.definition.character-class.ruby
       push:
         - meta_scope: string.regexp.character-class.ruby
         - match: '\]'
-          captures:
-            0: punctuation.definition.character-class.ruby
+          scope: punctuation.definition.character-class.ruby
           pop: true
         - include: escaped_char
     - match: \(
-      captures:
-        0: punctuation.definition.group.ruby
+      scope: punctuation.definition.group.ruby
       push:
         - meta_scope: string.regexp.group.ruby
         - match: \)
-          captures:
-            0: punctuation.definition.group.ruby
+          scope: punctuation.definition.group.ruby
           pop: true
         - include: regex_sub
     - match: '(?<=^|\s)(#)\s[[a-zA-Z0-9,. \t?!-][^\x{00}-\x{7F}]]*$'

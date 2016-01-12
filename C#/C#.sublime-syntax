@@ -19,12 +19,10 @@ contexts:
       push:
         - meta_scope: meta.namespace.source.cs
         - match: "}"
-          captures:
-            0: punctuation.section.namespace.end.source.cs
+          scope: punctuation.section.namespace.end.source.cs
           pop: true
         - match: "{"
-          captures:
-            0: punctuation.section.namespace.begin.source.cs
+          scope: punctuation.section.namespace.begin.source.cs
           push:
             - meta_scope: meta.namespace.body.source.cs
             - match: "(?=})"
@@ -33,13 +31,11 @@ contexts:
     - include: code
   block:
     - match: "{"
-      captures:
-        0: punctuation.section.block.begin.source.cs
+      scope: punctuation.section.block.begin.source.cs
       push:
         - meta_scope: meta.block.source.cs
         - match: "}"
-          captures:
-            0: punctuation.section.block.end.source.cs
+          scope: punctuation.section.block.end.source.cs
           pop: true
         - include: code
   builtinTypes:
@@ -50,8 +46,7 @@ contexts:
       push:
         - meta_scope: meta.class.source.cs
         - match: "}"
-          captures:
-            0: punctuation.section.class.end.source.cs
+          scope: punctuation.section.class.end.source.cs
           pop: true
         - include: storage-modifiers
         - include: comments
@@ -68,8 +63,7 @@ contexts:
               captures:
                 1: storage.type.source.cs
         - match: "{"
-          captures:
-            0: punctuation.section.class.begin.source.cs
+          scope: punctuation.section.class.begin.source.cs
           push:
             - meta_scope: meta.class.body.source.cs
             - match: "(?=})"
@@ -88,23 +82,19 @@ contexts:
     - include: builtinTypes
   comments:
     - match: ///
-      captures:
-        0: punctuation.definition.comment.source.cs
+      scope: punctuation.definition.comment.source.cs
       push:
         - meta_scope: comment.block.documentation.source.cs
         - match: $\n?
-          captures:
-            0: punctuation.definition.comment.source.cs
+          scope: punctuation.definition.comment.source.cs
           pop: true
         - include: scope:text.xml
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.source.cs
+      scope: punctuation.definition.comment.source.cs
       push:
         - meta_scope: comment.block.source.cs
         - match: \*/\n?
-          captures:
-            0: punctuation.definition.comment.source.cs
+          scope: punctuation.definition.comment.source.cs
           pop: true
     - match: //
       captures:
@@ -125,24 +115,20 @@ contexts:
       captures:
         0: punctuation.definition.string.begin.source.cs
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.source.cs
+      scope: punctuation.definition.string.begin.source.cs
       push:
         - meta_scope: string.quoted.double.source.cs
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.source.cs
+          scope: punctuation.definition.string.end.source.cs
           pop: true
         - match: \\.
           scope: constant.character.escape.source.cs
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.source.cs
+      scope: punctuation.definition.string.begin.source.cs
       push:
         - meta_scope: string.quoted.single.source.cs
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.source.cs
+          scope: punctuation.definition.string.end.source.cs
           pop: true
         - match: \\.
           scope: constant.character.escape.source.cs
@@ -201,8 +187,7 @@ contexts:
               pop: true
             - include: builtinTypes
         - match: "{"
-          captures:
-            0: punctuation.section.method.begin.source.cs
+          scope: punctuation.section.method.begin.source.cs
           push:
             - meta_scope: meta.method.body.source.cs
             - match: "(?=})"
@@ -212,8 +197,7 @@ contexts:
       push:
         - meta_scope: meta.property.source.cs
         - match: "}"
-          captures:
-            0: punctuation.section.property.end.source.cs
+          scope: punctuation.section.property.end.source.cs
           pop: true
         - include: storage-modifiers
         - match: '([\w.]+)\s*(?={)'
@@ -232,8 +216,7 @@ contexts:
               pop: true
             - include: builtinTypes
         - match: "{"
-          captures:
-            0: punctuation.section.property.begin.source.cs
+          scope: punctuation.section.property.begin.source.cs
           push:
             - meta_scope: meta.method.body.source.cs
             - match: "(?=})"
@@ -247,8 +230,7 @@ contexts:
       push:
         - meta_scope: meta.method-call.source.cs
         - match: \)
-          captures:
-            0: punctuation.definition.method-parameters.end.source.cs
+          scope: punctuation.definition.method-parameters.end.source.cs
           pop: true
         - match: ","
           scope: punctuation.definition.seperator.parameter.source.cs

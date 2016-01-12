@@ -21,13 +21,11 @@ contexts:
         - match: (?=(?://|/\*))|$
           pop: true
         - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.go
+          scope: punctuation.definition.string.begin.go
           push:
             - meta_scope: string.quoted.double.import.go
             - match: '"'
-              captures:
-                0: punctuation.definition.string.end.go
+              scope: punctuation.definition.string.end.go
               pop: true
     - include: block
     - include: root_parens
@@ -57,13 +55,11 @@ contexts:
       captures:
         1: meta.toc-list.banner.block.go
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.go
+      scope: punctuation.definition.comment.go
       push:
         - meta_scope: comment.block.go
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.go
+          scope: punctuation.definition.comment.go
           pop: true
     - match: \*/.*\n
       scope: invalid.illegal.stray-commend-end.go
@@ -72,8 +68,7 @@ contexts:
       captures:
         1: meta.toc-list.banner.line.go
     - match: //
-      captures:
-        0: punctuation.definition.comment.go
+      scope: punctuation.definition.comment.go
       push:
         - meta_scope: comment.line.double-slash.go
         - match: $\n?
@@ -219,32 +214,26 @@ contexts:
       scope: invalid.illegal.placeholder.go
   strings:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.go
+      scope: punctuation.definition.string.begin.go
       push:
         - meta_scope: string.quoted.double.go
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.go
+          scope: punctuation.definition.string.end.go
           pop: true
         - include: string_placeholder
         - include: string_escaped_char
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.go
+      scope: punctuation.definition.string.begin.go
       push:
         - meta_scope: string.quoted.single.go
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.go
+          scope: punctuation.definition.string.end.go
           pop: true
         - include: string_escaped_char
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.go
+      scope: punctuation.definition.string.begin.go
       push:
         - meta_scope: string.quoted.raw.go
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.go
+          scope: punctuation.definition.string.end.go
           pop: true

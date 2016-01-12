@@ -27,13 +27,11 @@ contexts:
     - match: \s*:\s*:.*$
       scope: comment.line.colons.dosbatch
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.shell
+      scope: punctuation.definition.string.begin.shell
       push:
         - meta_scope: string.quoted.double.dosbatch
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.shell
+          scope: punctuation.definition.string.end.shell
           pop: true
     - match: "[|]"
       scope: keyword.operator.pipe.dosbatch
