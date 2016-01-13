@@ -39,13 +39,13 @@ contexts:
         (?xi)
 
         				# normal stuff, capture 1
-        				 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|double\sprecision|inet|int|integer|line|lseg|macaddr|money|oid|path|point|polygon|real|serial|smallint|sysdate|text)\b
+        				 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text)\b
 
         				# numeric suffix, capture 2 + 3i
         				|\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
 
         				# optional numeric suffix, capture 4 + 5i
-        				|\b(char|number|varchar\d?)\b(?:\((\d+)\))?
+        				|\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
 
         				# special case, capture 6 + 7i + 8i
         				|\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
