@@ -5,16 +5,13 @@
 	<key>name</key>
 	<string>Symbol List: Method / Constructor</string>
 	<key>scope</key>
-	<string>source.d meta.definition.method, source.d meta.definition.constructor, source.d meta.definition.destructor</string>
+	<string>source.d meta.block entity.name</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
-      s/^\s*([^\)]+)/ $1/;  # pad</string>
+		<string>s/^\s*([^\)]+)/ $1/;  # pad</string>
 	</dict>
-	<key>uuid</key>
-	<string>A6BCFD4A-B6CC-49C6-93F9-FEB979CC679E</string>
 </dict>
 </plist>
