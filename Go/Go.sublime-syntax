@@ -248,3 +248,4 @@ contexts:
           captures:
             0: punctuation.definition.string.end.go
           pop: true
+        - include: string_placeholder
