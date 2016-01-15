@@ -77,7 +77,7 @@ contexts:
       scope: storage.modifier.sql
     - match: \b\d+\b
       scope: constant.numeric.sql
-    - match: (?i:\b(select(\s+distinct)?|insert\s+(ignore\s+)?into|update|delete|from|set|where|group\sby|or|like|and|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: (?i:\b(select(\s+distinct)?|insert(\s+(ignore\s+)?into)?|update|delete|from|set|where|group\sby|or|like|and|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
       scope: keyword.other.DML.sql
     - match: (?i:\b(on|((is\s+)?not\s+)?null)\b)
       scope: keyword.other.DDL.create.II.sql
