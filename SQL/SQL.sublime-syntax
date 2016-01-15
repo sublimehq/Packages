@@ -73,7 +73,7 @@ contexts:
         13: storage.type.sql
         14: constant.numeric.sql
         15: storage.type.sql
-    - match: (?i:\b((?:primary|foreign)\s+key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint)\b)
+    - match: (?i:\b((?:primary|foreign)\s+key|references|on\sdelete(\s+cascade)?|on\supdate(\s+cascade)?|check|constraint|default)\b)
       scope: storage.modifier.sql
     - match: \b\d+\b
       scope: constant.numeric.sql
