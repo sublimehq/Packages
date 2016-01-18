@@ -223,6 +223,12 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: (=)
       scope: keyword.operator.assignment.java
+      push:
+        - meta_scope: meta.assignment.rhs.java
+        - match: ;
+          scope: punctuation.terminator.java
+          pop: true
+        - include: code
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
@@ -234,7 +240,7 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
   methods:
-    - match: '(?!new)(?=\w.*\s+)(?=[^=]+\()'
+    - match: '(?=\w.*\s+)(?=[^=]+\()'
       push:
         - meta_scope: meta.method.java
         - match: "}|(?=;)"
