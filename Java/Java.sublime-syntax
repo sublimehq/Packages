@@ -226,6 +226,7 @@ contexts:
       push:
         - meta_scope: meta.assignment.rhs.java
         - match: ;
+          scope: punctuation.terminator.java
           pop: true
         - include: code
     - match: (\-\-|\+\+)
