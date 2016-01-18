@@ -143,6 +143,7 @@ contexts:
     - include: methods
     - include: annotations
     - include: storage-modifiers
+    - include: class-body-keywords
     - include: code
   code:
     - include: comments
@@ -223,12 +224,6 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: (=)
       scope: keyword.operator.assignment.java
-      push:
-        - meta_scope: meta.assignment.rhs.java
-        - match: ;
-          scope: punctuation.terminator.java
-          pop: true
-        - include: code
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
@@ -237,6 +232,17 @@ contexts:
       scope: keyword.operator.logical.java
     - match: (?<=\S)\.(?=\S)
       scope: keyword.operator.dereference.java
+    - match: ;
+      scope: punctuation.terminator.java
+  class-body-keywords:
+    - match: (=)
+      scope: keyword.operator.assignment.java
+      push:
+        - meta_scope: meta.assignment.rhs.java
+        - match: ;
+          scope: punctuation.terminator.java
+          pop: true
+        - include: code
     - match: ;
       scope: punctuation.terminator.java
   methods:
