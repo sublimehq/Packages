@@ -140,6 +140,7 @@ contexts:
     - include: comments
     - include: class
     - include: enums
+    - include: class-body-keywords
     - include: methods
     - include: annotations
     - include: storage-modifiers
@@ -223,12 +224,6 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: (=)
       scope: keyword.operator.assignment.java
-      push:
-        - meta_scope: meta.assignment.rhs.java
-        - match: ;
-          scope: punctuation.terminator.java
-          pop: true
-        - include: code
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
@@ -237,6 +232,17 @@ contexts:
       scope: keyword.operator.logical.java
     - match: (?<=\S)\.(?=\S)
       scope: keyword.operator.dereference.java
+    - match: ;
+      scope: punctuation.terminator.java
+  class-body-keywords:
+    - match: (=)
+      scope: keyword.operator.assignment.java
+      push:
+        - meta_scope: meta.assignment.rhs.java
+        - match: ;
+          scope: punctuation.terminator.java
+          pop: true
+        - include: code
     - match: ;
       scope: punctuation.terminator.java
   methods:
@@ -332,7 +338,7 @@ contexts:
     - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
       scope: storage.type.primitive.java
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient)\b
+    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
       captures:
         1: storage.modifier.java
   strings:
