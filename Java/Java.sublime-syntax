@@ -140,10 +140,10 @@ contexts:
     - include: comments
     - include: class
     - include: enums
+    - include: class-body-keywords
     - include: methods
     - include: annotations
     - include: storage-modifiers
-    - include: class-body-keywords
     - include: code
   code:
     - include: comments
@@ -235,6 +235,8 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
   class-body-keywords:
+    - match: \b(default)\b
+      scope: keyword.control.java
     - match: (=)
       scope: keyword.operator.assignment.java
       push:
