@@ -280,7 +280,7 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.markdown
         2: string.other.link.description.markdown
-        3: punctuation.definition.string.end.markdown
+        4: punctuation.definition.string.end.markdown
         5: invalid.illegal.whitespace.markdown
         6: punctuation.definition.metadata.markdown
         7: punctuation.definition.link.markdown
