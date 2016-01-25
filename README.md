@@ -18,7 +18,7 @@ On Windows, you can use junctions instead of symlinks (symlinks require administ
 ```powershell
 # Using PowerShell
 PS> git clone https://github.com/sublimehq/Packages.git
-PS> cmd /c mklink /J (convert-path "$env:LOCALAPPDATA/Sublime Text 3/Packages/Python") (convert-path ./Packages/Python)
+PS> cmd /c mklink /J "$env:LOCALAPPDATA/Sublime Text 3/Packages/Python" (convert-path ./Packages/Python)
 ```
 
 Alternatively, download the portable version, and clone this repository directly as a subdirectory of `Data`.
