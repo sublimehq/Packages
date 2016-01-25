@@ -11,9 +11,21 @@ $ git clone https://github.com/sublimehq/Packages.git
 $ ln -s `pwd`/Packages/Python ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/Python
 ```
 
-After you've finished, keep in mind that you're now overriding a default package, and when Sublime Text updates to a new version, unless you pull the latest changes from the repository, you'll run the risk of having an out-of-date package.
+---
 
-On Windows, rather than fiddling around with symlinks, the simplest approach would likely be to download the portable version, and clone this repository directly as a subdirectory of `Data`.
+On Windows, you can use junctions instead of symlinks (symlinks require administrative rights):
+
+```powershell
+# Using PowerShell
+PS> git clone https://github.com/sublimehq/Packages.git
+PS> cmd /c mklink /J (convert-path "$env:LOCALAPPDATA/Sublime Text 3/Packages/Python") (convert-path ./Packages/Python)
+```
+
+Alternatively, download the portable version, and clone this repository directly as a subdirectory of `Data`.
+
+---
+
+After you've finished, keep in mind that you're now overriding a default package, and when Sublime Text updates to a new version, unless you pull the latest changes from the repository, you'll run the risk of having an out-of-date package.
 
 ## Pull Requests
 
