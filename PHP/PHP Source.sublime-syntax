@@ -721,8 +721,12 @@ contexts:
     - include: constants
   php_doc:
     - match: ^(?!\s*\*).*$\n?
-      comment: PHPDocumentor only recognises lines with an asterisk as the first non-whitespaces character
-      scope: invalid.illegal.missing-asterisk.phpdoc.php
+      set:
+        - meta_scope: comment.block.php
+        - match: \*/
+          captures:
+            0: punctuation.definition.comment.php
+          pop: true
     - match: ^\s*\*\s*(@access)\s+((public|private|protected)|(.+))\s*$
       captures:
         1: keyword.other.phpdoc.php
