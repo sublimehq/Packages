@@ -1,4 +1,4 @@
-// SYNTAX TEST "Go.sublime-syntax"
+// SYNTAX TEST "Packages/Go/Go.sublime-syntax"
 package examples
 
 const (

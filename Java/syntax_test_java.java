@@ -1,4 +1,4 @@
-// SYNTAX TEST "Java.sublime-syntax"
+// SYNTAX TEST "Packages/Java/Java.sublime-syntax"
 
 public class SyntaxTest {
     private String memberString = "Hello";

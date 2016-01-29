@@ -1,4 +1,4 @@
-# SYNTAX TEST "Python.sublime-syntax"
+# SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 
 def my_func(param1, # Multi-line function definition
 #                   ^ comment.line.number-sign

@@ -1,4 +1,4 @@
-# SYNTAX TEST "Tcl.sublime-syntax"
+# SYNTAX TEST "Packages/TCL/Tcl.sublime-syntax"
 
 # -------------------------------------------------------------------------- #
 # Issue 134: https://github.com/SublimeTextIssues/DefaultPackages/issues/134
