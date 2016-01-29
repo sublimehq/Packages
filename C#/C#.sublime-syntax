@@ -285,5 +285,5 @@ contexts:
       captures:
         2: keyword.control.import.source.cs
   storage-modifiers:
-    - match: \b(event|delegate|internal|public|protected|private|static|const|new|sealed|abstract|virtual|override|extern|unsafe|readonly|volatile|implicit|explicit|operator)\b
+    - match: \b(event|delegate|internal|public|protected|private|static|const|new|sealed|abstract|virtual|override|extern|unsafe|readonly|volatile|implicit|explicit|operator|partial)\b
       scope: storage.modifier.source.cs
