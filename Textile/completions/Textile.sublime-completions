@@ -1,0 +1,16 @@
+{
+    "scope": "text.html.textile",
+    "completions":
+    [
+        { "trigger": "acr\tAcronym", "contents": "${1:ABC}(${2:Always Be Closing})" },
+        { "trigger": "bq\tBlock Quote", "contents": "bq. ${1:A quote…}\n\n$0" },
+        { "trigger": "h1\tHeading 1", "contents": "h1. ${1:Text…}\n\n$0" },
+        { "trigger": "h2\tHeading 2", "contents": "h2. ${1:Text…}\n\n$0" },
+        { "trigger": "h3\tHeading 3", "contents": "h3. ${1:Text…}\n\n$0" },
+        { "trigger": "h4\tHeading 4", "contents": "h4. ${1:Text…}\n\n$0" },
+        { "trigger": "h5\tHeading 5", "contents": "h5. ${1:Text…}\n\n$0" },
+        { "trigger": "h6\tHeading 6", "contents": "h6. ${1:Text…}\n\n$0" },
+        { "trigger": "img\tImage", "contents": "!${1:http://site.com/image}(${2:Title})!" },
+        { "trigger": "linkimg\tLinked Image", "contents": "!${1:http://site.com/image}(${2:Title})!:${3:http://linkedsite.com}" }
+    ]
+}
