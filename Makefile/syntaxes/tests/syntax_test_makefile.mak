@@ -1,4 +1,4 @@
-# SYNTAX TEST "Makefile.sublime-syntax"
+# SYNTAX TEST "Packages/Makefile/syntaxes/Makefile.sublime-syntax"
 
 # Line comment
 # <- comment

@@ -1,4 +1,4 @@
-# SYNTAX TEST "RegExp.sublime-syntax"
+# SYNTAX TEST "Packages/Regular Expressions/syntaxes/RegExp.sublime-syntax"
 
 ^foo bar$
 # <- keyword.control.anchors
