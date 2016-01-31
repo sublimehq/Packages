@@ -1,0 +1,42 @@
+{
+    "scope": "source.matlab, source.octave",
+    "completions":
+    [
+        { "trigger": "^\t^", "contents": "^($1) $2" },
+        { "trigger": "case\tcase", "contents": "case ${2:'${3:string}'}\n\t$0" },
+        { "trigger": "clear\tclear", "contents": "clear('${1:all}'$2);" },
+        { "trigger": "dsp\tdisp sprintf", "contents": "disp(sprintf('${1:%s}\\n'${1/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\\);)/});" },
+        { "trigger": "disp\tdisp", "contents": "disp('${1:Text}');" },
+        { "trigger": "dlmwrite\tdlmwrite", "contents": "dlmwrite('${1:filename}.dat', [${2:variables}], ${3:'${4:delimiter}', '${5:\\t}'});\n$0" },
+        { "trigger": "else\telse", "contents": "else\n\t${1:body}" },
+        { "trigger": "elseif\telseif", "contents": "elseif ${1:condition}\n\t$0" },
+        { "trigger": "error\terror", "contents": "error('${1:Description}');" },
+        { "trigger": "e\texp", "contents": "exp($1) $2" },
+        { "trigger": "fpr\tfprintf", "contents": "fprintf(${1:fid}, '${2:%s}\\n'${2/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\\);)/}" },
+        { "trigger": "get\tget", "contents": "get(${1:gca},'${2:PropertyName}');" },
+        { "trigger": "griddata\tgriddata", "contents": "griddata(${1:xx}, ${2:yy}, ${3:zz}, ${4:xi}, ${5:yi});" },
+        { "trigger": "ifeif\tif … elseif … end", "contents": "if ${1:condition}\n\t${2:body}\nelseif ${3:condition}\n\t${4:body}\nelse\n\t${5:body}\nend\n$0" },
+        { "trigger": "line\tline", "contents": "line(${1:xvector},${2:yvector}${3:,'Color','${4:b}','LineWidth',${5:1},'LineStyle','${6:-}'})" },
+        { "trigger": "set\tset", "contents": "set(${1:get(${2:gca},'${3:PropertyName}')},'${4:PropertyName}',${5:PropertyValue});" },
+        { "trigger": "func\tsmall function", "contents": "%% ${1:functionname}: ${2:function description}\nfunction [${3:outputs}] = ${1}(${4:arg})\n${3/,?\\s*([a-zA-Z]\\w*)|,\\s*/(?1:\\t$1 = ;\\n)/g}" },
+        { "trigger": "spr\tsprintf", "contents": "sprintf('${1:%s}\\n'${1/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\\);)/}" },
+        { "trigger": "switch\tswitch … case … otherwise … end", "contents": "switch ${1:switch_expression}\n\tcase ${2:case_expression}\n\t\t${3:body}\n\totherwise\n\t\t${4:body}\nend" },
+        { "trigger": "zla\ttitle", "contents": "set(get(gca,'Title'),'String',${1:'${2}'});" },
+        { "trigger": "uni\tunix", "contents": "${1:s},${2:w}] = unix('${3:Unix commands}');" },
+        { "trigger": "war\twarning", "contents": "warning(['${1:Description}']);" },
+        { "trigger": "whi\twhile", "contents": "while ${1:condition}\n\t${2:body}\nend\n$0" },
+        { "trigger": "xla\txlabel", "contents": "set(get(gca,'XLabel'),'String',${1:'${2}'});" },
+        { "trigger": "xti\txtick", "contents": "set(gca,'XTick',${1:[${2}]});" },
+        { "trigger": "yla\tylabel", "contents": "set(get(gca,'YLabel'),'String',${1:'${2}'});" },
+        { "trigger": "yti\tytick", "contents": "set(gca,'YTick',${1:[${2}]});" },
+        { "trigger": "zla\tzlabel", "contents": "set(get(gca,'ZLabel'),'String',${1:'${2}'});" }
+    ]
+},
+{
+    "scope": "source.matlab",
+    "completions":
+    [
+        { "trigger": "octfun\tOctave function", "contents": "## Copyright (C) ${TM_YEAR} $TM_FULLNAME\n##\n## This program is free software; you can redistribute it and/or modify\n## it under the terms of the GNU General Public License as published by\n## the Free Software Foundation; either version 2 of the License, or\n## (at your option) any later version.\n##\n## This program is distributed in the hope that it will be useful,\n## but WITHOUT ANY WARRANTY; without even the implied warranty of\n## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n## GNU General Public License for more details.\n##\n## You should have received a copy of the GNU General Public License\n## along with this program; If not, see <http://www.gnu.org/licenses/>.\n\n## -*- texinfo -*-\n## @deftypefn {Function File} {${1:Outputs} = } ${2:Function Name} (${3:Input Arguments)\n## ${4:Short Description}\n##\n## ${5:Long Description}\n##\n## @seealso{${6:functions}}\n## @end deftypefn\n\n## Author:  $TM_FULLNAME\n\n$0\n\nendfunction" },
+        { "trigger": "unwind\tunwind_protect … cleanup … end", "contents": "unwind_protect\n\t$1\nunwnd_protect_cleanup\n\t$0\nend_unwind_protect" }
+    ]
+}
