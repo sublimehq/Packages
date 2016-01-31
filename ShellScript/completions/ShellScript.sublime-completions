@@ -1,0 +1,20 @@
+{
+    "scope": "",
+    "completions":
+    [
+        { "trigger": "!env\t#!/usr/bin/env", "contents": "#!/usr/bin/env ${1:${TM_SCOPE/(?:source|.*)\\.(?:(shell)|(\\w+)).*/(?1:bash:$2)/}}\n$0" }
+    ]
+},
+{
+    "scope": "source.shell",
+    "completions":
+    [
+        { "trigger": "case\tcase … esac", "contents": "case ${1:word} in\n\t${2:pattern} )\n\t\t$0;;\nesac" },
+        { "trigger": "elif\telif", "contents": "elif ${2:[[ ${1:condition} ]]}; then\n\t${0:#statements}" },
+        { "trigger": "for\tfor … done", "contents": "for (( i = 0; i < ${1:10}; i++ )); do\n\t${0:#statements}\ndone" },
+        { "trigger": "forin\tfor … in … done", "contents": "for ${1:i}${2/.+/ in /}${2:words}; do\n\t${0:#statements}\ndone" },
+        { "trigger": "if\tif … fi", "contents": "if ${2:[[ ${1:condition} ]]}; then\n\t${0:#statements}\nfi" },
+        { "trigger": "until\tuntil … done", "contents": "until ${2:[[ ${1:condition} ]]}; do\n\t${0:#statements}\ndone" },
+        { "trigger": "while\twhile … done", "contents": "while ${2:[[ ${1:condition} ]]}; do\n\t${0:#statements}\ndone" }
+    ]
+}
