@@ -1,10 +1,11 @@
-// SYNTAX TEST "Packages/Go/Go.sublime-syntax"
+// SYNTAX TEST "Packages/Go/syntaxes/Go.sublime-syntax"
+
 package examples
 
 const (
     graveAccentString = `highlights %s and %[1]s`
-//                                  ^ constant.other.placeholder 
-//                                          ^ constant.other.placeholder 
+//                                  ^ constant.other.placeholder
+//                                          ^ constant.other.placeholder
     normalString = "highlights %q and %[1]s"
 //                              ^ constant.other.placeholder
 //                                     ^ constant.other.placeholder

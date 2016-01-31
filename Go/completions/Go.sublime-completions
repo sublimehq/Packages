@@ -1,0 +1,22 @@
+{
+    "scope": "source.go",
+    "completions":
+    [
+        { "trigger": "for\tFor Loop", "contents": "for ${2:i} := 0; $2 < ${1:count}; ${3:$2++} {\n\t$0\n}" },
+        { "trigger": "func\tFunction", "contents": "func ${1:func_name}($2)$3 {\n\t$0\n}" },
+        { "trigger": "gfn\tgo func()", "contents": "go func($1) {\n\t$0\n}${2:($3)}" },
+        { "trigger": "if\tIf Statement", "contents": "if ${1:condition} {\n\t$0\n}" },
+        { "trigger": "imp\tImport", "contents": "import $2\"${1:name}\"" },
+        { "trigger": "main\tmain()", "contents": "func main() {\n\t$0\n}" },
+        { "trigger": "st\tStruct", "contents": "struct {\n\t${0:var vartype;}\n}" },
+        { "trigger": "tfunc\tType Function", "contents": "func (${1:varname typename}) ${2:func_name}($3)$4 {\n\t$0\n}" },
+        { "trigger": "type\tType", "contents": "type ${1:name} ${2:int8}" }
+    ]
+},
+{
+    "scope": "meta.parens.empty.go",
+    "completions":
+    [
+        { "trigger": "empty\tEmpty ()", "contents": "\n\t$0\n" }
+    ]
+}
