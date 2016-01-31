@@ -12,13 +12,6 @@
         { "trigger": "if\tif", "contents": "(if (${1:test})\n\t($0))" },
         { "trigger": "let\tlet", "contents": "(let (${1:variables})\n\t($0))" },
         { "trigger": "let1\tlet1", "contents": "(let ((${1:variable} ${2:value}))\n\t($0))" },
-        { "trigger": "setf\tsetf", "contents": "(setf ${1:place} ${2:value})" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" },
-        { "trigger": "\t", "contents": "" }
+        { "trigger": "setf\tsetf", "contents": "(setf ${1:place} ${2:value})" }
     ]
 }
