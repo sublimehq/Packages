@@ -1,0 +1,24 @@
+{
+    "scope": "source.r, source.rd.console",
+    "completions":
+    [
+        { "trigger": "rug\tAdd Tick Marks", "contents": "rug(${1:jitter(${2:x})})" },
+        { "trigger": "att\tAttach", "contents": "attach(${1:frame})" },
+        { "trigger": "cum\tCummulative", "contents": "cum${1:max}(${2:x})" },
+        { "trigger": "den\tDensity", "contents": "density(${1:x}${2:, bw = ${3:bandwidth}})" },
+        { "trigger": "det\tDetach", "contents": "detach(${0:})" },
+        { "trigger": "cut\tDivide Into Intervals", "contents": "cut(${1:x}, breaks = c(${2:${3:}, ${4:max(${1:x})}}))" },
+        { "trigger": "fac\tFactor", "contents": "factor(${1:x})" },
+        { "trigger": "for\tFor Loop", "contents": "for (${1:i} in ${2:seq}) ${3:{$0\\}}" },
+        { "trigger": "fun\tFunction", "contents": "function(${1:x}) ${3:{$0\\}}" },
+        { "trigger": "ife\tIfelse", "contents": "ifelse(${1:test}, ${2:yes}, ${3:no})" },
+        { "trigger": "len\tLength", "contents": "length(${1:x})" },
+        { "trigger": "dat\tLoad Dataset", "contents": "data(${1:name})" },
+        { "trigger": "nao\tna.omit", "contents": "na.omit(${0:})" },
+        { "trigger": "lin\tPolygonal Line", "contents": "lines(${1:x}${2:, color=${3:red}})" },
+        { "trigger": "rea\tRead From File", "contents": "read.table(\"${1:filename}\"${2:, header = ${3:TRUE},  sep = \"${4:\\t}\",  stringsAsFactors = ${5:FALSE}})" },
+        { "trigger": "seq\tSequence (from,to,by)", "contents": "seq(${1:from}, ${2:to}, ${3:by})" },
+        { "trigger": "sor\tSort", "contents": "sort(${1:x})" },
+        { "trigger": "sou\tSource", "contents": "source(${1:\"${2:}\"}${3:, chdir = ${4:TRUE}})" }
+    ]
+}
