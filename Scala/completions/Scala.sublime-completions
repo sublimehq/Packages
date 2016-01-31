@@ -1,0 +1,41 @@
+{
+    "scope": "source.scala",
+    "completions":
+    [
+        { "trigger": "ccc\tcase class scaffolding", "contents": "class ${1:Class}(${2/(\\S+\\s*:)/val $1/g}) {\n\toverride def hashCode = 0 ${2/(\\S+)\\s*:[^,]+(,?)/+ $1.##/g}\n\toverride def equals(other: Any) = $1.unapply(this) == $1.unapply(other)\n\toverride def canEqual(other: Any) = other.isInstanceOf[$1]\n}\n\nobject $1 {\n\tdef apply(${2:arguments}): $1 = new $1(${2/(\\S+)\\s*:[^,]+/$1/g})\n\tdef unapply(other: Any) = other match {\n\tcase x: $1 => import x._ ; Some(${2/(\\S+)\\s*:[^,]+/$1/g})\n\tcase _     => None\n\t}\n}" }
+        { "trigger": "case class\tcase class", "contents": "case class ${1:${TM_FILENAME/(.*)\\.scala/$1/}}${2:($3)} ${4:extends ${5:Any} }{\n\t$0\n}" },
+        { "trigger": "case\tcase", "contents": "case ${1:_} => $0" },
+        { "trigger": "class\tclass", "contents": "class ${1:${TM_FILENAME/(.*)\\.scala/$1/}}${2:($3)} ${4:extends ${5:Any} }{\n\t$0\n}" },
+        { "trigger": "enumeration\tenumeration", "contents": "object ${1:MyEnumeration} extends Enumeration {\n\ttype $1 = Value\n\tval ${2:${3:MyEnumeration1}, ${4:MyEnumeration2}} = Value\n}\n\n${5:import $1._}\n$0" },
+        { "trigger": "for\tfor - Block", "contents": "for( $1 <- ${2:${3:0} to ${4:10}}) {\n\t$0\n}" },
+        { "trigger": "for\tfor - Yield", "contents": "for( $1 <- ${2:${3:0} to ${4:10}}) yield $0" },
+        { "trigger": "if\tif", "contents": "if($1){\n\t$2\n}" },
+        { "trigger": "impc\timport mutable/immutable", "contents": "import scala.collection.{ mutable, immutable, generic }" },
+        { "trigger": "lam\tlambda", "contents": "($1) => ${2:{${3:}\\}}" },
+        { "trigger": "<-\tleft arrow", "contents": "${1:\"${2}\"} <- ${3:\"${4}\"}" },
+        { "trigger": "main\tmain", "contents": "def main(args: Array[String]): Unit = {\n\t$1\n}" },
+        { "trigger": "match\tmatch", "contents": "match {\n\tcase ${1:_} => $0\n}" },
+        { "trigger": "def\tmethod", "contents": "def ${1:method}${2:(${4:arg}: ${5:Type})} = {\n\t$0\n}" },
+        { "trigger": "omain\tobject with main method", "contents": "object ${1:${TM_FILENAME/(.*)\\.scala/$1/}} {\n\tdef main(args: Array[String]): Unit = {\n\t\t$2\n\t}\n}" },
+        { "trigger": "object\tobject", "contents": "object ${1:${TM_FILENAME/(.*)\\.scala/$1/}} ${2:extends ${3:Any} }{\n\t$0\n}" },
+        { "trigger": "->\tright arrow", "contents": "${1:\"${2}\"} -> ${3:\"${4}\"}" },
+        { "trigger": "script\tscript head", "contents": "#!/bin/sh\n\texec scala \"\\$0\" \"\\$@\"\n!#\n\n$1" },
+        { "trigger": "cc\tcase class", "contents": "case class" },
+        { "trigger": "c\tclass", "contents": "class" },
+        { "trigger": "enum\tenumeration", "contents": "enumeration" },
+        { "trigger": "m\tmatch", "contents": "match" },
+        { "trigger": "obj\tobject", "contents": "object" },
+        { "trigger": "t\ttrait", "contents": "trait" },
+        { "trigger": "tostr\ttoString", "contents": "override def toString(): String =  $0" },
+        { "trigger": "trait\ttrait", "contents": "trait ${1:${TM_FILENAME/(.*)\\.scala/$1/}} {\n\t$0\n}" },
+        { "trigger": "try\ttry catch", "contents": "try {\n\t${1:// …}\n} catch {\n\tcase e: Exception => $0\n}" },
+        { "trigger": "with\twith", "contents": "with ${1:Any}" }
+    ]
+},
+{
+    "scope": "meta.parentheses.scala",
+    "completions":
+    [
+        { "trigger": "\n\tSpecial: Return Inside parentheses", "contents": "\n\t$0" }
+    ]
+}
