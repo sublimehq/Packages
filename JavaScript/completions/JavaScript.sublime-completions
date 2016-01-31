@@ -1,0 +1,18 @@
+{
+    "scope": "source.js",
+    "completions":
+    [
+        { "trigger": "for\tfor (…) {…} (Improved Native For-Loop)", "contents": "for (var ${20:i} = ${1:Things}.length - 1; ${20:i} >= 0; ${20:i}--) {\n\t${100:${1:Things}[${20:i}]}$0\n}" },
+        { "trigger": "for\tfor (…) {…}", "contents": "for (var ${20:i} = 0; ${20:i} < ${1:Things}.length; ${20:i}++) {\n\t${100:${1:Things}[${20:i}]}$0\n}" },
+        { "trigger": "fun\tFunction", "contents": "function ${1:function_name}(${2:argument}) {\n\t${0:// body…}\n}" },
+        { "trigger": "f\tAnonymous Function", "contents": "function($1) {${0:$TM_SELECTED_TEXT}}" },
+        { "trigger": "g\tGet Elements", "contents": "getElement${1/(T)|.*/(?1:s)/}By${1:T}${1/(T)|(I)|.*/(?1:agName)(?2:d)/}('$2')" },
+        { "trigger": "ife\tif … else", "contents": "if (${1:true}) {${0:$TM_SELECTED_TEXT}} else {}" },
+        { "trigger": "if\tif", "contents": "if (${1:true}) {${0:$TM_SELECTED_TEXT}}" },
+        { "trigger": ":\tObject key — key: \"value\"", "contents": "${1:key}: ${2:\"${3:value}\"}${4:, }" },
+        { "trigger": ":f\tObject Method", "contents": "${1:method_name}: function(${3:attribute}) {\n\t$0\n}${10:,}" },
+        { "trigger": ":,\tObject Value JS", "contents": "${1:value_name}: ${0:value}," },
+        { "trigger": "proto\tPrototype", "contents": "${1:class_name}.prototype.${2:method_name} = function(${3:first_argument}) {\n\t${0:// body…}\n};\n" },
+        { "trigger": "timeout\tsetTimeout function", "contents": "setTimeout(function() {$0}${2:}, ${1:10});" }
+    ]
+}
