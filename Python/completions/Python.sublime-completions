@@ -1,0 +1,20 @@
+{
+    "scope": "source.python",
+    "completions":
+    [
+        { "trigger": "__\t__magic__", "contents": "__${1:init}__" },
+        { "trigger": "for\tFor Loop", "contents": "for ${1:x} in ${2:xrange(1,10)}:\n\t${0:pass}" },
+        { "trigger": "def\tFunction", "contents": "def ${1:function}($2):\n\t${0:pass}" },
+        { "trigger": "ifmain\tif __name__ == '__main__'", "contents": "if __name__ == '__main__':\n\t${1:main()}" },
+        { "trigger": "if\tIf Condition", "contents": "if ${1:$SELECTION}:\n\t${0:pass}" },
+        { "trigger": "defs\tMethod", "contents": "def ${1:function}(self${2}):\n\t${0:pass}" },
+        { "trigger": "class\tNew Class", "contents": "class ${1:ClassName}(${2:object}):\n\t${3/.+/\"\"\"/}${3:docstring for $1}${3/.+/\"\"\"\\n/}${3/.+/\\t/}def __init__(self${4/([^,])?(.*)/(?1:, )/}${4:arg}):\n\t\t${5:super($1, self).__init__()}\n${4/(\\A\\s*,\\s*\\Z)|,?\\s*([A-Za-z_][a-zA-Z0-9_]*)\\s*(=[^,]*)?(,\\s*|$)/(?2:\\t\\tself.$2 = $2\\n)/g}" },
+        { "trigger": "property\tNew Property", "contents": "property\ndef ${1:foo}(self):\n\treturn self.${2:_$1}\n$0" },
+        { "trigger": ".\tself", "contents": "self." },
+        { "trigger": "try\tTry/Except/Else/Finally", "contents": "try:\n\t${1:pass}\nexcept${2: ${3:Exception}, ${4:e}}:\n\t${5:raise}\nelse:\n\t${6:pass}\nfinally:\n\t${7:pass}" },
+        { "trigger": "try\tTry/Except/Else", "contents": "try:\n\t${1:pass}\nexcept ${2:Exception}, ${3:e}:\n\t${4:raise $3}\nelse:\n\t${5:pass}" },
+        { "trigger": "try\tTry/Except/Finally", "contents": "try:\n\t${1:pass}\nexcept ${2:Exception}, ${3:e}:\n\t${4:raise $3}\nfinally:\n\t${5:pass}" },
+        { "trigger": "try\tTry/Except", "contents": "try:\n\t${1:pass}\nexcept ${2:Exception}, ${3:e}:\n\t${4:raise $3}" },
+        { "trigger": "while\tWhile Loop", "contents": "while ${1:$SELECTION}:\n\t${0:pass}" }
+    ]
+}
