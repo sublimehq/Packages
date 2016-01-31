@@ -1,0 +1,29 @@
+{
+    "scope": "text.tex.latex",
+    "completions":
+    [
+        { "trigger": "begin\t\\begin{}…\\end{}", "contents": "\\begin{${1:env}}\n\t${1/(enumerate|itemize|list)|(description)|.*/(?1:\\item )(?2:\\item)/}$0\n\\end{${1:env}}" },
+        { "trigger": "cas\tCases", "contents": "\begin{cases}\n\t${1:equation}, &\\text{ if }${2:case}\\\\\n\t$0\n\\end{cases}" },
+        { "trigger": "cha\tChapter", "contents": "\\chapter{${1:chapter name}} % (fold)\n\\label{cha:${2:${1/\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% chapter $2 (end)" },
+        { "trigger": "desc\tDescription", "contents": "\\begin{description}\n\t\\item[$1] $0\n\\end{description}" },
+        { "trigger": "$$\tDisplay Math — \\[ … \\]", "contents": "\\[\n\t$TM_SELECTED_TEXT$1\n\\]" },
+        { "trigger": "enum\tEnumerate", "contents": "\\begin{enumerate}\n\t\\item $0\n\\end{enumerate}" },
+        { "trigger": "eq\tEquation", "contents": "\\begin{equation}\n\t$0\n\\end{equation}" },
+        { "trigger": "figure\tFigure", "contents": "${1:Figure}~\\ref{${2:fig:}}" },
+        { "trigger": "itd\t\\item[description]", "contents": "\\item[${1:description}] ${0:item}" },
+        { "trigger": "item\tItemize", "contents": "\\begin{itemize}\n\t\\item $0\n\\end{itemize}" },
+        { "trigger": "listing\tListing", "contents": "${1:Listing}~\\ref{${2:lst:}}" },
+        { "trigger": "mat\tMatrix", "contents": "\begin{${1:p/b/v/V/B/small}matrix}\n\t$0\n\\end{${1:p/b/v/V/B/small}matrix}" },
+        { "trigger": "page\tPage", "contents": "${1:page}~\\pageref{$2}" },
+        { "trigger": "par\tParagraph", "contents": "\\paragraph{${1:paragraph name}} % (fold)\n\\label{par:${2:${1/\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% paragraph $2 (end)" },
+        { "trigger": "part\tPart", "contents": "\\part{${1:part name}} % (fold)\n\\label{prt:${2:${1/(\\w+)|\\W+/(?1:\\L$0:_)/g}}}\n${0:$TM_SELECTED_TEXT}\n% part $2 (end)" },
+        { "trigger": "sec\tSection", "contents": "\\section{${1:section name}} % (fold)\n\\label{sec:${2:${1/\\\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% section $2 (end)" },
+        { "trigger": "section\tSection", "contents": "${1:Section}~\\ref{${2:sec:}}" },
+        { "trigger": "spl\tSplit", "contents": "\\begin{split}\n\t$0\n\\end{split}" },
+        { "trigger": "subp\tSub Paragraph", "contents": "\\subparagraph{${1:subparagraph name}} % (fold)\n\\label{subp:${2:${1/\\\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% subparagraph $2 (end)" },
+        { "trigger": "sub\tSub Section", "contents": "\\subsection{${1:subsection name}} % (fold)\n\\label{sub:${2:${1/\\\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% subsection $2 (end)" },
+        { "trigger": "subs\tSub Sub Section", "contents": "\\subsubsection{${1:subsubsection name}} % (fold)\n\\label{ssub:${2:${1/\\\\\\w+\\{(.*?)\\}|\\\\(.)|(\\w+)|([^\\w\\\\]+)/(?4:_:\\L$1$2$3)/g}}}\n${0:$TM_SELECTED_TEXT}\n% subsubsection $2 (end)" },
+        { "trigger": "table\tTable", "contents": "${1:Table}~\\ref{${2:tab:}}" },
+        { "trigger": "tab\tTabular", "contents": "\\begin{${1:t}${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}{${2:c}}\n$0${2/((?<=.)c|l|r)|./(?1: & )/g}\n\\end{${1:t}${1/(t)$|(a)$|(.*)/(?1:abular)(?2:rray)/}}" }
+    ]
+}
