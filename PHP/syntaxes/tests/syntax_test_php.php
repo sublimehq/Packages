@@ -1,4 +1,5 @@
-// SYNTAX TEST "Packages/PHP/PHP.sublime-syntax"
+// SYNTAX TEST "Packages/PHP/syntaxes/PHP.sublime-syntax"
+
 <?php
 
 function a($a = array(),             $b = "hi") {};
