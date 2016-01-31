@@ -5,8 +5,8 @@
         { "trigger": "fori\tfor i,v in ipairs()", "contents": "for ${1:i},${2:v} in ipairs(${3:table_name}) do\n\t${0:print(i,v)}\nend" },
         { "trigger": "for\tfor i=1,10", "contents": "for ${1:i}=${2:1},${3:10} do\n\t${0:print(i)}\nend" },
         { "trigger": "forp\tfor k,v in pairs()", "contents": "for ${1:k},${2:v} in pairs(${3:table_name}) do\n\t${0:print(k,v)}\nend" },
-        { "trigger": "fun\tfunction", "contents": "function ${1:function_name}( ${2:...} )\n\t${0:-- body}\nend" },
-        { "trigger": "function\tfunction", "contents": "function ${1:function_name}( ${2:...} )\n\t${0:-- body}\nend" },
+        { "trigger": "fun\tfunction", "contents": "function ${1:function_name}( ${2:…} )\n\t${0:-- body}\nend" },
+        { "trigger": "function\tfunction", "contents": "function ${1:function_name}( ${2:…} )\n\t${0:-- body}\nend" },
         { "trigger": "local\tlocal x = 1", "contents": "local ${1:x} = ${0:1}" },
         { "trigger": "table.concat\ttable.concat", "contents": "table.concat( ${1:tablename}${2:, \", \"}${3:, start_index}${4:, end_index} )" },
         { "trigger": "table.sort\ttable.sort", "contents": "table.sort( ${1:tablename}${2:, sortfunction} )" }
