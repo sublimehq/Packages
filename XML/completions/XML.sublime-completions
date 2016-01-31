@@ -1,0 +1,11 @@
+{
+    "scope": "text.xml",
+    "completions":
+    [
+        { "trigger": "cdata\tCDATA", "contents": "<![CDATA[${0:$SELECTION}]]>" },
+        { "trigger": "c\tComment", "contents": "${0:<!-- ${1:$SELECTION} -->}" },
+        { "trigger": "<\tLong Tag", "contents": "<${1:p}>${2:$SELECTION}</${1/([^ ]+).*/$1/}>" },
+        { "trigger": ">\tShort Tag", "contents": "<${1:name} />" },
+        { "trigger": "xml\tXML Processing Instruction", "contents": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" }
+    ]
+}
