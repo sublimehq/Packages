@@ -1,0 +1,24 @@
+{
+    "scope": "source.lisp",
+    "completions":
+    [
+        { "trigger": "(\t'(", "contents": "'(" },
+        { "trigger": "const\tdefconstant", "contents": "(defconstant +${1:name}+ ${2:value}
+    \"${3:Documentation for $1.}\"))" },
+        { "trigger": "mac\tdefmacro", "contents": "(defmacro ${1:name} (${2:parameters})\n\t\"${3:Documentation for $1.}\"\n\t($0))" },
+        { "trigger": "par\tdefparameter", "contents": "(defparameter *${1:name}* ${2:value}\n\t\"${3:Documentation for $1.}\")" },
+        { "trigger": "fun\tdefun", "contents": "(defun ${1:name} (${2:parameters})\n\t\"${3:Documentation for $1.}\"\n\t($0))" },
+        { "trigger": "var\tdefvar", "contents": "(defvar *${1:name}* ${2:value}\n\t\"${3:Documentation for $1.}\")" },
+        { "trigger": "if\tif", "contents": "(if (${1:test})\n\t($0))" },
+        { "trigger": "let\tlet", "contents": "(let (${1:variables})\n\t($0))" },
+        { "trigger": "let1\tlet1", "contents": "(let ((${1:variable} ${2:value}))\n\t($0))" },
+        { "trigger": "setf\tsetf", "contents": "(setf ${1:place} ${2:value})" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" },
+        { "trigger": "\t", "contents": "" }
+    ]
+}
