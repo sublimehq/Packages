@@ -1,0 +1,32 @@
+{
+    "scope": "source.c, source.c++, source.objc, source.objc++",
+    "completions":
+    [
+        { "trigger": "def\t#ifndef … #define … #endif", "contents": "#ifndef ${1/([A-Za-z0-9_]+).*/$1/}\n#define ${1:SYMBOL} ${2:value}\n#endif" },
+        { "trigger": "Inc\t#include <…>", "contents": "#include <${1:.h}>" },
+        { "trigger": "inc\t#include \"…\"", "contents": "#include \"${1:${TM_FILENAME/\\..+$/.h/}}\"" },
+        { "trigger": "main\tmain()", "contents": "int main(int argc, char const${TM_C_POINTER: *}argv[])\n{\n\t${0:/* code */}\n\treturn 0;\n}" },
+        { "trigger": "for\tFor Loop", "contents": "for (int ${2:i} = 0; $2 < ${1:count}; ${3:++$2})\n{\n\t${0:/* code */}\n}" },
+        { "trigger": "do\tDo While Loop", "contents": "do\n{\n\t${0:/* code */}\n} while (${1:/* condition */});" },
+        { "trigger": "forv\tVector For Loop", "contents": "for (std::vector<$1>::iterator ${3:i} = $2.begin(); $3 != $2.end(); ++$3)\n{\n\t$0\n}" },
+        { "trigger": "fprintf\tfprintf _", "contents": "fprintf(${1:stderr}, \"${2:%s}\\\\n\"${2/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$3${2/([^%]|%%)*(%.)?.*/(?2:\\);)/}" },
+        { "trigger": "if\tIf Condition", "contents": "if (${1:/* condition */})\n{\n\t${0:/* code */}\n}" },
+        { "trigger": "printf\tprintf _", "contents": "printf(\"${1:%s}\\\\n\"${1/([^%]|%%)*(%.)?.*/(?2:, :\\);)/}$2${1/([^%]|%%)*(%.)?.*/(?2:\\);)/}" },
+        { "trigger": "struct\tStruct", "contents": "struct ${1:${TM_FILENAME/(.+)\\..+|.*/$/:name}}\n{\n\t$0\n};" },
+        { "trigger": "td\tTypedef", "contents": "typedef ${1:int} ${2:MyCustomType};" }
+    ]
+},
+{
+    "scope": "source.c++, source.objc++",
+    "completions":
+    [
+        { "trigger": "beginend\t$1.begin(), $1.end()", "contents": "${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}begin(), ${1:v}${1/^.*?(-)?(>)?$/(?2::(?1:>:.))/}end()" },
+        { "trigger": "class\tClass", "contents": "class ${1:${TM_FILENAME/(.+)\\..+|.*/$1/:name}}\n{\npublic:\n\t${1/(\\w+).*/$1/}($2);\n\t~${1/(\\w+).*/$1/}();\n\t$0\n};" },
+        { "trigger": "enum\tEnumeration", "contents": "enum ${1:name}\n{\n\t$0\n};" },
+        { "trigger": "ns\tNamespace", "contents": "namespace${1/.+/ /m}${1:${TM_FILENAME/^((.*?)\\..*)?$/$2/:mine}}\n{\n\t$0\n}" },
+        { "trigger": "readfile\tRead File Into Vector", "contents": "std::vector<char> v;\nif (FILE${TM_C_POINTER: *}fp = fopen(${1:\"filename\"}, \"r\"))\n{\n\tchar buf[1024];\n\twhile (size_t len = fread(buf, 1, sizeof(buf), fp))\n\t\tv.insert(v.end(), buf, buf + len);\n\tfclose(fp);\n}" },
+        { "trigger": "map\tstd::map", "contents": "std::map<${1:key}, ${2:value}> map$0;" },
+        { "trigger": "vector\tstd::vector", "contents": "std::vector<${1:char}> v$0;" },
+        { "trigger": "tp\ttemplate <typename ${1:_InputIter}>", "contents": "template <typename ${1:_InputIter}>" }
+    ]
+}

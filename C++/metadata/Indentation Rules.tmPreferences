@@ -10,13 +10,13 @@
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string>(?x)
-	    ^ (.*\*/)? \s* \} .* $
+		^ (.*\*/)? \s* \} .* $
 	|   ^ \s* (public|private|protected): \s* $
 	|   ^ \s* @(public|private|protected) \s* $
 	</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
-	    ^ .* \{ [^}"']* $
+		^ .* \{ [^}"']* $
 	|   ^ \s* (public|private|protected): \s* $
 	|   ^ \s* @(public|private|protected) \s* $
 	</string>

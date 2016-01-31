@@ -10,9 +10,9 @@
 	<dict>
 		<key>symbolTransformation</key>
 		<string>
-   s/^\s+/# /;
-   s/^=+$/-/;
-   </string>
+			s/^\s+/# /;
+			s/^=+$/-/;
+		</string>
 	</dict>
 	<key>uuid</key>
 	<string>A8E4E48A-81F3-4DB7-A7A2-88662C06E011</string>

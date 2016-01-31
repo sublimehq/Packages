@@ -12,7 +12,8 @@
 	<dict>
 		<key>symbolTransformation</key>
 		<string>
-      s/^\s*/ /;  # pad</string>
+			s/^\s*/ /;  # pad
+		</string>
 	</dict>
 	<key>uuid</key>
 	<string>B2B97E23-E686-4410-991D-A92AF3A9FC95</string>
