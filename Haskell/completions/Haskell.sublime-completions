@@ -1,0 +1,11 @@
+{
+    "scope": "source.haskell",
+    "completions":
+    [
+        { "trigger": "case\tCase", "contents": "case ${1:a} of ${2:True} -> ${3:$1}\n\t${1/./ /g}     ${4:otherwise} -> ${0:$1}" },
+        { "trigger": "instance\tInstance", "contents": "instance ${1:Class} ${2:Data} where\n\t${3:func} = $0" },
+        { "trigger": "\\\t\\t -> f t", "contents": "\\\\${1:t} -> ${0:f t}" },
+        { "trigger": "main\tMain", "contents": "module Main where\n\nmain = ${1:putStrLn \"Hello World\"}" },
+        { "trigger": "mod\tModule", "contents": "module ${1:Main} where\n\n${2:main = ${3:putStrLn \"Hello World\"}}" }
+    ]
+}
