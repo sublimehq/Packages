@@ -1,0 +1,37 @@
+{
+    "scope": "source.d",
+    "completions":
+    [
+        { "trigger": "class\tclass … { … }", "contents": "class ${1:${TM_FILENAME/(.*?)(\\..+)/$1/}} {\n\tthis($2) {\n\t\t$0\n\t}\n}" },
+        { "trigger": "ps\tconstant (private static final)", "contents": "private static final ${1:char[]} ${2:name} = ${4:\"${3:value}\"};" },
+        { "trigger": "debug\tdebug { … }", "contents": "debug {\n\t$0\n}" },
+        { "trigger": "debugm\tdebug(module) { … }", "contents": "debug(${1:${TM_FILENAME/(.*?)(\\..+)/$1/}}) {\n\t$0\n}" },
+        { "trigger": "en\tenum … { … }", "contents": "enum ${1:name}() { $3 }" },
+        { "trigger": "errf\tStderr(format, …)", "contents": "Stderr.format(\"${1:foo = {\\}}\", $2).newline;" },
+        { "trigger": "err\tStderr(…)", "contents": "Stderr(\"$1\").newline;" },
+        { "trigger": "fer\tforeach_reverse(e; …) { … }", "contents": "foreach_reverse(${1:e}; $2) {\n\t$0\n}" },
+        { "trigger": "fe\tforeach(e; …) { … }", "contents": "foreach(${1:e}; $2) {\n\t$0\n}" },
+        { "trigger": "ife\tif … else", "contents": "if(${1:condition}) {\n\t$2\n}\nelse {\n\t$0\n}" },
+        { "trigger": "if\tif _", "contents": "if(${1:condition}) {\n\t$0\n}" },
+        { "trigger": "im\timport …", "contents": "import ${1:${TM_FILEPATH/.+\\/([^\\/]+)\\/[^\\/]+\\.d$/\\l$1/}.};" },
+        { "trigger": "loge\tlog.error(…)", "contents": "log.error(\"$1\");" },
+        { "trigger": "logf\tlog.fatal(…)", "contents": "log.fatal(\"$1\");" },
+        { "trigger": "log\tlog.info(…)", "contents": "log.info(\"$1\");" },
+        { "trigger": "logt\tlog.trace(…)", "contents": "log.trace(\"$1\");" },
+        { "trigger": "logw\tlog.warn(…)", "contents": "log.warn(\"$1\");" },
+        { "trigger": "logger\tLogger for Module", "contents": "import tango.util.log.Log, tango.util.log.Configurator;\n\nprotected static Logger log = null;\nstatic this() {\n\tlog = Log.getLogger(${1:__FILE__});${2:\n\t//log.setLevel(log.Level.${3:Info});}\n}" },
+        { "trigger": "maina\tint main(char[][] args) { … }", "contents": "int main(char[][] args) {\n\t$1\n\treturn 0;\n}" },
+        { "trigger": "main\tvoid main() { … }", "contents": "void main() {\n\t$1\n}" },
+        { "trigger": "me\tmethod … { … }", "contents": "/**\n * $2\n */\n${1:void} ${2:method}() {\n\t$3\n}" },
+        { "trigger": "outf\tStdout(format, …)", "contents": "Stdout.format(\"${1:foo = {\\}}\", $2).newline;" },
+        { "trigger": "out\tStdout(…)", "contents": "Stdout(\"$1\").newline;" },
+        { "trigger": "r\treturn …", "contents": "return $0;" },
+        { "trigger": "st\tstruct … { … }", "contents": "/**\n * $2\n */\nstruct ${1:name}() {\n\t$3\n}" },
+        { "trigger": "tcf\ttry … catch … finally", "contents": "try {\n\t$2\n} catch (${1:Exception} e) {\n\t$3\n} finally {\n\t$0\n}" },
+        { "trigger": "tc\ttry … catch", "contents": "try {\n\t$2\n} catch (${1:Exception} e) {\n\t$0\n}" },
+        { "trigger": "tf\ttry … finally", "contents": "try {\n\t$1\n} finally {\n\t$0\n}" },
+        { "trigger": "unit\tunittest { … }", "contents": "unittest {\n\t$0\n}" },
+        { "trigger": "ver\tversion(ident) { … }", "contents": "version(${1:Posix}) {\n\t$0\n}" },
+        { "trigger": "while\twhile(…) { … }", "contents": "while (${1:condition}) {\n\t$0\n}" }
+    ]
+}

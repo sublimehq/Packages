@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/D/D.sublime-syntax"
+// SYNTAX TEST "Packages/D/syntaxes/D.sublime-syntax"
 
 module test;
 
