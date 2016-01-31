@@ -1,0 +1,7 @@
+{
+    "scope": "text.html",
+    "completions":
+    [
+        { "trigger": "html", "contents": "<!DOCTYPE html>\n<html>\n<head>\n\t<title>$1</title>\n</head>\n<body>\n$0\n</body>\n</html>" }
+    ]
+}
