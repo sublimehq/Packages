@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
+// SYNTAX TEST "Packages/C#/syntaxes/C#.sublime-syntax"
 
 class X
 // ^ storage.modifier
