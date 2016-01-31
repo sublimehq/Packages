@@ -1,0 +1,22 @@
+{
+    "scope": "source.perl",
+    "completions":
+    [
+        { "trigger": "class\tPackage", "contents": "package ${1:ClassName};\n\n${2:use base qw(${3:ParentClass});\n\n}sub new {\n\tmy \\$class = shift;\n\t\\$class = ref \\$class if ref \\$class;\n\tmy \\$self = bless {}, \\$class;\n\t\\$self;\n}\n\n1;\n$0" },
+        { "trigger": "ife\tConditional if...else", "contents": "if ($1) {\n\t${2:# body...}\n} else {\n\t${3:# else...}\n}\n$0" },
+        { "trigger": "ifee\tConditional if...elsif...else", "contents": "if ($1) {\n\t${2:# body...}\n} elsif ($3) {\n\t${4:# elsif...}\n} else {\n\t${5:# else...}\n}\n$0" },
+        { "trigger": "xunless\tConditional One-line", "contents": "${1:expression} unless ${2:condition};\n$0" },
+        { "trigger": "xif\tConditional One-line", "contents": "${1:expression} if ${2:condition};\n$0" },
+        { "trigger": "eval\tTry/Except", "contents": "eval {\n\t${1:# do something risky...}\n};\nif (\\$@) {\n\t${2:# handle failure...}\n}\n$0" },
+        { "trigger": "for\tfor loop", "contents": "for (my \\$${1:var} = 0; \\$$1 < ${2:expression}; \\$$1++) {\n\t${3:# body...}\n}\n$0" },
+        { "trigger": "fore\tfor each loop", "contents": "foreach ${1:my \\$${2:x}} (@${3:array}) {\n\t${4:# body...}\n}\n$0" },
+        { "trigger": "sub\tFunction", "contents": "sub ${1:function_name} {\n\t${2:# body...}\n}\n$0" },
+        { "trigger": "if\tConditional", "contents": "if ($1) {\n\t${2:# body...}\n}\n$0" },
+        { "trigger": "xfore\tLoop One-line", "contents": "${1:expression} foreach @${2:array};\n$0" },
+        { "trigger": "xwhile\tLoop One-line", "contents": "${1:expression} while ${2:condition};\n$0" },
+        { "trigger": "slurp\tRead File", "contents": "my \\$${1:var};\n{ local \\$/ = undef; local *FILE; open FILE, \"<${2:file}\"; \\$$1 = <FILE>; close FILE }\n$0" },
+        { "trigger": "test\tTest", "contents": "#!/usr/bin/perl -w\n\nuse strict;\nuse Test::More tests => ${1:1};\nuse ${2:ModuleName};\n\nok(${3:assertion});\n$0" },
+        { "trigger": "unless\tConditional", "contents": "unless ($1) {\n\t${2:# body...}\n}\n$0" },
+        { "trigger": "while\tLoop", "contents": "while ($1) {\n\t${2:# body...}\n}\n$0" }
+    ]
+}
