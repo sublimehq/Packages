@@ -1,6 +1,18 @@
 // SYNTAX TEST "Packages/Go/Go.sublime-syntax"
 package examples
 
+import (
+// ^ meta.preprocessor.go.import
+	"fmt"
+)
+
+(
+	//  var commented int = 0
+	//  ^ comment.line
+	var valid int = 0
+	// <- meta.initialization.explicit
+)
+
 const (
     graveAccentString = `highlights %s and %[1]s`
 //                                  ^ constant.other.placeholder 
