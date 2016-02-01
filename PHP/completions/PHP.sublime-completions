@@ -1,10 +1,71 @@
 {
+	"scope": "source.php",
+	"completions":
+	[
+		{ "trigger": "$_\tCOOKIE['…']", "contents": "\\$_COOKIE['${1:variable}']" },
+		{ "trigger": "$_\tENV['…']", "contents": "\\$_ENV['${1:variable}']" },
+		{ "trigger": "$_\tFILES['…']", "contents": "\\$_FILES['${1:variable}']" },
+		{ "trigger": "$_\tGET['…']", "contents": "\\$_GET['${1:variable}']" },
+		{ "trigger": "$_\tPOST['…']", "contents": "\\$_POST['${1:variable}']" },
+		{ "trigger": "$_\tREQUEST['…']", "contents": "\\$_REQUEST['${1:variable}']" },
+		{ "trigger": "$_\tSERVER['…']", "contents": "\\$_SERVER['${1:variable}']" },
+		{ "trigger": "$_\tSESSION['…']", "contents": "\\$_SESSION['${1:variable}']" },
+		{ "trigger": "globals\tGLOBALS['…']", "contents": "\\$_GLOBALS['${1:variable}']" },
+		{ "trigger": "class\tclass …", "contents": "/**\n* $1\n*/\nclass ${2:ClassName}${3: extends ${4:AnotherClass}}\n{\n\t$5\n\tfunction ${6:__construct}(${7:argument})\n\t{\n\t\t${0:# code…}\n\t}\n}" },
+		{ "trigger": "con\tfunction __construct", "contents": "function __construct(${1:\\$${2:foo}${3: = ${4:null}}})\n{\n\t${2/.+/$this->$0 = \\$$0;/}$0\n}" },
+		{ "trigger": "def\tdefine(…, …)", "contents": "define('$1', ${2:'$3'});\n$0" },
+		{ "trigger": "def?\tdefined(…)", "contents": "$1defined('$2')" },
+		{ "trigger": "do\tdo … while …", "contents": "do {\n\t${0:# code…}\n} while (${1:$a <= 10});" },
+		{ "trigger": "echo\techo \"…\"", "contents": "echo \"${1:string}\"${0};" },
+		{ "trigger": "elseif\telseif …", "contents": "elseif (${1:condition}) {\n\t${0:# code…}\n}" },
+		{ "trigger": "for\tfor …", "contents": "for (\\$${1:i}=${2:0}; \\$${1:i} < $3; \\$${1:i}++) {\n\t${0:# code…}\n}" },
+		{ "trigger": "foreach\tforeach …", "contents": "foreach (\\$${1:variable} as \\$${2:key}${3: => \\$${4:value}}) {\n\t${0:# code…}\n}" },
+		{ "trigger": "fun\tfunction …", "contents": "${1:public }function ${2:FunctionName}(${3:\\$${4:value}${5:=''}})\n{\n\t${0:# code…}\n}" },
+		{ "trigger": "ifelse\tif … else …", "contents": "if (${1:condition}) {\n\t${2:# code…}\n} else {\n\t${3:# code…}\n}\n$0" },
+		{ "trigger": "if\tif …", "contents": "if (${1:condition}) {\n\t${0:# code…}\n}" },
+		{ "trigger": "if?\t$… = ( … ) ? … : …", "contents": "\\$${1:retVal} = (${2:condition}) ? ${3:a} : ${4:b} ;" },
+		{ "trigger": "incl\tinclude …", "contents": "include '${1:file}';" },
+		{ "trigger": "incl1\tinclude_once …", "contents": "include_once '${1:file}';$0" },
+		{ "trigger": "doc_v\tClass Variable", "contents": "/**\n * ${3:undocumented class variable}\n *\n * @var ${4:string}\n **/\n${1:var} \\$$2;$0" },
+		{ "trigger": "doc_c\tClass", "contents": "/**\n * ${3:undocumented class}\n *\n * @package ${4:default}\n * @author ${PHPDOC_AUTHOR:$TM_FULLNAME}\n **/\n$1class $2\n{$0\n} // END $1class $2" },
+		{ "trigger": "doc_d\tConstant Definition", "contents": "/**\n * ${3:undocumented constant}\n **/\ndefine($1, $2);$0" },
+		{ "trigger": "doc_s\tFunction Signature", "contents": "/**\n * ${4:undocumented function}\n *\n * @return ${5:void}\n * @author ${PHPDOC_AUTHOR:$TM_FULLNAME}$6\n **/\n$1function $2($3);$0" },
+		{ "trigger": "doc_f\tFunction", "contents": "/**\n * ${4:undocumented function}\n *\n * @return ${5:void}\n * @author ${PHPDOC_AUTHOR:$TM_FULLNAME}$6\n **/\n$1function $2($3)\n{$0\n}" },
+		{ "trigger": "doc_i\tInterface", "contents": "/**\n * ${2:undocumented class}\n *\n * @package ${3:default}\n * @author ${PHPDOC_AUTHOR:$TM_FULLNAME}\n **/\ninterface $1\n{$0\n} // END interface $1" },
+		{ "trigger": "req\trequire …", "contents": "require '${1:file}';" },
+		{ "trigger": "req1\trequire_once …", "contents": "require_once '${1:file}';" },
+		{ "trigger": "ret\treturn", "contents": "return$1;" },
+		{ "trigger": "ret0\treturn false", "contents": "return false;" },
+		{ "trigger": "ret1\treturn true", "contents": "return true;" },
+		{ "trigger": "/**\tStart Docblock", "contents": "/**\n * $0\n */" },
+		{ "trigger": "case\tcase …", "contents": "case '${1:variable}':\n\t${0:# code…}\n\tbreak;" },
+		{ "trigger": "switch\tswitch …", "contents": "switch (${1:variable}) {\n\tcase '${2:value}':\n\t\t${3:# code…}\n\t\tbreak;\n\t$0\n\tdefault:\n\t\t${4:# code…}\n\t\tbreak;\n}" },
+		{ "trigger": "throw\tThrow Exception", "contents": "throw new $1Exception(${2:\"${3:Error Processing Request}\"}${4:, ${5:1}});\n$0" },
+		{ "trigger": "try\tWrap in try { … } catch (…) { … }", "contents": "${TM_SELECTED_TEXT/([\\t ]*).*/$1/m}try {\n\t${3:${TM_SELECTED_TEXT/(\\A.*)|(.+)|\\n\\z/(?1:$0:(?2:\\t$0))/g}}\n${TM_SELECTED_TEXT/([\\t ]*).*/$1/m}} catch (${1:Exception} ${2:\\$e}) {\n${TM_SELECTED_TEXT/([\\t ]*).*/$1/m}\t$0\n${TM_SELECTED_TEXT/([\t ]*).*/$1/m}}" },
+		{ "trigger": "while\twhile …", "contents": "while (${1:$a <= 10}) {\n\t${0:# code…}\n}" }
+	]
+},
+{
+	"scope": "embedding.php text.html - source.php",
+	"completions":
+	[
+		{ "trigger": "this\t<?php $this->… ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} \\$this->$0 ?>" },
+		{ "trigger": "ethis\t<?php echo $this->… ?>", "contents": "<?${TM_PHP_OPEN_TAG_WITH_ECHO:php echo} \\$this->$0 ?>" },
+		{ "trigger": "echo\t<?php echo … ?>", "contents": "<?${TM_PHP_OPEN_TAG_WITH_ECHO:php echo} ${1:\\$var} ?>" },
+		{ "trigger": "echoh\t<?php echo htmlentities(…) ?>", "contents": "<?${TM_PHP_OPEN_TAG_WITH_ECHO:php echo} htmlentities(${1:\\$var}, ENT_QUOTES, 'utf-8') ?>" },
+		{ "trigger": "else\t<?php else: ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} else: ?>" },
+		{ "trigger": "foreach\t<?php foreach (…) … <?php endforeach ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} foreach (\\$${1:variable} as \\$${2:key}${3: => \\$${4:value}}): ?>\n\t$0\n<?${TM_PHP_OPEN_TAG:php} endforeach ?>" },
+		{ "trigger": "ifelse\t<?php if (…) ?> … <?php else ?> … <?php endif ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} if (${1:condition}): ?>\n\t$2\n<?${TM_PHP_OPEN_TAG:php} else: ?>\n\t$0\n<?${TM_PHP_OPEN_TAG:php} endif ?>" },
+		{ "trigger": "if\t<?php if (…) ?> … <?php endif ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} if (${1:condition}): ?>\n\t$0\n<?${TM_PHP_OPEN_TAG:php} endif ?>" },
+		{ "trigger": "php\t<?php … ?>", "contents": "<?${TM_PHP_OPEN_TAG:php} $0 ?>" }
+	]
+},
+{
 	"scope": "source.php - variable.other.php",
-
 	"completions":
 	[
 		"php",
-
+		{ "trigger": "array\t$… = array (…)", "contents": "\\$${1:arrayName} = array('$2' => $3${4:,} $0);" },
 		{ "trigger": "abs", "contents": "abs(${1:number})" },
 		{ "trigger": "acos", "contents": "acos(${1:arg})" },
 		{ "trigger": "acosh", "contents": "acosh(${1:arg})" },
