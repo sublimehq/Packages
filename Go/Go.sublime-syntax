@@ -14,9 +14,7 @@ contexts:
     - include: no_param_anonymous_function_begin
     - include: multi_param_anonymous_function_begin
     - include: single_param_anonymous_function_begin
-    - include: basic_things
-    - include: exported_variables
-    - match: '^[[:blank:]]*(import)\b\s+'
+    - match: '^\s*(import)\b\s+'
       captures:
         1: keyword.control.import.go
       push:
@@ -32,6 +30,8 @@ contexts:
               captures:
                 0: punctuation.definition.string.end.go
               pop: true
+    - include: basic_things
+    - include: exported_variables
     - include: block
     - include: root_parens
     - include: function_calls
@@ -126,7 +126,7 @@ contexts:
         2: support.function.any-method.go
         3: punctuation.definition.parameters.go
   initializers:
-    - match: '^[[:blank:]]*(var)\s+(?:[[:alpha:]_][[:alnum:]_]*)(?:,\s+[[:alpha:]_][[:alnum:]_]*)*'
+    - match: '^\s*(var)\s+(?:[[:alpha:]_][[:alnum:]_]*)(?:,\s+[[:alpha:]_][[:alnum:]_]*)*'
       comment: This matches the 'var x int = 0' style of variable declaration.
       scope: meta.initialization.explicit.go
       captures:
