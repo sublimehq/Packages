@@ -404,6 +404,15 @@ contexts:
           captures:
             0: punctuation.definition.string.end.shell
           pop: true
+        - match: '\)'
+          captures:
+            0: punctuation.definition.string.end.shell
+          set:
+            - match: '\)'
+              captures:
+                0: punctuation.definition.string.end.shell
+              pop: true
+            - include: redirection
         - include: math
     - match: "`"
       captures:
