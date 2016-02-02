@@ -3,6 +3,7 @@
 name: Regular Expressions (Python)
 comment: Matches Python's regular expression syntax.
 scope: source.regexp.python
+hidden: true
 contexts:
   main:
     - match: '\\[bBAZzG]|\^|\$'

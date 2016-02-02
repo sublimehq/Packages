@@ -54,10 +54,11 @@ contexts:
       push:
         - meta_scope: meta.tag.sgml.html
         - match: ">"
+          scope: punctuation.definition.tag.html
           pop: true
         - match: (?i:DOCTYPE)
           captures:
-            1: entity.name.tag.doctype.html
+            0: entity.name.tag.doctype.html
           push:
             - meta_scope: meta.tag.sgml.doctype.html
             - match: (?=>)

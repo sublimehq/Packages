@@ -159,6 +159,13 @@ contexts:
             - match: (?=\)\s*\:)
               pop: true
             - include: keyword_arguments
+            - match: "#"
+              captures:
+                0: punctuation.definition.comment.python
+              push:
+                - meta_scope: comment.line.number-sign.python
+                - match: \n
+                  pop: true
             - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(,)|(?=[\n\)]))'
               captures:
                 1: variable.parameter.function.python

@@ -6,11 +6,14 @@ file_extensions:
   - sh
   - bash
   - zsh
-  - .bashrc
-  - .bash_profile
+  - .bash_aliases
+  - .bash_functions
   - .bash_login
-  - .profile
   - .bash_logout
+  - .bash_profile
+  - .bash_variables
+  - .bashrc
+  - .profile
   - .textmate_init
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell

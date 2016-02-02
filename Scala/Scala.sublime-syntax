@@ -188,7 +188,7 @@ contexts:
   storage-modifiers:
     - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access
-    - match: \b(synchronized|@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
+    - match: \b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
       scope: storage.modifier.other
   strings:
     - match: '"""'

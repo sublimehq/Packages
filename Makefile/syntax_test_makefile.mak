@@ -1,4 +1,4 @@
-# SYNTAX TEST "Makefile.sublime-syntax"
+# SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
 
 # Line comment
 # <- comment
@@ -6,12 +6,17 @@
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control.makefile
 #       ^ support.function.builtin.makefile
-#                  ^ entity.other.attribute-name.makefile
 #                                                  ^ keyword.operator.makefile
 #                                                           ^ support.variable.makefile
 	include $(MAKEFILE_PATH)Makefile.Defs
 	# <- keyword.control.makefile
 endif
+# <- keyword.control.makefile
+
+-include $(MAKEFILE_PATH)Makefile.Defs
+# <- keyword.control.makefile
+
+sinclude $(MAKEFILE_PATH)Makefile.Defs
 # <- keyword.control.makefile
 
 CC=g++
@@ -41,7 +46,6 @@ $(EXECUTABLE): $(OBJECTS)
 #                ^ variable.source.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	#   <- support.variable.makefile
-	#                            ^ entity.other.attribute-name.makefile
 	#                               ^ support.variable.makefile
 
 .PHONY: help

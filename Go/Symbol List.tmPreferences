@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Method / Constructor</string>
+	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.d meta.block entity.name</string>
+	<string>meta.function.declaration.go</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string>s/^\s*([^\)]+)/ $1/;  # pad</string>
 	</dict>
+	<key>uuid</key>
+	<string>A6BCFD4A-B6CC-49C6-93F9-FEB979CC679A</string>
 </dict>
 </plist>

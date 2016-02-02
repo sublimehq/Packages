@@ -79,7 +79,7 @@ contexts:
           captures:
             1: invalid.illegal.tcl
           pop: true
-        - match: '\\[{}\n]'
+        - match: '\\[\\{}\n]'
           scope: constant.character.escape.tcl
         - include: inner-braces
   embedded:

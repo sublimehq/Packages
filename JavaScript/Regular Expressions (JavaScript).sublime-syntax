@@ -1,9 +1,8 @@
 %YAML 1.2
 ---
 name: Regular Expressions (Javascript)
-file_extensions:
-  - re
 scope: source.regexp.js
+hidden: true
 contexts:
   main:
     - include: anchor
