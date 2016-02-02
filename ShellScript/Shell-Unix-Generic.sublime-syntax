@@ -26,8 +26,8 @@ variables:
     g\+\+
   )'
   cmdExternal: '(?x:
-    7za|
-    apropos|apt-get|aptitude|ar|aria2|aspell|autoconf|awk|
+    7z|7za|
+    apropos|apt-get|aptitude|ar|aria2c|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
     cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|
     clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|cut|
