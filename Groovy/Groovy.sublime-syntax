@@ -5,6 +5,7 @@ name: Groovy
 file_extensions:
   - groovy
   - gvy
+  - gradle
 scope: source.groovy
 contexts:
   main:
