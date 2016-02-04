@@ -1,0 +1,11 @@
+/* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
+
+.test-standard-color-name {
+    color: aqua;
+/*         ^ support.constant.color.w3c-standard-color-name.css */
+}
+
+.test-extended-color-keyword {
+    color: aliceblue;
+/*         ^ support.constant.color.w3c-extended-color-keywords.css */
+}
