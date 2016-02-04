@@ -52,9 +52,17 @@ file_extensions:
   - gemspec
   - irbrc
   - capfile
+  - prawn
+  - Cheffile
   - Gemfile
+  - Guardfile
   - Vagrantfile
   - config.ru
+  - Appraisals
+  - Rantfile
+  - Brewfile
+  - Berksfile
+  - Thorfile
 first_line_match: ^#!/.*\bruby
 scope: source.ruby
 contexts:
