@@ -1483,6 +1483,8 @@ contexts:
         - match: '/?>'
           scope: punctuation.definition.tag.end.cs
           pop: true
+        - match: '"[^"]*"'
+          scope: string.quoted.double.cs
         - match: $
           pop: true
     - match: '(</){{name}}(>)'
