@@ -13,6 +13,12 @@
     color: transparent;
 /*         ^ support.constant.color.w3c-special-color-keyword.css */
 
+    color: #b4da55;
+/*         ^ constant.other.color.rgb-value.css */
+
+    color: #137;
+/*         ^ constant.other.color.rgb-value.css */
+
     color: rgb(255, 99, 99);
 /*         ^ support.function.misc.css */
 /*             ^ constant.other.color.rgb-value.css */
