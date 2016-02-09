@@ -12,6 +12,7 @@ file_extensions:
   - SConscript
   - gyp
   - gypi
+  - Snakefile
 first_line_match: ^#!/.*\bpython\d?\b
 scope: source.python
 variables:
