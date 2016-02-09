@@ -9,7 +9,7 @@ file_extensions:
   - phps
   - phpt
   - phtml
-first_line_match: '^#!.*(?<!-)php[0-9]{0,1}\b'
+first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 scope: embedding.php
 contexts:
   main:
