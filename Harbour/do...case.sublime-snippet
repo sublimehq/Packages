@@ -1,0 +1,13 @@
+<snippet>
+	<description>do case</description>
+    <content>
+<![CDATA[
+do case
+   case ${1:/* condition */}
+		${2:/* code */}
+   otherwise
+		${2:/* code */}
+endcase]]></content>
+    <tabTrigger>docase</tabTrigger>
+    <scope>source.harbour</scope>
+</snippet>

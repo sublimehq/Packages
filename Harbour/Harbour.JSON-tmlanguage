@@ -1,0 +1,233 @@
+{ "name": "Harbour",
+  "scopeName": "source.harbour",
+  "fileTypes": ["prg", "ch"],
+  "patterns": [
+      {  
+         "comment" : "números",
+         "match" : "\\b(((0(x|X)[0-9a-fA-F]*)|(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?))",
+         "name": "constant.numeric.harbour" 
+      },
+      {  
+         "comment" : "cadenas comillas simples",
+         "match" : "'[^']*'",
+         "name": "string.quoted.single.harbour" 
+      },
+      {  
+         "comment" : "cadenas comillas dobles",
+         "match" : "(\"[^\"]*\")",
+         "name": "string.quoted.double.harbour" 
+      },
+      {  
+         "comment" : "sentencias de control",
+         "match" : "(?i)\\b(?:do|case|endcase|otherwise|switch|if|else|endif|while|end|enddo|exit|static function|function|return|for|next|include|ifdef|stdout|ifndef)\\b",
+         "name": "keyword.control.harbour" 
+      },
+      {  
+         "comment" : "sentencias de control",
+         "match" : "(?i)\\b(?:catch|finally|try|throw)\\b",
+         "name": "keyword.control.harbour" 
+      },
+      {  
+         "comment" : "operadores",
+         "match" : "(?i)\\b(?:and|or|not|!)\\b",
+         "name": "keyword.operator.harbour" 
+      },
+      {  
+         "comment" : "declaraciones",
+         "match" : "(?i)\\b(?:local|default|field|static|public|static|external|request|private)\\b",
+         "name": "storage.type.harbour" 
+      },
+      {  
+         "comment" : "in-line comment with /* */",
+         "begin" : "/\\*",
+         "captures" : {
+            "0": { "name": "punctuation.definition.comment.harbour" }
+         },
+         "end" : "\\*/",
+         "name": "comment.block.harbour" 
+      },
+      {
+         "comment" : "in-line comment with //",
+         "captures" : {
+            "1": { "name": "punctuation.definition.comment.harbour" }
+         },
+         "match": "(\/).*?($\\n?|(?=\\?>))",
+         "name": "comment.line.double-slash.harbour" 
+      },
+      {  
+         "comment" : "funciones A",
+         "match" : "(?i)\\b(?:aadd|abs|accelerator|achoice|aclone|acopy|adel|adir|aeval|afields|afill|ains|alert|alias|alltrim|altd|ampm|applydefau|array|asc|ascan|asize|asort|at|atail|asciisum|ascpos|asin|asizealloc|atadjust|atan|acos|atn2|atnum|atrepl|atskipstrings|attoken|)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones B",
+         "match" : "(?i)\\b(?:bin2i|bin2l|bin2w|bof|break|browse|buttndefco)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones C",
+         "match" : "(?i)\\b(?:cdow|cftsadd|cftsclose|cftscrea|cftsdelete|cftsifdel|cftsnext|cftsopen|cftsrecn|cftsreplac|cftsset|cftsundel|cftsveri|cftsvers|checkbox|checkdefco|chr|clipper520|clipper530|cmonth|col|colorselect|combodefco|ctod|curdir)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones D",
+         "match" : "(?i)\\b(?:date|day|days|dbappend|dbclearfil|dbclearfilter|dbclearindex|dbclearrel|dbclearrelation|dbcloseall|dbcloseare|dbclosearea|dbcommit|dbcommitall|dbcreate|dbcreateindex|dbdelete|dbdrop|dbedit|dbeval|dbexists|dbf|dbfblob|dbfcdx|dbfdbt|dbffpt|dbfieldinf|dbfieldinfo|dbfileget|dbfileput|dbfilter|dbfnsx|dbfntx|dbfsmt|dbgobottom|dbgoto|dbgotop|dbgshadow|dbinfo|dborderinf|dborderinfo|dbrecall|dbrecordin|dbrecordinfo|dbreindex|dbrelation|dbrename|dbrlock|dbrlocklis|dbrlocklist|dbrselect|dbrunlock|dbseek|dbselectar|dbselectarea|dbsetdrive|dbsetdriver|dbsetfilte|dbsetfilter|dbsetindex|dbsetorder|dbsetrelat|dbsetrelation|dbskip|dbstruct|dbtableext|dbunlock|dbunlockal|dbunlockall|dbusearea|defpath|deleted|delim|descend|devout|devoutpict|devpos|dirchange|directory|dirremove|diskchange|diskname|diskspace|dispbegin|dispbox|dispcount|dispend|dispout|dispoutat|do|doserror|dow|dtoc|dtos)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones E",
+         "match" : "(?i)\\b(?:elaptime|empty|eof|erasegetmsg|errorblock|errorinhan|errorinhandler|errorlevel|errornew|errorsys|eval|exp)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones F",
+         "match" : "(?i)\\b(?:fclose|fcount|fcreate|ferase|ferror|fieldblock|fielddec|fieldget|fieldlen|fieldname|fieldpos|fieldput|fieldtype|fieldwblock|file|fklabel|fkmax|flock|fopen|found|fread|freadstr|frename|fseek|fsetdevmod|fwrite)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones G",
+         "match" : "(?i)\\b(?:get|getactive|getapplykey|getclrback|getclrfore|getclrpair|getdosetkey|gete|getenv|getnew|getpairlen|getpairpos|getpostvalidate|getprevalidate|getreader|guiapplykey|guipostvalidate|guiprevalidate|guireader)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones H",
+         "match" : "(?i)\\b(?:hardcr|hbcheckbox|hbclass|hbeditor|hbgetlist|hbhash|hblabelform|hblistbox|hbmemoeditor|hbmenuitem|hbmenusys|hbobject|hbpersistent|hbpointer|hbpopupmenu|hbprofile|hbprofileentity|hbprofilefunction|hbprofilelowlevel|hbprofilemethod|hbprofileopcode|hbprofilereport|hbprofilereporttoarray|hbprofilereporttofile|hbprofilereporttostring|hbprofilereporttotbrowse|hbpushbutton|hbradiobutton|hbradiogroup|hbreportform|hbscalar|hbscrollbar|hbtextline|hbtopbarmenu|hb_adel|hb_adler32|hb_ains|hb_alert|hb_ansitooem|hb_aparams|hb_argc|hb_argcheck|hb_argshift|hb_argstring|hb_argv|hb_arraytoparams|hb_ascan|hb_asciiisalpha|hb_asciiisdigit|hb_asciiislower|hb_asciiisupper|hb_asciilower|hb_asciiupper|hb_at|hb_ati|hb_atokens|hb_atx|hb_base64decode|hb_base64encode|hb_bat|hb_bchar|hb_bcode|hb_bitand|hb_bitnot|hb_bitor|hb_bitreset|hb_bitset|hb_bitshift|hb_bittest|hb_bitxor|hb_bleft|hb_blen|hb_blowfishdecrypt|hb_blowfishdecrypt_cfb|hb_blowfishencrypt|hb_blowfishencrypt_cfb|hb_blowfishkey|hb_bpeek|hb_bpoke|hb_bright|hb_bsubstr|hb_builddate|hb_byteswapi|hb_byteswapl|hb_byteswapll|hb_byteswapu|hb_byteswapw|hb_cdpcharmax|hb_cdpinfo|hb_cdpisutf8|hb_cdplist|hb_cdpos|hb_cdpselect|hb_cdpterm|hb_cdpuniid|hb_clocks2secs|hb_clrarea|hb_cmdline|hb_colorindex|hb_colorton|hb_comclose|hb_comdiscardchar|hb_comerrorchar|hb_comflowchars|hb_comflowcontrol|hb_comflowset|hb_comflush|hb_comgetdevice|hb_comgetdevicehandle|hb_comgeterror|hb_comgetoserror|hb_cominit|hb_cominputcount|hb_cominputstate|hb_comlastnum|hb_comlsr|hb_commcr|hb_commsr|hb_comopen|hb_comoutputcount|hb_comoutputstate|hb_compiler|hb_comrecv|hb_comsend|hb_comsendbreak|hb_comsetdevice|hb_comseterror|hb_crc|hb_crc16|hb_crc32|hb_crcct|hb_cstr|hb_ctod|hb_ctot|hb_curdrive|hb_cwd|hb_date|hb_datetime|hb_dbcreatetemp|hb_dbdetach|hb_dbdrop|hb_dbexists|hb_dbpack|hb_dbrename|hb_dbrequest|hb_dbzap|hb_default|hb_deserialize|hb_dirbase|hb_dirbuild|hb_dircreate|hb_dirdelete|hb_direxists|hb_dirscan|hb_dirsepadd|hb_dirsepdel|hb_dirtemp|hb_dirunbuild|hb_disablewaitlocks|hb_diskspace|hb_dispbox|hb_dispoutat|hb_dispoutatbox|hb_dtoc|hb_dtot|hb_dyncall|hb_endobject|hb_eol|hb_execfromarray|hb_execmsg|hb_fcommit|hb_fcopy|hb_fcreate|hb_fgetattr|hb_fgetdatetime|hb_fielddec|hb_fieldlen|hb_fieldtype|hb_fileexists|hb_filematch|hb_fisdevice|hb_flink|hb_flinkread|hb_flinksym|hb_flock|hb_fnamedir|hb_fnameexists|hb_fnameext|hb_fnameextset|hb_fnameextsetdef|hb_fnamemerge|hb_fnamename|hb_fnamenameext|hb_fnamesplit|hb_fornext|hb_fsetattr|hb_fsetdatetime|hb_fsetdevmode|hb_fsize|hb_ftempcreate|hb_ftempcreateex|hb_funlock|hb_gcall|hb_gcstep|hb_get|hb_getenv|hb_getreadvar|hb_getstderr|hb_getstdin|hb_getstdout|hb_gfxprimitive|hb_gfxtext|hb_gtalert|hb_gtcreate|hb_gtinfo|hb_gtlock|hb_gtreload|hb_gtselect|hb_gtsys|hb_gtunlock|hb_gtversion|hb_gzclearerr|hb_gzclose|hb_gzcompress|hb_gzcompressbound|hb_gzdirect|hb_gzdopen|hb_gzeof|hb_gzerror|hb_gzflush|hb_gzgetc|hb_gzgets|hb_gzopen|hb_gzputc|hb_gzputs|hb_gzread|hb_gzrewind|hb_gzseek|hb_gzsetparams|hb_gztell|hb_gzungetc|hb_gzwrite|hb_hallocate|hb_hash|hb_hautoadd|hb_hbinary|hb_hcasematch|hb_hclear|hb_hclone|hb_hcopy|hb_hdefault|hb_hdel|hb_hdelat|hb_heval|hb_hextonum|hb_hextostr|hb_hfill|hb_hget|hb_hgetdef|hb_hhaskey|hb_hkeeporder|hb_hkeyat|hb_hkeys|hb_hmac_sha1|hb_hmac_sha224|hb_hmac_sha256|hb_hmac_sha384|hb_hmac_sha512|hb_hmerge|hb_hour|hb_hpairat|hb_hpos|hb_hrbdo|hb_hrbgetfunlist|hb_hrbgetfunsym|hb_hrbload|hb_hrbrun|hb_hrbsignature|hb_hrbunload|hb_hscan|hb_hset|hb_hsetautoadd|hb_hsetbinary|hb_hsetcasematch|hb_hsetorder|hb_hsort|hb_hvalueat|hb_hvalues|hb_i18n_addtext|hb_i18n_check|hb_i18n_codepage|hb_i18n_create|hb_i18n_description|hb_i18n_gettext|hb_i18n_gettext_strict|hb_i18n_headersize|hb_i18n_loadpot|hb_i18n_ngettext|hb_i18n_ngettext_strict|hb_i18n_pluralform|hb_i18n_restoretable|hb_i18n_savepot|hb_i18n_savetable|hb_i18n_set|hb_idleadd|hb_idledel|hb_idlereset|hb_idlesleep|hb_idlestate|hb_inetaccept|hb_inetaddress|hb_inetcleanup|hb_inetclearerror|hb_inetclearperiodcallback|hb_inetcleartimelimit|hb_inetcleartimeout|hb_inetclose|hb_inetcompress|hb_inetconnect|hb_inetconnectip|hb_inetcount|hb_inetcreate|hb_inetcrlf|hb_inetdataready|hb_inetdgram|hb_inetdgrambind|hb_inetdgramrecv|hb_inetdgramsend|hb_ineterrorcode|hb_ineterrordesc|hb_inetfd|hb_inetgetalias|hb_inetgethosts|hb_inetgetrcvbufsize|hb_inetgetsndbufsize|hb_inetifinfo|hb_inetinit|hb_inetissocket|hb_inetperiodcallback|hb_inetport|hb_inetrecv|hb_inetrecvall|hb_inetrecvendblock|hb_inetrecvline|hb_inetsend|hb_inetsendall|hb_inetserver|hb_inetsetrcvbufsize|hb_inetsetsndbufsize|hb_inetstatus|hb_inettimelimit|hb_inettimeout|hb_ininew|hb_iniread|hb_inireadstr|hb_inisetcomment|hb_iniwrite|hb_iniwritestr|hb_isarray|hb_isblock|hb_ischar|hb_isdate|hb_isdatetime|hb_isevalitem|hb_isfunction|hb_ishash|hb_ishashkey|hb_islogical|hb_ismemo|hb_isnil|hb_isnull|hb_isnumeric|hb_isobject|hb_ispointer|hb_isprinter|hb_isregex|hb_isstring|hb_issymbol|hb_istimestamp|hb_jsondecode|hb_jsonencode|hb_keychar|hb_keyclear|hb_keycode|hb_keyins|hb_keylast|hb_keynext|hb_keyput|hb_keysetlast|hb_keystd|hb_langerrmsg|hb_langmessage|hb_langname|hb_langnew|hb_langselect|hb_liberror|hb_libext|hb_libfree|hb_libgetfunsym|hb_libload|hb_libname|hb_libpostfix|hb_libprefix|hb_lppcreate|hb_lppdestroy|hb_lpperror|hb_lpprecv|hb_lpprecvlen|hb_lppsend|hb_lppsendlen|hb_lppsetlimit|hb_macroblock|hb_matherblock|hb_mathermode|hb_md5|hb_md5decrypt|hb_md5encrypt|hb_md5file|hb_memoread|hb_memowrit|hb_methodname|hb_mgetbounds|hb_milliseconds|hb_minute|hb_mmiddledown|hb_mtvm|hb_mutexcreate|hb_mutexeval|hb_mutexlock|hb_mutexnotify|hb_mutexnotifyall|hb_mutexqueueinfo|hb_mutexsubscribe|hb_mutexsubscribenow|hb_mutexunlock|hb_mvrestore|hb_mvsave|hb_ntocolor|hb_ntos|hb_ntot|hb_numtohex|hb_oemtoansi|hb_oscpu|hb_osdriveseparator|hb_oserror|hb_osfilemask|hb_osis64bit|hb_osiswin2k|hb_osiswin9x|hb_osiswince|hb_osiswinnt|hb_osiswinvista|hb_osnewline|hb_ospathdelimiters|hb_ospathlistseparator|hb_ospathseparator|hb_pathjoin|hb_pathnormalize|hb_pathrelativize|hb_pcodever|hb_pisbyref|hb_popupmenu|hb_pread|hb_processclose|hb_processopen|hb_processrun|hb_processvalue|hb_progname|hb_ps|hb_pvalue|hb_rand32|hb_random|hb_randomint|hb_randomintmax|hb_randomseed|hb_rascan|hb_rat|hb_rddgettempalias|hb_rddinfo|hb_regex|hb_regexall|hb_regexatx|hb_regexcomp|hb_regexhas|hb_regexlike|hb_regexmatch|hb_regexsplit|hb_releasecpu|hb_run|hb_scrmaxcol|hb_scrmaxrow|hb_scroll|hb_sec|hb_secondscpu|hb_serialize|hb_setclshandle|hb_setdispcp|hb_setenv|hb_setkey|hb_setkeyarray|hb_setkeycheck|hb_setkeycp|hb_setkeyget|hb_setkeysave|hb_setlastkey|hb_setmacro|hb_setobject|hb_settermcp|hb_sha1|hb_sha224|hb_sha256|hb_sha384|hb_sha512|hb_shadow|hb_socketaccept|hb_socketbind|hb_socketclose|hb_socketconnect|hb_socketerrorstring|hb_socketgeterror|hb_socketgetfd|hb_socketgethostname|hb_socketgethosts|hb_socketgetifaces|hb_socketgetoserror|hb_socketgetpeername|hb_socketgetrcvbufsize|hb_socketgetsndbufsize|hb_socketgetsockname|hb_socketlisten|hb_socketopen|hb_socketrecv|hb_socketrecvfrom|hb_socketresolveaddr|hb_socketresolveinetaddr|hb_socketselect|hb_socketselectreadhb_socketselectwrite|hb_socketselectwriteex|hb_socketsend|hb_socketsendto|hb_socketsetblockingio|hb_socketsetbroadcast|hb_socketsetexclusiveaddr|hb_socketsetkeepalive|hb_socketsetmulticast|hb_socketsetnodelay|hb_socketsetrcvbufsize|hb_socketsetreuseaddr|hb_socketsetsndbufsize|hb_socketshutdown|hb_stod|hb_stot|hb_strcdecode|hb_strclear|hb_strdecodescape|hb_strformat|hb_strshrink|hb_strtoexp|hb_strtohex|hb_strtots|hb_strtoutf8|hb_strxor|hb_threaddetach|hb_threadid|hb_threadjoin|hb_threadonce|hb_threadonceinit|hb_threadquitrequest|hb_threadself|hb_threadstart|hb_threadterminateall|hb_threadwait|hb_threadwaitforall|hb_tokencount|hb_tokenget|hb_tokenptr|hb_tracefile|hb_traceflush|hb_tracelevel|hb_tracelog|hb_tracelogat|hb_traceloglevel|hb_tracemode|hb_tracestate|hb_tracestring|hb_tracesysout|hb_translate|hb_tstostr|hb_ttoc|hb_ttod|hb_tton|hb_ttos|hb_uat|hb_uchar|hb_ucode|hb_uleft|hb_ulen|hb_upeek|hb_upoke|hb_uright|hb_userlang|hb_username|hb_usubstr|hb_utcoffset|hb_utf8asc|hb_utf8at|hb_utf8chr|hb_utf8left|hb_utf8len|hb_utf8peek|hb_utf8poke|hb_utf8rat|hb_utf8right|hb_utf8strtran|hb_utf8stuff|hb_utf8substr|hb_utf8tostr|hb_utf8tostrbox|hb_valtoexp|hb_valtostr|hb_version|hb_waeval|hb_wildmatch|hb_wildmatchi|hb_zcompress|hb_zcompressbound|hb_zerror|hb_zlibversion|hb_zuncompress|hb_zuncompresslen|header|hittest|hs_add|hs_close|hs_create|hs_delete|hs_filter|hs_ifdel|hs_index|hs_keycount|hs_next|hs_open|hs_replace|hs_set|hs_undelete|hs_verify|hs_version)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones I",
+         "match" : "(?i)\\b(?:i2bin|indexext|indexkey|indexord|inkey|int|isaffirm|isalpha|iscolor|isdefcolor|isdigit|isdisk|islower|isnegative|isprinter|isquick|isshortcut|isupper)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones J",
+         "match" : "(?i)\\b(?:)",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones K",
+         "match" : "(?i)\\b(?:)",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones L",
+         "match" : "(?i)\\b(?:l2bin|lastkey|lastrec|left|len|lennum|listbdefco|listbox|lock|log|lower|ltrim|lupdate)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones M",
+         "match" : "(?i)\\b(?:makedir|max|maxcol|maxrow|mcol|mdblclk|memoedit|memoline|memoread|memory|memotran|memowrit|memvarblock|menudefcol|menuitem|menumodal|mhide|min|mlcount|mlctopos|mleftdown|mlpos|mmiddledown|mod|month|mpostolc|mpresent|mreststate|mrightdown|mrow|msavestate|msetbounds|msetcursor|msetpos|mshow)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones N",
+         "match" : "(?i)\\b(?:nationmsg|neterr|netname|nextkey|nosnow)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones O",
+         "match" : "(?i)\\b(?:ordbagclear|ordbagext|ordbagname|ordcondset|ordcount|ordcreate|ordcustom|orddescend|orddestroy|ordfindrec|ordfor|ordisunique|ordkey|ordkeyadd|ordkeycount|ordkeydel|ordkeygoto|ordkeyno|ordkeyrelpos|ordkeyval|ordlistadd|ordlistcle|ordlistclear|ordlistreb|ordlistrebuild|ordname|ordnumber|ordscope|ordsetfocu|ordsetfocus|ordsetrela|ordsetrelation|ordskipraw|ordskipunique|ordwildseek|os|outerr|outstd)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones P",
+         "match" : "(?i)\\b(?:pad|padc|padl|padr|pcol|pcount|popup|procfile|procline|procname|prow|pushbutton|pvalue)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+
+      {  
+         "comment" : "funciones q",
+         "match" : "(?i)\\b(?:qout|qqout)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones r",
+         "match" : "(?i)\\b(?:radgrdefco|radiobutto|radiobutton|radiogroup|raditdefco|rangecheck|rat|rddinfo|rddlist|rddname|rddregister|rddsetdefa|rddsetdefault|rddsys|rdd_count|rdd_info|rdd_name|readexit|readformat|readinsert|readkey|readkill|readmodal|readstats|readupdated|readvar|reccount|recno|recsize|replicate|restscreen|right|rlock|round|row|rtrim)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones s",
+         "match" : "(?i)\\b(?:savescreen|scroll|scrollbar|sdf|seconds|secs|select|set|setblink|setcancel|setclrpair|setcolor|setcursor|setkey|setmode|setpos|setposbs|setprc|settypeahead|showgetmsg|showmsg|sixcdx|soundex|space|sqrt|stod|str|strtran|strzero|stuff|substr|sxchar|sxdate|sxlog|sxnum|sx_autoopen|sx_autoshare|sx_blob2file|sx_chill|sx_clearorder|sx_clrscope|sx_compress|sx_dbcreate|sx_dbfdecrypt|sx_dbfencrypt|sx_decompress|sx_decrypt|sx_deftrigger|sx_descend|sx_dtop|sx_encrypt|sx_error|sx_fcompress|sx_fdecompress|sx_file2blob|sx_fileorder|sx_findrec|sx_fnameparser|sx_freeze|sx_getlocks|sx_idtype|sx_indexcount|sx_indexname|sx_indextype|sx_iniheader|sx_isdbt|sx_isflocked|sx_islocked|sx_ismyrox|sx_isreadonly|sx_isreindex|sx_isroxlock|sx_issem|sx_isshared|sx_i_indexname|sx_i_tagname|sx_keyadd|sx_keycount|sx_keydata|sx_keydrop|sx_keygoto|sx_keyno|sx_keysincluded|sx_keyskip|sx_killsem|sx_killtag|sx_lockretry|sx_makesem|sx_memoblk|sx_memoext|sx_memopack|sx_ptod|sx_rlock|sx_rollback|sx_roxlock|sx_roxunlock|sx_seeklast|sx_setfileord|sx_setmemoblock|sx_setpass|sx_setscope|sx_settag|sx_settrig|sx_settrigger|sx_setturbo|sx_skipunique|sx_slimfast|sx_sortoption|sx_step|sx_strxcheck|sx_tablename|sx_tabletype|sx_tagcount|sx_taginfo|sx_tagno|sx_tagorder|sx_tags|sx_tagunique|sx_thermometer|sx_turboarea|sx_unlock|sx_version|sx_vfget|sx_vsiglen|sx_warm|sx_wildmatch|sx_wildseek|symbol|sysinit)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones t",
+         "match" : "(?i)\\b(?:tapplykey|tbaddcol|tbapplykey|tbbblock|tbclose|tbcolumn|tbcolumnnew|tbcreate|tbdelcol|tbdisplay|tbeditcell|tbfblock|tbgobot|tbgotop|tbinscol|tbmodal|tbmouse|tbreader|tbrowse|tbrowsedb|tbrowsenew|tbsblock|tbskip|time|tone|topbar|transform|trim|tstring|type)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones u",
+         "match" : "(?i)\\b(?:u2bin|upper|used|updated)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones v",
+         "match" : "(?i)\\b(?:val|valtype|version)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones w",
+         "match" : "(?i)\\b(?:w2bin|word)",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones x",
+         "match" : "(?i)\\b(?:)",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones y",
+         "match" : "(?i)\\b(?:year)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones z",
+         "match" : "(?i)\\b(?:)",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "funciones __indocumentadas",
+         "match" : "(?i)\\b(?:_checkbox_|_dbf|_dtxcondset|_einstvar|_getnumcol|_isgraphic|_listbox_|_natmsgver|_natsortver|_pushbutt_|_radiogrp_|_setvideomode|_sxopeninit|_sx_iniinit|_sx_strcompress|_sx_strdecompress|__accept|__acceptstr|__atclear|__atprompt|__box|__boxd|__boxs|__caplength|__capmetrics|__caption|__classadd|__classh|__classinstance|__classname|__classnew|__classsel|__clear|__clsaddfriend|__clsaddmsg|__clsassoctype|__clscntclasses|__clsdelmsg|__clsgetproperties|__clsinst|__clsinstsuper|__clslock|__clslockdef|__clsmodmsg|__clsmsgtype|__clsnew|__clsparent|__clspreallocate|__clssyncsignal|__clssyncwait|__clsunlockdef|__cls_cntclsdata|__cls_cntdata|__cls_cntshrdata|__cls_decdata|__cls_incdata|__copyfile|__dbapp|__dbappend|__dbarrang|__dbarrange|__dbclearindex|__dbclearrelation|__dbclose|__dbclosearea|__dbcommit|__dbcommitall|__dbcontinue|__dbcopy|__dbcopyst|__dbcopystruct|__dbcopyxs|__dbcopyxstruct|__dbcreate|__dbcreatindex|__dbdelete|__dbdelim|__dbginvokedebug|__dbgobottom|__dbgoto|__dbgotop|__dbgproclevel|__dbgvmlocallist|__dbgvmparllist|__dbgvmstkgcount|__dbgvmstkglist|__dbgvmstklcount|__dbgvmstkllist|__dbgvmvargget|__dbgvmvarglist|__dbgvmvargset|__dbgvmvarlget|__dbgvmvarlset|__dbgvmvarsget|__dbgvmvarslen|__dbgvmvarslist|__dbgvmvarsset|__dbjoin|__dblist|__dblocate|__dbopensd|__dbopensdf|__dbpack|__dbrecall|__dbreindex|__dbsdf|__dbseek|__dbselect|__dbsetfilter|__dbsetfound|__dbsetindex|__dbsetlocate|__dbsetorder|__dbsetrelation|__dbskip|__dbskipper|__dbsort|__dbsql|__dbstructfilter|__dbtotal|__dbtrans|__dbtransrec|__dbunlall|__dbunlock|__dbupdate|__dbuse|__dbzap|__defaultnil|__defpath|__dir|__dynscount|__dynsgetindex|__dynsgetname|__dynsgetprf|__dynsisfun|__dynsn2ptr|__dynsn2sym|__dynsp2name|__einstvar52|__einstvar53|__eject|__errinhandler|__errrt_base|__errrt_sbase|__fledit|__get|__geta|__getlistactive|__getlistlast|__getlistsetactive|__getmessage|__getmsgprf|__guicolor|__hbarray|__hbblock|__hbcharacter|__hbdate|__hbdoc_dirlastmodified|__hbdoc_filterout|__hbdoc_fromsource|__hbdoc_loaddir|__hbdoc_loadhbd|__hbdoc_savehbd|__hbdoc_tosource|__hbhash|__hblogical|__hbnil|__hbnumeric|__hbpointer|__hbsymbol|__hbtimestamp|__hbvminit|__hb_langselect|__i18n_hashjoin|__i18n_hashtable|__i18n_potarrayjoin|__i18n_potarrayload|__i18n_potarraysave|__i18n_potarraytohash|__i18n_potarraytrans|__input|__itemsetref|__keyboard|__killread|__labelform|__mclear|__menuto|__micolumn|__mirow|__mrelease|__mrestore|__msave|__mvclear|__mvdbginfo|__mvexist|__mvget|__mvprivate|__mvpublic|__mvput|__mvrelease|__mvrestore|__mvsave|__mvscope|__mvsetbase|__mvxrelease|__mxrelease|__natisaffirm|__natisnegative|__natmsg|__natmsgver|__natsortver|__nonoalert|__objadddata|__objaddinline|__objaddmethod|__objclone|__objdeldata|__objdelinline|__objdelmethod|__objderivedfrom|__objgetclsname|__objgetmethodlist|__objgetmsglist|__objgetproperties|__objgetvaluelist|__objhasdata|__objhasmethod|__objhasmsg|__objhasmsgassigned|__objmodinline|__objmodmethod|__objsendmsg|__objsetclass|__objsetvaluelist|__opcount|__opgetprf|__pp_addrule|__pp_init|__pp_path|__pp_process|__pp_reset|__pp_stdrules|__qqpub|__quit|__quitcancel|__rddpreallocate|__reportform|__run|__sender|__setcentury|__setformat|__setfunction|__sethelpk|__setprofiler|__textrestore|__textsave|__traceprgcalls|__typefile|__vmitemid|__wait|__wapi_getacp|__wapi_getoemcp|__xhelp|__xrestscreen|__xsavegetattr|__xsavegetchar|__xsavegetcolor|__xsavescreen)\\b",
+         "name": "support.function.basic.harbour" 
+      },
+      {  
+         "comment" : "definition class",
+         "match" : "(?i)\\b(?:from|classdata|class|data|method|message|var|endclass|onerror|error handler|virtual|create class|access|assign|inline|EXPORTED:|PROTECTED:|HIDDEN:)",
+         "name": "support.class.harbour" 
+      },
+      {  
+         "comment" : "definicion de constantes caracter",
+         "match" : "(?i)\\b(?:include|define|ifdef)",
+         "name": "support.constant.character.harbour" 
+      },
+      {  
+         "comment" : "definicion de constantes logicas",
+         "match" : "(?i)\\b(?:true|false|nil)",
+         "name": "support.constant.language.harbour" 
+      },
+      {  
+         "comment" : "boolean",
+         "match" : "(?i)(\\.(t|f)\\.)",
+         "name": "constant.numeric.harbour" 
+      },
+      {  
+         "comment" : "commands",
+         "match" : "(?i)\\b(?:COPY|EXTENDED|CREATE|DELETE|DIR|EJECT|ERASE|FILE|KEYBOARD|LABEL FORM|MENU TO|PROMPT|PACK|RENAME|REPORT FORM|RESTORE SCREEN|RUN|SAVE SCREEN|SAY|STRUCTURE|ALTERNATE|BELL|CENTURY|CONSOLE|DATE|DECIMALS|DEFAULT|DEVICE|EPOCH|FIXED|INTENSITY|KEY|MESSAGE|PATH|PRINTER|WRAP|TYPE|ZAP)\\b",
+         "name": "entity.name.function.harbour"
+      }
+  ],
+  "uuid": "56571807-d94d-4805-bbfc-87d347d189e4"
+}
