@@ -215,7 +215,7 @@ contexts:
       scope: keyword.control.catch-exception.java
     - match: '\?|:'
       scope: keyword.control.java
-    - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
+    - match: \b(return|break|case|continue|default|do|while|for|switch|if|else|goto)\b
       scope: keyword.control.java
     - match: \b(instanceof)\b
       scope: keyword.operator.java
@@ -331,7 +331,7 @@ contexts:
     - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
       scope: storage.type.primitive.java
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
+    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|const)\b
       captures:
         1: storage.modifier.java
   strings:
