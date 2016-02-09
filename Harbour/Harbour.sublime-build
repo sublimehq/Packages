@@ -1,0 +1,3 @@
+{
+ "cmd": ["${project_path:${folder}}\\hbcompile.bat"]
+}
