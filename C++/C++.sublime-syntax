@@ -161,7 +161,7 @@ contexts:
         2: entity.name.type.c++
       push:
         - meta_scope: meta.class-struct-block.c++
-        - match: '(?<=\})|(?=(;|,|\(|\)|>|\[|\]))'
+        - match: '(?<=\}|;)|(?=(;|,|\(|\)|>|\[|\]))'
           pop: true
         - include: angle_brackets
         - match: (?<!:):(?!:)
