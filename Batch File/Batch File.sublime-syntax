@@ -1,0 +1,41 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Batch File
+file_extensions:
+  - bat
+  - cmd
+scope: source.dosbatch
+contexts:
+  main:
+    - match: \b(?i)(?:append|assoc|at|attrib|break|cacls|cd|chcp|chdir|chkdsk|chkntfs|cls|cmd|color|comp|compact|convert|copy|date|del|dir|diskcomp|diskcopy|doskey|echo|endlocal|erase|fc|find|findstr|format|ftype|graftabl|help|keyb|label|md|mkdir|mode|more|move|path|pause|popd|print|prompt|pushd|rd|recover|ren|rename|replace|restore|rmdir|set|setlocal|shift|sort|start|subst|time|title|tree|type|ver|verify|vol|xcopy)\b
+      scope: keyword.command.dosbatch
+    - match: \b(?i)(?:goto|call|exit)\b
+      scope: keyword.control.statement.dosbatch
+    - match: \b(?i)if\s+((not)\s+)(exist|defined|errorlevel|cmdextversion)\b
+      scope: keyword.control.conditional.if.dosbatch
+    - match: \b(?i)(?:if|else)\b
+      scope: keyword.control.conditional.dosbatch
+    - match: \b(?i)for\b
+      scope: keyword.control.repeat.dosbatch
+    - match: \b(?:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b
+      scope: keyword.operator.dosbatch
+    - match: (?:^|\s)((?i)rem)(?:$|\s.*$)
+      scope: comment.line.rem.dosbatch
+      captures:
+        1: keyword.command.rem.dosbatch
+    - match: \s*:\s*:.*$
+      scope: comment.line.colons.dosbatch
+    - match: '"'
+      captures:
+        0: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: string.quoted.double.dosbatch
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.end.shell
+          pop: true
+    - match: "[|]"
+      scope: keyword.operator.pipe.dosbatch
+    - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
+      scope: keyword.operator.redirect.shell

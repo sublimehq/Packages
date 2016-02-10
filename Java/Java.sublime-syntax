@@ -46,7 +46,7 @@ contexts:
     - match: '@\w*'
       scope: storage.type.annotation.java
   anonymous-classes-and-new:
-    - match: \bnew\b
+    - match: \b(?<!::)new\b
       captures:
         0: keyword.control.new.java
       push:
@@ -174,6 +174,8 @@ contexts:
       push:
         - meta_scope: comment.block.java
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.java
           pop: true
     - match: \s*((//).*$\n?)
       captures:
@@ -221,6 +223,11 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: (=)
       scope: keyword.operator.assignment.java
+      push:
+        - meta_scope: meta.assignment.rhs.java
+        - match: (?=(;|\)))
+          pop: true
+        - include: code
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
@@ -232,7 +239,7 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
   methods:
-    - match: '(?!new)(?=\w.*\s+)(?=[^=]+\()'
+    - match: '(?=\w.*\s+)(?=[^=]+\()'
       push:
         - meta_scope: meta.method.java
         - match: "}|(?=;)"
@@ -324,7 +331,7 @@ contexts:
     - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
       scope: storage.type.primitive.java
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|abstract|threadsafe|transient)\b
+    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
       captures:
         1: storage.modifier.java
   strings:

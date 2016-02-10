@@ -34,11 +34,11 @@ contexts:
         - include: main
     - match: |-
         ^(?x)
-          \s*(to|on)\s+           # "on" or "to"
-          (\w+)             # function name
-          (\()              # opening paren
-            ((?:[\s,:\{\}]*(?:\w+)?)*)  # parameters
-          (\))              # closing paren
+        	\s*(to|on)\s+ 					# "on" or "to"
+        	(\w+)							# function name
+        	(\()							# opening paren
+        		((?:[\s,:\{\}]*(?:\w+)?)*)	# parameters
+        	(\))							# closing paren
       comment: |
         This is not a very well-designed rule.  For now,
                                 we can leave it like this though, as it sorta works.
@@ -57,13 +57,13 @@ contexts:
         - include: main
     - match: |-
         ^(?x)
-          \s*(to|on)\s+           # "on" or "to"
-          (\w+)             # function name
-          (?:\s+
-            (of|in)\s+          # "of" or "in"
-            (\w+)           # direct parameter
-          )?
-          (?=\s+(above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\b)
+        	\s*(to|on)\s+ 					# "on" or "to"
+        	(\w+)							# function name
+        	(?:\s+
+        		(of|in)\s+					# "of" or "in"
+        		(\w+)						# direct parameter
+        	)?
+        	(?=\s+(above|against|apart\s+from|around|aside\s+from|at|below|beneath|beside|between|by|for|from|instead\s+of|into|on|onto|out\s+of|over|thru|under)\b)
       comment: "TODO: match `given` parameters"
       captures:
         1: keyword.control.function.applescript
@@ -83,9 +83,9 @@ contexts:
         - include: main
     - match: |-
         ^(?x)
-          \s*(to|on)\s+           # "on" or "to"
-          (\w+)             # function name
-          (?=\s*(--.*?)?$)        # nothing else
+        	\s*(to|on)\s+ 					# "on" or "to"
+        	(\w+)							# function name
+        	(?=\s*(--.*?)?$)				# nothing else
       captures:
         1: keyword.control.function.applescript
         2: entity.name.function.handler.applescript
@@ -340,6 +340,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application.textmate.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: textmate
         - include: standard-suite
@@ -351,6 +353,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application.finder.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: finder
         - include: standard-suite
@@ -362,6 +366,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application.system-events.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: system-events
         - include: standard-suite
@@ -373,6 +379,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application.itunes.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: itunes
         - include: standard-suite
@@ -384,6 +392,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application-process.generic.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: standard-suite
         - include: main
@@ -394,6 +404,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.application.generic.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: standard-suite
         - include: main
@@ -404,6 +416,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.generic.applescript
         - match: ^\s*(end(?:\s+tell)?)(?=\s*(--.*?)?$)
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: main
     - match: ^\s*(tell)\s+(?=.*\bto\b)
@@ -413,6 +427,8 @@ contexts:
       push:
         - meta_scope: meta.block.tell.generic.applescript
         - match: (?<!¬)$
+          captures:
+            1: keyword.control.tell.applescript
           pop: true
         - include: main
   built-in:
@@ -447,17 +463,17 @@ contexts:
       scope: keyword.operator.comparison.applescript
     - match: |-
         (?ix)\b
-          (and|or|div|mod|as|not
-          |(a\s+)?(ref(\s+to)?|reference\s+to)
-          |equal(s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with
-          )
+        	(and|or|div|mod|as|not
+        	|(a\s+)?(ref(\s+to)?|reference\s+to)
+        	|equal(s|\s+to)|contains?|comes\s+(after|before)|(start|begin|end)s?\s+with
+        	)
         \b
       scope: keyword.operator.word.applescript
     - match: |-
         (?ix)\b
-          (is(n't|\s+not)?(\s+(equal(\s+to)?|(less|greater)\s+than(\s+or\s+equal(\s+to)?)?|in|contained\s+by))?
-          |does(n't|\s+not)\s+(equal|come\s+(before|after)|contain)
-          )
+        	(is(n't|\s+not)?(\s+(equal(\s+to)?|(less|greater)\s+than(\s+or\s+equal(\s+to)?)?|in|contained\s+by))?
+        	|does(n't|\s+not)\s+(equal|come\s+(before|after)|contain)
+        	)
         \b
       comment: In double quotes so we can use a single quote in the keywords.
       scope: keyword.operator.word.applescript
@@ -491,12 +507,12 @@ contexts:
       scope: support.class.built-in.applescript
     - match: |-
         (?ix)\b
-          ( (cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
-          | square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
-          | lit(re|er)s|gallons|quarts
-          | (kilo)?grams|ounces|pounds
-          | degrees\s+(Celsius|Fahrenheit|Kelvin)
-          )
+        	(	(cubic\s+(centi)?|square\s+(kilo)?|centi|kilo)met(er|re)s
+        	|	square\s+(yards|feet|miles)|cubic\s+(yards|feet|inches)|miles|inches
+        	|	lit(re|er)s|gallons|quarts
+        	|	(kilo)?grams|ounces|pounds
+        	|	degrees\s+(Celsius|Fahrenheit|Kelvin)
+        	)
         \b
       scope: support.class.built-in.unit.applescript
     - match: \b(?i:seconds|minutes|hours|days)\b
@@ -516,6 +532,8 @@ contexts:
       push:
         - meta_scope: comment.block.applescript
         - match: \*\)
+          captures:
+            0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
   comments.nested:
@@ -525,6 +543,8 @@ contexts:
       push:
         - meta_scope: comment.block.applescript
         - match: \*\)
+          captures:
+            0: punctuation.definition.comment.applescript
           pop: true
         - include: comments.nested
   data-structures:
@@ -535,6 +555,8 @@ contexts:
       push:
         - meta_scope: meta.array.applescript
         - match: '(\})'
+          captures:
+            1: punctuation.section.array.applescript
           pop: true
         - match: '(\w+|((\|)[^|\n]*(\|)))\s*(:)'
           captures:
@@ -554,6 +576,8 @@ contexts:
       push:
         - meta_scope: string.quoted.double.application-name.applescript
         - match: (")
+          captures:
+            1: punctuation.definition.string.applescript
           pop: true
         - match: \\.
           scope: constant.character.escape.applescript
@@ -563,6 +587,8 @@ contexts:
       push:
         - meta_scope: string.quoted.double.applescript
         - match: (")
+          captures:
+            1: punctuation.definition.string.applescript
           pop: true
         - match: \\.
           scope: constant.character.escape.applescript

@@ -17,6 +17,8 @@ contexts:
       push:
         - meta_scope: comment.block.java-props
         - match: \*/
+          captures:
+            0: punctuation.definition.comment.java-props
           pop: true
     - match: "^([^:=]+)([:=])(.*)$"
       comment: Not compliant with the properties file spec, but this works for me, and I'm the one who counts around here.

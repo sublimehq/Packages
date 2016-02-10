@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: camlp4
+scope: source.camlp4.ocaml
+contexts:
+  main:
+    - match: '(\[<)(?=.*?>])'
+      captures:
+        1: punctuation.definition.camlp4-stream.ocaml
+      push:
+        - meta_scope: meta.camlp4-stream.ocaml
+        - match: "(?=>])"
+          captures:
+            1: punctuation.definition.camlp4-stream.ocaml
+          pop: true
+        - include: camlpppp-streams
+    - match: '\[<|>]'
+      scope: punctuation.definition.camlp4-stream.ocaml
+    - match: '\bparser\b|<(<|:)|>>|\$(:|\${0,1})'
+      scope: keyword.other.camlp4.ocaml
+  camlpppp-streams:
+    - match: (')
+      captures:
+        1: punctuation.definition.camlp4.simple-element.ocaml
+      push:
+        - meta_scope: meta.camlp4-stream.element.ocaml
+        - match: '(;)(?=\s*'')|(?=\s*>])'
+          captures:
+            1: punctuation.separator.camlp4.ocaml
+          pop: true
+        - include: scope:source.ocaml

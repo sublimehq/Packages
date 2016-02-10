@@ -1,0 +1,13 @@
+%YAML 1.2
+---
+name: Make Output
+hidden: true
+scope: source.build_output
+contexts:
+  main:
+    - match: '^(..[^:\n]*):([0-9]+):?([0-9]+)?:? '
+      scope: entity.name.filename
+    - match: '\b(warning|error): '
+      scope: message.error
+    - match: '^\[.+\]$'
+      scope: comment

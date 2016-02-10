@@ -5,12 +5,13 @@
 # Includes a few improvement like special-target, a bit more shell command, better variable recognition, fix ifeq/ifneq missing highlight ...
 name: Makefile
 file_extensions:
+  - make
   - GNUmakefile
   - makefile
   - Makefile
   - OCamlMakefile
-  - make
   - mak
+  - mk
 scope: source.makefile
 contexts:
   main:
@@ -54,7 +55,7 @@ contexts:
             - match: (?<!\\)$(?=\n)
               pop: true
         - include: line_continuation
-    - match: ^\s*\b(\-??include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
+    - match: ^\s*((?:-|s)?include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
       scope: meta.keyword.control.makefile
       captures:
         1: keyword.control.makefile
@@ -122,8 +123,6 @@ contexts:
       scope: keyword.operator.makefile
     - match: '(?x) \b(?:cp|mv|rm|cat|ls|\[|\]|find|grep|awk|perl|mkdir|rmdir|cd|cwd|pwd|svn|git|hg|scp|make|ps|sed|python|ruby|setenv|export|echo|test|source|ln|touch)\b'
       scope: support.function.makefile
-    - match: '(?x) (?<=\s)(?: \-[\w\-]+ )'
-      scope: entity.other.attribute-name.makefile
     - include: line_continuation
     - match: \b(true|false)\b
       scope: constant.other.makefile

@@ -3,7 +3,7 @@
 	"file_regex": "^(..[^:\n]*):([0-9]+):?([0-9]+)?:? (.*)$",
 	"working_dir": "${folder:${project_path:${file_path}}}",
 	"selector": "source.makefile",
-	"syntax": "Packages/Makefile/Make.build-language",
+	"syntax": "Packages/Makefile/Make Output.sublime-syntax",
 	"keyfiles": ["Makefile", "makefile"],
 
 	"variants":

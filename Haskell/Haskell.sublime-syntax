@@ -39,7 +39,7 @@ contexts:
           captures:
             1: keyword.other.haskell
           pop: true
-        - match: \b(Monad|Functor|Eq|Ord|Read|Show|Num|(Frac|Ra)tional|Enum|Bounded|Real(Frac|Float)?|Integral|Floating)\b
+        - match: \b(Mon(ad|oid)|Functor|Applicative|(Folda|Traversa)ble|Eq|Ord|Read|Show|Num|(Frac|Ra)tional|Enum|Bounded|Real(Frac|Float)?|Integral|Floating)\b
           scope: support.class.prelude.haskell
         - match: "[A-Z][A-Za-z_']*"
           scope: entity.other.inherited-class.haskell
@@ -193,6 +193,8 @@ contexts:
         - meta_scope: comment.block.haskell
         - include: block_comment
         - match: '-\}'
+          captures:
+            0: punctuation.definition.comment.haskell
           pop: true
   comments:
     - match: (--).*$\n?

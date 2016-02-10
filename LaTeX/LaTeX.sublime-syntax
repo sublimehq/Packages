@@ -41,20 +41,20 @@ contexts:
         - include: main
     - match: |-
         (?x)
-        (                         # Capture 1
-          (\\)                      # Marker
-          (?:
-            (?:sub){0,2}section             # Functions
-            | (?:sub)?paragraph
-            | chapter|part|addpart
-            | addchap|addsec|minisec
-          )
-          (?:\*)?                     # Optional Unnumbered
+        (													# Capture 1
+        	(\\)											# Marker
+        	(?:
+        		(?:sub){0,2}section							# Functions
+        	  | (?:sub)?paragraph
+        	  | chapter|part|addpart
+        	  | addchap|addsec|minisec
+        	)
+        	(?:\*)?											# Optional Unnumbered
         )
         (?:
-          (\[)([^\[]*?)(\])               # Optional Title
+        	(\[)([^\[]*?)(\])								# Optional Title
         )??
-        (\{)                        # Opening Bracket
+        (\{)												# Opening Bracket
       comment: this works OK with all kinds of crazy stuff as long as section is one line
       captures:
         1: support.function.section.latex
@@ -85,6 +85,15 @@ contexts:
         - meta_scope: meta.function.embedded.java.latex
         - meta_content_scope: source.java.embedded
         - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
+            6: punctuation.definition.arguments.optional.begin.latex
+            7: punctuation.definition.arguments.optional.end.latex
+            8: comment.line.percentage.latex
           pop: true
         - include: scope:source.java
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Python)\n?)'
@@ -102,6 +111,15 @@ contexts:
         - meta_scope: meta.function.embedded.python.latex
         - meta_content_scope: source.python.embedded
         - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
+            6: punctuation.definition.arguments.optional.begin.latex
+            7: punctuation.definition.arguments.optional.end.latex
+            8: comment.line.percentage.latex
           pop: true
         - include: scope:source.python
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%.*\n?)?'
@@ -119,6 +137,15 @@ contexts:
         - meta_scope: meta.function.embedded.generic.latex
         - meta_content_scope: source.generic.embedded
         - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
+            6: punctuation.definition.arguments.optional.begin.latex
+            7: punctuation.definition.arguments.optional.end.latex
+            8: comment.line.percentage.latex
           pop: true
     - match: '(?:\s*)((\\)begin)(\{)((?:V|v)erbatim|alltt)(\})'
       captures:
@@ -131,6 +158,12 @@ contexts:
         - meta_scope: meta.function.verbatim.latex
         - meta_content_scope: markup.raw.verbatim.latex
         - match: '((\\)end)(\{)(\4)(\})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
           pop: true
     - match: '(?:\s*)((\\)(?:url|href))(\{)([^}]*)(\})'
       scope: meta.function.link.url.latex
@@ -159,19 +192,19 @@ contexts:
         5: punctuation.definition.arguments.end.latex
     - match: |-
         (?x)
-          (?:\s*)                   # Optional whitespace
-          ((\\)begin)                 # Marker - Function
-          (\{)                    # Open Bracket
-            (
-              (?:
-                align|equation|eqnarray     # Argument
-                | multline|aligned|alignat
-                | split|gather|gathered
-              )
-              (?:\*)?               # Optional Unnumbered
-            )
-          (\})                    # Close Bracket
-          (\s*\n)?        # Match to end of line absent of content
+        	(?:\s*)										# Optional whitespace
+        	((\\)begin)									# Marker - Function
+        	(\{)										# Open Bracket
+        		(
+        			(?:
+        				align|equation|eqnarray			# Argument
+        			  | multline|aligned|alignat
+        			  | split|gather|gathered
+        			)
+        			(?:\*)?								# Optional Unnumbered
+        		)
+        	(\})										# Close Bracket
+        	(\s*\n)?				# Match to end of line absent of content
       captures:
         1: support.function.be.latex
         2: punctuation.definition.function.latex
@@ -183,22 +216,28 @@ contexts:
         - meta_content_scope: string.other.math.block.environment.latex
         - match: |-
             (?x)
-              (?:\s*)                   # Optional whitespace
-              ((\\)end)                 # Marker - Function
-              (\{)                    # Open Bracket
-                (\4)        # Previous capture from begin
-              (\})                    # Close Bracket
-              (?:\s*\n)?        # Match to end of line absent of content
+            	(?:\s*)										# Optional whitespace
+            	((\\)end)									# Marker - Function
+            	(\{)										# Open Bracket
+            		(\4)				# Previous capture from begin
+            	(\})										# Close Bracket
+            	(?:\s*\n)?				# Match to end of line absent of content
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
           pop: true
         - include: $top_level_main
     - match: |-
         (?x)
-          (?:\s*)                   # Optional whitespace
-          ((\\)begin)                 # Marker - Function
-          (\{)                    # Open Bracket
-            (array|tabular[xy*]?)
-          (\})                    # Close Bracket
-          (\s*\n)?        # Match to end of line absent of content
+        	(?:\s*)										# Optional whitespace
+        	((\\)begin)									# Marker - Function
+        	(\{)										# Open Bracket
+        		(array|tabular[xy*]?)
+        	(\})										# Close Bracket
+        	(\s*\n)?				# Match to end of line absent of content
       captures:
         1: support.function.be.latex
         2: punctuation.definition.function.latex
@@ -210,12 +249,18 @@ contexts:
         - meta_content_scope: meta.data.environment.tabular.latex
         - match: |-
             (?x)
-              (?:\s*)                   # Optional whitespace
-              ((\\)end)                 # Marker - Function
-              (\{)                    # Open Bracket
-                (\4)        # Previous capture from begin
-              (\})                    # Close Bracket
-              (?:\s*\n)?        # Match to end of line absent of content
+            	(?:\s*)										# Optional whitespace
+            	((\\)end)									# Marker - Function
+            	(\{)										# Open Bracket
+            		(\4)				# Previous capture from begin
+            	(\})										# Close Bracket
+            	(?:\s*\n)?				# Match to end of line absent of content
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.end.latex
           pop: true
         - match: \\
           scope: punctuation.definition.table.row.latex
@@ -244,6 +289,12 @@ contexts:
       push:
         - meta_scope: meta.function.environment.list.latex
         - match: '((\\)end)(\{)(\4)(\})(?:\s*\n)?'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.latex
           pop: true
         - include: $top_level_main
     - match: '(?:\s*)((\\)begin)(\{)(\w+[*]?)(\})'
@@ -256,6 +307,12 @@ contexts:
       push:
         - meta_scope: meta.function.environment.general.latex
         - match: '((\\)end)(\{)(\4)(\})(?:\s*\n)?'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.function.latex
+            3: punctuation.definition.arguments.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.arguments.latex
           pop: true
         - include: $top_level_main
     - match: (\\)(newcommand|renewcommand)\b
@@ -349,16 +406,16 @@ contexts:
         1: punctuation.definition.keyword.latex
     - match: |-
         (?x)
-          (
-            (\\)                    # Marker
-            (?:foot)?(?:full)?(?:no)?(?:short)?   # Function Name
-            [cC]ite
-            (?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*
-            \*?                     # Optional Unabreviated
-          )
-          (?:(\[)[^\]]*(\]))?               # Optional
-          (?:(\[)[^\]]*(\]))?               #   Arguments
-          (\{)                      # Opening Bracket
+        	(
+        		(\\)										# Marker
+        		(?:foot)?(?:full)?(?:no)?(?:short)?		# Function Name
+        		[cC]ite
+        		(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*
+        		\*?											# Optional Unabreviated
+        	)
+        	(?:(\[)[^\]]*(\]))?								# Optional
+        	(?:(\[)[^\]]*(\]))?								#   Arguments
+        	(\{)											# Opening Bracket
       captures:
         1: keyword.control.cite.latex
         2: punctuation.definition.keyword.latex

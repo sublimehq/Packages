@@ -1,0 +1,37 @@
+/* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
+
+.test-color-values {
+    color: aqua;
+/*         ^ support.constant.color.w3c-standard-color-name.css */
+
+    color: aliceblue;
+/*         ^ support.constant.color.w3c-extended-color-keywords.css */
+
+    color: currentColor;
+/*         ^ support.constant.color.w3c-special-color-keyword.css */
+
+    color: transparent;
+/*         ^ support.constant.color.w3c-special-color-keyword.css */
+
+    color: #b4da55;
+/*         ^ constant.other.color.rgb-value.css */
+
+    color: #137;
+/*         ^ constant.other.color.rgb-value.css */
+
+    color: rgb(255, 99, 99);
+/*         ^ support.function.misc.css */
+/*             ^ constant.other.color.rgb-value.css */
+
+    color: rgba(66%, 66%, 66%, 0.22);
+/*         ^ support.function.misc.css */
+/*              ^ constant.other.color.rgb-percentage.css */
+
+    color: hsl(3.4e-2, 0%, 100%);
+/*         ^ support.function.misc.css */
+/*             ^ constant.other.color.hsl-value.css */
+
+    color: hsla(120, 50%, 50%, .77);
+/*         ^ support.function.misc.css */
+/*              ^ constant.other.color.hsl-value.css */
+}
