@@ -249,6 +249,7 @@ contexts:
           pop: true
         - match: \\'|\\\\
           scope: constant.character.escape.ruby
+        - include: string_placeholder
     - match: '"'
       comment: double quoted string (allows for interpolation)
       captures:
@@ -261,6 +262,7 @@ contexts:
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
+        - include: string_placeholder
     - match: "`"
       comment: execute string (allows for interpolation)
       captures:
@@ -1011,3 +1013,15 @@ contexts:
       scope: comment.line.number-sign.ruby
       captures:
         1: punctuation.definition.comment.ruby
+  string_placeholder:
+    - match: |-
+        (?x)%
+            [#0\- +']*                                  # flags
+            (\[\d+\])?                                  # field (argument #)
+            [,;:_]?                                     # separator character (AltiVec)
+            ((-?\d+)|(\[\d+\])?\*)?                     # minimum field width
+            (\.((-?\d+)|(\[\d+\])?\*)?)?                # precision
+            [diouxXDOUeEfFgGaAcCsSpqnvtTbyYhHmMzZ%]     # conversion type
+      scope: constant.other.placeholder.ruby
+    - match: "%"
+      scope: invalid.illegal.placeholder.ruby
