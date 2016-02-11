@@ -1,4 +1,4 @@
-# SYNTAX TEST "Makefile.sublime-syntax"
+# SYNTAX TEST "Packages/Makefile/Makefile.sublime-syntax"
 
 # Line comment
 # <- comment
@@ -11,6 +11,12 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 	include $(MAKEFILE_PATH)Makefile.Defs
 	# <- keyword.control.makefile
 endif
+# <- keyword.control.makefile
+
+-include $(MAKEFILE_PATH)Makefile.Defs
+# <- keyword.control.makefile
+
+sinclude $(MAKEFILE_PATH)Makefile.Defs
 # <- keyword.control.makefile
 
 CC=g++

@@ -110,7 +110,7 @@ contexts:
         \s*(&)?                     # Reference
         \s*((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*) # The variable name
         \s*(=)  # A default value
-        \s*(array)\s*(\()
+        \s*(?:(array)\s*(\()|\[)
       captures:
         1: storage.type.php
         2: storage.modifier.reference.php
@@ -122,7 +122,7 @@ contexts:
       push:
         - meta_scope: meta.function.argument.array.php
         - meta_content_scope: meta.array.php
-        - match: \)
+        - match: '[\)\]]'
           captures:
             0: punctuation.definition.array.end.php
           pop: true
@@ -721,8 +721,12 @@ contexts:
     - include: constants
   php_doc:
     - match: ^(?!\s*\*).*$\n?
-      comment: PHPDocumentor only recognises lines with an asterisk as the first non-whitespaces character
-      scope: invalid.illegal.missing-asterisk.phpdoc.php
+      set:
+        - meta_scope: comment.block.php
+        - match: \*/
+          captures:
+            0: punctuation.definition.comment.php
+          pop: true
     - match: ^\s*\*\s*(@access)\s+((public|private|protected)|(.+))\s*$
       captures:
         1: keyword.other.phpdoc.php
