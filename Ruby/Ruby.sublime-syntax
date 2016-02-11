@@ -107,6 +107,8 @@ contexts:
     - match: (?<!\.)\b(and|not|or)\b
       comment: as above, just doesn't need a 'end' and does a logic operation
       scope: keyword.operator.logical.ruby
+    - match: '^!+|(?<=[ \t])!+|&&|\|\||\^'
+      scope: keyword.operator.logical.ruby
     - match: '(?<!\.)\b(alias|alias_method|break|next|redo|retry|return|super|undef|yield)\b(?![?!])|\bdefined\?|\bblock_given\?'
       comment: just as above but being not a logical operation
       scope: keyword.control.pseudo-method.ruby
@@ -767,14 +769,14 @@ contexts:
           scope: variable.other.block.ruby
         - match: ","
           scope: punctuation.separator.variable.ruby
+        - match: \*|&
+          scope: keyword.operator.arithmetic.ruby
     - match: "=>"
       scope: punctuation.separator.key-value
     - match: '<<=|%=|&=|\*=|\*\*=|\+=|\-=|\^=|\|{1,2}=|<<'
       scope: keyword.operator.assignment.augmented.ruby
     - match: '<=>|<(?!<|=)|>(?!<|=|>)|<=|>=|===|==|=~|!=|!~|(?<=[ \t])\?'
       scope: keyword.operator.comparison.ruby
-    - match: '(?<=[ \t])!+|\bnot\b|&&|\band\b|\|\||\bor\b|\^'
-      scope: keyword.operator.logical.ruby
     - match: (%|&|\*\*|\*|\+|\-|/)
       scope: keyword.operator.arithmetic.ruby
     - match: "="
