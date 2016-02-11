@@ -116,7 +116,7 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b(initialize|new|loop|include|extend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected)\b(?![?!])'
+    - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
       comment: everything being a method but having a special function is a..
       scope: keyword.other.special-method.ruby
     - match: \b(require|require_relative|gem)\b
