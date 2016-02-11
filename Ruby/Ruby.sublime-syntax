@@ -440,7 +440,7 @@ contexts:
             0: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
-    - match: '%[QWSR]?\('
+    - match: '%[QWI]?\('
       comment: literal capable of interpolation ()
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -453,7 +453,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_parens_i
-    - match: '%[QWSR]?\['
+    - match: '%[QWI]?\['
       comment: "literal capable of interpolation []"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -466,7 +466,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_brackets_i
-    - match: '%[QWSR]?\<'
+    - match: '%[QWI]?\<'
       comment: literal capable of interpolation <>
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -479,7 +479,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_ltgt_i
-    - match: '%[QWSR]?\{'
+    - match: '%[QWI]?\{'
       comment: "literal capable of interpolation -- {}"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -492,7 +492,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_curly_i
-    - match: '%[QWSR]([^\w])'
+    - match: '%[QWI]([^\w])'
       comment: literal capable of interpolation -- wildcard
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -516,7 +516,7 @@ contexts:
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
-    - match: '%[qws]\('
+    - match: '%[qwsi]\('
       comment: literal incapable of interpolation -- ()
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -529,7 +529,7 @@ contexts:
         - match: \\\)|\\\\
           scope: constant.character.escape.ruby
         - include: nest_parens
-    - match: '%[qws]\<'
+    - match: '%[qwsi]\<'
       comment: literal incapable of interpolation -- <>
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -542,7 +542,7 @@ contexts:
         - match: \\\>|\\\\
           scope: constant.character.escape.ruby
         - include: nest_ltgt
-    - match: '%[qws]\['
+    - match: '%[qwsi]\['
       comment: "literal incapable of interpolation -- []"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -555,7 +555,7 @@ contexts:
         - match: '\\\]|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_brackets
-    - match: '%[qws]\{'
+    - match: '%[qwsi]\{'
       comment: "literal incapable of interpolation -- {}"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -568,7 +568,7 @@ contexts:
         - match: '\\\}|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_curly
-    - match: '%[qws]([^\w])'
+    - match: '%[qwsi]([^\w])'
       comment: literal incapable of interpolation -- wildcard
       captures:
         0: punctuation.definition.string.begin.ruby
