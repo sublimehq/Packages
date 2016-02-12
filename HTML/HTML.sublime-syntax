@@ -77,7 +77,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push:
-        - meta_scope: source.css.embedded.html
+        - meta_content_scope: source.css.embedded.html
         - match: (?i)(</)(style)(>)
           captures:
             1: punctuation.definition.tag.begin.html
@@ -97,10 +97,10 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push:
-        - meta_scope: source.js.embedded.html
+        - meta_content_scope: source.js.embedded.html
         - match: (?i)(//-->)?(</)(script)(>)
           captures:
-            1: comment.line.double-slash.js
+            1: source.js.embedded.html comment.line.double-slash.js
             2: punctuation.definition.tag.begin.html
             3: entity.name.tag.html
             4: punctuation.definition.tag.end.html
