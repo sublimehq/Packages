@@ -186,6 +186,8 @@ contexts:
         0: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.single.sql
+        - match: "''"
+          scope: constant.character.escape.sql
         - match: "'"
           captures:
             0: punctuation.definition.string.end.sql
@@ -206,6 +208,8 @@ contexts:
         0: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.double.sql
+        - match: '""'
+          scope: constant.character.escape.sql
         - match: '"'
           captures:
             0: punctuation.definition.string.end.sql
