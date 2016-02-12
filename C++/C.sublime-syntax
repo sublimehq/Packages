@@ -31,9 +31,10 @@ contexts:
     - include: sizeof
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.c
-    - match: '(?:L|u8|u|U)?"'
+    - match: '(L|u8|u|U)?(")'
       captures:
-        0: punctuation.definition.string.begin.c
+        1: storage.type.string.c
+        2: punctuation.definition.string.begin.c
       push:
         - meta_scope: string.quoted.double.c
         - match: '"'
@@ -42,9 +43,10 @@ contexts:
           pop: true
         - include: string_escaped_char
         - include: string_placeholder
-    - match: "(?:L|u8|u|U)?'"
+    - match: "(L|u8|u|U)?(')"
       captures:
-        0: punctuation.definition.string.begin.c
+        1: storage.type.string.c
+        2: punctuation.definition.string.begin.c
       push:
         - meta_scope: string.quoted.single.c
         - match: "'"

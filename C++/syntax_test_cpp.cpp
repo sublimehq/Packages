@@ -21,19 +21,23 @@ char str1[] = "abc";
 /*                ^ punctuation.definition.string.end */
 
 char str2[] = u8"abc";
-/*            ^ punctuation.definition.string.begin */
+/*            ^ storage.type.string */
+/*              ^ punctuation.definition.string.begin */
 /*               ^ string.quoted.double */
 
 char16_t str3[] = u"abc";
-/*                ^ punctuation.definition.string.begin */
+/*                ^ storage.type.string */
+/*                 ^ punctuation.definition.string.begin */
 /*                  ^ string.quoted.double */
 
 char32_t str4[] = U"abc";
-/*                ^ punctuation.definition.string.begin */
+/*                ^ storage.type.string */
+/*                 ^ punctuation.definition.string.begin */
 /*                  ^ string.quoted.double */
 
 wchar_t str5[] = L"abc";
-/*               ^ punctuation.definition.string.begin */
+/*               ^ storage.type.string */
+/*                ^ punctuation.definition.string.begin */
 /*                 ^ string.quoted.double */
 
 char str6[] = "\"|\n|\r|\0|\x41";
@@ -44,12 +48,14 @@ char str6[] = "\"|\n|\r|\0|\x41";
 /*                         ^ constant.character.escape */
 
 char rawStr1[] = R"("This is a raw string")";
-/*               ^ punctuation.definition.string.begin */
+/*               ^ storage.type.string */
+/*                ^ punctuation.definition.string.begin */
 /*                  ^ string.quoted.double */
 /*                                        ^ punctuation.definition.string.end */
 
 char rawStr2[] = R"A*!34( )" )A*!34";
-/*               ^ punctuation.definition.string.begin */
+/*               ^ storage.type.string */
+/*                ^ punctuation.definition.string.begin */
 /*                      ^ punctuation.definition.string.begin */
 /*                        ^ string.quoted.double */
 /*                           ^ punctuation.definition.string.end */
