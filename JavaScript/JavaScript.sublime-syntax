@@ -353,7 +353,7 @@ contexts:
             - match: '(?:(?:(static|async)|(get|set))\s+)?(?:\s*(\*)\s*)?([$_a-zA-Z][$\w]*)(?=\()'
               captures:
                 1: storage.type.js
-                2: storage.type.accessor
+                2: storage.type.accessor.js
                 3: keyword.generator.asterisk.js
                 4: entity.name.function.method.js
               push:
@@ -564,8 +564,8 @@ contexts:
   literal-labels:
     - match: '(?<!\.|\?|\?\s)((\$)[$\w]*)\s*(:)'
       captures:
-        1: meta.object-literal.key.dollar
-        2: punctuation.dollar
+        1: meta.object-literal.key.dollar.js
+        2: punctuation.dollar.js
         3: punctuation.separator.key-value.js
     - match: '(?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)'
       captures:
