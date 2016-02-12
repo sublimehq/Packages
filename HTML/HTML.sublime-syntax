@@ -77,7 +77,6 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push:
-        - meta_content_scope: source.css.embedded.html
         - match: (?i)(</)(style)(>)
           captures:
             1: punctuation.definition.tag.begin.html
@@ -88,7 +87,9 @@ contexts:
         - match: (>)
           captures:
             1: punctuation.definition.tag.end.html
-          push: 'scope:source.css'
+          push:
+            - meta_content_scope: source.css.embedded.html
+            - include: 'scope:source.css'
           with_prototype:
             - match: (?i)(?=</style)
               pop: true
