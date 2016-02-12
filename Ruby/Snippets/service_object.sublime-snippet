@@ -1,0 +1,19 @@
+<snippet>
+<content><![CDATA[class ${1:${TM_FILENAME/(?:\A|_)([A-Za-z0-9]+)(?:\.rb)?/(?2::\u$1)/g}}
+	def self.call(*args)
+		new(*args).call
+	end
+
+	def initialize(${2:options})
+		@${2/,\s*/, @/g} = $2
+	end
+
+	def call
+		$0
+	end
+end]]>
+</content>
+	<tabTrigger>cla</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>Service Object skeleton</description>
+</snippet>

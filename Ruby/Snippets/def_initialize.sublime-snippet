@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+def initialize(${1:options})
+	@${1/,\s*/, @/g} = $1
+end
+]]>
+	</content>
+	<tabTrigger>defi</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>def initialize ..</description>
+</snippet>
