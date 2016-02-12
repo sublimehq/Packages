@@ -98,11 +98,12 @@ contexts:
         2: entity.name.tag.script.html
       push:
         - meta_scope: source.js.embedded.html
-        - match: (?i)(</)(script)(>)
+        - match: (?i)(//-->)?(</)(script)(>)
           captures:
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.html
-            3: punctuation.definition.tag.end.html
+            1: comment.line.double-slash.js
+            2: punctuation.definition.tag.begin.html
+            3: entity.name.tag.html
+            4: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
         - match: (>)
@@ -110,7 +111,7 @@ contexts:
             1: punctuation.definition.tag.end.html
           push: 'scope:source.js'
           with_prototype:
-             - match: (?i)(?=</script)
+             - match: (?i)(?=(//-->)?</script)
                pop: true
     - match: (</?)((?i:body|head|html)\b)
       captures:

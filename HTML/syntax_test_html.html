@@ -1,0 +1,20 @@
+## SYNTAX TEST "Packages/HTML/HTML.sublime-syntax"
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test HTML</title>
+        <script><!--
+        ## ^ entity.name.tag.script
+            var foo = 100;
+            var baz = function() {
+                ## <- entity.name.function.js
+            }
+
+        //--></script>
+        ##      ^ entity.name.tag.html
+    </head>
+    <body>
+        <!-- Comment -->
+        ## ^ comment.block.html
+    </body>
+</html>
