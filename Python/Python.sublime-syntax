@@ -51,7 +51,7 @@ contexts:
         1: storage.modifier.global.python
     - match: \b(nonlocal)\b
       captures:
-        1: storage.modifier.nonlocal.python        
+        1: storage.modifier.nonlocal.python
     - match: \b(?:(import)|(from))\b
       captures:
         1: keyword.control.import.python
