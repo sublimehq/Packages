@@ -915,12 +915,8 @@ contexts:
         3: variable.other.property.static.js
     - match: '(?<!\.)[_$a-zA-Z][$\w]*\s*(?=[\[\.])'
       scope: variable.other.object.js
-      captures:
-        1: variable.other.object.js
     - match: '(?<=\.)\s*[_$a-zA-Z][$\w]*'
       scope: meta.property.object.js
-      captures:
-        2: variable.other.property.js
     - match: '[_$a-zA-Z][$\w]*'
       scope: variable.other.readwrite.js
   round-brackets:
