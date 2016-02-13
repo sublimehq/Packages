@@ -146,6 +146,39 @@ contexts:
           pop: true
         - include: $top_level_main
   special_block:
+    - match: |-
+        (?x)
+        (?<!['\.]) # Number must not be preceded by a decimal point
+        (?:
+        # floats
+          (?:
+          (?:\b\d(?:[\d']*\d)?\.\d(?:[\d']*\d)?|\B\.\d(?:[\d']*\d)?)(?:[Ee][+-]?\d(?:[\d']*\d)?)?(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          |
+          (?:\b\d(?:[\d']*\d)?\.)(?:\B|(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))\b|(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b)
+          |
+          \b\d(?:[\d']*\d)?(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          )
+        |
+        # ints
+          \b(?:
+          (?:
+          # dec
+          [1-9](?:[\d']*\d)?
+          |
+          # oct
+          0(?:[0-7']*[0-7])?
+          |
+          # hex
+          0[Xx][\da-fA-F](?:[\da-fA-F']*[\da-fA-F])?
+          |
+          # bin
+          0[Bb][01](?:[01']*[01])?
+          )
+          # int suffixes
+          (?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\w*))?)\b
+        )
+        (?!\.) # Number must not be followed by a decimal point
+      scope: constant.numeric.c++
     - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|=|,))'
       captures:
         1: keyword.control.c++
