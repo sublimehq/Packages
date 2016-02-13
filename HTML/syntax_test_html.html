@@ -1,0 +1,32 @@
+## SYNTAX TEST "Packages/HTML/HTML.sublime-syntax"
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test HTML</title>
+        <script><!--
+        ## ^ entity.name.tag.script - source.js.embedded.html
+            var foo = 100;
+            var baz = function() {
+                ## <- entity.name.function.js
+            }
+        //--></script>
+        ## ^ source.js.embedded.html
+        ##      ^ entity.name.tag.html - source.js.embedded.html
+        <style type="text/css">
+        ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
+        ##      ^ entity.other.attribute-name
+            h2 {
+            ## <- entity.name.tag.css
+                font-family: "Arial";
+                ##             ^ string.quoted.double.css
+            }
+        </style>
+        ## ^ entity.name.tag.html - source.css.embedded.html
+        <style />
+        ##       ^ - source.css.embedded.html
+    </head>
+    <body>
+        <!-- Comment -->
+        ## ^ comment.block.html
+    </body>
+</html>

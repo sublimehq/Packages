@@ -140,7 +140,6 @@ contexts:
     - include: comments
     - include: class
     - include: enums
-    - include: class-body-keywords
     - include: methods
     - include: annotations
     - include: storage-modifiers
@@ -224,6 +223,11 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: (=)
       scope: keyword.operator.assignment.java
+      push:
+        - meta_scope: meta.assignment.rhs.java
+        - match: (?=(;|\)))
+          pop: true
+        - include: code
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
@@ -232,17 +236,6 @@ contexts:
       scope: keyword.operator.logical.java
     - match: (?<=\S)\.(?=\S)
       scope: keyword.operator.dereference.java
-    - match: ;
-      scope: punctuation.terminator.java
-  class-body-keywords:
-    - match: (=)
-      scope: keyword.operator.assignment.java
-      push:
-        - meta_scope: meta.assignment.rhs.java
-        - match: ;
-          scope: punctuation.terminator.java
-          pop: true
-        - include: code
     - match: ;
       scope: punctuation.terminator.java
   methods:
@@ -318,7 +311,7 @@ contexts:
       captures:
         1: keyword.operator.dereference.java
   parameters:
-    - match: final
+    - match: \bfinal\b
       scope: storage.modifier.java
     - include: primitive-arrays
     - include: primitive-types

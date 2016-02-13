@@ -106,6 +106,8 @@ contexts:
         5: keyword.entitytype.xml
       push:
         - match: (>)
+          captures:
+            1: punctuation.definition.tag.end.xml
           pop: true
         - include: doublequotedString
         - include: singlequotedString

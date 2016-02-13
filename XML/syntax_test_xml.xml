@@ -1,0 +1,102 @@
+<!-- SYNTAX TEST "Packages/XML/XML.sublime-syntax" -->
+
+
+<!--
+  XML Declaration
+ -->
+
+     <?xml
+     <!-- <- meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^ entity.name.tag -->
+     version="1.0"
+<!-- ^^^^^^^ entity.other.attribute-name -->
+<!--         ^ punctuation.definition.string.begin -->
+<!--         ^^^^^ string.quoted -->
+<!--             ^ punctuation.definition.string.end -->
+     ?>
+<!-- ^^ punctuation.definition.tag.end -->
+
+
+<!--
+  DOCTYPE Declaration
+ -->
+
+     <!DOCTYPE root [<!ENTITY br "\n"> %name;]>
+     <!-- <- meta.tag.sgml.doctype -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^ keyword.doctype -->
+<!--           ^^^^ variable.documentroot -->
+<!--                ^ meta.internalsubset -->
+<!--                 ^^ punctuation.definition.tag.begin -->
+<!--                   ^^^^^^ keyword.entity -->
+<!--                          ^^ variable.entity.xml -->
+<!--                                   ^ punctuation.definition.constant -->
+<!--                                    ^^^^ constant.character.parameter-entity -->
+<!--                                        ^ punctuation.definition.constant -->
+<!--                                          ^ punctuation.definition.tag.end -->
+
+
+<!--
+  Comments
+ -->
+
+     <!-- A Comment! -->
+     <!-- <- comment.block -->
+<!-- ^ punctuation.definition.comment -->
+
+
+<!--
+  Elements / Tags
+ -->
+
+     <ns:tagname xmlns:ns="uri">
+<!-- ^ meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
+<!--  ^^ entity.name.tag.namespace -->
+<!--    ^ punctuation.separator.namespace -->
+<!--     ^^^^^^^ entity.name.tag.localname -->
+<!--             ^^^^^ entity.other.attribute-name.namespace -->
+<!--                  ^ punctuation.separator.namespace -->
+<!--                   ^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.definition.string.begin -->
+<!--                      ^^^^^ string.quoted -->
+<!--                          ^ punctuation.definition.string.end -->
+<!--                           ^ punctuation.definition.tag.end -->
+     text
+<!-- ^ text -->
+    <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
+<!--         ^ string.unquoted.cdata -->
+
+
+<!--
+  Entities
+ -->
+
+     &amp;
+<!-- ^ punctuation.definition.constant -->
+<!--  ^^^ -punctuation.definition.constant -->
+<!--     ^ constant.character.entity -->
+     &#160;
+<!-- ^ punctuation.definition.constant -->
+<!--  ^^^^ -punctuation.definition.constant -->
+<!--      ^ constant.character.entity -->
+    <!-- &amp; -->
+<!--     ^ -punctuation.definition.constant -->
+
+
+<!--
+  Illegals
+ -->
+
+     &
+<!-- ^ invalid.illegal.bad-ampersand -->
+
+
+     </ns:tagname>
+<!-- ^ meta.tag -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^ entity.name.tag.namespace -->
+<!--     ^ punctuation.separator.namespace -->
+<!--      ^^^^^^^ entity.name.tag.localname -->
+<!--             ^ punctuation.definition.tag.end -->
