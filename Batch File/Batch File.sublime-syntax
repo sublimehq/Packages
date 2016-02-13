@@ -20,7 +20,7 @@ contexts:
       scope: keyword.control.repeat.dosbatch
     - match: \b(?:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b
       scope: keyword.operator.dosbatch
-    - match: (?:^|\s)((?i)rem)(?:$|\s.*$)
+    - match: (?<=^|\s|@)((?i)rem)(?:$|\s.*$)
       scope: comment.line.rem.dosbatch
       captures:
         1: keyword.command.rem.dosbatch
