@@ -39,10 +39,12 @@ contexts:
       scope: comment.block.html.js
       captures:
         0: punctuation.definition.comment.js
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.js
-      captures:
-        1: punctuation.definition.comment.js
+    - match: //
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_scope: comment.line.double-slash.js
+        - match: \n
+          pop: true
     - match: ^(#!).*$\n?
       scope: comment.line.shebang.js
       captures:

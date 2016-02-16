@@ -27,6 +27,9 @@ if (true)
     bar()
 }
 
+// This is a comment function() { }
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash
+
 var str = '\':';
 var str2 = 0;
 // <- storage.type
