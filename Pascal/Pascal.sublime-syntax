@@ -5,6 +5,7 @@ name: Pascal
 file_extensions:
   - pas
   - p
+  - dpr
 scope: source.pascal
 contexts:
   main:
