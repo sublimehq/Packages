@@ -729,7 +729,7 @@ contexts:
         - include: escaped_char
         - match: (?=.)
           with_prototype:
-            - match: "(?=['''])"
+            - match: "(?=''')"
               pop: true
             - include: constant_placeholder
             - include: escaped_unicode_char

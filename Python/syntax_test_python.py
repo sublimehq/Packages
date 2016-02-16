@@ -97,3 +97,9 @@ query = \
             ELSE NULL
         ) as result
     '''
+
+sql = 'SELECT * FROM foo -- bar baz'
+#       ^ source.sql
+#                            ^ source.sql comment.line.double-dash
+#                                  ^ punctuation.definition.string.end.python - source.sql
+
