@@ -5,6 +5,7 @@ import TheirClass from "./mypath";
 function foo() {
 // ^ storage.type.function
 //        ^ entity.name.function
+//        ^ entity.name.function.label.js
 }
 
 var bar = function() {
@@ -49,15 +50,19 @@ var obj = {
     'key5': true
     // <- string.quoted.single
     //    ^ punctuation.separator.key-value - string
+    key6: function qux () {}
+    //             ^ entity.name.function.label.js
 
     static foo(bar) {
     // ^ storage.type
     //      ^entity.name.function
+    //      ^entity.name.function.label.js
     }
 
     *baz(){
     // <- keyword.generator.asterisk
     // ^ entity.name.function
+    // ^ entity.name.function.label.js
     }
 }
 
@@ -123,7 +128,7 @@ class MyClass extends TheirClass {
     static foo(baz) {
     // ^ storage.type
     //       ^ entity.name.function  
-
+    //       ^ entity.name.function.label.js
     }
 
     qux()
@@ -137,6 +142,7 @@ class MyClass extends TheirClass {
 
     baz() { return null }
     // <- entity.name.function
+    // <- entity.name.function.label.js
 }
 
 MyClass.foo = function() {}
