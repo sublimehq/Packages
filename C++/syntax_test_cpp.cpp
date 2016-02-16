@@ -251,26 +251,133 @@ std::cout << __LINE__ << '\n';
 // Numeric Constants
 /////////////////////////////////////////////
 
-int dec = 1234567890;
-/*        ^ constant.numeric */
+dec1 = 1234567890;
+/*     ^ constant.numeric */
+/*              ^ constant.numeric */
 
-int oct = 01234567;
-/*        ^ constant.numeric */
+dec2 = 1'924'013;
+/*     ^ constant.numeric */
+/*             ^ constant.numeric */
 
-int hex = 0x1234567890ABCDEF;
-/*        ^ constant.numeric */
+dec3 = 124ul;
+/*     ^ constant.numeric */
+/*         ^ constant.numeric */
 
-float fixed = 123.456;
+dec4 = 9'204lu;
+/*     ^ constant.numeric */
+/*           ^ constant.numeric */
+
+dec5 = 2'354'202'076LL;
+/*     ^ constant.numeric */
+/*                   ^ constant.numeric */
+
+int oct1 = 01234567;
+/*         ^ constant.numeric */
+/*                ^ constant.numeric */
+
+int oct2 = 014'70;
+/*         ^ constant.numeric */
+/*              ^ constant.numeric */
+
+int hex1 = 0x1234567890ABCDEF;
+/*         ^ constant.numeric */
+/*                          ^ constant.numeric */
+
+int hex2 = 0X1234567890ABCDEF;
+/*         ^ constant.numeric */
+/*                          ^ constant.numeric */
+
+int hex3 = 0x1234567890abcdef;
+/*         ^ constant.numeric */
+/*                          ^ constant.numeric */
+
+int hex4 = 0xA7'45'8C'38;
+/*         ^ constant.numeric */
+/*                     ^ constant.numeric */
+
+int bin1 = 0b010110;
+/*         ^ constant.numeric */
+/*                ^ constant.numeric */
+
+int bin2 = 0B010010;
+/*         ^ constant.numeric */
+/*                ^ constant.numeric */
+
+int bin3 = 0b1001'1101'0010'1100;
+/*         ^ constant.numeric */
+/*                             ^ constant.numeric */
+
+units1 = 134h;
+/*       ^ constant.numeric */
+/*          ^ constant.numeric */
+
+units2 = 147min;
+/*       ^ constant.numeric */
 /*            ^ constant.numeric */
+
+units3 = 357s;
+/*       ^ constant.numeric */
+/*          ^ constant.numeric */
+
+units4 = 234_custom;
+/*       ^ constant.numeric */
+/*                ^ constant.numeric */
+
+fixed1 = 123.456;
+/*       ^ constant.numeric */
+/*             ^ constant.numeric */
+
+fixed2 = 12.;
+/*       ^ constant.numeric */
+/*         ^ constant.numeric */
+
+fixed3 = .35;
+/*       ^ constant.numeric */
+/*         ^ constant.numeric */
+
+fixed4 = 1'843'290.245'123;
+/*       ^ constant.numeric */
+/*                       ^ constant.numeric */
+
+fixed5 = 0.3f;
+/*       ^ constant.numeric */
+/*          ^ constant.numeric */
+
+fixed6 = 0.82L;
+/*       ^ constant.numeric */
+/*           ^ constant.numeric */
 
 float sci1 = 1.23e10;
 /*           ^ constant.numeric */
+/*                 ^ constant.numeric */
 
-float sci2 = 14.23e+14;
+float sci2 = 13e5;
 /*           ^ constant.numeric */
+/*              ^ constant.numeric */
 
-float sci3 = 18e-12;
+float sci3 = 14.23e+14;
 /*           ^ constant.numeric */
+/*                   ^ constant.numeric */
+
+float sci4 = 14e+14;
+/*           ^ constant.numeric */
+/*                ^ constant.numeric */
+
+float sci5 = 18.84e-12;
+/*           ^ constant.numeric */
+/*                   ^ constant.numeric */
+
+float sci6 = 46e-14;
+/*           ^ constant.numeric */
+/*                ^ constant.numeric */
+
+float sci7 = 2'837e1'000;
+/*           ^ constant.numeric */
+/*                     ^ constant.numeric */
+
+float sci8 = 23e-1'000;
+/*           ^ constant.numeric */
+/*                   ^ constant.numeric */
 
 
 /////////////////////////////////////////////
