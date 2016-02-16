@@ -74,7 +74,7 @@ contexts:
     - include: literal-prototype
     - include: literal-regexp
     - include: literal-number
-    - include: literal-quasi
+    - include: literal-string-template
     - include: literal-string
     - include: literal-language-constant
     - include: literal-language-variable
@@ -778,26 +778,27 @@ contexts:
       scope: punctuation.terminator.statement.js
     - match: ","
       scope: meta.delimiter.comma.js
-  literal-quasi:
+  literal-string-template:
     - match: '([a-zA-Z$_][\w$_]*)?(`)'
       captures:
-        1: entity.quasi.tag.name.js
-        2: punctuation.definition.quasi.begin.js
+        1: variable.function.tagged-template.js
+        2: punctuation.definition.string.template.begin.js
       push:
-        - meta_scope: string.quasi.js
+        - meta_scope: string.template.js
         - match: "`"
           captures:
-            0: punctuation.definition.quasi.end.js
+            0: punctuation.definition.string.template.end.js
           pop: true
         - include: string-content
         - match: '\${'
           captures:
-            0: punctuation.quasi.element.begin.js
+            0: punctuation.definition.template-expression.begin.js
           push:
-            - meta_scope: entity.quasi.element.js
+            - meta_scope: meta.template.expression.js
+            - meta_content_scope: source.js.embedded.expression
             - match: "}"
               captures:
-                0: punctuation.quasi.element.end.js
+                0: punctuation.definition.template-expression.end.js
               pop: true
             - include: expression
   literal-regexp:

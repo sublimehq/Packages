@@ -33,6 +33,18 @@ var str2 = 0;
 //   ^ variable.other.readwrite
 //       ^ keyword.operator.assignment
 
+tag`Hello ${ a + b } world\nanother ${expression}.`;
+// <- variable.function.tagged-template.js
+// ^ punctuation.definition.string.template.begin.js
+//   ^ string.template.js
+//        ^ punctuation.definition.template-expression.begin.js
+//           ^ variable.other.readwrite.js
+//             ^ keyword.operator.arithmetic.js
+//               ^ meta.template.expression.js source.js.embedded.expression
+//                 ^ punctuation.definition.template-expression.end.js
+//                        ^ constant.character.escape.js
+//                                                ^ punctuation.definition.string.template.end.js
+
 var obj = {
     key: bar,
     // <- meta.object-literal.key
