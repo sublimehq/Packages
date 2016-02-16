@@ -9,12 +9,12 @@ function foo() {
 
 var bar = function() {
 // <- storage.type
-//   ^ entity.name.function
+//   ^ variable.other.readwrite entity.name.function
 //         ^ storage.type.function
 }
 
 baz = function*()
-// <- entity.name.function
+// <- variable.other.readwrite entity.name.function
 //     ^ storage.type.function
 //            ^ keyword.generator.asterisk
 {
@@ -49,6 +49,34 @@ var obj = {
     'key5': true
     // <- string.quoted.single
     //    ^ punctuation.separator.key-value - string
+
+    funcKey: function() {
+    // ^ meta.object-literal.key entity.name.function
+    },
+
+    func2Key: function func2Key() {
+    // ^ meta.object-literal.key entity.name.function
+    }
+
+    funcKeyArrow: () => {
+    // ^ meta.object-literal.key entity.name.function
+    }
+
+    "funcStringKey": function funcStringKey()
+    // ^ meta.object-literal.key string.quoted.double entity.name.function
+    { }
+
+    'funcStringKey': function() {
+    // ^ meta.object-literal.key string.quoted.single entity.name.function
+    }
+
+    'funcStringKeyArrow': () => {
+    // ^ meta.object-literal.key string.quoted.single entity.name.function
+    }
+
+    "funcString2KeyArrow": (foo) => {
+    // ^ meta.object-literal.key string.quoted.double entity.name.function
+    }
 
     static foo(bar) {
     // ^ storage.type

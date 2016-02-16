@@ -142,7 +142,7 @@ contexts:
         \s*(async)?
         \s*(?=\([^()]*\)\s*(=>))
       captures:
-        1: entity.name.function.js
+        1: variable.other.readwrite.js entity.name.function.js
         2: storage.type.js
       push:
         - meta_scope: meta.function.arrow.js
@@ -159,7 +159,7 @@ contexts:
         \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
       scope: meta.function.arrow.js
       captures:
-        1: entity.name.function.js
+        1: variable.other.readwrite.js entity.name.function.js
         2: storage.type.js
         3: variable.parameter.function.js
         4: storage.type.function.arrow.js
@@ -213,7 +213,7 @@ contexts:
       captures:
         1: entity.name.class.js
         2: keyword.operator.accessor.js
-        3: entity.name.function.js
+        3: variable.other.readwrite.js entity.name.function.js
         4: storage.type.js
       push:
         - meta_scope: meta.function.static.arrow.js
@@ -245,7 +245,7 @@ contexts:
         \s*(async)?
         \s*(?=\([^()]*\)\s*(=>))
       captures:
-        1: entity.name.function.js
+        1: meta.object-literal.key.js entity.name.function.js
         2: punctuation.separator.key-value.js
         3: storage.type.js
       push:
@@ -263,7 +263,7 @@ contexts:
         \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
-        1: entity.name.function.js
+        1: meta.object-literal.key.js entity.name.function.js
         2: punctuation.separator.key-value.js
         3: storage.type.js
         4: variable.parameter.function.js
@@ -278,11 +278,11 @@ contexts:
         \s*(async)?
         \s*(?=\([^()]*\)\s*(=>))
       captures:
-        1: string.quoted.single.js
+        1: meta.object-literal.key.js string.quoted.single.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: meta.object-literal.key.js string.quoted.double.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
@@ -306,11 +306,11 @@ contexts:
         \s*\b([_$a-zA-Z][$\w]*)\s*(=>)
       scope: meta.function.json.arrow.js
       captures:
-        1: string.quoted.single.js
+        1: meta.object-literal.key.js string.quoted.single.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: meta.object-literal.key.js string.quoted.double.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
@@ -416,7 +416,7 @@ contexts:
         \s*(function)(?:\s*(\*)|(?=\s|[(]))
         \s*([_$a-zA-Z][$\w]*)?\s*
       captures:
-        1: entity.name.function.js
+        1: variable.other.readwrite.js entity.name.function.js
         2: storage.type.js
         3: storage.type.function.js
         4: keyword.generator.asterisk.js
@@ -504,7 +504,7 @@ contexts:
         \s*(function)(?:\s*(\*)|(?=\s|[(]))
         \s*([_$a-zA-Z][$\w]*)?\s*
       captures:
-        1: entity.name.function.js
+        1: meta.object-literal.key.js entity.name.function.js
         2: punctuation.separator.key-value.js
         3: storage.type.js
         4: storage.type.function.js
@@ -526,11 +526,11 @@ contexts:
         \s*(function)(?:\s*(\*)|(?=\s|[(]))
         \s*([_$a-zA-Z][$\w]*)?\s*
       captures:
-        1: string.quoted.single.js
+        1: meta.object-literal.key.js string.quoted.single.js
         2: punctuation.definition.string.begin.js
         3: entity.name.function.js
         4: punctuation.definition.string.end.js
-        5: string.quoted.double.js
+        5: meta.object-literal.key.js string.quoted.double.js
         6: punctuation.definition.string.begin.js
         7: entity.name.function.js
         8: punctuation.definition.string.end.js
@@ -569,7 +569,7 @@ contexts:
         3: punctuation.separator.key-value.js
     - match: '(?<!\.|\?|\?\s)([_$a-zA-Z][$\w]*)\s*(:)'
       captures:
-        1: meta.object-literal.key
+        1: meta.object-literal.key.js
         2: punctuation.separator.key-value.js
   literal-language-constant:
     - match: (?<!\.)\btrue\b
