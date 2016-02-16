@@ -355,7 +355,7 @@ contexts:
                 1: storage.type.js
                 2: storage.type.accessor.js
                 3: keyword.generator.asterisk.js
-                4: entity.name.function.method.js
+                4: entity.name.function.method.js entity.name.function.label.js
               push:
                 - meta_scope: meta.method.js
                 - match: (?<=\))
@@ -402,7 +402,7 @@ contexts:
         1: storage.type.js
         2: storage.type.function.js
         3: keyword.generator.asterisk.js
-        4: entity.name.function.js
+        4: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
@@ -420,7 +420,7 @@ contexts:
         2: storage.type.js
         3: storage.type.function.js
         4: keyword.generator.asterisk.js
-        5: entity.name.function.js
+        5: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.function.js
         - match: (?<=\))
@@ -444,7 +444,7 @@ contexts:
         6: storage.type.js
         7: storage.type.function.js
         8: keyword.generator.asterisk.js
-        9: entity.name.function.js
+        9: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.prototype.function.js
         - match: (?<=\))
@@ -466,7 +466,7 @@ contexts:
         5: storage.type.js
         6: storage.type.function.js
         7: keyword.generator.asterisk.js
-        8: entity.name.function.js
+        8: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.function.static.js
         - match: (?<=\))
@@ -509,7 +509,7 @@ contexts:
         3: storage.type.js
         4: storage.type.function.js
         5: keyword.generator.asterisk.js
-        6: entity.name.function.js
+        6: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
@@ -538,7 +538,7 @@ contexts:
         10: storage.type.js
         11: storage.type.function.js
         12: keyword.generator.asterisk.js
-        13: entity.name.function.js
+        13: entity.name.function.js entity.name.function.label.js
       push:
         - meta_scope: meta.function.json.js
         - match: (?<=\))
@@ -608,7 +608,7 @@ contexts:
         1: storage.type.js
         2: storage.type.js
         3: keyword.generator.asterisk.js
-        4: entity.name.function.method.js
+        4: entity.name.function.method.js entity.name.function.label.js
       push:
         - meta_scope: meta.method.js
         - match: (?<=\))
