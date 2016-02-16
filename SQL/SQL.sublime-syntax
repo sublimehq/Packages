@@ -126,20 +126,14 @@ contexts:
         1: punctuation.section.scope.begin.sql
         2: punctuation.section.scope.end.sql
   comments:
-    - match: "--"
+    - match: "(--).*"
       captures:
-        0: punctuation.definition.comment.sql
-      push:
-        - meta_scope: comment.line.double-dash.sql
-        - match: \n
-          pop: true
-    - match: "#"
+        0: comment.line.double-dash.sql
+        1: punctuation.definition.comment.sql
+    - match: "(#).*"
       captures:
-        0: punctuation.definition.comment.sql
-      push:
-        - meta_scope: comment.line.number-sign.sql
-        - match: \n
-          pop: true
+        0: comment.line.number-sign.sql
+        1: punctuation.definition.comment.sql
     - match: /\*
       captures:
         0: punctuation.definition.comment.sql
@@ -147,6 +141,8 @@ contexts:
         - meta_scope: comment.block.c
         - match: \*/
           pop: true
+        - match: '[^*]+'
+        - match: '\*(?!/)'
   regexps:
     - match: /(?=\S.*/)
       captures:

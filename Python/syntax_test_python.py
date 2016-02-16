@@ -84,3 +84,16 @@ regex = r'''\b ([fobar]*){1}(?:a|b)?'''
 regex = r"""\b ([fobar]*){1}(?:a|b)?"""
 #           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
+
+query = \
+    '''SELECT
+        (
+        SELECT CASE field
+            WHEN 1
+            THEN -- comment's say that
+#                              ^ source.sql comment.line.double-dash
+                EXISTS(
+                select 1)
+            ELSE NULL
+        ) as result
+    '''
