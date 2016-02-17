@@ -156,14 +156,7 @@ contexts:
     - match: \b(var|event|delegate|add|remove|set|get|value)\b
       scope: keyword.other.source.cs
   method:
-    - match: '\['
-      push:
-        - meta_scope: meta.method.annotation.source.cs
-        - match: '\]'
-          pop: true
-        - include: constants
-        - include: preprocessor
-        - include: builtinTypes
+    - include: attributes
     - match: '(?=\bnew\s+)(?=[\w<].*\s+)(?=[^=]+\()'
       push:
         - meta_scope: meta.new-object.source.cs
@@ -200,6 +193,7 @@ contexts:
             - match: \)
               pop: true
             - include: builtinTypes
+        - include: comments
         - match: "{"
           captures:
             0: punctuation.section.method.begin.source.cs
@@ -253,7 +247,17 @@ contexts:
         - match: ","
           scope: punctuation.definition.seperator.parameter.source.cs
         - include: code
+  attributes:
+    - match: '\['
+      push:
+        - meta_scope: meta.method.attribute.source.cs
+        - match: '\]'
+          pop: true
+        - include: constants
+        - include: preprocessor
+        - include: builtinTypes
   parameters:
+    - include: attributes
     - match: '\b(ref|params|out)?\s*\b([\w.\[\]]+)\s+(\w+)\s*(=)?'
       captures:
         1: storage.type.modifier.source.cs

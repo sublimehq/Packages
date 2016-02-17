@@ -17,7 +17,7 @@ contexts:
     - include: scope:text.html.javadoc
     - match: |-
         (?x)^\s*
-        ((?:\b(public|private|protected|static|final|native|synchronized|abstract|export)\b\s*)*) # modifier
+        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract)\b\s*)*) # modifier
         (class|interface)\s+
         (\w+)\s* # identifier
         (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
@@ -33,7 +33,7 @@ contexts:
         )? # super class
       captures:
         1: storage.modifier.d
-        3: storage.type.structure.d
+        3: storage.type.d
         4: entity.name.type.class.d
         5: storage.type.template.d
         6: punctuation.separator.inheritance.d
@@ -45,9 +45,7 @@ contexts:
         12: entity.other.inherited-class.d
         13: entity.other.inherited-class.d
       push:
-        - meta_scope: meta.definition.class.d
-        - match: "(?={)"
-          pop: true
+        - meta_scope: meta.class.d
         - match: \b(_|:)\b
           captures:
             1: storage.modifier.d
@@ -58,20 +56,21 @@ contexts:
                 1: storage.modifier.d
               pop: true
             - include: all-types
+        - include: $top_level_main
     - match: |-
         (?x)^\s*
-        ((?:\b(public|private|protected|static|final|native|synchronized|abstract|export)\b\s*)*) # modifier
+        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|const)\b\s*)*) # modifier
         (struct)\s+
         (\w+)\s* # identifier
         (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
       captures:
         1: storage.modifier.d
-        3: storage.type.structure.d
+        3: storage.type.d
         4: entity.name.type.struct.d
         5: storage.type.template.d
       push:
         - meta_scope: meta.definition.struct.d
-        - match: "(?={)"
+        - match: "(?={|//)"
           pop: true
         - match: \b(_|:)\b
           captures:
@@ -85,7 +84,7 @@ contexts:
             - include: all-types
     - match: |-
         (?x)^\s*
-        ((?:\b(public|private|protected|static|final|native|synchronized|abstract|threadsafe|transient|export)\b\s*)*) # modifier
+        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|shared|__gshared)\b\s*)*) # modifier
         (\b(this))\s* # identifier
         (?!.*;)  # abort if line has a ;
         (?=\()
@@ -93,19 +92,15 @@ contexts:
         1: storage.modifier.d
         3: entity.name.function.constructor.d
       push:
-        - meta_scope: meta.definition.constructor.d
-        - match: "(?={)"
-          captures:
-            1: storage.modifier.d
-            3: entity.name.function.constructor.d
-          pop: true
+        - meta_scope: meta.function.d meta.function.constructor.d
+        - include: function_assertions
         - include: $top_level_main
     - match: |-
         (?x)
                     (?:  ^                                 # begin-of-line
                       |  (?: (?<!else|new|=) )             #  or word + space before name
                     )
-                  ((?:\b(?:public|private|protected|static|final|native|synchronized|abstract|threadsafe|transient|export)\b\s*)*) # modifier
+                  ((?:\b(?:private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|override)\b\s*)*) # modifier
                     (~this) # actual name
                      \s*(\()                           # start bracket or end-of-line
 
@@ -113,26 +108,29 @@ contexts:
         1: storage.modifier.d
         2: entity.name.function.destructor.d
       push:
-        - meta_scope: meta.definition.destructor.d
-        - match: \)
-          captures:
-            0: punctuation.definition.parameters.d
-          pop: true
+        - meta_scope: meta.function.d meta.function.destructor.d
+        - include: function_assertions
         - include: $top_level_main
     - match: |-
         (?x)^\s*
-        ((?:\b(?:public|private|protected|static|final|native|lazy|synchronized|abstract|threadsafe|transient|export)\b\s*)*) # modifier
-        (\b(?:void|boolean|byte|char|short|int|float|long|double|[\w_]+[\w0-9_]*|(?:\w+\.)*[A-Z]\w+)\b(?:<(?:(?:(?:\w+\.)*[A-Z]\w+)(?:\s*,\s*)?)+>|(?:\[\s*\])*)?)\s* # type
+        (?!else(?:\s+static)?\s+if\b)
+        ((?:\b(?:private|package|protected|public|export|static|final|native|lazy|synchronized|abstract|threadsafe|transient|override|pure|nothrow)\b\s*)*+) # modifier
+        (\b(?:void|boolean|byte|char|short|int|float|long|double|[\w_]+[\w0-9_]*|(?:\w+\.)*[A-Z]\w+)\b(?:<(?:(?:(?:\w+\.)*[A-Z]\w+)(?:\s*,\s*)?)+>|(?:\[\s*\])*)?|typeof\(.*?\)|const\(.*?\)\*?)\s* # type
         (\w+)\s* # identifier
         (?!.*;)  # abort if line has a ;
         (?=\()
       captures:
         1: storage.modifier.d
-        2: storage.type.structure.d
+        2: storage.type.d
         3: entity.name.function.d
       push:
-        - meta_scope: meta.definition.method.d
-        - match: "(?={)"
+        - meta_scope: meta.function.d
+        - include: function_assertions
+        - include: $top_level_main
+    - match: '\{'
+      push:
+        - meta_scope: meta.block.d
+        - match: '\}'
           pop: true
         - include: $top_level_main
     - match: '\b([A-Z][A-Z0-9_]+)\b'
@@ -141,11 +139,13 @@ contexts:
     - include: all-types
     - match: \b(private|protected|public|export)\b
       scope: storage.modifier.access-control.d
-    - match: \b(auto|static|override|final|const|abstract|volatile|synchronized|lazy)\b
+    - match: \b(auto|static|override|final|const|abstract|volatile|synchronized|lazy|immutable|shared|__gshared|pure|nothrow|ref)\b
       scope: storage.modifier.d
+    - match: '@[a-zA-Z]\w+\b'
+      scope: storage.attribute.d
     - match: \b(template|interface|class|enum|struct|union)\b
-      scope: storage.type.structure.d
-    - match: \b(ushort|int|uint|long|ulong|float|void|byte|ubyte|double|bit|char|wchar|ucent|cent|short|bool|dchar|real|ireal|ifloat|idouble|creal|cfloat|cdouble|lazy)\b
+      scope: storage.type.d
+    - match: \b(ushort|int|uint|long|ulong|float|void|byte|ubyte|double|bit|char|wchar|ucent|cent|short|bool|dchar|real|ireal|ifloat|idouble|creal|cfloat|cdouble|string)\b
       scope: storage.type.d
     - match: \b(try|catch|finally|throw)\b
       scope: keyword.control.exception.d
@@ -176,7 +176,19 @@ contexts:
       scope: constant.language.d
     - match: \b(this|super)\b
       scope: variable.language.d
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
+    - match: |-
+        (?x)
+        (
+          (\b0(x|X)[0-9a-fA-F](_[0-9a-fA-F]+)*)            # 0x0, 0X0, 0x000_000
+          |
+          (
+            (\b[0-9]+(_[0-9]+)*\.?([0-9]+_[0-9]+)?[0-9]*)  # 0.0, 0_0.0, 0.0_0
+            |
+            (\.[0-9]+(_[0-9]+)*)                           # .0, .0_0
+          )((e|E)(\+|-)?[0-9]+)?                           # 0e+5
+        )
+        ([LlFfUuDd]|UL|ul)?                                # 0l, 0U, 0Lu, 0UL
+        \b
       scope: constant.numeric.d
     - include: string_escaped_char
     - include: strings
@@ -191,7 +203,7 @@ contexts:
     - match: \b(opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r)\b
       scope: keyword.operator.overload.d
     - match: \b(new|delete|typeof|typeid|cast|align|is)\b
-      scope: keyword.operator.d
+      scope: keyword.other.d
     - match: \b(new|throws)\b
       scope: keyword.other.class-fns.d
     - match: \b(package|extern)\b
@@ -234,6 +246,23 @@ contexts:
   constant_placeholder:
     - match: '(?i:%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])'
       scope: constant.other.placeholder.d
+  function_assertions:
+    - match: '(in|out)\s*(?=\{)'
+      captures:
+        1: keyword.control.statement.d
+      push:
+        - match: '\{' # Push onto the stack for blocks so that } pops functions/methods/classes properly
+          push:
+            - meta_scope: meta.block.d
+            - match: '\}'
+              pop: true
+            - include: $top_level_main
+        - match: (in|out)
+          scope: keyword.control.statement.d
+        - match: (?=body)
+          pop: true
+    - match: '(?<=\})'
+      pop: true
   regular_expressions:
     - include: scope:source.regexp.python
   statement-remainder:
@@ -254,7 +283,7 @@ contexts:
           pop: true
         - include: all-types
   storage-type-d:
-    - match: '\b(void|byte|short|char|int|long|float|double|boolean|([a-z]\w+\.)*[A-Z]\w+)\b'
+    - match: '\b(void|byte|short|char|int|long|float|double|boolean|([a-z]\w+\.)*[A-Z]\w+(?![\(\.]))\b'
       scope: storage.type.d
   string_escaped_char:
     - match: '\\(\\|[abefnprtv''"?]|[0-3]\d{,2}|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|&\w+;)'
