@@ -30,14 +30,14 @@ contexts:
       scope: comment.line.colons.dosbatch
     - match: '"'
       captures:
-        0: punctuation.definition.string.begin.shell
+        0: punctuation.definition.string.begin.dosbatch
       push:
         - meta_scope: string.quoted.double.dosbatch
         - match: '"'
           captures:
-            0: punctuation.definition.string.end.shell
+            0: punctuation.definition.string.end.dosbatch
           pop: true
     - match: "[|]"
       scope: keyword.operator.pipe.dosbatch
     - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
-      scope: keyword.operator.redirect.shell
+      scope: keyword.operator.redirect.dosbatch
