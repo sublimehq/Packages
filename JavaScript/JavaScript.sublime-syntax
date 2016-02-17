@@ -213,7 +213,7 @@ contexts:
         \s*(async)?
         \s*(?=\([^()]*\)\s*(=>))
       captures:
-        1: entity.name.class.js
+        1: support.class.js
         2: keyword.operator.accessor.js
         3: variable.other.readwrite.js entity.name.function.js
         4: storage.type.js

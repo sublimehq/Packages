@@ -165,7 +165,7 @@ class MyClass extends TheirClass {
 
     static foo(baz) {
     // ^ storage.type
-    //       ^ entity.name.function  
+    //       ^ entity.name.function
 
     }
 
@@ -183,6 +183,10 @@ class MyClass extends TheirClass {
 }
 
 MyClass.foo = function() {}
+// ^ support.class
+//       ^ entity.name.function
+
+MyClass.foo = () => {}
 // ^ support.class
 //       ^ entity.name.function
 
