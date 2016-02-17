@@ -61,6 +61,11 @@ if { /**/ }
 where { /**/ }
 /// <- keyword.control
 
+#if FOO
+/// <- punctuation.definition.preprocessor
+#endif
+/// ^ meta.preprocessor.c
+
 if a || b
 /// <- keyword
 ///  ^ keyword.operator
