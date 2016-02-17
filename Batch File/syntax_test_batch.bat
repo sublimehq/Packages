@@ -7,3 +7,10 @@ rem ^ comment.line.rem
 @rem comment
  rem <- keyword.command.rem
 rem  ^ comment.line.rem
+
+@dir
+rem <- keyword.operator.at
+ rem <- keyword.command
+
+@myBatchFile.bat
+rem <- keyword.operator.at
