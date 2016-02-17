@@ -190,6 +190,14 @@ MyClass.foo = () => {}
 // ^ support.class
 //       ^ entity.name.function
 
+xhr.onload = function() {}
+// <- support.class.js
+//  ^ entity.name.function
+
+xhr.onload = () => {}
+// <- support.class.js
+//  ^ entity.name.function
+
 var simpleArrow = foo => bar
 //   ^ entity.name.function
 //                 ^ variable.parameter.function

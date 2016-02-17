@@ -207,7 +207,7 @@ contexts:
         8: storage.type.function.arrow.js
     - match: |-
         (?x)
-        (\b_?[A-Z][$\w]*)?
+        (\b_?[a-zA-Z_?.$]*)?
         (\.)([_$a-zA-Z][$\w]*)
         \s*=
         \s*(async)?
