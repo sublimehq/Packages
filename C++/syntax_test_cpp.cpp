@@ -1,4 +1,4 @@
-/* SYNTAX TEST "c++.sublime-syntax" */
+/* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
 #ifndef IGUARD_
  /* <- keyword.control.import */
 #define IGUARD_
