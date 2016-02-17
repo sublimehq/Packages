@@ -35,3 +35,10 @@ public class SyntaxTest {
 
     }
 }
+
+class AnyClass {
+    public void anyMethod(String finality){
+        //                        ^ variable.parameter - storage.modifier
+        System.out.println("Printed: " + finality);
+    }
+}

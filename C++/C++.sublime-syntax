@@ -27,7 +27,7 @@ contexts:
       scope: storage.modifier.c++
     - match: \b(private:|protected:|public:)
       scope: storage.modifier.c++
-    - match: \b(catch|operator|try|throw|using)\b
+    - match: \b(catch|noexcept|operator|static_assert|try|throw|using)\b
       scope: keyword.control.c++
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
       scope: keyword.control.c++
@@ -42,12 +42,22 @@ contexts:
       scope: storage.type.template.c++
     - match: \b(const_cast|dynamic_cast|reinterpret_cast|static_cast)\b\s*
       scope: keyword.operator.cast.c++
-    - match: \b(and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
+    - match: \b(alignof|and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
       scope: keyword.operator.c++
-    - match: \b(class|wchar_t|nullptr_t)\b
+    - match: \b(char16_t|char32_t|class|decltype|wchar_t|nullptr_t)\b
       scope: storage.type.c++
-    - match: \b(export|mutable|typename)\b
+    - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
+    - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
+      captures:
+        1: storage.type.string.c++
+        2: punctuation.definition.string.begin.c++
+      push:
+        - meta_scope: string.quoted.double.c++
+        - match: '\)\3"'
+          captures:
+            0: punctuation.definition.string.end.c++
+          pop: true
     - match: |-
         (?x)
           (?:  ^                                 # begin-of-line
@@ -136,6 +146,39 @@ contexts:
           pop: true
         - include: $top_level_main
   special_block:
+    - match: |-
+        (?x)
+        (?<!['\.]) # Number must not be preceded by a decimal point
+        (?:
+        # floats
+          (?:
+          (?:\b\d(?:[\d']*\d)?\.\d(?:[\d']*\d)?|\B\.\d(?:[\d']*\d)?)(?:[Ee][+-]?\d(?:[\d']*\d)?)?(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          |
+          (?:\b\d(?:[\d']*\d)?\.)(?:\B|(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))\b|(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b)
+          |
+          \b\d(?:[\d']*\d)?(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          )
+        |
+        # ints
+          \b(?:
+          (?:
+          # dec
+          [1-9](?:[\d']*\d)?
+          |
+          # oct
+          0(?:[0-7']*[0-7])?
+          |
+          # hex
+          0[Xx][\da-fA-F](?:[\da-fA-F']*[\da-fA-F])?
+          |
+          # bin
+          0[Bb][01](?:[01']*[01])?
+          )
+          # int suffixes
+          (?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\w*))?)\b
+        )
+        (?!\.) # Number must not be followed by a decimal point
+      scope: constant.numeric.c++
     - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|=|,))'
       captures:
         1: keyword.control.c++
@@ -161,7 +204,7 @@ contexts:
         2: entity.name.type.c++
       push:
         - meta_scope: meta.class-struct-block.c++
-        - match: '(?<=\})|(?=(;|,|\(|\)|>|\[|\]))'
+        - match: '(?<=\}|;)|(?=(;|,|\(|\)|>|\[|\]))'
           pop: true
         - include: angle_brackets
         - match: (?<!:):(?!:)
