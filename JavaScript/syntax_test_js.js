@@ -1,6 +1,8 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
 import TheirClass from "./mypath";
+// ^ keyword.operator.module
+//                  ^ keyword.operator.module
 
 function foo() {
 // ^ storage.type.function
@@ -48,6 +50,19 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 //                        ^ constant.character.escape.js
 //                                                ^ punctuation.definition.string.template.end.js
 
+mylabel:
+// ^ entity.name.label
+
+// Ensure a ternary identifier isn't recognized as a label
+true ? str : str2
+//      ^ - entity.name.label
+
+{{foo}}
+// ^ meta.tag.mustache.js
+{{#bar}}{{/bar}}
+// ^ meta.tag.mustache.js
+//         ^ meta.tag.mustache.js
+
 var obj = {
     key: bar,
     // <- meta.object-literal.key
@@ -55,13 +70,18 @@ var obj = {
     // ^ meta.object-literal.key
     //   ^ - constant.other
     //        ^ string.quoted.double
-    $key3: 0
+    $key3: 0,
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
-    "key4": true
+    $keyFunc: function() {
+    // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
+     // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
+    }
+
+    "key4": true,
     // <- string.quoted.double
     //    ^ punctuation.separator.key-value - string
-    'key5': true
+    'key5': true,
     // <- string.quoted.single
     //    ^ punctuation.separator.key-value - string
 
@@ -71,27 +91,32 @@ var obj = {
 
     func2Key: function func2Key() {
     // ^ meta.object-literal.key entity.name.function
-    }
+    },
 
     funcKeyArrow: () => {
     // ^ meta.object-literal.key entity.name.function
-    }
+    },
 
     "funcStringKey": function funcStringKey()
     // ^ meta.object-literal.key string.quoted.double entity.name.function
-    { }
+    { },
 
     'funcStringKey': function() {
     // ^ meta.object-literal.key string.quoted.single entity.name.function
-    }
+    },
 
     'funcStringKeyArrow': () => {
     // ^ meta.object-literal.key string.quoted.single entity.name.function
+    },
+
+    "func\\String2KeyArrow": (foo) => {
+    // ^ meta.object-literal.key string.quoted.double entity.name.function
+    //    ^ constant.character.escape
     }
 
-    "funcString2KeyArrow": (foo) => {
-    // ^ meta.object-literal.key string.quoted.double entity.name.function
-    }
+    qux()
+    // <- entity.name.function
+    {}
 
     static foo(bar) {
     // ^ storage.type
@@ -149,6 +174,8 @@ switch ($foo) {
 }
 
 class MyClass extends TheirClass {
+// <- storage.type.class
+//     ^ entity.name.type.class
     constructor(el)
     // ^ entity.name.function
     {
@@ -165,7 +192,7 @@ class MyClass extends TheirClass {
 
     static foo(baz) {
     // ^ storage.type
-    //       ^ entity.name.function  
+    //       ^ entity.name.function
 
     }
 
@@ -186,6 +213,18 @@ MyClass.foo = function() {}
 // ^ support.class
 //       ^ entity.name.function
 
+MyClass.foo = () => {}
+// ^ support.class
+//       ^ entity.name.function
+
+xhr.onload = function() {}
+// <- support.class.js
+//  ^ entity.name.function
+
+xhr.onload = () => {}
+// <- support.class.js
+//  ^ entity.name.function
+
 var simpleArrow = foo => bar
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
@@ -198,7 +237,17 @@ var Proto = () => {
 }
 
 Proto.prototype.getVar = () => this._var
-// ^ entity.name.class
+// ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
 //                           ^ storage.type.function.arrow
+
+Class3.prototype = function() {
+// ^ support.class
+//       ^ support.constant.prototype
+}
+
+Proto.prototype.attr
+// ^ support.class
+//     ^ support.constant.prototype
+//               ^ meta.property.object
