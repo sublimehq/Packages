@@ -207,13 +207,13 @@ contexts:
         8: storage.type.function.arrow.js
     - match: |-
         (?x)
-        (\b_?[A-Z][$\w]*)?
+        (\b_?[a-zA-Z_.$]*)?
         (\.)([_$a-zA-Z][$\w]*)
         \s*=
         \s*(async)?
         \s*(?=\([^()]*\)\s*(=>))
       captures:
-        1: entity.name.class.js
+        1: support.class.js
         2: keyword.operator.accessor.js
         3: variable.other.readwrite.js entity.name.function.js
         4: storage.type.js
@@ -454,7 +454,7 @@ contexts:
         - include: function-declaration-parameters
     - match: |-
         (?x)
-        (\b_?[a-zA-Z_?.$]*)?
+        (\b_?[a-zA-Z_.$]*)?
         (\.)([_$a-zA-Z][$\.\w]*)
         \s*(=)
         \s*(?:(async)\s+)?
