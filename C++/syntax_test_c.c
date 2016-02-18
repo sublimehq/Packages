@@ -1,7 +1,7 @@
 /* SYNTAX TEST "C.sublime-syntax" */
 
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
-/* <- keyword.other.preprocessor */
+/* <- keyword.control.import.define */
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
 /*                                                              ^ keyword.operator.sizeof */
@@ -10,7 +10,7 @@
 
 
 #define max(a, b, \
-/* <- keyword.other.preprocessor */ \
+/* <- keyword.control.import.define */ \
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ meta.preprocessor.params */ \
 /*          ^ variable.parameter */ \

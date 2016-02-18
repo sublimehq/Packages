@@ -16,90 +16,10 @@ contexts:
     - include: keywords
     - include: numbers
     - include: strings
-    - include: preprocessor-macro-define
-    - match: ^\s*(#\s*error|warning)\b
-      captures:
-        1: keyword.control.import.error.c
-      push:
-        - meta_scope: meta.preprocessor.diagnostic.c
-        - include: line-continuation
-        - match: \n|(?=//.*)
-          pop: true
-        - include: comments
-        - match: '\S+'
-          scope: string.unquoted.c
-    - match: ^\s*#\s*(include|import)\b\s+
-      captures:
-        1: keyword.control.import.include.c
-      push:
-        - meta_scope: meta.preprocessor.c.include
-        - match: (?=(?://|/\*))|$
-          captures:
-            1: keyword.control.import.include.c
-          pop: true
-        - match: (?>\\\s*\n)
-          scope: punctuation.separator.continuation.c
-        - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.c
-          push:
-            - meta_scope: string.quoted.double.include.c
-            - match: '"'
-              captures:
-                0: punctuation.definition.string.end.c
-              pop: true
-        - match: <
-          captures:
-            0: punctuation.definition.string.begin.c
-          push:
-            - meta_scope: string.quoted.other.lt-gt.include.c
-            - match: ">"
-              captures:
-                0: punctuation.definition.string.end.c
-              pop: true
-    - include: pragma-mark
-    - match: ^\s*#\s*(defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\b
-      captures:
-        1: keyword.control.import.c
-      push:
-        - meta_scope: meta.preprocessor.c
-        - match: (?=(?://|/\*))|$
-          captures:
-            1: keyword.control.import.c
-          pop: true
-        - match: (?>\\\s*\n)
-          scope: punctuation.separator.continuation.c
+    - include: preprocessor
     - include: type
-    - match: \b(__FILE__|__FUNCTION__|__LINE__)\b
-      scope: support.constant.c
     - include: block
-    - match: |-
-        (?x)
-        (?:  ^                                 # begin-of-line
-          |
-             (?: (?= \s )           (?<!else|new|return) (?<=\w)      #  or word + space before name
-               | (?= \s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name
-             )
-        )
-        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()
-        (
-          (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
-          (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
-        )
-         \s*(?=\()
-      captures:
-        1: punctuation.whitespace.function.leading.c
-        3: entity.name.function.c
-        4: punctuation.definition.parameters.c
-      push:
-        - meta_scope: meta.function.c
-        - match: '(?<=\})|(?=#)|(;)'
-          pop: true
-        - include: comments
-        - include: parens
-        - match: \b(const|final|noexcept|override)\b
-          scope: storage.modifier.c
-        - include: block
+    - include: function-definition
     - include: operators
   base-language:
     - include: keywords
@@ -247,6 +167,10 @@ contexts:
         - match: \)
           pop: true
         - include: $top_level_main
+  preprocessor:
+    - include: preprocessor-macro-define
+    - include: pragma-mark
+    - include: preprocessor-other
   pragma-mark:
     - match: ^\s*(#\s*(pragma\s+mark)\s+(.*))
       scope: meta.section
@@ -262,9 +186,9 @@ contexts:
       captures:
         1: invalid.illegal.space-after-continuation.c
   preprocessor-macro-define:
-    - match: ^\s*(\#\s*define)
+    - match: ^\s*(\#\s*define)\b
       captures:
-        0: keyword.other.preprocessor.c
+        0: keyword.control.import.define.c
       push:
         - meta_scope: meta.preprocessor.macro.c
         - include: line-continuation
@@ -457,6 +381,58 @@ contexts:
             2: keyword.control.import.if.c
           pop: true
         - include: block_innards
+  preprocessor-other:
+    - match: ^\s*(#\s*error|warning)\b
+      captures:
+        1: keyword.control.import.error.c
+      push:
+        - meta_scope: meta.preprocessor.diagnostic.c
+        - include: line-continuation
+        - match: \n|(?=//.*)
+          pop: true
+        - include: comments
+        - match: '\S+'
+          scope: string.unquoted.c
+    - match: ^\s*#\s*(include|import)\b\s+
+      captures:
+        1: keyword.control.import.include.c
+      push:
+        - meta_scope: meta.preprocessor.c.include
+        - match: (?=(?://|/\*))|$
+          captures:
+            1: keyword.control.import.include.c
+          pop: true
+        - match: (?>\\\s*\n)
+          scope: punctuation.separator.continuation.c
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.begin.c
+          push:
+            - meta_scope: string.quoted.double.include.c
+            - match: '"'
+              captures:
+                0: punctuation.definition.string.end.c
+              pop: true
+        - match: <
+          captures:
+            0: punctuation.definition.string.begin.c
+          push:
+            - meta_scope: string.quoted.other.lt-gt.include.c
+            - match: ">"
+              captures:
+                0: punctuation.definition.string.end.c
+              pop: true
+    - match: ^\s*#\s*(defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\b
+      captures:
+        1: keyword.control.import.c
+      push:
+        - meta_scope: meta.preprocessor.c
+        - match: (?=(?://|/\*))|$
+          captures:
+            1: keyword.control.import.c
+          pop: true
+        - match: (?>\\\s*\n)
+          scope: punctuation.separator.continuation.c
   strings:
     - match: '(L|u8|u|U)?(")'
       captures:
@@ -499,3 +475,31 @@ contexts:
       scope: constant.other.placeholder.c
     - match: "%"
       scope: invalid.illegal.placeholder.c
+  function-definition:
+    - match: |-
+        (?x)
+        (?:  ^                                 # begin-of-line
+          |
+             (?: (?= \s )           (?<!else|new|return) (?<=\w)      #  or word + space before name
+               | (?= \s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name
+             )
+        )
+        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()
+        (
+          (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
+          (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
+        )
+         \s*(?=\()
+      captures:
+        1: punctuation.whitespace.function.leading.c
+        3: entity.name.function.c
+        4: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function.c
+        - match: '(?<=\})|(?=#)|(;)'
+          pop: true
+        - include: comments
+        - include: parens
+        - match: \b(const|final|noexcept|override)\b
+          scope: storage.modifier.c
+        - include: block
