@@ -23,6 +23,10 @@ contexts:
   main:
     - include: special_block
     - include: scope:source.c
+    - include: keywords
+    - include: strings
+    - include: destructor
+  keywords:
     - match: \b(friend|explicit|virtual)\b
       scope: storage.modifier.c++
     - match: \b(private:|protected:|public:)
@@ -48,6 +52,7 @@ contexts:
       scope: storage.type.c++
     - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
+  strings:
     - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
       captures:
         1: storage.type.string.c++
@@ -58,40 +63,6 @@ contexts:
           captures:
             0: punctuation.definition.string.end.c++
           pop: true
-    - match: |-
-        (?x)
-          (?:  ^                                 # begin-of-line
-            |  (?: (?<!else|new|=) )             #  or word + space before name
-          )
-          ((?:[A-Za-z_][A-Za-z0-9_]*::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
-           \s*(\()                           # start bracket or end-of-line
-      captures:
-        1: entity.name.function.c++
-        2: punctuation.definition.parameters.c
-      push:
-        - meta_scope: meta.function.destructor.c++
-        - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
-          pop: true
-        - include: $top_level_main
-    - match: |-
-        (?x)
-          (?:  ^                                 # begin-of-line
-            |  (?: (?<!else|new|=) )             #  or word + space before name
-          )
-          ((?:[A-Za-z_][A-Za-z0-9_]*::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
-           \s*(\()                           # terminating semi-colon
-      captures:
-        1: entity.name.function.c++
-        2: punctuation.definition.parameters.c
-      push:
-        - meta_scope: meta.function.destructor.prototype.c++
-        - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
-          pop: true
-        - include: $top_level_main
   angle_brackets:
     - match: <
       push:
@@ -143,6 +114,41 @@ contexts:
       push:
         - meta_scope: meta.function.constructor.initializer-list.c++
         - match: '(?=\{)'
+          pop: true
+        - include: $top_level_main
+  destructor:
+    - match: |-
+        (?x)
+          (?:  ^                                 # begin-of-line
+            |  (?: (?<!else|new|=) )             #  or word + space before name
+          )
+          ((?:[A-Za-z_][A-Za-z0-9_]*::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
+           \s*(\()                           # start bracket or end-of-line
+      captures:
+        1: entity.name.function.c++
+        2: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function.destructor.c++
+        - match: \)
+          captures:
+            0: punctuation.definition.parameters.c
+          pop: true
+        - include: $top_level_main
+    - match: |-
+        (?x)
+          (?:  ^                                 # begin-of-line
+            |  (?: (?<!else|new|=) )             #  or word + space before name
+          )
+          ((?:[A-Za-z_][A-Za-z0-9_]*::)*+~[A-Za-z_][A-Za-z0-9_]*) # actual name
+           \s*(\()                           # terminating semi-colon
+      captures:
+        1: entity.name.function.c++
+        2: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function.destructor.prototype.c++
+        - match: \)
+          captures:
+            0: punctuation.definition.parameters.c
           pop: true
         - include: $top_level_main
   special_block:
