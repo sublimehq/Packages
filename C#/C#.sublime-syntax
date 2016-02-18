@@ -10,7 +10,7 @@ scope: source.cs
 
 variables:
 
-  bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|\?\?)'
+  bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
   # name: '[A-Za-z_\p{L}][A-Za-z\p{L}_0-9]*'
 
@@ -76,6 +76,8 @@ contexts:
   comments_in:
     - match: \b(?i:todo|hack|xxx)\b
       scope: comment.line.todo
+    - match: \b(https?://.*)\b
+      scope: markup.underline.link.cs
 
   git_merge:
     - match: '^(<<<<<<<).*$'
@@ -115,10 +117,10 @@ contexts:
     - match: '(region)\s*'
       scope: entity.name.tag.cs
       push:
-        - meta_content_scope: meta.toc-list.region comment.line.cs
         - include: comments
         - match: $
           pop: true
+
     - match: '(line)\s+(default|hidden)'
       captures:
         1: entity.name.tag.cs
@@ -219,7 +221,7 @@ contexts:
 
   namespace_declaration:
     # package declaration
-    - match: '\b(namespace)\s+(?:{{name}}(\.))*{{name}}'
+    - match: '\b(namespace)\b'
       captures:
         0: meta.package.identifier.cs
         1: storage.type.module
@@ -227,6 +229,10 @@ contexts:
         3: keyword.operator.accessor.cs
         4: entity.name.module.cs
       push:
+        - match: '{{name}}'
+          scope: entity.name.module.cs
+        - match: \.
+          scope: punctuation.separator.module.cs
         - match: \{
           scope: punctuation.section.module.begin.cs
           set:
@@ -505,7 +511,7 @@ contexts:
         1: entity.name.variable.cs
         2: punctuation.terminator.statement.cs;
       pop: true
-    - match: '{{name}}(<)(?=.*>\.)'
+    - match: '{{name}}(<)(?=[^(]*>\.)'
       captures:
         1: entity.other.inherited-class.cs
         2: punctuation.definition.parameters.type.begin.cs
@@ -576,6 +582,11 @@ contexts:
     - match: \s
       pop: true
     - include: type
+    - match: \s*(\[)(.*)(\])\s*
+      captures:
+        1: punctuation
+        2: entity.name.tag
+        3: punctuation
 
   method_accessor:
     - meta_scope: meta.method.property.cs
@@ -631,12 +642,12 @@ contexts:
 
   line_of_code:
     # language keywords
-    - match: \b(if)\s*
+    - match: \b(if)\b
       captures:
         1: keyword.control.conditional.if.cs
       set: [else_block, if_block, if_condition]
 
-    - match: \b(switch)\s*
+    - match: \b(switch)\b
       captures:
         1: keyword.control.conditional.if.cs
       set: [switch_block, if_condition]
@@ -994,7 +1005,7 @@ contexts:
         - include: line_of_code_in
     - match: \{
       scope: punctuation.section.block.begin.cs
-      push:
+      set:
         - match: \}
           scope: punctuation.section.block.end.cs
           pop: true
@@ -1265,15 +1276,17 @@ contexts:
     # - include: line_of_code
 
   if_condition:
-    - match: '\('
-      scope: punctuation.definition.expression.conditional.end.cs
+    - match: '\s*(\()'
+      captures:
+        1: punctuation.definition.expression.conditional.end.cs
       set:
         - meta_scope: meta.if.condition
-        - match: '\)'
-          scope: punctuation.definition.expression.conditional.end.cs
+        - match: '\s*(\))'
+          captures:
+            1: punctuation.definition.expression.conditional.end.cs
           pop: true
         - include: line_of_code_in
-    - match: (\s*)(?=\S)
+    - match: (\s*)(?=[^(])
       scope: invalid.illegal.expected.condition
       pop: true
 
