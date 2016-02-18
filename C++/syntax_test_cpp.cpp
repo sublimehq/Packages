@@ -425,4 +425,14 @@ class DerivedClass : public BaseClass
     /*                         ^ storage.modifier */
     /*                               ^ storage.modifier */
     /*                                        ^ storage.modifier */
+ protected:
+  DerivedClass()
+      : a(a),
+/*     ^ meta.function.constructor.initializer-list.c++ */
+        base_id_(BaseClass::None().ToInt()),
+/*      ^ support.function.any-method.c */
+        bounds_(NULL),
+        bit_field_(0) {}
+
+/* <- - meta.function.constructor.initializer-list.c++ */
 };

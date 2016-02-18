@@ -115,7 +115,10 @@ contexts:
         - meta_scope: meta.function.constructor.initializer-list.c++
         - match: '(?=\{)'
           pop: true
-        - include: $top_level_main
+        - include: special_block
+        - include: scope:source.c#block_innards
+        - include: keywords
+        - include: strings
   destructor:
     - match: |-
         (?x)
