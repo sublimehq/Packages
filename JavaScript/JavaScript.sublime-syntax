@@ -5,7 +5,6 @@ name: JavaScript
 file_extensions:
   - js
   - htc
-  - jsx
 first_line_match: ^#!/.*\b(node|js)$\n?
 scope: source.js
 contexts:
