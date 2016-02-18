@@ -151,7 +151,7 @@ contexts:
     - include: comments
     - match: |-
         (?x)
-        \s*(array) # Typehint
+        \s*(array|callable|int|string) # Typehint
         \s*(&)?                     # Reference
         \s*((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*) # The variable name
         \s*(=)  # A default value
@@ -176,7 +176,7 @@ contexts:
         - include: numbers
     - match: |-
         (?xi)
-        \s*(array) # Typehint
+        \s*(array|callable|int|string) # Typehint
         \s*(&)?                     # Reference
         \s*((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*) # The variable name
         (?:
@@ -430,6 +430,20 @@ contexts:
         - match: (?=;|(?:^\s*$))
           pop: true
         - include: comments
+        - match: |-
+            (?xi)(?:
+              \s*([a-z_](?:[a-z_0-9]+)?)\s*(::)\s*([a-z_](?:[a-z0-9]+)?)\s+(?:(as)\s+([a-z_](?:[a-z0-9]+)?)|(insteadof)\s+([a-z_](?:[a-z0-9]+)?))\s*;
+            )
+          captures:
+            1: support.class.php
+            2: keyword.operator.class.php
+            3: meta.function.php
+            4: support.trait.method.use-as.php
+            5: meta.function.php
+            6: support.trait.method.insteadof.php
+            7: support.class.php
+        - match: '\s*}'
+          pop: true
         - match: '(?i)\s*(?=[a-z_0-9\\])'
           push:
             - match: |-
@@ -445,11 +459,17 @@ contexts:
             - match: '(?i)\s*(?=[\\a-z_0-9])'
               push:
                 - meta_scope: support.other.namespace.use.php
-                - match: '$|(?=[\s,;])'
+                - match: '$|(?=[\s,;])|{'
                   pop: true
                 - match: \\
                   scope: punctuation.separator.inheritance.php
         - match: \s*,\s*
+
+    - match: '(?i)^\s*(trait)\s+([a-z0-9_]+)\s*'
+      captures:
+        1: storage.type.trait.php
+        2: entity.name.type.trait.php
+
     - match: '(?i)^\s*(abstract|final)?\s*(class)\s+([a-z0-9_]+)\s*'
       captures:
         1: storage.modifier.abstract.php
@@ -517,15 +537,15 @@ contexts:
                 3: punctuation.definition.variable.php
     - match: |-
         (?x)\s*
-                                ((?:(?:final|abstract|public|private|protected|static)\s+)*)
-                                (function)
-                                (?:\s+|(\s*&\s*))
-                                (?:
-                                    (__(?:call|construct|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))
-                                    |([a-zA-Z0-9_]+)
-                                )
-                                \s*
-                                (\()
+            ((?:(?:final|abstract|public|private|protected|static)\s+)*)
+            (function)
+            (?:\s+|(\s*&\s*))
+            (?:
+                (__(?:call|construct|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))
+                |([a-zA-Z0-9_]+)
+            )
+            \s*
+            (\()
       captures:
         1: storage.modifier.php
         2: storage.type.function.php
@@ -567,6 +587,8 @@ contexts:
         - match: |-
             (?x)(::)
                                     (?:
+                                        (class[^\w])
+                                        |
                                         ([A-Za-z_][A-Za-z_0-9]*)\s*\(
                                         |
                                         ((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)
@@ -575,10 +597,11 @@ contexts:
                                     )?
           captures:
             1: keyword.operator.class.php
-            2: meta.function-call.static.php
-            3: variable.other.class.php
-            4: punctuation.definition.variable.php
-            5: constant.other.class.php
+            2: constant.class.php
+            3: meta.function-call.static.php
+            4: variable.other.class.php
+            5: punctuation.definition.variable.php
+            6: constant.other.class.php
           pop: true
         - match: (self|static|parent)\b
           scope: storage.type.php
