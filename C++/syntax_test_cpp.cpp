@@ -419,7 +419,9 @@ private:
     /*                         ^ storage.modifier */
 };
 
-class DerivedClass : public BaseClass
+class DerivedClass : /* */ public BaseClass // Comment
+    /*                 ^ comment.block */
+    /*                                      ^ comment.line */
 {
     virtual void doSomething() const override final;
     /*                         ^ storage.modifier */

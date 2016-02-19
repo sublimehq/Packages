@@ -202,7 +202,7 @@ contexts:
             - include: special_block
             - include: constructor
             - include: $top_level_main
-    - match: '\b(class|struct)\s+([_A-Za-z][_A-Za-z0-9]*\b);'
+    - match: '\b(class|struct)\s+([_A-Za-z][_A-Za-z0-9]*\b)\s*;'
       scope: meta.class-struct-block.c++
       captures:
         1: storage.type.c++
@@ -219,12 +219,15 @@ contexts:
         - match: (?<!:):(?!:)
           push:
             - meta_scope: meta.class-struct-block.base-classes.c++
+            - include: scope:source.c#comments
             - match: '(?=\{)'
               pop: true
             - match: \b(private|protected|public|virtual)
               scope: storage.modifier.c++
-            - match: '[_A-Za-z][_A-Za-z0-9]*\b'
+            - match: '\b[_A-Za-z][_A-Za-z0-9]*\b'
+              scope: entity.other.inherited-class.c++
               push:
+                - include: scope:source.c#comments
                 - match: ',|(?=\{)'
                   pop: true
                 - include: angle_brackets
