@@ -36,3 +36,7 @@ int i;
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
+
+static string foo(bar() + ';');
+/*                        ^^^ string */
+/*                           ^ -string */

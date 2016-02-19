@@ -500,6 +500,7 @@ contexts:
           pop: true
         - include: comments
         - include: parens
+        - include: strings
         - match: \b(const|final|noexcept|override)\b
           scope: storage.modifier.c
         - include: block
