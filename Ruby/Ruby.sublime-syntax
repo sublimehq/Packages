@@ -1028,5 +1028,3 @@ contexts:
             (\.((-?\d+)|(\[\d+\])?\*)?)?                # precision
             [diouxXDOUeEfFgGaAcCsSpqnvtTbyYhHmMzZ%]     # conversion type
       scope: constant.other.placeholder.ruby
-    - match: "%"
-      scope: invalid.illegal.placeholder.ruby
