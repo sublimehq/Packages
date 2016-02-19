@@ -393,13 +393,13 @@ contexts:
       scope: meta.prototype.declaration.js
       captures:
         1: support.class.js
-        2: puntuation.accessor.js
+        2: punctuation.accessor.js
         3: support.constant.prototype.js
     - match: '({{identifier}})(\.)(prototype)\b'
       scope: meta.prototype.access.js
       captures:
         1: support.class.js
-        2: puntuation.accessor.js
+        2: punctuation.accessor.js
         3: support.constant.prototype.js
 
   named-function:
@@ -409,11 +409,11 @@ contexts:
         - match: '(prototype)\s*(\.)'
           captures:
             1: support.constant.prototype
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
         - match: '({{identifier}})\s*(\.)'
           captures:
             1: support.class.js
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
         - match: '({{identifier}})\s*(=)'
           captures:
             1: entity.name.function.js
@@ -429,11 +429,11 @@ contexts:
         - match: '(prototype)\s*(\.)'
           captures:
             1: support.constant.prototype
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
         - match: '({{identifier}})\s*(\.)'
           captures:
             1: support.class.js
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
         - match: '({{identifier}})\s*(=)'
           captures:
             1: entity.name.function.js
@@ -693,7 +693,7 @@ contexts:
         - match: \b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
           captures:
             1: support.type.object.console.js
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
             3: support.function.console.js
           set:
             - meta_scope: meta.function-call.method.js
@@ -701,7 +701,7 @@ contexts:
         - match: \b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
           captures:
             1: support.type.object.process.js
-            2: puntuation.accessor.js
+            2: punctuation.accessor.js
             3: support.function.process.js
           set:
             - meta_scope: meta.function-call.method.js
@@ -712,6 +712,7 @@ contexts:
             - match: '{{identifier}}'
               scope: variable.other.object.js
             - match: \.
+              scope: punctuation.accessor.js
               pop: true
         - match: \.
           scope: keyword.other.accessor.js
@@ -769,7 +770,7 @@ contexts:
     - match: '({{identifier}})(\.)(?={{identifier}})'
       captures:
         1: variable.other.object.js
-        2: puntuation.accessor.js
+        2: punctuation.accessor.js
       push: object-property
     - match: '\b[A-Z][$\w]*(?=\s*\.)'
       scope: support.class.js
@@ -806,12 +807,12 @@ contexts:
     - match: \b(process)(?:(\.)(stdout|stderr|stdin|argv|execPath|execArgv|env|exitCode|version|versions|config|pid|title|arch|platform|mainModule))?\b
       captures:
         1: support.type.object.process.js
-        2: puntuation.accessor.js
+        2: punctuation.accessor.js
         3: support.type.object.process.js
     - match: \b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
       captures:
         1: support.type.object.module.js
-        2: puntuation.accessor.js
+        2: punctuation.accessor.js
         3: support.type.object.module.js
     - match: \b(global|GLOBAL|root|__dirname|__filename)\b
       scope: support.type.object.node.js
@@ -832,7 +833,7 @@ contexts:
 
   literal-punctuation:
     - match: \.
-      scope: puntuation.accessor.js
+      scope: punctuation.accessor.js
       push:
         - match: '({{identifier}})\s*(=)\s*(?={{func_lookahead}})'
           captures:
