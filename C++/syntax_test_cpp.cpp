@@ -394,6 +394,25 @@ void abcdWXYZ1234()
 {
 }
 
+// long func(int x, void *MYMACRO(y) ) {} // Currently failing , to be fix
+/*                     ^ -entity.name.function */
+/*                                       ^ -meta.parens */
+
+/////////////////////////////////////////////
+// Namespace
+/////////////////////////////////////////////
+
+namespace myNameSpace {}
+/* <- keyword.control */
+
+namespace new_name = current_name;
+/* <- keyword.control */
+
+using namespace NAME __attribute__((visibility ("hidden")));
+/* <- keyword.control */
+/*    ^ keyword.control */
+/*                   ^ storage.modifier */
+/*                                               ^ string */
 
 /////////////////////////////////////////////
 // Classes
@@ -402,7 +421,6 @@ void abcdWXYZ1234()
 class BaseClass // comment
 /* <- storage.type */
 /*    ^ entity.name.type */
-/*              ^ comment.line */
 {
 public:
 /* <- storage.modifier */
@@ -419,9 +437,8 @@ private:
     /*                         ^ storage.modifier */
 };
 
-class DerivedClass : /* */ public BaseClass // Comment
-    /*                 ^ comment.block */
-    /*                                      ^ comment.line */
+class DerivedClass : public BaseClass // Comment
+/*                                     ^ comment.line */
 {
     virtual void doSomething() const override final;
     /*                         ^ storage.modifier */

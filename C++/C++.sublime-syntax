@@ -188,12 +188,15 @@ contexts:
         )
         (?!\.) # Number must not be followed by a decimal point
       scope: constant.numeric.c++
-    - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|=|,))'
+    - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|,))'
       captures:
         1: keyword.control.c++
       push:
         - meta_scope: meta.namespace-block.c++
-        - match: '(?<=\})'
+        - match: =
+          scope: keyword.operator.alias.c
+        - include: scope:source.c#attribute
+        - match: ';|(?<=\})'
           pop: true
         - match: '\{'
           push:
