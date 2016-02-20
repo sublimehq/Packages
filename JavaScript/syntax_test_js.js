@@ -4,9 +4,15 @@ import TheirClass from "./mypath";
 // ^ keyword.control.import
 //                  ^ keyword.control.import
 
-import {identifier, otherIdentifier} from "foo";
+import {identifier, otherIdentifier} from "somewhere";
 // ^ keyword.control.import
 //       ^ meta.import meta.block variable.other.readwrite
+
+import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
+// ^ keyword.control.import
+//                        ^ keyword.control.import
+//                                             ^ constant.other.js
+//                                                             ^ keyword.control.import
 
 function foo() {
 // <- meta.function.declaration

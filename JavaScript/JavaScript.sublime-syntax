@@ -23,8 +23,31 @@ contexts:
       scope: keyword.control.import.js
       push:
         - meta_scope: meta.import.js
-        - include: block-scope
-    - match: \b(export|default|from|as)\b
+        - match: '(?=\bfrom\b|")'
+          pop: true
+        - match: \bas\b
+          scope: keyword.control.import.js
+        - include: literal-string
+        - match: '{{identifier}}'
+          scope: variable.other.readwrite.js
+        - match: '\{'
+          scope: meta.brace.curly.js
+          push:
+            - meta_scope: meta.block.js
+            - match: '\}'
+              scope: meta.brace.curly.js
+              pop: true
+            - match: ","
+              scope: meta.delimiter.comma.js
+            - match: \bas\b
+              scope: keyword.control.import.js
+            - match: '{{identifier}}'
+              scope: variable.other.readwrite.js
+        - match: ","
+          scope: meta.delimiter.comma.js
+        - match: '\*'
+          scope: constant.other.js
+    - match: \b(export|default|from)\b
       scope: keyword.control.import.js
 
   comments-top-level:
