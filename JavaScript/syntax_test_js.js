@@ -1,21 +1,34 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
 import TheirClass from "./mypath";
-// ^ keyword.operator.module
-//                  ^ keyword.operator.module
+// ^ keyword.control.import
+//                  ^ keyword.control.import
+
+import {identifier, otherIdentifier} from "foo";
+// ^ keyword.control.import
+//       ^ meta.import meta.block variable.other.readwrite
 
 function foo() {
+// <- meta.function.declaration
+ // <- meta.function.declaration
+  // <- meta.function.declaration
+// ^^^^^^^^^^^ meta.function.declaration
 // ^ storage.type.function
 //        ^ entity.name.function
 }
 
 var bar = function() {
+//  ^^^^^^^^^^^^^^^^ meta.function.declaration
 // <- storage.type
 //   ^ variable.other.readwrite entity.name.function
 //         ^ storage.type.function
 }
 
 baz = function*()
+// <- meta.function.declaration
+ // <- meta.function.declaration
+  // <- meta.function.declaration
+// ^^^^^^^^^^^^^^ meta.function.declaration
 // <- variable.other.readwrite entity.name.function
 //     ^ storage.type.function
 //            ^ keyword.generator.asterisk
@@ -57,6 +70,10 @@ mylabel:
 true ? str : str2
 //      ^ - entity.name.label
 
+a = test ? a + b : c;
+//         ^ variable.other.readwrite
+//             ^ variable.other.readwrite
+
 {{foo}}
 // ^ meta.tag.mustache.js
 {{#bar}}{{/bar}}
@@ -74,6 +91,7 @@ var obj = {
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
     $keyFunc: function() {
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
     }
@@ -86,51 +104,62 @@ var obj = {
     //    ^ punctuation.separator.key-value - string
 
     funcKey: function() {
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     func2Key: function func2Key() {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     funcKeyArrow: () => {
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     "funcStringKey": function funcStringKey()
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     { },
 
     'funcStringKey': function() {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     'funcStringKeyArrow': () => {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     "func\\String2KeyArrow": (foo) => {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     //    ^ constant.character.escape
     }
 
     qux()
+//  ^^^^^ meta.function.declaration
     // <- entity.name.function
     {}
 
     static foo(bar) {
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ storage.type
     //      ^entity.name.function
     }
 
     *baz(){
+//  ^^^^^^ meta.function.declaration
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
 }
 
 var $ = function(baz) {
-//  ^ variable.other.dollar.only punctuation.dollar
+//  ^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^ variable.other.dollar.only punctuation.dollar entity.name.function
 }
 
 $()
@@ -151,12 +180,43 @@ var qux = 100;
 //         ^ constant.numeric
 
 if (100.0 > qux) {
+// ^^^^^^^^^^^^^^^ meta.conditional
+    a;
+//  ^ meta.conditional meta.block 
+}
 
+if (foo bar)
+    baz = "test"
+
+do {
+// <- meta.do-while
+    qux += 1
+//  ^^^^^^^^ meta.do-while meta.block
+} while(qux < 20);
+// ^^^^^^^^^^^^^^ meta.do-while - meta.block
+// ^^^^ keyword.control.loop
+//      ^^^^^^^^ meta.group.braces.round
+
+for (var i = 0; i < 10; i++) {
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.round
+    i += 1;
+//  ^^^^^^^ meta.for meta.block
+}
+
+while (true)
+// ^^^^^^^^^ meta.while
+//     ^^^^ meta.group.braces.round
+{
+    break;
+//  ^^^^^^ meta.while meta.block
 }
 
 switch ($foo) {
+// ^^^^^^^^^^^^ meta.switch
+//      ^^^^ meta.group.braces.round
     case foo:
-    // ^ keyword.control.switch
+    // ^ meta.switch meta.block keyword.control.switch
     //      ^ - punctuation.separator.key-value
         qux = 1;
         break;
@@ -168,15 +228,32 @@ switch ($foo) {
         break;
         // ^ keyword.control.loop
     default:
-    // ^ keyword.control.switch
+    // ^ meta.switch meta.block keyword.control.switch
     //     ^ - punctuation.separator.key-value
         qux = 3;
 }
 
+try {
+// <- meta.try keyword.control.trycatch
+// ^^ meta.try
+    foobar = qux.bar();
+//  ^^^^^^^^^^^^^^^^^^^ meta.try meta.block
+} catch (e) {
+// ^^^^^^^ meta.catch
+//       ^ meta.group.braces.round
+    foobar = 0
+//  ^^^^^^^^^^ meta.catch meta.block
+} finally {
+// ^^^^^^^^ meta.finally
+    foobar += 1
+//  ^^^^^^^^^^^ meta.finally meta.block
+}
+
 class MyClass extends TheirClass {
 // <- storage.type.class
-//     ^ entity.name.type.class
+//    ^^^^^^^ entity.name.type.class
     constructor(el)
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function
     {
         $.foo = "";
@@ -184,6 +261,7 @@ class MyClass extends TheirClass {
     }
 
     get foo()
+//  ^^^^^^^^^ meta.function.declaration
     // <- storage.type.accessor
     //   ^ entity.name.function
     {
@@ -191,63 +269,92 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ storage.type
     //       ^ entity.name.function
 
     }
 
     qux()
+//  ^^^^^ meta.function.declaration
     { }
 
     get bar () {
+//  ^^^^^^^^^^ meta.function.declaration
     // <- storage.type.accessor
     //   ^ entity.name.function
         return false;
     }
 
     baz() { return null }
+//  ^^^^^ meta.function.declaration
     // <- entity.name.function
 }
 
 MyClass.foo = function() {}
+// ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ entity.name.function
 
 MyClass.foo = () => {}
+// ^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ entity.name.function
 
 xhr.onload = function() {}
+// ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // <- support.class.js
 //  ^ entity.name.function
 
 xhr.onload = () => {}
+// ^^^^^^^^^^^^^^^ meta.function.declaration
 // <- support.class.js
 //  ^ entity.name.function
 
 var simpleArrow = foo => bar
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
 //                    ^ storage.type.function.arrow
 
 var Proto = () => {
+//  ^^^^^^^^^^^^^ meta.function.declaration
 //   ^ entity.name.function
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
 
 Proto.prototype.getVar = () => this._var
+// ^^^^^^^^^^^^ meta.prototype.access
+//              ^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
 //                           ^ storage.type.function.arrow
 
 Class3.prototype = function() {
+// ^^^^^^^^^^^^^ meta.prototype.declaration
+//                 ^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ support.constant.prototype
 }
 
 Proto.prototype.attr
+// ^^^^^^^^^^^^ meta.prototype.access
 // ^ support.class
 //     ^ support.constant.prototype
 //               ^ meta.property.object
+
+sources.DOM.status()
+sources.DOM
+// <- variable.other.object
+    .status()
+    // ^ meta.function-call.method variable.function
+
+var Constructor = function() {
+    this._var = 1;
+    // ^ variable.language.this
+    this._method = function() {}
+    // ^ variable.language.this
+    //    ^ entity.name.function
+}
