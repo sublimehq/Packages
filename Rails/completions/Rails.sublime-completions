@@ -1,0 +1,255 @@
+{
+    "scope": "text.html.ruby",
+    "completions":
+    [
+        { "trigger": "end\tend (ERB)", "contents": "<% end -%>" },
+        { "trigger": "for\tfor loop in rhtml", "contents": "<% if !${1:list}.blank? %>\n\t<% for ${2:item} in ${1} %>\n\t\t$3\n\t<% end %>\n<% else %>\n\t$4\n<% end %>" },
+        { "trigger": "jit\tjavascript_include_tag", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}javascript_include_tag ${1::all}${2:, :cache => ${3:true}}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "slt\tstylesheet_link_tag", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}stylesheet_link_tag {1::all}${2:, :cache => ${3:true}}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" }
+    ]
+},{
+    "scope": "text.html.ruby, text.haml",
+    "completions":
+    [
+        { "trigger": "ft\tform_tag", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_INLINE}form_tag(${1::action => \"${5:update}\"}${6:, {:${8:class} => \"${9:form}\"\\}}) do${TM_RAILS_TEMPLATE_END_RUBY_EXPR}\n\t$0\n${TM_RAILS_TEMPLATE_END_RUBY_BLOCK}" },
+        { "trigger": "ffcb\tform_for check_box", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.check_box :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.check_box (ffcb)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.check_box :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffff\tform_for file_field", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.file_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.file_field (ffff)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.file_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffhf\tform_for hidden_field", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.hidden_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.hidden_field (ffhf)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.hidden_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffl\tform_for label", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.label :${1:attribute}${2:, \"${3:${1/[[:alpha:]]+|(_)/(?1: :\\u$0)/g}}\"}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.label (ffl)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.label :${1:attribute}${2:, \"${3:${1/[[:alpha:]]+|(_)/(?1: :\\u$0)/g}}\"}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffpf\tform_for password_field", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.password_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.password_field (ffpf)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.password_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffrb\tform_for radio_box", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.radio_box :${1:attribute}, :${2:tag_value}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.radio_box (ffrb)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.radio_box :${1:attribute}, :${2:tag_value}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffs\tform_for submit", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.submit \"${1:Submit}\"${2:, :disable_with => '${3:$1ing…}'}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.submit (ffs)", "contents": "CDATA[${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.submit \"${1:Submit}\"${2:, :disable_with => '${3:$1ing…}'}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffta\tform_for text_area", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.text_area :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.text_area (ffta)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.text_area :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "fftf\tform_for text_field", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.text_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "f.\tf.text_field (fftf)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}f.text_field :${1:attribute}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "ffe\tform_for with errors", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}error_messages_for :${1:model}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}\n\n${TM_RAILS_TEMPLATE_START_RUBY_INLINE}form_for @${2:$1} do |f|${TM_RAILS_TEMPLATE_END_RUBY_INLINE}\n\t$0\n${TM_RAILS_TEMPLATE_END_RUBY_BLOCK}" },
+        { "trigger": "ff\tform_for", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_INLINE}form_for @${1:model} do |f|${TM_RAILS_TEMPLATE_END_RUBY_INLINE}\n\t$0\n${TM_RAILS_TEMPLATE_END_RUBY_BLOCK}" },
+        { "trigger": "ist\timage_submit_tag", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}image_submit_tag(\"${1:agree.png}\"${2:${3:, :id => \"${4:${1/^(\\w+)(\\.\\w*)?$/$1/}}\"}${5:, :name => \"${6:${1/^(\\w+)(\\.\\w*)?$/$1/}}\"}${7:, :class => \"${8:${1/^(\\w+)(\\.\\w*)?$/$1/}-button}\"}${9:, :disabled => ${10:false}}})${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lia\tlink_to (action)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to \"${1:link text…}\", :action => \"${2:index}\"${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "liai\tlink_to (action, id)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to \"${1:link text…}\", :action => \"${2:edit}\", :id => ${3:@item}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lic\tlink_to (controller)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to \"${1:link text …}\", :controller => \"${2:items}\"${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lica\tlink_to (controller, action)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to \"${1:link text …}\", :controller => \"${2:items}\", :action => \"${3:index}\"${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "licai\tlink_to (controller, action, id)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to \"${1:link text …}\", :controller => \"${2:items}\", :action => \"${3:edit}\", :id => ${4:@item}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "linp\tlink_to (nested path)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to ${1:\"${2:link text …}\"}, ${3:${12:parent}_${13:child}_path(${14:@}${15:${12}}, ${16:@}${17:${13}})}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "linpp\tlink_to (nested path plural)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to ${1:\"${2:link text …}\"}, ${3:${10:parent}_${11:child}_path(${12:@}${13:${10}})}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lip\tlink_to (path)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to ${1:\"${2:link text …}\"}, ${3:${12:model}_path(${13:@}${14:${12}})}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lipp\tlink_to (path plural)", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to ${1:\"${2:link text …}\"}, ${3:${4:model}s_path}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "lim\tlink_to model", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}link_to ${1:model}.${2:name}, ${3:${4:$1}_path(${14:$1})}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" },
+        { "trigger": "st\tsubmit_tag", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}submit_tag \"${1:Save changes}\"${2:, :id => \"${3:submit}\"}${4:, :name => \"${5:$3}\"}${6:, :class => \"${7:form_$3}\"}${8:, :disabled => ${9:false}}${10:, :disable_with => \"${11:Please wait…}\"}${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" }
+    ]
+},{
+    "scope": "source.ruby",
+    "completions":
+    [
+        { "trigger": "asg\tassert(var = assigns(:var))", "contents": "assert(${1:var} = assigns(:${1}), \"Cannot find @${1}\")\n$0" },
+        { "trigger": "asd\tassert_difference", "contents": "assert_difference \"${1:Model}.${2:count}\", ${3:1} do\n\t$0\nend" },
+        { "trigger": "asnd\tassert_no_difference", "contents": "assert_no_difference \"${1:Model}.${2:count}\" do\n\t$0\nend" },
+        { "trigger": "cla\tCreate controller class", "contents": "class ${1:Model}Controller < ApplicationController\n\tbefore_filter :find_${2:model}\n\n\t$0\n\n\tprivate\n\tdef find_${2}\n\t\t@$2 = ${3:$1}.find(params[:id]) if params[:id]\n\tend\nend" },
+        { "trigger": "cla\tCreate functional test class", "contents": "require File.dirname(__FILE__) + '/../test_helper'\n\nclass ${1:Model}ControllerTest < ActionController::TestCase\n\tdeft$0\nend" }
+    ]
+},{
+    "scope": "source.ruby.rails",
+    "completions":
+    [
+        { "trigger": "aftc\tafter_create", "contents": "after_create " },
+        { "trigger": "aftd\tafter_destroy", "contents": "after_destroy " },
+        { "trigger": "afts\tafter_save", "contents": "after_save " },
+        { "trigger": "aftu\tafter_update", "contents": "after_update " },
+        { "trigger": "aftv\tafter_validation", "contents": "after_validation " },
+        { "trigger": "aftvoc\tafter_validation_on_create", "contents": "after_validation_on_create " },
+        { "trigger": "aftvou\tafter_validation_on_update", "contents": "after_validation_on_update " },
+        { "trigger": "artnp\tassert_redirected_to (nested path)", "contents": "assert_redirected_to ${2:${12:parent}_${13:child}_path(${14:@}${15:${12}}, ${16:@}${17:${13}})}" },
+        { "trigger": "artnpp\tassert_redirected_to (nested path plural)", "contents": "assert_redirected_to ${10:${2:parent}_${3:child}_path(${4:@}${5:${2}})}" },
+        { "trigger": "artp\tassert_redirected_to (path)", "contents": "assert_redirected_to ${2:${12:model}_path(${13:@}${14:${12}})}" },
+        { "trigger": "artpp\tassert_redirected_to (path plural)", "contents": "assert_redirected_to ${10:${2:model}s_path}" },
+        { "trigger": "asrj\tassert_rjs", "contents": "assert_rjs :${1:replace}, ${2:\"${3:dom id}\"}" },
+        { "trigger": "ass\tassert_select", "contents": "assert_select '${1:path}'${2:, :${3:text} => ${4:'${5:inner_html}'}}${6: do\n\t$0\nend}" },
+        { "trigger": "befc\tbefore_create", "contents": "before_create " },
+        { "trigger": "befd\tbefore_destroy", "contents": "before_destroy " },
+        { "trigger": "befs\tbefore_save", "contents": "before_save " },
+        { "trigger": "befu\tbefore_update", "contents": "before_update " },
+        { "trigger": "befv\tbefore_validation", "contents": "before_validation " },
+        { "trigger": "befvoc\tbefore_validation_on_create", "contents": "before_validation_on_create " },
+        { "trigger": "befvou\tbefore_validation_on_update", "contents": "before_validation_on_update " },
+        { "trigger": "bt\tbelongs_to", "contents": "belongs_to :${1:object}${2:, :class_name => \"${3:${1/[[:alpha:]]+|(_)/(?1::\\u$0)/g}}\", :foreign_key => \"${4:${1}_id}\"}" },
+        { "trigger": "crw\tcattr_accessor", "contents": "cattr_accessor :${0:attr_names}" },
+        { "trigger": "fina\tfind(:all)", "contents": "find(:all${1:, :conditions => ['${2:${3:field} = ?}', ${5:true}]})" },
+        { "trigger": "finf\tfind(:first)", "contents": "find(:first${1:, :conditions => ['${2:${3:field} = ?}', ${5:true}]})" },
+        { "trigger": "fini\tfind(id)", "contents": "find(${1:id})" },
+        { "trigger": "habtm\thas_and_belongs_to_many", "contents": "has_and_belongs_to_many :${1:object}${2:, :join_table => \"${3:table_name}\", :foreign_key => \"${4:${1}_id}\"}" },
+        { "trigger": "hm\thas_many", "contents": "has_many :${1:object}s${2:, :class_name => \"${1}\", :foreign_key => \"${4:reference}_id\"}" },
+        { "trigger": "hmt\thas_many (through)", "contents": "has_many :${1:objects}, :through => :${2:join_association}${3:, :source => :${4:${2}_table_foreign_key_to_${1}_table}}" },
+        { "trigger": "hmd\thas_many :dependent => :destroy", "contents": "has_many :${1:object}s${2:, :class_name => \"${1}\", :foreign_key => \"${4:reference}_id\"}, :dependent => :destroy" },
+        { "trigger": "ho\thas_one", "contents": "has_one :${1:object}${2:, :class_name => \"${3:${1/[[:alpha:]]+|(_)/(?1::\\u$0)/g}}\", :foreign_key => \"${4:${1}_id}\"}" },
+        { "trigger": "logd\tlogger.debug", "contents": "logger.debug { \"${1:message}\" }" },
+        { "trigger": "loge\tlogger.error", "contents": "logger.error { \"${1:message}\" }" },
+        { "trigger": "logf\tlogger.fatal", "contents": "logger.fatal { \"${1:message}\" }" },
+        { "trigger": "logi\tlogger.info", "contents": "logger.info { \"${1:message}\" }" },
+        { "trigger": "logw\tlogger.warn", "contents": "logger.warn { \"${1:message}\" }" },
+        { "trigger": "mp\tmap(&:sym_proc)", "contents": "map(&:${1:id})" },
+        { "trigger": "mrw\tmattr_accessor", "contents": "mattr_accessor :${0:attr_names}" },
+        { "trigger": "ncl\tnamed_scope lambda", "contents": "named_scope :name, lambda { |${1:param}| { :conditions => ${3:['${4:${5:field} = ?}', ${6:$1}]} } }" },
+        { "trigger": "nc\tnamed_scope", "contents": "named_scope :name${1:, :joins => :${2:table}}, :conditions => ${3:['${4:${5:field} = ?}', ${6:true}]}" },
+        { "trigger": "flash\tflash[…]", "contents": "flash[:${1:notice}] = \"${2:Successfully created …}\"" },
+        { "trigger": "rdb\tRAILS_DEFAULT_LOGGER.debug", "contents": "RAILS_DEFAULT_LOGGER.debug \"${1:message}\"" },
+        { "trigger": "rea\tredirect_to (action)", "contents": "redirect_to :action => \"${1:index}\"" },
+        { "trigger": "reai\tredirect_to (action, id)", "contents": "redirect_to :action => \"${1:show}\", :id => ${0:@item}" },
+        { "trigger": "rec\tredirect_to (controller)", "contents": "redirect_to :controller => \"${1:items}\"" },
+        { "trigger": "reca\tredirect_to (controller, action)", "contents": "redirect_to :controller => \"${1:items}\", :action => \"${2:list}\"" },
+        { "trigger": "recai\tredirect_to (controller, action, id)", "contents": "redirect_to :controller => \"${1:items}\", :action => \"${2:show}\", :id => ${0:@item}" },
+        { "trigger": "renp\tredirect_to (nested path)", "contents": "redirect_to(${2:${12:parent}_${13:child}_path(${14:@}${15:${12}}, ${16:@}${17:${13}})})" },
+        { "trigger": "renpp\tredirect_to (nested path plural)", "contents": "redirect_to(${2:${10:parent}_${11:child}_path(${12:@}${13:${10}})})" },
+        { "trigger": "rep\tredirect_to (path)", "contents": "redirect_to(${2:${12:model}_path(${13:@}${14:${12}})})" },
+        { "trigger": "repp\tredirect_to (path plural)", "contents": "redirect_to(${2:${10:model}s_path})" },
+        { "trigger": "ra\trender (action)", "contents": "render :action => \"${1:action}\"" },
+        { "trigger": "ral\trender (action, layout)", "contents": "render :action => \"${1:action}\", :layout => \"${2:layoutname}\"" },
+        { "trigger": "rf\trender (file)", "contents": "render :file => \"${1:filepath}\"" },
+        { "trigger": "rfu\trender (file, use_full_path)", "contents": "render :file => \"${1:filepath}\", :use_full_path => ${2:false}" },
+        { "trigger": "ri\trender (inline)", "contents": "render :inline => \"${1:<%= 'hello' %>}\"" },
+        { "trigger": "ril\trender (inline, locals)", "contents": "render :inline => \"${1:<%= 'hello' %>}\", :locals => { ${2::name} => \"${3:value}\"$4 }" },
+        { "trigger": "rit\trender (inline, type)", "contents": "render :inline => \"${1:<%= 'hello' %>}\", :type => ${2::rxml}" },
+        { "trigger": "rl\trender (layout)", "contents": "render :layout => \"${1:layoutname}\"" },
+        { "trigger": "rn\trender (nothing)", "contents": "render :nothing => ${1:true}" },
+        { "trigger": "rns\trender (nothing, status)", "contents": "render :nothing => ${1:true}, :status => ${2:401}" },
+        { "trigger": "rp\trender (partial)", "contents": "render :partial => \"${1:item}\"" },
+        { "trigger": "rpc\trender (partial, collection)", "contents": "render :partial => \"${1:item}\", :collection => ${2:@$1s}" },
+        { "trigger": "rpl\trender (partial, locals)", "contents": "render :partial => \"${1:item}\", :locals => { :${2:$1} => ${3:@$1}$0 }" },
+        { "trigger": "rpo\trender (partial, object)", "contents": "render :partial => \"${1:item}\", :object => ${2:@$1}" },
+        { "trigger": "rps\trender (partial, status)", "contents": "render :partial => \"${1:item}\", :status => ${2:500}" },
+        { "trigger": "rt\trender (text)", "contents": "render :text => \"${1:text to render …}\"" },
+        { "trigger": "rtl\trender (text, layout)", "contents": "render :text => \"${1:text to render …}\", :layout => \"${2:layoutname}\"" },
+        { "trigger": "rtlt\trender (text, layout => true)", "contents": "render :text => \"${1:text to render …}\", :layout => ${2:true}" },
+        { "trigger": "rts\trender (text, status)", "contents": "render :text => \"${1:text to render …}\", :status => ${2:401}" },
+        { "trigger": "ru\trender (update)", "contents": "render :update do |${2:page}|\n\t$2.$0\nend" },
+        { "trigger": "returning\treturning do |variable| … end", "contents": "returning ${1:variable} do${2/(^(?<var>\\s*[a-z_][a-zA-Z0-9_]*\\s*)(,\\g<var>)*,?\\s*$)|.*/(?1: |)/}${2:v}${2/(^(?<var>\\s*[a-z_][a-zA-Z0-9_]*\\s*)(,\\g<var>)*,?\\s*$)|.*/(?1:|)/}\n\t$0\nend" },
+        { "trigger": "art\tassert_redirected_to", "contents": "assert_redirected_to ${2::action => \"${1:index}\"}" },
+        { "trigger": "asre\tassert_response", "contents": "assert_response :${1:success}, @response.body" },
+        { "trigger": "vaoif\tvalidates_acceptance_of if", "contents": "validates_acceptance_of :${1:terms}${2:${3:, :accept => \"${4:1}\"}${5:, :message => \"${6:You must accept the terms of service}\"}}, :if => proc { |obj| ${7:obj.condition?} }}" },
+        { "trigger": "vao\tvalidates_acceptance_of", "contents": "validates_acceptance_of :${1:terms}${2:${3:, :accept => \"${4:1}\"}${5:, :message => \"${6:You must accept the terms of service}\"}}" },
+        { "trigger": "va\tvalidates_associated", "contents": "validates_associated :${1:attribute}${2:, :on => :${3:create}}" },
+        { "trigger": "vaif\tvalidates_associated if", "contents": "validates_associated :${1:attribute}${2:, :on => :${3:create}, :if => proc { |obj| ${5:obj.condition?} }}" },
+        { "trigger": "vc\tvalidates_confirmation_of", "contents": "validates_confirmation_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:should match confirmation}\"}" },
+        { "trigger": "vcif\tvalidates_confirmation_of if", "contents": "validates_confirmation_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:should match confirmation}\", :if => proc { |obj| ${5:obj.condition?} }}" },
+        { "trigger": "ve\tvalidates_exclusion_of", "contents": "validates_exclusion_of :${1:attribute}${2:, :in => ${3:%w( ${4:mov avi} )}, :on => :${5:create}, :message => \"${6:extension %s is not allowed}\"}" },
+        { "trigger": "veif\tvalidates_exclusion_of if", "contents": "validates_exclusion_of :${1:attribute}${2:, :in => ${3:%w( ${4:mov avi} )}, :on => :${5:create}, :message => \"${6:extension %s is not allowed}\"}, :if => proc { |obj| ${7:obj.condition?} }}" },
+        { "trigger": "vfif\tvalidates_format_of if", "contents": "validates_format_of :${1:attribute}, :with => /${2:^[${3:\\w\\d}]+\\$}/${4:, :on => :${5:create}, :message => \"${6:is invalid}\"}, :if => proc { |obj| ${7:obj.condition?} }}" },
+        { "trigger": "vf\tvalidates_format_of", "contents": "validates_format_of :${1:attribute}, :with => /${2:^[${3:\\w\\d}]+\\$}/${4:, :on => :${5:create}, :message => \"${6:is invalid}\"}" },
+        { "trigger": "viif\tvalidates_inclusion_of if", "contents": "validates_inclusion_of :${1:attribute}${2:, :in => ${3:%w( ${4:mov avi} )}, :on => :${5:create}, :message => \"${6:extension %s is not included in the list}\"}, :if => proc { |obj| ${7:obj.condition?} }}" },
+        { "trigger": "vi\tvalidates_inclusion_of", "contents": "validates_inclusion_of :${1:attribute}${2:, :in => ${3:%w( ${4:mov avi} )}, :on => :${5:create}, :message => \"${6:extension %s is not included in the list}\"}" },
+        { "trigger": "vl\tvalidates_length_of", "contents": "validates_length_of :${1:attribute}, :within => ${2:3..20}${3:, :on => :${4:create}, :message => \"${5:must be present}\"}" },
+        { "trigger": "vlif\tvalidates_length_of if", "contents": "validates_length_of :${1:attribute}, :within => ${2:3..20}${3:, :on => :${4:create}, :message => \"${5:must be present}\"}, :if => proc { |obj| ${6:obj.condition?} }}" },
+        { "trigger": "vnif\tvalidates_numericality_of if", "contents": "validates_numericality_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:is not a number}\"}, :if => proc { |obj| ${5:obj.condition?} }}" },
+        { "trigger": "vn\tvalidates_numericality_of", "contents": "validates_numericality_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:is not a number}\"}" },
+        { "trigger": "vp\tvalidates_presence_of", "contents": "validates_presence_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:can't be blank}\"}" },
+        { "trigger": "vpif\tvalidates_presence_of if", "contents": "validates_presence_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:can't be blank}\"}, :if => proc { |obj| ${5:obj.condition?} }}" },
+        { "trigger": "vu\tvalidates_uniqueness_of", "contents": "validates_uniqueness_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:must be unique}\"}" },
+        { "trigger": "vuif\tvalidates_uniqueness_of if", "contents": "validates_uniqueness_of :${1:attribute}${2:, :on => :${3:create}, :message => \"${4:must be unique}\", :if => proc { |obj| ${6:obj.condition?} }}" },
+        { "trigger": "verify\tverify — render", "contents": "verify :only => [:$1], :method => :post, :render => {:status => 500, :text => \"use HTTP-POST\"}" },
+        { "trigger": "verify\tverify — redirect", "contents": "verify :only => [:$1], :session => :user, :params => :id, :redirect_to => {:action => '${2:index}'}" },
+        { "trigger": "xdelete\txhr delete", "contents": "xhr :delete, :${1:destroy}, :id => ${2:1}" },
+        { "trigger": "xget\txhr get", "contents": "xhr :get, :${1:show}${2:, :id => ${3:1}}" },
+        { "trigger": "xpost\txhr post", "contents": "xhr :post, :${1:create}, :${2:object} => { $3 }" },
+        { "trigger": "xput\txhr put", "contents": "xhr :put, :${1:update}, :id => ${2:1}, :${3:object} => { $4 }" }
+    ]
+},{
+    "scope": "source.ruby.rails.rjs",
+    "completions":
+    [
+        { "trigger": "hide\tpage.hide (*ids)", "contents": "page.hide ${1:\"${2:id(s)}\"}" },
+        { "trigger": "ins\tpage.insert_html (position, id, partial)", "contents": "page.insert_html :${1:top}, ${2:\"${3:id}\"}, :${4:partial => \"${5:template}\"}" },
+        { "trigger": "rep\tpage.replace (id, partial)", "contents": "page.replace ${1:\"${2:id}\"}, :${3:partial => \"${4:template}\"}" },
+        { "trigger": "reph\tpage.replace_html (id, partial)", "contents": "page.replace_html ${1:\"${2:id}\"}, :${3:partial => \"${4:template}\"}" },
+        { "trigger": "show\tpage.show (*ids)", "contents": "page.show ${1:\"${2:id(s)}\"}" },
+        { "trigger": "tog\tpage.toggle (*ids)", "contents": "page.toggle ${1:\"${2:id(s)}\"}" },
+        { "trigger": "vis\tpage.visual_effect (effect, id)", "contents": "page.visual_effect :${1:toggle_slide}, ${2:\"${3:DOM ID}\"}" }
+    ]
+},{
+    "scope": "source.yaml",
+    "completions":
+    [
+        { "trigger": "$L\t$LABEL", "contents": "\\$LABEL" },
+        { "trigger": "fi\t<%= Fixtures.identify(:symbol) %>", "contents": "${TM_RAILS_TEMPLATE_START_RUBY_EXPR}Fixtures.identify(:${1:name})${TM_RAILS_TEMPLATE_END_RUBY_EXPR}" }
+    ]
+},{
+    "scope": "meta.rails.controller",
+    "completions":
+    [
+        { "trigger": "defcreate\tdef create - resource", "contents": "def create\n\t@${1:model} = ${2:${1/[[:alpha:]]+|(_)/(?1::\\u$0)/g}}.new(params[:$1])\n\t$0\n\trespond_to do |wants|\n\t\tif @$1.save\n\t\t\tflash[:notice] = '$2 was successfully created.'\n\t\t\twants.html { redirect_to(@$1) }\n\t\t\twants.xml { render :xml => @$1, :status => :created, :location => @$1 }\n\t\telse\n\t\t\twants.html { render :action => \"new\" }\n\t\t\twants.xml { render :xml => @$1.errors, :status => :unprocessable_entity }\n\t\tend\n\tend\nend" },
+        { "trigger": "rest\trespond_to", "contents": "respond_to do |wants|\n\twants.${1:html}${2: { $0 \\}}\nend" },
+        { "trigger": "wants\twants.format", "contents": "wants.${1:js|xml|html}${2: { $0 \\}}" }
+    ]
+},{
+    "scope": "meta.rails.functional_test",
+    "completions":
+    [
+        { "trigger": "deftg\tdef test_should_get_action", "contents": "def test_should_get_${1:action}\n\t${2:@${3:model} = ${4:$3s}(:${5:fixture_name})\n\t}get :${1}${6:, :id => @$3.to_param}\n\tassert_response :success\n\t$0\nend" },
+        { "trigger": "deftp\tdef test_should_post_action", "contents": "def test_should_post_${1:action}\n\t${3:@$2 = ${4:$2s}(:${5:fixture_name})\n\t}post :${1}${6:, :id => @$2.to_param}, :${2:model} => { $0 }\n\tassert_response :redirect\nend" }
+    ]
+},{
+    "scope": "meta.rails.migration.create_table",
+    "completions":
+    [
+        { "trigger": "mcol\tCreate Column in Table", "contents": "t.column ${1:title}, :${2:string}\n$0" },
+        { "trigger": "mccc\tCreate Several Columns in Table", "contents": "t.column ${1:title}, :${2:string}\n${0:mccc}" }
+    ]
+},{
+    "scope": "meta.rails.migration.create_table, meta.rails.migration.change_table",
+    "completions":
+    [
+        { "trigger": "tcbi\tTable column binary", "contents": "t.binary :${1:title}${2:, :limit => ${3:2}.megabytes}\n$0" },
+        { "trigger": "tcb\tTable column boolean", "contents": "t.boolean :${1:title}\n$0" },
+        { "trigger": "tcda\tTable column date", "contents": "t.date :${1:title}\n$0" },
+        { "trigger": "tcdt\tTable column datetime", "contents": "t.datetime :${1:title}\n$0" },
+        { "trigger": "tcd\tTable column decimal", "contents": "t.decimal :${1:title}${2:${3:, :precision => ${4:10}}${5:, :scale => ${6:2}}}\n$0" },
+        { "trigger": "tcf\tTable column float", "contents": "t.float :${1:title}\n$0" },
+        { "trigger": "tci\tTable column integer", "contents": "t.integer :${1:title}\n$0" },
+        { "trigger": "tcl\tTable column lock_version", "contents": "t.integer :lock_version, :null => false, :default => 0\n$0" },
+        { "trigger": "tcr\tTable column(s) references", "contents": "t.references :${1:taggable}${2:, :polymorphic => ${3:{ :default => '${4:Photo}' \\}}}\n$0" },
+        { "trigger": "tcs\tTable column string", "contents": "t.string :${1:title}\n$0" },
+        { "trigger": "tct\tTable column text", "contents": "t.text :${1:title}\n$0" },
+        { "trigger": "tcti\tTable column time", "contents": "t.time :${1:title}\n$0" },
+        { "trigger": "tcts\tTable column timestamp", "contents": "t.timestamp :${1:title}\n$0" },
+        { "trigger": "tctss\tTable column timestamps", "contents": "t.timestamps\n$0" },
+        { "trigger": "t.\tt.binary (tcbi)", "contents": "t.binary :${1:title}${2:, :limit => ${3:2}.megabytes}\n${0:t.}" },
+        { "trigger": "t.\tt.boolean (tcb)", "contents": "t.boolean :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.date (tcda)", "contents": "t.date :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.datetime (tcdt)", "contents": "t.datetime :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.decimal (tcd)", "contents": "t.decimal :${1:title}${2:${3:, :precision => ${4:10}}${5:, :scale => ${6:2}}}\n${0:t.}" },
+        { "trigger": "t.\tt.float (tcf)", "contents": "t.float :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.integer (tci)", "contents": "t.integer :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.lock_version (tcl)", "contents": "t.integer :lock_version, :null => false, :default => 0\n${0:t.}" },
+        { "trigger": "t.\tt.references (tcr)", "contents": "t.references :${1:taggable}${2:, :polymorphic => ${3:{ :default => '${4:Photo}' \\}}}\n${0:t.}" },
+        { "trigger": "t.\tt.rename (tre)", "contents": "t.rename(:${1:old_column_name}, :${2:new_column_name})\n${0:t.}" },
+        { "trigger": "t.\tt.string (tcs)", "contents": "t.string :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.text (tct)", "contents": "t.text :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.time (tcti)", "contents": "t.time :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.timestamp (tcts)", "contents": "t.timestamp :${1:title}\n${0:t.}" },
+        { "trigger": "t.\tt.timestamps (tctss)", "contents": "t.timestamps\n${0:t.}" },
+        { "trigger": "tre\tTable column(s) rename", "contents": "t.rename(:${1:old_column_name}, :${2:new_column_name})" }
+    ]
+},{
+    "scope": "meta.rails.migration - meta.rails.migration.create_table - meta.rails.migration.change_table",
+    "completions":
+    [
+        { "trigger": "mtab\tDrop / Create Table", "contents": "drop_table :${1:table}${2: [press tab twice to generate create_table]}" },
+        { "trigger": "mcol\tRemove / Add Column", "contents": "remove_column :${1:table}, :${2:column}${3: [press tab twice to generate add_column]}" }
+    ]
+},{
+    "scope": "meta.rails.routes",
+    "completions":
+    [
+        { "trigger": "mapca\tmap.catch_all", "contents": "${1:map}.catch_all \"*${2:anything}\", :controller => \"${3:default}\", :action => \"${4:error}\"" },
+        { "trigger": "map\tmap.named_route", "contents": "${1:map}.${2:connect} '${3::controller/:action/:id}'" },
+        { "trigger": "mapr\tmap.resource", "contents": "${1:map}.resource :${2:resource}${10: do |${11:$2}|\n\t$0\nend}" },
+        { "trigger": "maprs\tmap.resources", "contents": "${1:map}.resources :${2:resource}${10: do |${11:$2}|\n\t$0\nend}" },
+        { "trigger": "mapwo\tmap.with_options", "contents": "${1:map}.with_options :${2:controller} => '${3:thing}' do |${4:$3}|\n\t$0\nend" }
+    ]
+}
