@@ -1,10 +1,10 @@
 # Sublime Packages
 
-> **Note that these packages will not work with any version of Sublime Text older than [Dev Build](http://sublimetext.com/3dev) 3092.**
+> **Note that these packages will ONLY work with [Sublime Text 3](https://sublimetext.com/3) or [Sublime Text 3 Dev](https://www.sublimetext.com/3dev) builds 3092 or later.**
 
 ## Installation
 
-If you want to make changes to these packages and test them locally, fork this repository and then symlink the changed packages into your *Packages* folder. For example, on OS X:
+If you want to make changes to these packages and test them locally, fork this repository and then symlink the changed packages into your **`./Packages/`** folder. For example, on OS X:
 
 ```bash
 $ git clone https://github.com/sublimehq/Packages.git
@@ -21,20 +21,19 @@ PS> git clone https://github.com/sublimehq/Packages.git
 PS> cmd /c mklink /J "$env:LOCALAPPDATA/Sublime Text 3/Packages/Python" (convert-path ./Packages/Python)
 ```
 
-Alternatively, download the portable version, and clone this repository directly as a subdirectory of the *Data* folder.
+Alternatively, download the portable version, and clone this repository directly as a subdirectory of the **`./Data/`** folder.
 
 ---
 
 After you've finished, keep in mind that you're now overriding a default package. When Sublime Text updates to a new version, you'll run the risk of having an out-of-date package unless you pull the latest changes from this repository.
 
+## Issues
+
+Please [search for existing issues and pull requests](https://github.com/sublimehq/packages/issues/?q=is%3Aopen) before opening new issues and when filing new issues make sure you fill out the form ([`.github/ISSUE_TEMPLATE.md`](.github/ISSUE_TEMPLATE.md)).
+
 ## Pull Requests
 
-Pull requests should:
-
- 1. Start with the name of the package in square brackets, e.g. `[XML]`.
- 2. Be as small and self-contained as is reasonable. *Smaller changes are quicker to review.*
- 3. Include a new, or enhanced, [syntax test](http://www.sublimetext.com/docs/3/syntax.html) when changing a `.sublime-syntax` file.
- 4. Have multiple syntax tests and a set of performance measurements (old vs. new) when making significant changes.
+Please follow the instructions in the [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) file.
 
 ### New Packages
 
@@ -44,4 +43,4 @@ Complex plugins such as auto complete systems and linters should generally be in
 
 ## Missing Packages
 
-This repository only contains syntax-definition-focused packages. Notably, packages such as *Default* and *Theme - Default* are not included.
+This repository only contains syntax-definition-focused packages. Notably, packages such as **`Default`** and **`Theme - Default`** are not included.
