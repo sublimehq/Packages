@@ -29,7 +29,7 @@ After you've finished, keep in mind that you're now overriding a default package
 
 ## Issues
 
-Please [search for existing issues and pull requests](https://github.com/sublimehq/packages/issues/?q=is%3Aopen) before opening new issues and when filing new issues make sure you fill out the form ([`.github/ISSUE_TEMPLATE.md`](.github/ISSUE_TEMPLATE.md)).
+Please [search for existing issues and pull requests](https://github.com/sublimehq/packages/issues/?q=is%3Aopen) before opening new issues, when filing new issues please make sure you fill out the form ([`.github/ISSUE_TEMPLATE.md`](.github/ISSUE_TEMPLATE.md)).
 
 ## Pull Requests
 
