@@ -26,7 +26,7 @@ variables:
 
   # characters
   unicode_char: '\\u[0-9a-fA-F]{,4}'
-  escaped_char: '(?:\\[btnfr"''\\]|{{unicode_char}})'
+  escaped_char: '(?:\\[btnfr"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{,4}||\\[0-9]{,3})'
   # escaped_char: '\\{{unicode_char}}'
   # char: '(?:{{escaped_char}}|.)'
   # string: '(f|s|raw)?\"[^\"]*\"'
@@ -76,7 +76,9 @@ contexts:
   comments_in:
     - match: \b(?i:todo|hack|xxx)\b
       scope: comment.line.todo
-    - match: \b(https?://.*)\b
+    - match: '/!\\'
+      scope: comment.line.todo
+    - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
 
   git_merge:
@@ -1116,12 +1118,16 @@ contexts:
     - match: \b(true|false|null)\b
       scope: constant.language.cs
     # characters
-    - match: "'\\\\'"
+    - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
-    - match: "'{{escaped_char}}'"
-      scope: constant.character.escape.cs
-    - match: "'\\\\''"
-      scope: constant.character.escape.cs
+    - match: "(')({{escaped_char}})(')"
+      captures:
+        0: constant.character.cs
+        2: constant.character.escape.cs
+    - match: "(')({{escaped_char}})(')"
+      captures:
+        0: constant.character.cs
+        2: constant.character.escape.cs
     - match: "'.'"
       scope: constant.character.cs
     - match: "'[^']+'"
