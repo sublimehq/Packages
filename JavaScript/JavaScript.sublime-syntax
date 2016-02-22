@@ -750,12 +750,12 @@ contexts:
       push:
         - include: function-declaration-parameters
         - match: '\{'
-          scope: meta.block meta.brace.curly.js
+          scope: meta.brace.curly.js
           push:
+            - meta_scope: meta.block.js
             - match: '\}'
-              scope: meta.block meta.brace.curly.js
+              scope: meta.brace.curly.js
               pop: true
-            - meta_content_scope: meta.block.js
             - include: statements
         - include: comments
         - match: '(?=\S)'
