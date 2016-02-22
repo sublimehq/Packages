@@ -14,41 +14,107 @@ variables:
 
 contexts:
   main:
+    - match: '\}'
+      scope: meta.brace.curly.js
     - include: comments-top-level
     - include: keywords-top-level
     - include: statements
 
   keywords-top-level:
     - match: \bimport\b
+      scope: meta.import.js keyword.control.import.js
+      push: import-extended
+    - match: \b(export|default|from|as)\b
       scope: keyword.control.import.js
-      push:
-        - meta_scope: meta.import.js
-        - match: '(?=\bfrom\b|")'
-          pop: true
-        - match: \bas\b
-          scope: keyword.control.import.js
-        - include: literal-string
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.js
-        - match: '\{'
-          scope: meta.brace.curly.js
-          push:
-            - meta_scope: meta.block.js
-            - match: '\}'
-              scope: meta.brace.curly.js
-              pop: true
-            - match: ","
-              scope: meta.delimiter.comma.js
-            - match: \bas\b
-              scope: keyword.control.import.js
-            - match: '{{identifier}}'
-              scope: variable.other.readwrite.js
-        - match: ","
-          scope: meta.delimiter.comma.js
-        - match: '\*'
-          scope: constant.other.js
-    - match: \b(export|default|from)\b
+
+  import-escape:
+    - match: '(?=;|function|var|class)'
+      pop: true
+    - match: "(?='|\"|\\bfrom\\b)"
+      set: import-final
+
+  import-extended:
+    - meta_content_scope: meta.import.js
+    - include: import-escape
+    - include: comments
+    - match: '\{'
+      scope: meta.block.js meta.brace.curly.js
+      set: import-brace
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      set: import-extended-as
+    - match: '\*'
+      scope: constant.other.js
+      set: import-extended-as
+    - match: '(?=\S)'
+      pop: true
+
+  import-extended-as:
+    - meta_content_scope: meta.import.js
+    - include: import-escape
+    - match: '\b(as)(?:\s+({{identifier}}))?'
+      captures:
+        1: keyword.control.import.js
+        2: variable.other.readwrite.js
+    - match: '(?=\S)'
+      set: import-extended-continue
+
+  import-extended-continue:
+    - meta_scope: meta.import.js
+    - include: import-escape
+    - include: comments
+    - match: ','
+      scope: meta.delimiter.comma.js
+      set: import-extended
+    - match: '(?=\S)'
+      pop: true
+
+  import-brace:
+    - meta_content_scope: meta.import.js meta.block.js
+    - include: import-escape
+    - include: comments
+    - match: '\}'
+      scope: meta.brace.curly.js
+      set: import-extended-as
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      set: import-brace-as
+    - match: '\*'
+      scope: constant.other.js
+      set: import-brace-as
+    - match: '(?=\S)'
+      pop: true
+
+  import-brace-as:
+    - meta_content_scope: meta.import.js meta.block.js
+    - include: import-escape
+    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
+      captures:
+        1: keyword.control.import.js
+        2: variable.other.readwrite.js
+    - match: '(?=\S)'
+      set: import-brace-continue
+
+  import-brace-continue:
+    - meta_scope: meta.import.js meta.block.js
+    - include: import-escape
+    - include: comments
+    - match: '(?=\})'
+      set: import-brace
+    - match: ','
+      scope: meta.delimiter.comma.js
+      set: import-brace
+    - match: '(?=\S)'
+      pop: true
+
+  import-final:
+    - meta_scope: meta.import.js
+    - include: comments
+    - match: '\bfrom\b'
       scope: keyword.control.import.js
+    - include: literal-string
+    - match: '(?=\S)'
+      pop: true
 
   comments-top-level:
     - match: (<!--|-->)

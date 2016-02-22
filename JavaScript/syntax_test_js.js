@@ -9,10 +9,18 @@ import {identifier, otherIdentifier} from "somewhere";
 //       ^ meta.import meta.block variable.other.readwrite
 
 import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
 // ^ keyword.control.import
+//      ^ variable.other.readwrite
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//                ^ variable.other.readwrite
 //                        ^ keyword.control.import
+//                                     ^ variable.other.readwrite
 //                                             ^ constant.other.js
 //                                                             ^ keyword.control.import
+
+import 'module'
+// ^^^^^^^^^^^^ meta.import
 
 function foo() {
 // <- meta.function.declaration
