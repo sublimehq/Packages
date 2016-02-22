@@ -33,6 +33,17 @@ import 'module'
 //                 ^^^ entity.name.function
 //                        ^^^ meta.object-literal.key
 
+// Tests to ensure the new keyword is highlighted properly even when the
+// following element is not an identifier
+var abc = new ABC(
+//         ^ keyword.operator.new
+    'my-name-is-abc',
+    new (function () {
+//  ^ keyword.operator.new
+        var foo = 1;
+    })
+);
+
 function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
