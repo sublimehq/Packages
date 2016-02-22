@@ -139,7 +139,7 @@ contexts:
         - meta_scope: meta.switch.js
         - include: round-brackets
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: meta.block.js meta.brace.curly.js
           pop: true
         - match: '\{'
           scope: meta.brace.curly.js
@@ -159,7 +159,7 @@ contexts:
         - meta_scope: meta.do-while.js
         - include: comments
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: meta.block.js meta.brace.curly.js
         - match: '\{'
           scope: meta.brace.curly.js
           push:
@@ -232,7 +232,7 @@ contexts:
   block-scope:
     - include: comments
     - match: '\}'
-      scope: meta.brace.curly.js
+      scope: meta.block.js meta.brace.curly.js
       pop: true
     - match: '\{'
       scope: meta.brace.curly.js
@@ -523,18 +523,20 @@ contexts:
   named-function:
     - match: '(?=(({{identifier}})\s*(\.)\s*)+({{identifier}})\s*(=)\s*{{func_lookahead}})'
       push:
-        - meta_content_scope: meta.function.declaration.js
+        - meta_scope: meta.function.declaration.js
         - include: function-declaration-identifiers
-        - include: function-declaration
+        - match: '(?={{func_lookahead}})'
+          set: function-declaration
     - match: '(?={{func_lookahead}})'
       push: function-declaration
 
   arrow-function:
     - match: '(?=(({{identifier}})\s*(\.)\s*)+({{identifier}})\s*(=)\s*{{arrow_func_lookahead}})'
       push:
-        - meta_content_scope: meta.function.declaration.js
+        - meta_scope: meta.function.declaration.js
         - include: function-declaration-identifiers
-        - include: arrow-function-declaration
+        - match: '(?={{arrow_func_lookahead}})'
+          set: arrow-function-declaration
     - match: '(?={{arrow_func_lookahead}})'
       push: arrow-function-declaration
 
@@ -564,8 +566,10 @@ contexts:
 
   function-declaration:
     - include: comments
-    - match: \basync\b
-      scope: storage.type.js
+    - match: '\b(async)\b\s*'
+      scope: meta.function.declaration.js
+      captures:
+        1: storage.type.js
     - match: \b(function)\b(\*)?\s*
       scope: meta.function.declaration.js
       captures:
@@ -576,25 +580,33 @@ contexts:
     - include: function-declaration-parameters
     - match: '(?=\s*\{)'
       set: function-block
+    - match: '\s+'
+      scope: meta.function.declaration.js
 
   arrow-function-declaration:
-    - meta_scope: meta.function.declaration.js
-    - match: '(=>)(?=\s*\{)'
+    - match: '\s*(=>)(?=\s*\{)'
+      scope: meta.function.declaration.js
       captures:
         1: storage.type.function.arrow.js
       set: function-block
-    - match: '=>'
-      scope: storage.type.function.arrow.js
+    - match: '\s*(=>)'
+      scope: meta.function.declaration.js
+      captures:
+        1: storage.type.function.arrow.js
       set:
         - meta_content_scope: meta.block.js
         - match: \n
           pop: true
         - include: expression
-    - match: \basync\b
-      scope: storage.type.js
+    - match: '\b(async)\b\s*'
+      scope: meta.function.declaration.js
+      captures:
+        1: storage.type.js
     - match: '{{identifier}}'
-      scope: variable.parameter.function.js
+      scope: meta.function.declaration.js variable.parameter.function.js
     - include: function-declaration-parameters
+    - match: '\s+'
+      scope: meta.function.declaration.js
 
   function-block:
     - meta_scope: meta.block.js
@@ -607,7 +619,7 @@ contexts:
 
   function-declaration-parameters:
     - match: \(
-      scope: meta.function.declaration.js punctuation.definition.parameters.begin.js
+      scope: punctuation.definition.parameters.begin.js
       push:
         - meta_scope: meta.function.declaration.js
         - match: \)
@@ -742,9 +754,10 @@ contexts:
       push:
         - include: function-declaration-parameters
         - match: '\{'
+          scope: meta.block meta.brace.curly.js
           push:
             - match: '\}'
-              scope: meta.brace.curly.js
+              scope: meta.block meta.brace.curly.js
               pop: true
             - meta_content_scope: meta.block.js
             - include: statements
@@ -976,11 +989,13 @@ contexts:
       # following method definitions or method calls will be scoped as
       # properties.
         - match: '({{identifier}})\s*(=)\s*(?={{func_lookahead}})'
+          scope: meta.function.declaration.js
           captures:
             1: entity.name.function.js
             2: keyword.operator.assignment.js
           set: function-declaration
         - match: '({{identifier}})\s*(=)\s*(?={{arrow_func_lookahead}})'
+          scope: meta.function.declaration.js
           captures:
             1: entity.name.function.js
             2: keyword.operator.assignment.js

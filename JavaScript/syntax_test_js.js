@@ -52,6 +52,7 @@ function foo() {
 // ^ storage.type.function
 //        ^ entity.name.function
 }
+// <- meta.block
 
 var bar = function() {
 //  ^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -117,6 +118,7 @@ a = test ? a + b : c;
 //         ^ meta.tag.mustache.js
 
 var obj = {
+//        ^ meta.object-literal - meta.block
     key: bar,
     // <- meta.object-literal.key
     $key2: "string value",
@@ -192,6 +194,7 @@ var obj = {
     // ^ entity.name.function
     }
 }
+// <- meta.object-literal - meta.block
 
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -220,15 +223,18 @@ if (100.0 > qux) {
     a;
 //  ^ meta.conditional meta.block 
 }
+// <- meta.conditional meta.block
 
 if (foo bar)
     baz = "test"
 
 do {
 // <- meta.do-while
+// ^ meta.block
     qux += 1
 //  ^^^^^^^^ meta.do-while meta.block
 } while(qux < 20);
+// <- meta.block
 // ^^^^^^^^^^^^^^ meta.do-while - meta.block
 // ^^^^ keyword.control.loop
 //      ^^^^^^^^ meta.group.braces.round
@@ -236,21 +242,26 @@ do {
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //   ^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.round
+//                           ^ meta.block
     i += 1;
 //  ^^^^^^^ meta.for meta.block
 }
+// <- meta.block
 
 while (true)
 // ^^^^^^^^^ meta.while
 //     ^^^^ meta.group.braces.round
 {
+// <- meta.block
     break;
 //  ^^^^^^ meta.while meta.block
 }
+// <- meta.block
 
 switch ($foo) {
 // ^^^^^^^^^^^^ meta.switch
 //      ^^^^ meta.group.braces.round
+//            ^ meta.block
     case foo:
     // ^ meta.switch meta.block keyword.control.switch
     //      ^ - punctuation.separator.key-value
@@ -268,33 +279,43 @@ switch ($foo) {
     //     ^ - punctuation.separator.key-value
         qux = 3;
 }
+// <- meta.block
 
 try {
 // <- meta.try keyword.control.trycatch
 // ^^ meta.try
+//  ^ meta.block
     foobar = qux.bar();
 //  ^^^^^^^^^^^^^^^^^^^ meta.try meta.block
 } catch (e) {
+// <- meta.block
 // ^^^^^^^ meta.catch
 //       ^ meta.group.braces.round
+//          ^ meta.block
     foobar = 0
 //  ^^^^^^^^^^ meta.catch meta.block
 } finally {
+// <- meta.block
 // ^^^^^^^^ meta.finally
+//        ^ meta.block
     foobar += 1
 //  ^^^^^^^^^^^ meta.finally meta.block
 }
+// <- meta.block
 
 class MyClass extends TheirClass {
 // <- storage.type.class
 //    ^^^^^^^ entity.name.type.class
+//                               ^ meta.block
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function
     {
+//  ^ meta.class meta.block meta.block meta.brace.curly
         $.foo = "";
         super(el);
     }
+//  ^ meta.class meta.block meta.block meta.brace.curly
 
     get foo()
 //  ^^^^^^^^^ meta.function.declaration
@@ -314,9 +335,11 @@ class MyClass extends TheirClass {
     qux()
 //  ^^^^^ meta.function.declaration
     { }
+//  ^ meta.class meta.block meta.block meta.brace.curly
 
     get bar () {
 //  ^^^^^^^^^^ meta.function.declaration
+//             ^ meta.class meta.block meta.block meta.brace.curly
     // <- storage.type.accessor
     //   ^ entity.name.function
         return false;
@@ -326,6 +349,13 @@ class MyClass extends TheirClass {
 //  ^^^^^ meta.function.declaration
     // <- entity.name.function
 }
+// <- meta.block
+
+() => {}
+// <- meta.function.declaration punctuation.definition.parameters
+ // <- meta.function.declaration punctuation.definition.parameters
+//^^^ meta.function.declaration
+//    ^^ meta.block meta.brace.curly
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
