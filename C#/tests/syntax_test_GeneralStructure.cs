@@ -106,15 +106,6 @@ namespace YourNamespace
 ///          ^ support.type.cs
 ///               ^ keyword.operator.assignment
             value = x;
-            if(x == 1){
-
-            }
-
-            switche = 1;
-///         ^ variable.other.cs
-            switch(e){
-///         ^ keyword.control.conditional
-            }
         }
 ///     ^ punctuation.section.function
 
