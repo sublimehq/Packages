@@ -699,7 +699,8 @@ contexts:
               set:
                 - match: '(:)\s*'
                   scope: meta.function.declaration.js
-                  captures: punctuation.separator.key-value.js
+                  captures:
+                    1: punctuation.separator.key-value.js
                 - include: either-function-declaration
                 - match: '(?=\S)'
                   pop: true
