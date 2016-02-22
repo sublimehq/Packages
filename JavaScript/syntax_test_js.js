@@ -33,17 +33,6 @@ import 'module'
 //                 ^^^ entity.name.function
 //                        ^^^ meta.object-literal.key
 
-// Tests to ensure the new keyword is highlighted properly even when the
-// following element is not an identifier
-var abc = new ABC(
-//         ^ keyword.operator.new
-    'my-name-is-abc',
-    new (function () {
-//  ^ keyword.operator.new
-        var foo = 1;
-    })
-);
-
 function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
@@ -424,3 +413,22 @@ var Constructor = function() {
     // ^ variable.language.this
     //    ^ entity.name.function
 }
+
+// Tests to ensure the new keyword is highlighted properly even when the
+// following element is not an identifier
+var abc = new ABC(
+//         ^ meta.instance.constructor keyword.operator.new
+//               ^ meta.instance.constructor meta.function-call.constructor
+    'my-name-is-abc',
+    new (function () {
+//  ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor keyword.operator.new
+//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group.braces.round
+        var foo = 1;
+//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group.braces.round meta.block
+    })
+);
+
+new Date().getTime()
+// ^^^^^^^ meta.instance.constructor
+//  ^^^^^^ meta.function-call.constructor
+//        ^^^^^^^^^^ - meta.instance.constructor
