@@ -553,7 +553,7 @@ contexts:
       captures:
         1: support.class.js
         2: punctuation.accessor.js
-    - match: '({{identifier}})\s*(=)'
+    - match: '({{identifier}})\s*(=)\s*'
       captures:
         1: entity.name.function.js
         2: keyword.operator.assignment.js
@@ -580,8 +580,6 @@ contexts:
     - include: function-declaration-parameters
     - match: '(?=\s*\{)'
       set: function-block
-    - match: '\s+'
-      scope: meta.function.declaration.js
 
   arrow-function-declaration:
     - match: '\s*(=>)(?=\s*\{)'
@@ -605,8 +603,6 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.function.declaration.js variable.parameter.function.js
     - include: function-declaration-parameters
-    - match: '\s+'
-      scope: meta.function.declaration.js
 
   function-block:
     - meta_scope: meta.block.js
