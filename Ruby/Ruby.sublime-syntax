@@ -640,7 +640,7 @@ contexts:
             - match: (?=not)impossible
               pop: true
             - include: scope:text.html.basic
-    - match: '(?><<-("?)((?:[_\w]+_|)HTML)\b\1)'
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)HTML)\b\1)'
       comment: heredoc with embedded HTML and indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -655,7 +655,7 @@ contexts:
         - include: scope:text.html.basic
         - include: interpolated_ruby
         - include: escaped_char
-    - match: '(?><<-("?)((?:[_\w]+_|)SQL)\b\1)'
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)SQL)\b\1)'
       comment: heredoc with embedded SQL and indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -670,7 +670,7 @@ contexts:
         - include: scope:source.sql
         - include: interpolated_ruby
         - include: escaped_char
-    - match: '(?><<-("?)((?:[_\w]+_|)CSS)\b\1)'
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)CSS)\b\1)'
       comment: heredoc with embedded css and intented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -685,7 +685,7 @@ contexts:
         - include: 'scope:source.css'
         - include: interpolated_ruby
         - include: escaped_char
-    - match: '(?><<-("?)((?:[_\w]+_|)(?:JS|JAVASCRIPT))\b\1)'
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)(?:JS|JAVASCRIPT))\b\1)'
       comment: heredoc with embedded javascript and intented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -700,7 +700,7 @@ contexts:
         - include: 'scope:source.js'
         - include: interpolated_ruby
         - include: escaped_char
-    # - match: '(?><<-("?)((?:[_\w]+_|)(?:SH|SHELL))\b\1)'
+    # - match: '(?><<[-~]("?)((?:[_\w]+_|)(?:SH|SHELL))\b\1)'
     #   comment: heredoc with embedded shell and intented terminator
     #   captures:
     #     0: punctuation.definition.string.begin.ruby
@@ -715,7 +715,7 @@ contexts:
     #     - include: Shell-Unix-Generic.sublime-syntax
     #     - include: interpolated_ruby
     #     - include: escaped_char
-    - match: '(?><<-("?)((?:[_\w]+_|)RUBY)\b\1)'
+    - match: '(?><<[-~]("?)((?:[_\w]+_|)RUBY)\b\1)'
       comment: heredoc with embedded ruby and intented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -742,7 +742,7 @@ contexts:
         - include: heredoc
         - include: interpolated_ruby
         - include: escaped_char
-    - match: (?><<-(\w+))
+    - match: '(?><<[-~](\w+))'
       comment: heredoc with indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
