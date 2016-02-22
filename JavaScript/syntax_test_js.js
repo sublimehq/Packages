@@ -22,6 +22,17 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 import 'module'
 // ^^^^^^^^^^^^ meta.import
 
+// This object literal is technically broken since foo() does not have a
+// method body, but we include it here to ensure that highlighting is not
+// broken as the user is typing
+{ otherIdentifier, foo(), baz: 1 }
+// <- meta.object-literal
+ // <- meta.object-literal
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//^^^^^^^^^^^^^^^ variable.other.readwrite
+//                 ^^^ entity.name.function
+//                        ^^^ meta.object-literal.key
+
 function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration

@@ -647,6 +647,15 @@ contexts:
           scope: meta.brace.curly.js
           pop: true
         - include: comments
+        - match: '({{identifier}})\s*(\})'
+          captures:
+            1: variable.other.readwrite.js
+            2: meta.brace.curly.js
+          pop: true
+        - match: '({{identifier}})\s*(,)'
+          captures:
+            1: variable.other.readwrite.js
+            2: meta.delimiter.comma.js
         - match: '((\$)[$\w]*)\s*(:)\s*(?=({{func_lookahead}}|{{arrow_func_lookahead}}))'
           scope: meta.function.declaration.js
           captures:
@@ -728,15 +737,17 @@ contexts:
       captures:
         1: entity.name.function.js
       push:
-        - match: '\}'
-          scope: meta.brace.curly.js
-          pop: true
         - include: function-declaration-parameters
         - match: '\{'
           push:
+            - match: '\}'
+              scope: meta.brace.curly.js
+              pop: true
             - meta_content_scope: meta.block.js
             - include: statements
         - include: comments
+        - match: '(?=\S)'
+          pop: true
 
   brackets:
     - include: round-brackets
