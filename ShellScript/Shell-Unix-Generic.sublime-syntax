@@ -29,7 +29,7 @@ variables:
     7z|7za|
     apropos|apt-get|aptitude|ar|aria2c|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
-    cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|
+    cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|chsh|cksum|clang|
     clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|cut|
     date|dc|dd|ddrescue|deb|depmod|df|diff|diff3|dig|dir|dircolors|dirname|
     dmesg|dpkg|du|
@@ -40,7 +40,7 @@ variables:
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
     killall|kmod|
-    less|lftp|link|llvm|ln|locate|logname|look|loout|lpc|lpr|lprint|lprintd|
+    less|lftp|link|llvm|ln|locate|logname|look|loout|lpc|lpq|lpr|lprint|lprintd|
     lprintq|lprm|ls|lsod|lsof|lua|
     mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|
     most|mount|mtools|mtr|mutt|mv|mysql|mysqldump
@@ -56,7 +56,7 @@ variables:
     umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
     useradd|userdel|usermod|users|uudecode|uuencode|
     vmstat|
-    watch|wc|wget|whatis|whereis|who|whoami|write|
+    watch|wc|wget|whatis|whereis|which|who|whoami|write|
     xargs|xdg-open|xz|
     yum|
     zip|zsh
