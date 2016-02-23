@@ -79,7 +79,7 @@ contexts:
       scope: constant.numeric.sql
     - match: (?i:\b(true|false)\b)
       scope: constant.boolean.sql
-    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|from|set|where|group\sby|or|like|between|and|case|when|then|else|end|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|from|set|where|group\sby|or|like|between|and|with|case|when|then|else|end|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
       scope: keyword.other.DML.sql
     - match: (?i:\b(on|((is\s+)?not\s+)?null)\b)
       scope: keyword.other.DDL.create.II.sql
@@ -127,22 +127,19 @@ contexts:
         2: punctuation.section.scope.end.sql
   comments:
     - match: "--"
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.line.double-dash.sql
         - match: \n
           pop: true
     - match: "#"
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.line.number-sign.sql
         - match: \n
           pop: true
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.sql
+      scope: punctuation.definition.comment.sql
       push:
         - meta_scope: comment.block.c
         - match: \*/
@@ -186,6 +183,8 @@ contexts:
         0: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.single.sql
+        - match: "''"
+          scope: constant.character.escape.sql
         - match: "'"
           captures:
             0: punctuation.definition.string.end.sql
@@ -206,6 +205,8 @@ contexts:
         0: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.double.sql
+        - match: '""'
+          scope: constant.character.escape.sql
         - match: '"'
           captures:
             0: punctuation.definition.string.end.sql

@@ -311,7 +311,7 @@ contexts:
       captures:
         1: keyword.operator.dereference.java
   parameters:
-    - match: final
+    - match: \bfinal\b
       scope: storage.modifier.java
     - include: primitive-arrays
     - include: primitive-types
