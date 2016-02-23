@@ -14,10 +14,6 @@ variables:
 
 contexts:
   main:
-    - match: '\}'
-      scope: meta.brace.curly.js
-    - match: '\)'
-      scope: meta.brace.round.js
     - include: comments-top-level
     - include: keywords-top-level
     - include: statements
@@ -127,12 +123,8 @@ contexts:
         1: punctuation.definition.comment.js
 
   statements:
-    # case/default allows popping out of statement context back to the switch
-    # context. } allows popping out of block contexts.
-    - match: '(?=(\bcase\b|\bdefault\b|\}))'
-      pop: true
     - include: conditional
-    - include: expression
+    - include: expressions
 
   conditional:
     - match: \bswitch\b
@@ -150,22 +142,26 @@ contexts:
             - match: '(?=\})'
               pop: true
             - match: ':'
-              push: statements
+              push:
+                - match: '(?=(\bcase\b|\bdefault\b|\}))'
+                  pop: true
+                - include: statements
             - match: \b(case|default)\b
               scope: keyword.control.switch.js
-            - include: expression
+            - include: expressions
 
     - match: \bdo\b
       scope: keyword.control.loop.js
       push:
         - meta_scope: meta.do-while.js
         - include: comments
-        - match: '\}'
-          scope: meta.block.js meta.brace.curly.js
         - match: '\{'
           scope: meta.brace.curly.js
           push:
             - meta_scope: meta.block.js
+            - match: '\}'
+              scope: meta.brace.curly.js
+              pop: true
             - include: statements
         - match: \bwhile\b
           scope: keyword.control.loop.js
@@ -173,7 +169,9 @@ contexts:
           scope: meta.brace.round.js
           push:
             - meta_scope: meta.group.braces.round.js
-            - include: expression
+            - match: '(?=\))'
+              pop: true
+            - include: expressions
         - match: '\)'
           scope: meta.group.braces.round.js meta.brace.round.js
           pop: true
@@ -228,7 +226,7 @@ contexts:
         - match: '\)'
           scope: meta.brace.round.js
           pop: true
-        - include: expression
+        - include: expressions
     - include: block-scope
 
   block-scope:
@@ -240,14 +238,13 @@ contexts:
       scope: meta.brace.curly.js
       push:
         - meta_scope: meta.block.js
+        - match: '(?=\})'
+          pop: true
         - include: statements
     - match: '(?=\S)'
       pop: true
 
-  expression:
-    # This allows popping out of expression paren contexts
-    - match: '(?=\))'
-      pop: true
+  expressions:
     - include: comments
     - include: literal-string
     - include: literal-string-template
@@ -354,7 +351,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.template-expression.end.js
               pop: true
-            - include: expression
+            - include: expressions
         - include: string-content
 
   string-content:
@@ -402,7 +399,7 @@ contexts:
         - match: '\)'
           scope: meta.brace.round.js
           set: constructor-params
-        - include: expression
+        - include: expressions
     - match: '(?=\S)'
       pop: true
 
@@ -622,7 +619,7 @@ contexts:
         - meta_content_scope: meta.block.js
         - match: \n
           pop: true
-        - include: expression
+        - include: expressions
     - match: '\b(async)\b\s*'
       scope: meta.function.declaration.js
       captures:
@@ -638,7 +635,10 @@ contexts:
       pop: true
     - match: '\{'
       scope: meta.brace.curly.js
-      push: statements
+      push:
+        - match: '(?=\})'
+          pop: true
+        - include: statements
 
   function-declaration-parameters:
     - match: \(
@@ -660,7 +660,7 @@ contexts:
             - meta_scope: meta.parameter.optional.js
             - match: "(?=[,)])"
               pop: true
-            - include: expression
+            - include: expressions
         - include: comments
 
   label:
@@ -753,7 +753,7 @@ contexts:
           push:
             - match: '(?=\}|,)'
               pop: true
-            - include: expression
+            - include: expressions
         - include: method-declaration
         - include: comments
 
@@ -800,7 +800,7 @@ contexts:
         - match: \)
           scope: meta.brace.round.js
           pop: true
-        - include: expression
+        - include: expressions
     - match: \)
       scope: invalid.illegal.stray.brace.round.js
 
@@ -812,7 +812,7 @@ contexts:
         - match: '\]'
           scope: meta.brace.square.js
           pop: true
-        - include: expression
+        - include: expressions
 
   literal-number:
     - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
@@ -909,7 +909,7 @@ contexts:
       push:
         - match: '(?=\))'
           pop: true
-        - include: expression
+        - include: expressions
 
   literal-variable:
     - include: well-known-identifiers
