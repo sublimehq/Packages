@@ -16,6 +16,8 @@ contexts:
   main:
     - match: '\}'
       scope: meta.brace.curly.js
+    - match: '\)'
+      scope: meta.brace.round.js
     - include: comments-top-level
     - include: keywords-top-level
     - include: statements
