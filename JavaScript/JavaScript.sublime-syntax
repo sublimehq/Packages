@@ -946,14 +946,6 @@ contexts:
   literal-variable:
     - include: well-known-identifiers
     - include: support
-    - match: \b(arguments)\b
-      scope: variable.language.arguments.js
-    - match: \b(super)\b
-      scope: variable.language.super.js
-    - match: \b(this)\b
-      scope: variable.language.this.js
-    - match: \b(self)\b
-      scope: variable.language.self.js
     - match: '[A-Z][_$\dA-Z]*\b'
       scope: variable.other.constant.js
     - match: '(\$)\s*(=)\s*(?=({{func_lookahead}}|{{arrow_func_lookahead}}))'
@@ -993,6 +985,14 @@ contexts:
       scope: support.type.object.dom.js
     - match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
       scope: support.class.node.js
+    - match: \b(arguments)\b
+      scope: variable.language.arguments.js
+    - match: \b(super)\b
+      scope: variable.language.super.js
+    - match: \b(this)\b
+      scope: variable.language.this.js
+    - match: \b(self)\b
+      scope: variable.language.self.js
 
   support:
     - match: \bdebugger\b

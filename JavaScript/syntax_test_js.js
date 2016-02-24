@@ -418,6 +418,11 @@ sources.DOM
     .status()
     // ^ meta.function-call.method variable.function
 
+this.func()
+// <- variable.language.this
+self.func()
+// <- variable.language.self
+
 var Constructor = function() {
     this._var = 1;
     // ^ variable.language.this
