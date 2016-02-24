@@ -390,8 +390,11 @@ contexts:
         - include: literal-variable
         - match: '\.'
           scope: punctuation.accessor.js
+        - include: square-brackets
         - match: '(?=\()'
           set: constructor-params
+        - match: '(?=\S)'
+          pop: true
     - match: '\('
       scope: meta.brace.round.js
       set:

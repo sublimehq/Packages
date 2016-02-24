@@ -432,3 +432,11 @@ new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
 //        ^^^^^^^^^^ - meta.instance.constructor
+
+{
+    'test1': [],
+    'test2': new SomeOjbectHash["default"],
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
+//                             ^ meta.group.braces.square
+    'test3': "asdf"
+}
