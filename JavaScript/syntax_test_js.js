@@ -455,9 +455,13 @@ var reg = /a+/gimy.exec('aabb')
 
 'aabbcc'.replace(/b+/, 'd')
 //               ^^^^ string.regexp
+//                 ^ keyword.operator.quantifier.regexp
 
 /a+/
 // <- string.regexp
+
+'foo'.bar() / baz
+//            ^ variable.other.readwrite
 
 var g = 50
 
