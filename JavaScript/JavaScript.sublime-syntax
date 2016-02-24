@@ -444,11 +444,11 @@ contexts:
         (?x)
         !(?!=)| # logical-not     right-to-left   right
         &&    | # logical-and     left-to-right   both
-        \|\|  | # logical-or      left-to-right   both
+        \|\|    # logical-or      left-to-right   both
       scope: keyword.operator.logical.js
     - match: |-
         (?x)
-        =(?!=)| # assignment      right-to-left   both
+        =(?!=)  # assignment      right-to-left   both
       scope: keyword.operator.assignment.js
     - match: |-
         (?x)
@@ -462,7 +462,7 @@ contexts:
         \|=  | # assignment      right-to-left   both
         <<=  | # assignment      right-to-left   both
         >>=  | # assignment      right-to-left   both
-        >>>= | # assignment      right-to-left   both
+        >>>=   # assignment      right-to-left   both
       scope: keyword.operator.assignment.augmented.js
     - match: |-
         (?x)
