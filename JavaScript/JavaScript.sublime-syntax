@@ -366,14 +366,14 @@ contexts:
   literal-regexp:
     # Lookahead and prevent incorrect matches by finding a / following an
     # identifier or number. Not perfect, but stops most incorrect matches
-    - match: '(?=({{identifier}}|0[xob]\d+|\d+|\d*\.\d*(e[-+]?\d+)?)\s*/[^/])'
+    - match: '(?=({{identifier}}|0[xob]\d+|\d+|\d*\.\d*(e[-+]?\d+)?)\s*/[^/*])'
       push:
         - include: comments
         - match: '/'
           scope: keyword.operator.arithmetic.js
           pop: true
         - include: expressions-no-regexp
-    - match: '/(?=.+/[gimy]*(?!\s*[a-zA-Z0-9_$]))'
+    - match: '/(?=(?:[^/\\]|\\.)+/(?![/*])[gimy]*(?!\s*[a-zA-Z0-9_$]))'
       scope: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.regexp.js
