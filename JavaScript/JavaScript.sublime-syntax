@@ -246,9 +246,12 @@ contexts:
 
   expressions:
     - include: comments
+    - include: literal-regexp
+    - include: expressions-no-regexp
+
+  expressions-no-regexp:
     - include: literal-string
     - include: literal-string-template
-    - include: literal-regexp
     - include: constructor
     - include: literal-operators
     - include: class
@@ -361,7 +364,16 @@ contexts:
       scope: constant.character.escape.js
 
   literal-regexp:
-    - match: '/(?=.+/[gimy]*)'
+    # Lookahead and prevent incorrect matches by finding a / following an
+    # identifier or number. Not perfect, but stops most incorrect matches
+    - match: '(?=({{identifier}}|0[xob]\d+|\d+|\d*\.\d*(e[-+]?\d+)?)\s*/[^/])'
+      push:
+        - include: comments
+        - match: '/'
+          scope: keyword.operator.arithmetic.js
+          pop: true
+        - include: expressions-no-regexp
+    - match: '/(?=.+/[gimy]*(?!\s*[a-zA-Z0-9_$]))'
       scope: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.regexp.js
@@ -375,6 +387,14 @@ contexts:
             - match: (?=/)
               pop: true
           push: scope:source.regexp.js
+
+  # Consume a division operator to prevent incorrect highlighting as a regexp
+  prevent-incorrect-regexp:
+    - include: comments
+    - match: '/'
+      scope: keyword.operator.arithmetic.js
+    - match: '(?=[\S\n])'
+      pop: true
 
   constructor:
     - match: '\b(new)\b\s+(?=({{identifier}}|\())'
@@ -814,7 +834,7 @@ contexts:
         - meta_scope: meta.group.braces.square.js
         - match: '\]'
           scope: meta.brace.square.js
-          pop: true
+          set: prevent-incorrect-regexp
         - include: expressions
 
   literal-number:
@@ -906,7 +926,7 @@ contexts:
   function-call-params:
     - match: '\)'
       scope: meta.brace.round.js
-      pop: true
+      set: prevent-incorrect-regexp
     - match: '\('
       scope: meta.brace.round.js
       push:

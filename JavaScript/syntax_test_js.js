@@ -210,7 +210,7 @@ var qux = 100;
 if (100.0 > qux) {
 // ^^^^^^^^^^^^^^^ meta.conditional
     a;
-//  ^ meta.conditional meta.block 
+//  ^ meta.conditional meta.block
 }
 // <- meta.conditional meta.block
 
@@ -440,3 +440,37 @@ new Date().getTime()
 //                             ^ meta.group.braces.square
     'test3': "asdf"
 }
+
+width/2 + lineStart * Math.sin(i * 30 * π/180)
+//   ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+//                         ^^^^^^^^^^^^^^^^^^^ meta.function-call.method
+
+var reg = /a+/gimy.exec('aabb')
+//        ^^^^^^^^ string.regexp
+//                ^ punctuation.accessor
+
+'aabbcc'.replace(/b+/, 'd')
+//               ^^^^ string.regexp
+
+/a+/
+// <- string.regexp
+
+var g = 50
+
+g / 20 + 30 /g
+//^ keyword.operator.arithmetic
+//          ^ keyword.operator.arithmetic
+
+var h = foo() / 20 + 30 /g
+//            ^ keyword.operator.arithmetic
+//                      ^ keyword.operator.arithmetic
+
+foo['bar']/ 20 + 30 /g
+//        ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+
+var result = 200 / 400 + 500 /
+//               ^ keyword.operator.arithmetic
+//                           ^ keyword.operator.arithmetic
+100;
