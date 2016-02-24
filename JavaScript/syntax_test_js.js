@@ -346,6 +346,12 @@ class MyClass extends TheirClass {
 }
 // <- meta.block
 
+class Foo extends React.Component {
+//                      ^ entity.other.inherited-class
+    constructor()
+    {}
+}
+
 () => {}
 // <- meta.function.declaration punctuation.definition.parameters
  // <- meta.function.declaration punctuation.definition.parameters

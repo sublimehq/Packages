@@ -511,10 +511,16 @@ contexts:
         - match: '\{'
           scope: meta.brace.curly.js
           set: class-body
-        - match: '\b(extends)\b\s+({{identifier}})'
+        - match: '\b(extends)\b\s+(?={{identifier}})'
           captures:
             1: storage.modifier.extends.js
-            2: entity.other.inherited-class.js
+          push:
+            - match: '{{identifier}}'
+              scope: entity.other.inherited-class.js
+            - match: '\.'
+              scope: punctuation.accessor.js
+            - match: '(?=\S)'
+              pop: true
         - match: '{{identifier}}'
           scope: entity.name.type.class.js
         - include: comments
