@@ -8,9 +8,9 @@ file_extensions:
 first_line_match: ^#!/.*\b(node|js)$\n?
 scope: source.js
 variables:
-  identifier: '[_$a-zA-Z][$\w]*'
+  identifier: '[_$[:alpha:]][_$[:alnum:]]*'
   func_lookahead: '\s*\b(async\s+)?function\b'
-  arrow_func_lookahead: '\s*(\basync\s*)?([_$a-zA-Z][$\w]*|\(.*?\))\s*=>'
+  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(.*?\))\s*=>'
 
 contexts:
   main:

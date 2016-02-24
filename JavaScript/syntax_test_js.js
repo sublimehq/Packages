@@ -500,6 +500,9 @@ var result = 200 / 400 + 500 /
 //                           ^ keyword.operator.arithmetic
 100;
 
+var π = 3.141592653
+//  ^ variable.other.readwrite
+
 var angle = 2*π / count // angle between circles
 //              ^ keyword.operator.arithmetic
 
