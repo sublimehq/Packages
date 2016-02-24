@@ -197,7 +197,6 @@ $foo = null;
 // <- variable.other.dollar punctuation.dollar
 // ^ variable.other.dollar - punctuation.dollar
 
-
 baz = "";
 // <- variable.other.readwrite
 //     ^ string.quoted.double
@@ -440,6 +439,10 @@ new Date().getTime()
 //                             ^ meta.group.braces.square
     'test3': "asdf"
 }
+
+a = b.c
+d = e.f
+// <- variable.other.readwrite
 
 width/2 + lineStart * Math.sin(i * 30 * π/180)
 //   ^ keyword.operator.arithmetic
