@@ -33,6 +33,13 @@ import 'module'
 //                 ^^^ entity.name.function
 //                        ^^^ meta.object-literal.key
 
+someFunction({
+    prop1, prop2, prop3
+//  ^ variable.other.readwrite
+//         ^ variable.other.readwrite
+//                ^ variable.other.readwrite
+});
+
 function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration

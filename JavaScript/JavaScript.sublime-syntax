@@ -716,6 +716,9 @@ contexts:
           captures:
             1: variable.other.readwrite.js
             2: meta.delimiter.comma.js
+        - match: '({{identifier}})[ \t]*\n'
+          captures:
+            1: variable.other.readwrite.js
         - match: '((\$)[$\w]*)\s*(:)\s*(?=({{func_lookahead}}|{{arrow_func_lookahead}}))'
           scope: meta.function.declaration.js
           captures:
