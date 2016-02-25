@@ -32,7 +32,7 @@ variables:
     easy_install|egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
     g\+\+|gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
-    head|hg|hostname|
+    head|hg|htop|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
     killall|kmod|
