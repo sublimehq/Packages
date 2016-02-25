@@ -24,14 +24,14 @@ variables:
   cmdExternalNotEndWithWord: '(?x:
     clang\+\+|
     g\+\+
-  )'
+  )([-+.\d]*)'
   cmdExternal: '(?x:
     7z|7za|
     apropos|apt-get|aptitude|ar|aria2c|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
     cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|chsh|cksum|clang|
     clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|cut|
-    date|dc|dd|ddrescue|deb|depmod|df|diff|diff3|dig|dir|dircolors|dirname|
+    date|dc|dd|ddrescue|deb|depmod|df|diff|dig|dir|dircolors|dirname|
     dmesg|dpkg|du|
     easy_install|egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
@@ -47,11 +47,11 @@ variables:
     netstat|nl|notify-se|npm|nslookup|nstat|
     op|open|openssl|
     pandoc|paste|patch|paswd|pathchk|pear|pecl|
-    perl|php|ping|pip|pip3|pkill|pr|printcap|ps|pv|py|python|python3|
+    perl|php|ping|pip|pkill|pr|printcap|ps|pv|py|python|
     qmake|quota|quotachec|quotactl|
     ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rpm|rsync|ruby|
     scp|screen|sdiff|sed|select|seq|service|sftp|sh|shutdown|sleep|slocate|sort|
-    split|sqlite|sqlite3|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|
+    split|sqlite|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|
     tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|
     umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
     useradd|userdel|usermod|users|uudecode|uuencode|
@@ -60,7 +60,7 @@ variables:
     xargs|xdg-open|xz|
     yum|
     zip|zsh
-  )'
+  )([._+\-\d]*)'
   cmdBuiltin: '(?x:
     alias|
     bg|bind|builtin|
