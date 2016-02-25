@@ -420,6 +420,14 @@ sources.DOM
 return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor meta.brace.round
 
+var anotherSingle = function(){a = param => param; return param2 => param2 * a}
+//                                 ^ meta.function.declaration variable.parameter.function - meta.function.anonymous
+//                                          ^ meta.block meta.block variable.other.readwrite
+//                                               ^ meta.block punctuation.terminator.statement
+//                                                        ^ meta.function.anonymous meta.function.declaration variable.parameter.function
+//                                                                           ^ meta.block meta.block variable.other.readwrite
+//                                                                            ^ meta.block meta.brace.curly
+
 this.func()
 // <- variable.language.this
 self.func()
