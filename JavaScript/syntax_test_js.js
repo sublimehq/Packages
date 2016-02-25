@@ -417,6 +417,9 @@ sources.DOM
     .status()
     // ^ meta.function-call.method variable.function
 
+return new Promise(resolve => preferenceObject.set({value}, resolve));
+//                                                                  ^ meta.function-call.constructor meta.brace.round
+
 this.func()
 // <- variable.language.this
 self.func()

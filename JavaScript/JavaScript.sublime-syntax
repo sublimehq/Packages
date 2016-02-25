@@ -721,7 +721,7 @@ contexts:
         1: storage.type.function.arrow.js
       set:
         - meta_content_scope: meta.block.js
-        - match: \n
+        - match: '(?=\n|\))'
           pop: true
         - include: expressions
     - match: '\b(async)\b\s*'
