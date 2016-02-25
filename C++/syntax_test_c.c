@@ -24,12 +24,18 @@
 int i;
 /* <- storage.type */
 
+#define CONST0 16 // Comment
+#define CONST1 8
+/* <- keyword.control.import.define */
+/*      ^ entity.name.constant */
 
 #if defined(VARIABLE)
 # error This is a long error message that need to   \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
+#warning This is a short warning
+/* <- keyword.control.import */
 #endif
  /* <- keyword.control.import.if */
 

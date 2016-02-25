@@ -144,7 +144,7 @@ contexts:
         0: punctuation.definition.comment.c
       push:
         - meta_scope: comment.line.double-slash.c++
-        - match: $\n?
+        - match: $(?=\n)?
           pop: true
         - match: (?>\\\s*\n)
           scope: punctuation.separator.continuation.c++
@@ -395,7 +395,7 @@ contexts:
           pop: true
         - include: block_innards
   preprocessor-other:
-    - match: ^\s*(#\s*error|warning)\b
+    - match: ^\s*(#\s*(?:error|warning))\b
       captures:
         1: keyword.control.import.error.c
       push:
