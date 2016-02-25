@@ -21,10 +21,6 @@ variables:
   cmdPrivilege: '(?x:
     sudo
   )'
-  cmdExternalNotEndWithWord: '(?x:
-    clang\+\+|
-    g\+\+
-  )([-+.\d]*)'
   cmdExternal: '(?x:
     7z|7za|
     apropos|apt-get|aptitude|ar|aria2c|aspell|autoconf|awk|
@@ -35,7 +31,7 @@ variables:
     dmesg|dpkg|du|
     easy_install|egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
-    gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
+    g\+\+|gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
     head|hg|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
@@ -630,9 +626,6 @@ contexts:
       scope: support.function.builtin.shell
       push: cmdArgs
     - match: '(?<=[\s`(]|^)({{cmdExternal}})(?=[\s`)]|$)'
-      scope: support.function.external.shell
-      push: cmdArgs
-    - match: '(?<=[\s`(]|^)({{cmdExternalNotEndWithWord}})(?=[\s`)]|$)'
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
