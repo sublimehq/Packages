@@ -1,8 +1,9 @@
 <snippet>
-    <content><![CDATA[foreach_reverse(${1:e}; $0) {
-	
+    <content><![CDATA[foreach_reverse($1; $2)
+{
+    $0
 }]]></content>
     <tabTrigger>fer</tabTrigger>
     <scope>source.d</scope>
-    <description>foreach_reverse(e; …) { … }</description>
+    <description>foreach_reverse(…; …) { … }</description>
 </snippet>
