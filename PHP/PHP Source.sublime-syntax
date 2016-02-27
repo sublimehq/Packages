@@ -587,7 +587,7 @@ contexts:
         - match: |-
             (?x)(::)
                                     (?:
-                                        (class[^\w])
+                                        (class)(?:[^\w])
                                         |
                                         ([A-Za-z_][A-Za-z_0-9]*)\s*\(
                                         |
