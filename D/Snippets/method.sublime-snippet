@@ -4,7 +4,7 @@
  */
 ${1:void} ${2:method}()
 {
-    ${3}
+	${3}
 }]]></content>
     <tabTrigger>me</tabTrigger>
     <scope>source.d</scope>

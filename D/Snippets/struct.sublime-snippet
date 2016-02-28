@@ -4,7 +4,7 @@
  */
 struct ${1:name}
 {
-    $3
+	$3
 }]]></content>
     <tabTrigger>st</tabTrigger>
     <scope>source.d</scope>
