@@ -21,6 +21,13 @@ class MyClass
 #          ^^^ punctuation.definition.string.begin.ruby
 #             ^^^^^ string.quoted.other.literal.lower.ruby
 
+  A, B, C = :a, :b, :c
+# ^ meta.constant.ruby entity.name.type.constant.ruby
+#  ^ punctuation.separator.object.ruby
+#    ^ meta.constant.ruby entity.name.type.constant.ruby
+#     ^ punctuation.separator.object.ruby
+#       ^ meta.constant.ruby entity.name.type.constant.ruby
+
   %I[#{ENV['APP_NAME']} apple orange]
 # ^^^ punctuation.definition.string.begin.ruby
 #      ^ meta.environment-variable.ruby variable.other.constant.ruby
