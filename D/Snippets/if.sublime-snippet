@@ -5,5 +5,5 @@
 }]]></content>
     <tabTrigger>if</tabTrigger>
     <scope>source.d</scope>
-    <description>if … { … }</description>
+    <description>if …</description>
 </snippet>
