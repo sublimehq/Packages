@@ -848,7 +848,12 @@ contexts:
                 - include: either-function-declaration
                 - match: '(?=\S)'
                   pop: true
-        - include: literal-string
+        - match: "(?=\"|')"
+          push:
+            - meta_scope: meta.object-literal.key.js
+            - include: literal-string
+            - match: '(?=.|\n)'
+              pop: true
         - match: '(\$)[$\w]*(?=\s*:)'
           scope: meta.object-literal.key.dollar.js
           captures:

@@ -131,10 +131,10 @@ var obj = {
     }
 
     "key4": true,
-    // <- string.quoted.double
+    // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string
     'key5': true,
-    // <- string.quoted.single
+    // <- meta.object-literal.key string.quoted.single
     //    ^ punctuation.separator.key-value - string
 
     funcKey: function() {
