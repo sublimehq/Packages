@@ -9,6 +9,11 @@ class ApplicationController < ApplicationController
   class_attribute :subject
 # ^ support.function.activesupport.rails
 
+  self.config = { after_filter: 1, after_filter?: 2, after_filter!: 3 }
+  #               ^ constant.other.symbol.ruby.19syntax
+  #                                ^ constant.other.symbol.ruby.19syntax
+  #                                                  ^ constant.other.symbol.ruby.19syntax
+
   def find_model
     @model = User.find(params[:id]) if params[:id]
   end
