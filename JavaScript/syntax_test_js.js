@@ -428,6 +428,10 @@ var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                                                           ^ meta.block meta.block variable.other.readwrite
 //                                                                            ^ meta.block meta.brace.curly
 
+baz(foo(x => x('bar')))
+//                   ^ meta.function-call meta.function-call meta.brace.round
+//                    ^ meta.function-call meta.brace.round
+
 this.func()
 // <- variable.language.this
 self.func()
