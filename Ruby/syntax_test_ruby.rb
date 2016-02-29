@@ -50,6 +50,17 @@ class MyClass
                 # ^^ string.quoted.double.ruby constant.other.placeholder.ruby
     str = 'number %d' % 11
                 # ^^ string.quoted.single.ruby constant.other.placeholder.ruby
+    str = 'number %08d' % 11
+                # ^^^^ string.quoted.single.ruby constant.other.placeholder.ruby
+    str = 'number %.2f' % 11
+                # ^^^^ string.quoted.single.ruby constant.other.placeholder.ruby
+    str = 'number %-8.2d' % 11
+                # ^^^^^^ string.quoted.single.ruby constant.other.placeholder.ruby
+    str = '%2$02d' % [212.00, 3]
+         # ^^^^^^ string.quoted.single.ruby constant.other.placeholder.ruby
+    str = sprintf("%1$*2$s %2$d", "hello", -8)
+    #              ^^^^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
+    #                      ^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
   end
 
 end

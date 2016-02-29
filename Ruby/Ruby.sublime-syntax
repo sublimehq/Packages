@@ -1021,10 +1021,16 @@ contexts:
   string_placeholder:
     - match: |-
         (?x)%
-            [#0\- +']*                                  # flags
-            (\[\d+\])?                                  # field (argument #)
-            [,;:_]?                                     # separator character (AltiVec)
-            ((-?\d+)|(\[\d+\])?\*)?                     # minimum field width
-            (\.((-?\d+)|(\[\d+\])?\*)?)?                # precision
-            [diouxXDOUeEfFgGaAcCsSpqnvtTbyYhHmMzZ%]     # conversion type
+            ([#0\- +\*]|(\d+\$))*                       # flags
+            (-?\d+)?                                    # minimum field width
+            (\.(\d+)?)?                                 # precision
+            [diouxXDOUeEfFgGaAcCsSpnvtTbByYhHmMzZ%]     # conversion type
       scope: constant.other.placeholder.ruby
+      comment: |
+        %[flags][width][.precision]type
+
+        A format sequence consists of a percent sign, followed by optional
+        flags, width, and precision indicators, then terminated with a field
+        type character.
+
+        Also this is used for time format in strftime.
