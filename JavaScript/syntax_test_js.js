@@ -523,6 +523,10 @@ a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
 
+var re = /^\/[^/]+/
+//             ^ constant.other.character-class.set.regexp
+//               ^ keyword.operator.quantifier
+
 define(['common'], function(common) {
 //                 ^ meta.function.anonymous meta.function.declaration
     var namedFunc = function() {

@@ -376,7 +376,7 @@ contexts:
           scope: keyword.operator.arithmetic.js
           pop: true
         - include: expressions-no-regexp
-    - match: '/(?=(?:[^/\\]|\\.)+/(?![/*])[gimy]*(?!\s*[a-zA-Z0-9_$]))'
+    - match: '/(?=(?:[^/\\\[]|\\.|\[([^\]\\]|\\.)+\])+/(?![/*])[gimy]*(?!\s*[a-zA-Z0-9_$]))'
       scope: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.regexp.js
@@ -386,10 +386,10 @@ contexts:
             2: keyword.other.js
           pop: true
         - match: '(?=.|\n)'
-          with_prototype:
+          push:
             - match: '(?=/)'
               pop: true
-          push: scope:source.regexp.js
+            - include: scope:source.regexp.js
 
   # Consume a division operator to prevent incorrect highlighting as a regexp
   prevent-incorrect-regexp:
