@@ -410,7 +410,16 @@ contexts:
     - match: '(?={{identifier}})'
       set:
         - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
-        - include: literal-variable
+        - include: well-known-identifiers
+        - include: language-identifiers
+        - match: '{{dollar_only_identifier}}'
+          scope: variable.type.dollar.only.js punctuation.dollar.js
+        - match: '{{dollar_identifier}}'
+          scope: variable.type.dollar.js
+          captures:
+            1: punctuation.dollar.js
+        - match: '{{identifier}}'
+          scope: variable.type.js
         - match: '\.'
           scope: punctuation.accessor.js
         - include: square-brackets
@@ -1021,11 +1030,12 @@ contexts:
 
   function-call-params:
     - match: '\)'
-      scope: meta.brace.round.js
+      scope: meta.group.braces.round.js meta.brace.round.js
       set: prevent-incorrect-regexp
     - match: '\('
       scope: meta.brace.round.js
       push:
+        - meta_scope: meta.group.braces.round.js
         - match: '(?=\))'
           pop: true
         # Consume comma plus any whitespace to prevent whitespace from

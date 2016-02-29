@@ -432,6 +432,18 @@ baz(foo(x => x('bar')))
 //                   ^ meta.function-call meta.function-call meta.brace.round
 //                    ^ meta.function-call meta.brace.round
 
+func(a, b)
+// ^ variable.function
+//  ^ meta.group.braces.round meta.brace.round
+//   ^ meta.group.braces.round variable.other.readwrite
+//       ^ meta.group.braces.round meta.brace.round
+
+var instance = new Constructor(param1, param2)
+//                 ^ variable.type
+//                            ^ meta.group.braces.round meta.brace.round
+//                             ^ meta.group.braces.round variable.other.readwrite
+//                                           ^ meta.group.braces.round meta.brace.round
+
 this.func()
 // <- variable.language.this
 self.func()
