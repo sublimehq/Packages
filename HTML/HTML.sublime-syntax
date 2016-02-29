@@ -98,7 +98,6 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push:
-        - meta_content_scope: source.js.embedded.html
         - match: (?i)(</)(script)(>)
           captures:
             1: punctuation.definition.tag.begin.html
@@ -109,7 +108,9 @@ contexts:
         - match: (>)
           captures:
             1: punctuation.definition.tag.end.html
-          push: 'scope:source.js'
+          push:
+            - meta_content_scope: source.js.embedded.html
+            - include: 'scope:source.js'
           with_prototype:
              - match: (?i)(?=</script)
                pop: true
