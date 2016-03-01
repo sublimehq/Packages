@@ -581,6 +581,13 @@ new FooBar(function(){
 }
 // <- meta.block meta.brace.curly
 
+// Handle multi-line "concise" arrow function bodies
+var conciseFunc = () => 
+  foo
+//^^^ meta.block variable.other.readwrite
+  .bar()
+//^^^^^^ meta.block
+
 // Handle an arrow function in a parenthetical group
 (myFunc = (a) => a*2)
 // <- meta.group.braces.round meta.brace.round

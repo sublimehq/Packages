@@ -759,15 +759,11 @@ contexts:
       captures:
         1: storage.type.function.arrow.js
       set: function-block
-    - match: '\s*(=>)'
-      scope: meta.function.declaration.js
+    - match: '(\s*(=>))\s*'
       captures:
-        1: storage.type.function.arrow.js
-      set:
-        - meta_content_scope: meta.block.js
-        - match: '(?=[\n);}])'
-          pop: true
-        - include: expressions
+        1: meta.function.declaration.js
+        2: storage.type.function.arrow.js
+      set: arrow-function-concise-body
     - match: '\b(async)\b\s*'
       scope: meta.function.declaration.js
       captures:
@@ -775,6 +771,20 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.function.declaration.js variable.parameter.function.js
     - include: function-declaration-parameters
+
+  arrow-function-concise-body:
+    - meta_content_scope: meta.block.js
+    - match: '(?=[);}])'
+      pop: true
+    - match: '\n'
+      set:
+        # Allow newlines in a concise body if the next line is a continuation
+        # of the previous via method chaining
+        - match: '(?=\s*(\.|/[/*]))'
+          set: arrow-function-concise-body
+        - match: '(?=.|\n)'
+          pop: true
+    - include: expressions
 
   function-block:
     - meta_scope: meta.block.js
