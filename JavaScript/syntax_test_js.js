@@ -581,6 +581,12 @@ new FooBar(function(){
 }
 // <- meta.block meta.brace.curly
 
+// Handle an arrow function in a parenthetical group
+(myFunc = (a) => a*2)
+// <- meta.group.braces.round meta.brace.round
+// ^^^^ entity.name.function
+//                  ^ meta.group.braces.round meta.brace.round - meta.block
+
 $.each({})
 // <- variable.other.object.dollar.only punctuation.dollar
 //     ^ meta.object-literal
