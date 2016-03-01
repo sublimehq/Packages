@@ -32,7 +32,7 @@ variables:
     easy_install|egrep|eject|env|expand|expect|expr|
     fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
     g\+\+|gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
-    head|hg|htop|hostname|
+    head|hg|htop|homebrew|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
     killall|kmod|
@@ -40,14 +40,14 @@ variables:
     lprintq|lprm|ls|lsod|lsof|lua|
     mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|
     most|mount|mtools|mtr|mutt|mv|mysql|mysqldump
-    netstat|nl|notify-se|npm|nslookup|nstat|
+    netstat|nl|node|notify-se|npm|nslookup|nstat|
     op|open|openssl|
     pandoc|paste|patch|paswd|pathchk|pear|pecl|
     perl|php|ping|pip|pkill|pr|printcap|ps|pv|py|python|
     qmake|quota|quotachec|quotactl|
     ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rpm|rsync|ruby|
     scp|screen|sdiff|sed|select|seq|service|sftp|sh|shutdown|sleep|slocate|sort|
-    split|sqlite|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|
+    split|sqlite|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|sysctl|
     tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|
     umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
     useradd|userdel|usermod|users|uudecode|uuencode|
