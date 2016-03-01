@@ -29,5 +29,18 @@
     <body>
         <!-- Comment -->
         ## ^ comment.block.html
+
+        <div id="ElementID"></div>
+        ##    ^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+        ##       ^ meta.attribute-with-value.id.html meta.toc-list.id.html
+
+        <div class="element-class"></div>
+        ##    ^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
+        ##          ^ meta.attribute-with-value.class.html meta.toc-list.class.html
+
+        <div style="width: 100%"></div>
+        ##    ^ meta.attribute-with-value.style.html entity.other.attribute-name.style.html
+        ##          ^ source.css meta.property-name.css support.type.property-name.css
+        ##                 ^ meta.property-value.css constant.numeric.css
     </body>
 </html>
