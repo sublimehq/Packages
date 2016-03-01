@@ -25,13 +25,11 @@ import 'module'
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
-{ otherIdentifier, foo(), baz: 1 }
-// <- meta.object-literal
- // <- meta.object-literal
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
-//^^^^^^^^^^^^^^^ variable.other.readwrite
-//                 ^^^ entity.name.function
-//                        ^^^ meta.object-literal.key
+let a = { otherIdentifier, foo(), baz: 1 }
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//        ^^^^^^^^^^^^^^^ variable.other.readwrite
+//                         ^^^ entity.name.function
+//                                ^^^ meta.object-literal.key
 
 someFunction({
     prop1, prop2, prop3
@@ -526,6 +524,12 @@ var result = 200 / 400 + 500 /
 //                           ^ keyword.operator.arithmetic
 100;
 
+var re = /
+[a-z]
+// ^ string.regexp.js
+/g
+// <- string.regexp.js punctuation.definition.string.end
+
 var π = 3.141592653
 //  ^ variable.other.readwrite
 
@@ -569,8 +573,17 @@ new FooBar(function(){
 //      ^ meta.property.object.dollar entity.name.function - meta.function.anonymous
 }
 
-$.each()
+{
+// <- meta.block meta.brace.curly
+    let foo = 1;
+//  ^^^ meta.block storage.type
+//      ^^^ variable.other.readwrite
+}
+// <- meta.block meta.brace.curly
+
+$.each({})
 // <- variable.other.object.dollar.only punctuation.dollar
+//     ^ meta.object-literal
 
 $varname.method()
 // <- variable.other.object.dollar punctuation.dollar - variable.other.object.dollar.only

@@ -127,6 +127,14 @@ contexts:
 
   statements:
     - include: conditional
+    - match: '\{(?!\{)'
+      scope: meta.brace.curly.js
+      push:
+        - meta_scope: meta.block.js
+        - match: '\}'
+          scope: meta.brace.curly.js
+          pop: true
+        - include: statements
     - include: expressions
 
   conditional:
@@ -191,6 +199,12 @@ contexts:
         - meta_scope: meta.while.js
         - include: parens-block-scope
 
+    - match: \bwith\b
+      scope: keyword.control.with.js
+      push:
+        - meta_scope: meta.with.js
+        - include: parens-block-scope
+
     - match: \b(else\s+if|if)\b
       scope: keyword.control.conditional.js
       push:
@@ -249,14 +263,12 @@ contexts:
 
   expressions:
     - include: comments
-    - include: literal-regexp
-    - include: expressions-no-regexp
-
-  expressions-no-regexp:
+    - include: regexp-complete
     - include: literal-string
     - include: literal-string-template
     - include: constructor
-    - include: literal-operators
+    - include: unary-operators
+    - include: binary-operators
     - include: class
     - include: keywords
     - include: constants
@@ -271,6 +283,32 @@ contexts:
     - include: literal-call
     - include: literal-variable
     - include: literal-punctuation
+
+  after-operator:
+    # Prevent matching "{" as a block, but instead always treat as an object
+    # literal. This is needed since in the "statements" context, a "{" starts
+    # an anonymous block, not an object literal.
+    - match: '(?=\{)'
+      push:
+        - include: object-literal
+        - match: '(?=.|\n)'
+          pop: true
+    # When following an operator, a single / is the beginning of a regexp,
+    # not a division operator
+    - match: '/(?=[^/*])'
+      scope: punctuation.definition.string.begin.js
+      push: regexp
+    - match: '(?=[\S\n])'
+      pop: true
+
+  after-identifier:
+    # When following an identifier or closing )/], a single / is a division
+    # operator, not the beginning of a regexp
+    - match: '/(?=[^/*])'
+      scope: keyword.operator.arithmetic.js
+      set: after-operator
+    - match: '(?=[\S\n])'
+      pop: true
 
   comments:
     - include: special-comments-conditional-compilation
@@ -292,7 +330,7 @@ contexts:
       scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.line.double-slash.js
-        - match: \n
+        - match: (?=\n)
           pop: true
 
   special-comments-conditional-compilation:
@@ -366,38 +404,23 @@ contexts:
     - match: '\\(x[\da-fA-F][\da-fA-F]|u[\da-fA-F][\da-fA-F][\da-fA-F][\da-fA-F]|.)'
       scope: constant.character.escape.js
 
-  literal-regexp:
-    # Lookahead and prevent incorrect matches by finding a / following an
-    # identifier or number. Not perfect, but stops most incorrect matches
-    - match: '(?=({{identifier}}|0[xob]\d+|\d+|\d*\.\d*(e[-+]?\d+)?)\s*/[^/*])'
-      push:
-        - include: comments
-        - match: '/'
-          scope: keyword.operator.arithmetic.js
-          pop: true
-        - include: expressions-no-regexp
+  regexp-complete:
     - match: '/(?=(?:[^/\\\[]|\\.|\[([^\]\\]|\\.)+\])+/(?![/*])[gimy]*(?!\s*[a-zA-Z0-9_$]))'
       scope: punctuation.definition.string.begin.js
-      push:
-        - meta_scope: string.regexp.js
-        - match: "(/)([gimy]*)"
-          captures:
-            1: punctuation.definition.string.end.js
-            2: keyword.other.js
-          pop: true
-        - match: '(?=.|\n)'
-          push:
-            - match: '(?=/)'
-              pop: true
-            - include: scope:source.regexp.js
+      push: regexp
 
-  # Consume a division operator to prevent incorrect highlighting as a regexp
-  prevent-incorrect-regexp:
-    - include: comments
-    - match: '/'
-      scope: keyword.operator.arithmetic.js
-    - match: '(?=[\S\n])'
-      pop: true
+  regexp:
+      - meta_scope: string.regexp.js
+      - match: "(/)([gimy]*)"
+        captures:
+          1: punctuation.definition.string.end.js
+          2: keyword.other.js
+        pop: true
+      - match: '(?=.|\n)'
+        push:
+          - match: '(?=/)'
+            pop: true
+          - include: scope:source.regexp.js
 
   constructor:
     - match: '\b(new)\b\s+(?=({{identifier}}|\())'
@@ -447,21 +470,32 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
-  literal-operators:
+  unary-operators:
+    - match: '~'
+      scope: keyword.operator.bitwise.js
+    - match: '!(?!=)'
+      scope: keyword.operator.logical.js
+    - match: '--'
+      scope: keyword.operator.arithmetic.js
+    - match: '\+\+'
+      scope: keyword.operator.arithmetic.js
+    - match: \.\.\.
+      scope: keyword.operator.spread.js
+
+  binary-operators:
     - match: \bnew\b
       scope: keyword.operator.new.js
-    - match: \b(delete|in|instanceof|of|typeof|void|with)\b
+    - match: \b(delete|instanceof)\b
       scope: keyword.operator.js
-    - match: |-
-        (?x)
-        !(?!=)| # logical-not     right-to-left   right
-        &&    | # logical-and     left-to-right   both
-        \|\|    # logical-or      left-to-right   both
+    - match: \b(in|of|typeof|void)\b
+      scope: keyword.operator.js
+      push: after-operator
+    - match: '&&|\|\|'
       scope: keyword.operator.logical.js
-    - match: |-
-        (?x)
-        =(?!=)  # assignment      right-to-left   both
+      push: after-operator
+    - match: '=(?!=)'
       scope: keyword.operator.assignment.js
+      push: after-operator
     - match: |-
         (?x)
         %=   | # assignment      right-to-left   both
@@ -476,9 +510,9 @@ contexts:
         >>=  | # assignment      right-to-left   both
         >>>=   # assignment      right-to-left   both
       scope: keyword.operator.assignment.augmented.js
+      push: after-operator
     - match: |-
         (?x)
-        ~    | # bitwise-not     right-to-left   right
         <<   | # bitwise-shift   left-to-right   both
         >>>  | # bitwise-shift   left-to-right   both
         >>   | # bitwise-shift   left-to-right   both
@@ -486,6 +520,7 @@ contexts:
         \^   | # bitwise-xor     left-to-right   both
         \|     # bitwise-or      left-to-right   both
       scope: keyword.operator.bitwise.js
+      push: after-operator
     - match: |-
         (?x)
         <=   | # relational      left-to-right   both
@@ -493,6 +528,7 @@ contexts:
         <    | # relational      left-to-right   both
         >      # relational      left-to-right   both
       scope: keyword.operator.relational.js
+      push: after-operator
     - match: |-
         (?x)
         ===  | # equality        left-to-right   both
@@ -500,20 +536,19 @@ contexts:
         ==   | # equality        left-to-right   both
         !=     # equality        left-to-right   both
       scope: keyword.operator.comparison.js
+      push: after-operator
     - match: |-
         (?x)
-        --   | # decrement       n/a             right-or-left
-        \+\+ | # increment       n/a             right-or-left
         /    | # division        left-to-right   both
         %    | # modulus         left-to-right   both
         \*   | # multiplication  left-to-right   both
         \+   | # addition        left-to-right   both
         -      # subtraction     left-to-right   both
       scope: keyword.operator.arithmetic.js
+      push: after-operator
     - match: '\?|:'
       scope: keyword.operator.ternary.js
-    - match: \.\.\.
-      scope: keyword.operator.spread.js
+      push: after-operator
 
   class:
     - match: \bclass\b
@@ -932,7 +967,7 @@ contexts:
         - meta_scope: meta.group.braces.square.js
         - match: '\]'
           scope: meta.brace.square.js
-          set: prevent-incorrect-regexp
+          set: after-identifier
         - include: expressions
 
   literal-number:
@@ -953,8 +988,10 @@ contexts:
           )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
         )
       scope: constant.numeric.js
+      push: after-identifier
     - match: '(?:\B[-+]|\b)(Infinity)\b'
       scope: constant.language.infinity.js
+      push: after-identifier
 
   literal-call:
     - match: (\$)(?=\s*\()
@@ -1031,13 +1068,13 @@ contexts:
   function-call-params:
     - match: '\)'
       scope: meta.group.braces.round.js meta.brace.round.js
-      set: prevent-incorrect-regexp
+      set: after-identifier
     - match: '\('
       scope: meta.brace.round.js
       push:
         - meta_scope: meta.group.braces.round.js
         - match: '(?=\))'
-          pop: true
+          set: after-identifier
         # Consume comma plus any whitespace to prevent whitespace from
         # getting meta scopes when they don't really apply
         - match: '(,)\s+'
@@ -1046,15 +1083,21 @@ contexts:
         - include: expressions
 
   literal-variable:
-    - include: well-known-identifiers
-    - include: language-identifiers
-    - include: dollar-identifiers
-    - include: support
-    - match: '\b[[:upper:]][_$[:alnum:]]*(?=\s*[\[.])'
-      scope: support.class.js
-    - match: '{{identifier}}(?=\s*[\[.])'
-      scope: variable.other.object.js
-    - include: simple-identifiers
+    - match: '(?={{identifier}})'
+      push:
+        # Once we've consumed an identifier, switch to the special context that
+        # property hanldes ambiguous tokens including "/"
+        - match: '(?!{{identifier}})'
+          set: after-identifier
+        - include: well-known-identifiers
+        - include: language-identifiers
+        - include: dollar-identifiers
+        - include: support
+        - match: '\b[[:upper:]][_$[:alnum:]]*(?=\s*[\[.])'
+          scope: support.class.js
+        - match: '{{identifier}}(?=\s*[\[.])'
+          scope: variable.other.object.js
+        - include: simple-identifiers
 
   well-known-identifiers:
     - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|XMLHttpRequest)\b
