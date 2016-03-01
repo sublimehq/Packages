@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[trace("$1");]]></content>
+    <tabTrigger>trac</tabTrigger>
+    <scope>source.d</scope>
+    <description>trace(…)</description>
+</snippet>

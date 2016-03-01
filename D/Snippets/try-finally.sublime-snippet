@@ -1,7 +1,10 @@
 <snippet>
-    <content><![CDATA[try {
+    <content><![CDATA[try
+{
 	$1
-} finally {
+}
+finally
+{
 	$0
 }]]></content>
     <tabTrigger>tf</tabTrigger>
