@@ -196,6 +196,41 @@ contexts:
       captures:
         1: entity.other.attribute-name.html
         2: punctuation.separator.key-value.html
+  tag-class-attribute:
+    - match: \b(class)\b\s*(=)
+      captures:
+        1: entity.other.attribute-name.class.html
+        2: punctuation.separator.key-value.html
+      push:
+        - meta_scope: meta.attribute-with-value.class.html
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.begin.html
+          push:
+            - meta_scope: string.quoted.double.html
+            - meta_content_scope: meta.toc-list.class.html
+            - match: '"'
+              captures:
+                0: punctuation.definition.string.end.html
+              pop: true
+            - include: entities
+        - match: "'"
+          captures:
+            0: punctuation.definition.string.begin.html
+          push:
+            - meta_scope: string.quoted.single.html
+            - meta_content_scope: meta.toc-list.class.html
+            - match: "'"
+              captures:
+                0: punctuation.definition.string.end.html
+              pop: true
+            - include: entities
+        - match: '(?<==)\s*((?:[^\s<>/''"]|/(?!>))+)'
+          scope: string.unquoted.html
+          captures:
+            1: meta.toc-list.class.html
+        - match: ''
+          pop: true
   tag-id-attribute:
     - match: \b(id)\b\s*(=)
       captures:
@@ -324,6 +359,7 @@ contexts:
 
   tag-stuff:
     - include: tag-id-attribute
+    - include: tag-class-attribute
     - include: tag-style-attribute
     - include: tag-event-attribute
     - include: tag-generic-attribute
