@@ -42,5 +42,13 @@
         ##    ^ meta.attribute-with-value.style.html entity.other.attribute-name.style.html
         ##          ^ source.css meta.property-name.css support.type.property-name.css
         ##                 ^ meta.property-value.css constant.numeric.css
+
+        <tag attr otherattr></tag>
+        ##    ^ entity.other.attribute-name.html
+        ##        ^ entity.other.attribute-name.html
+
+        <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
+        ##                   ^ meta.function-call.js support.function.js
+        ## ^^^^^^^^ entity.other.attribute-name
     </body>
 </html>
