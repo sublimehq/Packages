@@ -87,6 +87,11 @@ contexts:
         6: punctuation.separator.inheritance.ruby
         7: entity.other.inherited-class.module.third.ruby
         8: punctuation.separator.inheritance.ruby
+    - match: '([A-Z]\w*)(?=(,\s*[A-Z]\w*)*\s*=(?!\>))'
+      scope: meta.constant.ruby
+      comment: constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
+      captures:
+        1: entity.name.type.constant.ruby
     - match: (?<!\.)\belse(\s)+if\b
       comment: else if is a common mistake carried over from other languages. it works if you put in a second end, but it’s never what you want.
       scope: invalid.deprecated.ruby
@@ -107,6 +112,8 @@ contexts:
     - match: (?<!\.)\b(and|not|or)\b
       comment: as above, just doesn't need a 'end' and does a logic operation
       scope: keyword.operator.logical.ruby
+    - match: '^!+|(?<=[ \t])!+|&&|\|\||\^'
+      scope: keyword.operator.logical.ruby
     - match: '(?<!\.)\b(alias|alias_method|break|next|redo|retry|return|super|undef|yield)\b(?![?!])|\bdefined\?|\bblock_given\?'
       comment: just as above but being not a logical operation
       scope: keyword.control.pseudo-method.ruby
@@ -114,7 +121,7 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b(initialize|new|loop|include|extend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|private|module_function|public|protected)\b(?![?!])'
+    - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
       comment: everything being a method but having a special function is a..
       scope: keyword.other.special-method.ruby
     - match: \b(require|require_relative|gem)\b
@@ -247,6 +254,7 @@ contexts:
           pop: true
         - match: \\'|\\\\
           scope: constant.character.escape.ruby
+        - include: string_placeholder
     - match: '"'
       comment: double quoted string (allows for interpolation)
       captures:
@@ -259,6 +267,7 @@ contexts:
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
+        - include: string_placeholder
     - match: "`"
       comment: execute string (allows for interpolation)
       captures:
@@ -440,7 +449,7 @@ contexts:
             0: punctuation.definition.string.end.ruby
           pop: true
         - include: regex_sub
-    - match: '%[QWSR]?\('
+    - match: '%[QWI]?\('
       comment: literal capable of interpolation ()
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -453,7 +462,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_parens_i
-    - match: '%[QWSR]?\['
+    - match: '%[QWI]?\['
       comment: "literal capable of interpolation []"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -466,7 +475,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_brackets_i
-    - match: '%[QWSR]?\<'
+    - match: '%[QWI]?\<'
       comment: literal capable of interpolation <>
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -479,7 +488,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_ltgt_i
-    - match: '%[QWSR]?\{'
+    - match: '%[QWI]?\{'
       comment: "literal capable of interpolation -- {}"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -492,7 +501,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
         - include: nest_curly_i
-    - match: '%[QWSR]([^\w])'
+    - match: '%[QWI]([^\w])'
       comment: literal capable of interpolation -- wildcard
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -516,7 +525,7 @@ contexts:
           pop: true
         - include: interpolated_ruby
         - include: escaped_char
-    - match: '%[qws]\('
+    - match: '%[qwsi]\('
       comment: literal incapable of interpolation -- ()
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -529,7 +538,7 @@ contexts:
         - match: \\\)|\\\\
           scope: constant.character.escape.ruby
         - include: nest_parens
-    - match: '%[qws]\<'
+    - match: '%[qwsi]\<'
       comment: literal incapable of interpolation -- <>
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -542,7 +551,7 @@ contexts:
         - match: \\\>|\\\\
           scope: constant.character.escape.ruby
         - include: nest_ltgt
-    - match: '%[qws]\['
+    - match: '%[qwsi]\['
       comment: "literal incapable of interpolation -- []"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -555,7 +564,7 @@ contexts:
         - match: '\\\]|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_brackets
-    - match: '%[qws]\{'
+    - match: '%[qwsi]\{'
       comment: "literal incapable of interpolation -- {}"
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -568,7 +577,7 @@ contexts:
         - match: '\\\}|\\\\'
           scope: constant.character.escape.ruby
         - include: nest_curly
-    - match: '%[qws]([^\w])'
+    - match: '%[qwsi]([^\w])'
       comment: literal incapable of interpolation -- wildcard
       captures:
         0: punctuation.definition.string.begin.ruby
@@ -767,14 +776,14 @@ contexts:
           scope: variable.other.block.ruby
         - match: ","
           scope: punctuation.separator.variable.ruby
+        - match: \*|&
+          scope: keyword.operator.arithmetic.ruby
     - match: "=>"
       scope: punctuation.separator.key-value
     - match: '<<=|%=|&=|\*=|\*\*=|\+=|\-=|\^=|\|{1,2}=|<<'
       scope: keyword.operator.assignment.augmented.ruby
     - match: '<=>|<(?!<|=)|>(?!<|=|>)|<=|>=|===|==|=~|!=|!~|(?<=[ \t])\?'
       scope: keyword.operator.comparison.ruby
-    - match: '(?<=[ \t])!+|\bnot\b|&&|\band\b|\|\||\bor\b|\^'
-      scope: keyword.operator.logical.ruby
     - match: (%|&|\*\*|\*|\+|\-|/)
       scope: keyword.operator.arithmetic.ruby
     - match: "="
@@ -1009,3 +1018,19 @@ contexts:
       scope: comment.line.number-sign.ruby
       captures:
         1: punctuation.definition.comment.ruby
+  string_placeholder:
+    - match: |-
+        (?x)%
+            ([#0\- +\*]|(\d+\$))*                       # flags
+            (-?\d+)?                                    # minimum field width
+            (\.(\d+)?)?                                 # precision
+            [diouxXDOUeEfFgGaAcCsSpnvtTbByYhHmMzZ%]     # conversion type
+      scope: constant.other.placeholder.ruby
+      comment: |
+        %[flags][width][.precision]type
+
+        A format sequence consists of a percent sign, followed by optional
+        flags, width, and precision indicators, then terminated with a field
+        type character.
+
+        Also this is used for time format in strftime.
