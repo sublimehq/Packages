@@ -206,7 +206,7 @@ contexts:
           scope: punctuation.definition.string.begin.html
           push:
             - meta_scope: string.quoted.double.html
-            - meta_content_scope: meta.toc-list.class.html
+            - meta_content_scope: meta.class-name.html
             - match: '"'
               scope: punctuation.definition.string.end.html
               pop: true
@@ -215,13 +215,13 @@ contexts:
           scope: punctuation.definition.string.begin.html
           push:
             - meta_scope: string.quoted.single.html
-            - meta_content_scope: meta.toc-list.class.html
+            - meta_content_scope: meta.class-name.html
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
-          scope: string.unquoted.html meta.toc-listclass.html
+          scope: string.unquoted.html meta.class-name.html
         - match: ''
           pop: true
 
