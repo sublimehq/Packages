@@ -222,6 +222,7 @@ echo do                     # 'do' is not a control key word here
 export cat                  # 'cat' is not an executable here
 export cat=1                # 'cat' is not an executable here
 export cat=$(git --version) # 'cat' is not an executable here
+cat=1                       # 'cat' is not a executable here
 
 # Test cases for 'echo'. Things following 'echo' may be considered as strings.
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
