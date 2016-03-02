@@ -298,7 +298,7 @@ contexts:
     - match: '/(?=[^/*])'
       scope: punctuation.definition.string.begin.js
       push: regexp
-    - match: '(?=[\S\n])'
+    - match: '(?=[\S])'
       pop: true
 
   after-identifier:

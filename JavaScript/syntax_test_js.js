@@ -582,6 +582,10 @@ new FooBar(function(){
 }
 // <- meta.block meta.brace.curly
 
+var test =
+{a: 1}
+// <- meta.object-literal meta.brace.curly
+
 // Handle multi-line "concise" arrow function bodies
 var conciseFunc = () => 
   foo
