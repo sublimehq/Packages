@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[critical("$1");]]></content>
+    <tabTrigger>crit</tabTrigger>
+    <scope>source.d</scope>
+    <description>critical(…)</description>
+</snippet>

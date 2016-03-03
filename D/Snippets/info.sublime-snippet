@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[info("$1");]]></content>
+    <tabTrigger>inf</tabTrigger>
+    <scope>source.d</scope>
+    <description>info(…)</description>
+</snippet>

@@ -25,26 +25,31 @@ import 'module'
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
-{ otherIdentifier, foo(), baz: 1 }
-// <- meta.object-literal
- // <- meta.object-literal
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
-//^^^^^^^^^^^^^^^ variable.other.readwrite
-//                 ^^^ entity.name.function
-//                        ^^^ meta.object-literal.key
+let a = { otherIdentifier, foo(), baz: 1 }
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//        ^^^^^^^^^^^^^^^ variable.other.readwrite
+//                         ^^^ entity.name.function
+//                                ^^^ meta.object-literal.key
+
+someFunction({
+    prop1, prop2, prop3
+//  ^ variable.other.readwrite
+//         ^ variable.other.readwrite
+//                ^ variable.other.readwrite
+});
 
 function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ storage.type.function
 //        ^ entity.name.function
 }
 // <- meta.block
 
 var bar = function() {
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // <- storage.type
 //   ^ variable.other.readwrite entity.name.function
 //         ^ storage.type.function
@@ -54,7 +59,7 @@ baz = function*()
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // <- variable.other.readwrite entity.name.function
 //     ^ storage.type.function
 //            ^ keyword.generator.asterisk
@@ -118,67 +123,67 @@ var obj = {
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
     $keyFunc: function() {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
     }
 
     "key4": true,
-    // <- string.quoted.double
+    // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string
     'key5': true,
-    // <- string.quoted.single
+    // <- meta.object-literal.key string.quoted.single
     //    ^ punctuation.separator.key-value - string
 
     funcKey: function() {
-//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key entity.name.function
     },
 
     func2Key: function func2Key() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key entity.name.function
     },
 
     funcKeyArrow: () => {
-//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key entity.name.function
     },
 
     "funcStringKey": function funcStringKey()
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     { },
 
     'funcStringKey': function() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     'funcStringKeyArrow': () => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     "func\\String2KeyArrow": (foo) => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     //    ^ constant.character.escape
     }
 
     qux()
-//  ^^^^^ meta.function.declaration
+//  ^^^^^ meta.function.declaration - meta.function.anonymous
     // <- entity.name.function
     {}
 
     static foo(bar) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ storage.type
     //      ^entity.name.function
     }
 
     *baz(){
-//  ^^^^^^ meta.function.declaration
+//  ^^^^^^ meta.function.declaration - meta.function.anonymous
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
@@ -186,7 +191,7 @@ var obj = {
 // <- meta.object-literal - meta.block
 
 var $ = function(baz) {
-//  ^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //  ^ variable.other.dollar.only punctuation.dollar entity.name.function
 }
 
@@ -196,7 +201,6 @@ $()
 $foo = null;
 // <- variable.other.dollar punctuation.dollar
 // ^ variable.other.dollar - punctuation.dollar
-
 
 baz = "";
 // <- variable.other.readwrite
@@ -210,7 +214,7 @@ var qux = 100;
 if (100.0 > qux) {
 // ^^^^^^^^^^^^^^^ meta.conditional
     a;
-//  ^ meta.conditional meta.block 
+//  ^ meta.conditional meta.block
 }
 // <- meta.conditional meta.block
 
@@ -297,7 +301,7 @@ class MyClass extends TheirClass {
 //    ^^^^^^^ entity.name.type.class
 //                               ^ meta.block
     constructor(el)
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ entity.name.function
     {
 //  ^ meta.class meta.block meta.block meta.brace.curly
@@ -307,7 +311,7 @@ class MyClass extends TheirClass {
 //  ^ meta.class meta.block meta.block meta.brace.curly
 
     get foo()
-//  ^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // <- storage.type.accessor
     //   ^ entity.name.function
     {
@@ -315,19 +319,19 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ storage.type
     //       ^ entity.name.function
 
     }
 
     qux()
-//  ^^^^^ meta.function.declaration
+//  ^^^^^ meta.function.declaration - meta.function.anonymous
     { }
 //  ^ meta.class meta.block meta.block meta.brace.curly
 
     get bar () {
-//  ^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //             ^ meta.class meta.block meta.block meta.brace.curly
     // <- storage.type.accessor
     //   ^ entity.name.function
@@ -335,53 +339,58 @@ class MyClass extends TheirClass {
     }
 
     baz() { return null }
-//  ^^^^^ meta.function.declaration
+//  ^^^^^ meta.function.declaration - meta.function.anonymous
     // <- entity.name.function
 }
 // <- meta.block
 
+class Foo extends React.Component {
+//                      ^ entity.other.inherited-class
+    constructor()
+    {}
+}
+
 () => {}
 // <- meta.function.declaration punctuation.definition.parameters
  // <- meta.function.declaration punctuation.definition.parameters
-//^^^ meta.function.declaration
+//^^^ meta.function.anonymous meta.function.declaration
 //    ^^ meta.block meta.brace.curly
 
 MyClass.foo = function() {}
-// ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //       ^ entity.name.function
 
 MyClass.foo = () => {}
-// ^^^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //       ^ entity.name.function
 
 xhr.onload = function() {}
-// ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // <- support.class.js
 //  ^ entity.name.function
 
 xhr.onload = () => {}
-// ^^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // <- support.class.js
 //  ^ entity.name.function
 
 var simpleArrow = foo => bar
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
 //                    ^ storage.type.function.arrow
 
 var Proto = () => {
-//  ^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //   ^ entity.name.function
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
 
 Proto.prototype.getVar = () => this._var
-// ^^^^^^^^^^^^ meta.prototype.access
-//              ^^^^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
@@ -389,7 +398,7 @@ Proto.prototype.getVar = () => this._var
 
 Class3.prototype = function() {
 // ^^^^^^^^^^^^^ meta.prototype.declaration
-//                 ^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //       ^ support.constant.prototype
 }
@@ -406,12 +415,44 @@ sources.DOM
     .status()
     // ^ meta.function-call.method variable.function
 
+return new Promise(resolve => preferenceObject.set({value}, resolve));
+//                                                                  ^ meta.function-call.constructor meta.brace.round
+
+var anotherSingle = function(){a = param => param; return param2 => param2 * a}
+//                                 ^ meta.function.declaration variable.parameter.function - meta.function.anonymous
+//                                          ^ meta.block meta.block variable.other.readwrite
+//                                               ^ meta.block punctuation.terminator.statement
+//                                                        ^ meta.function.anonymous meta.function.declaration variable.parameter.function
+//                                                                           ^ meta.block meta.block variable.other.readwrite
+//                                                                            ^ meta.block meta.brace.curly
+
+baz(foo(x => x('bar')))
+//                   ^ meta.function-call meta.function-call meta.brace.round
+//                    ^ meta.function-call meta.brace.round
+
+func(a, b)
+// ^ variable.function
+//  ^ meta.group.braces.round meta.brace.round
+//   ^ meta.group.braces.round variable.other.readwrite
+//       ^ meta.group.braces.round meta.brace.round
+
+var instance = new Constructor(param1, param2)
+//                 ^ variable.type
+//                            ^ meta.group.braces.round meta.brace.round
+//                             ^ meta.group.braces.round variable.other.readwrite
+//                                           ^ meta.group.braces.round meta.brace.round
+
+this.func()
+// <- variable.language.this
+self.func()
+// <- variable.language.self
+
 var Constructor = function() {
     this._var = 1;
     // ^ variable.language.this
     this._method = function() {}
     // ^ variable.language.this
-    //    ^ entity.name.function
+    //    ^ entity.name.function - meta.function.anonymous
 }
 
 // Tests to ensure the new keyword is highlighted properly even when the
@@ -432,3 +473,143 @@ new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
 //        ^^^^^^^^^^ - meta.instance.constructor
+
+void {
+    'test1': [],
+    'test2': new SomeOjbectHash["default"],
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
+//                             ^ meta.group.braces.square
+    'test3': "asdf"
+}
+// <- meta.object-literal meta.brace.curly
+
+a = b.c
+d = e.f
+// <- variable.other.readwrite
+
+width/2 + lineStart * Math.sin(i * 30 * π/180)
+//   ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+//                         ^^^^^^^^^^^^^^^^^^^ meta.function-call.method
+
+var reg = /a+/gimy.exec('aabb')
+//        ^^^^^^^^ string.regexp
+//                ^ punctuation.accessor
+
+'aabbcc'.replace(/b+/, 'd')
+//               ^^^^ string.regexp
+//                 ^ keyword.operator.quantifier.regexp
+
+/a+/
+// <- string.regexp
+
+'foo'.bar() / baz
+//            ^ variable.other.readwrite
+
+var g = 50
+
+g / 20 + 30 /g
+//^ keyword.operator.arithmetic
+//          ^ keyword.operator.arithmetic
+
+var h = foo() / 20 + 30 /g
+//            ^ keyword.operator.arithmetic
+//                      ^ keyword.operator.arithmetic
+
+foo['bar']/ 20 + 30 /g
+//        ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+
+var result = 200 / 400 + 500 /
+//               ^ keyword.operator.arithmetic
+//                           ^ keyword.operator.arithmetic
+100;
+
+var re = /
+[a-z]
+// ^ string.regexp.js
+/g
+// <- string.regexp.js punctuation.definition.string.end
+
+var π = 3.141592653
+//  ^ variable.other.readwrite
+
+var angle = 2*π / count // angle between circles
+//              ^ keyword.operator.arithmetic
+
+var angle = 2*π / count /* angle between circles */
+//              ^ keyword.operator.arithmetic
+
+a = /foo\/bar/g // Ensure handling of escape / in regex detection
+//    ^ string.regexp
+//       ^ constant.character.escape
+
+var re = /^\/[^/]+/
+//             ^ constant.other.character-class.set.regexp
+//               ^ keyword.operator.quantifier
+
+define(['common'], function(common) {
+//                 ^ meta.function.anonymous meta.function.declaration
+    var namedFunc = function() {
+//        ^ meta.function.declaration - meta.function.anonymous
+    }
+});
+
+new FooBar(function(){
+//          ^ meta.function.anonymous meta.function.declaration
+    var namedFunc2 = function() {
+//        ^ meta.function.declaration - meta.function.anonymous
+    }
+})
+
+['foo'].bar = function() {
+//      ^ meta.property.object entity.name.function - meta.function.anonymous
+}
+
+['foo'].$ = function() {
+//      ^ meta.property.object.dollar.only entity.name.function - meta.function.anonymous
+}
+
+['foo'].$bar = function() {
+//      ^ meta.property.object.dollar entity.name.function - meta.function.anonymous
+}
+
+{
+// <- meta.block meta.brace.curly
+    let foo = 1;
+//  ^^^ meta.block storage.type
+//      ^^^ variable.other.readwrite
+}
+// <- meta.block meta.brace.curly
+
+var test =
+{a: 1}
+// <- meta.object-literal meta.brace.curly
+
+// Handle multi-line "concise" arrow function bodies
+var conciseFunc = () => 
+  foo
+//^^^ meta.block variable.other.readwrite
+  .bar()
+//^^^^^^ meta.block
+
+// Handle an arrow function in a parenthetical group
+(myFunc = (a) => a*2)
+// <- meta.group.braces.round meta.brace.round
+// ^^^^ entity.name.function
+//                  ^ meta.group.braces.round meta.brace.round - meta.block
+
+$.each({})
+// <- variable.other.object.dollar.only punctuation.dollar
+//     ^ meta.object-literal
+
+$varname.method()
+// <- variable.other.object.dollar punctuation.dollar - variable.other.object.dollar.only
+// ^ variable.other.object.dollar
+
+$.fn.new_plugin = function() {}
+// <- support.class.dollar.only punctuation.dollar
+
+$var.fn.name = () => {}
+// <- support.class.dollar punctuation.dollar - support.class.dollar.only
+// ^ support.class.dollar - punctuation.dollar

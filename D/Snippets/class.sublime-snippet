@@ -1,6 +1,8 @@
 <snippet>
-    <content><![CDATA[class ${1:${TM_FILENAME/(.*?)(\..+)/$1/}} {
-	this($2) {
+    <content><![CDATA[class ${1:name}
+{
+	this($2)
+	{
 		$0
 	}
 }

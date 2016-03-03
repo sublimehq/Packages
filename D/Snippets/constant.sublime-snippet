@@ -1,6 +1,6 @@
 <snippet>
-    <content><![CDATA[private static final ${1:char[]} ${2:name} = ${4:"${3:value}"};]]></content>
-    <tabTrigger>ps</tabTrigger>
+    <content><![CDATA[static immutable ${1:type} ${2:name} = ${3:value};]]></content>
+    <tabTrigger>con</tabTrigger>
     <scope>source.d</scope>
-    <description>constant (private static final)</description>
+    <description>runtime constant (static immutable)</description>
 </snippet>
