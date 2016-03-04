@@ -396,7 +396,7 @@ void abcdWXYZ1234()
 {
 }
 
-// long func(int x, void *MYMACRO(y) ) {} // Currently failing , to be fix
+long func(int x, void *MYMACRO(y) ) {}
 /*                     ^ -entity.name.function */
 /*                                       ^ -meta.parens */
 

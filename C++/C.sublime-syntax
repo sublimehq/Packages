@@ -90,17 +90,7 @@ contexts:
     - include: preprocessor-rule-other-block
     - include: keywords
     - include: access
-    - match: |-
-        (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
-        (\b
-          (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
-        )
-         \s*(\()
-      scope: meta.function-call.c
-      captures:
-        1: punctuation.whitespace.function-call.leading.c
-        2: support.function.any-method.c
-        3: punctuation.definition.parameters.c
+    - include: function-call
     - match: |-
         (?x)
                 (?x)
@@ -485,6 +475,18 @@ contexts:
       scope: constant.other.placeholder.c
     - match: "%"
       scope: invalid.illegal.placeholder.c
+  function-call:
+    - match: |-
+        (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
+        (\b
+          (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
+        )
+         \s*(\()
+      scope: meta.function-call.c
+      captures:
+        1: punctuation.whitespace.function-call.leading.c
+        2: support.function.any-method.c
+        3: punctuation.definition.parameters.c
   function-definition:
     - match: |-
         (?x)
@@ -499,18 +501,24 @@ contexts:
           (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
           (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
         )
-         \s*(?=\()
+         \s*(\()
       captures:
         1: punctuation.whitespace.function.leading.c
         3: entity.name.function.c
         4: punctuation.definition.parameters.c
       push:
         - meta_scope: meta.function.c
-        - match: '(?<=\})|(?=#)|(;)'
-          pop: true
-        - include: comments
-        - include: parens
-        - include: strings
-        - match: \b(const|final|noexcept|override)\b
-          scope: storage.modifier.c
-        - include: block
+        - match : \)
+          set:
+          - match: '(?<=\})|(?=#)|(;)'
+            pop: true
+          - include: comments
+          - include: parens
+          - include: strings
+          - match: \b(const|final|noexcept|override)\b
+            scope: storage.modifier.c
+          - include: block
+        - include: base-language
+        - include: function-call
+
+
