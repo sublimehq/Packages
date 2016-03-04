@@ -620,12 +620,12 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<=[\s`(]|^)({{cmdPrivilege}})(?=[\s`)]|$)'
+    - match: '(?<=[\s><&;|`(]|^)({{cmdPrivilege}})(?=[\s><&;|`)]|$)'
       scope: support.function.external.shell
-    - match: '(?<=[\s`(]|^)({{cmdBuiltin}})(?=[\s`)]|$)'
+    - match: '(?<=[\s><&;|`(]|^)({{cmdBuiltin}})(?=[\s><&;|`)]|$)'
       scope: support.function.builtin.shell
       push: cmdArgs
-    - match: '(?<=[\s`(]|^)({{cmdExternal}})(?=[\s`)]|$)'
+    - match: '(?<=[\s><&;|`(]|^)({{cmdExternal}})(?=[\s><&;|`)]|$)'
       scope: support.function.external.shell
       push: cmdArgs
   cmdArgs:
