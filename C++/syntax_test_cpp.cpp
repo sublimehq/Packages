@@ -379,6 +379,8 @@ float sci8 = 23e-1'000;
 /*           ^ constant.numeric */
 /*                   ^ constant.numeric */
 
+double sci_hex = 0xc1.01AbFp-1;
+/*               ^^^^^^^^^^^^^ constant.numeric */
 
 /////////////////////////////////////////////
 // Functions
