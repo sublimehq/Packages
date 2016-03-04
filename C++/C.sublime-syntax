@@ -365,13 +365,10 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-      push:
-        - match: ^\s*(#\s*(endif)\b)
-          captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.if.c
-          pop: true
-        - include: $top_level_main
+    - match: ^\s*(#\s*(endif)\b)
+      captures:
+        1: meta.preprocessor.c
+        2: keyword.control.import.if.c
   preprocessor-rule-other-block:
     - match: ^\s*(#\s*(if(n?def)?)\b.*?(?:(?=(?://|/\*))|$))
       captures:
