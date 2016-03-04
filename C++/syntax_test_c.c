@@ -43,6 +43,32 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+
+/////////////////////////////////////////////
+// Test Macro crossing block
+/////////////////////////////////////////////
+
+int foo(int val)
+{
+    int result
+    result = func(val);
+    if (result == 0) {
+        return 0;
+#if CROSS_SCOPE_MACRO
+ /* <- keyword.control.import */
+    } else if (result > 0) {
+        return 1;
+#endif
+ /* <- keyword.control.import.if */
+    }
+    return -1;
+}
+
+/////////////////////////////////////////////
+// Test function call in function parameters
+/////////////////////////////////////////////
+
 static string foo(bar() + ';');
+/*            ^^^ entity.name.function */
 /*                        ^^^ string */
 /*                           ^ -string */

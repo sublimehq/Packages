@@ -387,13 +387,10 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-      push:
-        - match: ^\s*(#\s*(endif)\b)
-          captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.if.c
-          pop: true
-        - include: block_innards
+    - match: ^\s*(#\s*(endif)\b)
+      captures:
+        1: meta.preprocessor.c
+        2: keyword.control.import.if.c
   preprocessor-other:
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
