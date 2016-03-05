@@ -215,6 +215,7 @@ foo:if:bar # 'if' is not a control key word here
 func-while # 'while' is not a control key word here
 func_for   # 'for' is not a control key word here
 func-for   # 'for' is not a control key word here
+dd if=/dev/hda of=/dev/hdb # 'if' is not a control key word here
 
 # Test cases for shell grammar.
 rm -rf mkdir                # 'mkdir' is not a control key word here
