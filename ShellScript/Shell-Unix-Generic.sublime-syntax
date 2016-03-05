@@ -18,43 +18,44 @@ file_extensions:
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)\b|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 variables:
-  cmdPrivilege: '(?x:
-    sudo
-  )'
   cmdExternal: '(?x:
     7z|7za|
     apropos|apt-get|aptitude|ar|aria2c|aspell|autoconf|awk|
     base64|basename|bash|bc|brew|bzip2|
-    cal|cat|cc|cfdisk|chgrp|chkconfig|chmod|chown|chroot|chsh|cksum|clang|
-    clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|cut|
+    cal|cat|cc|cfdisk|chfn|chgrp|chkconfig|chmod|chown|chpasswd|chroot|chsh|
+    cksum|clang|clear|cmake|cmp|comm|composer|cp|cron|crontab|csh|csplit|curl|
+    cut|
     date|dc|dd|ddrescue|deb|depmod|df|diff|dig|dir|dircolors|dirname|
     dmesg|dpkg|du|
-    easy_install|egrep|eject|env|expand|expect|expr|
-    fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|function|fuser|
-    g\+\+|gawk|gcc|gem|git|grep|groupadd|groupdel|groupmd|groups|gzip|
+    easy_install|egrep|eject|emacs|env|expand|expect|expr|
+    fdformat|fdisk|fgrep|file|find|finger|fmt|fold|format|free|fsck|ftp|
+    function|fuser|
+    g\+\+|gawk|gcc|gem|getfacl|git|gpasswd|grep|groupadd|groupdel|groupmd|
+    groups|gzip|
     head|hg|htop|homebrew|hostname|
     iconv|id|ifconfig|ifdown|ifup|import|insmod|
     jar|java|join|
-    killall|kmod|
+    kermit|killall|kmod|
     less|lftp|link|llvm|ln|locate|logname|look|loout|lpc|lpq|lpr|lprint|lprintd|
     lprintq|lprm|ls|lsod|lsof|lua|
-    mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|
-    most|mount|mtools|mtr|mutt|mv|mysql|mysqldump
+    mail|make|man|md5sum|mesg|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|
+    more|most|mount|mtools|mtr|mutt|mv|mysql|mysqldump|
     netstat|nl|node|notify-se|npm|nslookup|nstat|
     op|open|openssl|
-    pandoc|paste|patch|paswd|pathchk|pear|pecl|
-    perl|php|ping|pip|pkill|pr|printcap|ps|pv|py|python|
+    pandoc|paste|patch|passwd|pathchk|pear|pecl|
+    perl|php|ping|pip|pkill|pr|printcap|ps|pv|pwck|pwconv|pwunconv|py|python|
     qmake|quota|quotachec|quotactl|
     ram|rar|rcp|reboot|remsync|renae|renice|rev|rm|rmdir|rmmod|rpm|rsync|ruby|
-    scp|screen|sdiff|sed|select|seq|service|sftp|sh|shutdown|sleep|slocate|sort|
-    split|sqlite|ssh|sshfs|stat|strace|su|sum|susend|svn|sync|sysctl|
-    tail|tar|tcsh|tee|thtool|timeout|top|touch|tput|tr|tracerout|tsort|tty|
+    scp|screen|sdiff|sed|select|seq|service|setfacl|sftp|sh|shutdown|sleep|
+    slocate|sort|split|sqlite|ssh|sshfs|stat|strace|su|subl|sudo|sum|susend|svn|
+    sync|sysctl|
+    tail|tar|tcsh|tee|thtool|tig|timeout|top|touch|tput|tr|tracerout|tsort|tty|
     umount|uname|unexpand|unil|uniq|units|unrar|unshar|unzip|updatedb|uptime|
     useradd|userdel|usermod|users|uudecode|uuencode|
-    vmstat|
-    watch|wc|wget|whatis|whereis|which|who|whoami|write|
+    vi|vim|visudo|vmstat|
+    w|wall|watch|wc|wget|whatis|whereis|which|who|whoami|write|
     xargs|xdg-open|xz|
-    yum|
+    ypcat|yppasswd|ypchfn|ypchsh|yptest|ypwhich|yum|
     zip|zsh
   )([._+\-\d]*)'
   cmdBuiltin: '(?x:
@@ -620,8 +621,6 @@ contexts:
   support:
     - match: (?<=^|\s)(?::|\.)(?=\s|;|&|$)
       scope: support.function.builtin.shell
-    - match: '(?<=[\s><&;|`(]|^)({{cmdPrivilege}})(?=[\s><&;|`)]|$)'
-      scope: support.function.external.shell
     - match: '(?<=[\s><&;|`(]|^)({{cmdBuiltin}})(?=[\s><&;|`)]|$)'
       scope: support.function.builtin.shell
       push: cmdArgs
