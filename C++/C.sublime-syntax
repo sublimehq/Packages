@@ -28,6 +28,7 @@ contexts:
     - include: operators
     - include: strings
   keywords:
+    - include: typedef
     - match: \b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\b
       scope: keyword.control.c
     - match: \b(asm|__asm__|auto|bool|_Bool|char|_Complex|double|enum|float|_Imaginary|int|long|short|signed|struct|typedef|union|unsigned|void)\b
@@ -71,6 +72,20 @@ contexts:
       scope: support.constant.mac-classic.c
     - match: \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
       scope: support.type.mac-classic.c
+  typedef:
+    - match: \btypedef\b
+      scope: storage.type.c
+      push:
+        - match: \b([A-Za-z_]\w*)\s*;
+          captures:
+            1: entity.name.type.typedef.c
+          pop: true
+        - match: \b(struct)\s+(([A-Za-z_]\w*))\b
+          captures:
+            1: storage.type.c
+            2: entity.name.type.struct.c
+        - include: base-language
+        - include: block
   numbers:
     - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.c

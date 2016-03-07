@@ -43,7 +43,6 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
-
 /////////////////////////////////////////////
 // Test Macro crossing block
 /////////////////////////////////////////////

@@ -107,6 +107,21 @@ float f;
 double d;
 /* <- storage.type */
 
+typedef int my_int;
+/* <- storage.type */
+/*          ^ entity.name.type */
+
+typedef struct Books {
+/*      ^ storage.type */
+/*             ^ entity.name.type */
+   char title[50];
+   int book_id;
+} Book;
+/*^ entity.name.type */
+
+typedef struct Books Book;
+/*             ^ entity.name.type.struct */
+/*                   ^ entity.name.type.typedef */
 
 /////////////////////////////////////////////
 // Storage Modifiers
