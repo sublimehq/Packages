@@ -29,7 +29,10 @@ int i;
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant */
 
-#if defined(VARIABLE)
+#if defined(VARIABLE) | // comment_line \
+	defined(VAR2)
+/*  ^ keyword.control */
+/*          ^ meta.preprocessor */
 # error This is a long error message that need to   \
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \

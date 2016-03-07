@@ -102,7 +102,7 @@ contexts:
   block_innards:
     - include: preprocessor-rule-enabled-block
     - include: preprocessor-rule-disabled-block
-    - include: preprocessor-rule-other-block
+    - include: preprocessor-rule-other
     - include: keywords
     - include: access
     - include: function-call
@@ -376,19 +376,17 @@ contexts:
               pop: true
             - include: block_innards
   preprocessor-rule-other:
-    - match: ^\s*(#\s*(if(n?def)?)\b.*?(?:(?=(?://|/\*))|$))
+    - match: ^\s*#\s*(if(n?def)?)\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-    - match: ^\s*(#\s*(endif)\b)
-      captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.if.c
-  preprocessor-rule-other-block:
-    - match: ^\s*(#\s*(if(n?def)?)\b.*?(?:(?=(?://|/\*))|$))
-      captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
+        1: keyword.control.import.c
+      push:
+        - meta_scope: meta.preprocessor.c
+        - include: line-continuation
+        - include: comments
+        - match: \bdefined\b
+          scope: keyword.control.c
+        - match: $\n
+          pop: true
     - match: ^\s*(#\s*(endif)\b)
       captures:
         1: meta.preprocessor.c
@@ -434,7 +432,7 @@ contexts:
               captures:
                 0: punctuation.definition.string.end.c
               pop: true
-    - match: ^\s*#\s*(defined|elif|else|if|ifdef|ifndef|line|pragma|undef)\b
+    - match: ^\s*#\s*(elif|else|if|ifdef|ifndef|line|pragma|undef)\b
       captures:
         1: keyword.control.import.c
       push:
@@ -443,6 +441,8 @@ contexts:
           captures:
             1: keyword.control.import.c
           pop: true
+        - match: \bdefined\b
+          scope: keyword.control.c
         - match: (?>\\\s*\n)
           scope: punctuation.separator.continuation.c
   strings:
