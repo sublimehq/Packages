@@ -135,6 +135,7 @@ contexts:
           scope: meta.brace.curly.js
           pop: true
         - include: statements
+    - include: label
     - include: expressions
 
   conditional:
@@ -275,7 +276,6 @@ contexts:
     - include: literal-prototype
     - include: named-function
     - include: anonymous-function
-    - include: label
     - include: mustache
     - include: object-literal
     - include: brackets
@@ -917,7 +917,7 @@ contexts:
         - match: ':'
           scope: punctuation.separator.key-value.js
           push:
-            - match: '(?=\}|,)'
+            - match: "(?=\\}|,|('.*'|\".*\"|{{identifier}})\\s*:)"
               pop: true
             - include: expressions
         - include: method-declaration

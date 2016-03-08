@@ -483,6 +483,20 @@ void {
 }
 // <- meta.object-literal meta.brace.curly
 
+// This tests parsing semi-broken object literals, which should help while a
+// user is in the middle of typing code
+void {
+    key1: true
+//  ^^^^ meta.object-literal.key.js
+    key2: 0
+//  ^^^^ meta.object-literal.key.js
+    key3: function()
+//  ^^^^ meta.object-literal.key.js entity.name.function
+    {
+
+    }
+}
+
 a = b.c
 d = e.f
 // <- variable.other.readwrite
