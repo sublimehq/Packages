@@ -72,7 +72,7 @@ contexts:
         5: storage.type.template.d
       push:
         - meta_scope: meta.definition.struct.d
-        - match: "(?={|//)"
+        - match: "(?={|//|;)"
           pop: true
         - match: \b(_|:)\b
           captures:

@@ -189,3 +189,10 @@ class CmdLin
     }
 }
  // <- - meta.class
+
+extern(C):
+struct the_c_struct;
+
+class MyClass {
+// <- storage.type
+}
