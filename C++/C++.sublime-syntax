@@ -29,8 +29,10 @@ contexts:
   keywords:
     - match: \b(friend|explicit|virtual)\b
       scope: storage.modifier.c++
-    - match: \b(private:|protected:|public:)
-      scope: storage.modifier.c++
+    - match: \b(private|protected|public)\s*(:)
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.section.class.c++
     - match: \b(catch|noexcept|operator|static_assert|try|throw|using)\b
       scope: keyword.control.c++
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
@@ -73,9 +75,11 @@ contexts:
         - include: $top_level_main
   block:
     - match: '\{'
+      scope: punctuation.definition.scope.c
       push:
         - meta_scope: meta.block.c++
         - match: '\}'
+          scope: punctuation.definition.scope.c
           pop: true
         - match: |-
             (?x)
@@ -199,8 +203,10 @@ contexts:
         - match: ';|(?<=\})'
           pop: true
         - match: '\{'
+          scope: punctuation.definition.scope.c
           push:
             - match: '\}'
+              scope: punctuation.definition.scope.c
               pop: true
             - include: special_block
             - include: constructor
@@ -255,8 +261,10 @@ contexts:
         - match: '(?<=\})|(?=\w)'
           pop: true
         - match: '\{'
+          scope: punctuation.definition.scope.c
           push:
             - match: '\}'
+              scope: punctuation.definition.scope.c
               pop: true
             - include: special_block
             - include: $top_level_main

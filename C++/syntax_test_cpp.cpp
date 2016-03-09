@@ -439,7 +439,7 @@ class BaseClass // comment
 /* <- storage.type */
 /*    ^ entity.name.type */
 {
-public:
+public :
 /* <- storage.modifier */
 protected:
 /* <- storage.modifier */
@@ -452,9 +452,11 @@ private:
     virtual void doSomething() const = 0;
     /* <- storage.modifier */
     /*                         ^ storage.modifier */
+    /*                                 ^ constant.numeric */
 };
 
 class DerivedClass : public BaseClass // Comment
+/*                          ^ entity.other.inherited-class */
 /*                                     ^ comment.line */
 {
     virtual void doSomething() const override final;

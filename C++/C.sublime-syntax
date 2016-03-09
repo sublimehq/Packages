@@ -12,21 +12,22 @@ contexts:
     - include: preprocessor-rule-enabled
     - include: preprocessor-rule-disabled
     - include: preprocessor-rule-other
-    - include: comments
-    - include: keywords
-    - include: numbers
-    - include: strings
-    - include: preprocessor
-    - include: type
-    - include: block
+    - include: base-language
     - include: function-definition
-    - include: operators
   base-language:
     - include: keywords
     - include: numbers
     - include: comments
     - include: operators
     - include: strings
+    - include: parens
+    - include: block
+    - include: preprocessor
+    - include: type
+    - match: ','
+      scope: punctuation.separator.c
+    - match: '\)|\}'
+      scope: invalid.illegal.stray-bracket-end
   keywords:
     - include: typedef
     - match: \b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\b
@@ -50,14 +51,16 @@ contexts:
     - match: \b(hypot(f|l)?|s(scanf|ystem|nprintf|ca(nf|lb(n(f|l)?|ln(f|l)?))|i(n(h(f|l)?|f|l)?|gn(al|bit))|tr(s(tr|pn)|nc(py|at|mp)|c(spn|hr|oll|py|at|mp)|to(imax|d|u(l(l)?|max)|k|f|l(d|l)?)|error|pbrk|ftime|len|rchr|xfrm)|printf|et(jmp|vbuf|locale|buf)|qrt(f|l)?|w(scanf|printf)|rand)|n(e(arbyint(f|l)?|xt(toward(f|l)?|after(f|l)?))|an(f|l)?)|c(s(in(h(f|l)?|f|l)?|qrt(f|l)?)|cos(h(f)?|f|l)?|imag(f|l)?|t(ime|an(h(f|l)?|f|l)?)|o(s(h(f|l)?|f|l)?|nj(f|l)?|pysign(f|l)?)|p(ow(f|l)?|roj(f|l)?)|e(il(f|l)?|xp(f|l)?)|l(o(ck|g(f|l)?)|earerr)|a(sin(h(f|l)?|f|l)?|cos(h(f|l)?|f|l)?|tan(h(f|l)?|f|l)?|lloc|rg(f|l)?|bs(f|l)?)|real(f|l)?|brt(f|l)?)|t(ime|o(upper|lower)|an(h(f|l)?|f|l)?|runc(f|l)?|gamma(f|l)?|mp(nam|file))|i(s(space|n(ormal|an)|cntrl|inf|digit|u(nordered|pper)|p(unct|rint)|finite|w(space|c(ntrl|type)|digit|upper|p(unct|rint)|lower|al(num|pha)|graph|xdigit|blank)|l(ower|ess(equal|greater)?)|al(num|pha)|gr(eater(equal)?|aph)|xdigit|blank)|logb(f|l)?|max(div|abs))|di(v|fftime)|_Exit|unget(c|wc)|p(ow(f|l)?|ut(s|c(har)?|wc(har)?)|error|rintf)|e(rf(c(f|l)?|f|l)?|x(it|p(2(f|l)?|f|l|m1(f|l)?)?))|v(s(scanf|nprintf|canf|printf|w(scanf|printf))|printf|f(scanf|printf|w(scanf|printf))|w(scanf|printf)|a_(start|copy|end|arg))|qsort|f(s(canf|e(tpos|ek))|close|tell|open|dim(f|l)?|p(classify|ut(s|c|w(s|c))|rintf)|e(holdexcept|set(e(nv|xceptflag)|round)|clearexcept|testexcept|of|updateenv|r(aiseexcept|ror)|get(e(nv|xceptflag)|round))|flush|w(scanf|ide|printf|rite)|loor(f|l)?|abs(f|l)?|get(s|c|pos|w(s|c))|re(open|e|ad|xp(f|l)?)|m(in(f|l)?|od(f|l)?|a(f|l|x(f|l)?)?))|l(d(iv|exp(f|l)?)|o(ngjmp|cal(time|econv)|g(1(p(f|l)?|0(f|l)?)|2(f|l)?|f|l|b(f|l)?)?)|abs|l(div|abs|r(int(f|l)?|ound(f|l)?))|r(int(f|l)?|ound(f|l)?)|gamma(f|l)?)|w(scanf|c(s(s(tr|pn)|nc(py|at|mp)|c(spn|hr|oll|py|at|mp)|to(imax|d|u(l(l)?|max)|k|f|l(d|l)?|mbs)|pbrk|ftime|len|r(chr|tombs)|xfrm)|to(b|mb)|rtomb)|printf|mem(set|c(hr|py|mp)|move))|a(s(sert|ctime|in(h(f|l)?|f|l)?)|cos(h(f|l)?|f|l)?|t(o(i|f|l(l)?)|exit|an(h(f|l)?|2(f|l)?|f|l)?)|b(s|ort))|g(et(s|c(har)?|env|wc(har)?)|mtime)|r(int(f|l)?|ound(f|l)?|e(name|alloc|wind|m(ove|quo(f|l)?|ainder(f|l)?))|a(nd|ise))|b(search|towc)|m(odf(f|l)?|em(set|c(hr|py|mp)|move)|ktime|alloc|b(s(init|towcs|rtowcs)|towc|len|r(towc|len))))\b
       scope: support.function.C99.c
   attribute:
-    - match: \b(__attribute__)\s*\(\(
+    - match: \b(__attribute__)\s*(\(\()
       captures:
         1: storage.modifier.c
+        2: punctuation.definition.parameters.c
       push :
         - meta_scope: meta.attribute.c
         - include: parens
         - include: strings
         - match: \)\)
+          scope: punctuation.definition.parameters.c
           pop: true
   type:
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
@@ -76,7 +79,7 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.c
       push:
-        - match: \b([A-Za-z_]\w*)\s*;
+        - match: (\b[A-Za-z_]\w*)?\s*;
           captures:
             1: entity.name.type.typedef.c
           pop: true
@@ -85,19 +88,24 @@ contexts:
             1: storage.type.c
             2: entity.name.type.struct.c
         - include: base-language
-        - include: block
   numbers:
     - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.c
   access:
-    - match: '\.[a-zA-Z_][a-zA-Z_0-9]*\b(?!\s*\()'
-      scope: variable.other.dot-access.c
+    - match: '(\.)([a-zA-Z_][a-zA-Z_0-9]*)\b(?!\s*\()'
+      captures:
+        1: keyword.operator.accessor.c
+        2: variable.other.dot-access.c
   block:
     - match: '\{'
+      scope: punctuation.definition.scope.c
       push:
         - meta_scope: meta.block.c
         - match: '\}'
+          scope: punctuation.definition.scope.c
           pop: true
+        - match: .*$(?!\n)
+          scope: invalid.illegal.unbalanced-curly-bracket
         - include: block_innards
   block_innards:
     - include: preprocessor-rule-enabled-block
@@ -117,12 +125,13 @@ contexts:
           (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++    |              # actual name
           (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )?  # if it is a C++ operator
         )
-         \s*(\()
+         \s*(?=\()
       scope: meta.initialization.c
       captures:
         1: variable.other.c
         2: punctuation.definition.parameters.c
     - include: block
+    - include: parens
     - include: $top_level_main
   comments:
     - match: ^/\* =(\s*.*?)\s*= \*/$\n?
@@ -176,14 +185,20 @@ contexts:
       scope: keyword.operator.arithmetic.c
     - match: \=
       scope: keyword.operator.assignment.c
-    - match: '::'
+    - match: '\?|:'
+      scope: keyword.operator.ternary.c
+    - match: '::|\.\.\.'
       scope: keyword.operator.other.c
   parens:
     - match: \(
+      scope: punctuation.definition.parameters.c
       push:
         - meta_scope: meta.parens.c
         - match: \)
+          scope: punctuation.definition.parameters.c
           pop: true
+        - match: .*$(?!\n)
+          scope: invalid.illegal.unbalanced-parenthesis
         - include: $top_level_main
   preprocessor:
     - include: preprocessor-macro-define
@@ -325,7 +340,6 @@ contexts:
           captures:
             1: meta.preprocessor.c
             2: keyword.control.import.if.c
-            3: constant.numeric.preprocessor.c
           pop: true
         - match: ^\s*(#\s*(else)\b).*
           captures:
@@ -494,21 +508,27 @@ contexts:
           (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
         )
          \s*(\()
-      scope: meta.function-call.c
       captures:
         1: punctuation.whitespace.function-call.leading.c
         2: support.function.any-method.c
-        3: punctuation.definition.parameters.c
+        4: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function-call.c
+        - match : \)
+          scope: punctuation.definition.parameters.c
+          pop: true
+        - include: base-language
+        - include: function-call
   function-definition:
     - match: |-
         (?x)
         (?:  ^                                 # begin-of-line
           |
              (?: (?= \s )           (?<!else|new|return) (?<=\w)      #  or word + space before name
-               | (?= \s*[A-Za-z_] ) (?<!&&)       (?<=[*&>])   #  or type modifier before name
+               | (?= \s*[A-Za-z_] ) (?<!(?:&&|->))       (?<=[*&>])   #  or type modifier before name
              )
         )
-        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()
+        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert|sizeof|const)\s*\()
         (
           (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
           (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
@@ -521,15 +541,13 @@ contexts:
       push:
         - meta_scope: meta.function.c
         - match : \)
+          scope: punctuation.definition.parameters.c
           set:
           - match: '(?<=\})|(?=#)|(;)'
             pop: true
-          - include: comments
-          - include: parens
-          - include: strings
+          - include: base-language
           - match: \b(const|final|noexcept|override)\b
             scope: storage.modifier.c
-          - include: block
         - include: base-language
         - include: function-call
 

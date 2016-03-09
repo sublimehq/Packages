@@ -52,7 +52,7 @@ bool still_C_code_here = true;
 
 int foo(int val)
 {
-    int result
+    int result;
     result = func(val);
     if (result == 0) {
         return 0;
@@ -74,3 +74,12 @@ static string foo(bar() + ';');
 /*            ^^^ entity.name.function */
 /*                        ^^^ string */
 /*                           ^ -string */
+
+/////////////////////////////////////////////
+// Invalid
+/////////////////////////////////////////////
+)
+/* <- invalid.illegal.stray-bracket-end */
+}
+/* <- invalid.illegal.stray-bracket-end */
+( unbalanced parenthesis
