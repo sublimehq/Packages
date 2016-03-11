@@ -110,7 +110,7 @@ variables:
 
   # patterns for plain scalars of implicit different types
   # (for the Core Schema: http://www.yaml.org/spec/1.2/spec.html#schema/core/)
-  _type_null: null|Null|NULL|~ # http://yaml.org/type/null.html
+  _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
   _type_bool: |- # http://yaml.org/type/bool.html
     (?x:
        y|Y|yes|Yes|YES|n|N|no|No|NO
