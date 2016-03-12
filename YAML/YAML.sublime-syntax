@@ -359,7 +359,7 @@ contexts:
     - match: '{{ns_plain_first_plain_out}}'
       push:
         - meta_scope: string.unquoted.plain.out.yaml
-          meta_include_prototype: false # not required to exclude, but are unnecessary
+          meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
 
@@ -370,7 +370,7 @@ contexts:
     - match: '{{ns_plain_first_plain_in}}'
       push:
         - meta_scope: string.unquoted.plain.in.yaml
-          meta_include_prototype: false # not required to exclude, but are unnecessary
+          meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
 
@@ -434,7 +434,7 @@ contexts:
         - match: '{{ns_plain_first_plain_in}}'
           set:
             - meta_scope: string.unquoted.plain.in.yaml entity.name.tag.yaml
-              meta_include_prototype: false # not required to exclude, but are unnecessary
+              meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_in}}'
               pop: true
     - include: flow-node
@@ -523,7 +523,7 @@ contexts:
         - match: '{{ns_plain_first_plain_out}}'
           set:
             - meta_scope: string.unquoted.plain.out.yaml entity.name.tag.yaml
-              meta_include_prototype: false # not required to exclude, but are unnecessary
+              meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
     - match: :(?=\s|$)
