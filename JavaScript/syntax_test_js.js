@@ -562,6 +562,14 @@ var re = /^\/[^/]+/
 //             ^ constant.other.character-class.set.regexp
 //               ^ keyword.operator.quantifier
 
+(y - 1) / ((x - 1) / -2)
+//      ^ keyword.operator.arithmetic
+//        ^ meta.brace.round
+(y - 1) / ((x - 1) /  2)
+//    ^ meta.brace.round
+//      ^ keyword.operator.arithmetic
+ y      / ((x - 1) / -2)
+
 define(['common'], function(common) {
 //                 ^ meta.function.anonymous meta.function.declaration
     var namedFunc = function() {

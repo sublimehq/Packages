@@ -965,7 +965,7 @@ contexts:
         - meta_scope: meta.group.braces.round.js
         - match: \)
           scope: meta.brace.round.js
-          pop: true
+          set: after-identifier
         - include: expressions
     - match: \)
       scope: invalid.illegal.stray.brace.round.js
