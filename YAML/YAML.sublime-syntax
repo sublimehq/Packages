@@ -218,7 +218,7 @@ contexts:
   directive:
     # http://yaml.org/spec/1.2/spec.html#directive//
     - match: ^%
-      scope: punctuation.begin.directive.yaml
+      scope: punctuation.definition.directive.begin.yaml
       push:
         - meta_scope: meta.directive.yaml
         # %YAML directive

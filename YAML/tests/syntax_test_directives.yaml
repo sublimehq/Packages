@@ -11,7 +11,7 @@
 %YAML 1.2
 #^^^^     keyword.other.directive.yaml
 #     ^^^ constant.numeric.yaml-version
-# <- meta.directive punctuation.begin.directive
+# <- meta.directive punctuation.definition.directive.begin
 %YAML 9821.2213213 # comment
 #     ^^^^^^^^^^^^   constant.numeric.yaml-version
 #                  ^ comment
@@ -66,7 +66,7 @@
 
 %RESERVED
 #^^^^^^^^ meta.directive support.other.directive.reserved
-# <- meta.directive punctuation.begin.directive
+# <- meta.directive punctuation.definition.directive.begin
 %1
 #^ support.other.directive.reserved
 %RESERVED name
@@ -87,7 +87,7 @@
 ## MISC
 
 %
-# <- meta.directive punctuation.begin.directive
+# <- meta.directive punctuation.definition.directive.begin
 % TAG
 # ^^^ invalid.illegal
 %%
