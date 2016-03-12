@@ -35,3 +35,9 @@
 /*         ^ support.function.misc.css */
 /*              ^ constant.other.color.hsl-value.css */
 }
+
+html > div > span > custom-tag {}
+/* ^ entity.name.tag.css */
+/*     ^^^ entity.name.tag.css */
+/*           ^^^^ entity.name.tag.css */
+/*                  ^^^^^^^^^^ entity.name.tag.custom.css */
