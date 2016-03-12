@@ -417,9 +417,13 @@ contexts:
         (?x)
         (?=
           {{ns_plain_first_plain_in}}
-          ((?!{{_flow_scalar_end_plain_in}}).)*
-          {{_flow_scalar_end_plain_in}}
-          \s* :
+          (
+              [^\s:{{c_flow_indicator}}]
+            | : [^\s{{c_flow_indicator}}]
+            | \s+ (?![#\s])
+          )*+
+          \s*
+          :
         )
       push:
         # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
@@ -504,9 +508,13 @@ contexts:
         (?x)
         (?=
           {{ns_plain_first_plain_out}}
-          ((?!{{_flow_scalar_end_plain_out}}).)*
-          {{_flow_scalar_end_plain_out}}
-          \s* :
+          (
+              [^\s:]
+            | : \S
+            | \s+ (?![#\s])
+          )*+
+          \s*
+          :
         )
       push:
         - include: flow-scalar-plain-out-implicit-type
