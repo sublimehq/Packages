@@ -9,14 +9,14 @@
 # http://yaml.org/spec/1.2/spec.html#directive/YAML/
 
 %YAML 1.2
+#^^^^     keyword.other.directive.yaml
+#     ^^^ constant.numeric.yaml-version
 # <- meta.directive punctuation.begin.directive
- # <- keyword.other.directive.yaml
-#     ^ constant.numeric.yaml-version
 %YAML 9821.2213213 # comment
-#     ^ constant.numeric.yaml-version
+#     ^^^^^^^^^^^^   constant.numeric.yaml-version
 #                  ^ comment
 %YAML 9821.2213213 more
-#                  ^ invalid.illegal
+#                  ^^^^ invalid.illegal
 
 
 ##############################################################################
@@ -24,41 +24,40 @@
 # http://yaml.org/spec/1.2/spec.html#directive/TAG/
 
 %TAG
+#^^^ meta.directive keyword.other.directive.tag
 # <- meta.directive
- # <- keyword.other.directive.tag
 %TAG !
- # <- keyword.other.directive.tag
+#^^^ keyword.other.directive.tag
 #    ^ storage.type.tag-handle
 %TAG ! tag:example.com,2000:app/
- # <- keyword.other.directive.tag
-#    ^ storage.type.tag-handle
-#      ^ support.type.tag-prefix
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive
+#^^^                             keyword.other.directive.tag
+#    ^                           storage.type.tag-handle
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.tag-prefix
 %TAG !! tag:example.com,2000:app/
-#    ^ storage.type.tag-handle
+#    ^^   storage.type.tag-handle
 #       ^ support.type.tag-prefix
 %TAG !e! tag:example.com,2000:app/ # comment
-#    ^ storage.type.tag-handle
+#    ^^^   storage.type.tag-handle
 #        ^ support.type.tag-prefix
 #                                  ^ comment
 %TAG !e! !empty-
-#    ^ storage.type.tag-handle
-#        ^ support.type.tag-prefix
-#              ^ support.type.tag-prefix
+#    ^^^         storage.type.tag-handle
+#        ^^^^^^^ support.type.tag-prefix
 
 %TAG !tag some text
-#     ^ invalid.illegal
-#         ^ invalid.illegal
-#              ^ invalid.illegal
+#     ^^^ invalid.illegal
+#         ^^^^ invalid.illegal
+#              ^^^^ invalid.illegal
 %TAG !yea-! [
-#    ^      storage.type.tag-handle
-#         ^ storage.type.tag-handle
+#    ^^^^^^   storage.type.tag-handle
 #           ^ invalid.illegal
 %TAG !y_ea! [
-#      ^ invalid.illegal
+#     ^^^^^ invalid.illegal
 %TAG !yea! tag more
-#              ^ invalid.illegal
+#              ^^^^ invalid.illegal
 %TAG !yea!%%YAML
-#          ^ invalid.illegal
+#         ^^^^^^ invalid.illegal
 
 
 ##############################################################################
@@ -66,22 +65,22 @@
 # http://yaml.org/spec/1.2/spec.html#directive/reserved/
 
 %RESERVED
-# <- meta.directive
- # <- support.other.directive.reserved
+#^^^^^^^^ meta.directive support.other.directive.reserved
+# <- meta.directive punctuation.begin.directive
 %1
- # <- support.other.directive.reserved
+#^ support.other.directive.reserved
 %RESERVED name
- # <- support.other.directive.reserved
+#^^^^^^^^ support.other.directive.reserved
 #         ^ string.unquoted.directive-name
 %RESERVED name parameter #comment
- # <- support.other.directive.reserved
-#         ^ string.unquoted.directive-name
-#              ^ string.unquoted.directive-parameter
+#^^^^^^^^                  support.other.directive.reserved
+#         ^^^^             string.unquoted.directive-name
+#              ^^^^^^^^^   string.unquoted.directive-parameter
 #                        ^ comment
 %RESERVED name parameter#no-comment
-#                       ^ invalid.illegal
+#                       ^^^^^^^^^^^ invalid.illegal
 %RESERVED name parameter more
-#                        ^ invalid.illegal
+#                        ^^^^ invalid.illegal
 
 
 ##############################################################################
@@ -90,6 +89,6 @@
 %
 # <- meta.directive punctuation.begin.directive
 % TAG
-# ^ invalid.illegal
+# ^^^ invalid.illegal
 %%
- # <- invalid.illegal
+#^ invalid.illegal

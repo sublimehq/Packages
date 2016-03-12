@@ -8,48 +8,33 @@
 ## Plain (flow-out, block-key)
 
 plain
-# <- string.unquoted.plain.out
-#   ^ string.unquoted.plain.out
+#^^^^ string.unquoted.plain.out
 #    ^ -string
+# <- string.unquoted.plain.out
 
 -plain- ?plain?  :plain
+#^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out
 # <- string.unquoted.plain.out
-#     ^ string.unquoted.plain.out
-#      ^ string.unquoted.plain.out
-#       ^ string.unquoted.plain.out
-#             ^ string.unquoted.plain.out
-#              ^ string.unquoted.plain.out
-#               ^ string.unquoted.plain.out
-#                ^ string.unquoted.plain.out
 
 
 plain - plain ? plain : plain: plain
+#^^^^^^^^^^^^^^^^^^^^                string.unquoted.plain.out
+#                    ^^^             -string
+#                       ^^^^^        string.unquoted.plain.out
+#                            ^^      -string
+#                              ^^^^^ string.unquoted.plain.out
 # <- string.unquoted.plain.out
-#    ^ string.unquoted.plain.out
-#     ^ string.unquoted.plain.out
-#      ^ string.unquoted.plain.out
-#            ^ string.unquoted.plain.out
-#             ^ string.unquoted.plain.out
-#              ^ string.unquoted.plain.out
-#                    ^ -string
-#                     ^ -string
-#                      ^ -string
-#                            ^ -string
-#                             ^ -string
-#                              ^ string.unquoted.plain.out
 
 
 http://example.com/foo?baz#bar # comment
-#   ^ string.unquoted.plain.out
-#                     ^ string.unquoted.plain.out
-#                         ^ string.unquoted.plain.out
-#                              ^ comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out
+#                         ^^^^ -comment
+#                              ^ comment -string
+# <- string.unquoted.plain.out
 
 pl[a]i,n
+#^^^^^^^ string.unquoted.plain.out
 # <- string.unquoted.plain.out
-# ^ string.unquoted.plain.out
-#   ^ string.unquoted.plain.out
-#     ^ string.unquoted.plain.out
 
 
 ##############################################################################
@@ -57,51 +42,35 @@ pl[a]i,n
 
 [
 plain
-# <- string.unquoted.plain.in
-#   ^ string.unquoted.plain.in
+#^^^^ string.unquoted.plain.in
 #    ^ -string
+# <- string.unquoted.plain.in
 
 -plain- ?plain?  :plain
+#^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.in
 # <- string.unquoted.plain.in
-#     ^ string.unquoted.plain.in
-#      ^ string.unquoted.plain.in
-#       ^ string.unquoted.plain.in
-#             ^ string.unquoted.plain.in
-#              ^ string.unquoted.plain.in
-#               ^ string.unquoted.plain.in
-#                ^ string.unquoted.plain.in
 
 plain - plain ? plain : plain: plain
+#^^^^^^^^^^^^^^^^^^^^                string.unquoted.plain.in
+#                    ^^^             -string
+#                       ^^^^^        string.unquoted.plain.in
+#                            ^^      -string
+#                              ^^^^^ string.unquoted.plain.in
 # <- string.unquoted.plain.in
-#    ^ string.unquoted.plain.in
-#     ^ string.unquoted.plain.in
-#      ^ string.unquoted.plain.in
-#            ^ string.unquoted.plain.in
-#             ^ string.unquoted.plain.in
-#              ^ string.unquoted.plain.in
-#                    ^ -string
-#                     ^ -string
-#                      ^ -string
-#                            ^ -string
-#                             ^ -string
-#                              ^ string.unquoted.plain.in
 
 http://example.com/foo?baz#bar # comment
-#   ^ string.unquoted.plain.in
-#                     ^ string.unquoted.plain.in
-#                         ^ string.unquoted.plain.in -comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   string.unquoted.plain.in
+#                         ^^^^   -comment
 #                              ^ comment
+# <- string.unquoted.plain.in
 
 p[l]a,in:[]
 # <- string.unquoted.plain.in
-#^ -string
-# ^ string.unquoted.plain.in
-#  ^ -string
-#   ^ string.unquoted.plain.in
-#    ^ -string
-#     ^ string.unquoted.plain.in
-#      ^ string.unquoted.plain.in
-#       ^ -string
-#        ^ -string
-#         ^ -string
+#^          -string
+# ^         string.unquoted.plain.in
+#  ^        -string
+#   ^       string.unquoted.plain.in
+#    ^      -string
+#     ^^    string.unquoted.plain.in
+#       ^^^ -string
 ]
