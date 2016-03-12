@@ -123,7 +123,7 @@ variables:
       | [-+]? 0  [0-7_]+ # (base 8)
       | [-+]? (?: 0|[1-9][0-9_]*) # (base 10)
       | [-+]? 0x [0-9a-fA-F_]+ # (base 16)
-      | [-+]? [1-9] [0-9_]* (?: :[0-5]? [0-9])+ # (base 60)
+      | [-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+ # (base 60)
     )
   _type_float: |- # http://yaml.org/type/float.html
     (?x:
@@ -134,24 +134,24 @@ variables:
     )
   _type_timestamp: |- # http://yaml.org/type/timestamp.html
     (?x:
-        \d{4} - \d{2} - \d{2} # (ymd)
-      | \d{4} # (year)
-        - \d{1,2} # (month)
-        - \d{1,2} # (day)
-        (?: [Tt] | [ \t]+) \d{1,2} # (hour)
-        : \d{2} # (minute)
-        : \d{2} # (second)
-        (?: \.\d*)? # (fraction)
+        \d{4} - \d{2} - \d{2}           # (y-m-d)
+      | \d{4}                           # (year)
+        - \d{1,2}                       # (month)
+        - \d{1,2}                       # (day)
+        (?: [Tt] | [ \t]+) \d{1,2}      # (hour)
+        : \d{2}                         # (minute)
+        : \d{2}                         # (second)
+        (?: \.\d*)?                     # (fraction)
         (?:
             (?:[ \t]*) Z
           | [-+] \d{1,2} (?: :\d{1,2})?
-        )? # (time zone)
+        )?                              # (time zone)
     )
   _type_value: '=' # http://yaml.org/type/value.html
   _type_merge: '<<' # http://yaml.org/type/merge.html
 
   _type_all: |-
-    (?:
+    (?x:
         ({{_type_null}})
       | ({{_type_bool}})
       | ({{_type_int}})
@@ -177,7 +177,7 @@ contexts:
     - include: node
     # Use this for debugging. It should not match anything.
     # - match: \S
-    #   scope: invalid.illegal
+    #   scope: invalid.illegal.unmatched.yaml
 
   node:
     - include: block-node
@@ -204,7 +204,7 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#style/block/
     - include: block-scalar
     - include: block-collection
-    - include: flow-scalar-plain-out
+    - include: flow-scalar-plain-out  # needs higher priority than flow-node, which includes flow-scalar-plain-in
     - include: flow-node
 
   block-collection:
@@ -327,7 +327,6 @@ contexts:
     - match: |
         (?x)
         {{_type_all}}
-        \s*
         {{_flow_scalar_end_plain_in}}
       captures: # &implicit_type_captures
         1: constant.language.null.yaml
@@ -342,7 +341,6 @@ contexts:
     - match: |
         (?x)
         {{_type_all}}
-        \s*
         {{_flow_scalar_end_plain_out}}
       captures: # *implicit_type_captures
         # Alias does not work, see https://github.com/SublimeTextIssues/Core/issues/967
