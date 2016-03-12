@@ -92,15 +92,15 @@ continuation"
 #     ^ meta.flow-sequence punctuation.definition.sequence.end
 
 [a: b, c,'d', e: f, ]
-#^ string.unquoted.plain.in entity.name.tag
-# ^ meta.flow-pair-value punctuation.separator.mapping.key-value
+#^ meta.flow-pair.key string.unquoted.plain.in entity.name.tag
+# ^ meta.flow-pair punctuation.separator.mapping.key-value -meta.flow-pair.value
+#   ^ meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
 #      ^ string.unquoted.plain.in
 #       ^ punctuation.separator.sequence
 #        ^ string.quoted.single
 #             ^ string.unquoted.plain.in entity.name.tag
 #              ^ punctuation.separator.mapping.key-value
-#                 ^ punctuation.separator.mapping.pair
-
+#                 ^ punctuation.separator.sequence
 
 
 ##############################################################################
@@ -109,31 +109,39 @@ continuation"
 
 {a: b, :c: :d,
 # <- meta.flow-mapping punctuation.definition.mapping.begin
-# ^ meta.flow-pair-value punctuation.separator.mapping.key-value
-#   ^ meta.flow-pair-value
-#    ^ punctuation.separator.mapping.pair
+#^ meta.flow-pair.key string.unquoted.plain.in entity.name.tag
+# ^ meta.flow-pair punctuation.separator.mapping.key-value
+#   ^ meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
+#    ^ punctuation.separator.mapping
 #      ^ string.unquoted.plain.in entity.name.tag
 #        ^ punctuation.separator.mapping.key-value
 #          ^ string.unquoted.plain.in, -entity.name.tag
-#            ^ punctuation.separator.mapping.pair
-*alias }
+#            ^ punctuation.separator.mapping
+*alias, e : f }
 # ^ variable.other.alias
-#      ^ meta.flow-mapping punctuation.definition.mapping.end
+#     ^ punctuation.separator.mapping
+#       ^ string.unquoted.plain.in entity.name.tag
+#        ^ -string
+#         ^ punctuation.separator.mapping.key-value
+#           ^ string.unquoted.plain.in, -entity.name.tag
+#             ^ meta.flow-mapping punctuation.definition.mapping.end
 
 {? !!str 'key' : !!str value,
+#^ meta.flow-pair.explicit
 #^ punctuation.definition.key-value.begin
 #  ^ storage
 #        ^ string punctuation
 #         ^ string
+#            ^ string punctuation
 #              ^ punctuation.separator.mapping.key-value
 #                ^ storage
 #                       ^ string
-#                           ^ punctuation.separator.mapping.pair
+#                           ^ punctuation.separator.mapping
  ? !!str foo : :bar
 #^ punctuation.definition.key-value.begin
 #  ^ storage
 #        ^ string entity.name.tag
-#            ^ punctuation.separator.mapping.key-value
+#            ^ punctuation.separator.mapping.key-value -string
 #              ^ string.unquoted.plain.in
 }
 

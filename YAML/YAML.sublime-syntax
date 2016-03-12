@@ -397,13 +397,15 @@ contexts:
         - match: \}
           scope: punctuation.definition.mapping.end.yaml
           pop: true
+        - match: ','
+          scope: punctuation.separator.mapping.yaml
         - include: flow-pair
 
   flow-pair:
     - match: \?
       scope: punctuation.definition.key-value.begin.yaml
       push:
-        - meta_scope: meta.flow-mapping.yaml
+        - meta_scope: meta.flow-pair.explicit.yaml
         - match: (?=[},\]]) # Empty mapping keys & values are allowed
           pop: true
         - include: flow-pair
@@ -428,6 +430,7 @@ contexts:
       push:
         # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
         # https://github.com/SublimeTextIssues/Core/issues/966
+        - meta_scope: meta.flow-pair.key.yaml
         - include: flow-scalar-plain-in-implicit-type
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
@@ -439,15 +442,12 @@ contexts:
               pop: true
     - include: flow-node
     - match: :(?=\s|$|{{c_flow_indicator}}) # Empty mapping keys allowed
-      scope: punctuation.separator.mapping.key-value.yaml
+      scope: meta.flow-pair.yaml punctuation.separator.mapping.key-value.yaml
       push: flow-pair-value
 
   flow-pair-value:
-    - meta_scope: meta.flow-pair-value.yaml
+    - meta_content_scope: meta.flow-pair.value.yaml
     - include: flow-node
-    - match: ','
-      scope: punctuation.separator.mapping.pair.yaml
-      pop: true
     - match: (?=[},\]])
       pop: true
 
