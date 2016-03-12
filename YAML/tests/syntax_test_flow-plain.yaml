@@ -3,6 +3,7 @@
 
 # http://yaml.org/spec/1.2/spec.html#style/flow/plain
 
+
 ##############################################################################
 ## Plain (flow-out, block-key)
 
@@ -49,6 +50,7 @@ pl[a]i,n
 # ^ string.unquoted.plain.out
 #   ^ string.unquoted.plain.out
 #     ^ string.unquoted.plain.out
+
 
 ##############################################################################
 ## Plain (flow-in, flow-key)
