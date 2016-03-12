@@ -78,13 +78,13 @@ variables:
   # plain scalar begin and end patterns
   ns_plain_first_plain_in: |- # c=plain-in
     (?x:
-        (?!\s|{{c_indicator}}) .
-      | [?:-] (?!\s|{{c_flow_indicator}}) .
+        [^\s{{c_indicator}}]
+      | [?:-] [^\s{{c_flow_indicator}}]
     )
 
   ns_plain_first_plain_out: |- # c=plain-out
     (?x:
-        (?!\s|{{c_indicator}}) .
+        [^\s{{c_indicator}}]
       | [?:-] \S
     )
 
