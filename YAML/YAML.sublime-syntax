@@ -223,14 +223,15 @@ contexts:
         - meta_scope: meta.directive.yaml
         # %YAML directive
         # http://yaml.org/spec/1.2/spec.html#directive/YAML/
-        - match: (?<=%)(YAML)[ \t]+(\d+\.\d+)
+        - match: (YAML)[ \t]+(\d+\.\d+)
           captures:
             1: keyword.other.directive.yaml.yaml
             2: constant.numeric.yaml-version.yaml
+          set: directive-finish
         # %TAG directive
         # http://yaml.org/spec/1.2/spec.html#directive/TAG/
         - match: |
-            (?x) (?<=%)
+            (?x)
             (TAG)
             (?:[ \t]+
              ({{c_tag_handle}})
@@ -241,18 +242,24 @@ contexts:
             1: keyword.other.directive.tag.yaml
             2: storage.type.tag-handle.yaml
             3: support.type.tag-prefix.yaml
+          set: directive-finish
         # Any other directive
         # http://yaml.org/spec/1.2/spec.html#directive/reserved/
-        - match: (?x) (?<=%) (\w+) (?:[ \t]+ (\w+) (?:[ \t]+ (\w+))? )?
+        - match: (?x) (\w+) (?:[ \t]+ (\w+) (?:[ \t]+ (\w+))? )?
           # name and parameter are optional for when typing
           captures:
             1: support.other.directive.reserved.yaml
             2: string.unquoted.directive-name.yaml
             3: string.unquoted.directive-parameter.yaml
-        - match: (?=$|[ \t]+($|#))
-          pop: true
-        - match: \S+
-          scope: invalid.illegal.unrecognized.yaml
+          set: directive-finish
+        - match: ''
+          set: directive-finish
+
+  directive-finish:
+    - match: (?=$|[ \t]+($|#))
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.unrecognized.yaml
 
   property:
     # http://yaml.org/spec/1.2/spec.html#node/property/
