@@ -73,7 +73,7 @@ variables:
   ns_anchor_name: '{{ns_anchor_char}}+'
 
   # double-quoted scalar
-  c_ns_esc_char: \\(?>[0abtnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
+  c_ns_esc_char: \\([0abtnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
 
   # plain scalar begin and end patterns
   ns_plain_first_plain_in: |- # c=plain-in
