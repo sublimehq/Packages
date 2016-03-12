@@ -104,7 +104,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
-    - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|fieldset|form|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|pre)\b)
+    - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|pre)\b)
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
@@ -114,12 +114,52 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
-    - match: (</?)((?i:a|abbr|acronym|area|b|base|basefont|bdo|big|br|button|caption|cite|code|col|colgroup|del|dfn|em|font|head|html|i|img|input|ins|isindex|kbd|label|legend|li|link|map|meta|noscript|optgroup|option|param|q|s|samp|script|select|small|span|strike|strong|style|sub|sup|table|tbody|td|textarea|tfoot|th|thead|title|tr|tt|u|var)\b)
+    - match: (</?)((?i:form|fieldset)\b)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.block.form.html
+      push:
+        - meta_scope: meta.tag.block.form.html
+        - match: '>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)((?i:abbr|acronym|area|b|base|basefont|bdo|big|br|caption|cite|code|del|dfn|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|meta|noscript|param|q|s|samp|script|small|span|strike|strong|style|sub|sup|title|tt|u|var)\b)
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.any.html
       push:
         - meta_scope: meta.tag.inline.any.html
+        - match: '(?: ?/)?>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)((?i:button|input|label|legend|optgroup|option|select|textarea)\b)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.inline.form.html
+      push:
+        - meta_scope: meta.tag.inline.form.html
+        - match: '(?: ?/)?>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)((?i:a)\b)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.inline.a.html
+      push:
+        - meta_scope: meta.tag.inline.a.html
+        - match: '(?: ?/)?>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)((?i:col|colgroup|table|tbody|td|tfoot|th|thead|tr)\b)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.inline.table.html
+      push:
+        - meta_scope: meta.tag.inline.table.html
         - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
