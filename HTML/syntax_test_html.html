@@ -50,5 +50,15 @@
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##                   ^ meta.function-call.js support.function.js
         ## ^^^^^^^^ entity.other.attribute-name
+
+        <article><span><othertag><x-custom-tag></x-custom-tag></othertag></span></article>
+        ## ^^^^^ entity.name.tag.block.any.html
+        ##        ^^^^ entity.name.tag.inline.any.html
+        ##              ^^^^^^^^ entity.name.tag.other.html
+        ##                        ^^^^^^^^^^^^ entity.name.tag.custom.html
+
+        <INVALID-CUSTOM-TAG></INVALID-CUSTOM-TAG>
+        ## ^^^^^^^^^^^^^^^^ invalid.illegal.uppercase-custom-tag-name.html
     </body>
+    # ^^^^ entity.name.tag.structure
 </html>

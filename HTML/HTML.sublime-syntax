@@ -124,6 +124,26 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
+    - match: (</?)([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.custom.html
+      push:
+        - meta_scope: meta.tag.custom.html
+        - match: '>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)([A-Za-z0-9:_]+-[A-Za-z0-9:_-]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: invalid.illegal.uppercase-custom-tag-name.html
+      push:
+        - meta_scope: meta.tag.custom.html
+        - match: '>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
     - match: "(</?)([a-zA-Z0-9:]+)"
       captures:
         1: punctuation.definition.tag.begin.html
