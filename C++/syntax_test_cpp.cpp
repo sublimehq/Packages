@@ -459,12 +459,16 @@ class DerivedClass : public BaseClass // Comment
 /*                          ^ entity.other.inherited-class */
 /*                                     ^ comment.line */
 {
+    ~DerivedClass() override;
+    /* <- meta.function.destructor */
+    /*              ^ storage.modifier */
     virtual void doSomething() const override final;
     /*                         ^ storage.modifier */
     /*                               ^ storage.modifier */
     /*                                        ^ storage.modifier */
  protected:
-  DerivedClass()
+  DerivedClass() override
+/*                ^ storage.modifier */
       : a(a),
 /*     ^ meta.function.constructor.initializer-list.c++ */
         base_id_(BaseClass::None().ToInt()),

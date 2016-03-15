@@ -22,10 +22,10 @@ scope: source.c++
 contexts:
   main:
     - include: special_block
+    - include: destructor
     - include: scope:source.c
     - include: keywords
     - include: strings
-    - include: destructor
   keywords:
     - match: \b(friend|explicit|virtual)\b
       scope: storage.modifier.c++
@@ -249,6 +249,8 @@ contexts:
                 1: punctuation.definition.invalid.c++
                 2: invalid.illegal.you-forgot-semicolon.c++
               pop: true
+            - match: \boverride\b
+              scope: storage.modifier.c
             - include: special_block
             - include: constructor
             - include: $top_level_main
