@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[extern "C" fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType} {
+	${5:// add code here}
+}]]></content>
+    <tabTrigger>extern-fn</tabTrigger>
+    <scope>source.rust</scope>
+    <description>extern "C" fn …(…) { … }</description>
+</snippet>

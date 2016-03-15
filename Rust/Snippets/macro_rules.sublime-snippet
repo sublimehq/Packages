@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[macro_rules! ${1:name} {
+	(${2}) => (${3})
+}]]></content>
+    <tabTrigger>macro_rules</tabTrigger>
+    <scope>source.rust</scope>
+    <description>macro_rules! … { … }</description>
+</snippet>

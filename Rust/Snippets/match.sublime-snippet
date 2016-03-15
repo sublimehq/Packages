@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[match ${1:expr} {
+	${2:Some(expr)} => ${3:expr},
+	${4:None} => ${5:expr},
+}]]></content>
+    <tabTrigger>match</tabTrigger>
+    <scope>source.rust</scope>
+    <description>match … { … }</description>
+</snippet>

@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Cargo Build Results
+scope: source.build_results
+hidden: true
+contexts:
+  main:
+    - match: '^(..[^:\n]*):([0-9]+):?([0-9]+)?:? '
+      scope: entity.name.filename
+    - match: '\berror: '
+      scope: message.error
+    - match: '^\[.+\]$'
+      scope: comment

@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[Some(${1})]]></content>
+    <tabTrigger>Some</tabTrigger>
+    <scope>source.rust</scope>
+    <description>Some(…)</description>
+</snippet>

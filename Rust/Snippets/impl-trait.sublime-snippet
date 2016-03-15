@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[impl ${1:Trait} for ${2:Type} {
+	${3:// add code here}
+}]]></content>
+    <tabTrigger>impl-trait</tabTrigger>
+    <scope>source.rust</scope>
+    <description>impl … for … { … }</description>
+</snippet>

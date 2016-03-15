@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[#[derive(Debug)]
+enum ${1:Name} {
+	${2:Variant1},
+	${3:Variant2},
+}]]></content>
+    <tabTrigger>enum</tabTrigger>
+    <scope>source.rust</scope>
+    <description>enum … { … }</description>
+</snippet>

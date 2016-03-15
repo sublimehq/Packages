@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[let ${1:pat} = ${2:expr};]]></content>
+    <tabTrigger>let</tabTrigger>
+    <scope>source.rust</scope>
+    <description>let … = …;</description>
+</snippet>

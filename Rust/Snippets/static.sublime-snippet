@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[static ${1:STATIC}: ${2:Type} = ${4:init};]]></content>
+    <tabTrigger>static</tabTrigger>
+    <scope>source.rust</scope>
+    <description>static …: … = …;</description>
+</snippet>

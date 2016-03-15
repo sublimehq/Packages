@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[struct ${1:Name}(${2:Type});]]></content>
+    <tabTrigger>struct-tuple</tabTrigger>
+    <scope>source.rust</scope>
+    <description>struct …(…);</description>
+</snippet>

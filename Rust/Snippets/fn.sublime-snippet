@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[fn ${1:name}(${2:arg}: ${3:Type}) -> ${4:RetType} {
+	${5:unimplemented!();}
+}]]></content>
+    <tabTrigger>fn</tabTrigger>
+    <scope>source.rust</scope>
+    <description>fn …(…) { … }</description>
+</snippet>

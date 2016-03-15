@@ -1,0 +1,8 @@
+<snippet>
+    <content><![CDATA[if let ${1:Some(pat)} = ${2:expr} {
+	${2:unimplemented!();}
+}]]></content>
+    <tabTrigger>if-let</tabTrigger>
+    <scope>source.rust</scope>
+    <description>if let … = … { … }</description>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[fmt!("${1:\{${2::?}\}}"${1/([^\{])*(\{.*\})?.*/(?2:, :\);)/}$3${1/([^\{])*(\{.*\})?.*/(?2:\))/}]]></content>
+    <tabTrigger>fmt</tabTrigger>
+    <scope>source.rust</scope>
+    <description>fmt!(…)</description>
+</snippet>

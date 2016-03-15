@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[trait ${1:Name} {
+	${2:// add code here}
+}
+]]></content>
+    <tabTrigger>trait</tabTrigger>
+    <scope>source.rust</scope>
+    <description>trait … { … }</description>
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+    <content><![CDATA[#[derive(Debug)]
+struct ${1:Name} {
+	${2:field}: ${3:Type}
+}]]></content>
+    <tabTrigger>struct</tabTrigger>
+    <scope>source.rust</scope>
+    <description>struct … { … }</description>
+</snippet>
