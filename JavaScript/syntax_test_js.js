@@ -635,3 +635,6 @@ $.fn.new_plugin = function() {}
 $var.fn.name = () => {}
 // <- support.class.dollar punctuation.dollar - support.class.dollar.only
 // ^ support.class.dollar - punctuation.dollar
+
+someFunction(() => [() => 'X']);
+//                           ^ meta.brace.square

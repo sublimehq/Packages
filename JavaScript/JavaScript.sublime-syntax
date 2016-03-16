@@ -774,7 +774,7 @@ contexts:
 
   arrow-function-concise-body:
     - meta_content_scope: meta.block.js
-    - match: '(?=[);}])'
+    - match: '(?=[);}\]])'
       pop: true
     - match: '\n'
       set:
