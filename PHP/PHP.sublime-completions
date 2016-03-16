@@ -82,7 +82,7 @@
 		{ "trigger": "array_intersect_key", "contents": "array_intersect_key(${1:array1}, ${2:array2})" },
 		{ "trigger": "array_intersect_uassoc", "contents": "array_intersect_uassoc(${1:array1}, ${2:array2})" },
 		{ "trigger": "array_intersect_ukey", "contents": "array_intersect_ukey(${1:array1}, ${2:array2})" },
-		{ "trigger": "array_key_exists", "contents": "array_key_exists(${1:key}, ${2:search})" },
+		{ "trigger": "array_key_exists", "contents": "array_key_exists(${1:key}, ${2:array})" },
 		{ "trigger": "array_keys", "contents": "array_keys(${1:input})" },
 		{ "trigger": "array_map", "contents": "array_map(${1:callback}, ${2:arr1})" },
 		{ "trigger": "array_merge", "contents": "array_merge(${1:array1})" },
