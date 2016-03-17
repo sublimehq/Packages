@@ -65,6 +65,7 @@
 		{ "trigger": "array", "contents": "array()" },
 		{ "trigger": "array_change_key_case", "contents": "array_change_key_case(${1:input})" },
 		{ "trigger": "array_chunk", "contents": "array_chunk(${1:input}, ${2:size})" },
+		{ "trigger": "array_column", "contents": "array_column(${1:input}, ${2:column_key})" },
 		{ "trigger": "array_combine", "contents": "array_combine(${1:keys}, ${2:values})" },
 		{ "trigger": "array_count_values", "contents": "array_count_values(${1:input})" },
 		{ "trigger": "array_diff", "contents": "array_diff(${1:array1}, ${2:array2})" },

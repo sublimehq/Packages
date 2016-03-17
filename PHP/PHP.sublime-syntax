@@ -9,7 +9,7 @@ file_extensions:
   - phps
   - phpt
   - phtml
-first_line_match: '^#!.*(?<!-)php[0-9]{0,1}\b'
+first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 scope: embedding.php
 contexts:
   main:
@@ -22,10 +22,9 @@ contexts:
           push:
             - meta_scope: meta.embedded.block.php
             - meta_content_scope: source.php
-            - match: (\?)>
+            - match: \?>
               captures:
                 0: punctuation.section.embedded.end.php
-                1: source.php
               pop: true
             - include: 'scope:source.php'
         - match: <\?(?i:php|=)?
@@ -34,9 +33,8 @@ contexts:
           push:
             - meta_scope: meta.embedded.line.php
             - meta_content_scope: source.php
-            - match: (\?)>
+            - match: \?>
               captures:
                 0: punctuation.section.embedded.end.php
-                1: source.php
               pop: true
             - include: 'scope:source.php'
