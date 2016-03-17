@@ -16,6 +16,8 @@
 /*          ^ variable.parameter */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- variable.parameter */
+ /*               ^ keyword.operator.ternary */
+ /*                 ^ keyword.operator.ternary */
 
 #define PACKED __attribute__((aligned(1),packed))
 /*      ^ entity.name.constant */
@@ -52,8 +54,9 @@ bool still_C_code_here = true;
 
 int foo(int val)
 {
-    int result;
-    result = func(val);
+    myClass *result;
+    result->kk = func(val);
+/*        ^^ punctuation.accessor */
     if (result == 0) {
         return 0;
 #if CROSS_SCOPE_MACRO

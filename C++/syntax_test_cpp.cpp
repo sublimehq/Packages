@@ -123,6 +123,27 @@ typedef struct Books Book;
 /*             ^ entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
+template<class typeId, int N> class tupleTmpl;
+/* <- storage.type.template */
+/*      ^ punctuation.definition.generic.begin */
+/*       ^ storage.type */
+/*                      ^ storage.type */
+/*                          ^ punctuation.definition.generic.end */
+
+template<typename First, typename... Rest> class tupleVariadic;
+/* <- storage.type.template */
+/*      ^ punctuation.definition.generic.begin */
+/*       ^ storage.type */
+/*                     ^ punctuation.separator */
+/*                               ^^^ punctuation.definition.variadic */
+/*                                       ^ punctuation.definition.generic.end */
+
+typedef std::vector<std::vector<int> > Table;
+/*                 ^ punctuation.definition.generic.begin */
+/*                             ^ punctuation.definition.generic.begin */
+/*                                 ^ punctuation.definition.generic.end */
+/*                                   ^ punctuation.definition.generic.end */
+
 /////////////////////////////////////////////
 // Storage Modifiers
 /////////////////////////////////////////////
@@ -220,6 +241,9 @@ int x = sizeof(char);
 
 const_cast<int>(2.0);
 /* <- keyword.operator.cast */
+/*        ^ punctuation.definition.generic.begin */
+/*         ^ storage.type */
+/*            ^ punctuation.definition.generic.end */
 
 dynamic_cast<int>(2.0);
 /* <- keyword.operator.cast */
@@ -254,6 +278,7 @@ char ch[] = __func__;
 
 std::cout << __FILE__ << '\n';
 /*           ^ support.constant */
+/* ^^ punctuation.accessor */
 
 std::cout << __FUNCTION__ << '\n';
 /*           ^ support.constant */
@@ -431,6 +456,10 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
+using namespace myNameSpace;
+/* <- keyword.control */
+/*    ^ keyword.control */
+
 /////////////////////////////////////////////
 // Classes
 /////////////////////////////////////////////
@@ -441,6 +470,13 @@ class BaseClass // comment
 {
 public :
 /* <- storage.modifier */
+    tupleTmpl<int,2> max(tupleGen<int,2> a, tupleGen<int,2> b);
+/*           ^ punctuation.definition.generic.begin */
+/*            ^ storage.type */
+/*                 ^ punctuation.definition.generic.end */
+/*                               ^ punctuation.definition.generic.begin */
+/*                                ^ storage.type */
+/*                                     ^ punctuation.definition.generic.end */
 protected:
 /* <- storage.modifier */
 private:
@@ -451,6 +487,7 @@ private:
 
     virtual void doSomething() const = 0;
     /* <- storage.modifier */
+    /*           ^ entity.name.function */
     /*                         ^ storage.modifier */
     /*                                 ^ constant.numeric */
 };

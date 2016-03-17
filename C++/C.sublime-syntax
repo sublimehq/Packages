@@ -32,8 +32,6 @@ contexts:
     - include: typedef
     - match: \b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\b
       scope: keyword.control.c
-    - match: \b(asm|__asm__|auto|bool|_Bool|char|_Complex|double|enum|float|_Imaginary|int|long|short|signed|struct|typedef|union|unsigned|void)\b
-      scope: storage.type.c
     - match: \b(const|extern|register|restrict|static|volatile|inline)\b
       scope: storage.modifier.c
     - include: attribute
@@ -63,6 +61,8 @@ contexts:
           scope: punctuation.definition.parameters.c
           pop: true
   type:
+    - match: \b(asm|__asm__|auto|bool|_Bool|char|_Complex|double|enum|float|_Imaginary|int|long|short|signed|struct|typedef|union|unsigned|void)\b
+      scope: storage.type.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
       scope: support.type.sys-types.c
     - match: \b(pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t)\b
@@ -94,7 +94,7 @@ contexts:
   access:
     - match: '(\.)([a-zA-Z_][a-zA-Z_0-9]*)\b(?!\s*\()'
       captures:
-        1: keyword.operator.accessor.c
+        1: punctuation.accessor.c
         2: variable.other.dot-access.c
   block:
     - match: '\{'
@@ -176,6 +176,8 @@ contexts:
   operators:
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
       scope: keyword.operator.assignment.augmented.c
+    - match: '::|->'
+      scope: punctuation.accessor.c
     - match: \+|\-|/|%|<<|>>|&&|\|\||\||\^|~|!
       scope: keyword.operator.arithmetic.c
     - match: <\=|>\=|\=\=|<|>|\!\=
@@ -187,8 +189,8 @@ contexts:
       scope: keyword.operator.assignment.c
     - match: '\?|:'
       scope: keyword.operator.ternary.c
-    - match: '::|\.\.\.'
-      scope: keyword.operator.other.c
+    - match: '\.\.\.'
+      scope: punctuation.definition.variadic.c
   parens:
     - match: \(
       scope: punctuation.definition.parameters.c
