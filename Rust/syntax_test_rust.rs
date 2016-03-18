@@ -145,6 +145,11 @@ mod comment;
 // <- storage.type.module
 mod location;
 
+pub use self::trafile::*;
+// <- storage.modifier
+//   ^ keyword.other
+//      ^^^^^^^^^^^^^^^ meta.path
+
 use std::fmt;
 // <- keyword.other
 //  ^^^^^ meta.path

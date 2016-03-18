@@ -109,7 +109,7 @@ contexts:
     - match: \b(mut|pub|unsafe|move|ref)\b
       scope: storage.modifier.rust
 
-    - match: \b(crate|extern|super|use|where)\b
+    - match: \b(crate|extern|use|where)\b
       scope: keyword.other.rust
 
     - match: \b(break|else|for|if|loop|match|while|continue)\b
@@ -124,13 +124,10 @@ contexts:
 
     - match: \b(virtual|proc|alignof|become|offsetof|priv|pure|sizeof|typeof|unsized|yield|do|abstract|final|override|macro)\b
       scope: invalid.illegal.rust
-    
+
     - match: \b(true|false)\b
       scope: constant.language.rust
 
-    - match: \b(self)\b
-      scope: variable.language.rust
-    
     - include: type
 
     # Macro parameters. Ideally we would do this as a with_prototype,
@@ -821,12 +818,25 @@ contexts:
       scope: constant.other.rust
     - match: '\b(c_[[:lower:][:digit:]_]+|[[:lower:]_][[:lower:][:digit:]_]*_t)\b'
       scope: storage.type.rust
+    - match: '(?={{identifier}}::)'
+      push:
+        - meta_scope: meta.path.rust
+        - include: no-path-identifiers
+        - match: '::'
+          set: no-type-names
     - match: '{{identifier}}::'
       scope: meta.path.rust
       push: no-type-names
     - match: '::(?={{identifier}})'
       scope: meta.path.rust
       push: no-type-names
+    - include: no-path-identifiers
+
+  no-path-identifiers:
+    - match: \b(self)\b
+      scope: variable.language.rust
+    - match: \b(super)\b
+      scope: keyword.other.rust
 
   no-type-names:
       # This push state prevents highlighting basic types like
