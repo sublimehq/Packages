@@ -54,6 +54,16 @@ contexts:
               pop: true
         - match: (\s*)(?!--|>)\S(\s*)
           scope: invalid.illegal.bad-comments-or-CDATA.html
+    - match: (</?)([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.custom.html
+      push:
+        - meta_scope: meta.tag.custom.html
+        - match: '>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
     - match: '(?:^\s+)?(<)((?i:style))\b(?![^>]*/>)'
       captures:
         1: punctuation.definition.tag.begin.html
@@ -161,16 +171,6 @@ contexts:
       push:
         - meta_scope: meta.tag.inline.table.html
         - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
-        - include: tag-stuff
-    - match: (</?)([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.custom.html
-      push:
-        - meta_scope: meta.tag.custom.html
-        - match: '>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff

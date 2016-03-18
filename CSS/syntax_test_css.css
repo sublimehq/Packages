@@ -36,8 +36,10 @@
 /*              ^ constant.other.color.hsl-value.css */
 }
 
-html > div > span > custom-tag {}
+html > div > span > custom-tag > div-custom-tag > form-custom-tag {}
 /* ^ entity.name.tag.css */
 /*     ^^^ entity.name.tag.css */
 /*           ^^^^ entity.name.tag.css */
 /*                  ^^^^^^^^^^ entity.name.tag.custom.css */
+/*                               ^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.css */
