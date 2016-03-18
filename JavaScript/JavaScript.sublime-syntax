@@ -715,7 +715,7 @@ contexts:
         1: keyword.operator.assignment.js
     - match: '(?={{identifier}})'
       push:
-        # These matches have to be deplicated to get entity.name.function
+        # These matches have to be duplicated to get entity.name.function
         # on the end of the scope stack since most color schemes require it
         - match: '{{dollar_only_identifier}}'
           scope: variable.other.dollar.only.js punctuation.dollar.js entity.name.function.js
@@ -1096,7 +1096,7 @@ contexts:
     - match: '(?={{identifier}})'
       push:
         # Once we've consumed an identifier, switch to the special context that
-        # property hanldes ambiguous tokens including "/"
+        # property handles ambiguous tokens including "/"
         - match: '(?!{{identifier}})'
           set: after-identifier
         - include: well-known-identifiers
