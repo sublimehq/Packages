@@ -32,7 +32,7 @@
 #   except for block scalars,
 #   where it is also not verified
 #   (i.e. highlights even if less indentation used than required).
-# - Properties are sometimes incorrectly highlighed
+# - Properties are sometimes incorrectly highlighted
 #   for nested block collections (`- !!seq -`).
 ---
 name: YAML
@@ -298,7 +298,7 @@ contexts:
       scope: punctuation.definition.string.begin.yaml
       push:
         # TODO consider scoping meaningful trailing whitespace for color
-        # schemes with background color definitons.
+        # schemes with background color definitions.
         - meta_scope: string.quoted.double.yaml
           meta_include_prototype: false
         - match: '{{c_ns_esc_char}}'
@@ -413,7 +413,7 @@ contexts:
         - match: :(?=\s|$|{{c_flow_indicator}})
           scope: punctuation.separator.mapping.key-value.yaml
           set: flow-pair-value
-    # Attempt to match plain-in scalars and highlight as "entitiy.name.tag",
+    # Attempt to match plain-in scalars and highlight as "entity.name.tag",
     # if followed by a colon
     - match: |
         (?x)
@@ -502,7 +502,7 @@ contexts:
           scope: invalid.illegal.expected-newline.yaml
           pop: true
         - include: block-node
-    # Attempt to match plain-out scalars and highlight as "entitiy.name.tag",
+    # Attempt to match plain-out scalars and highlight as "entity.name.tag",
     # if followed by a colon
     - match: |
         (?x)
