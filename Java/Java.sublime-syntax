@@ -42,7 +42,7 @@ contexts:
             2: keyword.operator.assignment.java
         - include: code
         - match: ","
-          scope: punctuation.seperator.property.java
+          scope: punctuation.separator.property.java
     - match: '@\w*'
       scope: storage.type.annotation.java
   anonymous-classes-and-new:
@@ -95,7 +95,7 @@ contexts:
         - match: $
           pop: true
         - match: ":"
-          scope: keyword.operator.assert.expression-seperator.java
+          scope: keyword.operator.assert.expression-separator.java
         - include: code
   class:
     - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
