@@ -41,12 +41,12 @@ conn.execute(u'SELECT * FROM foobar')
 #              ^ keyword.other.DML.sql
 
 # In this example, the Python string is raw, so the \b should be a SQL escape
-conn.execute(R"SELECT * FROM foobar WHERE baz = '\b")
+conn.execute(r"SELECT * FROM foobar WHERE baz = '\b")
 #              ^ keyword.other.DML.sql
 #                                                 ^ constant.character.escape.sql
 
 # This tests to ensure the Python placeholder will be highlighted even in a raw SQL string
-conn.execute(R'SELECT * FROM foobar WHERE %s')
+conn.execute(r'SELECT * FROM foobar WHERE %s')
 #              ^ keyword.other.DML.sql
 #                                         ^ constant.other.placeholder.python
 
@@ -61,6 +61,16 @@ conn.execute(r"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                                            ^ constant.other.placeholder.python
 #                                                          ^ constant.character.escape.sql
 
+# Capital R prevents all syntax embedding
+conn.execute(R'SELECT * FROM foobar')
+#              ^ - keyword.other.DML.sql
+
+conn.execute(R"SELECT * FROM foobar")
+#              ^ - keyword.other.DML.sql
+
+conn.execute(R"""SELECT * FROM foobar""")
+#                ^ - keyword.other.DML.sql
+
 conn.execute(r'''SELECT * FROM foobar''')
 #                 ^ keyword.other.DML.sql
 
@@ -73,10 +83,6 @@ regex = r'\b ([fobar]*){1}(?:a|b)?'
 #         ^ keyword.control.anchor.regexp
 #                       ^ keyword.operator.quantifier.regexp
 
-regex = R'\b ([fobar]*){1}(?:a|b)?'
-#         ^ keyword.control.anchor.regexp
-#                       ^ keyword.operator.quantifier.regexp
-
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
 #           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
@@ -85,8 +91,47 @@ regex = r"""\b ([fobar]*){1}(?:a|b)?"""
 #           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
 
+# Capital R prevents all syntax embedding
+regex = R'\b ([fobar]*){1}(?:a|b)?'
+#         ^ - keyword.control.anchor.regexp
+#                       ^ - keyword.operator.quantifier.regexp
+
+regex = R"\b ([fobar]*){1}(?:a|b)?"
+#         ^ - keyword.control.anchor.regexp
+#                       ^ - keyword.operator.quantifier.regexp
+
+
 query = \
-    '''SELECT
+    """
+    SELECT
+        (
+        SELECT CASE field
+            WHEN 1
+            THEN -- comment's say that
+#                              ^ source.sql comment.line.double-dash
+                EXISTS(
+                select 1)
+            ELSE NULL
+        ) as result
+    """
+
+query = \
+    r"""
+    SELECT
+        (
+        SELECT CASE field
+            WHEN 1
+            THEN -- comment's say that
+#                              ^ source.sql comment.line.double-dash
+                EXISTS(
+                select 1)
+            ELSE NULL
+        ) as result
+    """
+
+query = \
+    '''
+    SELECT
         (
         SELECT CASE field
             WHEN 1
