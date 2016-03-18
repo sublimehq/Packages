@@ -139,6 +139,12 @@ extern crate foo;
 //    ^ - keyword.other
 //     ^^^^^ keyword.other
 
+mod trafile;
+// <- storage.type.module
+mod comment;
+// <- storage.type.module
+mod location;
+
 use std::fmt;
 // <- keyword.other
 //  ^^^^^ meta.path

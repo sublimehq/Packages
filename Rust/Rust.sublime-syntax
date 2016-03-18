@@ -30,6 +30,8 @@ contexts:
         3: entity.name.module.rust
       push:
         - meta_scope: meta.module.rust
+        - match: ';'
+          set: after-operator
         - include: statements-block
 
     - match: '\b({{identifier}})\s*(=)\s*(?=\|)'
@@ -37,7 +39,7 @@ contexts:
         1: entity.name.function.rust
         2: keyword.operator.rust
       push: closure
-    
+
     - match: '\b(?:(pub)\s+)?\b(fn)\s+'
       scope: meta.function.rust
       captures:
@@ -145,7 +147,7 @@ contexts:
     - include: comments
     - include: strings
     - include: chars
-    
+
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
       scope: support.function.rust
 
@@ -178,7 +180,7 @@ contexts:
 
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*!(?=\(|\s+\{)'
       scope: support.macro.rust
-    
+
     - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
       scope: support.type.rust
 
@@ -425,7 +427,7 @@ contexts:
         - meta_scope: meta.group.rust
         - include: comments
         - include: type-any-identifier
-  
+
   struct-classic:
     - meta_scope: meta.struct.rust
     - match: '\}'
@@ -630,7 +632,7 @@ contexts:
     - match: '\{'
       scope: punctuation.definition.block.begin.rust
       push: [block-body, try-closure]
-  
+
   comments:
     - include: block-comments
     - match: "//[!/]"
@@ -643,7 +645,7 @@ contexts:
         - meta_scope: comment.line.double-slash.rust
         - match: $
           pop: true
-  
+
   block-comments:
     - match: '/\*[!\*][^\*/]'
       push:
@@ -720,7 +722,7 @@ contexts:
           scope: punctuation.definition.string.end.rust
           pop: true
         - include: escaped-char
-  
+
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.rust
