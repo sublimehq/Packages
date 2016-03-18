@@ -715,7 +715,7 @@ contexts:
     - match: \b(XML (attribute|data|element|file)s?)\b
       scope: support.class.system-events.xml.applescript
     - match: \b(print settings|users?|login items?)\b
-      scope: support.class.sytem-events.other.applescript
+      scope: support.class.system-events.other.applescript
   textmate:
     - match: \b(print settings)\b
       scope: support.class.textmate.applescript
