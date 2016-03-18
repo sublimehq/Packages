@@ -411,7 +411,7 @@ contexts:
         		(?:foot)?(?:full)?(?:no)?(?:short)?		# Function Name
         		[cC]ite
         		(?:al)?(?:t|p|author|year(?:par)?|title)?[ANP]*
-        		\*?											# Optional Unabreviated
+        		\*?											# Optional Unabbreviated
         	)
         	(?:(\[)[^\]]*(\]))?								# Optional
         	(?:(\[)[^\]]*(\]))?								#   Arguments
