@@ -489,16 +489,22 @@ contexts:
   macro-match-operator:
     - match: '=>'
       scope: keyword.operator.rust
+    - match: '\{'
+      scope: punctuation.definition.block.begin.rust
+      set:
+        - meta_scope: meta.block.rust
+        - match: '\}'
+          scope: punctuation.definition.block.end.rust
+          pop: true
+        - include: statements
     - match: '\('
       scope: punctuation.definition.group.begin.rust
-      set: macro-body
-
-  macro-body:
-    - meta_scope: meta.group.rust
-    - match: '\)'
-      scope: punctuation.definition.group.end.rust
-      pop: true
-    - include: statements
+      set:
+        - meta_scope: meta.group.rust
+        - match: '\)'
+          scope: punctuation.definition.group.end.rust
+          pop: true
+        - include: statements
 
   macro-metavariable:
     - match: '(\${{identifier}})(:)(ident|path|expr|ty|pat|stmt|block|item|meta|tt)'

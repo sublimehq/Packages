@@ -597,6 +597,32 @@ macro_rules! print_result {
     )
 }
 
+
+pub fn from_buf_reader<T>(s: io::BufReader<T>) -> Result<isize, &'static str>
+//                                                              ^ keyword.operator
+    where T: io::Read
+//  ^ keyword.other
+{
+    macro_rules! eat_numbers {
+        ($count:expr, $msg:expr) => {{
+        //                          ^ meta.function meta.block meta.macro meta.block meta.block punctuation.definition.block.begin
+        //                           ^ meta.function meta.block meta.macro meta.block meta.block meta.block punctuation.definition.block.begin
+            let parse_err = concat!("Err parsing value in ", $msg);
+            try!{ eat_numbers(&mut lines, $count, parse_err, missing_err, too_many) }
+        //  ^^^^ support.macro
+        //      ^ meta.function meta.block meta.macro meta.block meta.block meta.block meta.block punctuation.definition.block.begin
+        }}
+    };
+     // <- meta.function meta.block - meta.macro
+
+    let mut starts_stops = eat_numbers!(relief_count_total * 2, "starts and stops");
+
+    let starts = starts_stops.split_off(relief_count_total);
+    let stops = starts_stops;
+
+    unimplemented!();
+}
+
 pub mod my_mod {
 //^^^^^^^^^^^^^^ meta.module
 // <- storage.modifier
