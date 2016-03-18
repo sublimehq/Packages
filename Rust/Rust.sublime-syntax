@@ -277,7 +277,7 @@ contexts:
       scope: punctuation.separator.rust
       push:
         - meta_scope: meta.function.return-type.rust
-        - match: '(?=\s*\{)'
+        - match: '(?=\s*\{|\bwhere\b)'
           pop: true
         - match: '&'
           scope: keyword.operator.rust
@@ -605,10 +605,23 @@ contexts:
     - include: comments
     - match: '(?=\{)'
       set: fn-body
+    - match: '(?=\bwhere\b)'
+      set: fn-where
     - include: return-type
     # Escape for incomplete expression
     - match: '(?=\S)'
       pop: true
+
+  fn-where:
+    - meta_scope: meta.function.rust
+    - include: comments
+    - match: '(?=\{)'
+      set: fn-body
+    - match: \bwhere\b
+      scope: keyword.other.rust
+    - include: type-any-identifier
+    - match: ':'
+      scope: punctuation.separator.rust
 
   fn-body:
     - meta_scope: meta.function.rust
