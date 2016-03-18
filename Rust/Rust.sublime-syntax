@@ -131,7 +131,7 @@ contexts:
     - include: type
 
     # Macro parameters. Ideally we would do this as a with_prototype,
-    # however then we run into indinite recursion
+    # however then we run into infinite recursion
     - match: '\${{identifier}}'
       scope: variable.parameter.rust
 
@@ -789,7 +789,7 @@ contexts:
     - match: '\{\{|\}\}'
       scope: constant.character.escape.rust
     - match: |-
-        (?x)                      # Spec fron http://doc.rust-lang.org/std/fmt/
+        (?x)                      # Spec from http://doc.rust-lang.org/std/fmt/
         \{
           (\d+|{{identifier}})?
           (
