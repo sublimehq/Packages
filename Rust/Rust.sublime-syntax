@@ -360,13 +360,15 @@ contexts:
     - match: '<'
       scope: punctuation.definition.generic.begin.rust
       push:
-        - match: '(?=>|[^ +'',:[:alnum:]])'
+        - match: '(?=>|[^ +'',&:[:alnum:]])'
           pop: true
         - match: '''{{identifier}}(?!\'')\b'
           scope: storage.modifier.lifetime.rust
         - include: type-any-identifier
         - match: ':'
           scope: punctuation.separator.rust
+        - match: '&'
+          scope: keyword.operator.rust
         - match: '\+'
           scope: keyword.operator.rust
     # Alert the user of a broken generic construct
