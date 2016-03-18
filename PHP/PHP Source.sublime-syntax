@@ -171,7 +171,7 @@ contexts:
             5: keyword.operator.assignment.php
             6: constant.language.php
             7: invalid.illegal.non-null-typehinted.php
-    - match: '(\s*&)?\s*((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)\s*(?=,|\)|/[/*]|\#)'
+    - match: '(\s*&)?\s*((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)\s*(?=,|\)|\n|/[/*]|\#)'
       scope: meta.function.argument.no-default.php
       captures:
         1: storage.modifier.reference.php

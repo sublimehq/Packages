@@ -17,6 +17,11 @@ function g(array $a = (),            $b = "hi") {};
 //                    ^ invalid.illegal.non-null-typehinted
 function h(array $a = 1234,          $b = "hi") {};
 //                    ^ invalid.illegal.non-null-typehinted
+function i(
+    $a,
+    $b
+//  ^ meta.function.argument.no-default.php variable.other.php
+) {};
 
 
 /**
