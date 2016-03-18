@@ -175,7 +175,7 @@ contexts:
             - match: '(?=\S)'
               set: group-tail
 
-    - match: '\b[[:lower:]_][[:lower:][:digit:]_]*!(?=\(|\s+\{)'
+    - match: '\b[[:lower:]_][[:lower:][:digit:]_]*!(?=\s*(\(|\{))'
       scope: support.macro.rust
 
     - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
