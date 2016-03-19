@@ -28,11 +28,11 @@ contexts:
        1: punctuation.definition.preprocessor
        2: meta.preprocessor.c
 ###################################################### ENUMS
-    - match: "(?:[^\\)\\w]|^)\\.([a-zA-Z]\\w*)(?=\\()"
+    - match: "(?:[^\\?\\)\\w]|^)\\.([a-zA-Z]\\w*)(?=\\()"
       captures:
        1: constant.language.enum
       push: enum
-    - match: "(?:[^\\)\\w]|^)\\.([a-zA-Z]\\w*)"
+    - match: "(?:[^\\?\\)\\w]|^)\\.([a-zA-Z]\\w*)"
       captures:
        1: constant.language.enum
 ###################################################### CONSTANTS
