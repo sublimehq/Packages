@@ -49,10 +49,15 @@
 /*              ^ constant.other.color.hsl-value.css */
 }
 
-html > div > span > custom-tag > div-custom-tag > form-custom-tag {}
+html > div > span + custom-tag > div-custom-tag ~ form-custom-tag.classname:last-child:hover {}
 /* ^ entity.name.tag.css */
 /*     ^^^ entity.name.tag.css */
 /*           ^^^^ entity.name.tag.css */
+/*                ^ -entity.name.tag.custom.css */
 /*                  ^^^^^^^^^^ entity.name.tag.custom.css */
 /*                               ^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                              ^ -entity.name.tag.custom.css */
 /*                                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                                                ^^^^^^^^^ entity.other.attribute-name.class.css */
+/*                                                                          ^^^^^^^^^^ -entity.name.tag.custom.css */
+/*                                                                                     ^^^^^ -entity.name.tag.custom.css */
