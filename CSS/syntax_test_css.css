@@ -1,5 +1,18 @@
 /* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
 
+.test-generic-font-families {
+    font-family: serif;
+    /*           ^^^^^       support.constant.font-name.css */
+    font-family: sans-serif;
+    /*           ^^^^^^^^^^  support.constant.font-name.css */
+    font-family: cursive;
+    /*           ^^^^^^^     support.constant.font-name.css */
+    font-family: fantasy;
+    /*           ^^^^^^^     support.constant.font-name.css */
+    font-family: monospace;
+    /*           ^^^^^^^^^   support.constant.font-name.css */
+}
+
 .test-color-values {
     color: aqua;
 /*         ^ support.constant.color.w3c-standard-color-name.css */
