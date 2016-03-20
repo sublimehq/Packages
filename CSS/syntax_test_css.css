@@ -1,5 +1,14 @@
 /* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
 
+    @namespace svg "http://www.w3.org/2000/svg";
+/*  ^              punctuation.definition.keyword.css    */
+/*   ^^^^^^^^^     keyword.control.at-rule.namespace.css */
+/*             ^^^ entity.other.namespace-prefix.css     */
+
+    @page :left {}
+/*  ^     punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.at-rule.page.css   */
+
 .test-generic-font-families {
     font-family: serif;
     /*           ^^^^^       support.constant.font-name.css */

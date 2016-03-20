@@ -16,6 +16,8 @@ contexts:
     - include: media
     - include: custom-media
     - include: keyframes
+    - include: namespace
+    - include: page
     - include: property-list
   cascading-variable:
     - match: (var)\s*(\()
@@ -42,7 +44,7 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.charset.css
-        - match: \s*((?=;|$))
+        - match: \s*(?=;|$)
           pop: true
         - include: string-double
         - include: string-single
@@ -271,6 +273,33 @@ contexts:
         - match: '\s*(?=[{;])'
           pop: true
         - include: media-query
+# Namespace At-Rule: https://www.w3.org/TR/css3-namespace/
+  namespace:
+    - match: \s*((@)namespace)\s+(\b\S*\b)?
+      captures:
+        1: keyword.control.at-rule.namespace.css
+        2: punctuation.definition.keyword.css
+        3: entity.other.namespace-prefix.css
+      push:
+        - meta_scope: meta.at-rule.namespace.css
+        - include: at-rule-punctuation
+        - include: string-double
+        - include: string-single
+# Page At-Rule: https://www.w3.org/TR/CSS2/page.html
+  page:
+    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
+      captures:
+        1: keyword.control.at-rule.page.css
+        2: punctuation.definition.keyword.css
+        3: punctuation.definition.entity.css
+        4: entity.other.attribute-name.pseudo-class.css
+      push:
+        - meta_scope: meta.at-rule.page.css
+        - match: '\s*(\})'
+          captures:
+            1: punctuation.section.property-list.css
+          pop: true
+        - include: rule-list
   numeric-values:
     - match: '(#)([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b'
       scope: constant.other.color.rgb-value.css
@@ -757,3 +786,8 @@ contexts:
   vendor-prefix:
     - match: "-(?:webkit|moz|ms|o)-"
       scope: support.type.vendor-prefix.css
+  at-rule-punctuation:
+    - match: \;
+      scope: punctuation.terminator.rule.css
+    - match: (?=;|$)
+      pop: true
