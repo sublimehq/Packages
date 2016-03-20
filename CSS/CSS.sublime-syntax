@@ -223,7 +223,8 @@ contexts:
               pop: true
             - include: main
   media-query:
-    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|tty|tv)?
+    # Media Types: https://www.w3.org/TR/CSS21/media.html
+    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)?
       captures:
         1: keyword.operator.logic.media.css
         2: support.constant.media.css
