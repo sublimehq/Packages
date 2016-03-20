@@ -100,11 +100,11 @@ contexts:
         - include: numeric-values
   comment-block:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.css
+      scope: punctuation.definition.comment.css
       push:
         - meta_scope: comment.block.css
         - match: \*/
+          scope: punctuation.definition.comment.css
           pop: true
   custom-media:
     - match: (?=\s*@custom-media\s*.*?)

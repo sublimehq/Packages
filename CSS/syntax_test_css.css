@@ -1,5 +1,10 @@
 /* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
 
+   /* What am I, a comment? */
+/* ^^                          punctuation.definition.comment.css */
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.css */
+/*                          ^^ punctuation.definition.comment.css */
+
     @namespace svg "http://www.w3.org/2000/svg";
 /*  ^              punctuation.definition.keyword.css    */
 /*   ^^^^^^^^^     keyword.control.at-rule.namespace.css */
