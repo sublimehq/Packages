@@ -552,7 +552,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.raw.python
+        - meta_scope: string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           pop: true
@@ -561,11 +561,11 @@ contexts:
     - match: '([uU]?r)(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.double.block.sql.python
+            - meta_scope: string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               pop: true
@@ -578,7 +578,7 @@ contexts:
               push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.double.block.raw-regex.python
+            - meta_scope: string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               pop: true
@@ -592,11 +592,11 @@ contexts:
     - match: '([uU]?)(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.double.block.sql.python
+            - meta_scope: string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               pop: true
@@ -623,7 +623,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.raw.python
+        - meta_scope: string.quoted.double.block.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -636,7 +636,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.sql.python
+        - meta_scope: string.quoted.double.block.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -644,7 +644,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?=")'
+            - match: '(?="|\n)'
               pop: true
             - include: escaped_unicode_char
             - include: constant_placeholder
@@ -655,7 +655,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.raw-regex.python
+        - meta_scope: string.quoted.double.block.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -663,7 +663,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?=")'
+            - match: '(?="|\n)'
               pop: true
             - include: escaped_unicode_char
           push: 'scope:source.regexp.python'
@@ -673,7 +673,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.sql.python
+        - meta_scope: string.quoted.double.block.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -681,7 +681,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?=")'
+            - match: '(?="|\n)'
               pop: true
             - include: escaped_unicode_char
             - include: escaped_char
@@ -693,7 +693,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.raw-regex.python
+        - meta_scope: string.quoted.double.block.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -701,8 +701,7 @@ contexts:
           pop: true
         - include: escaped_unicode_char
         - include: escaped_char
-        - include: escaped_unicode_char
-
+        - include: constant_placeholder
 
   string_quoted_single:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -711,7 +710,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.raw.python
+        - meta_scope: string.quoted.single.block.python
         - match: ''''''''
           scope: punctuation.definition.string.end.python
           pop: true
@@ -720,11 +719,11 @@ contexts:
     - match: '([uU]?r)('''''')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.single.block.sql.python
+            - meta_scope: string.quoted.single.block.python
             - match: ''''''''
               scope: punctuation.definition.string.end.python
               pop: true
@@ -737,7 +736,7 @@ contexts:
               push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.single.block.raw-regex.python
+            - meta_scope: string.quoted.single.block.python
             - match: ''''''''
               scope: punctuation.definition.string.end.python
               pop: true
@@ -751,11 +750,11 @@ contexts:
     - match: '([uU]?)('''''')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.single.block.sql.python
+            - meta_scope: string.quoted.single.block.python
             - match: ''''''''
               scope: punctuation.definition.string.end.python
               pop: true
@@ -782,7 +781,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.raw.python
+        - meta_scope: string.quoted.single.block.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -795,7 +794,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.sql.python
+        - meta_scope: string.quoted.single.block.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -803,7 +802,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?='')'
+            - match: '(?=''|\n)'
               pop: true
             - include: escaped_unicode_char
             - include: constant_placeholder
@@ -814,7 +813,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.raw-regex.python
+        - meta_scope: string.quoted.single.block.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -822,7 +821,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?='')'
+            - match: '(?=''|\n)'
               pop: true
             - include: escaped_unicode_char
           push: 'scope:source.regexp.python'
@@ -832,7 +831,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.sql.python
+        - meta_scope: string.quoted.single.block.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -840,7 +839,7 @@ contexts:
           pop: true
         - match: ''
           with_prototype:
-            - match: '(?='')'
+            - match: '(?=''|\n)'
               pop: true
             - include: escaped_unicode_char
             - include: escaped_char
@@ -852,7 +851,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.raw-regex.python
+        - meta_scope: string.quoted.single.block.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python

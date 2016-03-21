@@ -100,6 +100,24 @@ regex = R"\b ([fobar]*){1}(?:a|b)?"
 #         ^ - keyword.control.anchor.regexp
 #                       ^ - keyword.operator.quantifier.regexp
 
+bad_string = 'SELECT * FROM users
+#                                ^ invalid.illegal.unclosed-string
+
+string = """
+#        ^^^ string.quoted.double.block
+"""
+
+string = r"""
+#         ^^^ string.quoted.double.block
+"""
+
+string = '''
+#        ^^^ string.quoted.single.block
+'''
+
+string = r'''
+#         ^^^ string.quoted.single.block
+'''
 
 query = \
     """
