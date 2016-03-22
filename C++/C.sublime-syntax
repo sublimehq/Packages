@@ -14,6 +14,7 @@ contexts:
     - include: preprocessor-rule-other
     - include: base-language
     - include: function-definition
+
   base-language:
     - include: keywords
     - include: numbers
@@ -28,6 +29,7 @@ contexts:
       scope: punctuation.separator.c
     - match: '\)|\}'
       scope: invalid.illegal.stray-bracket-end
+
   keywords:
     - include: typedef
     - match: \b(break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while)\b
@@ -48,6 +50,7 @@ contexts:
       scope: keyword.operator.sizeof.c
     - match: \b(hypot(f|l)?|s(scanf|ystem|nprintf|ca(nf|lb(n(f|l)?|ln(f|l)?))|i(n(h(f|l)?|f|l)?|gn(al|bit))|tr(s(tr|pn)|nc(py|at|mp)|c(spn|hr|oll|py|at|mp)|to(imax|d|u(l(l)?|max)|k|f|l(d|l)?)|error|pbrk|ftime|len|rchr|xfrm)|printf|et(jmp|vbuf|locale|buf)|qrt(f|l)?|w(scanf|printf)|rand)|n(e(arbyint(f|l)?|xt(toward(f|l)?|after(f|l)?))|an(f|l)?)|c(s(in(h(f|l)?|f|l)?|qrt(f|l)?)|cos(h(f)?|f|l)?|imag(f|l)?|t(ime|an(h(f|l)?|f|l)?)|o(s(h(f|l)?|f|l)?|nj(f|l)?|pysign(f|l)?)|p(ow(f|l)?|roj(f|l)?)|e(il(f|l)?|xp(f|l)?)|l(o(ck|g(f|l)?)|earerr)|a(sin(h(f|l)?|f|l)?|cos(h(f|l)?|f|l)?|tan(h(f|l)?|f|l)?|lloc|rg(f|l)?|bs(f|l)?)|real(f|l)?|brt(f|l)?)|t(ime|o(upper|lower)|an(h(f|l)?|f|l)?|runc(f|l)?|gamma(f|l)?|mp(nam|file))|i(s(space|n(ormal|an)|cntrl|inf|digit|u(nordered|pper)|p(unct|rint)|finite|w(space|c(ntrl|type)|digit|upper|p(unct|rint)|lower|al(num|pha)|graph|xdigit|blank)|l(ower|ess(equal|greater)?)|al(num|pha)|gr(eater(equal)?|aph)|xdigit|blank)|logb(f|l)?|max(div|abs))|di(v|fftime)|_Exit|unget(c|wc)|p(ow(f|l)?|ut(s|c(har)?|wc(har)?)|error|rintf)|e(rf(c(f|l)?|f|l)?|x(it|p(2(f|l)?|f|l|m1(f|l)?)?))|v(s(scanf|nprintf|canf|printf|w(scanf|printf))|printf|f(scanf|printf|w(scanf|printf))|w(scanf|printf)|a_(start|copy|end|arg))|qsort|f(s(canf|e(tpos|ek))|close|tell|open|dim(f|l)?|p(classify|ut(s|c|w(s|c))|rintf)|e(holdexcept|set(e(nv|xceptflag)|round)|clearexcept|testexcept|of|updateenv|r(aiseexcept|ror)|get(e(nv|xceptflag)|round))|flush|w(scanf|ide|printf|rite)|loor(f|l)?|abs(f|l)?|get(s|c|pos|w(s|c))|re(open|e|ad|xp(f|l)?)|m(in(f|l)?|od(f|l)?|a(f|l|x(f|l)?)?))|l(d(iv|exp(f|l)?)|o(ngjmp|cal(time|econv)|g(1(p(f|l)?|0(f|l)?)|2(f|l)?|f|l|b(f|l)?)?)|abs|l(div|abs|r(int(f|l)?|ound(f|l)?))|r(int(f|l)?|ound(f|l)?)|gamma(f|l)?)|w(scanf|c(s(s(tr|pn)|nc(py|at|mp)|c(spn|hr|oll|py|at|mp)|to(imax|d|u(l(l)?|max)|k|f|l(d|l)?|mbs)|pbrk|ftime|len|r(chr|tombs)|xfrm)|to(b|mb)|rtomb)|printf|mem(set|c(hr|py|mp)|move))|a(s(sert|ctime|in(h(f|l)?|f|l)?)|cos(h(f|l)?|f|l)?|t(o(i|f|l(l)?)|exit|an(h(f|l)?|2(f|l)?|f|l)?)|b(s|ort))|g(et(s|c(har)?|env|wc(har)?)|mtime)|r(int(f|l)?|ound(f|l)?|e(name|alloc|wind|m(ove|quo(f|l)?|ainder(f|l)?))|a(nd|ise))|b(search|towc)|m(odf(f|l)?|em(set|c(hr|py|mp)|move)|ktime|alloc|b(s(init|towcs|rtowcs)|towc|len|r(towc|len))))\b
       scope: support.function.C99.c
+
   attribute:
     - match: \b(__attribute__)\s*(\(\()
       captures:
@@ -60,6 +63,7 @@ contexts:
         - match: \)\)
           scope: punctuation.definition.parameters.c
           pop: true
+
   type:
     - match: \b(asm|__asm__|auto|bool|_Bool|char|_Complex|double|enum|float|_Imaginary|int|long|short|signed|struct|typedef|union|unsigned|void)\b
       scope: storage.type.c
@@ -75,6 +79,7 @@ contexts:
       scope: support.constant.mac-classic.c
     - match: \b(AbsoluteTime|Boolean|Byte|ByteCount|ByteOffset|BytePtr|CompTimeValue|ConstLogicalAddress|ConstStrFileNameParam|ConstStringPtr|Duration|Fixed|FixedPtr|Float32|Float32Point|Float64|Float80|Float96|FourCharCode|Fract|FractPtr|Handle|ItemCount|LogicalAddress|OptionBits|OSErr|OSStatus|OSType|OSTypePtr|PhysicalAddress|ProcessSerialNumber|ProcessSerialNumberPtr|ProcHandle|Ptr|ResType|ResTypePtr|ShortFixed|ShortFixedPtr|SignedByte|SInt16|SInt32|SInt64|SInt8|Size|StrFileName|StringHandle|StringPtr|TimeBase|TimeRecord|TimeScale|TimeValue|TimeValue64|UInt16|UInt32|UInt64|UInt8|UniChar|UniCharCount|UniCharCountPtr|UniCharPtr|UnicodeScalarValue|UniversalProcHandle|UniversalProcPtr|UnsignedFixed|UnsignedFixedPtr|UnsignedWide|UTF16Char|UTF32Char|UTF8Char)\b
       scope: support.type.mac-classic.c
+
   typedef:
     - match: \btypedef\b
       scope: storage.type.c
@@ -88,14 +93,17 @@ contexts:
             1: storage.type.c
             2: entity.name.type.struct.c
         - include: base-language
+
   numbers:
     - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.c
+
   access:
     - match: '(\.)([a-zA-Z_][a-zA-Z_0-9]*)\b(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.dot-access.c
+
   block:
     - match: '\{'
       scope: punctuation.definition.scope.c
@@ -107,6 +115,7 @@ contexts:
         - match: .*$(?!\n)
           scope: invalid.illegal.unbalanced-curly-bracket
         - include: block_innards
+
   block_innards:
     - include: preprocessor-rule-enabled-block
     - include: preprocessor-rule-disabled-block
@@ -133,6 +142,7 @@ contexts:
     - include: block
     - include: parens
     - include: $top_level_main
+
   comments:
     - match: ^/\* =(\s*.*?)\s*= \*/$\n?
       scope: comment.block.c
@@ -159,6 +169,7 @@ contexts:
           pop: true
         - match: '\\\s*\n'
           scope: punctuation.separator.continuation.c++
+
   disabled:
     - match: ^\s*#\s*if(n?def)?\b.*$
       comment: eat nested preprocessor if(def)s
@@ -170,6 +181,7 @@ contexts:
           pop: true
         - include: disabled
         - include: pragma-mark
+
   operators:
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
       scope: keyword.operator.assignment.augmented.c
@@ -188,6 +200,7 @@ contexts:
       scope: keyword.operator.ternary.c
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c
+
   parens:
     - match: \(
       scope: punctuation.definition.parameters.c
@@ -199,10 +212,12 @@ contexts:
         - match: .*$(?!\n)
           scope: invalid.illegal.unbalanced-parenthesis
         - include: $top_level_main
+
   preprocessor:
     - include: preprocessor-macro-define
     - include: pragma-mark
     - include: preprocessor-other
+
   pragma-mark:
     - match: ^\s*(#\s*(pragma\s+mark)\s+(.*))
       scope: meta.section
@@ -210,6 +225,7 @@ contexts:
         1: meta.preprocessor.c
         2: keyword.control.import.pragma.c
         3: meta.toc-list.pragma-mark.c
+
   line-continuation:
     - match: (\\)$\n?
       captures:
@@ -217,6 +233,7 @@ contexts:
     - match: \\(\s+?)(?=\n)$
       captures:
         1: invalid.illegal.space-after-continuation.c
+
   preprocessor-macro-define:
     - match: ^\s*(\#\s*define)\b
       scope: keyword.control.import.define.c
@@ -233,6 +250,7 @@ contexts:
         - match: '\b[a-zA-Z_]\w*\b'
           scope: entity.name.constant.preprocessor.c
           set: preprocessor-macro-definition
+
   preprocessor-macro-params:
     - meta_scope: meta.preprocessor.params.macro.c
     - match: '\b[a-zA-Z_]\w*\b'
@@ -261,12 +279,14 @@ contexts:
         3 : punctuation.definition.comment.c
     - match: $\n
       scope: invalid.illegal.unexpected-end-of-line.c
+
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.c
     - match: $\n
       pop: true
     - include: line-continuation
     - include: base-language
+
   preprocessor-rule-disabled:
     - match: ^\s*(#(if)\s+(0)\b).*
       captures:
@@ -297,6 +317,7 @@ contexts:
               pop: true
             - include: disabled
             - include: pragma-mark
+
   preprocessor-rule-disabled-block:
     - match: ^\s*(#(if)\s+(0)\b).*
       captures:
@@ -327,6 +348,7 @@ contexts:
               pop: true
             - include: disabled
             - include: pragma-mark
+
   preprocessor-rule-enabled:
     - match: ^\s*(#(if)\s+(0*1)\b)
       captures:
@@ -357,6 +379,7 @@ contexts:
             - match: (?=^\s*#\s*(else|endif)\b.*$)
               pop: true
             - include: $top_level_main
+
   preprocessor-rule-enabled-block:
     - match: ^\s*(#(if)\s+(0*1)\b)
       captures:
@@ -387,6 +410,7 @@ contexts:
             - match: (?=^\s*#\s*(else|endif)\b.*$)
               pop: true
             - include: block_innards
+
   preprocessor-rule-other:
     - match: ^\s*#\s*(if(n?def)?)\b
       captures:
@@ -403,6 +427,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.if.c
+
   preprocessor-other:
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
@@ -453,6 +478,7 @@ contexts:
           scope: keyword.control.c
         - match: '\\\s*\n'
           scope: punctuation.separator.continuation.c
+
   strings:
     - match: '(L|u8|u|U)?(")'
       captures:
@@ -475,11 +501,13 @@ contexts:
           scope: punctuation.definition.string.end.c
           pop: true
         - include: string_escaped_char
+
   string_escaped_char:
     - match: '\\(\\|[abefnprtv''"?]|[0-3]\d{,2}|[4-7]\d?|x[a-fA-F0-9]{,2}|u[a-fA-F0-9]{,4}|U[a-fA-F0-9]{,8})'
       scope: constant.character.escape.c
     - match: \\.
       scope: invalid.illegal.unknown-escape.c
+
   string_placeholder:
     - match: |-
         (?x)%
@@ -493,6 +521,7 @@ contexts:
       scope: constant.other.placeholder.c
     - match: "%"
       scope: invalid.illegal.placeholder.c
+
   function-call:
     - match: |-
         (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
@@ -511,6 +540,7 @@ contexts:
           pop: true
         - include: base-language
         - include: function-call
+
   function-definition:
     - match: |-
         (?x)
@@ -542,5 +572,3 @@ contexts:
             scope: storage.modifier.c
         - include: base-language
         - include: function-call
-
-
