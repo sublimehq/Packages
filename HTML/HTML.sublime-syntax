@@ -15,11 +15,12 @@ contexts:
   main:
     - match: (<\?)(xml)
       captures:
-        1: punctuation.definition.tag.html
+        1: punctuation.definition.tag.begin.html
         2: entity.name.tag.xml.html
       push:
         - meta_scope: meta.tag.preprocessor.xml.html
         - match: '\?>'
+          scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-generic-attribute
         - include: string-double-quoted
@@ -225,30 +226,30 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '\s+([a-zA-Z0-9:-]+)\s*(=)\s*'
+    - match: '\s+(([a-zA-Z0-9:-]+)\s*(=)\s*)'
       captures:
-        1: entity.other.attribute-name.html
-        2: punctuation.separator.key-value.html
+        1: meta.attribute-with-value.html
+        2: entity.other.attribute-name.html
+        3: punctuation.separator.key-value.html
       push:
-        - meta_scope: meta.attribute-with-value.html
         - match: '"'
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.double.html
+          set:
+            - meta_scope: meta.attribute-with-value.html string.quoted.double.html
             - match: '"'
               scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.single.html
+          set:
+            - meta_scope: meta.attribute-with-value.html string.quoted.single.html
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
-          scope: string.unquoted.html
+          scope: meta.attribute-with-value.html string.unquoted.html
         - match: ''
           pop: true
     - match: '\s+([a-zA-Z0-9:-]+)'
@@ -256,16 +257,16 @@ contexts:
         1: entity.other.attribute-name.html
 
   tag-class-attribute:
-    - match: \s+\b(class)\b\s*(=)\s*
+    - match: '\s+\b((class)\b\s*(=)\s*)'
       captures:
-        1: entity.other.attribute-name.class.html
-        2: punctuation.separator.key-value.html
+        1: meta.attribute-with-value.class.html
+        2: entity.other.attribute-name.class.html
+        3: punctuation.separator.key-value.html
       push:
-        - meta_scope: meta.attribute-with-value.class.html
         - match: '"'
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.double.html
+          set:
+            - meta_scope: meta.attribute-with-value.class.html string.quoted.double.html
             - meta_content_scope: meta.class-name.html
             - match: '"'
               scope: punctuation.definition.string.end.html
@@ -273,29 +274,29 @@ contexts:
             - include: entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.single.html
+          set:
+            - meta_scope: meta.attribute-with-value.class.html string.quoted.single.html
             - meta_content_scope: meta.class-name.html
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
-          scope: string.unquoted.html meta.class-name.html
+          scope: meta.attribute-with-value.class.html string.unquoted.html meta.class-name.html
         - match: ''
           pop: true
 
   tag-id-attribute:
-    - match: \s+\b(id)\b\s*(=)\s*
+    - match: '\s+\b((id)\b\s*(=)\s*)'
       captures:
-        1: entity.other.attribute-name.id.html
-        2: punctuation.separator.key-value.html
+        1: meta.attribute-with-value.id.html
+        2: entity.other.attribute-name.id.html
+        3: punctuation.separator.key-value.html
       push:
-        - meta_scope: meta.attribute-with-value.id.html
         - match: '"'
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.double.html
+          set:
+            - meta_scope: meta.attribute-with-value.id.html string.quoted.double.html
             - meta_content_scope: meta.toc-list.id.html
             - match: '"'
               scope: punctuation.definition.string.end.html
@@ -303,29 +304,30 @@ contexts:
             - include: entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
-          push:
-            - meta_scope: string.quoted.single.html
+          set:
+            - meta_scope: meta.attribute-with-value.id.html string.quoted.single.html
             - meta_content_scope: meta.toc-list.id.html
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
             - include: entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
-          scope: string.unquoted.html meta.toc-list.id.html
+          scope: meta.attribute-with-value.id.html string.unquoted.html meta.toc-list.id.html
         - match: ''
           pop: true
 
   tag-style-attribute:
-    - match: \s+\b(style)\b\s*(=)\s*
+    - match: '\s+\b((style)\b\s*(=)\s*)'
       captures:
-        1: entity.other.attribute-name.style.html
-        2: punctuation.separator.key-value.html
+        1: meta.attribute-with-value.style.html
+        2: entity.other.attribute-name.style.html
+        3: punctuation.separator.key-value.html
       push:
-        - meta_scope: meta.attribute-with-value.style.html
         - match: '"'
           scope: string.quoted.double punctuation.definition.string.begin.html
-          push:
-            - meta_scope: source.css
+          set:
+            - meta_scope: meta.attribute-with-value.style.html
+            - meta_content_scope: source.css
             - match: '"'
               scope: string.quoted.double punctuation.definition.string.end.html
               pop: true
@@ -342,8 +344,8 @@ contexts:
                 - include: entities
         - match: "'"
           scope: string.quoted.single punctuation.definition.string.begin.html
-          push:
-            - meta_scope: source.css
+          set:
+            - meta_scope: meta.attribute-with-value.style.html source.css
             - match: "'"
               scope: string.quoted.single punctuation.definition.string.end.html
               pop: true
@@ -363,7 +365,7 @@ contexts:
 
   tag-event-attribute:
     - match: |-
-        (?x)\s*\b(
+        (?x)\s*\b((
         onabort|onautocomplete|onautocompleteerror|onblur|oncancel|oncanplay|
         oncanplaythrough|onchange|onclick|onclose|oncontextmenu|oncuechange|
         ondblclick|ondrag|ondragend|ondragenter|ondragexit|ondragleave|ondragover|
@@ -373,15 +375,16 @@ contexts:
         onmousemove|onmouseout|onmouseover|onmouseup|onmousewheel|onpause|onplay|
         onplaying|onprogress|onratechange|onreset|onresize|onscroll|onseeked|
         onseeking|onselect|onshow|onsort|onstalled|onsubmit|onsuspend|
-        ontimeupdate|ontoggle|onvolumechange|onwaiting)\b\s*(=)
+        ontimeupdate|ontoggle|onvolumechange|onwaiting)\b\s*(=)\s*)
       captures:
-        1: entity.other.attribute-name.event.html
-        2: punctuation.separator.key-value.html
+        1: meta.attribute-with-value.event.html
+        2: entity.other.attribute-name.event.html
+        3: punctuation.separator.key-value.html
       push:
-        - meta_scope: meta.attribute-with-value.event.html
         - match: '"'
           scope: string.quoted.double punctuation.definition.string.begin.html
-          push:
+          set:
+            - meta_scope: meta.attribute-with-value.event.html
             - match: '"'
               scope: string.quoted.double punctuation.definition.string.end.html
               pop: true
@@ -393,7 +396,8 @@ contexts:
                 - include: entities
         - match: "'"
           scope: string.quoted.single punctuation.definition.string.begin.html
-          push:
+          set:
+            - meta_scope: meta.attribute-with-value.event.html
             - match: "'"
               scope: string.quoted.single punctuation.definition.string.end.html
               pop: true

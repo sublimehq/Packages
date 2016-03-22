@@ -1,4 +1,8 @@
 ## SYNTAX TEST "Packages/HTML/HTML.sublime-syntax"
+<?xml version="1.0" encoding="utf-8"?>
+## <- meta.tag.preprocessor punctuation.definition.tag.begin
+##^^^entity.name.tag.xml
+##                                   ^ punctuation.definition.tag.end
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,16 +34,82 @@
         <!-- Comment -->
         ## ^ comment.block.html
 
+        <div title=description></div>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^^^^^^^^ string.unquoted
+
+        <div title='description'></div>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##         ^^^^^^^^^^^^^ string.quoted.single
+        ##         ^ punctuation.definition.string.begin
+        ##                     ^ punctuation.definition.string.end
+
+        <div title="description"></div>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##         ^^^^^^^^^^^^^ string.quoted.double
+        ##         ^ punctuation.definition.string.begin
+        ##                     ^ punctuation.definition.string.end
+
+        <div id=MyId></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##   ^^^^^^^ meta.attribute-with-value.id
+        ##      ^^^^ string.unquoted meta.toc-list.id
+
+        <div id='MyId2'></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^^^^^^^^^ meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##      ^^^^^^^ string.quoted.single
+        ##      ^ punctuation.definition.string.begin - meta.toc-list.id
+        ##       ^^^^^ meta.toc-list.id
+        ##            ^ punctuation.definition.string.end - meta.toc-list.id
+
         <div id="ElementID"></div>
-        ##    ^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-        ##       ^ meta.attribute-with-value.id.html meta.toc-list.id.html
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^^^^^^^^^ meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##      ^^^^^^^^^^^ string.quoted.double
+        ##      ^ punctuation.definition.string.begin - meta.toc-list.id
+        ##       ^^^^^^^^^ meta.toc-list.id
+        ##                ^ punctuation.definition.string.end - meta.toc-list.id
+
+        <div class=element-class></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##         ^^^^^^^^^^^^^ string.unquoted meta.class-name
+
+        <div class='element-class'></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##         ^^^^^^^^^^^^^^^ string.quoted.single
+        ##         ^ punctuation.definition.string.begin - meta.class-name
+        ##          ^^^^^^^^^^^^^ meta.class-name
+        ##                       ^ punctuation.definition.string.end - meta.class-name
 
         <div class="element-class"></div>
-        ##    ^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
-        ##          ^ meta.attribute-with-value.class.html meta.class-name.html
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##         ^^^^^^^^^^^^^^^ string.quoted.double
+        ##         ^ punctuation.definition.string.begin - meta.class-name
+        ##          ^^^^^^^^^^^^^ meta.class-name
+        ##                       ^ punctuation.definition.string.end - meta.class-name
 
         <div style="width: 100%"></div>
+        ##  ^ - meta.attribute-with-value.style
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style
         ##    ^ meta.attribute-with-value.style.html entity.other.attribute-name.style.html
+        ##         ^ - source.css
+        ##                     ^ - source.css
         ##          ^ source.css meta.property-name.css support.type.property-name.css
         ##                 ^ meta.property-value.css constant.numeric.css
 
@@ -48,6 +118,11 @@
         ##        ^ entity.other.attribute-name.html
 
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
+        ##         ^ - meta.attribute-with-value.event
+        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event
+        ##                  ^ - source.js
+        ##                                                ^ - source.js
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js
         ##                   ^ meta.function-call.js support.function.js
         ## ^^^^^^^^ entity.other.attribute-name
 
