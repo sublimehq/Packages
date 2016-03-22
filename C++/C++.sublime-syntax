@@ -118,7 +118,7 @@ contexts:
         - match: |-
             (?x)
             (
-              (?!while|for|do|if|else|switch|catch|enumerate|return|r?iterate)(?: \b[A-Za-z_][A-Za-z0-9_]*+\b | :: )*+                  # actual name
+              (?!while|for|do|if|else|switch|catch|enumerate|return|r?iterate)(?: \b[A-Za-z_][A-Za-z0-9_]*\b | :: )+                  # actual name
             )
              \s*(\()
           scope: meta.function-call.c++
