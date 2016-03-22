@@ -68,8 +68,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.c++
         - match: '\)\3"'
-          captures:
-            0: punctuation.definition.string.end.c++
+          scope: punctuation.definition.string.end.c++
           pop: true
   angle_brackets:
     - match: <
@@ -139,8 +138,7 @@ contexts:
       push:
         - meta_scope: meta.function.constructor.c++
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
+          scope: punctuation.definition.parameters.c
           pop: true
         - include: $top_level_main
     - match: |-
@@ -172,8 +170,7 @@ contexts:
       push:
         - meta_scope: meta.function.destructor.c++
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
+          scope: punctuation.definition.parameters.c
           pop: true
         - include: $top_level_main
     - match: |-
@@ -189,8 +186,7 @@ contexts:
       push:
         - meta_scope: meta.function.destructor.prototype.c++
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
+          scope: punctuation.definition.parameters.c
           pop: true
         - include: $top_level_main
   special_block:
