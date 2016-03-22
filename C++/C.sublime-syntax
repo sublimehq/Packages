@@ -193,7 +193,7 @@ contexts:
       scope: keyword.operator.comparison.c
     # These two operator can be both arithmetic and pointer/address related
     - match: \*|&
-      scope: keyword.operator.arithmetic.c
+      scope: keyword.operator.c
     - match: \=
       scope: keyword.operator.assignment.c
     - match: '\?|:'
