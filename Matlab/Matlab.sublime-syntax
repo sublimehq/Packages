@@ -26,8 +26,7 @@ contexts:
         - meta_scope: meta.function.with-arguments.matlab
         - meta_content_scope: variable.parameter.input.function.matlab
         - match: \)
-          captures:
-            0: punctuation.definition.parameters.matlab
+          scope: punctuation.definition.parameters.matlab
           pop: true
     - match: |-
         (?x)
@@ -146,13 +145,11 @@ contexts:
       scope: punctuation.separator.continuation.matlab
   brackets:
     - match: '\['
-      captures:
-        0: meta.brackets.matlab
+      scope: meta.brackets.matlab
       push:
         - meta_content_scope: meta.brackets.matlab
         - match: '\]'
-          captures:
-            0: meta.brackets.matlab
+          scope: meta.brackets.matlab
           pop: true
         - include: allofem
   constants_override:
@@ -161,13 +158,11 @@ contexts:
       scope: meta.inappropriate.matlab
   curlybrackets:
     - match: '\{'
-      captures:
-        0: meta.brackets.curly.matlab
+      scope: meta.brackets.curly.matlab
       push:
         - meta_content_scope: meta.brackets.curly.matlab
         - match: '\}'
-          captures:
-            0: meta.brackets.curly.matlab
+          scope: meta.brackets.curly.matlab
           pop: true
         - include: allofem
         - include: end_in_parens
@@ -439,13 +434,11 @@ contexts:
       scope: keyword.operator.symbols.matlab
   parens:
     - match: \(
-      captures:
-        0: meta.parens.matlab
+      scope: meta.parens.matlab
       push:
         - meta_content_scope: meta.parens.matlab
         - match: \)
-          captures:
-            0: meta.parens.matlab
+          scope: meta.parens.matlab
           pop: true
         - include: allofem
         - include: end_in_parens
@@ -455,13 +448,11 @@ contexts:
       scope: constant.character.escape.matlab
   string:
     - match: '((?<=(\[|\(|\{|=|\s|;|:|,))|^)'''
-      captures:
-        0: punctuation.definition.string.begin.matlab
+      scope: punctuation.definition.string.begin.matlab
       push:
         - meta_scope: string.quoted.single.matlab
         - match: '''(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))'
-          captures:
-            0: punctuation.definition.string.end.matlab
+          scope: punctuation.definition.string.end.matlab
           pop: true
         - include: escaped_quote
         - include: unescaped_quote
