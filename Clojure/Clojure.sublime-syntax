@@ -103,7 +103,7 @@ contexts:
     - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
       comment: symbol matching
       push:
-        - meta_scope: meta.structure.binding.symbole.clojure
+        - meta_scope: meta.structure.binding.symbol.clojure
         - match: '(?=\])'
           pop: true
         - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
@@ -203,7 +203,7 @@ contexts:
     - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
       comment: symbol matching
       push:
-        - meta_scope: meta.structure.binding_exp.symbole.clojure
+        - meta_scope: meta.structure.binding_exp.symbol.clojure
         - match: '(?=\])'
           pop: true
         - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
@@ -405,7 +405,7 @@ contexts:
                 - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
                   comment: symbol matching
                   push:
-                    - meta_scope: meta.structure.multi_method_exp.symbole.clojure
+                    - meta_scope: meta.structure.multi_method_exp.symbol.clojure
                     - match: (?=\))
                       pop: true
                     - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
@@ -1066,9 +1066,9 @@ contexts:
     - match: '(\:{1,2})(?=[a-zA-Z+!\-_?0-9*/.$=])'
       comment: . is OK in symbol ?
       captures:
-        1: keyword.operator.symbole.clojure
+        1: keyword.operator.symbol.clojure
       push:
-        - meta_scope: constant.string.symbole.clojure
+        - meta_scope: constant.string.symbol.clojure
         - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
           pop: true
         - include: symbol

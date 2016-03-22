@@ -196,9 +196,9 @@ contexts:
         					)
         				  | (							# Inline Link
         						\(						# Opening paren
-        							[ \t]*+				# Optional whtiespace
+        							[ \t]*+				# Optional whitespace
         							<?(.*?)>?			# URL
-        							[ \t]*+				# Optional whtiespace
+        							[ \t]*+				# Optional whitespace
         							(					# Optional Title
         								(?<title>['"])
         								(.*?)
@@ -343,9 +343,9 @@ contexts:
         					)
         				  | (							# Inline Link
         						\(						# Opening paren
-        							[ \t]*+				# Optional whtiespace
+        							[ \t]*+				# Optional whitespace
         							<?(.*?)>?			# URL
-        							[ \t]*+				# Optional whtiespace
+        							[ \t]*+				# Optional whitespace
         							(					# Optional Title
         								(?<title>['"])
         								(.*?)

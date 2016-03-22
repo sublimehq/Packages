@@ -245,7 +245,7 @@ contexts:
             0: punctuation.definition.method-parameters.end.source.cs
           pop: true
         - match: ","
-          scope: punctuation.definition.seperator.parameter.source.cs
+          scope: punctuation.definition.separator.parameter.source.cs
         - include: code
   attributes:
     - match: '\['

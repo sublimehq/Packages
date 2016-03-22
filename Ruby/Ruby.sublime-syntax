@@ -169,7 +169,7 @@ contexts:
          ( (?>[a-zA-Z_]\w*(?>\.|::))?                                   # a method name prefix
            (?>[a-zA-Z_]\w*(?>[?!]|=(?!>))?                              # the method name
            |===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?) )  # …or an operator method
-         \s*(\()                                                        # the openning parenthesis for arguments
+         \s*(\()                                                        # the opening parenthesis for arguments
       comment: the method pattern comes from the symbol pattern, see there for a explaination
       captures:
         1: keyword.control.def.ruby
@@ -240,7 +240,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
     - match: /=
-      comment: Needs higher precidence than regular expressions.
+      comment: Needs higher precedence than regular expressions.
       scope: keyword.operator.assignment.augmented.ruby
     - match: "'"
       comment: single quoted string (does not allow interpolation)
@@ -356,7 +356,7 @@ contexts:
              | [\s;]unless\s
              | [\s;]when\s
              | [\s;]assert_match\s
-             | [\s;]or\s			# boolean opperators
+             | [\s;]or\s			# boolean operators
              | [\s;]and\s
              | [\s;]not\s
              | [\s.]index\s			# methods
@@ -680,7 +680,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
     - match: '(?><<[-~]("?)((?:[_\w]+_|)CSS)\b\1)'
-      comment: heredoc with embedded css and intented terminator
+      comment: heredoc with embedded css and indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
       push:
@@ -695,7 +695,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
     - match: '(?><<[-~]("?)((?:[_\w]+_|)(?:JS|JAVASCRIPT))\b\1)'
-      comment: heredoc with embedded javascript and intented terminator
+      comment: heredoc with embedded javascript and indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
       push:
@@ -710,7 +710,7 @@ contexts:
         - include: interpolated_ruby
         - include: escaped_char
     # - match: '(?><<[-~]("?)((?:[_\w]+_|)(?:SH|SHELL))\b\1)'
-    #   comment: heredoc with embedded shell and intented terminator
+    #   comment: heredoc with embedded shell and indented terminator
     #   captures:
     #     0: punctuation.definition.string.begin.ruby
     #   push:
@@ -725,7 +725,7 @@ contexts:
     #     - include: interpolated_ruby
     #     - include: escaped_char
     - match: '(?><<[-~]("?)((?:[_\w]+_|)RUBY)\b\1)'
-      comment: heredoc with embedded ruby and intented terminator
+      comment: heredoc with embedded ruby and indented terminator
       captures:
         0: punctuation.definition.string.begin.ruby
       push:
@@ -989,10 +989,10 @@ contexts:
     - include: interpolated_ruby
     - include: escaped_char
     - match: '(\{)\d+(,\d+)?(\})'
-      scope: string.regexp.arbitrary-repitition.ruby
+      scope: string.regexp.arbitrary-repetition.ruby
       captures:
-        1: punctuation.definition.arbitrary-repitition.ruby
-        3: punctuation.definition.arbitrary-repitition.ruby
+        1: punctuation.definition.arbitrary-repetition.ruby
+        3: punctuation.definition.arbitrary-repetition.ruby
     - match: '\[(?:\^?\])?'
       captures:
         0: punctuation.definition.character-class.ruby

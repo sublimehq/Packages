@@ -185,7 +185,7 @@ contexts:
     - match: |-
         (?x)
                 (func)\s*
-                (?=\(.*,)                                                                        # param list with at leat one comma: (t Type, ...)
+                (?=\(.*,)                                                                        # param list with at least one comma: (t Type, ...)
       scope: keyword.control.go
       push: function_params
   single_param_anonymous_function_begin:

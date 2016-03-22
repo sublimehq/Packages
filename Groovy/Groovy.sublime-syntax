@@ -143,7 +143,7 @@ contexts:
         - match: $
           pop: true
         - match: ":"
-          scope: keyword.operator.assert.expression-seperator.groovy
+          scope: keyword.operator.assert.expression-separator.groovy
         - include: groovy-code-minus-map-keys
     - match: \b(throws)\b
       scope: keyword.other.throws.groovy
@@ -172,7 +172,7 @@ contexts:
         - match: $
           pop: true
         - match: ":"
-          scope: keyword.operator.ternary.expression-seperator.groovy
+          scope: keyword.operator.ternary.expression-separator.groovy
         - include: groovy-code-minus-map-keys
     - match: "==~"
       scope: keyword.operator.match.groovy
@@ -194,7 +194,7 @@ contexts:
     - match: (\w+)\s*(:)
       captures:
         1: constant.other.key.groovy
-        2: punctuation.definition.seperator.key-value.groovy
+        2: punctuation.definition.separator.key-value.groovy
   method-call:
     - match: (\w+)(\()
       captures:
@@ -207,7 +207,7 @@ contexts:
             0: punctuation.definition.method-parameters.end.groovy
           pop: true
         - match: ","
-          scope: punctuation.definition.seperator.parameter.groovy
+          scope: punctuation.definition.separator.parameter.groovy
         - include: groovy-code
   method-declaration-remainder:
     - match: \(
@@ -235,7 +235,7 @@ contexts:
           captures:
             1: storage.type.parameter.groovy
         - match: ","
-          scope: punctuation.definition.parameters.seperator.groovy
+          scope: punctuation.definition.parameters.separator.groovy
         - include: comment-block
     - match: (?<=\))\s*(throws)\s
       captures:
@@ -249,7 +249,7 @@ contexts:
         - match: '((?:[a-z]\w*.)*[A-Z]\w*)\s*(?:(,)|$|\{)'
           captures:
             1: storage.type.throwable.groovy
-            2: punctuation.definition.throwables.seperator.groovy
+            2: punctuation.definition.throwables.separator.groovy
   methods:
     - match: |-
         (?x)^\s*
@@ -379,7 +379,7 @@ contexts:
             2: keyword.operator.assignment.groovy
         - include: values
         - match: ","
-          scope: punctuation.definition.seperator.groovy
+          scope: punctuation.definition.separator.groovy
     - match: '@\S+'
       scope: storage.type.annotation.groovy
     - match: \b(def)\b

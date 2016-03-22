@@ -101,7 +101,7 @@ contexts:
     - include: matlab_support_toolbox_datafeed
     - include: matlab_support_toolbox_design
     - include: matlab_support_toolbox_excel_link
-    - include: matlab_support_toolbox_filder_design_hdl_coder
+    - include: matlab_support_toolbox_filter_design_hdl_coder
     - include: matlab_support_toolbox_financial_derivatives
     - include: matlab_support_toolbox_financial
     - include: matlab_support_toolbox_fixed_income
@@ -270,10 +270,10 @@ contexts:
     - match: (?<!\.)\b(matlabsub|matlabinit|matlabfcn|MLUseFullDesktop|MLUseCellArray|MLStartDir|MLShowMatlabErrors|MLPutVar|MLPutMatrix|MLOpen|MLMissingDataAsNaN|MLGetVar|MLGetMatrix|MLGetFigure|MLEvalString|MLDeleteMatrix|MLClose|MLAutoStart|MLAppendMatrix)\b
       comment: Matlab excel link toolbox
       scope: support.toolbox.excel-link.matlab
-  matlab_support_toolbox_filder_design_hdl_coder:
+  matlab_support_toolbox_filter_design_hdl_coder:
     - match: (?<!\.)\b(generatetbstimulus|generatetb|generatehdl|fdhdltool)\b
-      comment: Matlab filder design hdl coder toolbox
-      scope: support.toolbox.filder-design-hdl-coder.matlab
+      comment: Matlab filter design hdl coder toolbox
+      scope: support.toolbox.filter-design-hdl-coder.matlab
   matlab_support_toolbox_financial:
     - match: (?<!\.)\b(zero2pyld|zero2fwd|zero2disc|zbtyield|zbtprice|yldtbill|yldmat|ylddisc|yearfrac|yeardays|year|xirr|x2mdate|wrkdydif|willpctr|willad|weights2holdings|weekday|wclose|volroc|vertcat|uplus|uminus|uicalendar|ugarchsim|ugarchpred|ugarchllf|ugarch|typprice|tsmovavg|tsmom|tsaccel|tr2bonds|toweekly|totalreturnprice|tosemi|toquoted|toquarterly|tomonthly|todecimal|today|todaily|toannual|times|time2date|tick2ret|thirtytwo2dec|thirdwednesday|tbl2bond|taxedrr|targetreturn|subsref|subsasgn|stochosc|std|spctkd|sortfts|smoothts|size|sharpe|setfield|selectreturn|second|rsindex|rmfield|ret2tick|resamplets|rdivide|pyld2zero|pvvar|pvtrend|pvfix|prtbill|prmat|prdisc|prcroc|prbyzero|power|posvolidx|portvrisk|portstats|portsim|portrand|portopt|portcons|portalpha|portalloc|pointfig|plus|plot|periodicreturns|peravg|pcpval|pcglims|pcgcomp|pcalims|payuni|payper|payodd|payadv|opprofit|onbalvol|nweekdate|now|nomrr|negvolidx|mvnrstd|mvnrobj|mvnrmle|mvnrfish|mtimes|mrdivide|movavg|months|month|mirr|minute|minus|min|merge|medprice|mean|maxdrawdown|max|macd|m2xdate|lweekdate|lpm|log2|log10|log|llow|length|leadts|lbusdate|lagts|issorted|isfield|isequal|iscompatible|isbusday|irr|inforatio|hour|horzcat|holidays|holdings2weights|hist|highlow|hhigh|getnameidx|getfield|geom2arith|fwd2zero|fvvar|fvfix|fvdisc|ftsuniq|ftstool|ftsinfo|ftsgui|ftsbound|fts2mat|fts2ascii|frontier|frontcon|freqstr|freqnum|frac2cur|fpctkd|fints|filter|fillts|fieldnames|fetch|fbusdate|extfield|exp|ewstats|eomday|eomdate|end|emaxdrawdown|elpm|effrr|ecmnstd|ecmnobj|ecmnmle|ecmninit|ecmnhess|ecmnfish|ecmmvnrstd|ecmmvnrobj|ecmmvnrmle|ecmmvnrfish|ecmlsrobj|ecmlsrmle|discrate|disc2zero|diff|depstln|depsoyd|deprdv|depgendb|depfixdb|dec2thirtytwo|daysdif|daysadd|daysact|days365|days360psa|days360isda|days360e|days360|day|datewrkdy|datevec|datestr|datenum|datemnth|datefind|datedisp|dateaxis|date2time|cur2str|cur2frac|cumsum|createholidays|cpnpersz|cpndaysp|cpndaysn|cpndatepq|cpndatep|cpndatenq|cpndaten|cpncount|cov2corr|corr2cov|convertto|convert2sur|chfield|chartfts|chaikvolat|chaikosc|cftimes|cfport|cfdur|cfdates|cfconv|cfamounts|candle|busdays|busdate|boxcox|bollinger|bolling|bndyield|bndspread|bndprice|bnddury|bnddurp|bndconvy|bndconvp|blsvega|blstheta|blsrho|blsprice|blslambda|blsimpv|blsgamma|blsdelta|blkprice|blkimpv|binprice|beytbill|barh|bar3h|bar3|bar|ascii2fts|arith2geom|annuterm|annurate|amortize|adosc|adline|active2abs|acrudisc|acrubond|accrfrac|abs2active)\b
       comment: Matlab financial toolbox

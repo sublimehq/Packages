@@ -759,10 +759,10 @@ contexts:
           scope: constant.character.escape.regex.php
         - include: interpolation
         - match: '(\{)\d+(,\d+)?(\})'
-          scope: string.regexp.arbitrary-repitition.php
+          scope: string.regexp.arbitrary-repetition.php
           captures:
-            1: punctuation.definition.arbitrary-repitition.php
-            3: punctuation.definition.arbitrary-repitition.php
+            1: punctuation.definition.arbitrary-repetition.php
+            3: punctuation.definition.arbitrary-repetition.php
         - match: '\[(?:\^?\])?'
           captures:
             0: punctuation.definition.character-class.php
@@ -786,10 +786,10 @@ contexts:
             0: punctuation.definition.string.end.php
           pop: true
         - match: '(\{)\d+(,\d+)?(\})'
-          scope: string.regexp.arbitrary-repitition.php
+          scope: string.regexp.arbitrary-repetition.php
           captures:
-            1: punctuation.definition.arbitrary-repitition.php
-            3: punctuation.definition.arbitrary-repitition.php
+            1: punctuation.definition.arbitrary-repetition.php
+            3: punctuation.definition.arbitrary-repetition.php
         - match: '(\\){1,2}[.$^\[\]{}]'
           comment: Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
           scope: constant.character.escape.regex.php

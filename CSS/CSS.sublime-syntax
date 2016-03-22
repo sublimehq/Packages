@@ -33,7 +33,7 @@ contexts:
         - match: "(?i)([_a-z]+[_a-z0-9-]*)"
           scope: support.type.variable-name.css
         - match: (,)
-          scope: punctuation.definition.arbitrary-repitition.css
+          scope: punctuation.definition.arbitrary-repetition.css
         - include: numeric-values
   charset:
     - match: \s*((@)charset\b)\s*
@@ -165,7 +165,7 @@ contexts:
       push:
         - match: '\s*(?:(,)|(?=[{;]))'
           captures:
-            1: punctuation.definition.arbitrary-repitition.css
+            1: punctuation.definition.arbitrary-repetition.css
           pop: true
   keyframes:
     - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
@@ -228,7 +228,7 @@ contexts:
       push:
         - match: '\s*(?:(,)|(?=[{;]))'
           captures:
-            1: punctuation.definition.arbitrary-repitition.css
+            1: punctuation.definition.arbitrary-repetition.css
           pop: true
         - match: \s*(and)?\s*(\()\s*
           captures:
@@ -449,7 +449,7 @@ contexts:
           pop: true
         - include: numeric-values
         - match: (,)
-          scope: punctuation.definition.arbitrary-repitition.css
+          scope: punctuation.definition.arbitrary-repetition.css
         - match: |-
             \b(?x)(
             at|

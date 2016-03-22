@@ -106,7 +106,7 @@ contexts:
         - include: comments
   precs:
     - match: '(%)(prec)\s+(([a-z][a-zA-Z0-9_]*)|(([A-Z][a-zA-Z0-9_]*)))'
-      scope: meta.precidence.declaration
+      scope: meta.precedence.declaration
       captures:
         1: keyword.other.decorator.precedence.ocamlyacc
         2: keyword.other.precedence.ocamlyacc

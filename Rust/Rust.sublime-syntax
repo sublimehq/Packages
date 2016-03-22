@@ -852,7 +852,7 @@ contexts:
     - match: '\{\{|\}\}'
       scope: constant.character.escape.rust
     - match: |-
-        (?x)                      # Spec fron http://doc.rust-lang.org/std/fmt/
+        (?x)                      # Spec from http://doc.rust-lang.org/std/fmt/
         \{
           (\d+|{{identifier}})?
           (
