@@ -23,6 +23,7 @@ contexts:
   main:
     - include: base-language
     - include: function-definition
+
   base-language:
     - include: special_block
     - include: template
@@ -34,6 +35,7 @@ contexts:
     - include: scope:source.c#preprocessor-rule-disabled
     - include: scope:source.c#preprocessor-rule-other
     - include: scope:source.c#base-language
+
   keywords:
     - match: \b(friend|explicit|virtual)\b
       scope: storage.modifier.c++
@@ -60,6 +62,7 @@ contexts:
       scope: storage.type.c++
     - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
+
   strings:
     - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
       captures:
@@ -70,6 +73,7 @@ contexts:
         - match: '\)\3"'
           scope: punctuation.definition.string.end.c++
           pop: true
+
   angle_brackets:
     - match: <
       scope: punctuation.definition.generic.begin.c++
@@ -80,6 +84,7 @@ contexts:
           pop: true
         - include: angle_brackets
         - include: $top_level_main
+
   template:
     - match: \b(template)\b\s*(<)
       captures:
@@ -107,6 +112,7 @@ contexts:
           pop: true
         - include: angle_brackets
         - include: $top_level_main
+
   block:
     - match: '\{'
       scope: punctuation.definition.scope.c
@@ -126,6 +132,7 @@ contexts:
             1: support.function.any-method.c++
             2: punctuation.definition.parameters.c
         - include: $top_level_main
+
   constructor:
     - match: |-
         (?x)
@@ -156,6 +163,7 @@ contexts:
         - include: scope:source.c#block_innards
         - include: keywords
         - include: strings
+
   destructor:
     - match: |-
         (?x)
@@ -189,6 +197,7 @@ contexts:
           scope: punctuation.definition.parameters.c
           pop: true
         - include: $top_level_main
+
   special_block:
     - match: |-
         (?x)
@@ -305,6 +314,7 @@ contexts:
             - include: special_block
             - include: $top_level_main
         - include: $top_level_main
+
   function-definition:
     - match: |-
         (?x)
@@ -336,6 +346,7 @@ contexts:
             scope: storage.modifier.c++
         - include: base-language
         - include: scope:source.c#function-call
+
   typedef:
     - match: \btypedef\b
       scope: storage.type.c++
