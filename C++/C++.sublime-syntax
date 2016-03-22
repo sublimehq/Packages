@@ -21,12 +21,26 @@ first_line_match: '-\*- C\+\+ -\*-'
 scope: source.c++
 contexts:
   main:
+    - include: base-language
+    - include: function-definition
+  base-language:
     - include: special_block
-    - include: scope:source.c
+    - include: template
+    - include: destructor
+    - include: keywords
+    - include: strings
+    - include: typedef
+    - include: scope:source.c#preprocessor-rule-enabled
+    - include: scope:source.c#preprocessor-rule-disabled
+    - include: scope:source.c#preprocessor-rule-other
+    - include: scope:source.c#base-language
+  keywords:
     - match: \b(friend|explicit|virtual)\b
       scope: storage.modifier.c++
-    - match: \b(private:|protected:|public:)
-      scope: storage.modifier.c++
+    - match: \b(private|protected|public)\s*(:)
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.section.class.c++
     - match: \b(catch|noexcept|operator|static_assert|try|throw|using)\b
       scope: keyword.control.c++
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
@@ -38,8 +52,6 @@ contexts:
       scope: variable.language.c++
     - match: \bnullptr\b
       scope: constant.language.c++
-    - match: \btemplate\b\s*
-      scope: storage.type.template.c++
     - match: \b(const_cast|dynamic_cast|reinterpret_cast|static_cast)\b\s*
       scope: keyword.operator.cast.c++
     - match: \b(alignof|and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|typeid|xor|xor_eq)\b
@@ -48,6 +60,7 @@ contexts:
       scope: storage.type.c++
     - match: \b(alignas|constexpr|export|mutable|thread_local|typename)\b
       scope: storage.modifier.c++
+  strings:
     - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
       captures:
         1: storage.type.string.c++
@@ -58,6 +71,94 @@ contexts:
           captures:
             0: punctuation.definition.string.end.c++
           pop: true
+  angle_brackets:
+    - match: <
+      scope: punctuation.definition.generic.begin.c++
+      push:
+        - meta_scope: meta.angle-brackets.c++
+        - match: ">"
+          scope: punctuation.definition.generic.end.c++
+          pop: true
+        - include: angle_brackets
+        - include: $top_level_main
+  template:
+    - match: \b(template)\b\s*(<)
+      captures:
+        1: storage.type.template.c++
+        2: punctuation.definition.generic.begin.c++
+      push:
+        - meta_scope: meta.template
+        - match: ">"
+          scope: punctuation.definition.generic.end.c++
+          pop: true
+        - match: (class|typename|char16_t|char32_t|class|decltype|wchar_t|nullptr_t)
+          scope: storage.type.c++
+        - include: scope:source.c#type
+        - match: ','
+          scope: punctuation.separator.c
+        - match: '\.\.\.'
+          scope: punctuation.definition.variadic.c
+    - match: '(?<!<)(<)(?=[\w\s\:]+(,|<|>))'
+      captures:
+        1: punctuation.definition.generic.begin.c++
+      push:
+        - meta_scope: meta.template
+        - match: ">"
+          scope: punctuation.definition.generic.end.c++
+          pop: true
+        - include: angle_brackets
+        - include: $top_level_main
+  block:
+    - match: '\{'
+      scope: punctuation.definition.scope.c
+      push:
+        - meta_scope: meta.block.c++
+        - match: '\}'
+          scope: punctuation.definition.scope.c
+          pop: true
+        - match: |-
+            (?x)
+            (
+              (?!while|for|do|if|else|switch|catch|enumerate|return|r?iterate)(?: \b[A-Za-z_][A-Za-z0-9_]*+\b | :: )*+                  # actual name
+            )
+             \s*(\()
+          scope: meta.function-call.c++
+          captures:
+            1: support.function.any-method.c++
+            2: punctuation.definition.parameters.c
+        - include: $top_level_main
+  constructor:
+    - match: |-
+        (?x)
+          (?:  ^\s*)                             # begin-of-line
+          ((?!while|for|do|if|else|switch|catch|enumerate|r?iterate)[A-Za-z_][A-Za-z0-9_:]*) # actual name
+           \s*(\()                            # start bracket or end-of-line
+      captures:
+        1: entity.name.function.c++
+        2: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function.constructor.c++
+        - match: \)
+          captures:
+            0: punctuation.definition.parameters.c
+          pop: true
+        - include: $top_level_main
+    - match: |-
+        (?x)
+          (:)                            # begin-of-line
+          ((?=\s*[A-Za-z_][A-Za-z0-9_:]* # actual name
+           \s*(\()))                      # start bracket or end-of-line
+      captures:
+        1: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function.constructor.initializer-list.c++
+        - match: '(?=\{)'
+          pop: true
+        - include: special_block
+        - include: scope:source.c#block_innards
+        - include: keywords
+        - include: strings
+  destructor:
     - match: |-
         (?x)
           (?:  ^                                 # begin-of-line
@@ -90,59 +191,6 @@ contexts:
         - match: \)
           captures:
             0: punctuation.definition.parameters.c
-          pop: true
-        - include: $top_level_main
-  angle_brackets:
-    - match: <
-      push:
-        - meta_scope: meta.angle-brackets.c++
-        - match: ">"
-          pop: true
-        - include: angle_brackets
-        - include: $top_level_main
-  block:
-    - match: '\{'
-      push:
-        - meta_scope: meta.block.c++
-        - match: '\}'
-          pop: true
-        - match: |-
-            (?x)
-            (
-              (?!while|for|do|if|else|switch|catch|enumerate|return|r?iterate)(?: \b[A-Za-z_][A-Za-z0-9_]*+\b | :: )*+                  # actual name
-            )
-             \s*(\()
-          scope: meta.function-call.c
-          captures:
-            1: support.function.any-method.c
-            2: punctuation.definition.parameters.c
-        - include: $top_level_main
-  constructor:
-    - match: |-
-        (?x)
-          (?:  ^\s*)                             # begin-of-line
-          ((?!while|for|do|if|else|switch|catch|enumerate|r?iterate)[A-Za-z_][A-Za-z0-9_:]*) # actual name
-           \s*(\()                            # start bracket or end-of-line
-      captures:
-        1: entity.name.function.c++
-        2: punctuation.definition.parameters.c
-      push:
-        - meta_scope: meta.function.constructor.c++
-        - match: \)
-          captures:
-            0: punctuation.definition.parameters.c
-          pop: true
-        - include: $top_level_main
-    - match: |-
-        (?x)
-          (:)                            # begin-of-line
-          ((?=\s*[A-Za-z_][A-Za-z0-9_:]* # actual name
-           \s*(\()))                      # start bracket or end-of-line
-      captures:
-        1: punctuation.definition.parameters.c
-      push:
-        - meta_scope: meta.function.constructor.initializer-list.c++
-        - match: '(?=\{)'
           pop: true
         - include: $top_level_main
   special_block:
@@ -179,21 +227,30 @@ contexts:
         )
         (?!\.) # Number must not be followed by a decimal point
       scope: constant.numeric.c++
-    - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|=|,))'
+    - match: '^\s*(using)\s+(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*);'
+      captures:
+        1: keyword.control.c++
+        2: keyword.control.c++
+    - match: '\b(namespace)\s+([A-Za-z_][_A-Za-z0-9:]*\b)?+(?!\s*?(;|,))'
       captures:
         1: keyword.control.c++
       push:
         - meta_scope: meta.namespace-block.c++
-        - match: '(?<=\})'
+        - match: =
+          scope: keyword.operator.alias.c++
+        - include: scope:source.c#attribute
+        - match: ';|(?<=\})'
           pop: true
         - match: '\{'
+          scope: punctuation.definition.scope.c
           push:
             - match: '\}'
+              scope: punctuation.definition.scope.c
               pop: true
             - include: special_block
             - include: constructor
             - include: $top_level_main
-    - match: '\b(class|struct)\s+([_A-Za-z][_A-Za-z0-9]*\b);'
+    - match: '\b(class|struct)\s+([_A-Za-z][_A-Za-z0-9]*\b)\s*;'
       scope: meta.class-struct-block.c++
       captures:
         1: storage.type.c++
@@ -206,16 +263,18 @@ contexts:
         - meta_scope: meta.class-struct-block.c++
         - match: '(?<=\}|;)|(?=(;|,|\(|\)|>|\[|\]))'
           pop: true
-        - include: angle_brackets
         - match: (?<!:):(?!:)
           push:
             - meta_scope: meta.class-struct-block.base-classes.c++
+            - include: scope:source.c#comments
             - match: '(?=\{)'
               pop: true
             - match: \b(private|protected|public|virtual)
               scope: storage.modifier.c++
-            - match: '[_A-Za-z][_A-Za-z0-9]*\b'
+            - match: '\b[_A-Za-z][_A-Za-z0-9]*\b'
+              scope: entity.other.inherited-class.c++
               push:
+                - include: scope:source.c#comments
                 - match: ',|(?=\{)'
                   pop: true
                 - include: angle_brackets
@@ -228,6 +287,8 @@ contexts:
                 1: punctuation.definition.invalid.c++
                 2: invalid.illegal.you-forgot-semicolon.c++
               pop: true
+            - match: \boverride\b
+              scope: storage.modifier.c++
             - include: special_block
             - include: constructor
             - include: $top_level_main
@@ -240,9 +301,55 @@ contexts:
         - match: '(?<=\})|(?=\w)'
           pop: true
         - match: '\{'
+          scope: punctuation.definition.scope.c++
           push:
             - match: '\}'
+              scope: punctuation.definition.scope.c++
               pop: true
             - include: special_block
             - include: $top_level_main
         - include: $top_level_main
+  function-definition:
+    - match: |-
+        (?x)
+        (?:  ^                                 # begin-of-line
+          |
+             (?: (?= \s )           (?<!else|new|return) (?<=\w)      #  or word + space before name
+               | (?= \s*[A-Za-z_] ) (?<!(?:&&|->))       (?<=[*&>])   #  or type modifier before name
+             )
+        )
+        (\s*) (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert|sizeof|const)\s*\()
+        (
+          (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++ |                  # actual name
+          (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )  # if it is a C++ operator
+        )
+         \s*(\()
+      captures:
+        1: punctuation.whitespace.function.leading.c++
+        3: entity.name.function.c++
+        4: punctuation.definition.parameters.c++
+      push:
+        - meta_scope: meta.function.c++
+        - match : \)
+          scope: punctuation.definition.parameters.c++
+          set:
+          - match: '(?<=\})|(?=#)|(;)'
+            pop: true
+          - include: base-language
+          - match: \b(const|final|noexcept|override)\b
+            scope: storage.modifier.c++
+        - include: base-language
+        - include: scope:source.c#function-call
+  typedef:
+    - match: \btypedef\b
+      scope: storage.type.c++
+      push:
+        - match: (\b[A-Za-z_]\w*)?\s*;
+          captures:
+            1: entity.name.type.typedef.c++
+          pop: true
+        - match: \b(struct)\s+(([A-Za-z_]\w*))\b
+          captures:
+            1: storage.type.c++
+            2: entity.name.type.struct.c++
+        - include: base-language

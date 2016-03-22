@@ -107,6 +107,42 @@ float f;
 double d;
 /* <- storage.type */
 
+typedef int my_int;
+/* <- storage.type */
+/*          ^ entity.name.type */
+
+typedef struct Books {
+/*      ^ storage.type */
+/*             ^ entity.name.type */
+   char title[50];
+   int book_id;
+} Book;
+/*^ entity.name.type */
+
+typedef struct Books Book;
+/*             ^ entity.name.type.struct */
+/*                   ^ entity.name.type.typedef */
+
+template<class typeId, int N> class tupleTmpl;
+/* <- storage.type.template */
+/*      ^ punctuation.definition.generic.begin */
+/*       ^ storage.type */
+/*                      ^ storage.type */
+/*                          ^ punctuation.definition.generic.end */
+
+template<typename First, typename... Rest> class tupleVariadic;
+/* <- storage.type.template */
+/*      ^ punctuation.definition.generic.begin */
+/*       ^ storage.type */
+/*                     ^ punctuation.separator */
+/*                               ^^^ punctuation.definition.variadic */
+/*                                       ^ punctuation.definition.generic.end */
+
+typedef std::vector<std::vector<int> > Table;
+/*                 ^ punctuation.definition.generic.begin */
+/*                             ^ punctuation.definition.generic.begin */
+/*                                 ^ punctuation.definition.generic.end */
+/*                                   ^ punctuation.definition.generic.end */
 
 /////////////////////////////////////////////
 // Storage Modifiers
@@ -205,6 +241,9 @@ int x = sizeof(char);
 
 const_cast<int>(2.0);
 /* <- keyword.operator.cast */
+/*        ^ punctuation.definition.generic.begin */
+/*         ^ storage.type */
+/*            ^ punctuation.definition.generic.end */
 
 dynamic_cast<int>(2.0);
 /* <- keyword.operator.cast */
@@ -239,6 +278,7 @@ char ch[] = __func__;
 
 std::cout << __FILE__ << '\n';
 /*           ^ support.constant */
+/* ^^ punctuation.accessor */
 
 std::cout << __FUNCTION__ << '\n';
 /*           ^ support.constant */
@@ -379,6 +419,8 @@ float sci8 = 23e-1'000;
 /*           ^ constant.numeric */
 /*                   ^ constant.numeric */
 
+double sci_hex = 0xc1.01AbFp-1;
+/*               ^^^^^^^^^^^^^ constant.numeric */
 
 /////////////////////////////////////////////
 // Functions
@@ -394,6 +436,29 @@ void abcdWXYZ1234()
 {
 }
 
+long func(int x, void *MYMACRO(y) ) {}
+/*                     ^ -entity.name.function */
+/*                                       ^ -meta.parens */
+
+/////////////////////////////////////////////
+// Namespace
+/////////////////////////////////////////////
+
+namespace myNameSpace {}
+/* <- keyword.control */
+
+namespace new_name = current_name;
+/* <- keyword.control */
+
+using namespace NAME __attribute__((visibility ("hidden")));
+/* <- keyword.control */
+/*    ^ keyword.control */
+/*                   ^ storage.modifier */
+/*                                               ^ string */
+
+using namespace myNameSpace;
+/* <- keyword.control */
+/*    ^ keyword.control */
 
 /////////////////////////////////////////////
 // Classes
@@ -402,10 +467,16 @@ void abcdWXYZ1234()
 class BaseClass // comment
 /* <- storage.type */
 /*    ^ entity.name.type */
-/*              ^ comment.line */
 {
-public:
+public :
 /* <- storage.modifier */
+    tupleTmpl<int,2> max(tupleGen<int,2> a, tupleGen<int,2> b);
+/*           ^ punctuation.definition.generic.begin */
+/*            ^ storage.type */
+/*                 ^ punctuation.definition.generic.end */
+/*                               ^ punctuation.definition.generic.begin */
+/*                                ^ storage.type */
+/*                                     ^ punctuation.definition.generic.end */
 protected:
 /* <- storage.modifier */
 private:
@@ -416,13 +487,31 @@ private:
 
     virtual void doSomething() const = 0;
     /* <- storage.modifier */
+    /*           ^ entity.name.function */
     /*                         ^ storage.modifier */
+    /*                                 ^ constant.numeric */
 };
 
-class DerivedClass : public BaseClass
+class DerivedClass : public BaseClass // Comment
+/*                          ^ entity.other.inherited-class */
+/*                                     ^ comment.line */
 {
+    ~DerivedClass() override;
+    /* <- meta.function.destructor */
+    /*              ^ storage.modifier */
     virtual void doSomething() const override final;
     /*                         ^ storage.modifier */
     /*                               ^ storage.modifier */
     /*                                        ^ storage.modifier */
+ protected:
+  DerivedClass() override
+/*                ^ storage.modifier */
+      : a(a),
+/*     ^ meta.function.constructor.initializer-list.c++ */
+        base_id_(BaseClass::None().ToInt()),
+/*      ^ support.function.any-method.c */
+        bounds_(NULL),
+        bit_field_(0) {}
+
+/* <- - meta.function.constructor.initializer-list.c++ */
 };
