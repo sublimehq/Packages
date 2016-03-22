@@ -1021,7 +1021,7 @@ contexts:
         - include: function-call-params
     - match: '(?={{identifier}}\s*\.\s*{{identifier}}\s*\()'
       push:
-        - match: \b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace))?\b
+        - match: \b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace|timeStamp))?\b
           captures:
             1: support.type.object.console.js
             2: punctuation.accessor.js
@@ -1029,7 +1029,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.method.js
             - include: function-call-params
-        - match: \b(process)(?:(\.)(abort|chdir|cwd|exit|getgid|setgid|getuid|setuid|setgroups|getgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
+        - match: \b(process)(?:(\.)(abort|chdir|cwd|disconnect|exit|[sg]et[e]?gid|[sg]et[e]?uid|send|[sg]etgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
           captures:
             1: support.type.object.process.js
             2: punctuation.accessor.js
@@ -1059,7 +1059,7 @@ contexts:
           pop: true
 
   method-call:
-    - match: \b(shift|sort|splice|unshift|pop|push|reverse)\b(?=\()
+    - match: \b(shift|sort|splice|unshift|pop|push|reverse|copyWithin|fill)\b(?=\()
       scope: support.function.mutator.js
       push:
         - meta_scope: meta.function-call.method.js
