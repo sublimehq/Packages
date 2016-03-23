@@ -20,7 +20,7 @@ contexts:
     - include: page
     - include: property-list
   cascading-variable:
-    - match: (var)\s*(\()
+    - match: (var)(\()
       captures:
         1: support.function.var.css
         2: punctuation.section.function.css
@@ -58,7 +58,7 @@ contexts:
       # https://www.w3.org/TR/css3-color/#currentcolor and https://www.w3.org/TR/css3-color/#transparent-def
     - match: \b((?i)currentColor|transparent)\b
       scope: support.constant.color.w3c-special-color-keyword.css
-    - match: (rgba?)\s*(\()
+    - match: (rgba?)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -80,7 +80,7 @@ contexts:
             (\s*,\s*((0?\.[0-9]+)|[0-1]))?
           scope: constant.other.color.rgb-percentage.css
         - include: numeric-values
-    - match: (hsla?)\s*(\()
+    - match: (hsla?)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -146,7 +146,7 @@ contexts:
           pop: true
         - include: string-double
         - include: string-single
-        - match: \s*(url)\s*(\()\s*
+        - match: \s*(url)(\()\s*
           captures:
             1: support.function.url.css
             2: punctuation.section.function.css
@@ -441,7 +441,7 @@ contexts:
     - include: color-values
     - include: string-double
     - include: string-single
-    - match: (rect)\s*(\()
+    - match: (rect)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -452,7 +452,7 @@ contexts:
           pop: true
         - include: numeric-values
     - include: cascading-variable
-    - match: (cubic-bezier|steps)\s*(\()
+    - match: (cubic-bezier|steps)(\()
       captures:
         1: support.function.timing-function.css
         2: punctuation.section.function.css
@@ -467,7 +467,7 @@ contexts:
         - include: numeric-values
         - match: (end|start)+
           scope: support.keyword.timing-direction.css
-    - match: (circle|ellipse|inset|polygon)\s*(\()
+    - match: (circle|ellipse|inset|polygon)(\()
       captures:
         1: support.function.shape.css
         2: punctuation.section.function.css
@@ -492,7 +492,7 @@ contexts:
             right|round|
             top)\b
           scope: support.constant.property-value.css
-    - match: (calc)\s*(\()
+    - match: (calc)(\()
       captures:
         1: support.function.calc.css
         2: punctuation.section.function.css
@@ -508,7 +508,7 @@ contexts:
         - include: numeric-values
         - match: "[-/*+]"
           scope: punctuation.operator.function.css
-    - match: (attr|counter|counters|cross-fade|format|image-set|image|local|minmax|url)\s*(\()
+    - match: (attr|counter|counters|cross-fade|format|image-set|image|local|minmax|url)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -528,7 +528,7 @@ contexts:
     - match: \!\s*important
       scope: keyword.other.important.css
   repeat-notation:
-    - match: (repeat)\s*(\()
+    - match: (repeat)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
