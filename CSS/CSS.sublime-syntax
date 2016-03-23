@@ -317,8 +317,7 @@ contexts:
     - match: '(?=\{)'
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.property-list.css
+          scope: punctuation.section.property-list.css
           pop: true
         - include: rule-list
   property-values:
@@ -547,8 +546,7 @@ contexts:
           scope: variable.parameter.misc.css
   rule-list:
     - match: '\{'
-      captures:
-        0: punctuation.section.property-list.css
+      scope: punctuation.section.property-list.css
       push:
         - meta_scope: meta.property-list.css
         - match: '(?=\s*\})'
@@ -724,8 +722,7 @@ contexts:
             3: punctuation.section.function.css
           push:
             - match: \)
-              captures:
-                0: punctuation.section.function.css
+              scope: punctuation.section.function.css
               pop: true
             - include: selector
         - match: ((:)nth-(?:(?:last-)?child|(?:last-)?of-type))(\()(\-?(?:\d+n?|n)(?:\+\d+)?|even|odd)(\))
@@ -751,25 +748,21 @@ contexts:
             7: punctuation.definition.string.end.css
   string-double:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.css
+      scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.double.css
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.css
+          scope: punctuation.definition.string.end.css
           pop: true
         - match: \\.
           scope: constant.character.escape.css
   string-single:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.css
+      scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.single.css
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.css
+          scope: punctuation.definition.string.end.css
           pop: true
         - match: \\.
           scope: constant.character.escape.css
