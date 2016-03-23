@@ -5,11 +5,16 @@
  /* <- keyword.control.import.define */
 struct foo* alloc_foo();
 /* <- storage.type */
-       /* <- entity.name.type */
+       /* <- - entity.name.type */
             /* <- entity.name.function */
 #endif
  /* <- keyword.control.import */
 
+
+#pragma foo(bar, \
+"baz", \
+1)
+/* <- meta.preprocessor */
 
 /////////////////////////////////////////////
 // Strings
@@ -100,6 +105,8 @@ auto a = 2;
 
 decltype(s) dt;
 /* <- storage.type */
+/*      ^ punctuation.definition.parameters */
+/*        ^ punctuation.definition.parameters */
 
 float f;
 /* <- storage.type */
@@ -113,18 +120,19 @@ typedef int my_int;
 
 typedef struct Books {
 /*      ^ storage.type */
-/*             ^ entity.name.type */
+/*             ^ - entity.name.type */
    char title[50];
    int book_id;
 } Book;
 /*^ entity.name.type */
 
 typedef struct Books Book;
-/*             ^ entity.name.type.struct */
+/*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
 template<class typeId, int N> class tupleTmpl;
 /* <- storage.type.template */
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
 /*      ^ punctuation.definition.generic.begin */
 /*       ^ storage.type */
 /*                      ^ storage.type */
@@ -138,6 +146,12 @@ template<typename First, typename... Rest> class tupleVariadic;
 /*                               ^^^ punctuation.definition.variadic */
 /*                                       ^ punctuation.definition.generic.end */
 
+template<typename Foo> inline struct Foo* baz()
+/*                     ^^^^^^ storage.modifier */
+/*                                   ^ - entity.name */
+/*                                        ^^^ meta.function entity.name.function */
+{}
+
 typedef std::vector<std::vector<int> > Table;
 /*                 ^ punctuation.definition.generic.begin */
 /*                             ^ punctuation.definition.generic.begin */
@@ -150,6 +164,8 @@ typedef std::vector<std::vector<int> > Table;
 
 alignas(16) char array[256];
 /* <- storage.modifier */
+/*     ^ punctuation.definition.parameters */
+/*        ^ punctuation.definition.parameters */
 
 const int XYZ = 2;
 /* <- storage.modifier */
@@ -166,10 +182,10 @@ thread_local int x;
 /////////////////////////////////////////////
 
 static_assert(x >= 0);
-/* <- keyword.control */
+/* <- keyword.operator */
 
 noexcept(f());
-/* <- keyword.control */
+/* <- keyword.operator */
 
 if (x < 5)
 /* <- keyword.control */
@@ -230,9 +246,13 @@ return 123;
 
 int x = alignof(char);
 /*      ^ keyword.operator */
+/*             ^ punctuation.definition.parameters */
+/*                  ^ punctuation.definition.parameters */
 
 int x = sizeof(char);
 /*      ^ keyword.operator */
+/*            ^ punctuation.definition.parameters */
+/*                 ^ punctuation.definition.parameters */
 
 
 /////////////////////////////////////////////
@@ -436,9 +456,82 @@ void abcdWXYZ1234()
 {
 }
 
-long func(int x, void *MYMACRO(y) ) {}
-/*                     ^ -entity.name.function */
-/*                                       ^ -meta.parens */
+long func
+/*   ^ entity.name.function */
+(int x, void *MYMACRO(y) ) {
+/*            ^ -entity.name.function */
+/*                       ^ -meta.parens */
+    // Ensure < and > aren't parsed as a generic
+    if (foo < bar && baz > bar ) {
+/*          ^ keyword.operator.comparison */
+/*                       ^ keyword.operator.comparison */
+
+    }
+}
+
+MACRO1 void * MACRO2 myfuncname () {
+/*     ^ storage.type */
+/*          ^ keyword.operator */
+/*                   ^ entity.name.function */
+
+}
+
+static const uint32_t * const MACRO funcname();
+/* ^ storage.modifier */
+/*     ^ storage.modifier */
+/*           ^ support.type */
+/*                    ^ keyword.operator */
+/*                      ^ storage.modifier */
+/*                                  ^ entity.name.function */
+
+void FooBar::baz(int a)
+/*   ^^^^^^^^^^^ entity.name.function */
+{
+
+}
+
+FooBar::FooBar(int a)
+/*^^^^^^^^^^^^ entity.name.function */
+/*            ^ punctuation.definition.parameters */
+/*             ^^^ storage.type.c */
+/*                  ^ punctuation.definition.parameters */
+{
+}
+
+FooBar::~FooBar
+/*^^^^^^^^^^^^^ entity.name.function */
+() { }
+
+bool FooBar::operator==() {}
+/*   ^^^^^^^^^^^^^^^^^^ entity.name.function */
+
+myns::FooBar::~FooBar() { }
+/*^^^^^^^^^^^^^^^^^^^ entity.name.function */
+
+    extern "C" void test_in_extern_c_block()
+/*                  ^ entity.name.function */
+{
+}
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void test_in_extern_c_block()
+/*   ^ entity.name.function */
+{
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+gener<int> func_returning_generic(int a);
+/*         ^ entity.name.function */
+
+std::vector<std::uint8_t> func_returning_path_generic(int a);
+/*         ^ punctuation.definition.generic */
+/*                        ^ entity.name.function */
 
 /////////////////////////////////////////////
 // Namespace
@@ -461,12 +554,16 @@ using namespace myNameSpace;
 /*    ^ keyword.control */
 
 /////////////////////////////////////////////
-// Classes
+// Classes, structs, unions and enums
 /////////////////////////////////////////////
+
+class BaseClass;
+/*^^^^^^^^^^^^^ meta.class */
+/*    ^^^^^^^^^ entity.name.class.forward-decl */
 
 class BaseClass // comment
 /* <- storage.type */
-/*    ^ entity.name.type */
+/*    ^ entity.name.class */
 {
 public :
 /* <- storage.modifier */
@@ -490,28 +587,232 @@ private:
     /*           ^ entity.name.function */
     /*                         ^ storage.modifier */
     /*                                 ^ constant.numeric */
+
+    template<typename A>
+    void func(){}
+/*       ^^^^ entity.name.function */
+
+    template<typename A>
+    BaseClass(){}
+/*  ^^^^^^^^^ entity.name.function */
+
+    ~BaseClass() {}
+/*  ^^^^^^^^^^ entity.name.function */
+
+    BaseClass operator [] ()
+/*            ^^^^^^^^^^^ entity.name.function */
+    {}
+
+    BaseClass operator=
+/*            ^^^^^^^^^ entity.name.function */
+    () {}
 };
 
-class DerivedClass : public BaseClass // Comment
+class DerivedClass : public ::BaseClass // Comment
 /*                          ^ entity.other.inherited-class */
-/*                                     ^ comment.line */
+/*                                      ^ comment.line */
 {
     ~DerivedClass() override;
-    /* <- meta.function.destructor */
+    /* <- meta.method */
     /*              ^ storage.modifier */
     virtual void doSomething() const override final;
     /*                         ^ storage.modifier */
     /*                               ^ storage.modifier */
     /*                                        ^ storage.modifier */
  protected:
+/*^^^^^^^^ storage.modifier */
   DerivedClass() override
 /*                ^ storage.modifier */
       : a(a),
-/*     ^ meta.function.constructor.initializer-list.c++ */
+/*     ^ meta.class.constructor.initializer-list */
         base_id_(BaseClass::None().ToInt()),
-/*      ^ support.function.any-method.c */
+/*      ^ variable.other.readwrite.member */
+/*                        ^ punctuation.accessor */
+/*               ^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                          ^^^^ variable.function */
+/*                                ^^^^^^ meta.method-call */
+/*                                 ^^^^^ variable.function */
         bounds_(NULL),
-        bit_field_(0) {}
+        bit_field_(0) {
+            char * a = "sprintf";
+            char * b = sprintf("Testing %s", a);
+/*                     ^^^^^^^^^ meta.function-call */
+/*                     ^^^^^^^ support.function.C99 */
 
-/* <- - meta.function.constructor.initializer-list.c++ */
+            base_id_->foobar(1, "foo");
+/*                  ^^^^^^^^^^ meta.method-call */
+/*                    ^^^^^^ variable.function */
+
+            base_id_->~BaseClass();
+/*                  ^^^^^^^^^^^^^^ meta.method-call */
+/*                    ^^^^^^^^^^ variable.function */
+        }
+
+/* <- - meta.class.constructor.initializer-list */
+
+    typedef std::vector<int> qux;
+/*                           ^^^ entity.name.type.typedef */
 };
+
+
+template<typename A>
+class class1<A> : class2<A>
+/*    ^^^^^^ entity.name.class */
+/*          ^ punctuation.definition.generic */
+/*            ^ punctuation.definition.generic */
+/*                ^^^^^^ entity.other.inherited-class */
+/*                      ^ punctuation.definition.generic */
+/*                        ^ punctuation.definition.generic */
+{}
+
+class FooBar {
+/*           ^ meta.class meta.block punctuation.definition.block */
+    explicit FooBar(int a);
+/*           ^^^^^^^^^^^^^ meta.method */
+/*  ^^^^^^^^ storage.modifier */
+/*           ^^^^^^ entity.name.function */
+    FooBar() =default;
+/*  ^^^^^^ entity.name.function */
+/*           ^ keyword.operator.assignment */
+/*            ^^^^^^^ storage.modifier */
+    virtual ~FooBar();
+/*          ^^^^^^^ entity.name.function */
+
+#ifndef DEBUG
+    ~FooBar();
+/*  ^^^^^^^ entity.name.function */
+#endif
+
+    void insert () {}
+/*       ^^^^^^ entity.name.function */
+
+    explicit operator bool
+/*                    ^^^^ entity.name.function */
+    () {}
+
+    FooBar::~FooBar();
+/*  ^^^^^^^^^^^^^^^ entity.name.function */
+
+private:
+/*^^^^^ storage.modifier */
+    enum
+/*  ^^^^ meta.enum storage.type */
+    {
+/*  ^ meta.enum punctuation.definition.block */
+        A = 1,
+        B = 20 / 5
+    }
+/*  ^ meta.enum punctuation.definition.block */
+/*   ^ - meta.enum punctuation.definition.block */
+}
+/* <- meta.class meta.block punctuation.definition.block */
+ /* <- - meta.class meta.block punctuation.definition.block */
+
+struct bar {
+/*^^^^^^^^^^ meta.struct */
+/*^^^^ storage.type */
+/*     ^^^ entity.name.struct */
+/*         ^ meta.block punctuation.definition.block */
+    bar()
+/*  ^^^^^ meta.method */
+/*  ^^^ entity.name.function */
+    {}
+}
+/* <- meta.struct meta.block punctuation.definition.block */
+ /* <- - meta.struct meta.block punctuation.definition.block */
+
+enum baz {
+/*^^^^^^^^ meta.enum */
+/* <- meta.enum storage.type */
+/*   ^^^ entity.name.enum */
+/*       ^ meta.block punctuation.definition.block */
+    FOO = 1,
+/*      ^ keyword.operator.assignment */
+/*        ^ constant.numeric */
+    BAR = 2,
+    BAZ = 3
+}
+/* <- meta.enum meta.block punctuation.definition.block */
+ /* <- - meta.enum meta.block punctuation.definition.block */
+
+enum class qux : std::uint8_t
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
+/*^^^^^^^^ storage.type */
+/*         ^^^ entity.name.enum */
+/*             ^ punctuation.separator */
+/*               ^^^^^^^^^^^^ entity.other.inherited-class */
+{
+/* <- meta.block punctuation.definition.block */
+    FOO = 1,
+    BAR = 2,
+/*      ^ keyword.operator.assignment */
+/*        ^ constant.numeric */
+    BAZ = 3
+}
+/* <- meta.enum meta.block punctuation.definition.block */
+ /* <- - meta.enum meta.block punctuation.definition.block */
+
+union foobaz {
+/* <- meta.union storage.type */
+/*    ^^^^^^ entity.name.union */
+/*           ^ meta.block punctuation.definition.block */
+}
+/* <- meta.union meta.block punctuation.definition.block */
+ /* <- - meta.union meta.block punctuation.definition.block */
+
+
+/////////////////////////////////////////////
+// Test preprocessor branching and C blocks
+/////////////////////////////////////////////
+
+int foo(int val)
+{
+    myClass *result;
+    result->kk = func(val);
+/*        ^^ punctuation.accessor */
+    if (result == 0) {
+        return 0;
+#if CROSS_SCOPE_MACRO
+ /* <- keyword.control.import */
+    } else if (result > 0) {
+        return 1;
+#endif
+ /* <- keyword.control.import */
+    }
+/*  ^ meta.block meta.block punctuation.definition.block */
+/*   ^ - meta.block meta.block */
+
+#ifndef DEBUG
+    if (check_debug()) {
+        val /= 2;
+#endif
+        val += 1;
+#ifndef DEBUG
+    }
+/*  ^ meta.function meta.block meta.block punctuation.definition.block */
+/*   ^ - meta.block meta.block */
+#endif
+
+#ifdef FOO
+ /* <- keyword.control.import */
+    int foobar
+/*      ^^^^^^ - entity.name.function */
+    ;
+
+    if (val == -1) {
+/*                 ^ meta.block meta.block punctuation.definition.block */
+#else
+ /* <- keyword.control.import */
+    if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.definition.block */
+#endif
+ /* <- keyword.control.import */
+        val += 1;
+    }
+/*  ^ meta.block punctuation.definition.block */
+/*   ^ - meta.block meta.block */
+
+    return -1;
+}
+/* <- meta.function punctuation.definition.block */
+ /* <- - meta.function */

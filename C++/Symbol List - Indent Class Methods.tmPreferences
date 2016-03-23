@@ -7,7 +7,7 @@
 	<key>name</key>
 	<string>Symbol List: Indent Class Methods</string>
 	<key>scope</key>
-	<string>meta.class-struct-block.c++ entity.name.function</string>
+	<string>meta.class.c++ meta.block entity.name, meta.struct.c++ meta.block entity.name, meta.union.c++ meta.block entity.name</string>
 	<key>settings</key>
 	<dict>
 		<key>symbolTransformation</key>

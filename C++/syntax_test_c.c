@@ -1,4 +1,4 @@
-/* SYNTAX TEST "C.sublime-syntax" */
+/* SYNTAX TEST "Packages/C++/C.sublime-syntax" */
 
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
 /* <- keyword.control.import.define */
@@ -8,12 +8,21 @@
 /*                                                                     ^ storage.type */
 /*                                                                                              ^ comment.line */
 
+#pragma foo(bar, \
+"baz")
+/*^^^^ meta.preprocessor */
+
+#define MY_MACRO(a, b)
+/*      ^^^^^^^^ entity.name.function.preprocessor */
+/*                   ^ punctuation.definition.parameters */
 
 #define max(a, b, \
 /* <- keyword.control.import.define */ \
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ meta.preprocessor.params */ \
 /*          ^ variable.parameter */ \
+/* */ \
+/* <- comment.block.c */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- variable.parameter */
  /*               ^ keyword.operator.ternary */
@@ -39,21 +48,45 @@ int i;
 /* <- keyword.control.import */ \
 /*      ^ string.unquoted */ \
     be splitted into two lines to prevent large lines. // comment
+#error "Eplicitly quoted string wrapped, \
+    ensuring that the string quoting stops at some point \
+    "
 #warning This is a short warning
 /* <- keyword.control.import */
 #endif
- /* <- keyword.control.import.if */
+ /* <- keyword.control.import */
 
 bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+
 /////////////////////////////////////////////
-// Test Macro crossing block
+// Preprocessor branches starting blocks
+/////////////////////////////////////////////
+
+#ifdef FOO
+if (1) {
+#elif BAR
+if (2) {
+# elif BAZ
+if (3) {
+# else
+if (4) {
+#endif
+    int bar = 1;
+}
+/* <- meta.block punctuation.definition.block */
+ /* <- - meta.block */
+
+
+/////////////////////////////////////////////
+// Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
 int foo(int val)
 {
+/* <- meta.function meta.block */
     myClass *result;
     result->kk = func(val);
 /*        ^^ punctuation.accessor */
@@ -64,9 +97,80 @@ int foo(int val)
     } else if (result > 0) {
         return 1;
 #endif
- /* <- keyword.control.import.if */
+ /* <- keyword.control.import */
     }
+/*  ^ meta.block meta.block punctuation.definition.block */
+/*   ^ - meta.block meta.block */
+
+#ifdef FOO
+ /* <- keyword.control.import */
+    int foobar
+/*      ^^^^^^ - entity.name.function */
+    ;
+
+    if (val == -1) {
+/*                 ^ meta.block meta.block punctuation.definition.block */
+#else
+ /* <- keyword.control.import */
+    if (val == -2) {
+/*                 ^ meta.block meta.block punctuation.definition.block */
+#endif
+ /* <- keyword.control.import */
+        val += 1;
+    }
+/*  ^ meta.block meta.block punctuation.definition.block */
+/*   ^ - meta.block meta.block */
+
     return -1;
+}
+/* <- meta.function punctuation.definition.block */
+ /* <- - meta.function */
+
+
+/////////////////////////////////////////////
+// Matching various function definitions
+/////////////////////////////////////////////
+
+const int foo = 1;
+/*        ^ - entity.name.function */
+int a;
+/*  ^ - entity.name.function */
+
+int /* comment */ * myfunc
+/* <- storage.type */
+/*  ^ comment.block */
+/*                ^ keyword.operator */
+/*                  ^^^^^^ entity.name.function */
+(int * a)
+/* <- punctuation.definition.parameters */
+/*   ^ keyword.operator */
+/*      ^ punctuation.definition.parameters */
+{
+
+}
+
+MACRO1 void * MACRO2 myfuncname () {
+/*     ^ storage.type */
+/*          ^ keyword.operator */
+/*                   ^ entity.name.function */
+
+}
+
+static const uint32_t * const MACRO funcname();
+/* ^ storage.modifier */
+/*     ^ storage.modifier */
+/*           ^ support.type */
+/*                    ^ keyword.operator */
+/*                      ^ storage.modifier */
+/*                                  ^ entity.name.function */
+
+MACRO int
+/*    ^ storage.type */
+funcname2
+/* ^ entity.name.function */
+()
+{
+
 }
 
 /////////////////////////////////////////////
@@ -75,6 +179,8 @@ int foo(int val)
 
 static string foo(bar() + ';');
 /*            ^^^ entity.name.function */
+/*                ^^^^^ meta.function-call */
+/*                ^^^ variable.function */
 /*                        ^^^ string */
 /*                           ^ -string */
 
@@ -85,4 +191,3 @@ static string foo(bar() + ';');
 /* <- invalid.illegal.stray-bracket-end */
 }
 /* <- invalid.illegal.stray-bracket-end */
-( unbalanced parenthesis
