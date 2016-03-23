@@ -57,12 +57,12 @@ contexts:
     - match: |-
         (?x)
           ^\s*\#\s*(define)\s+             # define
-          ((?<id>[a-zA-Z_][a-zA-Z0-9_]*))  # macro name
+          ([a-zA-Z_][a-zA-Z0-9_]*)         # macro name
           (?:                              # and optionally:
               (\()                         # an open parenthesis
                   (
-                      \s* \g<id> \s*       # first argument
-                      ((,) \s* \g<id> \s*)*  # additional arguments
+                      \s* [a-zA-Z_][a-zA-Z0-9_]* \s*       # first argument
+                      ((,) \s* [a-zA-Z_][a-zA-Z0-9_]* \s*)*  # additional arguments
                       (?:\.\.\.)?          # varargs ellipsis?
                   )
               (\))                         # a close parenthesis
@@ -78,7 +78,7 @@ contexts:
         - meta_scope: meta.preprocessor.macro.c
         - match: (?=(?://|/\*))|$
           pop: true
-        - match: (?>\\\s*\n)
+        - match: \\\s*\n
           scope: punctuation.separator.continuation.c
         - include: $top_level_main
     - match: ^\s*#\s*(error|warning)\b
@@ -90,7 +90,7 @@ contexts:
           captures:
             1: keyword.control.import.error.c
           pop: true
-        - match: (?>\\\s*\n)
+        - match: \\\s*\n
           scope: punctuation.separator.continuation.c
     - match: ^\s*#\s*(include|import)\b\s+
       captures:
@@ -101,7 +101,7 @@ contexts:
           captures:
             1: keyword.control.import.include.c
           pop: true
-        - match: (?>\\\s*\n)
+        - match: \\\s*\n
           scope: punctuation.separator.continuation.c
         - match: '"'
           captures:
@@ -131,7 +131,7 @@ contexts:
           captures:
             1: keyword.control.import.c
           pop: true
-        - match: (?>\\\s*\n)
+        - match: \\\s*\n
           scope: punctuation.separator.continuation.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
       scope: support.type.sys-types.c
@@ -193,33 +193,33 @@ contexts:
       captures:
         1: punctuation.whitespace.support.function.leading.c
         2: support.function.C99.c
-    - match: |-
-        (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
-        (\b
-          (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
-        )
-         \s*(\()
-      scope: meta.function-call.c
-      captures:
-        1: punctuation.whitespace.function-call.leading.c
-        2: support.function.any-method.c
-        3: punctuation.definition.parameters.c
-    - match: |-
-        (?x)
-                (?x)
-        (?:
-             (?: (?= \s )           (?<!else|new|return) (?<=\w)\s+      #  or word + space before name
-             )
-        )
-        (
-          (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++    |              # actual name
-          (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )?  # if it is a C++ operator
-        )
-         \s*(\()
-      scope: meta.initialization.c
-      captures:
-        1: variable.other.c
-        2: punctuation.definition.parameters.c
+    # - match: |-
+    #     (?x) (?: (?= \s )  (?:(?<=else|new|return) | (?<!\w)) (\s+))?
+    #     (\b
+    #       (?!(alignas|alignof|decltype|while|for|do|if|else|switch|catch|enumerate|return|r?iterate|noexcept|static_assert)\s*\()(?:(?!NS)[A-Za-z_][A-Za-z0-9_]*+\b | :: )++                  # actual name
+    #     )
+    #      \s*(\()
+    #   scope: meta.function-call.c
+    #   captures:
+    #     1: punctuation.whitespace.function-call.leading.c
+    #     2: support.function.any-method.c
+    #     3: punctuation.definition.parameters.c
+    # - match: |-
+    #     (?x)
+    #             (?x)
+    #     (?:
+    #          (?: (?= \s )           (?<!else|new|return) (?<=\w)\s+      #  or word + space before name
+    #          )
+    #     )
+    #     (
+    #       (?: [A-Za-z_][A-Za-z0-9_]*+ | :: )++    |              # actual name
+    #       (?: (?<=operator) (?: [-*&<>=+!]+ | \(\) | \[\] ) )?  # if it is a C++ operator
+    #     )
+    #      \s*(\()
+    #   scope: meta.initialization.c
+    #   captures:
+    #     1: variable.other.c
+    #     2: punctuation.definition.parameters.c
     - include: block
     - include: $top_level_main
   comments:
@@ -249,7 +249,7 @@ contexts:
         - meta_scope: comment.line.double-slash.c++
         - match: $\n?
           pop: true
-        - match: (?>\\\s*\n)
+        - match: \\\s*\n
           scope: punctuation.separator.continuation.c++
   disabled:
     - match: ^\s*#\s*if(n?def)?\b.*$

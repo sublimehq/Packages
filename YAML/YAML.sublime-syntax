@@ -423,7 +423,7 @@ contexts:
               [^\s:{{c_flow_indicator}}]
             | : [^\s{{c_flow_indicator}}]
             | \s+ (?![#\s])
-          )*+
+          )*
           \s*
           :
         )
@@ -512,7 +512,7 @@ contexts:
               [^\s:]
             | : \S
             | \s+ (?![#\s])
-          )*+
+          )*
           \s*
           :
         )
