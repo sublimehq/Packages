@@ -711,7 +711,7 @@ contexts:
             5: support.type.vendor-prefix.css
             6: support.type.vendor-prefix.css
             7: support.type.vendor-prefix.css
-        - match: (:)(current|(first|last)-child|(first|last|nth|only)-of-type|backdrop|empty|first|future|left|only-child|past|right|root|scope|target)\b
+        - match: (:)(current|(first|last)-child|(first|last|nth|only)-of-type|backdrop|empty|first|future|left|only-child|past|right|root|scope|target|active|any-link|hover|local-link|link|visited|focus)\b
           scope: entity.other.attribute-name.pseudo-class.css
           captures:
             1: punctuation.definition.entity.css
@@ -732,10 +732,6 @@ contexts:
             3: punctuation.section.function.css
             4: constant.numeric.css
             5: punctuation.section.function.css
-        - match: (:)(active|any-link|hover|local-link|link|visited|focus)\b
-          scope: entity.other.attribute-name.pseudo-class.css
-          captures:
-            1: punctuation.definition.entity.css
         - match: '(?i)(\[)\s*(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
           scope: meta.attribute-selector.css
           captures:
