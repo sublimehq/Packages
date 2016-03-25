@@ -398,7 +398,7 @@ contexts:
         newspaper|no-change|no-clip|no-drop|no-repeat|none|
         nonzero|normal|not-allowed|nowrap|
         oblique|offset(-(after|before|end|start))?|
-        opacity|optimize(Legibility|Speed|Precission)|
+        opacity|optimize(Legibility|Speed|Precision)|
         order|ordinal|ornaments|outline(-(color|offset|width))?|
         outset|outside|overline|
         padding(-(box|bottom|left|right|top))?|page|
