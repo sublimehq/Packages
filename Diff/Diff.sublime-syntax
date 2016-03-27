@@ -58,12 +58,12 @@ contexts:
     - match: ^(!).*$\n?
       scope: markup.changed.diff
       captures:
-        1: punctuation.definition.inserted.diff
+        1: punctuation.definition.changed.diff
     - match: ^(((<)( .*)?)|((-).*))$\n?
       scope: markup.deleted.diff
       captures:
-        3: punctuation.definition.inserted.diff
-        6: punctuation.definition.inserted.diff
+        3: punctuation.definition.deleted.diff
+        6: punctuation.definition.deleted.diff
     - match: ^Index(:) (.+)$\n?
       scope: meta.diff.index
       captures:
