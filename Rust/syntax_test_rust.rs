@@ -779,3 +779,18 @@ macro_rules! alternate_group (
         println!("Test {}!", $a)
     )
 )
+
+macro_rules! kleene_star {
+    ($($arg:tt)+) => (
+        println!($($arg));
+    ),
+    ($($arg:tt)*) => (
+        println!($($arg)*);
+    ),
+    ($($arg:tt);+) => (
+        println!($($arg));
+    ),
+    ($($arg:tt),*) => (
+        println!($($arg)*);
+    )
+}
