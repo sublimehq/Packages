@@ -779,3 +779,36 @@ macro_rules! alternate_group (
         println!("Test {}!", $a)
     )
 )
+
+macro_rules! kleene_star {
+    ($($arg:tt)+) => (
+//   ^ source.rust meta.macro.rust meta.block.rust meta.group.rust keyword.operator.rust
+//    ^ source.rust meta.macro.rust meta.block.rust meta.group.rust punctuation.definition.group.begin.rust
+//     ^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust variable.other.rust
+//         ^^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust
+//              ^ source.rust meta.macro.rust meta.block.rust meta.group.rust punctuation.definition.group.end.rust
+//                ^ source.rust meta.macro.rust meta.block.rust keyword.operator.rust
+        println!($($arg));
+    ),
+    ($($arg:tt)*) => (
+//     ^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust variable.other.rust
+//         ^^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust
+//              ^ source.rust meta.macro.rust meta.block.rust meta.group.rust punctuation.definition.group.end.rust
+//                ^ source.rust meta.macro.rust meta.block.rust keyword.operator.rust
+        println!($($arg)*);
+    ),
+    ($($arg:tt);+) => (
+//     ^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust variable.other.rust
+//         ^^^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust
+//               ^ source.rust meta.macro.rust meta.block.rust meta.group.rust punctuation.definition.group.end.rust
+//                 ^ source.rust meta.macro.rust meta.block.rust keyword.operator.rust
+        println!($($arg));
+    ),
+    ($($arg:tt),*) => (
+//     ^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust variable.other.rust
+//         ^^^^^^ source.rust meta.macro.rust meta.block.rust meta.group.rust
+//               ^ source.rust meta.macro.rust meta.block.rust meta.group.rust punctuation.definition.group.end.rust
+//                 ^ source.rust meta.macro.rust meta.block.rust keyword.operator.rust
+        println!($($arg)*);
+    )
+}

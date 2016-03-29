@@ -523,7 +523,7 @@ contexts:
         1: keyword.operator.rust
         2: punctuation.definition.group.begin.rust
       push:
-        - match: '(\)).([*+])'
+        - match: '(\))[^*+]?([*+])'
           capture:
             1: punctuation.definition.group.end.rust
             2: keyword.operator.rust
