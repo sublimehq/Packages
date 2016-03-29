@@ -1029,7 +1029,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.method.js
             - include: function-call-params
-        - match: \b(process)(?:(\.)(abort|chdir|cwd|disconnect|exit|[sg]et[e]?gid|[sg]et[e]?uid|send|[sg]etgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
+        - match: \b(process)(?:(\.)(abort|chdir|cwd|disconnect|exit|[sg]ete?[gu]id|send|[sg]etgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?\b
           captures:
             1: support.type.object.process.js
             2: punctuation.accessor.js
