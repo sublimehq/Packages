@@ -33,20 +33,16 @@
 #         ^^^^ punctuation.definition.range.diff
 
 ***************
-#^^^^^^^^^^^^^^ meta.separator.diff
-#^^^^^^^^^^^^^^ punctuation.definition.separator.diff
+#^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
 
 ****************
-#^^^^^^^^^^^^^^^ -meta.separator.diff
-#^^^^^^^^^^^^^^^ -punctuation.definition.separator.diff
+#^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
 
 ===================================================================
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ punctuation.definition.separator.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.separator.diff punctuation.definition.separator.diff
 
 ====================================================================
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -meta.separator.diff
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -punctuation.definition.separator.diff
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -meta.separator.diff punctuation.definition.separator.diff
 
 ---
 #^^ meta.separator.diff
