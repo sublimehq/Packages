@@ -409,6 +409,14 @@ Proto.prototype.attr
 //     ^ support.constant.prototype
 //               ^ meta.property.object
 
+Proto.prototype = {
+    funcName: function() {
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^ entity.name.function
+//          ^ punctuation.separator.key-value
+    }
+}
+
 sources.DOM.status()
 sources.DOM
 // <- variable.other.object

@@ -607,7 +607,7 @@ contexts:
       scope: constant.language.nan.js
 
   literal-prototype:
-    - match: '({{identifier}})\s*(\.)\s*(prototype)(?=\s*=\s*)'
+    - match: '({{identifier}})\s*(\.)\s*(prototype)(?=\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
       scope: meta.prototype.declaration.js
       captures:
         1: support.class.js
