@@ -104,7 +104,7 @@ continuation"
 #             ^         string.unquoted.plain.in entity.name.tag
 #              ^        punctuation.separator.mapping.key-value
 #                 ^     punctuation.separator.sequence
-#                   ^^^ string.unquoted.plain.in
+#                   ^^^ string.unquoted.plain.in - entity.name.tag
 
 
 ##############################################################################
