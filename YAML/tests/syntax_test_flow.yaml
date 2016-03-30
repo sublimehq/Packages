@@ -94,16 +94,17 @@ continuation"
 #^^^^^ variable.other.alias
 #     ^ meta.flow-sequence punctuation.definition.sequence.end
 
-[a: b, c,'d', e: f, ]
-#^                  meta.flow-pair.key string.unquoted.plain.in entity.name.tag
-# ^                 meta.flow-pair punctuation.separator.mapping.key-value -meta.flow-pair.value
-#   ^               meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
-#      ^            string.unquoted.plain.in
-#       ^           punctuation.separator.sequence
-#        ^^^        string.quoted.single
-#             ^     string.unquoted.plain.in entity.name.tag
-#              ^    punctuation.separator.mapping.key-value
-#                 ^ punctuation.separator.sequence
+[a: b, c,'d', e: f, g:h]
+#^                      meta.flow-pair.key string.unquoted.plain.in entity.name.tag
+# ^                     meta.flow-pair punctuation.separator.mapping.key-value -meta.flow-pair.value
+#   ^                   meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
+#      ^                string.unquoted.plain.in
+#       ^               punctuation.separator.sequence
+#        ^^^            string.quoted.single
+#             ^         string.unquoted.plain.in entity.name.tag
+#              ^        punctuation.separator.mapping.key-value
+#                 ^     punctuation.separator.sequence
+#                   ^^^ string.unquoted.plain.in
 
 
 ##############################################################################
