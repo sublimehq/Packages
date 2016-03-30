@@ -732,7 +732,7 @@ contexts:
             3: punctuation.section.function.css
             4: constant.numeric.css
             5: punctuation.section.function.css
-        - match: '(?i)(\[)\s*(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
+        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
           scope: meta.attribute-selector.css
           captures:
             1: punctuation.definition.entity.css
