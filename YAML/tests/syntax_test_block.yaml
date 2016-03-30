@@ -99,6 +99,10 @@ _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
 #           ^^^^^^^^^^^^^^^^^^^^   -entity.name.tag
 #                                ^ comment
 
+key on line one:
+#^^^^^^^^^^^^^^ entity.name.tag
+  value on line two
+
 ? explicit key # Empty value
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-mapping
 # ^^^^^^^^^^^^               string.unquoted.plain.out

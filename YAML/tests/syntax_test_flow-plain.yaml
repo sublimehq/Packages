@@ -27,7 +27,7 @@ plain - plain ? plain : plain: plain
 
 
 http://example.com/foo?baz#bar # comment
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.plain.out - entity.name.tag
 #                         ^^^^ -comment
 #                              ^ comment -string
 # <- string.unquoted.plain.out
