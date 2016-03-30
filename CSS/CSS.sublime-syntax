@@ -44,8 +44,7 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.charset.css
-        - match: \s*(?=;|$)
-          pop: true
+        - include: at-rule-punctuation
         - include: string-double
         - include: string-single
   color-values:
@@ -142,8 +141,7 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.import.css
-        - match: '\s*((?=;|\}))'
-          pop: true
+        - include: at-rule-punctuation
         - include: string-double
         - include: string-single
         - match: \s*(url)(\()\s*
