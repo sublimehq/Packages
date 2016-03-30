@@ -240,7 +240,7 @@
 /*              ^ constant.other.color.hsl-value.css */
 }
 
-.test-custom-tags > div > span + custom-tag > div-custom-tag ~ form-custom-tag.classname:last-child:hover {}
+.test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
 /*                ^ -entity.name.tag.custom.css */
 /*                  ^^^ entity.name.tag.css */
 /*                        ^^^^ entity.name.tag.css */
