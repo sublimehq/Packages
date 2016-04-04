@@ -929,7 +929,7 @@ contexts:
         - match: ':'
           scope: punctuation.separator.key-value.js
           push:
-            - match: "(?=\\}|,|('.*'|\".*\"|{{identifier}})\\s*:)"
+            - match: "(?=\\}|,|('[^']*'|\"[^\"]*\"|{{identifier}})\\s*:)"
               pop: true
             - include: expressions
         - include: method-declaration
