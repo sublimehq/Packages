@@ -330,7 +330,7 @@ contexts:
       scope: punctuation.definition.comment.js
       push:
         - meta_scope: comment.line.double-slash.js
-        - match: (?=\n)
+        - match: \n
           pop: true
 
   special-comments-conditional-compilation:
@@ -777,14 +777,26 @@ contexts:
     - match: '(?=[);}\]])'
       pop: true
     - match: '\n'
+      set: arrow-function-concise-continuation
+    # This custom comment match is required so that we move to the
+    # arrow-function-concise-continuation context to try and continue the
+    # body. Previously we didn't match the \n in the comments context, but that
+    # caused completions to appear at the end of a single-line comment.
+    - match: //
+      scope: punctuation.definition.comment.js
       set:
-        # Allow newlines in a concise body if the next line is a continuation
-        # of the previous via method chaining
-        - match: '(?=\s*(\.|/[/*]))'
-          set: arrow-function-concise-body
-        - match: '(?=.|\n)'
-          pop: true
+        - meta_scope: comment.line.double-slash.js
+        - match: \n
+          set: arrow-function-concise-continuation
     - include: expressions
+
+  arrow-function-concise-continuation:
+    # Allow newlines in a concise body if the next line is a continuation
+    # of the previous via method chaining
+    - match: '(?=^\s*(\.|/[/*]))'
+      set: arrow-function-concise-body
+    - match: '(?=.|\n)'
+      pop: true
 
   function-block:
     - meta_scope: meta.block.js
