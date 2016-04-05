@@ -572,7 +572,7 @@ contexts:
         - include: rule-list-body
   rule-list-body:
     - include: comment-block
-    - match: "(?<![-a-z])(?=[-a-z])"
+    - match: "(?=[-a-z])"
       push:
         - meta_scope: meta.property-name.css
         - match: "$|(?![-a-z])"
@@ -751,7 +751,7 @@ contexts:
             3: punctuation.section.function.css
             4: constant.numeric.css
             5: punctuation.section.function.css
-        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
+        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|((")(?:[^\\]|\\.)*?("))))?\s*(\])'
           scope: meta.attribute-selector.css
           captures:
             1: punctuation.definition.entity.css
@@ -759,6 +759,16 @@ contexts:
             3: punctuation.separator.operator.css
             4: string.unquoted.attribute-value.css
             5: string.quoted.double.attribute-value.css
+            6: punctuation.definition.string.begin.css
+            7: punctuation.definition.string.end.css
+        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|(('')(?:[^\\]|\\.)*?(''))))?\s*(\])'
+          scope: meta.attribute-selector.css
+          captures:
+            1: punctuation.definition.entity.css
+            2: entity.other.attribute-name.attribute.css
+            3: punctuation.separator.operator.css
+            4: string.unquoted.attribute-value.css
+            5: string.quoted.single.attribute-value.css
             6: punctuation.definition.string.begin.css
             7: punctuation.definition.string.end.css
   string-double:
