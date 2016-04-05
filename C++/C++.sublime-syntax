@@ -284,10 +284,10 @@ contexts:
   generic-type:
     - match: |-
         (?x:
-          (?!template){{path}}
-          \s*
-          (<)
           (?=
+            (?!template){{path}}
+            \s*
+            <
             # First type
             \s*
             (
@@ -327,14 +327,16 @@ contexts:
             >
           )
         )
-      captures:
-        1: punctuation.definition.generic.begin.c++
       push:
-        - match: ">"
-          scope: punctuation.definition.generic.end.c++
-          pop: true
-        - include: angle-brackets
-        - include: expressions
+        - include: identifiers
+        - match: '<'
+          scope: punctuation.definition.generic.begin.c++
+          set:
+            - match: ">"
+              scope: punctuation.definition.generic.end.c++
+              pop: true
+            - include: angle-brackets
+            - include: expressions
 
   angle-brackets:
     - match: <
@@ -422,6 +424,31 @@ contexts:
     - match: '(::)?{{identifier}}'
       captures:
         1: punctuation.accessor.c++
+
+  function-specifiers:
+    - match: \b(const|final|noexcept|override)\b
+      scope: storage.modifier.c++
+
+  function-trailing-return-type:
+    - include: generic-type
+    - include: types
+    - include: modifiers
+    - include: identifiers
+    - match: \*|&
+      scope: keyword.operator.c++
+    - include: function-trailing-return-type-parens
+    - match: '(?=\S)'
+      pop: true
+
+  function-trailing-return-type-parens:
+    - match: \(
+      scope: punctuation.definition.parameters.c++
+      push:
+        - meta_scope: meta.parens.c++
+        - match: \)
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - include: function-trailing-return-type
 
   global:
     - include: preprocessor-expressions
@@ -550,8 +577,10 @@ contexts:
     - include: comments
     - match: ';'
       pop: true
-    - match: \b(const|final|noexcept|override)\b
-      scope: storage.modifier.c++
+    - match: '->'
+      scope: punctuation.separator.c++
+      set: function-definition-trailing-return
+    - include: function-specifiers
     - match: (=)\s*(0)
       captures:
         1: keyword.operator.assignment.c++
@@ -560,6 +589,15 @@ contexts:
       set: function-definition-body
     - match: '(?=\S)'
       pop: true
+
+  function-definition-trailing-return:
+    - include: comments
+    - match: ';'
+      pop: true
+    - match: '(?=\{)'
+      set: function-definition-body
+    - include: function-specifiers
+    - include: function-trailing-return-type
 
   function-definition-body:
     - meta_content_scope: meta.function.c++ meta.block.c++
@@ -817,8 +855,10 @@ contexts:
     - include: comments
     - match: ';'
       pop: true
-    - match: \b(const|final|noexcept|override)\b
-      scope: storage.modifier.c++
+    - match: '->'
+      scope: punctuation.separator.c++
+      set: method-definition-trailing-return
+    - include: function-specifiers
     - match: (=)\s*(0)
       captures:
         1: keyword.operator.assignment.c++
@@ -847,6 +887,15 @@ contexts:
       set: method-definition-body
     - match: '(?=\S)'
       pop: true
+
+  method-definition-trailing-return:
+    - include: comments
+    - match: ';'
+      pop: true
+    - match: '(?=\{)'
+      set: method-definition-body
+    - include: function-specifiers
+    - include: function-trailing-return-type
 
   method-definition-body:
     - meta_content_scope: meta.method.c++ meta.block.c++

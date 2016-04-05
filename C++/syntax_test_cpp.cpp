@@ -699,6 +699,21 @@ class FooBar {
     FooBar::~FooBar();
 /*  ^^^^^^^^^^^^^^^ entity.name.function */
 
+    auto f(int a) -> decltype(a.begin()) override final;
+/*                ^^ punctuation.separator */
+/*                             ^ punctuation.accessor */
+/*                              ^^^^^ variable.function */
+/*                                       ^ storage.modifier */
+/*                                                ^ storage.modifier */
+
+    auto g() -> std::vector<int> override final {
+/*           ^^ punctuation.separator */
+/*                 ^^ punctuation.accessor */
+/*                          ^ storage.type */
+/*                               ^ storage.modifier */
+/*                                        ^ storage.modifier */
+    }
+
 private:
 /*^^^^^ storage.modifier */
     enum
