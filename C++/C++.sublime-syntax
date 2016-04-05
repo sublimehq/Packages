@@ -1070,7 +1070,7 @@ contexts:
           captures:
             1: meta.preprocessor.c++ keyword.control.import.else.c++
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
               pop: true
             - include: scope:source.c#disabled

@@ -47,17 +47,17 @@ contexts:
     - match: \*/
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?
-      scope: comment.line.banner.c++
+      scope: comment.line.banner.c
       captures:
         1: meta.toc-list.banner.line.c
     - match: //
       scope: punctuation.definition.comment.c
       push:
-        - meta_scope: comment.line.double-slash.c++
+        - meta_scope: comment.line.double-slash.c
         - match: $(?=\n)?
           pop: true
         - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.c++
+          scope: punctuation.separator.continuation.c
 
   strings:
     - match: '(L|u8|u|U)?(")'
@@ -540,7 +540,7 @@ contexts:
             - include: statements
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.c
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
             - include: disabled
@@ -560,7 +560,7 @@ contexts:
           captures:
             1: meta.preprocessor.c keyword.control.import.else.c
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.c
             - match: (?=^\s*#\s*endif\b)
               pop: true
             - include: disabled
