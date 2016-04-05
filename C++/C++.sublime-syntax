@@ -1045,7 +1045,7 @@ contexts:
         1: keyword.control.import.c++
       push:
         - meta_scope: meta.preprocessor.c++
-        - include: line-continuation
+        - include: scope:source.c#line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c++
@@ -1171,7 +1171,7 @@ contexts:
         1: keyword.control.import.c++
       push:
         - meta_scope: meta.preprocessor.c++
-        - include: line-continuation
+        - include: scope:source.c#line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c++
@@ -1250,20 +1250,12 @@ contexts:
           pop: true
         - include: statements
 
-  line-continuation:
-    - match: (\\)$\n?
-      captures:
-        1: punctuation.separator.continuation.c++
-    - match: \\(\s+?)(?=\n)$
-      captures:
-        1: invalid.illegal.space-after-continuation.c++
-
   preprocessor-macro-define:
     - match: ^\s*(\#\s*define)\b
       scope: keyword.control.import.define.c++
       push:
         - meta_scope: meta.preprocessor.macro.c++
-        - include: line-continuation
+        - include: scope:source.c#line-continuation
         - match: $\n
           pop: true
         - match: '({{identifier}})(\()'
@@ -1287,7 +1279,7 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.c++
           pop: true
-        - include: line-continuation
+        - include: scope:source.c#line-continuation
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.c++
         - match: '(?=\))'
@@ -1299,7 +1291,7 @@ contexts:
             2: punctuation.definition.comment.c++
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.c++
-    - include: line-continuation
+    - include: scope:source.c#line-continuation
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c++
     - match: (/\*).*(\*/)
@@ -1314,7 +1306,7 @@ contexts:
     - meta_scope: meta.preprocessor.macro.definition.c++
     - match: $\n
       pop: true
-    - include: line-continuation
+    - include: scope:source.c#line-continuation
     - include: expressions
 
   preprocessor-other:
@@ -1340,7 +1332,7 @@ contexts:
         1: keyword.control.import.error.c++
       push:
         - meta_scope: meta.preprocessor.diagnostic.c++
-        - include: line-continuation
+        - include: scope:source.c#line-continuation
         - match: \n|(?=//)
           pop: true
         - include: comments
