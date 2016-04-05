@@ -22,7 +22,7 @@
 /*         ^ meta.preprocessor.params */ \
 /*          ^ variable.parameter */ \
 /* */ \
-/* <- comment.block.c */ \
+/* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- variable.parameter */
  /*               ^ keyword.operator.ternary */

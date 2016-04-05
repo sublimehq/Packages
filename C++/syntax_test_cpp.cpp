@@ -493,7 +493,7 @@ void FooBar::baz(int a)
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^ entity.name.function */
 /*            ^ punctuation.definition.parameters */
-/*             ^^^ storage.type.c */
+/*             ^^^ storage.type */
 /*                  ^ punctuation.definition.parameters */
 {
 }
