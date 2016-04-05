@@ -888,18 +888,6 @@ contexts:
           scope: punctuation.definition.parameters.c++
           pop: true
 
-  disabled:
-    - match: ^\s*#\s*if(n?def)?\b
-      comment: eat nested preprocessor if(def)s
-      push:
-        - match: ^\s*(#\s*(endif)\b)
-          captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.c++
-          pop: true
-        - include: disabled
-        - include: pragma-mark
-
   preprocessor-global:
     - include: preprocessor-rule-enabled-global
     - include: preprocessor-rule-disabled-global
@@ -912,25 +900,23 @@ contexts:
 
   preprocessor-expressions:
     - include: preprocessor-macro-define
-    - include: pragma-mark
+    - include: scope:source.c#pragma-mark
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*(#(if)\s+(0)\b)
+    - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
         3: constant.numeric.preprocessor.c++
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.control.import.c++
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -938,34 +924,30 @@ contexts:
             - include: global
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.c++
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: disabled
-            - include: pragma-mark
+            - include: scope:source.c#disabled
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*(#(if)\s+(0*1)\b)
+    - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
         3: constant.numeric.preprocessor.c++
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.control.import.c++
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: disabled
-            - include: pragma-mark
+            - include: scope:source.c#disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -974,7 +956,7 @@ contexts:
             - include: global
 
   preprocessor-rule-other-global:
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
         1: keyword.control.import.c++
       push:
@@ -995,9 +977,9 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-global:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       pop: true
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1009,9 +991,9 @@ contexts:
 
   preprocessor-block-if-branch-global:
     - meta_scope: meta.block.c++
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       set: preprocessor-block-finish-global
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
@@ -1022,9 +1004,9 @@ contexts:
 
   preprocessor-block-finish-global:
     - meta_scope: meta.block.c++
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       set: preprocessor-block-finish-if-branch-global
     - match: \}
       scope: punctuation.definition.block.c++
@@ -1032,7 +1014,7 @@ contexts:
     - include: statements
 
   preprocessor-block-finish-if-branch-global:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
         1: keyword.control.import.c++
       pop: true
@@ -1048,21 +1030,19 @@ contexts:
     - include: global
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*(#(if)\s+(0)\b)
+    - match: ^\s*((#if)\s+(0))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
         3: constant.numeric.preprocessor.c++
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.control.import.c++
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -1070,34 +1050,30 @@ contexts:
             - include: statements
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.c++
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: disabled
-            - include: pragma-mark
+            - include: scope:source.c#disabled
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*(#(if)\s+(0*1)\b)
+    - match: ^\s*((#if)\s+(0*1))\b
       captures:
         1: meta.preprocessor.c++
         2: keyword.control.import.c++
         3: constant.numeric.preprocessor.c++
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.c++
+            1: meta.preprocessor.c++ keyword.control.import.c++
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c++
-            2: keyword.control.import.else.c++
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
           push:
             - meta_content_scope: comment.block.preprocessor.else-branch
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: disabled
-            - include: pragma-mark
+            - include: scope:source.c#disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -1106,7 +1082,7 @@ contexts:
             - include: statements
 
   preprocessor-rule-other-statements:
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
         1: keyword.control.import.c++
       push:
@@ -1127,9 +1103,9 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-statements:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       pop: true
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -1141,9 +1117,9 @@ contexts:
 
   preprocessor-block-if-branch-statements:
     - meta_scope: meta.block.c++
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
@@ -1154,9 +1130,9 @@ contexts:
 
   preprocessor-block-finish-statements:
     - meta_scope: meta.block.c++
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
       scope: punctuation.definition.block.c++
@@ -1164,7 +1140,7 @@ contexts:
     - include: statements
 
   preprocessor-block-finish-if-branch-statements:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
         1: keyword.control.import.c++
       pop: true
@@ -1174,7 +1150,7 @@ contexts:
     - include: statements
 
   preprocessor-elif-else-branch-statements:
-    - match: (?=^\s*#\s*(endif)\b)
+    - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
     - include: statements
@@ -1189,14 +1165,6 @@ contexts:
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
-
-  pragma-mark:
-    - match: ^\s*(#\s*(pragma\s+mark)\s+(.*))
-      scope: meta.section
-      captures:
-        1: meta.preprocessor.c++
-        2: keyword.control.import.pragma.c++
-        3: meta.toc-list.pragma-mark.c++
 
   line-continuation:
     - match: (\\)$\n?
@@ -1266,7 +1234,7 @@ contexts:
     - include: expressions
 
   preprocessor-other:
-    - match: ^\s*#\s*(if|ifdef|ifndef|elif|else|line|pragma|undef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
         1: keyword.control.import.c++
       push:
@@ -1280,10 +1248,9 @@ contexts:
           pop: true
         - match: \bdefined\b
           scope: keyword.control.c++
-    - match: ^\s*(#\s*(endif)\b)
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c++
-        2: keyword.control.import.c++
+        1: meta.preprocessor.c++ keyword.control.import.c++
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
         1: keyword.control.import.error.c++
@@ -1296,14 +1263,12 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c++
-    - match: ^\s*#\s*(include|import)\b\s+
+    - match: ^\s*(#\s*(?:include|import))\b\s+
       captures:
         1: keyword.control.import.include.c++
       push:
-        - meta_scope: meta.preprocessor.c.include
+        - meta_scope: meta.preprocessor.include.c++
         - match: (?=(?://|/\*))|$
-          captures:
-            1: keyword.control.import.include.c++
           pop: true
         - match: '\\\s*\n'
           scope: punctuation.separator.continuation.c++

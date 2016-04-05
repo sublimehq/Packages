@@ -75,21 +75,19 @@ contexts:
     - include: preprocessor-rule-other-objc-structures
 
   preprocessor-rule-disabled-objc-structures:
-    - match: ^\s*(#(if)\s+(0)\b)
+    - match: ^\s*((#if)\s+(0))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -97,30 +95,28 @@ contexts:
             - include: objc-structure-body
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.objc
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
             - include: disabled
             - include: pragma-mark
 
   preprocessor-rule-enabled-objc-structures:
-    - match: ^\s*(#(if)\s+(0*1)\b)
+    - match: ^\s*((#if)\s+(0*1))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.objc
             - match: (?=^\s*#\s*endif\b)
               pop: true
             - include: disabled
@@ -133,15 +129,15 @@ contexts:
             - include: objc-structure-body
 
   preprocessor-rule-other-objc-structures:
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: keyword.control.import.objc
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.objc
         - include: line-continuation
         - include: comments
         - match: \bdefined\b
-          scope: keyword.control.c
+          scope: keyword.control.objc
         # Enter a new scope where all elif/else branches have their
         # contexts popped by a subsequent elif/else/endif. This ensures that
         # preprocessor branches don't push multiple meta.block scopes on
@@ -154,54 +150,54 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-objc-structures:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-objc-structures
     - match: \{
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-block-if-branch-objc-structures
     - include: negated-block
     - include: objc-structure-body
 
   preprocessor-block-if-branch-objc-structures:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(endif)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-objc-structures
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-objc-structures
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-objc-structures
     - include: objc-structure-body
 
   preprocessor-block-finish-objc-structures:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-if-branch-objc-structures
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       pop: true
     - include: objc-structure-body
 
   preprocessor-block-finish-if-branch-objc-structures:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-objc-structures
     - include: objc-structure-body
 
   preprocessor-elif-else-branch-objc-structures:
-    - match: (?=^\s*#\s*(endif)\b)
+    - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
     - include: objc-structure-body
@@ -279,15 +275,15 @@ contexts:
       push:
         - meta_scope: meta.function.objc
         - match: '\{'
-          scope: punctuation.definition.block.c
+          scope: punctuation.definition.block.objc
           set:
-            - meta_scope: meta.block.c
+            - meta_scope: meta.block.objc
             - match: (?=^\s*#\s*(elif|else|endif)\b)
               pop: true
             - match: (?=@end\b)
               pop: true
             - match: '\}'
-              scope: punctuation.definition.block.c
+              scope: punctuation.definition.block.objc
               pop: true
             - include: statements
         - match: '(?=#|@end)|;'
@@ -704,8 +700,8 @@ contexts:
       push:
         - match: ^\s*(#\s*(endif)\b)
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc
+            2: keyword.control.import.objc
           pop: true
         - include: disabled
         - include: pragma-mark
@@ -726,21 +722,19 @@ contexts:
     - include: preprocessor-other
 
   preprocessor-rule-disabled-global:
-    - match: ^\s*(#(if)\s+(0)\b)
+    - match: ^\s*((#if)\s+(0))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -748,30 +742,28 @@ contexts:
             - include: global
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.objc
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
             - include: disabled
             - include: pragma-mark
 
   preprocessor-rule-enabled-global:
-    - match: ^\s*(#(if)\s+(0*1)\b)
+    - match: ^\s*((#if)\s+(0*1))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.objc
             - match: (?=^\s*#\s*endif\b)
               pop: true
             - include: disabled
@@ -784,15 +776,15 @@ contexts:
             - include: global
 
   preprocessor-rule-other-global:
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: keyword.control.import.objc
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.objc
         - include: line-continuation
         - include: comments
         - match: \bdefined\b
-          scope: keyword.control.c
+          scope: keyword.control.objc
         # Enter a new scope where all elif/else branches have their
         # contexts popped by a subsequent elif/else/endif. This ensures that
         # preprocessor branches don't push multiple meta.block scopes on
@@ -805,74 +797,72 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-global:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \{
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-block-if-branch-global
     - include: negated-block
     - include: global
 
   preprocessor-block-if-branch-global:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(endif)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-global
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-global
     - include: global
 
   preprocessor-block-finish-global:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-if-branch-global
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       pop: true
     - include: statements
 
   preprocessor-block-finish-if-branch-global:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-global
     - include: statements
 
   preprocessor-elif-else-branch-global:
-    - match: (?=^\s*#\s*(endif)\b)
+    - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
     - include: global
 
   preprocessor-rule-disabled-statements:
-    - match: ^\s*(#(if)\s+(0)\b)
+    - match: ^\s*((#if)\s+(0))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
@@ -880,30 +870,28 @@ contexts:
             - include: statements
         - match: ""
           push:
-            - meta_scope: comment.block.preprocessor.if-branch
+            - meta_scope: comment.block.preprocessor.if-branch.objc
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
             - include: disabled
             - include: pragma-mark
 
   preprocessor-rule-enabled-statements:
-    - match: ^\s*(#(if)\s+(0*1)\b)
+    - match: ^\s*((#if)\s+(0*1))\b
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
       push:
-        - match: ^\s*(#\s*(endif)\b)
+        - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.c
+            1: meta.preprocessor.objc keyword.control.import.objc
           pop: true
-        - match: ^\s*(#\s*(else)\b)
+        - match: ^\s*(#\s*else)\b
           captures:
-            1: meta.preprocessor.c
-            2: keyword.control.import.else.c
+            1: meta.preprocessor.objc keyword.control.import.else.objc
           push:
-            - meta_content_scope: comment.block.preprocessor.else-branch
+            - meta_content_scope: comment.block.preprocessor.else-branch.objc
             - match: (?=^\s*#\s*endif\b)
               pop: true
             - include: disabled
@@ -916,15 +904,15 @@ contexts:
             - include: statements
 
   preprocessor-rule-other-statements:
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: keyword.control.import.objc
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.objc
         - include: line-continuation
         - include: comments
         - match: \bdefined\b
-          scope: keyword.control.c
+          scope: keyword.control.objc
         # Enter a new scope where all elif/else branches have their
         # contexts popped by a subsequent elif/else/endif. This ensures that
         # preprocessor branches don't push multiple meta.block scopes on
@@ -937,199 +925,197 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-statements:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \{
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-block-if-branch-statements
     - include: negated-block
     - include: statements
 
   preprocessor-block-if-branch-statements:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(endif)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-statements
     - include: statements
 
   preprocessor-block-finish-statements:
-    - meta_scope: meta.block.c
-    - match: ^\s*#\s*(if|ifdef|ifndef)\b
+    - meta_scope: meta.block.objc
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       pop: true
     - include: statements
 
   preprocessor-block-finish-if-branch-statements:
-    - match: ^\s*#\s*(endif)\b
+    - match: ^\s*(#\s*endif)\b
       captures:
-        1: keyword.control.import.c
+        1: meta.preprocessor.objc keyword.control.import.objc
       pop: true
     - match: \}
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-statements
     - include: statements
 
   preprocessor-elif-else-branch-statements:
-    - match: (?=^\s*#\s*(endif)\b)
+    - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
     - include: statements
 
   negated-block:
     - match: '\}'
-      scope: punctuation.definition.block.c
+      scope: punctuation.definition.block.objc
       push:
         - match: '\{'
-          scope: punctuation.definition.block.c
+          scope: punctuation.definition.block.objc
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
 
   pragma-mark:
-    - match: ^\s*(#\s*(pragma\s+mark)\s+(.*))
+    - match: ^\s*((#\s*pragma\s+mark)\s+(.*))
       scope: meta.section
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.pragma.c
-        3: meta.toc-list.pragma-mark.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.pragma.objc
+        3: meta.toc-list.pragma-mark.objc
 
   line-continuation:
     - match: (\\)$\n?
       captures:
-        1: punctuation.separator.continuation.c
+        1: punctuation.separator.continuation.objc
     - match: \\(\s+?)(?=\n)$
       captures:
-        1: invalid.illegal.space-after-continuation.c
+        1: invalid.illegal.space-after-continuation.objc
 
   preprocessor-macro-define:
     - match: ^\s*(\#\s*define)\b
-      scope: keyword.control.import.define.c
+      scope: keyword.control.import.define.objc
       push:
-        - meta_scope: meta.preprocessor.macro.c
+        - meta_scope: meta.preprocessor.macro.objc
         - include: line-continuation
         - match: $\n
           pop: true
         - match: '({{identifier}})(\()'
           captures:
-            1: entity.name.function.preprocessor.c
-            2: punctuation.definition.parameters.c
+            1: entity.name.function.preprocessor.objc
+            2: punctuation.definition.parameters.objc
           set: [preprocessor-macro-definition, preprocessor-macro-params]
         - match: '{{identifier}}'
-          scope: entity.name.constant.preprocessor.c
+          scope: entity.name.constant.preprocessor.objc
           set: preprocessor-macro-definition
 
   preprocessor-macro-params:
-    - meta_scope: meta.preprocessor.params.macro.c
+    - meta_scope: meta.preprocessor.params.macro.objc
     - match: '{{identifier}}'
-      scope: variable.parameter.c
+      scope: variable.parameter.objc
     - match: \)
-      scope: punctuation.definition.parameters.c
+      scope: punctuation.definition.parameters.objc
       pop: true
     - match: ','
       push:
         - match: '{{identifier}}'
-          scope: variable.parameter.c
+          scope: variable.parameter.objc
           pop: true
         - include: line-continuation
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.c++
+          scope: punctuation.definition.variadic.objc
         - match: '(?=\))'
           pop: true
         - match: (/\*).*(\*/)
-          scope: comment.block.c
+          scope: comment.block.objc
           captures:
-            1: punctuation.definition.comment.c
-            2: punctuation.definition.comment.c
+            1: punctuation.definition.comment.objc
+            2: punctuation.definition.comment.objc
         - match: '\S+'
-          scope: invalid.illegal.unexpected-character.c
+          scope: invalid.illegal.unexpected-character.objc
     - include: line-continuation
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.c++
+      scope: punctuation.definition.variadic.objc
     - match: (/\*).*(\*/)
-      scope: comment.block.c
+      scope: comment.block.objc
       captures:
-        1: punctuation.definition.comment.c
-        2: punctuation.definition.comment.c
+        1: punctuation.definition.comment.objc
+        2: punctuation.definition.comment.objc
     - match: $\n
-      scope: invalid.illegal.unexpected-end-of-line.c
+      scope: invalid.illegal.unexpected-end-of-line.objc
 
   preprocessor-macro-definition:
-    - meta_scope: meta.preprocessor.macro.definition.c
+    - meta_scope: meta.preprocessor.macro.definition.objc
     - match: $\n
       pop: true
     - include: line-continuation
     - include: expressions
 
   preprocessor-other:
-    - match: ^\s*#\s*(if|ifdef|ifndef|elif|else|line|pragma|undef)\b
+    - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
-        1: keyword.control.import.c
+        1: keyword.control.import.objc
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.objc
         - match: '\\$'
-          scope: punctuation.separator.continuation.c
+          scope: punctuation.separator.continuation.objc
           push:
             - match: '^'
               pop: true
         - match: (?=(?://|/\*))|$
           pop: true
         - match: \bdefined\b
-          scope: keyword.control.c
+          scope: keyword.control.objc
     - match: ^\s*(#\s*(endif)\b)
       captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.c
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
     - match: ^\s*(#\s*(?:error|warning))\b
       captures:
-        1: keyword.control.import.error.c
+        1: keyword.control.import.error.objc
       push:
-        - meta_scope: meta.preprocessor.diagnostic.c
+        - meta_scope: meta.preprocessor.diagnostic.objc
         - include: line-continuation
         - match: \n|(?=//)
           pop: true
         - include: comments
         - include: strings
         - match: '\S+'
-          scope: string.unquoted.c
-    - match: ^\s*#\s*(include|import)\b\s+
+          scope: string.unquoted.objc
+    - match: ^\s*(#\s*(?:include|import))\b\s+
       captures:
-        1: keyword.control.import.include.c
+        1: keyword.control.import.include.objc
       push:
-        - meta_scope: meta.preprocessor.c.include
+        - meta_scope: meta.preprocessor.include.obj
         - match: (?=(?://|/\*))|$
-          captures:
-            1: keyword.control.import.include.c
           pop: true
         - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.c
+          scope: punctuation.separator.continuation.objc
         - match: '"'
-          scope: punctuation.definition.string.begin.c
+          scope: punctuation.definition.string.begin.objc
           push:
-            - meta_scope: string.quoted.double.include.c
+            - meta_scope: string.quoted.double.include.objc
             - match: '"'
-              scope: punctuation.definition.string.end.c
+              scope: punctuation.definition.string.end.objc
               pop: true
         - match: <
-          scope: punctuation.definition.string.begin.c
+          scope: punctuation.definition.string.begin.objc
           push:
-            - meta_scope: string.quoted.other.lt-gt.include.c
+            - meta_scope: string.quoted.other.lt-gt.include.objc
             - match: ">"
-              scope: punctuation.definition.string.end.c
+              scope: punctuation.definition.string.end.objc
               pop: true
 
   function-call:
