@@ -27,10 +27,14 @@ contexts:
     - include: preprocessor-global
     - include: global
 
+  #############################################################################
+  # Reusable contexts
+  #
   # The follow contexts are currently constructed to be reused in the C++
   # syntax. They are specifically constructed to not push into sub-contexts,
   # which ensures that C++ code isn't accidentally lexed as plain C. They also
   # should not use the {{identifier}} variable since that is different for C++.
+  #############################################################################
 
   comments:
     - match: ^/\* =(\s*.*?)\s*= \*/$\n?
@@ -172,8 +176,45 @@ contexts:
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c
 
+  access:
+    - match: '(\.)({{identifier}})(?!\s*\()'
+      captures:
+        1: punctuation.accessor.c
+        2: variable.other.dot-access.c
+
+  preprocessor-disabled:
+    - match: ^\s*(#\s*if(n?def)?)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.c keyword.control.import.c
+          pop: true
+        - include: preprocessor-disabled
+        - include: pragma-mark
+    - include: pragma-mark
+
+  preprocessor-line-continuation:
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.c
+    - match: \\(\s+?)(?=\n)$
+      captures:
+        1: invalid.illegal.space-after-continuation.c
+
+  pragma-mark:
+    - match: ^\s*((#\s*pragma\s+mark)\s+(.*))
+      scope: meta.section.c
+      captures:
+        1: meta.preprocessor.c
+        2: keyword.control.import.pragma.c
+        3: meta.toc-list.pragma-mark.c
+
+  #############################################################################
   # The following are C-specific scopes that should not be reused. This is
   # because they push into subcontexts and use variables that are C-specific.
+  #############################################################################
 
   global:
     - include: preprocessor-expressions
@@ -185,6 +226,39 @@ contexts:
     - match: '^\s*(?=\w+)'
       push: global-type
     - include: late-expressions
+
+  statements:
+    - include: preprocessor-statements
+    - include: preprocessor-expressions
+    - include: expressions
+
+  expressions:
+    - include: early-expressions
+    - include: late-expressions
+
+  early-expressions:
+    - include: comments
+    - include: access
+    - include: keywords-parens
+    - include: keywords
+    - include: numbers
+    - include: operators
+    - include: strings
+    - include: parens
+    - include: block
+    - include: variables
+    - include: constants
+    - match: ','
+      scope: punctuation.separator.c
+    - match: '\)|\}'
+      scope: invalid.illegal.stray-bracket-end.c
+    - include: function-call
+
+  late-expressions:
+    - include: modifiers
+    - include: types
+
+  ## C-specific contexts
 
   global-modifier:
     - include: comments
@@ -266,37 +340,6 @@ contexts:
           pop: true
         - include: statements
 
-  statements:
-    - include: preprocessor-statements
-    - include: preprocessor-expressions
-    - include: expressions
-
-  expressions:
-    - include: early-expressions
-    - include: late-expressions
-
-  early-expressions:
-    - include: comments
-    - include: access
-    - include: keywords-parens
-    - include: keywords
-    - include: numbers
-    - include: operators
-    - include: strings
-    - include: parens
-    - include: block
-    - include: variables
-    - include: constants
-    - match: ','
-      scope: punctuation.separator.c
-    - match: '\)|\}'
-      scope: invalid.illegal.stray-bracket-end.c
-    - include: function-call
-
-  late-expressions:
-    - include: modifiers
-    - include: types
-
   block:
     - match: '\{'
       scope: punctuation.definition.block.c
@@ -359,24 +402,23 @@ contexts:
           scope: punctuation.definition.parameters.c
           pop: true
 
-  access:
-    - match: '(\.)({{identifier}})(?!\s*\()'
-      captures:
-        1: punctuation.accessor.c
-        2: variable.other.dot-access.c
-
-  disabled:
-    - match: ^\s*(#\s*if(n?def)?)\b
-      captures:
-        1: meta.preprocessor.c keyword.control.import.c
+  function-call:
+    - match: (?={{identifier}}\s*\()
       push:
-        - match: ^\s*(#\s*endif)\b
-          captures:
-            1: meta.preprocessor.c keyword.control.import.c
-          pop: true
-        - include: disabled
-        - include: pragma-mark
-    - include: pragma-mark
+        - meta_content_scope: meta.function-call.c
+        - include: c99
+        - match: '{{identifier}}'
+          scope: variable.function.c
+        - match: '\('
+          scope: punctuation.definition.parameters.c
+          set:
+            - meta_content_scope: meta.function-call.c
+            - match : \)
+              scope: meta.function-call.c punctuation.definition.parameters.c
+              pop: true
+            - include: expressions
+
+  ## Preprocessor for global
 
   preprocessor-global:
     - include: preprocessor-rule-enabled-global
@@ -417,7 +459,7 @@ contexts:
             - meta_scope: comment.block.preprocessor.if-branch.c
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: disabled
+            - include: preprocessor-disabled
 
   preprocessor-rule-enabled-global:
     - match: ^\s*((#if)\s+(0*1))\b
@@ -437,7 +479,7 @@ contexts:
             - meta_content_scope: comment.block.preprocessor.else-branch.c
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: disabled
+            - include: preprocessor-disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -451,7 +493,7 @@ contexts:
         1: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
-        - include: line-continuation
+        - include: preprocessor-line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c
@@ -519,6 +561,8 @@ contexts:
     - include: negated-block
     - include: global
 
+  ## Preprocessor for statements
+
   preprocessor-rule-disabled-statements:
     - match: ^\s*((#if)\s+(0))\b
       captures:
@@ -543,7 +587,7 @@ contexts:
             - meta_scope: comment.block.preprocessor.if-branch.c
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: disabled
+            - include: preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
     - match: ^\s*((#if)\s+(0*1))\b
@@ -563,7 +607,7 @@ contexts:
             - meta_content_scope: comment.block.preprocessor.else-branch.c
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: disabled
+            - include: preprocessor-disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -577,7 +621,7 @@ contexts:
         1: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
-        - include: line-continuation
+        - include: preprocessor-line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c
@@ -645,6 +689,8 @@ contexts:
     - include: negated-block
     - include: statements
 
+  ## Preprocessor other
+
   negated-block:
     - match: '\}'
       scope: punctuation.definition.block.c
@@ -656,28 +702,12 @@ contexts:
           pop: true
         - include: statements
 
-  pragma-mark:
-    - match: ^\s*((#\s*pragma\s+mark)\s+(.*))
-      scope: meta.section.c
-      captures:
-        1: meta.preprocessor.c
-        2: keyword.control.import.pragma.c
-        3: meta.toc-list.pragma-mark.c
-
-  line-continuation:
-    - match: (\\)$\n?
-      captures:
-        1: punctuation.separator.continuation.c
-    - match: \\(\s+?)(?=\n)$
-      captures:
-        1: invalid.illegal.space-after-continuation.c
-
   preprocessor-macro-define:
     - match: ^\s*(#\s*define)\b
       scope: keyword.control.import.define.c
       push:
         - meta_scope: meta.preprocessor.macro.c
-        - include: line-continuation
+        - include: preprocessor-line-continuation
         - match: $\n
           pop: true
         - match: '({{identifier}})(\()'
@@ -701,7 +731,7 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.c
           pop: true
-        - include: line-continuation
+        - include: preprocessor-line-continuation
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.c
         - match: '(?=\))'
@@ -713,7 +743,7 @@ contexts:
             2: punctuation.definition.comment.c
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.c
-    - include: line-continuation
+    - include: preprocessor-line-continuation
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c
     - match: (/\*).*(\*/)
@@ -728,7 +758,7 @@ contexts:
     - meta_scope: meta.preprocessor.macro.definition.c
     - match: $\n
       pop: true
-    - include: line-continuation
+    - include: preprocessor-line-continuation
     - include: expressions
 
   preprocessor-other:
@@ -754,7 +784,7 @@ contexts:
         1: keyword.control.import.error.c
       push:
         - meta_scope: meta.preprocessor.diagnostic.c
-        - include: line-continuation
+        - include: preprocessor-line-continuation
         - match: \n|(?=//)
           pop: true
         - include: comments
@@ -784,20 +814,3 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
-
-  function-call:
-    - match: (?={{identifier}}\s*\()
-      push:
-        - meta_content_scope: meta.function-call.c
-        - include: c99
-        - match: '{{identifier}}'
-          scope: variable.function.c
-        - match: '\('
-          scope: punctuation.definition.parameters.c
-          set:
-            - meta_content_scope: meta.function-call.c
-            - match : \)
-              scope: meta.function-call.c punctuation.definition.parameters.c
-              pop: true
-            - include: expressions
-        - include: function-call

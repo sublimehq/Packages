@@ -43,20 +43,28 @@ contexts:
     - include: preprocessor-global
     - include: global
 
+  #############################################################################
+  # Reusable contexts
+  #
   # The follow contexts are currently constructed to be reused in the
   # Objetive-C++ syntax. They are specifically constructed to not push into
   # sub-contexts, which ensures that Objective-C++ code isn't accidentally
   # lexed as plain C++.
-
+  #
   # The "unique-*" contexts are additions that C++ makes over C, and thus can
-  # be directly reused in Objective-C++, which also pulls from Objective-C, and
-  # transversely, C.
+  # be directly reused in Objective-C++ along with contexts from Objective-C
+  # and C.
+  #############################################################################
 
   unique-late-expressions:
     # This is highlighted after all of the other control keywords
     # to allow operator overloading to be lexed properly
     - match: \boperator\b
       scope: keyword.control.c++
+
+  unique-modifiers:
+    - match: \b({{modifiers}})\b
+      scope: storage.modifier.c++
 
   unique-variables:
     - match: \bthis\b
@@ -143,8 +151,47 @@ contexts:
     - match: \b(const|final|noexcept|override)\b
       scope: storage.modifier.c++
 
-  # The following are C++-specific scopes that should not be reused. This is
+  #############################################################################
+  # The following are C++-specific contexts that should not be reused. This is
   # because they push into subcontexts and use variables that are C++-specific.
+  #############################################################################
+
+  ## Common context layout
+
+  global:
+    - include: preprocessor-expressions
+    - match: '(?=\btemplate\b)'
+      push:
+        - include: template
+        - match: (?=\S)
+          set: global-modifier
+    - include: keywords-angle-brackets
+    - match: '(?={{path}}\s*<)'
+      push: global-modifier
+    - include: early-expressions
+    - include: namespace
+    - match: ^\s*\b(extern)(?=\s+"C")
+      scope: storage.modifier.c++
+      push:
+        - include: strings
+        - match: '\{'
+          scope: punctuation.definition.block.c++
+          set:
+            - meta_scope: meta.extern-c.c++
+            - match: '\}'
+              scope: punctuation.definition.block.c++
+              pop: true
+            - include: global
+        - match: (?=\S)
+          set: global-modifier
+    - match: '^\s*(?=\w+)'
+      push: global-modifier
+    - include: late-expressions
+
+  statements:
+    - include: preprocessor-statements
+    - include: preprocessor-expressions
+    - include: expressions
 
   expressions:
     - include: early-expressions
@@ -182,8 +229,7 @@ contexts:
     - include: scope:source.c#operators
 
   modifiers:
-    - match: \b({{modifiers}})\b
-      scope: storage.modifier.c++
+    - include: unique-modifiers
     - include: scope:source.c#modifiers
 
   variables:
@@ -197,6 +243,32 @@ contexts:
   keywords:
     - include: unique-keywords
     - include: scope:source.c#keywords
+
+  types:
+    - include: unique-types
+    - include: types-parens
+    - include: scope:source.c#types
+
+  strings:
+    - include: unique-strings
+    - include: scope:source.c#strings
+
+  numbers:
+    - include: unique-numbers
+    - include: scope:source.c#numbers
+
+  ## C++-specific contexts
+
+  types-parens:
+    - match: '\b(decltype)\b\s*(\()'
+      captures:
+        1: storage.type.c++
+        2: punctuation.definition.parameters.c++
+      push:
+        - match: '\)'
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - include: expressions
 
   keywords-angle-brackets:
     - match: \b({{casts}})\b\s*
@@ -251,27 +323,6 @@ contexts:
           scope: punctuation.definition.parameters.c++
           pop: true
         - include: expressions
-
-  types:
-    - include: unique-types
-    - match: '\b(decltype)\b\s*(\()'
-      captures:
-        1: storage.type.c++
-        2: punctuation.definition.parameters.c++
-      push:
-        - match: '\)'
-          scope: punctuation.definition.parameters.c++
-          pop: true
-        - include: expressions
-    - include: scope:source.c#types
-
-  strings:
-    - include: unique-strings
-    - include: scope:source.c#strings
-
-  numbers:
-    - include: unique-numbers
-    - include: scope:source.c#numbers
 
   namespace:
     - match: '^\s*(using)\s+(namespace)\s+({{path}});'
@@ -463,6 +514,29 @@ contexts:
             1: storage.type.c++
         - include: expressions
 
+  parens:
+    - match: \(
+      scope: punctuation.definition.parameters.c++
+      push:
+        - meta_scope: meta.parens.c++
+        - match: \)
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - include: expressions
+
+  attribute:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.definition.parameters.c++
+      push :
+        - meta_scope: meta.attribute.c++
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: punctuation.definition.parameters.c++
+          pop: true
+
   function-trailing-return-type:
     - include: generic-type
     - include: types
@@ -484,35 +558,7 @@ contexts:
           pop: true
         - include: function-trailing-return-type
 
-  global:
-    - include: preprocessor-expressions
-    - match: '(?=\btemplate\b)'
-      push:
-        - include: template
-        - match: (?=\S)
-          set: global-modifier
-    - include: keywords-angle-brackets
-    - match: '(?={{path}}\s*<)'
-      push: global-modifier
-    - include: early-expressions
-    - include: namespace
-    - match: ^\s*\b(extern)(?=\s+"C")
-      scope: storage.modifier.c++
-      push:
-        - include: strings
-        - match: '\{'
-          scope: punctuation.definition.block.c++
-          set:
-            - meta_scope: meta.extern-c.c++
-            - match: '\}'
-              scope: punctuation.definition.block.c++
-              pop: true
-            - include: global
-        - match: (?=\S)
-          set: global-modifier
-    - match: '^\s*(?=\w+)'
-      push: global-modifier
-    - include: late-expressions
+  ## Detection of function and data structure definitions at the global level
 
   global-modifier:
     - include: comments
@@ -645,6 +691,8 @@ contexts:
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
+
+  ## Data structures including classes, structs, unions and enums
 
   data-structures:
     - match: '\bclass\b'
@@ -944,33 +992,7 @@ contexts:
           pop: true
         - include: statements
 
-  statements:
-    - include: preprocessor-statements
-    - include: preprocessor-expressions
-    - include: expressions
-
-  parens:
-    - match: \(
-      scope: punctuation.definition.parameters.c++
-      push:
-        - meta_scope: meta.parens.c++
-        - match: \)
-          scope: punctuation.definition.parameters.c++
-          pop: true
-        - include: expressions
-
-  attribute:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.c++
-        2: punctuation.definition.parameters.c++
-      push :
-        - meta_scope: meta.attribute.c++
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: punctuation.definition.parameters.c++
-          pop: true
+  ## Preprocessor for global
 
   preprocessor-global:
     - include: preprocessor-rule-enabled-global
@@ -1011,7 +1033,7 @@ contexts:
             - meta_scope: comment.block.preprocessor.if-branch.c++
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: scope:source.c#disabled
+            - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-global:
     - match: ^\s*((#if)\s+(0*1))\b
@@ -1031,7 +1053,7 @@ contexts:
             - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: scope:source.c#disabled
+            - include: scope:source.c#preprocessor-disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -1045,7 +1067,7 @@ contexts:
         1: keyword.control.import.c++
       push:
         - meta_scope: meta.preprocessor.c++
-        - include: scope:source.c#line-continuation
+        - include: scope:source.c#preprocessor-line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c++
@@ -1113,6 +1135,8 @@ contexts:
     - include: negated-block
     - include: global
 
+  ## Preprocessor for statements
+
   preprocessor-rule-disabled-statements:
     - match: ^\s*((#if)\s+(0))\b
       captures:
@@ -1137,7 +1161,7 @@ contexts:
             - meta_scope: comment.block.preprocessor.if-branch.c++
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
-            - include: scope:source.c#disabled
+            - include: scope:source.c#preprocessor-disabled
 
   preprocessor-rule-enabled-statements:
     - match: ^\s*((#if)\s+(0*1))\b
@@ -1157,7 +1181,7 @@ contexts:
             - meta_content_scope: comment.block.preprocessor.else-branch.c++
             - match: (?=^\s*#\s*endif\b)
               pop: true
-            - include: scope:source.c#disabled
+            - include: scope:source.c#preprocessor-disabled
         - match: ""
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
@@ -1171,7 +1195,7 @@ contexts:
         1: keyword.control.import.c++
       push:
         - meta_scope: meta.preprocessor.c++
-        - include: scope:source.c#line-continuation
+        - include: scope:source.c#preprocessor-line-continuation
         - include: comments
         - match: \bdefined\b
           scope: keyword.control.c++
@@ -1239,6 +1263,8 @@ contexts:
     - include: negated-block
     - include: statements
 
+  ## Preprocessor other
+
   negated-block:
     - match: '\}'
       scope: punctuation.definition.block.c++
@@ -1255,7 +1281,7 @@ contexts:
       scope: keyword.control.import.define.c++
       push:
         - meta_scope: meta.preprocessor.macro.c++
-        - include: scope:source.c#line-continuation
+        - include: scope:source.c#preprocessor-line-continuation
         - match: $\n
           pop: true
         - match: '({{identifier}})(\()'
@@ -1279,7 +1305,7 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.parameter.c++
           pop: true
-        - include: scope:source.c#line-continuation
+        - include: scope:source.c#preprocessor-line-continuation
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.c++
         - match: '(?=\))'
@@ -1291,7 +1317,7 @@ contexts:
             2: punctuation.definition.comment.c++
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.c++
-    - include: scope:source.c#line-continuation
+    - include: scope:source.c#preprocessor-line-continuation
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c++
     - match: (/\*).*(\*/)
@@ -1306,7 +1332,7 @@ contexts:
     - meta_scope: meta.preprocessor.macro.definition.c++
     - match: $\n
       pop: true
-    - include: scope:source.c#line-continuation
+    - include: scope:source.c#preprocessor-line-continuation
     - include: expressions
 
   preprocessor-other:
@@ -1332,7 +1358,7 @@ contexts:
         1: keyword.control.import.error.c++
       push:
         - meta_scope: meta.preprocessor.diagnostic.c++
-        - include: scope:source.c#line-continuation
+        - include: scope:source.c#preprocessor-line-continuation
         - match: \n|(?=//)
           pop: true
         - include: comments
