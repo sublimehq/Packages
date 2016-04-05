@@ -320,6 +320,7 @@ contexts:
         - match: '\b(typename|{{before_tag}})\b'
           scope: storage.type.c++
         - include: types
+        - include: modifiers
         - include: scope:source.c#types
         - match: ','
           scope: punctuation.separator.c++
