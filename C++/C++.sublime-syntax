@@ -43,6 +43,109 @@ contexts:
     - include: preprocessor-global
     - include: global
 
+  # The follow contexts are currently constructed to be reused in the
+  # Objetive-C++ syntax. They are specifically constructed to not push into
+  # sub-contexts, which ensures that Objective-C++ code isn't accidentally
+  # lexed as plain C++.
+
+  # The "unique-*" contexts are additions that C++ makes over C, and thus can
+  # be directly reused in Objective-C++, which also pulls from Objective-C, and
+  # transversely, C.
+
+  unique-late-expressions:
+    # This is highlighted after all of the other control keywords
+    # to allow operator overloading to be lexed properly
+    - match: \boperator\b
+      scope: keyword.control.c++
+
+  unique-variables:
+    - match: \bthis\b
+      scope: variable.language.c++
+    # common C++ instance var naming idiom -- fMemberName
+    - match: '\b(f|m)[[:upper:]]\w*\b'
+      scope: variable.other.readwrite.member.c++
+    # common C++ instance var naming idiom -- m_member_name
+    - match: '\bm_[[:alnum:]_]+\b'
+      scope: variable.other.readwrite.member.c++
+
+  unique-constants:
+    - match: \bnullptr\b
+      scope: constant.language.c++
+
+  unique-keywords:
+    - match: \busing\b
+      scope: keyword.control.c++
+    - match: \b({{control_keywords}})\b
+      scope: keyword.control.c++
+    - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
+      scope: keyword.control.c++
+    - match: \b({{operator_keywords}})\b
+      scope: keyword.operator.c++
+
+  unique-types:
+    - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
+      scope: storage.type.c++
+
+  unique-strings:
+    - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
+      captures:
+        1: storage.type.string.c++
+        2: punctuation.definition.string.begin.c++
+      push:
+        - meta_scope: string.quoted.double.c++
+        - match: '\)\3"'
+          scope: punctuation.definition.string.end.c++
+          pop: true
+
+  unique-numbers:
+    - match: |-
+        (?x)
+        (?:
+        # floats
+          (?:
+          (?:\b\d(?:[\d']*\d)?\.\d(?:[\d']*\d)?|\B\.\d(?:[\d']*\d)?)(?:[Ee][+-]?\d(?:[\d']*\d)?)?(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          |
+          (?:\b\d(?:[\d']*\d)?\.)(?:\B|(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))\b|(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b)
+          |
+          \b\d(?:[\d']*\d)?(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
+          )
+        |
+        # ints
+          \b(?:
+          (?:
+          # dec
+          [1-9](?:[\d']*\d)?
+          |
+          # oct
+          0(?:[0-7']*[0-7])?
+          |
+          # hex
+          0[Xx][\da-fA-F](?:[\da-fA-F']*[\da-fA-F])?
+          |
+          # bin
+          0[Bb][01](?:[01']*[01])?
+          )
+          # int suffixes
+          (?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\w*))?)\b
+        )
+        (?!\.) # Number must not be followed by a decimal point
+      scope: constant.numeric.c++
+
+  identifiers:
+    - match: '{{identifier}}(::)'
+      captures:
+        1: punctuation.accessor.c++
+    - match: '(::)?{{identifier}}'
+      captures:
+        1: punctuation.accessor.c++
+
+  function-specifiers:
+    - match: \b(const|final|noexcept|override)\b
+      scope: storage.modifier.c++
+
+  # The following are C++-specific scopes that should not be reused. This is
+  # because they push into subcontexts and use variables that are C++-specific.
+
   expressions:
     - include: early-expressions
     - include: late-expressions
@@ -67,10 +170,7 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.c++
 
   late-expressions:
-    # This is highlighted after all of the other control keywords
-    # to allow operator overloading to be lexed properly
-    - match: \boperator\b
-      scope: keyword.control.c++
+    - include: unique-late-expressions
     - include: modifiers
     - include: types
     - include: function-call
@@ -87,30 +187,15 @@ contexts:
     - include: scope:source.c#modifiers
 
   variables:
-    - match: \bthis\b
-      scope: variable.language.c++
-    - match: '\b(f|m)[A-Z]\w*\b'
-      comment: common C++ instance var naming idiom -- fMemberName
-      scope: variable.other.readwrite.member.c++
-    - match: '\bm_[[:alnum:]_]+\b'
-      comment: common C++ instance var naming idiom -- fMemberName
-      scope: variable.other.readwrite.member.c++
+    - include: unique-variables
     - include: scope:source.c#variables
 
   constants:
-    - match: \bnullptr\b
-      scope: constant.language.c++
+    - include: unique-constants
     - include: scope:source.c#constants
 
   keywords:
-    - match: \busing\b
-      scope: keyword.control.c++
-    - match: \b({{control_keywords}})\b
-      scope: keyword.control.c++
-    - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
-      scope: keyword.control.c++
-    - match: \b({{operator_keywords}})\b
-      scope: keyword.operator.c++
+    - include: unique-keywords
     - include: scope:source.c#keywords
 
   keywords-angle-brackets:
@@ -168,8 +253,7 @@ contexts:
         - include: expressions
 
   types:
-    - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
-      scope: storage.type.c++
+    - include: unique-types
     - match: '\b(decltype)\b\s*(\()'
       captures:
         1: storage.type.c++
@@ -182,50 +266,11 @@ contexts:
     - include: scope:source.c#types
 
   strings:
-    - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
-      captures:
-        1: storage.type.string.c++
-        2: punctuation.definition.string.begin.c++
-      push:
-        - meta_scope: string.quoted.double.c++
-        - match: '\)\3"'
-          scope: punctuation.definition.string.end.c++
-          pop: true
+    - include: unique-strings
     - include: scope:source.c#strings
 
   numbers:
-    - match: |-
-        (?x)
-        (?:
-        # floats
-          (?:
-          (?:\b\d(?:[\d']*\d)?\.\d(?:[\d']*\d)?|\B\.\d(?:[\d']*\d)?)(?:[Ee][+-]?\d(?:[\d']*\d)?)?(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
-          |
-          (?:\b\d(?:[\d']*\d)?\.)(?:\B|(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))\b|(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b)
-          |
-          \b\d(?:[\d']*\d)?(?:[Ee][+-]?\d(?:[\d']*\d)?)(?:[fFlL]|(?:i[fl]?|h|min|[mun]?s|_\w*))?\b
-          )
-        |
-        # ints
-          \b(?:
-          (?:
-          # dec
-          [1-9](?:[\d']*\d)?
-          |
-          # oct
-          0(?:[0-7']*[0-7])?
-          |
-          # hex
-          0[Xx][\da-fA-F](?:[\da-fA-F']*[\da-fA-F])?
-          |
-          # bin
-          0[Bb][01](?:[01']*[01])?
-          )
-          # int suffixes
-          (?:(?:l{1,2}|L{1,2})[uU]?|[uU](?:l{0,2}|L{0,2})|(?:i[fl]?|h|min|[mun]?s|_\w*))?)\b
-        )
-        (?!\.) # Number must not be followed by a decimal point
-      scope: constant.numeric.c++
+    - include: unique-numbers
     - include: scope:source.c#numbers
 
   namespace:
@@ -416,18 +461,6 @@ contexts:
           captures:
             1: storage.type.c++
         - include: expressions
-
-  identifiers:
-    - match: '{{identifier}}(::)'
-      captures:
-        1: punctuation.accessor.c++
-    - match: '(::)?{{identifier}}'
-      captures:
-        1: punctuation.accessor.c++
-
-  function-specifiers:
-    - match: \b(const|final|noexcept|override)\b
-      scope: storage.modifier.c++
 
   function-trailing-return-type:
     - include: generic-type
