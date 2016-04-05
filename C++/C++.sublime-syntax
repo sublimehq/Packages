@@ -274,7 +274,7 @@ contexts:
         - match: '\b(typename|{{before_tag}})\b'
           scope: storage.type.c++
         - include: types
-        - include: scope:source.c#type
+        - include: scope:source.c#types
         - match: ','
           scope: punctuation.separator.c++
         - match: '\.\.\.'
