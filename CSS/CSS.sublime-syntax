@@ -6,6 +6,26 @@ file_extensions:
   - css
   - css.erb
 scope: source.css
+variables:
+  custom_element_chars: |-
+    (?x:
+        [-_a-z0-9\xB7]
+      | \\\.
+      | [\xC0-\xD6]
+      | [\xD8-\xF6]
+      | [\x{000000F8}-\x{000002FF}]
+      | [\x{00000300}-\x{0000037D}]
+      | [\x{0000037F}-\x{00001FFF}]
+      | [\x{0000200C}-\x{0000200D}]
+      | [\x{0000203F}-\x{00002040}]
+      | [\x{00002070}-\x{0000218F}]
+      | [\x{00002C00}-\x{00002FEF}]
+      | [\x{00003001}-\x{0000D7FF}]
+      | [\x{0000F900}-\x{0000FDCF}]
+      | [\x{0000FDF0}-\x{0000FFFD}]
+      | [\x{00010000}-\x{000EFFFF}]
+    )
+
 contexts:
   main:
     - include: comment-block
@@ -16,9 +36,11 @@ contexts:
     - include: media
     - include: custom-media
     - include: keyframes
+    - include: namespace
+    - include: page
     - include: property-list
   cascading-variable:
-    - match: (var)\s*(\()
+    - match: (var)(\()
       captures:
         1: support.function.var.css
         2: punctuation.section.function.css
@@ -42,21 +64,20 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.charset.css
-        - match: \s*((?=;|$))
-          pop: true
+        - include: at-rule-punctuation
         - include: string-double
         - include: string-single
   color-values:
+      # http://www.w3.org/TR/CSS21/syndata.html#value-def-color
     - match: \b(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)\b
-      comment: http://www.w3.org/TR/CSS21/syndata.html#value-def-color
       scope: support.constant.color.w3c-standard-color-name.css
-    - match: \b(aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|gold|goldenrod|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|magenta|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|whitesmoke|yellowgreen)\b
-      comment: https://www.w3.org/TR/css3-color/#svg-color
+      # https://www.w3.org/TR/css3-color/#svg-color
+    - match: \b(aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|gold|goldenrod|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|magenta|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rebeccapurple|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|whitesmoke|yellowgreen)\b
       scope: support.constant.color.w3c-extended-color-keywords.css
+      # https://www.w3.org/TR/css3-color/#currentcolor and https://www.w3.org/TR/css3-color/#transparent-def
     - match: \b((?i)currentColor|transparent)\b
-      comment: https://www.w3.org/TR/css3-color/#currentcolor and https://www.w3.org/TR/css3-color/#transparent-def
       scope: support.constant.color.w3c-special-color-keyword.css
-    - match: (rgba?)\s*(\()
+    - match: (rgba?)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -78,7 +99,7 @@ contexts:
             (\s*,\s*((0?\.[0-9]+)|[0-1]))?
           scope: constant.other.color.rgb-percentage.css
         - include: numeric-values
-    - match: (hsla?)\s*(\()
+    - match: (hsla?)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -98,11 +119,11 @@ contexts:
         - include: numeric-values
   comment-block:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.css
+      scope: punctuation.definition.comment.css
       push:
         - meta_scope: comment.block.css
         - match: \*/
+          scope: punctuation.definition.comment.css
           pop: true
   custom-media:
     - match: (?=\s*@custom-media\s*.*?)
@@ -140,11 +161,10 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.import.css
-        - match: '\s*((?=;|\}))'
-          pop: true
+        - include: at-rule-punctuation
         - include: string-double
         - include: string-single
-        - match: \s*(url)\s*(\()\s*
+        - match: \s*(url)(\()\s*
           captures:
             1: support.function.url.css
             2: punctuation.section.function.css
@@ -221,7 +241,8 @@ contexts:
               pop: true
             - include: main
   media-query:
-    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|tty|tv)?
+    # Media Types: https://www.w3.org/TR/CSS21/media.html
+    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)?
       captures:
         1: keyword.operator.logic.media.css
         2: support.constant.media.css
@@ -271,6 +292,33 @@ contexts:
         - match: '\s*(?=[{;])'
           pop: true
         - include: media-query
+# Namespace At-Rule: https://www.w3.org/TR/css3-namespace/
+  namespace:
+    - match: \s*((@)namespace)\s+(\b\S*\b)?
+      captures:
+        1: keyword.control.at-rule.namespace.css
+        2: punctuation.definition.keyword.css
+        3: entity.other.namespace-prefix.css
+      push:
+        - meta_scope: meta.at-rule.namespace.css
+        - include: at-rule-punctuation
+        - include: string-double
+        - include: string-single
+# Page At-Rule: https://www.w3.org/TR/CSS2/page.html
+  page:
+    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
+      captures:
+        1: keyword.control.at-rule.page.css
+        2: punctuation.definition.keyword.css
+        3: punctuation.definition.entity.css
+        4: entity.other.attribute-name.pseudo-class.css
+      push:
+        - meta_scope: meta.at-rule.page.css
+        - match: '\s*(\})'
+          captures:
+            1: punctuation.section.property-list.css
+          pop: true
+        - include: rule-list
   numeric-values:
     - match: '(#)([0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b'
       scope: constant.other.color.rgb-value.css
@@ -287,19 +335,18 @@ contexts:
     - match: '(?=\{)'
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.property-list.css
+          scope: punctuation.section.property-list.css
           pop: true
         - include: rule-list
   property-values:
     - include: vendor-prefix
     - include: repeat-notation
+      # blend-mode and isolation-mode
     - match: |-
         \b(?x)
         (color-(burn|dodge)|darken|difference|exclusion|
         hard-light|hue|isolate|lighten|luminosity|multiply|overlay|
         saturation|screen|soft-light)\b
-      comment: blend-mode and isolation-mode
       scope: support.constant.property-value.css
     - match: |-
         (?x)\b(
@@ -369,7 +416,7 @@ contexts:
         newspaper|no-change|no-clip|no-drop|no-repeat|none|
         nonzero|normal|not-allowed|nowrap|
         oblique|offset(-(after|before|end|start))?|
-        opacity|optimize(Legibility|Speed|Precission)|
+        opacity|optimize(Legibility|Speed|Precision)|
         order|ordinal|ornaments|outline(-(color|offset|width))?|
         outset|outside|overline|
         padding(-(box|bottom|left|right|top))?|page|
@@ -401,17 +448,18 @@ contexts:
         z-index|zero|zoom|
         )\b
       scope: support.constant.property-value.css
+      # can be either keywords or functions, therefore slightly more strict matching
     - match: \b(circle|ellipse|inset)(?!\()\b
-      comment: can be either keywords or functions, therefore slightly more strict matching
       scope: support.constant.property-value.css
-    - match: (\b(?i:arial|century|comic|courier|garamond|georgia|helvetica|impact|lucida|symbol|system|tahoma|times|trebuchet|utopia|verdana|webdings|sans-serif|serif|monospace)\b)
+      # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
+    - match: (\b(?i:arial|century|comic|courier|garamond|georgia|helvetica|impact|lucida|symbol|system|tahoma|times|trebuchet|utopia|verdana|webdings|sans-serif|serif|monospace|fantasy|cursive)\b)
       scope: support.constant.font-name.css
     - include: unicode-range
     - include: numeric-values
     - include: color-values
     - include: string-double
     - include: string-single
-    - match: (rect)\s*(\()
+    - match: (rect)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -422,7 +470,7 @@ contexts:
           pop: true
         - include: numeric-values
     - include: cascading-variable
-    - match: (cubic-bezier|steps)\s*(\()
+    - match: (cubic-bezier|steps)(\()
       captures:
         1: support.function.timing-function.css
         2: punctuation.section.function.css
@@ -437,7 +485,7 @@ contexts:
         - include: numeric-values
         - match: (end|start)+
           scope: support.keyword.timing-direction.css
-    - match: (circle|ellipse|inset|polygon)\s*(\()
+    - match: (circle|ellipse|inset|polygon)(\()
       captures:
         1: support.function.shape.css
         2: punctuation.section.function.css
@@ -462,7 +510,7 @@ contexts:
             right|round|
             top)\b
           scope: support.constant.property-value.css
-    - match: (calc)\s*(\()
+    - match: (calc)(\()
       captures:
         1: support.function.calc.css
         2: punctuation.section.function.css
@@ -478,7 +526,7 @@ contexts:
         - include: numeric-values
         - match: "[-/*+]"
           scope: punctuation.operator.function.css
-    - match: (attr|counter|counters|cross-fade|format|image-set|image|local|minmax|url)\s*(\()
+    - match: (attr|counter|counters|cross-fade|format|image-set|image|local|minmax|url)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -498,7 +546,7 @@ contexts:
     - match: \!\s*important
       scope: keyword.other.important.css
   repeat-notation:
-    - match: (repeat)\s*(\()
+    - match: (repeat)(\()
       captures:
         1: support.function.misc.css
         2: punctuation.section.function.css
@@ -516,8 +564,7 @@ contexts:
           scope: variable.parameter.misc.css
   rule-list:
     - match: '\{'
-      captures:
-        0: punctuation.section.property-list.css
+      scope: punctuation.section.property-list.css
       push:
         - meta_scope: meta.property-list.css
         - match: '(?=\s*\})'
@@ -638,9 +685,10 @@ contexts:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
           pop: true
-        - match: '\b([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)\b'
+          # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
+        - match: '\b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b'
           scope: entity.name.tag.custom.css
-        - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|(h[1-6])|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr)\b'
+        - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|h[1-6]|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|main|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr|xmp)\b'
           scope: entity.name.tag.css
         - match: '(\.)[a-zA-Z0-9_-]+'
           scope: entity.other.attribute-name.class.css
@@ -682,7 +730,7 @@ contexts:
             5: support.type.vendor-prefix.css
             6: support.type.vendor-prefix.css
             7: support.type.vendor-prefix.css
-        - match: (:)(current|(first|last)-child|(first|last|nth|only)-of-type|backdrop|empty|first|future|left|only-child|past|right|root|scope|target)\b
+        - match: (:)(current|(first|last)-child|(first|last|nth|only)-of-type|backdrop|empty|first|future|left|only-child|past|right|root|scope|target|active|any-link|hover|local-link|link|visited|focus)\b
           scope: entity.other.attribute-name.pseudo-class.css
           captures:
             1: punctuation.definition.entity.css
@@ -693,8 +741,7 @@ contexts:
             3: punctuation.section.function.css
           push:
             - match: \)
-              captures:
-                0: punctuation.section.function.css
+              scope: punctuation.section.function.css
               pop: true
             - include: selector
         - match: ((:)nth-(?:(?:last-)?child|(?:last-)?of-type))(\()(\-?(?:\d+n?|n)(?:\+\d+)?|even|odd)(\))
@@ -704,11 +751,7 @@ contexts:
             3: punctuation.section.function.css
             4: constant.numeric.css
             5: punctuation.section.function.css
-        - match: (:)(active|any-link|hover|local-link|link|visited|focus)\b
-          scope: entity.other.attribute-name.pseudo-class.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: '(?i)(\[)\s*(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[[:^ascii:]]][_a-z0-9\-\\[[:^ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
+        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|((?>([''"])(?:[^\\]|\\.)*?(\6)))))?\s*(\])'
           scope: meta.attribute-selector.css
           captures:
             1: punctuation.definition.entity.css
@@ -720,25 +763,21 @@ contexts:
             7: punctuation.definition.string.end.css
   string-double:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.css
+      scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.double.css
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.css
+          scope: punctuation.definition.string.end.css
           pop: true
         - match: \\.
           scope: constant.character.escape.css
   string-single:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.css
+      scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.single.css
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.css
+          scope: punctuation.definition.string.end.css
           pop: true
         - match: \\.
           scope: constant.character.escape.css
@@ -756,3 +795,8 @@ contexts:
   vendor-prefix:
     - match: "-(?:webkit|moz|ms|o)-"
       scope: support.type.vendor-prefix.css
+  at-rule-punctuation:
+    - match: \;
+      scope: punctuation.terminator.rule.css
+    - match: (?=;|$)
+      pop: true

@@ -19,6 +19,7 @@ COMMON_VALUES = {
     'absolute_weight': [
         '100', '200', '300', '400', '500', '600', '700', '800', '900'
     ],
+    'basic_shape': ['inset($1)', 'circle($1)', 'ellipse($1)', 'polygon($1)'],
     'blend_mode': [
         'normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten',
         'color-dodge', 'color-burn', 'hard-light', 'soft-light', 'difference',
@@ -44,12 +45,27 @@ COMMON_VALUES = {
         'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
     ],
     'list_style_type': [
-        'disc', 'circle', 'square', 'decimal', 'decimal-leading-zero',
-        'lower-roman', 'upper-roman', 'lower-greek', 'upper-alpha',
-        'lower-latin', 'lower-alpha', 'upper-latin', 'arabic-indic', 'armenian',
-        'begnali', 'cjk-earthly-branch', 'cjk-heavenly-stem', 'devanagari',
-        'georgian', 'gujarati', 'gurmukhi', 'kannada', 'khmer', 'lao',
-        'malayalam', 'myanmar', 'oriya', 'telugu', 'thai', 'none'
+        'none', 'inline', 'disc', 'circle', 'square', 'decimal',
+        'decimal-leading-zero', 'arabic-indic', 'binary', 'bengali',
+        'cambodian', 'khmer', 'devanagari', 'gujarati', 'gurmukhi',
+        'kannada', 'lower-hexadecimal', 'lao', 'malayalam', 'mongolian',
+        'myanmar', 'octal', 'oriya', 'persian', 'urdu', 'telugu',
+        'tibetan', 'thai', 'upper-hexadecimal', 'lower-roman',
+        'upper-roman', 'lower-greek', 'lower-alpha', 'lower-latin',
+        'upper-alpha', 'upper-latin', 'afar', 'ethiopic-halehame-aa-et',
+        'ethiopic-halehame-aa-er', 'amharic', 'ethiopic-halehame-am-et',
+        'amharic-abegede', 'ethiopic-abegede-am-et', 'cjk-earthly-branch',
+        'cjk-heavenly-stem', 'ethiopic', 'ethiopic-halehame-gez',
+        'ethiopic-abegede', 'ethiopic-abegede-gez', 'hangul-consonant',
+        'hangul', 'lower-norwegian', 'oromo', 'ethiopic-halehame-om-et',
+        'sidama', 'ethiopic-halehame-sid-et', 'somali',
+        'ethiopic-halehame-so-et', 'tigre', 'ethiopic-halehame-tig',
+        'tigrinya-er', 'ethiopic-halehame-ti-er', 'tigrinya-er-abegede',
+        'ethiopic-abegede-ti-er', 'tigrinya-et', 'ethiopic-halehame-ti-et',
+        'tigrinya-et-abegede', 'ethiopic-abegede-ti-et', 'upper-greek',
+        'upper-norwegian', 'asterisks', 'footnotes', 'hebrew', 'armenian',
+        'lower-armenian', 'upper-armenian', 'georgian', 'cjk-ideographic',
+        'hiragana', 'katakana', 'hiragana-iroha', 'katakana-iroha'
     ],
     'position': ['top', 'right', 'bottom', 'left', 'center'],
     'relative_size': ['larger', 'smaller'],
@@ -71,7 +87,12 @@ PROPERTY_DICT = {
         'stretch'
     ],
     'align-items': ['baseline', 'center', 'flex-end', 'flex-start', 'stretch'],
-    'align-self': ['baseline', 'center', 'flex-end', 'flex-start', 'stretch'],
+    'align-self': ['auto', 'baseline', 'center', 'flex-end', 'flex-start', 'stretch'],
+    'alignment-baseline': [
+        'baseline', 'middle', 'auto', 'before-edge', 'after-edge', 'central',
+        'text-before-edge', 'text-after-edge', 'ideographic', 'alphabetic',
+        'hanging', 'mathematical'
+    ],
     'animation': [
         'none', '<timing_function>', 'infinite', '<animation_direction>',
         'forwards', 'backwards', 'both', 'running', 'paused'
@@ -98,6 +119,7 @@ PROPERTY_DICT = {
     'background-position': ['<position>'],
     'background-repeat': ['<repeat_style>'],
     'background-size': ['auto', 'cover', 'contain', '<length>', '<percentage>'],
+    'baseline-shift': ['baseline', 'sub', 'super'],
     'border': ['<border_width>', '<border_style>', '<color>'],
     'border-width': ['<border_width>'],
     'border-style': ['<border_style>'],
@@ -131,7 +153,11 @@ PROPERTY_DICT = {
     'caption-side': ['top', 'bottom'],
     'clear': ['none', 'left', 'right', 'both'],
     'clip': ['rect($1)', 'auto'],
+    'clip-path': ['none', '<uri>', '<basic_shape>'],
+    'clip-rule': ['nonzero', 'evenodd'],
     'color': ['<color>'],
+    'color-interpolation': ['auto', 'sRGB', 'linearRGB'],
+    'color-rendering': ['auto', 'optimizeSpeed', 'optimizeQuality'],
     'columns': ['auto'],
     'column-count': ['auto', '<number>'],
     'column-fill': ['auto', 'balance'],
@@ -144,23 +170,33 @@ PROPERTY_DICT = {
     'column-width': ['auto', '<length>'],
     'content': [
         'none', 'normal', '<string>', '<uri>', 'attr($1)',
-        'open-quote', 'close-quote', 'no-open-quote', 'no-close-quote'
+        'open-quote', 'close-quote', 'no-open-quote', 'no-close-quote',
+        'counter($1)'
     ],
     'counter-increment': ['none', '<custom_ident>', '<integer>'],
     'counter-reset': ['none', '<custom_ident>', '<integer>'],
     'cursor': [
-        '<uri>', 'auto', 'crosshair', 'default', 'pointer', 'move', 'e-resize',
-        'ne-resize', 'nw-resize', 'n-resize', 'se-resize', 'sw-resize',
-        's-resize', 'w-resize', 'text', 'wait', 'help', 'progress'
+        '<uri>', 'auto', 'default', 'none', 'context-menu', 'help',
+        'pointer', 'progress', 'wait', 'cell', 'crosshair', 'text',
+        'vertical-text', 'alias', 'copy', 'move', 'no-drop', 'not-allowed',
+        'e-resize', 'n-resize', 'ne-resize', 'nw-resize', 's-resize',
+        'se-resize', 'sw-resize', 'w-resize', 'ew-resize', 'ns-resize',
+        'nesw-resize', 'nwse-resize', 'col-resize', 'row-resize',
+        'all-scroll', 'zoom-in', 'zoom-out'
     ],
     'direction': ['ltr', 'rtl'],
     'display': [
         'none', 'inline', 'block', 'contents', 'list-item', 'inline-block',
         'inline-table', 'table', 'table-cell', 'table-column',
         'table-column-group', 'table-footer-group', 'table-header-group',
-        'table-row', 'table-row-group', 'flex', 'inline-flex', 'grid',
-        'inline-grid', 'ruby', 'ruby-base', 'ruby-text', 'ruby-base-container',
-        'ruby-text-container', 'run-in'
+        'table-row', 'table-row-group', 'table-caption', 'flex', 'inline-flex',
+        'grid', 'inline-grid', 'ruby', 'ruby-base', 'ruby-text',
+        'ruby-base-container', 'ruby-text-container', 'run-in'
+    ],
+    'dominant-baseline': [
+        'auto', 'middle', 'central', 'text-before-edge',
+        'text-after-edge', 'ideographic', 'alphabetic', 'hanging',
+        'mathematical', 'use-script', 'no-change', 'reset-size'
     ],
     'empty-cells': ['show', 'hide'],
     'filter': [
@@ -224,6 +260,9 @@ PROPERTY_DICT = {
     'font-weight': ['normal', 'bold', '<absolute_weight>', '<relative_weight>'],
     'height': ['<length>', '<percentage>', 'auto'],
     'hyphens': ['none', 'manual', 'auto'],
+    'image-rendering': [
+        'auto', 'optimizeSpeed', 'optimizeQuality', 'pixelated'
+    ],
     'ime-mode': ['auto', 'normal', 'active', 'inactive', 'disabled'],
     'isolation': ['auto', 'isolation'],
     'justify-content': [
@@ -247,6 +286,7 @@ PROPERTY_DICT = {
     'max-width': ['<length>', '<percentage>', 'none'],
     'min-height': ['<length>', '<percentage>'],
     'min-width': ['<length>', '<percentage>'],
+    'mix-blend-mode': ['<blend_mode>'],
     'object-fit': ['fill', 'contain', 'cover', 'none', 'scale-down'],
     'object-position': ['<position>'],
     'opacity': ['<number>'],
@@ -259,7 +299,7 @@ PROPERTY_DICT = {
     'outline-offset': ['<length>'],
     'outline-style': ['<border_style>'],
     'outline-width': ['<border_width>', '<length>'],
-    'overflow': ['visible', 'hidden', 'scroll', 'auto'],
+    'overflow | overflow-x | overflow-y': ['visible', 'hidden', 'scroll', 'auto'],
     'overflow-wrap': ['normal', 'break-word'],
     'padding': ['auto', '<padding-width>'],
     'padding-top | padding-right | padding-bottom | padding-left': [
@@ -268,8 +308,10 @@ PROPERTY_DICT = {
     'page-break-after': ['auto', 'always', 'avoid', 'left', 'right'],
     'page-break-before': ['auto', 'always', 'avoid', 'left', 'right'],
     'page-break-inside': ['avoid', 'auto'],
+    'perspective': ['none'],
+    'perspective-origin': ['<position>'],
     'pointer-events': [
-        'auto', 'none', 'visiblePainted', 'visibleFill', 'visibleStroke',
+        'auto', 'none', 'all', 'visiblePainted', 'visibleFill', 'visibleStroke',
         'visible', 'painted', 'fill', 'stroke'
     ],
     'position': ['static', 'relative', 'absolute', 'fixed', 'sticky'],
@@ -283,8 +325,14 @@ PROPERTY_DICT = {
         'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
         'circle($1)', 'ellipse($1)', 'inset($1)', 'polygon($1)', '<uri>'
     ],
+    'size': [
+        'a3', 'a4', 'a5', 'b4', 'b5', 'landscape', 'ledger', 'legal',
+        'letter', 'portrait'
+    ],
+    'stroke-linejoin': ['round', 'miter', 'bevel'],
     'table-layout': ['auto', 'fixed'],
     'text-align': ['left', 'right', 'center', 'justify', 'justify-all'],
+    'text-align-last': ['start', 'end', 'left', 'right', 'center', 'justify'],
     'text-decoration': [
         'none', 'underline', 'overline', 'line-through', 'blink'
     ],
@@ -292,6 +340,7 @@ PROPERTY_DICT = {
     'text-decoration-line': ['none', 'underline', 'overline', 'line-through'],
     'text-decoration-style': ['solid', 'double', 'dotted', 'dashed', 'wavy'],
     'text-indent': ['<length>', '<percentage>'],
+    'text-orientation': ['mixed', 'upright', 'sideways', 'use-glyph-orientation'],
     'text-overflow': ['clip', 'ellipsis'],
     'text-rendering': [
         'auto', 'optimizeSpeed', 'optimizeLegibility', 'geometricPrecision'
@@ -328,6 +377,7 @@ PROPERTY_DICT = {
     'word-break': ['normal', 'break-all', 'keep-all'],
     'word-spacing': ['normal', '<length>'],
     'word-wrap': ['normal', 'break-word'],
+    'writing-mode': ['horizontal-tb', 'vertical-rl', 'vertical-lr', 'sideways-rl', 'sideways-lr'],
     'z-index': ['auto', '<integer>'],
 }
 

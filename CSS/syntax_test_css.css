@@ -1,5 +1,209 @@
 /* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
 
+   /* What am I, a comment? */
+/* ^^                          punctuation.definition.comment.css */
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.css                  */
+/*                          ^^ punctuation.definition.comment.css */
+
+.test-strings {
+    content: "double";
+/*           ^^^^^^^^  string.quoted.double.css                */
+/*           ^         punctuation.definition.string.begin.css */
+/*                  ^  punctuation.definition.string.end.css   */
+    content: 'single';
+/*           ^^^^^^^^  string.quoted.single.css                */
+/*           ^         punctuation.definition.string.begin.css */
+/*                  ^  punctuation.definition.string.end.css   */
+}
+
+.test-punctuation {
+/*                ^ punctuation.section.property-list.css */
+    top: 1px;
+/*     ^      punctuation.separator.key-value.css  */
+/*          ^ punctuation.terminator.rule.css      */
+
+    top: cubic-bezier(0.2, 0, 0.13, 2);
+/*                       ^ punctuation.section.function.css */
+}
+/* < punctuation.section.property-list.css */
+
+    .classname {}
+/*  ^          punctuation.definition.entity.css     */
+/*   ^^^^^^^^^ entity.other.attribute-name.class.css */
+
+    #id {}
+/*  ^   punctuation.definition.entity.css  */
+/*   ^^ entity.other.attribute-name.id.css */
+
+    html {}
+/*  ^^^^ entity.name.tag.css */
+
+    @charset "UTF-8";
+/*  ^        punctuation.definition.keyword.css  */
+/*   ^^^^^^^ keyword.control.at-rule.charset.css */
+
+    @import "x" print;
+/*  ^                 punctuation.definition.keyword.css */
+/*   ^^^^^^           keyword.control.at-rule.import.css */
+/*              ^^^^^ support.constant.media.css         */
+
+    @namespace svg "http://www.w3.org/1999/xhtml";
+/*  ^              punctuation.definition.keyword.css    */
+/*   ^^^^^^^^^     keyword.control.at-rule.namespace.css */
+/*             ^^^ entity.other.namespace-prefix.css     */
+
+    @page :left {}
+/*  ^     punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.at-rule.page.css   */
+
+    @media only screen {}
+/*  ^                  punctuation.definition.keyword.css */
+/*   ^^^^^             keyword.control.at-rule.media.css  */
+/*         ^^^^        keyword.operator.logic.media.css   */
+/*              ^^^^^^ support.constant.media.css         */
+
+    @custom-media --a-b (width: 1px);
+/*  ^                          punctuation.definition.keyword.css       */
+/*   ^^^^^^^^^^^^              keyword.control.at-rule.custom-media.css */
+/*                       ^^^^^ support.type.property-name.media.css     */
+
+    @keyframes ellipsis {}
+/*  ^                   punctuation.definition.keyword.css   */
+/*   ^^^^^^^^^          keyword.control.at-rule.keyframe.css */
+/*             ^^^^^^^^ entity.other.animation-name.css      */
+
+    @font-face {}
+/*  ^          punctuation.definition.keyword.css    */
+/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
+
+.test-var { --test-var: arial; }
+/*          ^^^^^^^^^^ support.type.custom-property.css         */
+/*          ^^         keyword.other.custom-property.prefix.css */
+/*            ^^^^^^^^ support.type.custom-property.name.css    */
+
+.test-var { font: var(--a-b); }
+/*                ^^^        support.function.var.css                         */
+/*                   ^       punctuation.section.function.css                 */
+/*                   ^^^^^^^ support.type.cascading-variable.css              */
+/*                    ^^     support.constant.custom-property-name.prefix.css */
+/*                      ^^^  support.type.variable-name.css                   */
+/*                         ^ punctuation.section.function.css                 */
+
+.test-units {
+    top: 1px;
+/*        ^^        keyword.other.unit.css */
+    top: 1.1em;
+/*          ^^      keyword.other.unit.css */
+    top: -100%;
+/*           ^      keyword.other.unit.css */
+    top: 1.1.1deg;
+/*            ^^^   keyword.other.unit.css */
+}
+
+.test-property-names {
+    -webkit-border-radius: 0px;
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css */
+}
+
+.test-property-values {
+    -webkit-border-radius: 0px;
+/*                         ^^^ meta.property-value.css */
+}
+
+.test-functions {
+    background-image: url("image");
+/*                    ^^^          support.function.misc.css        */
+/*                       ^         punctuation.section.function.css */
+/*                               ^ punctuation.section.function.css */
+}
+
+.test-operators {
+    top: calc(1px + 1px);
+    /*            ^ punctuation.operator.function */
+    top: calc(1px - 1px);
+    /*            ^ punctuation.operator.function */
+    top: calc(1px / 1px);
+    /*            ^ punctuation.operator.function */
+    top: calc(1px * 1px);
+    /*            ^ punctuation.operator.function */
+
+    top: calc(1px+1px);
+    /*           ^ -punctuation.operator.function */
+    top: calc(1px-1px);
+    /*           ^ -punctuation.operator.function */
+    top: calc(1px/1px);
+    /*           ^ punctuation.operator.function */
+    top: calc(1px*1px);
+    /*           ^ punctuation.operator.function */
+}
+
+.test-important {
+    top: 1px !important;
+/*           ^^^^^^^^^^ keyword.other.important.css */
+    top: 1px!important;
+/*          ^^^^^^^^^^ keyword.other.important.css */
+}
+
+.test-pseudo-classes:nth-child(2n):hover {}
+/*                   ^^^^^^^^^           entity.other.attribute-name.pseudo-class.css */
+/*                                 ^^^^^ entity.other.attribute-name.pseudo-class.css */
+
+.test-pseudo-elements::before {}
+/*                     ^^^^^^ entity.other.attribute-name.pseudo-element.css */
+
+.test-pseudo-elements:after {}
+/*                    ^^^^^ entity.other.attribute-name.pseudo-element.css */
+
+.test-unicode { top: "\2764 \273e"; } /* Not Yet Implemented */
+
+.test-unicode-range {
+    unicode-range: U+0025-00FF, U+4??;
+/*                 ^^^^^^^^^^^        support.unicode-range.css                 */
+/*                 ^^                 support.constant.unicode-range.prefix.css */
+/*                   ^^^^^^^^^        constant.codepoint-range.css              */
+/*                       ^            punctuation.section.range.css             */
+/*                              ^^^^^ support.unicode-range.css                 */
+/*                              ^^    support.constant.unicode-range.prefix.css */
+/*                                ^^^ constant.codepoint-range.css              */
+}
+
+.test-escape-character { top: "\nstring\n"; }
+/*                             ^^         constant.character.escape.css */
+/*                                     ^^ constant.character.escape.css */
+
+.test-attribute-selectors[disabled][type='button'] {}
+/*                        ^^^^^^^^ entity.other.attribute-name.attribute.css */
+/*                                  ^^^^ entity.other.attribute-name.attribute.css */
+/*                                       ^^^^^^^^ string.quoted.single.attribute-value.css */
+
+.test-attribute-selectors-operators[a|=b][a$=b][a^=b][a~=b][a*=b] {}
+/*                                   ^^ punctuation.separator.operator.css */
+/*                                         ^^ punctuation.separator.operator.css */
+/*                                               ^^ punctuation.separator.operator.css */
+/*                                                     ^^ punctuation.separator.operator.css */
+/*                                                           ^^ punctuation.separator.operator.css */
+
+   *.test-universal-selector {}
+/* ^ entity.name.tag.wildcard.css */
+
+.test-combinators a > a + b ~ a {} /* Not Yet Implemented */
+/*                  ^ */
+/*                      ^ */
+/*                          ^ */
+
+.test-generic-font-families {
+    font: serif;
+/*        ^^^^^      support.constant.font-name.css */
+    font: sans-serif;
+/*        ^^^^^^^^^^ support.constant.font-name.css */
+    font: cursive;
+/*        ^^^^^^^    support.constant.font-name.css */
+    font: fantasy;
+/*        ^^^^^^^    support.constant.font-name.css */
+    font: monospace;
+/*        ^^^^^^^^^  support.constant.font-name.css */
+}
+
 .test-color-values {
     color: aqua;
 /*         ^ support.constant.color.w3c-standard-color-name.css */
@@ -36,10 +240,15 @@
 /*              ^ constant.other.color.hsl-value.css */
 }
 
-html > div > span > custom-tag > div-custom-tag > form-custom-tag {}
-/* ^ entity.name.tag.css */
-/*     ^^^ entity.name.tag.css */
-/*           ^^^^ entity.name.tag.css */
-/*                  ^^^^^^^^^^ entity.name.tag.custom.css */
-/*                               ^^^^^^^^^^^^^^ entity.name.tag.custom.css */
-/*                                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+.test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
+/*                ^ -entity.name.tag.custom.css */
+/*                  ^^^ entity.name.tag.css */
+/*                        ^^^^ entity.name.tag.css */
+/*                             ^ -entity.name.tag.custom.css */
+/*                               ^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                            ^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                                           ^ -entity.name.tag.custom.css */
+/*                                                             ^^^^^^^^^^^^^^^ entity.name.tag.custom.css */
+/*                                                                             ^^^^^^^^^ entity.other.attribute-name.class.css */
+/*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
+/*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
