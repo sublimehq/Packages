@@ -553,6 +553,12 @@ using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
 
+namespace abc /* Neither this comment... */
+/*            ^ comment.block */
+// ...nor this comment is highlighted
+/* <- comment.line */
+{}
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////

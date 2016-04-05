@@ -239,6 +239,7 @@ contexts:
         2: entity.name.namespace.c++
       push:
         - meta_scope: meta.namespace-block.c++
+        - include: comments
         - match: =
           scope: keyword.operator.alias.c++
         - include: scope:source.c#attribute
