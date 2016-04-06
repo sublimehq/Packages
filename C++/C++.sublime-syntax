@@ -88,7 +88,7 @@ contexts:
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'
       scope: keyword.control.c++
     - match: \b({{operator_keywords}})\b
-      scope: keyword.operator.c++
+      scope: keyword.operator.word.c++
 
   unique-types:
     - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
