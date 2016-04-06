@@ -728,6 +728,8 @@ class FooBar {
 /*                          ^ storage.type */
 /*                               ^ storage.modifier */
 /*                                        ^ storage.modifier */
+        this->g(1);
+/*      ^ variable.language */
     }
 
 private:
