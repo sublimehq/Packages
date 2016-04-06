@@ -609,6 +609,8 @@ contexts:
             box-align|box-pack|box-orient|box-direction|box-flex|(box-ordinal-)?group|
             break-(before|after)|
             clip-(path|rule)|
+            color-interpolation(-filters)?|
+            color-profile|
             column(-(rule-style|count|fill|gap|rule|rule-color|rule-width|span|width))?|
             (alignment|dominant)-baseline|
             alignment-adjust|
@@ -622,12 +624,16 @@ contexts:
             initial-letter-align|initial-letter|
             inline-flex|inline-box-align|
             interpolation-mode|
+            fill(-rule)?|
             filter|
             flex(-align|-basis|-direction|-flow|-grow|-item-align|-order|-shrink|-wrap|-pack|-line-pack)?|
+            flood-color|
             hyphens|
             isolation|image-orientation|image-resolution|
             justify-content|
+            kerning|lighting-color|
             line-(box-contain|stacking-ruby|stacking-shift|stacking-strategy|stacking|clamp)|
+            marker-(?:start|end|mid)|
             mask-(border-(mode|outset|repeat|slice|source|width)|border|clip|composite|image|mode|origin|position|repeat|size|type)|mask|
             mix-blend-mode|
             order|
@@ -659,11 +665,17 @@ contexts:
             left|letter-spacing|line-height|list-style-image|list-style-position|list-style-type|list-style|
             margin-bottom|margin-left|margin-right|margin-top|marker-offset|margin|marks|max-height|max-width|min-height|min-width|
             object-fit|object-position|opacity|orphans|outline-color|outline-style|outline-width|outline|overflow(-[xy])?|
-            padding-bottom|padding-left|padding-right|padding-top|padding|page-break-after|page-break-before|page-break-inside|page|pause-after|pause-before|pause|pitch-range|pitch|play-during|pointer-events|position|
+            padding-bottom|padding-left|padding-right|padding-top|padding|
+            page-break-after|page-break-before|page-break-inside|page|
+            paint-order|
+            pause-after|pause-before|pause|
+            pitch-range|pitch|play-during|pointer-events|position|
             quotes|
             resize|richness|right|
             size|speak-header|speak-numeral|speak-punctuation|speech-rate|speak|src|stress|scroll-behavior|
-            table-layout|text-(decoration-line|decoration-style|align|decoration|indent|rendering|shadow|transform|underline-position)|top|text-justify|
+            shape-rendering|stop-color|
+            stroke(?:-(?:dasharray|linecap|linejoin))?|
+            table-layout|text-(decoration-line|decoration-style|align|decoration|indent|rendering|shadow|transform|underline-position)|top|text-justify|text-anchor|
             unicode-(?:bidi|range)|
             vertical-align|visibility|voice-family|volume|
             white-space|widows|width|word-(spacing|wrap)|
