@@ -217,6 +217,7 @@ contexts:
   statements:
     - include: preprocessor-statements
     - include: preprocessor-expressions
+    - include: scope:source.c#label
     - include: expressions
 
   expressions:
@@ -225,6 +226,7 @@ contexts:
 
   early-expressions:
     - include: comments
+    - include: case-default
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -284,6 +286,15 @@ contexts:
     - include: scope:source.c#numbers
 
   ## C++-specific contexts
+
+  case-default:
+    - match: '\b(default|case)\b'
+      scope: keyword.control.c++
+      push:
+        - match: ':'
+          scope: punctuation.separator.c++
+          pop: true
+        - include: expressions
 
   types-parens:
     - match: '\b(decltype)\b\s*(\()'

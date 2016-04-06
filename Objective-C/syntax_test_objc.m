@@ -154,6 +154,22 @@ MACRO1 void * MACRO2 myfuncname () {
 /*          ^ keyword.operator */
 /*                   ^ entity.name.function */
 
+    label:
+/*  ^ entity.name.label */
+/*       ^ punctuation.separator */
+        do {
+            break;
+        } while(true);
+
+    switch (a) {
+        case 1: break;
+/*            ^ punctuation.separator */
+        case 100 - 10: break;
+/*                   ^ punctuation.separator */
+        default: break;
+/*             ^ punctuation.separator */
+    }
+
 }
 
 static const uint32_t * const MACRO funcname();

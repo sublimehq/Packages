@@ -216,6 +216,15 @@ do
 } while (y < x);
 /*^ keyword.control */
 
+switch (a) {
+    case 1: break;
+/*        ^ punctuation.separator */
+    case 100 - 10: break;
+/*               ^ punctuation.separator */
+    default: break;
+/*         ^ punctuation.separator */
+}
+
 goto label;
 /* <- keyword.control */
 
@@ -465,6 +474,13 @@ long func
     if (foo < bar && baz > bar ) {
 /*          ^ keyword.operator.comparison */
 /*                       ^ keyword.operator.comparison */
+
+    label:
+/*  ^ entity.name.label */
+/*       ^ punctuation.separator */
+        do {
+            break;
+        } while(true);
 
     }
 }

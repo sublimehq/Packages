@@ -182,6 +182,12 @@ contexts:
         1: punctuation.accessor.c
         2: variable.other.dot-access.c
 
+  label:
+    - match: '^\s*((?!default){{identifier}})(:)'
+      captures:
+        1: entity.name.label.c
+        2: punctuation.separator.c
+
   preprocessor-disabled:
     - match: ^\s*(#\s*if(n?def)?)\b
       captures:
@@ -230,6 +236,7 @@ contexts:
   statements:
     - include: preprocessor-statements
     - include: preprocessor-expressions
+    - include: label
     - include: expressions
 
   expressions:
@@ -238,6 +245,7 @@ contexts:
 
   early-expressions:
     - include: comments
+    - include: case-default
     - include: access
     - include: keywords-parens
     - include: keywords
@@ -359,6 +367,15 @@ contexts:
         - meta_scope: meta.parens.c
         - match: \)
           scope: punctuation.definition.parameters.c
+          pop: true
+        - include: expressions
+
+  case-default:
+    - match: '\b(default|case)\b'
+      scope: keyword.control.c
+      push:
+        - match: ':'
+          scope: punctuation.separator.c
           pop: true
         - include: expressions
 

@@ -252,6 +252,7 @@ contexts:
   statements:
     - include: preprocessor-statements
     - include: preprocessor-expressions
+    - include: scope:source.c#label
     - include: expressions
 
   expressions:
@@ -260,6 +261,7 @@ contexts:
 
   early-expressions:
     - include: comments
+    - include: case-default
     - include: access
     - include: osx-support-functions
     - include: keywords-parens
@@ -695,6 +697,15 @@ contexts:
         - meta_scope: meta.parens.objc
         - match: \)
           scope: punctuation.definition.parameters.objc
+          pop: true
+        - include: expressions
+
+  case-default:
+    - match: '\b(default|case)\b'
+      scope: keyword.control.objc
+      push:
+        - match: ':'
+          scope: punctuation.separator.objc
           pop: true
         - include: expressions
 
