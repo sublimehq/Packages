@@ -781,6 +781,20 @@ union foobaz {
 /* <- meta.union meta.block punctuation.definition.block */
  /* <- - meta.union meta.block punctuation.definition.block */
 
+// Class using macro to handle __declspec() on Windows
+class SK_API SkBitmap {}
+/*           ^ entity.name.class */
+class __declspec(property(get=foo)) SkBitmap {}
+/*               ^ storage.modifier */
+/*                        ^ variable.parameter */
+/*                                  ^ entity.name.class */
+class __declspec(align(8)) SkBitmap {}
+/*               ^ storage.modifier */
+/*                     ^ constant.numeric */
+/*                         ^ entity.name.class */
+class __declspec(dllimport) SkBitmap {}
+/*               ^ constant.other */
+/*                          ^ entity.name.class */
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks

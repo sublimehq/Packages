@@ -30,7 +30,7 @@ variables:
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
-  storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local|{{declspec}}'
+  storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
   type_qualifier: 'const|constexpr|mutable|typename|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
@@ -65,6 +65,32 @@ contexts:
   unique-modifiers:
     - match: \b({{modifiers}})\b
       scope: storage.modifier.c++
+    - match: \b(__declspec)(\()
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.definition.parameters.c++
+      push:
+        - match: '\)'
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+          captures:
+            1: storage.modifier.c++
+            2: punctuation.definition.parameters.c++
+          push:
+            - match: '\)'
+              scope: punctuation.definition.parameters.c++
+              pop: true
+            - include: numbers
+            - include: strings
+            - match: \b(get|put)\b
+              scope: variable.parameter.c++
+            - match: ','
+              scope: punctuation.separator.c++
+            - match: '='
+              scope: keyword.operator.assignment.c++
+        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
+          scope: constant.other.c++
 
   unique-variables:
     - match: \bthis\b
@@ -388,13 +414,13 @@ contexts:
             # First type
             \s*
             (
-              (({{modifiers}})\s+)*
+              (({{modifiers}}|{{declspec}})\s+)*
               {{path}}
               (<.*>)?
               \s*
               (
                 [*&]
-                (\s+({{modifiers}}))*
+                (\s+({{modifiers}}|{{declspec}}))*
               )?
               |
               # Allow non-type (integer) params
@@ -407,13 +433,13 @@ contexts:
               ,
               \s*
               (
-                (({{modifiers}})\s+)*
+                (({{modifiers}}|{{declspec}})\s+)*
                 {{path}}
                 (<.*>)?
                 \s*
                 (
                   [*&]
-                  (\s+({{modifiers}}))*
+                  (\s+({{modifiers}}|{{declspec}}))*
                 )?
                 |
                 # Allow non-type (integer) params
@@ -562,8 +588,7 @@ contexts:
 
   global-modifier:
     - include: comments
-    - match: \b({{modifiers}})\b
-      scope: storage.modifier.c++
+    - include: modifiers
     # Constructors and destructors don't have a type
     - match: '(?={{path}}::{{identifier}}\s*(\(|$))'
       set:
@@ -590,7 +615,20 @@ contexts:
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
-    - match: '({{before_tag}})\s+(?=(?!{{before_tag}}){{path}}\s*[*&]?\s+{{identifier}})'
+    # If a class/struct/enum followed by a name that is not a macro or declspec
+    # then this is likely a return type of a function. This is uncommon.
+    - match: |-
+        (?x:
+          ({{before_tag}})
+          \s+
+          (?=
+            (?![[:upper:][:digit:]_]+\b|__declspec|{{before_tag}})
+            {{path}}
+            \s*
+            [*&]?
+            \s+{{identifier}}
+          )
+        )
       captures:
         1: storage.type.c++
       set: global-maybe-function
@@ -789,6 +827,8 @@ contexts:
   data-structures-definition-common-begin:
     - include: comments
     - include: modifiers
+    # Handle macros so they aren't matched as the class name
+    - match: '\b[[:upper:][:digit:]_]+\b'
 
   data-structures-definition-common-end:
     - include: angle-brackets
@@ -830,8 +870,7 @@ contexts:
 
   data-structures-modifier:
     - include: comments
-    - match: \b({{modifiers}})\b
-      scope: storage.modifier.c++
+    - include: modifiers
     # Destructor
     - match: '(~{{identifier}})(?=\s*(\(|$))'
       scope: meta.method.c++ entity.name.function.destructor.c++
@@ -866,7 +905,20 @@ contexts:
       pop: true
     - match: '(?=\s)'
       set: data-structures-maybe-method
-    - match: '({{before_tag}})\s+(?={{path}}\s*[*&]?\s+{{identifier}})'
+    # If a class/struct/enum followed by a name that is not a macro or declspec
+    # then this is likely a return type of a function. This is uncommon.
+    - match: |-
+        (?x:
+          ({{before_tag}})
+          \s+
+          (?=
+            (?![[:upper:][:digit:]_]+\b|__declspec|{{before_tag}})
+            {{path}}
+            \s*
+            [*&]?
+            \s+{{identifier}}
+          )
+        )
       captures:
         1: storage.type.c++
       set: data-structures-maybe-method
