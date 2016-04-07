@@ -217,6 +217,11 @@ contexts:
         2: keyword.control.import.pragma.c
         3: meta.toc-list.pragma-mark.c
 
+  # Used by "inc" snippets to prevent double ##include
+  incomplete-inc:
+    - match: '^\s*(#i(nc?)?)\b\s*'
+      scope: meta.preprocessor.incomplete.c
+
   #############################################################################
   # The following are C-specific scopes that should not be reused. This is
   # because they push into subcontexts and use variables that are C-specific.
@@ -448,6 +453,7 @@ contexts:
     - include: preprocessor-rule-other-statements
 
   preprocessor-expressions:
+    - include: incomplete-inc
     - include: preprocessor-macro-define
     - include: pragma-mark
     - include: preprocessor-other
