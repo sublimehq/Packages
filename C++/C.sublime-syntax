@@ -265,6 +265,7 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.c
 
   late-expressions:
+    - include: modifiers-parens
     - include: modifiers
     - include: types
     - include: function-call
@@ -273,6 +274,7 @@ contexts:
 
   global-modifier:
     - include: comments
+    - include: modifiers-parens
     - include: modifiers
     - match: '(?=\S)'
       set: global-type
@@ -286,7 +288,7 @@ contexts:
     - match: '(?=\s)'
       set: global-maybe-function
     # Allow a macro call
-    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
       captures:
         1: variable.function.c
         2: punctuation.definition.parameters.c
@@ -296,7 +298,7 @@ contexts:
           scope: punctuation.definition.parameters.c
           pop: true
         - include: expressions
-    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+    - match: (?={{identifier}}\s*\()
       set:
         - include: function-call
         - match: ''
@@ -312,6 +314,7 @@ contexts:
     - match: \*
       scope: keyword.operator.c
     - include: types
+    - include: modifiers-parens
     - include: modifiers
     # Identifier that is not the function name - likely a macro
     - match: '{{identifier}}(?!\s*(\(|$))(?=\s+)'
@@ -388,8 +391,46 @@ contexts:
           pop: true
         - include: expressions
 
+  modifiers-parens:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.c
+        2: punctuation.definition.parameters.c
+      push :
+        - meta_scope: meta.attribute.c
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: punctuation.definition.parameters.c
+          pop: true
+    - match: \b(__declspec)(\()
+      captures:
+        1: storage.modifier.c
+        2: punctuation.definition.parameters.c
+      push:
+        - match: '\)'
+          scope: punctuation.definition.parameters.c
+          pop: true
+        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+          captures:
+            1: storage.modifier.c
+            2: punctuation.definition.parameters.c
+          push:
+            - match: '\)'
+              scope: punctuation.definition.parameters.c
+              pop: true
+            - include: numbers
+            - include: strings
+            - match: \b(get|put)\b
+              scope: variable.parameter.c
+            - match: ','
+              scope: punctuation.separator.c
+            - match: '='
+              scope: keyword.operator.assignment.c
+        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
+          scope: constant.other.c
+
   keywords-parens:
-    - include: attribute
     - match: '\b(sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.sizeof.c
@@ -414,21 +455,8 @@ contexts:
             2: entity.name.type.struct.c
         - include: expressions
 
-  attribute:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.c
-        2: punctuation.definition.parameters.c
-      push :
-        - meta_scope: meta.attribute.c
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: punctuation.definition.parameters.c
-          pop: true
-
   function-call:
-    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+    - match: (?={{identifier}}\s*\()
       push:
         - meta_content_scope: meta.function-call.c
         - include: c99
