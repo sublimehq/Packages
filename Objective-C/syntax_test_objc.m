@@ -189,6 +189,12 @@ funcname2
 
 }
 
+// Make sure there isn't an incorrect match here since this is not a valid
+// function definition
+int32
+/* <- - entity.name.function */
+() {}
+
 /////////////////////////////////////////////
 // Test function call in function parameters
 /////////////////////////////////////////////

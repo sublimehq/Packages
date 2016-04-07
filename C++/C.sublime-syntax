@@ -230,12 +230,8 @@ contexts:
   global:
     - include: preprocessor-expressions
     - include: early-expressions
-    - match: '^\s*(?=\b({{modifiers}})\b)'
-      push: global-modifier
-    - match: '^\s*(?={{basic_types}})'
-      push: global-basic-type
     - match: '^\s*(?=\w+)'
-      push: global-type
+      push: global-modifier
     - include: late-expressions
 
   statements:
@@ -275,19 +271,9 @@ contexts:
 
   global-modifier:
     - include: comments
-    - match: \b({{modifiers}})\b
-      scope: storage.modifier.c
-    - match: '(?={{basic_types}})'
-      set: global-basic-type
+    - include: modifiers
     - match: '(?=\S)'
       set: global-type
-
-  global-basic-type:
-    - include: comments
-    - match: '\b({{basic_types}})\b'
-      scope: storage.type.c
-    - match: '(?=\S)'
-      set: global-maybe-function
 
   global-type:
     - include: comments
@@ -305,8 +291,6 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*
       scope: keyword.operator.c
-    - match: '{{type_qualifier}}'
-      scope: storage.modifier.c
     - include: types
     - include: modifiers
     # Identifier that is not the function name - likely a macro

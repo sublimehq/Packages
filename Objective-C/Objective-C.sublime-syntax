@@ -10,12 +10,7 @@ scope: source.objc
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
-  basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
-  storage_classes: 'static|extern|register'
-  type_qualifier: 'const|volatile'
-  compiler_directive: 'inline|restrict|__restrict__|__restrict'
-  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   common_protocols: '\bNS(GlyphStorage|M(utableCopying|enuItem)|C(hangeSpelling|o(ding|pying|lorPicking(Custom|Default)))|T(oolbarItemValidations|ext(Input|AttachmentCell))|I(nputServ(iceProvider|erMouseTracker)|gnoreMisspelledWords)|Obj(CTypeSerializationCallBack|ect)|D(ecimalNumberBehaviors|raggingInfo)|U(serInterfaceValidations|RL(HandleClient|DownloadDelegate|ProtocolClient|AuthenticationChallengeSender))|Validated(ToobarItem|UserInterfaceItem)|Locking)\b'
 
 contexts:
@@ -241,12 +236,8 @@ contexts:
     - include: preprocessor-expressions
     - include: objc-structures
     - include: early-expressions
-    - match: '^\s*(?=\b({{modifiers}})\b)'
-      push: global-modifier
-    - match: '^\s*(?={{basic_types}})'
-      push: global-basic-type
     - match: '^\s*(?=\w+)'
-      push: global-type
+      push: global-modifier
     - include: late-expressions
 
   statements:
@@ -600,19 +591,9 @@ contexts:
 
   global-modifier:
     - include: comments
-    - match: \b({{modifiers}})\b
-      scope: storage.modifier.objc
-    - match: '(?={{basic_types}})'
-      set: global-basic-type
+    - include: modifiers
     - match: '(?=\S)'
       set: global-type
-
-  global-basic-type:
-    - include: comments
-    - match: '\b({{basic_types}})\b'
-      scope: storage.type.objc
-    - match: '(?=\S)'
-      set: global-maybe-function
 
   global-type:
     - include: comments
@@ -630,8 +611,6 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*
       scope: keyword.operator.objc
-    - match: '{{type_qualifier}}'
-      scope: storage.modifier.objc
     - include: types
     - include: modifiers
     # Identifier that is not the function name - likely a macro
