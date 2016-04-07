@@ -7,9 +7,9 @@
 classdef (Sealed = false) classname < baseclass
 % <- keyword.other
 %         ^ variable.parameter
-%                ^ keyword.operator.assignment
+%                ^ keyword.operator.symbols
 %                  ^ constant.language
-%                         ^ entity.name.type
+%                         ^ entity.name.class
 %                                     ^ entity.other.inherited-class
    properties (SetAccess = private, GetAccess = true)
 %  ^ keyword.other
