@@ -784,6 +784,9 @@ contexts:
     - match: $\n
       pop: true
     - include: preprocessor-line-continuation
+    # Don't define blocks in define statements
+    - match: '\{|\}'
+      scope: punctuation.definition.block.c
     - include: expressions
 
   preprocessor-other:

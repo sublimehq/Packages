@@ -11,6 +11,15 @@ struct foo* alloc_foo();
  /* <- keyword.control.import */
 
 
+#define MACRO_WITH_CURLY_BRACE {
+/* <- keyword.control.import.define */
+/*      ^ entity.name.constant */
+
+#define MACRO_WITH_CURLY_BRACE_2 }
+/* <- keyword.control.import.define */
+/*      ^ entity.name.constant */
+
+
 #pragma foo(bar, \
 "baz", \
 1)
