@@ -36,7 +36,7 @@ variables:
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'decltype|sizeof|static_assert|alignof|alignas|typeid|__declspec|__attribute__'
+  non_angle_brackets: '(?=<<|<=)'
 
 contexts:
   main:
@@ -65,32 +65,6 @@ contexts:
   unique-modifiers:
     - match: \b({{modifiers}})\b
       scope: storage.modifier.c++
-    - match: \b(__declspec)(\()
-      captures:
-        1: storage.modifier.c++
-        2: punctuation.definition.parameters.c++
-      push:
-        - match: '\)'
-          scope: punctuation.definition.parameters.c++
-          pop: true
-        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
-          captures:
-            1: storage.modifier.c++
-            2: punctuation.definition.parameters.c++
-          push:
-            - match: '\)'
-              scope: punctuation.definition.parameters.c++
-              pop: true
-            - include: numbers
-            - include: strings
-            - match: \b(get|put)\b
-              scope: variable.parameter.c++
-            - match: ','
-              scope: punctuation.separator.c++
-            - match: '='
-              scope: keyword.operator.assignment.c++
-        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
-          scope: constant.other.c++
 
   unique-variables:
     - match: \bthis\b
@@ -191,11 +165,11 @@ contexts:
         - include: template
         - match: (?=\S)
           set: global-modifier
+    - include: namespace
     - include: keywords-angle-brackets
     - match: '(?={{path}}\s*<)'
       push: global-modifier
     - include: early-expressions
-    - include: namespace
     - match: ^\s*\b(extern)(?=\s+"C")
       scope: storage.modifier.c++
       push:
@@ -225,6 +199,11 @@ contexts:
     - include: late-expressions
 
   early-expressions:
+    - include: early-expressions-before-generic-type
+    - include: generic-type
+    - include: early-expressions-after-generic-type
+
+  early-expressions-before-generic-type:
     - include: comments
     - include: case-default
     - include: typedef
@@ -232,7 +211,8 @@ contexts:
     - include: keywords-parens
     - include: keywords
     - include: numbers
-    - include: generic-type
+
+  early-expressions-after-generic-type:
     - include: members
     - include: operators
     - include: strings
@@ -245,8 +225,15 @@ contexts:
     - match: '\)|\}'
       scope: invalid.illegal.stray-bracket-end.c++
 
+  expressions-minus-generic-type:
+    - include: early-expressions-before-generic-type
+    - include: angle-brackets
+    - include: early-expressions-after-generic-type
+    - include: late-expressions
+
   late-expressions:
     - include: unique-late-expressions
+    - include: modifiers-parens
     - include: modifiers
     - include: types
     - include: function-call
@@ -297,6 +284,54 @@ contexts:
           pop: true
         - include: expressions
 
+  modifiers-parens:
+    - match: '\b(alignas)\b\s*(\()'
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.definition.parameters.c++
+      push:
+        - match: '\)'
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - include: expressions
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.definition.parameters.c++
+      push :
+        - meta_scope: meta.attribute.c++
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: punctuation.definition.parameters.c++
+          pop: true
+    - match: \b(__declspec)(\()
+      captures:
+        1: storage.modifier.c++
+        2: punctuation.definition.parameters.c++
+      push:
+        - match: '\)'
+          scope: punctuation.definition.parameters.c++
+          pop: true
+        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+          captures:
+            1: storage.modifier.c++
+            2: punctuation.definition.parameters.c++
+          push:
+            - match: '\)'
+              scope: punctuation.definition.parameters.c++
+              pop: true
+            - include: numbers
+            - include: strings
+            - match: \b(get|put)\b
+              scope: variable.parameter.c++
+            - match: ','
+              scope: punctuation.separator.c++
+            - match: '='
+              scope: keyword.operator.assignment.c++
+        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
+          scope: constant.other.c++
+
   types-parens:
     - match: '\b(decltype)\b\s*(\()'
       captures:
@@ -332,16 +367,6 @@ contexts:
           scope: punctuation.definition.parameters.c++
           pop: true
         - include: expressions
-    - match: '\b(alignas)\b\s*(\()'
-      captures:
-        1: storage.modifier.c++
-        2: punctuation.definition.parameters.c++
-      push:
-        - match: '\)'
-          scope: punctuation.definition.parameters.c++
-          pop: true
-        - include: expressions
-    - include: attribute
     - match: '\b(static_assert)\b\s*(\()'
       captures:
         1: keyword.operator.c++
@@ -362,7 +387,7 @@ contexts:
         - include: expressions
 
   namespace:
-    - match: '^\s*(using)\s+(namespace)\s+({{path}});'
+    - match: '\b(using)\s+(namespace)\s+({{path}})'
       captures:
         1: keyword.control.c++
         2: keyword.control.c++
@@ -375,7 +400,6 @@ contexts:
         - include: comments
         - match: =
           scope: keyword.operator.alias.c++
-        - include: attribute
         - match: ';'
           pop: true
         - match: '\}'
@@ -408,6 +432,7 @@ contexts:
         - match: '\b(typename|{{before_tag}})\b'
           scope: storage.type.c++
         - include: types
+        - include: modifiers-parens
         - include: modifiers
         - include: scope:source.c#types
         - match: ','
@@ -466,22 +491,19 @@ contexts:
         - match: '<'
           scope: punctuation.definition.generic.begin.c++
           set:
-            - match: ">"
+            - match: '>'
               scope: punctuation.definition.generic.end.c++
               pop: true
-            - include: angle-brackets
-            - include: expressions
+            - include: expressions-minus-generic-type
 
   angle-brackets:
-    - match: <
+    - match: '<'
       scope: punctuation.definition.generic.begin.c++
       push:
-        - meta_scope: meta.angle-brackets.c++
-        - match: ">"
+        - match: '>'
           scope: punctuation.definition.generic.end.c++
           pop: true
-        - include: angle-brackets
-        - include: expressions
+        - include: expressions-minus-generic-type
 
   block:
     - match: '\{'
@@ -496,7 +518,7 @@ contexts:
         - include: statements
 
   function-call:
-    - match: (?=(?!{{non_func_keywords}}){{path}}\s*\()
+    - match: (?={{path}}\s*\()
       push:
         - meta_scope: meta.function-call.c++
         - include: scope:source.c#c99
@@ -549,7 +571,7 @@ contexts:
         - match: \b(struct)\s+({{identifier}})\b
           captures:
             1: storage.type.c++
-        - include: expressions
+        - include: expressions-minus-generic-type
 
   parens:
     - match: \(
@@ -561,22 +583,12 @@ contexts:
           pop: true
         - include: expressions
 
-  attribute:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.c++
-        2: punctuation.definition.parameters.c++
-      push :
-        - meta_scope: meta.attribute.c++
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: punctuation.definition.parameters.c++
-          pop: true
-
   function-trailing-return-type:
-    - include: generic-type
+    - match: '{{non_angle_brackets}}'
+      pop: true
+    - include: angle-brackets
     - include: types
+    - include: modifiers-parens
     - include: modifiers
     - include: identifiers
     - match: \*|&
@@ -599,6 +611,7 @@ contexts:
 
   global-modifier:
     - include: comments
+    - include: modifiers-parens
     - include: modifiers
     # Constructors and destructors don't have a type
     - match: '(?={{path}}::{{identifier}}\s*(\(|$))'
@@ -649,8 +662,12 @@ contexts:
       set: data-structures
     - match: '(?=\b({{casts}})\b\s*<)'
       pop: true
+    - match: '{{non_angle_brackets}}'
+      pop: true
+    - include: angle-brackets
+    - include: types
     # Allow a macro call
-    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
       captures:
         1: variable.function.c++
         2: punctuation.definition.parameters.c++
@@ -660,13 +677,11 @@ contexts:
           scope: punctuation.definition.parameters.c++
           pop: true
         - include: expressions
-    - match: '(?=(?!{{non_func_keywords}}){{path}}\s*\()'
+    - match: '(?={{path}}\s*\()'
       set:
         - include: function-call
         - match: ''
           pop: true
-    - include: generic-type
-    - include: types
     - include: variables
     - include: constants
     - include: identifiers
@@ -680,8 +695,11 @@ contexts:
       scope: keyword.operator.c++
     - match: '{{type_qualifier}}'
       scope: storage.modifier.c++
-    - include: generic-type
+    - match: '{{non_angle_brackets}}'
+      pop: true
+    - include: angle-brackets
     - include: types
+    - include: modifiers-parens
     - include: modifiers
     # Operator overloading
     - match: '({{path}}::)?{{operator_method_name}}(?=\s*(\(|$))'
@@ -715,7 +733,7 @@ contexts:
         - match : \)
           scope: punctuation.definition.parameters.c++
           set: function-definition-continue
-        - include: expressions
+        - include: expressions-minus-generic-type
 
   function-definition-continue:
     - meta_content_scope: meta.function.c++
@@ -853,6 +871,7 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - include: modifiers-parens
     - include: modifiers
     # Handle macros so they aren't matched as the class name
     - match: '\b[[:upper:][:digit:]_]+\b'
@@ -863,6 +882,7 @@ contexts:
       scope: punctuation.separator.c++
       push:
         - include: comments
+        - include: modifiers-parens
         - include: modifiers
         - match: '\b(virtual|{{visibility_modifiers}})\b'
           scope: storage.modifier.c++
@@ -885,18 +905,19 @@ contexts:
         - include: template
         - match: (?=\S)
           set: data-structures-modifier
+    - include: typedef
     - match: \b({{visibility_modifiers}})\s*(:)(?!:)
       captures:
         1: storage.modifier.c++
         2: punctuation.section.class.c++
     - match: '^\s*(?=~?\w+)'
       push: data-structures-modifier
-    - include: typedef
     - include: preprocessor-expressions
-    - include: expressions
+    - include: expressions-minus-generic-type
 
   data-structures-modifier:
     - include: comments
+    - include: modifiers-parens
     - include: modifiers
     # Destructor
     - match: '(~{{identifier}})(?=\s*(\(|$))'
@@ -957,7 +978,9 @@ contexts:
       set: data-structures
     - match: '(?=\b({{casts}})\b\s*<)'
       pop: true
-    - include: generic-type
+    - match: '{{non_angle_brackets}}'
+      pop: true
+    - include: angle-brackets
     - include: types
     - include: variables
     - include: constants
@@ -974,8 +997,11 @@ contexts:
       scope: keyword.operator.c++
     - match: '{{type_qualifier}}'
       scope: storage.modifier.c++
-    - include: generic-type
+    - match: '{{non_angle_brackets}}'
+      pop: true
+    - include: angle-brackets
     - include: types
+    - include: modifiers-parens
     - include: modifiers
     # Operator overloading
     - match: '{{operator_method_name}}(?=\s*(\(|$))'
@@ -1009,7 +1035,7 @@ contexts:
         - match : \)
           scope: punctuation.definition.parameters.c++
           set: method-definition-continue
-        - include: expressions
+        - include: expressions-minus-generic-type
     - match: '(?=\S)'
       pop: true
 
@@ -1470,6 +1496,6 @@ contexts:
           scope: punctuation.definition.string.begin.c++
           push:
             - meta_scope: string.quoted.other.lt-gt.include.c++
-            - match: ">"
+            - match: '>'
               scope: punctuation.definition.string.end.c++
               pop: true
