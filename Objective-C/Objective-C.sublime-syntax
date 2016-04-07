@@ -43,7 +43,7 @@ contexts:
           scope: punctuation.section.scope.end.objc
           pop: true
         - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak)\b
-          scope: keyword.other.property.attribute
+          scope: keyword.other.property.attribute.objc
     - match: ((@)property)\b
       scope: meta.property.objc
       captures:
@@ -669,11 +669,11 @@ contexts:
   function-definition-body:
     - meta_content_scope: meta.function.objc
     - match: '\{'
-      scope: meta.block.c punctuation.definition.block.objc
+      scope: meta.block.objc punctuation.definition.block.objc
       set:
-        - meta_content_scope: meta.function.c meta.block.objc
+        - meta_content_scope: meta.function.objc meta.block.objc
         - match: '\}'
-          scope: meta.function.c meta.block.c punctuation.definition.block.objc
+          scope: meta.function.objc meta.block.objc punctuation.definition.block.objc
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
@@ -760,7 +760,7 @@ contexts:
         set:
           - meta_content_scope: meta.function-call.objc
           - match : \)
-            scope: meta.function-call.c punctuation.definition.parameters.objc
+            scope: meta.function-call.objc punctuation.definition.parameters.objc
             pop: true
           - include: expressions
 
