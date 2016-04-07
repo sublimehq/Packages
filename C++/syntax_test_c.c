@@ -223,6 +223,10 @@ static string foo(bar() + ';');
 /*                        ^^^ string */
 /*                           ^ -string */
 
+func_call(foo
+/* <- meta.function-call */
+);
+
 /////////////////////////////////////////////
 // Invalid
 /////////////////////////////////////////////

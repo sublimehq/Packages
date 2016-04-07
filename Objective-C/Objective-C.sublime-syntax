@@ -611,13 +611,14 @@ contexts:
         2: punctuation.definition.parameters.objc
       push:
         - meta_scope: meta.function-call.objc
-        - include: comments
-        - match: \*
-          scope: keyword.operator.objc
-        - include: modifiers
-        - include: types
         - match: '\)'
           scope: punctuation.definition.parameters.objc
+          pop: true
+        - include: expressions
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+      set:
+        - include: function-call
+        - match: ''
           pop: true
     - include: types
     - match: '{{identifier}}'

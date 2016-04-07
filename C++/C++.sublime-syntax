@@ -656,20 +656,15 @@ contexts:
         2: punctuation.definition.parameters.c++
       push:
         - meta_scope: meta.function-call.c++
-        - include: comments
-        - match: \*|&
-          scope: keyword.operator.c++
-        - include: modifiers
-        - include: generic-type
-        - include: types
-        - include: variables
-        - include: constants
-        - include: identifiers
         - match: '\)'
           scope: punctuation.definition.parameters.c++
           pop: true
-    - match: '(?={{path}}\s*\()'
-      pop: true
+        - include: expressions
+    - match: '(?=(?!{{non_func_keywords}}){{path}}\s*\()'
+      set:
+        - include: function-call
+        - match: ''
+          pop: true
     - include: generic-type
     - include: types
     - include: variables

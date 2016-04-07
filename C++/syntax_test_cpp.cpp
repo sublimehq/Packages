@@ -958,3 +958,7 @@ int& return_type_ref_no_space(){}
 int32
 /* <- - entity.name.function */
 () {}
+
+func_call(foo
+/* <- meta.function-call */
+);

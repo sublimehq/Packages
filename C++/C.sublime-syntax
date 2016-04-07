@@ -292,13 +292,14 @@ contexts:
         2: punctuation.definition.parameters.c
       push:
         - meta_scope: meta.function-call.c
-        - include: comments
-        - match: \*
-          scope: keyword.operator.c
-        - include: modifiers
-        - include: types
         - match: '\)'
           scope: punctuation.definition.parameters.c
+          pop: true
+        - include: expressions
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+      set:
+        - include: function-call
+        - match: ''
           pop: true
     - include: types
     - match: '{{identifier}}'
