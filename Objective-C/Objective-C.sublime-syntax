@@ -388,9 +388,9 @@ contexts:
         - include: objc-structure-body
 
   objc-structure-body:
-    - include: preprocessor-rule-enabled-interface
-    - include: preprocessor-rule-disabled-interface
-    - include: preprocessor-rule-other-interface
+    - include: preprocessor-rule-enabled-objc-structures
+    - include: preprocessor-rule-disabled-objc-structures
+    - include: preprocessor-rule-other-objc-structures
     - include: properties
     - include: protocol_list
     - include: method
@@ -751,7 +751,7 @@ contexts:
   - match: (?={{identifier}}\s*\()
     push:
       - meta_content_scope: meta.function-call.objc
-      - include: c99
+      - include: scope:source.c#c99
       - match: '{{identifier}}'
         scope: variable.function.objc
       - match: '\('
