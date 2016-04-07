@@ -189,6 +189,15 @@ funcname2
 
 }
 
+MACRO_CALL(int) macro_prefixed_func(){}
+/* ^ meta.function-call */
+/*        ^ punctuation.definition.parameters */
+/*            ^ punctuation.definition.parameters */
+/*              ^ entity.name.function */
+
+int* return_type_pointer_no_space(){}
+/*   ^ entity.name.function */
+
 // Make sure there isn't an incorrect match here since this is not a valid
 // function definition
 int32

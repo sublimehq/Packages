@@ -36,7 +36,7 @@ variables:
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'decltype|sizeof|static_assert|alignof|alignas|typeid'
+  non_func_keywords: 'decltype|sizeof|static_assert|alignof|alignas|typeid|__declspec|__attribute__'
 
 contexts:
   main:
@@ -227,6 +227,7 @@ contexts:
   early-expressions:
     - include: comments
     - include: case-default
+    - include: typedef
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -340,7 +341,6 @@ contexts:
           scope: punctuation.definition.parameters.c++
           pop: true
         - include: expressions
-    - include: typedef
     - include: attribute
     - match: '\b(static_assert)\b\s*(\()'
       captures:
@@ -375,7 +375,7 @@ contexts:
         - include: comments
         - match: =
           scope: keyword.operator.alias.c++
-        - include: scope:source.c#attribute
+        - include: attribute
         - match: ';'
           pop: true
         - match: '\}'
@@ -620,8 +620,8 @@ contexts:
 
   global-type:
     - include: comments
-    - match: '(?={{path}}\s*\()'
-      pop: true
+    - match: \*|&
+      scope: keyword.operator.c++
     - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
       pop: true
     - match: '(?=\s)'
@@ -648,6 +648,27 @@ contexts:
     - match: '(?=\b({{before_tag}})\b)'
       set: data-structures
     - match: '(?=\b({{casts}})\b\s*<)'
+      pop: true
+    # Allow a macro call
+    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+      captures:
+        1: variable.function.c++
+        2: punctuation.definition.parameters.c++
+      push:
+        - meta_scope: meta.function-call.c++
+        - include: comments
+        - match: \*|&
+          scope: keyword.operator.c++
+        - include: modifiers
+        - include: generic-type
+        - include: types
+        - include: variables
+        - include: constants
+        - include: identifiers
+        - match: '\)'
+          scope: punctuation.definition.parameters.c++
+          pop: true
+    - match: '(?={{path}}\s*\()'
       pop: true
     - include: generic-type
     - include: types
@@ -906,6 +927,8 @@ contexts:
 
   data-structures-type:
     - include: comments
+    - match: \*|&
+      scope: keyword.operator.c++
       # Cast methods
     - match: '(operator)\s+({{identifier}})(?=\s*(\(|$))'
       captures:

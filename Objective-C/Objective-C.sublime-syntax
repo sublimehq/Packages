@@ -12,6 +12,7 @@ variables:
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   before_tag: 'struct|union|enum'
   common_protocols: '\bNS(GlyphStorage|M(utableCopying|enuItem)|C(hangeSpelling|o(ding|pying|lorPicking(Custom|Default)))|T(oolbarItemValidations|ext(Input|AttachmentCell))|I(nputServ(iceProvider|erMouseTracker)|gnoreMisspelledWords)|Obj(CTypeSerializationCallBack|ect)|D(ecimalNumberBehaviors|raggingInfo)|U(serInterfaceValidations|RL(HandleClient|DownloadDelegate|ProtocolClient|AuthenticationChallengeSender))|Validated(ToobarItem|UserInterfaceItem)|Locking)\b'
+  non_func_keywords: 'decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -597,10 +598,27 @@ contexts:
 
   global-type:
     - include: comments
+    - match: \*
+      scope: keyword.operator.objc
     - match: '(?=\b({{before_tag}}|{{control_keywords}})\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
+    # Allow a macro call
+    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+      captures:
+        1: variable.function.objc
+        2: punctuation.definition.parameters.objc
+      push:
+        - meta_scope: meta.function-call.objc
+        - include: comments
+        - match: \*
+          scope: keyword.operator.objc
+        - include: modifiers
+        - include: types
+        - match: '\)'
+          scope: punctuation.definition.parameters.objc
+          pop: true
     - include: types
     - match: '{{identifier}}'
     - match: (?=\W)

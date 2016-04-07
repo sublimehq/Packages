@@ -21,6 +21,7 @@ variables:
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
+  non_func_keywords: 'decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -248,6 +249,7 @@ contexts:
     - include: comments
     - include: case-default
     - include: access
+    - include: typedef
     - include: keywords-parens
     - include: keywords
     - include: numbers
@@ -261,11 +263,11 @@ contexts:
       scope: punctuation.separator.c
     - match: '\)|\}'
       scope: invalid.illegal.stray-bracket-end.c
-    - include: function-call
 
   late-expressions:
     - include: modifiers
     - include: types
+    - include: function-call
 
   ## C-specific contexts
 
@@ -277,10 +279,27 @@ contexts:
 
   global-type:
     - include: comments
+    - match: \*
+      scope: keyword.operator.c
     - match: '(?=\b({{before_tag}}|{{control_keywords}})\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
+    # Allow a macro call
+    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+      captures:
+        1: variable.function.c
+        2: punctuation.definition.parameters.c
+      push:
+        - meta_scope: meta.function-call.c
+        - include: comments
+        - match: \*
+          scope: keyword.operator.c
+        - include: modifiers
+        - include: types
+        - match: '\)'
+          scope: punctuation.definition.parameters.c
+          pop: true
     - include: types
     - match: '{{identifier}}'
     - match: (?=\W)
@@ -369,7 +388,6 @@ contexts:
         - include: expressions
 
   keywords-parens:
-    - include: typedef
     - include: attribute
     - match: '\b(sizeof)\b\s*(\()'
       captures:
@@ -409,7 +427,7 @@ contexts:
           pop: true
 
   function-call:
-    - match: (?={{identifier}}\s*\()
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
       push:
         - meta_content_scope: meta.function-call.c
         - include: c99

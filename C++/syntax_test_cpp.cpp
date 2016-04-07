@@ -869,3 +869,83 @@ int foo(int val)
 }
 /* <- meta.function punctuation.definition.block */
  /* <- - meta.function */
+
+/////////////////////////////////////////////
+// Matching various function definitions
+/////////////////////////////////////////////
+
+const int foo = 1;
+/*        ^ - entity.name.function */
+int a;
+/*  ^ - entity.name.function */
+
+int /* comment */ * myfunc
+/* <- storage.type */
+/*  ^ comment.block */
+/*                ^ keyword.operator */
+/*                  ^^^^^^ entity.name.function */
+(int * a)
+/* <- punctuation.definition.parameters */
+/*   ^ keyword.operator */
+/*      ^ punctuation.definition.parameters */
+{
+
+}
+
+MACRO1 void * MACRO2 myfuncname () {
+/*     ^ storage.type */
+/*          ^ keyword.operator */
+/*                   ^ entity.name.function */
+
+    label:
+/*  ^ entity.name.label */
+/*       ^ punctuation.separator */
+        do {
+            break;
+        } while(true);
+
+    switch (a) {
+        case 1: break;
+/*            ^ punctuation.separator */
+        case 100 - 10: break;
+/*                   ^ punctuation.separator */
+        default: break;
+/*             ^ punctuation.separator */
+    }
+
+}
+
+static const uint32_t * const MACRO funcname();
+/* ^ storage.modifier */
+/*     ^ storage.modifier */
+/*           ^ support.type */
+/*                    ^ keyword.operator */
+/*                      ^ storage.modifier */
+/*                                  ^ entity.name.function */
+
+MACRO int
+/*    ^ storage.type */
+funcname2
+/* ^ entity.name.function */
+()
+{
+
+}
+
+MACRO_CALL(int) macro_prefixed_func(){}
+/* ^ meta.function-call */
+/*        ^ punctuation.definition.parameters */
+/*            ^ punctuation.definition.parameters */
+/*              ^ entity.name.function */
+
+int* return_type_pointer_no_space(){}
+/*   ^ entity.name.function */
+
+int& return_type_ref_no_space(){}
+/*   ^ entity.name.function */
+
+// Make sure there isn't an incorrect match here since this is not a valid
+// function definition
+int32
+/* <- - entity.name.function */
+() {}
