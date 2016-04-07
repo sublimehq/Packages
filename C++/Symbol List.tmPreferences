@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>entity.name.class.c++, entity.name.struct.c++, entity.name.union.c++, entity.name.enum.c++</string>
+	<string>source.c++ &amp; (entity.name.class | entity.name.struct | entity.name.union | entity.name.enum)</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
