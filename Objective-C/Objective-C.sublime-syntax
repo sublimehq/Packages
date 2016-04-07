@@ -12,7 +12,6 @@ variables:
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   before_tag: 'struct|union|enum'
   common_protocols: '\bNS(GlyphStorage|M(utableCopying|enuItem)|C(hangeSpelling|o(ding|pying|lorPicking(Custom|Default)))|T(oolbarItemValidations|ext(Input|AttachmentCell))|I(nputServ(iceProvider|erMouseTracker)|gnoreMisspelledWords)|Obj(CTypeSerializationCallBack|ect)|D(ecimalNumberBehaviors|raggingInfo)|U(serInterfaceValidations|RL(HandleClient|DownloadDelegate|ProtocolClient|AuthenticationChallengeSender))|Validated(ToobarItem|UserInterfaceItem)|Locking)\b'
-  non_func_keywords: 'decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -255,6 +254,7 @@ contexts:
     - include: comments
     - include: case-default
     - include: access
+    - include: typedef
     - include: osx-support-functions
     - include: keywords-parens
     - include: keywords
@@ -272,6 +272,7 @@ contexts:
     - include: bracketed-content
 
   late-expressions:
+    - include: modifiers-parens
     - include: modifiers
     - include: types
     - include: function-call
@@ -592,6 +593,7 @@ contexts:
 
   global-modifier:
     - include: comments
+    - include: modifiers-parens
     - include: modifiers
     - match: '(?=\S)'
       set: global-type
@@ -605,7 +607,7 @@ contexts:
     - match: '(?=\s)'
       set: global-maybe-function
     # Allow a macro call
-    - match: '(?!{{non_func_keywords}})({{identifier}})\s*(\()(?=[^\)]+\))'
+    - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
       captures:
         1: variable.function.objc
         2: punctuation.definition.parameters.objc
@@ -615,7 +617,7 @@ contexts:
           scope: punctuation.definition.parameters.objc
           pop: true
         - include: expressions
-    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+    - match: (?={{identifier}}\s*\()
       set:
         - include: function-call
         - match: ''
@@ -631,6 +633,7 @@ contexts:
     - match: \*
       scope: keyword.operator.objc
     - include: types
+    - include: modifiers-parens
     - include: modifiers
     # Identifier that is not the function name - likely a macro
     - match: '{{identifier}}(?!\s*(\(|$))(?=\s+)'
@@ -707,9 +710,20 @@ contexts:
           pop: true
         - include: expressions
 
+  modifiers-parens:
+    - match: \b(__attribute__)\s*(\(\()
+      captures:
+        1: storage.modifier.objc
+        2: punctuation.definition.parameters.objc
+      push :
+        - meta_scope: meta.attribute.objc
+        - include: parens
+        - include: strings
+        - match: \)\)
+          scope: punctuation.definition.parameters.objc
+          pop: true
+
   keywords-parens:
-    - include: typedef
-    - include: attribute
     - match: '\b(sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.sizeof.objc
@@ -733,19 +747,6 @@ contexts:
             1: storage.type.objc
             2: entity.name.type.struct.objc
         - include: expressions
-
-  attribute:
-    - match: \b(__attribute__)\s*(\(\()
-      captures:
-        1: storage.modifier.objc
-        2: punctuation.definition.parameters.objc
-      push :
-        - meta_scope: meta.attribute.objc
-        - include: parens
-        - include: strings
-        - match: \)\)
-          scope: punctuation.definition.parameters.objc
-          pop: true
 
   function-call:
   - match: (?={{identifier}}\s*\()
