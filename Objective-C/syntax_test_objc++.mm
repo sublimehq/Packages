@@ -1,4 +1,4 @@
-/* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
+/* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
 #ifndef IGUARD_
  /* <- keyword.control.import */
 #define IGUARD_
@@ -962,3 +962,35 @@ int32
 func_call(foo
 /* <- meta.function-call */
 );
+
+/////////////////////////////////////////////
+// Objective-C Interface
+/////////////////////////////////////////////
+
+@interface Person : NSObject
+/* <- storage.type punctuation.definition.storage.type */
+/*^ storage.type */
+@property (readonly) NSString *firstName;
+/* <- keyword.other punctuation.definition.keyword */
+/*^ keyword.other */
+@property (readonly) NSString *lastName;
+@end
+/* <- storage.type punctuation.definition.storage.type */
+/*^ storage.type */
+
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
+/*^ support.class */
+/*          ^ keyword.operator */
+/*                       ^ meta.bracketed punctuation.section.scope.begin */
+/*                                    ^ support.function.any-method */
+/*                                                        ^^ string.quoted.double punctuation.definition.string.begin */
+        attributeName, attributeValue];
+/*                                   ^ meta.bracketed punctuation.section.scope.end */
+
+@implementation Person
+- (void)debugOutput:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2)
+/*                                    ^ punctuation.separator */
+/*                                      ^^^ punctuation.definition.variadic */
+/*                                          ^ variable.function */
+{}
+@end

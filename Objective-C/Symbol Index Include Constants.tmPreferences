@@ -2,11 +2,11 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.c++, source.objc++</string>
+    <string>(source.objc | source.objc++) &amp; entity.name.constant</string>
     <key>settings</key>
     <dict>
-        <key>symbolIndexTransformation</key>
-        <string>/.*::([A-Za-z0-9_~]+)/$1/;</string>
+        <key>showInIndexedSymbolList</key>
+        <integer>1</integer>
     </dict>
 </dict>
 </plist>

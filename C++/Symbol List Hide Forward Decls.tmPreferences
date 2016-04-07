@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.c++ meta.class-struct-block.c++ entity.name.type.forward-decl.c++</string>
+    <string>(source.c++ | source.objc++) &amp; (entity.name.class.forward-decl | entity.name.struct.forward-decl | entity.name.enum.forward-decl | entity.name.union.forward-decl)</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>
