@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>source.c++ &amp; (meta.class | meta.struct | meta.union) &amp; meta.block entity.name.function.constructor</string>
+    <string>(source.c++ | source.objc++) &amp; (meta.class | meta.struct | meta.union) &amp; meta.block entity.name.function.constructor</string>
     <key>settings</key>
     <dict>
         <key>showInIndexedSymbolList</key>
