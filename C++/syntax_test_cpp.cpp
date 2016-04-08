@@ -263,12 +263,12 @@ return 123;
 /////////////////////////////////////////////
 
 int x = alignof(char);
-/*      ^ keyword.operator */
+/*      ^ keyword.operator.word */
 /*             ^ punctuation.definition.parameters */
 /*                  ^ punctuation.definition.parameters */
 
 int x = sizeof(char);
-/*      ^ keyword.operator */
+/*      ^ keyword.operator.word */
 /*            ^ punctuation.definition.parameters */
 /*                 ^ punctuation.definition.parameters */
 
@@ -278,19 +278,19 @@ int x = sizeof(char);
 /////////////////////////////////////////////
 
 const_cast<int>(2.0);
-/* <- keyword.operator.cast */
+/* <- keyword.operator.word.cast */
 /*        ^ punctuation.definition.generic.begin */
 /*         ^ storage.type */
 /*            ^ punctuation.definition.generic.end */
 
 dynamic_cast<int>(2.0);
-/* <- keyword.operator.cast */
+/* <- keyword.operator.word.cast */
 
 reinterpret_cast<int>(2.0);
-/* <- keyword.operator.cast */
+/* <- keyword.operator.word.cast */
 
 static_cast<int>(2.0);
-/* <- keyword.operator.cast */
+/* <- keyword.operator.word.cast */
 
 
 /////////////////////////////////////////////

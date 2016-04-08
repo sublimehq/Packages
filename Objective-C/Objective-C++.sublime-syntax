@@ -507,7 +507,7 @@ contexts:
 
   keywords-angle-brackets:
     - match: \b({{casts}})\b\s*
-      scope: keyword.operator.cast.objc++
+      scope: keyword.operator.word.cast.objc++
       push:
         - match: '>'
           scope: punctuation.definition.generic.end.objc++
@@ -522,7 +522,7 @@ contexts:
   keywords-parens:
     - match: '\b(alignof|typeid)\b\s*(\()'
       captures:
-        1: keyword.operator.objc++
+        1: keyword.operator.word.objc++
         2: punctuation.definition.parameters.objc++
       push:
         - match: '\)'
@@ -531,7 +531,7 @@ contexts:
         - include: expressions
     - match: '\b(static_assert)\b\s*(\()'
       captures:
-        1: keyword.operator.objc++
+        1: keyword.operator.word.objc++
         2: punctuation.definition.parameters.objc++
       push:
         - match: '\)'
@@ -540,7 +540,7 @@ contexts:
         - include: expressions
     - match: '\b(sizeof)\b\s*(\()'
       captures:
-        1: keyword.operator.sizeof.objc++
+        1: keyword.operator.word.objc++
         2: punctuation.definition.parameters.objc++
       push:
         - match: '\)'

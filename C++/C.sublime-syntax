@@ -111,7 +111,7 @@ contexts:
     - match: \b({{control_keywords}})\b
       scope: keyword.control.c
     - match: \bsizeof\b
-      scope: keyword.operator.sizeof.c
+      scope: keyword.operator.word.c
 
   modifiers:
     - match: \b({{modifiers}})\b
@@ -433,7 +433,7 @@ contexts:
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'
       captures:
-        1: keyword.operator.sizeof.c
+        1: keyword.operator.word.c
         2: punctuation.definition.parameters.c
       push:
         - match: '\)'

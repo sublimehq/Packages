@@ -4,7 +4,7 @@
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
-/*                                                              ^ keyword.operator.sizeof */
+/*                                                              ^ keyword.operator.word */
 /*                                                                     ^ storage.type */
 /*                                                                                              ^ comment.line */
 

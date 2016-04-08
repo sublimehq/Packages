@@ -726,7 +726,7 @@ contexts:
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'
       captures:
-        1: keyword.operator.sizeof.objc
+        1: keyword.operator.word.objc
         2: punctuation.definition.parameters.objc
       push:
         - match: '\)'
