@@ -172,7 +172,7 @@ contexts:
           pop: true
         - match: \s*(NSPredicate)\s+(predicateWithFormat(:))
           captures:
-            1: support.class.cocoa
+            1: support.class.cocoa.objc++
             2: support.function.any-method.objc++
             3: punctuation.separator.arguments.objc++
           push:
