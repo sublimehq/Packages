@@ -233,7 +233,6 @@ contexts:
   ## Common context layout
 
   global:
-    - include: preprocessor-expressions
     - include: objc-structures
     - include: early-expressions
     - match: '^\s*(?=\w+)'
@@ -242,7 +241,6 @@ contexts:
 
   statements:
     - include: preprocessor-statements
-    - include: preprocessor-expressions
     - include: scope:source.c#label
     - include: expressions
 
@@ -251,6 +249,7 @@ contexts:
     - include: late-expressions
 
   early-expressions:
+    - include: preprocessor-expressions
     - include: comments
     - include: case-default
     - include: access
@@ -389,9 +388,6 @@ contexts:
         - include: objc-structure-body
 
   objc-structure-body:
-    - include: preprocessor-rule-enabled-objc-structures
-    - include: preprocessor-rule-disabled-objc-structures
-    - include: preprocessor-rule-other-objc-structures
     - include: properties
     - include: protocol_list
     - include: method
@@ -459,7 +455,6 @@ contexts:
   preprocessor-objc-structures:
     - include: preprocessor-rule-enabled-objc-structures
     - include: preprocessor-rule-disabled-objc-structures
-    - include: preprocessor-rule-other-objc-structures
 
   preprocessor-rule-disabled-objc-structures:
     - match: ^\s*((#if)\s+(0))\b
@@ -512,80 +507,6 @@ contexts:
               pop: true
             - include: negated-block
             - include: objc-structure-body
-
-  preprocessor-rule-other-objc-structures:
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: keyword.control.import.objc
-      push:
-        - meta_scope: meta.preprocessor.objc
-        - include: scope:source.c#preprocessor-line-continuation
-        - include: comments
-        - match: \bdefined\b
-          scope: keyword.control.objc
-        # Enter a new scope where all elif/else branches have their
-        # contexts popped by a subsequent elif/else/endif. This ensures that
-        # preprocessor branches don't push multiple meta.block scopes on
-        # the stack, thus messing up the "global" context's detection of
-        # functions.
-        - match: $\n
-          set: preprocessor-if-branch-objc-structures
-
-  # These gymnastics here ensure that we are properly handling scope even
-  # when the preprocessor is used to create different scope beginnings, such
-  # as a different if/while condition
-  preprocessor-if-branch-objc-structures:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: (?=^\s*#\s*(elif|else)\b)
-      push: preprocessor-elif-else-branch-objc-structures
-    - match: \{
-      scope: punctuation.definition.block.objc
-      set: preprocessor-block-if-branch-objc-structures
-    - include: negated-block
-    - include: objc-structure-body
-
-  preprocessor-block-if-branch-objc-structures:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-objc-structures
-    - match: (?=^\s*#\s*(elif|else)\b)
-      push: preprocessor-elif-else-branch-objc-structures
-    - match: \}
-      scope: punctuation.definition.block.objc
-      set: preprocessor-if-branch-objc-structures
-    - include: objc-structure-body
-
-  preprocessor-block-finish-objc-structures:
-    - meta_scope: meta.block.objc
-    - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      set: preprocessor-block-finish-if-branch-objc-structures
-    - match: \}
-      scope: punctuation.definition.block.objc
-      pop: true
-    - include: objc-structure-body
-
-  preprocessor-block-finish-if-branch-objc-structures:
-    - match: ^\s*(#\s*endif)\b
-      captures:
-        1: meta.preprocessor.objc keyword.control.import.objc
-      pop: true
-    - match: \}
-      scope: punctuation.definition.block.objc
-      set: preprocessor-if-branch-objc-structures
-    - include: objc-structure-body
-
-  preprocessor-elif-else-branch-objc-structures:
-    - match: (?=^\s*#\s*endif\b)
-      pop: true
-    - include: negated-block
-    - include: objc-structure-body
 
   ################################
   # Directly from C.sublime-syntax
@@ -654,6 +575,8 @@ contexts:
           scope: punctuation.definition.parameters.objc
           set: function-definition-continue
         - include: expressions
+    - match: (?=\S)
+      pop: true
 
   function-definition-continue:
     - meta_content_scope: meta.function.objc

@@ -752,6 +752,23 @@ private:
     }
 /*  ^ meta.enum punctuation.definition.block */
 /*   ^ - meta.enum punctuation.definition.block */
+
+    #if 0
+    /*  ^ constant.numeric */
+    int disabled_func() {
+    /*  ^ comment.block */
+    }
+    #endif
+
+    #if 1
+    /*  ^ constant.numeric */
+    int enabled_func() {}
+    /*  ^ entity.name.function */
+    #else
+    int disabled_func() {
+    /*  ^ comment.block */
+    }
+    #endif
 }
 /* <- meta.class meta.block punctuation.definition.block */
  /* <- - meta.class meta.block punctuation.definition.block */
@@ -878,6 +895,23 @@ int foo(int val)
 }
 /* <- meta.function punctuation.definition.block */
  /* <- - meta.function */
+
+#if 0
+/*  ^ constant.numeric */
+int disabled_func() {
+/*  ^ comment.block */
+}
+#endif
+
+#if 1
+/*  ^ constant.numeric */
+int enabled_func() {}
+/*  ^ entity.name.function */
+#else
+int disabled_func() {
+/*  ^ comment.block */
+}
+#endif
 
 /////////////////////////////////////////////
 // Matching various function definitions

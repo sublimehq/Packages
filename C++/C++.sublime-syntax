@@ -159,7 +159,6 @@ contexts:
   ## Common context layout
 
   global:
-    - include: preprocessor-expressions
     - match: '(?=\btemplate\b)'
       push:
         - include: template
@@ -181,6 +180,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.block.c++
               pop: true
+            - include: preprocessor-global
             - include: global
         - match: (?=\S)
           set: global-modifier
@@ -190,7 +190,6 @@ contexts:
 
   statements:
     - include: preprocessor-statements
-    - include: preprocessor-expressions
     - include: scope:source.c#label
     - include: expressions
 
@@ -204,6 +203,7 @@ contexts:
     - include: early-expressions-after-generic-type
 
   early-expressions-before-generic-type:
+    - include: preprocessor-expressions
     - include: comments
     - include: case-default
     - include: typedef
@@ -410,6 +410,7 @@ contexts:
           push:
             - match: '(?=\})'
               pop: true
+            - include: preprocessor-global
             - include: global
 
   template:
@@ -734,6 +735,8 @@ contexts:
           scope: punctuation.definition.parameters.c++
           set: function-definition-continue
         - include: expressions-minus-generic-type
+    - match: (?=\S)
+      pop: true
 
   function-definition-continue:
     - meta_content_scope: meta.function.c++
@@ -899,6 +902,7 @@ contexts:
       pop: true
 
   data-structures-body:
+    - include: preprocessor-data-structures
     - include: comments
     - match: '(?=\btemplate\b)'
       push:
@@ -912,7 +916,6 @@ contexts:
         2: punctuation.section.class.c++
     - match: '^\s*(?=~?\w+)'
       push: data-structures-modifier
-    - include: preprocessor-expressions
     - include: expressions-minus-generic-type
 
   data-structures-modifier:
@@ -1098,6 +1101,64 @@ contexts:
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
+
+  ## Preprocessor for data-structures
+
+  preprocessor-data-structures:
+    - include: preprocessor-rule-enabled-data-structures
+    - include: preprocessor-rule-disabled-data-structures
+
+  preprocessor-rule-disabled-data-structures:
+    - match: ^\s*((#if)\s+(0))\b
+      captures:
+        1: meta.preprocessor.c++
+        2: keyword.control.import.c++
+        3: constant.numeric.preprocessor.c++
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.c++ keyword.control.import.c++
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
+          push:
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
+        - match: ""
+          push:
+            - meta_scope: comment.block.preprocessor.if-branch.c++
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: scope:source.c#preprocessor-disabled
+
+  preprocessor-rule-enabled-data-structures:
+    - match: ^\s*((#if)\s+(0*1))\b
+      captures:
+        1: meta.preprocessor.c++
+        2: keyword.control.import.c++
+        3: constant.numeric.preprocessor.c++
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.c++ keyword.control.import.c++
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.c++ keyword.control.import.else.c++
+          push:
+            - meta_content_scope: comment.block.preprocessor.else-branch.c++
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: scope:source.c#preprocessor-disabled
+        - match: ""
+          push:
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
 
   ## Preprocessor for global
 

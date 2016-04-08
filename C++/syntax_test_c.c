@@ -68,6 +68,22 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+#if 0
+/*  ^ constant.numeric */
+int disabled_func() {
+/*  ^ comment.block */
+}
+#endif
+
+#if 1
+/*  ^ constant.numeric */
+int enabled_func() {}
+/*  ^ entity.name.function */
+#else
+int disabled_func() {
+/*  ^ comment.block */
+}
+#endif
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
