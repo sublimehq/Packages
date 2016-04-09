@@ -224,8 +224,12 @@
 /*         ^ constant.other.color.rgb-value.css */
 
     color: rgb(255, 99, 99);
-/*         ^ support.function.misc.css */
-/*             ^ constant.other.color.rgb-value.css */
+/*         ^^^             support.function.misc.css */
+/*             ^^^^^^^^^^^ constant.other.color.rgb-value.css */
+
+    color: rgb(255, 100, 255);
+/*         ^^^               support.function.misc.css */
+/*             ^^^^^^^^^^^^^ constant.other.color.rgb-value.css */
 
     color: rgba(66%, 66%, 66%, 0.22);
 /*         ^ support.function.misc.css */
