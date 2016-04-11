@@ -118,10 +118,8 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.objc
           pop: true
-        - match: '\\(\\|[abefnrtv''"?]|[0-3]\d{,2}|[4-7]\d?|x[a-zA-Z0-9]+)'
-          scope: constant.character.escape.objc
-        - match: \\.
-          scope: invalid.illegal.unknown-escape.objc
+        - include: scope:source.c#string_escaped_char
+        - include: scope:source.c#string_placeholder
 
   unique-keywords:
     - match: (@)(dynamic|synthesize)\b
