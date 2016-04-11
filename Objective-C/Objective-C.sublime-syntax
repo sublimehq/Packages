@@ -764,7 +764,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.objc
         - include: scope:source.c#preprocessor-line-continuation
-        - include: comments
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc
         # Enter a new scope where all elif/else branches have their
@@ -892,7 +892,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.objc
         - include: scope:source.c#preprocessor-line-continuation
-        - include: comments
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc
         # Enter a new scope where all elif/else branches have their
@@ -978,8 +978,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.macro.objc
         - include: scope:source.c#preprocessor-line-continuation
-        - match: $\n
-          pop: true
+        - include: scope:source.c#preprecessor-line-ending
         - match: '({{identifier}})(\()'
           captures:
             1: entity.name.function.preprocessor.objc
@@ -1026,9 +1025,8 @@ contexts:
 
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.objc
-    - match: $\n
-      pop: true
     - include: scope:source.c#preprocessor-line-continuation
+    - include: scope:source.c#preprecessor-line-ending
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.objc
@@ -1040,13 +1038,9 @@ contexts:
         1: keyword.control.import.objc
       push:
         - meta_scope: meta.preprocessor.objc
-        - match: '\\$'
-          scope: punctuation.separator.continuation.objc
-          push:
-            - match: '^'
-              pop: true
-        - match: (?=(?://|/\*))|$
-          pop: true
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc
     - match: ^\s*(#\s*(endif)\b)
@@ -1059,9 +1053,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.diagnostic.objc
         - include: scope:source.c#preprocessor-line-continuation
-        - match: \n|(?=//)
-          pop: true
-        - include: comments
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - include: strings
         - match: '\S+'
           scope: string.unquoted.objc
@@ -1070,10 +1063,9 @@ contexts:
         1: keyword.control.import.include.objc
       push:
         - meta_scope: meta.preprocessor.include.obj
-        - match: (?=(?://|/\*))|$
-          pop: true
-        - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.objc
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - match: '"'
           scope: punctuation.definition.string.begin.objc
           push:

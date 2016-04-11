@@ -59,10 +59,11 @@ contexts:
       scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.line.double-slash.c
-        - match: $(?=\n)?
+        - match: '(\\)$\n'
+          captures:
+            1: punctuation.separator.continuation.c
+        - match: \n
           pop: true
-        - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.c
 
   strings:
     - match: '(L|u8|u|U)?(")'
@@ -88,6 +89,9 @@ contexts:
         - include: string_escaped_char
 
   string_escaped_char:
+    - match: '(\\)$\n'
+      captures:
+        1: punctuation.separator.continuation.c
     - match: \\(?:\\|[abefnrtv\'"?]|[0-3][0-9]{0,2}|[4-7][0-9]?|x[a-fA-F0-9]+|u[a-fA-F0-9]{4}|U[a-fA-F0-9]{8})
       scope: constant.character.escape.c
     - match: \\.
@@ -204,12 +208,41 @@ contexts:
     - include: pragma-mark
 
   preprocessor-line-continuation:
-    - match: (\\)$\n?
+    - match: '(\\)$\n'
       captures:
         1: punctuation.separator.continuation.c
-    - match: \\(\s+?)(?=\n)$
+    - match: \\(\s+?)$
       captures:
         1: invalid.illegal.space-after-continuation.c
+
+  preprecessor-line-ending:
+    - match: $\n
+      pop: true
+
+  # Comment handling in preprecessor directives are complicated by the fact
+  # that a single-line comment will normally consume the newline to prevent
+  # completions from being presented to the user. Additionally, a multi-line
+  # comment without a line continuation ends at the newline.
+  preprocessor-comments:
+    - match: /\*
+      scope: punctuation.definition.comment.c
+      push:
+        - meta_scope: comment.block.c
+        - match: '\\$\n'
+          scope: punctuation.separator.continuation.c
+        - match: \*/
+          scope: punctuation.definition.comment.c
+          pop: true
+    - match: //
+      scope: punctuation.definition.comment.c
+      push:
+        - meta_scope: comment.line.double-slash.c
+        - match: '(\\)$\n'
+          captures:
+            1: punctuation.separator.continuation.c
+          pop: true
+        - match: (?=\n)
+          pop: true
 
   pragma-mark:
     - match: ^\s*((#\s*pragma\s+mark)\s+(.*))
@@ -550,7 +583,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
-        - include: comments
+        - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
         # Enter a new scope where all elif/else branches have their
@@ -678,7 +711,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
-        - include: comments
+        - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
         # Enter a new scope where all elif/else branches have their
@@ -764,8 +797,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.macro.c
         - include: preprocessor-line-continuation
-        - match: $\n
-          pop: true
+        - include: preprecessor-line-ending
         - match: '({{identifier}})(\()'
           captures:
             1: entity.name.function.preprocessor.c
@@ -812,9 +844,8 @@ contexts:
 
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.c
-    - match: $\n
-      pop: true
     - include: preprocessor-line-continuation
+    - include: preprecessor-line-ending
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.c
@@ -826,13 +857,9 @@ contexts:
         1: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c
-        - match: '\\$'
-          scope: punctuation.separator.continuation.c
-          push:
-            - match: '^'
-              pop: true
-        - match: (?=(?://|/\*))|$
-          pop: true
+        - include: preprocessor-line-continuation
+        - include: preprecessor-line-ending
+        - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
     - match: ^\s*(#\s*endif)\b
@@ -844,9 +871,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.diagnostic.c
         - include: preprocessor-line-continuation
-        - match: \n|(?=//)
-          pop: true
-        - include: comments
+        - include: preprecessor-line-ending
+        - include: preprocessor-comments
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c
@@ -855,10 +881,9 @@ contexts:
         1: keyword.control.import.include.c
       push:
         - meta_scope: meta.preprocessor.include.c
-        - match: (?=(?://|/\*))|$
-          pop: true
-        - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.c
+        - include: preprocessor-line-continuation
+        - include: preprecessor-line-ending
+        - include: preprocessor-comments
         - match: '"'
           scope: punctuation.definition.string.begin.c
           push:

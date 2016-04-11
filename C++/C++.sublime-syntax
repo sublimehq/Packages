@@ -1239,7 +1239,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: comments
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c++
         # Enter a new scope where all elif/else branches have their
@@ -1367,7 +1367,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: comments
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c++
         # Enter a new scope where all elif/else branches have their
@@ -1453,8 +1453,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.macro.c++
         - include: scope:source.c#preprocessor-line-continuation
-        - match: $\n
-          pop: true
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - match: '({{identifier}})(\()'
           captures:
             1: entity.name.function.preprocessor.c++
@@ -1501,9 +1501,8 @@ contexts:
 
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.c++
-    - match: $\n
-      pop: true
     - include: scope:source.c#preprocessor-line-continuation
+    - include: scope:source.c#preprecessor-line-ending
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.c++
@@ -1515,13 +1514,9 @@ contexts:
         1: keyword.control.import.c++
       push:
         - meta_scope: meta.preprocessor.c++
-        - match: '\\$'
-          scope: punctuation.separator.continuation.c++
-          push:
-            - match: '^'
-              pop: true
-        - match: (?=(?://|/\*))|$
-          pop: true
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c++
     - match: ^\s*(#\s*endif)\b
@@ -1533,9 +1528,8 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.diagnostic.c++
         - include: scope:source.c#preprocessor-line-continuation
-        - match: \n|(?=//)
-          pop: true
-        - include: comments
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c++
@@ -1544,10 +1538,9 @@ contexts:
         1: keyword.control.import.include.c++
       push:
         - meta_scope: meta.preprocessor.include.c++
-        - match: (?=(?://|/\*))|$
-          pop: true
-        - match: '\\\s*\n'
-          scope: punctuation.separator.continuation.c++
+        - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-comments
         - match: '"'
           scope: punctuation.definition.string.begin.c++
           push:
