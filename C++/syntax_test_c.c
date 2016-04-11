@@ -69,6 +69,13 @@ bool still_C_code_here = true;
 /*                       ^ constant.language */
 
 #if 0
+#ifdef moo
+/* <- - keyword.control */
+#endif
+/* <- - keyword.control */
+#endif
+
+#if 0
 /*  ^ constant.numeric */
 int disabled_func() {
 /*  ^ comment.block */

@@ -197,11 +197,11 @@ contexts:
   preprocessor-disabled:
     - match: ^\s*(#\s*if(n?def)?)\b
       captures:
-        1: meta.preprocessor.c keyword.control.import.c
+        1: meta.preprocessor.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
-            1: meta.preprocessor.c keyword.control.import.c
+            1: meta.preprocessor.c
           pop: true
         - include: preprocessor-disabled
         - include: pragma-mark

@@ -25,6 +25,13 @@ struct foo* alloc_foo();
 1)
 /* <- meta.preprocessor */
 
+#if 0
+#ifdef moo
+/* <- - keyword.control */
+#endif
+/* <- - keyword.control */
+#endif
+
 /////////////////////////////////////////////
 // Strings
 /////////////////////////////////////////////
