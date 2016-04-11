@@ -609,13 +609,14 @@ contexts:
         - meta_scope: meta.function-call.objc++
         - include: scope:source.c#c99
         - match: '(::)?{{identifier}}(::)'
+          scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
             2: punctuation.accessor.objc++
-        - match: '(::)?({{identifier}})'
+        - match: '(::)?{{identifier}}'
+          scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
-            2: variable.function.objc++
         - match: '\('
           scope: punctuation.definition.parameters.objc++
           set:

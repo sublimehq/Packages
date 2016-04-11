@@ -159,7 +159,7 @@ contexts:
       scope: constant.numeric.c
 
   operators:
-    - match: '::|->'
+    - match: '->'
       scope: punctuation.accessor.c
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
       scope: keyword.operator.assignment.augmented.c
@@ -172,7 +172,8 @@ contexts:
       scope: keyword.operator.c
     - match: \=
       scope: keyword.operator.assignment.c
-    - match: '\?|:'
+    # Negative lookahead prevents match :: when included in C++
+    - match: '\?|:(?!:)'
       scope: keyword.operator.ternary.c
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c

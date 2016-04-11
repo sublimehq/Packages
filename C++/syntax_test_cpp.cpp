@@ -996,3 +996,8 @@ int32
 func_call(foo
 /* <- meta.function-call */
 );
+
+if (::std::foo()) {}
+/*  ^^^^^^^^^^ variable.function */
+/*  ^^ punctuation.accessor */
+/*       ^^ punctuation.accessor */
