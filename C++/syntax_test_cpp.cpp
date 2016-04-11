@@ -171,6 +171,13 @@ typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
+template class MyStack<int, 6>;
+/* <- storage.type.template */
+/*                    ^ punctuation.definition.generic */
+/*                     ^ storage.type */
+/*                          ^ constant.numeric */
+/*                           ^ punctuation.definition.generic */
+
 template<class typeId, int N> class tupleTmpl;
 /* <- storage.type.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */

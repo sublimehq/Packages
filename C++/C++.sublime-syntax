@@ -441,6 +441,19 @@ contexts:
           scope: punctuation.separator.c++
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.c++
+    - match: \btemplate\b
+      scope: storage.type.template.c++
+      push:
+        - meta_scope: meta.template.c++
+        # Exit the template scope if we hit some basic invalid characters.
+        # This helps when a user is in the middle of typing their template
+        # types and prevents re-highlighting the whole file until the next >
+        # is found.
+        - match: '(?=[{};])'
+          pop: true
+        - match: '\b({{before_tag}})\b'
+          scope: storage.type.c++
+        - include: expressions
 
   generic-type:
     - match: |-
