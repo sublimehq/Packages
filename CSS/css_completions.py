@@ -157,6 +157,8 @@ PROPERTY_DICT = {
     'clip-rule': ['nonzero', 'evenodd'],
     'color': ['<color>'],
     'color-interpolation': ['auto', 'sRGB', 'linearRGB'],
+    'color-interpolation-filters': ['auto', 'sRGB', 'linearRGB'],
+    'color-profile': ['auto', 'sRGB', '<uri>'],
     'color-rendering': ['auto', 'optimizeSpeed', 'optimizeQuality'],
     'columns': ['auto'],
     'column-count': ['auto', '<number>'],
@@ -199,6 +201,8 @@ PROPERTY_DICT = {
         'mathematical', 'use-script', 'no-change', 'reset-size'
     ],
     'empty-cells': ['show', 'hide'],
+    'fill': ['<color>'],
+    'fill-rule': ['nonzero', 'evenodd'],
     'filter': [
         '<uri>', 'url($1)', 'blur($1)', 'brightness($1)', 'contrast($1)',
         'drop-shadow($1)', 'grayscale($1)', 'hue-rotate($1)', 'invert($1)',
@@ -215,6 +219,7 @@ PROPERTY_DICT = {
     'flex-direction': ['row', 'row-reverse', 'column', 'column-reverse'],
     'flex-wrap': ['nowrap', 'wrap', 'wrap-reverse'],
     'float': ['left', 'right', 'none'],
+    'flood-color': ['<color>'],
     'font': [
         'normal', 'italic', 'oblique', 'normal', 'small-caps', 'normal', 'bold',
         '<absolute_weight>', '<relative_weight>', 'normal', '<generic_name>',
@@ -268,8 +273,10 @@ PROPERTY_DICT = {
     'justify-content': [
         'flex-start', 'flex-end', 'center', 'space-between', 'space-around'
     ],
+    'kerning': ['auto'],
     'left': ['<length>', '<percentage>', 'auto'],
     'letter-spacing': ['normal', '<length>'],
+    'lighting-color': ['<color>'],
     'line-height': ['normal', '<number>', '<length>', '<percentage>'],
     'list-style': ['<list_style_type>', 'inside', 'outside', '<uri>'],
     'list-style-image': ['<uri>', 'none'],
@@ -279,6 +286,7 @@ PROPERTY_DICT = {
     'margin-top | margin-right | margin-bottom | margin-left': [
         'auto', '<margin-width>'
     ],
+    'marker-end | marker-start | marker-mid': ['<uri>', 'none'],
     'marks': ['crop', 'cross', 'none'],
     'mask': ['<uri>', 'none'],
     'mask-type': ['luminance', 'alpha'],
@@ -308,6 +316,7 @@ PROPERTY_DICT = {
     'page-break-after': ['auto', 'always', 'avoid', 'left', 'right'],
     'page-break-before': ['auto', 'always', 'avoid', 'left', 'right'],
     'page-break-inside': ['avoid', 'auto'],
+    'paint-order': ['normal', 'fill', 'stroke', 'markers'],
     'perspective': ['none'],
     'perspective-origin': ['<position>'],
     'pointer-events': [
@@ -325,14 +334,20 @@ PROPERTY_DICT = {
         'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
         'circle($1)', 'ellipse($1)', 'inset($1)', 'polygon($1)', '<uri>'
     ],
+    'shape-rendering': ['auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'],
     'size': [
         'a3', 'a4', 'a5', 'b4', 'b5', 'landscape', 'ledger', 'legal',
         'letter', 'portrait'
     ],
+    'stop-color': ['<color>'],
+    'stroke': ['<color>'],
+    'stroke-dasharray': ['none'],
+    'stroke-linecap': ['butt', 'round', 'square'],
     'stroke-linejoin': ['round', 'miter', 'bevel'],
     'table-layout': ['auto', 'fixed'],
     'text-align': ['left', 'right', 'center', 'justify', 'justify-all'],
     'text-align-last': ['start', 'end', 'left', 'right', 'center', 'justify'],
+    'text-anchor': ['start', 'middle', 'end'],
     'text-decoration': [
         'none', 'underline', 'overline', 'line-through', 'blink'
     ],
