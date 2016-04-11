@@ -224,8 +224,27 @@
 /*         ^ constant.other.color.rgb-value.css */
 
     color: rgb(255, 99, 99);
-/*         ^ support.function.misc.css */
-/*             ^ constant.other.color.rgb-value.css */
+/*         ^^^             support.function.misc.css          */
+/*             ^^^         constant.other.color.rgb-value.css */
+/*                ^        meta.property-value.css            */
+/*                  ^^     constant.other.color.rgb-value.css */
+/*                    ^    meta.property-value.css            */
+/*                      ^^ constant.other.color.rgb-value.css */
+
+    color: rgba(255, 99, 99, 0.25);
+/*         ^^^^                   support.function.misc.css          */
+/*              ^^^               constant.other.color.rgb-value.css */
+/*                 ^              meta.property-value.css            */
+/*                   ^^           constant.other.color.rgb-value.css */
+/*                     ^          meta.property-value.css            */
+/*                       ^^       constant.other.color.rgb-value.css */
+/*                         ^      meta.property-value.css            */
+/*                           ^^^^ constant.other.color.rgb-value.css */
+
+    color: rgb(255, 255, 255);
+/*             ^^^           constant.other.color.rgb-value.css */
+/*                  ^^^      constant.other.color.rgb-value.css */
+/*                       ^^^ constant.other.color.rgb-value.css */
 
     color: rgba(66%, 66%, 66%, 0.22);
 /*         ^ support.function.misc.css */
@@ -238,6 +257,15 @@
     color: hsla(120, 50%, 50%, .77);
 /*         ^ support.function.misc.css */
 /*              ^ constant.other.color.hsl-value.css */
+
+    color: hsla(120, 50%, 50%, .77);
+/*              ^^^                constant.other.color.hsl-value.css */
+/*                 ^               meta.property-value.css            */
+/*                   ^^^           constant.other.color.hsl-value.css */
+/*                      ^          meta.property-value.css            */
+/*                        ^^^      constant.other.color.hsl-value.css */
+/*                           ^     meta.property-value.css            */
+/*                             ^^^ constant.other.color.hsl-value.css */
 }
 
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}

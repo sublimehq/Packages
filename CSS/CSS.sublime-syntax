@@ -26,6 +26,12 @@ variables:
       | [\x{00010000}-\x{000EFFFF}]
     )
 
+  rgb_decimal_value: '(?:0*(?:(?:2(?:[0-4][0-9]|5[0-5]))|(?:1?[0-9]{1,2})))'
+
+  color_percentage_range: '(?:100|[0-9]{1,2})%'
+
+  color_alpha_value: '(?:\s*,\s*((?:(?:0?\.[0-9]+)|[0-1])))?'
+
 contexts:
   main:
     - include: comment-block
@@ -88,16 +94,26 @@ contexts:
           pop: true
         - match: |-
             (?x)
-            (0*((1?[0-9]{1,2})|(2([0-4][0-9]|5[0-5])))\s*,\s*){2}
-            (0*((1?[0-9]{1,2})|(2([0-4][0-9]|5[0-5]))))
-            (\s*,\s*((0?\.[0-9]+)|[0-1]))?
-          scope: constant.other.color.rgb-value.css
+            ({{rgb_decimal_value}})\s*,\s*  # red,
+            ({{rgb_decimal_value}})\s*,\s*  # green,
+            ({{rgb_decimal_value}})         # blue,
+            (?:{{color_alpha_value}})       # alpha
+          captures:
+            1: constant.other.color.rgb-value.css
+            2: constant.other.color.rgb-value.css
+            3: constant.other.color.rgb-value.css
+            4: constant.other.color.rgb-value.css
         - match: |-
             (?x)
-            (([0-9]{1,2}|100)\s*%,\s*){2}
-            ([0-9]{1,2}|100)\s*%
-            (\s*,\s*((0?\.[0-9]+)|[0-1]))?
-          scope: constant.other.color.rgb-percentage.css
+            ({{color_percentage_range}})\s*,\s*  # red,
+            ({{color_percentage_range}})\s*,\s*  # green,
+            ({{color_percentage_range}})         # blue,
+            (?:{{color_alpha_value}})            # alpha
+          captures:
+            1: constant.other.color.rgb-percentage.css
+            2: constant.other.color.rgb-percentage.css
+            3: constant.other.color.rgb-percentage.css
+            4: constant.other.color.rgb-percentage.css
         - include: numeric-values
     - match: (hsla?)(\()
       captures:
@@ -110,12 +126,16 @@ contexts:
           pop: true
         - match: |-
             (?x)
-            (-|\+)?
-            (\d\.\d+(e\-\d+)?|\d+)\s*,\s*
-            ([0-9]{1,2}|100)\s*%,\s*
-            ([0-9]{1,2}|100)\s*%
-            (\s*,\s*((0?\.[0-9]+)|[0-1]))?
-          scope: constant.other.color.hsl-value.css
+            ((?:-|\+)?
+            (?:\d\.\d+(?:e\-\d+)?|\d+))\s*,\s*   # hue
+            ({{color_percentage_range}})\s*,\s*  # saturation
+            ({{color_percentage_range}})         # lightness
+            (?:{{color_alpha_value}})            # alpha
+          captures:
+            1: constant.other.color.hsl-value.css
+            2: constant.other.color.hsl-value.css
+            3: constant.other.color.hsl-value.css
+            4: constant.other.color.hsl-value.css
         - include: numeric-values
   comment-block:
     - match: /\*
