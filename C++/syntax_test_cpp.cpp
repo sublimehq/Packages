@@ -997,7 +997,17 @@ func_call(foo
 /* <- meta.function-call */
 );
 
+/////////////////////////////////////////////
+// Paths/identifiers
+/////////////////////////////////////////////
+
 if (::std::foo()) {}
 /*  ^^^^^^^^^^ variable.function */
 /*  ^^ punctuation.accessor */
 /*       ^^ punctuation.accessor */
+
+void sayHi()
+{
+    std::cout << "Hi!\n";
+/*     ^ punctuation.accessor */
+}

@@ -185,7 +185,7 @@ contexts:
         2: variable.other.dot-access.c
 
   label:
-    - match: '^\s*((?!default){{identifier}})(:)'
+    - match: '^\s*((?!default){{identifier}})(:)(?!:)'
       captures:
         1: entity.name.label.c
         2: punctuation.separator.c

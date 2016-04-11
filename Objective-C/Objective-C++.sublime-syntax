@@ -116,6 +116,7 @@ contexts:
     - include: modifiers
     - include: types
     - include: function-call
+    - include: scope:source.c++#identifiers
 
   comments:
     - include: scope:source.c#comments
