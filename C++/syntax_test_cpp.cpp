@@ -54,12 +54,37 @@ wchar_t str5[] = L"abc";
 /*                ^ punctuation.definition.string.begin */
 /*                 ^ string.quoted.double */
 
-char str6[] = "\"|\n|\r|\0|\x41";
-/*             ^ constant.character.escape */
-/*                ^ constant.character.escape */
-/*                   ^ constant.character.escape */
-/*                      ^ constant.character.escape */
-/*                         ^ constant.character.escape */
+char str6[] = "\a|\b|\e|\f|\n|\r|\t|\v|\'|\"|\?";
+/*             ^^ constant.character.escape */
+/*                ^^ constant.character.escape */
+/*                   ^^ constant.character.escape */
+/*                      ^^ constant.character.escape */
+/*                         ^^ constant.character.escape */
+/*                            ^^ constant.character.escape */
+/*                               ^^ constant.character.escape */
+/*                                  ^^ constant.character.escape */
+/*                                     ^^ constant.character.escape */
+/*                                        ^^ constant.character.escape */
+/*                                           ^^ constant.character.escape */
+
+char str7[] = "\0|\012";
+/*             ^^ constant.character.escape */
+/*                ^^^^ constant.character.escape */
+
+char str8[] = "\x0a|\x41|\xA|\x000065";
+/*             ^^^^ constant.character.escape */
+/*                  ^^^^ constant.character.escape */
+/*                       ^^^ constant.character.escape */
+/*                           ^^^^^^^^ constant.character.escape */
+
+char16_t str9[] = u"\u0063";
+/*                  ^^^^^^ constant.character.escape */
+
+char32_t str10[] = U"\U00000063";
+/*                   ^^^^^^^^^^ constant.character.escape */
+
+char str11[] = "\q";
+/*              ^^ invalid.illegal.unknown-escape */
 
 char rawStr1[] = R"("This is a raw string")";
 /*               ^ storage.type.string */
