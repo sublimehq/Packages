@@ -745,6 +745,14 @@ class FooBar {
 /*  ^^^^^^ entity.name.function */
 /*           ^ keyword.operator.assignment */
 /*            ^^^^^^^ storage.modifier */
+
+    // If a constructor name is on a line without the opening (, it is not
+    // highlighted as a method/constructor. This prevents a bunch of false
+    // positives, including data types as they are being typed into a struct.
+    FooBar
+/*  ^ - entity.name.function */
+    ();
+
     virtual ~FooBar();
 /*          ^^^^^^^ entity.name.function */
 

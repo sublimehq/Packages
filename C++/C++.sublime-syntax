@@ -938,22 +938,19 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Destructor
-    - match: '(~{{identifier}})(?=\s*(\(|$))'
+    - match: '(?:{{identifier}}(::))?~{{identifier}}(?=\s*(\(|$))'
       scope: meta.method.c++ entity.name.function.destructor.c++
+      captures:
+        1: punctuation.accessor.c++
       set: method-definition-params
     # Constructor
-    - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*(\(|$))'
+    - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*\()'
       scope: meta.method.c++ entity.name.function.constructor.c++
       set: method-definition-params
-    # Long form constructor/destructor
-    - match: '({{identifier}}(::){{identifier}})(?=\s*(\(|$))'
+    # Long form constructor
+    - match: '({{identifier}}(::){{identifier}})(?=\s*\()'
       captures:
         1: meta.method.c++ entity.name.function.constructor.c++
-        2: punctuation.accessor.c++
-      push: method-definition-params
-    - match: '({{identifier}}(::)~{{identifier}})(?=\s*(\(|$))'
-      captures:
-        1: meta.method.c++ entity.name.function.destructor.c++
         2: punctuation.accessor.c++
       push: method-definition-params
     - match: '(?=\S)'

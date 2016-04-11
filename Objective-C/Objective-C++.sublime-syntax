@@ -1024,22 +1024,19 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Destructor
-    - match: '(~{{identifier}})(?=\s*(\(|$))'
+    - match: '(?:{{identifier}}(::))?~{{identifier}}(?=\s*(\(|$))'
       scope: meta.method.objc++ entity.name.function.destructor.objc++
+      captures:
+        1: punctuation.accessor.objc++
       set: method-definition-params
     # Constructor
-    - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*(\(|$))'
+    - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*\()'
       scope: meta.method.objc++ entity.name.function.constructor.objc++
       set: method-definition-params
-    # Long form constructor/destructor
-    - match: '({{identifier}}(::){{identifier}})(?=\s*(\(|$))'
+    # Long form constructor
+    - match: '({{identifier}}(::){{identifier}})(?=\s*\()'
       captures:
         1: meta.method.objc++ entity.name.function.constructor.objc++
-        2: punctuation.accessor.objc++
-      push: method-definition-params
-    - match: '({{identifier}}(::)~{{identifier}})(?=\s*(\(|$))'
-      captures:
-        1: meta.method.objc++ entity.name.function.destructor.objc++
         2: punctuation.accessor.objc++
       push: method-definition-params
     - match: '(?=\S)'
