@@ -1,0 +1,14 @@
+<!-- SYNTAX TEST "Packages/XML/XML.sublime-syntax" -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!--                                ^ punctuation.definition.tag.end.xml -->
+
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--                                                                                                 ^ punctuation.definition.tag.end.xml -->
+
+<tagname attr="stuff">Contents</tagname>
+<!-- ^ text.xml meta.tag.xml entity.name.tag.localname.xml  -->
+<!--      ^ text.xml meta.tag.xml entity.other.attribute-name.localname.xml -->
+
+<таĝñäᴹə ατţř="șƬűʃ⨍">Contents</таĝñäᴹə>
+<!-- ^ text.xml meta.tag.xml entity.name.tag.localname.xml  -->
+<!--      ^ text.xml meta.tag.xml entity.other.attribute-name.localname.xml -->

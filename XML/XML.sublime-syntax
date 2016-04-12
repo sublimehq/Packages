@@ -8,11 +8,16 @@ file_extensions:
   - dtml
   - rss
   - opml
+  - plist
+  - tmLanguage
+  - tmTheme
+  - tmPreferences
+  - sublime-snippet
 first_line_match: '^<\?xml '
 scope: text.xml
 contexts:
   main:
-    - match: '(<\?)\s*([-_a-zA-Z0-9]+)'
+    - match: '(<\?)\s*([-_[:alnum:]]+)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
@@ -22,11 +27,11 @@ contexts:
           captures:
             1: punctuation.definition.tag.end.xml
           pop: true
-        - match: " ([a-zA-Z-]+)"
+        - match: " ([[:alpha:]-]+)"
           scope: entity.other.attribute-name.xml
         - include: doublequotedString
         - include: singlequotedString
-    - match: '(<!)(DOCTYPE)\s+([:a-zA-Z_][:a-zA-Z0-9_.-]*)'
+    - match: '(<!)(DOCTYPE)\s+([:[:alpha:]_][:[:alnum:]_.-]*)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.doctype.xml
@@ -45,7 +50,7 @@ contexts:
         - meta_scope: comment.block.xml
         - match: "-->"
           pop: true
-    - match: '(<)((?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9:]+))(?=(\s[^>]*)?></\2>)'
+    - match: '(<)((?:([-_[:alnum:]]+)((:)))?([-_[:alnum:]:]+))(?=(\s[^>]*)?></\2>)'
       captures:
         1: punctuation.definition.tag.begin.xml
         3: entity.name.tag.namespace.xml
@@ -54,7 +59,7 @@ contexts:
         6: entity.name.tag.localname.xml
       push:
         - meta_scope: meta.tag.no-content.xml
-        - match: "(>)(<)(/)(?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9:]+)(>)"
+        - match: "(>)(<)(/)(?:([-_[:alnum:]]+)((:)))?([-_[:alnum:]:]+)(>)"
           captures:
             1: punctuation.definition.tag.end.xml
             2: punctuation.definition.tag.begin.xml meta.scope.between-tag-pair.xml
@@ -66,7 +71,7 @@ contexts:
             8: punctuation.definition.tag.end.xml
           pop: true
         - include: tagStuff
-    - match: "(</?)(?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9:]+)"
+    - match: "(</?)(?:([-_[:alnum:]]+)((:)))?([-_[:alnum:]:]+)"
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.namespace.xml
@@ -92,7 +97,7 @@ contexts:
             0: punctuation.definition.string.end.xml
           pop: true
   EntityDecl:
-    - match: '(<!)(ENTITY)\s+(%\s+)?([:a-zA-Z_][:a-zA-Z0-9_.-]*)(\s+(?:SYSTEM|PUBLIC)\s+)?'
+    - match: '(<!)(ENTITY)\s+(%\s+)?([:[:alpha:]_][:[:alnum:]_.-]*)(\s+(?:SYSTEM|PUBLIC)\s+)?'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.entity.xml
@@ -122,7 +127,7 @@ contexts:
         - include: entity
         - include: bare-ampersand
   entity:
-    - match: "(&)([:a-zA-Z_][:a-zA-Z0-9_.-]*|#[0-9]+|#x[0-9a-fA-F]+)(;)"
+    - match: "(&)([:[:alpha:]_][:[:alnum:]_.-]*|#[0-9]+|#x[0-9a-fA-F]+)(;)"
       scope: constant.character.entity.xml
       captures:
         1: punctuation.definition.constant.xml
@@ -138,7 +143,7 @@ contexts:
         - include: EntityDecl
         - include: parameterEntity
   parameterEntity:
-    - match: "(%)([:a-zA-Z_][:a-zA-Z0-9_.-]*)(;)"
+    - match: "(%)([:[:alpha:]_][:[:alnum:]_.-]*)(;)"
       scope: constant.character.parameter-entity.xml
       captures:
         1: punctuation.definition.constant.xml
@@ -156,7 +161,7 @@ contexts:
         - include: entity
         - include: bare-ampersand
   tagStuff:
-    - match: " (?:([-_a-zA-Z0-9]+)((:)))?([-_a-zA-Z0-9]+)="
+    - match: " (?:([-_[:alnum:]]+)((:)))?([-_[:alnum:]]+)="
       captures:
         1: entity.other.attribute-name.namespace.xml
         2: entity.other.attribute-name.xml
