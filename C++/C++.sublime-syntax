@@ -37,6 +37,7 @@ variables:
   other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
+  generic_lookahead: '<\s*{{path}}(?:{{path}}|&(?!&)|\*|,|<.*?>|\s|\d)*>'
 
 contexts:
   main:
@@ -456,51 +457,28 @@ contexts:
         - include: expressions
 
   generic-type:
-    - match: |-
-        (?x:
-          (?=
-            (?!template){{path}}
-            \s*
-            <
-            # First type
-            \s*
-            (
-              (({{modifiers}}|{{declspec}})\s+)*
-              {{path}}
-              (<.*>)?
-              \s*
-              (
-                [*&]
-                (\s+({{modifiers}}|{{declspec}}))*
-              )?
-              |
-              # Allow non-type (integer) params
-              \d+
-            )
-            \s*
-            # Subsequent types
-            (
-              \s*
-              ,
-              \s*
-              (
-                (({{modifiers}}|{{declspec}})\s+)*
-                {{path}}
-                (<.*>)?
-                \s*
-                (
-                  [*&]
-                  (\s+({{modifiers}}|{{declspec}}))*
-                )?
-                |
-                # Allow non-type (integer) params
-                \d+
-              )
-              \s*
-            )*
-            >
-          )
-        )
+    - match: '(?=(?!template){{path}}\s*{{generic_lookahead}}\s*\()'
+      push:
+        - meta_scope: meta.function-call.c++
+        - match: '(::)?{{identifier}}(::)'
+          scope: variable.function.c++
+          captures:
+            1: punctuation.accessor.c++
+            2: punctuation.accessor.c++
+        - match: '(::)?{{identifier}}'
+          scope: variable.function.c++
+          captures:
+            1: punctuation.accessor.c++
+        - include: angle-brackets
+        - match: '\('
+          scope: punctuation.definition.parameters.c++
+          set:
+            - meta_scope: meta.function-call.c++
+            - match: '\)'
+              scope: punctuation.definition.parameters.c++
+              pop: true
+            - include: expressions
+    - match: '(?=(?!template){{path}}\s*{{generic_lookahead}})'
       push:
         - include: identifiers
         - match: '<'

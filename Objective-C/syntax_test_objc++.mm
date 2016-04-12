@@ -1040,23 +1040,24 @@ int32
 /* <- - entity.name.function */
 () {}
 
-func_call(foo
-/* <- meta.function-call */
-);
-
 /////////////////////////////////////////////
 // Paths/identifiers
 /////////////////////////////////////////////
-
-if (::std::foo()) {}
-/*  ^^^^^^^^^^ variable.function */
-/*  ^^ punctuation.accessor */
-/*       ^^ punctuation.accessor */
 
 void sayHi()
 {
     std::cout << "Hi!\n";
 /*     ^ punctuation.accessor */
+    Print<int>(3);
+/*  ^ variable.function */
+    func_call(foo
+/*  ^ meta.function-call */
+    );
+
+    if (::std::foo()) {}
+/*      ^^^^^^^^^^ variable.function */
+/*      ^^ punctuation.accessor */
+/*           ^^ punctuation.accessor */
 }
 
 /////////////////////////////////////////////
