@@ -25,7 +25,7 @@ contexts:
     - include: escaped_char
     - include: charset
     - include: group
-    - match: '([?*+][?+]?)|\{\d*,\d*\}'
+    - match: '([?*+][?+]?)|\{\d*,?\d*\}'
       scope: keyword.operator.quantifier.regexp
 
   group:

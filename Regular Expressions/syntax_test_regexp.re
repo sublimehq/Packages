@@ -90,3 +90,15 @@
 (?#foobar)
 #^^^^^^^^^ string.regexp.group
 #^^^^^^^^ comment.line.number-sign
+
+a{9}
+#^^^ keyword.operator.quantifier.regexp
+
+a{,9}
+#^^^^ keyword.operator.quantifier.regexp
+
+a{1,9}
+#^^^^^ keyword.operator.quantifier.regexp
+
+a{9,}
+#^^^^ keyword.operator.quantifier.regexp
