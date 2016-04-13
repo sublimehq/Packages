@@ -581,14 +581,22 @@ myns::FooBar::~FooBar() { }
 extern "C" {
 #endif
 
+#if 0
+void test_in_extern_c_block()
+/*   ^ comment.block */
+{
+}
+#else
 void test_in_extern_c_block()
 /*   ^ entity.name.function */
 {
 }
+#endif
 
 #ifdef __cplusplus
 }
 #endif
+/* ^ - meta.extern-c */
 
 gener<int> func_returning_generic(int a);
 /*         ^ entity.name.function */

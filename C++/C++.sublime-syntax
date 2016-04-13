@@ -179,6 +179,14 @@ contexts:
           scope: punctuation.definition.block.c++
           set:
             - meta_scope: meta.extern-c.c++
+            - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
+              scope: meta.preprocessor.c++
+              captures:
+                1: keyword.control.import.c++
+              set:
+                - match: '\}'
+                  scope: punctuation.definition.block.c++
+                  pop: true
             - match: '\}'
               scope: punctuation.definition.block.c++
               pop: true

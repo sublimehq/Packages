@@ -56,6 +56,14 @@ contexts:
           scope: punctuation.definition.block.objc++
           set:
             - meta_scope: meta.extern-c.objc++
+            - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
+              scope: meta.preprocessor.c++
+              captures:
+                1: keyword.control.import.c++
+              set:
+                - match: '\}'
+                  scope: punctuation.definition.block.c++
+                  pop: true
             - match: '\}'
               scope: punctuation.definition.block.objc++
               pop: true
