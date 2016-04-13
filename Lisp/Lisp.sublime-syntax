@@ -8,6 +8,8 @@ file_extensions:
   - l
   - mud
   - el
+  - scm
+  - ss
 scope: source.lisp
 contexts:
   main:

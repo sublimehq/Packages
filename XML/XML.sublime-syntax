@@ -4,10 +4,12 @@ name: XML
 file_extensions:
   - xml
   - xsd
+  - xslt
   - tld
   - dtml
   - rss
   - opml
+  - svg
 first_line_match: '^<\?xml '
 scope: text.xml
 contexts:
