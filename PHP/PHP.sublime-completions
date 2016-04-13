@@ -1213,6 +1213,7 @@
 		{ "trigger": "http_request_method_name", "contents": "http_request_method_name(${1:method})" },
 		{ "trigger": "http_request_method_register", "contents": "http_request_method_register(${1:method})" },
 		{ "trigger": "http_request_method_unregister", "contents": "http_request_method_unregister(${1:method})" },
+		{ "trigger": "http_response_code", "contents": "http_response_code(${1:code})" },
 		{ "trigger": "http_send_content_disposition", "contents": "http_send_content_disposition(${1:filename})" },
 		{ "trigger": "http_send_content_type", "contents": "http_send_content_type()" },
 		{ "trigger": "http_send_data", "contents": "http_send_data(${1:data})" },
