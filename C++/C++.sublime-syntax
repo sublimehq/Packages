@@ -38,6 +38,7 @@ variables:
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
   generic_lookahead: '<\s*{{path}}(?:{{path}}|&(?!&)|\*|,|<.*?>|\s|\d)*>'
+  data_structures_forward_decl_lookahead: '\s*(:\s*({{path}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
 
 contexts:
   main:
@@ -792,9 +793,8 @@ contexts:
   data-structures-class-definition:
     - meta_scope: meta.class.c++
     - include: data-structures-definition-common-begin
-    - match: '{{identifier}}\s*(?=;)'
+    - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.c++
-      pop: true
     - match: '{{identifier}}'
       scope: entity.name.class.c++
     - include: data-structures-definition-common-end
@@ -810,9 +810,8 @@ contexts:
   data-structures-struct-definition:
     - meta_scope: meta.struct.c++
     - include: data-structures-definition-common-begin
-    - match: '{{identifier}}\s*(?=;)'
+    - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.c++
-      pop: true
     - match: '{{identifier}}'
       scope: entity.name.struct.c++
     - include: data-structures-definition-common-end
@@ -828,9 +827,8 @@ contexts:
   data-structures-enum-definition:
     - meta_scope: meta.enum.c++
     - include: data-structures-definition-common-begin
-    - match: '{{identifier}}\s*(?=;)'
+    - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.c++
-      pop: true
     - match: '{{identifier}}'
       scope: entity.name.enum.c++
     - include: data-structures-definition-common-end
@@ -847,9 +845,8 @@ contexts:
   data-structures-union-definition:
     - meta_scope: meta.union.c++
     - include: data-structures-definition-common-begin
-    - match: '{{identifier}}\s*(?=;)'
+    - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.c++
-      pop: true
     - match: '{{identifier}}'
       scope: entity.name.union.c++
     # Unions don't support base classes
@@ -889,7 +886,7 @@ contexts:
             - match: ''
               pop: true
         - include: angle-brackets
-        - match: (?=\{)
+        - match: (?=\{|;)
           pop: true
     - match: '(?=;)'
       pop: true

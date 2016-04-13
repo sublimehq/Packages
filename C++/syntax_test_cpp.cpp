@@ -864,6 +864,13 @@ enum class qux : std::uint8_t
 /* <- meta.enum meta.block punctuation.definition.block */
  /* <- - meta.enum meta.block punctuation.definition.block */
 
+enum LineEnding : uint32_t;
+/*^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
+/*   ^^^^^^^^^^ entity.name.enum.forward-decl */
+/*              ^ punctuation.separator */
+/*                ^^^^^^^^ entity.other.inherited-class */
+/*                        ^ - meta.enum */
+
 union foobaz {
 /* <- meta.union storage.type */
 /*    ^^^^^^ entity.name.union */
