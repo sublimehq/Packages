@@ -94,11 +94,17 @@
 a{9}
 #^^^ keyword.operator.quantifier.regexp
 
-a{,9}
-#^^^^ keyword.operator.quantifier.regexp
-
 a{1,9}
 #^^^^^ keyword.operator.quantifier.regexp
 
 a{9,}
 #^^^^ keyword.operator.quantifier.regexp
+
+a{,9}
+#^^^^ - keyword.operator.quantifier.regexp
+
+a{,}
+#^^^ - keyword.operator.quantifier.regexp
+
+a{}
+#^^ - keyword.operator.quantifier.regexp
