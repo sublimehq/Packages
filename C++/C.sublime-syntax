@@ -541,6 +541,7 @@ contexts:
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
+            - include: preprocessor-global
             - include: negated-block
             - include: global
         - match: ""
@@ -573,6 +574,7 @@ contexts:
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
+            - include: preprocessor-global
             - include: negated-block
             - include: global
 
@@ -607,6 +609,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.block.c
       set: preprocessor-block-if-branch-global
+    - include: preprocessor-global
     - include: negated-block
     - include: global
 
@@ -621,7 +624,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.block.c
       set: preprocessor-if-branch-global
-    - include: global
+    - include: statements
 
   preprocessor-block-finish-global:
     - meta_scope: meta.block.c
@@ -648,6 +651,7 @@ contexts:
     - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
+    - include: preprocessor-global
     - include: global
 
   ## Preprocessor for statements

@@ -92,6 +92,20 @@ int disabled_func() {
 }
 #endif
 
+#if 1
+    int a = 1;
+    #if 0
+/*      ^ constant.numeric */
+        int b = 2;
+/*      ^ comment.block */
+    #else
+        int c = 3;
+    #endif
+#else
+    int d = 4;
+/*  ^ comment.block */
+#endif
+
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
 /////////////////////////////////////////////

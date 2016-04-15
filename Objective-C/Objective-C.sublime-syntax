@@ -720,6 +720,7 @@ contexts:
           push:
             - match: (?=^\s*#\s*endif\b)
               pop: true
+            - include: preprocessor-global
             - include: negated-block
             - include: global
         - match: ""
@@ -752,6 +753,7 @@ contexts:
           push:
             - match: (?=^\s*#\s*(else|endif)\b)
               pop: true
+            - include: preprocessor-global
             - include: negated-block
             - include: global
 
@@ -786,6 +788,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.block.objc
       set: preprocessor-block-if-branch-global
+    - include: preprocessor-global
     - include: negated-block
     - include: global
 
@@ -800,7 +803,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.block.objc
       set: preprocessor-if-branch-global
-    - include: global
+    - include: statements
 
   preprocessor-block-finish-global:
     - meta_scope: meta.block.objc
@@ -826,6 +829,7 @@ contexts:
   preprocessor-elif-else-branch-global:
     - match: (?=^\s*#\s*endif\b)
       pop: true
+    - include: preprocessor-global
     - include: negated-block
     - include: global
 
