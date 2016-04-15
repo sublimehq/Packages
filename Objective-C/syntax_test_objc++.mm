@@ -856,7 +856,12 @@ enum baz {
 /*      ^ keyword.operator.assignment */
 /*        ^ constant.numeric */
     BAR = 2,
-    BAZ = 3
+    BAZ = 3,
+#if 0
+/*  ^ constant.numeric */
+    QUX = 4,
+/*  ^ comment.block */
+#endif
 }
 /* <- meta.enum meta.block punctuation.definition.block */
  /* <- - meta.enum meta.block punctuation.definition.block */

@@ -846,7 +846,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.c++ meta.block.c++ punctuation.definition.block.c++
           pop: true
-        - include: expressions
+        - include: statements
 
   data-structures-union-definition:
     - meta_scope: meta.union.c++
@@ -899,7 +899,6 @@ contexts:
 
   data-structures-body:
     - include: preprocessor-data-structures
-    - include: comments
     - match: '(?=\btemplate\b)'
       push:
         - include: template

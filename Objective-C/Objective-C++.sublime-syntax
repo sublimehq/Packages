@@ -931,7 +931,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.objc++ meta.block.objc++ punctuation.definition.block.objc++
           pop: true
-        - include: expressions
+        - include: statements
 
   data-structures-union-definition:
     - meta_scope: meta.union.objc++
@@ -984,7 +984,6 @@ contexts:
 
   data-structures-body:
     - include: preprocessor-data-structures
-    - include: comments
     - match: '(?=\btemplate\b)'
       push:
         - include: template
