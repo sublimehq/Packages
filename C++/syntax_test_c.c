@@ -124,6 +124,35 @@ if (4) {
 /* <- meta.block punctuation.definition.block */
  /* <- - meta.block */
 
+/////////////////////////////////////////////
+// Data structures and return values
+/////////////////////////////////////////////
+
+struct point
+/* ^ storage.type */
+/*     ^ entity.name.struct */
+{
+    int x;
+    int y;
+}
+
+struct point2 {
+/* ^ storage.type */
+/*     ^ entity.name.struct */
+    int x;
+    int y;
+}
+
+struct point get_point() {}
+/* ^ storage.type */
+/*     ^ - entity.name.struct */
+/*           ^ entity.name.function */
+
+struct foo **alloc_foo();
+/* ^ storage.type */
+/*     ^ - entity.name.struct */
+/*         ^^ keyword.operator */
+/*           ^ entity.name.function */
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks

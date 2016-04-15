@@ -316,7 +316,26 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.c
-    - match: '(?=\b({{before_tag}}|{{control_keywords}})\b)'
+    # If a struct/union/enum followed by a name that is not a macro or declspec
+    # then this is likely a return type of a function. This is uncommon.
+    - match: |-
+        (?x:
+          ({{before_tag}})
+          \s+
+          (?=
+            (?![[:upper:][:digit:]_]+\b|__declspec)
+            {{identifier}}
+            (\s+{{identifier}}|\s*\*+)
+          )
+        )
+      captures:
+        1: storage.type.c
+      set: global-maybe-function
+    # The previous match handles return types of struct/enum/etc from a func,
+    # there this one exits the context to allow matching an actual struct/union
+    - match: '(?=\b({{before_tag}})\b)'
+      set: data-structures
+    - match: '(?=\b({{control_keywords}})\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
@@ -394,6 +413,91 @@ contexts:
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
+
+  data-structures:
+    - match: '\bstruct\b'
+      scope: storage.type.c
+      set: data-structures-struct-definition
+    - match: '\benum\b'
+      scope: storage.type.c
+      set: data-structures-enum-definition
+    - match: '\bunion\b'
+      scope: storage.type.c
+      set: data-structures-union-definition
+    - match: '(?=\S)'
+      pop: true
+
+  data-structures-struct-definition:
+    - meta_scope: meta.struct.c
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.struct.forward-decl.c
+    - match: '{{identifier}}'
+      scope: entity.name.struct.c
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.c punctuation.definition.block.c
+      set:
+        - meta_content_scope: meta.struct.c meta.block.c
+        - match: '\}'
+          scope: meta.struct.c meta.block.c punctuation.definition.block.c
+          pop: true
+        - include: data-structures-body
+
+  data-structures-enum-definition:
+    - meta_scope: meta.enum.c
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.enum.forward-decl.c
+    - match: '{{identifier}}'
+      scope: entity.name.enum.c
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.c punctuation.definition.block.c
+      set:
+        - meta_content_scope: meta.enum.c meta.block.c
+        # Enums don't support methods so we have a simplified body
+        - match: '\}'
+          scope: meta.enum.c meta.block.c punctuation.definition.block.c
+          pop: true
+        - include: data-structures-body
+
+  data-structures-union-definition:
+    - meta_scope: meta.union.c
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.union.forward-decl.c
+    - match: '{{identifier}}'
+      scope: entity.name.union.c
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.c punctuation.definition.block.c
+      set:
+        - meta_content_scope: meta.union.c meta.block.c
+        - match: '\}'
+          scope: meta.union.c meta.block.c punctuation.definition.block.c
+          pop: true
+        - include: data-structures-body
+
+  data-structures-definition-common-begin:
+    - include: comments
+    - include: modifiers-parens
+    - include: modifiers
+    # Handle macros so they aren't matched as the class name
+    - match: '\b[[:upper:][:digit:]_]+\b'
+
+  data-structures-definition-common-end:
+    - match: '(?=;)'
+      pop: true
+
+  data-structures-body:
+    - include: preprocessor-data-structures
+    - match: '(?={{before_tag}})'
+      push: data-structures
+    - include: expressions
 
   block:
     - match: '\{'
@@ -505,6 +609,64 @@ contexts:
               scope: meta.function-call.c punctuation.definition.parameters.c
               pop: true
             - include: expressions
+
+  ## Preprocessor for data-structures
+
+  preprocessor-data-structures:
+    - include: preprocessor-rule-enabled-data-structures
+    - include: preprocessor-rule-disabled-data-structures
+
+  preprocessor-rule-disabled-data-structures:
+    - match: ^\s*((#if)\s+(0))\b
+      captures:
+        1: meta.preprocessor.c
+        2: keyword.control.import.c
+        3: constant.numeric.preprocessor.c
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.c keyword.control.import.c
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.c keyword.control.import.else.c
+          push:
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
+        - match: ""
+          push:
+            - meta_scope: comment.block.preprocessor.if-branch.c
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: preprocessor-disabled
+
+  preprocessor-rule-enabled-data-structures:
+    - match: ^\s*((#if)\s+(0*1))\b
+      captures:
+        1: meta.preprocessor.c
+        2: keyword.control.import.c
+        3: constant.numeric.preprocessor.c
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.c keyword.control.import.c
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.c keyword.control.import.else.c
+          push:
+            - meta_content_scope: comment.block.preprocessor.else-branch.c
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: preprocessor-disabled
+        - match: ""
+          push:
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
 
   ## Preprocessor for global
 

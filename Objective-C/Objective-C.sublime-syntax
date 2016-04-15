@@ -521,7 +521,26 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.objc
-    - match: '(?=\b({{before_tag}}|{{control_keywords}})\b)'
+    # If a struct/union/enum followed by a name that is not a macro or declspec
+    # then this is likely a return type of a function. This is uncommon.
+    - match: |-
+        (?x:
+          ({{before_tag}})
+          \s+
+          (?=
+            (?![[:upper:][:digit:]_]+\b|__declspec)
+            {{identifier}}
+            (\s+{{identifier}}|\s*\*+)
+          )
+        )
+      captures:
+        1: storage.type.objc
+      set: global-maybe-function
+    # The previous match handles return types of struct/enum/etc from a func,
+    # there this one exits the context to allow matching an actual struct/union
+    - match: '(?=\b({{before_tag}})\b)'
+      set: data-structures
+    - match: '(?=\b({{control_keywords}})\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
@@ -599,6 +618,91 @@ contexts:
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - include: statements
+
+  data-structures:
+    - match: '\bstruct\b'
+      scope: storage.type.objc
+      set: data-structures-struct-definition
+    - match: '\benum\b'
+      scope: storage.type.objc
+      set: data-structures-enum-definition
+    - match: '\bunion\b'
+      scope: storage.type.objc
+      set: data-structures-union-definition
+    - match: '(?=\S)'
+      pop: true
+
+  data-structures-struct-definition:
+    - meta_scope: meta.struct.objc
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.struct.forward-decl.objc
+    - match: '{{identifier}}'
+      scope: entity.name.struct.objc
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.objc punctuation.definition.block.objc
+      set:
+        - meta_content_scope: meta.struct.objc meta.block.objc
+        - match: '\}'
+          scope: meta.struct.objc meta.block.objc punctuation.definition.block.objc
+          pop: true
+        - include: data-structures-body
+
+  data-structures-enum-definition:
+    - meta_scope: meta.enum.objc
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.enum.forward-decl.objc
+    - match: '{{identifier}}'
+      scope: entity.name.enum.objc
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.objc punctuation.definition.block.objc
+      set:
+        - meta_content_scope: meta.enum.objc meta.block.objc
+        # Enums don't support methods so we have a simplified body
+        - match: '\}'
+          scope: meta.enum.objc meta.block.objc punctuation.definition.block.objc
+          pop: true
+        - include: data-structures-body
+
+  data-structures-union-definition:
+    - meta_scope: meta.union.objc
+    - include: data-structures-definition-common-begin
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.union.forward-decl.objc
+    - match: '{{identifier}}'
+      scope: entity.name.union.objc
+    - match: '(?=;)'
+      pop: true
+    - match: '\{'
+      scope: meta.block.objc punctuation.definition.block.objc
+      set:
+        - meta_content_scope: meta.union.objc meta.block.objc
+        - match: '\}'
+          scope: meta.union.objc meta.block.objc punctuation.definition.block.objc
+          pop: true
+        - include: data-structures-body
+
+  data-structures-definition-common-begin:
+    - include: comments
+    - include: modifiers-parens
+    - include: modifiers
+    # Handle macros so they aren't matched as the class name
+    - match: '\b[[:upper:][:digit:]_]+\b'
+
+  data-structures-definition-common-end:
+    - match: '(?=;)'
+      pop: true
+
+  data-structures-body:
+    - include: preprocessor-data-structures
+    - match: '(?={{before_tag}})'
+      push: data-structures
+    - include: expressions
 
   block:
     - match: '\{'
@@ -684,6 +788,64 @@ contexts:
             scope: meta.function-call.objc punctuation.definition.parameters.objc
             pop: true
           - include: expressions
+
+  ## Preprocessor for data-structures
+
+  preprocessor-data-structures:
+    - include: preprocessor-rule-enabled-data-structures
+    - include: preprocessor-rule-disabled-data-structures
+
+  preprocessor-rule-disabled-data-structures:
+    - match: ^\s*((#if)\s+(0))\b
+      captures:
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.objc keyword.control.import.objc
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.objc keyword.control.import.else.objc
+          push:
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
+        - match: ""
+          push:
+            - meta_scope: comment.block.preprocessor.if-branch.objc
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: scope:source.c#preprocessor-disabled
+
+  preprocessor-rule-enabled-data-structures:
+    - match: ^\s*((#if)\s+(0*1))\b
+      captures:
+        1: meta.preprocessor.objc
+        2: keyword.control.import.objc
+        3: constant.numeric.preprocessor.objc
+      push:
+        - match: ^\s*(#\s*endif)\b
+          captures:
+            1: meta.preprocessor.objc keyword.control.import.objc
+          pop: true
+        - match: ^\s*(#\s*else)\b
+          captures:
+            1: meta.preprocessor.objc keyword.control.import.else.objc
+          push:
+            - meta_content_scope: comment.block.preprocessor.else-branch.objc
+            - match: (?=^\s*#\s*endif\b)
+              pop: true
+            - include: scope:source.c#preprocessor-disabled
+        - match: ""
+          push:
+            - match: (?=^\s*#\s*(else|endif)\b)
+              pop: true
+            - include: negated-block
+            - include: data-structures-body
 
   ## Preprocessor for global
 
