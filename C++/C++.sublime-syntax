@@ -651,9 +651,7 @@ contexts:
           (?=
             (?![[:upper:][:digit:]_]+\b|__declspec|{{before_tag}})
             {{path}}
-            \s*
-            [*&]?
-            \s+{{identifier}}
+            (\s+{{identifier}}|\s*[*&])
           )
         )
       captures:

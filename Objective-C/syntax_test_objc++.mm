@@ -513,6 +513,12 @@ void abcdWXYZ1234()
 {
 }
 
+struct foo **alloc_foo();
+/* ^ storage.type */
+/*     ^ - entity.name.struct */
+/*         ^^ keyword.operator */
+/*           ^ entity.name.function */
+
 long func
 /*   ^ entity.name.function */
 (int x, void *MYMACRO(y) ) {
