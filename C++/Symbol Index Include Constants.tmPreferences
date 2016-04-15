@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>(source.c | source.c++) &amp; entity.name.constant</string>
+    <string>(source.c | source.objc | source.c++ | source.objc++) &amp; entity.name.constant</string>
     <key>settings</key>
     <dict>
         <key>showInIndexedSymbolList</key>
