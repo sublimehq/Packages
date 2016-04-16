@@ -40,3 +40,13 @@ function i(
  * @return
 //   ^ comment.block - keyword.other.phpdoc
  */
+
+$test = "\0 \12 \345g \x0f \u{aa} \u{9999} \u{999}";
+//       ^^ constant.numeric.octal.php
+//          ^^^ constant.numeric.octal.php
+//              ^^^^ constant.numeric.octal.php
+//                  ^ meta.string-contents.quoted.double.php
+//                    ^^^^ constant.numeric.hex.php
+//                         ^^^^^^ constant.numeric.unicodepoint.php
+//                                ^^^^^^^^ constant.numeric.unicodepoint.php
+//                                         ^^^^^^^ meta.string-contents.quoted.double.php

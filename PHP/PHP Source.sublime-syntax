@@ -326,6 +326,8 @@ contexts:
       scope: constant.numeric.octal.php
     - match: '\\x[0-9A-Fa-f]{1,2}'
       scope: constant.numeric.hex.php
+    - match: '\\u\{([0-9A-Fa-f]{2})+\}'
+      scope: constant.numeric.unicodepoint.php
     - match: '\\[nrt\\\$\"]'
       scope: constant.character.escape.php
     - match: '(\{)(?=\$.*?\})'
