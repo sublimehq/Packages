@@ -106,7 +106,7 @@ contexts:
     - include: comments
     - match: |-
         (?x)
-        \s*(array|callable|int|string) # Typehint
+        \s*(array|callable|int|string|bool|float) # Typehint
         \s*(&)?                     # Reference
         \s*((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*) # The variable name
         \s*(=)  # A default value
@@ -131,7 +131,7 @@ contexts:
         - include: numbers
     - match: |-
         (?xi)
-        \s*(array|callable|int|string) # Typehint
+        \s*(array|callable|int|string|bool|float) # Typehint
         \s*(&)?                     # Reference
         \s*((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*) # The variable name
         (?:
