@@ -1633,6 +1633,7 @@
 		{ "trigger": "inotify_queue_len", "contents": "inotify_queue_len(${1:inotify_instance})" },
 		{ "trigger": "inotify_read", "contents": "inotify_read(${1:inotify_instance})" },
 		{ "trigger": "inotify_rm_watch", "contents": "inotify_rm_watch(${1:inotify_instance}, ${2:watch_descriptor})" },
+		{ "trigger": "intdiv", "contents": "intdiv(${1:dividend}, ${2:divisor})" },
 		{ "trigger": "interface_exists", "contents": "interface_exists(${1:interface_name})" },
 		{ "trigger": "intl_error_name", "contents": "intl_error_name(${1:error_code})" },
 		{ "trigger": "intl_get_error_code", "contents": "intl_get_error_code(${1:oid})" },
