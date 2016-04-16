@@ -40,3 +40,15 @@ function i(
  * @return
 //   ^ comment.block - keyword.other.phpdoc
  */
+
+    class Test1 extends stdClass implements Countable {}
+//  ^ storage.type.class.php
+//        ^ entity.name.type.class.php
+//              ^ storage.modifier.extends.php
+//                       ^ meta.other.inherited-class.php
+//                               ^ storage.modifier.implements.php
+//                                           ^ meta.other.inherited-class.php
+
+$test = new Test1;
+//      ^ keyword.other.new.php
+//          ^ support.class.php
