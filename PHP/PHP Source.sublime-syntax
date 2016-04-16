@@ -962,6 +962,8 @@ contexts:
       scope: support.function.classobj.php
     - match: (?i)\b(com_(set|create_guid|i(senum|nvoke)|pr(int_typeinfo|op(set|put|get))|event_sink|load(_typelib)?|addref|release|get(_active_object)?|message_pump)|variant_(s(ub|et(_type)?)|n(ot|eg)|c(a(st|t)|mp)|i(nt|div|mp)|or|d(iv|ate_(to_timestamp|from_timestamp))|pow|eqv|fix|a(nd|dd|bs)|round|get_type|xor|m(od|ul)))\b
       scope: support.function.com.php
+    - match: (?i)\brandom_(bytes|int)\b
+      scope: support.function.csprng.php
     - match: (?i)\bctype_(space|cntrl|digit|upper|p(unct|rint)|lower|al(num|pha)|graph|xdigit)\b
       scope: support.function.ctype.php
     - match: (?i)\bcurl_(setopt(_array)?|c(opy_handle|lose)|init|e(rr(no|or)|xec)|version|getinfo|multi_(select|close|in(it|fo_read)|exec|add_handle|remove_handle|getcontent))\b

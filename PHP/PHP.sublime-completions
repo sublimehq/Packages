@@ -3272,6 +3272,8 @@
 		{ "trigger": "radius_server_secret", "contents": "radius_server_secret(${1:radius_handle})" },
 		{ "trigger": "radius_strerror", "contents": "radius_strerror(${1:radius_handle})" },
 		{ "trigger": "rand", "contents": "rand(${1:oid})" },
+		{ "trigger": "random_bytes", "contents": "random_bytes(${1:length})" },
+		{ "trigger": "random_int", "contents": "random_int(${1:min}, ${2:max})" },
 		{ "trigger": "range", "contents": "range(${1:low}, ${2:high})" },
 		{ "trigger": "rar_wrapper_cache_stats", "contents": "rar_wrapper_cache_stats(${1:oid})" },
 		{ "trigger": "rawurldecode", "contents": "rawurldecode(${1:str})" },
