@@ -1053,7 +1053,7 @@ contexts:
       scope: support.function.php_mssql.php
     - match: (?i)\bodbc_(s(tatistics|pecialcolumns|etoption)|n(um_(fields|rows)|ext_result)|c(o(nnect|lumn(s|privileges)|mmit)|ursor|lose(_all)?)|table(s|privileges)|d(o|ata_source)|p(connect|r(imarykeys|ocedure(s|columns)|epare))|e(rror(msg)?|xec(ute)?)|f(ield_(scale|n(um|ame)|type|precision|len)|oreignkeys|etch_(into|object|array|row)|ree_result)|longreadlen|autocommit|r(ollback|esult(_all)?)|gettypeinfo|binmode)\b
       scope: support.function.php_odbc.php
-    - match: (?i)\bpreg_(split|quote|filter|last_error|replace(_callback)?|grep|match(_all)?)\b
+    - match: (?i)\bpreg_(split|quote|filter|last_error|replace(_callback(_array)?)?|grep|match(_all)?)\b
       scope: support.function.php_pcre.php
     - match: (?i)\b(spl_(classes|object_hash|autoload(_(call|unregister|extensions|functions|register))?)|class_(implements|parents)|iterator_(count|to_array|apply))\b
       scope: support.function.php_spl.php
