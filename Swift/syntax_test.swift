@@ -1,24 +1,39 @@
 //  SYNTAX TEST "Packages/Swift-for-f-ing-sublime/Swift.sublime-syntax"
 
 // comment
-//  ^ comment.line
+// ^^^^^^^ comment.line
 // <- punctuation.definition.comment
 
 // MARK: testing!
-//  ^ comment.line
-//  ^ punctuation.definition.comment
-//       ^ meta.toc-list
+// ^^^^^^^^^^^^^^ comment.line
+// ^^^^^ punctuation.definition.comment
+//       ^^^^^^^^ meta.toc-list
 
 
 /* comment */
-//  ^comment.block
+// ^^^^^^^^^^ comment.block
+a  /* aa */ a
+// ^^ punctuation.definition.comment
+//    ^^ -punctuation.definition.comment
+//       ^^ punctuation.definition.comment
+//          ^ -punctuation.definition.comment
+
 /* 000 */
-//  ^comment.block
-//  ^ comment - constant
+//^^^^^^^ comment.block
+// ^^^ -constant
 000 /* "string" */
 // <- -comment
-//      ^comment.block
-//      ^-string
+//  ^^^^^^^^^^^^^^ comment.block
+//     ^^^^^^^^ -string
+
+a  /* /* */ */ + b
+//<- -comment.block
+// ^^^^^^^^^^^ comment.block
+// ^^ punctuation.definition.comment
+//    ^^ punctuation.definition.comment
+//       ^^ punctuation.definition.comment
+//          ^^ punctuation.definition.comment
+//             ^^^ -comment.block
 
 true
 // <- constant.language
@@ -33,28 +48,52 @@ nil
 1.1  100.001
 // <- constant.numeric
 // <- constant.numeric.float
-//   ^ constant.numeric
-//  ^ source.swift
+//   ^^^^^^^ constant.numeric
 100
 // <- constant.numeric
 // <- constant.numeric.decimal
 1_000_000
-//   ^ constant.numeric.decimal
+//^^^^^^^ constant.numeric.decimal
 0xDEADBEEF
 // <- constant.numeric.hexadecimal
-//  ^ constant.numeric.hexadecimal
+//^^^^^^^^ constant.numeric.hexadecimal
 0xGGGGG
-//  ^ -constant.numeric.hexadecimal
+//^^^^^ -constant.numeric.hexadecimal
 0o12345670
 // <- constant.numeric.octal
-//  ^ constant.numeric.octal
+//^^^^^^^^ constant.numeric.octal
 0o8888
-//  ^ -constant.numeric.octal
+//^^^^ -constant.numeric.octal
 0b01010110101
 // <- constant.numeric.binary
-//  ^ constant.numeric.binary
+//^^^^^^^^^^^ constant.numeric.binary
 0b22222
-//  ^ -constant.numeric.binary
+//^^^^^ -constant.numeric.binary
+
+var foo: int.foo
+// <- keyword.variable
+//  ^^^ variable.other
+//       ^^^ support.class
+//           ^^^ support.class
+var foo: = 0
+//       ^ invalid
+
+let foo = 0
+// <- keyword.variable
+//  ^^^ variable.other
+
+foo + (a?.bar ?? 0)
+//^ variable.other
+//     ^^ variable.other.optional
+
+let (a: Int, b) = (1, 2)
+//  ^^^^^^^^^^^ support.tuple
+//   ^ variable.other
+//      ^^^ support.class
+//           ^ variable.other
+
+__FILE__
+// ^^^^^ invalid.deprecated
 
 if { /**/ }
 // <- keyword.control
@@ -63,12 +102,20 @@ where { /**/ }
 
 #if FOO
 // <- punctuation.definition.preprocessor
+//  ^^^ source.swift
 #endif
-//  ^ meta.preprocessor.c
+//^^^ meta.preprocessor.c
 
 if a || b
 // <- keyword
-//   ^ keyword.operator
+//   ^^ keyword.operator
+
+true ? 1 : 2
+//   ^ keyword.operator.ternary
+//       ^ keyword.operator.ternary
+true ?? 1 :: 2
+//   ^^ -keyword.operator.ternary
+//        ^^ -keyword.operator.ternary
 
 public func foo
 // <- storage.modifier
@@ -92,10 +139,20 @@ enum Foo { case Value }
 //   ^ support.class
 //   ^ entity.name.type
 enum Foo : String { case Value }
+//                ^ punctuation.definition.block
+//                             ^ punctuation.definition.block
+//                  ^^^^^^^^^^ meta.class
+class Foo:String{ let var }
 // <- keyword.entity
-//   ^ support.class
-//   ^ entity.name.type
-//         ^ support.class
+//    ^ support.class
+//    ^ entity.name.type
+//        ^ support.class
+//              ^ punctuation.definition.block
+//                        ^ punctuation.definition.block
+//                ^^^^^^^ meta.class
+class Foo:String,Proto{ let var }
+// <- keyword.entity
+//               ^ support.class
 
 enum Foo : String {
   case Value
@@ -110,10 +167,10 @@ for {}
 // <- keyword.control
 while true {}
 // <- keyword.control
-//    ^ constant
+//    ^^^^ constant
 switch foo { case .Bar: }
 // <- keyword.control
-//           ^ keyword.control
+//           ^^^^ keyword.control
 break
 // <- keyword.control
 return
@@ -121,76 +178,106 @@ return
 case 0..0
 // <- keyword.control
 //   ^ constant.numeric
-//    ^ keyword.operator
+//    ^^ keyword.operator
 //      ^ constant.numeric
 continue
 // <- keyword.control
 default
 // <- keyword.control
 
-enum Foo
+enum Foo {}
 // <- keyword.entity
-//   ^ support.class
+//   ^^^ support.class
+//       ^^ punctuation.definition.block
+//       ^^ meta.class
 enum Foo : Bar {}
 // <- keyword.entity
-//   ^ support.class
-//         ^ support.class
+//   ^^^ support.class
+//         ^^^ support.class
 struct Foo
 // <- keyword.entity
-//     ^ support.class
+//     ^^^ support.class
 struct Foo : Bar
 //         ^ invalid
 //           ^ invalid
-class Foo
+class Foo {}
 // <- keyword.entity
-//    ^ support.class
+//    ^^^ support.class
 class Foo : Bar {}
 // <- keyword.entity
-//    ^ support.class
-//          ^ support.class
-protocol Foo
+//    ^^^ support.class
+//        ^ keyword.operator
+//          ^^^ support.class
+protocol Foo {}
 // <- keyword.entity
-//       ^ support.class
+//       ^^^ support.class
+//           ^^ punctuation.definition.block
+//           ^^ meta.class
 protocol Foo : Bar {}
 // <- keyword.entity
-//       ^ support.class
-//             ^ support.class
-extension Foo
+//       ^^^ support.class
+//           ^ keyword.operator
+//             ^^^ support.class
+extension Foo {}
+// <- keyword.entity
+//        ^^^ support.class
+extension Foo: Bar
 // <- keyword.entity
 //        ^ support.class
-extension Foo : Bar
-// <- keyword.entity
-//        ^ support.class
-//            ^ keyword.operator
-//              ^ support.class
+//           ^ keyword.operator
+//             ^^^ support.class
+
+protocol Bla {
+    func foo()
+//  ^^^^^^^^ meta.function
+//  ^^^^ storage.type.function
+    optional func foo()
+//  ^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^ storage.type.function
+}
 
 func foo()
-//   ^ variable.function
-class func foo()
+//   <- meta.function
+func foo() {}
+//   <- meta.function
+//   ^^^ variable.function
+//         ^^ meta.function
+class func foo() {}
 //   <- meta.function
 //   <- storage.type.function
 //    ^ storage.type.function
 
 func foo() { foo }
-//   ^ variable.function
-//       ^ meta.function
+//   ^^^ variable.function
+//         ^^^^^^^ meta.function
 
-
-func foo(a, b: String) { foo }
+func foo(a, b: String) {
 //   ^ variable.function
-//       ^ meta.function
+//       ^ invalid
 //          ^ variable.parameter
+//             ^^^^^^ support.class
+//                     ^ meta.function
+    let foo = bar
+//  ^^^^^^^^^^^^^ meta.function
+}
 
 "foo"
 // <- string
 // <- string.quoted
 
-"foo\"" foo
+"foo\"\e" foo
 // <- string
-//  ^ constant.character.escape
-//   ^ constant.character.escape
-//    ^ string
-//      ^ -string
+//  ^^ constant.character.escape
+//    ^^ -constant.character.escape
+//      ^ string
+//        ^ -string
+
+"\u{24}"
+ //<- constant.character.escape.unicode
+//^^^^^ constant.character.escape.unicode
+"\u{1F496}"
+ //<- constant.character.escape.unicode
+//^^^^^^^^ constant.character.escape.unicode
 
 "foo \(bar + (foo * bar))"
 // <- string
@@ -199,7 +286,7 @@ func foo(a, b: String) { foo }
 //     ^ -string
 //                     ^ -punctuation.section
 
-a = (.Foo(.bahr))
+a = (.Foo(.bar))
 //    ^ constant.language.enum
 //         ^ constant.language.enum
 
@@ -208,7 +295,20 @@ a = (.Foo(.bahr))
 //  ^ -constant.language.enum
 //    ^ constant.language.enum
 
-a.Foo + a.bar()
+a.Foo + a?.bar()
 // <- -constant.language.enum
 //^ -constant.language.enum
-//        ^ -constant.language.enum
+//         ^ -constant.language.enum
+
+".Foo"
+// <- string.quoted
+// ^ string.quoted
+
+[1, 2, 3]
+["a": 1,"b": 2,"c": 3]
+
+let foo = $0
+//        ^^ invalid
+let block = { (a) in $0 }
+//          ^^^^^^^^^^^^^ meta.closure
+//                   ^^ variable.placeholder

@@ -10,13 +10,13 @@ contexts:
   main:
 ###################################################### COMMENTS
     - match: (//+)\s+(MARK:) ?(.*)
-      scope: comment.line
+      scope: comment.line.double-slash
       captures:
         1: punctuation.definition.comment
         2: punctuation.definition.comment
         3: meta.toc-list
     - match: (//+).*(\n|$)
-      scope: comment.line
+      scope: comment.line.double-slash
       captures:
         1: punctuation.definition.comment
     - match: (/\*)
@@ -27,6 +27,9 @@ contexts:
       captures:
        1: punctuation.definition.preprocessor
        2: meta.preprocessor.c
+###################################################### STRING
+    - match: '"'
+      push: string_double
 ###################################################### ENUMS
     - match: "(?:[^\\?\\!\\)\\w]|^)\\.([a-zA-Z]\\w*)(?=\\()"
       captures:
@@ -56,24 +59,30 @@ contexts:
     - match: \d+
       scope: constant.numeric.decimal
 ###################################################### TYPES
+    # optional func
+    - match: \b(optional)\s+(?=func)
+      scope: meta.function storage.type.function
     # class func
     - match: \b(class)\s+(?=func)
       scope: meta.function storage.type.function
     # types that have a parent class
-    - match: \b(enum|class|protocol|extension)\s+((\w+)\s*(:)\s+(\w+))
-      scope: entity.name.type
+    - match: \b((enum|class|protocol|extension)\s+((\w+)\s*(:)\s*(\w+(?:\s*,\s*\w+)*)))\s*([{])
       captures:
-        1: keyword.entity
-        2: entity.name.type
-        3: support.class
-        4: keyword.operator
-        5: support.class
+        1: entity.name.type
+        2: keyword.entity
+        4: support.class
+        5: keyword.operator
+        6: support.class
+        7: punctuation.definition.block
+      push: type_body
     # types that don't need a parent class
-    - match: \b(enum|class|protocol|extension)\s+(\w+)
-      scope: entity.name.type
+    - match: \b((enum|class|protocol|extension)\s+(\w+))\s*([{])
       captures:
-        1: keyword.entity
-        2: entity.name.type support.class
+        1: entity.name.type
+        2: keyword.entity
+        3: support.class
+        4: punctuation.definition.block
+      push: type_body
     # types that *cannot* have a parent class (but DO)
     - match: '\b(struct)\s+(\w+)\s+(:.*)'
       scope: entity.name.type
@@ -87,6 +96,10 @@ contexts:
       captures:
         1: keyword.entity
         2: entity.name.type support.class
+    - match: \b(enum|class|protocol|extension|struct)\s+(\w+)
+      captures:
+        1: keyword.entity
+        2: support.class
 ###################################################### KEYWORDS
     - match: \b(self|super)\b
       scope: keyword.variable
@@ -95,19 +108,30 @@ contexts:
     - match: \b(import)\b
       scope: keyword.other.import
 ###################################################### CONTROL
-    - match: \b(if|where|else|for|while|switch|do|defer)\b
+    - match: \b(if|where|else|for|while|switch|do|defer|in)\b
       scope: keyword.control
     - match: \b(break|fallthrough|guard|try|catch|throws|return|case|continue|default)\b
       scope: keyword.control
     - match: '#(available)\b'
       scope: keyword.control
 ###################################################### VARIABLES
-    - match: \b(var|let|typealias|unowned)\b
+    - match: '\b(var|let)\s+(\w+):'
       captures:
         1: keyword.variable
-###################################################### STRING
-    - match: '"'
-      push: string_double
+        2: variable.other
+        # 3: support.class
+      push: variable_type
+    - match: '\b(var|let)\s+\('
+      captures:
+        1: keyword.variable
+      push: tuple_body
+    - match: \b(var|let)\s+(\w+)
+      captures:
+        1: keyword.variable
+        2: variable.other
+    - match: \b(typealias|associatedtype|unowned)\b
+      captures:
+        1: keyword.variable
 ###################################################### MODIFIERS
     - match: \b(weak|lazy|convenience|public|internal|private|final|static|override|required|prefix|postfix|infix)\b
       scope: storage.modifier
@@ -139,32 +163,72 @@ contexts:
         2: entity.name.function variable.function
     - match: \b(func|deinit|init)\b
       scope: entity.name.type storage.type.function
+###################################################### CLOSURES
+    - match: '{'
+      push: closure_body
 ###################################################### VARIABLES
-    - match: '(\w+):'
-      captures:
-        1: variable.parameter
-    - match: \b\w+
+    - match: __\w+__
+      scope: variable.other invalid.deprecated
+    - match: \b(\w+\?)
+      scope: variable.other.optional
+    - match: \b(\w+)
       scope: variable.other
+    - match: (\$)(\d+)
+      scope: invalid
+    - match: '[?:]{2,}'
+      scope: keyword.operator
+    - match: '[?:]'
+      scope: keyword.operator.ternary
     - match: '[-+=<>^$#@!~*\\|&?\/.]*'
       scope: keyword.operator
     - match: '\('
       push: paren_expr
 ######################################################
+  type_body:
+    - meta_scope: meta.class
+    - match: \b((var|let)\s+(\w+)\s*(?:(:)\s*(\w+))?)
+      captures:
+        1: meta.toc-list
+        2: keyword.variable
+    - include: main
+    - match: '}'
+      scope: punctuation.definition.block
+      pop: true
   comment_block:
     - meta_scope: comment.block
+    - match: (/\*)
+      scope: punctuation.definition.comment
+      push: comment_block
     - match: \*/
+      scope: punctuation.definition.comment
       pop: true
   function_params:
-    - include: main
     - meta_scope: meta.function meta.toc-list
+    - match: '(\w+): (\w+)'
+      captures:
+        1: variable.parameter
+        2: support.class
+    - match: \w+
+      scope: invalid
+    - match: '\)\s*\{'
+      push: function_body
     - match: '\)'
+      pop: true
+    - match: '\}'
+      pop: true
+  function_body:
+    - meta_scope: meta.function
+    - include: main
+    - match: '(?=\})'
       pop: true
   string_double:
     - meta_scope: string.quoted.double
+    - match: '\\u[{][a-zA-Z\d]+[}]'
+      scope: constant.character.escape.unicode
     - match: '\\\('
       scope: punctuation.section.embedded
       set: embedded
-    - match: \\.
+    - match: \\[0tnr"'\\]
       scope: constant.character.escape.c
     - match: '"'
       pop: true
@@ -180,4 +244,39 @@ contexts:
   enum:
     - include: main
     - match: '\)'
+      pop: true
+  tuple_body:
+    - meta_scope: support.tuple
+    - match: '(\w+)\s*:\s*(\w+)'
+      captures:
+        1: variable.other
+        2: support.class
+    - match: \w+
+      scope: variable.other
+    - match: ','
+    - match: '\)'
+      pop: true
+  closure_body:
+    - meta_scope: meta.closure
+    - match: (\$)(\d+)
+      scope: variable.placeholder
+    - include: main
+    - match: '}'
+      pop: true
+  optional_type:
+    - match: '[.]'
+      scope: keyword.operator
+    - match: \w+
+      scope: support.class
+    - match: '>'
+      pop: true
+  variable_type:
+    - match: '<'
+      push: optional_type
+    - match: \W
+      scope: invalid
+    - match: '[.]'
+      push: variable_type
+    - match: \w+
+      scope: support.class
       pop: true
