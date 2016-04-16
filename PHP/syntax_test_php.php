@@ -40,3 +40,26 @@ function i(
  * @return
 //   ^ comment.block - keyword.other.phpdoc
  */
+
+    function noReturnType(array $param1, int $param2) {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                       ^ punctuation.definition.parameters.begin.php
+//                        ^ meta.function.arguments
+//                              ^ punctuation.definition.variable.php
+//                                       ^ meta.function.arguments
+//                                           ^ punctuation.definition.variable.php
+//                                                  ^ punctuation.definition.parameters.end.php
+    function scalarReturnType($param1): bool {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                           ^ punctuation.definition.parameters.begin.php
+//                                   ^ punctuation.definition.parameters.end.php
+//                                      ^ storage.type.php
+    function classReturnType($param1): stringSpace\Test1 {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                          ^ punctuation.definition.parameters.begin.php
+//                                  ^ punctuation.definition.parameters.end.php
+//                                     ^ support.class.php
+//                                                 ^ support.class.php

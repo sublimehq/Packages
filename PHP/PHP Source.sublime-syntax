@@ -525,6 +525,16 @@ contexts:
       push:
         - meta_scope: meta.function.php
         - meta_content_scope: meta.function.arguments.php
+        - match: '(?i)(\)):\s*(array|bool|int|float|string)\s'
+          captures:
+            1: punctuation.definition.parameters.end.php
+            2: storage.type.php
+          pop: true
+        - match: '(?i)(\)):\s*([a-z_][a-z0-9_\\]*)\s*'
+          captures:
+            1: punctuation.definition.parameters.end.php
+            2: support.class.php
+          pop: true
         - match: (\))
           captures:
             1: punctuation.definition.parameters.end.php
