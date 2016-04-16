@@ -52,3 +52,11 @@ function i(
 $test = new Test1;
 //      ^ keyword.other.new.php
 //          ^ support.class.php
+
+$anon = new class extends Test1 implements Countable {};
+//      ^ keyword.other.new.php
+//          ^ storage.type.class.php
+//                ^ storage.modifier.extends.php
+//                         ^ meta.other.inherited-class.php
+//                              ^ storage.modifier.implements.php
+//                                         ^ meta.other.inherited-class.php

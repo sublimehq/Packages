@@ -356,6 +356,13 @@ contexts:
             - match: (?=^\2\b)
               pop: true
   instantiation:
+    - match: '(?i)(new)\s+(class)\s*'
+      captures:
+        1: keyword.other.new.php
+        2: storage.type.class.php
+      push:
+        - meta_scope: meta.class.php
+        - include: class-definition
     - match: (?i)(new)\s+
       captures:
         1: keyword.other.new.php
