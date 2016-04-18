@@ -403,7 +403,7 @@ contexts:
     - match: '(?i)^\s*(interface)\s+([a-z0-9_]+)\s*(extends)?\s*'
       captures:
         1: storage.type.interface.php
-        2: entity.name.type.interface.php
+        2: entity.name.interface.php
         3: storage.modifier.extends.php
       push:
         - meta_scope: meta.interface.php
@@ -417,7 +417,7 @@ contexts:
         1: keyword.other.namespace.php
       push:
         - meta_scope: meta.namespace.php
-        - meta_content_scope: entity.name.type.namespace.php
+        - meta_content_scope: entity.name.namespace.php
         - match: '(?i)(?=\s*$|[^a-z0-9_\\])'
           pop: true
         - match: \\
@@ -461,13 +461,13 @@ contexts:
     - match: '(?i)^\s*(trait)\s+([a-z0-9_]+)\s*'
       captures:
         1: storage.type.trait.php
-        2: entity.name.type.trait.php
+        2: entity.name.trait.php
 
     - match: '(?i)^\s*(abstract|final)?\s*(class)\s+([a-z0-9_]+)\s*'
       captures:
         1: storage.modifier.abstract.php
         2: storage.type.class.php
-        3: entity.name.type.class.php
+        3: entity.name.class.php
       push:
         - meta_scope: meta.class.php
         - include: class-definition

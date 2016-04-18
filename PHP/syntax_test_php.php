@@ -1,5 +1,9 @@
 // SYNTAX TEST "Packages/PHP/PHP.sublime-syntax"
 <?php
+namespace MyNamespace;
+// <- keyword.other.namespace
+//        ^^^^^^^^^^^ entity.name.namespace
+//                   ^ - entity.name.namespace
 
 function a($a = array(),             $b = "hi") {};
 function b($a = [],                  $b = "hi") {};
@@ -43,7 +47,7 @@ function i(
 
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
-//        ^ entity.name.type.class.php
+//        ^ entity.name.class.php
 //              ^ storage.modifier.extends.php
 //                       ^ meta.other.inherited-class.php
 //                               ^ storage.modifier.implements.php
@@ -98,11 +102,13 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 
 trait A
 // ^ storage.type.trait
+//    ^ entity.name.trait
 {
 
 }
 
 class B
+//    ^ entity.name.class
 {
     use MyNamespace\X,
 //  ^^^^^^^^^^^^^^^^^^ meta.use
@@ -127,6 +133,7 @@ class B
 //    ^ storage.modifier
 
     public function abc(callable $var, int $var2, string $var3)
+//                  ^^^ entity.name.function
 //                      ^ storage.type
 //                                     ^ storage.type
 //                                                ^ storage.type
