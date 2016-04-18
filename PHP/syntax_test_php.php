@@ -41,7 +41,6 @@ function i(
 //   ^ comment.block - keyword.other.phpdoc
  */
 
-
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.type.class.php
@@ -86,3 +85,13 @@ $anon = new class extends Test1 implements Countable {};
 //                                  ^ punctuation.definition.parameters.end.php
 //                                     ^ support.class.php
 //                                                 ^ support.class.php
+
+$test = "\0 \12 \345g \x0f \u{aa} \u{9999} \u{999}";
+//       ^^ constant.numeric.octal.php
+//          ^^^ constant.numeric.octal.php
+//              ^^^^ constant.numeric.octal.php
+//                  ^ meta.string-contents.quoted.double.php
+//                    ^^^^ constant.numeric.hex.php
+//                         ^^^^^^ constant.numeric.unicodepoint.php
+//                                ^^^^^^^^ constant.numeric.unicodepoint.php
+//                                         ^^^^^^^ meta.string-contents.quoted.double.php
