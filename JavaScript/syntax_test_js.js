@@ -96,6 +96,7 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 
 mylabel:
 // ^ entity.name.label
+//     ^ punctuation.separator
 
 // Ensure a ternary identifier isn't recognized as a label
 true ? str : str2

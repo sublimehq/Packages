@@ -834,9 +834,10 @@ contexts:
         - include: comments
 
   label:
-    - match: '^\s*((?!default){{identifier}})\s*:'
+    - match: '^\s*((?!default){{identifier}})\s*(:)'
       captures:
         1: entity.name.label.js
+        2: punctuation.separator.js
 
   mustache:
     - match: '\{\{'
