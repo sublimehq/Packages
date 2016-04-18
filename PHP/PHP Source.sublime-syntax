@@ -12,6 +12,51 @@ contexts:
       scope: support.class.builtin.php
       captures:
         1: punctuation.separator.inheritance.php
+  class-definition:
+    - match: "(?=[;{])"
+      pop: true
+    - include: comments
+    - match: (?i)(extends)\s+
+      captures:
+        1: storage.modifier.extends.php
+      push:
+        - meta_content_scope: meta.other.inherited-class.php
+        - match: '(?i)(?=[^a-z_0-9\\])'
+          pop: true
+        - match: '(?i)(?=\\?[a-z_0-9]+\\)'
+          push:
+            - match: '(?i)([a-z_][a-z_0-9]*)?(?=[^a-z0-9_\\])'
+              captures:
+                1: entity.other.inherited-class.php
+              pop: true
+            - include: namespace
+        - include: class-builtin
+        - include: namespace
+        - match: "(?i)[a-z_][a-z_0-9]*"
+          scope: entity.other.inherited-class.php
+    - match: (?i)(implements)\s+
+      captures:
+        1: storage.modifier.implements.php
+      push:
+        - match: "(?i)(?=[;{])"
+          pop: true
+        - include: comments
+        - match: '(?i)(?=[a-z0-9_\\]+)'
+          push:
+            - meta_content_scope: meta.other.inherited-class.php
+            - match: '(?i)(?:\s*(?:,|(?=[^a-z0-9_\\\s]))\s*)'
+              pop: true
+            - match: '(?i)(?=\\?[a-z_0-9]+\\)'
+              push:
+                - match: '(?i)([a-z_][a-z_0-9]*)?(?=[^a-z0-9_\\])'
+                  captures:
+                    1: entity.other.inherited-class.php
+                  pop: true
+                - include: namespace
+            - include: class-builtin
+            - include: namespace
+            - match: "(?i)[a-z_][a-z_0-9]*"
+              scope: entity.other.inherited-class.php
   class-name:
     - match: '(?i)(?=\\?[a-z_0-9]+\\)'
       push:
@@ -311,6 +356,13 @@ contexts:
             - match: (?=^\2\b)
               pop: true
   instantiation:
+    - match: '(?i)(new)\s+(class)\s*'
+      captures:
+        1: keyword.other.new.php
+        2: storage.type.class.php
+      push:
+        - meta_scope: meta.class.php
+        - include: class-definition
     - match: (?i)(new)\s+
       captures:
         1: keyword.other.new.php
@@ -403,50 +455,7 @@ contexts:
         3: entity.name.type.class.php
       push:
         - meta_scope: meta.class.php
-        - match: "(?=[;{])"
-          pop: true
-        - include: comments
-        - match: (?i)(extends)\s+
-          captures:
-            1: storage.modifier.extends.php
-          push:
-            - meta_content_scope: meta.other.inherited-class.php
-            - match: '(?i)(?=[^a-z_0-9\\])'
-              pop: true
-            - match: '(?i)(?=\\?[a-z_0-9]+\\)'
-              push:
-                - match: '(?i)([a-z_][a-z_0-9]*)?(?=[^a-z0-9_\\])'
-                  captures:
-                    1: entity.other.inherited-class.php
-                  pop: true
-                - include: namespace
-            - include: class-builtin
-            - include: namespace
-            - match: "(?i)[a-z_][a-z_0-9]*"
-              scope: entity.other.inherited-class.php
-        - match: (?i)(implements)\s+
-          captures:
-            1: storage.modifier.implements.php
-          push:
-            - match: "(?i)(?=[;{])"
-              pop: true
-            - include: comments
-            - match: '(?i)(?=[a-z0-9_\\]+)'
-              push:
-                - meta_content_scope: meta.other.inherited-class.php
-                - match: '(?i)(?:\s*(?:,|(?=[^a-z0-9_\\\s]))\s*)'
-                  pop: true
-                - match: '(?i)(?=\\?[a-z_0-9]+\\)'
-                  push:
-                    - match: '(?i)([a-z_][a-z_0-9]*)?(?=[^a-z0-9_\\])'
-                      captures:
-                        1: entity.other.inherited-class.php
-                      pop: true
-                    - include: namespace
-                - include: class-builtin
-                - include: namespace
-                - match: "(?i)[a-z_][a-z_0-9]*"
-                  scope: entity.other.inherited-class.php
+        - include: class-definition
     - match: \s*\b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|switch|use|while)\b
       scope: keyword.control.php
     - match: (?i)\b((?:require|include)(?:_once)?)\b\s*
