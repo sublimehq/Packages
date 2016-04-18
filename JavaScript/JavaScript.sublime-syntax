@@ -39,7 +39,7 @@ contexts:
     - include: import-escape
     - include: comments
     - match: '\{'
-      scope: meta.block.js meta.brace.curly.js
+      scope: meta.block.js punctuation.definition.block.js
       set: import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -75,7 +75,7 @@ contexts:
     - include: import-escape
     - include: comments
     - match: '\}'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       set: import-extended-as
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -128,11 +128,11 @@ contexts:
   statements:
     - include: conditional
     - match: '\{(?!\{)'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       push:
         - meta_scope: meta.block.js
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           pop: true
         - include: statements
     - include: label
@@ -145,10 +145,10 @@ contexts:
         - meta_scope: meta.switch.js
         - include: round-brackets
         - match: '\}'
-          scope: meta.block.js meta.brace.curly.js
+          scope: meta.block.js punctuation.definition.block.js
           pop: true
         - match: '\{'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           push:
             - meta_scope: meta.block.js
             - match: '(?=\})'
@@ -168,24 +168,24 @@ contexts:
         - meta_scope: meta.do-while.js
         - include: comments
         - match: '\{'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           push:
             - meta_scope: meta.block.js
             - match: '\}'
-              scope: meta.brace.curly.js
+              scope: punctuation.definition.block.js
               pop: true
             - include: statements
         - match: \bwhile\b
           scope: keyword.control.loop.js
         - match: '\('
-          scope: meta.brace.round.js
+          scope: punctuation.definition.group.js
           push:
-            - meta_scope: meta.group.braces.round.js
+            - meta_scope: meta.group.js
             - match: '(?=\))'
               pop: true
             - include: expressions
         - match: '\)'
-          scope: meta.group.braces.round.js meta.brace.round.js
+          scope: meta.group.js punctuation.definition.group.js
           pop: true
 
     - match: \bfor\b
@@ -238,11 +238,11 @@ contexts:
 
   parens-block-scope:
     - match: '\('
-      scope: meta.brace.round.js
+      scope: punctuation.definition.group.js
       push:
-        - meta_scope: meta.group.braces.round.js
+        - meta_scope: meta.group.js
         - match: '\)'
-          scope: meta.brace.round.js
+          scope: punctuation.definition.group.js
           pop: true
         - include: expressions
     - include: block-scope
@@ -250,10 +250,10 @@ contexts:
   block-scope:
     - include: comments
     - match: '\}'
-      scope: meta.block.js meta.brace.curly.js
+      scope: meta.block.js punctuation.definition.block.js
       pop: true
     - match: '\{'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       push:
         - meta_scope: meta.block.js
         - match: '(?=\})'
@@ -451,11 +451,11 @@ contexts:
         - match: '(?=\S)'
           pop: true
     - match: '\('
-      scope: meta.brace.round.js
+      scope: punctuation.definition.group.js
       set:
-        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js meta.group.braces.round.js
+        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js meta.group.js
         - match: '\)'
-          scope: meta.brace.round.js
+          scope: punctuation.definition.group.js
           set: constructor-params
         - include: expressions
     - match: '(?=\S)'
@@ -556,7 +556,7 @@ contexts:
       push:
         - meta_scope: meta.class.js
         - match: '\{'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           set: class-body
         - match: '\b(extends)\b\s+(?={{identifier}})'
           captures:
@@ -576,7 +576,7 @@ contexts:
     - meta_scope: meta.class.js meta.block.js
     - include: comments
     - match: '\}'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       pop: true
     - include: method-declaration
 
@@ -801,10 +801,10 @@ contexts:
   function-block:
     - meta_scope: meta.block.js
     - match: '\}'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       pop: true
     - match: '\{'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       push:
         - match: '(?=\})'
           pop: true
@@ -848,17 +848,17 @@ contexts:
 
   object-literal:
     - match: '\{'
-      scope: meta.brace.curly.js
+      scope: punctuation.definition.block.js
       push:
         - meta_scope: meta.object-literal.js
         - match: '\}'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           pop: true
         - include: comments
         - match: '({{identifier}})\s*(\})'
           captures:
             1: variable.other.readwrite.js
-            2: meta.brace.curly.js
+            2: punctuation.definition.block.js
           pop: true
         - match: '({{identifier}})\s*(,)'
           captures:
@@ -956,11 +956,11 @@ contexts:
       push:
         - include: function-declaration-parameters
         - match: '\{'
-          scope: meta.brace.curly.js
+          scope: punctuation.definition.block.js
           push:
             - meta_scope: meta.block.js
             - match: '\}'
-              scope: meta.brace.curly.js
+              scope: punctuation.definition.block.js
               pop: true
             - include: statements
         - include: comments
@@ -973,23 +973,23 @@ contexts:
 
   round-brackets:
     - match: \(
-      scope: meta.brace.round.js
+      scope: punctuation.definition.group.js
       push:
-        - meta_scope: meta.group.braces.round.js
+        - meta_scope: meta.group.js
         - match: \)
-          scope: meta.brace.round.js
+          scope: punctuation.definition.group.js
           set: after-identifier
         - include: expressions
     - match: \)
-      scope: invalid.illegal.stray.brace.round.js
+      scope: invalid.illegal.stray-bracket-end.js
 
   square-brackets:
     - match: '\['
-      scope: meta.brace.square.js
+      scope: punctuation.definition.brackets.js
       push:
-        - meta_scope: meta.group.braces.square.js
+        - meta_scope: meta.brackets.js
         - match: '\]'
-          scope: meta.brace.square.js
+          scope: punctuation.definition.brackets.js
           set: after-identifier
         - include: expressions
 
@@ -1090,12 +1090,12 @@ contexts:
 
   function-call-params:
     - match: '\)'
-      scope: meta.group.braces.round.js meta.brace.round.js
+      scope: meta.group.js punctuation.definition.group.js
       set: after-identifier
     - match: '\('
-      scope: meta.brace.round.js
+      scope: punctuation.definition.group.js
       push:
-        - meta_scope: meta.group.braces.round.js
+        - meta_scope: meta.group.js
         - match: '(?=\))'
           set: after-identifier
         # Consume comma plus any whitespace to prevent whitespace from

@@ -234,11 +234,11 @@ do {
 // <- meta.block
 // ^^^^^^^^^^^^^^ meta.do-while - meta.block
 // ^^^^ keyword.control.loop
-//      ^^^^^^^^ meta.group.braces.round
+//      ^^^^^^^^ meta.group
 
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group.braces.round
+//   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
 //                           ^ meta.block
     i += 1;
 //  ^^^^^^^ meta.for meta.block
@@ -247,7 +247,7 @@ for (var i = 0; i < 10; i++) {
 
 while (true)
 // ^^^^^^^^^ meta.while
-//     ^^^^ meta.group.braces.round
+//     ^^^^ meta.group
 {
 // <- meta.block
     break;
@@ -257,7 +257,7 @@ while (true)
 
 switch ($foo) {
 // ^^^^^^^^^^^^ meta.switch
-//      ^^^^ meta.group.braces.round
+//      ^^^^ meta.group
 //            ^ meta.block
     case foo:
     // ^ meta.switch meta.block keyword.control.switch
@@ -287,7 +287,7 @@ try {
 } catch (e) {
 // <- meta.block
 // ^^^^^^^ meta.catch
-//       ^ meta.group.braces.round
+//       ^ meta.group
 //          ^ meta.block
     foobar = 0
 //  ^^^^^^^^^^ meta.catch meta.block
@@ -308,11 +308,11 @@ class MyClass extends TheirClass {
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ entity.name.function
     {
-//  ^ meta.class meta.block meta.block meta.brace.curly
+//  ^ meta.class meta.block meta.block punctuation.definition.block
         $.foo = "";
         super(el);
     }
-//  ^ meta.class meta.block meta.block meta.brace.curly
+//  ^ meta.class meta.block meta.block punctuation.definition.block
 
     get foo()
 //  ^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -332,11 +332,11 @@ class MyClass extends TheirClass {
     qux()
 //  ^^^^^ meta.function.declaration - meta.function.anonymous
     { }
-//  ^ meta.class meta.block meta.block meta.brace.curly
+//  ^ meta.class meta.block meta.block punctuation.definition.block
 
     get bar () {
 //  ^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
-//             ^ meta.class meta.block meta.block meta.brace.curly
+//             ^ meta.class meta.block meta.block punctuation.definition.block
     // <- storage.type.accessor
     //   ^ entity.name.function
         return false;
@@ -358,7 +358,7 @@ class Foo extends React.Component {
 // <- meta.function.declaration punctuation.definition.parameters
  // <- meta.function.declaration punctuation.definition.parameters
 //^^^ meta.function.anonymous meta.function.declaration
-//    ^^ meta.block meta.brace.curly
+//    ^^ meta.block punctuation.definition.block
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -428,7 +428,7 @@ sources.DOM
     // ^ meta.function-call.method variable.function
 
 return new Promise(resolve => preferenceObject.set({value}, resolve));
-//                                                                  ^ meta.function-call.constructor meta.brace.round
+//                                                                  ^ meta.function-call.constructor punctuation.definition.group
 
 var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                 ^ meta.function.declaration variable.parameter.function - meta.function.anonymous
@@ -436,23 +436,23 @@ var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                               ^ meta.block punctuation.terminator.statement
 //                                                        ^ meta.function.anonymous meta.function.declaration variable.parameter.function
 //                                                                           ^ meta.block meta.block variable.other.readwrite
-//                                                                            ^ meta.block meta.brace.curly
+//                                                                            ^ meta.block punctuation.definition.block
 
 baz(foo(x => x('bar')))
-//                   ^ meta.function-call meta.function-call meta.brace.round
-//                    ^ meta.function-call meta.brace.round
+//                   ^ meta.function-call meta.function-call punctuation.definition.group
+//                    ^ meta.function-call punctuation.definition.group
 
 func(a, b)
 // ^ variable.function
-//  ^ meta.group.braces.round meta.brace.round
-//   ^ meta.group.braces.round variable.other.readwrite
-//       ^ meta.group.braces.round meta.brace.round
+//  ^ meta.group punctuation.definition.group
+//   ^ meta.group variable.other.readwrite
+//       ^ meta.group punctuation.definition.group
 
 var instance = new Constructor(param1, param2)
 //                 ^ variable.type
-//                            ^ meta.group.braces.round meta.brace.round
-//                             ^ meta.group.braces.round variable.other.readwrite
-//                                           ^ meta.group.braces.round meta.brace.round
+//                            ^ meta.group punctuation.definition.group
+//                             ^ meta.group variable.other.readwrite
+//                                           ^ meta.group punctuation.definition.group
 
 this.func()
 // <- variable.language.this
@@ -475,9 +475,9 @@ var abc = new ABC(
     'my-name-is-abc',
     new (function () {
 //  ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor keyword.operator.new
-//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group.braces.round
+//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group
         var foo = 1;
-//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group.braces.round meta.block
+//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group meta.block
     })
 );
 
@@ -490,10 +490,10 @@ void {
     'test1': [],
     'test2': new SomeOjbectHash["default"],
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
-//                             ^ meta.group.braces.square
+//                             ^ meta.brackets
     'test3': "asdf"
 }
-// <- meta.object-literal meta.brace.curly
+// <- meta.object-literal punctuation.definition.block
 
 // This tests parsing semi-broken object literals, which should help while a
 // user is in the middle of typing code
@@ -576,9 +576,9 @@ var re = /^\/[^/]+/
 
 (y - 1) / ((x - 1) / -2)
 //      ^ keyword.operator.arithmetic
-//        ^ meta.brace.round
+//        ^ punctuation.definition.group
 (y - 1) / ((x - 1) /  2)
-//    ^ meta.brace.round
+//    ^ punctuation.definition.group
 //      ^ keyword.operator.arithmetic
  y      / ((x - 1) / -2)
 
@@ -609,16 +609,16 @@ new FooBar(function(){
 }
 
 {
-// <- meta.block meta.brace.curly
+// <- meta.block punctuation.definition.block
     let foo = 1;
 //  ^^^ meta.block storage.type
 //      ^^^ variable.other.readwrite
 }
-// <- meta.block meta.brace.curly
+// <- meta.block punctuation.definition.block
 
 var test =
 {a: 1}
-// <- meta.object-literal meta.brace.curly
+// <- meta.object-literal punctuation.definition.block
 
 // Handle multi-line "concise" arrow function bodies
 var conciseFunc = () => 
@@ -629,9 +629,9 @@ var conciseFunc = () =>
 
 // Handle an arrow function in a parenthetical group
 (myFunc = (a) => a*2)
-// <- meta.group.braces.round meta.brace.round
+// <- meta.group punctuation.definition.group
 // ^^^^ entity.name.function
-//                  ^ meta.group.braces.round meta.brace.round - meta.block
+//                  ^ meta.group punctuation.definition.group - meta.block
 
 $.each({})
 // <- variable.other.object.dollar.only punctuation.dollar
@@ -649,4 +649,4 @@ $var.fn.name = () => {}
 // ^ support.class.dollar - punctuation.dollar
 
 someFunction(() => [() => 'X']);
-//                           ^ meta.brace.square
+//                           ^ punctuation.definition.brackets
