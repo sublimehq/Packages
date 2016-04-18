@@ -41,6 +41,7 @@ function i(
 //   ^ comment.block - keyword.other.phpdoc
  */
 
+
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.type.class.php
@@ -60,3 +61,28 @@ $anon = new class extends Test1 implements Countable {};
 //                         ^ meta.other.inherited-class.php
 //                              ^ storage.modifier.implements.php
 //                                         ^ meta.other.inherited-class.php
+
+    function noReturnType(array $param1, int $param2) {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                       ^ punctuation.definition.parameters.begin.php
+//                        ^ meta.function.arguments
+//                              ^ punctuation.definition.variable.php
+//                                       ^ meta.function.arguments
+//                                           ^ punctuation.definition.variable.php
+//                                                  ^ punctuation.definition.parameters.end.php
+
+    function scalarReturnType($param1): bool {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                           ^ punctuation.definition.parameters.begin.php
+//                                   ^ punctuation.definition.parameters.end.php
+//                                      ^ storage.type.php
+
+    function classReturnType($param1): stringSpace\Test1 {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                          ^ punctuation.definition.parameters.begin.php
+//                                  ^ punctuation.definition.parameters.end.php
+//                                     ^ support.class.php
+//                                                 ^ support.class.php
