@@ -617,6 +617,7 @@ std::vector<std::uint8_t> func_returning_path_generic(int a);
 
 namespace myNameSpace {}
 /* <- keyword.control */
+/*        ^ entity.name.namespace */
 
 namespace new_name = current_name;
 /* <- keyword.control */
