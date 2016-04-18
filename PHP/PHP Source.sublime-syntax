@@ -429,41 +429,34 @@ contexts:
         - meta_scope: meta.use.php
         - match: (?=;|(?:^\s*$))
           pop: true
-        - include: comments
-        - match: |-
-            (?xi)(?:
-              \s*([a-z_](?:[a-z_0-9]+)?)\s*(::)\s*([a-z_](?:[a-z0-9]+)?)\s+(?:(as)\s+([a-z_](?:[a-z0-9]+)?)|(insteadof)\s+([a-z_](?:[a-z0-9]+)?))\s*;
-            )
-          captures:
-            1: support.class.php
-            2: keyword.operator.class.php
-            3: meta.function.php
-            4: support.trait.method.use-as.php
-            5: meta.function.php
-            6: support.trait.method.insteadof.php
-            7: support.class.php
-        - match: '\s*}'
-          pop: true
-        - match: '(?i)\s*(?=[a-z_0-9\\])'
-          push:
-            - match: |-
-                (?xi)(?:
-                    (?:\s*(as)\b\s*([a-z_0-9]*)\s*(?=,|;|$))
-                    |(?=,|;|$)
-                )
-              captures:
-                1: keyword.other.use-as.php
-                2: support.other.namespace.use-as.php
+        - match: '\{'
+          scope: punctuation.definition.block.php
+          set:
+            - meta_scope: meta.use.php meta.block.php
+            - match: '}'
+              scope: punctuation.definition.block.php
               pop: true
+            - include: comments
+            - match: \b(as)\b
+              scope: keyword.other.use-as.php
+            - match: \b(insteadof)\b
+              scope: keyword.other.insteadof.php
             - include: class-builtin
-            - match: '(?i)\s*(?=[\\a-z_0-9])'
+            - match: \b(?=[a-zA-Z_][a-zA-Z0-9_\\]*\b)
               push:
-                - meta_scope: support.other.namespace.use.php
-                - match: '$|(?=[\s,;])|{'
+                - include: identifier-parts
+                - match: ''
                   pop: true
-                - match: \\
-                  scope: punctuation.separator.inheritance.php
-        - match: \s*,\s*
+        - include: comments
+        - include: class-builtin
+        - match: \b(?=[a-zA-Z_][a-zA-Z0-9_\\]*\b)
+          push:
+            - meta_scope: entity.other.inserted-trait.php
+            - include: identifier-parts
+            - match: ''
+              pop: true
+        - match: ','
+          scope: punctuation.separator.php
 
     - match: '(?i)^\s*(trait)\s+([a-z0-9_]+)\s*'
       captures:
@@ -1234,3 +1227,11 @@ contexts:
             1: punctuation.definition.variable.php
           pop: true
         - include: language
+  identifier-parts:
+    - match: \b([a-zA-Z_][a-zA-Z0-9_]*)(\\)
+      captures:
+        1: support.other.namespace.php
+        2: punctuation.separator.namespace.php
+    - match: ([a-zA-Z_][a-zA-Z0-9_]*)\b(?!\\)
+    - match: '::'
+      scope: keyword.operator.class.php

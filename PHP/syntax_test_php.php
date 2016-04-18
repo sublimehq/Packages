@@ -97,35 +97,41 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                        ^^^^^^^ meta.string-contents.quoted.double.php
 
 trait A
-// ^ storage.type.trait.php
+// ^ storage.type.trait
 {
 
 }
 
 class B
 {
-    use X,
+    use MyNamespace\X,
+//  ^^^^^^^^^^^^^^^^^^ meta.use
+//      ^^^^^^^^^^^^^ entity.other.inserted-trait
+//                 ^ punctuation.separator.namespace
     Y,
-//  ^ support.other.namespace.use.php
+//  ^ meta.use entity.other.inserted-trait
     Z {
+//  ^^^ meta.use
+//    ^ meta.block punctuation.definition.block
         X::method1 as another1;
-        //         ^ support.trait.method.use-as.php
-        //            ^ meta.function.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
+//       ^^ keyword.operator.class
+//                 ^ keyword.other.use-as
         Y::method2 insteadof X;
-        //         ^ support.trait.method.insteadof.php
-        //                   ^ support.class.php
+//                 ^ keyword.other.insteadof
         X::method2 as another2;
-        //         ^ support.trait.method.use-as.php
-        //            ^ meta.function.php
+//                 ^ keyword.other.use-as
     } protected $pro1;
-    // ^ storage.modifier.php
+//  ^ meta.use meta.block punctuation.definition.block
+//   ^ - meta.use
+//    ^ storage.modifier
 
-    public function abc(callable $var,          int $var2,          string $var3)
-    //                  ^ storage.type.php
-    //                                          ^ storage.type.php
-    //                                                              ^ storage.type.php
+    public function abc(callable $var, int $var2, string $var3)
+//                      ^ storage.type
+//                                     ^ storage.type
+//                                                ^ storage.type
     {
         echo B::class;
-        //      ^ constant.class.php
+//              ^ constant.class
     }
 }
