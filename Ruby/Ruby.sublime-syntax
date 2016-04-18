@@ -87,7 +87,7 @@ contexts:
         6: punctuation.separator.inheritance.ruby
         7: entity.other.inherited-class.module.third.ruby
         8: punctuation.separator.inheritance.ruby
-    - match: '([A-Z]\w*)(?=(,\s*[A-Z]\w*)*\s*=(?!\>))'
+    - match: '\b([A-Z]\w*)(?=(,\s*[A-Z]\w*)*\s*=(?!\>))'
       scope: meta.constant.ruby
       comment: constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
       captures:
