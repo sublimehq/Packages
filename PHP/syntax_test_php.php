@@ -91,13 +91,13 @@ $anon = new class extends Test1 implements Countable {};
 //                                                 ^ support.class.php
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
-//       ^^ constant.numeric.octal.php
-//          ^^^ constant.numeric.octal.php
-//              ^^^^ constant.numeric.octal.php
+//       ^^ constant.character.escape.octal.php
+//          ^^^ constant.character.escape.octal.php
+//              ^^^^ constant.character.escape.octal.php
 //                  ^ meta.string-contents.quoted.double.php
-//                    ^^^^ constant.numeric.hex.php
-//                         ^^^^^ constant.numeric.unicodepoint.php
-//                               ^^^^^^^^ constant.numeric.unicodepoint.php
+//                    ^^^^ constant.character.escape.hex.php
+//                         ^^^^^ constant.character.escape.unicodepoint.php
+//                               ^^^^^^^^ constant.character.escape.unicodepoint.php
 //                                        ^^^^^^^ meta.string-contents.quoted.double.php
 
 trait A

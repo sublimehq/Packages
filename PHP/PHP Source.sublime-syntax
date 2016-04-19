@@ -375,11 +375,11 @@ contexts:
         - include: variable-name
   interpolation:
     - match: '\\[0-7]{1,3}'
-      scope: constant.numeric.octal.php
+      scope: constant.character.escape.octal.php
     - match: '\\x[0-9A-Fa-f]{1,2}'
-      scope: constant.numeric.hex.php
+      scope: constant.character.escape.hex.php
     - match: '\\u\{[0-9A-Fa-f]+\}'
-      scope: constant.numeric.unicodepoint.php
+      scope: constant.character.escape.unicodepoint.php
     - match: '\\[nrt\\\$\"]'
       scope: constant.character.escape.php
     - match: '(\{)(?=\$.*?\})'
