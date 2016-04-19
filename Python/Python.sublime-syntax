@@ -434,7 +434,7 @@ contexts:
         - match: (?<=""")
           pop: true
         - include: string_quoted_double
-    - match: '^\s*(?=[uU]?[rR]?'''''')'
+    - match: ^\s*(?=[uU]?[rR]?''')
       push:
         - meta_scope: comment.block.python
         - match: (?<=''')
@@ -705,18 +705,18 @@ contexts:
 
   string_quoted_single:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
-    - match: '([uU]?R)('''''')'
+    - match: ([uU]?R)(''')
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
         - meta_scope: string.quoted.single.block.python
-        - match: ''''''''
+        - match: "'''"
           scope: punctuation.definition.string.end.python
           pop: true
         - include: escaped_unicode_char
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
-    - match: '([uU]?r)('''''')'
+    - match: ([uU]?r)(''')
       captures:
         1: storage.type.string.python
         2: string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -724,12 +724,12 @@ contexts:
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: string.quoted.single.block.python
-            - match: ''''''''
+            - match: "'''"
               scope: punctuation.definition.string.end.python
               pop: true
             - match: ''
               with_prototype:
-                - match: '(?='''''')'
+                - match: (?=''')
                   pop: true
                 - include: escaped_unicode_char
                 - include: constant_placeholder
@@ -737,17 +737,17 @@ contexts:
         - match: '(?=\S)'
           set:
             - meta_scope: string.quoted.single.block.python
-            - match: ''''''''
+            - match: "'''"
               scope: punctuation.definition.string.end.python
               pop: true
             - match: ''
               with_prototype:
-                - match: '(?='''''')'
+                - match: (?=''')
                   pop: true
                 - include: escaped_unicode_char
               push: 'scope:source.regexp.python'
     # Triple-quoted string, unicode or not, will detect SQL
-    - match: '([uU]?)('''''')'
+    - match: ([uU]?)(''')
       captures:
         1: storage.type.string.python
         2: string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -755,12 +755,12 @@ contexts:
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: string.quoted.single.block.python
-            - match: ''''''''
+            - match: "'''"
               scope: punctuation.definition.string.end.python
               pop: true
             - match: ''
               with_prototype:
-                - match: '(?='''''')'
+                - match: (?=''')
                   pop: true
                 - include: escaped_unicode_char
                 - include: escaped_char
@@ -769,7 +769,7 @@ contexts:
         - match: '(?=\S)'
           set:
             - meta_scope: string.quoted.single.block.python
-            - match: ''''''''
+            - match: "'''"
               scope: punctuation.definition.string.end.python
               pop: true
             - include: escaped_unicode_char
