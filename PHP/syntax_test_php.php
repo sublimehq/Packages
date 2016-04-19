@@ -173,3 +173,72 @@ $var3 = 0x0f;
 
 $var4 = 0b0111;
 //      ^^^^^^ constant.numeric
+
+
+echo <<<EOT
+//   ^^^^^^ punctuation.definition.string
+//      ^^^ keyword.operator.heredoc
+This is a test! $var
+//^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
+//              ^^^^ variable.other
+EOT;
+// <- keyword.operator.heredoc
+
+echo <<<'EOT'
+//   ^^^^^^^^ punctuation.definition.string
+//       ^^^ keyword.operator.heredoc
+This is a test! $var
+//^^^^^^^^^^^^^^^^^^ string.unquoted.nowdoc
+//              ^^^^ - variable.other
+EOT;
+// <- keyword.operator.heredoc
+
+echo <<<HTML
+//   ^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//      ^^^ keyword.operator.heredoc
+This is a test!
+<div class="foo-bar"></div>
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.html text.html
+// <- punctuation.definition.tag.begin
+//^^ entity.name.tag.block
+//   ^^^^^ entity.other.attribute-name
+//         ^^^^^^^^^ string.quoted.double
+HTML;
+// <- punctuation.section.embedded.end keyword.operator.heredoc
+
+echo <<< JAVASCRIPT
+//   ^^^^^^^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//       ^^^^^^^^^^ keyword.operator.heredoc
+var foo = 1;
+//^^^^^^^^^^ meta.embedded.js source.js
+// <- storage.type
+//  ^^^ variable.other.readwrite
+//        ^ constant.numeric
+$var
+// <- variable.other.php
+//^^ variable.other.php
+JAVASCRIPT;
+// <- punctuation.section.embedded.end keyword.operator.heredoc
+
+echo <<<CSS
+//   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//      ^^^ keyword.operator.heredoc
+h2 {font-family: 'Arial';}
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.css source.css
+// <- entity.name.tag
+// ^ punctuation.section.property-list
+//               ^^^^^^^ string.quoted.single
+h3 {}
+CSS;
+// <- punctuation.section.embedded.end keyword.operator.heredoc
+
+echo <<<SQL
+//   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//      ^^^ keyword.operator.heredoc
+SELECT * FROM users WHERE first_name = 'John'
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
+// <- keyword.other.DML
+//     ^ keyword.operator.star
+//                                     ^^^^^^ string.quoted.single
+SQL;
+// <- punctuation.section.embedded.end keyword.operator.heredoc
