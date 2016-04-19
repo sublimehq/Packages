@@ -161,3 +161,15 @@ function generate()
     yield 1;
 //  ^ keyword.control
 }
+
+$var = 0;
+//     ^ constant.numeric
+
+$var2 = -123.456e10;
+//       ^^^^^^^^^^ constant.numeric
+
+$var3 = 0x0f;
+//      ^^^^ constant.numeric
+
+$var4 = 0b0111;
+//      ^^^^^^ constant.numeric

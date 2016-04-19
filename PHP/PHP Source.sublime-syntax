@@ -695,7 +695,7 @@ contexts:
           captures:
             1: punctuation.separator.inheritance.php
   numbers:
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
+    - match: '\b((0(b|B)[01]*)|(0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
       scope: constant.numeric.php
   object:
     - match: '(->)(\$?\{)'
