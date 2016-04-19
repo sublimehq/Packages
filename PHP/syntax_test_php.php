@@ -112,10 +112,10 @@ class B
 {
     use MyNamespace\X,
 //  ^^^^^^^^^^^^^^^^^^ meta.use
-//      ^^^^^^^^^^^^^ entity.other.inserted-trait
+//      ^^^^^^^^^^^^^ entity.other.inherited-class
 //                 ^ punctuation.separator.namespace
     Y,
-//  ^ meta.use entity.other.inserted-trait
+//  ^ meta.use entity.other.inherited-class
     Z {
 //  ^^^ meta.use
 //    ^ meta.block punctuation.definition.block
