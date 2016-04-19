@@ -155,3 +155,9 @@ try {
 //^ keyword.control.exception
     echo "First finally.\n";
 }
+
+function generate()
+{
+    yield 1;
+//  ^ keyword.control
+}
