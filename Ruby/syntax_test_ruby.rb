@@ -15,6 +15,9 @@ UpperCamelCase = 3
 UPPER_SNAKE_CASE = 4
 # ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.type.constant.ruby
 
+Symbol === :foo
+# ^^^^ variable.other.constant.ruby -meta.constant.ruby
+
 class MyClass
 # ^ meta.class.ruby keyword.control.class.ruby
 #     ^ meta.class.ruby entity.name.type.class.ruby
