@@ -142,3 +142,16 @@ class B
 //              ^ constant.class
     }
 }
+
+try {
+// <- keyword.control.exception
+    echo inverse(5) . "\n";
+    throw new Exception('Error!');
+//  ^ keyword.control.exception
+} catch (Exception $e) {
+//^ keyword.control.exception
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+} finally {
+//^ keyword.control.exception
+    echo "First finally.\n";
+}
