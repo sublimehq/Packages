@@ -66,7 +66,6 @@ contexts:
         - match: \\\$
           scope: constant.character.escape.tex
         - include: scope:text.tex.math
-        - include: main
     - match: '(\\)[A-Za-z@]+'
       scope: support.function.general.tex
       captures:
