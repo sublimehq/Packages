@@ -80,8 +80,8 @@ contexts:
     - match: /\*\*(?:#@\+)?\s*$
       comment: |
         This now only highlights a docblock if the first line contains only /**
-                                        - this is to stop highlighting everything as invalid when people do comment banners with /******** ...
-                                        - Now matches /**#@+ too - used for docblock templates: http://manual.phpdoc.org/HTMLframesConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblocktemplate
+        - this is to stop highlighting everything as invalid when people do comment banners with /******** ...
+        - Now matches /**#@+ too - used for docblock templates: http://manual.phpdoc.org/HTMLframesConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblocktemplate
       captures:
         0: punctuation.definition.comment.php
       push:
@@ -144,11 +144,10 @@ contexts:
           scope: support.constant.parser-token.php
           captures:
             1: punctuation.separator.inheritance.php
+        # In PHP, any identifier which is not a variable is taken to be a constant.
+        # However, if there is no constant defined with the given name then a notice
+        # is generated and the constant is assumed to have the value of its name.
         - match: '[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*'
-          comment: |
-            In PHP, any identifier which is not a variable is taken to be a constant.
-                                    However, if there is no constant defined with the given name then a notice
-                                    is generated and the constant is assumed to have the value of its name.
           scope: constant.other.php
   function-arguments:
     - include: comments
@@ -203,14 +202,13 @@ contexts:
         - include: class-name
         - match: |-
             (?xi)
-                                                \s*([a-z_][a-z_0-9]*)? # Typehinted class name
-                                                \s*(&)?                     # Reference
-                                                \s*((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*) # The variable name
-                                                (?:
-                                                    \s*(?:(=)\s*(?:(null)|((?:\S*?\(\))|(?:\S*?)))) # A default value
-                                                )?
-                                                \s*(?=,|\)|/[/*]|\#|$) # A closing parentheses (end of argument list) or a comma
-
+            \s*([a-z_][a-z_0-9]*)? # Typehinted class name
+            \s*(&)?                     # Reference
+            \s*((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*) # The variable name
+            (?:
+                \s*(?:(=)\s*(?:(null)|((?:\S*?\(\))|(?:\S*?)))) # A default value
+            )?
+            \s*(?=,|\)|/[/*]|\#|$) # A closing parentheses (end of argument list) or a comma
           captures:
             1: support.class.php
             2: storage.modifier.reference.php
@@ -563,27 +561,27 @@ contexts:
     - include: invoke-call
     - match: |-
         (?xi)\s*(?=
-                                [a-z_0-9$\\]+(::)
-                                (?:
-                                    ([a-z_][a-z_0-9]*)\s*\(
-                                    |
-                                    ((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*)
-                                    |
-                                    ([a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*)
-                                )?
-                            )
+            [a-z_0-9$\\]+(::)
+            (?:
+                ([a-z_][a-z_0-9]*)\s*\(
+                |
+                ((\$+)[a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*)
+                |
+                ([a-z_\x{7f}-\x{ff}][a-z0-9_\x{7f}-\x{ff}]*)
+            )?
+        )
       push:
         - match: |-
             (?x)(::)
-                                    (?:
-                                        (class)(?:[^\w])
-                                        |
-                                        ([A-Za-z_][A-Za-z_0-9]*)\s*\(
-                                        |
-                                        ((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)
-                                        |
-                                        ([a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)
-                                    )?
+            (?:
+                (class)(?:[^\w])
+                |
+                ([A-Za-z_][A-Za-z_0-9]*)\s*\(
+                |
+                ((\$+)[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)
+                |
+                ([a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)
+            )?
           captures:
             1: keyword.operator.class.php
             2: constant.class.php
