@@ -245,6 +245,55 @@ $var3 = 0x0f;
 $var4 = 0b0111;
 //      ^^^^^^ constant.numeric
 
+$non_sql = "NO SELECT HIGHLIGHTING!";
+//         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
+//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//             ^ - source.sql
+//                                 ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+
+$sql = "SELECT * FROM users WHERE first_name = 'Eric'";
+//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//      ^ keyword.other.DML
+//                                             ^^^^^^ string.quoted.single.sql
+//                                                   ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+
+// Ensure we properly exist from SQL when hitting PHP end-of-string
+$sql = "SELECT * FROM users WHERE first_name = 'Eric";
+//     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//      ^ keyword.other.DML
+//                                             ^^^^^ string.quoted.single.sql
+//                                                  ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+
+$sql = "
+    SELECT * FROM users WHERE first_name = 'Eric'
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//  ^ keyword.other.DML
+//                                         ^^^^^^ string.quoted.single.sql
+";
+// <- string.quoted.double punctuation.definition.string.end - meta.string-contents
+
+$non_sql = 'NO SELECT HIGHLIGHTING!';
+//         ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
+//          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
+//             ^ - source.sql
+//                                 ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+
+$sql = 'SELECT * FROM users WHERE first_name = \'Eric\'';
+//     ^ string.quoted.single punctuation.definition.string.begin - meta.string-contents
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//      ^ keyword.other.DML
+//                                             ^^ constant.character.escape.php
+//                                                     ^ string.quoted.single punctuation.definition.string.end - meta.string-contents
+
+$sql = '
+    SELECT * FROM users WHERE first_name = \'Eric\'
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql
+//  ^ keyword.other.DML
+//                                         ^^ constant.character.escape.php
+';
+// <- string.quoted.single punctuation.definition.string.end - meta.string-contents
 
 preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m')
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted

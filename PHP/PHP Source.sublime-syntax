@@ -6,6 +6,7 @@ scope: source.php
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
   main:
@@ -818,71 +819,6 @@ contexts:
               scope: constant.character.escape.php
         - match: "[$^+*]"
           scope: keyword.operator.regexp.php
-  sql-string-double-quoted:
-    - match: '"\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b)'
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.double.sql.php
-        - meta_content_scope: source.sql.embedded.php
-        - match: '"'
-          scope: punctuation.definition.string.end.php
-          pop: true
-        - match: '#(\\"|[^"])*(?="|$\n?)'
-          scope: comment.line.number-sign.sql
-        - match: '--(\\"|[^"])*(?="|$\n?)'
-          scope: comment.line.double-dash.sql
-        - match: '\\[\\"`'']'
-          scope: constant.character.escape.php
-        - match: '''(?=((\\'')|[^''"])*("|$))'
-          comment: |
-            Unclosed strings must be captured to avoid them eating the remainder of the PHP script
-                                Sample case: $sql = "SELECT * FROM bar WHERE foo = '" . $variable . "'"
-          scope: string.quoted.single.unclosed.sql
-        - match: '`(?=((\\`)|[^`"])*("|$))'
-          comment: |
-            Unclosed strings must be captured to avoid them eating the remainder of the PHP script
-                                Sample case: $sql = "SELECT * FROM bar WHERE foo = '" . $variable . "'"
-          scope: string.quoted.other.backtick.unclosed.sql
-        - match: "'"
-          push:
-            - meta_scope: string.quoted.single.sql
-            - match: "'"
-              pop: true
-            - include: interpolation
-        - match: "`"
-          push:
-            - meta_scope: string.quoted.other.backtick.sql
-            - match: "`"
-              pop: true
-            - include: interpolation
-        - include: interpolation
-        - include: scope:source.sql
-  sql-string-single-quoted:
-    - match: '''\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b)'
-      scope: punctuation.definition.string.begin.php
-      push:
-        - meta_scope: string.quoted.single.sql.php
-        - meta_content_scope: source.sql.embedded.php
-        - match: "'"
-          scope: punctuation.definition.string.end.php
-          pop: true
-        - match: '#(\\''|[^''])*(?=''|$\n?)'
-          scope: comment.line.number-sign.sql
-        - match: '--(\\''|[^''])*(?=''|$\n?)'
-          scope: comment.line.double-dash.sql
-        - match: '\\[\\''`"]'
-          scope: constant.character.escape.php
-        - match: '`(?=((\\`)|[^`''])*(''|$))'
-          comment: |
-            Unclosed strings must be captured to avoid them eating the remainder of the PHP script
-                                Sample case: $sql = "SELECT * FROM bar WHERE foo = '" . $variable . "'"
-          scope: string.quoted.other.backtick.unclosed.sql
-        - match: '"(?=((\\")|[^"''])*(''|$))'
-          comment: |
-            Unclosed strings must be captured to avoid them eating the remainder of the PHP script
-                                Sample case: $sql = "SELECT * FROM bar WHERE foo = '" . $variable . "'"
-          scope: string.quoted.double.unclosed.sql
-        - include: scope:source.sql
   string-backtick:
     - match: "`"
       scope: punctuation.definition.string.begin.php
@@ -896,32 +832,65 @@ contexts:
         - include: interpolation
   string-double-quoted:
     - match: '"'
-      comment: This contentName is just to allow the usage of “select scope” to select the string contents first, then the string with quotes
       scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.double.php
         - meta_content_scope: meta.string-contents.quoted.double.php
-        - match: '"'
-          scope: punctuation.definition.string.end.php
-          pop: true
-        - include: interpolation
+        - match: '(?={{sql_indicator}})'
+          set:
+            - meta_scope: string.quoted.double.php
+            - meta_content_scope: meta.string-contents.quoted.double.php
+            - match: '"'
+              scope: punctuation.definition.string.end.php
+              pop: true
+            - match: ''
+              with_prototype:
+                - match: '(?=")'
+                  pop: true
+                - include: interpolation
+              push: 'scope:source.sql'
+        - match: '(?=\S)'
+          set:
+            - meta_scope: string.quoted.double.php
+            - meta_content_scope: meta.string-contents.quoted.double.php
+            - match: '"'
+              scope: punctuation.definition.string.end.php
+              pop: true
+            - include: interpolation
   string-single-quoted:
     - match: "'"
       scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.single.php
         - meta_content_scope: meta.string-contents.quoted.single.php
-        - match: "'"
-          scope: punctuation.definition.string.end.php
-          pop: true
-        - match: '\\[\\'']'
-          scope: constant.character.escape.php
+        - match: '(?={{sql_indicator}})'
+          set:
+            - meta_scope: string.quoted.single.php
+            - meta_content_scope: meta.string-contents.quoted.single.php
+            - match: "'"
+              scope: punctuation.definition.string.end.php
+              pop: true
+            - match: ''
+              with_prototype:
+                - match: "(?=')"
+                  pop: true
+                - match: '\\[\\'']'
+                  scope: constant.character.escape.php
+              push: 'scope:source.sql'
+        - match: '(?=\S)'
+          set:
+            - meta_scope: string.quoted.single.php
+            - meta_content_scope: meta.string-contents.quoted.single.php
+            - match: "'"
+              scope: punctuation.definition.string.end.php
+              pop: true
+            - match: '\\[\\'']'
+              scope: constant.character.escape.php
+
   strings:
     - include: regex-double-quoted
-    - include: sql-string-double-quoted
     - include: string-double-quoted
     - include: regex-single-quoted
-    - include: sql-string-single-quoted
     - include: string-single-quoted
   support:
     - match: (?i)\bapc_(s(tore|ma_info)|c(ompile_file|lear_cache|a(s|che_info))|inc|de(c|fine_constants|lete(_file)?)|exists|fetch|load_constants|add|bin_(dump(file)?|load(file)?))\b
