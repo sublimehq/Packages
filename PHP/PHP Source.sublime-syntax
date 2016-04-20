@@ -3,6 +3,9 @@
 name: PHP Source
 hidden: true
 scope: source.php
+variables:
+  identifier: '\b[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*\b'
+
 contexts:
   main:
     - include: language
@@ -762,7 +765,7 @@ contexts:
         1: keyword.other.phpdoc.php
         3: storage.modifier.php
         4: invalid.illegal.wrong-access-type.phpdoc.php
-    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]+(?<![.?:])"
+    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
       scope: markup.underline.link.php
     - match: (@xlink)\s+(.+)\s*$
       captures:
@@ -775,7 +778,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
   regex-double-quoted:
-    - match: '(?x)"/ (?= (\\.|[^"/])++/[imsxeADSUXu]*" )'
+    - match: '(?x)"/ (?= (\\.|[^"/])+/[imsxeADSUXu]*" )'
       captures:
         0: punctuation.definition.string.begin.php
       push:
@@ -806,7 +809,7 @@ contexts:
         - match: "[$^+*]"
           scope: keyword.operator.regexp.php
   regex-single-quoted:
-    - match: '(?x)''/ (?= (\\.|[^''/])++/[imsxeADSUXu]*'' )'
+    - match: '(?x)''/ (?= (\\.|[^''/])+/[imsxeADSUXu]*'' )'
       captures:
         0: punctuation.definition.string.begin.php
       push:
@@ -1181,12 +1184,12 @@ contexts:
     - include: var_global_safer
     - match: |-
         (?x)
-        ((\$)(?<name>[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*))
+        ((\$){{identifier}})
         (?:
-            (->)(\g<name>)
+            (->)({{identifier}})
             |
             (\[)
-                (?:(\d+)|((\$)\g<name>)|(\w+))
+                (?:(\d+)|((\$){{identifier}})|(\w+))
             (\])
         )?
       comment: "Simple syntax: $foo, $foo[0], $foo[$bar], $foo->bar"
@@ -1201,14 +1204,12 @@ contexts:
         9: punctuation.definition.variable.php
         10: string.unquoted.index.php
         11: punctuation.section.array.end.php
-    - match: |-
-        (?x)
-        ((\$\{)(?<name>[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)(\}))
+    - match: '(\$\{){{identifier}}(\})'
       comment: 'Simple syntax with braces: "foo${bar}baz"'
+      scope: variable.other.php
       captures:
-        1: variable.other.php
+        1: punctuation.definition.variable.php
         2: punctuation.definition.variable.php
-        4: punctuation.definition.variable.php
   variables:
     - include: var_global
     - include: var_global_safer

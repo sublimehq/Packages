@@ -175,6 +175,14 @@ $var4 = 0b0111;
 //      ^^^^^^ constant.numeric
 
 
+preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m')
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted
+//                                 ^ keyword.operator
+
+preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m")
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.double-quoted
+//                                 ^ keyword.operator
+
 echo <<<EOT
 //   ^^^^^^ punctuation.definition.string
 //      ^^^ keyword.operator.heredoc
