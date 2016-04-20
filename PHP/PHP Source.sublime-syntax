@@ -76,23 +76,19 @@ contexts:
         This now only highlights a docblock if the first line contains only /**
         - this is to stop highlighting everything as invalid when people do comment banners with /******** ...
         - Now matches /**#@+ too - used for docblock templates: http://manual.phpdoc.org/HTMLframesConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblocktemplate
-      captures:
-        0: punctuation.definition.comment.php
+      scope: punctuation.definition.comment.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.php
           pop: true
         - include: php_doc
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.php
+      scope: punctuation.definition.comment.php
       push:
         - meta_scope: comment.block.php
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.php
           pop: true
     - match: (//).*?($\n?|(?=\?>))
       scope: comment.line.double-slash.php
@@ -159,8 +155,7 @@ contexts:
         - meta_scope: meta.function.argument.array.php
         - meta_content_scope: meta.array.php
         - match: '[\)\]]'
-          captures:
-            0: punctuation.definition.array.end.php
+          scope: punctuation.definition.array.end.php
           pop: true
         - include: comments
         - include: strings
@@ -620,8 +615,7 @@ contexts:
       push:
         - meta_scope: meta.array.php
         - match: \)
-          captures:
-            0: punctuation.definition.array.end.php
+          scope: punctuation.definition.array.end.php
           pop: true
         - include: language
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
@@ -679,12 +673,10 @@ contexts:
         2: punctuation.separator.php
     - include: string-backtick
     - match: '\['
-      captures:
-        0: punctuation.section.array.begin.php
+      scope: punctuation.section.array.begin.php
       push:
         - match: '\]'
-          captures:
-            0: punctuation.section.array.end.php
+          scope: punctuation.section.array.end.php
           pop: true
         - include: language
     - include: constants
@@ -732,8 +724,7 @@ contexts:
       push:
         - meta_scope: meta.array.php
         - match: \)
-          captures:
-            0: punctuation.definition.array.end.php
+          scope: punctuation.definition.array.end.php
           pop: true
         - include: parameter-default-types
     - include: instantiation
@@ -751,8 +742,7 @@ contexts:
       set:
         - meta_scope: comment.block.php
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.php
           pop: true
     - match: ^\s*\*\s*(@access)\s+((public|private|protected)|(.+))\s*$
       captures:
@@ -773,13 +763,11 @@ contexts:
         1: keyword.other.phpdoc.php
   regex-double-quoted:
     - match: '(?x)"/ (?= (\\.|[^"/])+/[imsxeADSUXu]*" )'
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.regexp.double-quoted.php
         - match: '(/)([imsxeADSUXu]*)(")'
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: '(\\){1,2}[.$^\[\]{}]'
           comment: Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
@@ -791,26 +779,22 @@ contexts:
             1: punctuation.definition.arbitrary-repetition.php
             3: punctuation.definition.arbitrary-repetition.php
         - match: '\[(?:\^?\])?'
-          captures:
-            0: punctuation.definition.character-class.php
+          scope: punctuation.definition.character-class.php
           push:
             - meta_scope: string.regexp.character-class.php
             - match: '\]'
-              captures:
-                0: punctuation.definition.character-class.php
+              scope: punctuation.definition.character-class.php
               pop: true
             - include: interpolation
         - match: "[$^+*]"
           scope: keyword.operator.regexp.php
   regex-single-quoted:
     - match: '(?x)''/ (?= (\\.|[^''/])+/[imsxeADSUXu]*'' )'
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.regexp.single-quoted.php
         - match: "(/)([imsxeADSUXu]*)(')"
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: '(\{)\d+(,\d+)?(\})'
           scope: string.regexp.arbitrary-repetition.php
@@ -824,13 +808,11 @@ contexts:
           comment: Escaped from the PHP string – there can also be 2 backslashes (since 1 will escape the first)
           scope: constant.character.escape.php
         - match: '\[(?:\^?\])?'
-          captures:
-            0: punctuation.definition.character-class.php
+          scope: punctuation.definition.character-class.php
           push:
             - meta_scope: string.regexp.character-class.php
             - match: '\]'
-              captures:
-                0: punctuation.definition.character-class.php
+              scope: punctuation.definition.character-class.php
               pop: true
             - match: '\\[\\''\[\]]'
               scope: constant.character.escape.php
@@ -838,14 +820,12 @@ contexts:
           scope: keyword.operator.regexp.php
   sql-string-double-quoted:
     - match: '"\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b)'
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.double.sql.php
         - meta_content_scope: source.sql.embedded.php
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: '#(\\"|[^"])*(?="|$\n?)'
           scope: comment.line.number-sign.sql
@@ -879,14 +859,12 @@ contexts:
         - include: scope:source.sql
   sql-string-single-quoted:
     - match: '''\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b)'
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.single.sql.php
         - meta_content_scope: source.sql.embedded.php
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: '#(\\''|[^''])*(?=''|$\n?)'
           scope: comment.line.number-sign.sql
@@ -907,13 +885,11 @@ contexts:
         - include: scope:source.sql
   string-backtick:
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.interpolated.php
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: \\.
           scope: constant.character.escape.php
@@ -921,26 +897,22 @@ contexts:
   string-double-quoted:
     - match: '"'
       comment: This contentName is just to allow the usage of “select scope” to select the string contents first, then the string with quotes
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.double.php
         - meta_content_scope: meta.string-contents.quoted.double.php
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - include: interpolation
   string-single-quoted:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.php
+      scope: punctuation.definition.string.begin.php
       push:
         - meta_scope: string.quoted.single.php
         - meta_content_scope: meta.string-contents.quoted.single.php
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.php
+          scope: punctuation.definition.string.end.php
           pop: true
         - match: '\\[\\'']'
           scope: constant.character.escape.php
