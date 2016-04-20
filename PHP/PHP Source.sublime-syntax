@@ -179,7 +179,7 @@ contexts:
         5: keyword.operator.assignment.php
         6: constant.language.php
         7: invalid.illegal.non-null-typehinted.php
-    - match: '(?i)(?={{path}}\s*&?\s*\$)'
+    - match: '(?={{path}}\s*&?\s*\$)'
       push:
         - meta_scope: meta.function.argument.typehinted.php
         - match: '(?=,|\)|/[/*]|\#|$)'
@@ -225,7 +225,7 @@ contexts:
           pop: true
         - include: parameter-default-types
   function-call:
-    - match: '(?i)(?={{path}}\\{{identifier}}\s*\()'
+    - match: '(?={{path}}\\{{identifier}}\s*\()'
       comment: Functions in a user-defined namespace (overrides any built-ins)
       push:
         - match: (?=\s*\()
@@ -233,7 +233,7 @@ contexts:
         - include: user-function-call
     - match: (?i)\b(print|echo)\b
       scope: support.function.construct.php
-    - match: '(?i)(\\)?(?={{identifier}}\s*\()'
+    - match: '(\\)?(?={{identifier}}\s*\()'
       comment: Root namespace function calls (built-in or user)
       captures:
         1: punctuation.separator.namespace.php
@@ -372,7 +372,7 @@ contexts:
         - include: language
     - include: variable-name
   invoke-call:
-    - match: '(?i)(\$+)({{identifier}})(?=\s*\()'
+    - match: '(\$+)({{identifier}})(?=\s*\()'
       scope: meta.function-call.invoke.php
       captures:
         1: punctuation.definition.variable.php
@@ -567,7 +567,7 @@ contexts:
         - include: function-arguments
     - include: invoke-call
     - match: |-
-        (?xi)\s*(?=
+        (?x)\s*(?=
             [[:alnum:]_$\\]+(::)
             (?:
                 ({{identifier}})\s*\(
@@ -668,7 +668,7 @@ contexts:
       captures:
         1: keyword.control.goto.php
         2: support.other.php
-    - match: '(?i)^\s*({{identifier}})\s*(:)(?!:)'
+    - match: '^\s*({{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
         2: punctuation.separator.php
