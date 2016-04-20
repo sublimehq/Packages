@@ -49,9 +49,80 @@ function i(
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php
 //              ^ storage.modifier.extends.php
-//                       ^ meta.other.inherited-class.php
+//                       ^ entity.other.inherited-class.php
 //                               ^ storage.modifier.implements.php
-//                                           ^ meta.other.inherited-class.php
+//                                           ^ entity.other.inherited-class.php
+
+class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
+//    ^ entity.name.class
+//              ^ storage.modifier
+//                      ^ comment.block
+//                            ^^^^^^^^^^^^^^^^ entity.other.inherited-class
+//                            ^ punctuation.separator.namespace
+//                                        ^ punctuation.separator.namespace
+//                                             ^ storage.modifier
+//                                                        ^^^^^^^^^^^^^^^^ entity.other.inherited-class
+//                                                        ^ punctuation.separator.namespace
+//                                                                    ^ punctuation.separator.namespace
+}
+
+interface MyInter {}
+// <- storage.type
+//        ^ entity.name.interface
+
+interface MyInter2 extends \MyNamespace\Foo {
+// <- storage.type
+//        ^ entity.name.interface
+//                 ^ storage.modifier
+//                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
+//                         ^ punctuation.separator.namespace
+//                                     ^ punctuation.separator.namespace
+}
+
+if ($foo instanceof \Mynamespace\ClassName) {
+//  ^ variable.other
+//       ^ keyword.operator
+//                  ^ punctuation.separator.namespace
+//                   ^ support.other.namespace
+//                              ^ punctuation.separator.namespace
+//                               ^^^^^^^^^ support.class
+}
+
+$var = new \MyNamespce\ClassName();
+// <- variable.other
+//     ^ keyword.other
+//         ^ punctuation.separator.namespace
+//          ^ support.other.namespace
+//                    ^ punctuation.separator.namespace
+//                     ^ support.class
+
+\MyNamespace\Foo::BAR;
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//          ^ punctuation.separator.namespace
+//           ^ support.class
+//              ^^ keyword.operator.class
+//                ^^^ constant.other
+
+\MyNamespace\Foo::bar();
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//          ^ punctuation.separator.namespace
+//           ^^^ support.class
+//              ^^ keyword.operator.class
+//                ^^^ meta.function-call
+
+\MyNamespace\Foo();
+//^^^^^^^^^^^^^^ meta.function-call
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//          ^ punctuation.separator.namespace
+
+\MyNamespace\Foo;
+// <- punctuation.separator.namespace
+ // <- support.other.namespace
+//          ^ punctuation.separator.namespace
+//           ^ constant.other
 
 $test = new Test1;
 //      ^ keyword.other.new.php
@@ -61,9 +132,9 @@ $anon = new class extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
 //                ^ storage.modifier.extends.php
-//                         ^ meta.other.inherited-class.php
+//                         ^ entity.other.inherited-class.php
 //                              ^ storage.modifier.implements.php
-//                                         ^ meta.other.inherited-class.php
+//                                         ^ entity.other.inherited-class.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ storage.type.function.php
@@ -87,7 +158,7 @@ $anon = new class extends Test1 implements Countable {};
 //           ^ entity.name.function.php
 //                          ^ punctuation.definition.parameters.begin.php
 //                                  ^ punctuation.definition.parameters.end.php
-//                                     ^ support.class.php
+//                                     ^ support.other.namespace.php
 //                                                 ^ support.class.php
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
