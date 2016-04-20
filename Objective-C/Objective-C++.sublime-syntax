@@ -958,7 +958,7 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b'
+    - match: '\b[[:upper:][:digit:]_]+\b(?=\s+{{identifier}})'
 
   data-structures-definition-common-end:
     - include: angle-brackets

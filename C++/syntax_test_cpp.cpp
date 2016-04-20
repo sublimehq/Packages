@@ -899,6 +899,10 @@ union foobaz {
 /* <- meta.union meta.block punctuation.definition.block */
  /* <- - meta.union meta.block punctuation.definition.block */
 
+// Class name that looks like a possible macro
+class SP {}
+//    ^^ entity.name.class
+
 // Class using macro to handle __declspec() on Windows
 class SK_API SkBitmap {}
 /*           ^ entity.name.class */
