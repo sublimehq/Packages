@@ -1208,9 +1208,7 @@ contexts:
         9: punctuation.definition.variable.php
         10: string.unquoted.index.php
         11: punctuation.section.array.end.php
-    - match: |-
-        (?x)
-        ((\$\{)(?<name>[a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)(\}))
+    - match: '((\$\{)([a-zA-Z_\x{7f}-\x{ff}][a-zA-Z0-9_\x{7f}-\x{ff}]*)(\}))'
       comment: 'Simple syntax with braces: "foo${bar}baz"'
       captures:
         1: variable.other.php
