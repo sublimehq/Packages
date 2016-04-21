@@ -72,11 +72,10 @@ contexts:
         - match: ''
           pop: true
   comments:
+    # This only highlights a docblock if the first line contains only /** or
+    # /**#@+ (which is used for docblock templates). Otherwise block-level
+    # comment would be highlighted as invalid for constructs such as /**** ****/
     - match: /\*\*(?:#@\+)?\s*$
-      comment: |
-        This now only highlights a docblock if the first line contains only /**
-        - this is to stop highlighting everything as invalid when people do comment banners with /******** ...
-        - Now matches /**#@+ too - used for docblock templates: http://manual.phpdoc.org/HTMLframesConverter/default/phpDocumentor/tutorial_phpDocumentor.howto.pkg.html#basics.docblocktemplate
       scope: punctuation.definition.comment.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
@@ -225,16 +224,17 @@ contexts:
           pop: true
         - include: parameter-default-types
   function-call:
+    # Functions in a user-defined namespace should only be highlighted as user,
+    # any built-in function names should not be highlighted specially
     - match: '(?={{path}}\\{{identifier}}\s*\()'
-      comment: Functions in a user-defined namespace (overrides any built-ins)
       push:
         - match: (?=\s*\()
           pop: true
         - include: user-function-call
     - match: (?i)\b(print|echo)\b
       scope: support.function.construct.php
+    # Root namespace function calls may be a built-in or user
     - match: '(\\)?(?={{identifier}}\s*\()'
-      comment: Root namespace function calls (built-in or user)
       captures:
         1: punctuation.separator.namespace.php
       push:
@@ -739,6 +739,10 @@ contexts:
         - include: class-name
     - include: constants
   php_doc:
+    # If the next line doesn't start with whitespace then an asterisk, the use
+    # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
+    # of marking the comment as invalid, we just switch to a normal block-level
+    # comment.
     - match: ^(?!\s*\*).*$\n?
       set:
         - meta_scope: comment.block.php
@@ -770,8 +774,8 @@ contexts:
         - match: '(/)([imsxeADSUXu]*)(")'
           scope: punctuation.definition.string.end.php
           pop: true
+        # Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
         - match: '(\\){1,2}[.$^\[\]{}]'
-          comment: Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
           scope: constant.character.escape.regex.php
         - include: interpolation
         - match: '(\{)\d+(,\d+)?(\})'
@@ -802,11 +806,11 @@ contexts:
           captures:
             1: punctuation.definition.arbitrary-repetition.php
             3: punctuation.definition.arbitrary-repetition.php
+        # Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
         - match: '(\\){1,2}[.$^\[\]{}]'
-          comment: Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
           scope: constant.character.escape.regex.php
+        # Escaped from the PHP string – there can also be 2 backslashes (since 1 will escape the first)
         - match: '\\{1,2}[\\'']'
-          comment: Escaped from the PHP string – there can also be 2 backslashes (since 1 will escape the first)
           scope: constant.character.escape.php
         - match: '\[(?:\^?\])?'
           scope: punctuation.definition.character-class.php
@@ -1114,6 +1118,7 @@ contexts:
   variable-name:
     - include: var_global
     - include: var_global_safer
+    # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
     - match: |-
         (?x)
         ((\$){{identifier}})
@@ -1124,7 +1129,6 @@ contexts:
                 (?:(\d+)|((\$){{identifier}})|(\w+))
             (\])
         )?
-      comment: "Simple syntax: $foo, $foo[0], $foo[$bar], $foo->bar"
       captures:
         1: variable.other.php
         2: punctuation.definition.variable.php
@@ -1136,8 +1140,8 @@ contexts:
         9: punctuation.definition.variable.php
         10: string.unquoted.index.php
         11: punctuation.section.array.end.php
+    # Handles: "foo${bar}baz"
     - match: '(\$\{){{identifier}}(\})'
-      comment: 'Simple syntax with braces: "foo${bar}baz"'
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
