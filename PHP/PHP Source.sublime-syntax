@@ -603,6 +603,21 @@ contexts:
         - include: variable-name
     - include: variables
     - include: strings
+    - match: (?<=(?:\(|\)|=|,|;|\s))\s*(\[)\s*(\])
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.definition.array.begin.php
+        2: punctuation.definition.array.end.php
+    - match: (?<=(\(|\)|=|,|;|\s))\s*(\[)
+      captures:
+        2: punctuation.definition.array.begin.php
+      push:
+        - meta_scope: meta.array.php
+        - match: \]
+          captures:
+            0: punctuation.definition.array.end.php
+          pop: true
+        - include: language
     - match: (array)(\()(\))
       scope: meta.array.empty.php
       captures:
