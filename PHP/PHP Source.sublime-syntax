@@ -90,14 +90,24 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.php
           pop: true
-    - match: (//).*?($\n?|(?=\?>))
-      scope: comment.line.double-slash.php
-      captures:
-        1: punctuation.definition.comment.php
-    - match: (#).*?($\n?|(?=\?>))
-      scope: comment.line.number-sign.php
-      captures:
-        1: punctuation.definition.comment.php
+    - match: //
+      scope: punctuation.definition.comment.php
+      push:
+        - meta_scope: comment.line.double-slash.php
+        - match: '(?=\?>)'
+          pop: true
+        # Consume the newline so that completions aren't shown at the end of the line
+        - match: \n
+          pop: true
+    - match: '#'
+      scope: punctuation.definition.comment.php
+      push:
+        - meta_scope: comment.line.number-sign.php
+        - match: '(?=\?>)'
+          pop: true
+        # Consume the newline so that completions aren't shown at the end of the line
+        - match: \n
+          pop: true
   constants:
     - match: (?i)\b(TRUE|FALSE|NULL|__(FILE|DIR|FUNCTION|CLASS|METHOD|LINE|NAMESPACE)__|ON|OFF|YES|NO|NL|BR|TAB)\b
       scope: constant.language.php
