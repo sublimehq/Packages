@@ -5,6 +5,97 @@ namespace MyNamespace;
 //        ^^^^^^^^^^^ entity.name.namespace
 //                   ^ - entity.name.namespace
 
+use MyNamespace\Foo;
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^ meta.use
+//  ^ support.other.namespace
+//             ^ punctuation.separator.namespace
+//              ^ - constant.other
+
+use /* Comment */ \MyNamespace\Foo;
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^^^^^^^^^^^^^ comment.block
+//                ^ punctuation.separator.namespace
+//                 ^ support.other.namespace
+//                            ^ punctuation.separator.namespace
+//                             ^ - constant.other
+
+use My\Full\Classname as /**/ Another # Foo baz
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ support.other.namespace
+//         ^ punctuation.separator.namespace
+//          ^ - constant.other
+//                    ^ keyword.other.use-as
+//                       ^^^^ comment.block
+//                            ^ entity.name.class
+//                                    ^^^^^^^^^ comment.line
+, My\Full\NSname;
+// <- punctuation.separator
+//^ support.other.namespace
+//  ^ punctuation.separator.namespace
+//        ^ - constant.other
+
+use function /**/ some\namespace\fn_a;
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ storage.type
+//           ^^^^ comment.block
+//                ^ support.other.namespace
+//                    ^ punctuation.separator.namespace
+//                               ^ - entity.name.function
+
+use function some\namespace\fn_a /**/ as fn_b;
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ storage.type
+//           ^ support.other.namespace
+//               ^ punctuation.separator.namespace
+//                          ^ - entity.name.function
+//                               ^^^^ comment.block
+//                                    ^ keyword.other.use-as
+//                                       ^ entity.name.function
+
+use const /**/ some\namespace\ConstA;
+// <- keyword.other.use
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ storage.type
+//        ^^^^ comment.block
+//             ^ support.other.namespace
+//                 ^ punctuation.separator.namespace
+//                            ^ constant.other
+
+// Unfortunately we don't know if these identifiers are namespaces or classes
+// so we can't disambiguate. Generally we are just going to assume an "as" is
+// a class name so that the definition of the class can be found via the index.
+use some\namespace\{ClassA, ClassB, ClassC as C};
+// <- keyword.other.use
+//                 ^ punctuation.definition.block
+//                  ^ - entity.name.class
+//                                         ^ keyword.other.use-as
+//                                            ^ entity.name.class
+//                                             ^ punctuation.definition.block
+
+use function some\namespace\{fn_a, fn_b, fn_c as fn_d};
+// <- keyword.other.use
+//                          ^ punctuation.definition.block
+//                           ^ - entity.name.function
+//                                            ^ keyword.other.use-as
+//                                               ^ entity.name.function
+//                                                   ^ punctuation.definition.block
+
+
+use const some\namespace\{ConstA, ConstB AS ConstD, ConstC};
+// <- keyword.other.use
+//                       ^ punctuation.definition.block
+//                        ^ constant.other
+//                                ^ constant.other
+//                                       ^ keyword.other.use-as
+//                                          ^ constant.other
+//                                                        ^ punctuation.definition.block
+
+
 function a($a = array(),             $b = "hi") {};
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
@@ -181,9 +272,9 @@ trait A
 class B
 //    ^ entity.name.class
 {
-    use MyNamespace\X,
-//  ^^^^^^^^^^^^^^^^^^ meta.use
-//      ^^^^^^^^^^^^^ entity.other.inherited-class
+    use MyNamespace\Xyz,
+//  ^^^^^^^^^^^^^^^^^^^^ meta.use
+//      ^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                 ^ punctuation.separator.namespace
     Y,
 //  ^ meta.use entity.other.inherited-class
