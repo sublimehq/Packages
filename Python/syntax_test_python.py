@@ -114,7 +114,7 @@ string = """
 """
 
 string = """
-#        ^^^ string.quoted.double.block
+#        ^^^ string.quoted.double.block - string string
 """
 
 string = r"""

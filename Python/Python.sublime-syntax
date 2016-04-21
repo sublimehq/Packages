@@ -561,7 +561,7 @@ contexts:
     - match: '([uU]?r)(""")'
       captures:
         1: storage.type.string.python
-        2: string.quoted.double.block.python punctuation.definition.string.begin.python
+        2: punctuation.definition.string.begin.python
       push:
         - meta_scope: string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
@@ -593,7 +593,7 @@ contexts:
     - match: '([uU]?)(""")'
       captures:
         1: storage.type.string.python
-        2: string.quoted.double.block.python punctuation.definition.string.begin.python
+        2: punctuation.definition.string.begin.python
       push:
         - meta_scope: string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
@@ -721,7 +721,7 @@ contexts:
     - match: '([uU]?r)('''''')'
       captures:
         1: storage.type.string.python
-        2: string.quoted.single.block.python punctuation.definition.string.begin.python
+        2: punctuation.definition.string.begin.python
       push:
         - meta_scope: string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
@@ -753,7 +753,7 @@ contexts:
     - match: '([uU]?)('''''')'
       captures:
         1: storage.type.string.python
-        2: string.quoted.single.block.python punctuation.definition.string.begin.python
+        2: punctuation.definition.string.begin.python
       push:
         - meta_scope: string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
