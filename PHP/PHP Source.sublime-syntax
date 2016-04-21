@@ -192,9 +192,9 @@ contexts:
             6: constant.other.class.php
           pop: true
         - match: (self|static|parent)\b
-          scope: storage.type.php
+          scope: variable.language.php
         - include: class-name
-        - include: variable-name
+        - include: variables
     - include: variables
     - include: strings
     - match: (array)(\()(\))
@@ -216,8 +216,10 @@ contexts:
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
-    - match: (?i)\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|var|function|interface|parent|self|object)\b
+    - match: (?i)\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|var|function|interface|object)\b
       scope: storage.type.php
+    - match: (?i)\b(parent|self)\b
+      scope: variable.language.php
     - match: (?i)\b(global|abstract|const|extends|implements|final|p(r(ivate|otected)|ublic)|static)\b
       scope: storage.modifier.php
     - include: object
@@ -255,7 +257,7 @@ contexts:
         - match: '(?=[^[:alnum:]_\\$])'
           pop: true
         - include: class-name
-        - include: variable-name
+        - include: variables
     - include: numbers
     - include: instantiation
     - match: '(?i)(goto)\s+({{identifier}})'
@@ -802,9 +804,9 @@ contexts:
         - match: '(?=[^[:alnum:]$_\\])'
           pop: true
         - match: '(parent|static|self)\b'
-          scope: storage.type.php
+          scope: variable.language.php
         - include: class-name
-        - include: variable-name
+        - include: variables
   interpolation:
     - match: '\\[0-7]{1,3}'
       scope: constant.character.escape.octal.php
@@ -816,6 +818,21 @@ contexts:
       scope: constant.character.escape.php
     - match: '(\{)(?=\$.*?\})'
       captures:
+        1: punctuation.definition.expression.php
+      push:
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.expression.php
+          pop: true
+        - include: expressions
+    # Handles: "foo${bar}baz"
+    - match: '(\$\{){{identifier}}(\})'
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
+        2: punctuation.definition.variable.php
+    - match: '(\$\{)(?=.*?\})'
+      captures:
         1: punctuation.definition.variable.php
       push:
         - match: '(\})'
@@ -823,7 +840,36 @@ contexts:
             1: punctuation.definition.variable.php
           pop: true
         - include: expressions
-    - include: variable-name
+    # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
+    - match: |-
+        (?x:
+          (?=
+            \${{identifier}}
+            (?:
+                ->{{identifier}}
+                |
+                \[ ( \d+ | \$?{{identifier}} ) \]
+            )
+          )
+        )
+      push:
+        - match: (->)({{identifier}})
+          captures:
+            1: keyword.operator.class.php
+            2: variable.other.property.php
+          pop: true
+        - match: '\['
+          scope: punctuation.section.array.begin.php
+          set:
+            - match: '\]'
+              scope: punctuation.section.array.end.php
+              pop: true
+            - include: numbers
+            - include: variables
+            - match: '{{identifier}}'
+              scope: constant.other.php
+        - include: variables
+    - include: variables
   invoke-call:
     - match: '(\$+)({{identifier}})(?=\s*\()'
       scope: meta.function-call.invoke.php
@@ -1249,65 +1295,25 @@ contexts:
         - include: identifier-parts
         - match: '{{identifier}}(?=\s*\()'
           pop: true
-  var_basic:
-    - match: (\$+){{identifier}}
-      scope: variable.other.php
-      captures:
-        1: punctuation.definition.variable.php
-  var_global:
+
+  variables:
     - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
       scope: variable.other.global.php
       captures:
         1: punctuation.definition.variable.php
-  var_global_safer:
     - match: (\$)((GLOBALS|_(ENV|SERVER|SESSION)))
       scope: variable.other.global.safer.php
       captures:
         1: punctuation.definition.variable.php
-  variable-name:
-    - include: var_global
-    - include: var_global_safer
-    # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
-    - match: |-
-        (?x)
-        ((\$){{identifier}})
-        (?:
-            (->)({{identifier}})
-            |
-            (\[)
-                (?:(\d+)|((\$){{identifier}})|(\w+))
-            (\])
-        )?
+    - match: '(\$)this\b'
+      scope: variable.language.php
       captures:
-        1: variable.other.php
-        2: punctuation.definition.variable.php
-        4: keyword.operator.class.php
-        5: variable.other.property.php
-        6: punctuation.section.array.begin.php
-        7: constant.numeric.index.php
-        8: variable.other.index.php
-        9: punctuation.definition.variable.php
-        10: string.unquoted.index.php
-        11: punctuation.section.array.end.php
-    # Handles: "foo${bar}baz"
-    - match: '(\$\{){{identifier}}(\})'
+        1: punctuation.definition.variable.php
+    - match: (\$+){{identifier}}
       scope: variable.other.php
       captures:
         1: punctuation.definition.variable.php
-        2: punctuation.definition.variable.php
-  variables:
-    - include: var_global
-    - include: var_global_safer
-    - include: var_basic
-    - match: '(\$\{)(?=.*?\})'
-      captures:
-        1: punctuation.definition.variable.php
-      push:
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.variable.php
-          pop: true
-        - include: expressions
+
   identifier-parts:
     - match: (\\)?({{identifier}})(\\)
       captures:

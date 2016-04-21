@@ -262,6 +262,88 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                               ^^^^^^^^ constant.character.escape.unicodepoint.php
 //                                        ^^^^^^^ meta.string-contents.quoted.double.php
 
+"$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}"
+ // <- variable.other punctuation.definition.variable
+//^ variable.other
+//       ^^ variable.other
+//       ^ punctuation.definition.variable
+//         ^^ keyword.operator.class
+//           ^ variable.other.property
+//                ^^^^ variable.other
+//                ^^ punctuation.definition.variable
+//                   ^ punctuation.definition.variable
+//                          ^ punctuation.definition.expression
+//                           ^^ variable.other
+//                           ^ punctuation.definition.variable
+//                             ^ punctuation.definition.expression
+//                                    ^^ variable.other
+//                                    ^ punctuation.definition.variable
+//                                      ^ punctuation.section.array.begin
+//                                       ^ constant.numeric
+//                                        ^ punctuation.section.array.end
+//                                                      ^^ variable.other
+//                                                      ^ punctuation.definition.variable
+//                                                        ^ punctuation.section.array.begin
+//                                                         ^^ variable.other
+//                                                         ^ punctuation.definition.variable
+//                                                           ^ punctuation.section.array.end
+//                                                                ^^ variable.other
+//                                                                ^ punctuation.definition.variable
+//                                                                  ^ punctuation.section.array.begin
+//                                                                   ^ constant.other
+//                                                                    ^ punctuation.section.array.end
+//                                                                                  ^ punctuation.definition.expression
+//                                                                                   ^^ variable.other
+//                                                                                   ^ punctuation.definition.variable
+//                                                                                      ^ keyword.operator
+//                                                                                        ^^ variable.other
+//                                                                                        ^ punctuation.definition.variable
+//                                                                                          ^^ keyword.operator.class
+//                                                                                            ^ variable.other.property
+//                                                                                              ^ keyword.operator
+//                                                                                                ^ constant.other
+
+`$a then $b->c or ${d} with {$e} then $f[0] followed by $g[$h] or $i[k] and finally {$l . $m->n . o}`
+ // <- variable.other punctuation.definition.variable
+//^ variable.other
+//       ^^ variable.other
+//       ^ punctuation.definition.variable
+//         ^^ keyword.operator.class
+//           ^ variable.other.property
+//                ^^^^ variable.other
+//                ^^ punctuation.definition.variable
+//                   ^ punctuation.definition.variable
+//                          ^ punctuation.definition.expression
+//                           ^^ variable.other
+//                           ^ punctuation.definition.variable
+//                             ^ punctuation.definition.expression
+//                                    ^^ variable.other
+//                                    ^ punctuation.definition.variable
+//                                      ^ punctuation.section.array.begin
+//                                       ^ constant.numeric
+//                                        ^ punctuation.section.array.end
+//                                                      ^^ variable.other
+//                                                      ^ punctuation.definition.variable
+//                                                        ^ punctuation.section.array.begin
+//                                                         ^^ variable.other
+//                                                         ^ punctuation.definition.variable
+//                                                           ^ punctuation.section.array.end
+//                                                                ^^ variable.other
+//                                                                ^ punctuation.definition.variable
+//                                                                  ^ punctuation.section.array.begin
+//                                                                   ^ constant.other
+//                                                                    ^ punctuation.section.array.end
+//                                                                                  ^ punctuation.definition.expression
+//                                                                                   ^^ variable.other
+//                                                                                   ^ punctuation.definition.variable
+//                                                                                      ^ keyword.operator
+//                                                                                        ^^ variable.other
+//                                                                                        ^ punctuation.definition.variable
+//                                                                                          ^^ keyword.operator.class
+//                                                                                            ^ variable.other.property
+//                                                                                              ^ keyword.operator
+//                                                                                                ^ constant.other
+
 trait A
 // ^ storage.type.trait
 //    ^ entity.name.trait
@@ -302,6 +384,21 @@ class B
     {
         echo B::class;
 //              ^ constant.class
+
+        parent::abc($var, $var2, $var3);
+//      ^^^^^^ variable.language
+//            ^^ keyword.operator.class
+
+        $this->undo();
+//      ^^^^^ variable.language
+//      ^ punctuation.definition.variable
+
+        $var2 = 'test';
+//      ^^^^^ variable.other
+//      ^ punctuation.definition.variable
+
+        return new self();
+//                 ^^^^ variable.language
     }
 }
 
