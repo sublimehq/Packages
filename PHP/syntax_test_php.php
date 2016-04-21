@@ -370,3 +370,22 @@ SELECT * FROM users WHERE first_name = 'John'
 //                                     ^^^^^^ string.quoted.single
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+
+$array = [   ];
+//       ^ meta.array.empty.php punctuation.definition.array.begin.php
+//           ^ meta.array.empty.php punctuation.definition.array.end.php
+   []
+// ^ meta.array.empty.php punctuation.definition.array.begin.php
+//  ^ meta.array.empty.php punctuation.definition.array.end.php
+
+$array = [
+//       ^ meta.array.php punctuation.definition.array.begin.php
+    'abc'   => $arr['key']['key2']
+//                 ^ meta.array.php punctuation.section.array.begin.php
+//                        ^ meta.array.php punctuation.section.array.begin.php
+];
+
+$array[  ];
+//    ^ punctuation.section.array.begin.php
+//       ^ punctuation.section.array.end.php
+
