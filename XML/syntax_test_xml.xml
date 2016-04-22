@@ -36,6 +36,44 @@
 <!--                                        ^ punctuation.definition.constant -->
 <!--                                          ^ punctuation.definition.tag.end -->
 
+<!DOCTYPE data [
+<!-- ^ keyword.doctype -->
+<!--      ^ variable.documentroot -->
+
+<!ENTITY auml  "&#228;">
+<!-- ^ keyword.entity -->
+<!--      ^ variable.entity -->
+<!--           ^ string.quoted.double -->
+<!--            ^ constant.character.entity -->
+
+<!ELEMENT ArticleTitle (#PCDATA)>
+<!-- ^ keyword.element -->
+<!--      ^ variable.element -->
+<!--                   ^ punctuation.definition.group -->
+<!--                    ^ constant.other -->
+<!--                           ^ punctuation.definition.group -->
+
+<!ELEMENT AbstractText (#PCDATA)>
+
+<!ELEMENT info (ArticleTitle,AbstractText)+>
+<!-- ^ keyword.element -->
+<!--      ^ variable.element -->
+<!--           ^ punctuation.definition.group -->
+<!--                        ^ punctuation.separator -->
+<!--                                     ^ punctuation.definition.group -->
+<!--                                      ^ keyword.operator -->
+
+<!ATTLIST image width CDATA #REQUIRED>
+<!-- ^ keyword.attlist -->
+<!--      ^ variable.element -->
+<!--            ^ variable.attribute-name -->
+
+<!NOTATION name PUBLIC "public_ID" "URI">
+<!-- ^ keyword.notation -->
+<!--       ^ variable.notation -->
+<!--                   ^ string.quoted.double -->
+
+]>
 
 <!--
   Comments

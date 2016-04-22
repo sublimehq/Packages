@@ -41,7 +41,7 @@ contexts:
             3: entity.other.attribute-name.localname.xml
         - include: doublequotedString
         - include: singlequotedString
-    - match: '(<!)(DOCTYPE)\s+({{name}})'
+    - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.doctype.xml
@@ -90,20 +90,6 @@ contexts:
           scope: punctuation.definition.string.end.xml
           pop: true
     - include: should-be-entity
-  EntityDecl:
-    - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: keyword.entity.xml
-        3: punctuation.definition.entity.xml
-        4: variable.entity.xml
-        5: keyword.entitytype.xml
-      push:
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: doublequotedString
-        - include: singlequotedString
   should-be-entity:
     - match: '&'
       scope: invalid.illegal.bad-ampersand.xml
@@ -134,9 +120,80 @@ contexts:
         - meta_scope: meta.internalsubset.xml
         - match: \]
           pop: true
-        - include: EntityDecl
-        - include: parameterEntity
-  parameterEntity:
+        - include: entity-decl
+        - include: element-decl
+        - include: attlist-decl
+        - include: notation-decl
+        - include: parameter-entity
+  entity-decl:
+    - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.entity.xml
+        3: punctuation.definition.entity.xml
+        4: variable.entity.xml
+        5: keyword.entitytype.xml
+      push:
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: doublequotedString
+        - include: singlequotedString
+  element-decl:
+    - match: '(<!)(ELEMENT)\s+({{name}})\s+'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.element.xml
+        3: variable.element.xml
+      push:
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - match: '\b(EMPTY|ANY)\b'
+          scope: constant.other.xml
+        - include: element-parens
+  element-parens:
+    - match: \(
+      scope: punctuation.definition.group.xml
+      push:
+        - match: (\))([*?+])?
+          captures:
+            1: punctuation.definition.group.xml
+            2: keyword.operator.xml
+          pop: true
+        - match: '#PCDATA'
+          scope: constant.other.xml
+        - match: '[*?+]'
+          scope: keyword.operator.xml
+        - match: '[,|]'
+          scope: punctuation.separator.xml
+        - include: element-parens
+  attlist-decl:
+    - match: '(<!)(ATTLIST)\s+({{name}})\s+({{name}})'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.attlist.xml
+        3: variable.element.xml
+        4: variable.attribute-name.xml
+      push:
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: doublequotedString
+        - include: singlequotedString
+  notation-decl:
+    - match: '(<!)(NOTATION)\s+({{name}})'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.notation.xml
+        3: variable.notation.xml
+      push:
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: doublequotedString
+        - include: singlequotedString
+  parameter-entity:
     - match: '(%){{name}}(;)'
       scope: constant.character.parameter-entity.xml
       captures:
