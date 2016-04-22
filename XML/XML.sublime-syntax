@@ -34,8 +34,11 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - match: " ([a-zA-Z-]+)"
-          scope: entity.other.attribute-name.xml
+        - match: '\s+{{qualified_name}}'
+          captures:
+            1: entity.other.attribute-name.namespace.xml
+            2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
+            3: entity.other.attribute-name.localname.xml
         - include: doublequotedString
         - include: singlequotedString
     - match: '(<!)(DOCTYPE)\s+({{name}})'
@@ -136,7 +139,7 @@ contexts:
         - include: entity
         - include: bare-ampersand
   tagStuff:
-    - match: " {{qualified_name}}="
+    - match: '\s+{{qualified_name}}='
       captures:
         1: entity.other.attribute-name.namespace.xml
         2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
