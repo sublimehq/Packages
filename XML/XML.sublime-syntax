@@ -31,9 +31,8 @@ contexts:
         2: entity.name.tag.xml
       push:
         - meta_scope: meta.tag.preprocessor.xml
-        - match: (\?>)
-          captures:
-            1: punctuation.definition.tag.end.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
           pop: true
         - match: " ([a-zA-Z-]+)"
           scope: entity.other.attribute-name.xml
@@ -51,14 +50,13 @@ contexts:
             1: punctuation.definition.tag.end.xml
           pop: true
         - include: internalSubset
-    - match: "<!--"
-      captures:
-        0: punctuation.definition.comment.xml
+    - match: '<!--'
+      scope: punctuation.definition.comment.xml
       push:
         - meta_scope: comment.block.xml
-        - match: "-->"
+        - match: '-->'
           pop: true
-    - match: "(</?){{qualified_name}}"
+    - match: '(</?){{qualified_name}}'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.namespace.xml
@@ -66,21 +64,18 @@ contexts:
         4: entity.name.tag.localname.xml
       push:
         - meta_scope: meta.tag.xml
-        - match: (/?>)
-          captures:
-            1: punctuation.definition.tag.end.xml
+        - match: /?>
+          scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tagStuff
     - include: entity
     - include: bare-ampersand
     - match: '<!\[CDATA\['
-      captures:
-        0: punctuation.definition.string.begin.xml
+      scope: punctuation.definition.string.begin.xml
       push:
         - meta_scope: string.unquoted.cdata.xml
-        - match: "]]>"
-          captures:
-            0: punctuation.definition.string.end.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
           pop: true
   EntityDecl:
     - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
@@ -91,58 +86,52 @@ contexts:
         4: variable.entity.xml
         5: keyword.entitytype.xml
       push:
-        - match: (>)
-          captures:
-            1: punctuation.definition.tag.end.xml
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
           pop: true
         - include: doublequotedString
         - include: singlequotedString
   bare-ampersand:
-    - match: "&"
+    - match: '&'
       scope: invalid.illegal.bad-ampersand.xml
   doublequotedString:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.xml
+      scope: punctuation.definition.string.begin.xml
       push:
         - meta_scope: string.quoted.double.xml
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.xml
+          scope: punctuation.definition.string.end.xml
           pop: true
         - include: entity
         - include: bare-ampersand
   entity:
-    - match: '(&)({{name}}|#[0-9]+|#x\h+)(;)'
+    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
       scope: constant.character.entity.xml
       captures:
         1: punctuation.definition.constant.xml
-        3: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
   internalSubset:
-    - match: '(\[)'
-      captures:
-        1: punctuation.definition.constant.xml
+    - match: \[
+      scope: punctuation.definition.constant.xml
       push:
         - meta_scope: meta.internalsubset.xml
-        - match: '(\])'
+        - match: \]
           pop: true
         - include: EntityDecl
         - include: parameterEntity
   parameterEntity:
-    - match: "(%)({{name}})(;)"
+    - match: '(%){{name}}(;)'
       scope: constant.character.parameter-entity.xml
       captures:
         1: punctuation.definition.constant.xml
-        3: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
   singlequotedString:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.xml
+      scope: punctuation.definition.string.begin.xml
       push:
         - meta_scope: string.quoted.single.xml
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.xml
+          scope: punctuation.definition.string.end.xml
           pop: true
         - include: entity
         - include: bare-ampersand
