@@ -171,17 +171,34 @@
 /*                             ^^         constant.character.escape.css */
 /*                                     ^^ constant.character.escape.css */
 
-.test-attribute-selectors[disabled][type='button'] {}
-/*                        ^^^^^^^^ entity.other.attribute-name.attribute.css */
-/*                                  ^^^^ entity.other.attribute-name.attribute.css */
-/*                                       ^^^^^^^^ string.quoted.single.attribute-value.css */
+.test-attribute-selectors[disabled][type=button] {}
+/*                       ^ punctuation.definition.entity.css */
+/*                        ^^^^^^^^ entity.other.attribute-name.css */
+/*                                ^ punctuation.definition.entity.css */
+/*                                  ^^^^ entity.other.attribute-name.css */
+/*                                       ^^^^^^ string.unquoted.css */
 
-.test-attribute-selectors-operators[a|=b][a$=b][a^=b][a~=b][a*=b] {}
-/*                                   ^^ punctuation.separator.operator.css */
-/*                                         ^^ punctuation.separator.operator.css */
-/*                                               ^^ punctuation.separator.operator.css */
-/*                                                     ^^ punctuation.separator.operator.css */
-/*                                                           ^^ punctuation.separator.operator.css */
+.test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
+/*                                   ^ entity.other.namespace-prefix.css */
+/*                                    ^ punctuation.separator.namespace.css */
+/*                                           ^ entity.name.namespace.wildcard.css */
+/*                                            ^ punctuation.separator.namespace.css */
+/*                                                   ^ punctuation.separator.namespace.css */
+
+.test-attribute-selectors-operators[a=""][a~=""][a|=""][a^=""][a$=""][a*=""] {}
+/*                                   ^ keyword.operator.attribute-selector.css */
+/*                                         ^^ keyword.operator.attribute-selector.css */
+/*                                                ^^ keyword.operator.attribute-selector.css */
+/*                                                       ^^ keyword.operator.attribute-selector.css */
+/*                                                              ^^ keyword.operator.attribute-selector.css */
+/*                                                                     ^^ keyword.operator.attribute-selector.css */
+
+.test-attribute-selectors-whitespace[a = ""] {}
+/*                                   ^ entity.other.attribute-name.css */
+/*                                     ^ keyword.operator.attribute-selector.css */
+
+.test-attribute-selectors-flags[a="" i] {}
+/*                                   ^ keyword.other.css */
 
    *.test-universal-selector {}
 /* ^ entity.name.tag.wildcard.css */
