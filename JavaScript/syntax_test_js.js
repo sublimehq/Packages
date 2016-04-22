@@ -633,6 +633,11 @@ var conciseFunc = () =>
 // ^^^^ entity.name.function
 //                  ^ meta.group punctuation.definition.group - meta.block
 
+var o = { a: i => i * 2, b: i => i * 3 }
+//        ^ entity.name.function
+//                     ^ - meta.block
+//                       ^ entity.name.function
+
 $.each({})
 // <- variable.other.object.dollar.only punctuation.dollar
 //     ^ meta.object-literal
