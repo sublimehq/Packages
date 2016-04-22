@@ -815,6 +815,18 @@ private:
 /*  ^ meta.enum punctuation.definition.block */
 /*   ^ - meta.enum punctuation.definition.block */
 
+    friend int func(int a, int b);
+/*  ^ storage.modifier */
+/*         storage.type */
+/*             ^ - entity.name.function */
+/*             ^ - meta.function-call */
+
+    friend class ::FooBar;
+/*  ^ storage.modifier */
+/*         ^ storage.type
+/*               ^^ punctuation.accessor */
+/*                 ^ - entity */
+
     #if 0
     /*  ^ constant.numeric */
     int disabled_func() {

@@ -242,11 +242,19 @@ contexts:
     - include: late-expressions
 
   late-expressions:
+    - include: late-expressions-before-function-call
+    - include: function-call
+    - include: identifiers
+
+  late-expressions-before-function-call:
     - include: unique-late-expressions
     - include: modifiers-parens
     - include: modifiers
     - include: types
-    - include: function-call
+
+  expressions-minus-function-call:
+    - include: early-expressions
+    - include: late-expressions-before-function-call
     - include: identifiers
 
   comments:
@@ -914,6 +922,14 @@ contexts:
     - include: expressions-minus-generic-type
 
   data-structures-modifier:
+    - match: '\bfriend\b'
+      scope: storage.modifier.c++
+      push:
+        - match: (?=;)
+          pop: true
+        - match: '\b({{before_tag}})\b'
+          scope: storage.type.c++
+        - include: expressions-minus-function-call
     - include: comments
     - include: modifiers-parens
     - include: modifiers

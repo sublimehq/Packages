@@ -121,11 +121,19 @@ contexts:
     - include: late-expressions
 
   late-expressions:
+    - include: late-expressions-before-function-call
+    - include: function-call
+    - include: scope:source.c++#identifiers
+
+  late-expressions-before-function-call:
     - include: scope:source.c++#unique-late-expressions
     - include: modifiers-parens
     - include: modifiers
     - include: types
-    - include: function-call
+
+  expressions-minus-function-call:
+    - include: early-expressions
+    - include: late-expressions-before-function-call
     - include: scope:source.c++#identifiers
 
   comments:
@@ -1000,6 +1008,14 @@ contexts:
     - include: expressions-minus-generic-type
 
   data-structures-modifier:
+    - match: '\bfriend\b'
+      scope: storage.modifier.objc++
+      push:
+        - match: (?=;)
+          pop: true
+        - match: '\b({{before_tag}})\b'
+          scope: storage.type.objc++
+        - include: expressions-minus-function-call
     - include: comments
     - include: modifiers-parens
     - include: modifiers
