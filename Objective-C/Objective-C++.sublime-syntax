@@ -57,12 +57,12 @@ contexts:
           set:
             - meta_scope: meta.extern-c.objc++
             - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
-              scope: meta.preprocessor.c++
+              scope: meta.preprocessor.objc++
               captures:
-                1: keyword.control.import.c++
+                1: keyword.control.import.objc++
               set:
                 - match: '\}'
-                  scope: punctuation.definition.block.c++
+                  scope: punctuation.definition.block.objc++
                   pop: true
             - match: '\}'
               scope: punctuation.definition.block.objc++
@@ -545,9 +545,9 @@ contexts:
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.objc++
     - match: \btemplate\b
-      scope: storage.type.template.c++
+      scope: storage.type.template.objc++
       push:
-        - meta_scope: meta.template.c++
+        - meta_scope: meta.template.objc++
         # Exit the template scope if we hit some basic invalid characters.
         # This helps when a user is in the middle of typing their template
         # types and prevents re-highlighting the whole file until the next >
@@ -555,7 +555,7 @@ contexts:
         - match: '(?=[{};])'
           pop: true
         - match: '\b({{before_tag}})\b'
-          scope: storage.type.c++
+          scope: storage.type.objc++
         - include: expressions
 
   generic-type:
