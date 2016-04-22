@@ -58,25 +58,6 @@ contexts:
         - meta_scope: comment.block.xml
         - match: "-->"
           pop: true
-    - match: '(<)({{qualified_name}})(?=(\s[^>]*)?></\2>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        3: entity.name.tag.namespace.xml
-        4: entity.name.tag.xml punctuation.separator.namespace.xml
-        5: entity.name.tag.localname.xml
-      push:
-        - meta_scope: meta.tag.no-content.xml
-        - match: "(>)(<)(/){{qualified_name}}(>)"
-          captures:
-            1: punctuation.definition.tag.end.xml
-            2: punctuation.definition.tag.begin.xml meta.scope.between-tag-pair.xml
-            3: punctuation.definition.tag.begin.xml
-            4: entity.name.tag.namespace.xml
-            5: entity.name.tag.xml punctuation.separator.namespace.xml
-            6: entity.name.tag.localname.xml
-            7: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tagStuff
     - match: "(</?){{qualified_name}}"
       captures:
         1: punctuation.definition.tag.begin.xml
