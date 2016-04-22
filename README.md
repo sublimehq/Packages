@@ -4,14 +4,16 @@
 
 ## Installation
 
-If you want to make changes to these packages and test them locally, fork this repository and then symlink the changed packages into your *Packages* folder. For example, on OS X:
+If you want to make changes to these packages and test them locally, fork this repository and then symlink the changed packages into your *Packages* folder.
+
+### OS X and Linux
 
 ```bash
 $ git clone https://github.com/sublimehq/Packages.git
 $ ln -s `pwd`/Packages/Python ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/Python
 ```
 
----
+### Windows
 
 On Windows, you can use directory junctions instead of symlinks (symlinks require administrative rights; directory junctions don't):
 
