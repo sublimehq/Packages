@@ -103,8 +103,18 @@ regex = R"\b ([fobar]*){1}(?:a|b)?"
 bad_string = 'SELECT * FROM users
 #                                ^ invalid.illegal.unclosed-string
 
+string = '''
+
+# <- string.quoted.single.block
+'''
+
 string = """
-#        ^^^ string.quoted.double.block
+
+# <- string.quoted.double.block
+"""
+
+string = """
+#        ^^^ string.quoted.double.block - string string
 """
 
 string = r"""
@@ -135,6 +145,7 @@ query = \
 
 query = \
     r"""
+
     SELECT
         (
         SELECT CASE field
@@ -165,4 +176,3 @@ sql = 'SELECT * FROM foo -- bar baz'
 #       ^ source.sql
 #                            ^ source.sql comment.line.double-dash
 #                                  ^ punctuation.definition.string.end.python - source.sql
-
