@@ -293,7 +293,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             ('meta\tTag', 'meta ${1:charset=\"utf-8\"}>'),
             ('param\tTag', 'param name=\"$1\" value=\"$2\">'),
             ('progress\tTag', 'progress value=\"$1\" max=\"$2\">'),
-            ('script\tTag', 'script type=\"${1:text/javascript}\">$0</script>'),
+            ('script\tTag', 'script>$1</script>'),
             ('source\tTag', 'source src=\"$1\" type=\"$2\">'),
             ('style\tTag', 'style type=\"${1:text/css}\">$0</style>'),
             ('track\tTag', 'track kind=\"$1\" src=\"$2\">'),
