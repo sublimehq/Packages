@@ -843,6 +843,13 @@ private:
     /*  ^ comment.block */
     }
     #endif
+
+    MACRO_NOT_CONSTRUCTOR(FooBar);
+/*  ^ meta.function-call variable.function - entity.name.function */
+
+    MACRO_NOT_CONSTRUCTOR2(FooBar,
+/*  ^ meta.function-call variable.function - entity.name.function */
+        FriendClass);
 }
 /* <- meta.class meta.block punctuation.definition.block */
  /* <- - meta.class meta.block punctuation.definition.block */

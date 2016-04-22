@@ -1025,6 +1025,17 @@ contexts:
       captures:
         1: punctuation.accessor.objc++
       set: method-definition-params
+    # It's a macro, not a consructor if there is no type in the first param
+    - match: '({{identifier}})\s*(\()(?=\s*{{identifier}}\s*[),])'
+      captures:
+        1: variable.function.objc++
+        2: punctuation.definition.parameters.objc++
+      push:
+        - meta_scope: meta.function-call.objc++
+        - match: '\)'
+          scope: punctuation.definition.parameters.objc++
+          pop: true
+        - include: expressions
     # Constructor
     - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*\()'
       scope: meta.method.objc++ entity.name.function.constructor.objc++
