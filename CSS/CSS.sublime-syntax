@@ -71,8 +71,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.charset.css
         - include: at-rule-punctuation
-        - include: string-double
-        - include: string-single
+        - include: literal-string
   color-values:
       # http://www.w3.org/TR/CSS21/syndata.html#value-def-color
     - match: \b(aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)\b
@@ -182,8 +181,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.import.css
         - include: at-rule-punctuation
-        - include: string-double
-        - include: string-single
+        - include: literal-string
         - match: \s*(url)(\()\s*
           captures:
             1: support.function.url.css
@@ -195,8 +193,7 @@ contexts:
               pop: true
             - match: '[^''") \t]+'
               scope: variable.parameter.url.css
-            - include: string-single
-            - include: string-double
+            - include: literal-string
         - include: media-query-list
   keyframe-name:
     - match: '(?i)\s*[-]?([_\w\-]*)?'
@@ -322,8 +319,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.namespace.css
         - include: at-rule-punctuation
-        - include: string-double
-        - include: string-single
+        - include: literal-string
 # Page At-Rule: https://www.w3.org/TR/CSS2/page.html
   page:
     - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
@@ -477,8 +473,7 @@ contexts:
     - include: unicode-range
     - include: numeric-values
     - include: color-values
-    - include: string-double
-    - include: string-single
+    - include: literal-string
     - match: (rect)(\()
       captures:
         1: support.function.misc.css
@@ -555,10 +550,9 @@ contexts:
           captures:
             1: punctuation.section.function.css
           pop: true
-        - include: string-single
         - match: (?:min|max)-content
           scope: support.constant.property-value.css
-        - include: string-double
+        - include: literal-string
         - include: numeric-values
         - include: color-values
         - match: '[^''") \t]+'
@@ -575,10 +569,9 @@ contexts:
           captures:
             1: punctuation.section.function.css
           pop: true
-        - include: string-single
         - match: (?:min|max)-content
           scope: support.constant.property-value.css
-        - include: string-double
+        - include: literal-string
         - include: numeric-values
         - match: '[^''") \t]+'
           scope: variable.parameter.misc.css
@@ -712,7 +705,7 @@ contexts:
           pop: true
         - include: property-values
   selector:
-    - match: '\s*(?=[:.*#a-zA-Z])'
+    - match: '\s*(?=[:.*#a-zA-Z\[])'
       push:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
@@ -820,46 +813,34 @@ contexts:
             3: punctuation.section.function.css
             4: constant.numeric.css
             5: punctuation.section.function.css
-        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|((")(?:[^\\]|\\.)*?("))))?\s*(\])'
-          scope: meta.attribute-selector.css
-          captures:
-            1: punctuation.definition.entity.css
-            2: entity.other.attribute-name.attribute.css
-            3: punctuation.separator.operator.css
-            4: string.unquoted.attribute-value.css
-            5: string.quoted.double.attribute-value.css
-            6: punctuation.definition.string.begin.css
-            7: punctuation.definition.string.end.css
-        - match: '(?i)(\[)\s*(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)(?:\s*([~|^$*]?=)\s*(?:(-?[_a-z\\[^[:ascii:]]][_a-z0-9\-\\[^[:ascii:]]]*)|(('')(?:[^\\]|\\.)*?(''))))?\s*(\])'
-          scope: meta.attribute-selector.css
-          captures:
-            1: punctuation.definition.entity.css
-            2: entity.other.attribute-name.attribute.css
-            3: punctuation.separator.operator.css
-            4: string.unquoted.attribute-value.css
-            5: string.quoted.single.attribute-value.css
-            6: punctuation.definition.string.begin.css
-            7: punctuation.definition.string.end.css
-  string-double:
-    - match: '"'
-      scope: punctuation.definition.string.begin.css
-      push:
-        - meta_scope: string.quoted.double.css
-        - match: '"'
-          scope: punctuation.definition.string.end.css
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.css
-  string-single:
-    - match: "'"
-      scope: punctuation.definition.string.begin.css
-      push:
-        - meta_scope: string.quoted.single.css
-        - match: "'"
-          scope: punctuation.definition.string.end.css
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.css
+        # Attribute Selectors
+        # https://drafts.csswg.org/selectors-4/#attribute-selectors
+        - match: '\['
+          scope: punctuation.definition.entity.css
+          push:
+            - meta_scope: meta.attribute-selector.css
+            - match: '(?:(-?[_a-z][_a-z0-9-]*)|(\*))?([|])(?!=)'
+              captures:
+                1: entity.other.namespace-prefix.css
+                2: entity.name.namespace.wildcard.css
+                3: punctuation.separator.namespace.css
+            - match: '[^\\ =<>`~*|^$\]\[]+'
+              scope: entity.other.attribute-name.css
+            - match: '\s*([~*|^$]?=)\s*'
+              captures:
+                1: keyword.operator.attribute-selector.css
+              push:
+                - match: '[^\s\]\[''"]'
+                  scope: string.unquoted.css
+                - include: literal-string
+                - match: '(?=(\s|\]))'
+                  pop: true
+            - match: '(?:\s+([iI]))?'  # case insensitive flag
+              captures:
+                1: keyword.other.css
+            - match: '\]'
+              scope: punctuation.definition.entity.css
+              pop: true
   unicode-range:
     - match: |-
         (?xi)
@@ -879,3 +860,31 @@ contexts:
       scope: punctuation.terminator.rule.css
     - match: (?=;|$)
       pop: true
+
+  literal-string:
+    - match: "'"
+      scope: punctuation.definition.string.begin.css
+      push:
+        - meta_scope: string.quoted.single.css
+        - match: (')|(\n)
+          captures:
+            1: punctuation.definition.string.end.css
+            2: invalid.illegal.newline.css
+          pop: true
+        - include: string-content
+    - match: '"'
+      scope: punctuation.definition.string.begin.css
+      push:
+        - meta_scope: string.quoted.double.css
+        - match: (")|(\n)
+          captures:
+            1: punctuation.definition.string.end.css
+            2: invalid.illegal.newline.css
+          pop: true
+        - include: string-content
+
+  string-content:
+    - match: \\\s*\n
+      scope: constant.character.escape.newline.css
+    - match: \\.
+      scope: constant.character.escape.css
