@@ -71,8 +71,17 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tagStuff
+    - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - match: /?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tagStuff
     - include: entity
-    - include: bare-ampersand
     - match: '<!\[CDATA\['
       scope: punctuation.definition.string.begin.xml
       push:
@@ -80,6 +89,7 @@ contexts:
         - match: ']]>'
           scope: punctuation.definition.string.end.xml
           pop: true
+    - include: should-be-entity
   EntityDecl:
     - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
       captures:
@@ -94,9 +104,13 @@ contexts:
           pop: true
         - include: doublequotedString
         - include: singlequotedString
-  bare-ampersand:
+  should-be-entity:
     - match: '&'
       scope: invalid.illegal.bad-ampersand.xml
+    - match: '<'
+      scope: invalid.illegal.missing-entity.xml
+    - match: '>'
+      scope: invalid.illegal.missing-entity.xml
   doublequotedString:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
@@ -106,7 +120,7 @@ contexts:
           scope: punctuation.definition.string.end.xml
           pop: true
         - include: entity
-        - include: bare-ampersand
+        - include: should-be-entity
   entity:
     - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
       scope: constant.character.entity.xml
@@ -137,7 +151,7 @@ contexts:
           scope: punctuation.definition.string.end.xml
           pop: true
         - include: entity
-        - include: bare-ampersand
+        - include: should-be-entity
   tagStuff:
     - match: '\s+{{qualified_name}}='
       captures:

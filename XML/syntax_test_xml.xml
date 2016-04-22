@@ -72,10 +72,6 @@
 <!-- ^ meta.tag entity.name.tag.localname  -->
 <!--         ^ meta.tag entity.other.attribute-name.localname -->
 
-    <1tag></1tag>
-<!-- ^^^^ - entity.name.tag -->
-<!--        ^^^^ - entity.name.tag -->
-
 <!--
   Entities
  -->
@@ -99,6 +95,15 @@
      &
 <!-- ^ invalid.illegal.bad-ampersand -->
 
+     <1tag></-tag>
+<!--  ^^^^ invalid.illegal - entity.name.tag -->
+<!--         ^^^^ invalid.illegal - entity.name.tag -->
+
+     <
+<!-- ^ invalid.illegal.missing-entity -->
+
+     >
+<!-- ^ invalid.illegal.missing-entity -->
 
      </ns:tagname>
 <!-- ^ meta.tag -->
