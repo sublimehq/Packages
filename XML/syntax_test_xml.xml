@@ -68,6 +68,13 @@
     <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
 <!--         ^ string.unquoted.cdata -->
 
+    <таĝñäᴹə ατţř="șƬűʃ⨍">Contents</таĝñäᴹə>
+<!-- ^ meta.tag entity.name.tag.localname  -->
+<!--         ^ meta.tag entity.other.attribute-name.localname -->
+
+    <1tag></1tag>
+<!-- ^^^^ - entity.name.tag -->
+<!--        ^^^^ - entity.name.tag -->
 
 <!--
   Entities
