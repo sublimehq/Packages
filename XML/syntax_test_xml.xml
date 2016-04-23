@@ -150,3 +150,8 @@
 <!--     ^ punctuation.separator.namespace -->
 <!--      ^^^^^^^ entity.name.tag.localname -->
 <!--             ^ punctuation.definition.tag.end -->
+
+     <element attr_with.space = "value" />
+<!--                  ^^^ entity.other.attribute-name.localname -->
+<!--                            ^ punctuation.definition.string.begin -->
+<!--                             ^^^^^ string.quoted -->
