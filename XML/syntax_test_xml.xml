@@ -156,3 +156,6 @@
 <!--                          ^ punctuation.separator.key-value -->
 <!--                            ^ punctuation.definition.string.begin -->
 <!--                             ^^^^^ string.quoted -->
+     <test
+foo="bar" />
+<!-- <- entity.other.attribute-name.localname -->

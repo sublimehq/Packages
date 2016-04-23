@@ -210,7 +210,7 @@ contexts:
         - include: entity
         - include: should-be-entity
   tag-stuff:
-    - match: '\s+{{qualified_name}}\s*(=)'
+    - match: '(?:\s+|^){{qualified_name}}\s*(=)'
       captures:
         1: entity.other.attribute-name.namespace.xml
         2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
