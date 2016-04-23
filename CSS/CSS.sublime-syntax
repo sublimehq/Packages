@@ -608,91 +608,90 @@ contexts:
             - match: \b
               pop: true
         - match: |-
-            \b(?x)(azimuth|
-            all|
-            appearance|
-            align(-items|-content|-self)?|
-            animation(-delay|-direction|-duration|-fill-mode|-iteration-count|-name|-play-state|-timing-function)?|
-            backface-visibility|
-            background(-blend-mode|-clip|-origin|-size)|
-            behavior|
-            border-(bottom-|top-)?(right-|left-)?radius(-bottomleft|-bottomright|-topleft|-topright)?|
-            border-image(-outset|-repeat|-slice|-source|-width)?|
-            box-sizing|
-            box-align|box-pack|box-orient|box-direction|box-flex|(box-ordinal-)?group|
-            break-(before|after)|
-            clip-(path|rule)|
-            color-interpolation(-filters)?|
-            color-profile|
-            column(-(rule-style|count|fill|gap|rule|rule-color|rule-width|span|width))?|
-            (alignment|dominant)-baseline|
-            alignment-adjust|
-            baseline-shift|
-            grid-template-(areas|columns|rows)|
-            grid-column-(end|start)|
-            grid-row-(end|start)|
-            grid-auto-(columns|flow|rows)|
-            grid-(area|column|row|template)|
-            columns|
-            initial-letter-align|initial-letter|
-            inline-flex|inline-box-align|
-            interpolation-mode|
-            fill(-rule)?|
-            filter|
-            flex(-align|-basis|-direction|-flow|-grow|-item-align|-order|-shrink|-wrap|-pack|-line-pack)?|
-            flood-color|
-            hyphens|
-            isolation|image-orientation|image-resolution|
-            justify-content|
-            kerning|lighting-color|
-            line-(box-contain|stacking-ruby|stacking-shift|stacking-strategy|stacking|clamp)|
-            marker-(?:start|end|mid)|
-            mask-(border-(mode|outset|repeat|slice|source|width)|border|clip|composite|image|mode|origin|position|repeat|size|type)|mask|
-            mix-blend-mode|
-            order|
-            outline-offset|
-            overflow-scrolling|
-            overflow-wrap|
-            perspective(-origin)?|
-            shape-(image-threshold|margin|outside)|
-            tab-size|
-            text-align-last|
-            text-emphasis(-color|-position|-style)?|
-            text-fill-color|
-            text-overflow|
-            text-height|
-            text-size-adjust|
-            transform(-origin(-x|-y)?|-style)?|
-            transition(-delay|-duration|-property|-timing-function)?|
-            user-select|
-            will-change|word-break|writing-mode|
-            background-attachment|background-color|background-image|background-position|background-repeat|background|box-shadow|border-radius|border-bottom-color|border-bottom-style|border-bottom-width|border-bottom|border-collapse|border-color|border-left-color|border-left-style|border-left-width|border-left|border-right-color|border-right-style|border-right-width|border-right|border-spacing|border-style|border-top-color|border-top-style|border-top-width|border-top|border-width|border|bottom|
-            caption-side|clear|clip|color|content|counter-increment|counter-reset|cue-after|cue-before|cue|cursor|
-            direction|display|
-            elevation|empty-cells|
-            float|
-            osx-font-smoothing|
-            font(?:(?:-)(?:effect|emphasize(-position|-style)?|family|feature-settings|kerning|language-override|size(?:-adjust)?|smoothing|stretch|style|synthesis|variant(?:-alternates|-caps|-east-asian|-ligatures|-numeric|-position)?|weight))?|
-            height|
-            image-rendering|ime-mode|
-            left|letter-spacing|line-height|list-style-image|list-style-position|list-style-type|list-style|
-            margin-bottom|margin-left|margin-right|margin-top|marker-offset|margin|marks|max-height|max-width|min-height|min-width|
-            object-fit|object-position|opacity|orphans|outline-color|outline-style|outline-width|outline|overflow(-[xy])?|
-            padding-bottom|padding-left|padding-right|padding-top|padding|
-            page-break-after|page-break-before|page-break-inside|page|
-            paint-order|
-            pause-after|pause-before|pause|
-            pitch-range|pitch|play-during|pointer-events|position|
-            quotes|
-            resize|richness|right|
-            size|speak-header|speak-numeral|speak-punctuation|speech-rate|speak|src|stress|scroll-behavior|
-            shape-rendering|stop-color|
-            stroke(?:-(?:dasharray|linecap|linejoin))?|
-            table-layout|text-(decoration-line|decoration-style|align|decoration|indent|rendering|shadow|transform|underline-position)|top|text-justify|text-anchor|
-            unicode-(?:bidi|range)|
-            vertical-align|visibility|voice-family|volume|
-            white-space|widows|width|word-(spacing|wrap)|
-            zoom|z-index)\b
+            \b(?x)(
+                align(-content|-items|-self)?
+              | alignment-(adjust|baseline)
+              | all
+              | animation(-delay|-direction|-duration|-fill-mode|-iteration-count|-name|-play-state|-timing-function)?
+              | appearance|azimuth|backface-visibility
+              | background(-attachment|-blend-mode|-clip|-color|-image|-origin|-position|-repeat|-size)?
+              | baseline-shift|behavior
+              | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
+              | border-(bottom|top)-(left|right)-radius
+              | border-image(-outset|-repeat|-slice|-source|-width)?
+              | border(-bottom|-left|-right|-top|-collapse|-spacing)?
+              | bottom
+              | box-(align|decoration-break|direction|flex|ordinal-group|orient|pack|shadow|sizing)
+              | break-(after|before|inside)
+              | caption-side|clear
+              | clip(-path|-rule)?
+              | color(-interpolation(-filters)?|-profile|-rendering)?
+              | column((-count|-fill|-gap|-rule(-color|-style|-width)?|-span|-width)|s)?
+              | content
+              | counter-(increment|reset)
+              | cue(-after|-before)?
+              | cursor|direction|display|dominant-baseline|elevation|empty-cells
+              | fill(-rule)?
+              | filter
+              | flex((-item)?-align|-basis|-direction|-flow|-grow|(-line)?-pack
+                |-negative|-order|-positive|-preferred-size|-shrink|-wrap)?
+              | float|flood-color
+              | font-emphasize(-position|-style)?
+              | font-variant(-alternates|-caps|-east-asian|-ligatures|-numeric|-position)?
+              | font(-effect|-family|-feature-settings|-kerning|-language-override
+                |-size(-adjust)?|-smoothing|-stretch|-style|-synthesis|-weight)?
+              | force-broken-image-icon
+              | grid-area
+              | grid-auto-(columns|flow|rows)
+              | grid-(column|row)(-end|-start)?
+              | grid-template(-areas|-columns|-rows)?
+              | group|height|hyphens
+              | image-(orientation|rendering|resolution)
+              | ime-mode
+              | initial-letter(-align)?
+              | inline-(box-align|flex)
+              | interpolation-mode|isolation|justify-content|kerning|left|letter-spacing|lighting-color
+              | line-(box-contain|clamp|height|stacking(-ruby|-shift|-strategy)?)
+              | list-style(-image|-position|-type)?
+              | margin(-bottom|-left|-right|-top)?
+              | marker-(end|mid|offset|start)
+              | marks
+              | mask-border(-mode|-outset|-repeat|-slice|-source|-width)?
+              | mask(-clip|-composite|-image|-mode|-origin|-position|-repeat|-size|-type)?
+              | (max|min)-(height|width)
+              | mix-blend-mode
+              | nbsp-mode
+              | object-(fit|position)
+              | opacity|order|orphans|osx-font-smoothing
+              | outline(-color|-offset|-style|-width)?
+              | overflow(-scrolling|-wrap|-x|-y)?
+              | padding(-bottom|-left|-right|-top)?
+              | page(-break-(after|before|inside))?
+              | paint-order
+              | pause(-after|-before)?
+              | perspective(-origin)?
+              | pitch(-range)?
+              | play-during|pointer-events|position|quotes|resize|richness|right|scroll-behavior
+              | shape-(image-threshold|margin|outside|rendering)
+              | size
+              | speak(-header|-numeral|-punctuation)?
+              | speech-rate|src|stop-color|stress
+              | stroke(-dasharray|-line(cap|join))?
+              | tab-size|table-layout|tap-highlight-color
+              | text-align(-last)?
+              | text-decoration(-color|-line|-style)?
+              | text-emphasis(-color|-position|-style)?
+              | text-(anchor|fill-color|height|indent|justify|orientation|overflow
+                |rendering|shadow|size-adjust|transform|underline-position)
+              | top
+              | touch-(action|callout)
+              | transform(-origin(-[xy])?|-style)?
+              | transition(-delay|-duration|-property|-timing-function)?
+              | unicode-(bidi|range)
+              | user-select|vertical-align|visibility|voice-family|volume|white-space|widows|width|will-change
+              | word-(break|spacing|wrap)
+              | writing-mode|z-index|zoom
+            )\b
           scope: support.type.property-name.css
     - match: (:)\s*
       captures:
