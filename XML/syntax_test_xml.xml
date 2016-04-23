@@ -153,5 +153,6 @@
 
      <element attr_with.space = "value" />
 <!--                  ^^^ entity.other.attribute-name.localname -->
+<!--                          ^ punctuation.separator.key-value -->
 <!--                            ^ punctuation.definition.string.begin -->
 <!--                             ^^^^^ string.quoted -->
