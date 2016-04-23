@@ -49,6 +49,7 @@ contexts:
         - include: regexp
     - include: escape
     - include: variable
+    - include: braces
     - match: '"'
       scope: punctuation.definition.string.begin.tcl
       push:
@@ -73,6 +74,7 @@ contexts:
     - match: '(?:^|(?<=\s))\{'
       comment: matches a single brace-enclosed word
       push:
+        - meta_scope: string.quoted.curly.tcl
         - match: '\}([^\s\]]*)'
           captures:
             1: invalid.illegal.tcl
