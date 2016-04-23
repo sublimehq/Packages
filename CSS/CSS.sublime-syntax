@@ -366,102 +366,166 @@ contexts:
       scope: support.constant.property-value.css
     - match: |-
         (?x)\b(
-        ((all-)?(petite|small)|titling)-caps|
-        ((no-)?(common|discretionary|historical))-ligatures|
-        ((xx?-)?(small|large))|
-        (?:ultra-|extra-|semi-)?(?:condensed|expanded)|
-        (block-)?line-height|
-        (border|content|margin|padding)-box|
-        (column|row|wrap)(-reverse)?|
-        (consider|disregard)-shifts|
-        (diagonal|stacked)-fractions|
-        (exclude|include)-ruby|
-        (full|proportional)-width|
-        (lining|oldstyle|proportional|tabular)-nums|
-        (min|max)-content|
-        (no-)?(open|close)-quote|
-        (no-)?contextual|
-        (n|ne|e|se|s|sw|w|nw)-resize|
-        (over|under)-edge|
-        (repeating-)?(linear|radial)-gradient|
-        absolute|active|add|all-scroll|all|alphabetic|alpha|
-        alternate(-reverse)?|always|annotation|antialiased|armenian|at|auto|
-        avoid(-(column|page|region))?|
-        background(-(color|image|position|size))?|
-        backwards|balance|baseline|below|bicubic|
-        bidi-override|blink|block|blur|bolder|bold|
-        border-(bottom-|top-)?(right-|left-)radius|
-        border-(bottom|color|left|radius|right|spacing|top|width)|
-        border-(bottom|left|right|top)-color|
-        border-(bottom|left|right|top)-width|
-        border|both|bottom|bottom|box-shadow|box|(break|keep)-all|
-        break-word|brightness|
-        capitalize|center|central|char|character-variant|
-        cjk-ideographic|clip|closest-(side|corner)|
-        col-resize|collapse|color-stop|color|
-        column(-count|-gap|-rule-color|-rule-width|-rule|-width)|
-        columns|contain|content(s)?|contrast|cover|
-        crisp-edges|crop|cross|crosshair|
-        dashed|decimal(-leading-zero)?|default|dense|disabled|disc|
-        distribute(-(all-lines|letter|space))?|
-        dotted|double|drop-shadow|
-        ease(-(in-out|in|out))?|
-        ellipsis|EndColorStr|end|evenodd|exclude|
-        farthest-(corner|side)|
-        fill(-(box|opacity))?|
-        filter|fixed|flex(-(grow|shrink|basis))?|
-        flat|flex(-(start|end))?|
-        flexbox|flip|flood-color|font(-(size-adjust|size|stretch|weight))?|
-        forwards|from-image|from|
-        geometricPrecision|georgian|glyphs|gradient|
-        grayscale|grid(-height)?|groove|
-        hand|hanging|hebrew|height|help|hidden|hiragana(-iroha)?|
-        historical-forms|horizontal|
-        ideograph-(alpha|numeric|parenthesis|space)|
-        ideographic|inactive|infinite|inherit|initial|
-        inline(-(box|block|flex|flexbox|grid|table|line-height))?|
-        inside|inter-(ideograph|word)|intersect|invert|italic|isolation|
-        jis(04|78|83|90)|justify|katakana(-iroha)?|
-        larger|last|left|letter-spacing|lighter|
-        lighting-color|line(-(edge|through))?|
-        linear|list-item|local|loose|lower-(alpha|greek|latin|roman)|
-        lowercase|lr-tb|ltr|luminance|
-        margin(-(box|bottom|left|right|top))?|
-        marker-offset|mathematical|matrix(3d)?|max-(height|lines|size|width)|
-        medium|middle|min-(height|width)|move|
-        newspaper|no-change|no-clip|no-drop|no-repeat|none|
-        nonzero|normal|not-allowed|nowrap|
-        oblique|offset(-(after|before|end|start))?|
-        opacity|optimize(Legibility|Speed|Precision)|
-        order|ordinal|ornaments|outline(-(color|offset|width))?|
-        outset|outside|overline|
-        padding(-(box|bottom|left|right|top))?|page|
-        painted|paused|perspective(-origin)?|pixelated|pointer|
-        pre(-(wrap|line))?|preserve-3d|
-        progid:DXImageTransform.Microsoft.(Alpha|Blur|dropshadow|gradient|Shadow)|
-        progress|
-        recto|region|relative|repeat(-(x|y))?|
-        replaced|reset-size|reverse|ridge|right|
-        rotate(X|Y|Z|3d)?|round|row-resize|rtl|ruby|running|
-        saturate|scale-down|scale(X|Y|Z|3d)?|scroll(-position)?|separate|sepia|
-        shape-(image-threshold|margin|outside)|
-        simplified|skew(X|Y)?|slashed-zero|smaller|smooth|snap|
-        solid|space-(around|between)|space|span|square|stack|
-        startColorStr|start|static|step-(end|start)|
-        stop-(color|opacity)|stretch|strict|
-        stroke(-(box|dasharray|dashoffset|miterlimit|opacity|width))?|
-        style|styleset|stylistic|subgrid|subtract|sub|super|swash|
-        table(-footer-group|-header-group|-cell|-caption|-column-group|-column|-row-group|-row)?|
-        tb-rl|text(-(top|bottom))?|
-        text(-decoration-color|-emphasis-color|-indent|-shadow|-size-adjust|-size)|
-        text-(over|under)-edge|textfield|thick|thin|titling-case|top|touch|to|
-        traditional|transform(-origin)?|translate(X|Y|Z|3d)?|
-        under|underline|unicase|unset|upper-(alpha|latin|roman)|
-        uppercase|use-script|
-        verso|vertical(-(align|ideographic|text))?|view-box|
-        viewport-fill(-opacity)?|visibility|visible(Painted|Fill|Stroke)?|
-        wait|wavy|weight|whitespace|width|word-spacing|
-        z-index|zero|zoom|
+            absolute|active|add
+          | all(-(petite|small)-caps|-scroll)?
+          | alpha(betic)?
+          | alternate(-reverse)?
+          | always|annotation|antialiased|armenian|at
+          | auto(hiding-scrollbar)?
+          | avoid(-column|-page|-region)?
+          | background(-color|-image|-position|-size)?
+          | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
+          | block(-line-height)?
+          | blur
+          | bold(er)?
+          | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
+          | border-(bottom|top)-(left|right)-radius
+          | border-image(-outset|-repeat|-slice|-source|-width)?
+          | border(-bottom|-left|-right|-top|-collapse|-spacing)?
+          | both|bottom
+          | box(-shadow)?
+          | break-(all|word)
+          | brightness
+          | butt(on)?
+          | capitalize
+          | cent(er|ral)
+          | char(acter-variant)?
+          | cjk-ideographic|clip|clone|close-quote
+          | closest-(corner|side)
+          | col-resize|collapse
+          | color(-stop)?
+          | column((-count|-gap|-reverse|-rule(-color|-width)?|-width)|s)?
+          | common-ligatures|condensed|consider-shifts|contain
+          | content(-box|s)?
+          | contextual|contrast|cover
+          | crisp(-e|E)dges
+          | crop
+          | cross(hair)?
+          | dashed
+          | decimal(-leading-zero)?
+          | default|dense|diagonal-fractions|disabled
+          | disc(retionary-ligatures)?
+          | disregard-shifts
+          | distribute(-all-lines|-letter|-space)?
+          | dotted|double|drop-shadow
+          | (nwse|nesw|ns|ew|sw|se|nw|ne|w|s|e|n)-resize
+          | ease(-in-out|-in|-out)?
+          | element|ellipsis|embed|end|EndColorStr|evenodd
+          | exclude(-ruby)?
+          | expanded
+          | (extra|semi|ultra)-(condensed|expanded)
+          | farthest-(corner|side)?
+          | fill(-box|-opacity)?
+          | filter|fixed|flat
+          | flex((-basis|-end|-grow|-shrink|-start)|box)?
+          | flip|flood-color
+          | font(-size(-adjust)?|-stretch|-weight)?
+          | forwards
+          | from(-image)?
+          | full-width|geometricPrecision|georgian|glyphs|gradient|grayscale
+          | grid(-height)?
+          | groove|hand|hanging|hebrew|height|help|hidden|hide
+          | (hiragana|katakana)(-iroha)?
+          | historical-(forms|ligatures)
+          | horizontal(-tb)?
+          | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
+          | inactive|include-ruby|infinite|inherit|initial
+          | inline(-block|-box|-flex(box)?|-line-height|-table)?
+          | inside
+          | inter(-ideograph|-word|sect)
+          | invert|isolation|italic
+          | jis(04|78|83|90)
+          | justify(-all)?
+          | keep-all
+          | large[r]?
+          | last|left|letter-spacing
+          | light(er|ing-color)
+          | line(-edge|-height|-through)?
+          | linear(-gradient|RGB)?
+          | lining-nums|list-item|local|loose
+          | lower(-alpha|-greek|-latin|-roman|case)
+          | lr-tb|ltr|luminance|manual
+          | margin(-bottom|-box|-left|-right|-top)?
+          | marker(-offset|s)?
+          | mathematical
+          | matrix(3d)?
+          | max-(content|height|lines|size|width)
+          | medium|middle
+          | min-(content|height|width)
+          | miter|mixed|move|newspaper
+          | no-(change|clip|(close|open)-quote|(common|discretionary|historical)-ligatures|contextual|drop|repeat)
+          | none|nonzero|normal|not-allowed|nowrap|oblique
+          | offset(-after|-before|-end|-start)?
+          | oldstyle-nums|opacity|open-quote
+          | optimize(Legibility|Precision|Quality|Speed)
+          | order|ordinal|ornaments
+          | outline(-color|-offset|-width)?
+          | outset|outside|over-edge|overline
+          | padding(-bottom|-box|-left|-right|-top)?
+          | page|painted|paused
+          | perspective(-origin)?
+          | petite-caps|pixelated|pointer
+          | pre(-line|-wrap)?
+          | preserve-3d
+          | progid:DXImageTransform.Microsoft.(Alpha|Blur|dropshadow|gradient|Shadow)
+          | progress
+          | proportional-(nums|width)
+          | radial-gradient|recto|region|relative
+          | repeat(-[xy])?
+          | repeating-(linear|radial)-gradient
+          | replaced|reset-size|reverse|ridge|right
+          | (rotate|scale|translate)(3d|X|Y|Z)?
+          | round
+          | row(-resize|-reverse)?
+          | rtl|ruby|running|saturate
+          | scroll(-position|bar)?
+          | separate|sepia
+          | shape-(image-threshold|margin|outside)
+          | show
+          | sideways(-lr|-rl)?
+          | simplified
+          | skew[XY]?
+          | slashed-zero|slice
+          | small(-caps|er)?
+          | smooth|snap|solid
+          | space(-around|-between)?
+          | span|square|sRGB
+          | stack(ed-fractions)?
+          | start(ColorStr)?
+          | static
+          | step-(end|start)
+          | sticky
+          | stop-(color|opacity)
+          | stretch|strict
+          | stroke(-box|-dash(array|offset)|-miterlimit|-opacity|-width)?
+          | style(set)?
+          | stylistic
+          | sub(grid|pixel-antialiased|tract)?
+          | super|swash
+          | table(-caption|-cell|(-column|-footer|-header|-row)-group|-column|-row)?
+          | tabular-nums|tb-rl
+          | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under)-edge|-shadow|-size(-adjust)?|-top)|field)?
+          | thi(ck|n)
+          | titling-ca(ps|se)
+          | to[p]?
+          | touch|traditional
+          | transform(-origin)?
+          | under(-edge|line)?
+          | unicase|unset
+          | upper(-alpha|-latin|-roman|case)
+          | upright
+          | use-(glyph-orientation|script)
+          | verso
+          | vertical(-align|-ideographic|-lr|-rl|-text)?
+          | view-box
+          | viewport-fill(-opacity)?
+          | visibility
+          | visible(Fill|Painted|Stroke)?
+          | wait|wavy|weight|whitespace|width|word-spacing
+          | wrap(-reverse)?
+          | x{1,2}-(large|small)
+          | z-index|zero
+          | zoom(-in|-out)?
         )\b
       scope: support.constant.property-value.css
       # can be either keywords or functions, therefore slightly more strict matching
