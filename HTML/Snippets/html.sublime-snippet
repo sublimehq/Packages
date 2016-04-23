@@ -9,5 +9,5 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html</scope>
+	<scope>text.html &amp; (- meta.tag | punctuation.definition.tag.begin)</scope>
 </snippet>
