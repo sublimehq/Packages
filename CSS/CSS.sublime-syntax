@@ -886,5 +886,5 @@ contexts:
   string-content:
     - match: \\\s*\n
       scope: constant.character.escape.newline.css
-    - match: \\.
+    - match: '\\(\h{1,6}|.)'
       scope: constant.character.escape.css

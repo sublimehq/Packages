@@ -154,7 +154,9 @@
 .test-pseudo-elements:after {}
 /*                    ^^^^^ entity.other.attribute-name.pseudo-element.css */
 
-.test-unicode { top: "\2764 \273e"; } /* Not Yet Implemented */
+.test-unicode { top: "\2764 \273e"; }
+/*                    ^^^^^ constant.character.escape.css */
+/*                          ^^^^^ constant.character.escape.css */
 
 .test-unicode-range {
     unicode-range: U+0025-00FF, U+4??;
