@@ -7,27 +7,19 @@ file_extensions:
   - re
 scope: source.regexp
 variables:
-  known_char_escape: '\\(?:[tvnrbfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+|C-\d+|M-\d+|M-\\C-\d+)'
+  known_char_escape: '\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
   invalid_char_escape: '\\[xcCM]'
   char_escape: '\\.'
 
 contexts:
   main:
-    - match: \|
-      scope: keyword.operator.regexp
-    - match: '\\[bBAZzG]|[\^$]'
-      scope: keyword.control.anchors.regexp
-    - match: \\([kg]<\w+>|[kg]'\w+')
-      scope: keyword.other.backref-and-recursion.regexp
-    - include: character_class
-    - include: special_escaped_char
-    - match: \\[1-9]\d*
-      scope: keyword.other.backref-and-recursion.regexp
-    - include: escaped_char
+    - include: character-class
+    - include: special-escaped-char
+    - include: backslashes
+    - include: escaped-char
     - include: charset
     - include: group
-    - match: '([?*+][?+]?)|\{\d+(,\d*)?\}'
-      scope: keyword.operator.quantifier.regexp
+    - include: operators
 
   group:
     - match: \(
@@ -67,43 +59,60 @@ contexts:
         - match: '(?=({{known_char_escape}}|\\.|[^\]])-({{known_char_escape}}|\\.|[^\]]))'
           push:
             - meta_content_scope: constant.other.range.regexp
-            - include: special_escaped_char
-            - include: escaped_char
+            - include: special-escaped-char
+            - include: escaped-char
             - match: '(?=-)'
               set:
                 - meta_scope: constant.other.range.regexp
                 - match: '-'
-                - include: single_char_pop
+                - match: '{{known_char_escape}}'
+                  scope: constant.character.escape.regexp
+                  pop: true
+                - match: '{{invalid_char_escape}}'
+                  scope: invalid.illegal.character.escape.regexp
+                  pop: true
+                - match: '{{char_escape}}'
+                  scope: constant.character.escape.regexp
+                  pop: true
                 - match: '.'
                   pop: true
-        - include: character_class
-        - include: special_escaped_char
-        - include: escaped_char
+        - include: character-class
+        - include: special-escaped-char
+        - include: escaped-char
         - include: charset
         - match: '&&'
           scope: keyword.operator.intersection.regexp
 
-  character_class:
-    - match: '\\[wWsSdDhH]'
+  character-class:
+    - match: '\\[wWsSdDhHvVXR]'
+      scope: keyword.control.character-class.regexp
+    - match: '\\[pP]\{[a-zA-Z_]+\}'
+      scope: keyword.control.character-class.regexp
+    - match: '\\[pP](L&|[A-Z][a-z]?)'
       scope: keyword.control.character-class.regexp
 
-  special_escaped_char:
+  special-escaped-char:
     - match: '{{known_char_escape}}'
       scope: constant.character.escape.regexp
     - match: '{{invalid_char_escape}}'
       scope: invalid.illegal.character.escape.regexp
 
-  escaped_char:
+  escaped-char:
     - match: '{{char_escape}}'
       scope: constant.character.escape.regexp
 
-  single_char_pop:
-    - match: '{{known_char_escape}}'
-      scope: constant.character.escape.regexp
-      pop: true
-    - match: '{{invalid_char_escape}}'
-      scope: invalid.illegal.character.escape.regexp
-      pop: true
-    - match: '{{char_escape}}'
-      scope: constant.character.escape.regexp
-      pop: true
+  backslashes:
+    - match: '\\[bBAZzG]|[\^$]'
+      scope: keyword.control.anchors.regexp
+    - match: '\\[QEK]'
+      scope: keyword.control.regexp
+    - match: \\([kg]<\w+>|[kg]'\w+')
+      scope: keyword.other.backref-and-recursion.regexp
+    - match: \\[1-9]\d*
+      scope: keyword.other.backref-and-recursion.regexp
+
+  operators:
+    - match: '([?*+][?+]?)|\{\d+(,\d*)?\}'
+      scope: keyword.operator.quantifier.regexp
+    - match: \|
+      scope: keyword.operator.regexp
