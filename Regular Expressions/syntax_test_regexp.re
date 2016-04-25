@@ -83,12 +83,14 @@
 # ^^^ constant.other.range
 
 (?:a|b|c)
-#^^^^^^^^ string.regexp.group
+#^^^^^^^^ meta.group
+# <- keyword.control.group
 #^^ constant.other.assertion
 #   ^ keyword.operator
+#       ^ keyword.control.group
 
 (?#foobar)
-#^^^^^^^^^ string.regexp.group
+#^^^^^^^^^ meta.group.regexp
 #^^^^^^^^ comment.line.number-sign
 
 a{9}

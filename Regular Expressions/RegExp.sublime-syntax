@@ -1,7 +1,8 @@
 %YAML 1.2
 ---
 name: Regular Expression
-comment: Matches Oniguruma's Ruby regexp syntax
+comment: Matches PCRE's regexp syntax, used in various languages and in
+  Sublime Text for the Find panels
 file_extensions:
   - re
 scope: source.regexp
@@ -30,26 +31,28 @@ contexts:
 
   group:
     - match: \(
+      scope: keyword.control.group.regexp
       push:
-        - meta_scope: string.regexp.group
+        - meta_scope: meta.group.regexp
         - match: '\?(<[=!]|>|=|:|!)'
           scope: constant.other.assertion.regexp
           set: group-body
         - match: '\?#'
-          scope: string.regexp.group comment.line.number-sign.regexp
+          scope: meta.group.regexp comment.line.number-sign.regexp
           set:
-            - meta_content_scope: string.regexp.group comment.line.number-sign.regexp
+            - meta_content_scope: meta.group.regexp comment.line.number-sign.regexp
             - match: \)
-              scope: string.regexp.group
+              scope: meta.group.regexp keyword.control.group.regexp
               pop: true
         - match: ''
           set: group-body
 
   group-body:
-    - meta_scope: string.regexp.group
+    - meta_scope: meta.group.regexp
     - match: \)
+      scope: keyword.control.group.regexp
       pop: true
-    - include: scope:source.regexp
+    - include: main
 
   charset:
     - match: '(\[\^?)]?'
