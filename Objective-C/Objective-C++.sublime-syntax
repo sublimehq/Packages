@@ -840,10 +840,14 @@ contexts:
       scope: punctuation.separator.objc++
       set: function-definition-trailing-return
     - include: scope:source.c++#function-specifiers
-    - match: (=)\s*(0)
-      captures:
-        1: keyword.operator.assignment.objc++
-        2: constant.numeric.objc++
+    - match: '='
+      scope: keyword.operator.assignment.objc++
+    - match: '&'
+      scope: keyword.operator.objc++
+    - match: \b0\b
+      scope: constant.numeric.objc++
+    - match: \b(default|delete)\b
+      scope: storage.modifier.objc++
     - match: '(?=\{)'
       set: function-definition-body
     - match: '(?=\S)'
@@ -1156,14 +1160,14 @@ contexts:
       scope: punctuation.separator.objc++
       set: method-definition-trailing-return
     - include: scope:source.c++#function-specifiers
-    - match: (=)\s*(0)
-      captures:
-        1: keyword.operator.assignment.objc++
-        2: constant.numeric.objc++
-    - match: (=)\s*(default|delete)
-      captures:
-        1: keyword.operator.assignment.objc++
-        2: storage.modifier.objc++
+    - match: '='
+      scope: keyword.operator.assignment.objc++
+    - match: '&'
+      scope: keyword.operator.objc++
+    - match: \b0\b
+      scope: constant.numeric.objc++
+    - match: \b(default|delete)\b
+      scope: storage.modifier.objc++
     - match: ':'
       scope: punctuation.separator.initializer-list.objc++
       push:

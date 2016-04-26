@@ -755,10 +755,14 @@ contexts:
       scope: punctuation.separator.c++
       set: function-definition-trailing-return
     - include: function-specifiers
-    - match: (=)\s*(0)
-      captures:
-        1: keyword.operator.assignment.c++
-        2: constant.numeric.c++
+    - match: '='
+      scope: keyword.operator.assignment.c++
+    - match: '&'
+      scope: keyword.operator.c++
+    - match: \b0\b
+      scope: constant.numeric.c++
+    - match: \b(default|delete)\b
+      scope: storage.modifier.c++
     - match: '(?=\{)'
       set: function-definition-body
     - match: '(?=\S)'
@@ -1070,14 +1074,14 @@ contexts:
       scope: punctuation.separator.c++
       set: method-definition-trailing-return
     - include: function-specifiers
-    - match: (=)\s*(0)
-      captures:
-        1: keyword.operator.assignment.c++
-        2: constant.numeric.c++
-    - match: (=)\s*(default|delete)
-      captures:
-        1: keyword.operator.assignment.c++
-        2: storage.modifier.c++
+    - match: '='
+      scope: keyword.operator.assignment.c++
+    - match: '&'
+      scope: keyword.operator.c++
+    - match: \b0\b
+      scope: constant.numeric.c++
+    - match: \b(default|delete)\b
+      scope: storage.modifier.c++
     - match: ':'
       scope: punctuation.separator.initializer-list.c++
       push:

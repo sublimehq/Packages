@@ -568,6 +568,16 @@ FooBar::FooBar(int a)
 {
 }
 
+FooBar::FooBar(int a) & =
+/*^^^^^^^^^^^^ entity.name.function */
+/*            ^ punctuation.definition.parameters */
+/*             ^^^ storage.type */
+/*                  ^ punctuation.definition.parameters */
+/*                    ^ keyword.operator */
+/*                      ^ keyword.operator.assignment */
+default;
+/*^^^^^ storage.modifier */
+
 FooBar::~FooBar
 /*^^^^^^^^^^^^^ entity.name.function */
 () { }
