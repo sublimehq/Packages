@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>meta.function.declaration.go</string>
+	<string>meta.function.declaration.go - meta.function.declaration.anonymous.go, entity.name.type.go, entity.name.struct.go</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
