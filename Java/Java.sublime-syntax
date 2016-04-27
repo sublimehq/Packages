@@ -32,9 +32,8 @@ contexts:
         2: punctuation.definition.annotation-arguments.begin.java
       push:
         - meta_scope: meta.declaration.annotation.java
-        - match: (\))
-          captures:
-            1: punctuation.definition.annotation-arguments.end.java
+        - match: \)
+          scope: punctuation.definition.annotation-arguments.end.java
           pop: true
         - match: (\w*)\s*(=)
           captures:
@@ -47,8 +46,7 @@ contexts:
       scope: storage.type.annotation.java
   anonymous-classes-and-new:
     - match: \b(?<!::)new\b
-      captures:
-        0: keyword.control.new.java
+      scope: keyword.control.new.java
       push:
         - match: '(?<=\)|\])(?!\s*{)|(?<=})|(?=;)'
           pop: true
@@ -74,8 +72,6 @@ contexts:
               pop: true
             - include: object-types
             - match: \(
-              captures:
-                1: storage.type.java
               push:
                 - match: \)
                   pop: true
@@ -102,8 +98,7 @@ contexts:
       push:
         - meta_scope: meta.class.java
         - match: "}"
-          captures:
-            0: punctuation.section.class.end.java
+          scope: punctuation.section.class.end.java
           pop: true
         - include: storage-modifiers
         - include: comments
@@ -113,8 +108,7 @@ contexts:
             1: storage.modifier.java
             2: entity.name.type.class.java
         - match: extends
-          captures:
-            0: storage.modifier.extends.java
+          scope: storage.modifier.extends.java
           push:
             - meta_scope: meta.definition.class.inherited.classes.java
             - match: "(?={|implements)"
@@ -162,20 +156,16 @@ contexts:
     - include: all-types
   comments:
     - match: /\*\*/
-      scope: comment.block.empty.java
-      captures:
-        0: punctuation.definition.comment.java
+      scope: comment.block.empty.java punctuation.definition.comment.java
     - include: scope:text.html.javadoc
     - include: comments-inline
   comments-inline:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.java
+      scope: punctuation.definition.comment.java
       push:
         - meta_scope: comment.block.java
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.java
+          scope: punctuation.definition.comment.java
           pop: true
     - match: \s*((//).*$\n?)
       captures:
@@ -198,8 +188,7 @@ contexts:
         - match: "(?=;|})"
           pop: true
         - match: \w+
-          captures:
-            0: constant.other.enum.java
+          scope: constant.other.enum.java
           push:
             - meta_scope: meta.enum.java
             - match: "(?=,|;|})"
@@ -332,35 +321,29 @@ contexts:
       scope: storage.type.primitive.java
   storage-modifiers:
     - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
-      captures:
-        1: storage.modifier.java
+      scope: storage.modifier.java
   strings:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.java
+      scope: punctuation.definition.string.begin.java
       push:
         - meta_scope: string.quoted.double.java
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.java
+          scope: punctuation.definition.string.end.java
           pop: true
         - match: \\.
           scope: constant.character.escape.java
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.java
+      scope: punctuation.definition.string.begin.java
       push:
         - meta_scope: string.quoted.single.java
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.java
+          scope: punctuation.definition.string.end.java
           pop: true
         - match: \\.
           scope: constant.character.escape.java
   throws:
     - match: throws
-      captures:
-        0: storage.modifier.java
+      scope: storage.modifier.java
       push:
         - meta_scope: meta.throwables.java
         - match: "(?={|;)"
