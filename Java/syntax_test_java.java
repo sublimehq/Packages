@@ -33,7 +33,9 @@ public class SyntaxTest {
 
     private static void anotherMethod() throws MyException {
 //                                      ^ storage.modifier
-
+        throw new MyException
+                ("hello (world)");
+//                              ^ - string
     }
 }
 

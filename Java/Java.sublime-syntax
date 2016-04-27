@@ -66,14 +66,14 @@ contexts:
                 - match: "(?=})"
                   pop: true
                 - include: code
-        - match: (?=\w.*\()
+        - match: (?=\w.*(\(|$))
           push:
-            - match: (?<=\))
+            - match: \)
               pop: true
             - include: object-types
             - match: \(
               push:
-                - match: \)
+                - match: (?=\))
                   pop: true
                 - include: code
         - match: "{"
