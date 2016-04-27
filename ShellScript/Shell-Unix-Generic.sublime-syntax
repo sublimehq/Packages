@@ -20,7 +20,6 @@ scope: source.shell
 contexts:
   main:
     - include: comment
-    - include: pipeline
     - include: list
     - include: compound-command
     - include: loop
@@ -33,6 +32,7 @@ contexts:
     - include: redirection
     - include: pathname
     - include: keyword
+    - include: pipeline
     - include: support
   comment:
     - match: '(?<!\S)(#)(?!\{).*$\n?'
