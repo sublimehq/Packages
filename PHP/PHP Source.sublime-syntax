@@ -1298,7 +1298,7 @@ contexts:
       scope: support.function.tokenizer.php
     - match: (?i)\b(http_build_query|url(decode|encode)|parse_url|rawurl(decode|encode)|get_(headers|meta_tags)|base64_(decode|encode))\b
       scope: support.function.url.php
-    - match: (?i)\b(s(trval|e(ttype|rialize))|i(s(set|_(s(calar|tring)|nu(ll|meric)|callable|int(eger)?|object|double|float|long|array|re(source|al)|bool))|ntval|mport_request_variables)|d(oubleval|ebug_zval_dump)|unse(t|rialize)|print_r|empty|var_(dump|export)|floatval|get(type|_(defined_vars|resource_type)))\b
+    - match: (?i)\b(s(trval|e(ttype|rialize))|i(s(set|_(s(calar|tring)|nu(ll|meric)|callable|int(eger)?|object|double|float|long|array|re(source|al)|bool))|ntval|mport_request_variables)|d(oubleval|ebug_zval_dump)|unse(t|rialize)|print_r|empty|var_(dump|export)|boolval|floatval|get(type|_(defined_vars|resource_type)))\b
       scope: support.function.var.php
     - match: (?i)\bwddx_(serialize_va(lue|rs)|deserialize|packet_(start|end)|add_vars)\b
       scope: support.function.wddx.php

@@ -160,6 +160,7 @@
 		{ "trigger": "bind_textdomain_codeset", "contents": "bind_textdomain_codeset(${1:domain}, ${2:codeset})" },
 		{ "trigger": "bindec", "contents": "bindec(${1:binary_string})" },
 		{ "trigger": "bindtextdomain", "contents": "bindtextdomain(${1:domain}, ${2:directory})" },
+		{ "trigger": "boolval", "contents": "boolval(${1:var})" },
 		{ "trigger": "bson_decode", "contents": "bson_decode(${1:bson})" },
 		{ "trigger": "bson_encode", "contents": "bson_encode(${1:anything})" },
 		{ "trigger": "bzclose", "contents": "bzclose(${1:bz})" },
