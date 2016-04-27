@@ -39,7 +39,7 @@ contexts:
       push:
         - meta_scope: string.quoted.double.asp
         - match: '"(?!")'
-         scope: punctuation.definition.string.end.asp
+          scope: punctuation.definition.string.end.asp
           pop: true
         - match: '""'
           scope: constant.character.escape.apostrophe.asp
