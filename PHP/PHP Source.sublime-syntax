@@ -172,12 +172,16 @@ contexts:
             )?
         )
       push:
+        - match: (::)({{identifier}})(?=\s*\()
+          scope: meta.function-call.static.php
+          captures:
+            1: keyword.operator.class.php
+            2: variable.function.php
+          set: function-call-parameters
         - match: |-
             (?x)(::)
             (?:
-                (class)(?:[^\w])
-                |
-                ({{identifier}})\s*\(
+                (class)\b
                 |
                 ((\$+){{identifier}})
                 |
@@ -186,10 +190,9 @@ contexts:
           captures:
             1: keyword.operator.class.php
             2: constant.class.php
-            3: meta.function-call.static.php
-            4: variable.other.class.php
-            5: punctuation.definition.variable.php
-            6: constant.other.class.php
+            3: variable.other.class.php
+            4: punctuation.definition.variable.php
+            5: constant.other.class.php
           pop: true
         - match: (self|static|parent)\b
           scope: variable.language.php
@@ -273,6 +276,14 @@ contexts:
           pop: true
         - include: expressions
     - include: constants
+    - match: \(
+      scope: punctuation.definition.group.begin.php
+      push:
+        - meta_scope: meta.group.php
+        - match: \)
+          scope: punctuation.definition.group.end.php
+          pop: true
+        - include: expressions
 
   class-builtin:
     - match: (?i)(\\)?\b(st(dClass|reamWrapper)|R(RD(Graph|Creator|Updater)|untimeException|e(sourceBundle|cursive(RegexIterator|CachingIterator|TreeIterator|Iterator(Iterator)?|DirectoryIterator|FilterIterator|ArrayIterator)|flect(ion(Method|Class|Object|P(arameter|roperty)|Extension|Function(Abstract)?)?|or)|gexIterator)|angeException)|G(lobIterator|magick(Draw|Pixel)?)|X(ML(Reader|Writer)|SLTProcessor)|M(ongo(Regex|Grid(fsFile|FS(Cursor|File)?)|BinData|C(o(de|llection)|ursor)|Timestamp|I(nt(32|64)|d)|D(B(Ref)?|ate))?|ultipleIterator|e(ssageFormatter|mcache(d)?))|Bad(MethodCallException|FunctionCallException)|tidy(Node)?|S(impleXML(Iterator|Element)|oap(Server|Header|Client|Param|Var|Fault)|NMP|CA(_(SoapProxy|LocalProxy))?|p(hinxClient|l(M(inHeap|axHeap)|Bool|S(t(ack|ring)|ubject)|Heap|TempFileObject|Int|Ob(server|jectStorage)|DoublyLinkedList|PriorityQueue|Enum|Queue|F(i(le(Info|Object)|xedArray)|loat)))|e(ekableIterator|rializable)|DO_(Model_(ReflectionDataObject|Type|Property)|Sequence|D(ata(Object|Factory)|AS_(Relational|XML(_Document)?|Setting|ChangeSummary|Data(Object|Factory)))|Exception|List)|wish(Result(s)?|Search)?|VM(Model)?|QLite(Result|3(Result|Stmt)?|Database|Unbuffered)|AM(Message|Connection))|H(ttp(Re(sponse|quest(Pool)?)|Message|InflateStream|DeflateStream|QueryString)|aru(Image|Outline|D(oc|estination)|Page|Encoder|Font|Annotation))|N(o(RewindIterator|rmalizer)|umberFormatter)|C(o(untable|llator)|achingIterator)|T(okyoTyrant(Table|Query)?|ra(nsliterator|versable))|I(n(tlDateFormatter|validArgumentException|finiteIterator)|terator(Iterator|Aggregate)?|magick(Draw|Pixel(Iterator)?)?)|ZipArchive|O(CI-(Collection|Lob)|ut(erIterator|Of(RangeException|BoundsException))|verflowException)|D(irectoryIterator|om(XsltStylesheet|Node|Document(Type)?|ProcessingInstruction|Element|ainException|Attribute)|OM(XPath|N(ode(list)?|amedNodeMap)|C(haracterData|omment)|Text|Implementation|Document(Fragment)?|ProcessingInstruction|E(ntityReference|lement)|Attr)|ate(Time(Zone)?|Interval|Period))|Un(derflowException|expectedValueException)|finfo|P(har(Data|FileInfo)?|DO(Statement)?|arentIterator)|E(rrorException|xception|mptyIterator)|V8Js(Exception)?|KTaglib_(MPEG_(File|AudioProperties)|Tag|ID3v2_(Tag|Frame|AttachedPictureFrame))|Fil(terIterator|esystemIterator)|mysqli(_(stmt|driver|warning|result))?|L(imitIterator|o(cale|gicException)|engthException)|A(MQP(Connection|Exchange|Queue)|ppendIterator|PCIterator|rray(Iterator|Object|Access)))\b
@@ -685,9 +696,11 @@ contexts:
     # any built-in function names should not be highlighted specially
     - match: '(?={{path}}\\{{identifier}}\s*\()'
       push:
-        - match: (?=\s*\()
-          pop: true
-        - include: user-function-call
+        - meta_scope: meta.function-call.php
+        - include: identifier-parts
+        - match: '{{identifier}}(?=\s*\()'
+          scope: variable.function.php
+          set: function-call-parameters
     - match: (?i)\b(print|echo)\b
       scope: support.function.construct.php
     # Root namespace function calls may be a built-in or user
@@ -695,12 +708,27 @@ contexts:
       captures:
         1: punctuation.separator.namespace.php
       push:
+        - meta_scope: meta.function-call.php
         - match: (?=\s*\()
-          pop: true
-        - match: (?i)\b(isset|unset|e(val|mpty)|list)(?=\s*\()
+          set: function-call-parameters
+        - match: (?i)\b(isset|unset|e(val|mpty)|list)\b
           scope: support.function.construct.php
         - include: support
-        - include: user-function-call
+        - match: '{{identifier}}'
+          scope: variable.function.php
+  function-call-parameters:
+    - match: \s*(\()
+      scope: meta.function-call.php
+      captures:
+        1: meta.group.php punctuation.definition.group.begin.php
+      set:
+        - meta_content_scope: meta.function-call.php meta.group.php
+        - match: \)
+          scope: meta.function-call.php meta.group.php punctuation.definition.group.end.php
+          pop: true
+        - match: ','
+          scope: punctuation.separator.php
+        - include: expressions
   heredoc:
     - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
       push:
@@ -876,6 +904,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
         2: variable.other.php
+      push: function-call-parameters
   numbers:
     - match: '\b((0(b|B)[01]*)|(0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
       scope: constant.numeric.php
@@ -890,18 +919,17 @@ contexts:
             1: punctuation.definition.variable.php
           pop: true
         - include: expressions
-    - match: |-
-        (?x)(->)
-        (?:
-            ({{identifier}})\s*\(
-            |
-            ((\$+)?{{identifier}})
-        )?
+    - match: (->)({{identifier}})(?=\s*\()
+      scope: meta.function-call.method.php
       captures:
         1: keyword.operator.class.php
-        2: meta.function-call.object.php
-        3: variable.other.property.php
-        4: punctuation.definition.variable.php
+        2: variable.function.php
+      push: function-call-parameters
+    - match: (->)((\$+)?{{identifier}})?
+      captures:
+        1: keyword.operator.class.php
+        2: variable.other.property.php
+        3: punctuation.definition.variable.php
   parameter-default-types:
     - include: strings
     - include: numbers
@@ -1288,13 +1316,6 @@ contexts:
       scope: support.function.zlib.php
     - match: (?i)\bis_int(eger)?\b
       scope: support.function.alias.php
-  user-function-call:
-    - match: '(?={{path}}\s*\()'
-      push:
-        - meta_scope: meta.function-call.php
-        - include: identifier-parts
-        - match: '{{identifier}}(?=\s*\()'
-          pop: true
 
   variables:
     - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b

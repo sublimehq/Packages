@@ -201,19 +201,54 @@ $var = new \MyNamespce\ClassName();
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
 //              ^^ keyword.operator.class
-//                ^^^ meta.function-call
+//                ^^^^^ meta.function-call
+//                ^^^ variable.function
+//                   ^^ meta.group
+//                   ^ punctuation.definition.group.begin
+//                    ^ punctuation.definition.group.end
 
 \MyNamespace\Foo();
-//^^^^^^^^^^^^^^ meta.function-call
+//^^^^^^^^^^^^^^^^ meta.function-call
 // <- punctuation.separator.namespace
  // <- support.other.namespace
 //          ^ punctuation.separator.namespace
+//           ^^^ variable.function
+//              ^^ meta.group
+//              ^ punctuation.definition.group.begin
+//               ^ punctuation.definition.group.end
 
 \MyNamespace\Foo;
 // <- punctuation.separator.namespace
  // <- support.other.namespace
 //          ^ punctuation.separator.namespace
 //           ^ constant.other
+
+func_call(true, 1, "string");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+//                          ^ - meta.function-call
+//^^^^^^^ variable.function
+//       ^^^^^^^^^^^^^^^^^^^ meta.group
+//                          ^ - meta.group
+//       ^ punctuation.definition.group.begin
+//                         ^ punctuation.definition.group.end
+//        ^^^^ constant.language
+//            ^ punctuation.separator.php
+//              ^ constant.numeric
+//               ^ punctuation.separator.php
+//                 ^^^^^^^^ string.quoted.double
+
+$object->method(func_call());
+//     ^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+//       ^^^^^^ variable.function
+//             ^^^^^^^^^^^^^ meta.group
+//              ^^^^^^^^^^^ meta.function-call meta.function-call
+//              ^^^^^^^^^ variable.function
+//                       ^^ meta.group meta.group
+
+strval($foo);
+//^^^^^^^^^^ meta.function-call
+//^^^^ support.function.var - variable.function
+//    ^^^^^^ meta.group
 
 $test = new Test1;
 //      ^ keyword.other.new.php
