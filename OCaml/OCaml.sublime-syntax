@@ -14,11 +14,11 @@ contexts:
         1: keyword.other.module-binding.ocaml
         2: keyword.other.module-definition.ocaml
         3: support.other.module.ocaml
-        4: punctuation.separator.module-binding.ocmal
+        4: punctuation.separator.module-binding.ocaml
     - match: '\b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_'']*)\b|([a-z_][a-zA-Z0-9_'']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))'
       captures:
         1: keyword.other.function-definition.ocaml
-        3: keyword.other.funtion-definition.ocaml
+        3: keyword.other.function-definition.ocaml
         4: entity.name.function.ocaml
         5: entity.name.function.ocaml
       push:
