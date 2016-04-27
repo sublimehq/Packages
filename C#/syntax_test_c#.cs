@@ -63,3 +63,13 @@ public partial class Employee
     {
     }
 }
+
+public class Coo
+{
+    public Object text = ObjectMaker.MakeSomeText ("In order to publish your text, you need to do some texty things 'Like this' and then say hello.");
+    //                                                                                                                                              ^ - string
+    public Vector curves;
+    int Zoo()
+    //  ^ entity.name.function
+    {}
+}

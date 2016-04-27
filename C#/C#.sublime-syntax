@@ -69,6 +69,12 @@ contexts:
             - match: "(?=})"
               pop: true
             - include: method
+            - match: '='
+              scope: keyword.operator.assignment.cs
+              push:
+                - match: ';'
+                  pop: true
+                - include: code
             - include: code
   code:
     - include: block
