@@ -165,11 +165,11 @@ contexts:
             0: punctuation.definition.raw.restructuredtext
           pop: true
     - match: "(`)[^`]+(`)(?!_)"
-      comment: intepreted text
+      comment: interpreted text
       scope: markup.other.command.restructuredtext
       captures:
-        1: punctuation.definition.intepreted.restructuredtext
-        2: punctuation.definition.intepreted.restructuredtext
+        1: punctuation.definition.interpreted.restructuredtext
+        2: punctuation.definition.interpreted.restructuredtext
     - match: '(:)[A-z][A-z0-9  =\s\t_]*(:)'
       comment: field list
       scope: entity.name.tag.restructuredtext
