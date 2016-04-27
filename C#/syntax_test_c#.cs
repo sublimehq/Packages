@@ -49,3 +49,12 @@ class TestGenericList
         GenericList<ExampleClass> list3 = new GenericList<ExampleClass>();
     }
 }
+
+public partial class Employee
+//     ^ storage.modifier
+//                   ^ entity.name.type.class
+{
+    public void DoWork()
+    {
+    }
+}
