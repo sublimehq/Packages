@@ -35,13 +35,11 @@ contexts:
     - match: (?i:\b(Empty|False|Nothing|Null|True)\b)
       scope: constant.language.asp
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.asp
+      scope: punctuation.definition.string.begin.asp
       push:
         - meta_scope: string.quoted.double.asp
         - match: '"(?!")'
-          captures:
-            0: punctuation.definition.string.end.asp
+         scope: punctuation.definition.string.end.asp
           pop: true
         - match: '""'
           scope: constant.character.escape.apostrophe.asp
