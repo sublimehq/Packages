@@ -93,6 +93,10 @@ char32_t str10[] = U"\U00000063";
 char str11[] = "\q";
 /*              ^^ invalid.illegal.unknown-escape */
 
+scanf("%ms %as", &buf);
+/*     ^^^ constant.other.placeholder */
+/*         ^^^ constant.other.placeholder */
+
 char rawStr1[] = R"("This is a raw string")";
 /*               ^ storage.type.string */
 /*                ^ punctuation.definition.string.begin */
