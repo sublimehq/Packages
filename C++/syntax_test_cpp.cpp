@@ -930,7 +930,14 @@ union foobaz {
 
 // Class name that looks like a possible macro
 class SP {}
-//    ^^ entity.name.class
+/*    ^^ entity.name.class */
+
+class MyClass MACRO MACRO2
+/* ^ storage.type */
+/*    ^ entity.name.class */
+/*            ^ - entity */
+/*                  ^ - entity */
+{}
 
 // Class using macro to handle __declspec() on Windows
 class SK_API SkBitmap {}
