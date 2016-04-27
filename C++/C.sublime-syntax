@@ -593,7 +593,6 @@ contexts:
         - match: \b(struct)\s+({{identifier}})
           captures:
             1: storage.type.c
-            2: entity.name.type.struct.c
         - include: expressions
 
   function-call:

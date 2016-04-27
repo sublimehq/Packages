@@ -772,7 +772,6 @@ contexts:
         - match: \b(struct)\s+({{identifier}})
           captures:
             1: storage.type.objc
-            2: entity.name.type.struct.objc
         - include: expressions
 
   function-call:

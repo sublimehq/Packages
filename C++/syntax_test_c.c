@@ -125,6 +125,20 @@ if (4) {
  /* <- - meta.block */
 
 /////////////////////////////////////////////
+// Typedefs
+/////////////////////////////////////////////
+
+typedef int myint;
+/* <- storage.type */
+/*          ^ entity.name.type */
+
+typedef struct mystruct {
+/* <- storage.type */
+/*             ^ - entity */
+} mystruct;
+/* ^ entity.name.type */
+
+/////////////////////////////////////////////
 // Data structures and return values
 /////////////////////////////////////////////
 
