@@ -96,6 +96,8 @@ contexts:
   unique-types:
     - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
       scope: storage.type.c++
+    - match: \bclass\b
+      scope: storage.type.c++
 
   unique-strings:
     - match: '((?:L|u8|u|U)?R)("([^\(\)\\ ]{0,16})\()'
