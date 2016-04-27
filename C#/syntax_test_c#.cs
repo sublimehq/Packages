@@ -17,6 +17,11 @@ class X
     }
 }
 
+string verbatim = @"This is a test "" of a verbatim string literal - C:\User"
+//                ^^ string.quoted.double.literal punctuation.definition.string.begin
+//                                 ^^ constant.character.escape
+//                                                                     ^ string.quoted.double.literal - constant
+//                                                                          ^ string.quoted.double.literal punctuation.definition.string.end
 
 class A
 {
