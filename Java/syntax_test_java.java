@@ -40,6 +40,9 @@ public class SyntaxTest {
 }
 
 class AnyClass {
+    int bar; // this comment() is recognized as code
+    //       ^ comment.line
+
     public void anyMethod(String finality){
         //                        ^ variable.parameter - storage.modifier
         System.out.println("Printed: " + finality);

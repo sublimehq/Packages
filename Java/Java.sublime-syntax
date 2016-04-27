@@ -226,7 +226,7 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
   methods:
-    - match: '(?=\w.*\s+)(?=[^=]+\()'
+    - match: '(?=\w.*\s+)(?=[^=;]+\()'
       push:
         - meta_scope: meta.method.java
         - match: "}|(?=;)"
