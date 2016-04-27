@@ -412,6 +412,8 @@ contexts:
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
+        - match: '(?=({{before_tag}})([^(;]+$|.*\{))'
+          push: data-structures
         - include: statements
 
   data-structures:

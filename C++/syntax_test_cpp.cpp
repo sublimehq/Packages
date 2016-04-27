@@ -544,6 +544,37 @@ MACRO1 void * MACRO2 myfuncname () {
 /*          ^ keyword.operator */
 /*                   ^ entity.name.function */
 
+    struct Args {
+/*  ^ storage.type */
+/*         ^ entity.name.struct */
+        void* hello;
+        void* foobar;
+        Args()
+/*      ^ entity.name.function.constructor */
+        : hellp(nullptr),
+/*      ^ punctuation.separator.initializer-list */
+          foobar(nullptr)
+        {
+        }
+    };
+
+    struct Args args2;
+/*  ^ storage.type */
+/*         ^ - entity */
+
+    class LocalFoo MYMACRO
+/*  ^ storage.type */
+/*        ^ entity.name.class */
+/*                 ^ - entity */
+    {
+        LocalFoo() {}
+/*      ^ entity.name.function.constructor */
+    }
+
+    class LocalFoo test;
+/*  ^ storage.type */
+/*        ^ - entity */
+
 }
 
 static const uint32_t * const MACRO funcname();

@@ -244,6 +244,17 @@ MACRO1 void * MACRO2 myfuncname () {
 /*             ^ punctuation.separator */
     }
 
+    struct Args {
+/*  ^ storage.type */
+/*         ^ entity.name.struct */
+        void* hello;
+        void* foobar;
+    };
+
+    struct Args args;
+/*  ^ storage.type */
+/*         ^ - entity */
+
 }
 
 static const uint32_t * const MACRO funcname();
