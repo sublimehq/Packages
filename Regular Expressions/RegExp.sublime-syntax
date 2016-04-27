@@ -10,9 +10,17 @@ variables:
   known_char_escape: '\\(?:[tnrfae]|[0-7]{3}|x\{\h{1,7}\}|x\h\h|c\d+)'
   invalid_char_escape: '\\[xcCM]'
   char_escape: '\\.'
+  ranged_quantifier: '\{\d+(,\d*)?\}'
+  lazy_or_possessive: '[?+]?'
+  character_quantifier: '[?*+]'
+  char_class: '\\(?:[wWsSdDhHvVXR]|[pP](?:\{[a-zA-Z_]+\}|(L&|[A-Z][a-z]?)))'
 
 contexts:
   main:
+    - match: ''
+      push: [base-literal, unexpected-quantifier-pop]
+
+  base:
     - include: character-class
     - include: special-escaped-char
     - include: backslashes
@@ -21,30 +29,60 @@ contexts:
     - include: group
     - include: operators
 
+  base-group:
+    - include: base
+    - match: '(?=\))'
+      pop: true
+    - include: literal
+
+  base-literal:
+    - include: base
+    - include: literal
+
   group:
     - match: \(
       scope: keyword.control.group.regexp
-      push:
-        - meta_scope: meta.group.regexp
-        - match: '\?(<[=!]|>|=|:|!)'
-          scope: constant.other.assertion.regexp
-          set: group-body
-        - match: '\?#'
-          scope: meta.group.regexp comment.line.number-sign.regexp
-          set:
-            - meta_content_scope: meta.group.regexp comment.line.number-sign.regexp
-            - match: \)
-              scope: meta.group.regexp keyword.control.group.regexp
-              pop: true
-        - match: ''
-          set: group-body
+      push: group-start
+
+  group-start:
+    - meta_scope: meta.group.regexp
+    - match: '\?(<[=!]|>|=|:|!)'
+      scope: constant.other.assertion.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?#'
+      scope: comment.line.number-sign.regexp
+      set:
+        - meta_content_scope: meta.group.regexp comment.line.number-sign.regexp
+        - match: \)
+          scope: meta.group.regexp keyword.control.group.regexp
+          pop: true
+    - match: '(\?(?:[ixms]*-)?[ixms]+)(\))'
+      captures:
+        1: meta.mode-modifier.regexp
+        2: keyword.control.group.regexp
+      pop: true
+    - match: '(\?\d+)(\))'
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: keyword.control.group.regexp
+      pop: true
+    - match: '(\?&\w+)(\))'
+      captures:
+        1: keyword.other.backref-and-recursion.regexp
+        2: keyword.control.group.regexp
+      pop: true
+    - match: '\?<\w+>'
+      scope: keyword.other.named-capture-group.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: ''
+      set: [group-body, unexpected-quantifier-pop]
 
   group-body:
-    - meta_scope: meta.group.regexp
+    - meta_content_scope: meta.group.regexp
     - match: \)
-      scope: keyword.control.group.regexp
+      scope: meta.group.regexp keyword.control.group.regexp
       pop: true
-    - include: main
+    - include: base-group
 
   charset:
     - match: '(\[\^?)]?'
@@ -56,7 +94,7 @@ contexts:
         - match: '\]'
           scope: keyword.control.set.regexp
           pop: true
-        - match: '(?=({{known_char_escape}}|\\.|[^\]])-({{known_char_escape}}|\\.|[^\]]))'
+        - match: '(?=({{known_char_escape}}|{{char_escape}}|[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))'
           push:
             - meta_content_scope: constant.other.range.regexp
             - include: special-escaped-char
@@ -84,11 +122,7 @@ contexts:
           scope: keyword.operator.intersection.regexp
 
   character-class:
-    - match: '\\[wWsSdDhHvVXR]'
-      scope: keyword.control.character-class.regexp
-    - match: '\\[pP]\{[a-zA-Z_]+\}'
-      scope: keyword.control.character-class.regexp
-    - match: '\\[pP](L&|[A-Z][a-z]?)'
+    - match: '{{char_class}}'
       scope: keyword.control.character-class.regexp
 
   special-escaped-char:
@@ -104,15 +138,42 @@ contexts:
   backslashes:
     - match: '\\[bBAZzG]|[\^$]'
       scope: keyword.control.anchors.regexp
+      push: unexpected-quantifier-pop
     - match: '\\[QEK]'
       scope: keyword.control.regexp
-    - match: \\([kg]<\w+>|[kg]'\w+')
+      push: unexpected-quantifier-pop
+    - match: \\[kg](<\w+>|'\w+'|\{\w+\}|\d+)
       scope: keyword.other.backref-and-recursion.regexp
     - match: \\[1-9]\d*
       scope: keyword.other.backref-and-recursion.regexp
 
-  operators:
-    - match: '([?*+][?+]?)|\{\d+(,\d*)?\}'
+  quantifiers:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
       scope: keyword.operator.quantifier.regexp
+      push: unexpected-quantifier-pop
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: keyword.operator.quantifier.regexp
+      push: unexpected-quantifier-pop
+
+  unexpected-quantifier:
+    - match: '{{ranged_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+    - match: '{{character_quantifier}}{{lazy_or_possessive}}'
+      scope: invalid.illegal.unexpected-quantifier.regexp
+
+  unexpected-quantifier-pop:
+    - include: unexpected-quantifier
+    - match: ''
+      pop: true
+
+  operators:
     - match: \|
       scope: keyword.operator.regexp
+      push: unexpected-quantifier-pop
+
+  literal:
+    - include: quantifiers
+    - match: '\.'
+      scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
+    - match: .
+      scope: meta.literal.regexp

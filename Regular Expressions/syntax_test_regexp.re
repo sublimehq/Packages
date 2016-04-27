@@ -110,3 +110,86 @@ a{,}
 
 a{}
 #^^ - keyword.operator.quantifier.regexp
+
+|{1,2}
+#^^^^^ invalid.illegal.unexpected-quantifier.regexp
+
+hello**
+#     ^ invalid.illegal.unexpected-quantifier.regexp
+#<- meta.literal.regexp
+#^^^^ meta.literal.regexp
+
+hello++
+#    ^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
+
+(\w{2}?)
+#  ^^^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
+
+(\w{2}+)
+#  ^^^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
+
+(\w{2}?+)
+#      ^ invalid.illegal.unexpected-quantifier.regexp
+
+[\w{1}+]
+#  ^^^^ - invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+(?x)
+#^^ meta.mode-modifier.regexp
+
+(?-ix)
+#^^^^ meta.mode-modifier.regexp
+
+(?sm-ixxs)
+#^^^^^^^^ meta.mode-modifier.regexp
+
+(?abc)
+#^ invalid.illegal.unexpected-quantifier.regexp - meta.mode-modifier.regexp
+# ^^^ meta.literal.regexp - meta.mode-modifier.regexp
+
+ .*?
+#^ keyword.other.any.regexp - meta.literal.regexp
+# ^^ keyword.operator.quantifier.regexp
+
+(?=.++\.??\|{2,3}|{2})
+#  ^ keyword.other.any.regexp - meta.literal.regexp
+#   ^^ keyword.operator.quantifier.regexp
+#     ^^ constant.character.escape.regexp
+#       ^^ keyword.operator.quantifier.regexp
+#         ^^ constant.character.escape.regexp
+#           ^^^^^ keyword.operator.quantifier.regexp
+#                 ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+\G{2}
+# ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+ \g{1}
+#^^^^^ keyword.other.backref-and-recursion.regexp - keyword.operator.quantifier.regexp
+
+ \g1
+#^^^ keyword.other.backref-and-recursion.regexp
+
+ \g{named_group}
+#^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+
+ \g'named_group'
+#^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+
+ \g<named_group>
+#^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+
+(?1)
+#^^ keyword.other.backref-and-recursion.regexp
+
+(1)
+#^ meta.literal.regexp - keyword.other.backref-and-recursion.regexp
+
+(?&named_group)
+#^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+
+(?={2})
+#  ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
+
+(?<named_group>test)
+#^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
