@@ -83,9 +83,8 @@ contexts:
               pop: true
             - include: class-body
   assertions:
-    - match: \b(assert)\s
-      captures:
-        1: keyword.control.assert.java
+    - match: \b(assert)\b
+      scope: keyword.control.assert.java
       push:
         - meta_scope: meta.declaration.assertion.java
         - match: $
@@ -102,25 +101,24 @@ contexts:
           pop: true
         - include: storage-modifiers
         - include: comments
-        - match: (class|(?:@)?interface|enum)\s+(\w+)
+        - match: (\bclass|(?:@)?\binterface|\benum)\s+(\w+)
           scope: meta.class.identifier.java
           captures:
             1: storage.modifier.java
             2: entity.name.type.class.java
-        - match: extends
+        - match: \bextends\b
           scope: storage.modifier.extends.java
           push:
             - meta_scope: meta.definition.class.inherited.classes.java
-            - match: "(?={|implements)"
+            - match: '(?={|\bimplements\b)'
               pop: true
             - include: object-types-inherited
             - include: comments
-        - match: (implements)\s
-          captures:
-            1: storage.modifier.implements.java
+        - match: \b(implements)\b
+          scope: storage.modifier.implements.java
           push:
             - meta_scope: meta.definition.class.implemented.interfaces.java
-            - match: '(?=\s*extends|\{)'
+            - match: '(?=\bextends\b|\{)'
               pop: true
             - include: object-types-inherited
             - include: comments
@@ -342,7 +340,7 @@ contexts:
         - match: \\.
           scope: constant.character.escape.java
   throws:
-    - match: throws
+    - match: \bthrows\b
       scope: storage.modifier.java
       push:
         - meta_scope: meta.throwables.java

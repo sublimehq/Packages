@@ -31,7 +31,8 @@ public class SyntaxTest {
         args.stream().forEach(System.out::println);
     }
 
-    private static void anotherMethod() {
+    private static void anotherMethod() throws MyException {
+//                                      ^ storage.modifier
 
     }
 }
