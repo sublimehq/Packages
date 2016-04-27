@@ -185,6 +185,7 @@ contexts:
       push:
         - match: "(?=;|})"
           pop: true
+        - include: comments
         - match: \w+
           scope: constant.other.enum.java
           push:

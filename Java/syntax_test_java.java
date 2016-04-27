@@ -48,3 +48,15 @@ class AnyClass {
         System.out.println("Printed: " + finality);
     }
 }
+
+public enum FooBaz {
+    // This is a test
+//  ^ comment.line
+    UPLOAD("foo bar"), /* This a comment */
+//  ^ constant.other.enum
+//                     ^ comment.block
+    DELETE("baz"),
+//  ^ constant.other.enum
+    // Comment here
+//  ^ comment.line
+}
