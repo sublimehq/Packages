@@ -1,5 +1,8 @@
 # Sublime Packages
 
+[![GitHub license](https://img.shields.io/github/license/sublimehq/Packages.svg?style=flat-square)](https://github.com/sublimehq/Packages/tree/master/LICENSE)
+[![GitHub tag](https://img.shields.io/github/tag/sublimehq/Packages.svg?style=flat-square)](https://github.com/sublimehq/Packages/tags/)
+
 > **Note that these packages will not work with any version of Sublime Text older than [Dev Build](http://sublimetext.com/3dev) 3092.**
 
 ## Installation
