@@ -203,10 +203,17 @@
    *.test-universal-selector {}
 /* ^ entity.name.tag.wildcard.css */
 
-.test-combinators a > a + b ~ a {} /* Not Yet Implemented */
-/*                  ^ */
-/*                      ^ */
-/*                          ^ */
+.test-combinators >>> a >> a > a + b ~ a {}
+/*                ^^^                  punctuation.separator.combinator.css */
+/*                      ^^             punctuation.separator.combinator.css */
+/*                           ^         punctuation.separator.combinator.css */
+/*                               ^     punctuation.separator.combinator.css */
+/*                                   ^ punctuation.separator.combinator.css */
+
+.test-invalid-combinators +>> a +++ a ~+> {}
+/*                        ^^^             invalid.illegal.combinator.css */
+/*                              ^^^       invalid.illegal.combinator.css */
+/*                                    ^^^ invalid.illegal.combinator.css */
 
 .test-generic-font-families {
     font: serif;
