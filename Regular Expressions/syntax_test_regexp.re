@@ -152,6 +152,7 @@ hello++
 # ^^ keyword.operator.quantifier.regexp
 
 (?=.++\.??\|{2,3}|{2})
+#^^ constant.other.assertion.regexp
 #  ^ keyword.other.any.regexp - meta.literal.regexp
 #   ^^ keyword.operator.quantifier.regexp
 #     ^^ constant.character.escape.regexp
@@ -193,3 +194,22 @@ hello++
 (?<named_group>test)
 #^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+
+(?![a-z]+?)
+#^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+#  ^ keyword.control.set.regexp
+#      ^ keyword.control.set.regexp
+#   ^^^ constant.other.range.regexp
+#       ^^ keyword.operator.quantifier.regexp
+
+(?![abc].\g1(?m)$)[\g1]
+#^^ constant.other.assertion.regexp
+#  ^ keyword.control.set.regexp
+#      ^ keyword.control.set.regexp
+#   ^^^ - meta.literal.regexp
+#       ^ keyword.other.any.regexp
+#        ^^^ keyword.other.backref-and-recursion.regexp
+#               ^ keyword.control.anchors.regexp
+#            ^^ meta.group.regexp meta.group.regexp meta.mode-modifier.regexp
+#                  ^^ constant.character.escape.regexp
+#                  ^^^ - keyword.other.backref-and-recursion.regexp
