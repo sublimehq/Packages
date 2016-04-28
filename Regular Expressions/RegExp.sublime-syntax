@@ -40,6 +40,13 @@ contexts:
     - include: literal
 
   group:
+    - match: \(\?#
+      scope: punctuation.definition.comment.begin.regexp
+      push:
+        - meta_scope: meta.group.regexp comment.block.group.regexp
+        - match: \)
+          scope: punctuation.definition.comment.end.regexp
+          pop: true
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start
@@ -49,13 +56,6 @@ contexts:
     - match: '\?(<[=!]|>|=|:|!)'
       scope: constant.other.assertion.regexp
       set: [group-body, unexpected-quantifier-pop]
-    - match: '\?#'
-      scope: comment.line.number-sign.regexp
-      set:
-        - meta_content_scope: meta.group.regexp comment.line.number-sign.regexp
-        - match: \)
-          scope: meta.group.regexp keyword.control.group.regexp
-          pop: true
     - match: '(\?(?:[ixms]*-)?[ixms]+)(\))'
       captures:
         1: meta.mode-modifier.regexp
