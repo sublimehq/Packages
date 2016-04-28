@@ -7,6 +7,14 @@ file_extensions:
   - css.erb
 scope: source.css
 variables:
+  # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
+  unicode: '\\\h{1,6}[ \t\n\f]?'
+  escape: '(?:{{unicode}}|\\[^\n\f\h])'
+  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[^[:ascii:]]]'
+  nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
+  nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
+  ident: '-?{{nmstart}}{{nmchar}}*'
+
   custom_element_chars: |-
     (?x:
         [-_a-z0-9\xB7]
@@ -204,6 +212,7 @@ contexts:
           captures:
             1: punctuation.definition.arbitrary-repetition.css
           pop: true
+  # https://drafts.csswg.org/css-animations/#keyframes
   keyframes:
     - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
       push:
@@ -232,6 +241,11 @@ contexts:
           push:
             - match: '(?=\})'
               pop: true
+            - match: '\s*(?:(from|to)|((?:\.[0-9]+|[0-9]+(?:\.[0-9]*)?)(%)))\s*,?\s*'
+              captures:
+                1: keyword.keyframe-selector.css
+                2: constant.numeric.css
+                3: keyword.other.unit.css
             - include: main
   media:
     - match: (?=\s*@media\s*.*?)
@@ -778,11 +792,13 @@ contexts:
           scope: entity.name.tag.custom.css
         - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|h[1-6]|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|main|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr|xmp|circle|clipPath|defs|ellipse|filter|foreignObject|g|glyph|glyphRef|image|line|linearGradient|marker|mask|path|pattern|polygon|polyline|radialGradient|rect|stop|switch|symbol|text|textPath|tref|tspan|use)\b'
           scope: entity.name.tag.css
-        - match: '(\.)[a-zA-Z0-9_-]+'
+          # https://drafts.csswg.org/selectors-4/#class-html
+        - match: '(\.){{ident}}'
           scope: entity.other.attribute-name.class.css
           captures:
             1: punctuation.definition.entity.css
-        - match: "(#)[a-zA-Z][a-zA-Z0-9_-]*"
+          # https://drafts.csswg.org/selectors-4/#id-selectors
+        - match: "(#){{ident}}"
           scope: entity.other.attribute-name.id.css
           captures:
             1: punctuation.definition.entity.css

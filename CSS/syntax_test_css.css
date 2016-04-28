@@ -72,6 +72,25 @@
 /*   ^^^^^^^^^          keyword.control.at-rule.keyframe.css */
 /*             ^^^^^^^^ entity.other.animation-name.css      */
 
+@keyframes test-keyframes-keywords {
+    from, to {}
+/*  ^^^^     keyword.keyframe-selector.css */
+/*        ^^ keyword.keyframe-selector.css */
+
+    0%, 100% {}
+/*  ^^       constant.numeric.css */
+/*      ^^^^ constant.numeric.css */
+
+
+    .99%, 100.99% {}
+/*  ^^^^          constant.numeric.css */
+/*        ^^^^^^^ constant.numeric.css */
+
+    0%, to {}
+/*  ^^     constant.numeric.css */
+/*      ^^ keyword.keyframe-selector.css */
+}
+
     @font-face {}
 /*  ^          punctuation.definition.keyword.css    */
 /*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
