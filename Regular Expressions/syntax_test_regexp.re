@@ -90,8 +90,13 @@
 #       ^ keyword.control.group
 
 (?#foobar)
-#^^^^^^^^^ meta.group.regexp
-#^^^^^^^^ comment.line.number-sign
+#^^^^^^^^^ meta.group comment.block.group
+# <- comment.block.group punctuation.definition.comment.begin
+#^^ punctuation.definition.comment.begin
+#        ^ punctuation.definition.comment.end
+
+( abc (?#foobar) )
+#     ^^^^^^^^^^ meta.group meta.group comment.block.group
 
 a{9}
 #^^^ keyword.operator.quantifier.regexp
