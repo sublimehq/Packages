@@ -102,7 +102,7 @@ contexts:
             1: punctuation.definition.parameters.end.php
           pop: true
         - include: function-arguments
-    - match: '^\s*({{identifier}})\s*(:)(?!:)'
+    - match: '^\s*((?!default){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
         2: punctuation.separator.php

@@ -468,6 +468,19 @@ $var3 = 0x0f;
 $var4 = 0b0111;
 //      ^^^^^^ constant.numeric
 
+  foo_bar:
+//^^^^^^^ entity.name.label.php - keyword.control.php
+// this test passes
+
+switch (1) {
+//^ keyword.control
+    case 1: // not actually necessary to prove the problem, but probably a good idea to test
+  //^^^^ keyword.control.php - entity.name.label.php
+    default:
+  //^^^^^^^ keyword.control.php - entity.name.label.php
+  // this currently fails (does not match scope [embedding.php text.html.basic meta.embedded.block.php source.php entity.name.label.php])
+}
+
 $non_sql = "NO SELECT HIGHLIGHTING!";
 //         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
 //          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
