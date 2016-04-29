@@ -164,8 +164,10 @@
     Function NoParams'()
    '^^^^^^^^^^^^^^^^^ meta.function.asp
    '         ^^^^^^^^ entity.name.function.asp
-   '                 ^^ - entity.name.function.asp
+   '                 ^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp
         NoParams = vbTextCompare
+'<- - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
         '          ^^^^^^^^^^^^^ support.type.vb.asp
     End Function
     Sub Test2
