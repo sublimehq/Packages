@@ -18,7 +18,7 @@ variables:
 contexts:
   main:
     - match: ''
-      push: [base-literal, unexpected-quantifier-pop]
+      set: [base-literal, unexpected-quantifier-pop]
 
   base:
     - include: character-class
