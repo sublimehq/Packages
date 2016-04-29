@@ -965,6 +965,7 @@ contexts:
         - meta_scope: meta.preprocessor.macro.c
         - include: preprocessor-line-continuation
         - include: preprecessor-line-ending
+        - include: preprocessor-comments
         - match: '({{identifier}})(\()'
           captures:
             1: entity.name.function.preprocessor.c
@@ -987,6 +988,7 @@ contexts:
           scope: variable.parameter.c
           pop: true
         - include: preprocessor-line-continuation
+        - include: preprocessor-comments
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.c
         - match: '(?=\))'
@@ -999,6 +1001,7 @@ contexts:
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.c
     - include: preprocessor-line-continuation
+    - include: preprocessor-comments
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.c
     - match: (/\*).*(\*/)
@@ -1013,6 +1016,7 @@ contexts:
     - meta_scope: meta.preprocessor.macro.definition.c
     - include: preprocessor-line-continuation
     - include: preprecessor-line-ending
+    - include: preprocessor-comments
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.c

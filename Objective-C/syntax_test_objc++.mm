@@ -10,6 +10,21 @@ struct foo* alloc_foo();
 #endif
  /* <- keyword.control.import */
 
+// The following example ensures that comments at the end of preprocessor
+// directives don't mess with context transitions
+int func() {
+/*  ^ entity.name.function */
+    #if( EXTAL == 40000 )       /* 40 MHz */
+/*  ^ keyword.control.import */
+        #define PLL_RFD_PHI1    10      // PLL0_PH1 = 40MHz
+/*      ^ keyword.control.import */
+/*                              ^^ constant.numeric */
+/*                                      ^ comment.line */
+    #endif
+/*  ^ keyword.control.import */
+}
+/* <- meta.function meta.block punctuation.definition.block */
+ /* <- - meta.function meta.block */
 
 #define MACRO_WITH_CURLY_BRACE {
 /* <- keyword.control.import.define */

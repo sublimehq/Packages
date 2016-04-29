@@ -1144,6 +1144,7 @@ contexts:
         - meta_scope: meta.preprocessor.macro.objc
         - include: scope:source.c#preprocessor-line-continuation
         - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprecessor-comments
         - match: '({{identifier}})(\()'
           captures:
             1: entity.name.function.preprocessor.objc
@@ -1166,6 +1167,7 @@ contexts:
           scope: variable.parameter.objc
           pop: true
         - include: scope:source.c#preprocessor-line-continuation
+        - include: scope:source.c#preprecessor-comments
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.objc
         - match: '(?=\))'
@@ -1178,6 +1180,7 @@ contexts:
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.objc
     - include: scope:source.c#preprocessor-line-continuation
+    - include: scope:source.c#preprecessor-comments
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.objc
     - match: (/\*).*(\*/)
@@ -1192,6 +1195,7 @@ contexts:
     - meta_scope: meta.preprocessor.macro.definition.objc
     - include: scope:source.c#preprocessor-line-continuation
     - include: scope:source.c#preprecessor-line-ending
+    - include: scope:source.c#preprecessor-comments
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.objc
