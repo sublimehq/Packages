@@ -371,13 +371,6 @@ contexts:
   property-values:
     - include: vendor-prefix
     - include: repeat-notation
-      # blend-mode and isolation-mode
-    - match: |-
-        \b(?x)
-        (color-(burn|dodge)|darken|difference|exclusion|
-        hard-light|hue|isolate|lighten|luminosity|multiply|overlay|
-        saturation|screen|soft-light)\b
-      scope: support.constant.property-value.css
     - match: |-
         (?x)\b(
             absolute|active|add
@@ -407,7 +400,7 @@ contexts:
           | cjk-ideographic|clip|clone|close-quote
           | closest-(corner|side)
           | col-resize|collapse
-          | color(-stop)?
+          | color(-stop|-burn|-dodge)?
           | column((-count|-gap|-reverse|-rule(-color|-width)?|-width)|s)?
           | common-ligatures|condensed|consider-shifts|contain
           | content(-box|s)?
@@ -415,9 +408,9 @@ contexts:
           | crisp(-e|E)dges
           | crop
           | cross(hair)?
-          | dashed
+          | da(rken|shed)
           | decimal(-leading-zero)?
-          | default|dense|diagonal-fractions|disabled
+          | default|dense|diagonal-fractions|difference|disabled
           | disc(retionary-ligatures)?
           | disregard-shifts
           | distribute(-all-lines|-letter|-space)?
@@ -425,7 +418,7 @@ contexts:
           | (nwse|nesw|ns|ew|sw|se|nw|ne|w|s|e|n)-resize
           | ease(-in-out|-in|-out)?
           | element|ellipsis|embed|end|EndColorStr|evenodd
-          | exclude(-ruby)?
+          | exclu(de(-ruby)?|sion)
           | expanded
           | (extra|semi|ultra)-(condensed|expanded)
           | farthest-(corner|side)?
@@ -438,27 +431,28 @@ contexts:
           | from(-image)?
           | full-width|geometricPrecision|georgian|glyphs|gradient|grayscale
           | grid(-height)?
-          | groove|hand|hanging|hebrew|height|help|hidden|hide
+          | groove|hand|hanging|hard-light|hebrew|height|help|hidden|hide
           | (hiragana|katakana)(-iroha)?
           | historical-(forms|ligatures)
           | horizontal(-tb)?
+          | hue
           | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
           | inactive|include-ruby|infinite|inherit|initial
           | inline(-block|-box|-flex(box)?|-line-height|-table)?
           | inside
           | inter(-ideograph|-word|sect)
-          | invert|isolation|italic
+          | invert|isolat(e|ion)|italic
           | jis(04|78|83|90)
           | justify(-all)?
           | keep-all
           | large[r]?
           | last|left|letter-spacing
-          | light(er|ing-color)
+          | light(e[nr]|ing-color)
           | line(-edge|-height|-through)?
           | linear(-gradient|RGB)?
           | lining-nums|list-item|local|loose
           | lower(-alpha|-greek|-latin|-roman|case)
-          | lr-tb|ltr|luminance|manual
+          | lr-tb|ltr|lumin(osity|ance)|manual
           | margin(-bottom|-box|-left|-right|-top)?
           | marker(-offset|s)?
           | mathematical
@@ -466,7 +460,7 @@ contexts:
           | max-(content|height|lines|size|width)
           | medium|middle
           | min-(content|height|width)
-          | miter|mixed|move|newspaper
+          | miter|mixed|move|multiply|newspaper
           | no-(change|clip|(close|open)-quote|(common|discretionary|historical)-ligatures|contextual|drop|repeat)
           | none|nonzero|normal|not-allowed|nowrap|oblique
           | offset(-after|-before|-end|-start)?
@@ -474,7 +468,7 @@ contexts:
           | optimize(Legibility|Precision|Quality|Speed)
           | order|ordinal|ornaments
           | outline(-color|-offset|-width)?
-          | outset|outside|over-edge|overline
+          | outset|outside|over(line|-edge|lay)
           | padding(-bottom|-box|-left|-right|-top)?
           | page|painted|paused
           | perspective(-origin)?
@@ -491,7 +485,7 @@ contexts:
           | (rotate|scale|translate)(3d|X|Y|Z)?
           | round
           | row(-resize|-reverse)?
-          | rtl|ruby|running|saturate
+          | rtl|ruby|running|saturat(e|ion)|screen
           | scroll(-position|bar)?
           | separate|sepia
           | shape-(image-threshold|margin|outside)
@@ -501,7 +495,7 @@ contexts:
           | skew[XY]?
           | slashed-zero|slice
           | small(-caps|er)?
-          | smooth|snap|solid
+          | smooth|snap|solid|soft-light
           | space(-around|-between)?
           | span|square|sRGB
           | stack(ed-fractions)?
