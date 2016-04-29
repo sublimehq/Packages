@@ -157,11 +157,19 @@ hello++
 (?sm-ixxs)
 #^^^^^^^^ meta.mode-modifier.regexp
 
-(?i:hello)
-#^^^ meta.mode-modifier.regexp
+ (?i:hello)
+#^^^^^^^^^^ meta.group.regexp
+#^ keyword.control.group.regexp
+# ^^^ meta.mode-modifier.regexp
+#    ^ - meta.mode-modifier.regexp
+#         ^ keyword.control.group.regexp
 
-(?i-s:hello)
-#^^^^^ meta.mode-modifier.regexp
+ (?i-s:hello)
+#^^^^^^^^^^^^ meta.group.regexp
+#^ keyword.control.group.regexp
+# ^^^^^ meta.mode-modifier.regexp
+#      ^ - meta.mode-modifier.regexp
+#           ^ keyword.control.group.regexp
 
 (?abc)
 #^ invalid.illegal.unexpected-quantifier.regexp - meta.mode-modifier.regexp
