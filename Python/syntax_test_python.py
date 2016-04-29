@@ -45,6 +45,53 @@ class MyClass(Inherited, module.Inherited2):
     pass
 
 
+##################
+# Lists and dicts
+##################
+
+mylist = []
+#        ^^ meta.structure.list.python
+#        ^ punctuation.definition.list.begin
+#         ^ punctuation.definition.list.end
+
+mylist = [1, "testing", ["sublist", True]]
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#        ^ punctuation.definition.list.begin
+#         ^ constant.numeric
+#          ^ punctuation.separator.list
+#            ^^^^^^^^^ string.quoted.double
+#                     ^ punctuation.separator
+#                       ^^^^^^^^^^^^^^^^^ meta.structure.list meta.structure.list
+#                       ^ punctuation.definition.list.begin
+#                        ^^^^^^^^^ string.quoted.double
+#                                 ^ punctuation.separator.list
+#                                   ^^^^ constant.language
+#                                       ^ punctuation.definition.list.end
+#                                        ^ punctuation.definition.list.end
+
+mydict = {}
+#        ^^ meta.structure.dictionary
+#        ^ punctuation.definition.dictionary.begin
+#         ^ punctuation.definition.dictionary.end
+
+key2 = "my_key"
+mydict = {"key": True, key2: (1, 2, [-1, -2])}
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary
+#         ^^^^^ string.quoted.double
+#              ^ punctuation.separator.key-value
+#                ^^^^ constant.language
+#                    ^ punctuation.separator.dictionary
+#                          ^ punctuation.separator.key-value
+#                            ^^^^^^^^^^^^^^^^ meta.group
+#                            ^ punctuation.definition.group.begin
+#                             ^ constant.numeric
+#                                ^ constant.numeric
+#                                   ^^^^^^^ meta.structure.list
+#                                      ^ punctuation.separator.list
+#                                           ^ punctuation.definition.group.end
+#        ^ punctuation.definition.dictionary.begin
+#                                            ^ punctuation.definition.dictionary.end
+
 ###############################
 # Strings and embedded syntaxes
 ###############################

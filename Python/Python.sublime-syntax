@@ -384,14 +384,9 @@ contexts:
         - match: \]
           scope: punctuation.definition.list.end.python
           pop: true
-        - match: '(?<=\[|\,)\s*(?![\],])'
-          push:
-            - meta_content_scope: meta.structure.list.item.python
-            - match: '\s*(?:(,)|(?=\]))'
-              captures:
-                1: punctuation.separator.list.python
-              pop: true
-            - include: expressions
+        - match: ','
+          scope: punctuation.separator.list.python
+        - include: expressions
 
   dictionaries:
     - match: '(\{)(\s*(\}))'
@@ -407,22 +402,11 @@ contexts:
         - match: \}
           scope: punctuation.definition.dictionary.end.python
           pop: true
-        - match: '(?<=\{|\,|^)\s*(?![\},])'
-          push:
-            - meta_content_scope: meta.structure.dictionary.key.python
-            - match: '\s*(?:(?=\})|(\:))'
-              captures:
-                1: punctuation.separator.valuepair.dictionary.python
-              pop: true
-            - include: expressions
-        - match: (?<=\:|^)\s*
-          push:
-            - meta_content_scope: meta.structure.dictionary.value.python
-            - match: '\s*(?:(?=\})|(,))'
-              captures:
-                1: punctuation.separator.dictionary.python
-              pop: true
-            - include: expressions
+        - match: ','
+          scope: punctuation.separator.dictionary.python
+        - match: ':'
+          scope: punctuation.separator.key-value.python
+        - include: expressions
 
   identifier-parts:
     - match: '{{identifier}}(\.)'
