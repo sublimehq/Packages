@@ -40,6 +40,8 @@ variables:
 
   color_alpha_value: '(?:\s*,\s*((?:(?:0?\.[0-9]+)|[0-1])))?'
 
+  combinators: '(?:>{1,3}|[~+])'
+
 contexts:
   main:
     - include: comment-block
@@ -798,6 +800,13 @@ contexts:
             1: punctuation.definition.entity.css
         - match: \*
           scope: entity.name.tag.wildcard.css
+          # Combinators
+          # https://drafts.csswg.org/selectors-4/#combinators
+          # https://drafts.csswg.org/css-scoping/#deep-combinator
+        - match: '({{combinators}})(?![>~+])'
+          scope: punctuation.separator.combinator.css
+        - match: '({{combinators}}){2,}'
+          scope: invalid.illegal.combinator.css
         - match: (:)((active|valid)-drop-target)\b
           scope: entity.other.attribute-name.pseudo-class.drag-and-drop.css
           captures:
