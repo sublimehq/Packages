@@ -81,11 +81,11 @@ contexts:
       scope: constant.numeric.integer.long.octal.python
     - match: '\b(0[0-7]+)'
       scope: constant.numeric.integer.octal.python
-    - match: '\b(?i:(((\d+(\.(?=[^a-zA-Z_])\d*)?|(?<=[^0-9a-zA-Z_])\.\d+)(e[\-\+]?\d+)?))J)'
+    - match: '\b(?i:(((\d+(\.(?=[^a-zA-Z_])\d*)?|\.\d+)(e[\-\+]?\d+)?))J)'
       scope: constant.numeric.complex.python
     - match: '\b(?i:(\d+\.\d*(e[\-\+]?\d+)?))(?=[^a-zA-Z_])'
       scope: constant.numeric.float.python
-    - match: '(?<=[^0-9a-zA-Z_])(?i:(\.\d+(e[\-\+]?\d+)?))'
+    - match: '(?i:(\.\d+(e[\-\+]?\d+)?))'
       scope: constant.numeric.float.python
     - match: '\b(?i:(\d+e[\-\+]?\d+))'
       scope: constant.numeric.float.python
@@ -485,7 +485,7 @@ contexts:
             - include: magic_variable_names
             - include: illegal_names
             - include: generic_names
-        - match: '(?<!\.)(?={{identifier}})'
+        - match: '(?={{identifier}})'
           push:
             - match: "(?!{{identifier_continue}})"
               pop: true
