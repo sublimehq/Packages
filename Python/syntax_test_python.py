@@ -15,9 +15,32 @@ def my_func(param1, # Multi-line function definition
     print('Hi!')
 
 
-def unterminated(param
-
-# <- invalid.illegal
+def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
+#                    ^^^^^^ variable.parameter.function
+#                          ^ punctuation.separator.annotation
+#                            ^^^ support.type
+#                               ^ punctuation.separator.parameters
+#                                 ^^^^^^ variable.parameter.function
+#                                       ^ punctuation.separator.annotation
+#                                               ^ punctuation.separator.parameters
+#                                                 ^^^^^^ variable.parameter.function
+#                                                       ^ punctuation.separator.annotation
+#                                                         ^^^^^^^^^ meta.function-call
+#                                                            ^ punctuation.definition.arguments.begin
+#                                                             ^ constant.numeric
+#                                                                ^ constant.numeric
+#                                                                 ^ punctuation.definition.arguments.end
+#                                                                  ^ punctuation.separator.parameters
+#                                                                    ^^^^^^ variable.parameter.function
+#                                                                          ^ punctuation.separator.annotation
+#                                                                            ^^^^^^^^ string.quoted.double
+#                                                                                     ^ keyword.operator.assignment
+#                                                                                       ^^^^^^^^^ string.quoted.double
+#                                                                                                ^ punctuation.definition.parameters.end
+#                                                                                                  ^^ punctuation.separator.annotation
+#                                                                                                     ^^^ support.type
+#                                                                                                        ^ punctuation.section.function
+    pass
 
 
 class MyClass():
@@ -59,10 +82,8 @@ class MyClass(Inherited,
 #   ^ comment.block
     pass
 
-class Unterminated(Inherited,
-    # Comment
-
-# <- invalid.illegal
+class Unterminated(Inherited:
+#                           ^ invalid.illegal
 
 
 
