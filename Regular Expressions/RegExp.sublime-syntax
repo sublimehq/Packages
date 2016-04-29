@@ -69,12 +69,12 @@ contexts:
         1: keyword.other.backref-and-recursion.regexp
         2: keyword.control.group.regexp
       pop: true
-    - match: '(\?&\w+)(\))'
+    - match: '(\?(?:P=|&)\w+)(\))'
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: keyword.control.group.regexp
       pop: true
-    - match: '\?<\w+>'
+    - match: '\?P?<\w+>'
       scope: keyword.other.named-capture-group.regexp
       set: [group-body, unexpected-quantifier-pop]
     - match: ''
