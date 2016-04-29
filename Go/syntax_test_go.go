@@ -115,6 +115,27 @@ type myStruct struct {
 }
 // <- meta.struct meta.block punctuation.definition.block.end
 
+type FuncContainer struct {
+	FirstFunc   func(arg string)
+	// <- variable.other.member
+	//          ^^^^^^^^^^^^^^^^ meta.function
+	//          ^ storage.type
+	//               ^^^ variable.parameter
+	//                   ^ storage.type
+	SecondFunc  func(arg interface{})
+	// <- variable.other.member
+	//          ^^^^^^^^^^^^^^^^ meta.function
+	//          ^ storage.type
+	//               ^^^ variable.parameter
+	//                   ^ storage.type
+	SeventhFunc func(arg string)
+	// <- variable.other.member
+	//          ^^^^^^^^^^^^^^^^ meta.function
+	//          ^ storage.type
+	//               ^^^ variable.parameter
+	//                   ^ storage.type
+}
+
 type LocalType /* Comment */ map[int32]int64
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
 // <- storage.type
