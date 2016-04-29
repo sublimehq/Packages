@@ -223,6 +223,10 @@ hello++
 #^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
 
+(?P<foo>a+)(b+)(?P=foo)
+#^^^^^^^ keyword.other.named-capture-group.regexp
+#               ^^^^^^ keyword.other.backref-and-recursion.regexp
+
 (?![a-z]+?)
 #^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
 #  ^ keyword.control.set.regexp
