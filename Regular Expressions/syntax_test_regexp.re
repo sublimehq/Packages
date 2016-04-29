@@ -98,6 +98,15 @@
 ( abc (?#foobar) )
 #     ^^^^^^^^^^ meta.group meta.group comment.block.group
 
+(?#
+
+this is a multi line comment
+where escape characters are ignored.\).
+#<- comment.block.group
+#                                   ^^ - constant.character.escape
+#                                    ^ punctuation.definition.comment.end.regexp
+#                                     ^ - comment.block.group.regexp
+
 a{9}
 #^^^ keyword.operator.quantifier.regexp
 
@@ -218,3 +227,14 @@ hello++
 #            ^^ meta.group.regexp meta.group.regexp meta.mode-modifier.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
+
+(?<=blah)
+#^^^ constant.other.assertion.regexp
+(?<!\w+\(\))
+#^^^ constant.other.assertion.regexp
+(?>\[\d+\])
+#^^ constant.other.assertion.regexp
+#  ^^ constant.character.escape.regexp - keyword.control.set.regexp
+#    ^^ keyword.control.character-class.regexp
+#      ^ keyword.operator.quantifier.regexp
+#       ^^ constant.character.escape.regexp - keyword.control.set.regexp
