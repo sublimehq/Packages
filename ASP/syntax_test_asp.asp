@@ -22,6 +22,8 @@
    '                        ^ punctuation.definition.parameters
    '                         ^^^^ variable.parameter.function.asp
    '                             ^ punctuation.definition.parameters
+        On Error Resume Next
+       '^^^^^^^^^^^^^^^^^^^^ storage.type.asp
         Set fs = Server.CreateObject("Scripting.FileSystemObject")
 '<- - comment.line.apostrophe.asp
        '^^^ storage.type.asp
@@ -31,13 +33,20 @@
        '                             ^ punctuation.definition.string.begin.asp
        '                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.asp
        '                                                        ^ punctuation.definition.string.end.asp
-        Set rs = fs.GetFile(Server.MapPath(path))
-        GetModifiedDate = rs.DateLastModified
-        Set rs = Nothing
-       '^^^ storage.type.asp
-       '       ^ keyword.operator.asp
-       '         ^^^^^^^ constant.language.asp
+        With fs
+       '^^^^ keyword.control.asp
+            Set rs = .GetFile(Server.MapPath(path))
+            GetModifiedDate = rs.DateLastModified
+            Set rs = Nothing
+           '^^^ storage.type.asp
+           '       ^ keyword.operator.asp
+           '         ^^^^^^^ constant.language.asp
+        End With
+        '^^^^^^^ keyword.control.asp
+       
         Set fs = Nothing
+        On Error Goto 0
+       '^^^^^^^^^^^^^ storage.type.asp
     End Function
    '^^^^^^^^^^^^ storage.type.asp
     
@@ -148,8 +157,8 @@
         Dim a(0 To 9)
         '       ^^ keyword.control.asp
         b = a Is Empty
-        ReDim a(1 To 10)
-       '^^^^^ storage.type.asp
+        ReDim Preserve a(1 To 10)
+       '^^^^^^^^^^^^^^ storage.type.asp
         For x = LBound(a) to UBound(a) Step 2
        '^^^ keyword.control.asp
        '      ^ keyword.operator.asp
@@ -167,12 +176,18 @@
    '^^^^^^^^^^^^^^^^^ meta.function.asp
    '         ^^^^^^^^ entity.name.function.asp
    '                 ^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp
-        NoParams = vbTextCompare
+        NoParams = InStr(1, "hello_", "L", vbTextCompare)
 '<- - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
-       '^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
-        '          ^^^^^^^^^^^^^ support.type.vb.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp - invalid.illegal.after-line-continuation-char.asp
+        '          ^^^^^ support.function.vb.asp
+        '                                  ^^^^^^^^^^^^^ support.type.vb.asp
+        Test = True Xor False
+        '      ^^^^ constant.language.asp
+        '           ^^^ keyword.operator.asp
+        '               ^^^^ constant.language.asp
     End Function
     Sub Test2
+   '^^^ meta.function.asp storage.type.function.asp
     '   ^^^^^ meta.function.asp entity.name.function.asp
         hello = world
        '^ - entity.name.function.asp - meta.function.asp
@@ -180,6 +195,17 @@
     Call Test
    '^^^^ storage.type.asp
     Call NoParams
+    
+    Sub Wow (
+   '^^^ storage.type.function.asp
+    '   ^^^ meta.function.asp entity.name.function.asp
+    )
+        MsgBox "hi", vbOkCancel or vbExclamation or vbDefaultButton1, "title"
+        '            ^^^^^^^^^ support.type.vb.asp
+        '                       ^^ keyword.operator.asp
+        '                          ^^^^^^^^^^^^^ support.type.vb.asp
+        '                                           ^^^^^^^^^^^^^^^^ support.type.vb.asp
+    End Sub
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
     This file was last modified on: <%response.write(modified)
