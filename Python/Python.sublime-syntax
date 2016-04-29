@@ -156,9 +156,8 @@ contexts:
             - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_class
-        - match: (\()
-          captures:
-            1: punctuation.definition.inheritance.begin.python
+        - match: \(
+          scope: punctuation.definition.inheritance.begin.python
           push:
             - meta_content_scope: meta.class.inheritance.python
             - match: (?=\)|:)
@@ -206,9 +205,8 @@ contexts:
             - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_function
-        - match: (\()
-          captures:
-            1: punctuation.definition.parameters.begin.python
+        - match: \(
+          scope: punctuation.definition.parameters.begin.python
           push:
             - meta_content_scope: meta.function.parameters.python
             - match: (?=\)\s*\:)
@@ -246,9 +244,8 @@ contexts:
       comment: a decorator may be a function call which returns a decorator.
       push:
         - meta_scope: meta.function.decorator.python
-        - match: (\))
-          captures:
-            1: punctuation.definition.arguments.end.python
+        - match: \)
+          scope: punctuation.definition.arguments.end.python
           pop: true
         - match: '(?=(@)\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
           captures:
@@ -258,9 +255,8 @@ contexts:
             - match: (?=\s*\()
               pop: true
             - include: dotted_name
-        - match: (\()
-          captures:
-            1: punctuation.definition.arguments.begin.python
+        - match: \(
+          scope: punctuation.definition.arguments.begin.python
           push:
             - meta_content_scope: meta.function.decorator.arguments.python
             - match: (?=\))
@@ -285,18 +281,16 @@ contexts:
     - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
       push:
         - meta_scope: meta.item-access.python
-        - match: '(\])'
-          captures:
-            1: punctuation.definition.arguments.end.python
+        - match: \]
+          scope: punctuation.definition.arguments.end.python
           pop: true
         - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
           push:
             - match: '(?=\s*\[)'
               pop: true
             - include: dotted_name
-        - match: '(\[)'
-          captures:
-            1: punctuation.definition.arguments.begin.python
+        - match: \[
+          scope: punctuation.definition.arguments.begin.python
           push:
             - meta_content_scope: meta.item-access.arguments.python
             - match: '(?=\])'
@@ -308,9 +302,8 @@ contexts:
       push:
         - meta_scope: meta.item-access.python
         - meta_content_scope: meta.item-access.arguments.python
-        - match: '(\])'
-          captures:
-            1: punctuation.definition.arguments.end.python
+        - match: \]
+          scope: punctuation.definition.arguments.end.python
           pop: true
         - include: expressions
 
@@ -321,27 +314,24 @@ contexts:
       push:
         - meta_scope: meta.function-call.python
         - meta_content_scope: meta.function-call.arguments.python
-        - match: (\))
-          captures:
-            1: punctuation.definition.arguments.end.python
+        - match: \)
+          scope: punctuation.definition.arguments.end.python
           pop: true
         - include: keyword_arguments
         - include: expressions
     - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
       push:
         - meta_scope: meta.function-call.python
-        - match: (\))
-          captures:
-            1: punctuation.definition.arguments.end.python
+        - match: \)
+          scope: punctuation.definition.arguments.end.python
           pop: true
         - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
           push:
             - match: (?=\s*\()
               pop: true
             - include: dotted_name
-        - match: (\()
-          captures:
-            1: punctuation.definition.arguments.begin.python
+        - match: \(
+          scope: punctuation.definition.arguments.begin.python
           push:
             - meta_content_scope: meta.function-call.arguments.python
             - match: (?=\))
@@ -350,15 +340,12 @@ contexts:
             - include: expressions
 
   lambda:
-    - match: (lambda)(?=\s+)
+    - match: \b(lambda)(?=\s+)
       scope: storage.type.function.inline.python
       push:
         - meta_scope: meta.function.inline.python
-        - match: (\:)
-          captures:
-            1: punctuation.definition.parameters.end.python
-            2: punctuation.section.function.begin.python
-            3: invalid.illegal.missing-section-begin.python
+        - match: '\:'
+          scope: punctuation.section.function.begin.python
           pop: true
         - match: \s+
           push:
@@ -383,14 +370,12 @@ contexts:
         1: punctuation.definition.list.begin.python
         2: meta.empty-list.python
         3: punctuation.definition.list.end.python
-    - match: '(\[)'
-      captures:
-        1: punctuation.definition.list.begin.python
+    - match: \[
+      scope: punctuation.definition.list.begin.python
       push:
         - meta_scope: meta.structure.list.python
-        - match: '(\])'
-          captures:
-            1: punctuation.definition.list.end.python
+        - match: \]
+          scope: punctuation.definition.list.end.python
           pop: true
         - match: '(?<=\[|\,)\s*(?![\],])'
           push:
@@ -408,14 +393,12 @@ contexts:
         1: punctuation.definition.dictionary.begin.python
         2: meta.empty-dictionary.python
         3: punctuation.definition.dictionary.end.python
-    - match: '(\{)'
-      captures:
-        1: punctuation.definition.dictionary.begin.python
+    - match: \{
+      scope: punctuation.definition.dictionary.begin.python
       push:
         - meta_scope: meta.structure.dictionary.python
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.dictionary.end.python
+        - match: \}
+          scope: punctuation.definition.dictionary.end.python
           pop: true
         - match: '(?<=\{|\,|^)\s*(?![\},])'
           push:
