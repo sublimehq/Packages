@@ -885,7 +885,7 @@ contexts:
           pop: true
         - include: escaped_unicode_char
         - include: escaped_char
-        - include: escaped_unicode_char
+        - include: constant_placeholder
 
   strings:
     - include: string_quoted_double
