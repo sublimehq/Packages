@@ -19,6 +19,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
+  path: '({{identifier}}\.)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
@@ -166,14 +167,16 @@ contexts:
             - meta_content_scope: meta.class.inheritance.python
             - match: (?=\)|:)
               pop: true
-            - match: (?<=\(|,)\s*
+            - match: ','
+              scope: punctuation.separator.python
+            - match: '(?={{path}})'
               push:
-                - meta_content_scope: entity.other.inherited-class.python
-                - match: \s*(?:(,)|(?=\)))
-                  captures:
-                    1: punctuation.separator.inheritance.python
+                - meta_scope: entity.other.inherited-class.python
+                - include: identifier-parts
+                - match: '{{identifier}}'
+                - match: ''
                   pop: true
-                - include: expressions
+            - include: expressions
     - match: '^\s*(class)\s+(?={{identifier}})'
       captures:
         1: storage.type.class.python
@@ -420,6 +423,11 @@ contexts:
                 1: punctuation.separator.dictionary.python
               pop: true
             - include: expressions
+
+  identifier-parts:
+    - match: '{{identifier}}(\.)'
+      captures:
+        1: punctuation.accessor.python
 
   builtin_exceptions:
     - match: |-
