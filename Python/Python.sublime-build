@@ -3,10 +3,7 @@
 	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 	"selector": "source.python",
 
-	"windows":
-	{
-		"env": {"PYTHONIOENCODING": "utf-8"}
-	},
+	"env": {"PYTHONIOENCODING": "utf-8"},
 
 	"variants":
 	[
