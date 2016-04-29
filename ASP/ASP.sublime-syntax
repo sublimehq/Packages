@@ -8,25 +8,49 @@ file_extensions:
 scope: source.asp
 contexts:
   main:
-    - match: '^\s*((?i:function|sub))\s*([a-zA-Z_]\w*)\s*(\()([^)]*)(\)).*\n?'
-      scope: meta.function.asp
+    - match: '^\s*((?i:function|sub))\s*'
       captures:
         1: storage.type.function.asp
-        2: entity.name.function.asp
-        3: punctuation.definition.parameters.asp
-        4: variable.parameter.function.asp
-        5: punctuation.definition.parameters.asp
-    - match: (').*$\n?
-      scope: comment.line.apostrophe.asp
-      captures:
-        1: punctuation.definition.comment.asp
-    - match: (REM ).*$\n?
-      scope: comment.line.rem.asp
-      captures:
-        1: punctuation.definition.comment.asp
+      push:
+        - meta_scope: meta.function.asp
+        - include: span_mulitple_lines
+        - match: '[a-zA-Z_]\w*'
+          scope: entity.name.function.asp
+          set:
+            - match: '\s+'
+              scope: meta.function.asp
+            - match: '(?=[_(])'
+              set:
+                - meta_content_scope: meta.function.asp
+                - include: span_mulitple_lines
+                - match: \(
+                  scope: punctuation.definition.parameters.asp
+                  set:
+                    - meta_content_scope: meta.function.asp
+                    - include: span_mulitple_lines
+                    - match: \)
+                      scope: punctuation.definition.parameters.asp
+                      set:
+                        - include: span_mulitple_lines
+                        - match: '\S+'
+                          scope: invalid.illegal.unexpected-token-after-method-declaration.asp
+                        - match: '$'
+                          pop: true
+                    - match: .
+                      scope: variable.parameter.function.asp
+            - include: comments
+            - match: \s*\S+.*$
+              scope: invalid.illegal.unexpected-token-after-method-declaration.asp
+              pop: true
+            - match: ''
+              pop: true
+    - include: comments
     - match: (?i:\b(If|Then|Else|ElseIf|End If|While|Wend|For|To|Each|In|Step|Case|Select|End Select|Return|Continue|Do|Until|Loop|Next|With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub)\b)
       scope: keyword.control.asp
-    - match: '=|>=|<|>|<|<>|\+|-|\*|\^|&|\b(?i:(Mod|And|Not|Or|Xor|Is))\b'
+    - match: '&[hH][0-9a-fA-F]+&?|\b(((([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?)\b'
+      scope: constant.numeric.asp
+    - include: line_continuation_char
+    - match: '[=><>+*^&/-]|\b(?i:(Mod|And|Not|Or|Xor|Is))\b'
       scope: keyword.operator.asp
     - match: (?i:\b(Call|Class|Const|Dim|Redim|Function|Sub|Property|End Property|End Sub|End Function|Set|Let|Get|New|Randomize|Option Explicit|On Error Resume Next|On Error GoTo)\b)
       scope: storage.type.asp
@@ -59,7 +83,29 @@ contexts:
       scope: support.function.event.asp
     - match: (?i:\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|Timer|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b)
       scope: support.function.vb.asp
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?\b'
-      scope: constant.numeric.asp
     - match: (?i:\b(vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewline|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray)\b)
       scope: support.type.vb.asp
+
+  comments:
+    - match: (').*$\n?
+      scope: comment.line.apostrophe.asp
+      captures:
+        1: punctuation.definition.comment.asp
+    - match: (REM ).*$\n?
+      scope: comment.line.rem.asp
+      captures:
+        1: punctuation.definition.comment.asp
+
+  line_continuation_char:
+    - match: '\b_'
+      scope: keyword.operator.asp
+      push:
+        - include: comments
+        - match: '\S+'
+          scope: invalid.illegal.after-line-continuation-char.asp
+        - match: '$'
+          pop: true
+  
+  span_mulitple_lines:
+    - include: comments
+    - include: line_continuation_char
