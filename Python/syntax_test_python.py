@@ -20,6 +20,12 @@ class MyClass():
         print('Hi!')
 
 
+class UnicødeIdentifier():
+#     ^^^^^^^^^^^^^^^^^ entity.name.type.class
+    def résumé():
+#       ^^^^^^ entity.name.function
+        pass
+
 
 ###############################
 # Strings and embedded syntaxes

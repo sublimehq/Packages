@@ -16,6 +16,9 @@ file_extensions:
 first_line_match: ^#!/.*\bpython\d?\b
 scope: source.python
 variables:
+  # We support unicode here because Python 3 is the future
+  identifier_continue: '[[:alnum:]_]'
+  identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
@@ -125,7 +128,7 @@ contexts:
       scope: keyword.operator.assignment.python
 
   classes:
-    - match: '^\s*(class)\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\s*\:)'
+    - match: '^\s*(class)\s+(?={{identifier}}\s*\:)'
       captures:
         1: storage.type.class.python
       push:
@@ -136,7 +139,7 @@ contexts:
             1: punctuation.section.class.begin.python
           pop: true
         - include: entity_name_class
-    - match: '^\s*(class)\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\s*\()'
+    - match: '^\s*(class)\s+(?={{identifier}}\s*\()'
       captures:
         1: storage.type.class.python
       push:
@@ -147,10 +150,10 @@ contexts:
             2: punctuation.section.class.begin.python
             3: invalid.illegal.missing-section-begin.python
           pop: true
-        - match: "(?=[A-Za-z_][A-Za-z0-9_]*)"
+        - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.type.class.python
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_class
         - match: (\()
@@ -168,7 +171,7 @@ contexts:
                     1: punctuation.separator.inheritance.python
                   pop: true
                 - include: expressions
-    - match: '^\s*(class)\s+(?=[a-zA-Z_][a-zA-Z_0-9])'
+    - match: '^\s*(class)\s+(?={{identifier}})'
       captures:
         1: storage.type.class.python
       push:
@@ -178,15 +181,15 @@ contexts:
             1: punctuation.definition.inheritance.begin.python
             2: invalid.illegal.missing-inheritance.python
           pop: true
-        - match: "(?=[A-Za-z_][A-Za-z0-9_]*)"
+        - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.type.class.python
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_function
 
   functions:
-    - match: '^\s*(def)\s+(?=[A-Za-z_][A-Za-z0-9_]*\s*\()'
+    - match: '^\s*(def)\s+(?={{identifier}}\s*\()'
       captures:
         1: storage.type.function.python
       push:
@@ -197,10 +200,10 @@ contexts:
             2: punctuation.section.function.begin.python
             3: invalid.illegal.missing-section-begin.python
           pop: true
-        - match: "(?=[A-Za-z_][A-Za-z0-9_]*)"
+        - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_function
         - match: (\()
@@ -217,11 +220,11 @@ contexts:
                 - meta_scope: comment.line.number-sign.python
                 - match: \n
                   pop: true
-            - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(,)|(?=[\n\)]))'
+            - match: '({{identifier}})\s*(?:(,)|(?=[\n\)]))'
               captures:
                 1: variable.parameter.function.python
                 2: punctuation.separator.parameters.python
-    - match: '^\s*(def)\s+(?=[A-Za-z_][A-Za-z0-9_]*)'
+    - match: '^\s*(def)\s+(?={{identifier}})'
       captures:
         1: storage.type.function.python
       push:
@@ -231,15 +234,15 @@ contexts:
             1: punctuation.definition.parameters.begin.python
             2: invalid.illegal.missing-parameters.python
           pop: true
-        - match: "(?=[A-Za-z_][A-Za-z0-9_]*)"
+        - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: entity_name_function
 
   decorators:
-    - match: '^\s*(?=@\s*[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\()'
+    - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
       comment: a decorator may be a function call which returns a decorator.
       push:
         - meta_scope: meta.function.decorator.python
@@ -247,7 +250,7 @@ contexts:
           captures:
             1: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?=(@)\s*[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\s*\()'
+        - match: '(?=(@)\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
           captures:
             1: punctuation.definition.decorator.python
           push:
@@ -264,13 +267,13 @@ contexts:
               pop: true
             - include: keyword_arguments
             - include: expressions
-    - match: '^\s*(?=@\s*[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*)'
+    - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*)'
       push:
         - meta_scope: meta.function.decorator.python
         - meta_content_scope: entity.name.function.decorator.python
         - match: (?=\s|$\n?|#)
           pop: true
-        - match: '(?=(@)\s*[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*)'
+        - match: '(?=(@)\s*{{identifier}}(\.{{identifier}})*)'
           captures:
             1: punctuation.definition.decorator.python
           push:
@@ -279,14 +282,14 @@ contexts:
             - include: dotted_name
 
   item-access:
-    - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\[)'
+    - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
       push:
         - meta_scope: meta.item-access.python
         - match: '(\])'
           captures:
             1: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\s*\[)'
+        - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
           push:
             - match: '(?=\s*\[)'
               pop: true
@@ -324,14 +327,14 @@ contexts:
           pop: true
         - include: keyword_arguments
         - include: expressions
-    - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\()'
+    - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
       push:
         - meta_scope: meta.function-call.python
         - match: (\))
           captures:
             1: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\s*\()'
+        - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
           push:
             - match: (?=\s*\()
               pop: true
@@ -363,7 +366,7 @@ contexts:
             - match: (?=\:)
               pop: true
             - include: keyword_arguments
-            - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(,)|(?=[\n\)\:]))'
+            - match: '({{identifier}})\s*(?:(,)|(?=[\n\)\:]))'
               captures:
                 1: variable.parameter.function.python
                 2: punctuation.separator.parameters.python
@@ -483,21 +486,21 @@ contexts:
           pop: true
         - include: string_quoted_single
   dotted_name:
-    - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*)'
+    - match: '(?={{identifier}}(?:\.{{identifier}})*)'
       push:
-        - match: '(?![A-Za-z0-9_\.])'
+        - match: '(?![{{identifier_continue}}\.])'
           pop: true
-        - match: '(\.)(?=[A-Za-z_][A-Za-z0-9_]*)'
+        - match: '(\.)(?={{identifier}})'
           push:
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: magic_function_names
             - include: magic_variable_names
             - include: illegal_names
             - include: generic_names
-        - match: '(?<!\.)(?=[A-Za-z_][A-Za-z0-9_]*)'
+        - match: '(?<!\.)(?={{identifier}})'
           push:
-            - match: "(?![A-Za-z0-9_])"
+            - match: "(?!{{identifier_continue}})"
               pop: true
             - include: builtin_functions
             - include: builtin_types
@@ -534,12 +537,12 @@ contexts:
     - include: builtin_types
     - include: generic_names
   generic_names:
-    - match: "[A-Za-z_][A-Za-z0-9_]*"
+    - match: "{{identifier}}"
   illegal_names:
     - match: \b(and|as|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|raise|return|try|while|with|yield)\b
       scope: invalid.illegal.name.python
   keyword_arguments:
-    - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(=)(?!=)'
+    - match: '({{identifier}})\s*(=)(?!=)'
       captures:
         1: variable.parameter.function.python
         2: keyword.operator.assignment.python
