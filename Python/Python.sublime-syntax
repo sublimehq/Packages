@@ -133,39 +133,32 @@ contexts:
       scope: keyword.operator.assignment.python
 
   classes:
-    - match: '^\s*(class)\s+(?={{identifier}}\s*\:)'
-      captures:
-        1: storage.type.class.python
-      push:
-        - meta_scope: meta.class.old-style.python
-        - meta_content_scope: entity.name.type.class.python
-        - match: \s*(:)
-          captures:
-            1: punctuation.section.class.begin.python
-          pop: true
-        - include: entity_name_class
-    - match: '^\s*(class)\s+(?={{identifier}}\s*\()'
+    - match: '^\s*(class)\s+(?={{identifier}})'
       captures:
         1: storage.type.class.python
       push:
         - meta_scope: meta.class.python
-        - match: (\))\s*(?:(\:)|(.*$\n?))
-          captures:
-            1: punctuation.definition.inheritance.end.python
-            2: punctuation.section.class.begin.python
-            3: invalid.illegal.missing-section-begin.python
+        - match: ':'
+          scope: punctuation.section.class.begin.python
+          pop: true
+        - match: '$\n?'
+          scope: invalid.illegal.missing-section-begin.python
           pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.type.class.python
-            - match: "(?!{{identifier_continue}})"
-              pop: true
             - include: entity_name_class
+            - match: '{{identifier}}'
+            - match: ''
+              pop: true
         - match: \(
           scope: punctuation.definition.inheritance.begin.python
           push:
             - meta_content_scope: meta.class.inheritance.python
-            - match: (?=\)|:)
+            - match: \)
+              scope: punctuation.definition.inheritance.end.python
+              pop: true
+            - match: '(?=:|$)'
               pop: true
             - match: ','
               scope: punctuation.separator.python
@@ -177,22 +170,6 @@ contexts:
                 - match: ''
                   pop: true
             - include: expressions
-    - match: '^\s*(class)\s+(?={{identifier}})'
-      captures:
-        1: storage.type.class.python
-      push:
-        - meta_scope: meta.class.python
-        - match: (\()|(\s*$\n?|#.*$\n?)
-          captures:
-            1: punctuation.definition.inheritance.begin.python
-            2: invalid.illegal.missing-inheritance.python
-          pop: true
-        - match: "(?={{identifier}})"
-          push:
-            - meta_content_scope: entity.name.type.class.python
-            - match: "(?!{{identifier_continue}})"
-              pop: true
-            - include: entity_name_function
 
   functions:
     - match: '^\s*(def)\s+(?={{identifier}}\s*\()'
