@@ -14,6 +14,16 @@ def my_func(param1, # Multi-line function definition
 #              ^ punctuation.definition.parameters.end
     print('Hi!')
 
+    async for i in myfunc():
+#   ^ keyword.control.flow
+#         ^ keyword.control.flow
+        pass
+
+    async with context_manager():
+#   ^ keyword.control.flow
+#         ^ keyword.control.flow
+        pass
+
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
 #                    ^^^^^^ variable.parameter.function
@@ -41,6 +51,13 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function
     pass
+
+
+async def coroutine(param1):
+# <- storage.modifier
+#     ^ storage.type
+#         ^ entity.name.function
+   pass
 
 
 class MyClass():

@@ -110,7 +110,11 @@ contexts:
       captures:
         1: keyword.control.flow.python
         2: keyword.control.flow.python
-    - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return)\b
+    - match: \b(async)\b(?:\s+(for|with)\b)
+      captures:
+        1: keyword.control.flow.python
+        2: keyword.control.flow.python
+    - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|await)\b
       comment: keywords that delimit flow blocks or alter flow from within a block
       scope: keyword.control.flow.python
     - match: \b(and|in|is|not|or)\b
@@ -177,9 +181,10 @@ contexts:
             - include: expressions
 
   functions:
-    - match: '^\s*(def)\s+(?={{identifier}})'
+    - match: '^\s*(?:(async)\s+)?(def)\s+(?={{identifier}})'
       captures:
-        1: storage.type.function.python
+        1: storage.modifier.python
+        2: storage.type.function.python
       push:
         - meta_scope: meta.function.python
         - match: ':'
@@ -354,6 +359,8 @@ contexts:
       scope: storage.type.function.python
     - match: \b(class)\b
       scope: storage.type.class.python
+    - match: \b(async)\b
+      scope: storage.modifier.python
 
   lists:
     - match: '(\[)(\s*(\]))\b'
@@ -513,15 +520,15 @@ contexts:
   magic_function_names:
     - match: |-
         (?x)\b(__(?:
-        	abs|add|and|call|cmp|coerce|complex|contains|del|delattr|
-        	delete|delitem|delslice|div|divmod|enter|eq|exit|float|
-        	floordiv|ge|get|getattr|getattribute|getitem|getslice|gt|
-        	hash|hex|iadd|iand|idiv|ifloordiv|ilshift|imod|imul|init|
-        	int|invert|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|
-        	long|lshift|lt|mod|mul|ne|neg|new|nonzero|oct|or|pos|pow|
-        	radd|rand|rdiv|rdivmod|repr|rfloordiv|rlshift|rmod|rmul|ror|
-        	rpow|rrshift|rshift|rsub|rtruediv|rxor|set|setattr|setitem|
-        	setslice|str|sub|truediv|unicode|xor
+          abs|add|aenter|aexit|aiter|anext|await|and|call|cmp|coerce|complex|
+          contains|del|delattr|delete|delitem|delslice|div|divmod|enter|eq|
+          exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|
+          gt|hash|hex|iadd|iand|idiv|ifloordiv|ilshift|imod|imul|init|
+          int|invert|ior|ipow|irshift|isub|iter|itruediv|ixor|le|len|
+          long|lshift|lt|mod|mul|ne|neg|new|nonzero|oct|or|pos|pow|
+          radd|rand|rdiv|rdivmod|repr|rfloordiv|rlshift|rmod|rmul|ror|
+          rpow|rrshift|rshift|rsub|rtruediv|rxor|set|setattr|setitem|
+          setslice|str|sub|truediv|unicode|xor
         )__)\b
       comment: these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
       scope: support.function.magic.python
