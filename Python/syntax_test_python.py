@@ -41,17 +41,24 @@ class UnicødeIdentifier():
 #             ^^^^ keyword.control.flow
 
 
-class MyClass(Inherited, module.Inherited2):
+class MyClass(Inherited,
 #     ^^^^^^^ entity.name.type.class
 #             ^^^^^^^^^ entity.other.inherited-class
 #                      ^ punctuation.separator
-#                        ^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                              ^ punctuation.accessor
+              module.Inherited2):
+#             ^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                   ^ punctuation.accessor
     """
     This is a test of docstrings
     """
 #   ^ comment.block
     pass
+
+class Unterminated(Inherited,
+    # Comment
+
+# <- invalid.illegal
+
 
 
 ##################

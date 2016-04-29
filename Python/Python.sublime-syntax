@@ -141,24 +141,29 @@ contexts:
         - match: ':'
           scope: punctuation.section.class.begin.python
           set: maybe-docstrings
-        - match: '$\n?'
-          scope: invalid.illegal.missing-section-begin.python
+        - match: '(?=^\s*$)'
           pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.type.class.python
             - include: entity_name_class
-            - match: '{{identifier}}'
             - match: ''
               pop: true
         - match: \(
           scope: punctuation.definition.inheritance.begin.python
-          push:
+          set:
             - meta_content_scope: meta.class.inheritance.python
             - match: \)
               scope: punctuation.definition.inheritance.end.python
-              pop: true
-            - match: '(?=:|$)'
+              set:
+                - match: ':'
+                  scope: punctuation.section.class.begin.python
+                  set: maybe-docstrings
+                - include: comments
+                - match: (?=\S)
+                  pop: true
+            - match: ':|^\s*$'
+              scope: invalid.illegal.no-closing-parens.python
               pop: true
             - match: ','
               scope: punctuation.separator.python
