@@ -17,15 +17,59 @@ first_line_match: ^#!/.*\bpython\d?\b
 scope: source.python
 variables:
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+
 contexts:
   main:
+    - include: statements
+
+  statements:
+    - include: classes
+    - include: functions
+    - include: decorators
+    - include: expressions
+
+  expressions:
+    - include: comments
+    - include: constants
+    - include: numbers
+    - include: modifiers
+    - include: keywords
+    - include: operators
+    - include: lambda
+    - include: function-calls
+    - include: item-access
+    - include: late-keywords
+    - include: line_continuation
+    - include: language_variables
+    - include: string_quoted_single
+    - include: string_quoted_double
+    - include: dotted_name
+    - match: \(
+      scope: punctuation.definition.group.begin.python
+      push:
+        - meta_scope: meta.group.python
+        - match: \)
+          scope: punctuation.definition.group.end.python
+          pop: true
+        - include: expressions
+    - match: \)
+      scope: invalid.illegal.stray.brace.round.python
+    - include: lists
+    - include: dictionaries
+
+  comments:
     - match: "#"
-      captures:
-        0: punctuation.definition.comment.python
+      scope: punctuation.definition.comment.python
       push:
         - meta_scope: comment.line.number-sign.python
         - match: \n
           pop: true
+
+  constants:
+    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
+      scope: constant.language.python
+
+  numbers:
     - match: \b(?i:(0x\h*)L)
       scope: constant.numeric.integer.long.hexadecimal.python
     - match: \b(?i:(0x\h*))
@@ -46,12 +90,14 @@ contexts:
       scope: constant.numeric.integer.long.decimal.python
     - match: '\b([1-9]+[0-9]*|0)'
       scope: constant.numeric.integer.decimal.python
+
+  modifiers:
     - match: \b(global)\b
-      captures:
-        1: storage.modifier.global.python
+      scope: storage.modifier.global.python
     - match: \b(nonlocal)\b
-      captures:
-        1: storage.modifier.nonlocal.python
+      scope: storage.modifier.nonlocal.python
+
+  keywords:
     - match: \b(?:(import)|(from))\b
       captures:
         1: keyword.control.import.python
@@ -64,8 +110,9 @@ contexts:
       scope: keyword.operator.logical.python
     - match: \b(as|assert|del|exec|print)\b
       comment: keywords that haven't fit into other groups (yet).
-      captures:
-        1: keyword.other.python
+      scope: keyword.other.python
+
+  operators:
     - match: <>
       scope: invalid.deprecated.operator.python
     - match: <\=|>\=|\=\=|<|>|\!\=
@@ -76,6 +123,8 @@ contexts:
       scope: keyword.operator.arithmetic.python
     - match: \=
       scope: keyword.operator.assignment.python
+
+  classes:
     - match: '^\s*(class)\s+(?=[a-zA-Z_][a-zA-Z_0-9]*\s*\:)'
       captures:
         1: storage.type.class.python
@@ -118,7 +167,7 @@ contexts:
                   captures:
                     1: punctuation.separator.inheritance.python
                   pop: true
-                - include: main
+                - include: expressions
     - match: '^\s*(class)\s+(?=[a-zA-Z_][a-zA-Z_0-9])'
       captures:
         1: storage.type.class.python
@@ -135,6 +184,8 @@ contexts:
             - match: "(?![A-Za-z0-9_])"
               pop: true
             - include: entity_name_function
+
+  functions:
     - match: '^\s*(def)\s+(?=[A-Za-z_][A-Za-z0-9_]*\s*\()'
       captures:
         1: storage.type.function.python
@@ -161,8 +212,7 @@ contexts:
               pop: true
             - include: keyword_arguments
             - match: "#"
-              captures:
-                0: punctuation.definition.comment.python
+              scope: punctuation.definition.comment.python
               push:
                 - meta_scope: comment.line.number-sign.python
                 - match: \n
@@ -187,27 +237,8 @@ contexts:
             - match: "(?![A-Za-z0-9_])"
               pop: true
             - include: entity_name_function
-    - match: (lambda)(?=\s+)
-      captures:
-        1: storage.type.function.inline.python
-      push:
-        - meta_scope: meta.function.inline.python
-        - match: (\:)
-          captures:
-            1: punctuation.definition.parameters.end.python
-            2: punctuation.section.function.begin.python
-            3: invalid.illegal.missing-section-begin.python
-          pop: true
-        - match: \s+
-          push:
-            - meta_content_scope: meta.function.inline.parameters.python
-            - match: (?=\:)
-              pop: true
-            - include: keyword_arguments
-            - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(,)|(?=[\n\)\:]))'
-              captures:
-                1: variable.parameter.function.python
-                2: punctuation.separator.parameters.python
+
+  decorators:
     - match: '^\s*(?=@\s*[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\()'
       comment: a decorator may be a function call which returns a decorator.
       push:
@@ -232,7 +263,7 @@ contexts:
             - match: (?=\))
               pop: true
             - include: keyword_arguments
-            - include: main
+            - include: expressions
     - match: '^\s*(?=@\s*[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*)'
       push:
         - meta_scope: meta.function.decorator.python
@@ -246,6 +277,41 @@ contexts:
             - match: (?=\s|$\n?|#)
               pop: true
             - include: dotted_name
+
+  item-access:
+    - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\[)'
+      push:
+        - meta_scope: meta.item-access.python
+        - match: '(\])'
+          captures:
+            1: punctuation.definition.arguments.end.python
+          pop: true
+        - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\s*\[)'
+          push:
+            - match: '(?=\s*\[)'
+              pop: true
+            - include: dotted_name
+        - match: '(\[)'
+          captures:
+            1: punctuation.definition.arguments.begin.python
+          push:
+            - meta_content_scope: meta.item-access.arguments.python
+            - match: '(?=\])'
+              pop: true
+            - include: expressions
+    - match: '(?<=\)|\])\s*(\[)'
+      captures:
+        1: punctuation.definition.arguments.begin.python
+      push:
+        - meta_scope: meta.item-access.python
+        - meta_content_scope: meta.item-access.arguments.python
+        - match: '(\])'
+          captures:
+            1: punctuation.definition.arguments.end.python
+          pop: true
+        - include: expressions
+
+  function-calls:
     - match: '(?<=\)|\])\s*(\()'
       captures:
         1: punctuation.definition.arguments.begin.python
@@ -257,7 +323,7 @@ contexts:
             1: punctuation.definition.arguments.end.python
           pop: true
         - include: keyword_arguments
-        - include: main
+        - include: expressions
     - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\()'
       push:
         - meta_scope: meta.function-call.python
@@ -278,58 +344,37 @@ contexts:
             - match: (?=\))
               pop: true
             - include: keyword_arguments
-            - include: main
-    - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[a-zA-Z_][a-zA-Z_0-9]*)*\s*\[)'
+            - include: expressions
+
+  lambda:
+    - match: (lambda)(?=\s+)
+      scope: storage.type.function.inline.python
       push:
-        - meta_scope: meta.item-access.python
-        - match: '(\])'
+        - meta_scope: meta.function.inline.python
+        - match: (\:)
           captures:
-            1: punctuation.definition.arguments.end.python
+            1: punctuation.definition.parameters.end.python
+            2: punctuation.section.function.begin.python
+            3: invalid.illegal.missing-section-begin.python
           pop: true
-        - match: '(?=[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*\s*\[)'
+        - match: \s+
           push:
-            - match: '(?=\s*\[)'
+            - meta_content_scope: meta.function.inline.parameters.python
+            - match: (?=\:)
               pop: true
-            - include: dotted_name
-        - match: '(\[)'
-          captures:
-            1: punctuation.definition.arguments.begin.python
-          push:
-            - meta_content_scope: meta.item-access.arguments.python
-            - match: '(?=\])'
-              pop: true
-            - include: main
-    - match: '(?<=\)|\])\s*(\[)'
-      captures:
-        1: punctuation.definition.arguments.begin.python
-      push:
-        - meta_scope: meta.item-access.python
-        - meta_content_scope: meta.item-access.arguments.python
-        - match: '(\])'
-          captures:
-            1: punctuation.definition.arguments.end.python
-          pop: true
-        - include: main
+            - include: keyword_arguments
+            - match: '\b([a-zA-Z_][a-zA-Z_0-9]*)\s*(?:(,)|(?=[\n\)\:]))'
+              captures:
+                1: variable.parameter.function.python
+                2: punctuation.separator.parameters.python
+
+  late-keywords:
     - match: \b(def|lambda)\b
-      captures:
-        1: storage.type.function.python
+      scope: storage.type.function.python
     - match: \b(class)\b
-      captures:
-        1: storage.type.class.python
-    - include: line_continuation
-    - include: language_variables
-    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
-      scope: constant.language.python
-    - include: string_quoted_single
-    - include: string_quoted_double
-    - include: dotted_name
-    - match: (\()
-      push:
-        - match: (\))
-          pop: true
-        - include: main
-    - match: \)
-      scope: invalid.illegal.stray.brace.round.python
+      scope: storage.type.class.python
+
+  lists:
     - match: '(\[)(\s*(\]))\b'
       captures:
         1: punctuation.definition.list.begin.python
@@ -351,13 +396,9 @@ contexts:
               captures:
                 1: punctuation.separator.list.python
               pop: true
-            - include: main
-    - match: (\()(\s*(\)))
-      scope: meta.structure.tuple.python
-      captures:
-        1: punctuation.definition.tuple.begin.python
-        2: meta.empty-tuple.python
-        3: punctuation.definition.tuple.end.python
+            - include: expressions
+
+  dictionaries:
     - match: '(\{)(\s*(\}))'
       scope: meta.structure.dictionary.python
       captures:
@@ -380,7 +421,7 @@ contexts:
               captures:
                 1: punctuation.separator.valuepair.dictionary.python
               pop: true
-            - include: main
+            - include: expressions
         - match: (?<=\:|^)\s*
           push:
             - meta_content_scope: meta.structure.dictionary.value.python
@@ -388,7 +429,8 @@ contexts:
               captures:
                 1: punctuation.separator.dictionary.python
               pop: true
-            - include: main
+            - include: expressions
+
   builtin_exceptions:
     - match: |-
         (?x)\b(
@@ -516,7 +558,7 @@ contexts:
           captures:
             1: punctuation.separator.parameters.python
           pop: true
-        - include: main
+        - include: expressions
   language_variables:
     - match: \b(self|cls)\b
       scope: variable.language.python
