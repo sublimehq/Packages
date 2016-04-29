@@ -105,7 +105,11 @@ contexts:
       captures:
         1: keyword.control.import.python
         2: keyword.control.import.from.python
-    - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|yield)\b
+    - match: \b(yield)\b(?:\s+(from))?
+      captures:
+        1: keyword.control.flow.python
+        2: keyword.control.flow.python
+    - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return)\b
       comment: keywords that delimit flow blocks or alter flow from within a block
       scope: keyword.control.flow.python
     - match: \b(and|in|is|not|or)\b

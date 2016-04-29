@@ -1,5 +1,11 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 
+import sys
+#^^^^^ keyword.control.import
+import path from os
+#^^^^^ keyword.control.import
+#           ^^^^ keyword.control.import.from
+
 def my_func(param1, # Multi-line function definition
 #                   ^ comment.line.number-sign
     # This is defaulted
@@ -24,7 +30,10 @@ class UnicødeIdentifier():
 #     ^^^^^^^^^^^^^^^^^ entity.name.type.class
     def résumé():
 #       ^^^^^^ entity.name.function
-        pass
+        yield from range(100)
+#       ^^^^^ keyword.control.flow
+#            ^ - keyword
+#             ^^^^ keyword.control.flow
 
 
 ###############################
