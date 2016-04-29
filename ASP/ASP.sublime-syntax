@@ -87,14 +87,18 @@ contexts:
       scope: support.type.vb.asp
 
   comments:
-    - match: (').*$\n?
-      scope: comment.line.apostrophe.asp
-      captures:
-        1: punctuation.definition.comment.asp
-    - match: (REM ).*$\n?
-      scope: comment.line.rem.asp
-      captures:
-        1: punctuation.definition.comment.asp
+    - match: \'
+      scope: punctuation.definition.comment.asp
+      push:
+        - meta_scope: comment.line.apostrophe.asp
+        - match: $\n?
+          pop: true
+    - match: 'REM '
+      scope: punctuation.definition.comment.asp
+      push:
+        - meta_scope: comment.line.rem.asp
+        - match: $\n?
+          pop: true
 
   line_continuation_char:
     - match: '\b_'

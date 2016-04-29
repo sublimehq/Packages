@@ -23,6 +23,7 @@
    '                         ^^^^ variable.parameter.function.asp
    '                             ^ punctuation.definition.parameters
         Set fs = Server.CreateObject("Scripting.FileSystemObject")
+'<- - comment.line.apostrophe.asp
        '^^^ storage.type.asp
        '       ^ keyword.operator.asp
        '         ^^^^^^ support.class.asp
@@ -80,6 +81,7 @@
    '         ^^^ punctuation.definition.comment.asp
    '         ^^^^^^^^^^^ comment.line.rem.asp
     str1 = "this is a ""hello-world""" & " " &"""" + "test" +_'continue on next line
+'<- - comment.line.rem.asp
     '                 ^^ string.quoted.double.asp constant.character.escape.apostrophe.asp
     '                        ^ string.quoted.double.asp - keyword.operator.asp
     '                              ^^ string.quoted.double.asp constant.character.escape.apostrophe.asp - punctuation.definition.string.end.asp
