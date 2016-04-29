@@ -579,6 +579,16 @@ contexts:
           scope: punctuation.definition.string.end.python
           pop: true
         - include: escaped_unicode_char
+    # Triple-quoted capital R raw string, bytes, no syntax embedding
+    - match: '([bB]R|R[bB])(""")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.end.python
+          pop: true
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
     - match: '([uU]?r)(""")'
       captures:
@@ -611,6 +621,21 @@ contexts:
                   pop: true
                 - include: escaped_unicode_char
               push: 'scope:source.regexp.python'
+    # Triple-quoted raw string, bytes, will use regex
+    - match: '([bB]r|r[bB])(""")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.end.python
+          pop: true
+        - match: ''
+          with_prototype:
+            - match: '(?=""")'
+              pop: true
+          push: 'scope:source.regexp.python'
     # Triple-quoted string, unicode or not, will detect SQL
     - match: '([uU]?)(""")'
       captures:
@@ -641,6 +666,18 @@ contexts:
             - include: escaped_unicode_char
             - include: escaped_char
             - include: constant_placeholder
+    # Triple-quoted string, bytes, no syntax embedding
+    - match: '([bB])(""")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.end.python
+          pop: true
+        - include: escaped_char
+        - include: constant_placeholder
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)(")'
       captures:
@@ -654,6 +691,18 @@ contexts:
             2: invalid.illegal.unclosed-string.python
           pop: true
         - include: escaped_unicode_char
+    # Single-line capital R raw string, bytes, no syntax embedding
+    - match: '([bB]R|R[bB])(")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '(")|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
     # Single-line raw string, unicode or not, starting with a SQL keyword
     - match: '([uU]?r)(")(?={{sql_indicator}})'
       captures:
@@ -691,6 +740,23 @@ contexts:
               pop: true
             - include: escaped_unicode_char
           push: 'scope:source.regexp.python'
+    # Single-line raw string, bytes, treated as regex
+    - match: '([bB]r|r[bB])(")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '(")|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
+        - match: ''
+          with_prototype:
+            - match: '(?="|\n)'
+              pop: true
+          push: 'scope:source.regexp.python'
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)(")(?={{sql_indicator}})'
       captures:
@@ -726,6 +792,20 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
+    # Single-line string, bytes
+    - match: '([bB])(")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.double.block.python
+        - match: '(")|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
+        - include: escaped_char
+        - include: constant_placeholder
 
   string_quoted_single:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -739,6 +819,16 @@ contexts:
           scope: punctuation.definition.string.end.python
           pop: true
         - include: escaped_unicode_char
+    # Triple-quoted capital R raw string, bytes, no syntax embedding
+    - match: ([bB]R|R[bB])(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.end.python
+          pop: true
     # Triple-quoted raw string, unicode or not, will detect SQL, otherwise regex
     - match: ([uU]?r)(''')
       captures:
@@ -771,6 +861,21 @@ contexts:
                   pop: true
                 - include: escaped_unicode_char
               push: 'scope:source.regexp.python'
+    # Triple-quoted raw string, bytes, will use regex
+    - match: ([bB]r|r[bB])(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.end.python
+          pop: true
+        - match: ''
+          with_prototype:
+            - match: (?=''')
+              pop: true
+          push: 'scope:source.regexp.python'
     # Triple-quoted string, unicode or not, will detect SQL
     - match: ([uU]?)(''')
       captures:
@@ -801,6 +906,18 @@ contexts:
             - include: escaped_unicode_char
             - include: escaped_char
             - include: constant_placeholder
+    # Triple-quoted string, bytes, no syntax embedding
+    - match: ([bB])(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.end.python
+          pop: true
+        - include: escaped_char
+        - include: constant_placeholder
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)('')'
       captures:
@@ -814,6 +931,18 @@ contexts:
             2: invalid.illegal.unclosed-string.python
           pop: true
         - include: escaped_unicode_char
+    # Single-line capital R raw string, bytes, no syntax embedding
+    - match: '([bB]R|R[bB])('')'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: '('')|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
     # Single-line raw string, unicode or not, starting with a SQL keyword
     - match: '([uU]?r)('')(?={{sql_indicator}})'
       captures:
@@ -851,6 +980,23 @@ contexts:
               pop: true
             - include: escaped_unicode_char
           push: 'scope:source.regexp.python'
+    # Single-line raw string, bytes, treated as regex
+    - match: '([bB]r|r[bB])('')'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: '('')|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
+        - match: ''
+          with_prototype:
+            - match: '(?=''|\n)'
+              pop: true
+          push: 'scope:source.regexp.python'
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)('')(?={{sql_indicator}})'
       captures:
@@ -884,6 +1030,20 @@ contexts:
             2: invalid.illegal.unclosed-string.python
           pop: true
         - include: escaped_unicode_char
+        - include: escaped_char
+        - include: constant_placeholder
+    # Single-line string, bytes
+    - match: '([bB])('')'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: string.quoted.single.block.python
+        - match: '('')|(\n)'
+          captures:
+            1: punctuation.definition.string.end.python
+            2: invalid.illegal.unclosed-string.python
+          pop: true
         - include: escaped_char
         - include: constant_placeholder
 

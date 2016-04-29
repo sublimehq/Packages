@@ -214,3 +214,159 @@ sql = 'SELECT * FROM foo -- bar baz'
 #       ^ source.sql
 #                            ^ source.sql comment.line.double-dash
 #                                  ^ punctuation.definition.string.end.python - source.sql
+
+
+# There are many variations of making a byte string
+(b'', B'', br'', bR'', BR'', Br'', rb'', Rb'', RB'', rB'')
+#^ storage.type.string
+#     ^ storage.type.string
+#          ^^ storage.type.string
+#                ^^ storage.type.string
+#                      ^^ storage.type.string
+#                            ^^ storage.type.string
+#                                  ^^ storage.type.string
+#                                        ^^ storage.type.string
+#                                              ^^ storage.type.string
+#                                                    ^^ storage.type.string
+
+# Bytes by defaut support placeholders and character escapes, but not unicode
+b'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+#^ string.quoted.single punctuation.definition.string.begin
+#           ^^ constant.character.escape
+#                    ^^ constant.other.placeholder
+#                                  ^^^^^^ - constant
+B'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+#^ string.quoted.single punctuation.definition.string.begin
+#           ^^ constant.character.escape
+#                    ^^ constant.other.placeholder
+#                                  ^^^^^^ - constant
+b'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+#^^^ string.quoted.single punctuation.definition.string.begin
+#             ^^ constant.character.escape
+#                      ^^ constant.other.placeholder
+#                                    ^^^^^^ - constant
+B'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+#^^^ string.quoted.single punctuation.definition.string.begin
+#             ^^ constant.character.escape
+#                      ^^ constant.other.placeholder
+#                                    ^^^^^^ - constant
+
+# Uppercase R raw bytes don't allow anything
+bR'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ - constant.character.escape
+#                     ^^ - constant.other.placeholder
+#                                   ^^^^^^ - constant
+BR'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ - constant.character.escape
+#                     ^^ - constant.other.placeholder
+#                                   ^^^^^^ - constant
+Rb'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ - constant.character.escape
+#                     ^^ - constant.other.placeholder
+#                                   ^^^^^^ - constant
+RB'This is a \n test, %s no unicode \uDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ - constant.character.escape
+#                     ^^ - constant.other.placeholder
+#                                   ^^^^^^ - constant
+bR'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ - constant.character.escape
+#                       ^^ - constant.other.placeholder
+#                                     ^^^^^^ - constant
+BR'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ - constant.character.escape
+#                       ^^ - constant.other.placeholder
+#                                     ^^^^^^ - constant
+Rb'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ - constant.character.escape
+#                       ^^ - constant.other.placeholder
+#                                     ^^^^^^ - constant
+RB'''This is a \n test, %s no unicode \uDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ - constant.character.escape
+#                       ^^ - constant.other.placeholder
+#                                     ^^^^^^ - constant
+
+# Lowercase r raw bytes are interpreted as regex
+br'This is a \n (test|with), %s no unicode \UDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ constant.character.escape.backslash.regexp
+#                    ^ keyword.operator.or.regexp
+#                            ^^ - constant
+#                                          ^^ constant.character.escape.backslash.regexp
+#                                            ^^^^ - constant
+Br'This is a \n (test|with), %s no unicode \UDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ constant.character.escape.backslash.regexp
+#                    ^ keyword.operator.or.regexp
+#                            ^^ - constant
+#                                          ^^ constant.character.escape.backslash.regexp
+#                                            ^^^^ - constant
+rb'This is a \n (test|with), %s no unicode \UDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ constant.character.escape.backslash.regexp
+#                    ^ keyword.operator.or.regexp
+#                            ^^ - constant
+#                                          ^^ constant.character.escape.backslash.regexp
+#                                            ^^^^ - constant
+rB'This is a \n (test|with), %s no unicode \UDEAD'
+# <- storage.type.string
+# ^ string.quoted.single punctuation.definition.string.begin
+#            ^^ constant.character.escape.backslash.regexp
+#                    ^ keyword.operator.or.regexp
+#                            ^^ - constant
+#                                          ^^ constant.character.escape.backslash.regexp
+#                                            ^^^^ - constant
+br'''This is a \n (test|with), %s no unicode \UDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ constant.character.escape.backslash.regexp
+#                      ^ keyword.operator.or.regexp
+#                              ^^ - constant
+#                                            ^^ constant.character.escape.backslash.regexp
+#                                              ^^^^ - constant
+Br'''This is a \n (test|with), %s no unicode \UDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ constant.character.escape.backslash.regexp
+#                      ^ keyword.operator.or.regexp
+#                              ^^ - constant
+#                                            ^^ constant.character.escape.backslash.regexp
+#                                              ^^^^ - constant
+rb'''This is a \n (test|with), %s no unicode \UDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ constant.character.escape.backslash.regexp
+#                      ^ keyword.operator.or.regexp
+#                              ^^ - constant
+#                                            ^^ constant.character.escape.backslash.regexp
+#                                              ^^^^ - constant
+rB'''This is a \n (test|with), %s no unicode \UDEAD'''
+# <- storage.type.string
+# ^^^ string.quoted.single punctuation.definition.string.begin
+#              ^^ constant.character.escape.backslash.regexp
+#                      ^ keyword.operator.or.regexp
+#                              ^^ - constant
+#                                            ^^ constant.character.escape.backslash.regexp
+#                                              ^^^^ - constant
