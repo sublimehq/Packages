@@ -515,23 +515,13 @@ contexts:
     - include: illegal_names
     - include: generic_names
   escaped_char:
-    - match: '(\\x[0-9A-F]{2})|(\\[0-7]{3})|(\\\n)|(\\\\)|(\\\")|(\\'')|(\\a)|(\\b)|(\\f)|(\\n)|(\\r)|(\\t)|(\\v)'
+    - match: '(\\x\h{2})|(\\[0-7]{3})|(\\[\\"''abfnrtv])'
       captures:
         1: constant.character.escape.hex.python
         2: constant.character.escape.octal.python
-        3: constant.character.escape.newline.python
-        4: constant.character.escape.backlash.python
-        5: constant.character.escape.double-quote.python
-        6: constant.character.escape.single-quote.python
-        7: constant.character.escape.bell.python
-        8: constant.character.escape.backspace.python
-        9: constant.character.escape.formfeed.python
-        10: constant.character.escape.linefeed.python
-        11: constant.character.escape.return.python
-        12: constant.character.escape.tab.python
-        13: constant.character.escape.vertical-tab.python
+        3: constant.character.escape.python
   escaped_unicode_char:
-    - match: '(\\U[0-9A-Fa-f]{8})|(\\u[0-9A-Fa-f]{4})|(\\N\{[a-zA-Z ]+\})'
+    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
       captures:
         1: constant.character.escape.unicode.16-bit-hex.python
         2: constant.character.escape.unicode.32-bit-hex.python

@@ -20,6 +20,29 @@ class MyClass():
         print('Hi!')
 
 
+
+###############################
+# Strings and embedded syntaxes
+###############################
+
+var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+#      ^^^^ constant.character.escape.hex
+#           ^^^^ constant.character.escape.hex
+#                ^^^^ constant.character.escape.hex
+#                     ^^^^ constant.character.escape.octal
+#                          ^^ constant.character.escape
+#                             ^^ constant.character.escape
+#                                ^^ constant.character.escape
+#                                   ^^ constant.character.escape
+#                                      ^^ constant.character.escape
+#                                         ^^ constant.character.escape
+#                                            ^^ constant.character.escape
+#                                               ^^ constant.character.escape
+#                                                  ^^ constant.character.escape
+#                                                     ^^^^^^ constant.character.escape.unicode
+#                                                            ^^^^^^^^^^ constant.character.escape.unicode
+#                                                                       ^^^^^^^^^ constant.character.escape.unicode
+
 conn.execute("SELECT * FROM foobar")
 #              ^ keyword.other.DML.sql
 
@@ -35,7 +58,7 @@ conn.execute(U'SELECT * FROM foobar')
 # In this example, the Python string is not raw, so \t is a python escape
 conn.execute(u"SELECT * FROM foobar WHERE foo = '\t'")
 #              ^ keyword.other.DML.sql
-#                                                 ^ constant.character.escape.tab.python
+#                                                 ^ constant.character.escape.python
 
 conn.execute(u'SELECT * FROM foobar')
 #              ^ keyword.other.DML.sql
@@ -77,7 +100,7 @@ conn.execute(r'''SELECT * FROM foobar''')
 conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                 ^ keyword.other.DML.sql
 #                                            ^ constant.other.placeholder.python
-#                                                          ^ constant.character.escape.tab.python
+#                                                          ^ constant.character.escape.python
 
 regex = r'\b ([fobar]*){1}(?:a|b)?'
 #         ^ keyword.control.anchor.regexp
