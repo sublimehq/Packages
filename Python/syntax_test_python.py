@@ -15,6 +15,11 @@ def my_func(param1, # Multi-line function definition
     print('Hi!')
 
 
+def unterminated(param
+
+# <- invalid.illegal
+
+
 class MyClass():
 
     def my_func(self, param1, # Multi-line function definition

@@ -177,56 +177,44 @@ contexts:
             - include: expressions
 
   functions:
-    - match: '^\s*(def)\s+(?={{identifier}}\s*\()'
-      captures:
-        1: storage.type.function.python
-      push:
-        - meta_scope: meta.function.python
-        - match: (\))\s*(?:(\:)|(.*$\n?))
-          captures:
-            1: punctuation.definition.parameters.end.python
-            2: punctuation.section.function.begin.python
-            3: invalid.illegal.missing-section-begin.python
-          set: maybe-docstrings
-        - match: "(?={{identifier}})"
-          push:
-            - meta_content_scope: entity.name.function.python
-            - match: "(?!{{identifier_continue}})"
-              pop: true
-            - include: entity_name_function
-        - match: \(
-          scope: punctuation.definition.parameters.begin.python
-          push:
-            - meta_content_scope: meta.function.parameters.python
-            - match: (?=\)\s*\:)
-              pop: true
-            - include: keyword_arguments
-            - match: "#"
-              scope: punctuation.definition.comment.python
-              push:
-                - meta_scope: comment.line.number-sign.python
-                - match: \n
-                  pop: true
-            - match: '({{identifier}})\s*(?:(,)|(?=[\n\)]))'
-              captures:
-                1: variable.parameter.function.python
-                2: punctuation.separator.parameters.python
     - match: '^\s*(def)\s+(?={{identifier}})'
       captures:
         1: storage.type.function.python
       push:
         - meta_scope: meta.function.python
-        - match: (\()|\s*($\n?|#.*$\n?)
-          captures:
-            1: punctuation.definition.parameters.begin.python
-            2: invalid.illegal.missing-parameters.python
+        - match: ':'
+          scope: punctuation.section.function.begin.python
           set: maybe-docstrings
+        - match: '^\s*$'
+          pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
-            - match: "(?!{{identifier_continue}})"
-              pop: true
             - include: entity_name_function
+            - match: ''
+              pop: true
+        - match: \(
+          scope: punctuation.definition.parameters.begin.python
+          set:
+            - meta_content_scope: meta.function.parameters.python
+            - match: \)
+              scope: punctuation.definition.parameters.end.python
+              set:
+                - match: ':'
+                  scope: punctuation.section.function.begin.python
+                  set: maybe-docstrings
+                - include: comments
+                - match: (?=\S)
+                  pop: true
+            - match: ':|^\s*$'
+              scope: invalid.illegal.no-closing-parens.python
+              pop: true
+            - include: keyword_arguments
+            - include: comments
+            - match: ','
+              scope: punctuation.separator.parameters.python
+            - match: '{{identifier}}'
+              scope: variable.parameter.function.python
 
   decorators:
     - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
