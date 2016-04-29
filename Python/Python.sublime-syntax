@@ -140,7 +140,7 @@ contexts:
         - meta_scope: meta.class.python
         - match: ':'
           scope: punctuation.section.class.begin.python
-          pop: true
+          set: maybe-docstrings
         - match: '$\n?'
           scope: invalid.illegal.missing-section-begin.python
           pop: true
@@ -182,7 +182,7 @@ contexts:
             1: punctuation.definition.parameters.end.python
             2: punctuation.section.function.begin.python
             3: invalid.illegal.missing-section-begin.python
-          pop: true
+          set: maybe-docstrings
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
@@ -215,7 +215,7 @@ contexts:
           captures:
             1: punctuation.definition.parameters.begin.python
             2: invalid.illegal.missing-parameters.python
-          pop: true
+          set: maybe-docstrings
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
@@ -428,19 +428,6 @@ contexts:
   constant_placeholder:
     - match: '(?i:(%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])|(\{([!\[\].:\w ]+)?\}))'
       scope: constant.other.placeholder.python
-  docstrings:
-    - match: '^\s*(?=[uU]?[rR]?""")'
-      push:
-        - meta_scope: comment.block.python
-        - match: (?<=""")
-          pop: true
-        - include: string_quoted_double
-    - match: ^\s*(?=[uU]?[rR]?''')
-      push:
-        - meta_scope: comment.block.python
-        - match: (?<=''')
-          pop: true
-        - include: string_quoted_single
   dotted_name:
     - match: '(?={{identifier}}(?:\.{{identifier}})*)'
       push:
@@ -535,6 +522,27 @@ contexts:
     - match: \b__(all|bases|class|debug|dict|doc|file|members|metaclass|methods|name|slots|weakref)__\b
       comment: magic variables which a class/module may have.
       scope: support.variable.magic.python
+
+  maybe-docstrings:
+    - include: comments
+    - match: '(?i)(ur|ru|u|r)?(""")'
+      push:
+        - meta_scope: comment.block.python
+        - match: '"""'
+          pop: true
+    - match: "(?i)(ur|ru|u|r)?(''')"
+      push:
+        - meta_scope: comment.block.python
+        - match: "'''"
+          pop: true
+    - match: (?=\S)
+      pop: true
+    # Pop out of the context if we find a beginning of a line followed by
+    # whitespace and then something other than the beginning of a docstring
+    # or a comment. This allows other rules to consume the beginning of the
+    # line+whitespace.
+    - match: '(?i)(?=^\s*(?![ur]{0,2}(''''''|"""))[^\s#])'
+      pop: true
 
   string_quoted_double:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding

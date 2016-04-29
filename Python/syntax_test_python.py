@@ -30,6 +30,11 @@ class UnicødeIdentifier():
 #     ^^^^^^^^^^^^^^^^^ entity.name.type.class
     def résumé():
 #       ^^^^^^ entity.name.function
+        """
+        A function-level docstring
+        """
+#       ^^^ comment.block
+
         yield from range(100)
 #       ^^^^^ keyword.control.flow
 #            ^ - keyword
@@ -42,6 +47,10 @@ class MyClass(Inherited, module.Inherited2):
 #                      ^ punctuation.separator
 #                        ^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                              ^ punctuation.accessor
+    """
+    This is a test of docstrings
+    """
+#   ^ comment.block
     pass
 
 
