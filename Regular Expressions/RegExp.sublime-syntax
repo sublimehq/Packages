@@ -61,6 +61,9 @@ contexts:
         1: meta.mode-modifier.regexp
         2: keyword.control.group.regexp
       pop: true
+    - match: '\?(?:[ixms]*-)?[ixms]+:'
+      scope: meta.mode-modifier.regexp
+      set: [group-body, unexpected-quantifier-pop]
     - match: '(\?\d+)(\))'
       captures:
         1: keyword.other.backref-and-recursion.regexp
