@@ -349,7 +349,7 @@ contexts:
     - include: basic-types
 
   basic-types:
-    - match: '\b(int(16|8|32|64)?|uint(16|8|32|ptr|64)?|float(32|64)?|b(yte|ool)|error|string|complex(64|128))\b'
+    - match: '\b(int(16|8|32|64)?|uint(16|8|32|ptr|64)?|float(32|64)?|b(yte|ool)|error|string|rune|complex(64|128))\b'
       scope: storage.type.go
     - match: '\b(ComplexType|FloatType|IntegerType|Type|Type1)\b'
       scope: storage.type.go
