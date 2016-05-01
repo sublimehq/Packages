@@ -1077,11 +1077,14 @@ contexts:
         0: punctuation.definition.string.begin.clojure
       push:
         - meta_scope: string.regexp.clojure
-        - match: '"'
-          captures:
-            0: punctuation.definition.string.end.clojure
-          pop: true
-        - include: scope:source.regexp
+        - include: scope:source.regexp#unexpected-quantifier
+        - match: ''
+          set:
+            - meta_scope: string.regexp.clojure
+            - match: '"'
+              scope: punctuation.definition.string.end.clojure
+              pop: true
+            - include: scope:source.regexp#base-literal
   string_escape:
     - match: '\\(u[0-9a-fA-F]{4}|b|t|n|f|r|"|''|\\|[0-3]?[0-7]{1,2}|(.))'
       scope: constant.character.escape.clojure
