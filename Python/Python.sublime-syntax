@@ -198,42 +198,49 @@ contexts:
             - include: entity_name_function
             - match: ''
               pop: true
-        - match: \(
-          scope: punctuation.definition.parameters.begin.python
+        - match: '(?=\()'
           set:
-            - meta_content_scope: meta.function.parameters.python
-            - match: \)
-              scope: punctuation.definition.parameters.end.python
-              set:
-                - match: '->'
-                  scope: punctuation.separator.annotation.python
-                  push:
-                    - match: '(?=:)'
-                      pop: true
-                    - include: expressions
-                - match: ':'
-                  scope: punctuation.section.function.begin.python
-                  set: maybe-docstrings
-                - include: comments
-                - match: (?=\S)
-                  pop: true
-            - include: comments
-            - match: ','
-              scope: punctuation.separator.parameters.python
-            - match: '='
-              scope: keyword.operator.assignment.python
-              push:
-                - match: '(?=[,)])'
-                  pop: true
-                - include: expressions
-            - match: ':'
+            - match: \(
+              scope: meta.function.parameters.python punctuation.definition.parameters.begin.python
+              set: function-parameters
+
+  function-parameters:
+    - meta_content_scope: meta.function.parameters.python
+    - match: \)
+      scope: punctuation.definition.parameters.end.python
+      set:
+        - meta_content_scope: meta.function.python
+        - match: '(?=->)'
+          push:
+            - meta_content_scope: meta.function.return-type.python
+            - match: ->
               scope: punctuation.separator.annotation.python
-              push:
-                - match: '(?=[,)=])'
-                  pop: true
-                - include: expressions
-            - match: '{{identifier}}'
-              scope: variable.parameter.function.python
+            - match: '(?=:)'
+              pop: true
+            - include: expressions
+        - match: ':'
+          scope: punctuation.section.function.begin.python
+          set: maybe-docstrings
+        - include: comments
+        - match: (?=\S)
+          pop: true
+    - include: comments
+    - match: ','
+      scope: punctuation.separator.parameters.python
+    - match: '='
+      scope: keyword.operator.assignment.python
+      push:
+        - match: '(?=[,)])'
+          pop: true
+        - include: expressions
+    - match: ':'
+      scope: punctuation.separator.annotation.python
+      push:
+        - match: '(?=[,)=])'
+          pop: true
+        - include: expressions
+    - match: '{{identifier}}'
+      scope: variable.parameter.function.python
 
   decorators:
     - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*\s*\()'

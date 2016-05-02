@@ -26,6 +26,10 @@ def my_func(param1, # Multi-line function definition
 
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
+#                                                                                                  ^^^^^^ meta.function.return-type
+#                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter.function
 #                          ^ punctuation.separator.annotation
 #                            ^^^ support.type
@@ -54,6 +58,8 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 
 
 async def coroutine(param1):
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                  ^^^^^^^^ meta.function.parameters
 # <- storage.modifier
 #     ^ storage.type
 #         ^ entity.name.function
