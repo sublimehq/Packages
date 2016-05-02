@@ -1078,10 +1078,16 @@ contexts:
       push:
         - meta_scope: string.regexp.clojure
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.clojure
+          scope: punctuation.definition.string.end.clojure
           pop: true
-        - include: scope:source.regexp
+        - include: scope:source.regexp#unexpected-quantifier
+        - match: ''
+          push:
+            - meta_scope: string.regexp.clojure
+            - include: scope:source.regexp#base-literal
+          with_prototype:
+            - match: '(?=")'
+              pop: true
   string_escape:
     - match: '\\(u[0-9a-fA-F]{4}|b|t|n|f|r|"|''|\\|[0-3]?[0-7]{1,2}|(.))'
       scope: constant.character.escape.clojure
