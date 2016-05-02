@@ -820,7 +820,7 @@ contexts:
             - match: (?=^\1\b)
               pop: true
   instantiation:
-    - match: '(?i)(new)\s+(class)\s*'
+    - match: '(?i)(new)\s+(class)\b\s*'
       captures:
         1: keyword.other.new.php
         2: storage.type.class.php
