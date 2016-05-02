@@ -99,3 +99,9 @@
 ;;                              ^ invalid.illegal.unexpected-quantifier.regexp
 ;;                                       ^^ keyword.operator.quantifier.regexp
 ;;                                                 ^ keyword.operator.quantifier.regexp
+
+  (def hello (fn [] #"(?=unclosed_paren"))
+;;                  ^^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
+;;                  ^^ punctuation.definition.string.begin.clojure
+;;                                     ^ punctuation.definition.string.end.clojure
+;;                                      ^ - string.regexp.clojure
