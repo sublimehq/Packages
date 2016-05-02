@@ -1621,7 +1621,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.macro.objc++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-line-ending
         - include: scope:source.c#preprocessor-comments
         - match: '({{identifier}})(\()'
           captures:
@@ -1645,7 +1645,7 @@ contexts:
           scope: variable.parameter.objc++
           pop: true
         - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprecessor-comments
+        - include: scope:source.c#preprocessor-comments
         - match: '\.\.\.'
           scope: punctuation.definition.variadic.objc++
         - match: '(?=\))'
@@ -1658,7 +1658,7 @@ contexts:
         - match: '\S+'
           scope: invalid.illegal.unexpected-character.objc++
     - include: scope:source.c#preprocessor-line-continuation
-    - include: scope:source.c#preprecessor-comments
+    - include: scope:source.c#preprocessor-comments
     - match: '\.\.\.'
       scope: punctuation.definition.variadic.objc++
     - match: (/\*).*(\*/)
@@ -1672,8 +1672,8 @@ contexts:
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.objc++
     - include: scope:source.c#preprocessor-line-continuation
-    - include: scope:source.c#preprecessor-line-ending
-    - include: scope:source.c#preprecessor-comments
+    - include: scope:source.c#preprocessor-line-ending
+    - include: scope:source.c#preprocessor-comments
     # Don't define blocks in define statements
     - match: '\{|\}'
       scope: punctuation.definition.block.objc++
@@ -1686,7 +1686,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.objc++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-line-ending
         - include: scope:source.c#preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.objc++
@@ -1699,7 +1699,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.diagnostic.objc++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-line-ending
         - include: scope:source.c#preprocessor-comments
         - include: strings
         - match: '\S+'
@@ -1710,7 +1710,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.include.objc++
         - include: scope:source.c#preprocessor-line-continuation
-        - include: scope:source.c#preprecessor-line-ending
+        - include: scope:source.c#preprocessor-line-ending
         - include: scope:source.c#preprocessor-comments
         - match: '"'
           scope: punctuation.definition.string.begin.objc++

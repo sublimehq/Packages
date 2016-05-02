@@ -215,11 +215,11 @@ contexts:
       captures:
         1: invalid.illegal.space-after-continuation.c
 
-  preprecessor-line-ending:
+  preprocessor-line-ending:
     - match: $\n
       pop: true
 
-  # Comment handling in preprecessor directives are complicated by the fact
+  # Comment handling in preprocessor directives are complicated by the fact
   # that a single-line comment will normally consume the newline to prevent
   # completions from being presented to the user. Additionally, a multi-line
   # comment without a line continuation ends at the newline.
@@ -964,7 +964,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.macro.c
         - include: preprocessor-line-continuation
-        - include: preprecessor-line-ending
+        - include: preprocessor-line-ending
         - include: preprocessor-comments
         - match: '({{identifier}})(\()'
           captures:
@@ -1015,7 +1015,7 @@ contexts:
   preprocessor-macro-definition:
     - meta_scope: meta.preprocessor.macro.definition.c
     - include: preprocessor-line-continuation
-    - include: preprecessor-line-ending
+    - include: preprocessor-line-ending
     - include: preprocessor-comments
     # Don't define blocks in define statements
     - match: '\{|\}'
@@ -1029,7 +1029,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.c
         - include: preprocessor-line-continuation
-        - include: preprecessor-line-ending
+        - include: preprocessor-line-ending
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
@@ -1042,7 +1042,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.diagnostic.c
         - include: preprocessor-line-continuation
-        - include: preprecessor-line-ending
+        - include: preprocessor-line-ending
         - include: preprocessor-comments
         - include: strings
         - match: '\S+'
@@ -1053,7 +1053,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.include.c
         - include: preprocessor-line-continuation
-        - include: preprecessor-line-ending
+        - include: preprocessor-line-ending
         - include: preprocessor-comments
         - match: '"'
           scope: punctuation.definition.string.begin.c
