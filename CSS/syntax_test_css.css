@@ -71,10 +71,12 @@
 /*   ^^^^^^^^^^^^              keyword.control.at-rule.custom-media.css */
 /*                       ^^^^^ support.type.property-name.media.css     */
 
-    @keyframes ellipsis {}
-/*  ^                   punctuation.definition.keyword.css   */
-/*   ^^^^^^^^^          keyword.control.at-rule.keyframe.css */
-/*             ^^^^^^^^ entity.other.animation-name.css      */
+    @keyframes beat, bounce {}
+/*  ^                       punctuation.definition.keyword.css              */
+/*   ^^^^^^^^^              keyword.control.at-rule.keyframe.css            */
+/*             ^^^^         entity.other.animation-name.css                 */
+/*                 ^        punctuation.definition.arbitrary-repetition.css */
+/*                   ^^^^^^ entity.other.animation-name.css                 */
 
 @keyframes test-keyframes-keywords {
     from, to {}

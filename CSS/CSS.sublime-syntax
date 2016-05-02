@@ -167,8 +167,9 @@ contexts:
         - include: url-function
         - include: media-query-list
 
+  # https://drafts.csswg.org/css-animations/#propdef-animation-name
   keyframe-name:
-    - match: '(?i)\s*[-]?([_\w\-]*)?'
+    - match: '\s*({{ident}})?'
       captures:
         1: entity.other.animation-name.css
       push:
@@ -294,7 +295,7 @@ contexts:
 
 # Namespace At-Rule: https://www.w3.org/TR/css3-namespace/
   namespace:
-    - match: \s*((@)namespace)\s+(\b\S*\b)?
+    - match: '\s*((@)namespace)\s+({{ident}})?'
       captures:
         1: keyword.control.at-rule.namespace.css
         2: punctuation.definition.keyword.css
@@ -518,7 +519,7 @@ contexts:
         - match: "$|(?![-a-z])"
           pop: true
         - include: vendor-prefix
-        - match: '\b(var-)(?i)([_a-z]+[_a-z0-9-]*)'
+        - match: '\b(var-)({{ident}})'
           captures:
             1: keyword.other.custom-property.prefix.css
             2: support.type.custom-property.name.css
