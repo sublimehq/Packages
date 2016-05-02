@@ -43,8 +43,7 @@ contexts:
     - include: comment
     - include: metadata
     - match: '\['
-      captures:
-        0: punctuation.definition.vector.begin.clojure
+      scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.structure.binding.vector.clojure
         - match: '(?=\])'
@@ -54,8 +53,7 @@ contexts:
           push:
             - meta_scope: meta.parameters.vector.clojure
             - match: '\]'
-              captures:
-                0: punctuation.definition.vector.end.clojure
+              scope: punctuation.definition.vector.end.clojure
               pop: true
             - include: comment
             - include: metadata
@@ -69,8 +67,7 @@ contexts:
             - include: all
         - include: binding_exp
     - match: '\{'
-      captures:
-        0: punctuation.definition.map.begin.clojure
+      scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.structure.binding.map.clojure
         - match: '(?=\])'
@@ -80,8 +77,7 @@ contexts:
           push:
             - meta_scope: meta.function.parameters.map.clojure
             - match: '\}'
-              captures:
-                0: punctuation.definition.map.end.clojure
+              scope: punctuation.definition.map.end.clojure
               pop: true
             - include: comment
             - include: metadata
@@ -152,37 +148,33 @@ contexts:
             - include: macro
             - include: sexpr
         - include: binding
-    - match: '(\[)'
+    - match: '\['
+      scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.structure.binding_exp.vector.clojure
         - match: '(?=\])'
           pop: true
         - match: '(?<=\[)'
           comment: "TODO: merge with vector"
-          captures:
-            0: punctuation.definition.vector.begin.clojure
           push:
             - meta_scope: meta.expression.vector.clojure
             - match: '\]'
-              captures:
-                0: punctuation.definition.vector.end.clojure
+              scope: punctuation.definition.vector.end.clojure
               pop: true
             - include: all
         - include: binding
-    - match: '(\{)'
+    - match: '\{'
+      scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.structure.binding_exp.map.clojure
         - match: '(?=\])'
           pop: true
         - match: '(?<=\{)'
           comment: "TODO: merge with map"
-          captures:
-            0: punctuation.definition.map.begin.clojure
           push:
             - meta_scope: meta.expression.map.clojure
             - match: "}"
-              captures:
-                0: punctuation.definition.map.end.clojure
+              scope: punctuation.definition.map.end.clojure
               pop: true
             - include: all
         - include: binding
@@ -281,23 +273,19 @@ contexts:
         - include: parameters_body
   function_body_comment:
     - match: '"'
-      captures:
-        0: string.quoted.double.begin.clojure
+      scope: string.quoted.double.begin.clojure
       push:
         - meta_scope: string.docstring.clojure
         - match: '"'
-          captures:
-            0: string.quoted.double.end.clojure
+          scope: string.quoted.double.end.clojure
           pop: true
         - include: string_escape
     - match: '\{'
-      captures:
-        0: comment.punctuation.definition.metadata.begin.clojure
+      scope: comment.punctuation.definition.metadata.begin.clojure
       push:
         - meta_scope: meta.metadata.map.clojure
         - match: '\}'
-          captures:
-            0: comment.punctuation.definition.metadata.end.clojure
+          scope: comment.punctuation.definition.metadata.end.clojure
           pop: true
         - include: metadata_patterns
     - include: function_body
@@ -350,20 +338,18 @@ contexts:
                         - include: macro
                         - include: sexpr
                     - include: parameters_body
-                - match: '(\[)'
+                - match: '\['
+                  scope: punctuation.definition.vector.begin.clojure
                   push:
                     - meta_scope: meta.structure.multi_method_exp.vector.clojure
                     - match: (?=\))
                       pop: true
                     - match: '(?<=\[)'
                       comment: "TODO: merge with vector"
-                      captures:
-                        0: punctuation.definition.vector.begin.clojure
                       push:
                         - meta_scope: meta.expression.vector.clojure
-                        - match: '(\])'
-                          captures:
-                            1: punctuation.definition.vector.end.clojure
+                        - match: '\]'
+                          scope: punctuation.definition.vector.end.clojure
                           pop: true
                         - include: all
                     - match: '(?<=\])\s*'
@@ -371,20 +357,18 @@ contexts:
                         - match: (?=\))
                           pop: true
                         - include: parameters_body
-                - match: '(\{)'
+                - match: '\{'
+                  scope: punctuation.definition.map.begin.clojure
                   push:
                     - meta_scope: meta.structure.multi_method_exp.map.clojure
                     - match: (?=\))
                       pop: true
                     - match: '(?<=\{)'
                       comment: "TODO: merge with map"
-                      captures:
-                        0: punctuation.definition.map.begin.clojure
                       push:
                         - meta_scope: meta.expression.map.clojure
                         - match: "}"
-                          captures:
-                            0: punctuation.definition.map.end.clojure
+                          scope: punctuation.definition.map.end.clojure
                           pop: true
                         - include: all
                     - include: parameters_body
@@ -432,8 +416,7 @@ contexts:
         - include: keyword
         - include: operator
         - match: '-(?=[a-zA-Z+!\-_?*~#@''`/.$=])'
-          captures:
-            0: keyword.operator.prefix.genclass.clojure
+          scope: keyword.operator.prefix.genclass.clojure
           push:
             - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
               pop: true
@@ -496,8 +479,7 @@ contexts:
             - include: all
         - include: all
     - match: ':(init|main|factory|state|prefix|load-impl-ns|implements|constructors|exposes|impl-ns|exposes-methods|methods)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
-      captures:
-        0: support.other.keyword.genclass.clojure
+      scope: support.other.keyword.genclass.clojure
     - include: all
   gencommon_parameters:
     - include: comment
@@ -626,34 +608,28 @@ contexts:
         - include: function_body_comment
   map:
     - match: "{(?!})"
-      captures:
-        0: punctuation.definition.map.begin.clojure
+      scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.expression.map.clojure
         - match: "(?<!{)}"
-          captures:
-            0: punctuation.definition.map.end.clojure
+          scope: punctuation.definition.map.end.clojure
           pop: true
         - include: all
   metadata:
     - match: '#?\^{'
-      captures:
-        0: comment.punctuation.definition.metadata.begin.clojure
+      scope: comment.punctuation.definition.metadata.begin.clojure
       push:
         - meta_scope: punctuation.metadata.map.clojure
         - match: "}"
-          captures:
-            0: comment.punctuation.definition.metadata.end.clojure
+          scope: comment.punctuation.definition.metadata.end.clojure
           pop: true
         - include: metadata_patterns
     - match: '#?\^"'
-      captures:
-        0: comment.punctuation.definition.metadata.begin.clojure
+      scope: comment.punctuation.definition.metadata.begin.clojure
       push:
         - meta_scope: string.metadata.clojure
         - match: '"'
-          captures:
-            0: comment.punctuation.definition.metadata.end.clojure
+          scope: comment.punctuation.definition.metadata.end.clojure
           pop: true
     - match: '(#?\^)([a-zA-Z+!\-_?0-9*/.$=]+)'
       scope: punctuation.metadata.class.clojure
@@ -666,13 +642,11 @@ contexts:
     - match: '(?<=:tag)\s+([a-zA-Z+!\-_?0-9*/.$=]+)'
       scope: storage.type.java.clojure
     - match: (?<=:doc)\s+"
-      captures:
-        0: string.quoted.double.begin.clojure
+      scope: string.quoted.double.begin.clojure
       push:
         - meta_scope: string.docstring.clojure
         - match: '"'
-          captures:
-            0: string.quoted.double.end.clojure
+          scope: string.quoted.double.end.clojure
           pop: true
         - include: string_escape
     - include: all
@@ -756,13 +730,11 @@ contexts:
       scope: constant.other.metadata.read.clojure
   parameters:
     - match: '\['
-      captures:
-        0: punctuation.definition.vector.begin.clojure
+      scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.parameters.vector.clojure
         - match: '\]'
-          captures:
-            0: punctuation.definition.vector.end.clojure
+          scope: punctuation.definition.vector.end.clojure
           pop: true
         - match: \&
           scope: keyword.operator.varargs.clojure
@@ -783,13 +755,11 @@ contexts:
         - include: all
   parameters_function:
     - match: '\['
-      captures:
-        0: punctuation.definition.vector.begin.clojure
+      scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.function.parameters.vector.clojure
         - match: '\]'
-          captures:
-            0: punctuation.definition.vector.end.clojure
+          scope: punctuation.definition.vector.end.clojure
           pop: true
         - match: \&
           scope: keyword.operator.varargs.clojure
@@ -802,13 +772,11 @@ contexts:
         - include: parameters_map
   parameters_map:
     - match: '\{'
-      captures:
-        0: punctuation.definition.map.begin.clojure
+      scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.function.parameters.map.clojure
         - match: '\}'
-          captures:
-            0: punctuation.definition.map.end.clojure
+          scope: punctuation.definition.map.end.clojure
           pop: true
         - include: parameters_variable
         - match: '(:as|:or|:keys|:strs|:syms)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
@@ -829,13 +797,11 @@ contexts:
         - include: symbol
   set:
     - match: "#{"
-      captures:
-        0: punctuation.definition.set.begin.clojure
+      scope: punctuation.definition.set.begin.clojure
       push:
         - meta_scope: meta.expression.set.clojure
         - match: "}"
-          captures:
-            0: punctuation.definition.set.end.clojure
+          scope: punctuation.definition.set.end.clojure
           pop: true
         - include: all
   sexpr:
@@ -1052,13 +1018,11 @@ contexts:
                             - include: function_body_comment
   string:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.clojure
+      scope: punctuation.definition.string.begin.clojure
       push:
         - meta_scope: string.quoted.double.clojure
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.clojure
+          scope: punctuation.definition.string.end.clojure
           pop: true
         - include: string_escape
     - match: '\\(u[0-9a-fA-F]{4}|newline|tab|space|backspace|formfeed|return|[^\s])'
@@ -1073,8 +1037,7 @@ contexts:
           pop: true
         - include: symbol
     - match: '#"'
-      captures:
-        0: punctuation.definition.string.begin.clojure
+      scope: punctuation.definition.string.begin.clojure
       push:
         - meta_scope: string.regexp.clojure
         - match: '"'
@@ -1151,12 +1114,10 @@ contexts:
         - include: symbol
   vector:
     - match: '\[(?!\])'
-      captures:
-        0: punctuation.definition.vector.begin.clojure
+      scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.expression.vector.clojure
         - match: '(?<!\[)\]'
-          captures:
-            0: punctuation.definition.vector.end.clojure
+          scope: punctuation.definition.vector.end.clojure
           pop: true
         - include: all
