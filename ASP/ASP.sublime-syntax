@@ -13,7 +13,7 @@ contexts:
         1: storage.type.function.asp
       push:
         - meta_scope: meta.function.asp
-        - include: span_mulitple_lines
+        - include: span_multiple_lines
         - match: '[a-zA-Z_]\w*'
           scope: entity.name.function.asp
           set:
@@ -22,16 +22,16 @@ contexts:
             - match: '(?=[_(])'
               set:
                 - meta_content_scope: meta.function.asp
-                - include: span_mulitple_lines
+                - include: span_multiple_lines
                 - match: '\((?=[^)_]*[)_])'
                   scope: punctuation.definition.parameters.begin.asp
                   set:
                     - meta_content_scope: meta.function.asp
-                    - include: span_mulitple_lines
+                    - include: span_multiple_lines
                     - match: \)
                       scope: punctuation.definition.parameters.end.asp
                       set:
-                        - include: span_mulitple_lines
+                        - include: span_multiple_lines
                         - match: '\S+'
                           scope: invalid.illegal.unexpected-token-after-method-declaration.asp
                         - match: '$'
@@ -119,6 +119,6 @@ contexts:
         - match: '$'
           pop: true
   
-  span_mulitple_lines:
+  span_multiple_lines:
     - include: comments
     - include: line_continuation_char
