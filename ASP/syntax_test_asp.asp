@@ -1,7 +1,7 @@
 ' SYNTAX TEST "Packages/ASP/HTML-ASP.sublime-syntax"
 <!DOCTYPE html>
 <html>
-'<- meta.tag.structure.any.html punctuation.definition.tag.begin.html
+'<- meta.tag.structure.any.html punctuation.definition.tag.begin.html - source.asp.embedded.html
 '^^^^ meta.tag.structure.any.html entity.name.tag.structure.any.html
 '    ^ meta.tag.structure.any.html punctuation.definition.tag.end.html
 <head>
@@ -19,9 +19,9 @@
    '                               ^^^^^^^^^^^^^^^ comment.line.apostrophe.asp
    '^^^^^^^^ storage.type.function.asp
    '         ^^^^^^^^^^^^^^^ entity.name.function.asp
-   '                        ^ punctuation.definition.parameters
+   '                        ^ punctuation.definition.parameters.begin.asp
    '                         ^^^^ variable.parameter.function.asp
-   '                             ^ punctuation.definition.parameters
+   '                             ^ punctuation.definition.parameters.end.asp
         On Error Resume Next
        '^^^^^^^^^^^^^^^^^^^^ storage.type.asp
         Set fs = Server.CreateObject("Scripting.FileSystemObject")
@@ -142,14 +142,14 @@
    '^^^^^^^^^^^ meta.function.asp
    '         ^ keyword.operator.asp
             (_
-   '        ^ meta.function.asp punctuation.definition.parameters.asp
+   '        ^ meta.function.asp punctuation.definition.parameters.begin.asp
    '         ^ keyword.operator.asp
              abc, def _'example_
             '^^^^^^^^ meta.function.asp variable.parameter.function.asp
             '         ^ meta.function.asp keyword.operator.asp
             '          ^^^^^^^^^ meta.function.asp comment.line.apostrophe.asp - keyword.operator.asp
              ) fg
-            '^ meta.function.asp punctuation.definition.parameters.asp
+            '^ meta.function.asp punctuation.definition.parameters.end.asp
             '  ^^ invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
     'comment_
     '       ^ comment.line.apostrophe.asp - keyword.operator.asp
@@ -175,12 +175,12 @@
     Function NoParams'()
    '^^^^^^^^^^^^^^^^^ meta.function.asp
    '         ^^^^^^^^ entity.name.function.asp
-   '                 ^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp
-        NoParams = InStr(1, "hello_", "L", vbTextCompare)
+   '                 ^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - punctuation.definition.parameters
+        NoParams = InStr(1, "hello_'", "L", vbTextCompare)
 '<- - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp - invalid.illegal.after-line-continuation-char.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.function.asp - invalid.illegal.after-line-continuation-char.asp - comment.line.rem.asp
         '          ^^^^^ support.function.vb.asp
-        '                                  ^^^^^^^^^^^^^ support.type.vb.asp
+        '                                   ^^^^^^^^^^^^^ support.type.vb.asp
         Test = True Xor False
         '      ^^^^ constant.language.asp
         '           ^^^ keyword.operator.asp
@@ -196,10 +196,13 @@
    '^^^^ storage.type.asp
     Call NoParams
     
-    Sub Wow (
+    Sub Wow (test 'test
+   '^^^^^^^^^^^^^ meta.function.asp
    '^^^ storage.type.function.asp
-    '   ^^^ meta.function.asp entity.name.function.asp
-    )
+   '    ^^^ entity.name.function.asp
+   '              ^^^^^ comment.line.apostrophe.asp
+    ) ' this bracket doesn't form part of the method declaration - the line above is missing a _
+   '^ - meta.function.asp - punctuation.definition.parameters.end.asp
         MsgBox "hi", vbOkCancel or vbExclamation or vbDefaultButton1, "title"
         '            ^^^^^^^^^ support.type.vb.asp
         '                       ^^ keyword.operator.asp
@@ -208,11 +211,30 @@
     End Sub
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
+   '  ^ - source.asp.embedded.html
     This file was last modified on: <%response.write(modified)
    '^ - source.asp.embedded.html
    '                                ^^ source.asp.embedded.html punctuation.section.embedded.begin.asp
    '                                  ^^^^^^^^ support.class.asp
    '                                           ^^^^^ support.function.asp
     %>
-</body>
+    
+    <p>foobar</p>
+   '^^^ text.html.asp meta.tag.block.any.html - source.asp.embedded.html
+    <%='test %>
+   '^^^ source.asp.embedded.html punctuation.section.embedded.begin.asp
+   '   ^^^^^^ comment.line.apostrophe.asp
+   '         ^^ source.asp.embedded.html punctuation.section.embedded.end.asp - comment.line.apostrophe.asp
+   '           ^ - source.asp.embedded.html
+<%
+
+Dim test
+ rem the syntax on the next line will cause an unterminated string constant error
+'^^^^^^ comment.line.rem.asp
+test = "hello%>
+'      ^^^^^^ source.asp.embedded.html string.quoted.double.asp
+'            ^^ punctuation.section.embedded.end.asp - string.quoted.double.asp
+'              ^ - source.asp.embedded.html
+ </body>
+'^^^^^^^ meta.tag.structure.any.html
 </html>

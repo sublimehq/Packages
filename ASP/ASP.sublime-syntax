@@ -23,19 +23,28 @@ contexts:
               set:
                 - meta_content_scope: meta.function.asp
                 - include: span_mulitple_lines
-                - match: \(
-                  scope: punctuation.definition.parameters.asp
+                - match: '\((?=[^)_]*[)_])'
+                  scope: punctuation.definition.parameters.begin.asp
                   set:
                     - meta_content_scope: meta.function.asp
                     - include: span_mulitple_lines
                     - match: \)
-                      scope: punctuation.definition.parameters.asp
+                      scope: punctuation.definition.parameters.end.asp
                       set:
                         - include: span_mulitple_lines
                         - match: '\S+'
                           scope: invalid.illegal.unexpected-token-after-method-declaration.asp
                         - match: '$'
                           pop: true
+                    - match: .
+                      scope: variable.parameter.function.asp
+                - match: \(
+                  scope: punctuation.definition.parameters.begin.asp
+                  set:
+                    - meta_content_scope: meta.function.asp
+                    - include: comments
+                    - match: $
+                      pop: true
                     - match: .
                       scope: variable.parameter.function.asp
             - include: comments
@@ -93,7 +102,7 @@ contexts:
         - meta_scope: comment.line.apostrophe.asp
         - match: $\n?
           pop: true
-    - match: \bREM\b
+    - match: \b(?i:REM)\b
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.rem.asp
