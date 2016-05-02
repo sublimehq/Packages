@@ -467,10 +467,10 @@ contexts:
           pop: true
 
   class-body:
-    - meta_scope: meta.class.php
+    - meta_content_scope: meta.class.php
     - include: comments
     - match: '\}'
-      scope: punctuation.definition.block.php
+      scope: meta.class.php punctuation.definition.block.php
       pop: true
     - match: (?i)\b(use)\b\s*
       captures:

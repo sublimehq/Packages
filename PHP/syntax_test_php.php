@@ -254,7 +254,15 @@ $test = new Test1;
 //      ^ keyword.other.new.php
 //          ^ support.class.php
 
+$anon = new class{};
+//      ^^^^^^^^^^^ meta.class
+//      ^ keyword.other.new.php
+//          ^ storage.type.class.php
+//               ^ punctuation.definition.block.php - meta.class meta.class
+//                ^ punctuation.definition.block.php
+
 $anon = new class extends Test1 implements Countable {};
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class - meta.class meta.class
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
 //                ^ storage.modifier.extends.php
