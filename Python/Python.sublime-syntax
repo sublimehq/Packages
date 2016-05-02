@@ -240,7 +240,7 @@ contexts:
           pop: true
         - include: expressions
     - match: '{{identifier}}'
-      scope: variable.parameter.function.python
+      scope: variable.parameter.python
 
   decorators:
     - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
@@ -358,7 +358,7 @@ contexts:
             - include: keyword_arguments
             - match: '({{identifier}})\s*(?:(,)|(?=[\n\)\:]))'
               captures:
-                1: variable.parameter.function.python
+                1: variable.parameter.python
                 2: punctuation.separator.parameters.python
 
   late-keywords:
@@ -508,7 +508,7 @@ contexts:
   keyword_arguments:
     - match: '({{identifier}})\s*(=)(?!=)'
       captures:
-        1: variable.parameter.function.python
+        1: variable.parameter.python
         2: keyword.operator.assignment.python
       push:
         - match: '\s*(?:(,)|(?=$\n?|[\)\:]))'
