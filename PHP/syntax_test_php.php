@@ -97,27 +97,49 @@ use const some\namespace\{ConstA, ConstB AS ConstD, ConstC};
 
 
 function a($a = array(),             $b = "hi") {};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//       ^ entity.name.function
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group
+//        ^ punctuation.definition.group.begin
+//                                            ^ punctuation.definition.group.end
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
-//                    ^ meta.function.argument.array
+//                    ^ meta.array.empty
 //                          ^ punctuation.definition.array.end
 function d(array $a = [],            $b = "hi") {};
-//                    ^ meta.function.argument.array
-//                     ^ punctuation.definition.array.end
+//                    ^ punctuation.section.array.begin
+//                     ^ punctuation.section.array.end
 function e(array $a = [1, 2, 3, 4],  $b = "hi") {};
-//                    ^ meta.function.argument.array
-//                               ^ punctuation.definition.array.end
+//                    ^ punctuation.section.array.begin
+//                               ^ punctuation.section.array.end
 function f(array $a = null,          $b = "hi") {};
-function g(array $a = (),            $b = "hi") {};
-//                    ^ invalid.illegal.non-null-typehinted
-function h(array $a = 1234,          $b = "hi") {};
-//                    ^ invalid.illegal.non-null-typehinted
 function i(
     $a,
+//  ^^ variable.parameter
+//    ^ punctuation.separator
     $b
-//  ^ meta.function.argument.no-default.php variable.other.php
+//  ^^ variable.parameter
 ) {};
 
+
+$var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//     ^^^^^^^^ meta.function.closure
+//             ^^ meta.function.parameters meta.group
+//             ^ punctuation.definition.group.begin
+//              ^^^^^ storage.type
+//                    ^^^ variable.parameter
+//                       ^ keyword.operator.assignment
+//                        ^^^^^^^ meta.array.empty
+//                               ^ punctuation.separator
+//                                 ^^^^^^^^^ support.class
+//                                           ^^^^ variable.parameter
+//                                               ^ punctuation.definition.group.end
+//                                                 ^^^^^^^^^^^^^^^^^^ meta.function.closure.use
+//                                                                    ^ meta.block punctuation.definition.block.begin
+
+}
+// <- meta.function meta.block punctuation.definition.block.end
 
 /**
    No longer a phpdoc comment since no leading *
@@ -258,6 +280,7 @@ $anon = new class{};
 //      ^^^^^^^^^^^ meta.class
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
+//               ^^ meta.block.php
 //               ^ punctuation.definition.block.php - meta.class meta.class
 //                ^ punctuation.definition.block.php
 
@@ -269,29 +292,33 @@ $anon = new class extends Test1 implements Countable {};
 //                         ^ entity.other.inherited-class.php
 //                              ^ storage.modifier.implements.php
 //                                         ^ entity.other.inherited-class.php
+//                                                   ^^ meta.block.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                       ^ punctuation.definition.parameters.begin.php
-//                        ^ meta.function.arguments
+//                       ^ punctuation.definition.group.begin.php
+//                        ^ meta.function.parameters
 //                              ^ punctuation.definition.variable.php
-//                                       ^ meta.function.arguments
+//                                       ^ meta.function.parameters
 //                                           ^ punctuation.definition.variable.php
-//                                                  ^ punctuation.definition.parameters.end.php
+//                                                  ^ punctuation.definition.group.end.php
+//                                                    ^^ meta.block.php
+//                                                    ^ punctuation.definition.block.begin.php
+//                                                     ^ punctuation.definition.block.end.php
 
     function scalarReturnType($param1): bool {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                           ^ punctuation.definition.parameters.begin.php
-//                                   ^ punctuation.definition.parameters.end.php
+//                           ^ punctuation.definition.group.begin.php
+//                                   ^ punctuation.definition.group.end.php
 //                                      ^ storage.type.php
 
     function classReturnType($param1): stringSpace\Test1 {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                          ^ punctuation.definition.parameters.begin.php
-//                                  ^ punctuation.definition.parameters.end.php
+//                          ^ punctuation.definition.group.begin.php
+//                                  ^ punctuation.definition.group.end.php
 //                                     ^ support.other.namespace.php
 //                                                 ^ support.class.php
 

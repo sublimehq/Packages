@@ -4,7 +4,8 @@ name: PHP Source
 hidden: true
 scope: source.php
 variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
+  identifier_start: '[[:alpha:]_]'
+  identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
@@ -61,47 +62,7 @@ contexts:
         - match: (?=\s|;|$)
           pop: true
         - include: expressions
-    - match: |-
-        (?x)\s*
-            ((?:(?:final|abstract|public|private|protected|static)\s+)*)
-            (function)
-            (?:\s+|(\s*&\s*))
-            (?:
-                (__(?:call|construct|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))
-                |({{identifier}})
-            )
-            \s*
-            (\()
-      captures:
-        1: storage.modifier.php
-        2: storage.type.function.php
-        3: storage.modifier.reference.php
-        4: support.function.magic.php
-        5: entity.name.function.php
-        6: punctuation.definition.parameters.begin.php
-      push:
-        - meta_scope: meta.function.php
-        - meta_content_scope: meta.function.arguments.php
-        - match: '(\))(:)\s*(?={{path}})'
-          captures:
-            1: punctuation.definition.parameters.end.php
-            2: punctuation.separator.php
-          set:
-            - match: \b(array|bool|int|float|string)\b
-              scope: storage.type.php
-            - include: class-builtin
-            - include: identifier-parts
-            - match: '(\\)?({{identifier}})(?!\\)'
-              captures:
-                1: punctuation.separator.namespace.php
-                2: support.class.php
-            - match: ''
-              pop: true
-        - match: (\))
-          captures:
-            1: punctuation.definition.parameters.end.php
-          pop: true
-        - include: function-arguments
+    - include: function
     - match: '^\s*((?!default){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
@@ -126,39 +87,7 @@ contexts:
         - include: identifier-parts
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
-    - match: (?i)\b(function)\s*(&\s*)?(?=\()
-      captures:
-        1: storage.type.function.php
-        2: storage.modifier.reference.php
-      push:
-        - meta_scope: meta.function.closure.php
-        - match: '\{'
-          pop: true
-        - match: (\()
-          captures:
-            1: punctuation.definition.parameters.begin.php
-          push:
-            - meta_content_scope: meta.function.arguments.php
-            - match: (\))
-              captures:
-                1: punctuation.definition.parameters.end.php
-              pop: true
-            - include: function-arguments
-        - match: (?i)(use)\s*(\()
-          captures:
-            1: keyword.other.function.use.php
-            2: punctuation.definition.parameters.begin.php
-          push:
-            - match: (\))
-              captures:
-                1: punctuation.definition.parameters.end.php
-              pop: true
-            - match: '(\s*&)?\s*((\$+){{identifier}})\s*(?=,|\))'
-              scope: meta.function.closure.use.php
-              captures:
-                1: storage.modifier.reference.php
-                2: variable.other.php
-                3: punctuation.definition.variable.php
+    - include: closure
     - include: invoke-call
     - match: |-
         (?x)\s*(?=
@@ -424,7 +353,7 @@ contexts:
     - match: "(?=;)"
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.php
+      scope: meta.block.php punctuation.definition.block.php
       set: class-body
     - include: comments
     - match: (?i)(extends)\b\s*
@@ -467,10 +396,10 @@ contexts:
           pop: true
 
   class-body:
-    - meta_content_scope: meta.class.php
+    - meta_content_scope: meta.class.php meta.block.php
     - include: comments
     - match: '\}'
-      scope: meta.class.php punctuation.definition.block.php
+      scope: meta.class.php meta.block.php punctuation.definition.block.php
       pop: true
     - match: (?i)\b(use)\b\s*
       captures:
@@ -515,6 +444,135 @@ contexts:
               pop: true
         - match: ','
           scope: punctuation.separator.php
+    - include: statements
+
+  function:
+    - match: (?i)(?=(?:\b(?:final|abstract|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
+      push:
+        - meta_content_scope: meta.function.php
+        - include: comments
+        - match: '(?i)\b(final|abstract|public|private|protected|static)\b'
+          scope: storage.modifier.php
+        - match: (?i)\bfunction\b
+          scope: storage.type.function.php
+        - match: '&'
+          scope: storage.modifier.reference.php
+        - match: '(__(?:call|construct|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))'
+          scope: entity.name.function.php support.function.magic.php
+        - match: '{{identifier}}'
+          scope: entity.name.function.php
+        # Lookahead is used here to prevent doubling up of meta.function and meta.function.parameters
+        - match: (?=\()
+          set:
+            - match: \(
+              scope: meta.function.parameters.php meta.group.php punctuation.definition.group.begin.php
+              set: function-parameters
+        # Exit on unexpected content
+        - match: (?=\S)
+          pop: true
+
+  closure:
+    - match: (?i)\b(function)\s*(&)?\s*(?=\()
+      scope: meta.function.closure.php
+      captures:
+        1: storage.type.function.php
+        2: storage.modifier.reference.php
+      push:
+        - match: \(
+          scope: meta.function.parameters.php meta.group.php punctuation.definition.group.begin.php
+          set: function-parameters
+
+  function-parameters:
+    - meta_content_scope: meta.function.parameters.php meta.group.php
+    - match: '\)'
+      scope: punctuation.definition.group.end.php
+      set:
+        - meta_content_scope: meta.function.php
+        - match: '\b(use)\b\s*(\()'
+          scope: meta.function.closure.use.php
+          captures:
+            1: keyword.other.function.use.php
+            2: punctuation.definition.group.begin.php
+          set: function-use
+        - match: '(?=:)'
+          set: function-return-type
+        - match: \{
+          scope: meta.block.php punctuation.definition.block.begin.php
+          set: function-body
+        # Exit on unexpected content
+        - match: (?=\S)
+          pop: true
+    - include: comments
+    - match: \b(array|callable|int|string|bool|float)\b
+      scope: storage.type.php
+    # Class name type hint
+    - match: '{{identifier}}'
+      scope: support.class.php
+    - match: '&'
+      scope: storage.modifier.reference.php
+    - match: (\$+){{identifier}}
+      scope: variable.parameter.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: ','
+      scope: punctuation.separator.php
+    - match: '='
+      scope: keyword.operator.assignment.php
+      push:
+        - match: '(?=,|\))'
+          pop: true
+        - include: expressions
+
+  function-use:
+      - meta_content_scope: meta.function.closure.use.php
+      - include: comments
+      - match: '\)'
+        scope: punctuation.definition.group.end.php
+        set:
+          - meta_content_scope: meta.function.php
+          - match: '(?=:)'
+            set: function-return-type
+          - match: \{
+            scope: meta.block.php punctuation.definition.block.begin.php
+            set: function-body
+          # Exit on unexpected content
+          - match: (?=\S)
+            pop: true
+      - match: '&'
+        scope: storage.modifier.reference.php
+      - match: '(\$+){{identifier}}'
+        scope: variable.parameter.php
+        captures:
+          1: punctuation.definition.variable.php
+      - match: ','
+        scope: punctuation.separator.php
+
+  function-return-type:
+    - meta_content_scope: meta.function.return-type.php
+    - match: '(?=;)'
+      pop: true
+    - match: \{
+      scope: meta.block.php punctuation.definition.block.begin.php
+      set: function-body
+    - match: ':'
+      scope: punctuation.separator.php
+    - match: \b(array|bool|int|float|string)\b
+      scope: storage.type.php
+    - include: class-builtin
+    - include: identifier-parts
+    - match: '(\\)?({{identifier}})(?!\\)'
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.php
+    # Exit on unexpected content
+    - match: (?=\S)
+      pop: true
+
+  function-body:
+    - meta_content_scope: meta.function.php meta.block.php
+    - match: \}
+      scope: meta.function.php meta.block.php punctuation.definition.block.end.php
+      pop: true
     - include: statements
 
   class-name:
@@ -602,95 +660,6 @@ contexts:
         # is generated and the constant is assumed to have the value of its name.
         - match: '{{identifier}}'
           scope: constant.other.php
-  function-arguments:
-    - include: comments
-    - match: |-
-        (?x)
-        \s*(array|callable|int|string|bool|float) # Typehint
-        \s*(&)?                     # Reference
-        \s*((\$+){{identifier}}) # The variable name
-        \s*(=)  # A default value
-        \s*(?:(array)\s*(\()|\[)
-      captures:
-        1: storage.type.php
-        2: storage.modifier.reference.php
-        3: variable.other.php
-        4: punctuation.definition.variable.php
-        5: keyword.operator.assignment.php
-        6: support.function.construct.php
-        7: punctuation.definition.array.begin.php
-      push:
-        - meta_scope: meta.function.argument.array.php
-        - meta_content_scope: meta.array.php
-        - match: '[\)\]]'
-          scope: punctuation.definition.array.end.php
-          pop: true
-        - include: comments
-        - include: strings
-        - include: numbers
-    - match: |-
-        (?xi)
-        \s*(array|callable|int|string|bool|float) # Typehint
-        \s*(&)?                     # Reference
-        \s*((\$+){{identifier}}) # The variable name
-        (?:
-            \s*(?:(=)\s*(?:(null)|((?:\S*?\(\))|(?:\S*?)))) # A default value
-        )?
-        \s*(?=,|\)|/[/*]|\#|$) # A closing parentheses (end of argument list) or a comma or a comment
-      scope: meta.function.argument.array.php
-      captures:
-        1: storage.type.php
-        2: storage.modifier.reference.php
-        3: variable.other.php
-        4: punctuation.definition.variable.php
-        5: keyword.operator.assignment.php
-        6: constant.language.php
-        7: invalid.illegal.non-null-typehinted.php
-    - match: '(?={{path}}\s*&?\s*\$)'
-      push:
-        - meta_scope: meta.function.argument.typehinted.php
-        - match: '(?=,|\)|/[/*]|\#|$)'
-          pop: true
-        - include: class-name
-        - match: |-
-            (?xi)
-            \s*({{identifier}})? # Typehinted class name
-            \s*(&)?                     # Reference
-            \s*((\$+){{identifier}}) # The variable name
-            (?:
-                \s*(?:(=)\s*(?:(null)|((?:\S*?\(\))|(?:\S*?)))) # A default value
-            )?
-            \s*(?=,|\)|/[/*]|\#|$) # A closing parentheses (end of argument list) or a comma
-          captures:
-            1: support.class.php
-            2: storage.modifier.reference.php
-            3: variable.other.php
-            4: punctuation.definition.variable.php
-            5: keyword.operator.assignment.php
-            6: constant.language.php
-            7: invalid.illegal.non-null-typehinted.php
-    - match: '(\s*&)?\s*((\$+){{identifier}})\s*(?=,|\)|\n|/[/*]|\#)'
-      scope: meta.function.argument.no-default.php
-      captures:
-        1: storage.modifier.reference.php
-        2: variable.other.php
-        3: punctuation.definition.variable.php
-    - match: '(\s*&)?\s*((\$+){{identifier}})(?:\s*(=)\s*)\s*'
-      captures:
-        1: storage.modifier.reference.php
-        2: variable.other.php
-        3: punctuation.definition.variable.php
-        4: keyword.operator.assignment.php
-      push:
-        - meta_scope: meta.function.argument.default.php
-        - match: '(?=,|\)|/[/*]|\#)'
-          captures:
-            1: storage.modifier.reference.php
-            2: variable.other.php
-            3: punctuation.definition.variable.php
-            4: keyword.operator.assignment.php
-          pop: true
-        - include: parameter-default-types
   function-call:
     # Functions in a user-defined namespace should only be highlighted as user,
     # any built-in function names should not be highlighted specially
