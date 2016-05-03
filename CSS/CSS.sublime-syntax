@@ -312,7 +312,7 @@ contexts:
         1: keyword.control.at-rule.page.css
         2: punctuation.definition.keyword.css
         3: punctuation.definition.entity.css
-        4: entity.other.attribute-name.pseudo-class.css
+        4: entity.other.pseudo-class.css
       push:
         - meta_scope: meta.at-rule.page.css
         - match: '\s*(\})'
@@ -655,18 +655,6 @@ contexts:
           scope: punctuation.separator.combinator.css
         - match: '({{combinators}}){2,}'
           scope: invalid.illegal.combinator.css
-        - match: (:)((active|valid)-drop-target)\b
-          scope: entity.other.attribute-name.pseudo-class.drag-and-drop.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: (:)(checked|enabled|default|disabled|indeterminate|invalid|in-range|optional|out-of-range|placeholder-shown|required|read-only|read-write|user-error|valid)\b
-          scope: entity.other.attribute-name.pseudo-class.ui-state.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: (:)((nth-(last-)?)?column)\b
-          scope: entity.other.attribute-name.pseudo-class.grid-structural.css
-          captures:
-            1: punctuation.definition.entity.css
         - match: |-
             (?x)(:{1,2})
             (?:after|before|first-letter|first-line|placeholder|selection|
@@ -722,25 +710,7 @@ contexts:
             2: support.type.vendor-prefix.css
             3: support.type.vendor-prefix.css
             4: support.type.vendor-prefix.css
-        - match: (:)(current|(first|last)-child|(first|last|nth|only)-of-type|backdrop|empty|first|future|left|only-child|past|right|root|scope|target|active|any-link|hover|local-link|link|visited|focus)\b
-          scope: entity.other.attribute-name.pseudo-class.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: ((:)dir|lang|matches|not|nth-(?:last-)?match)(\()
-          captures:
-            1: entity.other.attribute-name.pseudo-class.css
-            2: punctuation.definition.entity.css
-            3: punctuation.definition.group.begin.css
-          push:
-            - include: function-notation-terminator
-            - include: selector
-        - match: ((:)nth-(?:(?:last-)?child|(?:last-)?of-type))(\()(\-?(?:\d+n?|n)(?:\+\d+)?|even|odd)(\))
-          captures:
-            1: entity.other.attribute-name.pseudo-class.css
-            2: punctuation.definition.entity.css
-            3: punctuation.section.function.css
-            4: constant.numeric.css
-            5: punctuation.section.function.css
+        - include: pseudo-classes # pseudo-classes must be included after pseudo-elements
         # Attribute Selectors
         # https://drafts.csswg.org/selectors-4/#attribute-selectors
         - match: '\['
@@ -765,6 +735,90 @@ contexts:
             - match: '\]'
               scope: punctuation.definition.entity.css
               pop: true
+
+  # Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#pseudo-classes
+  pseudo-classes:
+      # Functional Pseudo Classes
+      # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
+
+      # Functional Pseudo Classes with a single unquoted string
+    - match: '(:)(dir|lang)(?=\()'
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - include: unquoted-string
+
+      # Functional Pseudo Classes with selector list
+    - match: '(:)(matches|not|has)(?=\()'
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - include: selector
+
+      # Special :drop() pseudo-class
+    - match: '(:)(drop)(?=\()'
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - match: \b(active|valid|invalid)\b
+            scope: keyword.other.pseudo-class.css
+
+      # Functional Pseudo Classes with `An+B` param
+      # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
+      # nth-last-child(), nth-child(), nth-last-of-type(), nth-of-type()
+    - match: '(:)(nth-last-child|nth-child|nth-last-of-type|nth-of-type)(?=\()'
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - match: \b(even|odd)\b
+            scope: keyword.other.pseudo-class.css
+          - match: '(?:[-+]?(?:\d+)?(n)(\s*[-+]\s*\d+)?|[-+]?\s*\d+)'
+            scope: constant.numeric.css
+            captures:
+              1: keyword.other.unit.css
+
+      # Regular Pseudo Classes
+    - match: '(:)({{ident}})'
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
 
   builtin-functions:
     - include: attr-function
