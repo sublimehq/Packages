@@ -229,13 +229,15 @@ template<class typeId, int N> class tupleTmpl;
 /*                      ^ storage.type */
 /*                          ^ punctuation.definition.generic.end */
 
-template<typename First, typename... Rest> class tupleVariadic;
+template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /* <- storage.type.template */
 /*      ^ punctuation.definition.generic.begin */
 /*       ^ storage.type */
-/*                     ^ punctuation.separator */
-/*                               ^^^ punctuation.definition.variadic */
-/*                                       ^ punctuation.definition.generic.end */
+/*                         ^ punctuation.definition.generic.begin */
+/*                           ^ punctuation.definition.generic.end */
+/*                            ^ punctuation.separator */
+/*                                      ^^^ punctuation.definition.variadic */
+/*                                              ^ punctuation.definition.generic.end */
 
 template<typename Foo> inline struct Foo* baz()
 /*                     ^^^^^^ storage.modifier */

@@ -548,6 +548,7 @@ contexts:
         - include: types
         - include: modifiers-parens
         - include: modifiers
+        - include: angle-brackets
         - include: scope:source.c#types
         - match: ','
           scope: punctuation.separator.objc++
