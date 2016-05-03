@@ -13,7 +13,7 @@ contexts:
         1: storage.type.function.asp
       push:
         - meta_scope: meta.function.asp
-        - include: span_mulitple_lines
+        - include: span_multiple_lines
         - match: '[a-zA-Z_]\w*'
           scope: entity.name.function.asp
           set:
@@ -22,20 +22,29 @@ contexts:
             - match: '(?=[_(])'
               set:
                 - meta_content_scope: meta.function.asp
-                - include: span_mulitple_lines
-                - match: \(
-                  scope: punctuation.definition.parameters.asp
+                - include: span_multiple_lines
+                - match: '\((?=[^)_]*[)_])'
+                  scope: punctuation.definition.parameters.begin.asp
                   set:
                     - meta_content_scope: meta.function.asp
-                    - include: span_mulitple_lines
+                    - include: span_multiple_lines
                     - match: \)
-                      scope: punctuation.definition.parameters.asp
+                      scope: punctuation.definition.parameters.end.asp
                       set:
-                        - include: span_mulitple_lines
+                        - include: span_multiple_lines
                         - match: '\S+'
                           scope: invalid.illegal.unexpected-token-after-method-declaration.asp
                         - match: '$'
                           pop: true
+                    - match: .
+                      scope: variable.parameter.function.asp
+                - match: \(
+                  scope: punctuation.definition.parameters.begin.asp
+                  set:
+                    - meta_content_scope: meta.function.asp
+                    - include: comments
+                    - match: $
+                      pop: true
                     - match: .
                       scope: variable.parameter.function.asp
             - include: comments
@@ -81,7 +90,7 @@ contexts:
       scope: support.function.asp
     - match: (?i:\b(Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart|Class_Initialize|Class_Terminate)\b)
       scope: support.function.event.asp
-    - match: (?i:\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|Timer|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b)
+    - match: (?i:\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|IIf|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|Timer|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b)
       scope: support.function.vb.asp
     - match: (?i:\b(vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewline|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b)
       scope: support.type.vb.asp
@@ -93,7 +102,7 @@ contexts:
         - meta_scope: comment.line.apostrophe.asp
         - match: $\n?
           pop: true
-    - match: \bREM\b
+    - match: \b(?i:REM)\b
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.rem.asp
@@ -110,6 +119,6 @@ contexts:
         - match: '$'
           pop: true
   
-  span_mulitple_lines:
+  span_multiple_lines:
     - include: comments
     - include: line_continuation_char
