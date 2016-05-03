@@ -385,15 +385,19 @@
 /*                 ^   punctuation.separator.css      */
 /*                   ^ constant.numeric.css           */
 
-    top: translate3d(1, 2px);
-/*       ^^^^^^^^^^^        support.function.transform.css */
-/*                   ^      constant.numeric.css           */
-/*                    ^     punctuation.separator.css      */
-/*                      ^^^ constant.numeric.css           */
+    top: translate3d(1, 2px, 3%);
+/*       ^^^^^^^^^^^            support.function.transform.css */
+/*                   ^          constant.numeric.css           */
+/*                    ^         punctuation.separator.css      */
+/*                      ^^^     constant.numeric.css           */
+/*                           ^^ constant.numeric.css           */
 
     top: translateY(2px);
 /*       ^^^^^^^^^^     support.function.transform.css */
 /*                  ^^^ constant.numeric.css           */
+
+    top: translateX(1%);
+/*                  ^^ constant.numeric.css */
 
     top: skewY(1deg);
 /*       ^^^^^      support.function.transform.css */
