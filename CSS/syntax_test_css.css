@@ -163,15 +163,46 @@
 /*          ^^^^^^^^^^ keyword.other.important.css */
 }
 
-.test-pseudo-classes:nth-child(2n):hover {}
-/*                   ^^^^^^^^^           entity.other.attribute-name.pseudo-class.css */
-/*                                 ^^^^^ entity.other.attribute-name.pseudo-class.css */
+/* Test Functional Pseudo Class Meta Scopes */
+.test:nth-child(even) {}
+/*   ^^^^^^^^^^^^^^^^ meta.function-call.css                 */
+/*             ^^^^^^ meta.group.css                         */
+/*             ^      punctuation.definition.group.begin.css */
+/*                  ^ punctuation.definition.group.end.css   */
+
+.test-pseudo-classes:nth-child(2):hover {}
+/*                   ^^^^^^^^^          entity.other.pseudo-class.css     */
+/*                             ^        constant.numeric.css              */
+/*                               ^      punctuation.definition.entity.css */
+/*                                ^^^^^ entity.other.pseudo-class.css     */
+
+.test-pseudo-class-numerics:nth-last-of-type(-n+3) {}
+/*                         ^^^^^^^^^^^^^^^^^      entity.other.pseudo-class.css */
+/*                                           ^^^^ constant.numeric.css          */
+
+.test-pseudo-class-keywords:nth-of-type(odd) {}
+/*                         ^^^^^^^^^^^^     entity.other.pseudo-class.css  */
+/*                                      ^^^ keyword.other.pseudo-class.css */
+
+.test-pseudo-class-strings:dir(ltr) {}
+/*                        ^^^^     entity.other.pseudo-class.css */
+/*                             ^^^ string.unquoted.css           */
+
+.test-pseudo-class-tag:not(*) {}
+/*                    ^^^^   entity.other.pseudo-class.css */
+/*                         ^ entity.name.tag.wildcard.css  */
 
 .test-pseudo-elements::before {}
-/*                     ^^^^^^ entity.other.attribute-name.pseudo-element.css */
+/*                   ^^       punctuation.definition.entity.css */
+/*                   ^^^^^^^^ entity.other.pseudo-element.css   */
 
 .test-pseudo-elements:after {}
-/*                    ^^^^^ entity.other.attribute-name.pseudo-element.css */
+/*                   ^      punctuation.definition.entity.css */
+/*                   ^^^^^^ entity.other.pseudo-element.css   */
+
+.test-pseudo-elements::-webkit-slider-runnable-track
+/*                   ^^ punctuation.definition.entity.css                            */
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-element.css */
 
 .test-unicode { top: "\2764 \273e"; }
 /*                    ^^^^^       constant.character.escape.css */
