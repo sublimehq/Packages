@@ -30,14 +30,14 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                                                                                                  ^^^^^^ meta.function.return-type
 #                   ^ - meta.function meta.function.parameters
-#                    ^^^^^^ variable.parameter.function
+#                    ^^^^^^ variable.parameter
 #                          ^ punctuation.separator.annotation
 #                            ^^^ support.type
 #                               ^ punctuation.separator.parameters
-#                                 ^^^^^^ variable.parameter.function
+#                                 ^^^^^^ variable.parameter
 #                                       ^ punctuation.separator.annotation
 #                                               ^ punctuation.separator.parameters
-#                                                 ^^^^^^ variable.parameter.function
+#                                                 ^^^^^^ variable.parameter
 #                                                       ^ punctuation.separator.annotation
 #                                                         ^^^^^^^^^ meta.function-call
 #                                                            ^ punctuation.definition.arguments.begin
@@ -45,7 +45,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                ^ constant.numeric
 #                                                                 ^ punctuation.definition.arguments.end
 #                                                                  ^ punctuation.separator.parameters
-#                                                                    ^^^^^^ variable.parameter.function
+#                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
 #                                                                            ^^^^^^^^ string.quoted.double
 #                                                                                     ^ keyword.operator.assignment
