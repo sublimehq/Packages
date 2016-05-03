@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>text.tex.latex</string>
+	<string>text.tex.latex, text.bibtex</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
