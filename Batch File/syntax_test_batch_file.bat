@@ -28,21 +28,36 @@
 ::      ^^^^^   string.quoted.double.dosbatch
 ::          ^   punctuation.definition.string.end.dosbatch
 
+   @ECHO OFF
+:: ^ keyword.operator.at.dosbatch
+
+   @
+:: ^ - keyword.operator.at.dosbatch
+
    GOTO:EOF
 :: ^^^^ keyword.control.statement.dosbatch
 
 :: Redirection
    ECHO Hello World! > hello.txt
 :: ^^^^                keyword.command.dosbatch
-::                   ^ keyword.operator.redirect.shell
+::                   ^ keyword.operator.redirection.dosbatch
 
    ECHO >> NUL
-::      ^^     keyword.operator.redirect.shell
+::      ^^     keyword.operator.redirection.dosbatch
+
+   dir > f.txt 2>&1
+::     ^ keyword.operator.redirection.dosbatch
+::              ^^ keyword.operator.redirection.dosbatch
+
+   ECHO || ECHO && ECHO &
+::      ^^ keyword.operator.conditional.dosbatch
+::              ^^ keyword.operator.conditional.dosbatch
+::                      ^ keyword.operator.conditional.dosbatch
 
 :: Conditionals
    IF foo EQU bar
 :: ^^         keyword.control.conditional.dosbatch
-::        ^^^ keyword.operator.dosbatch
+::        ^^^ keyword.operator.comparison.dosbatch
 
    FOR %%G IN (a,b) DO (md %%G)
 :: ^^^                 keyword.control.repeat.dosbatch
