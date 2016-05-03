@@ -1,11 +1,32 @@
 :: SYNTAX TEST "Packages/Batch File/Batch File.sublime-syntax"
 
-   REM I'm a comment
-:: ^^^               keyword.command.rem.dosbatch
-::     ^^^^^^^^^^^^^ comment.line.rem.dosbatch
+   REM I'm a (com|ment)
+:: ^^^                  keyword.command.rem.dosbatch
+::     ^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::           ^          invalid.illegal.unexpected-character.dosbatch
+::               ^      invalid.illegal.unexpected-character.dosbatch
+::                    ^ invalid.illegal.unexpected-character.dosbatch
 
    :: Me too!
-:: ^^^^^^^^^^ comment.line.colons.dosbatch
+:: ^^         punctuation.definition.comment.dosbatch
+:: ^^^^^^^^^^ comment.line.colon.dosbatch
+
+   :+ Me too!
+:: ^^         punctuation.definition.comment.dosbatch
+
+   := Me too!
+:: ^^         punctuation.definition.comment.dosbatch
+
+   :, Me too!
+:: ^^         punctuation.definition.comment.dosbatch
+
+   :; Me too!
+:: ^^         punctuation.definition.comment.dosbatch
+
+   ECHO "foo"
+::      ^       punctuation.definition.string.begin.dosbatch
+::      ^^^^^   string.quoted.double.dosbatch
+::          ^   punctuation.definition.string.end.dosbatch
 
    GOTO:EOF
 :: ^^^^ keyword.control.statement.dosbatch
@@ -25,11 +46,6 @@
 
    FOR %%G IN (a,b) DO (md %%G)
 :: ^^^                 keyword.control.repeat.dosbatch
-
-   FIND "foo"
-::      ^       punctuation.definition.string.begin.shell
-::      ^^^^^   string.quoted.double.dosbatch
-::          ^   punctuation.definition.string.end.shell
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
