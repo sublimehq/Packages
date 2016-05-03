@@ -1,0 +1,13 @@
+<snippet>
+    <content><![CDATA[
+for(auto ${2:i} = ${1}.begin(); ${2:i} != ${1}.end(); ${2:i}++)
+{
+    ${3}
+}
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>fora</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c, source.objc, source.c++, source.objc++</scope>
+    <description>For loop for containers</description>
+</snippet>
