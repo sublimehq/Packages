@@ -8,6 +8,8 @@ file_extensions:
 scope: source.dosbatch
 contexts:
   main:
+    - include: comments
+    - include: strings
     - match: \b(?i)(?:append|assoc|at|attrib|break|cacls|cd|chcp|chdir|chkdsk|chkntfs|cls|cmd|color|comp|compact|convert|copy|date|del|dir|diskcomp|diskcopy|doskey|echo|endlocal|erase|fc|find|findstr|format|ftype|graftabl|help|keyb|label|md|mkdir|mode|more|move|path|pause|popd|print|prompt|pushd|rd|recover|ren|rename|replace|restore|rmdir|set|setlocal|shift|sort|start|subst|time|title|tree|type|ver|verify|vol|xcopy)\b
       scope: keyword.command.dosbatch
     - match: \b(?i)(?:goto|call|exit)\b
@@ -20,22 +22,37 @@ contexts:
       scope: keyword.control.repeat.dosbatch
     - match: \b(?:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b
       scope: keyword.operator.dosbatch
-    - match: (?:^|\s)((?i)rem)(?:$|\s.*$)
-      scope: comment.line.rem.dosbatch
-      captures:
-        1: keyword.command.rem.dosbatch
-    - match: \s*:\s*:.*$
-      scope: comment.line.colons.dosbatch
-    - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: string.quoted.double.dosbatch
-        - match: '"'
-          captures:
-            0: punctuation.definition.string.end.shell
-          pop: true
     - match: "[|]"
       scope: keyword.operator.pipe.dosbatch
     - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
       scope: keyword.operator.redirect.shell
+
+  comments:
+    - match: '(:[+=,;:])'
+      scope: punctuation.definition.comment.dosbatch
+      push:
+        - meta_scope: comment.line.colon.dosbatch
+        - match: \n
+          pop: true
+      # REM command
+      # https://technet.microsoft.com/en-us/library/bb490986.aspx
+    - match: \b((?i)rem)\s+
+      captures:
+        1: keyword.command.rem.dosbatch
+      push:
+        - meta_content_scope: comment.line.rem.dosbatch
+        - match: \n
+          pop: true
+        - match: '[(|)]'
+          scope: invalid.illegal.unexpected-character.dosbatch
+
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.dosbatch
+      push:
+        - meta_scope: string.quoted.double.dosbatch
+        - match: (")|(\n)
+          captures:
+            1: punctuation.definition.string.end.dosbatch
+            2: invalid.illegal.newline.dosbatch
+          pop: true
