@@ -655,61 +655,7 @@ contexts:
           scope: punctuation.separator.combinator.css
         - match: '({{combinators}}){2,}'
           scope: invalid.illegal.combinator.css
-        - match: |-
-            (?x)(:{1,2})
-            (?:after|before|first-letter|first-line|placeholder|selection|
-
-              (-moz-)(?:
-                button-content|color-swatch|
-                focus-(?:inner|outer)|
-                list-(?:bullet|number)|
-                meter-(?:bar|optimum|sub-optimum|sub-sub-optimum)|
-                number-(?:spin-(?:box|down|up))|
-                page(?:-sequence)?|
-                placeholder|progress-bar|
-                range-(?:progress|thumb|track)|
-                scrolled-page-sequence|selection|
-                tree-(?:cell-text|cell|checkbox|column|drop-feedback|image|
-                  indentation|line|progressmeter|row|separator|twisty)
-              )|
-
-              (-ms-)(?:
-                browse|check|clear|expand|fill(?:-lower|-upper)?|
-                input-placeholder|reveal|thumb|ticks-(?:after|before)|tooltip|
-                track|value
-              )|
-
-              (-webkit-)(?:
-                appearance|autofill|calendar-picker-indicator|clear-button|
-                color-swatch(?:-wrapper)?|
-                datetime-edit(?:-(?:ampm-field|day-field|fields-wrapper|
-                  hour-field|millisecond-field|minute-field|month-field|
-                  second-field|text|week-field|year-field))?|
-                details-marker|file-upload-button|
-                (?:inner|outer)-spin-button|
-                input-(?:list-button|placeholder|speech-button)|
-                keygen-select|
-                media-controls(?:-(?:current-time-display|enclosure|
-                  fullscreen-button|mute-button|overlay-enclosure|panel|
-                  play-button|time-remaining-display|timeline|
-                  toggle-closed-captions-button|volume-slider))?|
-                meter-(?:bar|even-less-good-value|inner-element|optimum-value|
-                  suboptimal-value|suboptimum-value)|
-                progress-(?:bar-value|bar|inner-element|value)|
-                resizer|
-                scrollbar(?:-(?:button|corner|thumb|track-piece|track))?|
-                search-(?:cancel-button|decoration|results-button|results-decoration)|
-                slider-(?:container|runnable-track|thumb)|
-                textfield-decoration-container
-              )
-            )
-            \b
-          scope: entity.other.attribute-name.pseudo-element.css
-          captures:
-            1: punctuation.definition.entity.css
-            2: support.type.vendor-prefix.css
-            3: support.type.vendor-prefix.css
-            4: support.type.vendor-prefix.css
+        - include: pseudo-elements
         - include: pseudo-classes # pseudo-classes must be included after pseudo-elements
         # Attribute Selectors
         # https://drafts.csswg.org/selectors-4/#attribute-selectors
@@ -735,6 +681,20 @@ contexts:
             - match: '\]'
               scope: punctuation.definition.entity.css
               pop: true
+
+  # Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
+  pseudo-elements:
+    - match: |-
+        (?x:
+            (:{1,2})(?:before|after|first-line|first-letter) # CSS1 & CSS2 require : or ::
+          | (::)(-(?:moz|ms|webkit)-)?(?:{{ident}}) # CSS3 requires ::
+        )\b
+      scope: entity.other.pseudo-element.css
+      captures:
+        1: punctuation.definition.entity.css
+        2: punctuation.definition.entity.css
+        3: support.type.vendor-prefix.css
 
   # Pseudo Classes
   # https://drafts.csswg.org/selectors-4/#pseudo-classes

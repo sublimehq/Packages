@@ -193,10 +193,16 @@
 /*                         ^ entity.name.tag.wildcard.css  */
 
 .test-pseudo-elements::before {}
-/*                     ^^^^^^ entity.other.attribute-name.pseudo-element.css */
+/*                   ^^       punctuation.definition.entity.css */
+/*                   ^^^^^^^^ entity.other.pseudo-element.css   */
 
 .test-pseudo-elements:after {}
-/*                    ^^^^^ entity.other.attribute-name.pseudo-element.css */
+/*                   ^      punctuation.definition.entity.css */
+/*                   ^^^^^^ entity.other.pseudo-element.css   */
+
+.test-pseudo-elements::-webkit-slider-runnable-track
+/*                   ^^ punctuation.definition.entity.css                            */
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-element.css */
 
 .test-unicode { top: "\2764 \273e"; }
 /*                    ^^^^^       constant.character.escape.css */
