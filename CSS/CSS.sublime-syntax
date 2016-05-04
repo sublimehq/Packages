@@ -395,7 +395,7 @@ contexts:
               | ideograph(-alpha|-numeric|-parenthesis|-space|ic)
               | inactive|include-ruby|infinite|inherit|initial
               | inline(-block|-box|-flex(box)?|-line-height|-table)?
-              | inside
+              | inset|inside
               | inter(-ideograph|-word|sect)
               | invert|isolat(e|ion)|italic
               | jis(04|78|83|90)
@@ -923,6 +923,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: percentage-type
           - include: length-type
           - include: number-type
 
@@ -939,6 +940,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: percentage-type
           - include: length-type
           - include: number-type
 
