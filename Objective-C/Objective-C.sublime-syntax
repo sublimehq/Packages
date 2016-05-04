@@ -274,6 +274,8 @@ contexts:
     - include: modifiers
     - include: types
     - include: function-call
+    - match: ';'
+      scope: punctuation.terminator.objc
 
   comments:
     - include: scope:source.c#comments
@@ -408,7 +410,7 @@ contexts:
               scope: punctuation.definition.block.end.objc
               pop: true
             - include: statements
-        - match: '(?=#|@end)|;'
+        - match: '(?=#|@end|;)'
           pop: true
         - match: '\('
           scope: meta.return-type.objc punctuation.definition.type.objc
@@ -605,7 +607,7 @@ contexts:
   function-definition-continue:
     - meta_content_scope: meta.function.objc
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: \b(const|final|noexcept|override)\b
       scope: storage.modifier.objc
@@ -785,7 +787,7 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.objc
       push:
-        - match: ({{identifier}})?\s*;
+        - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.objc
           pop: true

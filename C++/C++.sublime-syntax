@@ -249,6 +249,8 @@ contexts:
     - include: late-expressions-before-function-call
     - include: function-call
     - include: identifiers
+    - match: ';'
+      scope: punctuation.terminator.c++
 
   late-expressions-before-function-call:
     - include: unique-late-expressions
@@ -260,6 +262,8 @@ contexts:
     - include: early-expressions
     - include: late-expressions-before-function-call
     - include: identifiers
+    - match: ';'
+      scope: punctuation.terminator.c++
 
   comments:
     - include: scope:source.c#comments
@@ -439,7 +443,7 @@ contexts:
             - include: comments
             - match: '='
               scope: keyword.operator.alias.c++
-            - match: ';'
+            - match: '(?=;)'
               pop: true
             - match: '\}'
               scope: meta.block.c++ punctuation.definition.block.end.c++
@@ -598,7 +602,7 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.c++
       push:
-        - match: ({{identifier}})?\s*;
+        - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.c++
           pop: true
@@ -820,7 +824,7 @@ contexts:
   function-definition-continue:
     - meta_content_scope: meta.function.c++
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '->'
       scope: punctuation.separator.c++
@@ -841,7 +845,7 @@ contexts:
 
   function-definition-trailing-return:
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '(?=\{)'
       set: function-definition-body
@@ -1216,7 +1220,7 @@ contexts:
   method-definition-continue:
     - meta_content_scope: meta.method.c++
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '->'
       scope: punctuation.separator.c++
@@ -1256,7 +1260,7 @@ contexts:
 
   method-definition-trailing-return:
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '(?=\{)'
       set: method-definition-body

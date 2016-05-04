@@ -303,6 +303,8 @@ contexts:
     - include: modifiers
     - include: types
     - include: function-call
+    - match: ';'
+      scope: punctuation.terminator.c
 
   ## C-specific contexts
 
@@ -400,7 +402,7 @@ contexts:
   function-definition-continue:
     - meta_content_scope: meta.function.c
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: \b(const|final|noexcept|override)\b
       scope: storage.modifier.c
@@ -608,7 +610,7 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.c
       push:
-        - match: ({{identifier}})?\s*;
+        - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.c
           pop: true

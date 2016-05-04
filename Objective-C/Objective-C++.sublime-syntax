@@ -126,6 +126,8 @@ contexts:
     - include: late-expressions-before-function-call
     - include: function-call
     - include: scope:source.c++#identifiers
+    - match: ';'
+      scope: punctuation.terminator.objc++
 
   late-expressions-before-function-call:
     - include: scope:source.c++#unique-late-expressions
@@ -137,6 +139,8 @@ contexts:
     - include: early-expressions
     - include: late-expressions-before-function-call
     - include: scope:source.c++#identifiers
+    - match: ';'
+      scope: punctuation.terminator.objc++
 
   comments:
     - include: scope:source.c#comments
@@ -278,7 +282,7 @@ contexts:
               scope: punctuation.definition.block.end.objc++
               pop: true
             - include: statements
-        - match: '(?=#|@end)|;'
+        - match: '(?=#|@end|;)'
           pop: true
         - match: '\('
           scope: meta.return-type.objc++ punctuation.definition.type.objc++
@@ -522,7 +526,7 @@ contexts:
             - include: comments
             - match: '='
               scope: keyword.operator.alias.objc++
-            - match: ';'
+            - match: '(?=;)'
               pop: true
             - match: '\}'
               scope: meta.block.objc++ punctuation.definition.block.end.objc++
@@ -682,7 +686,7 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.objc++
       push:
-        - match: ({{identifier}})?\s*;
+        - match: ({{identifier}})?\s*(?=;)
           captures:
             1: entity.name.type.typedef.objc++
           pop: true
@@ -904,7 +908,7 @@ contexts:
   function-definition-continue:
     - meta_content_scope: meta.function.objc++
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '->'
       scope: punctuation.separator.objc++
@@ -925,7 +929,7 @@ contexts:
 
   function-definition-trailing-return:
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '(?=\{)'
       set: function-definition-body
@@ -1301,7 +1305,7 @@ contexts:
   method-definition-continue:
     - meta_content_scope: meta.method.objc++
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '->'
       scope: punctuation.separator.objc++
@@ -1341,7 +1345,7 @@ contexts:
 
   method-definition-trailing-return:
     - include: comments
-    - match: ';'
+    - match: '(?=;)'
       pop: true
     - match: '(?=\{)'
       set: method-definition-body
