@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -31,14 +30,15 @@
 		</array>
 		<key>increaseIndentPattern</key>
 		<string>(?x)^\s*
-    \b(
-       function
-       |if|else|elseif
-       |switch|case|otherwise
-       |for|while
-	  |try|catch
-       |unwind_protect
-	)\b</string>
+		\b(
+		function
+		|if|else|elseif
+		|switch|case|otherwise
+		|for|while
+		|try|catch
+		|unwind_protect
+		)\b
+		</string>
 		<key>smartTypingPairs</key>
 		<array>
 			<array>
@@ -63,7 +63,5 @@
 			</array>
 		</array>
 	</dict>
-	<key>uuid</key>
-	<string>2CD1353B-AEC7-4BBF-8061-6038D1E93FA8</string>
 </dict>
 </plist>

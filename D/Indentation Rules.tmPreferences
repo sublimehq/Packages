@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -18,9 +17,6 @@
 		^ \s* \b(if|while|else|foreach)\b [^;]* $
 		| ^ \s* \b(for)\b .* $
 		</string>
-
 	</dict>
-	<key>uuid</key>
-	<string>7C8F9C84-7DCC-4DD7-B32E-A638F322199F</string>
 </dict>
 </plist>

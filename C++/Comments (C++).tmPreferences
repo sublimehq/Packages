@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -33,10 +32,8 @@
 				<string>TM_COMMENT_DISABLE_INDENT_2</string>
 				<key>value</key>
 				<string>yes</string>
-			</dict>		
+			</dict>
 		</array>
 	</dict>
-	<key>uuid</key>
-	<string>38DBCCE5-2005-410C-B7D7-013097751AC8</string>
 </dict>
 </plist>

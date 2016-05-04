@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -14,9 +13,7 @@
 		<string>
 		s/\s{2,}/ /g;
 		s/.*/    #$0/g;
-	</string>
+		</string>
 	</dict>
-	<key>uuid</key>
-	<string>35D74E44-87D7-4094-9B29-1D69761B837B</string>
 </dict>
 </plist>

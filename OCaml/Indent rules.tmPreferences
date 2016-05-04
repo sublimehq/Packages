@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -15,7 +14,5 @@
 		<key>indentNextLinePattern</key>
 		<string>(?!\bif.*then.*(else.*|(;|[ \t]in)[ \t]*$))\bif|\bthen[ \t]*$|\belse[ \t]*$$</string>
 	</dict>
-	<key>uuid</key>
-	<string>AD257FE4-8F09-4FE6-A0C3-CD5E15F75C5D</string>
 </dict>
 </plist>

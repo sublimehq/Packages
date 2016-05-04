@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>name</key>
@@ -11,12 +10,12 @@
 		<key>decreaseIndentPattern</key>
 		<string>(?x)
 		^ (.*\*/)? \s* \} ( [^}{"']* \{ | \s* while \s* \( .* )? [;\s]* (//.*|/\*.*\*/\s*)? $
-	</string>
+		</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
 		^ .* \{ [^}"']* $
-	|   ^ \s* \{ \} $
-	</string>
+		|   ^ \s* \{ \} $
+		</string>
 		<key>indentNextLinePattern</key>
 		<string>(?x)^
 		(?! .* [;:{}]                   # do not indent when line ends with ;, :, {, or }
@@ -24,11 +23,9 @@
 		)
 		.* [^\s;:{}] \s* $              # indent next if this one isn’t
 										#  terminated with ;, :, {, or }
-	</string>
+		</string>
 		<key>unIndentedLinePattern</key>
 		<string>^\s*((/\*|\*/|//|#).*)?$</string>
 	</dict>
-	<key>uuid</key>
-	<string>CF977095-ACE3-46DB-A20E-58AEA6167017</string>
 </dict>
 </plist>
