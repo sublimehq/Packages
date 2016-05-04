@@ -1,0 +1,44 @@
+## SYNTAX TEST "Packages/User/scalaSublimeSyntax/sublime-syntax".sublime-syntax"
+%YAML 1.2
+---
+name: foo
+scope: source.foo
+
+variables:
+
+    x0: (?<element> \g<stag> \g<content>* \g<etag> ){0}
+##      ^ punctuation.definition
+##       ^ support.function
+##           ^ entity.name.variable
+##                  ^ support.function
+##                           ^ support.function
+##                                      ^ keyword.operator
+    x1: (?<stag> < \g<name> \s* > ){0}
+##                          ^ constant.language
+    x2: (?<name> [a-zA-Z_:]+ ){0}
+##                    ^ keyword.operator
+##                         ^ keyword.operator
+    x3: (?<content> [^<&]+ (\g<element> | [^<&]+)* ){0}
+    x4: (?'etag' </ \k<name+1> > ){0}
+##       ^ support.function
+##           ^ entity.name.variable
+##                   ^ support.function
+    x5: \g<element> \g<1> \g'-1'
+    x6: (?:()|())*\1\2
+    x7: [a-w&&[^c-g]z] [abh-w d-]
+    x8: (?i-x) (?-m:dsda)
+    x9: \t\n\f\v\b\a\e
+    x10: 2\x{712fe672}3\x34\1235
+    x11: \M-2a\C-23b\M-\C-23c\c21d [\c21\w23]{,3} {2,}?
+    x12: \A(?<a>|.|(?:(?<b>.)\g<a>\k<b+0>))\z
+    x13: \p{Katakana}\p{Kana}(?#<- this is supposed to not be highlighted)[[:^alnum:]\p{Alnum}]
+##                             ^ comment
+##                                 ^ comment
+
+contexts:
+
+  main:
+    - match: '([eE]-?\d+)'
+##                 ^ -keyword.operator
+      scope: bug.fix.1
+      comment: https://github.com/sublimehq/Packages/pull/95#issuecomment-216036011

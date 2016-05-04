@@ -163,7 +163,7 @@ contexts:
         - include: comments
         - match: '^(\s*)(\d+)\s*(:)'
           captures:
-            2: support.variable
+            2: constant.numeric
             3: punctuation.separator.key-value
           push: scopes_
         - match: '^(?!^\1)|^(?=\1(-|\w+\s*:)|#)'
@@ -438,14 +438,14 @@ contexts:
       captures:
         1: punctuation.definition.arguments.begin.syntax
         2: keyword.operator.syntax
-        3: variable.other.variables
+        3: variable.other.syntax
         4: punctuation.definition.arguments.end.syntax
     - match: '(\\(?:p|P))(\{)(\^?)([a-zA-Z_0-9]*)(\})'
       captures:
         1: support.function.syntax
         2: punctuation.definition.arguments.begin.syntax
         3: keyword.operator.syntax
-        4: variable.other.variables
+        4: variable.other.syntax
         5: punctuation.definition.arguments.end.syntax
     - match: '{{escaped_char}}'
       scope: constant.character.syntax
@@ -454,7 +454,7 @@ contexts:
     - match: '(\{\{)([a-zA-Z_0-9]*)(\}\})'
       captures:
         1: punctuation.definition.arguments.begin.syntax
-        2: variable.other.variables
+        2: variable.parameter.syntax
         3: punctuation.definition.arguments.end.syntax
 
   character_class:
