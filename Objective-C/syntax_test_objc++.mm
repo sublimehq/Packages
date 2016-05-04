@@ -1384,6 +1384,11 @@ void sayHi()
 /*        ^ punctuation.definition.generic.begin */
 /*            ^ punctuation.definition.generic.end */
 /*             ^^ meta.group */
+
+    int a[5];
+/*       ^^^ meta.brackets */
+/*       ^ punctuation.definition.brackets.begin */
+/*         ^ punctuation.definition.brackets.end */
 }
 
 /////////////////////////////////////////////

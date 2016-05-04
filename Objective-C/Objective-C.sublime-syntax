@@ -267,6 +267,7 @@ contexts:
     - match: '\)|\}'
       scope: invalid.illegal.stray-bracket-end.objc
     - include: bracketed-content
+    - include: brackets
 
   late-expressions:
     - include: modifiers-parens
@@ -313,7 +314,7 @@ contexts:
   ## Objective-C-specific contexts
 
   bracketed-content:
-    - match: '(\[)\s*'
+    - match: '(\[)\s*(?={{identifier}}\s+[^\s,])'
       captures:
         1: punctuation.section.scope.begin.objc
       push:
@@ -732,6 +733,16 @@ contexts:
         - meta_scope: meta.group.objc
         - match: \)
           scope: punctuation.definition.group.end.objc
+          pop: true
+        - include: expressions
+
+  brackets:
+    - match: \[
+      scope: punctuation.definition.brackets.begin.objc
+      push:
+        - meta_scope: meta.brackets.objc
+        - match: \]
+          scope: punctuation.definition.brackets.end.objc
           pop: true
         - include: expressions
 

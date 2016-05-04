@@ -334,7 +334,10 @@ funcname2
 /* ^ entity.name.function */
 ()
 {
-
+    int a[5];
+/*       ^^^ meta.brackets */
+/*       ^ punctuation.definition.brackets.begin */
+/*         ^ punctuation.definition.brackets.end */
 }
 
 MACRO_CALL(int) macro_prefixed_func(){}

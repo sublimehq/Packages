@@ -230,6 +230,7 @@ contexts:
     - include: operators
     - include: strings
     - include: parens
+    - include: brackets
     - include: block
     - include: variables
     - include: constants
@@ -613,6 +614,16 @@ contexts:
         - meta_scope: meta.group.c++
         - match: \)
           scope: punctuation.definition.group.end.c++
+          pop: true
+        - include: expressions
+
+  brackets:
+    - match: \[
+      scope: punctuation.definition.brackets.begin.c++
+      push:
+        - meta_scope: meta.brackets.c++
+        - match: \]
+          scope: punctuation.definition.brackets.end.c++
           pop: true
         - include: expressions
 
