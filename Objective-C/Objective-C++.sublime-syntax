@@ -812,7 +812,7 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
-    - match: '{{type_qualifier}}'
+    - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
       pop: true
@@ -1199,7 +1199,7 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
-    - match: '{{type_qualifier}}'
+    - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
       pop: true
