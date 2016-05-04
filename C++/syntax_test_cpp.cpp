@@ -859,6 +859,7 @@ private:
 
     virtual void doSomething() const = 0;
     /*           ^^^^^^^^^^^^^^^^^^^^^^^ meta.method */
+    /*           ^ - meta.method meta.method */
     /*                      ^^ meta.method.parameters meta.group */
     /*                      ^ punctuation.definition.group.begin */
     /*                       ^ punctuation.definition.group.end */

@@ -1173,7 +1173,7 @@ contexts:
       pop: true
 
   data-structures-function-identifier:
-    - meta_content_scope: meta.method.c++ entity.name.function.c++
+    - meta_content_scope: entity.name.function.c++
     - include: identifiers
     - match: ''
       pop: true

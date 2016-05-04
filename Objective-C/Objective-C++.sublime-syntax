@@ -1258,7 +1258,7 @@ contexts:
       pop: true
 
   data-structures-function-identifier:
-    - meta_content_scope: meta.method.objc++ entity.name.function.objc++
+    - meta_content_scope: entity.name.function.objc++
     - include: scope:source.c++#identifiers
     - match: ''
       pop: true
