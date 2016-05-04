@@ -245,6 +245,23 @@ template<typename Foo> inline struct Foo* baz()
 /*                                        ^^^ meta.function entity.name.function */
 {}
 
+template<typename A, typename B>
+void classname<A, B>::methodName() {
+/*   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*            ^ punctuation.definition.generic.begin */
+/*                 ^ punctuation.definition.generic.end */
+/*                  ^^ punctuation.accessor */
+/*                    ^^^^^^^^^^ entity.name.function */
+}
+
+template<typename C>
+void funcName<C>() {
+/*   ^^^^^^^^^^^^^^^ meta.function */
+/*   ^^^^^^^^ entity.name.function */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
+}
+
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
 /*                   ^ punctuation.definition.generic.begin */
@@ -862,6 +879,19 @@ private:
 /*       ^^^^ entity.name.function */
 
     template<typename A>
+    void func<A>(){}
+/*       ^^^^^^^^^^^ meta.method */
+/*       ^^^^ entity.name.function */
+/*           ^ punctuation.definition.generic.begin */
+/*             ^ punctuation.definition.generic.end */
+/*              ^^ meta.method.parameters meta.group */
+/*              ^ punctuation.definition.group.begin */
+/*               ^ punctuation.definition.group.end */
+/*                ^^ meta.block */
+/*                ^ punctuation.definition.block.begin */
+/*                 ^ punctuation.definition.block.end */
+
+    template<typename A>
     BaseClass(){}
 /*  ^^^^^^^^^^^^^ meta.method */
 /*  ^^^^^^^^^ meta.method.constructor */
@@ -1346,6 +1376,13 @@ void sayHi()
 /*      ^^^^^^^^^^ variable.function */
 /*      ^^ punctuation.accessor */
 /*           ^^ punctuation.accessor */
+
+    foobaz<int>();
+/*  ^^^^^^^^^^^^^ meta.function-call */
+/*  ^^^^^^ variable.function */
+/*        ^ punctuation.definition.generic.begin */
+/*            ^ punctuation.definition.generic.end */
+/*             ^^ meta.group */
 }
 
 /////////////////////////////////////////////
