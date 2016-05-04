@@ -245,11 +245,12 @@ template<typename Foo> inline struct Foo* baz()
 /*                                        ^^^ meta.function entity.name.function */
 {}
 
-typedef std::vector<std::vector<int> > Table;
-/*                 ^ punctuation.definition.generic.begin */
-/*                             ^ punctuation.definition.generic.begin */
-/*                                 ^ punctuation.definition.generic.end */
+typedef std :: vector<std::vector<int> > Table;
+/*          ^^ punctuation.accessor */
+/*                   ^ punctuation.definition.generic.begin */
+/*                               ^ punctuation.definition.generic.begin */
 /*                                   ^ punctuation.definition.generic.end */
+/*                                     ^ punctuation.definition.generic.end */
 
 /////////////////////////////////////////////
 // Storage Modifiers
@@ -325,8 +326,10 @@ goto label;
 try
 /* <- keyword.control */
 {
-    throw std::string("xyz");
+    throw std :: string("xyz");
     /* <- keyword.control */
+    /*    ^^^^^^^^^^^^^ variable.function */
+    /*        ^^ punctuation.accessor */
 }
 catch (...)
 /* <- keyword.control */
@@ -403,8 +406,9 @@ std::cout << __FILE__ << '\n';
 /*           ^ support.constant */
 /* ^^ punctuation.accessor */
 
-std::cout << __FUNCTION__ << '\n';
-/*           ^ support.constant */
+std :: cout << __FUNCTION__ << '\n';
+/*  ^^ punctuation.accessor */
+/*             ^ support.constant */
 
 std::cout << __LINE__ << '\n';
 /*           ^ support.constant */
@@ -654,13 +658,14 @@ static const uint32_t * const MACRO funcname();
 /*                      ^ storage.modifier */
 /*                                  ^ entity.name.function */
 
-void FooBar::baz(int a)
-/*   ^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^ entity.name.function */
-/*              ^^^^^^^ meta.function.parameters meta.group */
-/*              ^ punctuation.definition.group.begin */
-/*                   ^ variable.parameter */
-/*                    ^ punctuation.definition.group.end */
+void FooBar :: baz(int a)
+/*   ^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*   ^^^^^^^^^^^^^ entity.name.function */
+/*          ^^ punctuation.accessor */
+/*                ^^^^^^^ meta.function.parameters meta.group */
+/*                ^ punctuation.definition.group.begin */
+/*                     ^ variable.parameter */
+/*                      ^ punctuation.definition.group.end */
 {
 
 }
@@ -675,16 +680,16 @@ FooBar::FooBar(int a)
 {
 }
 
-FooBar::FooBar(int a) & =
-/*^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^ entity.name.function */
-/*            ^^^^^^^ meta.function.parameters meta.group */
-/*            ^ punctuation.definition.group.begin */
-/*             ^^^ storage.type */
-/*                 ^ variable.parameter */
-/*                  ^ punctuation.definition.group.end */
-/*                    ^ keyword.operator */
-/*                      ^ keyword.operator.assignment */
+FooBar :: FooBar(int a) & =
+/*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*^^^^^^^^^^^^^^ entity.name.function */
+/*              ^^^^^^^ meta.function.parameters meta.group */
+/*              ^ punctuation.definition.group.begin */
+/*               ^^^ storage.type */
+/*                   ^ variable.parameter */
+/*                    ^ punctuation.definition.group.end */
+/*                      ^ keyword.operator */
+/*                        ^ keyword.operator.assignment */
 default;
 /*^^^^^ meta.function storage.modifier */
 
@@ -783,11 +788,20 @@ using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
 
-namespace abc /* Neither this comment... */
-/*            ^ comment.block */
+namespace ns :: abc /* Neither this comment... */
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace */
+/*        ^^^^^^^^^ entity.name.namespace */
+/*           ^^ punctuation.accessor */
+/*                  ^ comment.block */
 // ...nor this comment is highlighted
 /* <- comment.line */
-{}
+{
+/* <- meta.namespace meta.block punctuation.definition.block.begin */
+    void nsfunc() {
+        /* ^ entity.name.function */
+    }
+}
+/* <- meta.namespace meta.block punctuation.definition.block.end */
 
 /////////////////////////////////////////////
 // Classes, structs, unions and enums

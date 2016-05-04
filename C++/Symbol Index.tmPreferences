@@ -6,7 +6,7 @@
     <key>settings</key>
     <dict>
         <key>symbolIndexTransformation</key>
-        <string>/.*::([A-Za-z0-9_~]+)/$1/;</string>
+        <string>/.*::\s*([A-Za-z0-9_~]+)/$1/;</string>
     </dict>
 </dict>
 </plist>

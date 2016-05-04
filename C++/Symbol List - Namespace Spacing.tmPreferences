@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List</string>
+	<key>scope</key>
+	<string>(source.c++ | source.objc++) &amp; entity.name</string>
+	<key>settings</key>
+	<dict>
+		<key>symbolTransformation</key>
+		<string>s/\s*::\s*/::/;  # consistent spacing around ns separator</string>
+	</dict>
+</dict>
+</plist>

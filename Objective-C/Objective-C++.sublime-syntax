@@ -9,7 +9,7 @@ file_extensions:
 scope: source.objc++
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
-  path: '(?:::)?(?:{{identifier}}::)*{{identifier}}'
+  path_lookahead: '(::\s*)?(?:{{identifier}}\s*::\s*)*{{identifier}}'
   macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
   operator_method_name: '\boperator\s*(?:[-+*/%ˆ&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\])'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
@@ -26,8 +26,8 @@ variables:
   other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
-  generic_lookahead: '<\s*{{path}}(?:{{path}}|&(?!&)|\*|,|<.*?>|\s|\d)*>'
-  data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
+  generic_lookahead: '<\s*{{path_lookahead}}(?:{{path_lookahead}}|&(?!&)|\*|,|<.*?>|\s|\d)*>'
+  data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
 
 contexts:
   main:
@@ -45,7 +45,7 @@ contexts:
           set: global-modifier
     - include: namespace
     - include: keywords-angle-brackets
-    - match: '(?={{path}}\s*<)'
+    - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     - include: objc-structures
     - include: early-expressions
@@ -500,31 +500,40 @@ contexts:
         - include: expressions
 
   namespace:
-    - match: '\b(using)\s+(namespace)\s+({{path}})'
+    - match: '\b(using)\s+(namespace)\s+(?={{path_lookahead}})'
       captures:
         1: keyword.control.objc++
         2: keyword.control.objc++
-    - match: '\b(namespace)\s+({{path}})?(?!\s*(;|,))'
+      push:
+        - include: scope:source.c++#identifiers
+        - match: ''
+          pop: true
+    - match: '\b(namespace)\s+(?={{path_lookahead}}(?!\s*[;,]))'
+      scope: meta.namespace.objc++
       captures:
         1: keyword.control.objc++
-        2: entity.name.namespace.objc++
       push:
-        - meta_scope: meta.namespace-block.objc++
-        - include: comments
-        - match: =
-          scope: keyword.operator.alias.objc++
-        - match: ';'
-          pop: true
-        - match: '\}'
-          scope: punctuation.definition.block.end.objc++
-          pop: true
-        - match: '\{'
-          scope: punctuation.definition.block.begin.objc++
-          push:
-            - match: '(?=\})'
+        - meta_content_scope: meta.namespace.objc++ entity.name.namespace.objc++
+        - include: scope:source.c++#identifiers
+        - match: ''
+          set:
+            - meta_scope: meta.namespace.objc++
+            - include: comments
+            - match: '='
+              scope: keyword.operator.alias.objc++
+            - match: ';'
               pop: true
-            - include: preprocessor-global
-            - include: global
+            - match: '\}'
+              scope: meta.block.objc++ punctuation.definition.block.end.objc++
+              pop: true
+            - match: '\{'
+              scope: punctuation.definition.block.begin.objc++
+              push:
+                - meta_scope: meta.block.objc++
+                - match: '(?=\})'
+                  pop: true
+                - include: preprocessor-global
+                - include: global
 
   template:
     - match: \b(template)\b\s*(<)
@@ -569,15 +578,15 @@ contexts:
         - include: expressions
 
   generic-type:
-    - match: '(?=(?!template){{path}}\s*{{generic_lookahead}}\s*\()'
+    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
       push:
         - meta_scope: meta.function-call.objc++
-        - match: '(::)?{{identifier}}(::)'
+        - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
           scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
             2: punctuation.accessor.objc++
-        - match: '(::)?{{identifier}}'
+        - match: '(?:(::)\s*)?{{identifier}}'
           scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
@@ -591,7 +600,7 @@ contexts:
               scope: meta.group.objc++ punctuation.definition.group.end.objc++
               pop: true
             - include: expressions
-    - match: '(?=(?!template){{path}}\s*{{generic_lookahead}})'
+    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}})'
       push:
         - include: scope:source.c++#identifiers
         - match: '<'
@@ -624,16 +633,16 @@ contexts:
         - include: statements
 
   function-call:
-    - match: (?={{path}}\s*\()
+    - match: (?={{path_lookahead}}\s*\()
       push:
         - meta_scope: meta.function-call.objc++
         - include: scope:source.c#c99
-        - match: '(::)?{{identifier}}(::)'
+        - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
           scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
             2: punctuation.accessor.objc++
-        - match: '(::)?{{identifier}}'
+        - match: '(?:(::)\s*)?{{identifier}}'
           scope: variable.function.objc++
           captures:
             1: punctuation.accessor.objc++
@@ -722,19 +731,19 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Constructors and destructors don't have a type
-    - match: '(?={{path}}::{{identifier}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}}\s*(\(|$))'
       set:
         - meta_content_scope: meta.function.objc++ entity.name.function.constructor.objc++
         - include: scope:source.c++#identifiers
         - match: '~{{identifier}}'
-        - match: '(?=\W)'
+        - match: '(?=[^\w\s])'
           set: function-definition-params
-    - match: '(?={{path}}::~{{identifier}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*::\s*~{{identifier}}\s*(\(|$))'
       set:
         - meta_content_scope: meta.function.objc++ entity.name.function.destructor.objc++
         - include: scope:source.c++#identifiers
         - match: '~{{identifier}}'
-        - match: '(?=\W)'
+        - match: '(?=[^\w\s])'
           set: function-definition-params
     - match: '(?=\S)'
       set: global-type
@@ -755,13 +764,16 @@ contexts:
           \s+
           (?=
             (?![[:upper:][:digit:]_]+\b|__declspec|{{before_tag}})
-            {{path}}
+            {{path_lookahead}}
             (\s+{{identifier}}\s*\(|\s*[*&])
           )
         )
       captures:
         1: storage.type.objc++
-      set: global-maybe-function
+      set:
+        - include: identifiers
+        - match: ''
+          set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/class
     - match: '(?=\b({{before_tag}})\b)'
@@ -784,7 +796,7 @@ contexts:
           scope: meta.group.objc++ punctuation.definition.group.end.objc++
           pop: true
         - include: expressions
-    - match: '(?={{path}}\s*\()'
+    - match: '(?={{path_lookahead}}\s*\()'
       set:
         - include: function-call
         - match: ''
@@ -809,17 +821,20 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Operator overloading
-    - match: '({{path}}::)?{{operator_method_name}}(?=\s*(\(|$))'
-      scope: meta.function.objc++ entity.name.function.objc++
-      set: function-definition-params
+    - match: '(?=({{path_lookahead}}\s*::\s*)?{{operator_method_name}}\s*(\(|$))'
+      set:
+        - meta_content_scope: meta.function.objc++ entity.name.function.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=\s*(\(|$))'
+          set: function-definition-params
     # Identifier that is not the function name - likely a macro or type
-    - match: '(?={{path}}([ \t]+|[*&])(?!\s*(\(|$)))'
+    - match: '(?={{path_lookahead}}([ \t]+|[*&])(?!\s*(::|\(|$)))'
       push:
         - include: scope:source.c++#identifiers
         - match: ''
           pop: true
     # Real function definition
-    - match: '(?={{path}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*(\(|$))'
       set: [function-definition-params, global-function-identifier]
     - match: '(?=\S)'
       pop: true
@@ -1057,7 +1072,7 @@ contexts:
         - include: modifiers
         - match: '\b(virtual|{{visibility_modifiers}})\b'
           scope: storage.modifier.objc++
-        - match: (?={{path}})
+        - match: (?={{path_lookahead}})
           push:
             - meta_scope: entity.other.inherited-class.objc++
             - include: scope:source.c++#identifiers
@@ -1099,7 +1114,7 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Destructor
-    - match: '(?:{{identifier}}(::))?~{{identifier}}(?=\s*(\(|$))'
+    - match: '(?:{{identifier}}\s*(::)\s*)?~{{identifier}}(?=\s*(\(|$))'
       scope: meta.method.destructor.objc++ entity.name.function.destructor.objc++
       captures:
         1: punctuation.accessor.objc++
@@ -1121,7 +1136,7 @@ contexts:
       scope: meta.method.constructor.objc++ entity.name.function.constructor.objc++
       set: method-definition-params
     # Long form constructor
-    - match: '({{identifier}}(::){{identifier}})(?=\s*\()'
+    - match: '({{identifier}}\s*(::)\s*{{identifier}})(?=\s*\()'
       captures:
         1: meta.method.constructor.objc++ entity.name.function.constructor.objc++
         2: punctuation.accessor.objc++
@@ -1151,17 +1166,16 @@ contexts:
           \s+
           (?=
             (?![[:upper:][:digit:]_]+\b|__declspec|{{before_tag}})
-            {{path}}
-            \s*
-            [*&]?
-            \s+{{identifier}}
-            \s*
-            \(
+            {{path_lookahead}}
+            (\s+{{identifier}}\s*\(|\s*[*&])
           )
         )
       captures:
         1: storage.type.objc++
-      set: data-structures-maybe-method
+      set:
+        - include: identifiers
+        - match: ''
+          set: data-structures-maybe-method
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/class
     - match: '(?=\b({{before_tag}})\b)'
@@ -1198,13 +1212,13 @@ contexts:
       scope: meta.method.objc++ entity.name.function.objc++
       set: method-definition-params
     # Identifier that is not the function name - likely a macro or type
-    - match: '(?={{path}}((?!\s*(\(|$))\s+|[*&]))'
+    - match: '(?={{path_lookahead}}([ \t]+|[*&])(?!\s*(::|\(|$)))'
       push:
         - include: scope:source.c++#identifiers
         - match: ''
           pop: true
     # Real function definition
-    - match: '(?={{path}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*(\(|$))'
       set: [method-definition-params, data-structures-function-identifier]
     - match: '(?=\S)'
       pop: true
