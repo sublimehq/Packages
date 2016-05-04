@@ -950,7 +950,7 @@ contexts:
       pop: true
 
   data-structures-class-definition-after-identifier:
-    - meta_scope: meta.class.objc++
+    - meta_content_scope: meta.class.objc++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -980,7 +980,7 @@ contexts:
       pop: true
 
   data-structures-struct-definition-after-identifier:
-    - meta_scope: meta.struct.objc++
+    - meta_content_scope: meta.struct.objc++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -1010,7 +1010,7 @@ contexts:
       pop: true
 
   data-structures-enum-definition-after-identifier:
-    - meta_scope: meta.enum.objc++
+    - meta_content_scope: meta.enum.objc++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -1041,7 +1041,7 @@ contexts:
       pop: true
 
   data-structures-union-definition-after-identifier:
-    - meta_scope: meta.union.objc++
+    - meta_content_scope: meta.union.objc++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     # Unions don't support base classes

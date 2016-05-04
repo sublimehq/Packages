@@ -866,7 +866,7 @@ contexts:
       pop: true
 
   data-structures-class-definition-after-identifier:
-    - meta_scope: meta.class.c++
+    - meta_content_scope: meta.class.c++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -896,7 +896,7 @@ contexts:
       pop: true
 
   data-structures-struct-definition-after-identifier:
-    - meta_scope: meta.struct.c++
+    - meta_content_scope: meta.struct.c++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -926,7 +926,7 @@ contexts:
       pop: true
 
   data-structures-enum-definition-after-identifier:
-    - meta_scope: meta.enum.c++
+    - meta_content_scope: meta.enum.c++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
@@ -957,7 +957,7 @@ contexts:
       pop: true
 
   data-structures-union-definition-after-identifier:
-    - meta_scope: meta.union.c++
+    - meta_content_scope: meta.union.c++
     - include: data-structures-definition-common-begin
     # No matching of identifiers since they should all be macros at this point
     # Unions don't support base classes

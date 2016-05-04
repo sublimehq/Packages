@@ -809,6 +809,7 @@ namespace ns :: abc /* Neither this comment... */
 
 class BaseClass;
 /*^^^^^^^^^^^^^ meta.class */
+/*    ^ - meta.class meta.class */
 /*    ^^^^^^^^^ entity.name.class.forward-decl */
 
 class BaseClass // comment
