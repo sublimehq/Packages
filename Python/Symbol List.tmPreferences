@@ -4,15 +4,15 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.python meta.function.python, source.python meta.class.python</string>
+	<string>source.python meta.function - meta.function.decorator, source.python meta.class</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-		s/class\s+([A-Za-z_][A-Za-z0-9_]*.+?\)?)(\:|$)/$1/g;
-		s/def\s+([A-Za-z_][A-Za-z0-9_]*\()(?:(.{0,40}?\))|((.{40}).+?\)))(\:)/$1(?2:$2)(?3:$4…\))/g;
+		s/class\s+([[:alpha:]_][[:alnum:]_]*.+?\)?)(\:|$)/$1/g;
+		s/(?:async\s+)?def\s+([[:alpha:]_][[:alnum:]_]*).*/$1\(…\))/g;
 		</string>
 	</dict>
 </dict>

@@ -153,32 +153,34 @@ contexts:
             - include: entity_name_class
             - match: ''
               pop: true
-        - match: \(
-          scope: punctuation.definition.inheritance.begin.python
+        - match: '(?=\()'
           set:
-            - meta_content_scope: meta.class.inheritance.python
-            - match: \)
-              scope: punctuation.definition.inheritance.end.python
+            - match: \(
+              scope: meta.class.inheritance.python punctuation.definition.inheritance.begin.python
               set:
+                - meta_content_scope: meta.class.inheritance.python
+                - match: \)
+                  scope: punctuation.definition.inheritance.end.python
+                  set:
+                    - match: ':'
+                      scope: meta.class.python punctuation.section.class.begin.python
+                      set: maybe-docstrings
+                    - include: comments
+                    - match: (?=\S)
+                      pop: true
                 - match: ':'
-                  scope: punctuation.section.class.begin.python
-                  set: maybe-docstrings
-                - include: comments
-                - match: (?=\S)
+                  scope: invalid.illegal.no-closing-parens.python
                   pop: true
-            - match: ':'
-              scope: invalid.illegal.no-closing-parens.python
-              pop: true
-            - match: ','
-              scope: punctuation.separator.python
-            - match: '(?={{path}})'
-              push:
-                - meta_scope: entity.other.inherited-class.python
-                - include: identifier-parts
-                - match: '{{identifier}}'
-                - match: ''
-                  pop: true
-            - include: expressions
+                - match: ','
+                  scope: punctuation.separator.python
+                - match: '(?={{path}})'
+                  push:
+                    - meta_scope: entity.other.inherited-class.python
+                    - include: identifier-parts
+                    - match: '{{identifier}}'
+                    - match: ''
+                      pop: true
+                - include: expressions
 
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\s+(?={{identifier}})'
