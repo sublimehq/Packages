@@ -35,17 +35,16 @@ contexts:
       scope: keyword.operator.redirection.dosbatch
 
   comments:
-    - match: '(:[+=,;:])'
+    - match: '(:[+=,;: ])'
       scope: punctuation.definition.comment.dosbatch
       push:
         - meta_scope: comment.line.colon.dosbatch
         - match: \n
           pop: true
-      # REM command
-      # https://technet.microsoft.com/en-us/library/bb490986.aspx
-    - match: \b((?i)rem)\s+
-      captures:
-        1: keyword.command.rem.dosbatch
+    # REM command
+    # https://technet.microsoft.com/en-us/library/bb490986.aspx
+    - match: \b(?i)rem\b
+      scope: keyword.command.rem.dosbatch
       push:
         - meta_content_scope: comment.line.rem.dosbatch
         - match: \n

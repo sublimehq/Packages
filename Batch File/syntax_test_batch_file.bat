@@ -7,6 +7,10 @@
 ::               ^      invalid.illegal.unexpected-character.dosbatch
 ::                    ^ invalid.illegal.unexpected-character.dosbatch
 
+REM
+   not a comment
+:: ^^^^^^^^^^^^^ - comment.line.rem.dosbatch
+
    :: Me too!
 :: ^^         punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
@@ -21,6 +25,9 @@
 :: ^^         punctuation.definition.comment.dosbatch
 
    :; Me too!
+:: ^^         punctuation.definition.comment.dosbatch
+
+   : Me too!
 :: ^^         punctuation.definition.comment.dosbatch
 
    ECHO "foo"
