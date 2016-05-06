@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List</string>
+	<key>scope</key>
+	<string>source.dosbatch entity.name.label.dosbatch</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>

@@ -9,6 +9,7 @@ scope: source.dosbatch
 contexts:
   main:
     - include: comments
+    - include: labels
     - include: strings
     - include: operators
     - match: \b(?i)(?:append|assoc|at|attrib|break|cacls|cd|chcp|chdir|chkdsk|chkntfs|cls|cmd|color|comp|compact|convert|copy|date|del|dir|diskcomp|diskcopy|doskey|echo|endlocal|erase|fc|find|findstr|format|ftype|graftabl|help|keyb|label|md|mkdir|mode|more|move|path|pause|popd|print|prompt|pushd|rd|recover|ren|rename|replace|restore|rmdir|set|setlocal|shift|sort|start|subst|time|title|tree|type|ver|verify|vol|xcopy)\b
@@ -33,6 +34,12 @@ contexts:
       scope: keyword.operator.pipe.dosbatch
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
+
+  labels:
+    - match: '^\s*(:)([^+=,;:\s].*)$'
+      captures:
+        1: punctuation.separator.dosbatch
+        2: entity.name.label.dosbatch
 
   comments:
     - match: '(:[+=,;:])'

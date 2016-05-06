@@ -64,3 +64,12 @@
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
+
+  :This is a #%@$虎 strange label
+::^    punctuation.separator.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
+
+  :End
+::^    punctuation.separator.dosbatch
+:: ^^^ entity.name.label.dosbatch
+
