@@ -430,7 +430,7 @@ contexts:
         - include: identifiers
         - match: ''
           pop: true
-    - match: '\b(namespace)\s+(?={{path_lookahead}}(?!\s*[;,]))'
+    - match: '\b(namespace)\s+(?=({{path_lookahead}})?(?!\s*[;,]))'
       scope: meta.namespace.c++
       captures:
         1: keyword.control.c++

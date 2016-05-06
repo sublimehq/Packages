@@ -820,6 +820,18 @@ namespace ns :: abc /* Neither this comment... */
 }
 /* <- meta.namespace meta.block punctuation.definition.block.end */
 
+namespace tl {
+/*^^^^^^^^^^^^ meta.namespace */
+/* ^ keyword.control */
+    namespace {
+/*  ^ keyword.control */
+/*  ^^^^^^^^^^^ meta.namespace meta.namespace */
+/*            ^ meta.block meta.block punctuation.definition.block.begin */
+        void nested_func(){}
+/*           ^ entity.name.function */
+    }
+}
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////

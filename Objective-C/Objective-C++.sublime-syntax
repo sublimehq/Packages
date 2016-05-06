@@ -513,7 +513,7 @@ contexts:
         - include: scope:source.c++#identifiers
         - match: ''
           pop: true
-    - match: '\b(namespace)\s+(?={{path_lookahead}}(?!\s*[;,]))'
+    - match: '\b(namespace)\s+(?=({{path_lookahead}})?(?!\s*[;,]))'
       scope: meta.namespace.objc++
       captures:
         1: keyword.control.objc++
