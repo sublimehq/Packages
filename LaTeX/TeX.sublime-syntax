@@ -7,73 +7,178 @@ file_extensions:
   - cls
 scope: text.tex
 contexts:
+  prototype:
+    - include: comments
+
   main:
-    - match: (\\)(backmatter|else|fi|frontmatter|ftrue|mainmatter|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|undefined|vbox|vmode|void|x)?)\b
-      scope: keyword.control.tex
-      captures:
-        1: punctuation.definition.keyword.tex
-    - match: ((\\)catcode)`(?:\\)?.(=)(\d+)
-      scope: meta.catcode.tex
-      captures:
-        1: keyword.control.catcode.tex
-        2: punctuation.definition.keyword.tex
-        3: punctuation.separator.key-value.tex
-        4: constant.numeric.category.tex
-    - match: (%:).*$\n?
-      scope: comment.line.percentage.semicolon.texshop.tex
-      captures:
-        1: punctuation.definition.comment.tex
-    - match: ^%!TEX (\S*) =\s*(.*)\s*$
-      scope: comment.line.percentage.directive.texshop.tex
-    - match: (%).*$\n?
-      scope: comment.line.percentage.tex
-      captures:
-        1: punctuation.definition.comment.tex
-    - match: '\{'
-      captures:
-        0: punctuation.section.group.tex
-      push:
-        - meta_scope: meta.group.braces.tex
-        - match: '\}'
-          captures:
-            0: punctuation.section.group.tex
-          pop: true
-        - include: $top_level_main
-    - match: '[\[\]]'
-      scope: punctuation.definition.brackets.tex
-    - match: \$\$
-      captures:
-        0: punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: string.other.math.block.tex
-        - match: \$\$
-          captures:
-            0: punctuation.definition.string.end.tex
-          pop: true
-        - include: scope:text.tex.math
-        - include: main
-    - match: \\\\
-      scope: constant.character.newline.tex
-    - match: \$
-      captures:
-        0: punctuation.definition.string.begin.tex
-      push:
-        - meta_scope: string.other.math.tex
-        - match: \$
-          captures:
-            0: punctuation.definition.string.end.tex
-          pop: true
-        - match: \\\$
-          scope: constant.character.escape.tex
-        - include: scope:text.tex.math
-        - include: main
+    - include: macros
+    - include: controls
+    - include: catcode
+    - include: braces
+    - include: boxes
+    - include: block-math
+    - include: inline-math
+    - include: constants
+    - include: general-commands
+
+  general-commands:
     - match: '(\\)[A-Za-z@]+'
       scope: support.function.general.tex
       captures:
-        1: punctuation.definition.function.tex
+        1: punctuation.definition.backslash.function.tex
+
+  constants:
+    - match: \\\\
+      scope: constant.character.newline.tex
     - match: '(\\)[^a-zA-Z@]'
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.keyword.tex
-    - match: "«press a-z and space for greek letter»[a-zA-Z]*"
-      scope: meta.placeholder.greek.tex
+    - match: '&'
+      scope: constant.character.ampersand.latex
+
+  comments:
+    - match: '%.*$\n?'
+      scope: comment.line.percentage.tex
+
+  controls:
+    - match: ((\\)(else|fi|ftrue|if(case|cat|dim|eof|false|hbox|hmode|inner|mmode|num|odd|undefined|vbox|vmode|void|x)?))\b
+      captures:
+        1: keyword.control.tex
+        2: punctuation.definition.backslash.function.tex
+
+  catcode:
+    - match: ((\\)catcode)`(?:\\)?.=(\d+)
+      scope: meta.function.catcode.tex
+      captures:
+        1: keyword.control.catcode.tex
+        2: punctuation.definition.backslash.function.tex
+        3: constant.numeric.category.tex
+
+  braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.tex
+      push:
+        - meta_scope: meta.group.braces.tex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.tex
+          pop: true
+        - include: main
+
+  command-only-braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.tex
+      push:
+        - meta_scope: meta.group.braces.tex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.tex
+          pop: true
+        - include: constants
+        - include: general-commands
+        - include: command-only-braces
+
+  boxes:
+    - match: '((\\)[hv]box)\s*(\{)'
+      captures:
+        1: support.function.box.tex
+        2: punctuation.definition.backslash.function.tex
+        3: punctuation.definition.brace.begin.tex
+      push:
+        - meta_scope: meta.function.box.tex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.tex
+          pop: true
+        - include: main
+
+  macros:
+    - match: '(\\def)\s*((\\)[a-zA-Z@]+)\s*[^\{]*?\s*(\{)'
+      captures:
+        1: support.function.definition.tex
+        2: support.function.general.definition.tex
+        3: punctuation.definition.backslash.function.tex
+        4: punctuation.definition.brace.begin.definition.tex
+      push:
+        - meta_scope: meta.function.definition.tex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.definition.tex
+          pop: true
+        - include: constants
+        - include: general-commands
+        - include: command-only-braces
+
+  greeks:
+    - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))\b
+      captures:
+        1: keyword.other.greek.math.tex
+        2: punctuation.definition.backslash.function.tex
+
+  math-commands:
+    - match: '((\\)[a-zA-Z@]+)'
+      captures:
+        1: support.function.math.tex
+        2: punctuation.definition.backslash.function.tex
+
+  math-operators:
+    - match: \+|\-|=|-|\*|/|\^|_|<|>
+      scope: keyword.operator.math.tex
+
+  math-braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.math.tex
+      push:
+        - meta_scope: meta.group.braces.math.tex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.math.tex
+          pop: true
+        - include: math-content
+
+  math-brackets:
+    - match: '[\(\)\[\]]'
+      scope: punctuation.definition.bracket.math.tex
+    - match: '(\\)[\(\)\[\]{}]'
+      scope: punctuation.definition.bracket.escape.math.tex
+      captures:
+        1: punctuation.definition.backslash.bracket.escape.math.tex
+
+  math-constants:
+    - match: '(([0-9]*[\.][0-9]+)|[0-9]+)'
+      scope: constant.numeric.math.tex
+    - match: '(\\)([^a-zA-Z]|[A-Za-z]+)(?=\b|\}|\]|\^|\_)'
+      scope: constant.other.general.math.tex
+      captures:
+        1: punctuation.definition.backslash.constant.math.tex
+
+  math-characters:
+    - match: "[a-zA-Z]+"
+      scope: variable.other.math.tex
+
+  math-content:
+    - include: greeks
+    - include: math-brackets
+    - include: math-braces
+    - include: boxes
+    - include: math-commands
+    - include: math-operators
+    - include: math-characters
+    - include: math-constants
+    - include: constants
+
+  inline-math:
+    - match: \$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push:
+        - meta_scope: meta.environment.math.tex
+        - match: \$
+          scope: string.other.math.tex punctuation.definition.string.end.tex
+          pop: true
+        - include: math-content
+
+  block-math:
+    - match: \$\$
+      scope: string.other.math.tex punctuation.definition.string.begin.tex
+      push:
+        - meta_scope: meta.environment.math.tex
+        - match: \$\$
+          scope: string.other.math.tex punctuation.definition.string.end.tex
+          pop: true
+        - include: math-content
