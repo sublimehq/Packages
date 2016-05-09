@@ -28,14 +28,12 @@
 ;                                 ^ constant.numeric
 ;                                    ^ constant.numeric
 
-0xff 0x00 1b .5 1. .5e2 1.e2
+1b .5 1. .5e2 1.e2
 ; <- constant.numeric
-;    ^ constant.numeric
-;         ^ constant.numeric
-;            ^ constant.numeric
-;               ^ constant.numeric
-;                  ^ constant.numeric
-;                       ^ constant.numeric
+;  ^ constant.numeric
+;     ^ constant.numeric
+;        ^ constant.numeric
+;             ^ constant.numeric
 
 function foo::bar, p0, p1_pub=p1_priv
 ;        ^ entity.name.function.scope
@@ -76,12 +74,14 @@ FUNCTION foo::bar, p0, p1_pub=p1_priv, $
 ;                      ^ variable.parameter.keyword.public
 ;                             ^ variable.parameter.keyword.private
 
+; !WIP!
     print, x, y+2, z[5], format='(F12.5)', format = 'test'
 ;   ^ support.function
 ;        ^ meta.function-call
 ;                        ^ variable.parameter
 ;                                          ^ variable.parameter
 
+; !WIP!
     print, x, y+2, z[5], $
         format='(F12.5)'
 ;       ^ meta.function-call

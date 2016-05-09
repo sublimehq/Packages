@@ -56,7 +56,7 @@ contexts:
         1: punctuation.definition.comment.idl
     - include: expressions
   expressions:
-    - match: '(?i)((\b0x[0-9a-fA-F]*)|(\b[0-9]+(b|l|ul|u|ll|ull))|(\.[0-9]+|(\b[0-9]+(\.[0-9]*)?))((e|d)-?[0-9]+)?)'
+    - match: '(?i)((\b[0-9]+(b|l|ul|u|ll|ull))|(\.[0-9]+|(\b[0-9]+(\.[0-9]*)?))((e|d)-?[0-9]+)?)'
       scope: constant.numeric.idl
     - match: "(')"
       captures:
