@@ -5,51 +5,27 @@ name: Tcl
 file_extensions:
   - tcl
 scope: source.tcl
+variables:
+  special_chars: '[;{}\[\]]'
+
 contexts:
   main:
-    - match: (?<=^|;)\s*((#))
-      captures:
-        1: comment.line.number-sign.tcl
-        2: punctuation.definition.comment.tcl
-      push:
-        - meta_content_scope: comment.line.number-sign.tcl
-        - match: \n
-          pop: true
-        - match: (\\\\|\\\n)
-    - match: '(?<=^|[\[{;])\s*(if|while|for|catch|return|break|continue|switch|exit|foreach)\b'
-      captures:
-        1: keyword.control.tcl
-    - match: '(?<=^|})\s*(then|elseif|else)\b'
-      captures:
-        1: keyword.control.tcl
-    - match: '^\s*(proc)\s+([^\s]+)'
-      captures:
-        1: keyword.other.tcl
-        2: entity.name.function.tcl
-    - match: '(?<=^|[\[{;])\s*(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b'
-      captures:
-        1: keyword.other.tcl
-    - match: '(?<=^|[\[{;])\s*(regexp|regsub)\b\s*'
-      comment: special-case regexp/regsub keyword in order to handle the expression
-      captures:
-        1: keyword.other.tcl
-      push:
-        - match: '[\n;\]]'
-          pop: true
-        - match: \\(?:.|\n)
-          scope: constant.character.escape.tcl
-        - match: '-\w+\s*'
-          comment: switch for regexp
-        - match: '--\s*'
-          comment: end of switches
-          push:
-            - include: regexp
-            - match: ""
-              pop: true
-        - include: regexp
+    - include: commands
+
+  commands:
+    - match: ^(?=\s*[^\[\{])
+      push: command-name
+    - match: ';'
+      scope: punctuation.terminator.tcl
+      push: command-name
+    - include: braces
+    - include: substitution
     - include: escape
     - include: variable
-    - include: braces
+    - include: numbers
+    - include: strings
+
+  strings:
     - match: '"'
       scope: punctuation.definition.string.begin.tcl
       push:
@@ -59,83 +35,261 @@ contexts:
           pop: true
         - include: escape
         - include: variable
-        - include: embedded
-  bare-string:
-    - match: (?:^|(?<=\s))"
-      comment: matches a single quote-enclosed word without scoping
-      push:
-        - match: '"([^\s\]]*)'
-          captures:
-            1: invalid.illegal.tcl
+        - match: '(?=\[(?:[^"]|\\")+\])'
+          push:
+            - include: substitution
+            - match: ''
+              pop: true
+    - match: '[^\s\]\};"]+'
+
+  numbers:
+    - match: \b0x\h*\b(?=[\s\}\];])
+      scope: constant.numeric.integer.tcl
+    - match: \b0b[01]*\b(?=[\s\}\];])
+      scope: constant.numeric.integer.tcl
+    - match: \b0o[0-7]*\b(?=[\s\}\];])
+      scope: constant.numeric.integer.tcl
+    - match: \b[0-9]+\.[0-9]+\b(?=[\s\}\];])
+      scope: constant.numeric.float.tcl
+    - match: \b[0-9]+\b(?=[\s\}\];])
+      scope: constant.numeric.integer.tcl
+
+  comments:
+    - match: '#'
+      scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
+      set:
+        - meta_content_scope: comment.line.number-sign.tcl
+        - match: \n
+          set: command-name
+        - match: \\\\
+        - match: \\\n
+          scope: punctuation.separator.continuation.tcl
+
+  command-name:
+    - match: '(?=\bproc\b\s)'
+      set: proc
+    - match: '\bexpr\b(?=\s)'
+      scope: keyword.other.tcl
+      set: expr
+    - match: \b(namespace)\s+eval\s+([^\s;{}\[\]"$]+)
+      captures:
+        1: keyword.other.tcl
+        2: entity.name.namespace.tcl
+      set:
+        - meta_scope: meta.namespace.tcl
+        - match: '(?=[;\n\}\]])'
           pop: true
-        - include: escape
-        - include: variable
-  braces:
-    - match: '(?:^|(?<=\s))\{'
-      comment: matches a single brace-enclosed word
-      push:
-        - meta_scope: string.quoted.curly.tcl
-        - match: '\}([^\s\]]*)'
-          captures:
-            1: invalid.illegal.tcl
+        - include: commands
+    - match: \b(if)\b\s+(\{)
+      captures:
+        1: keyword.control.tcl
+        2: meta.block.tcl punctuation.definition.block.begin.tcl
+      set: [conditional, conditional-expr]
+    - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=\s)
+      scope: keyword.control.tcl
+      pop: true
+    - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b(?=\s)'
+      scope: keyword.other.tcl
+      pop: true
+    - match: '\b(regexp|regsub)\b(?=\s)'
+      captures:
+        1: keyword.other.tcl
+      set:
+        - match: '(?=[\n;\]\}])'
           pop: true
-        - match: '\\[\\{}\n]'
-          scope: constant.character.escape.tcl
-        - include: inner-braces
-  embedded:
-    - match: '\['
-      scope: punctuation.section.embedded.begin.tcl
-      push:
-        - meta_scope: source.tcl.embedded
-        - match: '\]'
-          scope: punctuation.section.embedded.end.tcl
-          pop: true
-        - include: scope:source.tcl
-  escape:
-    - match: '\\(\d{1,3}|x[a-fA-F0-9]+|u[a-fA-F0-9]{1,4}|.|\n)'
+        # Consume the switches
+        - match: '\s+-(all|expanded|line|linestop|lineanchor|nocase|start|--)\b(?=\s)'
+        # The next non-space element will be a regex string
+        - match: '(?=\S)'
+          set:
+            - meta_content_scope: string.regexp.tcl
+            # One of these characters indicates the string is complete
+            - match: '(?=[\s;\]\}])'
+              pop: true
+            - include: braces
+            - include: strings
+    - match: (?=#)
+      set: comments
+    - match: '[^\s;\[\]\{\}"$]+'
+      scope: variable.function.tcl
+      pop: true
+    - match: '(?=\S)'
+      pop: true
+
+  conditional:
+    - match: '(?=[;\n\]\}])'
+      pop: true
+    - match: '\b(elseif)\b\s+(\{)'
+      captures:
+        1: keyword.control.tcl
+        2: meta.block.tcl punctuation.definition.block.begin.tcl
+      push: conditional-expr
+    - match: '\b(then|elseif|else)\b(?=\s)'
+      scope: keyword.control.tcl
+    - include: commands
+
+  conditional-expr:
+    - meta_content_scope: meta.block.tcl
+    - match: \}
+      scope: meta.block.tcl punctuation.definition.block.end.tcl
+      pop: true
+    - match: '\\[\\{}n]'
       scope: constant.character.escape.tcl
-  inner-braces:
+    - include: operators
+    - include: commands
+
+  proc:
+    - match: \b(proc)\s+([^\s]+)
+      scope: meta.function.tcl
+      captures:
+        1: keyword.other.tcl
+        2: entity.name.function.tcl
+      set: proc-parameters
+    - match: \bproc\b(?=\s)
+      scope: keyword.other.tcl
+      pop: true
+
+  proc-parameters:
+    - match: \s+
+      scope: meta.function.tcl
+    - match: \{
+      scope: punctuation.definition.block.begin.tcl
+      set:
+        - meta_scope: meta.function.parameters.tcl meta.block.tcl
+        - match: \}
+          scope: punctuation.definition.block.end.tcl
+          set: proc-body
+        - match: '^\s*(#)'
+          captures:
+            1: comment.line.number-sign.tcl punctuation.definition.comment.tcl
+          push:
+            - meta_content_scope: comment.line.number-sign.tcl
+            - match: \n
+              pop: true
+            - match: \\\\
+            - match: \\\n
+              scope: punctuation.separator.continuation.tcl
+        - include: proc-parameter
+    - match: '(\[)\s*(list)\b(?=\s)'
+      captures:
+        1: punctuation.definition.substitution.begin.tcl
+        2: keyword.other.tcl
+      set:
+        - meta_scope: meta.function.parameters.tcl meta.substitution.tcl
+        - match: \]
+          scope: punctuation.definition.substitution.end.tcl
+          set: proc-body
+        - include: proc-parameter
+    - match: ''
+      pop: true
+
+  proc-parameter:
     - match: '\{'
-      comment: matches a nested brace in a brace-enclosed word
+      scope: punctuation.definition.block.begin.tcl
       push:
-        - match: '\}'
+        - meta_scope: meta.block.tcl
+        - match: '[^\s;{}\[\]]+'
+          scope: variable.parameter.tcl
+          set:
+            - meta_content_scope: meta.block.tcl
+            - match: \}
+              scope: meta.block.tcl punctuation.definition.block.end.tcl
+              pop: true
+            - include: commands
+    - match: '\[\s*(list)\b(?=\s)'
+      captures:
+        1: punctuation.definition.substitution.begin.tcl
+        2: keyword.other.tcl
+      push:
+        - meta_scope: meta.substitution.tcl
+        - match: '[^\s;{}\[\]]+'
+          scope: variable.parameter.tcl
+          set:
+            - match: \]
+              scope: punctuation.definition.substitution.end.tcl
+              pop: true
+            - include: commands
+    - match: '[^\s;{}\[\]]+'
+      scope: variable.parameter.tcl
+    - match: (?=\S)
+      pop: true
+
+  proc-body:
+    - meta_content_scope: meta.function.tcl
+    - match: '(?=[;\n\]\}])'
+      pop: true
+    - include: commands
+
+  expr:
+    - match: (?=[;\]\}\n])
+      pop: true
+    - include: expr-body
+
+  expr-body:
+    - match: '\{'
+      scope: punctuation.definition.block.begin.tcl
+      push:
+        - meta_scope: meta.block.tcl
+        - match: '(\})([^\s\]]*)'
+          captures:
+            1: punctuation.definition.block.end.tcl
+            2: invalid.illegal.tcl
           pop: true
-        - match: '\\[{}\n]'
+        - match: '\\[\\{}n]'
           scope: constant.character.escape.tcl
-        - include: inner-braces
-  regexp:
-    - match: '(?=\S)(?![\n;\]])'
-      comment: matches a single word, named as a regexp, then swallows the rest of the command
+        - include: operators
+        - include: commands
+    - include: operators
+    - include: commands
+
+  operators:
+    - match: '[~!*/%<>&^|=?:+-]'
+      scope: keyword.operator.tcl
+    - match: '\b(eq|ne|in|ni)\b(?=\s)'
+      scope: keyword.operator.word.tcl
+
+  braces:
+    - match: (\{)(\*)(\})
+      scope: meta.block.tcl
+      captures:
+        1: punctuation.definition.block.begin.tcl
+        2: keyword.operator.tcl
+        3: punctuation.definition.block.end.tcl
+    - match: '\{'
+      scope: punctuation.definition.block.begin.tcl
       push:
-        - match: '(?=[\n;\]])'
+        - meta_scope: meta.block.tcl
+        - match: '(\})([^\s\]]*)'
+          captures:
+            1: punctuation.definition.block.end.tcl
+            2: invalid.illegal.tcl
           pop: true
-        - match: '(?=[^ \t\n;])'
-          push:
-            - meta_scope: string.regexp.tcl
-            - match: '(?=[ \t\n;])'
-              pop: true
-            - include: braces
-            - include: bare-string
-            - include: escape
-            - include: variable
-        - match: '[ \t]'
-          comment: swallow the rest of the command
-          push:
-            - match: '(?=[\n;\]])'
-              pop: true
-            - include: variable
-            - include: embedded
-            - include: escape
-            - include: braces
-            - include: string
-  string:
-    - match: (?:^|(?<=\s))(?=")
-      comment: matches a single quote-enclosed word with scoping
+        - match: '\\[\\{}n]'
+          scope: constant.character.escape.tcl
+        - include: commands
+
+  substitution:
+    - match: '\['
+      scope: punctuation.definition.substitution.begin.tcl
+      push: [substitution-body, command-name]
+
+  substitution-body:
+    - meta_scope: meta.substitution.tcl
+    - match: '\]'
+      scope: meta.substitution.tcl punctuation.definition.substitution.end.tcl
+      pop: true
+    - include: commands
+
+  escape:
+    - match: \\(?=\n)
+      scope: punctuation.separator.continuation.tcl
       push:
-        - meta_scope: string.quoted.double.tcl
-        - include: bare-string
-        - match: ""
+        - match: \n
+        - match: (?=\S)
           pop: true
+    - match: '\\(\d{1,3}|x\h+|u\h{1,4}|.|n)'
+      scope: constant.character.escape.tcl
+
   variable:
     - match: '(\$)((?:[a-zA-Z0-9_]|::)+(\([^\)]+\))?|\{[^\}]*\})'
       scope: variable.other.tcl
