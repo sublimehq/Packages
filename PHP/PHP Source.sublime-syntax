@@ -67,7 +67,30 @@ contexts:
       captures:
         1: entity.name.label.php
         2: punctuation.separator.php
+    - match: \{
+      scope: punctuation.definition.block.begin.php
+      push:
+        - meta_scope: meta.block.php
+        - match: \}
+          scope: punctuation.definition.block.end.php
+          pop: true
+        - include: html-block
+        - include: statements
     - include: expressions
+
+  html-block:
+    - match: '(?=\?>)'
+      scope: punctuation.section.embedded.end.php
+      push:
+        - match: '\?>'
+          scope: punctuation.section.embedded.end.php
+          push: scope:text.html.basic
+          with_prototype:
+            - match: '(?=<\?)'
+              pop: true
+        - match: '<\?(php)?'
+          scope: punctuation.section.embedded.begin.php
+          pop: true
 
   expressions:
     - include: comments
@@ -573,6 +596,7 @@ contexts:
     - match: \}
       scope: meta.function.php meta.block.php punctuation.definition.block.end.php
       pop: true
+    - include: html-block
     - include: statements
 
   class-name:

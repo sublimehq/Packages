@@ -641,3 +641,32 @@ SELECT * FROM users WHERE first_name = 'John'
 //                                     ^^^^^^ string.quoted.single
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+
+
+class OutputsHtml {
+    function embedHtml() {
+        if (1) {
+//             ^ meta.function meta.block meta.block punctuation.definition.block.begin
+        }
+//      ^ meta.function meta.block meta.block punctuation.definition.block.end
+        else {
+//           ^ meta.function meta.block meta.block punctuation.definition.block.begin
+            ?>
+//          ^^ punctuation.section.embedded.end
+            <span></span>
+//          ^^^^^^ meta.tag
+            <?
+//          ^^ punctuation.section.embedded.begin
+        }
+//      ^ meta.function meta.block meta.block punctuation.definition.block.end
+        ?>
+//      ^^ punctuation.section.embedded.end
+        <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>"></div>
+//      ^^^^  meta.tag
+//                                              ^^^^^ punctuation.section.embedded.begin
+//                                                                                  ^^ punctuation.section.embedded.end
+//                                                                                      ^^^^^^ meta.tag
+        <?php
+//      ^^^^^ punctuation.section.embedded.begin
+    }
+}
