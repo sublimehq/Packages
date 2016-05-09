@@ -638,6 +638,13 @@ var o = { a: i => i * 2, b: i => i * 3 }
 //                     ^ - meta.block
 //                       ^ entity.name.function
 
+function test() {
+    return {a: 1};
+//         ^^^^^^ meta.object-literal
+//          ^ meta.object-literal.key
+//             ^ constant.numeric
+}
+
 $.each({})
 // <- variable.other.object.dollar.only punctuation.dollar
 //     ^ meta.object-literal

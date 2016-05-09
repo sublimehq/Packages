@@ -583,14 +583,17 @@ contexts:
   keywords:
     - match: \bthrow\b
       scope: keyword.control.trycatch.js
+      push: after-operator
     - match: \b(break|continue|goto)\b
       scope: keyword.control.loop.js
     - match: \b(yield)\b(?:\s*(\*))?
       captures:
         1: keyword.control.flow.js
         2: keyword.generator.asterisk.js
+      push: after-operator
     - match: \b(await|return)\b
       scope: keyword.control.flow.js
+      push: after-operator
     - match: \b(const|let|var)\b
       scope: storage.type.js
 
