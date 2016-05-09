@@ -19,15 +19,17 @@ contexts:
           pop: true
     - match: '<%=?'
       scope: punctuation.section.embedded.begin.asp
-      push:
-        - meta_scope: source.asp.embedded.html
-        - match: '%>'
-          scope: punctuation.section.embedded.end.asp
-          pop: true
-        - match: ''
-          push:
-            - include: scope:source.asp # don't directly push, so that the scope doesn't also contain 'source.asp ' as well as our 'source.asp.embedded.html '
-          with_prototype:
-            - match: '(?=%>)'
-              pop: true
+      push: [close_embedded_asp, begin_embedded_asp]
+    - include: html
+
+  html:
     - include: scope:text.html.basic
+
+  begin_embedded_asp:
+    - meta_scope: source.asp.embedded.html
+    - include: scope:source.asp
+
+  close_embedded_asp:
+    - match: '%>'
+      scope: source.asp.embedded.html punctuation.section.embedded.end.asp
+      pop: true

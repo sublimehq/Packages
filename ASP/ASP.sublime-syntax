@@ -8,8 +8,8 @@ scope: source.asp
 variables:
   apostrophe_comment_begin: "'"
   rem_comment_begin: '\b(?i:REM)\b'
-  whitespace_or_end_of_statement: (?=\s+|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}})
-  identifier: '[a-zA-Z]\w*|\[[^\]\n]*\]' # reserved words can be used if enclosed in square brackets, as can other characters not normally accepted
+  whitespace_or_end_of_statement: (?=\s+|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)
+  identifier: '[a-zA-Z]\w*|\[(?:(?!%>|\]).)*(?:\]|(\n|(?=%>)))' # reserved words can be used if enclosed in square brackets, as can other characters not normally accepted
   literal_number: '&[hH]\h+&?|\b(?:(?:(?:(?:[0-9]+\.?[0-9]*)|(?:\.[0-9]+))(?i:e[+-]?[0-9]+)?)(?i:(?:u?l?)|f)?)\b'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
@@ -19,7 +19,12 @@ variables:
   asp_builtin_events: '\b(?i:Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart|Class_Initialize|Class_Terminate)\b'
 
 contexts:
+  root_asp:
+    - match: '(?=%>)'
+      pop: true
+
   main:
+    - include: root_asp
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       scope: invalid.illegal.unexpected-token.asp
     - match: '(?i:Option\s+Explicit)'
@@ -32,12 +37,14 @@ contexts:
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.apostrophe.asp
+        - include: root_asp
         - match: \n
           pop: true
     - match: '{{rem_comment_begin}}'
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.rem.asp
+        - include: root_asp
         - match: \n
           pop: true
 
@@ -79,12 +86,15 @@ contexts:
 
   expect_identifier_reference:
     - match: '{{identifier}}'
-      scope: meta.variable-reference.asp
+      captures:
+        0: meta.variable-reference.asp
+        1: invalid.illegal.unclosed-variable-identifier.asp
       pop: true
     - include: unexpected_token
 
   inside_string:
     - meta_scope: string.quoted.double.asp
+    - include: root_asp
     - match: \n
       scope: invalid.illegal.unclosed-string.asp
       pop: true
@@ -324,6 +334,7 @@ contexts:
 
   inside_method:
     - meta_content_scope: meta.method.source.asp meta.method.body.source.asp
+    - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       scope: storage.type.function.end.asp
       set:
@@ -342,7 +353,7 @@ contexts:
     - match: '\b(?i:With){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       push: [inside_control_flow_with, expression_until_end_of_statement, expect_not_end_of_statement]
-    - match: '\b(?i:Select Case){{whitespace_or_end_of_statement}}'
+    - match: '\b(?i:Select\s+Case){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       push: [inside_control_flow_select, expression_until_end_of_statement, expect_not_end_of_statement]
     - match: '\b(?i:Do){{whitespace_or_end_of_statement}}'
@@ -365,7 +376,7 @@ contexts:
     - match: '\b(?i:Then){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set:
-        - match: '\s*(?=$|{{apostrophe_comment_begin}}|{{rem_comment_begin}})'
+        - match: '\s*(?=$|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)'
           set: inside_control_flow_if_block
         - match: '' # if the above didn't match, then it is a single line if block
           set: inside_control_flow_if_single_line
@@ -441,11 +452,9 @@ contexts:
     - match: '{{asp_builtin_events}}'
       scope: support.function.event.asp
     - match: '{{identifier}}'
-      scope: meta.variable-reference.asp
-    - match: '(\[[^\]\n]*)(\n)'
       captures:
-        1: meta.variable-reference.unclosed.asp
-        2: invalid.illegal.unclosed-variable-identifier.asp
+        0: meta.variable-reference.asp
+        1: invalid.illegal.unclosed-variable-identifier.asp
     - match: \(
       push: inside_parens
     - include: allow_line_continuation
@@ -459,7 +468,7 @@ contexts:
     - include: expression
 
   operators:
-    - match: '(?i:Is\s+Not\b)'
+    - match: '(?i:Is\s+Not\b)' # the correct syntax is: If Not (x Is y) Then ' the parens are optional but make it clearer
       scope: invalid.illegal.unexpected-token.asp
     - match: '[=><+*^&/-]|\b(?i:Mod|And|Not|Or|Xor|Is)\b'
       scope: keyword.operator.asp
@@ -475,12 +484,12 @@ contexts:
 
   inside_control_flow_with:
     - meta_scope: meta.with.block.asp
+    - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
         - meta_scope: keyword.control.flow.asp
         - include: allow_line_continuation
         - match: '\b(?i:With){{whitespace_or_end_of_statement}}'
-          scope: keyword.control.flow.asp
           pop: true
         - include: unexpected_token
     - include: statements
@@ -501,12 +510,12 @@ contexts:
         - meta_scope: keyword.control.flow.asp
         - include: allow_line_continuation
         - match: '\b(?i:If){{whitespace_or_end_of_statement}}'
-          scope: keyword.control.flow.asp
           pop: true
         - include: unexpected_token
     - include: inside_control_flow_if_common
 
   inside_control_flow_if_common:
+    - include: inside_block
     - match: '\b(?i:Else){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       # the else retains the block or single line mode of the opening if statement, so we don't set a different context
@@ -514,12 +523,12 @@ contexts:
 
   inside_control_flow_select:
     - meta_scope: meta.select.block.asp
+    - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
         - meta_scope: keyword.control.flow.asp
         - include: allow_line_continuation
         - match: '\b(?i:Select){{whitespace_or_end_of_statement}}'
-          scope: keyword.control.flow.asp
           pop: true
         - include: unexpected_token
     - match: '\b(?i:Case\s+Else){{whitespace_or_end_of_statement}}'
@@ -531,20 +540,19 @@ contexts:
 
   expression_until_end_of_statement:
     - include: allow_statement_separator
-    #- match: '\s*(?={{apostrophe_comment_begin}}|{{rem_comment_begin}})'
-    #  pop: true
+    - include: root_asp
     - match: $
       pop: true
     - include: expression
 
   inside_control_flow_do:
     - meta_scope: meta.do.block.asp
+    - include: inside_block
     - match: '\b(?i:Loop){{whitespace_or_end_of_statement}}'
       set:
         - meta_scope: keyword.control.flow.asp
         - include: allow_line_continuation
         - match: '\b(?i:While|Until){{whitespace_or_end_of_statement}}'
-          scope: keyword.control.flow.asp
           set: expression_until_end_of_statement
         - match: ''
           pop: true
@@ -552,6 +560,7 @@ contexts:
 
   inside_control_flow_while:
     - meta_scope: meta.while.block.asp
+    - include: inside_block
     - match: '\b(?i:Wend){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       pop: true
@@ -559,6 +568,7 @@ contexts:
 
   inside_control_flow_for:
     - meta_scope: meta.for.block.asp
+    - include: inside_block
     - match: '\b(?i:Next){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       pop: true
@@ -583,3 +593,12 @@ contexts:
       scope: keyword.control.flow.asp
       set: [expression_until_end_of_statement, expect_not_end_of_statement]
     - include: expression_until_end_of_statement
+
+  inside_block:
+    - match: '%>'
+      scope: punctuation.section.embedded.end.inside-block.asp
+      push: scope:text.html.asp#html
+      with_prototype:
+        - match: '<%=?'
+          scope: punctuation.section.embedded.begin.inside-block.asp
+          pop: true

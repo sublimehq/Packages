@@ -287,11 +287,18 @@
     If 1 _
        = 2 Then Call DoSomething
     '      ^^^^ keyword.control.flow.asp
-    '          ^ meta.if.line.asp - meta.if.block.asp
+    '          ^^^^^^^^^^^^^^^^^ meta.if.line.asp - meta.if.block.asp
     '           ^^^^ storage.type.asp
+    '                           ^ - meta.if.line.asp
     
     Function IIf(expr, true_part, false_part) ' https://support.microsoft.com/en-us/kb/219271
+    '            ^^^^ variable.parameter.function.asp
+    '                  ^^^^^^^^^ variable.parameter.function.asp
+    '                             ^^^^^^^^^^ variable.parameter.function.asp
         If expr Then IIf = true_part Else IIf = false_part
+        '           ^^^^^^^^^^^^^^^^^ meta.if.line.asp
+        '                                ^^^^^^^^^^^^^^^^^ meta.if.line.asp
+        '                                                 ^ - meta.if.line.asp
     End Function
     
     If a is not nothing then a.b = a.b + 2
@@ -300,14 +307,17 @@
     '                   ^^^^ keyword.control.flow.asp
     ' ^^^^^^^^^^^^^^^^^^ meta.between-if-and-then.asp
     '                       ^^^^^^^^^^^^^^ meta.if.line.asp
+    '                                     ^ - meta.if.line.asp
     If not a is nothing then a.b = a.b + 2
     ' ^^^^^^^^^^^^^^^^^^ meta.between-if-and-then.asp
     '                       ^^^^^^^^^^^^^^ meta.if.line.asp
+    '                                     ^ - meta.if.line.asp
     '        ^^^^^^ - invalid.illegal.unexpected-token.asp
     '        ^^ keyword.operator.asp
     '           ^^^^^^^ storage.type.asp
     
     If a Then
+        '    ^ meta.if.block.asp - meta.if.line.asp
         DoSomething ( invalid_token_inside_parens, 2, if )
         '                                             ^^ invalid.illegal.unexpected-token.literal.asp
     ElseIf a = b Then AnotherSomething ' despite this being on the same line as the ElseIf, the End If is still required because the opening if statement was a block
@@ -316,6 +326,7 @@
    '^^^^ keyword.control.flow.asp
    '    ^^^^^^^^^^^^^^^^ meta.if.block.asp
     End If
+   '      ^ - meta.if.block.asp
     
     If a Then Call
     '             ^ invalid.illegal.missing-token.asp
@@ -534,7 +545,9 @@
         If x = y Then Exit For
        '^^ keyword.control.flow.asp
        '         ^^^^ keyword.control.flow.asp
+       '             ^^^^^^^^^ meta.if.line.asp
        '              ^^^^^^^^ keyword.control.flow.asp
+       '                      ^ - meta.if.line.asp
         Response.Write("----" & vbCrLf)
        '^^^^^^^^ support.class.asp
     Next
@@ -613,6 +626,52 @@ test = "hello%>
 '      ^^^^^^ source.asp.embedded.html string.quoted.double.asp
 '            ^^ punctuation.section.embedded.end.asp - string.quoted.double.asp
 '              ^ - source.asp.embedded.html
+
+<footer>
+'^^^^^^ text.html.asp meta.tag.block.any.html entity.name.tag.block.any.html
+    <% With abc %>
+    '  ^^^^ keyword.control.flow.asp
+    '           ^^ text.html.asp source.asp.embedded.html meta.with.block.asp punctuation.section.embedded.end.inside-block.asp
+        <p>Some conditional content in the footer</p>
+        '<- text.html.asp source.asp.embedded.html meta.with.block.asp meta.tag.block.any.html punctuation.definition.tag.begin.html
+    <% End With %>
+   '^^ text.html.asp source.asp.embedded.html meta.with.block.asp punctuation.section.embedded.begin.inside-block.asp
+   '   ^^^^^^^^ keyword.control.flow.asp
+   '            ^^ text.html.asp source.asp.embedded.html punctuation.section.embedded.end.asp - meta.with.block.asp
+   '              ^ - source.asp.embedded.html
+    <% If abc = "def" Then %>
+    '                     ^^^^ meta.if.block.asp - meta.if.line.asp
+        <span id="span1">Text here</span>
+        '     ^^ text.html.asp source.asp.embedded.html meta.if.block.asp meta.tag.inline.any.html meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+        '                         ^^ text.html.asp source.asp.embedded.html meta.if.block.asp meta.tag.inline.any.html punctuation.definition.tag.begin.html
+    <% End If %>
+    '^^ meta.if.block.asp
+    '  ^^^^^^ keyword.control.flow.asp
+    '        ^^^^ - meta.if.block.asp
+   
+</footer><% [%><br />
+'            ^^ text.html.asp source.asp.embedded.html punctuation.section.embedded.end.asp
+'               ^^ text.html.asp meta.tag.inline.any.html entity.name.tag.inline.any.html
+<% Sub InventiveMethodNameHere(list) %>
+'  ^^^ meta.method.identifier.source.asp storage.type.function.asp
+'                                   ^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp
+  <ul>
+<%
+        for each item in list
+       '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
+       '              ^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
+            %><li><%= item %></li><%
+           '^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp
+           '  ^ meta.tag.inline.any.html punctuation.definition.tag.begin.html
+           '      ^^^ punctuation.section.embedded.begin.inside-block.asp
+           '               ^^ punctuation.section.embedded.end.inside-block.asp
+        Next
+       '^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp keyword.control.flow.asp
+       '    ^ - meta.for.block.asp
+%></ul>
+<% End Sub %>
+'  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp storage.type.function.end.asp
+'         ^ - meta.method.source.asp
  </body>
 '^^^^^^^ meta.tag.structure.any.html
 </html>
