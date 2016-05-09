@@ -16,7 +16,7 @@
 		<string>(?x)
 		^\s*
 		(&lt;/(?!html)
-		  [A-Za-z0-9]+\b[^&gt;]*&gt;
+		  [A-Za-z0-9-]+\b[^&gt;]*&gt;
 		|--&gt;
 		|&lt;\?(php)?\s+(else(if)?|end(if|for(each)?|while))
 		|\}
@@ -28,7 +28,7 @@
 		<string>(?x)
 		^\s*
 		&lt;(?!\?|area|base|br|col|frame|hr|html|img|input|link|meta|param|[^&gt;]*/&gt;)
-		  ([A-Za-z0-9]+)(?=\s|&gt;)\b[^&gt;]*&gt;(?!.*&lt;/\1&gt;)
+		  ([A-Za-z0-9-]+)(?=\s|&gt;)\b[^&gt;]*&gt;(?!.*&lt;/\1&gt;)
 		|&lt;!--(?!.*--&gt;)
 		|&lt;\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)
 		|\{[^}"']*$
