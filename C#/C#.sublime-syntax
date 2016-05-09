@@ -4,6 +4,7 @@
 name: "C#"
 file_extensions:
   - cs
+  - csx
 scope: source.cs
 contexts:
   main:
