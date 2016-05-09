@@ -7,6 +7,9 @@ file_extensions:
 scope: text.html.asp
 contexts:
   main:
+    - include: html
+
+  asp_punctuation_begin:
     - match: '<%@' # https://msdn.microsoft.com/en-us/library/ms525579%28v=vs.90%29.aspx
       scope: punctuation.section.embedded.begin.asp
       push:
@@ -20,10 +23,12 @@ contexts:
     - match: '<%=?'
       scope: punctuation.section.embedded.begin.asp
       push: [close_embedded_asp, begin_embedded_asp]
-    - include: html
 
   html:
-    - include: scope:text.html.basic
+    - match: ''
+      set: scope:text.html.basic
+      with_prototype:
+        - include: asp_punctuation_begin
 
   begin_embedded_asp:
     - meta_scope: source.asp.embedded.html

@@ -674,4 +674,15 @@ test = "hello%>
 '         ^ - meta.method.source.asp
  </body>
 '^^^^^^^ meta.tag.structure.any.html
+<p class="<% If True Then %>test<% End If %>"></p>
+'         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html punctuation.section.embedded.begin.asp
+'            ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html keyword.control.flow.asp
+'                         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp punctuation.section.embedded.end.inside-block.asp
+'                           ^^^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp
+'                               ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp punctuation.section.embedded.begin.inside-block.asp
+'                                  ^^^^^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html keyword.control.flow.asp
+'                                         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html punctuation.section.embedded.end.asp - meta.if.block.asp
+<script type="text/javascript">
+<% If True Then %>var hello = "world";<% End If %>
+</script>
 </html>
