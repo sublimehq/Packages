@@ -750,7 +750,6 @@ contexts:
       set:
         - meta_content_scope: meta.function.objc++ entity.name.function.constructor.objc++
         - include: scope:source.c++#identifiers
-        - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
           set: function-definition-params
     - match: '(?={{path_lookahead}}\s*::\s*~{{identifier}}\s*(\(|$))'
@@ -758,6 +757,16 @@ contexts:
         - meta_content_scope: meta.function.objc++ entity.name.function.destructor.objc++
         - include: scope:source.c++#identifiers
         - match: '~{{identifier}}'
+        - match: '(?=[^\w\s])'
+          set: function-definition-params
+    # If we see a path ending in :: before a newline, we don't know if it is
+    # a constructor or destructor, or a long return type, so we are just going
+    # to treat it like a regular function. Most likely it is a constructor,
+    # since it doesn't seem most developers would create such a long typename.
+    - match: '(?={{path_lookahead}}\s*::\s*$)'
+      set:
+        - meta_content_scope: meta.function.c++ entity.name.function.c++
+        - include: scope:source.c++#identifiers
         - match: '(?=[^\w\s])'
           set: function-definition-params
     - match: '(?=\S)'

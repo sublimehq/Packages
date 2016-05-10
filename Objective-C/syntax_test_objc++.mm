@@ -718,6 +718,11 @@ FooBar::~FooBar
  /* <- meta.function.parameters meta.group punctuation.definition.group.end */
 /*^^^^ meta.function */
 
+ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath::
+    ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath()
+/* <- entity.name.function */
+    : var_name(nullptr) {
+}
 
 bool FooBar::operator==() {}
 /*   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
