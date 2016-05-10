@@ -14,6 +14,9 @@
 /*           ^^^^^^^^  string.quoted.single.css                */
 /*           ^         punctuation.definition.string.begin.css */
 /*                  ^  punctuation.definition.string.end.css   */
+
+    content: 'invalid;
+/*                    ^ invalid.illegal.newline.css */
 }
 
 .test-punctuation {
@@ -32,6 +35,7 @@
 /* < punctuation.section.property-list.css */
 
     .classname {}
+/*  ^^^^^^^^^^^ meta.selector.css */
 /*  ^          punctuation.definition.entity.css     */
 /*   ^^^^^^^^^ entity.other.attribute-name.class.css */
 
@@ -43,35 +47,42 @@
 /*  ^^^^ entity.name.tag.css */
 
     @charset "UTF-8";
+/*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
 /*  ^        punctuation.definition.keyword.css  */
 /*   ^^^^^^^ keyword.control.at-rule.charset.css */
 
     @import "x" print;
+/*  ^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
 /*  ^                 punctuation.definition.keyword.css */
 /*   ^^^^^^           keyword.control.at-rule.import.css */
 /*              ^^^^^ support.constant.media.css         */
 
     @namespace svg "http://www.w3.org/1999/xhtml";
+/*  ^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*  ^              punctuation.definition.keyword.css    */
 /*   ^^^^^^^^^     keyword.control.at-rule.namespace.css */
 /*             ^^^ entity.other.namespace-prefix.css     */
 
     @page :left {}
+/*  ^^^^^^^^^^^^^^ meta.at-rule.page.css */
 /*  ^     punctuation.definition.keyword.css */
 /*   ^^^^ keyword.control.at-rule.page.css   */
 
     @media only screen {}
+/*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^                  punctuation.definition.keyword.css */
 /*   ^^^^^             keyword.control.at-rule.media.css  */
 /*         ^^^^        keyword.operator.logic.media.css   */
 /*              ^^^^^^ support.constant.media.css         */
 
     @custom-media --a-b (width: 1px);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css */
 /*  ^                          punctuation.definition.keyword.css       */
 /*   ^^^^^^^^^^^^              keyword.control.at-rule.custom-media.css */
 /*                       ^^^^^ support.type.property-name.media.css     */
 
     @keyframes beat, bounce {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css */
 /*  ^                       punctuation.definition.keyword.css              */
 /*   ^^^^^^^^^              keyword.control.at-rule.keyframe.css            */
 /*             ^^^^         entity.other.animation-name.css                 */
@@ -98,6 +109,7 @@
 }
 
     @font-face {}
+/*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
 /*  ^          punctuation.definition.keyword.css    */
 /*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
 
@@ -105,6 +117,10 @@
 /*          ^^^^^^^^^^ support.type.custom-property.css       */
 /*          ^^         punctuation.definition.custom-property */
 /*            ^^^^^^^^ support.type.custom-property.name.css  */
+
+.test-deprecated-var { var-deprecated }
+/*                     ^^^^^^^^^^^^^^ invalid.deprecated.custom-property.css */
+/*                     ^^^^ keyword.other.custom-property.prefix.css */
 
 .test-types {
     top: 20;
@@ -126,14 +142,14 @@
 /*            ^^^   keyword.other.unit.css */
 }
 
-.test-property-names {
-    -webkit-border-radius: 0px;
-/*  ^^^^^^^^^^^^^^^^^^^^^ meta.property-name.css */
-}
+.test-properties {
+/*               ^ meta.property-list.css */
 
-.test-property-values {
-    -webkit-border-radius: 0px;
-/*                         ^^^ meta.property-value.css */
+    -webkit-transform: none;
+/*  ^^^^^^^^^^^^^^^^^ meta.property-name.css */
+/*  ^^^^^^^^ support.type.vendor-prefix.css */
+/*          ^^^^^^^^^ support.type.property-name.css */
+/*                     ^^^^ meta.property-value.css support.constant.property-value.css */
 }
 
 .test-operators {
@@ -224,6 +240,7 @@
 /*                                     ^^ constant.character.escape.css */
 
 .test-attribute-selectors[disabled][type=button] {}
+/*                       ^^^^^^^^^^ meta.attribute-selector.css */
 /*                       ^ punctuation.definition.entity.css */
 /*                        ^^^^^^^^ entity.other.attribute-name.css */
 /*                                ^ punctuation.definition.entity.css */
@@ -282,22 +299,23 @@
 
 .test-color-values {
     color: aqua;
-/*         ^ support.constant.color.w3c-standard-color-name.css */
+/*         ^^^^ support.constant.color.w3c-standard-color-name.css */
 
     color: aliceblue;
-/*         ^ support.constant.color.w3c-extended-color-keywords.css */
+/*         ^^^^^^^^^ support.constant.color.w3c-extended-color-keywords.css */
 
     color: currentColor;
-/*         ^ support.constant.color.w3c-special-color-keyword.css */
+/*         ^^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
 
     color: transparent;
-/*         ^ support.constant.color.w3c-special-color-keyword.css */
+/*         ^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
 
     color: #b4da55;
-/*         ^ constant.other.color.rgb-value.css */
+/*         ^ punctuation.definition.constant.css */
+/*         ^^^^^^^ constant.other.color.rgb-value.css */
 
     color: #137;
-/*         ^ constant.other.color.rgb-value.css */
+/*         ^^^^ constant.other.color.rgb-value.css */
 }
 
 .test-function-meta {
@@ -590,13 +608,13 @@
 .test-counter-functions {
     top: counter(name, decimal-leading-zero);
 /*       ^^^^^^^                            support.function.counter.css                      */
-/*               ^^^^                       string.unquoted.css                               */
+/*               ^^^^                       entity.other.counter-name.css string.unquoted.css */
 /*                   ^                      punctuation.separator.css                         */
 /*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
 
     top: counters(name, "str", none);
 /*       ^^^^^^^^                   support.function.counter.css                      */
-/*                ^^^^              string.unquoted.css                               */
+/*                ^^^^              entity.other.counter-name.css string.unquoted.css */
 /*                    ^             punctuation.separator.css                         */
 /*                      ^^^^^       string.quoted.double.css                          */
 /*                           ^      punctuation.separator.css                         */
