@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[class ${1:name}
+	<content><![CDATA[class ${1:name}
 {
 	this($2)
 	{
@@ -7,7 +7,7 @@
 	}
 }
 ]]></content>
-    <tabTrigger>class</tabTrigger>
-    <scope>source.d</scope>
-    <description>class … { … }</description>
+	<tabTrigger>class</tabTrigger>
+	<scope>source.d</scope>
+	<description>class … { … }</description>
 </snippet>

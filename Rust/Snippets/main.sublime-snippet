@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[fn main() {
+	<content><![CDATA[fn main() {
 	${1:unimplemented!();}
 }]]></content>
-    <tabTrigger>main</tabTrigger>
-    <scope>source.rust</scope>
-    <description>fn main() { … }</description>
+	<tabTrigger>main</tabTrigger>
+	<scope>source.rust</scope>
+	<description>fn main() { … }</description>
 </snippet>

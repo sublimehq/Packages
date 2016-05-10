@@ -1,7 +1,7 @@
 <snippet>
-    <content><![CDATA[default:
+	<content><![CDATA[default:
 	$0]]></content>
-    <tabTrigger>de</tabTrigger>
-    <scope>source.java</scope>
-    <description>default</description>
+	<tabTrigger>de</tabTrigger>
+	<scope>source.java</scope>
+	<description>default</description>
 </snippet>

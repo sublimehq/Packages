@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[try {
+	<content><![CDATA[try {
 	$0
 }
 catch(${1:Exception} e) {
@@ -7,7 +7,7 @@ catch(${1:Exception} e) {
 }
 
 ]]></content>
-    <tabTrigger>try</tabTrigger>
-    <scope>source.groovy</scope>
-    <description>try … catch</description>
+	<tabTrigger>try</tabTrigger>
+	<scope>source.groovy</scope>
+	<description>try … catch</description>
 </snippet>

@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[class ${1:BlankSlate}
+	<content><![CDATA[class ${1:BlankSlate}
 	instance_methods.each { |meth| undef_method(meth) unless meth =~ /\A__/ }
 	
 	def initialize${2/(^.*?\S.*)|.*/(?1:\()/}${2:args}${2/(^.*?\S.*)|.*/(?1:\))/}
@@ -14,7 +14,7 @@
 	
 	
 end]]></content>
-    <tabTrigger>cla</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>class BlankSlate .. initialize .. end</description>
+	<tabTrigger>cla</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>class BlankSlate .. initialize .. end</description>
 </snippet>

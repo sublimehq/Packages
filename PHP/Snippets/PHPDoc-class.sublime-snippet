@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[/**
+	<content><![CDATA[/**
  * ${3:undocumented class}
  *
  * @package ${4:default}
@@ -8,7 +8,7 @@
 $1class $2
 {$0
 } // END $1class $2]]></content>
-    <tabTrigger>doc_c</tabTrigger>
-    <scope>source.php</scope>
-    <description>Class</description>
+	<tabTrigger>doc_c</tabTrigger>
+	<scope>source.php</scope>
+	<description>Class</description>
 </snippet>

@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[withPrintWriter {${1/(.+)/(?1: )/}${1:writer}${1/(.+)/(?1: ->)/}
+	<content><![CDATA[withPrintWriter {${1/(.+)/(?1: )/}${1:writer}${1/(.+)/(?1: ->)/}
 	$0
 }]]></content>
-    <tabTrigger>with</tabTrigger>
-    <scope>source.groovy</scope>
-    <description>withPrintWriter { … }</description>
+	<tabTrigger>with</tabTrigger>
+	<scope>source.groovy</scope>
+	<description>withPrintWriter { … }</description>
 </snippet>

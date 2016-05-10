@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[try
+	<content><![CDATA[try
 {
 	$2
 }
@@ -7,7 +7,7 @@ catch (${1:Exception} e)
 {
 	$0
 }]]></content>
-    <tabTrigger>tc</tabTrigger>
-    <scope>source.d</scope>
-    <description>try … catch</description>
+	<tabTrigger>tc</tabTrigger>
+	<scope>source.d</scope>
+	<description>try … catch</description>
 </snippet>

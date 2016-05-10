@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[require "optparse"
+	<content><![CDATA[require "optparse"
 
 options = {${1::default => "args"}}
 
@@ -13,8 +13,7 @@ ARGV.options do |opts|
 	
 	opts.separator "Common Options:"
 	
-	opts.on( "-h", "--help",
-	         "Show this message." ) do
+	opts.on( "-h", "--help", "Show this message." ) do
 		puts opts
 		exit
 	end
@@ -27,7 +26,7 @@ ARGV.options do |opts|
 	end
 end
 ]]></content>
-    <tabTrigger>optp</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>option_parse { .. }</description>
+	<tabTrigger>optp</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>option_parse { .. }</description>
 </snippet>

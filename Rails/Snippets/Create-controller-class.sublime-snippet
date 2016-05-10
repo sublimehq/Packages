@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[class ${1:Model}Controller < ApplicationController
+	<content><![CDATA[class ${1:Model}Controller < ApplicationController
 	before_filter :find_${2:model}
 
 	$0
@@ -9,7 +9,7 @@
 		@$2 = ${3:$1}.find(params[:id]) if params[:id]
 	end
 end]]></content>
-    <tabTrigger>cla</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>Create controller class</description>
+	<tabTrigger>cla</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>Create controller class</description>
 </snippet>

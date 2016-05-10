@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[Thread.startDaemon {
+	<content><![CDATA[Thread.startDaemon {
 	$0
 }]]></content>
-    <tabTrigger>thread</tabTrigger>
-    <scope>source.groovy</scope>
-    <description>Thread.startDaemon { … }</description>
+	<tabTrigger>thread</tabTrigger>
+	<scope>source.groovy</scope>
+	<description>Thread.startDaemon { … }</description>
 </snippet>

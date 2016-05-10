@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[## Copyright (C) ${TM_YEAR} $TM_FULLNAME
+	<content><![CDATA[## Copyright (C) ${TM_YEAR} $TM_FULLNAME
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 $0
 
 endfunction]]></content>
-    <tabTrigger>octfun</tabTrigger>
-    <scope>source.matlab</scope>
-    <description>Octave function</description>
+	<tabTrigger>octfun</tabTrigger>
+	<scope>source.matlab</scope>
+	<description>Octave function</description>
 </snippet>

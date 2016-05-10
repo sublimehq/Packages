@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[def ${1:method_name}
+	<content><![CDATA[def ${1:method_name}
 	$0
 end]]></content>
-    <tabTrigger>def</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>def … end</description>
+	<tabTrigger>def</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>def … end</description>
 </snippet>

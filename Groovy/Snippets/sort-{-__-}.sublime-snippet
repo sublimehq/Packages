@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[sort { 
+	<content><![CDATA[sort {
 	$0
 }]]></content>
-    <tabTrigger>sort</tabTrigger>
-    <scope>source.groovy</scope>
-    <description>sort { … }</description>
+	<tabTrigger>sort</tabTrigger>
+	<scope>source.groovy</scope>
+	<description>sort { … }</description>
 </snippet>

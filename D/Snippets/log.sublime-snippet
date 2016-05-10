@@ -1,6 +1,6 @@
 <snippet>
-    <content><![CDATA[log("$1");]]></content>
-    <tabTrigger>log</tabTrigger>
-    <scope>source.d</scope>
-    <description>log(…)</description>
+	<content><![CDATA[log("$1");]]></content>
+	<tabTrigger>log</tabTrigger>
+	<scope>source.d</scope>
+	<description>log(…)</description>
 </snippet>

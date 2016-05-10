@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[try:
+	<content><![CDATA[try:
 	${1:pass}
 except${2: ${3:Exception}, ${4:e}}:
 	${5:raise}
@@ -7,7 +7,7 @@ else:
 	${6:pass}
 finally:
 	${7:pass}]]></content>
-    <tabTrigger>try</tabTrigger>
-    <scope>source.python</scope>
-    <description>Try/Except/Else/Finally</description>
+	<tabTrigger>try</tabTrigger>
+	<scope>source.python</scope>
+	<description>Try/Except/Else/Finally</description>
 </snippet>

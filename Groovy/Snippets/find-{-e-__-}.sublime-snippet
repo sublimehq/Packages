@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[find {${1/(.+)/(?1: )/}${1:obj}${1/(.+)/(?1: ->)/}
+	<content><![CDATA[find {${1/(.+)/(?1: )/}${1:obj}${1/(.+)/(?1: ->)/}
 	$0
 }]]></content>
-    <tabTrigger>find</tabTrigger>
-    <scope>source.groovy</scope>
-    <description>find { … }</description>
+	<tabTrigger>find</tabTrigger>
+	<scope>source.groovy</scope>
+	<description>find { … }</description>
 </snippet>

@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[module ${1:${TM_FILENAME/(?:\A|_)([A-Za-z0-9]+)(?:\.rb)?/(?2::\u$1)/g}}
+	<content><![CDATA[module ${1:${TM_FILENAME/(?:\A|_)([A-Za-z0-9]+)(?:\.rb)?/(?2::\u$1)/g}}
 	module ClassMethods
 		$0
 	end
@@ -13,7 +13,7 @@
 		receiver.send :include, InstanceMethods
 	end
 end]]></content>
-    <tabTrigger>mod</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>module .. ClassMethods .. end</description>
+	<tabTrigger>mod</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>module .. ClassMethods .. end</description>
 </snippet>

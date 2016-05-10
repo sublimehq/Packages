@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[mod ${1:name} {
+	<content><![CDATA[mod ${1:name} {
 	${2:// add code here}
 }]]></content>
-    <tabTrigger>mod</tabTrigger>
-    <scope>source.rust</scope>
-    <description>mod … { … }</description>
+	<tabTrigger>mod</tabTrigger>
+	<scope>source.rust</scope>
+	<description>mod … { … }</description>
 </snippet>

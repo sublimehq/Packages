@@ -1,8 +1,8 @@
 <snippet>
-    <content><![CDATA[elseif (${1:condition}) {
+	<content><![CDATA[elseif (${1:condition}) {
 	${0:# code...}
 }]]></content>
-    <tabTrigger>elseif</tabTrigger>
-    <scope>source.php</scope>
-    <description>elseif …</description>
+	<tabTrigger>elseif</tabTrigger>
+	<scope>source.php</scope>
+	<description>elseif …</description>
 </snippet>

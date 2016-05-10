@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[class ${1:${TM_FILENAME/(?:\A|_)([A-Za-z0-9]+)(?:\.rb)?/(?2::\u$1)/g}} < DelegateClass(${2:ParentClass})
+	<content><![CDATA[class ${1:${TM_FILENAME/(?:\A|_)([A-Za-z0-9]+)(?:\.rb)?/(?2::\u$1)/g}} < DelegateClass(${2:ParentClass})
 	def initialize${3/(^.*?\S.*)|.*/(?1:\()/}${3:args}${3/(^.*?\S.*)|.*/(?1:\))/}
 		super(${4:del_obj})
 		
@@ -8,7 +8,7 @@
 	
 	
 end]]></content>
-    <tabTrigger>cla-</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>class .. &lt; DelegateClass .. initialize .. end</description>
+	<tabTrigger>cla-</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>class .. &lt; DelegateClass .. initialize .. end</description>
 </snippet>

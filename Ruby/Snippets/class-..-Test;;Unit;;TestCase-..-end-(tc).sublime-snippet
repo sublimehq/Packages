@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[require "test/unit"
+	<content><![CDATA[require "test/unit"
 
 require "${1:library_file_name}"
 
@@ -8,7 +8,7 @@ class Test${2:${1/([\w&&[^_]]+)|./\u$1/g}} < Test::Unit::TestCase
 		$0
 	end
 end]]></content>
-    <tabTrigger>tc</tabTrigger>
-    <scope>source.ruby</scope>
-    <description>class .. &lt; Test::Unit::TestCase .. end</description>
+	<tabTrigger>tc</tabTrigger>
+	<scope>source.ruby</scope>
+	<description>class .. &lt; Test::Unit::TestCase .. end</description>
 </snippet>

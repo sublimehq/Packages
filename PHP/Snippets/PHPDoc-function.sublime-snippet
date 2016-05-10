@@ -1,5 +1,5 @@
 <snippet>
-    <content><![CDATA[/**
+	<content><![CDATA[/**
  * ${4:undocumented function}
  *
  * @return ${5:void}
@@ -8,7 +8,7 @@
 $1function $2($3)
 {$0
 }]]></content>
-    <tabTrigger>doc_f</tabTrigger>
-    <scope>source.php</scope>
-    <description>Function</description>
+	<tabTrigger>doc_f</tabTrigger>
+	<scope>source.php</scope>
+	<description>Function</description>
 </snippet>
