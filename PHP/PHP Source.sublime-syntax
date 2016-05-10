@@ -80,7 +80,6 @@ contexts:
 
   html-block:
     - match: '(?=\?>)'
-      scope: punctuation.section.embedded.end.php
       push:
         - match: '\?>'
           scope: punctuation.section.embedded.end.php
