@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[trait ${1:${TM_FILENAME/(.*)\.scala/$1/}} {
+	$0
+}]]></content>
+	<tabTrigger>trait</tabTrigger>
+	<scope>source.go</scope>
+	<description>trait</description>
+</snippet>

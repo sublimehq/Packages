@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[for( $1 <- ${2:${3:0} to ${4:10}}) yield $0]]></content>
+	<tabTrigger>for</tabTrigger>
+	<scope>source.go</scope>
+	<description>for - Yield</description>
+</snippet>

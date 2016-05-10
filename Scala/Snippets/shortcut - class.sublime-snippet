@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[class]]></content>
+	<tabTrigger>c</tabTrigger>
+	<scope>source.go</scope>
+	<description>shortcut - class</description>
+</snippet>

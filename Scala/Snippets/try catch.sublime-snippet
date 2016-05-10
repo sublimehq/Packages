@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[try { 
+	${1:// ...}
+} catch {
+	case e: Exception => $0
+}]]></content>
+	<tabTrigger>try</tabTrigger>
+	<scope>source.go</scope>
+	<description>try/catch</description>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[${1:"${2}"} <- ${3:"${4}"}]]></content>
+	<tabTrigger>&lt;-</tabTrigger>
+	<scope>source.go</scope>
+	<description>left arrow</description>
+</snippet>

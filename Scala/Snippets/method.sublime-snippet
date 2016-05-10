@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[def ${1:method}${2:(${4:arg}: ${5:Type})} = {
+	${0}
+}]]></content>
+	<tabTrigger>def</tabTrigger>
+	<scope>source.go</scope>
+	<description>method</description>
+</snippet>

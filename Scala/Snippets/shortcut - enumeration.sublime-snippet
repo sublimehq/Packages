@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[enumeration]]></content>
+	<tabTrigger>enum</tabTrigger>
+	<scope>source.go</scope>
+	<description>shortcut - enumeration</description>
+</snippet>

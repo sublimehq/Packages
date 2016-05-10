@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[object]]></content>
+	<tabTrigger>obj</tabTrigger>
+	<scope>source.go</scope>
+	<description>shortcut - object</description>
+</snippet>

@@ -1,0 +1,12 @@
+<snippet>
+	<content><![CDATA[object ${1:MyEnumeration} extends Enumeration {
+	type $1 = Value
+	val ${2:${3:MyEnumeration1}, ${4:MyEnumeration2}} = Value
+}
+
+${5:import $1._}
+${0}]]></content>
+	<tabTrigger>enumeration</tabTrigger>
+	<scope>source.go</scope>
+	<description>enumeration</description>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[trait]]></content>
+	<tabTrigger>t</tabTrigger>
+	<scope>source.go</scope>
+	<description>shortcut - trait</description>
+</snippet>

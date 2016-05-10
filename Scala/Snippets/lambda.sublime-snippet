@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[($1) => ${2:{${3:}\}}]]></content>
+	<tabTrigger>lam</tabTrigger>
+	<scope>source.go</scope>
+	<description>lambda</description>
+</snippet>
