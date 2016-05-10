@@ -36,6 +36,20 @@ set v "String with $var and [command substitution] in it. Also, \n escapes."
 #                            ^^^^^^^ variable.function
 #                                                               ^^ constant.character.escape
 
+proc a {} {
+    return "this is [proc c {p1 p2 p3} { puts 42 }; set b 42;] here, \[here it's $b\], highlighted too"
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.substitution
+#                         ^ entity.name.function
+#                           ^^^^^^^^^^ meta.block meta.substitution meta.function.parameters
+#                                                 ^ punctuation.terminator
+#                                                   ^ keyword.other
+#                                                         ^^ constant.numeric
+#                                                                     ^^^^^^^^^^^^^^^ - meta.substitution
+#                                                                    ^^ constant.character.escape
+#                                                                      ^^^^ - variable.function
+#                                                                                  ^^ constant.character.escape
+}
+
 expr 5 + 4
 #    ^ constant.numeric
 #        ^ constant.numeric
@@ -114,3 +128,6 @@ if {$var == true} {
 # Ensure else doesn't work outside of if command
 else {}
 # <- - keyword.control
+
+set y {1 2 3}a
+#            ^ invalid.illegal
