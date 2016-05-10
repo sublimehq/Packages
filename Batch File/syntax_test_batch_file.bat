@@ -35,6 +35,9 @@ REM
 ::      ^^^^^   string.quoted.double.dosbatch
 ::          ^   punctuation.definition.string.end.dosbatch
 
+ECHO FOO: %FOO%
+::      ^^^^^^^ - comment
+
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
 

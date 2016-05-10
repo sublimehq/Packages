@@ -142,7 +142,7 @@ contexts:
         2: entity.name.label.dosbatch
 
   comments:
-    - match: '(:[+=,;: ])'
+    - match: '^\s*(:[+=,;: ])'
       scope: punctuation.definition.comment.dosbatch
       push:
         - meta_scope: comment.line.colon.dosbatch
