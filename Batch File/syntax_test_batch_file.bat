@@ -30,13 +30,22 @@ REM
    : Me too!
 :: ^^         punctuation.definition.comment.dosbatch
 
+ECHO : Not a comment
+::   ^^^^^^^^^^^^^^^ - comment
+
+ECHO &:: A comment
+::   ^ keyword.operator.conditional.dosbatch
+::    ^^ punctuation.definition.comment.dosbatch
+::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+  :: an indented comment
+::^^ punctuation.definition.comment.dosbatch
+::^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
+
    ECHO "foo"
 ::      ^       punctuation.definition.string.begin.dosbatch
 ::      ^^^^^   string.quoted.double.dosbatch
 ::          ^   punctuation.definition.string.end.dosbatch
-
-ECHO FOO: %FOO%
-::      ^^^^^^^ - comment
 
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
