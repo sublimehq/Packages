@@ -299,7 +299,7 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.markdown
         2: string.other.link.description.markdown
-        4: punctuation.definition.string.begin.markdown
+        4: punctuation.definition.string.end.markdown
         5: punctuation.definition.constant.markdown
         6: constant.other.reference.link.markdown
         7: punctuation.definition.constant.markdown
