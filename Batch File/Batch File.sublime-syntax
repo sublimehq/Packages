@@ -6,6 +6,8 @@ file_extensions:
   - bat
   - cmd
 scope: source.dosbatch
+variables:
+  colon_comment_start: '(?::[+=,;: ])'
 contexts:
   main:
     - include: comments
@@ -142,12 +144,18 @@ contexts:
         2: entity.name.label.dosbatch
 
   comments:
-    - match: '^\s*(:[+=,;: ])'
-      scope: punctuation.definition.comment.dosbatch
+    - match: '(?:^|(&))\s*(?=({{colon_comment_start}}))'
+      captures:
+        1: keyword.operator.conditional.dosbatch
       push:
-        - meta_scope: comment.line.colon.dosbatch
-        - match: \n
+        - match: '\n'
           pop: true
+        - match: '({{colon_comment_start}})'
+          scope: punctuation.definition.comment.dosbatch
+          push:
+            - meta_scope: comment.line.colon.dosbatch
+            - match: '(?=\n)'
+              pop: true
     # REM command
     # https://technet.microsoft.com/en-us/library/bb490986.aspx
     - match: \b(?i)rem\b
