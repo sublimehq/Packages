@@ -10,6 +10,7 @@ variables:
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'
   end_chars: '[;\n\}\]]'
   inline_end_chars: '[;\s\}\]]'
+  var_unquoted_string: '(?:\$\{[^ \}]+\}|{{unquoted_string}})+'
 
 contexts:
   main:
@@ -74,7 +75,7 @@ contexts:
     - match: '\bexpr\b(?=\s)'
       scope: keyword.other.tcl
       set: expr
-    - match: \b(namespace)\s+eval\s+({{unquoted_string}})
+    - match: \b(namespace)\s+eval\s+({{var_unquoted_string}})
       captures:
         1: keyword.other.tcl
         2: entity.name.namespace.tcl
@@ -113,9 +114,13 @@ contexts:
             - include: strings
     - match: (?=#)
       set: comments
-    - match: '{{unquoted_string}}'
-      scope: variable.function.tcl
-      pop: true
+    - match: '(?={{var_unquoted_string}})'
+      set:
+        - meta_content_scope: variable.function.tcl
+        - include: variable
+        - match: '{{unquoted_string}}'
+        - match: ''
+          pop: true
     - match: '(?=\S)'
       pop: true
 
@@ -144,7 +149,7 @@ contexts:
     - include: commands
 
   proc:
-    - match: \b(proc)\s+({{unquoted_string}})
+    - match: \b(proc)\s+({{var_unquoted_string}})
       scope: meta.function.tcl
       captures:
         1: keyword.other.tcl

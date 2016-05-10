@@ -68,6 +68,9 @@ proc D {a {b "default"} args} {
 # <- meta.function
  # <- - meta.function
 
+proc ${ns}::suffix {} {}
+#    ^^^^^^^^^^^^^ entity.name.function
+
 # -------------------------------------------------------------------------- #
 # Issue 131: https://github.com/SublimeTextIssues/DefaultPackages/issues/131
 # -------------------------------------------------------------------------- #
@@ -101,6 +104,9 @@ puts $not_ok         ;# ["]["]
 
 my-command param1 $param2
 # <- variable.function
+
+${ns}::command 1 2
+#^^^^^^^^^^^^^ variable.function
 
 array 1 2 3
 #^^^^ keyword.other
