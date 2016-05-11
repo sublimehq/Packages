@@ -648,6 +648,24 @@
     '                                                                                                                ^ - constant.numeric.asp
     '                                                                                                                         ^^^^^^^^ - constant.numeric.asp
     
+    Randomize Timer
+   '^^^^^^^^^^^^^^^ storage.type.asp
+    a=Abs(-6)*Rnd()*2+Fix(2.75) + Int(3.14)/Sin(30)+Cos(20)+Tan(40)+Sqr(4)+Log(6)+Sgn(3)
+    ' ^^^ support.function.vb.asp
+    '         ^^^ support.function.vb.asp
+    '                 ^^^ support.function.vb.asp
+    '                             ^^^ support.function.vb.asp
+    '                                       ^^^ support.function.vb.asp
+    '                                               ^^^ support.function.vb.asp
+    '                                                       ^^^ support.function.vb.asp
+    '                                                               ^^^ support.function.vb.asp
+    '                                                                      ^^^ support.function.vb.asp
+    '                                                                             ^^^ support.function.vb.asp
+    
+    b=Oct(12) & Hex(12)
+    ' ^^^ support.function.vb.asp
+    '           ^^^ support.function.vb.asp
+    
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
    '  ^ - source.asp.embedded.html
