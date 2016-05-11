@@ -665,6 +665,15 @@
     b=Oct(12) & Hex(12)
     ' ^^^ support.function.vb.asp
     '           ^^^ support.function.vb.asp
+    c = CSng("123") + CDbl("123") + CInt("123")+CLng("123")
+    '   ^^^^ support.function.vb.asp
+    '                 ^^^^ support.function.vb.asp
+    '                               ^^^^ support.function.vb.asp
+    '                                           ^^^^ support.function.vb.asp
+    d = Time
+    '   ^^^^ support.function.vb.asp
+    e = Date()
+    '   ^^^^ support.function.vb.asp
     
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
