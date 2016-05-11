@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>meta.function.section.latex</string>
+	<string>meta.section.latex</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
@@ -13,12 +13,12 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/\\((?:sub)*(?:section|chapter)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
+			s/\\((?:sub)*(?:paragraph|section|chapter|part)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
 		</string>
 		<key>symbolIndexTransformation</key>
 		<string>
-			s/\\((?:sub)*(?:section|chapter)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
-		</string>   
+			s/\\((?:sub)*(?:paragraph|section|chapter|part)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
+		</string>
 	</dict>
 </dict>
 </plist>
