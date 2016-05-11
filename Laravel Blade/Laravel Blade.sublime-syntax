@@ -1,0 +1,95 @@
+%YAML 1.2
+---
+name: Laravel Blade
+file_extensions:
+  - blade
+  - blade.php
+scope: source.blade
+
+contexts:
+  main:
+    - match: ''
+      push: scope:text.html.basic
+      with_prototype:
+      - include: comments
+      - include: keywords
+      - include: raw
+      - include: statements
+      - include: inline-php
+
+  comments:
+    - match: \{\{--
+      scope: punctuation.definition.comment.php.blade
+      push:
+        - meta_scope: comment.block.php.blade
+        - match: --\}\}
+          scope: punctuation.definition.comment.php.blade
+          pop: true
+        - match: --
+          scope: invalid.illegal.bad-comments-or-CDATA.html
+
+  keywords:
+    - match: \@\b(debug|set|i(f|nject|nclude)|elseif|for(else|each)|for|while|extends|unless|each|yield|lang|choice|section|render|block|can|p(artial|ush)|hasSection|stack)
+      captures:
+        0: entity.name.tag.block.any.html
+        1: constant.other.inline-data.html
+        2: constant.other.inline-data.html
+    - match: \(
+      scope: punctuation.definition.group.begin.php
+      push:
+        - meta_scope: custom.compiler.blade.php
+        - meta_content_scope: source.php
+        - match: '\)'
+          scope: punctuation.definition.group.end.php
+          pop: true
+        - include: scope:source.php
+
+    - match: '\@\b(e(mpty|nd(if|for(else|each)|while|can|for|unless|block|p(artial|ush))|lse)|s(ection|how|top)|continue|break|parent|overwrite|append)\b'
+      captures:
+        0: entity.name.tag.block.any.html
+        1: constant.other.inline-data.html
+      pop: false
+
+  raw:
+    - match: '@\{\{\{?-?'
+      captures:
+        0: entity.name.tag.block.any.html
+      push:
+        - meta_scope: scope:text.html.basic
+        - meta_content_scope: scope:text.html.basic
+        - match: '-?\}?\}\}'
+          captures:
+            0: entity.name.tag.block.any.html
+            1: entity.name.tag.block.any.html
+          pop: true
+
+  function-parameters:
+    - match: '\)'
+      scope: punctuation.definition.group.end.php
+
+  statements:
+    - match: '\{(!!)|(\{\{\{?)-?'
+      captures:
+        0: entity.name.tag.block.any.html
+      push:
+        - meta_scope: meta.embedded.line.php
+        - meta_content_scope: source.php
+        - match: '-?(\}?\}\})|(!!)\}'
+          captures:
+            0: entity.name.tag.block.any.html
+          pop: true
+        - include: scope:source.php
+
+  inline-php:
+    - match: <\?(?i:php|=)?
+      captures:
+        0: punctuation.section.embedded.begin.php
+      push:
+        - meta_scope: meta.embedded.line.php
+        - meta_content_scope: source.php
+        - match: (\?)>
+          captures:
+            0: punctuation.section.embedded.end.php
+            1: source.php
+          pop: true
+        - include: scope:source.php
