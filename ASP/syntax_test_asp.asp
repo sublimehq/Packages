@@ -186,7 +186,7 @@
    '                                                                              ^ - meta.class
     
     Const abc = 'fgfg
-    '           ^ invalid.illegal.unexpected-end-of-statement.asp
+    '           ^ invalid.illegal.unexpected-end-of-statement.asp,
     Private a, b
 '<- - invalid.illegal.unexpected-end-of-statement.asp
     Set a = new TestClass
@@ -195,9 +195,9 @@
     a.Name = blah
     
     New 
-   '    ^ invalid.illegal.missing-token.asp
+   '    ^ invalid.illegal.missing-token.asp,
    +
-   '^ invalid.illegal.unexpected-end-of-statement.asp
+   '^ invalid.illegal.unexpected-end-of-statement.asp,
     
     Function GetModifiedDate(path) ' test function
    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
@@ -329,7 +329,7 @@
    '      ^ - meta.if.block.asp
     
     If a Then Call
-    '             ^ invalid.illegal.missing-token.asp
+    '             ^ invalid.illegal.missing-token.asp,
     
     Dim str1_ REM example
    '^^^ storage.modifier.source.asp
@@ -371,7 +371,7 @@
        '^^^^ keyword.control.flow.asp
 '<- meta.select.block.asp
         Case
-        '   ^ invalid.illegal.unexpected-end-of-statement.asp
+        '   ^ invalid.illegal.unexpected-end-of-statement.asp,
         Case vbNullString
        '^^^^ keyword.control.flow.asp
         '    ^^^^^^^^^^^^ support.type.vb.asp
@@ -416,7 +416,7 @@
         a)
         '^ invalid.illegal.stray-close-bracket.asp
         a(
-        ' ^ invalid.illegal.missing-close-bracket.asp
+        ' ^ invalid.illegal.missing-close-bracket.asp,
         ReDim arr(2l,b)
        '^^^^^ storage.modifier.source.asp
        '         ^^^^^ meta.array.definition.asp
@@ -529,7 +529,7 @@
     If 
    '^^ keyword.control.flow.asp
    '  ^ meta.between-if-and-then.asp
-   '   ^ invalid.illegal.unexpected-end-of-statement.asp
+   '   ^ invalid.illegal.unexpected-end-of-statement.asp,
     
     For Each cookie In Request.Cookies
    '^^^^^^^^ keyword.control.flow.asp
@@ -617,7 +617,7 @@ _
    ' ^^^^^^ comment.line.apostrophe.asp
 
 t = [unclosed variable identifier
-'                                ^ invalid.illegal.unclosed-variable-identifier.asp
+'                                ^ invalid.illegal.unclosed-variable-identifier.asp,
 
 Dim test
  rem the syntax on the next line will cause an unterminated string constant error
@@ -685,4 +685,5 @@ test = "hello%>
 <script type="text/javascript">
 <% If True Then %>var hello = "world";<% End If %>
 </script>
+<span <% If False Then %>class="test"<% End If %>>Text</span>
 </html>

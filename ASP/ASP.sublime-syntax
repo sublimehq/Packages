@@ -80,15 +80,21 @@ contexts:
     - include: allow_line_continuation
 
   expect_not_end_of_statement:
+    - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      pop: true
     - include: not_end_of_statement
     - match: '\s*(?=\S)'
       pop: true
 
   expect_identifier_reference:
+    - match: '\s+'
+      scope: ''
     - match: '{{identifier}}'
       captures:
         0: meta.variable-reference.asp
-        1: invalid.illegal.unclosed-variable-identifier.asp
+        #1: invalid.illegal.unclosed-variable-identifier.asp
+      pop: true
+    - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       pop: true
     - include: unexpected_token
 
@@ -229,7 +235,10 @@ contexts:
       pop: true
 
   constant_value:
-    - include: not_end_of_statement
+    #- include: not_end_of_statement # this include has been commented out to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+    - include: allow_line_continuation # as the above include has been commented out, this one has been added in it's place
+    - match: '{{whitespace_or_end_of_statement}}' # as the above include has been commented out, this match pattern has been added to pop at the end of the logical statement
+      pop: true
     - match: '{{literal_number}}'
       scope: constant.numeric.asp
       pop: true
@@ -380,7 +389,9 @@ contexts:
           set: inside_control_flow_if_block
         - match: '' # if the above didn't match, then it is a single line if block
           set: inside_control_flow_if_single_line
-    - include: not_end_of_statement
+    #- include: not_end_of_statement # this include has been commented out to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+    - match: '{{whitespace_or_end_of_statement}}' # the above commented out include has been replaced with this, to exit the if scope if there is no `Then` on the same logical line
+      pop: true
     - include: expression
 
   elseif_then_block:
@@ -454,13 +465,17 @@ contexts:
     - match: '{{identifier}}'
       captures:
         0: meta.variable-reference.asp
-        1: invalid.illegal.unclosed-variable-identifier.asp
+        #1: invalid.illegal.unclosed-variable-identifier.asp
     - match: \(
       push: inside_parens
     - include: allow_line_continuation
 
   inside_parens:
     - match: \)
+      pop: true
+    - match: '\s+' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      scope: ''
+    - match: '{{whitespace_or_end_of_statement}}' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       pop: true
     - match: \n
       scope: invalid.illegal.missing-close-bracket.asp
