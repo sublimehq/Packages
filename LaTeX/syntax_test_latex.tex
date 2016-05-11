@@ -77,22 +77,22 @@
 % ^ support.function.general.latex
 \verb{\command{}}
 %      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.latex
+%      ^ meta.environment.verbatim.verbatim.latex
 %      ^ - support.function.general.latex
 \verb|\command{}|
 %      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.latex
+%      ^ meta.environment.verbatim.verbatim.latex
 %      ^ - support.function.general.latex
 \verb+\command{}+
 %      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.latex
+%      ^ meta.environment.verbatim.verbatim.latex
 %      ^ - support.function.general.latex
 
 \begin{verbatim}
 % ^ support.function.be.latex
 %        ^ variable.parameter.function.latex
 The \emph{verbatim} environment sets everything in verbatim.
-% <- meta.environment.verbatim.latex
+% <- meta.environment.verbatim.verbatim.latex
 % ^ markup.raw.verbatim.latex
 %         ^ - markup.italic.emph.latex
 \command{}
@@ -137,6 +137,43 @@ opening and closing commands.
 \endcomment
 % <- comment.block.command.comment.latex
 % ^ punctuation.definition.comment.end.latex
+
+
+% PACKAGE: listings
+% The listings package is used to highlight source code.
+% supported languages:
+% - python
+% - java
+
+\begin{lstlisting} % Python
+
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.python
+\end{lstlisting}
+
+\begin{lstlisting}[frame=single,
+                   language=python]
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.python
+\end{lstlisting}
+
+\begin{lstlisting} % Java
+
+class MyClass() {
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.java.latex
+% <- source.java.embedded
+% ^ storage.modifier.java
+}
+\end{lstlisting}
 
 
 \end{document}
