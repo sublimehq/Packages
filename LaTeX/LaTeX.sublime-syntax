@@ -5,7 +5,6 @@ name: LaTeX
 file_extensions:
   - tex
   - ltx
-first_line_match: '^\\documentclass(?!.*\{beamer\})'
 scope: text.tex.latex
 contexts:
   prototype:
@@ -20,12 +19,13 @@ contexts:
     - include: text-decorators
     - include: references
     - include: verbatim
+    - include: verb
     - include: url
     - include: invalid-quotations
     - include: lists
 
     # external packages
-    - include: external-packages
+    - include: packages
 
     # extended from tex
     - include: macros
@@ -61,7 +61,7 @@ contexts:
         (\{)
       captures:
         1: support.function.newcommand.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: support.function.latex
         5: punctuation.definition.brace.end.latex
@@ -114,7 +114,7 @@ contexts:
     - match: '((\\)[mf]box)\s*(\{)'
       captures:
         1: support.function.box.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.box.latex
@@ -125,7 +125,7 @@ contexts:
     - match: '((\\)(?:framebox|makebox))(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
       captures:
         1: support.function.box.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.optional.begin.latex
         4: punctuation.definition.brace.optional.end.latex
         5: punctuation.definition.brace.optional.begin.latex
@@ -140,7 +140,7 @@ contexts:
     - match: '((\\)parbox)(?:(\[)[^\]]*?(\]))?(\{)[^\}]*?(\})(\{)'
       captures:
         1: support.function.box.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.optional.begin.latex
         4: punctuation.definition.brace.optional.end.latex
         5: punctuation.definition.brace.begin.latex
@@ -155,7 +155,7 @@ contexts:
     - match: '((\\)raisebox)(\{)[^\}]*?(\})(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
       captures:
         1: support.function.box.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: punctuation.definition.brace.end.latex
         5: punctuation.definition.brace.optional.begin.latex
@@ -184,7 +184,7 @@ contexts:
     - match: '((\\)(?:documentclass|usepackage))\s*(?:(\[)(?:[^\]]*)(\]))?(\{)'
       captures:
         1: keyword.control.preamble.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.bracket.begin.latex
         4: punctuation.definition.bracket.end.latex
         5: punctuation.definition.brace.begin.latex
@@ -199,7 +199,7 @@ contexts:
       scope: meta.function.include.latex
       captures:
         1: keyword.control.include.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.include.latex
@@ -226,13 +226,13 @@ contexts:
         (\{)
       captures:
         1: support.function.section.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: entity.name.section.latex
         5: punctuation.definition.brace.end.latex
         6: punctuation.definition.brace.begin.latex
       push:
-        - meta_scope: meta.function.section.latex
+        - meta_scope: meta.section.latex
         - meta_content_scope: entity.name.section.latex
         - match: '\}'
           scope: punctuation.definition.brace.end.latex
@@ -243,24 +243,24 @@ contexts:
     - match: ((\\)(?:frontmatter|mainmatter|backmatter|appendix|printindex))\b
       captures:
         1: keyword.control.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
 
   verbatim:
     - match: '((\\)begin)(\{)\s*((?:[vV]erbatim|alltt)\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
       push:
         - meta_include_prototype: false
-        - meta_scope: meta.function.verbatim.latex
+        - meta_scope: meta.environment.verbatim.latex
         - meta_content_scope: markup.raw.verbatim.latex
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -270,7 +270,7 @@ contexts:
     - match: '((\\)begin)(\{)\s*(itemize\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -279,7 +279,7 @@ contexts:
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -288,7 +288,7 @@ contexts:
     - match: '((\\)begin)(\{)\s*(enumerate\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -297,7 +297,7 @@ contexts:
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -306,7 +306,7 @@ contexts:
     - match: '((\\)begin)(\{)\s*(list\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -315,7 +315,7 @@ contexts:
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -324,7 +324,7 @@ contexts:
     - match: '((\\)begin)(\{)\s*(description\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -333,7 +333,7 @@ contexts:
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -376,6 +376,18 @@ contexts:
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
         - include: math-content
+    - match: '((\\)ensuremath)(\{)'
+      captures:
+        1: support.function.ensuremath.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.function.ensuremath.latex
+        - meta_content_scope: meta.environment.math.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: math-content
 
   block-math:
     - match: \$\$
@@ -410,7 +422,7 @@ contexts:
     - match: '((\\)begin)(\{)\s*((?:align|alignat|aligned|alignedat|displaymath|displaymath|eqnarray|equation|flalign|gather|gathered|math|multline|xalignat)\*?)\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -419,7 +431,7 @@ contexts:
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -431,7 +443,7 @@ contexts:
       scope: meta.function.link.url.latex
       captures:
         1: support.function.url.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: markup.underline.link.latex
         5: punctuation.definition.brace.end.latex
@@ -447,7 +459,7 @@ contexts:
       scope: meta.function.verbatim.latex
       captures:
         1: support.function.verb.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.verb.latex
         4: markup.raw.verb.latex
         5: punctuation.definition.verb.latex
@@ -456,7 +468,7 @@ contexts:
     - match: '((\\)emph)(\{)'
       captures:
         1: support.function.emph.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.emph.latex
@@ -468,7 +480,7 @@ contexts:
     - match: '((\\)textit)(\{)'
       captures:
         1: support.function.textit.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.textit.latex
@@ -480,7 +492,7 @@ contexts:
     - match: '((\\)textbf)(\{)'
       captures:
         1: support.function.textbf.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.textbf.latex
@@ -492,7 +504,7 @@ contexts:
     - match: '((\\)texttt)(\{)'
       captures:
         1: support.function.texttt.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.texttt.latex
@@ -501,10 +513,22 @@ contexts:
           scope: punctuation.definition.brace.end.latex
           pop: true
         - include: main
-    - match: '((\\)(?:(?:\w+)?text(?:\w+)?|[mhf]box))(\{)'
+    - match: '((\\)textsl)(\{)'
+      captures:
+        1: support.function.textsl.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.function.textsl.latex
+        - meta_content_scope: markup.italic.textsl.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)text)(\{)'
       captures:
         1: support.function.text.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - match: '\}'
@@ -516,7 +540,7 @@ contexts:
     - match: '((\\)[Cc]ite\w*\*?)(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
       captures:
         1: support.function.cite.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.optional.begin.latex
         4: punctuation.definition.brace.optional.end.latex
         5: punctuation.definition.brace.optional.begin.latex
@@ -528,10 +552,10 @@ contexts:
           scope: punctuation.definition.brace.end.latex
           pop: true
         - include: main
-    - match: '((\\)\w*[Rr]ef\*?)(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
+    - match: '((\\)(?:eq|page)?ref\*?)(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
       captures:
-        1: support.function.ref.latex
-        2: punctuation.definition.backslash.function.latex
+        1: support.function.reference.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.optional.begin.latex
         4: punctuation.definition.brace.optional.end.latex
         5: punctuation.definition.brace.optional.begin.latex
@@ -546,7 +570,7 @@ contexts:
     - match: '((\\)label)(\{)'
       captures:
         1: support.function.label.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.label.latex
@@ -558,20 +582,20 @@ contexts:
     - match: '((\\)begin)(\{)\s*(\w*)\*?\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
     - match: '((\\)end)(\{)\s*(\w*)\*?\s*(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
 
   # external packages supports
-  external-packages:
+  packages:
     - include: 1stlisting
     - include: beamer
 
@@ -580,7 +604,7 @@ contexts:
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -593,7 +617,7 @@ contexts:
         - match: '((\\)end)(\{)(lstlisting)(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -602,7 +626,7 @@ contexts:
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Python)\n?)'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -615,7 +639,7 @@ contexts:
         - match: '((\\)end)(\{)(lstlisting)(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -624,7 +648,7 @@ contexts:
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%.*\n?)?'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.backslash.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -637,7 +661,7 @@ contexts:
         - match: '((\\)end)(\{)(lstlisting)(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.backslash.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -648,7 +672,7 @@ contexts:
     - match: '(?:\s*)((\\)begin)(\{)(frame)(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.function.latex
+        2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
@@ -657,7 +681,7 @@ contexts:
         - match: '((\\)end)(\{)(frame)(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.function.latex
+            2: punctuation.definition.backslash.latex
             3: punctuation.definition.brace.begin.latex
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
@@ -670,7 +694,7 @@ contexts:
       scope: meta.function.frametitle.latex
       captures:
        1: support.function.frametitle.latex
-       2: punctuation.definition.function.latex
+       2: punctuation.definition.backslash.latex
        3: punctuation.definition.brace.begin.latex
        4: entity.name.function.frame.latex
        5: punctuation.definition.brace.end.latex
