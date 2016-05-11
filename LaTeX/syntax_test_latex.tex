@@ -1,0 +1,106 @@
+% SYNTAX TEST "Packages/LaTeX/LaTeX.sublime-syntax"
+
+% <- text.tex.latex
+
+\documentclass[12pt]{article}
+% ^ keyword.control.preamble.latex
+%              ^ variable.parameter.latex
+%                    ^ support.class.latex
+
+\usepackage[args]{mypackage}
+% ^ keyword.control.preamble.latex
+%           ^ variable.parameter.latex
+%                 ^ support.class.latex
+
+% line comment
+% <- comment.line.percentage.tex
+
+\begin{document}
+% ^ support.function.be.latex
+%        ^ variable.parameter.function.latex
+
+% SECTION COMMANDS
+
+\part{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%     ^ entity.name.section.latex
+\chapter{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%        ^ entity.name.section.latex
+\section{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%        ^ entity.name.section.latex
+\subsection{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%           ^ entity.name.section.latex
+\subsubsection{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%              ^ entity.name.section.latex
+\paragraph{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%          ^ entity.name.section.latex
+\subparagraph{name}
+% <- meta.section.latex
+% ^ support.function.section.latex
+%             ^ entity.name.section.latex
+
+
+% MARKUP COMMANDS
+
+\emph{text}
+%     ^ markup.italic.emph.latex
+\textbf{text}
+%       ^ markup.bold.textbf.latex
+\textit{text}
+%       ^ markup.italic.textit.latex
+\texttt{text}
+%       ^ markup.raw.texttt.latex
+\textsl{text}
+%       ^ markup.italic.textsl.latex
+\textbf{\textit{text}}
+%               ^ markup.bold.textbf.latex markup.italic.textit.latex
+\textit{\textbf{text}}
+%               ^ markup.italic.textit.latex markup.bold.textbf.latex
+\underline{text}
+%          ^ markup.underline.underline.latex
+
+
+% VERBATIM
+
+\command{}
+% ^ support.function.general.latex
+\verb{\command{}}
+%      ^ markup.raw.verb.latex
+%      ^ meta.environment.verbatim.latex
+%      ^ - support.function.general.latex
+\verb|\command{}|
+%      ^ markup.raw.verb.latex
+%      ^ meta.environment.verbatim.latex
+%      ^ - support.function.general.latex
+\verb+\command{}+
+%      ^ markup.raw.verb.latex
+%      ^ meta.environment.verbatim.latex
+%      ^ - support.function.general.latex
+
+\begin{verbatim}
+% ^ support.function.be.latex
+%        ^ variable.parameter.function.latex
+The \emph{verbatim} environment sets everything in verbatim.
+% <- meta.environment.verbatim.latex
+% ^ markup.raw.verbatim.latex
+%         ^ - markup.italic.emph.latex
+\command{}
+% ^ - support.function.general.latex
+% This is not a comment
+% <- - comment.line.percentage.tex
+\end{verbatim}
+
+\end{document}
+% ^ support.function.be.latex
+%        ^ variable.parameter.function.latex
