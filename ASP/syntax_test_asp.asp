@@ -417,13 +417,13 @@
         '^ invalid.illegal.stray-close-bracket.asp
         a(
         ' ^ invalid.illegal.missing-close-bracket.asp,
-        ReDim arr(2l,b)
+        ReDim arr(2,b)
        '^^^^^ storage.modifier.source.asp
        '         ^^^^^ meta.array.definition.asp
-       '          ^^ constant.numeric.asp
-       '            ^ punctuation.definition.array.separator.asp
-       '             ^ - invalid.illegal - constant.numeric
-       '              ^ punctuation.definition.array.end.asp
+       '          ^ constant.numeric.asp
+       '           ^ punctuation.definition.array.separator.asp
+       '            ^ - invalid.illegal - constant.numeric
+       '             ^ punctuation.definition.array.end.asp
         
         ReDim arr(dim, other)
         '         ^^^ invalid.illegal
@@ -622,6 +622,32 @@
     End _
       Sub
     ' ^^^ storage.type.function.end.asp - meta.method.identifier.source.asp
+    
+    a=3.4*.5*6.*0.25
+    ' ^^^ constant.numeric.asp
+    '     ^^ constant.numeric.asp
+    '        ^^ constant.numeric.asp
+    '           ^^^^ constant.numeric.asp
+    a=a+0.8
+    '   ^^^ constant.numeric.asp
+    ExampleSub 3.4,.5,6.,&HA,&H2,7*2.1e2,9,-3.402823E+38, 3.402823E38 ,1.401298E-45,Round(4.94065645841247E-324),a2,2a,123.456.789.321.654.321
+    '          ^^^ constant.numeric.asp
+    '              ^^ constant.numeric.asp
+    '                 ^^ constant.numeric.asp
+    '                    ^^^ constant.numeric.asp
+    '                        ^^^ constant.numeric.asp
+    '                            ^ constant.numeric.asp
+    '                              ^^^^^ constant.numeric.asp
+    '                                    ^ constant.numeric.asp
+    '                                       ^^^^^^^^^^^^ constant.numeric.asp
+    '                                                     ^^^^^^^^^^^ constant.numeric.asp
+    '                                                                  ^^^^^^^^^^^^ constant.numeric.asp
+    '                                                                               ^^^^^ support.function.vb.asp
+    '                                                                                     ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.asp
+    '                                                                                                            ^^ - constant.numeric.asp
+    '                                                                                                                ^ - constant.numeric.asp
+    '                                                                                                                         ^^^^^^^^ - constant.numeric.asp
+    
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
    '  ^ - source.asp.embedded.html

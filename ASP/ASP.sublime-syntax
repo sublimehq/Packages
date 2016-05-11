@@ -8,9 +8,10 @@ scope: source.asp
 variables:
   apostrophe_comment_begin: "'"
   rem_comment_begin: '\b(?i:REM)\b'
-  whitespace_or_end_of_statement: (?=\s+|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)
+  whitespace_or_end_of_statement: '(?=\s|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)'
   identifier: '[a-zA-Z]\w*|\[(?:(?!%>|\]).)*(?:\]|(\n|(?=%>)))' # reserved words can be used if enclosed in square brackets, as can other characters not normally accepted
-  literal_number: '&[hH]\h+&?|\b(?:(?:(?:(?:[0-9]+\.?[0-9]*)|(?:\.[0-9]+))(?i:e[+-]?[0-9]+)?)(?i:(?:u?l?)|f)?)\b'
+  operators: '[=><+*^&/-]|\b(?i:Mod|And|Not|Or|Xor|Is)\b'
+  literal_number: '&[hH]\h+&?|(?:(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
   constants: '\b(?i:vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewLine|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123]|Randomize)\b'
@@ -490,7 +491,7 @@ contexts:
   operators:
     - match: '(?i:Is\s+Not\b)' # the correct syntax is: If Not (x Is y) Then ' the parens are optional but make it clearer
       scope: invalid.illegal.unexpected-token.asp
-    - match: '[=><+*^&/-]|\b(?i:Mod|And|Not|Or|Xor|Is)\b'
+    - match: '{{operators}}'
       scope: keyword.operator.asp
       push: expect_not_end_of_statement
     - match: ':'
