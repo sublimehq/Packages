@@ -583,8 +583,43 @@
     
     Sub Another_Test()rem
     '                 ^^^^ comment.line.rem.asp - meta.method.identifier.source.asp
-        Something
-           End _
+        Const ForAppending = 8
+       '^^^^^ meta.method.body.source.asp storage.modifier.source.asp
+        
+        Set objFSO = CreateObject("Scripting.FileSystemObject")
+        Set objTextFile = objFSO.OpenTextFile("d:\logfile.c", ForAppending, True)
+        
+        Dim Line
+        Line = 0
+        Do While Line < 2000
+       '^^^^^^^^ keyword.control.flow.asp
+       '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp - meta.while.block.asp
+       '         ^^^^ meta.variable-reference.asp
+       '              ^ keyword.operator.asp
+       '                ^^^^ constant.numeric.asp
+            objTextFile.WriteLine("long l" & Line & " = " & Line)
+            Line = Line + 1
+            Dim WshShell 'http://stackoverflow.com/a/2237479/4473405
+            Set WshShell=Server.CreateObject("WScript.Shell")
+            WshShell.Run "waitfor /T " & numberOfSecond & "SignalThatWontHappen", , True
+            
+            do until Line = Line
+           '^^^^^^^^ keyword.control.flow.asp
+           '         ^^^^ meta.variable-reference.asp
+           '                ^^^^ meta.variable-reference.asp
+           '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp meta.do.block.asp - invalid.illegal
+                ' this code will never run
+            loop
+           '^^^^ keyword.control.flow.asp
+        Loop
+       '^^^^ keyword.control.flow.asp
+       '    ^ - meta.do.block.asp
+        
+        objTextFile.Close
+        
+        Set objTextFile = Nothing
+        Set objFSO = Nothing
+    End _
       Sub
     ' ^^^ storage.type.function.end.asp - meta.method.identifier.source.asp
     %>

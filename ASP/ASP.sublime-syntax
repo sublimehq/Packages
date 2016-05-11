@@ -366,8 +366,13 @@ contexts:
       scope: keyword.control.flow.asp
       push: [inside_control_flow_select, expression_until_end_of_statement, expect_not_end_of_statement]
     - match: '\b(?i:Do){{whitespace_or_end_of_statement}}'
-      scope: keyword.control.flow.asp
-      push: [inside_control_flow_do]
+      scope: meta.do.block.asp keyword.control.flow.asp
+      push:
+        - match: '\s+(?i:While|Until){{whitespace_or_end_of_statement}}'
+          scope: keyword.control.flow.asp
+          set: [inside_control_flow_do, expression_until_end_of_statement, expect_not_end_of_statement]
+        - match: ''
+          set: inside_control_flow_do
     - match: '\b(?i:While){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       push: [inside_control_flow_while, expression_until_end_of_statement, expect_not_end_of_statement]
