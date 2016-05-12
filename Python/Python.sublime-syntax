@@ -215,9 +215,9 @@ contexts:
         - meta_content_scope: meta.function.python
         - match: '(?=->)'
           push:
-            - meta_content_scope: meta.function.return-type.python
+            - meta_content_scope: meta.function.annotation.return.python
             - match: ->
-              scope: punctuation.separator.annotation.python
+              scope: punctuation.separator.annotation.return.python
             - match: '(?=:)'
               pop: true
             - include: expressions
@@ -237,8 +237,9 @@ contexts:
           pop: true
         - include: expressions
     - match: ':'
-      scope: punctuation.separator.annotation.python
+      scope: punctuation.separator.annotation.parameter.python
       push:
+        - meta_scope: meta.function.annotation.parameter.python
         - match: '(?=[,)=])'
           pop: true
         - include: expressions
