@@ -15,6 +15,7 @@ file_extensions:
   - Snakefile
 first_line_match: ^#!/.*\bpython\d?\b
 scope: source.python
+
 variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
@@ -176,7 +177,7 @@ contexts:
                 - match: '(?={{path}})'
                   push:
                     - meta_scope: entity.other.inherited-class.python
-                    - include: identifier-parts
+                    - include: identifier_parts
                     - match: '{{identifier}}'
                     - match: '(?=\S)'
                       pop: true
@@ -204,9 +205,9 @@ contexts:
           set:
             - match: \(
               scope: meta.function.parameters.python punctuation.definition.parameters.begin.python
-              set: function-parameters
+              set: function_parameters
 
-  function-parameters:
+  function_parameters:
     - meta_content_scope: meta.function.parameters.python
     - match: \)
       scope: punctuation.definition.parameters.end.python
@@ -408,7 +409,7 @@ contexts:
           scope: punctuation.separator.key-value.python
         - include: expressions
 
-  identifier-parts:
+  identifier_parts:
     - match: '{{identifier}} *(\.)'
       captures:
         1: punctuation.accessor.python
@@ -441,6 +442,7 @@ contexts:
         	sum|super|type|unichr|vars|zip
         )\b
       scope: support.function.builtin.python
+
   builtin_types:
     - match: |-
         (?x)\b(
@@ -448,6 +450,7 @@ contexts:
         	list|long|memoryview|object|range|set|slice|str|tuple|unicode|xrange
         )\b
       scope: support.type.python
+
   constant_placeholder:
     - match: '(?i:(%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])|(\{([!\[\].:\w ]+)?\}))'
       scope: constant.other.placeholder.python
@@ -487,22 +490,26 @@ contexts:
   entity_name_class:
     - include: illegal_names
     - include: generic_names
+
   entity_name_function:
     - include: magic_function_names
     - include: illegal_names
     - include: generic_names
+
   escaped_char:
     - match: '(\\x\h{2})|(\\[0-7]{3})|(\\[\\"''abfnrtv])'
       captures:
         1: constant.character.escape.hex.python
         2: constant.character.escape.octal.python
         3: constant.character.escape.python
+
   escaped_unicode_char:
     - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
       captures:
         1: constant.character.escape.unicode.16-bit-hex.python
         2: constant.character.escape.unicode.32-bit-hex.python
         3: constant.character.escape.unicode.name.python
+
   function_name:
     - include: magic_function_names
     - include: magic_variable_names
@@ -510,11 +517,14 @@ contexts:
     - include: builtin_functions
     - include: builtin_types
     - include: generic_names
+
   generic_names:
     - match: "{{identifier}}"
+
   illegal_names:
     - match: \b(and|as|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|raise|return|try|while|with|yield)\b
       scope: invalid.illegal.name.python
+
   keyword_arguments:
     - match: '({{identifier}})\s*(=)(?!=)'
       captures:
@@ -526,9 +536,11 @@ contexts:
             1: punctuation.separator.parameters.python
           pop: true
         - include: expressions
+
   language_variables:
     - match: \b(self|cls)\b
       scope: variable.language.python
+
   line_continuation:
     - match: (\\)(.*)$\n?
       captures:
@@ -538,6 +550,7 @@ contexts:
       push:
         - match: (?=.)
           pop: true
+
   magic_function_names:
     - match: |-
         (?x)\b(__(?:
@@ -553,6 +566,7 @@ contexts:
         )__)\b
       comment: these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
       scope: support.function.magic.python
+
   magic_variable_names:
     - match: \b__(all|bases|class|debug|dict|doc|file|members|metaclass|methods|name|slots|weakref)__\b
       comment: magic variables which a class/module may have.
