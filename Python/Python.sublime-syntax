@@ -43,13 +43,13 @@ contexts:
       scope: keyword.control.flow.raise.python
       push:
         - meta_scope: meta.statement.raise.python
-        - match: $\n?
+        - match: $
           pop: true
         - match: \b(from)\b
           scope: keyword.control.flow.raise.from.python
           set:
             - meta_scope: meta.statement.raise.python
-            - match: $\n?
+            - match: $
               pop: true
             - include: expressions
         - include: expressions
@@ -57,28 +57,28 @@ contexts:
       scope: keyword.other.assert.python
       push:
         - meta_scope: meta.statement.assert.python
-        - match: $\n?
+        - match: $
           pop: true
         - include: expressions
     - match: \b(del)\b
       scope: keyword.other.del.python
       push:
         - meta_scope: meta.statement.del.python
-        - match: $\n?
+        - match: $
           pop: true
         - include: expressions
     - match: \b(print)\b(?! *($|[,.()\]}]))
       scope: keyword.other.print.python
       push:
         - meta_scope: meta.statement.print.python
-        - match: $\n?
+        - match: $
           pop: true
         - include: expressions
     - match: \b(exec)\b(?! *($|[,.()\]}]))
       scope: keyword.other.exec.python
       push:
         - meta_scope: meta.statement.exec.python
-        - match: $\n?
+        - match: $
           pop: true
         - include: expressions
     - match: \b(return)\b
@@ -92,7 +92,7 @@ contexts:
       push:
         - meta_scope: meta.statement.import.python
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - include: comments
         - include: import_alias
@@ -105,13 +105,13 @@ contexts:
         - meta_scope: meta.statement.import.python
           meta_content_scope: meta.import-source.python
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - match: \b(import)\b
           scope: keyword.control.import.python
           set:
             - include: line_continuation
-            - match: $\n?
+            - match: $
               pop: true
             - match: ' *(\()'
               captures:
@@ -127,7 +127,7 @@ contexts:
               set:
                 - meta_scope: meta.statement.import.python
                 - include: line_continuation
-                - match: $\n?
+                - match: $
                   pop: true
                 - include: comments
                 - include: import_name_list
@@ -156,14 +156,14 @@ contexts:
       push:
         - meta_scope: meta.statement.for.python
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
           set:
             - meta_scope: meta.statement.for.python
             - include: line_continuation
-            - match: $\n?
+            - match: $
               pop: true
             - match: ':'
               scope: punctuation.definition.block.for.python
@@ -181,14 +181,14 @@ contexts:
       push:
         - meta_scope: meta.statement.with.python
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - match: \b(as)\b
           scope: keyword.control.flow.with.as.python
           set:
             - meta_scope: meta.statement.with.python
             - include: line_continuation
-            - match: $\n?
+            - match: $
               pop: true
             - match: ':'
               scope: punctuation.definition.block.with.python
@@ -204,7 +204,7 @@ contexts:
       push:
         - meta_scope: meta.statement.except.python
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - match: ':'
           scope: punctuation.definition.block.except.python
@@ -214,7 +214,7 @@ contexts:
           set:
             - meta_scope: meta.statement.except.python
             - include: line_continuation
-            - match: $\n?
+            - match: $
               pop: true
             - match: ':'
               scope: punctuation.definition.block.except.python
@@ -305,7 +305,7 @@ contexts:
         2: storage.modifier.nonlocal.python
       push:
         - include: line_continuation
-        - match: $\n?
+        - match: $
           pop: true
         - match: ','
           scope: punctuation.separator.storage-list.python
@@ -474,13 +474,13 @@ contexts:
       push:
         - meta_scope: meta.function.decorator.python
         - meta_content_scope: entity.name.function.decorator.python
-        - match: (?=\s|$\n?|#)
+        - match: (?=\s|$|#)
           pop: true
         - match: '(?=(@)\s*{{identifier}}(\.{{identifier}})*)'
           captures:
             1: punctuation.definition.decorator.python
           push:
-            - match: (?=\s|$\n?|#)
+            - match: (?=\s|$|#)
               pop: true
             - include: dotted_name
 
@@ -732,7 +732,7 @@ contexts:
         1: variable.parameter.python
         2: keyword.operator.assignment.python
       push:
-        - match: '\s*(?:(,)|(?=$\n?|[\)\:]))'
+        - match: '\s*(?:(,)|(?=$|[\)\:]))'
           captures:
             1: punctuation.separator.parameters.python
           pop: true
@@ -1305,7 +1305,7 @@ contexts:
 
   target_list:
     - include: line_continuation
-    - match: $\n?
+    - match: $
       pop: true
     - match: ','
       scope: punctuation.separator.target-list.python
