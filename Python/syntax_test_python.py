@@ -171,7 +171,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                ^ punctuation.definition.parameters.end
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
-#                                                                                                        ^ punctuation.section.function
+#                                                                                                        ^ punctuation.section.function.begin
     pass
 
 
@@ -185,7 +185,9 @@ async def coroutine(param1):
 
 
 class MyClass():
-
+#^^^^^^^^^^^^^^^ meta.class
+#            ^^ meta.class.inheritance
+#              ^ punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
 #                             ^ comment.line.number-sign
         # This is defaulted
