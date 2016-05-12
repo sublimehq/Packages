@@ -48,7 +48,7 @@ name1 . name2
 class
 #^^^^ storage.type.class
 def
-#^^ invalid.illegal.name
+#^^ storage.type.function
 
 # Currently, async and await are still recognized as valid identifiers unless in an "async" block
 async

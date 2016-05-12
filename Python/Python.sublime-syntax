@@ -387,17 +387,18 @@ contexts:
                 - include: expressions
 
   functions:
-    - match: '^\s*(?:(async)\s+)?(def)\s+(?={{identifier}})'
+    - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
         1: storage.modifier.async.python
         2: storage.type.function.python
       push:
         - meta_scope: meta.function.python
+        - include: line_continuation
+        - match: $
+          pop: true
         - match: ':'
           scope: punctuation.section.function.begin.python
           set: maybe-docstrings
-        - match: '^\s*$'
-          pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
@@ -423,7 +424,7 @@ contexts:
               scope: punctuation.separator.annotation.return.python
             - match: '(?=:)'
               pop: true
-            - include: expressions
+            - include: expressions # includes line_continuation
         - match: ':'
           scope: punctuation.section.function.begin.python
           set: maybe-docstrings
