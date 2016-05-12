@@ -1,4 +1,5 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
+# <- source.python comment.line.number-sign punctuation.definition.comment
 
 import sys # comment
 #^^^^^ keyword.control.import
@@ -671,3 +672,9 @@ rB'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
+
+
+
+
+# <- - meta
+# this test is to ensure we're not matching anything here anymore
