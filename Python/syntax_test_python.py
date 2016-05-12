@@ -313,6 +313,20 @@ class Unterminated(Inherited:
 #                           ^ invalid.illegal
 
 
+@normal . decorator
+#^^^^^^^^^^^^^^^^^^ meta.statement.decorator
+# <- keyword.other.decorator
+class Class():
+
+    @wraps(method, 12)# comment
+#   ^^^^^^^^^^^^^^^^^^ meta.statement.decorator
+#   ^ keyword.other.decorator
+#    ^^^^^^^^^^^^^^^^^ meta.function-call
+#                     ^ comment
+    def wrapper(self):
+        (self, __class__)
+        pass
+
 
 ##################
 # Collection literals and generators
