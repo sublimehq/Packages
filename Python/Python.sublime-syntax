@@ -246,6 +246,9 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries_and_sets
+    # For debugging
+    # - match: \S
+    #   scope: invalid.illegal.unmatched
 
   comments:
     - match: "#"
