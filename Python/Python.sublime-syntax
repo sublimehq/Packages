@@ -19,7 +19,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
-  path: '({{identifier}}\.)*{{identifier}}'
+  path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
@@ -178,7 +178,7 @@ contexts:
                     - meta_scope: entity.other.inherited-class.python
                     - include: identifier-parts
                     - match: '{{identifier}}'
-                    - match: ''
+                    - match: '(?=\S)'
                       pop: true
                 - include: expressions
 
@@ -245,14 +245,14 @@ contexts:
       scope: variable.parameter.python
 
   decorators:
-    - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
+    - match: '^\s*(?=@\s*{{path}}\s*\()'
       comment: a decorator may be a function call which returns a decorator.
       push:
         - meta_scope: meta.function.decorator.python
         - match: \)
           scope: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?=(@)\s*{{identifier}}(?:\.{{identifier}})*\s*\()'
+        - match: '(?=(@)\s*{{path}}\s*\()'
           captures:
             1: punctuation.definition.decorator.python
           push:
@@ -268,7 +268,7 @@ contexts:
               pop: true
             - include: keyword_arguments
             - include: expressions
-    - match: '^\s*(?=@\s*{{identifier}}(?:\.{{identifier}})*)'
+    - match: '^\s*(?=@\s*{{path}})'
       push:
         - meta_scope: meta.function.decorator.python
         - meta_content_scope: entity.name.function.decorator.python
@@ -283,13 +283,13 @@ contexts:
             - include: dotted_name
 
   item-access:
-    - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
+    - match: '(?={{path}}\s*\[)'
       push:
         - meta_scope: meta.item-access.python
         - match: \]
           scope: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\[)'
+        - match: '(?={{path}}\s*\[)'
           push:
             - match: '(?=\s*\[)'
               pop: true
@@ -324,13 +324,13 @@ contexts:
           pop: true
         - include: keyword_arguments
         - include: expressions
-    - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
+    - match: '(?={{path}}\s*\()'
       push:
         - meta_scope: meta.function-call.python
         - match: \)
           scope: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?={{identifier}}(?:\.{{identifier}})*\s*\()'
+        - match: '(?={{path}}\s*\()'
           push:
             - match: (?=\s*\()
               pop: true
@@ -409,7 +409,7 @@ contexts:
         - include: expressions
 
   identifier-parts:
-    - match: '{{identifier}}(\.)'
+    - match: '{{identifier}} *(\.)'
       captures:
         1: punctuation.accessor.python
 
@@ -451,31 +451,39 @@ contexts:
   constant_placeholder:
     - match: '(?i:(%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])|(\{([!\[\].:\w ]+)?\}))'
       scope: constant.other.placeholder.python
-  dotted_name:
-    - match: '(?={{identifier}}(?:\.{{identifier}})*)'
+
+  name:
+    - match: '(?={{identifier}})'
       push:
-        - match: '(?![{{identifier_continue}}\.])'
+        - meta_scope: meta.name.python
+        - match: '(?!{{identifier_continue}})'
           pop: true
-        - match: '(\.)(?={{identifier}})'
+        - include: builtin_functions
+        - include: builtin_types
+        - include: builtin_exceptions
+        - include: illegal_names
+        - include: magic_function_names
+        - include: magic_variable_names
+        - include: language_variables
+        - include: generic_names
+
+  dotted_name:
+    - match: '(?={{path}})'
+      push:
+        - meta_scope: meta.name.dotted.python
+        - match: '(?!{{identifier_continue}}| *\.)'
+          pop: true
+        - match: '(\.)(?= *{{identifier}})'
+          scope: punctuation.accessor.python
           push:
-            - match: "(?!{{identifier_continue}})"
+            - match: "(?! *{{identifier_continue}})"
               pop: true
             - include: magic_function_names
             - include: magic_variable_names
             - include: illegal_names
             - include: generic_names
-        - match: '(?={{identifier}})'
-          push:
-            - match: "(?!{{identifier_continue}})"
-              pop: true
-            - include: builtin_functions
-            - include: builtin_types
-            - include: builtin_exceptions
-            - include: illegal_names
-            - include: magic_function_names
-            - include: magic_variable_names
-            - include: language_variables
-            - include: generic_names
+        - include: name
+
   entity_name_class:
     - include: illegal_names
     - include: generic_names

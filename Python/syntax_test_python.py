@@ -6,6 +6,14 @@ import path from os
 #^^^^^ keyword.control.import
 #           ^^^^ keyword.control.import.from
 
+name
+#^^^ meta.name
+#
+name1 . name2
+#^^^^^^^^^^^^ meta.name.dotted
+#     ^ punctuation.accessor
+#^^^^ meta.name.dotted meta.name
+
 def my_func(param1, # Multi-line function definition
 #                   ^ comment.line.number-sign
     # This is defaulted
@@ -96,9 +104,9 @@ class MyClass(Inherited,
 #     ^^^^^^^ entity.name.type.class
 #             ^^^^^^^^^ entity.other.inherited-class
 #                      ^ punctuation.separator
-              module.Inherited2):
-#             ^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                   ^ punctuation.accessor
+              module . Inherited2):
+#             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                    ^ punctuation.accessor
     """
     This is a test of docstrings
     """
