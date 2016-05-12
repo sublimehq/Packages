@@ -188,6 +188,13 @@ myset = {"key", True, key2, [-1], {}}
 #                               ^ punctuation.separator.dictionary-or-set
 #                                 ^^ meta.structure.dictionary
 
+)
+# <- invalid.illegal.stray.brace.round
+]
+# <- invalid.illegal.stray.brace.square
+}
+# <- invalid.illegal.stray.brace.curly
+
 ###############################
 # Strings and embedded syntaxes
 ###############################

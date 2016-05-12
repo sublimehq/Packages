@@ -59,6 +59,10 @@ contexts:
         - include: expressions
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
+    - match: \]
+      scope: invalid.illegal.stray.brace.square.python
+    - match: \}
+      scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries_and_sets
 
