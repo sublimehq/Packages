@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbols List: Indent Functions</string>
 	<key>scope</key>
-	<string>entity.name.function.php, support.function.magic.php, entity.name.class.php</string>
+	<string>entity.name.function.php, support.function.magic.php, entity.name.class.php, entity.name.interface.php, entity.name.trait.php</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
