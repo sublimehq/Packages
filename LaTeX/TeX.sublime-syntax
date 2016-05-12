@@ -18,7 +18,7 @@ contexts:
     - include: boxes
     - include: block-math
     - include: inline-math
-    - include: constants
+    - include: general-constants
     - include: general-commands
 
   general-commands:
@@ -27,13 +27,13 @@ contexts:
       captures:
         1: punctuation.definition.backslash.tex
 
-  constants:
+  general-constants:
     - match: \\\\
       scope: constant.character.newline.tex
     - match: '(\\)[^a-zA-Z@]'
       scope: constant.character.escape.tex
       captures:
-        1: punctuation.definition.keyword.tex
+        1: punctuation.definition.backslash.tex
     - match: '&'
       scope: constant.character.ampersand.tex
 
@@ -70,7 +70,7 @@ contexts:
           pop: true
         - include: main
 
-  command-only-braces:
+  macro-braces:
     - match: '\{'
       scope: punctuation.definition.brace.begin.tex
       push:
@@ -78,9 +78,9 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.brace.end.tex
           pop: true
-        - include: constants
+        - include: general-constants
         - include: general-commands
-        - include: command-only-braces
+        - include: macro-braces
 
   boxes:
     - match: '((\\)[hv]box)\s*(\{)'
@@ -99,17 +99,17 @@ contexts:
     - match: '(\\def)\s*((\\)[a-zA-Z@]+)\s*[^\{]*?\s*(\{)'
       captures:
         1: support.function.definition.tex
-        2: support.function.general.definition.tex
+        2: support.function.general.tex
         3: punctuation.definition.backslash.tex
-        4: punctuation.definition.brace.begin.definition.tex
+        4: punctuation.definition.brace.begin.tex
       push:
         - meta_scope: meta.function.definition.tex
         - match: '\}'
           scope: punctuation.definition.brace.end.definition.tex
           pop: true
-        - include: constants
+        - include: general-constants
         - include: general-commands
-        - include: command-only-braces
+        - include: macro-braces
 
   greeks:
     - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))\b
@@ -129,21 +129,23 @@ contexts:
 
   math-braces:
     - match: '\{'
-      scope: punctuation.definition.brace.begin.math.tex
+      scope: punctuation.definition.brace.begin.tex
       push:
-        - meta_scope: meta.group.braces.math.tex
+        - meta_scope: meta.group.braces.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.math.tex
+          scope: punctuation.definition.brace.end.tex
           pop: true
         - include: math-content
 
   math-brackets:
-    - match: '[\(\)\[\]]'
-      scope: punctuation.definition.bracket.math.tex
-    - match: '(\\)[\(\)\[\]{}]'
-      scope: punctuation.definition.bracket.escape.math.tex
+    - match: '[\(\)]'
+      scope: constant.character.parenthesis.escape.tex
+    - match: '[\[\]]'
+      scope: constant.character.escape.bracket.tex
+    - match: '(\\)[\{\}]'
+      scope: constant.character.brace.escape.tex
       captures:
-        1: punctuation.definition.backslash.bracket.escape.math.tex
+        1: punctuation.definition.backslash.brace.escape.tex
 
   math-constants:
     - match: '(([0-9]*[\.][0-9]+)|[0-9]+)'
@@ -166,7 +168,7 @@ contexts:
     - include: math-operators
     - include: math-characters
     - include: math-constants
-    - include: constants
+    - include: general-constants
 
   inline-math:
     - match: \$

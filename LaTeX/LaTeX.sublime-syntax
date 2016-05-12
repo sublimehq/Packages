@@ -29,13 +29,13 @@ contexts:
 
     # extended from tex
     - include: macros
-    - include: controls
-    - include: catcode
-    - include: braces
+    - include: scope:text.tex#controls
+    - include: scope:text.tex#catcode
+    - include: global-braces
     - include: boxes
     - include: block-math
     - include: inline-math
-    - include: constants
+    - include: general-constants
 
     # unique to latex
     - include: begin-end-commands
@@ -44,6 +44,115 @@ contexts:
 
   comments:
     - include: scope:text.tex#comments
+
+  global-braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.braces.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: main
+
+  # these are used to identify arguments in commands
+  general-optional-arguments:
+    - match: '\['
+      scope: punctuation.definition.bracket.begin.latex
+      push:
+        - meta_scope: meta.group.argument.optional.latex
+        - match: '\]'
+          scope: punctuation.definition.bracket.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+
+  _general-1-more-argument:
+    - match: '(\})(\{)'
+      captures:
+        1: punctuation.definition.brace.end.latex
+        2: punctuation.definition.brace.begin.latex
+      set:
+        - match: '(?<=\{)'
+          push:
+            - meta_scope: meta.group.argument.latex
+            - match: '\}'
+              scope: punctuation.definition.brace.end.latex
+              pop: true
+            - include: main
+        - match: '(?<=\})'
+          pop: true
+
+  _general-2-more-arguments:
+    - match: '(\})(\{)'
+      captures:
+        1: punctuation.definition.brace.end.latex
+        2: punctuation.definition.brace.begin.latex
+      set:
+        - match: '(?<=\{)'
+          push:
+            - meta_scope: meta.group.argument.latex
+            - include: _general-1-more-argument
+            - include: main
+        - match: '(?<=\})'
+          pop: true
+
+  general-1-argument:
+    - match: '(?<=\})'
+      pop: true
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.argument.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: main
+
+  general-2-arguments:
+    - match: '(?<=\})'
+      pop: true
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.argument.latex
+        - include: _general-1-more-argument
+        - include: main
+
+  general-3-arguments:
+    - match: '(?<=\})'
+      pop: true
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.argument.latex
+        - include: _general-2-more-arguments
+        - include: main
+
+  general-1-argument-with-options:
+    - include: general-optional-arguments
+    - include: general-1-argument
+
+  general-2-arguments-with-options:
+    - include: general-optional-arguments
+    - include: general-2-arguments
+
+  general-3-arguments-with-options:
+    - include: general-optional-arguments
+    - include: general-3-arguments
+
+  # used in macros to prevent matching of \begin{env}...\end{env}
+  macro-braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.braces.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
 
   macros:
     - include: scope:text.tex#macros
@@ -66,37 +175,19 @@ contexts:
         4: support.function.latex
         5: punctuation.definition.brace.end.latex
         6: support.function.latex
-        7: punctuation.definition.brace.optional.begin.latex
-        8: punctuation.definition.brace.optional.end.latex
+        7: punctuation.definition.bracket.begin.latex
+        8: punctuation.definition.bracket.end.latex
         9: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.newcommand.tex
         - match: '\}'
           scope: punctuation.definition.brace.end.latex
           pop: true
-        - include: constants
+        - include: general-constants
         - include: general-commands
-        - include: command-only-braces
+        - include: macro-braces
 
-  command-only-braces:
-    - match: '\{'
-      scope: punctuation.definition.brace.begin.latex
-      push:
-        - meta_scope: meta.group.braces.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: constants
-        - include: general-commands
-        - include: command-only-braces
-
-  controls:
-    - include: scope:text.tex#controls
-
-  catcode:
-    - include: scope:text.tex#catcode
-
-  constants:
+  general-constants:
     - match: '(\\\\)(?:(\[)\s*-?([0-9]*)\s*(\w*)\s*(\]))?'
       captures:
         1: constant.character.newline.latex
@@ -104,14 +195,13 @@ contexts:
         3: constant.numeric.newline.latex
         4: keyword.other.newline.latex
         5: punctuation.definition.brace.begin.newline.latex
-    - include: scope:text.tex#constants
+    - include: scope:text.tex#general-constants
 
   general-commands:
     - include: scope:text.tex#general-commands
 
   boxes:
-    - include: scope:text.tex#boxes
-    - match: '((\\)[mf]box)\s*(\{)'
+    - match: '((\\)[hvmf]box)\s*(\{)'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
@@ -122,63 +212,27 @@ contexts:
           scope: punctuation.definition.brace.end.latex
           pop: true
         - include: main
-    - match: '((\\)(?:framebox|makebox))(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
+    - match: '((\\)(?:framebox|makebox))(?=(?:\[[^\]]*?\])*\{)'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.optional.begin.latex
-        4: punctuation.definition.brace.optional.end.latex
-        5: punctuation.definition.brace.optional.begin.latex
-        6: punctuation.definition.brace.optional.end.latex
-        7: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.box.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
-    - match: '((\\)parbox)(?:(\[)[^\]]*?(\]))?(\{)[^\}]*?(\})(\{)'
+        - include: general-1-argument-with-options
+    - match: '((\\)parbox)(?=(?:\[[^\]]*?\])*(?:\{[^\}]*\}){2})'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.optional.begin.latex
-        4: punctuation.definition.brace.optional.end.latex
-        5: punctuation.definition.brace.begin.latex
-        6: punctuation.definition.brace.end.latex
-        7: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.box.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
-    - match: '((\\)raisebox)(\{)[^\}]*?(\})(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
+        - include: general-2-arguments-with-options
+    - match: '((\\)raisebox)(?=(?:\[[^\]]*?\])*\{)'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.begin.latex
-        4: punctuation.definition.brace.end.latex
-        5: punctuation.definition.brace.optional.begin.latex
-        6: punctuation.definition.brace.optional.end.latex
-        7: punctuation.definition.brace.optional.begin.latex
-        8: punctuation.definition.brace.optional.end.latex
-        9: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.box.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
-
-  braces:
-    - match: '\{'
-      scope: punctuation.definition.brace.begin.latex
-      push:
-        - meta_scope: meta.group.braces.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
+        - include: general-1-argument-with-options
 
   preamble:
     - match: '((\\)(?:documentclass|usepackage))\s*(?:(\[)(?:[^\]]*)(\]))?(\{)'
@@ -342,11 +396,11 @@ contexts:
 
   math-braces:
     - match: '\{'
-      scope: punctuation.definition.brace.begin.math.latex
+      scope: punctuation.definition.brace.begin.latex
       push:
-        - meta_scope: meta.group.braces.math.latex
+        - meta_scope: meta.group.braces.latex
         - match: '\}'
-          scope: punctuation.definition.brace.end.math.latex
+          scope: punctuation.definition.brace.end.latex
           pop: true
         - include: math-content
 
@@ -365,7 +419,7 @@ contexts:
     - include: scope:text.tex#math-operators
     - include: scope:text.tex#math-characters
     - include: scope:text.tex#math-constants
-    - include: constants
+    - include: general-constants
 
   inline-math:
     - match: \$
@@ -537,36 +591,20 @@ contexts:
         - include: main
 
   references:
-    - match: '((\\)[Cc]ite\w*\*?)(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
+    - match: '((\\)[Cc]ite\w*\*?)(?=(?:\[[^\]]*?\])*\{)'
       captures:
         1: support.function.cite.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.optional.begin.latex
-        4: punctuation.definition.brace.optional.end.latex
-        5: punctuation.definition.brace.optional.begin.latex
-        6: punctuation.definition.brace.optional.end.latex
-        7: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.citation.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
-    - match: '((\\)(?:eq|page)?ref\*?)(?:(\[)[^\]]*?(\]))?(?:(\[)[^\]]*?(\]))?(\{)'
+        - include: general-1-argument-with-options
+    - match: '((\\)(?:eq|c?page|[vV]|auto|name|[cC])?ref\*?)(?=(?:\[[^\]]*?\])*\{)'
       captures:
         1: support.function.reference.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.optional.begin.latex
-        4: punctuation.definition.brace.optional.end.latex
-        5: punctuation.definition.brace.optional.begin.latex
-        6: punctuation.definition.brace.optional.end.latex
-        7: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.reference.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: main
+          include: general-1-argument-with-options
     - match: '((\\)label)(\{)'
       captures:
         1: support.function.label.latex
@@ -586,6 +624,10 @@ contexts:
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
+      set:
+        - include: general-optional-arguments
+        - match: ''
+          pop: true
     - match: '((\\)end)(\{)\s*(\w*)\*?\s*(\})'
       captures:
         1: support.function.be.latex
@@ -608,8 +650,8 @@ contexts:
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.brace.optional.begin.latex
-        7: punctuation.definition.brace.optional.end.latex
+        6: punctuation.definition.bracket.begin.latex
+        7: punctuation.definition.bracket.end.latex
         8: comment.line.percentage.latex
       push:
         - meta_scope: meta.environment.embedded.java.latex
@@ -630,8 +672,8 @@ contexts:
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.brace.optional.begin.latex
-        7: punctuation.definition.brace.optional.end.latex
+        6: punctuation.definition.bracket.begin.latex
+        7: punctuation.definition.bracket.end.latex
         8: comment.line.percentage.latex
       push:
         - meta_scope: meta.environment.embedded.python.latex
@@ -652,8 +694,8 @@ contexts:
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.brace.optional.begin.latex
-        7: punctuation.definition.brace.optional.end.latex
+        6: punctuation.definition.bracket.begin.latex
+        7: punctuation.definition.bracket.end.latex
         8: comment.line.percentage.latex
       push:
         - meta_scope: meta.environment.embedded.generic.latex
