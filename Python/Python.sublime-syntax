@@ -31,13 +31,13 @@ contexts:
     - include: classes
     - include: functions
     - include: decorators
+    - include: modifiers
     - include: expressions
 
   expressions:
     - include: comments
     - include: constants
     - include: numbers
-    - include: modifiers
     - include: keywords
     - include: operators
     - include: lambda
@@ -97,10 +97,19 @@ contexts:
       scope: constant.numeric.integer.decimal.python
 
   modifiers:
-    - match: \b(global)\b
-      scope: storage.modifier.global.python
-    - match: \b(nonlocal)\b
-      scope: storage.modifier.nonlocal.python
+    - match: \b(?:(global)|(nonlocal))\b
+      captures:
+        1: storage.modifier.global.python
+        2: storage.modifier.nonlocal.python
+      push:
+        - include: line_continuation
+        - match: $\n?
+          pop: true
+        - match: ','
+          scope: punctuation.separator.storage-list.python
+        - include: name
+        - match: \S+
+          scope: invalid.illegal.name.storage.python
 
   keywords:
     - match: \b(?:(import)|(from))\b

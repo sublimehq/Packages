@@ -14,6 +14,14 @@ name1 . name2
 #     ^ punctuation.accessor
 #^^^^ meta.name.dotted meta.name
 
+def abc():
+    global from, for, variable, .
+#   ^^^^^^ storage.modifier.global
+#          ^^^^ invalid.illegal.name
+#                ^^^ invalid.illegal.name
+#                     ^^^^^^^^ meta.name
+#                               ^ invalid.illegal.name.storage
+
 def my_func(param1, # Multi-line function definition
 #                   ^ comment.line.number-sign
     # This is defaulted
