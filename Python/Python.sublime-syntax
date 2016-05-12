@@ -606,7 +606,7 @@ contexts:
     - match: |-
         (?x)\b(
         	__import__|all|abs|any|apply|ascii|bin|callable|chr|classmethod|cmp|coerce|
-        	compile|delattr|dir|divmod|enumerate|eval|execfile|filter|format|getattr|
+        	compile|delattr|dir|divmod|enumerate|eval|exec|execfile|filter|format|getattr|
         	globals|hasattr|hash|help|hex|id|input|intern|isinstance|issubclass|iter|
         	len|locals|map|max|min|next|oct|open|ord|pow|print|property|range|
         	raw_input|reduce|reload|repr|reversed|round|setattr|sorted|staticmethod|
@@ -693,7 +693,7 @@ contexts:
     - match: "{{identifier}}"
 
   illegal_names:
-    - match: \b(and|as|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|raise|return|try|while|with|yield)\b
+    - match: \b(and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)\b
       scope: invalid.illegal.name.python
 
   keyword_arguments:

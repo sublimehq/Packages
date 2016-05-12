@@ -100,9 +100,9 @@ def my_func(param1, # Multi-line function definition
 #         ^^^^ - keyword
 
     print (file=None)
-#   ^^^^^ - keyword
+#   ^^^^^ support.function.builtin - keyword
     print . __class__
-#   ^^^^^ - keyword
+#   ^^^^^ support.function.builtin - keyword
     print "keyword"
 #   ^^^^^^^^^^^^^^^ meta.statement.print
 #   ^^^^^ keyword
@@ -111,6 +111,9 @@ def my_func(param1, # Multi-line function definition
 #
     exec 123
 #   ^^^^^^^^ meta.statement.exec
+#   ^^^^ keyword
+    exec ("print('ok')")
+#   ^^^^ support.function.builtin - keyword
     callback(print , print
 #            ^^^^^ - keyword
 #                    ^^^^^ - keyword
