@@ -79,6 +79,9 @@ def my_func(param1, # Multi-line function definition
 #                          ^ punctuation.definition.block.for
         pass
 
+    b = c in d
+#         ^^ keyword.operator.logical
+
     for i:
 #        ^ invalid.illegal.missing-in
 
@@ -293,6 +296,11 @@ list_ = [i for i in range(100) if i > 0 else -1]
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.comprehension
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
+
+list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
+#           ^^ keyword.operator.logical
+#                              ^^ keyword.control.flow.for.in
+#                                                 ^^ keyword.operator.logical
 
 a if b else c
 # ^^ keyword.control.flow
