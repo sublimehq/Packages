@@ -362,7 +362,7 @@ contexts:
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\s+(?={{identifier}})'
       captures:
-        1: storage.modifier.python
+        1: storage.modifier.async.python
         2: storage.type.function.python
       push:
         - meta_scope: meta.function.python
