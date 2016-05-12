@@ -291,28 +291,28 @@ myset = {"key", True, key2, [-1], {}}
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#              ^^^^^^^^^^^^^^^^^^^ meta.comprehension
-#              ^^^ keyword.control.flow.for.comprehension
+#              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#              ^^^ keyword.control.flow.for.generator
 #                  ^ meta.name
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^ meta.comprehension
-#          ^^^ keyword.control.flow.for.comprehension
+#          ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^ keyword.control.flow.for.generator
 #                ^^ keyword.control.flow.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^^^^^^^^^^^^^^^ meta.comprehension
-#         ^^^ keyword.control.flow.for.comprehension
+#         ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#             ^^^^^^^^^^^^^^^^^^^ meta.comprehension
-#             ^^^ keyword.control.flow.for.comprehension
+#             ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#             ^^^ keyword.control.flow.for.generator
 #                   ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expression.generator
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
 
@@ -322,10 +322,10 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 list(i for i in generator)
-#      ^^^^^^^^^^^^^^^^^^ meta.comprehension
+#      ^^^^^^^^^^^^^^^^^^ meta.expression.generator
 list((i for i in generator), 123)
-#       ^^^^^^^^^^^^^^^^^^ meta.comprehension
-#                         ^^^^^^^ - meta.comprehension
+#       ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#                         ^^^^^^^ - meta.expression.generator
 #                          ^ punctuation.separator.parameters
 
 a if b else c

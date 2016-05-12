@@ -1266,13 +1266,13 @@ contexts:
 
   inline_for:
     - match: \b(for)\b
-      scope: keyword.control.flow.for.comprehension.python
+      scope: keyword.control.flow.for.generator.python
       push:
-        - meta_scope: meta.comprehension.python
+        - meta_scope: meta.expression.generator.python
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
           set:
-            - meta_scope: meta.comprehension.python
+            - meta_scope: meta.expression.generator.python
             - include: line_continuation
             - match: '(?=[)\]}])'
               pop: true
