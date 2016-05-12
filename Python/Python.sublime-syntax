@@ -28,26 +28,202 @@ contexts:
     - include: statements
 
   statements:
+    - include: inline_statements
+    - include: block_statements
     - include: classes
     - include: functions
     - include: decorators
     - include: modifiers
     - include: expressions
 
+  inline_statements:
+    - include: imports
+    - match: \b(raise)\b
+      scope: keyword.control.flow.raise.python
+      push:
+        - meta_scope: meta.statement.raise.python
+        - match: $\n?
+          pop: true
+        - match: \b(from)\b
+          scope: keyword.control.flow.raise.from.python
+          set:
+            - meta_scope: meta.statement.raise.python
+            - include: expressions
+            - match: $\n?
+              pop: true
+        - include: expressions
+    - match: \b(assert)\b
+      scope: keyword.other.assert.python
+      push:
+        - meta_scope: meta.statement.assert.python
+        - include: expressions
+        - match: $\n?
+          pop: true
+    - match: \b(del)\b
+      scope: keyword.other.del.python
+      push:
+        - meta_scope: meta.statement.del.python
+        - include: expressions
+        - match: $\n?
+          pop: true
+    - match: \b(print)\b(?! *($|[,.()\]}]))
+      scope: keyword.other.print.python
+      push:
+        - meta_scope: meta.statement.print.python
+        - include: expressions
+        - match: $\n?
+          pop: true
+    - match: \b(exec)\b(?! *($|[,.()\]}]))
+      scope: keyword.other.exec.python
+      push:
+        - meta_scope: meta.statement.exec.python
+        - include: expressions
+        - match: $\n?
+          pop: true
+    - match: \b(return)\b
+      scope: keyword.control.flow.return.python
+    - match: \b(break|continue|pass)\b
+      scope: keyword.control.flow.python
+
+  imports:
+    - match: \b(import)\b
+      scope: keyword.control.import.python
+      push:
+        - meta_scope: meta.statement.import.python
+        - include: line_continuation
+        - match: $\n?
+          pop: true
+        - include: comments
+        - include: import_alias
+        - include: dotted_name
+        - match: ','
+          scope: punctuation.separator.import-list.python
+    - match: \b(from)\b
+      scope: keyword.control.import.from.python
+      push:
+        - meta_scope: meta.statement.import.python
+          meta_content_scope: meta.import-source.python
+        - include: line_continuation
+        - match: $\n?
+          pop: true
+        - match: \b(import)\b
+          scope: keyword.control.import.python
+          set:
+            - include: line_continuation
+            - match: $\n?
+              pop: true
+            - match: ' *(\()'
+              captures:
+                1: punctuation.definition.begin.import-list
+              set:
+                - meta_scope: meta.statement.import.python
+                - include: comments
+                - match: \)
+                  scope: punctuation.definition.end.import-list
+                  pop: true
+                - include: import_name_list
+            - match: ''
+              set:
+                - meta_scope: meta.statement.import.python
+                - include: line_continuation
+                - match: $\n?
+                  pop: true
+                - include: comments
+                - include: import_name_list
+        - include: dotted_name
+
+  import_name_list:
+    - match: ','
+      scope: punctuation.separator.import-list.python
+    - include: import_alias
+    - include: name
+    - match: \*
+      scope: keyword.other.import-all.python
+    - match: \S+
+      scope: invalid.illegal.name.import.python
+
+  import_alias:
+    - match: \b(as)\b
+      scope: keyword.control.import.as.python
+
+  block_statements:
+    # async for ... in ...:
+    - match: \b(async +)?(for)\b
+      captures:
+        1: keyword.control.flow.async.python
+        2: keyword.control.flow.for.python
+      push:
+        - meta_scope: meta.statement.for.python
+        - match: \b(in)\b
+          scope: keyword.control.flow.for.in.python
+          set:
+            - meta_scope: meta.statement.for.python
+            - include: line_continuation
+            - match: ':'
+              scope: punctuation.definition.block.for.python
+              pop: true
+            - include: expressions
+        - match: ':'
+          scope: invalid.illegal.missing-in.python
+          pop: true
+        - include: target_list
+    # async with ... as ...:
+    - match: \b(async +)?(with)\b
+      captures:
+        1: keyword.control.flow.async.python
+        2: keyword.control.flow.with.python
+      push:
+        - meta_scope: meta.statement.with.python
+        - match: \b(as)\b
+          scope: keyword.control.flow.with.as.python
+          set:
+            - meta_scope: meta.statement.with.python
+            - match: ':'
+              scope: punctuation.definition.block.with.python
+              pop: true
+            - include: name
+        - match: ':'
+          scope: punctuation.definition.block.with.python
+          pop: true
+        - include: expressions
+    # except ... as ...:
+    - match: \b(except)\b
+      scope: keyword.control.flow.except.python
+      push:
+        - meta_scope: meta.statement.except.python
+        - match: ':'
+          scope: punctuation.definition.block.except.python
+          pop: true
+        - match: '\b(as)\b'
+          scope: keyword.control.flow.as.python
+          set:
+            - meta_scope: meta.statement.except.python
+            - include: line_continuation
+            - match: $\n?
+              pop: true
+            - include: name
+            - match: ':'
+              scope: punctuation.definition.block.except.python
+              pop: true
+        - include: target_list
+    - match: \b(elif|else|finally|if|try|while)\b
+      scope: keyword.control.flow.python
+
   expressions:
     - include: comments
     - include: constants
     - include: numbers
-    - include: keywords
+    - include: yields
     - include: operators
     - include: lambda
+    - match: \b(await)\b
+      scope: keyword.other.await.python
+    - include: inline_if
+    - include: strings
     - include: function-calls
     - include: item-access
-    - include: late-keywords
     - include: line_continuation
     - include: language_variables
-    - include: string_quoted_single
-    - include: string_quoted_double
     - include: dotted_name
     - match: \(
       scope: punctuation.definition.group.begin.python
@@ -56,6 +232,7 @@ contexts:
         - match: \)
           scope: punctuation.definition.group.end.python
           pop: true
+        - include: inline_for
         - include: expressions
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
@@ -115,25 +292,11 @@ contexts:
         - match: \S+
           scope: invalid.illegal.name.storage.python
 
-  keywords:
-    - match: \b(?:(import)|(from))\b
+  yields:
+    - match: \b(yield)(?:\s+(from))?\b
       captures:
-        1: keyword.control.import.python
-        2: keyword.control.import.from.python
-    - match: \b(yield)\b(?:\s+(from))?
-      captures:
-        1: keyword.control.flow.python
-        2: keyword.control.flow.python
-    - match: \b(async)\b(?:\s+(for|with)\b)
-      captures:
-        1: keyword.control.flow.python
-        2: keyword.control.flow.python
-    - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|await)\b
-      comment: keywords that delimit flow blocks or alter flow from within a block
-      scope: keyword.control.flow.python
-    - match: \b(as|assert|del|exec|print)\b
-      comment: keywords that haven't fit into other groups (yet).
-      scope: keyword.other.python
+        1: keyword.control.flow.yield.python
+        2: keyword.control.flow.yield-from.python
 
   operators:
     - match: <>
@@ -378,14 +541,6 @@ contexts:
                 1: variable.parameter.python
                 2: punctuation.separator.parameters.python
 
-  late-keywords:
-    - match: \b(def|lambda)\b
-      scope: storage.type.function.python
-    - match: \b(class)\b
-      scope: storage.type.class.python
-    - match: \b(async)\b
-      scope: storage.modifier.python
-
   lists:
     - match: '(\[)(\s*(\]))\b'
       captures:
@@ -401,6 +556,7 @@ contexts:
           pop: true
         - match: ','
           scope: punctuation.separator.list.python
+        - include: inline_for
         - include: expressions
 
   dictionaries_and_sets:
@@ -421,6 +577,7 @@ contexts:
           scope: punctuation.separator.dictionary-or-set.python
         - match: ':'
           scope: punctuation.separator.key-value.python
+        - include: inline_for
         - include: expressions
 
   identifier_parts:
@@ -1090,3 +1247,53 @@ contexts:
   strings:
     - include: string_quoted_double
     - include: string_quoted_single
+
+  inline_for:
+    - match: \b(for)\b
+      scope: keyword.control.flow.for.comprehension.python
+      push:
+        - meta_scope: meta.comprehension.python
+        - match: ','
+          scope: punctuation.separator.target-list.python
+        - match: \(
+          push:
+            - match: ','
+              scope: punctuation.separator.target-list.python
+            - match: \)
+              pop: true
+            - include: name
+        - match: \b(in)\b
+          scope: keyword.control.flow.for.in.python
+          set:
+            - meta_scope: meta.comprehension.python
+            - include: line_continuation
+            - match: '(?=[)\]}])'
+              pop: true
+            - include: inline_if  # not necessary but more explicit
+            - include: expressions
+        - match: '(?=[)\]}])'
+          scope: invalid.illegal.missing-in.python
+          pop: true
+        - include: name
+
+  inline_if:
+    - match: \b(if)\b
+      scope: keyword.control.flow.if.inline.python
+    - match: \b(else)\b
+      scope: keyword.control.flow.else.inline.python
+
+  target_list:
+    - include: line_continuation
+    - match: $\n?
+      pop: true
+    - match: ','
+      scope: punctuation.separator.target-list.python
+    - match: \(
+      push:
+        - include: comments
+        - match: ','
+          scope: punctuation.separator.target-list.python
+        - match: \)
+          pop: true
+        - include: name
+    - include: name

@@ -1,10 +1,40 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 
-import sys
+import sys # comment
 #^^^^^ keyword.control.import
+#          ^ comment
+from os import path, chdir # comment
+#^^^ keyword.control.import.from
+#       ^^^^^^ keyword.control.import
+#              ^^^^ meta.name
+#                  ^ punctuation.separator.import-list
+#                    ^^^^^ meta.name
+#                          ^ comment
+from \
+    os \
+    import \
+    path
+#   ^^^^ meta.statement.import
+from sys import (version, # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
+#               ^ punctuation.definition.begin.import-list
+#                         ^ comment
+                 version_info, . ) # comment
+#                ^^^^^^^^^^^^^ meta.statement.import
+#                              ^ invalid.illegal.name.import
+#                                ^ punctuation.definition.end.import-list
+#                                  ^ comment
 import path from os
-#^^^^^ keyword.control.import
-#           ^^^^ keyword.control.import.from
+#           ^^^^ invalid.illegal.name
+from .sub import *
+#                ^ keyword.other.import-all.python
+import a as b
+#        ^^ keyword.control.import.as.python
+from a import b as c, d as e
+#               ^^ keyword.control.import.as.python
+#                       ^^ keyword.control.import.as.python
+from a import (b as c)
+#                ^^ keyword.control.import.as.python
 
 name
 #^^^ meta.name
@@ -13,6 +43,16 @@ name1 . name2
 #^^^^^^^^^^^^ meta.name.dotted
 #     ^ punctuation.accessor
 #^^^^ meta.name.dotted meta.name
+
+class
+#^^^^ invalid.illegal.name
+def
+#^^ invalid.illegal.name
+
+# Currently, async and await are still recognized as valid identifiers unless in an "async" block
+async
+#^^^^ - invalid.illegal.name
+#
 
 def abc():
     global from, for, variable, .
@@ -31,15 +71,50 @@ def my_func(param1, # Multi-line function definition
     print('Hi!')
 
     async for i in myfunc():
-#   ^ keyword.control.flow
-#         ^ keyword.control.flow
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^ keyword.control.flow.async
+#         ^^^ keyword.control.flow.for
+#               ^^ keyword.control.flow.for.in
+#                          ^ punctuation.definition.block.for
         pass
 
-    async with context_manager():
-#   ^ keyword.control.flow
-#         ^ keyword.control.flow
-        pass
+    for i:
+#        ^ invalid.illegal.missing-in
 
+    a for b in c: # TODO make this invalid (for not at beginning of line)
+
+    async with context_manager() as c:
+#   ^^^^^ keyword.control.flow.async
+#         ^^^^ keyword.control.flow.with
+#                                ^^ keyword.control.flow.with.as
+#                                    ^ punctuation.definition.block.with
+        await something()
+#       ^^^^^ keyword.other.await
+
+    yield from
+#   ^^^^^ keyword.control.flow.yield
+#         ^^^^ keyword.control.flow.yield-from
+
+    yield fromsomething
+#         ^^^^ - keyword
+
+    print (file=None)
+#   ^^^^^ - keyword
+    print . __class__
+#   ^^^^^ - keyword
+    print "keyword"
+#   ^^^^^^^^^^^^^^^ meta.statement.print
+#   ^^^^^ keyword
+    print __init__
+#   ^^^^^ keyword
+#
+    exec 123
+#   ^^^^^^^^ meta.statement.exec
+    callback(print , print
+#            ^^^^^ - keyword
+#                    ^^^^^ - keyword
+             , print)
+#              ^^^^^ - keyword
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -187,6 +262,73 @@ myset = {"key", True, key2, [-1], {}}
 #                             ^ constant.numeric
 #                               ^ punctuation.separator.dictionary-or-set
 #                                 ^^ meta.structure.dictionary
+
+generator = (i for i in range(100))
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#              ^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#              ^^^ keyword.control.flow.for.comprehension
+#                  ^ meta.name
+#                    ^^ keyword.control.flow.for.in
+list_ = [i for i in range(100)]
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#          ^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#          ^^^ keyword.control.flow.for.comprehension
+#                ^^ keyword.control.flow.for.in
+set_ = {i for i in range(100)}
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#         ^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#         ^^^ keyword.control.flow.for.comprehension
+#               ^^ keyword.control.flow.for.in
+dict_ = {i: i for i in range(100)}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#             ^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#             ^^^ keyword.control.flow.for.comprehension
+#                   ^^ keyword.control.flow.for.in
+list_ = [i for i in range(100) if i > 0 else -1]
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.comprehension
+#                              ^^ keyword.control.flow.if.inline
+#                                       ^^^^ keyword.control.flow.else.inline
+
+a if b else c
+# ^^ keyword.control.flow
+#      ^^^^ keyword.control.flow
+
+except Exception:
+#^^^^^^^^^^^^^^^^ meta.statement.except
+#^^^^^ keyword.control.flow.except
+#      ^^^^^^^^^ support.type.exception
+#               ^ punctuation.definition.block
+except (KeyError, NameError) as e:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
+#^^^^^ keyword.control.flow.except
+#       ^^^^^^^^ support.type.exception
+#               ^ punctuation.separator.target-list
+#                 ^^^^^^^^^ support.type.exception
+#                            ^^ keyword.control.flow.as
+#                                ^ punctuation.definition.block
+except StopIteration \
+    as \
+    err:
+#   ^^^^ meta.statement.except
+
+except StopIteration
+    as
+#   ^^ invalid.illegal.name - meta.statement.except
+
+raise
+#^^^^ meta.statement.raise keyword.control.flow.raise
+
+raise Ellipsis
+#^^^^^^^^^^^^^ meta.statement.raise
+#^^^^ keyword.control.flow.raise
+#     ^^^^^^^^ constant.language
+raise KeyError() from z
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise
+#^^^^ keyword.control.flow.raise
+#     ^^^^^^^^ support.type.exception
+#                ^^^^ keyword.control.flow.raise.from
+#                     ^ meta.name
 
 )
 # <- invalid.illegal.stray.brace.round
