@@ -321,6 +321,13 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                              ^^ keyword.control.flow.for.in
 #                                                 ^^ keyword.operator.logical
 
+list(i for i in generator)
+#      ^^^^^^^^^^^^^^^^^^ meta.comprehension
+list((i for i in generator), 123)
+#       ^^^^^^^^^^^^^^^^^^ meta.comprehension
+#                         ^^^^^^^ - meta.comprehension
+#                          ^ punctuation.separator.parameters
+
 a if b else c
 # ^^ keyword.control.flow
 #      ^^^^ keyword.control.flow

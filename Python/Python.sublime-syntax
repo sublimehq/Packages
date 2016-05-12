@@ -511,6 +511,9 @@ contexts:
           scope: punctuation.definition.arguments.end.python
           pop: true
         - include: keyword_arguments
+        - match: ','
+          scope: punctuation.separator.parameters.python
+        - include: inline_for
         - include: expressions
     - match: '(?={{path}}\s*\()'
       push:
@@ -532,6 +535,7 @@ contexts:
             - include: keyword_arguments
             - match: ','
               scope: punctuation.separator.parameters.python
+            - include: inline_for
             - include: expressions
 
   lambda:
