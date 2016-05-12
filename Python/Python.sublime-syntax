@@ -155,11 +155,16 @@ contexts:
         2: keyword.control.flow.for.python
       push:
         - meta_scope: meta.statement.for.python
+        - include: line_continuation
+        - match: $\n?
+          pop: true
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
           set:
             - meta_scope: meta.statement.for.python
             - include: line_continuation
+            - match: $\n?
+              pop: true
             - match: ':'
               scope: punctuation.definition.block.for.python
               pop: true
@@ -175,10 +180,16 @@ contexts:
         2: keyword.control.flow.with.python
       push:
         - meta_scope: meta.statement.with.python
+        - include: line_continuation
+        - match: $\n?
+          pop: true
         - match: \b(as)\b
           scope: keyword.control.flow.with.as.python
           set:
             - meta_scope: meta.statement.with.python
+            - include: line_continuation
+            - match: $\n?
+              pop: true
             - match: ':'
               scope: punctuation.definition.block.with.python
               pop: true
@@ -192,6 +203,9 @@ contexts:
       scope: keyword.control.flow.except.python
       push:
         - meta_scope: meta.statement.except.python
+        - include: line_continuation
+        - match: $\n?
+          pop: true
         - match: ':'
           scope: punctuation.definition.block.except.python
           pop: true
@@ -202,10 +216,10 @@ contexts:
             - include: line_continuation
             - match: $\n?
               pop: true
-            - include: name
             - match: ':'
               scope: punctuation.definition.block.except.python
               pop: true
+            - include: name
         - include: target_list
     - match: \b(elif|else|finally|if|try|while)\b
       scope: keyword.control.flow.python

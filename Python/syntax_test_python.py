@@ -80,6 +80,14 @@ def my_func(param1, # Multi-line function definition
 #                          ^ punctuation.definition.block.for
         pass
 
+    for \
+        a \
+        in \
+        b:
+#       ^^ meta.statement.for
+
+    for
+#   ^^^ keyword.control.flow.for
     b = c in d
 #         ^^ keyword.operator.logical
 
@@ -96,6 +104,14 @@ def my_func(param1, # Multi-line function definition
         await something()
 #       ^^^^^ keyword.other.await
 
+    with \
+        open() \
+        as \
+        x:
+#       ^^ meta.statement.with
+
+    with
+#   ^^^^ keyword.control.flow.with
     yield from
 #   ^^^^^ keyword.control.flow.yield
 #         ^^^^ keyword.control.flow.yield-from
@@ -345,7 +361,8 @@ except (KeyError, NameError) as e:
 #                 ^^^^^^^^^ support.type.exception
 #                            ^^ keyword.control.flow.as
 #                                ^ punctuation.definition.block
-except StopIteration \
+except \
+    StopIteration \
     as \
     err:
 #   ^^^^ meta.statement.except
@@ -354,9 +371,11 @@ except StopIteration
     as
 #   ^^ invalid.illegal.name - meta.statement.except
 
+except
+#^^^^^ keyword.control.flow.except
+
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise
-
 raise Ellipsis
 #^^^^^^^^^^^^^ meta.statement.raise
 #^^^^ keyword.control.flow.raise
