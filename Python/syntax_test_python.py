@@ -150,11 +150,12 @@ mydict = {}
 
 key2 = "my_key"
 mydict = {"key": True, key2: (1, 2, [-1, -2])}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
 #         ^^^^^ string.quoted.double
 #              ^ punctuation.separator.key-value
 #                ^^^^ constant.language
-#                    ^ punctuation.separator.dictionary
+#                    ^ punctuation.separator.dictionary-or-set
+#                      ^^^^ meta.name.dotted
 #                          ^ punctuation.separator.key-value
 #                            ^^^^^^^^^^^^^^^^ meta.group
 #                            ^ punctuation.definition.group.begin
@@ -163,8 +164,21 @@ mydict = {"key": True, key2: (1, 2, [-1, -2])}
 #                                   ^^^^^^^ meta.structure.list
 #                                      ^ punctuation.separator.list
 #                                           ^ punctuation.definition.group.end
-#        ^ punctuation.definition.dictionary.begin
-#                                            ^ punctuation.definition.dictionary.end
+#        ^ punctuation.definition.dictionary-or-set.begin
+#                                            ^ punctuation.definition.dictionary-or-set.end
+
+myset = {"key", True, key2, [-1], {}}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#        ^^^^^ string.quoted.double
+#             ^ punctuation.separator.dictionary-or-set
+#               ^^^^ constant.language
+#                   ^ punctuation.separator.dictionary-or-set
+#                     ^^^^ meta.name.dotted
+#                         ^ punctuation.separator.dictionary-or-set
+#                           ^^^^ meta.structure.list
+#                             ^ constant.numeric
+#                               ^ punctuation.separator.dictionary-or-set
+#                                 ^^ meta.structure.dictionary
 
 ###############################
 # Strings and embedded syntaxes

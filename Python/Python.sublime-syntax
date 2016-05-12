@@ -60,7 +60,7 @@ contexts:
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
     - include: lists
-    - include: dictionaries
+    - include: dictionaries_and_sets
 
   comments:
     - match: "#"
@@ -390,7 +390,7 @@ contexts:
           scope: punctuation.separator.list.python
         - include: expressions
 
-  dictionaries:
+  dictionaries_and_sets:
     - match: '(\{)(\s*(\}))'
       scope: meta.structure.dictionary.python
       captures:
@@ -398,14 +398,14 @@ contexts:
         2: meta.empty-dictionary.python
         3: punctuation.definition.dictionary.end.python
     - match: \{
-      scope: punctuation.definition.dictionary.begin.python
+      scope: punctuation.definition.dictionary-or-set.begin.python
       push:
-        - meta_scope: meta.structure.dictionary.python
+        - meta_scope: meta.structure.dictionary-or-set.python
         - match: \}
-          scope: punctuation.definition.dictionary.end.python
+          scope: punctuation.definition.dictionary-or-set.end.python
           pop: true
         - match: ','
-          scope: punctuation.separator.dictionary.python
+          scope: punctuation.separator.dictionary-or-set.python
         - match: ':'
           scope: punctuation.separator.key-value.python
         - include: expressions
