@@ -546,6 +546,10 @@ foo['bar']/ 20 + 30 /g
 //        ^ keyword.operator.arithmetic
 //                  ^ keyword.operator.arithmetic
 
+foo.bar/ 20 + 30 /g
+//     ^ keyword.operator.arithmetic
+//               ^ keyword.operator.arithmetic
+
 var result = 200 / 400 + 500 /
 //               ^ keyword.operator.arithmetic
 //                           ^ keyword.operator.arithmetic
