@@ -534,6 +534,10 @@ contexts:
       captures:
         1: punctuation.separator.continuation.line.python
         2: invalid.illegal.unexpected-text.python
+    # make sure to resume parsing at next line
+      push:
+        - match: (?=.)
+          pop: true
   magic_function_names:
     - match: |-
         (?x)\b(__(?:
