@@ -64,6 +64,7 @@ def abc():
 #                               ^ invalid.illegal.name.storage
 
 def my_func(param1, # Multi-line function definition
+#                 ^ punctuation.separator.parameters
 #                   ^ comment.line.number-sign
     # This is defaulted
 #   ^ comment.line.number-sign
@@ -119,6 +120,7 @@ def my_func(param1, # Multi-line function definition
 #   ^^^^ support.function.builtin - keyword
     callback(print , print
 #            ^^^^^ - keyword
+#                  ^ punctuation.separator.parameters
 #                    ^^^^^ - keyword
              , print)
 #              ^^^^^ - keyword
@@ -195,10 +197,11 @@ class UnicødeIdentifier():
 class MyClass(Inherited,
 #     ^^^^^^^ entity.name.type.class
 #             ^^^^^^^^^ entity.other.inherited-class
-#                      ^ punctuation.separator
-              module . Inherited2):
+#                      ^ punctuation.separator.inheritance
+              module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                    ^ punctuation.accessor
+#                                ^ punctuation.separator.inheritance
+#                                  TODO
     """
     This is a test of docstrings
     """
@@ -214,6 +217,17 @@ class Unterminated(Inherited:
 # Lists and dicts
 ##################
 
+mytuple = ("this", 'is', 4, tuple)
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#         ^ punctuation.definition.group.begin
+#          ^^^^^^ string.quoted.double
+#                ^ punctuation.separator.tuple
+#                  ^^^^ string.quoted.single
+#                      ^ punctuation.separator.tuple
+#                        ^ constant.numeric
+#                         ^ punctuation.separator.tuple
+#                           ^^^^^ support.type
+#                                ^ punctuation.definition.group.end
 not_a_tuple = (a = 2, b += 3)
 #                ^ - keyword
 #                        ^ - keyword

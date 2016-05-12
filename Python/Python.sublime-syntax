@@ -234,6 +234,8 @@ contexts:
         - match: \)
           scope: punctuation.definition.group.end.python
           pop: true
+        - match: ','
+          scope: punctuation.separator.tuple.python
         - include: inline_for
         - include: expressions
     - match: \)
@@ -353,7 +355,7 @@ contexts:
                   scope: invalid.illegal.no-closing-parens.python
                   pop: true
                 - match: ','
-                  scope: punctuation.separator.python
+                  scope: punctuation.separator.inheritance.python
                 - match: '(?={{path}})'
                   push:
                     - meta_scope: entity.other.inherited-class.python
@@ -525,6 +527,8 @@ contexts:
             - match: (?=\))
               pop: true
             - include: keyword_arguments
+            - match: ','
+              scope: punctuation.separator.parameters.python
             - include: expressions
 
   lambda:
