@@ -46,7 +46,7 @@ name1 . name2
 #^^^^ meta.name.dotted meta.name
 
 class
-#^^^^ invalid.illegal.name
+#^^^^ storage.type.class
 def
 #^^ invalid.illegal.name
 

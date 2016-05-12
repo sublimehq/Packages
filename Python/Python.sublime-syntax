@@ -338,16 +338,17 @@ contexts:
       scope: keyword.operator.logical.python
 
   classes:
-    - match: '^\s*(class)\s+(?={{identifier}})'
+    - match: '^\s*(class)\b'
       captures:
         1: storage.type.class.python
       push:
         - meta_scope: meta.class.python
+        - include: line_continuation
+        - match: $
+          pop: true
         - match: ':'
           scope: punctuation.section.class.begin.python
           set: maybe-docstrings
-        - match: '(?=^\s*$)'
-          pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.type.class.python
@@ -357,16 +358,18 @@ contexts:
         - match: '(?=\()'
           set:
             - match: \(
-              scope: meta.class.inheritance.python punctuation.definition.inheritance.begin.python
+              scope: punctuation.definition.inheritance.begin.python
               set:
-                - meta_content_scope: meta.class.inheritance.python
+                - meta_scope: meta.class.inheritance.python
                 - match: \)
                   scope: punctuation.definition.inheritance.end.python
                   set:
+                    - include: line_continuation
+                    - match: $
+                      pop: true
                     - match: ':'
                       scope: meta.class.python punctuation.section.class.begin.python
                       set: maybe-docstrings
-                    - include: comments
                     - match: (?=\S)
                       pop: true
                 - match: ':'
