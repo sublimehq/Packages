@@ -214,6 +214,10 @@ class Unterminated(Inherited:
 # Lists and dicts
 ##################
 
+not_a_tuple = (a = 2, b += 3)
+#                ^ - keyword
+#                        ^ - keyword
+
 mylist = []
 #        ^^ meta.structure.list.python
 #        ^ punctuation.definition.list.begin
