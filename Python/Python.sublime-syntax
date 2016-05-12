@@ -117,9 +117,6 @@ contexts:
     - match: \b(elif|else|except|finally|for|if|try|while|with|break|continue|pass|raise|return|await)\b
       comment: keywords that delimit flow blocks or alter flow from within a block
       scope: keyword.control.flow.python
-    - match: \b(and|in|is|not|or)\b
-      comment: keyword operators that evaluate to True or False
-      scope: keyword.operator.logical.python
     - match: \b(as|assert|del|exec|print)\b
       comment: keywords that haven't fit into other groups (yet).
       scope: keyword.other.python
@@ -135,6 +132,9 @@ contexts:
       scope: keyword.operator.arithmetic.python
     - match: \=
       scope: keyword.operator.assignment.python
+    - match: \b(and|in|is|not|or)\b
+      comment: keyword operators that evaluate to True or False
+      scope: keyword.operator.logical.python
 
   classes:
     - match: '^\s*(class)\s+(?={{identifier}})'
