@@ -409,6 +409,7 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.python
       push:
+        - meta_scope: meta.function.default-value.python
         - match: '(?=[,)])'
           pop: true
         - include: expressions

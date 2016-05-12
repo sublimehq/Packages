@@ -147,6 +147,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
 #                                                                            ^^^^^^^^ string.quoted.double
+#                                                                                     ^^^^^^^^^^^ meta.function.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
 #                                                                                                ^ punctuation.definition.parameters.end
