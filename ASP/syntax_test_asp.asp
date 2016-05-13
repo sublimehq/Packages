@@ -760,18 +760,64 @@ test = "hello%>
 <% End Sub %>
 '  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp storage.type.function.end.asp
 '         ^ - meta.method.source.asp
+ <p class="<% If True Then %>test<% End If %>"></p>
+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+'   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
+'         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html string.quoted.double.html
+'                                             ^ - string.quoted.double.html
+'          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class-name.html
+'          ^^ punctuation.section.embedded.begin.asp
+'            ^^^^^^^^^^^^^^ source.asp.embedded.html
+'             ^^ keyword.control.flow.asp
+'                ^^^^ meta.between-if-and-then.asp storage.type.asp
+'                     ^^^^ keyword.control.flow.asp
+'                         ^^^^^^^^^^ meta.if.block.asp
+'                          ^^ punctuation.section.embedded.end.inside-block.asp
+'                                ^^ punctuation.section.embedded.begin.inside-block.asp
+'                                   ^^^^^^ keyword.control.flow.asp
+'                                          ^^ punctuation.section.embedded.end.asp - meta.if.block.asp
+'                                             ^ punctuation.definition.tag.end.html
+
+ <p <%= "class=""test""" %> id="test1"></p>
+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+'^ punctuation.definition.tag.begin.html
+' ^ entity.name.tag.block.any.html
+'   ^^^ punctuation.section.embedded.begin.asp
+'       ^^^^^^^^^^^^^^^^ string.quoted.double.asp
+'                        ^^ punctuation.section.embedded.end.asp
+'                           ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'                                     ^ punctuation.definition.tag.end.html
+'                                          ^ - meta.tag.block.any.html
+<% If True Then
+   Do
+ %>
+        <span <%= "class=""test""" %> id="test2"></span>
+       '^ punctuation.definition.tag.begin.html
+       ' ^^^^ entity.name.tag.inline.any.html
+       '      ^^^ punctuation.section.embedded.begin.inside-block.asp
+       '          ^^^^^^^^^^^^^^^^ string.quoted.double.asp
+       '                           ^^ punctuation.section.embedded.end.inside-block.asp
+       '                                           ^^^^ entity.name.tag.inline.any.html
+<% Loop
+   End If %>
+
+ <span <% If False Then %> class="test" <% End If %> id="test3"></span>
+'^ punctuation.definition.tag.begin.html
+' ^^^^ entity.name.tag.inline.any.html
+'      ^^ punctuation.section.embedded.begin.asp
+'         ^^ keyword.control.flow.asp
+'            ^^^^^ meta.between-if-and-then.asp storage.type.asp
+'                  ^^^^ keyword.control.flow.asp
+'                       ^^ punctuation.section.embedded.end.inside-block.asp
+'                                       ^^ punctuation.section.embedded.begin.inside-block.asp
+'                                          ^^^^^^ keyword.control.flow.asp
+'                                                 ^^ punctuation.section.embedded.end.asp
+'                                                    ^^ text.html.asp text.html.basic meta.tag.inline.any.html meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'                                                              ^ punctuation.definition.tag.end.html
+
  </body>
 '^^^^^^^ meta.tag.structure.any.html
-<p class="<% If True Then %>test<% End If %>"></p>
-'         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html punctuation.section.embedded.begin.asp
-'            ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html keyword.control.flow.asp
-'                         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp punctuation.section.embedded.end.inside-block.asp
-'                           ^^^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp
-'                               ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html meta.if.block.asp punctuation.section.embedded.begin.inside-block.asp
-'                                  ^^^^^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html keyword.control.flow.asp
-'                                         ^^ text.html.asp text.html.basic meta.tag.block.any.html meta.attribute-with-value.class.html string.quoted.double.html meta.class-name.html source.asp.embedded.html punctuation.section.embedded.end.asp - meta.if.block.asp
 <script type="text/javascript">
 <% If True Then %>var hello = "world";<% End If %>
 </script>
-<span <% If False Then %>class="test"<% End If %>>Text</span>
 </html>

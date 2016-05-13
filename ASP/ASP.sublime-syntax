@@ -620,8 +620,12 @@ contexts:
   inside_block:
     - match: '%>'
       scope: punctuation.section.embedded.end.inside-block.asp
-      push: scope:text.html.asp#html
-      with_prototype:
+      push:
         - match: '<%=?'
           scope: punctuation.section.embedded.begin.inside-block.asp
           pop: true
+        - match: ''
+          push: scope:text.html.asp#html
+          with_prototype:
+            - match: '(?=<%)'
+              pop: true
