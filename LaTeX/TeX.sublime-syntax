@@ -22,7 +22,7 @@ contexts:
     - include: general-commands
 
   general-commands:
-    - match: '(\\)[A-Za-z@]+'
+    - match: '(\\)[[:alpha:]@]+'
       scope: support.function.general.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -30,7 +30,7 @@ contexts:
   general-constants:
     - match: \\\\
       scope: constant.character.newline.tex
-    - match: '(\\)[^a-zA-Z@]'
+    - match: '(\\)[^[:alpha:]@]'
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -96,7 +96,7 @@ contexts:
         - include: main
 
   macros:
-    - match: '(\\def)\s*((\\)[a-zA-Z@]+)\s*[^\{]*?\s*(\{)'
+    - match: '(\\def)\s*((\\)[[:alpha:]@]+)\s*[^\{]*?\s*(\{)'
       captures:
         1: support.function.definition.tex
         2: support.function.general.tex
@@ -105,7 +105,7 @@ contexts:
       push:
         - meta_scope: meta.function.definition.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.definition.tex
+          scope: punctuation.definition.brace.end.tex
           pop: true
         - include: general-constants
         - include: general-commands
@@ -118,7 +118,7 @@ contexts:
         2: punctuation.definition.backslash.tex
 
   math-commands:
-    - match: '((\\)[a-zA-Z@]+)'
+    - match: '((\\)[[:alpha:]@]+)'
       captures:
         1: support.function.math.tex
         2: punctuation.definition.backslash.tex
@@ -139,24 +139,20 @@ contexts:
 
   math-brackets:
     - match: '[\(\)]'
-      scope: constant.character.parenthesis.escape.tex
+      scope: constant.character.parenthesis.tex
     - match: '[\[\]]'
-      scope: constant.character.escape.bracket.tex
+      scope: constant.character.bracket.tex
     - match: '(\\)[\{\}]'
       scope: constant.character.brace.escape.tex
       captures:
         1: punctuation.definition.backslash.brace.escape.tex
 
-  math-constants:
-    - match: '(([0-9]*[\.][0-9]+)|[0-9]+)'
+  math-numerics:
+    - match: '(([[:digit:]]*\.[[:digit:]]+)|[[:digit:]]+)'
       scope: constant.numeric.math.tex
-    - match: '(\\)([^a-zA-Z]|[A-Za-z]+)(?=\b|\}|\]|\^|\_)'
-      scope: constant.other.general.math.tex
-      captures:
-        1: punctuation.definition.backslash.constant.math.tex
 
   math-characters:
-    - match: "[a-zA-Z]+"
+    - match: "[[:alpha:]]+"
       scope: variable.other.math.tex
 
   math-content:
@@ -167,7 +163,7 @@ contexts:
     - include: math-commands
     - include: math-operators
     - include: math-characters
-    - include: math-constants
+    - include: math-numerics
     - include: general-constants
 
   inline-math:

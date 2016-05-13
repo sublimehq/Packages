@@ -164,8 +164,8 @@ contexts:
           (?:(?:re)?newcommand)
         )
         (?:
-          (\{)(\\[a-zA-Z@]+)(\})
-          | (\\[a-zA-Z@])+
+          (\{)(\\[[:alpha:]@]+)(\})
+          | (\\[[:alpha:]@])+
         )
         (?:(\[)(?:[^\]]*)(\]))?
         (\{)
@@ -189,13 +189,13 @@ contexts:
         - include: macro-braces
 
   general-constants:
-    - match: '(\\\\)(?:(\[)\s*-?([0-9]*)\s*(\w*)\s*(\]))?'
+    - match: '(\\\\)(?:(\[)\s*-?([[:digit:]]*)\s*(\w*)\s*(\]))?'
       captures:
         1: constant.character.newline.latex
-        2: punctuation.definition.brace.begin.newline.latex
+        2: punctuation.definition.bracket.begin.newline.latex
         3: constant.numeric.newline.latex
         4: keyword.other.newline.latex
-        5: punctuation.definition.brace.begin.newline.latex
+        5: punctuation.definition.bracket.begin.newline.latex
     - include: scope:text.tex#general-constants
 
   general-commands:
@@ -419,7 +419,7 @@ contexts:
     - include: scope:text.tex#math-commands
     - include: scope:text.tex#math-operators
     - include: scope:text.tex#math-characters
-    - include: scope:text.tex#math-constants
+    - include: scope:text.tex#math-numerics
     - include: general-constants
 
   inline-math:
