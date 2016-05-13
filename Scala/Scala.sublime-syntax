@@ -84,7 +84,7 @@ contexts:
     - match: |-
         (?x)
         \b(def)\s+
-        (([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`|[^\w\[\(\:\_\s]+)
+        (_*([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\.]+)(_+([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\._]+)?)*|`[^`]+`|[^\w\[\(\:\_\s]+)
       captures:
         1: keyword.declaration.scala
         2: entity.name.function.declaration
