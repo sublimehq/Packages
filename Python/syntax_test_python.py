@@ -37,6 +37,9 @@ from a import b as c, d as e
 from a import (b as c)
 #                ^^ keyword.control.import.as.python
 
+import re; re.compile(r'')
+#        ^^^^^^^^^^^^^^^^^ - meta.statement.import
+#        ^ punctuation.separator.statements
 name
 #^^^ meta.name
 #
