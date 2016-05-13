@@ -68,49 +68,49 @@ contexts:
         - include: general-commands
 
   _general-1-more-argument:
-    - match: '(\})(\{)'
-      captures:
-        1: punctuation.definition.brace.end.latex
-        2: punctuation.definition.brace.begin.latex
+    - match: '\}'
+      scope: punctuation.definition.brace.end.latex
       set:
-        - match: '(?<=\{)'
+        - match: '\{'
+          scope: punctuation.definition.brace.begin.latex
           push:
             - meta_scope: meta.group.argument.latex
-            - match: '\}'
-              scope: punctuation.definition.brace.end.latex
+            - match: '(?=\})'
               pop: true
             - include: main
-        - match: '(?<=\})'
+        - match: '(?=\})'
           pop: true
 
   _general-2-more-arguments:
-    - match: '(\})(\{)'
-      captures:
-        1: punctuation.definition.brace.end.latex
-        2: punctuation.definition.brace.begin.latex
+    - match: '\}'
+      scope: punctuation.definition.brace.end.latex
       set:
-        - match: '(?<=\{)'
+        - match: '\{'
+          scope: punctuation.definition.brace.begin.latex
           push:
             - meta_scope: meta.group.argument.latex
             - include: _general-1-more-argument
+            - match: '(?=\})'
+              pop: true
             - include: main
-        - match: '(?<=\})'
+        - match: '(?=\})'
           pop: true
 
   general-1-argument:
-    - match: '(?<=\})'
+    - match: '\}'
+      scope: meta.group.argument.latex punctuation.definition.brace.end.latex
       pop: true
     - match: '\{'
       scope: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.group.argument.latex
-        - match: '\}'
-          scope: punctuation.definition.brace.end.latex
+        - match: '(?=\})'
           pop: true
         - include: main
 
   general-2-arguments:
-    - match: '(?<=\})'
+    - match: '\}'
+      scope: meta.group.argument.latex punctuation.definition.brace.end.latex
       pop: true
     - match: '\{'
       scope: punctuation.definition.brace.begin.latex
@@ -120,7 +120,8 @@ contexts:
         - include: main
 
   general-3-arguments:
-    - match: '(?<=\})'
+    - match: '\}'
+      scope: meta.group.argument.latex punctuation.definition.brace.end.latex
       pop: true
     - match: '\{'
       scope: punctuation.definition.brace.begin.latex
@@ -503,20 +504,26 @@ contexts:
         5: punctuation.definition.brace.end.latex
 
   invalid-quotations:
-    - match: (?<!\S)'.*?'
-      scope: invalid.illegal.string.quoted.single.latex
-    - match: (?<!\S)".*?"
-      scope: invalid.illegal.string.quoted.double.latex
+    - match: "(?:^|[^\\S])('.*?')"
+      captures:
+        1: invalid.illegal.string.quoted.single.latex
+    - match: '(?:^|[^\\S])(".*?")'
+      captures:
+        1: invalid.illegal.string.quoted.single.latex
 
   verb:
-    - match: ((\\)verb)(\W)(.*?)(\3)
+    - match: ((\\)verb)(\W)
       scope: meta.function.verbatim.latex
       captures:
         1: support.function.verb.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.verb.latex
-        4: markup.raw.verb.latex
-        5: punctuation.definition.verb.latex
+      push:
+        - meta_content_scope: markup.raw.verb.latex
+        - match: '\3'
+          scope: punctuation.definition.verb.latex
+          pop: true
+
 
   text-decorators:
     - match: '((\\)emph)(\{)'
