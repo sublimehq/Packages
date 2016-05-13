@@ -14,6 +14,11 @@ file_extensions:
   - .bash_variables
   - .bashrc
   - .profile
+  - .zshrc
+  - .zprofile
+  - .zshenv
+  - .zlogin
+  - .zlogout
   - .textmate_init
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
