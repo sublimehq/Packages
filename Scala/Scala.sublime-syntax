@@ -161,6 +161,8 @@ contexts:
       scope: keyword.control.flow.scala
     - match: \b(catch|finally|try)\b
       scope: keyword.control.exception.scala
+    - match: (\?\?\?)              # can't be guarded by \b for some reason (maybe bug?)
+      scope: keyword.control.exception.scala
   nest-curly-and-self:
     - match: '\{'
       captures:
