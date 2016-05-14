@@ -239,7 +239,7 @@ contexts:
       push:
         - meta_scope: meta.function-call.procedure.idl
         - include: procedure-call-parameters
-    - match: '(?i){{syspro}}\s*(?:$(?=\n)|(?=\&)|(?=\belse\b))'
+    - match: '(?i){{syspro}}\s*(?:$(?=\n)|(?=\&)|(?=\b{{keyword}}\b))'
       scope: support.function.procedure.idl
     - match: '({{identifier}})\s*(,)'
       captures:
