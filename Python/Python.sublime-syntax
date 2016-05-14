@@ -792,6 +792,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
+        - include: line_continuation
     # Single-line string, bytes
     - match: '([bB])(")'
       captures:
@@ -1032,6 +1033,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
+        - include: line_continuation
     # Single-line string, bytes
     - match: '([bB])('')'
       captures:

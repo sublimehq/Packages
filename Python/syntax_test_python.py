@@ -491,3 +491,18 @@ rB'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
+x = "hello \
+#   ^^^^^^^^^ string.quoted.double.block.python - invalid.illegal.unclosed-string.python, \
+#          ^ punctuation.separator.continuation.line.python, \
+world"
+#^^^^^ string.quoted.double.block.python
+#     ^ - string.quoted.double.block.python
+#    ^ punctuation.definition.string.end.python
+
+x = 'hello \
+#   ^^^^^^^^^ string.quoted.single.block.python - invalid.illegal.unclosed-string.python, \
+#          ^ punctuation.separator.continuation.line.python, \
+world'
+#^^^^^ string.quoted.single.block.python
+#     ^ - string.quoted.single.block.python
+#    ^ punctuation.definition.string.end.python
