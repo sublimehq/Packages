@@ -8,9 +8,11 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>(?i)^\s*(end|endfor|endwhile|endif|endelse)\s*$</string>
+		<string>(?i)^\s*(else|end|endi|endif|endf|endfo|endfor|ende|endel|endels|endelse|endwhile|endcase|endswitch)\b.*$</string>
 		<key>increaseIndentPattern</key>
-		<string>(?i)^\s*(pro|function|(begin\b((?!end).)))*$</string>
+		<string>(?i)(^.*\b(begin|of)\s*$)|(^\s*(function|pro)\b.*$)</string>
+		<key>bracketIndentNextLinePattern</key>
+		<string>^.*\$\s*$</string>
 	</dict>
 </dict>
 </plist>
