@@ -550,12 +550,12 @@ contexts:
     - include: comments
     - match: '(?i)(ur|ru|u|r)?(""")'
       push:
-        - meta_scope: comment.block.python
+        - meta_scope: comment.block.documentation.python
         - match: '"""'
           pop: true
     - match: "(?i)(ur|ru|u|r)?(''')"
       push:
-        - meta_scope: comment.block.python
+        - meta_scope: comment.block.documentation.python
         - match: "'''"
           pop: true
     - match: (?=\S)

@@ -84,7 +84,7 @@ class UnicødeIdentifier():
         """
         A function-level docstring
         """
-#       ^^^ comment.block
+#       ^^^ comment.block.documentation.python
 
         yield from range(100)
 #       ^^^^^ keyword.control.flow
@@ -102,7 +102,7 @@ class MyClass(Inherited,
     """
     This is a test of docstrings
     """
-#   ^ comment.block
+#   ^^^ comment.block.documentation.python
     pass
 
 class Unterminated(Inherited:
