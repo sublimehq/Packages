@@ -786,6 +786,7 @@ test = "hello%>
 '       ^^^^^^^^^^^^^^^^ string.quoted.double.asp
 '                        ^^ punctuation.section.embedded.end.asp
 '                           ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'                               ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
 '                                     ^ punctuation.definition.tag.end.html
 '                                          ^ - meta.tag.block.any.html
 <% If True Then
@@ -828,6 +829,7 @@ test = "hello%>
 '                                          ^^^^^^ keyword.control.flow.asp
 '                                                 ^^ punctuation.section.embedded.end.asp
 '                                                    ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'                                                        ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
 '                                                              ^ punctuation.definition.tag.end.html
  <span <% If True Then %>
   class="test"
@@ -843,7 +845,32 @@ test = "hello%>
 '          ^^ punctuation.section.embedded.end.asp
  id="test4"></span>
 '^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'    ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
 '          ^ punctuation.definition.tag.end.html
+'           ^^^^^^^ meta.tag.inline.any.html
+'           ^^ punctuation.definition.tag.begin.html
+'             ^^^^ entity.name.tag.inline.any.html
+'                 ^ punctuation.definition.tag.end.html
+ <% If True Then %>
+'^^ punctuation.section.embedded.begin.asp
+'                ^^ punctuation.section.embedded.end.inside-block.asp
+ <span class="<%= "test" %>" id="test5"></span>
+'^^^^^^^^^^^^^ meta.tag.inline.any.html
+'            ^ string.quoted.double.html punctuation.definition.string.begin.html
+'             ^^^ punctuation.section.embedded.begin.inside-block.asp
+'                        ^^ punctuation.section.embedded.end.inside-block.asp
+'                          ^ string.quoted.double.html punctuation.definition.string.end.html
+'                            ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+'                                ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                                      ^ punctuation.definition.tag.end.html
+'                                       ^^^^^^^ meta.tag.inline.any.html
+'                                       ^^ punctuation.definition.tag.begin.html
+'                                         ^^^^ entity.name.tag.inline.any.html
+'                                             ^ punctuation.definition.tag.end.html
+ <% End If %>
+'^^ punctuation.section.embedded.begin.inside-block.asp
+'   ^^^^^^ keyword.control.flow.asp
+'          ^^ punctuation.section.embedded.end.asp
  </body>
 '^^^^^^^ meta.tag.structure.any.html
 <script type="text/javascript">
