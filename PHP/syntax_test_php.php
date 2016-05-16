@@ -717,3 +717,32 @@ class OutputsHtml {
 //      ^^^^^ punctuation.section.embedded.begin
     }
 }
+
+class C {
+    private $prop;
+
+    public function __construct($val) {
+//                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
+        $this->prop = $val;
+    }
+
+    public function __debugInfo() {
+//                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
+        return [
+            'propSquared' => $this->prop ** 2,
+        ];
+    }
+
+    public function __toString()
+//                  ^^^^^^^^^^ entity.name.function.php support.function.magic.php
+    {
+        return $this->prop;
+    }
+
+    public function __test()
+//                  ^^^^^^ entity.name.function.php - support.function.magic.php
+    {
+    }
+}
+
+var_dump(new C(42));
