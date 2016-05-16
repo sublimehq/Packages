@@ -94,13 +94,11 @@ contexts:
         1: punctuation.definition.preprocessor.c
     - include: pragma
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.haskell
+      scope: punctuation.definition.string.begin.haskell
       push:
         - meta_scope: string.quoted.double.haskell
         - match: $|"
-          captures:
-            0: punctuation.definition.string.end.haskell
+          scope: punctuation.definition.string.end.haskell
           pop: true
         - match: '\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"''\&])'
           scope: constant.character.escape.haskell
@@ -110,8 +108,7 @@ contexts:
           scope: constant.character.escape.control.haskell
     - match: '\[(?:|e|d|t|p)\|'
       comment: Points out splices in ast quotes
-      captures:
-        0: keyword.other.quasibracket.haskell
+      scope: keyword.other.quasibracket.haskell
       push:
         - meta_scope: meta.other.quasiquote.haskell
         - match: '(.*)(\|\])'
@@ -129,8 +126,7 @@ contexts:
       comment: Highlight the beginning of a splice.
       scope: keyword.other.splice.haskell
     - match: '\[[a-zA-Z0-9_'']*\|'
-      captures:
-        0: keyword.other.quasibracket.haskell
+      scope: keyword.other.quasibracket.haskell
       push:
         - meta_scope: meta.other.quasiquote.haskell
         - match: '(.*)(\|\])'
@@ -187,20 +183,25 @@ contexts:
       scope: punctuation.separator.comma.haskell
   block_comment:
     - match: '\{-(?!#)'
-      captures:
-        0: punctuation.definition.comment.haskell
+      scope: punctuation.definition.comment.begin.haskell
       push:
         - meta_scope: comment.block.haskell
+        - match: '\{-#'
+          push:
+            - match: '-\}'
+              pop: true
+            - include: block_comment
         - include: block_comment
         - match: '-\}'
-          captures:
-            0: punctuation.definition.comment.haskell
+          scope: punctuation.definition.comment.end.haskell
           pop: true
   comments:
-    - match: (--).*$\n?
-      scope: comment.line.double-dash.haskell
-      captures:
-        1: punctuation.definition.comment.haskell
+    - match: '--'
+      scope: punctuation.definition.comment.haskell
+      push:
+        - meta_scope: comment.line.double-dash.haskell
+        - match: $\n?
+          pop: true
     - include: block_comment
   infix_op:
     - match: '(\([|!%$+:\-.=</>]+\)|\(,+\))'
