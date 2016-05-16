@@ -26,7 +26,8 @@ contexts:
 
   html:
     - match: ''
-      set: scope:text.html.basic
+      set:
+        - include: scope:text.html.basic
       with_prototype:
         - include: asp_punctuation_begin
 

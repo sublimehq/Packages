@@ -624,6 +624,22 @@ contexts:
         - match: '<%=?'
           scope: punctuation.section.embedded.begin.inside-block.asp
           pop: true
+        - match: '\s+$' # eat whitespace so that the lookahead on the next match pattern can match the next line if appropriate
+          push:
+            - match: ^
+              pop: true
+        - match: '(?=[^<>]*>|\s+\w+=\s*")' # if the next occurrence of a < or > is a >, we are inside a tag. If it looks like an attribute is being defined, we are probably in a tag
+          push: # use a push and an include so that the root scope (text.html.basic) isn't applied
+            - include: scope:text.html.basic#tag-stuff
+          with_prototype:
+            - match: '(?=<%)'
+              pop: true
+            - match: '>'
+              scope: punctuation.definition.tag.end.html
+              set: scope:text.html.asp#html
+              with_prototype:
+                - match: '(?=<%)'
+                  pop: true
         - match: ''
           push: scope:text.html.asp#html
           with_prototype:
