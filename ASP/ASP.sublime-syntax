@@ -631,6 +631,7 @@ contexts:
         - match: '(\s*")?(?=[^<>]*>|\s+\w+=\s*")' # if the next occurrence of a < or > is a >, we are inside a tag. If it looks like an attribute is being defined, we are probably in a tag
           scope: string.quoted.double.html punctuation.definition.string.end.html
           push: # use a push and an include so that the root scope (text.html.basic) isn't applied
+            - meta_scope: meta.tag.after-embedded-asp.any.html
             - include: scope:text.html.basic#tag-stuff
           with_prototype:
             - match: '(?=<%)'

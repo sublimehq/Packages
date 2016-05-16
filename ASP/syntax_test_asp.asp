@@ -799,10 +799,11 @@ test = "hello%>
        '      ^^^ punctuation.section.embedded.begin.inside-block.asp
        '          ^^^^^^^^^^^^^^^^ string.quoted.double.asp
        '                           ^^ punctuation.section.embedded.end.inside-block.asp
+       '                             ^^^^^^^^^^^^ meta.tag
        '                              ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
        '                                  ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
        '                                        ^ punctuation.definition.tag.end.html
-       '                                         ^^^^^^^ meta.tag.inline.any.html
+       '                                         ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
        '                                         ^^ punctuation.definition.tag.begin.html
        '                                           ^^^^ entity.name.tag.inline.any.html
        '                                               ^ punctuation.definition.tag.end.html
@@ -833,6 +834,7 @@ test = "hello%>
 '                                                              ^ punctuation.definition.tag.end.html
  <span <% If True Then %>
   class="test"
+'^^^^^^^^^^^^^^ meta.tag
 ' ^^^^^^^^^^^^ meta.attribute-with-value.class.html
 ' ^^^^^ entity.other.attribute-name.class.html
 '      ^ punctuation.separator.key-value.html
@@ -844,10 +846,11 @@ test = "hello%>
 '   ^^^^^^ keyword.control.flow.asp
 '          ^^ punctuation.section.embedded.end.asp
  id="test4"></span>
+'^^^^^^^^^^^ meta.tag
 '^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
 '    ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
 '          ^ punctuation.definition.tag.end.html
-'           ^^^^^^^ meta.tag.inline.any.html
+'           ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '           ^^ punctuation.definition.tag.begin.html
 '             ^^^^ entity.name.tag.inline.any.html
 '                 ^ punctuation.definition.tag.end.html
@@ -859,11 +862,12 @@ test = "hello%>
 '            ^ string.quoted.double.html punctuation.definition.string.begin.html
 '             ^^^ punctuation.section.embedded.begin.inside-block.asp
 '                        ^^ punctuation.section.embedded.end.inside-block.asp
+'                          ^^^^^^^^^^^^^ meta.tag
 '                          ^ string.quoted.double.html punctuation.definition.string.end.html
 '                            ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
 '                                ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
 '                                      ^ punctuation.definition.tag.end.html
-'                                       ^^^^^^^ meta.tag.inline.any.html
+'                                       ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '                                       ^^ punctuation.definition.tag.begin.html
 '                                         ^^^^ entity.name.tag.inline.any.html
 '                                             ^ punctuation.definition.tag.end.html
