@@ -647,17 +647,18 @@ contexts:
     - match: '(?={{path}})'
       push:
         - meta_scope: meta.name.dotted.python
-        - match: '(?!{{identifier_continue}}| *\.)'
-          pop: true
-        - match: '(\.)(?= *{{identifier}})'
-          scope: punctuation.accessor.python
+        - match: ' *(\.) *(?={{identifier}})'
+          captures:
+            1: punctuation.accessor.python
           push:
-            - match: "(?! *{{identifier_continue}})"
+            - match: '(?!{{identifier_continue}})'
               pop: true
             - include: magic_function_names
             - include: magic_variable_names
             - include: illegal_names
             - include: generic_names
+        - match: '(?!{{identifier_continue}})'
+          pop: true
         - include: name
 
   entity_name_class:

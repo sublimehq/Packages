@@ -11,6 +11,8 @@ from os import path, chdir # comment
 #                  ^ punctuation.separator.import-list
 #                    ^^^^^ meta.name
 #                          ^ comment
+from collections.abc import Iterable
+#                    ^^^^^^ keyword.control.import
 from \
     os \
     import \
@@ -40,13 +42,15 @@ from a import (b as c)
 import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
 #        ^ punctuation.separator.statements
+
 name
 #^^^ meta.name
-#
 name1 . name2
 #^^^^^^^^^^^^ meta.name.dotted
 #     ^ punctuation.accessor
 #^^^^ meta.name.dotted meta.name
+name .2name
+#     ^ - meta.name
 
 class
 #^^^^ storage.type.class
