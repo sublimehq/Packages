@@ -675,6 +675,11 @@
     e = Date()
     '   ^^^^ support.function.vb.asp
     
+    submit = 2
+   '^^^^^^ meta.variable-reference.asp - storage.type.function.asp
+    function_hello = 2
+   '^^^^^^^^^^^^^^ meta.variable-reference.asp - storage.type.function.asp
+    
     %>
    '^^ source.asp.embedded.html punctuation.section.embedded.end.asp
    '  ^ - source.asp.embedded.html
