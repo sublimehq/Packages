@@ -940,7 +940,7 @@ contexts:
         - include: comments
 
   method-declaration:
-    - match: \b(get|set)\b\s*
+    - match: \b(get|set)\b(?!\s*\()\s*
       scope: meta.function.declaration.js
       captures:
         1: storage.type.accessor.js
