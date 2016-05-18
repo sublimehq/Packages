@@ -226,7 +226,7 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '\s+(([a-zA-Z0-9:-]+)\s*(=)\s*)'
+    - match: '\s+(([a-zA-Z0-9:\-_]+)\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.html
         2: entity.other.attribute-name.html
@@ -252,7 +252,7 @@ contexts:
           scope: meta.attribute-with-value.html string.unquoted.html
         - match: ''
           pop: true
-    - match: '\s+([a-zA-Z0-9:-]+)'
+    - match: '\s+([a-zA-Z0-9:\-_]+)'
       captures:
         1: entity.other.attribute-name.html
 
