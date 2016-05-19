@@ -1,16 +1,16 @@
-/// SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+/// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 // A skeleton of a C# program
 using System;
 
 namespace YourNamespace
-///<- storage.type.module
-///        ^ entity.name.module
+///<- storage.type.namespace
+///        ^ entity.name.namespace
 {
-///<- punctuation.section.module
+///<- punctuation.section.namespace
     class YourClass
 /// ^ storage.type.class.class
-///        ^ entity.name.class.class
+///        ^ entity.name.type.class
     {
         Int x;
 ///      ^ variable.other.type.return.cs
@@ -39,13 +39,13 @@ namespace YourNamespace
 
     struct YourStruct
 /// ^ storage.type.class.struct
-///         ^ entity.name.class.struct
+///         ^ entity.name.type.struct
     {
     }
 
     interface IYourInterface
 /// ^ storage.type.class.interface
-///           ^ entity.name.class.interface
+///           ^ entity.name.type.interface
     {
     }
 
@@ -58,19 +58,19 @@ namespace YourNamespace
 
     enum YourEnum
 /// ^ storage.type.class.enum
-///        ^ entity.name.class.enum
+///        ^ entity.name.type.enum
     {
         A, B
 ///     ^ constant.numeric.enum
     };
 //   ^ punctuation.terminator
     namespace YourNestedNamespace
-///     ^ storage.type.module
-///             ^ entity.name.module
+///     ^ storage.type.namespace
+///             ^ entity.name.namespace
     {
         struct YourStruct
 ///      ^ storage.type.class.struct
-///              ^ entity.name.class.struct
+///              ^ entity.name.type.struct
         {
         }
     }
@@ -88,7 +88,7 @@ namespace YourNamespace
 
     class YourMainClass
 ///   ^ storage.type.class.class
-///          ^ entity.name.class.class
+///          ^ entity.name.type.class
     {
         static void Main(string[] args)
         {
@@ -126,5 +126,5 @@ namespace YourNamespace
     }
 /// ^ punctuation.section.class
 }
-///<- punctuation.section.module
+///<- punctuation.section.namespace
 

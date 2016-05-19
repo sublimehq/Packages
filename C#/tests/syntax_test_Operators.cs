@@ -1,4 +1,4 @@
-/// SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+/// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 int? length = customers?.Length;
 /// <- support.type.cs
 ///^ support.type.cs

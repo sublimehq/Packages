@@ -1,20 +1,20 @@
-/// SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+/// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 // A Hello World! program in C#.
 ///<- comment.line
 using System;
 ///<- keyword.control.import
-///    ^ variable.module
-///         ^ punctuation.definition.module.end
+///    ^ variable.namespace
+///         ^ punctuation.definition.namespace.end
 
 namespace HelloWorld
-///<- storage.type.module
-///        ^ entity.name.module
+///<- storage.type.namespace
+///        ^ entity.name.namespace
 {
-///<- punctuation.section.module
+///<- punctuation.section.namespace
     class Hello
 /// ^ storage.type.class
-///       ^ entity.name.class
+///       ^ entity.name.type
     {
 /// ^ punctuation.section.class
         static void Main()
@@ -33,7 +33,7 @@ namespace HelloWorld
 ///                           ^ punctuation.definition.string
 ///                                        ^ punctuation.definition.string
 ///                                         ^ punctuation.definition.arguments
-///                                          ^ punctuation.terminator.statement
+///                                          ^ punctuation.separator.statement
             // Keep the console window open in debug mode.
 ///         ^ punctuation.definition.comment
 ///            ^ comment.line
@@ -44,4 +44,4 @@ namespace HelloWorld
     }
 /// ^ punctuation.section.class
 }
-///<- punctuation.section.module
+///<- punctuation.section.namespace

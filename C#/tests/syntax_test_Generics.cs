@@ -1,4 +1,4 @@
-/// SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+/// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 List<int> l;
 /// <- variable.other.type

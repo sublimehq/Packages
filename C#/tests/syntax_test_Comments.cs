@@ -1,4 +1,4 @@
-//* SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+//* SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 // A Hello World! program in C#.
 //*<- comment.line

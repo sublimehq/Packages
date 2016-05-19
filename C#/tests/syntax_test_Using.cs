@@ -1,22 +1,22 @@
-/// SYNTAX TEST "Packages/User/csharpSyntax/csharp.sublime-syntax"
+/// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 using System.Text;
 /// <- keyword.control.import.cs
-///    ^ variable.module.cs
-///         ^ punctuation.separator.module.cs
-///            ^ variable.module.cs
-///              ^ punctuation.definition.module.end
+///    ^ variable.namespace.cs
+///         ^ punctuation.separator.namespace.cs
+///            ^ variable.namespace.cs
+///              ^ punctuation.definition.namespace.end
 using static System.Math.Foo;
 /// <- keyword.control.import.cs
-///      ^ storage.modifier.module.cs
-///                  ^ variable.module.cs
+///      ^ storage.modifier.namespace.cs
+///                  ^ variable.namespace.cs
 using Project = PC.MyCompany.Project;
 /// <- keyword.control.import.cs
 ///    ^ entity.name.type
-///           ^ storage.modifier.module.as
+///           ^ storage.modifier.namespace.as
 using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 /// <- keyword.control.import.cs
 ///    ^ entity.name.type
-///           ^ storage.modifier.module.as
+///           ^ storage.modifier.namespace.as
 ///                                            ^ support.type.cs
 
 class Foo {
@@ -33,8 +33,8 @@ class Foo {
 ///     ^ punctuation.section.other
             // Use font3
             global::System.Console.WriteLine("foo");
-///         ^ support.module.cs
-///               ^ keyword.operator.accessor.module.cs
+///         ^ support.namespace.cs
+///               ^ keyword.operator.accessor.namespace.cs
         }
 ///     ^ punctuation.section.other
 
@@ -76,15 +76,15 @@ class Foo {
 
 
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-///  ^ support.module.cs
-///    ^ keyword.operator.accessor.module.cs
+///  ^ support.namespace.cs
+///    ^ keyword.operator.accessor.namespace.cs
 internal sealed partial class Test : global::System.Configuration.ApplicationSettingsBase {
-///                                    ^ support.module.cs
-///                                         ^ keyword.operator.accessor.module.cs
+///                                    ^ support.namespace.cs
+///                                         ^ keyword.operator.accessor.namespace.cs
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
-///                                                ^ support.module.cs
-///                                                      ^ keyword.operator.accessor.module.cs
+///                                                ^ support.namespace.cs
+///                                                      ^ keyword.operator.accessor.namespace.cs
 
     public static Test Default {
         [Tag]
