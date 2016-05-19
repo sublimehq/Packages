@@ -345,6 +345,23 @@ class MyClass extends TheirClass {
     baz() { return null }
 //  ^^^^^ meta.function.declaration - meta.function.anonymous
     // <- entity.name.function
+
+    get() { return "foobar"; }
+//  ^^^^^ meta.function.declaration.js
+//  ^^^ entity.name.function.js - storage.type.accessor
+
+    set (value) { return value; }
+//  ^^^^^^^^^^^ meta.function.declaration.js
+//       ^^^^^ variable.parameter.function.js
+//  ^^^ entity.name.function.js - storage.type.accessor
+
+    set  abc(value1, value2) { return value1 + value2; }
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration.js
+//  ^^^ storage.type.accessor - entity.name.function.js
+//       ^^^ entity.name.function.js
+//           ^^^^^^ variable.parameter.function.js
+//                 ^ punctuation.separator.parameter.function.js
+//                   ^^^^^^ variable.parameter.function.js
 }
 // <- meta.block
 
