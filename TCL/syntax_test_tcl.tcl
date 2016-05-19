@@ -30,6 +30,10 @@ namespace eval A {
     }
 }
 
+set copy [[$root selectNodes //*\[@ID="$idref"\]] cloneNode -deep]
+#                               ^^ constant.character.escape
+#                                             ^^ constant.character.escape
+
 set v "String with $var and [command substitution] in it. Also, \n escapes."
 #                  ^^^^ variable.other
 #                           ^^^^^^^^^^^^^^^^^^^^^^ meta.substitution

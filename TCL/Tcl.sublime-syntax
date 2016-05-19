@@ -6,7 +6,7 @@ file_extensions:
   - tcl
 scope: source.tcl
 variables:
-  special_chars: '[;{}\[\]"]'
+  special_chars: '[;{}\[\]"\\]'
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'
   end_chars: '[;\n\}\]]'
   inline_end_chars: '[;\s\}\]]'
