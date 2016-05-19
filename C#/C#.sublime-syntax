@@ -4,7 +4,9 @@
 # https://github.com/gwenzek/csharpSyntax
 
 name: C#
-file_extensions: [.cs]
+file_extensions:
+  - cs
+  - csx
 scope: source.cs
 
 
@@ -503,7 +505,7 @@ contexts:
         1: entity.name.variable.cs
         2: keyword.operator.assignment.cs
       set: line_of_code_in
-    - match: '(?:(?<=>)|{{name}})\s*(\()'
+    - match: '(?:(?#<=>)|{{name}})\s*(\()'
       captures:
         1: entity.name.function.cs
         2: punctuation.definition.parameters.begin.cs
@@ -533,14 +535,14 @@ contexts:
       push:
         - meta_scope: meta.method.identifier
         - include: type_parameter
-    - match: '((?<=>)|(?:{{name}}(\.))*)(this)\s*(\[)'
+    - match: '((?#<=>)|(?:{{name}}(\.))*)(this)\s*(\[)'
       captures:
         2: entity.other.inherited-class.cs
         3: keyword.operator.accessor.cs
         4: variable.language.cs
         5: punctuation.definition.parameters.begin.cs
       set: [method_accessor, method_params_bracket]
-    - match: '(?:(?<=>)|{{name}})(\.)'
+    - match: '(?:(?#<=>)|{{name}})(\.)'
       captures:
         0: meta.method.identifier
         1: entity.other.inherited-class.cs
@@ -583,12 +585,8 @@ contexts:
       scope: storage.modifier.parameter.cs
     - match: \s
       pop: true
+    - include: tag
     - include: type
-    - match: \s*(\[)(.*)(\])\s*
-      captures:
-        1: punctuation
-        2: entity.name.tag
-        3: punctuation
 
   method_accessor:
     - meta_scope: meta.method.property.cs
@@ -614,28 +612,30 @@ contexts:
   tag:
     - match: \[
       scope: punctuation.definition.tag.begin.cs
-      push:
-        - match: '{{name}}(\()'
-          captures:
-            1: entity.name.tag
-            2: punctuation.definition.arguments.begin
-          push: arguments
-        - match: '{{name}}(\.)'
-          captures:
-            1: variable.namespace.cs
-            2: keyword.operator.accessor.namespace.cs
-        - match: '(?:(global)|{{name}})\s*(::)'
-          captures:
-            1: support.namespace.cs
-            2: variable.namespace.cs
-            3: keyword.operator.accessor.namespace.cs
-        - match: '{{name}}'
-          scope: entity.name.tag
-        - match: ','
-          scope: punctuation.separator.tag.cs
-        - match: \]
-          scope: punctuation.definition.tag.end.cs
-          pop: true
+      push: tag_in
+
+  tag_in:
+    - match: '{{name}}(\()'
+      captures:
+        1: entity.name.tag
+        2: punctuation.definition.arguments.begin
+      push: arguments
+    - match: '{{name}}(\.)'
+      captures:
+        1: variable.namespace.cs
+        2: keyword.operator.accessor.namespace.cs
+    - match: '(?:(global)|{{name}})\s*(::)'
+      captures:
+        1: support.namespace.cs
+        2: variable.namespace.cs
+        3: keyword.operator.accessor.namespace.cs
+    - match: '{{name}}'
+      scope: entity.name.tag
+    - match: ','
+      scope: punctuation.separator.tag.cs
+    - match: \]\s*
+      scope: punctuation.definition.tag.end.cs
+      pop: true
 
   code_block_in:
     - match: \s*
@@ -743,7 +743,10 @@ contexts:
         - match: '>'
           scope: punctuation.definition.arguments.type.end.cs
           set:
-            - match: \s
+            - match: \.
+              set: line_of_code
+              scope: keyword.operator.accessor.cs
+            - match: \s+
               set: variables_declaration
             - match: (?=\S)
               set: line_of_code
@@ -763,7 +766,7 @@ contexts:
     - match: '\b({{base_type}})\s+'
       captures:
         1: support.type.cs
-      set: variables_declaration
+      push: variables_declaration
     - match: '\b({{name}})(?=[\[\],*?]*\s+\w)'
       captures:
         1: variable.other.type.cs
@@ -797,17 +800,19 @@ contexts:
       set: [line_of_code_in]
 
   variables_declaration:
-    - match: '(?<=;)'
-      pop: true
     - match: '='
       scope: keyword.operator.assignment.variable.cs
-      push: line_of_code_in
+      push:
+        - match: (?=;|,)
+          pop: true
+        - include: line_of_code_in
     - match: '{{name}}'
       scope: entity.name.variable.cs
     - match: '(,)'
       scope: punctuation.separator.variables.cs
     - match: ';'
       scope: punctuation.separator.statement.cs
+      pop: true
     - match: (?=\}|\)|>|\])
       pop: true
 
@@ -943,24 +948,19 @@ contexts:
           scope: punctuation.definition.arguments.type.end.cs
           pop: true
         - include: type
-    - match: '((?<=>)|{{name}})(\()'
+    # - match: '((?<=>)|{{name}})(\()'
+    - match: '{{name}}\s*(\()'
       captures:
         0: meta.function-call
-        2: variable.function.cs
-        3: punctuation.definition.arguments.begin.cs
+        1: variable.function.cs
+        2: punctuation.definition.arguments.begin.cs
       push: arguments
-    - match: '((?<=>)|{{name}})(\()'
-      captures:
-        0: meta.function-call
-        2: variable.function.cs
-        3: punctuation.definition.arguments.begin.cs
-      push: arguments
-    - match: '{{name}}(\??\[)'
+    - match: '{{name}}\s*(\??\[)'
       captures:
         1: variable.other.cs
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
-    - match: '(?<=\)|\])(\??\[)'
+    - match: '\s*(\??\[)'
       scope: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
     - match: '({{base_type}})\b'

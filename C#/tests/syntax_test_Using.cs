@@ -21,7 +21,11 @@ using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 
 class Foo {
 
-    static void UsingFont()
+    static void UsingFont([Usage("help text")] string x)
+///                        ^^^^^ entity.name.tag
+///                                  ^ string
+///                                              ^ support.type
+///                                                   ^ variable.parameter
     {
         using (Font font3 = new Font("Arial", 10.0f))
 ///     ^ keyword.control.other.using.cs

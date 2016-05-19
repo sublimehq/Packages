@@ -123,6 +123,21 @@ namespace YourNamespace
 ///                                      ^ variable.parameter.type.cs
 
         List<List<List<List<float>>>>  reallyNestedTypes;
+///                    ^^^^ variable.other.type
+///                         ^^^^^ support.type
+
+        IEnumerable<int>.GetEnumerator()
+///                      ^^^^ entity.name.function
+        {
+            yield return 7;
+            yield return 42;
+            yield return 314;
+        }
+
+        IEnumerable<int>.this[int key]{ get; set; }
+///                      ^^^^ variable.language
+///                               ^^^ variable.parameter
+
     }
 /// ^ punctuation.section.class
 }

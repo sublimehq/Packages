@@ -37,7 +37,9 @@ namespace HelloWorld
             // Keep the console window open in debug mode.
 ///         ^ punctuation.definition.comment
 ///            ^ comment.line
-            Console.WriteLine("Press any key to exit.");
+            Console.WriteLine ("Press any key to exit.");
+///                      ^ variable.function
+///                           ^ punctuation.definition.arguments
             Console.ReadKey();
         }
 ///     ^ punctuation.section.function

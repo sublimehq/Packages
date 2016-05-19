@@ -36,3 +36,12 @@ Foo.l + 1;
 Foo<a>.List l;
 ///     ^ variable.other.type
 ///         ^ entity.name.variable
+
+string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
+//                ^^ string.quoted.double punctuation.definition.string.begin
+//                                 ^^ constant.character.escape
+//                                                                     ^ string.quoted.double.literal - constant
+//                                                                          ^ string.quoted.double.literal punctuation.definition.string.end
+
+x[10][5] = 2;
+f(5)[2] = 10;
