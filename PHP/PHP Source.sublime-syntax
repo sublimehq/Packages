@@ -288,9 +288,10 @@ contexts:
         # We don't mark this as entity.name.class since the name is pulled
         # verbatim and the indexer should find the name in the original source
         # file.
-        - match: '(\\)?{{identifier}}(?!\\)'
+        - match: '(\\)?({{identifier}})(?!\\)'
           captures:
             1: punctuation.separator.namespace.php
+            2: support.class.php
         - match: '(?=\S|$\n)'
           pop: true
 
@@ -326,9 +327,10 @@ contexts:
         # We don't mark this as entity.name.function since the name is pulled
         # verbatim and the indexer should find the name in the original source
         # file.
-        - match: '(\\)?{{identifier}}(?!\\)'
+        - match: '(\\)?({{identifier}})(?!\\)'
           captures:
             1: punctuation.separator.namespace.php
+            2: support.function.php
         - match: '(?=\S|$\n)'
           pop: true
 
@@ -479,7 +481,7 @@ contexts:
           scope: storage.type.function.php
         - match: '&'
           scope: storage.modifier.reference.php
-        - match: '(__(?:call|construct|destruct|get|set|isset|unset|tostring|clone|set_state|sleep|wakeup|autoload|invoke|callStatic))'
+        - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))'
           scope: entity.name.function.php support.function.magic.php
         - match: '{{identifier}}'
           scope: entity.name.function.php
