@@ -1318,6 +1318,9 @@ int /* comment */ * myfunc
 
 }
 
+Glib::ustring Node::_getDragTip(GdkEventMotion */*event*/);
+/*                                              ^^^^^^^^^ comment */
+
 MACRO1 void * MACRO2 myfuncname () {
 /*     ^ storage.type */
 /*          ^ keyword.operator */

@@ -49,7 +49,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
-    - match: \*/
+    - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?
       scope: comment.line.banner.c
