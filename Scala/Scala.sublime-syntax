@@ -4,6 +4,7 @@
 name: Scala
 file_extensions:
   - scala
+  - sbt
 scope: source.scala
 contexts:
   main:
