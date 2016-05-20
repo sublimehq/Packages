@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[case class]]></content>
 	<tabTrigger>cc</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>shortcut - case class</description>
 </snippet>

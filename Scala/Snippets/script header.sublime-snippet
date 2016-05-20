@@ -5,6 +5,6 @@ exec scala "\$0" "\$@"
 
 $1]]></content>
 	<tabTrigger>script</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>script header</description>
 </snippet>

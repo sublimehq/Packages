@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[class]]></content>
 	<tabTrigger>c</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>shortcut - class</description>
 </snippet>

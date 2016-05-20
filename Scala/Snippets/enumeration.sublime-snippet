@@ -7,6 +7,6 @@
 ${5:import $1._}
 ${0}]]></content>
 	<tabTrigger>enumeration</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>enumeration</description>
 </snippet>

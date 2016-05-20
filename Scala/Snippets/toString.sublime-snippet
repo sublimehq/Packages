@@ -2,6 +2,6 @@
 	<content><![CDATA[override def toString(): String =  $0 
 ]]></content>
 	<tabTrigger>tostr</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>toString</description>
 </snippet>

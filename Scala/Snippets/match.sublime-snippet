@@ -4,6 +4,6 @@
 }
 ]]></content>
 	<tabTrigger>match</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>match</description>
 </snippet>

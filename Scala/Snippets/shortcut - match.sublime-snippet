@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[match]]></content>
 	<tabTrigger>m</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>shortcut - match</description>
 </snippet>

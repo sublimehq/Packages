@@ -4,6 +4,6 @@
 }
 ]]></content>
 	<tabTrigger>if</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>if</description>
 </snippet>

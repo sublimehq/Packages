@@ -4,6 +4,6 @@
 }
 ]]></content>
 	<tabTrigger>main</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>main</description>
 </snippet>

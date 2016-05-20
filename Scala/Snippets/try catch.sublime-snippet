@@ -5,6 +5,6 @@
 	case e: Exception => $0
 }]]></content>
 	<tabTrigger>try</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>try/catch</description>
 </snippet>

@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[with ${1:Any}]]></content>
 	<tabTrigger>with</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>with</description>
 </snippet>

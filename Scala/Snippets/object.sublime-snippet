@@ -3,6 +3,6 @@
 	$0
 }]]></content>
 	<tabTrigger>object</tabTrigger>
-	<scope>source.go</scope>
+	<scope>source.scala</scope>
 	<description>object</description>
 </snippet>
