@@ -530,6 +530,10 @@ a = b.c
 d = e.f
 // <- variable.other.readwrite
 
+foo.bar().baz
+// ^ punctuation.accessor
+//       ^ punctuation.accessor
+
 width/2 + lineStart * Math.sin(i * 30 * π/180)
 //   ^ keyword.operator.arithmetic
 //                  ^ keyword.operator.arithmetic

@@ -1069,7 +1069,7 @@ contexts:
               scope: punctuation.accessor.js
               pop: true
         - match: \.
-          scope: keyword.other.accessor.js
+          scope: punctuation.accessor.js
         - include: method-call
         - match: '(?=[^ ])'
           pop: true
