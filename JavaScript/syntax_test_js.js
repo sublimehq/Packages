@@ -1,26 +1,95 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
 import TheirClass from "./mypath";
-// ^ keyword.control.import
-//                  ^ keyword.control.import
+// ^ keyword.control.import-export
+//                  ^ keyword.control.import-export
 
 import {identifier, otherIdentifier} from "somewhere";
-// ^ keyword.control.import
+// ^ keyword.control.import-export
 //       ^ meta.import meta.block variable.other.readwrite
 
 import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
-// ^ keyword.control.import
+// ^ keyword.control.import-export
 //      ^ variable.other.readwrite
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //                ^ variable.other.readwrite
-//                        ^ keyword.control.import
+//                        ^ keyword.control.import-export
 //                                     ^ variable.other.readwrite
 //                                             ^ constant.other.js
-//                                                             ^ keyword.control.import
+//                                                             ^ keyword.control.import-export
 
 import 'module'
 // ^^^^^^^^^^^^ meta.import
+
+export { name1, name2 as name3 };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^ punctuation.separator
+//                    ^^ keyword.control.import-export
+
+export let name1, name2;
+//^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^ storage.type
+//              ^ punctuation.separator
+
+export var name3;
+//^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^ storage.type
+
+export const name1 = 5;
+//^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^^^ storage.type
+//                 ^ keyword.operator.assignment
+
+export default expression;
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^ keyword.control.import-export
+
+export default function (a) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^ keyword.control.import-export
+//             ^ storage.type
+
+export default function name1(b) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^ keyword.control.import-export
+//             ^ storage.type
+//                      ^ entity.name.function
+
+export { name1 as default };
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^^^^^ meta.block
+//             ^ keyword.control.import-export
+//                ^ keyword.control.import-export
+
+export * from "./othermod";
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^ constant.other
+//       ^ keyword.control.import-export
+
+export { name1, name2 } from "./othermod";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^ meta.block
+//                      ^ keyword.control.import-export
+
+export { import1 as name1, import2 as name2, nameN } from "./othermod";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//               ^ keyword.control.import-export
+//                                 ^ keyword.control.import-export
+//                                                   ^ keyword.control.import-export
 
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not

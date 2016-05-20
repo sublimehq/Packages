@@ -23,10 +23,13 @@ contexts:
 
   keywords-top-level:
     - match: \bimport\b
-      scope: meta.import.js keyword.control.import.js
+      scope: meta.import.js keyword.control.import-export.js
       push: import-extended
+    - match: \bexport\b
+      scope: meta.export.js keyword.control.import-export.js
+      push: export-extended
     - match: \b(export|default|from|as)\b
-      scope: keyword.control.import.js
+      scope: keyword.control.import-export.js
 
   import-escape:
     - match: '(?=;|function|var|class)'
@@ -55,7 +58,7 @@ contexts:
     - include: import-escape
     - match: '\b(as)(?:\s+({{identifier}}))?'
       captures:
-        1: keyword.control.import.js
+        1: keyword.control.import-export.js
         2: variable.other.readwrite.js
     - match: '(?=\S)'
       set: import-extended-continue
@@ -91,7 +94,7 @@ contexts:
     - include: import-escape
     - match: '\b(as)\b(\s+(?:{{identifier}}))?'
       captures:
-        1: keyword.control.import.js
+        1: keyword.control.import-export.js
         2: variable.other.readwrite.js
     - match: '(?=\S)'
       set: import-brace-continue
@@ -112,7 +115,110 @@ contexts:
     - meta_scope: meta.import.js
     - include: comments
     - match: '\bfrom\b'
-      scope: keyword.control.import.js
+      scope: keyword.control.import-export.js
+    - include: literal-string
+    - match: '(?=\S)'
+      pop: true
+
+  export-escape:
+    - match: '(?=;|function|var|class)'
+      pop: true
+    - match: "(?='|\"|\\bfrom\\b)"
+      set: export-final
+
+  export-extended:
+    - meta_content_scope: meta.export.js
+    - match: '(?=\b(let|const|var)\b)'
+      set:
+        - meta_content_scope: meta.export.js
+        - match: '(?=;|\n)'
+          pop: true
+        - include: expressions
+    - include: export-escape
+    - include: comments
+    - match: '\bdefault\b'
+      scope: keyword.control.import-export.js
+      set:
+        - meta_content_scope: meta.export.js
+        - match: '(?=;|\n)'
+          pop: true
+        - include: expressions
+    - match: '\{'
+      scope: meta.block.js punctuation.definition.block.js
+      set: export-brace
+    - match: '\*'
+      scope: constant.other.js
+      set: export-extended-as
+    - match: '(?=\S)'
+      pop: true
+
+  export-extended-as:
+    - meta_content_scope: meta.export.js
+    - include: export-escape
+    - match: '\b(as)(?:\s+({{identifier}}))?'
+      captures:
+        1: keyword.control.import-export.js
+        2: variable.other.readwrite.js
+    - match: '(?=\S)'
+      set: export-extended-continue
+
+  export-extended-continue:
+    - meta_scope: meta.export.js
+    - include: export-escape
+    - include: comments
+    - match: ','
+      scope: punctuation.separator.comma.js
+      set: export-extended
+    - match: '(?=\S)'
+      pop: true
+
+  export-brace:
+    - meta_content_scope: meta.export.js meta.block.js
+    - include: export-escape
+    - include: comments
+    - match: '\}'
+      scope: punctuation.definition.block.js
+      set: export-extended-as
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      set: export-brace-as
+    - match: '\*'
+      scope: constant.other.js
+      set: export-brace-as
+    - match: '(?=\S)'
+      pop: true
+
+  export-brace-as:
+    - meta_content_scope: meta.export.js meta.block.js
+    - include: export-escape
+    - match: \b(as)\s+(default)\b
+      captures:
+        1: keyword.control.import-export.js
+        2: keyword.control.import-export.js
+    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
+      captures:
+        1: keyword.control.import-export.js
+        2: variable.other.readwrite.js
+    - match: '(?=\S)'
+      set: export-brace-continue
+
+  export-brace-continue:
+    - meta_scope: meta.export.js meta.block.js
+    - include: export-escape
+    - include: comments
+    - match: '(?=\})'
+      set: export-brace
+    - match: ','
+      scope: punctuation.separator.comma.js
+      set: export-brace
+    - match: '(?=\S)'
+      pop: true
+
+  export-final:
+    - meta_scope: meta.export.js
+    - include: comments
+    - match: '\bfrom\b'
+      scope: keyword.control.import-export.js
     - include: literal-string
     - match: '(?=\S)'
       pop: true
