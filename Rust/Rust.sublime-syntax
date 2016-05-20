@@ -524,7 +524,7 @@ contexts:
         2: punctuation.definition.group.begin.rust
       push:
         - match: '(\))[^*+]?([*+])'
-          capture:
+          captures:
             1: punctuation.definition.group.end.rust
             2: keyword.operator.rust
           pop: true
