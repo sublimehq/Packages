@@ -164,6 +164,10 @@ contexts:
       scope: keyword.control.exception.scala
     - match: (\?\?\?)              # can't be guarded by \b for some reason (maybe bug?)
       scope: keyword.control.exception.scala
+
+    # catch-all for keywords that we otherwise don't know about
+    - match: \b(forSome|new|extends|with|class|trait|object|def|val|var|import|package)\b
+      scope: keyword.scala
   nest-curly-and-self:
     - match: '\{'
       captures:
