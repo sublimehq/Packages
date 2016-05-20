@@ -3,7 +3,7 @@ int? length = customers?.Length;
 /// <- support.type.cs
 ///^ support.type.cs
 ///     ^ entity.name.variable.cs
-///                    ^ keyword.operator.accessor
+///                    ^^ punctuation.accessor.dot
 Customer? first = customers?[0];
 /// <- variable.other.type
 ///                        ^ punctuation.definition.accessor
@@ -16,7 +16,7 @@ int? count = customers?[0]?.Orders?.Count();
 ///     ^ entity.name.variable.cs
 ///        ^ keyword.operator.assignment.variable.cs
 A?.B?.C?[0] ?? E;
-/// ^ keyword.operator.accessor
+/// ^^ punctuation.accessor.dot
 ///     ^ punctuation.definition.accessor
 ///         ^ keyword.operator.cs
 A?.B?.C?[0] == E;

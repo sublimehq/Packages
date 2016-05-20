@@ -130,7 +130,7 @@ contexts:
         1: entity.name.tag.cs
         2: entity.name.tag.cs
       push: option_done
-    - match: '(line)\s+({{decimal_numeral}})\s+(".*")'
+    - match: '(line)\s*([0-9]*)\s*(".*")?'
       captures:
         1: entity.name.tag.cs
         2: constant.numeric.cs
@@ -230,7 +230,7 @@ contexts:
         0: meta.package.identifier.cs
         1: storage.type.namespace
         2: entity.name.namespace.cs
-        3: keyword.operator.accessor.cs
+        3: punctuation.accessor.dot.cs
         4: entity.name.namespace.cs
       push:
         - match: '{{name}}'
@@ -384,7 +384,7 @@ contexts:
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
-        3: keyword.operator.accessor.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
     - match: '(class|struct|interface)'
       scope: support.type.other.cs
     - match: 'new\s*\(\s*\)'
@@ -394,7 +394,7 @@ contexts:
     - match: '{{name}}?(\.)'
       captures:
         1: variable.namespace.cs
-        2: keyword.operator.accessor.namespace.cs
+        2: punctuation.accessor.dot.namespace.cs
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
@@ -538,7 +538,7 @@ contexts:
     - match: '((?#<=>)|(?:{{name}}(\.))*)(this)\s*(\[)'
       captures:
         2: entity.other.inherited-class.cs
-        3: keyword.operator.accessor.cs
+        3: punctuation.accessor.dot.cs
         4: variable.language.cs
         5: punctuation.definition.parameters.begin.cs
       set: [method_accessor, method_params_bracket]
@@ -546,7 +546,7 @@ contexts:
       captures:
         0: meta.method.identifier
         1: entity.other.inherited-class.cs
-        2: keyword.operator.accessor.cs
+        2: punctuation.accessor.dot.cs
     - match: '{{name}}'
       scope: entity.name.variable.property.cs
     - match: '(?=\{)'
@@ -623,12 +623,12 @@ contexts:
     - match: '{{name}}(\.)'
       captures:
         1: variable.namespace.cs
-        2: keyword.operator.accessor.namespace.cs
+        2: punctuation.accessor.dot.namespace.cs
     - match: '(?:(global)|{{name}})\s*(::)'
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
-        3: keyword.operator.accessor.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
     - match: '{{name}}'
       scope: entity.name.tag
     - match: ','
@@ -745,7 +745,7 @@ contexts:
           set:
             - match: \.
               set: line_of_code
-              scope: keyword.operator.accessor.cs
+              scope: punctuation.accessor.dot.cs
             - match: \s+
               set: variables_declaration
             - match: (?=\S)
@@ -780,12 +780,12 @@ contexts:
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
-        3: keyword.operator.accessor.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
 
     - match: '{{name}}(\.)'
       captures:
         1: variable.other.cs
-        2: keyword.operator.accessor.cs
+        2: punctuation.accessor.dot.cs
 
     - match: '{{name}}\s+{{name}}'
       captures:
@@ -794,7 +794,7 @@ contexts:
       set: variables_declaration
 
     - match: \.
-      scope: keyword.operator.accessor.cs
+      scope: punctuation.accessor.dot.cs
 
     - match: '(?=\S)'
       set: [line_of_code_in]
@@ -904,7 +904,7 @@ contexts:
     - match: \b(select|from|where|groupby|ascending|descending)\b
       scope: support.function.sql.cs
     - match: \??\.
-      scope: keyword.operator.accessor.cs
+      scope: punctuation.accessor.dot.cs
 
     - match: '{{bin_op}}='
       scope: keyword.operator.cs
@@ -972,7 +972,7 @@ contexts:
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
-        3: keyword.operator.accessor.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
     - match: '[A-Z_]{2,}\b(?![.\[(])'
       scope: constant.numeric.enum.cs
     - match: '{{name}}'
@@ -1056,7 +1056,7 @@ contexts:
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
-        3: keyword.operator.accessor.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
     # - match: '(?:({{base_type}})|{{name}})'
     #   captures:
     #     1: support.type.cs
@@ -1071,7 +1071,7 @@ contexts:
     - match: \[,*\]
       scope: support.type.cs
     - match: \.
-      scope: keyword.operator.accessor.cs
+      scope: punctuation.accessor.dot.cs
     - match: '\*|\?'
       scope: support.type.cs
     - match: '<'
@@ -1366,7 +1366,7 @@ contexts:
             - match: '({{name}}(\.))*{{name}}'
               captures:
                 2: variable.other.namespace.cs
-                3: keyword.operator.accessor.cs
+                3: punctuation.accessor.dot.cs
                 4: constant.other.cs
             - match: (:)
               scope: punctuation.separator.case-statement.cs

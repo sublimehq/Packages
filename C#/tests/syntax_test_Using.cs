@@ -38,7 +38,7 @@ class Foo {
             // Use font3
             global::System.Console.WriteLine("foo");
 ///         ^ support.namespace.cs
-///               ^ keyword.operator.accessor.namespace.cs
+///               ^ punctuation.accessor.double-colon
         }
 ///     ^ punctuation.section.other
 
@@ -81,14 +81,14 @@ class Foo {
 
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 ///  ^ support.namespace.cs
-///    ^ keyword.operator.accessor.namespace.cs
+///    ^^ punctuation.accessor.double-colon
 internal sealed partial class Test : global::System.Configuration.ApplicationSettingsBase {
 ///                                    ^ support.namespace.cs
-///                                         ^ keyword.operator.accessor.namespace.cs
+///                                        ^^ punctuation.accessor.double-colon
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
 ///                                                ^ support.namespace.cs
-///                                                      ^ keyword.operator.accessor.namespace.cs
+///                                                     ^^ punctuation.accessor.double-colon
 
     public static Test Default {
         [Tag]

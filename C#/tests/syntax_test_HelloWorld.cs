@@ -27,7 +27,7 @@ namespace HelloWorld
 ///     ^ punctuation.section.function
             Console.WriteLine("Hello World!");
 ///          ^ variable
-///                ^ keyword.operator.accessor
+///                ^ punctuation.accessor.dot
 ///                      ^ variable.function
 ///                          ^ punctuation.definition.arguments
 ///                           ^ punctuation.definition.string
