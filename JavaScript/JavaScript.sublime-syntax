@@ -65,7 +65,7 @@ contexts:
     - include: import-escape
     - include: comments
     - match: ','
-      scope: meta.delimiter.comma.js
+      scope: punctuation.separator.comma.js
       set: import-extended
     - match: '(?=\S)'
       pop: true
@@ -103,7 +103,7 @@ contexts:
     - match: '(?=\})'
       set: import-brace
     - match: ','
-      scope: meta.delimiter.comma.js
+      scope: punctuation.separator.comma.js
       set: import-brace
     - match: '(?=\S)'
       pop: true
@@ -866,7 +866,7 @@ contexts:
         - match: '({{identifier}})\s*(,)'
           captures:
             1: variable.other.readwrite.js
-            2: meta.delimiter.comma.js
+            2: punctuation.separator.comma.js
         - match: '({{identifier}})[ \t]*\n'
           captures:
             1: variable.other.readwrite.js
@@ -1105,7 +1105,7 @@ contexts:
         # getting meta scopes when they don't really apply
         - match: '(,)\s+'
           captures:
-            1: meta.delimiter.comma.js
+            1: punctuation.separator.comma.js
         - include: expressions
 
   literal-variable:
@@ -1231,4 +1231,4 @@ contexts:
     - match: \;
       scope: punctuation.terminator.statement.js
     - match: ","
-      scope: meta.delimiter.comma.js
+      scope: punctuation.separator.comma.js
