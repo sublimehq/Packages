@@ -51,6 +51,11 @@ name1 . name2
 #^^^^ meta.name.dotted meta.name
 name .2name
 #     ^ - meta.name
+self.int
+#^^^^^^^ meta.name.dotted
+#^^^ variable.language
+#   ^ punctuation.accessor
+#    ^^^ - support.type
 
 class
 #^^^^ storage.type.class

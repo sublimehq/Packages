@@ -215,7 +215,6 @@ contexts:
     - include: function-calls
     - include: item-access
     - include: line_continuation
-    - include: language_variables
     - include: dotted_name
     - match: \(
       scope: punctuation.definition.group.begin.python
