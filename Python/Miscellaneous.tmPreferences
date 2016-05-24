@@ -10,7 +10,7 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*(elif|else|except|finally)\b.*:</string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*(class|def|elif|else|except|finally|for|if|try|with|while)\b.*:\s*$</string>
+		<string>^\s*(class|(\basync\s+)?(def|for|with)|elif|else|except|finally|if|try|while)\b.*:\s*$</string>
 		<key>disableIndentNextLinePattern</key>
 		<string></string>
 		<key>shellVariables</key>
