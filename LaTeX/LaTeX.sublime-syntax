@@ -646,6 +646,7 @@ contexts:
   # external packages supports
   packages:
     - include: 1stlisting
+    - include: pkgcomment
     - include: beamer
 
   # 1stlisting
@@ -708,6 +709,38 @@ contexts:
         - meta_scope: meta.environment.embedded.generic.latex
         - meta_content_scope: source.generic.embedded
         - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.be.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.brace.end.latex
+          pop: true
+
+  # comment package
+  pkgcomment:
+    - match: '^(\\)comment'
+      captures:
+        0: punctuation.definition.comment.start.latex
+        1: punctuation.definition.backslash.latex
+      push:
+        - meta_scope: meta.environment.comment.latex comment.block.command.comment.latex
+        - match: '^(\\)endcomment'
+          captures:
+            0: punctuation.definition.comment.end.latex
+            1: punctuation.definition.backslash.latex
+          pop: true
+    - match: '((\\)begin)(\{)\s*(comment)\s*(\})'
+      captures:
+        1: support.function.be.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.brace.end.latex
+      push:
+        - meta_scope: meta.environment.comment.latex
+        - meta_content_scope: comment.block.environment.comment.latex
+        - match: '((\\)end)(\{)\s*(comment)\s*(\})'
           captures:
             1: support.function.be.latex
             2: punctuation.definition.backslash.latex
