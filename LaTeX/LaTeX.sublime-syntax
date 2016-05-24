@@ -11,7 +11,15 @@ contexts:
     - include: comments
 
   main:
-    # unique to latex
+    - include: unique-latex
+    # external packages
+    - include: packages
+    - include: plain-tex
+    - include: begin-end-commands
+    - include: general-commands
+    - include: global-braces
+
+  unique-latex:
     - include: preamble
     - include: structure
     - include: includes
@@ -24,23 +32,15 @@ contexts:
     - include: invalid-quotations
     - include: lists
 
-    # external packages
-    - include: packages
-
+  plain-tex:
     # extended from tex
     - include: macros
     - include: scope:text.tex#controls
     - include: scope:text.tex#catcode
-    - include: global-braces
     - include: boxes
     - include: block-math
     - include: inline-math
     - include: general-constants
-
-    # unique to latex
-    - include: begin-end-commands
-    # extended from tex
-    - include: general-commands
 
   comments:
     - include: scope:text.tex#comments
@@ -643,7 +643,7 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
 
-  # external packages supports
+  # external packages
   packages:
     - include: 1stlisting
     - include: pkgcomment
