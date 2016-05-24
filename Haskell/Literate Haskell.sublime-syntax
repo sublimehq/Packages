@@ -7,21 +7,41 @@ file_extensions:
 scope: text.tex.latex.haskell
 contexts:
   main:
-    - match: '^((\\)begin)({)code(})(\s*\n)?'
+    - include: scope:text.tex.latex#unique-latex
+    - include: scope:text.tex.latex#upackages
+    - include: haskell-code
+    - include: scope:text.tex.latex#plain-tex
+    - include: scope:text.tex.latex#begin-end-commands
+    - include: scope:text.tex.latex#general-commands
+    - include: global-braces
+
+  global-braces:
+    - match: '\{'
+      scope: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.group.braces.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: main
+
+  haskell-code:
+    - match: '(?:\s*)((\\)begin)(\{)(code)(\})'
       captures:
         1: support.function.be.latex
-        2: punctuation.definition.function.latex
-        3: punctuation.definition.arguments.begin.latex
-        4: punctuation.definition.arguments.end.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.brace.end.latex
       push:
         - meta_scope: meta.function.embedded.haskell.latex
         - meta_content_scope: source.haskell.embedded.latex
-        - match: '^((\\)end)({)code(})'
+        - match: '((\\)end)(\{)(code)(\})'
           captures:
             1: support.function.be.latex
-            2: punctuation.definition.function.latex
-            3: punctuation.definition.arguments.begin.latex
-            4: punctuation.definition.arguments.end.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.brace.end.latex
           pop: true
         - include: scope:source.haskell
-    - include: scope:text.tex.latex
