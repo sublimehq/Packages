@@ -185,7 +185,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
-    - match: "(</?)([a-zA-Z0-9:]+)"
+    - match: "(</?)([a-zA-Z0-9:_]+)"
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.other.html
