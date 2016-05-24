@@ -38,10 +38,16 @@ Foo<a>.List l;
 ///         ^ entity.name.variable
 
 string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
-//                ^^ string.quoted.double punctuation.definition.string.begin
-//                                 ^^ constant.character.escape
-//                                                                     ^ string.quoted.double.literal - constant
-//                                                                          ^ string.quoted.double.literal punctuation.definition.string.end
+///               ^^ string.quoted.double punctuation.definition.string
+///                                ^^ constant.character.escape
+///                                                                    ^ string.quoted.double - constant
+///                                                                         ^ string.quoted.double punctuation.definition.string
 
+string interpolated = $"{t.Word}";
+string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2}";
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                                      ^ punctuation.definition.string.interpolated.element.end
+///                                        ^ punctuation.definition.string.interpolated.element.begin
+///                                                               ^ punctuation.definition.string.interpolated.end
 x[10][5] = 2;
 f(5)[2] = 10;

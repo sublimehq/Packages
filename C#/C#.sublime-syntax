@@ -1162,7 +1162,16 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.string.interpolated.element.end.cs
           set: format_string
+        - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
+          captures:
+            1: punctuation.separator.arguments
+            2: constant.numeric.formatting
+            3: punctuation.separator
+            4: constant.formatting
+            5: punctuation.definition.string.interpolated.element.end.cs
+          set: format_string
         - include: line_of_code_in
+
     - match: '"'
       scope: punctuation.definition.string.interpolated.end.cs
       pop: true
