@@ -902,6 +902,8 @@ contexts:
             - match : \)
               scope: punctuation.definition.group.end.objc++
               set: function-definition-continue
+            - match: '\bvoid\b'
+              scope: storage.type.objc++
             - match: '{{identifier}}(?=\s*(,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='
@@ -1164,8 +1166,8 @@ contexts:
       captures:
         1: punctuation.accessor.objc++
       set: method-definition-params
-    # It's a macro, not a consructor if there is no type in the first param
-    - match: '({{identifier}})\s*(\()(?=\s*{{identifier}}\s*[),])'
+    # It's a macro, not a constructor if there is no type in the first param
+    - match: '({{identifier}})\s*(\()(?=\s*(?!void){{identifier}}\s*[),])'
       captures:
         1: variable.function.objc++
         2: meta.group.objc++ punctuation.definition.group.begin.objc++
@@ -1299,6 +1301,8 @@ contexts:
             - match : \)
               scope: punctuation.definition.group.end.objc++
               set: method-definition-continue
+            - match: '\bvoid\b'
+              scope: storage.type.objc++
             - match: '{{identifier}}(?=\s*(,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='

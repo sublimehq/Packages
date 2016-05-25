@@ -1017,6 +1017,11 @@ class FooBar {
 /*  ^^^^^^ entity.name.function */
 /*           ^ keyword.operator.assignment */
 /*            ^^^^^^^ storage.modifier */
+    FooBar(void) =default;
+/*  ^^^^^^ entity.name.function */
+/*         ^^^^ storage.type */
+/*               ^ keyword.operator.assignment */
+/*                ^^^^^^^ storage.modifier */
 
     // If a constructor name is on a line without the opening (, it is not
     // highlighted as a method/constructor. This prevents a bunch of false

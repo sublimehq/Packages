@@ -818,6 +818,8 @@ contexts:
             - match : \)
               scope: punctuation.definition.group.end.c++
               set: function-definition-continue
+            - match: '\bvoid\b'
+              scope: storage.type.c++
             - match: '{{identifier}}(?=\s*(,|\)|=))'
               scope: variable.parameter.c++
             - match: '='
@@ -1079,8 +1081,8 @@ contexts:
       captures:
         1: punctuation.accessor.c++
       set: method-definition-params
-    # It's a macro, not a consructor if there is no type in the first param
-    - match: '({{identifier}})\s*(\()(?=\s*{{identifier}}\s*[),])'
+    # It's a macro, not a constructor if there is no type in the first param
+    - match: '({{identifier}})\s*(\()(?=\s*(?!void){{identifier}}\s*[),])'
       captures:
         1: variable.function.c++
         2: meta.group.c++ punctuation.definition.group.begin.c++
@@ -1214,6 +1216,8 @@ contexts:
             - match : \)
               scope: meta.group.c++ punctuation.definition.group.end.c++
               set: method-definition-continue
+            - match: '\bvoid\b'
+              scope: storage.type.c++
             - match: '{{identifier}}(?=\s*(,|\)|=))'
               scope: variable.parameter.c++
             - match: '='
