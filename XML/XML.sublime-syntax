@@ -54,10 +54,11 @@ contexts:
           pop: true
         - include: internal-subset
     - match: '<!--'
-      scope: punctuation.definition.comment.xml
+      scope: punctuation.definition.comment.begin.xml
       push:
         - meta_scope: comment.block.xml
         - match: '-->'
+          scope: punctuation.definition.comment.end.xml
           pop: true
     - match: '(</?){{qualified_name}}'
       captures:
