@@ -395,7 +395,7 @@ contexts:
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.c
-            - match: '{{identifier}}(?=\s*(,|\)))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.c
             - include: expressions
     - match: (?=\S)

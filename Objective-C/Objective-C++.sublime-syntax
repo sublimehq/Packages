@@ -904,7 +904,7 @@ contexts:
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.objc++
-            - match: '{{identifier}}(?=\s*(,|\)|=))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='
               scope: keyword.operator.assignment.objc++
@@ -1303,7 +1303,7 @@ contexts:
               set: method-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.objc++
-            - match: '{{identifier}}(?=\s*(,|\)|=))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.objc++
             - match: '='
               scope: keyword.operator.assignment.objc++

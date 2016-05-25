@@ -600,7 +600,7 @@ contexts:
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.objc
-            - match: '{{identifier}}(?=\s*(,|\)))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.objc
             - include: expressions
     - match: (?=\S)

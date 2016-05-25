@@ -820,7 +820,7 @@ contexts:
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.c++
-            - match: '{{identifier}}(?=\s*(,|\)|=))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.c++
             - match: '='
               scope: keyword.operator.assignment.c++
@@ -1218,7 +1218,7 @@ contexts:
               set: method-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.c++
-            - match: '{{identifier}}(?=\s*(,|\)|=))'
+            - match: '{{identifier}}(?=\s*(\[|,|\)|=))'
               scope: variable.parameter.c++
             - match: '='
               scope: keyword.operator.assignment.c++

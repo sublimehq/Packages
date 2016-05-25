@@ -1210,19 +1210,22 @@ class __declspec(dllimport) SkBitmap {}
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
-int foo(int val, float val2, bool val3 = false)
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+int foo(int val, float val2[], bool val3 = false)
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
 /*     ^ punctuation.definition.group.begin */
-/*                                            ^ punctuation.definition.group.end */
+/*                                              ^ punctuation.definition.group.end */
 /*          ^^^ variable.parameter */
 /*             ^ punctuation.separator */
 /*                     ^^^^ variable.parameter */
-/*                         ^ punctuation.separator */
-/*                           ^^^^ storage.type */
-/*                                ^^^^ variable.parameter */
-/*                                     ^ keyword.operator.assignment */
-/*                                       ^^^^^ constant.language */
+/*                         ^^ meta.brackets */
+/*                         ^ punctuation.definition.brackets.begin */
+/*                          ^ punctuation.definition.brackets.end */
+/*                           ^ punctuation.separator */
+/*                             ^^^^ storage.type */
+/*                                  ^^^^ variable.parameter */
+/*                                       ^ keyword.operator.assignment */
+/*                                         ^^^^^ constant.language */
 {
     myClass *result;
     result->kk = func(val);

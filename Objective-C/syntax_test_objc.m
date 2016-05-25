@@ -211,14 +211,17 @@ struct foo **alloc_foo();
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
-int foo(int val, float val2)
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*     ^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+int foo(int val, float val2[])
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
 /*     ^ punctuation.definition.group.begin */
-/*                         ^ punctuation.definition.group.end */
+/*                           ^ punctuation.definition.group.end */
 /*          ^^^ variable.parameter */
 /*             ^ punctuation.separator */
 /*                     ^^^^ variable.parameter */
+/*                         ^^ meta.brackets */
+/*                         ^ punctuation.definition.brackets.begin */
+/*                          ^ punctuation.definition.brackets.end */
 {
 /* <- meta.function meta.block */
     myClass *result;
