@@ -598,7 +598,7 @@ contexts:
         - include: main
 
   references:
-    - match: '((\\)[Cc]ite\w*\*?)(?=(?:\[[^\]]*?\])*\{)'
+    - match: '((\\)(?:[cC]ite(?:author|title|year|date|url)?|(?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext)\*?)(?=(?:\[[^\]]*?\])*\{)'
       captures:
         1: support.function.cite.latex
         2: punctuation.definition.backslash.latex
