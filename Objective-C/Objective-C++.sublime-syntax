@@ -617,7 +617,7 @@ contexts:
             - include: expressions-minus-generic-type
 
   angle-brackets:
-    - match: '<'
+    - match: '<(?!<)'
       scope: punctuation.definition.generic.begin.objc++
       push:
         - match: '>'

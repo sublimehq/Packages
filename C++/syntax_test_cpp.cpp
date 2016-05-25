@@ -872,6 +872,10 @@ protected:
 private:
 /* <- storage.modifier */
 
+    static int a = 1 << 4;
+    /* <- storage.modifier */
+    /*               ^^ keyword.operator.arithmetic */
+
     static int x;
     /* <- storage.modifier */
 
