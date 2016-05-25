@@ -393,6 +393,8 @@ contexts:
             - match : \)
               scope: punctuation.definition.group.end.c
               set: function-definition-continue
+            - match: '\bvoid\b'
+              scope: storage.type.c
             - match: '{{identifier}}(?=\s*(,|\)))'
               scope: variable.parameter.c
             - include: expressions

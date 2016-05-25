@@ -187,6 +187,11 @@ struct point2 {
     int y;
 }
 
+int main(void) {
+/*  ^^^^ entity.name.function */
+/*       ^^^^ storage.type */
+}
+
 struct point get_point() {}
 /*           ^^^^^^^^^^^^^^ meta.function */
 /*                    ^^ meta.function.parameters */
