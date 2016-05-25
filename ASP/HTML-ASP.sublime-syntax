@@ -33,6 +33,8 @@ contexts:
 
   begin_embedded_asp:
     - meta_scope: source.asp.embedded.html
+    - match: '(?=%>)'
+      pop: true
     - include: scope:source.asp
 
   close_embedded_asp:
