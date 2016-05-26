@@ -86,12 +86,13 @@
 <!--                 ^^^ punctuation.definition.comment.end -->
 <!--                    ^ - comment.block -->
 
-     <!-- tags and character entities inside me will be ignored <foobar hello="world" /> &amp; <unclosed  -->
+     <!-- tags and character entities inside me will be ignored <foobar hello="world" /> &amp; <unclosed <!--  -->
 <!-- ^^^^ punctuation.definition.comment.begin -->
 <!--     ^ - punctuation.definition.comment.begin -->
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - meta.tag - constant.character.entity -->
-<!--                                                                                                      ^^^ punctuation.definition.comment.end -->
-<!--                                                                                                         ^ - comment.block -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - meta.tag - constant.character.entity -->
+<!--                                                                                                           ^^^ punctuation.definition.comment.end -->
+<!--                                                                                                              ^ - comment.block -->
+<!--                                                                                                     ^^^^ - punctuation.definition -->
 
      <!-- <![CDATA[[ignored -->
 <!-- ^^^^ punctuation.definition.comment.begin -->
@@ -134,23 +135,36 @@
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
 <!--                                           ^ - string.unquoted.cdata -->
 
-     <таĝñäᴹə ατţř="șƬűʃ⨍">Contents</таĝñäᴹə>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+     <таĝñäᴹə ατţř="șƬűʃ⨍" >Contents</таĝñäᴹə>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
 <!--  ^^^^^^^ entity.name.tag.localname -->
 <!--         ^ - entity.name.tag.localname -->
 <!--          ^^^^ entity.other.attribute-name.localname -->
-<!--                       ^^^^^^^^ text -->
-<!--                               ^^ punctuation.definition.tag.begin -->
-<!--                               ^^^^^^^^^^ meta.tag -->
-<!--                                 ^^^^^^^ entity.name.tag.localname -->
-<!--                                        ^ punctuation.definition.tag.end -->
-<!--                                         ^ - meta.tag -->
+<!--              ^ punctuation.separator.key-value - entity.other.attribute-name.localname -->
+<!--               ^^^^^^^ string.quoted -->
+<!--                      ^ - string.quoted - punctuation.definition -->
+<!--                       ^ punctuation.definition.tag.end -->
+<!--                        ^^^^^^^^ text - meta.tag -->
+<!--                                ^^ punctuation.definition.tag.begin -->
+<!--                                ^^^^^^^^^^ meta.tag -->
+<!--                                  ^^^^^^^ entity.name.tag.localname -->
+<!--                                         ^ punctuation.definition.tag.end -->
+<!--                                          ^ - meta.tag -->
 
-     <example />
+     <example ñș:äpos ='&apos;'/>
 <!-- ^ punctuation.definition.tag.begin -->
-<!--          ^^ punctuation.definition.tag.end -->
-<!-- ^^^^^^^^^^^ meta.tag -->
-<!--            ^ - meta.tag -->
+<!--                           ^^ punctuation.definition.tag.end - string -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+<!--                             ^ - meta.tag -->
+<!--          ^^ entity.other.attribute-name.namespace -->
+<!--            ^ entity.other.attribute-name punctuation.separator.namespace -->
+<!--             ^^^^ entity.other.attribute-name.localname -->
+<!--                  ^ punctuation.separator.key-value -->
+<!--                   ^^^^^^^^ string.quoted.single -->
+<!--                   ^ punctuation.definition.string.begin -->
+<!--                          ^ punctuation.definition.string.end -->
+<!--                     ^^^^^ constant.character.entity -->
 
 <!--
   Entities
@@ -196,6 +210,22 @@
 <!-- ^^^^^^^^^^^^^ meta.tag -->
 <!--              ^ - meta.tag -->
 
+     <1tag attr1="ok" 2attr="nope"></-tag>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
+<!--  ^^^^ invalid.illegal - entity.name.tag -->
+<!--      ^^^^^^^^^^^^ - invalid.illegal - entity.name.tag -->
+<!--       ^^^^^ entity.other.attribute-name.localname -->
+<!--            ^ punctuation.separator.key-value -->
+<!--             ^^^^ string.quoted -->
+<!--                  ^^^^^ invalid.illegal - entity.other.attribute-name.localname -->
+<!--                        ^^^^^ string.quoted -->
+<!--                              ^ punctuation.definition.tag.end -->
+<!--                               ^^ punctuation.definition.tag.begin -->
+<!--                                 ^^^^ invalid.illegal - entity.name.tag -->
+<!--                                     ^ punctuation.definition.tag.end -->
+<!--                                      ^ - meta.tag -->
+
      <
 <!-- ^ invalid.illegal.missing-entity -->
 <!--  ^ - invalid.illegal.missing-entity -->
@@ -220,7 +250,7 @@
 <!--                             ^^^^^ string.quoted -->
 
      <test
-foo='bar' />
+foo="bar" />
 <!-- <- entity.other.attribute-name.localname -->
-<!-- ^^^ string.quoted.single
-<!--     ^ - string.quoted.single
+<!-- ^^^ string.quoted.double
+<!--     ^ - string.quoted.double
