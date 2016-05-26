@@ -60,12 +60,13 @@ contexts:
         - match: '-->'
           scope: punctuation.definition.comment.end.xml
           pop: true
-    - match: '(</?){{qualified_name}}'
+    - match: '(</?){{qualified_name}}([^/>\s]*)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.namespace.xml
         3: entity.name.tag.xml punctuation.separator.namespace.xml
         4: entity.name.tag.localname.xml
+        5: invalid.illegal.bad-tag-name.xml
       push:
         - meta_scope: meta.tag.xml
         - match: /?>
@@ -217,7 +218,7 @@ contexts:
         2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
         3: entity.other.attribute-name.localname.xml
         4: punctuation.separator.key-value.xml
-    - match: '(?:\s+|^)([[:digit:].-][[:alnum:]:_.-]*)\s*(=)'
+    - match: '(?:\s+|^)([[:alnum:]:_.-]+)\s*(=)'
       captures:
         1: invalid.illegal.bad-attribute-name.xml
         2: punctuation.separator.key-value.xml

@@ -185,8 +185,17 @@
      <test
 foo="bar" />
 <!-- <- entity.other.attribute-name.localname -->
-<!-- ^^^ string.quoted.double
-<!--     ^ - string.quoted.double
+<!-- ^^^ string.quoted.double -->
+<!--     ^ - string.quoted.double -->
+
+     <xs:sequence/>
+<!-- ^^^^^^^^^^^^^^ meta.tag -->
+<!--               ^ - meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
+<!--  ^^ entity.name.tag.namespace -->
+<!--    ^ punctuation.separator.namespace -->
+<!--     ^^^^^^^^ entity.name.tag.localname -->
+<!--             ^^ punctuation.definition.tag.end -->
 
 
 <!--
@@ -257,15 +266,20 @@ foo="bar" />
 <!-- ^ invalid.illegal.missing-entity -->
 <!--  ^ - invalid.illegal.missing-entity -->
 
-     <ns::tag ns::attr1="na" ns:2attr="nope"></ns:t:ag>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+     <ns::tag ns::attr1="na" ns:2attr ="nope"></ns:t:ag>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
 <!-- ^ punctuation.definition.tag.begin -->
-<!--    ^^^^^ - entity.name.tag -->
-<!--          ^^^^^^^^^ - entity.other.attribute-name -->
+<!--  ^^ entity.name.tag -->
+<!--    ^^^^^ invalid.illegal.bad-tag-name - entity.name.tag -->
+<!--          ^^^^^^^^^ invalid.illegal.bad-attribute-name - entity.other.attribute-name -->
+<!--                   ^ punctuation.separator.key-value -->
 <!--                    ^^^^ string.quoted -->
-<!--                         ^^^^^^^^ - entity.other.attribute-name -->
-<!--                                  ^^^^^^ string.quoted -->
-<!--                                        ^ punctuation.definition.tag.end -->
-<!--                                         ^^ punctuation.definition.tag.begin -->
-<!--                                                  ^ punctuation.definition.tag.end -->
-<!--                                                   ^ - meta.tag -->
+<!--                         ^^^^^^^^ invalid.illegal.bad-attribute-name - entity.other.attribute-name -->
+<!--                                  ^ punctuation.separator.key-value -->
+<!--                                   ^^^^^^ string.quoted -->
+<!--                                         ^ punctuation.definition.tag.end -->
+<!--                                          ^^ punctuation.definition.tag.begin -->
+<!--                                            ^^^^ entity.name.tag -->
+<!--                                                ^^^ invalid.illegal.bad-tag-name - entity.name.tag -->
+<!--                                                   ^ punctuation.definition.tag.end -->
+<!--                                                    ^ - meta.tag -->
