@@ -645,12 +645,12 @@ contexts:
 
   # external packages
   packages:
-    - include: 1stlisting
+    - include: pkglistings
     - include: pkgcomment
     - include: beamer
 
-  # 1stlisting
-  1stlisting:
+  # pkglistings
+  pkglistings:
     - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)'
       captures:
         1: support.function.be.latex
