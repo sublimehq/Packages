@@ -492,6 +492,7 @@ contexts:
       scope: support.constant.font-name.css
 
   property-values:
+    - include: comment-block
     - include: vendor-prefix
     - include: builtin-functions
     - include: unicode-range
