@@ -9,6 +9,6 @@
 		break;
 }]]></content>
 	<tabTrigger>switch</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - source.php text.html</scope>
 	<description>switch …</description>
 </snippet>

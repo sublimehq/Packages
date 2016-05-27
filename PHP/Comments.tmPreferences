@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>source.php</string>
+	<string>source.php &amp; - source.php text.html</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>

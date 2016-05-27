@@ -1,148 +1,101 @@
 // SYNTAX TEST "Packages/PHP/PHP.sublime-syntax"
 <?php
+// <- embedding.php text.html punctuation.section.embedded.begin.php - (source.php & - source.php text.html)
+//   ^ - (embedding.php text.html - (source.php & - source.php text.html))
 namespace MyNamespace;
 // <- keyword.other.namespace
 //        ^^^^^^^^^^^ entity.name.namespace
-//                   ^ punctuation.terminator.expression.php - entity.name.namespace
+//                   ^ - entity.name.namespace
 
 use MyNamespace\Foo;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^^^^^^^ support.other.namespace
+//  ^ support.other.namespace
 //             ^ punctuation.separator.namespace
-//              ^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                 ^ punctuation.terminator.expression.php - meta.use
+//              ^ - constant.other
 
 use /* Comment */ \MyNamespace\Foo;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^^^^^^ comment.block
 //                ^ punctuation.separator.namespace
-//                 ^^^^^^^^^^^ support.other.namespace
+//                 ^ support.other.namespace
 //                            ^ punctuation.separator.namespace
-//                             ^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                                ^ punctuation.terminator.expression.php - meta.use
+//                             ^ - constant.other
 
 use My\Full\Classname as /**/ Another # Foo baz
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^ support.other.namespace
-//    ^ punctuation.separator.namespace
-//     ^^^^ support.other.namespace
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ support.other.namespace
 //         ^ punctuation.separator.namespace
-//          ^^^^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                    ^^ keyword.other.use-as
+//          ^ - constant.other
+//                    ^ keyword.other.use-as
 //                       ^^^^ comment.block
-//                            ^^^^^^^ entity.name.class
+//                            ^ entity.name.class
 //                                    ^^^^^^^^^ comment.line
 , My\Full\NSname;
-//<- meta.use
-//^^^^^^^^^^^^^^ meta.use
 // <- punctuation.separator
-//^^ support.other.namespace
+//^ support.other.namespace
 //  ^ punctuation.separator.namespace
-//   ^^^^ support.other.namespace
-//       ^ punctuation.separator.namespace
 //        ^ - constant.other
-//        ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//              ^ punctuation.terminator.expression.php - meta.use
 
 use function /**/ some\namespace\fn_a;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^^^^ storage.type
+//  ^ storage.type
 //           ^^^^ comment.block
-//                ^^^^ support.other.namespace
+//                ^ support.other.namespace
 //                    ^ punctuation.separator.namespace
-//                      ^^^^^^^^ support.other.namespace
-//                              ^ punctuation.separator.namespace
-//                               ^^^^ support.function.php - entity.name - constant.other - support.class.php - support.other.namespace
-//                                   ^ punctuation.terminator.expression.php - meta.use
+//                               ^ - entity.name.function
 
 use function some\namespace\fn_a /**/ as fn_b;
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^^^^ storage.type
-//           ^^^^ support.other.namespace
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ storage.type
+//           ^ support.other.namespace
 //               ^ punctuation.separator.namespace
-//                ^^^^^^^^^ support.other.namespace
-//                         ^ punctuation.separator.namespace
-//                          ^^^^ support.function.php - entity.name - constant.other - support.class.php - support.other.namespace
+//                          ^ - entity.name.function
 //                               ^^^^ comment.block
-//                                    ^^ keyword.other.use-as
-//                                       ^^^^ entity.name.function
-//                                           ^ punctuation.terminator.expression.php - meta.use
+//                                    ^ keyword.other.use-as
+//                                       ^ entity.name.function
 
 use const /**/ some\namespace\ConstA;
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^ storage.type
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^ storage.type
 //        ^^^^ comment.block
-//             ^^^^ support.other.namespace
+//             ^ support.other.namespace
 //                 ^ punctuation.separator.namespace
-//                  ^^^^^^^^^ support.other.namespace
-//                            ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                  ^ punctuation.terminator.expression.php - meta.use
+//                            ^ constant.other
 
 // Unfortunately we don't know if these identifiers are namespaces or classes
 // so we can't disambiguate. Generally we are just going to assume an "as" is
 // a class name so that the definition of the class can be found via the index.
 use some\namespace\{ClassA, ClassB, ClassC as C};
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^ support.other.namespace
-//      ^ punctuation.separator.namespace
-//       ^^^^^^^^^ support.other.namespace
-//                ^ punctuation.separator.namespace
 //                 ^ punctuation.definition.block
-//                  ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                        ^ punctuation.separator
-//                          ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                                ^ punctuation.separator
-//                                  ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
-//                                         ^^ keyword.other.use-as
+//                  ^ - entity.name.class
+//                                         ^ keyword.other.use-as
 //                                            ^ entity.name.class
 //                                             ^ punctuation.definition.block
-//                                              ^ punctuation.terminator.expression.php - meta.use
 
 use function some\namespace\{fn_a, fn_b, fn_c as fn_d};
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^^^^ storage.type.php
-//           ^^^^ support.other.namespace
-//               ^ punctuation.separator.namespace
-//                ^^^^^^^^^ support.other.namespace
-//                         ^ punctuation.separator.namespace
 //                          ^ punctuation.definition.block
-//                           ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
-//                               ^ punctuation.separator
-//                                 ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
-//                                     ^ punctuation.separator
-//                                       ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
-//                                            ^^ keyword.other.use-as
-//                                               ^^^^ entity.name.function
+//                           ^ - entity.name.function
+//                                            ^ keyword.other.use-as
+//                                               ^ entity.name.function
 //                                                   ^ punctuation.definition.block
-//                                                    ^ punctuation.terminator.expression.php - meta.use
 
 
 use const some\namespace\{ConstA, ConstB AS ConstD, ConstC};
 // <- keyword.other.use
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
-//  ^^^^^ storage.type.php
-//        ^^^^ support.other.namespace
-//            ^ punctuation.separator.namespace
-//             ^^^^^^^^^ support.other.namespace
-//                      ^ punctuation.separator.namespace
 //                       ^ punctuation.definition.block
-//                        ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                              ^ punctuation.separator
-//                                ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                       ^^ keyword.other.use-as
-//                                          ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                                ^ punctuation.separator
-//                                                  ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
+//                        ^ constant.other
+//                                ^ constant.other
+//                                       ^ keyword.other.use-as
+//                                          ^ constant.other
 //                                                        ^ punctuation.definition.block
-//                                                         ^ punctuation.terminator.expression.php - meta.use
 
 
 function a($a = array(),             $b = "hi") {};
@@ -690,6 +643,13 @@ SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
 
+?>
+// <- embedding.php text.html punctuation.section.embedded.end.php - (source.php & - source.php text.html)
+//^ embedding.php text.html - (source.php & - source.php text.html)
+  <div class="test"></div>
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
+
+<?php
 class OutputsHtml {
     function embedHtml() {
         if (1) {
@@ -700,14 +660,19 @@ class OutputsHtml {
 //           ^ meta.function meta.block meta.block punctuation.definition.block.begin
             ?>
 //          ^^ punctuation.section.embedded.end
+//            ^ embedding.php text.html - (source.php & - source.php text.html)
+//         ^ - (embedding.php text.html - (source.php & - source.php text.html))
             <span></span>
 //          ^^^^^^ meta.tag
             <?
 //          ^^ punctuation.section.embedded.begin
+//            ^ - (embedding.php text.html - (source.php & - source.php text.html))
         }
 //      ^ meta.function meta.block meta.block punctuation.definition.block.end
         ?>
 //      ^^ punctuation.section.embedded.end
+//        ^ embedding.php text.html - (source.php & - source.php text.html)
+//     ^ - (embedding.php text.html - (source.php & - source.php text.html))
         <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>"></div>
 //      ^^^^  meta.tag
 //                                              ^^^^^ punctuation.section.embedded.begin
@@ -717,32 +682,3 @@ class OutputsHtml {
 //      ^^^^^ punctuation.section.embedded.begin
     }
 }
-
-class C {
-    private $prop;
-
-    public function __construct($val) {
-//                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
-        $this->prop = $val;
-    }
-
-    public function __debugInfo() {
-//                  ^^^^^^^^^^^ entity.name.function.php support.function.magic.php
-        return [
-            'propSquared' => $this->prop ** 2,
-        ];
-    }
-
-    public function __toString()
-//                  ^^^^^^^^^^ entity.name.function.php support.function.magic.php
-    {
-        return $this->prop;
-    }
-
-    public function __test()
-//                  ^^^^^^ entity.name.function.php - support.function.magic.php
-    {
-    }
-}
-
-var_dump(new C(42));
