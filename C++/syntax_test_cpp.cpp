@@ -630,6 +630,13 @@ long func
 }
 /* <- meta.function meta.block punctuation.definition.block.end */
 
+MACRO1
+RETURN_TYPE
+/* <- - entity.name.function */
+func_name() {
+/* < entity.name.function */
+}
+
 MACRO1 void * MACRO2 myfuncname () {
 /*     ^ storage.type */
 /*          ^ keyword.operator */

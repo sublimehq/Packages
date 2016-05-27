@@ -760,6 +760,8 @@ contexts:
     - include: types
     - include: modifiers-parens
     - include: modifiers
+    # All uppercase identifier just before a newline is most likely a macro
+    - match: '[[:upper:][:digit:]_]+\s*$'
     # Operator overloading
     - match: '(?=({{path_lookahead}}\s*::\s*)?{{operator_method_name}}\s*(\(|$))'
       set:

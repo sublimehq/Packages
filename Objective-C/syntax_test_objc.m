@@ -288,6 +288,13 @@ int /* comment */ * myfunc
 /* <- meta.function meta.block punctuation.definition.block.begin */
 }
 
+MACRO1
+RETURN_TYPE
+/* <- - entity.name.function */
+func_name() {
+/* < entity.name.function */
+}
+
 MACRO1 void * MACRO2 myfuncname () {
 /*                   ^^^^^^^^^^^^^^^ meta.function */
 /*                              ^^ meta.function.parameters */
