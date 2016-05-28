@@ -645,7 +645,7 @@ contexts:
         2: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.function.reference.latex
-          include: general-1-argument-with-options
+        - include: general-1-argument-with-options
     - match: '((\\)label)(\{)'
       captures:
         1: support.function.label.latex
