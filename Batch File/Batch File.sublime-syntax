@@ -128,7 +128,7 @@ contexts:
   operators:
     - match: '@(?=\S)'
       scope: keyword.operator.at.dosbatch
-    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ|==)\b
+    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
       scope: keyword.operator.comparison.dosbatch
     - match: '&&?|\|\|'
       scope: keyword.operator.conditional.dosbatch

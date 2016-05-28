@@ -78,8 +78,18 @@ ECHO &:: A comment
 :: ^^         keyword.control.conditional.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
 
-   FOR %%G IN (a,b) DO (md %%G)
+   IF NOT foo EQU bar
+:: ^^             keyword.control.conditional.dosbatch
+::    ^^^         keyword.operator.logical.dosbatch
+::            ^^^ keyword.operator.comparison.dosbatch
+
+   IF foo == bar
+:: ^^         keyword.control.conditional.dosbatch
+::        ^^  keyword.operator.comparison.dosbatch
+
+   FOR %%G IN (0,9) DO (md %%G)
 :: ^^^                 keyword.control.repeat.dosbatch
+::             ^       constant.numeric.dosbatch
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
@@ -186,9 +196,11 @@ ECHO %t:foo=!bar:~0,-4!%
 
 ECHO Not% a variable
 ::      ^^^^^^^^^^^^ - variable.other.readwrite.dosbatch
+::   ^^^             - keyword.operator.logical.dosbatch
 
 ECHO Not! a variable
 ::      ^^^^^^^^^^^^ - variable.other.readwrite.dosbatch
+::   ^^^             - keyword.operator.logical.dosbatch
 
 :: Numerics
 SET /A r = 010 + 0x20 - 24
