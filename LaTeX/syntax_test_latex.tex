@@ -4,13 +4,12 @@
 
 \documentclass[12pt]{article}
 % ^ keyword.control.preamble.latex
-%              ^ variable.parameter.latex
 %                    ^ support.class.latex
 
-\usepackage[args]{mypackage}
+\usepackage[args]{mypackage, anotherpackage}
 % ^ keyword.control.preamble.latex
-%           ^ variable.parameter.latex
 %                 ^ support.class.latex
+%                              ^ support.class.latex
 
 % line comment
 % <- comment.line.percentage.tex
@@ -120,7 +119,7 @@ $$f(x) = x^2$$
 \(f(x) = x^2\)
 % ^ meta.environment.math.latex
 \[
-  f(x) = x^2
+  f(x) = x^2 \text{ $f$ is a function}
 % ^ meta.environment.math.latex
 \]
 \ensuremath{f(x) = x^2}
@@ -129,6 +128,15 @@ $$f(x) = x^2$$
 f(x) = x^2
 % ^ meta.environment.math.latex
 \end{equation}
+
+
+% Boxes
+\mbox{text}{text}
+%       ^ meta.function.box.latex
+%             ^ -meta.function.box.latex
+\parbox{text}{text}
+%       ^ meta.function.box.latex
+%             ^ meta.function.box.latex
 
 
 % PACKAGE: comment
@@ -219,13 +227,13 @@ def my_function():
 %             ^ source.python.embedded
 
 
-\mintinline {python}{print(x ** 2)}
+\mintinline{python}{print(x ** 2)}
 %                    ^ meta.environment.verbatim.minted.latex
 %                    ^ meta.environment.embedded.python.latex
 %                    ^ source.python.embedded
 %                    ^ keyword.other.python
 
-\mintinline {python}+print(x ** 2)+
+\mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
 
 

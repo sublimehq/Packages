@@ -239,18 +239,37 @@ contexts:
         - include: general-1-argument-with-options
 
   preamble:
-    - match: '((\\)(?:documentclass|usepackage))\s*(?:(\[)(?:[^\]]*)(\]))?(\{)'
+    - match: '(\\)documentclass\b'
       captures:
-        1: keyword.control.preamble.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.bracket.begin.latex
-        4: punctuation.definition.bracket.end.latex
-        5: punctuation.definition.brace.begin.latex
+        0: keyword.control.preamble.latex
+        1: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.preamble.latex
+        - meta_scope: meta.preamble.documentclass.latex
         - match: '\}'
           scope: punctuation.definition.brace.end.latex
           pop: true
+        - include: general-optional-arguments
+        - match: '\{'
+          set:
+            - meta_content_scope: support.class.latex
+            - match: (?=\})
+              pop: true
+    - match: '(\\)usepackage\b'
+      captures:
+        0: keyword.control.preamble.latex
+        1: punctuation.definition.backslash.latex
+      push:
+        - meta_scope: meta.preamble.usepackage.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: general-optional-arguments
+        - match: '\{'
+          set:
+            - match: '[A-Za-z[:digit:]-]*'
+              scope: support.class.latex
+            - match: (?=\})
+              pop: true
 
   includes:
     - match: '((\\)(?:include|includeonly))(\{)'
@@ -667,17 +686,22 @@ contexts:
 
   # listings package
   pkglistings:
-    - match: ((\\)lstinline)(\W)
+    - match: (\\)lstinline\b
       captures:
-        1: support.function.lstinline.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.verb.latex
+        0: support.function.lstinline.latex
+        1: punctuation.definition.backslash.latex
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.environment.verbatim.lstinline.latex
-        - meta_content_scope: markup.raw.verb.latex
-        - match: '\3'
+        - include: general-optional-arguments
+        - match: '(\W)'
           scope: punctuation.definition.verb.latex
-          pop: true
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.verbatim.lstinline.latex markup.raw.verb.latex
+            - match: '\1'
+              scope: meta.environment.verbatim.lstinline.latex punctuation.definition.verb.latex
+              pop: true
 
     - match: ((\\)begin)(\{)(lstlisting)(\})
       captures:
@@ -703,8 +727,7 @@ contexts:
             1: comment.line.percentage.latex
           push:
             - meta_include_prototype: false
-            - meta_scope: meta.environment.embedded.python.latex
-            - meta_content_scope: source.python.embedded
+            - meta_content_scope: meta.environment.embedded.python.latex source.python.embedded
             - match: '(?=\\end\{lstlisting\})'
               pop: true
             - include: scope:source.python
@@ -713,17 +736,21 @@ contexts:
             1: comment.line.percentage.latex
           push:
             - meta_include_prototype: false
-            - meta_scope: meta.environment.embedded.java.latex
-            - meta_content_scope: source.java.embedded
+            - meta_content_scope: meta.environment.embedded.java.latex source.java.embedded
             - match: '(?=\\end\{lstlisting\})'
               pop: true
             - include: scope:source.java
         - match: ''
           push:
+            - meta_scope: meta.environment.embedded.generic.latex markup.raw.verb.latex
             - match: '(?=\\end\{lstlisting\})'
               pop: true
 
   minted:
+    - include: minted-env
+    - include: mint
+
+  minted-env:
     - match: ((\\)begin)(\{)(minted)(\})
       captures:
         1: support.function.be.latex
@@ -743,39 +770,90 @@ contexts:
             5: punctuation.definition.brace.end.latex
           pop: true
         - include: general-optional-arguments
-        - match: '\{python\}'
+        - match: '(\{)(python)(\})'
+          captures:
+            1: punctuation.definition.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.brace.end.latex
           push:
             - meta_include_prototype: false
-            - meta_scope: meta.environment.embedded.python.latex
-            - meta_content_scope: source.python.embedded
+            - meta_content_scope: meta.environment.embedded.python.latex source.python.embedded
             - match: '(?=\\end\{minted\})'
               pop: true
             - include: scope:source.python
-        - match: '\{java\}'
+        - match: '(\{)(java)(\})'
           captures:
-            1: comment.line.percentage.latex
+            1: punctuation.definition.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.brace.end.latex
           push:
             - meta_include_prototype: false
-            - meta_scope: meta.environment.embedded.java.latex
-            - meta_content_scope: source.java.embedded
+            - meta_content_scope: meta.environment.embedded.java.latex source.java.embedded
             - match: '(?=\\end\{minted\})'
               pop: true
             - include: scope:source.java
         - match: ''
           push:
-            - meta_scope: meta.environment.embedded.generic.latex
+            - meta_scope: meta.environment.embedded.generic.latex markup.raw.verb.latex
             - match: '(?=\\end\{minted\})'
               pop: true
 
+  mint:
+    - match: ((\\)mint)\b|((\\)mintinline)\b
+      captures:
+        1: support.function.mint.latex
+        2: punctuation.definition.backslash.latex
+        3: support.function.mintinline.latex
+        4: punctuation.definition.backslash.latex
+      push:
+        - meta_scope: meta.environment.verbatim.minted.latex
+        - include: general-optional-arguments
+        - match: '(\{)(python)(\})((\{)|(\W))'
+          captures:
+            1: punctuation.definition.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.brace.end.latex
+            5: punctuation.definition.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.verbatim.minted.latex
+            - meta_content_scope: meta.environment.embedded.python.latex source.python.embedded
+            - match: '(\})|(\4)'
+              captures:
+                1: punctuation.definition.brace.begin.latex
+                2: punctuation.definition.verb.latex
+              pop: true
+            - include: scope:source.python
+        - match: '(\{)(java)(\})((\{)|(\W))'
+          captures:
+            1: punctuation.definition.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.brace.end.latex
+            5: punctuation.definition.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.verbatim.minted.latex
+            - meta_content_scope: meta.environment.embedded.java.latex source.java.embedded
+            - match: '(\})|(\4)'
+              captures:
+                1: punctuation.definition.brace.begin.latex
+                2: punctuation.definition.verb.latex
+              pop: true
+            - include: scope:source.java
+        - match: ''
+          pop: true
+
   # comment package
   pkgcomment:
-    - match: '^(\\)comment'
+    - match: '^(\\)comment\b'
       captures:
         0: punctuation.definition.comment.start.latex
         1: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.environment.comment.latex comment.block.command.comment.latex
-        - match: '^(\\)endcomment'
+        - match: '^(\\)endcomment\b'
           captures:
             0: punctuation.definition.comment.end.latex
             1: punctuation.definition.backslash.latex
