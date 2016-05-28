@@ -164,8 +164,8 @@ contexts:
           (?:(?:re)?newcommand)
         )
         (?:
-          (\{)(\\[[:alpha:]@]+)(\})
-          | (\\[[:alpha:]@])+
+          (\{)(\\[A-Za-z@]+)(\})
+          | (\\[A-Za-z@])+
         )
         (?:(\[)(?:[^\]]*)(\]))?
         (\{)
@@ -199,7 +199,7 @@ contexts:
     - include: scope:text.tex#general-constants
 
   general-commands:
-    - match: '(\\)[[:alpha:]@]+'
+    - match: '(\\)[A-Za-z@]+'
       scope: support.function.general.latex
       captures:
         1: punctuation.definition.backslash.latex
@@ -763,6 +763,7 @@ contexts:
             - include: scope:source.java
         - match: ''
           push:
+            - meta_scope: meta.environment.embedded.generic.latex
             - match: '(?=\\end\{minted\})'
               pop: true
 

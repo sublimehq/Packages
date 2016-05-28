@@ -22,7 +22,7 @@ contexts:
     - include: general-commands
 
   general-commands:
-    - match: '(\\)[[:alpha:]@]+'
+    - match: '(\\)[A-Za-z@]+'
       scope: support.function.general.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -30,7 +30,7 @@ contexts:
   general-constants:
     - match: \\\\
       scope: constant.character.newline.tex
-    - match: '(\\)[^[:alpha:]@]'
+    - match: '(\\)[^A-Za-z@]'
       scope: constant.character.escape.tex
       captures:
         1: punctuation.definition.backslash.tex
@@ -96,7 +96,7 @@ contexts:
         - include: main
 
   macros:
-    - match: '(\\def)\s*((\\)[[:alpha:]@]+)\s*[^\{]*?\s*(\{)'
+    - match: '(\\def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)'
       captures:
         1: support.function.definition.tex
         2: support.function.general.tex
@@ -118,7 +118,7 @@ contexts:
         2: punctuation.definition.backslash.tex
 
   math-commands:
-    - match: '((\\)[[:alpha:]@]+)'
+    - match: '((\\)[A-Za-z@]+)'
       captures:
         1: support.function.math.tex
         2: punctuation.definition.backslash.tex
@@ -152,7 +152,7 @@ contexts:
       scope: constant.numeric.math.tex
 
   math-characters:
-    - match: "[[:alpha:]]+"
+    - match: "[A-Za-z]+"
       scope: variable.other.math.tex
 
   math-content:
