@@ -50,6 +50,49 @@
 %             ^ entity.name.section.latex
 
 
+% REF/LABEL/CITE COMMANDS
+
+\label{sec:name}
+% ^ meta.function.label.latex
+% ^ support.function.label.latex
+
+\ref{sec:name}
+% ^ meta.function.reference.latex
+% ^ support.function.reference.latex
+
+\cite{my:bib:key}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+
+
+% URL COMMAND
+
+\url{https://www.sublimetext.com/}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+\href{https://www.sublimetext.com/}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+
+% INCLUDE COMMANDS
+
+\include{path/to/file}
+% ^ meta.function.include.latex
+% ^ keyword.control.include.latex
+
+\includeonly{path/to/file.tex}
+% ^ meta.function.include.latex
+% ^ keyword.control.include.latex
+
+\input{path/to/file.tex}
+% ^ meta.function.input.tex
+% ^ keyword.control.input.tex
+
+
 % MARKUP COMMANDS
 
 \emph{text}
