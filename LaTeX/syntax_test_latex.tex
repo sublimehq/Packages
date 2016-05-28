@@ -75,17 +75,13 @@
 
 \command{}
 % ^ support.function.general.latex
-\verb{\command{}}
-%      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.verbatim.latex
-%      ^ - support.function.general.latex
 \verb|\command{}|
 %      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.verbatim.latex
+%      ^ meta.environment.verbatim.verb.latex
 %      ^ - support.function.general.latex
 \verb+\command{}+
 %      ^ markup.raw.verb.latex
-%      ^ meta.environment.verbatim.verbatim.latex
+%      ^ meta.environment.verbatim.verb.latex
 %      ^ - support.function.general.latex
 
 \begin{verbatim}
@@ -167,8 +163,7 @@ opening and closing commands.
 % - python
 % - java
 
-\begin{lstlisting} % Python
-
+\begin{lstlisting} % python
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
@@ -178,7 +173,7 @@ def my_function():
 \end{lstlisting}
 
 \begin{lstlisting}[frame=single,
-                   language=python]
+                   language=python] %python
 def my_function():
     pass
 % <- meta.environment.verbatim.lstlisting.latex
@@ -187,8 +182,7 @@ def my_function():
 %   ^ keyword.control.flow.python
 \end{lstlisting}
 
-\begin{lstlisting} % Java
-
+\begin{lstlisting} %java
 class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
 % <- meta.environment.embedded.java.latex
@@ -206,7 +200,7 @@ class MyClass() {
 def my_function():
     pass
 % <- meta.environment.verbatim.minted.latex
-% <- meta.function.embedded.python.latex
+% <- meta.environment.embedded.python.latex
 % <- source.python.embedded
 %   ^ keyword.control.flow.python
 \end{minted}
@@ -214,7 +208,7 @@ def my_function():
 
 \mint{python}{import this}
 %             ^ meta.environment.verbatim.minted.latex
-%             ^ meta.function.embedded.python.latex
+%             ^ meta.environment.embedded.python.latex
 %             ^ source.python.embedded
 %             ^ keyword.control.import.python
 
@@ -227,7 +221,7 @@ def my_function():
 
 \mintinline {python}{print(x ** 2)}
 %                    ^ meta.environment.verbatim.minted.latex
-%                    ^ meta.function.embedded.python.latex
+%                    ^ meta.environment.embedded.python.latex
 %                    ^ source.python.embedded
 %                    ^ keyword.other.python
 

@@ -199,7 +199,10 @@ contexts:
     - include: scope:text.tex#general-constants
 
   general-commands:
-    - include: scope:text.tex#general-commands
+    - match: '(\\)[[:alpha:]@]+'
+      scope: support.function.general.latex
+      captures:
+        1: punctuation.definition.backslash.latex
 
   boxes:
     - match: '((\\)[hvmf]box)\s*(\{)'
@@ -305,12 +308,12 @@ contexts:
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.begin.latex
+        3: punctuation.definition.brace.bebgin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
       push:
         - meta_include_prototype: false
-        - meta_scope: meta.environment.verbatim.latex
+        - meta_scope: meta.environment.verbatim.verbatim.latex
         - meta_content_scope: markup.raw.verbatim.latex
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
@@ -513,12 +516,12 @@ contexts:
 
   verb:
     - match: ((\\)verb)(\W)
-      scope: meta.function.verbatim.latex
       captures:
         1: support.function.verb.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.verb.latex
       push:
+        - meta_scope: meta.environment.verbatim.verb.latex
         - meta_content_scope: markup.raw.verb.latex
         - match: '\3'
           scope: punctuation.definition.verb.latex
@@ -596,6 +599,18 @@ contexts:
           scope: punctuation.definition.brace.end.latex
           pop: true
         - include: main
+    - match: '((\\)underline)(\{)'
+      captures:
+        1: support.function.text.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.brace.begin.latex
+      push:
+        - meta_scope: meta.function.underline.latex
+        - meta_content_scope: markup.underline.underline.latex
+        - match: '\}'
+          scope: punctuation.definition.brace.end.latex
+          pop: true
+        - include: main
 
   references:
     - match: '((\\)(?:[cC]ite(?:author|title|year|date|url)?|(?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext)\*?)(?=(?:\[[^\]]*?\])*\{)'
@@ -646,24 +661,34 @@ contexts:
   # external packages
   packages:
     - include: pkglistings
+    - include: minted
     - include: pkgcomment
     - include: beamer
 
-  # pkglistings
+  # listings package
   pkglistings:
-    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Java)\n?)'
+    - match: ((\\)lstinline)(\W)
+      captures:
+        1: support.function.lstinline.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.verb.latex
+      push:
+        - meta_scope: meta.environment.verbatim.lstinline.latex
+        - meta_content_scope: markup.raw.verb.latex
+        - match: '\3'
+          scope: punctuation.definition.verb.latex
+          pop: true
+
+    - match: ((\\)begin)(\{)(lstlisting)(\})
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.bracket.begin.latex
-        7: punctuation.definition.bracket.end.latex
-        8: comment.line.percentage.latex
       push:
-        - meta_scope: meta.environment.embedded.java.latex
-        - meta_content_scope: source.java.embedded
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.lstlisting.latex
         - match: '((\\)end)(\{)(lstlisting)(\})'
           captures:
             1: support.function.be.latex
@@ -672,21 +697,44 @@ contexts:
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
           pop: true
-        - include: scope:source.java
-    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%\s*(?i:Python)\n?)'
+        - include: general-optional-arguments
+        - match: '.*(%\s*(?i:python|py))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.embedded.python.latex
+            - meta_content_scope: source.python.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.python
+        - match: '.*(%\s*(?i:java))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.embedded.java.latex
+            - meta_content_scope: source.java.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.java
+        - match: ''
+          push:
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+
+  minted:
+    - match: ((\\)begin)(\{)(minted)(\})
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.bracket.begin.latex
-        7: punctuation.definition.bracket.end.latex
-        8: comment.line.percentage.latex
       push:
-        - meta_scope: meta.environment.embedded.python.latex
-        - meta_content_scope: source.python.embedded
-        - match: '((\\)end)(\{)(lstlisting)(\})'
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.minted.latex
+        - match: '((\\)end)(\{)(minted)(\})'
           captures:
             1: support.function.be.latex
             2: punctuation.definition.backslash.latex
@@ -694,28 +742,29 @@ contexts:
             4: variable.parameter.function.latex
             5: punctuation.definition.brace.end.latex
           pop: true
-        - include: scope:source.python
-    - match: '(?:\s*)((\\)begin)(\{)(lstlisting)(\})(?:(\[).*(\]))?(\s*%.*\n?)?'
-      captures:
-        1: support.function.be.latex
-        2: punctuation.definition.backslash.latex
-        3: punctuation.definition.brace.begin.latex
-        4: variable.parameter.function.latex
-        5: punctuation.definition.brace.end.latex
-        6: punctuation.definition.bracket.begin.latex
-        7: punctuation.definition.bracket.end.latex
-        8: comment.line.percentage.latex
-      push:
-        - meta_scope: meta.environment.embedded.generic.latex
-        - meta_content_scope: source.generic.embedded
-        - match: '((\\)end)(\{)(lstlisting)(\})'
+        - include: general-optional-arguments
+        - match: '\{python\}'
+          push:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.embedded.python.latex
+            - meta_content_scope: source.python.embedded
+            - match: '(?=\\end\{minted\})'
+              pop: true
+            - include: scope:source.python
+        - match: '\{java\}'
           captures:
-            1: support.function.be.latex
-            2: punctuation.definition.backslash.latex
-            3: punctuation.definition.brace.begin.latex
-            4: variable.parameter.function.latex
-            5: punctuation.definition.brace.end.latex
-          pop: true
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_scope: meta.environment.embedded.java.latex
+            - meta_content_scope: source.java.embedded
+            - match: '(?=\\end\{minted\})'
+              pop: true
+            - include: scope:source.java
+        - match: ''
+          push:
+            - match: '(?=\\end\{minted\})'
+              pop: true
 
   # comment package
   pkgcomment:
