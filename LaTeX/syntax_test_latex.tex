@@ -113,6 +113,28 @@
 %          ^ markup.underline.underline.latex
 
 
+% LIST ENVIRONMENTS
+
+\begin{itemize}
+\item first item
+% <- meta.environment.list.itemize.latex
+\end{itemize}
+
+\begin{enumerate}
+\item first item
+% <- meta.environment.list.enumerate.latex
+\end{enumerate}
+
+\begin{description}
+\item[item] description of item
+% <- meta.environment.list.description.latex
+\end{description}
+
+\begin{list}{(\arabic{listcounter})}{\usecounter{listcounter}}
+\item first item
+% <- meta.environment.list.list.latex
+\end{list}
+
 % VERBATIM
 
 \command{}
