@@ -631,7 +631,7 @@ contexts:
         3: punctuation.definition.brace.begin.latex
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
-      set:
+      push:
         - include: general-optional-arguments
         - match: ''
           pop: true
