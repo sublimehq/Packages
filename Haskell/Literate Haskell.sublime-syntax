@@ -6,9 +6,12 @@ file_extensions:
   - lhs
 scope: text.tex.latex.haskell
 contexts:
+  prototype:
+    - include: scope:text.tex.latex#comments
+
   main:
     - include: scope:text.tex.latex#unique-latex
-    - include: scope:text.tex.latex#upackages
+    - include: scope:text.tex.latex#packages
     - include: haskell-code
     - include: scope:text.tex.latex#plain-tex
     - include: scope:text.tex.latex#begin-end-commands

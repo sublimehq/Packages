@@ -7,21 +7,16 @@ file_extensions:
 scope: text.tex.latex.rd
 contexts:
   prototype:
-    - include: comments
+    - include: scope:text.tex.latex#comments
 
   main:
-    - include: stucture
+    - include: rd-stucture
     - include: r-code
-    - include: equations
-    # exteneded from latex
-    - include: scope:text.tex.latex#invalid-quotations
-    - include: scope:text.tex.latex#macros
-    - include: global-braces
-    - include: scope:text.tex.latex#general-constants
+    - include: latex-equations
+    - include: scope:text.tex.latex#plain-tex
+    - include: scope:text.tex.latex#begin-end-commands
     - include: scope:text.tex.latex#general-commands
-
-  comments:
-    - include: scope:text.tex#comments
+    - include: global-braces
 
   global-braces:
     - match: '\{'
@@ -33,7 +28,7 @@ contexts:
           pop: true
         - include: main
 
-  equations:
+  latex-equations:
     - include: deqn
     - include: eqn
 
@@ -77,6 +72,7 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.brace.end.rd
           pop: true
+        - match: \\%
         - include: scope:source.r
     - match: '((\\)(?:Sexpr))(?:(\[)(?:[^\]]*)(\]))?(\{)'
       captures:
@@ -91,6 +87,7 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.brace.end.rd
           pop: true
+        - match: \\%
         - include: scope:source.r
     - match: '((\\)(?:usage))(\{)(?:\n)?'
       captures:
@@ -103,6 +100,7 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.brace.end.rd
           pop: true
+        - match: \\%
         - include: scope:source.r
     - match: '((\\)(?:examples))(\{)(?:\n)?'
       captures:
@@ -115,9 +113,10 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.brace.end.rd
           pop: true
+        - match: \\%
         - include: scope:source.r
 
-  stucture:
+  rd-stucture:
     - match: '((\\)name)(\{)'
       captures:
         1: keyword.other.section.rd

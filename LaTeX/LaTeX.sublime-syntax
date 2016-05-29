@@ -12,7 +12,6 @@ contexts:
 
   main:
     - include: unique-latex
-    # external packages
     - include: packages
     - include: plain-tex
     - include: begin-end-commands
@@ -33,7 +32,6 @@ contexts:
     - include: lists
 
   plain-tex:
-    # extended from tex
     - include: macros
     - include: scope:text.tex#controls
     - include: scope:text.tex#catcode
