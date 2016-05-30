@@ -446,7 +446,7 @@ contexts:
     - match: \$
       scope: string.other.math.latex punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex
+        - meta_scope: meta.environment.math.latex meta.environment.math.inline.latex
         - match: \$
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
@@ -458,7 +458,7 @@ contexts:
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.ensuremath.latex
-        - meta_content_scope: meta.environment.math.latex
+        - meta_content_scope: meta.environment.math.latex meta.environment.math.inline.latex
         - match: '\}'
           scope: punctuation.definition.brace.end.latex
           pop: true
@@ -468,7 +468,7 @@ contexts:
     - match: \$\$
       scope: string.other.math.latex punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex
+        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
         - match: \$\$
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
@@ -477,7 +477,7 @@ contexts:
     - match: '(\\\[)'
       scope: string.other.math.latex punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex
+        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
         - match: '(\\\])'
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
@@ -488,7 +488,7 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex
+        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
         - match: (\\\))
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
@@ -502,7 +502,7 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
       push:
-        - meta_scope: meta.environment.math.latex
+        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
