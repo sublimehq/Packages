@@ -170,7 +170,7 @@ contexts:
     - match: \$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
       push:
-        - meta_scope: meta.environment.math.tex
+        - meta_scope: meta.environment.math.inline.dollar.tex
         - match: \$
           scope: string.other.math.tex punctuation.definition.string.end.tex
           pop: true
@@ -180,7 +180,7 @@ contexts:
     - match: \$\$
       scope: string.other.math.tex punctuation.definition.string.begin.tex
       push:
-        - meta_scope: meta.environment.math.tex
+        - meta_scope: meta.environment.math.block.dollar.tex
         - match: \$\$
           scope: string.other.math.tex punctuation.definition.string.end.tex
           pop: true

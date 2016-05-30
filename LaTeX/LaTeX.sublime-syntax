@@ -446,7 +446,7 @@ contexts:
     - match: \$
       scope: string.other.math.latex punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex meta.environment.math.inline.latex
+        - meta_scope: meta.environment.math.inline.dollar.latex
         - match: \$
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
@@ -458,28 +458,9 @@ contexts:
         3: punctuation.definition.brace.begin.latex
       push:
         - meta_scope: meta.function.ensuremath.latex
-        - meta_content_scope: meta.environment.math.latex meta.environment.math.inline.latex
+        - meta_content_scope: meta.environment.math.inline.ensuremath.latex
         - match: '\}'
           scope: punctuation.definition.brace.end.latex
-          pop: true
-        - include: math-content
-
-  block-math:
-    - match: \$\$
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
-        - match: \$\$
-          scope: string.other.math.latex punctuation.definition.string.end.latex
-          pop: true
-        - include: math-content
-
-    - match: '(\\\[)'
-      scope: string.other.math.latex punctuation.definition.string.begin.latex
-      push:
-        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
-        - match: '(\\\])'
-          scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
         - include: math-content
 
@@ -488,13 +469,32 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.latex
       push:
-        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
+        - meta_scope: meta.environment.math.inline.paren.latex
         - match: (\\\))
           scope: string.other.math.latex punctuation.definition.string.end.latex
           pop: true
         - include: math-content
 
-    - match: '((\\)begin)(\{)\s*((?:align|alignat|aligned|alignedat|displaymath|displaymath|eqnarray|equation|flalign|gather|gathered|math|multline|xalignat)\*?)\s*(\})'
+  block-math:
+    - match: \$\$
+      scope: string.other.math.latex punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: meta.environment.math.block.dollar.latex
+        - match: \$\$
+          scope: string.other.math.latex punctuation.definition.string.end.latex
+          pop: true
+        - include: math-content
+
+    - match: '(\\\[)'
+      scope: string.other.math.latex punctuation.definition.string.begin.latex
+      push:
+        - meta_scope: meta.environment.math.block.bracket.latex
+        - match: '(\\\])'
+          scope: string.other.math.latex punctuation.definition.string.end.latex
+          pop: true
+        - include: math-content
+
+    - match: '((\\)begin)(\{)\s*((?:align|alignat|aligned|alignedat|displaymath|eqnarray|equation|flalign|gather|gathered|math|multline|x?xalignat|split)\*?)\s*(\})'
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
@@ -502,7 +502,7 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.brace.end.latex
       push:
-        - meta_scope: meta.environment.math.latex meta.environment.math.block.latex
+        - meta_scope: meta.environment.math.block.be.latex
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.be.latex
