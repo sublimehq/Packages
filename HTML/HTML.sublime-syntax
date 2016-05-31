@@ -73,7 +73,7 @@ contexts:
         - match: (?i)(</)(style)(>)
           captures:
             1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.html
+            2: entity.name.tag.style.html
             3: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
@@ -93,7 +93,7 @@ contexts:
         - match: (?i)(</)(script)(>)
           captures:
             1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.html
+            2: entity.name.tag.script.html
             3: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
