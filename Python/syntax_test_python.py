@@ -358,6 +358,14 @@ list((i for i in generator), 123)
 #                         ^^^^^^^ - meta.expression.generator
 #                          ^ punctuation.separator.parameters
 
+_ = [m
+     for cls in self.__class__.mro()
+#    ^^^ keyword.control.flow.for.generator
+#            ^^ keyword.control.flow.for.in
+     for m in cls.__dict__]
+#    ^^^ keyword.control.flow.for.generator
+#          ^^ keyword.control.flow.for.in
+
 a if b else c
 # ^^ keyword.control.flow
 #      ^^^^ keyword.control.flow

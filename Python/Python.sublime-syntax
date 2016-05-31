@@ -1267,6 +1267,7 @@ contexts:
             - match: '(?=[)\]}])'
               pop: true
             - include: inline_if  # not necessary but more explicit
+            - include: inline_for
             - include: expressions
         - match: '(?=[)\]}])'
           scope: invalid.illegal.missing-in.python
