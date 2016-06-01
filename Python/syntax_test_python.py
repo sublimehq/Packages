@@ -34,7 +34,7 @@ from sys import (version, # comment
 import path from os
 #           ^^^^ invalid.illegal.name
 from .sub import *
-#                ^ keyword.other.import-all.python
+#                ^ constant.language.import-all.python
 import a as b
 #        ^^ keyword.control.import.as.python
 from a import b as c, d as e
@@ -45,7 +45,7 @@ from a import (b as c)
 
 import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
-#        ^ punctuation.separator.statements
+#        ^ punctuation.terminator.statement
 
 ##################
 # Identifiers
@@ -94,7 +94,7 @@ def _():
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
-#   ^^^^^ keyword.control.flow.async
+#   ^^^^^ storage.modifier.async
 #         ^^^ keyword.control.flow.for
 #               ^^ keyword.control.flow.for.in
 #                          ^ punctuation.definition.block.for
@@ -118,7 +118,7 @@ def _():
 #       ^^ meta.statement.with
 
     async with context_manager() as c:
-#   ^^^^^ keyword.control.flow.async
+#   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
 #                                ^^ keyword.control.flow.with.as
 #                                    ^ punctuation.definition.block.with
