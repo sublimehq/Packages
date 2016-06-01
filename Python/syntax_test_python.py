@@ -174,6 +174,8 @@ def _():
 #        ^^^^ invalid.illegal.name
 #            ^ keyword.operator.assignment
 #             ^^^^ string
+    lambda
+#   ^^^^^^ storage.type.function.inline
 
 
 ##################
