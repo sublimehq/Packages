@@ -33,6 +33,11 @@ REM
 ECHO : Not a comment
 ::   ^^^^^^^^^^^^^^^ - comment
 
+ECHO : Not a comment ^
+  do not break out of an echo with an escaped newline
+::   ^^^ - keyword.operator
+::       ^^^^^ - keyword.command
+
 ECHO &:: A comment
 ::   ^ keyword.operator.conditional.dosbatch
 ::    ^^ punctuation.definition.comment.dosbatch
