@@ -524,23 +524,20 @@ contexts:
             - include: expressions
 
   lambda:
-    - match: \b(lambda)(?=\s+|:)
+    - match: \b(lambda)
       scope: storage.type.function.inline.python
       push:
         - meta_scope: meta.function.inline.python
+        - meta_content_scope: meta.function.inline.parameters.python
+        - include: line_continuation_or_pop
         - match: '\:'
           scope: punctuation.section.function.begin.python
           pop: true
-        - match: \s+
-          push:
-            - meta_content_scope: meta.function.inline.parameters.python
-            - match: (?=\:)
-              pop: true
-            - include: keyword_arguments
-            - match: '({{identifier}})\s*(?:(,)|(?=[\n\)\:]))'
-              captures:
-                1: variable.parameter.python
-                2: punctuation.separator.parameters.python
+        - match: ','
+          scope: punctuation.separator.parameters.python
+        - include: keyword_arguments
+        - match: '{{identifier}}'
+          scope: variable.parameter.python
 
   lists:
     - match: '(\[)(\s*(\]))\b'

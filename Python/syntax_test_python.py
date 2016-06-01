@@ -147,11 +147,23 @@ def _():
 #       ^^^^^^^ meta.function.inline
 #       ^^^^^^ storage.type.function.inline
 #             ^ punctuation.section.function.begin
-    _(lambda x: y)
+#               ^^^^ keyword
+
+    _(lambda x, y: 10)
 #     ^^^^^^^^^ meta.function.inline
 #     ^^^^^^ storage.type.function.inline
-#            ^ meta.function.inline.parameters
+#           ^^^^^ meta.function.inline.parameters
 #            ^ variable.parameter
+#             ^ punctuation.separator.parameters
+#               ^ variable.parameter
+#                  ^^ constant.numeric
+
+    lambda \
+        a, \
+        b=2: pass
+#       ^^^^ meta.function.inline
+#          ^ punctuation.section.function.begin
+#            ^^^^ keyword
 
 
 
