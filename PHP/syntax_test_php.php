@@ -693,28 +693,96 @@ SQL;
 class OutputsHtml {
     function embedHtml() {
         if (1) {
-//             ^ meta.function meta.block meta.block punctuation.definition.block.begin
+//             ^ meta.function meta.block punctuation.definition.block.begin
         }
-//      ^ meta.function meta.block meta.block punctuation.definition.block.end
+//      ^ meta.function meta.block punctuation.definition.block.end
         else {
-//           ^ meta.function meta.block meta.block punctuation.definition.block.begin
+//           ^ meta.function meta.block punctuation.definition.block.begin
             ?>
 //          ^^ punctuation.section.embedded.end
             <span></span>
-//          ^^^^^^ meta.tag
+//          ^^^^^^ meta.tag - source.php
             <?
 //          ^^ punctuation.section.embedded.begin
         }
-//      ^ meta.function meta.block meta.block punctuation.definition.block.end
+//      ^ meta.function meta.block punctuation.definition.block.end
         ?>
 //      ^^ punctuation.section.embedded.end
-        <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>"></div>
-//      ^^^^  meta.tag
-//                                              ^^^^^ punctuation.section.embedded.begin
-//                                                                                  ^^ punctuation.section.embedded.end
-//                                                                                      ^^^^^^ meta.tag
+
+        <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag - source.php
+//           ^^^^^ meta.attribute-with-value
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                              ^^^^^ punctuation.section.embedded.begin - source.php
+//                                                                                  ^^ punctuation.section.embedded.end - source.php
+//                                                                                    ^^^^^^^^^^^^^^^^^^ meta.tag
+//                                                                                      ^^^^^^^^^ meta.attribute-with-value
+        <?= var_dump($foo)
+//      ^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested
+//      ^^^ punctuation.section.embedded.begin - source.php
+//         ^^^^^^^^^^^^^^^ source.php
+        ?>
+//      ^^ punctuation.section.embedded.end - source.php
+
         <?php
 //      ^^^^^ punctuation.section.embedded.begin
+    }
+}
+
+function embedHtml() {
+    if (1) {
+//         ^ meta.function meta.block punctuation.definition.block.begin
+    }
+//  ^ meta.function meta.block punctuation.definition.block.end
+    else {
+//       ^ meta.function meta.block punctuation.definition.block.begin
+        ?>
+//      ^^ punctuation.section.embedded.end - source.php
+        <span></span>
+//      ^^^^^^ meta.tag - source.php
+        <?
+//      ^^ punctuation.section.embedded.begin - source.php
+    }
+//  ^ meta.function meta.block punctuation.definition.block.end
+
+    try {
+        if (1) {
+            if (1) {
+                try {
+// ^^^^^^^^^^^^^^^^^^ source.php
+                    ?>
+//                  ^^ punctuation.section.embedded.end - source.php
+
+                    <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag - source.php
+//                       ^^^^^ meta.attribute-with-value
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                          ^^^^^ punctuation.section.embedded.begin
+//                                                                                              ^^ punctuation.section.embedded.end
+//                                                                                                ^^^^^^^^^^^^^^^^^^ meta.tag
+//                                                                                                  ^^^^^^^^^ meta.attribute-with-value
+                    <?php
+//                  ^^^^^ punctuation.section.embedded.begin
+                } finally {
+                    // This tests maxing out the standard handling of block
+                    // nesting in a function. As we can see, the HTML is still
+                    // highlighted properly, but the background doesn't lose
+                    // the highlighting of being inside of source.* scope.
+                    // Additionally, snippets and completions will trigger for
+                    // PHP inside of this scope, and HTML will not trigger.
+                    if (1) {
+                        if (1) {
+                            ?>
+                            <div>
+                            </div>
+                            <?
+                        }
+                    }
+                }
+            }
+        }
+    } catch (Exception $e) {
+
     }
 }
 
@@ -746,3 +814,65 @@ class C {
 }
 
 var_dump(new C(42));
+
+?>
+
+<div class="test <?= $foo ?>"></div>
+//               ^^^^^^^^^^^ meta.embedded.line
+//               ^^^ punctuation.section.embedded.begin - source.php
+//                  ^^^^^^ source.php
+//                   ^^^^ variable.other
+//                        ^^ punctuation.section.embedded.end - source.php
+
+<script>
+    var foo = 4;
+//  ^ storage.type
+//      ^^^ variable.other.readwrite
+//          ^ keyword.operator
+//            ^ constant.numeric
+    <?
+    if ($minimal_increase) {
+        ?>
+        foo += 1;
+//      ^^^^^^^^^ source.js.embedded
+//      ^^^ variable.other.readwrite
+//          ^^ keyword.operator
+//             ^ constant.numeric
+        <?
+    } else {
+//  ^^^^^^^^ source.php
+        ?>
+//      ^^ meta.embedded.block.php - source.php
+        foo *= 2;
+//      ^^^^^^^^^ source.js.embedded
+//      ^^^ variable.other.readwrite
+//          ^^ keyword.operator
+//             ^ constant.numeric
+        <?
+//      ^^ meta.embedded.block.php - source.php
+    }
+    ?>
+</script>
+<style>
+h1 {
+    font-family: Arial;
+//  ^^^^^^^^^^^ support.type.property-name
+//               ^^^^^ support.constant
+    <? if ($minimal_increase) { ?>
+//  ^^ meta.embedded.line.php - source.php
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
+//                              ^^ meta.embedded.line.php - source.php
+        size: 2em;
+//      ^^^^ support.type.property-name
+//            ^ constant.numeric
+    <? } else { ?>
+//  ^^ meta.embedded.line.php - source.php
+//    ^^^^^^^^^^ source.php
+//       ^^^^ keyword.control
+//              ^^ meta.embedded.line.php - source.php
+        size: 3em;
+//      ^^^^ support.type.property-name
+//            ^ constant.numeric
+    <? } ?>
+}
+</style>

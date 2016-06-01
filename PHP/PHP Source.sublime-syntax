@@ -13,6 +13,12 @@ contexts:
   main:
     - include: statements
 
+  embedded:
+    - meta_content_scope: meta.embedded.block.php source.php
+    - match: '(?=\?>)'
+      pop: true
+    - include: statements
+
   statements:
     - include: class
     - include: use-statement
@@ -69,27 +75,9 @@ contexts:
         2: punctuation.separator.php
     - match: \{
       scope: punctuation.definition.block.begin.php
-      push:
-        - meta_scope: meta.block.php
-        - match: \}
-          scope: punctuation.definition.block.end.php
-          pop: true
-        - include: html-block
-        - include: statements
+    - match: \}
+      scope: punctuation.definition.block.end.php
     - include: expressions
-
-  html-block:
-    - match: '(?=\?>)'
-      push:
-        - match: '\?>'
-          scope: punctuation.section.embedded.end.php
-          push: scope:text.html.basic
-          with_prototype:
-            - match: '(?=<\?)'
-              pop: true
-        - match: '<\?(php)?'
-          scope: punctuation.section.embedded.begin.php
-          pop: true
 
   expressions:
     - include: comments
@@ -370,12 +358,12 @@ contexts:
         1: storage.modifier.abstract.php
         2: storage.type.class.php
         3: entity.name.class.php
-      push: class-definition
+      set: class-definition
 
   class-definition:
-    - meta_scope: meta.class.php
+    - meta_scope: meta.embedded.block.php source.php meta.class.php
     - match: "(?=;)"
-      pop: true
+      set: embedded
     - match: '\{'
       scope: meta.block.php punctuation.definition.block.php
       set: class-body
@@ -420,11 +408,11 @@ contexts:
           pop: true
 
   class-body:
-    - meta_content_scope: meta.class.php meta.block.php
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php
     - include: comments
     - match: '\}'
-      scope: meta.class.php meta.block.php punctuation.definition.block.php
-      pop: true
+      scope: punctuation.definition.block.php
+      set: embedded
     - match: (?i)\b(use)\b\s*
       captures:
         1: keyword.other.use.php
@@ -433,11 +421,11 @@ contexts:
         - match: (?=;|(?:^\s*$))
           pop: true
         - match: '\{'
-          scope: punctuation.definition.block.php
+          scope: meta.block.php punctuation.definition.block.php
           set:
-            - meta_scope: meta.use.php meta.block.php
+            - meta_content_scope: meta.use.php meta.block.php
             - match: '}'
-              scope: punctuation.definition.block.php
+              scope: meta.use.php meta.block.php punctuation.definition.block.php
               pop: true
             - include: comments
             - match: \b(as)\b
@@ -468,12 +456,13 @@ contexts:
               pop: true
         - match: ','
           scope: punctuation.separator.php
+    - include: method
     - include: statements
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
-      push:
-        - meta_content_scope: meta.function.php
+      set:
+        - meta_content_scope: meta.embedded.block.php source.php meta.function.php
         - include: comments
         - match: '(?i)\b(final|abstract|public|private|protected|static)\b'
           scope: storage.modifier.php
@@ -488,12 +477,39 @@ contexts:
         # Lookahead is used here to prevent doubling up of meta.function and meta.function.parameters
         - match: (?=\()
           set:
+            - meta_content_scope: meta.embedded.block.php source.php
             - match: \(
               scope: meta.function.parameters.php meta.group.php punctuation.definition.group.begin.php
               set: function-parameters
         # Exit on unexpected content
         - match: (?=\S)
-          pop: true
+          set: embedded
+
+  method:
+    - match: (?i)(?=(?:\b(?:final|abstract|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
+      set:
+        - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php
+        - include: comments
+        - match: '(?i)\b(final|abstract|public|private|protected|static)\b'
+          scope: storage.modifier.php
+        - match: (?i)\bfunction\b
+          scope: storage.type.function.php
+        - match: '&'
+          scope: storage.modifier.reference.php
+        - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))'
+          scope: entity.name.function.php support.function.magic.php
+        - match: '{{identifier}}'
+          scope: entity.name.function.php
+        # Lookahead is used here to prevent doubling up of meta.function and meta.function.parameters
+        - match: (?=\()
+          set:
+            - meta_content_scope: meta.embedded.block.php source.php
+            - match: \(
+              scope: meta.function.parameters.php meta.group.php punctuation.definition.group.begin.php
+              set: method-parameters
+        # Exit on unexpected content
+        - match: (?=\S)
+          set: class-body
 
   closure:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
@@ -501,17 +517,19 @@ contexts:
       captures:
         1: storage.type.function.php
         2: storage.modifier.reference.php
-      push:
+      set:
+        - meta_content_scope: meta.embedded.block.php source.php
         - match: \(
           scope: meta.function.parameters.php meta.group.php punctuation.definition.group.begin.php
           set: function-parameters
 
   function-parameters:
-    - meta_content_scope: meta.function.parameters.php meta.group.php
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.parameters.php meta.group.php
     - match: '\)'
       scope: punctuation.definition.group.end.php
       set:
-        - meta_content_scope: meta.function.php
+        - meta_content_scope: meta.embedded.block.php source.php meta.function.php
+        - include: comments
         - match: '\b(use)\b\s*(\()'
           scope: meta.function.closure.use.php
           captures:
@@ -525,7 +543,43 @@ contexts:
           set: function-body
         # Exit on unexpected content
         - match: (?=\S)
+          set: embedded
+    - include: comments
+    - match: \b(array|callable|int|string|bool|float)\b
+      scope: storage.type.php
+    # Class name type hint
+    - match: '{{identifier}}'
+      scope: support.class.php
+    - match: '&'
+      scope: storage.modifier.reference.php
+    - match: (\$+){{identifier}}
+      scope: variable.parameter.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: ','
+      scope: punctuation.separator.php
+    - match: '='
+      scope: keyword.operator.assignment.php
+      push:
+        - match: '(?=,|\))'
           pop: true
+        - include: expressions
+
+  method-parameters:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.parameters.php meta.group.php
+    - match: '\)'
+      scope: punctuation.definition.group.end.php
+      set:
+        - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php
+        - include: comments
+        - match: '(?=:)'
+          set: method-return-type
+        - match: \{
+          scope: meta.block.php punctuation.definition.block.begin.php
+          set: method-body
+        # Exit on unexpected content
+        - match: (?=\S)
+          set: class-body
     - include: comments
     - match: \b(array|callable|int|string|bool|float)\b
       scope: storage.type.php
@@ -548,12 +602,12 @@ contexts:
         - include: expressions
 
   function-use:
-      - meta_content_scope: meta.function.closure.use.php
+      - meta_content_scope: meta.embedded.block.php source.php meta.function.closure.use.php
       - include: comments
       - match: '\)'
         scope: punctuation.definition.group.end.php
         set:
-          - meta_content_scope: meta.function.php
+          - meta_content_scope: meta.embedded.block.php source.php meta.function.php
           - match: '(?=:)'
             set: function-return-type
           - match: \{
@@ -561,7 +615,7 @@ contexts:
             set: function-body
           # Exit on unexpected content
           - match: (?=\S)
-            pop: true
+            set: embedded
       - match: '&'
         scope: storage.modifier.reference.php
       - match: '(\$+){{identifier}}'
@@ -572,9 +626,9 @@ contexts:
         scope: punctuation.separator.php
 
   function-return-type:
-    - meta_content_scope: meta.function.return-type.php
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.return-type.php
     - match: '(?=;)'
-      pop: true
+      set: embedded
     - match: \{
       scope: meta.block.php punctuation.definition.block.begin.php
       set: function-body
@@ -590,14 +644,71 @@ contexts:
         2: support.class.php
     # Exit on unexpected content
     - match: (?=\S)
-      pop: true
+      set: embedded
+
+  method-return-type:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.return-type.php
+    - match: '(?=;)'
+      set: class-body
+    - match: \{
+      scope: meta.block.php punctuation.definition.block.begin.php
+      set: method-body
+    - match: ':'
+      scope: punctuation.separator.php
+    - match: \b(array|bool|int|float|string)\b
+      scope: storage.type.php
+    - include: class-builtin
+    - include: identifier-parts
+    - match: '(\\)?({{identifier}})(?!\\)'
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.php
+    # Exit on unexpected content
+    - match: (?=\S)
+      set: class-body
 
   function-body:
-    - meta_content_scope: meta.function.php meta.block.php
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
     - match: \}
-      scope: meta.function.php meta.block.php punctuation.definition.block.end.php
-      pop: true
-    - include: html-block
+      scope: punctuation.definition.block.end.php
+      set: embedded
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: function-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-body
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  method-body:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: \}
+      scope: punctuation.definition.block.end.php
+      set: class-body
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: method-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-body
+          set:
+            - include: scope:text.html.basic
     - include: statements
 
   class-name:
@@ -818,7 +929,7 @@ contexts:
       captures:
         1: keyword.other.new.php
         2: storage.type.class.php
-      push: class-definition
+      set: class-definition
     - match: (?i)(new)\s+
       captures:
         1: keyword.other.new.php
@@ -1346,3 +1457,283 @@ contexts:
             2: constant.other.php
         - match: ''
           pop: true
+
+  # These context handle literal PHP output inside of functions, classes and
+  # methods. There isn't a good way to arbitrary switch between the two, but
+  # maintain different scope stacks to allow snippets and completions to work
+  # as expected, so we do some gymnastics to do the right thing for a reasonable
+  # number of levels of nesting. Most modern PHP that uses the advanced
+  # constructs where this won't be 100% correct also aren't going to be
+  # switching to literal HTML output inside of methods, so this should be
+  # generally "good enough".
+
+  single-line-php-tag:
+    - match: '(<\?=|<\?(?i:php)?(?=.*\?>))'
+      scope: punctuation.section.embedded.begin.php
+      push:
+        - meta_scope: meta.embedded.line.nested.php
+        - meta_content_scope: source.php
+        - match: \?>
+          scope: punctuation.section.embedded.end.php
+          pop: true
+        - include: 'scope:source.php'
+
+  function-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: function-body
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: function-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  function-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: function-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: function-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  function-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: function-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: function-block-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  function-block-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: function-block-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: function-block-block-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-block-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  function-block-block-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: function-block-block-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      push: function-block-block-block-block-block-nested
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: function-block-block-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  # After five levels of nesting, we give up on trying to maintain the scope
+  # of literal output HTML, which may lead to background color being off, or
+  # snippets and completions triggering for PHP instead of HTML
+  function-block-block-block-block-block-nested:
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      pop: true
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      push: function-block-block-block-block-block-nested
+    - match: '\?>'
+      scope: punctuation.section.embedded.end.php
+      with_prototype:
+        - include: single-line-php-tag
+        - match: '<\?(?i:php)?'
+          scope: punctuation.section.embedded.begin.php
+          pop: true
+      push: scope:text.html.basic
+    - include: statements
+
+  method-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: method-body
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: method-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  method-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: method-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: method-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  method-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: method-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: method-block-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  method-block-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: method-block-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      set: method-block-block-block-block-block
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-block-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  method-block-block-block-block-block:
+    - meta_content_scope: meta.embedded.block.php source.php meta.class.php meta.block.php meta.function.php meta.block.php
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      set: method-block-block-block-block
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      push: method-block-block-block-block-block-nested
+    # We set using a lookahead so the close tag doesn't get the source.php scope
+    - match: '(?=\?>)'
+      set:
+        - match: '\?>'
+          scope: meta.embedded.block.php punctuation.section.embedded.end.php
+          with_prototype:
+            - include: single-line-php-tag
+            - match: '<\?(?i:php)?'
+              scope: meta.embedded.block.php punctuation.section.embedded.begin.php
+              set: method-block-block-block-block-block
+          set:
+            - include: scope:text.html.basic
+    - include: statements
+
+  # After five levels of nesting, we give up on trying to maintain the scope
+  # of literal output HTML, which may lead to background color being off, or
+  # snippets and completions triggering for PHP instead of HTML
+  method-block-block-block-block-block-nested:
+    - match: '\}'
+      scope: punctuation.definition.block.end.php
+      pop: true
+    - match: '\{'
+      scope: punctuation.definition.block.begin.php
+      push: method-block-block-block-block-block-nested
+    - match: '\?>'
+      scope: punctuation.section.embedded.end.php
+      with_prototype:
+        - include: single-line-php-tag
+        - match: '<\?(?i:php)?'
+          scope: punctuation.section.embedded.begin.php
+          pop: true
+      push: scope:text.html.basic
+    - include: statements
