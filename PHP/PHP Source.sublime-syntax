@@ -365,7 +365,7 @@ contexts:
     - include: identifier-constant-pop
 
   class:
-    - match: '(?i)(\b(?:babstract|final)\b\s+)?\b(class)\s+({{identifier}})\s*'
+    - match: '(?i)(\b(?:abstract|final)\b\s+)?\b(class)\s+({{identifier}})\s*'
       captures:
         1: storage.modifier.abstract.php
         2: storage.type.class.php
