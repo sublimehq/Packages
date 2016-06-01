@@ -159,7 +159,7 @@ contexts:
         (?x)
         (
           (\\)
-          (?:(?:re)?newcommand)
+          (?:(?:re)?newcommand\*?)
         )
         (?:
           (\{)(\\[A-Za-z@]+)(\})
