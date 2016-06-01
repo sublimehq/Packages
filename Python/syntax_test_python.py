@@ -1,6 +1,10 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
+##################
+# Imports
+##################
+
 import sys # comment
 #^^^^^ keyword.control.import
 #          ^ comment
@@ -43,6 +47,10 @@ import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
 #        ^ punctuation.separator.statements
 
+##################
+# Identifiers
+##################
+
 name
 #^^^ meta.name
 name1 . name2
@@ -67,22 +75,22 @@ async
 #^^^^ - invalid.illegal.name
 #
 
-def abc():
-    global from, for, variable, .
-#   ^^^^^^ storage.modifier.global
-#          ^^^^ invalid.illegal.name
-#                ^^^ invalid.illegal.name
-#                     ^^^^^^^^ meta.name
-#                               ^ invalid.illegal.name.storage
 
-def my_func(param1, # Multi-line function definition
-#                 ^ punctuation.separator.parameters
-#                   ^ comment.line.number-sign
-    # This is defaulted
-#   ^ comment.line.number-sign
-    param2='#1'):
-#              ^ punctuation.definition.parameters.end
-    print('Hi!')
+
+##################
+# Block statements
+##################
+def _():
+    for
+#   ^^^ keyword.control.flow.for
+    b = c in d
+#         ^^ keyword.operator.logical
+
+    for \
+        a \
+        in \
+        b:
+#       ^^ meta.statement.for
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
@@ -92,21 +100,22 @@ def my_func(param1, # Multi-line function definition
 #                          ^ punctuation.definition.block.for
         pass
 
-    for \
-        a \
-        in \
-        b:
-#       ^^ meta.statement.for
-
-    for
-#   ^^^ keyword.control.flow.for
-    b = c in d
-#         ^^ keyword.operator.logical
-
     for i:
 #        ^ invalid.illegal.missing-in
 
-    a for b in c: # TODO make this invalid (for not at beginning of line)
+    a for b in c:  # TODO make this invalid (for not at beginning of line)
+
+
+    with
+#   ^^^^ keyword.control.flow.with
+    something as nothing:
+#             ^^ invalid.illegal.name
+
+    with \
+        open() \
+        as \
+        x:
+#       ^^ meta.statement.with
 
     async with context_manager() as c:
 #   ^^^^^ keyword.control.flow.async
@@ -116,14 +125,13 @@ def my_func(param1, # Multi-line function definition
         await something()
 #       ^^^^^ keyword.other.await
 
-    with \
-        open() \
-        as \
-        x:
-#       ^^ meta.statement.with
 
-    with
-#   ^^^^ keyword.control.flow.with
+
+##################
+# Expressions
+##################
+
+def _():
     yield from
 #   ^^^^^ keyword.control.flow.yield
 #         ^^^^ keyword.control.flow.yield-from
@@ -131,6 +139,17 @@ def my_func(param1, # Multi-line function definition
     yield fromsomething
 #         ^^^^ - keyword
 
+    a if b else c
+#     ^^ keyword.control.flow
+#          ^^^^ keyword.control.flow
+
+
+
+##################
+# print & exec
+##################
+
+def _():
     print (file=None)
 #   ^^^^^ support.function.builtin - keyword
     print . __class__
@@ -152,6 +171,31 @@ def my_func(param1, # Multi-line function definition
 #                    ^^^^^ - keyword
              , print)
 #              ^^^^^ - keyword
+
+
+
+##################
+# Function definitions
+##################
+
+def abc():
+    global from, for, variable, .
+#   ^^^^^^ storage.modifier.global
+#          ^^^^ invalid.illegal.name
+#                ^^^ invalid.illegal.name
+#                     ^^^^^^^^ meta.name
+#                               ^ invalid.illegal.name.storage
+
+
+def my_func(param1, # Multi-line function definition
+#                 ^ punctuation.separator.parameters
+#                   ^ comment.line.number-sign
+    # This is defaulted
+#   ^ comment.line.number-sign
+    param2='#1'):
+#              ^ punctuation.definition.parameters.end
+    print('Hi!')
+
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -196,6 +240,11 @@ async def coroutine(param1):
    pass
 
 
+
+##################
+# Class definitions
+##################
+
 class MyClass():
 #^^^^^^^^^^^^^^^ meta.class
 #            ^^ meta.class.inheritance
@@ -238,13 +287,14 @@ class MyClass(Inherited,
 #   ^ comment.block
     pass
 
+
 class Unterminated(Inherited:
 #                           ^ invalid.illegal
 
 
 
 ##################
-# Lists and dicts
+# Collection literals and generators
 ##################
 
 mytuple = ("this", 'is', 4, tuple)
@@ -366,9 +416,11 @@ _ = [m
 #    ^^^ keyword.control.flow.for.generator
 #          ^^ keyword.control.flow.for.in
 
-a if b else c
-# ^^ keyword.control.flow
-#      ^^^^ keyword.control.flow
+
+
+##################
+# Exception handling
+##################
 
 except Exception:
 #^^^^^^^^^^^^^^^^ meta.statement.except
@@ -409,12 +461,21 @@ raise KeyError() from z
 #                ^^^^ keyword.control.flow.raise.from
 #                     ^ meta.name
 
+
+
+##################
+# Stray braces
+##################
+
 )
 # <- invalid.illegal.stray.brace.round
 ]
 # <- invalid.illegal.stray.brace.square
 }
 # <- invalid.illegal.stray.brace.curly
+
+
+
 
 ###############################
 # Strings and embedded syntaxes
