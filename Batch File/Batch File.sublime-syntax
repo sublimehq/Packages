@@ -16,6 +16,7 @@ contexts:
     - include: labels
     - include: strings
     - include: numbers
+    - include: constants
     - include: operators
     - include: escaped_characters
     - include: variables
@@ -135,6 +136,10 @@ contexts:
   numbers:
     - match: '\b(0[xX]\h*|[+-]?\d+)\b'
       scope: constant.numeric.dosbatch
+
+  constants:
+    - match: \b(?i:NUL)\b
+      scope: constant.language.dosbatch
 
   operators:
     - match: '@(?=\S)'

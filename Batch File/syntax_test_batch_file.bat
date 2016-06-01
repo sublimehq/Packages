@@ -68,6 +68,7 @@ ECHO &:: A comment
 
    ECHO >> NUL
 ::      ^^     keyword.operator.redirection.dosbatch
+::         ^^^ constant.language
 
    dir > f.txt 2>&1
 ::     ^ keyword.operator.redirection.dosbatch
