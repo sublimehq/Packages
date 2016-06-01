@@ -11,6 +11,7 @@ file_extensions:
   - sublime-build
   - sublime-project
   - sublime-completions
+  - sublime-commands
 scope: source.json
 contexts:
   main:
