@@ -292,9 +292,9 @@ contexts:
         2: keyword.control.flow.yield-from.python
 
   assignments:
-    - match: \+\=|-\=|\*\=|/\=|//\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=|\*\*\=
+    - match: \+=|-=|\*=|/=|//=|%=|&=|\|=|\^=|>>=|<<=|\*\*=
       scope: keyword.operator.assignment.augmented.python
-    - match: \=
+    - match: '='
       scope: keyword.operator.assignment.python
 
   operators:
