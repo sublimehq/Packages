@@ -414,6 +414,7 @@ contexts:
         - match: '(?=[,)=])'
           pop: true
         - include: expressions
+    - include: illegal_names
     - match: '{{identifier}}'
       scope: variable.parameter.python
 
@@ -536,6 +537,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.parameters.python
         - include: keyword_arguments
+        - include: illegal_names
         - match: '{{identifier}}'
           scope: variable.parameter.python
 
@@ -696,16 +698,18 @@ contexts:
       scope: invalid.illegal.name.python
 
   keyword_arguments:
-    - match: '({{identifier}})\s*(=)(?!=)'
-      captures:
-        1: variable.parameter.python
-        2: keyword.operator.assignment.python
+    - match: '(?={{identifier}}\s*=(?!=))'
       push:
-        - match: '\s*(?:(,)|(?=$|[\)\:]))'
-          captures:
-            1: punctuation.separator.parameters.python
-          pop: true
-        - include: expressions
+        - include: line_continuation_or_pop
+        - match: '='
+          scope: keyword.operator.assignment.python
+          set:
+            - match: (?=\s*[,):])
+              pop: true
+            - include: expressions
+        - include: illegal_names
+        - match: '{{identifier}}'
+          scope: variable.parameter.python
 
   language_variables:
     - match: \b(self|cls)\b

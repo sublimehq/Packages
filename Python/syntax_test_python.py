@@ -162,9 +162,18 @@ def _():
         a, \
         b=2: pass
 #       ^^^^ meta.function.inline
+#        ^ keyword.operator.assignment
 #          ^ punctuation.section.function.begin
 #            ^^^^ keyword
 
+    lambda as, in=2: pass
+#          ^^ invalid.illegal.name
+#              ^^ invalid.illegal.name
+    call(from='no')
+#   ^^^^^^^^^^^^^^^ meta.function-call
+#        ^^^^ invalid.illegal.name
+#            ^ keyword.operator.assignment
+#             ^^^^ string
 
 
 ##################
@@ -218,6 +227,10 @@ def my_func(param1, # Multi-line function definition
 #              ^ punctuation.definition.parameters.end
     print('Hi!')
 
+
+def func(from='me'):
+#        ^^^^ invalid.illegal.name
+    pass
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
