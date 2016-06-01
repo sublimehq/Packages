@@ -707,16 +707,19 @@ class OutputsHtml {
         }
 //      ^ meta.function meta.block punctuation.definition.block.end
         ?>
-//      ^^ punctuation.section.embedded.end
+//      ^^ punctuation.section.embedded.end - source.php
 
         <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag - source.php
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //           ^^^^^ meta.attribute-with-value
 //                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
 //                                              ^^^^^ punctuation.section.embedded.begin - source.php
+//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                                                                                  ^^ punctuation.section.embedded.end - source.php
-//                                                                                    ^^^^^^^^^^^^^^^^^^ meta.tag
 //                                                                                      ^^^^^^^^^ meta.attribute-with-value
+//                 ^ punctuation.definition.string.begin.html
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                                                                                    ^ punctuation.definition.string.end.html
         <?= var_dump($foo)
 //      ^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested
 //      ^^^ punctuation.section.embedded.begin - source.php
@@ -754,15 +757,19 @@ function embedHtml() {
 //                  ^^ punctuation.section.embedded.end - source.php
 
                     <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag - source.php
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //                       ^^^^^ meta.attribute-with-value
 //                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
 //                                                          ^^^^^ punctuation.section.embedded.begin
+//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                                                                                              ^^ punctuation.section.embedded.end
-//                                                                                                ^^^^^^^^^^^^^^^^^^ meta.tag
 //                                                                                                  ^^^^^^^^^ meta.attribute-with-value
+//                             ^ punctuation.definition.string.begin.html
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                                                                                                ^ punctuation.definition.string.end.html
                     <?php
 //                  ^^^^^ punctuation.section.embedded.begin
+//                       ^ source.php
                 } finally {
                     // This tests maxing out the standard handling of block
                     // nesting in a function. As we can see, the HTML is still
@@ -773,15 +780,20 @@ function embedHtml() {
                     if (1) {
                         if (1) {
                             ?>
+//                          ^^ punctuation.section.embedded.end
                             <div>
+//                          ^^^^^ meta.tag
                             </div>
                             <?
+//                          ^^ punctuation.section.embedded.begin
                         }
                     }
                 }
             }
         }
     } catch (Exception $e) {
+//    ^^^^^^^^^^^^^^^^^^^^ meta.catch.php
+//    ^^^^^ keyword.control.exception.catch.php
 
     }
 }
@@ -818,11 +830,16 @@ var_dump(new C(42));
 ?>
 
 <div class="test <?= $foo ?>"></div>
+//   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
+//         ^ punctuation.definition.string.begin.html
+//         ^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                          ^ punctuation.definition.string.end.html
 //               ^^^^^^^^^^^ meta.embedded.line
 //               ^^^ punctuation.section.embedded.begin - source.php
 //                  ^^^^^^ source.php
 //                   ^^^^ variable.other
 //                        ^^ punctuation.section.embedded.end - source.php
+//                           ^ punctuation.definition.tag.end.html
 
 <script>
     var foo = 4;
