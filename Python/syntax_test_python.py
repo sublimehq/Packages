@@ -143,6 +143,16 @@ def _():
 #     ^^ keyword.control.flow
 #          ^^^^ keyword.control.flow
 
+    c = lambda: pass
+#       ^^^^^^^ meta.function.inline
+#       ^^^^^^ storage.type.function.inline
+#             ^ punctuation.section.function.begin
+    _(lambda x: y)
+#     ^^^^^^^^^ meta.function.inline
+#     ^^^^^^ storage.type.function.inline
+#            ^ meta.function.inline.parameters
+#            ^ variable.parameter
+
 
 
 ##################

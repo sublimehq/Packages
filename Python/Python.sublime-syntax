@@ -524,7 +524,7 @@ contexts:
             - include: expressions
 
   lambda:
-    - match: \b(lambda)(?=\s+)
+    - match: \b(lambda)(?=\s+|:)
       scope: storage.type.function.inline.python
       push:
         - meta_scope: meta.function.inline.python
