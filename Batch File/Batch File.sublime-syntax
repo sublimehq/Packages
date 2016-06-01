@@ -8,7 +8,7 @@ file_extensions:
 scope: source.dosbatch
 variables:
   colon_comment_start: '(?::[+=,;: ])'
-  command_terminators: '[&|>]'
+  command_terminators: '[&|><]'
 
 contexts:
   main:
