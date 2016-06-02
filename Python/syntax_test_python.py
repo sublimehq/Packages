@@ -1,12 +1,227 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
+# <- source.python comment.line.number-sign punctuation.definition.comment
 
-import sys
+##################
+# Imports
+##################
+
+import sys # comment
 #^^^^^ keyword.control.import
+#          ^ comment
+from os import path, chdir # comment
+#^^^ keyword.control.import.from
+#       ^^^^^^ keyword.control.import
+#              ^^^^ meta.name
+#                  ^ punctuation.separator.import-list
+#                    ^^^^^ meta.name
+#                          ^ comment
+from collections.abc import Iterable
+#                    ^^^^^^ keyword.control.import
+from \
+    os \
+    import \
+    path
+#   ^^^^ meta.statement.import
+from sys import (version, # comment
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
+#               ^ punctuation.definition.begin.import-list
+#                         ^ comment
+                 version_info, . ) # comment
+#                ^^^^^^^^^^^^^ meta.statement.import
+#                              ^ invalid.illegal.name.import
+#                                ^ punctuation.definition.end.import-list
+#                                  ^ comment
 import path from os
-#^^^^^ keyword.control.import
-#           ^^^^ keyword.control.import.from
+#           ^^^^ invalid.illegal.name
+from .sub import *
+#                ^ constant.language.import-all.python
+import a as b
+#        ^^ keyword.control.import.as.python
+from a import b as c, d as e
+#               ^^ keyword.control.import.as.python
+#                       ^^ keyword.control.import.as.python
+from a import (b as c)
+#                ^^ keyword.control.import.as.python
+
+import re; re.compile(r'')
+#        ^^^^^^^^^^^^^^^^^ - meta.statement.import
+#        ^ punctuation.terminator.statement
+
+##################
+# Identifiers
+##################
+
+name
+#^^^ meta.name
+name1 . name2
+#^^^^^^^^^^^^ meta.name.dotted
+#     ^ punctuation.accessor
+#^^^^ meta.name.dotted meta.name
+name .2name
+#     ^ - meta.name
+self.int
+#^^^^^^^ meta.name.dotted
+#^^^ variable.language
+#   ^ punctuation.accessor
+#    ^^^ - support.type
+
+class
+#^^^^ storage.type.class
+def
+#^^ storage.type.function
+
+# Currently, async and await are still recognized as valid identifiers unless in an "async" block
+async
+#^^^^ - invalid.illegal.name
+#
+
+
+
+##################
+# Block statements
+##################
+def _():
+    for
+#   ^^^ keyword.control.flow.for
+    b = c in d
+#         ^^ keyword.operator.logical
+
+    for \
+        a \
+        in \
+        b:
+#       ^^ meta.statement.for
+
+    async for i in myfunc():
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^ storage.modifier.async
+#         ^^^ keyword.control.flow.for
+#               ^^ keyword.control.flow.for.in
+#                          ^ punctuation.definition.block.for
+        pass
+
+    for i:
+#        ^ invalid.illegal.missing-in
+
+    a for b in c:  # TODO make this invalid (for not at beginning of line)
+
+
+    with
+#   ^^^^ keyword.control.flow.with
+    something as nothing:
+#             ^^ invalid.illegal.name
+
+    with \
+        open() \
+        as \
+        x:
+#       ^^ meta.statement.with
+
+    async with context_manager() as c:
+#   ^^^^^ storage.modifier.async
+#         ^^^^ keyword.control.flow.with
+#                                ^^ keyword.control.flow.with.as
+#                                    ^ punctuation.definition.block.with
+        await something()
+#       ^^^^^ keyword.other.await
+
+
+
+##################
+# Expressions
+##################
+
+def _():
+    yield from
+#   ^^^^^ keyword.control.flow.yield
+#         ^^^^ keyword.control.flow.yield-from
+
+    yield fromsomething
+#         ^^^^ - keyword
+
+    a if b else c
+#     ^^ keyword.control.flow
+#          ^^^^ keyword.control.flow
+
+    c = lambda: pass
+#       ^^^^^^^ meta.function.inline
+#       ^^^^^^ storage.type.function.inline
+#             ^ punctuation.section.function.begin
+#               ^^^^ keyword
+
+    _(lambda x, y: 10)
+#     ^^^^^^^^^ meta.function.inline
+#     ^^^^^^ storage.type.function.inline
+#           ^^^^^ meta.function.inline.parameters
+#            ^ variable.parameter
+#             ^ punctuation.separator.parameters
+#               ^ variable.parameter
+#                  ^^ constant.numeric
+
+    lambda \
+        a, \
+        b=2: pass
+#       ^^^^ meta.function.inline
+#        ^ keyword.operator.assignment
+#          ^ punctuation.section.function.begin
+#            ^^^^ keyword
+
+    lambda as, in=2: pass
+#          ^^ invalid.illegal.name
+#              ^^ invalid.illegal.name
+    call(from='no')
+#   ^^^^^^^^^^^^^^^ meta.function-call
+#        ^^^^ invalid.illegal.name
+#            ^ keyword.operator.assignment
+#             ^^^^ string
+    lambda
+#   ^^^^^^ storage.type.function.inline
+
+
+##################
+# print & exec
+##################
+
+def _():
+    print (file=None)
+#   ^^^^^ support.function.builtin - keyword
+    print . __class__
+#   ^^^^^ support.function.builtin - keyword
+    print "keyword"
+#   ^^^^^^^^^^^^^^^ meta.statement.print
+#   ^^^^^ keyword
+    print __init__
+#   ^^^^^ keyword
+#
+    exec 123
+#   ^^^^^^^^ meta.statement.exec
+#   ^^^^ keyword
+    exec ("print('ok')")
+#   ^^^^ support.function.builtin - keyword
+    callback(print , print
+#            ^^^^^ - keyword
+#                  ^ punctuation.separator.parameters
+#                    ^^^^^ - keyword
+             , print)
+#              ^^^^^ - keyword
+
+
+
+##################
+# Function definitions
+##################
+
+def abc():
+    global from, for, variable, .
+#   ^^^^^^ storage.modifier.global
+#          ^^^^ invalid.illegal.name
+#                ^^^ invalid.illegal.name
+#                     ^^^^^^^^ meta.name
+#                               ^ invalid.illegal.name.storage
+
 
 def my_func(param1, # Multi-line function definition
+#                 ^ punctuation.separator.parameters
 #                   ^ comment.line.number-sign
     # This is defaulted
 #   ^ comment.line.number-sign
@@ -14,23 +229,18 @@ def my_func(param1, # Multi-line function definition
 #              ^ punctuation.definition.parameters.end
     print('Hi!')
 
-    async for i in myfunc():
-#   ^ keyword.control.flow
-#         ^ keyword.control.flow
-        pass
 
-    async with context_manager():
-#   ^ keyword.control.flow
-#         ^ keyword.control.flow
-        pass
-
+def func(from='me'):
+#        ^^^^ invalid.illegal.name
+    pass
 
 def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "string" = "default") -> int:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
-#                                                                                                  ^^^^^^ meta.function.return-type
+#                                                                                                  ^^^^^^ meta.function.annotation.return
 #                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter
+#                          ^^^^^ meta.function.annotation.parameter
 #                          ^ punctuation.separator.annotation
 #                            ^^^ support.type
 #                               ^ punctuation.separator.parameters
@@ -48,26 +258,34 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
 #                                                                            ^^^^^^^^ string.quoted.double
+#                                                                                     ^^^^^^^^^^^ meta.function.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
 #                                                                                                ^ punctuation.definition.parameters.end
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
-#                                                                                                        ^ punctuation.section.function
+#                                                                                                        ^ punctuation.section.function.begin
     pass
 
 
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters
-# <- storage.modifier
+# <- storage.modifier.async
 #     ^ storage.type
 #         ^ entity.name.function
    pass
 
 
-class MyClass():
 
+##################
+# Class definitions
+##################
+
+class MyClass():
+#^^^^^^^^^^^^^^^ meta.class
+#            ^^ meta.class.inheritance
+#              ^ punctuation.section.class.begin
     def my_func(self, param1, # Multi-line function definition
 #                             ^ comment.line.number-sign
         # This is defaulted
@@ -95,15 +313,17 @@ class UnicødeIdentifier():
 class MyClass(Inherited,
 #     ^^^^^^^ entity.name.type.class
 #             ^^^^^^^^^ entity.other.inherited-class
-#                      ^ punctuation.separator
-              module.Inherited2):
-#             ^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                   ^ punctuation.accessor
+#                      ^ punctuation.separator.inheritance
+              module . Inherited2, metaclass=ABCMeta):
+#             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                                ^ punctuation.separator.inheritance
+#                                  TODO
     """
     This is a test of docstrings
     """
 #   ^ comment.block
     pass
+
 
 class Unterminated(Inherited:
 #                           ^ invalid.illegal
@@ -111,8 +331,23 @@ class Unterminated(Inherited:
 
 
 ##################
-# Lists and dicts
+# Collection literals and generators
 ##################
+
+mytuple = ("this", 'is', 4, tuple)
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#         ^ punctuation.definition.group.begin
+#          ^^^^^^ string.quoted.double
+#                ^ punctuation.separator.tuple
+#                  ^^^^ string.quoted.single
+#                      ^ punctuation.separator.tuple
+#                        ^ constant.numeric
+#                         ^ punctuation.separator.tuple
+#                           ^^^^^ support.type
+#                                ^ punctuation.definition.group.end
+not_a_tuple = (a = 2, b += 3)
+#                ^ - keyword
+#                        ^ - keyword
 
 mylist = []
 #        ^^ meta.structure.list.python
@@ -141,11 +376,12 @@ mydict = {}
 
 key2 = "my_key"
 mydict = {"key": True, key2: (1, 2, [-1, -2])}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
 #         ^^^^^ string.quoted.double
 #              ^ punctuation.separator.key-value
 #                ^^^^ constant.language
-#                    ^ punctuation.separator.dictionary
+#                    ^ punctuation.separator.dictionary-or-set
+#                      ^^^^ meta.name.dotted
 #                          ^ punctuation.separator.key-value
 #                            ^^^^^^^^^^^^^^^^ meta.group
 #                            ^ punctuation.definition.group.begin
@@ -154,8 +390,129 @@ mydict = {"key": True, key2: (1, 2, [-1, -2])}
 #                                   ^^^^^^^ meta.structure.list
 #                                      ^ punctuation.separator.list
 #                                           ^ punctuation.definition.group.end
-#        ^ punctuation.definition.dictionary.begin
-#                                            ^ punctuation.definition.dictionary.end
+#        ^ punctuation.definition.dictionary-or-set.begin
+#                                            ^ punctuation.definition.dictionary-or-set.end
+
+myset = {"key", True, key2, [-1], {}}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#        ^^^^^ string.quoted.double
+#             ^ punctuation.separator.dictionary-or-set
+#               ^^^^ constant.language
+#                   ^ punctuation.separator.dictionary-or-set
+#                     ^^^^ meta.name.dotted
+#                         ^ punctuation.separator.dictionary-or-set
+#                           ^^^^ meta.structure.list
+#                             ^ constant.numeric
+#                               ^ punctuation.separator.dictionary-or-set
+#                                 ^^ meta.structure.dictionary
+
+generator = (i for i in range(100))
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+#              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#              ^^^ keyword.control.flow.for.generator
+#                  ^ meta.name
+#                    ^^ keyword.control.flow.for.in
+list_ = [i for i in range(100)]
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#          ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^ keyword.control.flow.for.generator
+#                ^^ keyword.control.flow.for.in
+set_ = {i for i in range(100)}
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#         ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#         ^^^ keyword.control.flow.for.generator
+#               ^^ keyword.control.flow.for.in
+dict_ = {i: i for i in range(100)}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#             ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#             ^^^ keyword.control.flow.for.generator
+#                   ^^ keyword.control.flow.for.in
+list_ = [i for i in range(100) if i > 0 else -1]
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#                              ^^ keyword.control.flow.if.inline
+#                                       ^^^^ keyword.control.flow.else.inline
+
+list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
+#           ^^ keyword.operator.logical
+#                              ^^ keyword.control.flow.for.in
+#                                                 ^^ keyword.operator.logical
+
+list(i for i in generator)
+#      ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+list((i for i in generator), 123)
+#       ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#                         ^^^^^^^ - meta.expression.generator
+#                          ^ punctuation.separator.parameters
+
+_ = [m
+     for cls in self.__class__.mro()
+#    ^^^ keyword.control.flow.for.generator
+#            ^^ keyword.control.flow.for.in
+     for m in cls.__dict__]
+#    ^^^ keyword.control.flow.for.generator
+#          ^^ keyword.control.flow.for.in
+
+
+
+##################
+# Exception handling
+##################
+
+except Exception:
+#^^^^^^^^^^^^^^^^ meta.statement.except
+#^^^^^ keyword.control.flow.except
+#      ^^^^^^^^^ support.type.exception
+#               ^ punctuation.definition.block
+except (KeyError, NameError) as e:
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
+#^^^^^ keyword.control.flow.except
+#       ^^^^^^^^ support.type.exception
+#               ^ punctuation.separator.target-list
+#                 ^^^^^^^^^ support.type.exception
+#                            ^^ keyword.control.flow.as
+#                                ^ punctuation.definition.block
+except \
+    StopIteration \
+    as \
+    err:
+#   ^^^^ meta.statement.except
+
+except StopIteration
+    as
+#   ^^ invalid.illegal.name - meta.statement.except
+
+except
+#^^^^^ keyword.control.flow.except
+
+raise
+#^^^^ meta.statement.raise keyword.control.flow.raise
+raise Ellipsis
+#^^^^^^^^^^^^^ meta.statement.raise
+#^^^^ keyword.control.flow.raise
+#     ^^^^^^^^ constant.language
+raise KeyError() from z
+#^^^^^^^^^^^^^^^^^^^^^^ meta.statement.raise
+#^^^^ keyword.control.flow.raise
+#     ^^^^^^^^ support.type.exception
+#                ^^^^ keyword.control.flow.raise.from
+#                     ^ meta.name
+
+
+
+##################
+# Stray braces
+##################
+
+)
+# <- invalid.illegal.stray.brace.round
+]
+# <- invalid.illegal.stray.brace.square
+}
+# <- invalid.illegal.stray.brace.curly
+
+
+
 
 ###############################
 # Strings and embedded syntaxes
@@ -491,3 +848,9 @@ rB'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
+
+
+
+
+# <- - meta
+# this test is to ensure we're not matching anything here anymore
