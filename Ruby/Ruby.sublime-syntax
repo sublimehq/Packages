@@ -119,7 +119,7 @@ contexts:
       scope: keyword.control.pseudo-method.ruby
     - match: '\b(nil|true|false)\b(?![?!])'
       scope: constant.language.ruby
-    - match: '\b(__(FILE|LINE)__|self)\b(?![?!])'
+    - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
     - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
       comment: everything being a method but having a special function is a..
