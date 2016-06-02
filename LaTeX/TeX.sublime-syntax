@@ -62,21 +62,21 @@ contexts:
 
   braces:
     - match: '\{'
-      scope: punctuation.definition.brace.begin.tex
+      scope: punctuation.definition.group.brace.begin.tex
       push:
-        - meta_scope: meta.group.braces.tex
+        - meta_scope: meta.group.brace.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.tex
+          scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: main
 
   macro-braces:
     - match: '\{'
-      scope: punctuation.definition.brace.begin.tex
+      scope: punctuation.definition.group.brace.begin.tex
       push:
-        - meta_scope: meta.group.braces.tex
+        - meta_scope: meta.group.brace.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.tex
+          scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: general-constants
         - include: general-commands
@@ -87,11 +87,11 @@ contexts:
       captures:
         1: support.function.box.tex
         2: punctuation.definition.backslash.tex
-        3: punctuation.definition.brace.begin.tex
+        3: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.box.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.tex
+          scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: main
 
@@ -101,11 +101,11 @@ contexts:
         1: support.function.definition.tex
         2: support.function.general.tex
         3: punctuation.definition.backslash.tex
-        4: punctuation.definition.brace.begin.tex
+        4: punctuation.definition.group.brace.begin.tex
       push:
         - meta_scope: meta.function.definition.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.tex
+          scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: general-constants
         - include: general-commands
@@ -129,11 +129,11 @@ contexts:
 
   math-braces:
     - match: '\{'
-      scope: punctuation.definition.brace.begin.tex
+      scope: punctuation.definition.group.brace.begin.tex
       push:
-        - meta_scope: meta.group.braces.tex
+        - meta_scope: meta.group.brace.tex
         - match: '\}'
-          scope: punctuation.definition.brace.end.tex
+          scope: punctuation.definition.group.brace.end.tex
           pop: true
         - include: math-content
 
