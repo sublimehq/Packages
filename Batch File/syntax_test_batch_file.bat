@@ -52,6 +52,9 @@ ECHO &:: A comment
 ::      ^^^^^   string.quoted.double.dosbatch
 ::          ^   punctuation.definition.string.end.dosbatch
 
+ECHO "
+::    ^ invalid.illegal.newline.dosbatch
+
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
 
@@ -219,3 +222,104 @@ ECHO %% ^^! ^&
 ::   ^^ constant.character.escape.dosbatch
 ::      ^^^ constant.character.escape.dosbatch
 ::          ^^ constant.character.escape.dosbatch
+
+:: command SET /A specific operators
+   set /a "num%%=5"
+::        ^^^^^^^^^ meta.expression.set.dosbatch
+::            ^^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num&=3"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num*=5"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num+=5"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num-=5"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num/=5"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num<<=2"
+::            ^^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num=!5"
+::            ^ keyword.operator.assignment.dosbatch
+::             ^ keyword.operator.logical.dosbatch
+
+   set /a "num=(2+3)*5"
+::             ^^^^^ meta.group.dosbatch
+::             ^ punctuation.definition.group.begin.dosbatch
+::                 ^ punctuation.definition.group.end.dosbatch
+::            ^ keyword.operator.assignment.dosbatch
+::               ^ keyword.operator.arithmetic.dosbatch
+::                  ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=2,result=num*5"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^ punctuation.separator.dosbatch
+::                     ^ keyword.operator.assignment.dosbatch
+::                         ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=2<<3"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=2>>3"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=5%%2"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=5&3"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=5^3"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=5|3"
+::            ^ keyword.operator.assignment.dosbatch
+::              ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num^=3"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num=num*5"
+::            ^ keyword.operator.assignment.dosbatch
+::                ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=num+5"
+::            ^ keyword.operator.assignment.dosbatch
+::                ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=num-5"
+::            ^ keyword.operator.assignment.dosbatch
+::                ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=num/5"
+::            ^ keyword.operator.assignment.dosbatch
+::                ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num=~5"
+::            ^ keyword.operator.assignment.dosbatch
+::             ^ keyword.operator.arithmetic.dosbatch
+
+   set /a "num>>=2"
+::            ^^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a "num|=3"
+::            ^^ keyword.operator.assignment.augmented.dosbatch
+
+   set /a century=year/100, next=century+1
+::               ^ keyword.operator.assignment.dosbatch
+::                    ^ keyword.operator.arithmetic.dosbatch
+::                        ^ punctuation.separator.dosbatch
+::                              ^ keyword.operator.assignment.dosbatch
+::                                      ^ keyword.operator.arithmetic.dosbatch
