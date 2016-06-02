@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List Function</string>
 	<key>scope</key>
-	<string>source.js meta.function.declaration, source.js entity.class.name</string>
+	<string>source.js meta.function.declaration, source.js entity.name.class</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
