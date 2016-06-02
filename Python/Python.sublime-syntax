@@ -380,42 +380,48 @@ contexts:
     - meta_content_scope: meta.function.parameters.python
     - match: \)
       scope: punctuation.definition.parameters.end.python
-      set:
-        - meta_content_scope: meta.function.python
-        - match: '(?=->)'
-          push:
-            - meta_content_scope: meta.function.annotation.return.python
-            - match: ->
-              scope: punctuation.separator.annotation.return.python
-            - match: '(?=:)'
-              pop: true
-            - include: expressions # includes line_continuation
-        - match: ':'
-          scope: punctuation.section.function.begin.python
-          set: maybe-docstrings
-        - include: comments
-        - match: (?=\S)
-          pop: true
+      set: function_after_parameters
     - include: comments
     - match: ','
       scope: punctuation.separator.parameters.python
-    - match: '='
-      scope: keyword.operator.assignment.python
-      push:
-        - meta_scope: meta.function.default-value.python
-        - match: '(?=[,)])'
-          pop: true
-        - include: expressions
-    - match: ':'
-      scope: punctuation.separator.annotation.parameter.python
-      push:
-        - meta_scope: meta.function.annotation.parameter.python
-        - match: '(?=[,)=])'
-          pop: true
-        - include: expressions
+    - match: '(?==)'
+      set:
+        - match: '='
+          scope: keyword.operator.assignment.python
+          set:
+            - meta_scope: meta.function.parameters.default-value.python
+            - match: '(?=[,)])'
+              set: function_parameters
+            - include: expressions
+    - match: '(?=:)'
+      set:
+        - match: ':'
+          scope: punctuation.separator.annotation.parameter.python
+          set:
+            - meta_scope: meta.function.parameters.annotation.python
+            - match: '(?=[,)=])'
+              set: function_parameters
+            - include: expressions
     - include: illegal_names
     - match: '{{identifier}}'
       scope: variable.parameter.python
+
+  function_after_parameters:
+    - meta_content_scope: meta.function.python
+    - match: '(?=->)'
+      set:
+        - meta_content_scope: meta.function.annotation.return.python
+        - match: ->
+          scope: punctuation.separator.annotation.return.python
+        - match: '(?=:)'
+          set: function_after_parameters
+        - include: expressions # includes line_continuation
+    - match: ':'
+      scope: punctuation.section.function.begin.python
+      set: maybe-docstrings
+    - include: comments
+    - match: (?=\S)
+      pop: true
 
   decorators:
     - match: '^\s*(?=@\s*{{path}}\s*\()'

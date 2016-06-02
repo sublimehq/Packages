@@ -240,7 +240,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                  ^^^^^^ meta.function.annotation.return
 #                   ^ - meta.function meta.function.parameters
 #                    ^^^^^^ variable.parameter
-#                          ^^^^^ meta.function.annotation.parameter
+#                          ^^^^^ meta.function.parameters.annotation
 #                          ^ punctuation.separator.annotation
 #                            ^^^ support.type
 #                               ^ punctuation.separator.parameters
@@ -258,7 +258,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
 #                                                                            ^^^^^^^^ string.quoted.double
-#                                                                                     ^^^^^^^^^^^ meta.function.default-value
+#                                                                                     ^^^^^^^^^^^ meta.function.parameters.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
 #                                                                                                ^ punctuation.definition.parameters.end
