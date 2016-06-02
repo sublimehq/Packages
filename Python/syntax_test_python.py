@@ -280,7 +280,7 @@ class MyClass():
 
 
 class UnicødeIdentifier():
-#     ^^^^^^^^^^^^^^^^^ entity.name.type.class
+#     ^^^^^^^^^^^^^^^^^ entity.name.class
     def résumé():
 #       ^^^^^^ entity.name.function
         """
@@ -295,7 +295,7 @@ class UnicødeIdentifier():
 
 
 class MyClass(Inherited,
-#     ^^^^^^^ entity.name.type.class
+#     ^^^^^^^ entity.name.class
 #             ^^^^^^^^^ entity.other.inherited-class
 #                      ^ punctuation.separator.inheritance
               module . Inherited2, metaclass=ABCMeta):

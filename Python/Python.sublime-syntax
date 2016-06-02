@@ -320,7 +320,7 @@ contexts:
           set: maybe-docstrings
         - match: "(?={{identifier}})"
           push:
-            - meta_content_scope: entity.name.type.class.python
+            - meta_content_scope: entity.name.class.python
             - include: entity_name_class
             - match: ''
               pop: true
