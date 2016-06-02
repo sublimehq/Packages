@@ -205,7 +205,7 @@ contexts:
             untrace_var|
             warn
           )\b
-          (?![!?])
+          (?![!?=])
         )
       scope: support.function.builtin.ruby
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
@@ -226,48 +226,51 @@ contexts:
       scope: support.function.builtin.ruby
     # Methods from the Module class not handled elsewhere
     - match: |-
-        \b(?x:
-          ancestors|
-          append_features|
-          class_eval|
-          class_exec|
-          class_variable_get|
-          class_variable_set|
-          class_variables|
-          const_get|
-          const_missing|
-          const_set|
-          constants|
-          define_method|
-          extend_object|
-          extended|
-          freeze|
-          included|
-          included_modules|
-          inspect|
-          method_added|
-          method_removed|
-          method_undefined|
-          module_eval|
-          module_exec|
-          name|
-          prepend_features|
-          prepended|
-          private_class_method|
-          private_constant|
-          private_instance_methods|
-          protected_instance_methods|
-          public_class_method|
-          public_constant|
-          public_instance_method|
-          public_instance_methods|
-          refine|
-          remove_class_variable|
-          remove_const|
-          remove_method|
-          to_s|
-          undef_method|
-          using
+        (?x:
+          \b(
+            ancestors|
+            append_features|
+            class_eval|
+            class_exec|
+            class_variable_get|
+            class_variable_set|
+            class_variables|
+            const_get|
+            const_missing|
+            const_set|
+            constants|
+            define_method|
+            extend_object|
+            extended|
+            freeze|
+            included|
+            included_modules|
+            inspect|
+            method_added|
+            method_removed|
+            method_undefined|
+            module_eval|
+            module_exec|
+            name|
+            prepend_features|
+            prepended|
+            private_class_method|
+            private_constant|
+            private_instance_methods|
+            protected_instance_methods|
+            public_class_method|
+            public_constant|
+            public_instance_method|
+            public_instance_methods|
+            refine|
+            remove_class_variable|
+            remove_const|
+            remove_method|
+            to_s|
+            undef_method|
+            using
+          )\b
+          (?![!?=])
         )
       scope: support.function.builtin.ruby
     - match: '(@)[a-zA-Z_]\w*'
