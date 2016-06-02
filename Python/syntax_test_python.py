@@ -11,9 +11,7 @@ import sys # comment
 from os import path, chdir # comment
 #^^^ keyword.control.import.from
 #       ^^^^^^ keyword.control.import
-#              ^^^^ meta.name
 #                  ^ punctuation.separator.import-list
-#                    ^^^^^ meta.name
 #                          ^ comment
 from collections.abc import Iterable
 #                    ^^^^^^ keyword.control.import
@@ -51,19 +49,6 @@ import re; re.compile(r'')
 # Identifiers
 ##################
 
-name
-#^^^ meta.name
-name1 . name2
-#^^^^^^^^^^^^ meta.name.dotted
-#     ^ punctuation.accessor
-#^^^^ meta.name.dotted meta.name
-name .2name
-#     ^ - meta.name
-self.int
-#^^^^^^^ meta.name.dotted
-#^^^ variable.language
-#   ^ punctuation.accessor
-#    ^^^ - support.type
 
 class
 #^^^^ storage.type.class
@@ -216,7 +201,6 @@ def abc():
 #   ^^^^^^ storage.modifier.global
 #          ^^^^ invalid.illegal.name
 #                ^^^ invalid.illegal.name
-#                     ^^^^^^^^ meta.name
 #                               ^ invalid.illegal.name.storage
 
 
@@ -381,7 +365,6 @@ mydict = {"key": True, key2: (1, 2, [-1, -2])}
 #              ^ punctuation.separator.key-value
 #                ^^^^ constant.language
 #                    ^ punctuation.separator.dictionary-or-set
-#                      ^^^^ meta.name.dotted
 #                          ^ punctuation.separator.key-value
 #                            ^^^^^^^^^^^^^^^^ meta.group
 #                            ^ punctuation.definition.group.begin
@@ -399,7 +382,6 @@ myset = {"key", True, key2, [-1], {}}
 #             ^ punctuation.separator.dictionary-or-set
 #               ^^^^ constant.language
 #                   ^ punctuation.separator.dictionary-or-set
-#                     ^^^^ meta.name.dotted
 #                         ^ punctuation.separator.dictionary-or-set
 #                           ^^^^ meta.structure.list
 #                             ^ constant.numeric
@@ -410,7 +392,6 @@ generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.flow.for.generator
-#                  ^ meta.name
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
@@ -496,7 +477,6 @@ raise KeyError() from z
 #^^^^ keyword.control.flow.raise
 #     ^^^^^^^^ support.type.exception
 #                ^^^^ keyword.control.flow.raise.from
-#                     ^ meta.name
 
 
 

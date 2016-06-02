@@ -634,7 +634,6 @@ contexts:
   name:
     - match: '(?={{identifier}})'
       push:
-        - meta_scope: meta.name.python
         - match: '(?!{{identifier_continue}})'
           pop: true
         - include: builtin_functions
@@ -649,7 +648,6 @@ contexts:
   dotted_name:
     - match: '(?={{path}})'
       push:
-        - meta_scope: meta.name.dotted.python
         - match: ' *(\.) *(?={{identifier}})'
           captures:
             1: punctuation.accessor.python
