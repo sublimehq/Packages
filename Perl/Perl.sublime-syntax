@@ -536,22 +536,6 @@ contexts:
         - include: escaped_char
         - include: variable
         - include: scope:source.sql
-    - match: ((<<) *"POSTSCRIPT").*\n?
-      captures:
-        0: punctuation.definition.string.perl
-        1: string.unquoted.heredoc.doublequote.perl
-        2: punctuation.definition.heredoc.perl
-      push:
-        - meta_content_scope: text.postscript.embedded.perl
-        - match: (^POSTSCRIPT$)
-          captures:
-            0: punctuation.definition.string.perl
-            1: string.unquoted.heredoc.doublequote.perl
-            2: punctuation.definition.heredoc.perl
-          pop: true
-        - include: escaped_char
-        - include: variable
-        - include: scope:source.postscript
     - match: '((<<) *"([^"]*)").*\n?'
       captures:
         0: punctuation.definition.string.perl
@@ -637,20 +621,6 @@ contexts:
             2: punctuation.definition.heredoc.perl
           pop: true
         - include: scope:source.sql
-    - match: ((<<) *'POSTSCRIPT').*\n?
-      captures:
-        0: punctuation.definition.string.perl
-        1: string.unquoted.heredoc.quote.perl
-        2: punctuation.definition.heredoc.perl
-      push:
-        - meta_content_scope: source.postscript.embedded.perl
-        - match: (^POSTSCRIPT)
-          captures:
-            0: punctuation.definition.string.perl
-            1: string.unquoted.heredoc.quote.perl
-            2: punctuation.definition.heredoc.perl
-          pop: true
-        - include: scope:source.postscript
     - match: '((<<) *''([^'']*)'').*\n?'
       captures:
         0: punctuation.definition.string.perl
@@ -727,22 +697,6 @@ contexts:
         - include: escaped_char
         - include: variable
         - include: scope:source.sql
-    - match: ((<<) *POSTSCRIPT\b).*\n?
-      captures:
-        0: punctuation.definition.string.perl
-        1: string.unquoted.heredoc.perl
-        2: punctuation.definition.heredoc.perl
-      push:
-        - meta_content_scope: source.postscript.embedded.perl
-        - match: (^POSTSCRIPT)
-          captures:
-            0: punctuation.definition.string.perl
-            1: string.unquoted.heredoc.perl
-            2: punctuation.definition.heredoc.perl
-          pop: true
-        - include: escaped_char
-        - include: variable
-        - include: scope:source.postscript
     - match: '((<<) *((?![=\d\$ ])[^;,''"`\s)]*)).*\n?'
       captures:
         0: punctuation.definition.string.perl
