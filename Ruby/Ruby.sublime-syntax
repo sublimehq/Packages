@@ -134,6 +134,142 @@ contexts:
             1: keyword.other.special-method.ruby
           pop: true
         - include: main
+    # Methods from the Kernel class not handled elsewhere, ending in punctuation
+    - match: |-
+        (?x:
+          \b(
+            autoload\?|
+            iterator\?|
+            exit!
+          )
+        )
+      scope: support.function.builtin.ruby
+    # Methods from the Kernel class not handled elsewhere
+    - match: |-
+        (?x:
+          \b(
+            Array|
+            Complex|
+            Float|
+            Hash|
+            Integer|
+            Rational|
+            String|
+            __callee__|
+            __dir__|
+            __method__|
+            abort|
+            at_exit|
+            autoload|
+            binding|
+            callcc|
+            caller|
+            caller_locations|
+            chomp|
+            chop|
+            eval|
+            exec|
+            exit|
+            fork|
+            format|
+            gets|
+            global_variables|
+            gsub|
+            lambda|
+            load|
+            local_variables|
+            open|
+            p|
+            print|
+            printf|
+            proc|
+            putc|
+            puts|
+            rand|
+            readline|
+            readlines|
+            require|
+            require_relative|
+            select|
+            set_trace_func|
+            sleep|
+            spawn|
+            sprintf|
+            srand|
+            sub|
+            syscall|
+            system|
+            test|
+            trace_var|
+            trap|
+            untrace_var|
+            warn
+          )\b
+          (?![!?])
+        )
+      scope: support.function.builtin.ruby
+    # Methods from the Kernel class not handled elsewhere, ending in punctuation
+    - match: |-
+        (?x:
+          \b(
+            class_variable_defined\?|
+            const_defined\?|
+            include\?|
+            instance_methods\?|
+            method_defined\?|
+            private_method_defined\?|
+            protected_method_defined\?|
+            public_method_defined\?|
+            singleton_class\?
+          )
+        )
+      scope: support.function.builtin.ruby
+    # Methods from the Module class not handled elsewhere
+    - match: |-
+        \b(?x:
+          ancestors|
+          append_features|
+          class_eval|
+          class_exec|
+          class_variable_get|
+          class_variable_set|
+          class_variables|
+          const_get|
+          const_missing|
+          const_set|
+          constants|
+          define_method|
+          extend_object|
+          extended|
+          freeze|
+          included|
+          included_modules|
+          inspect|
+          method_added|
+          method_removed|
+          method_undefined|
+          module_eval|
+          module_exec|
+          name|
+          prepend_features|
+          prepended|
+          private_class_method|
+          private_constant|
+          private_instance_methods|
+          protected_instance_methods|
+          public_class_method|
+          public_constant|
+          public_instance_method|
+          public_instance_methods|
+          refine|
+          remove_class_variable|
+          remove_const|
+          remove_method|
+          to_s|
+          undef_method|
+          using
+        )
+      scope: support.function.builtin.ruby
     - match: '(@)[a-zA-Z_]\w*'
       scope: variable.other.readwrite.instance.ruby
       captures:

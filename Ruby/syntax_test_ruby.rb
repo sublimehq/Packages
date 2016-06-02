@@ -78,3 +78,12 @@ class MyClass
 end
 
 # <- source.ruby
+
+puts "Output"
+# <- support.function.builtin
+
+abort "Ending"
+# <- support.function.builtin
+
+exit! 2
+#^^^^ support.function.builtin
