@@ -71,7 +71,7 @@ contexts:
       scope: meta.class.ruby
       captures:
         1: keyword.control.class.ruby
-        2: entity.name.type.class.ruby
+        2: entity.name.class.ruby
         4: entity.other.inherited-class.ruby
         5: punctuation.separator.inheritance.ruby
         6: variable.other.object.ruby

@@ -20,7 +20,7 @@ Symbol === :foo
 
 class MyClass
 # ^ meta.class.ruby keyword.control.class.ruby
-#     ^ meta.class.ruby entity.name.type.class.ruby
+#     ^ meta.class.ruby entity.name.class.ruby
 
   prepend Module.new
 # ^ keyword.other.special-method.ruby
