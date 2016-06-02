@@ -286,7 +286,7 @@ class UnicødeIdentifier():
         """
         A function-level docstring
         """
-#       ^^^ comment.block
+#       ^^^ comment.block.documentation.python
 
         yield from range(100)
 #       ^^^^^ keyword.control.flow
@@ -305,7 +305,7 @@ class MyClass(Inherited,
     """
     This is a test of docstrings
     """
-#   ^ comment.block
+#   ^^^ comment.block.documentation.python
     pass
 
 
@@ -829,8 +829,21 @@ rB'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
 
+x = "hello \
+#   ^^^^^^^^^ string.quoted.double.block.python - invalid.illegal.unclosed-string.python, \
+#          ^ punctuation.separator.continuation.line.python, \
+world"
+#^^^^^ string.quoted.double.block.python
+#     ^ - string.quoted.double.block.python
+#    ^ punctuation.definition.string.end.python
 
-
+x = 'hello \
+#   ^^^^^^^^^ string.quoted.single.block.python - invalid.illegal.unclosed-string.python, \
+#          ^ punctuation.separator.continuation.line.python, \
+world'
+#^^^^^ string.quoted.single.block.python
+#     ^ - string.quoted.single.block.python
+#    ^ punctuation.definition.string.end.python
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore

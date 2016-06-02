@@ -758,12 +758,12 @@ contexts:
     - include: comments
     - match: '(?i)(ur|ru|u|r)?(""")'
       push:
-        - meta_scope: comment.block.python
+        - meta_scope: comment.block.documentation.python
         - match: '"""'
           pop: true
     - match: "(?i)(ur|ru|u|r)?(''')"
       push:
-        - meta_scope: comment.block.python
+        - meta_scope: comment.block.documentation.python
         - match: "'''"
           pop: true
     - match: (?=\S)
@@ -1000,6 +1000,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
+        - include: line_continuation
     # Single-line string, bytes
     - match: '([bB])(")'
       captures:
@@ -1240,6 +1241,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
+        - include: line_continuation
     # Single-line string, bytes
     - match: '([bB])('')'
       captures:
