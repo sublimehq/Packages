@@ -371,7 +371,7 @@ try {
 
 class MyClass extends TheirClass {
 // <- storage.type.class
-//    ^^^^^^^ entity.name.type.class
+//    ^^^^^^^ entity.name.class
 //                               ^ meta.block
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
