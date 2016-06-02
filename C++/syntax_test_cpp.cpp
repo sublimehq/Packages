@@ -1086,9 +1086,20 @@ private:
 
     friend int func(int a, int b);
 /*  ^ storage.modifier */
-/*         storage.type */
+/*         ^ storage.type */
 /*             ^ - entity.name.function */
 /*             ^ - meta.function-call */
+
+    friend int func(int a, int b) {
+/*  ^ storage.modifier */
+/*         ^ storage.type */
+/*             ^ - entity.name.function */
+/*             ^ - meta.function-call */
+/*                                ^ meta.class meta.block meta.block punctuation.definition.block.begin */
+        int a = 1;
+    }
+/*  ^ meta.class meta.block meta.block punctuation.definition.block.end */
+/*   ^ - meta.class meta.block meta.block */
 
     friend class ::FooBar;
 /*  ^ storage.modifier */

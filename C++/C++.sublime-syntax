@@ -1071,6 +1071,14 @@ contexts:
       push:
         - match: (?=;)
           pop: true
+        - match: '\{'
+          scope: punctuation.definition.block.begin.c++
+          set:
+            - meta_scope: meta.block.c++
+            - match: '\}'
+              scope: punctuation.definition.block.end.c++
+              pop: true
+            - include: statements
         - match: '\b({{before_tag}})\b'
           scope: storage.type.c++
         - include: expressions-minus-function-call
