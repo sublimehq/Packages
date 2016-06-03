@@ -10,14 +10,18 @@ variables:
   rem_comment_begin: '\b(?i:REM)\b'
   whitespace_or_end_of_statement: '(?=\s|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)'
   identifier: '[a-zA-Z]\w*|\[(?:(?!%>|\]).)*(?:\]|(\n|(?=%>)))' # reserved words can be used if enclosed in square brackets, as can other characters not normally accepted
-  operators: '[=><+*^&/-]|\b(?i:Mod|And|Not|Or|Xor|Is)\b'
+  comparison_operators: '[=><]'
+  math_operators: '(?:[+*^&/\\-]|\b(?i:Mod)\b)'
+  logical_operators: '\b(?i:And|Not|Or|Xor|Is)\b'
+  operators: '{{comparison_operators}}|{{math_operators}}|logical_operators}}'
   literal_number: '&[hH]\h+&?|(?:(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
   constants: '\b(?i:vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewLine|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b'
   functions: '\b(?i:Abs|Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b'
   asp_builtin_classes: '\b(?i:Application|ObjectContext|Request|Response|Server|Session)\b'
-  asp_builtin_events: '\b(?i:Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart|Class_Initialize|Class_Terminate)\b'
+  asp_builtin_events: '\b(?i:Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart)\b'
+  class_magic_funcs: '\b(?i:Class_Initialize|Class_Terminate)\b'
 
 contexts:
   root_asp:
@@ -50,7 +54,7 @@ contexts:
 
   line_continuation_char:
     - match: '\b_'
-      scope: keyword.operator.line-continuation.asp
+      scope: punctuation.separator.continuation.line.asp
       push:
         - match: '\S.*'
           scope: invalid.illegal.expected-end-of-line.asp
@@ -91,8 +95,8 @@ contexts:
       scope: ''
     - match: '{{identifier}}'
       captures:
-        0: meta.variable-reference.asp
-        #1: invalid.illegal.unclosed-variable-identifier.asp
+        0: variable.other.asp
+      #  1: invalid.illegal.unclosed-variable-identifier.asp
       pop: true
     - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       pop: true
@@ -117,7 +121,7 @@ contexts:
 
   allow_statement_separator:
     - match: ':'
-      scope: keyword.operator.statement-separator.asp
+      scope: punctuation.terminator.statement.asp
       pop: true
 
   unexpected_token:
@@ -182,10 +186,13 @@ contexts:
           pop: true
         - include: unexpected_token
     - include: method_definitions
-    - match: '\b(?:(?i:Public(\s+Default)?|Private)\s+)?(?i:Property){{whitespace_or_end_of_statement}}'
-      scope: storage.type.function.asp
+    - match: '\b((?i:Public(?:\s+Default)?|Private)\s+)?((?i:Property)){{whitespace_or_end_of_statement}}'
+      captures:
+        1: storage.modifier.asp
+        2: storage.type.function.asp
       push:
-        - meta_scope: meta.method.source.asp meta.method.identifier.source.asp storage.type.function.asp
+        - meta_scope: meta.method.source.asp meta.method.identifier.source.asp
+        - meta_content_scope: storage.type.function.asp
         - include: not_end_of_statement
         - match: '\b(?i:Get|Let|Set){{whitespace_or_end_of_statement}}'
           set: [inside_method_without_meta, method_name_without_meta]
@@ -205,20 +212,20 @@ contexts:
 
   variable_definitions:
     - match: '\b(?i:(?:(?:Public|Private)\s+)?Const){{whitespace_or_end_of_statement}}'
-      scope: storage.modifier.source.asp
+      scope: storage.modifier.asp
       push: constant_body
     - match: '\b(?i:Dim|ReDim(?:\s+Preserve)?){{whitespace_or_end_of_statement}}'
-      scope: storage.modifier.source.asp
+      scope: storage.modifier.asp
       push: dim_body
     - match: '\b(?i:Private|Public(?!\s+Default))\s+(?!(?i:Function|Sub|Property))'
-      scope: storage.modifier.source.asp
+      scope: storage.modifier.asp
       push: dim_body
 
   constant_body:
     - include: not_end_of_statement
     - include: illegal_names
     - match: '{{identifier}}'
-      scope: meta.user-defined-constant.asp
+      scope: constant.other.asp
       set:
         - include: not_end_of_statement
         - match: '\s*(=)\s*'
@@ -259,7 +266,7 @@ contexts:
     - include: not_end_of_statement
     - include: illegal_names
     - match: '{{identifier}}'
-      scope: meta.variable-definition.asp
+      scope: variable.other.asp
       set:
         - include: allow_line_continuation
         - match: '(\()'
@@ -283,16 +290,19 @@ contexts:
     - include: unexpected_token
 
   method_definitions:
-    - match: '\b(?:(?i:Public(\s+Default)?|Private)\s+)?(?i:Sub|Function){{whitespace_or_end_of_statement}}'
-      scope: meta.method.source.asp meta.method.identifier.source.asp storage.type.function.asp
+    - match: '\b((?i:Public(?:\s+Default)?|Private)\s+)?((?i:Sub|Function)){{whitespace_or_end_of_statement}}'
+      captures:
+        0: meta.method.source.asp meta.method.identifier.source.asp
+        1: storage.modifier.asp
+        2: storage.type.function.asp
       push: [inside_method_without_meta, method_name_without_meta]
 
   method_name:
     - meta_content_scope: meta.method.source.asp meta.method.identifier.source.asp
     - include: allow_line_continuation
     - include: illegal_names
-    - match: '{{asp_builtin_events}}'
-      scope: support.function.event.asp entity.name.function.asp
+    - match: '{{asp_builtin_events}}|{{class_magic_funcs}}'
+      scope: entity.name.function.asp support.function.magic.event.asp
       set: after_method_name
     - match: '{{identifier}}'
       scope: entity.name.function.asp
@@ -301,7 +311,6 @@ contexts:
       set: inside_method
 
   after_method_name:
-    #- meta_content_scope: meta.method.source.asp meta.method.identifier.source.asp
     - match: \(
       scope: punctuation.definition.parameters.begin.asp
       set:
@@ -318,7 +327,7 @@ contexts:
             - include: not_end_of_statement
             - match: '((?i:ByRef|ByVal)\s+)?({{identifier}})'
               captures:
-                1: storage.type.asp
+                1: storage.modifier.reference.asp
                 2: variable.parameter.function.asp
               push:
                 - match: '(?=\)|$)'
@@ -336,7 +345,7 @@ contexts:
     - match: '\s+'
       scope: meta.method.source.asp meta.method.identifier.source.asp
     - match: ':'
-      scope: meta.method.source.asp keyword.operator.statement-separator.asp
+      scope: meta.method.source.asp punctuation.terminator.statement.asp
       pop: true
     - include: allow_line_continuation
     - match: $
@@ -422,7 +431,7 @@ contexts:
       scope: storage.type.asp
     - include: operators
     - match: '\b(?i:New){{whitespace_or_end_of_statement}}'
-      scope: keyword.asp
+      scope: keyword.other.new.asp
       push: expect_identifier_reference
     - match: '{{reserved_words}}'
       scope: invalid.illegal.unexpected-token.literal.asp
@@ -432,46 +441,44 @@ contexts:
     - match: '\b((?i:Request))\b(?:(?i:(\.)(?:(BinaryRead)|(ClientCertificate|Cookies|Form|QueryString|ServerVariables)|(TotalBytes)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524948%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
         4: support.class.collection.asp
         5: support.property.asp
     - match: '\b((?i:Response))\b(?:(?i:(\.)(?:(AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write)|(Buffer|CacheControl|Charset|CodePage|ContentType|Expires|ExpiresAbsolute|IsClientConnected|LCID|PICS|Status)|(Cookies)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525405%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
     - match: '\b((?i:Server))\b(?:(?i:(\.)(?:(CreateObject|Execute|GetLastError|HTMLEncode|MapPath|Transfer|URLEncode)|(ScriptTimeout)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525541%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
     - match: '\b((?i:Server))\b(?:(?i:(\.)(?:(Abandon)|(CodePage|LCID|SessionID|Timeout)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
     - match: '\b((?i:ObjectContext))\b(?:(?i:(\.)(SetAbort|SetComplete))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525667%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
     - match: '\b((?i:Application))\b(?:(?i:(\.)(?:(Lock|Unlock)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
-        2: keyword.object-access.asp
+        2: punctuation.accessor.asp
         3: support.function.asp
         4: support.class.collection.asp
-    - match: '{{asp_builtin_events}}'
-      scope: support.function.event.asp
     - match: '{{identifier}}'
       captures:
-        0: meta.variable-reference.asp
+        0: variable.other.asp
         #1: invalid.illegal.unclosed-variable-identifier.asp
     - match: \(
       push: inside_parens
@@ -492,13 +499,21 @@ contexts:
   operators:
     - match: '(?i:Is\s+Not\b)' # the correct syntax is: If Not (x Is y) Then ' the parens are optional but make it clearer
       scope: invalid.illegal.unexpected-token.asp
-    - match: '{{operators}}'
-      scope: keyword.operator.asp
+    - match: '{{math_operators}}\s*=' # ASP does not support shorthand
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '><' # ASP not equal comparison is <>
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '({{math_operators}}|{{comparison_operators}})|({{logical_operators}})'
+      captures:
+        1: keyword.operator.asp
+        2: keyword.operator.logical.asp
       push: expect_not_end_of_statement
     - match: ':'
-      scope: keyword.operator.statement-separator.asp
-    - match: \.
-      scope: keyword.object-access.asp
+      scope: punctuation.terminator.statement.asp
+    - match: (\.)(\.)?
+      captures:
+        1: punctuation.accessor.asp
+        2: invalid.illegal.unexpected-token.asp
       push:
         - match: '\s+' # . member access must be followed immediately by the identifier - no whitespace allowed
           scope: invalid.illegal.unexpected_token.asp

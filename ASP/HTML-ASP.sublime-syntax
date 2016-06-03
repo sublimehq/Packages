@@ -32,12 +32,12 @@ contexts:
         - include: asp_punctuation_begin
 
   begin_embedded_asp:
-    - meta_scope: source.asp.embedded.html
+    - meta_content_scope: source.asp.embedded.html
     - match: '(?=%>)'
       pop: true
     - include: scope:source.asp
 
   close_embedded_asp:
     - match: '%>'
-      scope: source.asp.embedded.html punctuation.section.embedded.end.asp
+      scope: punctuation.section.embedded.end.asp
       pop: true
