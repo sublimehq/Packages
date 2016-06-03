@@ -454,7 +454,7 @@ contexts:
       scope: keyword.control.conditional.js
       captures:
         1: punctuation.definition.keyword.js
-    - match: '(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript|_jscript_build|_jscript_version|_debug|_fast|[a-zA-Z]\w+)'
+    - match: '(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript_build|_jscript_version|_jscript|_debug|_fast|[a-zA-Z]\w+)'
       scope: variable.other.conditional.js
       captures:
         1: punctuation.definition.variable.js
