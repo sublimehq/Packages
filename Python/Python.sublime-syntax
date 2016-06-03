@@ -733,6 +733,11 @@ contexts:
     - match: $|(?=;|#)
       pop: true
 
+  line_continuation_inside_string:
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.line.python
+
   magic_function_names:
     - match: |-
         (?x)\b(__(?:
@@ -1000,7 +1005,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
-        - include: line_continuation
+        - include: line_continuation_inside_string
     # Single-line string, bytes
     - match: '([bB])(")'
       captures:
@@ -1241,7 +1246,7 @@ contexts:
         - include: escaped_unicode_char
         - include: escaped_char
         - include: constant_placeholder
-        - include: line_continuation
+        - include: line_continuation_inside_string
     # Single-line string, bytes
     - match: '([bB])('')'
       captures:

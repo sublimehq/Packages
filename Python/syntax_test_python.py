@@ -845,5 +845,9 @@ world'
 #     ^ - string.quoted.single.block.python
 #    ^ punctuation.definition.string.end.python
 
+x = 'hello\s world'
+#         ^^ - punctuation.separator.continuation.line.python
+#          ^^^^^^^^ - invalid.illegal.unexpected-text.python
+
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
