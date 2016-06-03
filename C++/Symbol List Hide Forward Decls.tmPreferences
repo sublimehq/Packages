@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>scope</key>
-    <string>(source.c | source.c++ | source.objc | source.objc++) &amp; (entity.name.class.forward-decl | entity.name.struct.forward-decl | entity.name.enum.forward-decl | entity.name.union.forward-decl)</string>
-    <key>settings</key>
-    <dict>
-        <key>showInSymbolList</key>
-        <integer>0</integer>
-        <key>showInIndexedSymbolList</key>
-        <integer>0</integer>
-    </dict>
+	<key>scope</key>
+	<string>(source.c | source.c++ | source.objc | source.objc++) &amp; (entity.name.class.forward-decl | entity.name.struct.forward-decl | entity.name.enum.forward-decl | entity.name.union.forward-decl)</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>0</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
+	</dict>
 </dict>
 </plist>

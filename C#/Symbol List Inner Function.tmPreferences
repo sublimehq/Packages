@@ -11,11 +11,9 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-		s/\s{2,}/ /g;
-		s/.*/  $0/g;
+			s/\s{2,}/ /g;
+			s/.*/  $0/g;
 		</string>
 	</dict>
-	<key>uuid</key>
-	<string>83649F69-8092-4EF4-9D3E-1942FF0A1B99</string>
 </dict>
 </plist>
