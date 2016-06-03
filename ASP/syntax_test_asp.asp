@@ -443,18 +443,18 @@
         
         Dim x _
            ,y()
-        '    ^^ meta.array.definition.asp punctuation.definition.array
+        '    ^^ punctuation.section.array
         a)
         '^ invalid.illegal.stray-close-bracket.asp
         a(
         ReDim arr(2,b)
        '^^^^^ storage.modifier.asp
        '      ^^^ variable.other.asp
-       '         ^^^^^ meta.array.definition.asp
+       '         ^ punctuation.section.array.begin.asp
        '          ^ constant.numeric.asp
-       '           ^ punctuation.definition.array.separator.asp
+       '           ^ punctuation.section.array.separator.asp
        '            ^ variable.other.asp - invalid.illegal - constant.numeric
-       '             ^ punctuation.definition.array.end.asp
+       '             ^ punctuation.section.array.end.asp
         
         ReDim arr(dim, other)
         '         ^^^ invalid.illegal
@@ -466,12 +466,11 @@
 '<- - invalid.illegal.unexpected-token.asp
 
         Dim a(0,&H5)
-        '    ^^^^^^^ meta.array.definition.asp
-        '    ^ punctuation.definition.array.begin.asp
+        '    ^ punctuation.section.array.begin.asp
         '     ^ constant.numeric.asp
-        '      ^ punctuation.definition.array.separator.asp
+        '      ^ punctuation.section.array.separator.asp
         '       ^^^ constant.numeric.asp
-        '          ^ punctuation.definition.array.end.asp
+        '          ^ punctuation.section.array.end.asp
         b = a Is Empty : Dim loop,nope : Dim foobar
        '^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
        '                               ^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
@@ -487,11 +486,10 @@
         ReDim Preserve arr ( &HA,c)
        '^^^^^^^^^^^^^^ storage.modifier.asp
        '               ^^^ variable.other.asp
-       '                   ^^^^^^^^ meta.array.definition.asp
-       '                   ^ punctuation.definition.array.begin.asp
+       '                   ^ punctuation.section.array.begin.asp
        '                     ^^^ constant.numeric.asp
-       '                        ^ punctuation.definition.array.separator.asp
-       '                          ^ punctuation.definition.array.end.asp
+       '                        ^ punctuation.section.array.separator.asp
+       '                          ^ punctuation.section.array.end.asp
         For x = LBound(a) to UBound(a) Step 2 'test
        '^^^ keyword.control.flow.asp
        '    ^ variable.other.asp

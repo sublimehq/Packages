@@ -271,16 +271,16 @@ contexts:
         - include: allow_line_continuation
         - match: '(\()'
           captures:
-            1: punctuation.definition.array.begin.asp
+            1: punctuation.section.array.begin.asp
           push:
-            - meta_scope: meta.array.definition.asp
+            #- meta_scope: meta.array.definition.asp
             - include: not_end_of_statement
             - match: \)
-              scope: punctuation.definition.array.end.asp
+              scope: punctuation.section.array.end.asp
               pop: true
             - include: expression
             - match: ','
-              scope: punctuation.definition.array.separator.asp
+              scope: punctuation.section.array.separator.asp
         - match: '\s*(,)\s*'
           captures:
             1: punctuation.separator.variable-declaration.asp
