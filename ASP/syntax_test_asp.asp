@@ -240,10 +240,10 @@
         With fs
        '^^^^ keyword.control.flow.asp
        '     ^^ variable.other.asp
-       '       ^ meta.with.block.asp
+       '       ^ meta.block.with.asp
             Set rs = .GetFile(Server.MapPath(path))
-            '        ^ meta.with.block.asp punctuation.accessor.asp
-            '                       ^ meta.with.block.asp punctuation.accessor.asp
+            '        ^ meta.block.with.asp punctuation.accessor.asp
+            '                       ^ meta.block.with.asp punctuation.accessor.asp
             GetModifiedDate = rs.DateLastModified
             Set rs = Nothing
            '^^^ storage.type.asp
@@ -251,7 +251,7 @@
            '         ^^^^^^^ storage.type.asp
         End With
        '^^^^^^^^ keyword.control.flow.asp
-       '        ^ - meta.with.block.asp
+       '        ^ - meta.block.with.asp
        
         Set fs = Nothing
         On Error Goto 0
@@ -280,7 +280,7 @@
        '         ^^^ keyword.operator.logical.asp
        '              ^ keyword.operator.asp - punctuation.definition.tag.end.html
        '                 ^^^^ keyword.control.flow.asp
-       '                     ^ meta.if.block.asp
+       '                     ^ meta.block.if.asp
             Exit Sub
            '^^^^^^^^ keyword.control.flow.asp
         ElseIf "abc>"<>"def= then " Then
@@ -291,13 +291,13 @@
        '                   ^ string.quoted.double.asp - keyword.operator.asp
        '                     ^^^^ string.quoted.double.asp - keyword.control.flow.asp
        '                            ^^^^ keyword.control.flow.asp
-       '                                ^ meta.if.block.asp
+       '                                ^ meta.block.if.asp
         ElseIf new TestClass Then
        '       ^^^ keyword.other.new.asp
        '           ^^^^^^^^^ variable
         Else
        '^^^^ keyword.control.flow.asp
-       '    ^ meta.if.block.asp
+       '    ^ meta.block.if.asp
             example = example - 1
             '                 ^ keyword.operator.asp
             example -= 1
@@ -306,14 +306,14 @@
             '                 ^ keyword.operator.asp
         End If
        '^^^^^^ keyword.control.flow.asp
-       '      ^ - meta.if.block.asp
+       '      ^ - meta.block.if.asp
     End Sub
    '^^^^^^^ storage.type.function.end.asp
     
     If 1 _
        = 2 Then Call DoSomething
     '      ^^^^ keyword.control.flow.asp
-    '          ^^^^^^^^^^^^^^^^^ meta.if.line.asp - meta.if.block.asp
+    '          ^^^^^^^^^^^^^^^^^ meta.if.line.asp - meta.block.if.asp
     '           ^^^^ storage.type.asp
     '                ^^^^^^^^^^^ variable
     '                           ^ - meta.if.line.asp
@@ -348,17 +348,17 @@
     '           ^^^^^^^ storage.type.asp
     
     If a Then
-        '    ^ meta.if.block.asp - meta.if.line.asp
+        '    ^ meta.block.if.asp - meta.if.line.asp
         DoSomething ( invalid_token_inside_parens, 2, if )
        '                                              ^^ invalid.illegal.unexpected-token.literal.asp
        '^^^^^^^^^^^ variable
     ElseIf a = b Then AnotherSomething ' despite this being on the same line as the ElseIf, the End If is still required because the opening if statement was a block
-    '                ^ meta.if.block.asp - meta.if.line.asp
+    '                ^ meta.block.if.asp - meta.if.line.asp
     Else DoSomethingElse ' despite this being on the same line as the Else, the End If is still required because the opening if statement was a block
    '^^^^ keyword.control.flow.asp
-   '    ^^^^^^^^^^^^^^^^ meta.if.block.asp
+   '    ^^^^^^^^^^^^^^^^ meta.block.if.asp
     End If
-   '      ^ - meta.if.block.asp
+   '      ^ - meta.block.if.asp
     
     If a Then Call
     
@@ -395,12 +395,12 @@
     '            ^^^ keyword.operator.asp
     Select Case call value:Case 1
    '^^^^^^^^^^^ keyword.control.flow.asp
-   '            ^^^^ meta.select.block.asp invalid.illegal.unexpected-token.literal.asp
-   '                      ^ meta.select.block.asp punctuation.terminator.statement.asp
+   '            ^^^^ meta.block.select.asp invalid.illegal.unexpected-token.literal.asp
+   '                      ^ meta.block.select.asp punctuation.terminator.statement.asp
    '                       ^^^^ keyword.control.flow.asp
         Case 2
        '^^^^ keyword.control.flow.asp
-'<- meta.select.block.asp
+'<- meta.block.select.asp
         Case
         Case vbNullString
        '^^^^ keyword.control.flow.asp
@@ -416,10 +416,10 @@
             '             ^^ keyword.operator.logical.asp
             '                                   ^^ - keyword.operator
             '                                        ^^^^^^^ support.type.vb.asp
-'<- meta.select.block.asp
+'<- meta.block.select.asp
     End Select
    '^^^^^^^^^^ keyword.control.flow.asp
-   '          ^ - meta.select.block.asp
+   '          ^ - meta.block.select.asp
     'the underscore in this comment should be ignored _ as should the colon :
     '                                                 ^ comment.line.apostrophe.asp - keyword - invalid.illegal - punctuation
     '                                                                       ^ comment.line.apostrophe.asp - keyword - punctuation - invalid.illegal
@@ -501,7 +501,7 @@
        '                     ^^^^^^ support.function.vb.asp
        '                               ^^^^ keyword.control.flow.asp
        '                                    ^ constant.numeric.asp
-       '                                     ^ meta.for.block.asp
+       '                                     ^ meta.block.for.asp
        '                                      ^^^^^^ comment.line.apostrophe.asp
             a(x) = x * 10
            '^ variable.other.asp
@@ -512,7 +512,7 @@
            '         ^ keyword.operator.asp
         Next
        '^^^^ keyword.control.flow.asp
-       '    ^ - meta.for.block.asp
+       '    ^ - meta.block.for.asp
     End Sub
     
     Sub NoParens fg
@@ -592,7 +592,7 @@
    '^^^^^^^^ keyword.control.flow.asp
    '         ^^^^^^ variable.other.asp
    '                ^^ keyword.control.flow.asp
-   '                                  ^ meta.for.block.asp
+   '                                  ^ meta.block.for.asp
         Response.Write(vbCrLf & cookie)
        '^^^^^^^^ support.class.asp
        '        ^ punctuation.accessor.asp
@@ -616,7 +616,7 @@
        '        ^^ keyword.operator.asp
     Next
    '^^^^ keyword.control.flow.asp
-   '    ^ - meta.for.block.asp
+   '    ^ - meta.block.for.asp
     
     If 
    '^^ keyword.control.flow.asp
@@ -625,12 +625,12 @@
    '^ - meta.between-if-and-then.asp
     
     Do
-   '^^ meta.do.block.asp keyword.control.flow.asp
+   '^^ meta.block.do.asp keyword.control.flow.asp
         Exit Do
-       '^^^^^^^ meta.do.block.asp keyword.control.flow.asp
+       '^^^^^^^ meta.block.do.asp keyword.control.flow.asp
     Loop
    '^^^^ keyword.control.flow.asp
-   '    ^ - meta.do.block.asp
+   '    ^ - meta.block.do.asp
     
     Do
         Exit Do
@@ -639,7 +639,7 @@
    '           ^ variable.other.asp
    '             ^ keyword.operator.asp
    '               ^ variable.other.asp
-   '                ^ - meta.do.block.asp
+   '                ^ - meta.block.do.asp
     
     Do
         Exit Do
@@ -647,14 +647,14 @@
    '^^^^^^^^^^ keyword.control.flow.asp
    '           ^ variable.other.asp
    '                ^ variable.other.asp
-   '                 ^ - meta.do.block.asp - meta.while.block.asp
+   '                 ^ - meta.block.do.asp - meta.block.while.asp
     
     While True
-   '^^^^^ meta.while.block.asp keyword.control.flow.asp
+   '^^^^^ meta.block.while.asp keyword.control.flow.asp
         ' ^^^^ storage.type.asp - variable.other.asp
     Wend
    '^^^^ keyword.control.flow.asp
-   '    ^ - meta.while.block.asp
+   '    ^ - meta.block.while.asp
    
     Application.Lock
    '^^^^^^^^^^^ support.class.asp - variable.other.asp
@@ -701,7 +701,7 @@
        '^^^^ variable.other.asp
         Do While Line < 2000
        '^^^^^^^^ keyword.control.flow.asp
-       '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp - meta.while.block.asp
+       '^^^^^^^^^^^^^^^^^^^^^ meta.block.do.asp - meta.block.while.asp
        '         ^^^^ variable.other.asp
        '              ^ keyword.operator.asp
        '                ^^^^ constant.numeric.asp
@@ -717,13 +717,13 @@
            '^^^^^^^^ keyword.control.flow.asp
            '         ^^^^ variable.other.asp
            '                ^^^^ variable.other.asp
-           '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp meta.do.block.asp - invalid.illegal
+           '^^^^^^^^^^^^^^^^^^^^^ meta.block.do.asp meta.block.do.asp - invalid.illegal
                 ' this code will never run
             loop
            '^^^^ keyword.control.flow.asp
         Loop
        '^^^^ keyword.control.flow.asp
-       '    ^ - meta.do.block.asp
+       '    ^ - meta.block.do.asp
         
         objTextFile.Close
         
@@ -844,23 +844,23 @@ test = "hello%>
 '^^^^^^ text.html.asp meta.tag.block.any.html entity.name.tag.block.any.html
     <% With abc %>
     '  ^^^^ keyword.control.flow.asp
-    '           ^^ text.html.asp source.asp.embedded.html meta.with.block.asp punctuation.section.embedded.end.inside-block.asp
+    '           ^^ text.html.asp source.asp.embedded.html meta.block.with.asp punctuation.section.embedded.end.inside-block.asp
         <p>Some conditional content in the footer</p>
-        '<- text.html.asp source.asp.embedded.html meta.with.block.asp meta.tag.block.any.html punctuation.definition.tag.begin.html
+        '<- text.html.asp source.asp.embedded.html meta.block.with.asp meta.tag.block.any.html punctuation.definition.tag.begin.html
     <% End With %>
-   '^^ meta.with.block.asp punctuation.section.embedded.begin.inside-block.asp
+   '^^ meta.block.with.asp punctuation.section.embedded.begin.inside-block.asp
    '   ^^^^^^^^ keyword.control.flow.asp
-   '            ^^ punctuation.section.embedded.end.asp - meta.with.block.asp
+   '            ^^ punctuation.section.embedded.end.asp - meta.block.with.asp
    '              ^ - source.asp.embedded.html
     <% If abc = "def" Then %>
-    '                     ^^^^ meta.if.block.asp - meta.if.line.asp
+    '                     ^^^^ meta.block.if.asp - meta.if.line.asp
         <span id="span1">Text here</span>
-        '     ^^ text.html.asp source.asp.embedded.html meta.if.block.asp meta.tag.inline.any.html meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-        '                         ^^ text.html.asp source.asp.embedded.html meta.if.block.asp meta.tag.inline.any.html punctuation.definition.tag.begin.html
+        '     ^^ text.html.asp source.asp.embedded.html meta.block.if.asp meta.tag.inline.any.html meta.attribute-with-value.id.html entity.other.attribute-name.id.html
+        '                         ^^ text.html.asp source.asp.embedded.html meta.block.if.asp meta.tag.inline.any.html punctuation.definition.tag.begin.html
     <% End If %>
-    '^^ meta.if.block.asp
+    '^^ meta.block.if.asp
     '  ^^^^^^ keyword.control.flow.asp
-    '        ^^^^ - meta.if.block.asp
+    '        ^^^^ - meta.block.if.asp
    
 </footer><% [%><br />
 '            ^^ punctuation.section.embedded.end.asp
@@ -871,16 +871,16 @@ test = "hello%>
   <ul>
 <%
         for each item in list
-       '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
-       '              ^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
+       '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.block.for.asp keyword.control.flow.asp
+       '              ^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.block.for.asp keyword.control.flow.asp
             %><li><%= item %></li><%
-           '^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp
+           '^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.block.for.asp
            '  ^ meta.tag.inline.any.html punctuation.definition.tag.begin.html
            '      ^^^ punctuation.section.embedded.begin.inside-block.asp
            '               ^^ punctuation.section.embedded.end.inside-block.asp
         Next
        '^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp keyword.control.flow.asp
-       '    ^ - meta.for.block.asp
+       '    ^ - meta.block.for.asp
 %></ul>
 <% End Sub %>
 '  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp storage.type.function.end.asp
@@ -896,11 +896,11 @@ test = "hello%>
 '             ^^ keyword.control.flow.asp
 '                ^^^^ meta.between-if-and-then.asp storage.type.asp
 '                     ^^^^ keyword.control.flow.asp
-'                         ^^^^^^^^^^ meta.if.block.asp
+'                         ^^^^^^^^^^ meta.block.if.asp
 '                          ^^ punctuation.section.embedded.end.inside-block.asp
 '                                ^^ punctuation.section.embedded.begin.inside-block.asp
 '                                   ^^^^^^ keyword.control.flow.asp
-'                                          ^^ punctuation.section.embedded.end.asp - meta.if.block.asp
+'                                          ^^ punctuation.section.embedded.end.asp - meta.block.if.asp
 '                                             ^ punctuation.definition.tag.end.html
 
  <p <%= "class=""test""" %> id="test1"></p>

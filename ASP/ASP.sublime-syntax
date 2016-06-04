@@ -377,7 +377,7 @@ contexts:
       scope: keyword.control.flow.asp
       push: [inside_control_flow_select, expression_until_end_of_statement, expect_not_end_of_statement]
     - match: '\b(?i:Do){{whitespace_or_end_of_statement}}'
-      scope: meta.do.block.asp keyword.control.flow.asp
+      scope: meta.block.do.asp keyword.control.flow.asp
       push:
         - match: '\s+(?i:While|Until){{whitespace_or_end_of_statement}}'
           scope: keyword.control.flow.asp
@@ -520,7 +520,7 @@ contexts:
         - include: expect_not_end_of_statement
 
   inside_control_flow_with:
-    - meta_scope: meta.with.block.asp
+    - meta_scope: meta.block.with.asp
     - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
@@ -538,7 +538,7 @@ contexts:
     - include: inside_control_flow_if_common
 
   inside_control_flow_if_block:
-    - meta_scope: meta.if.block.asp
+    - meta_scope: meta.block.if.asp
     - match: '\b(?i:ElseIf){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: elseif_then_block
@@ -559,7 +559,7 @@ contexts:
     - include: statements
 
   inside_control_flow_select:
-    - meta_scope: meta.select.block.asp
+    - meta_scope: meta.block.select.asp
     - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
@@ -583,7 +583,7 @@ contexts:
     - include: expression
 
   inside_control_flow_do:
-    - meta_scope: meta.do.block.asp
+    - meta_scope: meta.block.do.asp
     - include: inside_block
     - match: '\b(?i:Loop){{whitespace_or_end_of_statement}}'
       set:
@@ -596,7 +596,7 @@ contexts:
     - include: statements
 
   inside_control_flow_while:
-    - meta_scope: meta.while.block.asp
+    - meta_scope: meta.block.while.asp
     - include: inside_block
     - match: '\b(?i:Wend){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
@@ -604,7 +604,7 @@ contexts:
     - include: statements
 
   inside_control_flow_for:
-    - meta_scope: meta.for.block.asp
+    - meta_scope: meta.block.for.asp
     - include: inside_block
     - match: '\b(?i:Next){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
@@ -612,13 +612,13 @@ contexts:
     - include: statements
 
   control_flow_foreach_in:
-    - meta_scope: meta.for.block.asp
+    - meta_scope: meta.block.for.asp
     - match: '\b(?i:In){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: [inside_control_flow_for, expression_until_end_of_statement]
 
   control_flow_forto:
-    - meta_scope: meta.for.block.asp
+    - meta_scope: meta.block.for.asp
     - match: '\b(?i:To){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: [inside_control_flow_for, for_after_to, expect_not_end_of_statement]
