@@ -13,7 +13,7 @@
 		<string>(?x)(^\s*(
 			((?i:private|public(?!\s+default))\s+)?(?i:function|sub|property)\s
 			|
-			(?i:class|if|select\s+case|with|do|for)\s
+			(?i:class|if|select\s+case|with|do|for|while)\s
 		))</string>
 	</dict>
 </dict>
