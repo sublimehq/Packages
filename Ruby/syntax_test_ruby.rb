@@ -51,17 +51,17 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 ##################
 
 lower_snake_case = 1
-# ^^^^^^^^^^^^^^ -meta.constant.ruby -entity.name.type.constant.ruby
+# ^^^^^^^^^^^^^^ -meta.constant.ruby -entity.name.constant.ruby
 lowerCamelCase = 2
-# ^^^^^^^^^^^^ -meta.constant.ruby -entity.name.type.constant.ruby
+# ^^^^^^^^^^^^ -meta.constant.ruby -entity.name.constant.ruby
 UpperCamelCase = 3
-# ^^^^^^^^^^^^ meta.constant.ruby entity.name.type.constant.ruby
+# ^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 UPPER_SNAKE_CASE = 4
-# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.type.constant.ruby
+# ^^^^^^^^^^^^^^ meta.constant.ruby entity.name.constant.ruby
 A, B, C = 0
-# <- entity.name.type.constant
-#  ^ entity.name.type.constant
-#     ^ entity.name.type.constant
+# <- entity.name.constant
+#  ^ entity.name.constant
+#     ^ entity.name.constant
 
 Symbol === :foo
 # ^^^^ variable.other.constant.ruby -meta.constant.ruby
@@ -129,12 +129,12 @@ do |&bl| end
 
 module MyModule
 # <- keyword.control.module
-#      ^^^^^^^^ entity.name.type.module
+#      ^^^^^^^^ entity.name.module
 end
 
 module MyModule::OtherModule
 # <- keyword.control.module
-#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.type.module
+#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.module
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor
 end
@@ -264,17 +264,17 @@ class MyClass
 #                 ^ keyword.other.special-method.ruby
 
   FIELDS = %i[a b c]
-# ^ meta.constant.ruby entity.name.type.constant.ruby
+# ^ meta.constant.ruby entity.name.constant.ruby
 #        ^ keyword.operator.assignment.ruby
 #          ^^^ punctuation.definition.string.begin.ruby
 #             ^^^^^ string.quoted.other.literal.lower.ruby
 
   A, B, C = :a, :b, :c
-# ^ meta.constant.ruby entity.name.type.constant.ruby
+# ^ meta.constant.ruby entity.name.constant.ruby
 #  ^ punctuation.separator.ruby
-#    ^ meta.constant.ruby entity.name.type.constant.ruby
+#    ^ meta.constant.ruby entity.name.constant.ruby
 #     ^ punctuation.separator.ruby
-#       ^ meta.constant.ruby entity.name.type.constant.ruby
+#       ^ meta.constant.ruby entity.name.constant.ruby
 end
 
 

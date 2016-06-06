@@ -155,7 +155,7 @@ contexts:
     - meta_content_scope: meta.module.ruby
     - match: '(?=(::)?({{identifier}}::)*{{identifier}})'
       set:
-        - meta_content_scope: meta.module.ruby entity.name.type.module.ruby
+        - meta_content_scope: meta.module.ruby entity.name.module.ruby
         - include: name-parts
         - match: ''
           pop: true
@@ -182,7 +182,7 @@ contexts:
   constants:
     # constant definition, handles multiple definitions on a single line 'APPLE, ORANGE= 1, 2'
     - match: '\b([[:upper:]]\w*)(?=(\s*,\s*[[:upper:]]\w*)*\s*=(?![=\>]))'
-      scope: meta.constant.ruby entity.name.type.constant.ruby
+      scope: meta.constant.ruby entity.name.constant.ruby
     # Ruby 1.9 symbols
     - match: '{{identifier}}[?!]?(:)(?!:)'
       scope: constant.other.symbol.ruby
