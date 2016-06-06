@@ -258,7 +258,7 @@ contexts:
     - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
       push:
         - meta_scope: storage.type.generic.java
-        - match: '>|[^\w\s,\?<\[\]]'
+        - match: '>|[^\w\s,\?<\[\].]'
           pop: true
         - include: object-types
         - match: <
