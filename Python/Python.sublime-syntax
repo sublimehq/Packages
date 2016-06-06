@@ -26,7 +26,11 @@ variables:
 
 contexts:
   main:
-    - include: statements
+    # Push the statements context once the line at hand is not a docstring or comment
+    - match: (?i)(?!^\s*(#|[ur]{0,2}('''|""")))
+      push: statements
+    - match: ''
+      push: maybe_docstrings
 
   statements:
     - include: inline_statements

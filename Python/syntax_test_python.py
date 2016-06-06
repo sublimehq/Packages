@@ -1,6 +1,14 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
+r"""This is a syntax test file.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
+#^^^ punctuation.definition.comment.begin
+# <- storage.type.string
+
+And this right here, where we're writing in, is a docstring.
+"""
+
 ##################
 # Imports
 ##################
