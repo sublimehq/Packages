@@ -26,14 +26,14 @@ export { name1, name2 as name3 };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
-//            ^ punctuation.separator
+//            ^ punctuation.separator.comma
 //                    ^^ keyword.control.import-export
 
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^ storage.type
-//              ^ punctuation.separator
+//              ^ punctuation.separator.comma
 
 export var name3;
 //^^^^^^^^^^^^^^ meta.export
@@ -143,13 +143,42 @@ if (true)
 }
 
 // This is a comment function() { }
+// <- punctuation.definition.comment
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash
 
+/**
+// <- comment.block.documentation punctuation.definition.comment
+*/
+
+/*
+// <- comment.block punctuation.definition.comment
+*/
+
+<!-- -->
+// <- comment.block.html punctuation.definition.comment
+
+#! /usr/bin/env node
+// <- comment.line.shebang punctuation.definition.comment
+
+ #! /usr/bin/env node
+//^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
+
+/*@cc_on
+// <- punctuation.definition.comment
+//^ punctuation.definition.keyword
+//^^^^^^ comment.block.conditional keyword.control.conditional
+if (@_jscript_version==5.6) {}
+//  ^^^^^^^^^^^^^^^^^ variable.other.conditional
+//  ^ punctuation.definition.variable
+//                   ^^ keyword.operator.comparison
+@*/
+
 var str = '\':';
-var str2 = 0;
+var str2 = NaN;
 // <- storage.type
 //   ^ variable.other.readwrite
 //       ^ keyword.operator.assignment
+//         ^^^ constant.language.nan
 
 tag`Hello ${ a + b } world\nanother ${expression}.`;
 // <- variable.function.tagged-template.js
@@ -201,9 +230,10 @@ var obj = {
     "key4": true,
     // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string
-    'key5': true,
+    'key5': false,
     // <- meta.object-literal.key string.quoted.single
     //    ^ punctuation.separator.key-value - string
+    //      ^^^^^ constant.language.boolean.false
 
     funcKey: function() {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -242,7 +272,7 @@ var obj = {
     },
 
     key: 'str' + (true ? 'true' : 'false'),
-//                ^^^^ constant.language.boolean
+//                ^^^^ constant.language.boolean.true
 
     qux()
 //  ^^^^^ meta.function.declaration - meta.function.anonymous
@@ -274,6 +304,7 @@ $()
 $foo = null;
 // <- variable.other.dollar punctuation.dollar
 // ^ variable.other.dollar - punctuation.dollar
+//     ^^^^ constant.language.null
 
 baz = "";
 // <- variable.other.readwrite
@@ -284,8 +315,9 @@ var qux = 100;
 //   ^ variable.other.readwrite
 //         ^ constant.numeric
 
-if (100.0 > qux) {
+if (Infinity > qux) {
 // ^^^^^^^^^^^^^^^ meta.conditional
+//  ^^^^^^^^ constant.language.infinity
     a;
 //  ^ meta.conditional meta.block
 }
@@ -319,10 +351,19 @@ while (true)
 //     ^^^^ meta.group
 {
 // <- meta.block
+    yield;
+//  ^^^^^ keyword.control.flow
     break;
 //  ^^^^^^ meta.while meta.block
 }
 // <- meta.block
+
+with (undefined) {
+// <- keyword.control.with
+//^^^^^^^^^^ meta.with
+//    ^^^^^^^^^ constant.language.undefined
+    return;
+}
 
 switch ($foo) {
 // ^^^^^^^^^^^^ meta.switch
@@ -372,6 +413,7 @@ try {
 class MyClass extends TheirClass {
 // <- storage.type.class
 //    ^^^^^^^ entity.name.class
+//            ^^^^^^^ storage.modifier.extends
 //                               ^ meta.block
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -544,6 +586,14 @@ this.func()
 // <- variable.language.this
 self.func()
 // <- variable.language.self
+arguments;
+// <- variable.language.arguments
+super.func();
+// <- variable.language.super
+foo.constructor;
+//  ^^^^^^^^^^^ variable.language.constructor
+foo.__proto__
+//  ^^^^^^^^^ variable.language.proto
 
 var Constructor = function() {
     this._var = 1;
@@ -570,11 +620,18 @@ var abc = new ABC(
 new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
+//  ^^^^ support.class.builtin
 //        ^^^^^^^^^^ - meta.instance.constructor
+
+new $();
+//  ^ variable.type.dollar.only punctuation.dollar
+
+new $Dollar();
+//  ^ variable.type.dollar punctuation.dollar
 
 void {
     'test1': [],
-    'test2': new SomeOjbectHash["default"],
+    'test2': new SomeObjectHash["default"],
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
 //                             ^ meta.brackets
     'test3': "asdf"
@@ -610,6 +667,7 @@ width/2 + lineStart * Math.sin(i * 30 * π/180)
 
 var reg = /a+/gimy.exec('aabb')
 //        ^^^^^^^^ string.regexp
+//            ^^^^ keyword.other
 //                ^ punctuation.accessor
 
 'aabbcc'.replace(/b+/, 'd')
@@ -646,6 +704,7 @@ var result = 200 / 400 + 500 /
 100;
 
 var re = /
+//       ^ string.regexp punctuation.definition.string.begin
 [a-z]
 // ^ string.regexp.js
 /g
@@ -715,7 +774,7 @@ var test =
 // <- meta.object-literal punctuation.definition.block
 
 // Handle multi-line "concise" arrow function bodies
-var conciseFunc = () => 
+var conciseFunc = () =>
   foo
 //^^^ meta.block variable.other.readwrite
   .bar()
@@ -756,3 +815,35 @@ $var.fn.name = () => {}
 
 someFunction(() => [() => 'X']);
 //                           ^ punctuation.definition.brackets
+
+string = 'invalid
+//               ^ invalid.illegal.newline
+
+hex = 0xFA.5;
+//    ^^^^^^ invalid.illegal.numeric.hex
+
+octal = 079.0;
+//      ^^^^^ invalid.illegal.numeric.octal
+
+strayBracket = ());
+//               ^ invalid.illegal.stray-bracket-end
+
+function optionalParam(b=0) {};
+//                    ^ punctuation.definition.parameters.begin
+//                      ^^ meta.parameter.optional
+//                        ^ punctuation.definition.parameters.end
+
+var path = require('path');
+//  ^^^^ support.module.node
+
+foo = path.join(__dirname, bar);
+//              ^^^^^^^^^ support.type.object.node
+
+nodeClass = new Buffer();
+//              ^^^^^^ support.class.node
+
+var CONST;
+//  ^^^^^ variable.other.constant
+
+err = new Error();
+//        ^^^^^ support.class.error
