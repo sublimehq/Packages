@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: No Function Call</string>
 	<key>scope</key>
-	<string>source.ruby meta.function-call entity.name.function</string>
+	<string>source.ruby entity.name.function</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
-		<integer>0</integer>
+		<integer>1</integer>
+		<key>symbolIndexTransformation</key>
+		<string>/^([[:alnum:]_]+(::|\.))*//;</string>
 	</dict>
 </dict>
 </plist>
