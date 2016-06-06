@@ -4,7 +4,7 @@ public class SyntaxTest {
 // ^^^ storage.modifier.java
 //     ^^^^^ storage.modifier.java
 //     ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class.body.java
-//           ^^^^^^^^^^ entity.name
+//           ^^^^^^^^^^ entity.name.class.java
 //                     ^ - meta.class.identifier.java - meta.class.body.java
 //                      ^ meta.class.body.java
     private String memberString = "Hello";
@@ -105,6 +105,7 @@ public class SyntaxTest {
 }
 
 class AnyClass {
+//    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
 //           ^^ punctuation.definition.comment.java
@@ -122,7 +123,7 @@ public enum FooBaz {
 //     ^^^^ storage.modifier.java
 //^^^^^^^^^^^^^^^^^^^ meta.class.java
 //     ^^^^^^^^^^^  meta.class.identifier.java
-//          ^^^^^^ entity.name
+//          ^^^^^^ entity.name.class.java
     // This is a test
 //  ^^^^^^^^^^^^^^^^^^ comment.line
     UPLOAD("foo bar"), /* This a comment */

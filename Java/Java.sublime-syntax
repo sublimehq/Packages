@@ -105,7 +105,7 @@ contexts:
           scope: meta.class.identifier.java
           captures:
             1: storage.modifier.java
-            2: entity.name.type.class.java
+            2: entity.name.class.java
         - match: \bextends\b
           scope: storage.modifier.extends.java
           push:
