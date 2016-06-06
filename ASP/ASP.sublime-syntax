@@ -148,8 +148,10 @@ contexts:
         - include: unexpected_token
     - match: '\b(?i:Randomize\s+Timer){{whitespace_or_end_of_statement}}'
       scope: storage.type.asp
-    - match: '\b(?i:Call|Set){{whitespace_or_end_of_statement}}'
-      scope: storage.type.asp # maybe this should be a keyword instead?
+    - match: '\b(?i:(Call)|(Set)){{whitespace_or_end_of_statement}}'
+      captures:
+        1: keyword.other.call.asp
+        2: keyword.other.set.asp
       push: expect_identifier_reference
     - match: '\b(?i:Exit\s+(?:Sub|Function|Property|For|Do)){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
@@ -271,16 +273,16 @@ contexts:
         - include: allow_line_continuation
         - match: '(\()'
           captures:
-            1: punctuation.section.array.begin.asp
+            1: punctuation.definition.array.begin.asp
           push:
-            #- meta_scope: meta.array.definition.asp
+            - meta_scope: meta.array.definition.asp
             - include: not_end_of_statement
             - match: \)
-              scope: punctuation.section.array.end.asp
+              scope: punctuation.definition.array.end.asp
               pop: true
             - include: expression
             - match: ','
-              scope: punctuation.section.array.separator.asp
+              scope: punctuation.definition.array.separator.asp
         - match: '\s*(,)\s*'
           captures:
             1: punctuation.separator.variable-declaration.asp
@@ -377,7 +379,7 @@ contexts:
       scope: keyword.control.flow.asp
       push: [inside_control_flow_select, expression_until_end_of_statement, expect_not_end_of_statement]
     - match: '\b(?i:Do){{whitespace_or_end_of_statement}}'
-      scope: meta.block.do.asp keyword.control.flow.asp
+      scope: meta.do.block.asp keyword.control.flow.asp
       push:
         - match: '\s+(?i:While|Until){{whitespace_or_end_of_statement}}'
           scope: keyword.control.flow.asp
@@ -520,7 +522,7 @@ contexts:
         - include: expect_not_end_of_statement
 
   inside_control_flow_with:
-    - meta_scope: meta.block.with.asp
+    - meta_scope: meta.with.block.asp
     - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
@@ -538,7 +540,7 @@ contexts:
     - include: inside_control_flow_if_common
 
   inside_control_flow_if_block:
-    - meta_scope: meta.block.if.asp
+    - meta_scope: meta.if.block.asp
     - match: '\b(?i:ElseIf){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: elseif_then_block
@@ -559,7 +561,7 @@ contexts:
     - include: statements
 
   inside_control_flow_select:
-    - meta_scope: meta.block.select.asp
+    - meta_scope: meta.select.block.asp
     - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
@@ -583,7 +585,7 @@ contexts:
     - include: expression
 
   inside_control_flow_do:
-    - meta_scope: meta.block.do.asp
+    - meta_scope: meta.do.block.asp
     - include: inside_block
     - match: '\b(?i:Loop){{whitespace_or_end_of_statement}}'
       set:
@@ -596,7 +598,7 @@ contexts:
     - include: statements
 
   inside_control_flow_while:
-    - meta_scope: meta.block.while.asp
+    - meta_scope: meta.while.block.asp
     - include: inside_block
     - match: '\b(?i:Wend){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
@@ -604,7 +606,7 @@ contexts:
     - include: statements
 
   inside_control_flow_for:
-    - meta_scope: meta.block.for.asp
+    - meta_scope: meta.for.block.asp
     - include: inside_block
     - match: '\b(?i:Next){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
@@ -612,13 +614,13 @@ contexts:
     - include: statements
 
   control_flow_foreach_in:
-    - meta_scope: meta.block.for.asp
+    - meta_scope: meta.for.block.asp
     - match: '\b(?i:In){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: [inside_control_flow_for, expression_until_end_of_statement]
 
   control_flow_forto:
-    - meta_scope: meta.block.for.asp
+    - meta_scope: meta.for.block.asp
     - match: '\b(?i:To){{whitespace_or_end_of_statement}}'
       scope: keyword.control.flow.asp
       set: [inside_control_flow_for, for_after_to, expect_not_end_of_statement]
