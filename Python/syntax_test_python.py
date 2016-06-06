@@ -284,9 +284,11 @@ class UnicødeIdentifier():
     def résumé():
 #       ^^^^^^ entity.name.function
         """
+#       ^^^ punctuation.definition.comment.begin
         A function-level docstring
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
         """
-#       ^^^ comment.block.documentation.python
+#       ^^^ punctuation.definition.comment.end
 
         yield from range(100)
 #       ^^^^^ keyword.control.flow
@@ -302,9 +304,10 @@ class MyClass(Inherited,
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                ^ punctuation.separator.inheritance
 #                                  TODO
-    """
+    ur'''
+#   ^^ storage.type.string
     This is a test of docstrings
-    """
+    '''
 #   ^^^ comment.block.documentation.python
     pass
 
