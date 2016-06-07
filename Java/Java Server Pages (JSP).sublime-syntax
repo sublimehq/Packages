@@ -59,7 +59,7 @@ contexts:
                   scope: constant.character.escape.jsp
     - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
       captures:
-        1: punctuation.section.embedded.jsp
+        1: punctuation.section.embedded.begin.jsp
         2: meta.tag.block.jsp
       push:
         - match: (?<=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>)
@@ -67,7 +67,7 @@ contexts:
         - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
           captures:
             1: meta.tag.block.jsp
-            2: punctuation.section.embedded.jsp
+            2: punctuation.section.embedded.end.jsp
         - match: '(?<!\n)(?!</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})'
           push:
             - meta_scope: source.java.embedded.html
@@ -81,12 +81,12 @@ contexts:
             - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
               captures:
                 1: meta.tag.block.jsp
-                2: punctuation.section.embedded.jsp
+                2: punctuation.section.embedded.end.jsp
               push:
                 - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%[!=]?)"
                   captures:
                     1: meta.tag.block.jsp
-                    2: punctuation.section.embedded.jsp
+                    2: punctuation.section.embedded.begin.jsp
                   pop: true
                 - include: scope:text.html.jsp
             - include: scope:source.java

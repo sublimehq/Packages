@@ -143,6 +143,8 @@ contexts:
       push:
         - match: "}"
           pop: true
+        - match: "(?=%>)"
+          pop: true
         - include: code
     - include: assertions
     - include: parens
