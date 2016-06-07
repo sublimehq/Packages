@@ -1,6 +1,14 @@
 # SYNTAX TEST "Packages/Python/Python.sublime-syntax"
 # <- source.python comment.line.number-sign punctuation.definition.comment
 
+r"""This is a syntax test file.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
+#^^^ punctuation.definition.comment.begin
+# <- storage.type.string
+
+And this right here, where we're writing in, is a docstring.
+"""
+
 ##################
 # Imports
 ##################
@@ -284,9 +292,11 @@ class UnicødeIdentifier():
     def résumé():
 #       ^^^^^^ entity.name.function
         """
+#       ^^^ punctuation.definition.comment.begin
         A function-level docstring
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
         """
-#       ^^^ comment.block.documentation.python
+#       ^^^ punctuation.definition.comment.end
 
         yield from range(100)
 #       ^^^^^ keyword.control.flow
@@ -302,9 +312,10 @@ class MyClass(Inherited,
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                ^ punctuation.separator.inheritance
 #                                  TODO
-    """
+    ur'''
+#   ^^ storage.type.string
     This is a test of docstrings
-    """
+    '''
 #   ^^^ comment.block.documentation.python
     pass
 

@@ -26,7 +26,11 @@ variables:
 
 contexts:
   main:
-    - include: statements
+    # Push the statements context once the line at hand is not a docstring or comment
+    - match: (?i)(?!^\s*(#|[ur]{0,2}('''|""")))
+      push: statements
+    - match: ''
+      push: maybe_docstrings
 
   statements:
     - include: inline_statements
@@ -317,7 +321,7 @@ contexts:
         - include: line_continuation_or_pop
         - match: ':'
           scope: punctuation.section.class.begin.python
-          set: maybe-docstrings
+          set: maybe_docstrings
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.class.python
@@ -336,7 +340,7 @@ contexts:
                     - include: line_continuation_or_pop
                     - match: ':'
                       scope: meta.class.python punctuation.section.class.begin.python
-                      set: maybe-docstrings
+                      set: maybe_docstrings
                     - match: (?=\S)
                       pop: true
                 - match: ':'
@@ -363,7 +367,7 @@ contexts:
         - include: line_continuation_or_pop
         - match: ':'
           scope: punctuation.section.function.begin.python
-          set: maybe-docstrings
+          set: maybe_docstrings
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
@@ -418,7 +422,7 @@ contexts:
         - include: expressions # includes line_continuation
     - match: ':'
       scope: punctuation.section.function.begin.python
-      set: maybe-docstrings
+      set: maybe_docstrings
     - include: comments
     - match: (?=\S)
       pop: true
@@ -759,17 +763,25 @@ contexts:
       comment: magic variables which a class/module may have.
       scope: support.variable.magic.python
 
-  maybe-docstrings:
+  maybe_docstrings:
     - include: comments
     - match: '(?i)(ur|ru|u|r)?(""")'
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.comment.begin.python
       push:
         - meta_scope: comment.block.documentation.python
         - match: '"""'
+          scope: punctuation.definition.comment.end.python
           pop: true
     - match: "(?i)(ur|ru|u|r)?(''')"
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.comment.begin.python
       push:
         - meta_scope: comment.block.documentation.python
         - match: "'''"
+          scope: punctuation.definition.comment.end.python
           pop: true
     - match: (?=\S)
       pop: true
