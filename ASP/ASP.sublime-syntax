@@ -169,22 +169,21 @@ contexts:
       push: [inside_class, class_name]
 
   class_name:
-    - meta_scope: meta.class.source.asp meta.class.identifier.source.asp
+    - meta_scope: meta.class.asp meta.class.identifier.asp
     - include: allow_line_continuation
     - include: illegal_names
     - match: '{{identifier}}'
-      scope: entity.name.class.source.asp
+      scope: entity.name.class.asp
       pop: true
     - include: unexpected_token
 
   inside_class:
-    - meta_content_scope: meta.class.source.asp meta.class.body.source.asp
+    - meta_content_scope: meta.class.asp meta.class.body.asp
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       set:
-        - meta_scope: meta.class.source.asp meta.class.body.source.asp storage.type.class.end.asp
+        - meta_scope: meta.class.asp meta.class.body.asp storage.type.class.end.asp
         - include: allow_line_continuation
         - match: '\b(?i:Class){{whitespace_or_end_of_statement}}'
-          #scope: meta.class.source.asp meta.class.body.source.asp
           pop: true
         - include: unexpected_token
     - include: method_definitions
@@ -193,7 +192,7 @@ contexts:
         1: storage.modifier.asp
         2: storage.type.function.asp
       push:
-        - meta_scope: meta.method.source.asp meta.method.identifier.source.asp
+        - meta_scope: meta.method.asp meta.method.identifier.asp
         - meta_content_scope: storage.type.function.asp
         - include: not_end_of_statement
         - match: '\b(?i:Get|Let|Set){{whitespace_or_end_of_statement}}'
@@ -294,13 +293,13 @@ contexts:
   method_definitions:
     - match: '\b((?i:Public(?:\s+Default)?|Private)\s+)?((?i:Sub|Function)){{whitespace_or_end_of_statement}}'
       captures:
-        0: meta.method.source.asp meta.method.identifier.source.asp
+        0: meta.method.asp meta.method.identifier.asp
         1: storage.modifier.asp
         2: storage.type.function.asp
       push: [inside_method_without_meta, method_name_without_meta]
 
   method_name:
-    - meta_content_scope: meta.method.source.asp meta.method.identifier.source.asp
+    - meta_content_scope: meta.method.asp meta.method.identifier.asp
     - include: allow_line_continuation
     - include: illegal_names
     - match: '{{asp_builtin_events}}|{{class_magic_funcs}}'
@@ -316,7 +315,7 @@ contexts:
     - match: \(
       scope: punctuation.definition.parameters.begin.asp
       set:
-        - meta_scope: meta.method.source.asp meta.method.identifier.source.asp
+        - meta_scope: meta.method.asp meta.method.identifier.asp
         - match: \)
           scope: punctuation.definition.parameters.end.asp
           pop: true
@@ -345,9 +344,9 @@ contexts:
             - match: '(?:(?![,)])\S)+'
               scope: invalid.illegal.unexpected-token.asp
     - match: '\s+'
-      scope: meta.method.source.asp meta.method.identifier.source.asp
+      scope: meta.method.asp meta.method.identifier.asp
     - match: ':'
-      scope: meta.method.source.asp punctuation.terminator.statement.asp
+      scope: meta.method.asp punctuation.terminator.statement.asp
       pop: true
     - include: allow_line_continuation
     - match: $
@@ -355,15 +354,15 @@ contexts:
     - include: unexpected_token
 
   inside_method:
-    - meta_content_scope: meta.method.source.asp meta.method.body.source.asp
+    - meta_content_scope: meta.method.asp meta.method.body.asp
     - include: inside_block
     - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
       scope: storage.type.function.end.asp
       set:
-        - meta_content_scope: meta.method.source.asp storage.type.function.end.asp
+        - meta_content_scope: meta.method.asp storage.type.function.end.asp
         - include: allow_line_continuation
         - match: '\b(?i:Function|Sub|Property){{whitespace_or_end_of_statement}}'
-          scope: meta.method.source.asp storage.type.function.end.asp
+          scope: meta.method.asp storage.type.function.end.asp
           pop: true
         - include: unexpected_token
     - include: statements

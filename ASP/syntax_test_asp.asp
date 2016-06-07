@@ -31,13 +31,13 @@
    '^^^^^^^^^^^^^^^ keyword
     
     Class TestClass
-   '^^^^^^^^^^^^^^^ meta.class.source.asp meta.class.identifier.source.asp
+   '^^^^^^^^^^^^^^^ meta.class.asp meta.class.identifier.asp
    '^^^^^ storage.type.asp
-   '      ^^^^^^^^^ meta.class.source.asp meta.class.identifier.source.asp entity.name.class.source.asp
+   '      ^^^^^^^^^ meta.class.asp meta.class.identifier.asp entity.name.class.asp
         ' comment
        '^^^^^^^^^^ comment.line.apostrophe.asp
         Private m_NameVar
-       '^^^^^^^ storage.modifier.asp - meta.method.identifier.source.asp
+       '^^^^^^^ storage.modifier.asp - meta.method.identifier.asp
        '        ^^^^^^^^^ variable.other.asp
         Private m_CategoryVar
         Public Const a = 2e-3, b2="c""": const c = 4, const =
@@ -74,21 +74,21 @@
         End Sub
         
         Public Property Get Name()
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '^^^^^^ storage.modifier.asp
        '       ^^^^^^^^^^^^ storage.type.function.asp
        '                    ^^^^ entity.name.function.asp
        '                        ^ punctuation.definition.parameters.begin.asp - entity.name.function.asp
        '                         ^ punctuation.definition.parameters.end.asp
             Name = m_NameVar
-'<- meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+'<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
         End Property
-       '^^^^^^^^^^^^ meta.method.source.asp
+       '^^^^^^^^^^^^ meta.method.asp
        '^^^^^^^^^^^^ storage.type.function.end.asp
-       '            ^ - meta.method.source.asp - meta.method.body.source.asp - storage.type.function.end.asp
+       '            ^ - meta.method.asp - meta.method.body.asp - storage.type.function.end.asp
         
         public property let Name(nameParam)
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '^^^^^^ storage.modifier.asp
        '       ^^^^^^^^^^^^ storage.type.function.asp
        '                    ^^^^ entity.name.function.asp - storage.type.function.asp
@@ -99,62 +99,62 @@
         End Property
         
         Public Property Get Category
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '       ^^^^^^^^^^^^ storage.type.function.asp
        '                    ^^^^^^^^ entity.name.function.asp
             Category = m_CategoryVar
-'<- meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+'<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
         End Property
         
         Property Let Category(categoryParam
-       '^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+       '^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '^^^^^^^^^^^^ storage.type.function.asp
        '             ^^^^^^^^ entity.name.function.asp
        '                     ^ punctuation.definition.parameters.begin.asp
        '                      ^^^^^^^^^^^^^ variable.parameter.function.asp
        '                                   ^ invalid.illegal.unexpected-end-of-statement.asp
             m_CategoryVar = categoryParam
-'<- meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+'<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
         End Property
-       '^^^^^^^^^^^^ meta.method.source.asp
+       '^^^^^^^^^^^^ meta.method.asp
        '^^^^^^^^^^^^ storage.type.function.end.asp
-       '            ^ - meta.method.source.asp - meta.method.body.source.asp - storage.type.function.end.asp
+       '            ^ - meta.method.asp - meta.method.body.asp - storage.type.function.end.asp
         
         Private Property Set Category(categoryParam) Set m_CategoryVar = categoryParam End Property
        '^^^^^^^ storage.modifier.asp
-       '        ^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp storage.type.function.asp - meta.method.body.source.asp
+       '        ^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp storage.type.function.asp - meta.method.body.asp
        '                     ^^^^^^^^ entity.name.function.asp
        '                             ^ punctuation.definition.parameters.begin.asp
        '                              ^^^^^^^^^^^^^ variable.parameter.function.asp
        '                                           ^ punctuation.definition.parameters.end.asp
        '                 ^^^ storage.type.function.asp - keyword - storage.type.asp
-       '                                            ^ meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+       '                                            ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
        '                                                                               ^^^^^^^^^^^^ storage.type.function.end.asp
-       '                                                                                           ^ - meta.method.source.asp - meta.method.body.source.asp
+       '                                                                                           ^ - meta.method.asp - meta.method.body.asp
         
         Public Default Function Go rem no parens
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '^^^^^^^^^^^^^^ storage.modifier.asp
        '               ^^^^^^^^ storage.type.function.asp
        '                        ^^ entity.name.function.asp
        '                           ^^^^^^^^^^^^^ comment.line.rem.asp
             Go = "going... going... gone!"
-'<- meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+'<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
            '^^ - invalid.illegal
            '   ^ keyword.operator.asp
         End Function
-       '^^^^^^^^^^^^ meta.method.source.asp
+       '^^^^^^^^^^^^ meta.method.asp
        '^^^^^^^^^^^^ storage.type.function.end.asp
-       '            ^ - meta.method.source.asp - meta.method.body.source.asp
+       '            ^ - meta.method.asp - meta.method.body.asp
         
         Sub Test123:Call DoSomething:End Sub
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp
-       '^^^ meta.method.source.asp meta.method.identifier.source.asp storage.type.function.asp
-       '    ^^^^^^^ meta.method.identifier.source.asp entity.name.function.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp
+       '^^^ meta.method.asp meta.method.identifier.asp storage.type.function.asp
+       '    ^^^^^^^ meta.method.identifier.asp entity.name.function.asp
        '           ^ punctuation.terminator.statement.asp
-       '            ^^^^^^^^^^^^^^^^ meta.method.body.source.asp
+       '            ^^^^^^^^^^^^^^^^ meta.method.body.asp
        '                             ^^^^^^^ storage.type.function.end.asp
-       '                                    ^ - meta.method.source.asp - meta.method.body.source.asp
+       '                                    ^ - meta.method.asp - meta.method.body.asp
         
         Class SubClass ' nested classes are not allowed
 '<- - invalid.illegal.unexpected-token.asp
@@ -165,7 +165,7 @@
         Sub Test1234 Set x = y
                     '^^^ invalid.illegal.unexpected-token.asp
         End Sub
-       '^^^^^^^ meta.class.source.asp meta.method.source.asp storage.type.function.end.asp
+       '^^^^^^^ meta.class.asp meta.method.asp storage.type.function.end.asp
         
         code_in_class_definition_but_outside_of_a_method = "invalid"
        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token.asp
@@ -173,8 +173,8 @@
        '                                                   ^^^^^^^^^ invalid.illegal.unexpected-token.asp
     End Class
    '^^^^^^^^^ storage.type.class.end.asp
-   '^^^^^^^^^ meta.class.body.source.asp
-   '         ^ - storage.type.class.end.asp - meta.class.body.source.asp
+   '^^^^^^^^^ meta.class.body.asp
+   '         ^ - storage.type.class.end.asp - meta.class.body.asp
     
     Const blah = _
     
@@ -183,19 +183,19 @@
     '                  ^^^^^^^^^^^^^^ comment.line.rem.asp - string.quoted.double.asp
     
     Class TestClass2 Public Sub TestSub () Response.Write("wow") End Sub End Class
-   '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.source.asp
-   '^^^^^^^^^^^^^^^^ meta.class.identifier.source.asp
+   '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.asp
+   '^^^^^^^^^^^^^^^^ meta.class.identifier.asp
    '^^^^^ storage.type.asp
-   '      ^^^^^^^^^^ entity.name.class.source.asp
-   '                ^ - meta.class.identifier.source.asp
-   '                 ^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+   '      ^^^^^^^^^^ entity.name.class.asp
+   '                ^ - meta.class.identifier.asp
+   '                 ^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '                 ^^^^^^ storage.modifier.asp
    '                        ^^^ storage.type.function.asp
    '                            ^^^^^^^ entity.name.function.asp
    '                                    ^^ punctuation.definition.parameters
-   '                                      ^ meta.method.source.asp meta.method.body.source.asp - meta.method.identifier.source.asp
+   '                                      ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
    '                                                             ^^^^^^ storage.type.function.end.asp
-   '                                                                     ^^^^^^^^^ meta.class.body.source.asp
+   '                                                                     ^^^^^^^^^ meta.class.body.asp
    '                                                                     ^^^^^^^^^ storage.type.class.end.asp
    '                                                                              ^ - meta.class
     
@@ -216,17 +216,17 @@
    ' ^ punctuation.accessor.asp
     
     Function GetModifiedDate(path) ' test function
-   '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+   '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '                               ^ punctuation.definition.comment.asp
    '                               ^^^^^^^^^^^^^^^^ comment.line.apostrophe.asp
-   '                              ^ - meta.method.identifier.source.asp
+   '                              ^ - meta.method.identifier.asp
    '^^^^^^^^ storage.type.function.asp
    '         ^^^^^^^^^^^^^^^ entity.name.function.asp
    '                        ^ punctuation.definition.parameters.begin.asp
    '                         ^^^^ variable.parameter.function.asp
    '                             ^ punctuation.definition.parameters.end.asp
         On Error Resume Next
-'<- meta.method.body.source.asp - comment.line.apostrophe.asp
+'<- meta.method.body.asp - comment.line.apostrophe.asp
        '^^^^^^^^^^^^^^^^^^^^ storage.type.asp
         Set fs = Server.CreateObject("Scripting.FileSystemObject")
        '^^^ keyword.other.set.asp
@@ -264,7 +264,7 @@
    '           ^^^^^^^^^^^^^^^ variable
     
     Sub Example ()
-   '^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+   '^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '^^^ storage.type.function.asp
    '    ^^^^^^^ entity.name.function.asp
    '           ^ - entity.name.function.asp
@@ -428,18 +428,18 @@
  _ '         ^ punctuation.separator.continuation.line.asp
  _ '^^^ storage.type.function.asp
  _ '    ^^^^ entity.name.function.asp
- _ '^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+ _ '^^^^^^^^^ meta.method.asp meta.method.identifier.asp
             (_
- _ '        ^ meta.method.source.asp meta.method.identifier.source.asp punctuation.definition.parameters.begin.asp
+ _ '        ^ meta.method.asp meta.method.identifier.asp punctuation.definition.parameters.begin.asp
  _ '         ^ punctuation.separator.continuation.line.asp
              abc, ByRef def _
- _          '^^^ meta.method.source.asp meta.method.identifier.source.asp variable.parameter.function.asp
- _          '   ^ meta.method.source.asp meta.method.identifier.source.asp punctuation.separator.parameter-declaration.asp
- _          '     ^^^^^ meta.method.source.asp meta.method.identifier.source.asp storage.modifier.reference.asp
- _          '           ^^^ meta.method.source.asp meta.method.identifier.source.asp variable.parameter.function.asp
- _          '               ^ meta.method.source.asp meta.method.identifier.source.asp punctuation.separator.continuation.line.asp
+ _          '^^^ meta.method.asp meta.method.identifier.asp variable.parameter.function.asp
+ _          '   ^ meta.method.asp meta.method.identifier.asp punctuation.separator.parameter-declaration.asp
+ _          '     ^^^^^ meta.method.asp meta.method.identifier.asp storage.modifier.reference.asp
+ _          '           ^^^ meta.method.asp meta.method.identifier.asp variable.parameter.function.asp
+ _          '               ^ meta.method.asp meta.method.identifier.asp punctuation.separator.continuation.line.asp
              )
-            '^ meta.method.source.asp meta.method.identifier.source.asp punctuation.definition.parameters.end.asp
+            '^ meta.method.asp meta.method.identifier.asp punctuation.definition.parameters.end.asp
         
         Dim x _
            ,y()
@@ -518,17 +518,17 @@
     End Sub
     
     Sub NoParens fg
-    '   ^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp entity.name.function.asp
-    '            ^^ invalid.illegal.unexpected-token.asp - meta.method.identifier.source.asp
+    '   ^^^^^^^^ meta.method.asp meta.method.identifier.asp entity.name.function.asp
+    '            ^^ invalid.illegal.unexpected-token.asp - meta.method.identifier.asp
     End Sub
     
     Function NoParams'()
-   '^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+   '^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '         ^^^^^^^^ entity.name.function.asp
    '                 ^^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - punctuation.definition.parameters
         NoParams = InStr(1, "hello_'", "L", vbTextCompare)
-'<- meta.method.body.source.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.identifier.source.asp
-       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.source.asp meta.method.identifier.source.asp - invalid.illegal.expected-end-of-line.asp - comment.line.rem.asp
+'<- meta.method.body.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.identifier.asp
+       '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.asp meta.method.identifier.asp - invalid.illegal.expected-end-of-line.asp - comment.line.rem.asp
         '          ^^^^^ support.function.vb.asp
         '                                   ^^^^^^^^^^^^^ support.type.vb.asp
         Test = True Xor False
@@ -537,22 +537,22 @@
         '               ^^^^^ storage.type.asp
     End Function
     Sub Test2
-   '^^^ meta.method.source.asp meta.method.identifier.source.asp storage.type.function.asp
-    '   ^^^^^ meta.method.source.asp meta.method.identifier.source.asp entity.name.function.asp
+   '^^^ meta.method.asp meta.method.identifier.asp storage.type.function.asp
+    '   ^^^^^ meta.method.asp meta.method.identifier.asp entity.name.function.asp
         hello = world
-       '^ - entity.name.function.asp - meta.method.source.asp meta.method.identifier.source.asp
+       '^ - entity.name.function.asp - meta.method.asp meta.method.identifier.asp
     End Sub
     Call Test
    '^^^^ keyword.other.call.asp
     Call NoParams
     
          Sub Wow (test _ 'test
- ,def _ '^^^^^^^^^^^^^^^^^^^^^^ meta.method.source.asp meta.method.identifier.source.asp
+ ,def _ '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
       _ '^^^ storage.type.function.asp
         '    ^^^ entity.name.function.asp
         '                ^^^^^ invalid.illegal.expected-end-of-line.asp
     ) ' this bracket doesn't form part of the method declaration - the line above is missing a _ and contains non-whitespace
-   '^ meta.method.body.source.asp - meta.method.identifier.source.asp - punctuation.definition.parameters.end.asp
+   '^ meta.method.body.asp - meta.method.identifier.asp - punctuation.definition.parameters.end.asp
         MsgBox "hi", vbOkCancel or vbExclamation or vbDefaultButton1, "title"
         '            ^^^^^^^^^^ support.type.vb.asp - variable.other.asp
         '                       ^^ keyword.operator.logical.asp
@@ -688,9 +688,9 @@
    '^^^ storage.type.function.asp
    '    ^^^^^^^^^^^^ entity.name.function.asp
    '                ^^ punctuation.definition.parameters
-   '                  ^^^^ comment.line.rem.asp - meta.method.identifier.source.asp
+   '                  ^^^^ comment.line.rem.asp - meta.method.identifier.asp
         Const ForAppending = 8
-       '^^^^^ meta.method.body.source.asp storage.modifier.asp
+       '^^^^^ meta.method.body.asp storage.modifier.asp
         
         Set objFSO = CreateObject("Scripting.FileSystemObject")
        '    ^^^^^^ variable.other.asp
@@ -733,7 +733,7 @@
         Set objFSO = Nothing
     End _
       Sub
-    ' ^^^ storage.type.function.end.asp - meta.method.identifier.source.asp
+    ' ^^^ storage.type.function.end.asp - meta.method.identifier.asp
     
     a=3.4*.5*6.*0.25
     ' ^^^ constant.numeric.asp
@@ -868,25 +868,25 @@ test = "hello%>
 '            ^^ punctuation.section.embedded.end.asp
 '               ^^ text.html.asp meta.tag.inline.any.html entity.name.tag.inline.any.html
 <% Sub InventiveMethodNameHere(list) %>
-'  ^^^ meta.method.identifier.source.asp storage.type.function.asp
-'                                   ^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp
+'  ^^^ meta.method.identifier.asp storage.type.function.asp
+'                                   ^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp
   <ul>
 <%
         for each item in list
-       '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
-       '              ^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp keyword.control.flow.asp
+       '^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
+       '              ^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp keyword.control.flow.asp
             %><li><%= item %></li><%
-           '^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp meta.for.block.asp
+           '^^^^^^^^^^^^^^^^^^^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp meta.for.block.asp
            '  ^ meta.tag.inline.any.html punctuation.definition.tag.begin.html
            '      ^^^ punctuation.section.embedded.begin.inside-block.asp
            '               ^^ punctuation.section.embedded.end.inside-block.asp
         Next
-       '^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp meta.method.body.source.asp keyword.control.flow.asp
+       '^^^^ text.html.asp source.asp.embedded.html meta.method.asp meta.method.body.asp keyword.control.flow.asp
        '    ^ - meta.for.block.asp
 %></ul>
 <% End Sub %>
-'  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.source.asp storage.type.function.end.asp
-'         ^ - meta.method.source.asp
+'  ^^^^^^^ text.html.asp source.asp.embedded.html meta.method.asp storage.type.function.end.asp
+'         ^ - meta.method.asp
  <p class="<% If True Then %>test<% End If %>"></p>
 '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
