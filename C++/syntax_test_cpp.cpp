@@ -797,6 +797,12 @@ std::vector<std::uint8_t> func_returning_path_generic(int a);
 /*         ^ punctuation.definition.generic */
 /*                        ^ entity.name.function */
 
+
+long double operator "" _km (long double x);
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*                          ^^^^^^^^^^^^^^^ meta.function.parameters */
+/*          ^^^^^^^^^^^^^^^ entity.name.function */
+
 /////////////////////////////////////////////
 // Namespace
 /////////////////////////////////////////////
