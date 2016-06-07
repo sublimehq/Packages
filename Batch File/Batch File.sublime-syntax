@@ -49,25 +49,28 @@ contexts:
       scope: keyword.command.dosbatch
 
   command_set:
-    - match: '(?i)\bset\b'
+    - match: '(?i)\bSET\b'
       scope: keyword.command.dosbatch
-    - match: '\s+/[aA]\s+'
       push:
-        - meta_content_scope: meta.expression.set.dosbatch
         - match: '\n'
           pop: true
-        - include: inside_command_set
-        - match: '"'
-          scope: punctuation.definition.string.begin.dosbatch
+        - match: '\s+/[aA]\s+' # SET arithmetic
           push:
-            - meta_scope: string.quoted.double.dosbatch
-            - match: '"'
-              scope: punctuation.definition.string.end.dosbatch
+            - meta_content_scope: meta.expression.set.dosbatch
+            - match: '(?=\n)'
               pop: true
             - include: inside_command_set
+            - match: '"'
+              scope: punctuation.definition.string.begin.dosbatch
+              push:
+                - meta_scope: string.quoted.double.dosbatch
+                - match: '"'
+                  scope: punctuation.definition.string.end.dosbatch
+                  pop: true
+                - include: inside_command_set
+                - include: command_set_group
+                - include: variables
             - include: command_set_group
-            - include: variables
-        - include: command_set_group
 
   command_set_group:
     - match: '\('
