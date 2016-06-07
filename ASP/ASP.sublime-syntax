@@ -227,7 +227,7 @@ contexts:
     - include: not_end_of_statement
     - include: illegal_names
     - match: '{{identifier}}'
-      scope: constant.other.asp
+      scope: entity.name.constant.asp
       set:
         - include: not_end_of_statement
         - match: '\s*(=)\s*'

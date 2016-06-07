@@ -42,16 +42,16 @@
         Private m_CategoryVar
         Public Const a = 2e-3, b2="c""": const c = 4, const =
        '^^^^^^^^^^^^ storage.modifier.asp
-       '             ^ constant.other.asp
+       '             ^ entity.name.constant.asp
        '               ^ keyword.operator.asp
        '                 ^^^^ constant.numeric.asp
        '                     ^ punctuation.separator.variable-declaration.asp
-       '                       ^^ constant.other.asp
+       '                       ^^ entity.name.constant.asp
        '                         ^ keyword.operator.asp
        '                          ^^^^^ string.quoted.double.asp
        '                               ^ punctuation.terminator.statement.asp
        '                                 ^^^^^ storage.modifier.asp
-       '                                              ^^^^^ invalid.illegal.name.asp - constant.other
+       '                                              ^^^^^ invalid.illegal.name.asp - entity.name.constant.asp
 '<- - invalid.illegal.unexpected-token.asp
         Const d = &HAB
        '^^^^^ storage.modifier.asp
@@ -201,7 +201,7 @@
     
     Const abc = 'fgfg
    '^^^^^ storage.modifier.asp
-   '      ^^^ constant.other.asp
+   '      ^^^ entity.name.constant.asp
     Private a, b
    '^^^^^^^ storage.modifier.asp
    '        ^ variable.other.asp
