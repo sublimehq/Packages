@@ -9,6 +9,11 @@
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+		s/^\s*(.*)(\[[^\]]*\])?\s*\(.*/$1$2/g;
+		s/(\[[^\]]*\])?|\b_\b\s*/$1/g;
+		</string>
 	</dict>
 </dict>
 </plist>
