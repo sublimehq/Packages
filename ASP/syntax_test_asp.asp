@@ -5,10 +5,29 @@
 '^^^^ meta.tag.structure.any.html entity.name.tag.structure.any.html
 '    ^ meta.tag.structure.any.html punctuation.definition.tag.end.html
  <%@ TRANSACTION = Required %>
-'^^^ punctuation.section.embedded.begin.asp
+'^^ punctuation.section.embedded.begin.asp
 '    ^^^^^^^^^^^ constant.language.processing-directive.asp
 '                ^ punctuation.separator.key-value.asp
 '                           ^^ punctuation.section.embedded.end.asp
+<%
+   @language = VBScript ENABLESESSIONSTATE=False @@LCID=1033
+'   ^^^^^^^^ constant.language.processing-directive.asp
+'            ^ punctuation.separator.key-value.asp
+'                       ^^^^^^^^^^^^^^^^^^ constant.language.processing-directive.asp
+'                                         ^ punctuation.separator.key-value.asp
+'                                                  ^^^^ constant.language.processing-directive.asp
+'                                                      ^ punctuation.separator.key-value.asp
+' comments are not supported here
+'^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment
+%>
+<% @
+                 transaction
+'                ^^^^^^^^^^^ constant.language.processing-directive.asp
+= required
+'<- punctuation.separator.key-value.asp
+%>
+<% transaction=required %>
+'  ^^^^^^^^^^^ variable.other.asp - constant.language.processing-directive.asp
 <head>
 '<- meta.tag
     <title>ASP Test Page: <%=Request.ServerVariables("SCRIPT_NAME")%></title>
@@ -934,7 +953,7 @@ test = "hello%>
 '                                             ^ - string.quoted.double.html
 '          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class-name.html
 '          ^^ punctuation.section.embedded.begin.asp
-'            ^^^^^^^^^^^^^^ source.asp.embedded.html
+'             ^^^^^^^^^^^^^ source.asp.embedded.html
 '             ^^ keyword.control.flow.asp
 '                ^^^^ meta.between-if-and-then.asp storage.type.asp
 '                     ^^^^ keyword.control.flow.asp
@@ -1042,6 +1061,16 @@ test = "hello%>
 '^^ punctuation.section.embedded.begin.inside-block.asp
 '   ^^^^^^ keyword.control.flow.asp
 '          ^^ punctuation.section.embedded.end.asp
+ <%
+   = hi = 2 ' will output a boolean expression - True or False %>
+'  ^ punctuation.section.embedded.begin.asp
+'   ^^^^^^^^^^ source.asp.embedded.html
+'    ^^ variable.other.asp
+'       ^ keyword.operator.asp
+'         ^ constant.numeric.asp
+'           ^ comment
+
+'<- - comment - source.asp.embedded.html
  </body>
 '^^^^^^^ meta.tag.structure.any.html
 <script type="text/javascript">
