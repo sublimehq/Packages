@@ -25,6 +25,24 @@ class_eval <<-RUBY, __FILE__, __LINE__ + 1
   end
 RUBY
 
+DB.fetch(<<-SQL, conn).name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby
+#        ^^^^^^ string.unquoted
+#              ^^^^^^^^^^^^ - string.unquoted
+#              ^ punctuation.separator
+#                    ^ punctuation.definition.group.end
+SELECT * FROM users;
+#^^^^^^^^^^^^^^^^^^^ text.sql.embedded
+SQL
+
+foo, bar = <<BAR, 2
+#^^^^^^^^^^^^^^^^^^ source.ruby
+#          ^^^^^ string.unquoted
+#               ^^^ - string
+#               ^ punctuation.separator
+#                 ^ constant.numeric
+BAR
+
 str = "number %d" %  11
             # ^^ string.quoted.double.ruby constant.other.placeholder.ruby
 str = 'number %d' % 11
