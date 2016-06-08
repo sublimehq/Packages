@@ -242,13 +242,20 @@
        '     ^^ variable.other.asp
        '       ^ meta.with.block.asp
             Set rs = .GetFile(Server.MapPath(path))
-            '        ^ meta.with.block.asp punctuation.accessor.asp
-            '                       ^ meta.with.block.asp punctuation.accessor.asp
+           '         ^ meta.with.block.asp punctuation.accessor.asp
+           '                        ^ meta.with.block.asp punctuation.accessor.asp
             GetModifiedDate = rs.DateLastModified
             Set rs = Nothing
            '^^^ keyword.other.set.asp
            '       ^ keyword.operator.asp
            '         ^^^^^^^ storage.type.asp
+            .Close
+           '^ punctuation.accessor.asp
+           ' ^^^^^ variable
+            . Close
+           '^ punctuation.accessor.asp
+           ' ^ - invalid.illegal
+           '  ^^^^^ variable
         End With
        '^^^^^^^^ keyword.control.flow.asp
        '        ^ - meta.with.block.asp
@@ -825,6 +832,39 @@
    '             ^^^ support.function.vb.asp
    '                              ^^ punctuation.section.embedded.end.asp - source.asp
 <%
+
+Class ClassContainingMethodsWithReservedWords
+    Sub [Select]()
+   '^^^ storage.type.function.asp
+   '    ^^^^^^^^ entity.name.function.asp
+   '            ^ - entity.name.function.asp
+        
+    End Sub
+    
+    Sub [End]()
+   '^^^ storage.type.function.asp
+   '    ^^^^^ entity.name.function.asp
+   '         ^ - entity.name.function.asp
+        
+    End Sub
+End Class
+Set ccmwrw = new ClassContainingMethodsWithReservedWords
+ccmwrw.Select()
+'     ^ punctuation.accessor.asp
+'      ^^^^^^ variable.other.asp - invalid.illegal - keyword
+ccmwrw. Select() ' spaces are not allowed after the .
+'     ^ punctuation.accessor.asp
+'      ^ - invalid.illegal.unexpected_token.asp
+'       ^^^^^^ variable.other.asp - invalid.illegal - keyword
+ccmwrw.End
+'     ^ punctuation.accessor.asp
+'      ^^^ variable.other.asp - invalid.illegal - keyword
+'         ^ - invalid.illegal
+ccmwrw .End
+'     ^ invalid.illegal.unexpected-token.asp
+'      ^ punctuation.accessor.asp
+'       ^^^ variable.other.asp - invalid.illegal - keyword
+'          ^ - invalid.illegal
 
 _
      'a line continuation char can be followed by just a comment on the next non blank line

@@ -91,12 +91,10 @@ contexts:
       pop: true
 
   expect_identifier_reference:
-    - match: '\s+'
-      scope: ''
-    - match: '{{identifier}}'
+    - match: '\s*({{identifier}})'
       captures:
-        0: variable.other.asp
-      #  1: invalid.illegal.unclosed-variable-identifier.asp
+        1: variable.other.asp
+      #  2: invalid.illegal.unclosed-variable-identifier.asp
       pop: true
     - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       pop: true
@@ -439,39 +437,39 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.asp
       push: inside_string
-    - match: '\b((?i:Request))\b(?:(?i:(\.)(?:(BinaryRead)|(ClientCertificate|Cookies|Form|QueryString|ServerVariables)|(TotalBytes)))\b)?'
+    - match: '\b((?i:Request))\b(?:(?i:(\.)\s*(?:(BinaryRead)|(ClientCertificate|Cookies|Form|QueryString|ServerVariables)|(TotalBytes)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524948%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
         3: support.function.asp
         4: support.class.collection.asp
         5: support.property.asp
-    - match: '\b((?i:Response))\b(?:(?i:(\.)(?:(AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write)|(Buffer|CacheControl|Charset|CodePage|ContentType|Expires|ExpiresAbsolute|IsClientConnected|LCID|PICS|Status)|(Cookies)))\b)?'
+    - match: '\b((?i:Response))\b(?:(?i:(\.)\s*(?:(AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write)|(Buffer|CacheControl|Charset|CodePage|ContentType|Expires|ExpiresAbsolute|IsClientConnected|LCID|PICS|Status)|(Cookies)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525405%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
-    - match: '\b((?i:Server))\b(?:(?i:(\.)(?:(CreateObject|Execute|GetLastError|HTMLEncode|MapPath|Transfer|URLEncode)|(ScriptTimeout)))\b)?'
+    - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(CreateObject|Execute|GetLastError|HTMLEncode|MapPath|Transfer|URLEncode)|(ScriptTimeout)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525541%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
-    - match: '\b((?i:Server))\b(?:(?i:(\.)(?:(Abandon)|(CodePage|LCID|SessionID|Timeout)|(Contents|StaticObjects)))\b)?'
+    - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(Abandon)|(CodePage|LCID|SessionID|Timeout)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
-    - match: '\b((?i:ObjectContext))\b(?:(?i:(\.)(SetAbort|SetComplete))\b)?'
+    - match: '\b((?i:ObjectContext))\b(?:(?i:(\.)\s*(SetAbort|SetComplete))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525667%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
         3: support.function.asp
-    - match: '\b((?i:Application))\b(?:(?i:(\.)(?:(Lock|Unlock)|(Contents|StaticObjects)))\b)?'
+    - match: '\b((?i:Application))\b(?:(?i:(\.)\s*(?:(Lock|Unlock)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
         2: punctuation.accessor.asp
@@ -481,6 +479,12 @@ contexts:
       captures:
         0: variable.other.asp
         #1: invalid.illegal.unclosed-variable-identifier.asp
+      push:
+        - match: '\s+(?=\.)'
+          scope: invalid.illegal.unexpected-token.asp # . punctuation accessor must come immediately after an identifier
+          pop: true
+        - match: ''
+          pop: true
     - match: \(
       push: inside_parens
     - include: allow_line_continuation
@@ -515,10 +519,7 @@ contexts:
       captures:
         1: punctuation.accessor.asp
         2: invalid.illegal.unexpected-token.asp
-      push:
-        - match: '\s+' # . member access must be followed immediately by the identifier - no whitespace allowed
-          scope: invalid.illegal.unexpected_token.asp
-        - include: expect_not_end_of_statement
+      push: expect_identifier_reference
 
   inside_control_flow_with:
     - meta_scope: meta.with.block.asp
