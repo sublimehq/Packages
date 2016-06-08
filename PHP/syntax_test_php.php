@@ -711,8 +711,10 @@ class OutputsHtml {
 
         <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //           ^^^^^ meta.attribute-with-value
 //                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                                                    ^^^^^^^^^^^^^^^^^^ - source.php
 //                                              ^^^^^ punctuation.section.embedded.begin - source.php
 //                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                                                                                  ^^ punctuation.section.embedded.end - source.php
@@ -748,6 +750,22 @@ function embedHtml() {
     }
 //  ^ meta.function meta.block punctuation.definition.block.end
 
+    $myClass = new class {
+        function foo() {
+            ?>
+            <div></div>
+//          ^^^^^^^^^^^ meta.tag - source.php
+            <?
+        }
+    }
+
+    $myClosure = function() use ($var) {
+        ?>
+        <div></div>
+//      ^^^^^^^^^^^ meta.tag - source.php
+        <?
+    }
+
     try {
         if (1) {
             if (1) {
@@ -758,8 +776,10 @@ function embedHtml() {
 
                     <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //                       ^^^^^ meta.attribute-with-value
 //                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                                                                ^^^^^^^^^^^^^^^^^^ - source.php
 //                                                          ^^^^^ punctuation.section.embedded.begin
 //                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
 //                                                                                              ^^ punctuation.section.embedded.end
@@ -771,18 +791,12 @@ function embedHtml() {
 //                  ^^^^^ punctuation.section.embedded.begin
 //                       ^ source.php
                 } finally {
-                    // This tests maxing out the standard handling of block
-                    // nesting in a function. As we can see, the HTML is still
-                    // highlighted properly, but the background doesn't lose
-                    // the highlighting of being inside of source.* scope.
-                    // Additionally, snippets and completions will trigger for
-                    // PHP inside of this scope, and HTML will not trigger.
                     if (1) {
                         if (1) {
                             ?>
 //                          ^^ punctuation.section.embedded.end
                             <div>
-//                          ^^^^^ meta.tag
+//                          ^^^^^ meta.tag - source.php
                             </div>
                             <?
 //                          ^^ punctuation.section.embedded.begin
