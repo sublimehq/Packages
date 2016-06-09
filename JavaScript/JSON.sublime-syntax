@@ -18,13 +18,11 @@ contexts:
     - include: value
   array:
     - match: '\['
-      captures:
-        0: punctuation.definition.array.begin.json
+      scope: punctuation.definition.array.begin.json
       push:
         - meta_scope: meta.structure.array.json
         - match: '\]'
-          captures:
-            0: punctuation.definition.array.end.json
+          scope: punctuation.definition.array.end.json
           pop: true
         - include: value
         - match: ","
@@ -33,15 +31,13 @@ contexts:
           scope: invalid.illegal.expected-array-separator.json
   comments:
     - match: /\*\*
-      captures:
-        0: punctuation.definition.comment.json
+      scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.documentation.json
         - match: \*/
           pop: true
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.json
+      scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.json
         - match: \*/
@@ -54,6 +50,7 @@ contexts:
     - match: \b(?:true|false|null)\b
       scope: constant.language.json
   number:
+    # handles integer and decimal numbers
     - match: |-
         (?x:         # turn on extended mode
           -?         # an optional minus
@@ -75,24 +72,20 @@ contexts:
             )?       # make exponent optional
           )?         # make decimal portion optional
         )
-      comment: handles integer and decimal numbers
       scope: constant.numeric.json
   object:
+    # a JSON object
     - match: '\{'
-      comment: a JSON object
-      captures:
-        0: punctuation.definition.dictionary.begin.json
+      scope: punctuation.definition.dictionary.begin.json
       push:
         - meta_scope: meta.structure.dictionary.json
         - match: '\}'
-          captures:
-            0: punctuation.definition.dictionary.end.json
+          scope: punctuation.definition.dictionary.end.json
           pop: true
         - include: string
         - include: comments
         - match: ":"
-          captures:
-            0: punctuation.separator.dictionary.key-value.json
+          scope: punctuation.separator.dictionary.key-value.json
           push:
             - meta_scope: meta.structure.dictionary.value.json
             - match: '(,)|(?=\})'
@@ -106,13 +99,11 @@ contexts:
           scope: invalid.illegal.expected-dictionary-separator.json
   string:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.json
+      scope: punctuation.definition.string.begin.json
       push:
         - meta_scope: string.quoted.double.json
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.json
+          scope: punctuation.definition.string.end.json
           pop: true
         - match: |-
             (?x:                # turn on extended mode
