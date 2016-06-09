@@ -1,6 +1,10 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
+#
+# `Common Lisp` Language Reference:
+# http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/index.html
+#
 name: Lisp
 file_extensions:
   - lisp
@@ -10,45 +14,107 @@ file_extensions:
   - el
   - scm
   - ss
+  - lsp
+  - fasl # Scheme dialect of Lisp
 scope: source.lisp
 contexts:
   main:
-    - match: (;).*$\n?
-      scope: comment.line.semicolon.lisp
-      captures:
-        1: punctuation.definition.comment.lisp
-    - match: (\b(?i:(defun|defmethod|defmacro))\b)(\s+)((\w|\-|\!|\?)*)
-      scope: meta.function.lisp
-      captures:
-        2: storage.type.function-type.lisp
-        4: entity.name.function.lisp
-    - match: '(#)(\w|[\\+-=<>''"&#])+'
-      scope: constant.character.lisp
-      captures:
-        1: punctuation.definition.constant.lisp
+    - include: comments
+    - include: parens
+
+  expressions:
+    - include: comments
+    - include: numbers
+    - include: constants
+    - include: strings
+    - include: operators
+    - include: variables
+    - include: control
+    - include: functions
+
+  variables:
     - match: (\*)(\S*)(\*)
       scope: variable.other.global.lisp
       captures:
         1: punctuation.definition.variable.lisp
         3: punctuation.definition.variable.lisp
+
+  control:
     - match: \b(?i:case|do|let|loop|if|else|when)\b
       scope: keyword.control.lisp
-    - match: \b(?i:eq|neq|and|or)\b
-      scope: keyword.operator.lisp
-    - match: \b(?i:null|nil)\b
-      scope: constant.language.lisp
-    - match: \b(?i:cons|car|cdr|cond|lambda|format|setq|setf|quote|eval|append|list|listp|memberp|t|load|progn)\b
-      scope: support.function.lisp
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
-      scope: constant.numeric.lisp
-    - match: '"'
+
+  functions:
+    - match: (\b(?i:(defun|defmethod|defmacro))\b)(\s+)((\w|\-|\!|\?)*)
+      scope: meta.function.lisp
       captures:
-        0: punctuation.definition.string.begin.lisp
+        2: storage.type.function-type.lisp
+        4: entity.name.function.lisp
+    - match: \b(?i:cons|car|cdr|cond|lambda|format|setq|setf|quote|eval|append|list|listp|memberp|load|progn)\b
+      scope: support.function.lisp
+
+  operators:
+    - match: '\/\=|\>\=|\<\=|\=|\>|\<|\b(?i:max|min|eq|neq|eql|equalp)\b'
+      scope: keyword.operator.comparison.lisp
+    - match: '\+|\-|\*|\/|\b(?i:mod|rem|incf|decf)\b'
+      scope: keyword.operator.arithmetic.lisp
+    - match: \b(?i:and|or|not)\b
+      scope: keyword.operator.logical.lisp
+    - match: \b(?i:logand|logior|logxor|lognor|logeqv)\b
+      scope: keyword.operator.bitwise.lisp
+
+  parens:
+    - match: '\('
+      scope: punctuation.definition.group.begin.lisp
+      push:
+        - meta_scope: meta.group.lisp
+        - match: '\)'
+          scope: punctuation.definition.group.end.lisp
+          pop: true
+        - include: expressions
+        - include: parens
+    - match: '\)'
+      scope: invalid.illegal.stray-bracket-end.lisp
+
+  constants:
+    - match: \b(?i:null|nil|t)\b
+      scope: constant.language.lisp
+    - match: '(#)(\w|[\\+-=<>''"&#])+'
+      scope: constant.character.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+
+  numbers:
+    - match: '\b((0(x|X)\h*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(?i:l|ul|u|f|ll|ull)?\b'
+      scope: constant.numeric.lisp
+
+  strings:
+    - match: '"'
+      scope: punctuation.definition.string.begin.lisp
       push:
         - meta_scope: string.quoted.double.lisp
-        - match: '"'
+        - match: '(")|(\n)'
           captures:
-            0: punctuation.definition.string.end.lisp
+            1: punctuation.definition.string.end.lisp
+            2: invalid.illegal.newline.lisp
           pop: true
         - match: \\.
           scope: constant.character.escape.lisp
+
+  block-comment:
+    - match: '#\|'
+      scope: punctuation.definition.comment.begin.lisp
+      push:
+        - meta_scope: comment.block.lisp
+        - include: block-comment
+        - match: '\|#'
+          scope: punctuation.definition.comment.end.lisp
+          pop: true
+
+  comments:
+    - include: block-comment
+    - match: '\|#'
+      scope: invalid.illegal.stray-comment-end.lisp
+    - match: (;).*$\n?
+      scope: comment.line.semicolon.lisp
+      captures:
+        1: punctuation.definition.comment.lisp
