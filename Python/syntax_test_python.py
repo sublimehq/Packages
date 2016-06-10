@@ -70,8 +70,14 @@ async
 #
 
 myobj.method().attribute
+#    ^^^^^^^^^ meta.function-call
 #    ^ punctuation.accessor
+#     ^^^^^^ variable.function
 #             ^ punctuation.accessor
+
+func()
+#^^^^^ meta.function-call
+#^^^ variable.function
 
 myobj.attribute
 #    ^ punctuation.accessor

@@ -500,7 +500,20 @@ contexts:
           push:
             - match: (?=\s*\()
               pop: true
-            - include: dotted_name
+            - match: ' *(\.) *(?={{identifier}})'
+              captures:
+                1: punctuation.accessor.python
+              set:
+                - include: dotted_name_specials
+                - match: '{{identifier}}(?=\s*\()'
+                  scope: variable.function.python
+                - include: generic_names
+            - match: '(?={{identifier}})'
+              push:
+                - include: name_specials
+                - match: '{{identifier}}(?=\s*\()'
+                  scope: variable.function.python
+                - include: generic_names
         - match: \(
           scope: punctuation.definition.arguments.begin.python
           push:
@@ -618,16 +631,19 @@ contexts:
   name:
     - match: '(?={{identifier}})'
       push:
-        - match: '(?!{{identifier_continue}})'
-          pop: true
-        - include: builtin_functions
-        - include: builtin_types
-        - include: builtin_exceptions
-        - include: illegal_names
-        - include: magic_function_names
-        - include: magic_variable_names
-        - include: language_variables
+        - include: name_specials
         - include: generic_names
+
+  name_specials:
+    - match: '(?!{{identifier_continue}})'
+      pop: true
+    - include: builtin_functions
+    - include: builtin_types
+    - include: builtin_exceptions
+    - include: illegal_names
+    - include: magic_function_names
+    - include: magic_variable_names
+    - include: language_variables
 
   dotted_name:
     - match: '(?={{path}})'
@@ -636,15 +652,18 @@ contexts:
           captures:
             1: punctuation.accessor.python
           push:
-            - match: '(?!{{identifier_continue}})'
-              pop: true
-            - include: magic_function_names
-            - include: magic_variable_names
-            - include: illegal_names
+            - include: dotted_name_specials
             - include: generic_names
         - match: '(?!{{identifier_continue}})'
           pop: true
         - include: name
+
+  dotted_name_specials:
+    - match: '(?!{{identifier_continue}})'
+      pop: true
+    - include: magic_function_names
+    - include: magic_variable_names
+    - include: illegal_names
 
   entity_name_class:
     - include: illegal_names
