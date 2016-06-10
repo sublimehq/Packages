@@ -603,6 +603,12 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 "Testing {:,.2f}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
 
+"Testing {0:>9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {:j^9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
 datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #                                    ^^^^^^^^^^ constant.other.placeholder
 

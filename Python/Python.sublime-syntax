@@ -646,11 +646,13 @@ contexts:
       scope: support.type.python
 
   constant-placeholder:
-    - match: '(?i)%(%|(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z])'
+    - match: '%(?i:\([a-z_]+\))?#?0?\-? ?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hlL]?[acdeEfFgGiorsuxX%]'
+      scope: constant.other.placeholder.python
+    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
-    - match: '(?i)\{([!\[\].,:\w ]+)?\}'
+    - match: '\{([\w.\[\]]*)(:.?[<>=^]?)?[ +-]?\d*,?(\.\d+)?!?[abcdeEfFgGnorsxX%]?\}'
       scope: constant.other.placeholder.python
 
   name:
