@@ -238,6 +238,16 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries_and_sets
+    - match: '(\.) *(?={{identifier}})'
+      captures:
+        1: punctuation.accessor.python
+      push:
+        - include: magic_function_names
+        - include: magic_variable_names
+        - include: illegal_names
+        - include: generic_names
+        - match: ''
+          pop: true
     # For debugging
     # - match: \S
     #   scope: invalid.illegal.unmatched

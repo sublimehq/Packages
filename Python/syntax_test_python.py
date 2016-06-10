@@ -53,6 +53,7 @@ import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
 #        ^ punctuation.terminator.statement
 
+
 ##################
 # Identifiers
 ##################
@@ -68,6 +69,12 @@ async
 #^^^^ - invalid.illegal.name
 #
 
+myobj.method().attribute
+#    ^ punctuation.accessor
+#             ^ punctuation.accessor
+
+myobj.attribute
+#    ^ punctuation.accessor
 
 
 ##################
