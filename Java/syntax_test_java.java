@@ -147,3 +147,12 @@ class AnotherClass
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.type.generic.java
 //                                            ^ punctuation.terminator.java
 }
+
+class InvalidStuff
+{
+    goto
+//  ^^^^ invalid.illegal
+
+    const int 3;
+//  ^^^^^ invalid.illegal
+}

@@ -201,6 +201,8 @@ contexts:
                   pop: true
                 - include: class-body
   keywords:
+    - match: \b(goto|const)\b
+      scope: invalid.illegal.java
     - match: \b(try|catch|finally|throw)\b
       scope: keyword.control.catch-exception.java
     - match: '\?|:'
