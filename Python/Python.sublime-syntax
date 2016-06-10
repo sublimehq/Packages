@@ -37,7 +37,6 @@ contexts:
     - include: block_statements
     - include: classes
     - include: functions
-    - include: decorators
     - include: modifiers
     - include: assignments
     - match: ;
@@ -46,6 +45,7 @@ contexts:
 
   inline_statements:
     - include: imports
+    - include: decorators
     - match: \b(raise)\b
       scope: keyword.control.flow.raise.python
       push:
@@ -428,42 +428,12 @@ contexts:
       pop: true
 
   decorators:
-    - match: '^\s*(?=@\s*{{path}}\s*\()'
-      comment: a decorator may be a function call which returns a decorator.
+    - match: '@'
+      scope: keyword.other.decorator.python
       push:
-        - meta_scope: meta.function.decorator.python
-        - match: \)
-          scope: punctuation.definition.arguments.end.python
-          pop: true
-        - match: '(?=(@)\s*{{path}}\s*\()'
-          captures:
-            1: punctuation.definition.decorator.python
-          push:
-            - meta_content_scope: entity.name.function.decorator.python
-            - match: (?=\s*\()
-              pop: true
-            - include: dotted_name
-        - match: \(
-          scope: punctuation.definition.arguments.begin.python
-          push:
-            - meta_content_scope: meta.function.decorator.arguments.python
-            - match: (?=\))
-              pop: true
-            - include: keyword_arguments
-            - include: expressions
-    - match: '^\s*(?=@\s*{{path}})'
-      push:
-        - meta_scope: meta.function.decorator.python
-        - meta_content_scope: entity.name.function.decorator.python
-        - match: (?=\s|$|#)
-          pop: true
-        - match: '(?=(@)\s*{{identifier}}(\.{{identifier}})*)'
-          captures:
-            1: punctuation.definition.decorator.python
-          push:
-            - match: (?=\s|$|#)
-              pop: true
-            - include: dotted_name
+        - meta_scope: meta.statement.decorator.python
+        - include: line_continuation_or_pop
+        - include: expressions
 
   item-access:
     - match: '(?={{path}}\s*\[)'

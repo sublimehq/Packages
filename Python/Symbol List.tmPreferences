@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.python meta.function - meta.function.decorator, source.python meta.class</string>
+	<string>source.python meta.function - meta.function.inline, source.python meta.class</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
