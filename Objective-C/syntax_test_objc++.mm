@@ -1080,6 +1080,26 @@ class FooBar {
 
 private:
 /*^^^^^ storage.modifier */
+
+    VISIBILITY_MACRO
+/*  ^ - entity.name.function */
+    myns::subns::MyDataType
+/*  ^ - entity.name.function */
+    and_now_method_name();
+/*  ^ entity.name.function */
+
+    VISIBILITY_MACRO
+/*  ^ - entity.name.function */
+    std::shared_future<std::vector<myns::mysubns::MyDataType>>
+/*  ^ - entity.name.function */
+/*     ^^ punctuation.accessor */
+/*                    ^ punctuation.definition.generic.begin */
+/*                        ^^ punctuation.accessor */
+/*                                ^ punctuation.definition.generic.begin */
+/*                                     ^^ punctuation.accessor */
+    and_now_method_name2();
+/*  ^ entity.name.function */
+
     enum
 /*  ^^^^ meta.enum storage.type */
     {

@@ -1184,15 +1184,15 @@ contexts:
       scope: meta.method.c++ entity.name.function.c++
       set: method-definition-params
     # Identifier that is not the function name - likely a macro or type
-    - match: '(?={{path_lookahead}}([ \t]+|[*&])(?!\s*(<|::|\(|$)))'
+    - match: '(?={{path_lookahead}}([ \t]+|[*&])(?!\s*(<|::|\()))'
       push:
         - include: identifiers
         - match: ''
           pop: true
     # Real function definition
-    - match: '(?={{path_lookahead}}({{generic_lookahead}})\s*(\(|$))'
+    - match: '(?={{path_lookahead}}({{generic_lookahead}})\s*(\())'
       set: [method-definition-params, data-structures-function-identifier-generic]
-    - match: '(?={{path_lookahead}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*(\())'
       set: [method-definition-params, data-structures-function-identifier]
     - match: '(?=\S)'
       pop: true
