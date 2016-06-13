@@ -28,7 +28,6 @@ contexts:
     - include: verbatim
     - include: verb
     - include: url
-    - include: invalid-quotations
     - include: lists
 
   plain-tex:
@@ -522,14 +521,6 @@ contexts:
         3: punctuation.definition.group.brace.begin.latex
         4: markup.underline.link.latex
         5: punctuation.definition.group.brace.end.latex
-
-  invalid-quotations:
-    - match: "(?:^|[^\\S])('.*?')"
-      captures:
-        1: invalid.illegal.string.quoted.single.latex
-    - match: '(?:^|[^\\S])(".*?")'
-      captures:
-        1: invalid.illegal.string.quoted.single.latex
 
   verb:
     - match: ((\\)verb)(\W)
