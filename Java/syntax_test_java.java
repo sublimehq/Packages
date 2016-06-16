@@ -1,5 +1,21 @@
 // SYNTAX TEST "Packages/Java/Java.sublime-syntax"
 
+package apple;
+// <- source.java meta.package.java keyword.other.package.java
+//      ^ meta.package.java support.other.package.java
+//           ^ meta.package.java punctuation.terminator.java
+
+import a.b.Class;
+// <- meta.import.java keyword.other.import.java
+//     ^ meta.import.java support.class.import.java
+//              ^ meta.import.java punctuation.terminator.java
+
+import static a.b.Class.fooMethod;
+// <- meta.import.java keyword.other.import.java
+//     ^  meta.import.java storage.modifier.static.java
+//            ^ meta.import.java support.function.import.java
+//                               ^ meta.import.java punctuation.terminator.java
+
 public class SyntaxTest {
     private String memberString = "Hello";
     private String memberString2 = new String("Hello");
