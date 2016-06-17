@@ -75,6 +75,11 @@ myobj.method().attribute
 #     ^^^^^^ variable.function
 #             ^ punctuation.accessor
 
+'foo'.upper()
+#    ^^^^^^^^ meta.function-call
+#    ^ punctuation.accessor
+#     ^^^^^ variable.function
+
 func()
 #^^^^^ meta.function-call
 #^^^ variable.function

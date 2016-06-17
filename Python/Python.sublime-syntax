@@ -490,13 +490,13 @@ contexts:
           scope: punctuation.separator.parameters.python
         - include: inline-for
         - include: expressions
-    - match: '(?={{path}}\s*\()'
+    - match: '(?=\.?{{path}}\s*\()'
       push:
         - meta_scope: meta.function-call.python
         - match: \)
           scope: punctuation.definition.arguments.end.python
           pop: true
-        - match: '(?={{path}}\s*\()'
+        - match: '(?=\.?{{path}}\s*\()'
           push:
             - match: (?=\s*\()
               pop: true
