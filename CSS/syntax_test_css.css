@@ -108,6 +108,35 @@
 /*      ^^ keyword.keyframe-selector.css */
 }
 
+    @document url(http://) { }
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.document.css */
+/*  ^ punctuation.definition.keyword.css */
+/*  ^^^^^^^^^ keyword.control.at-rule.document.css */
+/*                         ^^^ meta.block.css */
+/*                         ^ punctuation.definition.block.begin.css */
+/*                           ^ punctuation.definition.block.end.css */
+
+@document url(http://www),
+/*        ^^^ support.function.url.css */
+/*            ^^^^^^^^^^ string.unquoted.css */
+/*                       ^ punctuation.separator.css */
+          url-prefix("http://www"),
+/*        ^^^^^^^^^^ support.function.url-prefix.css */
+/*                   ^^^^^^^^^^^^ string.quoted.double.css */
+          domain(mozilla.org),
+/*        ^^^^^^ support.function.domain.css */
+/*               ^^^^^^^^^^^ string.unquoted.css */
+          regexp("https:.*")
+/*        ^^^^^^ support.function.regexp.css */
+/*               ^^^^^^^^^^ string.quoted.double.css */
+{
+    .class {
+/*  ^^^^^^ meta.at-rule.document.css entity.other.attribute-name.class.css */
+        display: none;
+/*      ^^^^^^^ meta.at-rule.document.css meta.property-name.css */
+    }
+}
+
     @font-face {
 /*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
 /*  ^          punctuation.definition.keyword.css    */
@@ -118,13 +147,56 @@
 /*      ^^^^^ comment.block.css */
 }
 
+    @supports not ( and ( top: 2px ) ) { }
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css */
+/*  ^          punctuation.definition.keyword.css  */
+/*   ^^^^^^^^ keyword.control.at-rule.supports.css */
+/*            ^^^ keyword.operator.logic.css */
+/*                ^ meta.group.css punctuation.definition.group.begin.css */
+/*                  ^^^ keyword.operator.logic.css */
+/*                      ^ meta.group.css punctuation.definition.group.begin.css */
+/*                        ^^^ support.type.property-name.css */
+/*                           ^ punctuation.separator.key-value.css */
+/*                              ^^ constant.numeric.css keyword.other.unit.css */
+/*                                 ^ meta.group.css punctuation.definition.group.end.css */
+/*                                   ^ meta.group.css punctuation.definition.group.end.css */
+/*                                     ^^^ meta.block.css */
+/*                                     ^ punctuation.definition.block.begin.css */
+/*                                       ^ punctuation.definition.block.end.css */
+
+@supports (--foo: green) {
+/*         ^^^^^ support.type.custom-property.css */
+    .class {
+/*  ^^^^^^ meta.at-rule.supports.css entity.other.attribute-name.class.css */
+        display: none;
+/*      ^^^^^^^ meta.at-rule.supports.css meta.property-name.css */
+    }
+}
+
+@counter-style none {}
+/*             ^^^^ invalid.illegal.counter-style-name.css */
+
+@counter-style decimal {}
+/*             ^^^^^^^ invalid.illegal.counter-style-name.css */
+
+    @counter-style name {
+/*  ^          punctuation.definition.keyword.css  */
+/*  ^^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css */
+/*                 ^^^^ entity.other.counter-style-name.css */
+    symbols: "‣";
+/*  ^^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
+    suffix: " ";
+/*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
+/*          ^^^ string.quoted.double.css */
+}
+
 .test-var { --test-var: arial; }
 /*          ^^^^^^^^^^ support.type.custom-property.css       */
 /*          ^^         punctuation.definition.custom-property */
 /*            ^^^^^^^^ support.type.custom-property.name.css  */
 
-.test-deprecated-var { var-deprecated }
-/*                     ^^^^^^^^^^^^^^ invalid.deprecated.custom-property.css */
+.test-deprecated-var { var-deprecated- }
+/*                     ^^^^^^^^^^^^^^^ invalid.deprecated.custom-property.css */
 /*                     ^^^^ keyword.other.custom-property.prefix.css */
 
 .test-types {

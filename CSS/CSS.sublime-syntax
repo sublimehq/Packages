@@ -74,25 +74,21 @@ contexts:
   main:
     - include: comment-block
     - include: selector
-    - include: charset
-    - include: import
-    - include: font-face
-    - include: media
-    - include: custom-media
-    - include: keyframes
-    - include: namespace
-    - include: page
+    - include: at-rules
     - include: property-list
 
-  charset:
-    - match: \s*((@)charset\b)\s*
-      captures:
-        1: keyword.control.at-rule.charset.css
-        2: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.charset.css
-        - include: at-rule-punctuation
-        - include: literal-string
+  at-rules:
+    - include: at-charset
+    - include: at-counter-style
+    - include: at-custom-media
+    - include: at-document
+    - include: at-font-face
+    - include: at-import
+    - include: at-keyframes
+    - include: at-media
+    - include: at-namespace
+    - include: at-page
+    - include: at-supports
 
   # When including `color-values` and `color-adjuster-functions`, make sure it is
   # included after the color adjustors to prevent `color-values` from consuming
@@ -125,7 +121,31 @@ contexts:
           scope: punctuation.definition.comment.css
           pop: true
 
-  custom-media:
+  at-charset:
+    - match: \s*((@)charset\b)\s*
+      captures:
+        1: keyword.control.at-rule.charset.css
+        2: punctuation.definition.keyword.css
+      push:
+        - meta_scope: meta.at-rule.charset.css
+        - include: at-rule-punctuation
+        - include: literal-string
+
+  # @counter-style
+  # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
+  at-counter-style:
+    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))\s*(?={)
+      captures:
+        1: keyword.control.at-rule.counter-style.css
+        2: punctuation.definition.keyword.css
+        3: invalid.illegal.counter-style-name.css
+        4: entity.other.counter-style-name.css
+      push:
+        - meta_scope: meta.at-rule.counter-style.css
+        - include: rule-list-terminator
+        - include: rule-list
+
+  at-custom-media:
     - match: (?=\s*@custom-media\s*.*?)
       push:
         - match: \s*;
@@ -142,20 +162,44 @@ contexts:
             - match: \s*(?=;)
               pop: true
             - include: media-query-list
-  font-face:
+
+  # @document
+  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
+  at-document:
+    - match: '((@)document)'
+      captures:
+        1: keyword.control.at-rule.document.css
+        2: punctuation.definition.keyword.css
+      push:
+        - meta_scope: meta.at-rule.document.css
+        - match: '\{'
+          scope: punctuation.definition.block.begin.css
+          push:
+            - meta_scope: meta.block.css
+            - match: '(?=\})'
+              pop: true
+            - include: main
+        - match: '\}'
+          scope: meta.block.css punctuation.definition.block.end.css
+          pop: true
+        - include: comment-block
+        - include: url-function
+        - include: url-prefix-function
+        - include: domain-function
+        - include: regexp-function
+        - include: comma-delimiter
+
+  at-font-face:
     - match: '\s*((@)font-face)\s*(?=\{)'
       captures:
         1: keyword.control.at-rule.font-face.css
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.font-face.css
-        - match: '\s*(\})'
-          captures:
-            1: punctuation.section.property-list.css
-          pop: true
+        - include: rule-list-terminator
         - include: rule-list
 
-  import:
+  at-import:
     - match: \s*((@)import\b)\s*
       captures:
         1: keyword.control.at-rule.import.css
@@ -178,14 +222,12 @@ contexts:
             1: punctuation.definition.arbitrary-repetition.css
           pop: true
 
+  # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
-  keyframes:
+  at-keyframes:
     - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
       push:
-        - match: '\s*(\})'
-          captures:
-            1: punctuation.section.property-list.css
-          pop: true
+        - include: rule-list-terminator
         - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)(?=.*?)
           captures:
             1: keyword.control.at-rule.keyframe.css
@@ -214,13 +256,10 @@ contexts:
                 3: keyword.other.unit.css
             - include: main
 
-  media:
+  at-media:
     - match: (?=\s*@media\s*.*?)
       push:
-        - match: '\s*(\})'
-          captures:
-            1: punctuation.section.property-list.css
-          pop: true
+        - include: rule-list-terminator
         - match: \s*((@)media)(?=.*?)
           captures:
             1: keyword.control.at-rule.media.css
@@ -293,8 +332,9 @@ contexts:
           pop: true
         - include: media-query
 
-# Namespace At-Rule: https://www.w3.org/TR/css3-namespace/
-  namespace:
+  # @namespace
+  # https://www.w3.org/TR/css3-namespace/
+  at-namespace:
     - match: '\s*((@)namespace)\s+({{ident}})?'
       captures:
         1: keyword.control.at-rule.namespace.css
@@ -305,8 +345,9 @@ contexts:
         - include: at-rule-punctuation
         - include: literal-string
 
-# Page At-Rule: https://www.w3.org/TR/CSS2/page.html
-  page:
+  # @page
+  # https://www.w3.org/TR/CSS2/page.html
+  at-page:
     - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
       captures:
         1: keyword.control.at-rule.page.css
@@ -315,11 +356,47 @@ contexts:
         4: entity.other.pseudo-class.css
       push:
         - meta_scope: meta.at-rule.page.css
-        - match: '\s*(\})'
-          captures:
-            1: punctuation.section.property-list.css
-          pop: true
+        - include: rule-list-terminator
         - include: rule-list
+
+  # @supports
+  # https://drafts.csswg.org/css-conditional-3/#at-supports
+  at-supports:
+    - match: '((@)supports)'
+      captures:
+        1: keyword.control.at-rule.supports.css
+        2: punctuation.definition.keyword.css
+      push:
+        - meta_scope: meta.at-rule.supports.css
+        - match: '\{'
+          scope: punctuation.definition.block.begin.css
+          push:
+            - meta_scope: meta.block.css
+            - match: '(?=\})'
+              pop: true
+            - include: rule-list-body
+            - include: main
+        - match: '\}'
+          scope: meta.block.css punctuation.definition.block.end.css
+          pop: true
+        - include: at-supports-operators
+        - include: at-supports-parens
+
+  at-supports-operators:
+    - match: '\b(?i:and|or|not)\b'
+      scope: keyword.operator.logic.css
+
+  at-supports-parens:
+    - match: '\('
+      scope: punctuation.definition.group.begin.css
+      push:
+        - meta_scope: meta.group.css
+        - match: '\)'
+          scope: punctuation.definition.group.end.css
+          pop: true
+        - include: at-supports-operators
+        - include: at-supports-parens
+        - include: rule-list-body
 
   property-list:
     - match: '(?=\{)'
@@ -503,6 +580,12 @@ contexts:
     - match: \!\s*important
       scope: keyword.other.important.css
 
+  rule-list-terminator:
+    - match: '\s*(\})'
+      captures:
+        1: punctuation.section.property-list.css
+      pop: true
+
   rule-list:
     - match: '\{'
       scope: punctuation.section.property-list.css
@@ -520,14 +603,11 @@ contexts:
         - match: "$|(?![-a-z])"
           pop: true
         - include: vendor-prefix
-        - match: '\b(var-)({{ident}})'
+        - match: '\b(var-)({{ident}})(?=\s)'
+          scope: invalid.deprecated.custom-property.css
           captures:
             1: keyword.other.custom-property.prefix.css
             2: support.type.custom-property.name.css
-          push:
-            - meta_scope: invalid.deprecated.custom-property.css
-            - match: \b
-              pop: true
         - include: custom-property-name
         # Property names are sorted by popularity in descending order.
         # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
@@ -603,14 +683,16 @@ contexts:
               | hyphens|overflow-scrolling|overflow|color-profile|kerning
               | nbsp-mode|color|image-resolution|grid-row|grid-column|blend-mode
               | azimuth|pause-after|pause-before|pause|pitch-range|pitch|text-height
+              | system|negative|prefix|suffix|range|pad|fallback|additive-symbols
+              | symbols|speak-as
             )\b
           scope: support.type.property-name.css
     - match: (:)\s*
       captures:
         1: punctuation.separator.key-value.css
       push:
-        - meta_scope: meta.property-value.css
-        - match: '\s*(;|(?=\}))'
+        - meta_content_scope: meta.property-value.css
+        - match: '\s*(;)|(?=[})])'
           captures:
             1: punctuation.terminator.rule.css
           pop: true
@@ -1347,6 +1429,56 @@ contexts:
             pop: true
           - include: literal-string
           - include: unquoted-string
+
+  # url-prefix()
+  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-prefix
+  url-prefix-function:
+    - match: '\b(url-prefix)(?=\()'
+      scope: support.function.url-prefix.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - include: literal-string
+          - include: unquoted-string
+
+  # domain()
+  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-domain
+  domain-function:
+    - match: '\b(domain)(?=\()'
+      scope: support.function.domain.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - include: literal-string
+          - include: unquoted-string
+
+  # regexp()
+  # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-regexp
+  regexp-function:
+    - match: '\b(regexp)(?=\()'
+      scope: support.function.regexp.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - include: literal-string
 
   # image()
   # https://drafts.csswg.org/css-images-3/#funcdef-image
