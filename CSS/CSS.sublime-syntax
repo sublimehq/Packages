@@ -849,6 +849,25 @@ contexts:
               - match: '\b({{counter_styles}}|none)\b'
                 scope: support.constant.property-value.counter-style.css
 
+      # symbols()
+      # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+    - match: '\b(symbols)(?=\()'
+      scope: support.function.counter.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: '\('
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: '(?=\))'
+            pop: true
+          - match: '\b(cyclic|numeric|alphabetic|symbolic|fixed)\b'
+            scope: support.constant.symbol-type.css
+          - include: comma-delimiter
+          - include: literal-string
+          - include: image-type
+
       # format()
       # https://drafts.csswg.org/css-fonts-3/#descdef-src
       # format() is also mentioned in `issue 2` at https://drafts.csswg.org/css-images-3/#issues-index
