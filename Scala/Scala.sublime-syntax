@@ -20,8 +20,8 @@ contexts:
     - include: constants
     - include: char-literal
     - include: scala-symbol
-    - include: empty-parentheses
     - include: parameter-list
+    - include: empty-parentheses
     - include: qualifiedClassName
     - include: xml-literal
   block-comments:
@@ -85,7 +85,7 @@ contexts:
     - match: |-
         (?x)
         \b(def)\s+
-        (([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`|[^\w\[\(\:\_\s]+)
+        (_*([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\.]+)(_+([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\._]+)?)*|`[^`]+`|[^\w\[\(\:\_\s]+)
       captures:
         1: keyword.declaration.scala
         2: entity.name.function.declaration
@@ -158,9 +158,11 @@ contexts:
   keywords:
     - match: \b(return|throw)\b
       scope: keyword.control.flow.jump.scala
-    - match: \b(else|if|do|while|for|yield|match|case)\b
+    - match: \b(else|if|do|while|for|yield|match|case|macro)\b
       scope: keyword.control.flow.scala
     - match: \b(catch|finally|try)\b
+      scope: keyword.control.exception.scala
+    - match: (\?\?\?)              # can't be guarded by \b for some reason (maybe bug?)
       scope: keyword.control.exception.scala
   nest-curly-and-self:
     - match: '\{'
@@ -174,10 +176,16 @@ contexts:
         - include: nest-curly-and-self
     - include: main
   parameter-list:
-    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*([A-Za-z0-9][\w|_|?|\.]*)?,?'
-      captures:
-        1: variable.parameter
-        2: entity.name.class
+    - match: '\('
+      push:
+        - match: '\)'
+          pop: true
+        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+          captures:
+            1: variable.parameter
+            2: entity.name.class
+        - include: main
+        - include: parameter-list
   qualifiedClassName:
     - match: '(\b([A-Z][\w]*))'
       captures:
