@@ -8,7 +8,7 @@ first_line_match: textile
 scope: text.html.textile
 contexts:
   main:
-    - match: '(^h[1-6]([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+    - match: '(^h[1-6]([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
       captures:
         1: entity.name.tag.heading.textile
         3: entity.name.type.textile
@@ -23,7 +23,7 @@ contexts:
           pop: true
         - include: inline
         - include: scope:text.html.basic
-    - match: '(^bq([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+    - match: '(^bq([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
       captures:
         1: entity.name.tag.blockquote.textile
         3: entity.name.type.textile
@@ -38,7 +38,7 @@ contexts:
           pop: true
         - include: inline
         - include: scope:text.html.basic
-    - match: '(^fn[0-9]+([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+    - match: '(^fn[0-9]+([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
       captures:
         1: entity.name.tag.footnote.textile
         3: entity.name.type.textile
@@ -53,7 +53,7 @@ contexts:
           pop: true
         - include: inline
         - include: scope:text.html.basic
-    - match: '(^table([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+    - match: '(^table([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
       captures:
         1: entity.name.tag.footnote.textile
         3: entity.name.type.textile
@@ -73,7 +73,7 @@ contexts:
         - meta_scope: meta.paragraph.textile
         - match: ^$
           pop: true
-        - match: '(^p([<>=()]+)?)(\([^)]*\)|{[^}]*})*(\.)'
+        - match: '(^p([<>=()]+)?)(\([^)]*\)|\{[^}]*\})*(\.)'
           scope: entity.name.section.paragraph.textile
           captures:
             1: entity.name.tag.paragraph.textile
@@ -83,14 +83,14 @@ contexts:
         - include: scope:text.html.basic
     - include: scope:text.html.basic
   inline:
+    # & is handled automagically by textile, so we match it to avoid text.html.basic from flagging it
     - match: "&(?![A-Za-z0-9]+;)"
-      comment: "& is handled automagically by textile, so we match it to avoid text.html.basic from flagging it"
       scope: text.html.textile
-    - match: '^\*+(\([^)]*\)|{[^}]*})*(\s+|$)'
+    - match: '^\*+(\([^)]*\)|\{[^}]*\})*(\s+|$)'
       scope: markup.list.unnumbered.textile
       captures:
         1: entity.name.type.textile
-    - match: '^#+(\([^)]*\)|{[^}]*})*\s+'
+    - match: '^#+(\([^)]*\)|\{[^}]*\})*\s+'
       scope: markup.list.numbered.textile
       captures:
         1: entity.name.type.textile
@@ -173,30 +173,50 @@ contexts:
         2: markup.underline.link.image.textile
         3: string.other.link.description.textile
         4: markup.underline.link.textile
-    - match: '\|(\([^)]*\)|{[^}]*})*(\\\||.)+\|'
+    - match: '\|(\([^)]*\)|\{[^}]*\})*(\\\||.)+\|'
       scope: markup.other.table.cell.textile
       captures:
         1: entity.name.type.textile
-    - match: '\B(\*\*?)((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\1\B'
+    - match: '\B(\*\*)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\*\*\B'
       scope: markup.bold.textile
       captures:
         3: entity.name.type.textile
-    - match: '\B-((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)-\B'
+    - match: '\B(\*)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\*\B'
+      scope: markup.bold.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '\B-((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)-\B'
       scope: markup.deleted.textile
       captures:
         2: entity.name.type.textile
-    - match: '\B\+((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\+\B'
+    - match: '\B\+((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\+\B'
       scope: markup.inserted.textile
       captures:
         2: entity.name.type.textile
-    - match: '(?:\b|\s)_((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)_(?:\b|\s)'
+    - match: '(?:\b|\s)_((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)_(?:\b|\s)'
       scope: markup.italic.textile
       captures:
         2: entity.name.type.textile
-    - match: '\B([@\^~%]|\?\?)((\([^)]*\)|{[^}]*}|\[[^]]+\]){0,3})(\S.*?\S|\S)\1'
+    - match: '\B(\?\?)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\?\?'
       scope: markup.italic.phrasemodifiers.textile
       captures:
         3: entity.name.type.textile
-    - match: '(?<!w)\[[0-9+]\]'
-      comment: Footnotes
+    - match: '\B(@)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)@'
+      scope: markup.italic.phrasemodifiers.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '\B(\^)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)\^'
+      scope: markup.italic.phrasemodifiers.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '\B(~)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)~'
+      scope: markup.italic.phrasemodifiers.textile
+      captures:
+        3: entity.name.type.textile
+    - match: '\B(%)((\([^)]*\)|\{[^}]*\}|\[[^]]+\]){0,3})(\S.*?\S|\S)%'
+      scope: markup.italic.phrasemodifiers.textile
+      captures:
+        3: entity.name.type.textile
+    # Footnotes
+    - match: '\[[0-9+]\]'
       scope: entity.name.tag.textile
