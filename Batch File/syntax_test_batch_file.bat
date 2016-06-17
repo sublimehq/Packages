@@ -323,3 +323,28 @@ ECHO %% ^^! ^&
 ::                        ^ punctuation.separator.dosbatch
 ::                              ^ keyword.operator.assignment.dosbatch
 ::                                      ^ keyword.operator.arithmetic.dosbatch
+
+  SET T=%TIME: =0%
+::^^^ keyword.command
+::    ^ variable.other.readwrite
+::     ^ keyword.operator.assignment
+::      ^^^^^^^^^^ variable.other.readwrite
+
+IF "%FOO%" == "BAR" ( SET BAZ=42 )
+::                  ^ punctuation.definition.group.begin
+::                  ^^^^^^^^^^^^^^ meta.group
+::                               ^ punctuation.definition.group.end
+
+:: See http://ss64.com/nt/syntax-brackets.html
+IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
+:: <- keyword.control
+:: ^ keyword.other
+::                  ^^^^^^^^^^^^^^^^ meta.group
+::                   ^ keyword.command
+::                                  ^ - meta.group
+
+IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
+:: <- keyword.control
+:: ^ keyword.other
+::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+::                   ^ keyword.command

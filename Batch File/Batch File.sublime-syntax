@@ -8,7 +8,7 @@ file_extensions:
 scope: source.dosbatch
 variables:
   colon_comment_start: '(?::[+=,;: ])'
-  command_terminators: '[&|><]'
+  command_terminators: '[&|><)]'
 
 contexts:
   main:
@@ -27,8 +27,11 @@ contexts:
     - include: commands
     - match: \b(?i)(?:goto|call|exit)\b
       scope: keyword.control.statement.dosbatch
-    - match: \b(?i)if\s+((not)\s+)(exist|defined|errorlevel|cmdextversion)\b
-      scope: keyword.control.conditional.if.dosbatch
+    - match: \b(?i)(if)\s+(?:(not)\s+)?(exist|defined|errorlevel|cmdextversion)\b
+      captures:
+        1: keyword.control.conditional.dosbatch
+        2: keyword.operator.logical.dosbatch
+        3: keyword.other.dosbatch
     - match: \b(?i)(?:if|else)\b
       scope: keyword.control.conditional.dosbatch
     - match: \b(?i)for\b
@@ -52,8 +55,17 @@ contexts:
     - match: '(?i)\bSET\b'
       scope: keyword.command.dosbatch
       push:
-        - match: '\n'
+        - match: '(?=$\n|{{command_terminators}})'
           pop: true
+        - include: escaped_characters
+        - match: '([^ ]+)(=)'
+          captures:
+            1: variable.other.readwrite.dosbatch
+            2: keyword.operator.assignment.dosbatch
+        - include: variables
+        - include: numbers
+        - include: strings
+        - include: parens
         - match: '\s+/[aA]\s+' # SET arithmetic
           push:
             - meta_content_scope: meta.expression.set.dosbatch
