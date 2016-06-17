@@ -451,7 +451,7 @@ contexts:
         - meta_scope: meta.item-access.python
         - match: \]
           scope: punctuation.definition.arguments.end.python
-          pop: true
+          set: after-function-call-item-access
         - match: '(?={{path}}\s*\[)'
           push:
             - match: '(?=\s*\[)'
@@ -464,38 +464,14 @@ contexts:
             - match: '(?=\])'
               pop: true
             - include: expressions
-    - match: '(?<=\)|\])\s*(\[)'
-      captures:
-        1: punctuation.definition.arguments.begin.python
-      push:
-        - meta_scope: meta.item-access.python
-        - meta_content_scope: meta.item-access.arguments.python
-        - match: \]
-          scope: punctuation.definition.arguments.end.python
-          pop: true
-        - include: expressions
 
   function-calls:
-    - match: '(?<=\)|\])\s*(\()'
-      captures:
-        1: punctuation.definition.arguments.begin.python
-      push:
-        - meta_scope: meta.function-call.python
-        - meta_content_scope: meta.function-call.arguments.python
-        - match: \)
-          scope: punctuation.definition.arguments.end.python
-          pop: true
-        - include: keyword-arguments
-        - match: ','
-          scope: punctuation.separator.parameters.python
-        - include: inline-for
-        - include: expressions
     - match: '(?=\.?{{path}}\s*\()'
       push:
         - meta_scope: meta.function-call.python
         - match: \)
           scope: punctuation.definition.arguments.end.python
-          pop: true
+          set: after-function-call-item-access
         - match: '(?=\.?{{path}}\s*\()'
           push:
             - match: (?=\s*\()
@@ -525,6 +501,36 @@ contexts:
               scope: punctuation.separator.parameters.python
             - include: inline-for
             - include: expressions
+
+  after-function-call-item-access:
+    # A function returned by a function call or item access
+    - match: '\s*(\()'
+      captures:
+        1: punctuation.definition.arguments.begin.python
+      push:
+        - meta_scope: meta.function-call.python
+        - meta_content_scope: meta.function-call.arguments.python
+        - match: \)
+          scope: punctuation.definition.arguments.end.python
+          pop: true
+        - include: keyword-arguments
+        - match: ','
+          scope: punctuation.separator.parameters.python
+        - include: inline-for
+        - include: expressions
+    # item access from a value returned from a function or item access
+    - match: '\s*(\[)'
+      captures:
+        1: punctuation.definition.arguments.begin.python
+      push:
+        - meta_scope: meta.item-access.python
+        - meta_content_scope: meta.item-access.arguments.python
+        - match: \]
+          scope: punctuation.definition.arguments.end.python
+          pop: true
+        - include: expressions
+    - match: ''
+      pop: true
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)

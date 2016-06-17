@@ -84,6 +84,18 @@ func()
 #^^^^^ meta.function-call
 #^^^ variable.function
 
+func()(1, 2)
+# <- meta.function-call
+#^^^^^^^^^^^ meta.function-call
+
+myobj[1](True)
+#    ^^^ meta.item-access
+#       ^^^^^^ meta.function-call
+
+myobj[1][2](0)
+#    ^^^^^^ meta.item-access
+#          ^^^ meta.function-call
+
 myobj.attribute
 #    ^ punctuation.accessor
 
