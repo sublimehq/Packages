@@ -624,6 +624,12 @@
 /*                      ^^^^^       string.quoted.double.css                          */
 /*                           ^      punctuation.separator.css                         */
 /*                             ^^^^ support.constant.property-value.counter-style.css */
+
+    top: symbols(fixed "\2020" url());
+/*       ^^^^^^^                   support.function.counter.css     */
+/*               ^^^^^             support.constant.symbol-type.css */
+/*                     ^^^^^^^     string.quoted.double.css         */
+/*                             ^^^ support.function.url.css         */
 }
 
 .test-grid-functions {
