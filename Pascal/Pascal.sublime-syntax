@@ -34,7 +34,7 @@ contexts:
             0: punctuation.definition.comment.pascal
           push:
             - meta_scope: comment.line.double-dash.pascal.one
-            - match: \n
+            - match: '(?=\n)'
               pop: true
     - match: '(^[ \t]+)?(?=//)'
       captures:
@@ -47,7 +47,7 @@ contexts:
             0: punctuation.definition.comment.pascal
           push:
             - meta_scope: comment.line.double-slash.pascal.two
-            - match: \n
+            - match: '(?=\n)'
               pop: true
     - match: \(\*
       captures:
