@@ -221,8 +221,8 @@ object Foo
    match
 // ^^^^^ keyword.control.flow.scala
 
-   case
-// ^^^^ keyword.control.flow.scala
+   case =>
+// ^^^^ keyword.declaration.scala
 
    macro
 // ^^^^^ keyword.scala
@@ -336,3 +336,52 @@ object Foo
   (a: Int)
 // ^ source.scala
 //    ^^^ storage.type.primitive.scala
+
+   case (abc: Foo, cba @ _) =>
+// ^^^^ keyword.declaration.scala
+//       ^^^ entity.name.parameter variable.parameter
+//            ^^^ entity.name.class
+//                 ^^^ entity.name variable.parameter
+//                       ^ keyword
+
+   case abc @ `abc` =>
+//      ^^^ entity.name variable.parameter
+//          ^ keyword
+//            ^^^^^ source.scala
+
+   case foo: (Int => Boolean) :: _ =>
+//                               ^ keyword
+
+   case /* testing */ =>
+//      ^^^^^^^^^^^^^ comment.block.scala
+
+   case // testing
+//      ^^^^^^^^^^ comment.line.double-slash.scala
+   =>
+
+   case 42 =>
+//      ^^ constant.numeric.scala
+
+   case 'a' =>
+//      ^^^ constant.character.literal.scala
+
+   case 'foo =>
+//      ^^^^ constant.other.symbol
+
+   case "foo" =>
+//      ^^^^^ string.quoted.double.scala
+
+   case """foo""" =>
+//      ^^^^^^^^^ string.quoted.triple.scala
+
+   case q"""..$foo""" =>
+//      ^^^^^^ string.quoted.triple.interpolated.scala
+//            ^^^^ variable.parameter
+//                ^^^ string.quoted.triple.interpolated.scala
+
+   case <foo/> =>
+//      ^^^^^^ text.xml
+//       ^^^ entity.name.tag
+
+   case Nil =>
+//      ^^^ constant.language.scala
