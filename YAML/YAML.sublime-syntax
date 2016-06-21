@@ -457,10 +457,10 @@ contexts:
     # c-l+literal(n) | c-l+folded(n)
     - match: (?:(\|)|(>))([1-9])?([-+])?  # c-b-block-header(m,t)
       captures:
-        1: punctuation.definition.block.scalar.literal.yaml
-        2: punctuation.definition.block.scalar.folded.yaml
+        1: keyword.control.flow.block-scalar.literal.yaml
+        2: keyword.control.flow.block-scalar.folded.yaml
         3: constant.numeric.indentation-indicator.yaml
-        4: support.other.chomping-indicator.yaml
+        4: storage.modifier.chomping-indicator.yaml
       push:
         - meta_include_prototype: false
         - match: ^([ ]+)(?! )  # match first non-empty line to determine indentation level
