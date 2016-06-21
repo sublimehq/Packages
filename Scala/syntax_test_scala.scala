@@ -472,3 +472,17 @@ object Foo
 //       ^^^^^^^ entity.name.parameter variable.parameter
    } _
 //   ^ source.scala
+
+   for (a <- _; (b, c @ _) ← _; val abc = _) _
+// ^^^ keyword.control.flow.scala
+//      ^ entity.name.parameter variable.parameter
+//           ^ source.scala
+//               ^ entity.name.parameter variable.parameter
+//                  ^ entity.name.parameter variable.parameter
+//                    ^ keyword
+//                      ^ keyword
+//                           ^ source.scala
+//                              ^^^ keyword.declaration.stable.scala
+//                                  ^^^ entity.name.parameter variable.parameter
+//                                        ^ source.scala
+//                                           ^ source.scala

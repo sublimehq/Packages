@@ -250,15 +250,15 @@ contexts:
       push:
         - match: '\}'
           pop: true
-        - include: for-body
+        - include: for-braces-body
     - match: '\b(for)\s*\('
       captures:
         1: keyword.control.flow.scala
       push:
         - match: '\)'
           pop: true
-        - include: for-body
-  for-body:
+        - include: for-parens-body
+  for-braces-body:
     - match: '^(?=([^<←=]|<[^\-])+(<-|←|=))'
       push:
         - match: '^\s*(val)\s+'
@@ -277,6 +277,25 @@ contexts:
           pop: true
         - include: main
     - include: main
+  for-parens-body:
+    - match: '<-|←|='
+      push:
+        - match: ;
+          pop: true
+        - match: '\{'
+          push:
+            - match: '\}'
+              pop: true
+            - include: main
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: main
+        - include: main
+    - match: '\b(val)\b'
+      scope: keyword.declaration.stable.scala
+    - include: pattern-match
   keywords:
     - match: \b(return|throw)\b
       scope: keyword.control.flow.jump.scala
