@@ -20,6 +20,30 @@ def foo(a: Int, b: Bar): Baz = 42
 //                       ^^^ entity.name.class
 //                             ^^ constant.numeric.scala
 
+   def +(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^ entity.name.function.declaration
+
+   def `this is a test`(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^^^^^^^^^^^^ entity.name.function.declaration
+
+   def ::(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^ entity.name.function.declaration
+
+   def foo_+(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^ entity.name.function.declaration
+
+   def foo42_+(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^^^ entity.name.function.declaration
+
+   def foo42_+_abc(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^^^^^^^ entity.name.function.declaration
+
 val foo: Unit
 //^ keyword.declaration.stable.scala
 //  ^^^ entity.name.val.declaration
