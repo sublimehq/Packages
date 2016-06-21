@@ -25,6 +25,7 @@ contexts:
     - include: storage-modifiers
     - include: declarations
     - include: inheritance
+    - include: for-comprehension
     - include: keywords
     - include: imports
     - include: comments
@@ -242,6 +243,40 @@ contexts:
       captures:
         1: keyword.scala
         2: entity.name.class.scala
+  for-comprehension:
+    - match: '\b(for)\s*\{'
+      captures:
+        1: keyword.control.flow.scala
+      push:
+        - match: '\}'
+          pop: true
+        - include: for-body
+    - match: '\b(for)\s*\('
+      captures:
+        1: keyword.control.flow.scala
+      push:
+        - match: '\)'
+          pop: true
+        - include: for-body
+  for-body:
+    - match: '^(?=([^<←=]|<[^\-])+(<-|←|=))'
+      push:
+        - match: '^\s*(val)\s+'
+          scope: keyword.declaration.stable.scala
+        - match: <-|←|=
+          pop: true
+        - include: pattern-match
+    - match: '\{'
+      push:
+        - match: '\}'
+          pop: true
+        - include: main
+    - match: '\('
+      push:
+        - match: '\)'
+          pop: true
+        - include: main
+    - include: main
   keywords:
     - match: \b(return|throw)\b
       scope: keyword.control.flow.jump.scala

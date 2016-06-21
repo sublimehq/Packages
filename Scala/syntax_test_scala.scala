@@ -430,3 +430,45 @@ object Foo
 //                             ^^^^^^^ keyword.declaration.scala
 //                                     ^^^^^ entity.other.inherited-class.scala
 //
+
+   for {
+// ^^^ keyword.control.flow.scala
+
+     a <- _
+//   ^ entity.name.parameter variable.parameter
+//        ^ source.scala
+
+     a ← _
+//   ^ entity.name.parameter variable.parameter
+//       ^ source.scala
+
+     (b, c @ _) <- _
+//    ^ entity.name.parameter variable.parameter
+//       ^ entity.name.parameter variable.parameter
+//         ^ keyword
+//           ^ keyword
+//                 ^ source.scala
+       _
+//     ^ source.scala
+
+     testing = _
+//   ^^^^^^^ entity.name.parameter variable.parameter
+//             ^ source.scala
+
+     testing = {
+//   ^^^^^^^ entity.name.parameter variable.parameter
+       testing = false
+//     ^^^^^^^ source.scala
+     }
+
+     testing = (
+//   ^^^^^^^ entity.name.parameter variable.parameter
+       testing = false
+//     ^^^^^^^ source.scala
+     )
+
+     val testing = 42
+//   ^^^ keyword.declaration.stable.scala
+//       ^^^^^^^ entity.name.parameter variable.parameter
+   } _
+//   ^ source.scala
