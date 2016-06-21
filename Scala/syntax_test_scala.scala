@@ -64,15 +64,15 @@ def foo(a: Int, b: Bar): Baz = 42
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
 
-val foo: Unit
-//^ keyword.declaration.stable.scala
-//  ^^^ entity.name.val.scala
-//       ^^^^ storage.type.primitive.scala
+   val foo: Unit
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name.parameter
+//          ^^^^ storage.type.primitive.scala
 
-var foo: Unit
-//^ keyword.declaration.volatile.scala
-//  ^^^ entity.name.val.scala
-//       ^^^^ storage.type.primitive.scala
+   var foo: Unit
+// ^^^ keyword.declaration.volatile.scala
+//     ^^^ entity.name.var.declaration variable.parameter
+//          ^^^^ storage.type.primitive.scala
 
 class Foo[A](a: Bar) extends Baz with Bin
 // ^^ keyword.declaration.scala
@@ -385,3 +385,19 @@ object Foo
 
    case Nil =>
 //      ^^^ constant.language.scala
+
+   val abc @ `abc`
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name variable.parameter
+//         ^ keyword
+//           ^^^^^ source.scala
+
+   _
+// ^ source.scala
+
+   val ble @ `abc` = _
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name variable.parameter
+//         ^ keyword
+//           ^^^^^ source.scala
+//                   ^ source.scala
