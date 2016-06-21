@@ -93,6 +93,7 @@ contexts:
       captures:
         1: keyword.control.set.regexp
       push:
+        - meta_scope: meta.set.regexp
         - match: ':(ascii|alnum|alpha|blank|cntrl|digit|graph|lower|print|punct|space|upper|word|xdigit):'
           scope: constant.other.posix-class.regexp
         - match: '\]'

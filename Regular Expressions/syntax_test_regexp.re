@@ -47,10 +47,11 @@
 \W
 # <- keyword.control.character-class
 
-[b-c]
-# <- keyword.control.set
-#   ^ keyword.control.set
-#^^^ constant.other.range
+ [b-c]
+#^^^^^ meta.set
+#^ keyword.control.set
+#    ^ keyword.control.set
+# ^^^ constant.other.range
 
 [\x00-\x{A}]
 # <- keyword.control.set
@@ -60,6 +61,7 @@
 #     ^^^^^ constant.character.escape
 
 [[a-z]&&[:ascii:]]
+#^^^^^ meta.set meta.set
 #     ^^ keyword.operator.intersection
 # ^^^ constant.other.range
 #        ^^^^^^^ constant.other.posix-class
@@ -225,6 +227,7 @@ hello++
 
 (?![a-z]+?)
 #^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+#  ^^^^^ meta.set.regexp
 #  ^ keyword.control.set.regexp
 #      ^ keyword.control.set.regexp
 #   ^^^ constant.other.range.regexp
