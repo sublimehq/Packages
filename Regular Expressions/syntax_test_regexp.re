@@ -151,31 +151,31 @@ hello++
 #  ^^^^ - invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
 
 (?x)
-#^^ meta.mode-modifier.regexp
+#^^ storage.modifier.mode.regexp
 
 (?-ix)
-#^^^^ meta.mode-modifier.regexp
+#^^^^ storage.modifier.mode.regexp
 
 (?sm-ixxs)
-#^^^^^^^^ meta.mode-modifier.regexp
+#^^^^^^^^ storage.modifier.mode.regexp
 
  (?i:hello)
 #^^^^^^^^^^ meta.group.regexp
 #^ keyword.control.group.regexp
-# ^^^ meta.mode-modifier.regexp
-#    ^ - meta.mode-modifier.regexp
+# ^^^ storage.modifier.mode.regexp
+#    ^ - storage.modifier.mode.regexp
 #         ^ keyword.control.group.regexp
 
  (?i-s:hello)
 #^^^^^^^^^^^^ meta.group.regexp
 #^ keyword.control.group.regexp
-# ^^^^^ meta.mode-modifier.regexp
-#      ^ - meta.mode-modifier.regexp
+# ^^^^^ storage.modifier.mode.regexp
+#      ^ - storage.modifier.mode.regexp
 #           ^ keyword.control.group.regexp
 
 (?abc)
-#^ invalid.illegal.unexpected-quantifier.regexp - meta.mode-modifier.regexp
-# ^^^ meta.literal.regexp - meta.mode-modifier.regexp
+#^ invalid.illegal.unexpected-quantifier.regexp - storage.modifier.mode.regexp
+# ^^^ meta.literal.regexp - storage.modifier.mode.regexp
 
  .*?
 #^ keyword.other.any.regexp - meta.literal.regexp
@@ -241,7 +241,7 @@ hello++
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
 #               ^ keyword.control.anchors.regexp
-#            ^^ meta.group.regexp meta.group.regexp meta.mode-modifier.regexp
+#            ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
 
