@@ -15,7 +15,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //^ keyword.declaration.scala
 //  ^^^ entity.name.function.declaration
 //      ^ variable.parameter
-//         ^^^ entity.name.class
+//         ^^^ storage.type.primitive.scala
 //                 ^^^ entity.name.class
 //                       ^^^ entity.name.class
 //                             ^^ constant.numeric.scala
@@ -258,3 +258,11 @@ object Foo
 //                       ^ comment.block.empty.scala
 //                          ^ comment.block.empty.scala
 //                             ^^^^ comment.block.scala
+
+   a :: b :: Nil
+// ^^^^^^^^^ source.scala
+//           ^^^ constant.language.scala
+
+   a: Int
+// ^^ source.scala
+//    ^^^ storage.type.primitive.scala
