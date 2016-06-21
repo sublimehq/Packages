@@ -23,9 +23,9 @@ variables:
 contexts:
   main:
     - include: storage-modifiers
-    - include: keywords
     - include: declarations
     - include: inheritance
+    - include: keywords
     - include: imports
     - include: comments
     - include: block-comments
@@ -95,7 +95,7 @@ contexts:
         1: keyword.declaration.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '(case)?\b(class|trait|object)\s+([^\s\{\(\[]+)'
+    - match: '\b(case\s+)?(class|trait|object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
         2: keyword.declaration.scala
@@ -355,6 +355,7 @@ contexts:
   pattern-match:
     - include: comments
     - include: block-comments
+    - include: keywords
     - include: constants
     - include: char-literal
     - include: scala-symbol

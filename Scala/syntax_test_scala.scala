@@ -408,3 +408,25 @@ object Foo
 //         ^ keyword
 //           ^^^^^ source.scala
 //                   ^ source.scala
+
+   case object Thingy extends Other
+// ^^^^ keyword.declaration.scala
+//      ^^^^^^ keyword.declaration.scala
+//             ^^^^^^ entity.name.class.declaration
+//                    ^^^^^^^ keyword.declaration.scala
+//                            ^^^^^ entity.other.inherited-class.scala
+
+   case class
+// ^^^^ keyword.declaration.scala
+//      ^^^^^ keyword.declaration.scala
+
+=>     // this is here to act as a random terminator to the above partial syntax
+
+   case class Thingy(abc: Int) extends Other
+// ^^^^ keyword.declaration.scala
+//      ^^^^^ keyword.declaration.scala
+//            ^^^^^^ entity.name.class.declaration
+//                   ^^^ variable.parameter
+//                             ^^^^^^^ keyword.declaration.scala
+//                                     ^^^^^ entity.other.inherited-class.scala
+//
