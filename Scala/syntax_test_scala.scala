@@ -156,6 +156,9 @@ object Foo
    else
 // ^^^^ keyword.control.flow.scala
 
+   do
+// ^^ keyword.control.flow.scala
+
    while
 // ^^^^^ keyword.control.flow.scala
 
@@ -171,6 +174,12 @@ object Foo
    case
 // ^^^^ keyword.control.flow.scala
 
+   macro
+// ^^^^^ keyword.control.flow.scala
+
+   type
+// ^^^^ keyword.control.flow.scala
+
    return
 // ^^^^^^ keyword.control.flow.jump.scala
 
@@ -183,8 +192,47 @@ object Foo
    finally
 // ^^^^^^^ keyword.control.exception.scala
 
+   ???
+// ^^^ keyword.control.exception.scala
+
    try
 // ^^^ keyword.control.exception.scala
+
+   forSome
+// ^^^^^^^ keyword.scala
+
+   new
+// ^^^ keyword.scala
+
+   extends
+// ^^^^^^^ keyword.scala
+
+   with
+// ^^^^ keyword.scala
+
+   class
+// ^^^^^ keyword.scala
+
+   trait
+// ^^^^^ keyword.scala
+
+   object
+// ^^^^^^ keyword.scala
+
+   def
+// ^^^ keyword.scala
+
+   val
+// ^^^ keyword.declaration.stable.scala
+
+   var
+// ^^^ keyword.declaration.volatile.scala
+
+   import
+// ^^^^^^ keyword.other.import.scala
+
+   package
+// ^^^^^^^ keyword.scala
 
    private
 // ^^^^^^^ storage.modifier.access
