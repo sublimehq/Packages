@@ -134,7 +134,7 @@ contexts:
             - match: '\)'
               pop: true
             - include: pattern-match
-        - match: '=>'
+        - match: '=>|⇒'
           pop: true
         - include: pattern-match
   function-type-parameter-list:

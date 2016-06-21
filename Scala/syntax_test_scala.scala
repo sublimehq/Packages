@@ -386,6 +386,9 @@ object Foo
    case Nil =>
 //      ^^^ constant.language.scala
 
+   case _ ⇒ _
+//          ^ source.scala
+
    val abc @ `abc`
 // ^^^ keyword.declaration.stable.scala
 //     ^^^ entity.name variable.parameter
