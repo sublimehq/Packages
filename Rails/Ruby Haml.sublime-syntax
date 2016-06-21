@@ -72,7 +72,7 @@ contexts:
         - match: '((do|\{)( \|[^|]+\|)?)$|$|^(?!.*\|\s*$)'
           captures:
             1: source.ruby.embedded.html
-            2: keyword.control.ruby.start-block
+            2: keyword.control.start-block.ruby
           pop: true
         - match: "#.*$"
           comment: Hack to let ruby comments work in this context properly
