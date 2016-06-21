@@ -389,6 +389,10 @@ object Foo
    case _ ⇒ _
 //          ^ source.scala
 
+   case _ if stuff =>
+//        ^^ keyword.control.flow.scala
+//           ^^^^^ source.scala
+
    val abc @ `abc`
 // ^^^ keyword.declaration.stable.scala
 //     ^^^ entity.name variable.parameter

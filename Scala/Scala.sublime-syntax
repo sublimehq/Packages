@@ -134,8 +134,10 @@ contexts:
             - match: '\)'
               pop: true
             - include: pattern-match
-        - match: '=>|⇒'
+        - match: '=>|⇒|\b(if)\b'
           pop: true
+          captures:
+            1: keyword.control.flow.scala
         - include: pattern-match
   function-type-parameter-list:
     - match: '(?=\()'
