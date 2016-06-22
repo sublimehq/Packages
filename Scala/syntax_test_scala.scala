@@ -486,3 +486,10 @@ object Foo
 //                                  ^^^ entity.name.parameter variable.parameter
 //                                        ^ source.scala
 //                                           ^ source.scala
+
+   for {
+     sss <- { {} }
+//   ^^^ entity.name.parameter variable.parameter
+     qqq <- stuff
+//   ^^^ entity.name.parameter variable.parameter
+   }

@@ -36,6 +36,8 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: empty-parentheses
+    - include: braces
+    - include: parameter-list
     - include: qualifiedClassName
     - include: xml-literal
     - include: late-keywords
@@ -140,6 +142,17 @@ contexts:
           captures:
             1: keyword.control.flow.scala
         - include: pattern-match
+  braces:
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: main
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: main
   function-type-parameter-list:
     - match: '(?=\()'
       set: function-parameter-list
