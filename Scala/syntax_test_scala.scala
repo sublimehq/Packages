@@ -44,6 +44,14 @@ def foo(a: Int, b: Bar): Baz = 42
 // ^^^ keyword.declaration.scala
 //     ^^^^^^^^^^^ entity.name.function.declaration
 
+   def foo[A]
+// ^^^ keyword.declaration.scala
+//     ^^^ entity.name.function.declaration
+//         ^ entity.name.class
+
+   def foo(implicit bar: Int): Unit
+//         ^^^^^^^^ storage.modifier.other
+
 val foo: Unit
 //^ keyword.declaration.stable.scala
 //  ^^^ entity.name.val.declaration
@@ -64,6 +72,12 @@ class Foo[A](a: Bar) extends Baz with Bin
 //                           ^^^ entity.other.inherited-class.scala
 //                               ^^^^ keyword.declaration.scala
 //                                    ^^^ entity.other.inherited-class.scala
+
+   class Foo private[this] (a: Int)(b: String)
+//           ^^^^^^^ storage.modifier.access
+//                   ^^^^ variable.language.scala
+//                          ^ variable.parameter
+//                                  ^ variable.parameter
 
 trait Foo
 // ^^ keyword.declaration.scala
@@ -251,6 +265,14 @@ object Foo
 // ^^^^^^^^^ source.scala
 //           ^^^ constant.language.scala
 
+  (a :: b :: Nil)
+// ^^^^^^^^^ source.scala
+//           ^^^ constant.language.scala
+
    a: Int
 // ^^ source.scala
+//    ^^^ storage.type.primitive.scala
+
+  (a: Int)
+// ^ source.scala
 //    ^^^ storage.type.primitive.scala
