@@ -34,8 +34,14 @@ Foo.List<a> l;
 Foo.l + 1;
 /// ^ variable.other
 Foo<a>.List l;
-///     ^ variable.other.type
+///    ^^ variable.other.type
 ///         ^ entity.name.variable
+
+List<int> bar = new List<int>();
+/// <- variable.other.type
+///  ^^^ support.type
+///                 ^^^^ variable.other.type
+///                      ^^^ support.type
 
 string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 ///               ^^ string.quoted.double punctuation.definition.string
@@ -51,3 +57,7 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2}";
 ///                                                               ^ punctuation.definition.string.interpolated.end
 x[10][5] = 2;
 f(5)[2] = 10;
+/// ^ punctuation.definition.accessor
+///   ^ punctuation.definition.accessor
+
+int? foo = 4;
