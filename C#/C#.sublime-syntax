@@ -838,7 +838,7 @@ contexts:
 
     - match: \b(typeof|default)(\()
       captures:
-        1: keyword.operator.reflexion.cs
+        1: keyword.operator.reflection.cs
         2: punctuation.definition.arguments.begin.cs
       push:
         - match: \)
@@ -847,7 +847,7 @@ contexts:
         - include: type
 
     - match: '\b(as|is)(\s+)'
-      scope: keyword.operator.reflexion.cs
+      scope: keyword.operator.reflection.cs
       push: type_no_space
 
     - match: \b(checked|unchecked)\b

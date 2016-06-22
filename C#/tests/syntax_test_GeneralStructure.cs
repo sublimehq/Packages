@@ -28,13 +28,20 @@ namespace YourNamespace
 
         public bool IsConst(Type value) => this is Const && (this as Const).Value.Equals(value);
 ///                                     ^ punctuation.section.function.begin.cs
-///                                              ^ keyword.operator.reflexion.cs
+///                                              ^ keyword.operator.reflection.cs
 ///                                                      ^ keyword.operator
-///                                                               ^ keyword.operator.reflexion.cs
+///                                                               ^ keyword.operator.reflection.cs
         public bool IsZero => IsConst(Numeric<Type>.Zero);
 ///                  ^ entity.name.variable.property.cs
 ///                        ^ storage.type.function.accessor.get.cs
 ///                         ^ storage.type.function.accessor.get.cs
+
+        public bool InlineProperty {get; private set; } = false;
+///                                 ^^^ storage.type.function.accessor.get
+///                                      ^^^^^^^ storage.modifier.access
+///                                              ^^^ storage.type.function.accessor.set
+///                                                     ^ keyword.operator.assignment
+///                                                       ^^^^^ constant.language
     }
 
     struct YourStruct
