@@ -135,6 +135,9 @@ hello**
 #<- meta.literal.regexp
 #^^^^ meta.literal.regexp
 
+)
+# <- invalid.illegal.unmatched-brace.regexp
+
 hello++
 #    ^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
 
