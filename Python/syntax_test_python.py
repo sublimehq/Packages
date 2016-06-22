@@ -553,6 +553,9 @@ raise KeyError() from z
 # Strings and embedded syntaxes
 ###############################
 
+"Testing {:,.2f}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
 var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
