@@ -152,9 +152,25 @@ hello++
 
 (?x)
 #^^ storage.modifier.mode.regexp
+#   ^ meta.ignored-whitespace
 
+# this is a comment
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+# <- comment punctuation.definition.comment
 (?-ix)
 #^^^^ storage.modifier.mode.regexp
+
+# not a comment
+# <- - comment
+
+(
+    (?x)
+    # comment
+#   ^^^^^^^^^ comment
+   (?-x)
+) # no comment
+# <- keyword.control.group
+# ^ - comment
 
 (?sm-ixxs)
 #^^^^^^^^ storage.modifier.mode.regexp
@@ -172,6 +188,25 @@ hello++
 # ^^^^^ storage.modifier.mode.regexp
 #      ^ - storage.modifier.mode.regexp
 #           ^ keyword.control.group.regexp
+
+# not a comment
+^ - comment
+
+(?ix:
+#^^^^
+# comment
+#^^^^^^^^ comment.line.number-sign
+
+    (# also a comment)
+#    ^^^^^^^^^^^^^^^^^ comment
+    )
+
+ (?s-x: # not a comment)
+#       ^ - comment
+
+)
+# not a comment
+^ - comment
 
 (?abc)
 #^ invalid.illegal.unexpected-quantifier.regexp - storage.modifier.mode.regexp
