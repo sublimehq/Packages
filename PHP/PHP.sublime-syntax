@@ -17,7 +17,16 @@ contexts:
     - match: ''
       push: 'scope:text.html.basic'
       with_prototype:
-        - match: '(<\?=|<\?(?i:php)?(?=.*\?>))'
+        - match: '<\?(?i:php|=)?(?![^?]*\?>)'
+          scope: punctuation.section.embedded.begin.php
+          push:
+            - meta_scope: meta.embedded.block.php
+            - meta_content_scope: source.php
+            - match: \?>
+              scope: punctuation.section.embedded.end.php
+              pop: true
+            - include: 'scope:source.php'
+        - match: <\?(?i:php|=)?
           scope: punctuation.section.embedded.begin.php
           push:
             - meta_scope: meta.embedded.line.php
@@ -26,11 +35,3 @@ contexts:
               scope: punctuation.section.embedded.end.php
               pop: true
             - include: 'scope:source.php'
-        - match: <\?(?i:php)?
-          scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-          push:
-            - match: \?>
-              scope: meta.embedded.block.php punctuation.section.embedded.end.php
-              pop: true
-            - match: ''
-              push: 'scope:source.php#embedded'
