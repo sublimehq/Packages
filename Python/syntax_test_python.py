@@ -556,6 +556,13 @@ raise KeyError() from z
 "Testing {:,.2f}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
 
+datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
+#                                    ^^^^^^^^^^ constant.other.placeholder
+
+"My String %% %s"
+#          ^^ constant.other.placeholder
+#             ^^ constant.other.placeholder
+
 var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
