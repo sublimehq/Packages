@@ -166,22 +166,7 @@ contexts:
       captures:
         1: storage.modifier.async.python
         2: keyword.control.flow.with.python
-      push:
-        - meta_scope: meta.statement.with.python
-        - include: line-continuation-or-pop
-        - match: \b(as)\b
-          scope: keyword.control.flow.with.as.python
-          set:
-            - meta_scope: meta.statement.with.python
-            - include: line-continuation-or-pop
-            - match: ':'
-              scope: punctuation.definition.block.with.python
-              pop: true
-            - include: name
-        - match: ':'
-          scope: punctuation.definition.block.with.python
-          pop: true
-        - include: expressions
+      push: with-body
     # except ... as ...:
     - match: \b(except)\b
       scope: keyword.control.flow.except.python
@@ -203,6 +188,30 @@ contexts:
         - include: target-list
     - match: \b(elif|else|finally|if|try|while)\b
       scope: keyword.control.flow.python
+
+  with-body:
+    - meta_scope: meta.statement.with.python
+    - include: line-continuation-or-pop
+    - match: \b(as)\b
+      scope: keyword.control.flow.with.as.python
+      set: with-as
+    - match: ':'
+      scope: punctuation.definition.block.with.python
+      pop: true
+    - match: ','
+      scope: punctuation.separator.with-resources.python
+    - include: expressions
+
+  with-as:
+    - meta_scope: meta.statement.with.python
+    - include: line-continuation-or-pop
+    - match: ':'
+      scope: punctuation.definition.block.with.python
+      pop: true
+    - match: ','
+      scope: punctuation.separator.with-resources.python
+      set: with-body
+    - include: name
 
   expressions: # Always include this last!
     - include: comments
