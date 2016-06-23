@@ -140,6 +140,14 @@ def _():
         x:
 #       ^^ meta.statement.with
 
+    with open(), open() as x, open() as y:
+#   ^^^^ keyword.control.flow.with
+#        ^^^^ support.function
+#              ^ punctuation.separator.with-resources
+#                       ^^ keyword.control.flow.with.as
+#                           ^ punctuation.separator.with-resources
+#                             ^^^^ support.function
+#                                    ^^ keyword.control.flow.with.as
     async with context_manager() as c:
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
