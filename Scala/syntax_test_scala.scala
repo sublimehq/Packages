@@ -347,7 +347,7 @@ object Foo
    case abc @ `abc` =>
 //      ^^^ entity.name variable.parameter
 //          ^ keyword
-//            ^^^^^ source.scala
+//            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
 //                               ^ keyword
@@ -387,27 +387,27 @@ object Foo
 //      ^^^ constant.language.scala
 
    case _ ⇒ _
-//          ^ source.scala
+//          ^ - keyword
 
    case _ if stuff =>
 //        ^^ keyword.control.flow.scala
-//           ^^^^^ source.scala
+//           ^^^^^ - variable.parameter
 
    val abc @ `abc`
 // ^^^ keyword.declaration.stable.scala
 //     ^^^ entity.name variable.parameter
 //         ^ keyword
-//           ^^^^^ source.scala
+//           ^^^^^ - variable.parameter
 
    _
-// ^ source.scala
+// ^ - keyword
 
    val ble @ `abc` = _
 // ^^^ keyword.declaration.stable.scala
 //     ^^^ entity.name variable.parameter
 //         ^ keyword
-//           ^^^^^ source.scala
-//                   ^ source.scala
+//           ^^^^^ - variable.parameter
+//                   ^ - keyword
 
    case object Thingy extends Other
 // ^^^^ keyword.declaration.scala
@@ -436,56 +436,56 @@ object Foo
 
      a <- _
 //   ^ entity.name.parameter variable.parameter
-//        ^ source.scala
+//        ^ - keyword
 
      a ← _
 //   ^ entity.name.parameter variable.parameter
-//       ^ source.scala
+//       ^ - variable.parameter
 
      (b, c @ _) <- _
 //    ^ entity.name.parameter variable.parameter
 //       ^ entity.name.parameter variable.parameter
 //         ^ keyword
 //           ^ keyword
-//                 ^ source.scala
+//                 ^ - keyword
        _
-//     ^ source.scala
+//     ^ - variable.parameter
 
      testing = _
 //   ^^^^^^^ entity.name.parameter variable.parameter
-//             ^ source.scala
+//             ^ - keyword
 
      testing = {
 //   ^^^^^^^ entity.name.parameter variable.parameter
        testing = false
-//     ^^^^^^^ source.scala
+//     ^^^^^^^ - variable.parameter
      }
 
      testing = (
 //   ^^^^^^^ entity.name.parameter variable.parameter
        testing = false
-//     ^^^^^^^ source.scala
+//     ^^^^^^^ - variable.parameter
      )
 
      val testing = 42
 //   ^^^ keyword.declaration.stable.scala
 //       ^^^^^^^ entity.name.parameter variable.parameter
    } _
-//   ^ source.scala
+//   ^ - variable.parameter
 
    for (a <- _; (b, c @ _) ← _; val abc = _) _
 // ^^^ keyword.control.flow.scala
 //      ^ entity.name.parameter variable.parameter
-//           ^ source.scala
+//           ^ - keyword
 //               ^ entity.name.parameter variable.parameter
 //                  ^ entity.name.parameter variable.parameter
 //                    ^ keyword
 //                      ^ keyword
-//                           ^ source.scala
+//                           ^ - keyword
 //                              ^^^ keyword.declaration.stable.scala
 //                                  ^^^ entity.name.parameter variable.parameter
-//                                        ^ source.scala
-//                                           ^ source.scala
+//                                        ^ - keyword
+//                                           ^ - keyword
 
    for {
      sss <- { {} }
@@ -493,3 +493,18 @@ object Foo
      qqq <- stuff
 //   ^^^ entity.name.parameter variable.parameter
    }
+
+   for {
+     back <- Traverse[Option]
+//   ^^^^ entity.name.parameter variable.parameter
+//           ^^^^^^^^ entity.name.class
+//                    ^^^^^^ entity.name.class
+       .traverse[Free, Stuff](res) { r =>
+//      ^^^^^^^^ - variable.parameter
+//                            ^^^ - variable.parameter
+//                                   ^ - variable.parameter
+   }
+
+
+  val baseSettings: Seq[Def.Setting[_]] = _
+//                                  ^ - keyword

@@ -272,7 +272,7 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<←=]|<[^\-])+(<-|←|=))'
+    - match: '^(?=([^<←=\{]|<[^\-])+(<-|←|=[\s\b]))'
       push:
         - match: '^\s*(val)\s+'
           scope: keyword.declaration.stable.scala
@@ -438,5 +438,10 @@ contexts:
     - match: '\b[A-Z][a-zA-Z0-9_]*'
       captures:
         0: entity.name.class
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: main
     - match: '@|_'
       scope: keyword
