@@ -98,6 +98,8 @@ namespace YourNamespace
 ///          ^ entity.name.type.class
     {
         static void Main(string[] args)
+///                      ^^^^^^   support.type.cs
+///                            ^^ support.type.cs
         {
             //Your program starts here...
             var f = 1e-3f;
@@ -144,6 +146,30 @@ namespace YourNamespace
         IEnumerable<int>.this[int key]{ get; set; }
 ///                      ^^^^ variable.language
 ///                               ^^^ variable.parameter
+
+
+        /////////////////////////////
+        // methods with attributes //
+        /////////////////////////////
+
+        [Route("api/helloworld")]
+///      ^^^^^ entity.name.tag
+///           ^ punctuation.definition.arguments
+///            ^^^^^^^^^^^ string
+        string Get([FromUri] string name) => $"Hello {name}";
+///                 ^^^^^^^ entity.name.tag
+///                           ^^^^^   support.type.cs
+
+        // examples from: https://msdn.microsoft.com/en-us/library/mt653979.aspx
+        // applies to method
+        [method: SomeAttr]
+///      ^^^^^^  storage.modifier.target
+///              ^^^^^^  entity.name.tag
+        int Method2() { return 0; }
+
+        // applies to return value
+        [return: SomeAttr]
+        int Method3() { return 0; }
 
     }
 /// ^ punctuation.section.class

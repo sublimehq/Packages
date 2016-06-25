@@ -585,8 +585,8 @@ contexts:
       scope: storage.modifier.parameter.cs
     - match: \s
       pop: true
-    - include: tag
     - include: type
+    - include: tag
 
   method_accessor:
     - meta_scope: meta.method.property.cs
@@ -618,11 +618,18 @@ contexts:
       pop: true
 
   tag:
+    - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
+      captures:
+        1: punctuation.definition.tag.begin.cs
+        2: storage.modifier.target.cs
+        3: punctuation.separator.key-value.tag.cs
+      push: tag_in
     - match: \[
       scope: punctuation.definition.tag.begin.cs
       push: tag_in
 
   tag_in:
+    - meta_scope: meta.attribute.cs
     - match: '{{name}}(\()'
       captures:
         1: entity.name.tag
