@@ -40,7 +40,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.rd
       push:
         - meta_scope: meta.function.deqn.rd
-        - meta_content_scope: meta.environment.math.latex
+        - meta_content_scope: meta.environment.math
         - include: scope:text.tex.latex#math-content
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
@@ -54,7 +54,7 @@ contexts:
         3: punctuation.definition.group.brace.begin.rd
       push:
         - meta_scope: meta.function.eqn.rd
-        - meta_content_scope: meta.environment.math.latex
+        - meta_content_scope: meta.environment.math
         - include: scope:text.tex.latex#math-content
         - match: '\}'
           scope: punctuation.definition.group.brace.end.rd
