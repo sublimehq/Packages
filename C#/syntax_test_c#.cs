@@ -1,27 +1,27 @@
 // SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 class X
-// ^ storage.modifier
+// ^ storage.type.class
 {
 
     [Usage("Foo bar")]
-    // ^ meta.method.attribute
+    // ^ entity.name.tag
     void Run([Usage("help text")] int x, int y)
-    // ^ storage.type
+//  ^^^^ support.type
     //    ^ entity.name.function
-    //           ^ meta.method.attribute
+    //        ^^^^^ entity.name.tag
     //                 ^ string.quoted.double
-    //                             ^ storage.type
-    //                                    ^ storage.type
+    //                             ^ support.type
+    //                                    ^ support.type
     {
     }
 }
 
-string verbatim = @"This is a test "" of a verbatim string literal - C:\User"
-//                ^^ string.quoted.double.literal punctuation.definition.string.begin
+string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
+//                ^^ string.quoted.double.raw punctuation.definition.string.raw.begin
 //                                 ^^ constant.character.escape
-//                                                                     ^ string.quoted.double.literal - constant
-//                                                                          ^ string.quoted.double.literal punctuation.definition.string.end
+//                                                                     ^ string.quoted.double.raw - constant
+//                                                                          ^ string.quoted.double.raw punctuation.definition.string.quoted.raw.end
 
 class A
 {
@@ -32,8 +32,7 @@ class A
 class B: A
 {
    public B(int x, int y): base(x + y, x - y) {}
-   //                       ^ meta.method.base-call
-   //                              ^ meta.method.base-call
+   //                       ^ variable.language
 }
 
 
@@ -47,7 +46,7 @@ class TestGenericList
     static void Main()
     {
         GenericList<int> list1 = new GenericList<int>();
-        //           ^ storage.type
+        //           ^ support.type
 
         GenericList<string> list2 = new GenericList<string>();
 
