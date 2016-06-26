@@ -171,6 +171,25 @@ namespace YourNamespace
         [return: SomeAttr]
         int Method3() { return 0; }
 
+
+        delegate int del(int i);
+
+        void CodeContainingLambdas(){
+
+            del square = x => x * x;
+///         ^^^ variable.other.type
+///              ^^^ entity.name.variable
+///                    ^ keyword.operator.assignment
+///                        ^^ keyword.operator
+            Func<float, float> times2 = x => x + x;
+///         ^^^ variable.other.type
+///                            ^^^ entity.name.variable
+///                                   ^ keyword.operator.assignment
+///                                       ^^ keyword.operator
+
+
+        }
+
     }
 /// ^ punctuation.section.class
 }
