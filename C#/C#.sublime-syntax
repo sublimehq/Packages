@@ -36,6 +36,7 @@ variables:
 
   visibility: \b(public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
+  type_operator: (\[,*\]|\*|\?)+
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(@{{reserved}}|@{{base_type}}|@var|{{name_normal}})'
   # name: '([A-Za-z_][A-Za-z_0-9]*)'
@@ -736,6 +737,23 @@ contexts:
       pop: true
 
     - include: keywords
+
+    # TODO: use the same code for method detection
+    # C#7, nested method
+    - match: '(?:({{base_type}})|{{name}}){{type_operator}}?\s+{{name}}\s*(\()'
+      captures:
+        1: support.type.cs
+        2: variable.other.type.cs
+        3: support.type.cs
+        4: entity.name.function.cs
+        5: punctuation.definition.parameters.begin.cs
+      push: method_params
+
+    - match: '{{name}}(<)(?=[^(={}]*>\s+{{name}}\s*(\(|<))'
+      captures:
+        1: variable.other.type.cs
+        2: punctuation.definition.arguments.type.begin.cs
+      push: [method_name, type_argument]
 
     - match: '{{name}}(<)(?=[^(={}]*>\()'
       captures:
