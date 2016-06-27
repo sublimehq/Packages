@@ -99,10 +99,10 @@ contexts:
     - meta_scope: meta.preprocessor
     - match: '(define|undef)\s+{{name}}'
       captures:
-        1: entity.name.tag.cs
+        1: keyword.control.preprocessor.cs
         2: constant.numeric.cs
     - match: '((el)?if)'
-      scope: entity.name.tag.cs
+      scope: keyword.control.preprocessor.cs
       push:
         - match: '\(|\)'
           scope: punctuation.definition.expression.cs
@@ -113,33 +113,41 @@ contexts:
         - match: '{{name}}'
           scope: constant.numeric.cs
         - include: option_done
-    - match: '(else|endif|endregion)'
-      scope: entity.name.tag.cs
+    - match: '(else|endif)'
+      scope: keyword.control.preprocessor.cs
       push: option_done
     - match: '(error|warning)\s*'
-      scope: entity.name.tag.cs
+      scope: keyword.other.preprocessor.cs
       push: option_message
     - match: '(region)\s*'
-      scope: entity.name.tag.cs
+      scope: storage.type.section.cs
       push:
         - include: comments
-        - match: $
+        - match: (\S.*)$
+          scope: entity.name.section.cs
+          pop: true
+    - match: '(endregion)\s*'
+      scope: storage.type.section.cs
+      push:
+        - include: comments
+        - match: (\S.*)$
+          scope: variable.other.section.cs
           pop: true
 
     - match: '(line)\s+(default|hidden)'
       captures:
-        1: entity.name.tag.cs
-        2: entity.name.tag.cs
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
       push: option_done
     - match: '(line)\s*([0-9]*)\s*(".*")?'
       captures:
-        1: entity.name.tag.cs
+        1: keyword.other.preprocessor.cs
         2: constant.numeric.cs
         3: string.quoted.double.cs
       push: option_done
     - match: '(pragma\s+checksum)\s+(".*")\s+("\{)(.*)(\}")\s+("\{)(.*)(\}")'
       captures:
-        1: entity.name.tag.cs
+        1: keyword.other.preprocessor.cs
         2: string.quoted.double.cs
         3: punctuation.definition.hash.begin.cs
         4: constant.numeric.cs
@@ -150,7 +158,7 @@ contexts:
       push: option_done
 
     - match: 'pragma.*'
-      scope: entity.name.tag.cs
+      scope: keyword.other.preprocessor.cs
 
     - match: '(.*)'
       scope: invalid.illegal.cs
