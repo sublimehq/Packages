@@ -46,7 +46,7 @@ contexts:
       captures:
         1: keyword.control.tex
         2: punctuation.definition.backslash.tex
-    - match: '((\\)(?:input))'
+    - match: '((\\)(?:input))\b'
       scope: meta.function.input.tex
       captures:
         1: keyword.control.input.tex
