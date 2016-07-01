@@ -98,8 +98,8 @@ contexts:
   macros:
     - match: '(\\def)\s*((\\)[A-Za-z@]+)\s*[^\{]*?\s*(\{)'
       captures:
-        1: support.function.definition.tex
-        2: support.function.general.tex
+        1: support.function.definition.tex storage.modifier.definition.tex
+        2: support.function.general.tex entity.name.definition.tex
         3: punctuation.definition.backslash.tex
         4: punctuation.definition.group.brace.begin.tex
       push:

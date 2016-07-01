@@ -167,10 +167,10 @@ contexts:
         (?:(\[)(?:[^\]]*)(\]))?
         (\{)
       captures:
-        1: support.function.newcommand.latex
+        1: support.function.newcommand.latex storage.modifier.newcommand.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
-        4: support.function.latex
+        4: support.function.latex entity.name.newcommand.latex
         5: punctuation.definition.group.brace.end.latex
         6: support.function.latex
         7: punctuation.definition.group.bracket.begin.latex
