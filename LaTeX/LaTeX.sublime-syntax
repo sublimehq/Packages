@@ -177,7 +177,37 @@ contexts:
         8: punctuation.definition.group.bracket.end.latex
         9: punctuation.definition.group.brace.begin.latex
       push:
-        - meta_scope: meta.function.newcommand.tex
+        - meta_scope: meta.function.newcommand.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+    - match: |-
+        (?x)
+        (
+          (\\)
+          DeclareMathOperator\*?
+        )
+        (?:
+          (\{)(\\[A-Za-z@]+)(\})
+          | (\\[A-Za-z@])+
+        )
+        (?:(\[)(?:[^\]]*)(\]))?
+        (\{)
+      captures:
+        1: support.function.declare-math-operator.latex storage.modifier.declare-math-operator.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: support.function.latex entity.name.declare-math-operator.latex
+        5: punctuation.definition.group.brace.end.latex
+        6: support.function.latex
+        7: punctuation.definition.group.bracket.begin.latex
+        8: punctuation.definition.group.bracket.end.latex
+        9: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.declare-math-operator.latex
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
           pop: true
