@@ -278,7 +278,7 @@ contexts:
         - include: general-optional-arguments
         - match: '\{'
           set:
-            - meta_content_scope: support.class.latex
+            - meta_content_scope: meta.preamble.documentclass.latex support.class.latex
             - match: (?=\})
               pop: true
     - match: '(\\)usepackage\b'
@@ -294,7 +294,7 @@ contexts:
         - match: '\{'
           set:
             - match: '[A-Za-z[:digit:]-]*'
-              scope: support.class.latex
+              scope: meta.preamble.usepackage.latex support.class.latex
             - match: (?=\})
               pop: true
 
@@ -656,7 +656,7 @@ contexts:
         (
           (\\)
           (?:
-            [cC]ite(?:author|title|year|date|url)?
+            [cC]ite(?:author|title|year|date|url|t|p|alt|alp|text)?
           | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext
           )
           \*?
@@ -706,7 +706,7 @@ contexts:
       push:
         - meta_scope: meta.function.label.latex
         - match: '[a-zA-Z0-9\.:/*!^_-]+'
-          scope: constant.other.label.latex
+          scope: entity.name.label.latex
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
           pop: true
