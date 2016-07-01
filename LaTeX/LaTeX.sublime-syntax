@@ -266,37 +266,58 @@ contexts:
         - include: general-1-argument-with-options
 
   preamble:
-    - match: '(\\)documentclass\b'
+    - match: '(\\)documentclass(?=(?:\[[^\]]*?\])*\{)'
       captures:
         0: keyword.control.preamble.latex
         1: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.preamble.documentclass.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: general-optional-arguments
-        - match: '\{'
-          set:
-            - meta_content_scope: meta.preamble.documentclass.latex support.class.latex
-            - match: (?=\})
+        - match: '\['
+          scope: punctuation.definition.group.bracket.begin.latex
+          push:
+            - meta_scope: meta.group.bracket.latex
+            - meta_content_scope: variable.parameter.documentclass.latex
+            - match: '\]'
+              scope: punctuation.definition.group.bracket.end.latex
               pop: true
-    - match: '(\\)usepackage\b'
+            - include: general-constants
+            - include: general-commands
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_scope: meta.preamble.documentclass.latex meta.group.brace.latex
+            - match: '[A-Za-z[:digit:]-]*'
+              scope: support.class.latex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.latex
+              pop: true
+
+    - match: '(\\)usepackage(?=(?:\[[^\]]*?\])*\{)'
       captures:
         0: keyword.control.preamble.latex
         1: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.preamble.usepackage.latex
-        - match: '\}'
-          scope: punctuation.definition.group.brace.end.latex
-          pop: true
-        - include: general-optional-arguments
-        - match: '\{'
-          set:
+        - match: '\['
+          scope: punctuation.definition.group.bracket.begin.latex
+          push:
+            - meta_scope: meta.group.bracket.latex
             - match: '[A-Za-z[:digit:]-]*'
-              scope: meta.preamble.usepackage.latex support.class.latex
-            - match: (?=\})
+              scope: variable.parameter.usepackage.latex
+            - match: '\]'
+              scope: punctuation.definition.group.bracket.end.latex
               pop: true
+            - include: general-constants
+            - include: general-commands
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_scope: meta.preamble.usepackage.latex meta.group.brace.latex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.latex
+              pop: true
+            - match: '[A-Za-z[:digit:]-]*'
+              scope: support.class.latex
 
   includes:
     - match: '((\\)(?:include|includeonly))(\{)'
@@ -523,7 +544,12 @@ contexts:
           pop: true
         - include: math-content
 
-    - match: '((\\)begin)(\{)\s*((?:align|alignat|aligned|alignedat|displaymath|eqnarray|equation|flalign|gather|gathered|math|multline|x?xalignat|split)\*?)\s*(\})'
+    - match: |-
+        ((\\)begin)(\{)\s*((?:
+          align|alignat|aligned|alignedat|displaymath
+          |eqnarray|equation|flalign|gather|gathered
+          |math|multline|x?xalignat|split
+        )\*?)\s*(\})
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
