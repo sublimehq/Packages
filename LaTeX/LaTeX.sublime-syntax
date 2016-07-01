@@ -651,20 +651,53 @@ contexts:
         - include: main
 
   references:
-    - match: '((\\)(?:[cC]ite(?:author|title|year|date|url)?|(?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext)\*?)(?=(?:\[[^\]]*?\])*\{)'
+    - match: |-
+        (?x)
+        (
+          (\\)
+          (?:
+            [cC]ite(?:author|title|year|date|url)?
+          | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext
+          )
+          \*?
+        )
+        (?:(\[)(?:[^\]]*)(\])){0,2}
+        (\{)
       captures:
         1: support.function.cite.latex
         2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.bracket.begin.latex
+        4: punctuation.definition.group.bracket.end.latex
+        5: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.citation.latex
-        - include: general-1-argument-with-options
-    - match: '((\\)(?:eq|c?page|[vV]|auto|name|[cC])?ref\*?)(?=(?:\[[^\]]*?\])*\{)'
+        - match: '[a-zA-Z0-9\.:/*!^_-]+'
+          scope: constant.other.citation.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+    - match: |-
+        (?x)
+        (
+          (\\)
+          (?:eq|c?page|[vV]|auto|name|[cC])?ref
+          \*?
+        )
+        (?:(\[)(?:[^\]]*)(\])){0,2}
+        (\{)
       captures:
         1: support.function.reference.latex
         2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.bracket.begin.latex
+        4: punctuation.definition.group.bracket.end.latex
+        5: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.reference.latex
-        - include: general-1-argument-with-options
+        - match: '[a-zA-Z0-9\.:/*!^_-]+'
+          scope: constant.other.reference.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
     - match: '((\\)label)(\{)'
       captures:
         1: support.function.label.latex
@@ -672,6 +705,8 @@ contexts:
         3: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.label.latex
+        - match: '[a-zA-Z0-9\.:/*!^_-]+'
+          scope: constant.other.label.latex
         - match: '\}'
           scope: punctuation.definition.group.brace.end.latex
           pop: true
