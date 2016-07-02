@@ -545,7 +545,7 @@ contexts:
         - include: math-content
 
     - match: |-
-        (:x)
+        (?x)
         ((\\)begin)(\{)\s*((?:
           align|alignat|aligned|alignedat|displaymath
           |eqnarray|equation|flalign|gather|gathered
