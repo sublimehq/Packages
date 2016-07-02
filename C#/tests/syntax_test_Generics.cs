@@ -50,11 +50,35 @@ string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 ///                                                                         ^ string.quoted.double punctuation.definition.string
 
 string interpolated = $"{t.Word}";
-string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2}";
-///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
+///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                            ^ variable.other
 ///                                      ^ punctuation.definition.string.interpolated.element.end
 ///                                        ^ punctuation.definition.string.interpolated.element.begin
-///                                                               ^ punctuation.definition.string.interpolated.end
+///                                         ^ variable.other
+///                                                                ^^ constant.character.escape
+///                                                                  ^ punctuation.definition.string.interpolated.end
+///                                                                  ^ punctuation.definition.string.interpolated.end
+
+string unclosed_string = "inner ;
+///                             ^ invalid.string.newline
+string bar = "bar"
+/// <- support.type.cs
+
+string unclosed_interpolation = $"inner {t.Word};
+///                                             ^ invalid.string.newline
+string foo = "foo";
+/// <- support.type.cs
+
+string long_interpolation = $@"
+    inner {t.Word}
+///       ^ punctuation.definition.string.interpolated.element.begin
+///        ^ variable.other
+///              ^ punctuation.definition.string.interpolated.element.end
+    {t.Responsibility,8:F2}
+";
+/// <- punctuation.definition.string.interpolated.end
+
 x[10][5] = 2;
 f(5)[2] = 10;
 /// ^ punctuation.definition.accessor

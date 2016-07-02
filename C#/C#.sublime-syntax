@@ -757,13 +757,13 @@ contexts:
         5: punctuation.definition.parameters.begin.cs
       push: method_params
 
-    - match: '{{name}}(<)(?=[^(={}]*>\s+{{name}}\s*(\(|<))'
+    - match: '{{name}}(<)(?=[^(={};]*>\s+{{name}}\s*(\(|<))'
       captures:
         1: variable.other.type.cs
         2: punctuation.definition.arguments.type.begin.cs
       push: [method_name, type_argument]
 
-    - match: '{{name}}(<)(?=[^(={}]*>\()'
+    - match: '{{name}}(<)(?=[^(={};]*>\()'
       captures:
         0: meta.function-call
         1: variable.function.cs
@@ -961,10 +961,15 @@ contexts:
       scope: punctuation.definition.string.interpolated.begin.cs
       push: format_string
 
-    # path strings
+    # multi-line strings
     - match: '@"'
       scope: punctuation.definition.string.raw.begin.cs
-      push: escaped_string
+      push: long_string
+
+    # interpolated multi-line strings
+    - match: '(@\$|\$@)"'
+      scope: punctuation.definition.string.interpolated.begin.cs
+      push: long_format_string
 
     - match: '{{name}}(<)(?=[^(]*>\()'
       captures:
@@ -1196,13 +1201,35 @@ contexts:
   format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.interpolated.cs
+    - match: '"'
+      scope: punctuation.definition.string.interpolated.end.cs
+      pop: true
+    - include: escaped
+    - include: interpolation
+    - match: '[^"{]*$'
+      scope: invalid.string.newline
+      pop: true
+
+  long_format_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.interpolated.cs
+    - match: '""'
+      scope: constant.character.escape.cs
+    - match: '"'
+      scope: punctuation.definition.string.interpolated.end.cs
+      pop: true
+    - include: interpolation
+
+  interpolation:
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.cs
     - match: '\{'
       scope: punctuation.definition.string.interpolated.element.begin.cs
-      set:
-        - meta_scope: meta.string.interpolated.cs
+      push:
+        - meta_scope: meta.string.interpolated.cs source.cs
         - match: '\}'
           scope: punctuation.definition.string.interpolated.element.end.cs
-          set: format_string
+          pop: true
         - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
           captures:
             1: punctuation.separator.arguments
@@ -1210,15 +1237,10 @@ contexts:
             3: punctuation.separator
             4: constant.formatting
             5: punctuation.definition.string.interpolated.element.end.cs
-          set: format_string
+          pop: true
         - include: line_of_code_in
 
-    - match: '"'
-      scope: punctuation.definition.string.interpolated.end.cs
-      pop: true
-    - include: escaped
-
-  escaped_string:
+  long_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.raw.cs
     - match: '""'
