@@ -9,7 +9,20 @@
 \usepackage[args]{mypackage, anotherpackage}
 % ^ keyword.control.preamble.latex
 %                 ^ support.class.latex
+%                          ^ -support.class.latex
 %                              ^ support.class.latex
+
+\usepackage[pdftex,
+            %plainpages={false},
+%               ^ comment.line
+            bookmarks=true,
+%               ^ variable.parameter
+            unicode=true,
+            bookmarksnumbered={true},
+            % pagebackref=true,
+            breaklinks=true,
+            pdfstartview={FitBH}]{hyperref}
+%                                     ^ support.class.latex
 
 % line comment
 % <- comment.line.percentage.tex
