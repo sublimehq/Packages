@@ -107,6 +107,8 @@ contexts:
         - match: '(?=\})'
           pop: true
         - include: main
+    - match: '(?=\S)'
+      pop: true
 
   general-2-arguments:
     - match: '\}'
@@ -118,6 +120,8 @@ contexts:
         - meta_scope: meta.group.brace.latex
         - include: _general-1-more-argument
         - include: main
+    - match: '(?=\S)'
+      pop: true
 
   general-3-arguments:
     - match: '\}'
@@ -129,6 +133,8 @@ contexts:
         - meta_scope: meta.group.brace.latex
         - include: _general-2-more-arguments
         - include: main
+    - match: '(?=\S)'
+      pop: true
 
   general-1-argument-with-options:
     - include: general-optional-arguments
@@ -253,8 +259,6 @@ contexts:
       push:
         - meta_scope: meta.function.box.latex
         - include: general-1-argument-with-options
-        - match: '\S'
-          pop: true
     - match: '((\\)parbox)\b'
       captures:
         1: support.function.box.latex
@@ -262,8 +266,6 @@ contexts:
       push:
         - meta_scope: meta.function.box.latex
         - include: general-2-arguments-with-options
-        - match: '\S'
-          pop: true
     - match: '((\\)raisebox)\b'
       captures:
         1: support.function.box.latex
@@ -271,8 +273,6 @@ contexts:
       push:
         - meta_scope: meta.function.box.latex
         - include: general-1-argument-with-options
-        - match: '\S'
-          pop: true
 
   preamble:
     - match: '(\\)documentclass\b'
@@ -291,7 +291,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
               pop: true
-        - match: '\S'
+        - match: '(?=\S)'
           pop: true
 
     - match: '(\\)usepackage\b'
@@ -310,7 +310,7 @@ contexts:
               pop: true
             - match: '[A-Za-z[:digit:]-]*'
               scope: support.class.latex
-        - match: '\S'
+        - match: '(?=\S)'
           pop: true
 
   includes:
@@ -571,8 +571,6 @@ contexts:
       push:
         - meta_scope: meta.function.includegraphics.latex
         - include: general-1-argument-with-options
-        - match: '\S'
-          pop: true
 
   url:
     - match: '((\\)(?:url|href))(\{)([^}]*)(\})'
