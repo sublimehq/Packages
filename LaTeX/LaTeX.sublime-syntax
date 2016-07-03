@@ -28,6 +28,7 @@ contexts:
     - include: verbatim
     - include: verb
     - include: url
+    - include: graphics
     - include: lists
 
   plain-tex:
@@ -562,8 +563,19 @@ contexts:
           pop: true
         - include: math-content
 
+  graphics:
+    - match: '((\\)includegraphics)\b'
+      captures:
+        1: support.function.includegraphics.latex
+        2: punctuation.definition.backslash.latex
+      push:
+        - meta_scope: meta.function.includegraphics.latex
+        - include: general-1-argument-with-options
+        - match: '\S'
+          pop: true
+
   url:
-    - match: '(?:\s*)((\\)(?:url|href))(\{)([^}]*)(\})'
+    - match: '((\\)(?:url|href))(\{)([^}]*)(\})'
       scope: meta.function.link.url.latex
       captures:
         1: support.function.url.latex
@@ -1602,7 +1614,7 @@ contexts:
 
   # beamer support
   beamer:
-    - match: '(?:\s*)((\\)begin)(\{)(frame)(\})'
+    - match: '((\\)begin)(\{)(frame)(\})'
       captures:
         1: support.function.be.latex
         2: punctuation.definition.backslash.latex
