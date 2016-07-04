@@ -924,3 +924,10 @@ x = 'hello\s world'
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
+
+# This is to test the difference between the assignment operator (=) and
+# the comparison operator (==)
+foo = bar()
+#   ^ - keyword.operator.assignment.python
+foo == bar()
+#   ^^ - keyword.operator.comparison.python
