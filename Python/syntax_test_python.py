@@ -928,6 +928,6 @@ x = 'hello\s world'
 # This is to test the difference between the assignment operator (=) and
 # the comparison operator (==)
 foo = bar()
-#   ^ - keyword.operator.assignment.python
+#   ^ keyword.operator.assignment.python
 foo == bar()
-#   ^^ - keyword.operator.comparison.python
+#   ^^ keyword.operator.comparison.python
