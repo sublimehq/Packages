@@ -317,7 +317,7 @@ contexts:
   assignments:
     - match: \+=|-=|\*=|/=|//=|%=|&=|\|=|\^=|>>=|<<=|\*\*=
       scope: keyword.operator.assignment.augmented.python
-    - match: '='
+    - match: '=(?!=)'
       scope: keyword.operator.assignment.python
 
   operators:
