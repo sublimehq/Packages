@@ -3,8 +3,10 @@
 name: Python
 file_extensions:
   - py
+  - py3
   - pyw
   - pyi
+  - pt
   - rpy
   - cpy
   - SConstruct
