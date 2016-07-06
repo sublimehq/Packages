@@ -41,27 +41,27 @@ name: Ruby
 # ternary operator rule, precedence stuff, symbol rule.
 # but also consider 'a.b?(:c)' ??
 file_extensions:
+  - Appraisals
+  - Berksfile
+  - Brewfile
+  - capfile
+  - cgi
+  - Cheffile
+  - config.ru
+  - fcgi
+  - Gemfile
+  - gemspec
+  - Guardfile
+  - irbrc
+  - prawn
+  - rake
+  - Rakefile
+  - Rantfile
   - rb
   - rbx
   - rjs
-  - Rakefile
-  - rake
-  - cgi
-  - fcgi
-  - gemspec
-  - irbrc
-  - capfile
-  - prawn
-  - Cheffile
-  - Gemfile
-  - Guardfile
-  - Vagrantfile
-  - config.ru
-  - Appraisals
-  - Rantfile
-  - Brewfile
-  - Berksfile
   - Thorfile
+  - Vagrantfile
 first_line_match: ^#!/.*\bruby
 scope: source.ruby
 variables:
