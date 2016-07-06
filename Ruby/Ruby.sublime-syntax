@@ -53,13 +53,19 @@ file_extensions:
   - gemspec
   - Guardfile
   - irbrc
+  - jbuilder
+  - podspec
   - prawn
+  - rabl
   - rake
   - Rakefile
   - Rantfile
   - rb
   - rbx
   - rjs
+  - ruby.rail
+  - simplecov
+  - thor
   - Thorfile
   - Vagrantfile
 first_line_match: ^#!/.*\bruby
