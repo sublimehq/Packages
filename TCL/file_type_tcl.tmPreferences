@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>scope</key>
-    <string>source.tcl, text.html.tcl</string>
+    <string>source.tcl</string>
     <key>settings</key>
     <dict>
       <key>icon</key>

@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>scope</key>
-    <string>source.applescript, source.applescript-scpt</string>
+    <string>source.applescript</string>
     <key>settings</key>
     <dict>
       <key>icon</key>

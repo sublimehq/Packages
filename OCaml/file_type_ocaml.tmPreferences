@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>scope</key>
-    <string>source.ocaml, source.camlp4.ocaml, source.ocamllex, source.ocamlyacc</string>
+    <string>source.ocaml</string>
     <key>settings</key>
     <dict>
       <key>icon</key>

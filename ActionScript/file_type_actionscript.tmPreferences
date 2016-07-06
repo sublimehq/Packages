@@ -3,7 +3,7 @@
 <plist version="1.0">
   <dict>
     <key>scope</key>
-    <string>source.actionscript</string>
+    <string>source.actionscript.2</string>
     <key>settings</key>
     <dict>
       <key>icon</key>
