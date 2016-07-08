@@ -829,6 +829,14 @@ class C {
 
     public function __toString()
 //                  ^^^^^^^^^^ entity.name.function.php support.function.magic.php
+//                            ^^ meta.function.parameters.php punctuation.definition.group
+    {
+        return $this->prop;
+    }
+
+    public function __toStringTest()
+//                  ^^^^^^^^^^^^^^ entity.name.function.php - support.function.magic.php
+//                                ^^ - entity.name.function.php - support.function.magic.php
     {
         return $this->prop;
     }

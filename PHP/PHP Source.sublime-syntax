@@ -501,7 +501,7 @@ contexts:
           scope: storage.type.function.php
         - match: '&'
           scope: storage.modifier.reference.php
-        - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))'
+        - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))\b'
           scope: entity.name.function.php support.function.magic.php
         - match: '{{identifier}}'
           scope: entity.name.function.php
