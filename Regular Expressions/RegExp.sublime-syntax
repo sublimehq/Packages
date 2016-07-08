@@ -98,7 +98,7 @@ contexts:
         - match: '\]'
           scope: keyword.control.set.regexp
           pop: true
-        - match: '(?=({{known_char_escape}}|{{char_escape}}|[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))'
+        - match: '(?=({{known_char_escape}}|{{char_escape}}|(?!\\-)[^\]])-({{known_char_escape}}|{{char_escape}}|[^\]]))'
           push:
             - meta_content_scope: constant.other.range.regexp
             - include: special-escaped-char
