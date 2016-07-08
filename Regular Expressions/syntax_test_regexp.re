@@ -82,6 +82,26 @@
 #^ - constant.other.range
 # ^^^ constant.other.range
 
+[\-a]
+#^^^ - constant.other.range
+#   ^ keyword.control.set
+
+[a-z\-9]
+#   ^^^ - constant.other.range
+#      ^ keyword.control.set
+
+[\--z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\-]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
 (?:a|b|c)
 #^^^^^^^^ meta.group
 # <- keyword.control.group
