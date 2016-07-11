@@ -187,7 +187,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                                                 ^^^^^^^^^^^^^^^^^^ meta.function.closure.use
 //                                                                    ^ meta.block punctuation.definition.block.begin
 
-}
+};
 // <- meta.function meta.block punctuation.definition.block.end
 
 /**
@@ -613,11 +613,11 @@ $sql = '
 ';
 // <- string.quoted.single punctuation.definition.string.end - meta.string-contents
 
-preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m')
+preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m');
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted
 //                                 ^ keyword.operator
 
-preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m")
+preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m");
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.double-quoted
 //                                 ^ keyword.operator
 
@@ -757,14 +757,14 @@ function embedHtml() {
 //          ^^^^^^^^^^^ meta.tag - source.php
             <?
         }
-    }
+    };
 
     $myClosure = function() use ($var) {
         ?>
         <div></div>
 //      ^^^^^^^^^^^ meta.tag - source.php
         <?
-    }
+    };
 
     try {
         if (1) {
