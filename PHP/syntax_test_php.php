@@ -709,19 +709,19 @@ class OutputsHtml {
         ?>
 //      ^^ punctuation.section.embedded.end - source.php
 
-        <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+        <div class="acf-gallery-side-info acf-cf<?php if (true) { echo ' class-name'; } ?>" id="myid"></div>
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //           ^^^^^ meta.attribute-with-value
-//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
-//                                                                                    ^^^^^^^^^^^^^^^^^^ - source.php
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                                                        ^^^^^^^^^^^^^^^^^^ - source.php
 //                                              ^^^^^ punctuation.section.embedded.begin - source.php
-//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
-//                                                                                  ^^ punctuation.section.embedded.end - source.php
-//                                                                                      ^^^^^^^^^ meta.attribute-with-value
+//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
+//                                                                                      ^^ punctuation.section.embedded.end - source.php
+//                                                                                          ^^^^^^^^^ meta.attribute-with-value
 //                 ^ punctuation.definition.string.begin.html
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
-//                                                                                    ^ punctuation.definition.string.end.html
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                                                                                        ^ punctuation.definition.string.end.html
         <?= var_dump($foo)
 //      ^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested
 //      ^^^ punctuation.section.embedded.begin - source.php
@@ -774,19 +774,19 @@ function embedHtml() {
                     ?>
 //                  ^^ punctuation.section.embedded.end - source.php
 
-                    <div class="acf-gallery-side-info acf-cf<?php if () { echo ' class-name'; } ?>" id="myid"></div>
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+                    <div class="acf-gallery-side-info acf-cf<?php if (true) { echo ' class-name'; } ?>" id="myid"></div>
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - source.php
 //                       ^^^^^ meta.attribute-with-value
-//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
-//                                                                                                ^^^^^^^^^^^^^^^^^^ - source.php
+//                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.line.nested.php
+//                                                                                                    ^^^^^^^^^^^^^^^^^^ - source.php
 //                                                          ^^^^^ punctuation.section.embedded.begin
-//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
-//                                                                                              ^^ punctuation.section.embedded.end
-//                                                                                                  ^^^^^^^^^ meta.attribute-with-value
+//                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
+//                                                                                                  ^^ punctuation.section.embedded.end
+//                                                                                                      ^^^^^^^^^ meta.attribute-with-value
 //                             ^ punctuation.definition.string.begin.html
-//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
-//                                                                                                ^ punctuation.definition.string.end.html
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.html
+//                                                                                                    ^ punctuation.definition.string.end.html
                     <?php
 //                  ^^^^^ punctuation.section.embedded.begin
 //                       ^ source.php
