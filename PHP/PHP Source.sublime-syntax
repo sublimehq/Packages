@@ -239,11 +239,17 @@ contexts:
         1: keyword.control.goto.php
         2: support.other.php
     - include: string-backtick
+    - match: '(\[)(\])'
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.definition.array.begin.php
+        2: punctuation.definition.array.end.php
     - match: '\['
-      scope: punctuation.section.array.begin.php
+      scope: punctuation.definition.array.begin.php
       push:
+        - meta_scope: meta.array.php
         - match: '\]'
-          scope: punctuation.section.array.end.php
+          scope: punctuation.definition.array.end.php
           pop: true
         - include: expressions
     - include: constants

@@ -156,11 +156,11 @@ function c(array $a = array(),       $b = "hi") {};
 //                    ^ meta.array.empty
 //                          ^ punctuation.definition.array.end
 function d(array $a = [],            $b = "hi") {};
-//                    ^ punctuation.section.array.begin
-//                     ^ punctuation.section.array.end
+//                    ^ punctuation.definition.array.begin
+//                     ^ punctuation.definition.array.end
 function e(array $a = [1, 2, 3, 4],  $b = "hi") {};
-//                    ^ punctuation.section.array.begin
-//                               ^ punctuation.section.array.end
+//                    ^ punctuation.definition.array.begin
+//                               ^ punctuation.definition.array.end
 function f(array $a = null,          $b = "hi") {};
 function i(
     $a,
@@ -848,6 +848,28 @@ class C {
 }
 
 var_dump(new C(42));
+
+$a = array();
+//   ^^^^^^^ meta.array.empty.php
+//        ^ punctuation.definition.array.begin.php
+//         ^ punctuation.definition.array.end.php
+
+$a = [];
+//   ^^ meta.array.empty.php
+//   ^ punctuation.definition.array.begin.php
+//    ^ punctuation.definition.array.end.php
+
+$a = array(
+//   ^^^^^^ meta.array.php
+//        ^ punctuation.definition.array.begin.php
+    );
+//  ^ meta.array.php punctuation.definition.array.end.php
+
+$a = [
+//   ^ meta.array.php punctuation.definition.array.begin.php
+    ];
+//  ^ meta.array.php punctuation.definition.array.end.php
+
 
 ?>
 
