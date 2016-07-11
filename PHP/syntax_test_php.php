@@ -524,10 +524,39 @@ class B
 try {
 // <- keyword.control.exception
     echo inverse(5) . "\n";
-    throw new Exception('Error!');
+    throw new \Exception('Error!');
 //  ^ keyword.control.exception
+//            ^^^^^^^^^^ meta.path.php
+//            ^ punctuation.separator.namespace.php
+//             ^^^^^^^^^ support.class
+    throw new \Custom\Exception('Error!');
+//  ^ keyword.control.exception
+//            ^^^^^^^^^^^^^^^^^ meta.path.php
+//            ^ punctuation.separator.namespace.php
+//             ^^^^^^ support.other.namespace.php
+//                   ^ punctuation.separator.namespace.php
+//                    ^^^^^^^^^ support.class
 } catch (Exception $e) {
 //^ keyword.control.exception
+//       ^^^^^^^^^ meta.path.php
+//       ^^^^^^^^^ support.class.exception.php
+//                 ^^ variable.other.php
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (\Exception $e) {
+//^ keyword.control.exception
+//       ^^^^^^^^^^ meta.path.php
+//       ^ punctuation.separator.namespace.php
+//        ^^^^^^^^^ support.class.exception.php
+//                  ^^ variable.other.php
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (\Custom\Exception $e) {
+//^ keyword.control.exception
+//       ^^^^^^^^^^^^^^^^^ meta.path.php
+//       ^ punctuation.separator.namespace.php
+//        ^^^^^^ support.other.namespace.php
+//              ^ punctuation.separator.namespace.php
+//               ^^^^^^^^^ support.class.exception.php
+//                         ^^ variable.other.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } finally {
 //^ keyword.control.exception
