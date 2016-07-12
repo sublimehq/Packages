@@ -13,7 +13,7 @@ use MyNamespace\Foo;
 //              ^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                 ^ punctuation.terminator.expression.php - meta.use
 
-use /* Comment */ \MyNamespace\Foo;
+use /* Comment */ \MyNamespace\Bar;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^^^^^^ comment.block
@@ -73,7 +73,7 @@ use function some\nspace\fn_a /**/ as fn_b;
 //                                    ^^^^ entity.name.function
 //                                        ^ punctuation.terminator.expression.php - meta.use
 
-use const /**/ some\nspace\ConstA;
+use const /**/ some\nspace\ConstValue;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^ storage.type
@@ -81,8 +81,8 @@ use const /**/ some\nspace\ConstA;
 //             ^^^^ support.other.namespace
 //                 ^ punctuation.separator.namespace
 //                  ^^^^^^ support.other.namespace
-//                         ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                               ^ punctuation.terminator.expression.php - meta.use
+//                         ^^^^^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
+//                                   ^ punctuation.terminator.expression.php - meta.use
 
 // Unfortunately we don't know if these identifiers are namespaces or classes
 // so we can't disambiguate. Generally we are just going to assume an "as" is
@@ -105,7 +105,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                                          ^ punctuation.definition.block
 //                                           ^ punctuation.terminator.expression.php - meta.use
 
-use function some\nspace\{fn_a, fn_b, fn_c as fn_d};
+use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^ storage.type.php
@@ -812,7 +812,7 @@ function embedHtml() {
     }
 }
 
-class C {
+class D {
     private $prop;
 
     public function __construct($val) {
