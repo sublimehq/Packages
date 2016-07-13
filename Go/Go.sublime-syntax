@@ -72,11 +72,18 @@ contexts:
         - include: late-keywords
     - include: expressions-late
 
+  case-default:
+    - match: '\b(default|case)\b'
+      scope: keyword.control.go
+    - match: (,|:)
+      scope: punctuation.separator.go
+
   expressions:
     - include: expressions-early
     - include: expressions-late
 
   expressions-early:
+    - include: case-default
     - include: keywords
 
   expressions-late:
