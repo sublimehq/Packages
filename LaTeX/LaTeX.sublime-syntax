@@ -744,7 +744,7 @@ contexts:
   begin-end-commands:
     - match: '((\\)begin)(\{)\s*(\w*)\*?\s*(\})'
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -755,7 +755,7 @@ contexts:
           pop: true
     - match: '((\\)end)(\{)\s*(\w*)\*?\s*(\})'
       captures:
-        1: support.function.be.latex
+        1: support.function.end.latex keyword.control.flow.end.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -789,7 +789,7 @@ contexts:
 
     - match: ((\\)begin)(\{)(lstlisting)(\})
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -799,7 +799,7 @@ contexts:
         - meta_scope: meta.environment.verbatim.lstlisting.latex
         - match: '((\\)end)(\{)(lstlisting)(\})'
           captures:
-            1: support.function.be.latex
+            1: support.function.end.latex keyword.control.flow.end.latex
             2: punctuation.definition.backslash.latex
             3: punctuation.definition.group.brace.begin.latex
             4: variable.parameter.function.latex
@@ -954,7 +954,7 @@ contexts:
   minted-env:
     - match: ((\\)begin)(\{)(minted)(\})
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -964,7 +964,7 @@ contexts:
         - meta_scope: meta.environment.verbatim.minted.latex
         - match: '((\\)end)(\{)(minted)(\})'
           captures:
-            1: support.function.be.latex
+            1: support.function.end.latex keyword.control.flow.end.latex
             2: punctuation.definition.backslash.latex
             3: punctuation.definition.group.brace.begin.latex
             4: variable.parameter.function.latex
@@ -1593,7 +1593,7 @@ contexts:
           pop: true
     - match: '((\\)begin)(\{)\s*(comment)\s*(\})'
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -1603,7 +1603,7 @@ contexts:
         - meta_content_scope: comment.block.environment.comment.latex
         - match: '((\\)end)(\{)\s*(comment)\s*(\})'
           captures:
-            1: support.function.be.latex
+            1: support.function.end.latex keyword.control.flow.end.latex
             2: punctuation.definition.backslash.latex
             3: punctuation.definition.group.brace.begin.latex
             4: variable.parameter.function.latex
@@ -1614,7 +1614,7 @@ contexts:
   beamer:
     - match: '((\\)begin)(\{)(frame)(\})'
       captures:
-        1: support.function.be.latex
+        1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
         4: variable.parameter.function.latex
@@ -1623,7 +1623,7 @@ contexts:
         - meta_scope: meta.environment.frame.latex
         - match: '((\\)end)(\{)(frame)(\})'
           captures:
-            1: support.function.be.latex
+            1: support.function.end.latex keyword.control.flow.end.latex
             2: punctuation.definition.backslash.latex
             3: punctuation.definition.group.brace.begin.latex
             4: variable.parameter.function.latex
