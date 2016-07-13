@@ -36,6 +36,8 @@ contexts:
         1: punctuation.definition.backslash.tex
     - match: '&'
       scope: constant.character.ampersand.tex
+    - match: '~'
+      scope: constant.character.space.tex
 
   comments:
     - match: '%.*$\n?'
