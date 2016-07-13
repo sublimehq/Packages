@@ -694,7 +694,7 @@ contexts:
         (?:(\[)(?:[^\]]*)(\])){0,2}
         (\{)
       captures:
-        1: support.function.cite.latex
+        1: support.function.cite.latex keyword.other.cite.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.bracket.begin.latex
         4: punctuation.definition.group.bracket.end.latex
@@ -716,7 +716,7 @@ contexts:
         (?:(\[)(?:[^\]]*)(\])){0,2}
         (\{)
       captures:
-        1: support.function.reference.latex
+        1: support.function.reference.latex keyword.other.reference.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.bracket.begin.latex
         4: punctuation.definition.group.bracket.end.latex
@@ -730,7 +730,7 @@ contexts:
           pop: true
     - match: '((\\)label)(\{)'
       captures:
-        1: support.function.label.latex
+        1: support.function.label.latex storage.type.label.latex
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.group.brace.begin.latex
       push:
