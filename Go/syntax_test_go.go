@@ -263,3 +263,11 @@ func (t funcTypeExample) foobar() {}
 //                       ^ entity.name.function
 //                             ^^ meta.function.parameters meta.group
 //                                ^^ meta.block
+
+func switchTest() {
+	switch {
+	default:
+	// <- keyword.control
+		return ""
+	}
+}

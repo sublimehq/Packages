@@ -23,7 +23,7 @@ contexts:
     - include: expressions-early
     - include: initializers
     - include: block
-    - match: ^\s*({{identifier}})(:)(?!=)
+    - match: ^\s*((?!default){{identifier}})(:)(?!=)
       captures:
         1: entity.name.label.go
         2: punctuation.separator.go
