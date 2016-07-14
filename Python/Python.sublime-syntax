@@ -14,6 +14,7 @@ file_extensions:
   - gyp
   - gypi
   - Snakefile
+  - wscript
 first_line_match: ^#!/.*\bpython\d?\b
 scope: source.python
 
