@@ -36,6 +36,10 @@ def foo(a: Int, b: Bar): Baz = 42
 // ^^^ keyword.declaration.scala
 //     ^^^^^ entity.name.function.declaration
 
+   def foo_2(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^ entity.name.function.declaration
+
    def foo42_+(a: Int)
 // ^^^ keyword.declaration.scala
 //     ^^^^^^^ entity.name.function.declaration
@@ -43,6 +47,9 @@ def foo(a: Int, b: Bar): Baz = 42
    def foo42_+_abc(a: Int)
 // ^^^ keyword.declaration.scala
 //     ^^^^^^^^^^^ entity.name.function.declaration
+
+   def +_foo()
+//      ^^^^ - entity.name.function
 
 val foo: Unit
 //^ keyword.declaration.stable.scala

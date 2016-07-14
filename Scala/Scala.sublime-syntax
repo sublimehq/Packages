@@ -6,6 +6,20 @@ file_extensions:
   - scala
   - sbt
 scope: source.scala
+variables:
+  # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
+  disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
+  operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
+  upper: '[$_\p{Lu}]'
+  # This is "letter", but without _ so we can ensure it is not last
+  idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
+  op: '(?:{{operator_character}}+)'
+  idrest: '(?:{{idcont}}*(?:_(?:{{op}}|{{idcont}}+))*)'
+  varid: '(?:\p{Ll}{{idrest}})'
+  boundvarid: '(?:`{{varid}}`|{{varid}})'
+  plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
+  id: '(?:{{plainid}}|`[^`]+`)'
+
 contexts:
   main:
     - include: storage-modifiers
@@ -82,10 +96,7 @@ contexts:
         - match: "[αβ]"
           scope: comment.block.empty.scala
         - include: main
-    - match: |-
-        (?x)
-        \b(def)\s+
-        (_*([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\.]+)(_+([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\._]+)?)*|`[^`]+`|[^\w\[\(\:\_\s]+)
+    - match: '\b(def)\s+({{id}})'
       captures:
         1: keyword.declaration.scala
         2: entity.name.function.declaration
