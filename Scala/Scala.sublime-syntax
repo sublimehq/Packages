@@ -149,7 +149,7 @@ contexts:
           pop: true
         - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
           captures:
-            1: entity.name.variable variable.parameter
+            1: variable.parameter.scala
         - include: main
     - match: '(?=[:\{=\n])'
       pop: true
@@ -180,7 +180,7 @@ contexts:
           pop: true
         - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
           captures:
-            1: entity.name.variable variable.parameter
+            1: variable.parameter.scala
         - include: main
     - match: '(?=([\{\n]|extends))'
       pop: true
