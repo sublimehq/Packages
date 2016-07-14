@@ -44,9 +44,14 @@ def foo(a: Int, b: Bar): Baz = 42
 // ^^^ keyword.declaration.scala
 //     ^^^^^^^ entity.name.function.declaration
 
+   def __many_underscores__+(a: Int)
+// ^^^ keyword.declaration.scala
+//     ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.declaration
+
    def foo42_+_abc(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^^^^^^^ entity.name.function.declaration
+//     ^^^^^^^ entity.name.function.declaration
+//            ^^^^ - entity.name.function
 
    def +_foo()
 //      ^^^^ - entity.name.function
