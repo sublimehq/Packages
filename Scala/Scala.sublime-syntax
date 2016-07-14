@@ -21,7 +21,6 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: empty-parentheses
-    - include: parameter-list
     - include: qualifiedClassName
     - include: xml-literal
   block-comments:
@@ -85,15 +84,17 @@ contexts:
     - match: |-
         (?x)
         \b(def)\s+
-        (([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`|[^\w\[\(\:\_\s]+)
+        (_*([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\.]+)(_+([a-zA-Z$][a-zA-Z0-9$]*|[^a-zA-Z0-9$`\s\(\)\[\]\{\};\._]+)?)*|`[^`]+`|[^\w\[\(\:\_\s]+)
       captures:
         1: keyword.declaration.scala
         2: entity.name.function.declaration
+      push: function-type-parameter-list
     - match: '(case)?\b(class|trait|object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
         2: keyword.declaration.scala
         3: entity.name.class.declaration
+      push: class-type-parameter-list
     - match: '\b(type)\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)'
       captures:
         1: keyword.declaration.scala
@@ -112,6 +113,66 @@ contexts:
       captures:
         1: keyword.other.scoping.scala
         2: entity.name.package.scala
+  function-type-parameter-list:
+    - match: '(?=\()'
+      set: function-parameter-list
+    - match: '\['
+      push: function-tparams-brackets
+    - match: '(?=[:\{=\n])'
+      pop: true
+  function-tparams-brackets:
+    - match: '\['
+      push: function-tparams-brackets
+    - match: '\]'
+      pop: true
+    - include: main
+  function-parameter-list:
+    - match: '\('
+      push:
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: main
+        - match: '\)'
+          pop: true
+        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+          captures:
+            1: entity.name.parameter variable.parameter
+        - include: main
+    - match: '(?=[:\{=\n])'
+      pop: true
+  class-type-parameter-list:
+    - match: '\b(private|protected)\b'
+      scope: storage.modifier.access
+    - match: '(?=\()'
+      set: class-parameter-list
+    - match: '\['
+      push: class-tparams-brackets
+    - match: '(?=([\{\n]|extends))'
+      pop: true
+  class-tparams-brackets:
+    - match: '\['
+      push: class-tparams-brackets
+    - match: '\]'
+      pop: true
+    - include: main
+  class-parameter-list:
+    - match: '\('
+      push:
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: main
+        - match: '\)'
+          pop: true
+        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+          captures:
+            1: entity.name.parameter variable.parameter
+        - include: main
+    - match: '(?=([\{\n]|extends))'
+      pop: true
   empty-parentheses:
     - match: \(\)
       scope: meta.parentheses.scala
@@ -173,11 +234,6 @@ contexts:
           pop: true
         - include: nest-curly-and-self
     - include: main
-  parameter-list:
-    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*([A-Za-z0-9][\w|_|?|\.]*)?,?'
-      captures:
-        1: variable.parameter
-        2: entity.name.class
   qualifiedClassName:
     - match: '(\b([A-Z][\w]*))'
       captures:
