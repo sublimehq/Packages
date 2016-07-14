@@ -37,6 +37,7 @@ contexts:
     - include: empty-parentheses
     - include: qualifiedClassName
     - include: xml-literal
+    - include: late-keywords
   block-comments:
     - match: /\*
       push:
@@ -234,6 +235,13 @@ contexts:
       scope: keyword.control.flow.scala
     - match: \b(catch|finally|try)\b
       scope: keyword.control.exception.scala
+    - match: \b(macro)\b
+      scope: keyword.scala
+    - match: \?\?\?
+      scope: keyword.scala
+  late-keywords:
+    - match: \b(type|def|class|trait|object)\b
+      scope: keyword.declaration.scala
   nest-curly-and-self:
     - match: '\{'
       captures:
