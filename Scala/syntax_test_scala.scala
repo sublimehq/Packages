@@ -13,7 +13,7 @@ import fubar.{Unit, Foo}
 
 def foo(a: Int, b: Bar): Baz = 42
 //^ keyword.declaration.scala
-//  ^^^ entity.name.function.declaration
+//  ^^^ entity.name.function.scala
 //      ^ variable.parameter
 //         ^^^ storage.type.primitive.scala
 //                 ^^^ entity.name.class
@@ -22,35 +22,35 @@ def foo(a: Int, b: Bar): Baz = 42
 
    def +(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^ entity.name.function.declaration
+//     ^ entity.name.function.scala
 
    def `this is a test`(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^^^^^^^^^^^^ entity.name.function.declaration
+//     ^^^^^^^^^^^^^^^^ entity.name.function.scala
 
    def ::(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^ entity.name.function.declaration
+//     ^^ entity.name.function.scala
 
    def foo_+(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^ entity.name.function.declaration
+//     ^^^^^ entity.name.function.scala
 
    def foo_2(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^ entity.name.function.declaration
+//     ^^^^^ entity.name.function.scala
 
    def foo42_+(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^^^ entity.name.function.declaration
+//     ^^^^^^^ entity.name.function.scala
 
    def __many_underscores__+(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.declaration
+//     ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.scala
 
    def foo42_+_abc(a: Int)
 // ^^^ keyword.declaration.scala
-//     ^^^^^^^ entity.name.function.declaration
+//     ^^^^^^^ entity.name.function.scala
 //            ^^^^ - entity.name.function
 
    def +_foo()
@@ -58,7 +58,7 @@ def foo(a: Int, b: Bar): Baz = 42
 
    def foo[A]
 // ^^^ keyword.declaration.scala
-//     ^^^ entity.name.function.declaration
+//     ^^^ entity.name.function.scala
 //         ^ entity.name.class
 
    def foo(implicit bar: Int): Unit
@@ -66,12 +66,12 @@ def foo(a: Int, b: Bar): Baz = 42
 
 val foo: Unit
 //^ keyword.declaration.stable.scala
-//  ^^^ entity.name.val.declaration
+//  ^^^ entity.name.val.scala
 //       ^^^^ storage.type.primitive.scala
 
 var foo: Unit
 //^ keyword.declaration.volatile.scala
-//  ^^^ entity.name.val.declaration
+//  ^^^ entity.name.val.scala
 //       ^^^^ storage.type.primitive.scala
 
 class Foo[A](a: Bar) extends Baz with Bin
