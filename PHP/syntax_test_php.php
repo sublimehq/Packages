@@ -8,6 +8,7 @@ namespace MyNamespace;
 use MyNamespace\Foo;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^ meta.use
+//  ^^^^^^^^^^^^^^^ meta.path
 //  ^^^^^^^^^^^ support.other.namespace
 //             ^ punctuation.separator.namespace
 //              ^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
@@ -17,6 +18,7 @@ use /* Comment */ \MyNamespace\Foo;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^^^^^^ comment.block
+//                ^^^^^^^^^^^^^^^^ meta.path
 //                ^ punctuation.separator.namespace
 //                 ^^^^^^^^^^^ support.other.namespace
 //                            ^ punctuation.separator.namespace
@@ -26,6 +28,7 @@ use /* Comment */ \MyNamespace\Foo;
 use My\Full\Classname as /**/ Another # Foo baz
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^^^^^^^^^^^^^^^^^ meta.path
 //  ^^ support.other.namespace
 //    ^ punctuation.separator.namespace
 //     ^^^^ support.other.namespace
@@ -39,6 +42,7 @@ use My\Full\Classname as /**/ Another # Foo baz
 //<- meta.use
 //^^^^^^^^^^^^^^ meta.use
 // <- punctuation.separator
+//^^^^^^^^^^^^^^ meta.path
 //^^ support.other.namespace
 //  ^ punctuation.separator.namespace
 //   ^^^^ support.other.namespace
@@ -52,6 +56,7 @@ use function /**/ some\namespace\fn_a;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^ storage.type
 //           ^^^^ comment.block
+//                ^^^^^^^^^^^^^^^^^^^ meta.path
 //                ^^^^ support.other.namespace
 //                    ^ punctuation.separator.namespace
 //                      ^^^^^^^^ support.other.namespace
@@ -63,6 +68,7 @@ use function some\namespace\fn_a /**/ as fn_b;
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^ storage.type
+//           ^^^^^^^^^^^^^^^^^^^ meta.path
 //           ^^^^ support.other.namespace
 //               ^ punctuation.separator.namespace
 //                ^^^^^^^^^ support.other.namespace
@@ -78,6 +84,7 @@ use const /**/ some\namespace\ConstA;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^ storage.type
 //        ^^^^ comment.block
+//             ^^^^^^^^^^^^^^^^^^^^^ meta.path
 //             ^^^^ support.other.namespace
 //                 ^ punctuation.separator.namespace
 //                  ^^^^^^^^^ support.other.namespace
@@ -90,6 +97,7 @@ use const /**/ some\namespace\ConstA;
 use some\namespace\{ClassA, ClassB, ClassC as C};
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
+//  ^^^^^^^^^^^^^^^ meta.path
 //  ^^^^ support.other.namespace
 //      ^ punctuation.separator.namespace
 //       ^^^^^^^^^ support.other.namespace
@@ -109,6 +117,7 @@ use function some\namespace\{fn_a, fn_b, fn_c as fn_d};
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^^^^ storage.type.php
+//           ^^^^^^^^^^^^^^^ meta.path
 //           ^^^^ support.other.namespace
 //               ^ punctuation.separator.namespace
 //                ^^^^^^^^^ support.other.namespace
@@ -129,6 +138,7 @@ use const some\namespace\{ConstA, ConstB AS ConstD, ConstC};
 // <- keyword.other.use
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use
 //  ^^^^^ storage.type.php
+//        ^^^^^^^^^^^^^^^ meta.path
 //        ^^^^ support.other.namespace
 //            ^ punctuation.separator.namespace
 //             ^^^^^^^^^ support.other.namespace
@@ -181,6 +191,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                       ^ keyword.operator.assignment
 //                        ^^^^^^^ meta.array.empty
 //                               ^ punctuation.separator
+//                                 ^^^^^^^^^ meta.path
 //                                 ^^^^^^^^^ support.class
 //                                           ^^^^ variable.parameter
 //                                               ^ punctuation.definition.group.end
@@ -211,18 +222,22 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php
 //              ^ storage.modifier.extends.php
+//                      ^^^^^^^^ meta.path
 //                       ^ entity.other.inherited-class.php
 //                               ^ storage.modifier.implements.php
+//                                          ^^^^^^^^^ meta.path
 //                                           ^ entity.other.inherited-class.php
 
 class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //    ^ entity.name.class
 //              ^ storage.modifier
 //                      ^ comment.block
+//                            ^^^^^^^^^^^^^^^^ meta.path
 //                            ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                            ^ punctuation.separator.namespace
 //                                        ^ punctuation.separator.namespace
 //                                             ^ storage.modifier
+//                                                        ^^^^^^^^^^^^^^^^ meta.path
 //                                                        ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                                                        ^ punctuation.separator.namespace
 //                                                                    ^ punctuation.separator.namespace
@@ -236,6 +251,7 @@ interface MyInter2 extends \MyNamespace\Foo {
 // <- storage.type
 //        ^ entity.name.interface
 //                 ^ storage.modifier
+//                         ^^^^^^^^^^^^^^^^ meta.path
 //                         ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                         ^ punctuation.separator.namespace
 //                                     ^ punctuation.separator.namespace
@@ -244,6 +260,7 @@ interface MyInter2 extends \MyNamespace\Foo {
 if ($foo instanceof \Mynamespace\ClassName) {
 //  ^ variable.other
 //       ^ keyword.operator
+//                  ^^^^^^^^^^^^^^^^^^^^^^ meta.path
 //                  ^ punctuation.separator.namespace
 //                   ^ support.other.namespace
 //                              ^ punctuation.separator.namespace
@@ -253,6 +270,7 @@ if ($foo instanceof \Mynamespace\ClassName) {
 $var = new \MyNamespce\ClassName();
 // <- variable.other
 //     ^ keyword.other
+//         ^^^^^^^^^^^^^^^^^^^^^ meta.path
 //         ^ punctuation.separator.namespace
 //          ^ support.other.namespace
 //                    ^ punctuation.separator.namespace
@@ -261,6 +279,7 @@ $var = new \MyNamespce\ClassName();
 \MyNamespace\Foo::BAR;
 // <- punctuation.separator.namespace
  // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^ support.class
 //              ^^ keyword.operator.class
@@ -269,6 +288,7 @@ $var = new \MyNamespce\ClassName();
 \MyNamespace\Foo::bar();
 // <- punctuation.separator.namespace
  // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
 //              ^^ keyword.operator.class
@@ -282,6 +302,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^^^ meta.function-call
 // <- punctuation.separator.namespace
  // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ variable.function
 //              ^^ meta.group
@@ -291,6 +312,7 @@ $var = new \MyNamespce\ClassName();
 \MyNamespace\Foo;
 // <- punctuation.separator.namespace
  // <- support.other.namespace
+//^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^ constant.other
 
@@ -323,6 +345,7 @@ strval($foo);
 
 $test = new Test1;
 //      ^ keyword.other.new.php
+//          ^^^^^ meta.path
 //          ^ support.class.php
 
 $anon = new class{};
@@ -338,8 +361,10 @@ $anon = new class extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
 //                ^ storage.modifier.extends.php
+//                        ^^^^^ meta.path
 //                         ^ entity.other.inherited-class.php
 //                              ^ storage.modifier.implements.php
+//                                         ^^^^^^^^^ meta.path
 //                                         ^ entity.other.inherited-class.php
 //                                                   ^^ meta.block.php
 
@@ -368,6 +393,7 @@ $anon = new class extends Test1 implements Countable {};
 //           ^ entity.name.function.php
 //                          ^ punctuation.definition.group.begin.php
 //                                  ^ punctuation.definition.group.end.php
+//                                     ^^^^^^^^^^^^^^^^^ meta.path
 //                                     ^ support.other.namespace.php
 //                                                 ^ support.class.php
 
@@ -475,12 +501,14 @@ class B
 {
     use MyNamespace\Xyz,
 //  ^^^^^^^^^^^^^^^^^^^^ meta.use
+//      ^^^^^^^^^^^^^^^ meta.path
 //      ^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                 ^ punctuation.separator.namespace
     Y,
-//  ^ meta.use entity.other.inherited-class
+//  ^ meta.use meta.path entity.other.inherited-class
     Z {
 //  ^^^ meta.use
+//  ^ meta.path
 //    ^ meta.block punctuation.definition.block
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
@@ -527,7 +555,7 @@ try {
     throw new \Exception('Error!');
 //  ^ keyword.control.exception
 //            ^^^^^^^^^^ meta.path.php
-//            ^ punctuation.separator.namespace.php
+//            ^ punctuation.separator.namespace.php - support.class
 //             ^^^^^^^^^ support.class
     throw new \Custom\Exception('Error!');
 //  ^ keyword.control.exception
@@ -836,6 +864,7 @@ function embedHtml() {
         }
     } catch (Exception $e) {
 //    ^^^^^^^^^^^^^^^^^^^^ meta.catch.php
+//           ^^^^^^^^^ meta.path
 //    ^^^^^ keyword.control.exception.catch.php
 
     }
@@ -877,6 +906,7 @@ class C {
 }
 
 var_dump(new C(42));
+//           ^ meta.path support.class
 
 ?>
 
