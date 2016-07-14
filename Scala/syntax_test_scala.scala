@@ -225,10 +225,10 @@ object Foo
 // ^^^^ keyword.control.flow.scala
 
    macro
-// ^^^^^ keyword.control.flow.scala
+// ^^^^^ keyword.scala
 
    type
-// ^^^^ keyword.control.flow.scala
+// ^^^^ keyword.declaration.scala
 
    return
 // ^^^^^^ keyword.control.flow.jump.scala
@@ -243,34 +243,34 @@ object Foo
 // ^^^^^^^ keyword.control.exception.scala
 
    ???
-// ^^^ keyword.control.exception.scala
+// ^^^ keyword.scala
 
    try
 // ^^^ keyword.control.exception.scala
 
    forSome
-// ^^^^^^^ keyword.scala
+// ^^^^^^^ keyword.declaration.scala
 
    new
 // ^^^ keyword.scala
 
    extends
-// ^^^^^^^ keyword.scala
+// ^^^^^^^ keyword.declaration.scala
 
    with
-// ^^^^ keyword.scala
+// ^^^^ keyword.declaration.scala
 
    class
-// ^^^^^ keyword.scala
+// ^^^^^ keyword.declaration.scala
 
    trait
-// ^^^^^ keyword.scala
+// ^^^^^ keyword.declaration.scala
 
    object
-// ^^^^^^ keyword.scala
+// ^^^^^^ keyword.declaration.scala
 
    def
-// ^^^ keyword.scala
+// ^^^ keyword.declaration.scala
 
    val
 // ^^^ keyword.declaration.stable.scala
@@ -282,7 +282,7 @@ object Foo
 // ^^^^^^ keyword.other.import.scala
 
    package
-// ^^^^^^^ keyword.scala
+// ^^^^^^^ keyword.other.scoping.scala
 
    private
 // ^^^^^^^ storage.modifier.access

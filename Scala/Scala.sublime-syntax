@@ -226,7 +226,7 @@ contexts:
   initialization:
     - match: '\b(new)\s+([^\s\{\(\}\)\[]+)'
       captures:
-        1: keyword
+        1: keyword.scala
         2: entity.name.class
   keywords:
     - match: \b(return|throw)\b
@@ -240,8 +240,12 @@ contexts:
     - match: \?\?\?
       scope: keyword.scala
   late-keywords:
-    - match: \b(type|def|class|trait|object)\b
+    - match: \b(type|def|class|trait|object|extends|with|forSome)\b
       scope: keyword.declaration.scala
+    - match: \b(package)\b
+      scope: keyword.other.scoping.scala
+    - match: \b(new)\b
+      scope: keyword.scala
   nest-curly-and-self:
     - match: '\{'
       captures:
