@@ -186,7 +186,7 @@ contexts:
     - match: '(\.)({{identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
-        2: variable.other.dot-access.c
+        2: variable.other.member.c
 
   label:
     - match: '^\s*((?!default){{identifier}})(:)(?!:)'
