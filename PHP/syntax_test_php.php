@@ -413,7 +413,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ variable.other
 //       ^ punctuation.definition.variable
 //         ^^ keyword.operator.class
-//           ^ variable.other.property
+//           ^ variable.other.member
 //                ^^^^ variable.other
 //                ^^ punctuation.definition.variable
 //                   ^ punctuation.definition.variable
@@ -444,7 +444,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                        ^^ variable.other
 //                                                                                        ^ punctuation.definition.variable
 //                                                                                          ^^ keyword.operator.class
-//                                                                                            ^ variable.other.property
+//                                                                                            ^ variable.other.member
 //                                                                                              ^ keyword.operator
 //                                                                                                ^ constant.other
 
@@ -454,7 +454,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ variable.other
 //       ^ punctuation.definition.variable
 //         ^^ keyword.operator.class
-//           ^ variable.other.property
+//           ^ variable.other.member
 //                ^^^^ variable.other
 //                ^^ punctuation.definition.variable
 //                   ^ punctuation.definition.variable
@@ -485,7 +485,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                        ^^ variable.other
 //                                                                                        ^ punctuation.definition.variable
 //                                                                                          ^^ keyword.operator.class
-//                                                                                            ^ variable.other.property
+//                                                                                            ^ variable.other.member
 //                                                                                              ^ keyword.operator
 //                                                                                                ^ constant.other
 

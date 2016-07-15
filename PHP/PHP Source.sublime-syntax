@@ -913,7 +913,7 @@ contexts:
         - match: (->)({{identifier}})
           captures:
             1: keyword.operator.class.php
-            2: variable.other.property.php
+            2: variable.other.member.php
           pop: true
         - match: '\['
           scope: punctuation.section.array.begin.php
@@ -957,7 +957,7 @@ contexts:
     - match: (->)((\$+)?{{identifier}})?
       captures:
         1: keyword.operator.class.php
-        2: variable.other.property.php
+        2: variable.other.member.php
         3: punctuation.definition.variable.php
   parameter-default-types:
     - include: strings
