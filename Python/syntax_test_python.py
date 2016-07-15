@@ -710,6 +710,14 @@ regex = r'\b ([fobar]*){1}(?:a|b)?'
 #         ^ keyword.control.anchor.regexp
 #                       ^ keyword.operator.quantifier.regexp
 
+regex = r'.* # Not a comment (yet)'
+#                                 ^ punctuation.definition.string.end.python - comment
+#                                  ^ - invalid
+
+regex = r".* # Not a comment (yet)"
+#                                 ^ punctuation.definition.string.end.python - comment
+#                                  ^ - invalid
+
 regex = r'''\b ([fobar]*){1}(?:a|b)?'''
 #           ^ keyword.control.anchor.regexp
 #                         ^ keyword.operator.quantifier.regexp
@@ -748,12 +756,28 @@ string = r"""
 #         ^^^ string.quoted.double.block
 """
 
+string = r"""
+    # An indented comment.
+#  ^ - comment
+#   ^ comment.line.number-sign.regexp
+### <<This comment>> @includes some &punctutation.
+# <- comment.line.number-sign.regexp
+"""
+
 string = '''
 #        ^^^ string.quoted.single.block
 '''
 
 string = r'''
 #         ^^^ string.quoted.single.block
+'''
+
+string = r'''
+    # An indented comment.
+#  ^ - comment
+#   ^ comment.line.number-sign.regexp
+### <<This comment>> @includes some &punctutation.
+# <- comment.line.number-sign.regexp
 '''
 
 query = \
