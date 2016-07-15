@@ -6,7 +6,6 @@ file_extensions:
   - py3
   - pyw
   - pyi
-  - pt
   - rpy
   - cpy
   - SConstruct
