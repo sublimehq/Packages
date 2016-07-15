@@ -552,7 +552,7 @@ contexts:
         4: variable.parameter.function.latex
         5: punctuation.definition.group.brace.end.latex
       push:
-        - meta_scope: meta.environment.math.block.be.latex
+        - meta_content_scope: meta.environment.math.block.be.latex
         - match: '((\\)end)(\{)\s*(\4)\s*(\})'
           captures:
             1: support.function.end.latex keyword.control.flow.begin.latex
