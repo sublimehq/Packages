@@ -279,9 +279,9 @@ contexts:
       scope: constant.numeric.integer.long.hexadecimal.python
     - match: \b(?i:(0x\h*))
       scope: constant.numeric.integer.hexadecimal.python
-    - match: '\b(?i:(0o?[0-7]+)L)'
+    - match: '\b(?i:0(o|[0-7])[0-7]*L)'
       scope: constant.numeric.integer.long.octal.python
-    - match: '\b(?i:0o?[0-7]+)'
+    - match: '\b(?i:0(o|[0-7])[0-7]*)'
       scope: constant.numeric.integer.octal.python
     - match: \b(?i:0b[01]*L)
       scope: constant.numeric.integer.long.binary.python
