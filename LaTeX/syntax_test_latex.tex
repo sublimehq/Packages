@@ -28,7 +28,7 @@
 % <- comment.line.percentage.tex
 
 \begin{document}
-% ^ support.function.be.latex
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
 
 % SECTION COMMANDS
@@ -71,11 +71,11 @@
 
 \ref{sec:name}
 % ^ meta.function.reference.latex
-% ^ support.function.reference.latex
+% ^ support.function.reference.latex keyword.other.reference.latex
 
 \cite{my:bib:key}
 % ^ meta.function.citation.latex
-% ^ support.function.cite.latex
+% ^ support.function.cite.latex keyword.other.cite.latex
 
 
 % URL COMMAND
@@ -104,6 +104,12 @@
 \input{path/to/file.tex}
 % ^ meta.function.input.tex
 % ^ keyword.control.input.tex
+
+\includecommand{...}
+% ^^^^^^^^^^ support.function.general.latex
+
+\inputminted{py}{path/to/file.py}
+% ^^^^^^^^^^ support.function.general.latex
 
 
 % MARKUP COMMANDS
@@ -162,7 +168,7 @@
 %      ^ - support.function.general.latex
 
 \begin{verbatim}
-% ^ support.function.be.latex
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
 The \emph{verbatim} environment sets everything in verbatim.
 % <- meta.environment.verbatim.verbatim.latex
@@ -222,7 +228,7 @@ f(x) = x^2
 % using an environment.
 
 \begin{comment}
-% ^ support.function.be.latex
+% ^ support.function.begin.latex keyword.control.flow.begin.latex
 %      ^ variable.parameter.function.latex
 This environment can be used to write
 % <- comment.block.environment.comment.latex
@@ -316,5 +322,5 @@ def my_function():
 
 
 \end{document}
-% ^ support.function.be.latex
+% ^ support.function.end.latex keyword.control.flow.end.latex
 %        ^ variable.parameter.function.latex
