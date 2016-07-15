@@ -56,7 +56,7 @@ func test(data MyStruct)
 {
 	data.fooBar
 	//  ^ punctuation.accessor
-	//   ^^^^^^ variable.other.dot-access
+	//   ^^^^^^ variable.other.member
 }
 
 const (

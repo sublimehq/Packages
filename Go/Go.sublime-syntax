@@ -145,7 +145,7 @@ contexts:
     - match: '(\.)({{identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.go
-        2: variable.other.dot-access.go
+        2: variable.other.member.go
 
   block:
     - match: '\{'
