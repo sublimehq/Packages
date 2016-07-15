@@ -523,11 +523,11 @@ struct Point
 {
 // <- meta.struct meta.block punctuation.definition.block.begin
     x: i32,
-//  ^ variable.other.property
+//  ^ variable.other.member
 //   ^ punctuation.separator
 //     ^^^ storage.type
     y: i32
-//  ^ variable.other.property
+//  ^ variable.other.member
 //   ^ punctuation.separator
 //     ^^^ storage.type
 }

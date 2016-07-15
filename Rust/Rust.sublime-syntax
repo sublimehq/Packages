@@ -466,7 +466,7 @@ contexts:
         - match: \bpub\b
           scope: storage.modifier.rust
         - match: '{{identifier}}(?=\s*:)'
-          scope: variable.other.property.rust
+          scope: variable.other.member.rust
           push:
             - match: ',|(?=\})'
               pop: true
