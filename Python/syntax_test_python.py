@@ -556,6 +556,45 @@ raise KeyError() from z
 
 
 
+##################
+# Integral numbers
+##################
+
+decimal = 1234567890 + 9876543210L + -1 + -42L
+#         ^^^^^^^^^^ constant.numeric.integer.decimal.python
+#                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
+#                                    ^ keyword.operator.arithmetic.python - constant.numeric
+#                                         ^ keyword.operator.arithmetic.python - constant.numeric
+
+binary = 0b1010011 | 0b0110110L
+#        ^^^^^^^^^ constant.numeric.integer.binary.python
+#                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
+
+octal = 0o755 ^ 0o644L
+#       ^^^^^ constant.numeric.integer.octal.python
+#               ^^^^^^ constant.numeric.integer.long.octal.python
+
+old_style_octal = 010 + 007 - 012345670L
+#                 ^^^ constant.numeric.integer.octal.python
+#                       ^^^ constant.numeric.integer.octal.python
+#                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
+
+hexadecimal = 0x100af - 0XDEADF00L
+#             ^^^^^^^ constant.numeric.integer.hexadecimal.python
+#                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
+
+unintuitive = 0B101 + 0O101 + 10l
+#             ^^^^^ constant.numeric.integer.binary.python
+#                     ^^^^^ constant.numeric.integer.octal.python
+#                             ^^^ constant.numeric.integer.long.decimal.python
+
+illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
+#           ^ - constant.numeric
+#                 ^ - constant.numeric
+#                          ^^^ - constant.numeric
+#                                    ^^^^^^^^^ - constant.numeric
+
+
 
 ###############################
 # Strings and embedded syntaxes
