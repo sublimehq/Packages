@@ -851,6 +851,9 @@ namespace tl {
     }
 }
 
+MACRONAME namespace ns3 {}
+/*        ^ keyword.control */
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////

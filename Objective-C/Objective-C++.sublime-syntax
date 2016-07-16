@@ -23,7 +23,7 @@ variables:
   type_qualifier: 'const|constexpr|mutable|typename|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
-  other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
+  other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
   generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|<.*?>|\s|\d)*)?>'
@@ -776,7 +776,7 @@ contexts:
     - include: comments
     - match: \*|&
       scope: keyword.operator.objc++
-    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}}|operator)\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
@@ -836,6 +836,8 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+      pop: true
     - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
@@ -1211,7 +1213,7 @@ contexts:
         1: keyword.control.objc++
         2: meta.method.objc++ entity.name.function.objc++
       set: method-definition-params
-    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}}|operator)\b)'
       pop: true
     - match: '(?=\s)'
       set: data-structures-maybe-method
@@ -1256,6 +1258,8 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+      pop: true
     - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
