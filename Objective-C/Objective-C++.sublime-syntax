@@ -317,7 +317,7 @@ contexts:
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc++
-            2: punctuation.definition.variadic.objc++
+            2: keyword.operator.variadic.objc++
           push:
             - include: scope:source.c#function-call
             - match: '(?=\S)'
@@ -567,7 +567,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.objc++
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.objc++
+          scope: keyword.operator.variadic.objc++
     - match: \btemplate\b
       scope: storage.type.template.objc++
       push:
@@ -1772,7 +1772,7 @@ contexts:
         - include: scope:source.c#preprocessor-line-continuation
         - include: scope:source.c#preprocessor-comments
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.objc++
+          scope: keyword.operator.variadic.objc++
         - match: '(?=\))'
           pop: true
         - match: (/\*).*(\*/)
@@ -1785,7 +1785,7 @@ contexts:
     - include: scope:source.c#preprocessor-line-continuation
     - include: scope:source.c#preprocessor-comments
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.objc++
+      scope: keyword.operator.variadic.objc++
     - match: (/\*).*(\*/)
       scope: comment.block.objc++
       captures:

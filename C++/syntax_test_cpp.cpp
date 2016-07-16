@@ -237,7 +237,7 @@ template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /*                         ^ punctuation.definition.generic.begin */
 /*                           ^ punctuation.definition.generic.end */
 /*                            ^ punctuation.separator */
-/*                                      ^^^ punctuation.definition.variadic */
+/*                                      ^^^ keyword.operator.variadic */
 /*                                              ^ punctuation.definition.generic.end */
 
 template<typename Foo> inline struct Foo* baz()

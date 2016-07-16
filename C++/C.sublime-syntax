@@ -180,7 +180,7 @@ contexts:
     - match: '\?|:(?!:)'
       scope: keyword.operator.ternary.c
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.c
+      scope: keyword.operator.variadic.c
 
   access:
     - match: '(\.)({{identifier}})(?!\s*\()'
@@ -1021,7 +1021,7 @@ contexts:
         - include: preprocessor-line-continuation
         - include: preprocessor-comments
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.c
+          scope: keyword.operator.variadic.c
         - match: '(?=\))'
           pop: true
         - match: (/\*).*(\*/)
@@ -1034,7 +1034,7 @@ contexts:
     - include: preprocessor-line-continuation
     - include: preprocessor-comments
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.c
+      scope: keyword.operator.variadic.c
     - match: (/\*).*(\*/)
       scope: comment.block.c
       captures:

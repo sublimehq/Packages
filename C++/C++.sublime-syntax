@@ -484,7 +484,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.c++
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.c++
+          scope: keyword.operator.variadic.c++
     - match: \btemplate\b
       scope: storage.type.template.c++
       push:
@@ -1687,7 +1687,7 @@ contexts:
         - include: scope:source.c#preprocessor-line-continuation
         - include: scope:source.c#preprocessor-comments
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.c++
+          scope: keyword.operator.variadic.c++
         - match: '(?=\))'
           pop: true
         - match: (/\*).*(\*/)
@@ -1700,7 +1700,7 @@ contexts:
     - include: scope:source.c#preprocessor-line-continuation
     - include: scope:source.c#preprocessor-comments
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.c++
+      scope: keyword.operator.variadic.c++
     - match: (/\*).*(\*/)
       scope: comment.block.c++
       captures:
