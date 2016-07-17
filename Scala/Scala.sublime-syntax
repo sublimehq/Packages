@@ -259,7 +259,7 @@ contexts:
       captures:
         1: storage.modifier.access.scala
         2: punctuation.definition.arguments.begin.scala
-        3: entity.name.module.scala
+        3: variable.module.scala
         4: punctuation.definition.arguments.end.scala
     - match: \b(private|protected)\b
       scope: storage.modifier.access.scala
