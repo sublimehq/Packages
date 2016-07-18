@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.scala entity.name.function, source.scala entity.name.class, source.scala entity.name.val, source.scala entity.name.type</string>
+	<string>source.scala entity.name.function.declaration, source.scala entity.name.class.declaration, source.scala entity.name.val.declaration, source.scala entity.name.type.declaration</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
