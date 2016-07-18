@@ -93,27 +93,27 @@ contexts:
     - match: '\b(def)\s+({{id}})'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.function.scala
+        2: entity.name.function.declaration.scala
       push: function-type-parameter-list
     - match: '(case)?\b(class|trait|object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
         2: keyword.declaration.scala
-        3: entity.name.class.scala
+        3: entity.name.class.declaration.scala
       push: class-type-parameter-list
     - match: '\b(type)\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.type.scala
+        2: entity.name.type.declaration.scala
     - match: '\b(?:(val)|(var))\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)?'
       captures:
         1: keyword.declaration.stable.scala
         2: keyword.declaration.volatile.scala
-        3: entity.name.val.scala
+        3: entity.name.val.declaration.scala
     - match: '\b(package object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.class.scala
+        2: entity.name.class..declarationscala
     - match: '\b(package)\s+([\w\.]+)'
       scope: meta.package.scala
       captures:
