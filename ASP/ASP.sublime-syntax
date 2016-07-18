@@ -637,6 +637,8 @@ contexts:
     - match: '%>'
       scope: punctuation.section.embedded.end.inside-block.asp
       push:
+        - clear_scopes: true
+        - meta_scope: text.html.asp
         - match: '<%=?'
           scope: punctuation.section.embedded.begin.inside-block.asp
           pop: true
