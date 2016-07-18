@@ -98,7 +98,7 @@ contexts:
         1: keyword.declaration.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '\b(case\s+)?(class|trait|object)\s+([^\s\{\(\[]+)'
+    - match: '\b(case\s+)?(class|trait|object)(?:\s+([^\s\{\(\[]+))?'
       captures:
         1: keyword.declaration.scala
         2: keyword.declaration.scala

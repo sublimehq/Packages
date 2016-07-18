@@ -412,7 +412,7 @@ object Foo
    case object Thingy extends Other
 // ^^^^ keyword.declaration.scala
 //      ^^^^^^ keyword.declaration.scala
-//             ^^^^^^ entity.name.class.declaration
+//             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                            ^^^^^ entity.other.inherited-class.scala
 
@@ -425,7 +425,7 @@ object Foo
    case class Thingy(abc: Int) extends Other
 // ^^^^ keyword.declaration.scala
 //      ^^^^^ keyword.declaration.scala
-//            ^^^^^^ entity.name.class.declaration
+//            ^^^^^^ entity.name.class.scala
 //                   ^^^ variable.parameter
 //                             ^^^^^^^ keyword.declaration.scala
 //                                     ^^^^^ entity.other.inherited-class.scala
