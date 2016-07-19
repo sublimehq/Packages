@@ -515,3 +515,10 @@ object Foo
 //        ^ - variable.parameter
 //          ^^^^ - variable.parameter
 //               ^^^ - variable.parameter
+
+  {
+    case foo.Bar => 42
+//       ^^^ - variable.parameter
+    case Bar.foo => 42
+//           ^^^ - variable.parameter
+  }

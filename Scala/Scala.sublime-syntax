@@ -433,6 +433,10 @@ contexts:
         - meta_scope: source.scala
         - match: '`'
           pop: true
+    - match: '\b[a-z][a-zA-Z0-9_]*\.'
+      scope: source.scala
+    - match: '\.[a-z][a-zA-Z0-9_]*\b'
+      scope: source.scala
     - match: '\b[a-z][a-zA-Z0-9_]*\b'
       scope: entity.name.parameter variable.parameter
     - match: '\b[A-Z][a-zA-Z0-9_]*'
