@@ -272,7 +272,7 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<←=\{]|<[^\-])+(<-|←|=[\s\b]))'
+    - match: '^(?=([^<←=\{\}]|<[^\-])+(<-|←|=[\s\b]))'
       push:
         - match: '^\s*(val)\s+'
           scope: keyword.declaration.stable.scala

@@ -508,3 +508,10 @@ object Foo
 
   val baseSettings: Seq[Def.Setting[_]] = _
 //                                  ^ - keyword
+
+  for {
+    r <- blah
+  } yield r.copy(foo = a)
+//        ^ - variable.parameter
+//          ^^^^ - variable.parameter
+//               ^^^ - variable.parameter
