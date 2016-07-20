@@ -964,6 +964,38 @@ x = 'hello\s world'
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
 
+# https://docs.python.org/3/library/string.html#formatspec
+"First, thou shalt count to {0}"  # References first positional argument
+#                           ^^^ constant.other.placeholder.python
+"Bring me a {}"                   # Implicitly references the first positional argument
+#           ^^ constant.other.placeholder.python
+"From {} to {}"                   # Same as "From {0} to {1}"
+#     ^^ constant.other.placeholder.python
+#       ^^^^ - constant.other.placeholder.python
+#           ^^ constant.other.placeholder.python
+"My quest is {name}"              # References keyword argument 'name'
+#            ^^^^^^ constant.other.placeholder.python
+"Weight in tons {0.weight}"       # 'weight' attribute of first positional arg
+#               ^^^^^^^^^^ constant.other.placeholder.python
+"Units destroyed: {players[0]}"   # First element of keyword argument 'players'.
+#                 ^^^^^^^^^^^^ constant.other.placeholder.python
+"Harold's a clever {0!s}"         # Calls str() on the argument first
+#                  ^^^^^ constant.other.placeholder.python
+"Bring out the holy {name!r}"     # Calls repr() on the argument first
+#                   ^^^^^^^^ constant.other.placeholder.python
+"More {!a}"                       # Calls ascii() on the argument first
+#     ^^^^ constant.other.placeholder.python
+"Escaped {{0}}"                   # outputs: "Escaped {0}"
+#        ^^^^^ - constant.other.placeholder.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+"Escaped {{}} {} {}"              # outputs: "Escaped {} arg1 arg2"
+#        ^^^^ constant.character.escape.python - constant.other.placeholder.python
+#             ^^ constant.other.placeholder.python
+#               ^ - constant.other.placeholder.python
+#                ^^ constant.other.placeholder.python
+
+
 # This is to test the difference between the assignment operator (=) and
 # the comparison operator (==)
 foo = bar()
