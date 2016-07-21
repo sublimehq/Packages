@@ -160,7 +160,7 @@ contexts:
     - match: '\?(?:[ixms]*-)?[ims]+:'
       scope: storage.modifier.mode.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
-    - match: '(\?\d+)(\))'
+    - match: '(\?[+-]?\d+)(\))'
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: keyword.control.group.regexp
