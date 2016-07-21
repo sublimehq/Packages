@@ -119,7 +119,7 @@ contexts:
     - match: '\?(?:[ixms]*-)?[ixms]+:'
       scope: storage.modifier.mode.regexp
       set: [group-body, unexpected-quantifier-pop]
-    - match: '(\?\d+)(\))'
+    - match: '(\?[+-]?\d+)(\))'
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: keyword.control.group.regexp
@@ -160,7 +160,7 @@ contexts:
     - match: '\?(?:[ixms]*-)?[ims]+:'
       scope: storage.modifier.mode.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
-    - match: '(\?\d+)(\))'
+    - match: '(\?[+-]?\d+)(\))'
       captures:
         1: keyword.other.backref-and-recursion.regexp
         2: keyword.control.group.regexp
@@ -249,7 +249,7 @@ contexts:
     - match: '\\[QEK]'
       scope: keyword.control.regexp
       push: unexpected-quantifier-pop
-    - match: \\[kg](<\w+>|'\w+'|\{\w+\}|\d+)
+    - match: \\[kg](<\w+>|'\w+'|\{\w+\}|-?\d+)
       scope: keyword.other.backref-and-recursion.regexp
     - match: \\[1-9]\d*
       scope: keyword.other.backref-and-recursion.regexp
