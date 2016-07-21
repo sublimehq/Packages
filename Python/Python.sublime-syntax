@@ -647,7 +647,7 @@ contexts:
   constant-placeholder:
     - match: '(?i)%(%|(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z])'
       scope: constant.other.placeholder.python
-    - match: '{{|}}'
+    - match: '\{\{|\}\}'
       scope: constant.character.escape.python
     - match: '(?i)\{([!\[\].,:\w ]+)?\}'
       scope: constant.other.placeholder.python
