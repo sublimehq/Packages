@@ -276,6 +276,13 @@ hello++
 (?&named_group)
 #^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 
+(hello)(?-1)(?+1)(wow) relative capture groups are supported
+#       ^^^ keyword.other.backref-and-recursion.regexp
+#            ^^^ keyword.other.backref-and-recursion.regexp
+
+(hello)\g-1(wow)
+#      ^^^^ keyword.other.backref-and-recursion.regexp
+
 (?={2})
 #  ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
 
