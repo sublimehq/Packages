@@ -164,7 +164,7 @@ function a($a = array(),             $b = "hi") {};
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
 //                    ^ meta.array.empty
-//                          ^ punctuation.definition.array.end
+//                          ^ punctuation.section.array.end
 function d(array $a = [],            $b = "hi") {};
 //                    ^ punctuation.section.array.begin
 //                     ^ punctuation.section.array.end

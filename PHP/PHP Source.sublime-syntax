@@ -178,16 +178,16 @@ contexts:
       scope: meta.array.empty.php
       captures:
         1: support.function.construct.php
-        2: punctuation.definition.array.begin.php
-        3: punctuation.definition.array.end.php
+        2: punctuation.section.array.begin.php
+        3: punctuation.section.array.end.php
     - match: (array)(\()
       captures:
         1: support.function.construct.php
-        2: punctuation.definition.array.begin.php
+        2: punctuation.section.array.begin.php
       push:
         - meta_scope: meta.array.php
         - match: \)
-          scope: punctuation.definition.array.end.php
+          scope: punctuation.section.array.end.php
           pop: true
         - include: expressions
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
@@ -1001,11 +1001,11 @@ contexts:
     - match: (array)\s*(\()
       captures:
         1: support.function.construct.php
-        2: punctuation.definition.array.begin.php
+        2: punctuation.section.array.begin.php
       push:
         - meta_scope: meta.array.php
         - match: \)
-          scope: punctuation.definition.array.end.php
+          scope: punctuation.section.array.end.php
           pop: true
         - include: parameter-default-types
     - include: instantiation
