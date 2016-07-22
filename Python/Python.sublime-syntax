@@ -3,6 +3,7 @@
 name: Python
 file_extensions:
   - py
+  - py3
   - pyw
   - pyi
   - rpy
