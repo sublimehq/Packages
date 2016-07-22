@@ -228,13 +228,11 @@ def _():
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
     print "keyword"
-#   ^^^^^^^^^^^^^^^ meta.statement.print
 #   ^^^^^ keyword
     print __init__
 #   ^^^^^ keyword
 #
     exec 123
-#   ^^^^^^^^ meta.statement.exec
 #   ^^^^ keyword
     exec ("print('ok')")
 #   ^^^^ support.function.builtin - keyword
@@ -782,18 +780,18 @@ query = \
     """
 
 query = \
-    '''
-    SELECT
-        (
-        SELECT CASE field
-            WHEN 1
-            THEN -- comment's say that
+'''
+SELECT
+    (
+    SELECT CASE field
+        WHEN 1
+        THEN -- comment's say that
 #                              ^ source.sql comment.line.double-dash
-                EXISTS(
-                select 1)
-            ELSE NULL
-        ) as result
-    '''
+            EXISTS(
+            select 1)
+        ELSE NULL
+    ) as result
+'''
 
 sql = 'SELECT * FROM foo -- bar baz'
 #       ^ source.sql

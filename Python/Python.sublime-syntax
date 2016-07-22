@@ -28,11 +28,10 @@ variables:
 
 contexts:
   main:
-    # Push the statements context once the line at hand is not a docstring or comment
-    - match: (?i)(?!^\s*(#|[ur]{0,2}('''|""")))
-      push: statements
-    - match: ''
+    # Push the statements context once the line at hand looks like docstring or comment
+    - match: (?i)(?=^\s*(#|[ur]{0,2}('''|""")))
       push: maybe-docstrings
+    - include: statements
 
   statements:
     - include: inline-statements
@@ -62,29 +61,12 @@ contexts:
         - include: expressions
     - match: \b(assert)\b
       scope: keyword.other.assert.python
-      push:
-        - meta_scope: meta.statement.assert.python
-        - match: $
-          pop: true
-        - include: expressions
     - match: \b(del)\b
       scope: keyword.other.del.python
-      push:
-        - meta_scope: meta.statement.del.python
-        - include: line-continuation-or-pop
-        - include: expressions
     - match: \b(print)\b(?! *($|[,.()\]}]))
       scope: keyword.other.print.python
-      push:
-        - meta_scope: meta.statement.print.python
-        - include: line-continuation-or-pop
-        - include: expressions
     - match: \b(exec)\b(?! *($|[,.()\]}]))
       scope: keyword.other.exec.python
-      push:
-        - meta_scope: meta.statement.exec.python
-        - include: line-continuation-or-pop
-        - include: expressions
     - match: \b(return)\b
       scope: keyword.control.flow.return.python
     - match: \b(break|continue|pass)\b
@@ -100,6 +82,8 @@ contexts:
         - include: dotted-name
         - match: ','
           scope: punctuation.separator.import-list.python
+        - match: (?=\S)
+          pop: true
     - match: \b(from)\b
       scope: keyword.control.import.from.python
       push:
@@ -120,12 +104,22 @@ contexts:
                   scope: punctuation.section.import-list.end.python
                   pop: true
                 - include: import-name-list
+                - match: (?=\S)
+                  pop: true
             - match: ''
               set:
                 - meta_scope: meta.statement.import.python
                 - include: line-continuation-or-pop
                 - include: import-name-list
+                - match: (?=\S)
+                  pop: true
+            - match: (?=\S)
+              pop: true
         - include: dotted-name
+        - match: (\.)
+          scope: punctuation.accessor.python
+        - match: (?=\S)
+          pop: true
 
   import-name-list:
     - match: ','
@@ -746,7 +740,9 @@ contexts:
         2: invalid.illegal.unexpected-text.python
     # make sure to resume parsing at next line
       push:
-        - match: (?=.)
+        # This prevents strings after a continuation from being a docstring
+        - include: strings
+        - match: '(?=\S)'
           pop: true
 
   line-continuation-or-pop:
