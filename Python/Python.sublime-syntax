@@ -463,17 +463,17 @@ contexts:
   item-access:
     - match: '(?={{path}}\s*\[)'
       push:
-        - meta_scope: meta.item-access.python
         - match: \]
-          scope: punctuation.definition.arguments.end.python
+          scope: meta.item-access.python punctuation.section.brackets.end.python
           set: after-function-call-item-access
         - match: '(?={{path}}\s*\[)'
           push:
+            - meta_content_scope: meta.item-access.python
             - match: '(?=\s*\[)'
               pop: true
             - include: dotted-name
         - match: \[
-          scope: punctuation.definition.arguments.begin.python
+          scope: meta.item-access.python punctuation.section.brackets.begin.python
           push:
             - meta_content_scope: meta.item-access.arguments.python
             - match: '(?=\])'
@@ -536,12 +536,11 @@ contexts:
     # item access from a value returned from a function or item access
     - match: '\s*(\[)'
       captures:
-        1: punctuation.definition.arguments.begin.python
+        1: meta.item-access.python punctuation.section.brackets.begin.python
       push:
-        - meta_scope: meta.item-access.python
         - meta_content_scope: meta.item-access.arguments.python
         - match: \]
-          scope: punctuation.definition.arguments.end.python
+          scope: meta.item-access.python punctuation.section.brackets.end.python
           pop: true
         - include: expressions
     - match: ''

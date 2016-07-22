@@ -90,10 +90,19 @@ func()(1, 2)
 
 myobj[1](True)
 #    ^^^ meta.item-access
+#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#     ^ meta.item-access.arguments
+#      ^ punctuation.section.brackets.end - meta.item-access.arguments
 #       ^^^^^^ meta.function-call
 
 myobj[1][2](0)
 #    ^^^^^^ meta.item-access
+#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#     ^ meta.item-access.arguments
+#      ^ punctuation.section.brackets.end - meta.item-access.arguments
+#       ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#        ^ meta.item-access.arguments
+#         ^ punctuation.section.brackets.end - meta.item-access.arguments
 #          ^^^ meta.function-call
 
 myobj.attribute
