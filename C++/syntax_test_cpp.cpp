@@ -1064,6 +1064,11 @@ class FooBar {
     FooBar::~FooBar();
 /*  ^^^^^^^^^^^^^^^ entity.name.function */
 
+    void FooBar::
+    Baz() {
+    /* <- entity.name.function */
+    }
+
     auto f(int a) -> decltype(a.begin()) override final;
 /*                ^^ punctuation.separator */
 /*                             ^ punctuation.accessor */
@@ -1375,6 +1380,11 @@ int /* comment */ * myfunc
 /*      ^ punctuation.definition.group.end */
 {
 
+}
+
+void MyClass3::
+foo() {
+/* <- entity.name.function */
 }
 
 Glib::ustring Node::_getDragTip(GdkEventMotion */*event*/);

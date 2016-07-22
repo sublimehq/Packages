@@ -782,6 +782,8 @@ contexts:
       set: [function-definition-params, global-function-identifier-generic]
     - match: '(?={{path_lookahead}}\s*(\(|$))'
       set: [function-definition-params, global-function-identifier]
+    - match: '(?={{path_lookahead}}\s*::\s*$)'
+      set: [function-definition-params, global-function-identifier]
     - match: '(?=\S)'
       pop: true
 
@@ -807,7 +809,7 @@ contexts:
   global-function-identifier:
     - meta_content_scope: entity.name.function.c++
     - include: identifiers
-    - match: ''
+    - match: '(?=\S)'
       pop: true
 
   function-definition-params:
@@ -1198,6 +1200,8 @@ contexts:
       set: [method-definition-params, data-structures-function-identifier-generic]
     - match: '(?={{path_lookahead}}\s*(\())'
       set: [method-definition-params, data-structures-function-identifier]
+    - match: '(?={{path_lookahead}}\s*::\s*$)'
+      set: [method-definition-params, data-structures-function-identifier]
     - match: '(?=\S)'
       pop: true
 
@@ -1215,7 +1219,7 @@ contexts:
   data-structures-function-identifier:
     - meta_content_scope: entity.name.function.c++
     - include: identifiers
-    - match: ''
+    - match: '(?=\S)'
       pop: true
 
   method-definition-params:
