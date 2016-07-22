@@ -573,7 +573,7 @@ contexts:
         - include: general-1-argument-with-options
 
   url:
-    - match: '((\\)(?:url|href))(\{)([^}]*)(\})'
+    - match: '((\\)(?:url|href|path))(\{)([^}]*)(\})'
       scope: meta.function.link.url.latex
       captures:
         1: support.function.url.latex
