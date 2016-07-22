@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Indentation Rules</string>
+	<key>scope</key>
+	<string>source.asp - comment</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(?i:end|else|elseif|loop|wend|next)(\s|$)</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)(^\s*(
+			((?i:private|public(?!\s+default))\s+)?(?i:function|sub|property)\s
+			|
+			(?i:class|if|select\s+case|with|do|for|while)\s
+		))</string>
+	</dict>
+</dict>
+</plist>
