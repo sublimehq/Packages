@@ -2,123 +2,666 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: ASP
-comment: "ASP SCRIPTING DICTIONARY – By Rich Barton: Version 1.0 (based on PHP Scripting Dictionary by Justin French, Sune Foldager and Allan Odgaard) Note: .asp is handled by asp/html"
 file_extensions:
-  - asa
+  - asa # asp is handled by HTML-ASP.sublime-syntax
 scope: source.asp
+variables:
+  apostrophe_comment_begin: "'"
+  rem_comment_begin: '\b(?i:REM)\b'
+  whitespace_or_end_of_statement: '(?=\s|$|:|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)'
+  identifier: '[a-zA-Z]\w*|\[(?:(?!%>|\]).)*(?:\]|(\n|(?=%>)))' # reserved words can be used if enclosed in square brackets, as can other characters not normally accepted
+  comparison_operators: '[=><]'
+  math_operators: '(?:[+*^&/\\-]|\b(?i:Mod)\b)'
+  logical_operators: '\b(?i:And|Not|Or|Xor|Is)\b'
+  operators: '{{comparison_operators}}|{{math_operators}}|logical_operators}}'
+  literal_number: '&[hH]\h+&?|(?:(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
+  reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
+  keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
+  constants: '\b(?i:vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewLine|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b'
+  functions: '\b(?i:Abs|Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b'
+  asp_builtin_classes: '\b(?i:Application|ObjectContext|Request|Response|Server|Session)\b'
+  asp_builtin_events: '\b(?i:Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart)\b'
+  class_magic_funcs: '\b(?i:Class_Initialize|Class_Terminate)\b'
+
 contexts:
+  root_asp:
+    - match: '(?=%>)'
+      pop: true
+
   main:
-    - match: '^\s*((?i:function|sub))\s*'
-      captures:
-        1: storage.type.function.asp
-      push:
-        - meta_scope: meta.function.asp
-        - include: span_multiple_lines
-        - match: '[a-zA-Z_]\w*'
-          scope: entity.name.function.asp
-          set:
-            - match: '\s+'
-              scope: meta.function.asp
-            - match: '(?=[_(])'
-              set:
-                - meta_content_scope: meta.function.asp
-                - include: span_multiple_lines
-                - match: '\((?=[^)_]*[)_])'
-                  scope: punctuation.definition.parameters.begin.asp
-                  set:
-                    - meta_content_scope: meta.function.asp
-                    - include: span_multiple_lines
-                    - match: \)
-                      scope: punctuation.definition.parameters.end.asp
-                      set:
-                        - include: span_multiple_lines
-                        - match: '\S+'
-                          scope: invalid.illegal.unexpected-token-after-method-declaration.asp
-                        - match: '$'
-                          pop: true
-                    - match: .
-                      scope: variable.parameter.function.asp
-                - match: \(
-                  scope: punctuation.definition.parameters.begin.asp
-                  set:
-                    - meta_content_scope: meta.function.asp
-                    - include: comments
-                    - match: $
-                      pop: true
-                    - match: .
-                      scope: variable.parameter.function.asp
-            - include: comments
-            - match: \s*\S+.*$
-              scope: invalid.illegal.unexpected-token-after-method-declaration.asp
-              pop: true
-            - match: ''
-              pop: true
-    - include: comments
-    - match: (?i:\b(If|Then|Else|ElseIf|End If|While|Wend|For|To|Each|In|Step|Case|Select|End Select|Return|Continue|Do|Until|Loop|Next|With|End With|Exit Do|Exit For|Exit Function|Exit Property|Exit Sub)\b)
-      scope: keyword.control.asp
-    - match: '&[hH]\h+&?|\b(((([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f)?)\b'
-      scope: constant.numeric.asp
-    - include: line_continuation_char
-    - match: '[=><>+*^&/-]|\b(?i:(Mod|And|Not|Or|Xor|Is))\b'
-      scope: keyword.operator.asp
-    - match: (?i:\b(Call|Class|Const|Dim|Redim( Preserve)?|Function|Sub|Property|End Property|End Sub|End Function|Set|Let|Get|New|Randomize|Option Explicit|On Error Resume Next|On Error GoTo|ByRef|ByVal)\b)
-      scope: storage.type.asp
-    - match: (?i:\b(Private|Public|Default)\b)
-      scope: storage.modifier.asp
-    - match: (?i:\b(Empty|False|Nothing|Null|True)\b)
-      scope: constant.language.asp
-    - match: '"'
-      scope: punctuation.definition.string.begin.asp
-      push:
-        - meta_scope: string.quoted.double.asp
-        - match: '"(?!")'
-          scope: punctuation.definition.string.end.asp
-          pop: true
-        - match: '""'
-          scope: constant.character.escape.apostrophe.asp
-    - match: '(\$)[a-zA-Z_x7f-xff][a-zA-Z0-9_x7f-xff]*?\b'
-      scope: variable.other.asp
-      captures:
-        1: punctuation.definition.variable.asp
-    - match: (?i:\b(Application|ObjectContext|Request|Response|Server|Session)\b)
-      scope: support.class.asp
-    - match: (?i:\b(Contents|StaticObjects|ClientCertificate|Cookies|Form|QueryString|ServerVariables)\b)
-      scope: support.class.collection.asp
-    - match: (?i:\b(TotalBytes|Buffer|CacheControl|Charset|ContentType|Expires|ExpiresAbsolute|IsClientConnected|PICS|Status|ScriptTimeout|CodePage|LCID|SessionID|Timeout)\b)
-      scope: support.constant.asp
-    - match: (?i:\b(Lock|Unlock|SetAbort|SetComplete|BinaryRead|AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write|CreateObject|HTMLEncode|MapPath|URLEncode|Abandon)\b)
-      scope: support.function.asp
-    - match: (?i:\b(Application_OnEnd|Application_OnStart|OnTransactionAbort|OnTransactionCommit|Session_OnEnd|Session_OnStart|Class_Initialize|Class_Terminate)\b)
-      scope: support.function.event.asp
-    - match: (?i:\b(Array|Add|Asc|Atn|CBool|CByte|CCur|CDate|CDbl|Chr|CInt|CLng|Conversions|Cos|CreateObject|CSng|CStr|Date|DateAdd|DateDiff|DatePart|DateSerial|DateValue|Day|Derived|Math|Escape|Eval|Exists|Exp|Filter|FormatCurrency|FormatDateTime|FormatNumber|FormatPercent|GetLocale|GetObject|GetRef|Hex|Hour|IIf|InputBox|InStr|InStrRev|Int|Fix|IsArray|IsDate|IsEmpty|IsNull|IsNumeric|IsObject|Item|Items|Join|Keys|LBound|LCase|Left|Len|LoadPicture|Log|LTrim|RTrim|Trim|Maths|Mid|Minute|Month|MonthName|MsgBox|Now|Oct|Remove|RemoveAll|Replace|RGB|Right|Rnd|Round|ScriptEngine|ScriptEngineBuildVersion|ScriptEngineMajorVersion|ScriptEngineMinorVersion|Second|SetLocale|Sgn|Sin|Space|Split|Sqr|StrComp|String|StrReverse|Tan|Time|Timer|TimeSerial|TimeValue|TypeName|UBound|UCase|Unescape|VarType|Weekday|WeekdayName|Year)\b)
-      scope: support.function.vb.asp
-    - match: (?i:\b(vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewline|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b)
-      scope: support.type.vb.asp
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '(?i:Option\s+Explicit)'
+      scope: keyword.asp
+    - include: definitions
+    - include: statements
 
   comments:
-    - match: \'
+    - match: '{{apostrophe_comment_begin}}'
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.apostrophe.asp
-        - match: $\n?
+        - include: root_asp
+        - match: \n
           pop: true
-    - match: \b(?i:REM)\b
+    - match: '{{rem_comment_begin}}'
       scope: punctuation.definition.comment.asp
       push:
         - meta_scope: comment.line.rem.asp
-        - match: $\n?
+        - include: root_asp
+        - match: \n
           pop: true
 
   line_continuation_char:
     - match: '\b_'
-      scope: keyword.operator.asp
+      scope: punctuation.separator.continuation.line.asp
       push:
-        - include: comments
-        - match: '\S+'
-          scope: invalid.illegal.after-line-continuation-char.asp
-        - match: '$'
-          pop: true
-  
-  span_multiple_lines:
-    - include: comments
+        - match: '\S.*'
+          scope: invalid.illegal.expected-end-of-line.asp
+        - match: $
+          set:
+            - match: '(?=\S)' # for VBS, use ^, but ASP allows multiple whitespace-only lines after the _, so we use (?=\S)
+              pop: true
+
+  allow_line_continuation:
+    - match: '[\t ]+'
+      scope: ''
     - include: line_continuation_char
+    - include: comments
+
+  not_end_of_statement:
+    - match: ':'
+      scope: invalid.illegal.unexpected-end-of-statement.asp
+      pop: true
+    - match: \n
+      scope: invalid.illegal.unexpected-end-of-statement.asp
+      pop: true
+    - match: '{{rem_comment_begin}}|{{apostrophe_comment_begin}}'
+      set:
+        - meta_scope: invalid.illegal.unexpected-end-of-statement.asp
+        - match: \n
+          pop: true
+    - include: allow_line_continuation
+
+  expect_not_end_of_statement:
+    - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      pop: true
+    - include: not_end_of_statement
+    - match: '\s*(?=\S)'
+      pop: true
+
+  expect_identifier_reference:
+    - match: '\s*({{identifier}})'
+      captures:
+        1: variable.other.asp
+      #  2: invalid.illegal.unclosed-variable-identifier.asp
+      pop: true
+    - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      pop: true
+    - include: unexpected_token
+
+  inside_string:
+    - meta_scope: string.quoted.double.asp
+    - include: root_asp
+    - match: \n
+      scope: invalid.illegal.unclosed-string.asp
+      pop: true
+    - match: '""'
+      scope: constant.character.escape.apostrophe.asp
+    - match: '"'
+      scope: punctuation.definition.string.end.asp
+      pop: true
+
+  illegal_names:
+    - match: '{{keywords}}|{{constants}}|{{reserved_words}}|{{functions}}|{{asp_builtin_classes}}'
+      scope: invalid.illegal.name.asp
+      pop: true
+
+  allow_statement_separator:
+    - match: ':'
+      scope: punctuation.terminator.statement.asp
+      pop: true
+
+  unexpected_token:
+    - match: \n
+      scope: invalid.illegal.missing-token.asp
+      pop: true
+    - match: '\S+'
+      scope: invalid.illegal.unexpected-token.asp
+      pop: true
+
+  statements:
+    - include: variable_definitions
+    - include: allow_line_continuation
+    - match: '\b(?i:On\s+Error\s+)'
+      scope: storage.type.asp
+      push:
+        - include: not_end_of_statement
+        - match: '\b(?i:Resume\s+Next){{whitespace_or_end_of_statement}}'
+          scope: storage.type.asp
+          pop: true
+        - match: '\b(?i:Goto\s+0){{whitespace_or_end_of_statement}}'
+          scope: storage.type.asp
+          pop: true
+        - include: unexpected_token
+    - match: '\b(?i:Randomize\s+Timer){{whitespace_or_end_of_statement}}'
+      scope: storage.type.asp
+    - match: '\b(?i:(Call)|(Set)){{whitespace_or_end_of_statement}}'
+      captures:
+        1: keyword.other.call.asp
+        2: keyword.other.set.asp
+      push: expect_identifier_reference
+    - match: '\b(?i:Exit\s+(?:Sub|Function|Property|For|Do)){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+    - include: control_flow
+    - include: expression
+
+  definitions:
+    - include: class_definitions
+    - include: method_definitions
+    - include: variable_definitions
+
+  class_definitions:
+    - match: '\b(?i:Class)\s'
+      scope: storage.type.asp
+      push: [inside_class, class_name]
+
+  class_name:
+    - meta_scope: meta.class.asp meta.class.identifier.asp
+    - include: allow_line_continuation
+    - include: illegal_names
+    - match: '{{identifier}}'
+      scope: entity.name.class.asp
+      pop: true
+    - include: unexpected_token
+
+  inside_class:
+    - meta_content_scope: meta.class.asp meta.class.body.asp
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      set:
+        - meta_scope: meta.class.asp meta.class.body.asp storage.type.class.end.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:Class){{whitespace_or_end_of_statement}}'
+          pop: true
+        - include: unexpected_token
+    - include: method_definitions
+    - match: '\b((?i:Public(?:\s+Default)?|Private)\s+)?((?i:Property)){{whitespace_or_end_of_statement}}'
+      captures:
+        1: storage.modifier.asp
+        2: storage.type.function.asp
+      push:
+        - meta_scope: meta.method.asp meta.method.identifier.asp
+        - meta_content_scope: storage.type.function.asp
+        - include: not_end_of_statement
+        - match: '\b(?i:Get|Let|Set){{whitespace_or_end_of_statement}}'
+          set: [inside_method_without_meta, method_name_without_meta]
+        - include: unexpected_token
+    - include: variable_definitions
+    - include: allow_line_continuation
+    - match: '\S' # only field/method/property definitions allowed inside a class definition
+      scope: invalid.illegal.unexpected-token.asp
+
+  inside_method_without_meta:
+    - match: ''
+      set: inside_method
+
+  method_name_without_meta:
+    - match: ''
+      set: method_name
+
+  variable_definitions:
+    - match: '\b(?i:(?:(?:Public|Private)\s+)?Const){{whitespace_or_end_of_statement}}'
+      scope: storage.modifier.asp
+      push: constant_body
+    - match: '\b(?i:Dim|ReDim(?:\s+Preserve)?){{whitespace_or_end_of_statement}}'
+      scope: storage.modifier.asp
+      push: dim_body
+    - match: '\b(?i:Private|Public(?!\s+Default))\s+(?!(?i:Function|Sub|Property))'
+      scope: storage.modifier.asp
+      push: dim_body
+
+  constant_body:
+    - include: not_end_of_statement
+    - include: illegal_names
+    - match: '{{identifier}}'
+      scope: entity.name.constant.asp
+      set:
+        - include: not_end_of_statement
+        - match: '\s*(=)\s*'
+          captures:
+            1: keyword.operator.asp
+          set: [constant_separator, constant_value]
+    - include: unexpected_token
+
+  constant_separator:
+    - match: '\s*(,)\s*'
+      captures:
+        1: punctuation.separator.variable-declaration.asp
+      set: constant_body
+    - include: allow_statement_separator
+    - match: ''
+      pop: true
+
+  constant_value:
+    #- include: not_end_of_statement # this include has been commented out to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+    - include: allow_line_continuation # as the above include has been commented out, this one has been added in it's place
+    - match: '{{whitespace_or_end_of_statement}}' # as the above include has been commented out, this match pattern has been added to pop at the end of the logical statement
+      pop: true
+    - match: '{{literal_number}}'
+      scope: constant.numeric.asp
+      pop: true
+    - match: '{{constants}}'
+      scope: constant.language.asp
+      pop: true
+    - match: '{{keywords}}'
+      scope: support.type.vb.asp # maybe should be keyword or constant?
+      pop: true
+    - match: '"'
+      scope: punctuation.definition.string.begin.asp
+      set: inside_string
+    - include: unexpected_token
+
+  dim_body:
+    - include: not_end_of_statement
+    - include: illegal_names
+    - match: '{{identifier}}'
+      scope: variable.other.asp
+      set:
+        - include: allow_line_continuation
+        - match: '(\()'
+          captures:
+            1: punctuation.section.array.begin.asp
+          push:
+            - meta_scope: meta.array.definition.asp
+            - include: not_end_of_statement
+            - match: \)
+              scope: punctuation.section.array.end.asp
+              pop: true
+            - include: expression
+            - match: ','
+              scope: punctuation.separator.array.asp
+        - match: '\s*(,)\s*'
+          captures:
+            1: punctuation.separator.variable-declaration.asp
+          set: dim_body
+        - match: ''
+          pop: true
+    - include: unexpected_token
+
+  method_definitions:
+    - match: '\b((?i:Public(?:\s+Default)?|Private)\s+)?((?i:Sub|Function)){{whitespace_or_end_of_statement}}'
+      captures:
+        0: meta.method.asp meta.method.identifier.asp
+        1: storage.modifier.asp
+        2: storage.type.function.asp
+      push: [inside_method_without_meta, method_name_without_meta]
+
+  method_name:
+    - meta_content_scope: meta.method.asp meta.method.identifier.asp
+    - include: allow_line_continuation
+    - include: illegal_names
+    - match: '{{asp_builtin_events}}|{{class_magic_funcs}}'
+      scope: entity.name.function.asp support.function.magic.event.asp
+      set: after_method_name
+    - match: '{{identifier}}'
+      scope: entity.name.function.asp
+      set: after_method_name
+    - match: $
+      set: inside_method
+
+  after_method_name:
+    - match: \(
+      scope: punctuation.section.parameters.begin.asp
+      set:
+        - meta_scope: meta.method.asp meta.method.identifier.asp
+        - match: \)
+          scope: punctuation.section.parameters.end.asp
+          pop: true
+        - match: $
+          set: not_end_of_statement
+        - match: '(?=\S)'
+          push:
+            - match: '(?=\)|$)'
+              pop: true
+            - include: not_end_of_statement
+            - match: '((?i:ByRef|ByVal)\s+)?({{identifier}})'
+              captures:
+                1: storage.modifier.reference.asp
+                2: variable.parameter.function.asp
+              push:
+                - match: '(?=\)|$)'
+                  pop: true
+                - include: not_end_of_statement
+                - match: '\s*(,)\s*'
+                  captures:
+                    1: punctuation.separator.parameter-declaration.asp
+                  pop: true
+                - match: '(?:(?![,)])\S)+'
+                  scope: invalid.illegal.unexpected-token.asp
+                  pop: true
+            - match: '(?:(?![,)])\S)+'
+              scope: invalid.illegal.unexpected-token.asp
+    - match: '\s+'
+      scope: meta.method.asp meta.method.identifier.asp
+    - match: ':'
+      scope: meta.method.asp punctuation.terminator.statement.asp
+      pop: true
+    - include: allow_line_continuation
+    - match: $
+      pop: true
+    - include: unexpected_token
+
+  inside_method:
+    - meta_content_scope: meta.method.asp meta.method.body.asp
+    - include: inside_block
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      scope: storage.type.function.end.asp
+      set:
+        - meta_content_scope: meta.method.asp storage.type.function.end.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:Function|Sub|Property){{whitespace_or_end_of_statement}}'
+          scope: meta.method.asp storage.type.function.end.asp
+          pop: true
+        - include: unexpected_token
+    - include: statements
+
+  control_flow:
+    - match: '\b(?i:If){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: then_could_be_block_or_single_line
+    - match: '\b(?i:With){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [inside_control_flow_with, expression_until_end_of_statement, expect_not_end_of_statement]
+    - match: '\b(?i:Select\s+Case){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [inside_control_flow_select, expression_until_end_of_statement, expect_not_end_of_statement]
+    - match: '\b(?i:Do){{whitespace_or_end_of_statement}}'
+      scope: meta.do.block.asp keyword.control.flow.asp
+      push:
+        - match: '\s+(?i:While|Until){{whitespace_or_end_of_statement}}'
+          scope: keyword.control.flow.asp
+          set: [inside_control_flow_do, expression_until_end_of_statement, expect_not_end_of_statement]
+        - match: ''
+          set: inside_control_flow_do
+    - match: '\b(?i:While){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [inside_control_flow_while, expression_until_end_of_statement, expect_not_end_of_statement]
+    - match: '\b(?i:For\s+Each){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [control_flow_foreach_in, expect_identifier_reference]
+    - match: '\b(?i:For){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [control_flow_forto, expect_identifier_reference]
+
+  then_could_be_block_or_single_line:
+    - meta_content_scope: meta.between-if-and-then.asp
+    - match: '[\t ]+'
+      scope: '' # so that the meta_content_scope will apply to whitespace
+    - match: '\b(?i:Then){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set:
+        - match: '\s*(?=$|{{apostrophe_comment_begin}}|{{rem_comment_begin}}|%>)'
+          set: inside_control_flow_if_block
+        - match: '' # if the above didn't match, then it is a single line if block
+          set: inside_control_flow_if_single_line
+    #- include: not_end_of_statement # this include has been commented out to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+    - match: '{{whitespace_or_end_of_statement}}' # the above commented out include has been replaced with this, to exit the if scope if there is no `Then` on the same logical line
+      pop: true
+    - include: expression
+
+  elseif_then_block:
+    - meta_content_scope: meta.between-if-and-then.asp
+    - match: '\b(?i:Then){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set: inside_control_flow_if_block
+    - include: expression
+    - include: not_end_of_statement
+
+  expression:
+    - match: \)
+      scope: invalid.illegal.stray-close-bracket.asp
+    - match: '{{literal_number}}'
+      scope: constant.numeric.asp
+    - match: '{{constants}}'
+      scope: support.type.vb.asp # maybe this should be constant.language.asp
+    - match: '{{functions}}'
+      scope: support.function.vb.asp
+    - match: '{{keywords}}'
+      scope: storage.type.asp
+    - include: operators
+    - match: '\b(?i:New){{whitespace_or_end_of_statement}}'
+      scope: keyword.other.new.asp
+      push: expect_identifier_reference
+    - match: '{{reserved_words}}'
+      scope: invalid.illegal.unexpected-token.literal.asp
+    - match: '"'
+      scope: punctuation.definition.string.begin.asp
+      push: inside_string
+    - match: '\b((?i:Request))\b(?:(?i:(\.)\s*(?:(BinaryRead)|(ClientCertificate|Cookies|Form|QueryString|ServerVariables)|(TotalBytes)))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms524948%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+        4: support.class.collection.asp
+        5: support.property.asp
+    - match: '\b((?i:Response))\b(?:(?i:(\.)\s*(?:(AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write)|(Buffer|CacheControl|Charset|CodePage|ContentType|Expires|ExpiresAbsolute|IsClientConnected|LCID|PICS|Status)|(Cookies)))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms525405%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+        4: support.property.asp
+        5: support.class.collection.asp
+    - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(CreateObject|Execute|GetLastError|HTMLEncode|MapPath|Transfer|URLEncode)|(ScriptTimeout)))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms525541%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+        4: support.property.asp
+    - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(Abandon)|(CodePage|LCID|SessionID|Timeout)|(Contents|StaticObjects)))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+        4: support.property.asp
+        5: support.class.collection.asp
+    - match: '\b((?i:ObjectContext))\b(?:(?i:(\.)\s*(SetAbort|SetComplete))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms525667%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+    - match: '\b((?i:Application))\b(?:(?i:(\.)\s*(?:(Lock|Unlock)|(Contents|StaticObjects)))\b)?'
+      captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
+        1: support.class.asp
+        2: punctuation.accessor.asp
+        3: support.function.asp
+        4: support.class.collection.asp
+    - match: '{{identifier}}'
+      captures:
+        0: variable.other.asp
+        #1: invalid.illegal.unclosed-variable-identifier.asp
+      push:
+        - match: '\s+(?=\.)'
+          scope: invalid.illegal.unexpected-token.asp # . punctuation accessor must come immediately after an identifier
+          pop: true
+        - match: ''
+          pop: true
+    - match: \(
+      push: inside_parens
+    - include: allow_line_continuation
+
+  inside_parens:
+    - match: \)
+      pop: true
+    - match: '\s+' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      scope: ''
+    - match: '{{whitespace_or_end_of_statement}}' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      pop: true
+    - match: \n
+      scope: invalid.illegal.missing-close-bracket.asp
+      pop: true
+    - include: expression
+
+  operators:
+    - match: '(?i:Is\s+Not\b)' # the correct syntax is: If Not (x Is y) Then ' the parens are optional but make it clearer
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '{{math_operators}}\s*=' # ASP does not support shorthand
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '><' # ASP not equal comparison is <>
+      scope: invalid.illegal.unexpected-token.asp
+    - match: '({{math_operators}}|{{comparison_operators}})|({{logical_operators}})'
+      captures:
+        1: keyword.operator.asp
+        2: keyword.operator.logical.asp
+      push: expect_not_end_of_statement
+    - match: ':'
+      scope: punctuation.terminator.statement.asp
+    - match: (\.)(\.)?
+      captures:
+        1: punctuation.accessor.asp
+        2: invalid.illegal.unexpected-token.asp
+      push: expect_identifier_reference
+
+  inside_control_flow_with:
+    - meta_scope: meta.with.block.asp
+    - include: inside_block
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      set:
+        - meta_scope: keyword.control.flow.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:With){{whitespace_or_end_of_statement}}'
+          pop: true
+        - include: unexpected_token
+    - include: statements
+
+  inside_control_flow_if_single_line:
+    - meta_scope: meta.if.line.asp
+    - match: $
+      pop: true
+    - include: inside_control_flow_if_common
+
+  inside_control_flow_if_block:
+    - meta_scope: meta.if.block.asp
+    - match: '\b(?i:ElseIf){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set: elseif_then_block
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      set:
+        - meta_scope: keyword.control.flow.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:If){{whitespace_or_end_of_statement}}'
+          pop: true
+        - include: unexpected_token
+    - include: inside_control_flow_if_common
+
+  inside_control_flow_if_common:
+    - include: inside_block
+    - match: '\b(?i:Else){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      # the else retains the block or single line mode of the opening if statement, so we don't set a different context
+    - include: statements
+
+  inside_control_flow_select:
+    - meta_scope: meta.select.block.asp
+    - include: inside_block
+    - match: '\b(?i:End){{whitespace_or_end_of_statement}}'
+      set:
+        - meta_scope: keyword.control.flow.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:Select){{whitespace_or_end_of_statement}}'
+          pop: true
+        - include: unexpected_token
+    - match: '\b(?i:Case\s+Else){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+    - match: '\b(?i:Case){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      push: [expression_until_end_of_statement, expect_not_end_of_statement]
+    - include: statements
+
+  expression_until_end_of_statement:
+    - include: allow_statement_separator
+    - include: root_asp
+    - match: $
+      pop: true
+    - include: expression
+
+  inside_control_flow_do:
+    - meta_scope: meta.do.block.asp
+    - include: inside_block
+    - match: '\b(?i:Loop){{whitespace_or_end_of_statement}}'
+      set:
+        - meta_scope: keyword.control.flow.asp
+        - include: allow_line_continuation
+        - match: '\b(?i:While|Until){{whitespace_or_end_of_statement}}'
+          set: expression_until_end_of_statement
+        - match: ''
+          pop: true
+    - include: statements
+
+  inside_control_flow_while:
+    - meta_scope: meta.while.block.asp
+    - include: inside_block
+    - match: '\b(?i:Wend){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      pop: true
+    - include: statements
+
+  inside_control_flow_for:
+    - meta_scope: meta.for.block.asp
+    - include: inside_block
+    - match: '\b(?i:Next){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      pop: true
+    - include: statements
+
+  control_flow_foreach_in:
+    - meta_scope: meta.for.block.asp
+    - match: '\b(?i:In){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set: [inside_control_flow_for, expression_until_end_of_statement]
+
+  control_flow_forto:
+    - meta_scope: meta.for.block.asp
+    - match: '\b(?i:To){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set: [inside_control_flow_for, for_after_to, expect_not_end_of_statement]
+    - include: not_end_of_statement
+    - include: expression
+
+  for_after_to:
+    - match: '\b(?i:Step){{whitespace_or_end_of_statement}}'
+      scope: keyword.control.flow.asp
+      set: [expression_until_end_of_statement, expect_not_end_of_statement]
+    - include: expression_until_end_of_statement
+
+  inside_block:
+    - match: '%>'
+      scope: punctuation.section.embedded.end.inside-block.asp
+      push:
+        - clear_scopes: true
+        - meta_scope: text.html.asp
+        - match: '<%=?'
+          scope: punctuation.section.embedded.begin.inside-block.asp
+          pop: true
+        - match: '\s+$' # eat whitespace so that the lookahead on the next match pattern can match the next line if appropriate
+          push:
+            - match: ^
+              pop: true
+        - match: '(\s*")?(?=[^<>]*>|\s+\w+=\s*")' # if the next occurrence of a < or > is a >, we are inside a tag. If it looks like an attribute is being defined, we are probably in a tag
+          scope: string.quoted.double.html punctuation.definition.string.end.html
+          push: # use a push and an include so that the root scope (text.html.basic) isn't applied
+            - meta_scope: meta.tag.after-embedded-asp.any.html
+            - include: scope:text.html.basic#tag-stuff
+          with_prototype:
+            - match: '(?=<%)'
+              pop: true
+            - match: '>'
+              scope: punctuation.definition.tag.end.html
+              set: scope:text.html.asp#html
+              with_prototype:
+                - match: '(?=<%)'
+                  pop: true
+        - match: ''
+          push: scope:text.html.asp#html
+          with_prototype:
+            - match: '(?=<%)'
+              pop: true

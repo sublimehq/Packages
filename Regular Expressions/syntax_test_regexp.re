@@ -47,10 +47,11 @@
 \W
 # <- keyword.control.character-class
 
-[b-c]
-# <- keyword.control.set
-#   ^ keyword.control.set
-#^^^ constant.other.range
+ [b-c]
+#^^^^^ meta.set
+#^ keyword.control.set
+#    ^ keyword.control.set
+# ^^^ constant.other.range
 
 [\x00-\x{A}]
 # <- keyword.control.set
@@ -60,6 +61,7 @@
 #     ^^^^^ constant.character.escape
 
 [[a-z]&&[:ascii:]]
+#^^^^^ meta.set meta.set
 #     ^^ keyword.operator.intersection
 # ^^^ constant.other.range
 #        ^^^^^^^ constant.other.posix-class
@@ -81,6 +83,26 @@
 #    ^ keyword.control.set
 #^ - constant.other.range
 # ^^^ constant.other.range
+
+[\-a]
+#^^^ - constant.other.range
+#   ^ keyword.control.set
+
+[a-z\-9]
+#   ^^^ - constant.other.range
+#      ^ keyword.control.set
+
+[\--z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\z]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
+
+[a-\-]
+#^^^^ constant.other.range
+#    ^ keyword.control.set
 
 (?:a|b|c)
 #^^^^^^^^ meta.group
@@ -133,6 +155,9 @@ hello**
 #<- meta.literal.regexp
 #^^^^ meta.literal.regexp
 
+)
+# <- invalid.illegal.unmatched-brace.regexp
+
 hello++
 #    ^^ keyword.operator.quantifier.regexp - invalid.illegal.unexpected-quantifier.regexp
 
@@ -149,31 +174,66 @@ hello++
 #  ^^^^ - invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
 
 (?x)
-#^^ meta.mode-modifier.regexp
+#^^ storage.modifier.mode.regexp
+#   ^ meta.ignored-whitespace
 
+# this is a comment
+#^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+# <- comment punctuation.definition.comment
 (?-ix)
-#^^^^ meta.mode-modifier.regexp
+#^^^^ storage.modifier.mode.regexp
+
+# not a comment
+# <- - comment
+
+(
+    (?x)
+    # comment
+#   ^^^^^^^^^ comment
+   (?-x)
+) # no comment
+# <- keyword.control.group
+# ^ - comment
 
 (?sm-ixxs)
-#^^^^^^^^ meta.mode-modifier.regexp
+#^^^^^^^^ storage.modifier.mode.regexp
 
  (?i:hello)
 #^^^^^^^^^^ meta.group.regexp
 #^ keyword.control.group.regexp
-# ^^^ meta.mode-modifier.regexp
-#    ^ - meta.mode-modifier.regexp
+# ^^^ storage.modifier.mode.regexp
+#    ^ - storage.modifier.mode.regexp
 #         ^ keyword.control.group.regexp
 
  (?i-s:hello)
 #^^^^^^^^^^^^ meta.group.regexp
 #^ keyword.control.group.regexp
-# ^^^^^ meta.mode-modifier.regexp
-#      ^ - meta.mode-modifier.regexp
+# ^^^^^ storage.modifier.mode.regexp
+#      ^ - storage.modifier.mode.regexp
 #           ^ keyword.control.group.regexp
 
+# not a comment
+^ - comment
+
+(?ix:
+#^^^^
+# comment
+#^^^^^^^^ comment.line.number-sign
+
+    (# also a comment)
+#    ^^^^^^^^^^^^^^^^^ comment
+    )
+
+ (?s-x: # not a comment)
+#       ^ - comment
+
+)
+# not a comment
+^ - comment
+
 (?abc)
-#^ invalid.illegal.unexpected-quantifier.regexp - meta.mode-modifier.regexp
-# ^^^ meta.literal.regexp - meta.mode-modifier.regexp
+#^ invalid.illegal.unexpected-quantifier.regexp - storage.modifier.mode.regexp
+# ^^^ meta.literal.regexp - storage.modifier.mode.regexp
 
  .*?
 #^ keyword.other.any.regexp - meta.literal.regexp
@@ -216,6 +276,17 @@ hello++
 (?&named_group)
 #^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 
+(hello)(?-1)(?+1)(wow) relative capture groups are supported
+#       ^^^ keyword.other.backref-and-recursion.regexp
+#            ^^^ keyword.other.backref-and-recursion.regexp
+
+(hello)\g-1(wow)
+#      ^^^^ keyword.other.backref-and-recursion.regexp
+
+(?x)(hello)(?-1)(?+1)(wow) relative capture groups are supported(?-x)
+#           ^^^ keyword.other.backref-and-recursion.regexp
+#                ^^^ keyword.other.backref-and-recursion.regexp
+
 (?={2})
 #  ^^^ invalid.illegal.unexpected-quantifier.regexp - keyword.operator.quantifier.regexp
 
@@ -225,6 +296,7 @@ hello++
 
 (?![a-z]+?)
 #^^ meta.group.regexp constant.other.assertion.regexp - meta.group.regexp meta.group.regexp
+#  ^^^^^ meta.set.regexp
 #  ^ keyword.control.set.regexp
 #      ^ keyword.control.set.regexp
 #   ^^^ constant.other.range.regexp
@@ -238,7 +310,7 @@ hello++
 #       ^ keyword.other.any.regexp
 #        ^^^ keyword.other.backref-and-recursion.regexp
 #               ^ keyword.control.anchors.regexp
-#            ^^ meta.group.regexp meta.group.regexp meta.mode-modifier.regexp
+#            ^^ meta.group.regexp meta.group.regexp storage.modifier.mode.regexp
 #                  ^^ constant.character.escape.regexp
 #                  ^^^ - keyword.other.backref-and-recursion.regexp
 

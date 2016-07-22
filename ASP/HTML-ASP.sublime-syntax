@@ -7,17 +7,55 @@ file_extensions:
 scope: text.html.asp
 contexts:
   main:
-    - match: <%=?
+    - include: html
+
+  asp_punctuation_begin:
+    - match: '<%'
       scope: punctuation.section.embedded.begin.asp
       push:
-        - meta_scope: source.asp.embedded.html
-        - match: "%>"
+        - match: '@' # https://msdn.microsoft.com/en-us/library/ms525579%28v=vs.90%29.aspx
+          set: asp_directive
+        - match: '='
+          scope: punctuation.section.embedded.begin.asp
+          set: [close_embedded_asp, begin_embedded_asp_expression]
+        - match: '(?=\S)'
+          set: [close_embedded_asp, begin_embedded_asp]
+
+  asp_directive:
+    - match: '@?\s*\b((?i:ENABLESESSIONSTATE|LANGUAGE|LCID|TRANSACTION))\b'
+      captures:
+        1: constant.language.processing-directive.asp
+      push:
+        - match: '\s*(=)\s*'
+          scope: punctuation.separator.key-value.asp
+          pop: true
+        - match: '(?=%>)'
           scope: punctuation.section.embedded.end.asp
           pop: true
-        - match: ''
-          push:
-            - include: scope:source.asp # don't directly push, so that the scope doesn't also contain 'source.asp ' as well as our 'source.asp.embedded.html '
-          with_prototype:
-            - match: "(?=%>)"
-              pop: true
-    - include: scope:text.html.basic
+    - match: '%>'
+      scope: punctuation.section.embedded.end.asp
+      pop: true
+
+  html:
+    - match: ''
+      set:
+        - include: scope:text.html.basic
+      with_prototype:
+        - include: asp_punctuation_begin
+
+  begin_embedded_asp:
+    - meta_content_scope: source.asp.embedded.html
+    - match: '(?=%>)'
+      pop: true
+    - include: scope:source.asp
+
+  begin_embedded_asp_expression:
+    - meta_content_scope: source.asp.embedded.html
+    - match: '(?=%>)'
+      pop: true
+    - include: scope:source.asp#expression
+
+  close_embedded_asp:
+    - match: '%>'
+      scope: punctuation.section.embedded.end.asp
+      pop: true

@@ -5,6 +5,7 @@ name: CSS
 file_extensions:
   - css
   - css.erb
+  - css.liquid
 scope: source.css
 variables:
   # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex

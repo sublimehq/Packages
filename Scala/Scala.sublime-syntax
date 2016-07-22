@@ -6,6 +6,20 @@ file_extensions:
   - scala
   - sbt
 scope: source.scala
+variables:
+  # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
+  disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
+  operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
+  upper: '[$_\p{Lu}]'
+  # This is "letter", but without _ so we can ensure it is not last
+  idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
+  op: '(?:{{operator_character}}+)'
+  idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{op}})?)'
+  varid: '(?:\p{Ll}{{idrest}})'
+  boundvarid: '(?:`{{varid}}`|{{varid}})'
+  plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
+  id: '(?:{{plainid}}|`[^`]+`)'
+
 contexts:
   main:
     - include: storage-modifiers
@@ -21,9 +35,9 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: empty-parentheses
-    - include: parameter-list
     - include: qualifiedClassName
     - include: xml-literal
+    - include: late-keywords
   block-comments:
     - match: /\*
       push:
@@ -45,17 +59,13 @@ contexts:
       captures:
         1: punctuation.definition.comment.scala
     - match: /\*\*/
-      scope: comment.block.empty.scala
-      captures:
-        0: punctuation.definition.comment.scala
+      scope: comment.block.empty.scala punctuation.definition.comment.scala
     - match: (^\s*)?/\*\*
-      captures:
-        0: punctuation.definition.comment.scala
+      scope: punctuation.definition.comment.scala
       push:
         - meta_scope: comment.block.documentation.scala
         - match: \*/(\s*\n)?
-          captures:
-            0: punctuation.definition.comment.scala
+          scope: punctuation.definition.comment.scala
           pop: true
         - match: (@\w+\s)
           scope: keyword.other.documentation.scaladoc.scala
@@ -72,46 +82,103 @@ contexts:
       scope: storage.type.primitive.scala
   declarations:
     - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
-      captures:
-        0: comment.block.scala
+      scope: comment.block.scala
       push:
         - match: '\}\)#λ'
-          captures:
-            0: comment.block.scala
+          scope: comment.block.scala
           pop: true
         - match: "[αβ]"
           scope: comment.block.empty.scala
         - include: main
-    - match: |-
-        (?x)
-        \b(def)\s+
-        (([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`|[^\w\[\(\:\_\s]+)
+    - match: '\b(def)\s+({{id}})'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.function.declaration
+        2: entity.name.function.scala
+      push: function-type-parameter-list
     - match: '(case)?\b(class|trait|object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
         2: keyword.declaration.scala
-        3: entity.name.class.declaration
+        3: entity.name.class.scala
+      push: class-type-parameter-list
     - match: '\b(type)\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.type.declaration
+        2: entity.name.type.scala
     - match: '\b(?:(val)|(var))\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)?'
       captures:
         1: keyword.declaration.stable.scala
         2: keyword.declaration.volatile.scala
-        3: entity.name.val.declaration
+        3: entity.name.val.scala
     - match: '\b(package object)\s+([^\s\{\(\[]+)'
       captures:
         1: keyword.declaration.scala
-        2: entity.name.class.declaration
+        2: entity.name.class.scala
     - match: '\b(package)\s+([\w\.]+)'
       scope: meta.package.scala
       captures:
         1: keyword.other.scoping.scala
         2: entity.name.package.scala
+  function-type-parameter-list:
+    - match: '(?=\()'
+      set: function-parameter-list
+    - match: '\['
+      push: function-tparams-brackets
+    - match: '(?=[:\{=\n])'
+      pop: true
+  function-tparams-brackets:
+    - match: '\['
+      push: function-tparams-brackets
+    - match: '\]'
+      pop: true
+    - include: main
+  function-parameter-list:
+    - match: '\('
+      push:
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: main
+        - match: '\)'
+          pop: true
+        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+          captures:
+            1: variable.parameter.scala
+        - include: main
+    - match: '(?=[:\{=\n])'
+      pop: true
+  class-type-parameter-list:
+    - match: '\b(private|protected)\b'
+      scope: storage.modifier.access.scala
+    - match: '(?=\()'
+      set: class-parameter-list
+    - match: '\['
+      push: class-tparams-brackets
+    - match: '(?=([\{\n]|extends))'
+      pop: true
+  class-tparams-brackets:
+    - match: '\['
+      push: class-tparams-brackets
+    - match: '\]'
+      pop: true
+    - include: main
+  class-parameter-list:
+    - match: '\('
+      push:
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: main
+        - match: '\)'
+          pop: true
+        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+          captures:
+            1: variable.parameter.scala
+        - include: main
+    - match: '(?=([\{\n]|extends))'
+      pop: true
   empty-parentheses:
     - match: \(\)
       scope: meta.parentheses.scala
@@ -153,8 +220,8 @@ contexts:
   initialization:
     - match: '\b(new)\s+([^\s\{\(\}\)\[]+)'
       captures:
-        1: keyword
-        2: entity.name.class
+        1: keyword.scala
+        2: entity.name.class.scala
   keywords:
     - match: \b(return|throw)\b
       scope: keyword.control.flow.jump.scala
@@ -162,35 +229,39 @@ contexts:
       scope: keyword.control.flow.scala
     - match: \b(catch|finally|try)\b
       scope: keyword.control.exception.scala
+    - match: \b(macro)\b
+      scope: keyword.scala
+    - match: \?\?\?
+      scope: keyword.scala
+  late-keywords:
+    - match: \b(type|def|class|trait|object|extends|with|forSome)\b
+      scope: keyword.declaration.scala
+    - match: \b(package)\b
+      scope: keyword.other.scoping.scala
+    - match: \b(new)\b
+      scope: keyword.scala
   nest-curly-and-self:
     - match: '\{'
-      captures:
-        0: punctuation.section.scope.scala
+      scope: punctuation.section.scope.scala
       push:
         - match: '\}'
-          captures:
-            0: punctuation.section.scope.scala
+          scope: punctuation.section.scope.scala
           pop: true
         - include: nest-curly-and-self
     - include: main
-  parameter-list:
-    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*([A-Za-z0-9][\w|_|?|\.]*)?,?'
-      captures:
-        1: variable.parameter
-        2: entity.name.class
   qualifiedClassName:
     - match: '(\b([A-Z][\w]*))'
       captures:
-        1: entity.name.class
+        1: entity.name.class.scala
   scala-symbol:
     - match: ('\w+)
       captures:
-        1: constant.other.symbol
+        1: constant.other.symbol.scala
   storage-modifiers:
     - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
-      scope: storage.modifier.access
+      scope: storage.modifier.access.scala
     - match: \b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
-      scope: storage.modifier.other
+      scope: storage.modifier.other.scala
   strings:
     - match: '"""'
       push:
@@ -203,7 +274,7 @@ contexts:
         - match: '"'
           pop: true
         - match: \n
-          scope: invalid.string.newline
+          scope: invalid.string.newline.scala
         - match: \\.
           scope: constant.character.escape.scala
     - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)"""'
@@ -214,15 +285,13 @@ contexts:
         - match: '"""(?!")'
           pop: true
         - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
-          scope: variable.parameter
+          scope: variable.parameter.scala
         - match: '\$\{'
-          captures:
-            0: variable.parameter
+          scope: variable.parameter.scala
           push:
             - meta_scope: source.scala.embedded
             - match: '\}'
-              captures:
-                0: variable.parameter
+              scope: variable.parameter.scala
               pop: true
             - include: nest-curly-and-self
             - include: main
@@ -234,31 +303,29 @@ contexts:
         - match: '"'
           pop: true
         - match: \n
-          scope: invalid.string.newline
+          scope: invalid.string.newline.scala
         - match: \\.
           scope: constant.character.escape.scala
         - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
-          scope: variable.parameter
+          scope: variable.parameter.scala
         - match: '\$\{'
-          captures:
-            0: variable.parameter
+          scope: variable.parameter.scala
           push:
             - meta_scope: source.scala.embedded
             - match: '\}'
-              captures:
-                0: variable.parameter
+              scope: variable.parameter.scala
               pop: true
             - include: nest-curly-and-self
             - include: main
   xml-attribute:
     - match: '(\w+)=("[^"]*")'
       captures:
-        1: entity.other.attribute-name
-        2: string.quoted.double
+        1: entity.other.attribute-name.xml
+        2: string.quoted.double.xml
   xml-literal:
     - match: "</?([a-zA-Z0-9]+)"
       captures:
-        1: entity.name.tag
+        1: entity.name.tag.xml
       push:
         - meta_scope: text.xml
         - match: /?>

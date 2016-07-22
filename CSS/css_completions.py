@@ -426,7 +426,12 @@ class CSSCompletions(sublime_plugin.EventListener):
     regex = None
 
     def on_query_completions(self, view, prefix, locations):
-        selector_scope = "source.css - meta.selector.css"
+        # match inside a CSS document and
+        # match inside the style attribute of HTML tags, incl. just before the quote that closes the attribute value
+        css_selector_scope = "source.css - meta.selector.css"
+        html_style_selector_scope = "text.html meta.attribute-with-value.style.html " + \
+                                    "string.quoted - punctuation.definition.string.begin.html"
+        selector_scope = css_selector_scope + ', ' + html_style_selector_scope
         prop_name_scope = "meta.property-name.css"
         prop_value_scope = "meta.property-value.css"
         loc = locations[0]

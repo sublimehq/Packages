@@ -23,7 +23,7 @@ variables:
   type_qualifier: 'const|constexpr|mutable|typename|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
-  other_keywords: 'typedef|decltype|nullptr|operator|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
+  other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
   generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|<.*?>|\s|\d)*)?>'
@@ -54,7 +54,7 @@ contexts:
       push:
         - include: strings
         - match: '\{'
-          scope: punctuation.definition.block.begin.objc++
+          scope: punctuation.section.block.begin.objc++
           set:
             - meta_scope: meta.extern-c.objc++
             - match: '^\s*(#\s*ifdef)\s*__cplusplus\s*'
@@ -63,10 +63,10 @@ contexts:
                 1: keyword.control.import.objc++
               set:
                 - match: '\}'
-                  scope: punctuation.definition.block.end.objc++
+                  scope: punctuation.section.block.end.objc++
                   pop: true
             - match: '\}'
-              scope: punctuation.definition.block.end.objc++
+              scope: punctuation.section.block.end.objc++
               pop: true
             - include: preprocessor-global
             - include: global
@@ -271,7 +271,7 @@ contexts:
       push:
         - meta_scope: meta.function.objc++
         - match: '\{'
-          scope: punctuation.definition.block.begin.objc++
+          scope: punctuation.section.block.begin.objc++
           set:
             - meta_scope: meta.block.objc++
             - match: (?=^\s*#\s*(elif|else|endif)\b)
@@ -279,7 +279,7 @@ contexts:
             - match: (?=@end\b)
               pop: true
             - match: '\}'
-              scope: punctuation.definition.block.end.objc++
+              scope: punctuation.section.block.end.objc++
               pop: true
             - include: statements
         - match: '(?=#|@end|;)'
@@ -317,7 +317,7 @@ contexts:
         - match: '(,)\s+(\.\.\.)\s*'
           captures:
             1: punctuation.separator.objc++
-            2: punctuation.definition.variadic.objc++
+            2: keyword.operator.variadic.objc++
           push:
             - include: scope:source.c#function-call
             - match: '(?=\S)'
@@ -398,42 +398,42 @@ contexts:
     - match: '\b(alignas)\b\s*(\()'
       captures:
         1: storage.modifier.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
     - match: \b(__attribute__)\s*(\(\()
       captures:
         1: storage.modifier.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push :
         - meta_scope: meta.attribute.objc++
         - meta_content_scope: meta.group.objc++
         - include: parens
         - include: strings
         - match: \)\)
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
     - match: \b(__declspec)(\()
       captures:
         1: storage.modifier.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
           captures:
             1: storage.modifier.objc++
-            2: meta.group.objc++ punctuation.definition.group.begin.objc++
+            2: meta.group.objc++ punctuation.section.group.begin.objc++
           push:
             - meta_content_scope: meta.group.objc++
             - match: '\)'
-              scope: meta.group.objc++ punctuation.definition.group.end.objc++
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: numbers
             - include: strings
@@ -450,11 +450,11 @@ contexts:
     - match: '\b(decltype)\b\s*(\()'
       captures:
         1: storage.type.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
 
@@ -463,10 +463,10 @@ contexts:
       scope: keyword.operator.word.cast.objc++
       push:
         - match: '>'
-          scope: punctuation.definition.generic.end.objc++
+          scope: punctuation.section.generic.end.objc++
           pop: true
         - match: '<'
-          scope: punctuation.definition.generic.begin.objc++
+          scope: punctuation.section.generic.begin.objc++
           push:
             - match: '(?=>)'
               pop: true
@@ -476,31 +476,31 @@ contexts:
     - match: '\b(alignof|typeid)\b\s*(\()'
       captures:
         1: keyword.operator.word.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
     - match: '\b(static_assert)\b\s*(\()'
       captures:
         1: keyword.operator.word.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
     - match: '\b(sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.word.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
 
@@ -529,10 +529,10 @@ contexts:
             - match: '(?=;)'
               pop: true
             - match: '\}'
-              scope: meta.block.objc++ punctuation.definition.block.end.objc++
+              scope: meta.block.objc++ punctuation.section.block.end.objc++
               pop: true
             - match: '\{'
-              scope: punctuation.definition.block.begin.objc++
+              scope: punctuation.section.block.begin.objc++
               push:
                 - meta_scope: meta.block.objc++
                 - match: '(?=\})'
@@ -544,7 +544,7 @@ contexts:
     - match: \b(template)\b\s*(<)
       captures:
         1: storage.type.template.objc++
-        2: punctuation.definition.generic.begin.objc++
+        2: punctuation.section.generic.begin.objc++
       push:
         - meta_scope: meta.template.objc++
         # Exit the template scope if we hit some basic invalid characters.
@@ -555,7 +555,7 @@ contexts:
           pop: true
         - match: '(>)\s*'
           captures:
-            1: punctuation.definition.generic.end.objc++
+            1: punctuation.section.generic.end.objc++
           pop: true
         - match: '\b(typename|{{before_tag}})\b'
           scope: storage.type.objc++
@@ -567,7 +567,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.objc++
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.objc++
+          scope: keyword.operator.variadic.objc++
     - match: \btemplate\b
       scope: storage.type.template.objc++
       push:
@@ -597,43 +597,43 @@ contexts:
             1: punctuation.accessor.objc++
         - include: angle-brackets
         - match: '\('
-          scope: meta.group.objc++ punctuation.definition.group.begin.objc++
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
             - meta_scope: meta.function-call.objc++
             - meta_content_scope: meta.group.objc++
             - match: '\)'
-              scope: meta.group.objc++ punctuation.definition.group.end.objc++
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}})'
       push:
         - include: scope:source.c++#identifiers
         - match: '<'
-          scope: punctuation.definition.generic.begin.objc++
+          scope: punctuation.section.generic.begin.objc++
           set:
             - match: '>'
-              scope: punctuation.definition.generic.end.objc++
+              scope: punctuation.section.generic.end.objc++
               pop: true
             - include: expressions-minus-generic-type
 
   angle-brackets:
     - match: '<(?!<)'
-      scope: punctuation.definition.generic.begin.objc++
+      scope: punctuation.section.generic.begin.objc++
       push:
         - match: '>'
-          scope: punctuation.definition.generic.end.objc++
+          scope: punctuation.section.generic.end.objc++
           pop: true
         - include: expressions-minus-generic-type
 
   block:
     - match: '\{'
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
       push:
         - meta_scope: meta.block.objc++
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - match: '\}'
-          scope: punctuation.definition.block.end.objc++
+          scope: punctuation.section.block.end.objc++
           pop: true
         - include: statements
 
@@ -652,12 +652,12 @@ contexts:
           captures:
             1: punctuation.accessor.objc++
         - match: '\('
-          scope: meta.group.objc++ punctuation.definition.group.begin.objc++
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
             - meta_scope: meta.function-call.objc++
             - meta_content_scope: meta.group.objc++
             - match: '\)'
-              scope: meta.group.objc++ punctuation.definition.group.end.objc++
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
 
@@ -670,11 +670,11 @@ contexts:
       push:
         - meta_content_scope: meta.method-call.objc++
         - match: '\('
-          scope: meta.group.objc++ punctuation.definition.group.begin.objc++
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
             - meta_content_scope: meta.method-call.objc++ meta.group.objc++
             - match: '\)'
-              scope: meta.method-call.objc++ meta.group.objc++ punctuation.definition.group.end.objc++
+              scope: meta.method-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
     - match: '(\.|->)({{identifier}})(?!\s*\()'
@@ -697,21 +697,21 @@ contexts:
 
   parens:
     - match: \(
-      scope: punctuation.definition.group.begin.objc++
+      scope: punctuation.section.group.begin.objc++
       push:
         - meta_scope: meta.group.objc++
         - match: \)
-          scope: punctuation.definition.group.end.objc++
+          scope: punctuation.section.group.end.objc++
           pop: true
         - include: expressions
 
   brackets:
     - match: \[
-      scope: punctuation.definition.brackets.begin.objc++
+      scope: punctuation.section.brackets.begin.objc++
       push:
         - meta_scope: meta.brackets.objc++
         - match: \]
-          scope: punctuation.definition.brackets.end.objc++
+          scope: punctuation.section.brackets.end.objc++
           pop: true
         - include: expressions
 
@@ -731,11 +731,11 @@ contexts:
 
   function-trailing-return-type-parens:
     - match: \(
-      scope: meta.group.objc++ punctuation.definition.group.begin.objc++
+      scope: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_scope: meta.group.objc++
         - match: \)
-          scope: punctuation.definition.group.end.objc++
+          scope: punctuation.section.group.end.objc++
           pop: true
         - include: function-trailing-return-type
 
@@ -776,7 +776,7 @@ contexts:
     - include: comments
     - match: \*|&
       scope: keyword.operator.objc++
-    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}}|operator)\b)'
       pop: true
     - match: '(?=\s)'
       set: global-maybe-function
@@ -812,12 +812,12 @@ contexts:
     - match: '({{identifier}})\s*(\()(?=[^\)]+\))'
       captures:
         1: variable.function.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_scope: meta.function-call.objc++
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
     - match: '(?={{path_lookahead}}\s*\()'
@@ -836,6 +836,8 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+      pop: true
     - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
@@ -864,6 +866,8 @@ contexts:
       set: [function-definition-params, global-function-identifier-generic]
     - match: '(?={{path_lookahead}}\s*(\(|$))'
       set: [function-definition-params, global-function-identifier]
+    - match: '(?={{path_lookahead}}\s*::\s*$)'
+      set: [function-definition-params, global-function-identifier]
     - match: '(?=\S)'
       pop: true
 
@@ -889,7 +893,7 @@ contexts:
   global-function-identifier:
     - meta_content_scope: entity.name.function.objc++
     - include: scope:source.c++#identifiers
-    - match: ''
+    - match: '(?=\S)'
       pop: true
 
   function-definition-params:
@@ -898,11 +902,11 @@ contexts:
     - match: '(?=\()'
       set:
         - match: \(
-          scope: meta.function.parameters.objc++ meta.group.objc++ punctuation.definition.group.begin.objc++
+          scope: meta.function.parameters.objc++ meta.group.objc++ punctuation.section.group.begin.objc++
           set:
             - meta_content_scope: meta.function.parameters.objc++ meta.group.objc++
             - match : \)
-              scope: punctuation.definition.group.end.objc++
+              scope: punctuation.section.group.end.objc++
               set: function-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.objc++
@@ -952,11 +956,11 @@ contexts:
   function-definition-body:
     - meta_content_scope: meta.function.objc++ meta.block.objc++
     - match: '\{'
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.function.objc++ meta.block.objc++
         - match: '\}'
-          scope: meta.function.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.function.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
@@ -1004,11 +1008,11 @@ contexts:
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
     - match: '\{'
-      scope: meta.block.objc++ punctuation.definition.block.begin.objc++
+      scope: meta.block.objc++ punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.class.objc++ meta.block.objc++
         - match: '\}'
-          scope: meta.class.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.class.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - include: data-structures-body
 
@@ -1034,11 +1038,11 @@ contexts:
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
     - match: '\{'
-      scope: meta.block.objc++ punctuation.definition.block.begin.objc++
+      scope: meta.block.objc++ punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.struct.objc++ meta.block.objc++
         - match: '\}'
-          scope: meta.struct.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.struct.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - include: data-structures-body
 
@@ -1064,12 +1068,12 @@ contexts:
     # No matching of identifiers since they should all be macros at this point
     - include: data-structures-definition-common-end
     - match: '\{'
-      scope: meta.block.objc++ punctuation.definition.block.begin.objc++
+      scope: meta.block.objc++ punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.enum.objc++ meta.block.objc++
         # Enums don't support methods so we have a simplified body
         - match: '\}'
-          scope: meta.enum.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.enum.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - include: statements
 
@@ -1096,11 +1100,11 @@ contexts:
     # Unions don't support base classes
     - include: angle-brackets
     - match: '\{'
-      scope: meta.block.objc++ punctuation.definition.block.begin.objc++
+      scope: meta.block.objc++ punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.union.objc++ meta.block.objc++
         - match: '\}'
-          scope: meta.union.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.union.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - include: data-structures-body
     - match: '(?=;)'
@@ -1157,11 +1161,11 @@ contexts:
         - match: (?=;)
           pop: true
         - match: '\{'
-          scope: punctuation.definition.block.begin.objc++
+          scope: punctuation.section.block.begin.objc++
           set:
             - meta_scope: meta.block.objc++
             - match: '\}'
-              scope: punctuation.definition.block.end.objc++
+              scope: punctuation.section.block.end.objc++
               pop: true
             - include: statements
         - match: '\b({{before_tag}})\b'
@@ -1180,12 +1184,12 @@ contexts:
     - match: '({{identifier}})\s*(\()(?=\s*(?!void){{identifier}}\s*[),])'
       captures:
         1: variable.function.objc++
-        2: meta.group.objc++ punctuation.definition.group.begin.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_scope: meta.function-call.objc++
         - meta_content_scope: meta.group.objc++
         - match: '\)'
-          scope: meta.group.objc++ punctuation.definition.group.end.objc++
+          scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
         - include: expressions
     # Constructor
@@ -1211,7 +1215,7 @@ contexts:
         1: keyword.control.objc++
         2: meta.method.objc++ entity.name.function.objc++
       set: method-definition-params
-    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}}|operator)\b)'
       pop: true
     - match: '(?=\s)'
       set: data-structures-maybe-method
@@ -1256,6 +1260,8 @@ contexts:
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*|&
       scope: keyword.operator.objc++
+    - match: '(?=\b({{control_keywords}}|{{operator_keywords}}|{{casts}}|{{memory_operators}}|{{other_keywords}})\b)'
+      pop: true
     - match: '\b({{type_qualifier}})\b'
       scope: storage.modifier.objc++
     - match: '{{non_angle_brackets}}'
@@ -1279,6 +1285,8 @@ contexts:
       set: [method-definition-params, data-structures-function-identifier-generic]
     - match: '(?={{path_lookahead}}\s*(\())'
       set: [method-definition-params, data-structures-function-identifier]
+    - match: '(?={{path_lookahead}}\s*::\s*$)'
+      set: [method-definition-params, data-structures-function-identifier]
     - match: '(?=\S)'
       pop: true
 
@@ -1296,7 +1304,7 @@ contexts:
   data-structures-function-identifier:
     - meta_content_scope: entity.name.function.objc++
     - include: scope:source.c++#identifiers
-    - match: ''
+    - match: '(?=\S)'
       pop: true
 
   method-definition-params:
@@ -1305,11 +1313,11 @@ contexts:
     - match: '(?=\()'
       set:
         - match: \(
-          scope: meta.method.parameters.objc++ meta.group.objc++ punctuation.definition.group.begin.objc++
+          scope: meta.method.parameters.objc++ meta.group.objc++ punctuation.section.group.begin.objc++
           set:
             - meta_content_scope: meta.method.parameters.objc++ meta.group.objc++
             - match : \)
-              scope: punctuation.definition.group.end.objc++
+              scope: punctuation.section.group.end.objc++
               set: method-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.objc++
@@ -1353,11 +1361,11 @@ contexts:
             - match: '({{identifier}})\s*(\()'
               captures:
                 1: variable.other.readwrite.member.objc++
-                2: meta.group.objc++ punctuation.definition.group.begin.objc++
+                2: meta.group.objc++ punctuation.section.group.begin.objc++
               push:
                 - meta_content_scope: meta.group.objc++
                 - match: \)
-                  scope: meta.group.objc++ punctuation.definition.group.end.objc++
+                  scope: meta.group.objc++ punctuation.section.group.end.objc++
                   pop: true
                 - include: expressions
             - include: expressions
@@ -1378,11 +1386,11 @@ contexts:
   method-definition-body:
     - meta_content_scope: meta.method.objc++ meta.block.objc++
     - match: '\{'
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
       set:
         - meta_content_scope: meta.method.objc++ meta.block.objc++
         - match: '\}'
-          scope: meta.method.objc++ meta.block.objc++ punctuation.definition.block.end.objc++
+          scope: meta.method.objc++ meta.block.objc++ punctuation.section.block.end.objc++
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
@@ -1549,7 +1557,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \{
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
       set: preprocessor-block-if-branch-global
     - include: preprocessor-global
     - include: negated-block
@@ -1564,7 +1572,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \}
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       set: preprocessor-if-branch-global
     - include: statements
 
@@ -1575,7 +1583,7 @@ contexts:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       set: preprocessor-block-finish-if-branch-global
     - match: \}
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       pop: true
     - include: statements
 
@@ -1585,7 +1593,7 @@ contexts:
         1: keyword.control.import.objc++
       pop: true
     - match: \}
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       set: preprocessor-if-branch-global
     - include: statements
 
@@ -1679,7 +1687,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \{
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
       set: preprocessor-block-if-branch-statements
     - include: negated-block
     - include: statements
@@ -1693,7 +1701,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \}
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       set: preprocessor-if-branch-statements
     - include: statements
 
@@ -1704,7 +1712,7 @@ contexts:
         1: meta.preprocessor.objc++ keyword.control.import.objc++
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       pop: true
     - include: statements
 
@@ -1714,7 +1722,7 @@ contexts:
         1: keyword.control.import.objc++
       pop: true
     - match: \}
-      scope: meta.block.objc++ punctuation.definition.block.end.objc++
+      scope: meta.block.objc++ punctuation.section.block.end.objc++
       set: preprocessor-if-branch-statements
     - include: statements
 
@@ -1728,10 +1736,10 @@ contexts:
 
   negated-block:
     - match: '\}'
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
       push:
         - match: '\{'
-          scope: punctuation.definition.block.begin.objc++
+          scope: punctuation.section.block.begin.objc++
           pop: true
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
@@ -1750,7 +1758,7 @@ contexts:
           scope: entity.name.function.preprocessor.objc++
           set:
             - match: '\('
-              scope: punctuation.definition.group.begin.objc++
+              scope: punctuation.section.group.begin.objc++
               set: preprocessor-macro-params
         - match: '{{identifier}}'
           scope: entity.name.constant.preprocessor.objc++
@@ -1761,7 +1769,7 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.parameter.objc++
     - match: \)
-      scope: punctuation.definition.group.end.objc++
+      scope: punctuation.section.group.end.objc++
       set: preprocessor-macro-definition
     - match: ','
       scope: punctuation.separator.objc++
@@ -1772,7 +1780,7 @@ contexts:
         - include: scope:source.c#preprocessor-line-continuation
         - include: scope:source.c#preprocessor-comments
         - match: '\.\.\.'
-          scope: punctuation.definition.variadic.objc++
+          scope: keyword.operator.variadic.objc++
         - match: '(?=\))'
           pop: true
         - match: (/\*).*(\*/)
@@ -1785,7 +1793,7 @@ contexts:
     - include: scope:source.c#preprocessor-line-continuation
     - include: scope:source.c#preprocessor-comments
     - match: '\.\.\.'
-      scope: punctuation.definition.variadic.objc++
+      scope: keyword.operator.variadic.objc++
     - match: (/\*).*(\*/)
       scope: comment.block.objc++
       captures:
@@ -1801,9 +1809,9 @@ contexts:
     - include: scope:source.c#preprocessor-comments
     # Don't define blocks in define statements
     - match: '\{'
-      scope: punctuation.definition.block.begin.objc++
+      scope: punctuation.section.block.begin.objc++
     - match: '\}'
-      scope: punctuation.definition.block.end.objc++
+      scope: punctuation.section.block.end.objc++
     - include: expressions
 
   preprocessor-other:

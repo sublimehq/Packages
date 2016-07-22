@@ -345,7 +345,8 @@ contexts:
         - match: "'"
           scope: string.quoted.single punctuation.definition.string.begin.html
           set:
-            - meta_scope: meta.attribute-with-value.style.html source.css
+            - meta_scope: meta.attribute-with-value.style.html
+            - meta_content_scope: source.css
             - match: "'"
               scope: string.quoted.single punctuation.definition.string.end.html
               pop: true

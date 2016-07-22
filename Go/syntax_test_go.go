@@ -56,7 +56,7 @@ func test(data MyStruct)
 {
 	data.fooBar
 	//  ^ punctuation.accessor
-	//   ^^^^^^ variable.other.dot-access
+	//   ^^^^^^ variable.other.member
 }
 
 const (
@@ -263,3 +263,42 @@ func (t funcTypeExample) foobar() {}
 //                       ^ entity.name.function
 //                             ^^ meta.function.parameters meta.group
 //                                ^^ meta.block
+
+func () {
+	switch {
+	// <- keyword.control
+	//     ^ punctuation.definition.block.begin
+	case byte, rune, string:
+	// <- keyword.control
+	//   ^^^^ storage.type
+	//       ^ punctuation.separator
+	//         ^^^^ storage.type
+	//             ^ punctuation.separator
+	//               ^^^^^^ storage.type
+	//                     ^ punctuation.separator
+	case 1, 1.23, "str", 'c', true, false:
+	// <- keyword.control
+	//   ^ constant.numeric
+	//    ^ punctuation.separator
+	//      ^^^^ constant.numeric
+	//          ^ punctuation.separator
+	//            ^^^^^ string.quoted.double
+	//                 ^ punctuation.separator
+	//                   ^^^ string.quoted.single
+	//                      ^ punctuation.separator
+	//                        ^^^^ constant.language
+	//                            ^ punctuation.separator
+	//                              ^^^^^ constant.language
+	//                                   ^ punctuation.separator
+		fallthrough
+		// <- keyword.control
+	default:
+	// <- keyword.control
+	//     ^ punctuation.separator
+	}
+	// <- punctuation.definition.block.end
+
+	Label:
+	// <- entity.name.label
+	//   ^ punctuation.separator
+}

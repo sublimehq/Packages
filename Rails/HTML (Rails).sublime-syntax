@@ -2,6 +2,7 @@
 ---
 name: HTML (Rails)
 file_extensions:
+  - rails
   - rhtml
   - erb
   - html.erb

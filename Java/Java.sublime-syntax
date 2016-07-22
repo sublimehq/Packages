@@ -8,19 +8,42 @@ file_extensions:
 scope: source.java
 contexts:
   main:
-    - match: '^\s*(package)\b(?:\s*([^ ;$]+)\s*(;)?)?'
-      scope: meta.package.java
-      captures:
-        1: keyword.other.package.java
-        2: storage.modifier.package.java
-        3: punctuation.terminator.java
-    - match: '^\s*(import)\b(?:\s*([^ ;$]+)\s*(;)?)?'
-      scope: meta.import.java
-      captures:
-        1: keyword.other.import.java
-        2: storage.modifier.import.java
-        3: punctuation.terminator.java
+    - include: package
+    - include: import
     - include: code
+  package:
+    - match: '\bpackage\b'
+      scope: keyword.other.package.java
+      push:
+        - meta_scope: meta.package.java
+        - match: '[\w\.]+'
+          scope: support.other.package.java
+        - match: ;
+          scope: punctuation.terminator.java
+          pop: true
+        - match: (?=\n)
+          pop: true
+  import:
+    - match: \bimport\b
+      scope: keyword.other.import.java
+      push:
+        - meta_scope: meta.import.java
+        - match: \bstatic\b
+          scope: storage.modifier.static.java
+          push:
+            - match: '[\w\.]+'
+              scope: support.function.import.java
+            - match: (?=;)
+              pop: true
+            - match: (?=\n)
+              pop: true
+        - match: '[\w\.]+'
+          scope: support.class.import.java
+        - match: ;
+          scope: punctuation.terminator.java
+          pop: true
+        - match: (?=\n)
+          pop: true
   all-types:
     - include: primitive-arrays
     - include: primitive-types

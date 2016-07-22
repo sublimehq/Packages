@@ -30,12 +30,12 @@ from \
 #   ^^^^ meta.statement.import
 from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
-#               ^ punctuation.definition.begin.import-list
+#               ^ punctuation.section.import-list.begin
 #                         ^ comment
                  version_info, . ) # comment
 #                ^^^^^^^^^^^^^ meta.statement.import
 #                              ^ invalid.illegal.name.import
-#                                ^ punctuation.definition.end.import-list
+#                                ^ punctuation.section.import-list.end
 #                                  ^ comment
 import path from os
 #           ^^^^ invalid.illegal.name
@@ -90,10 +90,19 @@ func()(1, 2)
 
 myobj[1](True)
 #    ^^^ meta.item-access
+#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#     ^ meta.item-access.arguments
+#      ^ punctuation.section.brackets.end - meta.item-access.arguments
 #       ^^^^^^ meta.function-call
 
 myobj[1][2](0)
 #    ^^^^^^ meta.item-access
+#    ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#     ^ meta.item-access.arguments
+#      ^ punctuation.section.brackets.end - meta.item-access.arguments
+#       ^ punctuation.section.brackets.begin - meta.item-access.arguments
+#        ^ meta.item-access.arguments
+#         ^ punctuation.section.brackets.end - meta.item-access.arguments
 #          ^^^ meta.function-call
 
 myobj.attribute
@@ -120,7 +129,7 @@ def _():
 #   ^^^^^ storage.modifier.async
 #         ^^^ keyword.control.flow.for
 #               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.definition.block.for
+#                          ^ punctuation.section.block.for
         pass
 
     for i:
@@ -152,7 +161,7 @@ def _():
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
 #                                ^^ keyword.control.flow.with.as
-#                                    ^ punctuation.definition.block.with
+#                                    ^ punctuation.section.block.with
         await something()
 #       ^^^^^ keyword.other.await
 
@@ -219,13 +228,11 @@ def _():
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
     print "keyword"
-#   ^^^^^^^^^^^^^^^ meta.statement.print
 #   ^^^^^ keyword
     print __init__
 #   ^^^^^ keyword
 #
     exec 123
-#   ^^^^^^^^ meta.statement.exec
 #   ^^^^ keyword
     exec ("print('ok')")
 #   ^^^^ support.function.builtin - keyword
@@ -256,7 +263,7 @@ def my_func(param1, # Multi-line function definition
     # This is defaulted
 #   ^ comment.line.number-sign
     param2='#1'):
-#              ^ punctuation.definition.parameters.end
+#              ^ punctuation.section.parameters.end
     print('Hi!')
 
 
@@ -280,10 +287,10 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                 ^^^^^^ variable.parameter
 #                                                       ^ punctuation.separator.annotation
 #                                                         ^^^^^^^^^ meta.function-call
-#                                                            ^ punctuation.definition.arguments.begin
+#                                                            ^ punctuation.section.arguments.begin
 #                                                             ^ constant.numeric
 #                                                                ^ constant.numeric
-#                                                                 ^ punctuation.definition.arguments.end
+#                                                                 ^ punctuation.section.arguments.end
 #                                                                  ^ punctuation.separator.parameters
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
@@ -291,7 +298,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                     ^^^^^^^^^^^ meta.function.parameters.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
-#                                                                                                ^ punctuation.definition.parameters.end
+#                                                                                                ^ punctuation.section.parameters.end
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function.begin
@@ -321,7 +328,7 @@ class MyClass():
         # This is defaulted
 #       ^ comment.line.number-sign
         param2='#1'):
-#                  ^ punctuation.definition.parameters.end
+#                  ^ punctuation.section.parameters.end
         print('Hi!')
 
 
@@ -383,7 +390,7 @@ class Class():
 
 mytuple = ("this", 'is', 4, tuple)
 #         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#         ^ punctuation.definition.group.begin
+#         ^ punctuation.section.group.begin
 #          ^^^^^^ string.quoted.double
 #                ^ punctuation.separator.tuple
 #                  ^^^^ string.quoted.single
@@ -391,35 +398,35 @@ mytuple = ("this", 'is', 4, tuple)
 #                        ^ constant.numeric
 #                         ^ punctuation.separator.tuple
 #                           ^^^^^ support.type
-#                                ^ punctuation.definition.group.end
+#                                ^ punctuation.section.group.end
 not_a_tuple = (a = 2, b += 3)
 #                ^ - keyword
 #                        ^ - keyword
 
 mylist = []
 #        ^^ meta.structure.list.python
-#        ^ punctuation.definition.list.begin
-#         ^ punctuation.definition.list.end
+#        ^ punctuation.section.list.begin
+#         ^ punctuation.section.list.end
 
 mylist = [1, "testing", ["sublist", True]]
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#        ^ punctuation.definition.list.begin
+#        ^ punctuation.section.list.begin
 #         ^ constant.numeric
 #          ^ punctuation.separator.list
 #            ^^^^^^^^^ string.quoted.double
 #                     ^ punctuation.separator
 #                       ^^^^^^^^^^^^^^^^^ meta.structure.list meta.structure.list
-#                       ^ punctuation.definition.list.begin
+#                       ^ punctuation.section.list.begin
 #                        ^^^^^^^^^ string.quoted.double
 #                                 ^ punctuation.separator.list
 #                                   ^^^^ constant.language
-#                                       ^ punctuation.definition.list.end
-#                                        ^ punctuation.definition.list.end
+#                                       ^ punctuation.section.list.end
+#                                        ^ punctuation.section.list.end
 
 mydict = {}
 #        ^^ meta.structure.dictionary
-#        ^ punctuation.definition.dictionary.begin
-#         ^ punctuation.definition.dictionary.end
+#        ^ punctuation.section.dictionary.begin
+#         ^ punctuation.section.dictionary.end
 
 key2 = "my_key"
 mydict = {"key": True, key2: (1, 2, [-1, -2])}
@@ -430,14 +437,14 @@ mydict = {"key": True, key2: (1, 2, [-1, -2])}
 #                    ^ punctuation.separator.dictionary-or-set
 #                          ^ punctuation.separator.key-value
 #                            ^^^^^^^^^^^^^^^^ meta.group
-#                            ^ punctuation.definition.group.begin
+#                            ^ punctuation.section.group.begin
 #                             ^ constant.numeric
 #                                ^ constant.numeric
 #                                   ^^^^^^^ meta.structure.list
 #                                      ^ punctuation.separator.list
-#                                           ^ punctuation.definition.group.end
-#        ^ punctuation.definition.dictionary-or-set.begin
-#                                            ^ punctuation.definition.dictionary-or-set.end
+#                                           ^ punctuation.section.group.end
+#        ^ punctuation.section.dictionary-or-set.begin
+#                                            ^ punctuation.section.dictionary-or-set.end
 
 myset = {"key", True, key2, [-1], {}}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
@@ -507,7 +514,7 @@ except Exception:
 #^^^^^^^^^^^^^^^^ meta.statement.except
 #^^^^^ keyword.control.flow.except
 #      ^^^^^^^^^ support.type.exception
-#               ^ punctuation.definition.block
+#               ^ punctuation.section.block
 except (KeyError, NameError) as e:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
 #^^^^^ keyword.control.flow.except
@@ -515,7 +522,7 @@ except (KeyError, NameError) as e:
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
 #                            ^^ keyword.control.flow.as
-#                                ^ punctuation.definition.block
+#                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
@@ -556,12 +563,57 @@ raise KeyError() from z
 
 
 
+##################
+# Integral numbers
+##################
+
+decimal = 1234567890 + 9876543210L + -1 + -42L
+#         ^^^^^^^^^^ constant.numeric.integer.decimal.python
+#                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
+#                                    ^ keyword.operator.arithmetic.python - constant.numeric
+#                                         ^ keyword.operator.arithmetic.python - constant.numeric
+
+binary = 0b1010011 | 0b0110110L
+#        ^^^^^^^^^ constant.numeric.integer.binary.python
+#                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
+
+octal = 0o755 ^ 0o644L
+#       ^^^^^ constant.numeric.integer.octal.python
+#               ^^^^^^ constant.numeric.integer.long.octal.python
+
+old_style_octal = 010 + 007 - 012345670L
+#                 ^^^ constant.numeric.integer.octal.python
+#                       ^^^ constant.numeric.integer.octal.python
+#                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
+
+hexadecimal = 0x100af - 0XDEADF00L
+#             ^^^^^^^ constant.numeric.integer.hexadecimal.python
+#                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
+
+unintuitive = 0B101 + 0O101 + 10l
+#             ^^^^^ constant.numeric.integer.binary.python
+#                     ^^^^^ constant.numeric.integer.octal.python
+#                             ^^^ constant.numeric.integer.long.decimal.python
+
+illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
+#           ^ - constant.numeric
+#                 ^ - constant.numeric
+#                          ^^^ - constant.numeric
+#                                    ^^^^^^^^^ - constant.numeric
+
+
 
 ###############################
 # Strings and embedded syntaxes
 ###############################
 
 "Testing {:,.2f}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {0:>9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {:j^9,}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
 
 datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
@@ -728,18 +780,18 @@ query = \
     """
 
 query = \
-    '''
-    SELECT
-        (
-        SELECT CASE field
-            WHEN 1
-            THEN -- comment's say that
+'''
+SELECT
+    (
+    SELECT CASE field
+        WHEN 1
+        THEN -- comment's say that
 #                              ^ source.sql comment.line.double-dash
-                EXISTS(
-                select 1)
-            ELSE NULL
-        ) as result
-    '''
+            EXISTS(
+            select 1)
+        ELSE NULL
+    ) as result
+'''
 
 sql = 'SELECT * FROM foo -- bar baz'
 #       ^ source.sql
@@ -924,6 +976,38 @@ x = 'hello\s world'
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
+
+# https://docs.python.org/3/library/string.html#formatspec
+"First, thou shalt count to {0}"  # References first positional argument
+#                           ^^^ constant.other.placeholder.python
+"Bring me a {}"                   # Implicitly references the first positional argument
+#           ^^ constant.other.placeholder.python
+"From {} to {}"                   # Same as "From {0} to {1}"
+#     ^^ constant.other.placeholder.python
+#       ^^^^ - constant.other.placeholder.python
+#           ^^ constant.other.placeholder.python
+"My quest is {name}"              # References keyword argument 'name'
+#            ^^^^^^ constant.other.placeholder.python
+"Weight in tons {0.weight}"       # 'weight' attribute of first positional arg
+#               ^^^^^^^^^^ constant.other.placeholder.python
+"Units destroyed: {players[0]}"   # First element of keyword argument 'players'.
+#                 ^^^^^^^^^^^^ constant.other.placeholder.python
+"Harold's a clever {0!s}"         # Calls str() on the argument first
+#                  ^^^^^ constant.other.placeholder.python
+"Bring out the holy {name!r}"     # Calls repr() on the argument first
+#                   ^^^^^^^^ constant.other.placeholder.python
+"More {!a}"                       # Calls ascii() on the argument first
+#     ^^^^ constant.other.placeholder.python
+"Escaped {{0}}"                   # outputs: "Escaped {0}"
+#        ^^^^^ - constant.other.placeholder.python
+#        ^^ constant.character.escape.python
+#           ^^ constant.character.escape.python
+"Escaped {{}} {} {}"              # outputs: "Escaped {} arg1 arg2"
+#        ^^^^ constant.character.escape.python - constant.other.placeholder.python
+#             ^^ constant.other.placeholder.python
+#               ^ - constant.other.placeholder.python
+#                ^^ constant.other.placeholder.python
+
 
 # This is to test the difference between the assignment operator (=) and
 # the comparison operator (==)

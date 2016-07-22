@@ -368,6 +368,12 @@ contexts:
       pop: true
 
   generic-angles-contents:
+    - match: \bextern\b
+      scope: keyword.other.rust
+      push:
+        - include: strings
+        - match: '(?=\S)'
+          pop: true
     - match: '(?=>|[^ \$=<_+''(),&:[:alnum:]])'
       pop: true
     - match: '<'
@@ -388,6 +394,19 @@ contexts:
       scope: keyword.operator.rust
     - match: \b(mut|ref)\b
       scope: storage.modifier.rust
+    - match: \b(fn)\b(\()
+      captures:
+        1: storage.type.function.rust
+        2: meta.group.rust punctuation.definition.group.begin.rust
+      push:
+        - meta_content_scope: meta.group.rust
+        - match: \)
+          scope: meta.group.rust punctuation.definition.group.end.rust
+          set:
+            - include: return-type
+            - match: '(?=\S)'
+              pop: true
+        - include: type-any-identifier
     - match: '''{{identifier}}(?!\'')\b'
       scope: storage.modifier.lifetime.rust
     - match: '\b([[:upper:]]|_*[[:upper:]][[:alnum:]_]*[[:lower:]][[:alnum:]_]*)\b::'
@@ -466,7 +485,7 @@ contexts:
         - match: \bpub\b
           scope: storage.modifier.rust
         - match: '{{identifier}}(?=\s*:)'
-          scope: variable.other.property.rust
+          scope: variable.other.member.rust
           push:
             - match: ',|(?=\})'
               pop: true

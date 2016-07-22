@@ -252,8 +252,8 @@ ECHO %% ^^! ^&
 
    set /a "num=(2+3)*5"
 ::             ^^^^^ meta.group.dosbatch
-::             ^ punctuation.definition.group.begin.dosbatch
-::                 ^ punctuation.definition.group.end.dosbatch
+::             ^ punctuation.section.group.begin.dosbatch
+::                 ^ punctuation.section.group.end.dosbatch
 ::            ^ keyword.operator.assignment.dosbatch
 ::               ^ keyword.operator.arithmetic.dosbatch
 ::                  ^ keyword.operator.arithmetic.dosbatch
@@ -331,9 +331,9 @@ ECHO %% ^^! ^&
 ::      ^^^^^^^^^^ variable.other.readwrite
 
 IF "%FOO%" == "BAR" ( SET BAZ=42 )
-::                  ^ punctuation.definition.group.begin
+::                  ^ punctuation.section.group.begin
 ::                  ^^^^^^^^^^^^^^ meta.group
-::                               ^ punctuation.definition.group.end
+::                               ^ punctuation.section.group.end
 
 :: See http://ss64.com/nt/syntax-brackets.html
 IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
@@ -348,3 +348,62 @@ IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
 :: ^ keyword.other
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ::                   ^ keyword.command
+
+set "hello"="world"
+:: <- keyword.command
+::  ^ - variable.other.readwrite
+::   ^^^^^^ variable.other.readwrite
+::         ^ keyword.operator.assignment
+::                ^ punctuation.definition.string.end
+::                 ^ - string
+
+set foo=bar
+:: <- keyword.command
+::  ^^^ variable.other.readwrite
+::     ^ keyword.operator.assignment
+
+set  foo = bar
+:: <- keyword.command
+::  ^ - variable.other.readwrite
+::   ^^^^ variable.other.readwrite
+::       ^ keyword.operator.assignment
+
+set  hello world = bar
+:: <- keyword.command
+::  ^ - variable.other.readwrite
+::   ^^^^^^^^^^^^ variable.other.readwrite
+::               ^ keyword.operator.assignment
+
+set abc /a = 1+2
+:: <- keyword.command
+::  ^^^^^^^ variable.other.readwrite
+::         ^ keyword.operator.assignment - meta.expression.set
+
+set "foobar=test"
+:: <- keyword.command
+::  ^ - variable.other.readwrite
+::   ^^^^^^ variable.other.readwrite
+::         ^ keyword.operator.assignment
+::              ^ punctuation.definition.string.end
+
+set  " foo = bar"
+:: <- keyword.command
+::   ^^ - variable.other.readwrite
+::     ^^^^ variable.other.readwrite
+::         ^ keyword.operator.assignment
+::              ^ punctuation.definition.string.end
+
+set test rem = hi
+:: <- keyword.command
+::       ^^^^^^^^^ - comment
+::  ^^^^^^^^^ variable.other.readwrite
+::           ^ keyword.operator.assignment
+
+set hello_world
+:: <- keyword.command
+::  ^^^^^^^^^^^ variable.other.readwrite.dosbatch
+
+set /A hello_world
+:: <- keyword.command
+::     ^^^^^^^^^^^ meta.expression.set
+::                ^ - meta.expression.set
