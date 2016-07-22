@@ -97,8 +97,8 @@
        '^^^^^^ storage.modifier.asp
        '       ^^^^^^^^^^^^ storage.type.function.asp
        '                    ^^^^ entity.name.function.asp
-       '                        ^ punctuation.definition.parameters.begin.asp - entity.name.function.asp
-       '                         ^ punctuation.definition.parameters.end.asp
+       '                        ^ punctuation.section.parameters.begin.asp - entity.name.function.asp
+       '                         ^ punctuation.section.parameters.end.asp
             Name = m_NameVar
 '<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
         End Property
@@ -111,9 +111,9 @@
        '^^^^^^ storage.modifier.asp
        '       ^^^^^^^^^^^^ storage.type.function.asp
        '                    ^^^^ entity.name.function.asp - storage.type.function.asp
-       '                        ^ punctuation.definition.parameters.begin.asp - entity.name.function.asp
+       '                        ^ punctuation.section.parameters.begin.asp - entity.name.function.asp
        '                         ^^^^^^^^^ variable.parameter.function.asp
-       '                                  ^ punctuation.definition.parameters.end.asp
+       '                                  ^ punctuation.section.parameters.end.asp
             m_NameVar = nameParam
         End Property
         
@@ -129,7 +129,7 @@
        '^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
        '^^^^^^^^^^^^ storage.type.function.asp
        '             ^^^^^^^^ entity.name.function.asp
-       '                     ^ punctuation.definition.parameters.begin.asp
+       '                     ^ punctuation.section.parameters.begin.asp
        '                      ^^^^^^^^^^^^^ variable.parameter.function.asp
        '                                   ^ invalid.illegal.unexpected-end-of-statement.asp
             m_CategoryVar = categoryParam
@@ -143,9 +143,9 @@
        '^^^^^^^ storage.modifier.asp
        '        ^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp storage.type.function.asp - meta.method.body.asp
        '                     ^^^^^^^^ entity.name.function.asp
-       '                             ^ punctuation.definition.parameters.begin.asp
+       '                             ^ punctuation.section.parameters.begin.asp
        '                              ^^^^^^^^^^^^^ variable.parameter.function.asp
-       '                                           ^ punctuation.definition.parameters.end.asp
+       '                                           ^ punctuation.section.parameters.end.asp
        '                 ^^^ storage.type.function.asp - keyword - storage.type.asp
        '                                            ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
        '                                                                               ^^^^^^^^^^^^ storage.type.function.end.asp
@@ -211,7 +211,7 @@
    '                 ^^^^^^ storage.modifier.asp
    '                        ^^^ storage.type.function.asp
    '                            ^^^^^^^ entity.name.function.asp
-   '                                    ^^ punctuation.definition.parameters
+   '                                    ^^ punctuation.section.parameters
    '                                      ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
    '                                                             ^^^^^^ storage.type.function.end.asp
    '                                                                     ^^^^^^^^^ meta.class.body.asp
@@ -241,9 +241,9 @@
    '                              ^ - meta.method.identifier.asp
    '^^^^^^^^ storage.type.function.asp
    '         ^^^^^^^^^^^^^^^ entity.name.function.asp
-   '                        ^ punctuation.definition.parameters.begin.asp
+   '                        ^ punctuation.section.parameters.begin.asp
    '                         ^^^^ variable.parameter.function.asp
-   '                             ^ punctuation.definition.parameters.end.asp
+   '                             ^ punctuation.section.parameters.end.asp
         On Error Resume Next
 '<- meta.method.body.asp - comment.line.apostrophe.asp
        '^^^^^^^^^^^^^^^^^^^^ storage.type.asp
@@ -294,7 +294,7 @@
    '^^^ storage.type.function.asp
    '    ^^^^^^^ entity.name.function.asp
    '           ^ - entity.name.function.asp
-   '            ^^ punctuation.definition.parameters
+   '            ^^ punctuation.section.parameters
         div = 4
        '    ^ keyword.operator.asp
        '      ^ constant.numeric.asp
@@ -456,7 +456,7 @@
  _ '    ^^^^ entity.name.function.asp
  _ '^^^^^^^^^ meta.method.asp meta.method.identifier.asp
             (_
- _ '        ^ meta.method.asp meta.method.identifier.asp punctuation.definition.parameters.begin.asp
+ _ '        ^ meta.method.asp meta.method.identifier.asp punctuation.section.parameters.begin.asp
  _ '         ^ punctuation.separator.continuation.line.asp
              abc, ByRef def _
  _          '^^^ meta.method.asp meta.method.identifier.asp variable.parameter.function.asp
@@ -465,11 +465,11 @@
  _          '           ^^^ meta.method.asp meta.method.identifier.asp variable.parameter.function.asp
  _          '               ^ meta.method.asp meta.method.identifier.asp punctuation.separator.continuation.line.asp
              )
-            '^ meta.method.asp meta.method.identifier.asp punctuation.definition.parameters.end.asp
+            '^ meta.method.asp meta.method.identifier.asp punctuation.section.parameters.end.asp
         
         Dim x _
            ,y()
-        '    ^^ meta.array.definition.asp punctuation.definition.array
+        '    ^^ meta.array.definition.asp punctuation.section.array
         a)
         '^ invalid.illegal.stray-close-bracket.asp
         a(
@@ -478,9 +478,9 @@
        '      ^^^ variable.other.asp
        '         ^^^^^ meta.array.definition.asp
        '          ^ constant.numeric.asp
-       '           ^ punctuation.definition.array.separator.asp
+       '           ^ punctuation.separator.array.asp
        '            ^ variable.other.asp - invalid.illegal - constant.numeric
-       '             ^ punctuation.definition.array.end.asp
+       '             ^ punctuation.section.array.end.asp
         
         ReDim arr(dim, other)
         '         ^^^ invalid.illegal
@@ -493,11 +493,11 @@
 
         Dim a(0,&H5)
         '    ^^^^^^^ meta.array.definition.asp
-        '    ^ punctuation.definition.array.begin.asp
+        '    ^ punctuation.section.array.begin.asp
         '     ^ constant.numeric.asp
-        '      ^ punctuation.definition.array.separator.asp
+        '      ^ punctuation.separator.array.asp
         '       ^^^ constant.numeric.asp
-        '          ^ punctuation.definition.array.end.asp
+        '          ^ punctuation.section.array.end.asp
         b = a Is Empty : Dim loop,nope : Dim foobar
        '^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
        '                               ^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
@@ -514,10 +514,10 @@
        '^^^^^^^^^^^^^^ storage.modifier.asp
        '               ^^^ variable.other.asp
        '                   ^^^^^^^^ meta.array.definition.asp
-       '                   ^ punctuation.definition.array.begin.asp
+       '                   ^ punctuation.section.array.begin.asp
        '                     ^^^ constant.numeric.asp
-       '                        ^ punctuation.definition.array.separator.asp
-       '                          ^ punctuation.definition.array.end.asp
+       '                        ^ punctuation.separator.array.asp
+       '                          ^ punctuation.section.array.end.asp
         For x = LBound(a) to UBound(a) Step 2 'test
        '^^^ keyword.control.flow.asp
        '    ^ variable.other.asp
@@ -551,7 +551,7 @@
     Function NoParams'()
    '^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '         ^^^^^^^^ entity.name.function.asp
-   '                 ^^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - punctuation.definition.parameters
+   '                 ^^^ comment.line.apostrophe.asp - entity.name.function.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - punctuation.section.parameters
         NoParams = InStr(1, "hello_'", "L", vbTextCompare)
 '<- meta.method.body.asp - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.identifier.asp
        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token-after-method-declaration.asp - meta.method.asp meta.method.identifier.asp - invalid.illegal.expected-end-of-line.asp - comment.line.rem.asp
@@ -578,7 +578,7 @@
         '    ^^^ entity.name.function.asp
         '                ^^^^^ invalid.illegal.expected-end-of-line.asp
     ) ' this bracket doesn't form part of the method declaration - the line above is missing a _ and contains non-whitespace
-   '^ meta.method.body.asp - meta.method.identifier.asp - punctuation.definition.parameters.end.asp
+   '^ meta.method.body.asp - meta.method.identifier.asp - punctuation.section.parameters.end.asp
         MsgBox "hi", vbOkCancel or vbExclamation or vbDefaultButton1, "title"
         '            ^^^^^^^^^^ support.type.vb.asp - variable.other.asp
         '                       ^^ keyword.operator.logical.asp
@@ -592,7 +592,7 @@
     '       ^^^^^^^^^ variable.other.asp - keyword - punctuation
     '                  ^^^^^ variable.other.asp
     '                       ^ punctuation.separator.variable-declaration.asp
-    '                         ^^^^^^ variable.other.asp - meta.array.definition.asp - punctuation.definition.array
+    '                         ^^^^^^ variable.other.asp - meta.array.definition.asp - punctuation.section.array
     [dim] = 5 ^ 2
    '^^^^^ variable.other.asp
     '         ^ keyword.operator.asp
@@ -713,7 +713,7 @@
     Sub Another_Test()rem
    '^^^ storage.type.function.asp
    '    ^^^^^^^^^^^^ entity.name.function.asp
-   '                ^^ punctuation.definition.parameters
+   '                ^^ punctuation.section.parameters
    '                  ^^^^ comment.line.rem.asp - meta.method.identifier.asp
         Const ForAppending = 8
        '^^^^^ meta.method.body.asp storage.modifier.asp
