@@ -23,7 +23,7 @@ int func() {
     #endif
 /*  ^ keyword.control.import */
 }
-/* <- meta.function meta.block punctuation.definition.block.end */
+/* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
 #define MACRO_WITH_CURLY_BRACE {
@@ -46,21 +46,21 @@ int func() {
 /*^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*              ^^^^^^ meta.preprocessor.macro.parameters */
 /*      ^^^^^^^^ entity.name.function.preprocessor */
-/*                   ^ punctuation.definition.group.end */
+/*                   ^ punctuation.section.group.end */
 
 #define max(a, b, \
 /*^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */ \
 /*         ^^^^^^^^ meta.preprocessor.macro.parameters */ \
 /* <- keyword.control.import.define */ \
 /*      ^ entity.name.function.preprocessor */ \
-/*         ^ punctuation.definition.group.begin */ \
+/*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
 /*           ^ punctuation.separator */ \
 /* */ \
 /* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
  /* <- meta.preprocessor.macro meta.group variable.parameter */
-  /* <- meta.preprocessor.macro meta.group punctuation.definition.group.end */
+  /* <- meta.preprocessor.macro meta.group punctuation.section.group.end */
  /*               ^ keyword.operator.ternary */
  /*                 ^ keyword.operator.ternary */
 
@@ -190,8 +190,8 @@ auto a = 2;
 
 decltype(s) dt;
 /* <- storage.type */
-/*      ^ punctuation.definition.group.begin */
-/*        ^ punctuation.definition.group.end */
+/*      ^ punctuation.section.group.begin */
+/*        ^ punctuation.section.group.end */
 
 float f;
 /* <- storage.type */
@@ -217,28 +217,28 @@ typedef struct Books Book;
 
 template class MyStack<int, 6>;
 /* <- storage.type.template */
-/*                    ^ punctuation.definition.generic */
+/*                    ^ punctuation.section.generic */
 /*                     ^ storage.type */
 /*                          ^ constant.numeric */
-/*                           ^ punctuation.definition.generic */
+/*                           ^ punctuation.section.generic */
 
 template<class typeId, int N> class tupleTmpl;
 /* <- storage.type.template */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.template */
-/*      ^ punctuation.definition.generic.begin */
+/*      ^ punctuation.section.generic.begin */
 /*       ^ storage.type */
 /*                      ^ storage.type */
-/*                          ^ punctuation.definition.generic.end */
+/*                          ^ punctuation.section.generic.end */
 
 template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /* <- storage.type.template */
-/*      ^ punctuation.definition.generic.begin */
+/*      ^ punctuation.section.generic.begin */
 /*       ^ storage.type */
-/*                         ^ punctuation.definition.generic.begin */
-/*                           ^ punctuation.definition.generic.end */
+/*                         ^ punctuation.section.generic.begin */
+/*                           ^ punctuation.section.generic.end */
 /*                            ^ punctuation.separator */
 /*                                      ^^^ keyword.operator.variadic */
-/*                                              ^ punctuation.definition.generic.end */
+/*                                              ^ punctuation.section.generic.end */
 
 template<typename Foo> inline struct Foo* baz()
 /*                     ^^^^^^ storage.modifier */
@@ -249,8 +249,8 @@ template<typename Foo> inline struct Foo* baz()
 template<typename A, typename B>
 void classname<A, B>::methodName() {
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*            ^ punctuation.definition.generic.begin */
-/*                 ^ punctuation.definition.generic.end */
+/*            ^ punctuation.section.generic.begin */
+/*                 ^ punctuation.section.generic.end */
 /*                  ^^ punctuation.accessor */
 /*                    ^^^^^^^^^^ entity.name.function */
 }
@@ -259,16 +259,16 @@ template<typename C>
 void funcName<C>() {
 /*   ^^^^^^^^^^^^^^^ meta.function */
 /*   ^^^^^^^^ entity.name.function */
-/*           ^ punctuation.definition.generic.begin */
-/*             ^ punctuation.definition.generic.end */
+/*           ^ punctuation.section.generic.begin */
+/*             ^ punctuation.section.generic.end */
 }
 
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
-/*                   ^ punctuation.definition.generic.begin */
-/*                               ^ punctuation.definition.generic.begin */
-/*                                   ^ punctuation.definition.generic.end */
-/*                                     ^ punctuation.definition.generic.end */
+/*                   ^ punctuation.section.generic.begin */
+/*                               ^ punctuation.section.generic.begin */
+/*                                   ^ punctuation.section.generic.end */
+/*                                     ^ punctuation.section.generic.end */
 
 /////////////////////////////////////////////
 // Storage Modifiers
@@ -276,8 +276,8 @@ typedef std :: vector<std::vector<int> > Table;
 
 alignas(16) char array[256];
 /* <- storage.modifier */
-/*     ^ punctuation.definition.group.begin */
-/*        ^ punctuation.definition.group.end */
+/*     ^ punctuation.section.group.begin */
+/*        ^ punctuation.section.group.end */
 
 const int XYZ = 2;
 /* <- storage.modifier */
@@ -370,13 +370,13 @@ return 123;
 
 int x = alignof(char);
 /*      ^ keyword.operator.word */
-/*             ^ punctuation.definition.group.begin */
-/*                  ^ punctuation.definition.group.end */
+/*             ^ punctuation.section.group.begin */
+/*                  ^ punctuation.section.group.end */
 
 int x = sizeof(char);
 /*      ^ keyword.operator.word */
-/*            ^ punctuation.definition.group.begin */
-/*                 ^ punctuation.definition.group.end */
+/*            ^ punctuation.section.group.begin */
+/*                 ^ punctuation.section.group.end */
 
 
 /////////////////////////////////////////////
@@ -385,9 +385,9 @@ int x = sizeof(char);
 
 const_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
-/*        ^ punctuation.definition.generic.begin */
+/*        ^ punctuation.section.generic.begin */
 /*         ^ storage.type */
-/*            ^ punctuation.definition.generic.end */
+/*            ^ punctuation.section.generic.end */
 
 dynamic_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
@@ -576,26 +576,26 @@ void abcdWXYZ1234();
 /*   ^^^^^^^^^^^^^^ meta.function */
 /*   ^ entity.name.function */
 /*               ^^ meta.function.parameters meta.group */
-/*               ^ punctuation.definition.group.begin */
-/*                ^ punctuation.definition.group.end */
+/*               ^ punctuation.section.group.begin */
+/*                ^ punctuation.section.group.end */
 
 // function definition
 void abcdWXYZ1234()
 /*   ^^^^^^^^^^^^^^ meta.function */
 /*   ^ entity.name.function */
 /*               ^^ meta.function.parameters meta.group */
-/*               ^ punctuation.definition.group.begin */
-/*                ^ punctuation.definition.group.end */
+/*               ^ punctuation.section.group.begin */
+/*                ^ punctuation.section.group.end */
 {
-/* <- meta.function meta.block punctuation.definition.block.begin */
+/* <- meta.function meta.block punctuation.section.block.begin */
 }
-/* <- meta.function meta.block punctuation.definition.block.end */
+/* <- meta.function meta.block punctuation.section.block.end */
 
 struct foo **alloc_foo();
 /*           ^^^^^^^^^^^ meta.function */
 /*                    ^^ meta.function.parameters meta.group */
-/*                    ^ punctuation.definition.group.begin */
-/*                     ^ punctuation.definition.group.end */
+/*                    ^ punctuation.section.group.begin */
+/*                     ^ punctuation.section.group.end */
 /* ^ storage.type */
 /*     ^ - entity.name.struct */
 /*         ^^ keyword.operator */
@@ -606,14 +606,14 @@ long func
 (int x, void *MYMACRO(y) ) {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
-/* <- meta.function.parameters meta.group punctuation.definition.group.begin */
+/* <- meta.function.parameters meta.group punctuation.section.group.begin */
 /*   ^ variable.parameter */
 /*            ^ -entity.name.function */
 /*            ^^^^^^^^^^ meta.function-call */
 /*                   ^^^ meta.group meta.function-call meta.group */
-/*                   ^ punctuation.definition.group.begin */
-/*                     ^ punctuation.definition.group.end */
-/*                       ^ punctuation.definition.group.end */
+/*                   ^ punctuation.section.group.begin */
+/*                     ^ punctuation.section.group.end */
+/*                       ^ punctuation.section.group.end */
     // Ensure < and > aren't parsed as a generic
     if (foo < bar && baz > bar ) {
 /*          ^ keyword.operator.comparison */
@@ -628,7 +628,7 @@ long func
 
     }
 }
-/* <- meta.function meta.block punctuation.definition.block.end */
+/* <- meta.function meta.block punctuation.section.block.end */
 
 MACRO1
 RETURN_TYPE
@@ -688,9 +688,9 @@ void FooBar :: baz(int a)
 /*   ^^^^^^^^^^^^^ entity.name.function */
 /*          ^^ punctuation.accessor */
 /*                ^^^^^^^ meta.function.parameters meta.group */
-/*                ^ punctuation.definition.group.begin */
+/*                ^ punctuation.section.group.begin */
 /*                     ^ variable.parameter */
-/*                      ^ punctuation.definition.group.end */
+/*                      ^ punctuation.section.group.end */
 {
 
 }
@@ -699,9 +699,9 @@ FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^ entity.name.function */
 /*            ^^^^^^^ meta.function.parameters meta.group */
-/*            ^ punctuation.definition.group.begin */
+/*            ^ punctuation.section.group.begin */
 /*             ^^^ storage.type */
-/*                  ^ punctuation.definition.group.end */
+/*                  ^ punctuation.section.group.end */
 {
 }
 
@@ -709,10 +709,10 @@ FooBar :: FooBar(int a) & =
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^^^ entity.name.function */
 /*              ^^^^^^^ meta.function.parameters meta.group */
-/*              ^ punctuation.definition.group.begin */
+/*              ^ punctuation.section.group.begin */
 /*               ^^^ storage.type */
 /*                   ^ variable.parameter */
-/*                    ^ punctuation.definition.group.end */
+/*                    ^ punctuation.section.group.end */
 /*                      ^ keyword.operator */
 /*                        ^ keyword.operator.assignment */
 default;
@@ -721,8 +721,8 @@ default;
 FooBar::~FooBar
 /*^^^^^^^^^^^^^ meta.function entity.name.function */
 () { }
-/* <- meta.function.parameters meta.group punctuation.definition.group.begin */
- /* <- meta.function.parameters meta.group punctuation.definition.group.end */
+/* <- meta.function.parameters meta.group punctuation.section.group.begin */
+ /* <- meta.function.parameters meta.group punctuation.section.group.end */
 /*^^^^ meta.function */
 
 ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath::
@@ -735,33 +735,33 @@ bool FooBar::operator==() {}
 /*   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*   ^^^^^^^^^^^^^^^^^^ entity.name.function */
 /*                     ^^ meta.function.parameters meta.group */
-/*                     ^ punctuation.definition.group.begin */
-/*                      ^ punctuation.definition.group.end */
+/*                     ^ punctuation.section.group.begin */
+/*                      ^ punctuation.section.group.end */
 /*                        ^^ meta.block */
-/*                        ^ punctuation.definition.block.begin */
-/*                         ^ punctuation.definition.block.end */
+/*                        ^ punctuation.section.block.begin */
+/*                         ^ punctuation.section.block.end */
 
 
 myns::FooBar::~FooBar() { }
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*                   ^^ meta.function.parameters meta.group */
-/*                   ^ punctuation.definition.group.begin */
-/*                    ^ punctuation.definition.group.end */
+/*                   ^ punctuation.section.group.begin */
+/*                    ^ punctuation.section.group.end */
 /*                      ^^^ meta.block */
-/*                      ^ punctuation.definition.block.begin */
-/*                        ^ punctuation.definition.block.end */
+/*                      ^ punctuation.section.block.begin */
+/*                        ^ punctuation.section.block.end */
 /*^^^^^^^^^^^^^^^^^^^ entity.name.function */
 
     extern "C" void test_in_extern_c_block()
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*                                        ^^ meta.function.parameters meta.group */
-/*                                        ^ punctuation.definition.group.begin */
-/*                                         ^ punctuation.definition.group.end */
+/*                                        ^ punctuation.section.group.begin */
+/*                                         ^ punctuation.section.group.end */
 /*                  ^ entity.name.function */
 {
-/* <- meta.function meta.block punctuation.definition.block.begin */
+/* <- meta.function meta.block punctuation.section.block.begin */
 }
-/* <- meta.function meta.block punctuation.definition.block.end */
+/* <- meta.function meta.block punctuation.section.block.end */
 
 #ifdef __cplusplus
 extern "C" {
@@ -776,13 +776,13 @@ void test_in_extern_c_block()
 void test_in_extern_c_block()
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*                         ^^ meta.function.parameters meta.group */
-/*                         ^ punctuation.definition.group.begin */
-/*                          ^ punctuation.definition.group.end */
+/*                         ^ punctuation.section.group.begin */
+/*                          ^ punctuation.section.group.end */
 /*   ^ entity.name.function */
 {
-/* <- meta.function meta.block punctuation.definition.block.begin */
+/* <- meta.function meta.block punctuation.section.block.begin */
 }
-/* <- meta.function meta.block punctuation.definition.block.end */
+/* <- meta.function meta.block punctuation.section.block.end */
 #endif
 
 #ifdef __cplusplus
@@ -794,7 +794,7 @@ gener<int> func_returning_generic(int a);
 /*         ^ entity.name.function */
 
 std::vector<std::uint8_t> func_returning_path_generic(int a);
-/*         ^ punctuation.definition.generic */
+/*         ^ punctuation.section.generic */
 /*                        ^ entity.name.function */
 
 
@@ -832,12 +832,12 @@ namespace ns :: abc /* Neither this comment... */
 // ...nor this comment is highlighted
 /* <- comment.line */
 {
-/* <- meta.namespace meta.block punctuation.definition.block.begin */
+/* <- meta.namespace meta.block punctuation.section.block.begin */
     void nsfunc() {
         /* ^ entity.name.function */
     }
 }
-/* <- meta.namespace meta.block punctuation.definition.block.end */
+/* <- meta.namespace meta.block punctuation.section.block.end */
 
 namespace tl {
 /*^^^^^^^^^^^^ meta.namespace */
@@ -845,7 +845,7 @@ namespace tl {
     namespace {
 /*  ^ keyword.control */
 /*  ^^^^^^^^^^^ meta.namespace meta.namespace */
-/*            ^ meta.block meta.block punctuation.definition.block.begin */
+/*            ^ meta.block meta.block punctuation.section.block.begin */
         void nested_func(){}
 /*           ^ entity.name.function */
     }
@@ -872,17 +872,17 @@ public :
     tupleTmpl<int,2> max(tupleGen<int,2> a, tupleGen<int,2> b);
 /*                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method */
 /*                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters meta.group */
-/*                      ^ punctuation.definition.group.begin */
+/*                      ^ punctuation.section.group.begin */
 /*                                       ^ variable.parameter */
 /*                                        ^ punctuation.separator */
 /*                                                          ^ variable.parameter */
-/*                                                           ^ punctuation.definition.group.end */
-/*           ^ punctuation.definition.generic.begin */
+/*                                                           ^ punctuation.section.group.end */
+/*           ^ punctuation.section.generic.begin */
 /*            ^ storage.type */
-/*                 ^ punctuation.definition.generic.end */
-/*                               ^ punctuation.definition.generic.begin */
+/*                 ^ punctuation.section.generic.end */
+/*                               ^ punctuation.section.generic.begin */
 /*                                ^ storage.type */
-/*                                     ^ punctuation.definition.generic.end */
+/*                                     ^ punctuation.section.generic.end */
 protected:
 /* <- storage.modifier */
 private:
@@ -899,8 +899,8 @@ private:
     /*           ^^^^^^^^^^^^^^^^^^^^^^^ meta.method */
     /*           ^ - meta.method meta.method */
     /*                      ^^ meta.method.parameters meta.group */
-    /*                      ^ punctuation.definition.group.begin */
-    /*                       ^ punctuation.definition.group.end */
+    /*                      ^ punctuation.section.group.begin */
+    /*                       ^ punctuation.section.group.end */
     /* <- storage.modifier */
     /*           ^ entity.name.function */
     /*                         ^ storage.modifier */
@@ -910,25 +910,25 @@ private:
     void func(){}
 /*       ^^^^^^^^ meta.method */
 /*           ^^ meta.method.parameters meta.group */
-/*           ^ punctuation.definition.group.begin */
-/*            ^ punctuation.definition.group.end */
+/*           ^ punctuation.section.group.begin */
+/*            ^ punctuation.section.group.end */
 /*             ^^ meta.block */
-/*             ^ punctuation.definition.block.begin */
-/*              ^ punctuation.definition.block.end */
+/*             ^ punctuation.section.block.begin */
+/*              ^ punctuation.section.block.end */
 /*       ^^^^ entity.name.function */
 
     template<typename A>
     void func<A>(){}
 /*       ^^^^^^^^^^^ meta.method */
 /*       ^^^^ entity.name.function */
-/*           ^ punctuation.definition.generic.begin */
-/*             ^ punctuation.definition.generic.end */
+/*           ^ punctuation.section.generic.begin */
+/*             ^ punctuation.section.generic.end */
 /*              ^^ meta.method.parameters meta.group */
-/*              ^ punctuation.definition.group.begin */
-/*               ^ punctuation.definition.group.end */
+/*              ^ punctuation.section.group.begin */
+/*               ^ punctuation.section.group.end */
 /*                ^^ meta.block */
-/*                ^ punctuation.definition.block.begin */
-/*                 ^ punctuation.definition.block.end */
+/*                ^ punctuation.section.block.begin */
+/*                 ^ punctuation.section.block.end */
 
     template<typename A>
     BaseClass(){}
@@ -1004,7 +1004,7 @@ class DerivedClass : public ::BaseClass // Comment
 /*                  ^^^^^^^^^^^^^^ meta.method-call */
 /*                    ^^^^^^^^^^ variable.function */
         }
-/*      ^ meta.method meta.block punctuation.definition.block.end */
+/*      ^ meta.method meta.block punctuation.section.block.end */
 
 /* <- - meta.class.constructor.initializer-list */
 
@@ -1016,15 +1016,15 @@ class DerivedClass : public ::BaseClass // Comment
 template<typename A>
 class class1<A> : class2<A>
 /*    ^^^^^^ entity.name.class */
-/*          ^ punctuation.definition.generic */
-/*            ^ punctuation.definition.generic */
+/*          ^ punctuation.section.generic */
+/*            ^ punctuation.section.generic */
 /*                ^^^^^^ entity.other.inherited-class */
-/*                      ^ punctuation.definition.generic */
-/*                        ^ punctuation.definition.generic */
+/*                      ^ punctuation.section.generic */
+/*                        ^ punctuation.section.generic */
 {}
 
 class FooBar {
-/*           ^ meta.class meta.block punctuation.definition.block.begin */
+/*           ^ meta.class meta.block punctuation.section.block.begin */
     explicit FooBar(int a);
 /*           ^^^^^^^^^^^^^ meta.method */
 /*  ^^^^^^^^ storage.modifier */
@@ -1101,9 +1101,9 @@ private:
     std::shared_future<std::vector<myns::mysubns::MyDataType>>
 /*  ^ - entity.name.function */
 /*     ^^ punctuation.accessor */
-/*                    ^ punctuation.definition.generic.begin */
+/*                    ^ punctuation.section.generic.begin */
 /*                        ^^ punctuation.accessor */
-/*                                ^ punctuation.definition.generic.begin */
+/*                                ^ punctuation.section.generic.begin */
 /*                                     ^^ punctuation.accessor */
     and_now_method_name2();
 /*  ^ entity.name.function */
@@ -1111,11 +1111,11 @@ private:
     enum
 /*  ^^^^ meta.enum storage.type */
     {
-/*  ^ meta.enum punctuation.definition.block.begin */
+/*  ^ meta.enum punctuation.section.block.begin */
         A = 1,
         B = 20 / 5
     }
-/*  ^ meta.enum punctuation.definition.block.end */
+/*  ^ meta.enum punctuation.section.block.end */
 /*   ^ - meta.enum */
 
     friend int func(int a, int b);
@@ -1129,10 +1129,10 @@ private:
 /*         ^ storage.type */
 /*             ^ - entity.name.function */
 /*             ^ - meta.function-call */
-/*                                ^ meta.class meta.block meta.block punctuation.definition.block.begin */
+/*                                ^ meta.class meta.block meta.block punctuation.section.block.begin */
         int a = 1;
     }
-/*  ^ meta.class meta.block meta.block punctuation.definition.block.end */
+/*  ^ meta.class meta.block meta.block punctuation.section.block.end */
 /*   ^ - meta.class meta.block meta.block */
 
     friend class ::FooBar;
@@ -1165,27 +1165,27 @@ private:
 /*  ^ meta.function-call variable.function - entity.name.function */
         FriendClass);
 }
-/* <- meta.class meta.block punctuation.definition.block.end */
+/* <- meta.class meta.block punctuation.section.block.end */
  /* <- - meta.class meta.block */
 
 struct bar {
 /*^^^^^^^^^^ meta.struct */
 /*^^^^ storage.type */
 /*     ^^^ entity.name.struct */
-/*         ^ meta.block punctuation.definition.block.begin */
+/*         ^ meta.block punctuation.section.block.begin */
     bar()
 /*  ^^^^^ meta.method */
 /*  ^^^ entity.name.function */
     {}
 }
-/* <- meta.struct meta.block punctuation.definition.block.end */
+/* <- meta.struct meta.block punctuation.section.block.end */
  /* <- - meta.struct meta.block */
 
 enum baz {
 /*^^^^^^^^ meta.enum */
 /* <- meta.enum storage.type */
 /*   ^^^ entity.name.enum */
-/*       ^ meta.block punctuation.definition.block.begin */
+/*       ^ meta.block punctuation.section.block.begin */
     FOO = 1,
 /*      ^ keyword.operator.assignment */
 /*        ^ constant.numeric */
@@ -1197,7 +1197,7 @@ enum baz {
 /*  ^ comment.block */
 #endif
 }
-/* <- meta.enum meta.block punctuation.definition.block.end */
+/* <- meta.enum meta.block punctuation.section.block.end */
  /* <- - meta.enum meta.block */
 
 enum class qux : std::uint8_t
@@ -1207,14 +1207,14 @@ enum class qux : std::uint8_t
 /*             ^ punctuation.separator */
 /*               ^^^^^^^^^^^^ entity.other.inherited-class */
 {
-/* <- meta.block punctuation.definition.block.begin */
+/* <- meta.block punctuation.section.block.begin */
     FOO = 1,
     BAR = 2,
 /*      ^ keyword.operator.assignment */
 /*        ^ constant.numeric */
     BAZ = 3
 }
-/* <- meta.enum meta.block punctuation.definition.block.end */
+/* <- meta.enum meta.block punctuation.section.block.end */
  /* <- - meta.enum meta.block */
 
 enum LineEnding : uint32_t;
@@ -1227,9 +1227,9 @@ enum LineEnding : uint32_t;
 union foobaz {
 /* <- meta.union storage.type */
 /*    ^^^^^^ entity.name.union */
-/*           ^ meta.block punctuation.definition.block.begin */
+/*           ^ meta.block punctuation.section.block.begin */
 }
-/* <- meta.union meta.block punctuation.definition.block.end */
+/* <- meta.union meta.block punctuation.section.block.end */
  /* <- - meta.union meta.block */
 
 // Class name that looks like a possible macro
@@ -1265,14 +1265,14 @@ class __declspec(dllimport) SkBitmap {}
 int foo(int val, float val2[], bool val3 = false)
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
-/*     ^ punctuation.definition.group.begin */
-/*                                              ^ punctuation.definition.group.end */
+/*     ^ punctuation.section.group.begin */
+/*                                              ^ punctuation.section.group.end */
 /*          ^^^ variable.parameter */
 /*             ^ punctuation.separator */
 /*                     ^^^^ variable.parameter */
 /*                         ^^ meta.brackets */
-/*                         ^ punctuation.definition.brackets.begin */
-/*                          ^ punctuation.definition.brackets.end */
+/*                         ^ punctuation.section.brackets.begin */
+/*                          ^ punctuation.section.brackets.end */
 /*                           ^ punctuation.separator */
 /*                             ^^^^ storage.type */
 /*                                  ^^^^ variable.parameter */
@@ -1291,7 +1291,7 @@ int foo(int val, float val2[], bool val3 = false)
 #endif
  /* <- keyword.control.import */
     }
-/*  ^ meta.block meta.block punctuation.definition.block.end */
+/*  ^ meta.block meta.block punctuation.section.block.end */
 /*   ^ - meta.block meta.block */
 
 #ifndef DEBUG
@@ -1301,7 +1301,7 @@ int foo(int val, float val2[], bool val3 = false)
         val += 1;
 #ifndef DEBUG
     }
-/*  ^ meta.function meta.block meta.block punctuation.definition.block.end */
+/*  ^ meta.function meta.block meta.block punctuation.section.block.end */
 /*   ^ - meta.block meta.block */
 #endif
 
@@ -1312,21 +1312,21 @@ int foo(int val, float val2[], bool val3 = false)
     ;
 
     if (val == -1) {
-/*                 ^ meta.block meta.block punctuation.definition.block.begin */
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
 #else
  /* <- keyword.control.import */
     if (val == -2) {
-/*                 ^ meta.block meta.block punctuation.definition.block.begin */
+/*                 ^ meta.block meta.block punctuation.section.block.begin */
 #endif
  /* <- keyword.control.import */
         val += 1;
     }
-/*  ^ meta.block punctuation.definition.block.end */
+/*  ^ meta.block punctuation.section.block.end */
 /*   ^ - meta.block meta.block */
 
     return -1;
 }
-/* <- meta.function punctuation.definition.block.end */
+/* <- meta.function punctuation.section.block.end */
  /* <- - meta.function */
 
 #if 0
@@ -1375,9 +1375,9 @@ int /* comment */ * myfunc
 /*                ^ keyword.operator */
 /*                  ^^^^^^ entity.name.function */
 (int * a)
-/* <- punctuation.definition.group.begin */
+/* <- punctuation.section.group.begin */
 /*   ^ keyword.operator */
-/*      ^ punctuation.definition.group.end */
+/*      ^ punctuation.section.group.end */
 {
 
 }
@@ -1433,8 +1433,8 @@ funcname2
 MACRO_CALL(int) macro_prefixed_func(){}
 /*^^^^^^^^^^^^^ meta.function-call */
 /*        ^^^^^ meta.group */
-/*        ^ punctuation.definition.group.begin */
-/*            ^ punctuation.definition.group.end */
+/*        ^ punctuation.section.group.begin */
+/*            ^ punctuation.section.group.end */
 /*              ^ entity.name.function */
 
 int* return_type_pointer_no_space(){}
@@ -1471,29 +1471,29 @@ void sayHi()
     foobaz<int>();
 /*  ^^^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.definition.generic.begin */
-/*            ^ punctuation.definition.generic.end */
+/*        ^ punctuation.section.generic.begin */
+/*            ^ punctuation.section.generic.end */
 /*             ^^ meta.group */
 
     foobaz<>();
 /*  ^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.definition.generic.begin */
-/*         ^ punctuation.definition.generic.end */
+/*        ^ punctuation.section.generic.begin */
+/*         ^ punctuation.section.generic.end */
 /*          ^^ meta.group */
 
     foobaz<0>();
 /*  ^^^^^^^^^^^ meta.function-call */
 /*  ^^^^^^ variable.function */
-/*        ^ punctuation.definition.generic.begin */
+/*        ^ punctuation.section.generic.begin */
 /*         ^ constant.numeric */
-/*          ^ punctuation.definition.generic.end */
+/*          ^ punctuation.section.generic.end */
 /*           ^^ meta.group */
 
     int a[5];
 /*       ^^^ meta.brackets */
-/*       ^ punctuation.definition.brackets.begin */
-/*         ^ punctuation.definition.brackets.end */
+/*       ^ punctuation.section.brackets.begin */
+/*         ^ punctuation.section.brackets.end */
 }
 
 /////////////////////////////////////////////
