@@ -252,8 +252,8 @@ ECHO %% ^^! ^&
 
    set /a "num=(2+3)*5"
 ::             ^^^^^ meta.group.dosbatch
-::             ^ punctuation.definition.group.begin.dosbatch
-::                 ^ punctuation.definition.group.end.dosbatch
+::             ^ punctuation.section.group.begin.dosbatch
+::                 ^ punctuation.section.group.end.dosbatch
 ::            ^ keyword.operator.assignment.dosbatch
 ::               ^ keyword.operator.arithmetic.dosbatch
 ::                  ^ keyword.operator.arithmetic.dosbatch
@@ -331,9 +331,9 @@ ECHO %% ^^! ^&
 ::      ^^^^^^^^^^ variable.other.readwrite
 
 IF "%FOO%" == "BAR" ( SET BAZ=42 )
-::                  ^ punctuation.definition.group.begin
+::                  ^ punctuation.section.group.begin
 ::                  ^^^^^^^^^^^^^^ meta.group
-::                               ^ punctuation.definition.group.end
+::                               ^ punctuation.section.group.end
 
 :: See http://ss64.com/nt/syntax-brackets.html
 IF EXIST MyFile.txt (ECHO Some(more)Potatoes)

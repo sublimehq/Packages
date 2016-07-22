@@ -104,11 +104,11 @@ contexts:
 
   command_set_group:
     - match: '\('
-      scope: punctuation.definition.group.begin.dosbatch
+      scope: punctuation.section.group.begin.dosbatch
       push:
         - meta_scope: meta.group.dosbatch
         - match: '\)'
-          scope: punctuation.definition.group.end.dosbatch
+          scope: punctuation.section.group.end.dosbatch
           pop: true
         - include: inside_command_set_arithmetic
 
@@ -287,11 +287,11 @@ contexts:
 
   parens:
     - match: \(
-      scope: punctuation.definition.group.begin.dosbatch
+      scope: punctuation.section.group.begin.dosbatch
       push:
         - meta_scope: meta.group.dosbatch
         - match: \)
-          scope: punctuation.definition.group.end.dosbatch
+          scope: punctuation.section.group.end.dosbatch
           pop: true
         - match: ',|;'
           scope: punctuation.separator.dosbatch
