@@ -6,66 +6,140 @@ file_extensions:
   - rd
 scope: text.tex.latex.rd
 contexts:
+  prototype:
+    - include: scope:text.tex.latex#comments
+
   main:
-    - match: '((\\)(?:alias|docType|keyword|name|title))(\{)'
-      captures:
-        1: keyword.other.section.rd
-        2: punctuation.definition.function.rd
-        3: punctuation.definition.arguments.begin.rd
+    - include: rd-stucture
+    - include: r-code
+    - include: latex-equations
+    - include: scope:text.tex.latex#plain-tex
+    - include: scope:text.tex.latex#begin-end-commands
+    - include: scope:text.tex.latex#general-commands
+    - include: global-braces
+
+  global-braces:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.latex
       push:
-        - meta_scope: meta.section.rd
-        - meta_content_scope: entity.name.tag.rd
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.arguments.end.rd
+        - meta_scope: meta.group.brace.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
           pop: true
         - include: main
-    - match: '((\\)(?:details|format|references|source))(\{)'
+
+  latex-equations:
+    - include: deqn
+    - include: eqn
+
+  deqn:
+    - match: '((\\)(?:deqn))(\{)'
       captures:
-        1: keyword.other.section.rd
-        2: punctuation.definition.function.rd
-        3: punctuation.definition.arguments.begin.rd
+        1: support.function.deqn.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.brace.begin.rd
       push:
-        - meta_scope: meta.section.rd
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.arguments.end.rd
+        - meta_scope: meta.function.deqn.rd
+        - meta_content_scope: meta.environment.math
+        - include: scope:text.tex.latex#math-content
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
           pop: true
-        - include: main
+
+  eqn:
+    - match: '((\\)(?:eqn))(\{)'
+      captures:
+        1: support.function.eqn.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.brace.begin.rd
+      push:
+        - meta_scope: meta.function.eqn.rd
+        - meta_content_scope: meta.environment.math
+        - include: scope:text.tex.latex#math-content
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
+          pop: true
+
+  r-code:
+    - match: '((\\)(?:code))(\{)'
+      captures:
+        1: support.function.code.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.brace.begin.rd
+      push:
+        - meta_scope: meta.function.code.rd
+        - meta_content_scope: source.r.embedded
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
+          pop: true
+        - match: \\%
+        - include: scope:source.r
+    - match: '((\\)(?:Sexpr))(?:(\[)(?:[^\]]*)(\]))?(\{)'
+      captures:
+        1: support.function.sexpr.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.bracket.begin.rd
+        4: punctuation.definition.group.bracket.end.rd
+        5: punctuation.definition.group.brace.begin.rd
+      push:
+        - meta_scope: meta.function.sexpr.rd
+        - meta_content_scope: source.r.embedded
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
+          pop: true
+        - match: \\%
+        - include: scope:source.r
     - match: '((\\)(?:usage))(\{)(?:\n)?'
       captures:
-        1: keyword.other.usage.rd
-        2: punctuation.definition.function.rd
-        3: punctuation.definition.arguments.begin.rd
+        1: support.function.usage.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.brace.begin.rd
       push:
-        - meta_scope: meta.usage.rd
+        - meta_scope: meta.function.usage.rd
         - meta_content_scope: source.r.embedded
-        - match: '(\})'
-          captures:
-            1: punctuation.definition.arguments.end.rd
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
           pop: true
+        - match: \\%
         - include: scope:source.r
     - match: '((\\)(?:examples))(\{)(?:\n)?'
       captures:
-        1: keyword.other.examples.rd
-        2: punctuation.definition.function.rd
-        3: punctuation.definition.arguments.begin.rd
+        1: support.function.examples.rd
+        2: punctuation.definition.backslash.rd
+        3: punctuation.definition.group.brace.begin.rd
       push:
-        - meta_scope: meta.examples.rd
+        - meta_scope: meta.function.examples.rd
         - meta_content_scope: source.r.embedded
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.rd
+          pop: true
+        - match: \\%
+        - include: scope:source.r
+
+  rd-stucture:
+    - match: '((\\)name)(\{)'
+      captures:
+        1: keyword.other.section.rd
+        2: punctuation.definition.function.rd
+        3: punctuation.definition.group.brace.begin.rd
+      push:
+        - meta_scope: meta.section.rd
+        - meta_content_scope: entity.name.function.rd
         - match: '(\})'
           captures:
-            1: punctuation.definition.arguments.end.rd
+            1: punctuation.definition.group.brace.end.rd
           pop: true
-        - include: scope:source.r
-    - match: '((\\)(?:author))(\{)([\w\s]+?)\s+(<)([^>]*)(>)'
-      scope: meta.author.rd
+        - include: main
+
+    - match: '((\\)(?:alias|docType|keyword|title))(\{)'
       captures:
-        1: keyword.other.author.rd
+        1: keyword.other.section.rd
         2: punctuation.definition.function.rd
-        3: punctuation.definition.arguments.begin.rd
-        4: entity.name.tag.author.rd
-        5: punctuation.definition.link.rd
-        6: markup.underline.link.rd
-        7: punctuation.definition.link.rd
-    - include: scope:text.tex.latex
+        3: punctuation.definition.group.brace.begin.rd
+      push:
+        - meta_scope: meta.section.rd
+        - match: '(\})'
+          captures:
+            1: punctuation.definition.group.brace.end.rd
+          pop: true
+        - include: main

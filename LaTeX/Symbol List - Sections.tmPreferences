@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Symbol List</string>
+	<key>scope</key>
+	<string>meta.section.latex</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\\((?:sub)*(?:paragraph|section|chapter|part)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
+		</string>
+		<key>symbolIndexTransformation</key>
+		<string>
+			s/\\((?:sub)*(?:paragraph|section|chapter|part)(?:\*)?)(?:\[[^\]]*\])?\{(.*)\}/\u$1: $2/g;
+		</string>
+	</dict>
+</dict>
+</plist>

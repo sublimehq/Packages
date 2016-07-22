@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>text.tex</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*\\end\s*\{(?:itemize|enumerate|description)\*?\}\s*$</string>
+		<key>increaseIndentPattern</key>
+		<string>^\s*\\begin\s*\{(?:itemize|enumerate|description)\*?\}\s*$</string>
+	</dict>
+</dict>
+</plist>
