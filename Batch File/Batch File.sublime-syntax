@@ -54,35 +54,53 @@ contexts:
   command_set:
     - match: '(?i)\bSET\b'
       scope: keyword.command.dosbatch
-      push:
-        - match: '(?=$\n|{{command_terminators}})'
-          pop: true
-        - include: escaped_characters
-        - match: '([^ ]+)(=)'
-          captures:
-            1: variable.other.readwrite.dosbatch
-            2: keyword.operator.assignment.dosbatch
-        - include: variables
-        - include: numbers
-        - include: strings
-        - include: parens
-        - match: '\s+/[aA]\s+' # SET arithmetic
-          push:
-            - meta_content_scope: meta.expression.set.dosbatch
-            - match: '(?=\n)'
-              pop: true
-            - include: inside_command_set
-            - match: '"'
-              scope: punctuation.definition.string.begin.dosbatch
-              push:
-                - meta_scope: string.quoted.double.dosbatch
-                - match: '"'
-                  scope: punctuation.definition.string.end.dosbatch
-                  pop: true
-                - include: inside_command_set
-                - include: command_set_group
-                - include: variables
-            - include: command_set_group
+      push: inside_command_set
+
+  inside_command_set:
+      - match: '(?=$\n|{{command_terminators}})'
+        pop: true
+      - include: escaped_characters
+      - include: variables
+      - match: '(")\s*([^ ][^=]*)(=)"?'
+        captures:
+          1: punctuation.definition.string.begin.dosbatch
+          2: variable.other.readwrite.dosbatch
+          3: keyword.operator.assignment.dosbatch
+        push:
+          - meta_scope: string.quoted.double.dosbatch
+          - match: '"'
+            scope: punctuation.definition.string.end.dosbatch
+            pop: true
+          - include: escaped_characters
+          - include: variables
+          - include: numbers
+          - include: parens
+      - match: '([^ ][^=]*)(=)'
+        captures:
+          1: variable.other.readwrite.dosbatch
+          2: keyword.operator.assignment.dosbatch
+      - include: numbers
+      - include: parens
+      - match: \b([^ ][^=\n]*)$
+        scope: variable.other.readwrite.dosbatch
+      - include: strings
+      - match: '\s+/[aA]\s+' # SET arithmetic
+        push:
+          - meta_content_scope: meta.expression.set.dosbatch
+          - match: '(?=\n)'
+            pop: true
+          - include: inside_command_set_arithmetic
+          - match: '"'
+            scope: punctuation.definition.string.begin.dosbatch
+            push:
+              - meta_scope: string.quoted.double.dosbatch
+              - match: '"'
+                scope: punctuation.definition.string.end.dosbatch
+                pop: true
+              - include: inside_command_set_arithmetic
+              - include: command_set_group
+              - include: variables
+          - include: command_set_group
 
   command_set_group:
     - match: '\('
@@ -92,9 +110,9 @@ contexts:
         - match: '\)'
           scope: punctuation.definition.group.end.dosbatch
           pop: true
-        - include: inside_command_set
+        - include: inside_command_set_arithmetic
 
-  inside_command_set:
+  inside_command_set_arithmetic:
     - include: command_set_operators
     - include: numbers
     - include: comma_separator
