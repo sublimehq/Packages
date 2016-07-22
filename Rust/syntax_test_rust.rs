@@ -285,6 +285,32 @@ let xs: [i32; 5] = [1, 2, 3, 4, 5];
 let xsl = &xs;
 //        ^ keyword.operator
 
+type FnPointer = fn(i32) -> i32;
+//   ^^^^^^^^^ entity.name.type
+//               ^^ storage.type.function
+//                 ^^^^^ meta.group
+//                  ^^^ storage.type
+//                       ^^ punctuation.separator
+//                          ^^^ storage.type
+
+type GenFnPointer = Bar<fn(i32) -> i32>;
+//   ^^^^^^^^^^^^ entity.name.type
+//                  ^^^^^^^^^^^^^^^^^^^ meta.generic
+//                      ^^ storage.type.function
+//                        ^^^^^ meta.group
+//                         ^^^ storage.type
+//                              ^^ punctuation.separator
+//                                 ^^^ storage.type
+//                                     ^ - meta.generic
+
+type GenFnPointer2 = Bar<extern "C" fn()>;
+//   ^^^^^^^^^^^^^ entity.name.type
+//                   ^^^^^^^^^^^^^^^^^^^^ meta.generic
+//                       ^^^^^^ keyword.other
+//                              ^^^ string.quoted.double
+//                                  ^^ storage.type.function
+//                                       ^ - meta.generic
+
 struct Nil;
 // ^^^^^^^ meta.struct
 //        ^ - meta.struct
