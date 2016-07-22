@@ -201,6 +201,34 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 };
 // <- meta.function meta.block punctuation.definition.block.end
 
+$array = [   ];
+//       ^ meta.array.empty.php punctuation.section.array.begin.php
+//           ^ meta.array.empty.php punctuation.section.array.end.php
+   []
+// ^ meta.array.empty.php punctuation.section.array.begin.php
+//  ^ meta.array.empty.php punctuation.section.array.end.php
+
+$array = [
+//       ^ meta.array.php punctuation.section.array.begin.php
+    'abc'   => $arr['key']['key2']
+//                 ^ meta.item-access punctuation.section.brackets.begin.php
+//                  ^^^^^ meta.item-access.arguments
+//                       ^ meta.item-access punctuation.section.brackets.end.php
+//                        ^ meta.item-access.php punctuation.section.brackets.begin.php
+//                         ^^^^^^ meta.item-access.arguments
+//                               ^ meta.item-access punctuation.section.brackets.end.php
+];
+
+$array[  ];
+//    ^^^^ meta.item-access
+//    ^ punctuation.section.brackets.begin.php
+//       ^ punctuation.section.brackets.end.php
+
+$var->meth()[10];
+//          ^^^^ meta.item-access
+//          ^ punctuation.section.brackets.begin.php
+//             ^ punctuation.section.brackets.end.php
+
 /**
    No longer a phpdoc comment since no leading *
  * @return
@@ -423,20 +451,20 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                             ^ punctuation.definition.expression
 //                                    ^^ variable.other
 //                                    ^ punctuation.definition.variable
-//                                      ^ punctuation.section.array.begin
+//                                      ^ punctuation.section.brackets.begin
 //                                       ^ constant.numeric
-//                                        ^ punctuation.section.array.end
+//                                        ^ punctuation.section.brackets.end
 //                                                      ^^ variable.other
 //                                                      ^ punctuation.definition.variable
-//                                                        ^ punctuation.section.array.begin
+//                                                        ^ punctuation.section.brackets.begin
 //                                                         ^^ variable.other
 //                                                         ^ punctuation.definition.variable
-//                                                           ^ punctuation.section.array.end
+//                                                           ^ punctuation.section.brackets.end
 //                                                                ^^ variable.other
 //                                                                ^ punctuation.definition.variable
-//                                                                  ^ punctuation.section.array.begin
+//                                                                  ^ punctuation.section.brackets.begin
 //                                                                   ^ constant.other
-//                                                                    ^ punctuation.section.array.end
+//                                                                    ^ punctuation.section.brackets.end
 //                                                                                  ^ punctuation.definition.expression
 //                                                                                   ^^ variable.other
 //                                                                                   ^ punctuation.definition.variable
@@ -464,20 +492,20 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                             ^ punctuation.definition.expression
 //                                    ^^ variable.other
 //                                    ^ punctuation.definition.variable
-//                                      ^ punctuation.section.array.begin
+//                                      ^ punctuation.section.brackets.begin
 //                                       ^ constant.numeric
-//                                        ^ punctuation.section.array.end
+//                                        ^ punctuation.section.brackets.end
 //                                                      ^^ variable.other
 //                                                      ^ punctuation.definition.variable
-//                                                        ^ punctuation.section.array.begin
+//                                                        ^ punctuation.section.brackets.begin
 //                                                         ^^ variable.other
 //                                                         ^ punctuation.definition.variable
-//                                                           ^ punctuation.section.array.end
+//                                                           ^ punctuation.section.brackets.end
 //                                                                ^^ variable.other
 //                                                                ^ punctuation.definition.variable
-//                                                                  ^ punctuation.section.array.begin
+//                                                                  ^ punctuation.section.brackets.begin
 //                                                                   ^ constant.other
-//                                                                    ^ punctuation.section.array.end
+//                                                                    ^ punctuation.section.brackets.end
 //                                                                                  ^ punctuation.definition.expression
 //                                                                                   ^^ variable.other
 //                                                                                   ^ punctuation.definition.variable

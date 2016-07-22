@@ -167,7 +167,7 @@ contexts:
             3: variable.other.class.php
             4: punctuation.definition.variable.php
             5: constant.other.class.php
-          pop: true
+          set: after-identifier
         - match: (self|static|parent)\b
           scope: variable.language.php
         - include: class-name
@@ -242,9 +242,15 @@ contexts:
         1: keyword.control.goto.php
         2: support.other.php
     - include: string-backtick
+    - match: '(\[)\s*(\])'
+      scope: meta.array.empty.php
+      captures:
+        1: punctuation.section.array.begin.php
+        2: punctuation.section.array.end.php
     - match: '\['
       scope: punctuation.section.array.begin.php
       push:
+        - meta_scope: meta.array.php
         - match: '\]'
           scope: punctuation.section.array.end.php
           pop: true
@@ -256,6 +262,26 @@ contexts:
         - meta_scope: meta.group.php
         - match: \)
           scope: punctuation.definition.group.end.php
+          pop: true
+        - include: expressions
+
+  after-identifier:
+    - include: item-access
+    - match: '(?=\S)'
+      pop: true
+
+  after-function-call:
+    - include: item-access
+    - match: '(?=\S)'
+      pop: true
+
+  item-access:
+    - match: '\['
+      scope: meta.item-access.php punctuation.section.brackets.begin.php
+      push:
+        - meta_content_scope: meta.item-access.arguments.php
+        - match: '\]'
+          scope: meta.item-access.php punctuation.section.brackets.end.php
           pop: true
         - include: expressions
 
@@ -754,7 +780,7 @@ contexts:
         - meta_content_scope: meta.function-call.php meta.group.php
         - match: \)
           scope: meta.function-call.php meta.group.php punctuation.definition.group.end.php
-          pop: true
+          set: after-function-call
         - match: ','
           scope: punctuation.separator.php
         - include: expressions
@@ -916,16 +942,17 @@ contexts:
             2: variable.other.member.php
           pop: true
         - match: '\['
-          scope: punctuation.section.array.begin.php
+          scope: meta.item-access.php punctuation.section.brackets.begin.php
           set:
+            - meta_content_scope: meta.item-access.arguments.php
             - match: '\]'
-              scope: punctuation.section.array.end.php
+              scope: meta.item-access.php punctuation.section.brackets.end.php
               pop: true
             - include: numbers
             - include: variables
             - match: '{{identifier}}'
               scope: constant.other.php
-        - include: variables
+        - include: variables-no-item-access
     - include: variables
   invoke-call:
     - match: '(\$+)({{identifier}})(?=\s*\()'
@@ -946,7 +973,7 @@ contexts:
         - match: '(\})'
           captures:
             1: punctuation.definition.variable.php
-          pop: true
+          set: after-identifier
         - include: expressions
     - match: (->)({{identifier}})(?=\s*\()
       scope: meta.function-call.method.php
@@ -959,6 +986,7 @@ contexts:
         1: keyword.operator.class.php
         2: variable.other.member.php
         3: punctuation.definition.variable.php
+      push: after-identifier
   parameter-default-types:
     - include: strings
     - include: numbers
@@ -1351,6 +1379,28 @@ contexts:
       scope: variable.other.global.php
       captures:
         1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: (\$)((GLOBALS|_(ENV|SERVER|SESSION)))
+      scope: variable.other.global.safer.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: '(\$)this\b'
+      scope: variable.language.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+    - match: (\$+){{identifier}}
+      scope: variable.other.php
+      captures:
+        1: punctuation.definition.variable.php
+      push: after-identifier
+
+  variables-no-item-access:
+    - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
+      scope: variable.other.global.php
+      captures:
+        1: punctuation.definition.variable.php
     - match: (\$)((GLOBALS|_(ENV|SERVER|SESSION)))
       scope: variable.other.global.safer.php
       captures:
@@ -1388,5 +1438,6 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
             2: constant.other.php
+          set: after-identifier
         - match: ''
           pop: true
