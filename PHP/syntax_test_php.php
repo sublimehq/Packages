@@ -102,7 +102,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //      ^ punctuation.separator.namespace
 //       ^^^^^^ support.other.namespace
 //             ^ punctuation.separator.namespace
-//              ^ punctuation.definition.block
+//              ^ punctuation.section.block
 //               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                     ^ punctuation.separator
 //                       ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
@@ -110,7 +110,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                                      ^^ keyword.other.use-as
 //                                         ^ entity.name.class
-//                                          ^ punctuation.definition.block
+//                                          ^ punctuation.section.block
 //                                           ^ punctuation.terminator.expression.php - meta.use
 
 use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
@@ -122,7 +122,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //               ^ punctuation.separator.namespace
 //                ^^^^^^ support.other.namespace
 //                      ^ punctuation.separator.namespace
-//                       ^ punctuation.definition.block
+//                       ^ punctuation.section.block
 //                        ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                            ^ punctuation.separator
 //                              ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
@@ -130,7 +130,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                    ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                                         ^^ keyword.other.use-as
 //                                            ^^^^ entity.name.function
-//                                                ^ punctuation.definition.block
+//                                                ^ punctuation.section.block
 //                                                 ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -143,7 +143,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //            ^ punctuation.separator.namespace
 //             ^^^^^^ support.other.namespace
 //                   ^ punctuation.separator.namespace
-//                    ^ punctuation.definition.block
+//                    ^ punctuation.section.block
 //                     ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                           ^ punctuation.separator
 //                             ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
@@ -151,7 +151,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //                                       ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                                             ^ punctuation.separator
 //                                               ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                                     ^ punctuation.definition.block
+//                                                     ^ punctuation.section.block
 //                                                      ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -159,8 +159,8 @@ function a($a = array(),             $b = "hi") {};
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^ entity.name.function
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group
-//        ^ punctuation.definition.group.begin
-//                                            ^ punctuation.definition.group.end
+//        ^ punctuation.section.group.begin
+//                                            ^ punctuation.section.group.end
 function b($a = [],                  $b = "hi") {};
 function c(array $a = array(),       $b = "hi") {};
 //                    ^ meta.array.empty
@@ -185,7 +185,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //     ^^^^^^^^ meta.function.closure
 //             ^^ meta.function.parameters meta.group
-//             ^ punctuation.definition.group.begin
+//             ^ punctuation.section.group.begin
 //              ^^^^^ storage.type
 //                    ^^^ variable.parameter
 //                       ^ keyword.operator.assignment
@@ -194,12 +194,12 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //                                 ^^^^^^^^^ meta.path
 //                                 ^^^^^^^^^ support.class
 //                                           ^^^^ variable.parameter
-//                                               ^ punctuation.definition.group.end
+//                                               ^ punctuation.section.group.end
 //                                                 ^^^^^^^^^^^^^^^^^^ meta.function.closure.use
-//                                                                    ^ meta.block punctuation.definition.block.begin
+//                                                                    ^ meta.block punctuation.section.block.begin
 
 };
-// <- meta.function meta.block punctuation.definition.block.end
+// <- meta.function meta.block punctuation.section.block.end
 
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
@@ -323,8 +323,8 @@ $var = new \MyNamespce\ClassName();
 //                ^^^^^ meta.function-call
 //                ^^^ variable.function
 //                   ^^ meta.group
-//                   ^ punctuation.definition.group.begin
-//                    ^ punctuation.definition.group.end
+//                   ^ punctuation.section.group.begin
+//                    ^ punctuation.section.group.end
 
 \MyNamespace\Foo();
 //^^^^^^^^^^^^^^^^ meta.function-call
@@ -334,8 +334,8 @@ $var = new \MyNamespce\ClassName();
 //          ^ punctuation.separator.namespace
 //           ^^^ variable.function
 //              ^^ meta.group
-//              ^ punctuation.definition.group.begin
-//               ^ punctuation.definition.group.end
+//              ^ punctuation.section.group.begin
+//               ^ punctuation.section.group.end
 
 \MyNamespace\Foo;
 // <- punctuation.separator.namespace
@@ -350,8 +350,8 @@ func_call(true, 1, "string");
 //^^^^^^^ variable.function
 //       ^^^^^^^^^^^^^^^^^^^ meta.group
 //                          ^ - meta.group
-//       ^ punctuation.definition.group.begin
-//                         ^ punctuation.definition.group.end
+//       ^ punctuation.section.group.begin
+//                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
 //            ^ punctuation.separator.php
 //              ^ constant.numeric
@@ -381,8 +381,8 @@ $anon = new class{};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
 //               ^^ meta.block.php
-//               ^ punctuation.definition.block.php - meta.class meta.class
-//                ^ punctuation.definition.block.php
+//               ^ punctuation.section.block.php - meta.class meta.class
+//                ^ punctuation.section.block.php
 
 $anon = new class extends Test1 implements Countable {};
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class - meta.class meta.class
@@ -399,28 +399,28 @@ $anon = new class extends Test1 implements Countable {};
     function noReturnType(array $param1, int $param2) {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                       ^ punctuation.definition.group.begin.php
+//                       ^ punctuation.section.group.begin.php
 //                        ^ meta.function.parameters
 //                              ^ punctuation.definition.variable.php
 //                                       ^ meta.function.parameters
 //                                           ^ punctuation.definition.variable.php
-//                                                  ^ punctuation.definition.group.end.php
+//                                                  ^ punctuation.section.group.end.php
 //                                                    ^^ meta.block.php
-//                                                    ^ punctuation.definition.block.begin.php
-//                                                     ^ punctuation.definition.block.end.php
+//                                                    ^ punctuation.section.block.begin.php
+//                                                     ^ punctuation.section.block.end.php
 
     function scalarReturnType($param1): bool {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                           ^ punctuation.definition.group.begin.php
-//                                   ^ punctuation.definition.group.end.php
+//                           ^ punctuation.section.group.begin.php
+//                                   ^ punctuation.section.group.end.php
 //                                      ^ storage.type.php
 
     function classReturnType($param1): stringSpace\Test1 {}
 //  ^ storage.type.function.php
 //           ^ entity.name.function.php
-//                          ^ punctuation.definition.group.begin.php
-//                                  ^ punctuation.definition.group.end.php
+//                          ^ punctuation.section.group.begin.php
+//                                  ^ punctuation.section.group.end.php
 //                                     ^^^^^^^^^^^^^^^^^ meta.path
 //                                     ^ support.other.namespace.php
 //                                                 ^ support.class.php
@@ -537,7 +537,7 @@ class B
     Z {
 //  ^^^ meta.use
 //  ^ meta.path
-//    ^ meta.block punctuation.definition.block
+//    ^ meta.block punctuation.section.block
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
 //       ^^ keyword.operator.class
@@ -547,7 +547,7 @@ class B
         X::method2 as another2;
 //                 ^ keyword.other.use-as
     } protected $pro1;
-//  ^ meta.use meta.block punctuation.definition.block
+//  ^ meta.use meta.block punctuation.section.block
 //   ^ - meta.use
 //    ^ storage.modifier
 
@@ -778,11 +778,11 @@ SQL;
 class OutputsHtml {
     function embedHtml() {
         if (1) {
-//             ^ meta.function meta.block punctuation.definition.block.begin
+//             ^ meta.function meta.block punctuation.section.block.begin
         }
-//      ^ meta.function meta.block punctuation.definition.block.end
+//      ^ meta.function meta.block punctuation.section.block.end
         else {
-//           ^ meta.function meta.block punctuation.definition.block.begin
+//           ^ meta.function meta.block punctuation.section.block.begin
             ?>
 //          ^^ punctuation.section.embedded.end
             <span></span>
@@ -790,7 +790,7 @@ class OutputsHtml {
             <?
 //          ^^ punctuation.section.embedded.begin
         }
-//      ^ meta.function meta.block punctuation.definition.block.end
+//      ^ meta.function meta.block punctuation.section.block.end
         ?>
 //      ^^ punctuation.section.embedded.end - source.php
 
@@ -821,11 +821,11 @@ class OutputsHtml {
 
 function embedHtml() {
     if (1) {
-//         ^ meta.function meta.block punctuation.definition.block.begin
+//         ^ meta.function meta.block punctuation.section.block.begin
     }
-//  ^ meta.function meta.block punctuation.definition.block.end
+//  ^ meta.function meta.block punctuation.section.block.end
     else {
-//       ^ meta.function meta.block punctuation.definition.block.begin
+//       ^ meta.function meta.block punctuation.section.block.begin
         ?>
 //      ^^ punctuation.section.embedded.end - source.php
         <span></span>
@@ -833,7 +833,7 @@ function embedHtml() {
         <?
 //      ^^ punctuation.section.embedded.begin - source.php
     }
-//  ^ meta.function meta.block punctuation.definition.block.end
+//  ^ meta.function meta.block punctuation.section.block.end
 
     $myClass = new class {
         function foo() {
@@ -915,7 +915,7 @@ class D {
 
     public function __toString()
 //                  ^^^^^^^^^^ entity.name.function.php support.function.magic.php
-//                            ^^ meta.function.parameters.php punctuation.definition.group
+//                            ^^ meta.function.parameters.php punctuation.section.group
     {
         return $this->prop;
     }
