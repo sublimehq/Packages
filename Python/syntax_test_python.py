@@ -30,12 +30,12 @@ from \
 #   ^^^^ meta.statement.import
 from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
-#               ^ punctuation.definition.begin.import-list
+#               ^ punctuation.section.import-list.begin
 #                         ^ comment
                  version_info, . ) # comment
 #                ^^^^^^^^^^^^^ meta.statement.import
 #                              ^ invalid.illegal.name.import
-#                                ^ punctuation.definition.end.import-list
+#                                ^ punctuation.section.import-list.end
 #                                  ^ comment
 import path from os
 #           ^^^^ invalid.illegal.name
@@ -129,7 +129,7 @@ def _():
 #   ^^^^^ storage.modifier.async
 #         ^^^ keyword.control.flow.for
 #               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.definition.block.for
+#                          ^ punctuation.section.block.for
         pass
 
     for i:
@@ -161,7 +161,7 @@ def _():
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
 #                                ^^ keyword.control.flow.with.as
-#                                    ^ punctuation.definition.block.with
+#                                    ^ punctuation.section.block.with
         await something()
 #       ^^^^^ keyword.other.await
 
@@ -265,7 +265,7 @@ def my_func(param1, # Multi-line function definition
     # This is defaulted
 #   ^ comment.line.number-sign
     param2='#1'):
-#              ^ punctuation.definition.parameters.end
+#              ^ punctuation.section.parameters.end
     print('Hi!')
 
 
@@ -289,10 +289,10 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                 ^^^^^^ variable.parameter
 #                                                       ^ punctuation.separator.annotation
 #                                                         ^^^^^^^^^ meta.function-call
-#                                                            ^ punctuation.definition.arguments.begin
+#                                                            ^ punctuation.section.arguments.begin
 #                                                             ^ constant.numeric
 #                                                                ^ constant.numeric
-#                                                                 ^ punctuation.definition.arguments.end
+#                                                                 ^ punctuation.section.arguments.end
 #                                                                  ^ punctuation.separator.parameters
 #                                                                    ^^^^^^ variable.parameter
 #                                                                          ^ punctuation.separator.annotation
@@ -300,7 +300,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                     ^^^^^^^^^^^ meta.function.parameters.default-value
 #                                                                                     ^ keyword.operator.assignment
 #                                                                                       ^^^^^^^^^ string.quoted.double
-#                                                                                                ^ punctuation.definition.parameters.end
+#                                                                                                ^ punctuation.section.parameters.end
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function.begin
@@ -330,7 +330,7 @@ class MyClass():
         # This is defaulted
 #       ^ comment.line.number-sign
         param2='#1'):
-#                  ^ punctuation.definition.parameters.end
+#                  ^ punctuation.section.parameters.end
         print('Hi!')
 
 
@@ -392,7 +392,7 @@ class Class():
 
 mytuple = ("this", 'is', 4, tuple)
 #         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#         ^ punctuation.definition.group.begin
+#         ^ punctuation.section.group.begin
 #          ^^^^^^ string.quoted.double
 #                ^ punctuation.separator.tuple
 #                  ^^^^ string.quoted.single
@@ -400,35 +400,35 @@ mytuple = ("this", 'is', 4, tuple)
 #                        ^ constant.numeric
 #                         ^ punctuation.separator.tuple
 #                           ^^^^^ support.type
-#                                ^ punctuation.definition.group.end
+#                                ^ punctuation.section.group.end
 not_a_tuple = (a = 2, b += 3)
 #                ^ - keyword
 #                        ^ - keyword
 
 mylist = []
 #        ^^ meta.structure.list.python
-#        ^ punctuation.definition.list.begin
-#         ^ punctuation.definition.list.end
+#        ^ punctuation.section.list.begin
+#         ^ punctuation.section.list.end
 
 mylist = [1, "testing", ["sublist", True]]
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#        ^ punctuation.definition.list.begin
+#        ^ punctuation.section.list.begin
 #         ^ constant.numeric
 #          ^ punctuation.separator.list
 #            ^^^^^^^^^ string.quoted.double
 #                     ^ punctuation.separator
 #                       ^^^^^^^^^^^^^^^^^ meta.structure.list meta.structure.list
-#                       ^ punctuation.definition.list.begin
+#                       ^ punctuation.section.list.begin
 #                        ^^^^^^^^^ string.quoted.double
 #                                 ^ punctuation.separator.list
 #                                   ^^^^ constant.language
-#                                       ^ punctuation.definition.list.end
-#                                        ^ punctuation.definition.list.end
+#                                       ^ punctuation.section.list.end
+#                                        ^ punctuation.section.list.end
 
 mydict = {}
 #        ^^ meta.structure.dictionary
-#        ^ punctuation.definition.dictionary.begin
-#         ^ punctuation.definition.dictionary.end
+#        ^ punctuation.section.dictionary.begin
+#         ^ punctuation.section.dictionary.end
 
 key2 = "my_key"
 mydict = {"key": True, key2: (1, 2, [-1, -2])}
@@ -439,14 +439,14 @@ mydict = {"key": True, key2: (1, 2, [-1, -2])}
 #                    ^ punctuation.separator.dictionary-or-set
 #                          ^ punctuation.separator.key-value
 #                            ^^^^^^^^^^^^^^^^ meta.group
-#                            ^ punctuation.definition.group.begin
+#                            ^ punctuation.section.group.begin
 #                             ^ constant.numeric
 #                                ^ constant.numeric
 #                                   ^^^^^^^ meta.structure.list
 #                                      ^ punctuation.separator.list
-#                                           ^ punctuation.definition.group.end
-#        ^ punctuation.definition.dictionary-or-set.begin
-#                                            ^ punctuation.definition.dictionary-or-set.end
+#                                           ^ punctuation.section.group.end
+#        ^ punctuation.section.dictionary-or-set.begin
+#                                            ^ punctuation.section.dictionary-or-set.end
 
 myset = {"key", True, key2, [-1], {}}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
@@ -516,7 +516,7 @@ except Exception:
 #^^^^^^^^^^^^^^^^ meta.statement.except
 #^^^^^ keyword.control.flow.except
 #      ^^^^^^^^^ support.type.exception
-#               ^ punctuation.definition.block
+#               ^ punctuation.section.block
 except (KeyError, NameError) as e:
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
 #^^^^^ keyword.control.flow.except
@@ -524,7 +524,7 @@ except (KeyError, NameError) as e:
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
 #                            ^^ keyword.control.flow.as
-#                                ^ punctuation.definition.block
+#                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
