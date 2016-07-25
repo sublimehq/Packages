@@ -179,3 +179,26 @@
 
 (logeqv a b)
 ;^^^^^^ keyword.operator.bitwise
+
+;############
+; VARIABLES #
+;############
+
+(*package*)
+;^ punctuation.definition.variable.begin
+;^^^^^^^^^ variable.language
+;        ^ punctuation.definition.variable.end
+
+(*user-var*)
+;^ punctuation.definition.variable.begin
+;^^^^^^^^^^ variable.other.global
+;         ^ punctuation.definition.variable.end
+
+;###############
+; CONTROL FLOW #
+;###############
+
+(loop while (hungry) do (eat))
+;^^^^ keyword.control
+;     ^^^^^ keyword.control
+;                    ^^ keyword.control
