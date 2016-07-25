@@ -369,25 +369,15 @@ contexts:
           scope: constant.character.escape.scala
     - match: '({{alphaid}})"""'
       captures:
-        1: string.quoted.triple.interpolated.scala
+        1: support.function.scala
       push:
         - meta_scope: string.quoted.triple.interpolated.scala
         - match: '"""(?!")'
           pop: true
-        - match: '\${{alphaid}}'
-          scope: variable.parameter.scala
-        - match: '\$\{'
-          scope: variable.parameter.scala
-          push:
-            - meta_scope: source.scala.embedded
-            - match: '\}'
-              scope: variable.parameter.scala
-              pop: true
-            - include: nest-curly-and-self
-            - include: main
+        - include: interpolated-vars-expressions
     - match: '({{alphaid}})"'
       captures:
-        1: string.quoted.interpolated.scala
+        1: support.function.scala
       push:
         - meta_scope: string.quoted.interpolated.scala
         - match: '"'
@@ -396,14 +386,23 @@ contexts:
           scope: invalid.string.newline.scala
         - match: \\.
           scope: constant.character.escape.scala
-        - match: '\${{alphaid}}'
-          scope: variable.parameter.scala
-        - match: '\$\{'
-          scope: variable.parameter.scala
+        - include: interpolated-vars-expressions
+  interpolated-vars-expressions:
+    - match: '(\$){{alphaid}}'
+      scope: variable.other.scala
+      captures:
+        1: punctuation.definition.variable.scala
+    - match: '\$\{'
+      scope: punctuation.definition.expression.scala
+      push:
+        - meta_content_scope: source.scala.embedded
+        - match: '\}'
+          scope: punctuation.definition.expression.scala
+          pop: true
+        - match: ''
           push:
-            - meta_scope: source.scala.embedded
-            - match: '\}'
-              scope: variable.parameter.scala
+            - clear_scopes: 1
+            - match: (?=\})
               pop: true
             - include: nest-curly-and-self
             - include: main
@@ -447,4 +446,4 @@ contexts:
           pop: true
         - include: main
     - match: '@|_'
-      scope: keyword
+      scope: keyword.scala

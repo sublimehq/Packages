@@ -149,17 +149,19 @@ object Foo
 
    s"testing $a ${42}"
 // ^^^^^^^^^ string.quoted.interpolated.scala
-//           ^^ variable.parameter
-//              ^^ variable.parameter
+// ^ support.function
+//           ^^ variable.other
+//              ^^ punctuation.definition.expression
 //                ^^ constant.numeric.scala
-//                  ^ variable.parameter
+//                  ^ punctuation.definition.expression
 
    s"""testing $a ${42}"""
 // ^^^^^^^^^^^ string.quoted.triple.interpolated.scala
-//             ^^ variable.parameter
-//                ^^ variable.parameter
+// ^ support.function
+//             ^^ variable.other
+//                ^^ punctuation.definition.expression
 //                  ^^ constant.numeric.scala
-//                    ^ variable.parameter
+//                    ^ punctuation.definition.expression
 //                     ^^^ string.quoted.triple.interpolated.scala
 
    Unit
@@ -376,7 +378,7 @@ object Foo
 
    case q"""..$foo""" =>
 //      ^^^^^^ string.quoted.triple.interpolated.scala
-//            ^^^^ variable.parameter
+//            ^^^^ variable.other
 //                ^^^ string.quoted.triple.interpolated.scala
 
    case <foo/> =>
