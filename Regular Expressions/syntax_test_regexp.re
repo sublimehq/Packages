@@ -338,7 +338,7 @@ hello++
 #    ^^ keyword.control.character-class.regexp
 #      ^ keyword.control.group.regexp
 #       ^ meta.literal.regexp
-#        ^ keyword.operator.regexp
+#        ^ keyword.operator.alternation.regexp
 #         ^ meta.literal.regexp
 #          ^ keyword.control.group.regexp
 (?(?=\d)\da|b)
@@ -349,7 +349,7 @@ hello++
 #      ^ keyword.control.group.regexp
 #       ^^ keyword.control.character-class.regexp
 #         ^ meta.literal.regexp
-#          ^ keyword.operator.regexp
+#          ^ keyword.operator.alternation.regexp
 #           ^ meta.literal.regexp
 #            ^ keyword.control.group.regexp
 (?(?<=\dc)a|b)
@@ -360,31 +360,31 @@ hello++
 #       ^ meta.literal.regexp
 #        ^ keyword.control.group.regexp
 #         ^ meta.literal.regexp
-#          ^ keyword.operator.regexp
+#          ^ keyword.operator.alternation.regexp
 #           ^ meta.literal.regexp
 #            ^ keyword.control.group.regexp
 (?(R)a|b)
 #^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #    ^ meta.literal.regexp
-#     ^ keyword.operator.regexp
+#     ^ keyword.operator.alternation.regexp
 #      ^ meta.literal.regexp
 #       ^ keyword.control.group.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #     ^ meta.literal.regexp
-#      ^ keyword.operator.regexp
+#      ^ keyword.operator.alternation.regexp
 #       ^ meta.literal.regexp
 #        ^ keyword.control.group.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #     ^ meta.literal.regexp
-#      ^ keyword.operator.regexp
+#      ^ keyword.operator.alternation.regexp
 #       ^ meta.literal.regexp
 #        ^ keyword.control.group.regexp
 (?<a>a)?b(?(R&a)c|d)(?1)
 #         ^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #               ^ meta.literal.regexp
-#                ^ keyword.operator.regexp
+#                ^ keyword.operator.alternation.regexp
 #                 ^ meta.literal.regexp
 #                  ^ keyword.control.group.regexp
 
@@ -402,7 +402,7 @@ hello++
 #    ^^ keyword.control.character-class.regexp
 #      ^ keyword.control.group.regexp
 #       ^ meta.literal.regexp
-#        ^ keyword.operator.regexp
+#        ^ keyword.operator.alternation.regexp
 #         ^ meta.literal.regexp
 #          ^ keyword.control.group.regexp
 (?(?=\d)\da|b)
@@ -413,7 +413,7 @@ hello++
 #      ^ keyword.control.group.regexp
 #       ^^ keyword.control.character-class.regexp
 #         ^ meta.literal.regexp
-#          ^ keyword.operator.regexp
+#          ^ keyword.operator.alternation.regexp
 #           ^ meta.literal.regexp
 #            ^ keyword.control.group.regexp
 (?(?<=\dc)a|b)
@@ -424,25 +424,25 @@ hello++
 #       ^ meta.literal.regexp
 #        ^ keyword.control.group.regexp
 #         ^ meta.literal.regexp
-#          ^ keyword.operator.regexp
+#          ^ keyword.operator.alternation.regexp
 #           ^ meta.literal.regexp
 #            ^ keyword.control.group.regexp
 (?(R)a|b)
 #^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #    ^ meta.literal.regexp
-#     ^ keyword.operator.regexp
+#     ^ keyword.operator.alternation.regexp
 #      ^ meta.literal.regexp
 #       ^ keyword.control.group.regexp
 (?(R1)a|b)
 #^^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #     ^ meta.literal.regexp
-#      ^ keyword.operator.regexp
+#      ^ keyword.operator.alternation.regexp
 #       ^ meta.literal.regexp
 #        ^ keyword.control.group.regexp
 (?<a>a)?b(?(R&a)c|d)(?1)
 #         ^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
 #               ^ meta.literal.regexp
-#                ^ keyword.operator.regexp
+#                ^ keyword.operator.alternation.regexp
 #                 ^ meta.literal.regexp
 #                  ^ keyword.control.group.regexp
 (?-x)
