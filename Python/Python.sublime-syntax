@@ -28,8 +28,8 @@ variables:
 
 contexts:
   main:
-    # Push the statements context once the line at hand looks like docstring or comment
-    - match: (?i)(?=^\s*(#|[ur]{0,2}('''|""")))
+    # Triple-quoted strings at the global level are docstrings
+    - match: (?i)(?=^\s*[ur]{0,2}('''|"""))
       push: maybe-docstrings
     - include: statements
 
