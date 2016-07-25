@@ -9,6 +9,12 @@ r"""This is a syntax test file.
 And this right here, where we're writing in, is a docstring.
 """
 
+debug = False
+"""
+This is a variable docstring, as supported by sphinx and epydoc
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
+"""
+
 ##################
 # Imports
 ##################
