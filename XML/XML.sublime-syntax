@@ -34,11 +34,12 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - match: '\s+{{qualified_name}}'
+        - match: '\s+{{qualified_name}}(=)?'
           captures:
             1: entity.other.attribute-name.namespace.xml
             2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
             3: entity.other.attribute-name.localname.xml
+            4: punctuation.separator.key-value.xml
         - include: double-quoted-string
         - include: single-quoted-string
     - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
