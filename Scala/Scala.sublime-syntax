@@ -121,7 +121,7 @@ contexts:
       push:
         - match: '(?=[=\n])'
           pop: true
-        - include: pattern-match
+        - include: val-pattern-match
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
         1: keyword.control.scala
@@ -427,7 +427,7 @@ contexts:
           pop: true
         - include: xml-literal
         - include: xml-attribute
-  pattern-match:
+  val-pattern-match:
     - include: comments
     - include: block-comments
     - include: keywords
@@ -444,6 +444,32 @@ contexts:
     - match: '\.{{varid}}'
     - match: '\b{{varid}}'
       scope: entity.name.parameter.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: main
+    - match: '@|_'
+      scope: keyword.other.scala
+  pattern-match:
+    - include: comments
+    - include: block-comments
+    - include: keywords
+    - include: constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
+    - include: xml-literal
+    - match: '`'
+      push:
+        - match: '`'
+          pop: true
+    - match: '{{varid}}\.'
+    - match: '\.{{varid}}'
+    - match: '\b{{varid}}'
+      scope: variable.parameter.scala   # not indexed!
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: \[
