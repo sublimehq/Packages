@@ -11,6 +11,17 @@ import fubar.{Unit, Foo}
 //     ^^^^^ variable.package.scala
 //            ^^^^ variable.import.scala
 
+def foo: Baz = 42
+//^ storage.type.function.scala
+//  ^^^ entity.name.function.scala
+//       ^^^ support.class
+//             ^^ constant.numeric.scala
+
+def foo: Baz => Bar = 42
+//       ^^^ support.class
+//              ^^^ support.class
+
+
 def foo(a: Int, b: Bar): Baz = 42
 //^ storage.type.function.scala
 //  ^^^ entity.name.function.scala
@@ -91,6 +102,14 @@ class Foo[A](a: Bar) extends Baz with Bin
 //                          ^ variable.parameter
 //                                  ^ variable.parameter
 
+class Foo(x: Int = 42)
+//               ^ - support
+//                 ^^ constant.numeric
+
+def foo(x: Int = 42)
+//             ^ - support
+//               ^^ constant.numeric
+
 trait Foo
 // ^^ storage.type.class.scala
 //    ^^^ entity.name.class
@@ -98,6 +117,30 @@ trait Foo
 object Foo
 // ^^^ storage.type.class.scala
 //     ^^^ entity.name.class
+
+   type Foo = Bar
+// ^^^^ storage.type.scala
+//      ^^^ entity.name.type.scala
+//            ^^^ support.class.scala
+
+   type Foo = Bar => Baz
+// ^^^^ storage.type.scala
+//      ^^^ entity.name.type.scala
+//            ^^^ support.class.scala
+//                   ^^^ support.class.scala
+
+
+type Foo = Bar {
+  def baz: Int
+//    ^^^ entity.name.function
+}
+
+type Foo = Bar[A] forSome { type A }
+//                ^^^^^^^ keyword.declaration.scala
+
+   type Foo
+   Bar
+// ^^^ support.constant
 
    42
 // ^^ constant.numeric.scala
@@ -189,7 +232,7 @@ object Foo
 // ^^^^^^^ storage.type.primitive.scala
 
    String
-// ^^^^^^ support.class
+// ^^^^^^ support.constant
 
    // this is a comment
 // ^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.scala
@@ -339,6 +382,9 @@ object Foo
 // ^ source.scala
 //    ^^^ storage.type.primitive.scala
 
+   a: Foo
+//    ^^^ support.class
+
    case (abc: Foo, cba @ _) =>
 // ^^^^ keyword.other.declaration.scala
 //       ^^^ variable.parameter
@@ -417,6 +463,13 @@ object Foo
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                            ^^^^^ entity.other.inherited-class.scala
+
+   case object Thingy extends (Foo => Bar)
+// ^^^^ keyword.other.declaration.scala
+//      ^^^^^^ keyword.control.class.scala
+//             ^^^^^^ entity.name.class.scala
+//                    ^^^^^^^ keyword.declaration.scala
+//                             ^^^ support.class
 
    case class
 // ^^^^ keyword.other.declaration.scala
@@ -500,7 +553,7 @@ object Foo
    for {
      back <- Traverse[Option]
 //   ^^^^ variable.parameter
-//           ^^^^^^^^ support.class
+//           ^^^^^^^^ support.constant
 //                    ^^^^^^ support.class
        .traverse[Free, Stuff](res) { r => }
 //      ^^^^^^^^ - entity.name
@@ -511,6 +564,7 @@ object Foo
 
   val baseSettings: Seq[Def.Setting[_]] = _
 //    ^^^^^^^^^^^^ entity.name.parameter.scala
+//                  ^^^ support.class
 //                                  ^ - keyword
 
   for {
@@ -531,5 +585,5 @@ object Foo
 //     ^^^ entity.name.parameter
 
    val (Foo, x) = 42
-//      ^^^ support.class.scala
+//      ^^^ support.constant.scala
 //           ^ entity.name.parameter
