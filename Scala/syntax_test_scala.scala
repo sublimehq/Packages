@@ -64,15 +64,15 @@ def foo(a: Int, b: Bar): Baz = 42
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
 
-val foo: Unit
-//^ keyword.declaration.stable.scala
-//  ^^^ entity.name.val.scala
-//       ^^^^ storage.type.primitive.scala
+   val foo: Unit
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name.parameter
+//          ^^^^ storage.type.primitive.scala
 
-var foo: Unit
-//^ keyword.declaration.volatile.scala
-//  ^^^ entity.name.val.scala
-//       ^^^^ storage.type.primitive.scala
+   var foo: Unit
+// ^^^ keyword.declaration.volatile.scala
+//     ^^^ entity.name.var
+//          ^^^^ storage.type.primitive.scala
 
 class Foo[A](a: Bar) extends Baz with Bin
 // ^^ keyword.declaration.scala
@@ -221,8 +221,8 @@ object Foo
    match
 // ^^^^^ keyword.control.flow.scala
 
-   case
-// ^^^^ keyword.control.flow.scala
+   case =>
+// ^^^^ keyword.declaration.scala
 
    macro
 // ^^^^^ keyword.scala
@@ -336,3 +336,189 @@ object Foo
   (a: Int)
 // ^ source.scala
 //    ^^^ storage.type.primitive.scala
+
+   case (abc: Foo, cba @ _) =>
+// ^^^^ keyword.declaration.scala
+//       ^^^ entity.name.parameter
+//            ^^^ support.class
+//                 ^^^ entity.name.parameter
+//                       ^ keyword
+
+   case abc @ `abc` =>
+//      ^^^ entity.name.parameter
+//          ^ keyword
+//            ^^^^^ - entity.name
+
+   case foo: (Int => Boolean) :: _ =>
+//                               ^ keyword
+
+   case /* testing */ =>
+//      ^^^^^^^^^^^^^ comment.block.scala
+
+   case // testing
+//      ^^^^^^^^^^ comment.line.double-slash.scala
+   =>
+
+   case 42 =>
+//      ^^ constant.numeric.scala
+
+   case 'a' =>
+//      ^^^ constant.character.literal.scala
+
+   case 'foo =>
+//      ^^^^ constant.other.symbol
+
+   case "foo" =>
+//      ^^^^^ string.quoted.double.scala
+
+   case """foo""" =>
+//      ^^^^^^^^^ string.quoted.triple.scala
+
+   case q"""..$foo""" =>
+//      ^^^^^^ string.quoted.triple.interpolated.scala
+//            ^^^^ variable.parameter
+//                ^^^ string.quoted.triple.interpolated.scala
+
+   case <foo/> =>
+//      ^^^^^^ text.xml
+//       ^^^ entity.name.tag
+
+   case Nil =>
+//      ^^^ constant.language.scala
+
+   case _ ⇒ _
+//          ^ - keyword
+
+   case _ if stuff =>
+//        ^^ keyword.control.flow.scala
+//           ^^^^^ - entity.name
+
+   val abc @ `abc`
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name.parameter
+//         ^ keyword
+//           ^^^^^ - entity.name
+
+   _
+// ^ - keyword
+
+   val ble @ `abc` = _
+// ^^^ keyword.declaration.stable.scala
+//     ^^^ entity.name.parameter
+//         ^ keyword
+//           ^^^^^ - entity.name
+//                   ^ - keyword
+
+   case object Thingy extends Other
+// ^^^^ keyword.declaration.scala
+//      ^^^^^^ keyword.declaration.scala
+//             ^^^^^^ entity.name.class.scala
+//                    ^^^^^^^ keyword.declaration.scala
+//                            ^^^^^ entity.other.inherited-class.scala
+
+   case class
+// ^^^^ keyword.declaration.scala
+//      ^^^^^ keyword.declaration.scala
+
+=>     // this is here to act as a random terminator to the above partial syntax
+
+   case class Thingy(abc: Int) extends Other
+// ^^^^ keyword.declaration.scala
+//      ^^^^^ keyword.declaration.scala
+//            ^^^^^^ entity.name.class.scala
+//                   ^^^ variable.parameter
+//                             ^^^^^^^ keyword.declaration.scala
+//                                     ^^^^^ entity.other.inherited-class.scala
+//
+
+   for {
+// ^^^ keyword.control.flow.scala
+
+     a <- _
+//   ^ entity.name.parameter
+//        ^ - keyword
+
+     a ← _
+//   ^ entity.name.parameter
+//       ^ - entity.name
+
+     (b, c @ _) <- _
+//    ^ entity.name.parameter
+//       ^ entity.name.parameter
+//         ^ keyword
+//           ^ keyword
+//                 ^ - keyword
+       _
+//     ^ - entity.name
+
+     testing = _
+//   ^^^^^^^ entity.name.parameter
+//             ^ - keyword
+
+     testing = {
+//   ^^^^^^^ entity.name.parameter
+       testing = false
+//     ^^^^^^^ - entity.name
+     }
+
+     testing = (
+//   ^^^^^^^ entity.name.parameter
+       testing = false
+//     ^^^^^^^ - entity.name
+     )
+
+     val testing = 42
+//   ^^^ keyword.declaration.stable.scala
+//       ^^^^^^^ entity.name.parameter
+   } _
+//   ^ - entity.name
+
+   for (a <- _; (b, c @ _) ← _; val abc = _) _
+// ^^^ keyword.control.flow.scala
+//      ^ entity.name.parameter
+//           ^ - keyword
+//               ^ entity.name.parameter
+//                  ^ entity.name.parameter
+//                    ^ keyword
+//                      ^ keyword
+//                           ^ - keyword
+//                              ^^^ keyword.declaration.stable.scala
+//                                  ^^^ entity.name.parameter
+//                                        ^ - keyword
+//                                           ^ - keyword
+
+   for {
+     sss <- { {} }
+//   ^^^ entity.name.parameter
+     qqq <- stuff
+//   ^^^ entity.name.parameter
+   }
+
+   for {
+     back <- Traverse[Option]
+//   ^^^^ entity.name.parameter
+//           ^^^^^^^^ support.class
+//                    ^^^^^^ support.class
+       .traverse[Free, Stuff](res) { r =>
+//      ^^^^^^^^ - entity.name
+//                            ^^^ - entity.name
+//                                   ^ - entity.name
+   }
+
+
+  val baseSettings: Seq[Def.Setting[_]] = _
+//                                  ^ - keyword
+
+  for {
+    r <- blah
+  } yield r.copy(foo = a)
+//        ^ - entity.name
+//          ^^^^ - entity.name
+//               ^^^ - entity.name
+
+  {
+    case foo.Bar => 42
+//       ^^^ - entity.name
+    case Bar.foo => 42
+//           ^^^ - entity.name
+  }
