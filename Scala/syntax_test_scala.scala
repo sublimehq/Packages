@@ -130,6 +130,11 @@ object Foo
 //                   ^^^ support.class.scala
 
 
+  type Foo[A, B, C] = Bar
+//         ^ support.class
+//            ^ support.class
+//               ^ support.class
+
 type Foo = Bar {
   def baz: Int
 //    ^^^ entity.name.function
@@ -587,3 +592,13 @@ type Foo = Bar[A] forSome { type A }
    val (Foo, x) = 42
 //      ^^^ support.constant.scala
 //           ^ entity.name.parameter
+
+{
+  Set[Foo[A, A] forSome { type A }, A]
+//                                  ^ support.class
+}
+    def foo: Int
+//      ^^^ entity.name.function
+
+// fubar
+// <- source.scala comment.line.double-slash

@@ -123,11 +123,16 @@ contexts:
         1: storage.type.scala
         2: entity.name.type.scala
       push:
-        - match: '\n'
+        - match: '(?=[\n\}\)\]])'
           pop: true
+        - match: '\['
+          push:
+            - match: '\]'
+              pop: true
+            - include: delimited-type-expression
         - match: '='
           set:
-            - match: '\n'
+            - match: '(?=[\n\}\)\]])'
               pop: true
             - include: delimited-type-expression
     - match: '\b(var)\s+({{id}})'
