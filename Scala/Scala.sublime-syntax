@@ -440,8 +440,8 @@ contexts:
       push:
         - match: '`'
           pop: true
-    - match: '\b[a-z][a-zA-Z0-9_]*\.'
-    - match: '\.[a-z][a-zA-Z0-9_]*\b'
+    - match: '{{varid}}\.'
+    - match: '\.{{varid}}'
     - match: '\b{{varid}}'
       scope: entity.name.parameter.scala
     - match: '{{upperid}}'
