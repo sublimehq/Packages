@@ -98,26 +98,26 @@ contexts:
         - include: main
     - match: '\b(def)\s+({{id}})'
       captures:
-        1: storage.type.function.scala
+        1: keyword.control.def.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
     - match: '\b(case\s+)?(class|trait|object)(?:\s+([^\s\{\(\[]+))?'
       captures:
         1: keyword.other.declaration.scala
-        2: storage.type.class.scala
+        2: keyword.control.class.scala
         3: entity.name.class.scala
       push: class-type-parameter-list
     - match: '\b(type)\s+({{id}})'
       captures:
-        1: storage.type.scala
+        1: keyword.control.type.scala
         2: entity.name.type.scala
     - match: '\b(var)\s+({{id}})'
       captures:
-        1: storage.type.volatile.scala
+        1: keyword.control.volatile.scala
         2: entity.name.var.scala
     - match: '\b(val)\b'
       captures:
-        1: storage.type.stable.scala
+        1: keyword.control.stable.scala
       push:
         - match: '(?=[=\n])'
           pop: true
@@ -125,7 +125,7 @@ contexts:
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
         1: keyword.control.scala
-        2: storage.type.class.scala
+        2: keyword.control.class.scala
         3: entity.name.class.scala
     - match: '\b(package)\s+([\w\.]+)'
       scope: meta.namespace.scala
@@ -327,13 +327,13 @@ contexts:
     - match: \b(extends|with|forSome)\b
       scope: keyword.declaration.scala
     - match: \b(class|trait|object)\b
-      scope: storage.type.class.scala
+      scope: keyword.control.class.scala
     - match: \bdef\b
-      scope: storage.type.function.scala
+      scope: keyword.control.def.scala
     - match: \btype\b
-      scope: storage.type.scala
+      scope: keyword.control.type.scala
     - match: \bvar\b
-      scope: storage.type.volatile.scala
+      scope: keyword.control.volatile.scala
     - match: \b(package)\b
       scope: keyword.control.scala
     - match: \b(new)\b

@@ -12,7 +12,7 @@ import fubar.{Unit, Foo}
 //            ^^^^ variable.import.scala
 
 def foo(a: Int, b: Bar): Baz = 42
-//^ storage.type.function.scala
+//^ keyword.control.def.scala
 //  ^^^ entity.name.function.scala
 //      ^ variable.parameter
 //         ^^^ storage.type.primitive.scala
@@ -21,35 +21,35 @@ def foo(a: Int, b: Bar): Baz = 42
 //                             ^^ constant.numeric.scala
 
    def +(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^ entity.name.function.scala
 
    def `this is a test`(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^^^^^^^^^^^^ entity.name.function.scala
 
    def ::(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^ entity.name.function.scala
 
    def foo_+(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^ entity.name.function.scala
 
    def foo_2(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^ entity.name.function.scala
 
    def foo42_+(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^^^ entity.name.function.scala
 
    def __many_underscores__+(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.scala
 
    def foo42_+_abc(a: Int)
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^^^^^ entity.name.function.scala
 //            ^^^^ - entity.name.function
 
@@ -57,7 +57,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //      ^^^^ - entity.name.function
 
    def foo[A]
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 //     ^^^ entity.name.function.scala
 //         ^ support.class
 
@@ -65,17 +65,17 @@ def foo(a: Int, b: Bar): Baz = 42
 //         ^^^^^^^^ storage.modifier.other
 
    val foo: Unit
-// ^^^ storage.type.stable.scala
+// ^^^ keyword.control.stable.scala
 //     ^^^ entity.name.parameter
 //          ^^^^ storage.type.primitive.scala
 
    var foo: Unit
-// ^^^ storage.type.volatile.scala
+// ^^^ keyword.control.volatile.scala
 //     ^^^ entity.name.var
 //          ^^^^ storage.type.primitive.scala
 
 class Foo[A](a: Bar) extends Baz with Bin
-// ^^ storage.type.class.scala
+// ^^ keyword.control.class.scala
 //    ^^^ entity.name.class
 //        ^ support.class
 //           ^ variable.parameter
@@ -92,12 +92,17 @@ class Foo[A](a: Bar) extends Baz with Bin
 //                                  ^ variable.parameter
 
 trait Foo
-// ^^ storage.type.class.scala
+// ^^ keyword.control.class.scala
 //    ^^^ entity.name.class
 
 object Foo
-// ^^^ storage.type.class.scala
+// ^^^ keyword.control.class.scala
 //     ^^^ entity.name.class
+
+   type Foo = Bar
+// ^^^^ keyword.control.type.scala
+//      ^^^ entity.name.type.scala
+//            ^^^ support.class.scala
 
    42
 // ^^ constant.numeric.scala
@@ -230,7 +235,7 @@ object Foo
 // ^^^^^ keyword.other.scala
 
    type
-// ^^^^ storage.type.scala
+// ^^^^ keyword.control.type.scala
 
    return
 // ^^^^^^ keyword.control.flow.jump.scala
@@ -263,22 +268,22 @@ object Foo
 // ^^^^ keyword.declaration.scala
 
    class
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.control.class.scala
 
    trait
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.control.class.scala
 
    object
-// ^^^^^^ storage.type.class.scala
+// ^^^^^^ keyword.control.class.scala
 
    def
-// ^^^ storage.type.function.scala
+// ^^^ keyword.control.def.scala
 
    val
-// ^^^ storage.type.stable.scala
+// ^^^ keyword.control.stable.scala
 
    var
-// ^^^ storage.type.volatile.scala
+// ^^^ keyword.control.volatile.scala
 
    import
 // ^^^^^^ keyword.other.import.scala
@@ -396,7 +401,7 @@ object Foo
 //           ^^^^^ - entity.name
 
    val abc @ `abc`
-// ^^^ storage.type.stable.scala
+// ^^^ keyword.control.stable.scala
 //     ^^^ entity.name.parameter
 //         ^ keyword
 //           ^^^^^ - entity.name
@@ -405,7 +410,7 @@ object Foo
 // ^ - keyword
 
    val ble @ `abc` = _
-// ^^^ storage.type.stable.scala
+// ^^^ keyword.control.stable.scala
 //     ^^^ entity.name.parameter
 //         ^ keyword
 //           ^^^^^ - entity.name
@@ -413,20 +418,20 @@ object Foo
 
    case object Thingy extends Other
 // ^^^^ keyword.other.declaration.scala
-//      ^^^^^^ storage.type.class.scala
+//      ^^^^^^ keyword.control.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                            ^^^^^ entity.other.inherited-class.scala
 
    case class
 // ^^^^ keyword.other.declaration.scala
-//      ^^^^^ storage.type.class.scala
+//      ^^^^^ keyword.control.class.scala
 
 =>     // this is here to act as a random terminator to the above partial syntax
 
    case class Thingy(abc: Int) extends Other
 // ^^^^ keyword.other.declaration.scala
-//      ^^^^^ storage.type.class.scala
+//      ^^^^^ keyword.control.class.scala
 //            ^^^^^^ entity.name.class.scala
 //                   ^^^ variable.parameter
 //                             ^^^^^^^ keyword.declaration.scala
@@ -484,7 +489,7 @@ object Foo
 //                    ^ keyword
 //                      ^ keyword
 //                           ^ - keyword
-//                              ^^^ storage.type.stable.scala
+//                              ^^^ keyword.control.stable.scala
 //                                  ^^^ entity.name.parameter
 //                                        ^ - keyword
 //                                           ^ - keyword
