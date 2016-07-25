@@ -526,3 +526,10 @@ object Foo
     case Bar.foo => 42
 //           ^^^ - entity.name
   }
+
+   val Foo = 42
+//     ^^^ entity.name.parameter
+
+   val (Foo, x) = 42
+//      ^^^ support.class.scala
+//           ^ entity.name.parameter
