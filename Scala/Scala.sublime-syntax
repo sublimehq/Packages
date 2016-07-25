@@ -19,6 +19,9 @@ variables:
   boundvarid: '(?:`{{varid}}`|{{varid}})'
   plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
   id: '(?:{{plainid}}|`[^`]+`)'
+  alphaid: (?:{{upper}}{{idrest}}|{{varid}})
+  # Custom productions
+  upperid: '(?:\b\p{Lu}{{idrest}})'
 
 contexts:
   main:
@@ -104,11 +107,11 @@ contexts:
         2: keyword.declaration.scala
         3: entity.name.class.scala
       push: class-type-parameter-list
-    - match: '\b(type)\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)'
+    - match: '\b(type)\s+({{id}})'
       captures:
         1: keyword.declaration.scala
         2: entity.name.type.scala
-    - match: '\b(?:(var))\s+(([a-zA-Z$_][a-zA-Z0-9$_]*(_[^a-zA-Z0-9\s]+)?)|`.*`)?'
+    - match: '\b(var)\s+({{id}})'
       captures:
         1: keyword.declaration.volatile.scala
         2: entity.name.var.scala
@@ -116,10 +119,10 @@ contexts:
       captures:
         1: keyword.declaration.stable.scala
       push:
-        - match: '=|\n'
+        - match: '(?=[=\n])'
           pop: true
         - include: pattern-match
-    - match: '\b(package object)\s+([^\s\{\(\[]+)'
+    - match: '\b(package object)\s+({{id}})'
       captures:
         1: keyword.declaration.scala
         2: entity.name.class.scala
@@ -176,7 +179,7 @@ contexts:
             - include: main
         - match: '\)'
           pop: true
-        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+        - match: '({{alphaid}})\s*:\s*'
           captures:
             1: variable.parameter.scala
         - include: main
@@ -207,7 +210,7 @@ contexts:
             - include: main
         - match: '\)'
           pop: true
-        - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)\s*:\s*'
+        - match: '({{alphaid}})\s*:\s*'
           captures:
             1: variable.parameter.scala
         - include: main
@@ -252,7 +255,7 @@ contexts:
         1: keyword.declaration.scala
         2: entity.other.inherited-class.scala
   initialization:
-    - match: '\b(new)\s+([^\s\{\(\}\)\[]+)'
+    - match: '\b(new)\s+({{id}})'
       captures:
         1: keyword.scala
         2: entity.name.class.scala
@@ -323,6 +326,8 @@ contexts:
   late-keywords:
     - match: \b(type|def|class|trait|object|extends|with|forSome)\b
       scope: keyword.declaration.scala
+    - match: \bvar\b
+      scope: keyword.declaration.volatile.scala
     - match: \b(package)\b
       scope: keyword.other.scoping.scala
     - match: \b(new)\b
@@ -337,13 +342,11 @@ contexts:
         - include: nest-curly-and-self
     - include: main
   qualifiedClassName:
-    - match: '(\b([A-Z][\w]*))'
-      captures:
-        1: support.class.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
   scala-symbol:
-    - match: ('\w+)
-      captures:
-        1: constant.other.symbol.scala
+    - match: '''{{plainid}}'
+      scope: constant.other.symbol.scala
   storage-modifiers:
     - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
@@ -364,14 +367,14 @@ contexts:
           scope: invalid.string.newline.scala
         - match: \\.
           scope: constant.character.escape.scala
-    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)"""'
+    - match: '({{alphaid}})"""'
       captures:
         1: string.quoted.triple.interpolated.scala
       push:
         - meta_scope: string.quoted.triple.interpolated.scala
         - match: '"""(?!")'
           pop: true
-        - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
+        - match: '\${{alphaid}}'
           scope: variable.parameter.scala
         - match: '\$\{'
           scope: variable.parameter.scala
@@ -382,7 +385,7 @@ contexts:
               pop: true
             - include: nest-curly-and-self
             - include: main
-    - match: '([a-zA-Z$_][a-zA-Z0-9$_]*)"'
+    - match: '({{alphaid}})"'
       captures:
         1: string.quoted.interpolated.scala
       push:
@@ -393,7 +396,7 @@ contexts:
           scope: invalid.string.newline.scala
         - match: \\.
           scope: constant.character.escape.scala
-        - match: '\$[a-zA-Z$_][a-zA-Z0-9$_]*'
+        - match: '\${{alphaid}}'
           scope: variable.parameter.scala
         - match: '\$\{'
           scope: variable.parameter.scala
@@ -430,16 +433,13 @@ contexts:
     - include: xml-literal
     - match: '`'
       push:
-        - meta_scope: source.scala
         - match: '`'
           pop: true
     - match: '\b[a-z][a-zA-Z0-9_]*\.'
-      scope: source.scala
     - match: '\.[a-z][a-zA-Z0-9_]*\b'
-      scope: source.scala
-    - match: '\b[a-z][a-zA-Z0-9_]*\b'
+    - match: '\b{{varid}}'
       scope: entity.name.parameter.scala
-    - match: '\b[A-Z][a-zA-Z0-9_]*'
+    - match: '{{upperid}}'
       scope: support.class.scala
     - match: \[
       push:
