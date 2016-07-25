@@ -135,7 +135,10 @@ contexts:
     - match: \?\((<\w+>|'\w+'|\d+|R\d*|R&\w+)\)
       scope: keyword.other.backref-and-recursion.conditional.regexp
       set: [group-body, unexpected-quantifier-pop]
-    - match: '\?(?=\()'
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
       scope: keyword.other.conditional.regexp
       set: [group-body, base-group]
     - match: ''
@@ -182,7 +185,10 @@ contexts:
     - match: \?\((<\w+>|'\w+'|\d+|R\d*|R&\w+)\)
       scope: keyword.other.backref-and-recursion.conditional.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
-    - match: '\?(?=\()'
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
       scope: keyword.other.conditional.regexp
       set: [group-body-extended, base-group-extended]
     - match: ''

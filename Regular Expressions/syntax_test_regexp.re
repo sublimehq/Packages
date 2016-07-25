@@ -387,6 +387,9 @@ hello++
 #                ^ keyword.operator.alternation.regexp
 #                 ^ meta.literal.regexp
 #                  ^ keyword.control.group.regexp
+(?(DEFINE)(?<a>abcd))(?&a)
+#^^^^^^^^^ keyword.other.conditional.definition.regexp
+#                     ^^^ keyword.other.backref-and-recursion.regexp
 
 (?x)
 (?<test>a)?b(?('test')c|d)
@@ -445,4 +448,7 @@ hello++
 #                ^ keyword.operator.alternation.regexp
 #                 ^ meta.literal.regexp
 #                  ^ keyword.control.group.regexp
+(?(DEFINE)(?<a>abcd))(?&a)
+#^^^^^^^^^ keyword.other.conditional.definition.regexp
+#                     ^^^ keyword.other.backref-and-recursion.regexp
 (?-x)
