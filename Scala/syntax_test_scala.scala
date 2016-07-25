@@ -16,8 +16,8 @@ def foo(a: Int, b: Bar): Baz = 42
 //  ^^^ entity.name.function.scala
 //      ^ variable.parameter
 //         ^^^ storage.type.primitive.scala
-//                 ^^^ entity.name.class
-//                       ^^^ entity.name.class
+//                 ^^^ support.class
+//                       ^^^ support.class
 //                             ^^ constant.numeric.scala
 
    def +(a: Int)
@@ -59,7 +59,7 @@ def foo(a: Int, b: Bar): Baz = 42
    def foo[A]
 // ^^^ keyword.declaration.scala
 //     ^^^ entity.name.function.scala
-//         ^ entity.name.class
+//         ^ support.class
 
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
@@ -77,9 +77,9 @@ var foo: Unit
 class Foo[A](a: Bar) extends Baz with Bin
 // ^^ keyword.declaration.scala
 //    ^^^ entity.name.class
-//        ^ entity.name.class
+//        ^ support.class
 //           ^ variable.parameter
-//              ^^^ entity.name.class
+//              ^^^ support.class
 //                   ^^^^^^^ keyword.declaration.scala
 //                           ^^^ entity.other.inherited-class.scala
 //                               ^^^^ keyword.declaration.scala
@@ -187,7 +187,7 @@ object Foo
 // ^^^^^^^ storage.type.primitive.scala
 
    String
-// ^^^^^^ entity.name.class
+// ^^^^^^ support.class
 
    // this is a comment
 // ^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.scala
@@ -310,13 +310,13 @@ object Foo
 
    ({ type λ[α] = Foo[α] })#λ
 // ^^^^^^^^^^^^^^ comment.block.scala
-//                ^^^ entity.name.class
+//                ^^^ support.class
 //                    ^ comment.block.empty.scala
 //                       ^^^^ comment.block.scala
 
    ({ type λ[α, β] = Foo[α, β] })#λ
 // ^^^^^^^^^^^^^^^^^ comment.block.scala
-//                   ^^^ entity.name.class
+//                   ^^^ support.class
 //                       ^ comment.block.empty.scala
 //                          ^ comment.block.empty.scala
 //                             ^^^^ comment.block.scala

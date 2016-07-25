@@ -252,7 +252,7 @@ contexts:
   qualifiedClassName:
     - match: '(\b([A-Z][\w]*))'
       captures:
-        1: entity.name.class.scala
+        1: support.class.scala
   scala-symbol:
     - match: ('\w+)
       captures:
