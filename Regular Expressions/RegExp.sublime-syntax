@@ -132,6 +132,15 @@ contexts:
     - match: '\?<\w+>'
       scope: keyword.other.named-capture-group.regexp
       set: [group-body, unexpected-quantifier-pop]
+    - match: \?\((<\w+>|'\w+'|\d+|R\d*|R&\w+)\)
+      scope: keyword.other.backref-and-recursion.conditional.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
+      scope: keyword.other.conditional.regexp
+      set: [group-body, base-group]
     - match: ''
       set: [group-body, unexpected-quantifier-pop]
 
@@ -173,6 +182,15 @@ contexts:
     - match: '\?<\w+>'
       scope: keyword.other.named-capture-group.regexp
       set: [group-body-extended, unexpected-quantifier-pop]
+    - match: \?\((<\w+>|'\w+'|\d+|R\d*|R&\w+)\)
+      scope: keyword.other.backref-and-recursion.conditional.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: '\?\(DEFINE\)'
+      scope: keyword.other.conditional.definition.regexp
+      set: [group-body-extended, unexpected-quantifier-pop]
+    - match: '\?(?=\(\?)'
+      scope: keyword.other.conditional.regexp
+      set: [group-body-extended, base-group-extended]
     - match: ''
       set: [group-body-extended, unexpected-quantifier-pop]
 
@@ -275,7 +293,7 @@ contexts:
 
   operators:
     - match: \|
-      scope: keyword.operator.regexp
+      scope: keyword.operator.alternation.regexp
       push: unexpected-quantifier-pop
 
   literal:
