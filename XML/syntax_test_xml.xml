@@ -5,17 +5,17 @@
   XML Declaration
  -->
 
-     <?xml
-     <!-- <- meta.tag.preprocessor -->
+     <?xml version="1.0" ?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^ entity.name.tag -->
-     version="1.0"
-<!-- ^^^^^^^ entity.other.attribute-name -->
-<!--         ^ punctuation.definition.string.begin -->
-<!--         ^^^^^ string.quoted -->
-<!--             ^ punctuation.definition.string.end -->
-     ?>
-<!-- ^^ punctuation.definition.tag.end -->
+<!--       ^^^^^^^ entity.other.attribute-name -->
+<!--              ^ punctuation.separator.key-value -->
+<!--               ^ punctuation.definition.string.begin -->
+<!--               ^^^^^ string.quoted -->
+<!--                   ^ punctuation.definition.string.end -->
+<!--                     ^^ punctuation.definition.tag.end -->
+<!--                       ^ - meta.tag.preprocessor -->
 
 
 <!--
