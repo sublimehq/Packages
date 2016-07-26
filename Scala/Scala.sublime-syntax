@@ -260,6 +260,8 @@ contexts:
       push:
         - match: '\)'
           pop: true
+        - match: '\b(val)\b'
+          scope: storage.type.scala
         - match: '({{alphaid}})(?=\s*:)'
           captures:
             1: variable.parameter.scala
@@ -324,10 +326,10 @@ contexts:
         - include: delimited-type-expression
 
   initialization:
-    - match: '\b(new)\s+({{id}})'
+    - match: '\b(new)\s+'
       captures:
         1: keyword.other.scala
-        2: entity.name.class.scala
+      push: single-type-expression
 
   for-comprehension:
     - match: '\b(for)\s*\{'
@@ -529,7 +531,7 @@ contexts:
     - match: '@|_'
       scope: keyword.other.scala
   val-pattern-match:
-    - match: '{{upperid}}'
+    - match: '{{upperid}}(?=[\s=])'
       scope: entity.name.parameter
     - match: '{{typeprefix}}'
       push:

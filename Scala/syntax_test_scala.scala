@@ -602,3 +602,24 @@ type Foo = Bar[A] forSome { type A }
 
 // fubar
 // <- source.scala comment.line.double-slash
+
+new Foo
+//  ^^^ support.class.scala
+
+new (Foo ~> Bar)
+//   ^^^ support.class.scala
+//       ^^ support.type.scala
+//          ^^^ support.class.scala
+
+  class Foo(val bar: Baz) extends AnyVal
+//          ^^^ storage.type.scala
+//                        ^^^^^^^ keyword.declaration.scala
+//                                ^^^^^^ entity.other.inherited-class.scala
+
+  class Foo(implicit bar: Baz) extends AnyVal
+//          ^^^^^^^^ storage.modifier.other
+//                             ^^^^^^^ keyword.declaration.scala
+//                                     ^^^^^^ entity.other.inherited-class.scala
+
+   val Stuff(f1, v1) = ???
+//     ^^^^^ support.constant.scala
