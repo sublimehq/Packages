@@ -471,7 +471,7 @@ type Foo = Bar[A] forSome { type A }
 
    case object Thingy extends (Foo => Bar)
 // ^^^^ keyword.other.declaration.scala
-//      ^^^^^^ keyword.control.class.scala
+//      ^^^^^^ storage.type.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
