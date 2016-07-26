@@ -341,13 +341,13 @@ object Foo
 
    case (abc: Foo, cba @ _) =>
 // ^^^^ keyword.other.declaration.scala
-//       ^^^ entity.name.parameter
+//       ^^^ variable.parameter
 //            ^^^ support.class
-//                 ^^^ entity.name.parameter
+//                 ^^^ variable.parameter
 //                       ^ keyword
 
    case abc @ `abc` =>
-//      ^^^ entity.name.parameter
+//      ^^^ variable.parameter
 //          ^ keyword
 //            ^^^^^ - entity.name
 
@@ -437,16 +437,16 @@ object Foo
 // ^^^ keyword.control.flow.scala
 
      a <- _
-//   ^ entity.name.parameter
+//   ^ variable.parameter
 //        ^ - keyword
 
      a ← _
-//   ^ entity.name.parameter
+//   ^ variable.parameter
 //       ^ - entity.name
 
      (b, c @ _) <- _
-//    ^ entity.name.parameter
-//       ^ entity.name.parameter
+//    ^ variable.parameter
+//       ^ variable.parameter
 //         ^ keyword
 //           ^ keyword
 //                 ^ - keyword
@@ -454,54 +454,55 @@ object Foo
 //     ^ - entity.name
 
      testing = _
-//   ^^^^^^^ entity.name.parameter
+//   ^^^^^^^ variable.parameter
 //             ^ - keyword
 
      testing = {
-//   ^^^^^^^ entity.name.parameter
+//   ^^^^^^^ variable.parameter
        testing = false
 //     ^^^^^^^ - entity.name
      }
 
      testing = (
-//   ^^^^^^^ entity.name.parameter
+//   ^^^^^^^ variable.parameter
        testing = false
 //     ^^^^^^^ - entity.name
      )
 
      val testing = 42
 //   ^^^ keyword.declaration.stable.scala
-//       ^^^^^^^ entity.name.parameter
+//       ^^^^^^^ variable.parameter
    } _
 //   ^ - entity.name
 
    for (a <- _; (b, c @ _) ← _; val abc = _) _
 // ^^^ keyword.control.flow.scala
-//      ^ entity.name.parameter
+//      ^ variable.parameter
 //           ^ - keyword
-//               ^ entity.name.parameter
-//                  ^ entity.name.parameter
+//               ^ variable.parameter
+//                  ^ variable.parameter
 //                    ^ keyword
 //                      ^ keyword
 //                           ^ - keyword
 //                              ^^^ storage.type.stable.scala
 //                                  ^^^ entity.name.parameter
+//                                       TODO the above scope needs to be changed
 //                                        ^ - keyword
 //                                           ^ - keyword
 
    for {
      sss <- { {} }
-//   ^^^ entity.name.parameter
+//   ^^^ variable.parameter
      qqq <- stuff
-//   ^^^ entity.name.parameter
+//   ^^^ variable.parameter
    }
 
    for {
      back <- Traverse[Option]
-//   ^^^^ entity.name.parameter
+//   ^^^^ variable.parameter
 //           ^^^^^^^^ support.class
 //                    ^^^^^^ support.class
-       .traverse[Free, Stuff](res) { r =>
+       .traverse[Free, Stuff](res) { r => }
 //      ^^^^^^^^ - entity.name
 //                            ^^^ - entity.name
 //                                   ^ - entity.name
@@ -509,6 +510,7 @@ object Foo
 
 
   val baseSettings: Seq[Def.Setting[_]] = _
+//    ^^^^^^^^^^^^ entity.name.parameter.scala
 //                                  ^ - keyword
 
   for {
@@ -524,3 +526,10 @@ object Foo
     case Bar.foo => 42
 //           ^^^ - entity.name
   }
+
+   val Foo = 42
+//     ^^^ entity.name.parameter
+
+   val (Foo, x) = 42
+//      ^^^ support.class.scala
+//           ^ entity.name.parameter
