@@ -594,6 +594,8 @@ contexts:
           pop: true
         - include: main
   delimited-type-expression:
+    - match: '[\.#]'
+      scope: punctuation.separator
     - include: base-types
     - match: "[αβ]"   # this mostly exists for type lambdas
       scope: comment.block.empty.scala

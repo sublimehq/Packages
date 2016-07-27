@@ -638,3 +638,9 @@ new Foo#Bar#Baz
 //      ^^^ support.class.scala
 //         ^ punctuation.separator
 //          ^^^ support.class.scala
+
+type Foo = Foo.Bar
+//            ^ punctuation.separator
+
+type Foo = Foo#Bar
+//            ^ punctuation.separator
