@@ -732,3 +732,8 @@ type Foo >: Bar
   (a: Int => Boolean) => 42
 //        ^^ support.type
 //           ^^^^^^^ storage.type
+
+  (a: Foo[A] forSome { type A }) => 42
+// ^ variable.parameter
+//    ^^^ support.class
+//           ^^^^^^^ keyword.declaration.scala
