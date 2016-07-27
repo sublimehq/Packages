@@ -25,18 +25,30 @@ variables:
   typeprefix: '(?<=[a-zA-Z0-9\s\)\]\}])(:)(?=[a-zA-Z0-9\s\)\]\}])\s*'
 
 contexts:
+  prototype:
+    - include: comments
+    - include: block-comments
+
   main:
+    - include: main-pre-lambdas
+    - include: lambdas
+    - include: main-post-lambdas
+
+  main-no-lambdas:
+    - include: main-pre-lambdas
+    - include: main-post-lambdas
+
+  main-pre-lambdas:
     - include: storage-modifiers
     - include: declarations
     - include: inheritance
     - include: for-comprehension
     - include: keywords
     - include: imports
-    - include: comments
-    - include: block-comments
     - include: strings
     - include: initialization
     - include: ascription
+  main-post-lambdas:
     - include: constants
     - include: char-literal
     - include: scala-symbol
@@ -83,6 +95,34 @@ contexts:
   ascription:
     - match: '{{typeprefix}}'
       push: single-type-expression
+
+  lambdas:
+    # can't use a variable for this match either?
+    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|\([^\)]*\))\s*=>[\s\B])'
+      push:
+        # strangely, we can't use a variable for this match
+        - match: '(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}])'
+          captures:
+            1: storage.type.function.arrow.scala
+          pop: true
+        - include: lambda-declaration
+  lambda-declaration:
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: lambda-declaration
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}]))'
+          pop: true
+        - match: ','
+          pop: true
+        - match: '(?=\))'
+          pop: true
+        - include: delimited-type-expression
+    - match: '{{id}}'
+      scope: variable.parameter
 
   base-types:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
@@ -163,7 +203,14 @@ contexts:
             - match: '\)'
               pop: true
             - include: pattern-match
-        - match: '=>|⇒|\b(if)\b'
+        - match: '\b(if)\b'
+          captures:
+            1: keyword.control.flow.scala
+          set:
+            - match: '=>|⇒'
+              pop: true
+            - include: main-no-lambdas
+        - match: '=>|⇒'
           pop: true
           captures:
             1: keyword.control.flow.scala
@@ -290,7 +337,6 @@ contexts:
         - meta_scope: meta.import.scala
         - match: '(?<=[\n;])'
           pop: true
-        - include: comments
         - match: '([^\s{;.]+)\s*\.\s*'
           scope: variable.package.scala
         - match: '([^\s{;.]+)\s*'
@@ -507,8 +553,6 @@ contexts:
         - include: xml-attribute
 
   val-pattern-match-main:
-    - include: comments
-    - include: block-comments
     - include: keywords
     - include: ascription
     - include: constants
@@ -553,8 +597,6 @@ contexts:
       scope: support.class.scala
 
   pattern-match:
-    - include: comments
-    - include: block-comments
     - include: keywords
     - include: constants
     - include: char-literal

@@ -675,3 +675,49 @@ type Foo <: Bar
 type Foo >: Bar
 //       ^^ keyword.operator
 //          ^^^ support.class
+
+   { a => ??? }
+//   ^ variable.parameter
+
+   { (a, b) => ??? }
+//    ^ variable.parameter
+//       ^ variable.parameter
+
+   { a: Int => ??? }
+//   ^ variable.parameter
+//      ^^^ storage.type.primitive.scala
+
+   { (a: Int, b: Int) => ??? }
+//    ^ variable.parameter
+//       ^^^ storage.type.primitive.scala
+//            ^ variable.parameter
+//               ^^^ storage.type.primitive.scala
+
+   (a) => ???
+//  ^ variable.parameter
+
+   (a, b) => ???
+//  ^ variable.parameter
+//     ^ variable.parameter
+
+   (a: Int) => ???
+//  ^ variable.parameter
+//     ^^^ storage.type.primitive.scala
+
+   (a: Int, b: Int) => ???
+//  ^ variable.parameter
+//     ^^^ storage.type.primitive.scala
+//          ^ variable.parameter
+//             ^^^ storage.type.primitive.scala
+
+   a => ???
+// ^ variable.parameter
+
+   a: Int => ???
+// ^ variable.parameter
+//    ^^^ storage.type.primitive.scala
+
+   case _ if thing =>
+// ^^^^ keyword.other.declaration.scala
+//           ^^^^^ - variable.parameter
+//                 ^^ - storage.type.function.arrow
