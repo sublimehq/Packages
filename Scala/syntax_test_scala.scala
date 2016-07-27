@@ -721,3 +721,10 @@ type Foo >: Bar
 // ^^^^ keyword.other.declaration.scala
 //           ^^^^^ - variable.parameter
 //                 ^^ - storage.type.function.arrow
+
+   a =>a
+// ^ variable.parameter
+
+   a =>42
+// ^ variable.parameter
+//     ^^ constant.numeric.scala

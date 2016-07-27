@@ -98,10 +98,10 @@ contexts:
 
   lambdas:
     # can't use a variable for this match either?
-    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|\([^\)]*\))\s*=>[\s\B])'
+    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|\([^\)]*\))\s*=>[[[:alpha:]]0-9\s\)\]\}])'
       push:
         # strangely, we can't use a variable for this match
-        - match: '(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}])'
+        - match: '(?<=[[[:alpha:]]0-9\s\)\]\}])(=>)(?=[[[:alpha:]]0-9\s\)\]\}])'
           captures:
             1: storage.type.function.arrow.scala
           pop: true
