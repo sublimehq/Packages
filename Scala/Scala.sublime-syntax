@@ -106,23 +106,30 @@ contexts:
             1: storage.type.function.arrow.scala
           pop: true
         - include: lambda-declaration
-  lambda-declaration:
+  lambda-declaration-base:
     - match: \(
       push:
         - match: \)
           pop: true
-        - include: lambda-declaration
+        - include: lambda-declaration-parens
+    - match: '{{id}}'
+      scope: variable.parameter
+  lambda-declaration-parens:
     - match: '{{typeprefix}}'
       push:
-        - match: '(?=(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}]))'
-          pop: true
         - match: ','
           pop: true
         - match: '(?=\))'
           pop: true
         - include: delimited-type-expression
-    - match: '{{id}}'
-      scope: variable.parameter
+    - include: lambda-declaration-base
+  lambda-declaration:
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}]))'
+          pop: true
+        - include: delimited-type-expression
+    - include: lambda-declaration-base
 
   base-types:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b

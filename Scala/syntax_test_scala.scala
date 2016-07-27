@@ -728,3 +728,7 @@ type Foo >: Bar
    a =>42
 // ^ variable.parameter
 //     ^^ constant.numeric.scala
+
+  (a: Int => Boolean) => 42
+//        ^^ support.type
+//           ^^^^^^^ storage.type
