@@ -608,18 +608,25 @@ contexts:
   single-type-expression:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
-      pop: true
+      set: single-type-expression-tail
     - match: "[αβ]"   # this mostly exists for type lambdas
       scope: comment.block.empty.scala
-      pop: true
+      set: single-type-expression-tail
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
     - match: '{{upperid}}'
       scope: support.class.scala
-      pop: true
+      set: single-type-expression-tail
     - match: '{{id}}'
       scope: support.type.scala
-      pop: true
+      set: single-type-expression-tail
     - include: base-type-expression
     - match: '(?=[\s,\)\}\]])'
+      pop: true
+  single-type-expression-tail:
+    - match: '[\.#]'
+      scope: punctuation.separator
+      set: single-type-expression
+    - match: '\s+'
+    - match: '(?=.)'
       pop: true

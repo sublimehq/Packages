@@ -626,3 +626,15 @@ new (Foo ~> Bar)
 
 new Foo(new Foo)
 //      ^^^ keyword.other.scala
+
+new Foo.Bar.Baz
+//     ^ punctuation.separator
+//      ^^^ support.class.scala
+//         ^ punctuation.separator
+//          ^^^ support.class.scala
+
+new Foo#Bar#Baz
+//     ^ punctuation.separator
+//      ^^^ support.class.scala
+//         ^ punctuation.separator
+//          ^^^ support.class.scala
