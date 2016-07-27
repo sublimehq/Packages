@@ -22,7 +22,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   upperid: '(?:\b\p{Lu}{{idrest}})'
-  typeprefix: '(?<=[a-zA-Z0-9\s\)\]\}])(:)(?=[a-zA-Z0-9\s\)\]\}])\s*'
+  typeprefix: '(?<=[[[:alpha:]]0-9\s\)\]\}])(:)(?=[[[:alpha:]]0-9\s\)\]\}])\s*'
 
 contexts:
   prototype:
