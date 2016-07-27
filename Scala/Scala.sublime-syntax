@@ -220,7 +220,7 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
-                - match: '(?=[,=\)])'
+                - match: '(?=[=\)])'
                   pop: true
                 - match: ','
                   pop: true
@@ -268,7 +268,7 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
-                - match: '(?=[,=\)])'
+                - match: '(?=[=\)])'
                   pop: true
                 - match: ','
                   pop: true
@@ -578,34 +578,48 @@ contexts:
       scope: keyword.other.scala
 
   base-type-expression:
-    - include: base-types
-    - match: "[αβ]"   # this mostly exists for type lambdas
-      scope: comment.block.empty.scala
-    - match: forSome
-      scope: keyword.declaration.scala
-    - match: '{{upperid}}'
-      scope: support.class.scala
-    - match: _
-    - match: '{{id}}'
-      scope: support.type.scala
     - match: \(
       push:
         - match: \)
           pop: true
-        - include: base-type-expression
+        - include: delimited-type-expression
     - match: \[
       push:
         - match: \]
           pop: true
-        - include: base-type-expression
+        - include: delimited-type-expression
     - match: \{
       push:
         - match: \}
           pop: true
         - include: main
   delimited-type-expression:
+    - include: base-types
+    - match: "[αβ]"   # this mostly exists for type lambdas
+      scope: comment.block.empty.scala
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+    - match: _
+    - match: '{{id}}'
+      scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      pop: true
+    - match: "[αβ]"   # this mostly exists for type lambdas
+      scope: comment.block.empty.scala
+      pop: true
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      pop: true
+    - match: '{{id}}'
+      scope: support.type.scala
+      pop: true
     - include: base-type-expression
     - match: '(?=[\s,\)\}\]])'
       pop: true

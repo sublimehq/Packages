@@ -623,3 +623,6 @@ new (Foo ~> Bar)
 
    val Stuff(f1, v1) = ???
 //     ^^^^^ support.constant.scala
+
+new Foo(new Foo)
+//      ^^^ keyword.other.scala
