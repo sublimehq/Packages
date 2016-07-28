@@ -738,6 +738,21 @@ type Foo >: Bar
 //    ^^^ support.class
 //           ^^^^^^^ keyword.declaration.scala
 
+   ()
+// ^^ constant.language.scala
+
+foo()
+// ^^ - constant.language.scala
+
+foo()()
+//   ^^ - constant.language.scala
+
+foo(())
+//  ^^ constant.language.scala
+
+   () => 42
+// ^^ - constant.language.scala
+
 "testing /*comments*/"
 //       ^^^^^^^^^^^^ string.quoted.double
 //       ^^^^^^^^^^^^ - comment
