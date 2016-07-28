@@ -358,18 +358,18 @@ type Foo = Bar[A] forSome { type A }
    override
 // ^^^^^^^^ storage.modifier.other
 
-   ({ type λ[α] = Foo[α] })#λ
-// ^^^^^^^^^^^^^^ comment.block.scala
-//                ^^^ support.class
-//                    ^ comment.block.empty.scala
-//                       ^^^^ comment.block.scala
+   val t: ({ type λ[α] = Foo[α] })#λ
+//        ^^^^^^^^^^^^^^ comment.block.scala
+//                       ^^^ support.class
+//                           ^ comment.block.empty.scala
+//                              ^^^^ comment.block.scala
 
-   ({ type λ[α, β] = Foo[α, β] })#λ
-// ^^^^^^^^^^^^^^^^^ comment.block.scala
-//                   ^^^ support.class
-//                       ^ comment.block.empty.scala
-//                          ^ comment.block.empty.scala
-//                             ^^^^ comment.block.scala
+   val t: ({ type λ[α, β] = Foo[α, β] })#λ
+//        ^^^^^^^^^^^^^^^^^ comment.block.scala
+//                          ^^^ support.class
+//                              ^ comment.block.empty.scala
+//                                 ^ comment.block.empty.scala
+//                                    ^^^^ comment.block.scala
 
    a :: b :: Nil
 // ^^^^^^^^^ source.scala
@@ -644,3 +644,8 @@ type Foo = Foo.Bar
 
 type Foo = Foo#Bar
 //            ^ punctuation.separator
+
+val x: OptionT[({ type λ[α] = Foo[α, Int] })#λ, String] = ???
+//             ^^^^^^^^^^^^^^ comment.block
+//                                ^ comment.block.empty
+//                                        ^^^^ comment.block

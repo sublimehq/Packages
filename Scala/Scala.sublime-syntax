@@ -100,13 +100,6 @@ contexts:
       scope: support.constant.scala
 
   declarations:
-    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
-      scope: comment.block.scala
-      push:
-        - match: '\}\)#λ'
-          scope: comment.block.scala
-          pop: true
-        - include: delimited-type-expression
     - match: '\b(def)\s+({{id}})'
       captures:
         1: storage.type.function.scala
@@ -578,6 +571,13 @@ contexts:
       scope: keyword.other.scala
 
   base-type-expression:
+    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
+      scope: comment.block.scala
+      push:
+        - match: '\}\)#λ'
+          scope: comment.block.scala
+          pop: true
+        - include: delimited-type-expression
     - match: \(
       push:
         - match: \)
@@ -594,11 +594,11 @@ contexts:
           pop: true
         - include: main
   delimited-type-expression:
+    - match: "[αβ]"     # just here for type lambdas
+      scope: comment.block.empty.scala
     - match: '[\.#]'
       scope: punctuation.separator
     - include: base-types
-    - match: "[αβ]"   # this mostly exists for type lambdas
-      scope: comment.block.empty.scala
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
     - match: '{{upperid}}'
@@ -608,11 +608,10 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
+    - match: "[αβ]"     # just here for type lambdas
+      scope: comment.block.empty.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
-      set: single-type-expression-tail
-    - match: "[αβ]"   # this mostly exists for type lambdas
-      scope: comment.block.empty.scala
       set: single-type-expression-tail
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
