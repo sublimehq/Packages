@@ -82,14 +82,20 @@ contexts:
           scope: punctuation.definition.comment.end.regexp
           pop: true
 
+  backtracking-control-verb:
+    - match: '\(\*(PRUNE|SKIP|THEN|COMMIT|FAIL|F|ACCEPT)\)'
+      scope: keyword.control.verb.regexp
+
   group:
     - include: group-comment
+    - include: backtracking-control-verb
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start
 
   group-extended:
     - include: group-comment
+    - include: backtracking-control-verb
     - match: \(
       scope: keyword.control.group.regexp
       push: group-start-extended
