@@ -490,11 +490,13 @@ contexts:
   strings:
     - match: '"""'
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.triple.scala
         - match: '"""(?!")'
           pop: true
     - match: (?<!\\)"
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.scala
         - match: '"'
           pop: true
@@ -506,6 +508,7 @@ contexts:
       captures:
         1: support.function.scala
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.triple.interpolated.scala
         - match: '"""(?!")'
           pop: true
@@ -514,6 +517,7 @@ contexts:
       captures:
         1: support.function.scala
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.interpolated.scala
         - match: '"'
           pop: true

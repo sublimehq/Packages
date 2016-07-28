@@ -737,3 +737,7 @@ type Foo >: Bar
 // ^ variable.parameter
 //    ^^^ support.class
 //           ^^^^^^^ keyword.declaration.scala
+
+"testing /*comments*/"
+//       ^^^^^^^^^^^^ string.quoted.double
+//       ^^^^^^^^^^^^ - comment
