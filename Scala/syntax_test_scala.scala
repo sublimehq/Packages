@@ -667,3 +667,11 @@ class Foo[A <% Int]
 
 class Foo[A: Int]
 //         ^ keyword.operator
+
+type Foo <: Bar
+//       ^^ keyword.operator
+//          ^^^ support.class
+
+type Foo >: Bar
+//       ^^ keyword.operator
+//          ^^^ support.class

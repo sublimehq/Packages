@@ -123,6 +123,12 @@ contexts:
             - match: '\]'
               pop: true
             - include: delimited-type-expression
+        - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:)(?=[a-zA-Z0-9\s\)\]\}])'
+          scope: keyword.operator
+          set:
+            - match: '(?=[\n\}\)\]])'
+              pop: true
+            - include: delimited-type-expression
         - match: '='
           set:
             - match: '(?=[\n\}\)\]])'
