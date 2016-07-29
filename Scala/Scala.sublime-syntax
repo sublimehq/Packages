@@ -7,6 +7,9 @@ file_extensions:
   - sbt
 scope: source.scala
 variables:
+  # lookahead/behind for operators
+  oplookbehind: '(?<=[[[:alpha:]]0-9\s\(\)\[\]\{\}])'
+  oplookahead: '(?=[[[:alpha:]]0-9\s\(\)\[\]\{\}])'
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
   disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
   operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
@@ -22,7 +25,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   upperid: '(?:\b\p{Lu}{{idrest}})'
-  typeprefix: '(?<=[[[:alpha:]]0-9\s\)\]\}])(:)(?=[[[:alpha:]]0-9\s\)\]\}])\s*'
+  typeprefix: '{{oplookbehind}}(:){{oplookahead}}\s*'
 
 contexts:
   prototype:
@@ -97,11 +100,9 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    # can't use a variable for this match either?
     - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|\([^\)]*\))\s*=>[[[:alpha:]]0-9\s\)\]\}])'
       push:
-        # strangely, we can't use a variable for this match
-        - match: '(?<=[[[:alpha:]]0-9\s\)\]\}])(=>)(?=[[[:alpha:]]0-9\s\)\]\}])'
+        - match: '{{oplookbehind}}(=>){{oplookahead}}'
           captures:
             1: storage.type.function.arrow.scala
           pop: true
@@ -126,7 +127,7 @@ contexts:
   lambda-declaration:
     - match: '{{typeprefix}}'
       push:
-        - match: '(?=(?<=[a-zA-Z0-9\s\)\]\}])(=>)(?=[a-zA-Z0-9\s\)\]\}]))'
+        - match: '(?={{oplookbehind}}(=>){{oplookahead}})'
           pop: true
         - include: delimited-type-expression
     - include: lambda-declaration-base
@@ -170,7 +171,7 @@ contexts:
             - match: '\]'
               pop: true
             - include: delimited-type-expression
-        - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:)(?=[a-zA-Z0-9\s\)\]\}])'
+        - match: '{{oplookbehind}}(<:|>:){{oplookahead}}'
           scope: keyword.operator
           set:
             - match: '(?=[\n\}\)\]])'
@@ -655,7 +656,7 @@ contexts:
           pop: true
         - include: main
   type-constraints:
-    - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:|<%|\+|-|:)(?=[a-zA-Z0-9\s\)\]\}])'
+    - match: '{{oplookbehind}}(<:|>:|<%|\+|-|:){{oplookahead}}'
       scope: keyword.operator
   delimited-type-expression:
     - match: "[αβ]"     # just here for type lambdas
