@@ -200,6 +200,7 @@ contexts:
       push: function-tparams-brackets
     - match: '\]'
       pop: true
+    - include: type-constraints
     - include: delimited-type-expression
 
   function-parameter-list:
@@ -246,6 +247,7 @@ contexts:
       pop: true
     - match: this
       scope: variable.language.scala
+    - include: type-constraints
     - include: delimited-type-expression
 
   class-parameter-list:
@@ -566,7 +568,7 @@ contexts:
       push:
         - match: \]
           pop: true
-        - include: main
+        - include: delimited-type-expression
     - match: '@|_'
       scope: keyword.other.scala
 
@@ -593,6 +595,9 @@ contexts:
         - match: \}
           pop: true
         - include: main
+  type-constraints:
+    - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:|<%|\+|-|:)(?=[a-zA-Z0-9\s\)\]\}])'
+      scope: keyword.operator
   delimited-type-expression:
     - match: "[αβ]"     # just here for type lambdas
       scope: comment.block.empty.scala

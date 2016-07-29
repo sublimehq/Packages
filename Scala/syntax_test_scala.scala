@@ -649,3 +649,21 @@ val x: OptionT[({ type λ[α] = Foo[α, Int] })#λ, String] = ???
 //             ^^^^^^^^^^^^^^ comment.block
 //                                ^ comment.block.empty
 //                                        ^^^^ comment.block
+
+class Foo[+A]
+//        ^ keyword.operator
+
+class Foo[-A]
+//        ^ keyword.operator
+
+class Foo[A <: Int]
+//          ^^ keyword.operator
+
+class Foo[A >: Int]
+//          ^^ keyword.operator
+
+class Foo[A <% Int]
+//          ^^ keyword.operator
+
+class Foo[A: Int]
+//         ^ keyword.operator
