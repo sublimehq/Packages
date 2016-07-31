@@ -22,6 +22,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   upperid: '(?:\b\p{Lu}{{idrest}})'
+  typeprefix: '(?<=[a-zA-Z0-9\s\)\]\}])(:)(?=[a-zA-Z0-9\s\)\]\}])\s*'
 
 contexts:
   main:
@@ -35,15 +36,15 @@ contexts:
     - include: block-comments
     - include: strings
     - include: initialization
+    - include: ascription
     - include: constants
     - include: char-literal
     - include: scala-symbol
     - include: empty-parentheses
     - include: braces
-    - include: parameter-list
-    - include: qualifiedClassName
     - include: xml-literal
     - include: late-keywords
+
   block-comments:
     - match: /\*
       push:
@@ -59,6 +60,7 @@ contexts:
   char-literal:
     - match: '''\\?.'''
       scope: constant.character.literal.scala
+
   comments:
     - match: (//).*$\n?
       scope: comment.line.double-slash.scala
@@ -77,6 +79,14 @@ contexts:
           scope: keyword.other.documentation.scaladoc.scala
         - match: '\{@link\s+[^\}]*\}'
           scope: keyword.other.documentation.scaladoc.link.scala
+
+  ascription:
+    - match: '{{typeprefix}}'
+      push: single-type-expression
+
+  base-types:
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
   constants:
     - match: \b(false|null|true|Nil|None)\b
       scope: constant.language.scala
@@ -84,18 +94,12 @@ contexts:
       scope: constant.numeric.scala
     - match: \b(this|super)\b
       scope: variable.language.scala
-    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
-      scope: storage.type.primitive.scala
+    - include: base-types
+    # other upper-case stuff highlights as constant
+    - match: '{{upperid}}'
+      scope: support.constant.scala
+
   declarations:
-    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
-      scope: comment.block.scala
-      push:
-        - match: '\}\)#λ'
-          scope: comment.block.scala
-          pop: true
-        - match: "[αβ]"
-          scope: comment.block.empty.scala
-        - include: main
     - match: '\b(def)\s+({{id}})'
       captures:
         1: storage.type.function.scala
@@ -111,6 +115,25 @@ contexts:
       captures:
         1: storage.type.scala
         2: entity.name.type.scala
+      push:
+        - match: '(?=[\n\}\)\]])'
+          pop: true
+        - match: '\['
+          push:
+            - match: '\]'
+              pop: true
+            - include: delimited-type-expression
+        - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:)(?=[a-zA-Z0-9\s\)\]\}])'
+          scope: keyword.operator
+          set:
+            - match: '(?=[\n\}\)\]])'
+              pop: true
+            - include: delimited-type-expression
+        - match: '='
+          set:
+            - match: '(?=[\n\}\)\]])'
+              pop: true
+            - include: delimited-type-expression
     - match: '\b(var)\s+({{id}})'
       captures:
         1: storage.type.volatile.scala
@@ -121,7 +144,7 @@ contexts:
       push:
         - match: '(?=[=\n])'
           pop: true
-        - include: pattern-match
+        - include: val-pattern-match
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
         1: keyword.control.scala
@@ -145,7 +168,13 @@ contexts:
           captures:
             1: keyword.control.flow.scala
         - include: pattern-match
+
   braces:
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: delimited-type-expression
     - match: \(
       push:
         - match: \)
@@ -156,35 +185,57 @@ contexts:
         - match: \}
           pop: true
         - include: main
+
   function-type-parameter-list:
     - match: '(?=\()'
       set: function-parameter-list
     - match: '\['
       push: function-tparams-brackets
-    - match: '(?=[:\{=\n])'
+    - match: ':'
+      push:
+        - match: '(?=[\B\s]=[\B\s])'
+          pop: true
+        - include: delimited-type-expression
+        - match: '(?=[\{\n])'
+          pop: true
+    - match: '(?=[\{=\n])'
       pop: true
+
   function-tparams-brackets:
     - match: '\['
       push: function-tparams-brackets
     - match: '\]'
       pop: true
-    - include: main
+    - include: type-constraints
+    - include: delimited-type-expression
+
   function-parameter-list:
     - match: '\('
       push:
-        - match: '\('
-          push:
-            - match: '\)'
-              pop: true
-            - include: main
         - match: '\)'
           pop: true
-        - match: '({{alphaid}})\s*:\s*'
+        - match: '({{alphaid}})(?=\s*:)'
           captures:
             1: variable.parameter.scala
+          push:
+            - match: '{{typeprefix}}'
+              set:
+                - match: '(?=[=\)])'
+                  pop: true
+                - match: ','
+                  pop: true
+                - include: delimited-type-expression
         - include: main
-    - match: '(?=[:\{=\n])'
+    - match: ':'
+      push:
+        - match: '(?=[\B\s]=[\B\s])'
+          pop: true
+        - include: delimited-type-expression
+        - match: '(?=[\{\n])'
+          pop: true
+    - match: '(?=[\{=\n])'
       pop: true
+
   class-type-parameter-list:
     - match: '\b(private|protected)\b'
       scope: storage.modifier.access.scala
@@ -194,31 +245,43 @@ contexts:
       push: class-tparams-brackets
     - match: '(?=([\{\n]|extends))'
       pop: true
+
   class-tparams-brackets:
     - match: '\['
       push: class-tparams-brackets
     - match: '\]'
       pop: true
-    - include: main
+    - match: this
+      scope: variable.language.scala
+    - include: type-constraints
+    - include: delimited-type-expression
+
   class-parameter-list:
     - match: '\('
       push:
-        - match: '\('
-          push:
-            - match: '\)'
-              pop: true
-            - include: main
         - match: '\)'
           pop: true
-        - match: '({{alphaid}})\s*:\s*'
+        - match: '\b(val)\b'
+          scope: storage.type.scala
+        - match: '({{alphaid}})(?=\s*:)'
           captures:
             1: variable.parameter.scala
+          push:
+            - match: '{{typeprefix}}'
+              set:
+                - match: '(?=[=\)])'
+                  pop: true
+                - match: ','
+                  pop: true
+                - include: delimited-type-expression
         - include: main
     - match: '(?=([\{\n]|extends))'
       pop: true
+
   empty-parentheses:
     - match: \(\)
       scope: meta.parentheses.scala
+
   imports:
     - match: \b(import)\s+
       captures:
@@ -249,16 +312,26 @@ contexts:
                 3: variable.import.renamed-to.scala
             - match: '([^\s.,}]+)'
               scope: variable.import.scala
+
   inheritance:
     - match: '(extends|with)\s+([^\s\{\(\[\]]+)'
       captures:
         1: keyword.declaration.scala
         2: entity.other.inherited-class.scala
+    - match: '(extends|with)\s+\('
+      captures:
+        1: keyword.declaration.scala
+      push:
+        - match: '\)'
+          pop: true
+        - include: delimited-type-expression
+
   initialization:
-    - match: '\b(new)\s+({{id}})'
+    - match: '\b(new)\s+'
       captures:
         1: keyword.other.scala
-        2: entity.name.class.scala
+      push: single-type-expression
+
   for-comprehension:
     - match: '\b(for)\s*\{'
       captures:
@@ -312,6 +385,7 @@ contexts:
     - match: '\b(val)\b'
       scope: keyword.declaration.stable.scala
     - include: pattern-match
+
   keywords:
     - match: \b(return|throw)\b
       scope: keyword.control.flow.jump.scala
@@ -323,6 +397,7 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
+
   late-keywords:
     - match: \b(extends|with|forSome)\b
       scope: keyword.declaration.scala
@@ -338,6 +413,7 @@ contexts:
       scope: keyword.control.scala
     - match: \b(new)\b
       scope: keyword.other.scala
+
   nest-curly-and-self:
     - match: '\{'
       scope: punctuation.section.scope.scala
@@ -347,17 +423,17 @@ contexts:
           pop: true
         - include: nest-curly-and-self
     - include: main
-  qualifiedClassName:
-    - match: '{{upperid}}'
-      scope: support.class.scala
+
   scala-symbol:
     - match: '''{{plainid}}'
       scope: constant.other.symbol.scala
+
   storage-modifiers:
     - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
     - match: \b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
       scope: storage.modifier.other.scala
+
   strings:
     - match: '"""'
       push:
@@ -393,6 +469,7 @@ contexts:
         - match: \\.
           scope: constant.character.escape.scala
         - include: interpolated-vars-expressions
+
   interpolated-vars-expressions:
     - match: '(\$){{alphaid}}'
       scope: variable.other.scala
@@ -412,6 +489,7 @@ contexts:
               pop: true
             - include: nest-curly-and-self
             - include: main
+
   xml-attribute:
     - match: '(\w+)=("[^"]*")'
       captures:
@@ -427,6 +505,53 @@ contexts:
           pop: true
         - include: xml-literal
         - include: xml-attribute
+
+  val-pattern-match-main:
+    - include: comments
+    - include: block-comments
+    - include: keywords
+    - include: ascription
+    - include: constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
+    - include: xml-literal
+    - match: '`'
+      push:
+        - match: '`'
+          pop: true
+    - match: '{{varid}}\.'
+    - match: '\.{{varid}}'
+    - match: '\b{{varid}}'
+      scope: entity.name.parameter.scala
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: main
+    - match: '@|_'
+      scope: keyword.other.scala
+  val-pattern-match:
+    - match: '{{upperid}}(?=[\s=])'
+      scope: entity.name.parameter
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=[\B\s]=[\B\s])'
+          pop: true
+        - include: delimited-type-expression
+        - match: '(?=[\{\n])'
+          pop: true
+    - include: val-pattern-match-main
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: val-pattern-match-inner
+  val-pattern-match-inner:
+    - include: val-pattern-match-main
+    - match: '{{upperid}}'
+      scope: support.class.scala
+
   pattern-match:
     - include: comments
     - include: block-comments
@@ -440,16 +565,80 @@ contexts:
       push:
         - match: '`'
           pop: true
-    - match: '\b[a-z][a-zA-Z0-9_]*\.'
-    - match: '\.[a-z][a-zA-Z0-9_]*\b'
+    - match: '{{varid}}\.'
+    - match: '\.{{varid}}'
     - match: '\b{{varid}}'
-      scope: entity.name.parameter.scala
-    - match: '{{upperid}}'
-      scope: support.class.scala
+      scope: variable.parameter.scala   # not indexed!
+    - include: ascription
     - match: \[
       push:
         - match: \]
           pop: true
-        - include: main
+        - include: delimited-type-expression
     - match: '@|_'
       scope: keyword.other.scala
+
+  base-type-expression:
+    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
+      scope: comment.block.scala
+      push:
+        - match: '\}\)#λ'
+          scope: comment.block.scala
+          pop: true
+        - include: delimited-type-expression
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: delimited-type-expression
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: delimited-type-expression
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: main
+  type-constraints:
+    - match: '(?<=[a-zA-Z0-9\s\)\[\]\}])(<:|>:|<%|\+|-|:)(?=[a-zA-Z0-9\s\)\]\}])'
+      scope: keyword.operator
+  delimited-type-expression:
+    - match: "[αβ]"     # just here for type lambdas
+      scope: comment.block.empty.scala
+    - match: '[\.#]'
+      scope: punctuation.separator
+    - include: base-types
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+    - match: _
+    - match: '{{id}}'
+      scope: support.type.scala
+    - include: base-type-expression
+  single-type-expression:
+    - match: "[αβ]"     # just here for type lambdas
+      scope: comment.block.empty.scala
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail
+    - match: '{{id}}'
+      scope: support.type.scala
+      set: single-type-expression-tail
+    - include: base-type-expression
+    - match: '(?=[\s,\)\}\]])'
+      pop: true
+  single-type-expression-tail:
+    - match: '[\.#]'
+      scope: punctuation.separator
+      set: single-type-expression
+    - match: '\s+'
+    - match: '(?=.)'
+      pop: true
