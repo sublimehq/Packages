@@ -509,11 +509,10 @@ contexts:
         1: entity.name.variable.property.cs
         2: storage.type.function.accessor.get.cs
       set: line_of_code_in
-    - match: '{{name}}\s*(=)\s*'
+    - match: '{{name}}\s*(?==[^>])'
       captures:
         1: entity.name.variable.cs
-        2: keyword.operator.assignment.cs
-      set: line_of_code_in
+      set: variables_declaration
     - match: '(?:(?#<=>)|{{name}})\s*(\()'
       captures:
         1: entity.name.function.cs
@@ -841,9 +840,11 @@ contexts:
       set: [line_of_code_in]
 
   variables_declaration:
+    - meta_scope: debug.variables_declaration
     - match: '='
       scope: keyword.operator.assignment.variable.cs
       push:
+        - meta_scope: debug.variables_declaration.code
         - match: (?=;|,)
           pop: true
         - include: line_of_code_in
@@ -887,17 +888,17 @@ contexts:
       scope: keyword.other.cs
       push:
         - match: \(
-          scope: punctuation.definition.array.begin.cs
+          scope: punctuation.definition.block.begin.cs
           set:
             - match: \)
-              scope: punctuation.definition.array.end.cs
+              scope: punctuation.definition.block.end.cs
               pop: true
             - include: line_of_code_in
         - match: \{
-          scope: punctuation.definition.array.begin.cs
+          scope: punctuation.definition.block.begin.cs
           set:
             - match: \}
-              scope: punctuation.definition.array.end.cs
+              scope: punctuation.definition.block.end.cs
               pop: true
             - include: code_block_in
         - match: \S
@@ -907,10 +908,10 @@ contexts:
       scope: keyword.other.cs
       push:
         - match: \{
-          scope: punctuation.definition.array.begin.cs
+          scope: punctuation.definition.block.begin.cs
           set:
             - match: \}
-              scope: punctuation.definition.array.end.cs
+              scope: punctuation.definition.block.end.cs
               pop: true
             - include: code_block_in
         - match: \S
@@ -918,7 +919,25 @@ contexts:
 
     - match: \b(new)\b
       scope: keyword.declaration.new.cs
-      push:
+      push: maybe_an_anonymous_class
+
+  maybe_an_anonymous_class:
+    - match: \{
+      scope: punctuation.definition.class.begin.cs
+      comment: Found an anounymous class
+      set:
+        - match: \}
+          scope: punctuation.definition.class.end.cs
+          pop: true
+        - match: ','
+          scope: punctuation.separator.class.cs
+        - match: (?=\S)
+          push: line_of_code_in
+    - match: (?=[^{\s])
+      comment: This is not an anounymous class
+      set:
+        - match: \[,*\]
+          scope: support.type.cs
         - match: \[
           scope: punctuation.definition.arguments.begin.cs support.type.cs
           push:
@@ -935,7 +954,7 @@ contexts:
           set: arguments
         - match: \{
           scope: punctuation.definition.array.begin.cs
-          set: enumerable_constructor
+          push: enumerable_constructor
         - include: type
 
   line_of_code_in:
@@ -1255,6 +1274,8 @@ contexts:
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
+  # var list = new List<int> { 1, 2, 3 };
+  #                          ^^^^^^^^^^^
   enumerable_constructor:
     - match: \}
       scope: punctuation.definition.array.end.cs
@@ -1264,7 +1285,7 @@ contexts:
       push: enumerable_constructor
     - match: ','
       scope: punctuation.separator.array-element.cs
-    - match: (?=\S)
+    - match: (?=[^,\s{}])
       push: line_of_code_in
 
   try_block:

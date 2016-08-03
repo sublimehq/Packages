@@ -15,6 +15,10 @@ namespace YourNamespace
         Int x;
 ///      ^ variable.other.type.return.cs
 ///         ^ entity.name.variable.cs
+        Int x0 = 0, y0 = 0;
+///      ^ variable.other.type.return.cs
+///         ^ entity.name.variable.cs
+///                  ^ entity.name.variable.cs
 
         public Int YourProperty {
 ///             ^ variable.other.type.return.cs
@@ -187,9 +191,45 @@ namespace YourNamespace
 ///                                   ^ keyword.operator.assignment
 ///                                       ^^ keyword.operator
 
-
         }
 
+        void CodeContainingConstructors(){
+            var array = new []{ "foo" };
+///                           ^ punctuation.definition.array.begin
+///                                   ^ punctuation.definition.array.end
+            var arrayWithType = new string<Foo>[] { "foobar" };
+///                                               ^ punctuation.definition.array.begin
+///                                                          ^ punctuation.definition.array.end
+            var list = new List<Foo> { "coconuts", "horses" };
+///                                  ^ punctuation.definition.array.begin
+///                                                         ^ punctuation.definition.array.end
+            var dictionary = new Dictionary<string, string>
+            {
+///         ^ punctuation.definition.array.begin
+                ["woman"] = "floating",
+                ["floating"] = "wood"
+            };
+///         ^ punctuation.definition.array.end
+
+            var anonymous = new {
+///                             ^ punctuation.definition.class.begin
+                Wood = "burning",
+                Burning = "sorcerer"
+            };
+///         ^ punctuation.definition.class.end
+
+            var anonArray = new[]
+            {
+                new { name = "apple", diam = 4 },
+///                 ^ punctuation.definition.class.begin
+///                                            ^ punctuation.definition.class.end
+                new { name = "grape", diam = 1 }
+///                 ^ punctuation.definition.class.begin
+///                                            ^ punctuation.definition.class.end
+            };
+///         ^ punctuation.definition.array.end
+        }
+///     ^ punctuation.section.function
     }
 /// ^ punctuation.section.class
 }
