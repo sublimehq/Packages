@@ -422,7 +422,7 @@ contexts:
       pop: true
 
   method_declaration:
-    - match: '\b(abstract|async|const|event|extern|override|readonly|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(abstract|async|const|event|extern|new|override|readonly|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: '\b(delegate|dynamic)\b'
       scope: storage.modifier.cs
@@ -840,11 +840,9 @@ contexts:
       set: [line_of_code_in]
 
   variables_declaration:
-    - meta_scope: debug.variables_declaration
     - match: '='
       scope: keyword.operator.assignment.variable.cs
       push:
-        - meta_scope: debug.variables_declaration.code
         - match: (?=;|,)
           pop: true
         - include: line_of_code_in

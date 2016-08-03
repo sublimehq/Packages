@@ -46,6 +46,9 @@ namespace YourNamespace
 ///                                              ^^^ storage.type.function.accessor.set
 ///                                                     ^ keyword.operator.assignment
 ///                                                       ^^^^^ constant.language
+        
+        public new bool NewMethod() => false;
+///            ^^^ storage.modifier        
     }
 
     struct YourStruct
