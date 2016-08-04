@@ -101,6 +101,19 @@ contexts:
               - include: command_set_group
               - include: variables
           - include: command_set_group
+      - match: '\s+/[pP]\s+' # SET from standard input
+        push:
+          - match: '(?=\n)'
+            pop: true
+          - match: '([^ ][^=]*)(=)'
+            captures:
+              1: variable.other.readwrite.dosbatch
+              2: keyword.operator.assignment.dosbatch
+            set:
+              - meta_scope: meta.prompt.set.dosbatch
+              - include: operators
+              - match: '(?=\n)'
+                pop: true
 
   command_set_group:
     - match: '\('

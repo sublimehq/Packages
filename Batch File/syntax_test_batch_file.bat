@@ -407,3 +407,44 @@ set /A hello_world
 :: <- keyword.command
 ::     ^^^^^^^^^^^ meta.expression.set
 ::                ^ - meta.expression.set
+
+powershell get-date -uformat "%%Y%%m%%d" > today.txt
+::                           ^^^^^^^^^^^ string.quoted.double.dosbatch
+::                            ^^ constant.character.escape.dosbatch
+::                              ^ - constant.character.escape.dosbatch
+::                               ^^ constant.character.escape.dosbatch
+::                                 ^ - constant.character.escape.dosbatch
+::                                  ^^ constant.character.escape.dosbatch
+::                                    ^ - constant.character.escape.dosbatch
+
+:: the following example was inspired by http://stackoverflow.com/a/14634551/4473405
+set /p today=<today.txt
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch
+::           ^ keyword.operator.redirection.dosbatch
+::                     ^ - meta.prompt.set.dosbatch
+ren example.txt example_%today%.txt
+::                      ^ punctuation.definition.variable.begin.dosbatch
+::                      ^^^^^^^ variable.other.readwrite.dosbatch
+::                            ^ punctuation.definition.variable.end.dosbatch
+
+::                        | this is a deliberate trailing space
+set /p today=enter a date: 
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch
+::                         ^ - meta.prompt.set.dosbatch
+set /p today=enter a date: REM :: this is not a comment
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch - comment
+::                                                     ^ - meta.prompt.set.dosbatch
+set /p today=
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^ - meta.prompt.set.dosbatch
