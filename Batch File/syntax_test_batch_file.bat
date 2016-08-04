@@ -422,9 +422,7 @@ set /p today=<today.txt
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch
 ::           ^ keyword.operator.redirection.dosbatch
-::                     ^ - meta.prompt.set.dosbatch
 ren example.txt example_%today%.txt
 ::                      ^ punctuation.definition.variable.begin.dosbatch
 ::                      ^^^^^^^ variable.other.readwrite.dosbatch
@@ -449,9 +447,15 @@ set /p today=
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^ - meta.prompt.set.dosbatch
 
-SET /P example="what is the answer?"
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^^^ variable.other.readwrite.dosbatch
-::            ^ keyword.operator.assignment.dosbatch
-::             ^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
-::                                  ^ - meta.prompt.set.dosbatch - string
+SETLOCAL EnableDelayedExpansion
+::^^^^^^ keyword.command.dosbatch
+  SET /P example="what is the answer? " & echo you have answered: !example!
+::   ^^^^ - variable.other.readwrite.dosbatch
+::       ^^^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
+::                                      ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
+::                                        ^^^^ keyword.command.dosbatch
+::                                                                ^^^^^^^^^ variable.other.readwrite.dosbatch
+ENDLOCAL
+::^^^^^^ keyword.command.dosbatch

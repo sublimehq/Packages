@@ -103,7 +103,7 @@ contexts:
           - include: command_set_group
       - match: '\s+/[pP]\s+' # SET from standard input
         push:
-          - match: '(?=\n)'
+          - match: '(?=$\n|{{command_terminators}})'
             pop: true
           - match: '([^ ][^=]*)(=)'
             captures:
@@ -111,9 +111,8 @@ contexts:
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - include: operators
               - include: strings
-              - match: '(?=\n)'
+              - match: '(?=$\n|{{command_terminators}})'
                 pop: true
 
   command_set_group:
