@@ -112,6 +112,7 @@ contexts:
             set:
               - meta_scope: meta.prompt.set.dosbatch
               - include: operators
+              - include: strings
               - match: '(?=\n)'
                 pop: true
 

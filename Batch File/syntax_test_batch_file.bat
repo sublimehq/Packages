@@ -448,3 +448,10 @@ set /p today=
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^ - meta.prompt.set.dosbatch
+
+SET /P example="what is the answer?"
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^^^ variable.other.readwrite.dosbatch
+::            ^ keyword.operator.assignment.dosbatch
+::             ^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
+::                                  ^ - meta.prompt.set.dosbatch - string
