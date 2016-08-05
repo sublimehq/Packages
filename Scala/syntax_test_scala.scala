@@ -732,6 +732,13 @@ type Foo >: Bar
 //          ^ variable.parameter
 //             ^^^ storage.type.primitive.scala
 
+   (a: Int, b: Int) ⇒ ???
+//  ^ variable.parameter
+//     ^^^ storage.type.primitive.scala
+//          ^ variable.parameter
+//             ^^^ storage.type.primitive.scala
+//                  ^ storage.type.function.arrow
+
    a => ???
 // ^ variable.parameter
 

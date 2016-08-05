@@ -24,6 +24,7 @@ variables:
   id: '(?:{{plainid}}|`[^`]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
+  rightarrow: '=>|⇒'
   upperid: '(?:\b\p{Lu}{{idrest}})'
   typeprefix: '{{oplookbehind}}(:){{oplookahead}}\s*'
   # hack to cover up to three levels of nested parentheses
@@ -102,9 +103,9 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*=>[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
-        - match: '{{oplookbehind}}(=>){{oplookahead}}'
+        - match: '{{oplookbehind}}({{rightarrow}}){{oplookahead}}'
           captures:
             1: storage.type.function.arrow.scala
           pop: true
@@ -130,7 +131,7 @@ contexts:
   lambda-declaration:
     - match: '{{typeprefix}}'
       push:
-        - match: '(?={{oplookbehind}}(=>){{oplookahead}})'
+        - match: '(?={{oplookbehind}}({{rightarrow}}){{oplookahead}})'
           pop: true
         - include: delimited-type-expression
     - include: lambda-declaration-base
@@ -221,11 +222,11 @@ contexts:
           captures:
             1: keyword.control.flow.scala
           set:
-            - match: '=>|⇒'
+            - match: '{{rightarrow}}'
               scope: keyword.other.arrow.scala
               pop: true
             - include: main-no-lambdas
-        - match: '=>|⇒'
+        - match: '{{rightarrow}}'
           scope: keyword.other.arrow.scala
           pop: true
           captures:
@@ -368,7 +369,7 @@ contexts:
             - match: |-
                 (?x) \s*
                 				([^\s.,}]+) \s*
-                				(=>) \s*
+                				({{rightarrow}}) \s*
                 				([^\s.,}]+) \s*
 
               captures:
