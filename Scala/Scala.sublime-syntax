@@ -26,6 +26,8 @@ variables:
   # Custom productions
   upperid: '(?:\b\p{Lu}{{idrest}})'
   typeprefix: '{{oplookbehind}}(:){{oplookahead}}\s*'
+  # hack to cover up to three levels of nested parentheses
+  withinparens: '\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\)'
 
 contexts:
   prototype:
@@ -100,7 +102,7 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|\([^\)]*\))\s*=>[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*=>[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{oplookbehind}}(=>){{oplookahead}}'
           captures:

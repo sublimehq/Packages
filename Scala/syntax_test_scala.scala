@@ -741,3 +741,7 @@ type Foo >: Bar
 "testing /*comments*/"
 //       ^^^^^^^^^^^^ string.quoted.double
 //       ^^^^^^^^^^^^ - comment
+
+   cb: ((Throwable \/ Unit) => Unit) => 42
+// ^^ variable.parameter
+//                                   ^^ storage.type.function.arrow
