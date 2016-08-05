@@ -15,11 +15,13 @@ def foo: Baz = 42
 //^ storage.type.function.scala
 //  ^^^ entity.name.function.scala
 //       ^^^ support.class
+//           ^ keyword.operator.assignment.scala
 //             ^^ constant.numeric.scala
 
 def foo: Baz => Bar = 42
 //       ^^^ support.class
 //              ^^^ support.class
+//                  ^ keyword.operator.assignment.scala
 
 
 def foo(a: Int, b: Bar): Baz = 42
@@ -29,6 +31,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //         ^^^ storage.type.primitive.scala
 //                 ^^^ support.class
 //                       ^^^ support.class
+//                           ^ keyword.operator.assignment.scala
 //                             ^^ constant.numeric.scala
 
    def +(a: Int)
@@ -104,10 +107,12 @@ class Foo[A](a: Bar) extends Baz with Bin
 
 class Foo(x: Int = 42)
 //               ^ - support
+//               ^ keyword.operator.assignment.scala
 //                 ^^ constant.numeric
 
 def foo(x: Int = 42)
 //             ^ - support
+//             ^ keyword.operator.assignment.scala
 //               ^^ constant.numeric
 
 trait Foo
@@ -121,11 +126,13 @@ object Foo
    type Foo = Bar
 // ^^^^ storage.type.scala
 //      ^^^ entity.name.type.scala
+//          ^ keyword.operator.assignment.scala
 //            ^^^ support.class.scala
 
    type Foo = Bar => Baz
 // ^^^^ storage.type.scala
 //      ^^^ entity.name.type.scala
+//          ^ keyword.operator.assignment.scala
 //            ^^^ support.class.scala
 //                   ^^^ support.class.scala
 
@@ -134,6 +141,7 @@ object Foo
 //         ^ support.class
 //            ^ support.class
 //               ^ support.class
+//                  ^ keyword.operator.assignment.scala
 
 type Foo = Bar {
   def baz: Int
@@ -395,15 +403,19 @@ type Foo = Bar[A] forSome { type A }
 //       ^^^ variable.parameter
 //            ^^^ support.class
 //                 ^^^ variable.parameter
-//                       ^ keyword
+//                       ^ variable.language.scala
+//                          ^^ keyword.other.arrow.scala
 
    case abc @ `abc` =>
 //      ^^^ variable.parameter
-//          ^ keyword
-//            ^^^^^ - entity.name
+//          ^ keyword.operator.scala
+//            ^ punctuation.definition.identifier.scala
+//                ^ punctuation.definition.identifier.scala
+//                  ^^ keyword.other.arrow.scala
+//            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
-//                               ^ keyword
+//                               ^ variable.language.scala
 
    case /* testing */ =>
 //      ^^^^^^^^^^^^^ comment.block.scala
@@ -449,7 +461,9 @@ type Foo = Bar[A] forSome { type A }
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
 //     ^^^ entity.name.parameter
-//         ^ keyword
+//         ^ keyword.operator.scala
+//           ^ punctuation.definition.identifier.scala
+//               ^ punctuation.definition.identifier.scala
 //           ^^^^^ - entity.name
 
    _
@@ -458,8 +472,9 @@ type Foo = Bar[A] forSome { type A }
    val ble @ `abc` = _
 // ^^^ storage.type.stable.scala
 //     ^^^ entity.name.parameter
-//         ^ keyword
+//         ^ keyword.operator.scala
 //           ^^^^^ - entity.name
+//                 ^ keyword.operator.assignment.scala
 //                   ^ - keyword
 
    case object Thingy extends Other
@@ -496,42 +511,47 @@ type Foo = Bar[A] forSome { type A }
 
      a <- _
 //   ^ variable.parameter
+//     ^^ keyword.operator.assignment.scala
 //        ^ - keyword
 
      a ← _
 //   ^ variable.parameter
+//     ^ keyword.operator.assignment.scala
 //       ^ - entity.name
 
      (b, c @ _) <- _
 //    ^ variable.parameter
 //       ^ variable.parameter
-//         ^ keyword
-//           ^ keyword
+//         ^ keyword.operator.scala
+//           ^ variable.language.scala
+//              ^^ keyword.operator.assignment.scala
 //                 ^ - keyword
        _
 //     ^ - entity.name
 
      testing = _
 //   ^^^^^^^ variable.parameter
-//             ^ - keyword
+//           ^ keyword.operator.assignment.scala
+//             ^ - variable.operator.scala
 
      testing = {
 //   ^^^^^^^ variable.parameter
        testing = false
 //     ^^^^^^^ - entity.name
+//             ^ keyword.operator.assignment.scala
      }
 
      testing = (
 //   ^^^^^^^ variable.parameter
        testing = false
-//     ^^^^^^^ - entity.name
+//     ^^^^^^^ - variable.parameter
      )
 
      val testing = 42
 //   ^^^ keyword.declaration.stable.scala
 //       ^^^^^^^ variable.parameter
    } _
-//   ^ - entity.name
+//   ^ - variable.language.scala
 
    for (a <- _; (b, c @ _) ← _; val abc = _) _
 // ^^^ keyword.control.flow.scala
@@ -539,14 +559,14 @@ type Foo = Bar[A] forSome { type A }
 //           ^ - keyword
 //               ^ variable.parameter
 //                  ^ variable.parameter
-//                    ^ keyword
-//                      ^ keyword
-//                           ^ - keyword
+//                    ^ keyword.operator.scala
+//                      ^ variable.language.scala
+//                           ^ - variable.language.scala
 //                              ^^^ storage.type.stable.scala
 //                                  ^^^ entity.name.parameter
 //                                       TODO the above scope needs to be changed
-//                                        ^ - keyword
-//                                           ^ - keyword
+//                                        ^ - variable.language.scala
+//                                           ^ - variable.language.scala
 
    for {
      sss <- { {} }
@@ -582,8 +602,10 @@ type Foo = Bar[A] forSome { type A }
   {
     case foo.Bar => 42
 //       ^^^ - entity.name
+//          ^ punctuation.accessor.scala
     case Bar.foo => 42
 //           ^^^ - entity.name
+//          ^ punctuation.accessor.scala
   }
 
    val Foo = 42
@@ -628,22 +650,22 @@ new Foo(new Foo)
 //      ^^^ keyword.other.scala
 
 new Foo.Bar.Baz
-//     ^ punctuation.separator
+//     ^ punctuation.accessor.scala
 //      ^^^ support.class.scala
-//         ^ punctuation.separator
+//         ^ punctuation.accessor.scala
 //          ^^^ support.class.scala
 
 new Foo#Bar#Baz
-//     ^ punctuation.separator
+//     ^ punctuation.accessor.scala
 //      ^^^ support.class.scala
-//         ^ punctuation.separator
+//         ^ punctuation.accessor.scala
 //          ^^^ support.class.scala
 
 type Foo = Foo.Bar
-//            ^ punctuation.separator
+//            ^ punctuation.accessor.scala
 
 type Foo = Foo#Bar
-//            ^ punctuation.separator
+//            ^ punctuation.accessor.scala
 
 val x: OptionT[({ type λ[α] = Foo[α, Int] })#λ, String] = ???
 //             ^^^^^^^^^^^^^^ comment.block
