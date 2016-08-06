@@ -16,7 +16,7 @@ def foo: Baz = 42
 //  ^^^ entity.name.function.scala
 //       ^^^ support.class
 //           ^ keyword.operator.assignment.scala
-//             ^^ constant.numeric.scala
+//             ^^ constant.numeric.integer.scala
 
 def foo: Baz => Bar = 42
 //       ^^^ support.class
@@ -32,7 +32,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //                 ^^^ support.class
 //                       ^^^ support.class
 //                           ^ keyword.operator.assignment.scala
-//                             ^^ constant.numeric.scala
+//                             ^^ constant.numeric.integer.scala
 
    def +(a: Int)
 // ^^^ storage.type.function.scala
@@ -156,25 +156,34 @@ type Foo = Bar[A] forSome { type A }
 // ^^^ support.constant
 
    42
-// ^^ constant.numeric.scala
+// ^^ constant.numeric.integer.scala
+
+   .421
+// ^^^^ constant.numeric.float.scala
 
    42D
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.float.scala
 
    42d
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.float.scala
 
    42F
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.float.scala
 
    42f
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.float.scala
 
    42L
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.integer.scala
 
    42l
-// ^^^ constant.numeric.scala
+// ^^^ constant.numeric.integer.scala
+
+   0x0aF9123
+// ^^^^^^^^^ constant.numeric.hex.scala
+
+   0.045e-2
+// ^^^^^^^^ constant.numeric.float.scala
 
    true
 // ^^^^ constant.language.scala
@@ -208,7 +217,7 @@ type Foo = Bar[A] forSome { type A }
 // ^ support.function
 //           ^^ variable.other
 //              ^^ punctuation.definition.expression
-//                ^^ constant.numeric.scala
+//                ^^ constant.numeric.integer.scala
 //                  ^ punctuation.definition.expression
 
    s"""testing $a ${42}"""
@@ -216,7 +225,7 @@ type Foo = Bar[A] forSome { type A }
 // ^ support.function
 //             ^^ variable.other
 //                ^^ punctuation.definition.expression
-//                  ^^ constant.numeric.scala
+//                  ^^ constant.numeric.integer.scala
 //                    ^ punctuation.definition.expression
 //                     ^^^ string.quoted.triple.interpolated.scala
 
@@ -425,7 +434,7 @@ type Foo = Bar[A] forSome { type A }
    =>
 
    case 42 =>
-//      ^^ constant.numeric.scala
+//      ^^ constant.numeric.integer.scala
 
    case 'a' =>
 //      ^^^ constant.character.literal.scala
@@ -756,7 +765,7 @@ type Foo >: Bar
 
    a =>42
 // ^ variable.parameter
-//     ^^ constant.numeric.scala
+//     ^^ constant.numeric.integer.scala
 
   (a: Int => Boolean) => 42
 //        ^^ keyword.operator.arrow.scala
@@ -868,3 +877,10 @@ import foo.{
 for {} yield ()
 //     ^^^^^ keyword.control.flow.scala
 //           ^^ constant.language.scala
+
+   42.bar
+//   ^ - constant.numeric.scala
+
+ m.type baz
+// ^^^^ keyword.other.scala
+//      ^^^ - entity.name
