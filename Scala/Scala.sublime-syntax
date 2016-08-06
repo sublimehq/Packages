@@ -7,26 +7,51 @@ file_extensions:
   - sbt
 scope: source.scala
 variables:
-  # lookahead/behind for operators
-  oplookbehind: '(?<=[[[:alpha:]]0-9\s\(\)\[\]\{\}])'
-  oplookahead: '(?=[[[:alpha:]]0-9\s\(\)\[\]\{\}])'
+  # lookaround for operators
+  nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}]'
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
   disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
   operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
   upper: '[$_\p{Lu}]'
   # This is "letter", but without _ so we can ensure it is not last
   idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
-  op: '(?:{{operator_character}}+)'
+
+  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #}
+  op: |-
+    (?x:
+      [[^:=<@←⇒#]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]+|
+      =>{{operator_character}}+|
+      <[[^\-]&&{{operator_character}}]+|
+      <-{{operator_character}}+|
+      [:@←⇒#]{{operator_character}}+
+    )
+
+  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<, +, -}
+  typeop: |-
+    (?x:
+      [[^:=<@←⇒#+\-]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]+|
+      =>{{operator_character}}+|
+      <[[^\-%:]&&{{operator_character}}]+|
+      <-{{operator_character}}+|
+      :[^<]{{operator_character}}+|
+      :<{{operator_character}}+|
+      [@←⇒#+\-]{{operator_character}}+
+    )
+
   idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{op}})?)'
   varid: '(?:\p{Ll}{{idrest}})'
   boundvarid: '(?:`{{varid}}`|{{varid}})'
   plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
+  typeplainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{typeop}})'
   id: '(?:{{plainid}}|`[^`]+`)'
+  typeid: '(?:{{typeplainid}}|`[^`]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   rightarrow: '=>|⇒'
   upperid: '(?:\b\p{Lu}{{idrest}})'
-  typeprefix: '{{oplookbehind}}(:){{oplookahead}}\s*'
+  typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
   withinparens: '\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\)'
 
@@ -52,6 +77,8 @@ contexts:
     - include: keywords
     - include: imports
     - include: strings
+    - include: xml-literal
+    - include: operators
     - include: initialization
     - include: ascription
   main-post-lambdas:
@@ -60,7 +87,6 @@ contexts:
     - include: scala-symbol
     - include: empty-parentheses
     - include: braces
-    - include: xml-literal
     - include: late-keywords
 
   block-comments:
@@ -105,9 +131,8 @@ contexts:
   lambdas:
     - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
-        - match: '{{oplookbehind}}({{rightarrow}}){{oplookahead}}'
-          captures:
-            1: storage.type.function.arrow.scala
+        - match: '{{rightarrow}}'
+          scope: storage.type.function.arrow.scala
           pop: true
         - include: lambda-declaration
   lambda-declaration-base:
@@ -131,7 +156,7 @@ contexts:
   lambda-declaration:
     - match: '{{typeprefix}}'
       push:
-        - match: '(?={{oplookbehind}}({{rightarrow}}){{oplookahead}})'
+        - match: '(?={{nonopchar}}({{rightarrow}}){{nonopchar}})'
           pop: true
         - include: delimited-type-expression
     - include: lambda-declaration-base
@@ -177,7 +202,7 @@ contexts:
             - match: '\]'
               pop: true
             - include: delimited-type-expression
-        - match: '{{oplookbehind}}(<:|>:){{oplookahead}}'
+        - match: '(<:|>:)'
           scope: keyword.operator
           set:
             - match: '(?=[\n\}\)\]])'
@@ -392,6 +417,12 @@ contexts:
           pop: true
         - include: delimited-type-expression
 
+  # we need to greedily capture operators to prevent (e.g.) :: being matched as an ascription
+  # it would be incorrect to scope operators specially, since they are just identifiers
+  # by pulling them out HERE though and refusing to scope them, we emulate lookbehind
+  operators:
+    - match: '{{op}}'   # no explicit scope, just pulling it out
+
   initialization:
     - match: '\b(new)(?:\s+|\b)'
       captures:
@@ -465,7 +496,7 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
-    - match: '{{oplookbehind}}(=){{oplookahead}}'
+    - match: '='
       scope: keyword.operator.assignment.scala
 
   late-keywords:
@@ -685,8 +716,10 @@ contexts:
         - match: \}
           pop: true
         - include: declarations
+    - match: =>|⇒
+      scope: keyword.operator.arrow.scala
   type-constraints:
-    - match: '{{oplookbehind}}(<:|>:|<%|\+|-|:){{oplookahead}}'
+    - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.scala
   delimited-type-expression:
     - match: "[αβ]"     # just here for type lambdas
@@ -699,7 +732,7 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
-    - match: '{{id}}'
+    - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
@@ -713,7 +746,7 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail
-    - match: '{{id}}'
+    - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
     - include: base-type-expression

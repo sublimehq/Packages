@@ -759,7 +759,7 @@ type Foo >: Bar
 //     ^^ constant.numeric.scala
 
   (a: Int => Boolean) => 42
-//        ^^ support.type
+//        ^^ keyword.operator.arrow.scala
 //           ^^^^^^^ storage.type
 
   (a: Foo[A] forSome { type A }) => 42
@@ -788,4 +788,5 @@ foo(())
 
    cb: ((Throwable \/ Unit) => Unit) => 42
 // ^^ variable.parameter
+//                 ^^ support.type.scala
 //                                   ^^ storage.type.function.arrow
