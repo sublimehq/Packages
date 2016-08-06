@@ -774,8 +774,15 @@ type Foo >: Bar
 // ^^^ support.constant.scala
 //    ^^ - constant.language.scala
 
-foo()
+  Foo[A]()
+//      ^^ - constant.language.scala
+
+  foo[A]()
+//      ^^ - constant.language.scala
+
+foo() bar ()
 // ^^ - constant.language.scala
+//        ^^ constant.language.scala
 
 foo()()
 //   ^^ - constant.language.scala

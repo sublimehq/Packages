@@ -175,16 +175,21 @@ contexts:
     - match: '{{upperid}}'
       scope: support.constant.scala
       push: try-dispatch
-    - match: '(?={{id}}\()'
+    - match: '{{id}}(?=[\(\[])'
       push: try-dispatch
     - match: '\(\)'
       scope: constant.language.scala
   try-dispatch:
-    - match: '(?:{{id}})?\('
+    - match: '\('
       push:
         - match: \)
           pop: true
         - include: main
+    - match: '\['
+      push:
+        - match: \]
+          pop: true
+        - include: delimited-type-expression
     - match: '(?=[\S\n;])'
       pop: true
 
