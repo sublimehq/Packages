@@ -186,10 +186,10 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^ constant.language.scala
 
    Nil
-// ^^^ constant.language.scala
+// ^^^ support.constant.scala
 
    None
-// ^^^^ constant.language.scala
+// ^^^^ support.constant.scala
 
    this
 // ^^^^ variable.language.scala
@@ -381,11 +381,11 @@ type Foo = Bar[A] forSome { type A }
 
    a :: b :: Nil
 // ^^^^^^^^^ source.scala
-//           ^^^ constant.language.scala
+//           ^^^ support.constant.scala
 
   (a :: b :: Nil)
 // ^^^^^^^^^ source.scala
-//           ^^^ constant.language.scala
+//           ^^^ support.constant.scala
 
    a: Int
 // ^^ source.scala
@@ -448,7 +448,7 @@ type Foo = Bar[A] forSome { type A }
 //      ^^^^^^ text.xml
 //       ^^^ entity.name.tag
 
-   case Nil =>
+   case true =>
 //      ^^^ constant.language.scala
 
    case _ ⇒ _
