@@ -82,12 +82,11 @@ contexts:
     - include: initialization
     - include: ascription
   main-post-lambdas:
+    - include: late-keywords
     - include: constants
     - include: char-literal
     - include: scala-symbol
-    - include: empty-parentheses
     - include: braces
-    - include: late-keywords
 
   block-comments:
     - match: /\*
@@ -165,8 +164,6 @@ contexts:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
   constants:
-    - match: '(?<![[[:alpha:]]0-9`\)])\(\)'
-      scope: constant.language.scala
     - match: \b(false|null|true|Nil|None)\b
       scope: constant.language.scala
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
@@ -177,6 +174,19 @@ contexts:
     # other upper-case stuff highlights as constant
     - match: '{{upperid}}'
       scope: support.constant.scala
+      push: try-dispatch
+    - match: '(?={{id}}\()'
+      push: try-dispatch
+    - match: '\(\)'
+      scope: constant.language.scala
+  try-dispatch:
+    - match: '(?:{{id}})?\('
+      push:
+        - match: \)
+          pop: true
+        - include: main
+    - match: '(?=[\S\n;])'
+      pop: true
 
   declarations:
     - match: '\b(def)\s+({{id}})'
@@ -373,10 +383,6 @@ contexts:
         - include: main
     - match: '(?=([\{\n]|extends))'
       pop: true
-
-  empty-parentheses:
-    - match: \(\)
-      scope: meta.parentheses.scala
 
   imports:
     - match: \b(import)\b

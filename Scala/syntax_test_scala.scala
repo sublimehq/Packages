@@ -770,17 +770,23 @@ type Foo >: Bar
    ()
 // ^^ constant.language.scala
 
+   Foo()
+// ^^^ support.constant.scala
+//    ^^ - constant.language.scala
+
 foo()
 // ^^ - constant.language.scala
 
 foo()()
 //   ^^ - constant.language.scala
 
-foo(())
+foo(())()
 //  ^^ constant.language.scala
+//     ^^ - constant.language.scala
 
    () => 42
 // ^^ - constant.language.scala
+//    ^^ storage.type.function.arrow
 
 "testing /*comments*/"
 //       ^^^^^^^^^^^^ string.quoted.double
@@ -851,3 +857,7 @@ import foo.{
 // ^^^ variable.import.renamed-from.scala
 //        ^^^ variable.import.renamed-to.scala
 }
+
+for {} yield ()
+//     ^^^^^ keyword.control.flow.scala
+//           ^^ constant.language.scala
