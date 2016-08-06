@@ -454,7 +454,7 @@ contexts:
     - match: '^(?=([^<←=\{\}]|<[^\-])+(<-|←|=[\s\b]))'
       push:
         - match: '^\s*(val)\s+'
-          scope: keyword.declaration.stable.scala
+          scope: storage.type.stable.scala
         - match: <-|←|=
           scope: keyword.operator.assignment.scala
           pop: true
@@ -474,6 +474,8 @@ contexts:
     - match: '<-|←|='
       scope: keyword.operator.assignment.scala
       push:
+        - match: '(?=\))'
+          pop: true
         - match: ;
           pop: true
         - match: '\{'
@@ -488,7 +490,7 @@ contexts:
             - include: main
         - include: main
     - match: '\b(val)\b'
-      scope: keyword.declaration.stable.scala
+      scope: storage.type.stable.scala
     - include: pattern-match
 
   keywords:
@@ -689,6 +691,11 @@ contexts:
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
     - include: ascription
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: pattern-match
     - match: \[
       push:
         - match: \]

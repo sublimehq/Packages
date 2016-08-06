@@ -548,7 +548,7 @@ type Foo = Bar[A] forSome { type A }
      )
 
      val testing = 42
-//   ^^^ keyword.declaration.stable.scala
+//   ^^^ storage.type.stable.scala
 //       ^^^^^^^ variable.parameter
    } _
 //   ^ - variable.language.scala
@@ -561,10 +561,10 @@ type Foo = Bar[A] forSome { type A }
 //                  ^ variable.parameter
 //                    ^ keyword.operator.scala
 //                      ^ variable.language.scala
+//                         ^ keyword.operator.assignment.scala
 //                           ^ - variable.language.scala
 //                              ^^^ storage.type.stable.scala
-//                                  ^^^ entity.name.parameter
-//                                       TODO the above scope needs to be changed
+//                                  ^^^ variable.parameter
 //                                        ^ - variable.language.scala
 //                                           ^ - variable.language.scala
 
