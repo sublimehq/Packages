@@ -540,7 +540,7 @@ contexts:
         - meta_scope: string.quoted.triple.scala
         - match: '"""(?!")'
           pop: true
-    - match: (?<!\\)"
+    - match: '"'
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.scala
