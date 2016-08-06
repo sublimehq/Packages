@@ -822,3 +822,32 @@ class Foo(a: A =:= B = null)
 
 class Foo(a: A :: B)
 //             ^^ support.type.scala
+
+import foo
+// <- meta.import.scala
+//     ^^^ variable.import.scala
+
+import foo; import bar
+//     ^^^ variable.import.scala
+//          ^^^^^^ keyword.other.import.scala
+//                 ^^^ variable.import.scala
+
+import foo.bar
+//     ^^^^^^^ variable.package.scala
+
+import foo.{bar, bar => baz, bar=>baz}
+//         ^^^^^^^^^^^^^^^^^ meta.import.selector.scala
+//          ^^^ variable.import.scala
+//               ^^^ variable.import.renamed-from.scala
+//                   ^^ keyword.other.arrow.scala
+//                      ^^^ variable.import.renamed-to.scala
+//                           ^^^ variable.import.renamed-from.scala
+//                              ^^ keyword.other.arrow.scala
+//                                ^^^ variable.import.renamed-to.scala
+
+
+import foo.{
+   bar => bin
+// ^^^ variable.import.renamed-from.scala
+//        ^^^ variable.import.renamed-to.scala
+}

@@ -379,33 +379,29 @@ contexts:
       scope: meta.parentheses.scala
 
   imports:
-    - match: \b(import)\s+
-      captures:
-        1: keyword.other.import.scala
+    - match: \b(import)\b
+      scope: keyword.other.import.scala
       push:
         - meta_scope: meta.import.scala
-        - match: '(?<=[\n;])'
+        - match: '(?=[\n;])'
           pop: true
-        - match: '([^\s{;.]+)\s*\.\s*'
+        - match: '(?:{{id}}\.)+{{id}}?'
           scope: variable.package.scala
-        - match: '([^\s{;.]+)\s*'
+        - match: '{{id}}'
           scope: variable.import.scala
         - match: "{"
           push:
             - meta_scope: meta.import.selector.scala
             - match: "}"
               pop: true
-            - match: |-
-                (?x) \s*
-                				([^\s.,}]+) \s*
-                				({{rightarrow}}) \s*
-                				([^\s.,}]+) \s*
-
+            - match: '({{id}})\s*({{rightarrow}})\s*({{id}})'
               captures:
                 1: variable.import.renamed-from.scala
                 2: keyword.other.arrow.scala
                 3: variable.import.renamed-to.scala
-            - match: '([^\s.,}]+)'
+            - match: '{{rightarrow}}'
+              scope: keyword.other.arrow.scala
+            - match: '{{id}}'
               scope: variable.import.scala
 
   inheritance:
