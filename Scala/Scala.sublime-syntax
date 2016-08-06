@@ -409,11 +409,11 @@ contexts:
               scope: variable.import.scala
 
   inheritance:
-    - match: '(extends|with)\s+([^\s\{\(\[\]]+)'
+    - match: '\b(extends|with)\s+([^\s\{\(\[\]]+)'
       captures:
         1: keyword.declaration.scala
         2: entity.other.inherited-class.scala
-    - match: '(extends|with)\s+\('
+    - match: '\b(extends|with)\s+\('
       captures:
         1: keyword.declaration.scala
       push:
