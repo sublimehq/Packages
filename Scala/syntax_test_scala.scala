@@ -790,3 +790,35 @@ foo(())
 // ^^ variable.parameter
 //                 ^^ support.type.scala
 //                                   ^^ storage.type.function.arrow
+
+def foo(a: A <:< B)
+//           ^^^ support.type.scala
+
+def foo(a: A >:> B)
+//           ^^^ support.type.scala
+
+def foo(a: A =:= B)
+//           ^^^ support.type.scala
+
+def foo(a: A =:= B = null)
+//                 ^ keyword.operator.assignment.scala
+//                   ^^^^ constant.language.scala
+
+def foo(a: A :: B)
+//           ^^ support.type.scala
+
+class Foo(a: A <:< B)
+//             ^^^ support.type.scala
+
+class Foo(a: A >:> B)
+//             ^^^ support.type.scala
+
+class Foo(a: A =:= B)
+//             ^^^ support.type.scala
+
+class Foo(a: A =:= B = null)
+//                   ^ keyword.operator.assignment.scala
+//                     ^^^^ constant.language.scala
+
+class Foo(a: A :: B)
+//             ^^ support.type.scala

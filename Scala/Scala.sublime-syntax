@@ -34,8 +34,8 @@ variables:
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
       <[[^\-%:]&&{{operator_character}}]+|
-      <-{{operator_character}}+|
-      :[^<]{{operator_character}}+|
+      <[:%\-]{{operator_character}}+|
+      :[[^<]&&{{operator_character}}]+|
       :<{{operator_character}}+|
       [@←⇒#+\-]{{operator_character}}+
     )
@@ -309,12 +309,14 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
-                - match: '(?=[=\)])'
+                - match: '(?=\))'
                   pop: true
                 - match: ','
                   scope: punctuation.separator.scala
                   pop: true
                 - include: delimited-type-expression
+                - match: '(?=[=])'
+                  pop: true
         - include: main
     - match: ':'
       scope: punctuation.separator.scala
@@ -360,12 +362,14 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
-                - match: '(?=[=\)])'
+                - match: '(?=\))'
                   pop: true
                 - match: ','
                   scope: punctuation.separator.scala
                   pop: true
                 - include: delimited-type-expression
+                - match: '(?=[=])'
+                  pop: true
         - include: main
     - match: '(?=([\{\n]|extends))'
       pop: true
