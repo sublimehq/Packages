@@ -525,10 +525,6 @@ contexts:
       scope: keyword.operator.assignment.scala
 
   late-keywords:
-    - match: '(\.)(type)\b'
-      captures:
-        1: punctuation.accessor.scala
-        2: keyword.other.scala
     - match: \b(extends|with|forSome)\b
       scope: keyword.declaration.scala
     - match: \b(class|trait|object)\b
@@ -756,6 +752,8 @@ contexts:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.scala
   delimited-type-expression:
+    - match: '\b(type)\b'
+      scope: keyword.other.scala
     - match: "[αβ]"     # just here for type lambdas
       scope: comment.block.empty.scala
     - match: '[\.#]'
@@ -770,6 +768,8 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
+    - match: '\b(type)\b'
+      scope: keyword.other.scala
     - match: "[αβ]"     # just here for type lambdas
       scope: comment.block.empty.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b

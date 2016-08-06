@@ -881,6 +881,8 @@ for {} yield ()
    42.bar
 //   ^ - constant.numeric.scala
 
- m.type baz
-// ^^^^ keyword.other.scala
-//      ^^^ - entity.name
+  baz[m.type]
+//      ^^^^ keyword.other.scala
+
+foo: m.type
+//     ^^^^ keyword.other.scala
