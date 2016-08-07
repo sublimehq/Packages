@@ -636,7 +636,6 @@ contexts:
 
   val-pattern-match-main:
     - include: keywords
-    - include: ascription
     - include: constants
     - include: char-literal
     - include: scala-symbol
@@ -661,6 +660,7 @@ contexts:
         - match: \]
           pop: true
         - include: main
+    - match: '{{op}}'     # let it fall through
     - match: '@'
       scope: keyword.operator.scala
     - match: '_'
@@ -707,6 +707,7 @@ contexts:
         1: punctuation.accessor.scala
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
+    - match: '{{op}}'   # let it fall through
     - include: ascription
     - match: \(
       push:

@@ -892,3 +892,11 @@ foo: m.type
 
 offset >= 0
 //     ^^ - keyword
+
+{
+  case chunk #: h =>
+//              ^ variable.parameter
+}
+
+val chunk #: h = ???
+//           ^ entity.name.parameter
