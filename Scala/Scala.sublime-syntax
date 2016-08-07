@@ -19,7 +19,7 @@ variables:
   # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #}
   op: |-
     (?x:
-      [[^:=<@←⇒#]&&{{operator_character}}]+|
+      [[^:=<@←⇒#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
       <[[^\-]&&{{operator_character}}]+|
@@ -30,7 +30,7 @@ variables:
   # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<, +, -}
   typeop: |-
     (?x:
-      [[^:=<@←⇒#+\-]&&{{operator_character}}]+|
+      [[^:=<@←⇒#+\-]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
       <[[^\-%:]&&{{operator_character}}]+|

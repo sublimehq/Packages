@@ -889,3 +889,6 @@ foo: m.type
 
    ==
 // ^^ - keyword
+
+offset >= 0
+//     ^^ - keyword
