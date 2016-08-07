@@ -470,7 +470,7 @@ contexts:
   for-braces-body:
     - match: '^(?=([^<←=\{\}]|<[^\-])+(<-|←|=[\s\b]))'
       push:
-        - match: '^\s*(val)\s+'
+        - match: '\b(val)\b'
           scope: storage.type.stable.scala
         - match: <-|←|=
           scope: keyword.operator.assignment.scala
