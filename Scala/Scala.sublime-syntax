@@ -521,8 +521,6 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
-    - match: '='
-      scope: keyword.operator.assignment.scala
 
   late-keywords:
     - match: \b(extends|with|forSome)\b
@@ -537,6 +535,8 @@ contexts:
       scope: storage.type.volatile.scala
     - match: \b(package)\b
       scope: keyword.control.scala
+    - match: '='
+      scope: keyword.operator.assignment.scala
 
   nest-curly-and-self:
     - match: '\{'

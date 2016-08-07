@@ -886,3 +886,6 @@ for {} yield ()
 
 foo: m.type
 //     ^^^^ keyword.other.scala
+
+   ==
+// ^^ - keyword
