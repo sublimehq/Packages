@@ -1,0 +1,78 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+scope: text.sublime-snippet-content
+name: Sublime Text Snippet Content
+contexts:
+  main:
+    - include: possible_caret
+
+  possible_caret:
+    - match: '\\\$'
+      scope: constant.character.escape.sublime-snippet-content
+    - match: '\$(?=\{|\w)'
+      scope: keyword.other.caret.sublime-snippet-content
+      push: caret
+    - match: '\$'
+      scope: invalid.illegal.unescaped-dollar.sublime-snippet-content
+
+  caret:
+    - match: '(?:(\d+)|(PARAM\d+|SELECTION|TM_CURRENT_LINE|TM_CURRENT_WORD|TM_FILENAME|TM_FILEPATH|TM_FULLNAME|TM_LINE_INDEX|TM_LINE_NUMBER|TM_SELECTED_TEXT|TM_SOFT_TABS|TM_TAB_SIZE)\b)' # http://docs.sublimetext.info/en/latest/extensibility/snippets.html?highlight=snippet#environment-variables
+      captures:
+        1: constant.numeric.sublime-snippet-content
+        2: constant.language.sublime-snippet-content
+      pop: true
+    - match: '\{'
+      scope: keyword.other.caret.begin.sublime-snippet-content
+      set: [inside_caret, caret]
+    - match: '\w+'
+      scope: constant.other.sublime-snippet-content #invalid.illegal.unknown-variable.sublime-snippet-content
+      pop: true
+
+  inside_caret:
+    - match: '\}'
+      scope: keyword.other.caret.end.sublime-snippet-content
+      pop: true
+    - include: possible_caret
+    - match: ':'
+      scope: keyword.operator.alternation.sublime-snippet-content
+    - match: '/'
+      scope: keyword.operator.regexp.begin.sublime-snippet-content
+      push:
+        - match: '/'
+          scope: keyword.operator.regexp.end.sublime-snippet-content
+          set:
+            - match: '(/)([gims-]*)(?=\})' # x mode doesn't seem to work properly in snippets
+              captures:
+                1: keyword.operator.replacement.end.sublime-snippet-content
+                2: storage.modifier.mode.regexp.sublime-snippet-content
+              pop: true
+            - include: regex_replacement
+        - include: scope:source.regexp#base-literal
+
+  regex_replacement: # http://www.boost.org/doc/libs/1_56_0/libs/regex/doc/html/boost_regex/format/boost_format_syntax.html
+    - match: '\$\$'
+      scope: constant.character.escape.sublime-snippet-replacement
+    - match: '\$(\d+|\{\d+\}|&|\+(\{\w+\})?|^N)'
+      scope: keyword.other.backref-and-recursion.regexp.sublime-snippet-replacement
+    - match: \$(MATCH|PREMATCH|POSTMATCH|\{\^(MATCH|PREMATCH|POSTMATCH)\}|[`']|LAST_PAREN_MATCH|LAST_SUBMATCH_RESULT)
+      scope: keyword.other.backref-and-recursion.regexp.sublime-snippet-replacement
+    - match: '\\[1-9]'
+      scope: keyword.other.backref-and-recursion.regexp.sublime-snippet-replacement
+    - match: '\\[aefnrtv()]'
+      scope: constant.character.escape.sublime-snippet-replacement
+    - match: '\\[lLuUE]'
+      scope: keyword.operator.case-conversion.sublime-snippet-replacement
+    - match: '\)'
+      scope: invalid.illegal.stray-bracket.sublime-snippet-replacement
+    - match: '\\x(\h{2}|\{\h{4}\})'
+      scope: constant.character.escape.sublime-snippet-replacement
+    - match: '\(\?([1-9]|\{\w+\})'
+      scope: keyword.other.backref-and-recursion.conditional.regexp.sublime-snippet-replacement
+      push:
+        - match: ':'
+          scope: keyword.operator.alternation.sublime-snippet-replacement
+        - match: '\)'
+          scope: keyword.other.backref-and-recursion.conditional.regexp.sublime-snippet-replacement
+          pop: true
+        - include: regex_replacement

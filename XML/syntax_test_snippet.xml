@@ -1,0 +1,145 @@
+# SYNTAX TEST "Packages/XML/Snippet.sublime-syntax"
+<snippet>
+    <content><![CDATA[
+#   ^^^^^^^^^ meta.tag
+#    ^^^^^^^ entity.name.tag.localname
+#   ^ punctuation.definition.tag.begin
+#           ^ punctuation.definition.tag.end
+#            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
+#            ^^^^^^^^^ punctuation.definition.string.begin
+
+      Original: ${1:Hey, Joe!}
+#               ^^ keyword.other.caret
+#                 ^ constant.numeric
+#                  ^ keyword.operator.alternation
+#                            ^ keyword.other.caret
+
+Transformation: ${1/./=/g}
+#               ^^ keyword.other.caret
+#                 ^ constant.numeric
+#                  ^ keyword.operator.regexp.begin
+#                   ^ keyword.other.any
+#                    ^ keyword.operator.regexp.end
+#                      ^ keyword.operator.replacement.end
+#                       ^ storage.modifier.mode.regexp
+#                        ^ keyword.other.caret
+
+Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
+#               ^^ keyword.other.caret
+#                 ^ constant.numeric
+#                  ^ keyword.operator.regexp.begin
+#                   ^ keyword.control.anchors
+#                    ^^^^ meta.group
+#                     ^^ keyword.control.character-class
+#                        ^ keyword.operator.alternation
+#                         ^^^^^^^^^ meta.group
+#                                  ^ keyword.operator.regexp.end
+#                                   ^^^ keyword.other.backref-and-recursion.conditional
+#                                      ^^ keyword.operator.case-conversion
+#                                        ^^ keyword.other.backref-and-recursion
+#                                          ^ keyword.operator.alternation
+#                                           ^ keyword.other.backref-and-recursion.conditional
+#                                            ^^^ keyword.other.backref-and-recursion.conditional
+#                                                ^^ keyword.operator.case-conversion
+#                                                  ^^^^ keyword.other.backref-and-recursion
+#                                                      ^ keyword.operator.alternation
+#                                                       ^ keyword.other.backref-and-recursion.conditional
+#                                                        ^ keyword.operator.replacement.end
+#                                                         ^ storage.modifier.mode.regexp
+#                                                          ^ keyword.other.caret
+
+      Original: ${1:text_in_snail_case}
+#               ^^ keyword.other.caret
+#                 ^ constant.numeric
+#                  ^ keyword.operator.alternation
+#                                     ^ keyword.other.caret
+
+First Name: ${1:Joe}
+Second Name: ${2:Bloggs}
+Address: ${3:Main Street 1234}
+User name: ${4:$TM_FULLNAME}
+#          ^^ keyword.other.caret
+#            ^ constant.numeric
+#             ^ keyword.operator.alternation
+#              ^ keyword.other.caret
+#               ^^^^^^^^^^^ constant.language
+#                          ^ keyword.other.caret
+
+Test: ${1:Nested ${2:Placeholder}}
+#     ^^ keyword.other.caret
+#       ^ constant.numeric
+#        ^ keyword.operator.alternation
+#                ^^ keyword.other.caret
+#                  ^ constant.numeric
+#                   ^ keyword.operator.alternation
+#                               ^^ keyword.other.caret
+
+Literal dollar: \$5
+#               ^^ constant.character.escape - keyword
+#                 ^ - constant.numeric
+
+\label{sec:${TM_FILENAME:${SELECTION/(?i:(?<example>á))|\\\w+\{(.*?)\}|\\(.)|(\w)|([^\w\\]+)/(?{5}_:\L$2${3}(?{example}a:\4)\E)/g}}}
+#     ^ - keyword
+#         ^ - keyword
+#          ^ keyword.other.caret
+#           ^ keyword.other.caret.begin
+#            ^^^^^^^^^^^ constant.language
+#                       ^ keyword.operator.alternation
+#                        ^ keyword.other.caret
+#                         ^ keyword.other.caret.begin
+#                          ^^^^^^^^^ constant.language
+#                                   ^ keyword.operator.regexp.begin
+#                                    ^^^^^^^^^^^^^^^^^^ meta.group
+#                                                       ^^ constant.character.escape
+#                                                           ^ keyword.operator.quantifier.regexp
+#                                                            ^^ constant.character.escape - keyword
+#                                                                   ^^ constant.character.escape - keyword
+#                                                                                           ^ keyword.operator.regexp.end
+#                                                                                            ^^^^^ keyword.other.backref-and-recursion.conditional
+#                                                                                                  ^ keyword.operator.alternation
+#                                                                                                   ^^ keyword.operator.case-conversion
+#                                                                                                     ^^ keyword.other.backref-and-recursion
+#                                                                                                           ^^^^^^^^^^^ keyword.other.backref-and-recursion.conditional
+#                                                                                                                      ^ - keyword.other.backref-and-recursion.conditional
+#                                                                                                                        ^^ keyword.other.backref-and-recursion
+#                                                                                                                           ^^ keyword.operator.case-conversion
+#                                                                                                                              ^ keyword.operator.replacement.end
+#                                                                                                                                ^^ keyword.other.caret.end
+#                                                                                                                                  ^ - keyword
+
+stray brackets:
+ ${1/example)/)$$$0/}
+#^ keyword.other.caret
+# ^ keyword.other.caret.begin
+#           ^ invalid.illegal
+#            ^ keyword.operator.regexp.end
+#             ^ invalid.illegal
+#              ^^ constant.character.escape
+#                ^^ keyword.other.backref-and-recursion.regexp
+#                  ^ keyword.operator.replacement.end
+#                   ^ keyword.other.caret.end
+
+ $ 1.00
+#^ invalid.illegal.unescaped-dollar
+
+ ${0:$TM_SELECTED_TEXT}
+#  ^ constant
+#     ^^^^^^^^^^^^^^^^ constant
+#   ^^ - constant
+#                     ^ - constant
+
+${My_Own_Constant}
+# ^^^^^^^^^^^^^^^ constant.other
+
+ ]]></content>
+#^^^ string.unquoted.cdata punctuation.definition.string.end
+#   ^^^^^^^^^^ meta.tag - string
+#   ^^ punctuation.definition.tag.begin
+#            ^ punctuation.definition.tag.end
+    <!-- Optional: Tab trigger to activate the snippet -->
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment
+    <tabTrigger>test-snippet</tabTrigger>
+#   ^^^^^^^^^^^^ meta.tag
+    <!-- Optional: Scope the tab trigger will be active in -->
+    <scope>text</scope>
+</snippet>

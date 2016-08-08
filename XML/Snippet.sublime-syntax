@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - sublime-snippet
+name: Sublime Text Snippet
+scope: text.xml.sublime-snippet
+contexts:
+  main:
+    - match: '(<)(content)(>)(<!\[CDATA\[)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+        4: string.unquoted.cdata.xml punctuation.definition.string.begin.xml
+      push:
+        - meta_content_scope: string.unquoted.cdata.xml
+        - match: '(\]\]>)(</)(content)(>)'
+          captures:
+            1: string.unquoted.cdata.xml punctuation.definition.string.end.xml
+            2: meta.tag.xml punctuation.definition.tag.begin.xml
+            3: meta.tag.xml entity.name.tag.localname.xml
+            4: meta.tag.xml punctuation.definition.tag.end.xml
+          pop: true
+        - include: scope:text.sublime-snippet-content
+    - include: scope:text.xml
