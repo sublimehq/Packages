@@ -900,3 +900,14 @@ offset >= 0
 
 val chunk #: h = ???
 //           ^ entity.name.parameter
+
+for {
+  if things >= stuff
+//   ^^^^^^ - variable.parameter
+//             ^^^^^ - variable.parameter
+}
+
+
+for (if things >= stuff)
+//      ^^^^^^ - variable.parameter
+//                ^^^^^ - variable.parameter
