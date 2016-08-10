@@ -923,3 +923,6 @@ foo_=
 
 foo_
 // ^ - variable.language
+
+foo({ _ => () })
+//      ^^ storage.type.function.arrow

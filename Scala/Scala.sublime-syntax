@@ -130,7 +130,7 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=(_|{{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala
