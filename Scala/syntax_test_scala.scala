@@ -914,3 +914,12 @@ for (if things >= stuff)
 
    _
 // ^ variable.language.scala
+
+foo._1
+//  ^ - variable.language.scala
+
+foo_=
+//  ^ - keyword
+
+foo_
+// ^ - variable.language

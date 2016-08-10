@@ -12,7 +12,7 @@ variables:
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
   disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
   operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
-  upper: '[$_\p{Lu}]'
+  upper: '[$\p{Lu}]'
   # This is "letter", but without _ so we can ensure it is not last
   idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
 
@@ -40,8 +40,9 @@ variables:
       [@←⇒#+\-]{{operator_character}}+
     )
 
-  idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{op}})?)'
-  varid: '(?:\p{Ll}{{idrest}})'
+  idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{operator_character}}+)?)'
+  # an id that starts with lower-case OR underscore
+  varid: '(?:(?:\p{Ll}|_+(?={{idcont}})){{idrest}})'
   boundvarid: '(?:`{{varid}}`|{{varid}})'
   plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
   typeplainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{typeop}})'
@@ -87,6 +88,7 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: braces
+    - include: late-operators
 
   block-comments:
     - match: /\*
@@ -539,6 +541,11 @@ contexts:
       scope: storage.type.volatile.scala
     - match: \b(package)\b
       scope: keyword.control.scala
+
+  late-operators:
+    # catch all valid identifiers and let them fall through
+    # this prevents mixed operator identifiers from being partially highlighted
+    - match: '{{id}}'
     - match: '='
       scope: keyword.operator.assignment.scala
     - match: '_'
