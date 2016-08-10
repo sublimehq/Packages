@@ -144,7 +144,9 @@ contexts:
           pop: true
         - include: lambda-declaration-parens
     - match: '{{id}}'
-      scope: variable.parameter
+      scope: variable.parameter.scala
+    - match: '_'
+      scope: variable.language.scala
   lambda-declaration-parens:
     - match: '{{typeprefix}}'
       push:

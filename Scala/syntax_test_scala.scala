@@ -925,7 +925,9 @@ foo_
 // ^ - variable.language
 
 foo({ _ => () })
+//    ^ variable.language.scala
 //      ^^ storage.type.function.arrow
 
 foo({ _: Unit => () })
+//    ^ variable.language.scala
 //            ^^ storage.type.function.arrow
