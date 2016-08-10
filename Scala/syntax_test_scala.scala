@@ -559,10 +559,10 @@ type Foo = Bar[A] forSome { type A }
      val testing = 42
 //   ^^^ storage.type.stable.scala
 //       ^^^^^^^ variable.parameter
-   } _
-//   ^ - variable.language.scala
+   } abc
+//   ^^^ - variable.parameter
 
-   for (a <- _; (b, c @ _) ← _; val abc = _) _
+   for (a <- _; (b, c @ _) ← d; val abc = e) f
 // ^^^ keyword.control.flow.scala
 //      ^ variable.parameter
 //           ^ - keyword
@@ -571,11 +571,11 @@ type Foo = Bar[A] forSome { type A }
 //                    ^ keyword.operator.scala
 //                      ^ variable.language.scala
 //                         ^ keyword.operator.assignment.scala
-//                           ^ - variable.language.scala
+//                           ^ - variable.parameter
 //                              ^^^ storage.type.stable.scala
 //                                  ^^^ variable.parameter
-//                                        ^ - variable.language.scala
-//                                           ^ - variable.language.scala
+//                                        ^ - variable.parameter
+//                                           ^ - variable.parameter
 
    for {
      sss <- { {} }
@@ -911,3 +911,6 @@ for {
 for (if things >= stuff)
 //      ^^^^^^ - variable.parameter
 //                ^^^^^ - variable.parameter
+
+   _
+// ^ variable.language.scala

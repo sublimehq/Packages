@@ -541,6 +541,8 @@ contexts:
       scope: keyword.control.scala
     - match: '='
       scope: keyword.operator.assignment.scala
+    - match: '_'
+      scope: variable.language.scala
 
   nest-curly-and-self:
     - match: '\{'
