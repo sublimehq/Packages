@@ -926,3 +926,6 @@ foo_
 
 foo({ _ => () })
 //      ^^ storage.type.function.arrow
+
+foo({ _: Unit => () })
+//            ^^ storage.type.function.arrow

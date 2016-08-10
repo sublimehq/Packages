@@ -47,6 +47,7 @@ variables:
   plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
   typeplainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{typeop}})'
   id: '(?:{{plainid}}|`[^`]+`)'
+  idorunder: '(?:{{id}}|_)'
   typeid: '(?:{{typeplainid}}|`[^`]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
@@ -130,7 +131,7 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=(_|{{id}}|{{id}}\s*:\s*{{id}}|{{id}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{idorunder}}|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala
