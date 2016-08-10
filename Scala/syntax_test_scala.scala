@@ -931,3 +931,12 @@ foo({ _ => () })
 foo({ _: Unit => () })
 //    ^ variable.language.scala
 //            ^^ storage.type.function.arrow
+
+  stuff: _*
+//       ^^ keyword.operator.other.scala
+
+  case _ @ _* =>
+//         ^^ keyword.operator.other.scala
+
+  val _ @ _* = things
+//        ^^ keyword.operator.other.scala

@@ -679,6 +679,8 @@ contexts:
     - match: '{{op}}'     # let it fall through
     - match: '@'
       scope: keyword.operator.scala
+    - match: '_\*'
+      scope: keyword.operator.other.scala
     - match: '_'
       scope: variable.language.scala
   val-pattern-match:
@@ -737,6 +739,8 @@ contexts:
         - include: delimited-type-expression
     - match: '@'
       scope: keyword.operator.scala
+    - match: '_\*'
+      scope: keyword.operator.other.scala
     - match: '_'
       scope: variable.language.scala
 
@@ -765,6 +769,8 @@ contexts:
         - include: declarations
     - match: =>|⇒
       scope: keyword.operator.arrow.scala
+    - match: '_\*'
+      scope: keyword.operator.other.scala
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.scala
