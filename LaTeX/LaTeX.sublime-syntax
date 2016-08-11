@@ -782,6 +782,15 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: meta.environment.verbatim.lstinline.latex
         - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.group.brace.latex
+            - meta_content_scope: meta.environment.verbatim.lstinline.latex markup.raw.verb.latex
+            - match: '\}'
+              scope: meta.environment.verbatim.lstinline.latex punctuation.definition.group.brace.end.latex
+              pop: true
         - match: '(\W)'
           scope: punctuation.definition.verb.latex
           set:
