@@ -962,3 +962,6 @@ case (foo, bar) =>
 
 val (foo, bar) = ???
 //      ^ punctuation.separator.scala
+
+foo eq bar
+//  ^^ keyword.operator.word.scala

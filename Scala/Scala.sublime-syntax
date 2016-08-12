@@ -534,6 +534,8 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
+    - match: \b(eq)\b
+      scope: keyword.operator.word.scala
 
   late-keywords:
     - match: \b(extends|with|forSome)\b
