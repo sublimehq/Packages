@@ -946,3 +946,7 @@ foo({ _: Unit => () })
 
   val _ @ _* = things
 //        ^^ keyword.operator.other.scala
+
+s"testing ${things} and more!"
+//          ^^^^^^ - string
+//          ^^^^^^ source.scala.embedded
