@@ -557,6 +557,10 @@ contexts:
       scope: keyword.operator.assignment.scala
     - match: '_'
       scope: variable.language.scala
+    - match: '\.'
+      scope: punctuation.accessor.scala
+    - match: ','
+      scope: punctuation.separator.scala
 
   nest-curly-and-self:
     - match: '\{'
@@ -687,6 +691,8 @@ contexts:
       scope: keyword.operator.other.scala
     - match: '_'
       scope: variable.language.scala
+    - match: ','
+      scope: punctuation.separator.scala
   val-pattern-match:
     - match: '{{upperid}}(?=[\s=])'
       scope: entity.name.parameter.scala
@@ -747,6 +753,8 @@ contexts:
       scope: keyword.operator.other.scala
     - match: '_'
       scope: variable.language.scala
+    - match: ','
+      scope: punctuation.separator.scala
 
   base-type-expression:
     - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='

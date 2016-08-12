@@ -950,3 +950,15 @@ foo({ _: Unit => () })
 s"testing ${things} and more!"
 //          ^^^^^^ - string
 //          ^^^^^^ source.scala.embedded
+
+foo.bar
+// ^ punctuation.accessor.scala
+
+(foo, bar)
+//  ^ punctuation.separator.scala
+
+case (foo, bar) =>
+//       ^ punctuation.separator.scala
+
+val (foo, bar) = ???
+//      ^ punctuation.separator.scala
