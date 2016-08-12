@@ -417,6 +417,8 @@ contexts:
           scope: variable.package.scala
         - match: '{{id}}'
           scope: variable.import.scala
+        - match: '_'
+          scope: variable.language.scala
         - match: "{"
           push:
             - meta_scope: meta.import.selector.scala
@@ -431,6 +433,8 @@ contexts:
               scope: keyword.other.arrow.scala
             - match: '{{id}}'
               scope: variable.import.scala
+            - match: '_'
+              scope: variable.language.scala
 
   inheritance:
     - match: '\b(extends|with)\s+([^\s\{\(\[\]]+)'

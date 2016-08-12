@@ -874,6 +874,12 @@ import foo.{
 //        ^^^ variable.import.renamed-to.scala
 }
 
+import foo._
+//         ^ variable.language.scala
+
+import foo.{Foo => _}
+//                 ^ variable.language.scala
+
 for {} yield ()
 //     ^^^^^ keyword.control.flow.scala
 //           ^^ constant.language.scala
