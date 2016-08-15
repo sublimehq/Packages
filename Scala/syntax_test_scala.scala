@@ -971,3 +971,7 @@ new Config()
 
 val A: Foo = stuff
 //  ^ entity.name.parameter.scala
+
+type Maybe[A] = { type Inner = A; def x: Int }
+//                                ^^ storage.type.function.scala
+//                                    ^ entity.name.function.scala

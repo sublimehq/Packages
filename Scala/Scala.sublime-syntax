@@ -227,7 +227,7 @@ contexts:
         1: storage.type.scala
         2: entity.name.type.scala
       push:
-        - match: '(?=[\n\}\)\]])'
+        - match: '(?=[\n;\}\)\]])'
           pop: true
         - match: '\['
           push:
@@ -243,7 +243,7 @@ contexts:
         - match: '='
           scope: keyword.operator.assignment.scala
           set:
-            - match: '(?=[\n\}\)\]])'
+            - match: '(?=[\n;\}\)\]])'
               pop: true
             - include: delimited-type-expression
     - match: '\b(var)\s+({{id}})'
