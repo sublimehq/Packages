@@ -968,3 +968,6 @@ foo eq bar
 
 new Config()
 //        ^^ - constant
+
+val A: Foo = stuff
+//  ^ entity.name.parameter.scala

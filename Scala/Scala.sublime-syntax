@@ -696,7 +696,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.scala
   val-pattern-match:
-    - match: '{{upperid}}(?=[\s=])'
+    - match: '{{upperid}}(?=[\s=:])'
       scope: entity.name.parameter.scala
     - match: '{{typeprefix}}'
       push:
