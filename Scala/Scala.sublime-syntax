@@ -280,11 +280,11 @@ contexts:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.other.arrow.scala
+              scope: keyword.operator.arrow.scala
               pop: true
             - include: main-no-lambdas
         - match: '{{rightarrow}}'
-          scope: keyword.other.arrow.scala
+          scope: keyword.operator.arrow.scala
           pop: true
           captures:
             1: keyword.control.flow.scala
@@ -427,10 +427,10 @@ contexts:
             - match: '({{id}})\s*({{rightarrow}})\s*({{id}})'
               captures:
                 1: variable.import.renamed-from.scala
-                2: keyword.other.arrow.scala
+                2: keyword.operator.arrow.scala
                 3: variable.import.renamed-to.scala
             - match: '{{rightarrow}}'
-              scope: keyword.other.arrow.scala
+              scope: keyword.operator.arrow.scala
             - match: '{{id}}'
               scope: variable.import.scala
             - match: '_'

@@ -413,14 +413,14 @@ type Foo = Bar[A] forSome { type A }
 //            ^^^ support.class
 //                 ^^^ variable.parameter
 //                       ^ variable.language.scala
-//                          ^^ keyword.other.arrow.scala
+//                          ^^ keyword.operator.arrow.scala
 
    case abc @ `abc` =>
 //      ^^^ variable.parameter
 //          ^ keyword.operator.scala
 //            ^ punctuation.definition.identifier.scala
 //                ^ punctuation.definition.identifier.scala
-//                  ^^ keyword.other.arrow.scala
+//                  ^^ keyword.operator.arrow.scala
 //            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
@@ -861,10 +861,10 @@ import foo.{bar, bar => baz, bar=>baz}
 //         ^^^^^^^^^^^^^^^^^ meta.import.selector.scala
 //          ^^^ variable.import.scala
 //               ^^^ variable.import.renamed-from.scala
-//                   ^^ keyword.other.arrow.scala
+//                   ^^ keyword.operator.arrow.scala
 //                      ^^^ variable.import.renamed-to.scala
 //                           ^^^ variable.import.renamed-from.scala
-//                              ^^ keyword.other.arrow.scala
+//                              ^^ keyword.operator.arrow.scala
 //                                ^^^ variable.import.renamed-to.scala
 
 
