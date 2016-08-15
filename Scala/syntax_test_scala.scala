@@ -412,19 +412,19 @@ type Foo = Bar[A] forSome { type A }
 //       ^^^ variable.parameter
 //            ^^^ support.class
 //                 ^^^ variable.parameter
-//                       ^ variable.language.scala
+//                       ^ variable.language.underscore.scala
 //                          ^^ keyword.operator.arrow.scala
 
    case abc @ `abc` =>
 //      ^^^ variable.parameter
-//          ^ keyword.operator.scala
+//          ^ keyword.operator.at.scala
 //            ^ punctuation.definition.identifier.scala
 //                ^ punctuation.definition.identifier.scala
 //                  ^^ keyword.operator.arrow.scala
 //            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
-//                               ^ variable.language.scala
+//                               ^ variable.language.underscore.scala
 
    case /* testing */ =>
 //      ^^^^^^^^^^^^^ comment.block.scala
@@ -470,7 +470,7 @@ type Foo = Bar[A] forSome { type A }
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
 //     ^^^ entity.name.parameter
-//         ^ keyword.operator.scala
+//         ^ keyword.operator.at.scala
 //           ^ punctuation.definition.identifier.scala
 //               ^ punctuation.definition.identifier.scala
 //           ^^^^^ - entity.name
@@ -481,7 +481,7 @@ type Foo = Bar[A] forSome { type A }
    val ble @ `abc` = _
 // ^^^ storage.type.stable.scala
 //     ^^^ entity.name.parameter
-//         ^ keyword.operator.scala
+//         ^ keyword.operator.at.scala
 //           ^^^^^ - entity.name
 //                 ^ keyword.operator.assignment.scala
 //                   ^ - keyword
@@ -531,8 +531,8 @@ type Foo = Bar[A] forSome { type A }
      (b, c @ _) <- _
 //    ^ variable.parameter
 //       ^ variable.parameter
-//         ^ keyword.operator.scala
-//           ^ variable.language.scala
+//         ^ keyword.operator.at.scala
+//           ^ variable.language.underscore.scala
 //              ^^ keyword.operator.assignment.scala
 //                 ^ - keyword
        _
@@ -568,8 +568,8 @@ type Foo = Bar[A] forSome { type A }
 //           ^ - keyword
 //               ^ variable.parameter
 //                  ^ variable.parameter
-//                    ^ keyword.operator.scala
-//                      ^ variable.language.scala
+//                    ^ keyword.operator.at.scala
+//                      ^ variable.language.underscore.scala
 //                         ^ keyword.operator.assignment.scala
 //                           ^ - variable.parameter
 //                              ^^^ storage.type.stable.scala
@@ -875,10 +875,10 @@ import foo.{
 }
 
 import foo._
-//         ^ variable.language.scala
+//         ^ variable.language.underscore.scala
 
 import foo.{Foo => _}
-//                 ^ variable.language.scala
+//                 ^ variable.language.underscore.scala
 
 for {} yield ()
 //     ^^^^^ keyword.control.flow.scala
@@ -919,7 +919,7 @@ for (if things >= stuff)
 //                ^^^^^ - variable.parameter
 
    _
-// ^ variable.language.scala
+// ^ variable.language.underscore.scala
 
 foo._1
 //  ^ - variable.language.scala
@@ -931,21 +931,21 @@ foo_
 // ^ - variable.language
 
 foo({ _ => () })
-//    ^ variable.language.scala
+//    ^ variable.language.underscore.scala
 //      ^^ storage.type.function.arrow
 
 foo({ _: Unit => () })
-//    ^ variable.language.scala
+//    ^ variable.language.underscore.scala
 //            ^^ storage.type.function.arrow
 
   stuff: _*
-//       ^^ keyword.operator.other.scala
+//       ^^ keyword.operator.varargs.scala
 
   case _ @ _* =>
-//         ^^ keyword.operator.other.scala
+//         ^^ keyword.operator.varargs.scala
 
   val _ @ _* = things
-//        ^^ keyword.operator.other.scala
+//        ^^ keyword.operator.varargs.scala
 
 s"testing ${things} and more!"
 //          ^^^^^^ - string

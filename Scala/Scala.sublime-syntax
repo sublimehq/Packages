@@ -146,7 +146,7 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.scala
     - match: '_'
-      scope: variable.language.scala
+      scope: variable.language.underscore.scala
   lambda-declaration-parens:
     - match: '{{typeprefix}}'
       push:
@@ -418,7 +418,7 @@ contexts:
         - match: '{{id}}'
           scope: variable.import.scala
         - match: '_'
-          scope: variable.language.scala
+          scope: variable.language.underscore.scala
         - match: "{"
           push:
             - meta_scope: meta.import.selector.scala
@@ -434,7 +434,7 @@ contexts:
             - match: '{{id}}'
               scope: variable.import.scala
             - match: '_'
-              scope: variable.language.scala
+              scope: variable.language.underscore.scala
 
   inheritance:
     - match: '\b(extends|with)\s+([^\s\{\(\[\]]+)'
@@ -558,7 +558,7 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.scala
     - match: '_'
-      scope: variable.language.scala
+      scope: variable.language.underscore.scala
     - match: '\.'
       scope: punctuation.accessor.scala
     - match: ','
@@ -688,11 +688,11 @@ contexts:
         - include: main
     - match: '{{op}}'     # let it fall through
     - match: '@'
-      scope: keyword.operator.scala
+      scope: keyword.operator.at.scala
     - match: '_\*'
-      scope: keyword.operator.other.scala
+      scope: keyword.operator.varargs.scala
     - match: '_'
-      scope: variable.language.scala
+      scope: variable.language.underscore.scala
     - match: ','
       scope: punctuation.separator.scala
   val-pattern-match:
@@ -750,11 +750,11 @@ contexts:
           pop: true
         - include: delimited-type-expression
     - match: '@'
-      scope: keyword.operator.scala
+      scope: keyword.operator.at.scala
     - match: '_\*'
-      scope: keyword.operator.other.scala
+      scope: keyword.operator.varargs.scala
     - match: '_'
-      scope: variable.language.scala
+      scope: variable.language.underscore.scala
     - match: ','
       scope: punctuation.separator.scala
 
@@ -784,7 +784,7 @@ contexts:
     - match: =>|⇒
       scope: keyword.operator.arrow.scala
     - match: '_\*'
-      scope: keyword.operator.other.scala
+      scope: keyword.operator.varargs.scala
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.scala
