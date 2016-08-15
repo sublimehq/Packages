@@ -828,4 +828,4 @@ contexts:
       scope: punctuation.accessor.scala
       set: single-type-expression
     - match: '(?=\S)'
-      pop: true
+      set: try-dispatch       # this is needed for initialization (new ...) and doesn't HURT elsewhere

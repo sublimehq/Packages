@@ -965,3 +965,6 @@ val (foo, bar) = ???
 
 foo eq bar
 //  ^^ keyword.operator.word.scala
+
+new Config()
+//        ^^ - constant
