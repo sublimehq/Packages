@@ -1000,3 +1000,11 @@ Foo[Foo with Bar]
 xs: Foo with Bar
 //      ^^^^ keyword.declaration.scala
 //           ^^^ support.class.scala
+
+   classTag[U]
+// ^^^^^ - storage.type
+
+   s"before ${classTag[U] stuff} after"
+//   ^^^^^^ string.quoted.interpolated.scala
+//            ^^^^^ - storage.type
+//                               ^^^^^ string.quoted.interpolated.scala

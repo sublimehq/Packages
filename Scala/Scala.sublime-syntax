@@ -216,7 +216,7 @@ contexts:
         1: storage.type.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '\b(case\s+)?(class|trait|object)(?:\s+([^\s\{\(\[]+))?'
+    - match: '\b(case\s+)?(class|trait|object)(?:\s+({{id}}))'
       captures:
         1: keyword.other.declaration.scala
         2: storage.type.class.scala
@@ -665,6 +665,7 @@ contexts:
     - include: scala-symbol
     - include: strings
     - include: xml-literal
+    - include: late-keywords
     - match: '`'
       scope: punctuation.definition.identifier.scala
       push:
@@ -721,6 +722,7 @@ contexts:
     - include: scala-symbol
     - include: strings
     - include: xml-literal
+    - include: late-keywords
     - match: '`'
       scope: punctuation.definition.identifier.scala
       push:
