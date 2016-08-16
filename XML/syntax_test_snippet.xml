@@ -9,12 +9,18 @@
 #            ^^^^^^^^^ punctuation.definition.string.begin
 
       Original: ${1:Hey, Joe!}
+#               ^^^^^^^^^^^^^^ meta.text-substitution
+#              ^ - meta.text-substitution
+#                             ^ - meta.text-substitution
 #               ^^ keyword.other.caret
 #                 ^ constant.numeric
 #                  ^ keyword.operator.alternation
 #                            ^ keyword.other.caret
 
 Transformation: ${1/./=/g}
+#               ^^^^^^^^^^ meta.text-substitution
+#              ^ - meta.text-substitution
+#                         ^ - meta.text-substitution
 #               ^^ keyword.other.caret
 #                 ^ constant.numeric
 #                  ^ keyword.operator.regexp.begin
@@ -25,6 +31,9 @@ Transformation: ${1/./=/g}
 #                        ^ keyword.other.caret
 
 Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.text-substitution
+#              ^ - meta.text-substitution
+#                                                           ^ - meta.text-substitution
 #               ^^ keyword.other.caret
 #                 ^ constant.numeric
 #                  ^ keyword.operator.regexp.begin
@@ -34,6 +43,7 @@ Transformation: ${1/^(\w)|(?:_(\w))/(?1\u$1:)(?2 \u${2}:)/g}
 #                        ^ keyword.operator.alternation
 #                         ^^^^^^^^^ meta.group
 #                                  ^ keyword.operator.regexp.end
+#                                   ^^^^^^^^^ meta.group.conditional
 #                                   ^^^ keyword.other.backref-and-recursion.conditional
 #                                      ^^ keyword.operator.case-conversion
 #                                        ^^ keyword.other.backref-and-recursion
@@ -58,6 +68,9 @@ First Name: ${1:Joe}
 Second Name: ${2:Bloggs}
 Address: ${3:Main Street 1234}
 User name: ${4:$TM_FULLNAME}
+#          ^^^^^^^^^^^^^^^^^ meta.text-substitution
+#         ^ - meta.text-substitution
+#                           ^ - meta.text-substitution
 #          ^^ keyword.other.caret
 #            ^ constant.numeric
 #             ^ keyword.operator.alternation
@@ -66,6 +79,10 @@ User name: ${4:$TM_FULLNAME}
 #                          ^ keyword.other.caret
 
 Test: ${1:Nested ${2:Placeholder}}
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.text-substitution
+#                ^^^^^^^^^^^^^^^^ meta.text-substitution meta.text-substitution
+#    ^ - meta.text-substitution
+#                                 ^ - meta.text-substitution
 #     ^^ keyword.other.caret
 #       ^ constant.numeric
 #        ^ keyword.operator.alternation
@@ -73,6 +90,12 @@ Test: ${1:Nested ${2:Placeholder}}
 #                  ^ constant.numeric
 #                   ^ keyword.operator.alternation
 #                               ^^ keyword.other.caret
+
+No braces: $1 $SELECTION
+#          ^ keyword.other.caret
+#           ^ constant.numeric
+#             ^ keyword.other.caret
+#              ^^^^^^^^^ constant.language
 
 Literal dollar: \$5
 #               ^^ constant.character.escape - keyword
@@ -96,11 +119,12 @@ Literal dollar: \$5
 #                                                                   ^^ constant.character.escape - keyword
 #                                                                                           ^ keyword.operator.regexp.end
 #                                                                                            ^^^^^ keyword.other.backref-and-recursion.conditional
+#                                                                                                 ^ meta.literal
 #                                                                                                  ^ keyword.operator.alternation
 #                                                                                                   ^^ keyword.operator.case-conversion
 #                                                                                                     ^^ keyword.other.backref-and-recursion
 #                                                                                                           ^^^^^^^^^^^ keyword.other.backref-and-recursion.conditional
-#                                                                                                                      ^ - keyword.other.backref-and-recursion.conditional
+#                                                                                                                      ^ meta.literal - keyword.other.backref-and-recursion.conditional
 #                                                                                                                        ^^ keyword.other.backref-and-recursion
 #                                                                                                                           ^^ keyword.operator.case-conversion
 #                                                                                                                              ^ keyword.operator.replacement.end
@@ -108,16 +132,29 @@ Literal dollar: \$5
 #                                                                                                                                  ^ - keyword
 
 stray brackets:
- ${1/example)/)$$$0/}
+ ${1/example)/)$$$0\\ \../}
 #^ keyword.other.caret
 # ^ keyword.other.caret.begin
 #           ^ invalid.illegal
 #            ^ keyword.operator.regexp.end
-#             ^ invalid.illegal
+#             ^ meta.literal
 #              ^^ constant.character.escape
-#                ^^ keyword.other.backref-and-recursion.regexp
-#                  ^ keyword.operator.replacement.end
-#                   ^ keyword.other.caret.end
+#                ^^ keyword.other.backref-and-recursion.regexp-replacement
+#                  ^^ constant.character.escape
+#                    ^ meta.literal
+#                     ^^ constant.character.escape
+#                       ^ meta.literal
+#                        ^ keyword.operator.replacement.end
+#                         ^ keyword.other.caret.end
+
+ ${1:default/no/regex$2/}
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.text-substitution
+#   ^ keyword.operator.alternation.sublime-snippet-content
+#    ^^^^^^^^^^^^^^^^^^^ string.unquoted.text-substitution
+#           ^ - keyword
+#              ^ - keyword
+#                    ^ keyword.other.caret
+#                     ^ constant.numeric
 
  $ 1.00
 #^ invalid.illegal.unescaped-dollar
@@ -130,6 +167,34 @@ stray brackets:
 
 ${My_Own_Constant}
 # ^^^^^^^^^^^^^^^ constant.other
+
+${1My_Own_Constant}
+# ^^^^^^^^^^^^^^^^ constant.other
+
+${10}
+# ^^ constant.numeric
+
+${1/test/abc/:substituation not valid here}
+#  ^ keyword.operator.regexp.begin
+#       ^ keyword.operator.regexp.end
+#           ^ keyword.operator.replacement.end
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-token
+#                                         ^ keyword.other.caret.end - invalid
+
+${1/test/escaped slash\/real slash/gx} x mode not supported properly in snippets
+#  ^ keyword.operator.regexp.begin
+#       ^ keyword.operator.regexp.end
+#                     ^^ constant.character.escape
+#                      ^ - keyword.operator.replacement.end
+#                                 ^ keyword.operator.replacement.end
+#                                  ^ storage.modifier.mode
+#                                   ^ invalid.illegal.unexpected-token
+#                                    ^ keyword.other.caret.end - invalid
+
+It is possible to include a literal newline in the replacement: ${1/test/_
+ /}.
+#^ keyword.operator.replacement.end
+# ^ keyword.other.caret.end
 
  ]]></content>
 #^^^ string.unquoted.cdata punctuation.definition.string.end
@@ -144,7 +209,13 @@ ${My_Own_Constant}
     <scope>text</scope>
 </snippet>
 
+<!-- NOTE: multiple payloads inside a sublime-snippet file are not supported
+           but they are in this test file to avoid the need for using multiple
+           test files, and to test the interactions between different scenarios
+-->
+
 <content> no cdata ${1} </content>
+#                  ^^^^ meta.text-substitution
 #                  ^^ keyword.other.caret
 #                    ^ constant.numeric
 #                     ^ keyword.other.caret
@@ -153,6 +224,7 @@ ${My_Own_Constant}
 <content>
     <![CDATA[ cdata on a
     different line ${1} ]]> </content>
+#                  ^^^^ meta.text-substitution
 #                  ^^ keyword.other.caret
 #                    ^ constant.numeric
 #                     ^ keyword.other.caret
@@ -165,6 +237,8 @@ ${My_Own_Constant}
 
     <![CDATA[ example ${1} ]]>
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.multiple-cdata-not-allowed
+#  ^ - invalid
+#                             ^ - invalid
 </content>
 #^^^^^^^^^ meta.tag
 
@@ -173,6 +247,7 @@ ${My_Own_Constant}
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string
 #                                        ^ - string
 #                     ^^^^^^^^^^ - meta.tag
+#                                ^^^^ meta.text-substitution
 #                                ^^ keyword.other.caret
 #                                  ^ constant.numeric
 #                                   ^ keyword.other.caret
