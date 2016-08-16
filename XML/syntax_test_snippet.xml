@@ -143,3 +143,38 @@ ${My_Own_Constant}
     <!-- Optional: Scope the tab trigger will be active in -->
     <scope>text</scope>
 </snippet>
+
+<content> no cdata ${1} </content>
+#                  ^^ keyword.other.caret
+#                    ^ constant.numeric
+#                     ^ keyword.other.caret
+#                       ^^^^^^^^^^ meta.tag
+
+<content>
+    <![CDATA[ cdata on a
+    different line ${1} ]]> </content>
+#                  ^^ keyword.other.caret
+#                    ^ constant.numeric
+#                     ^ keyword.other.caret
+
+<content>
+    <![CDATA[ example ${1} ]]>
+#                     ^^ keyword.other.caret
+#                       ^ constant.numeric
+#                        ^ keyword.other.caret
+
+    <![CDATA[ example ${1} ]]>
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.multiple-cdata-not-allowed
+</content>
+#^^^^^^^^^ meta.tag
+
+<content>
+    <![CDATA[ example </content> ${1} ]]>
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string
+#                                        ^ - string
+#                     ^^^^^^^^^^ - meta.tag
+#                                ^^ keyword.other.caret
+#                                  ^ constant.numeric
+#                                   ^ keyword.other.caret
+</content>
+#^^^^^^^^^ meta.tag
