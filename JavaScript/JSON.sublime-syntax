@@ -12,6 +12,7 @@ file_extensions:
   - sublime-project
   - sublime-completions
   - sublime-commands
+  - sublime-macro
 scope: source.json
 contexts:
   main:
