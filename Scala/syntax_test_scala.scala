@@ -982,3 +982,21 @@ type Maybe[A] = { type Inner = A; def x: Int }
      _ <- fooinConns.map(_.map(t => { }))
 //     ^^ keyword.operator.assignment.scala
    } yield ()
+
+new Foo with Bar with Baz
+//      ^^^^ keyword.declaration.scala
+//           ^^^ support.class.scala
+//               ^^^^ keyword.declaration.scala
+//                    ^^^ support.class.scala
+
+type Thing = Foo with Bar with Baz
+//               ^^^^ keyword.declaration.scala
+//                    ^^^ support.class.scala
+
+Foo[Foo with Bar]
+//      ^^^^ keyword.declaration.scala
+//           ^^^ support.class.scala
+
+xs: Foo with Bar
+//      ^^^^ keyword.declaration.scala
+//           ^^^ support.class.scala

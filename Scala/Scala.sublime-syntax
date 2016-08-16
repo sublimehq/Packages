@@ -789,6 +789,8 @@ contexts:
   delimited-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
+    - match: '\b(with)\b'
+      scope: keyword.declaration.scala
     - match: "[αβ]"     # just here for type lambdas
       scope: comment.block.empty.scala
     - match: '[\.#]'
@@ -819,11 +821,15 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail
     - include: base-type-expression
-    - match: '(?=[\s,\)\}\]])'
+    - match: '(?=[\s$,\)\}\]])'
       pop: true
   single-type-expression-tail:
     - match: '[\.#]'
       scope: punctuation.accessor.scala
+      set: single-type-expression
+    - match: '\b(with)(?:\s+|\b)'
+      captures:
+        1: keyword.declaration.scala
       set: single-type-expression
     - match: '(?=\S)'
       set: try-dispatch       # this is needed for initialization (new ...) and doesn't HURT elsewhere
