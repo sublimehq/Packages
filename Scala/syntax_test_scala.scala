@@ -487,14 +487,14 @@ type Foo = Bar[A] forSome { type A }
 //                   ^ - keyword
 
    case object Thingy extends Other
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^^ storage.type.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                            ^^^^^ entity.other.inherited-class.scala
 
    case object Thingy extends (Foo => Bar)
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^^ storage.type.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
@@ -507,7 +507,7 @@ type Foo = Bar[A] forSome { type A }
 =>     // this is here to act as a random terminator to the above partial syntax
 
    case class Thingy(abc: Int) extends Other
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
 //            ^^^^^^ entity.name.class.scala
 //                   ^^^ variable.parameter
