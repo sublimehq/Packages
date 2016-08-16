@@ -975,3 +975,10 @@ val A: Foo = stuff
 type Maybe[A] = { type Inner = A; def x: Int }
 //                                ^^ storage.type.function.scala
 //                                    ^ entity.name.function.scala
+
+   for {
+// ^^^ keyword.control.flow.scala
+      stuff = sequenceU.map(_.flatten) // thingy
+     _ <- fooinConns.map(_.map(t => { }))
+//     ^^ keyword.operator.assignment.scala
+   } yield ()

@@ -108,7 +108,7 @@ contexts:
       scope: constant.character.literal.scala
 
   comments:
-    - match: (//).*$\n?
+    - match: (//).*$
       scope: comment.line.double-slash.scala
       captures:
         1: punctuation.definition.comment.scala
@@ -118,7 +118,7 @@ contexts:
       scope: punctuation.definition.comment.scala
       push:
         - meta_scope: comment.block.documentation.scala
-        - match: \*/(\s*\n)?
+        - match: \*/\s*$
           scope: punctuation.definition.comment.scala
           pop: true
         - match: (@\w+\s)
@@ -314,12 +314,10 @@ contexts:
       push: function-tparams-brackets
     - match: ':'
       push:
-        - match: '(?=[\B\s]=[\B\s])'
+        - match: '(?=[\{\};\n]|{{nonopchar}}={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
-        - match: '(?=[\{\n])'
-          pop: true
-    - match: '(?=[\{=\n])'
+    - match: '(?=[\{\};\n]|{{nonopchar}}={{nonopchar}})'
       pop: true
 
   function-tparams-brackets:
