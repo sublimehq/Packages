@@ -168,7 +168,7 @@ contexts:
   base-types:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
-  constants:
+  base-constants:
     - match: \b(false|null|true)\b
       scope: constant.language.scala
     # TODO negation
@@ -188,6 +188,8 @@ contexts:
     - match: \b(this|super)\b
       scope: variable.language.scala
     - include: base-types
+  constants:
+    - include: base-constants
     # other upper-case stuff highlights as constant
     - match: '{{upperid}}'
       scope: support.constant.scala
@@ -660,7 +662,7 @@ contexts:
 
   val-pattern-match-main:
     - include: keywords
-    - include: constants
+    - include: base-constants
     - include: char-literal
     - include: scala-symbol
     - include: strings
@@ -678,6 +680,8 @@ contexts:
     - match: '(\.){{varid}}'
       captures:
         1: punctuation.accessor.scala
+    - match: '{{upperid}}'
+      scope: support.constant.scala
     - match: '\b{{varid}}'
       scope: entity.name.parameter.scala
     - match: \[
@@ -717,7 +721,7 @@ contexts:
 
   pattern-match:
     - include: keywords
-    - include: constants
+    - include: base-constants
     - include: char-literal
     - include: scala-symbol
     - include: strings
@@ -735,6 +739,8 @@ contexts:
     - match: '(\.){{varid}}'
       captures:
         1: punctuation.accessor.scala
+    - match: '{{upperid}}'
+      scope: support.constant.scala
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
     - match: '{{op}}'   # let it fall through

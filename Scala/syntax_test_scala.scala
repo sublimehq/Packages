@@ -1008,3 +1008,13 @@ xs: Foo with Bar
 //   ^^^^^^ string.quoted.interpolated.scala
 //            ^^^^^ - storage.type
 //                               ^^^^^ string.quoted.interpolated.scala
+
+{
+  case Stuff(thing, other) =>
+//           ^^^^^ variable.parameter.scala
+//                  ^^^^^ variable.parameter.scala
+}
+
+val Stuff(thing, other) = ???
+//        ^^^^^ entity.name.parameter.scala
+//               ^^^^^ entity.name.parameter.scala
