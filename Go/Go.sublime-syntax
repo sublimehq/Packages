@@ -115,7 +115,7 @@ contexts:
         - include: expressions
 
   builtins:
-    - match: \b(append|cap|close|complex|copy|delete|imag|len|make|new|panel|print|println|real|recover)\b
+    - match: \b(append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)\b
       scope: support.function.builtin.go
 
   imports:
