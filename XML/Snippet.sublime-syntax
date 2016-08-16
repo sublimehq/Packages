@@ -3,7 +3,7 @@
 # See http://www.sublimetext.com/docs/3/syntax.html
 file_extensions:
   - sublime-snippet
-name: Sublime Text Snippet
+name: Sublime Text Snippet (XML)
 scope: text.xml.sublime-snippet
 contexts:
   main:

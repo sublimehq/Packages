@@ -3,6 +3,7 @@
 # See http://www.sublimetext.com/docs/3/syntax.html
 scope: text.sublime-snippet-content
 name: Sublime Text Snippet Content
+hidden: true
 contexts:
   main:
     - include: possible_caret
