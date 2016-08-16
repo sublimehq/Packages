@@ -10,7 +10,7 @@ contexts:
     - match: '(<)(content)(>)'
       captures:
         1: meta.tag.xml punctuation.definition.tag.begin.xml
-        2: meta.tag.xml entity.name.tag.localname.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-content.sublime-snippet
         3: meta.tag.xml punctuation.definition.tag.end.xml
       push:
         - match: '<!\[CDATA\['
@@ -29,6 +29,16 @@ contexts:
             - include: snippet_content
         - match: '(?=\S)'
           set: inside_content
+    - match: '(<)(scope)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-scope.sublime-snippet
+        3: meta.tag.xml punctuation.definition.tag.end.xml
+    - match: '(<)(tabTrigger)(>)'
+      captures:
+        1: meta.tag.xml punctuation.definition.tag.begin.xml
+        2: meta.tag.xml entity.name.tag.localname.xml meta.toc-list.snippet-trigger.sublime-snippet
+        3: meta.tag.xml punctuation.definition.tag.end.xml
     - include: scope:text.xml
   
   snippet_content:

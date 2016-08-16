@@ -2,7 +2,7 @@
 <snippet>
     <content><![CDATA[
 #   ^^^^^^^^^ meta.tag
-#    ^^^^^^^ entity.name.tag.localname
+#    ^^^^^^^ entity.name.tag.localname meta.toc-list.snippet-content
 #   ^ punctuation.definition.tag.begin
 #           ^ punctuation.definition.tag.end
 #            ^^^^^^^^^^ string.unquoted.cdata - meta.tag
@@ -205,8 +205,10 @@ It is possible to include a literal newline in the replacement: ${1/test/_
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment
     <tabTrigger>test-snippet</tabTrigger>
 #   ^^^^^^^^^^^^ meta.tag
+#    ^^^^^^^^^^ meta.toc-list.snippet-trigger
     <!-- Optional: Scope the tab trigger will be active in -->
     <scope>text</scope>
+#    ^^^^^ meta.toc-list.snippet-scope
 </snippet>
 
 <!-- NOTE: multiple payloads inside a sublime-snippet file are not supported
