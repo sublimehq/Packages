@@ -480,6 +480,12 @@ class Foo extends React.Component {
 //                      ^ entity.other.inherited-class
     constructor()
     {}
+
+    [foo.bar](arg) {
+//   ^^^^^^^ entity.name.function
+//            ^^^ variable.parameter
+        return this.a;
+    }
 }
 
 () => {}

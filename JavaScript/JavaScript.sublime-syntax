@@ -1083,6 +1083,25 @@ contexts:
       scope: meta.function.declaration.js
       captures:
         1: storage.type.js
+    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?\s*(?=$|\()'
+      scope: meta.function.declaration.js
+      captures:
+        1: punctuation.definition.symbol.begin.js
+        2: entity.name.function.js
+        3: punctuation.definition.symbol.end.js
+      push:
+        - include: function-declaration-parameters
+        - match: '\{'
+          scope: punctuation.definition.block.js
+          push:
+            - meta_scope: meta.block.js
+            - match: '\}'
+              scope: punctuation.definition.block.js
+              pop: true
+            - include: statements
+        - include: comments
+        - match: '(?=\S)'
+          pop: true
     - match: '({{identifier}})\s*'
       scope: meta.function.declaration.js
       captures:
