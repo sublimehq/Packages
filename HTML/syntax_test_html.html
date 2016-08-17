@@ -8,26 +8,35 @@
     <head>
         <title>Test HTML</title>
         <script type="text/javascript"><!--
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.html
         ## ^ entity.name.tag.script - source.js.embedded.html
         ##            ^ string.quoted.double.html - source.js.embedded.html
+        ##                             ^ - meta.tag.script
             var foo = 100;
             var baz = function() {
                 ## <- entity.name.function.js
             }
         //--></script>
         ## ^ source.js.embedded.html
-        ##      ^ entity.name.tag.script.html - source.js.embedded.html
+        ##     ^^^^^^ entity.name.tag.script.html
+        ##   ^^^^^^^^^ meta.tag.script.html - source.js.embedded.html
+        ##            ^ - meta.tag.script.html
         <style type="text/css">
+        ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.html
         ## ^ entity.name.tag.style.html
         ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
         ##      ^ entity.other.attribute-name
+        ##                     ^ - meta.tag.style.html
             h2 {
             ## <- entity.name.tag.css
                 font-family: "Arial";
                 ##             ^ string.quoted.double.css
             }
         </style>
-        ## ^ entity.name.tag.style.html - source.css.embedded.html
+        ##^^^^^ entity.name.tag.style.html
+        ##<- meta.tag.style.html - source.css.embedded.html
+        ##^^^^^^ meta.tag.style.html - source.css.embedded.html
+        ##      ^ - meta.tag.style.html
         <style />
         ##       ^ - source.css.embedded.html
         ## ^ meta.tag.inline.any.html entity.name.tag.inline.any.html
