@@ -13,7 +13,7 @@ variables:
   dollar_only_identifier: '\$(?![_$[:alnum:]])'
   dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
-  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\([^\(]*?\))\s*=>'
+  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]+|\([^()]*\))*\))\s*=>'
 
 contexts:
   main:
@@ -927,6 +927,25 @@ contexts:
         - match: \)
           scope: punctuation.definition.parameters.end.js
           pop: true
+        # Destructuring
+        - match: \{
+          scope: punctuation.definition.block.begin.js
+          push:
+            - meta_scope: meta.block.js
+            - match: \}
+              scope: punctuation.definition.block.end.js
+              pop: true
+            - match: '{{identifier}}'
+              scope: variable.parameter.function.js
+            - match: ','
+              scope: punctuation.separator.parameter.function.js
+            - match: '='
+              scope: keyword.operator.assignment.js
+              push:
+                - meta_scope: meta.parameter.optional.js
+                - match: "(?=[,)}])"
+                  pop: true
+                - include: expressions
         - match: \.\.\.
           scope: keyword.operator.spread.js
         - match: '{{identifier}}'

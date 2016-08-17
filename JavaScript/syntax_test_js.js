@@ -488,6 +488,20 @@ class Foo extends React.Component {
 //^^^ meta.function.anonymous meta.function.declaration
 //    ^^ meta.block punctuation.definition.block
 
+const test = ({a, b, c=()=>({active:false}) }) => {}
+//    ^ entity.name.function
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^ punctuation.definition.block.begin
+//             ^ variable.parameter
+//                ^ variable.parameter
+//                   ^ variable.parameter
+//                     ^^^^ meta.function.declaration meta.function.declaration
+//                     ^^ punctuation.definition.parameters
+//                         ^^^^^^^^^^^^^^^^ meta.group
+//                                   ^ constant.language
+//                                          ^ punctuation.definition.block.end
+
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
