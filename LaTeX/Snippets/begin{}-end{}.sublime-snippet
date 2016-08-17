@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[\\begin{${1:env}}
-	${1/(enumerate|itemize|list)|(description)|.*/(?1:\item )(?2:\item)/}$0
+	${1/(enumerate|itemize|list)|(description)|.*/(?1:\\item )(?2:\\item)/}$0
 \\end{${1:env}}]]></content>
 	<tabTrigger>begin</tabTrigger>
 	<scope>text.tex.latex</scope>
