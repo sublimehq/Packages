@@ -1387,6 +1387,11 @@ foo() {
 /* <- entity.name.function */
 }
 
+MyClass3::
+~MyClass3() {
+/* <- entity.name.function */
+}
+
 Glib::ustring Node::_getDragTip(GdkEventMotion */*event*/);
 /*                                              ^^^^^^^^^ comment */
 
