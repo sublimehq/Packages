@@ -389,6 +389,12 @@ contexts:
     - include: literal-call
     - include: literal-variable
     - include: literal-punctuation
+    - include: fallthrough
+
+  fallthrough:
+    # If an arrow function has the ( and ) on different lines, we won't have matched
+    - match: =>
+      scope: storage.type.function.arrow.js
 
   after-operator:
     # Prevent matching "{" as a block, but instead always treat as an object
@@ -599,7 +605,7 @@ contexts:
     - match: '&&|\|\|'
       scope: keyword.operator.logical.js
       push: after-operator
-    - match: '=(?!=)'
+    - match: '=(?![=>])'
       scope: keyword.operator.assignment.js
       push: after-operator
     - match: |-

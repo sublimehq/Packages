@@ -502,6 +502,11 @@ const test = ({a, b, c=()=>({active:false}) }) => {}
 //                                   ^ constant.language
 //                                          ^ punctuation.definition.block.end
 
+// We can't currently detect this properly, but we need to consume => properly
+([a,
+  b]) => { }
+//    ^^ storage.type.function.arrow
+
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
