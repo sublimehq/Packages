@@ -237,7 +237,7 @@ contexts:
               pop: true
             - include: delimited-type-expression
         - match: '(<:|>:)'
-          scope: keyword.operator
+          scope: keyword.operator.bound.scala
           set:
             - match: '(?=[\n\}\)\]])'
               pop: true
@@ -793,7 +793,7 @@ contexts:
       scope: keyword.operator.varargs.scala
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
-      scope: keyword.operator.scala
+      scope: keyword.operator.bound.scala
   delimited-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
