@@ -298,6 +298,19 @@ class MyClass() {
 }
 \end{lstlisting}
 
+\lstinline{var x = 15;}
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%         ^^^^^^^^^^^^^ meta.group.brace.latex
+%         ^ punctuation.definition.group.brace.begin.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                     ^ punctuation.definition.group.brace.end.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
+\lstinline|var x = 15;|
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
 
 % PACKAGE: minted
 % The minted package is used to highlight source code using
