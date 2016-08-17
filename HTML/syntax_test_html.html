@@ -129,11 +129,13 @@
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^ meta.property-value.css constant.numeric.css
 
-        <tag attr otherattr attr-with-dashes attr_with_underscores></tag>
+        <tag attr otherattr attr-with-dashes attr_with_underscores attr.with.dot attr.with.dot.value="val"></tag>
         ##   ^ entity.other.attribute-name.html
         ##        ^ entity.other.attribute-name.html
         ##                  ^ entity.other.attribute-name.html
         ##                                   ^ entity.other.attribute-name.html
+        ##                                                         ^^^^^^^^^^^^^ entity.other.attribute-name.html
+        ##                                                                       ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
 
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##         ^ - meta.attribute-with-value.event

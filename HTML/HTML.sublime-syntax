@@ -252,7 +252,7 @@ contexts:
           scope: meta.attribute-with-value.html string.unquoted.html
         - match: ''
           pop: true
-    - match: '\s+([a-zA-Z0-9:\-_]+)'
+    - match: '\s+([a-zA-Z0-9:\-_.]+)'
       captures:
         1: entity.other.attribute-name.html
 
