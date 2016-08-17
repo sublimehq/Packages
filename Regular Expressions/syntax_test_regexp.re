@@ -452,3 +452,43 @@ hello++
 #^^^^^^^^^ keyword.other.conditional.definition.regexp
 #                     ^^^ keyword.other.backref-and-recursion.regexp
 (?-x)
+
+
+(?#http://www.boost.org/doc/libs/1_61_0/libs/regex/doc/html/boost_regex/syntax/perl_syntax.html#boost_regex.syntax.perl_syntax.backtracking_control_verbs)
+
+'[^']*'(*SKIP)(*F)|" (?#http://stackoverflow.com/a/38638595/4473405)
+#      ^^^^^^^^^^^ keyword.control.verb.regexp
+ (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
+#^^^^^^^^ keyword.control.verb.regexp
+#        ^ meta.literal.regexp - keyword.control.verb.regexp
+#         ^^^^^^^ keyword.control.verb.regexp
+#                ^ - keyword.control.verb.regexp
+#                 ^^^^^^^ keyword.control.verb.regexp
+#                        ^ - keyword.control.verb.regexp
+#                         ^^^^^^^^^ keyword.control.verb.regexp
+#                                  ^ - keyword.control.verb.regexp
+#                                   ^^^^^^^ keyword.control.verb.regexp
+#                                          ^ - keyword.control.verb.regexp
+#                                           ^^^^ keyword.control.verb.regexp
+#                                               ^ - keyword.control.verb.regexp
+#                                                ^^^^^^^^^ keyword.control.verb.regexp
+(*FA)
+#^ invalid.illegal.unexpected-quantifier.regexp
+(?x)
+ (*PRUNE) (*SKIP) (*THEN) (*COMMIT) (*FAIL) (*F) (*ACCEPT)
+#^^^^^^^^ keyword.control.verb.regexp
+#        ^ - meta.literal.regexp - keyword.control.verb.regexp
+#         ^^^^^^^ keyword.control.verb.regexp
+#                ^ - keyword.control.verb.regexp
+#                 ^^^^^^^ keyword.control.verb.regexp
+#                        ^ - keyword.control.verb.regexp
+#                         ^^^^^^^^^ keyword.control.verb.regexp
+#                                  ^ - keyword.control.verb.regexp
+#                                   ^^^^^^^ keyword.control.verb.regexp
+#                                          ^ - keyword.control.verb.regexp
+#                                           ^^^^ keyword.control.verb.regexp
+#                                               ^ - keyword.control.verb.regexp
+#                                                ^^^^^^^^^ keyword.control.verb.regexp
+(*FA)
+#^ invalid.illegal.unexpected-quantifier.regexp
+(?-x)
