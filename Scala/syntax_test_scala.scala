@@ -80,7 +80,7 @@ def foo(a: Int, b: Bar): Baz = 42
 
    val foo: Unit
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.parameter
+//     ^^^ entity.name.val
 //          ^^^^ storage.type.primitive.scala
 
    var foo: Unit
@@ -469,7 +469,7 @@ type Foo = Bar[A] forSome { type A }
 
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.parameter
+//     ^^^ entity.name.val
 //         ^ keyword.operator.at.scala
 //           ^ punctuation.definition.identifier.scala
 //               ^ punctuation.definition.identifier.scala
@@ -480,7 +480,7 @@ type Foo = Bar[A] forSome { type A }
 
    val ble @ `abc` = _
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.parameter
+//     ^^^ entity.name.val
 //         ^ keyword.operator.at.scala
 //           ^^^^^ - entity.name
 //                 ^ keyword.operator.assignment.scala
@@ -597,7 +597,7 @@ type Foo = Bar[A] forSome { type A }
 
 
   val baseSettings: Seq[Def.Setting[_]] = _
-//    ^^^^^^^^^^^^ entity.name.parameter.scala
+//    ^^^^^^^^^^^^ entity.name.val.scala
 //                  ^^^ support.class
 //                                  ^ - keyword
 
@@ -618,11 +618,11 @@ type Foo = Bar[A] forSome { type A }
   }
 
    val Foo = 42
-//     ^^^ entity.name.parameter
+//     ^^^ entity.name.val
 
    val (Foo, x) = 42
 //      ^^^ support.constant.scala
-//           ^ entity.name.parameter
+//           ^ entity.name.val
 
 {
   Set[Foo[A, A] forSome { type A }, A]
@@ -905,7 +905,7 @@ offset >= 0
 }
 
 val chunk #: h = ???
-//           ^ entity.name.parameter
+//           ^ entity.name.val
 
 for {
   if things >= stuff
@@ -970,7 +970,7 @@ new Config()
 //        ^^ - constant
 
 val A: Foo = stuff
-//  ^ entity.name.parameter.scala
+//  ^ entity.name.val.scala
 
 type Maybe[A] = { type Inner = A; def x: Int }
 //                                ^^ storage.type.function.scala
@@ -1016,5 +1016,5 @@ xs: Foo with Bar
 }
 
 val Stuff(thing, other) = ???
-//        ^^^^^ entity.name.parameter.scala
-//               ^^^^^ entity.name.parameter.scala
+//        ^^^^^ entity.name.val.scala
+//               ^^^^^ entity.name.val.scala
