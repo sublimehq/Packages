@@ -1,5 +1,23 @@
 # SYNTAX TEST "Packages/TCL/Tcl.sublime-syntax"
 
+# ----------------- #
+# Line continuation
+# ----------------- #
+
+set MyDict [list\
+    Key1 {Key Value 1}\
+#                     ^ punctuation.separator.continuation
+]
+
+pg_select $database \
+"SELECT abc, def FROM xyz"
+# <- string
+
+pg_select $database \
+"SELECT abc, def FROM xyz" \
+data
+# <- - variable.function
+
 # -------------------------------------------------------------------------- #
 # Issue 134: https://github.com/SublimeTextIssues/DefaultPackages/issues/134
 # -------------------------------------------------------------------------- #
