@@ -283,7 +283,7 @@ contexts:
     - meta_content_scope: meta.block.parameters.ruby
     - match: \|
       scope: meta.block.parameters.ruby punctuation.definition.parameters.end.ruby
-      pop: true
+      set: try-regex
     - match: '{{identifier}}'
       scope: variable.parameter.ruby
     - match: ','

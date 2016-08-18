@@ -388,6 +388,9 @@ if baz =~ /foo/i
 #         ^^^^^^ string.regexp
 end
 
+['a()', 'b()'].select { |var| /^a\(/ =~ var }
+#                             ^^^^^^ string.regexp
+
 if 1 / 2 == 3
 #    ^ keyword.operator
 #        ^^ keyword.operator
