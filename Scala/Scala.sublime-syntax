@@ -19,25 +19,25 @@ variables:
   # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #}
   op: |-
     (?x:
-      [[^:=<@←⇒#]&&{{operator_character}}]{{operator_character}}*|
+      [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
       <[[^\-]&&{{operator_character}}]+|
       <-{{operator_character}}+|
-      [:@←⇒#]{{operator_character}}+
+      [:@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
   # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<, +, -}
   typeop: |-
     (?x:
-      [[^:=<@←⇒#+\-]&&{{operator_character}}]{{operator_character}}*|
+      [[^:=<@\x{2190}\x{21D2}#+\-]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
       <[[^\-%:]&&{{operator_character}}]+|
       <[:%\-]{{operator_character}}+|
       :[[^<]&&{{operator_character}}]+|
       :<{{operator_character}}+|
-      [@←⇒#+\-]{{operator_character}}+
+      [@\x{2190}\x{21D2}#+\-]{{operator_character}}+
     )
 
   idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{operator_character}}+)?)'
@@ -51,7 +51,7 @@ variables:
   typeid: '(?:{{typeplainid}}|`[^`]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
-  rightarrow: '=>|⇒'
+  rightarrow: '=>|\x{21D2}'
   upperid: '(?:\b\p{Lu}{{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
@@ -477,11 +477,11 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<←=\{\}]|<[^\-])+({{nonopchar}}(<-|←|=){{nonopchar}}))'
+    - match: '^(?=([^<\x{2190}=\{\}]|<[^\-])+({{nonopchar}}(<-|\x{2190}|=){{nonopchar}}))'
       push:
         - match: '\b(val)\b'
           scope: storage.type.stable.scala
-        - match: <-|←|=
+        - match: <-|\x{2190}|=
           scope: keyword.operator.assignment.scala
           pop: true
         - include: pattern-match
@@ -500,7 +500,7 @@ contexts:
     - match: '\b(if)\b'
       scope: keyword.control.flow.scala
       push: for-parens-expr
-    - match: '<-|←|='
+    - match: '<-|\x{2190}|='
       scope: keyword.operator.assignment.scala
       push: for-parens-expr
     - match: '\b(val)\b'
@@ -765,10 +765,11 @@ contexts:
       scope: punctuation.separator.scala
 
   base-type-expression:
-    - match: '\(\{\s*type\s+λ\[α(\[_\])?(,\s*β(\[_\])?)?\]\s*='
+    # \x{03BB} = λ, \x{03B1} = α, \x{03B2} = β
+    - match: '\(\{\s*type\s+\x{03BB}\[\x{03B1}(\[_\])?(,\s*\x{03B2}(\[_\])?)?\]\s*='
       scope: comment.block.scala
       push:
-        - match: '\}\)#λ'
+        - match: '\}\)#\x{03BB}'
           scope: comment.block.scala
           pop: true
         - include: delimited-type-expression
@@ -787,7 +788,7 @@ contexts:
         - match: \}
           pop: true
         - include: declarations
-    - match: =>|⇒
+    - match: =>|\x{21D2}
       scope: keyword.operator.arrow.scala
     - match: '_\*'
       scope: keyword.operator.varargs.scala
@@ -799,7 +800,7 @@ contexts:
       scope: keyword.other.scala
     - match: '\b(with)\b'
       scope: keyword.declaration.scala
-    - match: "[αβ]"     # just here for type lambdas
+    - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
       scope: comment.block.empty.scala
     - match: '[\.#]'
       scope: punctuation.accessor.scala
@@ -815,7 +816,7 @@ contexts:
   single-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
-    - match: "[αβ]"     # just here for type lambdas
+    - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
       scope: comment.block.empty.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
