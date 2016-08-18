@@ -200,6 +200,16 @@
                 </tr>
             </tbody>
         </table>
+
+        &amp;
+        ## <- constant.character.entity
+        &
+        ## <- invalid.illegal
+        <a href="http://google.com/?one=1&amp;two=2"></a>
+        ##                               ^^^^^ constant.character.entity
+        <a href="http://google.com/?one=1&two=2"></a>
+        ##                               ^ - constant.character.entity
+        ##                               ^ - invalid.illegal
     </body>
     # ^^^^ entity.name.tag.structure
 </html>
