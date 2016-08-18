@@ -3,7 +3,13 @@
 
 package fubar
 // ^^^^ keyword.control
-//      ^^^^^ entity.name.namespace.scala
+//      ^^^^^ entity.name.namespace.header.scala
+
+package fubar {
+// ^^^^ keyword.control.scala
+//      ^^^^^ entity.name.namespace.scoped.scala
+// <- meta.namespace.scala
+}
 
 import fubar.{Unit, Foo}
 // ^^^ keyword.other.import
