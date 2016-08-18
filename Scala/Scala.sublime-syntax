@@ -11,7 +11,7 @@ variables:
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}]'
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
   disallowed_as_operator: '[^\w\[\]\(\)\{\}''";,.`_\s]'
-  operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x20-\x7F]]]'
+  operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x{20}-\x{7E}]]]'
   upper: '[$\p{Lu}]'
   # This is "letter", but without _ so we can ensure it is not last
   idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
