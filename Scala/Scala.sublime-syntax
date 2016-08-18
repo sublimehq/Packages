@@ -264,11 +264,20 @@ contexts:
         1: keyword.control.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
-    - match: '\b(package)\s+([\w\.]+)'
+    - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*\{'
+      captures:
+        1: keyword.control.scala
+        2: entity.name.namespace.scoped.scala
+      push:
+        - meta_scope: meta.namespace.scala
+        - match: '\}'
+          pop: true
+        - include: main
+    - match: '\b(package)\s+({{id}}(?:\.{{id}})*)'
       scope: meta.namespace.scala
       captures:
         1: keyword.control.scala
-        2: entity.name.namespace.scala
+        2: entity.name.namespace.header.scala
     - match: '\b(case)\b'
       scope: keyword.other.declaration.scala
       push:
