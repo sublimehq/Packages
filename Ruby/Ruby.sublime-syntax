@@ -194,6 +194,7 @@ contexts:
       scope: constant.other.symbol.ruby
       captures:
         1: punctuation.definition.constant.ruby
+      push: try-regex
     - match: '\b(nil|true|false)\b(?![?!])'
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
