@@ -67,19 +67,19 @@ contexts:
         - include: tag-stuff
     - match: '(?:^\s+)?(<)((?i:style))\b(?![^>]*/>)'
       captures:
-        0: meta.tag.style.html
+        0: meta.tag.style.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push:
         - match: (?i)(</)(style)(>)
           captures:
-            0: meta.tag.style.html
+            0: meta.tag.style.end.html
             1: punctuation.definition.tag.begin.html
             2: entity.name.tag.style.html
             3: punctuation.definition.tag.end.html
           pop: true
         - match: '>'
-          scope: meta.tag.style.html punctuation.definition.tag.end.html
+          scope: meta.tag.style.begin.html punctuation.definition.tag.end.html
           push:
             - meta_content_scope: source.css.embedded.html
             - include: 'scope:source.css'
@@ -88,25 +88,25 @@ contexts:
               pop: true
         - match: ''
           push:
-            - meta_scope: meta.tag.style.html
+            - meta_scope: meta.tag.style.begin.html
             - match: '(?=>)'
               pop: true
             - include: tag-stuff
     - match: '(<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!javascript).*)))'
       captures:
-        0: meta.tag.script.html
+        0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push:
         - match: (?i)(</)(script)(>)
           captures:
-            0: meta.tag.script.html
+            0: meta.tag.script.end.html
             1: punctuation.definition.tag.begin.html
             2: entity.name.tag.script.html
             3: punctuation.definition.tag.end.html
           pop: true
         - match: '>'
-          scope: meta.tag.script.html punctuation.definition.tag.end.html
+          scope: meta.tag.script.begin.html punctuation.definition.tag.end.html
           push:
             - meta_content_scope: source.js.embedded.html
             - include: 'scope:source.js'
@@ -115,7 +115,7 @@ contexts:
                pop: true
         - match: ''
           push:
-            - meta_scope: meta.tag.script.html
+            - meta_scope: meta.tag.script.begin.html
             - match: '(?=>)'
               pop: true
             - include: tag-stuff

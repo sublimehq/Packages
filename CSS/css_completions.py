@@ -443,7 +443,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             # <style type="text/css">.test { f|</style>
             # i.e. after a "style" HTML open tag and immediately before the closing tag.
             # so we want to offer CSS completions here.
-            if view.match_selector(loc, 'text.html.basic meta.tag.style punctuation.definition.tag.begin.html') and \
+            if view.match_selector(loc, 'text.html meta.tag.style.end punctuation.definition.tag.begin.html') and \
                view.match_selector(loc - 1, selector_scope):
                 pass
             else:
