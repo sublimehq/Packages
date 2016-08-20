@@ -55,7 +55,8 @@ variables:
   upperid: '(?:\b\p{Lu}{{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
-  withinparens: '\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\)'
+  withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
+  withinbrackets: '(?:\[(?:[^\[\]]|\[(?:[^\[\]]|\[[^\[\]]*\])*\])*\])'
 
 contexts:
   prototype:
@@ -131,7 +132,7 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{idorunder}}|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{id}}{{withinbrackets}}?|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala
