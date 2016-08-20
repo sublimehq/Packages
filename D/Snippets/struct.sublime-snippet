@@ -1,10 +1,10 @@
 <snippet>
 	<content><![CDATA[/**
- * $2
+ * $1
  */
 struct ${1:name}
 {
-	$3
+	$2
 }]]></content>
 	<tabTrigger>st</tabTrigger>
 	<scope>source.d</scope>
