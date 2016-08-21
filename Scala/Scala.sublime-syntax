@@ -118,7 +118,7 @@ contexts:
       scope: punctuation.definition.comment.scala
       push:
         - meta_scope: comment.block.documentation.scala
-        - match: \*/\s*$
+        - match: \*/
           scope: punctuation.definition.comment.scala
           pop: true
         - match: (@\w+\s)

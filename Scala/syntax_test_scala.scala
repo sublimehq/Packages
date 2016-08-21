@@ -1024,3 +1024,9 @@ xs: Foo with Bar
 val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
+
+/** private */ class Foo
+//             ^^^^^ storage.type.class
+
+   foo
+// ^^^ - comment
