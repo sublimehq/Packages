@@ -308,12 +308,19 @@ contexts:
             - include: main-no-lambdas
         - match: '{{rightarrow}}'
           scope: keyword.operator.arrow.scala
-          pop: true
+          set: case-body
           captures:
             1: keyword.control.flow.scala
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+  case-body:
+    - meta_scope: meta.block.case.scala
+    - match: '(?=\})'
+      pop: true
+    - match: '(?=\bcase\b)'
+      pop: true
+    - include: main
 
   braces:
     - match: \[
