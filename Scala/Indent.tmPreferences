@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Indent</string>
+  <key>scope</key>
+  <string>source.scala - comment</string>
+  <key>settings</key>
+  <dict>
+    <key>increaseIndentPattern</key>
+    <string>(?x)
+        ^ .* \{ [^}"']* $
+      | ^ .* \( [^)"']* $
+      | ^ \s* case .* =&gt; \s* $
+    </string>
+    <key>decreaseIndentPattern</key>
+    <string>(?x)
+        ^ (.*\*/)? \s* \} .* $
+      | ^ (.*\*/)? \s* \) .* $
+    </string>
+    <key>bracketIndentNextLinePattern</key>
+    <string>(?x)
+        ^ .* = \s* $
+      | ^ .* (if|do|while) .* \) \s* $
+      | ^ .* else \s* $
+    </string>
+  </dict>
+</dict>
+</plist>
