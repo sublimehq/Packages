@@ -270,7 +270,7 @@ contexts:
       # http://yaml.org/spec/1.2/spec.html#&%20anchor//
       - match: (&)({{ns_anchor_name}})(\S+)?
         captures:
-          1: keyword.control.property.anchor.yaml punctuation.anchor.yaml
+          1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
           2: entity.name.other.anchor.yaml
           3: invalid.illegal.character.anchor.yaml
         pop: true
@@ -287,7 +287,7 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#alias//
     - match: (\*)({{ns_anchor_name}})([^\s\]},]\S*)?
       captures:
-        1: keyword.control.flow.alias.yaml punctuation.alias.yaml
+        1: keyword.control.flow.alias.yaml punctuation.definition.alias.yaml
         2: variable.other.alias.yaml
         3: invalid.illegal.character.anchor.yaml
 
