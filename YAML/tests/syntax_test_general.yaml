@@ -10,6 +10,12 @@
 # <- comment.line.number-sign punctuation.definition.comment.line.number-sign
 #^^^^^^^^ comment.line.number-sign
 
+foo: bar 
+#       ^ -comment
+
+foo: bar # Baz
+#       ^ -comment
+#        ^ comment.line.number-sign
 
 ##############################################################################
 ## Document markers

@@ -533,10 +533,17 @@ contexts:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
     - match: | # l-comment
         (?x)
-        (?: ^ [ \t]* | [ \t]+ )
-        (?:(\#) \p{Print}* )?
-        (\n|\z)
-      scope: comment.line.number-sign.yaml
+        (?: ( ^ [ \t]* ) | [ \t]+ )
+        (?=#\p{Print}*$)
       captures:
-        1: punctuation.definition.comment.line.number-sign.yaml
+        1: punctuation.whitespace.comment.leading.yaml
+      set:
+        - meta_include_prototype: false
+        - match: (?!\G)
+          pop: true
+        - match: '#'
+          scope: punctuation.definition.comment.yaml
+            - meta_scope: comment.line.number-sign.yaml
+            - match: \n
+              pop: true
 ...
