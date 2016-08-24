@@ -4,7 +4,7 @@
   <key>name</key>
   <string>Indent (case)</string>
   <key>scope</key>
-  <string>source.scala meta.block.case.scala - comment</string>
+  <string>source.scala meta.block.case.late - comment</string>
   <key>settings</key>
   <dict>
     <key>decreaseIndentPattern</key>

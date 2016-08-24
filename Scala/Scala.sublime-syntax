@@ -295,8 +295,19 @@ contexts:
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
+
+    # case blocks have four meta scopes:
+    #
+    # - meta.block.case
+    # - meta.block.case.body
+    # - meta.block.case.late
+    # - meta.block.case.late.body
+    #
+    # This is so that auto-indentation can behave differently on the "non-first"
+    # case lines in a pattern match block, since the first line opens a scope,
+    # while the non-first lines close the previous scope AND open the next scope
     - match: '\b(case)\b'
-      scope: keyword.other.declaration.scala
+      scope: keyword.other.declaration.scala meta.block.case.scala
       push:
         - match: '\b(if)\b'
           captures:
@@ -308,19 +319,46 @@ contexts:
             - include: main-no-lambdas
         - match: '{{rightarrow}}'
           scope: keyword.operator.arrow.scala
-          set: case-body
+          set:
+            - meta_scope: meta.block.case.body.scala
+            - include: case-body
           captures:
             1: keyword.control.flow.scala
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
   case-body:
-    - meta_scope: meta.block.case.scala
     - match: '(?=\})'
       pop: true
     - match: '(?=\bcase\b)'
-      pop: true
+      set: case-late-decl
     - include: main
+  case-late-decl:
+    - meta_scope: meta.block.case.late.scala
+    - match: '\b(case)\b'
+      scope: keyword.other.declaration.scala
+      set:    # set vs push; late vs not-late above
+        - match: '\('
+          push:
+            - match: '\)'
+              pop: true
+            - include: pattern-match
+        - match: '\b(if)\b'
+          captures:
+            1: keyword.control.flow.scala
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              pop: true
+            - include: main-no-lambdas
+        - match: '{{rightarrow}}'
+          scope: keyword.operator.arrow.scala
+          set:
+            - meta_scope: meta.block.case.late.body.scala   # late here!
+            - include: case-body
+          captures:
+            1: keyword.control.flow.scala
+        - include: pattern-match
 
   braces:
     - match: \[

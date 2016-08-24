@@ -11,7 +11,7 @@
     <string>(?x)
         ^ .* \{ [^}"']* $
       | ^ .* \( [^)"']* $
-      | ^ \s* case .* =&gt; \s* $
+      | ^ \s* case .* =&gt; .* $
     </string>
     <key>decreaseIndentPattern</key>
     <string>(?x)
