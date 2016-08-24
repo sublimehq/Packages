@@ -1024,3 +1024,26 @@ xs: Foo with Bar
 val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
+
+   /*
+   /*
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ - comment
+
+
+   /**
+   /**
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ - comment

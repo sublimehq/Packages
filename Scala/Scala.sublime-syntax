@@ -92,28 +92,6 @@ contexts:
     - include: late-operators
 
   block-comments:
-    - match: /\*
-      push:
-        - meta_scope: comment.block.scala
-        - match: \*/
-          pop: true
-        - include: block-comments
-        - match: |-
-            (?x)
-            			(?! /\*)
-            			(?! \*/)
-
-  char-literal:
-    - match: '''\\?.'''
-      scope: constant.character.literal.scala
-
-  comments:
-    - match: (//).*$
-      scope: comment.line.double-slash.scala
-      captures:
-        1: punctuation.definition.comment.scala
-    - match: /\*\*/
-      scope: comment.block.empty.scala punctuation.definition.comment.scala
     - match: (^\s*)?/\*\*
       scope: punctuation.definition.comment.scala
       push:
@@ -125,6 +103,29 @@ contexts:
           scope: keyword.other.documentation.scaladoc.scala
         - match: '\{@link\s+[^\}]*\}'
           scope: keyword.other.documentation.scaladoc.link.scala
+        - include: block-comments
+    - match: /\*
+      push:
+        - meta_scope: comment.block.scala
+        - match: \*/
+          pop: true
+        - include: block-comments
+        - match: |-
+            (?x)
+            			(?! /\*)
+            			(?! \*/)
+    - match: /\*\*/
+      scope: comment.block.empty.scala punctuation.definition.comment.scala
+
+  char-literal:
+    - match: '''\\?.'''
+      scope: constant.character.literal.scala
+
+  comments:
+    - match: (//).*$
+      scope: comment.line.double-slash.scala
+      captures:
+        1: punctuation.definition.comment.scala
 
   ascription:
     - match: '{{typeprefix}}'
