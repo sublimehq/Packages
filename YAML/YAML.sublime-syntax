@@ -271,7 +271,7 @@ contexts:
       - match: (&)({{ns_anchor_name}})(\S+)?
         captures:
           1: keyword.control.property.anchor.yaml punctuation.anchor.yaml
-          2: entity.name.other.anchor.yaml
+          2: entity.name.type.anchor.yaml
           3: invalid.illegal.character.anchor.yaml
         pop: true
       # !Tag Handle
