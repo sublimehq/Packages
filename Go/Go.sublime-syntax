@@ -9,6 +9,7 @@ scope: source.go
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   type_chars: '[[:alnum:]\s,._*&<>\[\]-]'
+  sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
 
 contexts:
   main:
@@ -585,6 +586,21 @@ contexts:
       scope: invalid.illegal.placeholder.go
 
   strings:
+    - match: '(")(?={{sql_indicator}})'
+      scope: punctuation.definition.string.begin.go
+      push:
+        - meta_scope: string.quoted.double.go
+        - match: '"'
+          scope: punctuation.definition.string.end.go
+          pop: true
+        - match: ''
+          with_prototype:
+            - match: '(?=")'
+              pop: true
+            - include: string-placeholder
+            - include: string-escaped-char
+          push: 'scope:source.sql'
+
     - match: '"'
       scope: punctuation.definition.string.begin.go
       push:
@@ -594,14 +610,29 @@ contexts:
           pop: true
         - include: string-placeholder
         - include: string-escaped-char
+
     - match: "`"
       scope: punctuation.definition.string.begin.go
       push:
         - meta_scope: string.quoted.raw.go
+        - match: '(?={{sql_indicator}})'
+          set:
+            - meta_scope: string.quoted.raw.go
+            - match: "`"
+              scope: punctuation.definition.string.end.go
+              pop: true
+            - match: ''
+              with_prototype:
+                - match: (?=`)
+                  pop: true
+                - include: string-escaped-char
+                - include: string-placeholder
+              push: 'scope:source.sql'
         - match: "`"
           scope: punctuation.definition.string.end.go
           pop: true
         - include: string-placeholder
+
   char:
     - match: "'"
       scope: punctuation.definition.string.begin.go

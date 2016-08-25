@@ -302,3 +302,26 @@ func () {
 	// <- entity.name.label
 	//   ^ punctuation.separator
 }
+
+var sql = "SELECT * FROM foobar"
+//          ^ keyword.other.DML.sql
+
+var sql = `
+    SELECT
+--  ^ keyword.other.DML.sql
+        (SELECT EXISTS(select 1) FROM table) AS foo,
+        CASE field
+            WHEN 1 THEN 2 -- comment
+                          -- ^ comment.line.double-dash.sql
+            ELSE NULL
+        END AS bar
+    ) as result
+`
+
+var sql = `SELECT * FROM %s WHERE field = 'foo\tbar' -- comment`
+//          ^ keyword.other.DML.sql
+//                        ^ constant.other.placeholder.go
+//                                         ^ string.quoted.single.sql
+//                                            ^ constant.character.escape.go
+//                                              ^ string.quoted.single.sql
+//                                                      ^ comment.line.double-dash.sql
