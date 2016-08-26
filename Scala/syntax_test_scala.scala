@@ -1024,3 +1024,9 @@ xs: Foo with Bar
 val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
+
+{
+   case (x, y: Int => String) => ()
+//                 ^^ keyword.operator.arrow.scala
+//                    ^^^^^^ support.class.scala
+}
