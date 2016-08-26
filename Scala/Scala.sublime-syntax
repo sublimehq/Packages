@@ -678,7 +678,10 @@ contexts:
         - match: '`'
           scope: punctuation.definition.identifier.scala
           pop: true
-    - match: '{{varid}}(\.)'
+    - match: '{{varid}}(?:(\.){{varid}})+'
+      captures:
+        1: punctuation.accessor.scala
+    - match: '{{varid}}(\.)'    # redundant to catch {{varid}}.{{upperid}}
       captures:
         1: punctuation.accessor.scala
     - match: '(\.){{varid}}'
@@ -737,7 +740,10 @@ contexts:
         - match: '`'
           scope: punctuation.definition.identifier.scala
           pop: true
-    - match: '{{varid}}(\.)'
+    - match: '{{varid}}(?:(\.){{varid}})+'
+      captures:
+        1: punctuation.accessor.scala
+    - match: '{{varid}}(\.)'    # redundant to catch {{varid}}.{{upperid}}
       captures:
         1: punctuation.accessor.scala
     - match: '(\.){{varid}}'

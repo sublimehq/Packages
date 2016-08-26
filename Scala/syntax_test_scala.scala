@@ -616,10 +616,10 @@ type Foo = Bar[A] forSome { type A }
 
   {
     case foo.Bar => 42
-//       ^^^ - entity.name
+//       ^^^ - variable
 //          ^ punctuation.accessor.scala
     case Bar.foo => 42
-//           ^^^ - entity.name
+//           ^^^ - variable
 //          ^ punctuation.accessor.scala
   }
 
@@ -1029,4 +1029,9 @@ val Stuff(thing, other) = ???
    case (x, y: Int => String) => ()
 //                 ^^ keyword.operator.arrow.scala
 //                    ^^^^^^ support.class.scala
+}
+
+{
+   case (foo.bar, _) => ()
+//           ^^^ - variable
 }
