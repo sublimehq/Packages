@@ -1285,3 +1285,34 @@ def foo(a: String* )
 trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 //                     ^^^^ storage.type.scala
 //                               ^ keyword.operator.assignment.scala
+
+// annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
+@deprecated("Use D", "1.0") class C { ... }
+// ^^ storage.modifier.annotation
+//            ^^ string
+
+@transient @volatile var m: Int
+// ^^ storage.modifier.annotation
+
+String @local
+//     ^^ storage.modifier.annotation
+
+(e: @unchecked) match { ... }
+//  ^^ storage.modifier.annotation
+//              ^^^^^ keyword.control.flow.scala
+
+// more complex:
+@scala.beans.BeanProperty
+//  ^^^^^^^^^^^^^^^^^^^^^ storage.modifier.annotation
+
+(e: Int @unchecked) match { ... }
+//  ^^ storage.type.primitive
+//      ^^ storage.modifier.annotation
+//                  ^^^^^ keyword.control.flow.scala
+
+trait Function0[@specialized(Unit, Int, Double) T] {
+//               ^^ storage.modifier.annotation
+//                           ^^ storage.type.primitive
+//                                              ^ support.class
+  def apply: T
+}

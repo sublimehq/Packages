@@ -99,6 +99,7 @@ contexts:
     - include: operators
     - include: initialization
     - include: ascription
+    - include: annotation
   main-post-lambdas:
     - include: late-keywords
     - include: constants
@@ -146,6 +147,48 @@ contexts:
   ascription:
     - match: '{{typeprefix}}'
       push: single-type-expression
+
+  annotation:
+    - match: '@specialized'
+      scope: storage.modifier.annotation.scala
+      push:
+      - match: \(
+        scope: punctuation.definition.arguments.begin.scala
+        set:
+          - include: base-types
+          - match: ','
+            scope: punctuation.separator.arguments.scala
+          - match: \)
+            scope: punctuation.definition.arguments.end.scala
+            pop: true
+      - match: (?!\()
+        pop: true
+    - match: '@{{plainid}}\.'
+      scope: storage.modifier.annotation.scala
+      push:
+        - match: '{{plainid}}\.'
+          scope: storage.modifier.annotation.scala
+        - match: '{{plainid}}'
+          scope: storage.modifier.annotation.scala
+          set: annotation-parameters
+    - match: '@{{plainid}}'
+      scope: storage.modifier.annotation.scala
+      push: annotation-parameters
+
+  annotation-parameters:
+    - match: \(
+      scope: punctuation.definition.arguments.begin.scala
+      set:
+        - match: ','
+          scope: punctuation.separator.arguments.scala
+        - include: strings
+        - include: constants
+        - include: char-literal
+        - match: \)
+          scope: punctuation.definition.arguments.end.scala
+          pop: true
+    - match: (?!\()
+      pop: true
 
   lambdas:
     # lambda lookahead
@@ -1043,6 +1086,7 @@ contexts:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.bound.scala
   delimited-type-expression:
+    - include: annotation
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '\b(with)\b'
@@ -1061,6 +1105,7 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
+    - include: annotation
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
