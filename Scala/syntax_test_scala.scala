@@ -215,6 +215,19 @@ type Foo = Bar[A] forSome { type A }
    "testing"
 // ^^^^^^^^^ string.quoted.double.scala
 
+  "escaped chars: \u1221 \125 \n"
+//                ^^^^^^ constant.character.escape.scala
+//                        ^^^ constant.character.escape.scala
+//                            ^^ constant.character.escape.scala
+
+  "bad escaping: \p"
+//               ^ invalid.illegal.lone-escape.scala
+
+  """escaped in triple: \u1221 \125 \n"""
+//                      ^^^^^^ constant.character.escape.scala
+//                             ^^^ - constant.character.escape.scala
+//                                  ^^ - constant.character.escape.scala
+
    """testing"""
 // ^^^^^^^^^^^^^ string.quoted.triple.scala
 
