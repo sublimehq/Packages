@@ -248,6 +248,16 @@ type Foo = Bar[A] forSome { type A }
 //                    ^ punctuation.definition.expression
 //                     ^^^ string.quoted.triple.interpolated.scala
 
+   f"formatted: x: $x%+,.3f ca"
+// ^ support.function
+//                  ^ variable.other.scala
+//                   ^^^^^^ constant.other.formatting.scala
+
+   f"formatted: date: $x%T "
+// ^ support.function
+//                    ^ variable.other.scala
+//                      ^^ constant.other.formatting.scala
+
    Unit
 // ^^^^ storage.type.primitive.scala
 

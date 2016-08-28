@@ -629,6 +629,10 @@ contexts:
         - match: '"""(?!")'
           pop: true
         - include: interpolated-vars-expressions
+    - match: '(f)"'
+      captures:
+        1: support.function.scala
+      push: f_string
     - match: '({{alphaid}})"'
       captures:
         1: support.function.scala
@@ -647,6 +651,37 @@ contexts:
       scope: constant.character.escape.scala
     - match: \\
       scope: invalid.illegal.lone-escape.scala
+
+  # f_string, see:
+  # http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html#detail
+  # /!\ this implementation may allow incorrect combinaisons
+  f_string:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.interpolated.scala
+    - match: '"'
+      pop: true
+    - match: \n
+      scope: invalid.string.newline.scala
+    - include: escaped
+    - include: interpolated-vars-expressions
+    # constant formatting
+    - match: '%[%n]'
+      scope: constant.other.formatting.scala
+    # general formatting
+    - match: '%\-?#?[bBhHsS]'
+      scope: constant.other.formatting.scala
+    # character formatting
+    - match: '%\-?[cC]'
+      scope: constant.other.formatting.scala
+    # date-time formatting
+    - match: '%\-?[tT][HIklMSLNpzZsQBbhAaCYyjmdeRTrDFc]?'
+      scope: constant.other.formatting.scala
+    # floating point formatting
+    - match: '%[\+\-# 0\(,]*[\.0-9]*[feEgGaA]'
+      scope: constant.other.formatting.scala
+    # integer formatting
+    - match: '%[\+\-# 0\(,]*[doxX]'
+      scope: constant.other.formatting.scala
 
   interpolated-vars-expressions:
     - match: '(\$){{alphaid}}'
