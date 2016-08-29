@@ -149,20 +149,6 @@ contexts:
       push: single-type-expression
 
   annotation:
-    - match: '@specialized'
-      scope: storage.modifier.annotation.scala
-      push:
-      - match: \(
-        scope: punctuation.definition.arguments.begin.scala
-        set:
-          - include: base-types
-          - match: ','
-            scope: punctuation.separator.arguments.scala
-          - match: \)
-            scope: punctuation.definition.arguments.end.scala
-            pop: true
-      - match: (?!\()
-        pop: true
     - match: '@{{plainid}}\.'
       scope: storage.modifier.annotation.scala
       push:
@@ -178,7 +164,7 @@ contexts:
   annotation-parameters:
     - match: \(
       scope: punctuation.definition.arguments.begin.scala
-      set:
+      push:
         - match: ','
           scope: punctuation.separator.arguments.scala
         - include: strings
@@ -187,6 +173,13 @@ contexts:
         - match: \)
           scope: punctuation.definition.arguments.end.scala
           pop: true
+    - match: \[
+      scope: punctuation.definition.arguments.begin.scala
+      push:
+        - match: \]
+          scope: punctuation.definition.arguments.end.scala
+          pop: true
+        - include: delimited-type-expression
     - match: (?!\()
       pop: true
 
