@@ -213,7 +213,9 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^^ variable.language.scala
 
    "testing"
+// ^ punctuation.definition.string.begin.scala
 // ^^^^^^^^^ string.quoted.double.scala
+//         ^ punctuation.definition.string.end.scala
 
   "escaped chars: \u1221 \125 \n"
 //                ^^^^^^ constant.character.escape.scala
@@ -224,9 +226,11 @@ type Foo = Bar[A] forSome { type A }
 //               ^ invalid.illegal.lone-escape.scala
 
   """escaped in triple: \u1221 \125 \n"""
+//^^^ punctuation.definition.string.begin.scala
 //                      ^^^^^^ constant.character.escape.scala
 //                             ^^^ - constant.character.escape.scala
 //                                  ^^ - constant.character.escape.scala
+//                                    ^^^ punctuation.definition.string.end.scala
 
    """testing"""
 // ^^^^^^^^^^^^^ string.quoted.triple.scala

@@ -602,36 +602,43 @@ contexts:
   # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)
   strings:
     - match: '"""'
+      scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.triple.scala
         - match: '{{unicode_char}}'
           scope: constant.character.escape.scala
-        - match: '"""(?!")'
+        - match: '(""")(?!")'
+          scope: punctuation.definition.string.end.scala
           pop: true
     - match: '"'
+      scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.scala
         - match: '"'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
         - include: escaped
-    - match: '({{alphaid}})"""'
+    - match: '({{alphaid}})(""")'
       captures:
         1: support.function.scala
+        2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.triple.interpolated.scala
         - match: '{{unicode_char}}'
           scope: constant.character.escape.scala
-        - match: '"""(?!")'
+        - match: '(""")(?!")'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - include: interpolated-vars-expressions
-    - match: '(f)"'
+    - match: '(f)(")'
       captures:
         1: support.function.scala
+        2: punctuation.definition.string.begin.scala
       push: f_string
     - match: '({{alphaid}})"'
       captures:
@@ -640,6 +647,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.interpolated.scala
         - match: '"'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
