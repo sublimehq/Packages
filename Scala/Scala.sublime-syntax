@@ -123,7 +123,7 @@ contexts:
       scope: comment.block.empty.scala punctuation.definition.comment.scala
 
   char-literal:
-    - match: '''\\?.'''
+    - match: '''({{escaped_char}}|.)'''
       scope: constant.character.literal.scala
 
   comments:

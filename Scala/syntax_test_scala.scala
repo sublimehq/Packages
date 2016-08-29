@@ -191,6 +191,12 @@ type Foo = Bar[A] forSome { type A }
    0.045e-2
 // ^^^^^^^^ constant.numeric.float.scala
 
+   'a'
+// ^^^ constant.character.literal.scala
+
+   '\u1221'
+// ^^^^^^^^ constant.character.literal.scala
+
    true
 // ^^^^ constant.language.scala
 
