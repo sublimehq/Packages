@@ -622,6 +622,17 @@ contexts:
         - match: \n
           scope: invalid.string.newline.scala
         - include: escaped
+    - match: '(f)(""")'
+      captures:
+        1: support.function.scala
+        2: punctuation.definition.string.begin.scala
+      push:
+        - include: f_string
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.interpolated.scala
+        - match: '"""'
+          scope: punctuation.definition.string.end.scala
+          pop: true
     - match: '({{alphaid}})(""")'
       captures:
         1: support.function.scala
@@ -639,7 +650,15 @@ contexts:
       captures:
         1: support.function.scala
         2: punctuation.definition.string.begin.scala
-      push: f_string
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.interpolated.scala
+        - include: f_string
+        - match: '"'
+          scope: punctuation.definition.string.end.scala
+          pop: true
+        - match: \n
+          scope: invalid.string.newline.scala
     - match: '({{alphaid}})"'
       captures:
         1: support.function.scala
@@ -664,12 +683,6 @@ contexts:
   # http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html#detail
   # /!\ this implementation may allow incorrect combinaisons
   f_string:
-    - meta_include_prototype: false
-    - meta_scope: string.quoted.interpolated.scala
-    - match: '"'
-      pop: true
-    - match: \n
-      scope: invalid.string.newline.scala
     - include: escaped
     - include: interpolated-vars-expressions
     # constant formatting
