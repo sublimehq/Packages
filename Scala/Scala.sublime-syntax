@@ -299,6 +299,8 @@ contexts:
           pop: true
           captures:
             1: keyword.control.flow.scala
+        - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
+          pop: true
         - include: pattern-match
 
   braces:
