@@ -103,7 +103,6 @@ contexts:
   main-post-lambdas:
     - include: late-keywords
     - include: constants
-    - include: char-literal
     - include: scala-symbol
     - include: braces
     - include: late-operators
@@ -169,7 +168,7 @@ contexts:
           scope: punctuation.separator.arguments.scala
         - include: strings
         - include: constants
-        - include: char-literal
+        - include: initialization
         - match: \)
           scope: punctuation.definition.arguments.end.scala
           pop: true
@@ -244,6 +243,7 @@ contexts:
     - include: base-types
   constants:
     - include: base-constants
+    - include: char-literal
     # other upper-case stuff highlights as constant
     - match: '{{upperid}}'
       scope: support.constant.scala
