@@ -1098,7 +1098,6 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
-    - include: annotation
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
@@ -1115,6 +1114,9 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail
     - include: base-type-expression
+    - match: '(?=@)'
+      comment: the '@' indicates the beginning of an annotation
+      pop: true
     - match: '(?=[\s$,\)\}\]])'
       pop: true
   single-type-expression-tail:
