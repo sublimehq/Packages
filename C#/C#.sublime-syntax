@@ -480,7 +480,7 @@ contexts:
       push: type_constraint
     - match: (=>)
       scope: punctuation.section.function.begin.cs
-      set: line_of_code
+      set: line_of_code_in
 
     - match: \{
       scope: punctuation.section.function.begin.cs
