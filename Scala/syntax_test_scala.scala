@@ -1084,3 +1084,16 @@ def <(a: Int) = 42
 
    <!-- not a comment -->
 // ^^^^^^^^^^^^^^^^^^^^^^ - comment
+
+   <foo a="&" b="<" c=">"/>
+//         ^ invalid.illegal.bad-ampersand.xml
+//               ^ invalid.illegal.missing-entity.xml
+//                     ^ invalid.illegal.missing-entity.xml
+
+   <foo a="&amp;"/>
+//          ^^^ constant.character.entity.xml
+
+   <foo>
+     &amp;
+<!-- ^^^^^ constant.character.entity.xml -->
+   </foo>

@@ -691,6 +691,7 @@ contexts:
     - meta_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
+    - include: xml-entity
     - match: '\?>'
       pop: true
     - match: '/>'
@@ -708,14 +709,19 @@ contexts:
       captures:
         1: invalid.illegal.bad-attribute-name.xml
         2: punctuation.separator.key-value.xml
+    - include: xml-should-be-entity
   xml-attribute-val:
     - meta_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
+    - include: xml-entity
+    - include: xml-should-be-entity
     - match: '"'
       scope: punctuation.definition.string.begin.xml
       set:
         - meta_scope: text.xml string.quoted.double.xml
+        - include: xml-entity
+        - include: xml-should-be-entity
         - match: '"'
           scope: punctuation.definition.string.end.xml
           set: xml-tag-decl
@@ -724,6 +730,8 @@ contexts:
       scope: punctuation.definition.string.begin.xml
       set:
         - meta_scope: text.xml string.quoted.single.xml
+        - include: xml-entity
+        - include: xml-should-be-entity
         - match: "'"
           scope: punctuation.definition.string.end.xml
           set: xml-tag-decl
@@ -735,10 +743,24 @@ contexts:
           scope: punctuation.definition.inline.end.xml
           set: xml-tag-decl
         - include: main
+  xml-should-be-entity:
+    - match: '&'
+      scope: invalid.illegal.bad-ampersand.xml
+    - match: '<'
+      scope: invalid.illegal.missing-entity.xml
+    - match: '>'
+      scope: invalid.illegal.missing-entity.xml
+  xml-entity:
+    - match: '(&)(?:{{xml_name}}|#[0-9]+|#x\h+)(;)'
+      scope: constant.character.entity.xml
+      captures:
+        1: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
   xml-mode:
     - meta_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
+    - include: xml-entity
     - match: '\{'
       scope: punctuation.definition.inline.begin.xml
       push:
@@ -751,6 +773,7 @@ contexts:
         1: entity.name.tag.xml
       pop: true
     - include: xml-literal
+    - include: xml-should-be-entity
 
   val-pattern-match-main:
     - include: keywords
