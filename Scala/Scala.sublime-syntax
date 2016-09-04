@@ -22,6 +22,7 @@ variables:
       [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
+      <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-]&&{{operator_character}}]+|
       <-{{operator_character}}+|
       [:@\x{2190}\x{21D2}#]{{operator_character}}+
@@ -33,6 +34,7 @@ variables:
       [[^:=<@\x{2190}\x{21D2}#+\-]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]+|
       =>{{operator_character}}+|
+      <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-%:]&&{{operator_character}}]+|
       <[:%\-]{{operator_character}}+|
       :[[^<]&&{{operator_character}}]+|

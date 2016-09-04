@@ -1024,3 +1024,7 @@ xs: Foo with Bar
 val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
+
+def <(a: Int) = 42
+//  ^ entity.name.function.scala
+//    ^ variable.parameter.scala
