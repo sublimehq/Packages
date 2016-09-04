@@ -1115,3 +1115,16 @@ def <(a: Int) = 42
 
    </thing>
 // invalid.illegal.bad-closing-tag.xml
+
+   <?xml version="1.0"?>
+// ^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.reserved-proc-instr.xml
+
+   <?xml
+// ^^^^^ invalid.illegal.reserved-proc-instr.xml
+
+   <?foo thing="false"?>
+//   ^^^ entity.name.tag.xml
+//             ^^^^^^^ string.quoted.double.xml
+
+   <!-- not a comment -->
+// ^^^^^^^^^^^^^^^^^^^^^^ - comment

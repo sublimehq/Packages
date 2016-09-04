@@ -670,6 +670,12 @@ contexts:
       captures:
         1: entity.name.tag.xml
       push: xml-tag-decl
+    - match: '<\?\s*xml(?:.*[>$]|\b)'
+      scope: invalid.illegal.reserved-proc-instr.xml
+    - match: '<\?\s*({{xml_qualified_name}})'
+      captures:
+        1: entity.name.tag.xml
+      push: xml-tag-decl
   xml-comments:
     - meta_scope: text.xml
     - meta_include_prototype: false
@@ -684,6 +690,8 @@ contexts:
     - meta_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
+    - match: '\?>'
+      pop: true
     - match: '/>'
       pop: true
     - match: '>'
