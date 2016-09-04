@@ -671,7 +671,7 @@ contexts:
       captures:
         1: entity.name.tag.xml
       push: xml-tag-decl
-    - match: '<\?\s*xml(?:.*[>$]|\b)'
+    - match: '<\?\s*xml(?:\s.*[>$]|\b)'
       scope: invalid.illegal.reserved-proc-instr.xml
     - match: '<\?\s*({{xml_qualified_name}})'
       captures:

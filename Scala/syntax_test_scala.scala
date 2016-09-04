@@ -1078,6 +1078,9 @@ def <(a: Int) = 42
    <?xml
 // ^^^^^ invalid.illegal.reserved-proc-instr.xml
 
+   <?xmll?>
+// ^^^^^^^^ - invalid
+
    <?foo thing="false"?>
 //   ^^^ entity.name.tag.xml
 //             ^^^^^^^ string.quoted.double.xml
