@@ -1072,3 +1072,46 @@ val Stuff(thing, other) = ???
 def <(a: Int) = 42
 //  ^ entity.name.function.scala
 //    ^ variable.parameter.scala
+
+   <thing foo="42"/>
+//  ^^^^^ text.xml entity.name.tag.xml
+//        ^^^ text.xml entity.other.attribute-name.localname.xml
+//            ^ text.xml string.quoted.double.xml punctuation.definition.string.begin.xml
+//             ^^ text.xml string.quoted.double.xml
+//               ^ text.xml string.quoted.double.xml punctuation.definition.string.end.xml
+
+   <!-- not a comment -->
+// ^^^^^^^^^^^^^^^^^^^^^^ - comment
+
+   <foo bar="test" baz='test' bin={ 42 }>
+<!--                   ^ text.xml string.quoted.single.xml punctuation.definition.string.begin.xml -->
+<!--                        ^ text.xml string.quoted.single.xml punctuation.definition.string.end.xml -->
+<!--                                ^^ source.scala constant.numeric.integer.scala -->
+     {
+       42 + "thing"
+//     ^^ source.scala constant.numeric.integer.scala
+//          ^^^^^^^ source.scala string.quoted.double.scala
+       // comments!
+//     ^^^^^^^^^^^^ source.scala comment.line.double-slash.scala
+
+       <nested/>
+//      ^^^^^^ entity.name.tag.xml
+     }
+
+     "stuff"
+<!-- ^^^^^^^ - string -->
+
+     <!-- comments -->
+<!-- ^^^^^^^^^^^^^^^^^ comment.block.xml -->
+
+     <thing/>
+
+     <more>
+       more tags!
+       /* not a comment */
+<!--   ^^^^^^^^^^^^^^^^^^^ - comment -->
+     </more>
+   </foo>
+
+   </thing>
+// invalid.illegal.bad-closing-tag.xml

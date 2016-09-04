@@ -59,6 +59,15 @@ variables:
   # hack to cover up to three levels of nested parentheses
   withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
   withinbrackets: '(?:\[(?:[^\[\]]|\[(?:[^\[\]]|\[[^\[\]]*\])*\])*\])'
+  # This is the full XML Name production, but should not be used where namespaces
+  # are possible. Those locations should use a qualified_name.
+  xml_name: '[[:alpha:]:_][[:alnum:]:_.-]*'
+  # This is the form that allows a namespace prefix (ns:) followed by a local
+  # name. The captures are:
+  #  1: namespace prefix name
+  #  2: namespace prefix colon
+  #  3: local tag name
+  xml_qualified_name: '(?:([[:alpha:]_][[:alnum:]_.-]*)(:))?([[:alpha:]_][[:alnum:]_.-]*)'
 
 contexts:
   prototype:
@@ -654,21 +663,85 @@ contexts:
             - include: nest-curly-and-self
             - include: main
 
-  xml-attribute:
-    - match: '(\w+)=("[^"]*")'
-      captures:
-        1: entity.other.attribute-name.xml
-        2: string.quoted.double.xml
   xml-literal:
-    - match: "</?([a-zA-Z0-9]+)"
+    - match: '</{{xml_qualified_name}}>?'
+      scope: invalid.illegal.bad-closing-tag.xml
+    - match: '<({{xml_qualified_name}})'
       captures:
         1: entity.name.tag.xml
+      push: xml-tag-decl
+  xml-comments:
+    - meta_scope: text.xml
+    - meta_include_prototype: false
+    - match: '<!--'
+      scope: punctuation.definition.comment.begin.xml
       push:
-        - meta_scope: text.xml
-        - match: /?>
+        - meta_scope: comment.block.xml
+        - match: '-->'
+          scope: punctuation.definition.comment.end.xml
           pop: true
-        - include: xml-literal
-        - include: xml-attribute
+  xml-tag-decl:
+    - meta_scope: text.xml
+    - meta_include_prototype: false
+    - include: xml-comments
+    - match: '/>'
+      pop: true
+    - match: '>'
+      set: xml-mode
+    - match: '(?:\s+|^){{xml_qualified_name}}\s*(=)'
+      captures:
+        1: entity.other.attribute-name.namespace.xml
+        2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
+        3: entity.other.attribute-name.localname.xml
+        4: punctuation.separator.key-value.xml
+      set: xml-attribute-val
+    - match: '(?:\s+|^)([[:alnum:]:_.-]+)\s*(=)'
+      captures:
+        1: invalid.illegal.bad-attribute-name.xml
+        2: punctuation.separator.key-value.xml
+  xml-attribute-val:
+    - meta_scope: text.xml
+    - meta_include_prototype: false
+    - include: xml-comments
+    - match: '"'
+      scope: punctuation.definition.string.begin.xml
+      set:
+        - meta_scope: text.xml string.quoted.double.xml
+        - match: '"'
+          scope: punctuation.definition.string.end.xml
+          set: xml-tag-decl
+        # TODO entities
+    - match: "'"
+      scope: punctuation.definition.string.begin.xml
+      set:
+        - meta_scope: text.xml string.quoted.single.xml
+        - match: "'"
+          scope: punctuation.definition.string.end.xml
+          set: xml-tag-decl
+        # TODO entities
+    - match: '\{'
+      scope: punctuation.definition.inline.begin.xml
+      set:
+        - match: '\}'
+          scope: punctuation.definition.inline.end.xml
+          set: xml-tag-decl
+        - include: main
+  xml-mode:
+    - meta_scope: text.xml
+    - meta_include_prototype: false
+    - include: xml-comments
+    - match: '\{'
+      scope: punctuation.definition.inline.begin.xml
+      push:
+        - match: '\}'
+          scope: punctuation.definition.inline.end.xml
+          pop: true
+        - include: main
+    - match: '</({{xml_qualified_name}})>'
+      captures:
+        1: entity.name.tag.xml
+      pop: true
+    - include: xml-literal
 
   val-pattern-match-main:
     - include: keywords
