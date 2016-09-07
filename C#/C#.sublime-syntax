@@ -1502,6 +1502,14 @@ contexts:
                 1: entity.name.variable.cs
               pop: true
         - include: type_argument
+    - match: '{{base_type}}(\*|(\[,*\]))*'
+      scope: support.type.cs
+      set:
+        - match: '{{name}}\s*'
+          captures:
+            1: entity.name.variable.cs
+          pop: true
+
     - match: '(?:{{name}}\s+)?{{name}}\s*'
       captures:
         1: variable.other.type.cs
