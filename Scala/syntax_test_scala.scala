@@ -1028,3 +1028,9 @@ val Stuff(thing, other) = ???
    x: List[Int] => ()
 // ^ variable.parameter.scala
 //              ^^ storage.type.function.arrow.scala
+
+/** private */ class Foo
+//             ^^^^^ storage.type.class
+
+   foo
+// ^^^ - comment
