@@ -55,7 +55,8 @@ variables:
   upperid: '(?:\b\p{Lu}{{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
-  withinparens: '\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\)'
+  withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
+  withinbrackets: '(?:\[(?:[^\[\]]|\[(?:[^\[\]]|\[[^\[\]]*\])*\])*\])'
 
 contexts:
   prototype:
@@ -92,11 +93,11 @@ contexts:
     - include: late-operators
 
   block-comments:
-    - match: (^\s*)?/\*\*
+    - match: /\*\*
       scope: punctuation.definition.comment.scala
       push:
         - meta_scope: comment.block.documentation.scala
-        - match: \*/\s*$
+        - match: \*/
           scope: punctuation.definition.comment.scala
           pop: true
         - match: (@\w+\s)
@@ -132,7 +133,7 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{idorunder}}|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{id}}{{withinbrackets}}?|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala
