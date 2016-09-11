@@ -96,7 +96,7 @@ contexts:
         1: meta.git.merge punctuation.section.merge.end.git
 
   preprocessor_option:
-    - meta_scope: meta.preprocessor
+    - meta_scope: meta.preprocessor.cs
     - match: '(define|undef)\s+{{name}}'
       captures:
         1: keyword.control.preprocessor.cs
@@ -122,17 +122,17 @@ contexts:
     - match: '(region)\s*'
       scope: storage.type.section.cs
       push:
-        - include: comments
-        - match: (\S.*)$
-          scope: entity.name.section.cs
-          pop: true
+        - match: ([^/\s][^/]*?)\s*(?=//|/\*|$)
+          captures:
+            1: entity.name.section.cs
+        - include: option_done
     - match: '(endregion)\s*'
       scope: storage.type.section.cs
       push:
-        - include: comments
-        - match: (\S.*)$
-          scope: variable.other.section.cs
-          pop: true
+        - match: ([^/\s][^/]*?)\s*(?=//|/\*|$)
+          captures:
+            1: variable.other.section.cs
+        - include: option_done
 
     - match: '(line)\s+(default|hidden)'
       captures:
@@ -157,8 +157,9 @@ contexts:
         8: punctuation.definition.hash.begin.cs
       push: option_done
 
-    - match: 'pragma.*'
+    - match: '(pragma)'
       scope: keyword.other.preprocessor.cs
+      push: option_done
 
     - match: '(.*)'
       scope: invalid.illegal.cs
@@ -170,6 +171,8 @@ contexts:
     - include: comments
     - match: $
       pop: true
+
+  # option_done pops out at the end of the line and handles comments
   option_done:
     - include: comments
     - match: $

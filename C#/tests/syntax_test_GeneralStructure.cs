@@ -233,6 +233,17 @@ namespace YourNamespace
 ///         ^ punctuation.definition.array.end
         }
 ///     ^ punctuation.section.function
+
+        #region Empty region 01 // some comment
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
+///       ^^  storage.type.section
+///             ^^^^^^^^^^^^^^^ entity.name.section.cs
+///                             ^^^^^^^ comment
+
+        #endregion Empty region 01 // another comment
+///       ^^  storage.type.section
+///                ^^^^^^^^^^^^^^^ variable.other.section.cs
+///                                ^^^^^^^ comment
     }
 /// ^ punctuation.section.class
 }
