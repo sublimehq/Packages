@@ -28,31 +28,31 @@ class Foo {
 ///                                                   ^ variable.parameter
     {
         using (Font font3 = new Font("Arial", 10.0f))
-///     ^ keyword.control.other.using.cs
-///           ^ punctuation.definition.expression.other
+///     ^ keyword.control.trycatch.using.cs
+///           ^ punctuation.definition.expression.trycatch
 ///             ^ variable.other.type
 ///                       ^ keyword.operator.assignment
-///                                                 ^ punctuation.definition.expression.other
+///                                                 ^ punctuation.definition.expression.trycatch
         {
-///     ^ punctuation.section.other
+///     ^ punctuation.section.trycatch
             // Use font3
             global::System.Console.WriteLine("foo");
 ///         ^ support.namespace.cs
 ///               ^ punctuation.accessor.double-colon
         }
-///     ^ punctuation.section.other
+///     ^ punctuation.section.trycatch
 
         using (Font font3 = new Font("Arial", 10.0f),
-///     ^ keyword.control.other.using.cs
-///           ^ punctuation.definition.expression.other
+///     ^ keyword.control.trycatch.using.cs
+///           ^ punctuation.definition.expression.trycatch
 ///                                                 ^ punctuation.separator
             font4 = new Font("Arial", 10.0f))
-///                                         ^ punctuation.definition.expression.other
+///                                         ^ punctuation.definition.expression.trycatch
         {
-///     ^ punctuation.section.other
+///     ^ punctuation.section.trycatch
             // Use font3 and font4.
         }
-///     ^ punctuation.section.other
+///     ^ punctuation.section.trycatch
     }
 
     public void dcsrmm(double[] val, int offsetval, int[] indx, int offsetindx, int[] pntrb, int offsetpntrb, double[] b, int offsetb, int ldb, double beta, double[] c, int offsetc, int ldc)

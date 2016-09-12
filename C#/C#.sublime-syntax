@@ -698,9 +698,9 @@ contexts:
 
     - match: \b(using)\s*(\()
       captures:
-        1: keyword.control.other.using.cs
-        2: punctuation.definition.expression.other.cs
-      set: [expression_block, line_of_code]
+        1: keyword.control.trycatch.using.cs
+        2: punctuation.definition.expression.trycatch.using.begin.cs
+      set: [using_block, line_of_code]
 
     - match: \b(fixed)\s*(\()
       captures:
