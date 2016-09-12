@@ -1034,3 +1034,26 @@ val Stuff(thing, other) = ???
 
    foo
 // ^^^ - comment
+
+   /*
+   /*
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ - comment
+
+
+   /**
+   /**
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ - comment
