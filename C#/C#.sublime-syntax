@@ -794,7 +794,8 @@ contexts:
             - match: (?=\S)
               set: line_of_code
         - include: type_argument
-
+    - match: \bconst\b
+      scope: storage.modifier.cs
     - match: '(var|dynamic)\s+{{name}}\s*(=)'
       captures:
         1: storage.type.variable.cs

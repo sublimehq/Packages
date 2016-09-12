@@ -122,6 +122,9 @@ namespace YourNamespace
 ///          ^ support.type.cs
 ///               ^ keyword.operator.assignment
             value = x;
+            const int x = 1;
+///         ^ storage.modifier
+///               ^ support.type
         }
 ///     ^ punctuation.section.function
 
