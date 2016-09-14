@@ -111,14 +111,14 @@ namespace YourNamespace
             //Your program starts here...
             var f = 1e-3f;
 ///                  ^ constant.numeric.cs
-///                     ^ constant.numeric.cs
+///                     ^ storage.type.numeric.cs
             var l = 11545L;
 ///                  ^ constant.numeric.cs
-///                      ^ constant.numeric.cs
+///                      ^ storage.type.numeric.cs
             var d = 11545D;
 ///                  ^ constant.numeric.cs
-///                      ^ constant.numeric.cs
-            int x = 1, y = 0f;
+///                      ^ storage.type.numeric.cs
+            int x = 1, y = 0;
 ///          ^ support.type.cs
 ///               ^ keyword.operator.assignment
             value = x;

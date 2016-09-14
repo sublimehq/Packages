@@ -18,13 +18,11 @@ variables:
 
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
-  decimal_numeral: '[1-9][0-9]*(?i:ul|lu|u|l)'
-  integers: '({{hex_numeral}}|{{decimal_numeral}}|0)'
+  decimal_numeral: '(0|[1-9][0-9]*)((?i:ul|lu|u|l))'
 
   # floating point numbers
   exponent: '[eE][+\-]?[0-9]+'
-  floating_point: '[0-9]+(?:\.[0-9]+)?(?:{{exponent}})?[fFdD]?'
-  number: '({{hex_numeral}}|{{decimal_numeral}}|{{floating_point}}|0)'
+  floating_point: '([0-9]+(?:\.[0-9]+)?(?:{{exponent}})?)([fFdDmM]?)'
 
   # characters
   unicode_char: '\\u[0-9a-fA-F]{,4}'
@@ -1201,8 +1199,17 @@ contexts:
       scope: invalid.illegal.not_a_char.cs
 
     # numbers
-    - match: '{{number}}'
+    - match: '{{hex_numeral}}'
       scope: constant.numeric.cs
+    - match: '{{decimal_numeral}}'
+      captures:
+        1: constant.numeric.cs
+        2: storage.type.numeric.cs
+    - match: '{{floating_point}}'
+      captures:
+        1: constant.numeric.cs
+        2: storage.type.numeric.cs
+
     # strings
     - match: '"'
       scope: punctuation.definition.string.quoted.double.begin.cs
