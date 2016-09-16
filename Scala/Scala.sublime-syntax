@@ -666,15 +666,17 @@ contexts:
   xml-literal:
     - match: '</{{xml_qualified_name}}>?'
       scope: invalid.illegal.bad-closing-tag.xml
-    - match: '<({{xml_qualified_name}})'
+    - match: '(<)({{xml_qualified_name}})'
       captures:
-        1: entity.name.tag.xml
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
       push: xml-tag-decl
     - match: '<\?\s*xml(?:\s.*[>$]|\b)'
       scope: invalid.illegal.reserved-proc-instr.xml
-    - match: '<\?\s*({{xml_qualified_name}})'
+    - match: '(<\?)\s*({{xml_qualified_name}})'
       captures:
-        1: entity.name.tag.xml
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
       push: xml-tag-decl
   xml-comments:
     - meta_scope: text.xml
@@ -687,15 +689,18 @@ contexts:
           scope: punctuation.definition.comment.end.xml
           pop: true
   xml-tag-decl:
-    - meta_scope: text.xml
+    - meta_scope: text.xml meta.tag.xml
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
     - match: '\?>'
+      scope: punctuation.definition.tag.end.xml
       pop: true
     - match: '/>'
+      scope: punctuation.definition.tag.end.xml
       pop: true
     - match: '>'
+      scope: punctuation.definition.tag.end.xml
       set: xml-mode
     - match: '(?:\s+|^){{xml_qualified_name}}\s*(=)'
       captures:
@@ -717,7 +722,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
       set:
-        - meta_scope: text.xml string.quoted.double.xml
+        - meta_scope: text.xml meta.tag.xml string.quoted.double.xml
         - include: xml-entity
         - include: xml-should-be-entity
         - match: '"'
@@ -727,7 +732,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.xml
       set:
-        - meta_scope: text.xml string.quoted.single.xml
+        - meta_scope: text.xml meta.tag.xml string.quoted.single.xml
         - include: xml-entity
         - include: xml-should-be-entity
         - match: "'"
@@ -766,9 +771,10 @@ contexts:
           scope: punctuation.definition.inline.end.xml
           pop: true
         - include: main
-    - match: '</({{xml_qualified_name}})>'
+    - match: '(</)({{xml_qualified_name}})>'
       captures:
-        1: entity.name.tag.xml
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
       pop: true
     - include: xml-literal
     - include: xml-should-be-entity

@@ -1083,6 +1083,8 @@ def <(a: Int) = 42
 // ^^^^^^^^^^^^^^^^^^^^^^ - comment
 
    <foo bar="test" baz='test' bin={ 42 }>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.xml meta.tag.xml
+//                                      ^ text.xml meta.tag.xml
 //                     ^ text.xml string.quoted.single.xml punctuation.definition.string.begin.xml
 //                          ^ text.xml string.quoted.single.xml punctuation.definition.string.end.xml
 //                                  ^^ source.scala constant.numeric.integer.scala
@@ -1094,6 +1096,7 @@ def <(a: Int) = 42
 //     ^^^^^^^^^^^^ source.scala comment.line.double-slash.scala
 
        <nested/>
+//     ^^^^^^^^^ text.xml meta.tag.xml
 //      ^^^^^^ entity.name.tag.xml
      }
 
@@ -1125,21 +1128,29 @@ def <(a: Int) = 42
 // ^^^^^^^^ - invalid
 
    <?foo thing="false"?>
+// ^^ punctuation.definition.tag.begin.xml
 //   ^^^ entity.name.tag.xml
 //             ^^^^^^^ string.quoted.double.xml
+//                    ^^ punctuation.definition.tag.end.xml
 
    <!-- not a comment -->
 // ^^^^^^^^^^^^^^^^^^^^^^ - comment
 
    <foo a="&" b="<" c=">"/>
+// ^^^^^^^^^^^^^^^^^^^^^^^^ text.xml meta.tag.xml
+// ^ punctuation.definition.tag.begin.xml
 //         ^ invalid.illegal.bad-ampersand.xml
 //               ^ invalid.illegal.missing-entity.xml
 //                     ^ invalid.illegal.missing-entity.xml
+//                       ^^ punctuation.definition.tag.end.xml
 
    <foo a="&amp;"/>
+// ^^^^^^^^^^^^^^^^ text.xml meta.tag.xml
+// ^ punctuation.definition.tag.begin.xml
 //          ^^^ constant.character.entity.xml
 
    <foo>
+// ^ punctuation.definition.tag.begin.xml
      &amp;
-//   ^^^^^ constant.character.entity.xml
+//   ^^^^^ constant.character.entity.xml - meta.tag.xml
    </foo>
