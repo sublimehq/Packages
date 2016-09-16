@@ -283,11 +283,6 @@ contexts:
     - match: '\b(case)\b'
       scope: keyword.other.declaration.scala
       push:
-        - match: '\('
-          push:
-            - match: '\)'
-              pop: true
-            - include: pattern-match
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala
@@ -685,7 +680,10 @@ contexts:
         - match: '[`\n]'
           scope: punctuation.definition.identifier.scala
           pop: true
-    - match: '{{varid}}(\.)'
+    - match: '{{varid}}(?:(\.){{varid}})+'
+      captures:
+        1: punctuation.accessor.scala
+    - match: '{{varid}}(\.)'    # redundant to catch {{varid}}.{{upperid}}
       captures:
         1: punctuation.accessor.scala
     - match: '(\.){{varid}}'
@@ -730,7 +728,7 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
 
-  pattern-match:
+  base-pattern-match:
     - include: keywords
     - include: base-constants
     - include: char-literal
@@ -744,7 +742,10 @@ contexts:
         - match: '[`\n]'
           scope: punctuation.definition.identifier.scala
           pop: true
-    - match: '{{varid}}(\.)'
+    - match: '{{varid}}(?:(\.){{varid}})+'
+      captures:
+        1: punctuation.accessor.scala
+    - match: '{{varid}}(\.)'    # redundant to catch {{varid}}.{{upperid}}
       captures:
         1: punctuation.accessor.scala
     - match: '(\.){{varid}}'
@@ -755,12 +756,6 @@ contexts:
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
     - match: '{{op}}'   # let it fall through
-    - include: ascription
-    - match: \(
-      push:
-        - match: \)
-          pop: true
-        - include: pattern-match
     - match: \[
       push:
         - match: \]
@@ -774,6 +769,26 @@ contexts:
       scope: variable.language.underscore.scala
     - match: ','
       scope: punctuation.separator.scala
+  nested-pattern-match:
+    - include: base-pattern-match
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=[,\)@])'
+          pop: true
+        - include: delimited-type-expression
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: nested-pattern-match
+  pattern-match:
+    - include: base-pattern-match
+    - include: ascription
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: nested-pattern-match
 
   base-type-expression:
     # \x{03BB} = λ, \x{03B1} = α, \x{03B2} = β
