@@ -1036,6 +1036,7 @@ val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
 
+<<<<<<< HEAD
    x: List[Int] => ()
 // ^ variable.parameter.scala
 //              ^^ storage.type.function.arrow.scala
@@ -1067,3 +1068,7 @@ val Stuff(thing, other) = ???
    */
    test
 // ^^^^ - comment
+
+def <(a: Int) = 42
+//  ^ entity.name.function.scala
+//    ^ variable.parameter.scala
