@@ -145,11 +145,11 @@ contexts:
       scope: punctuation.separator.continuation.matlab
   brackets:
     - match: '\['
-      scope: meta.brackets.matlab
+      scope: punctuation.definition.brackets.begin.matlab
       push:
         - meta_content_scope: meta.brackets.matlab
         - match: '\]'
-          scope: meta.brackets.matlab
+          scope: punctuation.definition.brackets.end.matlab
           pop: true
         - include: allofem
   constants_override:
@@ -434,11 +434,11 @@ contexts:
       scope: keyword.operator.symbols.matlab
   parens:
     - match: \(
-      scope: meta.parens.matlab
+      scope: punctuation.definition.parens.begin.matlab
       push:
         - meta_content_scope: meta.parens.matlab
         - match: \)
-          scope: meta.parens.matlab
+          scope: punctuation.definition.parens.end.matlab
           pop: true
         - include: allofem
         - include: end_in_parens
