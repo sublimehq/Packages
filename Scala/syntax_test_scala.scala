@@ -1090,12 +1090,14 @@ def <(a: Int) = 42
 //                                  ^^ source.scala constant.numeric.integer.scala
      {
        42 + "thing"
+//     ^^^^^^^^^^^^ - text.xml
 //     ^^ source.scala constant.numeric.integer.scala
 //          ^^^^^^^ source.scala string.quoted.double.scala
        // comments!
 //     ^^^^^^^^^^^^ source.scala comment.line.double-slash.scala
 
        <nested/>
+//     ^^^^^^^^^ - text.xml text.xml
 //     ^^^^^^^^^ text.xml meta.tag.xml
 //      ^^^^^^ entity.name.tag.xml
      }

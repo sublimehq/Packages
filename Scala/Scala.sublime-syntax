@@ -767,6 +767,7 @@ contexts:
     - match: '\{'
       scope: punctuation.definition.inline.begin.xml
       push:
+        - clear_scopes: 1
         - match: '\}'
           scope: punctuation.definition.inline.end.xml
           pop: true
