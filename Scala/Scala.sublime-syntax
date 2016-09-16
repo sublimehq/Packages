@@ -46,9 +46,9 @@ variables:
   boundvarid: '(?:`{{varid}}`|{{varid}})'
   plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
   typeplainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{typeop}})'
-  id: '(?:{{plainid}}|`[^`\n$]+`)'
+  id: '(?:{{plainid}}|`[^`\n]+`)'
   idorunder: '(?:{{id}}|_)'
-  typeid: '(?:{{typeplainid}}|`[^`\n$]+`)'
+  typeid: '(?:{{typeplainid}}|`[^`\n]+`)'
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   rightarrow: '=>|\x{21D2}'
@@ -680,7 +680,7 @@ contexts:
     - match: '`'
       scope: punctuation.definition.identifier.scala
       push:
-        - match: '[`\n$]'
+        - match: '[`\n]'
           scope: punctuation.definition.identifier.scala
           pop: true
     - match: '{{varid}}(\.)'
@@ -739,7 +739,7 @@ contexts:
     - match: '`'
       scope: punctuation.definition.identifier.scala
       push:
-        - match: '[`\n$]'
+        - match: '[`\n]'
           scope: punctuation.definition.identifier.scala
           pop: true
     - match: '{{varid}}(\.)'
