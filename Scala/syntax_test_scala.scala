@@ -191,6 +191,12 @@ type Foo = Bar[A] forSome { type A }
    0.045e-2
 // ^^^^^^^^ constant.numeric.float.scala
 
+   'a'
+// ^^^ constant.character.literal.scala
+
+   '\u1221'
+// ^^^^^^^^ constant.character.literal.scala
+
    true
 // ^^^^ constant.language.scala
 
@@ -213,7 +219,24 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^^ variable.language.scala
 
    "testing"
+// ^ punctuation.definition.string.begin.scala
 // ^^^^^^^^^ string.quoted.double.scala
+//         ^ punctuation.definition.string.end.scala
+
+  "escaped chars: \u1221 \125 \n"
+//                ^^^^^^ constant.character.escape.scala
+//                        ^^^ constant.character.escape.scala
+//                            ^^ constant.character.escape.scala
+
+  "bad escaping: \p"
+//               ^ invalid.illegal.lone-escape.scala
+
+  """escaped in triple: \u1221 \125 \n"""
+//^^^ punctuation.definition.string.begin.scala
+//                      ^^^^^^ constant.character.escape.scala
+//                             ^^^ - constant.character.escape.scala
+//                                  ^^ - constant.character.escape.scala
+//                                    ^^^ punctuation.definition.string.end.scala
 
    """testing"""
 // ^^^^^^^^^^^^^ string.quoted.triple.scala
@@ -234,6 +257,16 @@ type Foo = Bar[A] forSome { type A }
 //                  ^^ constant.numeric.integer.scala
 //                    ^ punctuation.definition.expression
 //                     ^^^ string.quoted.triple.interpolated.scala
+
+   f"formatted: x: $x%+,.3f ca"
+// ^ support.function
+//                  ^ variable.other.scala
+//                   ^^^^^^ constant.other.formatting.scala
+
+   f"formatted: date: $x%T "
+// ^ support.function
+//                    ^ variable.other.scala
+//                      ^^ constant.other.formatting.scala
 
    Unit
 // ^^^^ storage.type.primitive.scala

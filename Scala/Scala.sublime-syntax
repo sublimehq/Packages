@@ -69,6 +69,10 @@ variables:
   #  3: local tag name
   xml_qualified_name: '(?:([[:alpha:]_][[:alnum:]_.-]*)(:))?([[:alpha:]_][[:alnum:]_.-]*)'
 
+  unicode_char: '\\u[0-9a-fA-F]{4}'
+  octal_char: '\\[0-7]{1,3}'
+  escaped_char: '\\[btnfr"''\\]|{{unicode_char}}|{{octal_char}}'
+
 contexts:
   prototype:
     - include: comments
@@ -130,7 +134,7 @@ contexts:
       scope: comment.block.empty.scala punctuation.definition.comment.scala
 
   char-literal:
-    - match: '''\\?.'''
+    - match: '''({{escaped_char}}|.)'''
       scope: constant.character.literal.scala
 
   comments:
@@ -603,32 +607,66 @@ contexts:
     - match: \b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
       scope: storage.modifier.other.scala
 
+  # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)
   strings:
     - match: '"""'
+      scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.triple.scala
-        - match: '"""(?!")'
+        - match: '{{unicode_char}}'
+          scope: constant.character.escape.scala
+        - match: '(""")(?!")'
+          scope: punctuation.definition.string.end.scala
           pop: true
     - match: '"'
+      scope: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.scala
         - match: '"'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
-        - match: \\.
-          scope: constant.character.escape.scala
-    - match: '({{alphaid}})"""'
+        - include: escaped
+    - match: '(f)(""")'
       captures:
         1: support.function.scala
+        2: punctuation.definition.string.begin.scala
+      push:
+        - include: f_string
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.interpolated.scala
+        - match: '"""'
+          scope: punctuation.definition.string.end.scala
+          pop: true
+    - match: '({{alphaid}})(""")'
+      captures:
+        1: support.function.scala
+        2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.triple.interpolated.scala
-        - match: '"""(?!")'
+        - match: '{{unicode_char}}'
+          scope: constant.character.escape.scala
+        - match: '(""")(?!")'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - include: interpolated-vars-expressions
+    - match: '(f)(")'
+      captures:
+        1: support.function.scala
+        2: punctuation.definition.string.begin.scala
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.interpolated.scala
+        - include: f_string
+        - match: '"'
+          scope: punctuation.definition.string.end.scala
+          pop: true
+        - match: \n
+          scope: invalid.string.newline.scala
     - match: '({{alphaid}})"'
       captures:
         1: support.function.scala
@@ -636,12 +674,43 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.interpolated.scala
         - match: '"'
+          scope: punctuation.definition.string.end.scala
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
-        - match: \\.
-          scope: constant.character.escape.scala
+        - include: escaped
         - include: interpolated-vars-expressions
+
+  escaped:
+    - match: '{{escaped_char}}'
+      scope: constant.character.escape.scala
+    - match: \\
+      scope: invalid.illegal.lone-escape.scala
+
+  # f_string, see:
+  # http://docs.oracle.com/javase/6/docs/api/java/util/Formatter.html#detail
+  # /!\ this implementation may allow incorrect combinaisons
+  f_string:
+    - include: escaped
+    - include: interpolated-vars-expressions
+    # constant formatting
+    - match: '%[%n]'
+      scope: constant.other.formatting.scala
+    # general formatting
+    - match: '%\-?#?[bBhHsS]'
+      scope: constant.other.formatting.scala
+    # character formatting
+    - match: '%\-?[cC]'
+      scope: constant.other.formatting.scala
+    # date-time formatting
+    - match: '%\-?[tT][HIklMSLNpzZsQBbhAaCYyjmdeRTrDFc]?'
+      scope: constant.other.formatting.scala
+    # floating point formatting
+    - match: '%[\+\-# 0\(,]*[\.0-9]*[feEgGaA]'
+      scope: constant.other.formatting.scala
+    # integer formatting
+    - match: '%[\+\-# 0\(,]*[doxX]'
+      scope: constant.other.formatting.scala
 
   interpolated-vars-expressions:
     - match: '(\$){{alphaid}}'
