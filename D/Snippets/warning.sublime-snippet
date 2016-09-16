@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[warning("$1"});]]></content>
+	<content><![CDATA[warning("$1");]]></content>
 	<tabTrigger>warn</tabTrigger>
 	<scope>source.d</scope>
 	<description>warning(…)</description>

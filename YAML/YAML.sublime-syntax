@@ -93,7 +93,7 @@ variables:
       (?=
           \s* $
         | \s+ \#
-        | \s* : \s
+        | \s* : (\s|$)
         | \s* : {{c_flow_indicator}}
         | {{c_flow_indicator}}
       )
@@ -104,7 +104,7 @@ variables:
       (?=
           \s* $
         | \s+ \#
-        | \s* : \s
+        | \s* : (\s|$)
       )
     )
 
@@ -514,7 +514,8 @@ contexts:
             | \s+ (?![#\s])
           )*
           \s*
-          :\s
+          :
+          (\s|$)
         )
       push:
         - include: flow-scalar-plain-out-implicit-type

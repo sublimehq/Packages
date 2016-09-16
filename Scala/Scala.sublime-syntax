@@ -58,6 +58,7 @@ variables:
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
   withinparens: '\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\)'
+  withinbrackets: '(?:\[(?:[^\[\]]|\[(?:[^\[\]]|\[[^\[\]]*\])*\])*\])'
   # This is the full XML Name production, but should not be used where namespaces
   # are possible. Those locations should use a qualified_name.
   xml_name: '[[:alpha:]:_][[:alnum:]:_.-]*'
@@ -103,6 +104,18 @@ contexts:
     - include: late-operators
 
   block-comments:
+    - match: /\*\*
+      scope: punctuation.definition.comment.scala
+      push:
+        - meta_scope: comment.block.documentation.scala
+        - match: \*/
+          scope: punctuation.definition.comment.scala
+          pop: true
+        - match: (@\w+\s)
+          scope: keyword.other.documentation.scaladoc.scala
+        - match: '\{@link\s+[^\}]*\}'
+          scope: keyword.other.documentation.scaladoc.link.scala
+        - include: block-comments
     - match: /\*
       push:
         - meta_scope: comment.block.scala
@@ -113,6 +126,8 @@ contexts:
             (?x)
             			(?! /\*)
             			(?! \*/)
+    - match: /\*\*/
+      scope: comment.block.empty.scala punctuation.definition.comment.scala
 
   char-literal:
     - match: '''\\?.'''
@@ -123,26 +138,13 @@ contexts:
       scope: comment.line.double-slash.scala
       captures:
         1: punctuation.definition.comment.scala
-    - match: /\*\*/
-      scope: comment.block.empty.scala punctuation.definition.comment.scala
-    - match: (^\s*)?/\*\*
-      scope: punctuation.definition.comment.scala
-      push:
-        - meta_scope: comment.block.documentation.scala
-        - match: \*/\s*$
-          scope: punctuation.definition.comment.scala
-          pop: true
-        - match: (@\w+\s)
-          scope: keyword.other.documentation.scaladoc.scala
-        - match: '\{@link\s+[^\}]*\}'
-          scope: keyword.other.documentation.scaladoc.link.scala
 
   ascription:
     - match: '{{typeprefix}}'
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{idorunder}}|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{id}}{{withinbrackets}}?|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala

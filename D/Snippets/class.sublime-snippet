@@ -1,5 +1,8 @@
 <snippet>
-	<content><![CDATA[class ${1:name}
+	<content><![CDATA[/**
+ * $1
+ */
+class ${1:name}
 {
 	this($2)
 	{

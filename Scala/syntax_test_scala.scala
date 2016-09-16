@@ -1025,6 +1025,39 @@ val Stuff(thing, other) = ???
 //        ^^^^^ entity.name.val.scala
 //               ^^^^^ entity.name.val.scala
 
+   x: List[Int] => ()
+// ^ variable.parameter.scala
+//              ^^ storage.type.function.arrow.scala
+
+/** private */ class Foo
+//             ^^^^^ storage.type.class
+
+   foo
+// ^^^ - comment
+
+   /*
+   /*
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ comment.block.scala
+   */
+   test
+// ^^^^ - comment
+
+
+   /**
+   /**
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ comment.block.documentation.scala
+   */
+   test
+// ^^^^ - comment//               ^^^^^ entity.name.val.scala
+
 def <(a: Int) = 42
 //  ^ entity.name.function.scala
 //    ^ variable.parameter.scala
