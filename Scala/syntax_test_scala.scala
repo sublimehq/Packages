@@ -1083,9 +1083,9 @@ def <(a: Int) = 42
 // ^^^^^^^^^^^^^^^^^^^^^^ - comment
 
    <foo bar="test" baz='test' bin={ 42 }>
-<!--                   ^ text.xml string.quoted.single.xml punctuation.definition.string.begin.xml -->
-<!--                        ^ text.xml string.quoted.single.xml punctuation.definition.string.end.xml -->
-<!--                                ^^ source.scala constant.numeric.integer.scala -->
+//                     ^ text.xml string.quoted.single.xml punctuation.definition.string.begin.xml
+//                          ^ text.xml string.quoted.single.xml punctuation.definition.string.end.xml
+//                                  ^^ source.scala constant.numeric.integer.scala
      {
        42 + "thing"
 //     ^^ source.scala constant.numeric.integer.scala
@@ -1098,17 +1098,17 @@ def <(a: Int) = 42
      }
 
      "stuff"
-<!-- ^^^^^^^ - string -->
+//   ^^^^^^^ - string
 
      <!-- comments -->
-<!-- ^^^^^^^^^^^^^^^^^ comment.block.xml -->
+//   ^^^^^^^^^^^^^^^^^ comment.block.xml
 
      <thing/>
 
      <more>
        more tags!
        /* not a comment */
-<!--   ^^^^^^^^^^^^^^^^^^^ - comment -->
+//     ^^^^^^^^^^^^^^^^^^^ - comment
      </more>
    </foo>
 
@@ -1141,5 +1141,5 @@ def <(a: Int) = 42
 
    <foo>
      &amp;
-<!-- ^^^^^ constant.character.entity.xml -->
+//   ^^^^^ constant.character.entity.xml
    </foo>
