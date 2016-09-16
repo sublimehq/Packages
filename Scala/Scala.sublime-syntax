@@ -710,7 +710,6 @@ contexts:
         2: punctuation.separator.key-value.xml
     - include: xml-should-be-entity
   xml-attribute-val:
-    - meta_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
