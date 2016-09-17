@@ -982,8 +982,10 @@ foo({ _: Unit => () })
   stuff: _*
 //       ^^ keyword.operator.varargs.scala
 
+{
   case _ @ _* =>
 //         ^^ keyword.operator.varargs.scala
+}
 
   val _ @ _* = things
 //        ^^ keyword.operator.varargs.scala
@@ -998,8 +1000,10 @@ foo.bar
 (foo, bar)
 //  ^ punctuation.separator.scala
 
+{
 case (foo, bar) =>
 //       ^ punctuation.separator.scala
+}
 
 val (foo, bar) = ???
 //      ^ punctuation.separator.scala
