@@ -271,7 +271,7 @@ contexts:
       - match: (&)({{ns_anchor_name}})(\S+)?
         captures:
           1: keyword.control.property.anchor.yaml punctuation.anchor.yaml
-          2: entity.name.other.anchor.yaml
+          2: entity.name.type.anchor.yaml
           3: invalid.illegal.character.anchor.yaml
         pop: true
       # !Tag Handle
@@ -287,7 +287,7 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#alias//
     - match: (\*)({{ns_anchor_name}})([^\s\]},]\S*)?
       captures:
-        1: keyword.control.flow.alias.yaml punctuation.alias.yaml
+        1: keyword.control.flow.alias.yaml punctuation.definition.alias.yaml
         2: variable.other.alias.yaml
         3: invalid.illegal.character.anchor.yaml
 
@@ -411,7 +411,7 @@ contexts:
         - include: flow-pair
         - include: flow-node
         - match: :(?=\s|$|{{c_flow_indicator}})
-          scope: punctuation.separator.mapping.key-value.yaml
+          scope: punctuation.separator.key-value.mapping.yaml
           set: flow-pair-value
     # Attempt to match plain-in scalars and highlight as "entity.name.tag",
     # if followed by a colon
@@ -442,7 +442,7 @@ contexts:
               pop: true
     - include: flow-node
     - match: :(?=\s|$|{{c_flow_indicator}}) # Empty mapping keys allowed
-      scope: meta.flow-pair.yaml punctuation.separator.mapping.key-value.yaml
+      scope: meta.flow-pair.yaml punctuation.separator.key-value.mapping.yaml
       push: flow-pair-value
 
   flow-pair-value:
@@ -496,7 +496,7 @@ contexts:
           pop: true
         - match: ^ *(:)
           captures:
-            1: punctuation.separator.mapping.key-value.yaml
+            1: punctuation.separator.key-value.mapping.yaml
           pop: true
         - match: ':'
           scope: invalid.illegal.expected-newline.yaml
@@ -528,16 +528,23 @@ contexts:
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
     - match: :(?=\s|$)
-      scope: punctuation.separator.mapping.key-value.yaml
+      scope: punctuation.separator.key-value.mapping.yaml
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
     - match: | # l-comment
         (?x)
-        (?: ^ [ \t]* | [ \t]+ )
-        (?:(\#) \p{Print}* )?
-        (\n|\z)
-      scope: comment.line.number-sign.yaml
+        (?: ( ^ [ \t]* ) | [ \t]+ )
+        (?=#\p{Print}*$)
       captures:
-        1: punctuation.definition.comment.line.number-sign.yaml
+        1: punctuation.whitespace.comment.leading.yaml
+      set:
+        - meta_include_prototype: false
+        - match: (?!\G)
+          pop: true
+        - match: '#'
+          scope: punctuation.definition.comment.yaml
+            - meta_scope: comment.line.number-sign.yaml
+            - match: \n
+              pop: true
 ...

@@ -10,12 +10,12 @@
 
 *alias
 #^^^^^ variable.other.alias
-# <- keyword.control.flow.alias punctuation.alias
+# <- keyword.control.flow.alias punctuation.definition.alias
 
 *al[ias]
 #^^      variable.other.alias
 #  ^^^^^ invalid.illegal.character
-# <- keyword.control.flow.alias punctuation.alias
+# <- keyword.control.flow.alias punctuation.definition.alias
 
 
 ##############################################################################

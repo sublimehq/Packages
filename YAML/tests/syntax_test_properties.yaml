@@ -43,10 +43,10 @@ scalar !not-tag-handle
 # http://yaml.org/spec/1.2/spec.html#&%20anchor//
 
 &anchor
-#^^^^^^ entity.name.other.anchor
+#^^^^^^ entity.name.type.anchor
 # <- keyword.control.property.anchor punctuation.anchor
 &an[chor]
-#^^ entity.name.other.anchor
+#^^ entity.name.type.anchor
 #  ^^^^^^ invalid.illegal.character
 # <- keyword.control.property.anchor punctuation.anchor
 
