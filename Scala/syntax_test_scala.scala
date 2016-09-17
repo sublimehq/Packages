@@ -539,11 +539,13 @@ type Foo = Bar[A] forSome { type A }
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
 
+{
    case class
 // ^^^^ keyword.other.declaration.scala
 //      ^^^^^ storage.type.class.scala
 
 =>     // this is here to act as a random terminator to the above partial syntax
+}
 
    case class Thingy(abc: Int) extends Other
 // ^^^^ storage.type.class.scala
