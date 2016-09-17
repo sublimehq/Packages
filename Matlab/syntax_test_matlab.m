@@ -39,7 +39,7 @@ end
 % Syntax brackets/parens punctuation test
 
 x = [ 1.76 ]
-%  <- source.matlab punctuation.definition.brackets.begin.matlab
+% <- source.matlab meta.variable.other.valid.matlab
 % ^ source.matlab keyword.operator.symbols.matlab
 %   ^ source.matlab punctuation.definition.brackets.begin.matlab 
 %     ^ source.matlab meta.brackets.matlab constant.numeric.matlab  
