@@ -8,10 +8,6 @@ x = [ 1.76 ]
 //    ^ source.matlab meta.brackets.matlab constant.numeric.matlab  
 //         ^ source.matlab punctuation.definition.brackets.end.matlab
 
-// foo
-// ^ source.c comment.line
-// <- punctuation.definition.comment
-
 
 xAprox = fMetodoDeNewton( xi )
 // <- source.matlab meta.variable.other.valid.matlab
