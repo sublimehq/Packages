@@ -591,12 +591,16 @@ contexts:
       pop: true
 
   method_param_type:
-    - match: '\s*(out|ref|this|params)\s+'
-      scope: storage.modifier.parameter.cs
-    - match: \s
-      pop: true
-    - include: type
     - include: tag
+    - match: (?=[^\s\[])
+      set:
+      - match: '\s*(out|ref|this|params)\s+'
+        scope: storage.modifier.parameter.cs
+      - match: \s
+        pop: true
+      - include: type
+    - match: (?=\}|\)|>|\]|;)
+      pop: true
 
   method_accessor:
     - meta_scope: meta.method.property.cs
