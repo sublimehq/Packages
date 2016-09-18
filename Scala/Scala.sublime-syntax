@@ -179,7 +179,7 @@ contexts:
           scope: punctuation.definition.arguments.end.scala
           pop: true
         - include: delimited-type-expression
-    - match: (?!\()
+    - match: (?!\(|\[)
       pop: true
 
   lambdas:
