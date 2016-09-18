@@ -166,9 +166,7 @@ contexts:
       push:
         - match: ','
           scope: punctuation.separator.arguments.scala
-        - include: strings
-        - include: constants
-        - include: initialization
+        - include: main
         - match: \)
           scope: punctuation.definition.arguments.end.scala
           pop: true
