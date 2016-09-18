@@ -162,19 +162,19 @@ contexts:
 
   annotation-parameters:
     - match: \(
-      scope: punctuation.definition.arguments.begin.scala
+      scope: punctuation.definition.arguments.annotation.begin.scala
       push:
         - match: ','
-          scope: punctuation.separator.arguments.scala
+          scope: punctuation.separator.arguments.annotation.scala
         - include: main
         - match: \)
-          scope: punctuation.definition.arguments.end.scala
+          scope: punctuation.definition.arguments.annotation.end.scala
           pop: true
     - match: \[
-      scope: punctuation.definition.arguments.begin.scala
+      scope: punctuation.definition.arguments.annotation.begin.scala
       push:
         - match: \]
-          scope: punctuation.definition.arguments.end.scala
+          scope: punctuation.definition.arguments.annotation.end.scala
           pop: true
         - include: delimited-type-expression
     - match: (?!\(|\[)
