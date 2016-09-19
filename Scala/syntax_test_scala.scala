@@ -1293,8 +1293,10 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 
 @transient @volatile var m: Int
 // ^^ storage.modifier.annotation
+//         ^^ storage.modifier.annotation
 
 String @local
+//     ^ punctuation.definition.annotation.scala
 //     ^^ storage.modifier.annotation
 
 (e: @unchecked) match { ... }
@@ -1318,5 +1320,14 @@ trait Function0[@specialized(Unit, Int, Double) T] {
 //               ^^ storage.modifier.annotation
 //                           ^^ storage.type.primitive
 //                                              ^ support.class
+//              ^ punctuation.definition.annotation.scala
+//              ^ meta.annotation.scala
+//                                            ^ meta.annotation.scala
+//                                             ^ - meta.annotation.scala
+//                               ^ punctuation.separator.arguments.annotation.scala
   def apply: T
 }
+
+x: Foo @volatile with Bar
+//          ^^ storage.modifier.annotation
+//               ^^ keyword.declaration

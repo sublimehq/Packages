@@ -148,28 +148,34 @@ contexts:
       push: single-type-expression
 
   annotation:
-    - match: '@{{plainid}}\.'
-      scope: storage.modifier.annotation.scala
+    - match: '(@){{plainid}}\.'
+      captures:
+        0: storage.modifier.annotation.scala
+        1: punctuation.definition.annotation.scala
       push:
+        - meta_scope: meta.annotation.scala
         - match: '{{plainid}}\.'
           scope: storage.modifier.annotation.scala
         - match: '{{plainid}}'
           scope: storage.modifier.annotation.scala
           set: annotation-parameters
-    - match: '@{{plainid}}'
-      scope: storage.modifier.annotation.scala
+    - match: '(@){{plainid}}'
+      captures:
+        0: storage.modifier.annotation.scala
+        1: punctuation.definition.annotation.scala
       push: annotation-parameters
 
   annotation-parameters:
+    - meta_scope: meta.annotation.scala
     - match: \(
       scope: punctuation.definition.arguments.annotation.begin.scala
       push:
         - match: ','
           scope: punctuation.separator.arguments.annotation.scala
-        - include: main
         - match: \)
           scope: punctuation.definition.arguments.annotation.end.scala
           pop: true
+        - include: main
     - match: \[
       scope: punctuation.definition.arguments.annotation.begin.scala
       push:
@@ -177,7 +183,8 @@ contexts:
           scope: punctuation.definition.arguments.annotation.end.scala
           pop: true
         - include: delimited-type-expression
-    - match: (?!\(|\[)
+    - match: \s*
+    - match: (?![(\[])
       pop: true
 
   lambdas:
@@ -1112,8 +1119,8 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail
     - include: base-type-expression
+    # the '@' indicates the beginning of an annotation
     - match: '(?=@)'
-      comment: the '@' indicates the beginning of an annotation
       pop: true
     - match: '(?=[\s$,\)\}\]])'
       pop: true
