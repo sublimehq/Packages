@@ -434,11 +434,11 @@ contexts:
       scope: keyword.operator.symbols.matlab
   parens:
     - match: \(
-      scope: punctuation.definition.parens.begin.matlab
+      scope: punctuation.section.parens.begin.matlab
       push:
         - meta_content_scope: meta.parens.matlab
         - match: \)
-          scope: punctuation.definition.parens.end.matlab
+          scope: punctuation.section.parens.end.matlab
           pop: true
         - include: allofem
         - include: end_in_parens
