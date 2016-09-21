@@ -64,7 +64,7 @@ contexts:
           pop: true
         - include: expressions
     - include: function
-    - match: '^\s*((?!default){{identifier}})\s*(:)(?!:)'
+    - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
         1: entity.name.label.php
         2: punctuation.separator.php

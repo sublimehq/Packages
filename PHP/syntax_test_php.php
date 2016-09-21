@@ -640,6 +640,11 @@ $var4 = 0b0111;
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
+if ():
+else:
+// <- keyword.control - entity.name.label
+endif;
+
 switch (1) {
 //^ keyword.control
     case 1:
