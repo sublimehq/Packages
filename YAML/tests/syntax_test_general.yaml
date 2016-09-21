@@ -8,7 +8,7 @@
 
 # comment
 # <- comment.line.number-sign punctuation.definition.comment.line.number-sign
-#^^^^^^^^ comment.line.number-sign
+#^^^^^^^^^ comment.line.number-sign
 
 
 ##############################################################################
