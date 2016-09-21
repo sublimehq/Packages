@@ -10,12 +10,12 @@
 
 *alias
 #^^^^^ variable.other.alias
-# <- keyword.control.flow.alias punctuation.alias
+# <- keyword.control.flow.alias punctuation.definition.alias
 
 *al[ias]
 #^^      variable.other.alias
 #  ^^^^^ invalid.illegal.character
-# <- keyword.control.flow.alias punctuation.alias
+# <- keyword.control.flow.alias punctuation.definition.alias
 
 
 ##############################################################################
@@ -96,13 +96,13 @@ continuation"
 
 [a: b, c,'d', e: f, g:h]
 #^                      meta.flow-pair.key string.unquoted.plain.in entity.name.tag
-# ^                     meta.flow-pair punctuation.separator.mapping.key-value -meta.flow-pair.value
+# ^                     meta.flow-pair punctuation.separator.key-value.mapping -meta.flow-pair.value
 #   ^                   meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
 #      ^                string.unquoted.plain.in
 #       ^               punctuation.separator.sequence
 #        ^^^            string.quoted.single
 #             ^         string.unquoted.plain.in entity.name.tag
-#              ^        punctuation.separator.mapping.key-value
+#              ^        punctuation.separator.key-value.mapping
 #                 ^     punctuation.separator.sequence
 #                   ^^^ string.unquoted.plain.in - entity.name.tag
 
@@ -113,11 +113,11 @@ continuation"
 
 {a: b, :c: :d,
 #^             meta.flow-pair.key string.unquoted.plain.in entity.name.tag
-# ^            meta.flow-pair punctuation.separator.mapping.key-value
+# ^            meta.flow-pair punctuation.separator.key-value.mapping
 #   ^          meta.flow-pair.value string.unquoted.plain.in -entity.name.tag
 #    ^         punctuation.separator.mapping
 #      ^^      string.unquoted.plain.in entity.name.tag
-#        ^     punctuation.separator.mapping.key-value
+#        ^     punctuation.separator.key-value.mapping
 #          ^^  string.unquoted.plain.in, -entity.name.tag
 #            ^ punctuation.separator.mapping
 # <- meta.flow-mapping punctuation.definition.mapping.begin
@@ -126,7 +126,7 @@ continuation"
 #     ^         punctuation.separator.mapping
 #       ^       string.unquoted.plain.in entity.name.tag
 #        ^      -string
-#         ^     punctuation.separator.mapping.key-value
+#         ^     punctuation.separator.key-value.mapping
 #           ^   string.unquoted.plain.in, -entity.name.tag
 #             ^ meta.flow-mapping punctuation.definition.mapping.end
 
@@ -139,14 +139,14 @@ continuation"
 #        ^^^^^                string
 #        ^                    punctuation
 #            ^                punctuation
-#              ^              punctuation.separator.mapping.key-value
+#              ^              punctuation.separator.key-value.mapping
 #                ^^^^^        storage
 #                      ^^^^^  string
  ? !!str foo : :bar
 #^ punctuation.definition.key-value.begin
 #  ^^^^^ storage
 #        ^^^ string entity.name.tag
-#            ^ punctuation.separator.mapping.key-value -string
+#            ^ punctuation.separator.key-value.mapping -string
 #              ^ string.unquoted.plain.in
 }
 

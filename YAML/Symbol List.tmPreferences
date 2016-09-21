@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>scope</key>
+    <string>entity.name.other.anchor.yaml</string>
+    <key>settings</key>
+    <dict>
+        <!-- Not indexed because YAML anchors are file-local -->
+        <key>showInSymbolList</key>
+        <string>1</string>
+    </dict>
+</dict>
+</plist>

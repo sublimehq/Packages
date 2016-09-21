@@ -84,15 +84,15 @@ plain
 
 key: value
 #^^        string.unquoted.plain.out entity.name.tag
-#  ^       punctuation.separator.mapping.key-value, -entity
+#  ^       punctuation.separator.key-value.mapping, -entity
 #    ^^^^^ string.unquoted.plain.out
 key#  :  value
 #^^^           string.unquoted.plain.out entity.name.tag
 #   ^          -string
-#     ^        punctuation.separator.mapping.key-value
+#     ^        punctuation.separator.key-value.mapping
 #        ^^^^^ string.unquoted.plain.out
 :
-# <- punctuation.separator.mapping.key-value
+# <- punctuation.separator.key-value.mapping
 
 _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
 #^^^^^^^^^                         entity.name.tag
@@ -114,11 +114,11 @@ key on line one:
 # ^^^^^^^^^ meta.block-mapping string.unquoted.block
 # ^^^^^^^^^ -meta.block-mapping meta.block-mapping
 : - one # Explicit compact
-# <- meta.block-mapping punctuation.separator.mapping.key-value
+# <- meta.block-mapping punctuation.separator.key-value.mapping
   - two: :three # block value
 # ^ punctuation.definition.block.sequence
 #   ^^^ string.unquoted.plain.out entity.name.tag
-#      ^ punctuation.separator.mapping.key-value
+#      ^ punctuation.separator.key-value.mapping
 #        ^^^^^^ string.unquoted.plain.out
 
 ? a key : not a value

@@ -6,7 +6,9 @@
 	<key>settings</key>
 	<dict>
 		<key>increaseIndentPattern</key>
-		<string>^.*:$</string>
+		<string>^.*[:\[{]\s*$</string>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*[\]}]</string>
 	</dict>
 </dict>
 </plist>
