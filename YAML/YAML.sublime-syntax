@@ -95,7 +95,7 @@ variables:
         | \s+ \#
         | \s* : (\s|$)
         | \s* : {{c_flow_indicator}}
-        | {{c_flow_indicator}}
+        | \s* {{c_flow_indicator}}
       )
     )
 
