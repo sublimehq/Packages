@@ -1195,6 +1195,11 @@ class Test1
 //   ^ variable.parameter.scala
 
 class Test1
+
+    (a: String)
+//   ^ - variable
+
+class Test1
     (val a: String) {
    "string"
 // ^^^^^^^^ string.quoted.double.scala
@@ -1203,8 +1208,6 @@ class Test1
 def test
     (arg: String) = arg
 //   ^^^ variable.parameter.scala
-
-
 
 def test
     (arg: String)
