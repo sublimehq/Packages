@@ -64,6 +64,7 @@ contexts:
           pop: true
         - include: general-constants
         - include: general-commands
+        - include: global-braces
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
 
