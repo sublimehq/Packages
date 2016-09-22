@@ -1199,3 +1199,14 @@ class Test1
    "string"
 // ^^^^^^^^ string.quoted.double.scala
 }
+
+def test
+    (arg: String) = arg
+//   ^^^ variable.parameter.scala
+
+
+
+def test
+    (arg: String)
+    (arg: String) = arg
+//   ^^^ variable.parameter.scala
