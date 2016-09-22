@@ -332,6 +332,15 @@ contexts:
           pop: true
         - include: main
 
+  # emulate newline inference
+  # this is included when a single newline is found in a declaration
+  # you should never push/set this context, only include
+  decl-newline-double-check:
+    - match: '(?=[\{\}\)]|\b(class|def|val|var|trait|object|private|protected|for|while|if|)\b)'
+      pop: true
+    - match: '\n'
+      pop: true
+
   function-type-parameter-list:
     - match: '(?=\()'
       set: function-parameter-list
@@ -391,8 +400,15 @@ contexts:
       set: class-parameter-list
     - match: '\['
       push: class-tparams-brackets
-    - match: '(?=([\{\n]|extends))'
+    - match: '(?=extends|with)'
       pop: true
+    - match: '\n'
+      set: class-type-parameter-list-newline
+
+  class-type-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-type-parameter-list
 
   class-tparams-brackets:
     - match: '\['
@@ -426,8 +442,15 @@ contexts:
                 - match: '(?=[=])'
                   pop: true
         - include: main
-    - match: '(?=([\{\n]|extends))'
+    - match: '\n'
+      set: class-parameter-list-newline
+    - match: '(?=([\{]|extends))'
       pop: true
+
+  class-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-parameter-list
 
   imports:
     - match: \b(import)\b

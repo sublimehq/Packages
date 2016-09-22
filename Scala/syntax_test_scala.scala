@@ -1189,3 +1189,13 @@ def <(a: Int) = 42
      &amp;
 //   ^^^^^ constant.character.entity.xml - meta.tag.xml
    </foo>
+
+class Test1
+    (a: String)
+//   ^ variable.parameter.scala
+
+class Test1
+    (val a: String) {
+   "string"
+// ^^^^^^^^ string.quoted.double.scala
+}
