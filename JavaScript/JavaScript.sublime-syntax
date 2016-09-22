@@ -13,7 +13,7 @@ variables:
   dollar_only_identifier: '\$(?![_$[:alnum:]])'
   dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
-  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]+|\([^()]*\))*\))\s*=>'
+  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
 contexts:
   main:
