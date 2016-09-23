@@ -206,6 +206,16 @@ The \emph{verbatim} environment sets everything in verbatim.
 % ^ support.function.includegraphics.latex
 %                           ^ support.function.general.latex
 
+% Neasted optional arguments
+\includegraphics[width={\foo[argument]{bar}}]{test.png}
+% ^ support.function.includegraphics.latex
+%                        ^ meta.group.bracket.latex
+%                          ^ support.function.general.latex
+%                               ^ meta.group.bracket.latex
+%                                     ^ punctuation.definition.group.brace.begin.latex
+%                                        ^ meta.group.brace.latex
+%                                         ^ punctuation.definition.group.brace.end.latex
+
 
 % MATH
 
