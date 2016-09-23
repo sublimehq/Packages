@@ -15,7 +15,6 @@ variables:
 
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
-  # name: '[A-Za-z_\p{L}][A-Za-z\p{L}_0-9]*'
 
   # integers
   hex_numeral: '0[xX][0-9a-fA-F]+'
@@ -28,20 +27,15 @@ variables:
   # characters
   unicode_char: '\\u[0-9a-fA-F]{,4}'
   escaped_char: '(?:\\[btnfr"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{,4}||\\[0-9]{,3})'
-  # escaped_char: '\\{{unicode_char}}'
-  # char: '(?:{{escaped_char}}|.)'
-  # string: '(f|s|raw)?\"[^\"]*\"'
-  # literal: '({{number}}|{{char}}|{{string}})'
 
   visibility: \b(public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
   type_suffix: ((?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^(={};<]*>)?\s*
+
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(@{{reserved}}|@{{base_type}}|@var|{{name_normal}})'
-  # name: '([A-Za-z_][A-Za-z_0-9]*)'
-  # name_normal: '[A-Za-z_][A-Za-z_0-9]*'
-  # name_normal: '(?:[A-Za-z_\p{L}]|unicode_char)[A-Za-z_0-9\p{L}]*'
+
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
   other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
   name_normal: '{{start_char}}{{other_char}}*'
@@ -334,7 +328,6 @@ contexts:
     - include: type
 
   delegate_name:
-    # - meta_scope: meta.method.identifier
     - match: '{{name}}(\()'
       captures:
         1: entity.name.function.type.cs
@@ -342,7 +335,6 @@ contexts:
       set: delegate_params
 
   delegate_params:
-    # - meta_content_scope: meta.method.identifier.cs
     - match: \)
       scope: punctuation.definition.parameters.end.cs
       pop: true
@@ -369,7 +361,6 @@ contexts:
         - include: tag
         - include: class_declaration
         - include: interface_declaration
-        # - include: member_declaration
         - include: method_declaration
         - match: '\{'
           scope: punctuation.section.block.begin.cs
@@ -534,7 +525,7 @@ contexts:
       captures:
         1: entity.name.variable.cs
       set: variables_declaration
-    - match: '(?:(?#<=>)|{{name}})\s*(\()'
+    - match: '{{name}}\s*(\()'
       captures:
         1: entity.name.function.cs
         2: punctuation.definition.parameters.begin.cs
@@ -564,14 +555,12 @@ contexts:
       push:
         - meta_scope: meta.method.identifier
         - include: type_parameter
-    - match: '((?#<=>)|(?:{{name}}(\.))*)(this)\s*(\[)'
+    - match: '(this)\s*(\[)'
       captures:
-        2: entity.other.inherited-class.cs
-        3: punctuation.accessor.dot.cs
-        4: variable.language.cs
-        5: punctuation.definition.parameters.begin.cs
+        1: variable.language.cs
+        2: punctuation.definition.parameters.begin.cs
       set: [method_accessor, method_params_bracket]
-    - match: '(?:(?#<=>)|{{name}})(\.)'
+    - match: '{{name}}(\.)'
       scope: meta.method.identifier
       captures:
         1: entity.other.inherited-class.cs
@@ -760,7 +749,6 @@ contexts:
         2: keyword.control.switch.case.cs
       push: line_of_code_in
 
-    # - match: '\b(goto)\s+{{name}}\s*(;)\b'
     - match: '\b(goto)\s+{{name}}\s*(;)'
       captures:
         1: keyword.control.flow.goto.cs
@@ -946,7 +934,7 @@ contexts:
   maybe_an_anonymous_class:
     - match: \{
       scope: punctuation.definition.class.begin.cs
-      comment: Found an anounymous class
+      # Found an anounymous class
       set:
         - match: \}
           scope: punctuation.definition.class.end.cs
@@ -956,7 +944,7 @@ contexts:
         - match: (?=\S)
           push: line_of_code_in
     - match: (?=[^{\s])
-      comment: This is not an anounymous class
+      # This is not an anounymous class
       set:
         - match: \[,*\]
           scope: support.type.cs
@@ -1035,7 +1023,6 @@ contexts:
           scope: punctuation.definition.arguments.type.end.cs
           pop: true
         - include: type
-    # - match: '((?<=>)|{{name}})(\()'
     - match: '{{name}}\s*(\()'
       scope: meta.function-call
       captures:
@@ -1144,11 +1131,6 @@ contexts:
         1: support.namespace.cs
         2: variable.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
-    # - match: '(?:({{base_type}})|{{name}})'
-    #   captures:
-    #     1: support.type.cs
-    #     2: variable.other.type.cs
-    #     3: support.type.cs
     - match: '(class|struct)'
       scope: support.type.other.cs
     - match: 'new\s*\(\s*\)'
@@ -1403,7 +1385,6 @@ contexts:
             - include: code_block_in
         - match: (?=\S)
           set: line_of_code
-    # - include: line_of_code
 
   if_condition:
     - match: '\s*(\()'
@@ -1421,7 +1402,6 @@ contexts:
       pop: true
 
   if_block:
-    # - meta_scope: meta.block.conditional.cs
     - match: \{
       scope: punctuation.section.conditional.begin.cs
       set:
@@ -1630,7 +1610,6 @@ contexts:
           captures:
             1: variable.parameter.cs
             2: punctuation.separator.argument.value.cs
-        # 3: punctuation.definition.tag.end.cs
         - match: '/?>'
           scope: punctuation.definition.tag.end.cs
           pop: true

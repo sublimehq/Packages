@@ -9,7 +9,7 @@ namespace YourNamespace
 {
 ///<- punctuation.section.namespace
     class YourClass
-/// ^ storage.type.class.class
+/// ^ storage.type.class
 ///        ^ entity.name.type.class
     {
         Int x;
@@ -101,7 +101,7 @@ namespace YourNamespace
 ///                                         ^ entity.other.inherited-class
 
     class YourMainClass
-///   ^ storage.type.class.class
+///   ^ storage.type.class
 ///          ^ entity.name.type.class
     {
         static void Main(string[] args)
@@ -145,17 +145,25 @@ namespace YourNamespace
 ///                    ^^^^ variable.other.type
 ///                         ^^^^^ support.type
 
-        IEnumerable<int>.GetEnumerator()
-///                      ^^^^ entity.name.function
+        IEnumerator<int> IEnumerable<int>.GetEnumerator()
+///                         ^^^^ entity.other.inherited-class
+///                                       ^^^^ entity.name.function
+        {
+            return new MyCustomIterator(this);
+        }
+
+        IEnumerable<int> Traverse()
         {
             yield return 7;
+///         ^ keyword.control.flow.return
+///                ^ keyword.control.flow.return
             yield return 42;
             yield return 314;
         }
 
-        IEnumerable<int>.this[int key]{ get; set; }
-///                      ^^^^ variable.language
-///                               ^^^ variable.parameter
+        List<int>.this[int key]{ get; set; }
+///               ^^^^ variable.language
+///                        ^^^ variable.parameter
 
 
         /////////////////////////////
@@ -181,6 +189,7 @@ namespace YourNamespace
         [return: SomeAttr]
         int Method3() { return 0; }
 
+        int Method4 => 5;
 
         delegate int del(int i);
 
