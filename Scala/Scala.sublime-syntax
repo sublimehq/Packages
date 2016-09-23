@@ -332,18 +332,31 @@ contexts:
           pop: true
         - include: main
 
+  # emulate newline inference
+  # this is included when a single newline is found in a declaration
+  # you should never push/set this context, only include
+  decl-newline-double-check:
+    - match: '(?=[\{\}\)]|\b(class|def|val|var|trait|object|private|protected|for|while|if|)\b)'
+      pop: true
+    - match: '\n'
+      pop: true
+
   function-type-parameter-list:
     - match: '(?=\()'
       set: function-parameter-list
     - match: '\['
       push: function-tparams-brackets
     - match: ':'
-      push:
-        - match: '(?=[\{\};\n]|{{nonopchar}}={{nonopchar}})'
-          pop: true
-        - include: delimited-type-expression
-    - match: '(?=[\{\};\n]|{{nonopchar}}={{nonopchar}})'
+      push: function-return-type-definition
+    - match: '\n'
+      set: function-type-parameter-list-newline
+    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
       pop: true
+
+  function-type-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: function-type-parameter-list
 
   function-tparams-brackets:
     - match: '\['
@@ -352,6 +365,18 @@ contexts:
       pop: true
     - include: type-constraints
     - include: delimited-type-expression
+
+  function-return-type-definition:
+    - match: '\n'
+      set: function-return-type-definition-newline
+    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
+      pop: true
+    - include: delimited-type-expression
+
+  function-return-type-definition-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: function-return-type-definition
 
   function-parameter-list:
     - match: '\('
@@ -375,14 +400,16 @@ contexts:
         - include: main
     - match: ':'
       scope: punctuation.separator.scala
-      push:
-        - match: '(?=[\B\s]=[\B\s])'
-          pop: true
-        - include: delimited-type-expression
-        - match: '(?=[\{\n])'
-          pop: true
-    - match: '(?=[\{=\n])'
+      push: function-return-type-definition
+    - match: '\n'
+      set: function-parameter-list-newline
+    - match: '(?=[\{=])'
       pop: true
+
+  function-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: function-parameter-list
 
   class-type-parameter-list:
     - match: '\b(private|protected)\b'
@@ -391,8 +418,15 @@ contexts:
       set: class-parameter-list
     - match: '\['
       push: class-tparams-brackets
-    - match: '(?=([\{\n]|extends))'
+    - match: '(?=extends|with)'
       pop: true
+    - match: '\n'
+      set: class-type-parameter-list-newline
+
+  class-type-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-type-parameter-list
 
   class-tparams-brackets:
     - match: '\['
@@ -426,8 +460,15 @@ contexts:
                 - match: '(?=[=])'
                   pop: true
         - include: main
-    - match: '(?=([\{\n]|extends))'
+    - match: '\n'
+      set: class-parameter-list-newline
+    - match: '(?=([\{]|extends))'
       pop: true
+
+  class-parameter-list-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-parameter-list
 
   imports:
     - match: \b(import)\b
