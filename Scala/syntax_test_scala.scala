@@ -1221,3 +1221,11 @@ def test
 
 def foo: Map[Bar]=42
 //                ^^ constant.numeric.integer.scala
+
+   x: Foo.Bar => ()
+// ^ variable.parameter.scala
+//            ^^ storage.type.function.arrow.scala
+
+   x: Foo#Bar => ()
+// ^ variable.parameter.scala
+//            ^^ storage.type.function.arrow.scala
