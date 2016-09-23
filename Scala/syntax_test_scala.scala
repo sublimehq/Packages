@@ -1229,3 +1229,9 @@ def foo: Map[Bar]=42
    x: Foo#Bar => ()
 // ^ variable.parameter.scala
 //            ^^ storage.type.function.arrow.scala
+
+    object Stuff {
+      case
+    }
+    thing
+//  ^^^^^ - variable
