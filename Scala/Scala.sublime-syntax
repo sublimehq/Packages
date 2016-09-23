@@ -350,7 +350,7 @@ contexts:
       set: function-return-type-definition
     - match: '\n'
       set: function-type-parameter-list-newline
-    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
+    - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
 
   function-type-parameter-list-newline:
@@ -369,7 +369,7 @@ contexts:
   function-return-type-definition:
     - match: '\n'
       set: function-return-type-definition-newline
-    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
+    - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
     - include: delimited-type-expression
 

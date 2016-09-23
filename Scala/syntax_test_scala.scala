@@ -1218,3 +1218,6 @@ def test
    def foo: Map[Bar]
    def connectionMap: Unit
 // ^^^ storage.type.function.scala
+
+def foo: Map[Bar]=42
+//                ^^ constant.numeric.integer.scala
