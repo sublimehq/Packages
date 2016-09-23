@@ -148,43 +148,45 @@ contexts:
       push: single-type-expression
 
   annotation:
-    - match: '(@){{plainid}}\.'
+    - match: '(@)({{plainid}})(\.)'
+      scope: storage.modifier.annotation.scala
       captures:
-        0: storage.modifier.annotation.scala
         1: punctuation.definition.annotation.scala
+        3: punctuation.accessor.scala
       push:
         - meta_scope: meta.annotation.scala
-        - match: '{{plainid}}\.'
+        - match: '({{plainid}})(\.)'
           scope: storage.modifier.annotation.scala
+          captures:
+            2: punctuation.accessor.scala
         - match: '{{plainid}}'
           scope: storage.modifier.annotation.scala
           set: annotation-parameters
-    - match: '(@){{plainid}}'
+    - match: '(@)({{plainid}})'
+      scope: storage.modifier.annotation.scala
       captures:
-        0: storage.modifier.annotation.scala
         1: punctuation.definition.annotation.scala
       push: annotation-parameters
 
   annotation-parameters:
     - meta_scope: meta.annotation.scala
     - match: \(
-      scope: punctuation.definition.arguments.annotation.begin.scala
+      scope: punctuation.section.arguments.annotation.begin.scala
       push:
         - match: ','
           scope: punctuation.separator.arguments.annotation.scala
         - match: \)
-          scope: punctuation.definition.arguments.annotation.end.scala
+          scope: punctuation.section.arguments.annotation.end.scala
           pop: true
         - include: main
     - match: \[
-      scope: punctuation.definition.arguments.annotation.begin.scala
+      scope: punctuation.section.arguments.annotation.begin.scala
       push:
         - match: \]
-          scope: punctuation.definition.arguments.annotation.end.scala
+          scope: punctuation.section.arguments.annotation.end.scala
           pop: true
         - include: delimited-type-expression
-    - match: \s*
-    - match: (?![(\[])
+    - match: (?!\s*[(\[])
       pop: true
 
   lambdas:
