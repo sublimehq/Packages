@@ -1235,3 +1235,6 @@ def foo: Map[Bar]=42
     }
     thing
 //  ^^^^^ - variable
+
+    s"thingy "
+//   ^ punctuation.definition.string.begin.scala
