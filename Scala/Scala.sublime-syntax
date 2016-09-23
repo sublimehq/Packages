@@ -347,7 +347,7 @@ contexts:
     - match: '\['
       push: function-tparams-brackets
     - match: ':'
-      push: function-return-type-definition
+      set: function-return-type-definition
     - match: '\n'
       set: function-type-parameter-list-newline
     - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'

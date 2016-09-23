@@ -1213,3 +1213,8 @@ def test
     (arg: String)
     (arg: String) = arg
 //   ^^^ variable.parameter.scala
+
+// the following test is paired together
+   def foo: Map[Bar]
+   def connectionMap: Unit
+// ^^^ storage.type.function.scala
