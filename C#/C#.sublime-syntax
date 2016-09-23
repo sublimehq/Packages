@@ -282,20 +282,20 @@ contexts:
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
     - match: '\b(class)\s+{{name}}'
+      scope: meta.class.identifier.cs
       captures:
-        0: meta.class.identifier.cs
         1: storage.type.class.cs
         2: entity.name.type.class.cs
       push: [class_body, class_signature]
     - match: '\b(struct)\s+{{name}}'
+      scope: meta.class.identifier.cs
       captures:
-        0: meta.class.identifier.cs
         1: storage.type.class.struct.cs
         2: entity.name.type.struct.cs
       push: [class_body, class_signature]
     - match: '\b(enum)\s+{{name}}\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
+      scope: meta.class.identifier.cs
       captures:
-        0: meta.class.identifier.cs
         1: storage.type.class.enum.cs
         2: entity.name.type.enum.cs
         3: punctuation.separator.key-value.type.cs
@@ -429,8 +429,8 @@ contexts:
 
   interface_declaration:
     - match: '(interface)\s+{{name}}'
+      scope: meta.class.identifier.cs
       captures:
-        0: meta.class.identifier.cs
         1: storage.type.class.interface.cs
         2: entity.name.type.interface.cs
       push: [interface_body, class_signature]
@@ -571,8 +571,8 @@ contexts:
         5: punctuation.definition.parameters.begin.cs
       set: [method_accessor, method_params_bracket]
     - match: '(?:(?#<=>)|{{name}})(\.)'
+      scope: meta.method.identifier
       captures:
-        0: meta.method.identifier
         1: entity.other.inherited-class.cs
         2: punctuation.accessor.dot.cs
     - match: '{{name}}'
@@ -785,8 +785,8 @@ contexts:
       push: [method_name, type_argument]
 
     - match: '{{name}}(<)(?=[^(={};]*>\()'
+      scope: meta.function-call
       captures:
-        0: meta.function-call
         1: variable.function.cs
         2: punctuation.definition.arguments.type.begin.cs
       push:
@@ -1012,8 +1012,8 @@ contexts:
       push: long_format_string
 
     - match: '{{name}}(<)(?=[^(]*>\()'
+      scope: meta.function-call
       captures:
-        0: meta.function-call
         1: variable.function.cs
         2: punctuation.definition.arguments.type.begin.cs
       push:
@@ -1036,8 +1036,8 @@ contexts:
         - include: type
     # - match: '((?<=>)|{{name}})(\()'
     - match: '{{name}}\s*(\()'
+      scope: meta.function-call
       captures:
-        0: meta.function-call
         1: variable.function.cs
         2: punctuation.definition.arguments.begin.cs
       push: arguments
@@ -1207,12 +1207,12 @@ contexts:
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
     - match: "(')({{escaped_char}})(')"
+      scope: constant.character.cs
       captures:
-        0: constant.character.cs
         2: constant.character.escape.cs
     - match: "(')({{escaped_char}})(')"
+      scope: constant.character.cs
       captures:
-        0: constant.character.cs
         2: constant.character.escape.cs
     - match: "'.'"
       scope: constant.character.cs
