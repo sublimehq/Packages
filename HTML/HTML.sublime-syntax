@@ -230,7 +230,7 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '\s+(([a-zA-Z0-9:\-_.]+)\s*(=)\s*)'
+    - match: '(?:^|\s+)(([a-zA-Z0-9:\-_.]+)\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.html
         2: entity.other.attribute-name.html
@@ -261,7 +261,7 @@ contexts:
         1: entity.other.attribute-name.html
 
   tag-class-attribute:
-    - match: '\s+\b((class)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((class)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.class.html
         2: entity.other.attribute-name.class.html
@@ -291,7 +291,7 @@ contexts:
           pop: true
 
   tag-id-attribute:
-    - match: '\s+\b((id)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((id)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.id.html
         2: entity.other.attribute-name.id.html
@@ -321,7 +321,7 @@ contexts:
           pop: true
 
   tag-style-attribute:
-    - match: '\s+\b((style)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((style)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.style.html
         2: entity.other.attribute-name.style.html
