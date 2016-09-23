@@ -1,16 +1,22 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
-// preprocessor_if.cs
 #define DEBUG
+///     ^^ constant.other.flag
 #define MYTEST
 #undef DEBUG
 
 using System;
-#pragma pragma-name pragma-arguments
 #pragma warning disable warning-list
+// ^ keyword.other.preprocessor
+//       ^ keyword.other.preprocessor
 #pragma warning restore warning-list
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
+//       ^ keyword.other.preprocessor
+//                 ^ stirng.quoted.double
+//                                     ^ constant.numeric
 
+#region
+/// ^^ meta.preprocessor storage.type.section
 #region MyClass definition
 /// ^^ meta.preprocessor storage.type.section
 ///     ^^ meta.preprocessor entity.name.section
@@ -23,6 +29,7 @@ public class MyClass
 #elif (!DEBUG && MYTEST)
         Console.WriteLine("MYTEST is defined");
 #elif (DEBUG && MYTEST)
+///          ^^ keyword.operator
         Console.WriteLine("DEBUG and MYTEST are defined");
 #else
         Console.WriteLine("DEBUG and MYTEST are not defined");
@@ -30,8 +37,13 @@ public class MyClass
 
 #   if DEBUG
 /// ^^ meta.preprocessor keyword.control.preprocessor
-#error DEBUG is defined
+///    ^^ constant.other.flag
+#error DEBUG is defined // comment
 /// ^^ meta.preprocessor keyword.other.preprocessor
+///    ^^ string.unquoted
+///                    ^ - string
+///                     ^ comment
+
 #warning Deprecated code in this method.
 #endif
 
@@ -51,4 +63,8 @@ public class MyClass
         double d; // CS0168 on line 35
     }
 }
+#endregion a / b
+// ^^ storage.type.section
+//         ^^^^^ variable.other.section
 #endregion
+// ^^ storage.type.section

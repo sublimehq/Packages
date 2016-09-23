@@ -4,19 +4,19 @@ using System.Text;
 ///    ^ variable.namespace.cs
 ///         ^ punctuation.separator.namespace.cs
 ///            ^ variable.namespace.cs
-///              ^ punctuation.definition.namespace.end
+///              ^ punctuation.terminator.cs
 using static System.Math.Foo;
 /// <- keyword.control.import.cs
-///      ^ storage.modifier.namespace.cs
+///      ^ keyword.control.import.cs
 ///                  ^ variable.namespace.cs
 using Project = PC.MyCompany.Project;
 /// <- keyword.control.import.cs
 ///    ^ entity.name.type
-///           ^ storage.modifier.namespace.as
+///           ^ keyword.operator.assignment.cs
 using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 /// <- keyword.control.import.cs
 ///    ^ entity.name.type
-///           ^ storage.modifier.namespace.as
+///           ^ keyword.operator.assignment.cs
 ///                                            ^ support.type.cs
 
 class Foo {

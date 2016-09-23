@@ -41,17 +41,19 @@ variables:
   # name: '([A-Za-z_][A-Za-z_0-9]*)'
   # name_normal: '[A-Za-z_][A-Za-z_0-9]*'
   # name_normal: '(?:[A-Za-z_\p{L}]|unicode_char)[A-Za-z_0-9\p{L}]*'
-  start_char: '(?:{{unicode_char}}|[A-Za-z_\p{L}])'
-  other_char: '(?:{{unicode_char}}|[A-Za-z_0-9\p{L}])'
+  start_char: '(?:{{unicode_char}}|[_\p{L}])'
+  other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
   name_normal: '{{start_char}}{{other_char}}*'
-  cap_name: '([A-Z]{{other_char}})'
+  cap_name: '(\p{Lu}{{other_char}})'
 
 contexts:
   prototype:
     - include: comments
     - include: git_merge
-    - match: '#\s*'
+    - match: '^\s*(#)\s*'
       push: preprocessor_option
+      captures:
+        1: punctuation.definition.preprocessor.cs
 
     # comments
   comments:
@@ -63,7 +65,7 @@ contexts:
       scope: punctuation.definition.comment.cs
       push:
         - meta_scope: comment.line.double-slash.cs
-        - match: $
+        - match: $\n?
           pop: true
         - include: comments_in
     - match: '/\*'
@@ -77,9 +79,9 @@ contexts:
 
   comments_in:
     - match: \b(?i:todo|hack|xxx)\b
-      scope: comment.line.todo
+      scope: comment.line.todo.cs
     - match: '/!\\'
-      scope: comment.line.todo
+      scope: comment.line.todo.cs
     - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
 
@@ -96,82 +98,103 @@ contexts:
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
-    - match: '(define|undef)\s+{{name}}'
+    - match: '\b(define|undef)\s+{{name}}\b'
       captures:
         1: keyword.control.preprocessor.cs
-        2: constant.numeric.cs
-    - match: '((el)?if)'
+        2: constant.other.flag.cs
+    - match: '\b(el)?if\b'
       scope: keyword.control.preprocessor.cs
       push:
         - match: '\(|\)'
-          scope: punctuation.definition.expression.cs
+          scope: punctuation.section.parens.cs
         - match: '&&|\|\||!'
           scope: keyword.operator.logical.cs
         - match: '\b(true|false)\b'
           scope: constant.language.cs
         - match: '{{name}}'
-          scope: constant.numeric.cs
+          scope: constant.other.flag.cs
         - include: option_done
-    - match: '(else|endif)'
+    - match: '\b(else|endif)\b'
       scope: keyword.control.preprocessor.cs
       push: option_done
-    - match: '(error|warning)\s*'
-      scope: keyword.other.preprocessor.cs
-      push: option_message
-    - match: '(region)\s*'
-      scope: storage.type.section.cs
+    - match: '\b(error|warning)\b\s*'
+      captures:
+        1: keyword.other.preprocessor.cs
       push:
-        - match: ([^/\s][^/]*?)\s*(?=//|/\*|$)
-          captures:
-            1: entity.name.section.cs
-        - include: option_done
-    - match: '(endregion)\s*'
-      scope: storage.type.section.cs
-      push:
-        - match: ([^/\s][^/]*?)\s*(?=//|/\*|$)
-          captures:
-            1: variable.other.section.cs
-        - include: option_done
+        - meta_content_scope: string.unquoted.cs
+        - include: option_no_delimiter
 
-    - match: '(line)\s+(default|hidden)'
+    - match: '\b(region)\b\s*'
+      captures:
+        1: storage.type.section.cs
+      push:
+        - meta_content_scope: entity.name.section.cs
+        - include: option_no_delimiter
+    - match: '\b(endregion)\b\s*'
+      scope: storage.type.section.cs
+      push:
+        - meta_content_scope: variable.other.section.cs
+        - include: option_no_delimiter
+
+    - match: '\b(line)\s+(default|hidden)'
       captures:
         1: keyword.other.preprocessor.cs
         2: keyword.other.preprocessor.cs
       push: option_done
-    - match: '(line)\s*([0-9]*)\s*(".*")?'
+    - match: '\b(line)\s+([0-9]*)\s+(".*")?'
       captures:
         1: keyword.other.preprocessor.cs
         2: constant.numeric.cs
         3: string.quoted.double.cs
       push: option_done
-    - match: '(pragma\s+checksum)\s+(".*")\s+("\{)(.*)(\}")\s+("\{)(.*)(\}")'
+    - match: '\b(pragma)\s+(checksum)\s+'
       captures:
         1: keyword.other.preprocessor.cs
-        2: string.quoted.double.cs
-        3: punctuation.definition.hash.begin.cs
-        4: constant.numeric.cs
-        5: punctuation.definition.hash.begin.cs
-        6: punctuation.definition.hash.begin.cs
-        7: constant.numeric.cs
-        8: punctuation.definition.hash.begin.cs
-      push: option_done
+        2: keyword.other.preprocessor.cs
+      push:
+        - match: '"{'
+          scope: punctuation.definition.hash.begin.cs
+          push:
+            - match: '[0-9a-fA-F-]+'
+              scope: constant.numeric.cs
+            - match: '}"'
+              scope: punctuation.definition.hash.end.cs
+              pop: true
+            - match: .
+              scope: invalid.illegal.cs
+              pop: true
+        - match: '"'
+          scope: punctuation.definition.string.cs
+          push: string
+        - include: option_done
 
-    - match: '(pragma)'
-      scope: keyword.other.preprocessor.cs
-      push: option_done
+    - match: '(pragma)\s+(warning)\b'
+      captures:
+        1: keyword.other.preprocessor.cs
+        2: keyword.other.preprocessor.cs
+      push:
+        - match: \b(disable|restore)\b(?:\s+[\p{L}_-]+)?
+          captures:
+            1: keyword.other.preprocessor.cs
+            2: string.unquoted.warning.cs
+        - include: comments
+        - match: $
+          pop: true
 
-    - match: '(.*)'
+    - match: .*
       scope: invalid.illegal.cs
     - match: $
       pop: true
 
-  option_message:
-    - meta_content_scope: string.unquoted.cs
-    - include: comments
-    - match: $
+  # Pops out at EOL or the beginning of a comment.
+  option_no_delimiter:
+    - match: \s*$
       pop: true
+    - match: (?=\s*(//|/\*))
+      set: option_done
 
-  # option_done pops out at the end of the line and handles comments
+  # Pops out at the end of the line and handles comments.
+  # Marks the rest of the line as invalid.
   option_done:
     - include: comments
     - match: $
@@ -200,7 +223,6 @@ contexts:
     - include: interface_declaration
     - include: namespace_declaration
     - include: delegate_declaration
-    # - include: method_declaration
 
     # allows coloration of code outside a class
     - include: code_block_in
@@ -210,12 +232,12 @@ contexts:
       captures:
         1: keyword.control.import.cs
         2: entity.name.type.cs
-        3: storage.modifier.namespace.as.cs
+        3: keyword.operator.assignment.cs
       push: using_namespace
-    - match: '\b(using)\s+(static\b)?\s*{{name}}'
+    - match: '\b(using)(?:\s+(static))?\s+{{name}}'
       captures:
         1: keyword.control.import.cs
-        2: storage.modifier.namespace.cs
+        2: keyword.control.import.cs
         3: variable.namespace.cs
       push: using_namespace
 
@@ -225,10 +247,10 @@ contexts:
     - match: \.
       scope: punctuation.separator.namespace.cs
     - match: '<'
-      scope: punctuation.definition.arguments.type.begin.cs
+      scope: punctuation.definition.generic.begin.cs
       push: type_argument
     - match: ';'
-      scope: punctuation.definition.namespace.end.cs
+      scope: punctuation.terminator.cs
       pop: true
     - match: '.*$'
       scope: invalid.illegal.expected-namespace.cs
@@ -237,13 +259,9 @@ contexts:
   namespace_declaration:
     # package declaration
     - match: '\b(namespace)\b'
-      captures:
-        0: meta.package.identifier.cs
-        1: storage.type.namespace
-        2: entity.name.namespace.cs
-        3: punctuation.accessor.dot.cs
-        4: entity.name.namespace.cs
+      scope: storage.type.namespace.cs
       push:
+        - meta_scope: meta.namespace.cs
         - match: '{{name}}'
           scope: entity.name.namespace.cs
         - match: \.
@@ -251,12 +269,11 @@ contexts:
         - match: \{
           scope: punctuation.section.namespace.begin.cs
           set:
-            - meta_scope: meta.namespace.cs
             - match: \}
               scope: punctuation.section.namespace.end.cs
               pop: true
             - include: main
-        - match: (?=[^\s{])
+        - match: (?=\S)
           pop: true
 
   class_declaration:
@@ -267,7 +284,7 @@ contexts:
     - match: '\b(class)\s+{{name}}'
       captures:
         0: meta.class.identifier.cs
-        1: storage.type.class.class.cs
+        1: storage.type.class.cs
         2: entity.name.type.class.cs
       push: [class_body, class_signature]
     - match: '\b(struct)\s+{{name}}'
@@ -305,8 +322,9 @@ contexts:
               scope: punctuation.separator.enum.cs
 
   delegate_declaration:
-    - match: (delegate)\s+
-      scope: storage.type.type.delegate.cs
+    - match: \b(delegate)\s+
+      captures:
+        1: storage.type.type.delegate.cs
       push: [delegate_end, delegate_name, delegate_type]
 
   delegate_type:
@@ -1156,7 +1174,7 @@ contexts:
       scope: punctuation.separator.type.cs
     - match: '(>){{type_suffix}}'
       captures:
-        1: punctuation.definition.arguments.type.end.cs
+        1: punctuation.definition.generic.end.cs
         2: support.type.cs
       pop: true
     - include: type

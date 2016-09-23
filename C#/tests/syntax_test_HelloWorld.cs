@@ -5,7 +5,7 @@
 using System;
 ///<- keyword.control.import
 ///    ^ variable.namespace
-///         ^ punctuation.definition.namespace.end
+///         ^ punctuation.terminator.cs
 
 namespace HelloWorld
 ///<- storage.type.namespace
