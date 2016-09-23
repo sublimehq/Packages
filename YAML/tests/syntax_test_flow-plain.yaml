@@ -74,3 +74,13 @@ p[l]a,in:[]
 #     ^^    string.unquoted.plain.in
 #       ^^^ -string
 ]
+
+
+{ bar: 1}
+#      ^ constant.numeric.integer
+{ bar: 1 }
+#      ^ constant.numeric.integer
+#       ^ - string
+{ key: string }
+#      ^^^^^^ string.unquoted.plain.in
+#            ^ - string.unquoted.plain.in

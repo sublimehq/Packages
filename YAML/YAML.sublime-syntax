@@ -95,7 +95,7 @@ variables:
         | \s+ \#
         | \s* : (\s|$)
         | \s* : {{c_flow_indicator}}
-        | {{c_flow_indicator}}
+        | \s* {{c_flow_indicator}}
       )
     )
 
@@ -425,7 +425,8 @@ contexts:
             | \s+ (?![#\s])
           )*
           \s*
-          :\s
+          :
+          (\s|$)
         )
       push:
         # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
