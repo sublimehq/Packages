@@ -1,7 +1,8 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-# https://github.com/gwenzek/csharpSyntax
+# Copyright (c) 2016 [gwenzek](https://github.com/gwenzek),
+# [MIT license](https://opensource.org/licenses/mit-license.php).
 
 name: C#
 file_extensions:
