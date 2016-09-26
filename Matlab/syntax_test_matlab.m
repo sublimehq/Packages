@@ -34,3 +34,26 @@ classdef (Sealed = false) classname < baseclass
 end
 
 
+
+%---------------------------------------------
+% Syntax brackets/parens punctuation test
+
+x = [ 1.76 ]
+% <- source.matlab meta.variable.other.valid.matlab
+% ^ source.matlab keyword.operator.symbols.matlab
+%   ^ source.matlab punctuation.section.brackets.begin.matlab 
+%     ^ source.matlab meta.brackets.matlab constant.numeric.matlab  
+%          ^ source.matlab punctuation.section.brackets.end.matlab
+
+
+xAprox = fMetodoDeNewton( xi )
+%  <- source.matlab meta.variable.other.valid.matlab
+%      ^ source.matlab keyword.operator.symbols.matlab
+%        ^ source.matlab meta.variable.other.valid.matlab
+%                       ^ source.matlab punctuation.section.parens.begin.matlab 
+%                         ^ source.matlab meta.parens.matlab meta.variable.other.valid.matlab
+%                            ^ source.matlab punctuation.section.parens.end.matlab 
+
+
+
+
