@@ -147,7 +147,7 @@ contexts:
     - match: '\['
       scope: punctuation.section.brackets.begin.matlab
       push:
-        - meta_content_scope: meta.brackets.matlab
+        - meta_scope: meta.brackets.matlab
         - match: '\]'
           scope: punctuation.section.brackets.end.matlab
           pop: true
@@ -436,7 +436,7 @@ contexts:
     - match: \(
       scope: punctuation.section.parens.begin.matlab
       push:
-        - meta_content_scope: meta.parens.matlab
+        - meta_scope: meta.parens.matlab
         - match: \)
           scope: punctuation.section.parens.end.matlab
           pop: true
