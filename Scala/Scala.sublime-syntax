@@ -550,15 +550,6 @@ contexts:
           scope: keyword.operator.assignment.scala
           pop: true
         - include: pattern-match
-    - match: '\{'
-      push:
-        - match: '\}'
-          pop: true
-        - include: main
-    - match: '\('
-      push:
-        - match: '\)'
-          pop: true
         - include: main
     - include: main
   for-parens-body:
@@ -576,16 +567,6 @@ contexts:
       pop: true
     - match: ;
       pop: true
-    - match: '\{'
-      push:
-        - match: '\}'
-          pop: true
-        - include: main
-    - match: '\('
-      push:
-        - match: '\)'
-          pop: true
-        - include: main
     - include: main
 
   keywords:

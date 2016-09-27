@@ -1243,3 +1243,14 @@ def foo: Map[Bar]=42
    def boo: Int
 // ^^^ storage.type.function.scala
 //     ^^^ entity.name.function.scala
+
+for {
+  abc = () => 42
+//         ^^ storage.type.function.arrow.scala
+}
+
+
+for (
+  abc = () => 42
+//         ^^ storage.type.function.arrow.scala
+)
