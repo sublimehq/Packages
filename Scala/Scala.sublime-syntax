@@ -401,7 +401,7 @@ contexts:
         - include: main
     - match: ':'
       scope: punctuation.separator.scala
-      push: function-return-type-definition
+      set: function-return-type-definition
     - match: '\n'
       set: function-parameter-list-newline
     - match: '(?=[\{=])'

@@ -1238,3 +1238,8 @@ def foo: Map[Bar]=42
 
     s"thingy "
 //   ^ punctuation.definition.string.begin.scala
+
+   def thing(): Other
+   def boo: Int
+// ^^^ storage.type.function.scala
+//     ^^^ entity.name.function.scala
