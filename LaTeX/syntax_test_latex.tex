@@ -27,6 +27,22 @@
 % line comment
 % <- comment.line.percentage.tex
 
+\newcommand{\foo}{\bar}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                   ^ support.function.general.latex
+
+\newcommand{\foo}[1]{\bar #1}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                      ^ support.function.general.latex
+
+\newcommand{\foo}[2][default]{\bar #1 #2}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                               ^ support.function.general.latex
+
+
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
@@ -238,6 +254,13 @@ f(x) = x^2
 % ^ meta.environment.math.block
 \end{equation}
 
+$\alpha _$
+% ^ keyword.other.greek.math.tex
+%       ^ keyword.operator.math.tex
+
+$\alpha_$
+% ^ keyword.other.greek.math.tex
+%      ^ keyword.operator.math.tex
 
 % Boxes
 \mbox{text}{text}
