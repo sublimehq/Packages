@@ -62,7 +62,7 @@ contexts:
       scope: comment.double.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
-    - match: '%\{'
+    - match: '%\{\s*\n'
       captures:
         1: punctuation.definition.comment.matlab
       push:

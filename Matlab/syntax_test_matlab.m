@@ -56,4 +56,24 @@ xAprox = fMetodoDeNewton( xi )
 
 
 
+%---------------------------------------------
+% Block comment test
+
+% Success case
+%{           
+x = 5
+% ^ source.matlab comment.block.percentage.matlab
+%}           
+
+% Failure case
+%{           fail
+x = 5
+% ^ source.matlab keyword.operator.symbols.matlab
+%}
+
+%{
+%}           fail
+x = 5
+% ^ source.matlab comment.block.percentage.matlab
+%}
 
