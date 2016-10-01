@@ -174,7 +174,7 @@ contexts:
           (\{)(\\[A-Za-z@]+)(\})
           | (\\[A-Za-z@])+
         )
-        (?:(\[)(?:[^\]]*)(\]))?
+        (?:(\[)(?:[^\]]*)(\]))*
         (\{)
       captures:
         1: support.function.newcommand.latex storage.modifier.newcommand.latex
