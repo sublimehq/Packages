@@ -41,6 +41,7 @@ name: Ruby
 # ternary operator rule, precedence stuff, symbol rule.
 # but also consider 'a.b?(:c)' ??
 file_extensions:
+  - rb
   - Appraisals
   - Berksfile
   - Brewfile
@@ -60,7 +61,6 @@ file_extensions:
   - rake
   - Rakefile
   - Rantfile
-  - rb
   - rbx
   - rjs
   - ruby.rail
