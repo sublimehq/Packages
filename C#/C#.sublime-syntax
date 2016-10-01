@@ -850,6 +850,9 @@ contexts:
         - match: (?=;|,)
           pop: true
         - include: line_of_code_in
+    - match: '(?={)'
+      scope: keyword.operator.assignment.variable.cs
+      push: method_accessor
     - match: '{{name}}'
       scope: entity.name.variable.cs
     - match: '(,)'

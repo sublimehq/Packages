@@ -110,3 +110,18 @@ string DontPermute(string input)
 {
     return input;
 }
+
+
+string Frag
+{
+/// <- punctuation.section.function.begin
+    get
+/// ^^^ storage.type.function
+    {
+/// ^ punctuation.section.function.begin
+        var list = new List<string>();
+        return list;
+    } // <-- This and the next "}" are marked "invalid"
+/// ^ punctuation.section.function.end -invalid
+}
+/// <- punctuation.section.function.end
