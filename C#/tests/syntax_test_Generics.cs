@@ -96,3 +96,17 @@ f(5)[2] = 10;
 ///   ^ punctuation.definition.accessor
 
 int? foo = 4;
+
+string Permute(string input)
+///    ^^^ entity.name.function
+{
+    char[] charArray = input.ToCharArray();
+    Array.Reverse(charArray);
+    return new string(charArray);
+}
+
+string DontPermute(string input)
+///    ^^^ entity.name.function
+{
+    return input;
+}
