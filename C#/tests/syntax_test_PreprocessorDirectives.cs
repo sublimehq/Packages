@@ -41,8 +41,8 @@ public class MyClass
 #error DEBUG is defined // comment
 /// ^^ meta.preprocessor keyword.other.preprocessor
 ///    ^^ string.unquoted
-///                    ^ - string
-///                     ^ comment
+///                             ^^ string.unquoted
+///                     ^ - comment
 
 #warning Deprecated code in this method.
 #endif

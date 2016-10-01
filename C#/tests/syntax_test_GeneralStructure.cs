@@ -248,16 +248,15 @@ namespace YourNamespace
         }
 ///     ^ punctuation.section.function
 
-        #region Empty region 01 // some comment
+        #region Empty region 01 // not a comment !
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.cs
 ///       ^^  storage.type.section
-///             ^^^^^^^^^^^^^^^ entity.name.section.cs
-///                             ^^^^^^^ comment
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.cs
+///                             ^^^^^^^ - comment
 
-        #endregion Empty region 01 // another comment
+        #endregion Empty region 01
 ///       ^^  storage.type.section
 ///                ^^^^^^^^^^^^^^^ variable.other.section.cs
-///                                ^^^^^^^ comment
     }
 /// ^ punctuation.section.class
 }

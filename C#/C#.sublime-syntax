@@ -112,24 +112,21 @@ contexts:
     - match: '\b(else|endif)\b'
       scope: keyword.control.preprocessor.cs
       push: option_done
-    - match: '\b(error|warning)\b\s*'
+
+    # error, warning, region and endregion may be followed by any text.
+    # Comments doesn't apply in this case, see ECMA C# specification.
+    - match: '\b(error|warning)\b\s*(.*)'
       captures:
         1: keyword.other.preprocessor.cs
-      push:
-        - meta_content_scope: string.unquoted.cs
-        - include: option_no_delimiter
-
-    - match: '\b(region)\b\s*'
+        2: string.unquoted.cs
+    - match: '\b(region)\b\s*(.*)'
       captures:
         1: storage.type.section.cs
-      push:
-        - meta_content_scope: entity.name.section.cs
-        - include: option_no_delimiter
-    - match: '\b(endregion)\b\s*'
-      scope: storage.type.section.cs
-      push:
-        - meta_content_scope: variable.other.section.cs
-        - include: option_no_delimiter
+        2: entity.name.section.cs
+    - match: '\b(endregion)\b\s*(.*)'
+      captures:
+        1: storage.type.section.cs
+        2: variable.other.section.cs
 
     - match: '\b(line)\s+(default|hidden)'
       captures:
@@ -180,13 +177,6 @@ contexts:
       scope: invalid.illegal.cs
     - match: $
       pop: true
-
-  # Pops out at EOL or the beginning of a comment.
-  option_no_delimiter:
-    - match: \s*$
-      pop: true
-    - match: (?=\s*(//|/\*))
-      set: option_done
 
   # Pops out at the end of the line and handles comments.
   # Marks the rest of the line as invalid.
