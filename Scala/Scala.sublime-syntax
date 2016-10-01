@@ -148,7 +148,8 @@ contexts:
       push: single-type-expression
 
   lambdas:
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{id}}{{withinbrackets}}?|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    # lambda lookahead
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.scala
@@ -347,10 +348,10 @@ contexts:
     - match: '\['
       push: function-tparams-brackets
     - match: ':'
-      push: function-return-type-definition
+      set: function-return-type-definition
     - match: '\n'
       set: function-type-parameter-list-newline
-    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
+    - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
 
   function-type-parameter-list-newline:
@@ -369,7 +370,7 @@ contexts:
   function-return-type-definition:
     - match: '\n'
       set: function-return-type-definition-newline
-    - match: '(?=[\{\};]|{{nonopchar}}={{nonopchar}})'
+    - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
     - include: delimited-type-expression
 
@@ -400,7 +401,7 @@ contexts:
         - include: main
     - match: ':'
       scope: punctuation.separator.scala
-      push: function-return-type-definition
+      set: function-return-type-definition
     - match: '\n'
       set: function-parameter-list-newline
     - match: '(?=[\{=])'
@@ -549,15 +550,6 @@ contexts:
           scope: keyword.operator.assignment.scala
           pop: true
         - include: pattern-match
-    - match: '\{'
-      push:
-        - match: '\}'
-          pop: true
-        - include: main
-    - match: '\('
-      push:
-        - match: '\)'
-          pop: true
         - include: main
     - include: main
   for-parens-body:
@@ -575,16 +567,6 @@ contexts:
       pop: true
     - match: ;
       pop: true
-    - match: '\{'
-      push:
-        - match: '\}'
-          pop: true
-        - include: main
-    - match: '\('
-      push:
-        - match: '\)'
-          pop: true
-        - include: main
     - include: main
 
   keywords:
@@ -708,9 +690,10 @@ contexts:
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
-    - match: '({{alphaid}})"'
+    - match: '({{alphaid}})(")'
       captures:
         1: support.function.scala
+        2: punctuation.definition.string.begin.scala
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.interpolated.scala

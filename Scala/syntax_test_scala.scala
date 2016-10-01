@@ -1213,3 +1213,44 @@ def test
     (arg: String)
     (arg: String) = arg
 //   ^^^ variable.parameter.scala
+
+// the following test is paired together
+   def foo: Map[Bar]
+   def connectionMap: Unit
+// ^^^ storage.type.function.scala
+
+def foo: Map[Bar]=42
+//                ^^ constant.numeric.integer.scala
+
+   x: Foo.Bar => ()
+// ^ variable.parameter.scala
+//            ^^ storage.type.function.arrow.scala
+
+   x: Foo#Bar => ()
+// ^ variable.parameter.scala
+//            ^^ storage.type.function.arrow.scala
+
+    object Stuff {
+      case
+    }
+    thing
+//  ^^^^^ - variable
+
+    s"thingy "
+//   ^ punctuation.definition.string.begin.scala
+
+   def thing(): Other
+   def boo: Int
+// ^^^ storage.type.function.scala
+//     ^^^ entity.name.function.scala
+
+for {
+  abc = () => 42
+//         ^^ storage.type.function.arrow.scala
+}
+
+
+for (
+  abc = () => 42
+//         ^^ storage.type.function.arrow.scala
+)
