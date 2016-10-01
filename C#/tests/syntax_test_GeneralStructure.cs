@@ -136,11 +136,13 @@ namespace YourNamespace
 ///        ^ storage.modifier
 ///                                                     ^ support.type.cs
 
-        partial void MethodWithTypeParam<T>(){}
+        partial void MethodWithTypeParam<T>(T x){get; set;}
 ///        ^ storage.modifier
+///                      ^^^ entity.name.function
 ///                                     ^ punctuation.definition.parameters.type
 ///                                      ^ variable.parameter.type.cs
-
+///                                         ^ variable.other.type
+///                                           ^ variable.parameter
         List<List<List<List<float>>>>  reallyNestedTypes;
 ///                    ^^^^ variable.other.type
 ///                         ^^^^^ support.type

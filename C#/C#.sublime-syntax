@@ -525,7 +525,9 @@ contexts:
       captures:
         1: entity.name.variable.cs
       set: variables_declaration
-    - match: '{{name}}\s*(\()'
+    - match: '{{name}}?\s*(\()'
+      # here the name is optionnal since it may already have been match by
+      # '{{name}}\s*(<)' (see rule below)
       captures:
         1: entity.name.function.cs
         2: punctuation.definition.parameters.begin.cs
@@ -548,7 +550,7 @@ contexts:
           scope: punctuation.separator.parameter.type.cs
         - include: type
 
-    - match: '{{name}}(<)'
+    - match: '{{name}}\s*(<)'
       captures:
         1: entity.name.function.cs
         2: punctuation.definition.parameters.type.begin.cs
