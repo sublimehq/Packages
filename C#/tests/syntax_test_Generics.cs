@@ -79,6 +79,17 @@ string long_interpolation = $@"
 ";
 /// <- punctuation.definition.string.interpolated.end
 
+string format_string = "{0} and {1} like to go {{crazy}}";
+///                    ^ string
+///                     ^^^ constant.other.placeholder.cs
+///                             ^^^ constant.other.placeholder.cs
+///                                            ^^ constant.character.escape.cs
+///                                                   ^^ constant.character.escape.cs
+
+string format_string _2 = "{}";
+///                        ^^ string constant.other.placeholder.cs
+
+
 x[10][5] = 2;
 f(5)[2] = 10;
 /// ^ punctuation.definition.accessor

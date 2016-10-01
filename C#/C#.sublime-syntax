@@ -1228,6 +1228,10 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.quoted.double.end.cs
       pop: true
+    - match: '{{|}}'
+      scope: constant.character.escape.cs
+    - match: '{\d*}'
+      scope: constant.other.placeholder.cs
     - match: '[^"]*$'
       scope: invalid.string.newline
       pop: true
