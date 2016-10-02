@@ -5,11 +5,11 @@ class X
 {
 
     [Usage("Foo bar")]
-    // ^ entity.name.tag
+    // ^ storage.modifier.annotation
     void Run([Usage("help text")] int x, int y)
 //  ^^^^ support.type
     //    ^ entity.name.function
-    //        ^^^^^ entity.name.tag
+    //        ^^^^^ storage.modifier.annotation
     //                 ^ string.quoted.double
     //                             ^ support.type
     //                                    ^ support.type

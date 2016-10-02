@@ -202,7 +202,7 @@ contexts:
     # skips opening
     - match: ^\s*
 
-    - include: tag
+    - include: attribute
     - include: using
     - include: class_declaration
     - include: interface_declaration
@@ -348,7 +348,7 @@ contexts:
         - match: \}
           scope: punctuation.section.class.end.cs
           pop: true
-        - include: tag
+        - include: attribute
         - include: class_declaration
         - include: interface_declaration
         - include: method_declaration
@@ -591,7 +591,7 @@ contexts:
       pop: true
 
   method_param_type:
-    - include: tag
+    - include: attribute
     - match: (?=[^\s\[])
       set:
       - match: '\s*(out|ref|this|params)\s+'
@@ -623,7 +623,7 @@ contexts:
           push: method_body
         - match: '{{visibility}}'
           scope: storage.modifier.access.cs
-        - include: tag
+        - include: attribute
     - match: '=>'
       scope: punctuation.section.function.begin.cs
       set: line_of_code_in
@@ -631,22 +631,22 @@ contexts:
       scope: invalid.illegal
       pop: true
 
-  tag:
+  attribute:
     - match: (\[)\s*(assembly|module|field|event|method|param|property|return|type)\s*(:)
       captures:
-        1: punctuation.definition.tag.begin.cs
+        1: punctuation.definition.annotation.begin.cs
         2: storage.modifier.target.cs
         3: punctuation.separator.key-value.tag.cs
-      push: tag_in
+      push: attribute_in
     - match: \[
       scope: punctuation.definition.tag.begin.cs
-      push: tag_in
+      push: attribute_in
 
-  tag_in:
+  attribute_in:
     - meta_scope: meta.attribute.cs
     - match: '{{name}}(\()'
       captures:
-        1: entity.name.tag
+        1: storage.modifier.annotation.cs
         2: punctuation.definition.arguments.begin
       push: arguments
     - match: '{{name}}(\.)'
@@ -659,11 +659,11 @@ contexts:
         2: variable.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
     - match: '{{name}}'
-      scope: entity.name.tag
+      scope: storage.modifier.annotation.cs
     - match: ','
-      scope: punctuation.separator.tag.cs
+      scope: punctuation.separator.annotation.cs
     - match: \]\s*
-      scope: punctuation.definition.tag.end.cs
+      scope: punctuation.definition.annotation.end.cs
       pop: true
 
   code_block_in:

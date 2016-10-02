@@ -22,7 +22,7 @@ using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 class Foo {
 
     static void UsingFont([Usage("help text")] string x)
-///                        ^^^^^ entity.name.tag
+///                        ^^^^^ storage.modifier.annotation
 ///                                  ^ string
 ///                                              ^ support.type
 ///                                                   ^ variable.parameter
@@ -92,7 +92,7 @@ internal sealed partial class Test : global::System.Configuration.ApplicationSet
 
     public static Test Default {
         [Tag]
-///       ^ entity.name.tag
+///       ^ storage.modifier.annotation
         get {
 ///       ^ storage.type.function.accessor.get.cs
             return defaultInstance;

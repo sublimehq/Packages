@@ -173,18 +173,18 @@ namespace YourNamespace
         /////////////////////////////
 
         [Route("api/helloworld")]
-///      ^^^^^ entity.name.tag
+///      ^^^^^ storage.modifier.annotation
 ///           ^ punctuation.definition.arguments
 ///            ^^^^^^^^^^^ string
         string Get([FromUri] string name) => $"Hello {name}";
-///                 ^^^^^^^ entity.name.tag
+///                 ^^^^^^^ storage.modifier.annotation
 ///                           ^^^^^   support.type.cs
 
         // examples from: https://msdn.microsoft.com/en-us/library/mt653979.aspx
         // applies to method
         [method: SomeAttr]
 ///      ^^^^^^  storage.modifier.target
-///              ^^^^^^  entity.name.tag
+///              ^^^^^^  storage.modifier.annotation
         int Method2() { return 0; }
 
         // applies to return value
