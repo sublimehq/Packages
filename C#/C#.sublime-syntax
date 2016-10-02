@@ -28,7 +28,7 @@ variables:
   unicode_char: '\\u[0-9a-fA-F]{,4}'
   escaped_char: '(?:\\[btnfr"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{,4}||\\[0-9]{,3})'
 
-  visibility: \b(public|private|protected|internal|protected\s+internal)\b
+  visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
   type_suffix: ((?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^(={};<]*>)?\s*
@@ -780,7 +780,7 @@ contexts:
 
     - match: '{{name}}(<)'
       captures:
-        1: variable.other.type
+        1: variable.other.type.cs
         2: punctuation.definition.arguments.type.begin.cs
       set:
         - match: '>'
@@ -833,7 +833,7 @@ contexts:
 
     - match: '{{name}}\s+{{name}}'
       captures:
-        1: variable.other.type
+        1: variable.other.type.cs
         2: entity.name.variable.cs
       set: variables_declaration
 
@@ -925,6 +925,9 @@ contexts:
     - match: \b(new)\b
       scope: keyword.declaration.new.cs
       push: maybe_an_anonymous_class
+
+    - match: '{{visibility}}'
+      scope: storage.modifier.access.cs
 
   maybe_an_anonymous_class:
     - match: \{
@@ -1118,7 +1121,7 @@ contexts:
   type:
     - include: type_common
     - match: '{{name}}'
-      scope: variable.other.type
+      scope: variable.other.type.cs
 
   type_common:
     - match: '(?:(global)|{{name}})\s*(::)'
@@ -1503,7 +1506,7 @@ contexts:
   var_declaration_explicit:
     - match: '{{name}}\s*(<)'
       captures:
-        1: variable.other.type
+        1: variable.other.type.cs
         2: punctuation.definition.parameters.type.begin.cs
       set:
         - match: '>'

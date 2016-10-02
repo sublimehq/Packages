@@ -105,8 +105,9 @@ string Permute(string input)
     return new string(charArray);
 }
 
-string DontPermute(string input)
-///    ^^^ entity.name.function
+private string DontPermute(string input)
+/// ^^^ storage.modifier
+///            ^^^ entity.name.function
 {
     return input;
 }
