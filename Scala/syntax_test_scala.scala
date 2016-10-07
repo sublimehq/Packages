@@ -1254,3 +1254,15 @@ for (
   abc = () => 42
 //         ^^ storage.type.function.arrow.scala
 )
+
+def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
+//               ^ keyword.operator.varargs.scala
+//                                    ^ keyword.operator.varargs.scala
+//                                             ^ keyword.operator.varargs.scala
+//                                                         ^ support.type.scala - keyword
+
+def foo(a: Int * String): Unit
+//             ^ support.type.scala - keyword
+
+class Foo(a: String*)
+//                 ^ keyword.operator.varargs.scala

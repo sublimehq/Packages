@@ -390,6 +390,8 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
+                - match: '\*\s*(?=[\),=])'
+                  scope: keyword.operator.varargs.scala
                 - match: '(?=\))'
                   pop: true
                 - match: ','
@@ -452,6 +454,8 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
+                - match: '\*\s*(?=[\),=])'
+                  scope: keyword.operator.varargs.scala
                 - match: '(?=\))'
                   pop: true
                 - match: ','
