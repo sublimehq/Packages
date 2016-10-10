@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: MultiMarkdown
-first_line_match: ^Format:\s*(?i:complete)\s*$
+first_line_match: (?i)^format:\s*complete\s*$
 scope: text.html.markdown.multimarkdown
 contexts:
   main:
