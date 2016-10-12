@@ -545,6 +545,7 @@ contexts:
           align|alignat|aligned|alignedat|displaymath
           |eqnarray|equation|flalign|gather|gathered
           |math|multline|x?xalignat|split
+          |dmath|dseries|dgroup|darray|dsuspend
         )\*?)\s*(\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
