@@ -1,7 +1,7 @@
 {
     "cmd": ["cargo", "build"],
     "selector": "source.rust",
-    "file_regex": "[ \\t]*-->[ \\t]*([^<]*?):([0-9]+):([0-9]+)",
+    "file_regex": "(?|, ([^,<\n]*\\.[A-z]{2}):([0-9]+)|[ \t]*-->[ \t]*([^<\n]*):([0-9]+):([0-9]+))",
     "syntax": "Packages/Rust/Cargo.sublime-syntax",
 
     "variants": [
