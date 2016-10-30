@@ -25,6 +25,7 @@ variables:
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
+  illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
 
 contexts:
   main:
@@ -42,7 +43,7 @@ contexts:
     - include: assignments
     - match: ;
       scope: punctuation.terminator.statement.python
-    - include: expressions
+    - include: line-expressions
 
   inline-statements:
     - include: imports
@@ -209,7 +210,7 @@ contexts:
       set: with-body
     - include: name
 
-  expressions: # Always include this last!
+  expressions-common:
     - include: comments
     - include: constants
     - include: numbers
@@ -223,7 +224,6 @@ contexts:
     - include: function-calls
     - include: item-access
     - include: line-continuation
-    - include: dotted-name
     - match: \(
       scope: punctuation.section.group.begin.python
       push:
@@ -243,6 +243,19 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries-and-sets
+
+  line-expressions: # Always include this last!
+    - include: expressions-common
+    - include: dotted-name
+    # For debugging
+    # - match: \S
+    #   scope: invalid.illegal.unmatched
+
+  expressions: # Always include this last!
+    # Differs from the line scope in that invalid-name matches will pop the current context
+    - include: expressions-common
+    - include: illegal-names-pop
+    - include: dotted-name
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.python
@@ -712,8 +725,13 @@ contexts:
     - match: "{{identifier}}"
 
   illegal-names:
-    - match: \b(and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)\b
+    - match: \b{{illegal_names}}\b
       scope: invalid.illegal.name.python
+
+  illegal-names-pop:
+    - match: \b{{illegal_names}}\b
+      scope: invalid.illegal.name.python
+      pop: true
 
   keyword-arguments:
     - match: '(?={{identifier}}\s*=(?!=))'

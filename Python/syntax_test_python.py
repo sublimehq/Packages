@@ -613,3 +613,15 @@ foo = bar()
 #   ^ keyword.operator.assignment.python
 foo == bar()
 #   ^^ keyword.operator.comparison.python
+
+
+# Pop contexts gracefully
+def func(unclosed, parameters: if else
+    pass
+#   ^^^^ invalid.illegal.name
+
+# The following function should be matched as normal
+# despite the above definition not being closed correctly
+def another_func():
+#^^ -invalid
+    pass
