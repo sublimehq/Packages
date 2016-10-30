@@ -29,12 +29,10 @@ variables:
 
 contexts:
   main:
-    # Triple-quoted strings at the global level are docstrings
-    - match: (?i)(?=^\s*[ur]{0,2}('''|"""))
-      push: maybe-docstrings
     - include: statements
 
   statements:
+    - include: docstrings
     - include: line-statements
     - include: block-statements
     - include: classes
@@ -399,7 +397,7 @@ contexts:
         - include: line-continuation-or-pop
         - match: ':'
           scope: punctuation.section.class.begin.python
-          set: maybe-docstrings
+          pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.class.python
@@ -418,7 +416,7 @@ contexts:
                     - include: line-continuation-or-pop
                     - match: ':'
                       scope: meta.class.python punctuation.section.class.begin.python
-                      set: maybe-docstrings
+                      pop: true
                     - match: (?=\S)
                       pop: true
                 - match: ':'
@@ -445,7 +443,7 @@ contexts:
         - include: line-continuation-or-pop
         - match: ':'
           scope: punctuation.section.function.begin.python
-          set: maybe-docstrings
+          pop: true
         - match: "(?={{identifier}})"
           push:
             - meta_content_scope: entity.name.function.python
@@ -489,7 +487,7 @@ contexts:
       scope: variable.parameter.python
 
   function-after-parameters:
-    - meta_content_scope: meta.function.python
+    - meta_scope: meta.function.python
     - match: '(?=->)'
       set:
         - meta_content_scope: meta.function.annotation.return.python
@@ -500,7 +498,7 @@ contexts:
         - include: expressions # includes line-continuation
     - match: ':'
       scope: punctuation.section.function.begin.python
-      set: maybe-docstrings
+      pop: true
     - include: comments
     - match: (?=\S)
       pop: true
@@ -815,34 +813,18 @@ contexts:
       comment: magic variables which a class/module may have.
       scope: support.variable.magic.python
 
-  maybe-docstrings:
-    - include: comments
-    - match: '(?i)(ur|ru|u|r)?(""")'
-      captures:
-        1: storage.type.string.python
-        2: punctuation.definition.comment.begin.python
+  docstrings:
+    - match: ^\s*(?=(?i)(ur|ru|u|r)?("""|'''))
       push:
-        - meta_scope: comment.block.documentation.python
-        - match: '"""'
-          scope: punctuation.definition.comment.end.python
-          pop: true
-    - match: "(?i)(ur|ru|u|r)?(''')"
-      captures:
-        1: storage.type.string.python
-        2: punctuation.definition.comment.begin.python
-      push:
-        - meta_scope: comment.block.documentation.python
-        - match: "'''"
-          scope: punctuation.definition.comment.end.python
-          pop: true
-    - match: (?=\S)
-      pop: true
-    # Pop out of the context if we find a beginning of a line followed by
-    # whitespace and then something other than the beginning of a docstring
-    # or a comment. This allows other rules to consume the beginning of the
-    # line+whitespace.
-    - match: '(?i)(?=^\s*(?![ur]{0,2}(''''''|"""))[^\s#])'
-      pop: true
+      - match: (?i)(ur|ru|u|r)?("""|''')
+        captures:
+          1: storage.type.string.python
+          2: punctuation.definition.comment.begin.python
+        set:
+          - meta_scope: comment.block.documentation.python
+          - match: '\2'
+            scope: punctuation.definition.comment.end.python
+            pop: true
 
   string-quoted-double:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
