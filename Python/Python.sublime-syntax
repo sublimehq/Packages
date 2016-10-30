@@ -295,6 +295,8 @@ contexts:
         - match: \]
           scope: meta.item-access.python punctuation.section.brackets.end.python
           pop: true
+        - match: ':'
+          scope: punctuation.separator.slice.python
         - include: expressions
     # indirect function call following attribute access
     - include: function-calls
@@ -531,6 +533,8 @@ contexts:
             - meta_content_scope: meta.item-access.arguments.python
             - match: '(?=\])'
               pop: true
+            - match: ':'
+              scope: punctuation.separator.slice.python
             - include: expressions
 
   function-calls:

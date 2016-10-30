@@ -115,6 +115,10 @@ myobj[1][2](0)
 #         ^ punctuation.section.brackets.end - meta.item-access.arguments
 #          ^^^ meta.function-call
 
+range(20)[10:2:-2]
+#           ^ punctuation.separator.slice
+#             ^ punctuation.separator.slice
+
 myobj.attribute
 #    ^ punctuation.accessor
 
