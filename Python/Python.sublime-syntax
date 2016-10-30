@@ -385,6 +385,8 @@ contexts:
     - match: \b(and|in|is|not|or)\b
       comment: keyword operators that evaluate to True or False
       scope: keyword.operator.logical.python
+    - match: '@'
+      scope: keyword.operator.matrix.python
 
   classes:
     - match: '^\s*(class)\b'
@@ -502,12 +504,14 @@ contexts:
       pop: true
 
   decorators:
-    - match: '@'
-      scope: keyword.other.decorator.python
+    - match: '^\s*(?=@)'
       push:
-        - meta_scope: meta.statement.decorator.python
+        - meta_content_scope: meta.statement.decorator.python
+        - match: '@'
+          scope: keyword.other.decorator.python
         - include: line-continuation-or-pop
-        - include: expressions
+        - include: function-calls
+        - include: dotted-name
 
   item-access:
     - match: '(?={{path}}\s*\[)'

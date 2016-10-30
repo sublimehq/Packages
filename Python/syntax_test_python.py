@@ -400,13 +400,15 @@ class Unterminated(Inherited:
 @normal . decorator
 #^^^^^^^^^^^^^^^^^^ meta.statement.decorator
 # <- keyword.other.decorator
+#       ^ punctuation.accessor
 class Class():
 
     @wraps(method, 12)# comment
+#^^^ - meta.statement.decorator
 #   ^^^^^^^^^^^^^^^^^^ meta.statement.decorator
 #   ^ keyword.other.decorator
 #    ^^^^^^^^^^^^^^^^^ meta.function-call
-#                     ^ comment
+#                     ^^^^^^^^^ comment
     def wrapper(self):
         (self, __class__)
         pass
@@ -629,12 +631,23 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                          ^^^ - constant.numeric
 #                                    ^^^^^^^^^ - constant.numeric
 
+
+##################
+# Operators
+##################
+
 # This is to test the difference between the assignment operator (=) and
 # the comparison operator (==)
 foo = bar()
 #   ^ keyword.operator.assignment.python
 foo == bar()
 #   ^^ keyword.operator.comparison.python
+#
+foo <<= bar
+#   ^^^ keyword.operator.assignment.augmented.python
+
+matrix @ multiplication
+#      ^ keyword.operator.matrix.python
 
 
 # Pop contexts gracefully
