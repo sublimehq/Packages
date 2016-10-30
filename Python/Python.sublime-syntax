@@ -794,7 +794,7 @@ contexts:
 
   magic-function-names:
     - match: |-
-        (?x)\b(__(?:
+        (?x)\b__(?:
           abs|add|aenter|aexit|aiter|anext|await|and|call|cmp|coerce|complex|
           contains|del|delattr|delete|delitem|delslice|div|divmod|enter|eq|
           exit|float|floordiv|ge|get|getattr|getattribute|getitem|getslice|
@@ -804,13 +804,28 @@ contexts:
           radd|rand|rdiv|rdivmod|repr|rfloordiv|rlshift|rmod|rmul|ror|
           rpow|rrshift|rshift|rsub|rtruediv|rxor|set|setattr|setitem|
           setslice|str|sub|truediv|unicode|xor
-        )__)\b
+        )__\b
       comment: these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
       scope: support.function.magic.python
 
   magic-variable-names:
-    - match: \b__(all|bases|class|debug|dict|doc|file|members|metaclass|methods|name|slots|weakref)__\b
-      comment: magic variables which a class/module may have.
+    # magic variables which a class/module/object may have.
+    # https://docs.python.org/3/library/inspect.html#types-and-members
+    # https://docs.python.org/3/reference/datamodel.html#object.__slots__
+    # https://docs.python.org/3/reference/datamodel.html#preparing-the-class-namespace
+    - match: |-
+        (?x)\b__(?:
+          # generic object
+          class|dict|doc|bases
+          # module-specific / global
+          all|doc|debug|file|name|
+          # functions & methods
+          annotations|code|defaults|func|globals|kwdefaults|self|qualname|
+          # classes (attributes)
+          module|prepare|slots|metaclass|
+          # Python 2
+          members|methods
+        )__\b
       scope: support.variable.magic.python
 
   docstrings:
