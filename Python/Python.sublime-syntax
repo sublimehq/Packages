@@ -35,7 +35,7 @@ contexts:
     - include: statements
 
   statements:
-    - include: inline-statements
+    - include: line-statements
     - include: block-statements
     - include: classes
     - include: functions
@@ -45,7 +45,7 @@ contexts:
       scope: punctuation.terminator.statement.python
     - include: line-expressions
 
-  inline-statements:
+  line-statements:
     - include: imports
     - include: decorators
     - match: \b(raise)\b
