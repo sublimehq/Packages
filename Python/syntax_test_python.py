@@ -64,7 +64,6 @@ import re; re.compile(r'')
 # Identifiers
 ##################
 
-
 class
 #^^^^ storage.type.class
 def
@@ -75,8 +74,13 @@ async
 #^^^^ - invalid.illegal.name
 #
 
+
+##################
+# Compound expressions
+##################
+
 myobj.method().attribute
-#    ^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^^^ meta.function-call
 #    ^ punctuation.accessor
 #     ^^^^^^ variable.function
 #             ^ punctuation.accessor
@@ -95,14 +99,14 @@ func()(1, 2)
 #^^^^^^^^^^^ meta.function-call
 
 myobj[1](True)
-#    ^^^ meta.item-access
+#^^^^^^^ meta.item-access
 #    ^ punctuation.section.brackets.begin - meta.item-access.arguments
 #     ^ meta.item-access.arguments
 #      ^ punctuation.section.brackets.end - meta.item-access.arguments
 #       ^^^^^^ meta.function-call
 
 myobj[1][2](0)
-#    ^^^^^^ meta.item-access
+#^^^^^^^^^^ meta.item-access
 #    ^ punctuation.section.brackets.begin - meta.item-access.arguments
 #     ^ meta.item-access.arguments
 #      ^ punctuation.section.brackets.end - meta.item-access.arguments
@@ -114,6 +118,24 @@ myobj[1][2](0)
 myobj.attribute
 #    ^ punctuation.accessor
 
+"string"[12]
+#       ^^^^ meta.item-access - meta.structure
+
+"string".upper()
+#       ^^^^^^^^ meta.function-call
+
+(i for i in range(10))[5]
+#                     ^^^ meta.item-access - meta.structure
+
+[1, 2, 3][2]
+#^^^^^^^^ meta.structure.list
+#        ^^^ meta.item-access - meta.structure
+
+{True: False}.get(True)
+#            ^^^^^^^^^^ meta.function-call
+
+1[12]
+#^^^^ - meta.item-access
 
 ##################
 # Block statements
