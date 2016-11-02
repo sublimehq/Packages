@@ -23,6 +23,7 @@
 
 \1
 # <- keyword.other.backref-and-recursion
+#^ variable.other.backref-and-recursion.regexp
 
 \x{0ab}
 # <- constant.character.escape
@@ -288,33 +289,47 @@ where escape characters are ignored.\).
 ## References
 ###################
 
+(?<named_group>test)
+#^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#  ^^^^^^^^^^^ entity.name.capture-group.regexp
+#              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+
  \g{1}
 #^^^^^ keyword.other.backref-and-recursion.regexp - keyword.operator.quantifier.regexp
+#   ^ variable.other.backref-and-recursion.regexp
 
  \g1
 #^^^ keyword.other.backref-and-recursion.regexp
+#  ^ variable.other.backref-and-recursion.regexp
 
  \g{named_group}
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
  \g'named_group'
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
  \g<named_group>
 #^^^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#   ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
 (?1)
 #^^ keyword.other.backref-and-recursion.regexp
+# ^ variable.other.backref-and-recursion.regexp
 
 (1)
-#^ meta.literal.regexp - keyword.other.backref-and-recursion.regexp
+#^ meta.literal.regexp - keyword - variable
 
 (?&named_group)
 #^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#  ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
 (hello)(?-1)(?+1)(wow) relative capture groups are supported
 #       ^^^ keyword.other.backref-and-recursion.regexp
+#        ^^ variable.other.backref-and-recursion.regexp
 #            ^^^ keyword.other.backref-and-recursion.regexp
+#             ^^ variable.other.backref-and-recursion.regexp
 
 (hello)\g-1(wow)
 #      ^^^^ keyword.other.backref-and-recursion.regexp
@@ -322,10 +337,16 @@ where escape characters are ignored.\).
 (?x)(hello)(?-1)(?+1)(wow) relative capture groups are supported(?-x)
 #           ^^^ keyword.other.backref-and-recursion.regexp
 #                ^^^ keyword.other.backref-and-recursion.regexp
+#            ^^ variable.other.backref-and-recursion.regexp
+#                 ^^ variable.other.backref-and-recursion.regexp
 
-(?<named_group>test)
-#^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
-#              ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+(?x)(?<named_group>test)(?&named_group)(?-x)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
+#    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
+#      ^^^^^^^^^^^ entity.name.capture-group.regexp
+#                  ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
+#                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
 
 ###################
