@@ -92,13 +92,13 @@ contexts:
         - match: ']]>'
           scope: punctuation.definition.string.end.xml
           pop: true
+    - match: ']]>'
+      scope: invalid.illegal.missing-entity.xml
     - include: should-be-entity
   should-be-entity:
     - match: '&'
       scope: invalid.illegal.bad-ampersand.xml
     - match: '<'
-      scope: invalid.illegal.missing-entity.xml
-    - match: '>'
       scope: invalid.illegal.missing-entity.xml
   double-quoted-string:
     - match: '"'
