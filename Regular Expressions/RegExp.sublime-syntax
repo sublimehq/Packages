@@ -210,7 +210,7 @@ contexts:
   group-body-extended:
     - meta_content_scope: meta.group.extended.regexp
     - match: \)
-      scope: meta.group.regexp keyword.control.group.regexp
+      scope: meta.group.extended.regexp keyword.control.group.regexp
       pop: true
     - include: base-group-extended
 
