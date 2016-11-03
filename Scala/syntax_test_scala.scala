@@ -306,6 +306,10 @@ type Foo = Bar[A] forSome { type A }
 // <- comment.block.documentation.scala
 */
 
+  /**/0xff
+//^^^^ comment.block.empty.scala
+//    ^^^^ - comment
+
    if
 // ^^ keyword.control.flow.scala
 
