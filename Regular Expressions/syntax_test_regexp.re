@@ -284,6 +284,10 @@ where escape characters are ignored.\).
 # not a comment
 ^ - comment
 
+(?x:[ ] )
+#    ^ - meta.ignored-whitespace.regexp
+#      ^ meta.ignored-whitespace.regexp
+
 
 ###################
 ## References
