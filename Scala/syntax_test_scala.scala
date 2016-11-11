@@ -1254,3 +1254,8 @@ for (
   abc = () => 42
 //         ^^ storage.type.function.arrow.scala
 )
+
+new {
+   "foo"
+// ^^^^^ string.quoted.double.scala
+}
