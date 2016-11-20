@@ -419,7 +419,7 @@ contexts:
       set: class-parameter-list
     - match: '\['
       push: class-tparams-brackets
-    - match: '(?=extends|with)'
+    - match: '(?=\{|extends|with)'
       pop: true
     - match: '\n'
       set: class-type-parameter-list-newline

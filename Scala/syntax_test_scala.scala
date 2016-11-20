@@ -1254,3 +1254,7 @@ for (
   abc = () => 42
 //         ^^ storage.type.function.arrow.scala
 )
+
+trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
+//                     ^^^^ storage.type.scala
+//                               ^ keyword.operator.assignment.scala
