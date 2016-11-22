@@ -400,7 +400,8 @@ class MyClass(Inherited,
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                    ^ punctuation.accessor
 #                                ^ punctuation.separator.inheritance
-#                                  TODO
+#                                  ^^^^^^^^^ variable.parameter.class-inheritance
+#                                           ^ keyword.operator.assignment
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
