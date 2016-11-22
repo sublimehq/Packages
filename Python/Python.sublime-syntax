@@ -16,7 +16,7 @@ file_extensions:
   - gypi
   - Snakefile
   - wscript
-first_line_match: ^#!/.*\bpython\d?\b
+first_line_match: ^#!\s*/.*\bpython\d?\b
 scope: source.python
 
 variables:

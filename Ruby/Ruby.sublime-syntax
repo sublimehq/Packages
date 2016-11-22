@@ -68,7 +68,7 @@ file_extensions:
   - thor
   - Thorfile
   - Vagrantfile
-first_line_match: ^#!/.*\bruby
+first_line_match: ^#!\s*/.*\bj?ruby\b
 scope: source.ruby
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'

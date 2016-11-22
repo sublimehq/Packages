@@ -5,7 +5,7 @@ name: JavaScript
 file_extensions:
   - js
   - htc
-first_line_match: ^#!/.*\b(node|js)$\n?
+first_line_match: ^#!\s*/.*\b(node|js)\b
 scope: source.js
 variables:
   identifier: '[_$[:alpha:]][_$[:alnum:]]*'
