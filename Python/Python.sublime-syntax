@@ -62,7 +62,7 @@ contexts:
       scope: keyword.other.assert.python
     - match: \b(del)\b
       scope: keyword.other.del.python
-    - match: \b(print)\b(?! *($|[,.()\]}]))
+    - match: \b(print)\b(?! *([,.()\]}]))
       scope: keyword.other.print.python
     - match: \b(exec)\b(?! *($|[,.()\]}]))
       scope: keyword.other.exec.python

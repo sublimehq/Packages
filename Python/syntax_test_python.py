@@ -260,9 +260,9 @@ def _():
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
     print "keyword"
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
     print __init__
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
 #
     exec 123
 #   ^^^^ keyword
@@ -275,6 +275,17 @@ def _():
              , print)
 #              ^^^^^ - keyword
 
+    some \
+      print \
+#     ^^^^^ keyword.other.print
+
+    func(
+        print
+#       ^^^^^ support.function.builtin - keyword
+    )
+
+    print
+#   ^^^^^ keyword.other.print
 
 
 ##################
