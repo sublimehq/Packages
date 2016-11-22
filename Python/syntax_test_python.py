@@ -398,6 +398,7 @@ class MyClass(Inherited,
 #                      ^ punctuation.separator.inheritance
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                    ^ punctuation.accessor
 #                                ^ punctuation.separator.inheritance
 #                                  TODO
     ur'''
@@ -695,3 +696,8 @@ with open(x) as y:
 
 ]
 #<- invalid.illegal.stray.brace.square
+
+class Class(object
+    def __init__(self):
+#   ^^^ invalid.illegal.name
+#      ^ - meta.class
