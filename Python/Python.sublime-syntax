@@ -1334,16 +1334,11 @@ contexts:
         - meta_scope: meta.expression.generator.python
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
-          set:
-            - meta_scope: meta.expression.generator.python
-            - match: '(?=[)\]}])'
-              pop: true
-            - include: inline-if  # not necessary but more explicit
-            - include: inline-for
-            - include: expressions
+          pop: true
         - match: '(?=[)\]}])'
           scope: invalid.illegal.missing-in.python
           pop: true
+        - include: illegal-names-pop
         - include: target-list
 
   inline-if:

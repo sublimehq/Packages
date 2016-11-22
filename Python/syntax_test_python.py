@@ -505,27 +505,27 @@ myset = {"key", True, key2, [-1], {}}
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.flow.for.generator
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #          ^^^ keyword.control.flow.for.generator
 #                ^^ keyword.control.flow.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#             ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.flow.for.generator
 #                   ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
 
@@ -535,9 +535,9 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 list(i for i in generator)
-#      ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#      ^^^^^^^^ meta.expression.generator
 list((i for i in generator), 123)
-#       ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#       ^^^^^^^^ meta.expression.generator
 #                         ^^^^^^^ - meta.expression.generator
 #                          ^ punctuation.separator.parameters
 
@@ -665,6 +665,11 @@ matrix @ multiplication
 #      ^ keyword.operator.matrix.python
 
 
+
+##################
+# Context "Fail Early"
+##################
+
 # Pop contexts gracefully
 def func(unclosed, parameters: if else
     pass
@@ -675,3 +680,18 @@ def func(unclosed, parameters: if else
 def another_func():
 #^^ -invalid
     pass
+
+
+x = [
+for x in y:
+    break
+#   ^^^^^ invalid.illegal.name
+#        ^ - meta.structure.list
+
+
+with open(x) as y:
+#^^^ -invalid
+#            ^^ - invalid
+
+]
+#<- invalid.illegal.stray.brace.square
