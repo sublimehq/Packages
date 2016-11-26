@@ -310,7 +310,7 @@ RB'''This is a \n test, %s no unicode \uDEAD'''
 #                                     ^^^^^^ - constant
 
 # Lowercase r raw bytes are interpreted as regex
-br'This is a \n (test|with), %s no unicode \UDEAD'
+br'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
 #            ^^ constant.character.escape.backslash.regexp
@@ -318,7 +318,7 @@ br'This is a \n (test|with), %s no unicode \UDEAD'
 #                            ^^ - constant
 #                                          ^^ constant.character.escape.backslash.regexp
 #                                            ^^^^ - constant
-Br'This is a \n (test|with), %s no unicode \UDEAD'
+Br'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
 #            ^^ constant.character.escape.backslash.regexp
@@ -326,7 +326,7 @@ Br'This is a \n (test|with), %s no unicode \UDEAD'
 #                            ^^ - constant
 #                                          ^^ constant.character.escape.backslash.regexp
 #                                            ^^^^ - constant
-rb'This is a \n (test|with), %s no unicode \UDEAD'
+rb'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
 #            ^^ constant.character.escape.backslash.regexp
@@ -334,7 +334,7 @@ rb'This is a \n (test|with), %s no unicode \UDEAD'
 #                            ^^ - constant
 #                                          ^^ constant.character.escape.backslash.regexp
 #                                            ^^^^ - constant
-rB'This is a \n (test|with), %s no unicode \UDEAD'
+rB'This is a \n (test|with), %s no unicode \uDEAD'
 # <- storage.type.string
 # ^ string.quoted.single punctuation.definition.string.begin
 #            ^^ constant.character.escape.backslash.regexp
@@ -342,7 +342,7 @@ rB'This is a \n (test|with), %s no unicode \UDEAD'
 #                            ^^ - constant
 #                                          ^^ constant.character.escape.backslash.regexp
 #                                            ^^^^ - constant
-br'''This is a \n (test|with), %s no unicode \UDEAD'''
+br'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
@@ -350,7 +350,7 @@ br'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
-Br'''This is a \n (test|with), %s no unicode \UDEAD'''
+Br'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
@@ -358,7 +358,7 @@ Br'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
-rb'''This is a \n (test|with), %s no unicode \UDEAD'''
+rb'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
@@ -366,7 +366,7 @@ rb'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                              ^^ - constant
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
-rB'''This is a \n (test|with), %s no unicode \UDEAD'''
+rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
 # ^^^ string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
@@ -394,6 +394,23 @@ world'
 x = 'hello\s world'
 #         ^^ - punctuation.separator.continuation.line.python
 #          ^^^^^^^^ - invalid.illegal.unexpected-text.python
+
+sql = "SELECT `name` FROM `users` \
+    WHERE `password` LIKE 'abc'"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double source.sql
+#                              ^ punctuation.definition.string.end.python
+
+sql = Ur"SELECT `name` FROM `users` \
+    WHERE `password` LIKE 'abc'"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double source.sql
+#                              ^ punctuation.definition.string.end.python
+
+sql = b'just some \
+#     ^^^^^^^^^^^^^^ string.quoted.single.python - invalid.illegal.unclosed-string.python, \
+#                 ^ punctuation.separator.continuation.line.python, \
+    string'
+#^^^^^^^^^^ string.quoted.single
+#         ^ punctuation.definition.string.end.python
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
@@ -428,4 +445,3 @@ x = 'hello\s world'
 #             ^^ constant.other.placeholder.python
 #               ^ - constant.other.placeholder.python
 #                ^^ constant.other.placeholder.python
-

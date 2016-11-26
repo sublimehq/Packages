@@ -726,20 +726,6 @@ contexts:
     - include: illegal-names
     - include: generic-names
 
-  escaped-char:
-    - match: '(\\x\h{2})|(\\[0-7]{3})|(\\[\\"''abfnrtv])'
-      captures:
-        1: constant.character.escape.hex.python
-        2: constant.character.escape.octal.python
-        3: constant.character.escape.python
-
-  escaped-unicode-char:
-    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
-      captures:
-        1: constant.character.escape.unicode.16-bit-hex.python
-        2: constant.character.escape.unicode.32-bit-hex.python
-        3: constant.character.escape.unicode.name.python
-
   generic-names:
     - match: "{{identifier}}"
 
@@ -786,11 +772,6 @@ contexts:
     - include: line-continuation
     - match: $|(?=;|#)
       pop: true
-
-  line-continuation-inside-string:
-    - match: (\\)$\n?
-      captures:
-        1: punctuation.separator.continuation.line.python
 
   magic-function-names:
     - match: |-
@@ -840,6 +821,25 @@ contexts:
           - match: '\2'
             scope: punctuation.definition.comment.end.python
             pop: true
+
+  escaped-char:
+    - match: '(\\x\h{2})|(\\[0-7]{3})|(\\[\\"''abfnrtv])'
+      captures:
+        1: constant.character.escape.hex.python
+        2: constant.character.escape.octal.python
+        3: constant.character.escape.python
+
+  escaped-unicode-char:
+    - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
+      captures:
+        1: constant.character.escape.unicode.16-bit-hex.python
+        2: constant.character.escape.unicode.32-bit-hex.python
+        3: constant.character.escape.unicode.name.python
+
+  line-continuation-inside-string:
+    - match: (\\)$\n?
+      captures:
+        1: punctuation.separator.continuation.line.python
 
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -966,7 +966,7 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
-        - include: escaped-unicode-char
+        - include: line-continuation-inside-string
     # Single-line capital R raw string, bytes, no syntax embedding
     - match: '([bB]R|R[bB])(")'
       captures:
@@ -979,6 +979,7 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
+        - include: line-continuation-inside-string
     # Single-line raw string, unicode or not, starting with a SQL keyword
     - match: '([uU]?r)(")(?={{sql_indicator}})'
       captures:
@@ -995,8 +996,8 @@ contexts:
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-            - include: escaped-unicode-char
             - include: constant-placeholder
+            - include: line-continuation-inside-string
           push: 'scope:source.sql'
     # Single-line raw string, unicode or not, treated as regex
     - match: '([uU]?r)(")'
@@ -1014,7 +1015,7 @@ contexts:
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-            - include: escaped-unicode-char
+            - include: line-continuation-inside-string
           push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])(")'
@@ -1049,8 +1050,9 @@ contexts:
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-            - include: escaped-unicode-char
             - include: escaped-char
+            - include: escaped-unicode-char
+            - include: line-continuation-inside-string
             - include: constant-placeholder
           push: 'scope:source.sql'
     # Single-line string, unicode or not
@@ -1065,10 +1067,10 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
-        - include: escaped-unicode-char
         - include: escaped-char
-        - include: constant-placeholder
+        - include: escaped-unicode-char
         - include: line-continuation-inside-string
+        - include: constant-placeholder
     # Single-line string, bytes
     - match: '([bB])(")'
       captures:
@@ -1082,6 +1084,7 @@ contexts:
             2: invalid.illegal.unclosed-string.python
           set: after-expression
         - include: escaped-char
+        - include: line-continuation-inside-string
         - include: constant-placeholder
 
   string-quoted-single-block:
@@ -1095,7 +1098,6 @@ contexts:
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
-        - include: escaped-unicode-char
     # Triple-quoted capital R raw string, bytes, no syntax embedding
     - match: ([bB]R|R[bB])(''')
       captures:
@@ -1123,6 +1125,7 @@ contexts:
               with_prototype:
                 - match: (?=''')
                   pop: true
+                - include: escaped-char
                 - include: escaped-unicode-char
                 - include: constant-placeholder
               push: 'scope:source.sql'
@@ -1170,8 +1173,8 @@ contexts:
               with_prototype:
                 - match: (?=''')
                   pop: true
-                - include: escaped-unicode-char
                 - include: escaped-char
+                - include: escaped-unicode-char
                 - include: constant-placeholder
               push: 'scope:source.sql'
         - match: '(?=\S)'
@@ -1180,8 +1183,8 @@ contexts:
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
-            - include: escaped-unicode-char
             - include: escaped-char
+            - include: escaped-unicode-char
             - include: constant-placeholder
     # Triple-quoted string, bytes, no syntax embedding
     - match: ([bB])(''')
@@ -1209,7 +1212,7 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
-        - include: escaped-unicode-char
+        - include: line-continuation-inside-string
     # Single-line capital R raw string, bytes, no syntax embedding
     - match: '([bB]R|R[bB])('')'
       captures:
@@ -1222,6 +1225,7 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
+        - include: line-continuation-inside-string
     # Single-line raw string, unicode or not, starting with a SQL keyword
     - match: '([uU]?r)('')(?={{sql_indicator}})'
       captures:
@@ -1238,7 +1242,7 @@ contexts:
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
-            - include: escaped-unicode-char
+            - include: line-continuation-inside-string
             - include: constant-placeholder
           push: 'scope:source.sql'
     # Single-line raw string, unicode or not, treated as regex
@@ -1257,7 +1261,7 @@ contexts:
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
-            - include: escaped-unicode-char
+            - include: line-continuation-inside-string
           push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])('')'
@@ -1275,6 +1279,7 @@ contexts:
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
+            - include: line-continuation-inside-string
           push: 'scope:source.regexp.python'
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)('')(?={{sql_indicator}})'
@@ -1292,8 +1297,9 @@ contexts:
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
-            - include: escaped-unicode-char
             - include: escaped-char
+            - include: escaped-unicode-char
+            - include: line-continuation-inside-string
             - include: constant-placeholder
           push: 'scope:source.sql'
     # Single-line string, unicode or not
@@ -1308,10 +1314,10 @@ contexts:
             1: punctuation.definition.string.end.python
             2: invalid.illegal.unclosed-string.python
           set: after-expression
-        - include: escaped-unicode-char
         - include: escaped-char
-        - include: constant-placeholder
+        - include: escaped-unicode-char
         - include: line-continuation-inside-string
+        - include: constant-placeholder
     # Single-line string, bytes
     - match: '([bB])('')'
       captures:
@@ -1325,6 +1331,7 @@ contexts:
             2: invalid.illegal.unclosed-string.python
           set: after-expression
         - include: escaped-char
+        - include: line-continuation-inside-string
         - include: constant-placeholder
 
   strings:
