@@ -1665,7 +1665,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.decl-before-column.latex
-        - match: '(\})'
+        - match: '\}'
           scope: punctuation.definition.group.end.latex
           pop: true
         - include: general-constants
@@ -1678,7 +1678,7 @@ contexts:
         2: punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.decl-after-column.latex
-        - match: '(\})'
+        - match: '\}'
           scope: punctuation.definition.group.end.latex
           pop: true
         - include: general-constants
