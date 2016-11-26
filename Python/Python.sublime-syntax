@@ -841,7 +841,7 @@ contexts:
             scope: punctuation.definition.comment.end.python
             pop: true
 
-  string-quoted-double:
+  string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)(""")'
       captures:
@@ -952,13 +952,15 @@ contexts:
           set: after-expression
         - include: escaped-char
         - include: constant-placeholder
+
+  string-quoted-double:
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)(")'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -971,7 +973,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -983,7 +985,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1002,7 +1004,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1020,7 +1022,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1037,7 +1039,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1057,7 +1059,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1073,7 +1075,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: string.quoted.double.python
         - match: '(")|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1082,7 +1084,7 @@ contexts:
         - include: escaped-char
         - include: constant-placeholder
 
-  string-quoted-single:
+  string-quoted-single-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
     - match: ([uU]?R)(''')
       captures:
@@ -1193,13 +1195,15 @@ contexts:
           set: after-expression
         - include: escaped-char
         - include: constant-placeholder
+
+  string-quoted-single:
     # Single-line capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)('')'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1212,7 +1216,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1224,7 +1228,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1243,7 +1247,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1261,7 +1265,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1278,7 +1282,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1298,7 +1302,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1314,7 +1318,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: string.quoted.single.python
         - match: '('')|(\n)'
           captures:
             1: punctuation.definition.string.end.python
@@ -1324,7 +1328,10 @@ contexts:
         - include: constant-placeholder
 
   strings:
+    # block versions must be matched first
+    - include: string-quoted-double-block
     - include: string-quoted-double
+    - include: string-quoted-single-block
     - include: string-quoted-single
 
   inline-for:

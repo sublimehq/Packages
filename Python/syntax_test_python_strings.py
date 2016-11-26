@@ -376,19 +376,19 @@ rB'''This is a \n (test|with), %s no unicode \UDEAD'''
 #                                              ^^^^ - constant
 
 x = "hello \
-#   ^^^^^^^^^ string.quoted.double.block.python - invalid.illegal.unclosed-string.python, \
+#   ^^^^^^^^^ string.quoted.double.python - invalid.illegal.unclosed-string.python, \
 #          ^ punctuation.separator.continuation.line.python, \
 world"
-#^^^^^ string.quoted.double.block.python
-#     ^ - string.quoted.double.block.python
+#^^^^^ string.quoted.double.python
+#     ^ - string.quoted.double.python
 #    ^ punctuation.definition.string.end.python
 
 x = 'hello \
-#   ^^^^^^^^^ string.quoted.single.block.python - invalid.illegal.unclosed-string.python, \
+#   ^^^^^^^^^ string.quoted.single.python - invalid.illegal.unclosed-string.python, \
 #          ^ punctuation.separator.continuation.line.python, \
 world'
-#^^^^^ string.quoted.single.block.python
-#     ^ - string.quoted.single.block.python
+#^^^^^ string.quoted.single.python
+#     ^ - string.quoted.single.python
 #    ^ punctuation.definition.string.end.python
 
 x = 'hello\s world'
