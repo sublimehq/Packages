@@ -225,6 +225,8 @@ contexts:
         - include: general-commands
         - include: macro-braces
 
+    - include: array-preamble
+
   general-constants:
     - match: '(\\\\)(?:(\[)\s*-?([[:digit:]]*)\s*(\w*)\s*(\]))?'
       captures:
@@ -1655,3 +1657,30 @@ contexts:
        3: punctuation.definition.group.brace.begin.latex
        4: entity.name.function.frame.latex
        5: punctuation.definition.group.brace.end.latex
+
+  array-preamble:
+    - match: '(>)\s*(\{)'
+      captures:
+        1: support.function.insert-before-column.latex
+        2: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.decl-before-column.latex
+        - match: '(\})'
+          scope: punctuation.definition.group.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '(<)\s*(\{)'
+      captures:
+        1: support.function.insert-after-column.latex
+        2: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.decl-after-column.latex
+        - match: '(\})'
+          scope: punctuation.definition.group.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
