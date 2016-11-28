@@ -62,7 +62,7 @@ contexts:
       scope: keyword.other.assert.python
     - match: \b(del)\b
       scope: keyword.other.del.python
-    - match: \b(print)\b(?! *($|[,.()\]}]))
+    - match: \b(print)\b(?! *([,.()\]}]))
       scope: keyword.other.print.python
     - match: \b(exec)\b(?! *($|[,.()\]}]))
       scope: keyword.other.exec.python
@@ -404,34 +404,41 @@ contexts:
             - include: entity-name-class
             - match: ''
               pop: true
-        - match: '(?=\()'
+        - match: \(
+          scope: punctuation.section.inheritance.begin.python
           set:
-            - match: \(
-              scope: punctuation.section.inheritance.begin.python
+            - meta_scope: meta.class.inheritance.python
+            - match: \)
+              scope: punctuation.section.inheritance.end.python
               set:
-                - meta_scope: meta.class.inheritance.python
-                - match: \)
-                  scope: punctuation.section.inheritance.end.python
-                  set:
-                    - include: line-continuation-or-pop
-                    - match: ':'
-                      scope: meta.class.python punctuation.section.class.begin.python
-                      pop: true
-                    - match: (?=\S)
-                      pop: true
+                - include: line-continuation-or-pop
                 - match: ':'
-                  scope: invalid.illegal.no-closing-parens.python
+                  scope: meta.class.python punctuation.section.class.begin.python
                   pop: true
-                - match: ','
-                  scope: punctuation.separator.inheritance.python
-                - match: '(?={{path}})'
-                  push:
-                    - meta_scope: entity.other.inherited-class.python
-                    - include: identifier-parts
-                    - match: '{{identifier}}'
-                    - match: '(?=\S)'
-                      pop: true
-                - include: expressions
+                - match: (?=\S)
+                  pop: true
+            - match: ':'
+              scope: invalid.illegal.no-closing-parens.python
+              pop: true
+            - match: ','
+              scope: punctuation.separator.inheritance.python
+            - include: illegal-names-pop
+            - match: ({{identifier}}) *(=)
+              captures:
+                1: variable.parameter.class-inheritance.python
+                2: keyword.operator.assignment.python
+            - match: (?={{path}})
+              push:
+                - meta_scope: entity.other.inherited-class.python
+                - match: '{{identifier}}(?: *(\.) *)?'
+                  captures:
+                    1: punctuation.accessor.python
+                - match: ''
+                  pop: true
+            - include: expressions
+
+  path:
+    - match: (?={{path}})
 
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
@@ -627,11 +634,6 @@ contexts:
           scope: punctuation.separator.key-value.python
         - include: inline-for
         - include: expressions
-
-  identifier-parts:
-    - match: '{{identifier}} *(\.)'
-      captures:
-        1: punctuation.accessor.python
 
   builtin-exceptions:
     - match: |-
@@ -1334,16 +1336,11 @@ contexts:
         - meta_scope: meta.expression.generator.python
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
-          set:
-            - meta_scope: meta.expression.generator.python
-            - match: '(?=[)\]}])'
-              pop: true
-            - include: inline-if  # not necessary but more explicit
-            - include: inline-for
-            - include: expressions
+          pop: true
         - match: '(?=[)\]}])'
           scope: invalid.illegal.missing-in.python
           pop: true
+        - include: illegal-names-pop
         - include: target-list
 
   inline-if:
