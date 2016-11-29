@@ -1732,7 +1732,7 @@ contexts:
       scope: keyword.other.column-type.latex
 
     - match: 'p|m|b'
-      scope: support.function.parabox-column.latex
+      scope: support.function.parbox-column.latex
       push:
         - meta_scope: meta.function.parbox-column.latex
         - include: general-1-argument
