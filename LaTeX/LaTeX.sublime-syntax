@@ -225,8 +225,6 @@ contexts:
         - include: general-commands
         - include: macro-braces
 
-    - include: array-preamble
-
   general-constants:
     - match: '(\\\\)(?:(\[)\s*-?([[:digit:]]*)\s*(\w*)\s*(\]))?'
       captures:
@@ -774,6 +772,7 @@ contexts:
     - include: minted
     - include: pkgcomment
     - include: beamer
+    - include: array
 
   # listings package
   pkglistings:
@@ -1658,15 +1657,93 @@ contexts:
        4: entity.name.function.frame.latex
        5: punctuation.definition.group.brace.end.latex
 
+  # support for array package
+  array:
+    - match: |-
+        (?x)
+        (
+          (\\)newcolumntype
+        )
+        (?:
+          (\{)
+          (
+            (?:\\[A-Za-z@]+)
+            | (?:[A-Za-z@])
+          )
+          (\})
+        )
+        (?:(\[)(?:[^\]]*)(\]))*
+        (\{)
+      captures:
+        1: support.function.newcolumntype.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: support.function.latex entity.name.newcolumntype.latex
+        5: punctuation.definition.group.brace.end.latex
+        6: punctuation.definition.group.bracket.begin.latex
+        7: punctuation.definition.group.bracket.end.latex
+        8: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.function.newcolumntype.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: array-preamble
+
+
+    - match: |-
+        (?x)
+        ((\\)begin)(\{)(tabular)(\})
+        (?:(\[)(?:b|c|t)(\]))?
+        (\{)
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+        6: punctuation.definition.group.bracket.begin.latex
+        7: punctuation.definition.group.bracket.end.latex
+        8: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.environment.tabular.latex
+        - match: '(?<=\{)'
+          scope: punctuation.definition.group.brace.begin.latex
+          push:
+            - meta_include_prototype: false
+            - meta_scope: meta.function.column-spec.latex
+            - match: '\}'
+              pop: true
+            - include: array-preamble
+        - match: '((\\)end)(\{)(tabular)(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.end.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.tabular.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+
   array-preamble:
+    - match: 'l|r|c'
+      scope: keyword.other.column-type.latex
+
+    - match: 'p|m|b'
+      scope: support.function.parabox-column.latex
+      push:
+        - meta_scope: meta.function.parbox-column.latex
+        - include: general-1-argument
+
     - match: '(>)\s*(\{)'
       captures:
         1: support.function.insert-before-column.latex
         2: punctuation.definition.group.brace.begin.latex
       push:
-        - meta_scope: meta.function.decl-before-column.latex
+        - meta_scope: meta.function.before-column-decl.latex
         - match: '\}'
-          scope: punctuation.definition.group.end.latex
+          scope: punctuation.definition.group.brace.end.latex
           pop: true
         - include: general-constants
         - include: general-commands
@@ -1677,9 +1754,38 @@ contexts:
         1: support.function.insert-after-column.latex
         2: punctuation.definition.group.brace.begin.latex
       push:
-        - meta_scope: meta.function.decl-after-column.latex
+        - meta_scope: meta.function.after-column-decl.latex
         - match: '\}'
-          scope: punctuation.definition.group.end.latex
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '\|'
+      scope: keyword.operator.inter-column-line.latex
+
+    - match: '(@)\s*(\{)'
+      captures:
+        1: support.function.inter-column-nospace.latex
+        2: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.inter-column-decl.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: general-constants
+        - include: general-commands
+        - include: macro-braces
+
+    - match: '(!)\s*(\{)'
+      captures:
+        1: support.function.inter-column.latex
+        2: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.inter-column-decl.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
           pop: true
         - include: general-constants
         - include: general-commands

@@ -42,11 +42,13 @@
 %             ^support.function.latex entity.name.newcommand.latex
 %                               ^ support.function.general.latex
 
-\newcolumntype{>{$}c<{$}}
-%              ^ support.function.insert-before-column.latex
-%                ^ meta.function.decl-before-column.latex
-%                   ^ support.function.insert-after-column.latex
-%                     ^ meta.function.decl-after-column.latex
+\newcolumntype{x}{>{$}c<{$}}
+% ^ support.function.newcolumntype.latex
+%                 ^ support.function.insert-before-column.latex
+%                   ^ meta.function.before-column-decl.latex
+%                     ^ meta.function.newcolumntype.latex keyword.other.column-type.latex
+%                      ^ support.function.insert-after-column.latex
+%                        ^ meta.function.after-column-decl.latex
 
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
@@ -96,7 +98,7 @@
 % ^ support.function.reference.latex keyword.other.reference.latex
 %        ^ constant.other.reference
 
-\cite{my:bib:key}
+\cite{my:bib:key }
 % ^ meta.function.citation.latex
 % ^ support.function.cite.latex keyword.other.cite.latex
 %        ^ constant.other.citation
@@ -385,6 +387,20 @@ def my_function():
 
 \mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
+
+\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
+%                    ^ meta.function.column-spec.latex keyword.operator.inter-column-line.latex
+
+\hline
+
+a & b
+% <- meta.environment.tabular.latex
+
+\hline
+
+\end{tabular}
+%     ^ variable.parameter.function.tabular.latex
+
 
 
 \end{document}
