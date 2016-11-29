@@ -389,8 +389,15 @@ def my_function():
 \mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
 
+
+% PACKAGE: array
+% The array package extends array and tabular environments
+% and allows for macros in format specifications
+
 \begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
-%                    ^ meta.function.column-spec.latex keyword.operator.inter-column-line.latex
+%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.column-spec.latex
+%                  ^ keyword.operator.inter-column-line.latex
+%                     ^ support.function.inter-column-nospace.latex
 
 \hline
 
@@ -400,7 +407,7 @@ a & b
 \hline
 
 \end{tabular}
-%     ^ variable.parameter.function.tabular.latex
+%     ^ variable.parameter.function.latex
 
 
 
