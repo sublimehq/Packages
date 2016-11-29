@@ -1120,13 +1120,17 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
+    - match: (?=@{{plainid}})
+      set: single-type-expression-tail
     - include: base-type-expression
-    # the '@' indicates the beginning of an annotation
-    - match: '(?=@)'
-      pop: true
-    - match: '(?=[\s$,\)\}\]])'
+    - match: '(?=[\s,\)\}\]])'
       pop: true
   single-type-expression-tail:
+    - match: (?=@{{plainid}})
+      set:
+        - include: annotation
+        - match: '(?=\S)'
+          set: single-type-expression-tail
     - match: '[\.#]'
       scope: punctuation.accessor.scala
       set: single-type-expression

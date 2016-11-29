@@ -1332,6 +1332,10 @@ trait Function0[@specialized(Unit, Int, Double) T] {
   def apply: T
 }
 
-x: Foo @volatile with Bar
-//          ^^ storage.modifier.annotation
-//               ^^ keyword.declaration
+x: Foo @volatile with Bar @foo.bar @bar with Baz
+//          ^^ storage.modifier.annotation.scala
+//               ^^ keyword.declaration.scala
+//                    ^^^ support.class.scala
+//                        ^^^^^^^^ storage.modifier.annotation.scala
+//                                 ^^^^ storage.modifier.annotation.scala
+//                                           ^^^ support.class.scala
