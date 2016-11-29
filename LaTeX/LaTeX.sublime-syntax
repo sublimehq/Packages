@@ -773,7 +773,7 @@ contexts:
     - include: minted
     - include: pkgcomment
     - include: beamer
-    - include: array
+    - include: pkgarray
 
   # listings package
   pkglistings:
@@ -1659,7 +1659,7 @@ contexts:
        5: punctuation.definition.group.brace.end.latex
 
   # support for array package
-  array:
+  pkgarray:
     - match: |-
         (?x)
         (
@@ -1731,7 +1731,7 @@ contexts:
     - match: 'l|r|c'
       scope: keyword.other.column-type.latex
 
-    - match: 'p|m|b'
+    - match: '(?:p|m|b)(?=\s*\{)'
       scope: support.function.parbox-column.latex
       push:
         - meta_scope: meta.function.parbox-column.latex
