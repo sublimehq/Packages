@@ -6,15 +6,22 @@ file_extensions:
   - ml
   - mli
 scope: source.ocaml
+variables:
+  identifier: '[a-z][a-zA-Z0-9''_]*'
+  capIdentifier: '[A-Z][a-zA-Z0-9''_]*'
 contexts:
   main:
-    - match: '\b(let)\s+(module)\s+([A-Z][a-zA-Z0-9''_]*)\s*(=)'
+    - match: '\b(let)\s+(module)\s+({{capIdentifier}})\s*(=)'
       scope: meta.module.binding
       captures:
         1: keyword.other.module-binding.ocaml
         2: keyword.other.module-definition.ocaml
         3: support.other.module.ocaml
         4: punctuation.separator.module-binding.ocaml
+    - match: \b(let|and)\s+(open)\s+{{capIdentifier}}(\.{{capIdentifier}})*\b
+      captures:
+        1: keyword.other.ocaml
+        2: keyword.control.import.ocaml
     - match: '\b(let|and)\s+(?!\(\*)((rec\s+)([a-z_][a-zA-Z0-9_'']*)\b|([a-z_][a-zA-Z0-9_'']*|\([^)]+\))(?=\s)((?=\s*=\s*(?=fun(?:ction)\b))|(?!\s*=)))'
       captures:
         1: keyword.other.function-definition.ocaml
@@ -31,6 +38,11 @@ contexts:
             4: keyword.operator.ocaml
           pop: true
         - include: variables
+    - match: \b(let|and)\s+({{identifier}})\s*(=)\s*
+      captures:
+        1: keyword.other.ocaml
+        2: variable.other.constant.ocaml
+        3: keyword.operator.assignment.ocaml
     - match: (\(|\s)(?=fun\s)
       captures:
         1: punctuation.definition.function.anonymous.ocaml

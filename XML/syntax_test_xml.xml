@@ -135,6 +135,13 @@
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
 <!--                                           ^ - string.unquoted.cdata -->
 
+     <?pi "markup" is <ignored>?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^ entity.name.tag -->
+<!--                           ^^ punctuation.definition.tag.end -->
+<!--                             ^ - meta.tag.preprocessor -->
+
      <таĝñäᴹə ατţř="șƬűʃ⨍" >Contents</таĝñäᴹə>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
 <!-- ^ punctuation.definition.tag.begin -->

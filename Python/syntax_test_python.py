@@ -260,9 +260,9 @@ def _():
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
     print "keyword"
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
     print __init__
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
 #
     exec 123
 #   ^^^^ keyword
@@ -275,6 +275,17 @@ def _():
              , print)
 #              ^^^^^ - keyword
 
+    some \
+      print \
+#     ^^^^^ keyword.other.print
+
+    func(
+        print
+#       ^^^^^ support.function.builtin - keyword
+    )
+
+    print
+#   ^^^^^ keyword.other.print
 
 
 ##################
@@ -387,8 +398,10 @@ class MyClass(Inherited,
 #                      ^ punctuation.separator.inheritance
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                    ^ punctuation.accessor
 #                                ^ punctuation.separator.inheritance
-#                                  TODO
+#                                  ^^^^^^^^^ variable.parameter.class-inheritance
+#                                           ^ keyword.operator.assignment
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
@@ -494,27 +507,27 @@ myset = {"key", True, key2, [-1], {}}
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.flow.for.generator
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #          ^^^ keyword.control.flow.for.generator
 #                ^^ keyword.control.flow.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#             ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.flow.for.generator
 #                   ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
 
@@ -524,9 +537,9 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 list(i for i in generator)
-#      ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#      ^^^^^^^^ meta.expression.generator
 list((i for i in generator), 123)
-#       ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#       ^^^^^^^^ meta.expression.generator
 #                         ^^^^^^^ - meta.expression.generator
 #                          ^ punctuation.separator.parameters
 
@@ -654,6 +667,11 @@ matrix @ multiplication
 #      ^ keyword.operator.matrix.python
 
 
+
+##################
+# Context "Fail Early"
+##################
+
 # Pop contexts gracefully
 def func(unclosed, parameters: if else
     pass
@@ -664,3 +682,23 @@ def func(unclosed, parameters: if else
 def another_func():
 #^^ -invalid
     pass
+
+
+x = [
+for x in y:
+    break
+#   ^^^^^ invalid.illegal.name
+#        ^ - meta.structure.list
+
+
+with open(x) as y:
+#^^^ -invalid
+#            ^^ - invalid
+
+]
+#<- invalid.illegal.stray.brace.square
+
+class Class(object
+    def __init__(self):
+#   ^^^ invalid.illegal.name
+#      ^ - meta.class
