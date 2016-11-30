@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[($1) => ${2:{${3:}\}}]]></content>
-	<tabTrigger>lam</tabTrigger>
-	<scope>source.scala</scope>
-	<description>lambda</description>
-</snippet>

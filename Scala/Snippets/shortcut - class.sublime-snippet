@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[class]]></content>
-	<tabTrigger>c</tabTrigger>
-	<scope>source.scala</scope>
-	<description>shortcut - class</description>
-</snippet>
