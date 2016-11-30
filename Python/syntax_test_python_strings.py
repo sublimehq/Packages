@@ -412,9 +412,6 @@ sql = b'just some \
 #^^^^^^^^^^ string.quoted.single
 #         ^ punctuation.definition.string.end.python
 
-# <- - meta
-# this test is to ensure we're not matching anything here anymore
-
 # https://docs.python.org/3/library/string.html#formatspec
 "First, thou shalt count to {0}"  # References first positional argument
 #                           ^^^ constant.other.placeholder.python
@@ -445,3 +442,6 @@ sql = b'just some \
 #             ^^ constant.other.placeholder.python
 #               ^ - constant.other.placeholder.python
 #                ^^ constant.other.placeholder.python
+
+# <- - meta
+# this test is to ensure we're not matching anything here anymore
