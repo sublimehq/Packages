@@ -4,22 +4,6 @@
 # Strings and embedded syntaxes
 ###############################
 
-"Testing {:,.2f}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {0:>9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {:j^9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
-#                                    ^^^^^^^^^^ constant.other.placeholder
-
-"My String %% %s"
-#          ^^ constant.other.placeholder
-#             ^^ constant.other.placeholder
-
 var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -433,6 +417,8 @@ sql = b'just some \
 #                   ^^^^^^^^ constant.other.placeholder.python
 "More {!a}"                       # Calls ascii() on the argument first
 #     ^^^^ constant.other.placeholder.python
+"More {!a: <10s}"                 # Calls ascii() on the argument first, then formats
+#     ^^^^^^^^^^ constant.other.placeholder.python
 "Escaped {{0}}"                   # outputs: "Escaped {0}"
 #        ^^^^^ - constant.other.placeholder.python
 #        ^^ constant.character.escape.python
@@ -442,6 +428,22 @@ sql = b'just some \
 #             ^^ constant.other.placeholder.python
 #               ^ - constant.other.placeholder.python
 #                ^^ constant.other.placeholder.python
+
+datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
+#                                    ^^^^^^^^^^ constant.other.placeholder
+
+"My String %% %s"
+#          ^^ constant.other.placeholder
+#             ^^ constant.other.placeholder
+
+"Testing {:,.2f}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {0:>9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {:j^9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore

@@ -679,7 +679,22 @@ contexts:
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
-    - match: '\{([\w.\[\]]*)(:.?[<>=^]?)?[ +-]?\d*,?(\.\d+)?!?[abcdeEfFgGnorsxX%]?\}'
+    - match: |-
+        (?x)
+        \{
+          ([\w.\[\]]+)? # field_name
+          (! [rsa])?    # conversion
+          (:            # format_spec
+            (.? [<>=^])?       # fill align
+            [ +-]?             # sign
+            \#?
+            \d*                # width
+            ,?
+            (\.\d+)?           # precision
+            [bcdeEfFgGnosxX%]? # type
+          )?
+          # technically, octal and hexadecimal integers are also supported as 'width', but rarely used
+        \}
       scope: constant.other.placeholder.python
 
   name:
