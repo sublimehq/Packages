@@ -62,12 +62,12 @@ contexts:
       scope: comment.double.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
-    - match: '(%\{)\s*\n'
+    - match: '^\s*(%\{)\s*\n'
       captures:
         1: punctuation.definition.comment.matlab
       push:
         - meta_scope: comment.block.percentage.matlab
-        - match: '(%\})\s*\n'
+        - match: '^\s*(%\})\s*\n'
           captures:
             1: punctuation.definition.comment.matlab
           pop: true
