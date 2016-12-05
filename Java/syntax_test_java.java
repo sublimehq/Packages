@@ -18,7 +18,7 @@ import static a.b.Class.fooMethod;
 
 public class SyntaxTest {
 // ^^^ storage.modifier.java
-//     ^^^^^ storage.modifier.java
+//     ^^^^^ storage.type.java
 //     ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class.body.java
 //           ^^^^^^^^^^ entity.name.class.java
 //                     ^ - meta.class.identifier.java - meta.class.body.java
@@ -136,7 +136,7 @@ class AnyClass {
 }
 
 public enum FooBaz {
-//     ^^^^ storage.modifier.java
+//     ^^^^ storage.type.java
 //^^^^^^^^^^^^^^^^^^^ meta.class.java
 //     ^^^^^^^^^^^  meta.class.identifier.java
 //          ^^^^^^ entity.name.class.java

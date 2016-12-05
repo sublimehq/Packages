@@ -124,10 +124,10 @@ contexts:
           pop: true
         - include: storage-modifiers
         - include: comments
-        - match: (\bclass|(?:@)?\binterface|\benum)\s+(\w+)
+        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)(\w+)
           scope: meta.class.identifier.java
           captures:
-            1: storage.modifier.java
+            1: storage.type.java
             2: entity.name.class.java
         - match: \bextends\b
           scope: storage.modifier.extends.java
