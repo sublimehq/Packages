@@ -114,7 +114,7 @@ contexts:
         - include: macro-braces
 
   greeks:
-    - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))(?=\b|_)
+    - match: ((\\)(alpha|beta|gamma|delta|epsilon|varepsilon|zeta|eta|theta|vartheta|iota|gamma|kappa|lambda|mu|nu|xi|pi|varpi|rho|varrho|sigma|varsigma|tau|upsilon|phi|varphi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Xi|Pi|Sigma|Upsilon|Phi|Psi|Omega))(?=\b|_)
       captures:
         1: keyword.other.greek.math.tex
         2: punctuation.definition.backslash.tex
