@@ -105,6 +105,9 @@ contexts:
             - match: "}"
               pop: true
             - include: class-body
+  functions:
+    - match: '\b([a-zA-Z](?:[^\.<>\s]*))(?=(\s*<.+>)?\s*\()'
+      scope: variable.function.java
   assertions:
     - match: \b(assert)\b
       scope: keyword.control.assert.java
@@ -174,6 +177,7 @@ contexts:
     - include: constants-and-special-vars
     - include: anonymous-classes-and-new
     - include: keywords
+    - include: functions
     - include: storage-modifiers
     - include: strings
     - include: all-types

@@ -175,3 +175,14 @@ class InvalidStuff
 
    volatile
 // ^^^^^^^^ storage.modifier.java
+
+   foo()
+// ^^^ variable.function.java
+   Foo()
+// ^^^ variable.function.java
+   foo ()
+// ^^^ variable.function.java
+   foo<int>()
+// ^^^ variable.function.java
+   foo <int>()
+// ^^^ variable.function.java
