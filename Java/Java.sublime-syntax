@@ -133,7 +133,7 @@ contexts:
             1: storage.type.java
             2: entity.name.class.java
         - match: \bextends\b
-          scope: storage.modifier.extends.java
+          scope: keyword.declaration.extends.java
           push:
             - meta_scope: meta.definition.class.inherited.classes.java
             - match: '(?={|\bimplements\b)'
@@ -141,7 +141,7 @@ contexts:
             - include: object-types-inherited
             - include: comments
         - match: \b(implements)\b
-          scope: storage.modifier.implements.java
+          scope: keyword.declaration.implements.java
           push:
             - meta_scope: meta.definition.class.implemented.interfaces.java
             - match: '(?=\bextends\b|\{)'

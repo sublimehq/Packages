@@ -120,6 +120,14 @@ public class SyntaxTest {
     }
 }
 
+class ExtendsTest extends Foo {}
+//                ^^^^^^^ keyword.declaration.extends.java
+//                        ^^^ entity.other.inherited-class.java
+
+class ExtendsTest implements Foo {}
+//                ^^^^^^^^^^ keyword.declaration.implements.java
+//                           ^^^ entity.other.inherited-class.java
+
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
