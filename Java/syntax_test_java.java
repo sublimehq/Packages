@@ -172,3 +172,6 @@ class InvalidStuff
     const int 3;
 //  ^^^^^ invalid.illegal
 }
+
+   volatile
+// ^^^^^^^^ storage.modifier.java

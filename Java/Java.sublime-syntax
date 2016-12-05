@@ -346,7 +346,7 @@ contexts:
     - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
       scope: storage.type.primitive.java
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
+    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
       scope: storage.modifier.java
   strings:
     - match: '"'
