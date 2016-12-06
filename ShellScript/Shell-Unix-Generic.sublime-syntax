@@ -353,9 +353,9 @@ contexts:
           pop: true
         - include: main
   keyword:
-    - match: \b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b
+    - match: '(?<![-/.+~])\b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b(?![-/.+~])'
       scope: keyword.control.shell
-    - match: '(?<![-/])\b(?:export|declare|typeset|local|readonly)\b'
+    - match: '(?<![-/.+~])\b(?:export|declare|typeset|local|readonly)\b(?![-/.+~])'
       scope: storage.modifier.shell
   list:
     - match: ;|&&|&|\|\|
@@ -367,74 +367,74 @@ contexts:
     - match: '(?<!\S)-(nt|ot|ef|eq|ne|l[te]|g[te]|[a-hknoprstuwxzOGLSN])'
       scope: keyword.operator.logical.shell
   loop:
-    - match: '\b(for)\s+(?=\({2})'
+    - match: '(?<![-/.+~])\b(for)\s+(?=\({2})'
       captures:
         1: keyword.control.shell
       push:
         - meta_scope: meta.scope.for-loop.shell
-        - match: \b(done)\b
+        - match: '(?<![-/.+~])\b(done)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
         - include: main
-    - match: '\b(for)\s+((?:[^\s\\]|\\.)+)\b'
+    - match: '(?<![-/.+~])\b(for)\s+((?:[^\s\\]|\\.)+)\b'
       captures:
         1: keyword.control.shell
         2: variable.other.loop.shell
       push:
         - meta_scope: meta.scope.for-in-loop.shell
-        - match: \b(done)\b
+        - match: '(?<![-/.+~])\b(done)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
         - include: main
-    - match: \b(while|until)\b
+    - match: '(?<![-/.+~])\b(while|until)\b(?![-/.+~])'
       captures:
         1: keyword.control.shell
       push:
         - meta_scope: meta.scope.while-loop.shell
-        - match: \b(done)\b
+        - match: '(?<![-/.+~])\b(done)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
         - include: main
-    - match: '\b(select)\s+((?:[^\s\\]|\\.)+)\b'
+    - match: '(?<![-/.+~])\b(select)\s+((?:[^\s\\]|\\.)+)\b'
       captures:
         1: keyword.control.shell
         2: variable.other.loop.shell
       push:
         - meta_scope: meta.scope.select-block.shell
-        - match: \b(done)\b
+        - match: '(?<![-/.+~])\b(done)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
         - include: main
-    - match: \b(case)\b
+    - match: '(?<![-/.+~])\b(case)\b(?![-/.+~])'
       captures:
         1: keyword.control.shell
       push:
         - meta_scope: meta.scope.case-block.shell
-        - match: \b(esac)\b
+        - match: '(?<![-/.+~])\b(esac)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
-        - match: \b(?:in)\b
+        - match: '(?<![-/.+~])\b(?:in)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           push:
             - meta_scope: meta.scope.case-body.shell
-            - match: (?=\b(?:esac)\b)
+            - match: '(?<![-/.+~])(?=\b(?:esac)\b)(?![-/.+~])'
               pop: true
             - include: comment
             - include: case-clause
             - include: main
         - include: main
-    - match: \b(if)\b
+    - match: '(?<![-/.+~])\b(if)\b(?![-/.+~])'
       captures:
         1: keyword.control.shell
       push:
         - meta_scope: meta.scope.if-block.shell
-        - match: \b(fi)\b
+        - match: '(?<![-/.+~])\b(fi)\b(?![-/.+~])'
           captures:
             1: keyword.control.shell
           pop: true
