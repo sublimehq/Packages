@@ -131,7 +131,7 @@
      text
 <!-- ^^^^ text -->
      >
-<!-- ^ text -->
+<!-- ^ text - punctuation - illegal -->
 
      <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
@@ -185,7 +185,7 @@
 <!--                             ^^^^^ string.quoted -->
 
      <element validinattr="a > b ]]> c"/>
-<!--                       ^^^^^^^^^^^ string.quoted -->
+<!--                       ^^^^^^^^^^^ string.quoted - punctuation - illegal -->
 
      <test
 foo="bar" />
