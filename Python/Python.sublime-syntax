@@ -221,7 +221,6 @@ contexts:
     - include: strings
     - include: function-calls
     - include: item-access
-    - include: line-continuation
     - match: \(
       scope: punctuation.section.group.begin.python
       push:
@@ -244,10 +243,8 @@ contexts:
 
   line-expressions: # Always include this last!
     - include: expressions-common
+    - include: line-continuation
     - include: dotted-name
-    # For debugging
-    # - match: \S
-    #   scope: invalid.illegal.unmatched
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
@@ -264,9 +261,6 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
-    # For debugging
-    # - match: \S
-    #   scope: invalid.illegal.unmatched
 
   after-expression:
     # direct function call
@@ -502,7 +496,8 @@ contexts:
           scope: punctuation.separator.annotation.return.python
         - match: '(?=:)'
           set: function-after-parameters
-        - include: expressions # includes line-continuation
+        - include: line-continuation-or-pop
+        - include: expressions
     - match: ':'
       scope: punctuation.section.function.begin.python
       pop: true
