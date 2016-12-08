@@ -1706,10 +1706,11 @@ contexts:
         6: punctuation.definition.group.bracket.begin.latex
         7: punctuation.definition.group.bracket.end.latex
       push:
+        - meta_scope: meta.environment.tabular.latex
         - match: '\{'
           scope: punctuation.definition.group.brace.begin.latex
           set:
-            - meta_scope: meta.function.column-spec.latex
+            - meta_scope: meta.function.column-spec.latex meta.environment.tabular.latex
             - include: array-preamble
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
