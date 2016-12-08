@@ -668,8 +668,22 @@ contexts:
       scope: support.type.python
 
   constant-placeholder:
-    - match: '%(?i:\([a-z_]+\))?#?0?\-? ?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hlL]?[acdeEfFgGiorsuxX%]'
+    - match: |-
+        (?x)
+        %
+          ( \( ({{identifier}}) \) )? # mapping key
+          \#?            # alternate form
+          0?             # pad with zeros
+          \-?            # left-adjust
+          \ ?            # implicit sign
+          [+-]?          # sign
+          (\d*|\*)       # width
+          (\. (\d*|\*))? # precision
+          [hlL]?         # length modifier (but ignored)
+          [acdeEfFgGiorsuxX%]
       scope: constant.other.placeholder.python
+      captures:
+        2: variable.other.placeholder.python
     - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
@@ -682,9 +696,9 @@ contexts:
           (:            # format_spec
             (.? [<>=^])?       # fill align
             [ +-]?             # sign
-            \#?
+            \#?                # alternate form
             \d*                # width
-            ,?
+            ,?                 # thousands separator
             (\.\d+)?           # precision
             [bcdeEfFgGnosxX%]? # type
           )?

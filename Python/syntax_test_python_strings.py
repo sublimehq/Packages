@@ -436,6 +436,11 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #          ^^ constant.other.placeholder
 #             ^^ constant.other.placeholder
 
+"My String %(s)s %s"
+#          ^^^^^ constant.other.placeholder
+#            ^ variable.other.placeholder
+#                ^^ constant.other.placeholder
+
 "Testing {:,.2f}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
 
