@@ -105,6 +105,9 @@ contexts:
             - match: "}"
               pop: true
             - include: class-body
+  functions:
+    - match: '\b([a-zA-Z](?:[^\.<>\s]*))(?=(\s*<.+>)?\s*\()'
+      scope: variable.function.java
   assertions:
     - match: \b(assert)\b
       scope: keyword.control.assert.java
@@ -124,13 +127,13 @@ contexts:
           pop: true
         - include: storage-modifiers
         - include: comments
-        - match: (\bclass|(?:@)?\binterface|\benum)\s+(\w+)
+        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)(\w+)
           scope: meta.class.identifier.java
           captures:
-            1: storage.modifier.java
+            1: storage.type.java
             2: entity.name.class.java
         - match: \bextends\b
-          scope: storage.modifier.extends.java
+          scope: keyword.declaration.extends.java
           push:
             - meta_scope: meta.definition.class.inherited.classes.java
             - match: '(?={|\bimplements\b)'
@@ -138,7 +141,7 @@ contexts:
             - include: object-types-inherited
             - include: comments
         - match: \b(implements)\b
-          scope: storage.modifier.implements.java
+          scope: keyword.declaration.implements.java
           push:
             - meta_scope: meta.definition.class.implemented.interfaces.java
             - match: '(?=\bextends\b|\{)'
@@ -174,6 +177,7 @@ contexts:
     - include: constants-and-special-vars
     - include: anonymous-classes-and-new
     - include: keywords
+    - include: functions
     - include: storage-modifiers
     - include: strings
     - include: all-types
@@ -346,7 +350,7 @@ contexts:
     - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
       scope: storage.type.primitive.java
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default)\b
+    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
       scope: storage.modifier.java
   strings:
     - match: '"'
