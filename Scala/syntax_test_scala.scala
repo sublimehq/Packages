@@ -1294,3 +1294,21 @@ class Foo extends Bar {
 
 // <- meta.class.body.scala
 }
+
+   {
+// ^ punctuation.section.block.begin.scala
+     // <- meta.block.scala
+   }
+// ^ punctuation.section.block.end.scala
+
+   (
+// ^ punctuation.section.group.begin.scala
+     // <- meta.group.scala
+     )
+//   ^ punctuation.section.group.end.scala
+
+   [
+// ^ punctuation.definition.generic.begin.scala
+     // <- meta.generic.scala
+     ]
+//   ^ punctuation.definition.generic.end.scala
