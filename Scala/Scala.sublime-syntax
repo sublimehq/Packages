@@ -420,6 +420,8 @@ contexts:
       push: class-tparams-brackets
     - match: '(?=\b(extends|with)\b)'
       set: class-inheritance
+    - match: '(?=\{)'
+      set: class-pre-inheritance-early-initializer
     - match: '\n'
       set: class-type-parameter-list-newline
 
@@ -465,12 +467,30 @@ contexts:
     - match: '(?=\b(extends|with)\b)'
       set: class-inheritance
     - match: '(?=\{)'
-      pop: true
+      set: class-pre-inheritance-early-initializer
 
   class-parameter-list-newline:
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-parameter-list
+
+  class-pre-inheritance-early-initializer:
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: main
+    - match: '(?=\b(extends|with)\b)'
+      set: class-inheritance-extends
+    - match: '(?=\S)'
+      pop: true
+    - match: '\n'
+      set: class-pre-inheritance-early-initializer-newline
+
+  class-pre-inheritance-early-initializer-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-pre-inheritance-early-initializer
 
   class-inheritance:
     - include: class-inheritance-extends
@@ -523,7 +543,7 @@ contexts:
     - match: (?=\b(with|extends)\b)
       set: class-inheritance-with
     - match: (?=\{)
-      pop: true
+      set: class-inheritance-early-initializer
     - match: '\n'
       set: class-inheritance-extends-token-after-newline
 
@@ -531,6 +551,24 @@ contexts:
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-inheritance-extends-token-after
+
+  class-inheritance-early-initializer:
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: main
+    - match: '(?=\bwith\b)'
+      set: class-inheritance-with
+    - match: '(?=\S)'
+      pop: true
+    - match: '\n'
+      set: class-inheritance-early-initializer-newline
+
+  class-inheritance-early-initializer-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-inheritance-early-initializer
 
   class-inheritance-with:
     - match: \bextends\b

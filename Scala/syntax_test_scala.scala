@@ -1276,3 +1276,11 @@ class Foo extends Bar[A with B](42)
 //                      ^^^^ keyword.declaration.scala
 //                           ^ support.class.scala
 //                              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar { val x = 42 } with Baz
+//                                   ^^^^ keyword.declaration.scala
+//                                        ^^^ entity.other.inherited-class.scala
+
+class Foo { val x = 42 } extends Bar with Baz
+//                       ^^^^^^^ keyword.declaration.scala
+//                               ^^^ entity.other.inherited-class.scala
