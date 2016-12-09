@@ -365,10 +365,10 @@ type Foo = Bar[A] forSome { type A }
 // ^^^ keyword.other.scala
 
    extends
-// ^^^^^^^ keyword.declaration.scala
+// ^^^^^^^ invalid.keyword.dangling-extends.scala
 
    with
-// ^^^^ keyword.declaration.scala
+// ^^^^ invalid.keyword.dangling-with.scala
 
    class
 // ^^^^^ storage.type.class.scala
@@ -1258,3 +1258,21 @@ for (
   abc = () => 42
 //         ^^ storage.type.function.arrow.scala
 )
+
+   extends
+// ^^^^^^^ invalid.keyword.dangling-extends.scala
+
+   with
+// ^^^^ invalid.keyword.dangling-with.scala
+
+class Foo with Bar
+//        ^^^^ invalid.keyword.with-before-extends.scala
+
+class Foo extends Bar extends Baz
+//                    ^^^^^^^ invalid.keyword.extends-after-extends.scala
+
+class Foo extends Bar[A with B](42)
+//                    ^ support.class.scala
+//                      ^^^^ keyword.declaration.scala
+//                           ^ support.class.scala
+//                              ^^ constant.numeric.integer.scala

@@ -419,8 +419,8 @@ contexts:
       set: class-parameter-list
     - match: '\['
       push: class-tparams-brackets
-    - match: '(?=extends|with)'
-      pop: true
+    - match: '(?=\b(extends|with)\b)'
+      set: class-inheritance
     - match: '\n'
       set: class-type-parameter-list-newline
 
@@ -463,13 +463,92 @@ contexts:
         - include: main
     - match: '\n'
       set: class-parameter-list-newline
-    - match: '(?=([\{]|extends))'
+    - match: '(?=\b(extends|with)\b)'
+      set: class-inheritance
+    - match: '(?=\{)'
       pop: true
 
   class-parameter-list-newline:
     - include: decl-newline-double-check
     - match: '(?=\S)'
       set: class-parameter-list
+
+  class-inheritance:
+    - include: class-inheritance-extends
+
+  class-inheritance-extends:
+    - match: \bwith\b
+      scope: invalid.keyword.with-before-extends.scala
+      pop: true
+    - match: \bextends\b
+      scope: keyword.declaration.scala
+      set: class-inheritance-extends-token
+    - match: '(?=\{)'
+      pop: true
+    - match: '\n'
+      set: class-inheritance-extends-newline
+
+  class-inheritance-extends-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-inheritance
+
+  class-inheritance-extends-token:
+    - match: '{{id}}'
+      scope: entity.other.inherited-class.scala
+      set: class-inheritance-extends-token-after
+    - match: \(
+      set:
+        - match: \)
+          set: class-inheritance-with
+        - include: delimited-type-expression
+    - match: '\n'
+      set: class-inheritance-extends-token-newline
+
+  class-inheritance-extends-token-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-inheritance-extends-token
+
+  class-inheritance-extends-token-after:
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: main
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: delimited-type-expression
+    - match: (?=\b(with|extends)\b)
+      set: class-inheritance-with
+    - match: (?=\{)
+      pop: true
+    - match: '\n'
+      set: class-inheritance-extends-token-after-newline
+
+  class-inheritance-extends-token-after-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-inheritance-extends-token-after
+
+  class-inheritance-with:
+    - match: \bextends\b
+      scope: invalid.keyword.extends-after-extends.scala
+      pop: true
+    - match: \bwith\b
+      scope: keyword.declaration.scala
+      set: class-inheritance-extends-token
+    - match: '(?=\{)'
+      pop: true
+    - match: '\n'
+      set: class-inheritance-with-newline
+
+  class-inheritance-with-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: class-inheritance-with
 
   imports:
     - match: \b(import)\b
@@ -584,7 +663,11 @@ contexts:
       scope: keyword.operator.word.scala
 
   late-keywords:
-    - match: \b(extends|with|forSome)\b
+    - match: \bextends\b
+      scope: invalid.keyword.dangling-extends.scala
+    - match: \bwith\b
+      scope: invalid.keyword.dangling-with.scala
+    - match: \bforSome\b
       scope: keyword.declaration.scala
     - match: \b(class|trait|object)\b
       scope: storage.type.class.scala
