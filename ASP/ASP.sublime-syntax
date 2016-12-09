@@ -90,6 +90,15 @@ contexts:
     - match: '\s*(?=\S)'
       pop: true
 
+  expect_identifier_member_reference:
+    - match: '\s*({{identifier}})'
+      captures:
+        1: variable.other.member.asp
+      pop: true
+    - match: '' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
+      pop: true
+    - include: unexpected_token
+
   expect_identifier_reference:
     - match: '\s*({{identifier}})'
       captures:
@@ -433,7 +442,7 @@ contexts:
     - match: '{{constants}}'
       scope: support.type.vb.asp # maybe this should be constant.language.asp
     - match: '{{functions}}'
-      scope: support.function.vb.asp
+      scope: support.function.vb.asp # TODO: scope opening and closing parens i.e. LBound(var_name) but needs to handle (ignore) nested parens LBound((var_name)). Will also apply to things like Response.Write below. Note that parens are optional (when return value is not used) i.e. on it's own line, `LBound var_name` is valid. In other cases the parens can't be accurately scoped, because we don't know if they are for array access or method params
     - match: '{{keywords}}'
       scope: storage.type.asp
     - include: operators
@@ -527,7 +536,7 @@ contexts:
       captures:
         1: punctuation.accessor.asp
         2: invalid.illegal.unexpected-token.asp
-      push: expect_identifier_reference
+      push: expect_identifier_member_reference
 
   inside_control_flow_with:
     - meta_scope: meta.with.block.asp
