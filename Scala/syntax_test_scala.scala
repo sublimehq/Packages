@@ -1284,3 +1284,13 @@ class Foo extends Bar { val x = 42 } with Baz
 class Foo { val x = 42 } extends Bar with Baz
 //                       ^^^^^^^ keyword.declaration.scala
 //                               ^^^ entity.other.inherited-class.scala
+
+class Foo {
+
+// <- meta.class.body.scala
+}
+
+class Foo extends Bar {
+
+// <- meta.class.body.scala
+}
