@@ -90,7 +90,6 @@ contexts:
   main-pre-lambdas:
     - include: storage-modifiers
     - include: declarations
-    - include: inheritance
     - include: for-comprehension
     - include: keywords
     - include: imports
@@ -579,19 +578,6 @@ contexts:
               scope: variable.import.scala
             - match: '_'
               scope: variable.language.underscore.scala
-
-  inheritance:
-    - match: '\b(extends|with)\s+([^\s\{\(\[\]]+)'
-      captures:
-        1: keyword.declaration.scala
-        2: entity.other.inherited-class.scala
-    - match: '\b(extends|with)\s+\('
-      captures:
-        1: keyword.declaration.scala
-      push:
-        - match: '\)'
-          pop: true
-        - include: delimited-type-expression
 
   # we need to greedily capture operators to prevent (e.g.) :: being matched as an ascription
   # it would be incorrect to scope operators specially, since they are just identifiers
