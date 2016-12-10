@@ -6,6 +6,13 @@ file_extensions:
   - java
   - bsh
 scope: source.java
+variables:
+  primitives: \b(void|boolean|byte|char|short|int|float|long|double)\b
+
+  # source: http://stackoverflow.com/a/5205467/9815
+  id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
+  qualified_id: '(?:(?:{{id}}\.)*{{id}})'
+
 contexts:
   main:
     - include: package
@@ -47,7 +54,7 @@ contexts:
   all-types:
     - include: primitive-arrays
     - include: primitive-types
-    - include: object-types
+    # - include: object-types
   annotations:
     - match: '(@[^ (]+)(\()'
       captures:
@@ -75,7 +82,7 @@ contexts:
           pop: true
         - match: '(\w+)\s*(?=\[)'
           captures:
-            1: storage.type.java
+            1: support.class.java
           push:
             - match: '}|(?=;|\))'
               pop: true
@@ -93,7 +100,7 @@ contexts:
           push:
             - match: \)
               pop: true
-            - include: object-types
+            # - include: object-types
             - match: \(
               push:
                 - match: (?=\))
@@ -329,14 +336,31 @@ contexts:
       scope: entity.other.inherited-class.java
       captures:
         1: keyword.operator.dereference.java
+
   parameters:
     - match: \bfinal\b
       scope: storage.modifier.java
-    - include: primitive-arrays
-    - include: primitive-types
-    - include: object-types
-    - match: \w+
+    - match: '{{primitives}}'
+      scope: storage.type.primitive.java
+      set: parameter-after
+    - match: '{{qualified_id}}'
+      scope: support.class.java
+      set: parameter-after
+    - match: ','
+      scope: punctuation.separator.java
+    - match: '(?=\))'
+      pop: true
+  parameter-after:
+    - match: '\.\.\.'
+      scope: keyword.operator.varargs.java
+    - match: '(\[)\s*(\])'
+      captures:
+        1: punctuation.section.brackets.begin.java
+        2: punctuation.section.brackets.end.java
+    - match: '{{id}}'
       scope: variable.parameter.java
+      set: parameters
+
   parens:
     - match: \(
       push:
@@ -347,7 +371,7 @@ contexts:
     - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)(\[\])*\b'
       scope: storage.type.primitive.array.java
   primitive-types:
-    - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
+    - match: '{{primitives}}'
       scope: storage.type.primitive.java
   storage-modifiers:
     - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
@@ -378,8 +402,8 @@ contexts:
         - meta_scope: meta.throwables.java
         - match: "(?={|;)"
           pop: true
-        - include: object-types
+        # - include: object-types
   values:
     - include: strings
-    - include: object-types
+    # - include: object-types
     - include: constants-and-special-vars
