@@ -842,7 +842,7 @@ contexts:
       set: after-expression
 
   constant-placeholder:
-    - match: |-
+    - match: |- # printf style
         (?x)
         %
           ( \( ({{identifier}}) \) )? # mapping key
@@ -862,7 +862,11 @@ contexts:
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
-    - match: |-
+    - include: formatting-syntax
+
+  formatting-syntax:
+    # https://docs.python.org/3.6/library/string.html#formatstrings
+    - match: |- # simple form
         (?x)
         \{
           (?: [\w.\[\]]+)?         # field_name
@@ -873,6 +877,20 @@ contexts:
       captures:
         1: storage.modifier.conversion.python
         2: constant.other.format-spec.python
+    - match: \{(?=[^\}]+\{) # complex (nested) form
+      push:
+        - meta_scope: constant.other.placeholder.python
+        - match: \}
+          pop: true
+        - match: '[\w.\[\]]+'
+        - match: '![ars]'
+          scope: storage.modifier.conversion.python
+        - match: ':'
+          push:
+            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - match: (?=\})
+              pop: true
+            - include: formatting-syntax
 
   f-string-content:
     # https://www.python.org/dev/peps/pep-0498/

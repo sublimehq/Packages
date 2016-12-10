@@ -453,7 +453,10 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #         ^^^^^ constant.other.format-spec
 
 "result: {value:{width}.{precision}}"
-
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
+#              ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#               ^^^^^^^ constant.other.placeholder constant.other.placeholder
+#                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
 
 f"string"
 # <- storage.type.string
