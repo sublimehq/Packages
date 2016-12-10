@@ -5,6 +5,7 @@
 ###############################
 
 var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+#     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
 #                ^^^^ constant.character.escape.hex
@@ -23,7 +24,7 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                                                       ^^^^^^^^^ constant.character.escape.unicode
 
 conn.execute("SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.DML.sql
 
 conn.execute('SELECT * FROM foobar')
 #              ^ keyword.other.DML.sql
@@ -44,7 +45,7 @@ conn.execute(u'SELECT * FROM foobar')
 
 # In this example, the Python string is raw, so the \b should be a SQL escape
 conn.execute(r"SELECT * FROM foobar WHERE baz = '\b")
-#              ^ keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.DML.sql
 #                                                 ^ constant.character.escape.sql
 
 # This tests to ensure the Python placeholder will be highlighted even in a raw SQL string
@@ -65,7 +66,7 @@ conn.execute(r"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 
 # Capital R prevents all syntax embedding
 conn.execute(R'SELECT * FROM foobar')
-#              ^ - keyword.other.DML.sql
+#              ^ meta.string.python - keyword.other.DML.sql
 
 conn.execute(R"SELECT * FROM foobar")
 #              ^ - keyword.other.DML.sql
@@ -82,7 +83,7 @@ conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                                                          ^ constant.character.escape.python
 
 regex = r'\b ([fobar]*){1}(?:a|b)?'
-#         ^ keyword.control.anchor.regexp
+#         ^ meta.string.python keyword.control.anchor.regexp
 #                       ^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
@@ -128,7 +129,7 @@ string = """
 """
 
 string = r"""
-#         ^^^ string.quoted.double.block
+#         ^^^ meta.string.python string.quoted.double.block
 """
 
 string = r"""
@@ -352,7 +353,7 @@ rb'''This is a \n (test|with), %s no unicode \uDEAD'''
 #                                              ^^^^ - constant
 rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
+# ^^^ meta.string.python string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
 #                      ^ keyword.operator.or.regexp
 #                              ^^ - constant
