@@ -123,6 +123,15 @@ echo "${FOO}$FOO-bar"
 fun (hello)
 #^^ -meta.function
 
+export-function
+#^^^^^ -storage.modifier
+#      ^^^^^^^^ -keyword.other
+
+while-if-for
+#^^^^ -keyword
+#     ^^ -keyword
+#        ^^^ -keyword
+
   if [[ "true" -eq "true" ]]; then
 #^ -meta.scope.if-block
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.if-block
