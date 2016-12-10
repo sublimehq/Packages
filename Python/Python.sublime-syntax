@@ -868,19 +868,23 @@ contexts:
     # https://docs.python.org/3.6/library/string.html#formatstrings
     - match: |- # simple form
         (?x)
-        \{
+        (\{)
           (?: [\w.\[\]]+)?         # field_name
           (   ! [ars])?            # conversion
           (   : {{format_spec}} )? # format_spec
-        \}
+        (\})
       scope: constant.other.placeholder.python
       captures:
-        1: storage.modifier.conversion.python
-        2: constant.other.format-spec.python
+        1: punctuation.definition.placeholder.begin.python
+        2: storage.modifier.conversion.python
+        3: constant.other.format-spec.python
+        4: punctuation.definition.placeholder.end.python
     - match: \{(?=[^\}]+\{) # complex (nested) form
+      scope: punctuation.definition.placeholder.begin.python
       push:
         - meta_scope: constant.other.placeholder.python
         - match: \}
+          scope: punctuation.definition.placeholder.end.python
           pop: true
         - match: '[\w.\[\]]+'
         - match: '![ars]'

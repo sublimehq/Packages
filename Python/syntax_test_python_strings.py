@@ -444,6 +444,8 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 
 "Testing {:,.2f}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
+#        ^ punctuation.definition.placeholder.begin
+#              ^ punctuation.definition.placeholder.end
 
 "Testing {0:>9,}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
@@ -455,8 +457,11 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 "result: {value:{width}.{precision}}"
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
 #              ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#        ^ punctuation.definition.placeholder.begin
 #               ^^^^^^^ constant.other.placeholder constant.other.placeholder
+#               ^ punctuation.definition.placeholder.begin
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
+#                                 ^^ punctuation.definition.placeholder.end
 
 f"string"
 # <- storage.type.string
