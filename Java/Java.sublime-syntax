@@ -322,7 +322,7 @@ contexts:
       scope: invalid.illegal.java
     - match: \b(try|catch|finally|throw)\b
       scope: keyword.control.catch-exception.java
-    - match: '\?|(?:[:](?=[^:]))'
+    - match: '\?|:'
       scope: keyword.control.java
     - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
       scope: keyword.control.java
@@ -343,8 +343,8 @@ contexts:
       scope: keyword.operator.arithmetic.java
     - match: (!|&&|\|\|)
       scope: keyword.operator.logical.java
-    - match: (?<=\S)\.(?=\S)
-      scope: keyword.operator.dereference.java
+    - match: \.
+      scope: punctuation.accessor.java
     - match: ;
       scope: punctuation.terminator.java
   methods:
