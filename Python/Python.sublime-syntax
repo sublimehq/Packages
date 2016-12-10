@@ -26,7 +26,17 @@ variables:
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
-
+  format_spec: |-
+    (?x:
+      (?:.? [<>=^])?     # fill align
+      [ +-]?             # sign
+      \#?                # alternate form
+      # technically, octal and hexadecimal integers are also supported as 'width', but rarely used
+      \d*                # width
+      ,?                 # thousands separator
+      (?:\.\d+)?         # precision
+      [bcdeEfFgGnosxX%]? # type
+    )
 contexts:
   main:
     - include: statements
@@ -667,45 +677,6 @@ contexts:
         )\b
       scope: support.type.python
 
-  constant-placeholder:
-    - match: |-
-        (?x)
-        %
-          ( \( ({{identifier}}) \) )? # mapping key
-          \#?            # alternate form
-          0?             # pad with zeros
-          \-?            # left-adjust
-          \ ?            # implicit sign
-          [+-]?          # sign
-          (\d*|\*)       # width
-          (\. (\d*|\*))? # precision
-          [hlL]?         # length modifier (but ignored)
-          [acdeEfFgGiorsuxX%]
-      scope: constant.other.placeholder.python
-      captures:
-        2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
-      scope: constant.other.placeholder.python
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.python
-    - match: |-
-        (?x)
-        \{
-          ([\w.\[\]]+)? # field_name
-          (! [rsa])?    # conversion
-          (:            # format_spec
-            (.? [<>=^])?       # fill align
-            [ +-]?             # sign
-            \#?                # alternate form
-            \d*                # width
-            ,?                 # thousands separator
-            (\.\d+)?           # precision
-            [bcdeEfFgGnosxX%]? # type
-          )?
-          # technically, octal and hexadecimal integers are also supported as 'width', but rarely used
-        \}
-      scope: constant.other.placeholder.python
-
   name:
     - match: '(?={{identifier}})'
       push:
@@ -870,6 +841,88 @@ contexts:
       scope: invalid.illegal.unclosed-string.python
       set: after-expression
 
+  constant-placeholder:
+    - match: |-
+        (?x)
+        %
+          ( \( ({{identifier}}) \) )? # mapping key
+          \#?            # alternate form
+          0?             # pad with zeros
+          \-?            # left-adjust
+          \ ?            # implicit sign
+          [+-]?          # sign
+          (\d*|\*)       # width
+          (\. (\d*|\*))? # precision
+          [hlL]?         # length modifier (but ignored)
+          [acdeEfFgGiorsuxX%]
+      scope: constant.other.placeholder.python
+      captures:
+        2: variable.other.placeholder.python
+    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+      scope: constant.other.placeholder.python
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.python
+    - match: |-
+        (?x)
+        \{
+          (?: [\w.\[\]]+)?         # field_name
+          (   ! [ars])?            # conversion
+          (   : {{format_spec}} )? # format_spec
+        \}
+      scope: constant.other.placeholder.python
+      captures:
+        1: storage.modifier.conversion.python
+        2: constant.other.format-spec.python
+
+  f-string-content:
+    # https://www.python.org/dev/peps/pep-0498/
+    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - match: (?=\{)
+      push: f-string-replacement
+    - match: \}
+      scope: invalid.illegal.stray-brace.python
+
+  f-string-replacement:
+    - clear_scopes: 1
+    - match: \}
+      scope: punctuation.definition.interpolation.end.python
+      pop: true
+    - match: \{
+      scope: punctuation.definition.interpolation.begin.python
+      push:
+        - meta_content_scope: source.python.embedded
+        - match: (?=})
+          pop: true
+        # This gets pretty hacky, but the reasoning is that we only want
+        # `source.python.embedded` on actual source, not the formatting.
+        - match: (?=![ars])
+          set:
+            - match: '![ars]'
+              scope: storage.modifier.conversion.python
+            - match: ''
+              set: f-string-format-spec
+        - match: (?=:)
+          set:
+            - match: ':'
+              set: f-string-format-spec
+        - match: \\
+          scope: invalid.illegal.backslash-in-fstring.python
+        - include: expressions
+
+  f-string-format-spec:
+    - meta_scope: constant.other.format-spec.python
+    # Because replacements can also be used *within* the format-spec,
+    # basically any character is valid and matching {{format_spec}} is useless.
+    # - match: '{{format_spec}}'
+    - match: (?=})
+      pop: true
+    - match: (?=\{)
+      push: f-string-replacement
+
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
     - match: '([uU]?R)(""")'
@@ -939,6 +992,30 @@ contexts:
           with_prototype:
             - match: '(?=""")'
               pop: true
+    # Triple-quoted raw f-string
+    - match: ((?i)fr|rf)(""")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: f-string-content
+    # Triple-quoted f-string
+    - match: ((?i)f|f)(""")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: f-string-content
     # Triple-quoted string, unicode or not, will detect SQL
     - match: '([uU]?)(""")'
       captures:
@@ -1054,6 +1131,32 @@ contexts:
             - match: '(?="|\n)'
               pop: true
           push: 'scope:source.regexp.python'
+    # Single-line raw f-string
+    - match: ((?i)fr|rf)(")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - include: f-string-content
+    # Single-line f-string
+    - match: ((?i)f|f)(")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: line-continuation-inside-string
+        - include: f-string-content
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)(")(?={{sql_indicator}})'
       captures:
@@ -1171,6 +1274,30 @@ contexts:
             - match: (?=''')
               pop: true
           push: 'scope:source.regexp.python'
+    # Triple-quoted raw f-string
+    - match: ((?i)fr|rf)(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: f-string-content
+    # Triple-quoted f-string
+    - match: ((?i)f|f)(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: f-string-content
     # Triple-quoted string, unicode or not, will detect SQL
     - match: ([uU]?)(''')
       captures:
@@ -1287,6 +1414,32 @@ contexts:
               pop: true
             - include: line-continuation-inside-string
           push: 'scope:source.regexp.python'
+    # Single-line raw f-string
+    - match: ((?i)fr|rf)(')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: line-continuation-inside-string
+        - include: f-string-content
+    # Single-line f-string
+    - match: ((?i)f|f)(')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - include: f-string-content
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)('')(?={{sql_indicator}})'
       captures:

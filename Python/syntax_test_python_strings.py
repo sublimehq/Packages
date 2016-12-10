@@ -413,6 +413,7 @@ sql = b'just some \
 #                 ^^^^^^^^^^^^ constant.other.placeholder.python
 "Harold's a clever {0!s}"         # Calls str() on the argument first
 #                  ^^^^^ constant.other.placeholder.python
+#                    ^^ storage.modifier.conversion.python
 "Bring out the holy {name!r}"     # Calls repr() on the argument first
 #                   ^^^^^^^^ constant.other.placeholder.python
 "More {!a}"                       # Calls ascii() on the argument first
@@ -449,6 +450,85 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 
 "Testing {:j^9,}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
+#         ^^^^^ constant.other.format-spec
+
+"result: {value:{width}.{precision}}"
+
+
+f"string"
+# <- storage.type.string
+#^^^^^^^^ string.quoted.double
+
+ RF"""string"""
+#^^ storage.type.string
+#^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block
+
+F'''string'''
+# <- storage.type.string
+#^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
+
+ rf'string'
+#^^ storage.type.string
+#^^^^^^^^^^ meta.string.interpolated string.quoted.single
+
+
+# FIXME The opening brace incorrectly gets its scope stack reset
+# due to https://github.com/SublimeTextIssues/Core/issues/1526.
+# Thus, the following tests on it are failing.
+
+f"{something}"
+#^^^^^^^^^^^^ meta.string.interpolated
+# <- storage.type.string
+#^ punctuation.definition.string.begin
+# ^ punctuation.definition.interpolation.begin
+#           ^ punctuation.definition.interpolation.end
+#            ^ punctuation.definition.string.end
+#  ^^^^^^^^^ source source.python.embedded
+#              ^ source - meta, string, source source
+
+f"{True!a:02f}"
+#^^^^^^^^^^^^^^ meta.string.interpolated
+# ^ - source source.python.embedded
+#  ^^^^ source source.python.embedded constant.language
+#      ^^^^^^^ - source source.python.embedded
+#      ^^ storage.modifier.conversion - constant.other.format-spec
+#        ^^^^ constant.other.format-spec
+#            ^ punctuation.definition.interpolation.end
+#             ^ punctuation.definition.string.end
+#              ^ source - meta, string, source source
+
+f"result: {value:{width}.{precision}}\n"
+#         ^ - source source
+#          ^^^^^ source source.python.embedded
+#               ^^ - source source
+#                 ^^^^^ source source.python.embedded
+#                       ^ - source source
+#                         ^^^^^^^^^ source source.python.embedded
+#                                  ^^ - source source
+#                                    ^^ constant.character.escape
+
+rf"{value:{width!s:d}}"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+#          ^^^^^ source source.python.embedded
+#               ^^ storage.modifier.conversion
+#                 ^^ constant.other.format-spec
+
+F""" {} {\} }
+#^^^^^^^^^^^ meta.string.interpolated
+#^^^ punctuation.definition.string.begin
+#    ^^ invalid.illegal.empty-expression
+#        ^ invalid.illegal.backslash-in-fstring
+#           ^ invalid.illegal.stray-brace
+"""
+
+f'   \
+ {1 + 2!a:02f}'
+#^^^^^^^^^^^^^^ meta.string.interpolated
+# ^^^^^ source source.python.embedded
+
+f'
+# ^ invalid.illegal.unclosed-string
+
 
 # <- - meta
 # this test is to ensure we're not matching anything here anymore
