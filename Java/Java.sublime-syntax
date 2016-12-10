@@ -61,10 +61,11 @@ contexts:
           pop: true
         - match: (?=\n)
           pop: true
+
   all-types:
     - include: primitive-arrays
     - include: primitive-types
-    # - include: object-types
+
   annotations:
     - match: '(@[^ (]+)(\()'
       captures:
@@ -254,6 +255,7 @@ contexts:
             - match: "(?=})"
               pop: true
             - include: class-body
+
   class-body:
     - include: class
     - include: enums
@@ -261,6 +263,7 @@ contexts:
     - include: annotations
     - include: storage-modifiers
     - include: code
+
   code:
     - include: class
     - match: "{"
@@ -326,6 +329,7 @@ contexts:
                 - match: "}"
                   pop: true
                 - include: class-body
+
   keywords:
     - match: '::'
       scope: keyword.control.method-reference.java
@@ -363,6 +367,7 @@ contexts:
       scope: punctuation.accessor.java
     - match: ;
       scope: punctuation.terminator.java
+
   methods:
     - match: '(?=\w.*\s+)(?=[^=;]+\()'
       push:
@@ -392,50 +397,21 @@ contexts:
             - match: "(?=})"
               pop: true
             - include: code
-  object-types:
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
-      push:
-        - meta_scope: storage.type.generic.java
-        - match: '>|[^\w\s,\?<\[\].]'
-          pop: true
-        - include: object-types
-        - match: <
-          comment: This is just to support <>'s with no actual type prefix
-          push:
-            - meta_scope: storage.type.generic.java
-            - match: '>|[^\w\s,\[\]<]'
-              pop: true
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)(?=\[)'
-      push:
-        - meta_scope: storage.type.object.array.java
-        - match: '(?=[^\]\s])'
-          pop: true
-        - match: '\['
-          push:
-            - match: '\]'
-              pop: true
-            - include: code
-    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*\b'
-      scope: storage.type.java
-      captures:
-        1: keyword.operator.dereference.java
+
   object-types-inherited:
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
-      push:
-        - meta_scope: entity.other.inherited-class.java
-        - match: '>|[^\w\s,<]'
-          pop: true
-        - include: object-types
-        - match: <
-          comment: This is just to support <>'s with no actual type prefix
-          push:
-            - meta_scope: storage.type.generic.java
-            - match: '>|[^\w\s,<]'
-              pop: true
-    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*'
+    - match: '\b{{qualified_id}}\b(?=\s*<)'
       scope: entity.other.inherited-class.java
-      captures:
-        1: keyword.operator.dereference.java
+      push:
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          set:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
+              pop: true
+            - include: generic-instantiation
+    - match: '\b{{qualified_id}}\b'
+      scope: entity.other.inherited-class.java
 
   method-parameters:
     - meta_scope: meta.method.identifier.java
@@ -603,5 +579,4 @@ contexts:
 
   values:
     - include: strings
-    # - include: object-types
     - include: constants-and-special-vars

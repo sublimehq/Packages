@@ -121,6 +121,9 @@ class ExtendsTest implements Foo {}
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
 
+class Foo<A> extends Bar<? extends A> {}
+//                         ^^^^^^^ meta.definition.class.inherited.classes.java keyword.declaration.extends.java
+
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
@@ -216,3 +219,4 @@ new Foo<? super Bar>();
 
 new Foo<int>();
 //      ^^^ invalid.illegal.primitive-instantiation.java
+
