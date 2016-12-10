@@ -14,10 +14,15 @@ variables:
   qualified_id: '(?:(?:{{id}}\.)*{{id}})'
 
 contexts:
+  prototype:
+    - include: comments
+
   main:
+    - include: comments
     - include: package
     - include: import
     - include: code
+
   package:
     - match: '\bpackage\b'
       scope: keyword.other.package.java
@@ -133,7 +138,6 @@ contexts:
           scope: punctuation.section.class.end.java
           pop: true
         - include: storage-modifiers
-        - include: comments
         - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)(\w+)
           scope: meta.class.identifier.java
           captures:
@@ -146,7 +150,6 @@ contexts:
             - match: '(?={|\bimplements\b)'
               pop: true
             - include: object-types-inherited
-            - include: comments
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
@@ -154,7 +157,6 @@ contexts:
             - match: '(?=\bextends\b|\{)'
               pop: true
             - include: object-types-inherited
-            - include: comments
         - match: "{"
           push:
             - meta_scope: meta.class.body.java
@@ -162,7 +164,6 @@ contexts:
               pop: true
             - include: class-body
   class-body:
-    - include: comments
     - include: class
     - include: enums
     - include: methods
@@ -170,7 +171,6 @@ contexts:
     - include: storage-modifiers
     - include: code
   code:
-    - include: comments
     - include: class
     - match: "{"
       push:
@@ -221,7 +221,6 @@ contexts:
       push:
         - match: "(?=;|})"
           pop: true
-        - include: comments
         - match: \w+
           scope: constant.other.enum.java
           push:
@@ -380,6 +379,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.java
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.java
         - match: '"'
           scope: punctuation.definition.string.end.java
@@ -389,6 +389,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.java
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.java
         - match: "'"
           scope: punctuation.definition.string.end.java
