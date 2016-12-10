@@ -184,13 +184,34 @@ class InvalidStuff
    volatile
 // ^^^^^^^^ storage.modifier.java
 
-   foo()
+   foo();
 // ^^^ variable.function.java
-   Foo()
+   Foo();
 // ^^^ variable.function.java
-   foo ()
+   foo ();
 // ^^^ variable.function.java
-   foo<int>()
+   foo<int>();
 // ^^^ variable.function.java
-   foo <int>()
+   foo <int>();
 // ^^^ variable.function.java
+
+   a -> 42;
+// ^ variable.parameter.java
+//   ^^ storage.type.lambda.java
+//      ^^ constant.numeric
+
+   a -> { return 42; };
+//      ^^^^^^^^^^^^^^ meta.lambda.body.java
+
+   (a, b) -> 42;
+//  ^ variable.parameter.java
+//     ^ variable.parameter.java
+//        ^^ storage.type.lambda.java
+//           ^^ constant.numeric
+
+   (int a, Foo<Integer>[] b) -> 42;
+//  ^^^ storage.type.primitive
+//      ^ variable.parameter.java
+//                    ^ variable.parameter.java
+//                       ^^ storage.type.lambda.java
+//                          ^^ constant.numeric

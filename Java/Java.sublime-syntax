@@ -16,6 +16,7 @@ variables:
 
   # utility lookaround
   within_generics: '(?:<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)'  # handles 3 levels nesting
+  lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
 
 contexts:
   prototype:
@@ -182,6 +183,8 @@ contexts:
       pop: true
 
   generic-instantiation:
+    - match: '{{primitives}}'
+      scope: invalid.illegal.primitive-instantiation.java
     - match: \?
       scope: keyword.operator.wildcard.java
     - match: \b(extends|super)\b
@@ -256,6 +259,7 @@ contexts:
           pop: true
         - include: code
     - include: assertions
+    - include: lambdas
     - include: parens
     - include: constants-and-special-vars
     - include: anonymous-classes-and-new
@@ -452,12 +456,51 @@ contexts:
       scope: variable.parameter.java
       set: parameters
 
+  lambdas:
+    - match: '(?={{lambda_lookahead}})'
+      push: lambda-params
+
+  lambda-params:
+    - meta_scope: meta.lambda.parameters.java
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.lambda.parameters.paren.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          set: lambda-arrow
+        - match: (?=(\s*{{id}}\s*,)*\s*{{id}}\s*\))
+          push: lambda-params-simple
+        - match: (?=\S)
+          push: parameters
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      set: lambda-arrow
+
+  lambda-params-simple:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+    - match: ','
+      scope: punctuation.separator.java
+    - match: (?=\S)
+      pop: true
+
+  lambda-arrow:
+    - match: ->
+      scope: storage.type.lambda.java
+      set:
+        - meta_scope: meta.lambda.body.java
+        - match: (?=[)};])
+          pop: true
+        - include: code
+
   parens:
     - match: \(
       push:
         - match: \)
           pop: true
         - include: code
+
   primitive-arrays:
     - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)(\[\])*\b'
       scope: storage.type.primitive.array.java
@@ -488,14 +531,27 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.java
+
   throws:
     - match: \bthrows\b
       scope: storage.modifier.java
       push:
         - meta_scope: meta.throwables.java
-        - match: "(?={|;)"
+        - match: (?=\{|;)
           pop: true
-        # - include: object-types
+        - match: '{{qualified_id}}'
+          scope: support.class.java
+          push:
+            - match: '<'
+              scope: punctuation.definition.generic.begin.java
+              set:
+                - match: '>'
+                  scope: punctuation.definition.generic.end.java
+                  pop: true
+                - include: generic-instantiation
+            - match: (?=\S)
+              pop: true
+
   values:
     - include: strings
     # - include: object-types
