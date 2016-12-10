@@ -172,9 +172,9 @@ class InvalidStuff
 // ^^^ variable.function.java
    foo ();
 // ^^^ variable.function.java
-   foo<int>();
+   foo<A>();
 // ^^^ variable.function.java
-   foo <int>();
+   foo <B>();
 // ^^^ variable.function.java
 
    a -> 42;

@@ -145,8 +145,21 @@ contexts:
       pop: true
 
   functions:
-    - match: '\b{{id}}(?=(\s*<.+>)?\s*\()'
+    - match: '\b{{id}}(?=(\s*{{within_generics}})?\s*\()'
       scope: variable.function.java
+      push: function-generics
+
+  function-generics:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      push:
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          pop: true
+        - include: generic-instantiation
+    - match: '(?=\S)'
+      pop: true
 
   fields:
     - match: '{{primitives}}(?=(\s*\[\s*\])?\s+{{id}})'
