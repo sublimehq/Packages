@@ -506,7 +506,13 @@ f"result: {value:{width}.{precision}}\n"
 #                         ^^^^^^^^^ source source.python.embedded
 #                                  ^^ - source source
 #                                    ^^ constant.character.escape
-
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.python
+#               ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#          ^^^^^^ - meta.interpolation.python meta.interpolation.python
+#                ^^^^^^^ meta.interpolation.python meta.interpolation.python
+#                       ^ - meta.interpolation.python meta.interpolation.python
+#                        ^^^^^^^^^^^ meta.interpolation.python meta.interpolation.python
+#                                   ^^^ - meta.interpolation.python meta.interpolation.python
 rf"{value:{width!s:d}}"
 #^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 #          ^^^^^ source source.python.embedded
