@@ -20,6 +20,7 @@ scope: source.shell
 contexts:
   main:
     - include: comment
+    - include: operators
     - include: pipeline
     - include: list
     - include: compound-command
@@ -378,6 +379,8 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '(?<!\S)-(nt|ot|ef|eq|ne|l[te]|g[te]|[a-hknoprstuwxzOGLSN])'
       scope: keyword.operator.logical.shell
+    - match: '(?<=\s)!(?=\s)'
+      scope: keyword.operator.logical.shell
   loop:
     - match: '(?<![-/.+~])\b(for)\s+(?=\({2})'
       captures:
@@ -463,6 +466,9 @@ contexts:
       scope: constant.numeric.other.shell
     - match: \d+
       scope: constant.numeric.integer.shell
+  operators:
+    - match: '(?<=\s|[|&;]|^)!(?=\s)'
+      scope: keyword.operator.logical
   pathname:
     - match: '(?<=[a-zA-Z0-9_])=(?=\s*$|[^\s])'
       scope: keyword.operator.assign.shell
@@ -482,7 +488,7 @@ contexts:
           pop: true
         - include: main
   pipeline:
-    - match: '[|!](?!\|)'
+    - match: '[|](?!\|)'
       scope: keyword.operator.pipe.shell
   redirection:
     - match: '[><]\('

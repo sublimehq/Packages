@@ -98,12 +98,13 @@ FOO=("a" "b" "c")
 #  ^ keyword.operator.assign
 #   ^^^^^^^^^^^^^ -meta.scope.subshell
 
-echo true|[[ "a" == "a" ]]
+echo true|[[ ! "a" == "a" ]]
 #        ^ keyword.operator.pipe
 #         ^^ punctuation.definition.logical-expression
-#                ^^ keyword.operator.logical
-#                       ^^ punctuation.definition.logical-expression
-#         ^^^^^^^^^^^^^^^^ meta.scope.logical-expression
+#            ^ keyword.operator.logical
+#                  ^^ keyword.operator.logical
+#                         ^^ punctuation.definition.logical-expression
+#         ^^^^^^^^^^^^^^^^^^ meta.scope.logical-expression
 
 echo true[[ "a" == "a" ]]
 #        ^^^^^^^^^^^^^^^^ -meta.scope.logical-expression
@@ -111,11 +112,12 @@ echo true[[ "a" == "a" ]]
 [["a" == "a" ]]
 #^^^^^^^^^^^^^^ -meta.scope.logical-expression
 
-echo true|[ "a" == "a" ]
+echo true|[ ! "a" == "a" ]
 #        ^ keyword.operator.pipe
 #         ^ punctuation.definition.logical-expression
-#               ^^ keyword.operator.logical
-#                      ^ punctuation.definition.logical-expression
+#           ^ keyword.operator.logical
+#                 ^^ keyword.operator.logical
+#                        ^ punctuation.definition.logical-expression
 #         ^^^^^^^^^^^^^^ meta.scope.logical-expression
 
 echo true[ "a" == "a" ]
@@ -123,6 +125,29 @@ echo true[ "a" == "a" ]
 
 ["a" == "a" ]
 #^^^^^^^^^^^^ -meta.scope.logical-expression
+
+echo true|! grep something /etc/passwd
+#    ^^^^ support.function.builtin
+#        ^ keyword.operator.pipe
+#         ^ -keyword.operator.pipe
+#         ^ keyword.operator.logical
+#           ^^^^ keyword.other
+
+echo true| ! grep something /etc/passwd
+#    ^^^^ support.function.builtin
+#        ^ keyword.operator.pipe
+#          ^ -keyword.operator.pipe
+#          ^ keyword.operator.logical
+#            ^^^^ keyword.other
+
+!grep
+#<- -keyword.operator.pipe
+#<- -keyword.operator.logical
+#^^^^ keyword.other
+
+sudo !!
+#^^^ keyword.other
+#    ^^ -keyword.operator.pipe
 
 echo "${FOO}$FOO-bar"
 #^^^ support.function.builtin
@@ -243,7 +268,7 @@ while-if-for
 
   for NUMBER in 1 2 3 4; do
 #^ -meta.scope.for-in-loop
-# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.for-in-loop
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.for-in-loop
 # ^^^ keyword.control
 #     ^^^^^^ variable.other.loop
 #            ^^ keyword.control
