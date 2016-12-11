@@ -23,6 +23,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
+  digitpart: (?:\d[\d_]*)
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
@@ -325,29 +326,29 @@ contexts:
       scope: constant.language.python
 
   numbers:
-    - match: \b(?i:(0x\h*)L)
+    - match: \b(?i)(0x\h*)L # py2
       scope: constant.numeric.integer.long.hexadecimal.python
-    - match: \b(?i:(0x\h*))
+    - match: \b(?i)(0x[\h_]*)
       scope: constant.numeric.integer.hexadecimal.python
-    - match: '\b(?i:0(o|[0-7])[0-7]*L)'
+    - match: \b(?i)0(o|[0-7])[0-7]*L # py2
       scope: constant.numeric.integer.long.octal.python
-    - match: '\b(?i:0(o|[0-7])[0-7]*)'
+    - match: \b(?i)0(o|[0-7])[0-7_]*
       scope: constant.numeric.integer.octal.python
-    - match: \b(?i:0b[01]*L)
+    - match: \b(?i)0b[01]*L # py2
       scope: constant.numeric.integer.long.binary.python
-    - match: \b(?i:0b[01]*)
+    - match: \b(?i)0b[01_]*
       scope: constant.numeric.integer.binary.python
-    - match: '\b(?i:(((\d+(\.(?=[^a-zA-Z_])\d*)?|\.\d+)(e[\-\+]?\d+)?))J)'
+    - match: \b(?i)({{digitpart}}(\.[\d_]*)?|\.\d+)(e[\-\+]?{{digitpart}})?J
       scope: constant.numeric.complex.python
-    - match: '\b(?i:(\d+\.\d*(e[\-\+]?\d+)?))(?=[^a-zA-Z_])'
+    - match: \b(?i)({{digitpart}}\.\d*(e[\-\+]?{{digitpart}})?)\b
       scope: constant.numeric.float.python
-    - match: '(?i:(\.\d+(e[\-\+]?\d+)?))'
+    - match: \b(?i)(\.\d[\d_]*(e[\-\+]?\d+)?)
       scope: constant.numeric.float.python
-    - match: '\b(?i:(\d+e[\-\+]?\d+))'
+    - match: \b(?i)({{digitpart}}e[\-\+]?{{digitpart}})
       scope: constant.numeric.float.python
-    - match: '\b(?i:([1-9]+[0-9]*|0)L)'
+    - match: \b(?i)([1-9]\d*|0)L # py2
       scope: constant.numeric.integer.long.decimal.python
-    - match: '\b([1-9]+[0-9]*|0)'
+    - match: \b(?i)([1-9][\d_]*|0)
       scope: constant.numeric.integer.decimal.python
 
   modifiers:

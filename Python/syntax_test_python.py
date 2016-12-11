@@ -648,6 +648,14 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                          ^^^ - constant.numeric
 #                                    ^^^^^^^^^ - constant.numeric
 
+amount = 10_000_000.0_2e2_0
+#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+
+addr = 0xCAFE_F00D
+#      ^^^^^^^^^^^ constant.numeric
+
+flags = 0b_0011_1111_0100_1110
+#       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
 
 ##################
 # Operators
