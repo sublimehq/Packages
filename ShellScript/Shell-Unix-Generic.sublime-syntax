@@ -580,16 +580,10 @@ contexts:
             1: punctuation.section.array.shell
             3: punctuation.section.array.shell
   common-commands:
-    - match: '(?<![-/.+~])\b(?:bash|csh|env|ksh|ltrace|nice|nohup|setsid|sh|ssh|strace|tcsh|time|watch|xargs|zsh)(?![-/.+~\w])'
-      comment: commands that wrap other commands
-      scope: keyword.other.shell
-    - match: '(?<![-/.+~])\b(?:su|sudo)(?![-/.+~\w])'
-      comment: commands that wrap other commands (with elevated privileges)
-      scope: keyword.other.shell
-    - match: '(?<![-/.+~])\b(?:chflags|chgrp|chmod|chown|setcap|setfacl)(?![-/.+~\w])'
-      comment: commands that modify file permissions
-      scope: keyword.other.shell
-    - match: '(?<![-/.+~])\b(?:7za|apropos|apt|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bc|brew|bzip2|cal|cat|cc|cfdisk|chkconfig|chroot|cksum|clang|clang++|clear|cmake|cmp|comm|cp|cron|crontab|csplit|curl|cut|date|dc|dd|ddrescue|depmod|df|diff3?|dig|dir|dircolors|dirname|dmesg|dnf|du|egrep|eject|expand|expect|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|g++|gawk|gcc|git|grep|groupadd|groupdel|groupmod|groups|gzip|head|hg|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|join|killall|kmod|less|link|llvm|ln|locate|logname|look|logout|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|lua|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nl|notify-se|nslookup|nstat|open|openssl|paste|passwd|pathchk|perl|php|ping|pkill|pr|printcap|printenv|ps|pv|python[\d.]*|quota|quotacheck|quotactl|ram|rar|rcp|readarray|reboot|remsync|rename|renice|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|sftp|shutdown|sleep|slocate|sort|split|sqlite3?|stat|sum|suspend|svn|sync|tail|tar|tee|ethtool|timeout|top|touch|tput|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|updatedb|useradd|userdel|usermod|uptime|users|uudecode|uuencode|vmstat|wc|wget|whatis|whereis|which|who|whoami|write|xdg-open|xz|yum|zip)(?![-/.+~\w])'
+    - match: '(?<![-/.+~])\b(?:sudo|su)(?![-/.+~\w])'
+      comment: commands that run another command with elevated privileges
+      scope: keyword.other.shell support.command.privileged.shell
+    - match: '(?<![-/.+~])\b(?:7za|apropos|apt|apt-get|aptitude|ar|aspell|autoconf|awk|base64|basename|bash|bc|brew|bzip2|cal|cat|cc|cfdisk|chcon|chflags|chgrp|chkconfig|chmod|chown|chroot|cksum|clang|clang++|clear|cmake|cmp|comm|cp|cron|crontab|csh|csplit|curl|cut|date|dc|dd|ddrescue|depmod|df|diff3?|dig|dir|dircolors|dirname|dmesg|dnf|du|egrep|eject|env|ethtool|expand|expect|expr|fdformat|fdisk|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|g++|gawk|gcc|git|grep|groupadd|groupdel|groupmod|groups|gzip|head|hg|hostname|iconv|id|ifconfig|ifdown|ifup|import|insmod|install|jar|java|join|killall|kmod|ksh|less|link|llvm|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|ltrace|lua|mail|make|man|md5sum|mkdir|mkfifo|mkisofs|mknod|mmv|modinfo|modprobe|more|most|mount|mtools|mtr|mutt|mv|mysql|netstat|nice|nl|nohup|notify-se|nslookup|nstat|open|openssl|passwd|paste|pathchk|perl|php|ping|pkill|pr|printcap|printenv|ps|pv|python[\d.]*|quota|quotacheck|quotactl|ram|rar|rcp|readarray|reboot|remsync|rename|renice|rev|rm|rmdir|rmmod|rsync|ruby|scp|screen|sdiff|sed|select|seq|setcap|setfacl|setsid|sftp|sh|shutdown|sleep|slocate|sort|split|sqlite3?|ssh|stat|strace|sum|suspend|svn|sync|tail|tar|tcsh|tee|time|timeout|top|touch|tput|tr|traceroute|tsort|tty|umount|uname|unexpand|uniq|units|unrar|unshar|unzip|updatedb|uptime|useradd|userdel|usermod|users|uudecode|uuencode|vmstat|watch|wc|wget|whatis|whereis|which|who|whoami|write|xargs|xdg-open|xz|yum|zip|zsh)(?![-/.+~\w])'
       comment: other interesting commands
-      scope: keyword.other.shell
+      scope: keyword.other.shell support.command.other.shell
 

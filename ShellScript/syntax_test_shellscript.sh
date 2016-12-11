@@ -7,12 +7,12 @@
 
 
 ls -la
-#^ keyword.other
+#^ support.command
 
 cat /etc/passwd|grep root
-#^^ keyword.other
+#^^ support.command
 #              ^ keyword.operator.pipe
-#               ^^^^ keyword.other
+#               ^^^^ support.command
 
 cat /etc/passwd 2>&1 >/dev/null
 #               ^^^^ keyword.operator.redirect
@@ -22,14 +22,14 @@ cat </etc/passwd
 #   ^ keyword.operator.redirect
 
 cat <(cat /etc/passwd)
-#     ^^^ keyword.other
+#     ^^^ support.command
 #   ^^ punctuation.definition.string.begin
 #   ^^^^^^^^^^^^^^^^^^ string.interpolated.process-substitution
 #                    ^ punctuation.definition.string.end
 
 FOO=`ls -la /etc | grep "$USER" 'user'`
 #  ^ keyword.operator.assign
-#    ^^ keyword.other
+#    ^^ support.command
 #                ^ keyword.operator.pipe
 #                        ^^^^^ variable.other.normal
 #                       ^^^^^^^ string.quoted.double
@@ -40,7 +40,7 @@ FOO=`ls -la /etc | grep "$USER" 'user'`
 
 FOO=$(ls -la /etc | grep "$USER" 'user')
 #  ^ keyword.operator.assign
-#     ^^ keyword.other
+#     ^^ support.command
 #                 ^ keyword.operator.pipe
 #                         ^^^^^ variable.other.normal
 #                        ^^^^^^^ string.quoted.double
@@ -51,20 +51,28 @@ FOO=$(ls -la /etc | grep "$USER" 'user')
 
 test -f /usr/bin/gcc
 #^^^ support.function.builtin
-#                ^^^ -keyword
+#                ^^^ -support.command
 
 yum install gcc-c++
-#^^ keyword.other
-#   !!!!!!! -keyword
-#           ^^^ -keyword
+#^^ support.command
+#   !!!!!!! -support.command
+#           ^^^ -support.command
 
 echo g++-something
 #^^^ support.function.builtin
-#    ^^^ -keyword
+#    ^^^ -support.command
 
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7 # comment
-#     ^^^^^^ -keyword
+#     ^^^^^^ -support.command
 #                                                ^ comment
+
+sudo systemctl -q enable avahi-daemon
+#^^^ support.command.privileged
+#                 !!!!!! -support.function.builtin
+
+enable alias
+#^^^^^ support.function.builtin
+#      ^^^^^ support.function.builtin
 
   (true || false) && true; echo "hello" | cat
 # ^^^^^^^^^^^^^^^ meta.scope.subshell
@@ -131,22 +139,22 @@ echo true|! grep something /etc/passwd
 #        ^ keyword.operator.pipe
 #         ^ -keyword.operator.pipe
 #         ^ keyword.operator.logical
-#           ^^^^ keyword.other
+#           ^^^^ support.command
 
 echo true| ! grep something /etc/passwd
 #    ^^^^ support.function.builtin
 #        ^ keyword.operator.pipe
 #          ^ -keyword.operator.pipe
 #          ^ keyword.operator.logical
-#            ^^^^ keyword.other
+#            ^^^^ support.command
 
 !grep
 #<- -keyword.operator.pipe
 #<- -keyword.operator.logical
-#^^^^ keyword.other
+#^^^^ support.command
 
 sudo !!
-#^^^ keyword.other
+#^^^ support.command
 #    ^^ -keyword.operator.pipe
 
 echo "${FOO}$FOO-bar"
@@ -242,7 +250,7 @@ fun (hello)
 
 export-function
 #^^^^^ -storage.modifier
-#      ^^^^^^^^ -keyword.other
+#      ^^^^^^^^ -support.command
 
 while-if-for
 #^^^^ -keyword
