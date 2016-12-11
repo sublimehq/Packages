@@ -102,7 +102,7 @@ contexts:
             0: punctuation.definition.string.end.shell
           pop: true
         - include: math
-    - match: (\()
+    - match: (?<!=)(\()
       captures:
         1: punctuation.definition.subshell.shell
       push:

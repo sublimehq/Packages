@@ -94,6 +94,10 @@ FOO=something
 export FOO
 #^^^^^ storage.modifier
 
+FOO=("a" "b" "c")
+#  ^ keyword.operator.assign
+#   ^^^^^^^^^^^^^ -meta.scope.subshell
+
 echo true|[[ "a" == "a" ]]
 #        ^ keyword.operator.pipe
 #         ^^ punctuation.definition.logical-expression
