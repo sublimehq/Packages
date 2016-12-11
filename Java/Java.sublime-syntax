@@ -224,18 +224,26 @@ contexts:
           scope: keyword.operator.assert.expression-separator.java
         - include: code
   class:
-    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
+    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)(\s+\w+|\b))'
       push:
         - meta_scope: meta.class.java
         - match: "}"
           scope: punctuation.section.class.end.java
           pop: true
         - include: storage-modifiers
-        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)(\w+)
+        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+(\w+)|\b)
           scope: meta.class.identifier.java
           captures:
             1: storage.type.java
             2: entity.name.class.java
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          push:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
+              pop: true
+            - include: generic-instantiation
         - match: \bextends\b
           scope: keyword.declaration.extends.java
           push:
@@ -385,6 +393,14 @@ contexts:
               scope: meta.method.identifier.java
               pop: true
             - include: method-parameters
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          push:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
+              pop: true
+            - include: generic-instantiation
         - match: (?=\w.*\s+\w+\s*\()
           push:
             - meta_scope: meta.method.return-type.java
@@ -448,6 +464,8 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.java
       set: method-parameters
+    - match: (?=\S)
+      pop: true
 
   # duplicated due to the meta scope
   raw-parameters:
@@ -481,6 +499,8 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.java
       set: raw-parameters
+    - match: (?=\S)
+      pop: true
 
   lambdas:
     - match: '(?={{lambda_lookahead}})'

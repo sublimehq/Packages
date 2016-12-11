@@ -126,6 +126,8 @@ class ExtendsTest implements Foo {}
 //                           ^^^ entity.other.inherited-class.java
 
 class Foo<A> extends Bar<? extends A> {}
+//       ^^^ meta.generic.java
+//        ^ support.type.java
 //                         ^^^^^^^ meta.definition.class.inherited.classes.java keyword.declaration.extends.java
 
 class AnyClass {
@@ -141,6 +143,13 @@ class AnyClass {
         System.out.println("Printed: " + finality);
 //                                     ^ keyword.operator
     }
+
+    public abstract <A> void test(A thing);
+//                  ^^^ meta.generic.java
+//                   ^ support.type.java
+
+    public void test2(Type) abc
+//                          ^^^ - variable.parameter
 }
 
 public enum FooBaz {
