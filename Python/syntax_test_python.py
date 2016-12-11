@@ -551,6 +551,10 @@ _ = [m
 #    ^^^ keyword.control.flow.for.generator
 #          ^^ keyword.control.flow.for.in
 
+result = [i async for i in aiter() if i % 2]
+#           ^^^^^ storage.modifier.async
+result = [await fun() for fun in funcs]
+#         ^^^^^ keyword.other.await.python
 
 
 ##################
