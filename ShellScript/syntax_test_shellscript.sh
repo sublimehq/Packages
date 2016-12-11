@@ -118,7 +118,7 @@ echo true|[ ! "a" == "a" ]
 #           ^ keyword.operator.logical
 #                 ^^ keyword.operator.logical
 #                        ^ punctuation.definition.logical-expression
-#         ^^^^^^^^^^^^^^ meta.scope.logical-expression
+#         ^^^^^^^^^^^^^^^^ meta.scope.logical-expression
 
 echo true[ "a" == "a" ]
 #        ^^^^^^^^^^^^^^ -meta.scope.logical-expression
@@ -251,7 +251,7 @@ while-if-for
 
   if [[ "true" -eq "true" ]]; then
 #^ -meta.scope.if-block
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.if-block
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope.if-block
 # ^^ keyword.control
 #    ^^ punctuation.definition.logical-expression
 #              ^^^ keyword.operator.logical
