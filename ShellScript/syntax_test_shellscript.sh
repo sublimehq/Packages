@@ -101,6 +101,44 @@ echo "${FOO}$FOO-bar"
 #           ^^^^ variable.other.normal
 #               ^^^^ -variable
 
+echo ${FOO:-1}
+#    ^^ punctuation.definition.variable
+#            ^ punctuation.definition.variable
+#    ^^^^^^^^^ variable.other.bracket
+
+echo ${FOO-$BAR}
+#    ^^ punctuation.definition.variable
+#              ^ punctuation.definition.variable
+#    ^^^^^^^^^^^ variable.other.bracket
+
+echo ${FOO:+1}
+#    ^^ punctuation.definition.variable
+#            ^ punctuation.definition.variable
+#    ^^^^^^^^^ variable.other.bracket
+
+echo ${FOO?"error error"}
+#    ^^ punctuation.definition.variable
+#                       ^ punctuation.definition.variable
+#    ^^^^^^^^^^^^^^^^^^^^ variable.other.bracket
+
+echo "blah ${FOO?"error error"} blah"
+#          ^^ punctuation.definition.variable
+#                             ^ punctuation.definition.variable
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+#          ^^^^^^^^^^^^^^^^^^^^ variable.other.bracket
+#                ^ -punctuation.definition.string
+#                            ^ -punctuation.definition.string
+
+echo ${FOO#pattern}
+#    ^^ punctuation.definition.variable
+#                 ^ punctuation.definition.variable
+#    ^^^^^^^^^^^^^^ variable.other.bracket
+
+echo ${FOO##pattern}
+#    ^^ punctuation.definition.variable
+#                  ^ punctuation.definition.variable
+#    ^^^^^^^^^^^^^^^ variable.other.bracket
+
 {
 #<- punctuation.definition.group
     echo "hello"
