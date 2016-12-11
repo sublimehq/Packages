@@ -70,12 +70,23 @@ contexts:
               pop: true
             - include: main
   compound-command:
-    - match: '(\[{2})'
+    - match: '(?<=(?:\s|[|&;]))(\[)(?=\s)'
       captures:
         1: punctuation.definition.logical-expression.shell
       push:
         - meta_scope: meta.scope.logical-expression.shell
-        - match: '(\]{2})'
+        - match: '(?<=\s)(\])'
+          captures:
+            1: punctuation.definition.logical-expression.shell
+          pop: true
+        - include: logical-expression
+        - include: main
+    - match: '(?<=(?:\s|[|&;]))(\[{2})(?=\s)'
+      captures:
+        1: punctuation.definition.logical-expression.shell
+      push:
+        - meta_scope: meta.scope.logical-expression.shell
+        - match: '(?<=\s)(\]{2})'
           captures:
             1: punctuation.definition.logical-expression.shell
           pop: true

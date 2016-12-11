@@ -94,6 +94,32 @@ FOO=something
 export FOO
 #^^^^^ storage.modifier
 
+echo true|[[ "a" == "a" ]]
+#        ^ keyword.operator.pipe
+#         ^^ punctuation.definition.logical-expression
+#                ^^ keyword.operator.logical
+#                       ^^ punctuation.definition.logical-expression
+#         ^^^^^^^^^^^^^^^^ meta.scope.logical-expression
+
+echo true[[ "a" == "a" ]]
+#        ^^^^^^^^^^^^^^^^ -meta.scope.logical-expression
+
+[["a" == "a" ]]
+#^^^^^^^^^^^^^^ -meta.scope.logical-expression
+
+echo true|[ "a" == "a" ]
+#        ^ keyword.operator.pipe
+#         ^ punctuation.definition.logical-expression
+#               ^^ keyword.operator.logical
+#                      ^ punctuation.definition.logical-expression
+#         ^^^^^^^^^^^^^^ meta.scope.logical-expression
+
+echo true[ "a" == "a" ]
+#        ^^^^^^^^^^^^^^ -meta.scope.logical-expression
+
+["a" == "a" ]
+#^^^^^^^^^^^^ -meta.scope.logical-expression
+
 echo "${FOO}$FOO-bar"
 #^^^ support.function.builtin
 #    ^^^^^^^^^^^^^^^^ string.quoted.double
@@ -229,16 +255,16 @@ while-if-for
 #  ^^^^ keyword.control
 #      ^ -meta.scope.for-in-loop
 
-  while [[ 1 == 1 ]]; do
+  while [ 1 == 1 ]; do
 #^ -meta.scope.while-loop
-# ^^^^^^^^^^^^^^^^^^^^^ meta.scope.while-loop
+# ^^^^^^^^^^^^^^^^^^^^ meta.scope.while-loop
 # ^^^^^ keyword.control
-#       ^^ punctuation.definition.logical-expression
-#            ^^ keyword.operator.logical
-#                 ^^ punctuation.definition.logical-expression
-#       ^^^^^^^^^^^^ meta.scope.logical-expression
-#                   ^ keyword.operator.list
-#                     ^^ keyword.control
+#       ^ punctuation.definition.logical-expression
+#           ^^ keyword.operator.logical
+#                ^ punctuation.definition.logical-expression
+#       ^^^^^^^^^^ meta.scope.logical-expression
+#                 ^ keyword.operator.list
+#                   ^^ keyword.control
     true
 #^^^^^^^ meta.scope.while-loop
 #   ^^^^ support.function.builtin
