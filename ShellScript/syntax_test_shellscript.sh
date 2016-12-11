@@ -27,6 +27,28 @@ cat <(cat /etc/passwd)
 #   ^^^^^^^^^^^^^^^^^^ string.interpolated.process-substitution
 #                    ^ punctuation.definition.string.end
 
+FOO=`ls -la /etc | grep "$USER" 'user'`
+#  ^ keyword.operator.assign
+#    ^^ keyword.other
+#                ^ keyword.operator.pipe
+#                        ^^^^^ variable.other.normal
+#                       ^^^^^^^ string.quoted.double
+#                               ^^^^^^ string.quoted.single
+#   ^ punctuation.definition.string.begin
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.backtick
+#                                     ^ punctuation.definition.string.end
+
+FOO=$(ls -la /etc | grep "$USER" 'user')
+#  ^ keyword.operator.assign
+#     ^^ keyword.other
+#                 ^ keyword.operator.pipe
+#                         ^^^^^ variable.other.normal
+#                        ^^^^^^^ string.quoted.double
+#                                ^^^^^^ string.quoted.single
+#   ^^ punctuation.definition.string.begin
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.dollar
+#                                      ^ punctuation.definition.string.end
+
 test -f /usr/bin/gcc
 #^^^ support.function.builtin
 #                ^^^ -keyword
