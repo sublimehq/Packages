@@ -158,6 +158,8 @@ echo ${FOO##pattern}
 # ^^^^^^^^ storage.type.function
 #          ^^^ entity.name.function
 #              ^ punctuation.definition.group
+    local bar
+#   ^^^^^ storage.modifier
     echo "hello"
 #^^^^^^^^^^^^^^^meta.function
 #^^^^^^^^^^^^^^^meta.scope.group
