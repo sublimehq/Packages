@@ -167,7 +167,7 @@ contexts:
       scope: storage.type.primitive.java
       push: field-definition-arrays
     - match: '\b{{qualified_id}}(?=(\s*{{within_generics}})?(\s*\[\s*\])?\s+{{id}})'
-      # scope: storage.type.class.java
+      scope: support.class.java
       push: field-definition-generics
 
   field-definition-generics:
@@ -204,6 +204,7 @@ contexts:
     - match: \b(extends|super)\b
       scope: keyword.declaration.extends.java
     - match: '{{qualified_id}}'
+      scope: support.type.java
     - match: '<'
       scope: punctuation.definition.generic.begin.java
       push:
@@ -421,7 +422,7 @@ contexts:
       scope: storage.type.primitive.java
       set: method-parameter-after
     - match: '{{qualified_id}}'
-      # scope: storage.type.java
+      scope: support.class.java
       set: method-parameter-after
     - match: ','
       scope: punctuation.separator.java
@@ -456,7 +457,7 @@ contexts:
       scope: storage.type.primitive.java
       set: raw-parameter-after
     - match: '{{qualified_id}}'
-      # scope: storage.type.java
+      scope: support.class.java
       set: raw-parameter-after
     - match: ','
       scope: punctuation.separator.java
@@ -565,7 +566,7 @@ contexts:
         - match: (?=\{|;)
           pop: true
         - match: '{{qualified_id}}'
-          # scope: support.class.java
+          scope: support.class.java
           push:
             - match: '<'
               scope: punctuation.definition.generic.begin.java

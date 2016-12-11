@@ -25,8 +25,10 @@ public class SyntaxTest {
 //                      ^ meta.class.body.java
     private String memberString = "Hello";
     private String memberString2 = new String("Hello");
+//                                     ^^^^^^ support.class.java
     private String memberString3 = String.valueOf("Hello");
 //  ^^^^^^^ storage.modifier.java
+//          ^^^^^^ support.class.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //                               ^ keyword.operator.assignment.java
 //                                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
@@ -48,6 +50,7 @@ public class SyntaxTest {
 //                                          ^^ meta.method.body.java
 //                ^^^^ meta.method.return-type.java storage.type
 //                     ^^^^ entity.name.function.java
+//                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
@@ -91,6 +94,7 @@ public class SyntaxTest {
 //                                                   ^^ meta.method.body.java
 //                 ^^^^ meta.method.return-type.java storage.type
 //                      ^^^^^^^^^ entity.name.function.java
+//                                     ^^^^^^ support.type.java
 //                                             ^^^^ variable.parameter.java
         args.stream().forEach(System.out::println);
 //                                      ^^ keyword.control.method-reference.java
@@ -197,12 +201,14 @@ class InvalidStuff
    (int a, Foo<Integer>[] b) -> 42;
 //  ^^^ storage.type.primitive
 //      ^ variable.parameter.java
+//         ^^^ support.class.java
 //                        ^ variable.parameter.java
 //                           ^^ storage.type.lambda.java
 //                              ^^ constant.numeric
 
 new Foo<Abc>();
 //     ^^^^^ meta.generic.java
+//      ^^^ support.type.java
 //     ^ punctuation.definition.generic.begin.java
 //         ^ punctuation.definition.generic.end.java
 
