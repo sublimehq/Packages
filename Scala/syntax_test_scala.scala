@@ -1266,3 +1266,9 @@ def foo(a: Int * String): Unit
 
 class Foo(a: String*)
 //                 ^ keyword.operator.varargs.scala
+
+class Foo(a: String* )
+//                  ^ - keyword
+
+def foo(a: String* )
+//                ^ - keyword
