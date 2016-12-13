@@ -385,14 +385,12 @@ contexts:
         - match: "}|(?=;)"
           pop: true
         - include: storage-modifiers
-        - match: (\w+)\s*\(
+        - match: (\w+)\s*(\()
           captures:
             1: entity.name.function.java
+            2: punctuation.section.parens.begin.java
           push:
             - meta_scope: meta.method.identifier.java
-            - match: \)
-              scope: meta.method.identifier.java
-              pop: true
             - include: method-parameters
         - match: '<'
           scope: punctuation.definition.generic.begin.java
@@ -446,6 +444,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.java
     - match: \)
+      scope: punctuation.section.parens.end.java
       pop: true
   method-parameter-after:
     - meta_scope: meta.method.identifier.java

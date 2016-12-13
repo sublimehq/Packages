@@ -50,8 +50,10 @@ public class SyntaxTest {
 //                                          ^^ meta.method.body.java
 //                ^^^^ meta.method.return-type.java storage.type
 //                     ^^^^ entity.name.function.java
+//                         ^ punctuation.section.parens.begin.java
 //                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
+//                                        ^ punctuation.section.parens.end.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                         ^^^ keyword.control.new.java
