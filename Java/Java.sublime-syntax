@@ -593,6 +593,7 @@ contexts:
             - match: '<'
               scope: punctuation.definition.generic.begin.java
               set:
+                - meta_scope: meta.generic.java
                 - match: '>'
                   scope: punctuation.definition.generic.end.java
                   pop: true

@@ -104,17 +104,18 @@ public class SyntaxTest {
 //                                      ^^ keyword.operator.method-reference.java
     }
 
-    private static void anotherMethod() throws MyException {
+    private static void anotherMethod() throws MyException<Abc> {
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
 //                      ^^^^^^^^^^^^^^^ meta.method.identifier.java
 //                                     ^^^^^^^^^^^^^^^^^^^^^^ - meta.method.identifier.java
-//                                                         ^^ meta.method.body.java
+//                                                              ^^ meta.method.body.java
 //                 ^^^^ meta.method.return-type.java storage.type
 //                      ^^^^^^^^^^^^^ entity.name.function.java
 //                                      ^^^^^^ storage.modifier.java
-//                                             ^^^^^^^^^^^ meta.throwables.java
+//                                             ^^^^^^^^^^^^^^^^ meta.throwables.java
+//                                                        ^^^^^ meta.generic.java
         throw new MyException
                 ("hello (world)");
 //                              ^ - string
