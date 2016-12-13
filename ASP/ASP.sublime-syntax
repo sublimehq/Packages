@@ -329,16 +329,12 @@ contexts:
                 1: storage.modifier.reference.asp
                 2: variable.parameter.function.asp
               push:
-                - match: '(?=\)|$)'
-                  pop: true
-                - include: not_end_of_statement
-                - match: '\s*(,)\s*'
+                - match: '\s*(\()(\))\s*'
                   captures:
-                    1: punctuation.separator.parameter-declaration.asp
-                  pop: true
-                - match: '(?:(?![,)])\S)+'
-                  scope: invalid.illegal.unexpected-token.asp
-                  pop: true
+                    1: punctuation.section.array.begin.asp
+                    2: punctuation.section.array.end.asp
+                  set: after_method_param_name
+                - include: after_method_param_name
             - match: '(?:(?![,)])\S)+'
               scope: invalid.illegal.unexpected-token.asp
     - match: '\s+'
@@ -350,6 +346,18 @@ contexts:
     - match: $
       pop: true
     - include: unexpected_token
+
+  after_method_param_name:
+    - match: '(?=\)|$)'
+      pop: true
+    - include: not_end_of_statement
+    - match: '\s*(,)\s*'
+      captures:
+        1: punctuation.separator.parameter-declaration.asp
+      pop: true
+    - match: '(?:(?![,)])\S)+'
+      scope: invalid.illegal.unexpected-token.asp
+      pop: true
 
   inside_method:
     - meta_content_scope: meta.method.asp meta.method.body.asp

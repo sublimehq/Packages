@@ -536,11 +536,13 @@ contexts:
     - match: | # l-comment
         (?x)
         (?: ^ [ \t]* | [ \t]+ )
-        (\#)
+        (?=\#)
       captures:
-        1: punctuation.definition.comment.line.number-sign.yaml
       push:
-        - meta_scope: comment.line.number-sign.yaml
-        - match: \n|\z
-          pop: true
+        - match: '#'
+          scope: punctuation.definition.comment.line.number-sign.yaml
+          set:
+          - meta_scope: comment.line.number-sign.yaml
+          - match: \n|\z
+            pop: true
 ...

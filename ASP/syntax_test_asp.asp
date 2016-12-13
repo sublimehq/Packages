@@ -710,6 +710,17 @@
    '    ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.asp - support.function.magic.event.asp
     End Sub
     
+    Sub Func_With_Explicit_Arrays(ByRef array_variable(), blah ())
+   '                                                  ^ punctuation.section.array.begin.asp
+   '                                                   ^ punctuation.section.array.end.asp
+   '                                                  ^^^^^^^^^^^^ - invalid
+   '                                                    ^ punctuation.separator.parameter-declaration.asp
+   '                                                      ^^^^ variable.parameter.function.asp
+   '                                                           ^ punctuation.section.array.begin.asp
+   '                                                            ^ punctuation.section.array.end.asp
+   '                                                             ^ punctuation.section.parameters.end.asp
+    End Sub
+    
     Sub Another_Test()rem
    '^^^ storage.type.function.asp
    '    ^^^^^^^^^^^^ entity.name.function.asp

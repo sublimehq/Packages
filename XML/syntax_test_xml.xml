@@ -130,10 +130,19 @@
 <!--                           ^ punctuation.definition.tag.end -->
      text
 <!-- ^^^^ text -->
+     >
+<!-- ^ text - punctuation - illegal -->
 
      <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
 <!--                                           ^ - string.unquoted.cdata -->
+
+     <?pi "markup" is <ignored>?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^ entity.name.tag -->
+<!--                           ^^ punctuation.definition.tag.end -->
+<!--                             ^ - meta.tag.preprocessor -->
 
      <таĝñäᴹə ατţř="șƬűʃ⨍" >Contents</таĝñäᴹə>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
@@ -181,6 +190,9 @@
 <!--                          ^ punctuation.separator.key-value -->
 <!--                            ^ punctuation.definition.string.begin -->
 <!--                             ^^^^^ string.quoted -->
+
+     <element validinattr="a > b ]]> c"/>
+<!--                       ^^^^^^^^^^^ string.quoted - punctuation - illegal -->
 
      <test
 foo="bar" />
@@ -262,9 +274,9 @@ foo="bar" />
 <!-- ^ invalid.illegal.missing-entity -->
 <!--  ^ - invalid.illegal.missing-entity -->
 
-     >
-<!-- ^ invalid.illegal.missing-entity -->
-<!--  ^ - invalid.illegal.missing-entity -->
+     ]]>
+<!-- ^^^ invalid.illegal.missing-entity -->
+<!--    ^ - invalid.illegal.missing-entity -->
 
      <ns::tag ns::attr1="na" ns:2attr ="nope"></ns:t:ag>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->

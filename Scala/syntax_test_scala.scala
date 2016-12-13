@@ -306,6 +306,10 @@ type Foo = Bar[A] forSome { type A }
 // <- comment.block.documentation.scala
 */
 
+  /**/0xff
+//^^^^ comment.block.empty.scala
+//    ^^^^ - comment
+
    if
 // ^^ keyword.control.flow.scala
 
@@ -1254,6 +1258,11 @@ for (
   abc = () => 42
 //         ^^ storage.type.function.arrow.scala
 )
+
+new {
+   "foo"
+// ^^^^^ string.quoted.double.scala
+}
 
 def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
 //               ^ keyword.operator.varargs.scala

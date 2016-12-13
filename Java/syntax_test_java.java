@@ -18,7 +18,7 @@ import static a.b.Class.fooMethod;
 
 public class SyntaxTest {
 // ^^^ storage.modifier.java
-//     ^^^^^ storage.modifier.java
+//     ^^^^^ storage.type.java
 //     ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class.body.java
 //           ^^^^^^^^^^ entity.name.class.java
 //                     ^ - meta.class.identifier.java - meta.class.body.java
@@ -120,6 +120,14 @@ public class SyntaxTest {
     }
 }
 
+class ExtendsTest extends Foo {}
+//                ^^^^^^^ keyword.declaration.extends.java
+//                        ^^^ entity.other.inherited-class.java
+
+class ExtendsTest implements Foo {}
+//                ^^^^^^^^^^ keyword.declaration.implements.java
+//                           ^^^ entity.other.inherited-class.java
+
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
@@ -136,7 +144,7 @@ class AnyClass {
 }
 
 public enum FooBaz {
-//     ^^^^ storage.modifier.java
+//     ^^^^ storage.type.java
 //^^^^^^^^^^^^^^^^^^^ meta.class.java
 //     ^^^^^^^^^^^  meta.class.identifier.java
 //          ^^^^^^ entity.name.class.java
@@ -172,3 +180,17 @@ class InvalidStuff
     const int 3;
 //  ^^^^^ invalid.illegal
 }
+
+   volatile
+// ^^^^^^^^ storage.modifier.java
+
+   foo()
+// ^^^ variable.function.java
+   Foo()
+// ^^^ variable.function.java
+   foo ()
+// ^^^ variable.function.java
+   foo<int>()
+// ^^^ variable.function.java
+   foo <int>()
+// ^^^ variable.function.java
