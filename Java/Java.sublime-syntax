@@ -341,9 +341,10 @@ contexts:
 
   keywords:
     - match: '::'
-      scope: keyword.control.method-reference.java
+      scope: keyword.operator.method-reference.java
       push:
         - match: '{{id}}'
+          scope: variable.function.reference.java
           pop: true
         - match: (?=\S)
           pop: true

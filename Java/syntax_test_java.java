@@ -59,13 +59,15 @@ public class SyntaxTest {
         printList(Arrays.stream(args)
             .collect(Collectors.toCollection(ArrayList::new)));
 //                                                      ^^^ meta.method.body.java - keyword.control.new.java
-//                                                    ^^ keyword.control.method-reference.java
+//                                                      ^^^ variable.function.reference.java
+//                                                    ^^ keyword.operator.method-reference.java
         anotherMethod();
         try (Stream<String> lines = Files.lines(path)) {
 //      ^^^ keyword.control.catch-exception.java
 //                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
+//                                    ^^^^^^^ variable.function.reference.java
         }
         for (int i = 0; i < 10; i+= 2) {
 //      ^^^ keyword.control
@@ -97,7 +99,7 @@ public class SyntaxTest {
 //                                     ^^^^^^ support.type.java
 //                                             ^^^^ variable.parameter.java
         args.stream().forEach(System.out::println);
-//                                      ^^ keyword.control.method-reference.java
+//                                      ^^ keyword.operator.method-reference.java
     }
 
     private static void anotherMethod() throws MyException {
