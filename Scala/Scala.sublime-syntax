@@ -398,6 +398,9 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
+                - match: '(\*)\s*(?=[\),=])'
+                  captures:
+                    1: keyword.operator.varargs.scala
                 - match: '(?=\))'
                   pop: true
                 - match: ','
@@ -462,6 +465,9 @@ contexts:
           push:
             - match: '{{typeprefix}}'
               set:
+                - match: '(\*)\s*(?=[\),=])'
+                  captures:
+                    1: keyword.operator.varargs.scala
                 - match: '(?=\))'
                   pop: true
                 - match: ','
@@ -648,7 +654,15 @@ contexts:
     - match: '\b(new)(?:\s+|\b)'
       captures:
         1: keyword.other.scala
-      push: single-type-expression
+      push:
+        # anonymous inner class AnyRef declaration syntax
+        - match: '(?=\{)'
+          pop: true
+        # emergency bail-out for better experience while typing
+        - match: '(?=[\n\}\),])'
+          pop: true
+        - match: '(?=\S)'
+          set: single-type-expression
 
   for-comprehension:
     - match: '\b(for)\s*\{'

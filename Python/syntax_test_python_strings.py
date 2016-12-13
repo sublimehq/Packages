@@ -102,10 +102,12 @@ regex = r'\b ([fobar]*){1}(?:a|b)?'
 #                       ^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
+#            ^^^^^^^^^^^^^^^^^^^^^ - comment
 #                                 ^ punctuation.definition.string.end.python - comment
 #                                  ^ - invalid
 
 regex = r".* # Not a comment (yet)"
+#            ^^^^^^^^^^^^^^^^^^^^^ - comment
 #                                 ^ punctuation.definition.string.end.python - comment
 #                                  ^ - invalid
 
@@ -169,6 +171,22 @@ string = r'''
 #   ^ comment.line.number-sign.regexp
 ### <<This comment>> @includes some &punctutation.
 # <- comment.line.number-sign.regexp
+'''
+
+string = r'''
+    [set]
+#   ^^^^^ constant.other.character-class.set.regexp
+#   ^ punctuation.definition.character-class.begin.regexp
+#       ^ punctuation.definition.character-class.end.regexp
+    (group)
+#   ^^^^^^^ meta.group.regexp
+#   ^ punctuation.definition.group.begin.regexp
+#         ^ punctuation.definition.group.end.regexp
+    (?<!group)
+#   ^^^^^^^^^^ meta.group.assertion.regexp
+#   ^ punctuation.definition.group.begin.regexp
+#    ^^^ constant.other.assertion.regexp
+#            ^ punctuation.definition.group.end.regexp
 '''
 
 query = \

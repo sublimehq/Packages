@@ -13,70 +13,67 @@ contexts:
       scope: comment.line.number-sign.regexp
       captures:
         1: punctuation.definition.comment.regexp
-    - match: (?=\S)
+    - match: '\\[bBAZzG]|\^|\$'
+      scope: keyword.control.anchor.regexp
+    - match: '\\[1-9][0-9]?'
+      scope: keyword.other.back-reference.regexp
+    - match: '[?+*][?+]?|\{(\d+,\d+|\d+,|,\d+|\d+)\}\??'
+      scope: keyword.operator.quantifier.regexp
+    - match: \|
+      scope: keyword.operator.or.regexp
+    - match: '\(\?\#'
+      scope: punctuation.definition.comment.begin.regexp
       push:
-        - match: (?=\s)
+        - meta_scope: comment.block.regexp
+        - match: \)
+          scope: punctuation.definition.comment.end.regexp
           pop: true
-        - match: '\\[bBAZzG]|\^|\$'
-          scope: keyword.control.anchor.regexp
-        - match: '\\[1-9][0-9]?'
-          scope: keyword.other.back-reference.regexp
-        - match: '[?+*][?+]?|\{(\d+,\d+|\d+,|,\d+|\d+)\}\??'
-          scope: keyword.operator.quantifier.regexp
-        - match: \|
-          scope: keyword.operator.or.regexp
-        - match: '\(\?\#'
-          push:
-            - meta_scope: comment.block.regexp
-            - match: \)
-              pop: true
-        - match: '\(\?[iLmsux]+\)'
-          scope: keyword.other.option-toggle.regexp
-        - match: '(\()(\?P=([a-zA-Z_][a-zA-Z_0-9]*\w*))(\))'
-          scope: keyword.other.back-reference.named.regexp
-        - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!))
-          captures:
-            1: punctuation.definition.group.regexp
-            2: punctuation.definition.group.assertion.regexp
-            3: meta.assertion.look-ahead.regexp
-            4: meta.assertion.negative-look-ahead.regexp
-            5: meta.assertion.look-behind.regexp
-            6: meta.assertion.negative-look-behind.regexp
-          push:
-            - meta_scope: meta.group.assertion.regexp
-            - match: (\))
-              captures:
-                1: punctuation.definition.group.regexp
-              pop: true
-            - include: main
-        - match: '(\()(\?\(([1-9][0-9]?|[a-zA-Z_][a-zA-Z_0-9]*)\))'
-          comment:
-            We can make this more sophisticated to match the | character that separates
-            yes-pattern from no-pattern, but it's not really necessary.
-          captures:
-            1: punctuation.definition.group.regexp
-            2: punctuation.definition.group.assertion.conditional.regexp
-            3: entity.name.section.back-reference.regexp
-          push:
-            - meta_scope: meta.group.assertion.conditional.regexp
-            - match: (\))
-              pop: true
-            - include: main
-        - match: '(\()((\?P<)([a-z]\w*)(>)|(\?:))?'
-          captures:
-            1: punctuation.definition.group.regexp
-            3: punctuation.definition.group.capture.regexp
-            4: entity.name.section.group.regexp
-            5: punctuation.definition.group.capture.regexp
-            6: punctuation.definition.group.no-capture.regexp
-          push:
-            - meta_scope: meta.group.regexp
-            - match: (\))
-              captures:
-                1: punctuation.definition.group.regexp
-              pop: true
-            - include: main
-        - include: character-class
+    - match: '\(\?[iLmsux]+\)'
+      scope: keyword.other.option-toggle.regexp
+    - match: '(\()(\?P=([a-zA-Z_][a-zA-Z_0-9]*\w*))(\))'
+      scope: keyword.other.back-reference.named.regexp
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!))
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: constant.other.assertion.regexp
+        3: meta.assertion.look-ahead.regexp
+        4: meta.assertion.negative-look-ahead.regexp
+        5: meta.assertion.look-behind.regexp
+        6: meta.assertion.negative-look-behind.regexp
+      push:
+        - meta_scope: meta.group.assertion.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+    - match: '(\()(\?\(([1-9][0-9]?|[a-zA-Z_][a-zA-Z_0-9]*)\))'
+      comment:
+        We can make this more sophisticated to match the | character that separates
+        yes-pattern from no-pattern, but it's not really necessary.
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: punctuation.definition.group.assertion.conditional.regexp
+        3: entity.name.section.back-reference.regexp
+      push:
+        - meta_scope: meta.group.assertion.conditional.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+    - match: '(\()((\?P<)([a-z]\w*)(>)|(\?:))?'
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        3: punctuation.definition.group.capture.regexp
+        4: entity.name.section.group.regexp
+        5: punctuation.definition.group.capture.regexp
+        6: punctuation.definition.group.no-capture.regexp
+      push:
+        - meta_scope: meta.group.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+    - include: character-class
   character-class:
     - match: '\\[wWsSdDhH]|\.'
       scope: constant.character.character-class.regexp
@@ -84,13 +81,12 @@ contexts:
       scope: constant.character.escape.backslash.regexp
     - match: '(\[)(\^)?'
       captures:
-        1: punctuation.definition.character-class.regexp
+        1: punctuation.definition.character-class.begin.regexp
         2: keyword.operator.negation.regexp
       push:
         - meta_scope: constant.other.character-class.set.regexp
-        - match: '(\])'
-          captures:
-            1: punctuation.definition.character-class.regexp
+        - match: \]
+          scope: punctuation.definition.character-class.end.regexp
           pop: true
         - include: character-class
         - match: '((\\.)|.)\-((\\.)|[^\]])'

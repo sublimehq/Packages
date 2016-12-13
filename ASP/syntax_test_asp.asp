@@ -149,7 +149,7 @@
        '                 ^^^ storage.type.function.asp - keyword - storage.type.asp
        '                                            ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
        '                                                                               ^^^^^^^^^^^^ storage.type.function.end.asp
-       '                                                                                           ^ - meta.method.asp - meta.method.body.asp
+       '                                                                                           ^ - meta.method
         
         Public Default Function Go rem no parens
        '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
@@ -159,12 +159,12 @@
        '                           ^^^^^^^^^^^^^ comment.line.rem.asp
             Go = "going... going... gone!"
 '<- meta.method.asp meta.method.body.asp - meta.method.identifier.asp
-           '^^ - invalid.illegal
+           '^^ - invalid
            '   ^ keyword.operator.asp
         End Function
        '^^^^^^^^^^^^ meta.method.asp
        '^^^^^^^^^^^^ storage.type.function.end.asp
-       '            ^ - meta.method.asp - meta.method.body.asp
+       '            ^ - meta.method
         
         Sub Test123:Call DoSomething:End Sub
        '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp
@@ -173,7 +173,7 @@
        '           ^ punctuation.terminator.statement.asp
        '            ^^^^^^^^^^^^^^^^ meta.method.body.asp
        '                             ^^^^^^^ storage.type.function.end.asp
-       '                                    ^ - meta.method.asp - meta.method.body.asp
+       '                                    ^ - meta.method
         
         Class SubClass ' nested classes are not allowed
 '<- - invalid.illegal.unexpected-token.asp
@@ -199,7 +199,7 @@
     
                  "blah"rem-"testing"
     '            ^^^^^^ string.quoted.double.asp
-    '                  ^^^^^^^^^^^^^^ comment.line.rem.asp - string.quoted.double.asp
+    '                  ^^^^^^^^^^^^^^ comment.line.rem.asp - string
     
     Class TestClass2 Public Sub TestSub () Response.Write("wow") End Sub End Class
    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.asp
@@ -245,7 +245,7 @@
    '                         ^^^^ variable.parameter.function.asp
    '                             ^ punctuation.section.parameters.end.asp
         On Error Resume Next
-'<- meta.method.body.asp - comment.line.apostrophe.asp
+'<- meta.method.body.asp - comment
        '^^^^^^^^^^^^^^^^^^^^ storage.type.asp
         Set fs = Server.CreateObject("Scripting.FileSystemObject")
        '^^^ keyword.other.set.asp
@@ -273,7 +273,7 @@
            ' ^^^^^ variable
             . Close
            '^ punctuation.accessor.asp
-           ' ^ - invalid.illegal
+           ' ^ - invalid
            '  ^^^^^ variable
         End With
        '^^^^^^^^ keyword.control.flow.asp
@@ -369,7 +369,7 @@
     '                         ^ punctuation.accessor.asp
     '                          ^ variable
     '                                     ^ - meta.if.line.asp
-    '        ^^^^^^ - invalid.illegal.unexpected-token.asp
+    '        ^^^^^^ - invalid
     '        ^^ keyword.operator.logical.asp
     '           ^^^^^^^ storage.type.asp
     
@@ -407,7 +407,7 @@
     '                                          ^^ constant.character.escape.apostrophe.asp - punctuation.definition.string.end.asp
     '                                              ^ keyword.operator.asp
     '                                                        ^ punctuation.separator.continuation.line.asp
-    '                                                          ^^^^^^^^^^^^^ invalid.illegal.expected-end-of-line.asp - comment.line.apostrophe.asp
+    '                                                          ^^^^^^^^^^^^^ invalid.illegal.expected-end-of-line.asp - comment
                 Chr(34) & vbCrLf _ +
     '           ^^^ support.function.vb.asp
     '                     ^^^^^^ support.type.vb.asp
@@ -447,8 +447,8 @@
    '^^^^^^^^^^ keyword.control.flow.asp
    '          ^ - meta.select.block.asp
     'the underscore in this comment should be ignored _ as should the colon :
-    '                                                 ^ comment.line.apostrophe.asp - keyword - invalid.illegal - punctuation
-    '                                                                       ^ comment.line.apostrophe.asp - keyword - punctuation - invalid.illegal
+    '                                                 ^ comment.line.apostrophe.asp - keyword - invalid - punctuation
+    '                                                                       ^ comment.line.apostrophe.asp - keyword - punctuation - invalid
     
     Sub Test _
  _ '         ^ punctuation.separator.continuation.line.asp
@@ -479,17 +479,17 @@
        '         ^^^^^ meta.array.definition.asp
        '          ^ constant.numeric.asp
        '           ^ punctuation.separator.array.asp
-       '            ^ variable.other.asp - invalid.illegal - constant.numeric
+       '            ^ variable.other.asp - invalid - constant.numeric
        '             ^ punctuation.section.array.end.asp
         
         ReDim arr(dim, other)
         '         ^^^ invalid.illegal
-        '        ^ - invalid.illegal
-        '            ^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
+        '        ^ - invalid
+        '            ^^^^^^^^ - invalid
         ReDim Dim(2,4)
         '     ^^^ invalid.illegal.name.asp
         
-'<- - invalid.illegal.unexpected-token.asp
+'<- - invalid
 
         Dim a(0,&H5)
         '    ^^^^^^^ meta.array.definition.asp
@@ -500,15 +500,15 @@
         '          ^ punctuation.section.array.end.asp
         b = a Is Empty : Dim loop,nope : Dim foobar
        '^^^^^^^^^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
-       '                               ^^^^^^^^^^^^^ - invalid.illegal.unexpected-token.asp - invalid.illegal.name.asp
+       '                               ^^^^^^^^^^^^^ - invalid
         '              ^ punctuation.terminator.statement.asp
         '                ^^^ storage.modifier.asp
         '                    ^^^^ invalid.illegal.name.asp - variable.other.asp
         '                              ^ punctuation.terminator.statement.asp
         '                                ^^^ storage.modifier.asp
         Dim hello_world, 2
-        '                ^ invalid.illegal.unexpected-token.asp - variable.other.asp
-        '                 ^ - invalid.illegal.unexpected-token.asp
+        '                ^ invalid.illegal.unexpected-token.asp - variable
+        '                 ^ - invalid
         
         ReDim Preserve arr ( &HA,c)
        '^^^^^^^^^^^^^^ storage.modifier.asp
@@ -756,7 +756,7 @@
            '^^^^^^^^ keyword.control.flow.asp
            '         ^^^^ variable.other.asp
            '                ^^^^ variable.other.asp
-           '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp meta.do.block.asp - invalid.illegal
+           '^^^^^^^^^^^^^^^^^^^^^ meta.do.block.asp meta.do.block.asp - invalid
                 ' this code will never run
             loop
            '^^^^ keyword.control.flow.asp
@@ -852,7 +852,7 @@
     <%='test %>
    '^^^ punctuation.section.embedded.begin.asp - source.asp
    '   ^^^^^^ comment.line.apostrophe.asp
-   '         ^^ punctuation.section.embedded.end.asp - comment.line.apostrophe.asp
+   '         ^^ punctuation.section.embedded.end.asp - comment
    '         ^^^ - source.asp.embedded.html
     <%= "this" + Chr(32) + "that" %>
    '^^^ punctuation.section.embedded.begin.asp - source.asp.embedded.html
@@ -881,20 +881,31 @@ End Class
 Set ccmwrw = new ClassContainingMethodsWithReservedWords
 ccmwrw.Select()
 '     ^ punctuation.accessor.asp
-'      ^^^^^^ variable.other.asp - invalid.illegal - keyword
+'      ^^^^^^ variable.other.member.asp - invalid - keyword
+'            ^^ - variable - invalid - keyword
 ccmwrw. Select() ' spaces are not allowed after the .
 '     ^ punctuation.accessor.asp
-'      ^ - invalid.illegal.unexpected_token.asp
-'       ^^^^^^ variable.other.asp - invalid.illegal - keyword
+'      ^ - invalid
+'       ^^^^^^ variable.other.member.asp - invalid - keyword
+'             ^^ - variable - invalid - keyword
 ccmwrw.End
 '     ^ punctuation.accessor.asp
-'      ^^^ variable.other.asp - invalid.illegal - keyword
-'         ^ - invalid.illegal
+'      ^^^ variable.other.member.asp - invalid - keyword
+'         ^ - invalid - variable
 ccmwrw .End
 '     ^ invalid.illegal.unexpected-token.asp
 '      ^ punctuation.accessor.asp
-'       ^^^ variable.other.asp - invalid.illegal - keyword
-'          ^ - invalid.illegal
+'       ^^^ variable.other.member.asp - invalid - keyword
+'          ^ - invalid
+ccmwrw.[End] ()
+'     ^ punctuation.accessor.asp
+'      ^^^^^ variable.other.member.asp - invalid - keyword
+'           ^^^ - variable - invalid - keyword
+ccmwrw. [End] ()
+'     ^ punctuation.accessor.asp
+'      ^ - invalid - variable
+'       ^^^^^ variable.other.member.asp - invalid - keyword
+'            ^^^ - variable - invalid - keyword
 
 _
      'a line continuation char can be followed by just a comment on the next non blank line
@@ -904,7 +915,7 @@ _
 t = [unclosed variable identifier
 '   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.asp
 Dim test
-'<- storage.modifier.asp - variable.other.asp
+'<- storage.modifier.asp - variable
  rem the syntax on the next line will cause an unterminated string constant error
 '^^^^^^ comment.line.rem.asp
 test = "hello%>
@@ -964,7 +975,7 @@ test = "hello%>
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
 '         ^^^ meta.attribute-with-value.class.html string.quoted.double.html
 '                                   ^^^^^^^^^^ meta.attribute-with-value.class.html string.quoted.double.html
-'                                             ^ - string.quoted.double.html
+'                                             ^ - string
 '          ^^^^^^^^^^^^^^^^ meta.class-name.html
 '                                  ^^^^^^^^^^ meta.class-name.html
 '          ^^ punctuation.section.embedded.begin.asp

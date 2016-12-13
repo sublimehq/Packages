@@ -1259,6 +1259,33 @@ for (
 //         ^^ storage.type.function.arrow.scala
 )
 
+new {
+   "foo"
+// ^^^^^ string.quoted.double.scala
+}
+
+def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
+//               ^ keyword.operator.varargs.scala
+//                                    ^ keyword.operator.varargs.scala
+//                                             ^ keyword.operator.varargs.scala
+//                                                         ^ support.type.scala - keyword
+
+def foo(a: Int * String): Unit
+//             ^ support.type.scala - keyword
+
+class Foo(a: String*)
+//                 ^ keyword.operator.varargs.scala
+
+class Foo(a: String* )
+//                  ^ - keyword
+
+def foo(a: String* )
+//                ^ - keyword
+
+trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
+//                     ^^^^ storage.type.scala
+//                               ^ keyword.operator.assignment.scala
+
    extends
 // ^^^^^^^ invalid.keyword.dangling-extends.scala
 

@@ -254,6 +254,12 @@ f(x) = x^2
 % ^ meta.environment.math.block
 \end{equation}
 
+$\iota$
+% ^ keyword.other.greek.math.tex
+
+$\Iota$
+% ^ support.function.math.tex
+
 $\alpha _$
 % ^ keyword.other.greek.math.tex
 %       ^ keyword.operator.math.tex
@@ -266,10 +272,14 @@ $\alpha_$
 \mbox{text}{text}
 %       ^ meta.function.box.latex
 %             ^ -meta.function.box.latex
-\parbox{text}{text}
+\parbox{text}{text}{text}
 %       ^ meta.function.box.latex
 %             ^ meta.function.box.latex
+%                    ^ -meta.function.box.latex
 
+\makebox   \break
+%        ^ meta.function.box.latex
+%           ^ -meta.function.box.latex
 
 % PACKAGE: comment
 % The comment package can be used to write block comment
@@ -327,7 +337,7 @@ class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
 % <- meta.environment.embedded.java.latex
 % <- source.java.embedded
-% ^ storage.modifier.java
+% ^ storage.type.java
 }
 \end{lstlisting}
 
