@@ -102,10 +102,12 @@ regex = r'\b ([fobar]*){1}(?:a|b)?'
 #                       ^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
+#            ^^^^^^^^^^^^^^^^^^^^^ - comment
 #                                 ^ punctuation.definition.string.end.python - comment
 #                                  ^ - invalid
 
 regex = r".* # Not a comment (yet)"
+#            ^^^^^^^^^^^^^^^^^^^^^ - comment
 #                                 ^ punctuation.definition.string.end.python - comment
 #                                  ^ - invalid
 
