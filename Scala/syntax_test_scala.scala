@@ -1263,3 +1263,21 @@ new {
    "foo"
 // ^^^^^ string.quoted.double.scala
 }
+
+def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
+//               ^ keyword.operator.varargs.scala
+//                                    ^ keyword.operator.varargs.scala
+//                                             ^ keyword.operator.varargs.scala
+//                                                         ^ support.type.scala - keyword
+
+def foo(a: Int * String): Unit
+//             ^ support.type.scala - keyword
+
+class Foo(a: String*)
+//                 ^ keyword.operator.varargs.scala
+
+class Foo(a: String* )
+//                  ^ - keyword
+
+def foo(a: String* )
+//                ^ - keyword
