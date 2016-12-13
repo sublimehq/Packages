@@ -1278,10 +1278,14 @@ class Foo extends Bar[A with B](42)
 //                              ^^ constant.numeric.integer.scala
 
 class Foo extends Bar { val x = 42 } with Baz
+//                    ^ punctuation.section.braces.begin.scala
+//                                 ^ punctuation.section.braces.end.scala
 //                                   ^^^^ keyword.declaration.scala
 //                                        ^^^ entity.other.inherited-class.scala
 
 class Foo { val x = 42 } extends Bar with Baz
+//        ^ punctuation.section.braces.begin.scala
+//                     ^ punctuation.section.braces.end.scala
 //                       ^^^^^^^ keyword.declaration.scala
 //                               ^^^ entity.other.inherited-class.scala
 
@@ -1312,3 +1316,15 @@ class Foo extends Bar {
      // <- meta.generic.scala
      ]
 //   ^ punctuation.definition.generic.end.scala
+
+class Foo extends Bar(42)
+//                   ^ punctuation.section.parens.begin.scala
+//                      ^ punctuation.section.parens.end.scala
+
+class Foo extends (Int => String)
+//                ^ punctuation.section.parens.begin.scala
+//                              ^ punctuation.section.parens.end.scala
+
+class Foo extends Bar[Int]
+//                   ^ punctuation.section.brackets.begin.scala
+//                       ^ punctuation.section.brackets.end.scala

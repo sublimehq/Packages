@@ -485,9 +485,11 @@ contexts:
 
   class-pre-inheritance-early-initializer:
     - match: \{
+      scope: punctuation.section.braces.begin.scala
       push:
         - meta_scope: meta.class.body.scala
         - match: \}
+          scope: punctuation.section.braces.end.scala
           pop: true
         - include: main
     - match: '(?=\b(extends|with)\b)'
@@ -527,8 +529,10 @@ contexts:
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
     - match: \(
+      scope: punctuation.section.parens.begin.scala
       set:
         - match: \)
+          scope: punctuation.section.parens.end.scala
           set: class-inheritance-with
         - include: delimited-type-expression
     - match: '\n'
@@ -541,13 +545,17 @@ contexts:
 
   class-inheritance-extends-token-after:
     - match: \(
+      scope: punctuation.section.parens.begin.scala
       push:
         - match: \)
+          scope: punctuation.section.parens.end.scala
           pop: true
         - include: main
     - match: \[
+      scope: punctuation.section.brackets.begin.scala
       push:
         - match: \]
+          scope: punctuation.section.brackets.end.scala
           pop: true
         - include: delimited-type-expression
     - match: (?=\b(with|extends)\b)
@@ -564,9 +572,11 @@ contexts:
 
   class-inheritance-early-initializer:
     - match: \{
+      scope: punctuation.section.braces.begin.scala
       push:
         - meta_scope: meta.class.body.scala
         - match: \}
+          scope: punctuation.section.braces.end.scala
           pop: true
         - include: main
     - match: '(?=\bwith\b)'
