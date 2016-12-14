@@ -77,6 +77,11 @@ __all__
 #^^^^^^ support.variable.magic
 __file__
 #^^^^^^^ support.variable.magic
+__missing__
+#^^^^^^^^^^ support.function.magic
+__bool__ __nonzero__
+#^^^^^^^ support.function.magic
+#        ^^^^^^^^^^^ support.function.magic
 
 
 ##################
