@@ -341,7 +341,7 @@ contexts:
 
   keywords:
     - match: '::'
-      scope: punctuation.accessor.java
+      scope: punctuation.accessor.double-colon.java
       push:
         - match: '{{id}}'
           scope: variable.function.reference.java
@@ -374,7 +374,7 @@ contexts:
     - match: (!|&&|\|\|)
       scope: keyword.operator.logical.java
     - match: \.
-      scope: punctuation.accessor.java
+      scope: punctuation.accessor.dot.java
     - match: ;
       scope: punctuation.terminator.java
 

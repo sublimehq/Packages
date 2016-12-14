@@ -62,7 +62,7 @@ public class SyntaxTest {
             .collect(Collectors.toCollection(ArrayList::new)));
 //                                                      ^^^ meta.method.body.java - keyword.control.new.java
 //                                                      ^^^ variable.function.reference.java
-//                                                    ^^ punctuation.accessor.java
+//                                                    ^^ punctuation.accessor.double-colon.java
         anotherMethod();
         try (Stream<String> lines = Files.lines(path)) {
 //      ^^^ keyword.control.catch-exception.java
@@ -101,7 +101,7 @@ public class SyntaxTest {
 //                                     ^^^^^^ support.type.java
 //                                             ^^^^ variable.parameter.java
         args.stream().forEach(System.out::println);
-//                                      ^^ punctuation.accessor.java
+//                                      ^^ punctuation.accessor.double-colon.java
     }
 
     private static void anotherMethod() throws MyException<Abc> {
