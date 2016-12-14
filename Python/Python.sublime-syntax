@@ -911,10 +911,10 @@ contexts:
   f-string-replacement:
     - clear_scopes: 1
     - match: \}
-      scope: meta.interpolation.python punctuation.definition.interpolation.end.python
+      scope: meta.interpolation.python punctuation.section.interpolation.end.python
       pop: true
     - match: \{
-      scope: punctuation.definition.interpolation.begin.python
+      scope: punctuation.section.interpolation.begin.python
       push:
         - meta_scope: meta.interpolation.python
         - match: (?=\})

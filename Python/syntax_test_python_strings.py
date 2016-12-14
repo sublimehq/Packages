@@ -489,8 +489,8 @@ f"{something}"
 #^^^^^^^^^^^^ meta.string.interpolated
 # <- storage.type.string
 #^ punctuation.definition.string.begin
-# ^ punctuation.definition.interpolation.begin
-#           ^ punctuation.definition.interpolation.end
+# ^ punctuation.section.interpolation.begin
+#           ^ punctuation.section.interpolation.end
 #            ^ punctuation.definition.string.end
 #  ^^^^^^^^^ source source.python.embedded
 #              ^ source - meta, string, source source
@@ -502,7 +502,7 @@ f"{True!a:02f}"
 #      ^^^^^^^ - source source.python.embedded
 #      ^^ storage.modifier.conversion - constant.other.format-spec
 #        ^^^^ constant.other.format-spec
-#            ^ punctuation.definition.interpolation.end
+#            ^ punctuation.section.interpolation.end
 #             ^ punctuation.definition.string.end
 #              ^ source - meta, string, source source
 
@@ -535,6 +535,11 @@ F""" {} {\} }
 #        ^ invalid.illegal.backslash-in-fstring
 #           ^ invalid.illegal.stray-brace
 """
+
+f" {
+%   ^ invalid.illegal.unclosed-string
+   # TODO make this test pass
+    }"
 
 f'   \
  {1 + 2!a:02f}'
