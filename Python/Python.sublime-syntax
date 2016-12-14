@@ -799,13 +799,13 @@ contexts:
     - match: |-
         (?x)\b__(?:
           # generic object
-          class|dict|doc|bases
+          class|dict|doc|module|name|
           # module-specific / global
-          all|doc|debug|file|name|
+          all|debug|file|package|
           # functions & methods
-          annotations|code|defaults|func|globals|kwdefaults|self|qualname|
+          annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
           # classes (attributes)
-          module|prepare|slots|metaclass|
+          bases|prepare|slots|metaclass|mro|
           # Python 2
           members|methods
         )__\b

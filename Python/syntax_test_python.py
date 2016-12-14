@@ -72,7 +72,11 @@ def
 # Currently, async and await are still recognized as valid identifiers unless in an "async" block
 async
 #^^^^ - invalid.illegal.name
-#
+
+__all__
+#^^^^^^ support.variable.magic
+__file__
+#^^^^^^^ support.variable.magic
 
 
 ##################
