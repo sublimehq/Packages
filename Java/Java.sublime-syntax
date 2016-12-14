@@ -341,7 +341,7 @@ contexts:
 
   keywords:
     - match: '::'
-      scope: keyword.operator.method-reference.java
+      scope: punctuation.accessor.java
       push:
         - match: '{{id}}'
           scope: variable.function.reference.java
