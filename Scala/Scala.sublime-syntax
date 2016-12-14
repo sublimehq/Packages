@@ -149,21 +149,21 @@ contexts:
 
   annotation:
     - match: '(@)({{plainid}})(\.)'
-      scope: storage.modifier.annotation.scala
+      scope: variable.annotation.scala
       captures:
         1: punctuation.definition.annotation.scala
         3: punctuation.accessor.scala
       push:
         - meta_scope: meta.annotation.scala
         - match: '({{plainid}})(\.)'
-          scope: storage.modifier.annotation.scala
+          scope: variable.annotation.scala
           captures:
             2: punctuation.accessor.scala
         - match: '{{plainid}}'
-          scope: storage.modifier.annotation.scala
+          scope: variable.annotation.scala
           set: annotation-parameters
     - match: '(@)({{plainid}})'
-      scope: storage.modifier.annotation.scala
+      scope: variable.annotation.scala
       captures:
         1: punctuation.definition.annotation.scala
       push: annotation-parameters

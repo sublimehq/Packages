@@ -1289,39 +1289,39 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 // annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
 @deprecated("Use D", "1.0") class C { ... }
 // <- meta.annotation.scala
-// ^^ storage.modifier.annotation
+// ^^ variable.annotation
 //            ^^ string
 //                        ^ meta.annotation.scala
 //                         ^ - meta.annotation.scala
 
 @transient @volatile var m: Int
-// ^^ storage.modifier.annotation
-//         ^^ storage.modifier.annotation
+// ^^ variable.annotation
+//         ^^ variable.annotation
 
 String @local
 //     ^ punctuation.definition.annotation.scala
-//     ^^ storage.modifier.annotation
+//     ^^ variable.annotation
 
 (e: @unchecked) match { ... }
-//  ^^ storage.modifier.annotation
+//  ^^ variable.annotation
 //              ^^^^^ keyword.control.flow.scala
 
 // more complex:
 @scala.beans.BeanProperty
-//  ^^^^^^^^^^^^^^^^^^^^^ storage.modifier.annotation
+//  ^^^^^^^^^^^^^^^^^^^^^ variable.annotation
 //    ^ punctuation.accessor.scala
 
 (e: Int @unchecked) match { ... }
 //  ^^ storage.type.primitive
-//      ^^ storage.modifier.annotation
+//      ^^ variable.annotation
 //                  ^^^^^ keyword.control.flow.scala
 
 @obsolete("this class is horrible don't use it", alpha=3)
-//  ^^ storage.modifier.annotation
+//  ^^ variable.annotation
 //            ^ string
 //                                                     ^ constant.numeric.integer
 trait Function0[@specialized(Unit, Int, Double) T] {
-//               ^^ storage.modifier.annotation
+//               ^^ variable.annotation
 //                           ^^ storage.type.primitive
 //                                              ^ support.class
 //              ^ punctuation.definition.annotation.scala
@@ -1333,9 +1333,9 @@ trait Function0[@specialized(Unit, Int, Double) T] {
 }
 
 x: Foo @volatile with Bar @foo.bar @bar with Baz
-//          ^^ storage.modifier.annotation.scala
+//          ^^ variable.annotation.scala
 //               ^^ keyword.declaration.scala
 //                    ^^^ support.class.scala
-//                        ^^^^^^^^ storage.modifier.annotation.scala
-//                                 ^^^^ storage.modifier.annotation.scala
+//                        ^^^^^^^^ variable.annotation.scala
+//                                 ^^^^ variable.annotation.scala
 //                                           ^^^ support.class.scala
