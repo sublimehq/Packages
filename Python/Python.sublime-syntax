@@ -801,6 +801,7 @@ contexts:
           # other "coercion"
           format|len|length_hint|hash|repr|reversed|
           coerce|hex|oct| # py2
+          fspath|
           # iterator (and 'await')
           iter|next|
           aiter|anext|
@@ -814,12 +815,12 @@ contexts:
           enter|exit|
           aenter|aexit|
           # other class magic
-          call|del|init|new|
+          call|del|init|new|init_subclass|
           instancecheck|subclasscheck|
           # pickling
           getnewargs|getnewargs_ex|getstate|setstate|reduce|reduce_ex|
           # descriptors
-          delete|get|set|
+          delete|get|set|set_name|
           # class-specific
           subclasses
         )__\b
