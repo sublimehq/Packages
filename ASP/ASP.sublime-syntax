@@ -238,7 +238,7 @@ contexts:
         - include: not_end_of_statement
         - match: '\s*(=)\s*'
           captures:
-            1: keyword.operator.asp
+            1: keyword.operator.assignment.asp
           set: [constant_separator, constant_value]
     - include: unexpected_token
 
@@ -277,9 +277,8 @@ contexts:
       scope: variable.other.asp
       set:
         - include: allow_line_continuation
-        - match: '(\()'
-          captures:
-            1: punctuation.section.array.begin.asp
+        - match: '\('
+          scope: punctuation.section.array.begin.asp
           push:
             - meta_scope: meta.array.definition.asp
             - include: not_end_of_statement
@@ -320,11 +319,11 @@ contexts:
 
   after_method_name:
     - match: \(
-      scope: punctuation.section.parameters.begin.asp
+      scope: punctuation.section.parens.begin.asp
       set:
         - meta_scope: meta.method.asp meta.method.identifier.asp
         - match: \)
-          scope: punctuation.section.parameters.end.asp
+          scope: punctuation.section.parens.end.asp
           pop: true
         - match: $
           set: not_end_of_statement
@@ -457,39 +456,39 @@ contexts:
     - match: '\b((?i:Request))\b(?:(?i:(\.)\s*(?:(BinaryRead)|(ClientCertificate|Cookies|Form|QueryString|ServerVariables)|(TotalBytes)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524948%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
         4: support.class.collection.asp
         5: support.property.asp
     - match: '\b((?i:Response))\b(?:(?i:(\.)\s*(?:(AddHeader|AppendToLog|BinaryWrite|Clear|End|Flush|Redirect|Write)|(Buffer|CacheControl|Charset|CodePage|ContentType|Expires|ExpiresAbsolute|IsClientConnected|LCID|PICS|Status)|(Cookies)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525405%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
     - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(CreateObject|Execute|GetLastError|HTMLEncode|MapPath|Transfer|URLEncode)|(ScriptTimeout)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525541%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
         4: support.property.asp
     - match: '\b((?i:Server))\b(?:(?i:(\.)\s*(?:(Abandon)|(CodePage|LCID|SessionID|Timeout)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
         4: support.property.asp
         5: support.class.collection.asp
     - match: '\b((?i:ObjectContext))\b(?:(?i:(\.)\s*(SetAbort|SetComplete))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms525667%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
     - match: '\b((?i:Application))\b(?:(?i:(\.)\s*(?:(Lock|Unlock)|(Contents|StaticObjects)))\b)?'
       captures: # https://msdn.microsoft.com/en-us/library/ms524319%28v=vs.90%29.aspx
         1: support.class.asp
-        2: punctuation.accessor.asp
+        2: punctuation.accessor.dot.asp
         3: support.function.asp
         4: support.class.collection.asp
     - match: '{{identifier}}'
@@ -503,17 +502,19 @@ contexts:
         - match: ''
           pop: true
     - match: \(
+      scope: punctuation.section.parens.begin.asp
       push: inside_parens
     - include: allow_line_continuation
 
   inside_parens:
     - match: \)
+      scope: punctuation.section.parens.end.asp
       pop: true
     - match: '\s+' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       scope: ''
     - match: '{{whitespace_or_end_of_statement}}' # this match pattern has been added to disable the illegal highlighting where a statement ends unexpectedly - to more closely match other syntaxes
       pop: true
-    - match: \n
+    - match: $\n
       scope: invalid.illegal.missing-close-bracket.asp
       pop: true
     - include: expression
@@ -534,7 +535,7 @@ contexts:
       scope: punctuation.terminator.statement.asp
     - match: (\.)(\.)?
       captures:
-        1: punctuation.accessor.asp
+        1: punctuation.accessor.dot.asp
         2: invalid.illegal.unexpected-token.asp
       push: expect_identifier_member_reference
 
