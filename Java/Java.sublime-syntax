@@ -6,11 +6,28 @@ file_extensions:
   - java
   - bsh
 scope: source.java
+variables:
+  primitives: \b(boolean|byte|char|short|int|float|long|double)\b
+  primitives_with_void: \bvoid\b|{{primitives}}
+
+  # source: http://stackoverflow.com/a/5205467/9815
+  id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
+  qualified_id: '(?:(?:{{id}}\.)*{{id}})'
+
+  # utility lookaround
+  within_generics: '(?:<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)'  # handles 3 levels nesting
+  lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
+
 contexts:
+  prototype:
+    - include: comments
+
   main:
+    - include: comments
     - include: package
     - include: import
     - include: code
+
   package:
     - match: '\bpackage\b'
       scope: keyword.other.package.java
@@ -44,10 +61,11 @@ contexts:
           pop: true
         - match: (?=\n)
           pop: true
+
   all-types:
     - include: primitive-arrays
     - include: primitive-types
-    - include: object-types
+
   annotations:
     - match: '(@[^ (]+)(\()'
       captures:
@@ -67,47 +85,134 @@ contexts:
           scope: punctuation.separator.property.java
     - match: '@\w*'
       scope: storage.type.annotation.java
+
   anonymous-classes-and-new:
-    - match: \b(?<!::)new\b
+    - match: \bnew\b
       scope: keyword.control.new.java
-      push:
-        - match: '(?<=\)|\])(?!\s*{)|(?<=})|(?=;)'
+      push: instantiation
+
+  instantiation:
+    - match: '{{primitives}}'
+      scope: storage.type.primitive.java
+      set: instantiation-arrays
+    - match: '{{qualified_id}}'
+      scope: support.class.java
+      set: instantiation-generics
+    - match: '(?=\S)'
+      pop: true
+
+  instantiation-generics:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      set:
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          set: instantiation-arrays
+        - include: generic-instantiation
+    - match: '(?=\S)'
+      set: instantiation-arrays
+
+  instantiation-arrays:
+    - match: \[
+      scope: punctuation.section.brackets.begin.java
+      set:
+        - meta_scope: meta.brackets.java
+        - match: \]
+          scope: punctuation.section.brackets.end.java
           pop: true
-        - match: '(\w+)\s*(?=\[)'
-          captures:
-            1: storage.type.java
-          push:
-            - match: '}|(?=;|\))'
-              pop: true
-            - match: '\['
-              push:
-                - match: '\]'
-                  pop: true
-                - include: code
-            - match: "{"
-              push:
-                - match: "(?=})"
-                  pop: true
-                - include: code
-        - match: (?=\w.*(\(|$))
-          push:
-            - match: \)
-              pop: true
-            - include: object-types
-            - match: \(
-              push:
-                - match: (?=\))
-                  pop: true
-                - include: code
-        - match: "{"
-          push:
-            - meta_scope: meta.inner-class.java
-            - match: "}"
-              pop: true
-            - include: class-body
+        - include: code
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.parens.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          set: instantiation-anon-class
+        - include: code
+    - match: '(?=\S)'
+      pop: true
+
+  instantiation-anon-class:
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      push:
+        - meta_scope: meta.class.anonymous-inner-class.java
+        - match: \}
+          scope: punctuation.section.braces.end.java
+          pop: true
+        - include: class-body
+    - match: (?=\S)
+      pop: true
+
   functions:
-    - match: '\b([a-zA-Z](?:[^\.<>\s]*))(?=(\s*<.+>)?\s*\()'
+    - match: '\b{{id}}(?=(\s*{{within_generics}})?\s*\()'
       scope: variable.function.java
+      push: function-generics
+
+  function-generics:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      push:
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          pop: true
+        - include: generic-instantiation
+    - match: '(?=\S)'
+      pop: true
+
+  fields:
+    - match: '{{primitives}}(?=(\s*\[\s*\])?\s+{{id}})'
+      scope: storage.type.primitive.java
+      push: field-definition-arrays
+    - match: '\b{{qualified_id}}(?=(\s*{{within_generics}})?(\s*\[\s*\])?\s+{{id}})'
+      scope: support.class.java
+      push: field-definition-generics
+
+  field-definition-generics:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      set:
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          set: field-definition-arrays
+        - include: generic-instantiation
+    - match: '(?=\S)'
+      set: field-definition-arrays
+
+  field-definition-arrays:
+    - match: \[
+      scope: punctuation.section.brackets.begin.java
+      set:
+        - match: \]
+          scope: punctuation.section.brackets.end.java
+          set: field-definition-name
+    - match: '(?=\S)'
+      set: field-definition-name
+
+  field-definition-name:
+    - match: '{{id}}'
+      pop: true
+
+  generic-instantiation:
+    - match: '{{primitives}}'
+      scope: invalid.illegal.primitive-instantiation.java
+    - match: \?
+      scope: keyword.operator.wildcard.java
+    - match: \b(extends|super)\b
+      scope: keyword.declaration.extends.java
+    - match: '{{qualified_id}}'
+      scope: support.type.java
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      push:
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          pop: true
+        - include: generic-instantiation
+
   assertions:
     - match: \b(assert)\b
       scope: keyword.control.assert.java
@@ -119,19 +224,26 @@ contexts:
           scope: keyword.operator.assert.expression-separator.java
         - include: code
   class:
-    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
+    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)(\s+\w+|\b))'
       push:
         - meta_scope: meta.class.java
         - match: "}"
           scope: punctuation.section.class.end.java
           pop: true
         - include: storage-modifiers
-        - include: comments
-        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)(\w+)
+        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+(\w+)|\b)
           scope: meta.class.identifier.java
           captures:
             1: storage.type.java
             2: entity.name.class.java
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          push:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
+              pop: true
+            - include: generic-instantiation
         - match: \bextends\b
           scope: keyword.declaration.extends.java
           push:
@@ -139,7 +251,6 @@ contexts:
             - match: '(?={|\bimplements\b)'
               pop: true
             - include: object-types-inherited
-            - include: comments
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
@@ -147,23 +258,22 @@ contexts:
             - match: '(?=\bextends\b|\{)'
               pop: true
             - include: object-types-inherited
-            - include: comments
         - match: "{"
           push:
             - meta_scope: meta.class.body.java
             - match: "(?=})"
               pop: true
             - include: class-body
+
   class-body:
-    - include: comments
     - include: class
     - include: enums
     - include: methods
     - include: annotations
     - include: storage-modifiers
     - include: code
+
   code:
-    - include: comments
     - include: class
     - match: "{"
       push:
@@ -173,10 +283,12 @@ contexts:
           pop: true
         - include: code
     - include: assertions
+    - include: lambdas
     - include: parens
     - include: constants-and-special-vars
     - include: anonymous-classes-and-new
     - include: keywords
+    - include: fields
     - include: functions
     - include: storage-modifiers
     - include: strings
@@ -214,7 +326,6 @@ contexts:
       push:
         - match: "(?=;|})"
           pop: true
-        - include: comments
         - match: \w+
           scope: constant.other.enum.java
           push:
@@ -227,7 +338,16 @@ contexts:
                 - match: "}"
                   pop: true
                 - include: class-body
+
   keywords:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.java
+      push:
+        - match: '{{id}}'
+          scope: variable.function.reference.java
+          pop: true
+        - match: (?=\S)
+          pop: true
     - match: \b(goto|const)\b
       scope: invalid.illegal.java
     - match: \b(try|catch|finally|throw)\b
@@ -253,10 +373,11 @@ contexts:
       scope: keyword.operator.arithmetic.java
     - match: (!|&&|\|\|)
       scope: keyword.operator.logical.java
-    - match: (?<=\S)\.(?=\S)
-      scope: keyword.operator.dereference.java
+    - match: \.
+      scope: punctuation.accessor.dot.java
     - match: ;
       scope: punctuation.terminator.java
+
   methods:
     - match: '(?=\w.*\s+)(?=[^=;]+\()'
       push:
@@ -264,14 +385,21 @@ contexts:
         - match: "}|(?=;)"
           pop: true
         - include: storage-modifiers
-        - match: (\w+)\s*\(
+        - match: (\w+)\s*(\()
           captures:
             1: entity.name.function.java
+            2: punctuation.section.parens.begin.java
           push:
             - meta_scope: meta.method.identifier.java
-            - match: \)
+            - include: method-parameters
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          push:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
               pop: true
-            - include: parameters
+            - include: generic-instantiation
         - match: (?=\w.*\s+\w+\s*\()
           push:
             - meta_scope: meta.method.return-type.java
@@ -285,69 +413,147 @@ contexts:
             - match: "(?=})"
               pop: true
             - include: code
-  object-types:
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
-      push:
-        - meta_scope: storage.type.generic.java
-        - match: '>|[^\w\s,\?<\[\].]'
+        - match: (?=\S)
           pop: true
-        - include: object-types
-        - match: <
-          comment: This is just to support <>'s with no actual type prefix
-          push:
-            - meta_scope: storage.type.generic.java
-            - match: '>|[^\w\s,\[\]<]'
-              pop: true
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)(?=\[)'
-      push:
-        - meta_scope: storage.type.object.array.java
-        - match: '(?=[^\]\s])'
-          pop: true
-        - match: '\['
-          push:
-            - match: '\]'
-              pop: true
-            - include: code
-    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*\b'
-      scope: storage.type.java
-      captures:
-        1: keyword.operator.dereference.java
+
   object-types-inherited:
-    - match: '\b((?:[a-z]\w*\.)*[A-Z]+\w*)<'
-      push:
-        - meta_scope: entity.other.inherited-class.java
-        - match: '>|[^\w\s,<]'
-          pop: true
-        - include: object-types
-        - match: <
-          comment: This is just to support <>'s with no actual type prefix
-          push:
-            - meta_scope: storage.type.generic.java
-            - match: '>|[^\w\s,<]'
-              pop: true
-    - match: '\b(?:[a-z]\w*(\.))*[A-Z]+\w*'
+    - match: '\b{{qualified_id}}\b(?=\s*<)'
       scope: entity.other.inherited-class.java
-      captures:
-        1: keyword.operator.dereference.java
-  parameters:
+      push:
+        - match: '<'
+          scope: punctuation.definition.generic.begin.java
+          set:
+            - meta_scope: meta.generic.java
+            - match: '>'
+              scope: punctuation.definition.generic.end.java
+              pop: true
+            - include: generic-instantiation
+    - match: '\b{{qualified_id}}\b'
+      scope: entity.other.inherited-class.java
+
+  method-parameters:
+    - meta_scope: meta.method.identifier.java
     - match: \bfinal\b
       scope: storage.modifier.java
-    - include: primitive-arrays
-    - include: primitive-types
-    - include: object-types
-    - match: \w+
+    - match: '{{primitives}}'
+      scope: storage.type.primitive.java
+      set: method-parameter-after
+    - match: '{{qualified_id}}'
+      scope: support.class.java
+      set: method-parameter-after
+    - match: ','
+      scope: punctuation.separator.java
+    - match: \)
+      scope: punctuation.section.parens.end.java
+      pop: true
+  method-parameter-after:
+    - meta_scope: meta.method.identifier.java
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      push:
+        - meta_scope: meta.method.identifier.java
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          pop: true
+        - include: generic-instantiation
+    - match: '\.\.\.'
+      scope: keyword.operator.varargs.java
+    - match: '(\[)\s*(\])'
+      captures:
+        1: punctuation.section.brackets.begin.java
+        2: punctuation.section.brackets.end.java
+    - match: '{{id}}'
       scope: variable.parameter.java
+      set: method-parameters
+    - match: (?=\S)
+      pop: true
+
+  # duplicated due to the meta scope
+  raw-parameters:
+    - match: \bfinal\b
+      scope: storage.modifier.java
+    - match: '{{primitives}}'
+      scope: storage.type.primitive.java
+      set: raw-parameter-after
+    - match: '{{qualified_id}}'
+      scope: support.class.java
+      set: raw-parameter-after
+    - match: ','
+      scope: punctuation.separator.java
+    - match: '(?=\))'
+      pop: true
+  raw-parameter-after:
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
+      push:
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
+          pop: true
+        - include: generic-instantiation
+    - match: '\.\.\.'
+      scope: keyword.operator.varargs.java
+    - match: '(\[)\s*(\])'
+      captures:
+        1: punctuation.section.brackets.begin.java
+        2: punctuation.section.brackets.end.java
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      set: raw-parameters
+    - match: (?=\S)
+      pop: true
+
+  lambdas:
+    - match: '(?={{lambda_lookahead}})'
+      push: lambda-params
+
+  lambda-params:
+    - meta_scope: meta.lambda.parameters.java
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.lambda.parameters.paren.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          set: lambda-arrow
+        - match: (?=(\s*{{id}}\s*,)*\s*{{id}}\s*\))
+          push: lambda-params-simple
+        - match: (?=\S)
+          push: raw-parameters
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      set: lambda-arrow
+
+  lambda-params-simple:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+    - match: ','
+      scope: punctuation.separator.java
+    - match: (?=\S)
+      pop: true
+
+  lambda-arrow:
+    - match: ->
+      scope: storage.type.lambda.java
+      set:
+        - meta_scope: meta.lambda.body.java
+        - match: (?=[)};])
+          pop: true
+        - include: code
+
   parens:
     - match: \(
       push:
         - match: \)
           pop: true
         - include: code
+
   primitive-arrays:
     - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)(\[\])*\b'
       scope: storage.type.primitive.array.java
   primitive-types:
-    - match: \b(?:void|boolean|byte|char|short|int|float|long|double)\b
+    - match: '{{primitives}}'
       scope: storage.type.primitive.java
   storage-modifiers:
     - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
@@ -356,6 +562,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.java
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.java
         - match: '"'
           scope: punctuation.definition.string.end.java
@@ -365,21 +572,35 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.java
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.java
         - match: "'"
           scope: punctuation.definition.string.end.java
           pop: true
         - match: \\.
           scope: constant.character.escape.java
+
   throws:
     - match: \bthrows\b
       scope: storage.modifier.java
       push:
         - meta_scope: meta.throwables.java
-        - match: "(?={|;)"
+        - match: (?=\{|;)
           pop: true
-        - include: object-types
+        - match: '{{qualified_id}}'
+          scope: support.class.java
+          push:
+            - match: '<'
+              scope: punctuation.definition.generic.begin.java
+              set:
+                - meta_scope: meta.generic.java
+                - match: '>'
+                  scope: punctuation.definition.generic.end.java
+                  pop: true
+                - include: generic-instantiation
+            - match: (?=\S)
+              pop: true
+
   values:
     - include: strings
-    - include: object-types
     - include: constants-and-special-vars

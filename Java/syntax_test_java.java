@@ -25,9 +25,10 @@ public class SyntaxTest {
 //                      ^ meta.class.body.java
     private String memberString = "Hello";
     private String memberString2 = new String("Hello");
+//                                     ^^^^^^ support.class.java
     private String memberString3 = String.valueOf("Hello");
 //  ^^^^^^^ storage.modifier.java
-//          ^^^^^^ storage.type.java
+//          ^^^^^^ support.class.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //                               ^ keyword.operator.assignment.java
 //                                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
@@ -49,8 +50,10 @@ public class SyntaxTest {
 //                                          ^^ meta.method.body.java
 //                ^^^^ meta.method.return-type.java storage.type
 //                     ^^^^ entity.name.function.java
-//                          ^^^^^ storage.type.java
+//                         ^ punctuation.section.parens.begin.java
+//                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
+//                                        ^ punctuation.section.parens.end.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                         ^^^ keyword.control.new.java
@@ -58,16 +61,15 @@ public class SyntaxTest {
         printList(Arrays.stream(args)
             .collect(Collectors.toCollection(ArrayList::new)));
 //                                                      ^^^ meta.method.body.java - keyword.control.new.java
-//                                                    ^^ keyword.control.java
-//                                           ^^^^^^^^^ storage.type.java
-//                   ^^^^^^^^^^ storage.type.java
+//                                                      ^^^ variable.function.reference.java
+//                                                    ^^ punctuation.accessor.double-colon.java
         anotherMethod();
         try (Stream<String> lines = Files.lines(path)) {
 //      ^^^ keyword.control.catch-exception.java
-//           ^^^^^^^^^^^^^^ storage.type.generic.java
 //                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
+//                                    ^^^^^^^ variable.function.reference.java
         }
         for (int i = 0; i < 10; i+= 2) {
 //      ^^^ keyword.control
@@ -96,24 +98,24 @@ public class SyntaxTest {
 //                                                   ^^ meta.method.body.java
 //                 ^^^^ meta.method.return-type.java storage.type
 //                      ^^^^^^^^^ entity.name.function.java
-//                                ^^^^^^^^^^^^ storage.type.generic.java
+//                                     ^^^^^^ support.type.java
 //                                             ^^^^ variable.parameter.java
         args.stream().forEach(System.out::println);
-//                            ^^^^^^ storage.type.java
-//                                      ^^ keyword.control.java
+//                                      ^^ punctuation.accessor.double-colon.java
     }
 
-    private static void anotherMethod() throws MyException {
+    private static void anotherMethod() throws MyException<Abc> {
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
 //                      ^^^^^^^^^^^^^^^ meta.method.identifier.java
 //                                     ^^^^^^^^^^^^^^^^^^^^^^ - meta.method.identifier.java
-//                                                         ^^ meta.method.body.java
+//                                                              ^^ meta.method.body.java
 //                 ^^^^ meta.method.return-type.java storage.type
 //                      ^^^^^^^^^^^^^ entity.name.function.java
 //                                      ^^^^^^ storage.modifier.java
-//                                             ^^^^^^^^^^^ meta.throwables.java storage.type.java
+//                                             ^^^^^^^^^^^^^^^^ meta.throwables.java
+//                                                        ^^^^^ meta.generic.java
         throw new MyException
                 ("hello (world)");
 //                              ^ - string
@@ -128,6 +130,11 @@ class ExtendsTest implements Foo {}
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
 
+class Foo<A> extends Bar<? extends A> {}
+//       ^^^ meta.generic.java
+//        ^ support.type.java
+//                         ^^^^^^^ meta.definition.class.inherited.classes.java keyword.declaration.extends.java
+
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
@@ -141,6 +148,13 @@ class AnyClass {
         System.out.println("Printed: " + finality);
 //                                     ^ keyword.operator
     }
+
+    public abstract <A> void test(A thing);
+//                  ^^^ meta.generic.java
+//                   ^ support.type.java
+
+    public void test2(Type) abc
+//                          ^^^ - variable.parameter
 }
 
 public enum FooBaz {
@@ -161,17 +175,6 @@ public enum FooBaz {
 //  ^^^^^^^^^^^^^^^^ comment.line
 }
 
-class AnotherClass
-{
-// <- meta.class.body.java
-    Map<FileManagerFileData, String> fileData;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.type.generic.java
-//                                           ^ punctuation.terminator.java
-    Map<FileManager.FileData, String> fileData;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.type.generic.java
-//                                            ^ punctuation.terminator.java
-}
-
 class InvalidStuff
 {
     goto
@@ -184,13 +187,56 @@ class InvalidStuff
    volatile
 // ^^^^^^^^ storage.modifier.java
 
-   foo()
+   foo();
 // ^^^ variable.function.java
-   Foo()
+   Foo();
 // ^^^ variable.function.java
-   foo ()
+   foo ();
 // ^^^ variable.function.java
-   foo<int>()
+   foo<A>();
 // ^^^ variable.function.java
-   foo <int>()
+   foo <B>();
 // ^^^ variable.function.java
+
+   a -> 42;
+// ^ variable.parameter.java
+//   ^^ storage.type.lambda.java
+//      ^^ constant.numeric
+
+   a -> { return 42; };
+//      ^^^^^^^^^^^^^^ meta.lambda.body.java
+
+   (a, b) -> 42;
+//  ^ variable.parameter.java
+//     ^ variable.parameter.java
+//        ^^ storage.type.lambda.java
+//           ^^ constant.numeric
+
+   (int a, Foo<Integer>[] b) -> 42;
+//  ^^^ storage.type.primitive
+//      ^ variable.parameter.java
+//         ^^^ support.class.java
+//                        ^ variable.parameter.java
+//                           ^^ storage.type.lambda.java
+//                              ^^ constant.numeric
+
+new Foo<Abc>();
+//     ^^^^^ meta.generic.java
+//      ^^^ support.type.java
+//     ^ punctuation.definition.generic.begin.java
+//         ^ punctuation.definition.generic.end.java
+
+new Foo<?>();
+//      ^ keyword.operator.wildcard.java
+
+new Foo<? extends Bar>();
+//      ^ keyword.operator.wildcard.java
+//        ^^^^^^^ keyword.declaration.extends.java
+
+new Foo<? super Bar>();
+//      ^ keyword.operator.wildcard.java
+//        ^^^^^ keyword.declaration.extends.java
+
+new Foo<int>();
+//      ^^^ invalid.illegal.primitive-instantiation.java
+
