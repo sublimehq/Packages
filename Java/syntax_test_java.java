@@ -120,6 +120,13 @@ public class SyntaxTest {
                 ("hello (world)");
 //                              ^ - string
     }
+
+    <T> void save(T obj);
+//  ^^^^^^^^^^^^^^^^^^^^ meta.method
+//  ^^^ meta.generic
+//      ^^^^ meta.method.return-type
+//           ^^^^ meta.method.identifier
+//               ^^^^^^^ meta.method.parameters
 }
 
 class ExtendsTest extends Foo {}
@@ -249,4 +256,3 @@ new Foo<? super Bar>();
 
 new Foo<int>();
 //      ^^^ invalid.illegal.primitive-instantiation.java
-

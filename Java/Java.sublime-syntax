@@ -394,6 +394,8 @@ contexts:
   methods:
     - match: '(?=\w.*\s+)(?=[^=;]+\()'
       push: method-declaration
+    - match: '(?={{within_generics}}\s+\w.*\s+)(?=[^=;]+\()'
+      push: method-declaration
 
   method-declaration:
     - meta_scope: meta.method.java
