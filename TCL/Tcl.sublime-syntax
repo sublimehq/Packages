@@ -25,7 +25,7 @@ contexts:
     - include: expressions
 
   continued-line:
-    - match: '$|(?=;)'
+    - match: (?={{end_chars}})
       pop: true
     - match: '^(?=\s*#)'
       push:

@@ -18,6 +18,22 @@ pg_select $database \
 data
 # <- - variable.function
 
+becs::wizFrame -info [becs_infobody "interface.jpg" \
+    "Specify VID parameters<br><br><strong>VID groups</strong> can be used to build ranges that is added to the VID range field."] \
+    -title "$ifacename VID parameters"
+# ^ - meta.substitution
+
+if {[catch {becs::objectCreate -class interface \
+        -flags "statistics,interfaceautoprobe" \
+        -name $aggrname -role $extra_role \
+                        -parameters [array get params] \
+        -opaque [list "becs.editor" "ifrole.tcl"] \
+        -parentoid $aggr_attach_oid} err]} {
+return "Creating aggregator interface $aggrname under element/management element-module OID $aggr_attach_oid: $err"
+}
+#^ - meta.block
+#^ - meta.substitution
+
 # -------------------------------------------------------------------------- #
 # Issue 134: https://github.com/SublimeTextIssues/DefaultPackages/issues/134
 # -------------------------------------------------------------------------- #
