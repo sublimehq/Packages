@@ -129,7 +129,7 @@ contexts:
               pop: true
         - include: dotted-name
         - match: (\.)
-          scope: punctuation.accessor.python
+          scope: punctuation.accessor.dot.python
         - match: (?=\S)
           pop: true
 
@@ -266,7 +266,7 @@ contexts:
     - include: dotted-name
     - match: '(\.) *(?={{identifier}})'
       captures:
-        1: punctuation.accessor.python
+        1: punctuation.accessor.dot.python
       push:
         - include: magic-function-names
         - include: magic-variable-names
@@ -308,7 +308,7 @@ contexts:
     # arbitrary attribute access
     - match: '\s*(\.)'
       captures:
-        1: punctuation.accessor.python
+        1: punctuation.accessor.dot.python
       push:
         - include: magic-function-names
         - include: magic-variable-names
@@ -439,7 +439,7 @@ contexts:
                 - meta_scope: entity.other.inherited-class.python
                 - match: '{{identifier}}(?: *(\.) *)?'
                   captures:
-                    1: punctuation.accessor.python
+                    1: punctuation.accessor.dot.python
                 - match: ''
                   pop: true
             - include: expressions
@@ -563,7 +563,7 @@ contexts:
               pop: true
             - match: ' *(\.) *(?={{identifier}})'
               captures:
-                1: punctuation.accessor.python
+                1: punctuation.accessor.dot.python
               set:
                 - include: dotted-name-specials
                 - match: '{{identifier}}(?=\s*\()'
@@ -583,7 +583,7 @@ contexts:
               pop: true
             - include: keyword-arguments
             - match: ','
-              scope: punctuation.separator.parameters.python
+              scope: punctuation.separator.arguments.python
             - include: inline-for
             - include: expressions
 
@@ -702,7 +702,7 @@ contexts:
       push:
         - match: ' *(\.) *(?={{identifier}})'
           captures:
-            1: punctuation.accessor.python
+            1: punctuation.accessor.dot.python
           push:
             - include: dotted-name-specials
             - include: generic-names

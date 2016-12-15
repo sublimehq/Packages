@@ -81,13 +81,13 @@ async
 
 myobj.method().attribute
 #^^^^^^^^^^^^^ meta.function-call
-#    ^ punctuation.accessor
+#    ^ punctuation.accessor.dot
 #     ^^^^^^ variable.function
-#             ^ punctuation.accessor
+#             ^ punctuation.accessor.dot
 
 'foo'.upper()
 #    ^^^^^^^^ meta.function-call
-#    ^ punctuation.accessor
+#    ^ punctuation.accessor.dot
 #     ^^^^^ variable.function
 
 func()
@@ -120,7 +120,7 @@ range(20)[10:2:-2]
 #             ^ punctuation.separator.slice
 
 myobj.attribute
-#    ^ punctuation.accessor
+#    ^ punctuation.accessor.dot
 
 "string"[12]
 #       ^^^^ meta.item-access - meta.structure
@@ -270,7 +270,7 @@ def _():
 #   ^^^^ support.function.builtin - keyword
     callback(print , print
 #            ^^^^^ - keyword
-#                  ^ punctuation.separator.parameters
+#                  ^ punctuation.separator.arguments
 #                    ^^^^^ - keyword
              , print)
 #              ^^^^^ - keyword
@@ -398,7 +398,7 @@ class MyClass(Inherited,
 #                      ^ punctuation.separator.inheritance
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                    ^ punctuation.accessor
+#                    ^ punctuation.accessor.dot
 #                                ^ punctuation.separator.inheritance
 #                                  ^^^^^^^^^ variable.parameter.class-inheritance
 #                                           ^ keyword.operator.assignment
@@ -417,7 +417,7 @@ class Unterminated(Inherited:
 @normal . decorator
 #^^^^^^^^^^^^^^^^^^ meta.statement.decorator
 # <- keyword.other.decorator
-#       ^ punctuation.accessor
+#       ^ punctuation.accessor.dot
 class Class():
 
     @wraps(method, 12)# comment
@@ -541,7 +541,7 @@ list(i for i in generator)
 list((i for i in generator), 123)
 #       ^^^^^^^^ meta.expression.generator
 #                         ^^^^^^^ - meta.expression.generator
-#                          ^ punctuation.separator.parameters
+#                          ^ punctuation.separator.arguments
 
 _ = [m
      for cls in self.__class__.mro()
