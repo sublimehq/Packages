@@ -838,3 +838,88 @@ macro_rules! kleene_star {
         println!($($arg)*);
     )
 }
+
+pub fn next_lex<T:PartialOrd>(/* block */data: &mut [T] // line {
+//                            ^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                                      ^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    /* block2 */ data2: &mut [T]  // line
+//  ^^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                ^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    ) -> bool {
+    unimplemented!();
+}
+
+pub fn next_lex2</* block */T/* comments */:/* everywhere */
+//               ^^^^^^^^^^^ comment.block.rust
+//                           ^^^^^^^^^^^^^^ comment.block.rust
+//                                          ^^^^^^^^^^^^^^^^ comment.block.rust
+    // Many comments
+//  ^^^^^^^^^^^^^^^^ comment.line.double-slash.rust
+    /* help */ PartialOrd // Possibly too many comments
+//  ^^^^^^^^^^ comment.block.rust
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.rust
+> (
+    /* block2 */ data2: &mut [T]  // line
+//  ^^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                ^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    ) -> bool {
+    unimplemented!();
+}
+
+pub fn new<T>() -> Fibonacci<T>
+    where T: One + Zero,
+//  ^^^^^ keyword.other.rust
+    for <'a> &'a T: Add<Output = T>,
+//  ^^^ keyword.other.rust
+//      ^ punctuation.definition.generic.begin.rust
+//       ^^ storage.modifier.lifetime.rust
+//         ^ punctuation.definition.generic.end.rust
+//           ^ keyword.operator.rust
+//            ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+pub fn new<T>() -> Fibonacci<T>
+    where for <'a> &'a T: Add<Output = T>,
+//  ^^^^^ keyword.other.rust
+//        ^^^ keyword.other.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^^ storage.modifier.lifetime.rust
+//               ^ punctuation.definition.generic.end.rust
+//                 ^ keyword.operator.rust
+//                  ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+impl<T> Fibonacci<T>
+    where for <'a> &'a T: Add<Output = T>,
+//  ^^^^^ keyword.other.rust
+//        ^^^ keyword.other.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^^ storage.modifier.lifetime.rust
+//               ^ punctuation.definition.generic.end.rust
+//                 ^ keyword.operator.rust
+//                  ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+impl<T> Iterator for Fibonacci<T>
+    where T: Clone,
+//  ^^^^^ keyword.other.rust
+    for <'a> &'a T: Add<Output = T>,
+//  ^^^ keyword.other.rust
+//      ^ punctuation.definition.generic.begin.rust
+//       ^^ storage.modifier.lifetime.rust
+//         ^ punctuation.definition.generic.end.rust
+//           ^ keyword.operator.rust
+//            ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+pub const FOO: Option<[i32; 1]> = Some([1]);
+//                    ^ punctuation.definition.group.begin.rust
+//                           ^ punctuation.definition.group.end.rust

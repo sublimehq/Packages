@@ -356,6 +356,7 @@ contexts:
 
   generic-angles:
     - meta_scope: meta.generic.rust
+    - include: comments
     - match: '>'
       scope: punctuation.definition.generic.end.rust
       pop: true
@@ -363,18 +364,19 @@ contexts:
       scope: punctuation.definition.generic.begin.rust
       push: generic-angles-contents
     # Alert the user of a broken generic construct
-    - match: '.'
+    - match: '\S'
       scope: invalid.illegal.rust
       pop: true
 
   generic-angles-contents:
+    - include: comments
     - match: \bextern\b
       scope: keyword.other.rust
       push:
         - include: strings
         - match: '(?=\S)'
           pop: true
-    - match: '(?=>|[^ \$=<_+''(),&:[:alnum:]])'
+    - match: '(?=>|[^ \t\n\$=<_+''(),&:\[\][:alnum:]])'
       pop: true
     - match: '<'
       scope: punctuation.definition.generic.begin.rust
@@ -382,6 +384,16 @@ contexts:
         - match: '>'
           scope: punctuation.definition.generic.begin.rust
           pop: true
+        - include: generic-angles-contents
+    - match: '\['
+      scope: punctuation.definition.group.begin.rust
+      push:
+        - meta_scope: meta.group.rust
+        - match: '\]'
+          scope: punctuation.definition.group.end.rust
+          pop: true
+        - match: ';'
+          scope: punctuation.separator.rust
         - include: generic-angles-contents
     - include: type-any-identifier
     - match: ':'
@@ -635,6 +647,8 @@ contexts:
     - include: comments
     - match: '(?=\{)'
       set: impl-body
+    - match: \bfor\b
+      scope: keyword.other.rust
     - match: \bwhere\b
       scope: keyword.other.rust
     - include: type-any-identifier
@@ -664,6 +678,7 @@ contexts:
 
   fn-parameters:
     - meta_scope: meta.function.rust
+    - include: comments
     - match: '\)'
       scope: meta.function.parameters.rust punctuation.definition.parameters.end.rust
       set: fn-return
@@ -671,6 +686,7 @@ contexts:
       scope: punctuation.definition.parameters.begin.rust
       push:
         - meta_scope: meta.function.parameters.rust
+        - include: comments
         - match: '(?=\))'
           pop: true
         - match: \bself\b
@@ -698,6 +714,8 @@ contexts:
     - include: comments
     - match: '(?=\{)'
       set: fn-body
+    - match: \bfor\b
+      scope: keyword.other.rust
     - match: \bwhere\b
       scope: keyword.other.rust
     - include: type-any-identifier
