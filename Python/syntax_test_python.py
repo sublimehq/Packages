@@ -714,3 +714,20 @@ class Class(object
     def __init__(self):
 #   ^^^ invalid.illegal.name
 #      ^ - meta.class
+
+
+##################
+# Variable annotations
+##################
+
+primes: List[int] = []
+#     ^ punctuation.separator.annotation.variable.python
+#                 ^ keyword.operator.assignment
+
+captain: str  # Note: no initial value!
+#      ^ punctuation.separator.annotation.variable.python
+
+class Starship:
+    stats: ClassVar[Dict[str, int]] = {}
+#        ^ punctuation.separator.annotation.variable.python
+#                                   ^ keyword.operator.assignment
