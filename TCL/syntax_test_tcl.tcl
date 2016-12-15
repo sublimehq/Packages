@@ -64,6 +64,24 @@ namespace eval A {
     }
 }
 
+set dirname "${v_seagull_cfg_root}/seagull-[format "%02d" [expr $ctrlport - $v_seagull_ctrl_port]]"
+#                                           ^^^^^^ keyword.other
+#                                                          ^^^^ keyword.other
+
+set a [list]
+#      ^^^^ keyword.other
+
+set res "[join [lrange [split $res ","] 0 end-1] ","] ..."
+#         ^^^^ keyword.other
+#               ^^^^^^ keyword.other
+#                       ^^^^^ keyword.other
+
+regexp {instance="?([^" \t]+)"?} $counter matchedstring instance; # comment
+#       ^^^^^^^^^^^^^^^^^^^^^^^ string.regexp
+
+set stepquote [regsub -all {"} $line {""} ]
+#                             ^ - string
+
 set copy [[$root selectNodes //*\[@ID="$idref"\]] cloneNode -deep]
 #                               ^^ constant.character.escape
 #                                             ^^ constant.character.escape
@@ -114,15 +132,12 @@ proc ${ns}::suffix {} {}
 # -------------------------------------------------------------------------- #
 set ok1 {["]"]}
 #       ^^^^^^^ meta.block
-#        ^^^^^ meta.substitution
 #         ^^^ string.quoted.double
 set ok2 {["][]"]}
 #       ^^^^^^^^^ meta.block
-#        ^^^^^^^ meta.substitution
 #         ^^^^^ string.quoted.double
 set not_ok {["]["]}
 #          ^^^^^^^^ meta.block
-#           ^^^^^^ meta.substitution
 #            ^^^^ string.quoted.double
 puts $ok1            ;# ["]"]
 # ^ keyword.other
