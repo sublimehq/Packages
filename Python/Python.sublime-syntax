@@ -26,7 +26,17 @@ variables:
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
-
+  format_spec: |-
+    (?x:
+      (?:.? [<>=^])?     # fill align
+      [ +-]?             # sign
+      \#?                # alternate form
+      # technically, octal and hexadecimal integers are also supported as 'width', but rarely used
+      \d*                # width
+      ,?                 # thousands separator
+      (?:\.\d+)?         # precision
+      [bcdeEfFgGnosxX%]? # type
+    )
 contexts:
   main:
     - include: statements
@@ -221,7 +231,6 @@ contexts:
     - include: strings
     - include: function-calls
     - include: item-access
-    - include: line-continuation
     - match: \(
       scope: punctuation.section.group.begin.python
       push:
@@ -244,10 +253,8 @@ contexts:
 
   line-expressions: # Always include this last!
     - include: expressions-common
+    - include: line-continuation
     - include: dotted-name
-    # For debugging
-    # - match: \S
-    #   scope: invalid.illegal.unmatched
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
@@ -264,9 +271,6 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
-    # For debugging
-    # - match: \S
-    #   scope: invalid.illegal.unmatched
 
   after-expression:
     # direct function call
@@ -502,7 +506,8 @@ contexts:
           scope: punctuation.separator.annotation.return.python
         - match: '(?=:)'
           set: function-after-parameters
-        - include: expressions # includes line-continuation
+        - include: line-continuation-or-pop
+        - include: expressions
     - match: ':'
       scope: punctuation.section.function.begin.python
       pop: true
@@ -672,16 +677,6 @@ contexts:
         )\b
       scope: support.type.python
 
-  constant-placeholder:
-    - match: '%(?i:\([a-z_]+\))?#?0?\-? ?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hlL]?[acdeEfFgGiorsuxX%]'
-      scope: constant.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
-      scope: constant.other.placeholder.python
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.python
-    - match: '\{([\w.\[\]]*)(:.?[<>=^]?)?[ +-]?\d*,?(\.\d+)?!?[abcdeEfFgGnorsxX%]?\}'
-      scope: constant.other.placeholder.python
-
   name:
     - match: '(?={{identifier}})'
       push:
@@ -842,6 +837,107 @@ contexts:
     - match: (\\)$\n?
       captures:
         1: punctuation.separator.continuation.line.python
+    - match: \n
+      scope: invalid.illegal.unclosed-string.python
+      set: after-expression
+
+  constant-placeholder:
+    - match: |- # printf style
+        (?x)
+        %
+          ( \( ({{identifier}}) \) )? # mapping key
+          \#?            # alternate form
+          0?             # pad with zeros
+          \-?            # left-adjust
+          \ ?            # implicit sign
+          [+-]?          # sign
+          (\d*|\*)       # width
+          (\. (\d*|\*))? # precision
+          [hlL]?         # length modifier (but ignored)
+          [acdeEfFgGiorsuxX%]
+      scope: constant.other.placeholder.python
+      captures:
+        2: variable.other.placeholder.python
+    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+      scope: constant.other.placeholder.python
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.python
+    - include: formatting-syntax
+
+  formatting-syntax:
+    # https://docs.python.org/3.6/library/string.html#formatstrings
+    - match: |- # simple form
+        (?x)
+        (\{)
+          (?: [\w.\[\]]+)?         # field_name
+          (   ! [ars])?            # conversion
+          (   : {{format_spec}} )? # format_spec
+        (\})
+      scope: constant.other.placeholder.python
+      captures:
+        1: punctuation.definition.placeholder.begin.python
+        2: storage.modifier.conversion.python
+        3: constant.other.format-spec.python
+        4: punctuation.definition.placeholder.end.python
+    - match: \{(?=[^\}]+\{) # complex (nested) form
+      scope: punctuation.definition.placeholder.begin.python
+      push:
+        - meta_scope: constant.other.placeholder.python
+        - match: \}
+          scope: punctuation.definition.placeholder.end.python
+          pop: true
+        - match: '[\w.\[\]]+'
+        - match: '![ars]'
+          scope: storage.modifier.conversion.python
+        - match: ':'
+          push:
+            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - match: (?=\})
+              pop: true
+            - include: formatting-syntax
+
+  f-string-content:
+    # https://www.python.org/dev/peps/pep-0498/
+    # https://docs.python.org/3.6/reference/lexical_analysis.html#f-strings
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - match: (?=\{)
+      push: f-string-replacement
+    - match: \}
+      scope: invalid.illegal.stray-brace.python
+
+  f-string-replacement:
+    - clear_scopes: 1
+    - match: \}
+      scope: meta.interpolation.python punctuation.section.interpolation.end.python
+      pop: true
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - meta_scope: meta.interpolation.python
+        - match: (?=\})
+          pop: true
+        - match: '![ars]'
+          scope: storage.modifier.conversion.python
+        - match: ':'
+          push:
+            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            # Because replacements can also be used *within* the format-spec,
+            # basically any character is valid and matching {{format_spec}} is useless.
+            # - match: '{{format_spec}}'
+            - match: (?=\})
+              pop: true
+            - include: f-string-content
+        - match: ''
+          push:
+            - meta_content_scope: source.python.embedded
+            - match: (?=![^=]|:|\})
+              pop: true
+            - match: \\
+              scope: invalid.illegal.backslash-in-fstring.python
+            - include: expressions
 
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
@@ -850,7 +946,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -861,7 +957,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -871,71 +967,95 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.double.block.python
+            - meta_scope: meta.string.python string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.sql
               with_prototype:
                 - match: '(?=""")'
                   pop: true
                 - include: escaped-unicode-char
                 - include: constant-placeholder
-              push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.double.block.python
+            - meta_scope: meta.string.python string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.regexp.python
               with_prototype:
                 - match: '(?=""")'
                   pop: true
                 - include: escaped-unicode-char
-              push: 'scope:source.regexp.python'
     # Triple-quoted raw string, bytes, will use regex
     - match: '([bB]r|r[bB])(""")'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?=""")'
               pop: true
-          push: 'scope:source.regexp.python'
+    # Triple-quoted raw f-string
+    - match: ((?i)fr|rf)(""")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: f-string-content
+    # Triple-quoted f-string
+    - match: ((?i)f|f)(""")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: f-string-content
     # Triple-quoted string, unicode or not, will detect SQL
     - match: '([uU]?)(""")'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.double.block.python
+            - meta_scope: meta.string.python string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.sql
               with_prototype:
                 - match: '(?=""")'
                   pop: true
                 - include: escaped-unicode-char
                 - include: escaped-char
                 - include: constant-placeholder
-              push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.double.block.python
+            - meta_scope: meta.string.python string.quoted.double.block.python
             - match: '"""'
               scope: punctuation.definition.string.end.python
               set: after-expression
@@ -948,7 +1068,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.block.python
+        - meta_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -962,11 +1082,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -975,11 +1093,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
     # Single-line raw string, unicode or not, starting with a SQL keyword
@@ -988,30 +1104,27 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.sql
           with_prototype:
             - match: '(?="|\n)'
               pop: true
             - include: constant-placeholder
             - include: line-continuation-inside-string
-          push: 'scope:source.sql'
     # Single-line raw string, unicode or not, treated as regex
     - match: '([uU]?r)(")'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           with_prototype:
@@ -1025,30 +1138,54 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           with_prototype:
             - match: '(?="|\n)'
               pop: true
           push: 'scope:source.regexp.python'
+    # Single-line raw f-string
+    - match: ((?i)fr|rf)(")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - include: f-string-content
+    # Single-line f-string
+    - match: ((?i)f|f)(")
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: line-continuation-inside-string
+        - include: f-string-content
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)(")(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.sql
           with_prototype:
             - match: '(?="|\n)'
               pop: true
@@ -1056,18 +1193,15 @@ contexts:
             - include: escaped-unicode-char
             - include: line-continuation-inside-string
             - include: constant-placeholder
-          push: 'scope:source.sql'
     # Single-line string, unicode or not
     - match: '([uU]?)(")'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: escaped-char
         - include: escaped-unicode-char
@@ -1079,11 +1213,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.double.python
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: escaped-char
         - include: line-continuation-inside-string
@@ -1096,7 +1228,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1106,7 +1238,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1116,24 +1248,24 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.single.block.python
+            - meta_scope: meta.string.python string.quoted.single.block.python
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.sql
               with_prototype:
                 - match: (?=''')
                   pop: true
                 - include: escaped-char
                 - include: escaped-unicode-char
                 - include: constant-placeholder
-              push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.single.block.python
+            - meta_scope: meta.string.python string.quoted.single.block.python
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
@@ -1149,7 +1281,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1158,30 +1290,54 @@ contexts:
             - match: (?=''')
               pop: true
           push: 'scope:source.regexp.python'
+    # Triple-quoted raw f-string
+    - match: ((?i)fr|rf)(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: f-string-content
+    # Triple-quoted f-string
+    - match: ((?i)f|f)(''')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: f-string-content
     # Triple-quoted string, unicode or not, will detect SQL
     - match: ([uU]?)(''')
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
-            - meta_scope: string.quoted.single.block.python
+            - meta_scope: meta.string.python string.quoted.single.block.python
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.sql
               with_prototype:
                 - match: (?=''')
                   pop: true
                 - include: escaped-char
                 - include: escaped-unicode-char
                 - include: constant-placeholder
-              push: 'scope:source.sql'
         - match: '(?=\S)'
           set:
-            - meta_scope: string.quoted.single.block.python
+            - meta_scope: meta.string.python string.quoted.single.block.python
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
@@ -1194,7 +1350,7 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.block.python
+        - meta_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1208,11 +1364,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
     # Single-line capital R raw string, bytes, no syntax embedding
@@ -1221,11 +1375,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-string
     # Single-line raw string, unicode or not, starting with a SQL keyword
@@ -1234,30 +1386,27 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.sql
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
             - include: line-continuation-inside-string
             - include: constant-placeholder
-          push: 'scope:source.sql'
     # Single-line raw string, unicode or not, treated as regex
     - match: '([uU]?r)('')'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           with_prototype:
@@ -1271,11 +1420,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           with_prototype:
@@ -1283,19 +1430,45 @@ contexts:
               pop: true
             - include: line-continuation-inside-string
           push: 'scope:source.regexp.python'
+    # Single-line raw f-string
+    - match: ((?i)fr|rf)(')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
+        - include: line-continuation-inside-string
+        - include: f-string-content
+    # Single-line f-string
+    - match: ((?i)f|f)(')
+      captures:
+        1: storage.type.string.python
+        2: punctuation.definition.string.begin.python
+      push:
+        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - include: f-string-content
     # Single-line string, unicode or not, starting with a SQL keyword
     - match: '([uU]?)('')(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.sql
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
@@ -1303,18 +1476,15 @@ contexts:
             - include: escaped-unicode-char
             - include: line-continuation-inside-string
             - include: constant-placeholder
-          push: 'scope:source.sql'
     # Single-line string, unicode or not
     - match: '([uU]?)('')'
       captures:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: escaped-char
         - include: escaped-unicode-char
@@ -1326,11 +1496,9 @@ contexts:
         1: storage.type.string.python
         2: punctuation.definition.string.begin.python
       push:
-        - meta_scope: string.quoted.single.python
-        - match: '('')|(\n)'
-          captures:
-            1: punctuation.definition.string.end.python
-            2: invalid.illegal.unclosed-string.python
+        - meta_scope: meta.string.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: escaped-char
         - include: line-continuation-inside-string

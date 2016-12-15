@@ -4,23 +4,8 @@
 # Strings and embedded syntaxes
 ###############################
 
-"Testing {:,.2f}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {0:>9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {:j^9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
-#                                    ^^^^^^^^^^ constant.other.placeholder
-
-"My String %% %s"
-#          ^^ constant.other.placeholder
-#             ^^ constant.other.placeholder
-
 var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+#     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
 #                ^^^^ constant.character.escape.hex
@@ -39,7 +24,7 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                                                       ^^^^^^^^^ constant.character.escape.unicode
 
 conn.execute("SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.DML.sql
 
 conn.execute('SELECT * FROM foobar')
 #              ^ keyword.other.DML.sql
@@ -60,7 +45,7 @@ conn.execute(u'SELECT * FROM foobar')
 
 # In this example, the Python string is raw, so the \b should be a SQL escape
 conn.execute(r"SELECT * FROM foobar WHERE baz = '\b")
-#              ^ keyword.other.DML.sql
+#              ^ meta.string.python keyword.other.DML.sql
 #                                                 ^ constant.character.escape.sql
 
 # This tests to ensure the Python placeholder will be highlighted even in a raw SQL string
@@ -81,7 +66,7 @@ conn.execute(r"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 
 # Capital R prevents all syntax embedding
 conn.execute(R'SELECT * FROM foobar')
-#              ^ - keyword.other.DML.sql
+#              ^ meta.string.python - keyword.other.DML.sql
 
 conn.execute(R"SELECT * FROM foobar")
 #              ^ - keyword.other.DML.sql
@@ -98,7 +83,7 @@ conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
 #                                                          ^ constant.character.escape.python
 
 regex = r'\b ([fobar]*){1}(?:a|b)?'
-#         ^ keyword.control.anchor.regexp
+#         ^ meta.string.python keyword.control.anchor.regexp
 #                       ^ keyword.operator.quantifier.regexp
 
 regex = r'.* # Not a comment (yet)'
@@ -146,7 +131,7 @@ string = """
 """
 
 string = r"""
-#         ^^^ string.quoted.double.block
+#         ^^^ meta.string.python string.quoted.double.block
 """
 
 string = r"""
@@ -386,7 +371,7 @@ rb'''This is a \n (test|with), %s no unicode \uDEAD'''
 #                                              ^^^^ - constant
 rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 # <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
+# ^^^ meta.string.python string.quoted.single punctuation.definition.string.begin
 #              ^^ constant.character.escape.backslash.regexp
 #                      ^ keyword.operator.or.regexp
 #                              ^^ - constant
@@ -430,9 +415,6 @@ sql = b'just some \
 #^^^^^^^^^^ string.quoted.single
 #         ^ punctuation.definition.string.end.python
 
-# <- - meta
-# this test is to ensure we're not matching anything here anymore
-
 # https://docs.python.org/3/library/string.html#formatspec
 "First, thou shalt count to {0}"  # References first positional argument
 #                           ^^^ constant.other.placeholder.python
@@ -450,10 +432,13 @@ sql = b'just some \
 #                 ^^^^^^^^^^^^ constant.other.placeholder.python
 "Harold's a clever {0!s}"         # Calls str() on the argument first
 #                  ^^^^^ constant.other.placeholder.python
+#                    ^^ storage.modifier.conversion.python
 "Bring out the holy {name!r}"     # Calls repr() on the argument first
 #                   ^^^^^^^^ constant.other.placeholder.python
 "More {!a}"                       # Calls ascii() on the argument first
 #     ^^^^ constant.other.placeholder.python
+"More {!a: <10s}"                 # Calls ascii() on the argument first, then formats
+#     ^^^^^^^^^^ constant.other.placeholder.python
 "Escaped {{0}}"                   # outputs: "Escaped {0}"
 #        ^^^^^ - constant.other.placeholder.python
 #        ^^ constant.character.escape.python
@@ -463,3 +448,125 @@ sql = b'just some \
 #             ^^ constant.other.placeholder.python
 #               ^ - constant.other.placeholder.python
 #                ^^ constant.other.placeholder.python
+
+datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
+#                                    ^^^^^^^^^^ constant.other.placeholder
+
+"My String %% %s"
+#          ^^ constant.other.placeholder
+#             ^^ constant.other.placeholder
+
+"My String %(s)s %s"
+#          ^^^^^ constant.other.placeholder
+#            ^ variable.other.placeholder
+#                ^^ constant.other.placeholder
+
+"Testing {:,.2f}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+#        ^ punctuation.definition.placeholder.begin
+#              ^ punctuation.definition.placeholder.end
+
+"Testing {0:>9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+
+"Testing {:j^9,}".format(1000)
+#        ^^^^^^^ constant.other.placeholder
+#         ^^^^^ constant.other.format-spec
+
+"result: {value:{width}.{precision}}"
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
+#              ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#        ^ punctuation.definition.placeholder.begin
+#               ^^^^^^^ constant.other.placeholder constant.other.placeholder
+#               ^ punctuation.definition.placeholder.begin
+#                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
+#                                 ^^ punctuation.definition.placeholder.end
+
+f"string"
+# <- storage.type.string
+#^^^^^^^^ string.quoted.double
+
+ RF"""string"""
+#^^ storage.type.string
+#^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block
+
+F'''string'''
+# <- storage.type.string
+#^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
+
+ rf'string'
+#^^ storage.type.string
+#^^^^^^^^^^ meta.string.interpolated string.quoted.single
+
+
+# FIXME The opening brace incorrectly gets its scope stack reset
+# due to https://github.com/SublimeTextIssues/Core/issues/1526.
+# Thus, the following tests on it are failing.
+
+f"{something}"
+#^^^^^^^^^^^^ meta.string.interpolated
+# <- storage.type.string
+#^ punctuation.definition.string.begin
+# ^ punctuation.section.interpolation.begin
+#           ^ punctuation.section.interpolation.end
+#            ^ punctuation.definition.string.end
+#  ^^^^^^^^^ source source.python.embedded
+#              ^ source - meta, string, source source
+
+f"{True!a:02f}"
+#^^^^^^^^^^^^^^ meta.string.interpolated
+# ^ - source source.python.embedded
+#  ^^^^ source source.python.embedded constant.language
+#      ^^^^^^^ - source source.python.embedded
+#      ^^ storage.modifier.conversion - constant.other.format-spec
+#        ^^^^ constant.other.format-spec
+#            ^ punctuation.section.interpolation.end
+#             ^ punctuation.definition.string.end
+#              ^ source - meta, string, source source
+
+f"result: {value:{width}.{precision}}\n"
+#         ^ - source source
+#          ^^^^^ source source.python.embedded
+#               ^^ - source source
+#                 ^^^^^ source source.python.embedded
+#                       ^ - source source
+#                         ^^^^^^^^^ source source.python.embedded
+#                                  ^^ - source source
+#                                    ^^ constant.character.escape
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.python
+#               ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#          ^^^^^^ - meta.interpolation.python meta.interpolation.python
+#                ^^^^^^^ meta.interpolation.python meta.interpolation.python
+#                       ^ - meta.interpolation.python meta.interpolation.python
+#                        ^^^^^^^^^^^ meta.interpolation.python meta.interpolation.python
+#                                   ^^^ - meta.interpolation.python meta.interpolation.python
+rf"{value:{width!s:d}}"
+#^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+#          ^^^^^ source source.python.embedded
+#               ^^ storage.modifier.conversion
+#                 ^^ constant.other.format-spec
+
+F""" {} {\} }
+#^^^^^^^^^^^ meta.string.interpolated
+#^^^ punctuation.definition.string.begin
+#    ^^ invalid.illegal.empty-expression
+#        ^ invalid.illegal.backslash-in-fstring
+#           ^ invalid.illegal.stray-brace
+"""
+
+f" {
+%   ^ invalid.illegal.unclosed-string
+   # TODO make this test pass
+    }"
+
+f'   \
+ {1 + 2!a:02f}'
+#^^^^^^^^^^^^^^ meta.string.interpolated
+# ^^^^^ source source.python.embedded
+
+f'
+# ^ invalid.illegal.unclosed-string
+
+
+# <- - meta
+# this test is to ensure we're not matching anything here anymore
