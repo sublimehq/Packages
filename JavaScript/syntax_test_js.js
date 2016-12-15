@@ -235,6 +235,14 @@ var obj = {
     //    ^ punctuation.separator.key-value - string
     //      ^^^^^ constant.language.boolean.false
 
+    objKey: new function() {
+//              ^^^^^^^^ storage.type.function
+        this.foo = baz;
+//      ^^^^ variable.language.this
+//          ^ punctuation.accessor
+//           ^^^ meta.property
+    },
+
     funcKey: function() {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ meta.object-literal.key entity.name.function
@@ -606,6 +614,9 @@ var instance = new Constructor(param1, param2)
 //                            ^ meta.group punctuation.definition.group
 //                             ^ meta.group variable.other.readwrite
 //                                           ^ meta.group punctuation.definition.group
+
+var obj = new function() {}
+//            ^^^^^^^^ storage.type
 
 this.func()
 // <- variable.language.this
