@@ -1113,6 +1113,7 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - include: preprocessor-other
     - include: modifiers-parens
     - include: modifiers
 
@@ -1122,6 +1123,7 @@ contexts:
       scope: punctuation.separator.objc++
       push:
         - include: comments
+        - include: preprocessor-other
         - include: modifiers-parens
         - include: modifiers
         - match: '\b(virtual|{{visibility_modifiers}})\b'
@@ -1133,6 +1135,8 @@ contexts:
             - match: ''
               pop: true
         - include: angle-brackets
+        - match: ','
+          scope: punctuation.separator.objc++
         - match: (?=\{|;)
           pop: true
     - match: '(?=;)'

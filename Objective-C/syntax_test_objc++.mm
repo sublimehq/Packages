@@ -1168,6 +1168,23 @@ private:
 /* <- meta.class meta.block punctuation.section.block.end */
  /* <- - meta.class meta.block */
 
+class Adapter2 : public Abstraction, private Scenario {
+/*                                 ^ punctuation.separator */
+}
+
+class Adapter : public Abstraction
+    #if defined ASPECTO_MACRO
+/*  ^^^ keyword.control.import  */
+    , public Scenario
+/*  ^ punctuation.separator */
+/*    ^ storage.modifier */
+/*           ^ entity.other.inherited-class */
+    #endif
+/*  ^^^^^^ keyword.control.import  */
+{
+
+}
+
 struct bar {
 /*^^^^^^^^^^ meta.struct */
 /*^^^^ storage.type */
