@@ -374,6 +374,31 @@
 /*        ^^^^^^^^^  support.constant.font-name.css */
 }
 
+.test-unquoted-font-name {
+    font: m700, aria;
+/*        ^^^^ string.unquoted */
+/*            ^ punctuation.separator */
+/*            ^^ - string */
+/*              ^^^^ string.unquoted */
+    font: inherit;
+/*        ^ - string */
+    font: initial;
+/*        ^ - string */
+    font: unset;
+/*        ^ - string */
+    font: italic;
+/*        ^ - string */
+    font: small-caps;
+/*        ^ - string */
+    font: 2em m700, sans-serif;
+/*        ^ - string */
+/*            ^^^^ string.unquoted */
+/*                ^ punctuation.separator */
+/*                  ^ - string */
+    font-weight: bold;
+/*  ^^^^^^^^^^^ meta.property-name support.type.property-name */
+}
+
 .test-color-values {
     color: aqua;
 /*         ^^^^ support.constant.color.w3c-standard-color-name.css */
@@ -756,6 +781,12 @@
   src: local(Gentium-Bold);
 /*     ^^^^^              support.function.font-face.css */
 /*           ^^^^^^^^^^^^ string.unquoted.css            */
+}
+
+@font-face {
+    font-family: m700, aria;
+/*               ^^^^ string.unquoted.css */
+/*                     ^^^^ string.unquoted.css */
 }
 
 .test-var-function {

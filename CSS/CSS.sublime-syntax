@@ -610,6 +610,25 @@ contexts:
             1: keyword.other.custom-property.prefix.css
             2: support.type.custom-property.name.css
         - include: custom-property-name
+        - match: \bfont(-family)?(?!-)\b
+          scope: support.type.property-name.css
+          push:
+            - match: (:)\s*
+              captures:
+                1: punctuation.separator.key-value.css
+              push:
+                - meta_content_scope: meta.property-value.css
+                - match: '\s*(;)|(?=[})])'
+                  captures:
+                    1: punctuation.terminator.rule.css
+                  pop: true
+                - include: property-values
+                - match: '{{ident}}'
+                  scope: string.unquoted.css
+                - match: ','
+                  scope: punctuation.separator.css
+            - match: ''
+              pop: true
         # Property names are sorted by popularity in descending order.
         # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
         - match: |-
