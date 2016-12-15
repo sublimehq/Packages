@@ -149,27 +149,26 @@ contexts:
 
   annotation:
     - match: '(@)({{plainid}})(\.)'
-      scope: variable.annotation.scala
       captures:
-        1: punctuation.definition.annotation.scala
-        3: punctuation.accessor.scala
+        1: meta.annotation.scala punctuation.definition.annotation.scala
+        2: meta.annotation.identifier.scala
+        3: meta.annotation.identifier.scala punctuation.accessor.scala
       push:
-        - meta_scope: meta.annotation.scala
+        - meta_content_scope: meta.annotation.identifier.scala
         - match: '({{plainid}})(\.)'
-          scope: variable.annotation.scala
           captures:
             2: punctuation.accessor.scala
         - match: '{{plainid}}'
           scope: variable.annotation.scala
           set: annotation-parameters
     - match: '(@)({{plainid}})'
-      scope: variable.annotation.scala
       captures:
-        1: punctuation.definition.annotation.scala
+        1: meta.annotation.scala punctuation.definition.annotation.scala
+        2: meta.annotation.identifier.scala variable.annotation.scala
       push: annotation-parameters
 
   annotation-parameters:
-    - meta_scope: meta.annotation.scala
+    - meta_content_scope: meta.annotation.parameters.scala
     - match: \(
       scope: punctuation.section.arguments.annotation.begin.scala
       push:
