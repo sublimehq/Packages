@@ -225,42 +225,55 @@ contexts:
         - include: code
   class:
     - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)(\s+\w+|\b))'
+      push: class-declaration
+
+  class-declaration:
+    - meta_content_scope: meta.class.java
+    - include: storage-modifiers
+    - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)
+      captures:
+        1: storage.type.java
+      set:
+        - match: '\w+'
+          scope: meta.class.identifier.java entity.name.class.java
+          set: class-declaration
+        - match: ''
+          set: class-declaration
+    - match: '<'
+      scope: punctuation.definition.generic.begin.java
       push:
-        - meta_scope: meta.class.java
-        - match: "}"
-          scope: punctuation.section.class.end.java
+        - meta_scope: meta.generic.java
+        - match: '>'
+          scope: punctuation.definition.generic.end.java
           pop: true
-        - include: storage-modifiers
-        - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+(\w+)|\b)
-          scope: meta.class.identifier.java
-          captures:
-            1: storage.type.java
-            2: entity.name.class.java
-        - match: '<'
-          scope: punctuation.definition.generic.begin.java
-          push:
-            - meta_scope: meta.generic.java
-            - match: '>'
-              scope: punctuation.definition.generic.end.java
-              pop: true
-            - include: generic-instantiation
+        - include: generic-instantiation
+    - match: (?=\bextends\b)
+      set:
         - match: \bextends\b
           scope: keyword.declaration.extends.java
-          push:
-            - meta_scope: meta.definition.class.inherited.classes.java
-            - match: '(?={|\bimplements\b)'
-              pop: true
+          set:
+            - meta_scope: meta.class.extends.java
+            - match: '(?=\s*{|\s*\bimplements\b)'
+              set: class-declaration
             - include: object-types-inherited
-        - match: \b(implements)\b
+    - match: (?=\bimplements\b)
+      set:
+        - match: \bimplements\b
           scope: keyword.declaration.implements.java
-          push:
-            - meta_scope: meta.definition.class.implemented.interfaces.java
-            - match: '(?=\bextends\b|\{)'
-              pop: true
+          set:
+            - meta_scope: meta.class.implements.java
+            - match: '(?=\s*\bextends\b|\s*\{)'
+              set: class-declaration
             - include: object-types-inherited
-        - match: "{"
+    - match: '(?=\{)'
+      set:
+        - meta_scope: meta.class.body.java
+        - match: '\}'
+          scope: punctuation.section.class.end.java
+          pop: true
+        - match: '\{'
+          scope: punctuation.section.class.begin.java
           push:
-            - meta_scope: meta.class.body.java
             - match: "(?=})"
               pop: true
             - include: class-body

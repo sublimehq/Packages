@@ -19,8 +19,8 @@ import static a.b.Class.fooMethod;
 public class SyntaxTest {
 // ^^^ storage.modifier.java
 //     ^^^^^ storage.type.java
-//     ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class.body.java
-//           ^^^^^^^^^^ entity.name.class.java
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//           ^^^^^^^^^^ meta.class.identifier entity.name.class.java
 //                     ^ - meta.class.identifier.java - meta.class.body.java
 //                      ^ meta.class.body.java
     private String memberString = "Hello";
@@ -123,17 +123,25 @@ public class SyntaxTest {
 }
 
 class ExtendsTest extends Foo {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//                ^^^^^^^^^^^ meta.class.extends
+//                           ^ - meta.class.extends
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^ entity.other.inherited-class.java
 
 class ExtendsTest implements Foo {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//                ^^^^^^^^^^^^^^ meta.class.implements
+//                              ^ - meta.class.implements
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
 
 class Foo<A> extends Bar<? extends A> {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
 //       ^^^ meta.generic.java
 //        ^ support.type.java
-//                         ^^^^^^^ meta.definition.class.inherited.classes.java keyword.declaration.extends.java
+//                         ^^^^^^^ meta.class.extends.java keyword.declaration.extends.java
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
@@ -159,9 +167,9 @@ class AnyClass {
 
 public enum FooBaz {
 //     ^^^^ storage.type.java
-//^^^^^^^^^^^^^^^^^^^ meta.class.java
-//     ^^^^^^^^^^^  meta.class.identifier.java
-//          ^^^^^^ entity.name.class.java
+//^^^^^^^^^^^^^^^^^^ meta.class
+//          ^^^^^^ meta.class.identifier.java entity.name.class.java
+//                 ^ meta.class.body
     // This is a test
 //  ^^^^^^^^^^^^^^^^^^ comment.line
     UPLOAD("foo bar"), /* This a comment */
