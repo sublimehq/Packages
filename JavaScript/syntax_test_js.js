@@ -241,7 +241,14 @@ var obj = {
 //      ^^^^ variable.language.this
 //          ^ punctuation.accessor
 //           ^^^ meta.property
-    },
+    }(),
+
+    objKey: new class Foo() {
+//              ^^^^^ storage.type.class
+        get baz() {}
+//      ^^^ storage.type.accessor
+//          ^^^ entity.name.function
+    }(),
 
     funcKey: function() {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -615,8 +622,11 @@ var instance = new Constructor(param1, param2)
 //                             ^ meta.group variable.other.readwrite
 //                                           ^ meta.group punctuation.definition.group
 
-var obj = new function() {}
+var obj = new function() {}();
 //            ^^^^^^^^ storage.type
+
+var obj2 = new class Foo{}();
+//             ^^^^^ storage.type.class
 
 this.func()
 // <- variable.language.this

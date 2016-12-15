@@ -535,11 +535,6 @@ contexts:
           - include: scope:source.regexp.js
 
   constructor:
-    - match: '\b(new)\b\s+(?=function\b)'
-      scope: meta.instance.constructor.js
-      captures:
-        1: keyword.operator.new.js
-      push: function-declaration
     - match: '\b(new)\b\s+(?=({{identifier}}|\())'
       scope: meta.instance.constructor.js
       captures:
@@ -547,11 +542,26 @@ contexts:
       push: constructor-name
 
   constructor-name:
+    - match: '(?=function\b)'
+      set:
+        - meta_scope: meta.instance.constructor.js
+        - match: '(?=function\b)'
+          push: function-declaration
+        - match: '(?=\()'
+          set: constructor-params
+        - match: '(?=\S)'
+          pop: true
+    - match: '(?=class\b)'
+      set:
+        - meta_scope: meta.instance.constructor.js
+        - include: class
+        - match: '(?=\()'
+          set: constructor-params
+        - match: '(?=\S)'
+          pop: true
     - match: '(?={{identifier}})'
       set:
         - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
-        - match: \bfunction\b
-          scope: storage.type.function.js
         - include: well-known-identifiers
         - include: language-identifiers
         - match: '{{dollar_only_identifier}}'
