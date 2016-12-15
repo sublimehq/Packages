@@ -365,10 +365,10 @@ type Foo = Bar[A] forSome { type A }
 // ^^^ keyword.other.scala
 
    extends
-// ^^^^^^^ keyword.declaration.scala
+// ^^^^^^^ invalid.keyword.dangling-extends.scala
 
    with
-// ^^^^ keyword.declaration.scala
+// ^^^^ invalid.keyword.dangling-with.scala
 
    class
 // ^^^^^ storage.type.class.scala
@@ -1343,3 +1343,73 @@ x: Foo @volatile with Bar @foo.bar @bar with Baz
 //                             ^^^ variable.annotation
 //                                  ^^^ variable.annotation
 //                                           ^^^ support.class
+
+   extends
+// ^^^^^^^ invalid.keyword.dangling-extends.scala
+
+   with
+// ^^^^ invalid.keyword.dangling-with.scala
+
+class Foo with Bar
+//        ^^^^ invalid.keyword.with-before-extends.scala
+
+class Foo extends Bar extends Baz
+//                    ^^^^^^^ invalid.keyword.extends-after-extends.scala
+
+class Foo extends Bar[A with B](42)
+//                    ^ support.class.scala
+//                      ^^^^ keyword.declaration.scala
+//                           ^ support.class.scala
+//                              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar { val x = 42 } with Baz
+//                    ^ punctuation.section.braces.begin.scala
+//                                 ^ punctuation.section.braces.end.scala
+//                                   ^^^^ keyword.declaration.scala
+//                                        ^^^ entity.other.inherited-class.scala
+
+class Foo { val x = 42 } extends Bar with Baz
+//        ^ punctuation.section.braces.begin.scala
+//                     ^ punctuation.section.braces.end.scala
+//                       ^^^^^^^ keyword.declaration.scala
+//                               ^^^ entity.other.inherited-class.scala
+
+class Foo {
+
+// <- meta.class.body.scala
+}
+
+class Foo extends Bar {
+
+// <- meta.class.body.scala
+}
+
+   {
+// ^ punctuation.section.block.begin.scala
+     // <- meta.block.scala
+   }
+// ^ punctuation.section.block.end.scala
+
+   (
+// ^ punctuation.section.group.begin.scala
+     // <- meta.group.scala
+     )
+//   ^ punctuation.section.group.end.scala
+
+   [
+// ^ punctuation.definition.generic.begin.scala
+     // <- meta.generic.scala
+     ]
+//   ^ punctuation.definition.generic.end.scala
+
+class Foo extends Bar(42)
+//                   ^ punctuation.section.parens.begin.scala
+//                      ^ punctuation.section.parens.end.scala
+
+class Foo extends (Int => String)
+//                ^ punctuation.section.parens.begin.scala
+//                              ^ punctuation.section.parens.end.scala
+
+class Foo extends Bar[Int]
+//                   ^ punctuation.section.brackets.begin.scala
+//                       ^ punctuation.section.brackets.end.scala
