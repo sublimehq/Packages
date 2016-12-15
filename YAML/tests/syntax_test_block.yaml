@@ -11,19 +11,19 @@
 # Headers ############################
 # (note that block scalars may be empty)
 - |
-# ^ punctuation.definition.block.scalar.literal
+# ^ keyword.control.flow.block-scalar.literal
 
 - >
-# ^ punctuation.definition.block.scalar.folded
+# ^ keyword.control.flow.block-scalar.folded
 
 - >1
-# ^ punctuation.definition.block.scalar
+# ^ keyword.control.flow.block-scalar
 #  ^ constant.numeric.indentation-indicator
 
 - |1-
-# ^ punctuation.definition.block.scalar
+# ^ keyword.control.flow.block-scalar
 #  ^ constant.numeric.indentation-indicator
-#   ^ support.other
+#   ^ storage.modifier.chomping-indicator
 
 # Headers and content ################
 - |
