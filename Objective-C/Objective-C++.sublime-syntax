@@ -26,7 +26,7 @@ variables:
   other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
-  generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|<.*?>|\s|\d)*)?>'
+  generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|\.|<.*?>|\s|\d)*)?>'
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
 
 contexts:

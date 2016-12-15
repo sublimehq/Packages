@@ -240,6 +240,10 @@ template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /*                                      ^^^ keyword.operator.variadic */
 /*                                              ^ punctuation.section.generic.end */
 
+template<typename T...> void SomeClass<T...>::function();
+/*                                      ^^^ keyword.operator.variadic */
+/*                                            ^^^^^^^^ entity.name.function */
+
 template<typename Foo> inline struct Foo* baz()
 /*                     ^^^^^^ storage.modifier */
 /*                                   ^ - entity.name */
