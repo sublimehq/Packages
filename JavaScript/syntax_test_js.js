@@ -227,6 +227,15 @@ var obj = {
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
     }
 
+    [true==false ? 'one' : 'two']: false,
+//  ^ punctuation.definition.brackets
+//   ^^^^ constant.language
+//         ^^^^ constant.language
+//               ^ keyword.operator
+//                       ^ keyword.operator
+//                              ^ punctuation.definition.brackets
+//                               ^ punctuation.separator.key-value
+
     "key4": true,
     // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string

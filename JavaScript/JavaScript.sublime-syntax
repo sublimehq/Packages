@@ -1006,6 +1006,13 @@ contexts:
           scope: punctuation.definition.block.js
           pop: true
         - include: comments
+        - match: \[
+          scope: punctuation.definition.brackets.js
+          push:
+            - match: \]
+              scope: punctuation.definition.brackets.js
+              pop: true
+            - include: expressions
         - match: '({{identifier}})\s*(\})'
           captures:
             1: variable.other.readwrite.js
