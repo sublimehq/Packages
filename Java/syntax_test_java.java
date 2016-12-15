@@ -17,9 +17,9 @@ import static a.b.Class.fooMethod;
 //                               ^ meta.import.java punctuation.terminator.java
 
 public class SyntaxTest {
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 // ^^^ storage.modifier.java
 //     ^^^^^ storage.type.java
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //           ^^^^^^^^^^ meta.class.identifier entity.name.class.java
 //                     ^ - meta.class.identifier.java - meta.class.body.java
 //                      ^ meta.class.body.java
@@ -27,33 +27,33 @@ public class SyntaxTest {
     private String memberString2 = new String("Hello");
 //                                     ^^^^^^ support.class.java
     private String memberString3 = String.valueOf("Hello");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ support.class.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //                               ^ keyword.operator.assignment.java
 //                                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                                                        ^ punctuation.terminator.java - meta.assignment.rhs.java
-//                                                ^ punctuation.definition.string.begin.java
 //                                                ^^^^^^^ string.quoted.double.java
+//                                                ^ punctuation.definition.string.begin.java
 //                                                      ^ punctuation.definition.string.end.java
 //                                                       ^ - string.quoted.double.java
+//                                                        ^ punctuation.terminator.java - meta.assignment.rhs.java
     private int memberLpos = memberString3.indexOf("l");
 //          ^^^ storage.type
 //                                                     ^ punctuation.terminator.java
 
     public static void main(String... args) {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^ storage.modifier.java
 //         ^^^^^^ storage.modifier.java
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
-//                     ^^^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                         ^^ - meta.method.identifier.java
-//                                          ^^ meta.method.body.java
-//                ^^^^ meta.method.return-type.java storage.type
-//                     ^^^^ entity.name.function.java
+//                ^^^^ meta.method.return-type storage.type
+//                     ^^^^ meta.method.identifier.java entity.name.function.java
+//                         ^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                         ^ punctuation.section.parens.begin.java
 //                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
 //                                        ^ punctuation.section.parens.end.java
+//                                         ^ - meta.method.parameters
+//                                          ^^ meta.method.body.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                         ^^^ keyword.control.new.java
@@ -90,32 +90,32 @@ public class SyntaxTest {
     }
 
     private static void printList(List<String> args) {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
-//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                                  ^^ - meta.method.identifier.java
-//                                                   ^^ meta.method.body.java
-//                 ^^^^ meta.method.return-type.java storage.type
-//                      ^^^^^^^^^ entity.name.function.java
+//                 ^^^^ meta.method.return-type storage.type
+//                      ^^^^^^^^^ meta.method.identifier entity.name.function.java
+//                               ^^^^^^^^^^^^^^^^^^^ meta.method.parameters
 //                                     ^^^^^^ support.type.java
 //                                             ^^^^ variable.parameter.java
+//                                                  ^^ - meta.method.identifier.java
+//                                                   ^^ meta.method.body.java
         args.stream().forEach(System.out::println);
 //                                      ^^ punctuation.accessor.double-colon.java
     }
 
     private static void anotherMethod() throws MyException<Abc> {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
-//                      ^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                     ^^^^^^^^^^^^^^^^^^^^^^ - meta.method.identifier.java
-//                                                              ^^ meta.method.body.java
 //                 ^^^^ meta.method.return-type.java storage.type
-//                      ^^^^^^^^^^^^^ entity.name.function.java
+//                      ^^^^^^^^^^^^^ meta.method.identifier entity.name.function.java
+//                                   ^^ meta.method.parameters
+//                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws
 //                                      ^^^^^^ storage.modifier.java
-//                                             ^^^^^^^^^^^^^^^^ meta.throwables.java
 //                                                        ^^^^^ meta.generic.java
+//                                                             ^ - meta.method.throws
+//                                                              ^^ meta.method.body.java
         throw new MyException
                 ("hello (world)");
 //                              ^ - string
@@ -125,23 +125,23 @@ public class SyntaxTest {
 class ExtendsTest extends Foo {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //                ^^^^^^^^^^^ meta.class.extends
-//                           ^ - meta.class.extends
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^ entity.other.inherited-class.java
+//                           ^ - meta.class.extends
 
 class ExtendsTest implements Foo {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //                ^^^^^^^^^^^^^^ meta.class.implements
-//                              ^ - meta.class.implements
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
+//                              ^ - meta.class.implements
 
 class Foo<A> extends Bar<? extends A> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
 //       ^^^ meta.generic.java
 //        ^ support.type.java
-//                         ^^^^^^^ meta.class.extends.java keyword.declaration.extends.java
+//           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
+//                         ^^^^^^^ keyword.declaration.extends.java
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
@@ -150,8 +150,10 @@ class AnyClass {
 //           ^^ punctuation.definition.comment.java
 
     public void anyMethod(String finality){
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+//              ^^^^^^^^^ meta.method.identifier
+//                       ^^^^^^^^^^^^^^^^^ meta.method.parameters
 //                               ^^^^^^^^ variable.parameter - storage.modifier
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
 //                                        ^^ meta.method.body.java - meta.method.identifier.java
         System.out.println("Printed: " + finality);
 //                                     ^ keyword.operator
