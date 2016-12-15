@@ -1285,3 +1285,57 @@ def foo(a: String* )
 trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 //                     ^^^^ storage.type.scala
 //                               ^ keyword.operator.assignment.scala
+
+// annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
+@deprecated("Use D", "1.0") class C { ... }
+// <- meta.annotation.scala
+// ^^ variable.annotation
+//            ^^ string
+//                        ^ meta.annotation.scala
+//                         ^ - meta.annotation.scala
+
+@transient @volatile var m: Int
+// ^^ variable.annotation
+//         ^^ variable.annotation
+
+String @local
+//     ^ punctuation.definition.annotation.scala
+//     ^^ variable.annotation
+
+(e: @unchecked) match { ... }
+//  ^^ variable.annotation
+//              ^^^^^ keyword.control.flow.scala
+
+// more complex:
+@scala.beans.BeanProperty
+//  ^^^^^^^^^^^^^^^^^^^^^ variable.annotation
+//    ^ punctuation.accessor.scala
+
+(e: Int @unchecked) match { ... }
+//  ^^ storage.type.primitive
+//      ^^ variable.annotation
+//                  ^^^^^ keyword.control.flow.scala
+
+@obsolete("this class is horrible don't use it", alpha=3)
+//  ^^ variable.annotation
+//            ^ string
+//                                                     ^ constant.numeric.integer
+trait Function0[@specialized(Unit, Int, Double) T] {
+//               ^^ variable.annotation
+//                           ^^ storage.type.primitive
+//                                              ^ support.class
+//              ^ punctuation.definition.annotation.scala
+//              ^ meta.annotation.scala
+//                                            ^ meta.annotation.scala
+//                                             ^ - meta.annotation.scala
+//                               ^ punctuation.separator.arguments.annotation.scala
+  def apply: T
+}
+
+x: Foo @volatile with Bar @foo.bar @bar with Baz
+//          ^^ variable.annotation.scala
+//               ^^ keyword.declaration.scala
+//                    ^^^ support.class.scala
+//                        ^^^^^^^^ variable.annotation.scala
+//                                 ^^^^ variable.annotation.scala
+//                                           ^^^ support.class.scala

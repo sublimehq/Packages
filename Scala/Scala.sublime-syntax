@@ -99,10 +99,10 @@ contexts:
     - include: operators
     - include: initialization
     - include: ascription
+    - include: annotation
   main-post-lambdas:
     - include: late-keywords
     - include: constants
-    - include: char-literal
     - include: scala-symbol
     - include: braces
     - include: late-operators
@@ -146,6 +146,48 @@ contexts:
   ascription:
     - match: '{{typeprefix}}'
       push: single-type-expression
+
+  annotation:
+    - match: '(@)({{plainid}})(\.)'
+      scope: variable.annotation.scala
+      captures:
+        1: punctuation.definition.annotation.scala
+        3: punctuation.accessor.scala
+      push:
+        - meta_scope: meta.annotation.scala
+        - match: '({{plainid}})(\.)'
+          scope: variable.annotation.scala
+          captures:
+            2: punctuation.accessor.scala
+        - match: '{{plainid}}'
+          scope: variable.annotation.scala
+          set: annotation-parameters
+    - match: '(@)({{plainid}})'
+      scope: variable.annotation.scala
+      captures:
+        1: punctuation.definition.annotation.scala
+      push: annotation-parameters
+
+  annotation-parameters:
+    - meta_scope: meta.annotation.scala
+    - match: \(
+      scope: punctuation.section.arguments.annotation.begin.scala
+      push:
+        - match: ','
+          scope: punctuation.separator.arguments.annotation.scala
+        - match: \)
+          scope: punctuation.section.arguments.annotation.end.scala
+          pop: true
+        - include: main
+    - match: \[
+      scope: punctuation.section.arguments.annotation.begin.scala
+      push:
+        - match: \]
+          scope: punctuation.section.arguments.annotation.end.scala
+          pop: true
+        - include: delimited-type-expression
+    - match: (?!\s*[(\[])
+      pop: true
 
   lambdas:
     # lambda lookahead
@@ -208,6 +250,7 @@ contexts:
     - include: base-types
   constants:
     - include: base-constants
+    - include: char-literal
     # other upper-case stuff highlights as constant
     - match: '{{upperid}}'
       scope: support.constant.scala
@@ -641,7 +684,7 @@ contexts:
   storage-modifiers:
     - match: '\b(private\[\S+\]|protected\[\S+\]|private|protected)\b'
       scope: storage.modifier.access.scala
-    - match: \b(@volatile|abstract|final|lazy|sealed|implicit|override|@transient|@native)\b
+    - match: \b(abstract|final|lazy|sealed|implicit|override)\b
       scope: storage.modifier.other.scala
 
   # see http://www.scala-lang.org/docu/files/ScalaReference.pdf part 1.3.5-6 (page 18)
@@ -1043,6 +1086,7 @@ contexts:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.bound.scala
   delimited-type-expression:
+    - include: annotation
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '\b(with)\b'
@@ -1076,10 +1120,17 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
+    - match: (?=@{{plainid}})
+      set: single-type-expression-tail
     - include: base-type-expression
-    - match: '(?=[\s$,\)\}\]])'
+    - match: '(?=[\s,\)\}\]])'
       pop: true
   single-type-expression-tail:
+    - match: (?=@{{plainid}})
+      set:
+        - include: annotation
+        - match: '(?=\S)'
+          set: single-type-expression-tail
     - match: '[\.#]'
       scope: punctuation.accessor.scala
       set: single-type-expression
