@@ -519,6 +519,7 @@ contexts:
               | rtl|ruby|running|saturat(e|ion)|screen
               | scroll(-position|bar)?
               | separate|sepia
+              | scale-down
               | shape-(image-threshold|margin|outside)
               | show
               | sideways(-lr|-rl)?
