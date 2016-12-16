@@ -394,6 +394,11 @@ end
 {foo: /bar/}
 #     ^^^^^ string.regexp
 
+str = "#{('A'.ord + index / (26*26) - 1).chr}"
+#                         ^ keyword.operator
+#                            ^^ constant.numeric
+#                              ^ keyword.operator
+
 if 1 / 2 == 3
 #    ^ keyword.operator
 #        ^^ keyword.operator
