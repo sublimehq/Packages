@@ -337,25 +337,77 @@ contexts:
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
+    # what follows is identical to case-pattern, except it goes to case-body-first
     - match: '\b(case)\b'
       scope: keyword.other.declaration.scala
       push:
+        - meta_scope: meta.pattern.scala
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
-              pop: true
+              set: case-body-first
             - include: main-no-lambdas
         - match: '{{rightarrow}}'
           scope: keyword.operator.arrow.scala
-          pop: true
-          captures:
-            1: keyword.control.flow.scala
+          set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+
+  case-body-first:
+    - meta_scope: meta.block.case.first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-first
+        - include: main
+    - include: case-body
+
+  case-body-non-first:
+    - meta_scope: meta.block.case.non-first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-non-first
+        - include: main
+    - include: case-body
+
+  # this exists to clear the meta_scope from first or non-first
+  case-pattern:
+    - match: '\b(case)\b'
+      scope: keyword.other.declaration.scala
+      set:
+        - meta_scope: meta.pattern.scala
+        - match: '\b(if)\b'
+          captures:
+            1: keyword.control.flow.scala
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-non-first
+            - include: main-no-lambdas
+        - match: '{{rightarrow}}'
+          scope: keyword.operator.arrow.scala
+          set: case-body-non-first
+        - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
+          pop: true
+        - include: pattern-match
+
+  case-body:
+    - match: (?=\bcase\b)
+      set: case-pattern
+    - match: (?=\})
+      pop: true
+    - include: main
 
   braces:
     - match: \[
