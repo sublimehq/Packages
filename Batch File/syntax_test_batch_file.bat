@@ -355,6 +355,7 @@ set "hello"="world"
 ::  ^ - variable.other.readwrite
 ::   ^^^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment
+::          ^ - punctuation
 ::                ^ punctuation.definition.string.end
 ::                 ^ - string
 
@@ -453,6 +454,17 @@ set /p today=
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^ - meta.prompt.set.dosbatch
 
+:: Double quotes after the equal sign, or part of a quoted assignment are literal chars
+SET "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
+::  ^ punctuation.definition.string.begin
+::                ^ - punctuation
+::                 ^^^^^^^ variable.other.readwrite
+::                        ^ - punctuation
+::                              ^ - punctuation
+::                                      ^^^^^^^ variable.other.readwrite
+::                                             ^ - punctuation
+::                                                 ^ punctuation.definition.string.end
+
 set folder=%TEMP%\subfolder\
 ::  ^^^^^^ variable.other.readwrite.dosbatch
 ::         ^^^^^^ variable.other.readwrite.dosbatch
@@ -465,6 +477,8 @@ SETLOCAL EnableDelayedExpansion
 ::       ^^^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
+::               ^ - punctuation
+::                                    ^ - punctuation
 ::                                      ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
 ::                                        ^^^^ keyword.command.dosbatch
 ::                                                                ^^^^^^^^^ variable.other.readwrite.dosbatch
