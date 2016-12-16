@@ -96,7 +96,6 @@ contexts:
     - include: comments
     - include: case-default
     - include: typedef
-    - include: scope:source.objc#osx-support-functions
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -161,6 +160,8 @@ contexts:
 
   constants:
     - include: scope:source.objc#unique-constants
+    - match: '(?=\bNS\w+\b)'
+      push: scope:source.objc#ns-identifiers
     - include: scope:source.c++#unique-constants
     - include: scope:source.c#constants
 
@@ -171,6 +172,8 @@ contexts:
 
   types:
     - include: scope:source.objc#unique-types
+    - match: '(?=\bNS\w+\b)'
+      push: scope:source.objc#ns-identifiers
     - include: scope:source.c++#unique-types
     - include: types-parens
     - include: scope:source.c#types
