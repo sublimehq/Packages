@@ -79,6 +79,17 @@ contexts:
         captures:
           1: variable.other.readwrite.dosbatch
           2: keyword.operator.assignment.dosbatch
+        push:
+          - match: '(?=$\n|{{command_terminators}})'
+            pop: true
+          - match: '(?=[^ %"(])'
+            push:
+              - meta_content_scope: string.unquoted.dosbatch
+              - match: '(?="|$\n|{{command_terminators}})'
+                pop: true
+              - include: variables
+          - include: variables
+          - include: strings
       - include: numbers
       - include: parens
       - match: \b([^ ][^=\n]*)$
@@ -111,9 +122,16 @@ contexts:
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - include: strings
               - match: '(?=$\n|{{command_terminators}})'
                 pop: true
+              - match: '(?=[^ %"(])'
+                push:
+                  - meta_content_scope: string.unquoted.dosbatch
+                  - match: '(?="|$\n|{{command_terminators}})'
+                    pop: true
+                  - include: variables
+              - include: variables
+              - include: strings
 
   command_set_group:
     - match: '\('

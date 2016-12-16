@@ -334,6 +334,7 @@ IF "%FOO%" == "BAR" ( SET BAZ=42 )
 ::                  ^ punctuation.section.group.begin
 ::                  ^^^^^^^^^^^^^^ meta.group
 ::                               ^ punctuation.section.group.end
+::                            ^^ string.unquoted
 
 :: See http://ss64.com/nt/syntax-brackets.html
 IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
@@ -361,23 +362,27 @@ set foo=bar
 :: <- keyword.command
 ::  ^^^ variable.other.readwrite
 ::     ^ keyword.operator.assignment
+::      ^^^ string.unquoted
 
 set  foo = bar
 :: <- keyword.command
 ::  ^ - variable.other.readwrite
 ::   ^^^^ variable.other.readwrite
 ::       ^ keyword.operator.assignment
+::         ^^^ string.unquoted
 
 set  hello world = bar
 :: <- keyword.command
 ::  ^ - variable.other.readwrite
 ::   ^^^^^^^^^^^^ variable.other.readwrite
 ::               ^ keyword.operator.assignment
+::                 ^^^ string.unquoted
 
 set abc /a = 1+2
 :: <- keyword.command
 ::  ^^^^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment - meta.expression.set
+::           ^^^ string.unquoted
 
 set "foobar=test"
 :: <- keyword.command
@@ -398,6 +403,7 @@ set test rem = hi
 ::       ^^^^^^^^^ - comment
 ::  ^^^^^^^^^ variable.other.readwrite
 ::           ^ keyword.operator.assignment
+::             ^^ - variable.other
 
 set hello_world
 :: <- keyword.command
@@ -433,19 +439,24 @@ set /p today=enter a date:
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch
+::           ^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
 ::                         ^ - meta.prompt.set.dosbatch
 set /p today=enter a date: REM :: this is not a comment
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch - variable.other.readwrite.dosbatch - comment
+::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch - comment
 ::                                                     ^ - meta.prompt.set.dosbatch
 set /p today=
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
 ::           ^ - meta.prompt.set.dosbatch
+
+set folder=%TEMP%\subfolder\
+::  ^^^^^^ variable.other.readwrite.dosbatch
+::         ^^^^^^ variable.other.readwrite.dosbatch
+::               ^^^^^^^^^^^ string.unquoted - variable.other
 
 SETLOCAL EnableDelayedExpansion
 ::^^^^^^ keyword.command.dosbatch
