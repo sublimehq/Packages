@@ -12,6 +12,7 @@ variables:
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   before_tag: 'struct|union|enum'
   common_protocols: '\bNS(GlyphStorage|M(utableCopying|enuItem)|C(hangeSpelling|o(ding|pying|lorPicking(Custom|Default)))|T(oolbarItemValidations|ext(Input|AttachmentCell))|I(nputServ(iceProvider|erMouseTracker)|gnoreMisspelledWords)|Obj(CTypeSerializationCallBack|ect)|D(ecimalNumberBehaviors|raggingInfo)|U(serInterfaceValidations|RL(HandleClient|DownloadDelegate|ProtocolClient|AuthenticationChallengeSender))|Validated(ToobarItem|UserInterfaceItem)|Locking)\b'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -1107,8 +1108,41 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.objc
       set: preprocessor-block-if-branch-statements
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+      set: preprocessor-if-branch-function-call
     - include: negated-block
     - include: statements
+
+  preprocessor-if-branch-function-call:
+    - meta_content_scope: meta.function-call.objc
+    - include: scope:source.c#c99
+    - match: '{{identifier}}'
+      scope: variable.function.objc
+    - match: '\('
+      scope: meta.group.objc punctuation.section.group.begin.objc
+      set: preprocessor-if-branch-function-call-arguments
+
+  preprocessor-if-branch-function-call-arguments:
+    - meta_content_scope: meta.function-call.objc meta.group.objc
+    - match : \)
+      scope: meta.function-call.objc meta.group.objc punctuation.section.group.end.objc
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*(?:elif|else))\b
+      captures:
+        1: meta.preprocessor.objc keyword.control.import.objc
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.objc keyword.control.import.objc
+      set: preprocessor-if-branch-function-call-arguments-finish
+    - include: expressions
+
+  preprocessor-if-branch-function-call-arguments-finish:
+    - meta_content_scope: meta.function-call.objc meta.group.objc
+    - match: \)
+      scope: meta.function-call.objc meta.group.objc punctuation.section.group.end.objc
+      pop: true
+    - include: expressions
 
   preprocessor-block-if-branch-statements:
     - meta_scope: meta.block.objc

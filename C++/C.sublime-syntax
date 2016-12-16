@@ -21,7 +21,7 @@ variables:
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'decltype|sizeof|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -930,8 +930,41 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.c
       set: preprocessor-block-if-branch-statements
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+      set: preprocessor-if-branch-function-call
     - include: negated-block
     - include: statements
+
+  preprocessor-if-branch-function-call:
+    - meta_content_scope: meta.function-call.c
+    - include: c99
+    - match: '{{identifier}}'
+      scope: variable.function.c
+    - match: '\('
+      scope: meta.group.c punctuation.section.group.begin.c
+      set: preprocessor-if-branch-function-call-arguments
+
+  preprocessor-if-branch-function-call-arguments:
+    - meta_content_scope: meta.function-call.c meta.group.c
+    - match : \)
+      scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*(?:elif|else))\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      set: preprocessor-if-branch-function-call-arguments-finish
+    - include: expressions
+
+  preprocessor-if-branch-function-call-arguments-finish:
+    - meta_content_scope: meta.function-call.c meta.group.c
+    - match: \)
+      scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
+      pop: true
+    - include: expressions
 
   preprocessor-block-if-branch-statements:
     - meta_scope: meta.block.c
