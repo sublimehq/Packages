@@ -1426,9 +1426,11 @@ class Foo extends Bar[Int]
 
 match {
   case _
-//^^^^^^ meta.pattern.scala
+//^^^^ - meta.pattern
+//     ^ meta.pattern.scala
    => 42
-// ^^ meta.block.case.first.scala
+// ^^ - meta.block.case.first
+// ^^ - meta.pattern
 //    ^^ meta.block.case.first.scala
 {
 
@@ -1436,10 +1438,11 @@ match {
 }
 
   case _ => 42
-//       ^^ meta.block.case.non-first.scala
+//       ^^ - meta.block.case.non-first
+//       ^^ - meta.pattern
 //          ^^ meta.block.case.non-first.scala
 
   case _ => 42
-//       ^^ meta.block.case.non-first.scala
+//       ^^ - meta.block.case.non-first
 //          ^^ meta.block.case.non-first.scala
 }
