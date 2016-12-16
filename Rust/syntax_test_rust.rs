@@ -257,11 +257,14 @@ let logical: bool = true;
 //           ^^^^ storage.type
 //                ^ keyword.operator
 //                  ^^^^ constant.language
+//                      ^ punctuation.terminator
 let mut mutable = 12;
 //  ^^^ storage.modifier
+//                  ^ punctuation.terminator
 
 let ch = '∞';
 //       ^^^ string.quoted.single
+//          ^ punctuation.terminator
 
 let tuple = (1.0, 0i32, "Hello");
 //          ^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -271,17 +274,25 @@ let tuple = (1.0, 0i32, "Hello");
 //                 ^^^ storage.type
 //                      ^^^^^^^ string.quoted.double
 //                             ^ punctuation.definition.group.end
+//                              ^ punctuation.terminator
 
 let xs: [i32; 5] = [1, 2, 3, 4, 5];
 //    ^ punctuation.separator
 //      ^^^^^^^^ meta.group
 //      ^ punctuation.definition.group.begin
 //       ^^^ storage.type
+//          ^ punctuation.separator
 //            ^ constant.numeric.integer.decimal
 //             ^ punctuation.definition.group.end
 //                 ^^^^^^^^^^^^^^^ meta.group
 //                 ^ punctuation.definition.group.begin
+//                   ^ punctuation.separator
+//                      ^ punctuation.separator
+//                         ^ punctuation.separator
+//                            ^ punctuation.separator
 //                               ^ punctuation.definition.group.end
+//                                ^ punctuation.terminator
+
 let xsl = &xs;
 //        ^ keyword.operator
 
@@ -384,6 +395,7 @@ if n < 0 {
 //       ^ meta.block punctuation.definition.block.begin
 // <- keyword.control
     print!("{} is negative", n);
+//                             ^ punctuation.terminator
 } else if n > 0 {
 // <- meta.block punctuation.definition.block.end
 // ^^^ keyword.control

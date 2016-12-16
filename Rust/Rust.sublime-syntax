@@ -39,6 +39,7 @@ contexts:
       push:
         - meta_scope: meta.module.rust
         - match: ';'
+          scope: punctuation.terminator.rust
           set: after-operator
         - include: statements-block
 
@@ -208,6 +209,8 @@ contexts:
         - match: '\]'
           scope: punctuation.definition.group.end.rust
           pop: true
+        - match: ';'
+          scope: punctuation.separator.rust
         - include: statements
 
     - include: return-type
@@ -222,10 +225,11 @@ contexts:
       scope: keyword.operator.rust
       push: after-operator
 
-    - match: '[;,]'
+    - match: ';'
+      scope: punctuation.terminator.rust
       push: after-operator
 
-    - match: ':'
+    - match: '[:,]'
       scope: punctuation.separator.rust
       push: after-operator
 
