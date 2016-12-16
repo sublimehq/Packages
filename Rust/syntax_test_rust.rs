@@ -922,4 +922,6 @@ impl<T> Iterator for Fibonacci<T>
 
 pub const FOO: Option<[i32; 1]> = Some([1]);
 //                    ^ punctuation.definition.group.begin.rust
+//                        ^ punctuation.separator
+//                          ^ constant.numeric
 //                           ^ punctuation.definition.group.end.rust

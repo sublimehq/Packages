@@ -394,6 +394,13 @@ contexts:
           pop: true
         - match: ';'
           scope: punctuation.separator.rust
+          set:
+            - include: integers
+            - match: '\]'
+              scope: punctuation.definition.group.end.rust
+              pop: true
+            - match: '(?=\S)'
+              pop: true
         - include: generic-angles-contents
     - include: type-any-identifier
     - match: ':'
@@ -906,6 +913,10 @@ contexts:
       scope: constant.other.placeholder.rust
 
   numbers:
+    - include: floats
+    - include: integers
+
+  floats:
     - match: '\b((?:\d[\d_]*)?\d\.)(\d[\d_]*(?:[eE][+-]?[\d_]*\d[\d_]*)?)(f32|f64)?'
       captures:
         1: constant.numeric.float.rust
@@ -917,6 +928,8 @@ contexts:
       captures:
         1: constant.numeric.float.rust
         2: storage.type.numeric.rust
+
+  integers:
     - match: '\b(\d[\d_]*)({{int_suffixes}})?\b'
       captures:
         1: constant.numeric.integer.decimal.rust
