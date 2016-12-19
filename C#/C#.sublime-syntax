@@ -99,7 +99,6 @@ contexts:
     - match: '\b(else|endif)\b'
       scope: keyword.control.preprocessor.cs
       push: option_done
-
     # error, warning, region and endregion may be followed by any text.
     # Comments doesn't apply in this case, see ECMA C# specification.
     - match: '\b(error|warning)\b\s*(.*)'
@@ -159,7 +158,6 @@ contexts:
         - include: comments
         - match: $
           pop: true
-
     - match: .*
       scope: invalid.illegal.cs
     - match: $
@@ -177,7 +175,6 @@ contexts:
   main:
     - match: '\}'
       scope: invalid.illegal.unexpected.closing-bracket
-
     - match: '\{'
       scope: punctuation.section.block.begin.cs
       push:
@@ -195,7 +192,6 @@ contexts:
     - include: interface_declaration
     - include: namespace_declaration
     - include: delegate_declaration
-
     # allows coloration of code outside a class
     - include: code_block_in
 
@@ -434,7 +430,6 @@ contexts:
         1: entity.name.function.constructor.cs
         2: punctuation.definition.parameters.begin.cs
       push: [method_body, constructor_prebody, method_params]
-
     - match: '\b{{base_type}}(\*|(\[,*\])*|\b)'
       scope: support.type.cs
       push: method_name
@@ -470,7 +465,6 @@ contexts:
     - match: (=>)
       scope: punctuation.section.function.begin.cs
       set: line_of_code_in
-
     - match: \{
       scope: punctuation.section.function.begin.cs
       set:
@@ -526,7 +520,6 @@ contexts:
         - match: ','
           scope: punctuation.separator.parameter.type.cs
         - include: type
-
     - match: '{{name}}\s*(<)'
       captures:
         1: entity.name.function.cs
@@ -664,79 +657,64 @@ contexts:
       captures:
         1: keyword.control.conditional.if.cs
       set: [else_block, if_block, if_condition]
-
     - match: \b(switch)\b
       captures:
         1: keyword.control.conditional.if.cs
       set: [switch_block, if_condition]
-
     - match: \b(for)\s*(\()
       captures:
         1: keyword.control.loop.for.cs
         2: punctuation.definition.expression.loop.begin.cs
       set: [for_block, line_of_code_in, line_of_code_in, for_var_assignment, var_declaration]
-
     - match: \b(foreach)\s*(\()
       captures:
         1: keyword.control.loop.foreach.cs
         2: punctuation.definition.expression.loop.begin.cs
       set: [for_block, foreach_var_assignment, var_declaration]
-
     - match: \b(try)\b
       scope: keyword.control.trycatch.try.cs
       set: [finally_block, catch_expr, try_block]
-
     - match: \b(using)\s*(\()
       captures:
         1: keyword.control.trycatch.using.cs
         2: punctuation.definition.expression.trycatch.using.begin.cs
       set: [using_block, line_of_code]
-
     - match: \b(fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
         2: punctuation.definition.expression.other.cs
       set: [expression_block, line_of_code]
-
     - match: \bdo\b
       scope: keyword.control.loop.do.cs
       set: [do_condition, while_block]
     - match: \bwhile\b
       scope: keyword.control.loop.while.cs
       set: [while_block, while_condition]
-
     - match: \b(else|case|catch|finally)\b
       scope: keyword.control.cs invalid.illegal.unexpected.keyword
-
     - match: \b(return|yield\s+return)\b
       scope: keyword.control.flow.return.cs
       set: line_of_code_in
-
     - match: \b(continue|break|yield\s+break)\s*(;)
       captures:
         1: keyword.control.flow.break.cs
         2: punctuation.separator.statement.cs
       pop: true
-
     - match: \b(throw)\b
       scope: keyword.control.trycatch.throw.cs
       set: line_of_code_in
-
     - match: \b(goto)\s+(case)\b
       captures:
         1: keyword.control.flow.goto.cs
         2: keyword.control.switch.case.cs
       push: line_of_code_in
-
     - match: '\b(goto)\s+{{name}}\s*(;)'
       captures:
         1: keyword.control.flow.goto.cs
         2: entity.name.tag.cs
         3: punctuation.separator.statement.cs
       pop: true
-
     - include: keywords
-
     # TODO: use the same code for method detection
     # C#7, nested method
     - match: '(?:({{base_type}})|{{name}}){{type_suffix}}?\s+(?={{name}}{{generic_declaration}}\()'
@@ -745,13 +723,11 @@ contexts:
         2: variable.other.type.cs
         3: support.type.cs
       push: method_name
-
     - match: '{{name}}(<)(?=([^(={};]*>){{type_suffix}}\s+{{name}}{{generic_declaration}}\()'
       captures:
         1: variable.other.type.cs
         2: punctuation.definition.arguments.type.begin.cs
       push: [method_name, type_argument]
-
     - match: '{{name}}(<)(?=[^(={};]*>\()'
       scope: meta.function-call
       captures:
@@ -764,7 +740,6 @@ contexts:
           scope: punctuation.definition.arguments.type.end.cs
           pop: true
         - include: type
-
     - match: '{{name}}(<)'
       captures:
         1: variable.other.type.cs
@@ -789,7 +764,6 @@ contexts:
         2: entity.name.variable.cs
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
-
     - match: '\b({{base_type}})\s*(?=[\[\],*?]*\s+\w)'
       captures:
         1: support.type.cs
@@ -802,31 +776,25 @@ contexts:
       captures:
         1: variable.other.type.cs
       set: [variables_declaration, type_no_space]
-
     - match: '{{name}}\s*(:)(?!:)'
       scope: entity.name.tag.cs
       pop: true
-
     - match: '(?:(global)|{{name}})\s*(::)'
       captures:
         1: support.namespace.cs
         2: variable.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
-
     - match: '{{name}}(\.)'
       captures:
         1: variable.other.cs
         2: punctuation.accessor.dot.cs
-
     - match: '{{name}}\s+{{name}}'
       captures:
         1: variable.other.type.cs
         2: entity.name.variable.cs
       set: variables_declaration
-
     - match: \.
       scope: punctuation.accessor.dot.cs
-
     - match: '(?=\S)'
       set: [line_of_code_in]
 
@@ -856,12 +824,10 @@ contexts:
         1: variable.language.cs
         2: punctuation.definition.accessor.begin.cs
       push: accessor_arguments
-
     - match: \b(this|base)\b
       scope: variable.language.cs
     - match: \b(await)\b
       scope: keyword.control.other.cs
-
     - match: \b(typeof|default)(\()
       captures:
         1: keyword.operator.reflection.cs
@@ -871,11 +837,9 @@ contexts:
           scope: punctuation.definition.arguments.end.cs
           pop: true
         - include: type
-
     - match: '\b(as|is)(\s+)'
       scope: keyword.operator.reflection.cs
       push: type_no_space
-
     - match: \b(checked|unchecked)\b
       scope: keyword.other.cs
       push:
@@ -895,7 +859,6 @@ contexts:
             - include: code_block_in
         - match: \S
           scope: invalid.illegal.expected.block.cs
-
     - match: \b(unsafe)\b
       scope: keyword.other.cs
       push:
@@ -908,11 +871,9 @@ contexts:
             - include: code_block_in
         - match: \S
           scope: invalid.illegal.expected.block.cs
-
     - match: \b(new)\b
       scope: keyword.declaration.new.cs
       push: maybe_an_anonymous_class
-
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 
@@ -960,31 +921,25 @@ contexts:
       scope: support.function.sql.cs
     - match: \??\.
       scope: punctuation.accessor.dot.cs
-
     - match: '{{bin_op}}='
       scope: keyword.operator.cs
     - match: '{{bin_op}}|{{unary_op}}'
       scope: keyword.operator.cs
     - match: '='
       scope: keyword.operator.assignment.cs
-
     - include: literals
-
     # interpolated strings
     - match: '\$"'
       scope: punctuation.definition.string.interpolated.begin.cs
       push: format_string
-
     # multi-line strings
     - match: '@"'
       scope: punctuation.definition.string.raw.begin.cs
       push: long_string
-
     # interpolated multi-line strings
     - match: '(@\$|\$@)"'
       scope: punctuation.definition.string.interpolated.begin.cs
       push: long_format_string
-
     - match: '{{name}}(<)(?=[^(]*>\()'
       scope: meta.function-call
       captures:
@@ -1026,7 +981,6 @@ contexts:
       scope: support.type.cs
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
-
     - match: '(?:(global)|{{name}})\s*(::)'
       captures:
         1: support.namespace.cs
@@ -1038,7 +992,6 @@ contexts:
       scope: variable.other.cs
     - match: '@'
       scope: invalid.illegal.reserved-char.cs
-
     - match: \?
       scope: keyword.operator.ternary.cs
       push:
@@ -1046,7 +999,6 @@ contexts:
           scope: keyword.operator.ternary.cs
           pop: true
         - include: line_of_code_in
-
     - match: '(\()\s*({{base_type}}|{{name}})\s*((?:\[,*\]|\*)*)\s*(\))'
       captures:
         1: punctuation.definition.arguments.casting.begin.cs
@@ -1054,7 +1006,6 @@ contexts:
         3: variable.other.type.cs
         4: support.type.cs
         5: punctuation.definition.arguments.casting.end.cs
-
     - match: \(
       scope: punctuation.definition.expression.begin.cs
       push:
@@ -1186,7 +1137,6 @@ contexts:
       scope: constant.character.cs
     - match: "'[^']+'"
       scope: invalid.illegal.not_a_char.cs
-
     # numbers
     - match: '{{hex_numeral}}'
       scope: constant.numeric.cs
@@ -1198,7 +1148,6 @@ contexts:
       captures:
         1: constant.numeric.cs
         2: storage.type.numeric.cs
-
     # strings
     - match: '"'
       scope: punctuation.definition.string.quoted.double.begin.cs
