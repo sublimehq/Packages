@@ -516,14 +516,48 @@ contexts:
       pop: true
 
   decorators:
-    - match: '^\s*(?=@)'
+    - match: ^\s*(?=@)
       push:
-        - meta_content_scope: meta.statement.decorator.python
+        # Due to line continuations, we don't know whether this is a "function call" yet
+        - meta_content_scope: meta.annotation.python
         - match: '@'
-          scope: keyword.other.decorator.python
+          scope: punctuation.definition.annotation.python
+        - match: $
+          pop: true
         - include: line-continuation-or-pop
-        - include: function-calls
-        - include: qualified-name
+        - match: (?=\.?\s*{{path}}\s*\() # now we do
+          set: [decorator-function-call-wrapper, qualified-name-until-leaf]
+        - match: (?=\.?\s*{{path}})
+          push: [decorator-wrapper, qualified-name-until-leaf]
+        - match: \S
+          scope: invalid.illegal.character.python
+          pop: true
+
+  decorator-wrapper:
+    - meta_scope: meta.annotation.python
+    - match: '{{identifier}}'
+      scope: meta.qualified-name.python variable.annotation.python
+    - match: ''
+      pop: true
+
+  decorator-function-call-wrapper:
+    - meta_scope: meta.annotation.function.python
+    - match: '{{identifier}}'
+      scope: meta.qualified-name.python variable.annotation.function.python
+    - match: \)
+      scope: punctuation.section.arguments.end.python
+      set: after-expression
+    - match: \(
+      scope: punctuation.section.arguments.begin.python
+      push:
+        - meta_content_scope: meta.annotation.arguments.python
+        - match: (?=\))
+          pop: true
+        - include: keyword-arguments
+        - match: ','
+          scope: punctuation.separator.arguments.python
+        - include: inline-for
+        - include: expressions
 
   item-access:
     - match: '(?={{path}}\s*\[)'

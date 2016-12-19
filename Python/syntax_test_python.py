@@ -471,21 +471,68 @@ class Unterminated(Inherited:
 #                           ^ invalid.illegal
 
 
-@normal . decorator
-#^^^^^^^^^^^^^^^^^^ meta.statement.decorator
-# <- keyword.other.decorator
-#       ^ punctuation.accessor.dot
+##################
+# Decorators
+##################
+
+@ normal . decorator
+# <- meta.annotation punctuation.definition.annotation
+#^^^^^^^^^^^^^^^^^^^ meta.annotation
+# ^^^^^^^^^^^^^^^^^^ meta.qualified-name
+# ^^^^^^ meta.generic-name - variable.annotation
+#          ^^^^^^^^^ variable.annotation
+#        ^ punctuation.accessor.dot
+#                   ^ - meta.annotation
 class Class():
 
-    @wraps(method, 12)# comment
-#^^^ - meta.statement.decorator
-#   ^^^^^^^^^^^^^^^^^^ meta.statement.decorator
-#   ^ keyword.other.decorator
-#    ^^^^^^^^^^^^^^^^^ meta.function-call
-#                     ^^^^^^^^^ comment
+    @functools.wraps(method, 12, kwarg=None)# comment
+#^^^ - meta.annotation
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.function
+#   ^ punctuation.definition.annotation
+#    ^^^^^^^^^^^^^^^ meta.qualified-name
+#    ^^^^^^^^^ meta.generic-name - variable.annotation
+#             ^ punctuation.accessor.dot
+#              ^^^^^ variable.annotation.function
+#                   ^ punctuation.section.arguments.begin
+#                          ^ punctuation.separator.arguments
+#                            ^^ constant.numeric
+#                                ^^^^^ variable.parameter
+#                                     ^ keyword.operator
+#                                      ^^^^ constant.language
+#                              ^ punctuation.separator.arguments
+#                                          ^ punctuation.section.arguments.end
+#                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
-        (self, __class__)
-        pass
+        return self.__class__(method)
+
+    @deco #comment
+#^^^ - meta.annotation
+#   ^^^^^ meta.annotation
+#    ^^^^ meta.qualified-name variable.annotation.function
+#        ^^ - meta.annotation
+#         ^^^^^^^^ comment
+
+    @staticmethod
+#   ^^^^^^^^^^^^^ meta.annotation
+#    ^^^^^^^^^^^^ support.function.builtin
+#                ^ - meta.annotation
+
+    @deco[4]
+#        ^ invalid.illegal.character
+
+    @deco \
+        . rator
+#       ^^^^^^^ meta.annotation
+#       ^ punctuation.accessor.dot
+
+    @ deco \
+        . rator()
+#       ^^^^^^^ meta.annotation.function
+#         ^^^^^ variable.annotation.function
+
+    @ deco \
+#     ^^^^ meta.qualified-name meta.generic-name - variable.annotation
+#          ^ punctuation.separator.continuation.line
 
 
 ##################
