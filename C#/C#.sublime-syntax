@@ -182,10 +182,6 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: main
-
-    # skips opening
-    - match: ^\s*
-
     - include: attribute
     - include: using
     - include: class_declaration
