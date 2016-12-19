@@ -10,7 +10,6 @@ file_extensions:
   - csx
 scope: source.cs
 
-
 variables:
 
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
@@ -1224,9 +1223,9 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.quoted.double.end.cs
       pop: true
-    - match: '{{|}}'
+    - match: '\{\{|\}\}'
       scope: constant.character.escape.cs
-    - match: '{\d*}'
+    - match: '\{\d*\}'
       scope: constant.other.placeholder.cs
     - match: '[^"]*$'
       scope: invalid.string.newline
