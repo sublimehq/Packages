@@ -15,6 +15,7 @@ This is a variable docstring, as supported by sphinx and epydoc
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
 """
 
+
 ##################
 # Imports
 ##################
@@ -95,6 +96,58 @@ open.open.open
 
 
 ##################
+# Expressions
+##################
+
+def _():
+    yield from
+#   ^^^^^ keyword.control.flow.yield
+#         ^^^^ keyword.control.flow.yield-from
+
+    yield fromsomething
+#         ^^^^ - keyword
+
+    a if b else c
+#     ^^ keyword.control.flow
+#          ^^^^ keyword.control.flow
+
+    c = lambda: pass
+#       ^^^^^^^ meta.function.inline
+#       ^^^^^^ storage.type.function.inline
+#             ^ punctuation.section.function.begin
+#               ^^^^ keyword
+
+    _(lambda x, y: 10)
+#     ^^^^^^^^^^^^ meta.function.inline
+#     ^^^^^^ storage.type.function.inline
+#           ^^^^^ meta.function.inline.parameters
+#            ^ variable.parameter
+#             ^ punctuation.separator.parameters
+#               ^ variable.parameter
+#                  ^^ constant.numeric
+
+    lambda \
+        a, \
+        b=2: pass
+#       ^^^^ meta.function.inline
+#        ^ keyword.operator.assignment
+#          ^ punctuation.section.function.begin
+#            ^^^^ keyword
+
+    lambda as, in=2: pass
+#          ^^ invalid.illegal.name
+#              ^^ invalid.illegal.name
+
+    call(from='no')
+#   ^^^^^^^^^^^^^^^ meta.function-call
+#        ^^^^ invalid.illegal.name
+#            ^ keyword.operator.assignment
+#             ^^^^ string
+    lambda
+#   ^^^^^^ storage.type.function.inline
+
+
+##################
 # Compound expressions
 ##################
 
@@ -157,6 +210,45 @@ range(20)[10:2:-2]
 1[12]
 #^^^^ - meta.item-access
 
+
+##################
+# print & exec
+##################
+
+def _():
+    print (file=None)
+#   ^^^^^ support.function.builtin - keyword
+    print . __class__
+#   ^^^^^ support.function.builtin - keyword
+    print "keyword"
+#   ^^^^^ keyword.other.print
+    print __init__
+#   ^^^^^ keyword.other.print
+#
+    exec 123
+#   ^^^^ keyword
+    exec ("print('ok')")
+#   ^^^^ support.function.builtin - keyword
+    callback(print , print
+#            ^^^^^ - keyword
+#                  ^ punctuation.separator.arguments
+#                    ^^^^^ - keyword
+             , print)
+#              ^^^^^ - keyword
+
+    some \
+      print \
+#     ^^^^^ keyword.other.print
+
+    func(
+        print
+#       ^^^^^ support.function.builtin - keyword
+    )
+
+    print
+#   ^^^^^ keyword.other.print
+
+
 ##################
 # Block statements
 ##################
@@ -212,96 +304,6 @@ def _():
 #                                    ^ punctuation.section.block.with
         await something()
 #       ^^^^^ keyword.other.await
-
-
-
-##################
-# Expressions
-##################
-
-def _():
-    yield from
-#   ^^^^^ keyword.control.flow.yield
-#         ^^^^ keyword.control.flow.yield-from
-
-    yield fromsomething
-#         ^^^^ - keyword
-
-    a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
-
-    c = lambda: pass
-#       ^^^^^^^ meta.function.inline
-#       ^^^^^^ storage.type.function.inline
-#             ^ punctuation.section.function.begin
-#               ^^^^ keyword
-
-    _(lambda x, y: 10)
-#     ^^^^^^^^^ meta.function.inline
-#     ^^^^^^ storage.type.function.inline
-#           ^^^^^ meta.function.inline.parameters
-#            ^ variable.parameter
-#             ^ punctuation.separator.parameters
-#               ^ variable.parameter
-#                  ^^ constant.numeric
-
-    lambda \
-        a, \
-        b=2: pass
-#       ^^^^ meta.function.inline
-#        ^ keyword.operator.assignment
-#          ^ punctuation.section.function.begin
-#            ^^^^ keyword
-
-    lambda as, in=2: pass
-#          ^^ invalid.illegal.name
-#              ^^ invalid.illegal.name
-    call(from='no')
-#   ^^^^^^^^^^^^^^^ meta.function-call
-#        ^^^^ invalid.illegal.name
-#            ^ keyword.operator.assignment
-#             ^^^^ string
-    lambda
-#   ^^^^^^ storage.type.function.inline
-
-
-##################
-# print & exec
-##################
-
-def _():
-    print (file=None)
-#   ^^^^^ support.function.builtin - keyword
-    print . __class__
-#   ^^^^^ support.function.builtin - keyword
-    print "keyword"
-#   ^^^^^ keyword.other.print
-    print __init__
-#   ^^^^^ keyword.other.print
-#
-    exec 123
-#   ^^^^ keyword
-    exec ("print('ok')")
-#   ^^^^ support.function.builtin - keyword
-    callback(print , print
-#            ^^^^^ - keyword
-#                  ^ punctuation.separator.arguments
-#                    ^^^^^ - keyword
-             , print)
-#              ^^^^^ - keyword
-
-    some \
-      print \
-#     ^^^^^ keyword.other.print
-
-    func(
-        print
-#       ^^^^^ support.function.builtin - keyword
-    )
-
-    print
-#   ^^^^^ keyword.other.print
 
 
 ##################
