@@ -729,14 +729,19 @@ contexts:
   constants:
     - match: \btrue\b
       scope: constant.language.boolean.true.js
+      push: after-identifier
     - match: \bfalse\b
       scope: constant.language.boolean.false.js
+      push: after-identifier
     - match: \bnull\b
       scope: constant.language.null.js
+      push: after-identifier
     - match: \bundefined\b
       scope: constant.language.undefined.js
+      push: after-identifier
     - match: \bNaN\b
       scope: constant.language.nan.js
+      push: after-identifier
 
   literal-prototype:
     - match: '({{identifier}})\s*(\.)\s*(prototype)(?=\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'

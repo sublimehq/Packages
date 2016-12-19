@@ -774,6 +774,10 @@ var angle = 2*π / count // angle between circles
 var angle = 2*π / count /* angle between circles */
 //              ^ keyword.operator.arithmetic
 
+undefined / (8 * 5) / "1"
+//        ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+
 a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
