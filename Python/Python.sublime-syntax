@@ -677,6 +677,7 @@ contexts:
         	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
       scope: support.type.exception.python
+
   builtin-functions:
     - match: |-
         (?x)\b(
