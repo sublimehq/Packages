@@ -1,7 +1,7 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 #define DEBUG
-///     ^^ constant.other.flag
+///     ^^ entity.name.constant
 #define MYTEST
 #undef DEBUG
 

@@ -80,10 +80,10 @@ contexts:
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
-    - match: '\b(define|undef)\s+{{name}}\b'
+    - match: '\b(define|undef)\s+({{name}})\b'
       captures:
         1: keyword.control.preprocessor.cs
-        2: constant.other.flag.cs
+        2: entity.name.constant.cs
     - match: '\b(el)?if\b'
       scope: keyword.control.preprocessor.cs
       push:
