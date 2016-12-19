@@ -891,12 +891,17 @@ contexts:
       set: function-block
 
   arrow-function-declaration:
+    - match: '\s*(=>)\s*(?=\n|//|/*)'
+      scope: meta.function.declaration.js
+      captures:
+        1: storage.type.function.arrow.js
+      set: arrow-function-declaration-continuation
     - match: '\s*(=>)(?=\s*\{)'
       scope: meta.function.declaration.js
       captures:
         1: storage.type.function.arrow.js
       set: function-block
-    - match: '(\s*(=>))\s*'
+    - match: '(\s*(=>))\s*(?=\S)'
       captures:
         1: meta.function.declaration.js
         2: storage.type.function.arrow.js
@@ -908,6 +913,14 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.function.declaration.js variable.parameter.function.js
     - include: function-declaration-parameters
+
+  arrow-function-declaration-continuation:
+    - meta_content_scope: meta.function.declaration.js
+    - include: comments
+    - match: '(?=\{)'
+      set: function-block
+    - match: '(?=\S)'
+      set: arrow-function-concise-body
 
   arrow-function-concise-body:
     - meta_content_scope: meta.block.js

@@ -844,6 +844,15 @@ var test =
 {a: 1}
 // <- meta.object-literal punctuation.definition.block
 
+var arrowFuncBraceNextLine = () => /* comments! */
+//  ^ entity.name.function
+//                              ^^ storage.type.function
+//                                 ^^^^^^^^^^^^^^^ comment
+{
+    foo.bar();
+//  ^ - entity.name.function
+}
+
 // Handle multi-line "concise" arrow function bodies
 var conciseFunc = () =>
   foo
