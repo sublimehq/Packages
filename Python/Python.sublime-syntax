@@ -820,12 +820,12 @@ contexts:
       push:
         # This prevents strings after a continuation from being a docstring
         - include: strings
-        - match: '(?=\S)'
+        - match: (?=\S|^\s*$)
           pop: true
 
   line-continuation-or-pop:
     - include: line-continuation
-    - match: $|(?=;|#)
+    - match: (?=\s*($|;|#))
       pop: true
 
   magic-function-names:

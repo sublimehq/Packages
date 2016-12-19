@@ -534,6 +534,11 @@ class Class():
 #     ^^^^ meta.qualified-name meta.generic-name - variable.annotation
 #          ^ punctuation.separator.continuation.line
 
+    @deco \
+
+    def f(): pass
+#   ^^^ storage.type.function - meta.decorator
+
 
 ##################
 # Collection literals and generators
