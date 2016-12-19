@@ -91,7 +91,7 @@ contexts:
         - meta_scope: meta.statement.import.python
         - include: line-continuation-or-pop
         - include: import-alias
-        - include: dotted-name
+        - include: qualified-name
         - match: ','
           scope: punctuation.separator.import-list.python
         - match: (?=\S)
@@ -127,7 +127,7 @@ contexts:
                   pop: true
             - match: (?=\S)
               pop: true
-        - include: dotted-name
+        - include: qualified-name
         - match: (\.)
           scope: punctuation.accessor.dot.python
         - match: (?=\S)
@@ -257,13 +257,13 @@ contexts:
   line-expressions: # Always include this last!
     - include: expressions-common
     - include: line-continuation
-    - include: dotted-name
+    - include: qualified-name
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
     - include: expressions-common
     - include: illegal-names-pop
-    - include: dotted-name
+    - include: qualified-name
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.dot.python
@@ -444,9 +444,6 @@ contexts:
                   pop: true
             - include: expressions
 
-  path:
-    - match: (?={{path}})
-
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
@@ -526,7 +523,7 @@ contexts:
           scope: keyword.other.decorator.python
         - include: line-continuation-or-pop
         - include: function-calls
-        - include: dotted-name
+        - include: qualified-name
 
   item-access:
     - match: '(?={{path}}\s*\[)'
@@ -539,7 +536,7 @@ contexts:
             - meta_content_scope: meta.item-access.python
             - match: '(?=\s*\[)'
               pop: true
-            - include: dotted-name
+            - include: qualified-name
         - match: \[
           scope: meta.item-access.python punctuation.section.brackets.begin.python
           push:
@@ -685,10 +682,29 @@ contexts:
       push:
         - include: name-specials
         - include: generic-names
+        - match: ''
+          pop: true
+
+  dotted-name:
+    - match: '\s*(\.)\s*(?={{identifier}})'
+      captures:
+        1: punctuation.accessor.dot.python
+      push:
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+
+  qualified-name:
+    - match: '(?={{path}})'
+      push:
+        - meta_scope: meta.qualified-name.python
+        - include: name
+        - include: dotted-name
+        - match: ''
+          pop: true
 
   name-specials:
-    - match: '(?!{{identifier_continue}})'
-      pop: true
     - include: builtin-functions
     - include: builtin-types
     - include: builtin-exceptions
@@ -697,22 +713,7 @@ contexts:
     - include: magic-variable-names
     - include: language-variables
 
-  dotted-name:
-    - match: '(?={{path}})'
-      push:
-        - match: ' *(\.) *(?={{identifier}})'
-          captures:
-            1: punctuation.accessor.dot.python
-          push:
-            - include: dotted-name-specials
-            - include: generic-names
-        - match: '(?!{{identifier_continue}})'
-          pop: true
-        - include: name
-
   dotted-name-specials:
-    - match: '(?!{{identifier_continue}})'
-      pop: true
     - include: magic-function-names
     - include: magic-variable-names
     - include: illegal-names
@@ -727,7 +728,8 @@ contexts:
     - include: generic-names
 
   generic-names:
-    - match: "{{identifier}}"
+    - match: '{{identifier}}'
+      scope: meta.generic-name.python
 
   illegal-names:
     - match: \b{{illegal_names}}\b

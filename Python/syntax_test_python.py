@@ -64,24 +64,34 @@ import re; re.compile(r'')
 # Identifiers
 ##################
 
+identifier
+#^^^^^^^^^ meta.qualified-name meta.generic-name
+
 class
 #^^^^ storage.type.class
 def
 #^^ storage.type.function
 
-# Currently, async and await are still recognized as valid identifiers unless in an "async" block
+# async and await are still recognized as valid identifiers unless in an "async" block
 async
 #^^^^ - invalid.illegal.name
 
 __all__
-#^^^^^^ support.variable.magic
+#^^^^^^ meta.qualified-name support.variable.magic - meta.generic-name
 __file__
 #^^^^^^^ support.variable.magic
 __missing__
 #^^^^^^^^^^ support.function.magic
-__bool__ __nonzero__
+__bool__ abc.__nonzero__
 #^^^^^^^ support.function.magic
-#        ^^^^^^^^^^^ support.function.magic
+#            ^^^^^^^^^^^ support.function.magic
+
+TypeError module.TypeError
+#^^^^^^^^ support.type.exception
+#                ^^^^^^^^^ - support
+
+open.open.open
+#    ^^^^^^^^^ - support
 
 
 ##################
@@ -127,9 +137,6 @@ myobj[1][2](0)
 range(20)[10:2:-2]
 #           ^ punctuation.separator.slice
 #             ^ punctuation.separator.slice
-
-myobj.attribute
-#    ^ punctuation.accessor.dot
 
 "string"[12]
 #       ^^^^ meta.item-access - meta.structure
