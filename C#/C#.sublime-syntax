@@ -43,7 +43,6 @@ variables:
 contexts:
   prototype:
     - include: comments
-    - include: git_merge
     - match: '^\s*(#)\s*'
       push: preprocessor_option
       captures:
@@ -78,17 +77,6 @@ contexts:
       scope: comment.line.todo.cs
     - match: \b(https?://\S*)\b
       scope: markup.underline.link.cs
-
-  git_merge:
-    - match: '^(<<<<<<<).*$'
-      captures:
-        1: meta.git.merge punctuation.section.merge.begin.git
-    - match: '^(=======).*$'
-      captures:
-        1: meta.git.merge punctuation.separator.merge.git
-    - match: '^(>>>>>>>).*$'
-      captures:
-        1: meta.git.merge punctuation.section.merge.end.git
 
   preprocessor_option:
     - meta_scope: meta.preprocessor.cs
