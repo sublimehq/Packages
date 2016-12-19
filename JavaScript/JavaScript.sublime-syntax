@@ -474,7 +474,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.js
             2: invalid.illegal.newline.js
-          pop: true
+          set: after-identifier
         - include: string-content
     - match: '"'
       captures:
@@ -485,7 +485,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.js
             2: invalid.illegal.newline.js
-          pop: true
+          set: after-identifier
         - include: string-content
 
   literal-string-template:
@@ -497,7 +497,7 @@ contexts:
         - meta_scope: string.template.js
         - match: "`"
           scope: punctuation.definition.string.template.end.js
-          pop: true
+          set: after-identifier
         - match: '\$\{'
           captures:
             0: punctuation.definition.template-expression.begin.js

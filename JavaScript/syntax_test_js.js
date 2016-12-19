@@ -778,6 +778,18 @@ undefined / (8 * 5) / "1"
 //        ^ keyword.operator.arithmetic
 //                  ^ keyword.operator.arithmetic
 
+'5' / 8 / '1'
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+"5" / 8 / "1"
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+`5` / 8 / `1`
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
 a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
