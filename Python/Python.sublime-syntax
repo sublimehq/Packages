@@ -548,41 +548,27 @@ contexts:
             - include: expressions
 
   function-calls:
-    - match: '(?=\.?{{path}}\s*\()'
+    - match: '(?=(\.\s*)?{{path}}\s*\()'
+      push: [function-call-wrapper, qualified-name-until-leaf]
+
+  function-call-wrapper:
+    - meta_scope: meta.function-call.python
+    - match: '{{identifier}}'
+      scope: meta.qualified-name.python variable.function.python
+    - match: \)
+      scope: punctuation.section.arguments.end.python
+      set: after-expression
+    - match: \(
+      scope: punctuation.section.arguments.begin.python
       push:
-        - meta_scope: meta.function-call.python
-        - match: \)
-          scope: punctuation.section.arguments.end.python
-          set: after-expression
-        - match: '(?=\.?{{path}}\s*\()'
-          push:
-            - match: (?=\s*\()
-              pop: true
-            - match: ' *(\.) *(?={{identifier}})'
-              captures:
-                1: punctuation.accessor.dot.python
-              set:
-                - include: dotted-name-specials
-                - match: '{{identifier}}(?=\s*\()'
-                  scope: variable.function.python
-                - include: generic-names
-            - match: '(?={{identifier}})'
-              push:
-                - include: name-specials
-                - match: '{{identifier}}(?=\s*\()'
-                  scope: variable.function.python
-                - include: generic-names
-        - match: \(
-          scope: punctuation.section.arguments.begin.python
-          push:
-            - meta_content_scope: meta.function-call.arguments.python
-            - match: (?=\))
-              pop: true
-            - include: keyword-arguments
-            - match: ','
-              scope: punctuation.separator.arguments.python
-            - include: inline-for
-            - include: expressions
+        - meta_content_scope: meta.function-call.arguments.python
+        - match: (?=\))
+          pop: true
+        - include: keyword-arguments
+        - match: ','
+          scope: punctuation.separator.arguments.python
+        - include: inline-for
+        - include: expressions
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
@@ -703,6 +689,39 @@ contexts:
         - include: dotted-name
         - match: ''
           pop: true
+
+  qualified-name-until-leaf:
+    # Push this together with another context to match a qualified name
+    # until the last non-special identifier (if any).
+    # This allows the leaf to be scoped individually.
+    - meta_scope: meta.qualified-name.python
+    - include: name-specials
+    # If a line continuation follows, this may or may not be the last leaf (most likley not though)
+    - match: '{{identifier}}(?=\s*\\)'
+      scope: meta.generic-name.python
+    - match: (?={{identifier}}\s*\.)
+      push:
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+    - match: (\.)\s*(?={{identifier}}\s*\.)
+      captures:
+        1: punctuation.accessor.dot.python
+      push:
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+    - match: (\.)\s*(?={{identifier}})
+      captures:
+        1: punctuation.accessor.dot.python
+      set:
+        - include: dotted-name-specials
+        - match: ''
+          pop: true
+    - match: (?=\S|$)
+      pop: true
 
   name-specials:
     - include: builtin-functions

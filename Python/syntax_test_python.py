@@ -96,6 +96,54 @@ open.open.open
 
 
 ##################
+# Function Calls
+##################
+
+identifier()
+#^^^^^^^^^^^ meta.function-call
+#^^^^^^^^^ meta.qualified-name variable.function
+#         ^ punctuation.section.arguments.begin
+#          ^ punctuation.section.arguments.end
+
+dotted.identifier(12, True)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#                 ^^^^^^^^ meta.function-call.arguments
+#^^^^^^^^^^^^^^^^ meta.qualified-name
+#^^^^^^ - variable.function
+#     ^ punctuation.accessor.dot
+#      ^^^^^^^^^^ variable.function
+
+open.__new__(12, True)
+#^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#^^^ support.function.builtin
+#   ^ punctuation.accessor.dot
+#    ^^^^^^^ support.function.magic
+
+TypeError()
+#^^^^^^^^ support.type.exception
+#
+module.TypeError()
+#^^^^^^^^^^^^^^^ meta.function-call
+#      ^^^^^^^^^ - support
+#      ^^^^^^^^^ variable.function
+
+open.open.open()
+#^^^ support.function.builtin
+#   ^ punctuation.accessor.dot
+#    ^^^^^^^^^ - support
+#         ^^^^ variable.function
+#
+
+if p.type not in ('NUMBER', 'INTEGER'):
+#             ^^ keyword.operator - meta.function-call invalid
+
+call(from='no')
+#^^^^^^^^^^^^^^ meta.function-call
+#    ^^^^ invalid.illegal.name
+#        ^ keyword.operator.assignment
+#         ^^^^ string
+
+##################
 # Expressions
 ##################
 
@@ -138,11 +186,6 @@ def _():
 #          ^^ invalid.illegal.name
 #              ^^ invalid.illegal.name
 
-    call(from='no')
-#   ^^^^^^^^^^^^^^^ meta.function-call
-#        ^^^^ invalid.illegal.name
-#            ^ keyword.operator.assignment
-#             ^^^^ string
     lambda
 #   ^^^^^^ storage.type.function.inline
 
@@ -157,14 +200,10 @@ myobj.method().attribute
 #     ^^^^^^ variable.function
 #             ^ punctuation.accessor.dot
 
-'foo'.upper()
-#    ^^^^^^^^ meta.function-call
+'foo'. upper()
+#    ^^^^^^^^^ meta.function-call
 #    ^ punctuation.accessor.dot
-#     ^^^^^ variable.function
-
-func()
-#^^^^^ meta.function-call
-#^^^ variable.function
+#      ^^^^^ variable.function
 
 func()(1, 2)
 # <- meta.function-call
