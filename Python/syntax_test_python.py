@@ -132,7 +132,14 @@ open.open.open()
 #   ^ punctuation.accessor.dot
 #    ^^^^^^^^^ - support
 #         ^^^^ variable.function
-#
+
+call(2**10, *range(10), **dict(), * *{}, ***a)
+#     ^^ keyword.operator.arithmetic
+#           ^ keyword.operator.unpacking.sequence.python
+#                       ^^ keyword.operator.unpacking.mapping.python
+#                                 ^ keyword.operator.unpacking.sequence.python
+#                                   ^ - keyword.operator.unpacking
+#                                        ^^^ invalid.illegal.syntax.python
 
 if p.type not in ('NUMBER', 'INTEGER'):
 #             ^^ keyword.operator - meta.function-call invalid
@@ -413,6 +420,11 @@ async def coroutine(param1):
 #         ^ entity.name.function
    pass
 
+def func(*args, other_arg=2**10, **kwargs):
+#        ^ keyword.operator.unpacking.sequence.python
+#                          ^^ keyword.operator.arithmetic.python
+#                                ^^ keyword.operator.unpacking.mapping.python
+    pass
 
 
 ##################
@@ -665,6 +677,15 @@ result = [i async for i in aiter() if i % 2]
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
+
+l = [1 * 2, 2**10, *result]
+#      ^ keyword.operator.arithmetic.python
+#            ^^ keyword.operator.arithmetic.python
+#                  ^ keyword.operator.unpacking.sequence.python
+
+d = {1: 3**4, **dict_}
+#        ^^ keyword.operator.arithmetic.python
+#             ^^ keyword.operator.unpacking.mapping.python
 
 ##################
 # Exception handling
