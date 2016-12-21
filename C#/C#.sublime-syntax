@@ -1,8 +1,9 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-# Copyright (c) 2016 [gwenzek](https://github.com/gwenzek),
-# [MIT license](https://opensource.org/licenses/mit-license.php).
+# Copyright (c) 2016 Sublime Text HQ Pty, @gwenzek,
+#     Matthew Winter @wintermi, Adam Lickel @lickel
+# MIT license: https://opensource.org/licenses/mit-license.php
 
 name: C#
 file_extensions:
