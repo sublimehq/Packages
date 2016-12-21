@@ -4,46 +4,46 @@
 ///<- comment.line
 using System;
 ///<- keyword.control.import
-///    ^ variable.namespace
+///    ^ meta.path
 ///         ^ punctuation.terminator.cs
 
 namespace HelloWorld
+///^^^^^^^^^^^^^^^^^ meta.namespace
 ///<- storage.type.namespace
 ///        ^ entity.name.namespace
 {
-///<- punctuation.section.namespace
+///<- meta.namespace meta.block punctuation.section.block.begin
     class Hello
 /// ^ storage.type.class
-///       ^ entity.name.type
+///       ^ entity.name.class
     {
-/// ^ punctuation.section.class
+/// ^ punctuation.section.block.begin
         static void Main()
 ///     ^ storage.modifier
-///              ^ support.type.cs
+///              ^ storage.type
 ///                  ^ entity.name.function
-///                      ^ punctuation.definition.parameters
+///                      ^ punctuation.section.parameters.end
 
         {
-///     ^ punctuation.section.function
+///     ^ punctuation.section.block.begin
             Console.WriteLine("Hello World!");
-///          ^ variable
 ///                ^ punctuation.accessor.dot
 ///                      ^ variable.function
-///                          ^ punctuation.definition.arguments
+///                          ^ punctuation.section.group.begin
 ///                           ^ punctuation.definition.string
 ///                                        ^ punctuation.definition.string
-///                                         ^ punctuation.definition.arguments
-///                                          ^ punctuation.separator.statement
+///                                         ^ punctuation.section.group.end
+///                                          ^ punctuation.terminator
             // Keep the console window open in debug mode.
 ///         ^ punctuation.definition.comment
 ///            ^ comment.line
             Console.WriteLine ("Press any key to exit.");
 ///                      ^ variable.function
-///                           ^ punctuation.definition.arguments
+///                           ^ punctuation.section.group.begin
             Console.ReadKey();
         }
-///     ^ punctuation.section.function
+///     ^ punctuation.section.block.end
     }
-/// ^ punctuation.section.class
+/// ^ punctuation.section.block.end
 }
-///<- punctuation.section.namespace
+///<- meta.namespace meta.block punctuation.section.block.end

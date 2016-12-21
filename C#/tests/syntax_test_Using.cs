@@ -1,77 +1,87 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 using System.Text;
-/// <- keyword.control.import.cs
-///    ^ variable.namespace.cs
-///         ^ punctuation.separator.namespace.cs
-///            ^ variable.namespace.cs
-///              ^ punctuation.terminator.cs
+/// <- keyword.control.import
+///    ^ meta.path
+///         ^ punctuation.separator.namespace
+///            ^ meta.path
+///              ^ punctuation.terminator
 using static System.Math.Foo;
-/// <- keyword.control.import.cs
-///      ^ keyword.control.import.cs
-///                  ^ variable.namespace.cs
+/// <- keyword.control.import
+///      ^ keyword.control.import
+///                  ^ meta.path
 using Project = PC.MyCompany.Project;
-/// <- keyword.control.import.cs
-///    ^ entity.name.type
-///           ^ keyword.operator.assignment.cs
+/// <- keyword.control.import
+///    ^ meta.path
+///           ^ keyword.operator.assignment
 using Wrapped = PC.MyCompany.Project.Wrapper<float>;
-/// <- keyword.control.import.cs
-///    ^ entity.name.type
-///           ^ keyword.operator.assignment.cs
-///                                            ^ support.type.cs
+/// <- keyword.control.import
+///    ^ meta.path
+///           ^ keyword.operator.assignment
+///                                            ^ storage.type
 
 class Foo {
 
     static void UsingFont([Usage("help text")] string x)
-///                        ^^^^^ storage.modifier.annotation
+///                        ^^^^^ variable.annotation
 ///                                  ^ string
-///                                              ^ support.type
+///                                              ^ storage.type
 ///                                                   ^ variable.parameter
     {
         using (Font font3 = new Font("Arial", 10.0f))
-///     ^ keyword.control.trycatch.using.cs
-///           ^ punctuation.definition.expression.trycatch
-///             ^ variable.other.type
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///     ^ keyword.control.using
+///           ^ punctuation.section.group.begin
+///             ^ support.type
 ///                       ^ keyword.operator.assignment
-///                                                 ^ punctuation.definition.expression.trycatch
+///                                                 ^ punctuation.section.group.end
         {
-///     ^ punctuation.section.trycatch
+///     ^ meta.method meta.block meta.block punctuation.section.block.begin
             // Use font3
             global::System.Console.WriteLine("foo");
-///         ^ support.namespace.cs
+///         ^ support.namespace
 ///               ^ punctuation.accessor.double-colon
         }
-///     ^ punctuation.section.trycatch
+///     ^ meta.method meta.block meta.block punctuation.section.block.end
 
         using (Font font3 = new Font("Arial", 10.0f),
-///     ^ keyword.control.trycatch.using.cs
-///           ^ punctuation.definition.expression.trycatch
+///     ^ keyword.control.using
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///           ^ punctuation.section.group.begin
 ///                                                 ^ punctuation.separator
             font4 = new Font("Arial", 10.0f))
-///                                         ^ punctuation.definition.expression.trycatch
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                         ^ punctuation.section.group.end
         {
-///     ^ punctuation.section.trycatch
+///     ^ meta.method meta.block meta.block punctuation.section.block.begin
             // Use font3 and font4.
         }
-///     ^ punctuation.section.trycatch
+///     ^ meta.method meta.block meta.block punctuation.section.block.end
     }
 
     public void dcsrmm(double[] val, int offsetval, int[] indx, int offsetindx, int[] pntrb, int offsetpntrb, double[] b, int offsetb, int ldb, double beta, double[] c, int offsetc, int ldc)
     {
         fixed (Double* bp = &b[offsetb])
 ///      ^ keyword.control.other.fixed
-///           ^ punctuation.definition.expression.other
-///              ^ variable.other.type
-///                  ^ support.type
-///                                    ^ punctuation.definition.expression.other
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///           ^ punctuation.section.group.begin
+///              ^ support.type
+///                  ^ keyword.operator.pointer
+///                                    ^ punctuation.section.group.end
+
         fixed (var cp = &c[offsetc])
 ///      ^ keyword.control.other.fixed
+///           ^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///           ^ punctuation.section.group.begin
 ///             ^ storage.type.variable
+///                                ^ punctuation.section.group.end
+
         fixed (double* valp = &val[offsetval], bp = &b[offsetb], cp = &c[offsetc])
 ///      ^ keyword.control.other.fixed
-///           ^ punctuation.definition.expression.other
-///              ^ support.type
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///           ^ punctuation.section.group.begin
+///              ^ storage.type
 ///                                          ^ punctuation.separator.variables
-///                                                                              ^ punctuation.definition.expression.other
+///                                                                              ^ punctuation.section.group.end
         {
             cblas_dcsrmm(valp, indxp, pntrbp, bp, ldb, beta, cp, ldc);
         }
@@ -80,21 +90,22 @@ class Foo {
 
 
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-///  ^ support.namespace.cs
+///  ^ support.namespace
 ///    ^^ punctuation.accessor.double-colon
 internal sealed partial class Test : global::System.Configuration.ApplicationSettingsBase {
-///                                    ^ support.namespace.cs
+///                                    ^ support.namespace
 ///                                        ^^ punctuation.accessor.double-colon
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
-///                                                ^ support.namespace.cs
+///                                                ^ support.namespace
 ///                                                     ^^ punctuation.accessor.double-colon
 
     public static Test Default {
         [Tag]
-///       ^ storage.modifier.annotation
+///     ^^^^^ meta.annotation
+///       ^ variable.annotation
         get {
-///       ^ storage.type.function.accessor.get.cs
+///       ^ storage.type.function.accessor.get
             return defaultInstance;
         }
     }

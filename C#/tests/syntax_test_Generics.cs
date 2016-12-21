@@ -1,47 +1,47 @@
 /// SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 List<int> l;
-/// <- variable.other.type
-///   ^ support.type
-///       ^ entity.name.variable
+/// <- support.type
+///   ^ storage.type
+///       ^ variable.other
 List<List<int>> ll;
-/// <- variable.other.type
-///   ^ variable.other.type
-///         ^ support.type
-///             ^ entity.name.variable
+/// <- support.type
+///   ^ support.type
+///         ^ storage.type
+///             ^ variable.other
 List<List<List<int>>> lll;
-/// <- variable.other.type
-///   ^ variable.other.type
-///         ^ variable.other.type
-///             ^ support.type
-///                    ^ entity.name.variable
+/// <- support.type
+///   ^ support.type
+///         ^ support.type
+///             ^ storage.type
+///                    ^ variable.other
      x = 1;
 ///  ^ variable.other.cs
      int x = 1;
-///  ^ support.type
-///      ^ entity.name.variable
+///  ^ storage.type
+///      ^ variable.other
      int x1 = 1, x2 = 2;
-///  ^ support.type
-///      ^ entity.name.variable
-///               ^ entity.name.variable
+///  ^ storage.type
+///      ^ variable.other
+///               ^ variable.other
 
      foo<int>(a);
 ///   ^ variable.function
-///       ^ support.type
+///       ^ storage.type
 
 Foo.List<a> l;
-///         ^ entity.name.variable
+///         ^ variable.other
 Foo.l + 1;
 /// ^ variable.other
 Foo<a>.List l;
-///    ^^ variable.other.type
-///         ^ entity.name.variable
+///    ^^ support.type
+///         ^ variable.other
 
 List<int> bar = new List<int>();
-/// <- variable.other.type
-///  ^^^ support.type
-///                 ^^^^ variable.other.type
-///                      ^^^ support.type
+/// <- support.type
+///  ^^^ storage.type
+///                 ^^^^ support.type
+///                      ^^^ storage.type
 
 string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 ///               ^^ string.quoted.double punctuation.definition.string
@@ -53,31 +53,36 @@ string interpolated = $"{t.Word}";
 string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 ///                            ^ variable.other
-///                                      ^ punctuation.definition.string.interpolated.element.end
-///                                        ^ punctuation.definition.string.interpolated.element.begin
+///                                  ^ punctuation.separator
+///                                   ^^^ constant.numeric
+///                                      ^ punctuation.section.interpolation.end
+///                                        ^ punctuation.section.interpolation.begin
 ///                                         ^ variable.other
+///                                                         ^ punctuation.separator
+///                                                          ^ constant.numeric
+///                                                           ^ punctuation.separator
+///                                                            ^^ constant.other.format-spec
 ///                                                                ^^ constant.character.escape
-///                                                                  ^ punctuation.definition.string.interpolated.end
-///                                                                  ^ punctuation.definition.string.interpolated.end
+///                                                                  ^ punctuation.definition.string.end
 
 string unclosed_string = "inner ;
 ///                             ^ invalid.string.newline
 string bar = "bar"
-/// <- support.type.cs
+/// <- storage.type
 
 string unclosed_interpolation = $"inner {t.Word};
 ///                                             ^ invalid.string.newline
 string foo = "foo";
-/// <- support.type.cs
+/// <- storage.type
 
 string long_interpolation = $@"
     inner {t.Word}
-///       ^ punctuation.definition.string.interpolated.element.begin
+///       ^ punctuation.section.interpolation.begin
 ///        ^ variable.other
-///              ^ punctuation.definition.string.interpolated.element.end
+///              ^ punctuation.section.interpolation.end
     {t.Responsibility,8:F2}
 ";
-/// <- punctuation.definition.string.interpolated.end
+/// <- punctuation.definition.string.end
 
 string format_string = "{0} and {1} like to go {{crazy}}";
 ///                    ^ string
@@ -92,8 +97,8 @@ string format_string _2 = "{}";
 
 x[10][5] = 2;
 f(5)[2] = 10;
-/// ^ punctuation.definition.accessor
-///   ^ punctuation.definition.accessor
+/// ^ punctuation.section.brackets.begin
+///   ^ punctuation.section.brackets.end
 
 int? foo = 4;
 
@@ -115,14 +120,14 @@ private string DontPermute(string input)
 
 string Frag
 {
-/// <- punctuation.section.function.begin
+/// <- punctuation.section.block.begin
     get
-/// ^^^ storage.type.function
+/// ^^^ - storage.type.function
     {
-/// ^ punctuation.section.function.begin
+/// ^ punctuation.section.block.begin
         var list = new List<string>();
         return list;
     } // <-- This and the next "}" are marked "invalid"
-/// ^ punctuation.section.function.end -invalid
+/// ^ punctuation.section.block.end - invalid
 }
-/// <- punctuation.section.function.end
+/// <- punctuation.section.block.end

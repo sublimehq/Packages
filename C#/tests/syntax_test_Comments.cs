@@ -19,7 +19,7 @@ namespace HelloWorld
     /// <see href="http://foo.com">Reference</see>
 //*     ^ punctuation.definition.tag.begin
 //*       ^ entity.name.tag
-//*           ^ variable.parameter
+//*           ^ entity.other.attribute-name
 //*              ^ punctuation.separator.argument.value
 //*                               ^ punctuation.definition.tag.end
     class Hello

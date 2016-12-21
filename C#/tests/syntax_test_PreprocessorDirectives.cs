@@ -16,9 +16,9 @@ using System;
 //                                     ^ constant.numeric
 
 #region
-/// ^^ meta.preprocessor storage.type.section
+/// ^^ meta.preprocessor keyword.other.preprocessor
 #region MyClass definition
-/// ^^ meta.preprocessor storage.type.section
+/// ^^ meta.preprocessor keyword.other.preprocessor
 ///     ^^ meta.preprocessor entity.name.section
 public class MyClass
 {
