@@ -295,6 +295,7 @@ contexts:
                     pop: true
                   - match: '(?=\S)'
                     pop: true
+              - include: attribute
               - match: '{{name}}'
                 scope: constant.other.enum.cs
               - match: '='

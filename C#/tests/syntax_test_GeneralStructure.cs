@@ -163,6 +163,18 @@ namespace YourNamespace
 /// ^ punctuation.section.block.end
 ///  ^ punctuation.terminator
 
+    public enum Things
+    {
+        [Stuff("1")]
+///     ^^^^^^^^^^^^ meta.annotation
+        Item1,
+///     ^ constant.other.enum
+        Item2,
+        [Stuff]
+///     ^^^^^^^ meta.annotation
+        Item3
+    }
+
     namespace YourNestedNamespace
 /// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace meta.namespace
 ///     ^ storage.type.namespace
