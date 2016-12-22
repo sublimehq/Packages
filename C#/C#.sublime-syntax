@@ -936,7 +936,7 @@ contexts:
           scope: variable.parameter.cs
         - include: types
         - match: \)
-          scope: meta.function.anonymous.cs meta.group.cspunctuation.section.group.end.cs
+          scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.end.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
             - include: line_of_code_in

@@ -124,7 +124,9 @@ class Foo {
 ///                     ^ punctuation.definition.generic.end
 ///                       ^^^^^ variable.other
 ///                             ^ keyword.operator
-///                                
+///                               ^^^^^^ meta.group
+///                               ^ punctuation.section.group.begin
+///                                    ^ punctuation.section.group.end
 
         Console.Writeline(add(5));
 ///            ^ punctuation.accessor
