@@ -796,6 +796,19 @@ namespace TestNamespace.Test
         }
 ///     ^ punctuation.section.block
 
+        void TestMethod(int argument) {
+            if (argument <= 0)
+                throw new ArgumentException("Value must be positive", nameof(argument));
+///                                                                   ^ keyword.other
+///                                                                          ^ variable.other
+            nameof(TestMethod);
+///         ^ keyword.other
+///                ^ support.type
+            nameof(int);
+///         ^ keyword.other
+///                ^ storage.type
+        }
+
         #region Empty region 01 // not a comment !
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor
 ///     ^^^^^^^  keyword.other.preprocessor

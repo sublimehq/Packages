@@ -36,7 +36,7 @@ variables:
   brackets_capture: '((\[)(,*)(\]))'
   type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
-  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
+  reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
   name: '(?:@{{reserved}}|@{{base_type}}|@var|{{name_normal}})'
 
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
@@ -987,6 +987,23 @@ contexts:
       scope: variable.language.cs
     - match: \b(await)\b
       scope: keyword.control.other.cs
+    - match: \b(nameof)(\()
+      captures:
+        1: keyword.other.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      push:
+        - meta_content_scope: meta.group.cs
+        - match: \)
+          scope: meta.group.cs punctuation.section.group.end.cs
+          pop: true
+        - match: '({{base_type}})\b'
+          scope: storage.type.cs
+        # We don't if these are types of variables, so we guess that
+        # uppercase names are types, and others are variables
+        - match: '(?=\p{Lu}){{name}}'
+          scope: support.type.cs
+        - match: '{{name}}'
+          scope: variable.other.cs
     - match: \b(typeof|default)(\()
       captures:
         1: keyword.operator.reflection.cs
