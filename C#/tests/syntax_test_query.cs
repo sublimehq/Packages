@@ -3,9 +3,13 @@
     class Test {
         void Main() {
             List<Book> books = new List<Book>() {
+///                                             ^ meta.braces punctuation.section.braces.begin
               new Book { Title = "LINQ in Action" },
               new Book { Title = "LINQ for Fun" },
               new Book { Title = "Extreme LINQ" } };
+///                                              ^^ meta.instance
+///                                              ^ - meta.instance meta.instance
+///                                               ^ meta.braces punctuation.section.braces.end
 
             var titles =
               books

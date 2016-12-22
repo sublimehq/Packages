@@ -1065,12 +1065,17 @@ contexts:
               pop: true
             - match: '(?=\S)'
               push: line_of_code_in
+        - match: (?:\s*((\()\s*(\)))\s*)?(\{)
+          scope: meta.instance.cs
+          captures:
+            1: meta.group.cs
+            2: punctuation.section.group.begin.cs
+            3: punctuation.section.group.end.cs
+            4: meta.braces.cs punctuation.section.braces.begin.cs
+          set: enumerable_constructor
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, arguments]
-        - match: \{
-          scope: punctuation.section.braces.begin.cs
-          push: enumerable_constructor
         - include: type
 
   line_of_code_in:
@@ -1440,9 +1445,9 @@ contexts:
       scope: invalid.illegal.lone-escape.cs
 
   enumerable_constructor:
-    - meta_scope: meta.braces.cs
+    - meta_content_scope: meta.instance.cs meta.braces.cs
     - match: \}
-      scope: punctuation.section.braces.end.cs
+      scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
       pop: true
     - match: \{
       scope: punctuation.section.braces.begin.cs
