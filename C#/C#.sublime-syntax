@@ -1328,7 +1328,7 @@ contexts:
       scope: storage.modifier.cs
     - include: type_arg_param_common
     - match: '{{name}}'
-      scope: variable.other.generic.cs
+      scope: support.type.cs
 
   type_no_space:
     - match: \s

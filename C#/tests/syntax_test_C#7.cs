@@ -99,9 +99,9 @@ class Foo {
 ///                      ^^^ entity.name.function
 ///                         ^^^^^^ meta.generic
 ///                         ^ punctuation.definition.generic.begin
-///                          ^ variable.other.generic
+///                          ^ support.type
 ///                           ^ punctuation.separator
-///                             ^ variable.other.generic
+///                             ^ support.type
 ///                              ^ punctuation.definition.generic.end
 ///                               ^^^^^^^ meta.method.parameters
 ///                               ^ punctuation.section.parameters.begin

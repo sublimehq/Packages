@@ -526,7 +526,7 @@ namespace TestNamespace.Test
 ///                      ^^^ entity.name.function
 ///                                     ^^^ meta.generic
 ///                                     ^ punctuation.definition.generic.begin
-///                                      ^ variable.other.generic
+///                                      ^ support.type
 ///                                         ^ support.type
 ///                                           ^ variable.parameter
 ///                                               ^ variable.function
