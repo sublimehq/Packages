@@ -1077,8 +1077,8 @@ contexts:
     - match: \b(value)\b
       scope: variable.language.cs
     - include: keywords
-    - match: \b(select|from|where|groupby|ascending|descending)\b
-      scope: support.function.sql.cs
+    - match: \b(let|select|equals|from|in|where|join|orderby|group|by|on|into|into|ascending|descending)\b
+      scope: keyword.other.sql.cs
     - match: \?\.
       scope: punctuation.accessor.null-coalescing.cs
     - match: \.
