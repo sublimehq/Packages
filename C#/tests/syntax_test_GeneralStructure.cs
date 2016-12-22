@@ -675,6 +675,23 @@ namespace TestNamespace.Test
 ///                      ^ storage.type
 ///                          ^ variable.parameter
 
+        public delegate TOutput Converter<TInput, TOutput> (TInput from);
+///     ^ storage.modifier
+///            ^ storage.type.delegate
+///                     ^ support.type
+///                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
+///                             ^ variable.other.member.delegate
+///                                      ^^^^^^^^^^^^^^^^^ meta.generic
+///                                      ^ punctuation.definition.generic.begin
+///                                       ^^^^^^ support.type
+///                                             ^ punctuation.separator
+///                                               ^^^^^^^ support.type
+///                                                      ^ punctuation.definition.generic.end
+///                                                        ^^^^^^^^^^^^^ meta.delegate.parameters
+///                                                        ^ - meta.delegate meta.delegate
+///                                                         ^ support.type
+///                                                                ^ variable.parameter
+
         void CodeContainingLambdas(){
 
             del square = x => x * x;
