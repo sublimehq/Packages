@@ -1000,10 +1000,9 @@ contexts:
           scope: storage.type.cs
         # We don't if these are types of variables, so we guess that
         # uppercase names are types, and others are variables
-        - match: '(?=\p{Lu}){{name}}'
-          scope: support.type.cs
-        - match: '{{name}}'
+        - match: '(?=\p{Ll}){{name}}(?=\s*\))'
           scope: variable.other.cs
+        - include: type
     - match: \b(typeof|default)(\()
       captures:
         1: keyword.operator.reflection.cs

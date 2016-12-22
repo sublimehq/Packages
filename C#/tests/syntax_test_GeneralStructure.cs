@@ -807,6 +807,12 @@ namespace TestNamespace.Test
             nameof(int);
 ///         ^ keyword.other
 ///                ^ storage.type
+            nameof(YourNamespace<Foo>.foo);
+///         ^ keyword.other
+///                ^ support.type
+///                             ^^^^^ meta.generic
+///                                  ^ punctuation.accessor
+///                                   ^ variable.other
         }
 
         #region Empty region 01 // not a comment !
