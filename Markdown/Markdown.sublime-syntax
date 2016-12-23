@@ -3,10 +3,10 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Markdown
 file_extensions:
+  - md
   - mdown
   - markdown
   - markdn
-  - md
 scope: text.html.markdown
 contexts:
   main:
