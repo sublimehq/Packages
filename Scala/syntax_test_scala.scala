@@ -1429,3 +1429,15 @@ class Foo extends Bar
     with Bin
 //  ^^^^ keyword.declaration.scala
 //       ^^^ entity.other.inherited-class.scala
+
+def foo
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo()
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo():
+   42
+// ^^ constant.numeric.integer.scala
