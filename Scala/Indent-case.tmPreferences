@@ -4,14 +4,12 @@
   <key>name</key>
   <string>Indent (case)</string>
   <key>scope</key>
-  <string>source.scala meta.block.case.non-first - comment</string>
+  <string>source.scala meta.block.case - comment</string>
   <key>settings</key>
   <dict>
-    <key>decreaseIndentPattern</key>
+    <key>increaseIndentPattern</key>
     <string>(?x)
-        ^ (.*\*/)? \s* \} .* $
-      | ^ (.*\*/)? \s* \) .* $
-      | ^ \s* case\b .* $
+        ^ \s* case .* =&gt; .* $
     </string>
   </dict>
 </dict>
