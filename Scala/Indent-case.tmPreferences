@@ -9,7 +9,7 @@
   <dict>
     <key>increaseIndentPattern</key>
     <string>(?x)
-        ^ \s* case .* =&gt; .* $
+        ^ \s* \b(case)\b .* =&gt; .* $
     </string>
   </dict>
 </dict>

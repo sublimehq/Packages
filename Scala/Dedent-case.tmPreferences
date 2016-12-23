@@ -11,7 +11,7 @@
     <string>(?x)
         ^ (.*\*/)? \s* \} .* $
       | ^ (.*\*/)? \s* \) .* $
-      | ^ \s* case\b .* $
+      | ^ \s* \b(case)\b .* $
     </string>
   </dict>
 </dict>
