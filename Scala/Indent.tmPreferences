@@ -20,8 +20,9 @@
     <key>bracketIndentNextLinePattern</key>
     <string>(?x)
         ^ .* = \s* $
-      | ^ .* \b(if|do|while)\b .* \) \s* $
+      | ^ .* \b(if|do|while|for)\b .* \) \s* $
       | ^ .* \b(else)\b \s* $
+      | ^ .* \b(yield)\b \s* $
     </string>
   </dict>
 </dict>
