@@ -1710,13 +1710,15 @@ contexts:
         - match: '\{'
           scope: punctuation.definition.group.brace.begin.latex
           set:
-            - meta_scope: meta.function.column-spec.latex meta.environment.tabular.latex
+            - meta_scope: meta.function.column-spec.latex
+            - meta_content_scope: meta.environment.tabular.latex
             - include: array-preamble
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
               set:
-                - meta_scope: meta.environment.tabular.latex
+                - meta_content_scope: meta.environment.tabular.latex
                 - match: '((\\)end)(\{)(tabular)(\})'
+                  scope: meta.environment.tabular.latex
                   captures:
                     1: support.function.end.latex keyword.control.flow.end.latex
                     2: punctuation.definition.backslash.latex
