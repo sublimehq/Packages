@@ -1104,7 +1104,7 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
-        - match: '(?=[\B\s]=[\B\s])'
+        - match: '(?={{nonopchar}}={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
         - match: '(?=[\{\n])'
