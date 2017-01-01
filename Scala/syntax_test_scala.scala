@@ -1441,3 +1441,9 @@ def foo()
 def foo():
    42
 // ^^ constant.numeric.integer.scala
+
+class Foo extends Bar.Baz with bin.Baz
+//                ^^^ support.constant.scala - entity.other
+//                    ^^^ entity.other.inherited-class.scala
+//                             ^^^ support.constant.scala - entity.other
+//                                 ^^^ entity.other.inherited-class.scala
