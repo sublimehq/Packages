@@ -1458,3 +1458,6 @@ type ~[A <: B] = A
 //       ^^ keyword.operator
 type ~[A >: B] = A
 //       ^^ keyword.operator
+
+  +()
+// ^^ - constant
