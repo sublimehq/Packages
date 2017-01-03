@@ -338,7 +338,7 @@ contexts:
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
-    - match: '\b(case)\b'
+    - match: '\b(case)\b(?!\s+class\b)'
       scope: keyword.other.declaration.scala
       push:
         - match: '(?=\bclass\b)'
@@ -776,7 +776,7 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: \b(class|trait|object)\b
+    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
       scope: storage.type.class.scala
     - match: \bdef\b
       scope: storage.type.function.scala

@@ -544,7 +544,7 @@ type Foo = Bar[A] forSome { type A }
 //                             ^^^ support.class
 
    case class
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
 
 =>     // this is here to act as a random terminator to the above partial syntax
@@ -1489,3 +1489,7 @@ for (
 //                                     ^^^ punctuation.definition.string.end.xml
 //                                       ^ - invalid
 </foo>
+
+
+   case class
+// ^^^^ storage.type.class.scala
