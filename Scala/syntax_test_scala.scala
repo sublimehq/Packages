@@ -1461,3 +1461,13 @@ type ~[A >: B] = A
 
   +()
 // ^^ - constant
+
+for {
+  // abc <-
+} yield thing
+//      ^^^^^ - variable
+
+for (
+  // abc <-
+) yield thing
+//      ^^^^^ - variable
