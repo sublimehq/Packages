@@ -1471,3 +1471,21 @@ for (
   // abc <-
 ) yield thing
 //      ^^^^^ - variable
+
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+
+<foo>
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+</foo>

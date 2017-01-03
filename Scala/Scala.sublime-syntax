@@ -947,6 +947,13 @@ contexts:
             - include: main
 
   xml-literal:
+    - match: '<!\[CDATA\['
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.unquoted.cdata.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
+          pop: true
     - match: '</{{xml_qualified_name}}>?'
       scope: invalid.illegal.bad-closing-tag.xml
     - match: '(<)({{xml_qualified_name}})'
