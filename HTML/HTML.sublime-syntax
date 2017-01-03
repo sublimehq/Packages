@@ -198,12 +198,16 @@ contexts:
     - include: entities
     - match: <>
       scope: invalid.illegal.incomplete.html
-  entities:
+  entities-common:
     - match: "(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)"
       scope: constant.character.entity.html
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
+  attribute-entities:
+    - include: entities-common
+  entities:
+    - include: entities-common
     - match: "&"
       scope: invalid.illegal.bad-ampersand.html
   string-double-quoted:
@@ -226,7 +230,7 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '\s+(([a-zA-Z0-9:\-_]+)\s*(=)\s*)'
+    - match: '(?:^|\s+)(([a-zA-Z0-9:\-_.]+)\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.html
         2: entity.other.attribute-name.html
@@ -239,7 +243,7 @@ contexts:
             - match: '"'
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
           set:
@@ -247,17 +251,17 @@ contexts:
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
           scope: meta.attribute-with-value.html string.unquoted.html
         - match: ''
           pop: true
-    - match: '\s+([a-zA-Z0-9:\-_]+)'
+    - match: '\s+([a-zA-Z0-9:\-_.]+)'
       captures:
         1: entity.other.attribute-name.html
 
   tag-class-attribute:
-    - match: '\s+\b((class)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((class)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.class.html
         2: entity.other.attribute-name.class.html
@@ -271,7 +275,7 @@ contexts:
             - match: '"'
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
           set:
@@ -280,14 +284,14 @@ contexts:
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
           scope: meta.attribute-with-value.class.html string.unquoted.html meta.class-name.html
         - match: ''
           pop: true
 
   tag-id-attribute:
-    - match: '\s+\b((id)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((id)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.id.html
         2: entity.other.attribute-name.id.html
@@ -301,7 +305,7 @@ contexts:
             - match: '"'
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: "'"
           scope: punctuation.definition.string.begin.html
           set:
@@ -310,14 +314,14 @@ contexts:
             - match: "'"
               scope: punctuation.definition.string.end.html
               pop: true
-            - include: entities
+            - include: attribute-entities
         - match: '(?:[^\s<>/''"]|/(?!>))+'
           scope: meta.attribute-with-value.id.html string.unquoted.html meta.toc-list.id.html
         - match: ''
           pop: true
 
   tag-style-attribute:
-    - match: '\s+\b((style)\b\s*(=)\s*)'
+    - match: '(?:^|\s+)\b((style)\b\s*(=)\s*)'
       captures:
         1: meta.attribute-with-value.style.html
         2: entity.other.attribute-name.style.html
@@ -341,7 +345,7 @@ contexts:
               with_prototype:
                 - match: '(?=")'
                   pop: true
-                - include: entities
+                - include: attribute-entities
         - match: "'"
           scope: string.quoted.single punctuation.definition.string.begin.html
           set:
@@ -360,7 +364,7 @@ contexts:
               with_prototype:
                 - match: "(?=')"
                   pop: true
-                - include: entities
+                - include: attribute-entities
         - match: ''
           pop: true
 
@@ -394,7 +398,7 @@ contexts:
               with_prototype:
                 - match: '(?=")'
                   pop: true
-                - include: entities
+                - include: attribute-entities
         - match: "'"
           scope: string.quoted.single punctuation.definition.string.begin.html
           set:
@@ -407,7 +411,7 @@ contexts:
               with_prototype:
                 - match: "(?=')"
                   pop: true
-                - include: entities
+                - include: attribute-entities
         - match: ''
           pop: true
 

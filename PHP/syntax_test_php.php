@@ -640,6 +640,11 @@ $var4 = 0b0111;
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
+if ():
+else:
+// <- keyword.control - entity.name.label
+endif;
+
 switch (1) {
 //^ keyword.control
     case 1:
@@ -653,6 +658,14 @@ $non_sql = "NO SELECT HIGHLIGHTING!";
 //          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
 //             ^ - source.sql
 //                                 ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
+
+$sql = "CREATE TABLE version";
+//      ^^^^^^ keyword.other.create.sql
+
+$sql = "
+    CREATE TABLE `version`...
+//  ^^^^^^ keyword.other.create.sql
+";
 
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 //     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents

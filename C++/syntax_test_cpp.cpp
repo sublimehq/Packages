@@ -240,6 +240,10 @@ template<typename First = U<V>, typename... Rest> class tupleVariadic;
 /*                                      ^^^ keyword.operator.variadic */
 /*                                              ^ punctuation.section.generic.end */
 
+template<typename T...> void SomeClass<T...>::function();
+/*                                      ^^^ keyword.operator.variadic */
+/*                                            ^^^^^^^^ entity.name.function */
+
 template<typename Foo> inline struct Foo* baz()
 /*                     ^^^^^^ storage.modifier */
 /*                                   ^ - entity.name */
@@ -1168,6 +1172,23 @@ private:
 /* <- meta.class meta.block punctuation.section.block.end */
  /* <- - meta.class meta.block */
 
+class Adapter2 : public Abstraction, private Scenario {
+/*                                 ^ punctuation.separator */
+}
+
+class Adapter : public Abstraction
+    #if defined ASPECTO_MACRO
+/*  ^^^ keyword.control.import  */
+    , public Scenario
+/*  ^ punctuation.separator */
+/*    ^ storage.modifier */
+/*           ^ entity.other.inherited-class */
+    #endif
+/*  ^^^^^^ keyword.control.import  */
+{
+
+}
+
 struct bar {
 /*^^^^^^^^^^ meta.struct */
 /*^^^^ storage.type */
@@ -1360,6 +1381,31 @@ int disabled_func() {
 /*  ^ comment.block */
 #endif
 
+BOOL
+GetTextMetrics(
+    HDC hdc,
+    LPTEXTMETRIC lptm
+    )
+{
+#ifdef UNICODE
+/* <- keyword.control.import */
+    return GetTextMetricsW(
+/*         ^ variable.function */
+#else
+/* <- keyword.control.import */
+    return GetTextMetricsA(
+/*         ^ variable.function */
+#endif
+/* <- keyword.control.import */
+        hdc,
+        lptm
+        );
+/*      ^ meta.function-call */
+/*       ^ - meta.function-call */
+}
+ /* <- - meta.function */
+ /* <- - meta.block */
+
 /////////////////////////////////////////////
 // Matching various function definitions
 /////////////////////////////////////////////
@@ -1384,6 +1430,11 @@ int /* comment */ * myfunc
 
 void MyClass3::
 foo() {
+/* <- entity.name.function */
+}
+
+MyClass3::
+~MyClass3() {
 /* <- entity.name.function */
 }
 

@@ -23,32 +23,22 @@ contexts:
         2: entity.name.function.pascal
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.pascal
-    - match: '(^[ \t]+)?(?=--)'
+    - match: '(^[ \t]+)?(--)'
       captures:
         1: punctuation.whitespace.comment.leading.pascal
+        2: punctuation.definition.comment.pascal
       push:
-        - match: (?!\G)
+        - meta_scope: comment.line.double-dash.pascal.one
+        - match: \n
           pop: true
-        - match: "--"
-          captures:
-            0: punctuation.definition.comment.pascal
-          push:
-            - meta_scope: comment.line.double-dash.pascal.one
-            - match: \n
-              pop: true
-    - match: '(^[ \t]+)?(?=//)'
+    - match: '(^[ \t]+)?(//)'
       captures:
         1: punctuation.whitespace.comment.leading.pascal
+        2: punctuation.definition.comment.pascal
       push:
-        - match: (?!\G)
+        - meta_scope: comment.line.double-slash.pascal.two
+        - match: \n
           pop: true
-        - match: //
-          captures:
-            0: punctuation.definition.comment.pascal
-          push:
-            - meta_scope: comment.line.double-slash.pascal.two
-            - match: \n
-              pop: true
     - match: \(\*
       captures:
         0: punctuation.definition.comment.pascal

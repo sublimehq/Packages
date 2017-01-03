@@ -2,11 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.yaml</string>
+	<string>source.yaml - string - comment</string>
 	<key>settings</key>
 	<dict>
 		<key>increaseIndentPattern</key>
-		<string>^.*:$</string>
+		<string>^.*[:\[{]\s*$</string>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*[\]}]</string>
 	</dict>
 </dict>
 </plist>

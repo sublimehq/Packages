@@ -227,6 +227,15 @@ var obj = {
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
     }
 
+    [true==false ? 'one' : 'two']: false,
+//  ^ punctuation.definition.brackets
+//   ^^^^ constant.language
+//         ^^^^ constant.language
+//               ^ keyword.operator
+//                       ^ keyword.operator
+//                              ^ punctuation.definition.brackets
+//                               ^ punctuation.separator.key-value
+
     "key4": true,
     // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string
@@ -234,6 +243,21 @@ var obj = {
     // <- meta.object-literal.key string.quoted.single
     //    ^ punctuation.separator.key-value - string
     //      ^^^^^ constant.language.boolean.false
+
+    objKey: new function() {
+//              ^^^^^^^^ storage.type.function
+        this.foo = baz;
+//      ^^^^ variable.language.this
+//          ^ punctuation.accessor
+//           ^^^ meta.property
+    }(),
+
+    objKey: new class Foo() {
+//              ^^^^^ storage.type.class
+        get baz() {}
+//      ^^^ storage.type.accessor
+//          ^^^ entity.name.function
+    }(),
 
     funcKey: function() {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -480,6 +504,12 @@ class Foo extends React.Component {
 //                      ^ entity.other.inherited-class
     constructor()
     {}
+
+    [foo.bar](arg) {
+//   ^^^^^^^ entity.name.function
+//            ^^^ variable.parameter
+        return this.a;
+    }
 }
 
 () => {}
@@ -487,6 +517,25 @@ class Foo extends React.Component {
  // <- meta.function.declaration punctuation.definition.parameters
 //^^^ meta.function.anonymous meta.function.declaration
 //    ^^ meta.block punctuation.definition.block
+
+const test = ({a, b, c=()=>({active:false}) }) => {}
+//    ^ entity.name.function
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^ punctuation.definition.block.begin
+//             ^ variable.parameter
+//                ^ variable.parameter
+//                   ^ variable.parameter
+//                     ^^^^ meta.function.declaration meta.function.declaration
+//                     ^^ punctuation.definition.parameters
+//                         ^^^^^^^^^^^^^^^^ meta.group
+//                                   ^ constant.language
+//                                          ^ punctuation.definition.block.end
+
+// We can't currently detect this properly, but we need to consume => properly
+([a,
+  b]) => { }
+//    ^^ storage.type.function.arrow
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -581,6 +630,12 @@ var instance = new Constructor(param1, param2)
 //                            ^ meta.group punctuation.definition.group
 //                             ^ meta.group variable.other.readwrite
 //                                           ^ meta.group punctuation.definition.group
+
+var obj = new function() {}();
+//            ^^^^^^^^ storage.type
+
+var obj2 = new class Foo{}();
+//             ^^^^^ storage.type.class
 
 this.func()
 // <- variable.language.this
@@ -719,6 +774,22 @@ var angle = 2*π / count // angle between circles
 var angle = 2*π / count /* angle between circles */
 //              ^ keyword.operator.arithmetic
 
+undefined / (8 * 5) / "1"
+//        ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+
+'5' / 8 / '1'
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+"5" / 8 / "1"
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+`5` / 8 / `1`
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
 a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
@@ -772,6 +843,15 @@ new FooBar(function(){
 var test =
 {a: 1}
 // <- meta.object-literal punctuation.definition.block
+
+var arrowFuncBraceNextLine = () => /* comments! */
+//  ^ entity.name.function
+//                              ^^ storage.type.function
+//                                 ^^^^^^^^^^^^^^^ comment
+{
+    foo.bar();
+//  ^ - entity.name.function
+}
 
 // Handle multi-line "concise" arrow function bodies
 var conciseFunc = () =>

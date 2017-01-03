@@ -25,7 +25,7 @@ variables:
 
 contexts:
   main:
-    - match: '(<\?)\s*({{qualified_name}})'
+    - match: '(<\?)(xml)(?=\s)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
@@ -34,11 +34,12 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - match: '\s+{{qualified_name}}'
+        - match: '\s+{{qualified_name}}(=)?'
           captures:
             1: entity.other.attribute-name.namespace.xml
             2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
             3: entity.other.attribute-name.localname.xml
+            4: punctuation.separator.key-value.xml
         - include: double-quoted-string
         - include: single-quoted-string
     - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
@@ -83,6 +84,15 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-stuff
+    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
     - include: entity
     - match: '<!\[CDATA\['
       scope: punctuation.definition.string.begin.xml
@@ -91,13 +101,13 @@ contexts:
         - match: ']]>'
           scope: punctuation.definition.string.end.xml
           pop: true
+    - match: ']]>'
+      scope: invalid.illegal.missing-entity.xml
     - include: should-be-entity
   should-be-entity:
     - match: '&'
       scope: invalid.illegal.bad-ampersand.xml
     - match: '<'
-      scope: invalid.illegal.missing-entity.xml
-    - match: '>'
       scope: invalid.illegal.missing-entity.xml
   double-quoted-string:
     - match: '"'

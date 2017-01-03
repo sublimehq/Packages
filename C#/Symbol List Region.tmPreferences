@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List: Region</string>
 	<key>scope</key>
-	<string>source.cs meta.toc-list.region</string>
+	<string>source.cs entity.name.section</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

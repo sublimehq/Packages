@@ -27,6 +27,22 @@
 % line comment
 % <- comment.line.percentage.tex
 
+\newcommand{\foo}{\bar}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                   ^ support.function.general.latex
+
+\newcommand{\foo}[1]{\bar #1}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                      ^ support.function.general.latex
+
+\newcommand{\foo}[2][default]{\bar #1 #2}
+%   ^ meta.function.newcommand.latex
+%             ^support.function.latex entity.name.newcommand.latex
+%                               ^ support.function.general.latex
+
+
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
 %        ^ variable.parameter.function.latex
@@ -99,6 +115,11 @@
 % ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
 % ^ support.function.url.latex
 %     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
+
+\path{$HOME/path/to/file}
+% ^^^^^^^^^^^^^^^^^^^^^^ meta.function.link.url.latex
+% ^ support.function.url.latex
+%     ^^^^^^^^^^^^^^^^^^ markup.underline.link.latex
 
 
 % INCLUDE COMMANDS
@@ -201,6 +222,16 @@ The \emph{verbatim} environment sets everything in verbatim.
 % ^ support.function.includegraphics.latex
 %                           ^ support.function.general.latex
 
+% Neasted optional arguments
+\includegraphics[width={\foo[argument]{bar}}]{test.png}
+% ^ support.function.includegraphics.latex
+%                        ^ meta.group.bracket.latex
+%                          ^ support.function.general.latex
+%                               ^ meta.group.bracket.latex
+%                                     ^ punctuation.definition.group.brace.begin.latex
+%                                        ^ meta.group.brace.latex
+%                                         ^ punctuation.definition.group.brace.end.latex
+
 
 % MATH
 
@@ -223,15 +254,32 @@ f(x) = x^2
 % ^ meta.environment.math.block
 \end{equation}
 
+$\iota$
+% ^ keyword.other.greek.math.tex
+
+$\Iota$
+% ^ support.function.math.tex
+
+$\alpha _$
+% ^ keyword.other.greek.math.tex
+%       ^ keyword.operator.math.tex
+
+$\alpha_$
+% ^ keyword.other.greek.math.tex
+%      ^ keyword.operator.math.tex
 
 % Boxes
 \mbox{text}{text}
 %       ^ meta.function.box.latex
 %             ^ -meta.function.box.latex
-\parbox{text}{text}
+\parbox{text}{text}{text}
 %       ^ meta.function.box.latex
 %             ^ meta.function.box.latex
+%                    ^ -meta.function.box.latex
 
+\makebox   \break
+%        ^ meta.function.box.latex
+%           ^ -meta.function.box.latex
 
 % PACKAGE: comment
 % The comment package can be used to write block comment
@@ -289,9 +337,22 @@ class MyClass() {
 % <- meta.environment.verbatim.lstlisting.latex
 % <- meta.environment.embedded.java.latex
 % <- source.java.embedded
-% ^ storage.modifier.java
+% ^ storage.type.java
 }
 \end{lstlisting}
+
+\lstinline{var x = 15;}
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%         ^^^^^^^^^^^^^ meta.group.brace.latex
+%         ^ punctuation.definition.group.brace.begin.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                     ^ punctuation.definition.group.brace.end.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
+\lstinline|var x = 15;|
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
 
 
 % PACKAGE: minted

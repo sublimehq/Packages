@@ -41,6 +41,7 @@ name: Ruby
 # ternary operator rule, precedence stuff, symbol rule.
 # but also consider 'a.b?(:c)' ??
 file_extensions:
+  - rb
   - Appraisals
   - Berksfile
   - Brewfile
@@ -60,7 +61,6 @@ file_extensions:
   - rake
   - Rakefile
   - Rantfile
-  - rb
   - rbx
   - rjs
   - ruby.rail
@@ -68,7 +68,7 @@ file_extensions:
   - thor
   - Thorfile
   - Vagrantfile
-first_line_match: ^#!/.*\bruby
+first_line_match: ^#!\s*/.*\bj?ruby\b
 scope: source.ruby
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
@@ -194,6 +194,7 @@ contexts:
       scope: constant.other.symbol.ruby
       captures:
         1: punctuation.definition.constant.ruby
+      push: try-regex
     - match: '\b(nil|true|false)\b(?![?!])'
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
@@ -283,7 +284,7 @@ contexts:
     - meta_content_scope: meta.block.parameters.ruby
     - match: \|
       scope: meta.block.parameters.ruby punctuation.definition.parameters.end.ruby
-      pop: true
+      set: try-regex
     - match: '{{identifier}}'
       scope: variable.parameter.ruby
     - match: ','
@@ -1046,6 +1047,10 @@ contexts:
     - include: try-regex
 
   try-regex:
+    # Generally for multiline regexes, one of the %r forms below will be used,
+    # so we bail out if we can't find a second / on the current line
+    - match: '(?=\s*/[^/]*$)'
+      pop: true
     - match: '\s*(/)(?![*+{}?])'
       captures:
         1: string.regexp.classic.ruby punctuation.definition.string.ruby

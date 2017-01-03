@@ -5,7 +5,7 @@ name: JavaScript
 file_extensions:
   - js
   - htc
-first_line_match: ^#!/.*\b(node|js)$\n?
+first_line_match: ^#!\s*/.*\b(node|js)\b
 scope: source.js
 variables:
   identifier: '[_$[:alpha:]][_$[:alnum:]]*'
@@ -13,7 +13,7 @@ variables:
   dollar_only_identifier: '\$(?![_$[:alnum:]])'
   dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
-  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\([^\(]*?\))\s*=>'
+  arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
 contexts:
   main:
@@ -389,6 +389,12 @@ contexts:
     - include: literal-call
     - include: literal-variable
     - include: literal-punctuation
+    - include: fallthrough
+
+  fallthrough:
+    # If an arrow function has the ( and ) on different lines, we won't have matched
+    - match: =>
+      scope: storage.type.function.arrow.js
 
   after-operator:
     # Prevent matching "{" as a block, but instead always treat as an object
@@ -468,7 +474,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.js
             2: invalid.illegal.newline.js
-          pop: true
+          set: after-identifier
         - include: string-content
     - match: '"'
       captures:
@@ -479,7 +485,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.js
             2: invalid.illegal.newline.js
-          pop: true
+          set: after-identifier
         - include: string-content
 
   literal-string-template:
@@ -491,7 +497,7 @@ contexts:
         - meta_scope: string.template.js
         - match: "`"
           scope: punctuation.definition.string.template.end.js
-          pop: true
+          set: after-identifier
         - match: '\$\{'
           captures:
             0: punctuation.definition.template-expression.begin.js
@@ -536,6 +542,23 @@ contexts:
       push: constructor-name
 
   constructor-name:
+    - match: '(?=function\b)'
+      set:
+        - meta_scope: meta.instance.constructor.js
+        - match: '(?=function\b)'
+          push: function-declaration
+        - match: '(?=\()'
+          set: constructor-params
+        - match: '(?=\S)'
+          pop: true
+    - match: '(?=class\b)'
+      set:
+        - meta_scope: meta.instance.constructor.js
+        - include: class
+        - match: '(?=\()'
+          set: constructor-params
+        - match: '(?=\S)'
+          pop: true
     - match: '(?={{identifier}})'
       set:
         - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
@@ -599,7 +622,7 @@ contexts:
     - match: '&&|\|\|'
       scope: keyword.operator.logical.js
       push: after-operator
-    - match: '=(?!=)'
+    - match: '=(?![=>])'
       scope: keyword.operator.assignment.js
       push: after-operator
     - match: |-
@@ -706,14 +729,19 @@ contexts:
   constants:
     - match: \btrue\b
       scope: constant.language.boolean.true.js
+      push: after-identifier
     - match: \bfalse\b
       scope: constant.language.boolean.false.js
+      push: after-identifier
     - match: \bnull\b
       scope: constant.language.null.js
+      push: after-identifier
     - match: \bundefined\b
       scope: constant.language.undefined.js
+      push: after-identifier
     - match: \bNaN\b
       scope: constant.language.nan.js
+      push: after-identifier
 
   literal-prototype:
     - match: '({{identifier}})\s*(\.)\s*(prototype)(?=\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
@@ -863,12 +891,17 @@ contexts:
       set: function-block
 
   arrow-function-declaration:
+    - match: '\s*(=>)\s*(?=\n|//|/*)'
+      scope: meta.function.declaration.js
+      captures:
+        1: storage.type.function.arrow.js
+      set: arrow-function-declaration-continuation
     - match: '\s*(=>)(?=\s*\{)'
       scope: meta.function.declaration.js
       captures:
         1: storage.type.function.arrow.js
       set: function-block
-    - match: '(\s*(=>))\s*'
+    - match: '(\s*(=>))\s*(?=\S)'
       captures:
         1: meta.function.declaration.js
         2: storage.type.function.arrow.js
@@ -880,6 +913,14 @@ contexts:
     - match: '{{identifier}}'
       scope: meta.function.declaration.js variable.parameter.function.js
     - include: function-declaration-parameters
+
+  arrow-function-declaration-continuation:
+    - meta_content_scope: meta.function.declaration.js
+    - include: comments
+    - match: '(?=\{)'
+      set: function-block
+    - match: '(?=\S)'
+      set: arrow-function-concise-body
 
   arrow-function-concise-body:
     - meta_content_scope: meta.block.js
@@ -927,6 +968,25 @@ contexts:
         - match: \)
           scope: punctuation.definition.parameters.end.js
           pop: true
+        # Destructuring
+        - match: \{
+          scope: punctuation.definition.block.begin.js
+          push:
+            - meta_scope: meta.block.js
+            - match: \}
+              scope: punctuation.definition.block.end.js
+              pop: true
+            - match: '{{identifier}}'
+              scope: variable.parameter.function.js
+            - match: ','
+              scope: punctuation.separator.parameter.function.js
+            - match: '='
+              scope: keyword.operator.assignment.js
+              push:
+                - meta_scope: meta.parameter.optional.js
+                - match: "(?=[,)}])"
+                  pop: true
+                - include: expressions
         - match: \.\.\.
           scope: keyword.operator.spread.js
         - match: '{{identifier}}'
@@ -964,6 +1024,13 @@ contexts:
           scope: punctuation.definition.block.js
           pop: true
         - include: comments
+        - match: \[
+          scope: punctuation.definition.brackets.js
+          push:
+            - match: \]
+              scope: punctuation.definition.brackets.js
+              pop: true
+            - include: expressions
         - match: '({{identifier}})\s*(\})'
           captures:
             1: variable.other.readwrite.js
@@ -1058,6 +1125,25 @@ contexts:
       scope: meta.function.declaration.js
       captures:
         1: storage.type.js
+    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?\s*(?=$|\()'
+      scope: meta.function.declaration.js
+      captures:
+        1: punctuation.definition.symbol.begin.js
+        2: entity.name.function.js
+        3: punctuation.definition.symbol.end.js
+      push:
+        - include: function-declaration-parameters
+        - match: '\{'
+          scope: punctuation.definition.block.js
+          push:
+            - meta_scope: meta.block.js
+            - match: '\}'
+              scope: punctuation.definition.block.js
+              pop: true
+            - include: statements
+        - include: comments
+        - match: '(?=\S)'
+          pop: true
     - match: '({{identifier}})\s*'
       scope: meta.function.declaration.js
       captures:

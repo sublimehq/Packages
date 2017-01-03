@@ -44,11 +44,11 @@ scalar !not-tag-handle
 
 &anchor
 #^^^^^^ entity.name.other.anchor
-# <- keyword.control.property.anchor punctuation.anchor
+# <- keyword.control.property.anchor punctuation.definition.anchor
 &an[chor]
 #^^ entity.name.other.anchor
 #  ^^^^^^ invalid.illegal.character
-# <- keyword.control.property.anchor punctuation.anchor
+# <- keyword.control.property.anchor punctuation.definition.anchor
 
 scalar &not-anchor
 #      ^^^^^^^^^^^ -keyword.control.property.anchor

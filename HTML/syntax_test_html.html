@@ -45,6 +45,14 @@
         ##   ^^^^^^^^^^^^^^^^^ meta.attribute-with-value
         ##         ^^^^^^^^^^^ string.unquoted
 
+<div
+title="description"></div>
+## <- entity.other.attribute-name
+
+<div title="description"
+class="foo"></div>
+## <- entity.other.attribute-name.class
+
         <div title='description'></div>
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
@@ -129,11 +137,13 @@
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^ meta.property-value.css constant.numeric.css
 
-        <tag attr otherattr attr-with-dashes attr_with_underscores></tag>
+        <tag attr otherattr attr-with-dashes attr_with_underscores attr.with.dot attr.with.dot.value="val"></tag>
         ##   ^ entity.other.attribute-name.html
         ##        ^ entity.other.attribute-name.html
         ##                  ^ entity.other.attribute-name.html
         ##                                   ^ entity.other.attribute-name.html
+        ##                                                         ^^^^^^^^^^^^^ entity.other.attribute-name.html
+        ##                                                                       ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
 
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##         ^ - meta.attribute-with-value.event
@@ -198,6 +208,16 @@
                 </tr>
             </tbody>
         </table>
+
+        &amp;
+        ## <- constant.character.entity
+        &
+        ## <- invalid.illegal
+        <a href="http://google.com/?one=1&amp;two=2"></a>
+        ##                               ^^^^^ constant.character.entity
+        <a href="http://google.com/?one=1&two=2"></a>
+        ##                               ^ - constant.character.entity
+        ##                               ^ - invalid.illegal
     </body>
     # ^^^^ entity.name.tag.structure
 </html>

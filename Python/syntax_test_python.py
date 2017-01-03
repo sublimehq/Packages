@@ -9,6 +9,12 @@ r"""This is a syntax test file.
 And this right here, where we're writing in, is a docstring.
 """
 
+debug = False
+"""
+This is a variable docstring, as supported by sphinx and epydoc
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
+"""
+
 ##################
 # Imports
 ##################
@@ -58,7 +64,6 @@ import re; re.compile(r'')
 # Identifiers
 ##################
 
-
 class
 #^^^^ storage.type.class
 def
@@ -67,17 +72,31 @@ def
 # Currently, async and await are still recognized as valid identifiers unless in an "async" block
 async
 #^^^^ - invalid.illegal.name
-#
+
+__all__
+#^^^^^^ support.variable.magic
+__file__
+#^^^^^^^ support.variable.magic
+__missing__
+#^^^^^^^^^^ support.function.magic
+__bool__ __nonzero__
+#^^^^^^^ support.function.magic
+#        ^^^^^^^^^^^ support.function.magic
+
+
+##################
+# Compound expressions
+##################
 
 myobj.method().attribute
-#    ^^^^^^^^^ meta.function-call
-#    ^ punctuation.accessor
+#^^^^^^^^^^^^^ meta.function-call
+#    ^ punctuation.accessor.dot
 #     ^^^^^^ variable.function
-#             ^ punctuation.accessor
+#             ^ punctuation.accessor.dot
 
 'foo'.upper()
 #    ^^^^^^^^ meta.function-call
-#    ^ punctuation.accessor
+#    ^ punctuation.accessor.dot
 #     ^^^^^ variable.function
 
 func()
@@ -89,14 +108,14 @@ func()(1, 2)
 #^^^^^^^^^^^ meta.function-call
 
 myobj[1](True)
-#    ^^^ meta.item-access
+#^^^^^^^ meta.item-access
 #    ^ punctuation.section.brackets.begin - meta.item-access.arguments
 #     ^ meta.item-access.arguments
 #      ^ punctuation.section.brackets.end - meta.item-access.arguments
 #       ^^^^^^ meta.function-call
 
 myobj[1][2](0)
-#    ^^^^^^ meta.item-access
+#^^^^^^^^^^ meta.item-access
 #    ^ punctuation.section.brackets.begin - meta.item-access.arguments
 #     ^ meta.item-access.arguments
 #      ^ punctuation.section.brackets.end - meta.item-access.arguments
@@ -105,9 +124,31 @@ myobj[1][2](0)
 #         ^ punctuation.section.brackets.end - meta.item-access.arguments
 #          ^^^ meta.function-call
 
-myobj.attribute
-#    ^ punctuation.accessor
+range(20)[10:2:-2]
+#           ^ punctuation.separator.slice
+#             ^ punctuation.separator.slice
 
+myobj.attribute
+#    ^ punctuation.accessor.dot
+
+"string"[12]
+#       ^^^^ meta.item-access - meta.structure
+
+"string".upper()
+#       ^^^^^^^^ meta.function-call
+
+(i for i in range(10))[5]
+#                     ^^^ meta.item-access - meta.structure
+
+[1, 2, 3][2]
+#^^^^^^^^ meta.structure.list
+#        ^^^ meta.item-access - meta.structure
+
+{True: False}.get(True)
+#            ^^^^^^^^^^ meta.function-call
+
+1[12]
+#^^^^ - meta.item-access
 
 ##################
 # Block statements
@@ -228,9 +269,9 @@ def _():
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
     print "keyword"
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
     print __init__
-#   ^^^^^ keyword
+#   ^^^^^ keyword.other.print
 #
     exec 123
 #   ^^^^ keyword
@@ -238,11 +279,22 @@ def _():
 #   ^^^^ support.function.builtin - keyword
     callback(print , print
 #            ^^^^^ - keyword
-#                  ^ punctuation.separator.parameters
+#                  ^ punctuation.separator.arguments
 #                    ^^^^^ - keyword
              , print)
 #              ^^^^^ - keyword
 
+    some \
+      print \
+#     ^^^^^ keyword.other.print
+
+    func(
+        print
+#       ^^^^^ support.function.builtin - keyword
+    )
+
+    print
+#   ^^^^^ keyword.other.print
 
 
 ##################
@@ -355,8 +407,10 @@ class MyClass(Inherited,
 #                      ^ punctuation.separator.inheritance
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
+#                    ^ punctuation.accessor.dot
 #                                ^ punctuation.separator.inheritance
-#                                  TODO
+#                                  ^^^^^^^^^ variable.parameter.class-inheritance
+#                                           ^ keyword.operator.assignment
     ur'''
 #   ^^ storage.type.string
     This is a test of docstrings
@@ -372,13 +426,15 @@ class Unterminated(Inherited:
 @normal . decorator
 #^^^^^^^^^^^^^^^^^^ meta.statement.decorator
 # <- keyword.other.decorator
+#       ^ punctuation.accessor.dot
 class Class():
 
     @wraps(method, 12)# comment
+#^^^ - meta.statement.decorator
 #   ^^^^^^^^^^^^^^^^^^ meta.statement.decorator
 #   ^ keyword.other.decorator
 #    ^^^^^^^^^^^^^^^^^ meta.function-call
-#                     ^ comment
+#                     ^^^^^^^^^ comment
     def wrapper(self):
         (self, __class__)
         pass
@@ -460,27 +516,27 @@ myset = {"key", True, key2, [-1], {}}
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#              ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#              ^^^^^^^^ meta.expression.generator
 #              ^^^ keyword.control.flow.for.generator
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #          ^^^ keyword.control.flow.for.generator
 #                ^^ keyword.control.flow.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#             ^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.flow.for.generator
 #                   ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#          ^^^^^^^^ meta.expression.generator
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
 
@@ -490,11 +546,11 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 list(i for i in generator)
-#      ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#      ^^^^^^^^ meta.expression.generator
 list((i for i in generator), 123)
-#       ^^^^^^^^^^^^^^^^^^ meta.expression.generator
+#       ^^^^^^^^ meta.expression.generator
 #                         ^^^^^^^ - meta.expression.generator
-#                          ^ punctuation.separator.parameters
+#                          ^ punctuation.separator.arguments
 
 _ = [m
      for cls in self.__class__.mro()
@@ -504,6 +560,10 @@ _ = [m
 #    ^^^ keyword.control.flow.for.generator
 #          ^^ keyword.control.flow.for.in
 
+result = [i async for i in aiter() if i % 2]
+#           ^^^^^ storage.modifier.async
+result = [await fun() for fun in funcs]
+#         ^^^^^ keyword.other.await.python
 
 
 ##################
@@ -601,413 +661,18 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                          ^^^ - constant.numeric
 #                                    ^^^^^^^^^ - constant.numeric
 
+amount = 10_000_000.0_2e2_0
+#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
 
+addr = 0xCAFE_F00D
+#      ^^^^^^^^^^^ constant.numeric
 
-###############################
-# Strings and embedded syntaxes
-###############################
+flags = 0b_0011_1111_0100_1110
+#       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
 
-"Testing {:,.2f}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {0:>9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-"Testing {:j^9,}".format(1000)
-#        ^^^^^^^ constant.other.placeholder
-
-datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
-#                                    ^^^^^^^^^^ constant.other.placeholder
-
-"My String %% %s"
-#          ^^ constant.other.placeholder
-#             ^^ constant.other.placeholder
-
-var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
-#      ^^^^ constant.character.escape.hex
-#           ^^^^ constant.character.escape.hex
-#                ^^^^ constant.character.escape.hex
-#                     ^^^^ constant.character.escape.octal
-#                          ^^ constant.character.escape
-#                             ^^ constant.character.escape
-#                                ^^ constant.character.escape
-#                                   ^^ constant.character.escape
-#                                      ^^ constant.character.escape
-#                                         ^^ constant.character.escape
-#                                            ^^ constant.character.escape
-#                                               ^^ constant.character.escape
-#                                                  ^^ constant.character.escape
-#                                                     ^^^^^^ constant.character.escape.unicode
-#                                                            ^^^^^^^^^^ constant.character.escape.unicode
-#                                                                       ^^^^^^^^^ constant.character.escape.unicode
-
-conn.execute("SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
-
-conn.execute('SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
-
-conn.execute(U"SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
-
-conn.execute(U'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
-
-# In this example, the Python string is not raw, so \t is a python escape
-conn.execute(u"SELECT * FROM foobar WHERE foo = '\t'")
-#              ^ keyword.other.DML.sql
-#                                                 ^ constant.character.escape.python
-
-conn.execute(u'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
-
-# In this example, the Python string is raw, so the \b should be a SQL escape
-conn.execute(r"SELECT * FROM foobar WHERE baz = '\b")
-#              ^ keyword.other.DML.sql
-#                                                 ^ constant.character.escape.sql
-
-# This tests to ensure the Python placeholder will be highlighted even in a raw SQL string
-conn.execute(r'SELECT * FROM foobar WHERE %s')
-#              ^ keyword.other.DML.sql
-#                                         ^ constant.other.placeholder.python
-
-conn.execute(r"SELECT * FROM foobar")
-#              ^ keyword.other.DML.sql
-
-conn.execute(r'SELECT * FROM foobar')
-#              ^ keyword.other.DML.sql
-
-conn.execute(r"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
-#                 ^ keyword.other.DML.sql
-#                                            ^ constant.other.placeholder.python
-#                                                          ^ constant.character.escape.sql
-
-# Capital R prevents all syntax embedding
-conn.execute(R'SELECT * FROM foobar')
-#              ^ - keyword.other.DML.sql
-
-conn.execute(R"SELECT * FROM foobar")
-#              ^ - keyword.other.DML.sql
-
-conn.execute(R"""SELECT * FROM foobar""")
-#                ^ - keyword.other.DML.sql
-
-conn.execute(r'''SELECT * FROM foobar''')
-#                 ^ keyword.other.DML.sql
-
-conn.execute(u"""SELECT * FROM foobar WHERE %s and foo = '\t'""")
-#                 ^ keyword.other.DML.sql
-#                                            ^ constant.other.placeholder.python
-#                                                          ^ constant.character.escape.python
-
-regex = r'\b ([fobar]*){1}(?:a|b)?'
-#         ^ keyword.control.anchor.regexp
-#                       ^ keyword.operator.quantifier.regexp
-
-regex = r'''\b ([fobar]*){1}(?:a|b)?'''
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
-
-regex = r"""\b ([fobar]*){1}(?:a|b)?"""
-#           ^ keyword.control.anchor.regexp
-#                         ^ keyword.operator.quantifier.regexp
-
-# Capital R prevents all syntax embedding
-regex = R'\b ([fobar]*){1}(?:a|b)?'
-#         ^ - keyword.control.anchor.regexp
-#                       ^ - keyword.operator.quantifier.regexp
-
-regex = R"\b ([fobar]*){1}(?:a|b)?"
-#         ^ - keyword.control.anchor.regexp
-#                       ^ - keyword.operator.quantifier.regexp
-
-bad_string = 'SELECT * FROM users
-#                                ^ invalid.illegal.unclosed-string
-
-string = '''
-
-# <- string.quoted.single.block
-'''
-
-string = """
-
-# <- string.quoted.double.block
-"""
-
-string = """
-#        ^^^ string.quoted.double.block - string string
-"""
-
-string = r"""
-#         ^^^ string.quoted.double.block
-"""
-
-string = '''
-#        ^^^ string.quoted.single.block
-'''
-
-string = r'''
-#         ^^^ string.quoted.single.block
-'''
-
-query = \
-    """
-    SELECT
-        (
-        SELECT CASE field
-            WHEN 1
-            THEN -- comment's say that
-#                              ^ source.sql comment.line.double-dash
-                EXISTS(
-                select 1)
-            ELSE NULL
-        ) as result
-    """
-
-query = \
-    r"""
-
-    SELECT
-        (
-        SELECT CASE field
-            WHEN 1
-            THEN -- comment's say that
-#                              ^ source.sql comment.line.double-dash
-                EXISTS(
-                select 1)
-            ELSE NULL
-        ) as result
-    """
-
-query = \
-'''
-SELECT
-    (
-    SELECT CASE field
-        WHEN 1
-        THEN -- comment's say that
-#                              ^ source.sql comment.line.double-dash
-            EXISTS(
-            select 1)
-        ELSE NULL
-    ) as result
-'''
-
-sql = 'SELECT * FROM foo -- bar baz'
-#       ^ source.sql
-#                            ^ source.sql comment.line.double-dash
-#                                  ^ punctuation.definition.string.end.python - source.sql
-
-
-# There are many variations of making a byte string
-(b'', B'', br'', bR'', BR'', Br'', rb'', Rb'', RB'', rB'')
-#^ storage.type.string
-#     ^ storage.type.string
-#          ^^ storage.type.string
-#                ^^ storage.type.string
-#                      ^^ storage.type.string
-#                            ^^ storage.type.string
-#                                  ^^ storage.type.string
-#                                        ^^ storage.type.string
-#                                              ^^ storage.type.string
-#                                                    ^^ storage.type.string
-
-# Bytes by defaut support placeholders and character escapes, but not unicode
-b'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-#^ string.quoted.single punctuation.definition.string.begin
-#           ^^ constant.character.escape
-#                    ^^ constant.other.placeholder
-#                                  ^^^^^^ - constant
-B'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-#^ string.quoted.single punctuation.definition.string.begin
-#           ^^ constant.character.escape
-#                    ^^ constant.other.placeholder
-#                                  ^^^^^^ - constant
-b'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-#^^^ string.quoted.single punctuation.definition.string.begin
-#             ^^ constant.character.escape
-#                      ^^ constant.other.placeholder
-#                                    ^^^^^^ - constant
-B'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-#^^^ string.quoted.single punctuation.definition.string.begin
-#             ^^ constant.character.escape
-#                      ^^ constant.other.placeholder
-#                                    ^^^^^^ - constant
-
-# Uppercase R raw bytes don't allow anything
-bR'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ - constant.character.escape
-#                     ^^ - constant.other.placeholder
-#                                   ^^^^^^ - constant
-BR'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ - constant.character.escape
-#                     ^^ - constant.other.placeholder
-#                                   ^^^^^^ - constant
-Rb'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ - constant.character.escape
-#                     ^^ - constant.other.placeholder
-#                                   ^^^^^^ - constant
-RB'This is a \n test, %s no unicode \uDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ - constant.character.escape
-#                     ^^ - constant.other.placeholder
-#                                   ^^^^^^ - constant
-bR'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ - constant.character.escape
-#                       ^^ - constant.other.placeholder
-#                                     ^^^^^^ - constant
-BR'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ - constant.character.escape
-#                       ^^ - constant.other.placeholder
-#                                     ^^^^^^ - constant
-Rb'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ - constant.character.escape
-#                       ^^ - constant.other.placeholder
-#                                     ^^^^^^ - constant
-RB'''This is a \n test, %s no unicode \uDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ - constant.character.escape
-#                       ^^ - constant.other.placeholder
-#                                     ^^^^^^ - constant
-
-# Lowercase r raw bytes are interpreted as regex
-br'This is a \n (test|with), %s no unicode \UDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
-#                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
-#                                            ^^^^ - constant
-Br'This is a \n (test|with), %s no unicode \UDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
-#                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
-#                                            ^^^^ - constant
-rb'This is a \n (test|with), %s no unicode \UDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
-#                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
-#                                            ^^^^ - constant
-rB'This is a \n (test|with), %s no unicode \UDEAD'
-# <- storage.type.string
-# ^ string.quoted.single punctuation.definition.string.begin
-#            ^^ constant.character.escape.backslash.regexp
-#                    ^ keyword.operator.or.regexp
-#                            ^^ - constant
-#                                          ^^ constant.character.escape.backslash.regexp
-#                                            ^^^^ - constant
-br'''This is a \n (test|with), %s no unicode \UDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
-#                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
-#                                              ^^^^ - constant
-Br'''This is a \n (test|with), %s no unicode \UDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
-#                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
-#                                              ^^^^ - constant
-rb'''This is a \n (test|with), %s no unicode \UDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
-#                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
-#                                              ^^^^ - constant
-rB'''This is a \n (test|with), %s no unicode \UDEAD'''
-# <- storage.type.string
-# ^^^ string.quoted.single punctuation.definition.string.begin
-#              ^^ constant.character.escape.backslash.regexp
-#                      ^ keyword.operator.or.regexp
-#                              ^^ - constant
-#                                            ^^ constant.character.escape.backslash.regexp
-#                                              ^^^^ - constant
-
-x = "hello \
-#   ^^^^^^^^^ string.quoted.double.block.python - invalid.illegal.unclosed-string.python, \
-#          ^ punctuation.separator.continuation.line.python, \
-world"
-#^^^^^ string.quoted.double.block.python
-#     ^ - string.quoted.double.block.python
-#    ^ punctuation.definition.string.end.python
-
-x = 'hello \
-#   ^^^^^^^^^ string.quoted.single.block.python - invalid.illegal.unclosed-string.python, \
-#          ^ punctuation.separator.continuation.line.python, \
-world'
-#^^^^^ string.quoted.single.block.python
-#     ^ - string.quoted.single.block.python
-#    ^ punctuation.definition.string.end.python
-
-x = 'hello\s world'
-#         ^^ - punctuation.separator.continuation.line.python
-#          ^^^^^^^^ - invalid.illegal.unexpected-text.python
-
-# <- - meta
-# this test is to ensure we're not matching anything here anymore
-
-# https://docs.python.org/3/library/string.html#formatspec
-"First, thou shalt count to {0}"  # References first positional argument
-#                           ^^^ constant.other.placeholder.python
-"Bring me a {}"                   # Implicitly references the first positional argument
-#           ^^ constant.other.placeholder.python
-"From {} to {}"                   # Same as "From {0} to {1}"
-#     ^^ constant.other.placeholder.python
-#       ^^^^ - constant.other.placeholder.python
-#           ^^ constant.other.placeholder.python
-"My quest is {name}"              # References keyword argument 'name'
-#            ^^^^^^ constant.other.placeholder.python
-"Weight in tons {0.weight}"       # 'weight' attribute of first positional arg
-#               ^^^^^^^^^^ constant.other.placeholder.python
-"Units destroyed: {players[0]}"   # First element of keyword argument 'players'.
-#                 ^^^^^^^^^^^^ constant.other.placeholder.python
-"Harold's a clever {0!s}"         # Calls str() on the argument first
-#                  ^^^^^ constant.other.placeholder.python
-"Bring out the holy {name!r}"     # Calls repr() on the argument first
-#                   ^^^^^^^^ constant.other.placeholder.python
-"More {!a}"                       # Calls ascii() on the argument first
-#     ^^^^ constant.other.placeholder.python
-"Escaped {{0}}"                   # outputs: "Escaped {0}"
-#        ^^^^^ - constant.other.placeholder.python
-#        ^^ constant.character.escape.python
-#           ^^ constant.character.escape.python
-"Escaped {{}} {} {}"              # outputs: "Escaped {} arg1 arg2"
-#        ^^^^ constant.character.escape.python - constant.other.placeholder.python
-#             ^^ constant.other.placeholder.python
-#               ^ - constant.other.placeholder.python
-#                ^^ constant.other.placeholder.python
-
+##################
+# Operators
+##################
 
 # This is to test the difference between the assignment operator (=) and
 # the comparison operator (==)
@@ -1015,3 +680,63 @@ foo = bar()
 #   ^ keyword.operator.assignment.python
 foo == bar()
 #   ^^ keyword.operator.comparison.python
+#
+foo <<= bar
+#   ^^^ keyword.operator.assignment.augmented.python
+
+matrix @ multiplication
+#      ^ keyword.operator.matrix.python
+
+
+
+##################
+# Context "Fail Early"
+##################
+
+# Pop contexts gracefully
+def func(unclosed, parameters: if else
+    pass
+#   ^^^^ invalid.illegal.name
+
+# The following function should be matched as normal
+# despite the above definition not being closed correctly
+def another_func():
+#^^ -invalid
+    pass
+
+
+x = [
+for x in y:
+    break
+#   ^^^^^ invalid.illegal.name
+#        ^ - meta.structure.list
+
+
+with open(x) as y:
+#^^^ -invalid
+#            ^^ - invalid
+
+]
+#<- invalid.illegal.stray.brace.square
+
+class Class(object
+    def __init__(self):
+#   ^^^ invalid.illegal.name
+#      ^ - meta.class
+
+
+##################
+# Variable annotations
+##################
+
+primes: List[int] = []
+#     ^ punctuation.separator.annotation.variable.python
+#                 ^ keyword.operator.assignment
+
+captain: str  # Note: no initial value!
+#      ^ punctuation.separator.annotation.variable.python
+
+class Starship:
+    stats: ClassVar[Dict[str, int]] = {}
+#        ^ punctuation.separator.annotation.variable.python
+#                                   ^ keyword.operator.assignment

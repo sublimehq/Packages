@@ -64,6 +64,7 @@ contexts:
           pop: true
         - include: general-constants
         - include: general-commands
+        - include: global-braces
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
 
@@ -173,7 +174,7 @@ contexts:
           (\{)(\\[A-Za-z@]+)(\})
           | (\\[A-Za-z@])+
         )
-        (?:(\[)(?:[^\]]*)(\]))?
+        (?:(\[)(?:[^\]]*)(\]))*
         (\{)
       captures:
         1: support.function.newcommand.latex storage.modifier.newcommand.latex
@@ -544,6 +545,7 @@ contexts:
           align|alignat|aligned|alignedat|displaymath
           |eqnarray|equation|flalign|gather|gathered
           |math|multline|x?xalignat|split
+          |dmath|dseries|dgroup|darray|dsuspend
         )\*?)\s*(\})
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
@@ -573,7 +575,7 @@ contexts:
         - include: general-1-argument-with-options
 
   url:
-    - match: '((\\)(?:url|href))(\{)([^}]*)(\})'
+    - match: '((\\)(?:url|href|path))(\{)([^}]*)(\})'
       scope: meta.function.link.url.latex
       captures:
         1: support.function.url.latex
@@ -782,6 +784,15 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: meta.environment.verbatim.lstinline.latex
         - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.group.brace.latex
+            - meta_content_scope: meta.environment.verbatim.lstinline.latex markup.raw.verb.latex
+            - match: '\}'
+              scope: meta.environment.verbatim.lstinline.latex punctuation.definition.group.brace.end.latex
+              pop: true
         - match: '(\W)'
           scope: punctuation.definition.verb.latex
           set:

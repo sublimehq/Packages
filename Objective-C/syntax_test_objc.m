@@ -263,6 +263,30 @@ int foo(int val, float val2[])
 /* <- meta.function punctuation.section.block.end */
  /* <- - meta.function */
 
+BOOL
+GetTextMetrics(
+    HDC hdc,
+    LPTEXTMETRIC lptm
+    )
+{
+#ifdef UNICODE
+/* <- keyword.control.import */
+    return GetTextMetricsW(
+/*         ^ variable.function */
+#else
+/* <- keyword.control.import */
+    return GetTextMetricsA(
+/*         ^ variable.function */
+#endif
+/* <- keyword.control.import */
+        hdc,
+        lptm
+        );
+/*      ^ meta.function-call */
+/*       ^ - meta.function-call */
+}
+ /* <- - meta.function */
+ /* <- - meta.block */
 
 /////////////////////////////////////////////
 // Matching various function definitions

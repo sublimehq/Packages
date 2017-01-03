@@ -157,7 +157,7 @@ contexts:
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
         6: punctuation.definition.string.end.haskell
-    - match: '^\s*([a-z_][a-zA-Z0-9_'']*|\([|!%$+\-.,=</>]+\))\s*(::)'
+    - match: '^\s*([a-z_][a-zA-Z0-9_'']*|\([|!%$+\-.,=</>]+\))\s*(::|∷)'
       captures:
         1: entity.name.function.haskell
         2: keyword.other.double-colon.haskell
@@ -236,9 +236,9 @@ contexts:
           scope: keyword.other.preprocessor.haskell
   type_signature:
     - include: pragma
-    - match: "->"
+    - match: "(->|→)"
       scope: keyword.other.arrow.haskell
-    - match: "=>"
+    - match: "(=>|⇒)"
       scope: keyword.other.big-arrow.haskell
     - match: '\b[a-z][a-zA-Z0-9_'']*\b'
       scope: variable.other.generic-type.haskell

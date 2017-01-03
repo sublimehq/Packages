@@ -80,11 +80,11 @@
 -- left to right, and collect the results.
 -- For a version that ignores the results see
 -- 'Data.Foldable.sequenceA_'.
-   sequenceA :: Applicative f => t (f a) -> f (t a)
+   sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
 -- ^^^^^^^^^ entity.name.function.haskell
---           ^^ keyword.other.double-colon.haskell
---              ^^^^^^^^^^^ storage.type.haskell
---                            ^^ keyword.other.big-arrow.haskell
---                                       ^^ keyword.other.arrow.haskell
+--           ^ keyword.other.double-colon.haskell
+--             ^^^^^^^^^^^ storage.type.haskell
+--                           ^ keyword.other.big-arrow.haskell
+--                                     ^ keyword.other.arrow.haskell
    sequenceA = traverse id
 --           ^ keyword.operator.haskell

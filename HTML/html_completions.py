@@ -246,7 +246,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
         flags = 0
         if is_inside_tag:
-            sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
+            flags = sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
         return (completion_list, flags)
 
@@ -450,8 +450,8 @@ class Unittest(unittest.TestCase):
         # should give a bunch of tags that starts with t
         self.assertEqual(completion_list[0], ('table\tTag', '<table>$0</table>'))
         self.assertEqual(completion_list[1], ('tbody\tTag', '<tbody>$0</tbody>'))
-        # suppress word based completion
-        self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+        # don't suppress word based completion
+        self.assertEqual(flags, 0)
 
     def test_inside_tag_completion(self):
         # <tr><td class="a">td.class</td></tr>
@@ -463,7 +463,18 @@ class Unittest(unittest.TestCase):
 
         # should give a bunch of tags that starts with h, and without <
         self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
-        self.assertEqual(completion_list[1], ('h1\tTag', 'h1>$0</h1>'))
+        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
+        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
+        # suppress word based completion
+        self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+
+        # simulate typing 'he' after <tr><, i.e. <tr><he
+        completion_list, flags = completor.get_completions(view, 'he', [7], True)
+
+        # should give a bunch of tags that starts with h, and without < (it filters only on the first letter of the prefix)
+        self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
+        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
+        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
         # suppress word based completion
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 

@@ -9,7 +9,7 @@ variables:
   special_chars: '[;{}\[\]"\\]'
   unquoted_string: '[^\s{{special_chars}}][^\s${{special_chars}}]*'
   end_chars: '[;\n\}\]]'
-  inline_end_chars: '[;\s\}\]]'
+  inline_end_chars: '[;\s\}\]\\]'
   var_unquoted_string: '(?:\$\{[^ \}]+\}|{{unquoted_string}})+'
 
 contexts:
@@ -22,6 +22,31 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.tcl
       push: command-name
+    - include: expressions
+
+  continued-line:
+    - match: (?={{end_chars}})
+      pop: true
+    - match: '^(?=\s*#)'
+      push:
+        - match: '#'
+          scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
+          set:
+            - meta_content_scope: comment.line.number-sign.tcl
+            - match: \n
+              pop: true
+            - match: \\\\
+            - match: \\\n
+              scope: punctuation.separator.continuation.tcl
+    - include: expressions
+
+  expressions:
+    - match: \\(?=\n)
+      scope: punctuation.separator.continuation.tcl
+      push:
+        - match: \n
+        - match: (?=\S)
+          set: continued-line
     - include: braces
     - include: substitution
     - include: escape
@@ -37,10 +62,17 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.tcl
           pop: true
+        - match: \\(?=\n)
+          scope: punctuation.separator.continuation.tcl
+          push:
+            - match: \n
+            - match: (?=\S)
+              pop: true
         - include: escape
         - include: variable
-        - match: '(?=\[(?:[^"]|\\")+\])'
+        - match: '(?=\[(?!{{special_chars}}))'
           push:
+            - clear_scopes: 1
             - include: substitution
             - match: ''
               pop: true
@@ -57,17 +89,6 @@ contexts:
       scope: constant.numeric.float.tcl
     - match: \b[0-9]+\b(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
-
-  comments:
-    - match: '#'
-      scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
-      set:
-        - meta_content_scope: comment.line.number-sign.tcl
-        - match: \n
-          set: command-name
-        - match: \\\\
-        - match: \\\n
-          scope: punctuation.separator.continuation.tcl
 
   command-name:
     - match: '(?=\bproc\b\s)'
@@ -92,7 +113,7 @@ contexts:
     - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=\s)
       scope: keyword.control.tcl
       pop: true
-    - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b(?=\s)'
+    - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b'
       scope: keyword.other.tcl
       pop: true
     - match: '\b(regexp|regsub)\b(?=\s)'
@@ -104,16 +125,37 @@ contexts:
         # Consume the switches
         - match: '\s+-(all|expanded|line|linestop|lineanchor|nocase|start|--)\b(?=\s)'
         # The next non-space element will be a regex string
+        - match: '(?=\{)'
+          set:
+            - match: \{
+              set:
+                - meta_content_scope: string.regexp.tcl
+                - match: \}
+                  pop: true
+                - include: escape
+        - match: '(?=")'
+          set:
+            - include: strings
+            # One of these characters indicates the string is complete
+            - match: '(?={{inline_end_chars}})'
+              pop: true
         - match: '(?=\S)'
           set:
             - meta_content_scope: string.regexp.tcl
             # One of these characters indicates the string is complete
             - match: '(?={{inline_end_chars}})'
               pop: true
-            - include: braces
-            - include: strings
     - match: (?=#)
-      set: comments
+      set:
+        - match: '#'
+          scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
+          set:
+            - meta_content_scope: comment.line.number-sign.tcl
+            - match: \n
+              set: command-name
+            - match: \\\\
+            - match: \\\n
+              scope: punctuation.separator.continuation.tcl
     - match: '(?={{var_unquoted_string}})'
       set:
         - meta_content_scope: variable.function.tcl
@@ -283,7 +325,7 @@ contexts:
         - include: commands
 
   substitution:
-    - match: '\['
+    - match: '\[(?!{{special_chars}})'
       scope: punctuation.definition.substitution.begin.tcl
       push: [substitution-body, command-name]
 
@@ -295,12 +337,6 @@ contexts:
     - include: commands
 
   escape:
-    - match: \\(?=\n)
-      scope: punctuation.separator.continuation.tcl
-      push:
-        - match: \n
-        - match: (?=\S)
-          pop: true
     - match: '\\(\d{1,3}|x\h+|u\h{1,4}|.|n)'
       scope: constant.character.escape.tcl
 

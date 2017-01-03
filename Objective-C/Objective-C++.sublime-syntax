@@ -26,8 +26,9 @@ variables:
   other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
-  generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|<.*?>|\s|\d)*)?>'
+  generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|\.|<.*?>|\s|\d)*)?>'
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas'
 
 contexts:
   main:
@@ -95,7 +96,6 @@ contexts:
     - include: comments
     - include: case-default
     - include: typedef
-    - include: scope:source.objc#osx-support-functions
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -160,6 +160,8 @@ contexts:
 
   constants:
     - include: scope:source.objc#unique-constants
+    - match: '(?=\bNS\w+\b)'
+      push: scope:source.objc#ns-identifiers
     - include: scope:source.c++#unique-constants
     - include: scope:source.c#constants
 
@@ -170,6 +172,8 @@ contexts:
 
   types:
     - include: scope:source.objc#unique-types
+    - match: '(?=\bNS\w+\b)'
+      push: scope:source.objc#ns-identifiers
     - include: scope:source.c++#unique-types
     - include: types-parens
     - include: scope:source.c#types
@@ -767,6 +771,7 @@ contexts:
       set:
         - meta_content_scope: meta.function.c++ entity.name.function.c++
         - include: scope:source.c++#identifiers
+        - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
           set: function-definition-params
     - match: '(?=\S)'
@@ -1112,6 +1117,7 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - include: preprocessor-other
     - include: modifiers-parens
     - include: modifiers
 
@@ -1121,6 +1127,7 @@ contexts:
       scope: punctuation.separator.objc++
       push:
         - include: comments
+        - include: preprocessor-other
         - include: modifiers-parens
         - include: modifiers
         - match: '\b(virtual|{{visibility_modifiers}})\b'
@@ -1132,6 +1139,8 @@ contexts:
             - match: ''
               pop: true
         - include: angle-brackets
+        - match: ','
+          scope: punctuation.separator.objc++
         - match: (?=\{|;)
           pop: true
     - match: '(?=;)'
@@ -1689,8 +1698,48 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.objc++
       set: preprocessor-block-if-branch-statements
+    - match: (?=(?!{{non_func_keywords}}){{path_lookahead}}\s*\()
+      set: preprocessor-if-branch-function-call
     - include: negated-block
     - include: statements
+
+  preprocessor-if-branch-function-call:
+    - meta_content_scope: meta.function-call.objc++
+    - include: scope:source.c#c99
+    - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
+      scope: variable.function.objc++
+      captures:
+        1: punctuation.accessor.objc++
+        2: punctuation.accessor.objc++
+    - match: '(?:(::)\s*)?{{identifier}}'
+      scope: variable.function.objc++
+      captures:
+        1: punctuation.accessor.objc++
+    - match: '\('
+      scope: meta.group.objc++ punctuation.section.group.begin.objc++
+      set: preprocessor-if-branch-function-call-arguments
+
+  preprocessor-if-branch-function-call-arguments:
+    - meta_content_scope: meta.function-call.objc++ meta.group.objc++
+    - match : \)
+      scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*(?:elif|else))\b
+      captures:
+        1: meta.preprocessor.objc++ keyword.control.import.objc++
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.objc++ keyword.control.import.objc++
+      set: preprocessor-if-branch-function-call-arguments-finish
+    - include: expressions
+
+  preprocessor-if-branch-function-call-arguments-finish:
+    - meta_content_scope: meta.function-call.objc++ meta.group.objc++
+    - match: \)
+      scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
+      pop: true
+    - include: expressions
 
   preprocessor-block-if-branch-statements:
     - meta_scope: meta.block.objc++
