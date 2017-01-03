@@ -340,6 +340,8 @@ contexts:
     - match: '\b(case)\b'
       scope: keyword.other.declaration.scala
       push:
+        - match: '(?=\bclass\b)'
+          pop: true
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala

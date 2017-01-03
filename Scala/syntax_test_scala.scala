@@ -1441,3 +1441,8 @@ def foo()
 def foo():
    42
 // ^^ constant.numeric.integer.scala
+
+final case class
+
+   final case =>
+// ^^^^^ - variable
