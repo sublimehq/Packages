@@ -1446,3 +1446,8 @@ final case class
 
    final case =>
 // ^^^^^ - variable
+
+  val ~ = 42
+//    ^ entity.name.val.scala
+  val \/- = 42
+//    ^^^ entity.name.val.scala
