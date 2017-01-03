@@ -1451,3 +1451,10 @@ final case class
 //    ^ entity.name.val.scala
   val \/- = 42
 //    ^^^ entity.name.val.scala
+
+type ~[+A] = A
+//     ^ keyword.operator
+type ~[A <: B] = A
+//       ^^ keyword.operator
+type ~[A >: B] = A
+//       ^^ keyword.operator

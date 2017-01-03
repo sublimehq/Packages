@@ -294,6 +294,7 @@ contexts:
           push:
             - match: '\]'
               pop: true
+            - include: type-constraints
             - include: delimited-type-expression
         - match: '(<:|>:)'
           scope: keyword.operator.bound.scala
