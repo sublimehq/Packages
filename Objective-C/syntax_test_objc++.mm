@@ -858,6 +858,20 @@ namespace tl {
 MACRONAME namespace ns3 {}
 /*        ^ keyword.control */
 
+extern "C++"
+// ^ storage.modifier
+//     ^^^^^ string.quoted.double
+{
+namespace std _GLIBCXX_VISIBILITY(default)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace
+// ^ keyword.control
+//        ^ entity.name.namespace
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+//                               ^^^^^^^^^ meta.group
+//                                ^ keyword.control
+{}
+}
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////

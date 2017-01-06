@@ -175,9 +175,10 @@ contexts:
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     - include: early-expressions
-    - match: ^\s*\b(extern)(?=\s+"C")
+    - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.c++
       push:
+        - include: comments
         - include: strings
         - match: '\{'
           scope: punctuation.section.block.begin.c++
@@ -307,6 +308,8 @@ contexts:
     - match: '\b(default|case)\b'
       scope: keyword.control.c++
       push:
+        - match: (?=[);,])
+          pop: true
         - match: ':'
           scope: punctuation.separator.c++
           pop: true
@@ -457,6 +460,7 @@ contexts:
                   pop: true
                 - include: preprocessor-global
                 - include: global
+            - include: expressions
 
   template:
     - match: \b(template)\b\s*(<)
