@@ -512,3 +512,9 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*             ^^^^^^ string.quoted.other.lt-gt.include */
 /*                   ^ punctuation.definition.string.end */
 #endif
+
+#include<iostream>
+/* <- keyword.control.import.include */
+/*      ^ punctuation.definition.string.begin */
+/*       ^^^^^^^^ string.quoted.other.lt-gt.include */
+/*               ^ punctuation.definition.string.end */
