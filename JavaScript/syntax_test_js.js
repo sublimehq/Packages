@@ -759,11 +759,23 @@ var result = 200 / 400 + 500 /
 100;
 
 var re = /
-//       ^ string.regexp punctuation.definition.string.begin
 [a-z]
-// ^ string.regexp.js
 /g
 // <- string.regexp.js punctuation.definition.string.end
+ // <- keyword.other
+
+const a = 1 / /This is regex./ / 'This should be a string, not a regex.';
+//          ^ keyword.operator
+//            ^ string.regexp
+//                           ^ string.regexp
+//                             ^ keyword.operator
+//                               ^ string.quoted
+
+a = /\//u + 0;
+//  ^^^^ string.regexp
+//      ^ keyword.other
+//        ^ keyword.operator
+//          ^ constant.numeric
 
 var π = 3.141592653
 //  ^ variable.other.readwrite

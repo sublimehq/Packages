@@ -523,11 +523,11 @@ contexts:
 
   regexp:
       - meta_scope: string.regexp.js
-      - match: "(/)([gimy]*)"
+      - match: "(/)([gimyu]*)"
         captures:
           1: punctuation.definition.string.end.js
           2: keyword.other.js
-        pop: true
+        set: after-identifier
       - match: '(?=.|\n)'
         push:
           - match: '(?=/)'
@@ -1022,7 +1022,7 @@ contexts:
         - meta_scope: meta.object-literal.js
         - match: '\}'
           scope: punctuation.definition.block.js
-          pop: true
+          set: after-identifier
         - include: comments
         - match: \[
           scope: punctuation.definition.brackets.js
