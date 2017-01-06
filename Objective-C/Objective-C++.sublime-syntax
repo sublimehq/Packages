@@ -983,6 +983,9 @@ contexts:
     - match: '\bclass\b'
       scope: storage.type.objc++
       set: data-structures-class-definition
+    # Detect variable type definitions using struct/enum/union followed by a tag
+    - match: '\b({{before_tag}})(?=\s+{{path_lookahead}}\s+{{path_lookahead}}\s*[=;\[])'
+      scope: storage.type.objc++
     - match: '\bstruct\b'
       scope: storage.type.objc++
       set: data-structures-struct-definition
@@ -1121,6 +1124,8 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - match: '(?=\b(?:{{before_tag}}|{{control_keywords}})\b)'
+      pop: true
     - include: preprocessor-other
     - include: modifiers-parens
     - include: modifiers

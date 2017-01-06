@@ -1235,6 +1235,39 @@ enum baz {
 /* <- meta.enum meta.block punctuation.section.block.end */
  /* <- - meta.enum meta.block */
 
+int main(void)
+{
+    struct UI_BoundingBox decorativeBox = {10, titleHeight-3, width-20, height-10};
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+}
+
+struct foo MACRO {
+/*     ^ entity.name.struct */
+/*         ^ - entity.name */
+}
+
+// Partially-typed
+struct foo
+/*     ^ entity.name */
+
+struct UI_MenuBoxData
+/* <- storage.type */
+/*     ^ entity.name.struct */
+{
+    struct UI_BoundingBox position;
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+    enum UI_BoxCharType borderType;
+/*       ^ - entity.name */
+/*                      ^ - entity.name */
+    unsigned int paddingX;
+    unsigned int paddingY;
+    struct UI_ScrollBoxText boxContents[];
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+};
+
 enum class qux : std::uint8_t
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum */
 /*^^^^^^^^ storage.type */

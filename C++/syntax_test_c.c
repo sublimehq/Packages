@@ -208,6 +208,39 @@ struct foo **alloc_foo();
 /*         ^^ keyword.operator */
 /*           ^ entity.name.function */
 
+int main(void)
+{
+    struct UI_BoundingBox decorativeBox = {10, titleHeight-3, width-20, height-10};
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+}
+
+struct foo MACRO {
+/*     ^ entity.name.struct */
+/*         ^ - entity.name */
+}
+
+// Partially-typed
+struct foo
+/*     ^ entity.name */
+
+struct UI_MenuBoxData
+/* <- storage.type */
+/*     ^ entity.name.struct */
+{
+    struct UI_BoundingBox position;
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+    enum UI_BoxCharType borderType;
+/*       ^ - entity.name */
+/*                      ^ - entity.name */
+    unsigned int paddingX;
+    unsigned int paddingY;
+    struct UI_ScrollBoxText boxContents[];
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+};
+
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
