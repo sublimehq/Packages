@@ -1103,6 +1103,12 @@ contexts:
             1: punctuation.dollar.js
         - match: '{{identifier}}(?=\s*:)'
           scope: meta.object-literal.key.js
+        - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
+          push:
+            - meta_content_scope: meta.object-literal.key.js
+            - include: literal-number
+            - match: ''
+              pop: true
         - match: ':'
           scope: punctuation.separator.key-value.js
           push:

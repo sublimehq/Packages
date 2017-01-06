@@ -317,6 +317,26 @@ var obj = {
 }
 // <- meta.object-literal - meta.block
 
++{
+// <- keyword.operator
+  '': +{1:} / undefined
+//^^ string.quoted
+//  ^ punctuation.separator.key-value
+//    ^ keyword.operator
+//      ^ constant.numeric
+//          ^ keyword.operator
+//            ^ constant.language
+};
+
+({
+ // <- meta.object-literal
+  0.: {0.e+0: 0}
+//^^ meta.object-literal.key constant.numeric
+//  ^ punctuation.separator.key-value
+//     ^^^^^ meta.object-literal.key constant.numeric
+//            ^ constant.numeric
+});
+
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //  ^ variable.other.dollar.only punctuation.dollar entity.name.function
