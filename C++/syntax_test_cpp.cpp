@@ -1546,3 +1546,27 @@ void sayHi()
 /*       ^ punctuation.section.brackets.begin */
 /*         ^ punctuation.section.brackets.end */
 }
+
+/////////////////////////////////////////////
+// Includes
+/////////////////////////////////////////////
+
+#include "foobar.h"
+/* <- keyword.control.import.include
+         ^ punctuation.definition.string.begin
+          ^^^^^^^^ string.quoted.double.include
+                  ^ punctuation.definition.string.end */
+
+#include <cstdlib>
+/* <- keyword.control.import.include
+         ^ punctuation.definition.string.begin
+          ^^^^^^^ string.quoted.other.lt-gt.include
+                 ^ punctuation.definition.string.end */
+
+#ifdef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
+#include_next <math.h>
+/* <- keyword.control.import.include
+              ^ punctuation.definition.string.begin
+               ^^^^^^ string.quoted.other.lt-gt.include
+                     ^ punctuation.definition.string.end */
+#endif

@@ -1447,3 +1447,9 @@ val foo: Thing =42
 
 var foo: Thing =42
 //              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar with {
+   import Thing._
+// ^^^^^^ keyword.other.import.scala
+//        ^^^^^ variable.package.scala
+}
