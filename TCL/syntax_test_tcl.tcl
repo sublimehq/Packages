@@ -79,6 +79,12 @@ set res "[join [lrange [split $res ","] 0 end-1] ","] ..."
 regexp {instance="?([^" \t]+)"?} $counter matchedstring instance; # comment
 #       ^^^^^^^^^^^^^^^^^^^^^^^ string.regexp
 
+set check1 [regexp {^'(.){0,32}'$} $param]
+#                   ^^^^^^^^^^^^^ string.regexp
+
+set check2 [regexp {[*\?\|"<>:/\]+} $param]
+#                   ^^^^^^^^^^^^^^ string.regexp
+
 set stepquote [regsub -all {"} $line {""} ]
 #                             ^ - string
 

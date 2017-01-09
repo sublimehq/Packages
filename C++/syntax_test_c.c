@@ -208,6 +208,39 @@ struct foo **alloc_foo();
 /*         ^^ keyword.operator */
 /*           ^ entity.name.function */
 
+int main(void)
+{
+    struct UI_BoundingBox decorativeBox = {10, titleHeight-3, width-20, height-10};
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+}
+
+struct foo MACRO {
+/*     ^ entity.name.struct */
+/*         ^ - entity.name */
+}
+
+// Partially-typed
+struct foo
+/*     ^ entity.name */
+
+struct UI_MenuBoxData
+/* <- storage.type */
+/*     ^ entity.name.struct */
+{
+    struct UI_BoundingBox position;
+/*         ^ - entity.name */
+/*                        ^ - entity.name */
+    enum UI_BoxCharType borderType;
+/*       ^ - entity.name */
+/*                      ^ - entity.name */
+    unsigned int paddingX;
+    unsigned int paddingY;
+    struct UI_ScrollBoxText boxContents[];
+/*         ^ - entity.name */
+/*                          ^ - entity.name */
+};
+
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
@@ -429,21 +462,27 @@ func_call(foo
 /////////////////////////////////////////////
 
 #include "foobar.h"
-/* <- keyword.control.import.include
-         ^ punctuation.definition.string.begin
-          ^^^^^^^^ string.quoted.double.include
-                  ^ punctuation.definition.string.end */
+/* <- keyword.control.import.include */
+/*       ^ punctuation.definition.string.begin */
+/*        ^^^^^^^^ string.quoted.double.include */
+/*                ^ punctuation.definition.string.end */
 
 #include <cstdlib>
-/* <- keyword.control.import.include
-         ^ punctuation.definition.string.begin
-          ^^^^^^^ string.quoted.other.lt-gt.include
-                 ^ punctuation.definition.string.end */
+/* <- keyword.control.import.include */
+/*       ^ punctuation.definition.string.begin */
+/*        ^^^^^^^ string.quoted.other.lt-gt.include */
+/*               ^ punctuation.definition.string.end */
 
 #ifdef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
 #include_next <math.h>
-/* <- keyword.control.import.include
-              ^ punctuation.definition.string.begin
-               ^^^^^^ string.quoted.other.lt-gt.include
-                     ^ punctuation.definition.string.end */
+/* <- keyword.control.import.include */
+/*            ^ punctuation.definition.string.begin */
+/*             ^^^^^^ string.quoted.other.lt-gt.include */
+/*                   ^ punctuation.definition.string.end */
 #endif
+
+#include<iostream>
+/* <- keyword.control.import.include */
+/*      ^ punctuation.definition.string.begin */
+/*       ^^^^^^^^ string.quoted.other.lt-gt.include */
+/*               ^ punctuation.definition.string.end */
