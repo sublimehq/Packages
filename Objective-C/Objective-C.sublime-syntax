@@ -110,6 +110,8 @@ contexts:
           scope: punctuation.definition.string.end.objc
           pop: true
         - include: scope:source.c#string_escaped_char
+        - match: '%@'
+          scope: constant.other.placeholder.objc
         - include: scope:source.c#string_placeholder
 
   unique-keywords:
