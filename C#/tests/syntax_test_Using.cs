@@ -110,3 +110,31 @@ internal sealed partial class Test : global::System.Configuration.ApplicationSet
         }
     }
 }
+
+class Bar {
+    public void Main ()
+    {
+        using(var reader = SomeCodeThatGetsAnIDisposable())
+///     ^^^^^ keyword.control.using.cs
+///          ^ punctuation.section.group.begin.cs
+///           ^^^ storage.type.variable.cs
+///                                                       ^ punctuation.section.group.end.cs
+        {
+            foreach(var line in reader)
+            {
+                DoStuff(line);
+            }
+        }
+        using (var reader = SomeCodeThatGetsAnIDisposable())
+///     ^^^^^ keyword.control.using.cs
+///           ^ punctuation.section.group.begin.cs
+///            ^^^ storage.type.variable.cs
+///                                                        ^ punctuation.section.group.end.cs
+        {
+            foreach (var line in reader)
+            {
+                DoStuff(line);
+            }
+        }
+    }
+}
