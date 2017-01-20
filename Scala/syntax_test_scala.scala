@@ -1442,6 +1442,18 @@ def foo():
    42
 // ^^ constant.numeric.integer.scala
 
+val foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+var foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar with {
+   import Thing._
+// ^^^^^^ keyword.other.import.scala
+//        ^^^^^ variable.package.scala
+}
+
 class Foo extends Bar.Baz with bin.Baz
 //                ^^^^^^^ entity.other.inherited-class.scala
 //                   ^ punctuation.accessor.scala
