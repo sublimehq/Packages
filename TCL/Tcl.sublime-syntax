@@ -132,7 +132,7 @@ contexts:
                 - meta_content_scope: string.regexp.tcl
                 - match: \}
                   pop: true
-                - include: escape
+                - include: regexp-braces
         - match: '(?=")'
           set:
             - include: strings
@@ -165,6 +165,14 @@ contexts:
           pop: true
     - match: '(?=\S)'
       pop: true
+
+  regexp-braces:
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: regexp-braces
+    - include: escape
 
   conditional:
     - match: '(?={{end_chars}})'

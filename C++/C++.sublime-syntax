@@ -175,9 +175,10 @@ contexts:
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     - include: early-expressions
-    - match: ^\s*\b(extern)(?=\s+"C")
+    - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.c++
       push:
+        - include: comments
         - include: strings
         - match: '\{'
           scope: punctuation.section.block.begin.c++
@@ -307,6 +308,8 @@ contexts:
     - match: '\b(default|case)\b'
       scope: keyword.control.c++
       push:
+        - match: (?=[);,])
+          pop: true
         - match: ':'
           scope: punctuation.separator.c++
           pop: true
@@ -457,6 +460,7 @@ contexts:
                   pop: true
                 - include: preprocessor-global
                 - include: global
+            - include: expressions
 
   template:
     - match: \b(template)\b\s*(<)
@@ -892,6 +896,9 @@ contexts:
     - match: '\bclass\b'
       scope: storage.type.c++
       set: data-structures-class-definition
+    # Detect variable type definitions using struct/enum/union followed by a tag
+    - match: '\b({{before_tag}})(?=\s+{{path_lookahead}}\s+{{path_lookahead}}\s*[=;\[])'
+      scope: storage.type.c++
     - match: '\bstruct\b'
       scope: storage.type.c++
       set: data-structures-struct-definition
@@ -1030,6 +1037,8 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - match: '(?=\b(?:{{before_tag}}|{{control_keywords}})\b)'
+      pop: true
     - include: preprocessor-other
     - include: modifiers-parens
     - include: modifiers
@@ -1800,7 +1809,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c++
-    - match: ^\s*(#\s*(?:include|import))\b\s+
+    - match: ^\s*(#\s*(?:include|include_next|import))\b
       captures:
         1: keyword.control.import.include.c++
       push:
