@@ -1472,6 +1472,22 @@ for (
 ) yield thing
 //      ^^^^^ - variable
 
+for {
+  abc /* <- */
+} yield thing
+//      ^^^^^ - variable
+
+for {
+  "abc <-"
+} yield thing
+//      ^^^^^ - variable
+
+for {
+   abc /* abc */ <-
+// ^^^ variable.parameter.scala
+} yield thing
+//      ^^^^^ - variable
+
    <![CDATA[<sender>John Smith</sender>]]>
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
 // ^ - invalid

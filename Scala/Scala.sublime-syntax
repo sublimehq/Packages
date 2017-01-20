@@ -728,7 +728,18 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<\x{2190}=\{\}/]|<[^\-]|/[^/*])+({{nonopchar}}(<-|\x{2190}|=){{nonopchar}}))'
+    - match: |-
+        (?x)
+          ^(?=
+            (
+               [^<\x{2190}=\{\}/"]
+              |<[^\-]
+              |/[^/*]
+              |"([^"\\]|\\\.)*"
+              |/\*([^*]|\*(?!/))*\*/
+            )+
+            {{nonopchar}}(<-|\x{2190}|=){{nonopchar}}
+          )
       push:
         - match: '\b(val)\b'
           scope: storage.type.stable.scala
