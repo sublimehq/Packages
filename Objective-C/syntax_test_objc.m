@@ -518,3 +518,14 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+
+/////////////////////////////////////////////
+// Objective-C specific format specifiers
+/////////////////////////////////////////////
+
+print ("%@", @"String")
+/*      ^ invalid.illegal.placeholder.c */
+
+NSLog (@"%@", @"String")
+/*       ^ constant.other.placeholder.objc */
