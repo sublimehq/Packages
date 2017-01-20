@@ -575,7 +575,13 @@ contexts:
 
   class-inheritance-extends-token:
     - match: '{{id}}(?=\s*\.)'
-      scope: support.constant.scala
+      scope: entity.other.inherited-class.scala
+    - match: '(?=\.)'
+      push:
+        - meta_scope: entity.other.inherited-class.scala
+        - match: \.
+          scope: punctuation.accessor.scala
+          pop: true
     - match: '{{id}}'
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
