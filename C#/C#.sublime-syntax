@@ -927,6 +927,8 @@ contexts:
         2: storage.type.function.lambda.cs
       push:
         - meta_scope: meta.function.anonymous.cs
+        - match: '(?=;)'
+          pop: true
         - include: line_of_code_in
     - match: \((?=[^)]*\)\s+=>)
       scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
@@ -934,9 +936,12 @@ contexts:
         - meta_content_scope: meta.function.anonymous.cs meta.group.cs
         - match: '{{name}}(?=\s*[\),/])'
           scope: variable.parameter.cs
-        - include: types
-        - match: \)
-          scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.end.cs
+        - match: ','
+          scope: punctuation.separator.cs
+        - match: (\))\s*(=>)
+          captures:
+            1: meta.group.cs punctuation.section.group.end.cs
+            2: storage.type.function.lambda.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
             - include: line_of_code_in
@@ -1541,7 +1546,7 @@ contexts:
 
   finally_block:
     - meta_scope: meta.block.trycatch.cs
-    - match: (finally)\b\s*
+    - match: finally\b
       scope: keyword.control.trycatch.finally.cs
       set: trycatch_block
     - match: (?=\S)

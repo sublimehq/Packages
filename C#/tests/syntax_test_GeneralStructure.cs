@@ -826,5 +826,74 @@ namespace TestNamespace.Test
 ///                ^^^^^^^^^^^^^^^ variable.other.section
     }
 /// ^ punctuation.section.block.end
+
+
+    void TestMe () {
+        a = b => b * 2;
+///           ^^ storage.type.function.lambda
+///           ^^^^^^^^ meta.function.anonymous
+///                   ^ punctuation.terminator.statement - meta.function.anonymous
+
+        try
+///     ^^^ keyword.control.trycatch.try
+        {
+
+        }
+        catch (InvalidOperationException ex)
+///     ^^^^^ keyword.control.trycatch.catch
+        {
+
+        }
+        finally
+///     ^^^^^^^ keyword.control.trycatch.finally
+        {
+
+        }
+
+        a = b => { return b * 2; };
+///           ^^ meta.function.anonymous storage.type.function.lambda
+///              ^ meta.function.anonymous punctuation.section.block.begin
+///                              ^ punctuation.section.block.end
+///                               ^ punctuation.terminator.statement - meta.function.anonymous
+
+        try
+///     ^^^ keyword.control.trycatch.try
+        {
+
+        }
+        catch (InvalidOperationException ex)
+///     ^^^^^ keyword.control.trycatch.catch
+        {
+
+        }
+        finally
+///     ^^^^^^^ keyword.control.trycatch.finally
+        {
+        }
+
+        a = (b, c) => { return b * c; };
+///          ^ variable.parameter
+///           ^ punctuation.separator
+///             ^ variable.parameter
+///                ^^ storage.type.function.lambda
+///                   ^ meta.function.anonymous punctuation.section.block.begin
+///                                   ^ punctuation.section.block.end
+///                                    ^ punctuation.terminator.statement - meta.function.anonymous
+
+        try
+///     ^^^ keyword.control.trycatch.try
+        {
+
+        }
+        catch (InvalidOperationException ex)
+///     ^^^^^ keyword.control.trycatch.catch
+        {
+
+        }
+        finally
+///     ^^^^^^^ keyword.control.trycatch.finally
+        {
+        }
+    }
 }
 ///<- punctuation.section.block.end
