@@ -12,7 +12,7 @@ def match(rex, str):
 def make_completion(tag):
     # make it look like
     # ("table\tTag", "table>$1</table>"),
-    return (tag + '\tTag', tag + '>$0</' + tag + '>')
+    return (tag + '\tTag', tag + '>$1</' + tag + '>')
 
 def get_tag_to_attributes():
     """
