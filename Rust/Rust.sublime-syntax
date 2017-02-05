@@ -624,7 +624,8 @@ contexts:
       pop: true
 
   impl-for:
-    - match: '(?=\s*(?:::|{{identifier}}|\$|<)+(<.*?>)?\s+for\s+)'
+    # inline {{identifier}} and use possesive quantifiers to avoid catastrophic backtracking in non-Sublime implementations
+    - match: '(?=\s*(?:::|[[:alpha:]][_[:alnum:]]*+|_[_[:alnum:]]++|\$|<)++(<.*?>)?\s+for\s+)'
       set:
         - meta_scope: meta.impl.rust
         - include: comments
