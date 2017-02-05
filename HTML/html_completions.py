@@ -448,8 +448,8 @@ class Unittest(unittest.TestCase):
         completion_list, flags = completor.get_completions(view, 'tab', [0], False)
 
         # should give a bunch of tags that starts with t
-        self.assertEqual(completion_list[0], ('table\tTag', '<table>$0</table>'))
-        self.assertEqual(completion_list[1], ('tbody\tTag', '<tbody>$0</tbody>'))
+        self.assertEqual(completion_list[0], ('table\tTag', '<table>$1</table>'))
+        self.assertEqual(completion_list[1], ('tbody\tTag', '<tbody>$1</tbody>'))
         # don't suppress word based completion
         self.assertEqual(flags, 0)
 
@@ -462,9 +462,9 @@ class Unittest(unittest.TestCase):
         completion_list, flags = completor.get_completions(view, 'h', [6], True)
 
         # should give a bunch of tags that starts with h, and without <
-        self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
-        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
-        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
+        self.assertEqual(completion_list[0], ('head\tTag', 'head>$1</head>'))
+        self.assertEqual(completion_list[1], ('header\tTag', 'header>$1</header>'))
+        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$1</h1>'))
         # suppress word based completion
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
@@ -472,9 +472,9 @@ class Unittest(unittest.TestCase):
         completion_list, flags = completor.get_completions(view, 'he', [7], True)
 
         # should give a bunch of tags that starts with h, and without < (it filters only on the first letter of the prefix)
-        self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
-        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
-        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
+        self.assertEqual(completion_list[0], ('head\tTag', 'head>$1</head>'))
+        self.assertEqual(completion_list[1], ('header\tTag', 'header>$1</header>'))
+        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$1</h1>'))
         # suppress word based completion
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
