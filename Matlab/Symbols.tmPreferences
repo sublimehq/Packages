@@ -10,10 +10,10 @@
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
+		<string><![CDATA[
 		s/^\s*function\s+//;
-		s/(?&gt;.*=)\s*//; # remove output args
-		</string>
+		s/(?>.*=)\s*//; # remove output args
+		]]></string>
 	</dict>
 </dict>
 </plist>
