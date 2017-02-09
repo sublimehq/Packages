@@ -174,7 +174,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                             ^ punctuation.definition.group.end
   end
 
-  def self.my_second_method *arg_without_parens
+  def self.my_second_method *arg_without_parens # comment.line.number-sign.ruby
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor
