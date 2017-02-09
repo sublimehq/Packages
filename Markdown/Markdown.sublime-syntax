@@ -41,8 +41,6 @@ contexts:
       push:
         - meta_scope: markup.list.unnumbered.markdown
         - match: ^(?=\S)
-          captures:
-            1: punctuation.definition.list_item.markdown
           pop: true
         - include: list-paragraph
     - match: '^[ ]{0,3}[0-9]+(\.)(?=\s)'
@@ -51,8 +49,6 @@ contexts:
       push:
         - meta_scope: markup.list.numbered.markdown
         - match: ^(?=\S)
-          captures:
-            1: punctuation.definition.list_item.markdown
           pop: true
         - include: list-paragraph
     - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)(?!.*?</\1>)'
@@ -461,6 +457,12 @@ contexts:
         - meta_scope: meta.paragraph.list.markdown
         - match: ^\s*$
           pop: true
+        - match: '^[ ]*([*+-])(?=\s)'
+          captures:
+            1: punctuation.definition.list_item.markdown
+        - match: '^[ ]*[0-9]+(\.)(?=\s)'
+          captures:
+            1: punctuation.definition.list_item.markdown
         - include: inline
   raw:
     - match: '(`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)'

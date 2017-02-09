@@ -63,22 +63,38 @@ Here is a ![Image Ref Alt][1].
 
   1. Ordered list item
 |  ^ punctuation.definition.list_item
+| ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
   2. Ordered list item #2
-| ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+| ^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+|  ^ punctuation.definition.list_item
+     1. Subitem
+     2. Another subitem
+|     ^ punctuation.definition.list_item
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list
 
 Paragraph break.
 
   - Ordered list item
 | ^ punctuation.definition.list_item
+| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
   - Ordered list item #2
-| ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^ punctuation.definition.list_item
 
 Paragraph break.
 
   * Ordered list item
 | ^ punctuation.definition.list_item
+| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
   + Ordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^ punctuation.definition.list_item
+    + Subitem 1
+|   ^ punctuation.definition.list_item
+  + Item
+    + Subitem
+    + Another subitem
+|   ^ meta.paragraph.list punctuation.definition.list_item
 
 Paragraph break.
 
