@@ -242,3 +242,19 @@ underlined heading followed by another one that should be treated as a normal pa
 =====
 | <- - markup.heading
 
+This text is _bold_, but this__text__is neither bold_nor_italic
+|            ^ punctuation.definition.italic
+|             ^^^^ markup.italic
+|                 ^ punctuation.definition.italic
+|                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.bold - markup.italic
+_perform_complicated_task
+| <- punctuation.definition.italic
+|       ^ punctuation.definition.italic
+|^^^^^^^ markup.italic
+|        ^^^^^^^^^^^^^^^^^ - markup.italic
+__perform__complicated__task
+| <- punctuation.definition.bold
+|^ punctuation.definition.bold
+|        ^^ punctuation.definition.bold
+|^^^^^^^^ markup.bold
+|          ^^^^^^^^^^^^^^^^^^ - markup.bold
