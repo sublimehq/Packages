@@ -108,9 +108,12 @@ contexts:
             (?x)
             ^(?:
                 \s*$
-            |   (?={{block_quote}})
+            |   (?=
+                    {{block_quote}}
+                |   ^[ ]{,3}[*+-][ ]
+                |   ^\#
+                )
             )
-            |(?=^\#)
           pop: true
         - include: inline
         - include: scope:text.html.basic

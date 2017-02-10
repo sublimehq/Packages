@@ -258,3 +258,7 @@ __perform__complicated__task
 |        ^^ punctuation.definition.bold
 |^^^^^^^^ markup.bold
 |          ^^^^^^^^^^^^^^^^^^ - markup.bold
+
+Paragraph followed immediately by a list, no blank line in between
+- list item 1
+| <- markup.list.unnumbered punctuation.definition.list_item
