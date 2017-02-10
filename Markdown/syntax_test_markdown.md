@@ -155,6 +155,23 @@ non-disabled markdown
 | <- meta.block-level markup.quote punctuation.definition.blockquote
 | ^^^^^^ meta.block-level markup.quote
 
+> Quote followed by an empty block quote line
+>
+| <- meta.block-level markup.quote punctuation.definition.blockquote
+
+> Quote followed by an empty block quote line
+>
+> Followed by more quoted text
+| <- meta.block-level markup.quote punctuation.definition.blockquote
+
+> > Nested quote
+| <- meta.block-level markup.quote punctuation.definition.blockquote
+| ^ meta.block-level markup.quote markup.quote punctuation.definition.blockquote
+
+> > Nested quote
+> Followed by more quoted text that is not nested
+| <- meta.block-level markup.quote punctuation.definition.blockquote - markup.quote markup.quote
+
 paragraph
 | <- meta.paragraph - meta.block-level
 

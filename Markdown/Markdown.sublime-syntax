@@ -15,7 +15,7 @@ variables:
         |   [ ]{,3}[*]([ ]{,2}[*]){2,}[ \t]*$
         |   [ ]{,3}[_]([ ]{,2}[_]){2,}[ \t]*$
         )
-    block_quote: '(?:[ ]{,3}>.)'
+    block_quote: '(?:[ ]{,3}>(?:.|$))'
     block_heading: '(?:[#]{1,6}\s*)'
     block_raw: '(?:[ ]{4}|\t)'
 contexts:
@@ -127,7 +127,7 @@ contexts:
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
   block_quote:
-    - match: '\G[ ]{,3}(>)(?!$)[ ]?'
+    - match: '\G[ ]{,3}(>)[ ]?'
       comment: |
         We terminate the block quote when seeing an empty line, a
                         separator or a line with leading > characters. The latter is
