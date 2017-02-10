@@ -474,7 +474,6 @@ contexts:
     - match: '\G{{separator_line}}\n?'
       scope: meta.separator.markdown
   disable-markdown:
-    - meta_scope: meta.disable-markdown
     - match: (</)(\1)(>)
       captures:
         1: meta.tag.block.any.html punctuation.definition.tag.begin.html
@@ -483,7 +482,8 @@ contexts:
       pop: true
     - include: scope:text.html.basic
   disabled-markdown-pop-at-eol:
-    - meta_scope: meta.disable-markdown
+    - meta_content_scope: meta.disable-markdown
     - match: '$\n?'
+      scope: meta.disable-markdown
       pop: true
     - include: scope:text.html.basic
