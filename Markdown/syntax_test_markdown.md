@@ -145,12 +145,18 @@ non-disabled markdown
 non-disabled markdown
 | <- - meta.disable-markdown
 
+<div>one line</div> <span>disable</span> test
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+|                   ^^^^^^ meta.tag.inline.any.html
+non-disabled markdown
+| <- - meta.disable-markdown
+
 > Quote
 | <- meta.block-level markup.quote punctuation.definition.blockquote
-| ^^^^^^ meta.block-level.markdown markup.quote.markdown
+| ^^^^^^ meta.block-level markup.quote
 
 paragraph
-| <- meta.paragraph.markdown - meta.block-level
+| <- meta.paragraph - meta.block-level
 
 Code block below:
 
@@ -162,7 +168,7 @@ Code block below:
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.raw.block
 
 paragraph
-| <- meta.paragraph.markdown - meta.block-level
+| <- meta.paragraph - meta.block-level
 
 - - - -
 | ^^^^^^ meta.block-level meta.separator

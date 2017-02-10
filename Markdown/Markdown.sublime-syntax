@@ -62,20 +62,9 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)(?!.*?</\1>)'
-      comment: Markdown formatting is disabled inside block-level tags.
-      push:
-        - meta_scope: meta.disable-markdown
-        - match: (?<=^</\1>$\n)
-          pop: true
-        - include: scope:text.html.basic
     - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)'
-      comment: Same rule but for one line disables.
-      push:
-        - meta_scope: meta.disable-markdown
-        - match: $\n?
-          pop: true
-        - include: scope:text.html.basic
+      comment: Markdown formatting is disabled inside block-level tags.
+      push: [disabled-markdown-pop-at-eol, disable-markdown]
     - match: |-
         (?x:
             \s*                        # Leading whitespace
@@ -495,3 +484,17 @@ contexts:
   separator:
     - match: '\G{{separator_line}}\n?'
       scope: meta.separator.markdown
+  disable-markdown:
+    - meta_scope: meta.disable-markdown
+    - match: (</)(\1)(>)
+      captures:
+        1: meta.tag.block.any.html punctuation.definition.tag.begin.html
+        2: meta.tag.block.any.html entity.name.tag.block.any.html
+        3: meta.tag.block.any.html punctuation.definition.tag.end.html
+      pop: true
+    - include: scope:text.html.basic
+  disabled-markdown-pop-at-eol:
+    - meta_scope: meta.disable-markdown
+    - match: '$\n?'
+      pop: true
+    - include: scope:text.html.basic
