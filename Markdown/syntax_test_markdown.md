@@ -113,7 +113,7 @@ Paragraph break.
 |^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
 |^ constant.other.reference.link
 |  ^ punctuation.separator.key-value
-}    ^^^^^^^^^^^^^^^^^^ markup.underline.link
+|    ^^^^^^^^^^^^^^^^^^ markup.underline.link
 
 <div>this is HTML until <span>the corresponding closing tag</span> on the same line</div>
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
@@ -184,3 +184,23 @@ _ _ _ _ _ _ _
 
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
+
+[2]: https://github.com/sublimehq/Packages "Packages Repo"
+| <- meta.link.reference.def
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ constant.other.reference.link
+|  ^ punctuation.separator.key-value
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                          ^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                          ^ punctuation.definition.string.begin
+|                                                        ^ punctuation.definition.string.end
+
+[3]: https://github.com/sublimehq/Packages/issues/ 'Issues on Packages Repo'
+| <- meta.link.reference.def
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
+|^ constant.other.reference.link
+|  ^ punctuation.separator.key-value
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                  ^ punctuation.definition.string.begin
+|                                                                          ^ punctuation.definition.string.end

@@ -84,8 +84,9 @@ contexts:
             (<?)(\S+?)(>?)             # The url
             [ \t]*                     # Optional whitespace
             (?:
-                  ((\().+?(\)))        # Match title in quotes…
-                | ((").+?("))          # or in parens.
+                  ((\().+?(\)))        # Match title in parens…
+                | ((")[^"]+("))        # or in double quotes
+                | ((')[^']+('))        # or in single quotes
             )?                         # Title is optional
             \s*                        # Optional whitespace
             $
@@ -105,6 +106,9 @@ contexts:
         11: string.other.link.description.title.markdown
         12: punctuation.definition.string.begin.markdown
         13: punctuation.definition.string.end.markdown
+        14: string.other.link.description.title.markdown
+        15: punctuation.definition.string.begin.markdown
+        16: punctuation.definition.string.end.markdown
     - match: '^(?=\S)(?![=-]{3,}(?=$))'
       push:
         - meta_scope: meta.paragraph.markdown
