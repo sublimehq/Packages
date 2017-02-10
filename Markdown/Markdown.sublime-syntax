@@ -98,8 +98,8 @@ contexts:
         14: string.other.link.description.title.markdown
         15: punctuation.definition.string.begin.markdown
         16: punctuation.definition.string.end.markdown
-    - match: '^(?=\S)(?![=-]{3,}(?=$))'
-      push:
+    - match: '^(?=\S)(?![=-]{3,}\s*$)'
+      push: 
         - meta_scope: meta.paragraph.markdown
         - match: |-
             (?x)
@@ -107,7 +107,6 @@ contexts:
                 \s*$
             |   (?={{block_quote}})
             )
-            |(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n
             |(?=^\#)
           pop: true
         - include: inline
@@ -116,10 +115,12 @@ contexts:
           scope: markup.heading.1.markdown
           captures:
             1: punctuation.definition.heading.markdown
+          pop: true
         - match: '^(-{3,})(?=[ \t]*$)'
           scope: markup.heading.2.markdown
           captures:
             1: punctuation.definition.heading.markdown
+          pop: true
   ampersand:
     - match: "&(?!([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+);)"
       comment: |

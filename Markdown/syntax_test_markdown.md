@@ -210,3 +210,18 @@ this is a raw ampersand & does not require HTML escaping
 |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
 |                                                  ^ punctuation.definition.string.begin
 |                                                                          ^ punctuation.definition.string.end
+
+heading underlined with dashes
+------------------------------
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2 punctuation.definition.heading
+
+underlined heading followed by a separator
+-------------------
+------
+| <- meta.block-level meta.separator - markup.heading
+
+underlined heading followed by another one that should be treated as a normal paragraph
+==================
+=====
+| <- - markup.heading
+
