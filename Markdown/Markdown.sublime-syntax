@@ -10,15 +10,14 @@ file_extensions:
 scope: text.html.markdown
 variables:
     separator_line: |-
-        (?x)
-        (
+        (?x:
             [ ]{,3}[-]([ ]{,2}[-]){2,}[ \t]*$
         |   [ ]{,3}[*]([ ]{,2}[*]){2,}[ \t]*$
         |   [ ]{,3}[_]([ ]{,2}[_]){2,}[ \t]*$
         )
-    block_quote: '[ ]{,3}>.'
-    block_heading: '[#]{1,6}\s*'
-    block_raw: '([ ]{4}|\t)'
+    block_quote: '(?:[ ]{,3}>.)'
+    block_heading: '(?:[#]{1,6}\s*)'
+    block_raw: '(?:[ ]{4}|\t)'
 contexts:
   main:
     - match: |-
