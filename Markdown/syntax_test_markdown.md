@@ -114,3 +114,73 @@ Paragraph break.
 |^ constant.other.reference.link
 |  ^ punctuation.separator.key-value
 }    ^^^^^^^^^^^^^^^^^^ markup.underline.link
+
+<div>this is HTML until <span>the corresponding closing tag</span> on the same line</div>
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+non-disabled markdown
+| <- - meta.disable-markdown
+
+<div>this is HTML until the closing tag on another line
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+still <span>HTML</span>
+|      ^^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+</div>
+| ^^^^ meta.disable-markdown
+non-disabled markdown
+| <- - meta.disable-markdown
+
+<div>nested tags don't count <div>test</div>
+|                                     ^^^^^^ meta.disable-markdown meta.tag.block.any.html
+non-disabled markdown
+| <- - meta.disable-markdown
+
+<div>nested tags don't count <div>test
+|                                 ^^^^^ meta.disable-markdown
+</div>
+non-disabled markdown
+| <- - meta.disable-markdown
+
+<div>one line</div> disable
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+non-disabled markdown
+| <- - meta.disable-markdown
+
+> Quote
+| <- meta.block-level markup.quote punctuation.definition.blockquote
+| ^^^^^^ meta.block-level.markdown markup.quote.markdown
+
+paragraph
+| <- meta.paragraph.markdown - meta.block-level
+
+Code block below:
+
+    this is code!
+| ^^^^^^^^^^^^^^^^ meta.block-level markup.raw.block
+
+    more code
+    spanning multiple lines
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.raw.block
+
+paragraph
+| <- meta.paragraph.markdown - meta.block-level
+
+- - - -
+| ^^^^^^ meta.block-level meta.separator
+
+* * * * *
+| ^^^^^^^^ meta.block-level meta.separator
+
+_ _ _ _ _ _ _
+| ^^^^^^^^^^^^ meta.block-level meta.separator
+
+<mailto:test+test@test.com>
+| ^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.email.lt-gt markup.underline.link
+<http://www.test.com/>
+| ^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+<https://test.com/>
+| ^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+<ftp://test.com/>
+| ^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
+
+this is a raw ampersand & does not require HTML escaping
+|                       ^ meta.other.valid-ampersand

@@ -8,14 +8,25 @@ file_extensions:
   - markdown
   - markdn
 scope: text.html.markdown
+variables:
+    separator_line: |-
+        (?x)
+        (
+            [ ]{,3}[-]([ ]{,2}[-]){2,}[ \t]*$
+        |   [ ]{,3}[*]([ ]{,2}[*]){2,}[ \t]*$
+        |   [ ]{,3}[_]([ ]{,2}[_]){2,}[ \t]*$
+        )
+    block_quote: '[ ]{,3}>.'
+    block_heading: '[#]{1,6}\s*'
+    block_raw: '([ ]{4}|\t)'
 contexts:
   main:
     - match: |-
         (?x)^
-        (?=  [ ]{,3}>.
-        |    ([ ]{4}|\t)(?!$)
-        |    [#]{1,6}\s*+
-        |    [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+        (?=  {{block_quote}}
+        |    {{block_raw}}(?!$)
+        |    {{block_heading}}
+        |    {{separator_line}}
         )
       comment: |
         We could also use an empty end match and set
@@ -25,10 +36,10 @@ contexts:
         - meta_scope: meta.block-level.markdown
         - match: |-
             (?x)^
-            (?!  [ ]{,3}>.
-            |    ([ ]{4}|\t)
-            |    [#]{1,6}\s*+
-            |    [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            (?!  {{block_quote}}
+            |    {{block_raw}}
+            |    {{block_heading}}
+            |    {{separator_line}}
             )
           pop: true
         - include: block_quote
@@ -43,7 +54,7 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^[ ]{0,3}[0-9]+(\.)(?=\s)'
+    - match: '^[ ]{0,3}\d+(\.)(?=\s)'
       captures:
         1: punctuation.definition.list_item.markdown
       push:
@@ -97,7 +108,14 @@ contexts:
     - match: '^(?=\S)(?![=-]{3,}(?=$))'
       push:
         - meta_scope: meta.paragraph.markdown
-        - match: '^(?:\s*$|(?=[ ]{,3}>.))|(?=[ \t]*\n)(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n|(?=^#)'
+        - match: |-
+            (?x)
+            ^(?:
+                \s*$
+            |   (?={{block_quote}})
+            )
+            |(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n
+            |(?=^\#)
           pop: true
         - include: inline
         - include: scope:text.html.basic
@@ -128,13 +146,13 @@ contexts:
         - match: |-
             (?x)^
             (?=  \s*$
-            |    [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
-            |    [ ]{,3}>.
+            |    {{separator_line}}
+            |    {{block_quote}}
             )
           pop: true
         - match: |-
             (?x)\G
-            (?=  [ ]{,3}>.
+            (?=  {{block_quote}}
             )
           push:
             - match: ^
@@ -142,9 +160,9 @@ contexts:
             - include: block_quote
         - match: |-
             (?x)\G
-            (?=  ([ ]{4}|\t)
-            |    [#]{1,6}\s*+
-            |    [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            (?=  {{block_raw}}
+            |    {{block_heading}}
+            |    {{separator_line}}
             )
           push:
             - include: block_raw
@@ -155,17 +173,17 @@ contexts:
         - match: |-
             (?x)\G
             (?!  $
-            |    [ ]{,3}>.
-            |    ([ ]{4}|\t)
-            |    [#]{1,6}\s*+
-            |    [ ]{,3}(?<marker>[-*_])([ ]{,2}\k<marker>){2,}[ \t]*+$
+            |    {{block_quote}}
+            |    {{block_raw}}
+            |    {{block_heading}}
+            |    {{separator_line}}
             )
           push:
-            - match: $|(?<=\n)
+            - match: $|^
               pop: true
             - include: inline
   block_raw:
-    - match: '\G([ ]{4}|\t).*$\n?'
+    - match: '\G{{block_raw}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
     - match: |-
@@ -386,7 +404,7 @@ contexts:
     - match: " {2,}$"
       scope: meta.dummy.line-break
   link-email:
-    - match: '(<)((?:mailto:)?[-.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
+    - match: '(<)((?:mailto:)?[-+.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
       scope: meta.link.email.lt-gt.markdown
       captures:
         1: punctuation.definition.link.markdown
@@ -460,7 +478,7 @@ contexts:
         - match: '^[ ]*([*+-])(?=\s)'
           captures:
             1: punctuation.definition.list_item.markdown
-        - match: '^[ ]*[0-9]+(\.)(?=\s)'
+        - match: '^[ ]*\d+(\.)(?=\s)'
           captures:
             1: punctuation.definition.list_item.markdown
         - include: inline
@@ -471,5 +489,5 @@ contexts:
         1: punctuation.definition.raw.markdown
         3: punctuation.definition.raw.markdown
   separator:
-    - match: '\G[ ]{,3}([-*_])([ ]{,2}\1){2,}[ \t]*$\n?'
+    - match: '\G{{separator_line}}\n?'
       scope: meta.separator.markdown
