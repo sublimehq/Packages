@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>(source.objc | source.objc++) &amp; entity.name.constant</string>
+	<string><![CDATA[(source.objc | source.objc++) & entity.name.constant]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>

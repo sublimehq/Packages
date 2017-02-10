@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>(source.c++ | source.objc++) &amp; entity.name</string>
+	<string><![CDATA[(source.c++ | source.objc++) & entity.name]]></string>
 	<key>settings</key>
 	<dict>
 		<key>symbolTransformation</key>
