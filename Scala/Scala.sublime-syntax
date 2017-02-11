@@ -1268,6 +1268,14 @@ contexts:
     - match: '[\.#]'
       scope: punctuation.accessor.scala
       set: single-type-expression
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail
+        - include: delimited-type-expression
     - match: '\b(with)(?:\s+|\b)'
       captures:
         1: keyword.declaration.scala

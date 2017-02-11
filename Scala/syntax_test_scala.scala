@@ -1453,3 +1453,10 @@ class Foo extends Bar with {
 // ^^^^^^ keyword.other.import.scala
 //        ^^^^^ variable.package.scala
 }
+
+new Monad[Catenable] with Traverse
+//       ^ punctuation.definition.generic.begin.scala
+//       ^^^^^^^^^^^ meta.generic.scala
+//                 ^ punctuation.definition.generic.end.scala
+//                   ^^^^ keyword.declaration.scala
+//                        ^^^^^^^^ support.class.scala
