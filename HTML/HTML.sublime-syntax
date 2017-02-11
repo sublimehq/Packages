@@ -85,7 +85,7 @@ contexts:
           with_prototype:
             - match: (?i)(?=</style)
               pop: true
-    - match: '(<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!javascript).*)))'
+    - match: '(<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!(java|paper)script).*)))'
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
