@@ -1697,6 +1697,7 @@ contexts:
         (?x)
         ((\\)begin)(\{)(tabular)(\})
         (?:(\[)(?:b|c|t)(\]))?
+        (?=\s*\{)
       captures:
         1: support.function.begin.latex keyword.control.flow.begin.latex
         2: punctuation.definition.backslash.latex
