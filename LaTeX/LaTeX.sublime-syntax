@@ -1708,13 +1708,12 @@ contexts:
       push:
         - meta_scope: meta.environment.tabular.latex
         - match: '\{'
-          scope: punctuation.definition.group.brace.begin.latex
+          scope: meta.function.column-spec.latex punctuation.definition.group.brace.begin.latex
           set:
-            - meta_scope: meta.function.column-spec.latex
-            - meta_content_scope: meta.environment.tabular.latex
+            - meta_content_scope: meta.environment.tabular.latex meta.function.column-spec.latex
             - include: array-preamble
             - match: '\}'
-              scope: punctuation.definition.group.brace.end.latex
+              scope: meta.function.column-spec.latex punctuation.definition.group.brace.end.latex
               set:
                 - meta_content_scope: meta.environment.tabular.latex
                 - match: '((\\)end)(\{)(tabular)(\})'
