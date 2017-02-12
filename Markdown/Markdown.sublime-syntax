@@ -37,18 +37,12 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
-        - match: |-
-            (?x)^
-            (?!  {{block_quote}}
-            |    {{block_raw}}
-            |    {{block_heading}}
-            |    {{separator_line}}
-            )
-          pop: true
         - include: block_quote
         - include: block_raw
         - include: heading
         - include: separator
+        - match: ''
+          pop: true
     - match: '^[ ]{0,3}([*+-])(?=\s)'
       captures:
         1: punctuation.definition.list_item.markdown
@@ -105,13 +99,14 @@ contexts:
       push: 
         - meta_scope: meta.paragraph.markdown
         - match: |-
-            (?x)
+            (?x)                        # pop out of this context when
             ^(?:
-                \s*$
+                \s*$                    # the line is blank (or only contains whitespace)
             |   (?=
-                    {{block_quote}}
-                |   ^[ ]{,3}[*+-][ ]
-                |   ^\#
+                    {{block_quote}}     # a block quote begins the line
+                |   ^[ ]{,3}[*+-][ ]    # an unordered list item begins the line
+                |   ^[ ]{,3}\d+[.][ ]   # an ordered list item begins the line
+                |   ^\#                 # a block heading begins the line
                 )
             )
           pop: true
@@ -134,11 +129,15 @@ contexts:
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
   block_quote:
-    - match: '\G[ ]{,3}(>)[ ]?'
+    - match: '[ ]{,3}(>)[ ]?'
       comment: |
         We terminate the block quote when seeing an empty line, a
-                        separator or a line with leading > characters. The latter is
-                        to “reset” the quote level for quoted lines.
+        separator or a line with leading > characters. The latter is
+        to “reset” the quote level for quoted lines.
+        The idea here is to match block level elements first, then once
+        we have confirmed there are no block level elements left, move to
+        matching inline markdown. This prevents block level elements being
+        detected when they shouldn't be.
       captures:
         1: punctuation.definition.blockquote.markdown
       push:
@@ -151,7 +150,7 @@ contexts:
             )
           pop: true
         - match: |-
-            (?x)\G
+            (?x)
             (?=  {{block_quote}}
             )
           push:
@@ -159,7 +158,7 @@ contexts:
               pop: true
             - include: block_quote
         - match: |-
-            (?x)\G
+            (?x)
             (?=  {{block_raw}}
             |    {{block_heading}}
             |    {{separator_line}}
@@ -170,20 +169,13 @@ contexts:
             - include: separator
             - match: ^
               pop: true
-        - match: |-
-            (?x)\G
-            (?!  $
-            |    {{block_quote}}
-            |    {{block_raw}}
-            |    {{block_heading}}
-            |    {{separator_line}}
-            )
+        - match: ''
           push:
             - match: $|^
               pop: true
             - include: inline-bold-italic-linebreak
   block_raw:
-    - match: '\G{{block_raw}}.*$\n?'
+    - match: '{{block_raw}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
     - match: |-
@@ -471,7 +463,7 @@ contexts:
         1: punctuation.definition.raw.markdown
         3: punctuation.definition.raw.markdown
   separator:
-    - match: '\G{{separator_line}}\n?'
+    - match: '{{separator_line}}\n?'
       scope: meta.separator.markdown
   disable-markdown:
     - match: (</)(\1)(>)

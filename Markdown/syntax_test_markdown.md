@@ -74,19 +74,19 @@ Here is a ![Image Ref Alt][1].
 
 Paragraph break.
 
-  - Ordered list item
+  - Unordered list item
 | ^ punctuation.definition.list_item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-  - Ordered list item #2
+  - Unordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
 | ^ punctuation.definition.list_item
 
 Paragraph break.
 
-  * Ordered list item
+  * Unordered list item
 | ^ punctuation.definition.list_item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-  + Ordered list item #2
+  + Unordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
 | ^ punctuation.definition.list_item
     + Subitem 1
@@ -172,8 +172,18 @@ non-disabled markdown
 > Followed by more quoted text that is not nested
 | <- meta.block-level markup.quote punctuation.definition.blockquote - markup.quote markup.quote
 
+> Here is a quote block
+This quote continues on.  Line breaking is OK in markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.quote
+> Here it is again
+| <- punctuation.definition.blockquote
+
 paragraph
 | <- meta.paragraph - meta.block-level
+
+>     > this is code in a quote block, not a nested quote
+| <- punctuation.definition.blockquote
+|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block - markup.quote markup.quote
 
 Code block below:
 
