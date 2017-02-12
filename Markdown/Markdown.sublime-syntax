@@ -99,14 +99,14 @@ contexts:
       push: 
         - meta_scope: meta.paragraph.markdown
         - match: |-
-            (?x)                        # pop out of this context when
+            (?x)                       # pop out of this context when
             ^(?:
-                \s*$                    # the line is blank (or only contains whitespace)
+                \s*$                   # the line is blank (or only contains whitespace)
             |   (?=
-                    {{block_quote}}     # a block quote begins the line
-                |   ^[ ]{,3}[*+-][ ]    # an unordered list item begins the line
-                |   ^[ ]{,3}\d+[.][ ]   # an ordered list item begins the line
-                |   ^\#                 # a block heading begins the line
+                    {{block_quote}}    # a block quote begins the line
+                |   [ ]{,3}[*+-][ ]    # an unordered list item begins the line
+                |   [ ]{,3}1[.][ ]     # an ordered list item with number "1" begins the line
+                |   \#                 # a block heading begins the line
                 )
             )
           pop: true

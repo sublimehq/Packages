@@ -272,3 +272,12 @@ __perform__complicated__task
 Paragraph followed immediately by a list, no blank line in between
 - list item 1
 | <- markup.list.unnumbered punctuation.definition.list_item
+
+Paragraph followed immediately by a numbered list, no blank line in between
+ 1. list item 1
+| ^ markup.list.numbered punctuation.definition.list_item
+
+Paragraph not followed immediately by a numbered list,
+because it doesn't begin with the number one:
+ 2. text
+| ^ - markup.list.numbered - punctuation.definition.list_item
