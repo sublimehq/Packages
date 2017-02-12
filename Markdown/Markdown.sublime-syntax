@@ -22,6 +22,7 @@ variables:
     block_quote: '(?:[ ]{,3}>(?:.|$))'
     block_heading: '(?:[#]{1,6}\s*)'
     block_raw: '(?:[ ]{4}|\t)'
+    list_item: '(?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s)'
 contexts:
   main:
     - match: |-
@@ -162,13 +163,18 @@ contexts:
             (?=  {{block_raw}}
             |    {{block_heading}}
             |    {{separator_line}}
+            |    {{list_item}}
             )
           push:
             - include: block_raw
             - include: heading
             - include: separator
+            - match: '{{list_item}}'
+              captures:
+                1: punctuation.definition.list_item.markdown
             - match: ^
               pop: true
+            - include: list-paragraph
         - match: ''
           push:
             - match: $|^
@@ -375,7 +381,7 @@ contexts:
         - include: inline
         - include: bold
   line-break:
-    - match: " {2,}$"
+    - match: '[ ]{2,}$'
       scope: meta.dummy.line-break
   link-email:
     - match: '(<)((?:mailto:)?[-+.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
@@ -444,18 +450,29 @@ contexts:
         5: punctuation.definition.constant.begin.markdown
         6: punctuation.definition.constant.end.markdown
   list-paragraph:
+    - include: block_raw
+    - include: block_quote
     - match: \G\s+(?=\S)
       push:
         - meta_scope: meta.paragraph.list.markdown
         - match: ^\s*$
           pop: true
-        - match: '^[ ]*([*+-])(?=\s)'
+        - match: '[ ]*([*+-])(?=\s)'
           captures:
             1: punctuation.definition.list_item.markdown
-        - match: '^[ ]*\d+(\.)(?=\s)'
+          push: list-content
+        - match: '[ ]*\d+(\.)(?=\s)'
           captures:
             1: punctuation.definition.list_item.markdown
-        - include: inline-bold-italic-linebreak
+          push: list-content
+        - match: '(?=\S)'
+          push:
+            - include: list-content
+  list-content:
+    - meta_content_scope: meta.paragraph.list.markdown
+    - match: ^
+      pop: true
+    - include: inline-bold-italic-linebreak
   raw:
     - match: '(`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)'
       scope: markup.raw.inline.markdown

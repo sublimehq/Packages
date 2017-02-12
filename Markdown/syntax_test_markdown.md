@@ -95,6 +95,11 @@ Paragraph break.
     + Subitem
     + Another subitem
 |   ^ meta.paragraph.list punctuation.definition.list_item
+      + Nested Subitem
+|     ^ punctuation.definition.list_item
+        + Nested + Subitem
+|       ^ punctuation.definition.list_item
+|                ^ - punctuation.definition.list_item
 
 Paragraph break.
 
@@ -276,8 +281,37 @@ Paragraph followed immediately by a list, no blank line in between
 Paragraph followed immediately by a numbered list, no blank line in between
  1. list item 1
 | ^ markup.list.numbered punctuation.definition.list_item
+  more text - this punctuation should be ignored 2.
+|           ^ - punctuation.definition.list_item
+|                                                 ^ - punctuation.definition.list_item
 
 Paragraph not followed immediately by a numbered list,
 because it doesn't begin with the number one:
  2. text
 | ^ - markup.list.numbered - punctuation.definition.list_item
+
+
+> Block quote with list items
+> - list item 1
+| ^ meta.block-level markup.quote punctuation.definition.list_item
+> - list item 2
+| ^ meta.block-level markup.quote punctuation.definition.list_item
+>   1. sub list item
+|    ^ meta.block-level markup.quote punctuation.definition.list_item
+
+* this is a list
+
+   > This is a blockquote.
+|  ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+
+ This is a paragraph still part of the 
+ list item
+| ^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+
+* Lorem ipsum
+
+        This is a code block
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered markup.raw.block
+* list continues
+| <- markup.list.unnumbered punctuation.definition.list_item - markup.raw.block
+* list continues
