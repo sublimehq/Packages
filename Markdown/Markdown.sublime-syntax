@@ -473,6 +473,7 @@ contexts:
     - match: ^
       pop: true
     - include: inline-bold-italic-linebreak
+    - include: scope:text.html.basic
   raw:
     - match: '(`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)'
       scope: markup.raw.inline.markdown

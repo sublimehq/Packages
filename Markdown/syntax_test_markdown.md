@@ -315,3 +315,10 @@ because it doesn't begin with the number one:
 * list continues
 | <- markup.list.unnumbered punctuation.definition.list_item - markup.raw.block
 * list continues
+
+- `code` - <a name="demo"></a>
+| ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
+|          ^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
+ 3. [see `demo`](#demo)
+| ^ punctuation.definition.list_item
+|    ^^^^^^^^^^ string.other.link.title
