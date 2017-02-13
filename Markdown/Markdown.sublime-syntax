@@ -34,10 +34,10 @@ variables:
     escape: '\\[-`*_#+.!(){}\[\]\\>]'
     backticks: |-
         (?x:
-            (````)(({{escape}})|[^`\\]+|`(?!```))+(````)
-        |   (``` )(({{escape}})|[^`\\]+|`(?!`` ))+(``` )
-        |   (``  )(({{escape}})|[^`\\]+|`(?!`  ))+(``  )
-        |   (`   )(({{escape}})|[^`\\]+         )+(`   )
+            (`{4})([^`]+|`(?!`{3}))+(`{4})
+        |   (`{3})([^`]+|`(?!`{2}))+(`{3})
+        |   (`{2})([^`]+|`(?!`{1}))+(`{2})
+        |   (`{1})([^`]+          )+(`{1})
         )
     balance: |-
         (?x:
@@ -59,7 +59,7 @@ variables:
         )
     url_and_title: |-
         (?x:
-          ([ ])?                        # Space not allowed
+          ([ ])?                        # Space not allowed, but we check for it anyway to mark it as invalid
           (\()                          # Opening paren for url
               (<?)(\S+?)(>?)            # The url
               {{link_title}}            # Optional title
@@ -557,8 +557,6 @@ contexts:
       scope: punctuation.definition.raw.begin.markdown
       push:
         - meta_scope: markup.raw.inline.markdown
-        - match: '\\`'
-          scope: constant.character.escape.markdown
         - match: '\1'
           scope: punctuation.definition.raw.end.markdown
           pop: true

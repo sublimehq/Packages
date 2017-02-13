@@ -418,12 +418,6 @@ _italic text <span>HTML element</span> end of italic text_
 |            ^^^^^^ meta.tag.inline.any.html
 |                              ^^^^^^^ meta.tag.inline.any.html
 
-[link `containing \` backticks`](#backticks)
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
-|     ^ punctuation.definition.raw.begin
-|                 ^^ constant.character.escape
-|                             ^ punctuation.definition.raw.end
-|                              ^ punctuation.definition.string.end
 [link [containing] [square] brackets](#backticks)
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
 |                                   ^ punctuation.definition.string.end
@@ -432,10 +426,9 @@ _italic text <span>HTML element</span> end of italic text_
 |     ^ punctuation.definition.raw.begin
 |                                               ^ punctuation.definition.raw.end
 |                                                  ^ punctuation.definition.string.end
-[link ``containing square]`\`` brackets[[][] in backticks``](#wow)
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
-|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline
+[link ``containing square]` brackets[[][] in backticks``](#wow)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline
 |     ^^ punctuation.definition.raw.begin
-|                          ^^ constant.character.escape
-|                                                        ^^ punctuation.definition.raw.end
-|                                                          ^ punctuation.definition.string.end
+|                                                     ^^ punctuation.definition.raw.end
+|                                                       ^ punctuation.definition.string.end
