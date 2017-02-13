@@ -23,6 +23,14 @@ variables:
     block_heading: '(?:[#]{1,6}\s*)'
     block_raw: '(?:[ ]{4}|\t)'
     list_item: '(?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s)'
+    link_title: |-
+        (?x:[ \t]*                # Optional whitespace
+          (?:
+              ((\().+?(\)))       # Match title in parens…
+            | ((")[^"]+("))       # or in double quotes…
+            | ((')[^']+('))       # or in single quotes.
+          )?                      # Title is optional
+        )
 contexts:
   main:
     - match: |-
@@ -69,12 +77,7 @@ contexts:
             (\[)(.+?)(\])(:)           # Reference name
             [ \t]*                     # Optional whitespace
             (<?)(\S+?)(>?)             # The url
-            [ \t]*                     # Optional whitespace
-            (?:
-                  ((\().+?(\)))        # Match title in parens…
-                | ((")[^"]+("))        # or in double quotes
-                | ((')[^']+('))        # or in single quotes
-            )?                         # Title is optional
+            {{link_title}}             # Optional link title
             \s*                        # Optional whitespace
             $
         )
@@ -210,12 +213,7 @@ contexts:
                                 \(                         # Opening paren
                                     [ \t]*+                # Optional whitespace
                                     <?(.*?)>?              # URL
-                                    [ \t]*+                # Optional whitespace
-                                    (                      # Optional Title
-                                        (?<title>['"])
-                                        (.*?)
-                                        \k<title>
-                                    )?
+                                    {{link_title}}         # Optional Title
                                 \)
                             )
                         )
@@ -270,11 +268,7 @@ contexts:
                         ([ ])?                        # Space not allowed
                         (\()                          # Opening paren for url
                             (<?)(\S+?)(>?)            # The url
-                            [ \t]*                    # Optional whitespace
-                            (?:
-                                  ((\().+?(\)))       # Match title in parens…
-                                | ((").+?("))         # or in quotes.
-                            )?                        # Title is optional
+                            {{link_title}}            # Optional title
                             \s*                       # Optional whitespace
                         (\))
                      )
@@ -295,17 +289,21 @@ contexts:
         14: string.other.link.description.title.markdown
         15: punctuation.definition.string.begin.markdown
         16: punctuation.definition.string.end.markdown
-        17: punctuation.definition.metadata.end.markdown
+        17: string.other.link.description.title.markdown
+        18: punctuation.definition.string.begin.markdown
+        19: punctuation.definition.string.end.markdown
+        20: punctuation.definition.metadata.end.markdown
   image-ref:
-    - match: '\!(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
+    - match: '(\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
       scope: meta.image.reference.markdown
       captures:
-        1: punctuation.definition.string.begin.markdown
-        2: string.other.link.description.markdown
-        4: punctuation.definition.string.end.markdown
-        5: punctuation.definition.constant.begin.markdown
-        6: constant.other.reference.link.markdown
-        7: punctuation.definition.constant.end.markdown
+        1: punctuation.definition.image.begin.markdown
+        2: punctuation.definition.string.begin.markdown
+        3: string.other.link.description.markdown
+        5: punctuation.definition.string.end.markdown
+        6: punctuation.definition.constant.begin.markdown
+        7: constant.other.reference.link.markdown
+        8: punctuation.definition.constant.end.markdown
   inline:
     - include: escape
     - include: ampersand
@@ -350,12 +348,7 @@ contexts:
                                 \(                      # Opening paren
                                     [ \t]*+             # Optional whitespace
                                     <?(.*?)>?           # URL
-                                    [ \t]*+             # Optional whitespace
-                                    (                   # Optional Title
-                                        (?<title>['"])
-                                        (.*?)
-                                        \k<title>
-                                    )?
+                                    {{link_title}}      # Optional Title
                                 \)
                             )
                         )
@@ -406,12 +399,8 @@ contexts:
                         ([ ])?                      # Space not allowed
                         (\()                        # Opening paren for url
                             (<?)(.*?)(>?)           # The url
-                            [ \t]*                  # Optional whitespace
-                            (?:
-                                  ((\().+?(\)))      # Match title in parens…
-                                | ((").+?("))        # or in quotes.
-                            )?                       # Title is optional
-                            \s*                      # Optional whitespace
+                            {{link_title}}          # Optional title
+                            \s*                     # Optional whitespace
                         (\))
                      )
       scope: meta.link.inline.markdown
@@ -430,7 +419,10 @@ contexts:
         13: string.other.link.description.title.markdown
         14: punctuation.definition.string.begin.markdown
         15: punctuation.definition.string.end.markdown
-        16: punctuation.definition.metadata.end.markdown
+        16: string.other.link.description.title.markdown
+        17: punctuation.definition.string.begin.markdown
+        18: punctuation.definition.string.end.markdown
+        19: punctuation.definition.metadata.end.markdown
   link-ref:
     - match: '(\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)([^\]]*+)(\])'
       scope: meta.link.reference.markdown

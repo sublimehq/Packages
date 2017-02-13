@@ -44,16 +44,17 @@ Here is a [blank reference link][].
 |                               ^ punctuation.definition.constant.begin
 |                                ^ punctuation.definition.constant.end
 
-Here is a ![Image Alt Text](htts://example.com/cat.git).
+Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
 |          ^ punctuation.definition.string.begin
 |                         ^ punctuation.definition.string.end
 |                          ^ punctuation.definition.metadata
-|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                     ^ punctuation.definition.metadata
+|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                      ^ punctuation.definition.metadata
 
 Here is a ![Image Ref Alt][1].
 |         ^^^^^^^^^^^^^^^^^^^ meta.image.reference
+|         ^ punctuation.definition.image.begin
 |          ^ punctuation.definition.string.begin
 |                        ^ punctuation.definition.string.end
 |                         ^ punctuation.definition.constant
@@ -319,10 +320,26 @@ because it doesn't begin with the number one:
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
 |          ^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
- 3. [see `demo`](#demo)
+ 3. [see `demo`](#demo "demo")
 | ^ punctuation.definition.list_item
 |    ^^^^^^^^^^ string.other.link.title
-    Here is a ![example image](https://test.com/sublime.gif "A demonstration").
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    [see `demo`](#demo (demo))
+|    ^^^^^^^^^^ string.other.link.title
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    [see `demo`](#demo 'demo')
+|    ^^^^^^^^^^ string.other.link.title
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    Here is a ![example image](https://test.com/sublime.png "A demonstration").
 |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
 |             ^ punctuation.definition.image.begin
 |              ^ punctuation.definition.string.begin
@@ -330,6 +347,30 @@ because it doesn't begin with the number one:
 |                             ^ punctuation.definition.metadata
 |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
+|                                                                            ^ punctuation.definition.metadata
+    Here is a ![example image](https://test.com/sublime.png 'A demonstration').
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
+|                                                                            ^ punctuation.definition.metadata
+    Here is a ![example image](https://test.com/sublime.png (A demonstration)).
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
 |                                                                            ^ punctuation.definition.metadata
 
   <!-- HTML comment -->
