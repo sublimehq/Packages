@@ -465,3 +465,42 @@ more _tests <span class="test_">here</span>_
 |    ^ punctuation.definition.italic.begin
 |                            ^ - punctuation.definition
 |                                          ^ punctuation.definition.italic.end
+_more `tests_` here_
+| <- punctuation.definition.italic.begin
+|     ^^^^^^^^ markup.raw.inline
+|                  ^ punctuation.definition.italic.end
+__more `tests__` here__
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+_test <span>text_ not formatted</span>
+| <- - punctuation
+|               ^ - punctuation
+__test <span>text__ not formatted</span>
+| <- - punctuation
+|                ^^ - punctuation
+*test <span>text* not formatted</span>
+| <- - punctuation
+|               ^ - punctuation
+**test <span>text** not formatted</span>
+| <- - punctuation
+|                ^^ - punctuation
+_test <span>text **formatted**</span>_
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+*test <span>text __formatted__</span>*
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+*test <span>text __formatted__</span>* **more** _text_
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+|                                      ^^ punctuation
+|                                            ^^ punctuation
+|                                               ^ punctuation
+|                                                    ^ punctuation
