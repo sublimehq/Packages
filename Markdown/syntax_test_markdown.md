@@ -504,3 +504,10 @@ _test <span>text **formatted**</span>_
 |                                            ^^ punctuation
 |                                               ^ punctuation
 |                                                    ^ punctuation
+```testing``123```
+| <- punctuation.definition.raw.begin
+|         ^^ - punctuation
+|              ^^^ punctuation.definition.raw.end
+```testing``123````
+| <- - punctuation
+| ^^^^^^^^^^^^^^^^^ - punctuation

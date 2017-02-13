@@ -34,10 +34,10 @@ variables:
     escape: '\\[-`*_#+.!(){}\[\]\\>]'
     backticks: |-
         (?x:
-            (`{4})([^`]+|`(?!`{3}))+(`{4})
-        |   (`{3})([^`]+|`(?!`{2}))+(`{3})
-        |   (`{2})([^`]+|`(?!`{1}))+(`{2})
-        |   (`{1})([^`]+          )+(`{1})
+            (`{4})[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
+        |   (`{3})[^`]+(?:[^`]+|(?!`{3})`*)*(`{3})(?!`)
+        |   (`{2})[^`]+(?:[^`]+|(?!`{2})`*)*(`{2})(?!`)
+        |   (`{1})[^`]+(?:[^`]+|(?!`{1})`*)*(`{1})(?!`)
         )
     balance: |-
         (?x:
@@ -643,13 +643,18 @@ contexts:
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
   raw:
-    - match: '(`+)'
-      scope: punctuation.definition.raw.begin.markdown
-      push:
-        - meta_scope: markup.raw.inline.markdown
-        - match: '\1'
-          scope: punctuation.definition.raw.end.markdown
-          pop: true
+    - match: '{{backticks}}'
+      scope: markup.raw.inline.markdown
+      captures:
+        1: punctuation.definition.raw.begin.markdown
+        2: punctuation.definition.raw.end.markdown
+        3: punctuation.definition.raw.begin.markdown
+        4: punctuation.definition.raw.end.markdown
+        5: punctuation.definition.raw.begin.markdown
+        6: punctuation.definition.raw.end.markdown
+        7: punctuation.definition.raw.begin.markdown
+        8: punctuation.definition.raw.end.markdown
+    - match: '`+'
   separator:
     - match: '{{separator_line}}\n?'
       scope: meta.separator.markdown
