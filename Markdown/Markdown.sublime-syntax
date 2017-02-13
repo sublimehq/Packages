@@ -239,7 +239,8 @@ contexts:
                             )
                           | {{url_and_title}}
                         )
-                  | (?=[ \t]\*\*)[ \t]\*+               # Match whitespace followed by the style closer because it doesn't close the style
+                  | \*{3,}                              # not applicable
+                  | [ \t]\*+                            # Match whitespace followed by the style closer because it doesn't close the style
                   | (?!\*\*).                           # Everything else besides style closer
                 )+
                 \*\*                                    # Close
@@ -248,7 +249,11 @@ contexts:
         1: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
-        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+        - match: |-
+              (?x)
+                  [ \t]*\*{3,}     # if there are more than 3 its not applicable to be bold or italic
+              |   [ \t]+\*\*+      # whitespace followed by 2 or more is also not applicable
+        - match: (\1)(?!\1)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
@@ -271,7 +276,8 @@ contexts:
                             )
                           | {{url_and_title}}
                         )
-                  | (?=[ \t]__)[ \t]_+                   # Match whitespace followed by the style closer because it doesn't close the style
+                  | _{3,}                                # not applicable
+                  | [ \t]_+                              # Match whitespace followed by the style closer because it doesn't close the style
                   | (?!__).                              # Everything else besides style closer
                 )+
                 __                                       # Close
@@ -280,7 +286,11 @@ contexts:
         1: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
-        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+        - match: |-
+              (?x)
+                  [ \t]*_{3,}    # if there are more than 3 its not applicable to be bold or italic
+              |   [ \t]+__+      # whitespace followed by 2 or more is also not applicable
+        - match: (\1)(?!\1)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
@@ -414,8 +424,8 @@ contexts:
                             )
                           | {{url_and_title}}
                         )
-                  | \*\*                                # Must be bold closer
-                  | (?=[ \t]\*)[ \t]\*+                 # Match whitespace followed by the style closer because it doesn't close the style
+                  | \*{2,}                              # Must be bold opener or closer or not applicable
+                  | [ \t]\*+                            # Match whitespace followed by the style closer because it doesn't close the style
                   | (?!\*).                             # Everything else besides style closer
                 )+
                 \*                                      # Close
@@ -424,7 +434,11 @@ contexts:
         1: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+        - match: |-
+              (?x)
+                  [ \t]*\*{3,}   # if there are more than 3 its not applicable to be bold or italic
+              |   [ \t]+\*(?!\*) # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+        - match: (\1)(?!\1)
           captures:
             1: punctuation.definition.italic.end.markdown
           pop: true
@@ -447,8 +461,8 @@ contexts:
                             )
                           | {{url_and_title}}
                         )
-                  | __                                  # Must be bold closer
-                  | (?=[ \t]_)[ \t]_+                   # Match whitespace followed by the style closer because it doesn't close the style
+                  | _{2,}                               # Must be bold opener or closer or not applicable
+                  | [ \t]_+                             # Match whitespace followed by the style closer because it doesn't close the style
                   | (?!_).                              # Everything else besides style closer
                 )+
                 _                                       # Close
@@ -457,7 +471,12 @@ contexts:
         1: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
-        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+        - match: |-
+              (?x)
+                  [ \t]*_{3,}   # if there are more than 3 its not applicable to be bold or italic
+              |   [ \t]+_(?!_)  # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+        
+        - match: (\1)(?!\1)
           captures:
             1: punctuation.definition.italic.end.markdown
           pop: true

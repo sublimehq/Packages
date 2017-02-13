@@ -452,3 +452,16 @@ the following is not bold ** test ****
 the following is not italic _ test ____
 |                           ^ - punctuation.definition.italic.begin
 |                                  ^^^^ - punctuation.definition.italic
+
+more **tests *** ** here**
+|    ^^ punctuation.definition.bold.begin
+|            ^^^^^^ - punctuation.definition
+|                       ^^ punctuation.definition.bold.end
+more __tests *** ** *example __ here__
+|    ^^ punctuation.definition.bold.begin
+|            ^^^^^^^^^^^^^^^^^^^^^^^ - punctuation.definition
+|                                   ^^ punctuation.definition.bold.end
+more _tests <span class="test_">here</span>_
+|    ^ punctuation.definition.italic.begin
+|                            ^ - punctuation.definition
+|                                          ^ punctuation.definition.italic.end
