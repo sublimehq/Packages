@@ -225,30 +225,62 @@ contexts:
   bold:
     - match: |-
         (?x)
-            (\*\*|\b__)(?=\S)(?!\1)                        # Open
+            (\*\*)(?=\S)(?!\*)                          # Open
             (?=
-                (
-                    {{skip_html_tags}}                     # HTML tags
-                  | {{backticks}}                          # Raw
-                  | {{escape}}                             # Escapes
+                (?:
+                    {{skip_html_tags}}                  # HTML tags
+                  | {{backticks}}                       # Raw
+                  | {{escape}}                          # Escapes
                   | \[{{balance_square_brackets}}\]
-                        (
-                            (                              # Reference Link
-                                [ ]?                       # Optional space
-                                \[[^\]]*\]                 # Optional Ref name
+                        (?:
+                            (?:                         # Reference Link
+                                [ ]?                    # Optional space
+                                \[[^\]]*\]              # Optional Ref name
                             )
                           | {{url_and_title}}
                         )
-                  | (?=[ \t]\1)[ \t]\1+                    # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!\1).                                # Everything else besides style closer
-                )++
-                \1                                         # Close
+                  | (?=[ \t]\*\*)[ \t]\*+               # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!\*\*).                           # Everything else besides style closer
+                )+
+                \*\*                                    # Close
             )
       captures:
         1: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
-        - match: (?<=\S)(\1)
+        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+          captures:
+            1: punctuation.definition.bold.end.markdown
+          pop: true
+        - include: scope:text.html.basic
+        - include: inline
+        - include: italic
+    - match: |-
+        (?x)
+            (\b__)(?=\S)(?!_)                              # Open
+            (?=
+                (?:
+                    {{skip_html_tags}}                  # HTML tags
+                  | {{backticks}}                       # Raw
+                  | {{escape}}                          # Escapes
+                  | \[{{balance_square_brackets}}\]
+                        (?:
+                            (?:                         # Reference Link
+                                [ ]?                    # Optional space
+                                \[[^\]]*\]              # Optional Ref name
+                            )
+                          | {{url_and_title}}
+                        )
+                  | (?=[ \t]__)[ \t]_+                   # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!__).                              # Everything else besides style closer
+                )+
+                __                                       # Close
+            )
+      captures:
+        1: punctuation.definition.bold.begin.markdown
+      push:
+        - meta_scope: markup.bold.markdown
+        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
@@ -368,25 +400,25 @@ contexts:
   italic:
     - match: |-
         (?x)
-            (\*|\b_)(?=\S)(?!\1)                        # Open
+            (\*)(?=\S)(?!\*)                            # Open
             (?=
-                (
+                (?:
                     {{skip_html_tags}}                  # HTML tags
                   | {{backticks}}                       # Raw
                   | {{escape}}                          # Escapes
                   | \[{{balance_square_brackets}}\]
-                        (
-                            (                           # Reference Link
+                        (?:
+                            (?:                         # Reference Link
                                 [ ]?                    # Optional space
                                 \[[^\]]*\]              # Optional Ref name
                             )
                           | {{url_and_title}}
                         )
-                  | \1\1                                # Must be bold closer
-                  | (?=[ \t]\1)[ \t]\1+                 # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!\1).                             # Everything else besides style closer
-                )++
-                \1                                      # Close
+                  | \*\*                                # Must be bold closer
+                  | (?=[ \t]\*)[ \t]\*+                 # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!\*).                             # Everything else besides style closer
+                )+
+                \*                                      # Close
             )
       captures:
         1: punctuation.definition.italic.begin.markdown
@@ -399,6 +431,40 @@ contexts:
         - include: scope:text.html.basic
         - include: inline
         - include: bold
+    - match: |-
+        (?x)
+            (\b_)(?=\S)(?!_)                              # Open
+            (?=
+                (?:
+                    {{skip_html_tags}}                  # HTML tags
+                  | {{backticks}}                       # Raw
+                  | {{escape}}                          # Escapes
+                  | \[{{balance_square_brackets}}\]
+                        (?:
+                            (?:                         # Reference Link
+                                [ ]?                    # Optional space
+                                \[[^\]]*\]              # Optional Ref name
+                            )
+                          | {{url_and_title}}
+                        )
+                  | __                                  # Must be bold closer
+                  | (?=[ \t]_)[ \t]_+                   # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!_).                              # Everything else besides style closer
+                )+
+                _                                       # Close
+            )
+      captures:
+        1: punctuation.definition.italic.begin.markdown
+      push:
+        - meta_scope: markup.italic.markdown
+        - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
+          captures:
+            1: punctuation.definition.italic.end.markdown
+          pop: true
+        - include: scope:text.html.basic
+        - include: inline
+        - include: bold
+    - match: '[*_]+'
   line-break:
     - match: '[ ]{2,}$'
       scope: meta.dummy.line-break
