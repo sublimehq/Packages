@@ -31,6 +31,41 @@ variables:
             | ((')[^']+('))       # or in single quotes.
           )?                      # Title is optional
         )
+    escape: '\\[-`*_#+.!(){}\[\]\\>]'
+    backticks: |-
+        (?x:
+            (````)(({{escape}})|[^`\\]+|`(?!```))+(````)
+        |   (``` )(({{escape}})|[^`\\]+|`(?!`` ))+(``` )
+        |   (``  )(({{escape}})|[^`\\]+|`(?!`  ))+(``  )
+        |   (`   )(({{escape}})|[^`\\]+         )+(`   )
+        )
+    balance: |-
+        (?x:
+          (?:
+            {{escape}}+                  # escape characters
+          | [^\[\]`]+                    # anything that isn't a square bracket or a backtick
+          | {{backticks}}                # inline code
+          )
+        )
+    balance_square_brackets: |-
+        (?x:
+          (?:
+            {{balance}}
+          | \[(?:                       # nested square brackets (one level deep)
+                [^\[\]`]+               #  anything that isn't a square bracket or a backtick
+                {{backticks}}?          #  balanced backticks
+              )*\]                      #  closing square bracket
+          )+                            # at least one character
+        )
+    url_and_title: |-
+        (?x:
+          ([ ])?                        # Space not allowed
+          (\()                          # Opening paren for url
+              (<?)(\S+?)(>?)            # The url
+              {{link_title}}            # Optional title
+              \s*                       # Optional whitespace
+          (\))
+        )
 contexts:
   main:
     - match: |-
@@ -241,7 +276,7 @@ contexts:
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-bracket.markdown
   escape:
-    - match: '\\[-`*_#+.!(){}\[\]\\>]'
+    - match: '{{escape}}'
       scope: constant.character.escape.markdown
   heading:
     - match: '\G(#{1,6})(?!#)\s*(?=\S)'
@@ -258,37 +293,44 @@ contexts:
   image-inline:
     - match: |-
         (?x:
-                        (\!)                          # Images start with !
-                        (\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])
-                                                      # Match the link text.
-                        ([ ])?                        # Space not allowed
-                        (\()                          # Opening paren for url
-                            (<?)(\S+?)(>?)            # The url
-                            {{link_title}}            # Optional title
-                            \s*                       # Optional whitespace
-                        (\))
-                     )
-      scope: meta.image.inline.markdown
+            (\!)(\[)                          # Images start with ![
+            (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
+                  \]                          # Closing square bracket
+                  [ ]?                        # Space not allowed, but we check for it anyway to mark it as invalid
+                  \(                          # Open paren
+            )
+         )
       captures:
         1: punctuation.definition.image.begin.markdown
         2: punctuation.definition.string.begin.markdown
-        3: string.other.link.description.markdown
-        5: punctuation.definition.string.end.markdown
-        6: invalid.illegal.whitespace.markdown
-        7: punctuation.definition.metadata.begin.markdown
-        8: punctuation.definition.link.begin.markdown
-        9: markup.underline.link.image.markdown
-        10: punctuation.definition.link.end.markdown
-        11: string.other.link.description.title.markdown
-        12: punctuation.definition.string.begin.markdown
-        13: punctuation.definition.string.end.markdown
-        14: string.other.link.description.title.markdown
-        15: punctuation.definition.string.begin.markdown
-        16: punctuation.definition.string.end.markdown
-        17: string.other.link.description.title.markdown
-        18: punctuation.definition.string.begin.markdown
-        19: punctuation.definition.string.end.markdown
-        20: punctuation.definition.metadata.end.markdown
+      push: [image-inline_after_text, image-link-text]
+  image-link-text:
+    - meta_scope: meta.image.inline.markdown
+    - meta_content_scope: string.other.link.description.markdown
+    - include: link-text
+    - match: \]
+      scope: punctuation.definition.string.end.markdown
+      pop: true
+  image-inline_after_text:
+    - match: '{{url_and_title}}'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.metadata.begin.markdown
+        3: punctuation.definition.link.begin.markdown
+        4: markup.underline.link.image.markdown
+        5: punctuation.definition.link.end.markdown
+        6: string.other.link.description.title.markdown
+        7: punctuation.definition.string.begin.markdown
+        8: punctuation.definition.string.end.markdown
+        9: string.other.link.description.title.markdown
+        10: punctuation.definition.string.begin.markdown
+        11: punctuation.definition.string.end.markdown
+        12: string.other.link.description.title.markdown
+        13: punctuation.definition.string.begin.markdown
+        14: punctuation.definition.string.end.markdown
+        15: punctuation.definition.metadata.end.markdown
+      scope: meta.image.inline.markdown
+      pop: true
   image-ref:
     - match: '(\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
       scope: meta.image.reference.markdown
@@ -386,35 +428,43 @@ contexts:
   link-inline:
     - match: |-
         (?x:
-                        (\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])
-                                                    # Match the link text.
-                        ([ ])?                      # Space not allowed
-                        (\()                        # Opening paren for url
-                            (<?)(.*?)(>?)           # The url
-                            {{link_title}}          # Optional title
-                            \s*                     # Optional whitespace
-                        (\))
-                     )
-      scope: meta.link.inline.markdown
+            (\[)
+            (?=
+                {{balance_square_brackets}}
+                \]
+                {{url_and_title}}
+            )
+        )
       captures:
         1: punctuation.definition.string.begin.markdown
-        2: string.other.link.title.markdown
-        4: punctuation.definition.string.end.markdown
-        5: invalid.illegal.whitespace.markdown
-        6: punctuation.definition.metadata.begin.markdown
-        7: punctuation.definition.link.begin.markdown
-        8: markup.underline.link.markdown
-        9: punctuation.definition.link.end.markdown
-        10: string.other.link.description.title.markdown
-        11: punctuation.definition.string.begin.markdown
-        12: punctuation.definition.string.end.markdown
-        13: string.other.link.description.title.markdown
-        14: punctuation.definition.string.begin.markdown
-        15: punctuation.definition.string.end.markdown
-        16: string.other.link.description.title.markdown
-        17: punctuation.definition.string.begin.markdown
-        18: punctuation.definition.string.end.markdown
-        19: punctuation.definition.metadata.end.markdown
+      push: [link-inline-after-text, link-inline-link-text]
+  link-inline-link-text:
+    - meta_scope: meta.link.inline.markdown
+    - meta_content_scope: string.other.link.title.markdown
+    - include: link-text
+    - match: \]
+      scope: punctuation.definition.string.end.markdown
+      pop: true
+  link-inline-after-text:
+    - match: '{{url_and_title}}'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.metadata.begin.markdown
+        3: punctuation.definition.link.begin.markdown
+        4: markup.underline.link.markdown
+        5: punctuation.definition.link.end.markdown
+        6: string.other.link.description.title.markdown
+        7: punctuation.definition.string.begin.markdown
+        8: punctuation.definition.string.end.markdown
+        9: string.other.link.description.title.markdown
+        10: punctuation.definition.string.begin.markdown
+        11: punctuation.definition.string.end.markdown
+        12: string.other.link.description.title.markdown
+        13: punctuation.definition.string.begin.markdown
+        14: punctuation.definition.string.end.markdown
+        15: punctuation.definition.metadata.end.markdown
+      scope: meta.link.inline.markdown
+      pop: true
   link-ref:
     - match: '(\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)([^\]]*+)(\])'
       scope: meta.link.reference.markdown
@@ -460,11 +510,15 @@ contexts:
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
   raw:
-    - match: '(`+)([^`]|(?!(?<!`)\1(?!`))`)*+(\1)'
-      scope: markup.raw.inline.markdown
-      captures:
-        1: punctuation.definition.raw.markdown
-        3: punctuation.definition.raw.markdown
+    - match: '(`+)'
+      scope: punctuation.definition.raw.begin.markdown
+      push:
+        - meta_scope: markup.raw.inline.markdown
+        - match: '\\`'
+          scope: constant.character.escape.markdown
+        - match: '\1'
+          scope: punctuation.definition.raw.end.markdown
+          pop: true
   separator:
     - match: '{{separator_line}}\n?'
       scope: meta.separator.markdown
@@ -482,3 +536,11 @@ contexts:
       scope: meta.disable-markdown
       pop: true
     - include: scope:text.html.basic
+  link-text:
+    - include: escape
+    - include: raw
+    - match: \[ # nested square brackets are allowed
+      push:
+        - include: link-text
+        - match: \]
+          pop: true

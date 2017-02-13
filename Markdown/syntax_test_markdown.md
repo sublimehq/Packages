@@ -47,7 +47,7 @@ Here is a [blank reference link][].
 Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
 |          ^ punctuation.definition.string.begin
-|                         ^ punctuation.definition.string.end
+|                         ^ punctuation.definition.string.end - string
 |                          ^ punctuation.definition.metadata
 |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                      ^ punctuation.definition.metadata
@@ -417,3 +417,25 @@ _italic text <span>HTML element</span> end of italic text_
 |                                                        ^ punctuation.definition.italic
 |            ^^^^^^ meta.tag.inline.any.html
 |                              ^^^^^^^ meta.tag.inline.any.html
+
+[link `containing \` backticks`](#backticks)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^ punctuation.definition.raw.begin
+|                 ^^ constant.character.escape
+|                             ^ punctuation.definition.raw.end
+|                              ^ punctuation.definition.string.end
+[link [containing] [square] brackets](#backticks)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|                                   ^ punctuation.definition.string.end
+[link `containing square] brackets] in backticks`[]](#wow)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^ punctuation.definition.raw.begin
+|                                               ^ punctuation.definition.raw.end
+|                                                  ^ punctuation.definition.string.end
+[link ``containing square]`\`` brackets[[][] in backticks``](#wow)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline
+|     ^^ punctuation.definition.raw.begin
+|                          ^^ constant.character.escape
+|                                                        ^^ punctuation.definition.raw.end
+|                                                          ^ punctuation.definition.string.end
