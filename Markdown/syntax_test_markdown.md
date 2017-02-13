@@ -322,3 +322,21 @@ because it doesn't begin with the number one:
  3. [see `demo`](#demo)
 | ^ punctuation.definition.list_item
 |    ^^^^^^^^^^ string.other.link.title
+    Here is a ![example image](https://test.com/sublime.gif "A demonstration").
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                                            ^ punctuation.definition.metadata
+
+  <!-- HTML comment -->
+| ^^^^^^^^^^^^^^^^^^^^^ comment.block.html
+
+## Heading with ending hashes ##
+| <- punctuation.definition.heading
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section
+|                            ^ - entity.name.section
+|                             ^^ punctuation.definition.heading

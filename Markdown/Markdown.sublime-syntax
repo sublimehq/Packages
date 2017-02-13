@@ -80,13 +80,13 @@ contexts:
         )
       scope: meta.link.reference.def.markdown
       captures:
-        1: punctuation.definition.constant.markdown
+        1: punctuation.definition.constant.begin.markdown
         2: constant.other.reference.link.markdown
-        3: punctuation.definition.constant.markdown
+        3: punctuation.definition.constant.end.markdown
         4: punctuation.separator.key-value.markdown
-        5: punctuation.definition.link.markdown
+        5: punctuation.definition.link.begin.markdown
         6: markup.underline.link.markdown
-        7: punctuation.definition.link.markdown
+        7: punctuation.definition.link.end.markdown
         8: string.other.link.description.title.markdown
         9: punctuation.definition.string.begin.markdown
         10: punctuation.definition.string.end.markdown
@@ -264,7 +264,7 @@ contexts:
   image-inline:
     - match: |-
         (?x:
-                        \!                            # Images start with !
+                        (\!)                          # Images start with !
                         (\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])
                                                       # Match the link text.
                         ([ ])?                        # Space not allowed
@@ -280,21 +280,22 @@ contexts:
                      )
       scope: meta.image.inline.markdown
       captures:
-        1: punctuation.definition.string.begin.markdown
-        2: string.other.link.description.markdown
-        4: punctuation.definition.string.end.markdown
-        5: invalid.illegal.whitespace.markdown
-        6: punctuation.definition.metadata.markdown
-        7: punctuation.definition.link.markdown
-        8: markup.underline.link.image.markdown
-        9: punctuation.definition.link.markdown
-        10: string.other.link.description.title.markdown
-        11: punctuation.definition.string.markdown
-        12: punctuation.definition.string.markdown
-        13: string.other.link.description.title.markdown
-        14: punctuation.definition.string.markdown
-        15: punctuation.definition.string.markdown
-        16: punctuation.definition.metadata.markdown
+        1: punctuation.definition.image.begin.markdown
+        2: punctuation.definition.string.begin.markdown
+        3: string.other.link.description.markdown
+        5: punctuation.definition.string.end.markdown
+        6: invalid.illegal.whitespace.markdown
+        7: punctuation.definition.metadata.begin.markdown
+        8: punctuation.definition.link.begin.markdown
+        9: markup.underline.link.image.markdown
+        10: punctuation.definition.link.end.markdown
+        11: string.other.link.description.title.markdown
+        12: punctuation.definition.string.begin.markdown
+        13: punctuation.definition.string.end.markdown
+        14: string.other.link.description.title.markdown
+        15: punctuation.definition.string.begin.markdown
+        16: punctuation.definition.string.end.markdown
+        17: punctuation.definition.metadata.end.markdown
   image-ref:
     - match: '\!(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
       scope: meta.image.reference.markdown
@@ -302,9 +303,9 @@ contexts:
         1: punctuation.definition.string.begin.markdown
         2: string.other.link.description.markdown
         4: punctuation.definition.string.end.markdown
-        5: punctuation.definition.constant.markdown
+        5: punctuation.definition.constant.begin.markdown
         6: constant.other.reference.link.markdown
-        7: punctuation.definition.constant.markdown
+        7: punctuation.definition.constant.end.markdown
   inline:
     - include: escape
     - include: ampersand
@@ -387,16 +388,16 @@ contexts:
     - match: '(<)((?:mailto:)?[-+.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
       scope: meta.link.email.lt-gt.markdown
       captures:
-        1: punctuation.definition.link.markdown
+        1: punctuation.definition.link.begin.markdown
         2: markup.underline.link.markdown
-        4: punctuation.definition.link.markdown
+        4: punctuation.definition.link.end.markdown
   link-inet:
     - match: (<)((?:https?|ftp)://.*?)(>)
       scope: meta.link.inet.markdown
       captures:
-        1: punctuation.definition.link.markdown
+        1: punctuation.definition.link.begin.markdown
         2: markup.underline.link.markdown
-        3: punctuation.definition.link.markdown
+        3: punctuation.definition.link.end.markdown
   link-inline:
     - match: |-
         (?x:
@@ -419,17 +420,17 @@ contexts:
         2: string.other.link.title.markdown
         4: punctuation.definition.string.end.markdown
         5: invalid.illegal.whitespace.markdown
-        6: punctuation.definition.metadata.markdown
-        7: punctuation.definition.link.markdown
+        6: punctuation.definition.metadata.begin.markdown
+        7: punctuation.definition.link.begin.markdown
         8: markup.underline.link.markdown
-        9: punctuation.definition.link.markdown
+        9: punctuation.definition.link.end.markdown
         10: string.other.link.description.title.markdown
         11: punctuation.definition.string.begin.markdown
         12: punctuation.definition.string.end.markdown
         13: string.other.link.description.title.markdown
         14: punctuation.definition.string.begin.markdown
         15: punctuation.definition.string.end.markdown
-        16: punctuation.definition.metadata.markdown
+        16: punctuation.definition.metadata.end.markdown
   link-ref:
     - match: '(\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)([^\]]*+)(\])'
       scope: meta.link.reference.markdown
