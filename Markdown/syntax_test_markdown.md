@@ -432,3 +432,9 @@ _italic text <span>HTML element</span> end of italic text_
 |     ^^ punctuation.definition.raw.begin
 |                                                     ^^ punctuation.definition.raw.end
 |                                                       ^ punctuation.definition.string.end
+`inline markup <span></span>`
+|              ^^^^^^^^^^^^^ markup.raw.inline - meta.tag.inline.any.html
+escaped backtick \`this is not code\`
+|                ^^ constant.character.escape
+|                                  ^^ constant.character.escape
+|                  ^^^^^^^^^^^^^^^^ - markup.raw.inline
