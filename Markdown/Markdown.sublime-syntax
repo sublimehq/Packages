@@ -42,9 +42,9 @@ variables:
     balance: |-
         (?x:
           (?:
-            {{escape}}+                  # escape characters
-          | [^\[\]`]+                    # anything that isn't a square bracket or a backtick
-          | {{backticks}}                # inline code
+              {{escape}}+                  # escape characters
+          |   [^\[\]`\\]+                  # anything that isn't a square bracket or a backtick or the start of an escape character
+          |   {{backticks}}                # inline code
           )
         )
     balance_square_brackets: |-
@@ -66,6 +66,7 @@ variables:
               \s*                       # Optional whitespace
           (\))
         )
+    skip_html_tags: '(?:<[^>]+>)'
 contexts:
   main:
     - match: |-
@@ -227,18 +228,10 @@ contexts:
             (\*\*|\b__)(?=\S)                              # Open
             (?=
                 (
-                    <[^>]*+>                               # HTML tags
-                  | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
-                                                           # Raw
-                  | \\[\\`*_{}\[\]()#.!+\->]?+             # Escapes
-                  | \[
-                    (
-                            (?<square>                     # Named group
-                                [^\[\]\\]                  # Match most chars
-                              | \\.                        # Escaped chars
-                              | \[ \g<square>*+ \]         # Nested brackets
-                            )*+
-                        \]
+                    {{skip_html_tags}}                     # HTML tags
+                  | {{backticks}}                          # Raw
+                  | {{escape}}                             # Escapes
+                  | \[{{balance_square_brackets}}\]
                         (
                             (                              # Reference Link
                                 [ ]?                       # Optional space
@@ -252,7 +245,6 @@ contexts:
                                 \)
                             )
                         )
-                    )
                   | (?!(?<=\S)\1).                         # Everything besides
                                                            # style closer
                 )++
@@ -303,7 +295,7 @@ contexts:
       captures:
         1: punctuation.definition.image.begin.markdown
         2: punctuation.definition.string.begin.markdown
-      push: [image-inline_after_text, image-link-text]
+      push: [image-inline-after-text, image-link-text]
   image-link-text:
     - meta_scope: meta.image.inline.markdown
     - meta_content_scope: string.other.link.description.markdown
@@ -311,7 +303,7 @@ contexts:
     - match: \]
       scope: punctuation.definition.string.end.markdown
       pop: true
-  image-inline_after_text:
+  image-inline-after-text:
     - match: '{{url_and_title}}'
       captures:
         1: invalid.illegal.whitespace.markdown
@@ -332,16 +324,36 @@ contexts:
       scope: meta.image.inline.markdown
       pop: true
   image-ref:
-    - match: '(\!)(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(.*?)(\])'
-      scope: meta.image.reference.markdown
+    - match: |-
+        (?x:
+          (\!)(\[)                          # Images start with ![
+          (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
+                \]                          # Closing square bracket
+                [ ]?                        # Space
+                \[                          # [
+                [^\]]+                      # anything other than ]
+                \]                          # ]
+          )
+        )
       captures:
         1: punctuation.definition.image.begin.markdown
         2: punctuation.definition.string.begin.markdown
-        3: string.other.link.description.markdown
-        5: punctuation.definition.string.end.markdown
-        6: punctuation.definition.constant.begin.markdown
-        7: constant.other.reference.link.markdown
-        8: punctuation.definition.constant.end.markdown
+      push: [image-ref-after-text, image-ref-text]
+  image-ref-text:
+    - meta_scope: meta.image.reference.markdown
+    - meta_content_scope: string.other.link.description.markdown
+    - include: link-text
+    - match: \]
+      scope: punctuation.definition.string.end.markdown
+      pop: true
+  image-ref-after-text:
+    - match: '[ ]?(\[)([^\]]+)(\])'
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: constant.other.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+      scope: meta.image.reference.markdown
+      pop: true
   inline:
     - include: escape
     - include: ampersand
@@ -365,18 +377,10 @@ contexts:
             (\*|\b_)(?=\S)                              # Open
             (?=
                 (
-                    <[^>]*+>                            # HTML tags
-                  | (?<raw>`+)([^`]|(?!(?<!`)\k<raw>(?!`))`)*+\k<raw>
-                                                        # Raw
-                  | \\[\\`*_{}\[\]()#.!+\->]?+          # Escapes
-                  | \[
-                    (
-                            (?<square>                  # Named group
-                                [^\[\]\\]               # Match most chars
-                              | \\.                     # Escaped chars
-                              | \[ \g<square>*+ \]      # Nested brackets
-                            )*+
-                        \]
+                    {{skip_html_tags}}                  # HTML tags
+                  | {{backticks}}                       # Raw
+                  | {{escape}}                          # Escapes
+                  | \[{{balance_square_brackets}}\]
                         (
                             (                           # Reference Link
                                 [ ]?                    # Optional space
@@ -390,7 +394,6 @@ contexts:
                                 \)
                             )
                         )
-                    )
                   | \1\1                                # Must be bold closer
                   | (?!(?<=\S)\1).                      # Everything besides
                                                         # style closer
@@ -466,24 +469,64 @@ contexts:
       scope: meta.link.inline.markdown
       pop: true
   link-ref:
-    - match: '(\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)([^\]]*+)(\])'
-      scope: meta.link.reference.markdown
+    - match: |-
+        (?x:
+          (\[)
+          (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
+                \]                          # Closing square bracket
+                [ ]?                        # Space
+                \[                          # [
+                [^\]]+                      # anything other than ]
+                \]                          # ]
+          )
+        )
       captures:
         1: punctuation.definition.string.begin.markdown
-        2: string.other.link.title.markdown
-        4: punctuation.definition.string.end.markdown
-        5: punctuation.definition.constant.begin.markdown
-        6: constant.other.reference.link.markdown
-        7: punctuation.definition.constant.end.markdown
+      push: [link-ref-after-text, link-ref-link-text]
+  link-ref-link-text:
+    - meta_scope: meta.link.reference.markdown
+    - meta_content_scope: string.other.link.title.markdown
+    - include: link-text
+    - match: \]
+      scope: punctuation.definition.string.end.markdown
+      pop: true
+  link-ref-after-text:
+    - match: '[ ]?(\[)([^\]]+)(\])'
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: constant.other.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+      scope: meta.link.reference.markdown
+      pop: true
   link-ref-literal:
-    - match: '(\[)((?<square>[^\[\]\\]+|\\.|\[\g<square>*+\])*+)(\])[ ]?(\[)(\])'
+    - match: |-
+        (?x:
+          (\[)
+          (?=
+              {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
+              \]                          # Closing square bracket
+              [ ]?                        # Space
+              \[                          # [
+              \]                          # ]
+          )
+        )
+      captures:
+        1: punctuation.definition.string.begin.markdown
+      push: [link-ref-literal-after-text, link-ref-literal-link-text]
+  link-ref-literal-link-text:
+    - meta_scope: meta.link.reference.literal.markdown
+    - meta_content_scope: string.other.link.title.markdown
+    - include: link-text
+    - match: \]
+      scope: punctuation.definition.string.end.markdown
+      pop: true
+  link-ref-literal-after-text:
+    - match: '[ ]?(\[)(\])'
       scope: meta.link.reference.literal.markdown
       captures:
-        1: punctuation.definition.string.begin.markdown
-        2: string.other.link.title.markdown
-        4: punctuation.definition.string.end.markdown
-        5: punctuation.definition.constant.begin.markdown
-        6: punctuation.definition.constant.end.markdown
+        1: punctuation.definition.constant.begin.markdown
+        2: punctuation.definition.constant.end.markdown
+      pop: true
   list-paragraph:
     - include: block_raw
     - include: block_quote
