@@ -224,18 +224,14 @@ contexts:
                 (?<=\S)\1                                  # Close
             )
       captures:
-        1: punctuation.definition.bold.markdown
+        1: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
         - match: (?<=\S)(\1)
           captures:
-            1: punctuation.definition.bold.markdown
+            1: punctuation.definition.bold.end.markdown
           pop: true
-        - match: "(?=<[^>]*?>)"
-          push:
-            - include: scope:text.html.basic
-            - match: (?<=>)
-              pop: true
+        - include: scope:text.html.basic
         - include: inline
         - include: italic
   bracket:
@@ -250,13 +246,13 @@ contexts:
   heading:
     - match: '\G(#{1,6})(?!#)\s*(?=\S)'
       captures:
-        1: punctuation.definition.heading.markdown
+        1: punctuation.definition.heading.begin.markdown
       push:
         - meta_scope: markup.heading.markdown
         - meta_content_scope: entity.name.section.markdown
         - match: \s*(#*)$\n?
           captures:
-            1: punctuation.definition.heading.markdown
+            1: punctuation.definition.heading.end.markdown
           pop: true
         - include: inline-bold-italic-linebreak
   image-inline:
@@ -360,18 +356,14 @@ contexts:
                 (?<=\S)\1                               # Close
             )
       captures:
-        1: punctuation.definition.italic.markdown
+        1: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
         - match: (?<=\S)(\1)((?!\1)|(?=\1\1))
           captures:
-            1: punctuation.definition.italic.markdown
+            1: punctuation.definition.italic.end.markdown
           pop: true
-        - match: "(?=<[^>]*?>)"
-          push:
-            - include: scope:text.html.basic
-            - match: (?<=>)
-              pop: true
+        - include: scope:text.html.basic
         - include: inline
         - include: bold
   line-break:

@@ -381,3 +381,39 @@ because it doesn't begin with the number one:
 |  ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section
 |                            ^ - entity.name.section
 |                             ^^ punctuation.definition.heading
+
+*italic text <span>HTML element</span> end of italic text*
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+_italic text <span>HTML element</span> end of italic text_
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+**bold text <span>HTML element</span> end of bold text**
+| <- punctuation.definition.bold
+|                                                     ^^ punctuation.definition.bold
+|           ^^^^^^ meta.tag.inline.any.html
+|                             ^^^^^^^ meta.tag.inline.any.html
+
+__bold text <span>HTML element</span> end of bold text__
+| <- punctuation.definition.bold
+|                                                     ^^ punctuation.definition.bold
+|           ^^^^^^ meta.tag.inline.any.html
+|                             ^^^^^^^ meta.tag.inline.any.html
+
+*italic text <span>HTML element</span> end of italic text*
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+_italic text <span>HTML element</span> end of italic text_
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
