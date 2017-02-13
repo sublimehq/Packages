@@ -225,7 +225,7 @@ contexts:
   bold:
     - match: |-
         (?x)
-            (\*\*|\b__)(?=\S)                              # Open
+            (\*\*|\b__)(?=\S)(?!\1)                        # Open
             (?=
                 (
                     {{skip_html_tags}}                     # HTML tags
@@ -235,20 +235,14 @@ contexts:
                         (
                             (                              # Reference Link
                                 [ ]?                       # Optional space
-                                \[[^\]]*+\]                # Ref name
+                                \[[^\]]*\]                 # Optional Ref name
                             )
-                          | (                              # Inline Link
-                                \(                         # Opening paren
-                                    [ \t]*+                # Optional whitespace
-                                    <?(.*?)>?              # URL
-                                    {{link_title}}         # Optional Title
-                                \)
-                            )
+                          | {{url_and_title}}
                         )
-                  | (?!(?<=\S)\1).                         # Everything besides
-                                                           # style closer
+                  | (?=[ \t]\1)[ \t]\1+                    # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!\1).                                # Everything else besides style closer
                 )++
-                (?<=\S)\1                                  # Close
+                \1                                         # Close
             )
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -374,7 +368,7 @@ contexts:
   italic:
     - match: |-
         (?x)
-            (\*|\b_)(?=\S)                              # Open
+            (\*|\b_)(?=\S)(?!\1)                        # Open
             (?=
                 (
                     {{skip_html_tags}}                  # HTML tags
@@ -384,21 +378,15 @@ contexts:
                         (
                             (                           # Reference Link
                                 [ ]?                    # Optional space
-                                \[[^\]]*+\]             # Ref name
+                                \[[^\]]*\]              # Optional Ref name
                             )
-                          | (                           # Inline Link
-                                \(                      # Opening paren
-                                    [ \t]*+             # Optional whitespace
-                                    <?(.*?)>?           # URL
-                                    {{link_title}}      # Optional Title
-                                \)
-                            )
+                          | {{url_and_title}}
                         )
                   | \1\1                                # Must be bold closer
-                  | (?!(?<=\S)\1).                      # Everything besides
-                                                        # style closer
+                  | (?=[ \t]\1)[ \t]\1+                 # Match whitespace followed by the style closer because it doesn't close the style
+                  | (?!\1).                             # Everything else besides style closer
                 )++
-                (?<=\S)\1                               # Close
+                \1                                      # Close
             )
       captures:
         1: punctuation.definition.italic.begin.markdown

@@ -438,3 +438,17 @@ escaped backtick \`this is not code\`
 |                ^^ constant.character.escape
 |                                  ^^ constant.character.escape
 |                  ^^^^^^^^^^^^^^^^ - markup.raw.inline
+the following is italic *and doesn't end here * but does end here*
+|                       ^ punctuation.definition.italic.begin
+|                                             ^ - punctuation.definition.italic
+|                                                                ^ punctuation.definition.italic.end
+the following is bold **and doesn't end here ** but does end here**
+|                     ^^ punctuation.definition.bold.begin
+|                                            ^^ - punctuation.definition.bold
+|                                                                ^^ punctuation.definition.bold.end
+the following is not bold ** test ****
+|                         ^^ - punctuation.definition.bold.begin
+|                                 ^^^^ - punctuation.definition.bold
+the following is not italic _ test ____
+|                           ^ - punctuation.definition.italic.begin
+|                                  ^^^^ - punctuation.definition.italic
