@@ -519,9 +519,26 @@ for (var i = 0; i < 10; i++) {
 |         ^^ - punctuation
 |              ^^^ punctuation.definition.raw.end
 ```testing``123````
-| <- invalid
-|         ^^ invalid
-|              ^^^^ invalid
+| <- punctuation.definition.raw.begin
+|        ^ - punctuation
+|            ^^^^ - punctuation
+```
+| <- punctuation.definition.raw.end
+``testing`123````
+| <- punctuation.definition.raw.begin
+|        ^ - punctuation
+|            ^^^^ - punctuation
+more text``
+|        ^^ punctuation.definition.raw.end
+``text
+
+| <- invalid.illegal.non-terminated.raw
+text
+| <- - markup.raw
+
+inline backticks must be followed by non-whitespace `` characters``
+|                                                   ^^ invalid.deprecated.unescaped-backticks
+|                                                                ^^ invalid.deprecated.unescaped-backticks
 
 ~~~~ 
 | <- punctuation.definition.raw.code-fence.begin

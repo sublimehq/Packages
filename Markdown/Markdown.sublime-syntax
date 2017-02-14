@@ -34,10 +34,10 @@ variables:
     escape: '\\[-`*_#+.!(){}\[\]\\>]'
     backticks: |-
         (?x:
-            (`{4})[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
-        |   (`{3})[^`]+(?:[^`]+|(?!`{3})`*)*(`{3})(?!`)
-        |   (`{2})[^`]+(?:[^`]+|(?!`{2})`*)*(`{2})(?!`)
-        |   (`{1})[^`]+(?:[^`]+|(?!`{1})`*)*(`{1})(?!`)
+            (`{4})(?=\S)[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
+        |   (`{3})(?=\S)[^`]+(?:[^`]+|(?!`{3})`*)*(`{3})(?!`)
+        |   (`{2})(?=\S)[^`]+(?:[^`]+|(?!`{2})`*)*(`{2})(?!`)
+        |   (`{1})(?=\S)[^`]+(?:[^`]+|(?!`{1})`*)*(`{1})(?!`)
         )
     balance: |-
         (?x:
@@ -643,17 +643,6 @@ contexts:
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
   raw:
-    - match: '{{backticks}}'
-      scope: markup.raw.inline.markdown
-      captures:
-        1: punctuation.definition.raw.begin.markdown
-        2: punctuation.definition.raw.end.markdown
-        3: punctuation.definition.raw.begin.markdown
-        4: punctuation.definition.raw.end.markdown
-        5: punctuation.definition.raw.begin.markdown
-        6: punctuation.definition.raw.end.markdown
-        7: punctuation.definition.raw.begin.markdown
-        8: punctuation.definition.raw.end.markdown
     - match: '^[ ]{0,3}(`{3,}(?![^`]+`)|~{3,}(?![^~]+~))([\w-]*).*$'
       captures:
         1: punctuation.definition.raw.code-fence.begin.markdown
@@ -662,6 +651,17 @@ contexts:
         - meta_scope: markup.raw.code-fence.markdown
         - match: '[ ]{,3}\1\s*$'
           scope: punctuation.definition.raw.code-fence.end.markdown
+          pop: true
+    - match: (`+)(?=\S)(?!`)
+      scope: punctuation.definition.raw.begin.markdown
+      push:
+        - meta_scope: markup.raw.inline.markdown
+        - match: \1(?!`)
+          scope: punctuation.definition.raw.end.markdown
+          pop: true
+        - match: '`+'
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
     - match: '`+'
       scope: invalid.deprecated.unescaped-backticks.markdown
