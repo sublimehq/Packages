@@ -317,7 +317,7 @@ contexts:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
   heading:
-    - match: '\G(#{1,6})(?!#)\s*(?=\S)'
+    - match: '(#{1,6})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:
@@ -620,7 +620,7 @@ contexts:
   list-paragraph:
     - include: block_raw
     - include: block_quote
-    - match: \G\s+(?=\S)
+    - match: \s+(?=\S)
       push:
         - meta_scope: meta.paragraph.list.markdown
         - match: ^\s*$
@@ -636,6 +636,8 @@ contexts:
         - match: '(?=\S)'
           push:
             - include: list-content
+    - match: '(?=\S)'
+      pop: true
   list-content:
     - meta_content_scope: meta.paragraph.list.markdown
     - match: ^
