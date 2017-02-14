@@ -473,18 +473,18 @@ __more `tests__` here__
 | <- punctuation.definition.bold.begin
 |      ^^^^^^^^^ markup.raw.inline
 |                    ^^ punctuation.definition.bold.end
-_test <span>text_ not formatted</span>
-| <- - punctuation
-|               ^ - punctuation
+_test <span>text_ foobar</span>
+| <- punctuation
+|               ^ punctuation.definition.italic.end
 __test <span>text__ not formatted</span>
-| <- - punctuation
-|                ^^ - punctuation
+| <- punctuation
+|                ^^ punctuation.definition.bold.end
 *test <span>text* not formatted</span>
-| <- - punctuation
-|               ^ - punctuation
+| <- punctuation
+|               ^ punctuation.definition.italic.end
 **test <span>text** not formatted</span>
-| <- - punctuation
-|                ^^ - punctuation
+| <- punctuation
+|                ^^ punctuation.definition.bold.end
 _test <span>text **formatted**</span>_
 | <- punctuation
 |                ^^ punctuation
@@ -504,6 +504,17 @@ _test <span>text **formatted**</span>_
 |                                            ^^ punctuation
 |                                               ^ punctuation
 |                                                    ^ punctuation
+*test <span>text* __formatted</span>__
+| <- punctuation
+|               ^ punctuation
+|                 ^^ punctuation
+|                                   ^^ punctuation
+
+__test <span>text__ *formatted</span>*
+| <- punctuation
+|                ^^ punctuation
+|                   ^ punctuation
+|                                    ^ punctuation
 
 ```js
 | <- punctuation.definition.raw.code-fence.begin

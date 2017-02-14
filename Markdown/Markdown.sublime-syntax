@@ -66,9 +66,7 @@ variables:
               \s*                       # Optional whitespace
           (\))
         )
-    skip_self_closing_html_tags: '(?:<(?:hr|br)\b[^>]*>)'
-    skip_html_tag_content: '(?:<[^>]+[^<]*</[^>]+>)'
-    skip_html_tags: '(?:{{skip_self_closing_html_tags}}|{{skip_html_tag_content}})'
+    skip_html_tags: '(?:<[^>]+>)'
 contexts:
   main:
     - match: |-
