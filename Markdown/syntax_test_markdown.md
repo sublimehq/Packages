@@ -504,10 +504,35 @@ _test <span>text **formatted**</span>_
 |                                            ^^ punctuation
 |                                               ^ punctuation
 |                                                    ^ punctuation
+
+```js
+| <- punctuation.definition.raw.code-fence.begin
+|  ^^ constant.other.language-name
+for (var i = 0; i < 10; i++) {
+    console.log(i);
+}
+```
+| <- punctuation.definition.raw.code-fence.end
+
 ```testing``123```
 | <- punctuation.definition.raw.begin
 |         ^^ - punctuation
 |              ^^^ punctuation.definition.raw.end
 ```testing``123````
-| <- - punctuation
-| ^^^^^^^^^^^^^^^^^ - punctuation
+| <- invalid
+|         ^^ invalid
+|              ^^^^ invalid
+
+~~~~ 
+| <- punctuation.definition.raw.code-fence.begin
+ ~~~~
+| ^^^ punctuation.definition.raw.code-fence.end
+
+```test
+|  ^^^^ constant.other.language-name
+  ```
+| ^^^ punctuation.definition.raw.code-fence.end
+
+hello world ````test````
+|           ^^^^^^^^^^^^ markup.raw.inline
+|                       ^ - markup.raw

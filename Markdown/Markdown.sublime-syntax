@@ -654,7 +654,17 @@ contexts:
         6: punctuation.definition.raw.end.markdown
         7: punctuation.definition.raw.begin.markdown
         8: punctuation.definition.raw.end.markdown
+    - match: '^[ ]{0,3}(`{3,}(?![^`]+`)|~{3,}(?![^~]+~))([\w-]*).*$'
+      captures:
+        1: punctuation.definition.raw.code-fence.begin.markdown
+        2: constant.other.language-name.markdown
+      push:
+        - meta_scope: markup.raw.code-fence.markdown
+        - match: '[ ]{,3}\1\s*$'
+          scope: punctuation.definition.raw.code-fence.end.markdown
+          pop: true
     - match: '`+'
+      scope: invalid.deprecated.unescaped-backticks.markdown
   separator:
     - match: '{{separator_line}}\n?'
       scope: meta.separator.markdown
