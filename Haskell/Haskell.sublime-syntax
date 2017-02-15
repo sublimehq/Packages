@@ -5,9 +5,23 @@ name: Haskell
 file_extensions:
   - hs
 scope: source.haskell
+
+variables:
+  identStartCharClass: '[\p{Ll}_\p{Lu}\p{Lt}]'
+  identContCharClass: '[\p{Ll}_\p{Lu}\p{Lt}'']'
+  identCharClass: '[\p{Ll}_\p{Lu}\p{Lt}\p{Nd}'']'
+  classNameOne: '[\p{Lu}\p{Lt}]{{identCharClass}}*'
+  functionNameOne: '[\p{Ll}_]{{identCharClass}}*'
+  className: '{{classNameOne}}(?:\.{{classNameOne}})*'
+  functionName: (?:{{className}}\.)?{{functionNameOne}}
+
+  operatorChar: (?:[\p{S}\p{P}$](?<![(),;\[\]`{}_"']))
+  operator: '{{operatorChar}}+'
+  operatorFun: (?:\((?!--+\)){{operator}}\))
+
 contexts:
   main:
-    - match: "(`)[a-zA-Z_']*?(`)"
+    - match: "(`){{functionName}}(`)"
       comment: "In case this regex seems unusual for an infix operator, note that Haskell allows any ordinary function application (elem 4 [1..10]) to be rewritten as an infix expression (4 `elem` [1..10])."
       scope: keyword.operator.function.infix.haskell
       captures:
@@ -157,26 +171,22 @@ contexts:
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
         6: punctuation.definition.string.end.haskell
-    - match: '^\s*([a-z_][a-zA-Z0-9_'']*|\([|!%$+\-.,=</>]+\))\s*(::|∷)'
+    - match: '^([ \t]*)({{functionName}}|{{operatorFun}})\s*(::|∷)'
       captures:
-        1: entity.name.function.haskell
-        2: keyword.other.double-colon.haskell
+        2: entity.name.function.haskell
+        3: keyword.other.double-colon.haskell
       push:
         - meta_scope: meta.function.type-declaration.haskell
-        - match: |-
-            (?x)
-                ^(data|newtype|type|class|deriving)\s  # When a top level declaration starts
-              | ^[^=]*(=)[\sa-zA-Z0-9_\(]                # A function declaration
-          captures:
-            1: keyword.other.haskell
-            2: keyword.operator.haskell
+        - match: ^(?!\1[ \t]|[ \t]*$)
           pop: true
         - include: type_signature
     - match: '\b[A-Z]\w*\b'
       scope: constant.other.haskell
     - include: comments
-    - include: infix_op
-    - match: '[|!%$?~+:\-.=</>\\]+'
+    # - include: infix_op
+    - match: '{{operatorFun}}'
+      clear: true
+    - match: '{{operator}}'
       comment: In case this regex seems overly general, note that Haskell permits the definition of new operators which can be nearly any string of punctuation characters, such as $%^&*.
       scope: keyword.operator.haskell
     - match: ","
@@ -204,7 +214,7 @@ contexts:
           pop: true
     - include: block_comment
   infix_op:
-    - match: '(\([|!%$+:\-.=</>]+\)|\(,+\))'
+    - match: '({{operatorFun}})'
       scope: entity.name.function.infix.haskell
   module_exports:
     - match: \(
@@ -212,7 +222,7 @@ contexts:
         - meta_scope: meta.declaration.exports.haskell
         - match: \)
           pop: true
-        - match: '\b[a-z][a-zA-Z_''0-9]*'
+        - match: '\b{{functionName}}'
           scope: entity.name.function.haskell
         - match: '\b[A-Z][A-Za-z_''0-9]*'
           scope: storage.type.haskell
