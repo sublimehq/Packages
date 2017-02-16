@@ -8,6 +8,7 @@ file_extensions:
   - markdown
   - markdn
 scope: text.html.markdown
+comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/
 variables:
     separator_line: |-
         (?x:
