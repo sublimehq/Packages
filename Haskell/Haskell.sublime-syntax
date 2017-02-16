@@ -178,9 +178,9 @@ contexts:
         3: keyword.other.double-colon.haskell
       push:
         - meta_scope: meta.function.type-declaration.haskell
+        - include: type_signature
         - match: ^(?!\1[ \t]|[ \t]*$)
           pop: true
-        - include: type_signature
     - match: '\b[A-Z]\w*\b'
       scope: constant.other.haskell
     - include: comments
