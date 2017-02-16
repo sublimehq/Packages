@@ -6,22 +6,23 @@ file_extensions:
   - hs
 scope: source.haskell
 
+# Based on atom language-haskell
 variables:
-  identStartCharClass: '[\p{Ll}_\p{Lu}\p{Lt}]'
-  identContCharClass: '[\p{Ll}_\p{Lu}\p{Lt}'']'
-  identCharClass: '[\p{Ll}_\p{Lu}\p{Lt}\p{Nd}'']'
-  classNameOne: '[\p{Lu}\p{Lt}]{{identCharClass}}*'
-  functionNameOne: '[\p{Ll}_]{{identCharClass}}*'
-  className: '{{classNameOne}}(?:\.{{classNameOne}})*'
-  functionName: (?:{{className}}\.)?{{functionNameOne}}
+  ident_start_char_class: '[\p{Ll}_\p{Lu}\p{Lt}]'
+  ident_cont_char_class: '[\p{Ll}_\p{Lu}\p{Lt}'']'
+  ident_char_class: '[\p{Ll}_\p{Lu}\p{Lt}\p{Nd}'']'
+  class_name_one: '[\p{Lu}\p{Lt}]{{ident_char_class}}*'
+  function_name_one: '[\p{Ll}_]{{ident_char_class}}*'
+  class_name: '{{class_name_one}}(?:\.{{class_name_one}})*'
+  function_name: (?:{{class_name}}\.)?{{function_name_one}}
 
-  operatorChar: (?:[\p{S}\p{P}$](?<![(),;\[\]`{}_"']))
-  operator: '{{operatorChar}}+'
-  operatorFun: (?:\((?!--+\)){{operator}}\))
+  operator_char: (?:[\p{S}\p{P}$](?<![(),;\[\]`{}_"']))
+  operator: '{{operator_char}}+'
+  operator_fun: (?:\((?!--+\)){{operator}}\))
 
 contexts:
   main:
-    - match: "(`){{functionName}}(`)"
+    - match: "(`){{function_name}}(`)"
       comment: "In case this regex seems unusual for an infix operator, note that Haskell allows any ordinary function application (elem 4 [1..10]) to be rewritten as an infix expression (4 `elem` [1..10])."
       scope: keyword.operator.function.infix.haskell
       captures:
@@ -171,7 +172,7 @@ contexts:
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
         6: punctuation.definition.string.end.haskell
-    - match: '^([ \t]*)({{functionName}}|{{operatorFun}})\s*(::|∷)'
+    - match: '^([ \t]*)({{function_name}}|{{operator_fun}})\s*(::|∷)'
       captures:
         2: entity.name.function.haskell
         3: keyword.other.double-colon.haskell
@@ -184,7 +185,7 @@ contexts:
       scope: constant.other.haskell
     - include: comments
     # - include: infix_op
-    - match: '{{operatorFun}}'
+    - match: '{{operator_fun}}'
       clear: true
     - match: '{{operator}}'
       comment: In case this regex seems overly general, note that Haskell permits the definition of new operators which can be nearly any string of punctuation characters, such as $%^&*.
@@ -214,7 +215,7 @@ contexts:
           pop: true
     - include: block_comment
   infix_op:
-    - match: '({{operatorFun}})'
+    - match: '({{operator_fun}})'
       scope: entity.name.function.infix.haskell
   module_exports:
     - match: \(
@@ -222,7 +223,7 @@ contexts:
         - meta_scope: meta.declaration.exports.haskell
         - match: \)
           pop: true
-        - match: '\b{{functionName}}'
+        - match: '\b{{function_name}}'
           scope: entity.name.function.haskell
         - match: '\b[A-Z][A-Za-z_''0-9]*'
           scope: storage.type.haskell
