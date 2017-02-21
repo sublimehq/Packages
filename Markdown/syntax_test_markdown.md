@@ -564,3 +564,21 @@ inline backticks must be followed by non-whitespace `` characters``
 hello world ````test````
 |           ^^^^^^^^^^^^ markup.raw.inline
 |                       ^ - markup.raw
+
+`foo `` bar`
+|    ^^^^^^ markup.raw.inline - punctuation
+|          ^ punctuation.definition.raw.end
+
+hard line break  
+|              ^^ meta.hard-line-break
+hard line break\
+|              ^ meta.hard-line-break constant.character.escape
+
+### foo  
+|      ^^^ - meta.hard-line-break
+### foo\
+|      ^ - meta.hard-line-break
+
+`inline code with trailing spaces  
+|                                ^^^ - meta.hard-line-break
+not a hard line break`

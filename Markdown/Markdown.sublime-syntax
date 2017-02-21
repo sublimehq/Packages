@@ -10,7 +10,7 @@ file_extensions:
 scope: text.html.markdown
 comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/
 variables:
-    separator_line: |-
+    thematic_break: |-
         (?x:
             [ ]{,3}
             (?:
@@ -21,8 +21,8 @@ variables:
             [ \t]*$
         )
     block_quote: '(?:[ ]{,3}>(?:.|$))'
-    block_heading: '(?:[#]{1,6}\s*)'
-    block_raw: '(?:[ ]{4}|\t)'
+    atx_heading: '(?:[#]{1,6}\s*)'
+    indented_code_block: '(?:[ ]{4}|\t)'
     list_item: '(?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s)'
     link_title: |-
         (?x:[ \t]*                # Optional whitespace
@@ -73,9 +73,9 @@ contexts:
     - match: |-
         (?x)^
         (?=  {{block_quote}}
-        |    {{block_raw}}(?!$)
-        |    {{block_heading}}
-        |    {{separator_line}}
+        |    {{indented_code_block}}(?!$)
+        |    {{atx_heading}}
+        |    {{thematic_break}}
         )
       comment: |
         We could also use an empty end match and set
@@ -83,10 +83,10 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
-        - include: block_quote
-        - include: block_raw
-        - include: heading
-        - include: separator
+        - include: block-quote
+        - include: indented-code-block
+        - include: atx-heading
+        - include: thematic-break
         - match: ''
           pop: true
     - match: '^[ ]{0,3}([*+-])(?=\s)'
@@ -147,21 +147,21 @@ contexts:
                     {{block_quote}}    # a block quote begins the line
                 |   [ ]{,3}[*+-][ ]    # an unordered list item begins the line
                 |   [ ]{,3}1[.][ ]     # an ordered list item with number "1" begins the line
-                |   \#                 # a block heading begins the line
+                |   \#                 # an ATX heading begins the line
                 )
             )
           pop: true
         - include: inline-bold-italic-linebreak
         - include: scope:text.html.basic
         - match: '^(={3,})(?=[ \t]*$)'
-          scope: markup.heading.1.markdown
+          scope: markup.heading.1.setext.markdown
           captures:
-            1: punctuation.definition.heading.markdown
+            1: punctuation.definition.heading.setext.markdown
           pop: true
         - match: '^(-{3,})(?=[ \t]*$)'
-          scope: markup.heading.2.markdown
+          scope: markup.heading.2.setext.markdown
           captures:
-            1: punctuation.definition.heading.markdown
+            1: punctuation.definition.heading.setext.markdown
           pop: true
   ampersand:
     - match: "&(?!([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+);)"
@@ -169,7 +169,7 @@ contexts:
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
-  block_quote:
+  block-quote:
     - match: '[ ]{,3}(>)[ ]?'
       comment: |
         We terminate the block quote when seeing an empty line, a
@@ -186,7 +186,7 @@ contexts:
         - match: |-
             (?x)^
             (?=  \s*$
-            |    {{separator_line}}
+            |    {{thematic_break}}
             |    {{block_quote}}
             )
           pop: true
@@ -197,18 +197,18 @@ contexts:
           push:
             - match: ^
               pop: true
-            - include: block_quote
+            - include: block-quote
         - match: |-
             (?x)
-            (?=  {{block_raw}}
-            |    {{block_heading}}
-            |    {{separator_line}}
+            (?=  {{indented_code_block}}
+            |    {{atx_heading}}
+            |    {{thematic_break}}
             |    {{list_item}}
             )
           push:
-            - include: block_raw
-            - include: heading
-            - include: separator
+            - include: indented-code-block
+            - include: atx-heading
+            - include: thematic-break
             - match: '{{list_item}}'
               captures:
                 1: punctuation.definition.list_item.markdown
@@ -220,8 +220,8 @@ contexts:
             - match: $|^
               pop: true
             - include: inline-bold-italic-linebreak
-  block_raw:
-    - match: '{{block_raw}}.*$\n?'
+  indented-code-block:
+    - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
     - match: |-
@@ -315,7 +315,7 @@ contexts:
   escape:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
-  heading:
+  atx-heading:
     - match: '(#{1,6})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
@@ -326,7 +326,7 @@ contexts:
           captures:
             1: punctuation.definition.heading.end.markdown
           pop: true
-        - include: inline-bold-italic-linebreak
+        - include: inline-bold-italic
   image-inline:
     - match: |-
         (?x:
@@ -406,16 +406,18 @@ contexts:
     - include: raw
     - include: image-inline
     - include: link-inline
-    - include: link-inet
-    - include: link-email
+    - include: autolink-inet
+    - include: autolink-email
     - include: image-ref
     - include: link-ref-literal
     - include: link-ref
-  inline-bold-italic-linebreak:
+  inline-bold-italic:
     - include: inline
     - include: bold
     - include: italic
-    - include: line-break
+  inline-bold-italic-linebreak:
+    - include: inline-bold-italic
+    - include: hard-line-break
   italic:
     - match: |-
         (?x)
@@ -500,17 +502,21 @@ contexts:
         - include: inline
         - include: bold
     - match: '[*_]+'
-  line-break:
+  hard-line-break:
     - match: '[ ]{2,}$'
-      scope: meta.dummy.line-break
-  link-email:
+      scope: meta.hard-line-break.markdown
+    - match: '(\\)$\n'
+      scope: meta.hard-line-break.markdown
+      captures:
+        1: constant.character.escape.markdown
+  autolink-email:
     - match: '(<)((?:mailto:)?[-+.\w]+@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)(>)'
       scope: meta.link.email.lt-gt.markdown
       captures:
         1: punctuation.definition.link.begin.markdown
         2: markup.underline.link.markdown
         4: punctuation.definition.link.end.markdown
-  link-inet:
+  autolink-inet:
     - match: (<)((?:https?|ftp)://.*?)(>)
       scope: meta.link.inet.markdown
       captures:
@@ -617,8 +623,8 @@ contexts:
         2: punctuation.definition.constant.end.markdown
       pop: true
   list-paragraph:
-    - include: block_raw
-    - include: block_quote
+    - include: indented-code-block
+    - include: block-quote
     - match: \s+(?=\S)
       push:
         - meta_scope: meta.paragraph.list.markdown
@@ -643,7 +649,7 @@ contexts:
       pop: true
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
-  raw:
+  fenced-code-block:
     - match: '^[ ]{0,3}(`{3,}(?![^`]+`)|~{3,}(?![^~]+~))([\w-]*).*$'
       captures:
         1: punctuation.definition.raw.code-fence.begin.markdown
@@ -653,6 +659,7 @@ contexts:
         - match: '[ ]{,3}\1\s*$'
           scope: punctuation.definition.raw.code-fence.end.markdown
           pop: true
+  code-span:
     - match: (`+)(?=\S)(?!`)
       scope: punctuation.definition.raw.begin.markdown
       push:
@@ -664,11 +671,14 @@ contexts:
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
+  raw:
+    - include: fenced-code-block
+    - include: code-span
     - match: '`+'
       scope: invalid.deprecated.unescaped-backticks.markdown
-  separator:
-    - match: '{{separator_line}}\n?'
-      scope: meta.separator.markdown
+  thematic-break:
+    - match: '{{thematic_break}}\n?'
+      scope: meta.separator.thematic-break.markdown
   disable-markdown:
     - match: (</)(\1)(>)
       captures:
