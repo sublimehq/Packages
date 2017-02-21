@@ -573,6 +573,12 @@ hard line break
 |              ^^ meta.hard-line-break
 hard line break\
 |              ^ meta.hard-line-break constant.character.escape
+hard line break     
+|              ^^^^^ meta.hard-line-break
+soft line break 
+|              ^^ - meta.hard-line-break
+soft line break
+|             ^^ - meta.hard-line-break
 
 ### foo  
 |      ^^^ - meta.hard-line-break
