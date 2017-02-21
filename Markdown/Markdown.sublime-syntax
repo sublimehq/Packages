@@ -576,6 +576,7 @@ contexts:
     - meta_content_scope: meta.paragraph.list.markdown
     - match: ^
       pop: true
+    - include: thematic-break
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
   fenced-code-block:
@@ -606,8 +607,13 @@ contexts:
     - match: '`+'
       scope: invalid.deprecated.unescaped-backticks.markdown
   thematic-break:
-    - match: '{{thematic_break}}\n?'
-      scope: meta.separator.thematic-break.markdown
+    - match: '(?={{thematic_break}}$)'
+      push:
+        - meta_scope: meta.separator.thematic-break.markdown
+        - match: '[-_*]+'
+          scope: punctuation.definition.thematic-break.markdown
+        - match: '$\n?'
+          pop: true
   disable-markdown:
     - match: (</)(\1)(>)
       captures:

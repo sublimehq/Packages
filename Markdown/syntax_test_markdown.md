@@ -112,7 +112,8 @@ Paragraph break.
 Paragraph break.
 
 --------
-|^^^^^^^ meta.separator
+|^^^^^^^^ meta.block-level meta.separator.thematic-break
+|^^^^^^^ punctuation.definition.thematic-break
 
 [1]: https://google.com
 | <- meta.link.reference.def
@@ -205,12 +206,24 @@ paragraph
 
 - - - -
 | ^^^^^^ meta.block-level meta.separator
-
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|     ^ punctuation.definition.thematic-break
+|  ^ - punctuation
 * * * * *
 | ^^^^^^^^ meta.block-level meta.separator
 
 _ _ _ _ _ _ _
 | ^^^^^^^^^^^^ meta.block-level meta.separator
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|  ^ - punctuation
+
+-  -  -  - 
+| <- meta.block-level meta.separator.thematic-break punctuation.definition.thematic-break
+|^^ - punctuation
+|  ^ punctuation
+|        ^ punctuation
 
 <mailto:test+test@test.com>
 | ^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.email.lt-gt markup.underline.link
@@ -949,3 +962,19 @@ blah*
 | <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.italic
   still a list item
 | ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+- * * * * * * *
+| <- punctuation.definition.list_item
+| ^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list meta.separator.thematic-break
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|     ^ punctuation.definition.thematic-break
+|       ^ punctuation.definition.thematic-break
+|         ^ punctuation.definition.thematic-break
+|           ^ punctuation.definition.thematic-break
+|             ^ punctuation.definition.thematic-break
+|  ^ - punctuation.definition.thematic-break
+|    ^ - punctuation.definition.thematic-break
+|      ^ - punctuation.definition.thematic-break
+|        ^ - punctuation.definition.thematic-break
+|          ^ - punctuation.definition.thematic-break
+|            ^ - punctuation.definition.thematic-break
