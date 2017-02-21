@@ -137,7 +137,7 @@ contexts:
         15: punctuation.definition.string.begin.markdown
         16: punctuation.definition.string.end.markdown
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
-      push: 
+      push:
         - meta_scope: meta.paragraph.markdown
         - match: |-
             (?x)                       # pop out of this context when
@@ -224,32 +224,7 @@ contexts:
     - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
-    - match: |-
-        (?x)
-            (\*\*)(?=\S)(?!\*)                          # Open
-            (?=
-                (?:
-                    {{skip_html_tags}}                  # HTML tags
-                  | {{backticks}}                       # Raw
-                  | {{escape}}                          # Escapes
-                  | \[{{balance_square_brackets}}\]
-                        (?:
-                            (?:                         # Reference Link
-                                [ ]?                    # Optional space
-                                \[[^\]]*\]              # Optional Ref name
-                            )
-                          | {{url_and_title}}
-                        )
-                  | \*{3,}                              # not applicable
-                  | [ \t]\*+                            # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!
-                        {{skip_html_tags}}              # emulate possessive quantifers by repeating patterns
-                    |   {{backticks}}
-                    |   {{escape}}
-                    |   \*\*).                          # Everything else besides style closer
-                )+
-                \*\*                                    # Close
-            )
+    - match: '(\*\*)(?=\S)(?!\*)(?:_)?'
       captures:
         1: punctuation.definition.bold.begin.markdown
       push:
@@ -258,39 +233,21 @@ contexts:
               (?x)
                   [ \t]*\*{3,}     # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+\*\*+      # whitespace followed by 2 or more is also not applicable
-        - match: (\1)(?!\1)
+              |   ^\*\*            # emphasis can't be closed at the start of the line
+        - match: (\*\*)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
         - include: scope:text.html.basic
         - include: inline
         - include: italic
-    - match: |-
-        (?x)
-            (\b__)(?=\S)(?!_)                           # Open
-            (?=
-                (?:
-                    {{skip_html_tags}}                  # HTML tags
-                  | {{backticks}}                       # Raw
-                  | {{escape}}                          # Escapes
-                  | \[{{balance_square_brackets}}\]
-                        (?:
-                            (?:                         # Reference Link
-                                [ ]?                    # Optional space
-                                \[[^\]]*\]              # Optional Ref name
-                            )
-                          | {{url_and_title}}
-                        )
-                  | _{3,}                                # not applicable
-                  | [ \t]_+                              # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!
-                        {{skip_html_tags}}               # emulate possessive quantifers by repeating patterns
-                    |   {{backticks}}
-                    |   {{escape}}
-                    |   __).                             # Everything else besides style closer
-                )+
-                __                                       # Close
-            )
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.bold.markdown
+          pop: true
+        - match: '^(?={{list_item}})'
+          pop: true
+        - include: hard-line-break
+    - match: '(\b__)(?=\S)(?!_)(?:\*)?'
       captures:
         1: punctuation.definition.bold.begin.markdown
       push:
@@ -299,13 +256,20 @@ contexts:
               (?x)
                   [ \t]*_{3,}    # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+__+      # whitespace followed by 2 or more is also not applicable
-        - match: (\1)(?!\1)
+              |   ^__            # emphasis can't be closed at the start of the line
+        - match: (__\b)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
         - include: scope:text.html.basic
         - include: inline
         - include: italic
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.bold.markdown
+          pop: true
+        - match: '^(?={{list_item}})'
+          pop: true
+        - include: hard-line-break
   bracket:
     - match: '<(?![a-z/?\$!])'
       comment: |
@@ -419,32 +383,7 @@ contexts:
     - include: inline-bold-italic
     - include: hard-line-break
   italic:
-    - match: |-
-        (?x)
-            (\*)(?=\S)(?!\*)                            # Open
-            (?=
-                (?:
-                    {{skip_html_tags}}                  # HTML tags
-                  | {{backticks}}                       # Raw
-                  | {{escape}}                          # Escapes
-                  | \[{{balance_square_brackets}}\]
-                        (?:
-                            (?:                         # Reference Link
-                                [ ]?                    # Optional space
-                                \[[^\]]*\]              # Optional Ref name
-                            )
-                          | {{url_and_title}}
-                        )
-                  | \*{2,}                              # Must be bold opener or closer or not applicable
-                  | [ \t]\*+                            # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!
-                        {{skip_html_tags}}              # emulate possessive quantifers by repeating patterns
-                    |   {{backticks}}
-                    |   {{escape}}
-                    |   \*).                            # Everything else besides style closer
-                )+
-                \*                                      # Close
-            )
+    - match: '(\*)(?=\S)(?!\*)'
       captures:
         1: punctuation.definition.italic.begin.markdown
       push:
@@ -453,39 +392,22 @@ contexts:
               (?x)
                   [ \t]*\*{3,}   # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+\*(?!\*) # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
-        - match: (\1)(?!\1)
+              |   ^\*(?!\*)      # emphasis can't be closed at the start of the line
+        - match: (\*)(?!\*)
           captures:
             1: punctuation.definition.italic.end.markdown
           pop: true
         - include: scope:text.html.basic
         - include: inline
         - include: bold
-    - match: |-
-        (?x)
-            (\b_)(?=\S)(?!_)                            # Open
-            (?=
-                (?:
-                    {{skip_html_tags}}                  # HTML tags
-                  | {{backticks}}                       # Raw
-                  | {{escape}}                          # Escapes
-                  | \[{{balance_square_brackets}}\]
-                        (?:
-                            (?:                         # Reference Link
-                                [ ]?                    # Optional space
-                                \[[^\]]*\]              # Optional Ref name
-                            )
-                          | {{url_and_title}}
-                        )
-                  | _{2,}                               # Must be bold opener or closer or not applicable
-                  | [ \t]_+                             # Match whitespace followed by the style closer because it doesn't close the style
-                  | (?!
-                        {{skip_html_tags}}              # emulate possessive quantifers by repeating patterns
-                    |   {{backticks}}
-                    |   {{escape}}
-                    |   _).                             # Everything else besides style closer
-                )+
-                _                                       # Close
-            )
+        - match: '\*+'
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.italic.markdown
+          pop: true
+        - match: '^(?={{list_item}})'
+          pop: true
+        - include: hard-line-break
+    - match: '(\b_)(?=\S)(?!_)'
       captures:
         1: punctuation.definition.italic.begin.markdown
       push:
@@ -494,13 +416,20 @@ contexts:
               (?x)
                   [ \t]*_{3,}   # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+_(?!_)  # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
-        - match: (\1)(?!\1)
+              |   ^_(?!_)       # emphasis can't be closed at the start of the line
+        - match: (_\b)
           captures:
             1: punctuation.definition.italic.end.markdown
           pop: true
         - include: scope:text.html.basic
         - include: inline
         - include: bold
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.italic.markdown
+          pop: true
+        - match: '^(?={{list_item}})'
+          pop: true
+        - include: hard-line-break
     - match: '[*_]+'
   hard-line-break:
     - match: '[ ]{2,}$'

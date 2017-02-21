@@ -258,23 +258,6 @@ underlined heading followed by another one that should be treated as a normal pa
 =====
 | <- - markup.heading
 
-This text is _bold_, but this__text__is neither bold_nor_italic
-|            ^ punctuation.definition.italic
-|             ^^^^ markup.italic
-|                 ^ punctuation.definition.italic
-|                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.bold - markup.italic
-_perform_complicated_task
-| <- punctuation.definition.italic
-|       ^ punctuation.definition.italic
-|^^^^^^^ markup.italic
-|        ^^^^^^^^^^^^^^^^^ - markup.italic
-__perform__complicated__task
-| <- punctuation.definition.bold
-|^ punctuation.definition.bold
-|        ^^ punctuation.definition.bold
-|^^^^^^^^ markup.bold
-|          ^^^^^^^^^^^^^^^^^^ - markup.bold
-
 Paragraph followed immediately by a list, no blank line in between
 - list item 1
 | <- markup.list.unnumbered punctuation.definition.list_item
@@ -438,6 +421,323 @@ escaped backtick \`this is not code\`
 |                ^^ constant.character.escape
 |                                  ^^ constant.character.escape
 |                  ^^^^^^^^^^^^^^^^ - markup.raw.inline
+
+Example 328:
+*foo bar*
+| <- punctuation.definition.italic.begin
+|       ^ punctuation.definition.italic.end
+
+Example 329:
+This is not emphasis, because the opening `*` is followed by whitespace, and hence not part of a left-flanking delimiter run:
+a * foo bar*
+| ^^^^^^^^^^^ - punctuation
+
+Example 332:
+Intraword emphasis with `*` is permitted:
+foo*bar*
+|  ^ punctuation.definition.italic.begin
+|      ^ punctuation.definition.italic.end
+Example 333:
+5*6*78
+|^ punctuation.definition.italic.begin
+|  ^ punctuation.definition.italic.end
+
+Example 334:
+_foo bar_
+| <- punctuation.definition.italic.begin
+|       ^ punctuation.definition.italic.end
+
+Example 335:
+This is not emphasis, because the opening `_` is followed by whitespace:
+_ foo bar_
+| <- - punctuation
+| ^^^^^^^^^ - punctuation
+
+Example 336:
+This is not emphasis, because the opening `_` is preceded by an alphanumeric and followed by punctuation:
+a_"foo"_
+|^^^^^^^^ - punctuation
+
+Example 337:
+Emphasis with `_` is not allowed inside words:
+foo_bar_
+|  ^^^^^ - punctuation
+
+Example 338:
+5_6_78
+|^^^^^ - punctuation
+
+Example 339:
+пристаням_стремятся_
+|        ^^^^^^^^^^^ - punctuation
+
+aa_"bb"_cc_
+| ^ - punctuation
+|      ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+
+Example 341:
+foo-_(bar)_
+|   ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+
+*foo bar *
+| <- punctuation.definition.italic.begin
+|        ^ - punctuation
+*
+| <- - punctuation
+abc*
+|  ^ punctuation.definition.italic.end
+
+Example 347:
+*foo*bar
+| <- punctuation.definition.italic.begin
+|   ^ punctuation.definition.italic.end
+
+Example 348:
+_foo bar _
+| <- punctuation.definition.italic.begin
+|        ^ - punctuation
+_
+| <- - punctuation
+abc_
+|  ^ punctuation.definition.italic.end
+
+Intraword emphasis is disallowed for `_`:
+_foo_bar
+| <- punctuation.definition.italic.begin
+|   ^ - punctuation
+abc_
+|  ^ punctuation.definition.italic.end
+
+Example 353:
+_foo_bar_baz_
+| <- punctuation.definition.italic.begin
+|   ^^^^^ - punctuation
+|           ^ punctuation.definition.italic.end
+
+Example 354:
+_(bar)_.
+| <-  punctuation.definition.italic.begin
+|     ^ punctuation.definition.italic.end
+
+Example 355:
+ **foo bar**
+|^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+
+Example 356:
+** foo bar**
+| <- - punctuation
+|         ^^ - punctuation
+
+Example 358:
+foo**bar**
+|  ^^ punctuation.definition.bold.begin
+|       ^^ punctuation.definition.bold.end
+
+Example 359:
+ __foo bar__
+|^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+
+Example 360:
+This is not strong emphasis, because the opening delimiter is followed by whitespace:
+__ foo bar__
+| <- - punctuation
+|         ^^ - punctuation
+
+Example 361:
+__
+| <- - punctuation
+
+Example 362:
+a__"foo"__
+|^^^^^^^^^ - punctuation
+
+Example 363:
+Intraword strong emphasis is forbidden with `__`:
+foo__bar__
+|  ^^^^^^^ - punctuation
+
+Example 364:
+5__6__78
+|^^^^^^^ - punctuation
+
+Example 367:
+foo-__(bar)__
+|   ^^ punctuation.definition.bold.begin
+|          ^^ punctuation.definition.bold.end
+
+Example 368:
+**foo bar **
+| <- punctuation.definition.bold.begin
+|         ^^ - punctuation
+abc**
+|  ^^ punctuation.definition.bold.end
+
+Example 373:
+Intraword emphasis:
+ **foo**bar
+|^^ punctuation.definition.bold.begin
+|     ^^ punctuation.definition.bold.end
+
+Example 374:
+ __foo bar __
+|^^ punctuation.definition.bold.begin
+|          ^^ - punctuation
+abc__
+|  ^^ punctuation.definition.bold.end
+
+Example 376:
+_(__foo__)_
+| <- punctuation.definition.italic.begin
+| ^^ punctuation.definition.bold.begin
+|      ^^ punctuation.definition.bold.end
+|         ^ punctuation.definition.italic.end
+
+Example 377:
+Intraword strong emphasis is forbidden with `__`:
+__foo__bar
+| <- punctuation.definition.bold.begin
+|    ^^ - punctuation
+abc__
+|  ^^ punctuation.definition.bold.end
+
+Example 379:
+__foo__bar__baz__
+| <- punctuation.definition.bold.begin
+|              ^^ punctuation.definition.bold.end
+|    ^^^^^^^^^^ - punctuation
+
+Example 380:
+This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation:
+__(bar)__.
+| <- punctuation.definition.bold.begin
+|      ^^ punctuation.definition.bold.end
+
+Example 381:
+*foo [bar](/url)*
+| <- punctuation.definition.italic.begin
+|               ^ punctuation.definition.italic.end
+|    ^^^^^^^^^^^ meta.link.inline
+
+Example 382:
+*foo
+| <- punctuation.definition.italic.begin
+bar*
+|  ^ punctuation.definition.italic.end
+
+Example 383:
+_foo __bar__ baz_
+| <- punctuation.definition.italic.begin
+|    ^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+|               ^ punctuation.definition.italic.end
+
+Example 394:
+** is not an empty emphasis
+| <- - punctuation
+|^ - punctuation
+
+Example 395:
+**** is not an empty strong emphasis
+| <- - punctuation
+|^^^ - punctuation
+
+Example 396:
+**foo [bar](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^ meta.link.inline
+|                ^^ punctuation.definition.bold.end
+
+Example 397:
+**foo
+| <- punctuation.definition.bold.begin
+bar**
+|  ^^ punctuation.definition.bold.end
+
+Example 398:
+__foo _bar_ baz__
+| <- punctuation.definition.bold.begin
+|     ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+|              ^^ punctuation.definition.bold.end
+
+Example 408:
+__ is not an empty emphasis
+| <- - punctuation
+|^ - punctuation
+
+Example 409:
+____ is not an empty strong emphasis
+| <- - punctuation
+|^^^ - punctuation
+
+
+Example 410:
+foo ***
+|   ^^^ - punctuation
+
+Example 411:
+foo *\**
+|   ^ punctuation.definition.italic.begin
+|    ^^ constant.character.escape
+|      ^ punctuation.definition.italic.end
+
+Example 412:
+foo *_*
+|   ^ punctuation.definition.italic.begin
+|    ^ - punctuation
+|     ^ punctuation.definition.italic.end
+
+Example 414:
+foo **\***
+|   ^^ punctuation.definition.bold.begin
+|     ^^ constant.character.escape
+|       ^^ punctuation.definition.bold.end
+
+Example 415:
+foo **_**
+|   ^^ punctuation.definition.bold.begin
+|     ^ - punctuation
+|      ^^ punctuation.definition.bold.end
+
+Example 422:
+foo ___
+|   ^^^^ - punctuation
+
+Example 423:
+foo _\__
+|   ^ punctuation.definition.italic.begin
+|    ^^ constant.character.escape
+|      ^ punctuation.definition.italic.end
+
+Example 424:
+foo _*_
+|   ^ punctuation.definition.italic.begin
+|    ^ - punctuation
+|     ^ punctuation.definition.italic.end
+
+Example 426:
+foo __\___
+|   ^^ punctuation.definition.bold.begin
+|     ^^ constant.character.escape
+|       ^^ punctuation.definition.bold.end
+
+Example 427:
+
+foo __*__
+|   ^^ punctuation.definition.bold.begin
+|     ^ - punctuation
+|      ^^ punctuation.definition.bold.end
+
+This text is _bold_, but this__text__is neither bold_nor_italic
+|            ^ punctuation.definition.italic
+|             ^^^^ markup.italic
+|                 ^ punctuation.definition.italic
+|                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.bold - markup.italic
+
 the following is italic *and doesn't end here * but does end here*
 |                       ^ punctuation.definition.italic.begin
 |                                             ^ - punctuation.definition.italic
@@ -457,14 +757,19 @@ more **tests *** ** here**
 |    ^^ punctuation.definition.bold.begin
 |            ^^^^^^ - punctuation.definition
 |                       ^^ punctuation.definition.bold.end
-more __tests *** ** *example __ here__
+more __tests *** ** example __ here__
 |    ^^ punctuation.definition.bold.begin
-|            ^^^^^^^^^^^^^^^^^^^^^^^ - punctuation.definition
-|                                   ^^ punctuation.definition.bold.end
+|            ^^^^^^^^^^^^^^^^^^^^^^ - punctuation.definition
+|                                  ^^ punctuation.definition.bold.end
 more _tests <span class="test_">here</span>_
 |    ^ punctuation.definition.italic.begin
 |                            ^ - punctuation.definition
 |                                          ^ punctuation.definition.italic.end
+more _tests <span class="test_">_here</span>_
+|    ^ punctuation.definition.italic.begin
+|                            ^ - punctuation.definition
+|                               ^ - punctuation
+|                                           ^ punctuation.definition.italic.end
 _more `tests_` here_
 | <- punctuation.definition.italic.begin
 |     ^^^^^^^^ markup.raw.inline
@@ -473,6 +778,20 @@ __more `tests__` here__
 | <- punctuation.definition.bold.begin
 |      ^^^^^^^^^ markup.raw.inline
 |                    ^^ punctuation.definition.bold.end
+**more `tests__` here**
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+**more `tests**` here**
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+*more `tests__` here**
+| <- punctuation.definition.italic.begin
+|                   ^^ - punctuation
+abc*
+|  ^ punctuation.definition.italic.end
+
 _test <span>text_ foobar</span>
 | <- punctuation
 |               ^ punctuation.definition.italic.end
@@ -588,3 +907,45 @@ soft line break
 `inline code with trailing spaces  
 |                                ^^^ - meta.hard-line-break
 not a hard line break`
+
+*test
+
+| <- invalid.illegal.non-terminated.italic
+abc*
+|  ^ - punctuation
+
+_test
+
+| <- invalid.illegal.non-terminated.italic
+abc_
+|  ^ - punctuation
+
+**test
+
+| <- invalid.illegal.non-terminated.bold
+abc**
+|  ^^ - punctuation
+
+__test
+
+| <- invalid.illegal.non-terminated.bold
+abc__
+|  ^^ - punctuation
+
+__test\
+|     ^ meta.hard-line-break constant.character.escape
+testing__
+
+- test *testing
+blah*
+|   ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.end
+- fgh
+- *ghgh
+| ^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list markup.italic punctuation.definition.italic.begin
+- fgfg
+| <- markup.list.unnumbered meta.paragraph.list punctuation.definition.list_item
+- _test
+
+| <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.italic
+  still a list item
+| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
