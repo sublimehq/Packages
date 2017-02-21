@@ -636,3 +636,6 @@ contexts:
         - include: link-text
         - match: \]
           pop: true
+    - include: bold
+    - include: italic
+    - include: hard-line-break

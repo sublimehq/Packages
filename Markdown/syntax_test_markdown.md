@@ -978,3 +978,25 @@ blah*
 |        ^ - punctuation.definition.thematic-break
 |          ^ - punctuation.definition.thematic-break
 |            ^ - punctuation.definition.thematic-break
+  still a list item
+| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+
+Example 407:
+**foo [*bar*](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^^^ markup.bold meta.link.inline
+|                  ^^ punctuation.definition.bold.end
+|      ^ punctuation.definition.italic.begin
+|          ^ punctuation.definition.italic.end
+**foo [_bar_](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^^^ markup.bold meta.link.inline
+|                  ^^ punctuation.definition.bold.end
+|      ^ punctuation.definition.italic.begin
+|          ^ punctuation.definition.italic.end
+_foo [**bar**](/url)_
+| <- punctuation.definition.italic.begin
+|    ^^^^^^^^^^^^^^^ markup.italic meta.link.inline
+|                   ^ punctuation.definition.italic.end
+|     ^^ punctuation.definition.bold.begin
+|          ^^ punctuation.definition.bold.end
