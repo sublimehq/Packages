@@ -1000,3 +1000,45 @@ _foo [**bar**](/url)_
 |                   ^ punctuation.definition.italic.end
 |     ^^ punctuation.definition.bold.begin
 |          ^^ punctuation.definition.bold.end
+
+
+1. Open `Command Palette` using menu item `Tools → Command Palette...`
+|^ markup.list.numbered punctuation.definition.list_item
+|                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list markup.raw.inline
+2. Choose `Package Control: Install Package`
+
+[**Read more &#8594;**][details]
+|^^ punctuation.definition.bold.begin
+|            ^^^^^^^ constant.character.entity.html
+|                   ^^ punctuation.definition.bold.end
+|                       ^^^^^^^ constant.other.reference.link
+
+[Read more &#8594;][details]
+|          ^^^^^^^ constant.character.entity.html
+|                   ^^^^^^^ constant.other.reference.link
+
+[Read more <span style="font-weight: bold;">&#8594;</span>][details]
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|                       ^^^^^^^^^^^^^^^^^^ source.css
+|                                           ^^^^^^^ constant.character.entity.html
+|                                                           ^^^^^^^ constant.other.reference.link
+
+[![Cool ★ Image - Click to Enlarge][img-example]][img-example]
+|^ punctuation.definition.image.begin
+|                                   ^^^^^^^^^^^ constant.other.reference.link
+|                                               ^ punctuation.definition.string.end
+|                                                 ^^^^^^^^^^^ constant.other.reference.link
+
+[![Cool ★ Image - Click to Enlarge](http://www.sublimetext.com/anim/rename2_packed.png)](http://www.sublimetext.com/anim/rename2_packed.png)
+|^ punctuation.definition.image.begin
+|                                  ^ punctuation.definition.metadata.begin
+|                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                                                     ^ punctuation.definition.metadata.end
+|                                                                                       ^ punctuation.definition.metadata.begin
+|                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                                                                                                          ^ punctuation.definition.metadata.end
+
+[img-example]: http://www.sublimetext.com/anim/rename2_packed.png
+|^^^^^^^^^^^ meta.link.reference.def constant.other.reference.link
+|            ^ punctuation.separator.key-value
+|              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link

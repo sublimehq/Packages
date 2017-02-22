@@ -468,7 +468,7 @@ contexts:
   link-inline-link-text:
     - meta_scope: meta.link.inline.markdown
     - meta_content_scope: string.other.link.title.markdown
-    - include: link-text
+    - include: link-text-allow-image
     - match: \]
       scope: punctuation.definition.string.end.markdown
       pop: true
@@ -510,7 +510,7 @@ contexts:
   link-ref-link-text:
     - meta_scope: meta.link.reference.markdown
     - meta_content_scope: string.other.link.title.markdown
-    - include: link-text
+    - include: link-text-allow-image
     - match: \]
       scope: punctuation.definition.string.end.markdown
       pop: true
@@ -540,7 +540,7 @@ contexts:
   link-ref-literal-link-text:
     - meta_scope: meta.link.reference.literal.markdown
     - meta_content_scope: string.other.link.title.markdown
-    - include: link-text
+    - include: link-text-allow-image
     - match: \]
       scope: punctuation.definition.string.end.markdown
       pop: true
@@ -630,6 +630,7 @@ contexts:
     - include: scope:text.html.basic
   link-text:
     - include: escape
+    - include: ampersand
     - include: raw
     - match: \[ # nested square brackets are allowed
       push:
@@ -639,3 +640,8 @@ contexts:
     - include: bold
     - include: italic
     - include: hard-line-break
+    - include: scope:text.html.basic
+  link-text-allow-image:
+    - include: link-text
+    - include: image-inline
+    - include: image-ref
