@@ -546,6 +546,10 @@ rf"{value:{width!s:d}}"
 #               ^^ storage.modifier.conversion
 #                 ^^ constant.other.format-spec
 
+rf'\r\n' f'\r\n'
+#  ^^^^ - constant
+#          ^^^^ constant.character.escape
+
 F""" {} {\} }
 #^^^^^^^^^^^ meta.string.interpolated
 #^^^ punctuation.definition.string.begin
