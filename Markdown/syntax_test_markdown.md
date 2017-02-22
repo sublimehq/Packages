@@ -1078,3 +1078,35 @@ text
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |           ^^^^^^^^ invalid.illegal.expected-eol
+
+- a
+  - b
+    - c
+      - d
+|     ^ punctuation.definition.list_item
+        text here
+|       ^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw.block
+
+            code here
+            | ^^^^^^^^ markup.raw.block
+
+      - e
+|     ^ punctuation.definition.list_item
+
+            code here
+
+            >     block quote code here
+|           ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+|                 ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered markup.quote markup.raw.block
+
+            > > test
+|           ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+|             ^ markup.list.unnumbered markup.quote markup.quote punctuation.definition.blockquote - markup.raw.block
+
+      - f
+|     ^ markup.list.unnumbered punctuation.definition.list_item
+        1. test
+|        ^ punctuation.definition.list_item
+
+abc
+| <- meta.paragraph - markup.list

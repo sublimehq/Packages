@@ -546,8 +546,16 @@ contexts:
         2: punctuation.definition.constant.end.markdown
       pop: true
   list-paragraph:
-    - include: indented-code-block
-    - include: block-quote
+    - match: '^(?=\s+(?![>+*\s-]))(?={{indented_code_block}})'
+      push:
+        - include: indented-code-block
+        - match: $
+          pop: true
+    - match: '^(?=\s+{{block_quote}})'
+      push:
+        - include: block-quote
+        - match: $
+          pop: true
     - match: \s+(?=\S)
       push:
         - meta_scope: meta.paragraph.list.markdown
