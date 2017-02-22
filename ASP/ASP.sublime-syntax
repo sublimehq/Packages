@@ -13,7 +13,7 @@ variables:
   comparison_operators: '[=><]'
   math_operators: '(?:[+*^&/\\-]|\b(?i:Mod)\b)'
   logical_operators: '\b(?i:And|Not|Or|Xor|Is)\b'
-  operators: '{{comparison_operators}}|{{math_operators}}|logical_operators}}'
+  operators: '{{comparison_operators}}|{{math_operators}}|{{logical_operators}}'
   literal_number: '&[hH]\h+&?|(?:(?:(?:\d+(?:\.\d*)?)|(?:\.\d+))(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
@@ -318,17 +318,18 @@ contexts:
       set: inside_method
 
   after_method_name:
+    - meta_content_scope: meta.method.asp meta.method.identifier.asp
     - match: \(
-      scope: punctuation.section.parens.begin.asp
+      scope: meta.method.asp meta.method.identifier.asp punctuation.section.parens.begin.asp
       set:
-        - meta_scope: meta.method.asp meta.method.identifier.asp
         - match: \)
-          scope: punctuation.section.parens.end.asp
+          scope: meta.method.asp meta.method.identifier.asp punctuation.section.parens.end.asp
           pop: true
         - match: $
           set: not_end_of_statement
         - match: '(?=\S)'
           push:
+            - meta_scope: meta.method.asp meta.method.identifier.asp
             - match: '(?=\)|$)'
               pop: true
             - include: not_end_of_statement
@@ -346,7 +347,6 @@ contexts:
             - match: '(?:(?![,)])\S)+'
               scope: invalid.illegal.unexpected-token.asp
     - match: '\s+'
-      scope: meta.method.asp meta.method.identifier.asp
     - match: ':'
       scope: meta.method.asp punctuation.terminator.statement.asp
       pop: true
