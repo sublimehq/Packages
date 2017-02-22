@@ -10,11 +10,11 @@
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
-		s/^\s*(.*)(\[[^\]]*\])?\s*\(.*/$1$2/g;
-		s/(\[[^\]]*\])?|\b_\b\s*/$1/g;
-		s/\s{2,}/ /g;
-		</string>
+		<string><![CDATA[
+			s/^\s*(.*)(\[[^\]]*\])?\s*\(.*/$1$2/g; (?# this removes leading whitespace and everything after and including the first open paren that does not occur inside square brackets.)
+			s/(\[[^\]]*\])?|\b_\b\s*/$1/g; (?# this ignores anything in square brackets, and finds an underscore line continuation character and any whitespace following it, and replaces it with nothing. We don't have to worry about comments, because they are not allowed after an underscore.)
+			s/\s{2,}/ /g; (?# this collapses multiple spaces.)
+		]]></string>
 	</dict>
 </dict>
 </plist>
