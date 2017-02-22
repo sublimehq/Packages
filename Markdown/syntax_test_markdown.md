@@ -888,6 +888,15 @@ inline backticks must be followed by non-whitespace `` characters``
  ~~~~
 | ^^^ punctuation.definition.raw.code-fence.end
 
+~~~~~test~
+| ^^^^^^^^^ meta.paragraph - punctuation - constant - markup.raw
+
+~~~~~~test
+| ^^^^ punctuation.definition.raw.code-fence.begin
+|     ^^^^ constant.other.language-name
+~~~~~~
+| ^^^^^ punctuation.definition.raw.code-fence.end
+
 ```test
 |  ^^^^ constant.other.language-name
   ```

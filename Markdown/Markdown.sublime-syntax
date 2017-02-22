@@ -582,7 +582,20 @@ contexts:
     - include: inline-bold-italic-linebreak
     - include: scope:text.html.basic
   fenced-code-block:
-    - match: '^[ ]{0,3}(`{3,}(?![^`]+`)|~{3,}(?![^~]+~))([\w-]*).*$'
+    - match: |-
+         (?x)
+          ^[ ]{0,3}    # up to 3 spaces
+          (
+            `{3,}      #   3 or more backticks
+            (?![^`]+`) #   not followed by any more backticks on the same line
+            (?!`)      #   makes the {3,} possessive
+          |            # or
+            ~{3,}      #   3 or more tildas
+            (?![^~]+~) #   not followed by any more tildas on the same line
+            (?!~)      #   makes the {3,} possessive
+          )
+          ([\w-]*)     # any number of word characters or dashes
+          .*$          # all characters until eol
       captures:
         1: punctuation.definition.raw.code-fence.begin.markdown
         2: constant.other.language-name.markdown
