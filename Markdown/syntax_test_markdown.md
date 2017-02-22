@@ -902,11 +902,11 @@ hello world ````test````
 |          ^ punctuation.definition.raw.end
 
 hard line break  
-|              ^^ meta.hard-line-break
+|              ^^ meta.hard-line-break punctuation.definition.hard-line-break
 hard line break\
 |              ^ meta.hard-line-break constant.character.escape
 hard line break     
-|              ^^^^^ meta.hard-line-break
+|              ^^^^^ meta.hard-line-break punctuation.definition.hard-line-break
 soft line break 
 |              ^^ - meta.hard-line-break
 soft line break
@@ -1042,3 +1042,39 @@ _foo [**bar**](/url)_
 |^^^^^^^^^^^ meta.link.reference.def constant.other.reference.link
 |            ^ punctuation.separator.key-value
 |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+
+[//]: # (This is a comment without a line-break.)
+|     ^ meta.link.reference.def markup.underline.link
+|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+[//]: # (This is a comment with a
+|     ^ meta.link.reference.def markup.underline.link
+|       ^ punctuation.definition.string.begin
+        line-break.)
+|                  ^ punctuation.definition.string.end
+
+[//]: # (testing)blah
+|       ^ punctuation.definition.string.begin
+|^^^^^^^^^^^^^^^^ meta.link.reference.def
+|               ^ punctuation.definition.string.end
+|                ^^^^ invalid.illegal.expected-eol
+
+[//]: # (testing
+blah
+| <- meta.link.reference.def string.other.link.description.title
+
+| <- invalid.illegal.non-terminated.link-title
+text
+| <- meta.paragraph - meta.link.reference.def
+
+[foo]: <bar> "test"
+|      ^ punctuation.definition.link.begin
+|       ^^^ markup.underline.link
+|          ^ punctuation.definition.link.end
+|            ^^^^^^ string.other.link.description.title
+
+[foo]: <bar>> "test"
+|      ^ punctuation.definition.link.begin
+|       ^^^ markup.underline.link
+|          ^ punctuation.definition.link.end
+|           ^^^^^^^^ invalid.illegal.expected-eol

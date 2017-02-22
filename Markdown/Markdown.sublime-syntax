@@ -113,12 +113,11 @@ contexts:
             \s*                        # Leading whitespace
             (\[)(.+?)(\])(:)           # Reference name
             [ \t]*                     # Optional whitespace
-            (<?)(\S+?)(>?)             # The url
-            {{link_title}}             # Optional link title
-            \s*                        # Optional whitespace
-            $
+            (?:
+              (<)([^>]+)(>)            # The url
+            | (\S+)                    # The url
+            )
         )
-      scope: meta.link.reference.def.markdown
       captures:
         1: punctuation.definition.constant.begin.markdown
         2: constant.other.reference.link.markdown
@@ -127,15 +126,10 @@ contexts:
         5: punctuation.definition.link.begin.markdown
         6: markup.underline.link.markdown
         7: punctuation.definition.link.end.markdown
-        8: string.other.link.description.title.markdown
-        9: punctuation.definition.string.begin.markdown
-        10: punctuation.definition.string.end.markdown
-        11: string.other.link.description.title.markdown
-        12: punctuation.definition.string.begin.markdown
-        13: punctuation.definition.string.end.markdown
-        14: string.other.link.description.title.markdown
-        15: punctuation.definition.string.begin.markdown
-        16: punctuation.definition.string.end.markdown
+        8: markup.underline.link.markdown
+      push:
+        - meta_scope: meta.link.reference.def.markdown
+        - include: link-title
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       push:
         - meta_scope: meta.paragraph.markdown
@@ -433,7 +427,7 @@ contexts:
     - match: '[*_]+'
   hard-line-break:
     - match: '[ ]{2,}$'
-      scope: meta.hard-line-break.markdown
+      scope: meta.hard-line-break.markdown punctuation.definition.hard-line-break.markdown
     - match: '(\\)$\n'
       scope: meta.hard-line-break.markdown
       captures:
@@ -645,3 +639,44 @@ contexts:
     - include: link-text
     - include: image-inline
     - include: image-ref
+  link-title:
+    - match: \s*(')
+      captures:
+        1: punctuation.definition.string.begin.markdown
+      push:
+        - meta_scope: string.other.link.description.title.markdown
+        - match: \'
+          scope: punctuation.definition.string.end.markdown
+          set: after-link-title
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.link-title.markdown
+          pop: true
+    - match: \s*(")
+      captures:
+        1: punctuation.definition.string.begin.markdown
+      push:
+        - meta_scope: string.other.link.description.title.markdown
+        - match: \"
+          scope: punctuation.definition.string.end.markdown
+          set: after-link-title
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.link-title.markdown
+          pop: true
+    - match: \s*(\()
+      captures:
+        1: punctuation.definition.string.begin.markdown
+      push:
+        - meta_scope: string.other.link.description.title.markdown
+        - match: \)
+          scope: punctuation.definition.string.end.markdown
+          set: after-link-title
+        - match: ^\s*$\n?
+          scope: invalid.illegal.non-terminated.link-title.markdown
+          pop: true
+    - match: \s*
+      set: after-link-title
+  after-link-title:
+    - match: '(.*)$\n?'
+      captures:
+        1: invalid.illegal.expected-eol.markdown
+      pop: true
