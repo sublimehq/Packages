@@ -498,10 +498,13 @@ F'''string'''
 #^^ storage.type.string
 #^^^^^^^^^^ meta.string.interpolated string.quoted.single
 
+rf'\r\n' f'\r\n'
+#  ^^^^ - constant
+#          ^^^^ constant.character.escape
 
-# FIXME The opening brace incorrectly gets its scope stack reset
-# due to https://github.com/SublimeTextIssues/Core/issues/1526.
-# Thus, the following tests on it are failing.
+rf"\r\n" f"\r\n"
+#  ^^^^ - constant
+#          ^^^^ constant.character.escape
 
 f"{something}"
 #^^^^^^^^^^^^ meta.string.interpolated
@@ -545,10 +548,6 @@ rf"{value:{width!s:d}}"
 #          ^^^^^ source source.python.embedded
 #               ^^ storage.modifier.conversion
 #                 ^^ constant.other.format-spec
-
-rf'\r\n' f'\r\n'
-#  ^^^^ - constant
-#          ^^^^ constant.character.escape
 
 F""" {} {\} }
 #^^^^^^^^^^^ meta.string.interpolated
