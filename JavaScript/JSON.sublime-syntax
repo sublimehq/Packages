@@ -31,7 +31,7 @@ contexts:
         - match: '[^\s\]]'
           scope: invalid.illegal.expected-array-separator.json
   comments:
-    - match: /\*\*
+    - match: /\*\*(?!/)
       scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.documentation.json
@@ -119,6 +119,9 @@ contexts:
           scope: constant.character.escape.json
         - match: \\.
           scope: invalid.illegal.unrecognized-string-escape.json
+        - match: $\n?
+          scope: invalid.illegal.unclosed-string.json
+          pop: true
   value:
     - include: constant
     - include: number

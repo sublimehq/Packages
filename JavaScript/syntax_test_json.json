@@ -40,6 +40,18 @@
   "illegal": "\.",
 //            ^^ invalid.illegal.unrecognized-string-escape.json
 
+  "unterminated string
+//^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
+//                    ^ string.quoted.double.json invalid.illegal.unclosed-string.json
+
+// <- - string
+
+/**/: "test",
+// ^ meta.structure.dictionary.json comment.block.json
+//  ^ punctuation.separator.dictionary.key-value.json - comment
+//    ^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json
+
   []
 //^^ invalid.illegal.expected-dictionary-separator.json
+
 }
