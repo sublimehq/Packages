@@ -83,7 +83,11 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.dictionary.end.json
           pop: true
-        - include: string
+        - match: '"'
+          scope: punctuation.definition.string.begin.json
+          push:
+            - meta_scope: meta.structure.dictionary.key.json string.quoted.double.json
+            - include: inside-string
         - include: comments
         - match: ":"
           scope: punctuation.separator.dictionary.key-value.json
