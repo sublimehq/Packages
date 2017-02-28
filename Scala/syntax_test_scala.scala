@@ -1459,3 +1459,8 @@ class Foo extends Bar with {
 // ^^^^^ storage.modifier.other.scala
 //       ^^^^^ storage.type.class.scala
 //             ^ entity.name.class.scala
+
+abc match {
+  case $foo(bar) => ()
+  //   ^^^^ - variable
+}

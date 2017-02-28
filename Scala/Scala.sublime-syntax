@@ -54,7 +54,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   rightarrow: '=>|\x{21D2}'
-  upperid: '(?:\b\p{Lu}{{idrest}})'
+  upperid: '(?:(\b\p{Lu}|\$){{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
   withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
