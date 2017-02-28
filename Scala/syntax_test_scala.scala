@@ -1453,3 +1453,9 @@ class Foo extends Bar with {
 // ^^^^^^ keyword.other.import.scala
 //        ^^^^^ variable.package.scala
 }
+
+   final class A
+   final class B
+// ^^^^^ storage.modifier.other.scala
+//       ^^^^^ storage.type.class.scala
+//             ^ entity.name.class.scala

@@ -387,7 +387,7 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
-    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if)\b)'
+    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final)\b)'
       pop: true
     - match: '\n'
       pop: true
