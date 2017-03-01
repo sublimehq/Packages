@@ -165,6 +165,13 @@ stray brackets:
 #   ^^ - constant
 #                     ^ - constant
 
+ ${0:$TM_SELECTED_TEXT\}}
+#  ^ constant
+#     ^^^^^^^^^^^^^^^^ constant.language
+#   ^^ - constant
+#                     ^^ constant.character.escape
+#                       ^ - constant
+
 ${My_Own_Constant}
 # ^^^^^^^^^^^^^^^ constant.other
 

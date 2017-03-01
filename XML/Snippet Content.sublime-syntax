@@ -9,7 +9,7 @@ contexts:
     - include: possible_caret
 
   possible_caret:
-    - match: '\\\$'
+    - match: '\\[$}]'
       scope: constant.character.escape.sublime-snippet-content
     - match: '\$(?=\{|\w)'
       scope: meta.text-substitution.sublime-snippet-content keyword.other.caret.sublime-snippet-content
