@@ -1476,3 +1476,8 @@ package object foo extends Bar with Baz
 //                         ^^^ entity.other.inherited-class.scala
 //                             ^^^^ keyword.declaration.scala
 //                                  ^^^ entity.other.inherited-class.scala
+
+new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
+//                     ^^^^ keyword.declaration.scala
+//                          ^^^^^^^^^^ support.class.scala
+//                                       ^^^ storage.type.function.scala

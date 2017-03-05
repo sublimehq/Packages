@@ -713,6 +713,21 @@ contexts:
           pop: true
         - match: '(?=\S)'
           set: single-type-expression
+  try-initialization:
+    - match: '\('
+      push:
+        - match: \)
+          pop: true
+        - include: main
+    - match: '\['
+      push:
+        - match: \]
+          pop: true
+        - include: delimited-type-expression
+    - match: (?=\s*with\b)
+      set: single-type-expression-tail
+    - match: '(?=[\S\n;])'
+      pop: true
 
   for-comprehension:
     - match: '\b(for)\s*\{'
@@ -1274,4 +1289,4 @@ contexts:
         1: keyword.declaration.scala
       set: single-type-expression
     - match: '(?=\S)'
-      set: try-dispatch       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
