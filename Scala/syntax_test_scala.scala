@@ -1464,3 +1464,9 @@ abc match {
   case $foo(bar) => ()
   //   ^^^^ - variable
 }
+
+   sealed trait Foo
+   sealed trait Bar
+// ^^^^^^ storage.modifier.other.scala
+//        ^^^^^ storage.type.class.scala
+//              ^^^ entity.name.class.scala
