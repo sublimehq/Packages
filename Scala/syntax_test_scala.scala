@@ -1470,3 +1470,9 @@ abc match {
 // ^^^^^^ storage.modifier.other.scala
 //        ^^^^^ storage.type.class.scala
 //              ^^^ entity.name.class.scala
+
+package object foo extends Bar with Baz
+//                 ^^^^^^^ keyword.declaration.scala
+//                         ^^^ entity.other.inherited-class.scala
+//                             ^^^^ keyword.declaration.scala
+//                                  ^^^ entity.other.inherited-class.scala

@@ -323,6 +323,7 @@ contexts:
         1: keyword.control.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
+      push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*\{'
       captures:
         1: keyword.control.scala
