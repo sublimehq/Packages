@@ -714,20 +714,9 @@ contexts:
         - match: '(?=\S)'
           set: single-type-expression
   try-initialization:
-    - match: '\('
-      push:
-        - match: \)
-          pop: true
-        - include: main
-    - match: '\['
-      push:
-        - match: \]
-          pop: true
-        - include: delimited-type-expression
     - match: (?=\s*with\b)
       set: single-type-expression-tail
-    - match: '(?=[\S\n;])'
-      pop: true
+    - include: try-dispatch
 
   for-comprehension:
     - match: '\b(for)\s*\{'
