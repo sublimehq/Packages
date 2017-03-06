@@ -543,11 +543,13 @@ type Foo = Bar[A] forSome { type A }
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
 
+{
    case class
 // ^^^^ keyword.other.declaration.scala
 //      ^^^^^ storage.type.class.scala
 
 =>     // this is here to act as a random terminator to the above partial syntax
+}
 
    case class Thingy(abc: Int) extends Other
 // ^^^^ storage.type.class.scala
@@ -984,8 +986,10 @@ foo({ _: Unit => () })
   stuff: _*
 //       ^^ keyword.operator.varargs.scala
 
+{
   case _ @ _* =>
 //         ^^ keyword.operator.varargs.scala
+}
 
   val _ @ _* = things
 //        ^^ keyword.operator.varargs.scala
@@ -1000,8 +1004,10 @@ foo.bar
 (foo, bar)
 //  ^ punctuation.separator.scala
 
+{
 case (foo, bar) =>
 //       ^ punctuation.separator.scala
+}
 
 val (foo, bar) = ???
 //      ^ punctuation.separator.scala
