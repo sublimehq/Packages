@@ -1481,3 +1481,9 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 //                     ^^^^ keyword.declaration.scala
 //                          ^^^^^^^^^^ support.class.scala
 //                                       ^^^ storage.type.function.scala
+
+   implicit def M: Monad[M]
+   implicit def Monad
+// ^^^^^^^^ storage.modifier.other.scala
+//          ^^^ storage.type.function.scala
+//              ^ entity.name.function.scala
