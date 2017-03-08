@@ -1415,3 +1415,7 @@ class Foo extends (Int => String)
 class Foo extends Bar[Int]
 //                   ^ punctuation.section.brackets.begin.scala
 //                       ^ punctuation.section.brackets.end.scala
+
+   object Underscore_
+// ^^^^^^ storage.type.class.scala
+//        ^^^^^^^^^^^ entity.name.class.scala
