@@ -937,3 +937,9 @@ pub const FOO: Option<[i32; 1]> = Some([1]);
 //                        ^ punctuation.separator
 //                          ^ constant.numeric
 //                           ^ punctuation.definition.group.end.rust
+
+fn abc() {
+    println!("{}hello\
+//                   ^ punctuation.separator.continuation.line.rust
+         world, there is no whitespace between hello and world in the output", 0o202u64);
+}
