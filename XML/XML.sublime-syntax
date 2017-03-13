@@ -9,7 +9,6 @@ file_extensions:
   - dtml
   - rss
   - opml
-  - svg
 first_line_match: '^<\?xml '
 scope: text.xml
 variables:

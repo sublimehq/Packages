@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JavaScript (ESLint)
+file_extensions:
+  - .eslintrc.js
+scope: source.js.eslint
+contexts:
+  main:
+    - include: scope:source.js

@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Groovy (Gradle)
+file_extensions:
+  - gradle
+scope: source.groovy.gradle
+contexts:
+  main:
+    - include: scope:source.groovy

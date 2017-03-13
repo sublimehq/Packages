@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Font)
+file_extensions:
+  - eot
+  - otf
+  - ttf
+  - woff
+  - woff2
+scope: text.plain.font
+contexts:
+  main:
+    - include: scope:text.plain

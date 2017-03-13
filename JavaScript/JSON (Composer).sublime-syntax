@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JSON (Composer)
+file_extensions:
+  - composer.json
+  - composer.lock
+scope: source.json.composer
+contexts:
+  main:
+    - include: scope:source.json

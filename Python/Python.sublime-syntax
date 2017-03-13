@@ -2,6 +2,7 @@
 ---
 name: Python
 file_extensions:
+  - pt
   - py
   - py3
   - pyw

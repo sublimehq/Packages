@@ -64,6 +64,7 @@ file_extensions:
   - rbx
   - rjs
   - ruby.rail
+  - ruby.rails
   - simplecov
   - thor
   - Thorfile

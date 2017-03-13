@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JavaScript (Gruntfile)
+file_extensions:
+  - gruntfile.js
+scope: source.js.gruntfile
+contexts:
+  main:
+    - include: scope:source.js

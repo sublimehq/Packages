@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: YAML (Procfile)
+file_extensions:
+  - Procfile
+scope: source.yaml.procfile
+contexts:
+  main:
+    - include: scope:source.yaml

@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Log)
+file_extensions:
+  - log
+scope: text.plain.log
+contexts:
+  main:
+    - include: scope:text.plain

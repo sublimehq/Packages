@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: YAML (Yarn)
+file_extensions:
+  - yarn.lock
+scope: source.yaml.yarn
+contexts:
+  main:
+    - include: scope:source.yaml
