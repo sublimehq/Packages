@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JavaScript (ESLint)
+hidden: true
 file_extensions:
   - .eslintrc.js
 scope: source.js.eslint

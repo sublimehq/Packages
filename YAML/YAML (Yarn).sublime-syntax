@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: YAML (Yarn)
+hidden: true
 file_extensions:
   - yarn.lock
 scope: source.yaml.yarn

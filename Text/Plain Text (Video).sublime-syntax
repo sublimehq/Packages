@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Plain Text (Video)
+hidden: true
 file_extensions:
   - avi
   - mp4

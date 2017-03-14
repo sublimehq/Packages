@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Shell Script (Git)
+hidden: true
 file_extensions:
   - .git
   - .git-blame

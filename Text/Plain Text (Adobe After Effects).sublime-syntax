@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Plain Text (Adobe After Effects)
+hidden: true
 file_extensions:
   - aep
   - aet

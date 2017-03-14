@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Plain Text (Microsoft Access)
+hidden: true
 file_extensions:
   - adn
   - accdb

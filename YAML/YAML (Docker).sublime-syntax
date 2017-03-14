@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: YAML (Docker)
+hidden: true
 file_extensions:
   - docker-compose.yml
 scope: source.yaml.docker

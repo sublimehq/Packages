@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: YAML (ESLint)
+hidden: true
 file_extensions:
   - .eslintrc.yaml
   - .eslintrc.yml

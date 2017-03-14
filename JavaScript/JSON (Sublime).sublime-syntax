@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JSON (Sublime)
+hidden: true
 file_extensions:
   - .no-sublime-package
   - sublime-build

@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Plain Text (Adobe Illustrator)
+hidden: true
 file_extensions:
   - ai
 scope: text.plain.ai

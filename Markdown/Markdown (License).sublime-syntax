@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Markdown (License)
+hidden: true
 file_extensions:
   - license.md
 scope: text.html.markdown.license

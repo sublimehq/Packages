@@ -2,6 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: JavaScript (Gruntfile)
+hidden: true
 file_extensions:
   - gruntfile.js
 scope: source.js.gruntfile
