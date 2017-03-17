@@ -233,7 +233,7 @@ contexts:
       scope: punctuation.separator.rust
       push: after-operator
 
-    - match: '\.\.\.|\.\.||[-=<>&|!~@?+*/%^''#$]|\b_\b'
+    - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
 
   block:
