@@ -171,9 +171,9 @@ contexts:
     - include: variable_definitions
 
   class_definitions:
-    - match: '\b(?i:Class)\s'
+    - match: '\b(?i:Class)[ \t]+'
       scope: storage.type.asp
-      push: [inside_class, class_name]
+      push: class_name
 
   class_name:
     - meta_scope: meta.class.asp meta.class.identifier.asp
@@ -181,7 +181,7 @@ contexts:
     - include: illegal_names
     - match: '{{identifier}}'
       scope: entity.name.class.asp
-      pop: true
+      set: inside_class
     - include: unexpected_token
 
   inside_class:
@@ -320,7 +320,7 @@ contexts:
   after_method_name:
     - meta_content_scope: meta.method.asp meta.method.identifier.asp
     - match: \(
-      scope: meta.method.asp meta.method.identifier.asp punctuation.section.parens.begin.asp
+      scope: punctuation.section.parens.begin.asp
       set:
         - match: \)
           scope: meta.method.asp meta.method.identifier.asp punctuation.section.parens.end.asp
