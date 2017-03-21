@@ -44,16 +44,17 @@ Here is a [blank reference link][].
 |                               ^ punctuation.definition.constant.begin
 |                                ^ punctuation.definition.constant.end
 
-Here is a ![Image Alt Text](htts://example.com/cat.git).
+Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
 |          ^ punctuation.definition.string.begin
-|                         ^ punctuation.definition.string.end
+|                         ^ punctuation.definition.string.end - string
 |                          ^ punctuation.definition.metadata
-|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
-|                                                     ^ punctuation.definition.metadata
+|                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                      ^ punctuation.definition.metadata
 
 Here is a ![Image Ref Alt][1].
 |         ^^^^^^^^^^^^^^^^^^^ meta.image.reference
+|         ^ punctuation.definition.image.begin
 |          ^ punctuation.definition.string.begin
 |                        ^ punctuation.definition.string.end
 |                         ^ punctuation.definition.constant
@@ -74,19 +75,19 @@ Here is a ![Image Ref Alt][1].
 
 Paragraph break.
 
-  - Ordered list item
+  - Unordered list item
 | ^ punctuation.definition.list_item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-  - Ordered list item #2
+  - Unordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
 | ^ punctuation.definition.list_item
 
 Paragraph break.
 
-  * Ordered list item
+  * Unordered list item
 | ^ punctuation.definition.list_item
 | ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-  + Ordered list item #2
+  + Unordered list item #2
 | ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
 | ^ punctuation.definition.list_item
     + Subitem 1
@@ -95,6 +96,11 @@ Paragraph break.
     + Subitem
     + Another subitem
 |   ^ meta.paragraph.list punctuation.definition.list_item
+      + Nested Subitem
+|     ^ punctuation.definition.list_item
+        + Nested + Subitem
+|       ^ punctuation.definition.list_item
+|                ^ - punctuation.definition.list_item
 
 Paragraph break.
 
@@ -106,7 +112,8 @@ Paragraph break.
 Paragraph break.
 
 --------
-|^^^^^^^ meta.separator
+|^^^^^^^^ meta.block-level meta.separator.thematic-break
+|^^^^^^^ punctuation.definition.thematic-break
 
 [1]: https://google.com
 | <- meta.link.reference.def
@@ -172,8 +179,18 @@ non-disabled markdown
 > Followed by more quoted text that is not nested
 | <- meta.block-level markup.quote punctuation.definition.blockquote - markup.quote markup.quote
 
+> Here is a quote block
+This quote continues on.  Line breaking is OK in markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.quote
+> Here it is again
+| <- punctuation.definition.blockquote
+
 paragraph
 | <- meta.paragraph - meta.block-level
+
+>     > this is code in a quote block, not a nested quote
+| <- punctuation.definition.blockquote
+|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.block - markup.quote markup.quote
 
 Code block below:
 
@@ -189,12 +206,24 @@ paragraph
 
 - - - -
 | ^^^^^^ meta.block-level meta.separator
-
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|     ^ punctuation.definition.thematic-break
+|  ^ - punctuation
 * * * * *
 | ^^^^^^^^ meta.block-level meta.separator
 
 _ _ _ _ _ _ _
 | ^^^^^^^^^^^^ meta.block-level meta.separator
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|  ^ - punctuation
+
+-  -  -  - 
+| <- meta.block-level meta.separator.thematic-break punctuation.definition.thematic-break
+|^^ - punctuation
+|  ^ punctuation
+|        ^ punctuation
 
 <mailto:test+test@test.com>
 | ^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.email.lt-gt markup.underline.link
@@ -242,23 +271,851 @@ underlined heading followed by another one that should be treated as a normal pa
 =====
 | <- - markup.heading
 
+Paragraph followed immediately by a list, no blank line in between
+- list item 1
+| <- markup.list.unnumbered punctuation.definition.list_item
+
+Paragraph followed immediately by a numbered list, no blank line in between
+ 1. list item 1
+| ^ markup.list.numbered punctuation.definition.list_item
+  more text - this punctuation should be ignored 2.
+|           ^ - punctuation.definition.list_item
+|                                                 ^ - punctuation.definition.list_item
+
+Paragraph not followed immediately by a numbered list,
+because it doesn't begin with the number one:
+ 2. text
+| ^ - markup.list.numbered - punctuation.definition.list_item
+
+
+> Block quote with list items
+> - list item 1
+| ^ meta.block-level markup.quote punctuation.definition.list_item
+> - list item 2
+| ^ meta.block-level markup.quote punctuation.definition.list_item
+>   1. sub list item
+|    ^ meta.block-level markup.quote punctuation.definition.list_item
+
+* this is a list
+
+   > This is a blockquote.
+|  ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+
+ This is a paragraph still part of the 
+ list item
+| ^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+
+* Lorem ipsum
+
+        This is a code block
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered markup.raw.block
+* list continues
+| <- markup.list.unnumbered punctuation.definition.list_item - markup.raw.block
+* list continues
+
+- `code` - <a name="demo"></a>
+| ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
+|          ^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
+ 3. [see `demo`](#demo "demo")
+| ^ punctuation.definition.list_item
+|    ^^^^^^^^^^ string.other.link.title
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    [see `demo`](#demo (demo))
+|    ^^^^^^^^^^ string.other.link.title
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    [see `demo`](#demo 'demo')
+|    ^^^^^^^^^^ string.other.link.title
+|               ^ punctuation.definition.metadata.begin
+|                      ^ punctuation.definition.string.begin
+|                           ^ punctuation.definition.string.end
+|                            ^ punctuation.definition.metadata.end
+    Here is a ![example image](https://test.com/sublime.png "A demonstration").
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
+|                                                                            ^ punctuation.definition.metadata
+    Here is a ![example image](https://test.com/sublime.png 'A demonstration').
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
+|                                                                            ^ punctuation.definition.metadata
+    Here is a ![example image](https://test.com/sublime.png (A demonstration)).
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^ punctuation.definition.image.begin
+|              ^ punctuation.definition.string.begin
+|                            ^ punctuation.definition.string.end
+|                             ^ punctuation.definition.metadata
+|                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                           ^ punctuation.definition.string.begin
+|                                                                           ^ punctuation.definition.string.end
+|                                                                            ^ punctuation.definition.metadata
+
+  <!-- HTML comment -->
+| ^^^^^^^^^^^^^^^^^^^^^ comment.block.html
+
+## Heading with ending hashes ##
+| <- punctuation.definition.heading
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section
+|                            ^ - entity.name.section
+|                             ^^ punctuation.definition.heading
+
+*italic text <span>HTML element</span> end of italic text*
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+_italic text <span>HTML element</span> end of italic text_
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+**bold text <span>HTML element</span> end of bold text**
+| <- punctuation.definition.bold
+|                                                     ^^ punctuation.definition.bold
+|           ^^^^^^ meta.tag.inline.any.html
+|                             ^^^^^^^ meta.tag.inline.any.html
+
+__bold text <span>HTML element</span> end of bold text__
+| <- punctuation.definition.bold
+|                                                     ^^ punctuation.definition.bold
+|           ^^^^^^ meta.tag.inline.any.html
+|                             ^^^^^^^ meta.tag.inline.any.html
+
+*italic text <span>HTML element</span> end of italic text*
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+_italic text <span>HTML element</span> end of italic text_
+| <- punctuation.definition.italic
+|                                                        ^ punctuation.definition.italic
+|            ^^^^^^ meta.tag.inline.any.html
+|                              ^^^^^^^ meta.tag.inline.any.html
+
+[link [containing] [square] brackets](#backticks)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|                                   ^ punctuation.definition.string.end
+[link `containing square] brackets] in backticks`[]](#wow)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^ punctuation.definition.raw.begin
+|                                               ^ punctuation.definition.raw.end
+|                                                  ^ punctuation.definition.string.end
+[link ``containing square]` brackets[[][] in backticks``](#wow)
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline
+|     ^^ punctuation.definition.raw.begin
+|                                                     ^^ punctuation.definition.raw.end
+|                                                       ^ punctuation.definition.string.end
+`inline markup <span></span>`
+|              ^^^^^^^^^^^^^ markup.raw.inline - meta.tag.inline.any.html
+escaped backtick \`this is not code\`
+|                ^^ constant.character.escape
+|                                  ^^ constant.character.escape
+|                  ^^^^^^^^^^^^^^^^ - markup.raw.inline
+
+Example 328:
+*foo bar*
+| <- punctuation.definition.italic.begin
+|       ^ punctuation.definition.italic.end
+
+Example 329:
+This is not emphasis, because the opening `*` is followed by whitespace, and hence not part of a left-flanking delimiter run:
+a * foo bar*
+| ^^^^^^^^^^^ - punctuation
+
+Example 332:
+Intraword emphasis with `*` is permitted:
+foo*bar*
+|  ^ punctuation.definition.italic.begin
+|      ^ punctuation.definition.italic.end
+Example 333:
+5*6*78
+|^ punctuation.definition.italic.begin
+|  ^ punctuation.definition.italic.end
+
+Example 334:
+_foo bar_
+| <- punctuation.definition.italic.begin
+|       ^ punctuation.definition.italic.end
+
+Example 335:
+This is not emphasis, because the opening `_` is followed by whitespace:
+_ foo bar_
+| <- - punctuation
+| ^^^^^^^^^ - punctuation
+
+Example 336:
+This is not emphasis, because the opening `_` is preceded by an alphanumeric and followed by punctuation:
+a_"foo"_
+|^^^^^^^^ - punctuation
+
+Example 337:
+Emphasis with `_` is not allowed inside words:
+foo_bar_
+|  ^^^^^ - punctuation
+
+Example 338:
+5_6_78
+|^^^^^ - punctuation
+
+Example 339:
+пристаням_стремятся_
+|        ^^^^^^^^^^^ - punctuation
+
+aa_"bb"_cc_
+| ^ - punctuation
+|      ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+
+Example 341:
+foo-_(bar)_
+|   ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+
+*foo bar *
+| <- punctuation.definition.italic.begin
+|        ^ - punctuation
+*
+| <- - punctuation
+abc*
+|  ^ punctuation.definition.italic.end
+
+Example 347:
+*foo*bar
+| <- punctuation.definition.italic.begin
+|   ^ punctuation.definition.italic.end
+
+Example 348:
+_foo bar _
+| <- punctuation.definition.italic.begin
+|        ^ - punctuation
+_
+| <- - punctuation
+abc_
+|  ^ punctuation.definition.italic.end
+
+Intraword emphasis is disallowed for `_`:
+_foo_bar
+| <- punctuation.definition.italic.begin
+|   ^ - punctuation
+abc_
+|  ^ punctuation.definition.italic.end
+
+Example 353:
+_foo_bar_baz_
+| <- punctuation.definition.italic.begin
+|   ^^^^^ - punctuation
+|           ^ punctuation.definition.italic.end
+
+Example 354:
+_(bar)_.
+| <-  punctuation.definition.italic.begin
+|     ^ punctuation.definition.italic.end
+
+Example 355:
+ **foo bar**
+|^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+
+Example 356:
+** foo bar**
+| <- - punctuation
+|         ^^ - punctuation
+
+Example 358:
+foo**bar**
+|  ^^ punctuation.definition.bold.begin
+|       ^^ punctuation.definition.bold.end
+
+Example 359:
+ __foo bar__
+|^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+
+Example 360:
+This is not strong emphasis, because the opening delimiter is followed by whitespace:
+__ foo bar__
+| <- - punctuation
+|         ^^ - punctuation
+
+Example 361:
+__
+| <- - punctuation
+
+Example 362:
+a__"foo"__
+|^^^^^^^^^ - punctuation
+
+Example 363:
+Intraword strong emphasis is forbidden with `__`:
+foo__bar__
+|  ^^^^^^^ - punctuation
+
+Example 364:
+5__6__78
+|^^^^^^^ - punctuation
+
+Example 367:
+foo-__(bar)__
+|   ^^ punctuation.definition.bold.begin
+|          ^^ punctuation.definition.bold.end
+
+Example 368:
+**foo bar **
+| <- punctuation.definition.bold.begin
+|         ^^ - punctuation
+abc**
+|  ^^ punctuation.definition.bold.end
+
+Example 373:
+Intraword emphasis:
+ **foo**bar
+|^^ punctuation.definition.bold.begin
+|     ^^ punctuation.definition.bold.end
+
+Example 374:
+ __foo bar __
+|^^ punctuation.definition.bold.begin
+|          ^^ - punctuation
+abc__
+|  ^^ punctuation.definition.bold.end
+
+Example 376:
+_(__foo__)_
+| <- punctuation.definition.italic.begin
+| ^^ punctuation.definition.bold.begin
+|      ^^ punctuation.definition.bold.end
+|         ^ punctuation.definition.italic.end
+
+Example 377:
+Intraword strong emphasis is forbidden with `__`:
+__foo__bar
+| <- punctuation.definition.bold.begin
+|    ^^ - punctuation
+abc__
+|  ^^ punctuation.definition.bold.end
+
+Example 379:
+__foo__bar__baz__
+| <- punctuation.definition.bold.begin
+|              ^^ punctuation.definition.bold.end
+|    ^^^^^^^^^^ - punctuation
+
+Example 380:
+This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation:
+__(bar)__.
+| <- punctuation.definition.bold.begin
+|      ^^ punctuation.definition.bold.end
+
+Example 381:
+*foo [bar](/url)*
+| <- punctuation.definition.italic.begin
+|               ^ punctuation.definition.italic.end
+|    ^^^^^^^^^^^ meta.link.inline
+
+Example 382:
+*foo
+| <- punctuation.definition.italic.begin
+bar*
+|  ^ punctuation.definition.italic.end
+
+Example 383:
+_foo __bar__ baz_
+| <- punctuation.definition.italic.begin
+|    ^^ punctuation.definition.bold.begin
+|         ^^ punctuation.definition.bold.end
+|               ^ punctuation.definition.italic.end
+
+Example 394:
+** is not an empty emphasis
+| <- - punctuation
+|^ - punctuation
+
+Example 395:
+**** is not an empty strong emphasis
+| <- - punctuation
+|^^^ - punctuation
+
+Example 396:
+**foo [bar](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^ meta.link.inline
+|                ^^ punctuation.definition.bold.end
+
+Example 397:
+**foo
+| <- punctuation.definition.bold.begin
+bar**
+|  ^^ punctuation.definition.bold.end
+
+Example 398:
+__foo _bar_ baz__
+| <- punctuation.definition.bold.begin
+|     ^ punctuation.definition.italic.begin
+|         ^ punctuation.definition.italic.end
+|              ^^ punctuation.definition.bold.end
+
+Example 408:
+__ is not an empty emphasis
+| <- - punctuation
+|^ - punctuation
+
+Example 409:
+____ is not an empty strong emphasis
+| <- - punctuation
+|^^^ - punctuation
+
+
+Example 410:
+foo ***
+|   ^^^ - punctuation
+
+Example 411:
+foo *\**
+|   ^ punctuation.definition.italic.begin
+|    ^^ constant.character.escape
+|      ^ punctuation.definition.italic.end
+
+Example 412:
+foo *_*
+|   ^ punctuation.definition.italic.begin
+|    ^ - punctuation
+|     ^ punctuation.definition.italic.end
+
+Example 414:
+foo **\***
+|   ^^ punctuation.definition.bold.begin
+|     ^^ constant.character.escape
+|       ^^ punctuation.definition.bold.end
+
+Example 415:
+foo **_**
+|   ^^ punctuation.definition.bold.begin
+|     ^ - punctuation
+|      ^^ punctuation.definition.bold.end
+
+Example 422:
+foo ___
+|   ^^^^ - punctuation
+
+Example 423:
+foo _\__
+|   ^ punctuation.definition.italic.begin
+|    ^^ constant.character.escape
+|      ^ punctuation.definition.italic.end
+
+Example 424:
+foo _*_
+|   ^ punctuation.definition.italic.begin
+|    ^ - punctuation
+|     ^ punctuation.definition.italic.end
+
+Example 426:
+foo __\___
+|   ^^ punctuation.definition.bold.begin
+|     ^^ constant.character.escape
+|       ^^ punctuation.definition.bold.end
+
+Example 427:
+
+foo __*__
+|   ^^ punctuation.definition.bold.begin
+|     ^ - punctuation
+|      ^^ punctuation.definition.bold.end
+
 This text is _bold_, but this__text__is neither bold_nor_italic
 |            ^ punctuation.definition.italic
 |             ^^^^ markup.italic
 |                 ^ punctuation.definition.italic
 |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.bold - markup.italic
-_perform_complicated_task
-| <- punctuation.definition.italic
-|       ^ punctuation.definition.italic
-|^^^^^^^ markup.italic
-|        ^^^^^^^^^^^^^^^^^ - markup.italic
-__perform__complicated__task
-| <- punctuation.definition.bold
-|^ punctuation.definition.bold
-|        ^^ punctuation.definition.bold
-|^^^^^^^^ markup.bold
-|          ^^^^^^^^^^^^^^^^^^ - markup.bold
 
-Paragraph followed immediately by a list, no blank line in between
-- list item 1
-| <- markup.list.unnumbered punctuation.definition.list_item
+the following is italic *and doesn't end here * but does end here*
+|                       ^ punctuation.definition.italic.begin
+|                                             ^ - punctuation.definition.italic
+|                                                                ^ punctuation.definition.italic.end
+the following is bold **and doesn't end here ** but does end here**
+|                     ^^ punctuation.definition.bold.begin
+|                                            ^^ - punctuation.definition.bold
+|                                                                ^^ punctuation.definition.bold.end
+the following is not bold ** test ****
+|                         ^^ - punctuation.definition.bold.begin
+|                                 ^^^^ - punctuation.definition.bold
+the following is not italic _ test ____
+|                           ^ - punctuation.definition.italic.begin
+|                                  ^^^^ - punctuation.definition.italic
+
+more **tests *** ** here**
+|    ^^ punctuation.definition.bold.begin
+|            ^^^^^^ - punctuation.definition
+|                       ^^ punctuation.definition.bold.end
+more __tests *** ** example __ here__
+|    ^^ punctuation.definition.bold.begin
+|            ^^^^^^^^^^^^^^^^^^^^^^ - punctuation.definition
+|                                  ^^ punctuation.definition.bold.end
+more _tests <span class="test_">here</span>_
+|    ^ punctuation.definition.italic.begin
+|                            ^ - punctuation.definition
+|                                          ^ punctuation.definition.italic.end
+more _tests <span class="test_">_here</span>_
+|    ^ punctuation.definition.italic.begin
+|                            ^ - punctuation.definition
+|                               ^ - punctuation
+|                                           ^ punctuation.definition.italic.end
+_more `tests_` here_
+| <- punctuation.definition.italic.begin
+|     ^^^^^^^^ markup.raw.inline
+|                  ^ punctuation.definition.italic.end
+__more `tests__` here__
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+**more `tests__` here**
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+**more `tests**` here**
+| <- punctuation.definition.bold.begin
+|      ^^^^^^^^^ markup.raw.inline
+|                    ^^ punctuation.definition.bold.end
+*more `tests__` here**
+| <- punctuation.definition.italic.begin
+|                   ^^ - punctuation
+abc*
+|  ^ punctuation.definition.italic.end
+
+_test <span>text_ foobar</span>
+| <- punctuation
+|               ^ punctuation.definition.italic.end
+__test <span>text__ not formatted</span>
+| <- punctuation
+|                ^^ punctuation.definition.bold.end
+*test <span>text* not formatted</span>
+| <- punctuation
+|               ^ punctuation.definition.italic.end
+**test <span>text** not formatted</span>
+| <- punctuation
+|                ^^ punctuation.definition.bold.end
+_test <span>text **formatted**</span>_
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+*test <span>text __formatted__</span>*
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+*test <span>text __formatted__</span>* **more** _text_
+| <- punctuation
+|                ^^ punctuation
+|                           ^^ punctuation
+|                                    ^ punctuation
+|                                      ^^ punctuation
+|                                            ^^ punctuation
+|                                               ^ punctuation
+|                                                    ^ punctuation
+*test <span>text* __formatted</span>__
+| <- punctuation
+|               ^ punctuation
+|                 ^^ punctuation
+|                                   ^^ punctuation
+
+__test <span>text__ *formatted</span>*
+| <- punctuation
+|                ^^ punctuation
+|                   ^ punctuation
+|                                    ^ punctuation
+
+```js
+| <- punctuation.definition.raw.code-fence.begin
+|  ^^ constant.other.language-name
+for (var i = 0; i < 10; i++) {
+    console.log(i);
+}
+```
+| <- punctuation.definition.raw.code-fence.end
+
+```testing``123```
+| <- punctuation.definition.raw.begin
+|         ^^ - punctuation
+|              ^^^ punctuation.definition.raw.end
+```testing``123````
+| <- punctuation.definition.raw.begin
+|        ^ - punctuation
+|            ^^^^ - punctuation
+```
+| <- punctuation.definition.raw.end
+``testing`123````
+| <- punctuation.definition.raw.begin
+|        ^ - punctuation
+|            ^^^^ - punctuation
+more text``
+|        ^^ punctuation.definition.raw.end
+``text
+
+| <- invalid.illegal.non-terminated.raw
+text
+| <- - markup.raw
+
+inline backticks must be followed by non-whitespace `` characters``
+|                                                   ^^ invalid.deprecated.unescaped-backticks
+|                                                                ^^ invalid.deprecated.unescaped-backticks
+
+~~~~ 
+| <- punctuation.definition.raw.code-fence.begin
+ ~~~~
+| ^^^ punctuation.definition.raw.code-fence.end
+
+~~~~~test~
+| ^^^^^^^^^ meta.paragraph - punctuation - constant - markup.raw
+
+~~~~~~test
+| ^^^^ punctuation.definition.raw.code-fence.begin
+|     ^^^^ constant.other.language-name
+~~~~~~
+| ^^^^^ punctuation.definition.raw.code-fence.end
+
+```test
+|  ^^^^ constant.other.language-name
+  ```
+| ^^^ punctuation.definition.raw.code-fence.end
+
+hello world ````test````
+|           ^^^^^^^^^^^^ markup.raw.inline
+|                       ^ - markup.raw
+
+`foo `` bar`
+|    ^^^^^^ markup.raw.inline - punctuation
+|          ^ punctuation.definition.raw.end
+
+hard line break  
+|              ^^ meta.hard-line-break punctuation.definition.hard-line-break
+hard line break\
+|              ^ meta.hard-line-break constant.character.escape
+hard line break     
+|              ^^^^^ meta.hard-line-break punctuation.definition.hard-line-break
+soft line break 
+|              ^^ - meta.hard-line-break
+soft line break
+|             ^^ - meta.hard-line-break
+
+### foo  
+|      ^^^ - meta.hard-line-break
+### foo\
+|      ^ - meta.hard-line-break
+
+`inline code with trailing spaces  
+|                                ^^^ - meta.hard-line-break
+not a hard line break`
+
+*test
+
+| <- invalid.illegal.non-terminated.italic
+abc*
+|  ^ - punctuation
+
+_test
+
+| <- invalid.illegal.non-terminated.italic
+abc_
+|  ^ - punctuation
+
+**test
+
+| <- invalid.illegal.non-terminated.bold
+abc**
+|  ^^ - punctuation
+
+__test
+
+| <- invalid.illegal.non-terminated.bold
+abc__
+|  ^^ - punctuation
+
+__test\
+|     ^ meta.hard-line-break constant.character.escape
+testing__
+
+- test *testing
+blah*
+|   ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.end
+- fgh
+- *ghgh
+| ^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list markup.italic punctuation.definition.italic.begin
+- fgfg
+| <- markup.list.unnumbered meta.paragraph.list punctuation.definition.list_item
+- _test
+
+| <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.italic
+  still a list item
+| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+- * * * * * * *
+| <- punctuation.definition.list_item
+| ^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list meta.separator.thematic-break
+| ^ punctuation.definition.thematic-break
+|   ^ punctuation.definition.thematic-break
+|     ^ punctuation.definition.thematic-break
+|       ^ punctuation.definition.thematic-break
+|         ^ punctuation.definition.thematic-break
+|           ^ punctuation.definition.thematic-break
+|             ^ punctuation.definition.thematic-break
+|  ^ - punctuation.definition.thematic-break
+|    ^ - punctuation.definition.thematic-break
+|      ^ - punctuation.definition.thematic-break
+|        ^ - punctuation.definition.thematic-break
+|          ^ - punctuation.definition.thematic-break
+|            ^ - punctuation.definition.thematic-break
+  still a list item
+| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+
+Example 407:
+**foo [*bar*](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^^^ markup.bold meta.link.inline
+|                  ^^ punctuation.definition.bold.end
+|      ^ punctuation.definition.italic.begin
+|          ^ punctuation.definition.italic.end
+**foo [_bar_](/url)**
+| <- punctuation.definition.bold.begin
+|     ^^^^^^^^^^^^^ markup.bold meta.link.inline
+|                  ^^ punctuation.definition.bold.end
+|      ^ punctuation.definition.italic.begin
+|          ^ punctuation.definition.italic.end
+_foo [**bar**](/url)_
+| <- punctuation.definition.italic.begin
+|    ^^^^^^^^^^^^^^^ markup.italic meta.link.inline
+|                   ^ punctuation.definition.italic.end
+|     ^^ punctuation.definition.bold.begin
+|          ^^ punctuation.definition.bold.end
+
+
+1. Open `Command Palette` using menu item `Tools → Command Palette...`
+|^ markup.list.numbered punctuation.definition.list_item
+|                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list markup.raw.inline
+2. Choose `Package Control: Install Package`
+
+[**Read more &#8594;**][details]
+|^^ punctuation.definition.bold.begin
+|            ^^^^^^^ constant.character.entity.html
+|                   ^^ punctuation.definition.bold.end
+|                       ^^^^^^^ constant.other.reference.link
+
+[Read more &#8594;][details]
+|          ^^^^^^^ constant.character.entity.html
+|                   ^^^^^^^ constant.other.reference.link
+
+[Read more <span style="font-weight: bold;">&#8594;</span>][details]
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|                       ^^^^^^^^^^^^^^^^^^ source.css
+|                                           ^^^^^^^ constant.character.entity.html
+|                                                           ^^^^^^^ constant.other.reference.link
+
+[![Cool ★ Image - Click to Enlarge][img-example]][img-example]
+|^ punctuation.definition.image.begin
+|                                   ^^^^^^^^^^^ constant.other.reference.link
+|                                               ^ punctuation.definition.string.end
+|                                                 ^^^^^^^^^^^ constant.other.reference.link
+
+[![Cool ★ Image - Click to Enlarge](http://www.sublimetext.com/anim/rename2_packed.png)](http://www.sublimetext.com/anim/rename2_packed.png)
+|^ punctuation.definition.image.begin
+|                                  ^ punctuation.definition.metadata.begin
+|                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                                                     ^ punctuation.definition.metadata.end
+|                                                                                       ^ punctuation.definition.metadata.begin
+|                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                                                                                                          ^ punctuation.definition.metadata.end
+
+[img-example]: http://www.sublimetext.com/anim/rename2_packed.png
+|^^^^^^^^^^^ meta.link.reference.def constant.other.reference.link
+|            ^ punctuation.separator.key-value
+|              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+
+[//]: # (This is a comment without a line-break.)
+|     ^ meta.link.reference.def markup.underline.link
+|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+
+[//]: # (This is a comment with a
+|     ^ meta.link.reference.def markup.underline.link
+|       ^ punctuation.definition.string.begin
+        line-break.)
+|                  ^ punctuation.definition.string.end
+
+[//]: # (testing)blah
+|       ^ punctuation.definition.string.begin
+|^^^^^^^^^^^^^^^^ meta.link.reference.def
+|               ^ punctuation.definition.string.end
+|                ^^^^ invalid.illegal.expected-eol
+
+[//]: # (testing
+blah
+| <- meta.link.reference.def string.other.link.description.title
+
+| <- invalid.illegal.non-terminated.link-title
+text
+| <- meta.paragraph - meta.link.reference.def
+
+[foo]: <bar> "test"
+|      ^ punctuation.definition.link.begin
+|       ^^^ markup.underline.link
+|          ^ punctuation.definition.link.end
+|            ^^^^^^ string.other.link.description.title
+
+[foo]: <bar>> "test"
+|      ^ punctuation.definition.link.begin
+|       ^^^ markup.underline.link
+|          ^ punctuation.definition.link.end
+|           ^^^^^^^^ invalid.illegal.expected-eol
+
+- a
+  - b
+    - c
+      - d
+|     ^ punctuation.definition.list_item
+        text here
+|       ^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw.block
+
+            code here
+            | ^^^^^^^^ markup.raw.block
+
+      - e
+|     ^ punctuation.definition.list_item
+
+            code here
+
+            >     block quote code here
+|           ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+|                 ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered markup.quote markup.raw.block
+
+            > > test
+|           ^ markup.list.unnumbered markup.quote punctuation.definition.blockquote
+|             ^ markup.list.unnumbered markup.quote markup.quote punctuation.definition.blockquote - markup.raw.block
+
+      - f
+|     ^ markup.list.unnumbered punctuation.definition.list_item
+        1. test
+|        ^ punctuation.definition.list_item
+
+abc
+| <- meta.paragraph - markup.list
