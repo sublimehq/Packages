@@ -42,6 +42,14 @@
 %             ^support.function.latex entity.name.newcommand.latex
 %                               ^ support.function.general.latex
 
+\newcolumntype{x}{>{$}c<{$}}
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.newcolumntype.latex
+% ^ support.function.newcolumntype.latex
+%                 ^ support.function.insert-before-column.latex
+%                   ^ meta.function.before-column-decl.latex
+%                     ^ meta.function.newcolumntype.latex keyword.other.column-type.latex
+%                      ^ support.function.insert-after-column.latex
+%                        ^ meta.function.after-column-decl.latex
 
 \begin{document}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
@@ -390,6 +398,33 @@ def my_function():
 
 \mintinline{python}+print(x ** 2)+
 %                    ^ source.python.embedded
+
+
+% PACKAGE: array
+% The array package extends array and tabular environments
+% and allows for macros in format specifications
+
+\begin{tabular}
+% <- -meta.environment.tabular.latex
+\end{tabular}
+
+\begin{tabular}[t]{|x|@{See: }>{$}l<{$}|}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex meta.function.column-spec.latex
+%                  ^ keyword.operator.inter-column-line.latex
+%                     ^ support.function.inter-column-nospace.latex
+
+\hline
+
+a & b
+% <- meta.environment.tabular.latex
+
+\hline
+
+\end{tabular}
+% ^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%     ^ variable.parameter.function.latex
+
 
 
 \end{document}
