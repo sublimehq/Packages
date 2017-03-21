@@ -864,6 +864,8 @@ contexts:
           scope: punctuation.definition.string.end.rust
           pop: true
         - include: escaped-char
+        - match: '(\\)$'
+          scope: punctuation.separator.continuation.line.rust
 
   raw-string:
     - match: (r)(#*)"
@@ -888,6 +890,8 @@ contexts:
           pop: true
         - include: escaped-char
         - include: format-escapes
+        - match: '(\\)$'
+          scope: punctuation.separator.continuation.line.rust
 
   format-raw-string:
     - match: (r)(#*)"
