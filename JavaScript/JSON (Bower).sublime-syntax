@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JSON (Bower)
+hidden: true
+file_extensions:
+  - bower.json
+  - .bowerrc
+scope: source.json.bower
+contexts:
+  main:
+    - include: scope:source.json

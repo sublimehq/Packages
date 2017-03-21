@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Audio)
+hidden: true
+file_extensions:
+  - mp3
+  - m4p
+  - aac
+  - aiff
+  - au
+  - flac
+  - m4a
+  - mpc
+  - mp+
+  - mpp
+  - oga
+  - opus
+  - ra
+  - rm
+  - wav
+  - wma
+scope: text.plain.audio
+contexts:
+  main:
+    - include: scope:text.plain

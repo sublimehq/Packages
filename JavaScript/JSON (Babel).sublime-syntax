@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JSON (Babel)
+hidden: true
+file_extensions:
+  - .babelrc
+scope: source.json.babel
+contexts:
+  main:
+    - include: scope:source.json

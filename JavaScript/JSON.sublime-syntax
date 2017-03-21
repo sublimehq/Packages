@@ -3,16 +3,6 @@
 name: JSON
 file_extensions:
   - json
-  - sublime-settings
-  - sublime-menu
-  - sublime-keymap
-  - sublime-mousemap
-  - sublime-theme
-  - sublime-build
-  - sublime-project
-  - sublime-completions
-  - sublime-commands
-  - sublime-macro
 scope: source.json
 contexts:
   main:

@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Shell Script (Ruby)
+hidden: true
+file_extensions:
+  - .rvmrc
+scope: source.shell.ruby
+contexts:
+  main:
+    - include: scope:source.shell

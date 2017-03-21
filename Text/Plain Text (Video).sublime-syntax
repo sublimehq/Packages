@@ -1,0 +1,25 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Video)
+hidden: true
+file_extensions:
+  - avi
+  - mp4
+  - mov
+  - mkv
+  - h264
+  - webm
+  - wmv
+  - ogv
+  - ogg
+  - 3gp
+  - m4v
+  - mpg
+  - mpeg
+  - 3gpp
+  - ogm
+scope: text.plain.video
+contexts:
+  main:
+    - include: scope:text.plain

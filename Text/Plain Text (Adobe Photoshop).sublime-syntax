@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Adobe Photoshop)
+hidden: true
+file_extensions:
+  - psb
+  - psd
+scope: text.plain.ps
+contexts:
+  main:
+    - include: scope:text.plain

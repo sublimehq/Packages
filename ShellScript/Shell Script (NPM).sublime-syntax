@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Shell Script (NPM)
+hidden: true
+file_extensions:
+  - .npmignore
+  - .npmrc
+scope: source.shell.npm
+contexts:
+  main:
+    - include: scope:source.shell

@@ -1,0 +1,13 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Ruby)
+hidden: true
+file_extensions:
+  - .ruby-version
+  - .ruby-gemset
+  - .rspec
+scope: text.plain.ruby
+contexts:
+  main:
+    - include: scope:text.plain

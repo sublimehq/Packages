@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: YAML (CircleCI)
+hidden: true
+file_extensions:
+  - circle.yml
+scope: source.yaml.circleci
+contexts:
+  main:
+    - include: scope:source.yaml

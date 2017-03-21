@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JSON (Settings)
+hidden: true
+file_extensions:
+  - jsbeautifyrc
+scope: source.json.settings
+contexts:
+  main:
+    - include: scope:source.json

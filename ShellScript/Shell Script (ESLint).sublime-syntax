@@ -1,0 +1,11 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Shell Script (ESLint)
+hidden: true
+file_extensions:
+  - .eslintignore
+scope: source.shell.eslint
+contexts:
+  main:
+    - include: scope:source.shell

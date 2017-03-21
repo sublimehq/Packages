@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: JavaScript (Webpack)
+hidden: true
+file_extensions:
+  - webpack.config.js
+  - webpack.config.babel.js
+scope: source.js.webpack
+contexts:
+  main:
+    - include: scope:source.js

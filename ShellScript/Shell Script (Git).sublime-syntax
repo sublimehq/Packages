@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Shell Script (Git)
+hidden: true
+file_extensions:
+  - .git
+  - .git-blame
+  - .git-commit
+  - .git-graph
+  - .gitattributes
+  - .gitblame
+  - .gitcommit
+  - .gitconfig
+  - .gitgraph
+  - .gitignore
+  - .gitkeep
+  - .gitmodules
+scope: source.shell.git
+contexts:
+  main:
+    - include: scope:source.shell

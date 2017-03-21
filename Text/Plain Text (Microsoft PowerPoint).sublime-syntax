@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Plain Text (Microsoft PowerPoint)
+hidden: true
+file_extensions:
+  - ppt
+  - pptx
+  - pps
+  - ppsx
+scope: text.plain.powerpoint
+contexts:
+  main:
+    - include: scope:text.plain
