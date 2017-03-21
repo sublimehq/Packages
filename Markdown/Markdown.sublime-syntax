@@ -575,7 +575,6 @@ contexts:
     - match: '(?=\S)'
       pop: true
   list-content:
-    - meta_content_scope: meta.paragraph.list.markdown
     - match: ^
       pop: true
     - include: thematic-break

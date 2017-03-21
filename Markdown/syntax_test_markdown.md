@@ -71,7 +71,7 @@ Here is a ![Image Ref Alt][1].
      1. Subitem
      2. Another subitem
 |     ^ punctuation.definition.list_item
-|^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list - meta.paragraph.list meta.paragraph.list
 
 Paragraph break.
 
@@ -95,7 +95,7 @@ Paragraph break.
   + Item
     + Subitem
     + Another subitem
-|   ^ meta.paragraph.list punctuation.definition.list_item
+|   ^ meta.paragraph.list punctuation.definition.list_item - meta.paragraph.list meta.paragraph.list
       + Nested Subitem
 |     ^ punctuation.definition.list_item
         + Nested + Subitem
@@ -303,7 +303,7 @@ because it doesn't begin with the number one:
 
  This is a paragraph still part of the 
  list item
-| ^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+| ^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - meta.paragraph.list meta.paragraph.list
 
 * Lorem ipsum
 
@@ -960,10 +960,10 @@ testing__
 
 - test *testing
 blah*
-|   ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.end
+|   ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.end - meta.paragraph.list meta.paragraph.list
 - fgh
 - *ghgh
-| ^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list markup.italic punctuation.definition.italic.begin
+| ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.begin - meta.paragraph.list meta.paragraph.list
 - fgfg
 | <- markup.list.unnumbered meta.paragraph.list punctuation.definition.list_item
 - _test
@@ -973,7 +973,7 @@ blah*
 | ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
 - * * * * * * *
 | <- punctuation.definition.list_item
-| ^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.paragraph.list meta.separator.thematic-break
+| ^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.separator.thematic-break - meta.paragraph.list meta.paragraph.list
 | ^ punctuation.definition.thematic-break
 |   ^ punctuation.definition.thematic-break
 |     ^ punctuation.definition.thematic-break
@@ -988,7 +988,7 @@ blah*
 |          ^ - punctuation.definition.thematic-break
 |            ^ - punctuation.definition.thematic-break
   still a list item
-| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
+| ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - meta.paragraph.list meta.paragraph.list
 
 Example 407:
 **foo [*bar*](/url)**
@@ -1094,7 +1094,7 @@ text
       - d
 |     ^ punctuation.definition.list_item
         text here
-|       ^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw.block
+|       ^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw.block - meta.paragraph.list meta.paragraph.list
 
             code here
             | ^^^^^^^^ markup.raw.block
