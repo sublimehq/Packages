@@ -174,7 +174,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                             ^ punctuation.definition.group.end
   end
 
-  def self.my_second_method *arg_without_parens
+  def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor
@@ -182,6 +182,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                           ^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                           ^ keyword.operator.splat
 #                            ^^^^^^^^^^^^^^^^^^ variable.parameter
+#                                               ^^^^^^^^^ comment.line.number-sign
   end
 
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
