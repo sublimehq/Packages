@@ -10,7 +10,10 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*(\}|(elif|else|fi|esac|done)\b)</string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*(if|elif|else|case)\b|^.*(\{|\b(do)\b)\s*$</string>
+		<string>(?x)
+			^\s*(if|elif|else|case)\b
+		|	^.*(\{|\b(do)\b)\s*$
+		</string>
 		<key>indentNextLinePattern</key>
 		<string>^.*[^\\]\\$</string>
 	</dict>
