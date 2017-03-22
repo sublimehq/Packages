@@ -1495,8 +1495,10 @@ class Foo extends Bar.Baz with bin.Baz
 
 final case class
 
+{
    final case =>
 // ^^^^^ - variable
+}
 
   val ~ = 42
 //    ^ entity.name.val.scala
