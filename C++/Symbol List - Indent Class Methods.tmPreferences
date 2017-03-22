@@ -6,7 +6,7 @@
 	<key>name</key>
 	<string>Symbol List: Indent Class Methods</string>
 	<key>scope</key>
-	<string>(source.c++ | source.objc++) &amp; (meta.class | meta.struct | meta.union) &amp; meta.block entity.name</string>
+	<string><![CDATA[(source.c++ | source.objc++) & (meta.class | meta.struct | meta.union) & meta.block entity.name]]></string>
 	<key>settings</key>
 	<dict>
 		<key>symbolTransformation</key>

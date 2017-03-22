@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[println($1)]]></content>
+	<tabTrigger>p</tabTrigger>
+	<scope>source.scala</scope>
+	<description>println</description>
+</snippet>

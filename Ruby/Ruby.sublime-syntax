@@ -792,7 +792,7 @@ contexts:
   # When no parentheses are placed around the parameters
   method-bare-parameters:
     - meta_content_scope: meta.function.parameters.ruby
-    - match: '(?=$|;)'
+    - match: '(?=$|;|#)'
       pop: true
     - match: '{{identifier}}'
       scope: variable.parameter.ruby

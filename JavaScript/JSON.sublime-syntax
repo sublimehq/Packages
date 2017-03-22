@@ -31,7 +31,7 @@ contexts:
         - match: '[^\s\]]'
           scope: invalid.illegal.expected-array-separator.json
   comments:
-    - match: /\*\*
+    - match: /\*\*(?!/)
       scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.documentation.json
@@ -83,7 +83,11 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.dictionary.end.json
           pop: true
-        - include: string
+        - match: '"'
+          scope: punctuation.definition.string.begin.json
+          push:
+            - meta_scope: meta.structure.dictionary.key.json string.quoted.double.json
+            - include: inside-string
         - include: comments
         - match: ":"
           scope: punctuation.separator.dictionary.key-value.json
@@ -101,24 +105,30 @@ contexts:
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.json
-      push:
-        - meta_scope: string.quoted.double.json
-        - match: '"'
-          scope: punctuation.definition.string.end.json
-          pop: true
-        - match: |-
-            (?x:                # turn on extended mode
-              \\                # a literal backslash
-              (?:               # ...followed by...
-                ["\\/bfnrt]     # one of these characters
-                |               # ...or...
-                u               # a u
-                [0-9a-fA-F]{4}  # and four hex digits
-              )
-            )
-          scope: constant.character.escape.json
-        - match: \\.
-          scope: invalid.illegal.unrecognized-string-escape.json
+      push: inside-string
+  inside-string:
+    - meta_scope: string.quoted.double.json
+    - match: '"'
+      scope: punctuation.definition.string.end.json
+      pop: true
+    - include: string-escape
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.json
+      pop: true
+  string-escape:
+    - match: |-
+        (?x:                # turn on extended mode
+          \\                # a literal backslash
+          (?:               # ...followed by...
+            ["\\/bfnrt]     # one of these characters
+            |               # ...or...
+            u               # a u
+            [0-9a-fA-F]{4}  # and four hex digits
+          )
+        )
+      scope: constant.character.escape.json
+    - match: \\.
+      scope: invalid.illegal.unrecognized-string-escape.json
   value:
     - include: constant
     - include: number

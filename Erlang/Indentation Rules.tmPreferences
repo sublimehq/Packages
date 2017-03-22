@@ -10,7 +10,7 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*\b(end)\b</string>
 		<key>increaseIndentPattern</key>
-		<string>^[^%]*(\b(if|case|receive|after|fun|try|catch|begin|query)\b(?!.*\b(end)\b.*))|(-&gt;(\s*%.*)?$)</string>
+		<string><![CDATA[^[^%]*(\b(if|case|receive|after|fun|try|catch|begin|query)\b(?!.*\b(end)\b.*))|(->(\s*%.*)?$)]]></string>
 	</dict>
 </dict>
 </plist>

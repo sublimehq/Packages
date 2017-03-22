@@ -8,55 +8,32 @@
 	<key>settings</key>
 	<dict>
 		<key>comment</key>
-		<string>
+		<string><![CDATA[
 		/*
 		 * Don't indent:
-		 *  &lt;?, &lt;/, &lt;!
-		 *  &lt;whatever&gt;&lt;/whatever&gt;
-		 *  &lt;whatever /&gt;
-		 *  &lt;% %&gt;
-		 *  &lt;!-- --&gt;
-		 *  &lt;%-- --%&gt;
+		 *  <?, </, <!
+		 *  <whatever></whatever>
+		 *  <whatever />
+		 *  <% %>
+		 *  <!-- -->
+		 *  <%-- --%>
 		 *
 		 * Do indent:
-		 *  &lt;whatever&gt;
-		 *  &lt;%
-		 *  &lt;!--
-		 *  &lt;%--
+		 *  <whatever>
+		 *  <%
+		 *  <!--
+		 *  <%--
 		 *
 		 * Decrease indent for:
-		 *  &lt;/whatever&gt;
-		 *  --&gt;
-		 *  --%&gt;
+		 *  </whatever>
+		 *  -->
+		 *  --%>
 		 */
-		</string>
+		]]></string>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*(&lt;/[^&gt;]+&gt;|--&gt;|--%&gt;)</string>
-		<key>highlightPairs</key>
-		<array>
-			<array>
-				<string>(</string>
-				<string>)</string>
-			</array>
-			<array>
-				<string>[</string>
-				<string>]</string>
-			</array>
-			<array>
-				<string>{</string>
-				<string>}</string>
-			</array>
-			<array>
-				<string>"</string>
-				<string>"</string>
-			</array>
-			<array>
-				<string>&lt;</string>
-				<string>&gt;</string>
-			</array>
-		</array>
+		<string><![CDATA[^\s*(</[^>]+>|-->|--%>)]]></string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*&lt;(([^!/?]|%)(?!.+?([/%]&gt;|&lt;/.+?&gt;))|[%!]--\s*$)</string>
+		<string><![CDATA[^\s*<(([^!/?]|%)(?!.+?([/%]>|</.+?>))|[%!]--\s*$)]]></string>
 	</dict>
 </dict>
 </plist>

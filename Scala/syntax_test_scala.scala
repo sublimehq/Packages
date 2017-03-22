@@ -331,8 +331,10 @@ type Foo = Bar[A] forSome { type A }
    match
 // ^^^^^ keyword.control.flow.scala
 
+{
    case =>
 // ^^^^ keyword.other.declaration.scala
+}
 
    macro
 // ^^^^^ keyword.other.scala
@@ -450,6 +452,7 @@ type Foo = Bar[A] forSome { type A }
    a: Foo
 //    ^^^ support.class
 
+{
    case (abc: Foo, cba @ _) =>
 // ^^^^ keyword.other.declaration.scala
 //       ^^^ variable.parameter
@@ -509,6 +512,7 @@ type Foo = Bar[A] forSome { type A }
    case _ if stuff =>
 //        ^^ keyword.control.flow.scala
 //           ^^^^^ - entity.name
+}
 
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
@@ -543,11 +547,11 @@ type Foo = Bar[A] forSome { type A }
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
 
+{
    case class
 // ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
-
-=>     // this is here to act as a random terminator to the above partial syntax
+}
 
    case class Thingy(abc: Int) extends Other
 // ^^^^ storage.type.class.scala
@@ -798,10 +802,12 @@ type Foo >: Bar
 // ^ variable.parameter
 //    ^^^ storage.type.primitive.scala
 
+{
    case _ if thing =>
 // ^^^^ keyword.other.declaration.scala
 //           ^^^^^ - variable.parameter
 //                 ^^ - storage.type.function.arrow
+}
 
    a =>a
 // ^ variable.parameter
@@ -984,8 +990,10 @@ foo({ _: Unit => () })
   stuff: _*
 //       ^^ keyword.operator.varargs.scala
 
+{
   case _ @ _* =>
 //         ^^ keyword.operator.varargs.scala
+}
 
   val _ @ _* = things
 //        ^^ keyword.operator.varargs.scala
@@ -1000,8 +1008,10 @@ foo.bar
 (foo, bar)
 //  ^ punctuation.separator.scala
 
+{
 case (foo, bar) =>
 //       ^ punctuation.separator.scala
+}
 
 val (foo, bar) = ???
 //      ^ punctuation.separator.scala
@@ -1414,6 +1424,29 @@ class Foo extends Bar[Int]
 //                   ^ punctuation.section.brackets.begin.scala
 //                       ^ punctuation.section.brackets.end.scala
 
+match {
+  case _
+//^^^^ - meta.pattern
+//     ^ meta.pattern.scala
+   => 42
+// ^^ - meta.block.case.first
+// ^^ - meta.pattern
+//    ^^ meta.block.case.first.scala
+{
+
+  // <- - meta.block.case
+}
+
+  case _ => 42
+//       ^^ - meta.block.case.non-first
+//       ^^ - meta.pattern
+//          ^^ meta.block.case.non-first.scala
+
+  case _ => 42
+//       ^^ - meta.block.case.non-first
+//          ^^ meta.block.case.non-first.scala
+}
+
 class Foo
     extends Bar
 //  ^^^^^^^ keyword.declaration.scala
@@ -1453,6 +1486,12 @@ class Foo extends Bar with {
 // ^^^^^^ keyword.other.import.scala
 //        ^^^^^ variable.package.scala
 }
+
+class Foo extends Bar.Baz with bin.Baz
+//                ^^^^^^^ entity.other.inherited-class.scala
+//                   ^ punctuation.accessor.scala
+//                             ^^^^^^^ entity.other.inherited-class.scala
+//                                ^ punctuation.accessor.scala
 
 final case class
 
@@ -1517,7 +1556,6 @@ for {
 //                                     ^^^ punctuation.definition.string.end.xml
 //                                       ^ - invalid
 </foo>
-
 
    case class
 // ^^^^ storage.type.class.scala

@@ -192,6 +192,8 @@ contexts:
                 - match: '\}'
                   scope: punctuation.section.block.end.c++
                   pop: true
+                - include: preprocessor-global
+                - include: global
             - match: '\}'
               scope: punctuation.section.block.end.c++
               pop: true

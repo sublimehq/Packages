@@ -319,10 +319,14 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.java
           pop: true
-    - match: \s*((//).*$\n?)
-      captures:
-        1: comment.line.double-slash.java
-        2: punctuation.definition.comment.java
+    - match: //
+      scope: punctuation.definition.comment.java
+      push:
+        - meta_scope: comment.line.double-slash.java
+        - match: $\n?
+          pop: true
+        - match: '(?=%>)'
+          pop: true
   constants-and-special-vars:
     - match: \b(true|false|null)\b
       scope: constant.language.java

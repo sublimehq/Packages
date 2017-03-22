@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[object ${1:Main} {
+	def main(args: Array[String]): Unit = {
+		${0:???}
+	}
+}]]></content>
+	<tabTrigger>app</tabTrigger>
+	<scope>source.scala</scope>
+	<description>main class</description>
+</snippet>

@@ -777,6 +777,24 @@ void test_in_extern_c_block()
 {
 }
 #else
+
+/* temporary C++ preprocessor block */
+#ifdef __cplusplus
+/*                <- meta.preprocessor */
+/*   <- keyword.control.import */
+# ifndef _Bool
+/*            <- meta.preprocessor */
+/*      <- keyword.control.import */
+   typedef bool _Bool;   /* semi-hackish: C++ has no _Bool; bool is builtin */
+/* ^ storage.type */
+/*              ^ entity.name.type.typedef */
+# endif
+/*     <- meta.preprocessor */
+/*     <- keyword.control.import */
+#endif
+/*    <- meta.preprocessor */
+/*    <- keyword.control.import */
+
 void test_in_extern_c_block()
 /*   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
 /*                         ^^ meta.function.parameters meta.group */

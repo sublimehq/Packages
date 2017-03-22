@@ -33,13 +33,34 @@
 
   "E": 20e10,
 //     ^^^^^ constant.numeric.json
+//^^^ meta.structure.dictionary.key.json string.quoted.double.json
+//   ^ punctuation.separator.dictionary.key-value.json - meta.structure.dictionary.key.json
 
   "escape": "\n",
 //           ^^ constant.character.escape.json
+//          ^^^^ meta.structure.dictionary.value.json string.quoted.double.json - meta.structure.dictionary.key.json
 
   "illegal": "\.",
 //            ^^ invalid.illegal.unrecognized-string-escape.json
 
+  "unterminated string
+//^^^^^^^^^^^^^^^^^^^^ string.quoted.double.json
+//                    ^ string.quoted.double.json invalid.illegal.unclosed-string.json
+
+// <- - string
+
+/**/: "test",
+// ^ meta.structure.dictionary.json comment.block.json
+//  ^ punctuation.separator.dictionary.key-value.json - comment
+//    ^^^^^^ meta.structure.dictionary.value.json string.quoted.double.json
+
+  "array2":
+    [
+      "foobar",
+//    ^^^^^^^^ meta.structure.array.json string.quoted.double.json - meta.structure.dictionary.key.json
+    ],
+
   []
 //^^ invalid.illegal.expected-dictionary-separator.json
+
 }

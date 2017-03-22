@@ -338,9 +338,11 @@ contexts:
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
+    # what follows is identical to case-pattern, except it goes to case-body-first
     - match: '\b(case)\b(?!\s+class\b)'
       scope: keyword.other.declaration.scala
       push:
+        - meta_content_scope: meta.pattern.scala
         - match: '(?=\bclass\b)'
           pop: true
         - match: '\b(if)\b'
@@ -349,16 +351,72 @@ contexts:
           set:
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
-              pop: true
+              set: case-body-first
             - include: main-no-lambdas
-        - match: '{{rightarrow}}'
-          scope: keyword.operator.arrow.scala
-          pop: true
-          captures:
-            1: keyword.control.flow.scala
+        # eliminates arrow from the pattern meta scope
+        - match: '(?={{rightarrow}})'
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+
+  case-body-first:
+    - meta_content_scope: meta.block.case.first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-first
+        - include: main
+    - include: case-body
+
+  case-body-non-first:
+    - meta_content_scope: meta.block.case.non-first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-non-first
+        - include: main
+    - include: case-body
+
+  # this exists to clear the meta_scope from first or non-first
+  case-pattern:
+    - match: '\b(case)\b'
+      scope: keyword.other.declaration.scala
+      set:
+        - meta_content_scope: meta.pattern.scala
+        - match: '\b(if)\b'
+          captures:
+            1: keyword.control.flow.scala
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-non-first
+            - include: main-no-lambdas
+        # eliminates arrow from the pattern meta scope
+        - match: '(?={{rightarrow}})'
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-non-first
+        - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
+          pop: true
+        - include: pattern-match
+
+  case-body:
+    - match: (?=\bcase\b)
+      set: case-pattern
+    - match: (?=\})
+      pop: true
+    - include: main
 
   braces:
     - match: \[
@@ -579,6 +637,14 @@ contexts:
       set: class-inheritance-extends
 
   class-inheritance-extends-token:
+    - match: '{{id}}(?=\s*\.)'
+      scope: entity.other.inherited-class.scala
+    - match: '(?=\.)'
+      push:
+        - meta_scope: entity.other.inherited-class.scala
+        - match: \.
+          scope: punctuation.accessor.scala
+          pop: true
     - match: '{{id}}'
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
