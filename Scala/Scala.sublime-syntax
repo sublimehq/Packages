@@ -54,7 +54,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   rightarrow: '=>|\x{21D2}'
-  upperid: '(?:\b\p{Lu}{{idrest}})'
+  upperid: '(?:(\b\p{Lu}|\$){{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
   withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
@@ -324,6 +324,7 @@ contexts:
         1: keyword.control.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
+      push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*\{'
       captures:
         1: keyword.control.scala
@@ -448,7 +449,7 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
-    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if)\b)'
+    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit)\b)'
       pop: true
     - match: '\n'
       pop: true
@@ -783,6 +784,10 @@ contexts:
           pop: true
         - match: '(?=\S)'
           set: single-type-expression
+  try-initialization:
+    - match: (?=\s*with\b)
+      set: single-type-expression-tail
+    - include: try-dispatch
 
   for-comprehension:
     - match: '\b(for)\s*\{'
@@ -1372,4 +1377,4 @@ contexts:
         1: keyword.declaration.scala
       set: single-type-expression
     - match: '(?=\S)'
-      set: try-dispatch       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
