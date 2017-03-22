@@ -129,13 +129,23 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
-    - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|hr|pre)\b)
+    - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|pre)\b)
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
       push:
         - meta_scope: meta.tag.block.any.html
         - match: '>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+        - include: tag-stuff
+    - match: (</?)((?i:hr)\b)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.block.any.html
+      push:
+        - meta_scope: meta.tag.block.any.html
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
