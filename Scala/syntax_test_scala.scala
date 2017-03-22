@@ -1570,3 +1570,10 @@ for {
 
    case class
 // ^^^^ storage.type.class.scala
+
+new Monad[Catenable] with Traverse
+//       ^ punctuation.definition.generic.begin.scala
+//       ^^^^^^^^^^^ meta.generic.scala
+//                 ^ punctuation.definition.generic.end.scala
+//                   ^^^^ keyword.declaration.scala
+//                        ^^^^^^^^ support.class.scala
