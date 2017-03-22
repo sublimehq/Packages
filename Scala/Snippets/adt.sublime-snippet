@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[sealed trait ${1:ADT} extends Product with Serializable
+
+object $1 {
+	$0
+}]]></content>
+	<tabTrigger>adt</tabTrigger>
+	<scope>source.scala</scope>
+	<description>ADT</description>
+</snippet>

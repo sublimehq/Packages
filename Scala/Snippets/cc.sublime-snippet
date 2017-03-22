@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[final case class ${1:Name}($2)]]></content>
+	<tabTrigger>cc</tabTrigger>
+	<scope>source.scala</scope>
+	<description>case class</description>
+</snippet>

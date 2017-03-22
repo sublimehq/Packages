@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[try {
+	$0
+} finally {
+	???
+}]]></content>
+	<tabTrigger>tryf</tabTrigger>
+	<scope>source.scala</scope>
+	<description>try/finally</description>
+</snippet>

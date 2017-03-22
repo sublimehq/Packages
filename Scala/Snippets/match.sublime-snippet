@@ -1,8 +1,7 @@
 <snippet>
 	<content><![CDATA[match {
 	case ${1:_} => $0
-}
-]]></content>
+}]]></content>
 	<tabTrigger>match</tabTrigger>
 	<scope>source.scala</scope>
 	<description>match</description>
