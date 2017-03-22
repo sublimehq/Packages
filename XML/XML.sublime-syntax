@@ -10,7 +10,12 @@ file_extensions:
   - rss
   - opml
   - svg
-first_line_match: '^<\?xml '
+first_line_match: |-
+    (?x)
+    ^(?:
+        <\?xml\s
+     |  \s*<([\w-]+):Envelope\s+xmlns:\1\s*=\s*"http://schemas.xmlsoap.org/soap/envelope/"\s*>
+     )
 scope: text.xml
 variables:
   # This is the full XML Name production, but should not be used where namespaces
