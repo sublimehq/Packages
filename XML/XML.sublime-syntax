@@ -61,6 +61,8 @@ contexts:
         - match: '-->'
           scope: punctuation.definition.comment.end.xml
           pop: true
+        - match: '-{2,}'
+          scope: invalid.illegal.double-hyphen-within-comment.xml
     - match: '(</?){{qualified_name}}([^/>\s]*)'
       captures:
         1: punctuation.definition.tag.begin.xml
