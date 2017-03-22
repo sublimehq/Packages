@@ -9,7 +9,7 @@ scope: source.sql
 contexts:
   main:
     - include: comments
-    - match: '(?i:^\s*(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:(\w+)|''(\w+)''|"(\w+)"|`(\w+)`)'
+    - match: '(?i:\s*\b(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:(\w+)|''(\w+)''|"(\w+)"|`(\w+)`)'
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql
@@ -18,7 +18,7 @@ contexts:
         4: entity.name.function.sql
         5: entity.name.function.sql
         6: entity.name.function.sql
-    - match: (?i:^\s*(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
+    - match: (?i:\s*\b(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
       scope: meta.drop.sql
       captures:
         1: keyword.other.create.sql
@@ -30,7 +30,7 @@ contexts:
         2: keyword.other.table.sql
         3: entity.name.function.sql
         4: keyword.other.cascade.sql
-    - match: (?i:^\s*(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
+    - match: (?i:\s*\b(alter)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)
       scope: meta.alter.sql
       captures:
         1: keyword.other.create.sql
@@ -91,7 +91,7 @@ contexts:
       scope: keyword.other.authorization.sql
     - match: (?i:\bin\b)
       scope: keyword.other.data-integrity.sql
-    - match: (?i:^\s*(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
+    - match: (?i:\s*\b(comment\s+on\s+(table|column|aggregate|constraint|database|domain|function|index|operator|rule|schema|sequence|trigger|type|view))\s+.*?\s+(is)\s+)
       scope: keyword.other.object-comments.sql
     - match: (?i)\bAS\b
       scope: keyword.other.alias.sql

@@ -808,3 +808,17 @@
 /*                                                                             ^^^^^^^^^ entity.other.attribute-name.class.css */
 /*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
 /*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
+
+.test-meta-scopes-for-completions {
+    top: 5px;
+/*^^^^^^^^^^^ meta.property-list */
+/*  ^^^ meta.property-name */
+/*      ^^^^ meta.property-value */
+    top: ;
+/*^^^^^^^^^^^ meta.property-list */
+/*  ^^^ meta.property-name */
+/*      ^ meta.property-value */
+    top: 
+/*^^^^^^^ meta.property-list */
+/*  ^^^ meta.property-name */
+}/*     ^ meta.property-value */

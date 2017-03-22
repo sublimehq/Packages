@@ -1,15 +1,16 @@
 // SYNTAX TEST "Packages/C#/C#.sublime-syntax"
 
 class X
-// ^ storage.modifier
+// ^ storage.type.class
 {
 
     [Usage("Foo bar")]
-    // ^ meta.method.attribute
+//  ^^^^^^^^^^^^^^^^^^ meta.annotation
+    // ^ variable.annotation
     void Run([Usage("help text")] int x, int y)
-    // ^ storage.type
+//  ^^^^ storage.type
     //    ^ entity.name.function
-    //           ^ meta.method.attribute
+    //        ^^^^^ variable.annotation
     //                 ^ string.quoted.double
     //                             ^ storage.type
     //                                    ^ storage.type
@@ -17,11 +18,11 @@ class X
     }
 }
 
-string verbatim = @"This is a test "" of a verbatim string literal - C:\User"
-//                ^^ string.quoted.double.literal punctuation.definition.string.begin
+string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
+//                ^^ string.quoted.double.raw punctuation.definition.string.begin
 //                                 ^^ constant.character.escape
-//                                                                     ^ string.quoted.double.literal - constant
-//                                                                          ^ string.quoted.double.literal punctuation.definition.string.end
+//                                                                     ^ string.quoted.double.raw - constant
+//                                                                          ^ string.quoted.double.raw punctuation.definition.string.end
 
 class A
 {
@@ -32,8 +33,7 @@ class A
 class B: A
 {
    public B(int x, int y): base(x + y, x - y) {}
-   //                       ^ meta.method.base-call
-   //                              ^ meta.method.base-call
+   //                       ^ variable.language
 }
 
 
@@ -41,6 +41,7 @@ public class GenericList<T>
 {
     void Add(T input) { }
 }
+
 class TestGenericList
 {
     private class ExampleClass { }
@@ -57,7 +58,7 @@ class TestGenericList
 
 public partial class Employee
 //     ^ storage.modifier
-//                   ^ entity.name.type.class
+//                   ^ entity.name.class
 {
     public void DoWork()
     {
@@ -67,8 +68,11 @@ public partial class Employee
 public class Coo
 {
     public Object text = ObjectMaker.MakeSomeText ("In order to publish your text, you need to do some texty things 'Like this' and then say hello.");
+    //                               ^ variable.function
+    //                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
     //                                                                                                                                              ^ - string
     public Vector curves;
+    //            ^ variable.other.member
     int Zoo()
     //  ^ entity.name.function
     {}
@@ -77,53 +81,53 @@ public class Coo
 class Syntax
 {
     public decimal decimal1 = 1.0m;
-    //                        ^^^  constant.numeric.source.cs
-    //                           ^ storage.type.numeric.cs
+    //                        ^^^  constant.numeric
+    //                           ^ storage.type.numeric
     public decimal decimal2 = 2.0M;
-    //                        ^^^  constant.numeric.source.cs
-    //                           ^ storage.type.numeric.cs
+    //                        ^^^  constant.numeric
+    //                           ^ storage.type.numeric
     public double double1 = 1.0d;
-    //                      ^^^  constant.numeric.source.cs
-    //                         ^ storage.type.numeric.cs
+    //                      ^^^  constant.numeric
+    //                         ^ storage.type.numeric
     public double double2 = 2.0D;
-    //                      ^^^  constant.numeric.source.cs
-    //                         ^ storage.type.numeric.cs
+    //                      ^^^  constant.numeric
+    //                         ^ storage.type.numeric
     public float float1 = 1.0f;
-    //                    ^^^  constant.numeric.source.cs
-    //                       ^ storage.type.numeric.cs
+    //                    ^^^  constant.numeric
+    //                       ^ storage.type.numeric
     public float float2 = 2.0F;
-    //                    ^^^  constant.numeric.source.cs
-    //                       ^ storage.type.numeric.cs
+    //                    ^^^  constant.numeric
+    //                       ^ storage.type.numeric
     public long long1 = 1l;
-    //                  ^  constant.numeric.source.cs
-    //                   ^ storage.type.numeric.cs
+    //                  ^  constant.numeric
+    //                   ^ storage.type.numeric
     public long long2 = 2L;
-    //                  ^  constant.numeric.source.cs
-    //                   ^ storage.type.numeric.cs
+    //                  ^  constant.numeric
+    //                   ^ storage.type.numeric
     public ulong ulong1 = 1ul;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong2 = 2UL;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong3 = 3lu;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong4 = 4LU;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong5 = 5uL;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong6 = 6Ul;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong7 = 7lU;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong ulong8 = 8Lu;
-    //                    ^   constant.numeric.source.cs
-    //                     ^^ storage.type.numeric.cs
+    //                    ^   constant.numeric
+    //                     ^^ storage.type.numeric
     public ulong bad = 1UU;
-    //                  ^^ - storage.type.numeric.cs
+    //                   ^ - storage.type.numeric
 }

@@ -317,6 +317,26 @@ var obj = {
 }
 // <- meta.object-literal - meta.block
 
++{
+// <- keyword.operator
+  '': +{1:} / undefined
+//^^ string.quoted
+//  ^ punctuation.separator.key-value
+//    ^ keyword.operator
+//      ^ constant.numeric
+//          ^ keyword.operator
+//            ^ constant.language
+};
+
+({
+ // <- meta.object-literal
+  0.: {0.e+0: 0}
+//^^ meta.object-literal.key constant.numeric
+//  ^ punctuation.separator.key-value
+//     ^^^^^ meta.object-literal.key constant.numeric
+//            ^ constant.numeric
+});
+
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //  ^ variable.other.dollar.only punctuation.dollar entity.name.function
@@ -759,11 +779,23 @@ var result = 200 / 400 + 500 /
 100;
 
 var re = /
-//       ^ string.regexp punctuation.definition.string.begin
 [a-z]
-// ^ string.regexp.js
 /g
 // <- string.regexp.js punctuation.definition.string.end
+ // <- keyword.other
+
+const a = 1 / /This is regex./ / 'This should be a string, not a regex.';
+//          ^ keyword.operator
+//            ^ string.regexp
+//                           ^ string.regexp
+//                             ^ keyword.operator
+//                               ^ string.quoted
+
+a = /\//u + 0;
+//  ^^^^ string.regexp
+//      ^ keyword.other
+//        ^ keyword.operator
+//          ^ constant.numeric
 
 var π = 3.141592653
 //  ^ variable.other.readwrite
@@ -773,6 +805,22 @@ var angle = 2*π / count // angle between circles
 
 var angle = 2*π / count /* angle between circles */
 //              ^ keyword.operator.arithmetic
+
+undefined / (8 * 5) / "1"
+//        ^ keyword.operator.arithmetic
+//                  ^ keyword.operator.arithmetic
+
+'5' / 8 / '1'
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+"5" / 8 / "1"
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
+
+`5` / 8 / `1`
+//  ^ keyword.operator.arithmetic
+//      ^ keyword.operator.arithmetic
 
 a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
@@ -827,6 +875,15 @@ new FooBar(function(){
 var test =
 {a: 1}
 // <- meta.object-literal punctuation.definition.block
+
+var arrowFuncBraceNextLine = () => /* comments! */
+//  ^ entity.name.function
+//                              ^^ storage.type.function
+//                                 ^^^^^^^^^^^^^^^ comment
+{
+    foo.bar();
+//  ^ - entity.name.function
+}
 
 // Handle multi-line "concise" arrow function bodies
 var conciseFunc = () =>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[case object ${1:Name}]]></content>
+	<tabTrigger>co</tabTrigger>
+	<scope>source.scala</scope>
+	<description>case object</description>
+</snippet>

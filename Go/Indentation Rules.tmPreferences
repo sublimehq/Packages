@@ -8,7 +8,7 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>(?x)
+		<string><![CDATA[(?x)
 		^                               # start of line
 		(.*\*/)?                        # skip comments if present
 		(                               # three possibilities
@@ -20,11 +20,11 @@
 			|
 			(?:\s* (case|default).*:)   # case statements pop back one indent
 			|
-			(?: \) (?&lt;! \( ) )       # closing braces not preceded by opening braces
+			(?: \) (?<! \( ) )          # closing braces not preceded by opening braces
 		)
 		(//.*|/\*.*\*/\s*)?             # skip any comments (optional)
 		$                               # end of line
-		</string>
+		]]></string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
 		^

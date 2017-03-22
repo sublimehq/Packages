@@ -1,14 +1,16 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 // Line comments
-// <- comment.line.double-slash
-// ^^^^^^^^^^^^^ comment.line.double-slash
+// <- comment.line.double-slash punctuation.definition.comment
+// ^^^^^^^^^^^^^^ comment.line.double-slash
+
+// <- - comment
 /// Line doc comments
 // <- comment.line.documentation
 // ^^^^^^^^^^^^^ comment.line.documentation
 
 /*!
-// <- comment.block.documentation
+// <- comment.block.documentation punctuation.definition.comment
  // <- comment.block.documentation
 //^ comment.block.documentation
 Block doc comments
@@ -257,11 +259,14 @@ let logical: bool = true;
 //           ^^^^ storage.type
 //                ^ keyword.operator
 //                  ^^^^ constant.language
+//                      ^ punctuation.terminator
 let mut mutable = 12;
 //  ^^^ storage.modifier
+//                  ^ punctuation.terminator
 
 let ch = '∞';
 //       ^^^ string.quoted.single
+//          ^ punctuation.terminator
 
 let tuple = (1.0, 0i32, "Hello");
 //          ^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -271,17 +276,25 @@ let tuple = (1.0, 0i32, "Hello");
 //                 ^^^ storage.type
 //                      ^^^^^^^ string.quoted.double
 //                             ^ punctuation.definition.group.end
+//                              ^ punctuation.terminator
 
 let xs: [i32; 5] = [1, 2, 3, 4, 5];
 //    ^ punctuation.separator
 //      ^^^^^^^^ meta.group
 //      ^ punctuation.definition.group.begin
 //       ^^^ storage.type
+//          ^ punctuation.separator
 //            ^ constant.numeric.integer.decimal
 //             ^ punctuation.definition.group.end
 //                 ^^^^^^^^^^^^^^^ meta.group
 //                 ^ punctuation.definition.group.begin
+//                   ^ punctuation.separator
+//                      ^ punctuation.separator
+//                         ^ punctuation.separator
+//                            ^ punctuation.separator
 //                               ^ punctuation.definition.group.end
+//                                ^ punctuation.terminator
+
 let xsl = &xs;
 //        ^ keyword.operator
 
@@ -384,6 +397,7 @@ if n < 0 {
 //       ^ meta.block punctuation.definition.block.begin
 // <- keyword.control
     print!("{} is negative", n);
+//                             ^ punctuation.terminator
 } else if n > 0 {
 // <- meta.block punctuation.definition.block.end
 // ^^^ keyword.control
@@ -837,4 +851,97 @@ macro_rules! kleene_star {
 //                 ^ meta.macro meta.block keyword.operator
         println!($($arg)*);
     )
+}
+
+pub fn next_lex<T:PartialOrd>(/* block */data: &mut [T] // line {
+//                            ^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                                      ^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    /* block2 */ data2: &mut [T]  // line
+//  ^^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                ^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    ) -> bool {
+    unimplemented!();
+}
+
+pub fn next_lex2</* block */T/* comments */:/* everywhere */
+//               ^^^^^^^^^^^ comment.block.rust
+//                           ^^^^^^^^^^^^^^ comment.block.rust
+//                                          ^^^^^^^^^^^^^^^^ comment.block.rust
+    // Many comments
+//  ^^^^^^^^^^^^^^^^ comment.line.double-slash.rust
+    /* help */ PartialOrd // Possibly too many comments
+//  ^^^^^^^^^^ comment.block.rust
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.rust
+> (
+    /* block2 */ data2: &mut [T]  // line
+//  ^^^^^^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.block.rust
+//                                ^^^^^^^ source.rust meta.function.rust meta.function.parameters.rust comment.line.double-slash.rust
+    ) -> bool {
+    unimplemented!();
+}
+
+pub fn new<T>() -> Fibonacci<T>
+    where T: One + Zero,
+//  ^^^^^ keyword.other.rust
+    for <'a> &'a T: Add<Output = T>,
+//  ^^^ keyword.other.rust
+//      ^ punctuation.definition.generic.begin.rust
+//       ^^ storage.modifier.lifetime.rust
+//         ^ punctuation.definition.generic.end.rust
+//           ^ keyword.operator.rust
+//            ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+pub fn new<T>() -> Fibonacci<T>
+    where for <'a> &'a T: Add<Output = T>,
+//  ^^^^^ keyword.other.rust
+//        ^^^ keyword.other.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^^ storage.modifier.lifetime.rust
+//               ^ punctuation.definition.generic.end.rust
+//                 ^ keyword.operator.rust
+//                  ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+impl<T> Fibonacci<T>
+    where for <'a> &'a T: Add<Output = T>,
+//  ^^^^^ keyword.other.rust
+//        ^^^ keyword.other.rust
+//            ^ punctuation.definition.generic.begin.rust
+//             ^^ storage.modifier.lifetime.rust
+//               ^ punctuation.definition.generic.end.rust
+//                 ^ keyword.operator.rust
+//                  ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+impl<T> Iterator for Fibonacci<T>
+    where T: Clone,
+//  ^^^^^ keyword.other.rust
+    for <'a> &'a T: Add<Output = T>,
+//  ^^^ keyword.other.rust
+//      ^ punctuation.definition.generic.begin.rust
+//       ^^ storage.modifier.lifetime.rust
+//         ^ punctuation.definition.generic.end.rust
+//           ^ keyword.operator.rust
+//            ^^ storage.modifier.lifetime.rust
+{
+    unimplemented!();
+}
+
+pub const FOO: Option<[i32; 1]> = Some([1]);
+//                    ^ punctuation.definition.group.begin.rust
+//                        ^ punctuation.separator
+//                          ^ constant.numeric
+//                           ^ punctuation.definition.group.end.rust
+
+fn abc() {
+    println!("{}hello\
+//                   ^ punctuation.separator.continuation.line.rust
+         world, there is no whitespace between hello and world in the output", 0o202u64);
 }

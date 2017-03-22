@@ -279,7 +279,7 @@ contexts:
               pop: true
             - include: expressions
     # Matches the 'x := 0' style of variable declaration
-    - match: '({{identifier}})(?=.*:=)'
+    - match: '({{identifier}})(?=(\s*,\s*{{identifier}})*\s*:=)'
       scope: variable.other.go
       push:
         - meta_scope: meta.initialization.short.go

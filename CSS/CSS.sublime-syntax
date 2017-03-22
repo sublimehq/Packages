@@ -614,9 +614,10 @@ contexts:
         - match: \bfont(-family)?(?!-)\b
           scope: support.type.property-name.css
           push:
-            - match: (:)\s*
+            - match: (:)([ \t]*)
               captures:
                 1: punctuation.separator.key-value.css
+                2: meta.property-value.css
               push:
                 - meta_content_scope: meta.property-value.css
                 - match: '\s*(;)|(?=[})])'
@@ -708,9 +709,10 @@ contexts:
               | symbols|speak-as|grid-gap|grid-row-gap
             )\b
           scope: support.type.property-name.css
-    - match: (:)\s*
+    - match: (:)([ \t]*)
       captures:
         1: punctuation.separator.key-value.css
+        2: meta.property-value.css
       push:
         - meta_content_scope: meta.property-value.css
         - match: '\s*(;)|(?=[})])'

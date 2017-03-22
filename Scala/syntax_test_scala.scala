@@ -1446,3 +1446,43 @@ match {
 //       ^^ - meta.block.case.non-first
 //          ^^ meta.block.case.non-first.scala
 }
+
+class Foo
+    extends Bar
+//  ^^^^^^^ keyword.declaration.scala
+//          ^^^ entity.other.inherited-class.scala
+
+class Foo extends Bar
+    with Baz
+//  ^^^^ keyword.declaration.scala
+//       ^^^ entity.other.inherited-class.scala
+
+class Foo extends Bar
+    with Baz
+    with Bin
+//  ^^^^ keyword.declaration.scala
+//       ^^^ entity.other.inherited-class.scala
+
+def foo
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo()
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo():
+   42
+// ^^ constant.numeric.integer.scala
+
+val foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+var foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar with {
+   import Thing._
+// ^^^^^^ keyword.other.import.scala
+//        ^^^^^ variable.package.scala
+}

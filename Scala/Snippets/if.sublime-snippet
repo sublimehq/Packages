@@ -1,9 +1,0 @@
-<snippet>
-	<content><![CDATA[if($1){
-	$2
-}
-]]></content>
-	<tabTrigger>if</tabTrigger>
-	<scope>source.scala</scope>
-	<description>if</description>
-</snippet>

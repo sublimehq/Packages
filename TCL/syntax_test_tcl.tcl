@@ -18,6 +18,22 @@ pg_select $database \
 data
 # <- - variable.function
 
+becs::wizFrame -info [becs_infobody "interface.jpg" \
+    "Specify VID parameters<br><br><strong>VID groups</strong> can be used to build ranges that is added to the VID range field."] \
+    -title "$ifacename VID parameters"
+# ^ - meta.substitution
+
+if {[catch {becs::objectCreate -class interface \
+        -flags "statistics,interfaceautoprobe" \
+        -name $aggrname -role $extra_role \
+                        -parameters [array get params] \
+        -opaque [list "becs.editor" "ifrole.tcl"] \
+        -parentoid $aggr_attach_oid} err]} {
+return "Creating aggregator interface $aggrname under element/management element-module OID $aggr_attach_oid: $err"
+}
+#^ - meta.block
+#^ - meta.substitution
+
 # -------------------------------------------------------------------------- #
 # Issue 134: https://github.com/SublimeTextIssues/DefaultPackages/issues/134
 # -------------------------------------------------------------------------- #
@@ -47,6 +63,30 @@ namespace eval A {
         }
     }
 }
+
+set dirname "${v_seagull_cfg_root}/seagull-[format "%02d" [expr $ctrlport - $v_seagull_ctrl_port]]"
+#                                           ^^^^^^ keyword.other
+#                                                          ^^^^ keyword.other
+
+set a [list]
+#      ^^^^ keyword.other
+
+set res "[join [lrange [split $res ","] 0 end-1] ","] ..."
+#         ^^^^ keyword.other
+#               ^^^^^^ keyword.other
+#                       ^^^^^ keyword.other
+
+regexp {instance="?([^" \t]+)"?} $counter matchedstring instance; # comment
+#       ^^^^^^^^^^^^^^^^^^^^^^^ string.regexp
+
+set check1 [regexp {^'(.){0,32}'$} $param]
+#                   ^^^^^^^^^^^^^ string.regexp
+
+set check2 [regexp {[*\?\|"<>:/\]+} $param]
+#                   ^^^^^^^^^^^^^^ string.regexp
+
+set stepquote [regsub -all {"} $line {""} ]
+#                             ^ - string
 
 set copy [[$root selectNodes //*\[@ID="$idref"\]] cloneNode -deep]
 #                               ^^ constant.character.escape
@@ -98,15 +138,12 @@ proc ${ns}::suffix {} {}
 # -------------------------------------------------------------------------- #
 set ok1 {["]"]}
 #       ^^^^^^^ meta.block
-#        ^^^^^ meta.substitution
 #         ^^^ string.quoted.double
 set ok2 {["][]"]}
 #       ^^^^^^^^^ meta.block
-#        ^^^^^^^ meta.substitution
 #         ^^^^^ string.quoted.double
 set not_ok {["]["]}
 #          ^^^^^^^^ meta.block
-#           ^^^^^^ meta.substitution
 #            ^^^^ string.quoted.double
 puts $ok1            ;# ["]"]
 # ^ keyword.other
