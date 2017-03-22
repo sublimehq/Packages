@@ -42,6 +42,7 @@ name: Ruby
 # but also consider 'a.b?(:c)' ??
 file_extensions:
   - rb
+  - Appfile
   - Appraisals
   - Berksfile
   - Brewfile
@@ -49,6 +50,8 @@ file_extensions:
   - cgi
   - Cheffile
   - config.ru
+  - Deliverfile
+  - Fastfile
   - fcgi
   - Gemfile
   - gemspec
@@ -64,7 +67,9 @@ file_extensions:
   - rbx
   - rjs
   - ruby.rail
+  - Scanfile
   - simplecov
+  - Snapfile
   - thor
   - Thorfile
   - Vagrantfile

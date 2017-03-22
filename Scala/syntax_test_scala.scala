@@ -1577,3 +1577,37 @@ new Monad[Catenable] with Traverse
 //                 ^ punctuation.definition.generic.end.scala
 //                   ^^^^ keyword.declaration.scala
 //                        ^^^^^^^^ support.class.scala
+
+   final class A
+   final class B
+// ^^^^^ storage.modifier.other.scala
+//       ^^^^^ storage.type.class.scala
+//             ^ entity.name.class.scala
+
+abc match {
+  case $foo(bar) => ()
+  //   ^^^^ - variable
+}
+
+   sealed trait Foo
+   sealed trait Bar
+// ^^^^^^ storage.modifier.other.scala
+//        ^^^^^ storage.type.class.scala
+//              ^^^ entity.name.class.scala
+
+package object foo extends Bar with Baz
+//                 ^^^^^^^ keyword.declaration.scala
+//                         ^^^ entity.other.inherited-class.scala
+//                             ^^^^ keyword.declaration.scala
+//                                  ^^^ entity.other.inherited-class.scala
+
+new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
+//                     ^^^^ keyword.declaration.scala
+//                          ^^^^^^^^^^ support.class.scala
+//                                       ^^^ storage.type.function.scala
+
+   implicit def M: Monad[M]
+   implicit def Monad
+// ^^^^^^^^ storage.modifier.other.scala
+//          ^^^ storage.type.function.scala
+//              ^ entity.name.function.scala
