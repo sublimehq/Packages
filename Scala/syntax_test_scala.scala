@@ -549,7 +549,7 @@ type Foo = Bar[A] forSome { type A }
 
 {
    case class
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
 }
 
@@ -1492,3 +1492,70 @@ class Foo extends Bar.Baz with bin.Baz
 //                   ^ punctuation.accessor.scala
 //                             ^^^^^^^ entity.other.inherited-class.scala
 //                                ^ punctuation.accessor.scala
+
+final case class
+
+   final case =>
+// ^^^^^ - variable
+
+  val ~ = 42
+//    ^ entity.name.val.scala
+  val \/- = 42
+//    ^^^ entity.name.val.scala
+
+type ~[+A] = A
+//     ^ keyword.operator
+type ~[A <: B] = A
+//       ^^ keyword.operator
+type ~[A >: B] = A
+//       ^^ keyword.operator
+
+  +()
+// ^^ - constant
+
+for {
+  // abc <-
+} yield thing
+//      ^^^^^ - variable
+
+for (
+  // abc <-
+) yield thing
+//      ^^^^^ - variable
+
+for {
+  abc /* <- */
+} yield thing
+//      ^^^^^ - variable
+
+for {
+  "abc <-"
+} yield thing
+//      ^^^^^ - variable
+
+for {
+   abc /* abc */ <-
+// ^^^ variable.parameter.scala
+} yield thing
+//      ^^^^^ - variable
+
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+
+<foo>
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+</foo>
+
+   case class
+// ^^^^ storage.type.class.scala

@@ -294,6 +294,7 @@ contexts:
           push:
             - match: '\]'
               pop: true
+            - include: type-constraints
             - include: delimited-type-expression
         - match: '(<:|>:)'
           scope: keyword.operator.bound.scala
@@ -338,10 +339,12 @@ contexts:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
     # what follows is identical to case-pattern, except it goes to case-body-first
-    - match: '\b(case)\b'
+    - match: '\b(case)\b(?!\s+class\b)'
       scope: keyword.other.declaration.scala
       push:
         - meta_content_scope: meta.pattern.scala
+        - match: '(?=\bclass\b)'
+          pop: true
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala
@@ -763,6 +766,8 @@ contexts:
   # it would be incorrect to scope operators specially, since they are just identifiers
   # by pulling them out HERE though and refusing to scope them, we emulate lookbehind
   operators:
+    - match: '{{op}}(?=[\(\[])'   # no explicit scope, just pulling it out
+      push: try-dispatch
     - match: '{{op}}'   # no explicit scope, just pulling it out
 
   initialization:
@@ -795,7 +800,18 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<\x{2190}=\{\}]|<[^\-])+({{nonopchar}}(<-|\x{2190}|=){{nonopchar}}))'
+    - match: |-
+        (?x)
+          ^(?=
+            (
+               [^<\x{2190}=\{\}/"]
+              |<[^\-]
+              |/[^/*]
+              |"([^"\\]|\\\.)*"
+              |/\*([^*]|\*(?!/))*\*/
+            )+
+            {{nonopchar}}(<-|\x{2190}|=){{nonopchar}}
+          )
       push:
         - match: '\b(val)\b'
           scope: storage.type.stable.scala
@@ -843,7 +859,7 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: \b(class|trait|object)\b
+    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
       scope: storage.type.class.scala
     - match: \bdef\b
       scope: storage.type.function.scala
@@ -1014,6 +1030,13 @@ contexts:
             - include: main
 
   xml-literal:
+    - match: '<!\[CDATA\['
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.unquoted.cdata.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
+          pop: true
     - match: '</{{xml_qualified_name}}>?'
       scope: invalid.illegal.bad-closing-tag.xml
     - match: '(<)({{xml_qualified_name}})'
@@ -1172,7 +1195,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.scala
   val-pattern-match:
-    - match: '{{upperid}}(?=[\s=:])'
+    - match: '(?:{{upperid}}|{{op}})(?=[\s=:])'
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
