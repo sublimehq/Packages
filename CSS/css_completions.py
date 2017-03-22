@@ -433,7 +433,7 @@ def parse_css_data():
         # Append values that are allowed for all properties
         allowed_values += ['all', 'inherit', 'initial', 'unset']
 
-        for name in names.split():
+        for name in names.split(' | '):
             props[name] = sorted(allowed_values)
 
     return props
