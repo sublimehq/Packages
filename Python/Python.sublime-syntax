@@ -1479,8 +1479,6 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
-        - include: escaped-unicode-char
-        - include: escaped-char
         - include: line-continuation-inside-string
         - include: f-string-content
     # Single-line f-string
@@ -1493,6 +1491,8 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: escaped-unicode-char
+        - include: escaped-char
         - include: line-continuation-inside-string
         - include: f-string-content
     # Single-line string, unicode or not, starting with a SQL keyword

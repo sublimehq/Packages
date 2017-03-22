@@ -294,6 +294,7 @@ contexts:
           push:
             - match: '\]'
               pop: true
+            - include: type-constraints
             - include: delimited-type-expression
         - match: '(<:|>:)'
           scope: keyword.operator.bound.scala
@@ -337,25 +338,85 @@ contexts:
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
-    - match: '\b(case)\b'
+    # what follows is identical to case-pattern, except it goes to case-body-first
+    - match: '\b(case)\b(?!\s+class\b)'
       scope: keyword.other.declaration.scala
       push:
+        - meta_content_scope: meta.pattern.scala
+        - match: '(?=\bclass\b)'
+          pop: true
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
-              pop: true
+              set: case-body-first
             - include: main-no-lambdas
-        - match: '{{rightarrow}}'
-          scope: keyword.operator.arrow.scala
-          pop: true
-          captures:
-            1: keyword.control.flow.scala
+        # eliminates arrow from the pattern meta scope
+        - match: '(?={{rightarrow}})'
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+
+  case-body-first:
+    - meta_content_scope: meta.block.case.first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-first
+        - include: main
+    - include: case-body
+
+  case-body-non-first:
+    - meta_content_scope: meta.block.case.non-first.scala
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: case-body-non-first
+        - include: main
+    - include: case-body
+
+  # this exists to clear the meta_scope from first or non-first
+  case-pattern:
+    - match: '\b(case)\b'
+      scope: keyword.other.declaration.scala
+      set:
+        - meta_content_scope: meta.pattern.scala
+        - match: '\b(if)\b'
+          captures:
+            1: keyword.control.flow.scala
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-non-first
+            - include: main-no-lambdas
+        # eliminates arrow from the pattern meta scope
+        - match: '(?={{rightarrow}})'
+          set:
+            - match: '{{rightarrow}}'
+              scope: keyword.operator.arrow.scala
+              set: case-body-non-first
+        - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
+          pop: true
+        - include: pattern-match
+
+  case-body:
+    - match: (?=\bcase\b)
+      set: case-pattern
+    - match: (?=\})
+      pop: true
+    - include: main
 
   braces:
     - match: \[
@@ -576,6 +637,14 @@ contexts:
       set: class-inheritance-extends
 
   class-inheritance-extends-token:
+    - match: '{{id}}(?=\s*\.)'
+      scope: entity.other.inherited-class.scala
+    - match: '(?=\.)'
+      push:
+        - meta_scope: entity.other.inherited-class.scala
+        - match: \.
+          scope: punctuation.accessor.scala
+          pop: true
     - match: '{{id}}'
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
@@ -697,6 +766,8 @@ contexts:
   # it would be incorrect to scope operators specially, since they are just identifiers
   # by pulling them out HERE though and refusing to scope them, we emulate lookbehind
   operators:
+    - match: '{{op}}(?=[\(\[])'   # no explicit scope, just pulling it out
+      push: try-dispatch
     - match: '{{op}}'   # no explicit scope, just pulling it out
 
   initialization:
@@ -729,7 +800,18 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<\x{2190}=\{\}]|<[^\-])+({{nonopchar}}(<-|\x{2190}|=){{nonopchar}}))'
+    - match: |-
+        (?x)
+          ^(?=
+            (
+               [^<\x{2190}=\{\}/"]
+              |<[^\-]
+              |/[^/*]
+              |"([^"\\]|\\\.)*"
+              |/\*([^*]|\*(?!/))*\*/
+            )+
+            {{nonopchar}}(<-|\x{2190}|=){{nonopchar}}
+          )
       push:
         - match: '\b(val)\b'
           scope: storage.type.stable.scala
@@ -777,7 +859,7 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: \b(class|trait|object)\b
+    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
       scope: storage.type.class.scala
     - match: \bdef\b
       scope: storage.type.function.scala
@@ -948,6 +1030,13 @@ contexts:
             - include: main
 
   xml-literal:
+    - match: '<!\[CDATA\['
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.unquoted.cdata.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
+          pop: true
     - match: '</{{xml_qualified_name}}>?'
       scope: invalid.illegal.bad-closing-tag.xml
     - match: '(<)({{xml_qualified_name}})'
@@ -1044,7 +1133,7 @@ contexts:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
   xml-mode:
-    - meta_scope: text.xml
+    - meta_content_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
@@ -1056,10 +1145,12 @@ contexts:
           scope: punctuation.definition.inline.end.xml
           pop: true
         - include: main
-    - match: '(</)({{xml_qualified_name}})>'
+    - match: '(</)({{xml_qualified_name}})(>)'
+      scope: text.xml meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
+        6: punctuation.definition.tag.end.xml
       pop: true
     - include: xml-literal
     - include: xml-should-be-entity
@@ -1106,7 +1197,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.scala
   val-pattern-match:
-    - match: '{{upperid}}(?=[\s=:])'
+    - match: '(?:{{upperid}}|{{op}})(?=[\s=:])'
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:

@@ -1,14 +1,16 @@
 // SYNTAX TEST "Packages/Rust/Rust.sublime-syntax"
 
 // Line comments
-// <- comment.line.double-slash
-// ^^^^^^^^^^^^^ comment.line.double-slash
+// <- comment.line.double-slash punctuation.definition.comment
+// ^^^^^^^^^^^^^^ comment.line.double-slash
+
+// <- - comment
 /// Line doc comments
 // <- comment.line.documentation
 // ^^^^^^^^^^^^^ comment.line.documentation
 
 /*!
-// <- comment.block.documentation
+// <- comment.block.documentation punctuation.definition.comment
  // <- comment.block.documentation
 //^ comment.block.documentation
 Block doc comments
@@ -937,3 +939,9 @@ pub const FOO: Option<[i32; 1]> = Some([1]);
 //                        ^ punctuation.separator
 //                          ^ constant.numeric
 //                           ^ punctuation.definition.group.end.rust
+
+fn abc() {
+    println!("{}hello\
+//                   ^ punctuation.separator.continuation.line.rust
+         world, there is no whitespace between hello and world in the output", 0o202u64);
+}

@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[match]]></content>
-	<tabTrigger>m</tabTrigger>
-	<scope>source.scala</scope>
-	<description>shortcut - match</description>
-</snippet>

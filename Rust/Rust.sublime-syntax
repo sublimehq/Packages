@@ -233,7 +233,7 @@ contexts:
       scope: punctuation.separator.rust
       push: after-operator
 
-    - match: '\.\.\.|\.\.||[-=<>&|!~@?+*/%^''#$]|\b_\b'
+    - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
 
   block:
@@ -758,27 +758,33 @@ contexts:
   comments:
     - include: block-comments
     - match: "//[!/]"
+      scope: punctuation.definition.comment.rust
       push:
         - meta_scope: comment.line.documentation.rust
-        - match: $
+        - match: $\n?
           pop: true
     - match: //
+      scope: punctuation.definition.comment.rust
       push:
         - meta_scope: comment.line.double-slash.rust
-        - match: $
+        - match: $\n?
           pop: true
 
   block-comments:
     - match: '/\*[!\*][^\*/]'
+      scope: punctuation.definition.comment.rust
       push:
         - meta_scope: comment.block.documentation.rust
         - match: \*/
+          scope: punctuation.definition.comment.rust
           pop: true
         - include: block-comments
     - match: /\*
+      scope: punctuation.definition.comment.rust
       push:
         - meta_scope: comment.block.rust
         - match: \*/
+          scope: punctuation.definition.comment.rust
           pop: true
         - include: block-comments
 
@@ -858,6 +864,8 @@ contexts:
           scope: punctuation.definition.string.end.rust
           pop: true
         - include: escaped-char
+        - match: '(\\)$'
+          scope: punctuation.separator.continuation.line.rust
 
   raw-string:
     - match: (r)(#*)"
@@ -882,6 +890,8 @@ contexts:
           pop: true
         - include: escaped-char
         - include: format-escapes
+        - match: '(\\)$'
+          scope: punctuation.separator.continuation.line.rust
 
   format-raw-string:
     - match: (r)(#*)"
