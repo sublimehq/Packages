@@ -1486,3 +1486,9 @@ class Foo extends Bar with {
 // ^^^^^^ keyword.other.import.scala
 //        ^^^^^ variable.package.scala
 }
+
+class Foo extends Bar.Baz with bin.Baz
+//                ^^^^^^^ entity.other.inherited-class.scala
+//                   ^ punctuation.accessor.scala
+//                             ^^^^^^^ entity.other.inherited-class.scala
+//                                ^ punctuation.accessor.scala
