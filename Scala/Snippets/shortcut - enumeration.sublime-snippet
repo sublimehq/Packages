@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[enumeration]]></content>
-	<tabTrigger>enum</tabTrigger>
-	<scope>source.scala</scope>
-	<description>shortcut - enumeration</description>
-</snippet>

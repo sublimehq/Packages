@@ -50,11 +50,12 @@
    '^^^^^^^^^^^^^^^ keyword
     
     Class TestClass
-   '^^^^^^^^^^^^^^^ meta.class.asp meta.class.identifier.asp
+   '^^^^^^^^^^^^^^^ meta.class.asp meta.class.identifier.asp - meta.class.body.asp
    '^^^^^ storage.type.asp
    '      ^^^^^^^^^ meta.class.asp meta.class.identifier.asp entity.name.class.asp
         ' comment
        '^^^^^^^^^^ comment.line.apostrophe.asp
+       '<- meta.class.body.asp - meta.class.identifier.asp
         Private m_NameVar
        '^^^^^^^ storage.modifier.asp - meta.method.identifier.asp
        '        ^^^^^^^^^ variable.other.asp
@@ -141,7 +142,8 @@
         
         Private Property Set Category(categoryParam) Set m_CategoryVar = categoryParam End Property
        '^^^^^^^ storage.modifier.asp
-       '        ^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp storage.type.function.asp - meta.method.body.asp
+       '        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.asp meta.class.body.asp meta.method.asp meta.method.identifier.asp - meta.method.identifier.asp meta.method.identifier.asp - meta.method.body.asp
+       '        ^^^^^^^^^^^^ storage.type.function.asp
        '                     ^^^^^^^^ entity.name.function.asp
        '                             ^ punctuation.section.parens.begin.asp
        '                              ^^^^^^^^^^^^^ variable.parameter.function.asp
@@ -203,15 +205,15 @@
     
     Class TestClass2 Public Sub TestSub () Response.Write("wow") End Sub End Class
    '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.asp
-   '^^^^^^^^^^^^^^^^ meta.class.identifier.asp
+   '^^^^^^^^^^^^^^^^ meta.class.identifier.asp - meta.class.body.asp - meta.class.identifier.asp meta.class.identifier.asp
    '^^^^^ storage.type.asp
    '      ^^^^^^^^^^ entity.name.class.asp
-   '                ^ - meta.class.identifier.asp
+   '                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.asp - meta.class.identifier.asp
    '                 ^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
    '                 ^^^^^^ storage.modifier.asp
    '                        ^^^ storage.type.function.asp
    '                            ^^^^^^^ entity.name.function.asp
-   '                                    ^^ punctuation.section.parens
+   '                                    ^^ punctuation.section.parens - meta.method.identifier.asp meta.method.identifier.asp
    '                                      ^ meta.method.asp meta.method.body.asp - meta.method.identifier.asp
    '                                                             ^^^^^^ storage.type.function.end.asp
    '                                                                     ^^^^^^^^^ meta.class.body.asp

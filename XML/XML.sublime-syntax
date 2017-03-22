@@ -10,7 +10,12 @@ file_extensions:
   - rss
   - opml
   - svg
-first_line_match: '^<\?xml '
+first_line_match: |-
+    (?x)
+    ^(?:
+        <\?xml\s
+     |  \s*<([\w-]+):Envelope\s+xmlns:\1\s*=\s*"http://schemas.xmlsoap.org/soap/envelope/"\s*>
+     )
 scope: text.xml
 variables:
   # This is the full XML Name production, but should not be used where namespaces
@@ -61,6 +66,8 @@ contexts:
         - match: '-->'
           scope: punctuation.definition.comment.end.xml
           pop: true
+        - match: '-{2,}'
+          scope: invalid.illegal.double-hyphen-within-comment.xml
     - match: '(</?){{qualified_name}}([^/>\s]*)'
       captures:
         1: punctuation.definition.tag.begin.xml

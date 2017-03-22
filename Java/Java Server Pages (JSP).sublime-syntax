@@ -57,7 +57,7 @@ contexts:
                   pop: true
                 - match: \\.
                   scope: constant.character.escape.jsp
-    - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
+    - match: "(<%(?!--)[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
       captures:
         1: punctuation.section.embedded.begin.jsp
         2: meta.tag.block.jsp
@@ -83,7 +83,7 @@ contexts:
                 1: meta.tag.block.jsp
                 2: punctuation.section.embedded.end.jsp
               push:
-                - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%[!=]?)"
+                - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%(?!--)[!=]?)"
                   captures:
                     1: meta.tag.block.jsp
                     2: punctuation.section.embedded.begin.jsp

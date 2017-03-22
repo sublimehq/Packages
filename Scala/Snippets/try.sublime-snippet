@@ -1,8 +1,8 @@
 <snippet>
-	<content><![CDATA[try { 
-	${1:// ...}
+	<content><![CDATA[try {
+	$0
 } catch {
-	case e: Exception => $0
+	case _ => ???
 }]]></content>
 	<tabTrigger>try</tabTrigger>
 	<scope>source.scala</scope>

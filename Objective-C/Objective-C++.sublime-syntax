@@ -67,6 +67,8 @@ contexts:
                 - match: '\}'
                   scope: punctuation.section.block.end.objc++
                   pop: true
+                - include: preprocessor-global
+                - include: global
             - match: '\}'
               scope: punctuation.section.block.end.objc++
               pop: true
