@@ -486,3 +486,35 @@ func_call(foo
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+/////////////////////////////////////////////
+// Numeric Constants
+/////////////////////////////////////////////
+
+dec1 = 1234567890;
+/*     ^ constant.numeric */
+/*              ^ constant.numeric */
+
+dec2 = 1234567890f;
+/*     ^ constant.numeric */
+/*               ^ constant.numeric */
+
+dec2 = 1234567890L;
+/*     ^ constant.numeric */
+/*               ^ constant.numeric */
+
+dec2 = 1234567890ul;
+/*     ^ constant.numeric */
+/*                ^ constant.numeric */
+
+dec4 = 1234567890Lu;
+/*     ^ constant.numeric */
+/*                ^ constant.numeric */
+
+dec3 = 1234567890LLU;
+/*     ^ constant.numeric */
+/*                 ^ constant.numeric */
+
+dec3 = 1234567890uLL;
+/*     ^ constant.numeric */
+/*                 ^ constant.numeric */
