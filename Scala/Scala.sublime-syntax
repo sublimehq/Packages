@@ -1133,7 +1133,7 @@ contexts:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
   xml-mode:
-    - meta_scope: text.xml
+    - meta_content_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
@@ -1145,10 +1145,12 @@ contexts:
           scope: punctuation.definition.inline.end.xml
           pop: true
         - include: main
-    - match: '(</)({{xml_qualified_name}})>'
+    - match: '(</)({{xml_qualified_name}})(>)'
+      scope: text.xml meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
+        6: punctuation.definition.tag.end.xml
       pop: true
     - include: xml-literal
     - include: xml-should-be-entity

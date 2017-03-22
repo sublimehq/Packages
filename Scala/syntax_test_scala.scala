@@ -1549,15 +1549,24 @@ for {
 //                                     ^^^ punctuation.definition.string.end.xml
 //                                       ^ - invalid
 
-<foo>
+  <foo>
+//^^^^^ text.xml meta.tag.xml
+//^ punctuation.definition.tag.begin
+// ^^^ entity.name.tag
+//    ^ punctuation.definition.tag.end
+//    ^ - text.xml text.xml
    <![CDATA[<sender>John Smith</sender>]]>
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.xml string.unquoted.cdata.xml
 // ^ - invalid
 // ^^^^^^^^^ punctuation.definition.string.begin.xml
 //           ^^^^^^ - entity
 //                                     ^^^ punctuation.definition.string.end.xml
 //                                       ^ - invalid
-</foo>
+  </foo>
+//^^^^^^ text.xml meta.tag.xml
+//^^ punctuation.definition.tag.begin
+//  ^^^ entity.name.tag
+//     ^ punctuation.definition.tag.end
 
    case class
 // ^^^^ storage.type.class.scala
