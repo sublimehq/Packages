@@ -9,24 +9,24 @@
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
-			^\s*                                                                         # the beginning of the line followed by any amount of whitespace
+			^\s*                                                                              # the beginning of the line followed by any amount of whitespace
 			(
-			    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))                         # ending php control keywords
-			|   </(?!html)[A-Za-z0-9-]+\b[^>]*>                                          # any valid close tag except html
-			|   -->                                                                      # closing comment punctuation
-			|   \}                                                                       # a closing brace
+			    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))                              # ending php control keywords
+			|   </(?!html)[A-Za-z0-9-]+\b[^>]*>                                               # any valid close tag except html
+			|   -->                                                                           # closing comment punctuation
+			|   \}                                                                            # a closing brace
 			)
 		]]></string>
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)
-			^\s*                                                                         # the beginning of the line followed by any amount of whitespace
+			^\s*                                                                              # the beginning of the line followed by any amount of whitespace
 			(
-			    <\?(php)?\s*\b(?<php_control_word>if|else|elseif|for|foreach|while)\b.*: # php control keywords
-			    (?!.*end\g<php_control_word>)                                            # - that don't end themselves on the same line
-			|   \{[^}"']*$                                                               # open curly braces that don't have close braces or string punctuation after them
-			|   <!--(?!.*-->)                                                            # comments that don't close themselves on the same line
-			|   <(?!\?|area|base|br|col|frame|hr|html|img|input|link|meta|param|[^>]*/>) # skip self closing tags (tags that end with />, as well as known self closing tags
-			        (?<html_tag>[A-Za-z0-9-]+)(?=\s|>)\b[^>]*>(?!.*</\g<html_tag>>)      # valid tags that don't close themselves on the same line
+			    <\?(php)?\s*\b(?<php_control_word>if|else|elseif|for|foreach|while)\b.*:      # php control keywords
+			    (?!.*end\g<php_control_word>)                                                 # - that don't end themselves on the same line
+			|   \{[^}"']*$                                                                    # open curly braces that don't have close braces or string punctuation after them
+			|   <!--(?!.*-->)                                                                 # comments that don't close themselves on the same line
+			|   <(?!\?|(?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)|[^>]*/>) # skip self closing tags (tags that end with />, as well as known self closing tags
+			        (?<html_tag>[A-Za-z0-9-]+)(?=\s|>)\b[^>]*>(?!.*</\g<html_tag>>)           # valid tags that don't close themselves on the same line
 			)
 		]]></string>
 		<key>bracketIndentNextLinePattern</key>
