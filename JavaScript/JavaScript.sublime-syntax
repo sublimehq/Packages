@@ -503,6 +503,7 @@ contexts:
           captures:
             0: punctuation.definition.template-expression.begin.js
           push:
+            - clear_scopes: 1
             - meta_scope: meta.template.expression.js
             - meta_content_scope: source.js.embedded.expression
             - match: '\}'

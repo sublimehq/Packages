@@ -996,3 +996,11 @@ var query = {
 //                                     ^ punctuation.separator.key-value.js
 //                                                      ^ punctuation.definition.block
 };
+
+var str = `Hello, ${name}!`;
+//        ^^^^^^^^ string.template
+//                ^^^^^^^ meta.template.expression - string
+//                       ^^ string.template
+//                ^^ punctuation.definition.template-expression.begin
+//                  ^^^^ source.js.embedded.expression variable.other.readwrite
+//                      ^ punctuation.definition.template-expression.end
