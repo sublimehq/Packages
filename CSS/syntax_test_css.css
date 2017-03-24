@@ -822,3 +822,19 @@
 /*^^^^^^^ meta.property-list */
 /*  ^^^ meta.property-name */
 }/*     ^ meta.property-value */
+
+.generic-font-family { font-family: my-serif, serif }
+/*                                  ^^^^^^^^ string.unquoted */
+/*                                          ^ - string */
+/*                                            ^^^^^ support.constant.font-name */
+.generic-font-family2 { font-family: sans-serif , fantasy ; }
+/*                                   ^^^^^^^^^^ support.constant.font-name */
+/*                                                ^^^^^^^ support.constant.font-name */
+.generic-font-family3 {
+    font-family: cursive
+/*               ^^^^^^^ support.constant.font-name */
+}
+.generic-font-family4 {
+    font-family: droid serif;
+/*               ^^^^^^^^^^^ string.unquoted */
+}

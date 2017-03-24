@@ -567,7 +567,7 @@ contexts:
             )\b
       scope: support.constant.property-value.css
       # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:arial|century|comic|courier|garamond|georgia|helvetica|impact|lucida|symbol|system|tahoma|times|trebuchet|utopia|verdana|webdings|sans-serif|serif|monospace|fantasy|cursive)\b
+    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive)\b(?=\s*[;,\n}])
       scope: support.constant.font-name.css
 
   property-values:
@@ -625,7 +625,7 @@ contexts:
                     1: punctuation.terminator.rule.css
                   pop: true
                 - include: property-values
-                - match: '{{ident}}'
+                - match: '{{ident}}(\s+{{ident}})*'
                   scope: string.unquoted.css
                 - match: ','
                   scope: punctuation.separator.css
