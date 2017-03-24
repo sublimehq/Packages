@@ -1415,10 +1415,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.cs
-    - match: '\{\d*\}'
-      scope: constant.other.placeholder.cs
+    - include: string_placeholders
     - match: '[^"]*$'
       scope: invalid.string.newline.cs
       pop: true
@@ -1430,7 +1427,7 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: escaped
-    - include: interpolation
+    - include: string_interpolation
     - match: '[^"{]*$'
       scope: invalid.string.newline.cs
       pop: true
@@ -1443,9 +1440,15 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: interpolation
+    - include: string_interpolation
 
-  interpolation:
+  string_placeholders:
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.cs
+    - match: '\{\d*\}'
+      scope: constant.other.placeholder.cs
+
+  string_interpolation:
     - match: '\{\{|\}\}'
       scope: constant.character.escape.cs
     - match: '\{'
@@ -1471,6 +1474,7 @@ contexts:
     - meta_scope: string.quoted.double.raw.cs
     - match: '""'
       scope: constant.character.escape.cs
+    - include: string_placeholders
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true

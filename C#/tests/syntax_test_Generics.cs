@@ -91,8 +91,16 @@ string format_string = "{0} and {1} like to go {{crazy}}";
 ///                                            ^^ constant.character.escape.cs
 ///                                                   ^^ constant.character.escape.cs
 
-string format_string _2 = "{}";
-///                        ^^ string constant.other.placeholder.cs
+string format_string_long = @"{0} and
+///                         ^^ string
+///                           ^^^ constant.other.placeholder.cs
+foo {1} like to go {{crazy}}";
+/// ^^^ constant.other.placeholder.cs
+///                ^^ constant.character.escape.cs
+///                       ^^ constant.character.escape.cs
+
+string format_string_2 = "{}";
+///                       ^^ string constant.other.placeholder.cs
 
 
 x[10][5] = 2;
