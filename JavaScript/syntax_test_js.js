@@ -967,3 +967,11 @@ return;
 return
 {a: 1};
 // ^ meta.block - meta.object-literal
+
+const abc = new Set
+console.log('abc');
+// ^^^^ support.type.object.console
+
+const abc = new Set
+if (true) console.log('abc');
+// <- keyword.control.conditional.js
