@@ -791,7 +791,7 @@ EOT;
 
 echo <<<'EOT'
 //   ^^^^^^^^ punctuation.definition.string
-//       ^^^ keyword.operator.heredoc
+//      ^^^^^ keyword.operator.nowdoc
 This is a test! $var
 //^^^^^^^^^^^^^^^^^^ string.unquoted.nowdoc
 //              ^^^^ - variable.other
@@ -847,6 +847,20 @@ SELECT * FROM users WHERE first_name = 'John'
 //                                     ^^^^^^ string.quoted.single
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+
+
+echo <<<'SQL'
+//   ^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//      ^^^^^ keyword.operator.nowdoc
+SELECT * FROM users WHERE first_name = 'John'\n
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
+// <- keyword.other.DML
+//     ^ keyword.operator.star
+//                                     ^^^^^^ string.quoted.single
+//                                           ^^^ - constant.character.escape.php
+SQL;
+// <- punctuation.section.embedded.end
+
 
 
 class OutputsHtml {
