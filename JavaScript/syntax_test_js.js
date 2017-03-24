@@ -1005,3 +1005,6 @@ var str = `Hello, ${name}!`;
 //                ^^ punctuation.definition.template-expression.begin
 //                  ^^^^ source.js.embedded.expression variable.other.readwrite
 //                      ^ punctuation.definition.template-expression.end
+
+let str = navigator.userAgent.toLowerCase();
+//        ^^^^^^^^^ support.type.object

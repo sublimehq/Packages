@@ -1334,7 +1334,7 @@ contexts:
       scope: support.class.builtin.js
     - match: \b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
-    - match: \b(document|window)\b
+    - match: \b(document|window|navigator)\b
       scope: support.type.object.dom.js
     - match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
       scope: support.class.node.js
