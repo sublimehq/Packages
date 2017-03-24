@@ -959,3 +959,11 @@ var CONST;
 
 err = new Error();
 //        ^^^^^ support.class.error
+
+return;
+{a: 1};
+// ^ meta.block - meta.object-literal
+
+return
+{a: 1};
+// ^ meta.block - meta.object-literal
