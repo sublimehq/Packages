@@ -822,3 +822,9 @@
 /*^^^^^^^ meta.property-list */
 /*  ^^^ meta.property-name */
 }/*     ^ meta.property-value */
+
+:root {
+    --body-font: Raleway, Arial, Helvetica Neue, Helvetica, sans-serif;
+/*                               ^ -support.constant.font-name.css */
+/*                                               ^ support.constant.font-name.css */
+}
