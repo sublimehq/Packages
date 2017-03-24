@@ -983,3 +983,16 @@ var o = {
 //  ^ variable.other.readwrite - entity.name.function
 //    ^^ comment
 }
+
+var query = {
+    type: type==undefined ? null : {$in: type.split(',')}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//              ^^^^^^^^^ constant.language.undefined
+//                        ^ keyword.operator.ternary
+//                          ^^^^ constant.language.null
+//                               ^ keyword.operator.ternary
+//                                 ^ punctuation.definition.block.js
+//                                   ^^ meta.object-literal.key.dollar.js
+//                                     ^ punctuation.separator.key-value.js
+//                                                      ^ punctuation.definition.block
+};

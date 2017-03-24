@@ -410,6 +410,7 @@ contexts:
     - match: '/(?=[^/*])'
       scope: punctuation.definition.string.begin.js
       push: regexp
+    - include: constants
     - match: '(?=[\S])'
       pop: true
 
