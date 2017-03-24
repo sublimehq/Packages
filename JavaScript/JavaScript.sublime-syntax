@@ -410,6 +410,7 @@ contexts:
     - match: '/(?=[^/*])'
       scope: punctuation.definition.string.begin.js
       push: regexp
+    - include: constants
     - match: '(?=[\S])'
       pop: true
 
@@ -502,6 +503,7 @@ contexts:
           captures:
             0: punctuation.definition.template-expression.begin.js
           push:
+            - clear_scopes: 1
             - meta_scope: meta.template.expression.js
             - meta_content_scope: source.js.embedded.expression
             - match: '\}'
@@ -577,7 +579,7 @@ contexts:
         - include: square-brackets
         - match: '(?=\()'
           set: constructor-params
-        - match: '(?=\S)'
+        - match: '(?=\S|$)'
           pop: true
     - match: '\('
       scope: punctuation.definition.group.js
@@ -710,6 +712,10 @@ contexts:
     - include: method-declaration
 
   keywords:
+    - match: ^\s*\b(?:(throw)|(yield|return))\b\s*$
+      captures: # these keywords are restricted productions and implicitly end at the end of the line, so we don't push the after-operator scope
+        1: keyword.control.trycatch.js
+        2: keyword.control.flow.js
     - match: \bthrow\b
       scope: keyword.control.trycatch.js
       push: after-operator
@@ -1040,7 +1046,7 @@ contexts:
           captures:
             1: variable.other.readwrite.js
             2: punctuation.separator.comma.js
-        - match: '({{identifier}})[ \t]*\n'
+        - match: '({{identifier}})[ \t]*($\n?|(?=//|/\*))'
           captures:
             1: variable.other.readwrite.js
         - match: '((\$)[$\w]*)\s*(:)\s*(?=({{func_lookahead}}|{{arrow_func_lookahead}}))'
@@ -1328,7 +1334,7 @@ contexts:
       scope: support.class.builtin.js
     - match: \b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
-    - match: \b(document|window)\b
+    - match: \b(document|window|navigator)\b
       scope: support.type.object.dom.js
     - match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
       scope: support.class.node.js

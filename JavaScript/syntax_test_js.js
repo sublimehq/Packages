@@ -749,8 +749,9 @@ var reg = /a+/gimy.exec('aabb')
 //               ^^^^ string.regexp
 //                 ^ keyword.operator.quantifier.regexp
 
-/a+/
+/a+(?:bc)/
 // <- string.regexp
+//  ^^ punctuation.definition.group.no-capture.regexp
 
 'foo'.bar() / baz
 //            ^ variable.other.readwrite
@@ -959,3 +960,51 @@ var CONST;
 
 err = new Error();
 //        ^^^^^ support.class.error
+
+return;
+{a: 1};
+// ^ meta.block - meta.object-literal
+
+return
+{a: 1};
+// ^ meta.block - meta.object-literal
+
+const abc = new Set
+console.log('abc');
+// ^^^^ support.type.object.console
+
+const abc = new Set
+if (true) console.log('abc');
+// <- keyword.control.conditional
+
+var o = {
+    a,
+    b,
+    c // comment
+//  ^ variable.other.readwrite - entity.name.function
+//    ^^ comment
+}
+
+var query = {
+    type: type==undefined ? null : {$in: type.split(',')}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//              ^^^^^^^^^ constant.language.undefined
+//                        ^ keyword.operator.ternary
+//                          ^^^^ constant.language.null
+//                               ^ keyword.operator.ternary
+//                                 ^ punctuation.definition.block.js
+//                                   ^^ meta.object-literal.key.dollar.js
+//                                     ^ punctuation.separator.key-value.js
+//                                                      ^ punctuation.definition.block
+};
+
+var str = `Hello, ${name}!`;
+//        ^^^^^^^^ string.template
+//                ^^^^^^^ meta.template.expression - string
+//                       ^^ string.template
+//                ^^ punctuation.definition.template-expression.begin
+//                  ^^^^ source.js.embedded.expression variable.other.readwrite
+//                      ^ punctuation.definition.template-expression.end
+
+let str = navigator.userAgent.toLowerCase();
+//        ^^^^^^^^^ support.type.object

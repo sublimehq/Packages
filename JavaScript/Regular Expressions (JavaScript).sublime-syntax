@@ -70,9 +70,7 @@ contexts:
     - match: (\()((\?:))?
       captures:
         1: punctuation.definition.group.regexp
-        3: punctuation.definition.group.capture.regexp
-        5: punctuation.definition.group.capture.regexp
-        6: punctuation.definition.group.no-capture.regexp
+        3: punctuation.definition.group.no-capture.regexp
       push:
         - meta_scope: meta.group.regexp
         - match: (\))
