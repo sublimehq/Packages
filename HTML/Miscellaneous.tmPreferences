@@ -13,7 +13,7 @@
 			(
 			    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))\b                                  # ending PHP control keywords
 			|   </(?!html)[A-Za-z0-9-]+\b[^>]*>                                                     # any valid HTML close tag except "html"
-			|   -->                                                                                 # closing comment punctuation
+			|   (<!\[endif\])?-->                                                                   # closing comment punctuation, optionally preceded by an end "comment selector"
 			|   \}                                                                                  # a closing curly brace
 			)
 		]]></string>
