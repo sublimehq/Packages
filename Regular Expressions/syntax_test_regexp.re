@@ -348,21 +348,38 @@ where escape characters are ignored.\).
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.extended
 #    ^^^^^^^^^^^^^^ keyword.other.named-capture-group.regexp
 #      ^^^^^^^^^^^ entity.name.capture-group.regexp
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
 #                  ^^^^ meta.literal.regexp - keyword.other.named-capture-group.regexp
 #                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
+(?x)(?<named-group>test)(?&named-group)(?-x)
+#     ^ punctuation.definition.capture-group-name.begin.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
+#                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+
 (?'foo-t'a+)(b+)\g<foo-t>
 #^^^^^^^^ keyword.other.named-capture-group.regexp
-#               ^^^ keyword.other.backref-and-recursion.regexp
+# ^ punctuation.definition.capture-group-name.begin.regexp
+#       ^ punctuation.definition.capture-group-name.end.regexp
+#               ^^^^^^^^^ keyword.other.backref-and-recursion.regexp
+#                 ^ punctuation.definition.capture-group-name.begin.regexp
+#                       ^ punctuation.definition.capture-group-name.end.regexp
 #                  ^^^^^ variable.other.backref-and-recursion.regexp
 
 (?'&a+\'a)b\g'&a+\'(?x)(?'a- -'a)b\g{a- -}(?-x)
 #  ^^^^ entity.name.capture-group.regexp
+# ^ punctuation.definition.capture-group-name.begin.regexp
+#      ^ punctuation.definition.capture-group-name.end.regexp
+#            ^ punctuation.definition.capture-group-name.begin.regexp
 #             ^^^^ variable.other.backref-and-recursion.regexp
+#                 ^ punctuation.definition.capture-group-name.end.regexp
 #                         ^^^^ entity.name.capture-group.regexp
 #                              ^ meta.literal.regexp
+#                                   ^ punctuation.definition.capture-group-name.begin.regexp
 #                                    ^^^^ variable.other.backref-and-recursion.regexp
+#                                        ^ punctuation.definition.capture-group-name.end.regexp
 #                                         ^ keyword.control.group.regexp
 
 ###################
@@ -407,8 +424,10 @@ where escape characters are ignored.\).
 
 (?<test>a)?b(?('test')c|d)
 #            ^^^^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
-(?<test>a)?b(?(<test>)c|d)
-#            ^^^^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
+(?<test>a)?b(?(<test->)c|d)
+#            ^^^^^^^^^^ keyword.other.backref-and-recursion.conditional.regexp
+#              ^ punctuation.definition.capture-group-name.begin.regexp
+#                    ^ punctuation.definition.capture-group-name.end.regexp
 (a)?b(?(1)c|d)
 #     ^^^^ keyword.other.backref-and-recursion.conditional.regexp
 (?(?!\d)a|b)
