@@ -974,4 +974,12 @@ console.log('abc');
 
 const abc = new Set
 if (true) console.log('abc');
-// <- keyword.control.conditional.js
+// <- keyword.control.conditional
+
+var o = {
+    a,
+    b,
+    c // comment
+//  ^ variable.other.readwrite - entity.name.function
+//    ^^ comment
+}

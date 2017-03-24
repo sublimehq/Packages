@@ -1044,7 +1044,7 @@ contexts:
           captures:
             1: variable.other.readwrite.js
             2: punctuation.separator.comma.js
-        - match: '({{identifier}})[ \t]*\n'
+        - match: '({{identifier}})[ \t]*($\n?|(?=//|/\*))'
           captures:
             1: variable.other.readwrite.js
         - match: '((\$)[$\w]*)\s*(:)\s*(?=({{func_lookahead}}|{{arrow_func_lookahead}}))'
