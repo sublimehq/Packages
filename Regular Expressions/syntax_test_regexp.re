@@ -352,6 +352,18 @@ where escape characters are ignored.\).
 #                        ^^^^^^^^^^^^^ keyword.other.backref-and-recursion.regexp
 #                          ^^^^^^^^^^^ variable.other.backref-and-recursion.regexp
 
+(?'foo-t'a+)(b+)\g<foo-t>
+#^^^^^^^^ keyword.other.named-capture-group.regexp
+#               ^^^ keyword.other.backref-and-recursion.regexp
+#                  ^^^^^ variable.other.backref-and-recursion.regexp
+
+(?'&a+\'a)b\g'&a+\'(?x)(?'a- -'a)b\g{a- -}(?-x)
+#  ^^^^ entity.name.capture-group.regexp
+#             ^^^^ variable.other.backref-and-recursion.regexp
+#                         ^^^^ entity.name.capture-group.regexp
+#                              ^ meta.literal.regexp
+#                                    ^^^^ variable.other.backref-and-recursion.regexp
+#                                         ^ keyword.control.group.regexp
 
 ###################
 ## Assertions
