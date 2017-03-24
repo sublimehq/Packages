@@ -8,7 +8,20 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string><![CDATA[(?x) ^ (.*\*/)? \s* \} .* $|<\?(php)?\s+(else(if)?|end(if|for(each)?|while))]]></string>
+		<string><![CDATA[(?x)
+			(
+			    ^                                                   # start of the line
+			    (.*\*/)?                                            # optionally with an end block comment somewhere on the line
+			    \s* \}                                              # optionally followed by whitespace, followed by a closing curly brace
+			|    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))\b # or a PHP open tag followed by an keyword that ends a control flow block
+			)
+		]]></string>
+		
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+			^.*(\{[^}"']*)$    # anything on the line followed by an open curly brace which is not followed by a closing brace or string punctuation
+		</string>
+		
 		<key>indentNextLinePattern</key>
 		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
 
