@@ -97,10 +97,8 @@ contexts:
       scope: punctuation.definition.string.begin.lisp
       push:
         - meta_scope: string.quoted.double.lisp
-        - match: '(")|(\n)'
-          captures:
-            1: punctuation.definition.string.end.lisp
-            2: invalid.illegal.newline.lisp
+        - match: '"'
+          scope: punctuation.definition.string.end.lisp
           pop: true
         - match: \\.
           scope: constant.character.escape.lisp
