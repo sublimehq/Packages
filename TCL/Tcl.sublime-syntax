@@ -122,10 +122,10 @@ contexts:
       set:
         - match: '(?={{end_chars}})'
           pop: true
-        # Consume the switches
-        - match: '\s+-(all|expanded|line|linestop|lineanchor|nocase|start|--)\b(?=\s)'
+        # Consume the switches (https://www.tcl.tk/man/tcl8.4/TclCmd/regexp.htm)
+        - match: '\s+-(about|all|expanded|indices|inline|linestop|lineanchor|line|nocase|start\s+\b[0-9]+)\b(?=\s)'
         # The next non-space element will be a regex string
-        - match: '(?=\{)'
+        - match: '(?=\{|\s+--\s+)'
           set:
             - match: \{
               set:
@@ -323,6 +323,7 @@ contexts:
       scope: punctuation.definition.block.begin.tcl
       push:
         - meta_scope: meta.block.tcl
+        - include: regexp-braces
         - match: '(\})([^{{inline_end_chars}}]*)'
           captures:
             1: punctuation.definition.block.end.tcl
