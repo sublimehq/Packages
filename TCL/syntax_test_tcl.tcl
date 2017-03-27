@@ -196,3 +196,12 @@ else {}
 
 set y {1 2 3}a
 #            ^ invalid.illegal
+
+# -------------------------------------------------#
+# https://github.com/sublimehq/Packages/issues/779
+# ------------------------------------------------ #
+regexp -inline -all -- {%[a-zA-Z_]*%} "whatever"
+#      ^^^^^^^^^^^^^^^^^ - string
+
+regexp -all -inline {%[a-zA-Z_]*%} "whatever"
+#      ^^^^^^^^^^^^^^ - string
