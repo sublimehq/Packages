@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[object]]></content>
-	<tabTrigger>obj</tabTrigger>
-	<scope>source.scala</scope>
-	<description>shortcut - object</description>
-</snippet>

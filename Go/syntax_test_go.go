@@ -40,6 +40,10 @@ var1, var2 := imported.Vals
 //    ^ variable.other
 //         ^^ keyword.operator.initialize
 
+fmt.Println("case message := <- obj.channel")
+//  ^ variable.function
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
+
 var (
 // <- meta.initialization.multiple storage.type
 //  ^ meta.group punctuation.definition.group

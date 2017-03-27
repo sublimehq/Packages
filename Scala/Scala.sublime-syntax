@@ -54,7 +54,7 @@ variables:
   alphaid: (?:{{upper}}{{idrest}}|{{varid}})
   # Custom productions
   rightarrow: '=>|\x{21D2}'
-  upperid: '(?:\b\p{Lu}{{idrest}})'
+  upperid: '(?:(\b\p{Lu}|\$){{idrest}})'
   typeprefix: '(:)\s*'
   # hack to cover up to three levels of nested parentheses
   withinparens: '(?:\((?:[^\(\)]|\((?:[^\(\)]|\([^\(\)]*\))*\))*\))'
@@ -294,6 +294,7 @@ contexts:
           push:
             - match: '\]'
               pop: true
+            - include: type-constraints
             - include: delimited-type-expression
         - match: '(<:|>:)'
           scope: keyword.operator.bound.scala
@@ -323,6 +324,7 @@ contexts:
         1: keyword.control.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
+      push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*\{'
       captures:
         1: keyword.control.scala
@@ -338,10 +340,12 @@ contexts:
         1: keyword.control.scala
         2: entity.name.namespace.header.scala
     # what follows is identical to case-pattern, except it goes to case-body-first
-    - match: '\b(case)\b'
+    - match: '\b(case)\b(?!\s+class\b)'
       scope: keyword.other.declaration.scala
       push:
         - meta_content_scope: meta.pattern.scala
+        - match: '(?=\bclass\b)'
+          pop: true
         - match: '\b(if)\b'
           captures:
             1: keyword.control.flow.scala
@@ -445,7 +449,7 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
-    - match: '(?=[\{\}\)]|\b(class|def|val|var|trait|object|private|protected|for|while|if|)\b)'
+    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit)\b)'
       pop: true
     - match: '\n'
       pop: true
@@ -457,10 +461,12 @@ contexts:
       push: function-tparams-brackets
     - match: ':'
       set: function-return-type-definition
-    - match: '\n'
-      set: function-type-parameter-list-newline
     - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
+    - match: (?=\S)
+      pop: true
+    - match: '\n'
+      set: function-type-parameter-list-newline
 
   function-type-parameter-list-newline:
     - include: decl-newline-double-check
@@ -481,6 +487,8 @@ contexts:
     - match: '(?=[\{\};]|{{nonopchar}}?={{nonopchar}})'
       pop: true
     - include: delimited-type-expression
+    - match: (?=\S)
+      pop: true
 
   function-return-type-definition-newline:
     - include: decl-newline-double-check
@@ -515,7 +523,7 @@ contexts:
       set: function-return-type-definition
     - match: '\n'
       set: function-parameter-list-newline
-    - match: '(?=[\{=])'
+    - match: '(?=\S)'
       pop: true
 
   function-parameter-list-newline:
@@ -531,7 +539,7 @@ contexts:
     - match: '\['
       push: class-tparams-brackets
     - match: '(?=\b(extends|with)\b)'
-      set: class-inheritance
+      set: class-inheritance-extends
     - match: '(?=\{)'
       set: class-pre-inheritance-early-initializer
     - match: '\n'
@@ -577,12 +585,12 @@ contexts:
                 - match: '(?=[=])'
                   pop: true
         - include: main
-    - match: '\n'
-      set: class-parameter-list-newline
     - match: '(?=\b(extends|with)\b)'
-      set: class-inheritance
+      set: class-inheritance-extends
     - match: '(?=\{)'
       set: class-pre-inheritance-early-initializer
+    - match: '\n'
+      set: class-parameter-list-newline
 
   class-parameter-list-newline:
     - include: decl-newline-double-check
@@ -610,9 +618,6 @@ contexts:
     - match: '(?=\S)'
       set: class-pre-inheritance-early-initializer
 
-  class-inheritance:
-    - include: class-inheritance-extends
-
   class-inheritance-extends:
     - match: \bwith\b
       scope: invalid.keyword.with-before-extends.scala
@@ -624,13 +629,23 @@ contexts:
       pop: true
     - match: '\n'
       set: class-inheritance-extends-newline
+    - match: (?=\S)
+      pop: true
 
   class-inheritance-extends-newline:
     - include: decl-newline-double-check
     - match: '(?=\S)'
-      set: class-inheritance
+      set: class-inheritance-extends
 
   class-inheritance-extends-token:
+    - match: '{{id}}(?=\s*\.)'
+      scope: entity.other.inherited-class.scala
+    - match: '(?=\.)'
+      push:
+        - meta_scope: entity.other.inherited-class.scala
+        - match: \.
+          scope: punctuation.accessor.scala
+          pop: true
     - match: '{{id}}'
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
@@ -643,6 +658,8 @@ contexts:
         - include: delimited-type-expression
     - match: '\n'
       set: class-inheritance-extends-token-newline
+    - match: (?=\S)
+      pop: true
 
   class-inheritance-extends-token-newline:
     - include: decl-newline-double-check
@@ -670,6 +687,8 @@ contexts:
       set: class-inheritance-early-initializer
     - match: '\n'
       set: class-inheritance-extends-token-after-newline
+    - match: (?=\S)
+      pop: true
 
   class-inheritance-extends-token-after-newline:
     - include: decl-newline-double-check
@@ -704,10 +723,10 @@ contexts:
     - match: \bwith\b
       scope: keyword.declaration.scala
       set: class-inheritance-extends-token
-    - match: '(?=\{)'
-      pop: true
     - match: '\n'
       set: class-inheritance-with-newline
+    - match: '(?=\S)'
+      pop: true
 
   class-inheritance-with-newline:
     - include: decl-newline-double-check
@@ -748,6 +767,8 @@ contexts:
   # it would be incorrect to scope operators specially, since they are just identifiers
   # by pulling them out HERE though and refusing to scope them, we emulate lookbehind
   operators:
+    - match: '{{op}}(?=[\(\[])'   # no explicit scope, just pulling it out
+      push: try-dispatch
     - match: '{{op}}'   # no explicit scope, just pulling it out
 
   initialization:
@@ -763,6 +784,10 @@ contexts:
           pop: true
         - match: '(?=\S)'
           set: single-type-expression
+  try-initialization:
+    - match: (?=\s*with\b)
+      set: single-type-expression-tail
+    - include: try-dispatch
 
   for-comprehension:
     - match: '\b(for)\s*\{'
@@ -780,7 +805,18 @@ contexts:
           pop: true
         - include: for-parens-body
   for-braces-body:
-    - match: '^(?=([^<\x{2190}=\{\}]|<[^\-])+({{nonopchar}}(<-|\x{2190}|=){{nonopchar}}))'
+    - match: |-
+        (?x)
+          ^(?=
+            (
+               [^<\x{2190}=\{\}/"]
+              |<[^\-]
+              |/[^/*]
+              |"([^"\\]|\\\.)*"
+              |/\*([^*]|\*(?!/))*\*/
+            )+
+            {{nonopchar}}(<-|\x{2190}|=){{nonopchar}}
+          )
       push:
         - match: '\b(val)\b'
           scope: storage.type.stable.scala
@@ -828,7 +864,7 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: \b(class|trait|object)\b
+    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
       scope: storage.type.class.scala
     - match: \bdef\b
       scope: storage.type.function.scala
@@ -999,6 +1035,13 @@ contexts:
             - include: main
 
   xml-literal:
+    - match: '<!\[CDATA\['
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.unquoted.cdata.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
+          pop: true
     - match: '</{{xml_qualified_name}}>?'
       scope: invalid.illegal.bad-closing-tag.xml
     - match: '(<)({{xml_qualified_name}})'
@@ -1095,7 +1138,7 @@ contexts:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
   xml-mode:
-    - meta_scope: text.xml
+    - meta_content_scope: text.xml
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
@@ -1107,10 +1150,12 @@ contexts:
           scope: punctuation.definition.inline.end.xml
           pop: true
         - include: main
-    - match: '(</)({{xml_qualified_name}})>'
+    - match: '(</)({{xml_qualified_name}})(>)'
+      scope: text.xml meta.tag.xml
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
+        6: punctuation.definition.tag.end.xml
       pop: true
     - include: xml-literal
     - include: xml-should-be-entity
@@ -1157,11 +1202,11 @@ contexts:
     - match: ','
       scope: punctuation.separator.scala
   val-pattern-match:
-    - match: '{{upperid}}(?=[\s=:])'
+    - match: '(?:{{upperid}}|{{op}})(?=[\s=:])'
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
-        - match: '(?=[\B\s]=[\B\s])'
+        - match: '(?={{nonopchar}}={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
         - match: '(?=[\{\n])'
@@ -1319,9 +1364,17 @@ contexts:
     - match: '[\.#]'
       scope: punctuation.accessor.scala
       set: single-type-expression
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail
+        - include: delimited-type-expression
     - match: '\b(with)(?:\s+|\b)'
       captures:
         1: keyword.declaration.scala
       set: single-type-expression
     - match: '(?=\S)'
-      set: try-dispatch       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere

@@ -196,3 +196,7 @@ struct the_c_struct;
 class MyClass {
 // <- storage.type
 }
+
+
+string sA = r"$";
+//             ^ punctuation.definition.string.end

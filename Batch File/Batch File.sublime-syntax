@@ -68,7 +68,7 @@ contexts:
           3: keyword.operator.assignment.dosbatch
         push:
           - meta_scope: string.quoted.double.dosbatch
-          - match: '"'
+          - match: '"(?=\s*[\n{{command_terminators}}])'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
           - include: escaped_characters
@@ -79,6 +79,11 @@ contexts:
         captures:
           1: variable.other.readwrite.dosbatch
           2: keyword.operator.assignment.dosbatch
+        push:
+          - meta_content_scope: string.unquoted.dosbatch
+          - match: '(?=$\n|{{command_terminators}})'
+            pop: true
+          - include: variables
       - include: numbers
       - include: parens
       - match: \b([^ ][^=\n]*)$
@@ -111,9 +116,10 @@ contexts:
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - include: strings
+              - meta_content_scope: string.unquoted.dosbatch
               - match: '(?=$\n|{{command_terminators}})'
                 pop: true
+              - include: variables
 
   command_set_group:
     - match: '\('

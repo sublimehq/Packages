@@ -10,11 +10,11 @@
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
+		<string><![CDATA[
 		s/\s*#*\s*\z//g;         # strip trailing space and #'s
-		s/(?&lt;=#)#/ /g;        # change all but first # to m-space
+		s/(?<=#)#/ /g;           # change all but first # to m-space
 		s/^#( *)\s+(.*)/$1$2/;   # strip first # and space before title
-		</string>
+		]]></string>
 	</dict>
 </dict>
 </plist>

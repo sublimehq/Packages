@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[import scala.collection.{ mutable, immutable, generic }]]></content>
-	<tabTrigger>impc</tabTrigger>
-	<scope>source.scala</scope>
-	<description>import mutable/immutable</description>
-</snippet>
