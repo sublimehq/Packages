@@ -32,7 +32,7 @@ variables:
             | ((')[^']+('))       # or in single quotes.
           )?                      # Title is optional
         )
-    escape: '\\[-`*_#+.!(){}\[\]\\>]'
+    escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
         (?x:
             (`{4})(?=\S)[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
@@ -67,7 +67,9 @@ variables:
               \s*                       # Optional whitespace
           (\))
         )
-    skip_html_tags: '(?:<[^>]+>)'
+    skip_html_tags: (?:<[^>]+>)
+    non_pipe_or_escaped: (?:[^|\\]|\\.)
+    table_row: ^{{non_pipe_or_escaped}}+\||\|{{non_pipe_or_escaped}}*\|
 contexts:
   main:
     - match: |-
@@ -76,6 +78,7 @@ contexts:
         |    {{indented_code_block}}(?!$)
         |    {{atx_heading}}
         |    {{thematic_break}}
+        |    {{table_row}}
         )
       comment: |
         We could also use an empty end match and set
@@ -87,6 +90,7 @@ contexts:
         - include: indented-code-block
         - include: atx-heading
         - include: thematic-break
+        - include: table
         - match: ''
           pop: true
     - match: '^[ ]{0,3}([*+-])(?=\s)'
@@ -700,3 +704,21 @@ contexts:
       captures:
         1: invalid.illegal.expected-eol.markdown
       pop: true
+  table:
+    - match: (?={{table_row}})
+      push:
+        - meta_content_scope: meta.table.markdown
+        - match: |-
+              (?x)^
+              (?=  {{block_quote}}
+              |    {{indented_code_block}}(?!$)
+              |    {{atx_heading}}
+              |    {{thematic_break}}
+              |    \s*$
+              )
+          pop: true
+        - match: ^(\s*:?-+:?)?(\s*\|\s*:?-+:?)+(\s*\|)? #(?=^[-\s:|]+$).+
+          scope: punctuation.separator.table-header.markdown
+        - match: \|
+          scope: punctuation.separator.table-cell.markdown
+        - include: inline-bold-italic

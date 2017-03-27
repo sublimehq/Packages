@@ -1119,3 +1119,45 @@ text
 
 abc
 | <- meta.paragraph - markup.list
+
+| foo | bar |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+|     ^ meta.block-level meta.table punctuation.separator.table-cell
+|           ^ meta.block-level meta.table punctuation.separator.table-cell
+| ^^^^ meta.block-level meta.table - punctuation.separator.table-cell
+| --- | --- |
+| ^^^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+| baz | bim |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+
+| <- - meta.block-level - meta.table
+
+| abc | defghi |
+:-: | -----------:
+|^^^^^^^^^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+bar | baz
+|   ^ meta.block-level meta.table punctuation.separator.table-cell
+
+| f\|oo  |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+|  ^^ meta.block-level meta.table constant.character.escape - punctuation.separator.table-cell
+|        ^ meta.block-level meta.table punctuation.separator.table-cell
+| ------ |
+|^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+| b `|` az |
+|   ^^^ meta.block-level meta.table markup.raw.inline - punctuation.separator.table-header
+|          ^ meta.block-level meta.table punctuation.separator.table-cell
+| b **|** im |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+|   ^^^^^ meta.block-level meta.table markup.bold - punctuation.separator.table-cell
+|            ^ meta.block-level meta.table punctuation.separator.table-cell
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+|^^^^^^^^^^^^^ meta.block-level meta.table
+test
+|^^^^ meta.block-level meta.table
+> bar
+| <- meta.block-level markup.quote punctuation.definition.blockquote - meta.table
+
