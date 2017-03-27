@@ -25,7 +25,7 @@ contexts:
     - include: expressions
 
   continued-line:
-    - match: '$|(?=;)'
+    - match: (?={{end_chars}})
       pop: true
     - match: '^(?=\s*#)'
       push:
@@ -70,8 +70,9 @@ contexts:
               pop: true
         - include: escape
         - include: variable
-        - match: '(?=\[(?:[^"]|\\")+\])'
+        - match: '(?=\[(?!{{special_chars}}))'
           push:
+            - clear_scopes: 1
             - include: substitution
             - match: ''
               pop: true
@@ -112,7 +113,7 @@ contexts:
     - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=\s)
       scope: keyword.control.tcl
       pop: true
-    - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b(?=\s)'
+    - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b'
       scope: keyword.other.tcl
       pop: true
     - match: '\b(regexp|regsub)\b(?=\s)'
@@ -121,17 +122,29 @@ contexts:
       set:
         - match: '(?={{end_chars}})'
           pop: true
-        # Consume the switches
-        - match: '\s+-(all|expanded|line|linestop|lineanchor|nocase|start|--)\b(?=\s)'
+        # Consume the switches (https://www.tcl.tk/man/tcl8.4/TclCmd/regexp.htm)
+        - match: '\s+-(about|all|expanded|indices|inline|linestop|lineanchor|line|nocase|start\s+\b[0-9]+)\b(?=\s)'
         # The next non-space element will be a regex string
+        - match: '(?=\{|\s+--\s+)'
+          set:
+            - match: \{
+              set:
+                - meta_content_scope: string.regexp.tcl
+                - match: \}
+                  pop: true
+                - include: regexp-braces
+        - match: '(?=")'
+          set:
+            - include: strings
+            # One of these characters indicates the string is complete
+            - match: '(?={{inline_end_chars}})'
+              pop: true
         - match: '(?=\S)'
           set:
             - meta_content_scope: string.regexp.tcl
             # One of these characters indicates the string is complete
             - match: '(?={{inline_end_chars}})'
               pop: true
-            - include: braces
-            - include: strings
     - match: (?=#)
       set:
         - match: '#'
@@ -152,6 +165,14 @@ contexts:
           pop: true
     - match: '(?=\S)'
       pop: true
+
+  regexp-braces:
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: regexp-braces
+    - include: escape
 
   conditional:
     - match: '(?={{end_chars}})'
@@ -302,6 +323,7 @@ contexts:
       scope: punctuation.definition.block.begin.tcl
       push:
         - meta_scope: meta.block.tcl
+        - include: regexp-braces
         - match: '(\})([^{{inline_end_chars}}]*)'
           captures:
             1: punctuation.definition.block.end.tcl
@@ -312,7 +334,7 @@ contexts:
         - include: commands
 
   substitution:
-    - match: '\['
+    - match: '\[(?!{{special_chars}})'
       scope: punctuation.definition.substitution.begin.tcl
       push: [substitution-body, command-name]
 

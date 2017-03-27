@@ -1,6 +1,0 @@
-<snippet>
-	<content><![CDATA[trait]]></content>
-	<tabTrigger>t</tabTrigger>
-	<scope>source.scala</scope>
-	<description>shortcut - trait</description>
-</snippet>

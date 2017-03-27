@@ -659,6 +659,14 @@ $non_sql = "NO SELECT HIGHLIGHTING!";
 //             ^ - source.sql
 //                                 ^ string.quoted.double punctuation.definition.string.end - meta.string-contents
 
+$sql = "CREATE TABLE version";
+//      ^^^^^^ keyword.other.create.sql
+
+$sql = "
+    CREATE TABLE `version`...
+//  ^^^^^^ keyword.other.create.sql
+";
+
 $sql = "SELECT * FROM users WHERE first_name = 'Eric'";
 //     ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents source.sql

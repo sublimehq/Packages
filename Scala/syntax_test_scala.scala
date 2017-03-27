@@ -332,8 +332,10 @@ type Foo = Bar[A] forSome { type A }
    match
 // ^^^^^ keyword.control.flow.scala
 
+{
    case =>
 // ^^^^ keyword.other.declaration.scala
+}
 
    macro
 // ^^^^^ keyword.other.scala
@@ -451,6 +453,7 @@ type Foo = Bar[A] forSome { type A }
    a: Foo
 //    ^^^ support.class
 
+{
    case (abc: Foo, cba @ _) =>
 // ^^^^ keyword.other.declaration.scala
 //       ^^^ variable.parameter
@@ -510,6 +513,7 @@ type Foo = Bar[A] forSome { type A }
    case _ if stuff =>
 //        ^^ keyword.control.flow.scala
 //           ^^^^^ - entity.name
+}
 
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
@@ -544,11 +548,11 @@ type Foo = Bar[A] forSome { type A }
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
 
+{
    case class
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
-
-=>     // this is here to act as a random terminator to the above partial syntax
+}
 
    case class Thingy(abc: Int) extends Other
 // ^^^^^^^^^^^^^^^^^ meta.class.identifier.scala
@@ -800,10 +804,12 @@ type Foo >: Bar
 // ^ variable.parameter
 //    ^^^ storage.type.primitive.scala
 
+{
    case _ if thing =>
 // ^^^^ keyword.other.declaration.scala
 //           ^^^^^ - variable.parameter
 //                 ^^ - storage.type.function.arrow
+}
 
    a =>a
 // ^ variable.parameter
@@ -986,8 +992,10 @@ foo({ _: Unit => () })
   stuff: _*
 //       ^^ keyword.operator.varargs.scala
 
+{
   case _ @ _* =>
 //         ^^ keyword.operator.varargs.scala
+}
 
   val _ @ _* = things
 //        ^^ keyword.operator.varargs.scala
@@ -1002,8 +1010,10 @@ foo.bar
 (foo, bar)
 //  ^ punctuation.separator.scala
 
+{
 case (foo, bar) =>
 //       ^ punctuation.separator.scala
+}
 
 val (foo, bar) = ???
 //      ^ punctuation.separator.scala
@@ -1419,3 +1429,191 @@ class Foo extends Bar[Int]
    object Underscore_
 // ^^^^^^ storage.type.class.scala
 //        ^^^^^^^^^^^ entity.name.class.scala
+
+match {
+  case _
+//^^^^ - meta.pattern
+//     ^ meta.pattern.scala
+   => 42
+// ^^ - meta.block.case.first
+// ^^ - meta.pattern
+//    ^^ meta.block.case.first.scala
+{
+
+  // <- - meta.block.case
+}
+
+  case _ => 42
+//       ^^ - meta.block.case.non-first
+//       ^^ - meta.pattern
+//          ^^ meta.block.case.non-first.scala
+
+  case _ => 42
+//       ^^ - meta.block.case.non-first
+//          ^^ meta.block.case.non-first.scala
+}
+
+class Foo
+    extends Bar
+//  ^^^^^^^ keyword.declaration.scala
+//          ^^^ entity.other.inherited-class.scala
+
+class Foo extends Bar
+    with Baz
+//  ^^^^ keyword.declaration.scala
+//       ^^^ entity.other.inherited-class.scala
+
+class Foo extends Bar
+    with Baz
+    with Bin
+//  ^^^^ keyword.declaration.scala
+//       ^^^ entity.other.inherited-class.scala
+
+def foo
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo()
+   42
+// ^^ constant.numeric.integer.scala
+
+def foo():
+   42
+// ^^ constant.numeric.integer.scala
+
+val foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+var foo: Thing =42
+//              ^^ constant.numeric.integer.scala
+
+class Foo extends Bar with {
+   import Thing._
+// ^^^^^^ keyword.other.import.scala
+//        ^^^^^ variable.package.scala
+}
+
+class Foo extends Bar.Baz with bin.Baz
+//                ^^^^^^^ entity.other.inherited-class.scala
+//                   ^ punctuation.accessor.scala
+//                             ^^^^^^^ entity.other.inherited-class.scala
+//                                ^ punctuation.accessor.scala
+
+final case class
+
+{
+   final case =>
+// ^^^^^ - variable
+}
+
+  val ~ = 42
+//    ^ entity.name.val.scala
+  val \/- = 42
+//    ^^^ entity.name.val.scala
+
+type ~[+A] = A
+//     ^ keyword.operator
+type ~[A <: B] = A
+//       ^^ keyword.operator
+type ~[A >: B] = A
+//       ^^ keyword.operator
+
+  +()
+// ^^ - constant
+
+for {
+  // abc <-
+} yield thing
+//      ^^^^^ - variable
+
+for (
+  // abc <-
+) yield thing
+//      ^^^^^ - variable
+
+for {
+  abc /* <- */
+} yield thing
+//      ^^^^^ - variable
+
+for {
+  "abc <-"
+} yield thing
+//      ^^^^^ - variable
+
+for {
+   abc /* abc */ <-
+// ^^^ variable.parameter.scala
+} yield thing
+//      ^^^^^ - variable
+
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+
+  <foo>
+//^^^^^ text.xml meta.tag.xml
+//^ punctuation.definition.tag.begin
+// ^^^ entity.name.tag
+//    ^ punctuation.definition.tag.end
+//    ^ - text.xml text.xml
+   <![CDATA[<sender>John Smith</sender>]]>
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.xml string.unquoted.cdata.xml
+// ^ - invalid
+// ^^^^^^^^^ punctuation.definition.string.begin.xml
+//           ^^^^^^ - entity
+//                                     ^^^ punctuation.definition.string.end.xml
+//                                       ^ - invalid
+  </foo>
+//^^^^^^ text.xml meta.tag.xml
+//^^ punctuation.definition.tag.begin
+//  ^^^ entity.name.tag
+//     ^ punctuation.definition.tag.end
+
+   case class
+// ^^^^ storage.type.class.scala
+
+new Monad[Catenable] with Traverse
+//       ^ punctuation.definition.generic.begin.scala
+//       ^^^^^^^^^^^ meta.generic.scala
+//                 ^ punctuation.definition.generic.end.scala
+//                   ^^^^ keyword.declaration.scala
+//                        ^^^^^^^^ support.class.scala
+
+   final class A
+   final class B
+// ^^^^^ storage.modifier.other.scala
+//       ^^^^^ storage.type.class.scala
+//             ^ entity.name.class.scala
+
+abc match {
+  case $foo(bar) => ()
+  //   ^^^^ - variable
+}
+
+   sealed trait Foo
+   sealed trait Bar
+// ^^^^^^ storage.modifier.other.scala
+//        ^^^^^ storage.type.class.scala
+//              ^^^ entity.name.class.scala
+
+package object foo extends Bar with Baz
+//                 ^^^^^^^ keyword.declaration.scala
+//                         ^^^ entity.other.inherited-class.scala
+//                             ^^^^ keyword.declaration.scala
+//                                  ^^^ entity.other.inherited-class.scala
+
+new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
+//                     ^^^^ keyword.declaration.scala
+//                          ^^^^^^^^^^ support.class.scala
+//                                       ^^^ storage.type.function.scala
+
+   implicit def M: Monad[M]
+   implicit def Monad
+// ^^^^^^^^ storage.modifier.other.scala
+//          ^^^ storage.type.function.scala
+//              ^ entity.name.function.scala

@@ -8,33 +8,32 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>(?x)
-		^\s*
-		&lt;\?(php)?\s+(else(if)?|end(if|for(each)?|while))
-		</string>
-		<key>batchDecreaseIndentPattern</key>
-		<string>(?x)
-		^\s*
-		(&lt;/(?!html)
-		  [A-Za-z0-9-]+\b[^&gt;]*&gt;
-		|--&gt;
-		|&lt;\?(php)?\s+(else(if)?|end(if|for(each)?|while))
-		|\}
-		)
-		</string>
+		<string><![CDATA[(?x)
+			^\s*                                                                                    # the beginning of the line followed by any amount of whitespace
+			(
+			    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))\b                                  # ending PHP control keywords
+			|   </(?!html)[A-Za-z0-9-]+\b[^>]*>                                                     # any valid HTML close tag except "html"
+			|   (<!\[endif\])?-->                                                                   # closing comment punctuation, optionally preceded by an end "comment selector"
+			|   \}                                                                                  # a closing curly brace
+			)
+		]]></string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*&lt;\?php\s*\b(if|else|elseif|for|foreach|while)\b.*:(?!.*end\1)</string>
-		<key>batchIncreaseIndentPattern</key>
-		<string>(?x)
-		^\s*
-		&lt;(?!\?|area|base|br|col|frame|hr|html|img|input|link|meta|param|[^&gt;]*/&gt;)
-		  ([A-Za-z0-9-]+)(?=\s|&gt;)\b[^&gt;]*&gt;(?!.*&lt;/\1&gt;)
-		|&lt;!--(?!.*--&gt;)
-		|&lt;\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)
-		|\{[^}"']*$
-		</string>
+		<string><![CDATA[(?x)
+			^\s*                                                                                    # the beginning of the line followed by any amount of whitespace
+			(
+			    <\?(php)?\s*\b                                                                      # an open PHP tag
+			    (
+			        (if|else|elseif)\b.*:(?!.*?endif\b)                                             # PHP if related statements not followed by an endif
+			    |   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\g<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
+			    )
+			|   \{[^}"']*$                                                                          # open curly braces that don't have close braces or string punctuation after them
+			|   <!--(?!.*-->)                                                                       # comments that don't close themselves on the same line
+			|   <(?!\?|(?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)\b|[^>]*/>)     # skip self closing tags (tags that end with />, as well as known self closing tags)
+			        (?<html_tag>[A-Za-z0-9-]+)(?=\s|>)\b[^>]*>(?!.*</\g<html_tag>\s*>)              # valid HTML tags that don't close themselves on the same line
+			)
+		]]></string>
 		<key>bracketIndentNextLinePattern</key>
-		<string>&lt;!DOCTYPE(?!.*&gt;)</string>
+		<string><![CDATA[<!DOCTYPE(?!.*>)]]></string>
 	</dict>
 </dict>
 </plist>

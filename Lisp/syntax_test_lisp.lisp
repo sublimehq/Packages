@@ -53,8 +53,9 @@
 ;       ^^ constant.character.escape
 ;         ^ punctuation.definition.string.end
 
-("unclosed
-;         ^ invalid.illegal.newline
+("multi-line string
+    ends here"
+;            ^ punctuation.definition.string.end
 )
 
 ;##########

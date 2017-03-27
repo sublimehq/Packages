@@ -6,6 +6,10 @@ SELECT 'Foo '' Bar';
 SELECT "My "" Crazy Column Name" FROM my_table;
 --         ^ constant.character.escape.sql
 
+;CREATE TABLE foo (id INTEGER PRIMARY KEY);
+ -- <- keyword.other.create
+--^^^^^ keyword.other.create
+
 SELECT
 (
 SELECT CASE field

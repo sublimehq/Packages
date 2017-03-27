@@ -8,9 +8,32 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>(?x) ^ (.*\*/)? \s* \} .* $|&lt;\?(php)?\s+(else(if)?|end(if|for(each)?|while))</string>
+		<string><![CDATA[(?x)
+			(
+			    ^                                                         # start of the line
+			    (.*\*/)?                                                  # optionally with an end block comment somewhere on the line
+			    \s* [}\])]                                                # optionally followed by whitespace, followed by a closing curly brace, square bracket or paren
+			|   \s* (<\?(php)?\s+)?(else(if)?|end(if|for(each)?|while))\b # or an optional PHP open tag followed by an keyword that ends a control flow block
+			)
+		]]></string>
+		
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[(?x)
+			^.*              # anything on the line followed by:
+			(
+			    \{[^}"']*    # an open curly brace not followed by a closing brace or string punctuation
+			|   \[[^]"']*    # an open square bracket not followed by a closing square bracket or string punctuation
+			|   \([^)"']*    # an open bracket not followed by a closing bracket or string punctuation
+			)$
+			| # OR
+			^\s*                                                                                # the beginning of the line followed by any amount of whitespace
+			(   (if|else|elseif)\b.*:(?!.*?endif\b)                                             # PHP "if" related statements not followed by an "endif"
+			|   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\g<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
+			)
+		]]></string>
+		
 		<key>indentNextLinePattern</key>
-		<string>^(?!.*(#|//|\*/|&lt;\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|&lt;\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)</string>
+		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
 
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)

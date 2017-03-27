@@ -10,7 +10,7 @@
 		<key>decreaseIndentPattern</key>
 		<string>^\s*([}\]]\s*$|(end|rescue|ensure|else|elsif|when)\b)</string>
 		<key>increaseIndentPattern</key>
-		<string>(?x)^
+		<string><![CDATA[(?x)^
 		(\s*
 			(
 				module|class|def
@@ -28,7 +28,7 @@
 				)*
 				(
 					\s   (do|begin|case)
-					| [-+=&amp;|*/~%^&lt;&gt;~](?&lt;!\$.) \s*+ (if|unless)
+					| [-+=&|*/~%^<>~](?<!\$.) \s*+ (if|unless)
 				)
 			)\b
 			(?! [^;]*+ ; .*? \bend\b )
@@ -43,7 +43,7 @@
 				| \[ (?! [^\]]*+ \] )
 			)
 		).*$
-		</string>
+		]]></string>
 	</dict>
 </dict>
 </plist>

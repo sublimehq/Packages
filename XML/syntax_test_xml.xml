@@ -295,3 +295,10 @@ foo="bar" />
 <!--                                                ^^^ invalid.illegal.bad-tag-name - entity.name.tag -->
 <!--                                                   ^ punctuation.definition.tag.end -->
 <!--                                                    ^ - meta.tag -->
+
+    <!-- comments containing double hyphens -- are illegal and can't be ended with more than 2 hyphens --->, so should end here: -->
+<!--                                        ^^ comment.block invalid.illegal.double-hyphen-within-comment -->
+<!--                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - invalid -->
+<!--                                                                                                   ^^^ comment.block invalid.illegal.double-hyphen-within-comment -->
+<!--                                                                                                                             ^^^ comment.block punctuation.definition.comment.end -->
+<!--                                                                                                                                ^ - comment -->

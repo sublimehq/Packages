@@ -14,14 +14,14 @@ variables:
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
   microsoft_types: '__int8|__int16|__int32|__int64'
-  windows_types: 'APIENTRY|ATOM|BOOL|BOOLEAN|BYTE|CALLBACK|CCHAR|CHAR|COLORREF|CONST|DWORD|DWORDLONG|DWORD_PTR|DWORD32|DWORD64|FLOAT|HACCEL|HALF_PTR|HANDLE|HBITMAP|HBRUSH|HCOLORSPACE|HCONV|HCONVLIST|HCURSOR|HDC|HDDEDATA|HDESK|HDROP|HDWP|HENHMETAFILE|HFILE|HFONT|HGDIOBJ|HGLOBAL|HHOOK|HICON|HINSTANCE|HKEY|HKL|HLOCAL|HMENU|HMETAFILE|HMODULE|HMONITOR|HPALETTE|HPEN|HRESULT|HRGN|HRSRC|HSZ|HWINSTA|HWND|INT|INT_PTR|INT8|INT16|INT32|INT64|LANGID|LCID|LCTYPE|LGRPID|LONG|LONGLONG|LONG_PTR|LONG32|LONG64|LPARAM|LPBOOL|LPBYTE|LPCOLORREF|LPCSTR|LPCTSTR|LPCVOID|LPCWSTR|LPDWORD|LPHANDLE|LPINT|LPLONG|LPSTR|LPTSTR|LPVOID|LPWORD|LPWSTR|LRESULT|PBOOL|PBOOLEAN|PBYTE|PCHAR|PCSTR|PCTSTR|PCWSTR|PDWORD|PDWORDLONG|PDWORD_PTR|PDWORD32|PDWORD64|PFLOAT|PHALF_PTR|PHANDLE|PHKEY|PINT|PINT_PTR|PINT8|PINT16|PINT32|PINT64|PLCID|PLONG|PLONGLONG|PLONG_PTR|PLONG32|PLONG64|POINTER_32|POINTER_64|POINTER_SIGNED|POINTER_UNSIGNED|PSHORT|PSIZE_T|PSSIZE_T|PSTR|PTBYTE|PTCHAR|PTSTR|PUCHAR|PUHALF_PTR|PUINT|PUINT_PTR|PUINT8|PUINT16|PUINT32|PUINT64|PULONG|PULONGLONG|PULONG_PTR|PULONG32|PULONG64|PUSHORT|PVOID|PWCHAR|PWORD|PWSTR|QWORD|SC_HANDLE|SC_LOCK|SERVICE_STATUS_HANDLE|SHORT|SIZE_T|SSIZE_T|TBYTE|TCHAR|UCHAR|UHALF_PTR|UINT|UINT_PTR|UINT8|UINT16|UINT32|UINT64|ULONG|ULONGLONG|ULONG_PTR|ULONG32|ULONG64|UNICODE_STRING|USHORT|USN|VOID|WCHAR|WINAPI|WORD'
+  windows_types: 'APIENTRY|ATOM|BOOL|BOOLEAN|BYTE|CALLBACK|CCHAR|CHAR|COLORREF|CONST|DWORD|DWORDLONG|DWORD_PTR|DWORD32|DWORD64|FLOAT|HACCEL|HALF_PTR|HANDLE|HBITMAP|HBRUSH|HCOLORSPACE|HCONV|HCONVLIST|HCURSOR|HDC|HDDEDATA|HDESK|HDROP|HDWP|HENHMETAFILE|HFILE|HFONT|HGDIOBJ|HGLOBAL|HHOOK|HICON|HINSTANCE|HKEY|HKL|HLOCAL|HMENU|HMETAFILE|HMODULE|HMONITOR|HPALETTE|HPEN|HRESULT|HRGN|HRSRC|HSZ|HWINSTA|HWND|INT|INT_PTR|INT8|INT16|INT32|INT64|LANGID|LCID|LCTYPE|LGRPID|LONG|LONGLONG|LONG_PTR|LONG32|LONG64|LPARAM|LPBOOL|LPBYTE|LPCOLORREF|LPCSTR|LPCTSTR|LPCVOID|LPCWSTR|LPDWORD|LPHANDLE|LPINT|LPLONG|LPSTR|LPTSTR|LPVOID|LPWORD|LPWSTR|LRESULT|PBOOL|PBOOLEAN|PBYTE|PCHAR|PCSTR|PCTSTR|PCWSTR|PDWORD|PDWORDLONG|PDWORD_PTR|PDWORD32|PDWORD64|PFLOAT|PHALF_PTR|PHANDLE|PHKEY|PINT|PINT_PTR|PINT8|PINT16|PINT32|PINT64|PLCID|PLONG|PLONGLONG|PLONG_PTR|PLONG32|PLONG64|POINTER_32|POINTER_64|POINTER_SIGNED|POINTER_UNSIGNED|PSHORT|PSIZE_T|PSSIZE_T|PSTR|PTBYTE|PTCHAR|PTSTR|PUCHAR|PUHALF_PTR|PUINT|PUINT_PTR|PUINT8|PUINT16|PUINT32|PUINT64|PULONG|PULONGLONG|PULONG_PTR|PULONG32|PULONG64|PUSHORT|PVOID|PWCHAR|PWORD|PWSTR|QWORD|SC_HANDLE|SC_LOCK|SERVICE_STATUS_HANDLE|SHORT|SIZE_T|SSIZE_T|TBYTE|TCHAR|UCHAR|UHALF_PTR|UINT|UINT_PTR|UINT8|UINT16|UINT32|UINT64|ULONG|ULONGLONG|ULONG_PTR|ULONG32|ULONG64|UNICODE_STRING|USHORT|USN|VOID|WCHAR|WINAPI|WORD|WPARAM'
   stdint: 'int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|extern|register|{{declspec}}'
   type_qualifier: 'const|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_func_keywords: 'decltype|sizeof|__declspec|__attribute__'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__'
 
 contexts:
   main:
@@ -159,7 +159,7 @@ contexts:
       scope: support.type.mac-classic.c
 
   numbers:
-    - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
+    - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([fF]|(l{1,2}|L{1,2})[uU]?|[uU](l{0,2}|L{0,2}))?\b'
       scope: constant.numeric.c
 
   operators:
@@ -328,7 +328,7 @@ contexts:
           (?=
             (?![[:upper:][:digit:]_]+\b|__declspec)
             {{identifier}}
-            (\s+{{identifier}}|\s*\*+)
+            (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
           )
         )
       captures:
@@ -431,6 +431,9 @@ contexts:
         - include: statements
 
   data-structures:
+    # Detect variable type definitions using struct/enum/union followed by a tag
+    - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
+      scope: storage.type.c
     - match: '\bstruct\b'
       scope: storage.type.c
       set: data-structures-struct-definition
@@ -500,6 +503,8 @@ contexts:
 
   data-structures-definition-common-begin:
     - include: comments
+    - match: '(?=\b(?:{{before_tag}}|{{control_keywords}})\b)'
+      pop: true
     - include: modifiers-parens
     - include: modifiers
     # Handle macros so they aren't matched as the class name
@@ -930,8 +935,41 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.c
       set: preprocessor-block-if-branch-statements
+    - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
+      set: preprocessor-if-branch-function-call
     - include: negated-block
     - include: statements
+
+  preprocessor-if-branch-function-call:
+    - meta_content_scope: meta.function-call.c
+    - include: c99
+    - match: '{{identifier}}'
+      scope: variable.function.c
+    - match: '\('
+      scope: meta.group.c punctuation.section.group.begin.c
+      set: preprocessor-if-branch-function-call-arguments
+
+  preprocessor-if-branch-function-call-arguments:
+    - meta_content_scope: meta.function-call.c meta.group.c
+    - match : \)
+      scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*(?:elif|else))\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      set: preprocessor-if-branch-statements
+    - match: ^\s*(#\s*endif)\b
+      captures:
+        1: meta.preprocessor.c keyword.control.import.c
+      set: preprocessor-if-branch-function-call-arguments-finish
+    - include: expressions
+
+  preprocessor-if-branch-function-call-arguments-finish:
+    - meta_content_scope: meta.function-call.c meta.group.c
+    - match: \)
+      scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
+      pop: true
+    - include: expressions
 
   preprocessor-block-if-branch-statements:
     - meta_scope: meta.block.c
@@ -1080,7 +1118,7 @@ contexts:
         - include: strings
         - match: '\S+'
           scope: string.unquoted.c
-    - match: ^\s*(#\s*(?:include|import))\b\s+
+    - match: ^\s*(#\s*(?:include|include_next|import))\b
       captures:
         1: keyword.control.import.include.c
       push:
