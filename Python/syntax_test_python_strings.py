@@ -528,13 +528,16 @@ f"{True!a:02f}"
 #              ^ source - meta, string, source source
 
 f"result: {value:{width}.{precision}}\n"
-#         ^ - source source
+#         ^ punctuation.section.interpolation.begin.python - source source
 #          ^^^^^ source source.python.embedded
 #               ^^ - source source
+#                ^ punctuation.section.interpolation.begin.python
 #                 ^^^^^ source source.python.embedded
+#                      ^ punctuation.section.interpolation.end.python
 #                       ^ - source source
+#                        ^ punctuation.section.interpolation.begin.python
 #                         ^^^^^^^^^ source source.python.embedded
-#                                  ^^ - source source
+#                                  ^^ punctuation.section.interpolation.end.python - source source
 #                                    ^^ constant.character.escape
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.python
 #               ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
