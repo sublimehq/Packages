@@ -147,6 +147,18 @@
 /*      ^^^^^ comment.block.css */
 }
 
+    @font-face
+/*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
+/*  ^          punctuation.definition.keyword.css    */
+/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
+{
+    font-family: monospace,
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*               ^^^^^^^^^ support.constant.font-name.css */
+        /* */
+/*      ^^^^^ comment.block.css */
+}
+
     @supports not ( and ( top: 2px ) ) { }
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css */
 /*  ^          punctuation.definition.keyword.css  */
@@ -188,6 +200,20 @@
     suffix: " ";
 /*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
 /*          ^^^ string.quoted.double.css */
+}
+
+    @counter-style blacknwhite
+/*  ^^^^^^^^^^^^^^ meta.at-rule.counter-style.css keyword.control.at-rule.counter-style.css */
+/*                 ^^^^^^^^^^^ entity.other.counter-style-name.css */
+{
+  system: cyclic;
+  negative: "(" ")";
+  prefix: "/";
+  symbols: ◆ ◇;
+  suffix: "/ ";
+  range: 2 4;
+  speak-as: "bullets";
+/*^^^^^^^^ support.type.property-name.css */
 }
 
 .test-var { --test-var: arial; }
