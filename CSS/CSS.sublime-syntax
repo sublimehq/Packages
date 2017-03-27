@@ -135,7 +135,7 @@ contexts:
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
-    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))\s*(?={)
+    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))\s*(?=\{|$)
       captures:
         1: keyword.control.at-rule.counter-style.css
         2: punctuation.definition.keyword.css
@@ -143,6 +143,7 @@ contexts:
         4: entity.other.counter-style-name.css
       push:
         - meta_scope: meta.at-rule.counter-style.css
+        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -191,12 +192,13 @@ contexts:
         - include: comma-delimiter
 
   at-font-face:
-    - match: '\s*((@)font-face)\s*(?=\{)'
+    - match: '\s*((@)font-face)\s*(?=\{|$)'
       captures:
         1: keyword.control.at-rule.font-face.css
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.font-face.css
+        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -349,7 +351,7 @@ contexts:
   # @page
   # https://www.w3.org/TR/CSS2/page.html
   at-page:
-    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
+    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)'
       captures:
         1: keyword.control.at-rule.page.css
         2: punctuation.definition.keyword.css
@@ -357,6 +359,7 @@ contexts:
         4: entity.other.pseudo-class.css
       push:
         - meta_scope: meta.at-rule.page.css
+        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -659,7 +662,7 @@ contexts:
               | border-top|unicode-range|list-style-position|orphans|outline-width
               | line-clamp|order|flex-direction|box-pack|animation-fill-mode
               | outline-color|list-style-image|list-style|touch-action|flex-grow
-              | border-left-style|border-left|speak|animation-iteration-count
+              | border-left-style|border-left|animation-iteration-count
               | page-break-inside|box-flex|box-align|page-break-after|animation-delay
               | widows|border-right-style|border-right|flex-align|outline-style
               | outline|background-origin|animation-direction|fill-opacity
@@ -706,7 +709,7 @@ contexts:
               | nbsp-mode|color|image-resolution|grid-row|grid-column|blend-mode
               | azimuth|pause-after|pause-before|pause|pitch-range|pitch|text-height
               | system|negative|prefix|suffix|range|pad|fallback|additive-symbols
-              | symbols|speak-as|grid-gap|grid-row-gap
+              | symbols|speak-as|speak|grid-gap|grid-row-gap
             )\b
           scope: support.type.property-name.css
     - match: (:)([ \t]*)
