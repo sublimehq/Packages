@@ -205,3 +205,14 @@ regexp -inline -all -- {%[a-zA-Z_]*%} "whatever"
 
 regexp -all -inline {%[a-zA-Z_]*%} "whatever"
 #      ^^^^^^^^^^^^^^ - string
+
+# -------------------------------------------------#
+# https://github.com/sublimehq/Packages/issues/783
+# https://github.com/sublimehq/Packages/issues/784
+# ------------------------------------------------ #
+set objRegExp {(^[a-zA-Z]{2}[a-zA-Z0-9-]{2,12}$)}
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block - invalid
+#                                                ^ - meta.block
+set objRegExp {(.{0,200})}
+#             ^^^^^^^^^^^^ meta.block - invalid
+#                         ^ - meta.block
