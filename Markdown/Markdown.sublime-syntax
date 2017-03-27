@@ -69,7 +69,11 @@ variables:
         )
     skip_html_tags: (?:<[^>]+>)
     non_pipe_or_escaped: (?:[^|\\]|\\.)
-    table_row: ^{{non_pipe_or_escaped}}+\||\|{{non_pipe_or_escaped}}*\|
+    table_row: |-
+        (?x:
+            ^(?!\s*\|){{non_pipe_or_escaped}}+\|     # the beginning of the line, followed by at least one non-pipe, non-whitespace char, followed by a non-escaped pipe
+        |   ^(?:{{non_pipe_or_escaped}}*\|){2}       # or at least 2 non-escaped pipe chars on the line
+        )
 contexts:
   main:
     - match: |-
