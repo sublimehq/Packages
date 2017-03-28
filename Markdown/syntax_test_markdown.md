@@ -264,6 +264,24 @@ Anonymous FTP is available at ftp://foo.bar.baz.
 |                             ^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                              ^^ - markup.underline.link
 
+foo@bar.baz
+|^^^^^^^^^^ markup.underline.link
+hello@mail+xyz.example isn't valid, but hello+xyz@mail.example is.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link
+|                                       ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+ a.b-c_d@a.b
+|^^^^^^^^^^^ markup.underline.link
+|           ^ - markup.underline.link
+a.b-c_d@a.b.
+|^^^^^^^^^^ markup.underline.link
+|          ^^ - markup.underline.link
+ a.b-c_d@a.b-
+|^^^^^^^^^^^^^ - markup.underline.link
+ a.b-c_d@a.b_
+|^^^^^^^^^^^^^ - markup.underline.link
+ test@test.test.me
+|^^^^^^^^^^^^^^^^^ markup.underline.link
+
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
 

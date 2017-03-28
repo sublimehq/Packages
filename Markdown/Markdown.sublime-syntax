@@ -440,6 +440,8 @@ contexts:
         1: punctuation.definition.link.begin.markdown
         2: markup.underline.link.markdown
         4: punctuation.definition.link.end.markdown
+    - match: '[\w.+-]+@[\w-]+(\.((?![._-][\W])[\w_-])+)+(?![_-])'
+      scope: markup.underline.link.markdown
   autolink-inet:
     - match: (<)((?:https?|ftp)://.*?)(>)
       scope: meta.link.inet.markdown
