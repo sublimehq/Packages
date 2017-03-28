@@ -1126,7 +1126,7 @@ abc
 |           ^ meta.block-level meta.table punctuation.separator.table-cell
 | ^^^^ meta.block-level meta.table - punctuation.separator.table-cell
 | --- | --- |
-| ^^^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+| ^^^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
 | baz | bim |
 | <- meta.block-level meta.table punctuation.separator.table-cell
 
@@ -1134,7 +1134,12 @@ abc
 
 | abc | defghi |
 :-: | -----------:
-|^^^^^^^^^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+|^^^^^^^^^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
+| <- punctuation.definition.table-cell-alignment
+|^ punctuation.definition.table-header-separator
+|   ^ punctuation.separator.table-cell
+|     ^^^^^^^^^^^ punctuation.definition.table-header-separator
+|                ^ punctuation.definition.table-cell-alignment - punctuation.definition.table-header-separator
 bar | baz
 |   ^ meta.block-level meta.table punctuation.separator.table-cell
 
@@ -1143,9 +1148,9 @@ bar | baz
 |  ^^ meta.block-level meta.table constant.character.escape - punctuation.separator.table-cell
 |        ^ meta.block-level meta.table punctuation.separator.table-cell
 | ------ |
-|^^^^^^^^^ meta.block-level meta.table punctuation.separator.table-header
+|^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
 | b `|` az |
-|   ^^^ meta.block-level meta.table markup.raw.inline - punctuation.separator.table-header
+|   ^^^ meta.block-level meta.table markup.raw.inline - meta.table-header-separator
 |          ^ meta.block-level meta.table punctuation.separator.table-cell
 | b **|** im |
 | <- meta.block-level meta.table punctuation.separator.table-cell

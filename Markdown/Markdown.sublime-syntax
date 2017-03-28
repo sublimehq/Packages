@@ -719,8 +719,17 @@ contexts:
               |    \s*$
               )
           pop: true
-        - match: ^(\s*:?-+:?)?(\s*\|\s*:?-+:?)+(\s*\|)? #(?=^[-\s:|]+$).+
-          scope: punctuation.separator.table-header.markdown
+        - match: (?=^(\s*:?-+:?)?(\s*\|\s*:?-+:?)+(\s*\|)?\s*$)
+          push:
+            - meta_scope: meta.table-header-separator.markdown
+            - match: \|
+              scope: punctuation.separator.table-cell.markdown
+            - match: ':'
+              scope: punctuation.definition.table-cell-alignment.markdown
+            - match: -+
+              scope: punctuation.definition.table-header-separator.markdown
+            - match: $\n?
+              pop: true
         - match: \|
           scope: punctuation.separator.table-cell.markdown
         - include: inline-bold-italic
