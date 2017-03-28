@@ -256,3 +256,20 @@ new Foo<? super Bar>();
 
 new Foo<int>();
 //      ^^^ invalid.illegal.primitive-instantiation.java
+
+public class Test {
+
+    void test1() {
+        Foo.abc();
+//         ^ punctuation.accessor.dot.java
+//          ^^^ variable.function.java
+        Foo.class;
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^ - storage.type.java
+//               ^ punctuation.terminator.java
+    }
+
+    void test2() {
+//       ^^^^^ entity.name.function.java
+    }
+}
