@@ -1161,3 +1161,21 @@ test
 > bar
 | <- meta.block-level markup.quote punctuation.definition.blockquote - meta.table
 
+`|` this `|` example `|` is not a table `|`
+| ^ punctuation.definition.raw.end - meta.table
+| nor is this | because it is not at block level, it immediately follows a paragraph |
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph - meta.table
+
+| First Header  | Second Header | Third Header         |
+| :------------ | :-----------: | -------------------: |
+| First row     | Data          | Very long data entry |
+| Second row    | **Cell**      | *Cell*               |
+| Third row     | Cell that spans across two columns  ||
+| ^^^^^^^^^^^^^^ meta.block-level meta.table
+|                                                     ^^ punctuation.separator.table-cell
+
+ | table that doesn't start at column 0 |
+  | ---- |
+  | blah |
+| ^^^^^^^^ meta.table
+| ^ punctuation.separator.table-cell

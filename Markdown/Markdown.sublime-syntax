@@ -68,11 +68,9 @@ variables:
           (\))
         )
     skip_html_tags: (?:<[^>]+>)
-    non_pipe_or_escaped: (?:[^|\\]|\\.)
-    table_row: |-
+    table_first_row: |-
         (?x:
-            ^(?!\s*\|){{non_pipe_or_escaped}}+\|     # the beginning of the line, followed by at least one non-pipe, non-whitespace char, followed by a non-escaped pipe
-        |   ^(?:{{non_pipe_or_escaped}}*\|){2}       # or at least 2 non-escaped pipe chars on the line
+            (?:{{balance_square_brackets}}*\|){2}       # at least 2 non-escaped pipe chars on the line
         )
 contexts:
   main:
@@ -82,7 +80,7 @@ contexts:
         |    {{indented_code_block}}(?!$)
         |    {{atx_heading}}
         |    {{thematic_break}}
-        |    {{table_row}}
+        |    {{table_first_row}}
         )
       comment: |
         We could also use an empty end match and set
@@ -709,7 +707,7 @@ contexts:
         1: invalid.illegal.expected-eol.markdown
       pop: true
   table:
-    - match: (?={{table_row}})
+    - match: (?={{table_first_row}})
       push:
         - meta_content_scope: meta.table.markdown
         - match: |-
