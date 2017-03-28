@@ -71,6 +71,7 @@ variables:
     table_first_row: |-
         (?x:
             (?:{{balance_square_brackets}}*\|){2}       # at least 2 non-escaped pipe chars on the line
+        |   (?!\s+\|){{balance_square_brackets}}+\|(?!\s+$){{balance_square_brackets}}+
         )
 contexts:
   main:
@@ -709,27 +710,46 @@ contexts:
   table:
     - match: (?={{table_first_row}})
       push:
-        - meta_content_scope: meta.table.markdown
-        - match: |-
-              (?x)^
-              (?=  {{block_quote}}
-              |    {{indented_code_block}}(?!$)
-              |    {{atx_heading}}
-              |    {{thematic_break}}
-              |    \s*$
-              )
-          pop: true
-        - match: (?=^(\s*:?-+:?)?(\s*\|\s*:?-+:?)+(\s*\|)?\s*$)
-          push:
-            - meta_scope: meta.table-header-separator.markdown
-            - match: \|
-              scope: punctuation.separator.table-cell.markdown
-            - match: ':'
-              scope: punctuation.definition.table-cell-alignment.markdown
-            - match: -+
-              scope: punctuation.definition.table-header-separator.markdown
-            - match: $\n?
-              pop: true
+        - meta_content_scope: meta.table.header.markdown
         - match: \|
           scope: punctuation.separator.table-cell.markdown
         - include: inline-bold-italic
+        - match: $\n?
+          set:
+            - match: ^
+              set:
+                - meta_content_scope: meta.table.header-separator.markdown
+                - match: \|
+                  scope: punctuation.separator.table-cell.markdown
+                - match: ':'
+                  scope: punctuation.definition.table-cell-alignment.markdown
+                - match: -+
+                  scope: punctuation.definition.table-header-separator.markdown
+                - match: $\n?
+                  set:
+                    - meta_content_scope: meta.table.markdown
+                    - match: |-
+                          (?x)^
+                          (?=  {{block_quote}}
+                          |    {{indented_code_block}}(?!$)
+                          |    {{atx_heading}}
+                          |    {{thematic_break}}
+                          |    \s*$
+                          )
+                      pop: true
+                    - match: \|
+                      scope: punctuation.separator.table-cell.markdown
+                    - include: inline
+                    - match: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
+                        (?x)
+                        (?=
+                            \*  (?!\*){{balance_square_brackets}}+\*  (?!\*)
+                        |   \*\*      {{balance_square_brackets}}+\*\*
+                        |   _   (?!_) {{balance_square_brackets}}+_   (?!_)
+                        |   __        {{balance_square_brackets}}+__
+                        )
+                      push:
+                        - include: bold
+                        - include: italic
+                        - match: ''
+                          pop: true
