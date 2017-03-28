@@ -234,6 +234,36 @@ _ _ _ _ _ _ _
 <ftp://test.com/>
 | ^^^^^^^^^^^^^^ meta.paragraph meta.link.inet markup.underline.link
 
+Visit www.commonmark.org/help for more information.
+|     ^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                            ^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link
+Visit www.commonmark.org.
+|     ^^^^^^^^^^^^^^^^^^ meta.paragraph markup.underline.link
+|                       ^^ - markup.underline.link
+Visit www.commonmark.org/a.b.
+|     ^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph markup.underline.link
+|                           ^ - markup.underline.link
+www.google.com/search?q=(business))+ok
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                     ^ - markup.underline.link
+www.commonmark.org/he<lp>
+|^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                    ^ - markup.underline.link
+http://commonmark.org
+|^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+www.google.com/search?q=commonmark&hl=en
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                       ^ - markup.underline.link
+www.google.com/search?q=commonmark&hl;
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                 ^^^^ constant.character.entity.html - markup.underline.link
+(Visit https://encrypted.google.com/search?q=Markup+(business))
+|      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                             ^^ - markup.underline.link
+Anonymous FTP is available at ftp://foo.bar.baz.
+|                             ^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                              ^^ - markup.underline.link
+
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
 

@@ -67,6 +67,7 @@ variables:
               \s*                       # Optional whitespace
           (\))
         )
+    html_entity: '&([a-zA-Z0-9]+|#\d+|#x\h+);'
     skip_html_tags: '(?:<[^>]+>)'
 contexts:
   main:
@@ -158,7 +159,7 @@ contexts:
             1: punctuation.definition.heading.setext.markdown
           pop: true
   ampersand:
-    - match: "&(?!([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+);)"
+    - match: (?!{{html_entity}})&
       comment: |
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
@@ -446,6 +447,24 @@ contexts:
         1: punctuation.definition.link.begin.markdown
         2: markup.underline.link.markdown
         3: punctuation.definition.link.end.markdown
+    - match: (((https|http|ftp)://)|www\.)[\w-]+(\.[\w-]+)+
+      scope: markup.underline.link.markdown
+      push: # After a valid domain, zero or more non-space non-< characters may follow
+        - match: (?=[?!.,:*_~]*[\s<]) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
+          pop: true
+        - match: (?={{html_entity}}[?!.,:*_~]*[\s<]) # If an autolink ends in a semicolon (;), we check to see if it appears to resemble an entity reference; if the preceding text is & followed by one or more alphanumeric characters. If so, it is excluded from the autolink
+          pop: true
+        - match: \( # When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the last character part of the autolink, in order to facilitate including an autolink inside a parenthesis
+          push:
+            - meta_scope: markup.underline.link.markdown
+            - match: (?=[?!.,:*_~]*[\s<])
+              pop: true
+            - match: \)
+              pop: true
+        - match: (?=\)[?!.,:*_~]*[\s<])
+          pop: true
+        - match: '[^?!.,:*_~\s<&(]+|\S'
+          scope: markup.underline.link.markdown
   link-inline:
     - match: |-
         (?x:
