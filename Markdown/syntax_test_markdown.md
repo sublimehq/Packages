@@ -1121,12 +1121,12 @@ abc
 | <- meta.paragraph - markup.list
 
 | foo | bar |
-| <- meta.block-level meta.table punctuation.separator.table-cell
-|     ^ meta.block-level meta.table punctuation.separator.table-cell
-|           ^ meta.block-level meta.table punctuation.separator.table-cell
-| ^^^^ meta.block-level meta.table - punctuation.separator.table-cell
+|^^^^^^^^^^^^^ meta.block-level meta.table.header
+| <- punctuation.separator.table-cell
+|     ^ punctuation.separator.table-cell
+|           ^ punctuation.separator.table-cell
+| ^^^^ - punctuation.separator.table-cell
 | --- | --- |
-| ^^^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
 | baz | bim |
 | <- meta.block-level meta.table punctuation.separator.table-cell
 
@@ -1134,7 +1134,7 @@ abc
 
 | abc | defghi |
 :-: | -----------:
-|^^^^^^^^^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
+|^^^^^^^^^^^^^^^^^ meta.block-level meta.table.header-separator
 | <- punctuation.definition.table-cell-alignment
 |^ punctuation.definition.table-header-separator
 |   ^ punctuation.separator.table-cell
@@ -1148,9 +1148,8 @@ bar | baz
 |  ^^ meta.block-level meta.table constant.character.escape - punctuation.separator.table-cell
 |        ^ meta.block-level meta.table punctuation.separator.table-cell
 | ------ |
-|^^^^^^^^^ meta.block-level meta.table meta.table-header-separator
 | b `|` az |
-|   ^^^ meta.block-level meta.table markup.raw.inline - meta.table-header-separator
+|   ^^^ meta.block-level meta.table markup.raw.inline - meta.table.header-separator
 |          ^ meta.block-level meta.table punctuation.separator.table-cell
 | b **|** im |
 | <- meta.block-level meta.table punctuation.separator.table-cell
@@ -1184,3 +1183,19 @@ test
   | blah |
 | ^^^^^^^^ meta.table
 | ^ punctuation.separator.table-cell
+
+not a table | 
+| ^^^^^^^^^^^^^ - meta.table
+
+ abc | def
+ --- | ---
+ --- | ---
+| ^^^^ meta.block-level meta.table - meta.table.header
+
+| test | me |
+|------|----|
+|^^^^^^ punctuation.definition.table-header-separator
+|*test | me |
+|^^^^^^ - markup.bold
+|      ^ punctuation.separator.table-cell
+|           ^ punctuation.separator.table-cell
