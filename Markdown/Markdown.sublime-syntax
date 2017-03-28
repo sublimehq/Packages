@@ -728,7 +728,7 @@ contexts:
                 - match: $\n?
                   set:
                     - meta_content_scope: meta.table.markdown
-                    - match: |-
+                    - match: |- # The table is broken at the first empty line, or beginning of another block-level structure
                           (?x)^
                           (?=  {{block_quote}}
                           |    {{indented_code_block}}(?!$)
@@ -739,7 +739,6 @@ contexts:
                       pop: true
                     - match: \|
                       scope: punctuation.separator.table-cell.markdown
-                    - include: inline
                     - match: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
                         (?x)
                         (?=
@@ -753,3 +752,10 @@ contexts:
                         - include: italic
                         - match: ''
                           pop: true
+                    - match: |-
+                        (?x)
+                        (?!{{backticks}})
+                        `+
+                      scope: invalid.deprecated.unescaped-backticks.markdown
+                    - include: inline
+                    

@@ -1199,3 +1199,6 @@ not a table |
 |^^^^^^ - markup.bold
 |      ^ punctuation.separator.table-cell
 |           ^ punctuation.separator.table-cell
+|`test | me |
+|^ invalid.deprecated.unescaped-backticks
+|      ^ punctuation.separator.table-cell
