@@ -321,6 +321,9 @@ var obj = {
     "key \"(": true,
     // <- meta.object-literal.key
 
+    "key '(": true,
+    // <- meta.object-literal.key
+
     static foo(bar) {
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ storage.type
