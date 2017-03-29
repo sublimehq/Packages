@@ -94,16 +94,17 @@ def foo(a: Int, b: Bar): Baz = 42
 //     ^^^ entity.name.var
 //          ^^^^ storage.type.primitive.scala
 
-class Foo[A](a: Bar) extends Baz with Bin
-// ^^ storage.type.class.scala
-//    ^^^ entity.name.class
-//        ^ support.class
-//           ^ variable.parameter
-//              ^^^ support.class
-//                   ^^^^^^^ keyword.declaration.scala
-//                           ^^^ entity.other.inherited-class.scala
-//                               ^^^^ keyword.declaration.scala
-//                                    ^^^ entity.other.inherited-class.scala
+   class Foo[A](a: Bar) extends Baz with Bin
+// ^^^^^^^^^ meta.class.identifier.scala
+//    ^^ storage.type.class.scala
+//       ^^^ entity.name.class
+//           ^ support.class
+//              ^ variable.parameter
+//                 ^^^ support.class
+//                      ^^^^^^^ keyword.declaration.scala
+//                              ^^^ entity.other.inherited-class.scala
+//                                  ^^^^ keyword.declaration.scala
+//                                       ^^^ entity.other.inherited-class.scala
 
    class Foo private[this] (a: Int)(b: String)
 //           ^^^^^^^ storage.modifier.access
@@ -554,6 +555,7 @@ type Foo = Bar[A] forSome { type A }
 }
 
    case class Thingy(abc: Int) extends Other
+// ^^^^^^^^^^^^^^^^^ meta.class.identifier.scala
 // ^^^^ storage.type.class.scala
 //      ^^^^^ storage.type.class.scala
 //            ^^^^^^ entity.name.class.scala
@@ -1424,6 +1426,10 @@ class Foo extends Bar[Int]
 //                   ^ punctuation.section.brackets.begin.scala
 //                       ^ punctuation.section.brackets.end.scala
 
+   object Underscore_
+// ^^^^^^ storage.type.class.scala
+//        ^^^^^^^^^^^ entity.name.class.scala
+
 match {
   case _
 //^^^^ - meta.pattern
@@ -1611,3 +1617,17 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 // ^^^^^^^^ storage.modifier.other.scala
 //          ^^^ storage.type.function.scala
 //              ^ entity.name.function.scala
+
+  type Foo =
+     Bar
+//   ^^^ support.class.scala
+
+  type Foo =
+
+     Bar
+//   ^^^ support.constant.scala
+
+   type Foo = Unit
+   type Bar = Unit
+//      ^^^ entity.name.type.scala
+//          ^ keyword.operator.assignment.scala
