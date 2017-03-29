@@ -305,10 +305,7 @@ contexts:
             - include: delimited-type-expression
         - match: '='
           scope: keyword.operator.assignment.scala
-          set:
-            - match: '(?=[\n;\}\)\]])'
-              pop: true
-            - include: delimited-type-expression
+          set: type-alias-body
     - match: '\b(var)\s+({{id}})'
       captures:
         1: storage.type.volatile.scala
@@ -364,6 +361,18 @@ contexts:
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
+
+  type-alias-body:
+    - match: \n
+      set: type-alias-body-newline
+    - match: '(?=[;\}\)\]])'
+      pop: true
+    - include: delimited-type-expression
+
+  type-alias-body-newline:
+    - include: decl-newline-double-check
+    - match: (?=\S)
+      set: type-alias-body
 
   case-body-first:
     - meta_content_scope: meta.block.case.first.scala
@@ -450,7 +459,7 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
-    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit)\b)'
+    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit|type)\b)'
       pop: true
     - match: '\n'
       pop: true

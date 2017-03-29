@@ -1617,3 +1617,17 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 // ^^^^^^^^ storage.modifier.other.scala
 //          ^^^ storage.type.function.scala
 //              ^ entity.name.function.scala
+
+  type Foo =
+     Bar
+//   ^^^ support.class.scala
+
+  type Foo =
+
+     Bar
+//   ^^^ support.constant.scala
+
+   type Foo = Unit
+   type Bar = Unit
+//      ^^^ entity.name.type.scala
+//          ^ keyword.operator.assignment.scala
