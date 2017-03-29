@@ -1097,9 +1097,8 @@ contexts:
                 - include: either-function-declaration
                 - match: '(?=\S)'
                   pop: true
-        # An opening parenthesis is not allowed after a literal key; that makes
-        # it a method declaration instead, below.
-        - match: "(?=\"|')(?!.+\\()"
+        - include: method-declaration
+        - match: "(?=\"|')"
           push:
             - meta_scope: meta.object-literal.key.js
             - include: literal-string
@@ -1123,7 +1122,6 @@ contexts:
             - match: "(?=\\}|,|('[^']*'|\"[^\"]*\"|{{identifier}})\\s*:)"
               pop: true
             - include: expressions
-        - include: method-declaration
         - include: comments
 
   method-declaration:
@@ -1158,7 +1156,7 @@ contexts:
         - include: comments
         - match: '(?=\S)'
           pop: true
-    - match: (?='.*'|".*")
+    - match: (?=('[^\\]*'|"[^\\]*")\s*\()
       push:
         - meta_content_scope: meta.function.declaration.js
         - match: "'"
@@ -1196,7 +1194,7 @@ contexts:
         - include: comments
         - match: '(?=\S)'
           pop: true
-    - match: '({{identifier}})\s*'
+    - match: '({{identifier}})\s*(?=\()'
       scope: meta.function.declaration.js
       captures:
         1: entity.name.function.js
