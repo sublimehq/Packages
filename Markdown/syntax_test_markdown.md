@@ -1190,10 +1190,10 @@ abc
 :-: | -----------:
 |^^^^^^^^^^^^^^^^^ meta.block-level meta.table.header-separator
 | <- punctuation.definition.table-cell-alignment
-|^ punctuation.definition.table-header-separator
+|^ punctuation.section.table-header
 |   ^ punctuation.separator.table-cell
-|     ^^^^^^^^^^^ punctuation.definition.table-header-separator
-|                ^ punctuation.definition.table-cell-alignment - punctuation.definition.table-header-separator
+|     ^^^^^^^^^^^ punctuation.section.table-header
+|                ^ punctuation.definition.table-cell-alignment - punctuation.section.table-header
 bar | baz
 |   ^ meta.block-level meta.table punctuation.separator.table-cell
 
@@ -1248,7 +1248,7 @@ not a table |
 
 | test | me |
 |------|----|
-|^^^^^^ punctuation.definition.table-header-separator
+|^^^^^^ punctuation.section.table-header
 |*test | me |
 |^^^^^^ - markup.bold
 |      ^ punctuation.separator.table-cell

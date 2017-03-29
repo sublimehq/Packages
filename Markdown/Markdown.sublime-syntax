@@ -780,7 +780,7 @@ contexts:
                 - match: ':'
                   scope: punctuation.definition.table-cell-alignment.markdown
                 - match: -+
-                  scope: punctuation.definition.table-header-separator.markdown
+                  scope: punctuation.section.table-header.markdown
                 - match: $\n?
                   set:
                     - meta_content_scope: meta.table.markdown
