@@ -285,7 +285,29 @@ contexts:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
   atx-heading:
-    - match: '(#{1,6})(?!#)\s*(?=\S)'
+    - match: '(#)(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.1.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - match: \s*(#*)$\n?
+          captures:
+            1: punctuation.definition.heading.end.markdown
+          pop: true
+        - include: inline-bold-italic
+    - match: '(##)(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.2.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - match: \s*(#*)$\n?
+          captures:
+            1: punctuation.definition.heading.end.markdown
+          pop: true
+        - include: inline-bold-italic
+    - match: '(#{3,6})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:

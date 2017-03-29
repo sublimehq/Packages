@@ -1,11 +1,11 @@
 | SYNTAX TEST "Packages/Markdown/Markdown.sublime-syntax"
 
 # Heading
-| <- markup.heading punctuation.definition.heading
+| <- markup.heading.1 punctuation.definition.heading
 |^^^^^^^^ markup.heading
 
 ## Second Heading
-| <- markup.heading punctuation.definition.heading
+| <- markup.heading.2 punctuation.definition.heading
 |^^^^^^^^^^^^^^^^ markup.heading
 
 Alternate Heading
