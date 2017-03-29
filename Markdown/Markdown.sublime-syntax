@@ -229,52 +229,136 @@ contexts:
     - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
-    - match: '(\*\*)(?=\S)(?!\*)(?:_)?'
+    - match: '(\*\*)(\*)(?=\S)(?!\*)'
       captures:
         1: punctuation.definition.bold.begin.markdown
+        2: markup.italic.markdown punctuation.definition.italic.begin.markdown
+      push:
+        - meta_scope: markup.bold.markdown
+        - meta_content_scope: markup.italic.markdown
+        - match: |-
+            (?x)
+                [ \t]*\*{4,}    # if there are more than 3 its not applicable to be bold or italic
+            |   [ \t]+\*(?!\*)  # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+            |   ^\*(?!\*)       # emphasis can't be closed at the start of the line
+        - match: (\*)(\*\*)
+          captures:
+            1: markup.italic.markdown punctuation.definition.italic.end.markdown
+            2: punctuation.definition.bold.end.markdown
+          pop: true
+        - match: \*\*
+          scope: punctuation.definition.bold.end.markdown
+          set:
+            - meta_content_scope: markup.italic.markdown
+            - match: |-
+                (?x)
+                    [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
+                |   [ \t]+\*\*+     # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+                |   ^\*\*           # emphasis can't be closed at the start of the line
+            - match: \*
+              scope: markup.italic.markdown punctuation.definition.italic.end.markdown
+              pop: true
+            - include: inline
+            - include: bold
+            - include: bold-italic-trailing
+        - match: \*
+          scope: punctuation.definition.italic.end.markdown
+          set:
+            - meta_content_scope: markup.bold.markdown
+            - match: |-
+                (?x)
+                    [ \t]*\*{3,}    # if there are more than 3 its not applicable to be bold or italic
+                |   [ \t]+\*\*+     # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+                |   ^\*\*           # emphasis can't be closed at the start of the line
+            - match: \*\*
+              scope: markup.bold.markdown punctuation.definition.bold.end.markdown
+              pop: true
+            - include: inline
+            - include: italic
+            - include: bold-italic-trailing
+        - include: inline
+        - include: bold-italic-trailing
+    - match: '\*\*(?=\S)(?!\*\*|\*\s)'
+      scope: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
         - match: |-
-              (?x)
-                  [ \t]*\*{3,}     # if there are more than 3 its not applicable to be bold or italic
-              |   [ \t]+\*\*+      # whitespace followed by 2 or more is also not applicable
-              |   ^\*\*            # emphasis can't be closed at the start of the line
-        - match: (\*\*)
+            (?x)
+                [ \t]*\*{4,}     # if there are more than 3 its not applicable to be bold or italic
+            |   [ \t]+\*\*+      # whitespace followed by 2 or more is also not applicable
+            |   ^\*\*            # emphasis can't be closed at the start of the line
+        - match: (?:_)?(\*\*)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
-        - include: scope:text.html.basic
         - include: inline
         - include: italic
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.bold.markdown
-          pop: true
-        - match: '^(?={{list_item}})'
-          pop: true
-        - include: hard-line-break
-    - match: '(\b__)(?=\S)(?!_)(?:\*)?'
+        - include: bold-italic-trailing
+    - match: '\b(__)(_)(?=\S)(?!_)'
       captures:
         1: punctuation.definition.bold.begin.markdown
+        2: markup.italic.markdown punctuation.definition.italic.begin.markdown
+      push:
+        - meta_scope: markup.bold.markdown
+        - meta_content_scope: markup.italic.markdown
+        - match: |-
+            (?x)
+                [ \t]*_{4,}   # if there are more than 3 its not applicable to be bold or italic
+            |   [ \t]+_(?!_)  # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+            |   ^_(?!_)       # emphasis can't be closed at the start of the line
+        - match: (_)(__)\b
+          captures:
+            1: markup.italic.markdown punctuation.definition.italic.end.markdown
+            2: punctuation.definition.bold.end.markdown
+          pop: true
+        - match: _\b
+          scope: punctuation.definition.italic.end.markdown
+          set:
+            - meta_content_scope: markup.bold.markdown
+            - match: |-
+                  (?x)
+                      [ \t]*_{3,}   # if there are more than 3 its not applicable to be bold or italic
+                  |   [ \t]+__+     # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+                  |   ^__           # emphasis can't be closed at the start of the line
+            - match: __\b
+              scope: markup.bold.markdown punctuation.definition.bold.end.markdown
+              pop: true
+            - include: inline
+            - include: italic
+            - include: bold-italic-trailing
+        - match: __\b
+          scope: punctuation.definition.bold.end.markdown
+          set:
+            - meta_content_scope: markup.italic.markdown
+            - match: |-
+                  (?x)
+                      [ \t]*_{3,}   # if there are more than 3 its not applicable to be bold or italic
+                  |   [ \t]+__+     # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
+                  |   ^__           # emphasis can't be closed at the start of the line
+            - match: _\b
+              scope: markup.italic.markdown punctuation.definition.italic.end.markdown
+              pop: true
+            - include: inline
+            - include: bold
+            - include: bold-italic-trailing
+        - include: inline
+        - include: bold-italic-trailing
+    - match: '\b__(?=\S)(?!__|_\s)'
+      scope: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
         - match: |-
               (?x)
-                  [ \t]*_{3,}    # if there are more than 3 its not applicable to be bold or italic
+                  [ \t]*_{4,}    # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+__+      # whitespace followed by 2 or more is also not applicable
               |   ^__            # emphasis can't be closed at the start of the line
-        - match: (__\b)
+        - match: (?:\*)?(__\b)
           captures:
             1: punctuation.definition.bold.end.markdown
           pop: true
-        - include: scope:text.html.basic
         - include: inline
         - include: italic
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.bold.markdown
-          pop: true
-        - match: '^(?={{list_item}})'
-          pop: true
-        - include: hard-line-break
+        - include: bold-italic-trailing
   bracket:
     - match: '<(?![a-z/?\$!])'
       comment: |
@@ -406,54 +490,46 @@ contexts:
     - include: inline-bold-italic
     - include: hard-line-break
   italic:
-    - match: '(\*)(?=\S)(?!\*)'
-      captures:
-        1: punctuation.definition.italic.begin.markdown
+    - match: '\*(?=\S)(?!\*)'
+      scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
         - match: |-
               (?x)
-                  [ \t]*\*{3,}   # if there are more than 3 its not applicable to be bold or italic
+                  [ \t]*\*{4,}   # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+\*(?!\*) # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
               |   ^\*(?!\*)      # emphasis can't be closed at the start of the line
-        - match: (\*)(?!\*)
-          captures:
-            1: punctuation.definition.italic.end.markdown
+        - match: \*(?!\*[^*])
+          scope: punctuation.definition.italic.end.markdown
           pop: true
-        - include: scope:text.html.basic
         - include: inline
         - include: bold
         - match: '\*+'
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.italic.markdown
-          pop: true
-        - match: '^(?={{list_item}})'
-          pop: true
-        - include: hard-line-break
-    - match: '(\b_)(?=\S)(?!_)'
-      captures:
-        1: punctuation.definition.italic.begin.markdown
+        - include: bold-italic-trailing
+    - match: '\b_(?=\S)(?!_)'
+      scope: punctuation.definition.italic.begin.markdown
       push:
         - meta_scope: markup.italic.markdown
         - match: |-
               (?x)
-                  [ \t]*_{3,}   # if there are more than 3 its not applicable to be bold or italic
+                  [ \t]*_{4,}   # if there are more than 3 its not applicable to be bold or italic
               |   [ \t]+_(?!_)  # whitespace followed by 1 is also not applicable (but whitespace followed by 2 could be bold punctuation)
               |   ^_(?!_)       # emphasis can't be closed at the start of the line
-        - match: (_\b)
-          captures:
-            1: punctuation.definition.italic.end.markdown
+        - match: _\b
+          scope: punctuation.definition.italic.end.markdown
           pop: true
-        - include: scope:text.html.basic
         - include: inline
         - include: bold
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.italic.markdown
-          pop: true
-        - match: '^(?={{list_item}})'
-          pop: true
-        - include: hard-line-break
+        - include: bold-italic-trailing
     - match: '[*_]+'
+  bold-italic-trailing:
+    - include: scope:text.html.basic
+    - match: ^\s*$\n?
+      scope: invalid.illegal.non-terminated.bold-italic.markdown
+      pop: true
+    - match: '^(?={{list_item}})'
+      pop: true
+    - include: hard-line-break
   hard-line-break:
     - match: '[ ]{2,}$'
       scope: meta.hard-line-break.markdown punctuation.definition.hard-line-break.markdown

@@ -904,6 +904,94 @@ __test <span>text__ *formatted</span>*
 |                   ^ punctuation
 |                                    ^ punctuation
 
+This is ***bold italic***
+|       ^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^ punctuation.definition.bold.end
+
+This is ***bold italic* and just bold**
+|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^^^^^^^^^^^^^^^ - markup.italic
+|                                    ^^ punctuation.definition.bold.end
+
+The next scope overlap funny because we have to pick one order
+to scope three indicators in a row
+This is ***bold italic** and just italic*
+|       ^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic
+|         ^ punctuation.definition.italic.begin
+|                     ^^ punctuation.definition.bold.end
+|                       ^^^^^^^^^^^^^^^^^ - markup.bold
+|                                       ^ punctuation.definition.italic.end
+
+This is **_bold italic_**
+|       ^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^ punctuation.definition.bold.end
+
+This is __*bold italic*__
+|       ^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^ punctuation.definition.bold.end
+
+This is ___bold italic___
+|       ^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^ punctuation.definition.bold.end
+
+This is ___bold italic_ and just bold__
+|       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^ punctuation.definition.italic.begin
+|         ^^^^^^^^^^^^^ markup.italic
+|                     ^ punctuation.definition.italic.end
+|                      ^^^^^^^^^^^^^^^^ - markup.italic
+|                                    ^^ punctuation.definition.bold.end
+
+The next scope overlap funny because we have to pick one order
+to scope three indicators in a row
+This is ___bold italic__ and just italic_
+|       ^^^^^^^^^^^^^^^ markup.bold
+|       ^^ punctuation.definition.bold.begin
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic
+|         ^ punctuation.definition.italic.begin
+|                     ^^ punctuation.definition.bold.end
+|                       ^^^^^^^^^^^^^^^^^ - markup.bold
+|                                       ^ punctuation.definition.italic.end
+
+This is _**italic bold**_
+|       ^^^^^^^^^^^^^^^^^ markup.italic
+|       ^ punctuation.definition.italic.begin
+|        ^^^^^^^^^^^^^^^ markup.bold
+|        ^^ punctuation.definition.bold.begin
+|                     ^^ punctuation.definition.bold.end
+|                       ^ punctuation.definition.italic.end
+
+This is *__italic bold__*
+|       ^^^^^^^^^^^^^^^^^ markup.italic
+|       ^ punctuation.definition.italic.begin
+|        ^^^^^^^^^^^^^^^ markup.bold
+|        ^^ punctuation.definition.bold.begin
+|                     ^^ punctuation.definition.bold.end
+|                       ^ punctuation.definition.italic.end
+
 ```js
 | <- punctuation.definition.raw.code-fence.begin
 |  ^^ constant.other.language-name
@@ -988,25 +1076,25 @@ not a hard line break`
 
 *test
 
-| <- invalid.illegal.non-terminated.italic
+| <- invalid.illegal.non-terminated.bold-italic
 abc*
 |  ^ - punctuation
 
 _test
 
-| <- invalid.illegal.non-terminated.italic
+| <- invalid.illegal.non-terminated.bold-italic
 abc_
 |  ^ - punctuation
 
 **test
 
-| <- invalid.illegal.non-terminated.bold
+| <- invalid.illegal.non-terminated.bold-italic
 abc**
 |  ^^ - punctuation
 
 __test
 
-| <- invalid.illegal.non-terminated.bold
+| <- invalid.illegal.non-terminated.bold-italic
 abc__
 |  ^^ - punctuation
 
@@ -1024,7 +1112,7 @@ blah*
 | <- markup.list.unnumbered.bullet punctuation.definition.list_item
 - _test
 
-| <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.italic
+| <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.bold-italic
   still a list item
 | ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list
 - * * * * * * *
