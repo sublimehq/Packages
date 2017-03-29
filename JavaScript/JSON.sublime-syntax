@@ -20,6 +20,13 @@ scope: source.json
 contexts:
   main:
     - include: value
+  value:
+    - include: constant
+    - include: number
+    - include: string
+    - include: array
+    - include: object
+    - include: comments
   array:
     - match: '\['
       scope: punctuation.section.array.begin.json
@@ -132,10 +139,3 @@ contexts:
       scope: constant.character.escape.json
     - match: \\.
       scope: invalid.illegal.unrecognized-string-escape.json
-  value:
-    - include: constant
-    - include: number
-    - include: string
-    - include: array
-    - include: object
-    - include: comments
