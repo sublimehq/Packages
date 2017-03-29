@@ -2,20 +2,20 @@
 
 {
   "dict": { }
-//        ^^^ meta.structure.dictionary.json
-//        ^   punctuation.section.dictionary.begin.json
-//          ^ punctuation.section.dictionary.end.json
+//        ^^^ meta.mapping.json
+//        ^   punctuation.section.mapping.begin.json
+//          ^ punctuation.section.mapping.end.json
 
 ,
-// <- punctuation.separator.dictionary.pair.json
+// <- punctuation.separator.mapping.pair.json
 
   "sep": {},
-//     ^ punctuation.separator.dictionary.key-value.json
+//     ^ punctuation.separator.mapping.key-value.json
 
   "array": [ ],
-//         ^^^ meta.structure.array.json
-//         ^   punctuation.section.array.begin.json
-//           ^ punctuation.section.array.end.json
+//         ^^^ meta.sequence.json
+//         ^   punctuation.section.sequence.begin.json
+//           ^ punctuation.section.sequence.end.json
 
   "string": "string",
 //          ^        punctuation.definition.string.begin.json
@@ -34,11 +34,11 @@
   "E": 20e10,
 //     ^^^^^ constant.numeric.json
 //^^^ meta.key.json string.quoted.double.json
-//   ^ punctuation.separator.dictionary.key-value.json - meta.key
+//   ^ punctuation.separator.mapping.key-value.json - meta.key
 
   "escape": "\n",
 //           ^^ constant.character.escape.json
-//          ^^^^ meta.value.json string.quoted.double.json - meta.structure.dictionary.key.json
+//          ^^^^ meta.value.json string.quoted.double.json - meta.key
 
   "illegal": "\.",
 //            ^^ invalid.illegal.unrecognized-string-escape.json
@@ -50,17 +50,17 @@
 // <- - string
 
 /**/: "test",
-// ^ meta.structure.dictionary.json comment.block.json
-//  ^ punctuation.separator.dictionary.key-value.json - comment
+// ^ meta.mapping.json comment.block.json
+//  ^ punctuation.separator.mapping.key-value.json - comment
 //    ^^^^^^ meta.value.json string.quoted.double.json
 
   "array2":
     [
       "foobar",
-//    ^^^^^^^^ meta.structure.array.json string.quoted.double.json - meta.key
+//    ^^^^^^^^ meta.value meta.sequence.json string.quoted.double.json - meta.key
     ],
 
   []
-//^^ invalid.illegal.expected-dictionary-separator.json
+//^^ invalid.illegal.expected-mapping-separator.json
 
 }
