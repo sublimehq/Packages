@@ -301,13 +301,18 @@ var obj = {
     qux()
 //  ^^^^^ meta.function.declaration - meta.function.anonymous
     // <- entity.name.function
-    {}
+    {},
+
+    'funcStringMethod'() {
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+    // ^ entity.name.function
+    },
 
     static foo(bar) {
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ storage.type
     //      ^entity.name.function
-    }
+    },
 
     *baz(){
 //  ^^^^^^ meta.function.declaration - meta.function.anonymous
