@@ -321,7 +321,7 @@ contexts:
   image-inline:
     - match: |-
         (?x:
-            (\!)(\[)                          # Images start with ![
+            (\!\[)                            # Images start with ![
             (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
                   \]                          # Closing square bracket
                   [ ]?                        # Space not allowed, but we check for it anyway to mark it as invalid
@@ -329,15 +329,13 @@ contexts:
             )
          )
       captures:
-        1: punctuation.definition.image.begin.markdown
-        2: punctuation.definition.string.begin.markdown
+        1: meta.image.inline.markdown punctuation.definition.image.begin.markdown
       push: [image-inline-after-text, image-link-text]
   image-link-text:
-    - meta_scope: meta.image.inline.markdown
-    - meta_content_scope: string.other.link.description.markdown
+    - meta_content_scope: meta.image.inline.description.markdown
     - include: link-text
     - match: \]
-      scope: punctuation.definition.string.end.markdown
+      scope: meta.image.inline.markdown punctuation.definition.image.end.markdown
       pop: true
   image-inline-after-text:
     - match: '{{url_and_title}}'
@@ -362,7 +360,7 @@ contexts:
   image-ref:
     - match: |-
         (?x:
-          (\!)(\[)                          # Images start with ![
+          (\!\[)                            # Images start with ![
           (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
                 \]                          # Closing square bracket
                 [ ]?                        # Space
@@ -372,15 +370,13 @@ contexts:
           )
         )
       captures:
-        1: punctuation.definition.image.begin.markdown
-        2: punctuation.definition.string.begin.markdown
+        1: meta.image.reference.markdown punctuation.definition.image.begin.markdown
       push: [image-ref-after-text, image-ref-text]
   image-ref-text:
-    - meta_scope: meta.image.reference.markdown
-    - meta_content_scope: string.other.link.description.markdown
+    - meta_content_scope: meta.image.reference.description.markdown
     - include: link-text
     - match: \]
-      scope: punctuation.definition.string.end.markdown
+      scope: meta.image.reference.markdown punctuation.definition.image.end.markdown
       pop: true
   image-ref-after-text:
     - match: '[ ]?(\[)([^\]]+)(\])'
@@ -510,14 +506,13 @@ contexts:
             )
         )
       captures:
-        1: punctuation.definition.string.begin.markdown
+        1: meta.link.inline.markdown punctuation.definition.link.begin.markdown
       push: [link-inline-after-text, link-inline-link-text]
   link-inline-link-text:
-    - meta_scope: meta.link.inline.markdown
-    - meta_content_scope: string.other.link.title.markdown
+    - meta_content_scope: meta.link.inline.description.markdown
     - include: link-text-allow-image
     - match: \]
-      scope: punctuation.definition.string.end.markdown
+      scope: meta.link.inline.markdown punctuation.definition.link.end.markdown
       pop: true
   link-inline-after-text:
     - match: '{{url_and_title}}'
@@ -552,14 +547,13 @@ contexts:
           )
         )
       captures:
-        1: punctuation.definition.string.begin.markdown
+        1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
       push: [link-ref-after-text, link-ref-link-text]
   link-ref-link-text:
-    - meta_scope: meta.link.reference.markdown
-    - meta_content_scope: string.other.link.title.markdown
+    - meta_content_scope: meta.link.reference.description.markdown
     - include: link-text-allow-image
     - match: \]
-      scope: punctuation.definition.string.end.markdown
+      scope: meta.link.reference.markdown punctuation.definition.link.end.markdown
       pop: true
   link-ref-after-text:
     - match: '[ ]?(\[)([^\]]+)(\])'
@@ -582,14 +576,13 @@ contexts:
           )
         )
       captures:
-        1: punctuation.definition.string.begin.markdown
+        1: meta.link.reference.literal.markdown punctuation.definition.string.begin.markdown
       push: [link-ref-literal-after-text, link-ref-literal-link-text]
   link-ref-literal-link-text:
-    - meta_scope: meta.link.reference.literal.markdown
-    - meta_content_scope: string.other.link.title.markdown
+    - meta_content_scope: meta.link.reference.literal.description.markdown
     - include: link-text-allow-image
     - match: \]
-      scope: punctuation.definition.string.end.markdown
+      scope: meta.link.reference.literal.markdown punctuation.definition.string.end.markdown
       pop: true
   link-ref-literal-after-text:
     - match: '[ ]?(\[)(\])'

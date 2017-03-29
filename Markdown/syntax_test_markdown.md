@@ -16,8 +16,8 @@ Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
 A [link](https://example.com), *italic text* and **bold**.
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
-| ^ punctuation.definition.string.begin
-|      ^ punctuation.definition.string.end
+| ^ punctuation.definition.link.begin
+|      ^ punctuation.definition.link.end
 |       ^ punctuation.definition.metadata
 |        ^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                           ^ punctuation.definition.metadata
@@ -46,17 +46,16 @@ Here is a [blank reference link][].
 
 Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
-|          ^ punctuation.definition.string.begin
-|                         ^ punctuation.definition.string.end - string
+|          ^ punctuation.definition.image.begin
+|                         ^ punctuation.definition.image.end - string
 |                          ^ punctuation.definition.metadata
 |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                      ^ punctuation.definition.metadata
 
 Here is a ![Image Ref Alt][1].
 |         ^^^^^^^^^^^^^^^^^^^ meta.image.reference
-|         ^ punctuation.definition.image.begin
-|          ^ punctuation.definition.string.begin
-|                        ^ punctuation.definition.string.end
+|         ^^ punctuation.definition.image.begin
+|                        ^ punctuation.definition.image.end
 |                         ^ punctuation.definition.constant
 |                          ^ constant.other.reference.link
 |                           ^ punctuation.definition.constant
@@ -371,28 +370,31 @@ because it doesn't begin with the number one:
 |          ^^^^^^^^^^^^^^^^^^^ meta.tag.inline.a.html
  3. [see `demo`](#demo "demo")
 | ^ punctuation.definition.list_item
-|    ^^^^^^^^^^ string.other.link.title
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+|    ^^^^^^^^^^ meta.link.inline.description
 |               ^ punctuation.definition.metadata.begin
 |                      ^ punctuation.definition.string.begin
 |                           ^ punctuation.definition.string.end
 |                            ^ punctuation.definition.metadata.end
     [see `demo`](#demo (demo))
-|    ^^^^^^^^^^ string.other.link.title
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+|    ^^^^^^^^^^ meta.link.inline.description
 |               ^ punctuation.definition.metadata.begin
 |                      ^ punctuation.definition.string.begin
 |                           ^ punctuation.definition.string.end
 |                            ^ punctuation.definition.metadata.end
     [see `demo`](#demo 'demo')
-|    ^^^^^^^^^^ string.other.link.title
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+|    ^^^^^^^^^^ meta.link.inline.description
 |               ^ punctuation.definition.metadata.begin
 |                      ^ punctuation.definition.string.begin
 |                           ^ punctuation.definition.string.end
 |                            ^ punctuation.definition.metadata.end
     Here is a ![example image](https://test.com/sublime.png "A demonstration").
-|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
-|             ^ punctuation.definition.image.begin
-|              ^ punctuation.definition.string.begin
-|                            ^ punctuation.definition.string.end
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
+|             ^^ punctuation.definition.image.begin
+|               ^^^^^^^^^^^^^ meta.image.inline.description
+|                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
 |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
@@ -401,9 +403,9 @@ because it doesn't begin with the number one:
 |                                                                            ^ punctuation.definition.metadata
     Here is a ![example image](https://test.com/sublime.png 'A demonstration').
 |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
-|             ^ punctuation.definition.image.begin
-|              ^ punctuation.definition.string.begin
-|                            ^ punctuation.definition.string.end
+|             ^^ punctuation.definition.image.begin
+|               ^^^^^^^^^^^^^ meta.image.inline.description
+|                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
 |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
@@ -412,9 +414,9 @@ because it doesn't begin with the number one:
 |                                                                            ^ punctuation.definition.metadata
     Here is a ![example image](https://test.com/sublime.png (A demonstration)).
 |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list meta.image.inline
-|             ^ punctuation.definition.image.begin
-|              ^ punctuation.definition.string.begin
-|                            ^ punctuation.definition.string.end
+|             ^^ punctuation.definition.image.begin
+|               ^^^^^^^^^^^^^ meta.image.inline.description
+|                            ^ punctuation.definition.image.end
 |                             ^ punctuation.definition.metadata
 |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                           ^^^^^^^^^^^^^^^^^ string.other.link.description.title
@@ -468,19 +470,20 @@ _italic text <span>HTML element</span> end of italic text_
 |                              ^^^^^^^ meta.tag.inline.any.html
 
 [link [containing] [square] brackets](#backticks)
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
-|                                   ^ punctuation.definition.string.end
+|<- punctuation.definition.link.begin
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline.description
+|                                   ^ punctuation.definition.link.end
 [link `containing square] brackets] in backticks`[]](#wow)
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline.description
 |     ^ punctuation.definition.raw.begin
 |                                               ^ punctuation.definition.raw.end
-|                                                  ^ punctuation.definition.string.end
+|                                                  ^ punctuation.definition.link.end
 [link ``containing square]` brackets[[][] in backticks``](#wow)
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline.description
 |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.inline
 |     ^^ punctuation.definition.raw.begin
 |                                                     ^^ punctuation.definition.raw.end
-|                                                       ^ punctuation.definition.string.end
+|                                                       ^ punctuation.definition.link.end
 `inline markup <span></span>`
 |              ^^^^^^^^^^^^^ markup.raw.inline - meta.tag.inline.any.html
 escaped backtick \`this is not code\`
@@ -1080,7 +1083,7 @@ _foo [**bar**](/url)_
 |                   ^^^^^^^ constant.other.reference.link
 
 [Read more <span style="font-weight: bold;">&#8594;</span>][details]
-|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.title
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.description
 |                       ^^^^^^^^^^^^^^^^^^ source.css
 |                                           ^^^^^^^ constant.character.entity.html
 |                                                           ^^^^^^^ constant.other.reference.link
@@ -1088,7 +1091,7 @@ _foo [**bar**](/url)_
 [![Cool ★ Image - Click to Enlarge][img-example]][img-example]
 |^ punctuation.definition.image.begin
 |                                   ^^^^^^^^^^^ constant.other.reference.link
-|                                               ^ punctuation.definition.string.end
+|                                               ^ punctuation.definition.link.end
 |                                                 ^^^^^^^^^^^ constant.other.reference.link
 
 [![Cool ★ Image - Click to Enlarge](http://www.sublimetext.com/anim/rename2_packed.png)](http://www.sublimetext.com/anim/rename2_packed.png)
