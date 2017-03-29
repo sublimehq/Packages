@@ -1097,7 +1097,7 @@ contexts:
                 - include: either-function-declaration
                 - match: '(?=\S)'
                   pop: true
-        # An ppening parenthesis is not allowed after a literal key; that makes
+        # An opening parenthesis is not allowed after a literal key; that makes
         # it a method declaration instead, below.
         - match: "(?=\"|')(?!.+\\()"
           push:
