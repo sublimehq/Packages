@@ -1119,3 +1119,86 @@ text
 
 abc
 | <- meta.paragraph - markup.list
+
+| foo | bar |
+|^^^^^^^^^^^^^ meta.block-level meta.table.header
+| <- punctuation.separator.table-cell
+|     ^ punctuation.separator.table-cell
+|           ^ punctuation.separator.table-cell
+| ^^^^ - punctuation.separator.table-cell
+| --- | --- |
+| baz | bim |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+
+| <- - meta.block-level - meta.table
+
+| abc | defghi |
+:-: | -----------:
+|^^^^^^^^^^^^^^^^^ meta.block-level meta.table.header-separator
+| <- punctuation.definition.table-cell-alignment
+|^ punctuation.definition.table-header-separator
+|   ^ punctuation.separator.table-cell
+|     ^^^^^^^^^^^ punctuation.definition.table-header-separator
+|                ^ punctuation.definition.table-cell-alignment - punctuation.definition.table-header-separator
+bar | baz
+|   ^ meta.block-level meta.table punctuation.separator.table-cell
+
+| f\|oo  |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+|  ^^ meta.block-level meta.table constant.character.escape - punctuation.separator.table-cell
+|        ^ meta.block-level meta.table punctuation.separator.table-cell
+| ------ |
+| b `|` az |
+|   ^^^ meta.block-level meta.table markup.raw.inline - meta.table.header-separator
+|          ^ meta.block-level meta.table punctuation.separator.table-cell
+| b **|** im |
+| <- meta.block-level meta.table punctuation.separator.table-cell
+|   ^^^^^ meta.block-level meta.table markup.bold - punctuation.separator.table-cell
+|            ^ meta.block-level meta.table punctuation.separator.table-cell
+
+| abc | def |
+| --- | --- |
+| bar | baz |
+|^^^^^^^^^^^^^ meta.block-level meta.table
+test
+|^^^^ meta.block-level meta.table
+> bar
+| <- meta.block-level markup.quote punctuation.definition.blockquote - meta.table
+
+`|` this `|` example `|` is not a table `|`
+| ^ punctuation.definition.raw.end - meta.table
+| nor is this | because it is not at block level, it immediately follows a paragraph |
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph - meta.table
+
+| First Header  | Second Header | Third Header         |
+| :------------ | :-----------: | -------------------: |
+| First row     | Data          | Very long data entry |
+| Second row    | **Cell**      | *Cell*               |
+| Third row     | Cell that spans across two columns  ||
+| ^^^^^^^^^^^^^^ meta.block-level meta.table
+|                                                     ^^ punctuation.separator.table-cell
+
+ | table that doesn't start at column 0 |
+  | ---- |
+  | blah |
+| ^^^^^^^^ meta.table
+| ^ punctuation.separator.table-cell
+
+not a table | 
+| ^^^^^^^^^^^^^ - meta.table
+
+ abc | def
+ --- | ---
+ --- | ---
+| ^^^^ meta.block-level meta.table - meta.table.header
+
+| test | me |
+|------|----|
+|^^^^^^ punctuation.definition.table-header-separator
+|*test | me |
+|^^^^^^ - markup.bold
+|      ^ punctuation.separator.table-cell
+|           ^ punctuation.separator.table-cell
+|`test | me |
+|^ invalid.deprecated.unescaped-backticks
+|      ^ punctuation.separator.table-cell

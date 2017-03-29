@@ -32,7 +32,7 @@ variables:
             | ((')[^']+('))       # or in single quotes.
           )?                      # Title is optional
         )
-    escape: '\\[-`*_#+.!(){}\[\]\\>]'
+    escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
         (?x:
             (`{4})(?=\S)[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
@@ -67,7 +67,12 @@ variables:
               \s*                       # Optional whitespace
           (\))
         )
-    skip_html_tags: '(?:<[^>]+>)'
+    skip_html_tags: (?:<[^>]+>)
+    table_first_row: |-
+        (?x:
+            (?:{{balance_square_brackets}}*\|){2}       # at least 2 non-escaped pipe chars on the line
+        |   (?!\s+\|){{balance_square_brackets}}+\|(?!\s+$){{balance_square_brackets}}+
+        )
 contexts:
   main:
     - match: |-
@@ -76,6 +81,7 @@ contexts:
         |    {{indented_code_block}}(?!$)
         |    {{atx_heading}}
         |    {{thematic_break}}
+        |    {{table_first_row}}
         )
       comment: |
         We could also use an empty end match and set
@@ -87,6 +93,7 @@ contexts:
         - include: indented-code-block
         - include: atx-heading
         - include: thematic-break
+        - include: table
         - match: ''
           pop: true
     - match: '^[ ]{0,3}([*+-])(?=\s)'
@@ -700,3 +707,55 @@ contexts:
       captures:
         1: invalid.illegal.expected-eol.markdown
       pop: true
+  table:
+    - match: (?={{table_first_row}})
+      push:
+        - meta_content_scope: meta.table.header.markdown
+        - match: \|
+          scope: punctuation.separator.table-cell.markdown
+        - include: inline-bold-italic
+        - match: $\n?
+          set:
+            - match: ^
+              set:
+                - meta_content_scope: meta.table.header-separator.markdown
+                - match: \|
+                  scope: punctuation.separator.table-cell.markdown
+                - match: ':'
+                  scope: punctuation.definition.table-cell-alignment.markdown
+                - match: -+
+                  scope: punctuation.definition.table-header-separator.markdown
+                - match: $\n?
+                  set:
+                    - meta_content_scope: meta.table.markdown
+                    - match: |- # The table is broken at the first empty line, or beginning of another block-level structure
+                          (?x)^
+                          (?=  {{block_quote}}
+                          |    {{indented_code_block}}(?!$)
+                          |    {{atx_heading}}
+                          |    {{thematic_break}}
+                          |    \s*$
+                          )
+                      pop: true
+                    - match: \|
+                      scope: punctuation.separator.table-cell.markdown
+                    - match: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
+                        (?x)
+                        (?=
+                            \*  (?!\*){{balance_square_brackets}}+\*  (?!\*)
+                        |   \*\*      {{balance_square_brackets}}+\*\*
+                        |   _   (?!_) {{balance_square_brackets}}+_   (?!_)
+                        |   __        {{balance_square_brackets}}+__
+                        )
+                      push:
+                        - include: bold
+                        - include: italic
+                        - match: ''
+                          pop: true
+                    - match: |-
+                        (?x)
+                        (?!{{backticks}})
+                        `+
+                      scope: invalid.deprecated.unescaped-backticks.markdown
+                    - include: inline
+                    
