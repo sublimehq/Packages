@@ -97,19 +97,22 @@ contexts:
         - include: table
         - match: ''
           pop: true
-    - match: '^[ ]{0,3}([*+-])(?=\s)'
+    - match: '^([ ]{0,3})([*+-])(?=\s)'
       captures:
-        1: punctuation.definition.list_item.markdown
+        1: markup.list.unnumbered.markdown
+        2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
       push:
-        - meta_scope: markup.list.unnumbered.markdown
+        - meta_content_scope: markup.list.unnumbered.markdown
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^[ ]{0,3}\d+(\.)(?=\s)'
+    - match: '^([ ]{0,3})(\d+(\.))(?=\s)'
       captures:
-        1: punctuation.definition.list_item.markdown
+        1: markup.list.numbered.markdown
+        2: markup.list.numbered.bullet.markdown
+        3: punctuation.definition.list_item.markdown
       push:
-        - meta_scope: markup.list.numbered.markdown
+        - meta_content_scope: markup.list.numbered.markdown
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
@@ -586,23 +589,33 @@ contexts:
           pop: true
     - match: \s+(?=\S)
       push:
-        - meta_scope: meta.paragraph.list.markdown
         - match: ^\s*$
           pop: true
-        - match: '[ ]*([*+-])(?=\s)'
+        - match: '([ ]*)([*+-])(?=\s)'
           captures:
-            1: punctuation.definition.list_item.markdown
-          push: list-content
-        - match: '[ ]*\d+(\.)(?=\s)'
-          captures:
-            1: punctuation.definition.list_item.markdown
-          push: list-content
-        - match: '(?=\S)'
+            1: markup.list.unnumbered.markdown
+            2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
           push:
+            - clear_scopes: 1
+            - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
             - include: list-content
+        - match: '([ ]*)(\d+(\.))(?=\s)'
+          captures:
+            1: markup.list.numbered.markdown
+            2: markup.list.numbered.bullet.markdown
+            3: punctuation.definition.list_item.markdown
+          push:
+            - clear_scopes: 1
+            - meta_content_scope: markup.list.numbered.markdown meta.paragraph.list.markdown
+            - include: list-content
+        - match: \s+
+          scope: meta.paragraph.list.markdown
+        - match: '(?=\S)'
+          push: list-content
     - match: '(?=\S)'
       pop: true
   list-content:
+    - meta_content_scope: meta.paragraph.list.markdown
     - match: ^
       pop: true
     - include: thematic-break
@@ -779,4 +792,3 @@ contexts:
                         `+
                       scope: invalid.deprecated.unescaped-backticks.markdown
                     - include: inline
-                    

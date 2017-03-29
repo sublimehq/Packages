@@ -63,43 +63,48 @@ Here is a ![Image Ref Alt][1].
 
 
   1. Ordered list item
-|  ^ punctuation.definition.list_item
 | ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+| ^^ markup.list.numbered.bullet - markup.list.numbered markup.list.numbered
+|  ^ punctuation.definition.list_item
   2. Ordered list item #2
-| ^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+| ^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered - markup.list.numbered markup.list.numbered
+| ^^ markup.list.numbered.bullet
 |  ^ punctuation.definition.list_item
      1. Subitem
      2. Another subitem
+|^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+|    ^^ markup.list.numbered.bullet
 |     ^ punctuation.definition.list_item
-|^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list - meta.paragraph.list meta.paragraph.list
+|       ^^^^^^^^^^^^^^^^ meta.paragraph.list - meta.paragraph.list meta.paragraph.list
 
 Paragraph break.
 
   - Unordered list item
-| ^ punctuation.definition.list_item
-| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
+| ^ markup.list.unnumbered.bullet punctuation.definition.list_item
   - Unordered list item #2
-| ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-| ^ punctuation.definition.list_item
+| ^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
+| ^ markup.list.unnumbered.bullet punctuation.definition.list_item
 
 Paragraph break.
 
   * Unordered list item
-| ^ punctuation.definition.list_item
-| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
+| ^ markup.list.unnumbered.bullet punctuation.definition.list_item
   + Unordered list item #2
-| ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
-| ^ punctuation.definition.list_item
+| ^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered - markup.list.unnumbered markup.list.unnumbered
+| ^ markup.list.unnumbered.bullet punctuation.definition.list_item
     + Subitem 1
 |   ^ punctuation.definition.list_item
   + Item
     + Subitem
     + Another subitem
-|   ^ meta.paragraph.list punctuation.definition.list_item - meta.paragraph.list meta.paragraph.list
+|   ^ markup.list.unnumbered.bullet punctuation.definition.list_item - meta.paragraph.list
+|     ^^^^^^^^^^^^^^^ meta.paragraph.list
       + Nested Subitem
-|     ^ punctuation.definition.list_item
+|     ^ markup.list.unnumbered.bullet punctuation.definition.list_item - markup.list.unnumbered markup.list.unnumbered
         + Nested + Subitem
-|       ^ punctuation.definition.list_item
+|       ^ markup.list.unnumbered.bullet punctuation.definition.list_item
 |                ^ - punctuation.definition.list_item
 
 Paragraph break.
@@ -1013,7 +1018,7 @@ blah*
 - *ghgh
 | ^ markup.list.unnumbered meta.paragraph.list markup.italic punctuation.definition.italic.begin - meta.paragraph.list meta.paragraph.list
 - fgfg
-| <- markup.list.unnumbered meta.paragraph.list punctuation.definition.list_item
+| <- markup.list.unnumbered.bullet punctuation.definition.list_item
 - _test
 
 | <- markup.list.unnumbered meta.paragraph.list markup.italic invalid.illegal.non-terminated.italic
@@ -1140,7 +1145,7 @@ text
   - b
     - c
       - d
-|     ^ punctuation.definition.list_item
+|     ^ markup.list.unnumbered.bullet punctuation.definition.list_item
         text here
 |       ^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw.block - meta.paragraph.list meta.paragraph.list
 
@@ -1148,7 +1153,7 @@ text
             | ^^^^^^^^ markup.raw.block
 
       - e
-|     ^ punctuation.definition.list_item
+|     ^ markup.list.unnumbered.bullet punctuation.definition.list_item
 
             code here
 
@@ -1161,8 +1166,9 @@ text
 |             ^ markup.list.unnumbered markup.quote markup.quote punctuation.definition.blockquote - markup.raw.block
 
       - f
-|     ^ markup.list.unnumbered punctuation.definition.list_item
+|     ^ markup.list.unnumbered.bullet punctuation.definition.list_item
         1. test
+|       ^^ markup.list.numbered.bullet
 |        ^ punctuation.definition.list_item
 
 abc
