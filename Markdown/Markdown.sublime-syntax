@@ -666,13 +666,13 @@ contexts:
           )
         )
       captures:
-        1: meta.link.reference.literal.markdown punctuation.definition.string.begin.markdown
+        1: meta.link.reference.literal.markdown punctuation.definition.link.begin.markdown
       push: [link-ref-literal-after-text, link-ref-literal-link-text]
   link-ref-literal-link-text:
     - meta_content_scope: meta.link.reference.literal.description.markdown
     - include: link-text-allow-image
     - match: \]
-      scope: meta.link.reference.literal.markdown punctuation.definition.string.end.markdown
+      scope: meta.link.reference.literal.markdown punctuation.definition.link.end.markdown
       pop: true
   link-ref-literal-after-text:
     - match: '[ ]?(\[)(\])'
