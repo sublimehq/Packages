@@ -37,7 +37,7 @@ variables:
   type_suffix_capture: '(\?)?{{brackets_capture}}?(?:\s*(\*))?'
 
   reserved: '(?:abstract|as|base|break|case|catch|checked|class|const|continue|default|delegate|do|else|enum|event|explicit|extern|finally|fixed|for|foreach|goto|if|implicit|in|interface|internal|is|lock|nameof|namespace|new|null|operator|out|override|params|private|protected|public|readonly|ref|return|sealed|sizeof|stackalloc|static|string|struct|switch|this|throw|try|typeof|unchecked|unsafe|using|virtual|volatile|while)'
-  name: '(?:@{{reserved}}|@{{base_type}}|@var|{{name_normal}})'
+  name: '(?:@{{reserved}}|@{{base_type}}|@var|@?{{name_normal}})'
 
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
   other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
@@ -880,6 +880,11 @@ contexts:
         - include: type_argument
     - match: \bconst\b
       scope: storage.modifier.cs
+    - match: '(var|dynamic)\s+({{reserved}}|{{base_type}})\s*(=)'
+      captures:
+        1: storage.type.variable.cs
+        2: invalid.illegal.cs
+        3: keyword.operator.assignment.variable.cs
     - match: '(var|dynamic)\s+({{name}})\s*(=)'
       captures:
         1: storage.type.variable.cs
@@ -1119,7 +1124,8 @@ contexts:
     - match: \b(value)\b
       scope: variable.language.cs
     - include: keywords
-    - match: \b(let|select|equals|from|in|where|join|orderby|group|by|on|into|into|ascending|descending)\b
+    # Cannot neg-ahead "(" because clauses can follow several of the sql words
+    - match: \b(let|select|equals|from|in|where|join|orderby|group|by|on|into|into|ascending|descending)\b(?!\s*[.,;+=&\|\[\]\)])
       scope: keyword.other.sql.cs
     - match: \?\.
       scope: punctuation.accessor.null-coalescing.cs
