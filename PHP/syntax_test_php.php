@@ -996,7 +996,7 @@ var_dump(new C(42));
 h1 {
     font-family: Arial;
 //  ^^^^^^^^^^^ support.type.property-name
-//               ^^^^^ support.constant
+//               ^^^^^ string.unquoted
     <? if ($minimal_increase) { ?>
 //  ^^ meta.embedded.line.php - source.php
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.php
