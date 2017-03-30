@@ -214,7 +214,7 @@ contexts:
             - include: indented-code-block
             - include: atx-heading
             - include: thematic-break
-            - match: ([ ]{,3}(\d+))(\.)(\s)
+            - match: ([ ]{,3})(\d+)(\.)(\s)
               captures:
                 1: markup.list.numbered.markdown
                 2: markup.list.numbered.bullet.markdown
