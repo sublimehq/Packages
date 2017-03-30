@@ -329,8 +329,12 @@ Paragraph followed immediately by a list, no blank line in between
 
 Paragraph followed immediately by a numbered list, no blank line in between
  1. list item 1
-| ^ markup.list.numbered punctuation.definition.list_item
+|^^^^^^^^^^^^^^^ markup.list.numbered
+|^^ markup.list.numbered.bullet
+| ^ punctuation.definition.list_item
+|   ^^^^^^^^^^^^ meta.paragraph.list
   more text - this punctuation should be ignored 2.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list
 |           ^ - punctuation.definition.list_item
 |                                                 ^ - punctuation.definition.list_item
 
@@ -344,9 +348,16 @@ because it doesn't begin with the number one:
 > - list item 1
 | ^ meta.block-level markup.quote punctuation.definition.list_item
 > - list item 2
-| ^ meta.block-level markup.quote punctuation.definition.list_item
+| ^ markup.list.unnumbered.bullet punctuation.definition.list_item
+| ^^^^^^^^^^^^^^ meta.block-level markup.quote markup.list.unnumbered
+|   ^^^^^^^^^^^^ meta.paragraph.list
 >   1. sub list item
-|    ^ meta.block-level markup.quote punctuation.definition.list_item
+| <- meta.block-level markup.quote punctuation.definition.blockquote
+|^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.quote
+|    ^ punctuation.definition.list_item
+|   ^^ markup.list.numbered.bullet
+| ^^^^^^^^^^^^^^^^^^^ markup.list.numbered
+|      ^^^^^^^^^^^^^^ meta.paragraph.list
 
 * this is a list
 
@@ -1347,3 +1358,18 @@ not a table |
 |`test | me |
 |^ invalid.deprecated.unescaped-backticks
 |      ^ punctuation.separator.table-cell
+
+1. test
+|  ^^^^^ markup.list.numbered meta.paragraph.list
+   - test
+|^^^^^^^^^ markup.list.unnumbered
+|  ^ markup.list.unnumbered.bullet punctuation.definition.list_item
+|    ^^^^^ meta.paragraph.list
+   - test
+|^^^^^^^^^ markup.list.unnumbered
+|  ^ markup.list.unnumbered.bullet punctuation.definition.list_item
+|    ^^^^^ meta.paragraph.list
+   test
+|^^^^^^^ markup.list.numbered meta.paragraph.list
+ ****test****
+|^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list - punctuation

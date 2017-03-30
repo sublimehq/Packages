@@ -214,9 +214,23 @@ contexts:
             - include: indented-code-block
             - include: atx-heading
             - include: thematic-break
-            - match: '{{list_item}}'
+            - match: ([ ]{,3}(\d+))(\.)(\s)
               captures:
-                1: punctuation.definition.list_item.markdown
+                1: markup.list.numbered.markdown
+                2: markup.list.numbered.bullet.markdown
+                3: markup.list.numbered.bullet.markdown punctuation.definition.list_item.markdown
+                4: markup.list.numbered.markdown
+              push:
+                - meta_content_scope: markup.list.numbered.markdown meta.paragraph.list.markdown
+                - include: list-content
+            - match: ([ ]{,3})([*+-])(\s)
+              captures:
+                1: markup.list.unnumbered.markdown
+                2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+                3: markup.list.unnumbered.markdown
+              push:
+                - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
+                - include: list-content
             - match: ^
               pop: true
             - include: list-paragraph
@@ -710,8 +724,14 @@ contexts:
     - match: ^
       pop: true
     - include: thematic-break
-    - include: inline-bold-italic-linebreak
-    - include: scope:text.html.basic
+    - match: (?=\S)
+      push:
+        - match: (?={{list_item}})
+          pop: true
+        - include: inline-bold-italic-linebreak
+        - include: scope:text.html.basic
+        - match: $
+          pop: true
   fenced-code-block:
     - match: |-
          (?x)
