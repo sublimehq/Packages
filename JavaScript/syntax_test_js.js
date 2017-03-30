@@ -236,6 +236,9 @@ var obj = {
 //                              ^ punctuation.definition.brackets
 //                               ^ punctuation.separator.key-value
 
+    "": true,
+    // <- meta.object-literal.key
+
     "key4": true,
     // <- meta.object-literal.key string.quoted.double
     //    ^ punctuation.separator.key-value - string
@@ -301,13 +304,31 @@ var obj = {
     qux()
 //  ^^^^^ meta.function.declaration - meta.function.anonymous
     // <- entity.name.function
-    {}
+    {},
+
+    'funcStringMethod'() {
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+    // ^ entity.name.function
+    },
+
+    'funcStringMethodWithSameLineColon'() { var foo = { name: 'jeff' }; },
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+    // ^ entity.name.function
+
+    "key (": true,
+    // <- meta.object-literal.key
+
+    "key \"(": true,
+    // <- meta.object-literal.key
+
+    "key '(": true,
+    // <- meta.object-literal.key
 
     static foo(bar) {
 //  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // ^ storage.type
     //      ^entity.name.function
-    }
+    },
 
     *baz(){
 //  ^^^^^^ meta.function.declaration - meta.function.anonymous

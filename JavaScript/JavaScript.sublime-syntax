@@ -1097,6 +1097,7 @@ contexts:
                 - include: either-function-declaration
                 - match: '(?=\S)'
                   pop: true
+        - include: method-declaration
         - match: "(?=\"|')"
           push:
             - meta_scope: meta.object-literal.key.js
@@ -1121,7 +1122,6 @@ contexts:
             - match: "(?=\\}|,|('[^']*'|\"[^\"]*\"|{{identifier}})\\s*:)"
               pop: true
             - include: expressions
-        - include: method-declaration
         - include: comments
 
   method-declaration:
@@ -1156,7 +1156,45 @@ contexts:
         - include: comments
         - match: '(?=\S)'
           pop: true
-    - match: '({{identifier}})\s*'
+    - match: (?=('[^\\]*'|"[^\\]*")\s*\()
+      push:
+        - meta_content_scope: meta.function.declaration.js
+        - match: "'"
+          scope: punctuation.definition.string.begin.js
+          push:
+            - meta_scope: string.quoted.single.js
+            - meta_content_scope: entity.name.function.js
+            - match: (')|(\n)
+              captures:
+                1: punctuation.definition.string.end.js
+                2: invalid.illegal.newline.js
+              pop: true
+            - include: string-content
+        - match: '"'
+          scope: punctuation.definition.string.begin.js
+          push:
+            - meta_scope: string.quoted.double.js
+            - meta_content_scope: entity.name.function.js
+            - match: (")|(\n)
+              captures:
+                1: punctuation.definition.string.end.js
+                2: invalid.illegal.newline.js
+              pop: true
+            - include: string-content
+        - match: \s*
+        - include: function-declaration-parameters
+        - match: '\{'
+          scope: punctuation.definition.block.js
+          push:
+            - meta_scope: meta.block.js
+            - match: '\}'
+              scope: punctuation.definition.block.js
+              pop: true
+            - include: statements
+        - include: comments
+        - match: '(?=\S)'
+          pop: true
+    - match: '({{identifier}})\s*(?=\()'
       scope: meta.function.declaration.js
       captures:
         1: entity.name.function.js
