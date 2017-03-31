@@ -390,9 +390,10 @@ contexts:
       scope: keyword.operator.arithmetic.java
     - match: (!|&&|\|\|)
       scope: keyword.operator.logical.java
-    - match: (\.)({{id}}(?!(\s*{{within_generics}})?\s*\(|{{id}}))?
+    - match: (\.)(class\b)?
       captures:
         1: punctuation.accessor.dot.java
+        2: support.variable.magic.java
     - match: ;
       scope: punctuation.terminator.java
 

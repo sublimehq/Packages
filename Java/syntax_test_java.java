@@ -265,7 +265,7 @@ public class Test {
 //          ^^^ variable.function.java
         Foo.class;
 //         ^ punctuation.accessor.dot.java
-//          ^^^^^ - storage.type.java
+//          ^^^^^ support.variable.magic.java - storage.type.java
 //               ^ punctuation.terminator.java
     }
 
