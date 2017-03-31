@@ -66,12 +66,12 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                                                                  ^ punctuation.definition.string.end
 
 string unclosed_string = "inner ;
-///                             ^ invalid.string.newline
+///                              ^ invalid.illegal.unclosed-string
 string bar = "bar"
 /// <- storage.type
 
 string unclosed_interpolation = $"inner {t.Word};
-///                                             ^ invalid.string.newline
+///                                              ^ invalid.illegal.unclosed-string.cs
 string foo = "foo";
 /// <- storage.type
 
@@ -83,6 +83,17 @@ string long_interpolation = $@"
     {t.Responsibility,8:F2}
 ";
 /// <- punctuation.definition.string.end
+
+string unclosed_interpolation = $"inner {
+///                                     ^ punctuation.section.interpolation.begin.cs
+///                                      ^ invalid.illegal.unclosed-string.cs
+
+/// <- - string
+
+string unclosed_interpolation = $"inner {2}
+///                                     ^ punctuation.section.interpolation.begin.cs
+///                                      ^ constant.numeric.cs
+///                                        ^ invalid.illegal.unclosed-string.cs
 
 string format_string = "{0} and {1} like to go {{crazy}}";
 ///                    ^ string

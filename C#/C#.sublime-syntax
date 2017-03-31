@@ -1422,8 +1422,8 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
-    - match: '[^"]*$'
-      scope: invalid.string.newline.cs
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
       pop: true
 
   format_string:
@@ -1433,9 +1433,17 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: escaped
-    - include: string_interpolation
-    - match: '[^"{]*$'
-      scope: invalid.string.newline.cs
+    - include: string_placeholder_escape
+    - match: \{
+      scope: punctuation.section.interpolation.begin.cs
+      push:
+        - meta_scope: meta.string.interpolated.cs source.cs
+        - clear_scopes: 2
+        - include: string_interpolation
+        - match: $
+          pop: true
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
       pop: true
 
   long_format_string:
@@ -1446,34 +1454,36 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: string_interpolation
-
-  string_placeholders:
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.cs
-    - match: '\{\d*\}'
-      scope: constant.other.placeholder.cs
-
-  string_interpolation:
-    - match: '\{\{|\}\}'
-      scope: constant.character.escape.cs
-    - match: '\{'
+    - include: string_placeholder_escape
+    - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push:
         - meta_scope: meta.string.interpolated.cs source.cs
         - clear_scopes: 2
-        - match: '\}'
-          scope: punctuation.section.interpolation.end.cs
-          pop: true
-        - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
-          captures:
-            1: punctuation.separator.arguments.cs
-            2: constant.numeric.formatting.cs
-            3: punctuation.separator.cs
-            4: constant.other.format-spec.cs
-            5: punctuation.section.interpolation.end.cs
-          pop: true
-        - include: line_of_code_in
+        - include: string_interpolation
+
+  string_placeholder_escape:
+    - match: '\{\{|\}\}'
+      scope: constant.character.escape.cs
+
+  string_placeholders:
+    - include: string_placeholder_escape
+    - match: '\{\d*\}'
+      scope: constant.other.placeholder.cs
+
+  string_interpolation:
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.cs
+      pop: true
+    - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
+      captures:
+        1: punctuation.separator.arguments.cs
+        2: constant.numeric.formatting.cs
+        3: punctuation.separator.cs
+        4: constant.other.format-spec.cs
+        5: punctuation.section.interpolation.end.cs
+      pop: true
+    - include: line_of_code_in
 
   long_string:
     - meta_include_prototype: false
