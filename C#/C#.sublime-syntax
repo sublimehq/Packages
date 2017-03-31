@@ -1416,8 +1416,8 @@ contexts:
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
-    - match: '[^"]*$'
-      scope: invalid.string.newline.cs
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
       pop: true
 
   format_string:
@@ -1428,8 +1428,8 @@ contexts:
       pop: true
     - include: escaped
     - include: string_interpolation
-    - match: '[^"{]*$'
-      scope: invalid.string.newline.cs
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.cs
       pop: true
 
   long_format_string:

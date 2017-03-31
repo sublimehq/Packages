@@ -66,12 +66,12 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                                                                  ^ punctuation.definition.string.end
 
 string unclosed_string = "inner ;
-///                             ^ invalid.string.newline
+///                              ^ invalid.illegal.unclosed-string
 string bar = "bar"
 /// <- storage.type
 
 string unclosed_interpolation = $"inner {t.Word};
-///                                             ^ invalid.string.newline
+///                                              ^ invalid.illegal.unclosed-string.cs
 string foo = "foo";
 /// <- storage.type
 
