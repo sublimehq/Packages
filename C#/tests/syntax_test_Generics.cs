@@ -84,6 +84,17 @@ string long_interpolation = $@"
 ";
 /// <- punctuation.definition.string.end
 
+string unclosed_interpolation = $"inner {
+///                                     ^ punctuation.section.interpolation.begin.cs
+///                                      ^ invalid.illegal.unclosed-string.cs
+
+/// <- - string
+
+string unclosed_interpolation = $"inner {2}
+///                                     ^ punctuation.section.interpolation.begin.cs
+///                                      ^ constant.numeric.cs
+///                                        ^ invalid.illegal.unclosed-string.cs
+
 string format_string = "{0} and {1} like to go {{crazy}}";
 ///                    ^ string
 ///                     ^^^ constant.other.placeholder.cs
