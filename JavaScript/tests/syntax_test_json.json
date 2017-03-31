@@ -19,7 +19,7 @@
 
   "string": "string",
 //          ^        punctuation.definition.string.begin.json
-//          ^^^^^^^^ meta.value.json string.quoted.double.json
+//          ^^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                 ^ punctuation.definition.string.end.json
 
   "bool": false,
@@ -33,12 +33,12 @@
 
   "E": 20e10,
 //     ^^^^^ constant.numeric.json
-//^^^ meta.key.json string.quoted.double.json
-//   ^ punctuation.separator.mapping.key-value.json - meta.key
+//^^^ meta.mapping.key.json string.quoted.double.json
+//   ^ punctuation.separator.mapping.key-value.json - meta.mapping.key
 
   "escape": "\n",
 //           ^^ constant.character.escape.json
-//          ^^^^ meta.value.json string.quoted.double.json - meta.key
+//          ^^^^ meta.mapping.value.json string.quoted.double.json - meta.mapping.key
 
   "illegal": "\.",
 //            ^^ invalid.illegal.unrecognized-string-escape.json
@@ -52,12 +52,12 @@
 /**/: "test",
 // ^ meta.mapping.json comment.block.json
 //  ^ punctuation.separator.mapping.key-value.json - comment
-//    ^^^^^^ meta.value.json string.quoted.double.json
+//    ^^^^^^ meta.mapping.value.json string.quoted.double.json
 
   "array2":
     [
       "foobar",
-//    ^^^^^^^^ meta.value meta.sequence.json string.quoted.double.json - meta.key
+//    ^^^^^^^^ meta.mapping.value meta.sequence.json string.quoted.double.json - meta.mapping.key
     ],
 
   []

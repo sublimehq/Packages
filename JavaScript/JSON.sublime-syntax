@@ -96,13 +96,13 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.begin.json
           push:
-            - meta_scope: meta.key.json string.quoted.double.json
+            - meta_scope: meta.mapping.key.json string.quoted.double.json
             - include: inside-string
         - include: comments
         - match: ":"
           scope: punctuation.separator.mapping.key-value.json
           push:
-            - meta_scope: meta.value.json
+            - meta_scope: meta.mapping.value.json
             - match: '(,)|(?=\})'
               captures:
                 1: punctuation.separator.mapping.pair.json
