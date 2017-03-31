@@ -62,6 +62,29 @@ public partial class Employee
 {
     public void DoWork()
     {
+        var group = MakeGroup();
+        //  ^^^^^ variable.other.cs - keyword
+
+        var contents1 = group.GetContents();
+        //              ^^^^^ variable.other.cs - keyword
+
+        var contents2 = @group.GetContents();
+        //              ^^^^^^ variable.other.cs - keyword
+
+        var @void = MakeGroup();
+        //  ^^^^^ variable.other.cs - keyword
+
+        var void = MakeGroup();
+        //  ^^^^ invalid.illegal - variable, keyword
+
+        var subvoid1 = void.GetContents();
+        //             ^^^^ - variable # Technically illegal in this context, but at least it's not marked as a variable.
+
+        var subvoid2 = @void.GetContents();
+        //             ^^^^^ variable.other.cs - keyword
+
+        var msg = from + " " + to;
+        //        ^^^^ variable.other.cs - keyword
     }
 }
 
