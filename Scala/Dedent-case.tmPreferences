@@ -4,14 +4,15 @@
   <key>name</key>
   <string>Dedent (case)</string>
   <key>scope</key>
+  <!-- note the use of the meta.block.case.non-first scope to only apply to subsequent case constructs -->
   <string>source.scala meta.block.case.non-first - comment</string>
   <key>settings</key>
   <dict>
     <key>decreaseIndentPattern</key>
     <string>(?x)
-        ^ (.*\*/)? \s* \} .* $
-      | ^ (.*\*/)? \s* \) .* $
-      | ^ \s* \b(case)\b .* $
+        ^ (.*\*/)? \s* \} .* $   # curly brace dedent (has to be recreated)
+      | ^ (.*\*/)? \s* \) .* $   # paren dedent (has to be recreated)
+      | ^ \s* \b(case)\b .* $    # any subsequent case expressions are dedents AND indents
     </string>
   </dict>
 </dict>
