@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Indent (case)</string>
+  <key>scope</key>
+  <string>source.scala meta.block.case - comment</string>
+  <key>settings</key>
+  <dict>
+    <key>increaseIndentPattern</key>
+    <string>(?x)
+      # treat a `case ... =&gt;` line like a curly brace when inside a block
+      # note that this doesn't make any attempt to detect curly braces, but
+      # it seems to work out anyway due to sublime's hard-coded behavior w.r.t
+      # those tokens
+        ^ \s* \b(case)\b .* =&gt; .* $
+    </string>
+  </dict>
+</dict>
+</plist>

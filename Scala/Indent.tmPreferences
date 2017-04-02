@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>name</key>
+  <string>Indent</string>
+  <key>scope</key>
+  <string>source.scala - comment</string>
+  <key>settings</key>
+  <dict>
+    <key>increaseIndentPattern</key>
+    <string>(?x)
+        ^ .* \{ [^}"']* $   # curly brace indent
+      | ^ .* \( [^)"']* $   # paren indent
+    </string>
+    <key>decreaseIndentPattern</key>
+    <string>(?x)
+        ^ (.*\*/)? \s* \} .* $      # curly brace dedent
+      | ^ (.*\*/)? \s* \) .* $      # parent dedent
+    </string>
+    <key>bracketIndentNextLinePattern</key>
+    <string>(?x)
+      # if a line ends with `=`, then it's a line-wrapped declaration (e.g. val x = \n)
+        ^ .* = \s* $
+
+      # attempts to detect a line-wrapped control construct without curly braces (e.g. if (foo) \n)
+      | ^ .* \b(if|do|while|for)\b .* \) \s* $
+
+      # simpler line-wrapped control constructs
+      | ^ .* \b(else)\b \s* $
+      | ^ .* \b(yield)\b \s* $
+    </string>
+  </dict>
+</dict>
+</plist>
