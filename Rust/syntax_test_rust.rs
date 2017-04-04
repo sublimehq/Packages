@@ -945,3 +945,7 @@ fn abc() {
 //                   ^ punctuation.separator.continuation.line.rust
          world, there is no whitespace between hello and world in the output", 0o202u64);
 }
+
+impl ApplicationPreferenceseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee {
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.impl.rust
+}
