@@ -624,7 +624,7 @@ contexts:
       pop: true
 
   impl-for:
-    - match: '(?=\s*(?:::|{{identifier}}|\$|<)++(<.*?>)?\s+for\s+)'
+    - match: '(?=\s*(?:::|{{identifier}}|\$|<)+(<.*?>)?\s+for\s+)'
       set:
         - meta_scope: meta.impl.rust
         - include: comments
