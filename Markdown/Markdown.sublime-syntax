@@ -8,22 +8,22 @@ file_extensions:
   - markdown
   - markdn
 scope: text.html.markdown
-comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/
+comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/ with GitHub Formatted Markdown extensions https://github.github.com/gfm/
 variables:
     thematic_break: |-
         (?x:
-            [ ]{,3}
-            (?:
-                    [-](?:[ ]{,2}[-]){2,}
-                |   [*](?:[ ]{,2}[*]){2,}
-                |   [_](?:[ ]{,2}[_]){2,}
+            [ ]{,3}                          # between 0 to 3 spaces
+            (?:                              # followed by one of the following:
+                    [-](?:[ ]{,2}[-]){2,}    # - a dash,        followed by the following at least twice: between 0 to 2 spaces followed by a dash
+                |   [*](?:[ ]{,2}[*]){2,}    # - a star,        followed by the following at least twice: between 0 to 2 spaces followed by a star
+                |   [_](?:[ ]{,2}[_]){2,}    # - an underscore, followed by the following at least twice: between 0 to 2 spaces followed by an underscore
             )
-            [ \t]*$
+            [ \t]*$                          # followed by any number of tabs or spaces, followed by the end of the line
         )
-    block_quote: '(?:[ ]{,3}>(?:.|$))'
-    atx_heading: '(?:[#]{1,6}\s*)'
-    indented_code_block: '(?:[ ]{4}|\t)'
-    list_item: '(?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s)'
+    block_quote: (?:[ ]{,3}>(?:.|$))         # between 0 and 3 spaces, followed by a greater than sign, followed by any character or the end of the line
+    atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
+    indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
+    list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
     link_title: |-
         (?x:[ \t]*                # Optional whitespace
           (?:
@@ -35,10 +35,10 @@ variables:
     escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
         (?x:
-            (`{4})(?=\S)[^`]+(?:[^`]+|(?!`{4})`*)*(`{4})(?!`)
-        |   (`{3})(?=\S)[^`]+(?:[^`]+|(?!`{3})`*)*(`{3})(?!`)
-        |   (`{2})(?=\S)[^`]+(?:[^`]+|(?!`{2})`*)*(`{2})(?!`)
-        |   (`{1})(?=\S)[^`]+(?:[^`]+|(?!`{1})`*)*(`{1})(?!`)
+            (`{4})(?![\s`])(?:[^`]+(?=`)|(?!`{4})`+(?!`))*(`{4})(?!`)  # 4 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 4 backticks, or at least one non backtick character) any number of times, followed by exactly 4 backticks
+        |   (`{3})(?![\s`])(?:[^`]+(?=`)|(?!`{3})`+(?!`))*(`{3})(?!`)  # 3 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 3 backticks, or at least one non backtick character) any number of times, followed by exactly 3 backticks
+        |   (`{2})(?![\s`])(?:[^`]+(?=`)|(?!`{2})`+(?!`))*(`{2})(?!`)  # 2 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 2 backticks, or at least one non backtick character) any number of times, followed by exactly 2 backticks
+        |   (`{1})(?![\s`])(?:[^`]+(?=`)|(?!`{1})`+(?!`))*(`{1})(?!`)  # 1 backtick,  followed by at least one non whitespace, non backtick character, followed by (                          at least one non backtick character) any number of times, followed by exactly 1 backtick
         )
     balance: |-
         (?x:
@@ -68,11 +68,24 @@ variables:
           (\))
         )
     html_entity: '&([a-zA-Z0-9]+|#\d+|#x\h+);'
-    skip_html_tags: '(?:<[^>]+>)'
+    skip_html_tags: (?:<[^>]+>)
     table_first_row: |-
         (?x:
             (?:{{balance_square_brackets}}*\|){2}       # at least 2 non-escaped pipe chars on the line
         |   (?!\s+\|){{balance_square_brackets}}+\|(?!\s+$){{balance_square_brackets}}+
+        )
+    fenced_code_block_start: |-
+        (?x:
+          ^[ ]{0,3}    # up to 3 spaces
+          (
+            `{3,}      #   3 or more backticks
+            (?![^`]+`) #   not followed by any more backticks on the same line
+            (?!`)      #   makes the {3,} possessive
+          |            # or
+            ~{3,}      #   3 or more tildas
+            (?![^~]+~) #   not followed by any more tildas on the same line
+            (?!~)      #   makes the {3,} possessive
+          )
         )
 contexts:
   main:
@@ -735,16 +748,7 @@ contexts:
   fenced-code-block:
     - match: |-
          (?x)
-          ^[ ]{0,3}    # up to 3 spaces
-          (
-            `{3,}      #   3 or more backticks
-            (?![^`]+`) #   not followed by any more backticks on the same line
-            (?!`)      #   makes the {3,} possessive
-          |            # or
-            ~{3,}      #   3 or more tildas
-            (?![^~]+~) #   not followed by any more tildas on the same line
-            (?!~)      #   makes the {3,} possessive
-          )
+          {{fenced_code_block_start}}
           ([\w-]*)     # any number of word characters or dashes
           .*$          # all characters until eol
       captures:
