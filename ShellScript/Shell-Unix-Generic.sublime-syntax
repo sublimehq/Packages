@@ -13,6 +13,22 @@ file_extensions:
   - .bash_profile
   - .bash_variables
   - .bashrc
+  - .eslintignore
+  - .git
+  - .git-blame
+  - .git-commit
+  - .git-graph
+  - .gitattributes
+  - .gitblame
+  - .gitcommit
+  - .gitconfig
+  - .gitgraph
+  - .gitignore
+  - .gitkeep
+  - .gitmodules
+  - .npmignore
+  - .npmrc
+  - .rvmrc
   - .profile
   - .textmate_init
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
