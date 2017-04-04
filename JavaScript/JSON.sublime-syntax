@@ -2,17 +2,24 @@
 ---
 name: JSON
 file_extensions:
+  - .babelrc
+  - .bowerrc
+  - .eslintrc
+  - .no-sublime-package
+  - .postcssrc
+  - .stylelintrc
   - json
-  - sublime-settings
-  - sublime-menu
-  - sublime-keymap
-  - sublime-mousemap
-  - sublime-theme
   - sublime-build
-  - sublime-project
-  - sublime-completions
   - sublime-commands
+  - sublime-completions
+  - sublime-keymap
   - sublime-macro
+  - sublime-menu
+  - sublime-mousemap
+  - sublime-project
+  - sublime-settings
+  - sublime-theme
+  - sublime-workspace
 scope: source.json
 contexts:
   main:
