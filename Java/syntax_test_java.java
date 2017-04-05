@@ -305,5 +305,10 @@ public class GrafoTest
 //                                            ^ punctuation.section.parens.end
     void test2() {
 //       ^ entity.name.function
+
+        Grafo grafo = new Grafo( true );
+        final Grafo temposMaisCedo = new Grafo( true );
+//      ^ storage.modifier
+//            ^ support.class
     }
 }
