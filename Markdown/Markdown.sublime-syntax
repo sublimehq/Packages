@@ -134,6 +134,8 @@ contexts:
         - meta_content_scope: markup.list.unnumbered.markdown
         - match: ^(?=\S)
           pop: true
+        - match: (?={{list_item}})
+          push: list-content
         - include: list-paragraph
     - match: '^([ ]{0,3})(\d+(\.))(?=\s)'
       captures:
