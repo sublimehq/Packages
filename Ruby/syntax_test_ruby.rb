@@ -413,6 +413,7 @@ b = testing! / foo
 
 rule /`/ do
 #    ^^^ string.regexp
+#    ^ - string.regexp string.regexp
 end
 
 ##################

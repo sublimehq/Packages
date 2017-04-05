@@ -1060,8 +1060,9 @@ contexts:
       captures:
         1: string.regexp.classic.ruby punctuation.definition.string.ruby
       push:
-        - meta_scope: string.regexp.classic.ruby
+        - meta_content_scope: string.regexp.classic.ruby
         - match: "(/)([eimnosux]*)"
+          scope: string.regexp.classic.ruby
           captures:
             1: punctuation.definition.string.ruby
             2: keyword.other.ruby
