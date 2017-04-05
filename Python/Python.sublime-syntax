@@ -534,7 +534,6 @@ contexts:
           pop: true
 
   decorator-wrapper:
-    - meta_scope: meta.annotation.python
     - match: '{{identifier}}'
       scope: meta.qualified-name.python variable.annotation.python
     - match: ''
