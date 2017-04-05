@@ -498,7 +498,7 @@ contexts:
       scope: variable.parameter.python
 
   function-after-parameters:
-    - meta_scope: meta.function.python
+    - meta_content_scope: meta.function.python
     - match: '(?=->)'
       set:
         - meta_content_scope: meta.function.annotation.return.python
@@ -509,7 +509,7 @@ contexts:
         - include: line-continuation-or-pop
         - include: expressions
     - match: ':'
-      scope: punctuation.section.function.begin.python
+      scope: meta.function.python punctuation.section.function.begin.python
       pop: true
     - include: comments
     - match: (?=\S)

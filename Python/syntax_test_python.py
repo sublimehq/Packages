@@ -407,7 +407,7 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-#                  ^^^^^^^^ meta.function.parameters
+#                  ^^^^^^^^ meta.function.parameters - meta.function meta.function
 # <- storage.modifier.async
 #     ^ storage.type
 #         ^ entity.name.function
