@@ -15,6 +15,7 @@ This is a variable docstring, as supported by sphinx and epydoc
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
 """
 
+
 ##################
 # Imports
 ##################
@@ -64,24 +65,129 @@ import re; re.compile(r'')
 # Identifiers
 ##################
 
+identifier
+#^^^^^^^^^ meta.qualified-name meta.generic-name
+
 class
 #^^^^ storage.type.class
 def
 #^^ storage.type.function
 
-# Currently, async and await are still recognized as valid identifiers unless in an "async" block
+# async and await are still recognized as valid identifiers unless in an "async" block
 async
 #^^^^ - invalid.illegal.name
 
 __all__
-#^^^^^^ support.variable.magic
+#^^^^^^ meta.qualified-name support.variable.magic - meta.generic-name
 __file__
 #^^^^^^^ support.variable.magic
 __missing__
 #^^^^^^^^^^ support.function.magic
-__bool__ __nonzero__
+__bool__ abc.__nonzero__
 #^^^^^^^ support.function.magic
-#        ^^^^^^^^^^^ support.function.magic
+#            ^^^^^^^^^^^ support.function.magic
+
+TypeError module.TypeError
+#^^^^^^^^ support.type.exception
+#                ^^^^^^^^^ - support
+
+open.open.open
+#    ^^^^^^^^^ - support
+
+
+##################
+# Function Calls
+##################
+
+identifier()
+#^^^^^^^^^^^ meta.function-call
+#^^^^^^^^^ meta.qualified-name variable.function
+#         ^ punctuation.section.arguments.begin
+#          ^ punctuation.section.arguments.end
+
+dotted.identifier(12, True)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#                 ^^^^^^^^ meta.function-call.arguments
+#^^^^^^^^^^^^^^^^ meta.qualified-name
+#^^^^^^ - variable.function
+#     ^ punctuation.accessor.dot
+#      ^^^^^^^^^^ variable.function
+
+open.__new__(12, True)
+#^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#^^^ support.function.builtin
+#   ^ punctuation.accessor.dot
+#    ^^^^^^^ support.function.magic
+
+TypeError()
+#^^^^^^^^ support.type.exception
+#
+module.TypeError()
+#^^^^^^^^^^^^^^^ meta.function-call
+#      ^^^^^^^^^ - support
+#      ^^^^^^^^^ variable.function
+
+open.open.open()
+#^^^ support.function.builtin
+#   ^ punctuation.accessor.dot
+#    ^^^^^^^^^ - support
+#         ^^^^ variable.function
+#
+
+if p.type not in ('NUMBER', 'INTEGER'):
+#             ^^ keyword.operator - meta.function-call invalid
+
+call(from='no')
+#^^^^^^^^^^^^^^ meta.function-call
+#    ^^^^ invalid.illegal.name
+#        ^ keyword.operator.assignment
+#         ^^^^ string
+
+##################
+# Expressions
+##################
+
+def _():
+    yield from
+#   ^^^^^ keyword.control.flow.yield
+#         ^^^^ keyword.control.flow.yield-from
+
+    yield fromsomething
+#         ^^^^ - keyword
+
+    a if b else c
+#     ^^ keyword.control.flow
+#          ^^^^ keyword.control.flow
+
+    c = lambda: pass
+#       ^^^^^^^ meta.function.inline
+#       ^^^^^^ storage.type.function.inline
+#             ^ punctuation.section.function.begin
+#               ^^^^ keyword
+
+    _(lambda x, y: 10)
+#     ^^^^^^^^^^^^ meta.function.inline
+#     ^^^^^^ storage.type.function.inline
+#           ^^^^^ meta.function.inline.parameters
+#            ^ variable.parameter
+#             ^ punctuation.separator.parameters
+#               ^ variable.parameter
+#                  ^^ constant.numeric
+
+    lambda \
+        a, \
+        b=2: pass
+#       ^^^^ meta.function.inline
+#        ^ keyword.operator.assignment
+#          ^ punctuation.section.function.begin
+#            ^^^^ keyword
+
+    lambda as, in=2: pass
+#          ^^ invalid.illegal.name
+#              ^^ invalid.illegal.name
+
+    lambda
+#   ^^^^^^ storage.type.function.inline
 
 
 ##################
@@ -94,14 +200,10 @@ myobj.method().attribute
 #     ^^^^^^ variable.function
 #             ^ punctuation.accessor.dot
 
-'foo'.upper()
-#    ^^^^^^^^ meta.function-call
+'foo'. upper()
+#    ^^^^^^^^^ meta.function-call
 #    ^ punctuation.accessor.dot
-#     ^^^^^ variable.function
-
-func()
-#^^^^^ meta.function-call
-#^^^ variable.function
+#      ^^^^^ variable.function
 
 func()(1, 2)
 # <- meta.function-call
@@ -128,9 +230,6 @@ range(20)[10:2:-2]
 #           ^ punctuation.separator.slice
 #             ^ punctuation.separator.slice
 
-myobj.attribute
-#    ^ punctuation.accessor.dot
-
 "string"[12]
 #       ^^^^ meta.item-access - meta.structure
 
@@ -149,6 +248,45 @@ myobj.attribute
 
 1[12]
 #^^^^ - meta.item-access
+
+
+##################
+# print & exec
+##################
+
+def _():
+    print (file=None)
+#   ^^^^^ support.function.builtin - keyword
+    print . __class__
+#   ^^^^^ support.function.builtin - keyword
+    print "keyword"
+#   ^^^^^ keyword.other.print
+    print __init__
+#   ^^^^^ keyword.other.print
+#
+    exec 123
+#   ^^^^ keyword
+    exec ("print('ok')")
+#   ^^^^ support.function.builtin - keyword
+    callback(print , print
+#            ^^^^^ - keyword
+#                  ^ punctuation.separator.arguments
+#                    ^^^^^ - keyword
+             , print)
+#              ^^^^^ - keyword
+
+    some \
+      print \
+#     ^^^^^ keyword.other.print
+
+    func(
+        print
+#       ^^^^^ support.function.builtin - keyword
+    )
+
+    print
+#   ^^^^^ keyword.other.print
+
 
 ##################
 # Block statements
@@ -205,96 +343,6 @@ def _():
 #                                    ^ punctuation.section.block.with
         await something()
 #       ^^^^^ keyword.other.await
-
-
-
-##################
-# Expressions
-##################
-
-def _():
-    yield from
-#   ^^^^^ keyword.control.flow.yield
-#         ^^^^ keyword.control.flow.yield-from
-
-    yield fromsomething
-#         ^^^^ - keyword
-
-    a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
-
-    c = lambda: pass
-#       ^^^^^^^ meta.function.inline
-#       ^^^^^^ storage.type.function.inline
-#             ^ punctuation.section.function.begin
-#               ^^^^ keyword
-
-    _(lambda x, y: 10)
-#     ^^^^^^^^^ meta.function.inline
-#     ^^^^^^ storage.type.function.inline
-#           ^^^^^ meta.function.inline.parameters
-#            ^ variable.parameter
-#             ^ punctuation.separator.parameters
-#               ^ variable.parameter
-#                  ^^ constant.numeric
-
-    lambda \
-        a, \
-        b=2: pass
-#       ^^^^ meta.function.inline
-#        ^ keyword.operator.assignment
-#          ^ punctuation.section.function.begin
-#            ^^^^ keyword
-
-    lambda as, in=2: pass
-#          ^^ invalid.illegal.name
-#              ^^ invalid.illegal.name
-    call(from='no')
-#   ^^^^^^^^^^^^^^^ meta.function-call
-#        ^^^^ invalid.illegal.name
-#            ^ keyword.operator.assignment
-#             ^^^^ string
-    lambda
-#   ^^^^^^ storage.type.function.inline
-
-
-##################
-# print & exec
-##################
-
-def _():
-    print (file=None)
-#   ^^^^^ support.function.builtin - keyword
-    print . __class__
-#   ^^^^^ support.function.builtin - keyword
-    print "keyword"
-#   ^^^^^ keyword.other.print
-    print __init__
-#   ^^^^^ keyword.other.print
-#
-    exec 123
-#   ^^^^ keyword
-    exec ("print('ok')")
-#   ^^^^ support.function.builtin - keyword
-    callback(print , print
-#            ^^^^^ - keyword
-#                  ^ punctuation.separator.arguments
-#                    ^^^^^ - keyword
-             , print)
-#              ^^^^^ - keyword
-
-    some \
-      print \
-#     ^^^^^ keyword.other.print
-
-    func(
-        print
-#       ^^^^^ support.function.builtin - keyword
-    )
-
-    print
-#   ^^^^^ keyword.other.print
 
 
 ##################
@@ -423,21 +471,73 @@ class Unterminated(Inherited:
 #                           ^ invalid.illegal
 
 
-@normal . decorator
-#^^^^^^^^^^^^^^^^^^ meta.statement.decorator
-# <- keyword.other.decorator
-#       ^ punctuation.accessor.dot
+##################
+# Decorators
+##################
+
+@ normal . decorator
+# <- meta.annotation punctuation.definition.annotation
+#^^^^^^^^^^^^^^^^^^^ meta.annotation
+# ^^^^^^^^^^^^^^^^^^ meta.qualified-name
+# ^^^^^^ meta.generic-name - variable.annotation
+#          ^^^^^^^^^ variable.annotation
+#        ^ punctuation.accessor.dot
+#                   ^ - meta.annotation
 class Class():
 
-    @wraps(method, 12)# comment
-#^^^ - meta.statement.decorator
-#   ^^^^^^^^^^^^^^^^^^ meta.statement.decorator
-#   ^ keyword.other.decorator
-#    ^^^^^^^^^^^^^^^^^ meta.function-call
-#                     ^^^^^^^^^ comment
+    @functools.wraps(method, 12, kwarg=None)# comment
+#^^^ - meta.annotation
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.function
+#   ^ punctuation.definition.annotation
+#    ^^^^^^^^^^^^^^^ meta.qualified-name
+#    ^^^^^^^^^ meta.generic-name - variable.annotation
+#             ^ punctuation.accessor.dot
+#              ^^^^^ variable.annotation.function
+#                   ^ punctuation.section.arguments.begin
+#                          ^ punctuation.separator.arguments
+#                            ^^ constant.numeric
+#                                ^^^^^ variable.parameter
+#                                     ^ keyword.operator
+#                                      ^^^^ constant.language
+#                              ^ punctuation.separator.arguments
+#                                          ^ punctuation.section.arguments.end
+#                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
-        (self, __class__)
-        pass
+        return self.__class__(method)
+
+    @deco #comment
+#^^^ - meta.annotation
+#   ^^^^^ meta.annotation
+#    ^^^^ meta.qualified-name variable.annotation.function
+#        ^^ - meta.annotation
+#         ^^^^^^^^ comment
+
+    @staticmethod
+#   ^^^^^^^^^^^^^ meta.annotation
+#    ^^^^^^^^^^^^ support.function.builtin
+#                ^ - meta.annotation
+
+    @deco[4]
+#        ^ invalid.illegal.character
+
+    @deco \
+        . rator
+#       ^^^^^^^ meta.annotation
+#       ^ punctuation.accessor.dot
+
+    @ deco \
+        . rator()
+#       ^^^^^^^ meta.annotation.function
+#         ^^^^^ variable.annotation.function
+
+    @ deco \
+#     ^^^^ meta.qualified-name meta.generic-name - variable.annotation
+#          ^ punctuation.separator.continuation.line
+
+    @deco \
+
+    def f(): pass
+#   ^^^ storage.type.function - meta.decorator
 
 
 ##################
