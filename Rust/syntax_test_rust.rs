@@ -151,18 +151,23 @@ pub use self::trafile::*;
 // <- storage.modifier
 //   ^ keyword.other
 //      ^^^^^^^^^^^^^^^ meta.path
+//          ^^ punctuation.accessor
 
 use std::fmt;
 // <- keyword.other
 //  ^^^^^ meta.path
+//     ^^ punctuation.accessor
 //       ^^^ - meta.path
 use foo::i32;
 //  ^^^^^ meta.path
+//     ^^ punctuation.accessor
 //       ^^^ - meta.path storage.type
 use foo::Bar;
 //  ^^^^^ meta.path
+//     ^^ punctuation.accessor
 use foo::{Baz, QUX, quux};
 //  ^^^^^ meta.path
+//     ^^ punctuation.accessor
 //       ^^^^^^^^^^^^^^^^ meta.block
 //             ^^^ constant.other
 
@@ -221,6 +226,7 @@ impl fmt::Display for PrintableStruct {
 // <- storage.type.impl
 //^^ storage.type.impl
 //   ^^^^^ meta.path
+//      ^^ punctuation.accessor
 //                ^^^ keyword.other
 //                    ^^^^^^^^^^^^^^^ entity.name.impl
 //                                    ^ meta.block punctuation.section.block.begin
@@ -241,6 +247,7 @@ impl fmt::Display for PrintableStruct {
 //                                      ^ punctuation.section.parameters.end
 //                                        ^^ punctuation.separator
 //                                           ^^^^^ meta.path
+//                                              ^^ punctuation.accessor
 //                                                       ^ meta.block punctuation.section.block.begin
         write!(f, "{}", self.0)
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -626,6 +633,7 @@ fn factory() -> Box<Fn(i32) -> i32> {
 //                              ^^ storage.type
 //                          ^^ punctuation.separator
     Box::new(|x| x + 1)
+//     ^^ punctuation.accessor
 }
 
 let inferred_closure = |i, j: u32| i + 1;
@@ -829,7 +837,7 @@ macro_rules! forward_ref_binop [
 //                                           ^ meta.macro meta.group meta.block meta.impl meta.block punctuation.section.block.begin
             type Output = <$t as $imp<$u>>::Output;
 //                        ^^^^^^^^^^^^^^^^ meta.generic
-//                                        ^^ meta.path
+//                                        ^^ meta.path punctuation.accessor
 
             #[inline]
 //          ^^^^^^^^^ meta.annotation
@@ -845,7 +853,7 @@ macro_rules! forward_ref_binop [
 //                                      ^^ variable.other
 //                                          ^^ punctuation.separator
 //                                             ^^^^^^^^^^^^^^^^ meta.generic
-//                                                             ^^ meta.path
+//                                                             ^^ meta.path punctuation.accessor
 //                                                                      ^ meta.macro meta.group meta.block meta.impl meta.block meta.block punctuation.section.block.begin
                 #![cfg(all(unix, target_pointer_width = "32"))]
 //              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
