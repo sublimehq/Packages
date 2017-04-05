@@ -187,12 +187,7 @@ contexts:
 
     - include: basic-identifiers
 
-    - match: '#!?\['
-      push:
-        - meta_scope: comment.block.attribute.rust
-        - match: '\]'
-          pop: true
-        - include: strings
+    - include: attributes
 
     - include: numbers
 
@@ -235,6 +230,49 @@ contexts:
 
     - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
+
+  attributes:
+    - match: '(#!?)(\[)'
+      scope: meta.annotation.rust
+      captures:
+        1: punctuation.definition.annotation.rust
+        2: punctuation.section.group.begin.rust
+      push:
+        - match: '({{identifier}})(\()'
+          captures:
+            1: meta.annotation.rust variable.annotation.rust
+            2: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.begin.rust
+          push:
+            - meta_content_scope: meta.annotation.parameters.rust meta.group.rust
+            - match: \)
+              scope: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.end.rust
+              pop: true
+            - include: attribute-call
+        - match: '({{identifier}})'
+          scope: meta.annotation.rust variable.annotation.rust
+        - match: '\]'
+          scope: meta.annotation.rust punctuation.section.group.end.rust
+          pop: true
+        - match: '[ \t]+'
+          scope: meta.annotation.rust
+
+  attribute-call:
+    - match: \)
+      scope: meta.function-call.rust meta.group.rust punctuation.section.group.end.rust
+      pop: true
+    - match: '({{identifier}})(\()'
+      scope: meta.function-call.rust
+      captures:
+        1: variable.function.rust
+        2: meta.group.rust punctuation.section.group.begin.rust
+      push:
+        - meta_content_scope: meta.function-call.rust
+        - include: attribute-call
+    - match: ','
+      scope: punctuation.separator.rust
+    - match: '='
+      scope: keyword.operator.rust
+    - include: strings
 
   block:
     - match: '\}'

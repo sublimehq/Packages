@@ -199,8 +199,10 @@ struct BasicStruct(i32);
 //                    ^ punctuation.section.group.end
 
 #[derive(Debug)]
-// <- comment.block.attribute
-//^^^^^^^^^^^^^^ comment.block.attribute
+// <- meta.annotation punctuation.definition.annotation
+//^^^^^^^^^^^^^^ meta.annotation
+//^^^^^^ variable.annotation
+//      ^^^^^^^ meta.annotation.parameters
 struct PrintableStruct(Box<i32>);
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
 // <- storage.type.struct
@@ -830,7 +832,10 @@ macro_rules! forward_ref_binop [
 //                                        ^^ meta.path
 
             #[inline]
-//          ^^^^^^^^^ comment.block.attribute
+//          ^^^^^^^^^ meta.annotation
+//          ^ punctuation.definition.annotation
+//           ^ punctuation.section.group.begin
+//                  ^ punctuation.section.group.end
             fn $method(self, other: &'a $u) -> <$t as $imp<$u>>::Output {
 //          ^^ storage.type.function
 //             ^^^^^^^ variable.other
@@ -842,6 +847,18 @@ macro_rules! forward_ref_binop [
 //                                             ^^^^^^^^^^^^^^^^ meta.generic
 //                                                             ^^ meta.path
 //                                                                      ^ meta.macro meta.group meta.block meta.impl meta.block meta.block punctuation.section.block.begin
+                #![cfg(all(unix, target_pointer_width = "32"))]
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                 ^^^ variable.annotation
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+//                     ^^^ variable.function
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//                        ^ punctuation.section.group.begin
+//                             ^ punctuation.separator
+//                                                    ^ keyword.operator
+//                                                      ^^^^ string.quoted
+//                                                          ^ punctuation.section.group.end
                 $imp::$method(*self, *other)
 //              ^^^^ variable.other
 //                    ^^^^^^^ variable.other
