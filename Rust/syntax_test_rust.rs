@@ -616,6 +616,16 @@ pub fn pub_function() -> bool
     return true
 }
 
+fn factory() -> Box<Fn(i32) -> i32> {
+// <- storage.type.function
+// ^^^^^^^ entity.name.function
+//                  ^^^^^^^^^^^^^^ meta.generic
+//                      ^^ storage.type
+//                              ^^ storage.type
+//                          ^^ punctuation.separator
+    Box::new(|x| x + 1)
+}
+
 let inferred_closure = |i, j: u32| i + 1;
 //  ^^^^^^^^^^^^^^^^ entity.name.function
 //                     ^^^^^^^^^^^^^^^^^ meta.function.closure

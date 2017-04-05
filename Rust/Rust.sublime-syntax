@@ -386,6 +386,9 @@ contexts:
   generic-angles:
     - meta_scope: meta.generic.rust
     - include: comments
+    - match: '->'
+      scope: punctuation.separator.generic.rust
+      push: generic-angles-contents
     - match: '>'
       scope: punctuation.definition.generic.end.rust
       pop: true
