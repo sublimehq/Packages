@@ -508,7 +508,7 @@ class Class():
     @deco #comment
 #^^^ - meta.annotation
 #   ^^^^^ meta.annotation
-#    ^^^^ meta.qualified-name variable.annotation.function
+#    ^^^^ meta.qualified-name variable.annotation
 #        ^^ - meta.annotation
 #         ^^^^^^^^ comment
 
