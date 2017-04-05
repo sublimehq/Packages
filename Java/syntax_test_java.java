@@ -274,8 +274,36 @@ public class Test {
     }
 }
 
-@FixMethodOrder( MethodSorters.NAME_ASCENDING )
-//                            ^ punctuation.accessor.dot
+@ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
+// <- meta.annotation punctuation.definition.annotation
+ // <- meta.annotation.identifier
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
+//                                      ^ punctuation.accessor.dot
+//                                       ^ constant
 public class GrafoTest
 {
+    @Override
+//  ^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^^^^^^ variable.annotation
+    void test1() {
+//       ^ entity.name.function
+    }
+
+    @Author(first = "Oompah", last = "Loompah")
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^^^^ meta.annotation.identifier variable.annotation
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
+//         ^ punctuation.section.parens.begin
+//                ^ keyword.operator
+//                  ^^^^^^^^ string
+//                                 ^ keyword.operator
+//                                   ^^^^^^^^ string
+//                                            ^ punctuation.section.parens.end
+    void test2() {
+//       ^ entity.name.function
+    }
 }
