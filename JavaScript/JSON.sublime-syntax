@@ -2,13 +2,12 @@
 ---
 name: JSON
 file_extensions:
+  - json
   - .babelrc
   - .bowerrc
   - .eslintrc
-  - .no-sublime-package
   - .postcssrc
   - .stylelintrc
-  - json
   - sublime-build
   - sublime-commands
   - sublime-completions
