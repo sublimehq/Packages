@@ -13,8 +13,6 @@ file_extensions:
   - .bash_profile
   - .bash_variables
   - .bashrc
-  - .eslintignore
-  - .npmignore
   - .npmrc
   - .rvmrc
   - .profile
