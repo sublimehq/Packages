@@ -18,6 +18,22 @@
 <!--                       ^ - meta.tag.preprocessor -->
 
 
+     <?XML version="1.0" ?>
+<!-- ^ invalid.illegal.missing-entity - meta.tag.preprocessor -->
+
+     <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!--                                                   ^ - meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^^^^^^^^ entity.name.tag -->
+<!--                 ^ - entity -->
+<!--                  ^^^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.separator.key-value -->
+<!--                       ^ punctuation.definition.string.begin -->
+<!--                       ^^^^^^^^^^ string.quoted.single -->
+<!--                                ^ punctuation.definition.string.end -->
+<!--                                 ^ - string -->
+
 <!--
   DOCTYPE Declaration
  -->
