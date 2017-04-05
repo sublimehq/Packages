@@ -312,6 +312,31 @@ contexts:
     # highlighted using the params scope
     - match: '(?=[};)\]\n])'
       pop: true
+    - match: ','
+      scope: punctuation.separator.rust
+    - match: '\('
+      scope: meta.group.rust punctuation.definition.group.begin.rust
+      push:
+        - meta_content_scope: meta.group.rust
+        - match: '\)'
+          scope: meta.group.rust punctuation.definition.group.end.rust
+          pop: true
+        - match: ','
+          scope: punctuation.separator.rust
+        - match: '({{identifier}})'
+          scope: variable.parameter.rust
+    - match: '(:)\s*(\()'
+      captures:
+        1: punctuation.separator.rust
+        2: meta.group.rust punctuation.definition.group.begin.rust
+      push:
+        - meta_content_scope: meta.group.rust
+        - match: '\)'
+          scope: meta.group.rust punctuation.definition.group.end.rust
+          pop: true
+        - match: ','
+          scope: punctuation.separator.rust
+        - include: type-any-identifier
     - match: '\|'
       scope: punctuation.definition.parameters.end.rust
       pop: true
@@ -700,6 +725,29 @@ contexts:
         - include: comments
         - match: '(?=\))'
           pop: true
+        - match: '\('
+          scope: meta.group.rust punctuation.definition.group.begin.rust
+          push:
+            - meta_content_scope: meta.group.rust
+            - match: '\)'
+              scope: meta.group.rust punctuation.definition.group.end.rust
+              pop: true
+            - match: ','
+              scope: punctuation.separator.rust
+            - match: '{{identifier}}'
+              scope: variable.parameter.rust
+        - match: '(:)\s*(\()'
+          captures:
+            1: punctuation.separator.rust
+            2: meta.group.rust punctuation.definition.group.begin.rust
+          push:
+            - meta_content_scope: meta.group.rust
+            - match: '\)'
+              scope: meta.group.rust punctuation.definition.group.end.rust
+              pop: true
+            - match: ','
+              scope: punctuation.separator.rust
+            - include: type-any-identifier
         - match: \bself\b
           scope: variable.parameter.rust
         - match: '({{identifier}})\s*(:(?!:))'

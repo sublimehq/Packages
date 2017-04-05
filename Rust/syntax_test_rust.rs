@@ -590,6 +590,21 @@ impl Point
         self.x *= 2;
         self.y *= 2;
     }
+
+    fn sum((x, y): (i32, i32)) -> i32 {
+//         ^^^^^^ meta.group
+//         ^ punctuation.definition.group.begin
+//           ^ punctuation.separator
+//              ^ punctuation.definition.group.end
+//               ^ punctuation.separator
+//                 ^^^^^^^^^^ meta.group
+//                 ^ punctuation.definition.group.begin
+//                  ^^^ storage.type
+//                     ^ punctuation.separator
+//                       ^^^ storage.type
+//                          ^ punctuation.definition.group.end
+//                             ^^ punctuation.separator
+    }
 }
 
 pub fn pub_function() -> bool
@@ -607,6 +622,7 @@ let inferred_closure = |i, j: u32| i + 1;
 //                     ^^^^^^^^^^^ meta.function.parameters
 //                     ^ punctuation.definition.parameters.begin
 //                      ^ variable.parameter
+//                       ^ punctuation.separator
 //                         ^ variable.parameter
 //                          ^ punctuation.separator
 //                            ^^^ storage.type
@@ -623,6 +639,22 @@ let closure = || -> i32 { | | 1 + 2 };
 //                            ^ constant.numeric.integer.decimal
 //                                ^ constant.numeric.integer.decimal
 //                                  ^ meta.block punctuation.definition.block.end
+
+let f = |(x, y): (u32, &mut u32)| { x + y };
+//      ^ punctuation.definition.parameters.begin
+//        ^ variable.parameter
+//         ^ punctuation.separator
+//           ^ variable.parameter
+//               ^^^^^^^^^^^^^^^ meta.group
+//               ^ punctuation.definition.group.begin
+//                ^^^ storage.type
+//                   ^ punctuation.separator
+//                     ^ keyword.operator
+//                      ^^^ storage.modifier
+//                          ^^^ storage.type
+//                             ^ punctuation.definition.group.end
+//                              ^ punctuation.definition.parameters.end
+
 
 let c = a | b;
 //        ^ keyword.operator
