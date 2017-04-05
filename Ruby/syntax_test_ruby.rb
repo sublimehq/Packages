@@ -411,6 +411,9 @@ a = 1 / 2
 b = testing! / foo
 #            ^ keyword.operator.arithmetic
 
+rule /`/ do
+#    ^^^ string.regexp
+end
 
 ##################
 # Crazy Stuff Found Online™

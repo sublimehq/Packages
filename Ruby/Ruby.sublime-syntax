@@ -1076,6 +1076,8 @@ contexts:
       scope: keyword.operator.assignment.augmented.ruby
     - match: '(?=^\s*/)'
       push: try-regex
+    - match: '(?=/\s*[^[:alnum:](\s])'
+      push: try-regex
     # regular expressions (literal)
     - match: '%r\{'
       scope: punctuation.definition.string.begin.ruby
