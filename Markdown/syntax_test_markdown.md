@@ -1373,3 +1373,10 @@ not a table |
 |^^^^^^^ markup.list.numbered meta.paragraph.list
  ****test****
 |^^^^^^^^^^^^^ markup.list.numbered meta.paragraph.list - punctuation
+
+ - - test
+|^ punctuation.definition.list_item
+|  ^^^^^^^ markup.list.unnumbered meta.paragraph.list - punctuation
+- - - - test
+| <- punctuation.definition.list_item
+| ^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - punctuation
