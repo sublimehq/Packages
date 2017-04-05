@@ -137,6 +137,9 @@ scanf("%ms %as %*[, ]", &buf);
 /*         ^^^ constant.other.placeholder */
 /*             ^^^^^^ constant.other.placeholder */
 
+"foo % baz"
+/*   ^ - invalid */
+
 char rawStr1[] = R"("This is a raw string")";
 /*               ^ storage.type.string */
 /*                ^ punctuation.definition.string.begin */

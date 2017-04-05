@@ -108,8 +108,6 @@ contexts:
           (hh|h|ll|l|j|t|z|q|L|vh|vl|v|hv|hl)?          # length modifier
           (\[[^\]]+\]|[am]s|[diouxXDOUeEfFgGaACcSspn%]) # conversion type
       scope: constant.other.placeholder.c
-    - match: "%"
-      scope: invalid.illegal.placeholder.c
 
   keywords:
     - match: \b({{control_keywords}})\b

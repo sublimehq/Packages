@@ -525,7 +525,16 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 
 print ("%@", @"String")
-/*      ^ invalid.illegal.placeholder.c */
+/*      ^ - invalid */
 
 NSLog (@"%@", @"String")
 /*       ^ constant.other.placeholder.objc */
+
+
+scanf("%ms %as %*[, ]", &buf);
+/*     ^^^ constant.other.placeholder */
+/*         ^^^ constant.other.placeholder */
+/*             ^^^^^^ constant.other.placeholder */
+
+"foo % baz"
+/*   ^ - invalid */

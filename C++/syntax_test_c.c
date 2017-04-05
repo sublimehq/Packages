@@ -518,3 +518,12 @@ dec3 = 1234567890LLU;
 dec3 = 1234567890uLL;
 /*     ^ constant.numeric */
 /*                 ^ constant.numeric */
+
+
+scanf("%ms %as %*[, ]", &buf);
+/*     ^^^ constant.other.placeholder */
+/*         ^^^ constant.other.placeholder */
+/*             ^^^^^^ constant.other.placeholder */
+
+"foo % baz"
+/*   ^ - invalid */
