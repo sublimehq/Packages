@@ -144,7 +144,7 @@ call(2**10, *range(10), **dict(), * *{}, ***a)
 if p.type not in ('NUMBER', 'INTEGER'):
 #             ^^ keyword.operator - meta.function-call invalid
 
-call(from='no')
+call(from='no', from_='yes')
 #^^^^^^^^^^^^^^ meta.function-call
 #    ^^^^ invalid.illegal.name
 #        ^ keyword.operator.assignment
@@ -192,6 +192,14 @@ def _():
     lambda as, in=2: pass
 #          ^^ invalid.illegal.name
 #              ^^ invalid.illegal.name
+
+    lambda *a, **kwa, ab*, * *: (a, kwa)
+#          ^ keyword.operator.unpacking.sequence.python
+#           ^ variable.parameter.python
+#                ^^^ variable.parameter.python
+#              ^^ keyword.operator.unpacking.mapping.python
+#                       ^ invalid.illegal.expected-parameter.python
+#                            ^ invalid.illegal.expected-parameter.python
 
     lambda
 #   ^^^^^^ storage.type.function.inline

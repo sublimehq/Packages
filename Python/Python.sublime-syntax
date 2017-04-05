@@ -633,19 +633,24 @@ contexts:
   lambda:
     - match: \b(lambda)(?=\s|:|$)
       scope: storage.type.function.inline.python
-      push:
-        - meta_scope: meta.function.inline.python
-        - meta_content_scope: meta.function.inline.parameters.python
-        - include: line-continuation-or-pop
-        - match: '\:'
-          scope: punctuation.section.function.begin.python
-          pop: true
-        - match: ','
-          scope: punctuation.separator.parameters.python
-        - include: keyword-arguments
-        - include: illegal-names
-        - match: '{{identifier}}'
-          scope: variable.parameter.python
+      push: [lambda-parameters, allow-unpack-operators]
+
+  lambda-parameters:
+    - meta_scope: meta.function.inline.python
+    - meta_content_scope: meta.function.inline.parameters.python
+    - include: line-continuation-or-pop
+    - match: '\:'
+      scope: punctuation.section.function.begin.python
+      pop: true
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
+    - include: keyword-arguments
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
+    - match: '\S'
+      scope: invalid.illegal.expected-parameter.python
 
   lists:
     - match: '(\[)(\s*(\]))\b'
