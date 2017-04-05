@@ -753,7 +753,7 @@ contexts:
     - match: ^
       pop: true
     - include: thematic-break
-    - match: (?=\S)
+    - match: (?=\S)(?!{{list_item}})
       push:
         - match: (?={{list_item}})
           pop: true
