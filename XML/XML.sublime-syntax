@@ -91,7 +91,7 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-stuff
-    - match: '(<\?)((?:(?=xml-stylesheet)|(?![xX][mM][lL])){{qualified_name}})(?=\s|\?>)'
+    - match: '(<\?)(xml-stylesheet)(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
@@ -101,6 +101,15 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-stuff
+    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
     - include: entity
     - match: '<!\[CDATA\['
       scope: punctuation.definition.string.begin.xml
