@@ -335,9 +335,9 @@ contexts:
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
       scope: constant.numeric.java
     - match: '(\.)?\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: constant.other.java
       captures:
-        1: keyword.operator.dereference.java
+        1: punctuation.accessor.dot.java
+        2: constant.other.java
   enums:
     - match: '^(?=\s*[A-Z0-9_]+\s*({|\(|,))'
       push:

@@ -273,3 +273,9 @@ public class Test {
 //       ^^^^^ entity.name.function.java
     }
 }
+
+@FixMethodOrder( MethodSorters.NAME_ASCENDING )
+//                            ^ punctuation.accessor.dot
+public class GrafoTest
+{
+}
