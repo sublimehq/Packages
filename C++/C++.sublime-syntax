@@ -249,6 +249,15 @@ contexts:
     - include: early-expressions-after-generic-type
     - include: late-expressions
 
+  expressions-minus-generic-type-function-call:
+    - include: early-expressions-before-generic-type
+    - include: angle-brackets
+    - include: early-expressions-after-generic-type
+    - include: late-expressions-before-function-call
+    - include: identifiers
+    - match: ';'
+      scope: punctuation.terminator.c++
+
   late-expressions:
     - include: late-expressions-before-function-call
     - include: function-call
@@ -393,7 +402,7 @@ contexts:
           push:
             - match: '(?=>)'
               pop: true
-            - include: expressions
+            - include: expressions-minus-generic-type-function-call
 
   keywords-parens:
     - match: '\b(alignof|typeid)\b\s*(\()'
@@ -538,7 +547,7 @@ contexts:
             - match: '>'
               scope: punctuation.section.generic.end.c++
               pop: true
-            - include: expressions-minus-generic-type
+            - include: expressions-minus-generic-type-function-call
 
   angle-brackets:
     - match: '<(?!<)'
@@ -547,7 +556,7 @@ contexts:
         - match: '>'
           scope: punctuation.section.generic.end.c++
           pop: true
-        - include: expressions-minus-generic-type
+        - include: expressions-minus-generic-type-function-call
 
   block:
     - match: '\{'

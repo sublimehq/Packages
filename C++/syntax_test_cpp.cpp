@@ -405,6 +405,9 @@ reinterpret_cast<int>(2.0);
 static_cast<int>(2.0);
 /* <- keyword.operator.word.cast */
 
+auto var = *reinterpret_cast<std::vector<std::shared_ptr<AnyClass>>*>(v);
+/*          ^ keyword.operator.word.cast */
+/*                           ^ - variable.function */
 
 /////////////////////////////////////////////
 // Language Constants
