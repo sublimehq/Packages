@@ -132,12 +132,19 @@ open.open.open()
 #   ^ punctuation.accessor.dot
 #    ^^^^^^^^^ - support
 #         ^^^^ variable.function
-#
+
+call(2**10, *range(10), **dict(), * *{}, ***a)
+#     ^^ keyword.operator.arithmetic
+#           ^ keyword.operator.unpacking.sequence.python
+#                       ^^ keyword.operator.unpacking.mapping.python
+#                                 ^ keyword.operator.unpacking.sequence.python
+#                                   ^ - keyword.operator.unpacking
+#                                        ^^^ invalid.illegal.syntax.python
 
 if p.type not in ('NUMBER', 'INTEGER'):
 #             ^^ keyword.operator - meta.function-call invalid
 
-call(from='no')
+call(from='no', from_='yes')
 #^^^^^^^^^^^^^^ meta.function-call
 #    ^^^^ invalid.illegal.name
 #        ^ keyword.operator.assignment
@@ -185,6 +192,14 @@ def _():
     lambda as, in=2: pass
 #          ^^ invalid.illegal.name
 #              ^^ invalid.illegal.name
+
+    lambda *a, **kwa, ab*, * *: (a, kwa)
+#          ^ keyword.operator.unpacking.sequence.python
+#           ^ variable.parameter.python
+#                ^^^ variable.parameter.python
+#              ^^ keyword.operator.unpacking.mapping.python
+#                       ^ invalid.illegal.expected-parameter.python
+#                            ^ invalid.illegal.expected-parameter.python
 
     lambda
 #   ^^^^^^ storage.type.function.inline
@@ -413,6 +428,11 @@ async def coroutine(param1):
 #         ^ entity.name.function
    pass
 
+def func(*args, other_arg=2**10, **kwargs):
+#        ^ keyword.operator.unpacking.sequence.python
+#                          ^^ keyword.operator.arithmetic.python
+#                                ^^ keyword.operator.unpacking.mapping.python
+    pass
 
 
 ##################
@@ -665,6 +685,15 @@ result = [i async for i in aiter() if i % 2]
 result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
+
+l = [1 * 2, 2**10, *result]
+#      ^ keyword.operator.arithmetic.python
+#            ^^ keyword.operator.arithmetic.python
+#                  ^ keyword.operator.unpacking.sequence.python
+
+d = {1: 3**4, **dict_}
+#        ^^ keyword.operator.arithmetic.python
+#             ^^ keyword.operator.unpacking.mapping.python
 
 ##################
 # Exception handling

@@ -286,11 +286,7 @@ contexts:
         - match: \)
           scope: punctuation.section.arguments.end.python
           pop: true
-        - include: keyword-arguments
-        - match: ','
-          scope: punctuation.separator.parameters.python
-        - include: inline-for
-        - include: expressions
+        - include: arguments
     # item access
     - match: '\s*(\[)'
       captures:
@@ -395,6 +391,21 @@ contexts:
     - match: '@'
       scope: keyword.operator.matrix.python
 
+  allow-unpack-operators:
+    # Match unpacking operators, if present
+    - include: comments
+    - match: \*{3,}
+      scope: invalid.illegal.syntax.python
+      pop: true
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      pop: true
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      pop: true
+    - match: (?!\s|#)
+      pop: true
+
   classes:
     - match: '^\s*(class)\b'
       captures:
@@ -465,7 +476,7 @@ contexts:
           set:
             - match: \(
               scope: meta.function.parameters.python punctuation.section.parameters.begin.python
-              set: function-parameters
+              set: [function-parameters, allow-unpack-operators]
 
   function-parameters:
     - meta_content_scope: meta.function.parameters.python
@@ -475,6 +486,7 @@ contexts:
     - include: comments
     - match: ','
       scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
     - match: '(?==)'
       set:
         - match: '='
@@ -482,7 +494,7 @@ contexts:
           set:
             - meta_scope: meta.function.parameters.default-value.python
             - match: '(?=[,)])'
-              set: function-parameters
+              set: [function-parameters, allow-unpack-operators]
             - include: expressions
     - match: '(?=:)'
       set:
@@ -552,11 +564,7 @@ contexts:
         - meta_content_scope: meta.annotation.arguments.python
         - match: (?=\))
           pop: true
-        - include: keyword-arguments
-        - match: ','
-          scope: punctuation.separator.arguments.python
-        - include: inline-for
-        - include: expressions
+        - include: arguments
 
   item-access:
     - match: '(?={{path}}\s*\[)'
@@ -597,28 +605,51 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.python
         - match: (?=\))
           pop: true
-        - include: keyword-arguments
-        - match: ','
-          scope: punctuation.separator.arguments.python
-        - include: inline-for
-        - include: expressions
+        - include: arguments
+
+  arguments:
+    - include: keyword-arguments
+    - match: ','
+      scope: punctuation.separator.arguments.python
+      push: allow-unpack-operators
+    - include: inline-for
+    - include: expressions
+
+  keyword-arguments:
+    - match: '(?={{identifier}}\s*=(?!=))'
+      push:
+        - include: line-continuation-or-pop
+        - match: '='
+          scope: keyword.operator.assignment.python
+          set:
+            - match: (?=\s*[,):])
+              pop: true
+            - include: expressions
+        - include: illegal-names
+        - match: '{{identifier}}'
+          scope: variable.parameter.python
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
       scope: storage.type.function.inline.python
-      push:
-        - meta_scope: meta.function.inline.python
-        - meta_content_scope: meta.function.inline.parameters.python
-        - include: line-continuation-or-pop
-        - match: '\:'
-          scope: punctuation.section.function.begin.python
-          pop: true
-        - match: ','
-          scope: punctuation.separator.parameters.python
-        - include: keyword-arguments
-        - include: illegal-names
-        - match: '{{identifier}}'
-          scope: variable.parameter.python
+      push: [lambda-parameters, allow-unpack-operators]
+
+  lambda-parameters:
+    - meta_scope: meta.function.inline.python
+    - meta_content_scope: meta.function.inline.parameters.python
+    - include: line-continuation-or-pop
+    - match: '\:'
+      scope: punctuation.section.function.begin.python
+      pop: true
+    - match: ','
+      scope: punctuation.separator.parameters.python
+      push: allow-unpack-operators
+    - include: keyword-arguments
+    - include: illegal-names
+    - match: '{{identifier}}'
+      scope: variable.parameter.python
+    - match: '\S'
+      scope: invalid.illegal.expected-parameter.python
 
   lists:
     - match: '(\[)(\s*(\]))\b'
@@ -635,6 +666,7 @@ contexts:
           set: after-expression
         - match: ','
           scope: punctuation.separator.list.python
+          push: allow-unpack-operators
         - include: inline-for
         - include: expressions
 
@@ -654,6 +686,7 @@ contexts:
           set: after-expression
         - match: ','
           scope: punctuation.separator.dictionary-or-set.python
+          push: allow-unpack-operators
         - match: ':'
           scope: punctuation.separator.key-value.python
         - include: inline-for
@@ -792,20 +825,6 @@ contexts:
     - match: \b{{illegal_names}}\b
       scope: invalid.illegal.name.python
       pop: true
-
-  keyword-arguments:
-    - match: '(?={{identifier}}\s*=(?!=))'
-      push:
-        - include: line-continuation-or-pop
-        - match: '='
-          scope: keyword.operator.assignment.python
-          set:
-            - match: (?=\s*[,):])
-              pop: true
-            - include: expressions
-        - include: illegal-names
-        - match: '{{identifier}}'
-          scope: variable.parameter.python
 
   language-variables:
     - match: \b(self|cls)\b
