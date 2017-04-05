@@ -155,7 +155,7 @@ contexts:
     - match: '\b((?:format|print|println)!)\s*(\()'
       captures:
         1: support.macro.rust
-        2: meta.group.rust punctuation.definition.group.begin.rust
+        2: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.group.rust
         - include: comments
@@ -167,7 +167,7 @@ contexts:
     - match: '\b((?:write|writeln)!)\s*(\()'
       captures:
         1: support.macro.rust
-        2: meta.group.rust punctuation.definition.group.begin.rust
+        2: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.group.rust
         - include: comments
@@ -203,11 +203,11 @@ contexts:
       push: group
 
     - match: '\['
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
         - meta_scope: meta.group.rust
         - match: '\]'
-          scope: punctuation.definition.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - match: ';'
           scope: punctuation.separator.rust
@@ -238,10 +238,10 @@ contexts:
 
   block:
     - match: '\}'
-      scope: meta.block.rust punctuation.definition.block.end.rust
+      scope: meta.block.rust punctuation.section.block.end.rust
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       push: [block-body, try-closure]
 
   block-body:
@@ -252,10 +252,10 @@ contexts:
 
   group:
     - match: '\)'
-      scope: meta.group.rust punctuation.definition.group.end.rust
+      scope: meta.group.rust punctuation.section.group.end.rust
       pop: true
     - match: '\('
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push: [group-body, try-closure]
 
   group-body:
@@ -267,7 +267,7 @@ contexts:
   group-tail:
     - meta_scope: meta.group.rust
     - match: '\)'
-      scope: punctuation.definition.group.end.rust
+      scope: punctuation.section.group.end.rust
       pop: true
     - include: statements
 
@@ -301,7 +301,7 @@ contexts:
   closure:
     - meta_content_scope: meta.function.closure.rust
     - match: '\|'
-      scope: punctuation.definition.parameters.begin.rust
+      scope: punctuation.section.parameters.begin.rust
       set: [closure-return, closure-parameters]
 
   closure-parameters:
@@ -315,11 +315,11 @@ contexts:
     - match: ','
       scope: punctuation.separator.rust
     - match: '\('
-      scope: meta.group.rust punctuation.definition.group.begin.rust
+      scope: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.group.rust
         - match: '\)'
-          scope: meta.group.rust punctuation.definition.group.end.rust
+          scope: meta.group.rust punctuation.section.group.end.rust
           pop: true
         - match: ','
           scope: punctuation.separator.rust
@@ -328,17 +328,17 @@ contexts:
     - match: '(:)\s*(\()'
       captures:
         1: punctuation.separator.rust
-        2: meta.group.rust punctuation.definition.group.begin.rust
+        2: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.group.rust
         - match: '\)'
-          scope: meta.group.rust punctuation.definition.group.end.rust
+          scope: meta.group.rust punctuation.section.group.end.rust
           pop: true
         - match: ','
           scope: punctuation.separator.rust
         - include: type-any-identifier
     - match: '\|'
-      scope: punctuation.definition.parameters.end.rust
+      scope: punctuation.section.parameters.end.rust
       pop: true
     - match: \bself\b
       scope: variable.parameter.rust
@@ -418,18 +418,18 @@ contexts:
           pop: true
         - include: generic-angles-contents
     - match: '\['
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
         - meta_scope: meta.group.rust
         - match: '\]'
-          scope: punctuation.definition.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - match: ';'
           scope: punctuation.separator.rust
           set:
             - include: integers
             - match: '\]'
-              scope: punctuation.definition.group.end.rust
+              scope: punctuation.section.group.end.rust
               pop: true
             - match: '(?=\S)'
               pop: true
@@ -448,11 +448,11 @@ contexts:
     - match: \b(fn)\b(\()
       captures:
         1: storage.type.function.rust
-        2: meta.group.rust punctuation.definition.group.begin.rust
+        2: meta.group.rust punctuation.section.group.begin.rust
       push:
         - meta_content_scope: meta.group.rust
         - match: \)
-          scope: meta.group.rust punctuation.definition.group.end.rust
+          scope: meta.group.rust punctuation.section.group.end.rust
           set:
             - include: return-type
             - match: '(?=\S)'
@@ -471,10 +471,10 @@ contexts:
     - match: '(?=<)'
       push: generic-angles
     - match: '\('
-      scope: punctuation.definition.type.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
         - match: '\)'
-          scope: punctuation.definition.type.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - include: type-any-identifier
     - include: type
@@ -507,10 +507,10 @@ contexts:
   struct-tuple:
     - meta_scope: meta.struct.rust
     - match: '\)'
-      scope: punctuation.definition.group.end.rust
+      scope: punctuation.section.group.end.rust
       pop: true
     - match: '\('
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       # Ensure that we end the tuple at the next ) to
       # prevent odd highlighting as the user is typing
       with_prototype:
@@ -524,10 +524,10 @@ contexts:
   struct-classic:
     - meta_scope: meta.struct.rust
     - match: '\}'
-      scope: meta.block.rust punctuation.definition.block.end.rust
+      scope: meta.block.rust punctuation.section.block.end.rust
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       push:
         - meta_scope: meta.block.rust
         - match: '(?=\})'
@@ -548,27 +548,27 @@ contexts:
   macro-block:
     - meta_scope: meta.macro.rust
     - match: '\}'
-      scope: meta.block.rust punctuation.definition.block.end.rust
+      scope: meta.block.rust punctuation.section.block.end.rust
       pop: true
     - match: '[\])]'
-      scope: punctuation.definition.ground.end.rust
+      scope: punctuation.section.group.end.rust
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       push:
         - meta_scope: meta.block.rust
         - match: '(?=\})'
           pop: true
         - include: macro-block-contents
     - match: '\['
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
         - meta_scope: meta.group.rust
         - match: '(?=\])'
           pop: true
         - include: macro-block-contents
     - match: '\('
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push:
         - meta_scope: meta.group.rust
         - match: '(?=\))'
@@ -578,7 +578,7 @@ contexts:
   macro-block-contents:
     - include: comments
     - match: '\('
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       push: macro-matcher
     - match: ';'
 
@@ -586,16 +586,16 @@ contexts:
     - meta_include_prototype: false
     - meta_scope: meta.group.rust
     - match: '\)'
-      scope: punctuation.definition.group.end.rust
+      scope: punctuation.section.group.end.rust
       set: macro-match-operator
     - match: '(\$)(\()'
       captures:
         1: keyword.operator.rust
-        2: punctuation.definition.group.begin.rust
+        2: punctuation.section.group.begin.rust
       push:
         - match: '(\))[^*+]?([*+])'
           captures:
-            1: punctuation.definition.group.end.rust
+            1: punctuation.section.group.end.rust
             2: keyword.operator.rust
           pop: true
         - include: macro-metavariable
@@ -605,27 +605,27 @@ contexts:
     - match: '=>'
       scope: keyword.operator.rust
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       set:
         - meta_scope: meta.block.rust
         - match: '\}'
-          scope: punctuation.definition.block.end.rust
+          scope: punctuation.section.block.end.rust
           pop: true
         - include: statements
     - match: '\('
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       set:
         - meta_scope: meta.group.rust
         - match: '\)'
-          scope: punctuation.definition.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - include: statements
     - match: '\['
-      scope: punctuation.definition.group.begin.rust
+      scope: punctuation.section.group.begin.rust
       set:
         - meta_scope: meta.group.rust
         - match: '\]'
-          scope: punctuation.definition.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - include: statements
 
@@ -719,21 +719,21 @@ contexts:
     - meta_scope: meta.function.rust
     - include: comments
     - match: '\)'
-      scope: meta.function.parameters.rust punctuation.definition.parameters.end.rust
+      scope: meta.function.parameters.rust punctuation.section.parameters.end.rust
       set: fn-return
     - match: '\('
-      scope: punctuation.definition.parameters.begin.rust
+      scope: punctuation.section.parameters.begin.rust
       push:
         - meta_scope: meta.function.parameters.rust
         - include: comments
         - match: '(?=\))'
           pop: true
         - match: '\('
-          scope: meta.group.rust punctuation.definition.group.begin.rust
+          scope: meta.group.rust punctuation.section.group.begin.rust
           push:
             - meta_content_scope: meta.group.rust
             - match: '\)'
-              scope: meta.group.rust punctuation.definition.group.end.rust
+              scope: meta.group.rust punctuation.section.group.end.rust
               pop: true
             - match: ','
               scope: punctuation.separator.rust
@@ -742,11 +742,11 @@ contexts:
         - match: '(:)\s*(\()'
           captures:
             1: punctuation.separator.rust
-            2: meta.group.rust punctuation.definition.group.begin.rust
+            2: meta.group.rust punctuation.section.group.begin.rust
           push:
             - meta_content_scope: meta.group.rust
             - match: '\)'
-              scope: meta.group.rust punctuation.definition.group.end.rust
+              scope: meta.group.rust punctuation.section.group.end.rust
               pop: true
             - match: ','
               scope: punctuation.separator.rust
@@ -787,10 +787,10 @@ contexts:
   fn-body:
     - meta_scope: meta.function.rust
     - match: '\}'
-      scope: meta.block.rust punctuation.definition.block.end.rust
+      scope: meta.block.rust punctuation.section.block.end.rust
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       push:
         - meta_scope: meta.block.rust
         - match: '(?=\})'
@@ -800,10 +800,10 @@ contexts:
   statements-block:
     - include: comments
     - match: '\}'
-      scope: meta.block.rust punctuation.definition.block.end.rust
+      scope: meta.block.rust punctuation.section.block.end.rust
       pop: true
     - match: '\{'
-      scope: punctuation.definition.block.begin.rust
+      scope: punctuation.section.block.begin.rust
       push: [block-body, try-closure]
 
   comments:
