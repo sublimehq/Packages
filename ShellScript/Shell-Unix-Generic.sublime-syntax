@@ -312,6 +312,8 @@ contexts:
           captures:
             1: keyword.control.heredoc-token.shell
           pop: true
+        - match: '\\[`\\$]'
+          scope: constant.character.escape.shell
         - include: variable
         - include: interpolation
   herestring:
