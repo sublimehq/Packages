@@ -354,7 +354,9 @@ contexts:
           pop: true
         - match: '\\[`\\$]'
           scope: constant.character.escape.shell
-        - include: main
+        - include: string
+        - include: variable
+        - include: interpolation
     - match: \$\(
       captures:
         0: punctuation.definition.string.begin.shell
@@ -364,7 +366,9 @@ contexts:
           captures:
             0: punctuation.definition.string.end.shell
           pop: true
-        - include: main
+        - include: string
+        - include: variable
+        - include: interpolation
   keyword:
     - match: '(?<![-/.+~])\b(?:if|then|else|elif|fi|for|in|do|done|select|case|continue|esac|while|until|return)\b(?![-/.+~])'
       scope: keyword.control.shell
@@ -500,7 +504,8 @@ contexts:
           captures:
             0: punctuation.definition.string.end.shell
           pop: true
-        - include: main
+        - include: string
+        - include: variable
     - match: '&>|\d*>&\d*|\d*(>>|>|<)|\d*<&|\d*<>'
       comment: "valid: &>word >&word >word [n]>&[n] [n]<word [n]>word [n]>>word [n]<&word (last one is duplicate)"
       scope: keyword.operator.redirect.shell

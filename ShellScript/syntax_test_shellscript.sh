@@ -21,33 +21,52 @@ cat /etc/passwd 2>&1 >/dev/null
 cat </etc/passwd
 #   ^ keyword.operator.redirect
 
-cat <(cat /etc/passwd)
-#     ^^^ support.command
+cat <(cat /etc/passwd | grep $USER)
 #   ^^ punctuation.definition.string.begin
-#   ^^^^^^^^^^^^^^^^^^ string.interpolated.process-substitution
-#                    ^ punctuation.definition.string.end
+#                            ^^^^^ variable.other.normal
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.process-substitution
+#                                 ^ punctuation.definition.string.end
 
-FOO=`ls -la /etc | grep "$USER" 'user'`
+FOO=`echo "$USER" '$USER' $(echo foo) | grep $USER`
 #  ^ keyword.operator.assign
-#    ^^ support.command
-#                ^ keyword.operator.pipe
-#                        ^^^^^ variable.other.normal
-#                       ^^^^^^^ string.quoted.double
-#                               ^^^^^^ string.quoted.single
+#          ^^^^^ variable.other.normal
+#                  ^^^^^ -variable.other.normal
+#                                            ^^^^^ variable.other.normal
+#         ^^^^^^^ string.quoted.double
+#                 ^^^^^^^ string.quoted.single
+#                         ^^^^^^^^^^^ string.interpolated.dollar
 #   ^ punctuation.definition.string.begin
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.backtick
-#                                     ^ punctuation.definition.string.end
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.backtick
+#                                                 ^ punctuation.definition.string.end
 
-FOO=$(ls -la /etc | grep "$USER" 'user')
+FOO=`echo `echo bar``
 #  ^ keyword.operator.assign
-#     ^^ support.command
-#                 ^ keyword.operator.pipe
-#                         ^^^^^ variable.other.normal
-#                        ^^^^^^^ string.quoted.double
-#                                ^^^^^^ string.quoted.single
+#   ^^^^^^^ string.interpolated.backtick
+#          ^^^^^^^^ -string.interpolated.backtick
+
+FOO=$(grep "$USER" '$USER' $(echo foo) `echo bar` | grep $USER)
+#  ^ keyword.operator.assign
+#           ^^^^^ variable.other.normal
+#                                                        ^^^^^ variable.other.normal
+#                   ^^^^^ -variable.other.normal
+#          ^^^^^^^ string.quoted.double
+#                  ^^^^^^^ string.quoted.single
+#                          ^^ punctuation.definition.string.begin
+#                                    ^ punctuation.definition.string.end
+#                                      ^ punctuation.definition.string.begin
+#                                               ^ punctuation.definition.string.end
+#                                      ^^^^^^^^^^ string.interpolated.backtick
 #   ^^ punctuation.definition.string.begin
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.dollar
-#                                      ^ punctuation.definition.string.end
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.interpolated.dollar
+#                                                             ^ punctuation.definition.string.end
+
+echo $((1+1))
+#    ^^^ punctuation.definition.string.begin
+#       ^ constant.numeric.integer
+#        ^ keyword.operator.arithmetic
+#         ^ constant.numeric.integer
+#          ^^ punctuation.definition.string.end
+#    ^^^^^^^^ string.other.math
 
 test -f /usr/bin/gcc
 #^^^ support.function.builtin
