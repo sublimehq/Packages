@@ -68,6 +68,21 @@ echo $((1+1))
 #          ^^ punctuation.definition.string.end
 #    ^^^^^^^^ string.other.math
 
+cat <<< hello world
+#   ^^^ keyword.operator.herestring
+#       ^^^^^ string.unquoted
+#             ^^^^^ -string
+
+cat <<< "hello" world
+#   ^^^ keyword.operator.herestring
+#       ^^^^^^^ string.quoted.double
+#               ^^^^^ -string
+
+cat <<< 'hello' world
+#   ^^^ keyword.operator.herestring
+#       ^^^^^^^ string.quoted.single
+#               ^^^^^ -string
+
 test -f /usr/bin/gcc
 #^^^ support.function.builtin
 #                ^^^ -support.command

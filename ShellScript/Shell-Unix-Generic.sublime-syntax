@@ -315,14 +315,14 @@ contexts:
         - include: variable
         - include: interpolation
   herestring:
-    - match: "(<<<)((')[^']*('))"
+    - match: "(<<<) *((')[^']*('))"
       scope: meta.herestring.shell
       captures:
         1: keyword.operator.herestring.shell
         2: string.quoted.single.herestring.shell
         3: punctuation.definition.string.begin.shell
         4: punctuation.definition.string.end.shell
-    - match: '(<<<)((")(\\("|\\)|[^"])*("))'
+    - match: '(<<<) *((")(\\("|\\)|[^"])*("))'
       scope: meta.herestring.shell
       captures:
         1: keyword.operator.herestring.shell
