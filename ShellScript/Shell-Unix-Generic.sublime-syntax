@@ -312,6 +312,8 @@ contexts:
           captures:
             1: keyword.control.heredoc-token.shell
           pop: true
+        - include: variable
+        - include: interpolation
   herestring:
     - match: "(<<<)((')[^']*('))"
       scope: meta.herestring.shell
