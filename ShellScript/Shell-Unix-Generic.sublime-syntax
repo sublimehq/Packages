@@ -317,25 +317,13 @@ contexts:
         - include: variable
         - include: interpolation
   herestring:
-    - match: "(<<<) *((')[^']*('))"
-      scope: meta.herestring.shell
+    - match: (<<<)\s*(\w+)
       captures:
         1: keyword.operator.herestring.shell
-        2: string.quoted.single.herestring.shell
-        3: punctuation.definition.string.begin.shell
-        4: punctuation.definition.string.end.shell
-    - match: '(<<<) *((")(\\("|\\)|[^"])*("))'
-      scope: meta.herestring.shell
+        2: string.unquoted.shell
+    - match: (<<<)\s*(?=[^\w])
       captures:
         1: keyword.operator.herestring.shell
-        2: string.quoted.double.herestring.shell
-        3: punctuation.definition.string.begin.shell
-        6: punctuation.definition.string.end.shell
-    - match: '(<<<)(([^\s\\]|\\.)+)'
-      scope: meta.herestring.shell
-      captures:
-        1: keyword.operator.herestring.shell
-        2: string.unquoted.herestring.shell
   interpolation:
     - match: '\$\({2}'
       captures:
