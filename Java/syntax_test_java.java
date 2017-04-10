@@ -42,13 +42,14 @@ public class SyntaxTest {
 //                                                     ^ punctuation.terminator.java
 
     public static void main(String... args) {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+//                     ^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^ storage.modifier.java
 //         ^^^^^^ storage.modifier.java
-//                ^^^^ meta.method.return-type storage.type
+//                ^^^^ storage.type
 //                     ^^^^ meta.method.identifier.java entity.name.function.java
 //                         ^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                         ^ punctuation.section.parens.begin.java
+//                                ^^^ storage.modifier.variable-arity
 //                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
 //                                        ^ punctuation.section.parens.end.java
@@ -90,13 +91,13 @@ public class SyntaxTest {
     }
 
     private static void printList(List<String> args) {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
-//                 ^^^^ meta.method.return-type storage.type
+//                 ^^^^ storage.type
 //                      ^^^^^^^^^ meta.method.identifier entity.name.function.java
 //                               ^^^^^^^^^^^^^^^^^^^ meta.method.parameters
-//                                     ^^^^^^ support.type.java
+//                                     ^^^^^^ support.class.java
 //                                             ^^^^ variable.parameter.java
 //                                                  ^^ - meta.method.identifier.java
 //                                                   ^^ meta.method.body.java
@@ -105,10 +106,10 @@ public class SyntaxTest {
     }
 
     private static void anotherMethod() throws MyException<Abc> {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
 //          ^^^^^^ storage.modifier.java
-//                 ^^^^ meta.method.return-type.java storage.type
+//                 ^^^^ storage.type
 //                      ^^^^^^^^^^^^^ meta.method.identifier entity.name.function.java
 //                                   ^^ meta.method.parameters
 //                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws
@@ -122,9 +123,10 @@ public class SyntaxTest {
     }
 
     <T> void save(T obj);
-//  ^^^^^^^^^^^^^^^^^^^^ meta.method
+//           ^^^^^^^^^^^ meta.method
 //  ^^^ meta.generic
-//      ^^^^ meta.method.return-type
+//   ^  variable.parameter.type
+//      ^^^^ storage.type
 //           ^^^^ meta.method.identifier
 //               ^^^^^^^ meta.method.parameters
 }
@@ -146,7 +148,7 @@ class ExtendsTest implements Foo {}
 class Foo<A> extends Bar<? extends A> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //       ^^^ meta.generic.java
-//        ^ support.type.java
+//        ^ variable.parameter.type.java
 //           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
 //                         ^^^^^^^ keyword.declaration.extends.java
 
@@ -157,7 +159,7 @@ class AnyClass {
 //           ^^ punctuation.definition.comment.java
 
     public void anyMethod(String finality){
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //              ^^^^^^^^^ meta.method.identifier
 //                       ^^^^^^^^^^^^^^^^^ meta.method.parameters
 //                               ^^^^^^^^ variable.parameter - storage.modifier
@@ -168,11 +170,13 @@ class AnyClass {
 
     public abstract <A> void test(A thing);
 //                  ^^^ meta.generic.java
-//                   ^ support.type.java
+//                   ^ variable.parameter.type.java
 
     public void test2(Type) abc
 //                          ^^^ - variable.parameter
+//                          ^ - meta.method.java
 }
+// <- punctuation.section.class.end.java
 
 public enum FooBaz {
 //     ^^^^ storage.type.java
@@ -201,61 +205,86 @@ class InvalidStuff
 //  ^^^^^ invalid.illegal
 }
 
-   volatile
-// ^^^^^^^^ storage.modifier.java
+public class Lambdas {
+  volatile int foo;
+//^^^^^^^^ storage.modifier.java
 
-   foo();
-// ^^^ variable.function.java
-   Foo();
-// ^^^ variable.function.java
-   foo ();
-// ^^^ variable.function.java
-   foo<A>();
-// ^^^ variable.function.java
-   foo <B>();
-// ^^^ variable.function.java
+  void anonymousFunctions() {
+     foo();
+//   ^^^ variable.function.java
 
-   a -> 42;
-// ^ variable.parameter.java
-//   ^^ storage.type.lambda.java
-//      ^^ constant.numeric
+// Capital names are usually used for classes
+     Foo();
+/*   ^^^ variable.function.java */
 
-   a -> { return 42; };
-//      ^^^^^^^^^^^^^^ meta.lambda.body.java
+     foo ();
+//   ^^^ variable.function.java
+     this.<A>foo();
+//           ^^^ variable.function.java
+//        ^^^ meta.generic.java
+//         ^ variable.parameter.type.java
+     this.<B> foo();
+//            ^^^ variable.function.java
+//        ^^^ meta.generic.java
+//         ^ variable.parameter.type.java
 
-   (a, b) -> 42;
-//  ^ variable.parameter.java
-//     ^ variable.parameter.java
-//        ^^ storage.type.lambda.java
-//           ^^ constant.numeric
+     Function<String, Integer> func = a -> 42;
+//                                  ^^^^^^^^^ meta.assignment.rhs.java
+//                                    ^ variable.parameter.java
+//                                      ^^ storage.type.lambda.java
+//                                         ^^ constant.numeric
+//                                           ^ punctuation.terminator.java
+     foo(a -> 42);
+//   ^^^^^^^^^^^^ meta.function-call.java
+//   ^^^ variable.function.java
+//      ^ punctuation.section.parens.begin.java
+//       ^ variable.parameter.java
+//         ^^ storage.type.lambda.java
+//            ^^ constant.numeric
+//              ^ punctuation.section.parens.end.java
+//               ^ punctuation.terminator.java
 
-   (int a, Foo<Integer>[] b) -> 42;
-//  ^^^ storage.type.primitive
-//      ^ variable.parameter.java
-//         ^^^ support.class.java
-//                        ^ variable.parameter.java
-//                           ^^ storage.type.lambda.java
-//                              ^^ constant.numeric
+     a -> { return 42; };
+//        ^^^^^^^^^^^^^^ meta.lambda.body.java
 
-new Foo<Abc>();
-//     ^^^^^ meta.generic.java
-//      ^^^ support.type.java
-//     ^ punctuation.definition.generic.begin.java
-//         ^ punctuation.definition.generic.end.java
+     (a, b) -> 42;
+//    ^ variable.parameter.java
+//       ^ variable.parameter.java
+//          ^^ storage.type.lambda.java
+//             ^^ constant.numeric
 
-new Foo<?>();
-//      ^ keyword.operator.wildcard.java
+     (int a, Foo<Integer>[] b) -> 42;
+//    ^^^ storage.type.primitive
+//        ^ variable.parameter.java
+//           ^^^ support.class.java
+//                          ^ variable.parameter.java
+//                             ^^ storage.type.lambda.java
+//                                ^^ constant.numeric
 
-new Foo<? extends Bar>();
-//      ^ keyword.operator.wildcard.java
-//        ^^^^^^^ keyword.declaration.extends.java
+  new Foo<Abc>();
+//       ^^^^^ meta.generic.java
+//        ^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//           ^ punctuation.definition.generic.end.java
 
-new Foo<? super Bar>();
-//      ^ keyword.operator.wildcard.java
-//        ^^^^^ keyword.declaration.extends.java
+  new Foo<?>();
+//        ^ keyword.operator.wildcard.java
 
-new Foo<int>();
-//      ^^^ invalid.illegal.primitive-instantiation.java
+  new Foo<? extends Bar, String>();
+//        ^ keyword.operator.wildcard.java
+//                  ^^^ support.class.java
+//          ^^^^^^^ keyword.declaration.extends.java
+//                     ^ punctuation.section.generic.separator.java
+  //                     ^^^^^^ support.class.java
+
+  new Foo<? super Bar>();
+//        ^ keyword.operator.wildcard.java
+//          ^^^^^ keyword.declaration.super.java
+
+  new Foo<int>();
+//        ^^^ invalid.illegal.primitive-instantiation.java
+  }
+}
 
 public class Test {
 
@@ -274,41 +303,353 @@ public class Test {
     }
 }
 
-@ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
-// <- meta.annotation punctuation.definition.annotation
- // <- meta.annotation.identifier
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
-//                                      ^ punctuation.accessor.dot
-//                                       ^ constant
-public class GrafoTest
-{
-    @Override
-//  ^^^^^^^^^ meta.annotation
-//  ^ punctuation.definition.annotation
-//   ^^^^^^^^ variable.annotation
-    void test1() {
-//       ^ entity.name.function
-    }
-
-    @Author(first = "Oompah", last = "Loompah")
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
-//  ^ punctuation.definition.annotation
-//   ^^^^^^ meta.annotation.identifier variable.annotation
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
-//         ^ punctuation.section.parens.begin
-//                ^ keyword.operator
-//                  ^^^^^^^^ string
-//                                 ^ keyword.operator
-//                                   ^^^^^^^^ string
-//                                            ^ punctuation.section.parens.end
-    void test2() {
-//       ^ entity.name.function
-
-        Grafo grafo = new Grafo( true );
-        final Grafo temposMaisCedo = new Grafo( true );
-//      ^ storage.modifier
-//            ^ support.class
-    }
+public enum FooEnum {
+//     ^^^^ storage.type.java
+  FOO;
+//^^^ constant.other.enum
 }
+// <- meta.class.java meta.class.body.java punctuation.section.class.end.java
+
+public enum FooBarEnum {
+//     ^^^^ storage.type.java
+  FOO,
+//^^^ constant.other.enum
+  BAR;
+//^^^ constant.other.enum
+}
+
+public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
+//                          ^ punctuation.definition.generic.begin.java
+//                                                  ^ punctuation.definition.generic.end.java
+//                                               ^ punctuation.section.generic.separator.java
+//                                     ^ support.class.java
+//                                                                         ^ punctuation.section.class.start.java
+}
+
+class Bàr {
+//    ^^^ entity.name.class.java
+  Bàr() {}
+//^^^^^ meta.method.java
+//^^^ entity.name.function.constructor.java
+}
+
+@SomeInterface
+// <- source.java storage.type.annotation.java
+public class Foo {
+// <- meta.class.java storage.modifier.java
+//     ^ meta.class.java meta.class.identifier.java storage.type.java
+//               ^ punctuation.section.class.start.java
+
+  @Inject
+  public Foo(
+//       ^ meta.method.java
+//       ^ entity.name.function.constructor
+    // Comment for annotation
+    @MyAnnotation FooType annotatedParam,
+//  ^ storage.type.annotation.java
+//                ^ support.class.java
+//                        ^ variable.parameter.java
+    String unannotatedParam) {
+//  ^ support.class.java
+//         ^ variable.parameter.java
+    return;
+//  ^ keyword.control.java
+  }
+
+  void bar$() {}
+//     ^^^^^^ meta.method.java
+//     ^^^^ entity.name.function
+
+  void à() {}
+//     ^^ meta.method.java
+//     ^ entity.name.function
+
+  MyClass myClass = new MyClass(
+      SomeEnum.ENUM_VALUE,
+      new OtherNewClass(),
+      new OtherNestedClass(
+          SomeEnum.ENUM_VALUE,
+          new SuperNestedClass(param, 2)),
+      anotherParam);
+
+  public static final MyObject MY_CONST = new MyObject();
+//                             ^ entity.name.constant
+
+  Object foo = new TypeLiteral<
+      StandardReferenceNumberProcessor<
+          SimpleGenerateReferenceNumberOperation,
+          SimpleSyncReferenceNumberOperation>>() {};
+
+  Object bar = SomeStaticClass.newBuilder().doThings(1)
+//                             ^ meta.function-call.java variable.function.java
+//                                          ^ meta.function-call.java variable.function.java
+//                                                   ^ meta.function-call.java constant.numeric.java
+      .withString("I am a string");
+//     ^ meta.function-call.java variable.function.java
+//                ^ meta.function-call.java string.quoted.double.java
+
+  Object bah = someStaticMethodCall(4)
+//             ^ meta.function-call.java variable.function.java
+//                                  ^ meta.function-call.java constant.numeric.java
+      .withString("I am a string");
+//     ^ meta.function-call.java variable.function.java
+//                ^ meta.function-call.java string.quoted.double.java
+
+  private static final String DEFAULT_IDEMPOTENCY_KEY = 44493;
+//                            ^ entity.name.constant
+//                                                      ^ constant.numeric.java
+
+
+  private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
+//                             ^ meta.generic.java support.class.java
+//                                       ^ meta.generic.java support.class.java punctuation.accessor.dot.java
+      and.fully.Qualified<Generic>> myVariable;
+//                          ^ meta.generic.java meta.generic.java support.class.java
+
+  private MyObject otherObject = MY_CONST;
+//                               ^ constant.other.java
+  private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
+//                          ^^^^^^^^^^^^^ support.class.java
+//                             ^ punctuation.accessor.dot.java
+//                                       ^ punctuation.accessor.dot.java
+//                                        ^ constant.other.java
+  private static final UUID SECURE_ID = UUID.randomUUID();
+//                     ^ support.class.java
+//                          ^ entity.name.constant
+//                                      ^ support.class.java
+//                                           ^ meta.function-call.java variable.function.java
+
+  class SubClass extends AbstractClass.NestedClass {
+//      ^ entity.name.class.java
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                    ^ punctuation.accessor.dot.java
+//                                                 ^ punctuation.section.class.start.java
+  }
+
+  class SubClass extends AbstractClass {
+//      ^ entity.name.class.java
+//                       ^ entity.other.inherited-class.java
+  }
+
+  Function<Foo, Bar> BLOCK_LAMBDA = r -> {
+//                   ^ entity.name.constant
+//                                ^ keyword.operator.assignment.java
+//                                    ^ storage.type.lambda.java
+//                                       ^ meta.block punctuation.section.block.begin
+    return 1;
+//  ^ keyword.control.java
+  };
+//^ meta.block punctuation.section.block.end
+// ^ punctuation.terminator
+
+  Supplier<Foo> supplier = () -> true;
+//                         ^ punctuation.section.parens.begin.java
+//                          ^ punctuation.section.parens.end.java
+//                       ^ keyword.operator.assignment.java
+//                            ^ storage.type.lambda.java
+//                                   ^ punctuation.terminator
+
+  byte[] byteArray;
+//^^^^ storage.type.primitive.array.java
+//    ^^ keyword.operator.array.java
+  static {
+//       ^ meta.static.body.java
+    StaticFlag.setFlag("Boo!");
+  }
+
+  @Test
+//^ storage.type.annotation.java
+  public void someMethod(WithParam foo) throws Exception {
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+//            ^^^^^^^^^^ meta.method.identifier.java entity.name.function.java
+//                       ^ support.class.java
+//                                 ^ variable.parameter.java
+//                                      ^^^^^^^^^^^^^^^^ meta.method.throws.java
+//                                      ^^^^^^ storage.modifier.java
+//                                             ^^^^^^^^^ support.class.java
+//                                                       ^ meta.method.java meta.method.body.java punctuation.definition.method.start.java
+    Object otherFoo = methodInvocation(foo);
+//  ^  support.class.java
+//                  ^ keyword.operator.assignment.java
+//                    ^ meta.function-call.java variable.function.java
+//                                         ^ punctuation.terminator.java
+    OtherObject bob = new OtherObject(foo);
+//                    ^ keyword.control.new.java
+//                        ^ support.class.java
+    this.foo = new SubClass[0];
+//             ^ keyword.control.new.java
+//                 ^ new-array-type storage.type.java
+//                         ^^^ new-array-type nth-dimension-array
+
+    foo.forEach((k, v) -> {
+//                     ^ storage.type.lambda.java
+//                        ^ punctuation.section.block.begin
+
+      return;
+//    ^ keyword.control.java
+//          ^ punctuation.terminator
+    });
+//  ^ punctuation.section.block.end.java
+//    ^ punctuation.terminator
+    this.foo = new SubClass(new SubClass[0], true);
+//             ^ keyword.control.new.java
+//                 ^ support.class.java
+//                                      ^^^ new-array-type nth-dimension-array
+//                                           ^ new-object-params constant.language.java
+/* We can't support this yet.*/
+    some.other.path.
+/*  ^^^^^^^^^^^^^^^^ support.class.java */
+        foo.MyClass.staticMethod(true);
+/*      ^^^^^^^^^^^ support.class.java */
+
+    some.other.path
+/*  ^^^^^^^^^^^^^^^ support.class.java */
+        .foo.MyClass.staticMethod(true);
+/*      ^^^^^^^^^^^^ support.class.java */
+  }
+//^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
+
+  public class Foo<T extends int> {}
+  //              ^^^^^^^^^^^^^^^ meta.generic.java
+  //               ^ variable.parameter.type.java
+  //                 ^^^^^^^ keyword.declaration.extends.java
+  //                         ^^^ invalid.illegal.primitive-instantiation.java
+
+  @RunWith(JUnit4.class)
+//^ storage.type.annotation.java
+//         ^ meta.declaration.annotation.java support.class.java
+//                ^ meta.declaration.annotation.java
+  public void someReallyReallyLongMethodNameThatMakesTheBraceOverflowToTheNextLine(
+//            ^ meta.method.java meta.method.identifier.java entity.name.function.java
+//                                                                                ^ punctuation.section.parens.begin
+      WithSomeParams foo,
+//    ^ meta.method.java meta.method.parameters.java support.class.java
+//                   ^ meta.method.java meta.method.parameters.java variable.parameter.java
+      Generic<Param> bar)
+//    ^ meta.method.java meta.method.parameters.java support.class.java
+//    ^^^^^^^^^^^^^^ meta.generic.java
+//                   ^ meta.method.java meta.method.parameters.java variable.parameter.java
+//                      ^ punctuation.section.parens.end
+      throws Exception {
+//    ^ meta.method.java meta.method.throws.java storage.modifier.java
+//           ^ meta.method.java meta.method.throws.java support.class.java
+    return someMethod(new Function<V, V>() {
+      @Override
+      public V apply(V input) {
+//           ^ support.class.java
+//                  ^^^^^^^^^ meta.method.parameters.java
+//                   ^ support.class.java
+//                     ^ variable.parameter.java
+//                            ^ meta.method.body
+        return input;
+      }
+//    ^ meta.method.body
+    }, executor);
+//  ^ meta.inner-class.java
+//             ^ meta.function-call.java punctuation.section.parens.end.java
+  }
+//^ meta.method.body.java punctuation.definition.method.end.java
+
+  public static <T> T writeAll(Collection<? extends T>, Sink<T>) {}
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+//              ^^^ meta.generic.java
+//               ^ variable.parameter.type.java
+//                 ^ - meta.generic.java
+//                  ^ support.class.java
+//                             ^ support.class.java
+//                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//                                       ^ punctuation.definition.generic.begin.java
+//                                        ^ keyword.operator.wildcard.java
+//                                          ^ keyword.declaration.extends.java
+//                                                  ^ support.class.java
+//                                                   ^ punctuation.definition.generic.end.java
+//                                                    ^ punctuation.separator.java - meta.generic.java
+//                                                      ^^^^^^^ meta.generic.java
+
+  public static <T extends Comparable<? super T>>
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//               ^ variable.parameter.type.java
+//                         ^^^^^^^^^^ support.class.java
+//                                   ^ punctuation.definition.generic.begin.java
+//                                    ^ keyword.operator.wildcard.java
+//                                      ^ keyword.declaration.super.java
+//                                            ^ support.class.java
+//                                             ^ punctuation.definition.generic.end.java
+//                                              ^ punctuation.definition.generic.end.java
+//                                   ^^^^^^^^^^^  meta.generic.java meta.generic.java
+        T max(Collection<T> coll);
+//      ^ support.class.java
+
+    <T> public static Set<T> unmodifiableSet(Set<T> set);
+//  ^^^ meta.generic.java
+//   ^ variable.parameter.type.java
+
+  public void
+//       ^ storage.type.primitive.java
+      methodNameOnDifferentLine();
+//    ^ meta.method.identifier.java entity.name.function.java
+
+  void myAbstractMethod(With<GenericParam> foo);
+//     ^ meta.method.java meta.method.identifier.java entity.name.function.java
+
+  private Long myOtherAbstractMethod(@WithAnnotation Blah blah);
+//             ^ meta.method.java meta.method.identifier.java entity.name.function.java
+//                                   ^ meta.method.java meta.method.parameters.java storage.type.annotation.java
+
+  public MyGeneric<Param, With, Multiple, Types> otherAbstractMethod(Foo<With, Another> bar);
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//                                              ^ - meta.generic.java
+//       ^ support.class.java
+//                 ^ support.class.java
+//                        ^ support.class.java
+//                              ^ support.class.java
+//                                        ^ support.class.java
+//                                               ^ meta.method.java meta.method.identifier.java entity.name.function.java
+
+  public static <T extends AutoCloseable> void myGenericMethod(SomeType<T> root)
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^  variable.parameter.type.java
+//                 ^ keyword.declaration.extends.java
+//                         ^ support.class.java
+//                                        ^ storage.type.primitive.java
+//                                             ^entity.name.function.java
+
+        throws Exception {
+//      ^^^^^^^^^^^^^^^^ meta.method.throws
+//                      ^ - meta.method.throws
+  }
+}}
+// <- meta.class.java meta.class.body.java punctuation.section.class.end.java
+ //<- invalid.illegal.stray-brace-end
+
+public
+// <- storage.modifier.java
+class IOException { }
+// <- storage.type.java
+
+public class Generic<T> implements Other<T> {
+//                                 ^ entity.other.inherited-class.java
+//                                       ^ support.class.java
+}
+// <- punctuation.section.class.end.java
+
+public class Bar {
+  public void missingSemiColon() {
+    boolean foo = foo
+//               ^^^^ meta.assignment.rhs.java
+  }
+//^ punctuation.definition.method.end.java
+
+  private SomeClass methodWithBadParens(
+    CombinedServerSpec vendorManagementServerSpec;
+//                                               ^ invalid.illegal.missing-parameter-end
+
+  public void strayParans() {
+//                          ^ punctuation.definition.method.start.java
+    foo.bar(hello(world);
+//                      ^ invalid.illegal.stray-terminator-end
+  }
+//^ punctuation.definition.method.end.java
+}
+// <- punctuation.section.class.end.java
