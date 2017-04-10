@@ -224,8 +224,6 @@ contexts:
       pop: true
 
   comments-top-level:
-    - match: (<!--|-->)
-      scope: comment.block.html.js punctuation.definition.comment.js
     - match: ^(#!).*$\n?
       scope: comment.line.shebang.js
       captures:
@@ -233,7 +231,7 @@ contexts:
 
   statements:
     - include: conditional
-    - match: '\{(?!\{)'
+    - match: '\{'
       scope: punctuation.definition.block.js
       push:
         - meta_scope: meta.block.js
@@ -382,7 +380,6 @@ contexts:
     - include: literal-prototype
     - include: named-function
     - include: anonymous-function
-    - include: mustache
     - include: object-literal
     - include: brackets
     - include: literal-number
@@ -424,7 +421,6 @@ contexts:
       pop: true
 
   comments:
-    - include: special-comments-conditional-compilation
     - match: /\*\*(?!/)
       scope: punctuation.definition.comment.js
       push:
@@ -445,26 +441,6 @@ contexts:
         - meta_scope: comment.line.double-slash.js
         - match: \n
           pop: true
-
-  special-comments-conditional-compilation:
-    - match: /\*(?=@)
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_scope: comment.block.conditional.js
-        - match: \*/
-          scope: punctuation.definition.comment.js
-          pop: true
-        - match: /\*
-          scope: punctuation.definition.comment.js
-        - include: main
-    - match: (@)(if|elif|else|end|ifdef|endif|cc_on|set)\b
-      scope: keyword.control.conditional.js
-      captures:
-        1: punctuation.definition.keyword.js
-    - match: '(@)(_win32|_win16|_mac|_alpha|_x86|_mc680x0|_PowerPC|_jscript_build|_jscript_version|_jscript|_debug|_fast|[a-zA-Z]\w+)'
-      scope: variable.other.conditional.js
-      captures:
-        1: punctuation.definition.variable.js
 
   literal-string:
     - match: "'"
@@ -1013,13 +989,6 @@ contexts:
       captures:
         1: entity.name.label.js
         2: punctuation.separator.js
-
-  mustache:
-    - match: '\{\{'
-      push:
-        - meta_scope: meta.tag.mustache.js
-        - match: '\}\}'
-          pop: true
 
   object-literal:
     - match: '\{'

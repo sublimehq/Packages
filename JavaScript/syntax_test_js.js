@@ -154,8 +154,9 @@ if (true)
 // <- comment.block punctuation.definition.comment
 */
 
-<!-- -->
-// <- comment.block.html punctuation.definition.comment
+x --> 1;
+//^^ keyword.operator.arithmetic.js
+//  ^ keyword.operator.relational.js
 
 #! /usr/bin/env node
 // <- comment.line.shebang punctuation.definition.comment
@@ -163,15 +164,8 @@ if (true)
  #! /usr/bin/env node
 //^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
-/*@cc_on
-// <- punctuation.definition.comment
-//^ punctuation.definition.keyword
-//^^^^^^ comment.block.conditional keyword.control.conditional
-if (@_jscript_version==5.6) {}
-//  ^^^^^^^^^^^^^^^^^ variable.other.conditional
-//  ^ punctuation.definition.variable
-//                   ^^ keyword.operator.comparison
-@*/
+/*@ /*/
+//   ^^ punctuation.definition.comment.js
 
 var str = '\':';
 var str2 = NaN;
@@ -205,10 +199,7 @@ a = test ? a + b : c;
 //             ^ variable.other.readwrite
 
 {{foo}}
-// ^ meta.tag.mustache.js
-{{#bar}}{{/bar}}
-// ^ meta.tag.mustache.js
-//         ^ meta.tag.mustache.js
+// ^ meta.block meta.block variable.other.readwrite
 
 var obj = {
 //        ^ meta.object-literal - meta.block
