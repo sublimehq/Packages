@@ -42,6 +42,9 @@ contexts:
       scope: comment.block.c
       captures:
         1: meta.toc-list.banner.block.c
+    # See: Doxygen.sublime-syntax
+    # This needs to be before the "/*" match rule in order to match "/**"
+    - include: scope:source.doxygen
     - match: /\*
       scope: punctuation.definition.comment.c
       push:
