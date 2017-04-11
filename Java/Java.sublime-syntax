@@ -91,50 +91,57 @@ contexts:
     - match: \bnew\b
       scope: keyword.control.new.java
       push:
-        - meta_scope: annon-class-or-new
-        - match: '(?<=\)|\])(?!\s*{)|(?<=})|(?=;)'
-          pop: true
-        - match: '(\w+)\s*(?=\[)'
+        - meta_scope: meta.instantiation.java
+        - match: '({{primitives}})\s*(?=\[)'
           captures:
             1: storage.type.java
-          push:
-            - meta_scope: new-array-type
-            - match: '}|(?=;|\)|,)'
-              pop: true
-            - match: '\['
-              push:
-                - meta_scope: nth-dimension-array
-                - match: '\]'
-                  pop: true
-                - include: code
-            - match: "{"
-              push:
-                - meta_scope: array-constructor
-                - match: "(?=})"
-                  pop: true
-                - include: array-construction-block
-                - include: code
+          push: array-definition-body
+        - match: '({{qualified_id}})\s*(?=\[)'
+          captures:
+            1: support.class.java
+            2: punctuation.accessor.dot.java
+          push: array-definition-body
         - include: object-types
         - match: \(
+          scope: punctuation.section.parens.begin.java
           push:
-            - meta_scope: new-object-params
+            - meta_scope: meta.parens.java
             - match: \)
+              scope: punctuation.section.parens.end.java
               pop: true
             - include: code
-        - match: "{"
+        - match: \{
+          scope: punctuation.section.braces.begin.java
           push:
-            - meta_scope: meta.inner-class.java
-            - match: "}"
+            - meta_scope: meta.class.body.anonymous.java
+            - match: \}
+              scope: punctuation.section.braces.end.java
               pop: true
             - include: class-body
+        - include: any_POP
+  array-definition-body:
+    - match: \[
+      scope: punctuation.section.brackets.begin.java keyword.operator.array.java
+      push:
+        - meta_scope: meta.brackets.java
+        - match: \]
+          scope: punctuation.section.brackets.end.java keyword.operator.array.java
+          pop: true
+        - include: code
+    - include: array-construction-block
+    - include: any_POP
   array-construction-block:
     - match: "{"
+      scope: punctuation.definition.array-constructor.begin.java
       push:
-        - meta_scope: array-constructor-block
+        - meta_scope: meta.block.java
         - match: "}"
+          scope: punctuation.definition.array-constructor.end.java
           pop: true
         - include: array-construction-block
         - include: code
+        - match: \,
+          scope: punctuation.separator.java
   generic-declaration:
     - match: <
       comment: Generic parameter declaration scopes
@@ -203,7 +210,7 @@ contexts:
               pop: true
             - include: object-types-inherited
         - match: "{"
-          scope: punctuation.section.class.start.java
+          scope: punctuation.section.class.begin.java
           push:
             - meta_scope: meta.class.body.java
             - match: "}"
@@ -396,7 +403,7 @@ contexts:
               pop: true
         - include: throws
         - match: "{"
-          scope: punctuation.definition.method.start.java
+          scope: punctuation.definition.method.begin.java
           push:
             - meta_scope: meta.method.body.java
             - match: "}"
@@ -563,7 +570,7 @@ contexts:
           pop: true
         - include: code
   primitive-arrays:
-    - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)(\[\])+'
+    - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)((?:\[\])+)'
       scope: storage.type.primitive.array.java
       captures:
         1: keyword.operator.array.java

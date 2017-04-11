@@ -361,7 +361,7 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //                                                  ^ punctuation.definition.generic.end.java
 //                                               ^ punctuation.section.generic.separator.java
 //                                     ^ support.class.java
-//                                                                         ^ punctuation.section.class.start.java
+//                                                                         ^ punctuation.section.class.begin.java
 }
 @MultiLineAnnotation(
 // <- meta.annotation.java
@@ -392,7 +392,7 @@ class Bàr {
 public class Foo {
 // <- meta.class.java storage.modifier.java
 //     ^ meta.class.java meta.class.identifier.java storage.type.java
-//               ^ punctuation.section.class.start.java
+//               ^ punctuation.section.class.begin.java
 
   @Inject
 //^^^^^^^ meta.annotation
@@ -480,7 +480,7 @@ public class Foo {
 //      ^ entity.name.class.java
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
 //                                    ^ punctuation.accessor.dot.java
-//                                                 ^ punctuation.section.class.start.java
+//                                                 ^ punctuation.section.class.begin.java
   }
 
   class SubClass extends AbstractClass {
@@ -524,7 +524,7 @@ public class Foo {
 //                                      ^^^^^^^^^^^^^^^^ meta.method.throws.java
 //                                      ^^^^^^ storage.modifier.java
 //                                             ^^^^^^^^^ support.class.java
-//                                                       ^ meta.method.java meta.method.body.java punctuation.definition.method.start.java
+//                                                       ^ meta.method.java meta.method.body.java punctuation.definition.method.begin.java
     Object otherFoo = methodInvocation(foo);
 //  ^  support.class.java
 //                  ^ keyword.operator.assignment.java
@@ -535,8 +535,51 @@ public class Foo {
 //                        ^ support.class.java
     this.foo = new SubClass[0];
 //             ^ keyword.control.new.java
-//                 ^ new-array-type storage.type.java
-//                         ^^^ new-array-type nth-dimension-array
+//                 ^ support.class.java
+//                         ^^^ meta.brackets
+
+    int[] data = new int[]{0, 0, 0};
+//  ^^^^^ storage.type.primitive.array.java
+//     ^^ keyword.operator.array.java
+//               ^^^ keyword.control.new.java
+//                   ^^^ storage.type.java
+//                      ^^ keyword.operator.array.java
+//                        ^ punctuation.definition.array-constructor.begin.java
+//                         ^ constant.numeric.java
+//                          ^ punctuation.separator.java
+//                            ^ constant.numeric.java
+//                             ^ punctuation.separator.java
+//                               ^ constant.numeric.java
+//                                ^ punctuation.definition.array-constructor.end.java
+
+    int[][][] threeDimArr = new int[][][] {
+//  ^^^^^^^^^ storage.type.primitive.array.java
+//     ^^^^^^ keyword.operator.array.java
+//                              ^^^ storage.type.java
+      { { 1, 2 }, { 3, 4 } },
+//        ^ constant.numeric.java
+//         ^ punctuation.separator.java
+//           ^ constant.numeric.java
+//    ^ punctuation.definition.array-constructor.begin.java
+//                         ^ punctuation.definition.array-constructor.end.java
+//                          ^ punctuation.separator.java
+      { { 5, 6 }, { 7, 8 } }
+//        ^ constant.numeric.java
+//         ^ punctuation.separator.java
+//           ^ constant.numeric.java
+//    ^ punctuation.definition.array-constructor.begin.java
+//                         ^ punctuation.definition.array-constructor.end.java
+    };
+//  ^ punctuation.definition.array-constructor.end.java
+
+    threeDimArr = new int[1][3][4];
+//                    ^^^ storage.type.java
+//                       ^^^^^^^^^ meta.brackets.java
+
+    bob = new some.path.to.MyObject[3];
+//            ^^^^^^^^^^^^^^^^^^^^^ support.class.java
+//                                 ^^^ meta.brackets.java
+//                                  ^ constant.numeric.java
 
     foo.forEach((k, v) -> {
 //                     ^ storage.type.lambda.java
@@ -551,8 +594,8 @@ public class Foo {
     this.foo = new SubClass(new SubClass[0], true);
 //             ^ keyword.control.new.java
 //                 ^ support.class.java
-//                                      ^^^ new-array-type nth-dimension-array
-//                                           ^ new-object-params constant.language.java
+//                                      ^^^ meta.brackets
+//                                           ^ constant.language.java
 /* We can't support this yet.*/
     some.other.path.
 /*  ^^^^^^^^^^^^^^^^ support.class.java */
@@ -592,6 +635,7 @@ public class Foo {
 //    ^ meta.method.java meta.method.throws.java storage.modifier.java
 //           ^ meta.method.java meta.method.throws.java support.class.java
     return someMethod(new Function<V, V>() {
+//                                         ^ meta.class.body.anonymous.java punctuation.section.braces.begin.java
       @Override
       public V apply(V input) {
 //           ^ support.class.java
@@ -603,7 +647,7 @@ public class Foo {
       }
 //    ^ meta.method.body
     }, executor);
-//  ^ meta.inner-class.java
+//  ^ meta.class.body.anonymous.java punctuation.section.braces.end.java
 //             ^ meta.function-call.java punctuation.section.parens.end.java
   }
 //^ meta.method.body.java punctuation.definition.method.end.java
@@ -704,7 +748,7 @@ public class Bar {
 //                                               ^ invalid.illegal.missing-parameter-end
 
   public void strayParans() {
-//                          ^ punctuation.definition.method.start.java
+//                          ^ punctuation.definition.method.begin.java
     foo.bar(hello(world);
 //                      ^ invalid.illegal.stray-terminator-end
   }
