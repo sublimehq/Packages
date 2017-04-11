@@ -527,3 +527,61 @@ scanf("%ms %as %*[, ]", &buf);
 
 "foo % baz"
 /*   ^ - invalid */
+
+/////////////////////////////////////////////
+// Doxygen
+/////////////////////////////////////////////
+
+/**
+ * This is a documentation block
+ */
+/*^ comment.block.documentation punctuation.definition.comment.end */
+
+/*!
+ * This is also a documentation block
+ */
+/*^ comment.block.documentation punctuation.definition.comment.end */
+
+/**
+   The extra asterisk on every line is optional
+ */
+/*^ comment.block.documentation punctuation.definition.comment.end */
+
+/// This is a documentation line *before* an entity
+/*^ comment.line.documentation punctuation.definition.comment */
+
+/// @brief This should be recognized as a
+/// @details documentation **block**, not two documentation lines.
+/// More details. Yadda yadda.
+/*^ comment.line.documentation */
+
+//! @brief This should be recognized as a
+//! @details documentation **block**, not two documentation lines.
+//! More details. Yadda yadda.
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.documentation */
+
+int var; /*!< Detailed description after the member */
+/*       ^^^^ punctuation.definition.comment        */
+/*           ^ comment.block.documentation          */
+
+int var; /**< Detailed description after the member */
+/*       ^^^^ punctuation.definition.comment        */
+/*           ^ comment.block.documentation          */
+
+int var; //!< Detailed description after the member. This should be recognized
+         //!< as a documentation *block*, not two documentation lines.
+         //!< Unfortunately, that seems impossible at the moment.
+/*           ^ comment.line.documentation           */
+
+int var; ///< Detailed description after the member. This should be recognized
+         ///< as a documentation *block*, not two documentation lines.
+         ///< Unfortunately, that seems impossible at the moment.
+/*           ^ comment.line.documentation           */
+
+int var; //!< Brief description after the member. Documentation line.
+/*       ^^^^ punctuation.definition.comment        */
+/*           ^ comment.line.documentation           */
+
+int var; ///< Brief description after the member. Documentation line.
+/*       ^^^^ punctuation.definition.comment        */
+/*           ^ comment.line.documentation           */
