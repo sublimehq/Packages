@@ -70,7 +70,7 @@ contexts:
   annotations:
     - match: '(@)({{qualified_id}})'
       captures:
-        1: punctuation.definition.annotation.java storage.modifier.annotation
+        1: punctuation.definition.annotation.java
         2: meta.annotation.identifier.java support.class.java
         3: punctuation.accessor.dot.java
       push:
@@ -419,22 +419,26 @@ contexts:
         - match: '>|[^\w\s,\[\]<]'
           pop: true
   object-types:
-    - match: '\b((?:[a-zA-Z]\w*(\.))*[A-Z]\w*)(<)'
+    - match: '\b({{qualified_id}})(<)'
       captures:
         1: support.class.java
         2: punctuation.accessor.dot.java
         3: punctuation.definition.generic.begin.java
       push: object-type-generic
-    - match: '\b((?:[a-zA-Z]\w*\.)*[A-Z]+\w*)(?=\[)'
+    - match: '\b({{qualified_id}})(?=\[)'
+      captures:
+        1: support.class.java
+        2: punctuation.accessor.dot.java
       push:
-        - meta_scope: storage.type.object.array.java
-        - match: '(?=[^\]\s])'
-          pop: true
-        - match: '\['
+        - match: \[
+          scope: keyword.operator.array.java
           push:
-            - match: '\]'
+            - meta_scope: meta.brackets.java
+            - match: \]
+              scope: keyword.operator.array.java
               pop: true
             - include: code
+        - include: any_POP
     - include: simple-object-type
   simple-object-type:
     - match: '\b(?:[a-zA-Z]\w*(\.))*(?:(?=UUID\b|URI\b)|(?![A-Z0-9_]{2,}\b))[A-Z]\w*\b'
@@ -442,16 +446,20 @@ contexts:
       captures:
         1: punctuation.accessor.dot.java
   object-types-inherited:
-    - match: '\b((?:[a-zA-Z]\w*(\.))*[A-Z]+\w*)(<)'
+    - match: '\b({{qualified_id}})(?=<)'
       captures:
         1: entity.other.inherited-class.java
         2: punctuation.accessor.dot.java
-        3: punctuation.definition.generic.begin.java
-      push: object-type-generic
-    - match: '\b(?:[a-zA-Z]\w*(\.))*[A-Z]+\w*'
-      scope: entity.other.inherited-class.java
+      push:
+        - meta_scope: meta.inherited.java
+        - match: <
+          scope: punctuation.definition.generic.begin.java
+          push: object-type-generic
+        - include: any_POP
+    - match: '\b({{qualified_id}})\b'
       captures:
-        1: punctuation.accessor.dot.java
+        1: entity.other.inherited-class.java
+        2: punctuation.accessor.dot.java
   object-type-generic:
     - meta_scope: meta.generic.java
     - match: ">"

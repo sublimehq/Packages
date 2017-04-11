@@ -421,6 +421,20 @@ public class Foo {
 //     ^^ meta.method.java
 //     ^ entity.name.function
 
+  public static void main(String[] args, String<List> moreArgs, a.b.c.Foo bar) {}
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java
+//                        ^^^^^^ support.class.java
+//                              ^^ keyword.operator.array.java
+//                                 ^^^^ variable.parameter.java
+//                                     ^ punctuation.separator.java
+//                                       ^^^^^^^^^^^^ meta.generic.java
+//                                       ^^^^^^ support.class.java
+//                                              ^^^^ support.class.java
+//                                                    ^^^^^^^^ variable.parameter.java
+//                                                              ^^^^^^^^^ support.class.java
+//                                                                   ^ punctuation.accessor.dot.java
+//                                                                        ^^^ variable.parameter.java
+
   MyClass myClass = new MyClass(
       SomeEnum.ENUM_VALUE,
       new OtherNewClass(),
@@ -730,9 +744,14 @@ public
 class IOException { }
 // <- storage.type.java
 
-public class Generic<T> implements Other<T> {
-//                                 ^ entity.other.inherited-class.java
-//                                       ^ support.class.java
+public class Generic<T> implements fully.qualified.Other<T> {
+//                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.inherited.java
+//                                 ^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                                ^ punctuation.accessor.dot.java
+//                                                      ^^^ meta.generic.java
+//                                                      ^ punctuation.definition.generic.begin.java
+//                                                       ^ support.class.java
+//                                                        ^ punctuation.definition.generic.end.java
 }
 // <- punctuation.section.class.end.java
 
