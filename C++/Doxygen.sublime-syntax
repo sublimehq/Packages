@@ -10,7 +10,7 @@ variables:
 contexts:
   main:
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
-    - match: (/\*)(\*|!)(<?)
+    - match: (/\*)(\*|!)(<?)[^\*]
       scope: punctuation.definition.comment.begin.doxygen
       push: doc-block
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock

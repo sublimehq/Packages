@@ -4,6 +4,16 @@
 // comment blocks.
 ////////////////////////////////////////////////////////////////////////////////
 
+/*********************************************
+ * This should NOT be a documentation block. *
+ *********************************************/
+// ^ comment.block - comment.block.documentation
+
+/*************************************//**
+ * This should be a documentation block. *
+ *****************************************/
+// ^ comment.block.documentation
+
 /**
 // <- comment.block.documentation punctuation.definition.comment.begin
  *
