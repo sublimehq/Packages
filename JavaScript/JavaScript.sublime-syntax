@@ -43,7 +43,6 @@ contexts:
   import-extended:
     - meta_content_scope: meta.import.js
     - include: import-escape
-    # - include: comments
     - match: '\{'
       scope: meta.block.js punctuation.definition.block.js
       set: import-brace
@@ -69,7 +68,6 @@ contexts:
   import-extended-continue:
     - meta_scope: meta.import.js
     - include: import-escape
-    # - include: comments
     - match: ','
       scope: punctuation.separator.comma.js
       set: import-extended
@@ -79,7 +77,6 @@ contexts:
   import-brace:
     - meta_content_scope: meta.import.js meta.block.js
     - include: import-escape
-    # - include: comments
     - match: '\}'
       scope: punctuation.definition.block.js
       set: import-extended-as
@@ -105,7 +102,6 @@ contexts:
   import-brace-continue:
     - meta_scope: meta.import.js meta.block.js
     - include: import-escape
-    # - include: comments
     - match: '(?=\})'
       set: import-brace
     - match: ','
@@ -116,7 +112,6 @@ contexts:
 
   import-final:
     - meta_scope: meta.import.js
-    # - include: comments
     - match: '\bfrom\b'
       scope: keyword.control.import-export.js
     - include: literal-string
@@ -138,7 +133,6 @@ contexts:
           pop: true
         - include: expressions
     - include: export-escape
-    # - include: comments
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
       set:
@@ -168,7 +162,6 @@ contexts:
   export-extended-continue:
     - meta_scope: meta.export.js
     - include: export-escape
-    # - include: comments
     - match: ','
       scope: punctuation.separator.comma.js
       set: export-extended
@@ -178,7 +171,6 @@ contexts:
   export-brace:
     - meta_content_scope: meta.export.js meta.block.js
     - include: export-escape
-    # - include: comments
     - match: '\}'
       scope: punctuation.definition.block.js
       set: export-extended-as
@@ -208,7 +200,6 @@ contexts:
   export-brace-continue:
     - meta_scope: meta.export.js meta.block.js
     - include: export-escape
-    # - include: comments
     - match: '(?=\})'
       set: export-brace
     - match: ','
@@ -219,7 +210,6 @@ contexts:
 
   export-final:
     - meta_scope: meta.export.js
-    # - include: comments
     - match: '\bfrom\b'
       scope: keyword.control.import-export.js
     - include: literal-string
@@ -273,7 +263,6 @@ contexts:
       scope: keyword.control.loop.js
       push:
         - meta_scope: meta.do-while.js
-        # - include: comments
         - match: '\{'
           scope: punctuation.definition.block.js
           push:
@@ -355,7 +344,6 @@ contexts:
     - include: block-scope
 
   block-scope:
-    # - include: comments
     - match: '\}'
       scope: meta.block.js punctuation.definition.block.js
       pop: true
@@ -370,7 +358,6 @@ contexts:
       pop: true
 
   expressions:
-    # - include: comments
     - include: regexp-complete
     - include: literal-string
     - include: literal-string-template
@@ -685,11 +672,9 @@ contexts:
               pop: true
         - match: '{{identifier}}'
           scope: entity.name.class.js
-        # - include: comments
 
   class-body:
     - meta_scope: meta.class.js meta.block.js
-    # - include: comments
     - match: '\}'
       scope: punctuation.definition.block.js
       pop: true
@@ -864,7 +849,6 @@ contexts:
       push: arrow-function-declaration
 
   function-declaration:
-    # - include: comments
     - match: '\b(async)\b\s*'
       scope: meta.function.declaration.js
       captures:
@@ -906,7 +890,6 @@ contexts:
 
   arrow-function-declaration-continuation:
     - meta_content_scope: meta.function.declaration.js
-    # - include: comments
     - match: '(?=\{)'
       set: function-block
     - match: '(?=\S)'
@@ -990,7 +973,6 @@ contexts:
             - match: "(?=[,)])"
               pop: true
             - include: expressions
-        # - include: comments
 
   label:
     - match: '^\s*((?!default){{identifier}})\s*(:)'
@@ -1006,7 +988,6 @@ contexts:
         - match: '\}'
           scope: punctuation.definition.block.js
           set: after-identifier
-        # - include: comments
         - match: \[
           scope: punctuation.definition.brackets.js
           push:
@@ -1099,7 +1080,6 @@ contexts:
             - match: "(?=\\}|,|('[^']*'|\"[^\"]*\"|{{identifier}})\\s*:)"
               pop: true
             - include: expressions
-        # - include: comments
 
   method-declaration:
     - match: \b(get|set)\b(?!\s*\()\s*
@@ -1130,7 +1110,6 @@ contexts:
               scope: punctuation.definition.block.js
               pop: true
             - include: statements
-        # - include: comments
         - match: '(?=\S)'
           pop: true
     - match: (?=('[^\\]*'|"[^\\]*")\s*\()
@@ -1168,7 +1147,6 @@ contexts:
               scope: punctuation.definition.block.js
               pop: true
             - include: statements
-        # - include: comments
         - match: '(?=\S)'
           pop: true
     - match: '({{identifier}})\s*(?=\()'
@@ -1185,7 +1163,6 @@ contexts:
               scope: punctuation.definition.block.js
               pop: true
             - include: statements
-        # - include: comments
         - match: '(?=\S)'
           pop: true
 
