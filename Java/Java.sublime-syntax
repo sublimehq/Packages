@@ -12,7 +12,7 @@ variables:
 
   # source: http://stackoverflow.com/a/5205467/9815
   id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
-  qualified_id: '(?:(?:{{id}}\.)*{{id}})'
+  qualified_id: '(?:(?:{{id}}(\.))*{{id}})'
   uppercaseId: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
 
   # utility lookaround
@@ -28,6 +28,7 @@ contexts:
   main:
     - include: package
     - include: import
+    - include: annotations
     - include: body
   package:
     - match: '\bpackage\b'
@@ -67,24 +68,24 @@ contexts:
     - include: primitive-types
     - include: object-types
   annotations:
-    - match: '(@[^ (]+)(\()'
+    - match: '(@)({{qualified_id}})'
       captures:
-        1: storage.type.annotation.java
-        2: punctuation.section.parens.begin.java
+        1: punctuation.definition.annotation.java storage.modifier.annotation
+        2: meta.annotation.identifier.java support.class.java
+        3: punctuation.accessor.dot.java
       push:
-        - meta_scope: meta.declaration.annotation.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - match: (\w*)\s*(=)
-          captures:
-            1: constant.other.key.java
-            2: keyword.operator.assignment.java
-        - include: code
-        - match: ","
-          scope: punctuation.separator.property.java
-    - match: '@\w*'
-      scope: storage.type.annotation.java
+        - meta_scope: meta.annotation.java
+        - match: '\('
+          scope: punctuation.section.parens.begin.java
+          push:
+            - meta_scope: meta.annotation.parameters.java
+            - match: \)
+              scope: punctuation.section.parens.end.java
+              pop: true
+            - include: code
+            - match: \,
+              scope: punctuation.separator.java
+        - include: any_POP
 
   anonymous-classes-and-new:
     - match: \bnew\b
@@ -427,6 +428,8 @@ contexts:
             - match: '\]'
               pop: true
             - include: code
+    - include: simple-object-type
+  simple-object-type:
     - match: '\b(?:[a-zA-Z]\w*(\.))*(?:(?=UUID\b|URI\b)|(?![A-Z0-9_]{2,}\b))[A-Z]\w*\b'
       scope: support.class.java
       captures:
@@ -583,7 +586,7 @@ contexts:
       scope: keyword.operator.assignment.java
       push:
         - meta_scope: meta.assignment.rhs.java
-        - match: '(?=;|\)|\})'
+        - match: '(?=;|\)|\}|,)'
           pop: true
         - include: code
   static-code-block:
