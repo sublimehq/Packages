@@ -1,0 +1,131 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+hidden: yes
+scope: source.doxygen
+
+variables:
+  identifier: '[a-zA-Z]+'
+
+contexts:
+  main:
+    # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
+    - match: (/\*)(\*|!)(<?)
+      scope: punctuation.definition.comment.begin.doxygen
+      push: doc-block
+    # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
+    - match: //(/|!)(<?)
+      scope: punctuation.definition.comment.doxygen
+      push: doc-line
+
+  doc-line:
+    - meta_scope: comment.line.documentation.doxygen
+    - match: $
+      pop: true
+    - include: commands
+
+  doc-block:
+    - meta_scope: comment.block.documentation.doxygen
+    - match: \*/
+      scope: punctuation.definition.comment.end.doxygen
+      pop: true
+    - include: commands
+
+  commands:
+    - include: command-latex
+    - include: command-generic
+    - include: command-language
+    - include: escape-literals
+
+  command-latex:
+    - match: (\\)(f)
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation.doxygen
+      push:
+        - meta_scope: meta.function-call.doxygen
+        - match: \$
+          scope: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.inline.dollar.latex
+            - match: (\\)(f)(\$)
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation.doxygen
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+        - match: \[
+          scope: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.block.bracket.latex
+            - match: (\\)(f)(\])
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation.doxygen
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+        - match: (\{)(.+)(\})(\{)
+          captures:
+            1: punctuation.section.block.begin
+            2: variable.parameter
+            3: punctuation.section.block.end
+            4: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.block.bracket.latex
+            - match: (\\)(f)(\})
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation.doxygen
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+
+  command-generic:
+    - match: (\@|\\)({{identifier}})
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation.doxygen
+      push:
+        - meta_scope: meta.function-call.doxygen
+        - match: \[
+          scope: punctuation.section.brackets.begin
+          push:
+            - meta_content_scope: variable.parameter
+            - match: \]
+              scope: punctuation.section.brackets.end
+              pop: true
+        - match: \{
+          scope: punctuation.section.braces.begin
+          push:
+            - meta_content_scope: variable.parameter
+            - match: \}
+              scope: punctuation.section.braces.end
+              pop: true
+        - match: .
+          pop: true
+
+  command-language:
+    - match: (\\)(~)
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation.doxygen
+      push:
+        - meta_scope: meta.function-call.doxygen
+        - match: \w+
+          scope: variable.parameter
+          pop: true
+        - match: \W
+          pop: true
+
+  escape-literals:
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdbackslash
+    - match: \\[\\@&$#<>%".|]
+      scope: constant.character.escape
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmddcolon
+    - match: '\\::'
+      scope: constant.character.escape
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdndash
+    - match: \\---?
+      scope: constant.character.escape
