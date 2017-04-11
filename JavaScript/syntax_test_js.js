@@ -154,6 +154,26 @@ if (true)
 // <- comment.block punctuation.definition.comment
 */
 
+'// /* /**';
+//^^^^^^^^^^ - comment
+
+"// /* /**";
+//^^^^^^^^^^ - comment
+
+/test// 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+
+/test/* 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+// */
+
+/test/** 1;
+// <- string.regexp.js
+//    ^^ keyword.operator.arithmetic.js
+// */
+
 x --> 1;
 //^^ keyword.operator.arithmetic.js
 //  ^ keyword.operator.relational.js
