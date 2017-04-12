@@ -89,21 +89,23 @@ contexts:
         2: keyword.other.documentation.doxygen
       push:
         - meta_scope: meta.function-call.doxygen
-        - match: \[
-          scope: punctuation.section.brackets.begin
+        - match: \s*(\[)
+          captures:
+            1: punctuation.section.brackets.begin
           push:
             - meta_content_scope: variable.parameter
             - match: \]
               scope: punctuation.section.brackets.end
               pop: true
-        - match: \{
-          scope: punctuation.section.braces.begin
+        - match: \s*(\{)
+          captures:
+            1: punctuation.section.braces.begin
           push:
             - meta_content_scope: variable.parameter
             - match: \}
               scope: punctuation.section.braces.end
               pop: true
-        - match: .
+        - match: \b
           pop: true
 
   command-language:

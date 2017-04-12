@@ -100,7 +100,13 @@
 //        ^^ variable.parameter
 //          ^ punctuation.section.brackets.end
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation
- * @param[in]  y     The second number
+ * @param [in]  y     The second number
+// ^ comment.block.documentation meta.function-call punctuation.definition.keyword
+//  ^^^^^ comment.block.documentation meta.function-call keyword.other.documentation
+//       ^ comment.block.documentation meta.function-call
+//        ^ comment.block.documentation meta.function-call punctuation.section.brackets.begin
+//         ^^ comment.block.documentation meta.function-call variable.parameter
+//           ^ comment.block.documentation meta.function-call punctuation.section.brackets.end
  *
  * @return     Returns the sum of the two numbers
  * 
@@ -181,9 +187,34 @@ int add(int x, int y)
  * @throws a fit when it's angry
  * @note that the sun comes up in the morning
  * @warning beware of pirates
+ * \nosubgrouping
  */
 typedef struct X
 {
     int data; //!< Inline documentation for data
     float var; //!< More docs
 } X;
+
+/** \brief Struct to hold user properties.
+* \nosubgrouping
+*/
+struct DLL_API Property
+// <- meta.struct.c storage.type.c
+{   
+    /** Creates a property.
+      * \param a  The parent.
+      //^ comment.block.documentation meta.function-call punctuation.definition.keyword
+      // ^^^^^ comment.block.documentation meta.function-call keyword.other.documentation.doxygen
+      * \param b      The data type.
+      * \param c      The name. 
+      * \param d      The label.
+      * \param d      If \c true, bla bla, if \c false, bla bla. 
+      //                 ^ comment.block.documentation meta.function-call punctuation.definition.keyword
+      //                  ^ comment.block.documentation meta.function-call keyword.other.documentation
+      * \param e      If d is \c true, bla bla.  
+      */
+    int x;
+    // ^^ meta.struct.c meta.block.c
+    int y;
+    // ^^ meta.struct.c meta.block.c
+};
