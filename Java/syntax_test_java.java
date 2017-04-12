@@ -222,11 +222,11 @@ public class Lambdas {
      this.<A>foo();
 //           ^^^ variable.function.java
 //        ^^^ meta.generic.java
-//         ^ variable.parameter.type.java
+//         ^ support.class.java
      this.<B> foo();
 //            ^^^ variable.function.java
 //        ^^^ meta.generic.java
-//         ^ variable.parameter.type.java
+//         ^ support.class.java
 
      Function<String, Integer> func = a -> 42;
 //                                  ^^^^^^^^^ meta.assignment.rhs.java

@@ -244,7 +244,10 @@ contexts:
     - include: anonymous-classes-and-new
     - include: all-types
     - include: assertions
-    - include: generic-declaration
+    - match: <
+      comment: Generic method invocations
+      scope: punctuation.definition.generic.begin.java
+      push: object-type-generic
     - include: method-invocations
     - include: code-block-include
     - match: \(
