@@ -4,6 +4,13 @@
 // comment blocks.
 ////////////////////////////////////////////////////////////////////////////////
 
+//! \file syntax_test_doxygen.c
+//  ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//   ^^^^ comment.line.documentation meta.function-call keyword.other.documentation
+
+// <- - meta.function-call
+/* Make sure the above is not a function call anymore. */
+
 /*********************************************
  * This should NOT be a documentation block. *
  *********************************************/

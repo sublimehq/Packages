@@ -38,7 +38,7 @@ contexts:
     - include: escape-literals
 
   command-latex:
-    - match: (\\)(f)
+    - match: (\\)(f)(?=[\$\[\{])
       captures:
         1: punctuation.definition.keyword
         2: keyword.other.documentation.doxygen
