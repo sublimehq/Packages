@@ -16,7 +16,6 @@ variables:
   uppercaseId: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
 
   # utility lookaround
-  within_generics: '(?:<(?:[^<>]|<(?:[^<>]|<[^<>]*>)*>)*>)'  # handles 3 levels nesting
   lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
 contexts:
   prototype:
@@ -82,6 +81,9 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.java
               pop: true
+            - match: (\w*)\s*(?=\=)
+              captures:
+                1: variable.parameter.java
             - include: code
             - match: \,
               scope: punctuation.separator.java

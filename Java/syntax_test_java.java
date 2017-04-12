@@ -329,8 +329,11 @@ public class GrafoTest {
 //   ^^^^^^ meta.annotation.identifier support.class.java
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
 //         ^ punctuation.section.parens.begin
+//          ^^^^^ variable.parameter.java
 //                ^ keyword.operator
 //                  ^^^^^^^^ string
+//                          ^ punctuation.separator.java
+//                            ^^^^ variable.parameter.java
 //                                 ^ keyword.operator
 //                                   ^^^^^^^^ string
 //                                            ^ punctuation.section.parens.end
@@ -372,12 +375,14 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //^^^^^^^^^^^^^^^^^^ support.class.java
 //                  ^ meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.begin.java
   foo = BAR,
-//      ^ constant
+//^^^ variable.parameter.java
 //    ^ keyword.operator.assignment.java
+//      ^ constant.other.java
 //         ^ punctuation.separator.java
   other = "foo"
-//        ^ string
+//^^^^^ variable.parameter.java
 //      ^ keyword.operator.assignment.java
+//        ^ string
 )
 // <- meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.end.java
 @fully.qualified.Annotation
