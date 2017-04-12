@@ -228,7 +228,7 @@ contexts:
     - include: methods
     # mark constants as constant
     - match: '(\.)?\b(?!UUID\b|URI\b)([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: entity.name.constant
+      scope: entity.name.constant.java
       captures:
         1: punctuation.accessor.dot.java
     - include: constants-and-special-vars

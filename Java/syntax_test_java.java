@@ -16,6 +16,9 @@ import static a.b.Class.fooMethod;
 //            ^ meta.import.java support.function.import.java
 //                               ^ meta.import.java punctuation.terminator.java
 
+import static a.b.Class.CONSTANT;
+/*                      ^ constant.other.java */
+
 public class SyntaxTest {
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 // ^^^ storage.modifier.java
@@ -393,6 +396,9 @@ public class Foo {
 // <- meta.class.java storage.modifier.java
 //     ^ meta.class.java meta.class.identifier.java storage.type.java
 //               ^ punctuation.section.class.begin.java
+
+  FooBar MY_CONST = new FooBar();
+//       ^^^^^^^^ entity.name.constant.java
 
   @Inject
 //^^^^^^^ meta.annotation
