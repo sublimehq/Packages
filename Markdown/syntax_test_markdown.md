@@ -1380,3 +1380,14 @@ not a table |
 - - - - test
 | <- punctuation.definition.list_item
 | ^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - punctuation
+
+paragraph
+
+  * List Item 1
+    Text under Item 1
+  * List Item 2
+    Text under Item 2
+
+  * List Item 3
+    Text under Item 3
+|   ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw
