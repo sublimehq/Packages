@@ -517,12 +517,7 @@ contexts:
   raw-parameter-after:
     - match: '<'
       scope: punctuation.definition.generic.begin.java
-      push:
-        - meta_scope: meta.generic.java
-        - match: '>'
-          scope: punctuation.definition.generic.end.java
-          pop: true
-        - include: generic-instantiation
+      push: object-type-generic
     - match: '\.\.\.'
       scope: keyword.operator.varargs.java
     - match: '(\[)\s*(\])'

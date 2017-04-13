@@ -260,6 +260,9 @@ public class Lambdas {
 //    ^^^ storage.type.primitive
 //        ^ variable.parameter.java
 //           ^^^ support.class.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^^^^^^^ support.class.java
+//                      ^ punctuation.definition.generic.end.java
 //                          ^ variable.parameter.java
 //                             ^^ storage.type.lambda.java
 //                                ^^ constant.numeric
