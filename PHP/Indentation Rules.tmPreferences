@@ -10,10 +10,10 @@
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
 			(
-			    ^                                                         # start of the line
-			    (.*\*/)?                                                  # optionally with an end block comment somewhere on the line
-			    \s* [}\])]                                                # optionally followed by whitespace, followed by a closing curly brace, square bracket or paren
-			|   \s* (<\?(php)?\s+)? end(if|for(each)?|while)\b            # or an optional PHP open tag followed by an keyword that ends a control flow block
+			    ^                                                                             # start of the line
+			    (.*\*/)?                                                                      # optionally with an end block comment somewhere on the line
+			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing curly brace, square bracket or paren
+			|   \s* (<\?(php)?\s+)?(else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|while))\b) # or an optional PHP open tag followed by an keyword that ends a control flow block
 			)
 		]]></string>
 		
