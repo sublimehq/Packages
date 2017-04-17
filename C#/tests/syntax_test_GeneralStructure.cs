@@ -343,6 +343,13 @@ namespace TestNamespace.Test
 ///                   ^ keyword.operator
 ///                    ^ constant.numeric
 ///                     ^ punctuation.separator.case-statement
+                case bar("hello"):
+///             ^^^^ keyword.control.switch.case
+///                  ^^^ variable.function
+///                     ^ punctuation.section.group.begin
+///                      ^^^^^^^ string.quoted.double
+///                             ^ punctuation.section.group.end
+///                              ^ punctuation.separator.case-statement
                     break;
                 default:
 ///             ^ keyword.control
