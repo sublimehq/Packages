@@ -2,6 +2,6 @@
 	<content><![CDATA[t.integer :${1:title}
 $0]]></content>
 	<tabTrigger>tci</tabTrigger>
-	<scope>meta.rails.migration.create_table, meta.rails.migration.change_table</scope>
+	<scope>meta.migration.create_table.rails, meta.migration.change_table.rails</scope>
 	<description>Table column integer</description>
 </snippet>

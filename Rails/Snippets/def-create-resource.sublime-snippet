@@ -15,6 +15,6 @@
 end
 ]]></content>
 	<tabTrigger>defcreate</tabTrigger>
-	<scope>meta.rails.controller</scope>
+	<scope>meta.controller.rails</scope>
 	<description>def create - resource</description>
 </snippet>

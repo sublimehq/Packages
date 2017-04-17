@@ -6,6 +6,6 @@
 
 end]]></content>
 	<tabTrigger>deftp</tabTrigger>
-	<scope>meta.rails.functional_test</scope>
+	<scope>meta.functional_test.rails</scope>
 	<description>def test_should_post_action</description>
 </snippet>
