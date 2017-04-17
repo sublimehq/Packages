@@ -1227,6 +1227,22 @@ class Adapter : public Abstraction
 
 }
 
+struct A {
+  static_assert(0 < 1, "");
+  /* ^ keyword.other.static-assert              */
+  /*            ^ meta.function-call            */
+  /*              ^ keyword.operator.comparison */
+
+  A();
+/*^ meta.method.constructor entity.name.function.constructor */
+
+  void f();
+  /* ^ storage.type                       */
+  /*   ^ meta.method entity.name.function */
+  /*      ^ punctuation.terminator        */
+};
+/* <- punctuation.section.block.end - invalid.illegal */
+
 struct bar {
 /*^^^^^^^^^^ meta.struct */
 /*^^^^ storage.type */

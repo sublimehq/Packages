@@ -1115,6 +1115,17 @@ contexts:
     - include: comments
     - include: modifiers-parens
     - include: modifiers
+    - match: '\bstatic_assert(?=\s*\()'
+      scope: meta.static-assert.c++ keyword.other.static-assert.c++
+      push:
+        - match: '\('
+          scope: meta.group.c++ punctuation.section.group.begin.c++
+          set:
+            - meta_content_scope: meta.function-call.c++ meta.group.c++
+            - match: '\)'
+              scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
+              pop: true
+            - include: expressions
     # Destructor
     - match: '(?:{{identifier}}\s*(::)\s*)?~{{identifier}}(?=\s*(\(|$))'
       scope: meta.method.destructor.c++ entity.name.function.destructor.c++
