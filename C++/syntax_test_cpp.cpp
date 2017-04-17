@@ -1555,14 +1555,16 @@ struct A
 void f()
 {
     static_assert(false, "asdf");
-    /* ^ keyword.operator.word */
+/* ^ meta.function meta.block */
+/*  ^ keyword.operator.word   */
 }
 
 void f()
 {
     #ifdef X
     static_assert(false, "asdf");
-    /* ^ keyword.operator.word */
+/* ^ meta.function meta.block */
+/*  ^ keyword.operator.word   */
     #endif
 }
 
