@@ -315,6 +315,15 @@ namespace TestNamespace.Test
 ///                 ^ variable.function
                     break;
 ///                 ^ keyword.control
+                case BLBodyBattleLibrary.ContextType.TapUp:
+///             ^^^^ keyword.control.switch.case
+///                  ^^^^^^^^^^^^^^^^^^^ variable.other.namespace
+///                                     ^ punctuation.accessor.dot
+///                                      ^^^^^^^^^^^ variable.other.namespace
+///                                                 ^ punctuation.accessor.dot
+///                                                  ^^^^^ constant.other
+///                                                       ^ punctuation.separator
+                    break;
                 default:
 ///             ^ keyword.control
 ///                    ^ punctuation.separator

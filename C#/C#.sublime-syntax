@@ -1698,11 +1698,12 @@ contexts:
           scope: keyword.control.switch.case.cs
           push:
             - include: literals
-            - match: '({{name}})(\.)*({{name}})'
+            - match: '({{name}})(\.)'
               captures:
                 1: variable.other.namespace.cs
                 2: punctuation.accessor.dot.cs
-                3: constant.other.cs
+            - match: '{{name}}'
+              scope: constant.other.cs
             - match: ':'
               scope: punctuation.separator.case-statement.cs
               pop: true
