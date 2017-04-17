@@ -1697,16 +1697,12 @@ contexts:
         - match: '\b(case)\b'
           scope: keyword.control.switch.case.cs
           push:
-            - include: literals
-            - match: '({{name}})(\.)'
-              captures:
-                1: variable.other.namespace.cs
-                2: punctuation.accessor.dot.cs
-            - match: '{{name}}'
+            - match: '{{name}}(?=\s*:)'
               scope: constant.other.cs
             - match: ':'
               scope: punctuation.separator.case-statement.cs
               pop: true
+            - include: line_of_code_in
             - match: $
               pop: true
         - include: code_block_in

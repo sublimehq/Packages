@@ -317,12 +317,32 @@ namespace TestNamespace.Test
 ///                 ^ keyword.control
                 case BLBodyBattleLibrary.ContextType.TapUp:
 ///             ^^^^ keyword.control.switch.case
-///                  ^^^^^^^^^^^^^^^^^^^ variable.other.namespace
+///                  ^^^^^^^^^^^^^^^^^^^ variable.other
 ///                                     ^ punctuation.accessor.dot
-///                                      ^^^^^^^^^^^ variable.other.namespace
+///                                      ^^^^^^^^^^^ variable.other
 ///                                                 ^ punctuation.accessor.dot
 ///                                                  ^^^^^ constant.other
-///                                                       ^ punctuation.separator
+///                                                       ^ punctuation.separator.case-statement
+                case BindingFlags.Static:
+///             ^^^^ keyword.control.switch.case
+///                  ^^^^^^^^^^^^ variable.other
+///                              ^ punctuation.accessor.dot
+///                               ^^^^^^ constant.other
+///                                     ^ punctuation.separator.case-statement
+                case test:
+///             ^^^^ keyword.control.switch.case
+///                  ^^^^ constant.other
+///                      ^ punctuation.separator.case-statement
+                case this.test;
+///             ^^^^ keyword.control.switch.case
+///                  ^^^^ variable.language
+///                      ^ punctuation.accessor.dot
+                case 1*2:
+///             ^^^^ keyword.control.switch.case
+///                  ^ constant.numeric
+///                   ^ keyword.operator
+///                    ^ constant.numeric
+///                     ^ punctuation.separator.case-statement
                     break;
                 default:
 ///             ^ keyword.control
