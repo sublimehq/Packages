@@ -825,6 +825,11 @@ std::vector<std::uint8_t> func_returning_path_generic(int a);
 /*         ^ punctuation.section.generic */
 /*                        ^ entity.name.function */
 
+void f()
+{
+    static_assert(false, "oops");
+    /* ^ keyword.operator.word */
+}
 
 long double operator "" _km (long double x);
 /*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
@@ -1229,7 +1234,7 @@ class Adapter : public Abstraction
 
 struct A {
   static_assert(0 < 1, "");
-  /* ^ keyword.other.static-assert              */
+  /* ^ keyword.operator.word                    */
   /*            ^ meta.function-call            */
   /*              ^ keyword.operator.comparison */
 
@@ -1523,6 +1528,42 @@ foo() {
 MyClass3::
 ~MyClass3() {
 /* <- entity.name.function */
+}
+
+struct A
+{
+    #ifdef X
+    static_assert(false, "asdf");
+    /* ^ keyword.operator.word */
+    #endif
+
+    void f()
+    {
+        #ifdef X
+        static_assert(false, "asdf");
+        /* ^ keyword.operator.word */
+        #endif
+    }
+
+    void f()
+    {
+        static_assert(false, "asdf");
+        /* ^ keyword.operator.word */
+    }
+};
+
+void f()
+{
+    static_assert(false, "asdf");
+    /* ^ keyword.operator.word */
+}
+
+void f()
+{
+    #ifdef X
+    static_assert(false, "asdf");
+    /* ^ keyword.operator.word */
+    #endif
 }
 
 Glib::ustring Node::_getDragTip(GdkEventMotion */*event*/);
