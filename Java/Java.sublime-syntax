@@ -207,7 +207,7 @@ contexts:
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
-            - meta_scope: meta.class.implements
+            - meta_scope: meta.class.implements.java
             - match: '(?=\s*{|\s*\bextends\b)'
               pop: true
             - match: \,

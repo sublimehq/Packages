@@ -143,10 +143,10 @@ class ExtendsTest extends Foo {}
 
 class ExtendsTest implements Foo {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//                ^^^^^^^^^^^^^^ meta.class.implements
+//                ^^^^^^^^^^^^^^ meta.class.implements.java
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
-//                              ^ - meta.class.implements
+//                              ^ - meta.class.implements.java
 
 class Foo<A> extends Bar<? extends A> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
@@ -161,13 +161,13 @@ class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //                             ^^^^^^^ keyword.declaration.extends.java
 //                                     ^^^ entity.other.inherited-class.java
 //                                        ^ - meta.class.extends
-//                                         ^^^^^^^^^^^^^^ meta.class.implements
+//                                         ^^^^^^^^^^^^^^ meta.class.implements.java
 //                                         ^^^^^^^^^^ keyword.declaration.implements.java
 //                                                    ^^^^^^^^ meta.generic.java
 //                                                    ^^^ entity.other.inherited-class.java
 //                                                            ^ punctuation.separator.implements.java
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
-//                                                                      ^ - meta.class.implements
+//                                                                      ^ - meta.class.implements.java
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
