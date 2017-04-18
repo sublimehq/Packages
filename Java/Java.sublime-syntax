@@ -200,16 +200,18 @@ contexts:
         - match: \bextends\b
           scope: keyword.declaration.extends.java
           push:
-            - meta_scope: meta.class.extends
-            - match: '(?=\s*{|\bimplements\b)'
+            - meta_scope: meta.class.extends.java
+            - match: '(?=\s*{|\s*\bimplements\b)'
               pop: true
             - include: object-types-inherited
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
             - meta_scope: meta.class.implements
-            - match: '(?=\bextends\b|\s*\{)'
+            - match: '(?=\s*{|\s*\bextends\b)'
               pop: true
+            - match: \,
+              scope: punctuation.separator.implements.java
             - include: object-types-inherited
         - match: "{"
           scope: punctuation.section.class.begin.java
@@ -413,7 +415,7 @@ contexts:
             - meta_scope: meta.method.body.java
             - match: "}"
               scope: punctuation.definition.method.end.java
-              pop: true
+              pop: true # pop: 2 would be nice here
             - include: code-block
         - include: any_POP
   invalid-generic-tags:
@@ -456,7 +458,7 @@ contexts:
         1: entity.other.inherited-class.java
         2: punctuation.accessor.dot.java
       push:
-        - meta_scope: meta.inherited.java
+        - meta_scope: meta.generic.java
         - match: <
           scope: punctuation.definition.generic.begin.java
           push: object-type-generic

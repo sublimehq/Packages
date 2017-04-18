@@ -92,7 +92,7 @@ public class SyntaxTest {
             System.out.println(i);
         }
     }
-
+//  ^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
     private static void printList(List<String> args) {
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
@@ -154,6 +154,20 @@ class Foo<A> extends Bar<? extends A> {}
 //        ^ variable.parameter.type.java
 //           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
 //                         ^^^^^^^ keyword.declaration.extends.java
+
+class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//                             ^^^^^^^^^^^ meta.class.extends
+//                             ^^^^^^^ keyword.declaration.extends.java
+//                                     ^^^ entity.other.inherited-class.java
+//                                        ^ - meta.class.extends
+//                                         ^^^^^^^^^^^^^^ meta.class.implements
+//                                         ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                    ^^^^^^^^ meta.generic.java
+//                                                    ^^^ entity.other.inherited-class.java
+//                                                            ^ punctuation.separator.implements.java
+//                                                              ^^^^^^^^ entity.other.inherited-class.java
+//                                                                      ^ - meta.class.implements
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
@@ -759,7 +773,7 @@ class IOException { }
 // <- storage.type.java
 
 public class Generic<T> implements fully.qualified.Other<T> {
-//                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.inherited.java
+//                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
 //                                 ^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
 //                                                ^ punctuation.accessor.dot.java
 //                                                      ^^^ meta.generic.java
