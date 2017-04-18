@@ -75,7 +75,7 @@ public partial class Employee
         //  ^^^^^ variable.other.cs - keyword
 
         var void = MakeGroup();
-        //  ^^^^ invalid.illegal - variable, keyword
+        //  ^^^^ invalid.illegal - variable - keyword
 
         var subvoid1 = void.GetContents();
         //             ^^^^ - variable # Technically illegal in this context, but at least it's not marked as a variable.

@@ -4,15 +4,15 @@
 	<key>name</key>
 	<string>Symbol List: Method</string>
 	<key>scope</key>
-	<string>source.cs meta.class.body meta.method.identifier</string>
+	<string>source.cs meta.class.body.cs meta.block.cs meta.method.cs entity.name.function</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/\s{2,}/ /g;
-			s/.*/  $0/g;
+			s/\s{2,}/ /g; # collapse whitespace
+			s/^\s*/  /;   # indent by two spaces
 		</string>
 	</dict>
 </dict>
