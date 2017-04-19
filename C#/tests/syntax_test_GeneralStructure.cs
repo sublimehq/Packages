@@ -894,6 +894,13 @@ namespace TestNamespace.Test
 ///     ^^^^^^^ keyword.control.trycatch.finally
         {
         }
+        
+        goto abc;
+///     ^^^^ keyword.control.flow.goto
+///          ^^^ constant.other.label
+    abc:
+/// ^^^ entity.name.label
+///    ^ punctuation.separator
     }
 }
 ///<- punctuation.section.block.end

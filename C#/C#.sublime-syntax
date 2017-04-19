@@ -827,10 +827,10 @@ contexts:
         1: keyword.control.flow.goto.cs
         2: keyword.control.switch.case.cs
       push: line_of_code_in
-    - match: '\b(goto)\s+{{name}}\s*(;)'
+    - match: '\b(goto)\s+({{name}})\s*(;)'
       captures:
         1: keyword.control.flow.goto.cs
-        2: entity.name.tag.cs
+        2: constant.other.label.cs
         3: punctuation.terminator.statement.cs
       pop: true
     - include: keywords
@@ -908,8 +908,10 @@ contexts:
       captures:
         1: support.type.cs
       set: [variables_declaration, type_no_space]
-    - match: '{{name}}\s*(:)(?!:)'
-      scope: entity.name.tag.cs
+    - match: '({{name}})\s*(:)(?!:)'
+      captures:
+        1: entity.name.label.cs
+        2: punctuation.separator.cs
       pop: true
     - match: '(?:(global)|({{name}}))\s*(::)'
       captures:
