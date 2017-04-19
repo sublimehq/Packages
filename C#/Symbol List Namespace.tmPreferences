@@ -4,13 +4,13 @@
 	<key>name</key>
 	<string>Symbol List: Namespace</string>
 	<key>scope</key>
-	<string>source.cs meta.namespace.identifier</string>
+	<string>source.cs entity.name.namespace</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>s/\s{2,}/ /g;</string>
+		<string>s/^/namespace /;</string>
 	</dict>
 </dict>
 </plist>

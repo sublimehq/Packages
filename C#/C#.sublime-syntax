@@ -481,14 +481,15 @@ contexts:
         1: support.type.cs
         2: meta.generic.cs punctuation.definition.generic.begin.cs
       push: [method_name, type_argument]
-    - match: '(~{{name}})(\()'
+    - match: '(~{{name}})(\s*)(\()'
       captures:
         1: meta.method.cs entity.name.function.destructor.cs
+        2: meta.method.cs
         3: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       push: [constructor_prebody, method_params]
-    - match: '({{name}})(\()'
+    - match: '({{name}})\s*(\()'
       captures:
-        1: meta.method.cs entity.name.function.constructor.cs
+        1: entity.name.function.constructor.cs
         2: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       push: [constructor_prebody, method_params]
     - match: \b({{base_type}}){{type_suffix_capture}}
@@ -551,7 +552,7 @@ contexts:
     - match: '({{name}})\s*(;)'
       captures:
         1: variable.other.member.cs
-        2: punctuation.terminator.statement.cs;
+        2: punctuation.terminator.statement.cs
       pop: true
     - match: '({{name}})(<)(?=[^(]*>\.)'
       scope: meta.method.cs
@@ -637,13 +638,13 @@ contexts:
       pop: true
 
   constructor_prebody:
-    - match: \s+
-      scope: meta.method.cs
+    - meta_scope: meta.method.constructor.cs
     - match: ':'
-      scope: punctuation.separator.function.cs
+      scope: meta.method.constructor.prebody.cs punctuation.separator.function.cs
       set:
-        - meta_scope: meta.method.constructor.cs
-        - match: (this|base)(\()
+        - match: \s+
+          scope: meta.method.constructor.prebody.cs
+        - match: (this|base)\s*(\()
           captures:
             1: variable.language.cs
             2: meta.group.cs punctuation.section.group.begin.cs
@@ -654,12 +655,15 @@ contexts:
       set: method_body
 
   constructor_initializer:
-    - meta_content_scope: meta.method.constructor.cs meta.group.cs
+    - meta_scope: meta.method.constructor.prebody.cs
+    - meta_content_scope: meta.group.cs
+    - match: '\)'
+      scope: punctuation.section.group.end.cs
     - match: ''
       set: constructor_initializer_after
 
   constructor_initializer_after:
-    - meta_content_scope: meta.method.constructor.cs
+    - meta_content_scope: meta.method.constructor.prebody.cs
     - match: '(?=\{)'
       set: method_body
     - match: '(?=\S)'
@@ -686,7 +690,7 @@ contexts:
               pop: true
             - include: code_block_in
     - match: ;
-      scope: punctuation.terminator.cs;
+      scope: punctuation.terminator.cs
       pop: true
     - match: \S+
       scope: invalid.illegal.cs

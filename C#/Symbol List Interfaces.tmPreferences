@@ -2,17 +2,22 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Inner Method</string>
+	<string>Symbol List: Interfaces</string>
 	<key>scope</key>
-	<string>source.cs meta.class.body meta.class.body meta.method.identifier</string>
+	<string>source.cs entity.name.interface</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
 		<key>symbolTransformation</key>
 		<string>
-		s/\s{2,}/ /g;
-		s/.*/    $0/g;
+		s/^/interface /;
+		</string>
+		<key>symbolIndexTransformation</key>
+		<string>
+		s/^/interface /;
 		</string>
 	</dict>
 </dict>

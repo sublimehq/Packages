@@ -2,22 +2,16 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Classes</string>
+	<string>Symbol List: Constructor</string>
 	<key>scope</key>
-	<string>source.cs entity.name.class</string>
+	<string>entity.name.function.constructor.cs</string>
 	<key>settings</key>
 	<dict>
-		<key>showInSymbolList</key>
-		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
-		<string>1</string>
-		<key>symbolTransformation</key>
-		<string>
-		s/^/class /;
-		</string>
+		<integer>1</integer>
 		<key>symbolIndexTransformation</key>
 		<string>
-		s/^/class /;
+			s/^\s*/constructor /;   # prepend "constructor " to the method name, to make them easier to find
 		</string>
 	</dict>
 </dict>
