@@ -2,9 +2,9 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Interfaces</string>
+	<string>Symbol List: Enums</string>
 	<key>scope</key>
-	<string>source.cs entity.name.interface</string>
+	<string>source.cs entity.name.enum</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
@@ -13,11 +13,11 @@
 		<string>1</string>
 		<key>symbolTransformation</key>
 		<string>
-		s/^/interface /;
+		s/^/enum /;
 		</string>
 		<key>symbolIndexTransformation</key>
 		<string>
-		s/^/interface /;
+		s/^/enum /;
 		</string>
 	</dict>
 </dict>
