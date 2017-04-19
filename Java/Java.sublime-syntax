@@ -70,7 +70,7 @@ contexts:
     - match: '(@)({{qualified_id}})'
       captures:
         1: punctuation.definition.annotation.java
-        2: meta.annotation.identifier.java support.class.java
+        2: meta.annotation.identifier.java variable.annotation.java
         3: punctuation.accessor.dot.java
       push:
         - meta_scope: meta.annotation.java

@@ -334,7 +334,7 @@ public class GrafoTest {
     @Override
 //  ^^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
-//   ^^^^^^^^ support.class.java
+//   ^^^^^^^^ variable.annotation.java
     void test1() {
 //       ^ entity.name.function
     }
@@ -342,7 +342,7 @@ public class GrafoTest {
     @Author(first = "Oompah", last = "Loompah")
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
-//   ^^^^^^ meta.annotation.identifier support.class.java
+//   ^^^^^^ meta.annotation.identifier variable.annotation.java
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
 //         ^ punctuation.section.parens.begin
 //          ^^^^^ variable.parameter.java
@@ -388,7 +388,7 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 @MultiLineAnnotation(
 // <- meta.annotation.java
 // <- punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^ support.class.java
+//^^^^^^^^^^^^^^^^^^ variable.annotation.java
 //                  ^ meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.begin.java
   foo = BAR,
 //^^^ variable.parameter.java
@@ -403,7 +403,7 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 // <- meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.end.java
 @fully.qualified.Annotation
 // <- punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^ support.class.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.java
 class Bàr {
 //    ^^^ entity.name.class.java
   Bàr() {}
