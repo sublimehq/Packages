@@ -3,6 +3,20 @@
 class X
 // ^ storage.type.class
 {
+    X () {
+//  ^ entity.name.function.constructor
+//  ^^^^ meta.method
+    }
+
+    X (string test) : base () {
+//  ^ entity.name.function.constructor
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor
+//  ^^^^^^^^^^^^^^^ meta.method.constructor - meta.method.constructor.prebody
+//                    ^^^^ variable.language
+//                  ^^^^^^^^^^ meta.method.constructor.prebody
+//                         ^ meta.group punctuation.section.group.begin
+//                          ^ meta.group punctuation.section.group.end
+    }
 
     [Usage("Foo bar")]
 //  ^^^^^^^^^^^^^^^^^^ meta.annotation
@@ -28,7 +42,7 @@ class A
 {
    public A(int x, int y) {}
    // ^ storage.modifier
-   //     ^ entity.name.function
+   //     ^ entity.name.function.constructor
 }
 class B: A
 {
@@ -153,4 +167,12 @@ class Syntax
     //                     ^^ storage.type.numeric
     public ulong bad = 1UU;
     //                   ^ - storage.type.numeric
+}
+
+class Car
+{
+    ~Car() /* test */ // destructor
+//  ^^^^ entity.name.function.destructor
+    {
+    }
 }
