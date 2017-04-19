@@ -239,10 +239,12 @@ public class Lambdas {
      this.<A>foo();
 //           ^^^ variable.function.java
 //        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
 //         ^ support.class.java
      this.<B> foo();
 //            ^^^ variable.function.java
 //        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
 //         ^ support.class.java
 
      Function<String, Integer> func = a -> 42;
@@ -300,9 +302,6 @@ public class Lambdas {
   new Foo<? super Bar>();
 //        ^ keyword.operator.wildcard.java
 //          ^^^^^ keyword.declaration.super.java
-
-  new Foo<int>();
-//        ^^^ invalid.illegal.primitive-instantiation.java
   }
 }
 
@@ -555,6 +554,27 @@ public class Foo {
 //       ^ meta.static.body.java
     StaticFlag.setFlag("Boo!");
   }
+
+  int operators() {
+    if (this.scale<0) {
+//  ^^ keyword.control.java
+//     ^^^^^^^^^^^^^^ meta.parens.java
+//     ^ punctuation.section.parens.begin
+//          ^ punctuation.accessor.dot.java
+//                ^ keyword.operator.comparison.java
+//                 ^ constant.numeric.java
+//                   ^ - meta.parens.java
+      return foo<<32;
+//    ^^^^^^ keyword.control.java
+//              ^^ keyword.operator.comparison.java
+//                ^^ constant.numeric.java
+//                  ^ punctuation.terminator.java
+    }
+//  ^ meta.block.java punctuation.section.block.end.java
+
+    return foo<bar;
+  }
+//^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
 
   @Test
 //^ punctuation.definition.annotation.java
