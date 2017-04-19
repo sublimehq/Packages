@@ -3,6 +3,6 @@
 	$0
 end}]]></content>
 	<tabTrigger>maprs</tabTrigger>
-	<scope>meta.rails.routes</scope>
+	<scope>meta.routes.rails</scope>
 	<description>map.resources</description>
 </snippet>

@@ -2,6 +2,6 @@
 	<content><![CDATA[t.integer :lock_version, :null => false, :default => 0
 t.$0]]></content>
 	<tabTrigger>t.</tabTrigger>
-	<scope>meta.rails.migration.create_table, meta.rails.migration.change_table</scope>
+	<scope>meta.migration.create_table.rails, meta.migration.change_table.rails</scope>
 	<description>t.lock_version (tcl)</description>
 </snippet>

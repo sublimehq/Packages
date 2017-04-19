@@ -2,6 +2,6 @@
 	<content><![CDATA[${1:map}.catch_all "*${2:anything}", :controller => "${3:default}", :action => "${4:error}"
 ]]></content>
 	<tabTrigger>mapca</tabTrigger>
-	<scope>meta.rails.routes</scope>
+	<scope>meta.routes.rails</scope>
 	<description>map.catch_all</description>
 </snippet>
