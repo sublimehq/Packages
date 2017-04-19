@@ -254,14 +254,7 @@ contexts:
       push: object-type-generic
     - include: method-invocations
     - include: code-block-include
-    - match: \(
-      scope: punctuation.section.parens.begin
-      push:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end
-          pop: true
-        - include: code
+    - include: parens
   code-block-include:
     - match: "{"
       scope: punctuation.section.block.begin.java
@@ -579,11 +572,11 @@ contexts:
 
   parens:
     - match: \(
-      scope: punctuation.section.group.begin
+      scope: punctuation.section.parens.begin.java
       push:
-        - meta_scope: meta.group
+        - meta_scope: meta.parens.java
         - match: \)
-          scope: punctuation.section.group.end
+          scope: punctuation.section.parens.begin.end
           pop: true
         - include: code
   primitive-arrays:
