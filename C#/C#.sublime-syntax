@@ -552,7 +552,7 @@ contexts:
     - match: '({{name}})\s*(;)'
       captures:
         1: variable.other.member.cs
-        2: punctuation.terminator.statement.cs;
+        2: punctuation.terminator.statement.cs
       pop: true
     - match: '({{name}})(<)(?=[^(]*>\.)'
       scope: meta.method.cs
@@ -690,7 +690,7 @@ contexts:
               pop: true
             - include: code_block_in
     - match: ;
-      scope: punctuation.terminator.cs;
+      scope: punctuation.terminator.cs
       pop: true
     - match: \S+
       scope: invalid.illegal.cs
