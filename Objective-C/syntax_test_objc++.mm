@@ -1509,6 +1509,44 @@ MyClass3::
 /* <- entity.name.function */
 }
 
+struct A
+{
+    #ifdef X
+    static_assert(false, "asdf");
+    /* ^ keyword.operator.word */
+    #endif
+
+    void f()
+    {
+        #ifdef X
+        static_assert(false, "asdf");
+        /* ^ keyword.operator.word */
+        #endif
+    }
+
+    void f()
+    {
+        static_assert(false, "asdf");
+        /* ^ keyword.operator.word */
+    }
+};
+
+void f()
+{
+    static_assert(false, "asdf");
+/* ^ meta.function meta.block */
+/*  ^ keyword.operator.word   */
+}
+
+void f()
+{
+    #ifdef X
+    static_assert(false, "asdf");
+/* ^ meta.function meta.block */
+/*  ^ keyword.operator.word   */
+    #endif
+}
+
 Glib::ustring Node::_getDragTip(GdkEventMotion */*event*/);
 /*                                              ^^^^^^^^^ comment */
 
