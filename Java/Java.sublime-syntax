@@ -468,6 +468,7 @@ contexts:
       scope: entity.other.inherited-class.java
 
   method-parameters:
+    - include: annotations
     - match: \bfinal\b
       scope: storage.modifier.java
     - match: '{{primitives}}'

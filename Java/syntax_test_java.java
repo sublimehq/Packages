@@ -324,4 +324,17 @@ public class GrafoTest
 //            ^ meta.method
     }
 
+    void annotatedArgs(@NonNull final String p1,
+//                     ^^^^^^^^ meta.annotation
+//                              ^ storage.modifier - meta.annotation
+        @Named(value = "") List<T> p2, @NonNull final String p3) {}
+//      ^^^^^^^^^^^^^^^^^^ meta.annotation
+//                         ^ support.class
+//                             ^ meta.generic punctuation.definition.generic.begin
+//                                 ^ variable.parameter
+//                                   ^ punctuation.separator
+//                                     ^^^^^^^^ meta.annotation
+//                                              ^ storage.modifier - meta.annotation
+//                                                    ^ support.class
+
 }
