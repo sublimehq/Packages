@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List: Constructor</string>
 	<key>scope</key>
-	<string><![CDATA[source.cs meta.method.constructor - meta.method.constructor.prebody]]></string>
+	<string>source.cs meta.method.constructor - meta.method.constructor.prebody</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
