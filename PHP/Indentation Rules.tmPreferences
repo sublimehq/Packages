@@ -28,7 +28,7 @@
 			| # OR
 			^\s*                                                                                # the beginning of the line followed by any amount of whitespace
 			(   (if|else|elseif)\b.*:(?!.*?endif\b)                                             # PHP "if" related statements not followed by an "endif"
-			|   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\g<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
+			|   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\k<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
 			)
 		]]></string>
 		
