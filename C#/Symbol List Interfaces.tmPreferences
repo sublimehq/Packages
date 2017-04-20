@@ -15,10 +15,6 @@
 		<string>
 		s/^/interface /;
 		</string>
-		<key>symbolIndexTransformation</key>
-		<string>
-		s/^/interface /;
-		</string>
 	</dict>
 </dict>
 </plist>

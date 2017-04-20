@@ -15,10 +15,6 @@
 		<string>
 		s/^/enum /;
 		</string>
-		<key>symbolIndexTransformation</key>
-		<string>
-		s/^/enum /;
-		</string>
 	</dict>
 </dict>
 </plist>

@@ -9,10 +9,6 @@
 	<dict>
 		<key>showInIndexedSymbolList</key>
 		<integer>1</integer>
-		<key>symbolIndexTransformation</key>
-		<string>
-			s/^\s*/constructor /;   # prepend "constructor " to the method name, to make them easier to find
-		</string>
 	</dict>
 </dict>
 </plist>
