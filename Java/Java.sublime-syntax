@@ -90,6 +90,7 @@ contexts:
             - include: code
         - match: '{{id}}'
           scope: meta.annotation.identifier.java variable.annotation.java
+          pop: true
         - match: (?=\S|$)
           pop: true
 

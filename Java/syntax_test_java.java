@@ -311,4 +311,17 @@ public class GrafoTest
 //      ^ storage.modifier
 //            ^ support.class
     }
+
+    @Partial @Mock(type=Grafo.class) DataLoader inline;
+//  ^^^^^^^^                          meta.annotation
+//           ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                                   ^ support.class
+
+    @Override public int inline() {
+//  ^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^^^^^^ variable.annotation
+//            ^ meta.method
+    }
+
 }
