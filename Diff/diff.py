@@ -45,7 +45,8 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             return
 
         try:
-            a = codecs.open(fname, "r", "utf-8").read().splitlines()
+            with codecs.open(fname, "r", "utf-8") as f:
+                a = f.read().splitlines()
             b = self.view.substr(sublime.Region(0, self.view.size())).splitlines()
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
