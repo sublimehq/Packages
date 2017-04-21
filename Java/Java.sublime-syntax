@@ -242,18 +242,14 @@ contexts:
     - include: static-code-block
   code:
     - include: constants-and-special-vars
-    - include: keywords
     - include: assignment
     - include: lambdas
     - include: strings
     - include: anonymous-classes-and-new
     - include: all-types
     - include: assertions
-    - match: (?<=\.)<
-      comment: Generic method invocations
-      scope: punctuation.definition.generic.begin.java
-      push: object-type-generic
     - include: method-invocations
+    - include: keywords
     - include: code-block-include
     - include: parens
   code-block-include:
@@ -337,7 +333,7 @@ contexts:
       scope: keyword.control.java
     - match: \b(instanceof)\b
       scope: keyword.operator.java
-    - match: (==|!=|<=|>=|<>|(?<!\.)<|>)
+    - match: (==|!=|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.java
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
@@ -368,6 +364,12 @@ contexts:
     - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
       scope: keyword.control.java
   method-invocations:
+    - match: (\.)(<)
+      comment: Generic method invocations
+      captures:
+        1: punctuation.accessor.dot.java
+        2: punctuation.definition.generic.begin.java
+      push: object-type-generic
     - match: ({{id}})\s*(\()
       captures:
         1: variable.function.java
