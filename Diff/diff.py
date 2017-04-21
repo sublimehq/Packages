@@ -38,7 +38,11 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
 class DiffChangesCommand(sublime_plugin.TextCommand):
     def run(self, edit):
 
-        fname = self.view.file_name();
+        fname = self.view.file_name()
+
+        if not fname or not os.path.exists(fname):
+            sublime.status_message("Unable to diff changes because the file does not exist")
+            return
 
         try:
             a = codecs.open(fname, "r", "utf-8").read().splitlines()
