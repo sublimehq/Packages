@@ -80,10 +80,11 @@ contexts:
             - meta_scope: meta.annotation.parameters.java
             - match: \)
               scope: punctuation.section.parens.end.java
-              pop: true
+              pop: true # pop: 2
             - match: (\w*)\s*(?=\=)
               captures:
                 1: variable.parameter.java
+            - include: array-construction-block
             - include: code
             - match: \,
               scope: punctuation.separator.java
@@ -333,7 +334,7 @@ contexts:
       scope: keyword.control.java
     - match: \b(instanceof)\b
       scope: keyword.operator.java
-    - match: (?<!\.)(==|!=|<=|>=|<>|<|>)
+    - match: (==|!=|<=|>=|<>|(?<!\.)<|>)
       scope: keyword.operator.comparison.java
     # - match: (=)
     #   scope: keyword.operator.assignment.java standalone
@@ -346,7 +347,7 @@ contexts:
     - match: (\.)(class\b)?
       captures:
         1: punctuation.accessor.dot.java
-        2: support.variable.magic.java
+        2: variable.language.java
     - match: ;
       scope: punctuation.terminator.java
   illegal-keywords:

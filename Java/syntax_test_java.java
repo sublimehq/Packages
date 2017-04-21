@@ -313,7 +313,7 @@ public class Test {
 //          ^^^ variable.function.java
         Foo.class;
 //         ^ punctuation.accessor.dot.java
-//          ^^^^^ support.variable.magic.java - storage.type.java
+//          ^^^^^ variable.language.java - storage.type.java
 //               ^ punctuation.terminator.java
     }
 
@@ -404,6 +404,21 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 @fully.qualified.Annotation
 // <- punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.java
+@FancyAnnotation({
+// <- punctuation.definition.annotation.java
+//              ^^ meta.annotation.parameters.java
+  Foo.class,
+//^^^ support.class.java
+//   ^ punctuation.accessor.dot.java
+//    ^^^^^ variable.language.java
+//         ^ punctuation.separator.java
+  Bar.class
+//^^^ support.class.java
+//   ^ punctuation.accessor.dot.java
+//    ^^^^^ variable.language.java
+})
+// <- punctuation.definition.array-constructor.end.java
+ // <- meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.end.java
 class Bàr {
 //    ^^^ entity.name.class.java
   Bàr() {}
@@ -681,7 +696,7 @@ public class Foo {
 //^ punctuation.definition.annotation.java
 //        ^^^^^^^^^^^^^^ meta.annotation.parameters.java
 //         ^ support.class.java
-//                ^ support.variable.magic.java
+//                ^ variable.language.java
   public void someReallyReallyLongMethodNameThatMakesTheBraceOverflowToTheNextLine(
 //            ^ meta.method.java meta.method.identifier.java entity.name.function.java
 //                                                                                ^ punctuation.section.parens.begin
