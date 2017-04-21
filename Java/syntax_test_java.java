@@ -378,6 +378,25 @@ public enum FooBarEnum {
 //^^^ constant.other.enum
 }
 
+public enum AbstractEnum {
+//     ^^^^ storage.type.java
+  FOO {
+//^^^ constant.other.enum
+//    ^ meta.enum.java meta.enum.body.java punctuation.section.braces.begin.java
+    public void doSomething() { return; }
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+  },
+//^ meta.enum.java meta.enum.body.java punctuation.section.braces.end.java
+  BAR {
+//^^^ constant.other.enum
+    public void doSomething() { return; }
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+  };
+
+  public abstract void doSomething();
+//                     ^^^^^^^^^^^^^ meta.method.java
+}
+
 public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //                          ^ punctuation.definition.generic.begin.java
 //                                                  ^ punctuation.definition.generic.end.java

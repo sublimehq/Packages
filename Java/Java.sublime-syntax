@@ -317,8 +317,11 @@ contexts:
               pop: true
             - include: parens
             - match: "{"
+              scope: punctuation.section.braces.begin.java
               push:
+                - meta_scope: meta.enum.body.java
                 - match: "}"
+                  scope: punctuation.section.braces.end.java
                   pop: true
                 - include: class-body
   keywords:
@@ -336,8 +339,6 @@ contexts:
       scope: keyword.operator.java
     - match: (==|!=|<=|>=|<>|(?<!\.)<|>)
       scope: keyword.operator.comparison.java
-    # - match: (=)
-    #   scope: keyword.operator.assignment.java standalone
     - match: (\-\-|\+\+)
       scope: keyword.operator.increment-decrement.java
     - match: (\-|\+|\*|\/|%)
