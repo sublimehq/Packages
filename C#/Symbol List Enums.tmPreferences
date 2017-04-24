@@ -2,17 +2,18 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Inner Inner Region</string>
+	<string>Symbol List: Enums</string>
 	<key>scope</key>
-	<string>source.cs meta.class.body meta.class.body meta.toc-list.region</string>
+	<string>source.cs entity.name.enum</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
 		<key>symbolTransformation</key>
 		<string>
-		s/\s{2,}/ /g;
-		s/.*/    #$0/g;
+		s/^/enum /;
 		</string>
 	</dict>
 </dict>

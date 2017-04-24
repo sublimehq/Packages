@@ -2,6 +2,6 @@
 	<content><![CDATA[t.references :${1:taggable}${2:, :polymorphic => ${3:{ :default => '${4:Photo}' \}}}
 $0]]></content>
 	<tabTrigger>tcr</tabTrigger>
-	<scope>meta.rails.migration.create_table, meta.rails.migration.change_table</scope>
+	<scope>meta.migration.create_table.rails, meta.migration.change_table.rails</scope>
 	<description>Table column(s) references</description>
 </snippet>

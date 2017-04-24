@@ -11,8 +11,8 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-		s/\s{2,}/ /g;
-		s/.*/#$0/g;
+		s/\s{2,}/ /g; # collapse whitespace
+		s/^/#region /;# prepend "#region " to the region name
 		</string>
 	</dict>
 </dict>
