@@ -204,7 +204,7 @@ struct DLL_API Property
     /** Creates a property.
       * \param a  The parent.
       //^ comment.block.documentation meta.function-call punctuation.definition.keyword
-      // ^^^^^ comment.block.documentation meta.function-call keyword.other.documentation.doxygen
+      // ^^^^^ comment.block.documentation meta.function-call keyword.other.documentation
       * \param b      The data type.
       * \param c      The name. 
       * \param d      The label.

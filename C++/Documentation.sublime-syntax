@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 hidden: yes
-scope: source.doxygen
+scope: documentation.c
 
 variables:
   identifier: '[a-zA-Z]+'
@@ -11,23 +11,23 @@ contexts:
   main:
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
     - match: (/\*)(\*|!)(<?)[^\*]
-      scope: punctuation.definition.comment.begin.doxygen
+      scope: punctuation.definition.comment.begin
       push: doc-block
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
     - match: //(/|!)(<?)
-      scope: punctuation.definition.comment.doxygen
+      scope: punctuation.definition.comment
       push: doc-line
 
   doc-line:
-    - meta_scope: comment.line.documentation.doxygen
+    - meta_scope: comment.line.documentation
     - match: $
       pop: true
     - include: commands
 
   doc-block:
-    - meta_scope: comment.block.documentation.doxygen
+    - meta_scope: comment.block.documentation
     - match: \*/
-      scope: punctuation.definition.comment.end.doxygen
+      scope: punctuation.definition.comment.end
       pop: true
     - include: commands
 
@@ -42,9 +42,9 @@ contexts:
     - match: (\\)(f)(?=[\$\[\{])
       captures:
         1: punctuation.definition.keyword
-        2: keyword.other.documentation.doxygen
+        2: keyword.other.documentation
       push:
-        - meta_scope: meta.function-call.doxygen
+        - meta_scope: meta.function-call
         - match: \$
           scope: punctuation.section.block.begin
           set:
@@ -52,7 +52,7 @@ contexts:
             - match: (\\)(f)(\$)
               captures:
                 1: punctuation.definition.keyword
-                2: keyword.other.documentation.doxygen
+                2: keyword.other.documentation
                 3: punctuation.section.block.end
               pop: true
             # - include: scope:text.tex.latex#math-content
@@ -63,7 +63,7 @@ contexts:
             - match: (\\)(f)(\])
               captures:
                 1: punctuation.definition.keyword
-                2: keyword.other.documentation.doxygen
+                2: keyword.other.documentation
                 3: punctuation.section.block.end
               pop: true
             # - include: scope:text.tex.latex#math-content
@@ -78,7 +78,7 @@ contexts:
             - match: (\\)(f)(\})
               captures:
                 1: punctuation.definition.keyword
-                2: keyword.other.documentation.doxygen
+                2: keyword.other.documentation
                 3: punctuation.section.block.end
               pop: true
             # - include: scope:text.tex.latex#math-content
@@ -87,9 +87,9 @@ contexts:
     - match: (\@|\\)({{identifier}})
       captures:
         1: punctuation.definition.keyword
-        2: keyword.other.documentation.doxygen
+        2: keyword.other.documentation
       push:
-        - meta_scope: meta.function-call.doxygen
+        - meta_scope: meta.function-call
         - match: \s*(\[)
           captures:
             1: punctuation.section.brackets.begin
@@ -113,9 +113,9 @@ contexts:
     - match: (\\)(~)
       captures:
         1: punctuation.definition.keyword
-        2: keyword.other.documentation.doxygen
+        2: keyword.other.documentation
       push:
-        - meta_scope: meta.function-call.doxygen
+        - meta_scope: meta.function-call
         - match: \w+
           scope: variable.parameter
           pop: true
@@ -126,25 +126,25 @@ contexts:
   visual-studio-docs:
     - match: '(<)({{identifier}})'
       captures:
-        1: punctuation.definition.tag.begin.c++
-        2: entity.name.tag.begin.c++
+        1: punctuation.definition.tag.begin
+        2: entity.name.tag.begin
       push:
         - match: '({{identifier}})\s*(=)'
           captures:
-            1: entity.other.attribute-name.c++
-            2: punctuation.separator.argument.value.c++
+            1: entity.other.attribute-name
+            2: punctuation.separator.argument.value
         - match: '/?>'
-          scope: punctuation.definition.tag.end.c++
+          scope: punctuation.definition.tag.end
           pop: true
         - match: '"[^"]*"'
-          scope: string.quoted.double.c++
+          scope: string.quoted.double
         - match: $
           pop: true
     - match: '(</)({{identifier}})(>)'
       captures:
-        1: punctuation.definition.tag.begin.c++
-        2: entity.name.tag.end.c++
-        3: punctuation.definition.tag.end.c++
+        1: punctuation.definition.tag.begin
+        2: entity.name.tag.end
+        3: punctuation.definition.tag.end
 
   escape-literals:
     # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdbackslash
