@@ -32,6 +32,7 @@ contexts:
     - include: commands
 
   commands:
+    - include: visual-studio-docs
     - include: command-latex
     - include: command-generic
     - include: command-language
@@ -120,6 +121,30 @@ contexts:
           pop: true
         - match: \W
           pop: true
+
+  # https://msdn.microsoft.com/en-us/library/ms177226.aspx
+  visual-studio-docs:
+    - match: '(<)({{identifier}})'
+      captures:
+        1: punctuation.definition.tag.begin.c++
+        2: entity.name.tag.begin.c++
+      push:
+        - match: '({{identifier}})\s*(=)'
+          captures:
+            1: entity.other.attribute-name.c++
+            2: punctuation.separator.argument.value.c++
+        - match: '/?>'
+          scope: punctuation.definition.tag.end.c++
+          pop: true
+        - match: '"[^"]*"'
+          scope: string.quoted.double.c++
+        - match: $
+          pop: true
+    - match: '(</)({{identifier}})(>)'
+      captures:
+        1: punctuation.definition.tag.begin.c++
+        2: entity.name.tag.end.c++
+        3: punctuation.definition.tag.end.c++
 
   escape-literals:
     # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdbackslash

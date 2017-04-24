@@ -218,3 +218,47 @@ struct DLL_API Property
     int y;
     // ^^ meta.struct.c meta.block.c
 };
+
+struct X
+{
+    /// <summary>Some a</summary>
+//      ^ comment.line.documentation punctuation.definition.tag.begin
+//       ^^^^^^^ comment.line.documentation entity.name.tag.begin
+//              ^ comment.line.documentation punctuation.definition.tag.end
+//               ^^^^^^ comment.line.documentation
+//                     ^^ comment.line.documentation punctuation.definition.tag.begin
+//                       ^^^^^^^ comment.line.documentation entity.name.tag.end
+//                              ^ comment.line.documentation punctuation.definition.tag.end
+    int a;
+//  ^^^ meta.struct meta.block storage.type
+//     ^^ meta.struct meta.block
+//      ^ meta.struct meta.block
+//       ^ meta.struct meta.block punctuation.terminator
+
+    /// <summary>Some b</summary>
+    float b;
+
+    /**
+     * <summary>Applies f</summary>
+//     ^ comment.block.documentation punctuation.definition.tag.begin
+//             ^ comment.block.documentation punctuation.definition.tag.end
+     * <param name="x">The x</param>
+//            ^^^^ comment.block.documentation entity.other.attribute-name
+//                ^ comment.block.documentation punctuation.separator.argument.value
+//                 ^^^ comment.block.documentation string.quoted.double
+//                    ^ comment.block.documentation punctuation.definition.tag.end
+//                          ^^ comment.block.documentation punctuation.definition.tag.begin
+//                            ^^^^^ comment.block.documentation entity.name.tag.end
+//                                 ^ comment.block.documentation punctuation.definition.tag.end
+//                                  ^ comment.block.documentation
+     * <param name="a">The a</param>
+     * <return>An integer</return>
+     * <see cref="member"/>
+//     ^ comment.block.documentation punctuation.definition.tag.begin
+//      ^^^ comment.block.documentation entity.name.tag.begin
+//          ^^^^ comment.block.documentation entity.other.attribute-name
+//               ^^^^^^^^ comment.block.documentation string.quoted.double
+//                       ^^ comment.block.documentation punctuation.definition.tag.end
+     */
+    int f(const double x, const float a);
+};
