@@ -233,7 +233,7 @@ contexts:
 
   statements:
     - include: conditional
-    - match: '\{(?!\{)'
+    - match: '\{'
       scope: punctuation.definition.block.js
       push:
         - meta_scope: meta.block.js
@@ -382,7 +382,6 @@ contexts:
     - include: literal-prototype
     - include: named-function
     - include: anonymous-function
-    - include: mustache
     - include: object-literal
     - include: brackets
     - include: literal-number
@@ -1013,13 +1012,6 @@ contexts:
       captures:
         1: entity.name.label.js
         2: punctuation.separator.js
-
-  mustache:
-    - match: '\{\{'
-      push:
-        - meta_scope: meta.tag.mustache.js
-        - match: '\}\}'
-          pop: true
 
   object-literal:
     - match: '\{'
