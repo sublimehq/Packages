@@ -627,6 +627,32 @@
 /*            ^^^^          support.function.calc.css         */
 /*                   ^      keyword.operator.css */
 /*                     ^^^^ support.function.calc.css         */
+    top: calc(100% - (1 * 10px) / 1 - (1 * 10px) / 1 - (1 * 10px) / 1);
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
+/*       ^^^^ support.function.calc.css */
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css */
+/*           ^ punctuation.definition.group.begin.css */
+/*            ^^^ constant.numeric.css */
+/*                 ^ keyword.operator.css */
+/*                   ^ punctuation.definition.group.begin.css */
+/*                   ^^^^^^^^^^ meta.group.css meta.group.css */
+/*                            ^ punctuation.definition.group.end.css */
+/*                              ^ keyword.operator.css */
+/*                                    ^ punctuation.definition.group.begin.css */
+/*                                         ^^ constant.numeric.css */
+/*                                           ^^ keyword.other.unit.css */
+/*                                             ^ punctuation.definition.group.end.css */
+/*                                               ^ keyword.operator.css */
+/*                                                   ^ keyword.operator.css */
+/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                      ^ constant.numeric.css */
+/*                                                        ^ keyword.operator.css */
+/*                                                          ^^ constant.numeric.css */
+/*                                                              ^ punctuation.definition.group.end.css */
+/*                                                                ^ keyword.operator.css */
+/*                                                                  ^ constant.numeric.css */
+/*                                                                   ^ punctuation.definition.group.end.css */
+/*                                                                    ^ punctuation.terminator.rule.css - meta.group */
 }
 
 .test-toggle-function {

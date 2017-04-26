@@ -1388,19 +1388,25 @@ contexts:
       scope: support.function.calc.css
       push:
         - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
         - match: '\('
           scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: calc-function
-          - include: var-function
-          - include: numeric-values
-          - include: attr-function
-          - match: "[-/*+]"
-            scope: keyword.operator.css
+          push: inside-calc-parens
+        - match: ''
+          pop: true
+
+  inside-calc-parens:
+    - meta_scope: meta.group.css
+    - match: '(?=\))'
+      set: function-notation-terminator
+    - include: calc-function
+    - include: var-function
+    - include: numeric-values
+    - include: attr-function
+    - match: "[-/*+]"
+      scope: keyword.operator.css
+    - match: '\('
+      scope: punctuation.definition.group.begin.css
+      push: inside-calc-parens
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
