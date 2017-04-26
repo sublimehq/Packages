@@ -110,6 +110,8 @@ contexts:
       # Hex Color
     - match: '(#)(\h{3}|\h{6})\b'
       scope: constant.other.color.rgb-value.css
+      captures:
+        1: punctuation.definition.constant.css
       # RGBA Hexadecimal Colors
       # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
     - match: '(#)(\h{8})\b'

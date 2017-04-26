@@ -439,6 +439,7 @@
 /*         ^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
 
     color: #b4da55;
+/*         ^ punctuation.definition.constant.css */
 /*         ^^^^^^^ constant.other.color.rgb-value.css */
 
     color: #137;
@@ -448,6 +449,7 @@
 /*         ^^^^^^^^^ constant.other.color.rgba-value.css */
 
     color: #E5F6A7B8;
+/*         ^ punctuation.definition.constant.css */
 /*         ^^^^^^^^^ constant.other.color.rgba-value.css */
 }
 
