@@ -163,15 +163,8 @@ if (true)
  #! /usr/bin/env node
 //^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
-/*@cc_on
-// <- punctuation.definition.comment
-//^ punctuation.definition.keyword
-//^^^^^^ comment.block.conditional keyword.control.conditional
-if (@_jscript_version==5.6) {}
-//  ^^^^^^^^^^^^^^^^^ variable.other.conditional
-//  ^ punctuation.definition.variable
-//                   ^^ keyword.operator.comparison
-@*/
+/*@if /*/
+//     ^^ punctuation.definition.comment.js
 
 var str = '\':';
 var str2 = NaN;
