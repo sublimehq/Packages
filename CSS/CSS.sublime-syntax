@@ -110,6 +110,10 @@ contexts:
       # Hex Color
     - match: '(#)(\h{3}|\h{6})\b'
       scope: constant.other.color.rgb-value.css
+      # RGBA Hexadecimal Colors
+      # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
+    - match: '(#)(\h{8})\b'
+      scope: constant.other.color.rgba-value.css
       captures:
         1: punctuation.definition.constant.css
 
@@ -135,7 +139,7 @@ contexts:
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
-    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))\s*(?=\{|$)
+    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))\s*(?={)
       captures:
         1: keyword.control.at-rule.counter-style.css
         2: punctuation.definition.keyword.css
@@ -143,7 +147,6 @@ contexts:
         4: entity.other.counter-style-name.css
       push:
         - meta_scope: meta.at-rule.counter-style.css
-        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -192,13 +195,12 @@ contexts:
         - include: comma-delimiter
 
   at-font-face:
-    - match: '\s*((@)font-face)\s*(?=\{|$)'
+    - match: '\s*((@)font-face)\s*(?=\{)'
       captures:
         1: keyword.control.at-rule.font-face.css
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.font-face.css
-        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -351,7 +353,7 @@ contexts:
   # @page
   # https://www.w3.org/TR/CSS2/page.html
   at-page:
-    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)'
+    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{)'
       captures:
         1: keyword.control.at-rule.page.css
         2: punctuation.definition.keyword.css
@@ -359,7 +361,6 @@ contexts:
         4: entity.other.pseudo-class.css
       push:
         - meta_scope: meta.at-rule.page.css
-        - include: comment-block
         - include: rule-list-terminator
         - include: rule-list
 
@@ -522,7 +523,6 @@ contexts:
               | rtl|ruby|running|saturat(e|ion)|screen
               | scroll(-position|bar)?
               | separate|sepia
-              | scale-down
               | shape-(image-threshold|margin|outside)
               | show
               | sideways(-lr|-rl)?
@@ -570,7 +570,7 @@ contexts:
             )\b
       scope: support.constant.property-value.css
       # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive)\b(?=\s*[;,\n}])
+    - match: \b(?i:arial|century|comic|courier|garamond|georgia|helvetica|impact|lucida|symbol|system|tahoma|times|trebuchet|utopia|verdana|webdings|sans-serif|serif|monospace|fantasy|cursive)\b
       scope: support.constant.font-name.css
 
   property-values:
@@ -614,26 +614,6 @@ contexts:
             1: keyword.other.custom-property.prefix.css
             2: support.type.custom-property.name.css
         - include: custom-property-name
-        - match: \bfont(-family)?(?!-)\b
-          scope: support.type.property-name.css
-          push:
-            - match: (:)([ \t]*)
-              captures:
-                1: punctuation.separator.key-value.css
-                2: meta.property-value.css
-              push:
-                - meta_content_scope: meta.property-value.css
-                - match: '\s*(;)|(?=[})])'
-                  captures:
-                    1: punctuation.terminator.rule.css
-                  pop: true
-                - include: property-values
-                - match: '{{ident}}(\s+{{ident}})*'
-                  scope: string.unquoted.css
-                - match: ','
-                  scope: punctuation.separator.css
-            - match: ''
-              pop: true
         # Property names are sorted by popularity in descending order.
         # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
         - match: |-
@@ -662,7 +642,7 @@ contexts:
               | border-top|unicode-range|list-style-position|orphans|outline-width
               | line-clamp|order|flex-direction|box-pack|animation-fill-mode
               | outline-color|list-style-image|list-style|touch-action|flex-grow
-              | border-left-style|border-left|animation-iteration-count
+              | border-left-style|border-left|speak|animation-iteration-count
               | page-break-inside|box-flex|box-align|page-break-after|animation-delay
               | widows|border-right-style|border-right|flex-align|outline-style
               | outline|background-origin|animation-direction|fill-opacity
@@ -709,13 +689,12 @@ contexts:
               | nbsp-mode|color|image-resolution|grid-row|grid-column|blend-mode
               | azimuth|pause-after|pause-before|pause|pitch-range|pitch|text-height
               | system|negative|prefix|suffix|range|pad|fallback|additive-symbols
-              | symbols|speak-as|speak|grid-gap|grid-row-gap
+              | symbols|speak-as
             )\b
           scope: support.type.property-name.css
-    - match: (:)([ \t]*)
+    - match: (:)\s*
       captures:
         1: punctuation.separator.key-value.css
-        2: meta.property-value.css
       push:
         - meta_content_scope: meta.property-value.css
         - match: '\s*(;)|(?=[})])'

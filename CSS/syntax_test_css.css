@@ -147,18 +147,6 @@
 /*      ^^^^^ comment.block.css */
 }
 
-    @font-face
-/*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
-/*  ^          punctuation.definition.keyword.css    */
-/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
-{
-    font-family: monospace,
-/*  ^^^^^^^^^^^ support.type.property-name.css */
-/*               ^^^^^^^^^ support.constant.font-name.css */
-        /* */
-/*      ^^^^^ comment.block.css */
-}
-
     @supports not ( and ( top: 2px ) ) { }
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css */
 /*  ^          punctuation.definition.keyword.css  */
@@ -200,20 +188,6 @@
     suffix: " ";
 /*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
 /*          ^^^ string.quoted.double.css */
-}
-
-    @counter-style blacknwhite
-/*  ^^^^^^^^^^^^^^ meta.at-rule.counter-style.css keyword.control.at-rule.counter-style.css */
-/*                 ^^^^^^^^^^^ entity.other.counter-style-name.css */
-{
-  system: cyclic;
-  negative: "(" ")";
-  prefix: "/";
-  symbols: ◆ ◇;
-  suffix: "/ ";
-  range: 2 4;
-  speak-as: "bullets";
-/*^^^^^^^^ support.type.property-name.css */
 }
 
 .test-var { --test-var: arial; }
@@ -400,31 +374,6 @@
 /*        ^^^^^^^^^  support.constant.font-name.css */
 }
 
-.test-unquoted-font-name {
-    font: m700, aria;
-/*        ^^^^ string.unquoted */
-/*            ^ punctuation.separator */
-/*            ^^ - string */
-/*              ^^^^ string.unquoted */
-    font: inherit;
-/*        ^ - string */
-    font: initial;
-/*        ^ - string */
-    font: unset;
-/*        ^ - string */
-    font: italic;
-/*        ^ - string */
-    font: small-caps;
-/*        ^ - string */
-    font: 2em m700, sans-serif;
-/*        ^ - string */
-/*            ^^^^ string.unquoted */
-/*                ^ punctuation.separator */
-/*                  ^ - string */
-    font-weight: bold;
-/*  ^^^^^^^^^^^ meta.property-name support.type.property-name */
-}
-
 .test-color-values {
     color: aqua;
 /*         ^^^^ support.constant.color.w3c-standard-color-name.css */
@@ -439,11 +388,17 @@
 /*         ^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
 
     color: #b4da55;
-/*         ^ punctuation.definition.constant.css */
 /*         ^^^^^^^ constant.other.color.rgb-value.css */
 
     color: #137;
 /*         ^^^^ constant.other.color.rgb-value.css */
+
+    color: #a1b2c3d4;
+/*         ^^^^^^^^^ constant.other.color.rgba-value.css */
+
+    color: #E5F6A7B8;
+/*         ^^^^^^^^^ constant.other.color.rgba-value.css */
+
 }
 
 .test-function-meta {
@@ -809,12 +764,6 @@
 /*           ^^^^^^^^^^^^ string.unquoted.css            */
 }
 
-@font-face {
-    font-family: m700, aria;
-/*               ^^^^ string.unquoted.css */
-/*                     ^^^^ string.unquoted.css */
-}
-
 .test-var-function {
     top: var(--name);
 /*       ^^^         support.function.var.css                   */
@@ -834,33 +783,3 @@
 /*                                                                             ^^^^^^^^^ entity.other.attribute-name.class.css */
 /*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
 /*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
-
-.test-meta-scopes-for-completions {
-    top: 5px;
-/*^^^^^^^^^^^ meta.property-list */
-/*  ^^^ meta.property-name */
-/*      ^^^^ meta.property-value */
-    top: ;
-/*^^^^^^^^^^^ meta.property-list */
-/*  ^^^ meta.property-name */
-/*      ^ meta.property-value */
-    top: 
-/*^^^^^^^ meta.property-list */
-/*  ^^^ meta.property-name */
-}/*     ^ meta.property-value */
-
-.generic-font-family { font-family: my-serif, serif }
-/*                                  ^^^^^^^^ string.unquoted */
-/*                                          ^ - string */
-/*                                            ^^^^^ support.constant.font-name */
-.generic-font-family2 { font-family: sans-serif , fantasy ; }
-/*                                   ^^^^^^^^^^ support.constant.font-name */
-/*                                                ^^^^^^^ support.constant.font-name */
-.generic-font-family3 {
-    font-family: cursive
-/*               ^^^^^^^ support.constant.font-name */
-}
-.generic-font-family4 {
-    font-family: droid serif;
-/*               ^^^^^^^^^^^ string.unquoted */
-}
