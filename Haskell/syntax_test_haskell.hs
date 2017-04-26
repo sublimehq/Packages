@@ -72,7 +72,6 @@
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --  ^^ keyword.other.arrow.haskell
    traverse f = sequenceA . fmap f
--- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --            ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
 
@@ -88,3 +87,17 @@
 --                                     ^ keyword.other.arrow.haskell
    sequenceA = traverse id
 --           ^ keyword.operator.haskell
+
+   (==>&) :: Parse a -> Parse b -> Parse b
+-- ^^^^^^ entity.name.function.haskell
+   p ==>& f = p ==> \_ -> f
+--   ^^^^ keyword.operator.haskell
+
+   max3 :: Int -> Int -> Int -> Int
+   max3 x y z
+        | (x <= z) && (y <= z) = z
+--      ^ keyword.operator.haskell
+        | (x <= y) && (z <= y) = y
+--      ^ keyword.operator.haskell
+        | (y <= x) && (z <= x) = z
+--      ^ keyword.operator.haskell
