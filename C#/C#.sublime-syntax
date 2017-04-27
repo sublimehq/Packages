@@ -1751,6 +1751,8 @@ contexts:
               captures:
                 1: variable.other.cs
               pop: true
+            - match: (?=\))
+              pop: true
         - include: type_argument
     - match: '({{base_type}}){{type_suffix_capture}}'
       captures:
