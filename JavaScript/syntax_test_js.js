@@ -205,10 +205,7 @@ a = test ? a + b : c;
 //             ^ variable.other.readwrite
 
 {{foo}}
-// ^ meta.tag.mustache.js
-{{#bar}}{{/bar}}
-// ^ meta.tag.mustache.js
-//         ^ meta.tag.mustache.js
+// ^ meta.block meta.block variable.other.readwrite
 
 var obj = {
 //        ^ meta.object-literal - meta.block
