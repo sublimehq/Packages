@@ -154,8 +154,29 @@ if (true)
 // <- comment.block punctuation.definition.comment
 */
 
-<!-- -->
-// <- comment.block.html punctuation.definition.comment
+'// /* /**';
+//^^^^^^^^^^ - comment
+
+"// /* /**";
+//^^^^^^^^^^ - comment
+
+/test// 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+
+/test/* 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+// */
+
+/test/** 1;
+// <- string.regexp.js
+//    ^^ keyword.operator.arithmetic.js
+// */
+
+x --> 1;
+//^^ keyword.operator.arithmetic.js
+//  ^ keyword.operator.relational.js
 
 #! /usr/bin/env node
 // <- comment.line.shebang punctuation.definition.comment
@@ -163,15 +184,8 @@ if (true)
  #! /usr/bin/env node
 //^^^^^^^^^^^^^^^^^^^ - comment.line.shebang
 
-/*@cc_on
-// <- punctuation.definition.comment
-//^ punctuation.definition.keyword
-//^^^^^^ comment.block.conditional keyword.control.conditional
-if (@_jscript_version==5.6) {}
-//  ^^^^^^^^^^^^^^^^^ variable.other.conditional
-//  ^ punctuation.definition.variable
-//                   ^^ keyword.operator.comparison
-@*/
+/*@ /*/
+//   ^^ punctuation.definition.comment.js
 
 var str = '\':';
 var str2 = NaN;
