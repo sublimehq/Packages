@@ -93,6 +93,7 @@ string unclosed_interpolation = $"inner {
 string unclosed_interpolation = $"inner {2}
 ///                                     ^ punctuation.section.interpolation.begin.cs
 ///                                      ^ constant.numeric.cs
+///                                       ^ punctuation.section.interpolation.end.cs
 ///                                        ^ invalid.illegal.unclosed-string.cs
 
 string format_string = "{0} and {1} like to go {{crazy}}";
@@ -111,7 +112,7 @@ foo {1} like to go {{crazy}}";
 ///                       ^^ constant.character.escape.cs
 
 string format_string_2 = "{}";
-///                       ^^ string constant.other.placeholder.cs
+///                       ^^ string - constant.other.placeholder.cs
 
 
 x[10][5] = 2;

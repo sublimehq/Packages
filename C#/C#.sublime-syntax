@@ -1445,9 +1445,9 @@ contexts:
       push:
         - meta_scope: meta.string.interpolated.cs source.cs
         - clear_scopes: 2
-        - include: string_interpolation
         - match: $
           pop: true
+        - include: string_interpolation
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
@@ -1474,20 +1474,56 @@ contexts:
 
   string_placeholders:
     - include: string_placeholder_escape
-    - match: '\{\d*\}'
+    - match: '(\{)(\d+)(?=")'
       scope: constant.other.placeholder.cs
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs invalid.illegal.unclosed-string-placeholder.cs
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs
+      push: string_placeholder
 
-  string_interpolation:
-    - match: '\}'
-      scope: punctuation.section.interpolation.end.cs
+  string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - match: '(\})(\}(?!\}))?'
+      captures:
+        1: punctuation.definition.placeholder.end.cs
+        2: invalid.illegal.unescaped-placeholder.cs
       pop: true
-    - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
+    - match: '(?=[}"])'
+      pop: true
+    - include: string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  string_placeholder_format:
+    - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
         2: constant.numeric.formatting.cs
-        3: punctuation.separator.cs
-        4: constant.other.format-spec.cs
-        5: punctuation.section.interpolation.end.cs
+    - match: ':(?="(?!"))'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.cs
+      push:
+        - meta_scope: constant.other.format-spec.cs
+        - include: string_placeholder_escape
+        - include: escaped
+        - match: '(?=\})'
+          pop: true
+        - match: '([^}"\\]+(\\.)*)+(?="(?!"))'
+          scope: invalid.illegal.unclosed-string-placeholder.cs
+          pop: true
+        - match: '\{'
+          scope: invalid.illegal.unescaped-placeholder.cs
+
+  string_interpolation:
+    - include: string_placeholder_format
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.cs
       pop: true
     - include: line_of_code_in
 
