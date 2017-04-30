@@ -232,7 +232,7 @@ public class Lambdas {
 
 // Capital names are usually used for classes
      Foo();
-/*   ^^^ variable.function.java */
+//   ^^^ variable.function.java
 
      foo ();
 //   ^^^ variable.function.java
@@ -302,6 +302,15 @@ public class Lambdas {
   new Foo<? super Bar>();
 //        ^ keyword.operator.wildcard.java
 //          ^^^^^ keyword.declaration.super.java
+
+  new Foo<int>();
+//        ^^^ invalid.illegal.primitive-instantiation.java
+
+  new Foo<String, int>();
+//        ^^^^^^ support.class.java
+//                ^^^ invalid.illegal.primitive-instantiation.java
+  new Foo<a.b.FooBar>();
+/*       ^^^^^^^^^^^^ meta.generic.java */
   }
 }
 

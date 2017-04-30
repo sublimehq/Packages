@@ -29,6 +29,7 @@ contexts:
     - include: import
     - include: annotations
     - include: body
+    - include: code
   package:
     - match: '\bpackage\b'
       scope: keyword.other.package.java
@@ -246,9 +247,9 @@ contexts:
     - include: lambdas
     - include: strings
     - include: anonymous-classes-and-new
+    - include: method-invocations
     - include: all-types
     - include: assertions
-    - include: method-invocations
     - include: keywords
     - include: code-block-include
     - include: parens
@@ -425,6 +426,12 @@ contexts:
         - match: '>|[^\w\s,\[\]<]'
           pop: true
   object-types:
+    - match: '\b({{qualified_id}})(<)(?={{primitives}})'
+      captures:
+        1: support.class.java
+        2: punctuation.accessor.dot.java
+        3: punctuation.definition.generic.begin.java
+      push: object-type-generic
     # This will match the < operator if there is no space in between.
     - match: '\b({{qualified_id}})(<)(?!\s*(?:\d+|<|[a-z]))'
       comment: Don't match foo<2, foo<bar, foo<<12
