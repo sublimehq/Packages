@@ -1751,6 +1751,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
+          - include: var-function
           - include: color-values
           - include: angle-type
           - include: number-type
@@ -1836,6 +1837,7 @@ contexts:
             scope: keyword.other.color-space.css
           - include: color-values
           - include: percentage-type
+          - include: var-function
 
   unicode-range:
     - match: |-

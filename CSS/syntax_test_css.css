@@ -517,6 +517,25 @@
 /*              ^^^         support.constant.color.w3c-standard-color-name.css */
 /*                  ^^^     constant.numeric.css                               */
 /*                      ^^^ keyword.other.color-space.css                      */
+
+    background-color: color(var(--background) blend(var(--foreground) 80%));
+/*  ^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                  ^ punctuation.separator.key-value.css */
+/*                    ^^^^^ support.function.color.css */
+/*                         ^ punctuation.definition.group.begin.css */
+/*                          ^^^ support.function.var.css */
+/*                             ^ punctuation.definition.group.begin.css */
+/*                              ^^^^^^^^^^^^ support.type.custom-property */
+/*                                          ^ punctuation.definition.group.end.css */
+/*                                            ^^^^^ support.function.color.css */
+/*                                                 ^ punctuation.definition.group.begin.css */
+/*                                                  ^^^ support.function.var.css */
+/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                      ^^^^^^^^^^^^ support.type.custom-property.css */
+/*                                                                  ^ punctuation.definition.group.end.css */
+/*                                                                    ^^^ constant.numeric.css */
+/*                                                                       ^^ punctuation.definition.group.end.css */
+/*                                                                         ^ punctuation.terminator.rule.css */
 }
 
 .test-transform-functions {
