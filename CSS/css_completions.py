@@ -398,6 +398,7 @@ PROPERTY_DICT = {
     'transition-timing-function': ['<timing_function>'],
     'unicode-bidi': ['normal', 'embed', 'bidi-override'],
     'unicode-range': [],
+    'user-select': ['auto', 'text', 'none', 'contain'],
     'vertical-align': [
         'baseline', 'sub', 'super', 'text-top', 'text-bottom', 'middle', 'top',
         'bottom', '<percentage>', '<length>'
@@ -474,7 +475,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if (view.match_selector(loc, prop_value_scope) or
             # This will catch scenarios like:
             # - .foo {font-style: |}
-            # - <style type="text/css">.foo { font-weight: b|</style> 
+            # - <style type="text/css">.foo { font-weight: b|</style>
             view.match_selector(loc - 1, prop_value_scope)):
 
             alt_loc = loc - len(prefix)
