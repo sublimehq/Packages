@@ -10,11 +10,28 @@ variables:
 contexts:
   main:
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
-    - match: (/\*)(\*|!)(<?)[^\*]
+    - match: /\*\*(?=[^*<])
       scope: punctuation.definition.comment.begin
       push: doc-block
+    - match: /\*!<?
+      scope: punctuation.definition.comment.begin
+      push: doc-block
+    - match: /\*\*<
+      scope: punctuation.definition.comment.begin
+      push: doc-block
+
+    # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+    - match: (///?)\s*(@{)\s*$
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.section.group.begin
+    - match: (///?)\s*(@})\s*$
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.section.group.end
+
     # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
-    - match: //(/|!)(<?)
+    - match: //[/!]<?
       scope: punctuation.definition.comment
       push: doc-line
 
@@ -22,24 +39,64 @@ contexts:
     - meta_scope: comment.line.documentation
     - match: $
       pop: true
-    - include: commands
+    - include: line-commands
 
   doc-block:
     - meta_scope: comment.block.documentation
     - match: \*/
       scope: punctuation.definition.comment.end
       pop: true
-    - include: commands
+    - include: block-commands
 
-  commands:
+  line-commands:
+    - include: escape-literals
+    - include: line-groupings
     - include: visual-studio-docs
+    - include: command-code
     - include: command-latex
     - include: command-generic
     - include: command-language
-    - include: escape-literals
+
+  block-commands:
+    - include: block-groupings
+    - include: line-commands
+
+  # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+  line-groupings:
+    - match: (@{)\s*$
+      captures:
+        1: punctuation.section.group.begin
+    - match: (@})\s*$
+      captures:
+        2: punctuation.section.group.end
+
+  # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+  block-groupings:
+    - match: (@{)\s*(?=(?:\*/|$))
+      captures:
+        1: punctuation.section.group.begin
+    - match: (@})\s*(?=(?:\*/|$))
+      captures:
+        1: punctuation.section.group.end
+
+  command-code:
+    - match: (?<=\W)(\\|@)(code)\s*(({)([^}]+)(}))?
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation
+        4: punctuation.section.braces.begin
+        5: variable.parameter
+        6: punctuation.section.braces.end
+      push:
+        - meta_scope: meta.group.codeblock
+        - match: (\\|@)(endcode)
+          captures:
+            1: punctuation.definition.keyword
+            2: keyword.other.documentation
+          pop: true
 
   command-latex:
-    - match: (\\)(f)(?=[\$\[\{])
+    - match: (\\)(f)(?=[$\[{])
       captures:
         1: punctuation.definition.keyword
         2: keyword.other.documentation
@@ -67,7 +124,7 @@ contexts:
                 3: punctuation.section.block.end
               pop: true
             # - include: scope:text.tex.latex#math-content
-        - match: (\{)(.+)(\})(\{)
+        - match: ({)(.+)(})({)
           captures:
             1: punctuation.section.block.begin
             2: variable.parameter
@@ -75,7 +132,7 @@ contexts:
             4: punctuation.section.block.begin
           set:
             - meta_scope: meta.environment.math.block.bracket.latex
-            - match: (\\)(f)(\})
+            - match: (\\)(f)(})
               captures:
                 1: punctuation.definition.keyword
                 2: keyword.other.documentation
@@ -84,7 +141,7 @@ contexts:
             # - include: scope:text.tex.latex#math-content
 
   command-generic:
-    - match: (\@|\\)({{identifier}})
+    - match: (?<=\W)(@|\\)({{identifier}})
       captures:
         1: punctuation.definition.keyword
         2: keyword.other.documentation
@@ -98,7 +155,7 @@ contexts:
             - match: \]
               scope: punctuation.section.brackets.end
               pop: true
-        - match: \s*(\{)
+        - match: \s*({)
           captures:
             1: punctuation.section.braces.begin
           push:
@@ -124,23 +181,23 @@ contexts:
 
   # https://msdn.microsoft.com/en-us/library/ms177226.aspx
   visual-studio-docs:
-    - match: '(<)({{identifier}})'
+    - match: (<)({{identifier}})
       captures:
         1: punctuation.definition.tag.begin
         2: entity.name.tag.begin
       push:
-        - match: '({{identifier}})\s*(=)'
+        - match: ({{identifier}})\s*(=)
           captures:
             1: entity.other.attribute-name
             2: punctuation.separator.argument.value
-        - match: '/?>'
+        - match: /?>
           scope: punctuation.definition.tag.end
           pop: true
         - match: '"[^"]*"'
           scope: string.quoted.double
         - match: $
           pop: true
-    - match: '(</)({{identifier}})(>)'
+    - match: (</)({{identifier}})(>)
       captures:
         1: punctuation.definition.tag.begin
         2: entity.name.tag.end

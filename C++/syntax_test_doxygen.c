@@ -4,6 +4,12 @@
 // comment blocks.
 ////////////////////////////////////////////////////////////////////////////////
 
+
+/**
+ * @name The basics
+ * @{
+ */
+
 //! \file syntax_test_doxygen.c
 //  ^ comment.line.documentation meta.function-call punctuation.definition.keyword
 //   ^^^^ comment.line.documentation meta.function-call keyword.other.documentation
@@ -20,6 +26,29 @@
  * This should be a documentation block. *
  *****************************************/
 // ^ comment.block.documentation
+
+/// \\ \@ \& \# \< \> \% \" \. \:: \-- \---
+//  ^^ comment.line.documentation constant.character.escape
+//     ^^ comment.line.documentation constant.character.escape
+//        ^^ comment.line.documentation constant.character.escape
+//           ^^ comment.line.documentation constant.character.escape
+//              ^^ comment.line.documentation constant.character.escape
+//                 ^^ comment.line.documentation constant.character.escape
+//                    ^^ comment.line.documentation constant.character.escape
+//                       ^^ comment.line.documentation constant.character.escape
+//                          ^^ comment.line.documentation constant.character.escape
+//                             ^^^ comment.line.documentation constant.character.escape
+//                                 ^^^ comment.line.documentation constant.character.escape
+//                                     ^^^^ comment.line.documentation constant.character.escape
+
+/**
+ * @}
+ */
+
+/**
+ * @name Markdown & commands
+ * @{
+ */
 
 /**
 // <- comment.block.documentation punctuation.definition.comment.begin
@@ -116,7 +145,12 @@
 //      ^ punctuation.section.braces.begin
 //       ^^^^ variable.parameter
 //           ^ punctuation.section.braces.end
- * 
+
+  int sum(int a, int b) { return x + y}
+//                      ^ - punctuation.section.braces.begin
+//                        ^ - variable.parameter
+//                                    ^ - punctuation.section.braces.end
+
  * \endcode
 // ^ comment.block.documentation punctuation.definition.keyword
 //  ^^^^^^^ comment.block.documentation keyword.other.documentation
@@ -176,6 +210,15 @@ int add(int x, int y)
 {
     return x + y;
 }
+
+/**
+ * @}
+ */
+
+/**
+ * @name Structs, classes and methods
+ * @{
+ */
 
 /**
  * @brief complete example
@@ -262,3 +305,120 @@ struct X
      */
     int f(const double x, const float a);
 };
+
+/**
+ * @}
+ */
+
+/**
+ * @name Grouping commands
+ * @{
+ */
+
+//@{
+//<- punctuation.definition.comment
+//^^ punctuation.section.group.begin
+
+//@}
+//<- punctuation.definition.comment
+//^^ punctuation.section.group.end
+
+///@{
+//<- punctuation.definition.comment
+// ^^ punctuation.section.group.begin
+
+///@}
+//<- punctuation.definition.comment
+// ^^ punctuation.section.group.end
+
+/**@{*/
+//<- punctuation.definition.comment.begin
+// ^^ punctuation.section.group.begin
+
+/**@}*/
+//<- punctuation.definition.comment.begin
+// ^^ punctuation.section.group.end
+
+/**
+ * @{
+// ^^ punctuation.section.group.begin
+ */
+
+/**
+ * @}
+// ^^ punctuation.section.group.end
+ */
+
+// @{ hello there! Fooled ya!
+// ^ comment.line.double-slash.c - punctuation.section.group
+// @} hello there! Fooled ya!
+// ^ comment.line.double-slash.c - punctuation.section.group
+///@{ hello there! Fooled ya! Still a documentation line though.
+// ^ comment.line.documentation - punctuation.section.group
+///@} hello there! Fooled ya! Still a documentation line though.
+// ^ comment.line.documentation - punctuation.section.group
+
+/**
+ * @}
+ */
+
+/**
+ * @name Various fringe cases
+ * @{
+ */
+
+/** \brief This template class is used to contain user properties of specific data types.
+//  ^ comment.block.documentation meta.function-call punctuation.definition.keyword
+//   ^ comment.block.documentation meta.function-call keyword.other.documentation
+* \nosubgrouping
+*/
+
+///\brief asdf
+// ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//  ^ comment.line.documentation meta.function-call keyword.other.documentation
+/// \brief asdf
+//  ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//   ^ comment.line.documentation meta.function-call keyword.other.documentation
+
+///@brief asdf
+// ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//  ^ comment.line.documentation meta.function-call keyword.other.documentation
+/// @brief asdf
+//  ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//   ^ comment.line.documentation meta.function-call keyword.other.documentation
+
+/**
+ * \author john@doe.com
+//             ^ comment.block.documentation - meta.function-call - punctuation.definition.keyword
+//              ^ comment.block.documentation - meta.function-call - keyword.other.documentation
+ * \file syntax_test_doxygen.c
+ */
+
+/** FBX event class, derived from FbxEventBase, and it contains a type ID for event. 
+* It's a template class. You can derive your own types of even. Such as:
+* \code class FbxEventCustom : public FbxEvent<FbxEventCustom> \endcode
+//                                            ^ - punctuation.definition.tag.begin
+//                                             ^ - entity.name.tag.begin
+//                                                           ^ - punctuation.definition.tag.end
+*/
+
+/**
+ * hmm. text allowed here? @{
+ */
+
+/// hmm. text allowed here? @{
+
+/// john@code.com
+//      ^ comment.line.documentation - meta.function-call - punctuation.definition.keyword
+//       ^ comment.line.documentation - meta.function-call - keyword.other.documentation
+
+// Repeated simple syntax test here in case we forgot to pop somewhere and we
+// have a malformed stack.
+
+/// \brief asdf
+//  ^ comment.line.documentation meta.function-call punctuation.definition.keyword
+//   ^ comment.line.documentation meta.function-call keyword.other.documentation
+
+/**
+ * @}
+ */
