@@ -41,7 +41,7 @@ variables:
 
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
   other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
-  name_normal: '{{start_char}}{{other_char}}*'
+  name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '(\p{Lu}{{other_char}})'
 
 contexts:
@@ -1229,18 +1229,38 @@ contexts:
         2: keyword.operator.pointer.cs
         3: variable.other.cs
         4: punctuation.section.group.end.cs
-    - match: '(\()\s*({{base_type}}|({{name}}))\s*{{type_suffix_capture}}\s*(\))'
+    # - match: '(\()\s*({{base_type}}|{{name}})\s*{{type_suffix_capture}}\s*(\))'
+    #   captures:
+    #     1: punctuation.section.group.begin.cs
+    #     2: storage.type.cs
+    #     3: support.type.cs
+    #     4: storage.type.nullable.cs
+    #     5: meta.brackets.cs
+    #     6: punctuation.section.brackets.begin.cs
+    #     7: punctuation.separator.cs
+    #     8: punctuation.section.brackets.end.cs
+    #     9: keyword.operator.pointer.cs
+    #     10: punctuation.section.group.end.cs
+    - match: '(\()(?=(?:\s*{{name}}\s*\.)*\s*({{base_type}}|{{name}})\s*{{type_suffix_capture}}\s*\))'
       captures:
         1: punctuation.section.group.begin.cs
-        2: storage.type.cs
-        3: support.type.cs
-        4: storage.type.nullable.cs
-        5: meta.brackets.cs
-        6: punctuation.section.brackets.begin.cs
-        7: punctuation.separator.cs
-        8: punctuation.section.brackets.end.cs
-        9: keyword.operator.pointer.cs
-        10: punctuation.section.group.end.cs
+      push:
+        - meta_scope: meta.cast.cs
+        - match: \)
+          scope: punctuation.section.group.end.cs
+          pop: true
+        - match: '{{base_type}}'
+          scope: storage.type.cs
+        - match: '{{name}}'
+          scope: support.type.cs
+        - match: '\.'
+          scope: punctuation.separator.namespace.cs
+        - match: '{{type_suffix_capture}}'
+          captures:
+            1: punctuation.section.brackets.begin.cs
+            2: punctuation.separator.cs
+            3: punctuation.section.brackets.end.cs
+            4: keyword.operator.pointer.cs
     - match: \(
       scope: punctuation.section.group.begin.cs
       push:
