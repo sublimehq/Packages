@@ -396,6 +396,8 @@ namespace TestNamespace.Test
 ///                 ^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///                 ^ punctuation.section.group.begin
 ///                                     ^ punctuation.section.group.end
+///                  ^^^^^^^^^^^^^^^^^ support.type
+///                                    ^ variable.other
             {
 ///         ^ meta.method meta.block meta.block punctuation.section.block.begin
             }
@@ -409,6 +411,23 @@ namespace TestNamespace.Test
 ///                               ^^^^^^^^^^^^ support.type
 ///                                           ^ punctuation.definition.generic.end
 ///                                            ^ punctuation.section.group.end
+            {
+///         ^ punctuation.section.block.begin
+                throw;
+///             ^^^^^ keyword.control.trycatch.throw
+///                  ^ punctuation
+            }
+            catch (FaultException<ServiceFault> e)
+///         ^^^^^ keyword.control.trycatch.catch
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///               ^ punctuation.section.group.begin
+///                ^^^^^^^^^^^^^^ support.type
+///                              ^ punctuation.definition.generic.begin
+///                               ^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.definition.generic.end
+///                                            ^ - support - variable
+///                                             ^ variable.other
+///                                              ^ punctuation.section.group.end
             {
 ///         ^ punctuation.section.block.begin
                 throw;
@@ -937,8 +956,9 @@ namespace TestNamespace.Test
         {
 
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
 ///     ^^^^^ keyword.control.trycatch.catch
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type
         {
 
         }
