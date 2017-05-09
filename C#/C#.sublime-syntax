@@ -1029,8 +1029,9 @@ contexts:
           scope: meta.group.cs punctuation.section.group.end.cs
           pop: true
         - include: type
-    - match: '\b(as|is)(\s+)'
-      scope: keyword.operator.reflection.cs
+    - match: '\b(as|is)\s+'
+      captures:
+        1: keyword.operator.reflection.cs
       push: type_no_space
     - match: \b(checked|unchecked)\b
       scope: keyword.other.cs
