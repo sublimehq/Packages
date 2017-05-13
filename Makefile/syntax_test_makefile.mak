@@ -608,6 +608,19 @@ vpath dir/*/whatevs whatevs
 #         ^ variable.language.wildcard
 #                   ^ string.unquoted.makefile
 
+vpath asdf/*
+# ^ keyword.control.vpath
+#          ^ variable.language.wildcard
+vpath
+# ^ keyword.control.vpath.makefile
+
+# a comment check
+# <- comment.line
+
+rule: asdf
+	@rm -rf /
+# <- meta.function.body
+
 ifneq ($(REVISION),)
 # ^ keyword.control.conditional
 REVDEPS += revision.tex

@@ -106,6 +106,9 @@ contexts:
           set:
             - meta_content_scope: string.unquoted.makefile
             - include: pop-on-line-end
+        - include: pop-on-line-end
+    - match: ^\s*(vpath)$
+      captures: keyword.control.vpath.makefile
     - match: ^\s*({{include}})\b
       captures:
         1: keyword.control.import.makefile
