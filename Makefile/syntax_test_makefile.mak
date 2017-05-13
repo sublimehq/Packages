@@ -603,7 +603,13 @@ $(FIGS)/%.pdf: $(FIGS)/%.svg  ## Figures for the manuscript
 endif
 # <- keyword.control.conditional
 
+vpath dir/*/whatevs whatevs
+# ^ keyword.control.vpath
+#         ^ variable.language.wildcard
+#                   ^ string.unquoted.makefile
+
 ifneq ($(REVISION),)
+# ^ keyword.control.conditional
 REVDEPS += revision.tex
 revision.tex: $(VCSTURD)
     /bin/echo '\newcommand{\Revision}'"{$(subst _,\_,$(REVISION))}" > $@

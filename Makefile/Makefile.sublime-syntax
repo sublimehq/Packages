@@ -97,6 +97,15 @@ contexts:
     - include: continuation-or-pop-on-line-end
 
   control-flow:
+    - match: ^\s*(vpath)\s
+      captures:
+        1: keyword.control.vpath.makefile
+      push:
+        - include: highlight-wildcard-sign
+        - match: \s
+          set:
+            - meta_content_scope: string.unquoted.makefile
+            - include: pop-on-line-end
     - match: ^\s*({{include}})\b
       captures:
         1: keyword.control.import.makefile
@@ -124,6 +133,10 @@ contexts:
   highlight-percentage-sign:
     - match: \%
       scope: variable.language.makefile
+
+  highlight-wildcard-sign:
+    - match: \*
+      scope: variable.language.wildcard.makefile
 
   expect-rule:
     # Anything before the colon is part of the rule's name.
@@ -309,8 +322,7 @@ contexts:
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: inside-function-call
-        - match: \*
-          scope: variable.language.wildcard.makefile
+        - include: highlight-wildcard-sign
     - match: (?x) (\$\() (subst|strip|findstring|filter-out|sort|word|wordlist|words|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|realpath|abspath|if|or|and|foreach|file|call|value|eval|origin|flavor|error|warning|info|guile) \s
       captures:
         0: meta.function-call.makefile
