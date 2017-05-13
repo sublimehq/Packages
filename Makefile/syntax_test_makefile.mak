@@ -579,7 +579,8 @@ endif
 a:b
 ifeq (0,1)
 	$(info asdf)
-else
+else # some comment
+#    ^ comment.line
 	$(info asdf)
 endif
 # <- keyword

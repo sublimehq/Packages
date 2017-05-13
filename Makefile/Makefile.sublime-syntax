@@ -111,9 +111,15 @@ contexts:
     - match: ^\s*(else)\b
       captures:
         1: keyword.control.conditional.makefile
+      push:
+        - include: comments
+        - include: pop-on-line-end
     - match: ^\s*(endif)\b
       captures:
         1: keyword.control.conditional.makefile
+      push:
+        - include: comments
+        - include: pop-on-line-end
 
   highlight-percentage-sign:
     - match: \%
@@ -259,9 +265,8 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments:
-    - match: \s*(\#)
-      captures:
-        1: punctuation.definition.comment.makefile
+    - match: \#
+      scope: punctuation.definition.comment.makefile
       push:
         - meta_scope: comment.line.number-sign.makefile
         - include: pop-on-line-end
