@@ -124,6 +124,7 @@ contexts:
       captures:
         1: keyword.control.conditional.makefile
       push:
+        - include: control-flow
         - include: comments
         - include: pop-on-line-end
     - match: ^\s*(endif)\b
@@ -281,6 +282,22 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments:
+    # This hack is here in order to circumvent false-positives for the big
+    # rule lookahead. For example, if this match is not present, then things
+    # like
+    # 
+    #     # A comment with a : colon
+    #     
+    # will match the rule-lookahead.
+    - match: (?=^\s*\#)
+      push:
+        - match: \#
+          scope: punctuation.definition.comment.makefile
+          set:
+            - meta_scope: comment.line.number-sign.makefile
+            - include: pop-on-line-end
+    # This is the "normal" comment parsing logic, but not sufficient in every
+    # case (see above).
     - match: \#
       scope: punctuation.definition.comment.makefile
       push:

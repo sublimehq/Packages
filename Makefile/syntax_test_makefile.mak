@@ -156,6 +156,10 @@ a_objects := a.o b.o c.o
 #         ^^ keyword.operator.assignment
 #           ^^^^^^^^^^^^ string.unquoted
 
+# This is NOT the start of a rule...
+	# A comment with a tab and with a : colon
+	# <- comment.line - meta.function - entity.name.function
+
 all: foo.o
     ld a
     ar b
@@ -529,12 +533,16 @@ ifeq ($(shell git status >/dev/null 2>&1 && echo USING_GIT),USING_GIT)
     VCSTURD := $(subst $(SPACE),\ ,$(shell git rev-parse --git-dir)/$(GIT_BRANCH))
   endif
 else ifeq ($(shell hg root >/dev/null 2>&1 && echo USING_HG),USING_HG)
+# ^ keyword.control
+#    ^ keyword.control
   # mercurial
   ifeq ($(REVISION),)
     REVISION := $(shell hg id -i)
   endif
   VCSTURD := $(subst $(SPACE),\ ,$(shell hg root)/.hg/dirstate)
 else ifeq ($(shell svn info >/dev/null && echo USING_SVN),USING_SVN)
+# ^ keyword.control
+#    ^ keyword.control
   # subversion
   ifeq ($(REVISION),)
     REVISION := $(subst :,-,$(shell svnversion -n))
