@@ -209,6 +209,13 @@ contexts:
     - include: preprocessor-statements
     - include: scope:source.c#label
     - include: expressions
+    
+  statements-enum:
+    - include: preprocessor-statements
+    - include: scope:source.c#label
+    - match: '{{identifier}}'
+      scope: entity.name.enum.c++.constants
+    - include: expressions    
 
   expressions:
     - include: early-expressions
@@ -625,6 +632,9 @@ contexts:
         - match: \b(struct)\s+({{identifier}})\b
           captures:
             1: storage.type.c++
+        - match: \benum\b
+          scope: storage.type.c++
+          set: data-structures-enum-definition
         - include: expressions-minus-generic-type
 
   parens:
@@ -1011,7 +1021,7 @@ contexts:
         - match: '\}'
           scope: meta.enum.c++ meta.block.c++ punctuation.section.block.end.c++
           pop: true
-        - include: statements
+        - include: statements-enum
 
   data-structures-union-definition:
     - meta_scope: meta.union.c++
