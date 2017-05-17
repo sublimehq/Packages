@@ -19,11 +19,11 @@ contexts:
     - include: value
   array:
     - match: '\['
-      scope: punctuation.definition.array.begin.json
+      scope: punctuation.section.array.begin.json
       push:
         - meta_scope: meta.structure.array.json
         - match: '\]'
-          scope: punctuation.definition.array.end.json
+          scope: punctuation.section.array.end.json
           pop: true
         - include: value
         - match: ","
@@ -77,11 +77,11 @@ contexts:
   object:
     # a JSON object
     - match: '\{'
-      scope: punctuation.definition.dictionary.begin.json
+      scope: punctuation.section.dictionary.begin.json
       push:
         - meta_scope: meta.structure.dictionary.json
         - match: '\}'
-          scope: punctuation.definition.dictionary.end.json
+          scope: punctuation.section.dictionary.end.json
           pop: true
         - match: '"'
           scope: punctuation.definition.string.begin.json
