@@ -539,7 +539,7 @@ contexts:
     - match: '\b(new)\b\s+(?=({{identifier}}|\())'
       scope: meta.instance.constructor.js
       captures:
-        1: keyword.operator.new.js
+        1: keyword.operator.word.new.js
       push: constructor-name
 
   constructor-name:
@@ -614,7 +614,7 @@ contexts:
 
   binary-operators:
     - match: \bnew\b
-      scope: keyword.operator.new.js
+      scope: keyword.operator.word.new.js
     - match: \b(delete|instanceof)\b
       scope: keyword.operator.js
     - match: \b(in|of|typeof|void)\b
