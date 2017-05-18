@@ -310,7 +310,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^ support.class
-//              ^^ keyword.operator.class
+//              ^^ punctuation.accessor
 //                ^^^ constant.other
 
 \MyNamespace\Foo::bar();
@@ -319,7 +319,7 @@ $var = new \MyNamespce\ClassName();
 //^^^^^^^^^^^^^^ meta.path
 //          ^ punctuation.separator.namespace
 //           ^^^ support.class
-//              ^^ keyword.operator.class
+//              ^^ punctuation.accessor
 //                ^^^^^ meta.function-call
 //                ^^^ variable.function
 //                   ^^ meta.group
@@ -440,7 +440,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //^ variable.other
 //       ^^ variable.other
 //       ^ punctuation.definition.variable
-//         ^^ keyword.operator.class
+//         ^^ punctuation.accessor
 //           ^ variable.other.member
 //                ^^^^ variable.other
 //                ^^ punctuation.definition.variable
@@ -471,7 +471,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                      ^ keyword.operator
 //                                                                                        ^^ variable.other
 //                                                                                        ^ punctuation.definition.variable
-//                                                                                          ^^ keyword.operator.class
+//                                                                                          ^^ punctuation.accessor
 //                                                                                            ^ variable.other.member
 //                                                                                              ^ keyword.operator
 //                                                                                                ^ constant.other
@@ -481,7 +481,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //^ variable.other
 //       ^^ variable.other
 //       ^ punctuation.definition.variable
-//         ^^ keyword.operator.class
+//         ^^ punctuation.accessor
 //           ^ variable.other.member
 //                ^^^^ variable.other
 //                ^^ punctuation.definition.variable
@@ -512,7 +512,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                                                                      ^ keyword.operator
 //                                                                                        ^^ variable.other
 //                                                                                        ^ punctuation.definition.variable
-//                                                                                          ^^ keyword.operator.class
+//                                                                                          ^^ punctuation.accessor
 //                                                                                            ^ variable.other.member
 //                                                                                              ^ keyword.operator
 //                                                                                                ^ constant.other
@@ -540,7 +540,7 @@ class B
 //    ^ meta.block punctuation.section.block
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
-//       ^^ keyword.operator.class
+//       ^^ punctuation.accessor
 //                 ^ keyword.other.use-as
         Y::method2 insteadof X;
 //                 ^ keyword.other.insteadof
@@ -562,7 +562,7 @@ class B
 
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
-//            ^^ keyword.operator.class
+//            ^^ punctuation.accessor
 
         $this->undo();
 //      ^^^^^ variable.language

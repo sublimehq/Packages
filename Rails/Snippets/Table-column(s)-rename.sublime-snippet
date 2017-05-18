@@ -2,6 +2,6 @@
 	<content><![CDATA[t.rename(:${1:old_column_name}, :${2:new_column_name})
 $0]]></content>
 	<tabTrigger>tre</tabTrigger>
-	<scope>meta.rails.migration.create_table, meta.rails.migration.change_table</scope>
+	<scope>meta.migration.create_table.rails, meta.migration.change_table.rails</scope>
 	<description>Table column(s) rename</description>
 </snippet>

@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[drop_table :${1:table}${2: [press tab twice to generate create_table]}]]></content>
 	<tabTrigger>mtab</tabTrigger>
-	<scope>meta.rails.migration - meta.rails.migration.create_table - meta.rails.migration.change_table</scope>
+	<scope>meta.migration.rails - meta.migration.create_table.rails - meta.migration.change_table.rails</scope>
 	<description>Drop / Create Table</description>
 </snippet>

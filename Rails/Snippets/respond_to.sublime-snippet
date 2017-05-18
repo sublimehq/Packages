@@ -3,6 +3,6 @@
 	wants.${1:html}${2: { $0 \}}
 end]]></content>
 	<tabTrigger>rest</tabTrigger>
-	<scope>meta.rails.controller</scope>
+	<scope>meta.controller.rails</scope>
 	<description>respond_to</description>
 </snippet>

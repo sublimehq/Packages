@@ -6,6 +6,6 @@
 	$0
 end]]></content>
 	<tabTrigger>deftg</tabTrigger>
-	<scope>meta.rails.functional_test</scope>
+	<scope>meta.functional_test.rails</scope>
 	<description>def test_should_get_action</description>
 </snippet>
