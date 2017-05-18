@@ -170,7 +170,7 @@ contexts:
           pop: true
 
   function-calls:
-    - match: \b({{var}})\s*(\()
+    - match: (?:\b|(?=\.))({{var}})\s*(\()
       captures:
         1: variable.function.r
         2: punctuation.section.parens.begin.r
