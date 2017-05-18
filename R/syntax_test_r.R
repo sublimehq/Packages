@@ -160,7 +160,7 @@ function(x = "string", y = 2) {}
 #                          ^ meta.function.parameters.r constant.numeric.float.decimal.r
 
 foo(200, x = function(x) {x + y})
-#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
 # <- variable.function.r
 #  ^ punctuation.section.parens.begin.r
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
@@ -169,6 +169,19 @@ foo(200, x = function(x) {x + y})
 #          ^ keyword.operator.assignment.r
 #            ^^^^^^^^^^^ meta.function.r
 #                               ^ punctuation.section.parens.end.r
+
+.foo(200, x = function(x) {x + y})
+# <- meta.function-call.r
+#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+# <- variable.function.r
+#   ^ punctuation.section.parens.begin.r
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
+#    ^^^ constant.numeric.float.decimal.r
+#         ^ variable.parameter.r
+#           ^ keyword.operator.assignment.r
+#             ^^^^^^^^^^^ meta.function.r
+#                                ^ punctuation.section.parens.end.r
+
 
 print.foo()
 #^^^^^^^^ variable.function.r
