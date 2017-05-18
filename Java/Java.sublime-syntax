@@ -267,6 +267,7 @@ contexts:
     - include: keywords-control
     - include: catch-block
     - include: code
+    - include: annotations
     - include: code-block-include
     - include: stray-parens
   comments:

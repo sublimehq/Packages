@@ -711,6 +711,11 @@ public class Foo {
 /*  ^^^^^^^^^^^^^^^ support.class.java */
         .foo.MyClass.staticMethod(true);
 /*      ^^^^^^^^^^^^ support.class.java */
+
+    @MyAnnotation
+//  ^ punctuation.definition.annotation.java
+//  ^^^^^^^^^^^^^ meta.annotation.java
+    int foo;
   }
 //^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
 
