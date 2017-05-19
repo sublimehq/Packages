@@ -23,7 +23,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
-  digitpart: (?:\d[\d_]*)
+  digitpart: (?:\d(?:_?\d)*)
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
@@ -328,29 +328,42 @@ contexts:
       scope: constant.language.python
 
   numbers:
+    # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
+    # hexadecimal
     - match: \b(?i)(0x\h*)L # py2
       scope: constant.numeric.integer.long.hexadecimal.python
-    - match: \b(?i)(0x[\h_]*)
+    - match: \b(?i)(0x(_?\h)+)
       scope: constant.numeric.integer.hexadecimal.python
+    # octal
     - match: \b(?i)0(o|[0-7])[0-7]*L # py2
       scope: constant.numeric.integer.long.octal.python
-    - match: \b(?i)0(o|[0-7])[0-7_]*
+    - match: \b(?i)0[0-7]+ # py2
       scope: constant.numeric.integer.octal.python
+    - match: \b(?i)0o(_?[0-7])+
+      scope: constant.numeric.integer.octal.python
+    # binary
     - match: \b(?i)0b[01]*L # py2
       scope: constant.numeric.integer.long.binary.python
-    - match: \b(?i)0b[01_]*
+    - match: \b(?i)0b(_?[01])*
       scope: constant.numeric.integer.binary.python
-    - match: \b(?i)({{digitpart}}(\.{{digitpart}}?)?|\.{{digitpart}})(e[\-\+]?{{digitpart}})?J
+    # complex
+    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?j # mandatory fraction
       scope: constant.numeric.complex.python
-    - match: \b(?i)({{digitpart}}\.{{digitpart}}?(e[\-\+]?{{digitpart}})?)
+    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}})j # mandatory exponent
+      scope: constant.numeric.complex.python
+    - match: (?i){{digitpart}}(\.)?j # mandatory digitpart
+      scope: constant.numeric.complex.python
+    # floating point
+    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})? # mandatory fraction
       scope: constant.numeric.float.python
-    - match: (?i)(\.{{digitpart}}(e[\-\+]?{{digitpart}})?)
+    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}}) # mandatory exponent
       scope: constant.numeric.float.python
-    - match: \b(?i)({{digitpart}}e[\-\+]?{{digitpart}})
+    - match: (?i){{digitpart}}(\.) # mandatory digitpart
       scope: constant.numeric.float.python
-    - match: \b(?i)([1-9]\d*|0)L # py2
+    # integer
+    - match: \b(?i)([1-9]\d*|0)L\b # py2
       scope: constant.numeric.integer.long.decimal.python
-    - match: \b(?i)([1-9][\d_]*|0)
+    - match: \b(?i)([1-9][\d_]*|0)\b
       scope: constant.numeric.integer.decimal.python
 
   modifiers:

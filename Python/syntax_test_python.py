@@ -756,17 +756,19 @@ raise KeyError() from z
 # Integral numbers
 ##################
 
-decimal = 1234567890 + 9876543210L + -1 + -42L
+decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 #         ^^^^^^^^^^ constant.numeric.integer.decimal.python
 #                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
+#                                                ^^^^ constant.numeric.integer
 
-floating = 0.1 - .1 * 10e-20 - 0.0e2
+floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
 #          ^^^ constant.numeric.float.python
 #                ^^ constant.numeric.float.python
 #                     ^^^^^^ constant.numeric.float.python
 #                              ^^^^^ constant.numeric.float.python
+#                                      ^^ constant.numeric.float.python
 
 not_floating = abc.123
 #                 ^^^^ invalid.illegal.name - constant
@@ -804,11 +806,21 @@ amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
 #                             ^^^ - constant
 #                                       ^^ - constant
 
+very_complex = 23_2.2e2_0J + 2_1j
+#              ^^^^^^^^^^^ constant.numeric.complex.python
+#                            ^^^^ constant.numeric.complex.python
+
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
 
-flags = 0b_0011_1111_0100_1110
+flags = 0b_0011_1111_0100_1110 | 0b_1 & 0b_0_
 #       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+#                                ^^^^ constant.numeric.integer.binary.python
+#                                           ^ - constant
+
+octoct = 0o_2 ^ 0o_
+#        ^^^^ constant.numeric.integer.octal.python
+#               ^^^ - constant
 
 ##################
 # Operators
