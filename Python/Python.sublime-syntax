@@ -344,7 +344,7 @@ contexts:
       scope: constant.numeric.complex.python
     - match: \b(?i)({{digitpart}}\.\d*(e[\-\+]?{{digitpart}})?)\b
       scope: constant.numeric.float.python
-    - match: \b(?i)(\.\d[\d_]*(e[\-\+]?\d+)?)
+    - match: (?i)(\.\d[\d_]*(e[\-\+]?\d+)?)
       scope: constant.numeric.float.python
     - match: \b(?i)({{digitpart}}e[\-\+]?{{digitpart}})
       scope: constant.numeric.float.python

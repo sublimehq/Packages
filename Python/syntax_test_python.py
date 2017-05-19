@@ -762,6 +762,12 @@ decimal = 1234567890 + 9876543210L + -1 + -42L
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
 
+floating = 0.1 - .1 * 10e-20 - 0.0e2
+#          ^^^ constant.numeric.float.python
+#                ^^ constant.numeric.float.python
+#                     ^^^^^^ constant.numeric.float.python
+#                              ^^^^^ constant.numeric.float.python
+
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
 #                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
