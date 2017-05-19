@@ -41,6 +41,16 @@ bar := $(foo:%.o=%.c)
 #                ^ variable.language
 #                   ^ punctuation
 
+bar := ${foo:%.o=%.c}
+# <- variable
+#   ^^ keyword
+#      ^^ punctuation
+#           ^ punctuation
+#            ^ variable.language
+#               ^ punctuation
+#                ^ variable.language
+#                   ^ punctuation
+
 #################################
 # 6.3.2 computed variable names #
 #################################
