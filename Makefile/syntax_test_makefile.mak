@@ -51,6 +51,9 @@ bar := ${foo:%.o=%.c}
 #                ^ variable.language
 #                   ^ punctuation
 
+foo = bar # a comment
+#         ^ comment.line punctuation - string.unquoted
+
 #################################
 # 6.3.2 computed variable names #
 #################################
@@ -202,6 +205,16 @@ all: foo.o
 	# <- constant.language
     asdf
 # <- invalid.illegal.inconsistent.expected.tab
+
+all: foo.o # a comment
+# <- meta.function entity.name.function
+#  ^ keyword.operator.assignment
+#        ^ meta.function.arguments string.unquoted
+#          ^ comment.line. punctuation - meta.function.arguments - string.unquoted 
+#           ^ comment.line - punctuation - meta.function.arguments - string.unquoted
+	rm -rf /
+# <- meta.function.body
+
 
 sources := $($(a1)_objects:.o=.c)
 # ^ variable

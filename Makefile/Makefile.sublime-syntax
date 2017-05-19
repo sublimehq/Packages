@@ -168,13 +168,14 @@ contexts:
             - include: line-continuation
             - include: variable-substitutions
             - include: highlight-percentage-sign
-            - match: \#
-              scope: punctuation.definition.comment.makefile
+            - match: (?=#)
               set:
-                - clear_scopes: true
-                - meta_scope: comment.line.number-sign.makefile
-                - match: $
-                  set: recipe-junction-between-spaces-or-tabs
+                - match: \#
+                  scope: punctuation.definition.comment.makefile
+                  set:
+                    - meta_scope: comment.line.number-sign.makefile
+                    - match: $
+                      set: recipe-junction-between-spaces-or-tabs
             - match: $
               set: recipe-junction-between-spaces-or-tabs
             - match: ;
