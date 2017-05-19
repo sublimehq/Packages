@@ -768,6 +768,9 @@ floating = 0.1 - .1 * 10e-20 - 0.0e2
 #                     ^^^^^^ constant.numeric.float.python
 #                              ^^^^^ constant.numeric.float.python
 
+not_floating = abc.123
+#                 ^^^^ invalid.illegal.name - constant
+
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
 #                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python

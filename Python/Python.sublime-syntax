@@ -754,6 +754,10 @@ contexts:
         - meta_scope: meta.qualified-name.python
         - include: name
         - include: dotted-name
+        - match: \s*(\.\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+          captures:
+            1: invalid.illegal.name.python
+          pop: true
         - match: ''
           pop: true
 
