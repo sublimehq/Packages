@@ -340,11 +340,11 @@ contexts:
       scope: constant.numeric.integer.long.binary.python
     - match: \b(?i)0b[01_]*
       scope: constant.numeric.integer.binary.python
-    - match: \b(?i)({{digitpart}}(\.[\d_]*)?|\.\d+)(e[\-\+]?{{digitpart}})?J
+    - match: \b(?i)({{digitpart}}(\.{{digitpart}}?)?|\.{{digitpart}})(e[\-\+]?{{digitpart}})?J
       scope: constant.numeric.complex.python
-    - match: \b(?i)({{digitpart}}\.\d*(e[\-\+]?{{digitpart}})?)\b
+    - match: \b(?i)({{digitpart}}\.{{digitpart}}?(e[\-\+]?{{digitpart}})?)
       scope: constant.numeric.float.python
-    - match: (?i)(\.\d[\d_]*(e[\-\+]?\d+)?)
+    - match: (?i)(\.{{digitpart}}(e[\-\+]?{{digitpart}})?)
       scope: constant.numeric.float.python
     - match: \b(?i)({{digitpart}}e[\-\+]?{{digitpart}})
       scope: constant.numeric.float.python

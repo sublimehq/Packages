@@ -796,8 +796,10 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                          ^^^ - constant.numeric
 #                                    ^^^^^^^^^ - constant.numeric
 
-amount = 10_000_000.0_2e2_0
+amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
 #        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+#                             ^^^ - constant
+#                                       ^^ - constant
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
