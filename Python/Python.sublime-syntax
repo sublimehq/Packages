@@ -330,36 +330,45 @@ contexts:
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
     # hexadecimal
-    - match: \b(?i)(0x\h*)L # py2
+    - match: \b(?i)(?:0x\h*)(L) # py2
       scope: constant.numeric.integer.long.hexadecimal.python
+      captures:
+        1: storage.type.numeric.long.python
     - match: \b(?i)(0x(_?\h)+)
       scope: constant.numeric.integer.hexadecimal.python
     # octal
-    - match: \b(?i)0(o|[0-7])[0-7]*L # py2
+    - match: \b(?i)0(?:o|[0-7])[0-7]*(L) # py2
       scope: constant.numeric.integer.long.octal.python
+      captures:
+        1: storage.type.numeric.long.python
     - match: \b(?i)0[0-7]+ # py2
       scope: constant.numeric.integer.octal.python
     - match: \b(?i)0o(_?[0-7])+
       scope: constant.numeric.integer.octal.python
     # binary
-    - match: \b(?i)0b[01]*L # py2
+    - match: \b(?i)0b[01]*(L) # py2
       scope: constant.numeric.integer.long.binary.python
+      captures:
+        1: storage.type.numeric.long.python
     - match: \b(?i)0b(_?[01])*
       scope: constant.numeric.integer.binary.python
     # complex
-    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?j # mandatory fraction
+    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?(j) # mandatory fraction
       scope: constant.numeric.complex.python
       captures:
         1: punctuation.separator.decimal.python
-    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}})j # mandatory exponent
+        2: storage.type.numeric.complex.python
+    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}})(j) # mandatory exponent
       scope: constant.numeric.complex.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
-    - match: (?i){{digitpart}}(\.)?j # mandatory digitpart
+        3: storage.type.numeric.complex.python
+    - match: (?i){{digitpart}}(\.)?(j) # mandatory digitpart
       scope: constant.numeric.complex.python
       captures:
         1: punctuation.separator.decimal.python
+        2: storage.type.numeric.complex.python
     # floating point
     - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})? # mandatory fraction
       scope: constant.numeric.float.python
@@ -375,8 +384,10 @@ contexts:
       captures:
         1: punctuation.separator.decimal.python
     # integer
-    - match: \b(?i)([1-9]\d*|0)L\b # py2
+    - match: \b(?i)(?:[1-9]\d*|0)(L)\b # py2
       scope: constant.numeric.integer.long.decimal.python
+      captures:
+        1: storage.type.numeric.long.python
     - match: \b(?i)([1-9][\d_]*|0)\b
       scope: constant.numeric.integer.decimal.python
 

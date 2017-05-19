@@ -759,8 +759,10 @@ raise KeyError() from z
 decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 #         ^^^^^^^^^^ constant.numeric.integer.decimal.python
 #                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
+#                                ^ storage.type.numeric.long.python
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
+#                                            ^ storage.type.numeric.long.python
 #                                                ^^^^ constant.numeric.integer
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
@@ -779,24 +781,29 @@ not_floating = abc.123
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
 #                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
+#                             ^ storage.type.numeric.long.python
 
 octal = 0o755 ^ 0o644L
 #       ^^^^^ constant.numeric.integer.octal.python
+#                    ^ storage.type.numeric.long.python
 #               ^^^^^^ constant.numeric.integer.long.octal.python
 
 old_style_octal = 010 + 007 - 012345670L
 #                 ^^^ constant.numeric.integer.octal.python
 #                       ^^^ constant.numeric.integer.octal.python
 #                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
+#                                      ^ storage.type.numeric.long.python
 
 hexadecimal = 0x100af - 0XDEADF00L
 #             ^^^^^^^ constant.numeric.integer.hexadecimal.python
 #                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
+#                                ^ storage.type.numeric.long.python
 
 unintuitive = 0B101 + 0O101 + 10l
 #             ^^^^^ constant.numeric.integer.binary.python
 #                     ^^^^^ constant.numeric.integer.octal.python
 #                             ^^^ constant.numeric.integer.long.decimal.python
+#                               ^ storage.type.numeric.long.python
 
 illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #           ^ - constant.numeric
@@ -814,6 +821,8 @@ very_complex = 23_2.2e2_0J + 2_1j
 #              ^^^^^^^^^^^ constant.numeric.complex.python
 #                  ^ punctuation.separator.decimal.python
 #                            ^^^^ constant.numeric.complex.python
+#                        ^ storage.type.numeric.complex.python
+#                               ^ storage.type.numeric.complex.python
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
