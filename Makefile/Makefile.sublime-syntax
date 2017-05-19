@@ -468,3 +468,7 @@ contexts:
       scope: variable.language.automatic.makefile
     - match: \$\$
       scope: constant.character.escape.makefile
+    - match: (\$)[[:alpha:]]
+      captures:
+        0: variable.other.makefile
+        1: punctuation.definition.variable.makefile

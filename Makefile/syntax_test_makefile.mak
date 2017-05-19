@@ -4,6 +4,22 @@
 # 6.3.1 substitution references #
 #################################
 
+P = Hello
+# <- variable.other
+# ^ keyword.operator.assignment
+#   ^^^^^ string
+FOO = $P
+# <- variable.other
+#   ^ keyword.operator.assignment
+#     ^ punctuation
+#      ^ string variable
+BAR = $PATH
+# <- variable.other
+#   ^ keyword.operator.assignment
+#     ^ punctuation
+#      ^ string variable
+#       ^ string - variable
+
 foo := a.o b.o c.o
 # <- variable
 #   ^^ keyword
@@ -169,14 +185,13 @@ all: foo.o
 # <- invalid.illegal.inconsistent.expected.spaces
 
 all: foo.o
-    ld a
-    ar b
-    asdf
-    @echo "that's, like, your opinion man!" # some movie?
-    # <- constant.language
+	ld a
+	ar b
 	asdf
-# <- invalid.illegal.inconsistent.expected.spaces
-
+	@echo "that's, like, your opinion man!" # some movie?
+	# <- constant.language
+    asdf
+# <- invalid.illegal.inconsistent.expected.tab
 
 sources := $($(a1)_objects:.o=.c)
 # ^ variable
