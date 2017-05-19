@@ -293,7 +293,7 @@ contexts:
     #     # A comment with a : colon
     #     
     # will match the rule-lookahead.
-    - match: (?=^\s*\#)
+    - match: (?=^\s*#)
       push:
         - match: \#
           scope: punctuation.definition.comment.makefile
@@ -411,7 +411,7 @@ contexts:
   value-to-be-defined:
     - meta_content_scope: string.unquoted.makefile
     - include: escape-literals
-    - match: (?=\#)
+    - match: (?=#)
       set:
         - match: \#
           scope: punctuation.definition.comment.makefile
