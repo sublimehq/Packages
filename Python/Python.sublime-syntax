@@ -349,17 +349,31 @@ contexts:
     # complex
     - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?j # mandatory fraction
       scope: constant.numeric.complex.python
+      captures:
+        1: punctuation.separator.decimal.python
     - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}})j # mandatory exponent
       scope: constant.numeric.complex.python
+      captures:
+        1: punctuation.separator.decimal.python
+        2: punctuation.separator.decimal.python
     - match: (?i){{digitpart}}(\.)?j # mandatory digitpart
       scope: constant.numeric.complex.python
+      captures:
+        1: punctuation.separator.decimal.python
     # floating point
     - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})? # mandatory fraction
       scope: constant.numeric.float.python
+      captures:
+        1: punctuation.separator.decimal.python
     - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}}) # mandatory exponent
       scope: constant.numeric.float.python
+      captures:
+        1: punctuation.separator.decimal.python
+        2: punctuation.separator.decimal.python
     - match: (?i){{digitpart}}(\.) # mandatory digitpart
       scope: constant.numeric.float.python
+      captures:
+        1: punctuation.separator.decimal.python
     # integer
     - match: \b(?i)([1-9]\d*|0)L\b # py2
       scope: constant.numeric.integer.long.decimal.python

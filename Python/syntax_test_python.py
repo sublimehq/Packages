@@ -765,10 +765,13 @@ decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
 #          ^^^ constant.numeric.float.python
+#                ^ punctuation.separator.decimal.python
 #                ^^ constant.numeric.float.python
 #                     ^^^^^^ constant.numeric.float.python
+#                               ^ punctuation.separator.decimal.python
 #                              ^^^^^ constant.numeric.float.python
 #                                      ^^ constant.numeric.float.python
+#                                       ^ punctuation.separator.decimal.python
 
 not_floating = abc.123
 #                 ^^^^ invalid.illegal.name - constant
@@ -803,11 +806,13 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 
 amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
 #        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+#                  ^ punctuation.separator.decimal.python
 #                             ^^^ - constant
 #                                       ^^ - constant
 
 very_complex = 23_2.2e2_0J + 2_1j
 #              ^^^^^^^^^^^ constant.numeric.complex.python
+#                  ^ punctuation.separator.decimal.python
 #                            ^^^^ constant.numeric.complex.python
 
 addr = 0xCAFE_F00D
