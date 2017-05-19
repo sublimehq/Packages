@@ -5,6 +5,9 @@
 # Includes a few improvement like special-target, a bit more shell command,
 # better variable recognition, fix ifeq/ifneq missing highlight ...
 # Rewritten by Raoul Wols on May 2017.
+# 
+# All number references refer to the "Make manual" located at
+# https://www.gnu.org/software/make/manual/make.html
 name: Makefile
 file_extensions:
   - make
@@ -196,7 +199,7 @@ contexts:
 
   recipe-inline:
     - include: recipe-junction-between-spaces-or-tabs
-    - include: recipe-common-includes
+    - include: control-flow
 
   recipe-with-spaces:
     - meta_content_scope: meta.function.body.makefile
