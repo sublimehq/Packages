@@ -1,0 +1,440 @@
+<!--SYNTAX TEST "Packages/XML/DTD.sublime-syntax" -->
+
+<!--
+  =============
+  DTD Parameter
+  =============
+ -->
+
+      %SVG.font.qname;
+<!--  ^ punctuation.definition.variable.begin -->
+<!--  ^^^^^^^^^^^^^^^^  variable.parameter -->
+<!--                 ^ punctuation.definition.variable.end -->
+
+<!--
+  ============
+  DTD Entities
+  ============
+ -->
+
+    <!ENTITY % xs-datatypes PUBLIC 'datatypes' 'datatypes.dtd' NDATA JPG>
+<!--^^^^^^^^ meta.tag.declaration.entity -->
+<!--        ^^^^^^^^^^^^^^^ meta.tag.declaration.entity.name -->
+<!--                       ^^^^^^^ meta.tag.declaration.entity.type -->
+<!--                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.content.external -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^ entity.name.tag.entity -->
+<!--         ^ punctuation.definition.tag.separator -->
+<!--           ^^^^^^^^^^^^ variable.entity -->
+<!--                        ^^^^^^ keyword.content.external -->
+<!--                               ^ punctuation.definition.string.begin -->
+<!--                               ^^^^^^^^^^^ string.quoted.single -->
+<!--                                         ^ punctuation.definition.string.end -->
+<!--                                           ^ punctuation.definition.string.begin -->
+<!--                                           ^^^^^^^^^^^^^^^ string.quoted.single -->
+<!--                                                         ^ punctuation.definition.string.end -->
+<!--                                                           ^^^^^ keyword.ndata -->
+<!--                                                                 ^^^ string.unquoted -->
+<!--                                                                    ^ punctuation.definition.tag.end -->
+    <!ENTITY
+<!--^^^^^^^^ meta.tag.declaration.entity -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^ entity.name.tag.entity -->
+      % xs-datatypes
+<!--^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.name -->
+<!--  ^ punctuation.definition.tag.separator -->
+<!--    ^^^^^^^^^^^^ variable.entity -->
+      PUBLIC
+<!--^^^^^^^^ meta.tag.declaration.entity.type -->
+<!--  ^^^^^^ keyword.content.external -->
+      'datatypes' 'datatypes.dtd'
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.content.external -->
+<!--  ^ punctuation.definition.string.begin -->
+<!--  ^^^^^^^^^^^ string.quoted.single -->
+<!--            ^ punctuation.definition.string.end -->
+<!--              ^ punctuation.definition.string.begin -->
+<!--              ^^^^^^^^^^^^^^^ string.quoted.single -->
+<!--                            ^ punctuation.definition.string.end -->
+      NDATA JPG
+<!--^^^^^^^^^^^ meta.tag.declaration.entity.content -->
+<!--  ^^^^^ keyword.ndata -->
+<!--        ^^^ string.unquoted -->
+    >
+<!--^ meta.tag.declaration.entity -->
+<!--^ punctuation.definition.tag.end -->
+
+<!--
+  ============
+  DTD Elements
+  ============
+ -->
+
+<!-- Empty value -->
+    <!ELEMENT element-name EMPTY >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                      ^^^^^^^ meta.tag.declaration.element.content -->
+<!--                             ^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^ variable.element -->
+<!--                       ^^^^^ storage.type.content.empty -->
+<!--                             ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+      element-name
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--  ^^^^^^^^^^^^ variable.element -->
+      EMPTY
+<!--^^^^^^^ meta.tag.declaration.element.content -->
+<!--  ^^^^^ storage.type.content.empty -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+<!-- Any value -->
+    <!ELEMENT element-name ANY >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                      ^^^^^ meta.tag.declaration.element.content -->
+<!--                           ^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^ variable.element -->
+<!--                       ^^^ storage.type.content.any -->
+<!--                           ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+      element-name
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--  ^^^^^^^^^^^^ variable.element -->
+      ANY
+<!--^^^^^ meta.tag.declaration.element.content -->
+<!--  ^^^ storage.type.content.any -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+<!-- String values -->
+    <!ELEMENT element-name 'value' >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                      ^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--                               ^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^ variable.element -->
+<!--                       ^ punctuation.definition.string.begin -->
+<!--                       ^^^^^^^ string.quoted.single -->
+<!--                             ^ punctuation.definition.string.end -->
+<!--                               ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+      element-name
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--  ^^^^^^^^^^^^ variable.element -->
+      'value'
+<!--^^^^^ meta.tag.declaration.element.content -->
+<!--^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--  ^ punctuation.definition.string.begin -->
+<!--  ^^^^^^^ string.quoted.single -->
+<!--        ^ punctuation.definition.string.end -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+    <!ELEMENT element-name "value" >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                      ^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^ variable.element -->
+<!--                       ^ punctuation.definition.string.begin -->
+<!--                       ^^^^^^^ string.quoted.double -->
+<!--                             ^ punctuation.definition.string.end -->
+<!--                               ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+      element-name
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--  ^^^^^^^^^^^^ variable.element -->
+      "value"
+<!--^^^^^ meta.tag.declaration.element.content -->
+<!--^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--  ^ punctuation.definition.string.begin -->
+<!--  ^^^^^^^ string.quoted.double -->
+<!--        ^ punctuation.definition.string.end -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+
+<!-- Sequence values -->
+    <!ELEMENT element-name (#PCDATA,value1*,value2+,(%param;|value32)?) >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--                                                                   ^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^ variable.element -->
+<!--                       ^ punctuation.definition.group.begin -->
+<!--                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.sequence -->
+<!--                        ^ punctuation.definition.variable.begin -->
+<!--                        ^^^^^^^ variable.language.parsed-character-data -->
+<!--                               ^ punctuation.separator.group -->
+<!--                                ^^^^^^ string.unquoted -->
+<!--                                      ^ keyword.operator -->
+<!--                                       ^ punctuation.separator.group -->
+<!--                                        ^^^^^^ string.unquoted -->
+<!--                                              ^ keyword.operator -->
+<!--                                               ^ punctuation.separator.group -->
+<!--                                                ^ punctuation.definition.group.begin -->
+<!--                                                 ^ punctuation.definition.variable.begin -->
+<!--                                                 ^^^^^^^  variable.parameter -->
+<!--                                                       ^ punctuation.definition.variable.end -->
+<!--                                                        ^ punctuation.separator.logical -->
+<!--                                                                ^ punctuation.definition.group.end -->
+<!--                                                                 ^ keyword.operator -->
+<!--                                                                  ^ punctuation.definition.group.end -->
+<!--                                                         ^^^^^^^ string.unquoted -->
+<!--                                                                    ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+        element-name
+<!--^^^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--    ^^^^^^^^^^^^ variable.element -->
+        (
+<!--^^^^^ meta.tag.declaration.element.content -->
+<!--    ^ meta.group.sequence -->
+<!--    ^ punctuation.definition.group.begin -->
+          #PCDATA ,
+<!--^^^^^^^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--      ^ punctuation.definition.variable.begin -->
+<!--      ^^^^^^^ variable.language.parsed-character-data -->
+<!--              ^ punctuation.separator.group -->
+          value1*,
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--      ^^^^^^ string.unquoted -->
+<!--            ^ keyword.operator -->
+<!--             ^ punctuation.separator.group -->
+          value2 + ,
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--      ^^^^^^ string.unquoted -->
+<!--             ^ keyword.operator -->
+<!--               ^ punctuation.separator.group -->
+          (
+<!--^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--      ^ punctuation.definition.group.begin -->
+            %param;
+<!--^^^^^^^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--        ^ punctuation.definition.variable.begin -->
+<!--        ^^^^^^^  variable.parameter -->
+<!--              ^ punctuation.definition.variable.end -->
+            |
+<!--^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--        ^ punctuation.separator.logical -->
+            value32
+<!--^^^^^^^^^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--        ^^^^^^^ string.unquoted -->
+          ) ?
+<!--^^^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--      ^ punctuation.definition.group.end -->
+<!--        ^ keyword.operator -->
+        )
+<!--^^^^^ meta.tag.declaration.element.content meta.group.sequence -->
+<!--    ^ punctuation.definition.group.end -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+
+<!-- Parameter values -->
+    <!ELEMENT %SVG.font.qname; %SVG.font.content; >
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--         ^^^^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                          ^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+<!--          ^^^^^^^^^^^^^^^^  variable.parameter -->
+<!--          ^ punctuation.definition.variable.begin -->
+<!--                         ^ punctuation.definition.variable.end -->
+<!--                           ^^^^^^^^^^^^^^^^^^  variable.parameter -->
+<!--                           ^ punctuation.definition.variable.begin -->
+<!--                                            ^ punctuation.definition.variable.end -->
+<!--                                              ^ punctuation.definition.tag.end -->
+
+    <!ELEMENT
+<!--^^^^^^^^^ meta.tag.declaration.element -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.element -->
+      %SVG.font.qname;
+<!--^^^^^^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--  ^ punctuation.definition.variable.begin -->
+<!--  ^^^^^^^^^^^^^^^^ variable.parameter -->
+<!--                 ^ punctuation.definition.variable.end -->
+      %SVG.font.content;
+<!--^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.element.content -->
+<!--  ^ punctuation.definition.variable.begin -->
+<!--  ^^^^^^^^^^^^^^^^^^ variable.parameter -->
+<!--                   ^ punctuation.definition.variable.end -->
+    >
+<!--^ meta.tag.declaration.element -->
+<!--^ punctuation.definition.tag.end -->
+
+<!--
+  ==================
+  DTD Attribute list
+  ==================
+ -->
+
+    <!ATTLIST %element-name;
+<!--^^^^^^^^^ meta.tag.declaration.attlist -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^ entity.name.tag.attlist -->
+<!--         ^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.element -->
+<!--          ^ punctuation.definition.variable.begin -->
+<!--          ^^^^^^^^^^^^^^ variable.parameter -->
+<!--                       ^ punctuation.definition.variable.end -->
+          id            ID                     #IMPLIED
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.content -->
+<!--      ^^ entity.other.attribute-name -->
+<!--                    ^^ storage.type.attribute -->
+<!--                                           ^ punctuation.definition.constant.attribute-value -->
+<!--                                           ^^^^^^^^ constant.other.attribute-value -->
+          %nds;         %URIref;               #FIXED 'http://www.w3.org/2001/XMLSchema'
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.content -->
+<!--      ^ punctuation.definition.variable.begin -->
+<!--      ^^^^^ variable.parameter -->
+<!--          ^ punctuation.definition.variable.end -->
+<!--                    ^ punctuation.definition.variable.begin -->
+<!--                    ^^^^^^^^ variable.parameter -->
+<!--                           ^ punctuation.definition.variable.end -->
+<!--                                           ^ punctuation.definition.constant.attribute-value -->
+<!--                                           ^^^^^^ constant.other.attribute-value -->
+<!--                                                  ^ punctuation.definition.string.begin -->
+<!--                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single -->
+<!--                                                                                   ^ punctuation.definition.string.end -->
+          enum          (value1|value2|value3) 'value1'
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.content -->
+<!--      ^^^^ entity.other.attribute-name -->
+<!--                    ^ punctuation.definition.group.begin -->
+<!--                    ^^^^^^^^^^^^^^^^^^^^^^ meta.group.enumerated -->
+<!--                     ^^^^^^ string.unquoted -->
+<!--                           ^ punctuation.separator.logical -->
+<!--                            ^^^^^^ string.unquoted -->
+<!--                                  ^ punctuation.separator.logical -->
+<!--                                   ^^^^^^ string.unquoted -->
+<!--                                         ^ punctuation.definition.group.end -->
+<!--                                           ^ punctuation.definition.string.begin -->
+<!--                                           ^^^^^^^^ string.quoted.single -->
+<!--                                                  ^ punctuation.definition.string.end -->
+          finalDefault  %complexDerivationSet; ''
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.content -->
+<!--      ^^^^^^^^^^^^ entity.other.attribute-name -->
+<!--                    ^ punctuation.definition.variable.begin -->
+<!--                    ^^^^^^^^^^^^^^^^^^^^^^ variable.parameter -->
+<!--                                         ^ punctuation.definition.variable.end -->
+<!--                                           ^ punctuation.definition.string.begin -->
+<!--                                           ^^ string.quoted.single -->
+<!--                                            ^ punctuation.definition.string.end -->
+          %sequenceAttrs;
+<!--^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.attlist.content -->
+<!--      ^ punctuation.definition.variable.begin -->
+<!--      ^^^^^^^^^^^^^^^ variable.parameter -->
+<!--                    ^ punctuation.definition.variable.end -->
+    >
+<!--^ meta.tag.declaration.attlist -->
+<!--^ punctuation.definition.tag.end -->
+
+<!--
+  ============
+  DTD Notation
+  ============
+ -->
+
+    <!NOTATION XMLSchemaStructures PUBLIC 'structures' 'http://www.w3.org/2001/XMLSchema.xsd' >
+<!--^^^^^^^^^^ meta.tag.declaration.notation -->
+<!--          ^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.notation.name -->
+<!--                              ^^^^^^^ meta.tag.declaration.notation.type -->
+<!--                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.notation.content -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^^ entity.name.tag.notation -->
+<!--           ^^^^^^^^^^^^^^^^^^^ variable.notation -->
+<!--                               ^^^^^^ keyword.content.external -->
+<!--                                      ^ punctuation.definition.string.begin -->
+<!--                                      ^^^^^^^^^^^^ string.quoted.single -->
+<!--                                                 ^ punctuation.definition.string.end -->
+<!--                                                   ^ punctuation.definition.string.begin -->
+<!--                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single -->
+<!--                                                                                        ^ punctuation.definition.string.end -->
+<!--                                                                                          ^ punctuation.definition.tag.end -->
+    <!NOTATION
+<!--^^^^^^^^^^ meta.tag.declaration.notation -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^^^ entity.name.tag.notation -->
+      XMLSchemaStructures
+<!--^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.notation.name -->
+<!--  ^^^^^^^^^^^^^^^^^^^ variable.notation -->
+      PUBLIC
+<!--^^^^^^^^ meta.tag.declaration.notation.type -->
+<!--  ^^^^^^ keyword.content.external -->
+      'structures'
+<!--^^^^^^^^^^^^^^ meta.tag.declaration.notation.content -->
+<!--  ^ punctuation.definition.string.begin -->
+<!--  ^^^^^^^^^^^^ string.quoted.single -->
+<!--             ^ punctuation.definition.string.end -->
+      'http://www.w3.org/2001/XMLSchema.xsd'
+<!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.notation.content -->
+<!--  ^ punctuation.definition.string.begin -->
+<!--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single -->
+<!--                                       ^ punctuation.definition.string.end -->
+    >
+<!--^ meta.tag.declaration.notation -->
+<!--^ punctuation.definition.tag.end -->
+
+
+ <!--
+  ============
+  DTD Subsets
+  ============
+ -->
+
+    <![%subset-name;[<!ELEMENT element-name 'value'><!-- comment -->]]>
+<!--^^^^^^^^^^^^^^^^ meta.tag.subset -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.subset.body -->
+<!--                 ^^^^^^^^^ meta.tag.declaration.element -->
+<!--                          ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
+<!--                                       ^^^^^^^ meta.tag.declaration.element.content -->
+<!--                                                                 ^^ meta.tag.subset -->
+<!--^^^ punctuation.definition.tag.begin -->
+<!--   ^ punctuation.definition.variable.begin -->
+<!--   ^^^^^^^^^^^^^ variable.parameter -->
+<!--               ^ punctuation.definition.variable.end -->
+<!--                ^ punctuation.definition.internal-subset.begin -->
+<!--                 ^^ punctuation.definition.tag.begin -->
+<!--                   ^^^^^^^ entity.name.tag.element -->
+<!--                           ^^^^^^^^^^^^ variable.element -->
+<!--                                        ^ punctuation.definition.string.begin -->
+<!--                                        ^^^^^^ string.quoted.single -->
+<!--                                              ^ punctuation.definition.string.end -->
+<!--                                               ^ punctuation.definition.tag.end -->
+<!--                                                ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                                                ^ punctuation.definition.internal-subset.end -->
+<!--                                                                 ^^ punctuation.definition.tag.end -->

@@ -46,44 +46,83 @@
   DOCTYPE Declaration
  -->
 
-     <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
-     <!-- <- meta.tag.sgml.doctype -->
+     <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
+     <!-- <- meta.tag.declaration.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
-<!--   ^^^^^^^ keyword.doctype -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
 <!--           ^^^^ variable.documentroot -->
-<!--                ^ meta.internalsubset -->
+<!--                ^^^^^^ keyword.content.external -->
+<!--                       ^ string.quoted.double -->
+<!--                                                   ^ string.quoted.double -->
+<!--                                                                                 ^ punctuation.definition.tag.end     -->
+
+     <!DOCTYPE
+     <!-- <- meta.tag.declaration.doctype -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
+        root
+<!-- <- meta.tag.declaration.doctype -->
+<!--    ^^^^ variable.documentroot -->
+        PUBLIC
+<!-- <- meta.tag.declaration.doctype -->
+<!--    ^^^^^^ keyword.content.external -->
+        "-//W3C//DTD XHTML 1.1//EN"
+<!-- <- meta.tag.declaration.doctype -->
+<!--    ^ string.quoted.double -->
+        "http://www.w3.org/1999/xhtml"
+<!-- <- meta.tag.declaration.doctype -->
+<!--    ^ string.quoted.double -->
+        [
+<!--    ^ punctuation.definition.internal-subset.begin -->
+            <!ELEMENT p "">
+<!--    <- meta.internal-subset -->
+        ]
+<!--    <- meta.internal-subset -->
+<!--    ^ punctuation.definition.internal-subset.end -->
+     >
+<!-- <- meta.tag.declaration.doctype -->
+<!-- ^ punctuation.definition.tag.end     -->
+
+     <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
+     <!-- <- meta.tag.declaration.doctype -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
+<!--           ^^^^ variable.documentroot -->
+<!--                ^ punctuation.definition.internal-subset.begin -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.internal-subset -->
+<!--                                                           ^ punctuation.definition.internal-subset.end -->
 <!--                 ^^ punctuation.definition.tag.begin -->
-<!--                   ^^^^^^ keyword.entity -->
+<!--                   ^^^^^^ entity.name.tag.entity -->
 <!--                          ^^ variable.entity -->
-<!--                                   ^ punctuation.definition.constant -->
-<!--                                    ^^^^ constant.character.parameter-entity -->
-<!--                                        ^ punctuation.definition.constant -->
-<!--                                          ^^^^^^^^^^^^^^^^ comment.block.xml -->
-<!--                                          ^^^^ punctuation.definition.comment.begin.xml -->
-<!--                                                       ^^^ punctuation.definition.comment.end.xml -->
+<!--                                   ^ punctuation.definition.variable.begin -->
+<!--                                    ^^^^ variable.parameter -->
+<!--                                        ^ punctuation.definition.variable.end -->
+<!--                                          ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                          ^^^^ punctuation.definition.comment.begin -->
+<!--                                                       ^^^ punctuation.definition.comment.end -->
 <!--                                                            ^ punctuation.definition.tag.end -->
 
 <!DOCTYPE data [
-<!-- ^ keyword.doctype -->
+<!-- ^ entity.name.tag.doctype -->
 <!--      ^ variable.documentroot -->
 
 <!ENTITY auml  "&#228;">
-<!-- ^ keyword.entity -->
+<!-- ^ entity.name.tag.entity -->
 <!--      ^ variable.entity -->
 <!--           ^ string.quoted.double -->
 <!--            ^ constant.character.entity -->
 
 <!ELEMENT ArticleTitle (#PCDATA)>
-<!-- ^ keyword.element -->
+<!-- ^ entity.name.tag.element -->
 <!--      ^ variable.element -->
 <!--                   ^ punctuation.definition.group -->
-<!--                    ^ constant.other -->
+<!--                    ^ variable.language.parsed-character-data -->
 <!--                           ^ punctuation.definition.group -->
 
 <!ELEMENT AbstractText (#PCDATA)>
 
 <!ELEMENT info (ArticleTitle,AbstractText)+>
-<!-- ^ keyword.element -->
+<!-- ^ entity.name.tag.element -->
 <!--      ^ variable.element -->
 <!--           ^ punctuation.definition.group -->
 <!--                        ^ punctuation.separator -->
@@ -91,16 +130,17 @@
 <!--                                      ^ keyword.operator -->
 
 <!ATTLIST image width CDATA #REQUIRED>
-<!-- ^ keyword.attlist -->
+<!-- ^ entity.name.tag.attlist -->
 <!--      ^ variable.element -->
-<!--            ^ variable.attribute-name -->
+<!--            ^ entity.other.attribute-name -->
 
 <!NOTATION name PUBLIC "public_ID" "URI">
-<!-- ^ keyword.notation -->
+<!-- ^ entity.name.tag.notation -->
 <!--       ^ variable.notation -->
 <!--                   ^ string.quoted.double -->
 
 ]>
+<!-- <- meta.internal-subset.xml meta.tag.declaration.doctype.xml punctuation.definition.internal-subset.end.xml -->
 
 <!--
   Comments
