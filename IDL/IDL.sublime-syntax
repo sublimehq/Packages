@@ -1,0 +1,322 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Interactive Data Language
+comment: "IDL Syntax: version 1.0"
+file_extensions:
+  - pro
+scope: source.idl
+variables:
+  sysfun: '(?i)\b(?:abs|acos|adapt_hist_equal|alog|alog10|amoeba|app_user_dir|app_user_dir_query|arg_present|array_equal|array_indices|ascii_template|asin|assoc|atan|beseli|beselj|beselk|besely|beta|bilinear|bindgen|binomial|bin_date|blk_con|broyden|bytarr|byte|bytscl|call_external|call_function|call_method|ceil|chebyshev|check_math|chisqr_cvf|chisqr_pdf|cholsol|cindgen|cluster|cluster_tree|clust_wts|colormap_applicable|color_quan|comfit|complex|complexarr|complexround|cond|congrid|conj|convert_coord|convol|coord2to3|correlate|cos|cosh|cramer|create_cursor|create_struct|crossp|crvlength|cti_test|ct_luminance|curvefit|cvttobm|cv_coord|c_correlate|dblarr|dcindgen|dcomplex|dcomplexarr|defroi|deriv|derivsig|determ|dialog_message|dialog_pickfile|dialog_printersetup|dialog_printjob|dialog_write_image|digital_filter|dilate|dindgen|dist|distance_measure|double|eigenql|eigenvec|elmhes|eof|erf|erfc|erfcx|erode|execute|exp|expand|expand_path|expint|extrac|extract_slice|factorial|fft|filepath|file_basename|file_dirname|file_expand_path|file_info|file_lines|file_readlink|file_search|file_test|file_which|findgen|finite|fix|float|floor|fltarr|format_axis_values|fstat|fulstr|fv_test|fx_root|fz_roots|f_cvf|f_pdf|gamma|gauss2dfit|gaussfit|gaussint|gauss_cvf|gauss_pdf|getenv|get_kbrd|get_screen_size|grid3|griddata|grid_tps|gs_iter|h5_browser|hdf_read|hilbert|histogram|hist_2d|hist_equal|hough|hqr|ibeta|identity|idlitsys_createtool|idl_validname|igamma|imaginary|indgen|intarr|interpol|interpolate|int_2d|int_3d|int_tabulated|invert|ioctl|ishft|itgetcurrent|julday|keyword_set|krig2d|kurtosis|kw_test|l64indgen|label_date|label_region|ladfit|laguerre|la_cholmprove|la_determ|la_eigenproblem|la_eigenql|la_elmhes|la_gm_linear_model|la_hqr|la_invert|la_least_squares|la_least_square_equality|la_linear_equation|la_lumprove|la_lusol|la_trimprove|la_trisol|leefilt|legendre|linbcg|lindgen|linfit|ll_arc_distance|lmfit|lmgr|lngamma|lnp_test|locale_get|logical_and|logical_or|logical_true|lon64arr|lonarr|long|long64|lsode|lumprove|lusol|lu_complex|machar|make_array|map_2points|map_image|map_patch|map_proj_forward|map_proj_image|map_proj_init|map_proj_inverse|matrix_multiply|matrix_power|max|md_test|mean|meanabsdev|median|memory|min|min_curve_surf|moment|morph_close|morph_distance|morph_gradient|m_correlate|newton|norm|n_elements|n_params|n_tags|objarr|obj_class|obj_isa|obj_new|obj_valid|path_sep|pcomp|pnt_line|polar_surface|poly|polyfillv|polyshade|poly_2d|poly_area|poly_fit|primes|product|profile|ptrarr|ptr_new|ptr_valid|p_correlate|qgrid3|qromb|qromo|qsimp|radon|randomn|randomu|ranks|read_ascii|read_bmp|read_dicom|read_image|read_jpeg2000|read_png|read_spr|read_sylk|read_tiff|read_wav|read_xwd|real_part|rebin|recall_commands|recon3|reform|regress|replicate|reverse|rk4|roberts|rot|rotate|round|routine_info|rs_test|r_correlate|r_test|savgol|scope_varname|search2d|search3d|sfit|shift|shmvar|simplex|sin|sindgen|sinh|size|skewness|smooth|sobel|sort|spawn|spher_harm|sph_scat|spline|spl_init|spl_interp|sprsab|sprsax|sprsin|sprstp|sqrt|standardize|stddev|strarr|strcmp|strcompress|stregex|string|strjoin|strlen|strlowcase|strmatch|strmessage|strmid|strpos|strsplit|strtrim|strupcase|svdfit|svsol|swap_endian|s_test|tag_names|tan|tanh|temporary|thin|tm_test|total|trace|transpose|trigrid|trisol|tri_surf|ts_coef|ts_diff|ts_fcast|ts_smooth|tvrd|t_cvf|t_pdf|uindgen|uint|uintarr|ul64indgen|ulindgen|ulon64arr|ulonarr|ulong|ulong64|uniq|unsharp_mask|value_locate|variance|vert_t3d|voigt|voxel_proj|warp_tri|watershed|where|write_sylk|wtn|xfont|xregistered|xsq_test)\b'
+  syspro: '(?i)\b(?:annotate|arrow|axis|bar_plot|binary_template|blas_axpy|box_cursor|breakpoint|byteorder|caldat|calendar|call_procedure|catch|cd|choldc|cir_3pnt|close|color_convert|compute_mesh_normals|constrained_min|contour|copy_lun|cpu|create_view|cursor|define_key|define_msgblk|define_msgblk_from_file|defsysv|delvar|dendrogram|dendro_plot|device|dfpmin|diag_matrix|dialog_read_image|dissolve|dlm_load|dlm_register|doc_library|draw_roi|efont|empty|enable_sysrtn|erase|errplot|exit|file_chmod|file_copy|file_delete|file_link|file_mkdir|file_move|file_same|flick|flow3|flush|forward_function|free_lun|funct|gamma_ct|get_drive_list|get_lun|grid_input|hanning|hdf_browser|heap_free|heap_gc|help|hls|hsv|h_eq_ct|h_eq_int|icontour|iimage|image_cont|image_statistics|imap|interval_volume|iplot|isocontour|isosurface|isurface|itcurrent|itdelete|itregister|itreset|itresolve|ivolume|journal|la_choldc|la_cholsol|la_eigenvec|la_ludc|la_svd|la_tridc|la_triql|la_trired|linkimage|loadct|ludc|make_dll|map_continents|map_grid|map_proj_info|map_set|message|mk_html_help|modifyct|morph_hitormiss|morph_open|morph_thin|morph_tophat|mpeg_close|mpeg_open|mpeg_put|mpeg_save|multi|obj_destroy|online_help|online_help_pdf_index|on_error|on_ioerror|openr|openu|openw|oplot|oploterr|particle_trace|path_cache|plot|ploterr|plots|plot_3dbox|plot_field|point_lun|polar_contour|polyfill|polywarp|popd|powell|print|printd|printf|profiler|profiles|project_vol|psafm|pseudo|ps_show_fonts|ptr_free|pushd|qhull|rdpix|read|readf|reads|readu|read_binary|read_gif|read_interfile|read_jpeg|read_mrsid|read_pict|read_ppm|read_srf|read_wave|read_x11_bitmap|reduce_colors|region_grow|register_cursor|replicate_inplace|resolve_all|resolve_routine|restore|save|scale3|scale3d|scope_level|scope_varfetch|setenv|setup_keys|set_plot|set_shading|shade_surf|shade_surf_irr|shade_volume|shmdebug|shmmap|shmunmap|show3|showfont|skip_lun|slicer3|slide_image|socket|sph_4pnt|spline_p|stop|streamline|stretch|strput|struct_assign|struct_hide|surface|surfr|svdc|swap_endian_inplace|systime|t3d|tek_color|tetra_clip|tetra_surface|tetra_volume|threed|timegen|time_test2|triangulate|triql|trired|truncate_lun|tv|tvcrs|tvlct|tvscl|usersym|vector_field|vel|velovect|voronoi|wait|wdelete|wf_draw|window|writeu|write_bmp|write_gif|write_image|write_jpeg|write_jpeg2000|write_nrif|write_pict|write_png|write_ppm|write_spr|write_srf|write_tiff|write_wav|write_wave|wset|wshow|xbm_edit|xdisplayfile|xdxf|xinteranimate|xloadct|xmanager|xmng_tmpl|xmtool|xobjview|xobjview_rotate|xobjview_write_image|xpalette|xpcolor|xplot3d|xroi|xsurface|xvaredit|xvolume|xvolume_rotate|xvolume_write_image|xyouts|zoom|zoom_24)\b'
+  identifier: '\b[a-zA-Z_][a-zA-Z_0-9]*\b'
+  number: '(?i)(?:(?:\b[0-9]+(?:b|l|ul|u|ll|ull))|(?:\.[0-9]+|(?:\b[0-9]+(?:\.[0-9]*)?))(?:(?:e|d)(?:(?:\+|-)?[0-9]+)?)?)'
+  keyword: '(?i)\b(?:and|or|not|if|else|while|for|case|begin|end|switch|endif|endelse|endfor|endwhile|endcase|endswitch|return|break|continue|goto|pro|function|compile_opt|then|ge|gt|le|lt|eq|ne)\b'
+contexts:
+  main:
+    - include: statements
+    - include: function-definition
+    - match: '(?i)\bend\b'
+      scope: keyword.control.idl
+  comment:
+    - match: '(;).*$'
+      scope: comment.line.idl
+      captures:
+        1: punctuation.definition.comment.idl
+  number:
+    - match: '{{number}}'
+      scope: constant.numeric.idl
+  string:
+    - match: "(')"
+      scope: punctuation.definition.string.begin.idl
+      push:
+        - meta_scope: string.quoted.single.idl
+        - match: "(')"
+          scope: punctuation.definition.string.end.idl
+          pop: true
+    - match: '(")'
+      scope: punctuation.definition.string.begin.idl
+      push:
+        - meta_scope: string.quoted.double.idl
+        - match: '(")'
+          scope: punctuation.definition.string.end.idl
+          pop: true
+  literal:
+    - include: number
+    - include: string
+  system-variable:
+    - match: '\!{{identifier}}'
+      scope: constant.language.idl
+    - match: '\bself\b'
+      scope: variable.language.self.idl
+  if-statement:
+    - match: (?i)\bif\b
+      scope: keyword.control.idl
+      push:
+        - match: '(?i)\bthen\b'
+          scope: keyword.control.idl
+          pop: true
+        - include: expressions
+  for-statement:
+    - match: (?i)\bfor\b
+      scope: keyword.control.idl
+      push:
+        - match: '(?i)\bdo\b'
+          scope: keyword.control.idl
+          pop: true
+        - match: '{{identifier}}\s*(=)'
+          captures:
+            1: keyword.operator.assignment.idl
+        - match: ','
+          scope: punctuation.separator.idl
+        - include: expressions
+  while-statement:
+    - match: (?i)\bwhile\b
+      scope: keyword.control.idl
+      push:
+        - match: '(?i)\bdo\b'
+          scope: keyword.control.idl
+          pop: true
+        - include: expressions
+  case-statement-item:
+    - match: '(?i)\bbegin\b'
+      scope: keyword.control.idl
+      set:
+        - match: '(?i)\bend\b'
+          scope: keyword.control.idl
+          pop: true
+        - include: statements
+    - include: statements
+    - match: '\n'
+      pop: true
+  case-statement-body:
+    - include: statements
+    - match: '(?i)\b(end|endcase|endswitch)\b'
+      scope: keyword.control.idl
+      pop: true
+  case-statement:
+    - match: (?i)\b(case|switch)\b
+      scope: keyword.control.idl
+      push:
+        - meta_scope: meta.case-statement.idl
+        - include: expressions
+        - match: '(?i)\bof\b'
+          scope: keyword.control.idl
+          set:
+            - meta_scope: meta.case-statement.idl
+            - include: case-statement-body
+  return-statement:
+    - match: (?i)\breturn\b
+      scope: keyword.control.idl
+      push:
+          - include: line-continuation
+          - include: expressions
+          - match: ','
+            scope: punctuation.separator.idl
+          - match: '$(?=\n)|({{keyword}})'
+            captures:
+              1: keyword.control.idl
+            pop: true
+          - match: '(;).*$'
+            scope: comment.line.idl
+            captures:
+              1: punctuation.definition.comment.idl
+            pop: true
+  flow-control:
+    - include: if-statement
+    - include: for-statement
+    - include: while-statement
+    - include: case-statement
+    - match: (?i)\belse\b
+      scope: keyword.control.idl
+    - match: (?i)\b(?:break|continue|goto)\b
+      scope: keyword.control.idl
+    - include: return-statement
+  line-continuator:
+      - match: '(\$)'
+        scope: punctuation.line-continuation.idl
+        push:
+          - include: comment
+          - match: '\n'
+            pop: true
+  block:
+    - match: '(?i)\bbegin\b'
+      scope: keyword.control.idl
+      push:
+        - meta_scope: meta.block.idl
+        - match: '(?i)\b(end|endif|endelse|endfor|endwhile)\b'
+          scope: keyword.control.idl
+          pop: true
+        - include: statements
+  brackets:
+    - match: \[
+      scope: punctuation.definition.brackets.begin.idl
+      push:
+        - meta_scope: meta.brackets.idl
+        - match: \]
+          scope: punctuation.definition.brackets.end.idl
+          pop: true
+        - match: ','
+          scope: punctuation.separator.idl
+        - include: expressions
+  parens:
+    - match: \(
+      scope: punctuation.definition.group.begin.idl
+      push:
+        - meta_scope: meta.group.idl
+        - include: expressions
+        - match: \)
+          scope: punctuation.definition.group.end.idl
+          pop: true
+  structure:
+    - match: '{'
+      scope: punctuation.definition.brackets.begin.idl
+      push:
+        - meta_scope: meta.structure-definition.idl
+        - match: '}'
+          scope: punctuation.definition.brackets.end.idl
+          pop: true
+        - match: ','
+          scope: punctuation.separator.idl
+        - match: '({{identifier}})\s*(:)'
+          captures:
+            1: variable.parameter.idl
+            2: punctuation.separator.idl
+        - include: expressions
+  function-call-parameters:
+    - match: '\)'
+      scope: punctuation.definition.group.end.idl
+      pop: true
+    - match: ','
+      scope: punctuation.separator.idl
+    - match: '({{identifier}})\s*(=)'
+      captures:
+        1: variable.parameter.idl
+        2: keyword.operator.assignment.idl
+    - match: '/{{identifier}}'
+      scope: variable.parameter.keyword.idl
+    - include: expressions
+  function-call:
+    - match: '({{sysfun}})\s*(\()'
+      captures:
+        1: support.function.idl
+        2: punctuation.definition.group.begin.idl
+      push:
+        - meta_scope: meta.function-call
+        - include: function-call-parameters
+    - match: '(?i)(?!{{keyword}})({{identifier}})\s*(\()'
+      captures:
+        1: variable.function.idl
+        2: punctuation.definition.group.begin.idl
+      push:
+        - meta_scope: meta.function-call.idl
+        - include: function-call-parameters
+  procedure-call-parameters:
+    - match: '(&)|$(?=\n)|({{keyword}})'
+      captures:
+        1: keyword.operator.idl
+        2: keyword.control.idl
+      pop: true
+    - match: '(;).*$'
+      scope: comment.line.idl
+      captures:
+        1: punctuation.definition.comment.idl
+      pop: true
+    - match: ','
+      scope: punctuation.separator.idl
+    - match: '({{identifier}})\s*(=)'
+      captures:
+        1: variable.parameter.idl
+        2: keyword.operator.assignment.idl
+    - match: '/{{identifier}}'
+      scope: variable.parameter.keyword.idl
+    - include: expressions
+  procedure-call:
+    - match: '({{syspro}})\s*(,)'
+      captures:
+        1: support.function.procedure.idl
+        2: punctuation.separator.idl
+      push:
+        - meta_scope: meta.function-call.procedure.idl
+        - include: procedure-call-parameters
+    - match: '(?i){{syspro}}\s*(?:$(?=\n)|(?=\&)|(?=\b{{keyword}}\b))'
+      scope: support.function.procedure.idl
+    - match: '({{identifier}})\s*(,)'
+      captures:
+        1: variable.function.procedure.idl
+        2: punctuation.separator.idl
+      push:
+        - meta_scope: meta.function-call.procedure.idl
+        - include: procedure-call-parameters
+  operators:
+    - match: '%|#{1,2}|\*|\/|\^|~|<|>|\+|\-|\|\||\&\&|\?'
+      scope: keyword.operator.idl
+    - match: '='
+      scope: keyword.operator.assignment.idl
+    - match: '(?i)\b(eq|ne|gt|ge|lt|le|and|not|xor|or)\b'
+      scope: keyword.operator.idl
+    - match: ':'
+      scope: keyword.operator.idl
+  incr-operators:
+    - match: '\+\+|\-\-'
+      scope: keyword.operator.idl
+  member-access:
+    - match: '\->|\.(?![0-9])'
+      scope: punctuation.accessor.idl
+  function-definition:
+    - match: (?i)\b(pro|function)\s+\b([a-zA-Z_:0-9]+::)?({{identifier}})\b
+      captures:
+        1: keyword.control.idl
+        2: entity.name.function.scope.idl
+        3: entity.name.function.idl
+      push:
+        - meta_scope: function.definition.idl
+        - match: ','
+          scope: punctuation.separator.idl
+        - match: '({{identifier}})\s*(=)\s*({{identifier}})'
+          captures:
+            1: variable.parameter.keyword.public.idl
+            2: keyword.operator.assignment.idl
+            3: variable.parameter.keyword.private.idl
+        - match: '{{identifier}}'
+          scope: variable.parameter.idl
+        - include: line-continuator
+        - match: '$(?=\n)'
+          set:
+            - meta_scope: function-definition.body.idl
+            - include: statements
+            - match: '(?i)\bend\b'
+              scope: keyword.control.idl
+              pop: true
+  compile-opt:
+    - match : '(?i)\bcompile_opt\b'
+      scope: keyword.control.idl
+      push:
+        - include: line-continuator
+        - match: '{{identifier}}'
+          scope: meta.compiler-option
+        - match: ','
+          scope: punctuation.separator.idl
+        - match: '$(?=\n)'
+          pop: true
+  expressions:
+    - include: literal
+    - include: system-variable
+    - include: function-call
+    - include: member-access
+    - include: operators
+    - include: incr-operators
+    - include: brackets
+    - include: parens
+    - include: structure
+    - include: line-continuator
+  statements:
+    - include: comment
+    - include: line-continuator
+    - include: compile-opt
+    - include: flow-control
+    - include: block
+    - include: procedure-call
+    - match: '&'
+      scope: keyword.operator.idl
+    - include: expressions

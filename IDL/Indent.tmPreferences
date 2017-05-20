@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Indent</string>
+	<key>scope</key>
+	<string>source.idl</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>(?i)^\s*(else|end|endi|endif|endf|endfo|endfor|ende|endel|endels|endelse|endwhile|endcase|endswitch)\b.*$</string>
+		<key>increaseIndentPattern</key>
+		<string>(?i)(^.*\b(begin|of)\s*$)|(^\s*(function|pro)\b.*$)</string>
+		<key>bracketIndentNextLinePattern</key>
+		<string>^.*\$\s*$</string>
+	</dict>
+</dict>
+</plist>
