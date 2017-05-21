@@ -246,6 +246,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.dtd
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.dtd
         - match: '"'
           scope: punctuation.definition.string.end.dtd
@@ -258,6 +259,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.dtd
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.dtd
         - match: "'"
           scope: punctuation.definition.string.end.dtd

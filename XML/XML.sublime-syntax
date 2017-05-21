@@ -113,6 +113,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.xml
         - match: '"'
           scope: punctuation.definition.string.end.xml
@@ -189,6 +190,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.xml
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.xml
         - match: "'"
           scope: punctuation.definition.string.end.xml
