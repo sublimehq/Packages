@@ -222,7 +222,7 @@ contexts:
       set:
         - meta_content_scope: meta.tag.subset.body.dtd
         - match: \[
-          scope: punctuation.definition.internal-subset.begin.xml
+          scope: punctuation.definition.internal-subset.begin.dtd
           set: decl-subset-body
     - include: parameter-entity
     - match: '{{name}}'
@@ -231,11 +231,11 @@ contexts:
   decl-subset-body:
     - meta_content_scope: meta.tag.subset.body.dtd
     - match: \]
-      scope: punctuation.definition.internal-subset.end.xml
+      scope: punctuation.definition.internal-subset.end.dtd
       set:
         - meta_content_scope: meta.tag.subset.dtd
         - match: \]>
-          scope: meta.tag.subset.dtd punctuation.definition.tag.end.xml
+          scope: meta.tag.subset.dtd punctuation.definition.tag.end.dtd
           pop: true
     - include: main
 
