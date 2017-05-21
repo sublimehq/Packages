@@ -158,25 +158,26 @@ contexts:
 
   doctype-content:
     - meta_content_scope: meta.tag.declaration.doctype.xml
+    - match: (?=\[)
+      set: doctype-internal-subset
     - match: \b(PUBLIC|SYSTEM)\b
       scope: keyword.content.external.xml
     - include: double-quoted-string
     - include: single-quoted-string
-    - include: doctype-internal-subset
     - include: tag-end
 
   doctype-internal-subset:
     - match: \[
-      scope: punctuation.definition.internal-subset.begin.xml
+      scope: punctuation.section.brackets.begin.xml
       set:
-        - meta_scope: meta.internal-subset.xml
-        - meta_content_scope: meta.tag.declaration.doctype.xml
+        - meta_scope: meta.tag.declaration.doctype.internal-subset.xml meta.brackets.xml
         - match: \]
-          scope: punctuation.definition.internal-subset.end.xml
+          scope: punctuation.section.brackets.end.xml
           set:
             - meta_content_scope: meta.tag.declaration.doctype.xml
             - include: tag-end
         - include: scope:text.xml.dtd
+    - include: tag-end
 
   tag-end:
     - match: '>'

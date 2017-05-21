@@ -217,27 +217,30 @@ contexts:
       push: decl-subset-name
 
   decl-subset-name:
-    - meta_scope: meta.tag.subset.dtd
+    - meta_scope: meta.tag.declaration.internal-subset.dtd
     - match: (?=\[)
-      set:
-        - meta_content_scope: meta.tag.subset.body.dtd
-        - match: \[
-          scope: punctuation.definition.internal-subset.begin.dtd
-          set: decl-subset-body
+      set: decl-subset-content
     - include: parameter-entity
     - match: '{{name}}'
       scope: variable.entity.dtd
+    - include: decl-subset-end
 
-  decl-subset-body:
-    - meta_content_scope: meta.tag.subset.body.dtd
-    - match: \]
-      scope: punctuation.definition.internal-subset.end.dtd
+  decl-subset-content:
+    - match: \[
+      scope: punctuation.section.brackets.begin.dtd
       set:
-        - meta_content_scope: meta.tag.subset.dtd
-        - match: \]>
-          scope: meta.tag.subset.dtd punctuation.definition.tag.end.dtd
-          pop: true
-    - include: main
+        - meta_scope: meta.tag.declaration.internal-subset.content.dtd meta.brackets.dtd
+        - match: \]
+          scope: punctuation.section.brackets.end.dtd
+          set: decl-subset-end
+        - include: main
+    - include: decl-subset-end
+
+  decl-subset-end:
+    - meta_content_scope: meta.tag.declaration.internal-subset.dtd
+    - match: \]>
+      scope: meta.tag.declaration.internal-subset.dtd punctuation.definition.tag.end.dtd
+      pop: true
 
   double-quoted-string:
     - match: '"'

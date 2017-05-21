@@ -73,12 +73,12 @@
 <!-- <- meta.tag.declaration.doctype -->
 <!--    ^ string.quoted.double -->
         [
-<!--    ^ punctuation.definition.internal-subset.begin -->
+<!--    ^ punctuation.section.brackets.begin -->
             <!ELEMENT p "">
-<!--    <- meta.internal-subset -->
+<!--    <- meta.tag.declaration.doctype.internal-subset meta.brackets -->
         ]
-<!--    <- meta.internal-subset -->
-<!--    ^ punctuation.definition.internal-subset.end -->
+<!--    <- meta.tag.declaration.doctype.internal-subset meta.brackets -->
+<!--    ^ punctuation.section.brackets.end -->
      >
 <!-- <- meta.tag.declaration.doctype -->
 <!-- ^ punctuation.definition.tag.end     -->
@@ -88,9 +88,9 @@
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
 <!--           ^^^^ variable.documentroot -->
-<!--                ^ punctuation.definition.internal-subset.begin -->
-<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.internal-subset -->
-<!--                                                           ^ punctuation.definition.internal-subset.end -->
+<!--                ^ punctuation.section.brackets.begin -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype.internal-subset meta.brackets -->
+<!--                                                           ^ punctuation.section.brackets.end -->
 <!--                 ^^ punctuation.definition.tag.begin -->
 <!--                   ^^^^^^ entity.name.tag.entity -->
 <!--                          ^^ variable.entity -->
@@ -105,6 +105,7 @@
 <!DOCTYPE data [
 <!-- ^ entity.name.tag.doctype -->
 <!--      ^ variable.documentroot -->
+<!--           ^ punctuation.section.brackets.begin -->
 
 <!ENTITY auml  "&#228;">
 <!-- ^ entity.name.tag.entity -->
@@ -140,7 +141,7 @@
 <!--                   ^ string.quoted.double -->
 
 ]>
-<!-- <- meta.internal-subset.xml meta.tag.declaration.doctype.xml punctuation.definition.internal-subset.end.xml -->
+<!-- <- meta.tag.declaration.doctype.internal-subset meta.brackets punctuation.section.brackets.end -->
 
 <!--
   Comments

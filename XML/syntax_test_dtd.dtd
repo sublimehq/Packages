@@ -417,17 +417,17 @@
  -->
 
     <![%subset-name;[<!ELEMENT element-name 'value'><!-- comment -->]]>
-<!--^^^^^^^^^^^^^^^^ meta.tag.subset -->
-<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.subset.body -->
+<!--^^^^^^^^^^^^^^^^ meta.tag.declaration.internal-subset -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.internal-subset.content meta.brackets -->
 <!--                 ^^^^^^^^^ meta.tag.declaration.element -->
 <!--                          ^^^^^^^^^^^^^ meta.tag.declaration.element.name -->
 <!--                                       ^^^^^^^ meta.tag.declaration.element.content -->
-<!--                                                                 ^^ meta.tag.subset -->
+<!--                                                                 ^^ meta.tag.declaration.internal-subset -->
 <!--^^^ punctuation.definition.tag.begin -->
 <!--   ^ punctuation.definition.variable.begin -->
 <!--   ^^^^^^^^^^^^^ variable.parameter -->
 <!--               ^ punctuation.definition.variable.end -->
-<!--                ^ punctuation.definition.internal-subset.begin -->
+<!--                ^ punctuation.section.brackets.begin -->
 <!--                 ^^ punctuation.definition.tag.begin -->
 <!--                   ^^^^^^^ entity.name.tag.element -->
 <!--                           ^^^^^^^^^^^^ variable.element -->
@@ -436,5 +436,5 @@
 <!--                                              ^ punctuation.definition.string.end -->
 <!--                                               ^ punctuation.definition.tag.end -->
 <!--                                                ^^^^^^^^^^^^^^^^ comment.block -->
-<!--                                                                ^ punctuation.definition.internal-subset.end -->
+<!--                                                                ^ punctuation.section.brackets.end -->
 <!--                                                                 ^^ punctuation.definition.tag.end -->
