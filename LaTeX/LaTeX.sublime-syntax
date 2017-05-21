@@ -1730,6 +1730,14 @@ contexts:
 
 
   array-preamble:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.latex
+      push:
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: array-preamble
+
     - match: 'l|r|c'
       scope: keyword.other.column-type.latex
 
@@ -1793,3 +1801,26 @@ contexts:
         - include: general-constants
         - include: general-commands
         - include: macro-braces
+
+    - match: '(\*)\s*(\{)'
+      captures:
+        1: support.function.insert-repeated.latex
+        2: meta.function.insert-repeated-count.latex punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_content_scope: meta.function.insert-repeated-count.latex
+        - match: '\d+'
+          scope: constant.numeric.array-count.latex
+        - include: general-commands
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          set:
+            - match: '\{'
+              scope: meta.function.insert-repeated-content.latex punctuation.definition.group.brace.begin.latex
+              set:
+                - meta_content_scope: meta.function.insert-repeated-content.latex
+                - include: array-preamble
+                - match: '\}'
+                  scope: meta.function.insert-repeated-content.latex punctuation.definition.group.brace.end.latex
+                  pop: true
+            - match: (?=\S)
+              pop: true
