@@ -154,7 +154,7 @@ contexts:
     - match: '{{name}}'
       scope: variable.documentroot.xml
       set: doctype-content
-    - include: tag-end
+    - include: doctype-end
 
   doctype-content:
     - meta_content_scope: meta.tag.declaration.doctype.xml
@@ -164,7 +164,7 @@ contexts:
       scope: keyword.content.external.xml
     - include: double-quoted-string
     - include: single-quoted-string
-    - include: tag-end
+    - include: doctype-end
 
   doctype-internal-subset:
     - match: \[
@@ -175,16 +175,15 @@ contexts:
           scope: punctuation.section.brackets.end.xml
           set:
             - meta_content_scope: meta.tag.declaration.doctype.xml
-            - include: tag-end
+            - include: doctype-end
         - include: scope:text.xml.dtd
-    - include: tag-end
 
-  tag-end:
+  doctype-end:
     - match: '>'
-      scope: punctuation.definition.tag.end.xml
+      scope: meta.tag.declaration.doctype.xml punctuation.definition.tag.end.xml
       pop: true
-    - match: '<'
-      scope: invalid.illegal.unexpected.dtd
+    - match: '[^>\s]'
+      scope: invalid.illegal.unexpected.xml
 
   single-quoted-string:
     - match: "'"

@@ -47,7 +47,7 @@
  -->
 
      <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
-     <!-- <- meta.tag.declaration.doctype -->
+ <!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag.declaration.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
 <!--           ^^^^ variable.documentroot -->
@@ -80,8 +80,8 @@
 <!--    <- meta.tag.declaration.doctype.internal-subset meta.brackets -->
 <!--    ^ punctuation.section.brackets.end -->
      >
-<!-- <- meta.tag.declaration.doctype -->
-<!-- ^ punctuation.definition.tag.end     -->
+<!-- ^ meta.tag.declaration.doctype -->
+<!-- ^ punctuation.definition.tag.end -->
 
      <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
      <!-- <- meta.tag.declaration.doctype -->
