@@ -250,8 +250,9 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.dtd
           pop: true
-        - include: constant-entity
-        - include: should-be-entity
+        - match: "'(?:[^'\"]+')?"
+          scope: constant.character.escape.string.dtd
+        - include: string-body
 
   single-quoted-string:
     - match: "'"
@@ -261,8 +262,17 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.dtd
           pop: true
-        - include: constant-entity
-        - include: should-be-entity
+        - match: "\"(?:[^'\"]+\")?"
+          scope: constant.character.escape.string.dtd
+        - include: string-body
+
+  string-body:
+    - match: '[\(\)\|,]'
+      scope: constant.character.escape.punctuation.dtd
+    - match: '[*?+]'
+      scope: keyword.operator.dtd
+    - include: constant-entity
+    - include: should-be-entity
 
   unquoted-string:
     - match: '{{name}}'
@@ -287,7 +297,7 @@ contexts:
       scope: punctuation.definition.group.begin.dtd
       push:
         - meta_scope: meta.group.sequence.dtd
-        - match: (\))([*?+])?
+        - match: (\))\s*([*?+])?
           captures:
             1: punctuation.definition.group.end.dtd
             2: keyword.operator.dtd
