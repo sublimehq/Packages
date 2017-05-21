@@ -103,31 +103,6 @@ contexts:
       scope: invalid.illegal.missing-entity.xml
     - include: should-be-entity
 
-  should-be-entity:
-    - match: '&'
-      scope: invalid.illegal.bad-ampersand.xml
-    - match: '<'
-      scope: invalid.illegal.missing-entity.xml
-
-  double-quoted-string:
-    - match: '"'
-      scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.xml
-        - match: '"'
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
-
-  entity:
-    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
-      scope: constant.character.entity.xml
-      captures:
-        1: punctuation.definition.constant.xml
-        2: punctuation.definition.constant.xml
-
   comment:
     - match: '<!--'
       scope: punctuation.definition.comment.begin.xml
@@ -186,18 +161,6 @@ contexts:
     - match: '[^>\s]'
       scope: invalid.illegal.unexpected.xml
 
-  single-quoted-string:
-    - match: "'"
-      scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.xml
-        - match: "'"
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
-
   tag-stuff:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
       captures:
@@ -211,3 +174,40 @@ contexts:
         2: punctuation.separator.key-value.xml
     - include: double-quoted-string
     - include: single-quoted-string
+
+  double-quoted-string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.xml
+        - match: '"'
+          scope: punctuation.definition.string.end.xml
+          pop: true
+        - include: entity
+        - include: should-be-entity
+
+  single-quoted-string:
+    - match: "'"
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.xml
+        - match: "'"
+          scope: punctuation.definition.string.end.xml
+          pop: true
+        - include: entity
+        - include: should-be-entity
+
+  entity:
+    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
+      scope: constant.character.entity.xml
+      captures:
+        1: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
+
+  should-be-entity:
+    - match: '&'
+      scope: invalid.illegal.bad-ampersand.xml
+    - match: '<'
+      scope: invalid.illegal.missing-entity.xml
