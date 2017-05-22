@@ -185,6 +185,10 @@ contexts:
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c
+    - match: (?<!\.)\.(?!\.)
+      scope: punctuation.accessor.c
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.c
 
   label:
     - match: '^\s*((?!default){{identifier}})(:)(?!:)'
