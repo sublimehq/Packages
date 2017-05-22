@@ -817,6 +817,11 @@
 /*              ^^^^^^^^^^^      support.constant.property-value.css */
 /*                         ^     punctuation.separator.css           */
 /*                           ^^^ constant.numeric.css                */
+    grid-template: repeat(2, var(--size)) / repeat(2, 50%);
+/*                           ^^^ support.function.var.css */
+/*                               ^^^^^^ support.type.custom-property.css */
+/*                                     ^^ punctuation.definition.group.end.css */
+/*                                          ^^^^^^ support.function.grid.css */
 }
 
 .test-filter-functions {

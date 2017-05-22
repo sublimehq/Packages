@@ -1294,6 +1294,7 @@ contexts:
           - include: percentage-type
           - include: minmax-function
           - include: integer-type
+          - include: var-function
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
           - match: \b(max-content|min-content|auto)\b
