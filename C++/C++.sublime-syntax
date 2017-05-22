@@ -613,10 +613,10 @@ contexts:
       captures:
         1: punctuation.accessor.c++
         2: variable.other.readwrite.member.c++
-    - match: (?<!\.)\.(?!\.)
-      scope: punctuation.accessor.c++
     - match: \.\.(?!\.)
       scope: invalid.illegal.syntax.c++
+    - match: \.(?!\.)
+      scope: punctuation.accessor.c++
 
   typedef:
     - match: \btypedef\b
