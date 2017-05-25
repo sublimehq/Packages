@@ -981,6 +981,79 @@ namespace TestNamespace.Test
     abc:
 /// ^^^ entity.name.label
 ///    ^ punctuation.separator
+
+        // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+        formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
+///                                     ^^^^^^^^^^^^^ constant.other.placeholder
+///                                                  ^ - constant
+        
+        string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
+                         "Ebenezer", "Francine", "George" };
+        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80,
+                                 16.75m };
+
+        Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
+///                        ^^^^^^^ constant.other.placeholder - invalid
+///                               ^ string - constant
+///                                ^^^^^ constant.other.placeholder - invalid
+///                                     ^^ constant.character.escape
+        for (int ctr = 0; ctr < names.Length; ctr++)
+            Console.WriteLine("{0,-20} {1,5:N1}", names[ctr], hours[ctr]);
+///                           ^^^^^^^^^^^^^^^^^^ string.quoted.double - invalid
+///                            ^^^^^^^ constant.other.placeholder
+///                                   ^ - constant
+///                                    ^^^^^^^^ constant.other.placeholder
+
+        int MyInt = 100;
+        Console.WriteLine("{0:C}", MyInt);
+///                        ^^^^^ constant.other.placeholder - invalid
+///                        ^ punctuation.definition.placeholder.begin
+///                            ^ punctuation.definition.placeholder.end
+///                             ^ punctuation.definition.string.end
+        // The example displays the following output 
+        // if en-US is the current culture:
+        //        $100.00
+        formatted = string.Format(@"Price = |{0,-10:C}|", myInt);
+///                               ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+///                                          ^^^^^^^^^ constant.other.placeholder - invalid
+///                                          ^ punctuation.definition.placeholder.begin
+///                                                  ^ punctuation.definition.placeholder.end
+        formatted = string.Format("{00}G}}", myInt);
+///                                ^^^^ constant.other.placeholder - invalid
+///                                    ^ - constant
+///                                     ^^ constant.character.escape
+        formatted = string.Format("{0{{G{}", myInt);
+///                                ^ punctuation.definition.placeholder.begin
+///                                  ^^^^ invalid.illegal.unexpected-character-in-placeholder
+///                                      ^ punctuation.definition.placeholder.end
+        
+        formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
+///                                ^^^^^^^^^^^ constant.other.placeholder - invalid
+///                                           ^^ constant.character.escape
+///                                             ^^ constant.other.placeholder - invalid
+///                                               ^ invalid.illegal.unclosed-string-placeholder
+///                                                ^ punctuation.definition.string.end
+///                                                    ^ string - invalid - constant.other - punctuation
+        formatted = string.Format("{0", myInt);
+///                                ^^ constant.other.placeholder
+///                                 ^ invalid.illegal.unclosed-string-placeholder
+        formatted = string.Format("{1:\", {", myInt, "}");
+///                                ^^^^^^^^ constant.other.placeholder
+///                                   ^^ constant.character.escape
+///                                     ^^^ invalid.illegal.unclosed-string-placeholder
+///                                        ^ punctuation.definition.string.end
+        formatted = string.Format("{1:\",{{}} {}", myInt, "}");
+///                                ^^^^^^^^^^^^^ constant.other.placeholder
+///                                ^ punctuation.definition.placeholder.begin
+///                                   ^^ constant.character.escape
+///                                      ^^^^ constant.character.escape
+///                                           ^ invalid.illegal.unescaped-placeholder
+///                                            ^ punctuation.definition.placeholder.end
+        formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
+///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
+///                                            ^^^^ constant.character.escape
+///                                                      ^ punctuation.definition.placeholder.end
     }
 }
 ///<- punctuation.section.block.end
