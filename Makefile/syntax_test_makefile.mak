@@ -27,29 +27,29 @@ foo := a.o b.o c.o
 bar := $(foo:.o=.c)
 # <- variable
 #   ^^ keyword
-#      ^^ punctuation
+#      ^^ keyword.other.block.begin
 #           ^ punctuation
 #              ^ punctuation
-#                 ^ punctuation
+#                 ^ keyword.other.block.end
 bar := $(foo:%.o=%.c)
 # <- variable
 #   ^^ keyword
-#      ^^ punctuation
+#      ^^ keyword.other.block.begin
 #           ^ punctuation
 #            ^ variable.language
 #               ^ punctuation
 #                ^ variable.language
-#                   ^ punctuation
+#                   ^ keyword.other.block.end
 
 bar := ${foo:%.o=%.c}
 # <- variable
 #   ^^ keyword
-#      ^^ punctuation
+#      ^^ keyword.other.block.begin
 #           ^ punctuation
 #            ^ variable.language
 #               ^ punctuation
 #                ^ variable.language
-#                   ^ punctuation
+#                   ^ keyword.other.block.end
 
 foo = bar # a comment
 #         ^ comment.line punctuation - string.unquoted
@@ -65,18 +65,18 @@ a := $($(x))
 sources := $($(a1)_objects:.o=.c)
 dir = foo
 $(dir)_sources := $(wildcard $(dir)/*.c)
-# <- punctuation
-#^ punctuation
+# <- keyword.other.block.begin
+#^ keyword.other.block.begin
 #              ^^ keyword.operator.assignment
-#                 ^^ punctuation
-#                            ^^ punctuation
-#                                 ^ punctuation
+#                 ^^ keyword.other.block.begin
+#                            ^^ keyword.other.block.begin
+#                                 ^ keyword.other.block.end
 #                                   ^ variable.language.wildcard
-#                                      ^ punctuation
+#                                      ^ keyword.other.block.end
 define $(dir)_print =
 # ^ keyword.control.makefile
-#      ^^ punctuation
-#           ^ punctuation
+#      ^^ keyword.other.block.begin
+#           ^ keyword.other.block.end
 #                   ^ keyword.operator.assignment
 lpr $($(dir)_sources)
 endef
@@ -163,9 +163,9 @@ lib/%.o: CFLAGS := -fPIC -g
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control
 #       ^ support.function.builtin
-#                     ^^variable.other punctuation.definition.variable.begin
-#                       ^^^^^^^^^^^^^variable.other
-#                                    ^variable.other punctuation.definition.variable.end
+#                     ^^ variable.other keyword.other.block.begin
+#                       ^^^^^^^^^^^^^ variable.other
+#                                    ^ variable.other keyword.other.block.end
 #                                                         ^^^ variable.language.automatic
     include $(MAKEFILE_PATH)Makefile.Defs
     # <- keyword.control
@@ -219,16 +219,16 @@ all: foo.o # a comment
 sources := $($(a1)_objects:.o=.c)
 # ^ variable
 #       ^^ keyword.operator
-#          ^^ string variable punctuation.definition
-#            ^^ string variable variable punctuation.definition
+#          ^^ string variable keyword.other.block.begin
+#            ^^ string variable variable keyword.other.block.begin
 #              ^^ string variable variable
-#                ^ string variable variable punctuation.definition
+#                ^ string variable variable keyword.other.block.end
 #                 ^^^^^^^^ string variable
 #                         ^ string variable punctuation.definition
 #                          ^^ string variable
 #                            ^ string variable punctuation.definition
 #                             ^^ string variable
-#                               ^ string variable punctuation.definition
+#                               ^ string variable keyword.other.block.end
 
 CC=g++
 #<- variable.other
@@ -242,10 +242,10 @@ SOURCES=main.cpp hello.cpp factorial.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 #<- variable.other
 #      ^ keyword.operator.assignment
-#       ^^ string.unquoted punctuation.definition.variable.begin
+#       ^^ string.unquoted keyword.other.block.begin
 #                ^ string.unquoted variable.other punctuation.definition.substitution
 #                     ^ string.unquoted variable.other punctuation.definition
-#                        ^ string.unquoted punctuation.definition.variable.end
+#                        ^ string.unquoted keyword.other.block.end
 EXECUTABLE=hello
 
 lib: foo.o bar.o lose.o win.o
@@ -261,12 +261,12 @@ lib: foo.o bar.o lose.o win.o
 all: $(SOURCES) $(EXECUTABLE)
 #<- entity.name.function
 #  ^ keyword.operator.assignment
-#    ^^ variable.other punctuation.definition.variable.begin
+#    ^^ variable.other keyword.other.block.begin
 #      ^^^^^^^ variable.other
-#             ^ variable.other punctuation.definition.variable.end
-#               ^^ variable.other punctuation.definition.variable.begin
+#             ^ variable.other keyword.other.block.end
+#               ^^ variable.other keyword.other.block.begin
 #                 ^^^^^^^^^^ variable.other
-#                           ^ variable.other punctuation.definition.variable.end
+#                           ^ variable.other keyword.other.block.end
 
 export FOO=foo
 # ^ keyword.control
@@ -295,12 +295,12 @@ FOO = some \
 reverse = $(2) $(1)
 # <- variable.other
 #       ^ keyword.operator.assignment
-#         ^^ punctuation.definition.variable.begin
+#         ^^ keyword.other.block.begin
 #           ^ string.unquoted variable.other
 #             ^ string.unquoted
-#              ^^ punctuation.definition.variable.begin
+#              ^^ keyword.other.block.begin
 #                ^ string.unquoted variable.other
-#                 ^ punctuation.definition.variable.end
+#                 ^ keyword.other.block.end
 
 foo = $(call reverse,a,b)
 #       ^ constant.language.call
@@ -309,30 +309,30 @@ foo = $(call reverse,a,b)
 #                    ^ string.unquoted meta.function-call.arguments
 #                     ^ string.unquoted meta.function-call.arguments punctuation.separator
 #                      ^ string.unquoted meta.function-call.arguments
-#                       ^ string.unquoted punctuation.definition.variable.end
+#                       ^ string.unquoted keyword.other.block.end
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
 #              ^^^^^^^^^ meta.function-call support.function
 #                          ^^^^^^^^ meta.function-call.arguments meta.function-call support.function
 #                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
 #                                               ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments
-#                                                ^^ punctuation
+#                                                ^^ keyword.other.block.begin
 #                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other
-#                                                   ^ punctuation
+#                                                   ^ keyword.other.block.end
 #                                                    ^ punctuation.separator
-#                                                     ^^ punctuation
+#                                                     ^^ keyword.other.block.begin
 #                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
 #                                                             ^ string.unquoted
 #                                                              ^ punctuation.separator
 #                                                               ^ string.unquoted
 #                                                                ^ punctuation.separator
-#                                                                 ^^ punctuation.definition
+#                                                                 ^^ keyword.other.block.begin
 #                                                                   ^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other
-#                                                                       ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other punctuation
-#                                                                        ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments punctuation
-#                                                                         ^ meta.function-call.arguments meta.function-call.arguments punctuation
-#                                                                          ^ meta.function-call.arguments punctuation
-#                                                                           ^ punctuation
+#                                                                       ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other keyword.other.block.end
+#                                                                        ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
+#                                                                         ^ meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
+#                                                                          ^ meta.function-call.arguments keyword.other.block.end
+#                                                                           ^ keyword.other.block.end
 
 LS := $(call pathsearch,ls)
 
@@ -341,9 +341,9 @@ LS := $(call pathsearch,ls)
 
 sinclude $(MAKEFILE_PATH)Makefile.Defs
 # <- keyword.control.import
-#        ^ string.unquoted variable.other punctuation
+#        ^ string.unquoted variable.other keyword.other.block.begin
 #          ^ string.unquoted variable.other
-#                       ^ string.unquoted variable.other punctuation
+#                       ^ string.unquoted variable.other keyword.other.block.end
 
 
 CC=g++
@@ -363,13 +363,13 @@ OBJECTS=$(SOURCES:.cpp=.o)
 
 all: $(SOURCES) hello.o
 # <- entity.name.function.makefile
-#    ^ punctuation.definition.variable.begin.makefile
+#    ^ keyword.other.block.begin
 #      ^ variable.other.makefile
 
 $(EXECUTABLE): $(OBJECTS)
-# <- punctuation.definition.variable.begin.makefile
+# <- keyword.other.block.begin
 # ^ variable.other.makefile
-#              ^ punctuation.definition.variable.begin.makefile
+#              ^ keyword.other.block.begin
 #                ^ variable.other.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	# <- constant.language
@@ -401,18 +401,18 @@ help::
 $(warning he:llo)
 # ^ meta.function-call support.function
 #         ^^^ meta.function-call.arguments.makefile - punctuation
-#               ^ punctuation
+#               ^ keyword.other.block.end
 
 all: deps
 	$(warning he:llo)
 	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
-	#               ^ punctuation
+	#               ^ keyword.other.block.end
 deps:
 	$(warning he:llo)
 	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
-	#               ^ punctuation
+	#               ^ keyword.other.block.end
 all: 
 # ^ meta.function entity.name.function
 #  ^ keyword.operator.assignment
@@ -504,14 +504,14 @@ a : b ;
 #     ^ punctuation
 
 a-$(b) := c
-# ^ punctuation
-#    ^ punctuation
+# ^ keyword.other.block.begin
+#    ^ keyword.other.block.end
 #      ^^ keyword.operator
 #         ^ string.unquoted
 
 $(a): b
-# <- punctuation
-#  ^ meta.function entity.name.function punctuation
+# <- keyword.other.block.begin
+#  ^ meta.function entity.name.function keyword.other.block.end
 #   ^ keyword.operator
 #     ^ meta.function.arguments string.unquoted
 	$(Q)$(MAKE) $(build)=$@
@@ -527,7 +527,7 @@ $(a:b=c) : d
 	#                    ^^ meta.function.body variable.language.automatic
 
 $(X:a=b) : w ;
-# <- meta.function entity.name.function variable.other punctuation
+# <- meta.function entity.name.function variable.other keyword.other.block.begin
 #        ^ keyword.operator
 #          ^^ meta.function.arguments string.unquoted
 

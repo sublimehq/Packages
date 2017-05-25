@@ -311,7 +311,7 @@ contexts:
   inside-function-call:
     - meta_content_scope: meta.function-call.arguments.makefile
     - match: \)
-      scope: punctuation.definition.variable.end.makefile
+      scope: keyword.other.block.end.makefile
       pop: true
     - match: \,
       scope: punctuation.separator.makefile
@@ -322,7 +322,7 @@ contexts:
     - match: (\$\()(call)\s+([a-zA-Z0-9\-_]+)(,)
       captures:
         0: meta.function-call.makefile
-        1: punctuation.definition.variable.begin.makefile
+        1: keyword.other.block.begin.makefile
         2: constant.language.call.makefile
         3: support.function.makefile
         4: punctuation.separator.makefile
@@ -332,7 +332,7 @@ contexts:
     - match: (\$\()(patsubst|filter)\s
       captures:
         0: meta.function-call.makefile
-        1: punctuation.definition.variable.begin.makefile
+        1: keyword.other.block.begin.makefile
         2: support.function.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
@@ -341,7 +341,7 @@ contexts:
     - match: (\$\()(wildcard)\s
       captures:
         0: meta.function-call.makefile
-        1: punctuation.definition.variable.begin.makefile
+        1: keyword.other.block.begin.makefile
         2: support.function.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
@@ -350,17 +350,17 @@ contexts:
     - match: (?x) (\$\() (subst|strip|findstring|filter-out|sort|word|wordlist|words|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|realpath|abspath|if|or|and|foreach|file|call|value|eval|origin|flavor|error|warning|info|guile) \s
       captures:
         0: meta.function-call.makefile
-        1: punctuation.definition.variable.begin.makefile
+        1: keyword.other.block.begin.makefile
         2: support.function.makefile
       push: inside-function-call
     - match: (\$\()(shell)\s
       captures:
-        1: punctuation.definition.variable.begin.makefile
+        1: keyword.other.block.begin.makefile
         2: support.function.builtin.makefile
       push: scope:source.shell
       with_prototype:
         - match: \)
-          scope: punctuation.definition.variable.end.makefile
+          scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-substitutions
 
@@ -453,19 +453,19 @@ contexts:
   variable-substitutions:
     - include: function-invocations
     - match: \$\$?\(
-      scope: punctuation.definition.variable.begin.makefile
+      scope: keyword.other.block.begin.makefile
       push:
         - meta_scope: variable.other.makefile
         - match: \)
-          scope: punctuation.definition.variable.end.makefile
+          scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
     - match: \$\$?{
-      scope: punctuation.definition.variable.end.makefile
+      scope: keyword.other.block.begin.makefile
       push:
         - meta_scope: variable.other.makefile
         - match: \}
-          scope: punctuation.definition.variable.end.makefile
+          scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-sub-common
     - match: \$\$?[@%<?^+|*]
