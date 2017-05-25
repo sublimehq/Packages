@@ -61,7 +61,7 @@ contexts:
         2: entity.name.tag.custom.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
@@ -205,7 +205,7 @@ contexts:
         2: invalid.illegal.uppercase-custom-tag-name.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
@@ -215,7 +215,7 @@ contexts:
         2: entity.name.tag.other.html
       push:
         - meta_scope: meta.tag.other.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
