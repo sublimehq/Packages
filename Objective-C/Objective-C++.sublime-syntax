@@ -491,27 +491,7 @@ contexts:
             - include: expressions-minus-generic-type-function-call
 
   keywords-parens:
-    - match: '\b(alignof|typeid)\b\s*(\()'
-      captures:
-        1: keyword.operator.word.objc++
-        2: meta.group.objc++ punctuation.section.group.begin.objc++
-      push:
-        - meta_content_scope: meta.group.objc++
-        - match: '\)'
-          scope: meta.group.objc++ punctuation.section.group.end.objc++
-          pop: true
-        - include: expressions
-    - match: '\b(static_assert)\b\s*(\()'
-      captures:
-        1: keyword.operator.word.objc++
-        2: meta.group.objc++ punctuation.section.group.begin.objc++
-      push:
-        - meta_content_scope: meta.group.objc++
-        - match: '\)'
-          scope: meta.group.objc++ punctuation.section.group.end.objc++
-          pop: true
-        - include: expressions
-    - match: '\b(sizeof)\b\s*(\()'
+    - match: '\b(alignof|typeid|static_assert|sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.word.objc++
         2: meta.group.objc++ punctuation.section.group.begin.objc++
