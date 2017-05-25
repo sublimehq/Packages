@@ -517,6 +517,25 @@
 /*              ^^^         support.constant.color.w3c-standard-color-name.css */
 /*                  ^^^     constant.numeric.css                               */
 /*                      ^^^ keyword.other.color-space.css                      */
+
+    background-color: color(var(--background) blend(var(--foreground) 80%));
+/*  ^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                  ^ punctuation.separator.key-value.css */
+/*                    ^^^^^ support.function.color.css */
+/*                         ^ punctuation.definition.group.begin.css */
+/*                          ^^^ support.function.var.css */
+/*                             ^ punctuation.definition.group.begin.css */
+/*                              ^^^^^^^^^^^^ support.type.custom-property */
+/*                                          ^ punctuation.definition.group.end.css */
+/*                                            ^^^^^ support.function.color.css */
+/*                                                 ^ punctuation.definition.group.begin.css */
+/*                                                  ^^^ support.function.var.css */
+/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                      ^^^^^^^^^^^^ support.type.custom-property.css */
+/*                                                                  ^ punctuation.definition.group.end.css */
+/*                                                                    ^^^ constant.numeric.css */
+/*                                                                       ^^ punctuation.definition.group.end.css */
+/*                                                                         ^ punctuation.terminator.rule.css */
 }
 
 .test-transform-functions {
@@ -627,6 +646,32 @@
 /*            ^^^^          support.function.calc.css         */
 /*                   ^      keyword.operator.css */
 /*                     ^^^^ support.function.calc.css         */
+    top: calc(100% - (1 * 10px) / 1 - (1 * 10px) / 1 - (1 * 10px) / 1);
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
+/*       ^^^^ support.function.calc.css */
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css */
+/*           ^ punctuation.definition.group.begin.css */
+/*            ^^^ constant.numeric.css */
+/*                 ^ keyword.operator.css */
+/*                   ^ punctuation.definition.group.begin.css */
+/*                   ^^^^^^^^^^ meta.group.css meta.group.css */
+/*                            ^ punctuation.definition.group.end.css */
+/*                              ^ keyword.operator.css */
+/*                                    ^ punctuation.definition.group.begin.css */
+/*                                         ^^ constant.numeric.css */
+/*                                           ^^ keyword.other.unit.css */
+/*                                             ^ punctuation.definition.group.end.css */
+/*                                               ^ keyword.operator.css */
+/*                                                   ^ keyword.operator.css */
+/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                      ^ constant.numeric.css */
+/*                                                        ^ keyword.operator.css */
+/*                                                          ^^ constant.numeric.css */
+/*                                                              ^ punctuation.definition.group.end.css */
+/*                                                                ^ keyword.operator.css */
+/*                                                                  ^ constant.numeric.css */
+/*                                                                   ^ punctuation.definition.group.end.css */
+/*                                                                    ^ punctuation.terminator.rule.css - meta.group */
 }
 
 .test-toggle-function {
@@ -772,6 +817,11 @@
 /*              ^^^^^^^^^^^      support.constant.property-value.css */
 /*                         ^     punctuation.separator.css           */
 /*                           ^^^ constant.numeric.css                */
+    grid-template: repeat(2, var(--size)) / repeat(2, 50%);
+/*                           ^^^ support.function.var.css */
+/*                               ^^^^^^ support.type.custom-property.css */
+/*                                     ^^ punctuation.definition.group.end.css */
+/*                                          ^^^^^^ support.function.grid.css */
 }
 
 .test-filter-functions {

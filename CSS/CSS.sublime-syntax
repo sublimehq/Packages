@@ -1296,6 +1296,7 @@ contexts:
           - include: percentage-type
           - include: minmax-function
           - include: integer-type
+          - include: var-function
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
           - match: \b(max-content|min-content|auto)\b
@@ -1390,19 +1391,25 @@ contexts:
       scope: support.function.calc.css
       push:
         - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
         - match: '\('
           scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: calc-function
-          - include: var-function
-          - include: numeric-values
-          - include: attr-function
-          - match: "[-/*+]"
-            scope: keyword.operator.css
+          push: inside-calc-parens
+        - match: ''
+          pop: true
+
+  inside-calc-parens:
+    - meta_scope: meta.group.css
+    - match: '(?=\))'
+      set: function-notation-terminator
+    - include: calc-function
+    - include: var-function
+    - include: numeric-values
+    - include: attr-function
+    - match: "[-/*+]"
+      scope: keyword.operator.css
+    - match: '\('
+      scope: punctuation.definition.group.begin.css
+      push: inside-calc-parens
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
@@ -1747,6 +1754,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
+          - include: var-function
           - include: color-values
           - include: angle-type
           - include: number-type
@@ -1832,6 +1840,7 @@ contexts:
             scope: keyword.other.color-space.css
           - include: color-values
           - include: percentage-type
+          - include: var-function
 
   unicode-range:
     - match: |-
