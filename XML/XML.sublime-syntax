@@ -83,7 +83,7 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-stuff
-    - match: '(<\?)(xml-stylesheet)(?=\s|\?>)'
+    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
