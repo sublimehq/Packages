@@ -475,4 +475,4 @@ contexts:
     - match: (\$)[[:alpha:]]
       captures:
         0: variable.other.makefile
-        1: punctuation.definition.variable.makefile
+        1: keyword.other.single-character-variable.makefile

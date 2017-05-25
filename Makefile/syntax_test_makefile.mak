@@ -11,12 +11,12 @@ P = Hello
 FOO = $P
 # <- variable.other
 #   ^ keyword.operator.assignment
-#     ^ punctuation
+#     ^ keyword.other
 #      ^ string variable
 BAR = $PATH
 # <- variable.other
 #   ^ keyword.operator.assignment
-#     ^ punctuation
+#     ^ keyword.other
 #      ^ string variable
 #       ^ string - variable
 
