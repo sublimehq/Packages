@@ -444,6 +444,13 @@
 
     color: #137;
 /*         ^^^^ constant.other.color.rgb-value.css */
+
+    color: #a1b2c3d4;
+/*         ^^^^^^^^^ constant.other.color.rgba-value.css */
+
+    color: #E5F6A7B8;
+/*         ^ punctuation.definition.constant.css */
+/*         ^^^^^^^^^ constant.other.color.rgba-value.css */
 }
 
 .test-function-meta {
@@ -894,7 +901,7 @@
 /*^^^^^^^^^^^ meta.property-list */
 /*  ^^^ meta.property-name */
 /*      ^ meta.property-value */
-    top: 
+    top:
 /*^^^^^^^ meta.property-list */
 /*  ^^^ meta.property-name */
 }/*     ^ meta.property-value */
