@@ -825,6 +825,11 @@ std::vector<std::uint8_t> func_returning_path_generic(int a);
 /*         ^ punctuation.section.generic */
 /*                        ^ entity.name.function */
 
+void f()
+{
+    static_assert(false, "oops");
+    /* ^ keyword.operator.word */
+}
 
 long double operator "" _km (long double x);
 /*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
