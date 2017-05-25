@@ -1801,6 +1801,8 @@ contexts:
               captures:
                 1: variable.other.cs
               pop: true
+            - match: (?=\))
+              pop: true
         - include: type_argument
     - match: '({{base_type}}){{type_suffix_capture}}'
       captures:
@@ -1816,7 +1818,7 @@ contexts:
           captures:
             1: variable.other.cs
           pop: true
-    - match: '(?:({{name}}){{type_suffix_capture}}\s+)?({{name}})\s*'
+    - match: '(?:({{name}}){{type_suffix_capture}})(?:\s+({{name}}))?\s*'
       captures:
         1: support.type.cs
         2: storage.type.nullable.cs
