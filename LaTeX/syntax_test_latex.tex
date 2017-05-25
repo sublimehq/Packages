@@ -426,6 +426,18 @@ a & b
 %     ^ variable.parameter.function.latex
 
 
+\begin{tabular}{*{3}{>{$}c<{$}}}
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.environment.tabular.latex - meta.environment.tabular.latex meta.environment.tabular.latex
+%               ^ support.function.insert-repeated.latex
+%                ^^^ meta.function.insert-repeated-count.latex
+%                 ^ constant.numeric.array-count.latex
+%                    ^ support.function.insert-before-column.latex
+%                   ^^^^^^^^^^^ meta.function.insert-repeated-content.latex
+%                         ^ support.function.insert-after-column.latex
+    a & b & c \\\hline
+    1 & 2 & 3
+\end{tabular}
+
 
 \end{document}
 % ^ support.function.end.latex keyword.control.flow.end.latex
