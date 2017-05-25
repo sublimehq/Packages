@@ -428,7 +428,7 @@ contexts:
               | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
               | border-(bottom|top)-(left|right)-radius
               | border-image(-outset|-repeat|-slice|-source|-width)?
-              | border(-bottom|-left|-right|-top|-collapse|-spacing)?
+              | border(-bottom|-left|-right|-top|-collapse|-spacing|-box)?
               | both|bottom
               | box(-shadow)?
               | break-(all|word)
@@ -519,7 +519,9 @@ contexts:
               | replaced|reset-size|reverse|ridge|right
               | round
               | row(-resize|-reverse)?
-              | rtl|ruby|running|saturat(e|ion)|screen
+              | run-in
+              | ruby(-base|-text)?(-container)?
+              | rtl|running|saturat(e|ion)|screen
               | scroll(-position|bar)?
               | separate|sepia
               | scale-down
@@ -546,7 +548,7 @@ contexts:
               | super|swash
               | table(-caption|-cell|(-column|-footer|-header|-row)-group|-column|-row)?
               | tabular-nums|tb-rl
-              | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under)-edge|-shadow|-size(-adjust)?|-top)|field)?
+              | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under|after|before)-edge|-shadow|-size(-adjust)?|-top)|field)?
               | thi(ck|n)
               | titling-ca(ps|se)
               | to[p]?
