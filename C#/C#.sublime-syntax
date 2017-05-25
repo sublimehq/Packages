@@ -948,13 +948,15 @@ contexts:
         - match: '{{name}}(?=\s*[\),/])'
           scope: variable.parameter.cs
         - match: ','
-          scope: punctuation.separator.cs
+          scope: punctuation.separator.parameter.function.cs
         - match: (\))\s*(=>)
           captures:
             1: meta.group.cs punctuation.section.group.end.cs
             2: storage.type.function.lambda.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
+            - match: '(?=;)'
+              pop: true
             - include: line_of_code_in
 
   member_variables_declaration:

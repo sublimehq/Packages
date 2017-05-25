@@ -965,6 +965,16 @@ namespace TestNamespace.Test
         {
         }
         
+        Func<string, bool, int> test = (a, b) => a.len();
+///                                    ^^^^^^^^^^^^^^^^^ meta.function.anonymous
+///                                    ^^^^^^ meta.group
+///                                     ^ variable.parameter
+///                                      ^ punctuation.separator.parameter.function
+///                                        ^ variable.parameter
+///                                           ^^ storage.type.function.lambda
+///                                                     ^ punctuation.terminator.statement
+///                                                      ^ - meta.function.anonymous
+
         goto abc;
 ///     ^^^^ keyword.control.flow.goto
 ///          ^^^ constant.other.label
