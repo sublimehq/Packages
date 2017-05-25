@@ -154,8 +154,9 @@ if (true)
 // <- comment.block punctuation.definition.comment
 */
 
-<!-- -->
-// <- comment.block.html punctuation.definition.comment
+x --> y;
+//^^ keyword.operator.arithmetic.js
+//  ^ keyword.operator.relational.js
 
 #! /usr/bin/env node
 // <- comment.line.shebang punctuation.definition.comment

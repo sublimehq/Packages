@@ -224,8 +224,6 @@ contexts:
       pop: true
 
   comments-top-level:
-    - match: (<!--|-->)
-      scope: comment.block.html.js punctuation.definition.comment.js
     - match: ^(#!).*$\n?
       scope: comment.line.shebang.js
       captures:

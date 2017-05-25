@@ -7,20 +7,23 @@
 <html>
     <head>
         <title>Test HTML</title>
-        <script type="text/javascript"><!--
+        <script type="text/javascript"> <!--
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
         ## ^ entity.name.tag.script - source.js.embedded.html
         ##            ^ string.quoted.double.html - source.js.embedded.html
-        ##                             ^ - meta.tag
+        ##                              ^^^^ comment.block.html punctuation.definition.comment.html
             var foo = 100;
             var baz = function() {
                 ## <- entity.name.function.js
             }
-        //--></script>
-        ## ^ source.js.embedded.html
-        ##     ^^^^^^ entity.name.tag.script.html
-        ##   ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
-        ##            ^ - meta.tag
+
+            (a --> b);
+            ## ^^^ source.js.embedded.html meta.group.js keyword.operator
+        --> </script>
+        ## <- comment.block.html punctuation.definition.comment.html
+        ##    ^^^^^^ entity.name.tag.script.html
+        ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
+        ##           ^ - meta.tag
         <style type="text/css">
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
         ## ^ entity.name.tag.style.html
