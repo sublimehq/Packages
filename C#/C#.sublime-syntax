@@ -1120,7 +1120,7 @@ contexts:
             2: punctuation.section.group.begin.cs
             3: punctuation.section.group.end.cs
             4: meta.braces.cs punctuation.section.braces.begin.cs
-          set: enumerable_constructor
+          set: initializer_constructor
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, arguments]
@@ -1271,8 +1271,11 @@ contexts:
 
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
-    - match: ''
+    - match: '(?=[^\s{])'
       pop: true
+    - match: '\{'
+      scope: punctuation.section.braces.begin.cs
+      set: initializer_constructor
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
@@ -1507,14 +1510,14 @@ contexts:
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
-  enumerable_constructor:
+  initializer_constructor:
     - meta_content_scope: meta.instance.cs meta.braces.cs
     - match: \}
       scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
       pop: true
     - match: \{
       scope: punctuation.section.braces.begin.cs
-      push: enumerable_constructor
+      push: initializer_constructor
     - match: ','
       scope: punctuation.separator.array-element.cs
     - match: (?=[^,\s{}])

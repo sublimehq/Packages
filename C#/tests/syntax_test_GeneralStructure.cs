@@ -829,6 +829,40 @@ namespace TestNamespace.Test
 ///                                            ^ punctuation.section.block.end
             };
 ///         ^ meta.instance meta.braces punctuation.section.braces.end
+
+            new System.Drawing.Point(6, 11) { X = 5, Y = 10 };
+///             ^^^^^^ support.type
+///                   ^ punctuation
+///                    ^^^^^^^ support.type
+///                           ^ punctuation
+///                            ^^^^^ support.type
+///                                 ^ punctuation.section.group.begin
+///                                  ^ constant.numeric
+///                                   ^ punctuation.separator.argument
+///                                     ^^ constant.numeric
+///                                       ^ punctuation.section.group.end
+///                                         ^ punctuation.section.braces.begin
+///                                           ^ variable.other
+///                                             ^ keyword.operator.assignment
+///                                               ^ constant.numeric
+///                                                ^ punctuation.separator
+///                                                  ^ variable.other
+///                                                    ^ keyword.operator.assignment
+///                                                      ^^ constant.numeric
+///                                                         ^ punctuation.section.braces.end
+///                                                          ^ punctuation.terminator.statement
+            new System.Drawing.Point(6, 11)
+                { X = 5, Y = 10 };
+///             ^ punctuation.section.braces.begin
+///               ^ variable.other
+///                 ^ keyword.operator.assignment
+///                   ^ constant.numeric
+///                    ^ punctuation.separator
+///                      ^ variable.other
+///                        ^ keyword.operator.assignment
+///                          ^^ constant.numeric
+///                             ^ punctuation.section.braces.end
+///                              ^ punctuation.terminator.statement
         }
 ///     ^ punctuation.section.block
 
