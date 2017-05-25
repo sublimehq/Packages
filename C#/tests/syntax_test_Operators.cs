@@ -72,3 +72,36 @@ A?.B?.C?[0] == E;
 condition ? first_expression : second_expression;
 ///       ^ keyword.operator.ternary
 ///                          ^ keyword.operator.ternary
+
+    ((Test.Example . State)item.State).ToString();
+///  ^^^^^^^^^^^^^^^^^^^^^^ meta.cast
+///  ^ punctuation.section.group.begin
+///                       ^ punctuation.section.group.end
+///                        ^^^^ variable.other - meta.cast
+///   ^^^^ support.type
+///       ^ punctuation.separator.namespace
+///        ^^^^^^^ support.type
+///                ^ punctuation.separator.namespace
+///                  ^^^^^ support.type
+
+    (int)test.example(abc);
+/// ^^^^^ meta.cast
+/// ^ punctuation.section.group.begin
+///     ^ punctuation.section.group.end
+///  ^^^ storage.type
+///      ^^^^ variable.other
+///          ^ punctuation.accessor.dot
+///           ^^^^^^^ meta.function-call variable.function
+///                  ^^^^^ meta.group - meta.cast
+///                  ^ punctuation.section.group.begin
+///                      ^ punctuation.section.group.end
+///                       ^ punctuation.terminator.statement
+
+    (string)((SomeClass)test).value;
+/// ^^^^^^^^ meta.cast
+///  ^^^^^^ storage.type
+///         ^ meta.group - meta.cast
+///          ^^^^^^^^^^^ meta.cast
+///           ^^^^^^^^^ support.type
+///                     ^^^^ variable.other
+///                         ^ meta.group - meta.cast
