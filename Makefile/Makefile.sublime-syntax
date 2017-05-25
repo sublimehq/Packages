@@ -112,7 +112,7 @@ contexts:
         - include: pop-on-line-end
     - match: ^\s*(vpath)$
       captures: keyword.control.vpath.makefile
-    - match: ^\s*({{include}})\b
+    - match: ^\s*({{include}})\s+
       captures:
         1: keyword.control.import.makefile
       push:
@@ -161,7 +161,7 @@ contexts:
             - include: continuation-or-pop-on-line-end
     - match: (?= *::?)
       set:
-        - match: ::?
+        - match: ::?\s*
           scope: keyword.operator.assignment.makefile
           set:
             - meta_content_scope: meta.function.arguments.makefile string.unquoted.makefile
@@ -387,7 +387,7 @@ contexts:
         - include: variable-substitutions
         - match: (\?|\+|::?)?=
           scope: keyword.operator.assignment.makefile
-          set: value-to-be-defined
+          set: [value-to-be-defined, eat-whitespace-then-pop]
     - match: (?={{var_lookahead}}|{{first_assign_then_colon}})
       push:
         - meta_content_scope: variable.other.makefile
@@ -403,10 +403,15 @@ contexts:
           set:
             - match: (!|\?|\+|::?)?=
               scope: keyword.operator.assignment.makefile
-              set: value-to-be-defined
+              set: [value-to-be-defined, eat-whitespace-then-pop]
             - include: variable-substitutions
             - include: continuation-or-pop-on-line-end
         - include: variable-substitutions
+
+  eat-whitespace-then-pop:
+    - clear_scopes: 1
+    - match: \s*
+      pop: true
 
   value-to-be-defined:
     - meta_content_scope: string.unquoted.makefile
@@ -423,17 +428,20 @@ contexts:
 
   inside-define-directive-context:
     - meta_content_scope: variable.other.makefile
-    - match: \s*(?=(!|\?|\+|::?)?=)
+    - match: \s*(?=(!|\?|\+|::?)?=\s*$\n)
       set:
-        - match: (!|\?|\+|::?)?=
-          scope: keyword.operator.assignment.makefile
+        - match: ((!|\?|\+|::?)?=)\s*$\n
+          captures:
+            1: keyword.operator.assignment.makefile
           set:
             - meta_content_scope: string.unquoted.makefile
             - match: ^\s*(endef)
               captures:
                 1: keyword.control.makefile
               pop: true
-    - match: $
+    # Need to eat the actual newline character in order to start the
+    # string.unquoted scope on the next line.
+    - match: $\n
       set:
         - meta_content_scope: string.unquoted.makefile
         - match: ^\s*(endef)

@@ -6,6 +6,7 @@
 
 P = Hello
 # <- variable.other
+#  ^ - string.unquoted
 # ^ keyword.operator.assignment
 #   ^^^^^ string
 FOO = $P
@@ -34,6 +35,7 @@ bar := $(foo:.o=.c)
 bar := $(foo:%.o=%.c)
 # <- variable
 #   ^^ keyword
+#     ^ - string.unquoted
 #      ^^ keyword.other.block.begin
 #           ^ punctuation
 #            ^ variable.language
@@ -44,6 +46,7 @@ bar := $(foo:%.o=%.c)
 bar := ${foo:%.o=%.c}
 # <- variable
 #   ^^ keyword
+#     ^ - string.unquoted
 #      ^^ keyword.other.block.begin
 #           ^ punctuation
 #            ^ variable.language
@@ -52,6 +55,8 @@ bar := ${foo:%.o=%.c}
 #                   ^ keyword.other.block.end
 
 foo = bar # a comment
+#    ^ - string.unquoted
+#        ^ string.unquoted
 #         ^ comment.line punctuation - string.unquoted
 
 #################################
@@ -74,7 +79,7 @@ $(dir)_sources := $(wildcard $(dir)/*.c)
 #                                   ^ variable.language.wildcard
 #                                      ^ keyword.other.block.end
 define $(dir)_print =
-# ^ keyword.control.makefile
+# ^ keyword.control
 #      ^^ keyword.other.block.begin
 #           ^ keyword.other.block.end
 #                   ^ keyword.operator.assignment
@@ -121,16 +126,31 @@ override variable = value
 override variable := value
 override variable += more text
 override CFLAGS += -g
+override define foo
+# <-keyword
+#        ^ keyword
+#               ^ variable.other
+#                  ^ - string.unquoted
+asdf
+# <- string.unquoted
+endef
+# <- keyword
 override define foo =
+# <- keyword
+#        ^ keyword
+#               ^ variable.other
 #                   ^ keyword.operator.assignment
+#                    ^ - string
 bar
 endef
 override define foo ?=
 #                   ^^ keyword.operator.assignment
+#                     ^ - string
 bar
 endef
 override define foo :=
 #                   ^^ keyword.operator.assignment
+#                     ^ - string
 bar
 endef
 # ^ keyword.control
@@ -146,6 +166,7 @@ prog : CFLAGS = -g
 #    ^ keyword.operator
 #      ^ variable - string
 #             ^ keyword
+#              ^ - string
 #               ^^ string - meta.function.arguments
 
 #########################################
@@ -154,8 +175,14 @@ prog : CFLAGS = -g
 
 lib/%.o: CFLAGS := -fPIC -g
 #      ^ keyword.operator
+#                 ^ - string
+#                  ^ string
+#                          ^ - string
 %.o: CFLAGS := -g
 #  ^ keyword.operator
+#             ^ - string
+#              ^^ string
+#                ^ - string
 
 # Line comment
 # <- comment
@@ -169,6 +196,8 @@ ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 #                                                         ^^^ variable.language.automatic
     include $(MAKEFILE_PATH)Makefile.Defs
     # <- keyword.control
+    #      ^ - string
+    #       ^ string
     # IMPORTANT NOTE: Extra spaces are allowed and ignored at the beginning of 
     # the line, but the first character must not be a tab (or the value of 
     # .RECIPEPREFIX) — if the line begins with a tab, it will be considered a 
@@ -179,17 +208,20 @@ endif
 a_objects := a.o b.o c.o
 # ^ variable.other.makefile
 #         ^^ keyword.operator.assignment
-#           ^^^^^^^^^^^^ string
+#            ^^^^^^^^^^^ string
 1_objects := 1.o 2.o 3.o
 # ^^^^^^^ variable.other
 #         ^^ keyword.operator.assignment
-#           ^^^^^^^^^^^^ string.unquoted
+#            ^^^^^^^^^^^ string.unquoted
 
 # This is NOT the start of a rule...
 	# A comment with a tab and with a : colon
 	# <- comment.line - meta.function - entity.name.function
 
 all: foo.o
+#   ^ - string
+#    ^ string
+#         ^ - string
     ld a
     ar b
     asdf
@@ -209,7 +241,10 @@ all: foo.o
 all: foo.o # a comment
 # <- meta.function entity.name.function
 #  ^ keyword.operator.assignment
+#   ^ - string
+#    ^ string
 #        ^ meta.function.arguments string.unquoted
+#         ^ string
 #          ^ comment.line. punctuation - meta.function.arguments - string.unquoted 
 #           ^ comment.line - punctuation - meta.function.arguments - string.unquoted
 	rm -rf /
