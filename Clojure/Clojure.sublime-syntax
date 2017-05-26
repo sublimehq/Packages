@@ -541,7 +541,7 @@ contexts:
         - include: symbol_java_inherited_class
         - include: all
   keyword:
-    - match: '(?<![*+!_?\-])\b((if-not|if|cond|do|let|loop|recur|throw|try|catch|finally|new|trampoline)\b|(set!|swap!|compare-and-set!))(?![*+!_?\-])'
+    - match: '(?<![*+!_?\-])\b((if-not|if|cond|do|let|loop|recur|throw|try|catch|finally|new|trampoline)\b|(set!|swap!|compare-and-set!|reset!))(?![*+!_?\-])'
       scope: keyword.control.clojure
     - match: '(?<![*+!_?\-])\b(monitor-enter|monitor-exit|assoc|touch|drop|take|concat|prn|into|cons|first|flatten|rest|frest|rrest|second|lazy-cat|lazy-cons|conj|await|range|iterate)\b(?![*+!_?\-])'
       scope: keyword.other.clojure
@@ -559,7 +559,7 @@ contexts:
         2: keyword.other.mark.clojure
         3: keyword.other.mark.clojure
         4: keyword.other.mark.clojure
-    - match: '(?<![*+!_?\-])\b(zipper|zipmap|xml-zip|xml-seq|with-meta|vector-zip|vector|vec|var-set|var-get|vals|val|use|update-proxy|update-in|up|union|underive|unchecked-subtract|unchecked-negate|unchecked-multiply|unchecked-inc|unchecked-divide|unchecked-dec|unchecked-add|tree-seq|to-array-2d|to-array|test|take-while|take-nth|symbol|supers|subvec|subseq|subs|struct-map|struct|str|split-with|split-at|sorted-set|sorted-map-by|sorted-map|sort-by|sort|some|slurp|shutdown-agents|short|set-validator|set|seque|seq-zip|seq|send-off|send|select-keys|select|rsubseq|rseq|root|rights|right|rfirst|reverse|resultset-seq|resolve|require|replicate|replace|repeatedly|repeat|rename-keys|rename|remove-ns|remove|rem|refer|ref-set|ref|reduce|read-string|read-line|read|re-seq|re-pattern|re-matches|re-matcher|re-groups|re-find|rationalize|rand-int|rand|quot|pvec|psummary|psort|proxy-mappings|project|prn-str|println-str|println|printf|print-str|print|preduce|pr-str|pr|pop|pmin|pmax|pmap|pfilter-nils|pfilter-dupes|peek|pdistinct|path|partition|partial|parse|parents|par|pany|num|nthrest|nth|ns-unmap|ns-unalias|ns-resolve|ns-refers|ns-publics|ns-name|ns-map|ns-interns|ns-imports|ns-aliases|not=|not-empty|not|node|next|newline|namespace|name|min-key|min|meta|merge-with|merge|max-key|max|matchexpand-1|matchexpand|mapcat|map-invert|map|make-node|make-hierarchy|make-array|long-array|long|loaded-libs|load-string|load-reader|load-file|load|list*|list|line-seq|lefts|left|last|keyword|keys|key|join|iterator-seq|into-array|intersection|interpose|interleave|int-array|int|inspect-tree|inspect-table|insert-right|insert-left|insert-child|index|inc|in-ns|import|identity|hash-set|hash-map|hash|get-validator|get-proxy-class|get-in|get|gensym|gen-class|gen-interface|gen-and-save-class|gen-and-load-class|format|force|fnseq|flush|float-array|float|find-var|find-ns|find-doc|find|filter|file-seq|ffirst|eval|enumeration-seq|ensure|empty|edit|drop-while|drop-last|down|double-array|double|dorun|doall|distinct|dissoc|disj|difference|descendants|derive|deref|dec|cycle|create-struct|create-ns|count|construct-proxy|constantly|conj|complement|compare|comparator|comp|commute|clojure.set|clojure.parallel|clojure.inspector|clear-agent-errors|class|children|char|cast|cache-seq|byte|butlast|boolean|bit-xor|bit-test|bit-shift-right|bit-shift-left|bit-set|bit-or|bit-not|bit-flip|bit-clear|bit-and-not|bit-and|bigint|bigdec|bean|bases|await-for|assoc-in|aset-short|aset-long|aset-int|aset-float|aset-double|aset-char|aset-byte|aset-boolean|aset|array-map|apply|append-child|ancestors|alter-var-root|alter|all-ns|alias|alength|aget|agent-errors|agent|add-classpath|aclone|accessor|compile|longs|doubles|ints|floats|atom)\b(?![*+!_?\-])'
+    - match: '(?<![*+!_?\-])\b(zipper|zipmap|xml-zip|xml-seq|with-meta|vector-zip|vector|vec|var-set|var-get|vals|val|use|update-proxy|update-in|up|union|underive|unchecked-subtract|unchecked-negate|unchecked-multiply|unchecked-inc|unchecked-divide|unchecked-dec|unchecked-add|tree-seq|to-array-2d|to-array|test|take-while|take-nth|symbol|supers|subvec|subseq|subs|struct-map|struct|str|split-with|split-at|spit|sorted-set|sorted-map-by|sorted-map|sort-by|sort|some|slurp|shutdown-agents|short|set-validator|set|seque|seq-zip|seq|send-off|send|select-keys|select|rsubseq|rseq|root|rights|right|rfirst|reverse|resultset-seq|resolve|require|replicate|replace|repeatedly|repeat|rename-keys|rename|remove-ns|remove|rem|refer|ref-set|ref|reduce|read-string|read-line|read|re-seq|re-pattern|re-matches|re-matcher|re-groups|re-find|rationalize|rand-int|rand|quot|pvec|psummary|psort|proxy-mappings|project|prn-str|println-str|println|printf|print-str|print|preduce|pr-str|pr|pop|pmin|pmax|pmap|pfilter-nils|pfilter-dupes|peek|pdistinct|path|partition|partial|parse|parents|par|pany|num|nthrest|nth|ns-unmap|ns-unalias|ns-resolve|ns-refers|ns-publics|ns-name|ns-map|ns-interns|ns-imports|ns-aliases|not=|not-empty|not|node|next|newline|namespace|name|min-key|min|meta|merge-with|merge|max-key|max|matchexpand-1|matchexpand|mapcat|map-invert|map|make-node|make-hierarchy|make-array|long-array|long|loaded-libs|load-string|load-reader|load-file|load|list*|list|line-seq|lefts|left|lazy-seq|last|keyword|keys|key|join|iterator-seq|into-array|intersection|interpose|interleave|int-array|int|inspect-tree|inspect-table|insert-right|insert-left|insert-child|index|inc|in-ns|import|identity|hash-set|hash-map|hash|get-validator|get-proxy-class|get-in|get|gensym|gen-class|gen-interface|gen-and-save-class|gen-and-load-class|format|force|fnseq|flush|float-array|float|find-var|find-ns|find-doc|find|filter|file-seq|ffirst|eval|enumeration-seq|ensure|empty|edit|drop-while|drop-last|down|double-array|double|dorun|doall|distinct|dissoc|disj|difference|descendants|derive|deref|dec|cycle|create-struct|create-ns|count|construct-proxy|constantly|conj|complement|compare|comparator|comp|commute|clojure.set|clojure.parallel|clojure.inspector|clear-agent-errors|class|children|char|cast|cache-seq|byte|butlast|boolean|bit-xor|bit-test|bit-shift-right|bit-shift-left|bit-set|bit-or|bit-not|bit-flip|bit-clear|bit-and-not|bit-and|bigint|bigdec|bean|bases|await-for|assoc-in|aset-short|aset-long|aset-int|aset-float|aset-double|aset-char|aset-byte|aset-boolean|aset|array-map|apply|append-child|ancestors|alter-var-root|alter|all-ns|alias|alength|aget|agent-errors|agent|add-classpath|aclone|accessor|compile|longs|doubles|ints|floats|atom)\b(?![*+!_?\-])'
       scope: support.function.clojure
     - match: '(?<![*+!_?\-])\b(true|false|nil)\b(?![*+!_?\-])'
       scope: constant.language.clojure
@@ -666,7 +666,7 @@ contexts:
             - include: symbol
         - include: namespace_body
   namespace_body:
-    - match: '(:refer-clojure|:require|:use|:import|:load|:exclude|:as|:only)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(:refer(-clojure)?|:require|:use|:import|:load|:exclude|:as|:only)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
       scope: support.other.keyword.namespace.clojure
     - match: \(\s*(:gen-class)
       captures:
@@ -947,7 +947,7 @@ contexts:
               pop: true
             - include: all
         - include: all
-    - match: (?<=\()\s*(((set|swap|compare-and-set)(\!))\s+)
+    - match: (?<=\()\s*(((set|swap|compare-and-set|reset)(\!))\s+)
       captures:
         2: keyword.control.clojure
         3: keyword.other.mark.clojure
@@ -1035,6 +1035,12 @@ contexts:
         - meta_scope: constant.string.symbol.clojure
         - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
           pop: true
+        - include: symbol
+    - match: '('')(?=[a-zA-Z+!\-_?0-9*/.$=])'
+      captures:
+        1: keyword.operator.symbol.clojure
+      push:
+        - meta_scope: constant.string.symbol.clojure
         - include: symbol
     - match: '#"'
       scope: punctuation.definition.string.begin.clojure
