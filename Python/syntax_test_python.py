@@ -1065,6 +1065,13 @@ result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
 
+t = (*tuple(), *[1, 2], 3*1)
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#    ^ keyword.operator.arithmetic.python
+#     ^^^^^ support.type.python
+#              ^ keyword.operator.unpacking.sequence.python
+#                        ^ keyword.operator.arithmetic.python
+
 l = [1 * 2, 2**10, *result]
 #      ^ keyword.operator.arithmetic.python
 #            ^^ keyword.operator.arithmetic.python
