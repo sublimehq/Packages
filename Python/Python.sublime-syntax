@@ -885,16 +885,18 @@ contexts:
         2: punctuation.section.sequence.end.python
     - match: \[
       scope: punctuation.section.sequence.begin.python
-      push:
-        - meta_scope: meta.sequence.python
-        - match: \]
-          scope: punctuation.section.sequence.end.python
-          set: after-expression
-        - match: ','
-          scope: punctuation.separator.sequence.python
-          push: allow-unpack-operators
-        - include: inline-for
-        - include: expressions
+      push: [inside-list, allow-unpack-operators]
+
+  inside-list:
+    - meta_scope: meta.sequence.python
+    - match: \]
+      scope: punctuation.section.sequence.end.python
+      set: after-expression
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      push: allow-unpack-operators
+    - include: inline-for
+    - include: expressions
 
   dictionaries-and-sets:
     # Dictionaries and set literals use the same punctuation,

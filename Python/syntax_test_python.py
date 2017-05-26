@@ -1063,6 +1063,9 @@ l = [1 * 2, 2**10, *result]
 #            ^^ keyword.operator.arithmetic.python
 #                  ^ keyword.operator.unpacking.sequence.python
 
+l = [*l]
+#    ^ keyword.operator.unpacking.sequence.python
+
 d = {1: 3**4, **dict_}
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
