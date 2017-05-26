@@ -925,7 +925,7 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping.python meta.mapping.python
 #        ^ punctuation.section.mapping.begin
 #         ^^^^^ meta.mapping.key.python string.quoted.double
-#              ^ punctuation.separator.mapping
+#              ^ punctuation.separator.mapping.key-value
 #                ^^^^ meta.mapping.value.python constant.language
 #                    ^ punctuation.separator.mapping
 #                      ^^^^ meta.mapping.key.python meta.qualified-name
@@ -960,7 +960,7 @@ mapping_or_set = {
 #                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
     1: True
 #   ^ meta.mapping.python meta.mapping.key.python constant.numeric.integer.decimal.python
-#    ^ punctuation.separator.mapping.python
+#    ^ punctuation.separator.mapping.key-value.python
 }
 # <- meta.mapping.python punctuation.section.mapping.end.python
 

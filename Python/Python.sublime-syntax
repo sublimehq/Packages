@@ -927,7 +927,7 @@ contexts:
           scope: punctuation.separator.set.python
           set: inside-set
         - match: ':'
-          scope: punctuation.separator.mapping.python
+          scope: punctuation.separator.mapping.key-value.python
           set: inside-directory-value
         - include: inline-for
         - include: expressions
@@ -938,7 +938,7 @@ contexts:
       scope: punctuation.section.mapping.end.python
       set: after-expression
     - match: ':'
-      scope: punctuation.separator.mapping.python
+      scope: punctuation.separator.mapping.key-value.python
       set: inside-directory-value
     - match: ','
       scope: invalid.illegal.expected-colon.python
