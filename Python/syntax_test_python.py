@@ -892,7 +892,7 @@ mytuple = ("this", 'is', 4, tuple)
 #                           ^^^^^ support.type
 #                                ^ punctuation.section.sequence.end
 also_a_tuple = ()
-#              ^^ meta.sequence.tuple.python
+#              ^^ meta.sequence.tuple.empty.python
 
 not_a_tuple = (a = 2, b += 3)
 #             ^^^^^^^^^^^^^^^ - meta.sequence
@@ -903,7 +903,7 @@ just_a_group = (1)
 #              ^^^ meta.group.python
 
 mylist = []
-#        ^^ meta.sequence.list.python
+#        ^^ meta.sequence.list.empty.python
 #        ^ punctuation.section.sequence.begin
 #         ^ punctuation.section.sequence.end
 
@@ -923,7 +923,7 @@ mylist = [1, "testing", ["sublist", True]]
 #                                        ^ punctuation.section.sequence.end
 
 mydict = {}
-#        ^^ meta.mapping meta.empty-dictionary
+#        ^^ meta.mapping.empty.python
 #        ^ punctuation.section.mapping.begin
 #         ^ punctuation.section.mapping.end
 
@@ -959,7 +959,7 @@ myset = {"key", True, key2, [-1], {}:1}
 #                           ^^^^ meta.sequence
 #                             ^ constant.numeric
 #                               ^ punctuation.separator.set
-#                                 ^^ meta.mapping meta.empty-dictionary
+#                                 ^^ meta.mapping.empty.python
 #                                   ^ invalid.illegal.colon-inside-set.python
 #                                     ^ punctuation.section.set.end.python
 

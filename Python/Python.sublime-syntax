@@ -882,7 +882,7 @@ contexts:
     # We don't know for certain, whether a parenthesized expression is a tuple,
     # so try looking ahead.
     - match: (\()\s*(\))
-      scope: meta.sequence.tuple.python meta.empty-tuple.python
+      scope: meta.sequence.tuple.empty.python
       captures:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
@@ -905,7 +905,7 @@ contexts:
 
   lists:
     - match: (\[)\s*(\])
-      scope: meta.sequence.list.python meta.empty-list.python
+      scope: meta.sequence.list.empty.python
       captures:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
@@ -928,7 +928,7 @@ contexts:
     # Dictionaries and set literals use the same punctuation,
     # so we try looking ahead to determine whether we have a dict or a set.
     - match: '(\{)\s*(\})'
-      scope: meta.mapping.python meta.empty-dictionary.python
+      scope: meta.mapping.empty.python
       captures:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
