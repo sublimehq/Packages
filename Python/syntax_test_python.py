@@ -695,7 +695,7 @@ def func(args, (x, y)=(0,0)):
 #                          ^ meta.function.parameters.python
 #              ^^^^^^ meta.group.python
 #                    ^ - meta.group.python
-#                     ^^^^^ meta.group.python
+#                     ^^^^^ meta.sequence.tuple.python
 #                          ^ - meta.group.python
 #       ^ punctuation.section.parameters.begin.python
 #            ^ punctuation.separator.parameters.python
@@ -705,18 +705,18 @@ def func(args, (x, y)=(0,0)):
 #                  ^ variable.parameter.python
 #                   ^ punctuation.section.group.end.python
 #                    ^ keyword.operator.assignment.python
-#                     ^ punctuation.section.group.begin.python
+#                     ^ punctuation.section.sequence.begin.python
 #                      ^ constant.numeric.integer.decimal.python
-#                       ^ punctuation.separator.tuple.python
+#                       ^ punctuation.separator.sequence.python
 #                        ^ constant.numeric.integer.decimal.python
-#                         ^ punctuation.section.group.end.python
+#                         ^ punctuation.section.sequence.end.python
 #                          ^ punctuation.section.parameters.end.python
     pass
 
 def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                     ^^^^^^^^^^^^^^^^ meta.group.python
 #                                     ^^^ - meta.group.python
-#                                        ^^^^^^^^^^^^^^^^ meta.group.python
+#                                        ^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
 #                     ^ punctuation.section.group.begin.python
 #                      ^ variable.parameter.python
 #                       ^^^^^^^ invalid.illegal.annotation.python
@@ -725,8 +725,8 @@ def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                                 ^^^ invalid.illegal.default-value.python
 #                                    ^ punctuation.section.group.end.python
 #                                      ^ keyword.operator.assignment.python
-#                                        ^ punctuation.section.group.begin.python
-#                                                       ^ punctuation.section.group.end.python
+#                                        ^ punctuation.section.sequence.begin.python
+#                                                       ^ punctuation.section.sequence.end.python
     pass
 
 ##################
@@ -881,22 +881,29 @@ class AClass:
 ##################
 
 mytuple = ("this", 'is', 4, tuple)
-#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#         ^ punctuation.section.group.begin
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#         ^ punctuation.section.sequence.begin
 #          ^^^^^^ string.quoted.double
-#                ^ punctuation.separator.tuple
+#                ^ punctuation.separator.sequence
 #                  ^^^^ string.quoted.single
-#                      ^ punctuation.separator.tuple
+#                      ^ punctuation.separator.sequence
 #                        ^ constant.numeric
-#                         ^ punctuation.separator.tuple
+#                         ^ punctuation.separator.sequence
 #                           ^^^^^ support.type
-#                                ^ punctuation.section.group.end
+#                                ^ punctuation.section.sequence.end
+also_a_tuple = ()
+#              ^^ meta.sequence.tuple.python
+
 not_a_tuple = (a = 2, b += 3)
+#             ^^^^^^^^^^^^^^^ - meta.sequence
 #                ^ - keyword
 #                        ^ - keyword
 
+just_a_group = (1)
+#              ^^^ meta.group.python
+
 mylist = []
-#        ^^ meta.sequence.python
+#        ^^ meta.sequence.list.python
 #        ^ punctuation.section.sequence.begin
 #         ^ punctuation.section.sequence.end
 
@@ -930,13 +937,13 @@ mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
 #                    ^ punctuation.separator.mapping
 #                      ^^^^ meta.mapping.key.python meta.qualified-name
 #                          ^ punctuation.separator.mapping
-#                            ^^^^^^^^^^^^^^^^ meta.group
-#                            ^ punctuation.section.group.begin
+#                            ^^^^^^^^^^^^^^^^ meta.sequence.tuple
+#                            ^ punctuation.section.sequence.begin
 #                             ^ constant.numeric
 #                                ^ constant.numeric
-#                                   ^^^^^^^^ meta.sequence
+#                                   ^^^^^^^^ meta.sequence.list
 #                                      ^ punctuation.separator.sequence
-#                                           ^ punctuation.section.group.end
+#                                           ^ punctuation.section.sequence.end
 #                                            ^ punctuation.separator.mapping.python
 #                                              ^ invalid.illegal.expected-colon.python
 #                                               ^ punctuation.section.mapping.end - meta.mapping.key
@@ -1004,23 +1011,23 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^ meta.group.python
-#            ^^^^^^^^^^^ meta.group.python meta.group.python
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
-#           ^^ punctuation.section.group.begin.python
-#                      ^ punctuation.section.group.end.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#            ^^^^^^^^^^^ meta.sequence.tuple.python
+#           ^ punctuation.section.group.begin.python
+#            ^ punctuation.section.sequence.begin.python
+#                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
 #                                               ^ punctuation.section.group.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.python
-#        ^^^^^^^^^^^ meta.group.python
-#                   ^ - meta.group.python - meta.expression.generator.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
+#        ^^^^^^^^^^^ meta.sequence.tuple.python
+#                   ^ - meta.sequence.tuple.python - meta.expression.generator.python
 #       ^ punctuation.section.sequence.begin.python
-#        ^ punctuation.section.group.begin.python
-#                  ^ punctuation.section.group.end.python
+#        ^ punctuation.section.sequence.begin.python
+#                  ^ punctuation.section.sequence.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
@@ -1029,9 +1036,9 @@ list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
 #       ^ punctuation.section.mapping.begin.python
-#            ^^^^^^^ meta.group.python
-#            ^ punctuation.section.group.begin.python
-#                  ^ punctuation.section.group.end.python
+#            ^^^^^^^ meta.sequence.tuple.python
+#            ^ punctuation.section.sequence.begin.python
+#                  ^ punctuation.section.sequence.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python

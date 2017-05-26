@@ -328,6 +328,9 @@ contexts:
     - include: strings
     - include: function-calls
     - include: item-access
+    - include: lists
+    - include: dictionaries-and-sets
+    - include: tuples
     - include: groups
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
@@ -335,8 +338,6 @@ contexts:
       scope: invalid.illegal.stray.brace.square.python
     - match: \}
       scope: invalid.illegal.stray.brace.curly.python
-    - include: lists
-    - include: dictionaries-and-sets
     - include: line-continuation
 
   line-expressions: # Always include this last!
@@ -877,9 +878,34 @@ contexts:
         - include: inline-for
         - include: expressions
 
+  tuples:
+    # We don't know for certain, whether a parenthesized expression is a tuple,
+    # so try looking ahead.
+    - match: (\()\s*(\))
+      scope: meta.sequence.tuple.python meta.empty-tuple.python
+      captures:
+        1: punctuation.section.sequence.begin.python
+        2: punctuation.section.sequence.end.python
+    - match: \((?={{simple_expression}},|\s*\*{{path}})
+      scope: punctuation.section.sequence.begin.python
+      push: inside-tuple
+    # TODO generator
+    # - match: \((?:{{simple_expression}}for)
+
+  inside-tuple:
+    - meta_scope: meta.sequence.tuple.python
+    - match: \)
+      scope: punctuation.section.sequence.end.python
+      set: after-expression
+    - match: ','
+      scope: punctuation.separator.sequence.python
+      push: allow-unpack-operators
+    - include: inline-for
+    - include: expressions
+
   lists:
     - match: (\[)\s*(\])
-      scope: meta.sequence.python meta.empty-list.python
+      scope: meta.sequence.list.python meta.empty-list.python
       captures:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
@@ -888,7 +914,7 @@ contexts:
       push: [inside-list, allow-unpack-operators]
 
   inside-list:
-    - meta_scope: meta.sequence.python
+    - meta_scope: meta.sequence.list.python
     - match: \]
       scope: punctuation.section.sequence.end.python
       set: after-expression
