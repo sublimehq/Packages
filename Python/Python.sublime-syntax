@@ -46,6 +46,20 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+  # This can be used in look-aheads to parse simple expressions.
+  # Can't be recursive, because sregex doesn't support that,
+  # so we're skipping parentheses.
+  # Can't parse multiple lines as well, for obvious reasons
+  simple_expression: |-
+    (?x:
+      \s+                      # whitespace
+      | [urfb]*"(?:\\.|[^"])*" # strings
+      | [urfb]*'(?:\\.|[^'])*' # ^
+      | [\d.ej]+               # numerics
+      | [+*/%@-] | // | and | or # operators
+      | {{path}}               # a path
+    )*
+
 
 
 contexts:
@@ -864,45 +878,134 @@ contexts:
         - include: expressions
 
   lists:
-    - match: '(\[)(\s*(\]))\b'
+    - match: (\[)\s*(\])
+      scope: meta.sequence.python meta.empty-list.python
       captures:
-        1: punctuation.section.list.begin.python
-        2: meta.empty-list.python
-        3: punctuation.section.list.end.python
+        1: punctuation.section.sequence.begin.python
+        2: punctuation.section.sequence.end.python
     - match: \[
-      scope: punctuation.section.list.begin.python
+      scope: punctuation.section.sequence.begin.python
       push:
-        - meta_scope: meta.structure.list.python
+        - meta_scope: meta.sequence.python
         - match: \]
-          scope: punctuation.section.list.end.python
+          scope: punctuation.section.sequence.end.python
           set: after-expression
         - match: ','
-          scope: punctuation.separator.list.python
+          scope: punctuation.separator.sequence.python
           push: allow-unpack-operators
         - include: inline-for
         - include: expressions
 
   dictionaries-and-sets:
-    - match: '(\{)(\s*(\}))'
-      scope: meta.structure.dictionary.python
+    # Dictionaries and set literals use the same punctuation,
+    # so we try looking ahead to determine whether we have a dict or a set.
+    - match: '(\{)\s*(\})'
+      scope: meta.mapping.python meta.empty-dictionary.python
       captures:
-        1: punctuation.section.dictionary.begin.python
-        2: meta.empty-dictionary.python
-        3: punctuation.section.dictionary.end.python
+        1: punctuation.section.mapping.begin.python
+        2: punctuation.section.mapping.end.python
+    - match: \{(?={{simple_expression}}:|\s*\*\*{{path}})
+      scope: punctuation.section.mapping.begin.python
+      push: inside-dictionary
+    - match: \{(?={{simple_expression}}[,}]|\s*\*{{path}})
+      scope: punctuation.section.set.begin.python
+      push: inside-set
+    # If the expression is "more complex" or on the next line,
+    # fall back to default and determine later.
     - match: \{
-      scope: punctuation.section.dictionary-or-set.begin.python
+      scope: punctuation.section.mapping-or-set.begin.python
       push:
-        - meta_scope: meta.structure.dictionary-or-set.python
+        - meta_scope: meta.mapping-or-set.python
         - match: \}
-          scope: punctuation.section.dictionary-or-set.end.python
+          scope: punctuation.section.mapping-or-set.end.python
           set: after-expression
+        - match: (?={{simple_expression}}:|\s*\*\*{{path}})
+          set: inside-dictionary
+        - match: (?={{simple_expression}}[,}]|\s*\*{{path}})
+          set: inside-set
         - match: ','
-          scope: punctuation.separator.dictionary-or-set.python
-          push: allow-unpack-operators
+          scope: punctuation.separator.set.python
+          set: inside-set
         - match: ':'
-          scope: punctuation.separator.key-value.python
+          scope: punctuation.separator.mapping.python
+          set: inside-directory-value
         - include: inline-for
         - include: expressions
+
+  inside-dictionary:
+    - meta_scope: meta.mapping.python
+    - match: \}
+      scope: punctuation.section.mapping.end.python
+      set: after-expression
+    - match: ':'
+      scope: punctuation.separator.mapping.python
+      set: inside-directory-value
+    - match: ','
+      scope: invalid.illegal.expected-colon.python
+    - match: \*\*
+      scope: keyword.operator.unpacking.mapping.python
+      push:
+        - match: (?=\})
+          pop: true
+        - match: ','
+          scope: punctuation.separator.mapping.python
+          pop: true
+        - include: expressions
+    - include: comments
+    - match: (?=\S)
+      push:
+        - meta_scope: meta.mapping.key.python
+        - match: \s*(?=\}|,|:)
+          pop: true
+        - include: expressions
+
+  inside-directory-value:
+    - meta_content_scope: meta.mapping.python
+    - match: (?=\})
+      set: inside-dictionary
+    - match: (?=,)
+      set:
+        # clear meta scope from this match, because 'inside-directory' has it in meta_scope
+        - match: ','
+          scope: punctuation.separator.mapping.python
+          set: inside-dictionary
+    - match: (?=for)
+      push:
+        - meta_content_scope: meta.mapping.python
+        - match: (?=\})
+          pop: true
+        - match: ','
+          scope: invalid.illegal.unexpected-comma.python
+        - include: inline-for
+        - include: expressions
+    - include: comments
+    - match: (?=\S)
+      push:
+        - meta_content_scope: meta.mapping.value.python
+        - match: \s*(?=\}|,|for)
+          pop: true
+        - include: expressions
+
+  inside-set:
+    - meta_scope: meta.set.python
+    - match: \}
+      scope: punctuation.section.set.end.python
+      set: after-expression
+    - match: ':'
+      scope: invalid.illegal.colon-inside-set.python
+    - match: ','
+      scope: punctuation.separator.set.python
+    - match: \*
+      scope: keyword.operator.unpacking.sequence.python
+      push:
+        - match: (?=\})
+          pop: true
+        - match: ','
+          scope: punctuation.separator.set.python
+          pop: true
+        - include: expressions
+    - include: inline-for
+    - include: expressions
 
   builtin-exceptions:
     - match: |-

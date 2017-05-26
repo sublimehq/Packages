@@ -364,7 +364,7 @@ range(20)[10:2:-2]
 #                     ^^^ meta.item-access - meta.structure
 
 [1, 2, 3][2]
-#^^^^^^^^ meta.structure.list
+#^^^^^^^^ meta.sequence
 #        ^^^ meta.item-access - meta.structure
 
 {True: False}.get(True)
@@ -491,23 +491,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.list.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.list
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.list.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as [
-#      ^ punctuation.section.list.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.list
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ]:
-#   ^ punctuation.section.list.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     async with context_manager() as c:
@@ -896,59 +896,77 @@ not_a_tuple = (a = 2, b += 3)
 #                        ^ - keyword
 
 mylist = []
-#        ^^ meta.structure.list.python
-#        ^ punctuation.section.list.begin
-#         ^ punctuation.section.list.end
+#        ^^ meta.sequence.python
+#        ^ punctuation.section.sequence.begin
+#         ^ punctuation.section.sequence.end
 
 mylist = [1, "testing", ["sublist", True]]
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#        ^ punctuation.section.list.begin
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
+#        ^ punctuation.section.sequence.begin
 #         ^ constant.numeric
-#          ^ punctuation.separator.list
+#          ^ punctuation.separator.sequence
 #            ^^^^^^^^^ string.quoted.double
 #                     ^ punctuation.separator
-#                       ^^^^^^^^^^^^^^^^^ meta.structure.list meta.structure.list
-#                       ^ punctuation.section.list.begin
+#                       ^^^^^^^^^^^^^^^^^ meta.sequence meta.sequence
+#                       ^ punctuation.section.sequence.begin
 #                        ^^^^^^^^^ string.quoted.double
-#                                 ^ punctuation.separator.list
+#                                 ^ punctuation.separator.sequence
 #                                   ^^^^ constant.language
-#                                       ^ punctuation.section.list.end
-#                                        ^ punctuation.section.list.end
+#                                       ^ punctuation.section.sequence.end
+#                                        ^ punctuation.section.sequence.end
 
 mydict = {}
-#        ^^ meta.structure.dictionary
-#        ^ punctuation.section.dictionary.begin
-#         ^ punctuation.section.dictionary.end
+#        ^^ meta.mapping meta.empty-dictionary
+#        ^ punctuation.section.mapping.begin
+#         ^ punctuation.section.mapping.end
 
 key2 = "my_key"
-mydict = {"key": True, key2: (1, 2, [-1, -2])}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^ string.quoted.double
-#              ^ punctuation.separator.key-value
-#                ^^^^ constant.language
-#                    ^ punctuation.separator.dictionary-or-set
-#                          ^ punctuation.separator.key-value
+mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping.python meta.mapping.python
+#        ^ punctuation.section.mapping.begin
+#         ^^^^^ meta.mapping.key.python string.quoted.double
+#              ^ punctuation.separator.mapping
+#                ^^^^ meta.mapping.value.python constant.language
+#                    ^ punctuation.separator.mapping
+#                      ^^^^ meta.mapping.key.python meta.qualified-name
+#                          ^ punctuation.separator.mapping
 #                            ^^^^^^^^^^^^^^^^ meta.group
 #                            ^ punctuation.section.group.begin
 #                             ^ constant.numeric
 #                                ^ constant.numeric
-#                                   ^^^^^^^ meta.structure.list
-#                                      ^ punctuation.separator.list
+#                                   ^^^^^^^^ meta.sequence
+#                                      ^ punctuation.separator.sequence
 #                                           ^ punctuation.section.group.end
-#        ^ punctuation.section.dictionary-or-set.begin
-#                                            ^ punctuation.section.dictionary-or-set.end
+#                                            ^ punctuation.separator.mapping.python
+#                                              ^ invalid.illegal.expected-colon.python
+#                                               ^ punctuation.section.mapping.end - meta.mapping.key
 
-myset = {"key", True, key2, [-1], {}}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+myset = {"key", True, key2, [-1], {}:1}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
+#       ^ punctuation.section.set.begin.python
 #        ^^^^^ string.quoted.double
-#             ^ punctuation.separator.dictionary-or-set
+#             ^ punctuation.separator.set
 #               ^^^^ constant.language
-#                   ^ punctuation.separator.dictionary-or-set
-#                         ^ punctuation.separator.dictionary-or-set
-#                           ^^^^ meta.structure.list
+#                   ^ punctuation.separator.set
+#                         ^ punctuation.separator.set
+#                           ^^^^ meta.sequence
 #                             ^ constant.numeric
-#                               ^ punctuation.separator.dictionary-or-set
-#                                 ^^ meta.structure.dictionary
+#                               ^ punctuation.separator.set
+#                                 ^^ meta.mapping meta.empty-dictionary
+#                                   ^ invalid.illegal.colon-inside-set.python
+#                                     ^ punctuation.section.set.end.python
+
+mapping_or_set = {
+#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+    1: True
+#   ^ meta.mapping.python meta.mapping.key.python constant.numeric.integer.decimal.python
+#    ^ punctuation.separator.mapping.python
+}
+# <- meta.mapping.python punctuation.section.mapping.end.python
+
+complex_mapping = {(): "value"}
+#                 ^^^ meta.mapping-or-set.python
+#                    ^^^^^^^^^^ meta.mapping.python - meta.mapping-or-set
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -956,22 +974,26 @@ generator = (i for i in range(100))
 #              ^^^ keyword.control.flow.for.generator
 #                    ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100)]
-#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
 #          ^^^ keyword.control.flow.for.generator
 #                ^^ keyword.control.flow.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
 #         ^^^^^^^^ meta.expression.generator
 #         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#        ^ meta.mapping.key.python
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.key.python
+#           ^ meta.mapping.value.python
+#            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
 #             ^^^^^^^^ meta.expression.generator
 #             ^^^ keyword.control.flow.for.generator
 #                   ^^ keyword.control.flow.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
 #                              ^^ keyword.control.flow.if.inline
 #                                       ^^^^ keyword.control.flow.else.inline
@@ -993,27 +1015,27 @@ generator = ((k1, k2, v) for ((k1, k2), v) in xs)
 #                                               ^ punctuation.section.group.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.python
 #        ^^^^^^^^^^^ meta.group.python
 #                   ^ - meta.group.python - meta.expression.generator.python
-#       ^ punctuation.section.list.begin.python
+#       ^ punctuation.section.sequence.begin.python
 #        ^ punctuation.section.group.begin.python
 #                  ^ punctuation.section.group.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
-#                                           ^ punctuation.section.list.end.python
+#                                           ^ punctuation.section.sequence.end.python
 
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set.python
-#       ^ punctuation.section.dictionary-or-set.begin.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
+#       ^ punctuation.section.mapping.begin.python
 #            ^^^^^^^ meta.group.python
 #            ^ punctuation.section.group.begin.python
 #                  ^ punctuation.section.group.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
-#                                           ^ punctuation.section.dictionary-or-set.end.python
+#                                           ^ punctuation.section.mapping.end.python
 
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator
@@ -1045,6 +1067,24 @@ d = {1: 3**4, **dict_}
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
 
+d = {**d, **dict()}
+#   ^^^^^^^^^^^^^^^ meta.mapping.python
+#    ^^^ - meta.mapping.key
+#    ^^ keyword.operator.unpacking.mapping.python
+#      ^ meta.qualified-name.python
+#       ^ punctuation.separator.mapping.python
+#         ^^^^^^^^ - meta.mapping.key
+#         ^^ keyword.operator.unpacking.mapping.python
+#           ^^^^ support.type.python
+
+s = {*d, *set()}
+#   ^^^^^^^^^^^^ meta.set.python
+#    ^ keyword.operator.unpacking.sequence.python
+#     ^ meta.qualified-name.python
+#      ^ punctuation.separator.set.python
+#        ^ keyword.operator.unpacking.sequence.python
+#         ^^^ support.type.python
+
 generator = (
     i
     for
@@ -1054,6 +1094,7 @@ generator = (
 #   ^^ keyword.control.flow.for.in
     range(100)
 )
+
 
 ##################
 # Exception handling
@@ -1247,7 +1288,7 @@ x = [
 for x in y:
     break
 #   ^^^^^ invalid.illegal.name
-#        ^ - meta.structure.list
+#        ^ - meta.sequence
 
 
 with open(x) as y:
@@ -1285,3 +1326,7 @@ class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
 #                                   ^ keyword.operator.assignment
+
+
+# <- - meta
+# ensure we're not leaking a context
