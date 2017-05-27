@@ -193,9 +193,9 @@ lib/%.o: CFLAGS := -fPIC -g
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control
 #       ^ variable.function
-#                     ^^ variable.other keyword.other.block.begin
-#                       ^^^^^^^^^^^^^ variable.other
-#                                    ^ variable.other keyword.other.block.end
+#                     ^^ variable.parameter keyword.other.block.begin
+#                       ^^^^^^^^^^^^^ variable.parameter
+#                                    ^ variable.parameter keyword.other.block.end
 #                                                         ^^^ variable.language.automatic
     include $(MAKEFILE_PATH)Makefile.Defs
     # <- keyword.control
@@ -209,7 +209,7 @@ endif
 # <- keyword.control
 
 a_objects := a.o b.o c.o
-# ^ variable.other.makefile
+# ^ variable.other
 #         ^^ keyword.operator.assignment
 #            ^^^^^^^^^^^ string
 1_objects := 1.o 2.o 3.o
@@ -281,8 +281,8 @@ OBJECTS=$(SOURCES:.cpp=.o)
 #<- variable.other
 #      ^ keyword.operator.assignment
 #       ^^ string.unquoted keyword.other.block.begin
-#                ^ string.unquoted variable.other punctuation.definition.substitution
-#                     ^ string.unquoted variable.other punctuation.definition
+#                ^ string.unquoted variable.parameter punctuation.definition.substitution
+#                     ^ string.unquoted variable.parameter punctuation.definition
 #                        ^ string.unquoted keyword.other.block.end
 EXECUTABLE=hello
 
@@ -299,12 +299,12 @@ lib: foo.o bar.o lose.o win.o
 all: $(SOURCES) $(EXECUTABLE)
 #<- entity.name.function
 #  ^ keyword.operator.assignment
-#    ^^ variable.other keyword.other.block.begin
-#      ^^^^^^^ variable.other
-#             ^ variable.other keyword.other.block.end
-#               ^^ variable.other keyword.other.block.begin
-#                 ^^^^^^^^^^ variable.other
-#                           ^ variable.other keyword.other.block.end
+#    ^^ variable.parameter keyword.other.block.begin
+#      ^^^^^^^ variable.parameter
+#             ^ variable.parameter keyword.other.block.end
+#               ^^ variable.parameter keyword.other.block.begin
+#                 ^^^^^^^^^^ variable.parameter
+#                           ^ variable.parameter keyword.other.block.end
 
 export FOO=foo
 # ^ keyword.control
@@ -334,10 +334,10 @@ reverse = $(2) $(1)
 # <- variable.other
 #       ^ keyword.operator.assignment
 #         ^^ keyword.other.block.begin
-#           ^ string.unquoted variable.other
+#           ^ string.unquoted variable.parameter
 #             ^ string.unquoted
 #              ^^ keyword.other.block.begin
-#                ^ string.unquoted variable.other
+#                ^ string.unquoted variable.parameter
 #                 ^ keyword.other.block.end
 
 foo = $(call reverse,a,b)
@@ -355,7 +355,7 @@ pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
 #                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call variable.function
 #                                               ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments
 #                                                ^^ keyword.other.block.begin
-#                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other
+#                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter
 #                                                   ^ keyword.other.block.end
 #                                                    ^ punctuation.separator
 #                                                     ^^ keyword.other.block.begin
@@ -365,8 +365,8 @@ pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
 #                                                               ^ string.unquoted
 #                                                                ^ punctuation.separator
 #                                                                 ^^ keyword.other.block.begin
-#                                                                   ^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other
-#                                                                       ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other keyword.other.block.end
+#                                                                   ^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter
+#                                                                       ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter keyword.other.block.end
 #                                                                        ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
 #                                                                         ^ meta.function-call.arguments meta.function-call.arguments keyword.other.block.end
 #                                                                          ^ meta.function-call.arguments keyword.other.block.end
@@ -379,36 +379,36 @@ LS := $(call pathsearch,ls)
 
 sinclude $(MAKEFILE_PATH)Makefile.Defs
 # <- keyword.control.import
-#        ^ string.unquoted variable.other keyword.other.block.begin
-#          ^ string.unquoted variable.other
-#                       ^ string.unquoted variable.other keyword.other.block.end
+#        ^ string.unquoted variable.parameter keyword.other.block.begin
+#          ^ string.unquoted variable.parameter
+#                       ^ string.unquoted variable.parameter keyword.other.block.end
 
 
 CC=g++
-# <- variable.other.makefile
-# ^ keyword.operator.assignment.makefile
-#  ^ string.unquoted.makefile
+# <- variable.other
+# ^ keyword.operator.assignment
+#  ^ string.unquoted
 SOURCES=main.cpp
 SOURCES+=hello.cpp
-# <- variable.other.makefile
-#      ^ keyword.operator.assignment.makefile
-#        ^ string.unquoted.makefile
+# <- variable.other
+#      ^ keyword.operator.assignment
+#        ^ string.unquoted
 
 EXECUTABLE=hello
 
 OBJECTS=$(SOURCES:.cpp=.o)
-#         ^ string.unquoted.makefile variable.other.makefile
+#         ^ string.unquoted.makefile variable.parameter.makefile
 
 all: $(SOURCES) hello.o
 # <- entity.name.function.makefile
 #    ^ keyword.other.block.begin
-#      ^ variable.other.makefile
+#      ^ variable.parameter.makefile
 
 $(EXECUTABLE): $(OBJECTS)
 # <- keyword.other.block.begin
-# ^ variable.other.makefile
+# ^ variable.parameter.makefile
 #              ^ keyword.other.block.begin
-#                ^ variable.other.makefile
+#                ^ variable.parameter.makefile
 	@$(CC) $(LDFLAGS) $(OBJECTS) -o $@
 	# <- constant.language
 	#                               ^^ variable.language.automatic
@@ -479,10 +479,10 @@ endif
 # ^ keyword.control
 
 a_percentage_%_sign := $(SOME_C%MPLEX:SUBSTITUTI%N)
-#            ^variable.other - variable.language
-#                              ^ string.unquoted variable.other variable.language
+#            ^ variable.other - variable.language
+#                              ^ string.unquoted variable.parameter variable.language
 #                                    ^ punctuation
-#                                               ^ string.unquoted variable.other variable.language
+#                                               ^ string.unquoted variable.parameter variable.language
 
 %.cpp: %.o
 # <- meta.function entity.name.function variable.language
@@ -578,7 +578,7 @@ $(a:b=c) : d
 	#                    ^^ meta.function.body variable.language.automatic
 
 $(X:a=b) : w ;
-# <- meta.function entity.name.function variable.other keyword.other.block.begin
+# <- meta.function entity.name.function variable.parameter keyword.other.block.begin
 #        ^ keyword.operator
 #          ^ meta.function.arguments string.unquoted
 #           ^ - string.unquoted
@@ -729,7 +729,7 @@ revision.tex: $(VCSTURD)
     /bin/echo '\newcommand{\Revision}'"{$(subst _,\_,$(REVISION))}" > $@
     #           ^ - invalid.illegal
     #                                     ^ meta.function-call.makefile
-    #                                                ^^ meta.function.body meta.function-call.arguments variable.other
+    #                                                ^^ meta.function.body meta.function-call.arguments variable.parameter
 AUXFILES += revision.aux
 endif
 

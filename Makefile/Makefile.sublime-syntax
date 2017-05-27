@@ -474,7 +474,7 @@ contexts:
     - match: \$\$?\(
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.other.makefile
+        - meta_scope: variable.parameter.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
           pop: true
@@ -482,7 +482,7 @@ contexts:
     - match: \$\$?{
       scope: keyword.other.block.begin.makefile
       push:
-        - meta_scope: variable.other.makefile
+        - meta_scope: variable.parameter.makefile
         - match: \}
           scope: keyword.other.block.end.makefile
           pop: true
@@ -493,5 +493,5 @@ contexts:
       scope: constant.character.escape.makefile
     - match: (\$)[[:alpha:]]
       captures:
-        0: variable.other.makefile
+        0: variable.parameter.makefile
         1: keyword.other.single-character-variable.makefile
