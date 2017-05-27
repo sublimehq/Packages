@@ -1092,6 +1092,7 @@ contexts:
               pop: true
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
+            - include: inline-for
             - include: expressions
 
   string-quoted-double-block:
