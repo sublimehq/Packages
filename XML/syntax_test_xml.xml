@@ -34,11 +34,19 @@
 <!--                                ^ punctuation.definition.string.end -->
 <!--                                 ^ - string -->
 
+     <?xml-model href="http://www.oxygenxml.com/docbook/xml/5.0/rng/dbmathmlsvg.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!--   ^^^^^^^^^ entity.name.tag -->
+<!--             ^^^^ entity.other.attribute-name.localname -->
+<!--                 ^ punctuation.separator.key-value -->
+<!--                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double -->
+<!--                                                                                                                                   ^^ punctuation.definition.tag.end -->
+
 <!--
   DOCTYPE Declaration
  -->
 
-     <!DOCTYPE root [<!ENTITY br "\n"> %name;]>
+     <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
      <!-- <- meta.tag.sgml.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ keyword.doctype -->
@@ -50,7 +58,10 @@
 <!--                                   ^ punctuation.definition.constant -->
 <!--                                    ^^^^ constant.character.parameter-entity -->
 <!--                                        ^ punctuation.definition.constant -->
-<!--                                          ^ punctuation.definition.tag.end -->
+<!--                                          ^^^^^^^^^^^^^^^^ comment.block.xml -->
+<!--                                          ^^^^ punctuation.definition.comment.begin.xml -->
+<!--                                                       ^^^ punctuation.definition.comment.end.xml -->
+<!--                                                            ^ punctuation.definition.tag.end -->
 
 <!DOCTYPE data [
 <!-- ^ keyword.doctype -->

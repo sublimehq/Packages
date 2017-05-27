@@ -61,7 +61,7 @@ contexts:
         2: entity.name.tag.custom.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
@@ -98,20 +98,23 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push:
-        - match: (?i)(</)(script)(>)
+        - match: (?i)(-->)?\s*(</)(script)(>)
           captures:
             0: meta.tag.script.end.html
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.script.html
-            3: punctuation.definition.tag.end.html
+            1: comment.block.html punctuation.definition.comment.html
+            2: punctuation.definition.tag.begin.html
+            3: entity.name.tag.script.html
+            4: punctuation.definition.tag.end.html
           pop: true
-        - match: '>'
-          scope: meta.tag.script.begin.html punctuation.definition.tag.end.html
+        - match: '(>)\s*(<!--)?'
+          captures:
+            1: meta.tag.script.begin.html punctuation.definition.tag.end.html
+            2: comment.block.html punctuation.definition.comment.html
           push:
             - meta_content_scope: source.js.embedded.html
             - include: 'scope:source.js'
           with_prototype:
-             - match: (?i)(?=</script)
+             - match: (?i)(?=(-->)?\s*</script)
                pop: true
         - match: ''
           push:
@@ -205,7 +208,7 @@ contexts:
         2: invalid.illegal.uppercase-custom-tag-name.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff
@@ -215,7 +218,7 @@ contexts:
         2: entity.name.tag.other.html
       push:
         - meta_scope: meta.tag.other.html
-        - match: '>'
+        - match: '(?: ?/)?>'
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-stuff

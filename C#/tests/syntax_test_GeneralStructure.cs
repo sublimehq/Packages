@@ -396,10 +396,45 @@ namespace TestNamespace.Test
 ///                 ^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///                 ^ punctuation.section.group.begin
 ///                                     ^ punctuation.section.group.end
+///                  ^^^^^^^^^^^^^^^^^ support.type
+///                                    ^ variable.other
             {
 ///         ^ meta.method meta.block meta.block punctuation.section.block.begin
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
+            catch (FaultException<ServiceFault>)
+///         ^^^^^ keyword.control.trycatch.catch
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///               ^ punctuation.section.group.begin
+///                ^^^^^^^^^^^^^^ support.type
+///                              ^ punctuation.definition.generic.begin
+///                               ^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.definition.generic.end
+///                                            ^ punctuation.section.group.end
+            {
+///         ^ punctuation.section.block.begin
+                throw;
+///             ^^^^^ keyword.control.trycatch.throw
+///                  ^ punctuation
+            }
+            catch (FaultException<ServiceFault> e)
+///         ^^^^^ keyword.control.trycatch.catch
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///               ^ punctuation.section.group.begin
+///                ^^^^^^^^^^^^^^ support.type
+///                              ^ punctuation.definition.generic.begin
+///                               ^^^^^^^^^^^^ support.type
+///                                           ^ punctuation.definition.generic.end
+///                                            ^ - support - variable
+///                                             ^ variable.other
+///                                              ^ punctuation.section.group.end
+            {
+///         ^ punctuation.section.block.begin
+                throw;
+///             ^^^^^ keyword.control.trycatch.throw
+///                  ^ punctuation
+            }
+///         ^ punctuation.section.block.end
 
             try {
 ///         ^ keyword.control
@@ -829,6 +864,40 @@ namespace TestNamespace.Test
 ///                                            ^ punctuation.section.block.end
             };
 ///         ^ meta.instance meta.braces punctuation.section.braces.end
+
+            new System.Drawing.Point(6, 11) { X = 5, Y = 10 };
+///             ^^^^^^ support.type
+///                   ^ punctuation
+///                    ^^^^^^^ support.type
+///                           ^ punctuation
+///                            ^^^^^ support.type
+///                                 ^ punctuation.section.group.begin
+///                                  ^ constant.numeric
+///                                   ^ punctuation.separator.argument
+///                                     ^^ constant.numeric
+///                                       ^ punctuation.section.group.end
+///                                         ^ punctuation.section.braces.begin
+///                                           ^ variable.other
+///                                             ^ keyword.operator.assignment
+///                                               ^ constant.numeric
+///                                                ^ punctuation.separator
+///                                                  ^ variable.other
+///                                                    ^ keyword.operator.assignment
+///                                                      ^^ constant.numeric
+///                                                         ^ punctuation.section.braces.end
+///                                                          ^ punctuation.terminator.statement
+            new System.Drawing.Point(6, 11)
+                { X = 5, Y = 10 };
+///             ^ punctuation.section.braces.begin
+///               ^ variable.other
+///                 ^ keyword.operator.assignment
+///                   ^ constant.numeric
+///                    ^ punctuation.separator
+///                      ^ variable.other
+///                        ^ keyword.operator.assignment
+///                          ^^ constant.numeric
+///                             ^ punctuation.section.braces.end
+///                              ^ punctuation.terminator.statement
         }
 ///     ^ punctuation.section.block
 
@@ -921,8 +990,9 @@ namespace TestNamespace.Test
         {
 
         }
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
 ///     ^^^^^ keyword.control.trycatch.catch
+///            ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type
         {
 
         }
@@ -931,12 +1001,95 @@ namespace TestNamespace.Test
         {
         }
         
+        Func<string, bool, int> test = (a, b) => a.len();
+///                                    ^^^^^^^^^^^^^^^^^ meta.function.anonymous
+///                                    ^^^^^^ meta.group
+///                                     ^ variable.parameter
+///                                      ^ punctuation.separator.parameter.function
+///                                        ^ variable.parameter
+///                                           ^^ storage.type.function.lambda
+///                                                     ^ punctuation.terminator.statement
+///                                                      ^ - meta.function.anonymous
+
         goto abc;
 ///     ^^^^ keyword.control.flow.goto
 ///          ^^^ constant.other.label
     abc:
 /// ^^^ entity.name.label
 ///    ^ punctuation.separator
+
+        // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+        formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
+///                                     ^^^^^^^^^^^^^ constant.other.placeholder
+///                                                  ^ - constant
+        
+        string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
+                         "Ebenezer", "Francine", "George" };
+        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80,
+                                 16.75m };
+
+        Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
+///                        ^^^^^^^ constant.other.placeholder - invalid
+///                               ^ string - constant
+///                                ^^^^^ constant.other.placeholder - invalid
+///                                     ^^ constant.character.escape
+        for (int ctr = 0; ctr < names.Length; ctr++)
+            Console.WriteLine("{0,-20} {1,5:N1}", names[ctr], hours[ctr]);
+///                           ^^^^^^^^^^^^^^^^^^ string.quoted.double - invalid
+///                            ^^^^^^^ constant.other.placeholder
+///                                   ^ - constant
+///                                    ^^^^^^^^ constant.other.placeholder
+
+        int MyInt = 100;
+        Console.WriteLine("{0:C}", MyInt);
+///                        ^^^^^ constant.other.placeholder - invalid
+///                        ^ punctuation.definition.placeholder.begin
+///                            ^ punctuation.definition.placeholder.end
+///                             ^ punctuation.definition.string.end
+        // The example displays the following output 
+        // if en-US is the current culture:
+        //        $100.00
+        formatted = string.Format(@"Price = |{0,-10:C}|", myInt);
+///                               ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+///                                          ^^^^^^^^^ constant.other.placeholder - invalid
+///                                          ^ punctuation.definition.placeholder.begin
+///                                                  ^ punctuation.definition.placeholder.end
+        formatted = string.Format("{00}G}}", myInt);
+///                                ^^^^ constant.other.placeholder - invalid
+///                                    ^ - constant
+///                                     ^^ constant.character.escape
+        formatted = string.Format("{0{{G{}", myInt);
+///                                ^ punctuation.definition.placeholder.begin
+///                                  ^^^^ invalid.illegal.unexpected-character-in-placeholder
+///                                      ^ punctuation.definition.placeholder.end
+        
+        formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
+///                                ^^^^^^^^^^^ constant.other.placeholder - invalid
+///                                           ^^ constant.character.escape
+///                                             ^^ constant.other.placeholder - invalid
+///                                               ^ invalid.illegal.unclosed-string-placeholder
+///                                                ^ punctuation.definition.string.end
+///                                                    ^ string - invalid - constant.other - punctuation
+        formatted = string.Format("{0", myInt);
+///                                ^^ constant.other.placeholder
+///                                 ^ invalid.illegal.unclosed-string-placeholder
+        formatted = string.Format("{1:\", {", myInt, "}");
+///                                ^^^^^^^^ constant.other.placeholder
+///                                   ^^ constant.character.escape
+///                                     ^^^ invalid.illegal.unclosed-string-placeholder
+///                                        ^ punctuation.definition.string.end
+        formatted = string.Format("{1:\",{{}} {}", myInt, "}");
+///                                ^^^^^^^^^^^^^ constant.other.placeholder
+///                                ^ punctuation.definition.placeholder.begin
+///                                   ^^ constant.character.escape
+///                                      ^^^^ constant.character.escape
+///                                           ^ invalid.illegal.unescaped-placeholder
+///                                            ^ punctuation.definition.placeholder.end
+        formatted = string.Format(@"{0:00.00000{{}}test""} me", 5);
+///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
+///                                            ^^^^ constant.character.escape
+///                                                      ^ punctuation.definition.placeholder.end
     }
 }
 ///<- punctuation.section.block.end

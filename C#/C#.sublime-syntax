@@ -41,7 +41,7 @@ variables:
 
   start_char: '(?:{{unicode_char}}|[_\p{L}])'
   other_char: '(?:{{unicode_char}}|[_0-9\p{L}])'
-  name_normal: '{{start_char}}{{other_char}}*'
+  name_normal: '{{start_char}}{{other_char}}*\b'
   cap_name: '(\p{Lu}{{other_char}})'
 
 contexts:
@@ -948,13 +948,15 @@ contexts:
         - match: '{{name}}(?=\s*[\),/])'
           scope: variable.parameter.cs
         - match: ','
-          scope: punctuation.separator.cs
+          scope: punctuation.separator.parameter.function.cs
         - match: (\))\s*(=>)
           captures:
             1: meta.group.cs punctuation.section.group.end.cs
             2: storage.type.function.lambda.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
+            - match: '(?=;)'
+              pop: true
             - include: line_of_code_in
 
   member_variables_declaration:
@@ -1029,8 +1031,9 @@ contexts:
           scope: meta.group.cs punctuation.section.group.end.cs
           pop: true
         - include: type
-    - match: '\b(as|is)(\s+)'
-      scope: keyword.operator.reflection.cs
+    - match: '\b(as|is)\s+'
+      captures:
+        1: keyword.operator.reflection.cs
       push: type_no_space
     - match: \b(checked|unchecked)\b
       scope: keyword.other.cs
@@ -1120,7 +1123,7 @@ contexts:
             2: punctuation.section.group.begin.cs
             3: punctuation.section.group.end.cs
             4: meta.braces.cs punctuation.section.braces.begin.cs
-          set: enumerable_constructor
+          set: initializer_constructor
         - match: \(
           scope: meta.group.cs punctuation.section.group.begin.cs
           set: [constructor_arguments, arguments]
@@ -1229,18 +1232,26 @@ contexts:
         2: keyword.operator.pointer.cs
         3: variable.other.cs
         4: punctuation.section.group.end.cs
-    - match: '(\()\s*({{base_type}}|({{name}}))\s*{{type_suffix_capture}}\s*(\))'
+    - match: '(\()(?=(?:\s*{{name}}\s*\.)*\s*({{base_type}}|{{name}})\s*{{type_suffix_capture}}\s*\))'
       captures:
         1: punctuation.section.group.begin.cs
-        2: storage.type.cs
-        3: support.type.cs
-        4: storage.type.nullable.cs
-        5: meta.brackets.cs
-        6: punctuation.section.brackets.begin.cs
-        7: punctuation.separator.cs
-        8: punctuation.section.brackets.end.cs
-        9: keyword.operator.pointer.cs
-        10: punctuation.section.group.end.cs
+      push:
+        - meta_scope: meta.cast.cs
+        - match: \)
+          scope: punctuation.section.group.end.cs
+          pop: true
+        - match: '{{base_type}}'
+          scope: storage.type.cs
+        - match: '{{name}}'
+          scope: support.type.cs
+        - match: '\.'
+          scope: punctuation.separator.namespace.cs
+        - match: '{{type_suffix_capture}}'
+          captures:
+            1: punctuation.section.brackets.begin.cs
+            2: punctuation.separator.cs
+            3: punctuation.section.brackets.end.cs
+            4: keyword.operator.pointer.cs
     - match: \(
       scope: punctuation.section.group.begin.cs
       push:
@@ -1271,8 +1282,11 @@ contexts:
 
   constructor_arguments:
     - meta_content_scope: meta.instance.cs meta.group.cs
-    - match: ''
+    - match: '(?=[^\s{])'
       pop: true
+    - match: '\{'
+      scope: punctuation.section.braces.begin.cs
+      set: initializer_constructor
 
   function_call_arguments:
     - meta_content_scope: meta.function-call.cs meta.group.cs
@@ -1445,9 +1459,9 @@ contexts:
       push:
         - meta_scope: meta.string.interpolated.cs source.cs
         - clear_scopes: 2
-        - include: string_interpolation
         - match: $
           pop: true
+        - include: string_interpolation
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
@@ -1474,20 +1488,56 @@ contexts:
 
   string_placeholders:
     - include: string_placeholder_escape
-    - match: '\{\d*\}'
+    - match: '(\{)(\d+)(?=")'
       scope: constant.other.placeholder.cs
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs invalid.illegal.unclosed-string-placeholder.cs
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs
+      push: string_placeholder
 
-  string_interpolation:
-    - match: '\}'
-      scope: punctuation.section.interpolation.end.cs
+  string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - match: '(\})(\}(?!\}))?'
+      captures:
+        1: punctuation.definition.placeholder.end.cs
+        2: invalid.illegal.unescaped-placeholder.cs
       pop: true
-    - match: '(,)\s*(-?\d+)?\s*(:?)\s*([^}]*)\s*(\})'
+    - match: '(?=[}"])'
+      pop: true
+    - include: string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
+  string_placeholder_format:
+    - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
         2: constant.numeric.formatting.cs
-        3: punctuation.separator.cs
-        4: constant.other.format-spec.cs
-        5: punctuation.section.interpolation.end.cs
+    - match: ':(?="(?!"))'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.cs
+      push:
+        - meta_scope: constant.other.format-spec.cs
+        - include: string_placeholder_escape
+        - include: escaped
+        - match: '(?=\})'
+          pop: true
+        - match: '([^}"\\]+(\\.)*)+(?="(?!"))'
+          scope: invalid.illegal.unclosed-string-placeholder.cs
+          pop: true
+        - match: '\{'
+          scope: invalid.illegal.unescaped-placeholder.cs
+
+  string_interpolation:
+    - include: string_placeholder_format
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.cs
       pop: true
     - include: line_of_code_in
 
@@ -1507,14 +1557,14 @@ contexts:
     - match: \\
       scope: invalid.illegal.lone-escape.cs
 
-  enumerable_constructor:
+  initializer_constructor:
     - meta_content_scope: meta.instance.cs meta.braces.cs
     - match: \}
       scope: meta.instance.cs meta.braces.cs punctuation.section.braces.end.cs
       pop: true
     - match: \{
       scope: punctuation.section.braces.begin.cs
-      push: enumerable_constructor
+      push: initializer_constructor
     - match: ','
       scope: punctuation.separator.array-element.cs
     - match: (?=[^,\s{}])
@@ -1751,6 +1801,8 @@ contexts:
               captures:
                 1: variable.other.cs
               pop: true
+            - match: (?=\))
+              pop: true
         - include: type_argument
     - match: '({{base_type}}){{type_suffix_capture}}'
       captures:
@@ -1766,7 +1818,7 @@ contexts:
           captures:
             1: variable.other.cs
           pop: true
-    - match: '(?:({{name}}){{type_suffix_capture}}\s+)?({{name}})\s*'
+    - match: '(?:({{name}}){{type_suffix_capture}})(?:\s+({{name}}))?\s*'
       captures:
         1: support.type.cs
         2: storage.type.nullable.cs

@@ -59,15 +59,7 @@ contexts:
             1: punctuation.definition.tag.end.xml
           pop: true
         - include: internal-subset
-    - match: '<!--'
-      scope: punctuation.definition.comment.begin.xml
-      push:
-        - meta_scope: comment.block.xml
-        - match: '-->'
-          scope: punctuation.definition.comment.end.xml
-          pop: true
-        - match: '-{2,}'
-          scope: invalid.illegal.double-hyphen-within-comment.xml
+    - include: comment
     - match: '(</?){{qualified_name}}([^/>\s]*)'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -91,7 +83,7 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-stuff
-    - match: '(<\?)(xml-stylesheet)(?=\s|\?>)'
+    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
@@ -142,6 +134,16 @@ contexts:
       captures:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
+  comment:
+    - match: '<!--'
+      scope: punctuation.definition.comment.begin.xml
+      push:
+        - meta_scope: comment.block.xml
+        - match: '-->'
+          scope: punctuation.definition.comment.end.xml
+          pop: true
+        - match: '-{2,}'
+          scope: invalid.illegal.double-hyphen-within-comment.xml
   internal-subset:
     - match: \[
       scope: punctuation.definition.constant.xml
@@ -149,6 +151,7 @@ contexts:
         - meta_scope: meta.internalsubset.xml
         - match: \]
           pop: true
+        - include: comment
         - include: entity-decl
         - include: element-decl
         - include: attlist-decl

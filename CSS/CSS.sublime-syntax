@@ -112,6 +112,12 @@ contexts:
       scope: constant.other.color.rgb-value.css
       captures:
         1: punctuation.definition.constant.css
+      # RGBA Hexadecimal Colors
+      # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
+    - match: '(#)\h{8}\b'
+      scope: constant.other.color.rgba-value.css
+      captures:
+        1: punctuation.definition.constant.css
 
   comment-block:
     - match: /\*
@@ -428,7 +434,7 @@ contexts:
               | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
               | border-(bottom|top)-(left|right)-radius
               | border-image(-outset|-repeat|-slice|-source|-width)?
-              | border(-bottom|-left|-right|-top|-collapse|-spacing)?
+              | border(-bottom|-left|-right|-top|-collapse|-spacing|-box)?
               | both|bottom
               | box(-shadow)?
               | break-(all|word)
@@ -519,7 +525,9 @@ contexts:
               | replaced|reset-size|reverse|ridge|right
               | round
               | row(-resize|-reverse)?
-              | rtl|ruby|running|saturat(e|ion)|screen
+              | run-in
+              | ruby(-base|-text)?(-container)?
+              | rtl|running|saturat(e|ion)|screen
               | scroll(-position|bar)?
               | separate|sepia
               | scale-down
@@ -546,7 +554,7 @@ contexts:
               | super|swash
               | table(-caption|-cell|(-column|-footer|-header|-row)-group|-column|-row)?
               | tabular-nums|tb-rl
-              | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under)-edge|-shadow|-size(-adjust)?|-top)|field)?
+              | text((-bottom|-(decoration|emphasis)-color|-indent|-(over|under|after|before)-edge|-shadow|-size(-adjust)?|-top)|field)?
               | thi(ck|n)
               | titling-ca(ps|se)
               | to[p]?
@@ -1294,6 +1302,7 @@ contexts:
           - include: percentage-type
           - include: minmax-function
           - include: integer-type
+          - include: var-function
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
           - match: \b(max-content|min-content|auto)\b
@@ -1388,19 +1397,25 @@ contexts:
       scope: support.function.calc.css
       push:
         - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
         - match: '\('
           scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: true
-          - include: calc-function
-          - include: var-function
-          - include: numeric-values
-          - include: attr-function
-          - match: "[-/*+]"
-            scope: keyword.operator.css
+          push: inside-calc-parens
+        - match: ''
+          pop: true
+
+  inside-calc-parens:
+    - meta_scope: meta.group.css
+    - match: '(?=\))'
+      set: function-notation-terminator
+    - include: calc-function
+    - include: var-function
+    - include: numeric-values
+    - include: attr-function
+    - match: "[-/*+]"
+      scope: keyword.operator.css
+    - match: '\('
+      scope: punctuation.definition.group.begin.css
+      push: inside-calc-parens
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
@@ -1745,6 +1760,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
+          - include: var-function
           - include: color-values
           - include: angle-type
           - include: number-type
@@ -1830,6 +1846,7 @@ contexts:
             scope: keyword.other.color-space.css
           - include: color-values
           - include: percentage-type
+          - include: var-function
 
   unicode-range:
     - match: |-
