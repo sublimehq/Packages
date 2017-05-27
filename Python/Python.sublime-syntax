@@ -324,7 +324,9 @@ contexts:
           pop: true
 
   constants:
-    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
+    - match: \b(None|True|False|Ellipsis|NotImplemented|__debug__)\b
+      scope: constant.language.python
+    - match: \.{3}(?!\w)
       scope: constant.language.python
 
   numbers:
@@ -951,7 +953,7 @@ contexts:
           # generic object
           class|dict|doc|module|name|
           # module-specific / global
-          all|debug|file|package|
+          all|file|package|
           # functions & methods
           annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
           # classes (attributes)

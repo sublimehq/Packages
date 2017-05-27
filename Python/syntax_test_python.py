@@ -94,6 +94,11 @@ TypeError module.TypeError
 open.open.open
 #    ^^^^^^^^^ - support
 
+... Ellipsis __debug__
+#^^ constant.language.python
+#   ^^^^^^^^ constant.language.python
+#            ^^^^^^^^^ constant.language.python
+
 
 ##################
 # Function Calls
