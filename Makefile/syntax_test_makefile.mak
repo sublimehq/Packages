@@ -105,10 +105,10 @@ file_list != find . -name '*.c'
 #            ^ source.shell
 
 hash := $(shell printf '\043')
-#         ^support.function.builtin
+#         ^variable.function
 #               ^ source.shell
 var := $(shell find . -name "*.c")
-#        ^support.function.builtin
+#        ^variable.function
 #              ^ source.shell
 
 ########################################
@@ -192,7 +192,7 @@ lib/%.o: CFLAGS := -fPIC -g
 
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control
-#       ^ support.function.builtin
+#       ^ variable.function
 #                     ^^ variable.other keyword.other.block.begin
 #                       ^^^^^^^^^^^^^ variable.other
 #                                    ^ variable.other keyword.other.block.end
@@ -350,16 +350,16 @@ foo = $(call reverse,a,b)
 #                       ^ string.unquoted keyword.other.block.end
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
-#              ^^^^^^^^^ meta.function-call support.function
-#                          ^^^^^^^^ meta.function-call.arguments meta.function-call support.function
-#                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
+#              ^^^^^^^^^ meta.function-call variable.function
+#                          ^^^^^^^^ meta.function-call.arguments meta.function-call variable.function
+#                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call variable.function
 #                                               ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments
 #                                                ^^ keyword.other.block.begin
 #                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.other
 #                                                   ^ keyword.other.block.end
 #                                                    ^ punctuation.separator
 #                                                     ^^ keyword.other.block.begin
-#                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
+#                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call variable.function
 #                                                             ^ string.unquoted
 #                                                              ^ punctuation.separator
 #                                                               ^ string.unquoted
@@ -437,18 +437,18 @@ help::
 	# <- constant.language
 
 $(warning he:llo)
-# ^ meta.function-call support.function
+# ^ meta.function-call variable.function
 #         ^^^ meta.function-call.arguments.makefile - punctuation
 #               ^ keyword.other.block.end
 
 all: deps
 	$(warning he:llo)
-	# ^ meta.function-call support.function
+	# ^ meta.function-call variable.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
 	#               ^ keyword.other.block.end
 deps:
 	$(warning he:llo)
-	# ^ meta.function-call support.function
+	# ^ meta.function-call variable.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
 	#               ^ keyword.other.block.end
 all: 
