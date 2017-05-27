@@ -6,9 +6,12 @@
 
 P = Hello
 # <- variable.other
-#  ^ - string.unquoted
 # ^ keyword.operator.assignment
-#   ^^^^^ string
+#  ^ - string.unquoted
+#   ^ string.unquoted
+#       ^ string.unquoted
+#        ^ - string.unquoted
+
 FOO = $P
 # <- variable.other
 #   ^ keyword.operator.assignment
@@ -535,8 +538,21 @@ $(sort $(a)): $(b) ;
 a : b ;
 # <- meta.function entity.name.function
 # ^ keyword.operator - entity.name.function
+#  ^ - string.unquoted
 #   ^ meta.function.arguments string.unquoted
-#     ^ punctuation
+#    ^ - string.unquoted
+#     ^ punctuation.terminator
+
+a : b \
+    more prerequisites \
+    on a third line even
+    #                  ^ meta.function.arguments string.unquoted
+    @rm -rf /
+    # <- meta.function.body constant.language
+
+a : b ; rm -rf /
+#     ^ punctuation.terminator
+#       ^ source.shell
 
 a-$(b) := c
 # ^ keyword.other.block.begin
@@ -564,7 +580,9 @@ $(a:b=c) : d
 $(X:a=b) : w ;
 # <- meta.function entity.name.function variable.other keyword.other.block.begin
 #        ^ keyword.operator
-#          ^^ meta.function.arguments string.unquoted
+#          ^ meta.function.arguments string.unquoted
+#           ^ - string.unquoted
+#            ^ punctuation.terminator
 
 $(Y:%.cpp=%.o) := $(Z)
 # <- - meta.function
@@ -572,8 +590,10 @@ $(Y:%.cpp=%.o) := $(Z)
 
 include $(c)
 ifneq ($(a),)
-$(b): ; 
+$(b): ; rm -rf /
+#       ^ meta.function.body source.shell
 	@git clone asdf
+	# <- meta.function.body constant.language
 	# ^ meta.function.body
 endif
 

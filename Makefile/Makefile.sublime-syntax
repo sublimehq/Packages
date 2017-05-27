@@ -178,9 +178,11 @@ contexts:
                       set: recipe-junction-between-spaces-or-tabs
             - match: $
               set: recipe-junction-between-spaces-or-tabs
-            - match: ;
-              scope: punctuation.separator.end.makefile
-              set: recipe-inline
+            - match: (?=\s*;)
+              set:
+                - match: ;
+                  scope: punctuation.terminator.makefile
+                  set: recipe-inline
 
   recipe-junction-between-spaces-or-tabs:
     - meta_content_scope: meta.function.body.makefile
@@ -199,8 +201,17 @@ contexts:
       pop: true
 
   recipe-inline:
+    - meta_content_scope: meta.function.body.makefile
     - include: recipe-junction-between-spaces-or-tabs
     - include: control-flow
+    - match: $
+      set: recipe-junction-between-spaces-or-tabs
+    - match: ""
+      push: scope:source.shell
+      with_prototype:
+        - include: line-continuation
+        - include: variable-substitutions
+        - include: pop-on-line-end
 
   recipe-with-spaces:
     - meta_content_scope: meta.function.body.makefile
