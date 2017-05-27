@@ -643,7 +643,7 @@ else ifeq ($(shell svn info >/dev/null && echo USING_SVN),USING_SVN)
   # This breaks the Makefile syntax currently, because for some reason the
   # embedded shell syntax doesn't end the single quoted string (the troubling
   # part is the argument to sed).
-  VCSTURD := $(addsuffix /.svn/entries, $(shell svn info | grep 'Root Path' | sed -e 's/\(.*\:\)\(.*\) /\2/'))
+  # VCSTURD := $(addsuffix /.svn/entries, $(shell svn info | grep 'Root Path' | sed -e 's/\(.*\:\)\(.*\) /\2/'))
 endif
 
 ifeq (0,1)
@@ -743,6 +743,13 @@ else
     @xcodebuild -sdk iphoneos -project "$(PROJECT).xcodeproj" -target "$(TARGET)" -configuration "$(CONFIG)" CONFIGURATION_BUILD_DIR="$(BUILD_PATH)/Products" -jobs 6 build 2>/dev/null | tail -n 2 | cat && printf "${RESET_CLR}"
     # <- constant.language
 endif
+ifndef ARDMK_DIR_MSG
+    $(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
+    #                                                                                                   ^ - keyword.other.block.end
+    #                                                                                                    ^ keyword.other.block.end
+else
+    $(call show_config_variable,ARDMK_DIR,[USER])
+endif
 
 kselftest-merge:
     $(if $(wildcard $(objtree)/.config),, $(error No .config exists, config your kernel first!))
@@ -771,3 +778,4 @@ help:
     #                ^ - keyword.operator.assignment
     @echo  '        2: warnings which occur quite often but may still be relevant'
     # <- meta.function.body constant.language
+
