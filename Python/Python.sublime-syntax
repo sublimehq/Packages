@@ -1015,7 +1015,7 @@ contexts:
       scope: constant.other.placeholder.python
       captures:
         2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+    - match: '%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
