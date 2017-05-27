@@ -105,10 +105,10 @@ file_list != find . -name '*.c'
 #            ^ source.shell
 
 hash := $(shell printf '\043')
-#         ^variable.function
+#         ^ support.function
 #               ^ source.shell
 var := $(shell find . -name "*.c")
-#        ^variable.function
+#        ^ support.function
 #              ^ source.shell
 
 ########################################
@@ -192,7 +192,7 @@ lib/%.o: CFLAGS := -fPIC -g
 
 ifeq ($(shell test -r $(MAKEFILE_PATH)Makefile.Defs; echo $$?), 0)
 # <- keyword.control
-#       ^ variable.function
+#       ^ support.function
 #                     ^^ variable.parameter keyword.other.block.begin
 #                       ^^^^^^^^^^^^^ variable.parameter
 #                                    ^ variable.parameter keyword.other.block.end
@@ -350,16 +350,16 @@ foo = $(call reverse,a,b)
 #                       ^ string.unquoted keyword.other.block.end
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
-#              ^^^^^^^^^ meta.function-call variable.function
-#                          ^^^^^^^^ meta.function-call.arguments meta.function-call variable.function
-#                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call variable.function
+#              ^^^^^^^^^ meta.function-call support.function
+#                          ^^^^^^^^ meta.function-call.arguments meta.function-call support.function
+#                                     ^^^^^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
 #                                               ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments
 #                                                ^^ keyword.other.block.begin
 #                                                  ^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments variable.parameter
 #                                                   ^ keyword.other.block.end
 #                                                    ^ punctuation.separator
 #                                                     ^^ keyword.other.block.begin
-#                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call variable.function
+#                                                       ^^^^^ meta.function-call.arguments meta.function-call.arguments meta.function-call.arguments meta.function-call support.function
 #                                                             ^ string.unquoted
 #                                                              ^ punctuation.separator
 #                                                               ^ string.unquoted
@@ -437,18 +437,18 @@ help::
 	# <- constant.language
 
 $(warning he:llo)
-# ^ meta.function-call variable.function
+# ^ meta.function-call support.function
 #         ^^^ meta.function-call.arguments.makefile - punctuation
 #               ^ keyword.other.block.end
 
 all: deps
 	$(warning he:llo)
-	# ^ meta.function-call variable.function
+	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
 	#               ^ keyword.other.block.end
 deps:
 	$(warning he:llo)
-	# ^ meta.function-call variable.function
+	# ^ meta.function-call support.function
 	#         ^^^ meta.function-call.arguments.makefile - punctuation
 	#               ^ keyword.other.block.end
 all: 
@@ -686,7 +686,7 @@ else # some comment
 endif
 # <- keyword
 
-# Another case where the lookahead for the colon used to fails:
+# Another case where the lookahead for the colon used to fail:
 ifneq ($(words $(subst :, ,$(CURDIR))), 1)
 #                      ^ meta.function-call.arguments meta.function-call.arguments - keyword.operator
   $(error main directory cannot contain spaces nor colons)
@@ -745,10 +745,15 @@ else
 endif
 ifndef ARDMK_DIR_MSG
     $(call show_config_variable,ARDMK_DIR,[COMPUTED],(relative to $(notdir $(lastword $(MAKEFILE_LIST)))))
+    #      ^ variable.function
+    #                                                               ^ support.function
+    #                                                                        ^ support.function
     #                                                                                                   ^ - keyword.other.block.end
     #                                                                                                    ^ keyword.other.block.end
 else
     $(call show_config_variable,ARDMK_DIR,[USER])
+    #    ^ constant.language
+    #      ^ variable.function
 endif
 
 kselftest-merge:
@@ -765,6 +770,12 @@ search:
     #                                                   ^ variable.language.wildcard
         search
 
+CC_VERSION := $(shell $(CC) -dumpversion)
+$(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
+#                                                           ^ keyword.other.block.end
+#                                                            ^ - keyword.other.block.end
+#                                                             ^ keyword.other.block.end
+
 # A recipe may contain empty lines like below
 help:
     @echo  'Cleaning targets:'
@@ -778,4 +789,10 @@ help:
     #                ^ - keyword.operator.assignment
     @echo  '        2: warnings which occur quite often but may still be relevant'
     # <- meta.function.body constant.language
+
+CC_VERSION := $(shell $(CC) -dumpversion)
+$(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
+#                                                           ^ keyword.other.block.end
+#                                                            ^ - keyword.other.block.end
+#                                                             ^ keyword.other.block.end
 

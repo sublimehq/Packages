@@ -346,7 +346,7 @@ contexts:
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
-        2: variable.function.makefile
+        2: support.function.builtin.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: highlight-percentage-sign
@@ -355,7 +355,7 @@ contexts:
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
-        2: variable.function.makefile
+        2: support.function.builtin.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: inside-function-call
@@ -364,7 +364,7 @@ contexts:
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
-        2: variable.function.makefile
+        2: support.function.builtin.makefile
       push:
         - meta_content_scope: meta.function-call.arguments.makefile
         - match: \)
@@ -379,12 +379,12 @@ contexts:
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
-        2: variable.function.makefile
+        2: support.function.builtin.makefile
       push: inside-function-call
     - match: (\$\()(shell)\s
       captures:
         1: keyword.other.block.begin.makefile
-        2: variable.function.makefile
+        2: support.function.builtin.makefile
       push: scope:source.shell
       with_prototype:
         - match: \)
