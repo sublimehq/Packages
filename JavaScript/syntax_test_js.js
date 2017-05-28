@@ -167,6 +167,41 @@ x --> y;
 /*@if /*/
 //     ^^ punctuation.definition.comment.js
 
+// /*
+not_a_comment;
+// <- -comment
+
+/* // */
+not_a_comment;
+// <- -comment
+
+/* /* */
+not_a_comment;
+// <- -comment
+
+'// /* not a comment';
+// ^^^^^^^^^^^^^^^^^^^ -comment
+
+"// /* not a comment";
+// ^^^^^^^^^^^^^^^^^^^ -comment
+
+`// /* not a comment`;
+// ^^^^^^^^^^^^^^^^^^^ -comment
+
+({
+    '// /* not a comment': x => x,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment
+
+    "// /* not a comment": x => x,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment
+
+    '// /* not a comment'() {},
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
+
+    "// /* not a comment"() {},
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
+});
+
 var str = '\':';
 var str2 = NaN;
 // <- storage.type
@@ -809,6 +844,11 @@ a = /\//u + 0;
 //      ^ keyword.other
 //        ^ keyword.operator
 //          ^ constant.numeric
+
+1 /**/ / 2 / /**/ 3;
+//     ^ keyword.operator
+//       ^ constant.numeric
+//         ^ keyword.operator
 
 var π = 3.141592653
 //  ^ variable.other.readwrite
