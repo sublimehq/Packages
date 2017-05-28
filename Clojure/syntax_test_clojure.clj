@@ -105,3 +105,10 @@
 ;;                  ^^ punctuation.definition.string.begin.clojure
 ;;                                     ^ punctuation.definition.string.end.clojure
 ;;                                      ^ - string.regexp.clojure
+  (def kword (fn [] :keyword))
+;;                  ^^^^^^^^ constant.string.symbol.clojure
+
+  (require '[clojure.string :as s :refer [join split]])
+;; ^^^^^^^ support.function.clojure
+;;                          ^^^ support.other.keyword.namespace.clojure
+;;                                ^^^^^^ support.other.keyword.namespace.clojure
