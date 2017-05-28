@@ -26,6 +26,7 @@ variables:
   startdirective: ifn?(def|eq)
   include: '[s-]?include'
   ruleassign: :(?!=)
+  function_call_token_begin: \$\$?\(
 
   # The big "rule lookahead". What we want to do is here is detect if the
   # line that we are parsing is going to define a rule. So we need to check
@@ -34,11 +35,64 @@ variables:
   # variable substitutions anywhere. We try to remedy this by hacking in a
   # regex that matches up to four levels of nested parentheses, and ignores
   # whatever's inside the parentheses.
-  nonparenchar: '[^()]'
-  nps: '{{nonparenchar}}*'
-  # Eats up to 4 nested parens
-  paren_eater: (?:\({{nps}}*(?:\({{nps}}*(?:\({{nps}}*(?:\({{nps}}*\))?{{nps}}*\))?{{nps}}*\))?{{nps}}\))?
-  just_eat: '{{nps}}{{paren_eater}}{{nps}}'
+  nps: '[^()]*'
+  open: '(?:\('
+  close: '\))?'       # ignore this invalid.illegal
+  just_eat: |         # WARNING: INSANITY FOLLOWS!
+    (?x)              # ignore whitespace in this regex
+      {{nps}}         #       level 0
+      {{open}}        # start level 1                      __
+        {{nps}}       #       level 1          _______    /*_>-<
+        {{open}}      # start level 2      ___/ _____ \__/ /
+          {{nps}}     #       level 2     <____/     \____/
+          {{open}}    # start level 3     is like snek... (by Valerie Haecky)
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+        {{close}}     #   end level 2
+        {{nps}}       #       level 1
+        {{open}}      # start level 2
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+          {{open}}    # start level 3
+            {{nps}}   #       level 3
+            {{open}}  # start level 4
+              {{nps}} #       level 4
+            {{close}} #   end level 4
+            {{nps}}   #       level 3
+          {{close}}   #   end level 3
+          {{nps}}     #       level 2
+        {{close}}     #   end level 2
+        {{nps}}       #       level 1
+      {{close}}       #   end level 1
+      {{nps}}         #       level 0
   rule_lookahead: '{{just_eat}}{{ruleassign}}{{just_eat}}'
 
   var_lookahead_base: '{{just_eat}}({{varassign}}|{{shellassign}}){{just_eat}}'
@@ -47,7 +101,14 @@ variables:
   # we want to NOT match if there's a {{ruleassign}} before a {{varassign}}.
   var_lookahead: (?!{{rule_lookahead}}){{var_lookahead_base}}
 
-  first_assign_then_colon: '{{just_eat}}{{varassign}}{{just_eat}}{{ruleassign}}{{just_eat}}'
+  first_assign_then_colon: |
+    (?x)
+      {{just_eat}}
+        {{varassign}}
+      {{just_eat}}
+        {{ruleassign}}
+      {{just_eat}}
+
 contexts:
 
   # 3.1 What Makefiles Contain
@@ -161,10 +222,12 @@ contexts:
             - include: continuation-or-pop-on-line-end
     - match: (?= *::?)
       set:
-        - match: ::?\s*
-          scope: keyword.operator.assignment.makefile
+        - match: (::?)\s*
+          captures:
+            1: keyword.operator.assignment.makefile
           set:
-            - meta_content_scope: meta.function.arguments.makefile string.unquoted.makefile
+            - meta_content_scope: >-
+                meta.function.arguments.makefile string.unquoted.makefile
             - include: line-continuation
             - include: variable-substitutions
             - include: highlight-percentage-sign
@@ -332,17 +395,22 @@ contexts:
     - include: quoted-string
 
   function-invocations:
-    - match: (\$\()(call)\s+([a-zA-Z0-9\-_]+)(,)
+    - match: ({{function_call_token_begin}})(call)\s
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
         2: constant.language.call.makefile
-        3: variable.function.makefile
-        4: punctuation.separator.makefile
       push:
-        - meta_content_scope: meta.function-call.arguments.makefile
-        - include: inside-function-call
-    - match: (\$\()(patsubst|filter)\s
+        - meta_content_scope: >-
+            meta.function-call.makefile variable.function.makefile
+        - match: (?=,)
+          set:
+            - meta_content_scope: meta.function-call.makefile
+            - match: \,
+              scope: punctuation.separator.makefile
+              set: inside-function-call
+        - include: variable-substitutions
+    - match: ({{function_call_token_begin}})(patsubst|filter)\s
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
@@ -351,7 +419,7 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: highlight-percentage-sign
         - include: inside-function-call
-    - match: (\$\()(wildcard)\s
+    - match: ({{function_call_token_begin}})(wildcard)\s
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
@@ -360,7 +428,7 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.makefile
         - include: inside-function-call
         - include: highlight-wildcard-sign
-    - match: (\$\()(info|warning|error)\s
+    - match: ({{function_call_token_begin}})(info|warning|error)\s
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
@@ -375,13 +443,47 @@ contexts:
         - match: \,
           scope: punctuation.separator.makefile
         - include: variable-substitutions
-    - match: (?x) (\$\() (subst|strip|findstring|filter-out|sort|word|wordlist|words|firstword|lastword|dir|notdir|suffix|basename|addsuffix|addprefix|join|realpath|abspath|if|or|and|foreach|file|call|value|eval|origin|flavor|guile) \s
+    - match: | # multiline string
+        (?x)   # ignore whitespace
+        ({{function_call_token_begin}})
+          (
+            subst|
+            strip|
+            findstring|
+            filter-out|
+            sort|
+            word|
+            wordlist|
+            words|
+            firstword|
+            lastword|
+            dir|
+            notdir|
+            suffix|
+            basename|
+            addsuffix|
+            addprefix|
+            join|
+            realpath|
+            abspath|
+            if|
+            or|
+            and|
+            foreach|
+            file|
+            value|
+            eval|
+            origin|
+            flavor|
+            guile
+          )
+          \s
       captures:
         0: meta.function-call.makefile
         1: keyword.other.block.begin.makefile
         2: support.function.builtin.makefile
       push: inside-function-call
-    - match: (\$\()(shell)\s
+    - match: ({{function_call_token_begin}})(shell)\s
       captures:
         1: keyword.other.block.begin.makefile
         2: support.function.builtin.makefile

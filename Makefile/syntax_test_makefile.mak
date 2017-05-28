@@ -588,6 +588,26 @@ $(Y:%.cpp=%.o) := $(Z)
 # <- - meta.function
 #              ^^ keyword.operator.assignment
 
+$(call my_func,my_arg): deps
+# <- meta.function entity.name.function
+#                     ^ keyword.operator.assignment
+#                      ^ - keyword.operator.assignment
+	rm -rf /
+
+$(foreach i,j,k): deps
+# <- meta.function entity.name.function
+#               ^ keyword.operator.assignment
+#                ^ - keyword.operator.assignment
+	rm -rf /
+	# <- meta.function.body
+
+$(foreach i,$(a),$(foreach j,$(b),x)): deps
+# <- meta.function entity.name.function
+#                                    ^ keyword.operator.assignment
+#                                     ^ - keyword.operator.assignment
+	rm -rf /
+	# <- meta.function.body
+
 include $(c)
 ifneq ($(a),)
 $(b): ; rm -rf /
@@ -796,3 +816,22 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 #                                                            ^ - keyword.other.block.end
 #                                                             ^ keyword.other.block.end
 
+.SECONDEXPANSION:
+# <- meta.function entity.name.function
+#               ^ keyword.operator.assignment - entity.name.function
+#                ^ - keyword.operator.assignment - entity.name.function
+$(DO_IMPLS): $$(foreach s,$$(STEPS),$$(call $$(@)_STEP_TO_PROG,$$(s)))
+# <- meta.function entity.name.function
+#          ^ keyword.operator.assignment - entity.name.function
+#           ^ - keyword.operator.assignment - entity.name.function
+#               ^ meta.function.arguments support.function
+#                                           ^^^^^^^^^^^^^^^^^^ variable.function
+#                                                             ^ punctuation.separator
+
+.SECONDEXPANSION:
+$(foreach i,$(DO_IMPLS),$(foreach s,$(STEPS),$(i)^$(s))): $$(call $$(word 1,$$(subst ^, ,$$(@)))_STEP_TO_PROG,$$(word 2,$$(subst ^, ,$$(@))))
+# <- meta.function entity.name.function
+#                                                       ^ keyword.operator.assignment
+#                                                        ^ - keyword.operator.assignment
+#                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.function
+#                                                                                                            ^ punctuation.separator
