@@ -495,7 +495,24 @@ contexts:
       scope: constant.character.escape.js
 
   regexp-complete:
-    - match: '/(?=(?:[^/\\\[]|\\.|\[([^\]\\]|\\.)+\])+/(?![/*])[gimyu]*(?!\s*[a-zA-Z0-9_$]))'
+    - match: >-
+        (?x)
+        /
+        (?=
+          (?:
+            [^ / \\ \[  ]
+            | \\.
+            | # Character class
+              \[ ( 
+                [^ \] \\ ]
+                | \\.
+              )+ \]
+          )+
+          /
+          [gimyu]*
+          (?! \s* [a-zA-Z0-9_$] )
+        )
+
       scope: punctuation.definition.string.begin.js
       push: regexp
 
