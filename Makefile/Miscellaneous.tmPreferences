@@ -9,15 +9,6 @@
 		<string>^[^:]+:(?!=)|^\s*(else\s+)?ifn?(eq|def)\b|^\s*else\b</string>
 		<key>decreaseIndentPattern</key>
 		<string>^\s*(else|endif)\b</string>
-		<key>shellVariables</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string>TM_COMMENT_START</string>
-				<key>value</key>
-				<string># </string>
-			</dict>
-		</array>
 	</dict>
 </dict>
 </plist>
