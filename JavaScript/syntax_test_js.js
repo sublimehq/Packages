@@ -850,6 +850,18 @@ a = /\//u + 0;
 //       ^ constant.numeric
 //         ^ keyword.operator
 
+/test// 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+
+/test/* 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+
+/test/** 1;
+// <- string.regexp.js
+//    ^^ keyword.operator.arithmetic.js
+
 var π = 3.141592653
 //  ^ variable.other.readwrite
 
