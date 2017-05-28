@@ -505,6 +505,7 @@ contexts:
         set: after-identifier
       - match: '(?=.|\n)'
         push:
+          - meta_include_prototype: false
           - match: '(?=/)'
             pop: true
           - include: scope:source.regexp.js
