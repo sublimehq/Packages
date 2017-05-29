@@ -15,6 +15,13 @@ variables:
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
+  line_continuation_lookahead: >-
+    (?x) (?=
+      \+\+ |
+      \+=  |
+      [-+*/><&|^\[(]
+    )
+
 contexts:
   main:
     - include: comments-top-level
@@ -54,6 +61,10 @@ contexts:
       scope: comment.line.shebang.js
       captures:
         1: punctuation.definition.comment.js
+
+  else-pop:
+    - match: (?=\S)
+      pop: true
 
   keywords-top-level:
     - match: \bimport\b
@@ -306,19 +317,11 @@ contexts:
 
   expression-statement-end:
     - match: \n
-      set: expression-statement-line-continuation
+      set:
+        - match: '{{line_continuation_lookahead}}'
+          set: expression-statement-end
+        - include: else-pop
     - include: expression-end
-
-  expression-statement-line-continuation:
-    - match: >-
-        (?x) (?=
-          \+\+ |
-          \+=  |
-          [-+*/><&|^\[(]
-        )
-      set: expression-statement-end
-    - match: (?=\S)
-      pop: true
 
   restricted-production:
     - match: \n
@@ -332,7 +335,7 @@ contexts:
       push:
         - meta_scope: meta.switch.js
         - match: (?=\()
-          push: round-brackets
+          push: parenthesized-expression
         - match: '\}'
           scope: meta.block.js punctuation.section.block.js
           pop: true
@@ -479,8 +482,7 @@ contexts:
     - include: literal-punctuation
     - include: fallthrough
 
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   expression-end-no-comma:
     - match: (?=,)
@@ -508,14 +510,14 @@ contexts:
     - include: anonymous-function
     - include: object-literal
 
-    - include: brackets
+    - include: parenthesized-expression
+    - include: array-literal
 
     - include: literal-number
     - include: literal-call
     - include: literal-variable
 
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   fallthrough:
     # If an arrow function has the ( and ) on different lines, we won't have matched
@@ -1103,13 +1105,10 @@ contexts:
             2: punctuation.dollar.js
             3: punctuation.separator.key-value.js
           push:
-            - meta_scope: TEST
             - match: ':'
               scope: meta.function.declaration.js punctuation.separator.key-value.js
               set: expression-no-comma
-              # set: either-function-declaration
-            - match: '(?=\S)'
-              pop: true
+            - include: else-pop
         - match: "(?=('.*'|\".*\"|{{identifier}})\\s*:({{func_lookahead}}|{{arrow_func_lookahead}}))"
           push:
             - meta_content_scope: meta.object-literal.key.js meta.function.declaration.js
@@ -1146,15 +1145,13 @@ contexts:
                   captures:
                     1: punctuation.separator.key-value.js
                 - include: either-function-declaration
-                - match: '(?=\S)'
-                  pop: true
+                - include: else-pop
         - include: method-declaration
         - match: "(?=\"|')"
           push:
             - meta_scope: meta.object-literal.key.js
             - include: literal-string
-            - match: '(?=.|\n)'
-              pop: true
+            - include: else-pop
         - match: '(\$)[$\w]*(?=\s*:)'
           scope: meta.object-literal.key.dollar.js
           captures:
@@ -1165,8 +1162,6 @@ contexts:
           push:
             - meta_scope: meta.object-literal.key.js
             - include: literal-number
-            # - match: ''
-              # pop: true
         - match: ':'
           scope: punctuation.separator.key-value.js
           push:
@@ -1261,11 +1256,7 @@ contexts:
         - match: '(?=\S)'
           pop: true
 
-  brackets:
-    - include: round-brackets
-    - include: square-brackets
-
-  round-brackets:
+  parenthesized-expression:
     - match: \(
       scope: punctuation.section.group.js
       set:
@@ -1290,7 +1281,7 @@ contexts:
         - match: (?=\S)
           push: expression
 
-  square-brackets:
+  array-literal:
     - match: '\['
       scope: punctuation.section.brackets.js
       set:
@@ -1430,10 +1421,6 @@ contexts:
   literal-variable:
     - match: '(?={{identifier}})'
       set:
-        # Once we've consumed an identifier, switch to the special context that
-        # property handles ambiguous tokens including "/"
-        - match: '(?!{{identifier}})'
-          pop: true
         - include: well-known-identifiers
         - include: language-identifiers
         - include: dollar-identifiers
@@ -1443,6 +1430,7 @@ contexts:
         - match: '{{identifier}}(?=\s*[\[.])'
           scope: variable.other.object.js
         - include: simple-identifiers
+        - include: else-pop
 
   well-known-identifiers:
     - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|XMLHttpRequest)\b
