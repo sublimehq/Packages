@@ -171,7 +171,7 @@ contexts:
         - match: (?=function)
           set: function-declaration
 
-        - include: expressions
+        - include: expression
     - match: '\{'
       scope: meta.block.js punctuation.section.block.js
       set: export-brace
@@ -324,7 +324,7 @@ contexts:
     - match: \n
       pop: true
     - match: (?=\S)
-      set: expressions
+      set: expression-statement
 
   conditional:
     - match: \bswitch\b
@@ -372,7 +372,7 @@ contexts:
             - match: '(?=\))'
               pop: true
             - match: (?=\S)
-              push: expressions
+              push: expression
         - match: '\)'
           scope: meta.group.js punctuation.section.group.js
           pop: true
@@ -438,7 +438,7 @@ contexts:
           scope: punctuation.terminator.statement.js
 
         - match: (?=\S)
-          push: expressions
+          push: expression
     - include: block-scope
 
   block-scope:
@@ -459,7 +459,7 @@ contexts:
     - match: (?=[;})\]])
       pop: true
 
-  expressions:
+  expression:
     - match: (?=\S)
       set: [ expression-end, expression-begin ]
 
@@ -569,7 +569,7 @@ contexts:
               scope: punctuation.definition.template-expression.end.js
               pop: true
             - match: (?=\S)
-              push: expressions
+              push: expression
         - include: string-content
 
   string-content:
@@ -651,7 +651,7 @@ contexts:
           scope: punctuation.section.group.js
           set: constructor-params
         - match: (?=\S)
-          push: expressions
+          push: expression
     - match: '(?=\S)'
       pop: true
 
@@ -1083,7 +1083,7 @@ contexts:
               scope: punctuation.section.brackets.js
               pop: true
             - match: (?=\S)
-              push: expressions
+              push: expression
         - match: '({{identifier}})\s*(\})'
           captures:
             1: variable.other.readwrite.js
@@ -1274,7 +1274,7 @@ contexts:
           scope: punctuation.section.group.js
           pop: true
         - match: (?=\S)
-          push: expressions
+          push: expression
     - match: \)
       scope: invalid.illegal.stray-bracket-end.js
       pop: true
@@ -1288,7 +1288,7 @@ contexts:
           scope: punctuation.section.group.js
           pop: true
         - match: (?=\S)
-          push: expressions
+          push: expression
 
   square-brackets:
     - match: '\['
@@ -1299,7 +1299,7 @@ contexts:
           scope: punctuation.section.brackets.js
           pop: true
         - match: (?=\S)
-          push: expressions
+          push: expression
 
   bracketed-property-access:
     - match: '\['
@@ -1310,7 +1310,7 @@ contexts:
           scope: punctuation.section.brackets.js
           pop: true
         - match: (?=\S)
-          push: expressions
+          push: expression
 
   literal-number:
     - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
