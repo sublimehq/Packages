@@ -1113,6 +1113,7 @@ contexts:
             2: punctuation.dollar.js
             3: punctuation.separator.key-value.js
           push:
+            - meta_scope: TEST
             - match: ':'
               scope: meta.function.declaration.js punctuation.separator.key-value.js
               set: expression-no-comma
