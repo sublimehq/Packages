@@ -121,7 +121,7 @@ contexts:
     - include: variable-definitions
     - match: (?={{rule_lookahead}})
       push: expect-rule
-    - include: function-invocations
+    - include: variable-substitutions
     - include: control-flow
     - match: ^\s*(endef)
       captures:
