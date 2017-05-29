@@ -1631,3 +1631,6 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type Bar = Unit
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
+
+type =?>[A] = Any
+//   ^^^ entity.name.type.scala

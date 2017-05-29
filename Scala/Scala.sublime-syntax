@@ -20,7 +20,7 @@ variables:
   op: |-
     (?x:
       [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
-      =[[^>]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-]&&{{operator_character}}]+|
@@ -32,7 +32,7 @@ variables:
   typeop: |-
     (?x:
       [[^:=<@\x{2190}\x{21D2}#+\-]&&{{operator_character}}]{{operator_character}}*|
-      =[[^>]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-%:]&&{{operator_character}}]+|
