@@ -470,6 +470,13 @@ contexts:
     - match: (?=\S)
       set: [ expression-end-no-comma, expression-begin ]
 
+  expression-list:
+    - include: expression-break
+    - match: ','
+      scope: punctuation.separator.comma.js
+    - match: (?=\S)
+      push: expression-no-comma
+
   expression-end:
     - include: expression-break
 
@@ -1285,12 +1292,11 @@ contexts:
     - match: '\['
       scope: punctuation.section.brackets.js
       set:
-        - meta_scope: meta.brackets.js
+        - meta_scope: meta.sequence.js
         - match: '\]'
           scope: punctuation.section.brackets.js
           pop: true
-        - match: (?=\S)
-          push: expression
+        - include: expression-list
 
   bracketed-property-access:
     - match: '\['

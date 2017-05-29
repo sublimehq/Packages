@@ -384,6 +384,21 @@ var obj = {
 //            ^ constant.numeric
 });
 
+[ a, b, c ];
+// <- meta.sequence punctuation.section.brackets
+// ^ meta.sequence punctuation.separator.comma
+// ^^^^^^^^ meta.sequence
+//        ^ meta.sequence punctuation.section.brackets
+
+function x() {}
+[ a, b, c ];
+// <- meta.sequence.js
+
++
+function x() {}
+[ a, b, c ];
+// <- meta.brackets.js
+
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //  ^ variable.other.dollar.only punctuation.dollar entity.name.function
