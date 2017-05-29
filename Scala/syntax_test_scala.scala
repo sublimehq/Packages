@@ -1631,3 +1631,21 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type Bar = Unit
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
+
+type Foo = 42
+//         ^^ constant.numeric.integer.scala
+
+type Foo = "foo"
+//         ^^^^^ string.quoted.double.scala
+
+type Foo = 'foo
+//         ^^^^ constant.other.symbol.scala
+
+type Foo = 'a'
+//         ^^^ constant.character.literal.scala
+
+type Foo = true
+//         ^^^^ constant.language.scala
+
+type Foo = null
+//         ^^^^ constant.language.scala

@@ -226,7 +226,7 @@ contexts:
   base-types:
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
-  base-constants:
+  literal-constants:
     - match: \b(false|null|true)\b
       scope: constant.language.scala
     # TODO negation
@@ -243,6 +243,8 @@ contexts:
       scope: constant.numeric.hex.scala
     - match: '\b(?:(?:0|[1-9][0-9]*)[lL]?)\b'
       scope: constant.numeric.integer.scala
+  base-constants:
+    - include: literal-constants
     - match: \b(this|super)\b
       scope: variable.language.scala
     - include: base-types
@@ -1335,6 +1337,10 @@ contexts:
       scope: comment.block.empty.scala
     - match: '[\.#]'
       scope: punctuation.accessor.scala
+    - include: literal-constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
     - include: base-types
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
@@ -1357,6 +1363,10 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail
+    - include: literal-constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
