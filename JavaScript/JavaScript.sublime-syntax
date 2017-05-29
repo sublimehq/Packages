@@ -283,15 +283,30 @@ contexts:
       scope: keyword.control.flow.js
       push: restricted-production
 
+    - include: literal-prototype
+    - include: class
+    - include: named-function
+
     - match: (?=\S)
-      push:
-        - match: \n
-          pop: true
-        - include: expressions
+      push: expression-statement
 
   variable-declaration:
     - match: \b(const|let|var)\b
       scope: storage.type.js
+
+  expression-statement:
+    - match: \n
+      set:
+        - match: >-
+            (?x) (?=
+              \+\+ |
+              \+=  |
+              [-+*><&|^\[(]
+            )
+          set: expression-statement
+        - match: (?=\S)
+          pop: true
+    - include: expressions
 
   restricted-production:
     - match: \n
@@ -440,7 +455,6 @@ contexts:
     - include: binary-operators
     - include: class
     - include: constants
-    - include: literal-prototype
     - include: named-function
     - include: anonymous-function
     - include: object-literal
