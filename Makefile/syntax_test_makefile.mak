@@ -660,11 +660,15 @@ else ifeq ($(shell svn info >/dev/null && echo USING_SVN),USING_SVN)
   ifeq ($(REVISION),)
     REVISION := $(subst :,-,$(shell svnversion -n))
   endif
-  # This breaks the Makefile syntax currently, because for some reason the
-  # embedded shell syntax doesn't end the single quoted string (the troubling
-  # part is the argument to sed).
-  # VCSTURD := $(addsuffix /.svn/entries, $(shell svn info | grep 'Root Path' | sed -e 's/\(.*\:\)\(.*\) /\2/'))
+  # This used to break the makefile syntax because we didn't properly account
+  # for closing parentheses in shell-strings. We now use our own quoted string
+  # context in the with_prototype override so that we can account for this.
+  # This does mean that the shell syntax looks a tiny bit different.
+  VCSTURD := $(addsuffix /.svn/entries, $(shell svn info | grep 'Root Path' | sed -e 's/\(.*\:\)\(.*\) /\2/'))
+  #                                                                                  ^ string.quoted.single.makefile punctuation.definition.string.begin.makefile
+  #                                                                                                        ^ string.quoted.single.makefile punctuation.definition.string.end.makefile
 endif
+# <- keyword.control
 
 ifeq (0,1)
 	$(info zero is one)
