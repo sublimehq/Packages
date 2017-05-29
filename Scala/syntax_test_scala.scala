@@ -1631,3 +1631,11 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type Bar = Unit
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
+
+import scalaz._,
+   Scalaz._
+// ^^^^^^^ meta.import.scala variable.package.scala
+
+import scalaz._
+   Scalaz._
+// ^^^^^^ support.constant.scala
