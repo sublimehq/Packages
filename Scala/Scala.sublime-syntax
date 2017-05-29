@@ -1319,6 +1319,12 @@ contexts:
       scope: keyword.operator.bound.scala
   delimited-type-expression:
     - include: annotation
+    # kind-projector support
+    - match: '\?'
+      scope: variable.language.qmark.scala
+    # \x{03BB} = λ
+    - match: '\bLambda\b|\x{03BB}'
+      scope: keyword.operator.type-lambda.scala
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '\b(with)\b'

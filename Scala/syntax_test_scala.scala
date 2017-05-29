@@ -1613,3 +1613,12 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type Bar = Unit
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
+
+type Foo = Monad[OptionT[IO, ?]]
+//                           ^ variable.language.qmark.scala
+
+type Foo = Monad[λ[α => OptionT[IO, α]]]
+//               ^ keyword.operator.type-lambda.scala
+
+type Foo = Monad[Lambda[α => OptionT[IO, α]]]
+//               ^^^^^^ keyword.operator.type-lambda.scala
