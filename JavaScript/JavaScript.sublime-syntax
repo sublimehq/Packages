@@ -24,6 +24,37 @@ contexts:
   prototype:
     - include: comments
 
+  comments:
+    - match: /\*\*(?!/)
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.block.documentation.js
+        - match: \*/
+          scope: punctuation.definition.comment.js
+          pop: true
+    - match: /\*
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.block.js
+        - match: \*/
+          scope: punctuation.definition.comment.js
+          pop: true
+    - match: //
+      scope: punctuation.definition.comment.js
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.double-slash.js
+        - match: \n
+          pop: true
+
+  comments-top-level:
+    - match: ^(#!).*$\n?
+      scope: comment.line.shebang.js
+      captures:
+        1: punctuation.definition.comment.js
+
   keywords-top-level:
     - match: \bimport\b
       scope: meta.import.js keyword.control.import-export.js
@@ -216,12 +247,6 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
-  comments-top-level:
-    - match: ^(#!).*$\n?
-      scope: comment.line.shebang.js
-      captures:
-        1: punctuation.definition.comment.js
-
   statements:
     - include: conditional
     - match: '\{'
@@ -409,31 +434,6 @@ contexts:
       set: after-operator
     - match: '(?=[\S\n])'
       pop: true
-
-  comments:
-    - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.documentation.js
-        - match: \*/
-          scope: punctuation.definition.comment.js
-          pop: true
-    - match: /\*
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.js
-        - match: \*/
-          scope: punctuation.definition.comment.js
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.js
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.double-slash.js
-        - match: \n
-          pop: true
 
   literal-string:
     - match: "'"
