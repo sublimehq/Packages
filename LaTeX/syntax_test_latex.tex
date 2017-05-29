@@ -439,6 +439,22 @@ a & b
 \end{tabular}
 
 
+\AnyDeclarationCommand{\eq}{\begin{equation}}
+
+% <- - meta.environment.math
+
+\wrapcommand{$}
+
+% <- - meta.environment.math
+
+\wrapcommand{\[}
+
+% <- - meta.environment.math
+
+$f(x) = \} {} y$
+% ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.latex
+
+
 \end{document}
 % ^ support.function.end.latex keyword.control.flow.end.latex
 %        ^ variable.parameter.function.latex
