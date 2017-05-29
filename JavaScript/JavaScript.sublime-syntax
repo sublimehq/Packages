@@ -16,10 +16,11 @@ variables:
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
   line_continuation_lookahead: >-
-    (?x) (?=
-      \+\+ |
-      \+=  |
-      [-+*/><&|^\[(]
+    (?x)
+    (?! \+\+ | -- )
+    (?=
+      != |
+      [ -+*/% ><= &|^ \[( ;,.:? ]
     )
 
 contexts:
