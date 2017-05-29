@@ -1634,3 +1634,11 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 
 val x: = 42
 //       ^^ constant.numeric.integer.scala
+
+   object Foo
+   IO
+// ^^ support.constant.scala
+
+   class Foo()
+   IO
+// ^^ support.constant.scala

@@ -554,6 +554,8 @@ contexts:
       set: class-pre-inheritance-early-initializer
     - match: '\n'
       set: class-type-parameter-list-newline
+    - match: (?=\S)
+      pop: true
 
   class-type-parameter-list-newline:
     - include: decl-newline-double-check
@@ -601,6 +603,8 @@ contexts:
       set: class-pre-inheritance-early-initializer
     - match: '\n'
       set: class-parameter-list-newline
+    - match: (?=\S)
+      pop: true
 
   class-parameter-list-newline:
     - include: decl-newline-double-check
