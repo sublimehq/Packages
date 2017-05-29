@@ -278,8 +278,6 @@ contexts:
         - include: line-continuation
         - include: variable-substitutions
         - include: pop-on-line-end
-        - include: textual-parenthesis-balancer
-        - include: quoted-string
 
   recipe-with-spaces:
     - meta_content_scope: meta.function.body.makefile
@@ -291,8 +289,6 @@ contexts:
         - include: line-continuation
         - include: variable-substitutions
         - include: pop-on-line-end
-        - include: textual-parenthesis-balancer
-        - include: quoted-string
     - match: ^(\t)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.spaces.makefile
@@ -311,8 +307,6 @@ contexts:
         - include: line-continuation
         - include: variable-substitutions
         - include: pop-on-line-end
-        - include: textual-parenthesis-balancer
-        - include: quoted-string
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.tab.makefile
@@ -503,8 +497,9 @@ contexts:
           scope: keyword.other.block.end.makefile
           pop: true
         - include: variable-substitutions
-        - include: textual-parenthesis-balancer
         - include: quoted-string
+        - match: \(
+          push: textual-parenthesis-balancer
 
   variable-definitions:
     - match: \s*(override)\b
@@ -542,7 +537,6 @@ contexts:
                 - include: variable-substitutions
                 - include: pop-on-line-end
                 - include: textual-parenthesis-balancer
-                - include: quoted-string
         - match: (?=\s*(!|\?|\+|::?)?=)
           set:
             - match: (!|\?|\+|::?)?=

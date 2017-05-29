@@ -808,6 +808,7 @@ help:
     @echo  '  make V=0|1 [targets] 0 => quiet build (default), 1 => verbose build'
     # <- meta.function.body constant.language
     #               ^ - keyword.operator.assignment
+    #                                                        ^ string.quoted.single.shell
     @echo  '        1: warnings which may be relevant and do not occur too often'
     # <- meta.function.body constant.language
     #                ^ - keyword.operator.assignment
