@@ -820,6 +820,11 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 #                                                            ^ - keyword.other.block.end
 #                                                             ^ keyword.other.block.end
 
+LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*)), \
+    $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SOURCES)))
+    #               ^ string.quoted.double.makefile punctuation.definition.string.begin.makefile
+    #                                                          ^ string.quoted.double.makefile punctuation.definition.string.end.makefile
+
 .SECONDEXPANSION:
 # <- meta.function entity.name.function
 #               ^ keyword.operator.assignment - entity.name.function
