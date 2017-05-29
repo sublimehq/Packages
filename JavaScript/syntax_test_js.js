@@ -251,7 +251,7 @@ var obj = {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
-    }
+    },
 
     [true==false ? 'one' : 'two']: false,
 //  ^ punctuation.section.brackets
@@ -585,7 +585,7 @@ class Foo extends React.Component {
 //^^^ meta.function.anonymous meta.function.declaration
 //    ^^ meta.block punctuation.section.block
 
-const test = ({a, b, c=()=>({active:false}) }) => {}
+const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
@@ -624,7 +624,7 @@ xhr.onload = () => {}
 // <- support.class.js
 //  ^ entity.name.function
 
-var simpleArrow = foo => bar
+var simpleArrow = foo => bar;
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
@@ -637,7 +637,7 @@ var Proto = () => {
     this._var = 1;
 }
 
-Proto.prototype.getVar = () => this._var
+Proto.prototype.getVar = () => this._var;
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //     ^ support.constant.prototype
@@ -792,7 +792,7 @@ var reg = /a+/gimy.exec('aabb')
 //            ^^^^ keyword.other
 //                ^ punctuation.accessor
 
-'aabbcc'.replace(/b+/, 'd')
+'aabbcc'.replace(/b+/, 'd');
 //               ^^^^ string.regexp
 //                 ^ keyword.operator.quantifier.regexp
 
@@ -942,7 +942,7 @@ var arrowFuncBraceNextLine = () => /* comments! */
 var conciseFunc = () =>
   foo
 //^^^ meta.block variable.other.readwrite
-  .bar()
+  .bar();
 //^^^^^^ meta.block
 
 // Handle an arrow function in a parenthetical group
