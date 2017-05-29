@@ -126,7 +126,9 @@ contexts:
 
   export-extended:
     - meta_content_scope: meta.export.js
-    - match: '(?=\b(let|const|var)\b)'
+
+    - match: \b(const|let|var)\b
+      scope: storage.type.js
       set:
         - meta_content_scope: meta.export.js
         - match: '(?=;|\n)'
@@ -236,13 +238,41 @@ contexts:
           pop: true
         - include: statements
     - include: label
-    # - include: expressions
+
+    - include: variable-declaration
+
+    - match: \bthrow\b
+      scope: keyword.control.trycatch.js
+      push: restricted-production
+
+    - match: \b(break|continue|goto)\b
+      scope: keyword.control.loop.js
+
+    - match: \b(yield)\b(?:\s*(\*))?
+      captures:
+        1: keyword.control.flow.js
+        2: keyword.generator.asterisk.js
+      push: restricted-production
+
+    - match: \b(await|return)\b
+      scope: keyword.control.flow.js
+      push: restricted-production
 
     - match: (?=\S)
       push:
         - match: \n
           pop: true
         - include: expressions
+
+  variable-declaration:
+    - match: \b(const|let|var)\b
+      scope: storage.type.js
+
+  restricted-production:
+    - match: \n
+      pop: true
+    - match: (?=\S)
+      set: expressions
 
   conditional:
     - match: \bswitch\b
@@ -384,7 +414,6 @@ contexts:
     - include: unary-operators
     - include: binary-operators
     - include: class
-    - include: keywords
     - include: constants
     - include: literal-prototype
     - include: named-function
@@ -701,28 +730,6 @@ contexts:
       scope: punctuation.section.block.js
       pop: true
     - include: method-declaration
-
-  keywords:
-    - match: ^\s*\b(?:(throw)|(yield|return))\b\s*$
-      captures: # these keywords are restricted productions and implicitly end at the end of the line, so we don't push the after-operator scope
-        1: keyword.control.trycatch.js
-        2: keyword.control.flow.js
-      pop: true
-    - match: \bthrow\b
-      scope: keyword.control.trycatch.js
-      push: after-operator
-    - match: \b(break|continue|goto)\b
-      scope: keyword.control.loop.js
-    - match: \b(yield)\b(?:\s*(\*))?
-      captures:
-        1: keyword.control.flow.js
-        2: keyword.generator.asterisk.js
-      push: after-operator
-    - match: \b(await|return)\b
-      scope: keyword.control.flow.js
-      push: after-operator
-    - match: \b(const|let|var)\b
-      scope: storage.type.js
 
   constants:
     - match: \btrue\b
