@@ -3,18 +3,56 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Shell Script (Bash)
 file_extensions:
-  - sh
+  - ackrc
+  - aliases
+  - antigen
   - bash
+  - bash_aliases
+  - bash_functions
+  - bash_login
+  - bash_logout
+  - bash_profile
+  - bash_prompt
+  - bash_variables
+  - bashrc
+  - brew
+  - curlrc
+  - editorconfig
+  - env
+  - envrc
+  - eslintignore
+  - exports
+  - extra
+  - functions
+  - git
+  - gitattributes
+  - gitconfig
+  - gitignore
+  - gitmodules
+  - hushlogin
+  - inputrc
+  - jsbeautifyrc
+  - jshintignore
+  - npmignore
+  - npmrc
+  - osx
+  - packages
+  - pkginit
+  - profile
+  - screenrc
+  - sh
+  - symlink
+  - textmate_init
+  - wgetrc
+  - xsessionrc
+  - zlogin
+  - zlogout
+  - zpreztorc
+  - zprofile
   - zsh
-  - .bash_aliases
-  - .bash_functions
-  - .bash_login
-  - .bash_logout
-  - .bash_profile
-  - .bash_variables
-  - .bashrc
-  - .profile
-  - .textmate_init
+  - zsh-theme
+  - zshenv
+  - zshrc
 first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)|^#\s*-\*-[^*]*mode:\s*shell-script[^*]*-\*-'
 scope: source.shell
 contexts:
