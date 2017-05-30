@@ -106,8 +106,7 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       set: import-extended-as
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   import-extended-as:
     - meta_content_scope: meta.import.js
@@ -125,8 +124,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
       set: import-extended
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   import-brace:
     - meta_content_scope: meta.import.js meta.block.js
@@ -140,8 +138,7 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       set: import-brace-as
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   import-brace-as:
     - meta_content_scope: meta.import.js meta.block.js
@@ -161,8 +158,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
       set: import-brace
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   import-final:
     - meta_scope: meta.import.js
@@ -170,8 +166,7 @@ contexts:
       scope: keyword.control.import-export.js
     - match: (?=['"])
       push: literal-string
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   export-escape:
     - match: '(?=;|function|var|class)'
@@ -201,8 +196,7 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       set: export-extended-as
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   export-extended-as:
     - meta_content_scope: meta.export.js
@@ -220,8 +214,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
       set: export-extended
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   export-brace:
     - meta_content_scope: meta.export.js meta.block.js
@@ -235,8 +228,7 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       set: export-brace-as
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   export-brace-as:
     - meta_content_scope: meta.export.js meta.block.js
@@ -260,8 +252,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
       set: export-brace
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   export-final:
     - meta_scope: meta.export.js
@@ -269,8 +260,7 @@ contexts:
       scope: keyword.control.import-export.js
     - match: (?=['"])
       push: literal-string
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   statements:
     - match: \;
@@ -467,8 +457,7 @@ contexts:
         - match: '(?=\})'
           pop: true
         - include: statements
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   expression-break:
     - match: (?=[;})\]])
@@ -540,7 +529,7 @@ contexts:
   fallthrough:
     # If an arrow function has the ( and ) on different lines, we won't have matched
     - match: =>
-      scope: storage.type.function.arrow.js FALLTHROUGH
+      scope: storage.type.function.arrow.js
 
   literal-string:
     - match: "'"
@@ -633,16 +622,14 @@ contexts:
           push: function-declaration
         - match: '(?=\()'
           set: constructor-params
-        - match: '(?=\S)'
-          pop: true
+        - include: else-pop
     - match: '(?=class\b)'
       set:
         - meta_scope: meta.instance.constructor.js
         - include: class
         - match: '(?=\()'
           set: constructor-params
-        - match: '(?=\S)'
-          pop: true
+        - include: else-pop
     - match: '(?={{identifier}})'
       set:
         - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
@@ -672,8 +659,7 @@ contexts:
           set: constructor-params
         - match: (?=\S)
           push: expression
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   constructor-params:
     - meta_content_scope: meta.instance.constructor.js
@@ -681,8 +667,7 @@ contexts:
       push:
         - meta_scope: meta.function-call.constructor.js
         - include: function-call-params
-    - match: '(?=\S)'
-      pop: true
+    - include: else-pop
 
   prefix-operators:
     - match: '~'
@@ -774,6 +759,7 @@ contexts:
     - match: '--'
       scope: keyword.operator.arithmetic.js
     - match: '\+\+'
+      scope: keyword.operator.arithmetic.js
 
   class:
     - match: \bclass\b
@@ -791,8 +777,7 @@ contexts:
               scope: entity.other.inherited-class.js
             - match: '\.'
               scope: punctuation.accessor.js
-            - match: '(?=\S)'
-              pop: true
+            - include: else-pop
         - match: '{{identifier}}'
           scope: entity.name.class.js
 
@@ -1081,7 +1066,7 @@ contexts:
               push: expression-no-comma
 
   label:
-    - match: '^\s*((?!default){{identifier}})\s*(:)'
+    - match: '({{identifier}})\s*(:)'
       captures:
         1: entity.name.label.js
         2: punctuation.separator.js
