@@ -2,7 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Clojure
-comment: 'Symbol pattern : [a-zA-Z+!\-_?0-9*~#@''`/.$=]'
+variables:
+  symbol: '[a-zA-Z+!\-_?0-9*~#@''`/.$=]'
 file_extensions:
   - clj
 scope: source.clojure
@@ -60,7 +61,7 @@ contexts:
             - include: parameters_variable
             - match: \&
               scope: keyword.operator.varargs.clojure
-            - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(:as)(?!{{symbol}})'
               scope: keyword.operator.symbolargs.clojure
             - include: parameters
             - include: parameters_map
@@ -82,13 +83,13 @@ contexts:
             - include: comment
             - include: metadata
             - include: parameters_variable
-            - match: '(:as|:or|:keys|:strs|:syms)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(:as|:or|:keys|:strs|:syms)(?!{{symbol}})'
               scope: keyword.operator.symbolargs.clojure
             - include: parameters
             - include: parameters_map
             - include: all
         - include: binding_exp
-    - match: '(:let|:when|:while)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(:let|:when|:while)(?!{{symbol}})'
       captures:
         1: keyword.operator.symbolargs.clojure
       push:
@@ -96,22 +97,22 @@ contexts:
         - match: '(?=\])'
           pop: true
         - include: binding_exp
-    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(?={{symbol}})'
       comment: symbol matching
       push:
         - meta_scope: meta.structure.binding.symbol.clojure
         - match: '(?=\])'
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - meta_scope: variable.parameter.clojure
-            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?<={{symbol}})(?!{{symbol}})'
               pop: true
             - include: keyword
             - include: operator
             - include: number
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: '(?=\])'
               pop: true
@@ -192,21 +193,21 @@ contexts:
           pop: true
         - include: string
         - include: binding
-    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(?={{symbol}})'
       comment: symbol matching
       push:
         - meta_scope: meta.structure.binding_exp.symbol.clojure
         - match: '(?=\])'
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
-            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?<={{symbol}})(?!{{symbol}})'
               pop: true
             - include: keyword
             - include: operator
             - include: number
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: '(?=\])'
               pop: true
@@ -298,17 +299,17 @@ contexts:
         - match: \)
           pop: true
         - include: comment
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - match: (?=\))
               pop: true
-            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?={{symbol}})'
               push:
                 - meta_scope: meta.function.multi_method.name.clojure
-                - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                - match: '(?<={{symbol}})(?!{{symbol}})'
                   pop: true
                 - include: function_name
-            - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?<={{symbol}})(?!{{symbol}})'
               push:
                 - match: (?=\))
                   pop: true
@@ -386,39 +387,39 @@ contexts:
                       pop: true
                     - include: string
                     - include: parameters_body
-                - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                - match: '(?={{symbol}})'
                   comment: symbol matching
                   push:
                     - meta_scope: meta.structure.multi_method_exp.symbol.clojure
                     - match: (?=\))
                       pop: true
-                    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                    - match: '(?={{symbol}})'
                       push:
-                        - match: '(?<=[a-zA-Z+!\-_?0-9*~#@''`/.$=])(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                        - match: '(?<={{symbol}})(?!{{symbol}})'
                           pop: true
                         - include: symbol_java_inherited_class
                         - include: keyword
                         - include: operator
                         - include: number
                         - include: symbol
-                    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                    - match: '(?!{{symbol}})'
                       push:
                         - match: (?=\))
                           pop: true
                         - include: parameters_body
   function_name:
-    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(?={{symbol}})'
       comment: symbol matching
       push:
         - meta_scope: entity.name.function.clojure
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
         - include: keyword
         - include: operator
         - match: '-(?=[a-zA-Z+!\-_?*~#@''`/.$=])'
           scope: keyword.operator.prefix.genclass.clojure
           push:
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
         - include: symbol
@@ -429,7 +430,7 @@ contexts:
         1: support.other.keyword.genclass.clojure
       push:
         - meta_scope: meta.other.genclass.extends.clojure
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
         - include: symbol_java_inherited_class
     - match: '(:implements)\s+(\[)'
@@ -453,11 +454,11 @@ contexts:
             - meta_scope: meta.other.genclass.constructor.signature.clojure
             - match: '\]'
               pop: true
-            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?={{symbol}})'
               comment: "TODO: make a rule java Class (storage)"
               push:
                 - meta_scope: storage.type.java.clojure
-                - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                - match: '(?!{{symbol}})'
                   pop: true
                 - include: symbol
             - include: all
@@ -478,22 +479,22 @@ contexts:
               scope: support.other.keyword.genclass.clojure
             - include: all
         - include: all
-    - match: ':(init|main|factory|state|prefix|load-impl-ns|implements|constructors|exposes|impl-ns|exposes-methods|methods)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: ':(init|main|factory|state|prefix|load-impl-ns|implements|constructors|exposes|impl-ns|exposes-methods|methods)(?!{{symbol}})'
       scope: support.other.keyword.genclass.clojure
     - include: all
   gencommon_parameters:
     - include: comment
-    - match: '(:name)\s+(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(:name)\s+(?={{symbol}})'
       captures:
         1: support.other.keyword.genclass.clojure
       push:
         - meta_scope: meta.other.genclass.name.clojure
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - meta_scope: entity.name.namespace.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
     - match: '(:methods)\s+(\[)'
@@ -513,15 +514,15 @@ contexts:
                 - meta_scope: meta.other.genclass.method.args.signature.clojure
                 - match: '\]'
                   pop: true
-                - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                - match: '(?={{symbol}})'
                   comment: "TODO: make a rule java Class (storage)"
                   push:
                     - meta_scope: storage.type.java.clojure
-                    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+                    - match: '(?!{{symbol}})'
                       pop: true
                     - include: symbol
                 - include: all
-            - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=]+\s*])'
+            - match: '(?={{symbol}}+\s*])'
               push:
                 - meta_scope: storage.type.java.genclass.return_type.clojure
                 - match: .|$
@@ -637,7 +638,7 @@ contexts:
         1: comment.punctuation.definition.metadata.begin.clojure
         2: storage.type.java.clojure
   metadata_patterns:
-    - match: '(:tag|:doc|:arglists|:private|:macro|:name|:ns|:inline-arities|:inline|:line|:file)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(:tag|:doc|:arglists|:private|:macro|:name|:ns|:inline-arities|:inline|:line|:file)(?!{{symbol}})'
       scope: support.other.keyword.namespace.clojure
     - match: '(?<=:tag)\s+([a-zA-Z+!\-_?0-9*/.$=]+)'
       scope: storage.type.java.clojure
@@ -658,15 +659,15 @@ contexts:
         - meta_scope: meta.function.namespace.clojure
         - match: \)
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - meta_scope: entity.name.namespace.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
         - include: namespace_body
   namespace_body:
-    - match: '(:refer-clojure|:require|:use|:import|:load|:exclude|:as|:only)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(:refer-clojure|:require|:use|:import|:load|:exclude|:as|:only)(?!{{symbol}})'
       scope: support.other.keyword.namespace.clojure
     - match: \(\s*(:gen-class)
       captures:
@@ -738,7 +739,7 @@ contexts:
           pop: true
         - match: \&
           scope: keyword.operator.varargs.clojure
-        - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(:as)(?!{{symbol}})'
           scope: keyword.operator.symbolargs.clojure
         - include: comment
         - include: metadata
@@ -763,7 +764,7 @@ contexts:
           pop: true
         - match: \&
           scope: keyword.operator.varargs.clojure
-        - match: '(:as)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(:as)(?!{{symbol}})'
           scope: keyword.operator.symbolargs.clojure
         - include: comment
         - include: metadata
@@ -779,7 +780,7 @@ contexts:
           scope: punctuation.definition.map.end.clojure
           pop: true
         - include: parameters_variable
-        - match: '(:as|:or|:keys|:strs|:syms)(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(:as|:or|:keys|:strs|:syms)(?!{{symbol}})'
           scope: keyword.operator.symbolargs.clojure
         - include: parameters
         - include: parameters_map
@@ -789,7 +790,7 @@ contexts:
       comment: symbol matching TODO:operator number => error ?
       push:
         - meta_scope: variable.parameter.clojure
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
         - include: keyword
         - include: operator
@@ -879,10 +880,10 @@ contexts:
         - match: '(?=([a-z]+\.)*[A-Z][a-zA-Z]*(\$[A-Z][a-zA-Z]*)?)'
           push:
             - meta_scope: storage.type.java.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: (?=\))
               pop: true
@@ -895,13 +896,13 @@ contexts:
         - meta_scope: meta.function.member_access_form.clojure
         - match: (?=\))
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - meta_scope: storage.type.java.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: (?=\))
               pop: true
@@ -930,18 +931,18 @@ contexts:
         - meta_scope: meta.function.catch_form.clojure
         - match: (?=\))
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol_java_class_form_body
-        - match: '\s+(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '\s+(?={{symbol}})'
           push:
             - meta_scope: variable.parameter.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: (?=\))
               pop: true
@@ -955,13 +956,13 @@ contexts:
         - meta_scope: meta.function.setvar_form.clojure
         - match: (?=\))
           pop: true
-        - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?={{symbol}})'
           push:
             - meta_scope: variable.parameter.clojure
-            - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+            - match: '(?!{{symbol}})'
               pop: true
             - include: symbol
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           push:
             - match: (?=\))
               pop: true
@@ -1033,7 +1034,7 @@ contexts:
         1: keyword.operator.symbol.clojure
       push:
         - meta_scope: constant.string.symbol.clojure
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
         - include: symbol
     - match: '#"'
@@ -1094,12 +1095,12 @@ contexts:
           pop: true
         - include: symbol
   symbol_java_class_form_body:
-    - match: '(?=[a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(?={{symbol}})'
       push:
-        - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+        - match: '(?!{{symbol}})'
           pop: true
         - include: symbol_java_inherited_class
-    - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
+    - match: '(?!{{symbol}})'
       push:
         - match: (?=\))
           pop: true
