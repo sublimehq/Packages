@@ -547,7 +547,7 @@ contexts:
       scope: keyword.other.clojure
     - match: '(?<![*+!_?\-])\b(str|print(ln)?|eval|def|defmacro|defn|quote|var|fn|defmulti|defmethod|map|list|hash-map|vector|agent|declare|intern|macroexpand|macroexpand-1)\b(?![*+!_?\-])'
       scope: storage.clojure
-    - match: '(?<![*+!_?\-])\b(->|\.\.|amap|and|areduce|assert|binding|comment|cond|definline|(def[a-z\-]*)|defmatch|defmethod|defmulti|defn|defn-|defonce|defstruct|delay|doc|doseq|dosync|dotimes|doto|fn|for|if-let|lazy-cons|let|locking|loop|memfn|ns|or|prefer-method|proxy-super|proxy|refer-clojure|remove-method|sync|time|when-first|when-let|when-not|when|while|with-in-str|with-local-vars|with-open|with-out-str|with-precision|memoize)\b(?![*+!_?\-])'
+    - match: '(?<![*+!_?\-])\b(->|\.\.|amap|and|areduce|assert|binding|comment|cond|def|definline|defmatch|defmethod|defmulti|defn|defn-|defonce|defstruct|delay|doc|doseq|dosync|dotimes|doto|fn|for|if-let|lazy-cons|let|locking|loop|memfn|ns|or|prefer-method|proxy-super|proxy|refer-clojure|remove-method|sync|time|when-first|when-let|when-not|when|while|with-in-str|with-local-vars|with-open|with-out-str|with-precision|memoize)\b(?![*+!_?\-])'
       scope: support.function.match.clojure
     - match: '(?<![*+!_?\-])\b(rational|associative|branch|class|coll|contains|decimal|delay|distinct|empty|end|even|every|false|float|fn|identical|instance|integer|isa|keyword|list|map|neg|nil|not-any|not-every|number|odd|pos|ratio|reversible|seq|sequential|set|sorted|special-symbol|string|symbol|true|var|zero|vector|ifn)(\?)(?![*+!_?\-])'
       scope: support.function.tester.clojure
@@ -1035,12 +1035,6 @@ contexts:
         - meta_scope: constant.string.symbol.clojure
         - match: '(?![a-zA-Z+!\-_?0-9*~#@''`/.$=])'
           pop: true
-        - include: symbol
-    - match: '('')(?=[a-zA-Z+!\-_?0-9*/.$=])'
-      captures:
-        1: keyword.operator.symbol.clojure
-      push:
-        - meta_scope: constant.string.symbol.clojure
         - include: symbol
     - match: '#"'
       scope: punctuation.definition.string.begin.clojure
