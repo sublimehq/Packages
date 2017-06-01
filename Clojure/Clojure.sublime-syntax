@@ -37,6 +37,10 @@ contexts:
       scope: comment.line.semicolon.clojure
       captures:
         1: punctuation.definition.comment.clojure
+  all_pop_closing_paren:
+    - match: (?=\))
+      pop: true
+    - include: all
   all:
     - include: function
     - include: function_multi_method
@@ -45,63 +49,38 @@ contexts:
     - include: comment
     - include: expr
     - include: sexpr
+  binding_vector_parameters:
+    - meta_scope: meta.parameters.vector.clojure
+    - include: expect_parameters
+  inside_binding_vector:
+    - meta_scope: meta.structure.binding.vector.clojure
+    - include: binding_exp_pop_close_square
+  binding_map_parameters:
+    - meta_scope: meta.function.parameters.map.clojure
+    - include: expect_parameters_map
+    - include: all
+  inside_binding_map:
+    - meta_scope: meta.structure.binding.map.clojure
+    - include: binding_exp_pop_close_square
+  binding_exp_pop_close_square:
+    - match: '(?=\])'
+      pop: true
+    - include: binding_exp
   binding:
     - include: comment
     - include: metadata
     - match: '\['
       scope: punctuation.definition.vector.begin.clojure
-      push:
-        - meta_scope: meta.structure.binding.vector.clojure
-        - match: '(?=\])'
-          pop: true
-        - match: '(?<=\[)'
-          comment: "TODO: merge with parameters ??"
-          push:
-            - meta_scope: meta.parameters.vector.clojure
-            - match: '\]'
-              scope: punctuation.definition.vector.end.clojure
-              pop: true
-            - include: comment
-            - include: metadata
-            - include: parameters_variable
-            - match: \&
-              scope: keyword.operator.varargs.clojure
-            - match: '(:as)(?!{{symbol}})'
-              scope: keyword.operator.symbolargs.clojure
-            - include: parameters
-            - include: parameters_map
-            - include: all
-        - include: binding_exp
+      push: [inside_binding_vector, binding_vector_parameters]
     - match: '\{'
       scope: punctuation.definition.map.begin.clojure
-      push:
-        - meta_scope: meta.structure.binding.map.clojure
-        - match: '(?=\])'
-          pop: true
-        - match: '(?<=\{)'
-          comment: "TODO: merge with map ??"
-          push:
-            - meta_scope: meta.function.parameters.map.clojure
-            - match: '\}'
-              scope: punctuation.definition.map.end.clojure
-              pop: true
-            - include: comment
-            - include: metadata
-            - include: parameters_variable
-            - match: '(:as|:or|:keys|:strs|:syms)(?!{{symbol}})'
-              scope: keyword.operator.symbolargs.clojure
-            - include: parameters
-            - include: parameters_map
-            - include: all
-        - include: binding_exp
+      push: [inside_binding_map, binding_map_parameters]
     - match: '(:let|:when|:while)(?!{{symbol}})'
       captures:
         1: keyword.operator.symbolargs.clojure
       push:
         - meta_scope: meta.structure.binding.symbolargs.clojure
-        - match: '(?=\])'
-          pop: true
-        - include: binding_exp
+        - include: binding_exp_pop_close_square
     - match: '(?={{symbol}})'
       comment: symbol matching
       push:
@@ -118,15 +97,22 @@ contexts:
             - include: number
             - include: symbol
         - match: '(?!{{symbol}})'
-          push:
-            - match: '(?=\])'
-              pop: true
-            - include: binding_exp
+          push: binding_exp_pop_close_square
     - match: '\S'
       push:
         - meta_scope: invalid.illegal.bindings.clojure
         - match: '[^\]]'
           pop: true
+  binding_pop_close_square:
+    - match: '(?=\])'
+      pop: true
+    - include: binding
+  inside_binding_exp_vector:
+    - meta_scope: meta.structure.binding_exp.vector.clojure
+    - include: binding_pop_close_square
+  inside_binding_exp_map:
+    - meta_scope: meta.structure.binding_exp.map.clojure
+    - include: binding_pop_close_square
   binding_exp:
     - include: comment
     - include: metadata
@@ -136,9 +122,7 @@ contexts:
         1: constant.language.clojure
       push:
         - meta_scope: meta.structure.binding_exp.constant.language.clojure
-        - match: '(?=\])'
-          pop: true
-        - include: binding
+        - include: binding_pop_close_square
     - match: (?=#?\()
       push:
         - meta_scope: meta.structure.binding_exp.sexp.clojure
@@ -154,36 +138,10 @@ contexts:
             - include: macro
             - include: sexpr
         - include: binding
-    - match: '\['
-      scope: punctuation.definition.vector.begin.clojure
-      push:
-        - meta_scope: meta.structure.binding_exp.vector.clojure
-        - match: '(?=\])'
-          pop: true
-        - match: '(?<=\[)'
-          comment: "TODO: merge with vector"
-          push:
-            - meta_scope: meta.expression.vector.clojure
-            - match: '\]'
-              scope: punctuation.definition.vector.end.clojure
-              pop: true
-            - include: all
-        - include: binding
-    - match: '\{'
-      scope: punctuation.definition.map.begin.clojure
-      push:
-        - meta_scope: meta.structure.binding_exp.map.clojure
-        - match: '(?=\])'
-          pop: true
-        - match: '(?<=\{)'
-          comment: "TODO: merge with map"
-          push:
-            - meta_scope: meta.expression.map.clojure
-            - match: '\}'
-              scope: punctuation.definition.map.end.clojure
-              pop: true
-            - include: all
-        - include: binding
+    - match: '(?=\[)'
+      push: [inside_binding_exp_vector, vector]
+    - match: '(?=\{)'
+      push: [inside_binding_exp_map, map]
     - match: '(?=#\{)'
       push:
         - meta_scope: meta.structure.binding_exp.set.clojure
@@ -213,32 +171,19 @@ contexts:
             - include: number
             - include: symbol
         - match: '(?!{{symbol}})'
-          push:
-            - match: '(?=\])'
-              pop: true
-            - include: binding
+          push: binding_pop_close_square
     - match: '\S'
       push:
         - meta_scope: invalid.illegal.bindings.clojure
         - match: '[^\]]'
           pop: true
+  inside_bindings_form:
+    - meta_scope: meta.structure.bindings.clojure
+    - include: all_pop_closing_paren
   bindings_form:
     - match: '\['
       comment: bindings followed by all
-      push:
-        - meta_scope: meta.structure.bindings.clojure
-        - match: (?=\))
-          pop: true
-        - match: '(?<=\[)'
-          push:
-            - match: '\]'
-              pop: true
-            - include: binding
-        - match: '(?<=\])'
-          push:
-            - match: (?=\))
-              pop: true
-            - include: all
+      push: [inside_bindings_form, binding_pop_close_square]
   expr:
     - include: keyword
     - include: operator
@@ -274,8 +219,6 @@ contexts:
     - match: '(?=\[)'
       push:
         - meta_scope: meta.function.body.clojure
-        - match: (?=\))
-          pop: true
         - include: parameters_body
   function_body_comment:
     - match: '"'
@@ -326,14 +269,10 @@ contexts:
                     1: constant.language.clojure
                   push:
                     - meta_scope: meta.structure.multi_method_exp.constant.language.clojure
-                    - match: (?=\))
-                      pop: true
                     - include: parameters_body
                 - match: (?=#?\()
                   push:
                     - meta_scope: meta.structure.multi_method_exp.sexp.clojure
-                    - match: (?=\))
-                      pop: true
                     - match: (?=#?\()
                       push:
                         - match: (?<=\))
@@ -351,45 +290,24 @@ contexts:
                     - match: (?=\))
                       pop: true
                     - match: '(?<=\[)'
-                      comment: "TODO: merge with vector"
-                      push:
-                        - meta_scope: meta.expression.vector.clojure
-                        - match: '\]'
-                          scope: punctuation.definition.vector.end.clojure
-                          pop: true
-                        - include: all
+                      push: inside_vector
                     - match: '(?<=\])\s*'
-                      push:
-                        - match: (?=\))
-                          pop: true
-                        - include: parameters_body
+                      push: parameters_body
                 - match: '\{'
                   scope: punctuation.definition.map.begin.clojure
                   push:
                     - meta_scope: meta.structure.multi_method_exp.map.clojure
-                    - match: (?=\))
-                      pop: true
                     - match: '(?<=\{)'
-                      comment: "TODO: merge with map"
-                      push:
-                        - meta_scope: meta.expression.map.clojure
-                        - match: '\}'
-                          scope: punctuation.definition.map.end.clojure
-                          pop: true
-                        - include: all
+                      push: inside_map
                     - include: parameters_body
                 - match: '(?=#\{)'
                   push:
                     - meta_scope: meta.structure.multi_method_exp.set.clojure
-                    - match: (?=\))
-                      pop: true
                     - include: set
                     - include: parameters_body
                 - match: (?=")|(?=\\)|(?=\:)|(?=\#")
                   push:
                     - meta_scope: meta.structure.multi_method_exp.string.clojure
-                    - match: (?=\))
-                      pop: true
                     - include: string
                     - include: parameters_body
                 - match: '(?={{symbol}})'
@@ -408,10 +326,7 @@ contexts:
                         - include: number
                         - include: symbol
                     - match: '(?!{{symbol}})'
-                      push:
-                        - match: (?=\))
-                          pop: true
-                        - include: parameters_body
+                      push: parameters_body
   function_name:
     - match: '(?={{symbol}})'
       comment: symbol matching
@@ -460,12 +375,7 @@ contexts:
             - match: '\]'
               pop: true
             - match: '(?={{symbol}})'
-              comment: "TODO: make a rule java Class (storage)"
-              push:
-                - meta_scope: storage.type.java.clojure
-                - match: '(?!{{symbol}})'
-                  pop: true
-                - include: symbol
+              push: symbol_java_class
             - include: all
         - include: all
     - match: '(:exposes)\s+(\{)'
@@ -493,15 +403,10 @@ contexts:
       captures:
         1: support.other.keyword.genclass.clojure
       push:
-        - meta_scope: meta.other.genclass.name.clojure
+        - meta_scope: meta.other.genclass.name.clojure entity.name.namespace.clojure
         - match: '(?!{{symbol}})'
           pop: true
-        - match: '(?={{symbol}})'
-          push:
-            - meta_scope: entity.name.namespace.clojure
-            - match: '(?!{{symbol}})'
-              pop: true
-            - include: symbol
+        - include: symbol
     - match: '(:methods)\s+(\[)'
       captures:
         1: support.other.keyword.genclass.clojure
@@ -520,12 +425,7 @@ contexts:
                 - match: '\]'
                   pop: true
                 - match: '(?={{symbol}})'
-                  comment: "TODO: make a rule java Class (storage)"
-                  push:
-                    - meta_scope: storage.type.java.clojure
-                    - match: '(?!{{symbol}})'
-                      pop: true
-                    - include: symbol
+                  push: symbol_java_class
                 - include: all
             - match: '(?={{symbol}}+\s*])'
               push:
@@ -597,8 +497,8 @@ contexts:
         - meta_scope: meta.function.lambda.clojure
         - match: \)
           pop: true
-        - include: sexpr_special
-        - include: all
+        - match: ''
+          push: [all_pop_closing_paren, sexpr_special]
   macro:
     - match: \(\s*(\b(defmacro\-?))\s+
       captures:
@@ -612,15 +512,17 @@ contexts:
         - match: \s*
         - include: function_name
         - include: function_body_comment
+  inside_map:
+    - match: '(?<!\{)\}'
+      scope: punctuation.definition.map.end.clojure
+      pop: true
+    - include: all
   map:
     - match: '\{(?!\})'
       scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.expression.map.clojure
-        - match: '(?<!\{)\}'
-          scope: punctuation.definition.map.end.clojure
-          pop: true
-        - include: all
+        - include: inside_map
   metadata:
     - match: '#?\^\{'
       scope: comment.punctuation.definition.metadata.begin.clojure
@@ -739,57 +641,51 @@ contexts:
       scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.parameters.vector.clojure
-        - match: '\]'
-          scope: punctuation.definition.vector.end.clojure
-          pop: true
-        - match: \&
-          scope: keyword.operator.varargs.clojure
-        - match: '(:as)(?!{{symbol}})'
-          scope: keyword.operator.symbolargs.clojure
-        - include: comment
-        - include: metadata
-        - include: parameters_variable
-        - include: parameters
-        - include: parameters_map
+        - include: expect_parameters
+  expect_parameters:
+    - match: '\]'
+      scope: punctuation.definition.vector.end.clojure
+      pop: true
+    - match: \&
+      scope: keyword.operator.varargs.clojure
+    - match: '(:as)(?!{{symbol}})'
+      scope: keyword.operator.symbolargs.clojure
+    - include: comment
+    - include: metadata
+    - include: parameters_variable
+    - include: parameters
+    - include: parameters_map
   parameters_body:
+    - match: (?=\))
+      pop: true
     - include: parameters_function
     - match: '(?<=\])'
       push:
         - meta_scope: meta.function.body.code.clojure
-        - match: (?=\))
-          pop: true
-        - include: all
+        - include: all_pop_closing_paren
   parameters_function:
     - match: '\['
       scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.function.parameters.vector.clojure
-        - match: '\]'
-          scope: punctuation.definition.vector.end.clojure
-          pop: true
-        - match: \&
-          scope: keyword.operator.varargs.clojure
-        - match: '(:as)(?!{{symbol}})'
-          scope: keyword.operator.symbolargs.clojure
-        - include: comment
-        - include: metadata
-        - include: parameters_variable
-        - include: parameters
-        - include: parameters_map
+        - include: expect_parameters
   parameters_map:
     - match: '\{'
       scope: punctuation.definition.map.begin.clojure
       push:
         - meta_scope: meta.function.parameters.map.clojure
-        - match: '\}'
-          scope: punctuation.definition.map.end.clojure
-          pop: true
-        - include: parameters_variable
-        - match: '(:as|:or|:keys|:strs|:syms)(?!{{symbol}})'
-          scope: keyword.operator.symbolargs.clojure
-        - include: parameters
-        - include: parameters_map
-        - include: all
+        - include: expect_parameters_map
+  expect_parameters_map:
+    - match: '\}'
+      scope: punctuation.definition.map.end.clojure
+      pop: true
+    - include: comment
+    - include: metadata
+    - include: parameters_variable
+    - match: '(:as|:or|:keys|:strs|:syms)(?!{{symbol}})'
+      scope: keyword.operator.symbolargs.clojure
+    - include: parameters
+    - include: parameters_map
   parameters_variable:
     - match: '(?={{symbol}})(?!#)'
       comment: symbol matching TODO:operator number => error ?
@@ -812,127 +708,108 @@ contexts:
         - include: all
   sexpr:
     - match: \((?!\))
-      push:
-        - meta_scope: meta.sexpr.clojure
-        - match: (?<!\()\)
-          pop: true
-        - include: sexpr_special
-        - include: all
+      push: [inside_sexpr, sexpr_special]
+  inside_sexpr:
+    - meta_scope: meta.sexpr.clojure
+    - match: \)
+      pop: true
+    - include: all
   sexpr_special:
-    - match: '(?<=\()\s*(let|loop|doseq|dotimes|binding|for|if-let|when-let|with-local-vars|with-open)\s+(?=\[)'
+    - match: '\s*(let|loop|doseq|dotimes|binding|for|if-let|when-let|with-local-vars|with-open)\s+(?=\[)'
       captures:
         1: keyword.control.clojure
-      push:
+      set:
         - meta_scope: meta.function.let_form.clojure
         - match: (?=\))
           pop: true
         - include: bindings_form
-    - match: (?<=\()\s*(def|declare|defstruct|defonce|defmulti)\s+
+    - match: \s*(def|declare|defstruct|defonce|defmulti)\s+
       captures:
         1: storage.type.variable.clojure
-      push:
+      set:
+        - meta_scope: meta.function.def_form.clojure
+        - match: (?=\))
+          pop: true
+        - include: metadata
+        - match: \s+
+        - include: function_name
+        - match: (?=$)|(?!^)
+          push: all_pop_closing_paren
+    - match: \s*(prefer-method)\s+
+      captures:
+        1: storage.type.variable.clojure
+      set:
         - meta_scope: meta.function.def_form.clojure
         - match: (?=\))
           pop: true
         - include: metadata
         - match: \s*
         - include: function_name
-        - match: (?<=$|.)
+        - match: (?=$)|(?!^)
           push:
-            - match: (?=\))
-              pop: true
-            - include: all
-    - match: (?<=\()\s*(prefer-method)\s+
-      captures:
-        1: storage.type.variable.clojure
-      push:
-        - meta_scope: meta.function.def_form.clojure
-        - match: (?=\))
-          pop: true
-        - include: metadata
-        - match: \s*
-        - include: function_name
-        - match: (?<=$|.)
-          push:
-            - match: (?=\))
-              pop: true
             - include: symbol_java_inherited_class
-            - include: all
-    - match: (?<=\()\s*(instance(\?))\s+
+            - include: all_pop_closing_paren
+    - match: \s*(instance(\?))\s+
       captures:
         1: support.function.tester.clojure
         2: keyword.other.mark.clojure
-      push:
+      set:
         - meta_scope: meta.function.isInstance_form.clojure
         - match: (?=\))
           pop: true
         - include: symbol_java_class_form_body
-    - match: (?<=\()\s*(cast)\s+
+    - match: \s*(cast)\s+
       captures:
         1: support.function.clojure
-      push:
+      set:
         - meta_scope: meta.function.cast_form.clojure
         - match: (?=\))
           pop: true
         - include: symbol_java_class_form_body
-    - match: '(?<=\()\s*((new)\s+|(?=[a-zA-Z][a-zA-Z.]*\.(\s+|$|\))))'
+    - match: '\s*((new)\s+|(?=[a-zA-Z][a-zA-Z.]*\.(\s+|$|\))))'
       captures:
         2: keyword.control.clojure
-      push:
+      set:
         - meta_scope: meta.function.new_form.clojure
         - match: (?=\))
           pop: true
         - match: '(?={{java_symbol}})'
-          push:
-            - meta_scope: storage.type.java.clojure
-            - match: '(?!{{symbol}})'
-              pop: true
-            - include: symbol
+          push: symbol_java_class
         - match: '(?!{{symbol}})'
-          push:
-            - match: (?=\))
-              pop: true
-            - include: all
+          push: all_pop_closing_paren
         - include: all
-    - match: '(?<=\()\s*((\.\.?)\s+(?={{java_symbol}}))'
+    - match: '\s*((\.\.?)\s+(?={{java_symbol}}))'
       captures:
         2: keyword.control.clojure
-      push:
+      set:
         - meta_scope: meta.function.member_access_form.clojure
         - match: (?=\))
           pop: true
         - match: '(?={{symbol}})'
-          push:
-            - meta_scope: storage.type.java.clojure
-            - match: '(?!{{symbol}})'
-              pop: true
-            - include: symbol
+          push: symbol_java_class
         - match: '(?!{{symbol}})'
-          push:
-            - match: (?=\))
-              pop: true
-            - include: all
+          push: all_pop_closing_paren
         - include: all
-    - match: (?<=\()\s*(gen-class)\s+
+    - match: \s*(gen-class)\s+
       captures:
         1: support.function.clojure
-      push:
+      set:
         - meta_scope: meta.function.genclass_form.clojure
         - match: (?=\))
           pop: true
         - include: genclass_parameters
-    - match: (?<=\()\s*(gen-interface)\s+
+    - match: \s*(gen-interface)\s+
       captures:
         1: support.function.clojure
-      push:
+      set:
         - meta_scope: meta.function.geninterface_form.clojure
         - match: (?=\))
           pop: true
         - include: geninterface_parameters
-    - match: (?<=\()\s*((catch)\s+)
+    - match: \s*((catch)\s+)
       captures:
         2: keyword.control.clojure
-      push:
+      set:
         - meta_scope: meta.function.catch_form.clojure
         - match: (?=\))
           pop: true
@@ -948,16 +825,13 @@ contexts:
               pop: true
             - include: symbol
         - match: '(?!{{symbol}})'
-          push:
-            - match: (?=\))
-              pop: true
-            - include: all
+          push: all_pop_closing_paren
         - include: all
-    - match: (?<=\()\s*(((set|swap|compare-and-set)(\!))\s+)
+    - match: \s*(((set|swap|compare-and-set)(\!))\s+)
       captures:
         2: keyword.control.clojure
         3: keyword.other.mark.clojure
-      push:
+      set:
         - meta_scope: meta.function.setvar_form.clojure
         - match: (?=\))
           pop: true
@@ -968,15 +842,12 @@ contexts:
               pop: true
             - include: symbol
         - match: '(?!{{symbol}})'
-          push:
-            - match: (?=\))
-              pop: true
-            - include: all
+          push: all_pop_closing_paren
         - include: all
-    - match: (?<=\()\s*(proxy)\s+
+    - match: \s*(proxy)\s+
       captures:
         1: keyword.control.clojure
-      push:
+      set:
         - meta_scope: meta.function.proxy_form.clojure
         - match: (?=\))
           pop: true
@@ -1022,6 +893,8 @@ contexts:
                             - include: comment
                             - include: function_name
                             - include: function_body_comment
+    - match: ''
+      pop: true
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.clojure
@@ -1097,10 +970,7 @@ contexts:
           pop: true
         - include: symbol_java_inherited_class
     - match: '(?!{{symbol}})'
-      push:
-        - match: (?=\))
-          pop: true
-        - include: all
+      push: all_pop_closing_paren
     - include: all
   symbol_java_inherited_class:
     - match: '(?={{java_symbol}})'
@@ -1109,12 +979,19 @@ contexts:
         - match: '(?![a-zA-Z.$])'
           pop: true
         - include: symbol
+  symbol_java_class:
+    - meta_scope: storage.type.java.clojure
+    - match: '(?!{{symbol}})'
+      pop: true
+    - include: symbol
   vector:
     - match: '\[(?!\])'
       scope: punctuation.definition.vector.begin.clojure
       push:
         - meta_scope: meta.expression.vector.clojure
-        - match: '(?<!\[)\]'
-          scope: punctuation.definition.vector.end.clojure
-          pop: true
-        - include: all
+        - include: inside_vector
+  inside_vector:
+    - match: '(?<!\[)\]'
+      scope: punctuation.definition.vector.end.clojure
+      pop: true
+    - include: all
