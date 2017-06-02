@@ -891,8 +891,10 @@ mytuple = ("this", 'is', 4, tuple)
 #                         ^ punctuation.separator.sequence
 #                           ^^^^^ support.type
 #                                ^ punctuation.section.sequence.end
-also_a_tuple = ()
+
+also_a_tuple = ()[-1]
 #              ^^ meta.sequence.tuple.empty.python
+#                ^^^^ meta.item-access
 
 not_a_tuple = (a = 2, b += 3)
 #             ^^^^^^^^^^^^^^^ - meta.sequence

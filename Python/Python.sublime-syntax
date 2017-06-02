@@ -886,6 +886,7 @@ contexts:
       captures:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
+      push: after-expression
     - match: \((?={{simple_expression}},|\s*\*{{path}})
       scope: punctuation.section.sequence.begin.python
       push: inside-tuple
@@ -909,6 +910,7 @@ contexts:
       captures:
         1: punctuation.section.sequence.begin.python
         2: punctuation.section.sequence.end.python
+      push: after-expression
     - match: \[
       scope: punctuation.section.sequence.begin.python
       push: [inside-list, allow-unpack-operators]
@@ -932,6 +934,7 @@ contexts:
       captures:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
+      push: after-expression
     - match: \{(?={{simple_expression}}:|\s*\*\*{{path}})
       scope: punctuation.section.mapping.begin.python
       push: inside-dictionary
