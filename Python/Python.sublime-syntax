@@ -253,14 +253,15 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries-and-sets
+    - include: line-continuation
 
   line-expressions: # Always include this last!
     - include: expressions-common
-    - include: line-continuation
     - include: qualified-name
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
+    # and matches accessors continued on a different line
     - include: expressions-common
     - include: illegal-names-pop
     - include: qualified-name
@@ -546,6 +547,7 @@ contexts:
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
+    - include: line-continuation
 
   function-after-parameters:
     - meta_content_scope: meta.function.python

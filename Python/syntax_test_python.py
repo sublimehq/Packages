@@ -113,11 +113,13 @@ dotted.identifier(12, True)
 #     ^ punctuation.accessor.dot
 #      ^^^^^^^^^^ variable.function
 
-open.__new__(12, True)
+open.__new__(12, \
 #^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 #^^^ support.function.builtin
 #   ^ punctuation.accessor.dot
 #    ^^^^^^^ support.function.magic
+#                ^ punctuation.separator.continuation.line.python
+             True)
 
 TypeError()
 #^^^^^^^^ support.type.exception
@@ -204,6 +206,15 @@ def _():
     lambda
 #   ^^^^^^ storage.type.function.inline
 
+    ( 3 - 6 \
+#   ^^^^^^^^^ meta.group.python
+#   ^ punctuation.section.group.begin.python
+#     ^ constant.numeric.integer.decimal.python
+#       ^ keyword.operator.arithmetic.python
+#         ^ constant.numeric.integer.decimal.python
+#           ^ punctuation.separator.continuation.line.python
+     )
+#^^^^^ meta.group.python
 
 ##################
 # Compound expressions
@@ -377,8 +388,10 @@ def my_func(param1, # Multi-line function definition
 #                   ^ comment.line.number-sign
     # This is defaulted
 #   ^ comment.line.number-sign
-    param2='#1'):
-#              ^ punctuation.section.parameters.end
+    param2='#1' \
+#               ^ punctuation.separator.continuation.line.python
+):
+# <- punctuation.section.parameters.end
     print('Hi!')
 
 
@@ -469,10 +482,11 @@ class UnicødeIdentifier():
 #             ^^^^ keyword.control.flow
 
 
-class MyClass(Inherited,
+class MyClass(Inherited, \
 #     ^^^^^^^ entity.name.class
 #             ^^^^^^^^^ entity.other.inherited-class
 #                      ^ punctuation.separator.inheritance
+#                        ^ punctuation.separator.continuation.line.python
               module . Inherited2, metaclass=ABCMeta):
 #             ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                    ^ punctuation.accessor.dot
