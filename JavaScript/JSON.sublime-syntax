@@ -99,21 +99,32 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.begin.json
           push:
+            - clear_scopes: 1
             - meta_scope: meta.mapping.key.json string.quoted.double.json
             - include: inside-string
         - match: ":"
           scope: punctuation.separator.mapping.key-value.json
           push:
-            - meta_scope: meta.mapping.value.json
             - match: '(,)|(?=\})'
               captures:
-                1: punctuation.separator.mapping.pair.json
+                1: invalid.illegal.expected-mapping-value.json
               pop: true
-            - include: value
-            - match: '[^\s,]'
-              scope: invalid.illegal.expected-mapping-separator.json
+            - match: (?=\S)
+              set:
+                - clear_scopes: 1
+                - meta_scope: meta.mapping.value.json
+                - include: value
+                - match: ''
+                  set:
+                    - match: '(,)|(?=\s*\})'
+                      captures:
+                        1: punctuation.separator.mapping.pair.json
+                      pop: true
+                    - match: '\s(?=[^\s,])|[^\s,]'
+                      scope: invalid.illegal.expected-mapping-separator.json
+                      pop: true
         - match: '[^\s\}]'
-          scope: invalid.illegal.expected-mapping-separator.json
+          scope: invalid.illegal.expected-mapping-key.json
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.json
