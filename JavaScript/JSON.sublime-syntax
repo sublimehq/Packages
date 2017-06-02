@@ -18,6 +18,8 @@ file_extensions:
   - Pipfile.lock
 scope: source.json
 contexts:
+  prototype:
+    - include: comments
   main:
     - include: value
   value:
@@ -26,7 +28,6 @@ contexts:
     - include: string
     - include: array
     - include: object
-    - include: comments
   array:
     - match: '\['
       scope: punctuation.section.sequence.begin.json
@@ -45,12 +46,14 @@ contexts:
       scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.documentation.json
+        - meta_include_prototype: false
         - match: \*/
           pop: true
     - match: /\*
       scope: punctuation.definition.comment.json
       push:
         - meta_scope: comment.block.json
+        - meta_include_prototype: false
         - match: \*/
           pop: true
     - match: (//).*$\n?
@@ -98,7 +101,6 @@ contexts:
           push:
             - meta_scope: meta.mapping.key.json string.quoted.double.json
             - include: inside-string
-        - include: comments
         - match: ":"
           scope: punctuation.separator.mapping.key-value.json
           push:
@@ -118,6 +120,7 @@ contexts:
       push: inside-string
   inside-string:
     - meta_scope: string.quoted.double.json
+    - meta_include_prototype: false
     - match: '"'
       scope: punctuation.definition.string.end.json
       pop: true
