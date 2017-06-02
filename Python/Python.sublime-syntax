@@ -982,6 +982,7 @@ contexts:
     - include: comments
     - match: (?=\S)
       push:
+        - clear_scopes: 1
         - meta_scope: meta.mapping.key.python
         - match: \s*(?=\}|,|:)
           pop: true
@@ -989,8 +990,9 @@ contexts:
 
   inside-directory-value:
     - meta_content_scope: meta.mapping.python
-    - match: (?=\})
-      set: inside-dictionary
+    - match: \}
+      scope: punctuation.section.mapping.end.python
+      set: after-expression
     - match: (?=,)
       set:
         # clear meta scope from this match, because 'inside-directory' has it in meta_scope
@@ -999,7 +1001,6 @@ contexts:
           set: inside-dictionary
     - match: (?=for)
       push:
-        - meta_content_scope: meta.mapping.python
         - match: (?=\})
           pop: true
         - match: ','
@@ -1009,8 +1010,9 @@ contexts:
     - include: comments
     - match: (?=\S)
       push:
+        - clear_scopes: 1
         - meta_content_scope: meta.mapping.value.python
-        - match: \s*(?=\}|,|for)
+        - match: (?=\s*(\}|,|for))
           pop: true
         - include: expressions
 

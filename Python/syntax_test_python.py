@@ -929,7 +929,7 @@ mydict = {}
 
 key2 = "my_key"
 mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping.python meta.mapping.python
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ punctuation.section.mapping.begin
 #         ^^^^^ meta.mapping.key.python string.quoted.double
 #              ^ punctuation.separator.mapping.key-value
@@ -966,14 +966,14 @@ myset = {"key", True, key2, [-1], {}:1}
 mapping_or_set = {
 #                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
     1: True
-#   ^ meta.mapping.python meta.mapping.key.python constant.numeric.integer.decimal.python
+#   ^ meta.mapping.key.python constant.numeric.integer.decimal.python
 #    ^ punctuation.separator.mapping.key-value.python
 }
 # <- meta.mapping.python punctuation.section.mapping.end.python
 
 complex_mapping = {(): "value"}
 #                 ^^^ meta.mapping-or-set.python
-#                    ^^^^^^^^^^ meta.mapping.python - meta.mapping-or-set
+#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -991,7 +991,7 @@ set_ = {i for i in range(100)}
 #         ^^^ keyword.control.flow.for.generator
 #               ^^ keyword.control.flow.for.in
 dict_ = {i: i for i in range(100)}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ meta.mapping.key.python
 #         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.key.python
 #           ^ meta.mapping.value.python
@@ -1034,7 +1034,7 @@ list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
 #                                           ^ punctuation.section.sequence.end.python
 
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #       ^ punctuation.section.mapping.begin.python
 #            ^^^^^^^ meta.sequence.tuple.python
 #            ^ punctuation.section.sequence.begin.python
