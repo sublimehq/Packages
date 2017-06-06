@@ -482,6 +482,10 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
 #                                 ^^ punctuation.definition.placeholder.end
 
+a=["aaaa{", "bbbb{"]
+#       ^ - constant.other.placeholder
+#        ^ punctuation.definition.string.end.python
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
