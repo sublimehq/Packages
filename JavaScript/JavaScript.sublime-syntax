@@ -17,6 +17,7 @@ variables:
 
 contexts:
   main:
+    - include: comments
     - include: comments-top-level
     - include: keywords-top-level
     - include: statements
@@ -499,7 +500,7 @@ contexts:
             [^ / \\ \[  ]
             | \\.
             | # Character class
-              \[ ( 
+              \[ (
                 [^ \] \\ ]
                 | \\.
               )+ \]
