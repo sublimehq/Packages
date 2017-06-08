@@ -486,6 +486,8 @@ contexts:
     - include: scope:text.tex#math-characters
     - include: scope:text.tex#math-numerics
     - include: general-constants
+    - match: (?=\})
+      pop: true
 
   inline-math:
     - match: \$
