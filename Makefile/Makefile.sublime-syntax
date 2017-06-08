@@ -18,6 +18,7 @@ contexts:
   main:
     - include: comment
     - include: directive
+    - include: variable
     - match: '^ *((export)\s+)?((?:\w|[-_])+)\s*((\?|\+|::|:)?=)'
       captures:
         2: keyword.control.makefile
@@ -36,26 +37,6 @@ contexts:
         - match: (::?)(?!\=)
           pop: true
         - include: variable
-    - match: (?<=:)\s*
-      push:
-        - meta_scope: meta.function.prerequisites.makefile
-        - match: (?=^\t)|(?<!\\)$(?=\n)
-          pop: true
-        - include: variable
-        - include: directive
-        - include: target
-        - include: comment
-        - match: '\s*(\w+)\s*((\?|\+|::|:)?=)'
-          captures:
-            1: variable.other.makefile
-            2: keyword.operator.assignment.makefile
-          push:
-            - meta_content_scope: string.unquoted.makefile
-            - include: variable
-            - include: line_continuation
-            - match: (?<!\\)$(?=\n)
-              pop: true
-        - include: line_continuation
     - match: ^\s*((?:-|s)?include|ifeq|ifneq|ifdef|ifndef|else|endif|vpath|export|unexport|define|endef|override)\b
       scope: meta.keyword.control.makefile
       captures:
@@ -153,6 +134,8 @@ contexts:
           captures:
             1: punctuation.definition.variable.end.makefile
           pop: true
+        - match: \,
+          scope: punctuation.separator.makefile
         - include: variable
         - include: string
     - match: (?x) (\$\() (shell) \s
@@ -190,6 +173,7 @@ contexts:
       scope: support.variable.makefile
     - match: \%
       scope: keyword.operator.percent.makefile
+    - include: comment
   target:
     - match: (\.PHONY|\.SUFFIXES|\.DEFAULT|\.PRECIOUS|\.INTERMEDIATE|\.SECONDARY|\.SECONDARY|\.SECONDEXPANSION|\.DELETE_ON_ERROR|\.IGNORE|\.LOW_RESOLUTION_TIME|\.LOW_RESOLUTION_TIME|\.SILENT|\.EXPORT_ALL_VARIABLES|\.NOTPARALLEL|\.ONESHELL|\.POSIX|\bFORCE)\b
       scope: constant.other.target.makefile
