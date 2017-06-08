@@ -1,0 +1,36 @@
+import os
+import re
+import Default.exec
+
+class RunShellScriptCommand(Default.exec.ExecCommand):
+
+    def run(self, **kwargs):
+        view = self.window.active_view()
+        file_name = view.file_name()
+
+        # Determine the shell to run
+        firstline = view.substr(view.line(0))
+        match = re.match(r"\s*#!(.+)", firstline)
+        if match:
+            # Note: we split on whitespace and turn it
+            # into a list, otherwise things like
+            # "/usr/bin/env bash" won't work
+            shell = str(match.group(1)).split(" ")
+        else:
+            # No shebang line... Take the user's default shell
+            shell = [os.environ["SHELL"]]
+
+        # Determine the working directory
+        working_dir = kwargs.get("working_dir", None)
+        if not working_dir:
+            working_dir = os.path.dirname(file_name)
+
+        # Determine the environment variables
+        env = kwargs.get("env", None)
+        if not env:
+            env = os.environ
+
+        # Delegate to the super class
+        super().run(cmd=shell + [file_name], 
+                    working_dir=working_dir,
+                    env=env)
