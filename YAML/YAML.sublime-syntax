@@ -113,9 +113,7 @@ variables:
   _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
   _type_bool: |- # http://yaml.org/type/bool.html
     (?x:
-       y|Y|yes|Yes|YES|n|N|no|No|NO
-      |true|True|TRUE|false|False|FALSE
-      |on|On|ON|off|Off|OFF
+       true|True|TRUE|false|False|FALSE
     )
   _type_int: |- # http://yaml.org/type/int.html
     (?x:
