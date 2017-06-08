@@ -1293,18 +1293,28 @@ contexts:
           scope: punctuation.separator.initializer-list.c++
           set:
             - meta_scope: meta.method.constructor.initializer-list.c++
-            - match: '(?=\{|;)'
-              set: method-definition-continue
-            - match: '({{identifier}})\s*(\()'
-              captures:
-                1: variable.other.readwrite.member.c++
-                2: meta.group.c++ punctuation.section.group.begin.c++
+            - match: '{{identifier}}'
+              scope: variable.other.readwrite.member.c++
               push:
-                - meta_content_scope: meta.group.c++
-                - match: \)
-                  scope: meta.group.c++ punctuation.section.group.end.c++
-                  pop: true
-                - include: expressions
+                - match: \(
+                  scope: meta.group.c++ punctuation.section.group.begin.c++
+                  set:
+                    - meta_content_scope: meta.group.c++
+                    - match: \)
+                      scope: meta.group.c++ punctuation.section.group.end.c++
+                      pop: true
+                    - include: expressions
+                - match: \{
+                  scope: meta.group.c++ punctuation.section.group.begin.c++
+                  set:
+                    - meta_content_scope: meta.group.c++
+                    - match: \}
+                      scope: meta.group.c++ punctuation.section.group.end.c++
+                      pop: true
+                    - include: expressions
+                - include: comments
+            - match: (?=\{|;)
+              set: method-definition-continue
             - include: expressions
     - match: '(?=\{)'
       set: method-definition-body

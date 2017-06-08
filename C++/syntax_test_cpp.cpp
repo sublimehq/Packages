@@ -1232,6 +1232,42 @@ class Adapter : public Abstraction
 
 }
 
+/* C++11 "uniform initialization" in initializer lists */
+class Foo {
+public:
+    Foo() : var1(1), var(2), var3{3}, var4(4) {}
+                                 /* ^ meta.method.constructor.initializer-list   */
+                                 /*   ^ - meta.function-call - variable.function */
+private:
+    int var1, var2, var3, var4;    
+};
+
+class X {
+    int a, b, i, j;
+public:
+    const int& r;
+    X(int i)
+      : r(a) // initializes X::r to refer to X::a
+      /* ^ meta.method.constructor.initializer-list punctuation         */
+      /*   ^ meta.method.constructor.initializer-list punctuation       */
+      , b{i} // initializes X::b to the value of the parameter i
+      /* ^ meta.method.constructor.initializer-list punctuation         */
+      /*   ^ meta.method.constructor.initializer-list punctuation       */
+      , i(i) // initializes X::i to the value of the parameter i
+      /* ^ meta.method.constructor.initializer-list punctuation         */
+      /*   ^ meta.method.constructor.initializer-list punctuation       */
+      , j(this->i) // initializes X::j to the value of X::i
+      /* ^ meta.method.constructor.initializer-list punctuation         */
+      /*         ^ meta.method.constructor.initializer-list punctuation */
+      , j
+      /*^ variable */
+      (this->i)
+      /* <- meta.method.constructor.initializer-list punctuation */
+    { }
+/*  ^ punctuation - meta.method.constructor.initializer-list   */
+/*    ^ punctuation - meta.method.constructor.initializer-list */
+};
+
 struct A {
   static_assert(0 < 1, "");
   /* ^ keyword.operator.word                    */

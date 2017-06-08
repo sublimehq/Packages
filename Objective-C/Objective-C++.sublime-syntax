@@ -1381,18 +1381,28 @@ contexts:
           scope: punctuation.separator.initializer-list.objc++
           set:
             - meta_scope: meta.method.constructor.initializer-list.objc++
-            - match: '(?=\{|;)'
-              set: method-definition-continue
-            - match: '({{identifier}})\s*(\()'
-              captures:
-                1: variable.other.readwrite.member.objc++
-                2: meta.group.objc++ punctuation.section.group.begin.objc++
+            - match: '{{identifier}}'
+              scope: variable.other.readwrite.member.objc++
               push:
-                - meta_content_scope: meta.group.objc++
-                - match: \)
-                  scope: meta.group.objc++ punctuation.section.group.end.objc++
-                  pop: true
-                - include: expressions
+                - match: \(
+                  scope: meta.group.objc++ punctuation.section.group.begin.objc++
+                  set:
+                    - meta_content_scope: meta.group.objc++
+                    - match: \)
+                      scope: meta.group.objc++ punctuation.section.group.end.objc++
+                      pop: true
+                    - include: expressions
+                - match: \{
+                  scope: meta.group.objc++ punctuation.section.group.begin.objc++
+                  set:
+                    - meta_content_scope: meta.group.objc++
+                    - match: \}
+                      scope: meta.group.objc++ punctuation.section.group.end.objc++
+                      pop: true
+                    - include: expressions
+                - include: comments
+            - match: (?=\{|;)
+              set: method-definition-continue
             - include: expressions
     - match: '(?=\{)'
       set: method-definition-body
