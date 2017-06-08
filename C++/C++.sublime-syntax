@@ -40,7 +40,7 @@ variables:
   non_angle_brackets: '(?=<<|<=)'
   generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|\.|<.*?>|\s|\d)*)?>'
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
-  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas'
+  non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
 
 contexts:
   main:
@@ -405,27 +405,7 @@ contexts:
             - include: expressions-minus-generic-type-function-call
 
   keywords-parens:
-    - match: '\b(alignof|typeid)\b\s*(\()'
-      captures:
-        1: keyword.operator.word.c++
-        2: meta.group.c++ punctuation.section.group.begin.c++
-      push:
-        - meta_content_scope: meta.group.c++
-        - match: '\)'
-          scope: meta.group.c++ punctuation.section.group.end.c++
-          pop: true
-        - include: expressions
-    - match: '\b(static_assert)\b\s*(\()'
-      captures:
-        1: keyword.operator.word.c++
-        2: meta.group.c++ punctuation.section.group.begin.c++
-      push:
-        - meta_content_scope: meta.group.c++
-        - match: '\)'
-          scope: meta.group.c++ punctuation.section.group.end.c++
-          pop: true
-        - include: expressions
-    - match: '\b(sizeof)\b\s*(\()'
+    - match: '\b(alignof|typeid|static_assert|sizeof)\b\s*(\()'
       captures:
         1: keyword.operator.word.c++
         2: meta.group.c++ punctuation.section.group.begin.c++
@@ -609,10 +589,15 @@ contexts:
               scope: meta.method-call.c++ meta.group.c++ punctuation.section.group.end.c++
               pop: true
             - include: expressions
-    - match: '(\.|->)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{identifier}})(::)?(?!\s*\()'
       captures:
         1: punctuation.accessor.c++
         2: variable.other.readwrite.member.c++
+        3: punctuation.accessor.c++
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.c++
+    - match: \.(?!\.)
+      scope: punctuation.accessor.c++
 
   typedef:
     - match: \btypedef\b
@@ -1115,6 +1100,17 @@ contexts:
     - include: comments
     - include: modifiers-parens
     - include: modifiers
+    - match: '\bstatic_assert(?=\s*\()'
+      scope: meta.static-assert.c++ keyword.operator.word.c++
+      push:
+        - match: '\('
+          scope: meta.group.c++ punctuation.section.group.begin.c++
+          set:
+            - meta_content_scope: meta.function-call.c++ meta.group.c++
+            - match: '\)'
+              scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
+              pop: true
+            - include: expressions
     # Destructor
     - match: '(?:{{identifier}}\s*(::)\s*)?~{{identifier}}(?=\s*(\(|$))'
       scope: meta.method.destructor.c++ entity.name.function.destructor.c++

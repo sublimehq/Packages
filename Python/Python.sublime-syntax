@@ -16,7 +16,7 @@ file_extensions:
   - gypi
   - Snakefile
   - wscript
-first_line_match: ^#!\s*/.*\bpython\d?\b
+first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
 scope: source.python
 
 variables:
@@ -253,14 +253,15 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries-and-sets
+    - include: line-continuation
 
   line-expressions: # Always include this last!
     - include: expressions-common
-    - include: line-continuation
     - include: qualified-name
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
+    # and matches accessors continued on a different line
     - include: expressions-common
     - include: illegal-names-pop
     - include: qualified-name
@@ -324,7 +325,9 @@ contexts:
           pop: true
 
   constants:
-    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
+    - match: \b(None|True|False|Ellipsis|NotImplemented|__debug__)\b
+      scope: constant.language.python
+    - match: \.{3}(?!\w)
       scope: constant.language.python
 
   numbers:
@@ -546,6 +549,7 @@ contexts:
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
+    - include: line-continuation
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
@@ -951,7 +955,7 @@ contexts:
           # generic object
           class|dict|doc|module|name|
           # module-specific / global
-          all|debug|file|package|
+          all|file|package|
           # functions & methods
           annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
           # classes (attributes)
@@ -1013,7 +1017,7 @@ contexts:
       scope: constant.other.placeholder.python
       captures:
         2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+    - match: '%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
@@ -1034,7 +1038,7 @@ contexts:
         2: storage.modifier.conversion.python
         3: constant.other.format-spec.python
         4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}]+\{) # complex (nested) form
+    - match: \{(?=[^\}"']+\{) # complex (nested) form
       scope: punctuation.definition.placeholder.begin.python
       push:
         - meta_scope: constant.other.placeholder.python
@@ -1092,6 +1096,7 @@ contexts:
               pop: true
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
+            - include: inline-for
             - include: expressions
 
   string-quoted-double-block:
