@@ -216,3 +216,56 @@ set objRegExp {(^[a-zA-Z]{2}[a-zA-Z0-9-]{2,12}$)}
 set objRegExp {(.{0,200})}
 #             ^^^^^^^^^^^^ meta.block - invalid
 #                         ^ - meta.block
+
+proc test {} {
+
+    set saoid [svcmap_saoid sm]
+#   ^^^ keyword.other
+    # Syntax highligting works inside an if statement:
+    if {[defvar cpe_uplink_ifoid 0] == 0} {
+        array set cpe_param [objectGetField -oid $cpeoid -fieldname parameters]
+#       ^^^^^ keyword.other
+#                            ^^^^^^^^^^^^^^ variable.function
+        if {[info exists cpe_param(model)]} {
+            set cpe_model $cpe_param(model)
+        } else {
+            error "ERROR: Model not set"
+#           ^^^^^ keyword.other
+#                 ^ string.quoted.double
+        }
+    }
+
+    # but not within for example a foreach loop:
+    foreach cpe_ifoid [objectTreeFind -oid $cpeoid -walkdown 0 -classmask interface] {
+#   ^^^^^^^ keyword.control
+#                      ^^^^^^^^^^^^^^ variable.function
+        set cpe_if_role [objectGetField -oid $cpe_ifoid -fieldname role]
+#       ^^^ keyword.other
+        if {[string match "uplink.running" $cpe_if_role]} {
+#       ^^ keyword.control
+#            ^^^^^^ keyword.other
+            set cpe_uplink_ifoid $cpe_ifoid
+            set cpe_uplink_name [objectGetField -oid $cpe_uplink_ifoid -fieldname name]
+            break
+        }
+    }
+
+    switch -- $parclass {
+#   ^^^^^^ keyword.control
+        "element-attach" {
+#       ^^^^^^^^^^^^^^^^ string.quoted.double
+            # CPE SA
+#           ^^^^^^^^^ comment
+            return [svcmap_hook_return sm]
+#           ^^^^^^ keyword.control
+#                   ^^^^^^^^^^^^^^^^^^ variable.function
+        }
+
+        "interface" {
+#       ^^^^^^^^^^^ string.quoted.double
+            set ifoid $paroid
+            set eaoid [elm_oid_by_iface $ifoid]
+            set earole [objectGetField -oid $eaoid -fieldname role]
+		}
+	}
+}
