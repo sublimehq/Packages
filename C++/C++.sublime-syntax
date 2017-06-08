@@ -589,10 +589,15 @@ contexts:
               scope: meta.method-call.c++ meta.group.c++ punctuation.section.group.end.c++
               pop: true
             - include: expressions
-    - match: '(\.|->)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{identifier}})(::)?(?!\s*\()'
       captures:
         1: punctuation.accessor.c++
         2: variable.other.readwrite.member.c++
+        3: punctuation.accessor.c++
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.c++
+    - match: \.(?!\.)
+      scope: punctuation.accessor.c++
 
   typedef:
     - match: \btypedef\b

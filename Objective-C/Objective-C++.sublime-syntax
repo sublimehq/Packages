@@ -676,10 +676,15 @@ contexts:
               scope: meta.method-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
-    - match: '(\.|->)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{identifier}})(::)?(?!\s*\()'
       captures:
         1: punctuation.accessor.objc++
         2: variable.other.readwrite.member.objc++
+        3: punctuation.accessor.objc++
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.objc++
+    - match: \.(?!\.)
+      scope: punctuation.accessor.objc++
 
   typedef:
     - match: \btypedef\b
