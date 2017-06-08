@@ -16,7 +16,7 @@ file_extensions:
   - gypi
   - Snakefile
   - wscript
-first_line_match: ^#!\s*/.*\bpython\d?\b
+first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
 scope: source.python
 
 variables:
@@ -325,7 +325,9 @@ contexts:
           pop: true
 
   constants:
-    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
+    - match: \b(None|True|False|Ellipsis|NotImplemented|__debug__)\b
+      scope: constant.language.python
+    - match: \.{3}(?!\w)
       scope: constant.language.python
 
   numbers:
@@ -953,7 +955,7 @@ contexts:
           # generic object
           class|dict|doc|module|name|
           # module-specific / global
-          all|debug|file|package|
+          all|file|package|
           # functions & methods
           annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
           # classes (attributes)
@@ -1015,7 +1017,7 @@ contexts:
       scope: constant.other.placeholder.python
       captures:
         2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+    - match: '%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
