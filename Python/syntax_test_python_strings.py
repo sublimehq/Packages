@@ -578,6 +578,9 @@ f'   \
 #^^^^^^^^^^^^^^ meta.string.interpolated
 # ^^^^^ source source.python.embedded
 
+f"{d for d in range(10)}"  # yes, this doesn't make sense
+#    ^^^ keyword.control.flow.for.generator.python
+
 f'
 # ^ invalid.illegal.unclosed-string
 
