@@ -608,57 +608,56 @@ contexts:
           - include: scope:source.regexp.js
 
   constructor:
-    - match: '\b(new)\b\s+(?=({{identifier}}|\())'
-      scope: meta.instance.constructor.js
-      captures:
-        1: keyword.operator.word.new.js
-      set: constructor-name
+    - match: '\bnew\b'
+      scope: keyword.operator.word.new.js
+      set:
+        - meta-constructor
+        - constructor-name
+
+  meta-constructor:
+    - meta_scope: meta.instance.constructor.js
+    - include: else-pop
 
   constructor-name:
     - match: '(?=function\b)'
       set:
-        - meta_scope: meta.instance.constructor.js
-        - match: '(?=function\b)'
-          push: function-declaration
-        - match: '(?=\()'
-          set: constructor-params
-        - include: else-pop
+        - constructor-params
+        - function-declaration
     - match: '(?=class\b)'
       set:
-        - meta_scope: meta.instance.constructor.js
-        - include: class
-        - match: '(?=\()'
-          set: constructor-params
-        - include: else-pop
+        - constructor-params
+        - class
     - match: '(?={{identifier}})'
       set:
-        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
-        - include: well-known-identifiers
-        - include: language-identifiers
-        - match: '{{dollar_only_identifier}}'
-          scope: variable.type.dollar.only.js punctuation.dollar.js
-        - match: '{{dollar_identifier}}'
-          scope: variable.type.dollar.js
-          captures:
-            1: punctuation.dollar.js
-        - match: '{{identifier}}'
-          scope: variable.type.js
-        - match: '\.'
-          scope: punctuation.accessor.js
-        - include: bracketed-property-access
-        - match: '(?=\()'
-          set: constructor-params
-        - match: '(?=\S|$)'
-          pop: true
+        - - meta_scope: meta.function-call.constructor.js
+          - include: else-pop
+        - constructor-params
+        - - include: well-known-identifiers
+          - include: language-identifiers
+          - match: '{{dollar_only_identifier}}'
+            scope: variable.type.dollar.only.js punctuation.dollar.js
+          - match: '{{dollar_identifier}}'
+            scope: variable.type.dollar.js
+            captures:
+              1: punctuation.dollar.js
+          - match: '{{identifier}}'
+            scope: variable.type.js
+          - match: '\.'
+            scope: punctuation.accessor.js
+          - include: bracketed-property-access
+          - match: '(?=\S|$)'
+            pop: true
     - match: '\('
       scope: punctuation.section.group.js
       set:
-        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js meta.group.js
-        - match: '\)'
-          scope: punctuation.section.group.js
-          set: constructor-params
-        - match: (?=\S)
-          push: expression
+        - - meta_scope: meta.function-call.constructor.js
+          - include: else-pop
+        - constructor-params
+        - - meta_scope: meta.group.js
+          - match: '\)'
+            scope: punctuation.section.group.js
+            pop: true
+        - expression
     - include: else-pop
 
   constructor-params:
@@ -1371,56 +1370,68 @@ contexts:
           push: expression-no-comma
 
   literal-variable:
-    - match: '(?={{identifier}})'
-      set:
-        - include: well-known-identifiers
-        - include: language-identifiers
-        - include: dollar-identifiers
-        - include: support
-        - match: '\b[[:upper:]][_$[:alnum:]]*(?=\s*[\[.])'
-          scope: support.class.js
-        - match: '{{identifier}}(?=\s*[\[.])'
-          scope: variable.other.object.js
-        - include: simple-identifiers
-        - include: else-pop
+    - include: well-known-identifiers
+    - include: language-identifiers
+    - include: dollar-identifiers
+    - include: support
+    - match: '\b[[:upper:]][_$[:alnum:]]*(?=\s*[\[.])'
+      scope: support.class.js
+      pop: true
+    - match: '{{identifier}}(?=\s*[\[.])'
+      scope: variable.other.object.js
+      pop: true
+    - include: simple-identifiers
 
   well-known-identifiers:
     - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|XMLHttpRequest)\b
       scope: support.class.builtin.js
+      pop: true
     - match: \b((Eval|Range|Reference|Syntax|Type|URI)?Error)\b
       scope: support.class.error.js
+      pop: true
     - match: \b(document|window|navigator)\b
       scope: support.type.object.dom.js
+      pop: true
     - match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
       scope: support.class.node.js
+      pop: true
 
   language-identifiers:
     - match: \b(arguments)\b
       scope: variable.language.arguments.js
+      pop: true
     - match: \b(super)\b
       scope: variable.language.super.js
+      pop: true
     - match: \b(this)\b
       scope: variable.language.this.js
+      pop: true
     - match: \b(self)\b
       scope: variable.language.self.js
+      pop: true
 
   dollar-identifiers:
     - match: '{{dollar_only_identifier}}'
       scope: variable.other.dollar.only.js punctuation.dollar.js
+      pop: true
     - match: '{{dollar_identifier}}'
       scope: variable.other.dollar.js
       captures:
         1: punctuation.dollar.js
+      pop: true
 
   simple-identifiers:
     - match: '{{constant_identifier}}'
       scope: variable.other.constant.js
+      pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
+      pop: true
 
   support:
     - match: \bdebugger\b
       scope: keyword.other.js
+      pop: true
     - match: |-
         (?x)
         \b(
@@ -1429,20 +1440,25 @@ contexts:
           WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
         )\b
       scope: support.constant.dom.js
+      pop: true
     - match: \b(assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|http|https|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib)\b
       scope: support.module.node.js
+      pop: true
     - match: \b(process)(?:(\.)(arch|argv|config|connected|env|execArgv|execPath|exitCode|mainModule|pid|platform|release|stderr|stdin|stdout|title|version|versions))?\b
       captures:
         1: support.type.object.process.js
         2: punctuation.accessor.js
         3: support.type.object.process.js
-    - match: \b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children)))?\b
+      pop: true
+    - match: \b(exports|module(?:(\.)(exports|id|filename|loaded|parent|children))?)\b
       captures:
         1: support.type.object.module.js
         2: punctuation.accessor.js
         3: support.type.object.module.js
+      pop: true
     - match: \b(global|GLOBAL|root|__dirname|__filename)\b
       scope: support.type.object.node.js
+      pop: true
 
   object-property:
     - match: \b__proto__\b
