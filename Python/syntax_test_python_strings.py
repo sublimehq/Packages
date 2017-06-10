@@ -378,6 +378,10 @@ rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 #                                            ^^ constant.character.escape.backslash.regexp
 #                                              ^^^^ - constant
 
+datetime.strptime('2011227', '%Y%V%u')
+#                            ^^^^^^^^ string.quoted.single.python
+#                             ^^^^^^ constant.other.placeholder.python
+
 x = "hello \
 #   ^^^^^^^^^ string.quoted.double.python - invalid.illegal.unclosed-string.python, \
 #          ^ punctuation.separator.continuation.line.python, \
@@ -482,6 +486,10 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder
 #                                 ^^ punctuation.definition.placeholder.end
 
+a=["aaaa{", "bbbb{"]
+#       ^ - constant.other.placeholder
+#        ^ punctuation.definition.string.end.python
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
@@ -569,6 +577,9 @@ f'   \
  {1 + 2!a:02f}'
 #^^^^^^^^^^^^^^ meta.string.interpolated
 # ^^^^^ source source.python.embedded
+
+f"{d for d in range(10)}"  # yes, this doesn't make sense
+#    ^^^ keyword.control.flow.for.generator.python
 
 f'
 # ^ invalid.illegal.unclosed-string

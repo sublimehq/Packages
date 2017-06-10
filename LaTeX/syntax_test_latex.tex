@@ -205,6 +205,11 @@
 %      ^ markup.raw.verb.latex
 %      ^ meta.environment.verbatim.verb.latex
 %      ^ - support.function.general.latex
+\verb|foo % bar|
+% ^^^^^^^^^^^^^^ meta.environment.verbatim.verb.latex
+%         ^^^^^ - comment
+
+% <- - meta.environment.verbatim.verb.latex
 
 \begin{verbatim}
 % ^ support.function.begin.latex keyword.control.flow.begin.latex
@@ -437,6 +442,22 @@ a & b
     a & b & c \\\hline
     1 & 2 & 3
 \end{tabular}
+
+
+\AnyDeclarationCommand{\eq}{\begin{equation}}
+
+% <- - meta.environment.math
+
+\wrapcommand{$}
+
+% <- - meta.environment.math
+
+\wrapcommand{\[}
+
+% <- - meta.environment.math
+
+$f(x) = \} {} y$
+% ^^^^^^^^^^^^^ meta.environment.math.inline.dollar.latex
 
 
 \end{document}

@@ -811,9 +811,23 @@ var reg = /a+/gimy.exec('aabb')
 //               ^^^^ string.regexp
 //                 ^ keyword.operator.quantifier.regexp
 
-/a+(?:bc)/
+/a+(?:bc)/;
 // <- string.regexp
 //  ^^ punctuation.definition.group.no-capture.regexp
+
+/test// 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+
+/test/* 1;
+// <- string.regexp.js
+//    ^ keyword.operator.arithmetic.js
+// */
+
+/test/** 1;
+// <- string.regexp.js
+//    ^^ keyword.operator.arithmetic.js
+// */
 
 'foo'.bar() / baz
 //            ^ variable.other.readwrite

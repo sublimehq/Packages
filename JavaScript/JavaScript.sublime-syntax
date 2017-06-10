@@ -32,6 +32,7 @@ variables:
 
 contexts:
   main:
+    - include: comments
     - include: comments-top-level
     - include: keywords-top-level
     - include: statements
@@ -179,7 +180,6 @@ contexts:
 
     - include: variable-declaration
     - include: export-escape
-
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
       push:
@@ -1202,6 +1202,7 @@ contexts:
           scope: punctuation.section.block.js
           set:
             - meta_scope: meta.function.declaration.js meta.block.js
+
             - match: '\}'
               scope: punctuation.section.block.js
               pop: true
