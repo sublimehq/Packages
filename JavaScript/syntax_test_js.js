@@ -111,6 +111,21 @@ export { member as
     default } from "module";
 // ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
 
+let from;
+//  ^^^^ variable.other.readwrite.js
+
+import from from "./othermod";
+//     ^^^^ variable.other.readwrite.js
+
+import { from } from "./othermod";
+//       ^^^^ variable.other.readwrite.js
+
+export from from "./othermod";
+//     ^^^^ variable.other.readwrite.js
+
+export { from } from "./othermod";
+//       ^^^^ variable.other.readwrite.js
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing

@@ -91,7 +91,6 @@ contexts:
       scope: keyword.control.import-export.js
       push:
         - export-meta
-        - import-export-final
         - export-extended
 
     - match: \b(export|default|from|as)\b
@@ -121,31 +120,37 @@ contexts:
       push: literal-string
     - include: else-pop
 
-  import-escape:
-    - match: '(?=;|function|var|class)'
-      pop: true
-    - match: "(?='|\"|\\bfrom\\b)"
-      pop: true
-
   import-extended:
-    - include: import-escape
-    - include: comma-separator
-    - match: '\{'
-      scope: punctuation.section.block.js
+    - match: (?='|")
+      pop: true
+    - match: (?=\S)
+      set:
+        - import-list
+        - import-export-alias
+        - import-item
+
+  import-list:
+    - match: ','
+      scope: punctuation.separator.comma.js
       push:
         - import-export-alias
-        - import-brace
+        - import-item
+    - include: else-pop
+
+  import-item:
+    - match: '\{'
+      scope: punctuation.section.block.js
+      set: import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      push: import-export-alias
+      pop: true
     - match: '\*'
       scope: constant.other.js
-      push: import-export-alias
+      pop: true
     - include: else-pop
 
   import-brace:
     - meta_scope: meta.block.js
-    - include: import-escape
     - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
@@ -162,19 +167,12 @@ contexts:
     - meta_scope: meta.export.js
     - include: else-pop
 
-  export-escape:
-    - match: '(?=;|function|var|class)'
-      pop: true
-    - match: "(?='|\"|\\bfrom\\b)"
-      pop: true
-
   export-extended:
     - include: variable-declaration
-    - include: export-escape
-    - include: comma-separator
+
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
-      push:
+      set:
         - match: (?=class)
           set: class
 
@@ -182,17 +180,37 @@ contexts:
           set: function-declaration
 
         - include: expression
+
+    - match: (?=\S)
+      set:
+        - import-export-final
+        - export-list
+        - import-export-alias
+        - export-item
+
+  export-list:
+    - match: ','
+      scope: punctuation.separator.comma.js
+      push:
+        - import-export-alias
+        - export-item
+    - include: else-pop
+
+  export-item:
     - match: '\{'
-      scope: meta.block.js punctuation.section.block.js
-      push: export-brace
+      scope: punctuation.section.block.js
+      set:
+        - export-brace
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      pop: true
     - match: '\*'
       scope: constant.other.js
-      push: import-export-alias
+      pop: true
     - include: else-pop
 
   export-brace:
     - meta_scope: meta.block.js
-    - include: export-escape
     - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
