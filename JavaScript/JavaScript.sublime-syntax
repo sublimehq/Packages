@@ -81,13 +81,25 @@ contexts:
 
   keywords-top-level:
     - match: \bimport\b
-      scope: meta.import.js keyword.control.import-export.js
-      push: import-extended
+      scope: keyword.control.import-export.js
+      push:
+        - import-meta
+        - import-export-final
+        - import-extended
+
     - match: \bexport\b
-      scope: meta.export.js keyword.control.import-export.js
-      push: export-extended
+      scope: keyword.control.import-export.js
+      push:
+        - export-meta
+        - import-export-final
+        - export-extended
+
     - match: \b(export|default|from|as)\b
       scope: keyword.control.import-export.js
+
+  import-meta:
+    - meta_scope: meta.import.js
+    - include: else-pop
 
   import-export-alias:
     - match: \bas\b
@@ -102,14 +114,20 @@ contexts:
         - include: else-pop
     - include: else-pop
 
+  import-export-final:
+    - match: '\bfrom\b'
+      scope: keyword.control.import-export.js
+    - match: (?=['"])
+      push: literal-string
+    - include: else-pop
+
   import-escape:
     - match: '(?=;|function|var|class)'
       pop: true
     - match: "(?='|\"|\\bfrom\\b)"
-      set: import-final
+      pop: true
 
   import-extended:
-    - meta_content_scope: meta.import.js
     - include: import-escape
     - include: comma-separator
     - match: '\{'
@@ -140,23 +158,17 @@ contexts:
       push: import-export-alias
     - include: else-pop
 
-  import-final:
-    - meta_scope: meta.import.js
-    - match: '\bfrom\b'
-      scope: keyword.control.import-export.js
-    - match: (?=['"])
-      push: literal-string
+  export-meta:
+    - meta_scope: meta.export.js
     - include: else-pop
 
   export-escape:
     - match: '(?=;|function|var|class)'
       pop: true
     - match: "(?='|\"|\\bfrom\\b)"
-      set: export-final
+      pop: true
 
   export-extended:
-    - meta_content_scope: meta.export.js
-
     - include: variable-declaration
     - include: export-escape
     - include: comma-separator
@@ -191,14 +203,6 @@ contexts:
     - match: '\*'
       scope: constant.other.js
       push: import-export-alias
-    - include: else-pop
-
-  export-final:
-    - meta_scope: meta.export.js
-    - match: '\bfrom\b'
-      scope: keyword.control.import-export.js
-    - match: (?=['"])
-      push: literal-string
     - include: else-pop
 
   statements:
