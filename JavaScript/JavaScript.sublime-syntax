@@ -113,8 +113,10 @@ contexts:
     - include: import-escape
     - include: comma-separator
     - match: '\{'
-      scope: meta.block.js punctuation.section.block.js
-      set: import-brace
+      scope: punctuation.section.block.js
+      push:
+        - import-export-alias
+        - import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       push: import-export-alias
@@ -124,14 +126,12 @@ contexts:
     - include: else-pop
 
   import-brace:
-    - meta_content_scope: meta.import.js meta.block.js
+    - meta_scope: meta.block.js
     - include: import-escape
     - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
-      push:
-        - import-extended
-        - import-export-alias
+      pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       push: import-export-alias
@@ -172,21 +172,19 @@ contexts:
         - include: expression
     - match: '\{'
       scope: meta.block.js punctuation.section.block.js
-      set: export-brace
+      push: export-brace
     - match: '\*'
       scope: constant.other.js
       push: import-export-alias
     - include: else-pop
 
   export-brace:
-    - meta_content_scope: meta.export.js meta.block.js
+    - meta_scope: meta.block.js
     - include: export-escape
     - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
-      push:
-        - export-extended
-        - import-export-alias
+      pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       push: import-export-alias
