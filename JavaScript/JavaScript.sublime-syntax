@@ -111,57 +111,33 @@ contexts:
   import-extended:
     - meta_content_scope: meta.import.js
     - include: import-escape
+    - include: comma-separator
     - match: '\{'
       scope: meta.block.js punctuation.section.block.js
       set: import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      push:
-        - import-extended-continue
-        - import-export-alias
+      push: import-export-alias
     - match: '\*'
       scope: constant.other.js
-      push:
-        - import-extended-continue
-        - import-export-alias
-    - include: else-pop
-
-  import-extended-continue:
-    - meta_scope: meta.import.js
-    - include: import-escape
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: import-extended
+      push: import-export-alias
     - include: else-pop
 
   import-brace:
     - meta_content_scope: meta.import.js meta.block.js
     - include: import-escape
+    - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
       push:
-        - import-extended-continue
+        - import-extended
         - import-export-alias
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      push:
-        - import-brace-continue
-        - import-export-alias
+      push: import-export-alias
     - match: '\*'
       scope: constant.other.js
-      push:
-        - import-brace-continue
-        - import-export-alias
-    - include: else-pop
-
-  import-brace-continue:
-    - meta_scope: meta.import.js meta.block.js
-    - include: import-escape
-    - match: '(?=\})'
-      set: import-brace
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: import-brace
+      push: import-export-alias
     - include: else-pop
 
   import-final:
@@ -183,6 +159,7 @@ contexts:
 
     - include: variable-declaration
     - include: export-escape
+    - include: comma-separator
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
       push:
@@ -198,47 +175,24 @@ contexts:
       set: export-brace
     - match: '\*'
       scope: constant.other.js
-      push:
-        - export-extended-continue
-        - import-export-alias
-    - include: else-pop
-
-  export-extended-continue:
-    - meta_scope: meta.export.js
-    - include: export-escape
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: export-extended
+      push: import-export-alias
     - include: else-pop
 
   export-brace:
     - meta_content_scope: meta.export.js meta.block.js
     - include: export-escape
+    - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
       push:
-        - export-extended-continue
+        - export-extended
         - import-export-alias
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      push:
-        - export-brace-continue
-        - import-export-alias
+      push: import-export-alias
     - match: '\*'
       scope: constant.other.js
-      push:
-        - export-brace-continue
-        - import-export-alias
-    - include: else-pop
-
-  export-brace-continue:
-    - meta_scope: meta.export.js meta.block.js
-    - include: export-escape
-    - match: '(?=\})'
-      set: export-brace
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: export-brace
+      push: import-export-alias
     - include: else-pop
 
   export-final:
