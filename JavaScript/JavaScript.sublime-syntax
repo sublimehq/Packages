@@ -89,6 +89,19 @@ contexts:
     - match: \b(export|default|from|as)\b
       scope: keyword.control.import-export.js
 
+  import-export-alias:
+    - match: \bas\b
+      scope: keyword.control.import-export.js
+      set:
+        - match: \bdefault\b
+          scope: keyword.control.import-export.js
+          pop: true
+        - match: '{{identifier}}'
+          scope: variable.other.readwrite.js
+          pop: true
+        - include: else-pop
+    - include: else-pop
+
   import-escape:
     - match: '(?=;|function|var|class)'
       pop: true
@@ -103,21 +116,15 @@ contexts:
       set: import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      set: import-extended-as
+      push:
+        - import-extended-continue
+        - import-export-alias
     - match: '\*'
       scope: constant.other.js
-      set: import-extended-as
+      push:
+        - import-extended-continue
+        - import-export-alias
     - include: else-pop
-
-  import-extended-as:
-    - meta_content_scope: meta.import.js
-    - include: import-escape
-    - match: '\b(as)(?:\s+({{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: import-extended-continue
 
   import-extended-continue:
     - meta_scope: meta.import.js
@@ -132,24 +139,20 @@ contexts:
     - include: import-escape
     - match: '\}'
       scope: punctuation.section.block.js
-      set: import-extended-as
+      push:
+        - import-extended-continue
+        - import-export-alias
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      set: import-brace-as
+      push:
+        - import-brace-continue
+        - import-export-alias
     - match: '\*'
       scope: constant.other.js
-      set: import-brace-as
+      push:
+        - import-brace-continue
+        - import-export-alias
     - include: else-pop
-
-  import-brace-as:
-    - meta_content_scope: meta.import.js meta.block.js
-    - include: import-escape
-    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: import-brace-continue
 
   import-brace-continue:
     - meta_scope: meta.import.js meta.block.js
@@ -195,18 +198,10 @@ contexts:
       set: export-brace
     - match: '\*'
       scope: constant.other.js
-      set: export-extended-as
+      push:
+        - export-extended-continue
+        - import-export-alias
     - include: else-pop
-
-  export-extended-as:
-    - meta_content_scope: meta.export.js
-    - include: export-escape
-    - match: '\b(as)(?:\s+({{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: export-extended-continue
 
   export-extended-continue:
     - meta_scope: meta.export.js
@@ -221,28 +216,20 @@ contexts:
     - include: export-escape
     - match: '\}'
       scope: punctuation.section.block.js
-      set: export-extended-as
+      push:
+        - export-extended-continue
+        - import-export-alias
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      set: export-brace-as
+      push:
+        - export-brace-continue
+        - import-export-alias
     - match: '\*'
       scope: constant.other.js
-      set: export-brace-as
+      push:
+        - export-brace-continue
+        - import-export-alias
     - include: else-pop
-
-  export-brace-as:
-    - meta_content_scope: meta.export.js meta.block.js
-    - include: export-escape
-    - match: \b(as)\s+(default)\b
-      captures:
-        1: keyword.control.import-export.js
-        2: keyword.control.import-export.js
-    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: export-brace-continue
 
   export-brace-continue:
     - meta_scope: meta.export.js meta.block.js
