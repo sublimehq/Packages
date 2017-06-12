@@ -91,6 +91,41 @@ export { import1 as name1, import2 as name2, nameN } from "./othermod";
 //                                 ^ keyword.control.import-export
 //                                                   ^ keyword.control.import-export
 
+import * as
+    alias from "module";
+// ^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
+import { member as
+    alias } from "module";
+// ^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
+import { * as
+    alias } from "module";
+// ^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+
+export { member as
+    alias } from "module";
+// ^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
+
+export { member as
+    default } from "module";
+// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
+
+let from;
+//  ^^^^ variable.other.readwrite.js
+
+import from from "./othermod";
+//     ^^^^ variable.other.readwrite.js
+
+import { from } from "./othermod";
+//       ^^^^ variable.other.readwrite.js
+
+export from from "./othermod";
+//     ^^^^ variable.other.readwrite.js
+
+export { from } from "./othermod";
+//       ^^^^ variable.other.readwrite.js
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
@@ -251,7 +286,7 @@ var obj = {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
-    }
+    },
 
     [true==false ? 'one' : 'two']: false,
 //  ^ punctuation.section.brackets
@@ -383,6 +418,21 @@ var obj = {
 //     ^^^^^ meta.object-literal.key constant.numeric
 //            ^ constant.numeric
 });
+
+[ a, b, c ];
+// <- meta.sequence punctuation.section.brackets
+// ^ meta.sequence punctuation.separator.comma
+// ^^^^^^^^ meta.sequence
+//        ^ meta.sequence punctuation.section.brackets
+
+function x() {}
+[ a, b, c ];
+// <- meta.sequence.js
+
++
+function x() {}
+[ a, b, c ];
+// <- meta.brackets.js
 
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
@@ -585,7 +635,7 @@ class Foo extends React.Component {
 //^^^ meta.function.anonymous meta.function.declaration
 //    ^^ meta.block punctuation.section.block
 
-const test = ({a, b, c=()=>({active:false}) }) => {}
+const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
@@ -624,7 +674,7 @@ xhr.onload = () => {}
 // <- support.class.js
 //  ^ entity.name.function
 
-var simpleArrow = foo => bar
+var simpleArrow = foo => bar;
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
@@ -637,7 +687,7 @@ var Proto = () => {
     this._var = 1;
 }
 
-Proto.prototype.getVar = () => this._var
+Proto.prototype.getVar = () => this._var;
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
 // ^ support.class
 //     ^ support.constant.prototype
@@ -792,11 +842,11 @@ var reg = /a+/gimy.exec('aabb')
 //            ^^^^ keyword.other
 //                ^ punctuation.accessor
 
-'aabbcc'.replace(/b+/, 'd')
+'aabbcc'.replace(/b+/, 'd');
 //               ^^^^ string.regexp
 //                 ^ keyword.operator.quantifier.regexp
 
-/a+(?:bc)/
+/a+(?:bc)/;
 // <- string.regexp
 //  ^^ punctuation.definition.group.no-capture.regexp
 
@@ -956,7 +1006,7 @@ var arrowFuncBraceNextLine = () => /* comments! */
 var conciseFunc = () =>
   foo
 //^^^ meta.block variable.other.readwrite
-  .bar()
+  .bar();
 //^^^^^^ meta.block
 
 // Handle an arrow function in a parenthetical group
