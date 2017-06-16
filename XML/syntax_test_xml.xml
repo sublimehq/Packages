@@ -17,17 +17,8 @@
 <!--                     ^^ punctuation.definition.tag.end -->
 <!--                       ^ - meta.tag.preprocessor -->
 
-     <?XML VERSION="1.0" ?>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
-<!-- ^^ punctuation.definition.tag.begin -->
-<!--   ^^^ entity.name.tag -->
-<!--       ^^^^^^^ entity.other.attribute-name -->
-<!--              ^ punctuation.separator.key-value -->
-<!--               ^ punctuation.definition.string.begin -->
-<!--               ^^^^^ string.quoted -->
-<!--                   ^ punctuation.definition.string.end -->
-<!--                     ^^ punctuation.definition.tag.end -->
-<!--                       ^ - meta.tag.preprocessor -->
+     <?XML version="1.0" ?>
+<!-- ^ invalid.illegal.missing-entity - meta.tag.preprocessor -->
 
      <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
