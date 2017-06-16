@@ -21,13 +21,13 @@ scope: text.xml
 variables:
   # This is the full XML Name production, but should not be used where namespaces
   # are possible. Those locations should use a qualified_name.
-  name: '[[:alpha:]:_][[:alnum:]:_.-]*'
+  name: '(?i)[[:alpha:]:_][[:alnum:]:_.-]*'
   # This is the form that allows a namespace prefix (ns:) followed by a local
   # name. The captures are:
   #  1: namespace prefix name
   #  2: namespace prefix colon
   #  3: local tag name
-  qualified_name: '(?:([[:alpha:]_][[:alnum:]_.-]*)(:))?([[:alpha:]_][[:alnum:]_.-]*)'
+  qualified_name: '(?i)(?:([[:alpha:]_][[:alnum:]_.-]*)(:))?([[:alpha:]_][[:alnum:]_.-]*)'
 
 contexts:
   main:
@@ -45,7 +45,7 @@ contexts:
     #   <?xml version="1.0" ?>
     #   <?xml-model href='freb.xsl'?>
     #   <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
-    - match: '(<\?)(xml(?:-{{name}})?)(?=\s|\?>)'
+    - match: '(?i)(<\?)(xml(?:-{{name}})?)(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.preprocessor.xml
@@ -57,7 +57,7 @@ contexts:
         - include: tag-attributes
     # All tags like <?...?>
     # meta tag without internal highlighting
-    - match: '(<\?)((?![xX][mM][lL]){{name}}).*(\?>)'
+    - match: '(?i)(<\?)((?!xml){{name}}).*(\?>)'
       captures:
         0: meta.tag.preprocessor.xml
         1: punctuation.definition.tag.begin.xml

@@ -17,11 +17,32 @@
 <!--                     ^^ punctuation.definition.tag.end -->
 <!--                       ^ - meta.tag.preprocessor -->
 
-
-     <?XML version="1.0" ?>
-<!-- ^ invalid.illegal.missing-entity - meta.tag.preprocessor -->
+     <?XML VERSION="1.0" ?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^ entity.name.tag -->
+<!--       ^^^^^^^ entity.other.attribute-name -->
+<!--              ^ punctuation.separator.key-value -->
+<!--               ^ punctuation.definition.string.begin -->
+<!--               ^^^^^ string.quoted -->
+<!--                   ^ punctuation.definition.string.end -->
+<!--                     ^^ punctuation.definition.tag.end -->
+<!--                       ^ - meta.tag.preprocessor -->
 
      <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!--                                                   ^ - meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^^^^^^^^ entity.name.tag -->
+<!--                 ^ - entity -->
+<!--                  ^^^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.separator.key-value -->
+<!--                       ^ punctuation.definition.string.begin -->
+<!--                       ^^^^^^^^^^ string.quoted.single -->
+<!--                                ^ punctuation.definition.string.end -->
+<!--                                 ^ - string -->
+
+     <?XML-STYLESHEET TYPE='TEXT/XSL' HREF='FREB.XSL'?>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
 <!--                                                   ^ - meta.tag.preprocessor -->
 <!-- ^^ punctuation.definition.tag.begin -->
@@ -182,6 +203,26 @@
  -->
 
      <ns:tagname xmlns:ns="uri">
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+<!--                            ^ - meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
+<!--  ^^ entity.name.tag.namespace -->
+<!--    ^ punctuation.separator.namespace -->
+<!--     ^^^^^^^ entity.name.tag.localname -->
+<!--            ^ - entity -->
+<!--             ^^^^^ entity.other.attribute-name.namespace -->
+<!--                  ^ punctuation.separator.namespace -->
+<!--                   ^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.definition.string.begin -->
+<!--                      ^^^^^ string.quoted -->
+<!--                          ^ punctuation.definition.string.end -->
+<!--                           ^ punctuation.definition.tag.end -->
+     text
+<!-- ^^^^ text -->
+     >
+<!-- ^ text - punctuation - illegal -->
+
+     <NS:TAGNAME XMLNS:NS="URI">
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
 <!--                            ^ - meta.tag -->
 <!-- ^ punctuation.definition.tag.begin -->
