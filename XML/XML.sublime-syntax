@@ -4,6 +4,7 @@ name: XML
 file_extensions:
   - xml
   - xsd
+  - xsl
   - xslt
   - tld
   - dtml
@@ -30,78 +31,38 @@ variables:
 
 contexts:
   main:
-    - match: '(<\?)(xml)(?=\s)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - match: '\s+{{qualified_name}}(=)?'
-          captures:
-            1: entity.other.attribute-name.namespace.xml
-            2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
-            3: entity.other.attribute-name.localname.xml
-            4: punctuation.separator.key-value.xml
-        - include: double-quoted-string
-        - include: single-quoted-string
-    - include: doctype
     - include: comment
-    - match: '(</?){{qualified_name}}([^/>\s]*)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.namespace.xml
-        3: entity.name.tag.xml punctuation.separator.namespace.xml
-        4: entity.name.tag.localname.xml
-        5: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: /?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-stuff
-    - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: /?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-stuff
-    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-stuff
-    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
+    - include: preprocessor
+    - include: doctype
+    - include: tags
+    - include: cdata
     - include: entity
-    - match: '<!\[CDATA\['
-      scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_scope: string.unquoted.cdata.xml
-        - match: ']]>'
-          scope: punctuation.definition.string.end.xml
-          pop: true
-    - match: ']]>'
-      scope: invalid.illegal.missing-entity.xml
     - include: should-be-entity
+
+  preprocessor:
+    # All tags like <?xml...?> without respect of details
+    # Examples:
+    #   <?xml version="1.0" ?>
+    #   <?xml-model href='freb.xsl'?>
+    #   <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+    - match: '(<\?)(xml(?:-{{name}})?)(?=\s|\?>)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.preprocessor.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: '\?>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tag-attributes
+    # All tags like <?...?>
+    # meta tag without internal highlighting
+    - match: '(<\?)((?![xX][mM][lL]){{name}}).*(\?>)'
+      captures:
+        0: meta.tag.preprocessor.xml
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+        3: punctuation.definition.tag.end.xml
 
   comment:
     - match: '<!--'
@@ -113,6 +74,17 @@ contexts:
           pop: true
         - match: '-{2,}'
           scope: invalid.illegal.double-hyphen-within-comment.xml
+
+  cdata:
+    - match: '<!\[CDATA\['
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.unquoted.cdata.xml
+        - match: ']]>'
+          scope: punctuation.definition.string.end.xml
+          pop: true
+    - match: ']]>'
+      scope: invalid.illegal.missing-entity.xml
 
   # DOCTYPE declaration
   # see: https://www.quackit.com/xml/tutorial/dtd_doctype.cfm
@@ -161,19 +133,56 @@ contexts:
     - match: '[^>\s]'
       scope: invalid.illegal.unexpected.xml
 
-  tag-stuff:
-    - match: '(?:\s+|^){{qualified_name}}\s*(=)'
+  tags:
+    # closing tags
+    # (?=<) improves overall performance by 8%
+    - match: '(?=<)(</)(?:{{qualified_name}})?([^/>\s]*)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.namespace.xml
+        3: entity.name.tag.xml punctuation.separator.namespace.xml
+        4: entity.name.tag.localname.xml
+        5: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - match: '>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - match: '[^>\s]+'
+          scope: invalid.illegal.unexpected.xml
+    # opening maybe self-closing tag
+    - match: '(<(?=\w))(?:{{qualified_name}})?([^/>\s]*)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.namespace.xml
+        3: entity.name.tag.xml punctuation.separator.namespace.xml
+        4: entity.name.tag.localname.xml
+        5: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - match: '/?>'
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tag-attributes
+
+  tag-attributes:
+    - include: double-quoted-string
+    - include: single-quoted-string
+    # valid attribute name followed by '='
+    - match: '\b{{qualified_name}}\s*(=)'
       captures:
         1: entity.other.attribute-name.namespace.xml
         2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
         3: entity.other.attribute-name.localname.xml
         4: punctuation.separator.key-value.xml
-    - match: '(?:\s+|^)([[:alnum:]:_.-]+)\s*(=)'
+    # everything before '=' not matched by previous pattern
+    - match: '(\S+)\s*(=)'
       captures:
         1: invalid.illegal.bad-attribute-name.xml
         2: punctuation.separator.key-value.xml
-    - include: double-quoted-string
-    - include: single-quoted-string
+    # everything unquoted is illegal
+    - match: '[^\s=]'
+      scope: invalid.illegal.bad-attribute-value.xml
 
   double-quoted-string:
     - match: '"'
