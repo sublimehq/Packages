@@ -68,6 +68,7 @@ contexts:
     - match: '<!--'
       scope: punctuation.definition.comment.begin.xml
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.block.xml
         - match: '-->'
           scope: punctuation.definition.comment.end.xml
