@@ -901,6 +901,30 @@ namespace std _GLIBCXX_VISIBILITY(default)
 {}
 }
 
+#define MY_NAMESPACE_BEGIN namespace greatapp {
+#define MY_NAMESPACE_END }
+MY_NAMESPACE_BEGIN
+class X {
+private:
+/* <- storage.modifier */
+    int a;
+protected:
+/* <- storage.modifier */
+    int b;
+public:
+/* <- storage.modifier */
+    int c;
+};
+MY_NAMESPACE_END
+
+MY_NAMESPACE_BEGIN int foo(); MY_NAMESPACE_END
+/*                 ^ storage.type */
+/*                     ^ meta.function entity.name.function */
+/*                        ^^^ punctuation */
+
+// Uncomment this some day
+// MY_NAMESPACE_BEGIN class X : public std::true_type {}; MY_NAMESPACE_END
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////

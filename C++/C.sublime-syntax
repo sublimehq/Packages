@@ -9,7 +9,8 @@ first_line_match: "-[*]-( Mode:)? C -[*]-"
 scope: source.c
 
 variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
+  identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
+  IDENTIFIER: \b[A-Z_][A-Z0-9_]*\b          # only uppercase
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
@@ -1095,6 +1096,9 @@ contexts:
       scope: punctuation.section.block.end.c
     - include: expressions
 
+  preprocessor-convention-ignore-uppercase-ident-lines:
+    - match: ^(?:\s*{{IDENTIFIER}})*\s*$
+
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
@@ -1142,3 +1146,4 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
+    - include: preprocessor-convention-ignore-uppercase-ident-lines

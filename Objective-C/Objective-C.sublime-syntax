@@ -1331,3 +1331,4 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.objc
               pop: true
+    - include: scope:source.c#preprocessor-convention-ignore-uppercase-ident-lines
