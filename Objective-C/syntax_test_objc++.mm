@@ -277,6 +277,89 @@ typedef std :: vector<std::vector<int> > Table;
 /*                                   ^ punctuation.section.generic.end */
 /*                                     ^ punctuation.section.generic.end */
 
+template <typename T = float, int a = 3, bool b = true>
+                  /* ^ meta.template keyword.operator                               */
+                  /*                ^ meta.template keyword.operator                */
+                  /*                  ^ meta.template constant.numeric              */
+                  /*                            ^ meta.template keyword.operator    */
+                  /*                              ^ meta.template constant.language */
+struct Foo 
+{
+
+/* <- meta.struct - meta.template */
+
+    void bar(int a = 3, bool b = true) {}
+                /* ^ - meta.template keyword.operator                */
+                /*   ^ - meta.template constant.numeric              */
+                /*             ^ - meta.template keyword.operator    */
+                /*               ^ - meta.template constant.language */
+};
+
+/* <- - meta.block - meta.struct - meta.template  */
+
+template <std::size_t Count = 128>
+/*           ^^ meta.template punctuation.accessor             */
+/*                          ^ meta.template keyword.operator   */
+/*                            ^ meta.template constant.numeric */
+class fixed_array : private std::array<int, Count> {};
+
+constexpr std::size_t f() { return 128; }
+template <std::size_t Count = f()>
+/*           ^^ meta.template punctuation.accessor                             */
+/*                          ^ meta.template keyword.operator                   */
+/*                            ^ meta.template variable.function                */
+/*                             ^^ meta.template meta.function-call punctuation */
+/*                               ^ meta.template punctuation                   */
+class fixed_array : private std::array<int, Count> {};
+
+template<class T> class A { /* ... */ };
+template<class T, class U = T> class B { /* ... */ };
+/*                        ^ meta.template keyword.operator */
+/*                          ^ meta.template                */
+/*                           ^ meta.template punctuation   */
+/*                            ^ - meta.template            */
+template <class ...Types> class C { /* ... */ };
+
+// templates inside templates... it's templates all the way down 
+template<template<class> class P> class X { /* ... */ };
+/*      ^ meta.template punctuation                              */
+/*               ^ meta.template meta.template punctuation       */
+/*                ^^^^^ meta.template meta.template storage.type */
+/*                     ^ meta.template meta.template punctuation */
+/*                       ^^^^^ meta.template storage.type        */
+/*                              ^ meta.template punctuation      */
+
+X<A> xa; // OK
+X<B> xb; // OK in C++14 after CWG 150
+         // Error earlier: not an exact match
+X<C> xc; // OK in C++14 after CWG 150
+
+// template declarations spanning multiple lines
+template
+/* <- meta.template storage.type */
+<
+/* <- meta.template punctuation.section.generic.begin */
+    class T,
+    class U = T
+>
+class B
+{
+    /* ... */
+};
+
+// template declarations spanning multiple lines
+template
+<
+/* <- meta.template punctuation.section.generic.begin */
+    std::size_t Count = f()
+/*     ^^ meta.template punctuation.accessor                             */
+/*                    ^ meta.template keyword.operator                   */
+/*                      ^ meta.template variable.function                */
+/*                       ^^ meta.template meta.function-call punctuation */
+>
+/* <- meta.template punctuation.section.generic.end */
+class fixed_array : private std::array<int, Count> {};
+
 /////////////////////////////////////////////
 // Storage Modifiers
 /////////////////////////////////////////////

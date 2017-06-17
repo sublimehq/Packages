@@ -453,47 +453,41 @@ contexts:
                 - include: global
             - include: expressions
 
+  template-common:
+    # Exit the template scope if we hit some basic invalid characters. This
+    # helps when a user is in the middle of typing their template types and 
+    # prevents re-highlighting the whole file until the next > is found.
+    - match: (?=[{};])
+      pop: true
+    - include: expressions
+
   template:
-    - match: \b(template)\b\s*(<)
-      captures:
-        1: storage.type.template.c++
-        2: punctuation.section.generic.begin.c++
-      push:
-        - meta_scope: meta.template.c++
-        # Exit the template scope if we hit some basic invalid characters.
-        # This helps when a user is in the middle of typing their template
-        # types and prevents re-highlighting the whole file until the next >
-        # is found.
-        - match: '(?=[{};])'
-          pop: true
-        - match: '(>)\s*'
-          captures:
-            1: punctuation.section.generic.end.c++
-          pop: true
-        - match: '\b(typename|{{before_tag}})\b'
-          scope: storage.type.c++
-        - include: types
-        - include: modifiers-parens
-        - include: modifiers
-        - include: angle-brackets
-        - include: scope:source.c#types
-        - match: ','
-          scope: punctuation.separator.c++
-        - match: '\.\.\.'
-          scope: keyword.operator.variadic.c++
     - match: \btemplate\b
       scope: storage.type.template.c++
       push:
         - meta_scope: meta.template.c++
-        # Exit the template scope if we hit some basic invalid characters.
-        # This helps when a user is in the middle of typing their template
-        # types and prevents re-highlighting the whole file until the next >
-        # is found.
-        - match: '(?=[{};])'
-          pop: true
-        - match: '\b({{before_tag}})\b'
-          scope: storage.type.c++
-        - include: expressions
+        # Explicitly include comments here at the top, in order to NOT match the
+        # \S lookahead in the case of comments.
+        - include: comments
+        - match: <
+          scope: punctuation.section.generic.begin.c++
+          set:
+            - meta_content_scope: meta.template.c++
+            - match: '>'
+              scope: meta.template.c++ punctuation.section.generic.end.c++
+              pop: true
+            - match: \.{3}
+              scope: keyword.operator.variadic.c++
+            - match: \b(typename|{{before_tag}})\b
+              scope: storage.type.c++
+            - include: template # include template here for nested templates
+            - include: template-common
+        - match: (?=\S)
+          set:
+            - meta_content_scope: meta.template.c++
+            - match: \b({{before_tag}})\b
+              scope: storage.type.c++
+            - include: template-common
 
   generic-type:
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
