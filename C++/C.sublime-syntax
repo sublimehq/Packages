@@ -180,13 +180,16 @@ contexts:
     - match: '\.\.\.'
       scope: keyword.operator.variadic.c
 
+  access-illegal:
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.c
+
   access:
     - match: '(\.)({{identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c
-    - match: \.\.(?!\.)
-      scope: invalid.illegal.syntax.c
+    - include: access-illegal
     - match: \.(?!\.)
       scope: punctuation.accessor.c
 

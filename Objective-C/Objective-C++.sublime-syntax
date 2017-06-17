@@ -9,7 +9,7 @@ file_extensions:
 scope: source.objc++
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
-  path_lookahead: '(::\s*)?(?:{{identifier}}\s*::\s*)*{{identifier}}'
+  path_lookahead: '(::\s*)?(?:{{identifier}}\s*::\s*)*(template\s+)?{{identifier}}'
   macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
   operator_method_name: '\boperator\s*(?:[-+*/%ˆ&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
@@ -105,8 +105,9 @@ contexts:
     - include: numbers
 
   early-expressions-after-generic-type:
-    - include: members
+    - include: members-arrow
     - include: operators
+    - include: members-dot
     - include: strings
     - include: parens
     - include: block
@@ -572,22 +573,41 @@ contexts:
           set:
             - meta_content_scope: meta.template.objc++
             - match: \b({{before_tag}})\b
-              scope: storage.type.c++
+              scope: storage.type.objc++
             - include: template-common
 
   generic-type:
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
       push:
         - meta_scope: meta.function-call.objc++
+        - match: \btemplate\b
+          scope: storage.type.template.objc++
         - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          scope: variable.function.objc++
           captures:
-            1: punctuation.accessor.objc++
-            2: punctuation.accessor.objc++
-        - match: '(?:(::)\s*)?{{identifier}}'
-          scope: variable.function.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: punctuation.accessor.double-colon.objc++
+        - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
-            1: punctuation.accessor.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
+            3: punctuation.section.generic.begin.objc++
+          push:
+            - match: '>'
+              scope: punctuation.section.generic.end.objc++
+              pop: true
+            - include: expressions-minus-generic-type-function-call
+        - match: (?:(::)\s*)?({{identifier}})\s*(\()
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
+            3: punctuation.section.group.begin.objc++
+          set:
+            - meta_scope: meta.function-call.objc++
+            - meta_content_scope: meta.group.objc++
+            - match: '\)'
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
         - include: angle-brackets
         - match: '\('
           scope: meta.group.objc++ punctuation.section.group.begin.objc++
@@ -600,7 +620,7 @@ contexts:
             - include: expressions
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}})'
       push:
-        - include: scope:source.c++#identifiers
+        - include: identifiers
         - match: '<'
           scope: punctuation.section.generic.begin.objc++
           set:
@@ -654,31 +674,88 @@ contexts:
               pop: true
             - include: expressions
 
-  members:
-    - match: '(\.|->)(~?{{identifier}})(?=\s*\()'
-      scope: meta.method-call.objc++
-      captures:
-        1: punctuation.accessor.objc++
-        2: variable.function.member.objc++
-      push:
+  members-inside-function-call:
+    - meta_content_scope: meta.method-call.objc++ meta.group.objc++
+    - match: \)
+      scope: meta.method-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
+      pop: true
+    - include: expressions
+
+  members-after-accessor-junction:
+    # After we've seen an accessor (dot or arrow), this context decides what
+    # kind of entity we're accessing.
+    - include: comments
+    - match: \btemplate\b
+      scope: meta.method-call.objc++ storage.type.template.objc++
+      # Guaranteed to be a template member function call after we match this
+      set:
         - meta_content_scope: meta.method-call.objc++
-        - match: '\('
-          scope: meta.group.objc++ punctuation.section.group.begin.objc++
+        - include: comments
+        - match: '{{identifier}}'
+          scope: variable.function.member.objc++
           set:
-            - meta_content_scope: meta.method-call.objc++ meta.group.objc++
-            - match: '\)'
-              scope: meta.method-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
+            - meta_content_scope: meta.method-call.objc++
+            - match: \(
+              scope: meta.group.objc++ punctuation.section.group.begin.objc++
+              set: members-inside-function-call
+            - include: comments
+            - include: angle-brackets
+            - match: (?=\S) # safety pop
               pop: true
-            - include: expressions
-    - match: '(\.|->)({{identifier}})(::)?(?!\s*\()'
+        - match: (?=\S) # safety pop
+          pop: true
+    # Non-templated member function call
+    - match: (~?{{identifier}})\s*(\()
       captures:
-        1: punctuation.accessor.objc++
-        2: variable.other.readwrite.member.objc++
-        3: punctuation.accessor.objc++
-    - match: \.\.(?!\.)
-      scope: invalid.illegal.syntax.objc++
-    - match: \.(?!\.)
-      scope: punctuation.accessor.objc++
+        0: meta.method-call.objc++
+        1: variable.function.member.objc++
+        2: meta.group.objc++ punctuation.section.group.begin.objc++
+      set: members-inside-function-call
+    # Templated member function call
+    - match: (~?{{identifier}})\s*(<)
+      captures:
+        1: variable.function.member.objc++
+        2: punctuation.section.generic.begin.objc++
+      set:
+        - meta_scope: meta.method-call.objc++
+        - match: '>'
+          scope: punctuation.section.generic.end.objc++
+          set:
+            - meta_content_scope: meta.method-call.objc++
+            - include: comments
+            - match: \(
+              scope: punctuation.section.group.begin.objc++
+              set: members-inside-function-call
+            - match: (?=\S) # safety pop
+              pop: true
+        - include: expressions
+    # Explicit base-class access
+    - match: ({{identifier}})\s*(::)
+      captures:
+        1: variable.other.base-class.objc++
+        2: punctuation.accessor.double-colon.objc++
+      set: members-after-accessor-junction # reset
+    # Just a regular member variable
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.member.objc++
+      pop: true
+
+  members-dot:
+    - include: scope:source.c#access-illegal
+    # No lookahead required because members-dot goes after operators in the
+    # early-expressions-after-generic-type context. This means triple dots
+    # (i.e. "..." or "variadic") is attempted first.
+    - match: \.
+      scope: punctuation.accessor.dot.objc++
+      push: members-after-accessor-junction
+
+  members-arrow:
+    # This needs to be before operators in the 
+    # early-expressions-after-generic-type context because otherwise the "->" 
+    # from the C language will match.
+    - match: ->
+      scope: punctuation.accessor.arrow.objc++
+      push: members-after-accessor-junction
 
   typedef:
     - match: \btypedef\b
@@ -763,7 +840,7 @@ contexts:
     # since it doesn't seem most developers would create such a long typename.
     - match: '(?={{path_lookahead}}\s*::\s*$)'
       set:
-        - meta_content_scope: meta.function.c++ entity.name.function.c++
+        - meta_content_scope: meta.function.objc++ entity.name.function.objc++
         - include: scope:source.c++#identifiers
         - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
@@ -1183,14 +1260,14 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     - match: '\bstatic_assert(?=\s*\()'
-      scope: meta.static-assert.c++ keyword.operator.word.c++
+      scope: meta.static-assert.objc++ keyword.operator.word.objc++
       push:
         - match: '\('
-          scope: meta.group.c++ punctuation.section.group.begin.c++
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
-            - meta_content_scope: meta.function-call.c++ meta.group.c++
+            - meta_content_scope: meta.function-call.objc++ meta.group.objc++
             - match: '\)'
-              scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
+              scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
     # Destructor

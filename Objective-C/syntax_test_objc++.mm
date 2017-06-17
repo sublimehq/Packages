@@ -360,6 +360,81 @@ template
 /* <- meta.template punctuation.section.generic.end */
 class fixed_array : private std::array<int, Count> {};
 
+template <class T>
+static bool decode(const Node& node, T& sequence) {
+  if (!node.IsSequence())
+    return false;
+  sequence.clear();
+  for (const auto& item : node) {
+    sequence.push_back(item.template as<typename T::value_type>());
+    /*                     ^ punctuation.accessor                           */
+    /*                      ^ storage.type - variable.other                 */
+    /*                               ^ variable.function                    */
+    /*                                 ^ punctuation                        */
+    /*                                            ^^ punctuation.accessor   */
+    /*                                                        ^ punctuation */
+  }
+  return true;
+}
+
+// Example from section 14.2/4 of
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
+struct X 
+{
+    template <std::size_t>
+    X* alloc();
+
+    template <std::size_t>
+    static X* adjust();
+};
+template <class T> 
+void f(T* p) 
+{
+    // Be optimistic: scope it as a template member function call anyway.
+    T* p1 = p->alloc<200>(); // ill-formed: < means less than
+    
+    T* p2 = p->template alloc<200>(); // OK: < starts template argument list
+    /*        ^ punctuation.accessor           */
+    /*         ^ storage.type - variable.other */
+    /*                  ^ variable.function    */
+
+    // Be optimistic: scope it as a template member function call anyway.
+    T::adjust<100>(); // ill-formed: < means less than
+    
+    T::template adjust<100>(); // OK: < starts template argument list
+    /* <- - variable.function                    */
+    /*^ punctuation.accessor                     */
+    /* ^ storage.type - variable.other           */
+    /* ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+    /*          ^ variable.function              */
+}
+
+struct X
+{
+    void template(); // <-- not allowed to be a function!
+    /*   ^ - entity.name.function */
+};
+
+void f()
+{
+    X x;
+    x.template(); // <-- should not be scoped as variable.function!
+    /* ^ - variable.function */
+
+    x /**/ . /**/ foo <5> /**/ () /**/ ;
+    /*^^^^ comment.block */
+    /*     ^ punctuation.accessor */
+    /*            ^^^ meta.method-call variable.function */
+    /*               ^ meta.method-call - variable.function */
+    /*                ^ meta.method-call punctuation.section.generic.begin */
+    /*                  ^ meta.method-call punctuation.section.generic.end */
+    /*                   ^ meta.method-call - punctuation - comment.block */
+    /*                    ^^^^ meta.method-call comment.block */
+    /*                        ^ meta.method-call - comment.block - punctuation */
+    /*                         ^^ meta.method-call punctuation - comment.block */
+    /*                           ^ - meta.method-call */
+};
+
 /////////////////////////////////////////////
 // Storage Modifiers
 /////////////////////////////////////////////
@@ -1113,7 +1188,8 @@ class DerivedClass : public ::BaseClass // Comment
 /*                        ^ punctuation.accessor */
 /*               ^^^^^^^^^^^^^^^^^ meta.function-call */
 /*                          ^^^^ variable.function */
-/*                                ^^^^^^ meta.method-call */
+/*                                ^ punctuation - meta.method-call */
+/*                                 ^^^^^^^ meta.method-call */
 /*                                 ^^^^^ variable.function */
 /*                                         ^ punctuation.separator */
         bounds_(NULL),
@@ -1127,12 +1203,14 @@ class DerivedClass : public ::BaseClass // Comment
 /*                     ^^^^^^^ support.function.C99 */
 
             base_id_->foobar(1, "foo");
-/*                  ^^^^^^^^^^ meta.method-call */
-/*                    ^^^^^^ variable.function */
+/*                  ^^ punctuation.accessor - meta.method-call */
+/*                    ^^^^^^^^^^^^^^^^ meta.method-call        */
+/*                    ^^^^^^ variable.function                 */
 
             base_id_->~BaseClass();
-/*                  ^^^^^^^^^^^^^^ meta.method-call */
-/*                    ^^^^^^^^^^ variable.function */
+/*                  ^^ punctuation.accessor - meta.method-call */
+/*                    ^^^^^^^^^^^^ meta.method-call            */
+/*                    ^^^^^^^^^^ variable.function             */
         }
 /*      ^ meta.method meta.block punctuation.section.block.end */
 
@@ -1318,8 +1396,8 @@ class Adapter : public Abstraction
 /* C++11 "uniform initialization" in initializer lists */
 class Foo {
 public:
-    Foo() : var1(1), var(2), var3{3}, var(4) {}
-                                 /* ^ meta.method.constructor.initializer-list */
+    Foo() : var1(1), var(2), var3{3}, var4(4) {}
+                                 /* ^ meta.method.constructor.initializer-list   */
                                  /*   ^ - meta.function-call - variable.function */
 private:
     int var1, var2, var3, var4;    
