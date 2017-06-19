@@ -769,7 +769,7 @@ contexts:
     # since it doesn't seem most developers would create such a long typename.
     - match: '(?={{path_lookahead}}\s*::\s*$)'
       set:
-        - meta_content_scope: meta.function.c++ entity.name.function.c++
+        - meta_content_scope: meta.function.objc++ entity.name.function.objc++
         - include: scope:source.c++#identifiers
         - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
@@ -1189,14 +1189,14 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     - match: '\bstatic_assert(?=\s*\()'
-      scope: meta.static-assert.c++ keyword.operator.word.c++
+      scope: meta.static-assert.objc++ keyword.operator.word.objc++
       push:
         - match: '\('
-          scope: meta.group.c++ punctuation.section.group.begin.c++
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
-            - meta_content_scope: meta.function-call.c++ meta.group.c++
+            - meta_content_scope: meta.function-call.objc++ meta.group.objc++
             - match: '\)'
-              scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
+              scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
     # Destructor
