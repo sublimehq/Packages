@@ -1017,6 +1017,9 @@ namespace TestNamespace.Test
     abc:
 /// ^^^ entity.name.label
 ///    ^ punctuation.separator
+    
+        "hello".OfType<char>().Where(c => c == 'l').Count());
+///                                                        ^ invalid.illegal.stray.brace
 
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
@@ -1093,3 +1096,5 @@ namespace TestNamespace.Test
     }
 }
 ///<- punctuation.section.block.end
+}
+/// <- invalid.illegal.stray.brace

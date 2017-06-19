@@ -181,8 +181,7 @@ contexts:
       scope: invalid.illegal.cs
 
   main:
-    - match: '\}'
-      scope: invalid.illegal.unexpected.closing-bracket.cs
+    - include: stray_close_bracket
     - match: '\{'
       scope: punctuation.section.block.begin.cs
       push:
@@ -199,6 +198,10 @@ contexts:
     - include: delegate_declaration
     # allows coloration of code outside a class
     - include: code_block_in
+
+  stray_close_bracket:
+    - match: '[})\]]'
+      scope: invalid.illegal.stray.brace.cs
 
   using:
     - match: '\b(using)\s+(?={{name}}\s*=\s*)'
@@ -414,6 +417,7 @@ contexts:
               scope: punctuation.section.block.end.cs
               pop: true
             - include: data_type_body
+        - include: stray_close_bracket
     - match: \S*
       scope: invalid.illegal
       pop: true
@@ -688,6 +692,7 @@ contexts:
             - match: \}
               scope: punctuation.section.block.end.cs
               pop: true
+            - include: stray_close_bracket
             - include: code_block_in
     - match: ;
       scope: punctuation.terminator.cs
