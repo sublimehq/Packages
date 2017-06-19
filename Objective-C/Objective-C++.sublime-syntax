@@ -539,47 +539,41 @@ contexts:
                 - include: global
             - include: expressions
 
+  template-common:
+    # Exit the template scope if we hit some basic invalid characters. This
+    # helps when a user is in the middle of typing their template types and 
+    # prevents re-highlighting the whole file until the next > is found.
+    - match: (?=[{};])
+      pop: true
+    - include: expressions
+
   template:
-    - match: \b(template)\b\s*(<)
-      captures:
-        1: storage.type.template.objc++
-        2: punctuation.section.generic.begin.objc++
-      push:
-        - meta_scope: meta.template.objc++
-        # Exit the template scope if we hit some basic invalid characters.
-        # This helps when a user is in the middle of typing their template
-        # types and prevents re-highlighting the whole file until the next >
-        # is found.
-        - match: '(?=[{};])'
-          pop: true
-        - match: '(>)\s*'
-          captures:
-            1: punctuation.section.generic.end.objc++
-          pop: true
-        - match: '\b(typename|{{before_tag}})\b'
-          scope: storage.type.objc++
-        - include: types
-        - include: modifiers-parens
-        - include: modifiers
-        - include: angle-brackets
-        - include: scope:source.c#types
-        - match: ','
-          scope: punctuation.separator.objc++
-        - match: '\.\.\.'
-          scope: keyword.operator.variadic.objc++
     - match: \btemplate\b
       scope: storage.type.template.objc++
       push:
         - meta_scope: meta.template.objc++
-        # Exit the template scope if we hit some basic invalid characters.
-        # This helps when a user is in the middle of typing their template
-        # types and prevents re-highlighting the whole file until the next >
-        # is found.
-        - match: '(?=[{};])'
-          pop: true
-        - match: '\b({{before_tag}})\b'
-          scope: storage.type.objc++
-        - include: expressions
+        # Explicitly include comments here at the top, in order to NOT match the
+        # \S lookahead in the case of comments.
+        - include: comments
+        - match: <
+          scope: punctuation.section.generic.begin.objc++
+          set:
+            - meta_content_scope: meta.template.objc++
+            - match: '>'
+              scope: meta.template.objc++ punctuation.section.generic.end.objc++
+              pop: true
+            - match: \.{3}
+              scope: keyword.operator.variadic.objc++
+            - match: \b(typename|{{before_tag}})\b
+              scope: storage.type.objc++
+            - include: template # include template here for nested templates
+            - include: template-common
+        - match: (?=\S)
+          set:
+            - meta_content_scope: meta.template.objc++
+            - match: \b({{before_tag}})\b
+              scope: storage.type.c++
+            - include: template-common
 
   generic-type:
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
