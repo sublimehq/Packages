@@ -10,7 +10,7 @@ scope: source.c
 
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
-  IDENTIFIER: \b[A-Z_][A-Z0-9_]*\b          # only uppercase
+  macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
@@ -1096,8 +1096,25 @@ contexts:
       scope: punctuation.section.block.end.c
     - include: expressions
 
+  preprocessor-practical-workarounds:
+    - include: preprocessor-convention-ignore-uppercase-ident-lines
+    - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
+
   preprocessor-convention-ignore-uppercase-ident-lines:
-    - match: ^(?:\s*{{IDENTIFIER}})*\s*$
+    - match: ^(\s*{{macro_identifier}})+\s*$
+      scope: meta.assumed-macro.c
+
+  preprocessor-convention-ignore-uppercase-calls-without-semicolon:
+    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
+      captures:
+        1: variable.function.assumed-macro.c
+        2: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.assumed-macro.c
+        - match: \)
+          scope: punctuation.section.group.end.c
+          pop: true
+        - include: expressions
 
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
@@ -1146,4 +1163,4 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
-    - include: preprocessor-convention-ignore-uppercase-ident-lines
+    - include: preprocessor-practical-workarounds

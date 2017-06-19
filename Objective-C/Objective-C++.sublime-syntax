@@ -994,11 +994,15 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+  preprocessor-workaround-eat-macro-before-identifier:
+    # Handle macros so they aren't matched as the class name
+    - match: ({{macro_identifier}})(?=\s+~?{{identifier}})
+      captures:
+        1: meta.assumed-macro.c
+
   data-structures-class-definition:
     - meta_scope: meta.class.objc++
     - include: data-structures-definition-common-begin
-    # Handle macros so they aren't matched as the class name
-    - match: '{{macro_identifier}}(?=\s+{{identifier}})'
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.objc++
       set: data-structures-class-definition-after-identifier
@@ -1027,8 +1031,6 @@ contexts:
   data-structures-struct-definition:
     - meta_scope: meta.struct.objc++
     - include: data-structures-definition-common-begin
-    # Handle macros so they aren't matched as the struct name
-    - match: '{{macro_identifier}}(?=\s+{{identifier}})'
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.objc++
       set: data-structures-struct-definition-after-identifier
@@ -1057,8 +1059,6 @@ contexts:
   data-structures-enum-definition:
     - meta_scope: meta.enum.objc++
     - include: data-structures-definition-common-begin
-    # Handle macros so they aren't matched as the enum name
-    - match: '{{macro_identifier}}(?=\s+{{identifier}})'
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.objc++
       set: data-structures-enum-definition-after-identifier
@@ -1088,8 +1088,6 @@ contexts:
   data-structures-union-definition:
     - meta_scope: meta.union.objc++
     - include: data-structures-definition-common-begin
-    # Handle macros so they aren't matched as the union name
-    - match: '{{macro_identifier}}(?=\s+{{identifier}})'
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.objc++
       set: data-structures-union-definition-after-identifier
@@ -1125,6 +1123,7 @@ contexts:
     - include: preprocessor-other
     - include: modifiers-parens
     - include: modifiers
+    - include: scope:source.c++#preprocessor-workaround-eat-macro-before-identifier
 
   data-structures-definition-common-end:
     - include: angle-brackets
@@ -1218,6 +1217,7 @@ contexts:
           pop: true
         - include: expressions
     # Constructor
+    - include: scope:source.c++#preprocessor-workaround-eat-macro-before-identifier
     - match: '((?!{{before_tag}}|template){{identifier}})(?=\s*\()'
       scope: meta.method.constructor.objc++ entity.name.function.constructor.objc++
       set: method-definition-params
@@ -1438,6 +1438,7 @@ contexts:
   preprocessor-data-structures:
     - include: preprocessor-rule-enabled-data-structures
     - include: preprocessor-rule-disabled-data-structures
+    - include: scope:source.c#preprocessor-practical-workarounds
 
   preprocessor-rule-disabled-data-structures:
     - match: ^\s*((#if)\s+(0))\b
@@ -1936,4 +1937,4 @@ contexts:
             - match: '>'
               scope: punctuation.definition.string.end.objc++
               pop: true
-    - include: scope:source.c#preprocessor-convention-ignore-uppercase-ident-lines
+    - include: scope:source.c#preprocessor-practical-workarounds

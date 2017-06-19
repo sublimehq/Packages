@@ -1,4 +1,8 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
+/////////////////////////////////////////////
+// Preprocessor
+/////////////////////////////////////////////
+
 #ifndef IGUARD_
  /* <- keyword.control.import */
 #define IGUARD_
@@ -70,6 +74,93 @@ int func() {
 #endif
 /* <- - keyword.control */
 #endif
+
+FOO()
+/* <- meta.assumed-macro variable.function.assumed-macro */
+FOO
+/* <- meta.assumed-macro */
+
+struct FOO1 FOO2 FOO3 Test {
+  /*   ^ meta.struct meta.assumed-macro           */
+  /*        ^ meta.struct meta.assumed-macro      */
+  /*             ^ meta.struct meta.assumed-macro */
+  Test();
+  Test() noexcept;
+  Test() final;
+  Test() noexcept final;
+  ~Test();
+  ~Test() noexcept;
+  ~Test() override noexcept;
+  virtual ~Test();
+  virtual ~Test() noexcept;
+  virtual ~Test() override noexcept;
+  DLL_API Test();
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  DLL_API Test() noexcept;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  DLL_API Test() final;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  DLL_API Test() noexcept final;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  /*                      ^ storage.modifier */
+  DLL_API ~Test();
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  DLL_API ~Test() noexcept;
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  /*              ^ storage.modifier          */
+  DLL_API ~Test() override noexcept;
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  /*              ^ storage.modifier          */
+  /*                       ^ storage.modifier */
+  DLL_API virtual ~Test();
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  DLL_API virtual ~Test() noexcept;
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  /*                      ^ storage.modifier          */
+  DLL_API virtual ~Test() override noexcept;
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  /*                      ^ storage.modifier          */
+  /*                               ^ storage.modifier */
+}
+
+#define DEPRECATED(msg) [[deprecated(msg)]]
+
+struct Test {
+    DEPRECATED("bla")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    bool foo (bool run=true) {}
+    /*   ^ entity.name.function */
+};
+
+namespace Test {
+    DEPRECATED("bla")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    bool foo (bool run=true) {}
+    /*   ^ entity.name.function */
+}
+
+struct Test {
+DEPRECATED("bla")
+/* <- meta.assumed-macro variable.function.assumed-macro */
+bool foo (bool run=true) {}
+/*   ^ entity.name.function */
+};
 
 /////////////////////////////////////////////
 // Strings
