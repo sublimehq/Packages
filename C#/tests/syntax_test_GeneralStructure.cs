@@ -1098,3 +1098,15 @@ namespace TestNamespace.Test
 ///<- punctuation.section.block.end
 }
 /// <- invalid.illegal.stray.brace
+
+class Test
+{
+    void Abc()
+    {
+        Something.SomeMethod(];
+///                         ^ meta.function-call meta.group punctuation.section.group.begin
+///                          ^ invalid.illegal.stray.brace
+///                           ^ invalid.illegal.expected-close-paren
+    }
+/// ^ - invalid.illegal.stray.brace
+}
