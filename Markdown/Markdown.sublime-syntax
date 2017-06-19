@@ -612,7 +612,7 @@ contexts:
               pop: true
         - match: (?=\)[?!.,:*_~]*[\s<])
           pop: true
-        - match: '[^?!.,:*_~\s<&(]+|\S'
+        - match: '[^?!.,:*_~\s<&()]+|\S'
           scope: markup.underline.link.markdown
   link-inline:
     - match: |-
