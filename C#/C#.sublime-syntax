@@ -16,13 +16,17 @@ variables:
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
 
+  # digit separators
+  digit_separators: '(?:(?:_+[0-9]+)*)'
+  
   # integers
-  hex_numeral: '0[xX][0-9a-fA-F]+'
-  decimal_numeral: '(0|[1-9][0-9]*)((?i:ul|lu|u|l))'
+  hex_numeral: '0[xX]\h+(?:_+\h+)*'
+  binary_numeral: '0[bB][01]+(?:_+[01]+)*'
+  decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l))'
 
   # floating point numbers
-  exponent: '[eE][+\-]?[0-9]+'
-  floating_point: '([0-9]+(?:\.[0-9]+)?(?:{{exponent}})?)([fFdDmM]?)'
+  exponent: '[eE][+\-]?[0-9]+{{digit_separators}}'
+  floating_point: '([0-9]+{{digit_separators}}(?:\.[0-9]+{{digit_separators}})?(?:{{exponent}})?)([fFdDmM]?)'
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
@@ -1432,6 +1436,8 @@ contexts:
       scope: invalid.illegal.not_a_char.cs
     # numbers
     - match: '{{hex_numeral}}'
+      scope: constant.numeric.cs
+    - match: '{{binary_numeral}}'
       scope: constant.numeric.cs
     - match: '{{decimal_numeral}}'
       captures:
