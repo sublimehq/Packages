@@ -1135,6 +1135,12 @@ contexts:
         - include: type
 
   line_of_code_in:
+    - include: line_of_code_in_no_semicolon
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+
+  line_of_code_in_no_semicolon:
     - match: \b(value)\b
       scope: variable.language.cs
     - include: keywords
@@ -1274,9 +1280,6 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: code_block_in
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
     - match: (?=\}|\)|>|\]|,|{{reserved}})
       pop: true
 
@@ -1321,7 +1324,10 @@ contexts:
       pop: true
     - include: stray_close_bracket
     - match: '(?=\S)'
-      push: line_of_code_in
+      push:
+        - include: line_of_code_in_no_semicolon
+        - match: (?=;)
+          pop: true
 
   accessor_arguments:
     - meta_content_scope: meta.brackets.cs
