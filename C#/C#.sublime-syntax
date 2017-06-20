@@ -1316,7 +1316,6 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: true
-    - include: stray_close_bracket
     - match: '(?=\S)'
       push: line_of_code_in
 
