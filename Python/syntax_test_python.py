@@ -799,28 +799,39 @@ not_floating = abc.123
 
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
+#        ^^ punctuation.definition.numeric.binary.python
 #                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
+#                    ^^ punctuation.definition.numeric.binary.python
 #                             ^ storage.type.numeric.long.python
 
 octal = 0o755 ^ 0o644L
 #       ^^^^^ constant.numeric.integer.octal.python
+#       ^^ punctuation.definition.numeric.octal.python
 #                    ^ storage.type.numeric.long.python
 #               ^^^^^^ constant.numeric.integer.long.octal.python
+#               ^^ constant.numeric.integer.octal.python
 
 old_style_octal = 010 + 007 - 012345670L
 #                 ^^^ constant.numeric.integer.octal.python
+#                 ^ punctuation.definition.numeric.octal.python
 #                       ^^^ constant.numeric.integer.octal.python
+#                       ^ punctuation.definition.numeric.octal.python
 #                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
+#                             ^ constant.numeric.integer.octal.python
 #                                      ^ storage.type.numeric.long.python
 
 hexadecimal = 0x100af - 0XDEADF00L
 #             ^^^^^^^ constant.numeric.integer.hexadecimal.python
+#             ^^ punctuation.definition.numeric.hexadecimal.python
 #                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
+#                       ^^ punctuation.definition.numeric.hexadecimal.python
 #                                ^ storage.type.numeric.long.python
 
 unintuitive = 0B101 + 0O101 + 10l
 #             ^^^^^ constant.numeric.integer.binary.python
+#             ^^ punctuation.definition.numeric.binary.python
 #                     ^^^^^ constant.numeric.integer.octal.python
+#                     ^^ punctuation.definition.numeric.octal.python
 #                             ^^^ constant.numeric.integer.long.decimal.python
 #                               ^ storage.type.numeric.long.python
 
@@ -845,9 +856,11 @@ very_complex = 23_2.2e2_0J + 2_1j
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
+#      ^^ punctuation.definition.numeric.hexadecimal.python
 
 flags = 0b_0011_1111_0100_1110 | 0b_1 & 0b_0_
 #       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+#       ^^ punctuation.definition.numeric.binary.python
 #                                ^^^^ constant.numeric.integer.binary.python
 #                                           ^ - constant
 

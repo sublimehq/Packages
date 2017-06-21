@@ -333,28 +333,39 @@ contexts:
   numbers:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
     # hexadecimal
-    - match: \b(?i)(?:0x\h*)(L) # py2
+    - match: \b(?i)(0x)\h*(L) # py2
       scope: constant.numeric.integer.long.hexadecimal.python
       captures:
-        1: storage.type.numeric.long.python
-    - match: \b(?i)(0x(_?\h)+)
+        1: punctuation.definition.numeric.hexadecimal.python
+        2: storage.type.numeric.long.python
+    - match: \b(?i)(0x)(_?\h)+
       scope: constant.numeric.integer.hexadecimal.python
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.python
     # octal
-    - match: \b(?i)0(?:o|[0-7])[0-7]*(L) # py2
+    - match: \b(?i)(0o?)(?=o|[0-7])[0-7]*(L) # py2
       scope: constant.numeric.integer.long.octal.python
       captures:
-        1: storage.type.numeric.long.python
-    - match: \b(?i)0[0-7]+ # py2
+        1: constant.numeric.integer.octal.python
+        2: storage.type.numeric.long.python
+    - match: \b(?i)(0)[0-7]+ # py2
       scope: constant.numeric.integer.octal.python
-    - match: \b(?i)0o(_?[0-7])+
+      captures:
+        1: punctuation.definition.numeric.octal.python
+    - match: \b(?i)(0o)(_?[0-7])+
       scope: constant.numeric.integer.octal.python
+      captures:
+        1: punctuation.definition.numeric.octal.python
     # binary
-    - match: \b(?i)0b[01]*(L) # py2
+    - match: \b(?i)(0b)[01]*(L) # py2
       scope: constant.numeric.integer.long.binary.python
       captures:
-        1: storage.type.numeric.long.python
-    - match: \b(?i)0b(_?[01])*
+        1: punctuation.definition.numeric.binary.python
+        2: storage.type.numeric.long.python
+    - match: \b(?i)(0b)(_?[01])*
       scope: constant.numeric.integer.binary.python
+      captures:
+        1: punctuation.definition.numeric.binary.python
     # complex
     - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?(j) # mandatory fraction
       scope: constant.numeric.complex.python
