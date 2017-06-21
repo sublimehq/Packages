@@ -20,13 +20,14 @@ variables:
   digit_separators: '(?:(?:_+[0-9]+)*)'
   
   # integers
-  hex_numeral: '0[xX]\h+(?:_+\h+)*'
-  binary_numeral: '0[bB][01]+(?:_+[01]+)*'
-  decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l))'
+  hex_numeral: '(0[xX])\h+(?:_+\h+)*'
+  binary_numeral: '(0[bB])[01]+(?:_+[01]+)*'
+  decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l)?)'
 
   # floating point numbers
   exponent: '[eE][+\-]?[0-9]+{{digit_separators}}'
-  floating_point: '([0-9]+{{digit_separators}}(?:\.[0-9]+{{digit_separators}})?(?:{{exponent}})?)([fFdDmM]?)'
+  floating_point: '([0-9]+{{digit_separators}}(?={{floating_point_suffix}}|[.Ee])(?:\.[0-9]+{{digit_separators}})?(?:{{exponent}})?)({{floating_point_suffix}}?)'
+  floating_point_suffix: '[fFdDmM]'
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
@@ -1422,30 +1423,34 @@ contexts:
     # characters
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
-    - match: "(')({{escaped_char}})(')"
+    - match: (')({{escaped_char}})(')
       scope: constant.character.cs
       captures:
         2: constant.character.escape.cs
-    - match: "(')({{escaped_char}})(')"
+    - match: (')({{escaped_char}})(')
       scope: constant.character.cs
       captures:
         2: constant.character.escape.cs
-    - match: "'.'"
+    - match: (').(')
       scope: constant.character.cs
-    - match: "'[^']+'"
+    - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
     - match: '{{hex_numeral}}'
-      scope: constant.numeric.cs
-    - match: '{{binary_numeral}}'
-      scope: constant.numeric.cs
-    - match: '{{decimal_numeral}}'
+      scope: constant.numeric.integer.hexadecimal.cs
       captures:
-        1: constant.numeric.cs
-        2: storage.type.numeric.cs
+        1: punctuation.definition.numeric.hexadecimal.cs
+    - match: '{{binary_numeral}}'
+      scope: constant.numeric.integer.binary.cs
+      captures:
+        1: punctuation.definition.numeric.binary.cs
     - match: '{{floating_point}}'
       captures:
-        1: constant.numeric.cs
+        1: constant.numeric.float.decimal.cs
+        2: storage.type.numeric.cs
+    - match: '{{decimal_numeral}}'
+      captures:
+        1: constant.numeric.integer.decimal.cs
         2: storage.type.numeric.cs
     # strings
     - match: '"'
