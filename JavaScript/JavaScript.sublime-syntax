@@ -331,6 +331,12 @@ contexts:
     - match: (?=\S)
       set: expression-statement
 
+  expect-case-colon:
+    - match: ':'
+      scope: punctuation.separator.js
+      pop: true
+    - include: else-pop
+
   conditional:
     - match: \bswitch\b
       scope: keyword.control.switch.js
@@ -345,15 +351,21 @@ contexts:
           scope: punctuation.section.block.js
           push:
             - meta_scope: meta.block.js
+
             - match: '(?=\})'
               pop: true
-            - match: ':'
-              push:
-                - match: '(?=(\bcase\b|\bdefault\b|\}))'
-                  pop: true
-                - include: statements
-            - match: \b(case|default)\b
+
+            - match: \b(case)\b
               scope: keyword.control.switch.js
+              push:
+                - expect-case-colon
+                - expression
+
+            - match: \b(default)\b
+              scope: keyword.control.switch.js
+              push:
+                - expect-case-colon
+
             - include: statements
 
     - match: \bdo\b
@@ -482,6 +494,7 @@ contexts:
 
     - include: postfix-operators
     - include: binary-operators
+    - include: ternary-operator
 
     - include: bracketed-property-access
     - include: function-call
@@ -750,9 +763,16 @@ contexts:
         -      # subtraction     left-to-right   both
       scope: keyword.operator.arithmetic.js
       push: expression-begin
-    - match: '\?|:'
+
+  ternary-operator:
+    - match: '\?'
       scope: keyword.operator.ternary.js
-      push: expression-begin
+      set:
+        - - match: ':'
+            scope: keyword.operator.ternary.js
+            set: expression
+          - include: else-pop
+        - expression
 
   postfix-operators:
     - match: '--'
