@@ -297,8 +297,14 @@ contexts:
       scope: keyword.control.go
     - match: \b(nil|true|false|iota)\b
       scope: constant.language.go
-    - match: '\b((0(x|X)\h*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
-      scope: constant.numeric.go
+    - match: '\b(0[xX])\h*\b'
+      scope: constant.numeric.integer.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.go
+    - match: '\b([0-9]+\.[0-9]*|\.[0-9]+)([eE][+-]?\d+)?\b'
+      scope: constant.numeric.float.decimal.go
+    - match: '\b\d+\b'
+      scope: constant.numeric.integer.decimal.go
 
   late-keywords:
     - match: \b(chan|func|var|type|map)\b
