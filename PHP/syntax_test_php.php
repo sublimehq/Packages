@@ -629,13 +629,13 @@ $var = 0;
 //     ^ constant.numeric
 
 $var2 = -123.456e10;
-//       ^^^^^^^^^^ constant.numeric
+//       ^^^^^^^^^^ constant.numeric.float.decimal
 
 $var3 = 0x0f;
-//      ^^^^ constant.numeric
+//      ^^^^ constant.numeric.integer.hexadecimal
 
 $var4 = 0b0111;
-//      ^^^^^^ constant.numeric
+//      ^^^^^^ constant.numeric.integer.binary
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
