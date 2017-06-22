@@ -633,9 +633,11 @@ $var2 = -123.456e10;
 
 $var3 = 0x0f;
 //      ^^^^ constant.numeric.integer.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
 
 $var4 = 0b0111;
 //      ^^^^^^ constant.numeric.integer.binary
+//      ^^ punctuation.definition.numeric.binary
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
