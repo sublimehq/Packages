@@ -888,7 +888,15 @@ contexts:
       captures:
         2: punctuation.definition.parameter.shell
         1: variable.parameter.shell
-    - match: ==?|!=?|<|>|
+    - match: (=~)\s*
+      captures:
+        1: keyword.operator.logical.shell
+      push:
+        - meta_content_scope: meta.regexp.shell
+        - match: (?=\s)
+          pop: true
+        - include: expansion-and-string
+    - match: ==?|!=?|<|>
       scope: keyword.operator.logical.shell
 
   string:

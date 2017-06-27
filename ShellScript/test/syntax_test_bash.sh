@@ -686,6 +686,16 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 # <- - variable.other.readwrite
 
+[[ $str =~ ^$'\t' ]]
+#       ^^ keyword.operator.logical.shell
+#          ^^^^^^ meta.regexp
+
+[[ $str =~ ^abc$var$ ]]
+#       ^^ keyword.operator.logical.shell
+#          ^^^^ meta.regexp
+#              ^^^^ variable.other.readwrite
+#                  ^ meta.regexp
+
 ################
 # Control flow #
 ################
