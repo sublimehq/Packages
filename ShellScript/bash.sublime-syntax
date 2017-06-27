@@ -689,18 +689,6 @@ contexts:
           pop: true
         - include: expression-test
 
-  cmd-qualified-path:
-    - meta_scope: meta.function-call.shell
-    - match: \./
-      scope: punctuation.definition.call.shell
-    - match: /|\.\.
-      scope: punctuation.separator.path.shell
-    - include: cmd-args-common
-    # - match: '{{is_path_component}}'
-    #   set: cmd-qualified-path
-    - match: ""
-      pop: true
-
   cmd-name:
     - match: ""
       set:
