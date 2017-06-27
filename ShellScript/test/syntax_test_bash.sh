@@ -279,6 +279,13 @@ asdf foo && FOO=some-value pwd
 # Strings and interpolation in parameter expansion #
 ####################################################
 
+${foo:=bar}
+#    ^ keyword.operator.assignment
+# <- - variable.other.readwrite.assignment
+#      ^^^^ - string.unquoted
+#         ^ punctuation.section.brackets.end
+# <- meta.function-call variable.function
+
 : ${foo:-bar}
   # <- keyword
   #    ^^ keyword
