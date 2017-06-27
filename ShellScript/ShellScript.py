@@ -1,3 +1,4 @@
+import copy
 import os
 import re
 import shlex
@@ -27,9 +28,10 @@ class RunShellScriptCommand(Default.exec.ExecCommand):
             working_dir = os.path.dirname(file_name)
 
         # Determine the environment variables
-        env = kwargs.get("env", None)
-        if not env:
-            env = os.environ
+        env = copy.deepcopy(os.environ)
+        custom_env = kwargs.get("env", None)
+        if custom_env:
+            env.update(custom_env)
 
         # Delegate to the super class
         super().run(cmd=shell + [file_name], 
