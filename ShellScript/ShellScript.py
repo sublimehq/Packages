@@ -1,5 +1,6 @@
 import os
 import re
+import shlex
 import Default.exec
 
 class RunShellScriptCommand(Default.exec.ExecCommand):
@@ -15,7 +16,7 @@ class RunShellScriptCommand(Default.exec.ExecCommand):
             # Note: we split on whitespace and turn it
             # into a list, otherwise things like
             # "/usr/bin/env bash" won't work
-            shell = str(match.group(1)).split(" ")
+            shell = shlex.split(match.group(1))
         else:
             # No shebang line... Take the user's default shell
             shell = [os.environ["SHELL"]]
