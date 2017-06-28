@@ -454,19 +454,19 @@ contexts:
         - match: ;
           scope: punctuation.terminator.statement.js
 
-        - match: (?=\S)
-          push: expression
+        - match: \b(const|let|var)\b
+          scope: storage.type.js
+
+        - include: expression-list
     - include: block-scope
 
   block-scope:
-    - match: '\}'
-      scope: meta.block.js punctuation.section.block.js
-      pop: true
     - match: '\{'
       scope: punctuation.section.block.js
       push:
         - meta_scope: meta.block.js
-        - match: '(?=\})'
+        - match: '\}'
+          scope: punctuation.section.block.js
           pop: true
         - include: statements
     - include: else-pop

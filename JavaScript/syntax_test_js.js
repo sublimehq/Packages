@@ -446,6 +446,7 @@ do {
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
+//   ^^^ storage.type.js
 //                           ^ meta.block
     i += 1;
 //  ^^^^^^^ meta.for meta.block
