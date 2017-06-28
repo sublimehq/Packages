@@ -901,17 +901,10 @@ contexts:
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
     - include: lambdas
-    - match: '\b({{base_type}})\s*(?=[\[\],*?]*\s+\w)'
+    - match: '\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
       captures:
         1: storage.type.cs
-      set: [variables_declaration, type_no_space]
-    - match: '\b({{base_type}})\s+'
-      captures:
-        1: storage.type.cs
-      push: variables_declaration
-    - match: '\b({{name}})(?=[\[\],*?]*\s+\w)'
-      captures:
-        1: support.type.cs
+        2: support.type.cs
       set: [variables_declaration, type_no_space]
     - match: '({{name}})\s*(:)(?!:)'
       captures:
