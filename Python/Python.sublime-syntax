@@ -1286,6 +1286,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
           with_prototype:
             - match: '(?="|\n)'
@@ -1302,6 +1303,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
           with_prototype:
             - match: '(?="|\n)'
@@ -1568,6 +1570,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
           with_prototype:
             - match: '(?=''|\n)'
@@ -1584,6 +1587,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
           with_prototype:
             - match: '(?=''|\n)'
