@@ -708,16 +708,16 @@ contexts:
               | font-variant|font-size-adjust|font-size|font-language-override
               | font-display|font-synthesis|font|line-box-contain|text-justify
               | text-decoration-color|text-decoration-style|text-decoration-line
-              | text-decoration|text-underline-position|grid-template|rotate
-              | scale|translate|grid-template-columns|grid-template-rows
-              | scroll-behavior|grid-column-start|grid-column-end|grid-column-gap
-              | grid-row-start|grid-row-end|grid-auto-rows|grid-template-areas
+              | text-decoration|text-underline-position|grid-template-rows
+              | grid-template-columns|grid-template-areas|grid-template|rotate|scale
+              | translate|scroll-behavior|grid-column-start|grid-column-end
+              | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
               | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
               | hyphens|overflow-scrolling|overflow|color-profile|kerning
-              | nbsp-mode|color|image-resolution|grid-row|grid-column|blend-mode
-              | azimuth|pause-after|pause-before|pause|pitch-range|pitch|text-height
-              | system|negative|prefix|suffix|range|pad|fallback|additive-symbols
-              | symbols|speak-as|speak|grid-gap|grid-row-gap
+              | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
+              | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
+              | text-height|system|negative|prefix|suffix|range|pad|fallback
+              | additive-symbols|symbols|speak-as|speak|grid-gap
             )\b
           scope: support.type.property-name.css
     - match: (:)([ \t]*)

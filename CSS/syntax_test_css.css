@@ -892,6 +892,27 @@
 /*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
 /*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
 
+.test-property-name-order-doesnt-prevent-full-matches {
+    grid-template-rows: none;
+/*  ^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                    ^ punctuation.separator.key-value */
+    grid-template-columns: none;
+/*  ^^^^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                       ^ punctuation.separator.key-value */
+    grid-template-areas: auto;
+/*  ^^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                     ^ punctuation.separator.key-value */
+    grid-template: initial;
+/*  ^^^^^^^^^^^^^ support.type.property-name */
+/*               ^ punctuation.separator.key-value */
+    grid-row-gap: 3vmin;
+/*  ^^^^^^^^^^^^ support.type.property-name */
+/*              ^ punctuation.separator.key-value */
+    grid-row: auto;
+/*  ^^^^^^^^ support.type.property-name */
+/*          ^ punctuation.separator.key-value */
+}
+
 .test-meta-scopes-for-completions {
     top: 5px;
 /*^^^^^^^^^^^ meta.property-list */
