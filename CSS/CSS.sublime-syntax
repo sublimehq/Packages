@@ -14,7 +14,7 @@ variables:
   nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[^[:ascii:]]]'
   nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
   nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
-  ident: '-?{{nmstart}}{{nmchar}}*'
+  ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
@@ -1872,7 +1872,7 @@ contexts:
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property-name
   custom-property-name:
-    - match: '(--)({{ident}})'
+    - match: '(--)({{nmchar}}+)'
       scope: support.type.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css

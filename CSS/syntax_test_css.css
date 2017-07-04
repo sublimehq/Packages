@@ -921,3 +921,20 @@
     font-family: droid serif;
 /*               ^^^^^^^^^^^ string.unquoted */
 }
+
+.variable-beginnings {
+    --1x: url(data:image/png;base64,PNG);
+/*  ^^^^ support.type.custom-property */
+/*  ^^ punctuation.definition.custom-property */
+/*    ^^ support.type.custom-property.name */
+/*      ^ punctuation.separator.key-value */
+    background-image: var(--1x);
+/*                        ^^^^ support.type.custom-property */
+/*                        ^^ punctuation.definition.custom-property */
+/*                          ^^ support.type.custom-property.name */
+    --\ff: 5px;
+/*  ^^^^^ support.type.custom-property */
+/*  ^^ punctuation.definition.custom-property */
+/*    ^^^ support.type.custom-property.name */
+/*       ^ punctuation.separator.key-value */
+}
