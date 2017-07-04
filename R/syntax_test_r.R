@@ -194,3 +194,9 @@ print.foo()
 #^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
 #  ^^^^^^ keyword.other.r
 #         ^^^ variable.parameter.r
+
+
+# issue #1019
+foo[[bar[1]]] #
+#         ^ source.r meta.item-access.r meta.item-access.arguments.r meta.item-access.r
+#              ^ - meta.item-access.r
