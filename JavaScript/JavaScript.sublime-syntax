@@ -81,108 +81,98 @@ contexts:
 
   keywords-top-level:
     - match: \bimport\b
-      scope: meta.import.js keyword.control.import-export.js
-      push: import-extended
+      scope: keyword.control.import-export.js
+      push:
+        - import-meta
+        - import-export-final
+        - import-extended
+
     - match: \bexport\b
-      scope: meta.export.js keyword.control.import-export.js
-      push: export-extended
+      scope: keyword.control.import-export.js
+      push:
+        - export-meta
+        - export-extended
+
     - match: \b(export|default|from|as)\b
       scope: keyword.control.import-export.js
 
-  import-escape:
-    - match: '(?=;|function|var|class)'
-      pop: true
-    - match: "(?='|\"|\\bfrom\\b)"
-      set: import-final
-
-  import-extended:
-    - meta_content_scope: meta.import.js
-    - include: import-escape
-    - match: '\{'
-      scope: meta.block.js punctuation.section.block.js
-      set: import-brace
-    - match: '{{identifier}}'
-      scope: variable.other.readwrite.js
-      set: import-extended-as
-    - match: '\*'
-      scope: constant.other.js
-      set: import-extended-as
-    - include: else-pop
-
-  import-extended-as:
-    - meta_content_scope: meta.import.js
-    - include: import-escape
-    - match: '\b(as)(?:\s+({{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: import-extended-continue
-
-  import-extended-continue:
+  import-meta:
     - meta_scope: meta.import.js
-    - include: import-escape
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: import-extended
     - include: else-pop
 
-  import-brace:
-    - meta_content_scope: meta.import.js meta.block.js
-    - include: import-escape
-    - match: '\}'
-      scope: punctuation.section.block.js
-      set: import-extended-as
-    - match: '{{identifier}}'
-      scope: variable.other.readwrite.js
-      set: import-brace-as
-    - match: '\*'
-      scope: constant.other.js
-      set: import-brace-as
+  import-export-alias:
+    - match: \bas\b
+      scope: keyword.control.import-export.js
+      set:
+        - match: \bdefault\b
+          scope: keyword.control.import-export.js
+          pop: true
+        - match: '{{identifier}}'
+          scope: variable.other.readwrite.js
+          pop: true
+        - include: else-pop
     - include: else-pop
 
-  import-brace-as:
-    - meta_content_scope: meta.import.js meta.block.js
-    - include: import-escape
-    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: import-brace-continue
-
-  import-brace-continue:
-    - meta_scope: meta.import.js meta.block.js
-    - include: import-escape
-    - match: '(?=\})'
-      set: import-brace
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: import-brace
-    - include: else-pop
-
-  import-final:
-    - meta_scope: meta.import.js
+  import-export-final:
     - match: '\bfrom\b'
       scope: keyword.control.import-export.js
     - match: (?=['"])
       push: literal-string
     - include: else-pop
 
-  export-escape:
-    - match: '(?=;|function|var|class)'
+  import-extended:
+    - match: (?='|")
       pop: true
-    - match: "(?='|\"|\\bfrom\\b)"
-      set: export-final
+    - match: (?=\S)
+      set:
+        - import-list
+        - import-export-alias
+        - import-item
+
+  import-list:
+    - match: ','
+      scope: punctuation.separator.comma.js
+      push:
+        - import-export-alias
+        - import-item
+    - include: else-pop
+
+  import-item:
+    - match: '\{'
+      scope: punctuation.section.block.js
+      set: import-brace
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      pop: true
+    - match: '\*'
+      scope: constant.other.js
+      pop: true
+    - include: else-pop
+
+  import-brace:
+    - meta_scope: meta.block.js
+    - include: comma-separator
+    - match: '\}'
+      scope: punctuation.section.block.js
+      pop: true
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      push: import-export-alias
+    - match: '\*'
+      scope: constant.other.js
+      push: import-export-alias
+    - include: else-pop
+
+  export-meta:
+    - meta_scope: meta.export.js
+    - include: else-pop
 
   export-extended:
-    - meta_content_scope: meta.export.js
-
     - include: variable-declaration
-    - include: export-escape
+
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
-      push:
+      set:
         - match: (?=class)
           set: class
 
@@ -190,76 +180,47 @@ contexts:
           set: function-declaration
 
         - include: expression
-    - match: '\{'
-      scope: meta.block.js punctuation.section.block.js
-      set: export-brace
-    - match: '\*'
-      scope: constant.other.js
-      set: export-extended-as
-    - include: else-pop
 
-  export-extended-as:
-    - meta_content_scope: meta.export.js
-    - include: export-escape
-    - match: '\b(as)(?:\s+({{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: export-extended-continue
+    - match: (?=\S)
+      set:
+        - import-export-final
+        - export-list
+        - import-export-alias
+        - export-item
 
-  export-extended-continue:
-    - meta_scope: meta.export.js
-    - include: export-escape
+  export-list:
     - match: ','
       scope: punctuation.separator.comma.js
-      set: export-extended
+      push:
+        - import-export-alias
+        - export-item
+    - include: else-pop
+
+  export-item:
+    - match: '\{'
+      scope: punctuation.section.block.js
+      set:
+        - export-brace
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      pop: true
+    - match: '\*'
+      scope: constant.other.js
+      pop: true
     - include: else-pop
 
   export-brace:
-    - meta_content_scope: meta.export.js meta.block.js
-    - include: export-escape
+    - meta_scope: meta.block.js
+    - include: comma-separator
     - match: '\}'
       scope: punctuation.section.block.js
-      set: export-extended-as
+      pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
-      set: export-brace-as
+      push: import-export-alias
     - match: '\*'
       scope: constant.other.js
-      set: export-brace-as
-    - include: else-pop
-
-  export-brace-as:
-    - meta_content_scope: meta.export.js meta.block.js
-    - include: export-escape
-    - match: \b(as)\s+(default)\b
-      captures:
-        1: keyword.control.import-export.js
-        2: keyword.control.import-export.js
-    - match: '\b(as)\b(\s+(?:{{identifier}}))?'
-      captures:
-        1: keyword.control.import-export.js
-        2: variable.other.readwrite.js
-    - match: '(?=\S)'
-      set: export-brace-continue
-
-  export-brace-continue:
-    - meta_scope: meta.export.js meta.block.js
-    - include: export-escape
-    - match: '(?=\})'
-      set: export-brace
-    - match: ','
-      scope: punctuation.separator.comma.js
-      set: export-brace
-    - include: else-pop
-
-  export-final:
-    - meta_scope: meta.export.js
-    - match: '\bfrom\b'
-      scope: keyword.control.import-export.js
-    - match: (?=['"])
-      push: literal-string
+      push: import-export-alias
     - include: else-pop
 
   statements:
