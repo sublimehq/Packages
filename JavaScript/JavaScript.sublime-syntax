@@ -1088,8 +1088,9 @@ contexts:
         - include: method-declaration
         - match: "(?=\"|')"
           push:
-            - meta_scope: meta.object-literal.key.js
-            - include: literal-string
+            - - meta_scope: meta.object-literal.key.js
+              - include: immediately-pop
+            - literal-string
         - match: '(\$)[$\w]*(?=\s*:)'
           scope: meta.object-literal.key.dollar.js
           captures:

@@ -306,12 +306,12 @@ var obj = {
     // <- meta.object-literal.key
 
     "key4": true,
-    // <- meta.object-literal.key string.quoted.double
-    //    ^ punctuation.separator.key-value - string
+//  ^^^^^^ meta.object-literal.key string.quoted.double
+//        ^ punctuation.separator.key-value - string
     'key5': false,
-    // <- meta.object-literal.key string.quoted.single
-    //    ^ punctuation.separator.key-value - string
-    //      ^^^^^ constant.language.boolean.false
+//  ^^^^^^meta.object-literal.key string.quoted.single
+//        ^ punctuation.separator.key-value - string
+//          ^^^^^ constant.language.boolean.false
 
     objKey: new function() {
 //              ^^^^^^^^ storage.type.function
