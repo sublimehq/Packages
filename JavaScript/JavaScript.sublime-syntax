@@ -426,12 +426,14 @@ contexts:
     - include: block-scope
 
   block-scope:
+    - match: '\}'
+      scope: meta.block.js punctuation.section.block.js
+      pop: true
     - match: '\{'
       scope: punctuation.section.block.js
       push:
         - meta_scope: meta.block.js
-        - match: '\}'
-          scope: punctuation.section.block.js
+        - match: (?=})
           pop: true
         - include: statements
     - include: else-pop
