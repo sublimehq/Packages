@@ -851,11 +851,11 @@ contexts:
   anonymous-function:
     - match: '(?={{func_lookahead}})'
       set:
-        - meta_content_scope: meta.function.anonymous.js
+        - meta_scope: meta.function.anonymous.js meta.function.declaration.js
         - include: function-declaration
     - match: '(?={{arrow_func_lookahead}})'
       set:
-        - meta_content_scope: meta.function.anonymous.js
+        - meta_scope: meta.function.anonymous.js meta.function.declaration.js
         - include: arrow-function-declaration
 
   function-declaration-identifiers:
@@ -921,43 +921,39 @@ contexts:
       push: arrow-function-declaration
 
   function-declaration:
+    - meta_scope: meta.function.declaration.js
     - match: '\b(async)\b\s*'
-      scope: meta.function.declaration.js
       captures:
         1: storage.type.js
     - match: \b(function)\b(\*)?\s*
-      scope: meta.function.declaration.js
       captures:
         1: storage.type.function.js
         2: keyword.generator.asterisk.js
     - match: '{{identifier}}'
-      scope: meta.function.declaration.js entity.name.function.js
+      scope: entity.name.function.js
     - include: function-declaration-parameters
     - match: '(?=\s*\{)'
       set: function-block
 
   arrow-function-declaration:
+    - meta_scope: meta.function.declaration.js
     - match: '\s*(=>)\s*(?=\n|//|/*)'
-      scope: meta.function.declaration.js
       captures:
         1: storage.type.function.arrow.js
       set: arrow-function-declaration-continuation
     - match: '\s*(=>)(?=\s*\{)'
-      scope: meta.function.declaration.js
       captures:
         1: storage.type.function.arrow.js
       set: function-block
     - match: '(\s*(=>))\s*(?=\S)'
       captures:
-        1: meta.function.declaration.js
         2: storage.type.function.arrow.js
       set: arrow-function-concise-body
     - match: '\b(async)\b\s*'
-      scope: meta.function.declaration.js
       captures:
         1: storage.type.js
     - match: '{{identifier}}'
-      scope: meta.function.declaration.js variable.parameter.function.js
+      scope: variable.parameter.function.js
     - include: function-declaration-parameters
 
   arrow-function-declaration-continuation:
@@ -1010,7 +1006,6 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.js
       push:
-        - meta_scope: meta.function.declaration.js
         - match: \)
           scope: punctuation.section.group.end.js
           pop: true
