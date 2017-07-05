@@ -75,6 +75,10 @@ contexts:
     - match: (?=\S)
       pop: true
 
+  immediately-pop:
+    - match: ''
+      pop: true
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.comma.js
@@ -98,7 +102,7 @@ contexts:
 
   import-meta:
     - meta_scope: meta.import.js
-    - include: else-pop
+    - include: immediately-pop
 
   import-export-alias:
     - match: \bas\b
@@ -165,7 +169,7 @@ contexts:
 
   export-meta:
     - meta_scope: meta.export.js
-    - include: else-pop
+    - include: immediately-pop
 
   export-extended:
     - include: variable-declaration

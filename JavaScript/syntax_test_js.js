@@ -56,6 +56,7 @@ export default function (a) { }
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
 //             ^ storage.type
+//                             ^ - meta.export
 
 export default function name1(b) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -229,6 +230,9 @@ not_a_comment;
 
     "// /* not a comment": x => x,
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment
+
+    '// /* not a comment'() {},
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
 
     '// /* not a comment'() {},
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
