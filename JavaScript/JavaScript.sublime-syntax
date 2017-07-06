@@ -641,11 +641,8 @@ contexts:
     - include: else-pop
 
   constructor-params:
-    - meta_content_scope: meta.instance.constructor.js
     - match: '(?=\()'
-      push:
-        - meta_scope: meta.function-call.constructor.js
-        - include: function-call-params
+      push: function-call-params
     - include: else-pop
 
   prefix-operators:
@@ -1077,7 +1074,7 @@ contexts:
               (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
             )
           push:
-            - meta_content_scope: meta.object-literal.key.js meta.function.declaration.js
+            - meta_scope: meta.object-literal.key.js meta.function.declaration.js
             - include: method-name
             - match: '(?=:)'
               set:
@@ -1176,20 +1173,21 @@ contexts:
         - include: else-pop
     - match: (?={{method_name}}\s*\()
       push:
-        - meta_scope: meta.function.declaration.js
-        - include: method-name
-        - match: \s*
-        - include: function-declaration-parameters
-        - match: '\{'
-          scope: punctuation.section.block.js
-          set:
-            - meta_scope: meta.function.declaration.js meta.block.js
+        - - meta_scope: meta.function.declaration.js
+          - include: immediately-pop
+        - - include: method-name
+          - match: \s*
+          - include: function-declaration-parameters
+          - match: '\{'
+            scope: punctuation.section.block.js
+            set:
+              - meta_scope: meta.block.js
 
-            - match: '\}'
-              scope: punctuation.section.block.js
-              pop: true
-            - include: statements
-        - include: else-pop
+              - match: '\}'
+                scope: punctuation.section.block.js
+                pop: true
+              - include: statements
+          - include: else-pop
 
   parenthesized-expression:
     - match: \(

@@ -786,6 +786,7 @@ var Constructor = function() {
 var abc = new ABC(
 //         ^ meta.instance.constructor keyword.operator.word.new
 //               ^ meta.instance.constructor meta.function-call.constructor
+//               ^ - meta.instance.constructor meta.instance.constructor
     'my-name-is-abc',
     new (function () {
 //  ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor keyword.operator.word.new
