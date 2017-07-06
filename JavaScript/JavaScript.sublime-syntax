@@ -177,10 +177,10 @@ contexts:
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
       set:
-        - match: (?=class)
+        - match: (?=\bclass\b)
           set: class
 
-        - match: (?=function)
+        - match: (?=\bfunction\b)
           set: function-declaration
 
         - include: expression
@@ -272,10 +272,10 @@ contexts:
       push: expression-statement
 
   function-or-class-declaration:
-    - match: (?=class)
+    - match: (?=\bclass\b)
       push: class
 
-    - match: (?=function)
+    - match: (?=\bfunction\b)
       push: named-function
 
   expression-statement:
@@ -599,11 +599,11 @@ contexts:
     - include: else-pop
 
   constructor-name:
-    - match: '(?=function\b)'
+    - match: '(?=\bfunction\b)'
       set:
         - constructor-params
         - function-declaration
-    - match: '(?=class\b)'
+    - match: '(?=\bclass\b)'
       set:
         - constructor-params
         - class
