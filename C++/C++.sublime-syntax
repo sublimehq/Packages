@@ -1070,7 +1070,7 @@ contexts:
       captures:
         1: storage.modifier.c++
         2: punctuation.section.class.c++
-    - match: '^\s*(?=~?\w+)'
+    - match: '^\s*(?=(?:~?\w+|::))'
       push: data-structures-modifier
     - include: expressions-minus-generic-type
 
