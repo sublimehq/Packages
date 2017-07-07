@@ -277,7 +277,7 @@ contexts:
       push: class
 
     - match: (?=\bfunction\b)
-      push: named-function
+      push: function-declaration
 
   expression-statement:
     - match: (?=\S)
@@ -494,8 +494,8 @@ contexts:
 
     - include: class
     - include: constants
-    - include: named-function
-    - include: anonymous-function
+    - include: function-assignment
+    - include: either-function-declaration
     - include: object-literal
 
     - include: parenthesized-expression
@@ -826,7 +826,7 @@ contexts:
         3: support.constant.prototype.js
       pop: true
 
-  named-function:
+  function-assignment:
     - match: '(?=(({{identifier}})\s*(\.)\s*)+({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
       set:
         - meta_scope: meta.function.declaration.js
@@ -843,18 +843,6 @@ contexts:
         - match: '(?={{arrow_func_lookahead}})'
           set: arrow-function-declaration
         - include: function-declaration-single-identifier
-    - match: '(?={{func_lookahead}}(\s*\*)?\s+{{identifier}})'
-      set: function-declaration
-
-  anonymous-function:
-    - match: '(?={{func_lookahead}})'
-      set:
-        - meta_scope: meta.function.anonymous.js meta.function.declaration.js
-        - include: function-declaration
-    - match: '(?={{arrow_func_lookahead}})'
-      set:
-        - meta_scope: meta.function.anonymous.js meta.function.declaration.js
-        - include: arrow-function-declaration
 
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*\.)'
@@ -914,83 +902,65 @@ contexts:
 
   either-function-declaration:
     - match: '(?={{func_lookahead}})'
-      push: function-declaration
+      set: function-declaration
     - match: '(?={{arrow_func_lookahead}})'
-      push: arrow-function-declaration
+      set: arrow-function-declaration
 
   function-declaration:
-    - meta_scope: meta.function.declaration.js
-    - match: '\b(async)\b\s*'
-      captures:
-        1: storage.type.js
-    - match: \b(function)\b(\*)?\s*
-      captures:
-        1: storage.type.function.js
-        2: keyword.generator.asterisk.js
-    - match: '{{identifier}}'
-      scope: entity.name.function.js
-    - include: function-declaration-parameters
-    - match: '(?=\s*\{)'
-      set: function-block
+    - match: ''
+      set:
+        - - include: immediately-pop
+        - function-block
+        - - meta_scope: meta.function.declaration.js
+          - include: immediately-pop
+        - - include: function-declaration-parameters
+          - include: else-pop
+        - - match: '{{identifier}}'
+            scope: entity.name.function.js
+            pop: true
+          - include: else-pop
+        - - match: \b(function)\b\s*(\*)?
+            captures:
+              1: storage.type.function.js
+              2: keyword.generator.asterisk.js
+            pop: true
+          - include: else-pop
+        - - match: '\basync\b'
+            scope: storage.type.js
+            pop: true
+          - include: else-pop
 
   meta-function-declaration:
     - meta_scope: meta.function.declaration
     - include: immediately-pop
 
   arrow-function-declaration:
-    - meta_scope: meta.function.declaration.js
-    - match: '\s*(=>)\s*(?=\n|//|/*)'
-      captures:
-        1: storage.type.function.arrow.js
-      set: arrow-function-declaration-continuation
-    - match: '\s*(=>)(?=\s*\{)'
-      captures:
-        1: storage.type.function.arrow.js
-      set: function-block
-    - match: '(\s*(=>))\s*(?=\S)'
-      captures:
-        2: storage.type.function.arrow.js
-      set: arrow-function-concise-body
-    - match: '\b(async)\b\s*'
-      captures:
-        1: storage.type.js
-    - match: '{{identifier}}'
-      scope: variable.parameter.function.js
-    - include: function-declaration-parameters
-
-  arrow-function-declaration-continuation:
-    - meta_content_scope: meta.function.declaration.js
-    - match: '(?=\{)'
-      set: function-block
-    - match: '(?=\S)'
-      set: arrow-function-concise-body
-
-  arrow-function-concise-body:
-    - meta_content_scope: meta.block.js
-    - match: '(?=[);}\],])'
-      pop: true
-    - match: '\n'
-      set: arrow-function-concise-continuation
-    # This custom comment match is required so that we move to the
-    # arrow-function-concise-continuation context to try and continue the
-    # body. Previously we didn't match the \n in the comments context, but that
-    # caused completions to appear at the end of a single-line comment.
-    - match: //
-      scope: punctuation.definition.comment.js
+    - match: ''
       set:
-        - meta_scope: comment.line.double-slash.js
-        - match: \n
-          set: arrow-function-concise-continuation
-    - match: (?=\S)
-      push: expression-no-comma
-
-  arrow-function-concise-continuation:
-    # Allow newlines in a concise body if the next line is a continuation
-    # of the previous via method chaining
-    - match: '(?=^\s*(\.|/[/*]))'
-      set: arrow-function-concise-body
-    - match: '(?=.|\n)'
-      pop: true
+        - - meta_scope: meta.function.declaration.js
+          - match: (?=\{)
+            set: function-block
+          - match: (?=\S)
+            set:
+              - - meta_scope: meta.block.js
+                - include: immediately-pop
+              - - match: (?=,)
+                  pop: true
+                - include: expression-statement-end
+              - expression-begin
+        - - match: '=>'
+            scope: storage.type.function.arrow.js
+            pop: true
+          - include: else-pop
+        - - match: '{{identifier}}'
+            scope: variable.parameter.function.js
+            pop: true
+          - include: function-declaration-parameters
+          - include: else-pop
+        - - match: '\basync\b'
+            scope: storage.type.js
+            pop: true
+          - include: else-pop
 
   function-block:
     - meta_scope: meta.block.js

@@ -147,14 +147,14 @@ function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^ meta.function.declaration
 // ^ storage.type.function
 //        ^ entity.name.function
 }
 // <- meta.block
 
 var bar = function() {
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^ meta.function.declaration
 // <- storage.type
 //   ^ variable.other.readwrite entity.name.function
 //         ^ storage.type.function
@@ -164,7 +164,7 @@ baz = function*()
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^ meta.function.declaration
 // <- variable.other.readwrite entity.name.function
 //     ^ storage.type.function
 //            ^ keyword.generator.asterisk
@@ -288,7 +288,7 @@ var obj = {
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
     $keyFunc: function() {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
      // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
     },
@@ -329,37 +329,37 @@ var obj = {
     }(),
 
     funcKey: function() {
-//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     func2Key: function func2Key() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     funcKeyArrow: () => {
-//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key entity.name.function
     },
 
     "funcStringKey": function funcStringKey()
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     { },
 
     'funcStringKey': function() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     'funcStringKeyArrow': () => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.single entity.name.function
     },
 
     "func\\String2KeyArrow": (foo) => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ meta.object-literal.key string.quoted.double entity.name.function
     //    ^ constant.character.escape
     },
@@ -368,17 +368,17 @@ var obj = {
 //                ^^^^ constant.language.boolean.true
 
     qux()
-//  ^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^ meta.function.declaration
     // <- entity.name.function
     {},
 
     'funcStringMethod'() {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function
     },
 
     'funcStringMethodWithSameLineColon'() { var foo = { name: 'jeff' }; },
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function
 
     "key (": true,
@@ -391,13 +391,13 @@ var obj = {
     // <- meta.object-literal.key
 
     static foo(bar) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ storage.type
     //      ^entity.name.function
     },
 
     *baz(){
-//  ^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^ meta.function.declaration
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
@@ -440,7 +440,7 @@ function x() {}
 // <- meta.brackets.js
 
 var $ = function(baz) {
-//  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ variable.other.dollar.only punctuation.dollar entity.name.function
 }
 
@@ -563,7 +563,7 @@ class MyClass extends TheirClass {
 //            ^^^^^^^ storage.modifier.extends
 //                               ^ meta.block
     constructor(el)
-//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function
     {
 //  ^ meta.class meta.block meta.block punctuation.section.block
@@ -573,7 +573,7 @@ class MyClass extends TheirClass {
 //  ^ meta.class meta.block meta.block punctuation.section.block
 
     get foo()
-//  ^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^ meta.function.declaration
     // <- storage.type.accessor
     //   ^ entity.name.function
     {
@@ -581,19 +581,19 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ storage.type
     //       ^ entity.name.function
 
     }
 
     qux()
-//  ^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^ meta.function.declaration
     { }
 //  ^ meta.class meta.block meta.block punctuation.section.block
 
     get bar () {
-//  ^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^ meta.function.declaration
 //             ^ meta.class meta.block meta.block punctuation.section.block
     // <- storage.type.accessor
     //   ^ entity.name.function
@@ -601,7 +601,7 @@ class MyClass extends TheirClass {
     }
 
     baz() { return null }
-//  ^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^ meta.function.declaration
     // <- entity.name.function
 
     get() { return "foobar"; }
@@ -638,7 +638,7 @@ class Foo extends React.Component {
 () => {}
 // <- meta.function.declaration punctuation.section.group
  // <- meta.function.declaration punctuation.section.group
-//^^^ meta.function.anonymous meta.function.declaration
+//^^^ meta.function.declaration
 //    ^^ meta.block punctuation.section.block
 
 const test = ({a, b, c=()=>({active:false}) }) => {};
@@ -661,40 +661,40 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^^ storage.type.function.arrow
 
 MyClass.foo = function() {}
-// ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ entity.name.function
 
 MyClass.foo = () => {}
-// ^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ entity.name.function
 
 xhr.onload = function() {}
-// ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // <- support.class.js
 //  ^ entity.name.function
 
 xhr.onload = () => {}
-// ^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^ meta.function.declaration
 // <- support.class.js
 //  ^ entity.name.function
 
 var simpleArrow = foo => bar;
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //   ^ entity.name.function
 //                 ^ variable.parameter.function
 //                    ^ storage.type.function.arrow
 
 var Proto = () => {
-//  ^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+//  ^^^^^^^^^^^^^ meta.function.declaration
 //   ^ entity.name.function
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
 
 Proto.prototype.getVar = () => this._var;
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
@@ -702,7 +702,7 @@ Proto.prototype.getVar = () => this._var;
 
 Class3.prototype = function() {
 // ^^^^^^^^^^^^^ meta.prototype.declaration
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function.anonymous
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ support.constant.prototype
 }
@@ -731,10 +731,10 @@ return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor punctuation.section.group
 
 var anotherSingle = function(){a = param => param; return param2 => param2 * a}
-//                                 ^ meta.function.declaration variable.parameter.function - meta.function.anonymous
+//                                 ^ meta.function.declaration variable.parameter.function
 //                                          ^ meta.block meta.block variable.other.readwrite
 //                                               ^ meta.block punctuation.terminator.statement
-//                                                        ^ meta.function.anonymous meta.function.declaration variable.parameter.function
+//                                                        ^ meta.function.declaration variable.parameter.function
 //                                                                           ^ meta.block meta.block variable.other.readwrite
 //                                                                            ^ meta.block punctuation.section.block
 
@@ -778,7 +778,7 @@ var Constructor = function() {
     // ^ variable.language.this
     this._method = function() {}
     // ^ variable.language.this
-    //    ^ entity.name.function - meta.function.anonymous
+    //    ^ entity.name.function
 }
 
 // Tests to ensure the new keyword is highlighted properly even when the
@@ -963,29 +963,29 @@ var re = /^\/[^/]+/
  y      / ((x - 1) / -2)
 
 define(['common'], function(common) {
-//                 ^ meta.function.anonymous meta.function.declaration
+//                 ^ meta.function.declaration
     var namedFunc = function() {
-//        ^ meta.function.declaration - meta.function.anonymous
+//        ^ meta.function.declaration
     }
 });
 
 new FooBar(function(){
-//          ^ meta.function.anonymous meta.function.declaration
+//          ^ meta.function.declaration
     var namedFunc2 = function() {
-//        ^ meta.function.declaration - meta.function.anonymous
+//        ^ meta.function.declaration
     }
 })
 
 ['foo'].bar = function() {
-//      ^ meta.property.object entity.name.function - meta.function.anonymous
+//      ^ meta.property.object entity.name.function
 }
 
 ['foo'].$ = function() {
-//      ^ meta.property.object.dollar.only entity.name.function - meta.function.anonymous
+//      ^ meta.property.object.dollar.only entity.name.function
 }
 
 ['foo'].$bar = function() {
-//      ^ meta.property.object.dollar entity.name.function - meta.function.anonymous
+//      ^ meta.property.object.dollar entity.name.function
 }
 
 {
