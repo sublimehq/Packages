@@ -1310,7 +1310,7 @@ struct X {
     /*      ^ storage.modifier */
     /*               ^ storage.modifier */
     /*                        ^ storage.modifier */
-}
+};
 
 class X {
   public:
