@@ -20,6 +20,7 @@ variables:
       {{identifier}}
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
+      | \[ {{identifier}} (?:\.{{identifier}})* \]
     )
 
   line_continuation_lookahead: >-
@@ -797,15 +798,13 @@ contexts:
         3: support.constant.prototype.js
       set:
         - meta_scope: meta.function.declaration.js
-        - match: '\s*(=)\s*'
-          captures:
-            1: keyword.operator.assignment.js
+        - match: '='
+          scope: keyword.operator.assignment.js
         - match: '(?={{func_lookahead}})'
           set: function-declaration
         - match: '(?={{arrow_func_lookahead}})'
           set: arrow-function-declaration
-        - match: '(?=.|\n)'
-          pop: true
+        - include: else-pop
     - match: '({{identifier}})\s*(\.)\s*(prototype)\s*(\.)\s*(?={{identifier}}\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
       captures:
         1: support.class.js
@@ -934,6 +933,10 @@ contexts:
     - match: '(?=\s*\{)'
       set: function-block
 
+  meta-function-declaration:
+    - meta_scope: meta.function.declaration
+    - include: immediately-pop
+
   arrow-function-declaration:
     - meta_scope: meta.function.declaration.js
     - match: '\s*(=>)\s*(?=\n|//|/*)'
@@ -1057,7 +1060,28 @@ contexts:
         - match: '\}'
           scope: punctuation.section.block.js
           pop: true
-        - include: comma-separator
+
+        - match: >-
+            (?x)(?=
+              {{method_name}}\s*:
+              (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
+            )
+          push:
+            - - meta_scope: meta.function.declaration.js
+              - include: immediately-pop
+            - - include: either-function-declaration
+              - include: else-pop
+            - - match: ':'
+                scope: punctuation.separator.key-value.js
+              - include: else-pop
+            - - meta_scope: meta.object-literal.key.js 
+              - include: else-pop
+            - method-name
+
+        - include: method-declaration
+
+        - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
+          scope: variable.other.readwrite.js
         - match: \[
           scope: punctuation.section.brackets.js
           push:
@@ -1066,25 +1090,6 @@ contexts:
               pop: true
             - match: (?=\S)
               push: expression
-        - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
-          scope: variable.other.readwrite.js
-        - match: >-
-            (?x)(?=
-              {{method_name}}\s*:
-              (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
-            )
-          push:
-            - meta_scope: meta.object-literal.key.js meta.function.declaration.js
-            - include: method-name
-            - match: '(?=:)'
-              set:
-                - match: '(:)\s*'
-                  scope: meta.function.declaration.js
-                  captures:
-                    1: punctuation.separator.key-value.js
-                - include: either-function-declaration
-                - include: else-pop
-        - include: method-declaration
         - match: "(?=\"|')"
           push:
             - - meta_scope: meta.object-literal.key.js
@@ -1100,6 +1105,8 @@ contexts:
           push:
             - meta_scope: meta.object-literal.key.js
             - include: literal-number
+
+        - include: comma-separator
         - match: ':'
           scope: punctuation.separator.key-value.js
           push: expression-no-comma
@@ -1117,7 +1124,7 @@ contexts:
       scope: entity.name.function.js
     - match: "'"
       scope: punctuation.definition.string.begin.js
-      push:
+      set:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.js
         - meta_content_scope: entity.name.function.js
@@ -1129,7 +1136,7 @@ contexts:
         - include: string-content
     - match: '"'
       scope: punctuation.definition.string.begin.js
-      push:
+      set:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.js
         - meta_content_scope: entity.name.function.js
@@ -1140,53 +1147,47 @@ contexts:
           pop: true
         - include: string-content
 
-  method-declaration:
-    - meta_scope: meta.function.declaration.js
-    - match: \b(get|set)\b(?!\s*\()\s*
-      scope: meta.function.declaration.js
-      captures:
-        1: storage.type.accessor.js
-    - match: (\*)\s*
-      scope: meta.function.declaration.js
-      captures:
-        1: keyword.generator.asterisk.js
-    - match: \b(static)\b\s*
-      scope: meta.function.declaration.js
-      captures:
-        1: storage.type.js
-    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?\s*(?=$|\()'
-      scope: meta.function.declaration.js
+    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?'
       captures:
         1: punctuation.definition.symbol.begin.js
         2: entity.name.function.js
         3: punctuation.definition.symbol.end.js
-      push:
-        - include: function-declaration-parameters
-        - match: '\{'
-          scope: punctuation.section.block.js
-          push:
-            - meta_scope: meta.block.js
-            - match: '\}'
-              scope: punctuation.section.block.js
-              pop: true
-            - include: statements
-        - include: else-pop
-    - match: (?={{method_name}}\s*\()
+      pop: true
+
+    - include: else-pop
+
+  method-declaration:
+    - match: |-
+        (?x)(?=
+          \b(?: get|set|async|static )\b
+          | \*
+          | {{method_name}} \s* \(
+        )
       push:
         - - meta_scope: meta.function.declaration.js
           - include: immediately-pop
-        - - include: method-name
-          - match: \s*
-          - include: function-declaration-parameters
-          - match: '\{'
+
+        - - match: '\{'
             scope: punctuation.section.block.js
             set:
               - meta_scope: meta.block.js
-
               - match: '\}'
                 scope: punctuation.section.block.js
                 pop: true
               - include: statements
+          - include: else-pop
+
+        - - include: function-declaration-parameters
+          - include: else-pop
+
+        - method-name
+
+        - - match: \*
+            scope: keyword.generator.asterisk.js
+          - match: \b(get|set)\b(?!\s*\()
+            scope: storage.type.accessor.js
+          - match: \bstatic\b
+            scope: storage.type.js
           - include: else-pop
 
   parenthesized-expression:
