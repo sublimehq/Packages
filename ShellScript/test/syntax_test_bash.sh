@@ -616,6 +616,20 @@ echo "Url: 'postgres://root:$DB_PASSWORD@$IP:$PORT/db'"
 #                           ^ meta.function-call.arguments string.quoted.double variable.other.readwrite keyword.other.expansion
 #                            ^^^^^^^^^^^ meta.function-call.arguments string.quoted.double variable.other.readwrite
 #                                       ^ - variable.language
+status="${status#"${status%%[![:space:]]*}"}"
+#     ^ keyword.operator.assignment.shell
+#               ^ keyword.operator.expansion
+#                         ^^ keyword.operator.expansion
+#                           ^ - punctuation
+#                             ^ - punctuation
+#                                     ^^ - punctuation
+status="${status#${status%%[![:space:]]*}}"
+#     ^ keyword.operator.assignment.shell
+#               ^ keyword.operator.expansion
+#                        ^^ keyword.operator.expansion
+#                          ^ - punctuation
+#                            ^ - punctuation
+#                                    ^^ - punctuation
 
 ###################
 # Misc. operators #

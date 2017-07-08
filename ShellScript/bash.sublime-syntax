@@ -791,7 +791,6 @@ contexts:
         variable.other.readwrite.shell
         punctuation.section.brackets.end.shell
       pop: true
-    - include: array
     - include: expansion-and-string
 
   array:
@@ -832,12 +831,7 @@ contexts:
       scope: keyword.operator.expansion.shell
       set: expansion-bracket-common
     - include: expansion
-    - match: \[
-      scope: punctuation.section.sequence.begin.shell
-      push: 
-        - match: \]
-          scope: punctuation.section.sequence.end.shell
-          pop: true
+    - include: array
     - match: '[*@](?=})'
       scope: keyword.operator.expansion.shell
 
