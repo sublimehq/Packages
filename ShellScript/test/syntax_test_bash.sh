@@ -714,6 +714,16 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 # Control flow #
 ################
 
+while true; do
+# <- keyword.control
+#        ^ meta.function-call variable.function
+#         ^ keyword.operator
+#            ^ keyword.control
+    break
+    # <- keyword.control
+done
+# <- keyword.control
+
 declare -a array
 array[500]=value
 #    ^ variable.other.readwrite.assignment punctuation.section.braces.begin

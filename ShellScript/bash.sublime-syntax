@@ -132,6 +132,9 @@ contexts:
       set: [case-body, case-item, case-preamble]
     - match: \bcontinue\b
       scope: keyword.control.continue.shell
+    - match: \bbreak\b
+      scope: keyword.control.break.shell
+      set: [cmd-post, cmd-args]
 
   case-preamble:
     - match: \bin\b
