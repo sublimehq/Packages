@@ -265,14 +265,12 @@ contexts:
       - vardef-value
       - vardef-assign
       - vardef-name
-      - vardef-eat-whitespace
     - match: '{{is_variable}}'
       push:
       - cmd-or-vardef-junction
       - vardef-value
       - vardef-assign
       - vardef-name
-      - vardef-eat-whitespace
 
   vardef-bt:
     - match: \s*\b(alias)\b
@@ -301,14 +299,12 @@ contexts:
       - vardef-value
       - vardef-assign
       - vardef-name
-      - vardef-eat-whitespace
     - match: '{{is_variable}}'
       push:
       - cmd-or-vardef-junction-bt
       - vardef-value
       - vardef-assign
       - vardef-name
-      - vardef-eat-whitespace
 
   vardef-export-maybe-more:
     - match: (?=\s*#)
@@ -320,7 +316,6 @@ contexts:
       - vardef-value
       - vardef-assign
       - vardef-name
-      - vardef-eat-whitespace
 
   vardef-alias-options:
     - match: \s*((-)p)
