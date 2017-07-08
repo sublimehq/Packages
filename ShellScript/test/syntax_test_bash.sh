@@ -60,7 +60,11 @@ randomname argument --opt1 --opt2 -x -y &>/dev/null
 #                                  ^ variable.parameter - punctuation
 #                                    ^ variable.parameter punctuation
 #                                     ^ variable.parameter - punctuation
-
+another-random-command arg foo--not-an-option
+#                             ^ - variable.parameter
+#                               ^ - variable.parameter
+#                                   ^ - variable.parameter
+#                                      ^ - variable.parameter
 # Test if commands are recognized even in the presence of strings and variable
 # expansions
 ch=ch
@@ -1032,7 +1036,6 @@ cat <<FOOSTRING ; echo more stuff here
 #     ^^^^^^^^^ meta.function-call.arguments keyword.control.heredoc-token
 #              ^
 #               ^ keyword.operator.logical.continue
-#                ^ - meta.function-call
 #                 ^ meta.function-call support.function
 #                     ^ meta.function-call.arguments
 Hello, ${"v"'a'r}
@@ -1056,15 +1059,14 @@ cat << 'WHAT' ; echo more stuff here
 #           ^ punctuation.definition.string.end
 #            ^
 #             ^ keyword.operator.logical.continue
-#              ^ - meta.function-call
 #               ^ meta.function-call support.function
 #                   ^ meta.function-call.arguments
 Hello, ${var}
 # <- meta.function-call.arguments string.unquoted.heredoc
-#      ^ variable.other.readwrite keyword.other.expansion
-#       ^ variable.other.readwrite punctuation.section.brackets.begin
-#        ^^^ variable.other.readwrite
-#           ^ variable.other.readwrite punctuation.section.brackets.end
+#      ^ - variable.other.readwrite - keyword.other.expansion
+#       ^  - variable.other.readwrite - punctuation.section.brackets.begin
+#        ^^^ - variable.other.readwrite
+#           ^  - variable.other.readwrite - punctuation.section.brackets.end
 WHAT
 # <- meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
 
@@ -1111,6 +1113,72 @@ foo
 # <- string.unquoted
 FARAWAY
 # <- keyword.control
+
+cat <<- INDENTED
+  #            ^ keyword.control.heredoc-token
+  say what now ${foo}
+  #              ^ variable.other.readwrite
+  INDENTED
+  # <- keyword.control.heredoc-token
+
+cat <<-  'indented_without_expansions'
+    #    ^ string.unquoted.heredoc punctuation.definition.string.begin
+    #     ^ string.unquoted.heredoc keyword.control.heredoc-token
+    #                                ^ string.unquoted.heredoc punctuation.definition.string.end
+    ${foo}
+      # <- - variable.other
+    indented_without_expansions
+    # <- keyword.control.heredoc-token
+
+variable=$(cat <<SETVAR
+This variable
+runs over multiple lines.
+SETVAR
+# <- keyword.control.heredoc-token
+)
+# <- punctuation.section.parens.end
+
+cat <<- "FOO"
+    #   ^ punctuation
+    #      ^ keyword.control.heredoc-token
+    #       ^ punctuation
+    no \"escape\'\$ and $expansion
+    #  ^^ - constant
+    #          ^^^^ - constant
+    #                   ^ - keyword
+  FOO
+  # <- keyword.control.heredoc-token
+
+cat <<- \FOO
+    #   ^ punctuation
+    #      ^ keyword.control.heredoc-token
+    no \"escape\'\$ and $expansion
+    #  ^^ - constant
+    #          ^^^^ - constant
+    #                   ^ - keyword
+  FOO
+  # <- keyword.control.heredoc-token
+
+cat << "FOO"
+    #  ^ punctuation
+    #     ^ keyword.control.heredoc-token
+    #      ^ punctuation
+    no \"escape\'\$ and $expansion
+    #  ^^ - constant
+    #          ^^^^ - constant
+    #                   ^ - keyword
+FOO
+# <- keyword.control.heredoc-token
+
+cat << \FOO
+    #  ^ punctuation
+    #     ^ keyword.control.heredoc-token
+    no \"escape\'\$ and $expansion
+    #  ^^ - constant
+    #          ^^^^ - constant
+    #                   ^ - keyword
+FOO
+# <- keyword.control.heredoc-token
 
 #############
 # Functions #
