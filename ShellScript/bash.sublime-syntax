@@ -29,10 +29,11 @@ first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)\b|^#\s*-\*-[^*]*mode:\s*shell-scrip
 #-------------------------------------------------------------------------------
 variables:
   identifier: '[[:alpha:]_][[:alnum:]_]*'
+  identifier_non_posix: '[^/$`=|&;()<>\d][^/$`=|&;()<>]*' 
   nbc: '[^{}=\s]*' # non bracket characters (and also non-whitespace)
   is_start_of_arguments: \s|;
   is_variable: (?=\s*{{nbc}}(?:{{{nbc}}})?{{nbc}}=)
-  is_function: \b(function)\s+|(?=\s*{{identifier}}\s*\(\s*\))
+  is_function: \b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
   is_command: \s*(?=\S)
   is_end_of_option: '[^\w$-]|$'
   is_end_of_interpolation: \)

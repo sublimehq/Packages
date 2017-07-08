@@ -1199,3 +1199,27 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #       ^ variable.parameter punctuation
 #        ^ variable.parameter
 #                           ^ keyword.operator.assignment.redirection
+
+foo:foo () {
+  # <- meta.function entity.name.function
+    echo "this foo:foo"
+}
+~ () {
+# <- meta.function entity.name.function
+    echo "this is ~"
+}
+"~"
+# <- meta.function-call variable.function
+#^^ meta.function-call variable.function
+^ () {
+# <- meta.function entity.name.function
+    echo "this is ^"
+}
+^
+# <- meta.function-call variable.function
+@ () {
+# <- meta.function entity.name.function
+    echo "this is @"
+}
+@
+# <- meta.function-call variable.function
