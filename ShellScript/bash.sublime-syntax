@@ -1115,6 +1115,8 @@ contexts:
           pop: true
         - include: string-quoted-double-escape-character
         - include: expansion-parameter
+        - include: expansion-arithmetic
+        - include: expansion-command
 
   string-quoted-double-escape-character:
     - match: \\[$`"\\]

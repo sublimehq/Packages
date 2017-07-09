@@ -749,6 +749,15 @@ echo +(bar|qux) | wc
 foo='bar'
 #  ^ keyword.operator
 
+echo git rev-list "$(echo --all)" | grep -P 'c354a80'
+#                  ^ keyword
+#                   ^ punctuation
+#                              ^ punctuation
+x="$(( foo++ ))"
+#  ^ keyword
+#   ^^ punctuation
+#         ^^ keyword
+#            ^^ punctuation
 foo[${j}+10]="`foo`"
 #  ^ variable.other.readwrite.assignment punctuation
 #   ^ variable.other.readwrite.assignment keyword.other.expansion
@@ -1216,7 +1225,6 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                           #      ^ variable.parameter - variable.function
                           #         ^ - variable.parameter
                           #               ^ keyword
-                          #              ^
                                           # ^^ variable.function
                                           #    ^^^^^^ variable.parameter
 
