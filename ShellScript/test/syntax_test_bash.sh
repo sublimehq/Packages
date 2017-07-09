@@ -300,9 +300,9 @@ ${foo:=bar}
   #^ punctuation
   # ^^^ variable
   #    ^ keyword
-  #     ^ - variable
+  #     ^ constant.numeric - variable
   #      ^ keyword
-  #       ^ - variable
+  #       ^ constant.numeric - variable
   #        ^^ - keyword
   #          ^ punctuation
 
@@ -911,6 +911,13 @@ for i in $(seq 100); do
   # <- meta.function-call support.function.colon
 done
 # <- keyword.control.done
+
+[[ "${foo}" == bar*baz ]]
+ # <- support.function.test.begin
+# <- support.function.test.begin
+#           ^^ meta.function-call.arguments keyword.operator.logical
+#                 ^ meta.function-call.arguments keyword.operator.regexp.quantifier
+#                      ^^ meta.function-call.arguments support.function.test.end
 
 case "$1" in
 # <- keyword.control.case

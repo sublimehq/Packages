@@ -1035,11 +1035,19 @@ contexts:
         - match: ":"
           scope: keyword.operator.substring.begin.shell
           set:
-            - meta_content_scope: meta.group.expansion.parameter.shell 
+            - meta_content_scope:
+                meta.group.expansion.parameter.shell 
+                constant.numeric.integer.decimal.shell
             - include: expansion-parameter-common
-            - match: ":"
-              scope: keyword.operator.substring.end.shell
-              set: expansion-parameter-common
+            - match: (?=:)
+              set:
+                - match: ":"
+                  scope: keyword.operator.substring.end.shell
+                  set:
+                    - meta_content_scope: 
+                        meta.group.expansion.parameter.shell 
+                        constant.numeric.integer.decimal.shell
+                    - include: expansion-parameter-common
     - match: \#(?=})
     - match: \#\#?|%%?|\^\^?|,,?
       scope: keyword.operator.expansion.shell
