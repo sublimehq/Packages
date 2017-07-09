@@ -245,6 +245,15 @@ if [[ -z "$PLATFORM" ]]; then PLATFORM=docker; fi
 #                                     ^ keyword.operator.assignment
 #                                      ^ string.unquoted
 
+[ ]
+# <- support.function.test.begin
+# ^ support.function.test.end
+
+[[ ]]
+# <- support.function.test.begin
+ # <- support.function.test.begin
+ # ^^ support.function.test.end
+
 asdf foo && FOO=some-value pwd
 # <- meta.function-call variable.function
 #        ^^ keyword.operator.logical.and

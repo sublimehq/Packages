@@ -11,7 +11,7 @@ def main():
     main_bt = []
     contexts = { "main": main, "main-bt": main_bt }
     eoo = {
-        "match": r"(?<=\s)--(?=\s|$)",
+        "match": r"(?:\s+|^)--(?=\s|$)",
         "scope": r"keyword.operator.end-of-options.shell",
         "set": [
             { "meta_content_scope" : r"meta.function-call.arguments.shell"},
@@ -44,7 +44,7 @@ def main():
             cmd_args_base.append(eoo)
         if long_options:
             thedict = {
-                "match": r"(?<=\s|^)((--)" + "|".join(long_options) + r")" + opt_end_boundary,
+                "match": r"(?:\s+|^)((--)" + "|".join(long_options) + r")" + opt_end_boundary,
                 "captures": {
                     2: "punctuation.definition.parameter.shell",
                     1: "variable.parameter.shell"
@@ -64,7 +64,7 @@ def main():
             if short_option_prefixes:
                 prefix = "|".join(short_option_prefixes)
                 thedict = {
-                        "match": r"(?<=\s|^)((" + prefix + r")(?:" + opts + r"))" + opt_end_boundary,
+                        "match": r"(?:\s+|^)((" + prefix + r")(?:" + opts + r"))" + opt_end_boundary,
                         "captures": {
                             2: "punctuation.definition.parameter.shell",
                             1: "variable.parameter.shell"
@@ -72,7 +72,7 @@ def main():
                     }
             else:
                 thedict = {
-                    "match": r"(?<=\s|^)((-)" + opts + r")" + opt_end_boundary,
+                    "match": r"(?:\s+|^)((-)" + opts + r")" + opt_end_boundary,
                     "captures": {
                         2: "punctuation.definition.parameter.shell",
                         1: "variable.parameter.shell"
@@ -113,7 +113,7 @@ def main():
         "hidden": True,
         "variables": {
             "boundary_end": r"(?=\s|;|$)",
-            "boundary_begin": '' #r"(?:(?<=\s)|^)"
+            "boundary_begin": '' #r"(?:(?:\s+|^)|^)"
         },
         "contexts": contexts
     }
