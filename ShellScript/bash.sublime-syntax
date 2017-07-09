@@ -45,6 +45,7 @@ variables:
   varassign: '[+\-?]?='
   start_of_option: (?:\s+|^)--?(?=[\w$])
   cmd_boundary: (?=\s|;|$)
+  keyword_boundary_end: (?=[^\w_-])
 
   reset_semicolon: \s*(;)(?!;)
   reset_or: \s*(\|\|)
@@ -99,47 +100,47 @@ contexts:
       push: cmd-bt
 
   control:
-    - match: \b(if)\b(?:\s*(!))?
+    - match: \b(if){{keyword_boundary_end}}(?:\s*(!))?
       captures:
         1: keyword.control.if.begin.shell
         2: keyword.operator.logical.shell
     - match: \bthen\b
       scope: keyword.control.if.then.shell
       pop: true
-    - match: \b(elif)\b(?:\s*(!))?
+    - match: \b(elif){{keyword_boundary_end}}(?:\s*(!))?
       captures:
         1: keyword.control.if.elif.shell
         2: keyword.operator.logical.shell
-    - match: \bfi\b
+    - match: \bfi{{keyword_boundary_end}}
       scope: keyword.control.if.end.shell
       set: [cmd-post, cmd-args]
-    - match: \belse\b
+    - match: \belse{{keyword_boundary_end}}
       scope: keyword.control.if.else.shell
       pop: true
-    - match: \bfor\b
+    - match: \bfor{{keyword_boundary_end}}
       scope: keyword.control.for.shell
       set: [cmd-post, for-args]
-    - match: \bdo\b
+    - match: \bdo{{keyword_boundary_end}}
       scope: keyword.control.do.shell
       pop: true
-    - match: \bdone\b
+    - match: \bdone{{keyword_boundary_end}}
       scope: keyword.control.done.shell
       set: [cmd-post, cmd-args]
-    - match: \bwhile\b
+    - match: \bwhile{{keyword_boundary_end}}
       scope: keyword.control.while.shell
-    - match: \buntil\b
+    - match: \buntil{{keyword_boundary_end}}
       scope:  keyword.control.until.shell
-    - match: \bcase\b
+    - match: \bcase{{keyword_boundary_end}}
       scope: keyword.control.case.begin.shell
       set: [case-body, case-item, case-preamble]
-    - match: \bcontinue\b
+    - match: \bcontinue{{keyword_boundary_end}}
       scope: keyword.control.continue.shell
-    - match: \bbreak\b
+    - match: \bbreak{{keyword_boundary_end}}
       scope: keyword.control.break.shell
       set: [cmd-post, cmd-args]
 
   case-preamble:
-    - match: \bin\b
+    - match: \bin(?=[^\w_-])
       scope: keyword.control.case.in.shell
       pop: true
     - include: expansion-and-string

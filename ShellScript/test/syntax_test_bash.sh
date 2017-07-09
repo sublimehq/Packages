@@ -245,6 +245,19 @@ if [[ -z "$PLATFORM" ]]; then PLATFORM=docker; fi
 #                                     ^ keyword.operator.assignment
 #                                      ^ string.unquoted
 
+if-up
+# <- - keyword
+# ^ - keyword
+up-if
+#  ^^ - keyword
+done-foo
+# <- - keyword
+foo-done
+#      ^ - keyword
+for-bar
+# <- - keyword
+#  ^ - keyword
+
 [ ]
 # <- support.function.test.begin
 # ^ support.function.test.end
