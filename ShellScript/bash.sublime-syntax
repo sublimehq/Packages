@@ -29,7 +29,8 @@ first_line_match: '^#!.*\b(bash|zsh|sh|tcsh)\b|^#\s*-\*-[^*]*mode:\s*shell-scrip
 #-------------------------------------------------------------------------------
 variables:
   identifier: '[[:alpha:]_][[:alnum:]_]*'
-  identifier_non_posix: '[^/$`=|&;()<>\d][^/$`=|&;()<>]*' 
+  metachar: '[/$`=|&;()<>\s]'
+  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*' 
   nbc: '[^{}=\s]*' # non bracket characters (and also non-whitespace)
   is_start_of_arguments: \s|;
   is_variable: (?=\s*{{nbc}}(?:{{{nbc}}})?{{nbc}}=)
