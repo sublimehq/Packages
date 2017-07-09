@@ -386,28 +386,6 @@ contexts:
         - match: \s+
           pop: true
 
-  # cmd-or-vardef-junction:
-  #   - match: '{{is_variable}}'
-  #     set:
-  #     - cmd-or-vardef-junction
-  #     - vardef-value
-  #     - vardef-assign
-  #     - vardef-name
-  #     - vardef-eat-whitespace
-  #   - match: ""
-  #     set: cmd
-
-  # cmd-or-vardef-junction-bt:
-  #   - match: '{{is_variable}}'
-  #     set:
-  #     - cmd-or-vardef-junction-bt
-  #     - vardef-value
-  #     - vardef-assign
-  #     - vardef-name
-  #     - vardef-eat-whitespace
-  #   - match: ""
-  #     set: cmd-bt
-
   redirection:
     - include: redirection-here-string
     - include: redirection-here-document
