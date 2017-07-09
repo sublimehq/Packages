@@ -1026,6 +1026,38 @@ foo -x arg1 &>/dev/null
 #           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
 foo -x arg1 &> /dev/null
 #           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+tr "o" "a" < <(echo "Foo")
+#          ^ keyword.operator.assignment.redirection - keyword.operator.assignment.redirection.process
+#            ^ keyword.operator.assignment.redirection.process
+#             ^ punctuation
+#                 ^ support.function
+#                        ^ punctuation
+wc <(cat /usr/share/dict/linux.words)
+#  ^ keyword.operator.assignment.redirection.process
+#   ^ punctuation
+#      ^ variable.function
+#        ^ meta.function-call.arguments meta.function-call.arguments
+#                                  ^ meta.function-call.arguments meta.function-call.arguments
+#                                   ^ punctuation
+comm <(ls -l) <(ls -al)
+#    ^ keyword.operator.assignment.redirection.process
+#     ^ punctuation
+#         ^^ variable.parameter
+#           ^ punctuation
+#            ^ meta.function-call.arguments
+#             ^ keyword.operator.assignment.redirection.process
+#              ^ punctuation
+#                ^ variable.function
+#                  ^^^ variable.parameter
+#                     ^ punctuation
+gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
+#    ^ keyword.operator.logical.pipe
+#          ^ keyword.operator.assignment.redirection.process
+#           ^ punctuation
+#                     ^ keyword.operator.logical.pipe
+#                                             ^ keyword.operator.assignment.redirection
+#                                                           ^ punctuation
+#                                                             ^ keyword.operator.assignment.redirection
 
 ##################
 # Here documents #

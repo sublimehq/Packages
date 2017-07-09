@@ -408,9 +408,22 @@ contexts:
   redirection:
     - include: redirection-here-string
     - include: redirection-here-document
+    - include: redirection-process
     - include: redirection-input
     - include: redirection-output
     - include: redirection-inout
+
+  redirection-process:
+    - match: (\d*)([<>])(\()
+      captures:
+        1: constant.numeric.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.process.shell
+        3: punctuation.section.parens.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: main
 
   redirection-output:
     - match: (\d*)(>>!?|>&?|&>|&?>(\||>))(\d*)\s*
