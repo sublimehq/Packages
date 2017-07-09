@@ -43,7 +43,6 @@ variables:
   call_token: \./
 
   varassign: '[+\-?]?='
-  # varassign: =
   start_of_option: (?<=\s|^)--?(?=[\w$])
   cmd_boundary: (?=\s|;|$)
 
