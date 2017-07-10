@@ -43,11 +43,12 @@ variables:
   call_token: \./
 
   varassign: '[+\-?]?='
+  # start_of_option: --?(?=[\w$])
   start_of_option: (?:\s+|^)--?(?=[\w$])
   cmd_boundary: (?=\s|;|$)
   keyword_boundary_end: (?=[^\w_-])
 
-  reset_semicolon: \s*(;)(?!;)
+  reset_semicolon: \s*(;)(?![;&])
   reset_or: \s*(\|\|)
   reset_and: \s*(&&)
   reset_pipe: \s*(\|)
@@ -132,7 +133,7 @@ contexts:
       scope:  keyword.control.until.shell
     - match: \bcase{{keyword_boundary_end}}
       scope: keyword.control.case.begin.shell
-      set: [case-body, case-item, case-preamble]
+      set: [case-body, case-item, case-item-first-character, case-preamble]
     - match: \bcontinue{{keyword_boundary_end}}
       scope: keyword.control.continue.shell
     - match: \bbreak{{keyword_boundary_end}}
@@ -165,23 +166,42 @@ contexts:
       pop: true
     - include: case-item-highlights
 
+  case-item-first-character:
+    - match: (?=\()
+      set:
+        - match: \(
+          scope: keyword.control.case.item.shell
+          pop: true
+    - match: (?=\S)
+      pop: true
+
   case-body:
     - match: \s*(;;&?|;&)
       captures:
         1: punctuation.terminator.case.shell
       set:
-        - match: \besac\b
-          scope: keyword.control.case.end.shell
-          pop: true
-        - match: \)
-          scope: keyword.control.case.item.shell
-          set: case-body
-        - include: case-item-highlights
+        # An opening parenthesis is optional
+        - match: (?=\()
+          set:
+            - match: \(
+              scope: keyword.control.case.item.shell
+              set: case-body-item
+        - match: (?=\S)
+          set: case-body-item
     - match: \s*\b(esac)\b
       captures:
         1: keyword.control.case.end.shell
       pop: true
     - include: main
+
+  case-body-item:
+    - match: \besac\b
+      scope: keyword.control.case.end.shell
+      pop: true
+    - match: \)
+      scope: keyword.control.case.item.shell
+      set: case-body
+    - include: case-item-highlights
 
   # I don't think anybody will write a for-loop inside backticks. Hence no
   # for-args-bt context.

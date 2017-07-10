@@ -1100,6 +1100,24 @@ f() {
     done
 }
 
+case "${foo}" in
+# <- keyword.control.case.begin
+#             ^^ keyword.control.case.in
+    ( help | h ) bar ;;
+    # <- keyword.control
+    #          ^ keyword.control
+    #                ^^ punctuation
+    do1 ) foo1 ;&
+    #   ^ keyword.control
+    #          ^^ punctuation
+    (do2 ) foo2 ;;&
+    # <- keyword.control
+    #    ^ keyword.control
+    #           ^^^ punctuation
+    *) bar
+    #^ keyword.control
+esac
+# <- keyword.control.case.end
 
 case $TERM in
     sun-cmd)
