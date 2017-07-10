@@ -1041,6 +1041,19 @@ if (ruby extconf.rb &&
     #        ^ - variable.function
 fi
 
+{
+# <- punctuation.definition.compound.braces.begin
+  {
+  # <- punctuation.definition.compound.braces.begin
+    foo args
+    # <- meta.function-call variable.function
+  } 2>> "$stderr_log"
+  # <- punctuation.definition.compound.braces.end
+  # ^ constant.numeric.file-descriptor - variable.function
+} 1>> "$stdout_log"
+# <- punctuation.definition.compound.braces.end
+# ^ constant.numeric.file-descriptor - variable.function
+
 if [ "$1" != "" -a "$2" != "" ]; then
 # <- keyword.control.if.begin
 #  ^ support.function.test.begin

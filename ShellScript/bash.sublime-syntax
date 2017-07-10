@@ -717,7 +717,7 @@ contexts:
       push:
         - match: \}
           scope: punctuation.definition.compound.braces.end.shell
-          set: cmd-post
+          set: [cmd-post, cmd-args]
         - include: main
     - match: (?=\S)
       set: [cmd-post, cmd-args, cmd-name]
@@ -745,7 +745,7 @@ contexts:
       push:
         - match: \}
           scope: punctuation.definition.compound.braces.end.shell
-          set: cmd-post-bt
+          set: [cmd-post-bt, cmd-args-bt]
         - include: main-bt
     - match: (?=\S)
       set: [cmd-post-bt, cmd-args-bt, cmd-name-bt]
