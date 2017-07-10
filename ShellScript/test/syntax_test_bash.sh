@@ -769,6 +769,30 @@ foo[${j}+10]="`foo`"
 #          ^ variable.other.readwrite.assignment punctuation.section.braces.end
 #           ^ keyword.operator
 
+# Invokes "foo -e", so "-e" is a switch.
+foo \
+-e Hello
+# <- punctuation
+#^ variable.parameter
+
+# Invokes "foo-e", so "-e" is NOT a switch.
+foo\
+-e Hello
+# <- - punctuation
+#^ - variable.parameter
+
+# Invokes "echo -e", so "-e" is a switch.
+echo \
+-e Hello
+# <- punctuation
+#^ variable.parameter
+
+# Invokes "echo-e", so "-e" is NOT a switch.
+echo\
+-e Hello
+# <- - punctuation
+#^ - variable.parameter
+
 foo+=" baz"
 #  ^^ keyword.operator
 
