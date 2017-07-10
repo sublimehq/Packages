@@ -263,7 +263,7 @@ contexts:
     - include: main-bt
 
   vardef:
-    - match: \s*\b(alias)\b
+    - match: \s*\b(alias){{keyword_boundary_end}}
       captures:
         1: support.function.alias.shell
       push:
@@ -272,7 +272,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-alias-options
-    - match: \s*\b(declare|local)\b
+    - match: \s*\b(declare|local){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -281,7 +281,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: \s*\b(export|readonly|typeset)\b
+    - match: \s*\b(export|readonly|typeset){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -296,7 +296,7 @@ contexts:
       - vardef-name
 
   vardef-bt:
-    - match: \s*\b(alias)\b
+    - match: \s*\b(alias){{keyword_boundary_end}}
       captures:
         1: support.function.alias.shell
       push:
@@ -305,7 +305,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-alias-options
-    - match: \s*\b(declare|local)\b
+    - match: \s*\b(declare|local){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -314,7 +314,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: ^\s*\b(export|readonly|typeset)\b
+    - match: ^\s*\b(export|readonly|typeset){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:

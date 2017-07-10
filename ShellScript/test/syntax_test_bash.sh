@@ -241,6 +241,9 @@ unset foo bar       # 'foo' and 'bar' are variable names
 #    ^ - variable
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #     ^ - variable.parameter
+local-pid
+# ^ - storage.modifier
+#    ^^ - variable.parameter
 
 if [[ -z "$PLATFORM" ]]; then PLATFORM=docker; fi
 #                                    ^ variable.other.readwrite.assignment
