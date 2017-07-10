@@ -997,4 +997,4 @@ hidden: true
 scope: commands.builtin.shell.bash
 variables:
   boundary_begin: ''
-  boundary_end: (?=\s|;|$)
+  boundary_end: (?=\s|;|$|>|<|\|)

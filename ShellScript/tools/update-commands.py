@@ -112,8 +112,8 @@ def main():
         "scope": os.path.splitext(sys.argv[1])[0].replace("-", "."),
         "hidden": True,
         "variables": {
-            "boundary_end": r"(?=\s|;|$)",
-            "boundary_begin": '' #r"(?:(?:\s+|^)|^)"
+            "boundary_end": r"(?=\s|;|$|>|<|\|)",
+            "boundary_begin": ''
         },
         "contexts": contexts
     }

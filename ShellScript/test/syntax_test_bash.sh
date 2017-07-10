@@ -747,6 +747,13 @@ echo +(bar|qux)
 # Misc. operators #
 ###################
 
+ls>foo.txt
+# <- variable.function
+# ^^ - variable.function
+echo>foo.txt
+# <- support.function
+#   ^^ - support.function
+
 echo +(bar|qux) | wc
 #         ^ keyword.operator.logical.or
 #               ^ keyword.operator.logical.pipe
