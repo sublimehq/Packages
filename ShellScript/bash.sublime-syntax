@@ -591,6 +591,16 @@ contexts:
     - include: line-continuation-or-pop-at-end
     - include: main
 
+  cmd-name-common:
+    - match: (?=}|\s+#|\s*(?:[|;]|&&))
+      pop: true
+    - include: string
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+    - include: expansion-tilde
+    - include: line-continuation-or-pop-at-end
+
   cmd-args-common:
     - match: (?=}|\s+#)
       pop: true
@@ -797,7 +807,7 @@ contexts:
         - meta_scope: meta.function-call.shell variable.function.shell
         - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}})
           pop: true
-        - include: cmd-args-common
+        - include: cmd-name-common
 
   cmd-name-bt:
     - match: ""
@@ -805,7 +815,7 @@ contexts:
         - meta_scope: meta.function-call.shell variable.function.shell
         - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}}|`) # <---------- extra backtick
           pop: true
-        - include: cmd-args-common
+        - include: cmd-name-common
 
   cmd-common:
     - include: control

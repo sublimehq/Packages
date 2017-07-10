@@ -1614,3 +1614,15 @@ foo:foo () {
 }
 @
 # <- meta.function-call variable.function
+function [] () {
+  echo "Hello from []"
+}
+[]
+# <- meta.function-call variable.function
+#^ meta.function-call variable.function
+function [[]] () {
+  echo "Hello from [[]]"
+}
+[[]]
+# <- meta.function-call variable.function
+#^^^ meta.function-call variable.function
