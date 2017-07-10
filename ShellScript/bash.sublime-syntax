@@ -868,12 +868,7 @@ contexts:
         0: meta.group.expansion.parameter.shell 
         1: keyword.other.expansion.parameter.shell
         2: constant.numeric.integer.decimal.shell
-    - match: (\$)(_)(?!\w)
-      captures:
-        0: meta.group.expansion.parameter.shell 
-        1: keyword.other.expansion.parameter.shell
-        2: variable.language.shell
-    - match: (\$)([#@!~*?])
+    - match: (\$)([#@!~*?_-])(?!\w)
       captures:
         0: meta.group.expansion.parameter.shell 
         1: keyword.other.expansion.parameter.shell

@@ -754,6 +754,12 @@ echo>foo.txt
 # <- support.function
 #   ^^ - support.function
 
+if [[ $- != *i* ]] ; then
+  #   ^ keyword
+  #    ^ variable.language
+  echo shell is not interactive
+fi
+
 echo +(bar|qux) | wc
 #         ^ keyword.operator.logical.or
 #               ^ keyword.operator.logical.pipe
