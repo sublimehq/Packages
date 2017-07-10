@@ -239,6 +239,8 @@ typeset foo         # 'foo' is a variable name
 unset foo bar       # 'foo' and 'bar' are variable names
 # <- support.function
 #    ^ - variable
+local pid="$(cat "$PIDFILE" 2>/dev/null)"
+#     ^ - variable.parameter
 
 if [[ -z "$PLATFORM" ]]; then PLATFORM=docker; fi
 #                                    ^ variable.other.readwrite.assignment

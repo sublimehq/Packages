@@ -348,7 +348,7 @@ contexts:
       pop: true
 
   vardef-declare-options:
-    - match: \s*((-)[aAfFgilnrtux]+|p)
+    - match: \s*((-)(?:[aAfFgilnrtux]+|p))
       captures:
         2: punctuation.definition.parameter.shell
         1: variable.parameter.shell
