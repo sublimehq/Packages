@@ -1038,10 +1038,10 @@ contexts:
               (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
             )
           push:
-            - - meta_scope: meta.function.declaration.js
-              - include: immediately-pop
             - - include: either-function-declaration
               - include: else-pop
+            - - meta_scope: meta.function.declaration.js
+              - include: immediately-pop
             - - match: ':'
                 scope: punctuation.separator.key-value.js
               - include: else-pop
