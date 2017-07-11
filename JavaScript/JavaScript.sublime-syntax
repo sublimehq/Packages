@@ -909,8 +909,9 @@ contexts:
   function-declaration:
     - match: ''
       set:
-        - - include: immediately-pop
-        - function-block
+        - - match: (?=\S)
+            set: function-block
+          - include: else-pop
         - - meta_scope: meta.function.declaration.js
           - include: immediately-pop
         - - include: function-declaration-parameters
