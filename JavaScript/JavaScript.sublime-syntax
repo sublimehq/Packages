@@ -464,7 +464,7 @@ contexts:
     - include: binary-operators
     - include: ternary-operator
 
-    - include: bracketed-property-access
+    - include: property-access
     - include: function-call
 
     - include: literal-punctuation
@@ -592,29 +592,42 @@ contexts:
     - match: '\bnew\b'
       scope: keyword.operator.word.new.js
       set:
-        - meta-constructor
-        - constructor-name
+        - - meta_scope: meta.instance.constructor.js
+          - include: else-pop
+        - constructor-body
 
-  meta-constructor:
-    - meta_scope: meta.instance.constructor.js
-    - include: else-pop
-
-  constructor-name:
-    - match: '(?=\bfunction\b)'
-      set:
-        - constructor-params
-        - function-declaration
-    - match: '(?=\bclass\b)'
-      set:
-        - constructor-params
-        - class
-    - match: '(?={{identifier}})'
+  constructor-body:
+    - match: (?=\S)
       set:
         - - meta_scope: meta.function-call.constructor.js
           - include: else-pop
-        - constructor-params
-        - - include: well-known-identifiers
+
+        - - match: '(?=\()'
+            set: function-call-params
+          - include: else-pop
+
+        - - include: property-access
+          - include: else-pop
+
+        - - include: expression-break
+
+          - include: regexp-complete
+          - include: literal-string
+          - include: literal-string-template
+
+          - include: class
+          - include: constants
+          - include: either-function-declaration
+          - include: object-literal
+
+          - include: parenthesized-expression
+          - include: array-literal
+
+          - include: literal-number
+
+          - include: well-known-identifiers
           - include: language-identifiers
+
           - match: '{{dollar_only_identifier}}'
             scope: variable.type.dollar.only.js punctuation.dollar.js
           - match: '{{dollar_identifier}}'
@@ -623,28 +636,9 @@ contexts:
               1: punctuation.dollar.js
           - match: '{{identifier}}'
             scope: variable.type.js
-          - match: '\.'
-            scope: punctuation.accessor.js
-          - include: bracketed-property-access
-          - match: '(?=\S|$)'
             pop: true
-    - match: '\('
-      scope: punctuation.section.group.js
-      set:
-        - - meta_scope: meta.function-call.constructor.js
-          - include: else-pop
-        - constructor-params
-        - - meta_scope: meta.group.js
-          - match: '\)'
-            scope: punctuation.section.group.js
-            pop: true
-        - expression
-    - include: else-pop
 
-  constructor-params:
-    - match: '(?=\()'
-      push: function-call-params
-    - include: else-pop
+          - include: else-pop
 
   prefix-operators:
     - match: '~'
@@ -727,6 +721,9 @@ contexts:
         \+   | # addition        left-to-right   both
         -      # subtraction     left-to-right   both
       scope: keyword.operator.arithmetic.js
+      push: expression-begin
+    - match: ','
+      scope: punctuation.separator.comma.js # TODO: Change to keyword.operator.comma.js ?
       push: expression-begin
 
   ternary-operator:
@@ -1192,7 +1189,7 @@ contexts:
           pop: true
         - include: expression-list
 
-  bracketed-property-access:
+  property-access:
     - match: '\['
       scope: punctuation.section.brackets.js
       push:
@@ -1202,6 +1199,29 @@ contexts:
           pop: true
         - match: (?=\S)
           push: expression
+
+    - match: \.
+      scope: punctuation.accessor.js
+      push:
+      # All of these matches use set (or effectively a set via the final
+      # include/match/pop construct) instead of push so that we escape this
+      # accessor state once a match has been made. Otherwise identifiers
+      # following method definitions or method calls will be scoped as
+      # properties.
+        - match: '(?=({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
+          set:
+            - meta_scope: meta.function.declaration.js
+            - match: '(?={{func_lookahead}})'
+              set: function-declaration
+            - match: '(?={{arrow_func_lookahead}})'
+              set: arrow-function-declaration
+            - include: function-declaration-final-identifier
+        - match: '(?={{identifier}}\s*\()'
+          set:
+            - include: method-call
+            - match: '(?=.|\n)'
+              pop: true
+        - include: object-property
 
   literal-number:
     - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
@@ -1317,6 +1337,7 @@ contexts:
             1: punctuation.separator.comma.js
         - match: (?=\S)
           push: expression-no-comma
+    - include: else-pop
 
   literal-variable:
     - include: well-known-identifiers
@@ -1435,30 +1456,3 @@ contexts:
       pop: true
     - match: '(?=.|\n)'
       pop: true
-
-  literal-punctuation:
-    - match: \.
-      scope: punctuation.accessor.js
-      push:
-      # All of these matches use set (or effectively a set via the final
-      # include/match/pop construct) instead of push so that we escape this
-      # accessor state once a match has been made. Otherwise identifiers
-      # following method definitions or method calls will be scoped as
-      # properties.
-        - match: '(?=({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
-          set:
-            - meta_scope: meta.function.declaration.js
-            - match: '(?={{func_lookahead}})'
-              set: function-declaration
-            - match: '(?={{arrow_func_lookahead}})'
-              set: arrow-function-declaration
-            - include: function-declaration-final-identifier
-        - match: '(?={{identifier}}\s*\()'
-          set:
-            - include: method-call
-            - match: '(?=.|\n)'
-              pop: true
-        - include: object-property
-    - match: ','
-      scope: punctuation.separator.comma.js # TODO: Change to keyword.operator.comma.js ?
-      push: expression-begin
