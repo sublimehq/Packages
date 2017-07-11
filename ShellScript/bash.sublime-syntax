@@ -354,10 +354,6 @@ contexts:
     - match: \s*
       pop: true
 
-  vardef-eat-whitespace:
-    - match: (?=\S)
-      pop: true
-
   vardef-name:
     - match: ""
       set:
