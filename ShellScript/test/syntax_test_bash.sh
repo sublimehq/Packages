@@ -322,7 +322,7 @@ ${foo:=bar}
   #    ^^ keyword
   #         ^ punctuation
 
-: ${foo:0:8::}
+: ${foo:0:8}
   # <- keyword
   #^ punctuation
   # ^^^ variable
@@ -330,8 +330,15 @@ ${foo:=bar}
   #     ^ constant.numeric - variable
   #      ^ keyword
   #       ^ constant.numeric - variable
-  #        ^^ - keyword
-  #          ^ punctuation
+  #        ^ punctuation
+
+: ${@:0:1}
+# ^^^^^^^^ meta.group.expansion.parameter
+#   ^ variable.language
+
+: ${*:0:1}
+# ^^^^^^^^ meta.group.expansion.parameter
+#   ^ - variable.language
 
 : ${foo:='bar'}
   # <- keyword
@@ -342,14 +349,58 @@ ${foo:=bar}
   #           ^ punctuation
 
 : ${foo/#bar/baz}
-  #     ^ punctuation
+  #     ^ variable.parameter.switch
+
+: ${foo/%bar/baz}
+  #     ^ variable.parameter.switch
 
 : ${foo//bar/baz}
   # <- keyword
   #    ^ keyword
-  #     ^ punctuation
+  #     ^ variable.parameter.switch
   #         ^ keyword
   #             ^ punctuation
+
+: ${#*}
+  #  ^ variable.language
+: ${#@}
+  #  ^ variable.language
+: ${@/bar/baz}
+  # ^ variable.language
+: ${*/bar/baz}
+  # ^ variable.language
+: ${@#pattern}
+#   ^ variable.language
+: ${*#pattern}
+#   ^ variable.language
+: ${@##pattern}
+#   ^ variable.language
+: ${*##pattern}
+#   ^ variable.language
+: ${@%pattern}
+#   ^ variable.language
+: ${*%%pattern}
+#   ^ variable.language
+: ${@,pattern}
+#   ^ variable.language
+: ${*,,pattern}
+#   ^ variable.language
+: ${@^pattern}
+#   ^ variable.language
+: ${*^^pattern}
+#   ^ variable.language
+: ${foo@Q}
+#      ^ keyword.operator
+: ${foo@E}
+#      ^ keyword.operator
+: ${foo@P}
+#      ^ keyword.operator
+: ${foo@A}
+#      ^ keyword.operator
+: ${foo@a}
+#      ^ keyword.operator
+: ${foo@t}
+  #    ^ - keyword.operator
 
 : ${foo:=`bar`}
   # <- keyword
@@ -397,7 +448,7 @@ ${foo:=bar}
 # ^ keyword.other
 #  ^ punctuation
 #      ^ keyword
-#       ^ punctuation
+#       ^ variable.parameter.switch
 #        ^^ constant.character.escape
 #          ^ keyword
 #              ^ punctuation
@@ -424,7 +475,7 @@ ${foo:=bar}
 
 : ${foo//a\/b/c/d}
 #      ^ keyword
-#       ^ punctuation
+#       ^ variable.parameter.switch
 #         ^^ constant.character.escape
 #            ^ keyword
 #              ^ - keyword
@@ -436,7 +487,7 @@ ${foo:=bar}
 : ${foo//foo\}foo\/foo/foo}
   # <- keyword.other
   #    ^ keyword
-  #     ^ punctuation
+  #     ^ variable.parameter.switch
   #         ^^ constant.character.escape
   #              ^^ constant.character.escape
   #                   ^ keyword
@@ -457,14 +508,14 @@ ${foo:=bar}
 ${!varprefix*}
 # <- keyword.other
 # ^ keyword.operator
-#           ^ keyword.operator
+#           ^ variable.language
 #            ^ punctuation
 # ^^^^^^^^^^^^ variable.function  
 
 ${!varprefix@}
 # <- keyword.other
 # ^ keyword.operator
-#           ^ keyword.operator
+#           ^ variable.language
 #            ^ punctuation
 
 ${var#Pattern}
@@ -510,7 +561,7 @@ ${var%%%Pattern}
 ${foo//%/}
 # <- keyword.other
 #    ^ keyword
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword
 #        ^ punctuation
@@ -518,7 +569,7 @@ ${foo//%/}
 ${foo//#/}
 # <- keyword.other
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
 #        ^ punctuation
@@ -526,7 +577,7 @@ ${foo//#/}
 ${foo//!/}
 # <- keyword.other
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
 #        ^ punctuation
@@ -534,7 +585,7 @@ ${foo//!/}
 ${foo//:/}
 # <- keyword.other
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
 #        ^ punctuation
@@ -542,7 +593,7 @@ ${foo//:/}
 ${foo//@/}
 # <- keyword.other
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
 #        ^ punctuation
@@ -566,7 +617,7 @@ ${var:pos:len}
 ${foo//a\/b/c/d}
 # <- keyword.other
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ variable.parameter.switch
 #       ^^ constant.character.escape
 #          ^ keyword.operator
 #            ^ - keyword.operator

@@ -988,11 +988,11 @@ contexts:
       pop: true
     - include: string
     - include: expansion-parameter
-    - include: expansion-brace
+    # no brace expansion
     - include: expansion-arithmetic
     - include: expansion-command
+    - include: expansion-tilde
     # no pattern expansion
-    # no tilde expansion
 
   array:
     - match: \[
@@ -1010,14 +1010,18 @@ contexts:
         meta.group.expansion.parameter.shell 
         variable.other.readwrite.shell
     - include: expansion-parameter-common
-    - match: (?=/)
+    - match: (?=[@*]?/)
       set:
-        - match: /
-          scope: keyword.operator.substitution.shell
+        - meta_content_scope: meta.group.expansion.parameter.shell 
+        - match: ([@*])?(/)
+          captures:
+            1: variable.language.shell
+            2: keyword.operator.substitution.shell
           set:
             - meta_include_prototype: false
-            - match: '[/#]'
-              scope: punctuation.definition.keyword.shell
+            - meta_content_scope: meta.group.expansion.parameter.shell 
+            - match: '[/#%]'
+              scope: variable.parameter.switch.shell
               set: expansion-parameter-pattern
             - match: ""
               set: expansion-parameter-pattern
@@ -1027,35 +1031,43 @@ contexts:
         - match: \:?[-+=?]
           scope: keyword.operator.assignment.shell
           set: expansion-parameter-common
-    - match: (?=:)
+    - match: (?=@?:)
       set:
         - meta_content_scope: meta.group.expansion.parameter.shell 
-        - match: ":"
-          scope: keyword.operator.substring.begin.shell
+        - match: '(@)?(:)'
+          captures:
+            1: variable.language.shell
+            2: keyword.operator.substring.begin.shell
           set:
-            - meta_content_scope:
-                meta.group.expansion.parameter.shell 
-                constant.numeric.integer.decimal.shell
-            - include: expansion-parameter-common
+            - meta_content_scope: meta.group.expansion.parameter.shell 
             - match: (?=:)
               set:
+                - meta_content_scope: meta.group.expansion.parameter.shell
                 - match: ":"
                   scope: keyword.operator.substring.end.shell
                   set:
-                    - meta_content_scope: 
-                        meta.group.expansion.parameter.shell 
-                        constant.numeric.integer.decimal.shell
+                    - meta_content_scope: meta.group.expansion.parameter.shell
+                    - include: expression
                     - include: expansion-parameter-common
+            - include: expression
+            - include: expansion-parameter-common
     - match: \#(?=})
-    - match: \#\#?|%%?|\^\^?|,,?
-      scope: keyword.operator.expansion.shell
+    - match: ([@*])?(\#\#?|%%?|\^\^?|,,?)
+      captures:
+        1: variable.language.shell
+        2: keyword.operator.expansion.shell
       set:
         - meta_content_scope: meta.group.expansion.parameter.shell 
         - include: expansion-parameter-common
         - include: expansion-pattern
+    - match: ([@*]?)(@)([QEPAa])(?=})
+      captures:
+        1: variable.language.shell
+        2: keyword.operator.expansion.shell
+        3: variable.parameter.switch.shell
     - include: array
     - match: '[*@](?=})'
-      scope: keyword.operator.expansion.shell
+      scope: variable.language.shell
 
   expansion-parameter-pattern:
     - meta_content_scope: meta.group.expansion.parameter.shell
