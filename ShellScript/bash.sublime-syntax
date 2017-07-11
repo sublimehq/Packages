@@ -54,16 +54,7 @@ variables:
 #-------------------------------------------------------------------------------
 contexts:
 
-  line-continuation-or-pop-at-end:
-    - match: $
-      pop: true
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
-      push:
-        - match: ^
-          pop: true
-  
-  prototype:
+  comment:
     - match: (?:^\s*|\s+)(\#)
       captures:
         1: comment.line.number-sign.shell punctuation.definition.comment.begin.shell
@@ -71,11 +62,33 @@ contexts:
         - meta_content_scope: comment.line.number-sign.shell
         - match: $
           pop: true
+
+  line-continuation-or-pop-at-end:
+    - include: pop-at-end
+    - include: line-continuation
+
+  pop-at-end:
+    - match: $
+      pop: true
+
+  any-escape:
+    - match: \\.
+      scope: constant.character.escape.shell
+
+  line-continuation:
+    - match: \\\n
+      scope: punctuation.separator.continuation.line.shell
+      push:
+        - match: ^
+          pop: true
     - match: \\(\s+)\n
       captures:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
-    - match: \\.
-      scope: constant.character.escape.shell
+  
+  prototype:
+    - include: comment
+    - include: line-continuation
+    - include: any-escape
 
   main:
     - include: funcdef
@@ -313,7 +326,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: ^\s*\b(export|readonly|typeset){{keyword_boundary_end}}
+    - match: \s*\b(export|readonly|typeset){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -355,9 +368,12 @@ contexts:
       pop: true
 
   vardef-name:
-    - match: ""
+    - match: \s*
       set:
-        - meta_scope: variable.other.readwrite.assignment.shell
+        - meta_include_prototype: false
+        - meta_content_scope: variable.other.readwrite.assignment.shell
+        - include: line-continuation-or-pop-at-end
+        - include: any-escape
         - match: (?={{varassign}}|\s)|$
           pop: true
         - include: array
@@ -366,6 +382,9 @@ contexts:
         - include: string
 
   vardef-assign:
+    - meta_include_prototype: false
+    - include: line-continuation-or-pop-at-end
+    - include: any-escape
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       pop: true
@@ -394,12 +413,12 @@ contexts:
         - include: expansion-and-string
     - match: ""
       set:
+        - meta_include_prototype: false
         - meta_scope: string.unquoted.shell
         - include: expansion-and-string
         - include: line-continuation-or-pop-at-end
-        - match: (?=;)
-          pop: true
-        - match: \s+
+        - include: any-escape
+        - match: (?=[\s;])
           pop: true
 
   redirection:

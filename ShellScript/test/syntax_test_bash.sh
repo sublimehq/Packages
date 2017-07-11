@@ -116,20 +116,28 @@ x=a
 # <- variable.other.readwrite.assignment
 #^ keyword.operator.assignment
 # ^ string.unquoted
+x=a # some comment
+#  ^ - string.unquoted
+x=a#not-a-comment
+#  ^ string.unquoted - comment
 x=a pwd
 # <- variable.other.readwrite.assignment
 #^ keyword.operator.assignment
+#  ^ - string.unquoted
 #   ^^^ meta.function-call support.function
 x="a b" pwd
 # ^ string.quoted.double punctuation.definition.string.begin
 #  ^^^ string.quoted.double
 #     ^ string.quoted.double punctuation.definition.string.end
+#      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
 x=a y=b pwd
 #^ keyword.operator.assignment
 # ^ string.unquoted
+#  ^ - string.unquoted
 #    ^ keyword.operator.assignment
 #     ^ string.unquoted
+#      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
 foo=bar baz=qux
 #   ^^^ string.unquoted
@@ -199,6 +207,7 @@ ${foo}/${bar}/${baz}
 #               ^^^ variable.function variable.other
 
 declare foo         # 'foo' is a variable name
+#          ^ - variable.other.readwrite
 declare -A foo bar  # 'foo' and 'bar' are variable names
 
 export foo          # 'foo' is a variable name
@@ -228,14 +237,17 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #         ^^^ variable.other.readwrite.assignment
 #            ^ keyword.operator.assignment
 #             ^ string.unquoted string.quoted.single punctuation.definition.string.begin
+#                  ^ - string.unquoted
 readonly foo        # 'foo' is a variable name
 # <- storage.modifier
 #       ^ - variable
 #        ^^^ variable.other.readwrite.assignment
+#           ^ - variable.other.readwrite
 typeset foo         # 'foo' is a variable name
 # <- storage.modifier
 #      ^ - variable
 #       ^^^ variable.other.readwrite.assignment
+#          ^ - variable.other.readwrite
 unset foo bar       # 'foo' and 'bar' are variable names
 # <- support.function
 #    ^ - variable
