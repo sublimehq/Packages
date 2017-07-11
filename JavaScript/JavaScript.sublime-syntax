@@ -735,9 +735,9 @@ contexts:
       set:
         - - match: ':'
             scope: keyword.operator.ternary.js
-            set: expression
+            set: expression-no-comma
           - include: else-pop
-        - expression
+        - expression-no-comma
 
   postfix-operators:
     - match: '--'
@@ -930,10 +930,6 @@ contexts:
             scope: storage.type.js
             pop: true
           - include: else-pop
-
-  meta-function-declaration:
-    - meta_scope: meta.function.declaration
-    - include: immediately-pop
 
   arrow-function-declaration:
     - match: ''
