@@ -593,14 +593,14 @@ contexts:
       scope: keyword.operator.word.new.js
       set:
         - - meta_scope: meta.instance.constructor.js
-          - include: else-pop
+          - include: immediately-pop
         - constructor-body
 
   constructor-body:
     - match: (?=\S)
       set:
         - - meta_scope: meta.function-call.constructor.js
-          - include: else-pop
+          - include: immediately-pop
 
         - - match: '(?=\()'
             set: function-call-params
