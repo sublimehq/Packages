@@ -1128,9 +1128,6 @@ contexts:
           | {{method_name}} \s* \(
         )
       push:
-        - - meta_scope: meta.function.declaration.js
-          - include: immediately-pop
-
         - - match: '\{'
             scope: punctuation.section.block.js
             set:
@@ -1140,6 +1137,9 @@ contexts:
                 pop: true
               - include: statements
           - include: else-pop
+
+        - - meta_scope: meta.function.declaration.js
+          - include: immediately-pop
 
         - - include: function-declaration-parameters
           - include: else-pop
