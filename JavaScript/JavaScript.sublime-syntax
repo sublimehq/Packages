@@ -1083,8 +1083,10 @@ contexts:
       scope: meta.object-literal.key.dollar.js entity.name.function.js
       captures:
         1: punctuation.dollar.js
+      pop: true
     - match: '{{identifier}}'
       scope: entity.name.function.js
+      pop: true
     - match: "'"
       scope: punctuation.definition.string.begin.js
       set:
