@@ -432,7 +432,7 @@ contexts:
   redirection-process:
     - match: (\d*)([<>])(\()
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.process.shell
         3: punctuation.section.parens.begin.shell
       push:
@@ -444,35 +444,35 @@ contexts:
   redirection-output:
     - match: (\d*)(>>!?|>&?|&>|&?>(\||>))\s*(\d*)\s*
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
-        4: constant.numeric.file-descriptor.shell
+        4: constant.numeric.integer.decimal.file-descriptor.shell
 
   redirection-input:
     - match: (\d*)(<&?)((-)|(\d+))?\s*
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         4: punctuation.terminator.shell
-        5: constant.numeric.file-descriptor.shell
+        5: constant.numeric.integer.decimal.file-descriptor.shell
 
   redirection-inout:
     - match: (\d*)(<>)
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
 
   redirection-here-string:
     - match: (\d*)(<<<)\s
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.herestring.shell
 
   redirection-here-document:
     # These are the variants that allow tabs before the end token
     - match: (\d*)(<<-)\s*(')({{identifier}})(')
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.begin.shell
         4: keyword.control.heredoc-token.shell
@@ -480,7 +480,7 @@ contexts:
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*(")({{identifier}})(")
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.begin.shell
         4: keyword.control.heredoc-token.shell
@@ -488,21 +488,21 @@ contexts:
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*(\\)({{identifier}})
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.shell
         4: keyword.control.heredoc-token.shell
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*({{identifier}})
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: keyword.control.heredoc-token.shell
       push: [heredocs-body-allow-tabs, heredocs-preamble]
     # These are the variants that DON'T allow tabs before the end token
     - match: (\d*)(<<)\s*(')({{identifier}})(')
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.begin.shell
         4: keyword.control.heredoc-token.shell
@@ -510,7 +510,7 @@ contexts:
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*(")({{identifier}})(")
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.begin.shell
         4: keyword.control.heredoc-token.shell
@@ -518,14 +518,14 @@ contexts:
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*(\\)({{identifier}})
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: punctuation.definition.string.shell
         4: keyword.control.heredoc-token.shell
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*({{identifier}})
       captures:
-        1: constant.numeric.file-descriptor.shell
+        1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
         3: keyword.control.heredoc-token.shell
       push: [heredocs-body, heredocs-preamble]

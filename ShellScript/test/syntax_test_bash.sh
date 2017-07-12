@@ -1130,10 +1130,10 @@ fi
     # <- meta.function-call variable.function
   } 2>> "$stderr_log"
   # <- punctuation.definition.compound.braces.end
-  # ^ constant.numeric.file-descriptor - variable.function
+  # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 } 1>> "$stdout_log"
 # <- punctuation.definition.compound.braces.end
-# ^ constant.numeric.file-descriptor - variable.function
+# ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 
 if [ "$1" != "" -a "$2" != "" ]; then
 # <- keyword.control.if.begin
@@ -1337,9 +1337,9 @@ fi
 ################################
 function show_help() {
     echo "Usage: imgcat [-p] filename ..." 1>& 2
-    #                                          ^ constant.numeric.file-descriptor
+    #                                          ^ constant.numeric.integer.decimal.file-descriptor
     echo "   or: cat filename | imgcat" 1>& 2
-    #                                       ^ constant.numeric.file-descriptor
+    #                                       ^ constant.numeric.integer.decimal.file-descriptor
 }
 cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
 #  ^ meta.function-call variable.function
@@ -1371,13 +1371,13 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                                           #    ^^^^^^ variable.parameter
 
 foo 2>&1
-#   ^ meta.function-call.arguments constant.numeric.file-descriptor
+#   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 #    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#      ^ meta.function-call.arguments constant.numeric.file-descriptor
+#      ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 foo | bar 2>&1
-#         ^ meta.function-call.arguments constant.numeric.file-descriptor
+#         ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 #          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#            ^ meta.function-call.arguments constant.numeric.file-descriptor
+#            ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 foo | bar --opt1 arg1 < file.txt
 #                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
 foo | bar --opt1 arg1 > file.txt
