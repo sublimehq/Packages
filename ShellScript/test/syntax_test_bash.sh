@@ -1335,6 +1335,12 @@ fi
 ################################
 # And, or, pipes, redirections #
 ################################
+function show_help() {
+    echo "Usage: imgcat [-p] filename ..." 1>& 2
+    #                                          ^ constant.numeric.file-descriptor
+    echo "   or: cat filename | imgcat" 1>& 2
+    #                                       ^ constant.numeric.file-descriptor
+}
 cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
 #  ^ meta.function-call variable.function
 #         ^ variable.parameter - variable.function

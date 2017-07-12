@@ -442,7 +442,7 @@ contexts:
         - include: main
 
   redirection-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>(\||>))(\d*)\s*
+    - match: (\d*)(>>!?|>&?|&>|&?>(\||>))\s*(\d*)\s*
       captures:
         1: constant.numeric.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
