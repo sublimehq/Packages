@@ -72,7 +72,7 @@ e${ch}"o" hello, world!
 # <- meta.function-call variable.function
 #^^^^^^^^ meta.function-call variable.function
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments
-#^ keyword.other.expansion
+#^ punctuation.definition.variable
 # ^ punctuation.section.expansion.parameter.begin
 #  ^^ variable.other.readwrite
 #    ^ punctuation.section.expansion.parameter.end
@@ -84,7 +84,7 @@ ${e}'ch'o hello, world!
 # <- meta.function-call variable.function
 #^^^^^^^^ meta.function-call variable.function
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments
-# <- keyword.other.expansion
+# <- punctuation.definition.variable
 #^ punctuation
 # ^ variable.other.readwrite
 #  ^ punctuation
@@ -144,12 +144,12 @@ foo=bar baz=qux
 #           ^^^ string.unquoted
 x=${foo} y=${baz}"asdf" pwd
 #^ keyword.operator.assignment
-# ^ string.unquoted keyword.other.expansion
+# ^ string.unquoted punctuation.definition.variable
 #  ^ string.unquoted punctuation
 #   ^^^ string.unquoted variable.other.readwrite
 #      ^ string.unquoted punctuation
 #         ^ keyword.operator.assignment
-#          ^ string.unquoted keyword.other.expansion
+#          ^ string.unquoted punctuation.definition.variable
 #           ^ string.unquoted punctuation
 #            ^^^ string.unquoted variable.other.readwrite
 #               ^ string.unquoted punctuation
@@ -166,9 +166,9 @@ x= pwd
 
 BOWL=$(($(cat food.txt | wc -l) + 5))
 #   ^ keyword.operator.assignment
-#    ^ keyword.other
+#    ^ punctuation.definition.variable
 #     ^^ punctuation
-#       ^ keyword.other
+#       ^ punctuation.definition.variable
 #         ^^^ variable.function
 #             ^^^^^^^^ - variable.function
 #                     ^ - meta.function-call
@@ -330,12 +330,12 @@ ${foo:=bar}
 # <- meta.function-call variable.function
 
 : ${foo:-bar}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
   #         ^ punctuation
 
 : ${foo:0:8}
-  # <- keyword
+  # <- punctuation.definition.variable
   #^ punctuation
   # ^^^ variable
   #    ^ keyword
@@ -353,7 +353,7 @@ ${foo:=bar}
 #   ^ - variable.language
 
 : ${foo:='bar'}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
   #      ^ punctuation
   #      ^^^^^ string.quoted
@@ -367,7 +367,7 @@ ${foo:=bar}
   #     ^ variable.parameter.switch
 
 : ${foo//bar/baz}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^ keyword
   #     ^ variable.parameter.switch
   #         ^ keyword
@@ -415,24 +415,24 @@ ${foo:=bar}
   #    ^ - keyword.operator
 
 : ${foo:=`bar`}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
   #      ^ punctuation
   #          ^ punctuation
   #           ^ punctuation
 
 : ${foo:=$( bar )}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
-  #      ^ keyword
+  #      ^ punctuation.definition.variable
   #       ^ punctuation
   #             ^ punctuation
   #              ^ punctuation
 
 : ${foo:=$(( 1 + 1 ))}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
-  #      ^ keyword
+  #      ^ punctuation.definition.variable
   #       ^^ punctuation
   #          ^ constant.numeric
   #            ^ keyword.operator
@@ -441,23 +441,23 @@ ${foo:=bar}
   #                  ^ punctuation
 
 : ${foo:=$bar}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
-  #      ^ keyword.other
+  #      ^ punctuation.definition.variable
   #       ^^^ variable.other
   #          ^ punctuation
 
 : ${foo:="$bar"}
-  # <- keyword
+  # <- punctuation.definition.variable
   #    ^^ keyword
   #      ^ punctuation
-  #       ^ keyword.other
+  #       ^ punctuation.definition.variable
   #        ^^^ variable.other
   #           ^ punctuation
   #            ^ punctuation
 
 : ${foo//\}/foo}
-# ^ keyword.other
+# ^ punctuation.definition.variable
 #  ^ punctuation
 #      ^ keyword
 #       ^ variable.parameter.switch
@@ -497,7 +497,7 @@ ${foo:=bar}
 #################################
 
 : ${foo//foo\}foo\/foo/foo}
-  # <- keyword.other
+  # <- punctuation.definition.variable
   #    ^ keyword
   #     ^ variable.parameter.switch
   #         ^^ constant.character.escape
@@ -508,7 +508,7 @@ ${foo:=bar}
 : ${foo:="${bar} baz"}
 # ^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.parameter
 #         ^^^^^^ meta.group.expansion.parameter meta.group.expansion.parameter
-  # <- keyword.other
+  # <- punctuation.definition.variable
   #    ^^ keyword
   #      ^ punctuation
   #                 ^ punctuation.definition.string.end
@@ -518,48 +518,48 @@ ${foo:=bar}
 #                  ^ comment.line.number-sign
 
 ${!varprefix*}
-# <- keyword.other
+# <- punctuation.definition.variable
 # ^ keyword.operator
 #           ^ variable.language
 #            ^ punctuation
 # ^^^^^^^^^^^^ variable.function  
 
 ${!varprefix@}
-# <- keyword.other
+# <- punctuation.definition.variable
 # ^ keyword.operator
 #           ^ variable.language
 #            ^ punctuation
 
 ${var#Pattern}
 #^^^^^^^^^^^^^meta.group.expansion.parameter
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #            ^ punctuation
 
 ${var##Pattern}
 #^^^^^^^^^^^^^^meta.group.expansion.parameter
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #             ^ punctuation
 
 ${var###Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #      ^ - keyword.operator
 #              ^ punctuation
 
 ${var%Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #            ^ punctuation
 
 ${var%%Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #             ^ punctuation
 
 ${var%%%Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #      ^ - keyword.operator
 #              ^ punctuation
@@ -571,7 +571,7 @@ ${var%%%Pattern}
 ####################################################################
 
 ${foo//%/}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword
 #     ^ variable.parameter.switch
 #      ^ - keyword
@@ -579,7 +579,7 @@ ${foo//%/}
 #        ^ punctuation
 
 ${foo//#/}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
@@ -587,7 +587,7 @@ ${foo//#/}
 #        ^ punctuation
 
 ${foo//!/}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
@@ -595,7 +595,7 @@ ${foo//!/}
 #        ^ punctuation
 
 ${foo//:/}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
@@ -603,7 +603,7 @@ ${foo//:/}
 #        ^ punctuation
 
 ${foo//@/}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
@@ -611,23 +611,23 @@ ${foo//@/}
 #        ^ punctuation
 
 ${foo#} # "#" is not a operator here
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ - keyword.operator
 #     ^ punctuation
 
 ${foo!} # "!" is not a operator here
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ - keyword.operator
 #     ^ punctuation
 
 ${var:pos:len}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #        ^ keyword.operator
 #            ^ punctuation
 
 ${foo//a\/b/c/d}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #       ^^ constant.character.escape
@@ -636,73 +636,73 @@ ${foo//a\/b/c/d}
 #              ^ punctuation
 
 ${foo^}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ punctuation
 
 ${foo,}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #     ^ punctuation
 
 ${foo^^}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #      ^ punctuation
 
 ${foo,,}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #      ^ punctuation
 
 ${foo,,,Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #      ^ - keyword
 #              ^ punctuation
 
 ${foo,,Pattern}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #             ^ punctuation
 
 ${foo-bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #        ^ punctuation
 
 ${foo:-bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #         ^ punctuation
 
 ${foo+bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #        ^ punctuation
 
 ${foo:+bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #         ^ punctuation
 
 : ${foo=bar}
-  # <- keyword.other
+  # <- punctuation.definition.variable
   #    ^ keyword.operator
   #        ^ punctuation
 
 : ${foo:=bar}
-  # <- keyword.other
+  # <- punctuation.definition.variable
   #    ^^ keyword.operator
   #         ^ punctuation
 
 ${foo?bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^ keyword.operator
 #        ^ punctuation
 
 ${foo:?bar}
-# <- keyword.other
+# <- punctuation.definition.variable
 #    ^^ keyword.operator
 #         ^ punctuation
 
@@ -714,7 +714,7 @@ ${foo:?bar}
 
 : ${foo:="${bar} baz"}
 # <- meta.function-call support.function.colon
-# ^ meta.function-call.arguments keyword.other.expansion
+# ^ meta.function-call.arguments punctuation.definition.variable
 #      ^^ meta.function-call.arguments keyword.operator.assignment
 #        ^ meta.function-call.arguments string.quoted.double punctuation.definition.string.begin
 #          ^ meta.function-call.arguments string.quoted.double punctuation
@@ -725,7 +725,7 @@ ${foo:?bar}
 #                    ^ meta.function-call.arguments punctuation
 
 echo "Url: 'postgres://root:$DB_PASSWORD@$IP:$PORT/db'"
-#                           ^ meta.function-call.arguments string.quoted.double keyword.other.expansion
+#                           ^ meta.function-call.arguments string.quoted.double punctuation.definition.variable
 #                            ^^^^^^^^^^^ meta.function-call.arguments string.quoted.double variable.other.readwrite
 #                                       ^ - variable.language
 status="${status#"${status%%[![:space:]]*}"}"
@@ -751,14 +751,14 @@ echo {a,g*}
 #         ^ meta.function-call.arguments punctuation.section.expansion.brace.end
 echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #      ^ punctuation.section.expansion.brace.begin
-#       ^ keyword.other.expansion.parameter
+#       ^ punctuation.definition.variable
 #        ^ punctuation.section.expansion.parameter.begin
 #          ^ keyword.operator.substitution - variable.other.readwrite
 #            ^ keyword.operator.substitution
 #                ^ string.quoted.double
 #                  ^ punctuation.section.expansion.brace.begin
 #                       ^ punctuation.separator
-#                         ^ keyword.other.expansion.parameter
+#                         ^ punctuation.definition.variable
 #                          ^ punctuation.section.expansion.parameter.begin
 #                           ^ variable.other.readwrite
 #                                   ^ punctuation.separator
@@ -779,7 +779,7 @@ echo *(g[[:${charclass/\}/l}:]]*)
 #    ^ keyword.operator.regexp.quantifier
 #     ^ punctuation.section.parens.begin
 #       ^^ keyword.control.regexp.set.begin
-#          ^ keyword.other.expansion.parameter
+#          ^ punctuation.definition.variable
 #            ^^^^^^^^^ variable.other.readwrite
 #                     ^ keyword.operator.substitution - variable.other.readwrite
 #                      ^^ constant.character.escape
@@ -818,7 +818,7 @@ echo>foo.txt
 #   ^^ - support.function
 
 if [[ $- != *i* ]] ; then
-  #   ^ keyword
+  #   ^ punctuation.definition.variable
   #    ^ variable.language
   echo shell is not interactive
 fi
@@ -831,17 +831,17 @@ foo='bar'
 #  ^ keyword.operator
 
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
-#                  ^ keyword
+#                  ^ punctuation.definition.variable
 #                   ^ punctuation
 #                              ^ punctuation
 x="$(( foo++ ))"
-#  ^ keyword
+#  ^ punctuation.definition.variable
 #   ^^ punctuation
 #         ^^ keyword
 #            ^^ punctuation
 foo[${j}+10]="`foo`"
 #  ^ variable.other.readwrite.assignment punctuation
-#   ^ variable.other.readwrite.assignment keyword.other.expansion
+#   ^ variable.other.readwrite.assignment punctuation.definition.variable
 #    ^ variable.other.readwrite.assignment punctuation
 #     ^ variable.other.readwrite.assignment variable.other.readwrite
 #      ^ variable.other.readwrite.assignment punctuation
@@ -978,19 +978,19 @@ array=($one "two" ${three} 'four' $5)
 # <- variable.other.readwrite.assignment
 #    ^ keyword.operator.assignment
 #     ^ punctuation.section.parens.begin
-#      ^ keyword.other.expansion
+#      ^ punctuation.definition.variable
 #       ^^^ variable.other.readwrite
 #           ^ string.quoted.double punctuation.definition.string.begin
 #            ^^^ string.quoted.double
 #               ^ string.quoted.double punctuation.definition.string.end
-#                 ^ keyword.other.expansion
+#                 ^ punctuation.definition.variable
 #                  ^ punctuation
 #                   ^^^^^ variable.other.readwrite
 #                        ^ punctuation
 #                          ^ string.quoted.single punctuation.definition.string.begin
 #                           ^^^^ string.quoted.single
 #                               ^ string.quoted.single punctuation.definition.string.end
-#                                 ^ keyword.other.expansion
+#                                 ^ punctuation.definition.variable
 #                                  ^ constant
 #                                   ^ punctuation.section.parens.end
 array=([foo]== ["bar"]='what' [5+10]=qux)
@@ -1029,7 +1029,7 @@ for (( i = 0; i < 10; i++ )); do
 #                             ^^ keyword.control.do
     echo $i
     # <- meta.function-call support.function.echo
-    #    ^ meta.function-call.arguments keyword.other.expansion
+    #    ^ meta.function-call.arguments punctuation.definition.variable
     #     ^ meta.function-call.arguments variable.other.readwrite
 done
 # <- keyword.control
@@ -1037,7 +1037,7 @@ done
 for i in $(seq 100); do
 # <- keyword.control.for
 #     ^^ meta.group.for keyword.control.in
-#        ^ meta.group.for keyword.other.expansion
+#        ^ meta.group.for punctuation.definition.variable
 #         ^ meta.group.for punctuation.section.parens.begin
 #          ^^^ meta.group.for meta.function-call variable.function
 #                 ^ meta.group.for punctuation.section.parens.end
@@ -1058,7 +1058,7 @@ done
 case "$1" in
 # <- keyword.control.case
 #    ^ string.quoted.double punctuation.definition.string.begin
-#     ^ string.quoted.double keyword.other.expansion
+#     ^ string.quoted.double punctuation.definition.variable
 #      ^ string.quoted.double constant
 #       ^ string.quoted.double punctuation.definition.string.end
 #         ^^ keyword.control.case.in
@@ -1317,7 +1317,7 @@ else remotefilter="grep"
      do  glob=$(
      #      ^ variable.other.readwrite.assignment
      #       ^ keyword.operator.assignment
-     #        ^ string.unquoted keyword.other.expansion
+     #        ^ string.unquoted punctuation.definition.variable
      #         ^ string.unquoted punctuation.section.parens.begin
            echo "$glob" |
            sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
@@ -1426,7 +1426,7 @@ cat <<FOOSTRING ; echo more stuff here
 #                     ^ meta.function-call.arguments
 Hello, ${"v"'a'r}
 # <- meta.function-call.arguments string.unquoted.heredoc
-#      ^ keyword.other.expansion
+#      ^ punctuation.definition.variable
 #       ^ punctuation
 #        ^ string.quoted.double punctuation.definition.string.begin
 #         ^ string.quoted.double
@@ -1449,7 +1449,7 @@ cat << 'WHAT' ; echo more stuff here
 #                   ^ meta.function-call.arguments
 Hello, ${var}
 # <- meta.function-call.arguments string.unquoted.heredoc
-#      ^ - variable.other.readwrite - keyword.other.expansion
+#      ^ - variable.other.readwrite - punctuation.definition.variable
 #       ^  - variable.other.readwrite - punctuation.section.brackets.begin
 #        ^^^ - variable.other.readwrite
 #           ^  - variable.other.readwrite - punctuation.section.brackets.end
@@ -1579,7 +1579,7 @@ FOO
 #         ^ meta.function
 #          ^ meta.function punctuation.section.braces.begin
 #            ^^ meta.function support.function.test.begin
-#               ^ meta.function meta.function-call.arguments keyword.other.expansion
+#               ^ meta.function meta.function-call.arguments punctuation.definition.variable
 #                ^ meta.function meta.function-call.arguments variable.language
 #                  ^^ meta.function meta.function-call.arguments keyword.operator.logical
 #                       ^^ meta.function meta.function-call.arguments support.function.test.end
@@ -1623,14 +1623,14 @@ function connect_to_db() {
     IP=$(get_postgresql_ip)
     # <- meta.function variable.other.readwrite.assignment
     # ^ meta.function keyword.operator.assignment
-    #  ^ meta.function string.unquoted keyword.other.expansion
+    #  ^ meta.function string.unquoted punctuation.definition.variable
     #   ^ meta.function string.unquoted punctuation.section.parens.begin
     #    ^^^^^^^^^^^^^^^^^ meta.function string.unquoted meta.function-call variable.function
     #                     ^ meta.function string.unquoted punctuation.section.parens.end
     PORT=$(get_postgresql_port)
     # <- meta.function variable.other.readwrite.assignment
     #   ^ meta.function keyword.operator.assignment
-    #    ^ meta.function string.unquoted keyword.other.expansion
+    #    ^ meta.function string.unquoted punctuation.definition.variable
     #     ^ meta.function string.unquoted punctuation.section.parens.begin
     #      ^^^^^^^^^^^^^^^^^^^ meta.function string.unquoted meta.function-call variable.function
     #                         ^ meta.function string.unquoted punctuation.section.parens.end
@@ -1643,9 +1643,9 @@ function connect_to_db() {
 
 logExit $? $WEIRD
 # <- meta.function-call variable.function
-#       ^ meta.function-call.arguments keyword.other.expansion
+#       ^ meta.function-call.arguments punctuation.definition.variable
 #        ^ meta.function-call.arguments variable.language
-#          ^ meta.function-call.arguments keyword.other.expansion
+#          ^ meta.function-call.arguments punctuation.definition.variable
 #           ^^^^^ meta.function-call.arguments variable.other.readwrite
 
 declare -f _init_completion > /dev/null && complete -F _upto upto

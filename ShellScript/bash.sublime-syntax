@@ -875,7 +875,7 @@ contexts:
     - match: (\$)(\{)
       captures:
         0: meta.group.expansion.parameter.shell
-        1: keyword.other.expansion.parameter.shell
+        1: punctuation.definition.variable.shell
         2: punctuation.section.expansion.parameter.begin.shell
       push:
         - meta_content_scope: meta.group.expansion.parameter.shell
@@ -891,17 +891,17 @@ contexts:
     - match: (\$)(\d)
       captures:
         0: meta.group.expansion.parameter.shell 
-        1: keyword.other.expansion.parameter.shell
+        1: punctuation.definition.variable.shell
         2: constant.numeric.integer.decimal.shell
     - match: (\$)([#@!~*?_-])(?!\w)
       captures:
         0: meta.group.expansion.parameter.shell 
-        1: keyword.other.expansion.parameter.shell
+        1: punctuation.definition.variable.shell
         2: variable.language.shell
     - match: (\$)({{identifier}})
       captures:
         0: meta.group.expansion.parameter.shell 
-        1: keyword.other.expansion.parameter.shell
+        1: punctuation.definition.variable.shell
         2: variable.other.readwrite.shell
 
   expansion-pattern:
@@ -955,7 +955,7 @@ contexts:
   expansion-arithmetic:
     - match: (\$)(\(\()(?=.+\)\))
       captures:
-        1: keyword.other.expansion.shell
+        1: punctuation.definition.variable.shell
         2: punctuation.section.parens.begin.shell
       push:
         - meta_scope: meta.group.expansion.arithmetic.shell
@@ -967,7 +967,7 @@ contexts:
   expansion-command:
     - match: (\$)(\()
       captures:
-        1: keyword.other.expansion.shell
+        1: punctuation.definition.variable.shell
         2: punctuation.section.parens.begin.shell
       push:
         - meta_scope: meta.group.expansion.command.parens.shell
