@@ -107,7 +107,11 @@ set -e
 #    ^ variable.parameter  
 set +e
 #   ^ variable.parameter punctuation
-#    ^ variable.parameter  
+#    ^ variable.parameter
+python foo.py --option=value --other-option
+#                     ^ keyword.operator.assignment.option
+git log --format="%h git has this pattern, too"
+#               ^ keyword.operator.assignment.option
 
 ########################
 # Variable assignments #
