@@ -321,6 +321,17 @@ asdf foo && FOO=some-value pwd
 #                                             ^ keyword.operator.assignment
 #                                              ^ string.unquoted
 #                                                        ^ variable.function
+alias foo=bar
+# <- support.function.alias
+#     ^^^ entity.name.function.alias
+#        ^ keyword.operator.assignment
+#         ^^^ string.unquoted
+alias -p foo=bar
+# <- support.function.alias
+#     ^^ variable.parameter
+#        ^^^ entity.name.function.alias
+#           ^ keyword.operator.assignment
+#            ^^^ string.unquoted
 
 ####################################################
 # Strings and interpolation in parameter expansion #

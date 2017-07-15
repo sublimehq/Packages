@@ -282,7 +282,7 @@ contexts:
       - vardef-export-maybe-more
       - vardef-value
       - vardef-assign
-      - vardef-name
+      - vardef-alias-name
       - vardef-alias-options
     - match: \s*\b(declare|local){{keyword_boundary_end}}
       captures:
@@ -315,7 +315,7 @@ contexts:
       - vardef-export-maybe-more
       - vardef-value
       - vardef-assign
-      - vardef-name
+      - vardef-alias-name
       - vardef-alias-options
     - match: \s*\b(declare|local){{keyword_boundary_end}}
       captures:
@@ -358,6 +358,20 @@ contexts:
         1: variable.parameter.shell
     - match: \s*
       pop: true
+
+  vardef-alias-name:
+    - match: \s*
+      set:
+        - meta_include_prototype: false
+        - meta_content_scope: entity.name.function.alias.shell
+        - include: line-continuation-or-pop-at-end
+        - include: any-escape
+        - match: (?={{varassign}}|\s)|$
+          pop: true
+        - include: array
+        - match: \s*$
+          pop: true
+        - include: string
 
   vardef-declare-options:
     - match: \s*((-)(?:[aAfFgilnrtux]+|p))
