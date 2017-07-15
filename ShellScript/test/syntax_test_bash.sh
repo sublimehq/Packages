@@ -860,6 +860,8 @@ echo +(bar|qux)
 #     ^^^^^ constant.numeric.integer.generic-base
 (( 0x1f ))
 #  ^^^^ constant.numeric.integer.hexadecimal
+(( a * b ))
+#    ^ keyword.operator.arithmetic - keyword.operator.regexp      
 ls>foo.txt
 # <- variable.function
 # ^^ - variable.function

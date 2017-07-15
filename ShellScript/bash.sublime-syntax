@@ -1084,7 +1084,6 @@ contexts:
     - include: expansion-pattern
 
   expression:
-    - include: expansion-and-string
     - match: '[!~]'
       scope: keyword.operator.logical.shell
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
@@ -1132,6 +1131,7 @@ contexts:
       scope: punctuation.separator.shell
     - match: ;
       scope: punctuation.separator.shell
+    - include: expansion-and-string
 
   expression-test:
     - include: expansion-and-string
