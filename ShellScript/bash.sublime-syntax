@@ -108,7 +108,7 @@ contexts:
   # don't hesitate to change it.
   main-bt:
     - include: funcdef-bt
-    - include: vardef-bt
+    - include: vardef
     - match: '{{is_command}}'
       push: cmd-bt
 
@@ -275,39 +275,6 @@ contexts:
     - include: main-bt
 
   vardef:
-    - match: \s*\b(alias){{keyword_boundary_end}}
-      captures:
-        1: support.function.alias.shell
-      push:
-      - vardef-export-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-alias-name
-      - vardef-alias-options
-    - match: \s*\b(declare|local){{keyword_boundary_end}}
-      captures:
-        1: storage.modifier.shell
-      push:
-      - vardef-export-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-      - vardef-declare-options
-    - match: \s*\b(export|readonly|typeset){{keyword_boundary_end}}
-      captures:
-        1: storage.modifier.shell
-      push:
-      - vardef-export-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-    - match: '{{is_variable}}'
-      push:
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-
-  vardef-bt:
     - match: \s*\b(alias){{keyword_boundary_end}}
       captures:
         1: support.function.alias.shell
