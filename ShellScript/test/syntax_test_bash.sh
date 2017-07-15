@@ -929,7 +929,9 @@ echo +(bar|qux)
 (( 0x1f ))
 #  ^^^^ constant.numeric.integer.hexadecimal
 (( a * b ))
-#    ^ keyword.operator.arithmetic - keyword.operator.regexp      
+#    ^ keyword.operator.arithmetic - keyword.operator.regexp
+((a+=b))
+#    ^ - string.unquoted
 ls>foo.txt
 # <- variable.function
 # ^^ - variable.function

@@ -31,9 +31,9 @@ variables:
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   metachar: '[/$`=|&;()<>\s]'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*' 
-  nbc: '[^{}=\s]*' # non bracket characters (and also non-whitespace)
+  nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   is_start_of_arguments: '[`=|&;()<>\s]'
-  is_variable: (?=\s*{{nbc}}(?:\{{{nbc}}\})?{{nbc}}=)
+  is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
   is_function: \b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
   is_command: \s*(?=\S)
   is_end_of_option: '[^\w$-]|$'
