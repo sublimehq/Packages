@@ -1067,8 +1067,9 @@ array=([foo]== ["bar"]='what' [5+10]=qux)
 #                                   ^ keyword.operator.assignment
 #                                       ^ punctuation.section.parens.end
 for (( i = 0; i < 10; i++ )); do
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
 # <- keyword.control
-#   ^^ punctuation.definition.expression.begin
+#   ^^ meta.group.for punctuation.section.arithmetic.begin
 #        ^ meta.group.for keyword.operator.assignment
 #          ^ meta.group.for constant.numeric.integer
 #           ^ meta.group.for punctuation.separator
@@ -1076,7 +1077,7 @@ for (( i = 0; i < 10; i++ )); do
 #                 ^^ meta.group.for constant.numeric.integer
 #                   ^ meta.group.for punctuation.separator
 #                      ^^ meta.group.for keyword.operator.arithmetic
-#                         ^^ meta.group.for punctuation.definition.expression.end
+#                         ^^ meta.group.for punctuation.section.arithmetic.end
 #                           ^ keyword.operator.logical.continue
 #                             ^^ keyword.control.do
     echo $i

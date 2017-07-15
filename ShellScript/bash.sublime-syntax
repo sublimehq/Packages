@@ -832,10 +832,11 @@ contexts:
 
   compound:
     - match: \(\((?=.+\)\))
-      scope: punctuation.definition.expression.begin.shell
+      scope: punctuation.section.arithmetic.begin.shell
       push:
+        - meta_scope: meta.group.arithmetic.shell
         - match: \)\)
-          scope: punctuation.definition.expression.end.shell
+          scope: punctuation.section.arithmetic.end.shell
           pop: true
         - include: expression
     - match: \(
