@@ -48,6 +48,24 @@ echo 'no\e$capes\in\$ingle\quotes'
 #                  ^ - constant
 #                   ^ - keyword
 #                         ^ - constant
+echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z'
+#    ^^ punctuation
+#      ^^^^ constant.character.escape
+#          ^^^^^^ - constant.character.escape
+#                ^^ constant.character.escape
+#                  ^^^^^^^^^^^^^^ - constant.character.escape
+#                                ^^ constant.character.escape
+#                                  ^^^^^^ - constant.character.escape
+#                                        ^^ constant.character.escape
+#                                          ^^ - constant.character.escape
+#                                            ^^ constant.character.escape
+#                                              ^^ - constant.character.escape
+#                                                ^^ constant.character.escape
+#                                                  ^^^^^^^^ - constant.character.escape
+#                                                          ^ punctuation
+echo $"Hello"
+#    ^^ punctuation
+#           ^ punctuation
 randomname argument --opt1 --opt2 -x -y &>/dev/null
 # <- meta.function-call variable.function - meta.function-call.arguments
 #^^^^^^^^^ meta.function-call variable.function - meta.function-call.arguments

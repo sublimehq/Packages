@@ -1127,6 +1127,7 @@ contexts:
     - include: string-quoted-double
     - include: string-quoted-single
     - include: string-ansi-c
+    - include: string-locale
 
   # nothing is escaped in a singly-quoted string!
   string-quoted-single:
@@ -1146,13 +1147,7 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.shell
-        - match: \"
-          scope: punctuation.definition.string.end.shell
-          pop: true
-        - include: string-quoted-double-escape-character
-        - include: expansion-parameter
-        - include: expansion-arithmetic
-        - include: expansion-command
+        - include: string-quoted-double-common
 
   string-quoted-double-escape-character:
     - match: \\[$`"\\]
@@ -1178,3 +1173,23 @@ contexts:
         - include: string-quoted-double-escape-character
         - match: \\([abfnrtv'"?]|[0-8]{1,3}|x\h{1,8}|c[a-z])
           scope: constant.character.escape.shell
+
+  # [Bash] 3.1.2.5
+  # If the string is translated and replaced, the replacement is double-quoted.
+  string-locale:
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push: 
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.locale.shell
+        - include: string-quoted-double-common
+
+  string-quoted-double-common:
+    - match: \"
+      scope: punctuation.definition.string.end.shell
+      pop: true
+    - include: string-quoted-double-escape-character
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+
