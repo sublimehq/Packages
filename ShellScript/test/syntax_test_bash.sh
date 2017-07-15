@@ -762,14 +762,14 @@ echo "Url: 'postgres://root:$DB_PASSWORD@$IP:$PORT/db'"
 #                            ^^^^^^^^^^^ meta.function-call.arguments string.quoted.double variable.other.readwrite
 #                                       ^ - variable.language
 status="${status#"${status%%[![:space:]]*}"}"
-#     ^ keyword.operator.assignment.shell
+#     ^ keyword.operator.assignment
 #               ^ keyword.operator.expansion
 #                         ^^ keyword.operator.expansion
 #                           ^ - punctuation
 #                             ^ - punctuation
 #                                     ^^ - punctuation
 status="${status#${status%%[![:space:]]*}}"
-#     ^ keyword.operator.assignment.shell
+#     ^ keyword.operator.assignment
 #               ^ keyword.operator.expansion
 #                        ^^ keyword.operator.expansion
 #                          ^ - punctuation
@@ -848,6 +848,72 @@ echo +(bar|qux)
 #           ^ constant.numeric.integer.octal invalid.illegal.not-an-octal-character
 (( 0 ))
 #  ^ - punctuation
+(( ~1 ))
+#  ^ meta.group.arithmetic keyword.operator.bitwise
+(( !1 ))
+#  ^ meta.group.arithmetic keyword.operator.logical
+(( a/b ))
+#   ^ meta.group.arithmetic keyword.operator.arithmetic
+(( a%b ))
+#   ^ meta.group.arithmetic keyword.operator.arithmetic
+(( a+b ))
+#   ^ meta.group.arithmetic keyword.operator.arithmetic
+(( a-b ))
+#   ^ meta.group.arithmetic keyword.operator.arithmetic
+(( a*b ))
+#   ^ meta.group.arithmetic keyword.operator.arithmetic
+((a++))
+#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+((a--))
+#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+((++a))
+# ^^ meta.group.arithmetic keyword.operator.arithmetic
+((--a))
+# ^^ meta.group.arithmetic keyword.operator.arithmetic
+((a**16))
+#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+((a<<12))
+#  ^^ meta.group.arithmetic keyword.operator.logical
+((a>>14))
+#  ^^ meta.group.arithmetic keyword.operator.logical
+((a&b))
+#  ^ meta.group.arithmetic keyword.operator.bitwise
+(( a <= b))
+#    ^^ meta.group.arithmetic keyword.operator.logical
+(( a >= b))
+#    ^^ meta.group.arithmetic keyword.operator.logical
+((a < b))
+#   ^ meta.group.arithmetic keyword.operator.logical
+((a > b))
+#   ^ meta.group.arithmetic keyword.operator.logical
+((a^b))
+#  ^ meta.group.arithmetic keyword.operator.bitwise
+((a|b))
+#  ^ meta.group.arithmetic keyword.operator.bitwise
+((a&&b))
+#  ^^ meta.group.arithmetic keyword.operator.logical
+((a||b))
+#  ^^ meta.group.arithmetic keyword.operator.logical
+((a ? 0 : 1))
+#   ^ keyword.operator.ternary
+#       ^ keyword.operator.logical
+(( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
+#   ^ keyword.operator.assignment
+#     ^ meta.group.arithmetic punctuation.separator
+#        ^^ keyword.operator.assignment
+#           ^ meta.group.arithmetic punctuation.separator
+#              ^^ keyword.operator.assignment
+#                ^ meta.group.arithmetic
+#                    ^^ keyword.operator.assignment
+#                      ^ meta.group.arithmetic
+#                          ^^ keyword.operator.assignment
+#                             ^ meta.group.arithmetic punctuation.separator
+#                                ^^ keyword.operator.assignment
+#                                      ^^^ keyword.operator.assignment
+#                                             ^^^ keyword.operator.assignment
+#                                                    ^^ keyword.operator.assignment
+#                                                          ^^ keyword.operator.assignment
+#                                                                ^^ keyword.operator.assignment
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
 #  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
 #    ^^^^^^^^ constant.numeric.integer.hexadecimal
@@ -980,11 +1046,11 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 # <- - variable.other.readwrite
 
 [[ $str =~ ^$'\t' ]]
-#       ^^ keyword.operator.logical.shell
+#       ^^ keyword.operator.logical
 #          ^^^^^^ meta.regexp
 
 [[ $str =~ ^abc$var$ ]]
-#       ^^ keyword.operator.logical.shell
+#       ^^ keyword.operator.logical
 #          ^^^^ meta.regexp
 #               ^^^ variable.other.readwrite
 #                  ^ meta.regexp

@@ -1085,8 +1085,6 @@ contexts:
     - include: expansion-pattern
 
   expression:
-    - match: '[!~]'
-      scope: keyword.operator.logical.shell
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
     - match: \b(?i)0x
       scope: punctuation.definition.numeric.hexadecimal.shell
@@ -1120,19 +1118,26 @@ contexts:
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: constant.numeric.integer.decimal.shell
-    - match: \+\+?|\-\-?|\*\*?|%
-      scope: keyword.operator.arithmetic.shell
-    - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\|
-      scope: keyword.operator.logical.shell
-    - match: '[&|^]'
-      scope: keyword.operator.bitwise.shell
     - match: '[*/%+\-&^|]?=|<<=|>>='
       scope: keyword.operator.assignment.shell
-    - match: \,
+    - match: \+\+?|\-\-?|\*\*?|%|/
+      scope: keyword.operator.arithmetic.shell
+    - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\||!
+      scope: keyword.operator.logical.shell
+    - match: '[&|^~]'
+      scope: keyword.operator.bitwise.shell
+    - match: '[,;]'
       scope: punctuation.separator.shell
-    - match: ;
-      scope: punctuation.separator.shell
-    - include: expansion-and-string
+    - match: \?
+      scope: keyword.operator.ternary.shell
+    # Shell variables are allowed as operands; parameter expansion is performed
+    # before the expression is evaluated. Within an expression, shell variables
+    # may also be referenced by name without using the parameter expansion
+    # syntax.
+    - include: string
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
 
   expression-test:
     - include: expansion-and-string
