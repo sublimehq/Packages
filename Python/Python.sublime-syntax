@@ -6,6 +6,12 @@ file_extensions:
   - py3
   - pyw
   - pyi
+  - pyx
+  - pyx.in
+  - pxd
+  - pxd.in
+  - pxi
+  - pxi.in
   - rpy
   - cpy
   - SConstruct
