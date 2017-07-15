@@ -842,7 +842,24 @@ echo +(bar|qux)
 ###################
 # Misc. operators #
 ###################
-
+(( 0123456708 ))
+#  ^ constant.numeric.integer.octal punctuation.definition.numeric.octal
+#  ^^^^^^^^^ constant.numeric.integer.octal
+#           ^ constant.numeric.integer.octal invalid.illegal.not-an-octal-character
+(( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
+#  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#    ^^^^^^^^ constant.numeric.integer.hexadecimal
+#             ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#               ^^^^^^^^ constant.numeric.integer.hexadecimal
+#                        ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#                          ^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+#                                          ^ constant.numeric.integer.hexadecimal invalid.illegal.not-a-hex-character
+(( 64#123@_ ))
+#  ^^ constant.numeric.integer.decimal.base
+#    ^ punctuation.definition.numeric.base
+#     ^^^^^ constant.numeric.integer.generic-base
+(( 0x1f ))
+#  ^^^^ constant.numeric.integer.hexadecimal
 ls>foo.txt
 # <- variable.function
 # ^^ - variable.function

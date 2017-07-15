@@ -1087,8 +1087,39 @@ contexts:
     - include: expansion-and-string
     - match: '[!~]'
       scope: keyword.operator.logical.shell
+    # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
+    - match: \b(?i)0x
+      scope: punctuation.definition.numeric.hexadecimal.shell
+      push: 
+        - meta_scope: constant.numeric.integer.hexadecimal.shell
+        - match: '[g-zG-Z]'
+          scope: invalid.illegal.not-a-hex-character.shell
+          pop: true
+        - match: (?=\H)
+          pop: true
+    # Constants with a leading 0 are interpreted as octal numbers.
+    - match: \b0
+      scope: punctuation.definition.numeric.octal.shell
+      push:
+        - meta_scope: constant.numeric.integer.octal.shell
+        - match: '[89]'
+          scope: invalid.illegal.not-an-octal-character.shell
+          pop: true
+        - match: (?=[^0-7])
+          pop: true
+    # Otherwise, numbers take the form [base#]n, where the optional base is a 
+    # decimal number between 2 and 64 representing the arithmetic base, and n is
+    # a number in that base. When specifying n, the digits greater than 9 are 
+    # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
+    # in that order.
+    - match: \b(\d+)(#)([a-zA-Z0-9@_]+)
+      captures:
+        1: constant.numeric.integer.decimal.base.shell
+        2: punctuation.definition.numeric.base.shell
+        3: constant.numeric.integer.generic-base.shell
+    # If base# is omitted, then base 10 is used.
     - match: \b\d+
-      scope: constant.numeric.integer.shell
+      scope: constant.numeric.integer.decimal.shell
     - match: \+\+?|\-\-?|\*\*?|%
       scope: keyword.operator.arithmetic.shell
     - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\|
