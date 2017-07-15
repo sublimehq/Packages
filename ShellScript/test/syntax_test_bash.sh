@@ -846,6 +846,8 @@ echo +(bar|qux)
 #  ^ constant.numeric.integer.octal punctuation.definition.numeric.octal
 #  ^^^^^^^^^ constant.numeric.integer.octal
 #           ^ constant.numeric.integer.octal invalid.illegal.not-an-octal-character
+(( 0 ))
+#  ^ - punctuation
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
 #  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
 #    ^^^^^^^^ constant.numeric.integer.hexadecimal
@@ -1071,7 +1073,7 @@ for (( i = 0; i < 10; i++ )); do
 # <- keyword.control
 #   ^^ meta.group.for punctuation.section.arithmetic.begin
 #        ^ meta.group.for keyword.operator.assignment
-#          ^ meta.group.for constant.numeric.integer
+#          ^ meta.group.for constant.numeric.integer - punctuation
 #           ^ meta.group.for punctuation.separator
 #               ^ meta.group.for keyword.operator.logical
 #                 ^^ meta.group.for constant.numeric.integer

@@ -1098,7 +1098,7 @@ contexts:
         - match: (?=\H)
           pop: true
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: \b0
+    - match: \b0(?=[0-7])
       scope: punctuation.definition.numeric.octal.shell
       push:
         - meta_scope: constant.numeric.integer.octal.shell
