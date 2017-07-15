@@ -1165,8 +1165,7 @@ contexts:
       scope: punctuation.definition.string.begin.shell
       push:
         - meta_include_prototype: false
-        # see 3.1.2.4 on why we choose string.quoted.single here
-        - meta_scope: string.quoted.single.shell
+        - meta_scope: string.quoted.single.ansi-c.shell
         - match: "'"
           scope: punctuation.definition.string.end.shell
           pop: true
