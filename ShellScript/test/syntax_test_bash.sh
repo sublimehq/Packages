@@ -70,14 +70,14 @@ randomname argument --opt1 --opt2 -x -y &>/dev/null
 # <- meta.function-call variable.function - meta.function-call.arguments
 #^^^^^^^^^ meta.function-call variable.function - meta.function-call.arguments
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
-#                   ^^ variable.parameter punctuation
-#                     ^^^^ variable.parameter - punctuation
-#                          ^^ variable.parameter punctuation
-#                            ^^^^ variable.parameter - punctuation
-#                                 ^ variable.parameter punctuation
-#                                  ^ variable.parameter - punctuation
-#                                    ^ variable.parameter punctuation
-#                                     ^ variable.parameter - punctuation
+#                   ^^ variable.parameter.option punctuation
+#                     ^^^^ variable.parameter.option - punctuation
+#                          ^^ variable.parameter.option punctuation
+#                            ^^^^ variable.parameter.option - punctuation
+#                                 ^ variable.parameter.option punctuation
+#                                  ^ variable.parameter.option - punctuation
+#                                    ^ variable.parameter.option punctuation
+#                                     ^ variable.parameter.option - punctuation
 another-random-command arg foo--not-an-option
 #                             ^ - variable.parameter
 #                               ^ - variable.parameter
@@ -112,7 +112,7 @@ ${e}'ch'o hello, world!
 echo hello#not-a-comment
 #         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
 echo -e "foo"
-#    ^ variable.parameter punctuation
+#    ^ variable.parameter.option punctuation
 #     ^ variable.parameter
 foo --opt1 arg1
 #   ^^ variable.parameter punctuation
@@ -121,11 +121,11 @@ foo --opt1 arg1 -- --not-an-option
 #               ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
 set -e
-#   ^ variable.parameter punctuation
-#    ^ variable.parameter  
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
 set +e
-#   ^ variable.parameter punctuation
-#    ^ variable.parameter
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
 python foo.py --option=value --other-option
 #                     ^ keyword.operator.assignment.option
 git log --format="%h git has this pattern, too"

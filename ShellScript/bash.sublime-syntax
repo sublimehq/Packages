@@ -331,7 +331,7 @@ contexts:
     - match: \s*((-)p)
       captures:
         2: punctuation.definition.parameter.shell
-        1: variable.parameter.shell
+        1: variable.parameter.option.shell
     - match: \s*
       pop: true
 
@@ -353,7 +353,7 @@ contexts:
     - match: \s*((-)(?:[aAfFgilnrtux]+|p))
       captures:
         2: punctuation.definition.parameter.shell
-        1: variable.parameter.shell
+        1: variable.parameter.option.shell
     - match: \s*
       pop: true
 
@@ -689,7 +689,7 @@ contexts:
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
-            - meta_scope: variable.parameter.shell
+            - meta_scope: variable.parameter.option.shell
             - match: (?==)
               set:
                 - match: =
@@ -707,7 +707,7 @@ contexts:
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
-            - meta_scope: variable.parameter.shell
+            - meta_scope: variable.parameter.option.shell
             - match: (?==)
               set:
                 - match: =
@@ -1150,11 +1150,11 @@ contexts:
     - match: ((-)[aobcdefghknoprstuvwxzGLNORS])(?=\s)
       captures:
         2: punctuation.definition.parameter.shell
-        1: variable.parameter.shell
+        1: variable.parameter.option.shell
     - match: ((-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge))(?=\s)
       captures:
         2: punctuation.definition.parameter.shell
-        1: variable.parameter.shell
+        1: variable.parameter.option.shell
     - match: (=~)\s*
       captures:
         1: keyword.operator.logical.shell

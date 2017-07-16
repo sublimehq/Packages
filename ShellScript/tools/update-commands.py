@@ -47,7 +47,7 @@ def main():
                 "match": r"(?:\s+|^)((--)" + "|".join(long_options) + r")" + opt_end_boundary,
                 "captures": {
                     2: "punctuation.definition.parameter.shell",
-                    1: "variable.parameter.shell"
+                    1: "variable.parameter.option.shell"
                 }
             }
             cmd_args_base.append(thedict)
@@ -67,7 +67,7 @@ def main():
                         "match": r"(?:\s+|^)((" + prefix + r")(?:" + opts + r"))" + opt_end_boundary,
                         "captures": {
                             2: "punctuation.definition.parameter.shell",
-                            1: "variable.parameter.shell"
+                            1: "variable.parameter.option.shell"
                         }
                     }
             else:
@@ -75,7 +75,7 @@ def main():
                     "match": r"(?:\s+|^)((-)" + opts + r")" + opt_end_boundary,
                     "captures": {
                         2: "punctuation.definition.parameter.shell",
-                        1: "variable.parameter.shell"
+                        1: "variable.parameter.option.shell"
                     }
                 }
         if thedict:
