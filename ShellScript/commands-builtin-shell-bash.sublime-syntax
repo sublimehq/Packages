@@ -736,7 +736,7 @@ contexts:
     - scope:source.shell.bash#cmd-post
     - cmd-args-enable
   - match: '{{boundary_begin}}return{{boundary_end}}'
-    scope: meta.function-call.shell support.function.return.shell
+    scope: meta.function-call.shell keyword.control.return.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-return
@@ -902,7 +902,7 @@ contexts:
     - scope:source.shell.bash#cmd-post-bt
     - cmd-args-enable-bt
   - match: '{{boundary_begin}}return{{boundary_end}}'
-    scope: meta.function-call.shell support.function.return.shell
+    scope: meta.function-call.shell keyword.control.return.shell
     set:
     - scope:source.shell.bash#cmd-post-bt
     - cmd-args-return-bt
