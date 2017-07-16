@@ -728,7 +728,7 @@ contexts:
         - include: expression
     - match: (\[\[)(?=\s)
       captures:
-        1: support.function.test.begin.shell
+        1: support.function.double-brace.begin.shell
       set: [cmd-post, cmd-test-double-brace-args]
     - match: (\[)(?=\s)
       captures:
@@ -756,11 +756,11 @@ contexts:
         - include: expression
     - match: (\[\[)(?=\s)
       captures:
-        1: meta.function-call.shell support.function.test.begin.shell
+        1: support.function.double-brace.begin.shell
       set: [cmd-post, cmd-test-double-brace-args-bt]
     - match: (\[)(?=\s)
       captures:
-        1: meta.function-call.shell support.function.test.begin.shell
+        1: support.function.test.begin.shell
       set: [cmd-post-bt, cmd-test-brace-args-bt]
     - match: (\{)(?=\s)
       captures:
@@ -796,26 +796,22 @@ contexts:
         - include: expression-test
 
   cmd-test-double-brace-args:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - match: \s+(\]\])
-          captures:
-            1: support.function.test.end.shell
-          pop: true
-        - include: expression-test
-        # - include: cmd-args-boilerplate
+    - meta_scope: meta.function-call.arguments.shell
+    - match: \s+(\]\])
+      captures:
+        1: support.function.double-brace.end.shell
+      pop: true
+    - include: expression-test
+    # - include: cmd-args-boilerplate
 
   cmd-test-double-brace-args-bt:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - match: \s+(\]\])
-          captures:
-            1: support.function.test.end.shell
-          pop: true
-        - include: expression-test
-        # - include: cmd-args-boilerplate-bt
+    - meta_scope: meta.function-call.arguments.shell
+    - match: \s+(\]\])
+      captures:
+        1: support.function.double-brace.end.shell
+      pop: true
+    - include: expression-test
+    # - include: cmd-args-boilerplate-bt
 
   cmd-name:
     - match: ""

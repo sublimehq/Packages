@@ -318,9 +318,9 @@ for-bar
 # ^ support.function.test.end
 
 [[ ]]
-# <- support.function.test.begin
- # <- support.function.test.begin
- # ^^ support.function.test.end
+# <- support.function.double-brace.begin
+ # <- support.function.double-brace.begin
+ # ^^ support.function.double-brace.end
 
 asdf foo && FOO=some-value pwd
 # <- meta.function-call variable.function
@@ -1188,11 +1188,11 @@ done
 # <- keyword.control.done
 
 [[ "${foo}" == bar*baz ]]
- # <- support.function.test.begin
-# <- support.function.test.begin
+ # <- support.function.double-brace.begin
+# <- support.function.double-brace.begin
 #           ^^ meta.function-call.arguments keyword.operator.logical
 #                 ^ meta.function-call.arguments keyword.operator.regexp.quantifier
-#                      ^^ meta.function-call.arguments support.function.test.end
+#                      ^^ meta.function-call.arguments support.function.double-brace.end
 
 case "$1" in
 # <- keyword.control.case
@@ -1309,7 +1309,7 @@ fi
 function clk {
     typeset base=/sys/class/drm/card0/device
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
-    #                                                                  ^^ support.function.test.end
+    #                                                                  ^^ support.function.double-brace.end
     case $1 in
         low|high|default)
             printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "old profile: $(<${base}/power_profile)"
@@ -1723,11 +1723,11 @@ FOO
 #        ^ meta.function punctuation.section.parens.end
 #         ^ meta.function
 #          ^ meta.function punctuation.section.braces.begin
-#            ^^ meta.function support.function.test.begin
+#            ^^ meta.function support.function.double-brace.begin
 #               ^ meta.function meta.function-call.arguments punctuation.definition.variable
 #                ^ meta.function meta.function-call.arguments variable.language
 #                  ^^ meta.function meta.function-call.arguments keyword.operator.logical
-#                       ^^ meta.function meta.function-call.arguments support.function.test.end
+#                       ^^ meta.function meta.function-call.arguments support.function.double-brace.end
 #                          ^^ meta.function keyword.operator.logical.and
 logExit () {
 #^^^^^^ meta.function entity.name.function
@@ -1736,19 +1736,19 @@ logExit () {
 #         ^ meta.function
 #          ^ meta.function punctuation.section.braces.begin
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
-  # <- meta.function support.function.test.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.test.end
+  # <- meta.function support.function.double-brace.begin
+  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
   [[ $1 == '0' ]] && echo -e "$2 PASSED" || echo -e "$2 FAILED";
-  # <- meta.function support.function.test.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.test.end
+  # <- meta.function support.function.double-brace.begin
+  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
   #               ^^ meta.function keyword.operator.logical.and
   #                  ^^^^ meta.function meta.function-call support.function.echo
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
   #            ^ meta.function keyword.operator.logical.continue
   [[ $1 == '0' ]] || exit -1
-  # <- meta.function support.function.test.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.test.end
+  # <- meta.function support.function.double-brace.begin
+  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
   #               ^^ meta.function keyword.operator.logical.or
   #                  ^^^^ meta.function meta.function-call support.function.exit
 }
