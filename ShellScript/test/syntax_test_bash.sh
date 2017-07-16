@@ -230,27 +230,35 @@ ${foo}/${bar}/${baz}
 
 declare foo         # 'foo' is a variable name
 #          ^ - variable.other.readwrite
+#                  ^ - meta.function-call
 declare -A foo bar  # 'foo' and 'bar' are variable names
-
+#^^^^^^^^^^^^^^^^^ meta.function-call
+#                  ^ - meta.function-call
 export foo          # 'foo' is a variable name
+#^^^^^^^^^ meta.function-call
 # <- storage.modifier
 #      ^^^ variable.other.readwrite.assignment
+#                  ^ - meta.function-call
 export foo bar      # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #      ^^^ variable.other.readwrite.assignment
 #         ^ - variable
 #          ^^^ variable.other.readwrite.assignment
+#                  ^ - meta.function-call
 export foo='bar'    # 'foo' is a variable name
 # <- storage.modifier
 #      ^^^ variable.other.readwrite.assignment
 #         ^ keyword.operator.assignment
 #          ^ string.unquoted string.quoted.single punctuation.definition.string.begin
+#^^^^^^^^^^^^^^ meta.function-call
+#                  ^ - meta.function-call
 local foo bar       # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #    ^ - variable
 #     ^^^ variable.other.readwrite.assignment
 #        ^ - variable
 #         ^^^ variable.other.readwrite.assignment
+#                  ^ - meta.function-call
 local foo bar='baz' # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #    ^ - variable
@@ -260,19 +268,27 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #            ^ keyword.operator.assignment
 #             ^ string.unquoted string.quoted.single punctuation.definition.string.begin
 #                  ^ - string.unquoted
+#^^^^^^^^^^^^^^^^^^ meta.function-call
+#                  ^ - meta.function-call
 readonly foo        # 'foo' is a variable name
 # <- storage.modifier
 #       ^ - variable
 #        ^^^ variable.other.readwrite.assignment
 #           ^ - variable.other.readwrite
+#^^^^^^^^^^^ meta.function-call
+#                  ^ - meta.function-call
 typeset foo         # 'foo' is a variable name
+#^^^^^^^^^^ meta.function-call
 # <- storage.modifier
 #      ^ - variable
 #       ^^^ variable.other.readwrite.assignment
 #          ^ - variable.other.readwrite
+#^^^^^^^^^^ meta.function-call
+#                  ^ - meta.function-call
 unset foo bar       # 'foo' and 'bar' are variable names
 # <- support.function
 #    ^ - variable
+foo= pwd
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #     ^ - variable.parameter
 local-pid
@@ -1749,6 +1765,7 @@ function connect_to_db() {
     # <- meta.function storage.modifier
     #      ^^^^^^^^^^ meta.function variable.other.readwrite.assignment
     #                ^ meta.function keyword.operator.assignment
+    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
     IP=$(get_postgresql_ip)
     # <- meta.function variable.other.readwrite.assignment
     # ^ meta.function keyword.operator.assignment
@@ -1782,6 +1799,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #       ^ variable.parameter punctuation
 #        ^ variable.parameter
 #                           ^ keyword.operator.assignment.redirection
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 
 foo:foo () {
   # <- meta.function entity.name.function

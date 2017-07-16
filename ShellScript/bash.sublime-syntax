@@ -279,7 +279,8 @@ contexts:
       captures:
         1: support.function.alias.shell
       push:
-      - vardef-export-maybe-more
+      - vardef-ensure-function-call-scope
+      - vardef-maybe-more
       - vardef-value
       - vardef-assign
       - vardef-alias-name
@@ -288,7 +289,8 @@ contexts:
       captures:
         1: storage.modifier.shell
       push:
-      - vardef-export-maybe-more
+      - vardef-ensure-function-call-scope
+      - vardef-maybe-more
       - vardef-value
       - vardef-assign
       - vardef-name
@@ -297,7 +299,8 @@ contexts:
       captures:
         1: storage.modifier.shell
       push:
-      - vardef-export-maybe-more
+      - vardef-ensure-function-call-scope
+      - vardef-maybe-more
       - vardef-value
       - vardef-assign
       - vardef-name
@@ -307,13 +310,19 @@ contexts:
       - vardef-assign
       - vardef-name
 
-  vardef-export-maybe-more:
+  vardef-ensure-function-call-scope:
+    - meta_include_prototype: false
+    - meta_scope: meta.function-call.shell
+    - match: ""
+      pop: true
+
+  vardef-maybe-more:
+    - meta_include_prototype: false
     - match: (?=\s*#)
       pop: true
     - include: cmd-args-boilerplate
     - match: (?=\S)
-      set:
-      - vardef-export-maybe-more
+      push:
       - vardef-value
       - vardef-assign
       - vardef-name
@@ -373,6 +382,7 @@ contexts:
       pop: true
 
   vardef-value:
+    - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.parens.begin.shell
       set:
