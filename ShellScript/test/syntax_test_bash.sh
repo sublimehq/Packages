@@ -1513,6 +1513,8 @@ foo 2>&1
 #   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 #    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
 #      ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+foo 2>&-
+#      ^ punctuation.terminator
 foo | bar 2>&1
 #         ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
 #          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
