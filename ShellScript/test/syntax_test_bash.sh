@@ -1032,6 +1032,7 @@ foo=`let 5+5`
 #   ^ punctuation.section.group.begin
 #          ^ constant.numeric.integer
 #           ^ punctuation.section.group.end
+#    ^^^^^^^ meta.function-call
 foo=`some-command --long1`
 #   ^ punctuation.section.group.begin
 #    ^^^^^^^^^^^^ meta.function-call variable.function

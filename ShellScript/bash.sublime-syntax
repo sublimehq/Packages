@@ -724,6 +724,7 @@ contexts:
     - match: \blet\b
       scope: support.function.let.bash
       push:
+        - meta_scope: meta.function-call.shell
         - match: $
           pop: true
         - include: expression
@@ -752,6 +753,7 @@ contexts:
     - match: \blet\b
       scope: support.function.let.bash
       push:
+        - meta_scope: meta.function-call.shell
         - match: $|(?=\`)
           pop: true
         - include: expression
