@@ -1930,5 +1930,5 @@ contexts:
     - match: '^\s*(?!///)'
       pop: true
     - include: comments_in
-    - match: .
+    - match: '[\w\s]+|.'
       scope: text.documentation.cs
