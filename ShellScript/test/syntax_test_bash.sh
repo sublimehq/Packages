@@ -930,6 +930,22 @@ echo +(bar|qux)
 #                                                    ^^ keyword.operator.assignment
 #                                                          ^^ keyword.operator.assignment
 #                                                                ^^ keyword.operator.assignment
+(((a>b) ? (a>c?a:c) : (b>c?b:c)))
+# <- punctuation.section.arithmetic.begin
+#^ punctuation.section.arithmetic.begin
+# ^ punctuation.section.parens.begin
+#     ^ punctuation.section.parens.end
+#         ^ punctuation.section.parens.begin
+#                 ^ punctuation.section.parens.end
+#                     ^ punctuation.section.parens.begin
+#                             ^ punctuation.section.parens.end
+#                              ^^ punctuation.section.arithmetic.end
+# ^^^^^ meta.group.parens
+#      ^^^ - meta.group.parens
+#         ^^^^^^^^^ meta.group.parens
+#                  ^^^ - meta.group.parens
+#                     ^^^^^^^^^ meta.group.parens
+#                              ^^ - meta.group.parens
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
 #  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
 #    ^^^^^^^^ constant.numeric.integer.hexadecimal

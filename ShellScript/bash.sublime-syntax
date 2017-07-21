@@ -1137,6 +1137,14 @@ contexts:
       scope: punctuation.separator.shell
     - match: \?
       scope: keyword.operator.ternary.shell
+    - match: \(
+      scope: punctuation.section.parens.begin.shell
+      push:
+        - meta_scope: meta.group.parens.shell
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: expression
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
