@@ -1130,7 +1130,7 @@ array=($one "two" ${three} 'four' $5)
 #                           ^^^^ string.quoted.single
 #                               ^ string.quoted.single punctuation.definition.string.end
 #                                 ^ punctuation.definition.variable
-#                                  ^ constant
+#                                  ^ variable.other.readwrite
 #                                   ^ punctuation.section.parens.end
 array=([foo]== ["bar"]='what' [5+10]=qux)
 #    ^ keyword.operator.assignment
@@ -1199,7 +1199,7 @@ case "$1" in
 # <- keyword.control.case
 #    ^ string.quoted.double punctuation.definition.string.begin
 #     ^ string.quoted.double punctuation.definition.variable
-#      ^ string.quoted.double constant
+#      ^ string.quoted.double variable.other.readwrite
 #       ^ string.quoted.double punctuation.definition.string.end
 #         ^^ keyword.control.case.in
 setup )
