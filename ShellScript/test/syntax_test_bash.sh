@@ -1819,6 +1819,12 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #        ^ variable.parameter
 #                           ^ keyword.operator.assignment.redirection
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+typeset -f _init_completion > /dev/null && complete -F _upto upto
+# <- storage.modifier
+#       ^ variable.parameter punctuation
+#        ^ variable.parameter
+#                           ^ keyword.operator.assignment.redirection
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 
 foo:foo () {
   # <- meta.function entity.name.function

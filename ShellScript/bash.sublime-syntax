@@ -283,7 +283,7 @@ contexts:
       - vardef-assign
       - vardef-alias-name
       - vardef-alias-options
-    - match: \s*\b(declare|local){{keyword_boundary_end}}
+    - match: \s*\b(typeset|declare|local){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -293,7 +293,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: \s*\b(export|readonly|typeset){{keyword_boundary_end}}
+    - match: \s*\b(export){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -302,11 +302,38 @@ contexts:
       - vardef-value
       - vardef-assign
       - vardef-name
+      - vardef-export-options
+    - match: \s*\b(readonly){{keyword_boundary_end}}
+      captures:
+        1: storage.modifier.shell
+      push:
+      - vardef-ensure-function-call-scope
+      - vardef-maybe-more
+      - vardef-value
+      - vardef-assign
+      - vardef-name
+      - vardef-readonly-options
     - match: '{{is_variable}}'
       push:
       - vardef-value
       - vardef-assign
       - vardef-name
+
+  vardef-readonly-options:
+    - match: \s*((-)(?:[aAf]+|p))
+      captures:
+        2: punctuation.definition.parameter.shell
+        1: variable.parameter.option.shell
+    - match: \s*
+      pop: true
+
+  vardef-export-options:
+    - match: \s*((-)(?:[fn]+|p))
+      captures:
+        2: punctuation.definition.parameter.shell
+        1: variable.parameter.option.shell
+    - match: \s*
+      pop: true
 
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
