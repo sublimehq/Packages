@@ -6,6 +6,6 @@
  **/
 ${1:var} \$$2;$0]]></content>
 	<tabTrigger>doc_v</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>Class Variable</description>
 </snippet>

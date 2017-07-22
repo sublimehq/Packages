@@ -4,6 +4,6 @@
 	${2/.+/$this->$0 = \$$0;/}$0
 }]]></content>
 	<tabTrigger>con</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>function __construct</description>
 </snippet>
