@@ -993,7 +993,7 @@ public:
   friend void example();
   /*          ^^^^^^^ meta.method entity.name.function */
   friend bool operator==(const Example &e1, const Example& e2);
-  /*          ^^^^^^^^^^ meta.method.c++ entity.name.function.c++ */
+  /*          ^^^^^^^^^^ meta.method entity.name.function */
 };
 
 class BaseClass;

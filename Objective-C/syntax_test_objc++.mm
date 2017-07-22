@@ -988,6 +988,14 @@ namespace std _GLIBCXX_VISIBILITY(default)
 // Classes, structs, unions and enums
 /////////////////////////////////////////////
 
+class Example {
+public:
+  friend void example();
+  /*          ^^^^^^^ meta.method entity.name.function */
+  friend bool operator==(const Example &e1, const Example& e2);
+  /*          ^^^^^^^^^^ meta.method entity.name.function */
+};
+
 class BaseClass;
 /*^^^^^^^^^^^^^ meta.class */
 /*    ^ - meta.class meta.class */
@@ -1251,13 +1259,13 @@ private:
     friend int func(int a, int b);
 /*  ^ storage.modifier */
 /*         ^ storage.type */
-/*             ^ - entity.name.function */
+/*             ^ entity.name.function */
 /*             ^ - meta.function-call */
 
     friend int func(int a, int b) {
 /*  ^ storage.modifier */
 /*         ^ storage.type */
-/*             ^ - entity.name.function */
+/*             ^ entity.name.function */
 /*             ^ - meta.function-call */
 /*                                ^ meta.class meta.block meta.block punctuation.section.block.begin */
         int a = 1;
@@ -1269,7 +1277,35 @@ private:
 /*  ^ storage.modifier */
 /*         ^ storage.type
 /*               ^^ punctuation.accessor */
-/*                 ^ - entity */
+/*                 ^ entity.name.struct.forward-decl - entity.name.function */
+    friend struct foo;
+    /*              ^ entity.name.struct.forward-decl */
+    friend class foo;
+    /*             ^ entity.name.struct.forward-decl */
+    friend union foo;
+    /*             ^ entity.name.struct.forward-decl */
+    friend foo;
+    /*       ^ entity.name.struct.forward-decl */
+    friend ::foo;
+    /*     ^^ punctuation.accessor */
+    /*         ^ entity.name.struct.forward-decl */
+    friend bool operator == (const X& lhs, const X& rhs);
+    /*          ^^^^^^^^^^^ entity.name.function */
+    friend bool operator += (const X& lhs, const X& rhs);
+    /*          ^^^^^^^^^^^ entity.name.function */
+    friend bool operator != (const X& lhs, const X& rhs);
+    /*          ^^^^^^^^^^^ entity.name.function */
+    friend bool operator < (const X& lhs, const X& rhs)
+    /*          ^^^^^^^^^^ entity.name.function */;
+    bool operator== (const X& other);
+    /*   ^^^^^^^^^^ entity.name.function */
+    bool operator+= (const X& other);
+    /*   ^^^^^^^^^^ entity.name.function */
+    bool operator!= (const X& other);
+    /*   ^^^^^^^^^^ entity.name.function */
+    bool operator< (const X& other);
+    /*   ^^^^^^^^^ entity.name.function */
+
 
     #if 0
     /*  ^ constant.numeric */
