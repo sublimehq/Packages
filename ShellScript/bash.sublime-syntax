@@ -71,7 +71,9 @@ contexts:
   comment:
     - match: (?:^\s*|\s+)(\#)
       captures:
-        1: comment.line.number-sign.shell punctuation.definition.comment.begin.shell
+        1:
+          comment.line.number-sign.shell
+          punctuation.definition.comment.begin.shell
       push:
         - meta_content_scope: comment.line.number-sign.shell
         - match: $
@@ -869,7 +871,8 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.shell variable.function.shell
-        - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}}|`) # <---------- extra backtick
+        # extra backtick
+        - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}}|`)
           pop: true
         - include: cmd-name-common
 
