@@ -250,10 +250,11 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                             ^^^^ constant.language
   end
 
-  def multiline_args(a,
+  def multiline_args(a, # a comment
 # ^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                    ^^ meta.function.parameters
 #                     ^ punctuation.separator
+#                       ^^^^^^^^^^^ comment.line.number-sign
                      b)
 # ^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                     ^ punctuation.definition.group.end
