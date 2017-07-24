@@ -745,12 +745,12 @@ contexts:
 
   method-parameters:
     - meta_content_scope: meta.function.parameters.ruby
-    - include: comments
     - match: '\)'
       scope: meta.function.parameters.ruby punctuation.definition.group.end.ruby
       pop: true
     - match: '{{identifier}}'
       scope: variable.parameter.ruby
+    - include: comments
     - match: ','
       scope: punctuation.separator.ruby
     - match: '\*'
