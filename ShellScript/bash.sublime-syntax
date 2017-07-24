@@ -48,7 +48,7 @@ variables:
   cmd_boundary: (?=\s|;|$|>|<)
   extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
-  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*' 
+  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*'
   is_command: \s*(?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
@@ -100,7 +100,7 @@ contexts:
     - match: \\(\s+)\n
       captures:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
-  
+
   prototype:
     - include: comment
     - include: line-continuation
@@ -245,7 +245,7 @@ contexts:
   expansion-and-string:
     - include: string
     - include: expansion
- 
+
   funcdef:
     - match: '{{is_function}}'
       captures:
@@ -935,17 +935,17 @@ contexts:
           set: expansion-parameter-post-first-character
     - match: (\$)(\d)
       captures:
-        0: meta.group.expansion.parameter.shell 
+        0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
         2: variable.other.readwrite.shell
     - match: (\$)([#@!~*?_-])(?!\w)
       captures:
-        0: meta.group.expansion.parameter.shell 
+        0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
         2: variable.language.shell
     - match: (\$)({{identifier}})
       captures:
-        0: meta.group.expansion.parameter.shell 
+        0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
         2: variable.other.readwrite.shell
 
@@ -1067,19 +1067,19 @@ contexts:
 
   expansion-parameter-post-first-character:
     - meta_content_scope:
-        meta.group.expansion.parameter.shell 
+        meta.group.expansion.parameter.shell
         variable.other.readwrite.shell
     - include: expansion-parameter-common
     - match: (?=[@*]?/)
       set:
-        - meta_content_scope: meta.group.expansion.parameter.shell 
+        - meta_content_scope: meta.group.expansion.parameter.shell
         - match: ([@*])?(/)
           captures:
             1: variable.language.shell
             2: keyword.operator.substitution.shell
           set:
             - meta_include_prototype: false
-            - meta_content_scope: meta.group.expansion.parameter.shell 
+            - meta_content_scope: meta.group.expansion.parameter.shell
             - match: '[/#%]'
               scope: variable.parameter.switch.shell
               set: expansion-parameter-pattern
@@ -1087,19 +1087,19 @@ contexts:
               set: expansion-parameter-pattern
     - match: (?=\:?[-+=?])
       set:
-        - meta_content_scope: meta.group.expansion.parameter.shell 
+        - meta_content_scope: meta.group.expansion.parameter.shell
         - match: \:?[-+=?]
           scope: keyword.operator.assignment.shell
           set: expansion-parameter-common
     - match: (?=@?:)
       set:
-        - meta_content_scope: meta.group.expansion.parameter.shell 
+        - meta_content_scope: meta.group.expansion.parameter.shell
         - match: '(@)?(:)'
           captures:
             1: variable.language.shell
             2: keyword.operator.substring.begin.shell
           set:
-            - meta_content_scope: meta.group.expansion.parameter.shell 
+            - meta_content_scope: meta.group.expansion.parameter.shell
             - match: (?=:)
               set:
                 - meta_content_scope: meta.group.expansion.parameter.shell
@@ -1117,7 +1117,7 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set:
-        - meta_content_scope: meta.group.expansion.parameter.shell 
+        - meta_content_scope: meta.group.expansion.parameter.shell
         - include: expansion-parameter-common
         - include: expansion-pattern
     - match: ([@*]?)(@)([QEPAa])(?=})
@@ -1141,7 +1141,7 @@ contexts:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
     - match: \b(?i)0x
       scope: punctuation.definition.numeric.hexadecimal.shell
-      push: 
+      push:
         - meta_scope: constant.numeric.integer.hexadecimal.shell
         - match: '[g-zG-Z]'
           scope: invalid.illegal.not-a-hex-character.shell
@@ -1158,9 +1158,9 @@ contexts:
           pop: true
         - match: (?=[^0-7])
           pop: true
-    # Otherwise, numbers take the form [base#]n, where the optional base is a 
+    # Otherwise, numbers take the form [base#]n, where the optional base is a
     # decimal number between 2 and 64 representing the arithmetic base, and n is
-    # a number in that base. When specifying n, the digits greater than 9 are 
+    # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
     - match: \b(\d+)(#)([a-zA-Z0-9@_]+)
@@ -1276,7 +1276,7 @@ contexts:
   string-locale:
     - match: \$"
       scope: punctuation.definition.string.begin.shell
-      push: 
+      push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.locale.shell
         - include: string-quoted-double-common
