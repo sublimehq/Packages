@@ -249,6 +249,15 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 #                           ^ punctuation.separator
 #                             ^^^^ constant.language
   end
+
+  def multiline_args(a,
+# ^^^^^^^^^^^^^^^^^^^^^ meta.function
+#                    ^^ meta.function.parameters
+#                     ^ punctuation.separator
+                     b)
+# ^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
+#                     ^ punctuation.definition.group.end
+  end
 end
 
 def MyModule::module_method

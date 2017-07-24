@@ -748,6 +748,12 @@ contexts:
     - match: '\)'
       scope: meta.function.parameters.ruby punctuation.definition.group.end.ruby
       pop: true
+    - match: '(?=#)'
+      scope: comment.line.number-sign.ruby
+      push: comments
+      with_prototype:
+        - match: '(?=$)'
+          pop: true
     - match: '{{identifier}}'
       scope: variable.parameter.ruby
     - match: ','
