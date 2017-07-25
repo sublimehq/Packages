@@ -2,7 +2,7 @@
 # <- comment.line punctuation.definition.comment
 #^ comment.line
 #                                                      ^ comment.line
-#                                                       ^ - comment.line
+#                                                       ^ comment.line
 
 ##############
 # The basics #

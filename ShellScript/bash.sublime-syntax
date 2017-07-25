@@ -76,7 +76,17 @@ contexts:
           punctuation.definition.comment.begin.shell
       push:
         - meta_content_scope: comment.line.number-sign.shell
-        - match: $
+        # NOTE: The reason for consuming the newline character is as follows.
+        # When triggering a snippet, its scope is tested to the *right* of the
+        # cursor. So, if you don't want your snippet to trigger in a comment,
+        # you have to use something like <scope>source.shell - comment</scope>.
+        # If the newline character is not scoped as a comment too, then that
+        # scope will never work, because the scope to the right of the cursor
+        # will never be a comment scope. That is, unless we consume the newline
+        # character (or we are editing something in the middle of an existing
+        # comment).
+        - match: \n
+          scope: comment.line.number-sign.shell
           pop: true
 
   line-continuation-or-pop-at-end:
