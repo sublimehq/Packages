@@ -4,6 +4,7 @@ import re
 import shlex
 import Default.exec
 
+
 class RunShellScriptCommand(Default.exec.ExecCommand):
 
     def run(self, **kwargs):
@@ -34,6 +35,6 @@ class RunShellScriptCommand(Default.exec.ExecCommand):
             env.update(custom_env)
 
         # Delegate to the super class
-        super().run(cmd=shell + [file_name], 
+        super().run(cmd=shell + [file_name],
                     working_dir=working_dir,
                     env=env)
