@@ -655,7 +655,7 @@ contexts:
 
     - match: \bnew\b
       scope: keyword.operator.word.new.js
-    - match: \bdelete|typeof|void\b
+    - match: \b(?:delete|typeof|void)\b
       scope: keyword.operator.js
 
   binary-operators:
@@ -843,20 +843,22 @@ contexts:
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*\.)'
       push:
-        - match: '\bprototype\b'
-          scope: support.constant.prototype.js
-        - include: language-identifiers
-        - match: '{{dollar_only_identifier}}'
-          scope: support.class.dollar.only.js punctuation.dollar.js
-        - match: '{{dollar_identifier}}'
-          scope: support.class.dollar.js
-          captures:
-            1: punctuation.dollar.js
-        - match: '{{identifier}}'
-          scope: support.class.js
-        - match: '\.'
-          scope: punctuation.accessor.js
-          pop: true
+        - - match: '\.'
+            scope: punctuation.accessor.js
+            pop: true
+          - include: else-pop
+        - - match: '\bprototype\b'
+            scope: support.constant.prototype.js
+          - include: language-identifiers
+          - match: '{{dollar_only_identifier}}'
+            scope: support.class.dollar.only.js punctuation.dollar.js
+          - match: '{{dollar_identifier}}'
+            scope: support.class.dollar.js
+            captures:
+              1: punctuation.dollar.js
+          - match: '{{identifier}}'
+            scope: support.class.js
+          - include: else-pop
     - include: function-declaration-final-identifier
 
   function-declaration-final-identifier:
