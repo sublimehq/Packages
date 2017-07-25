@@ -9,7 +9,11 @@ class RunShellScriptCommand(Default.exec.ExecCommand):
 
     def run(self, **kwargs):
         view = self.window.active_view()
+        if not view:
+            return
         file_name = view.file_name()
+        if not file_name:
+            return
 
         # Determine the shell to run
         firstline = view.substr(view.line(0))
