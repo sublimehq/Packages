@@ -1,0 +1,215 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+hidden: yes
+scope: documentation.c
+
+variables:
+  identifier: '[a-zA-Z]+'
+
+contexts:
+  main:
+    # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
+    - match: /\*\*(?=[^*<])
+      scope: punctuation.definition.comment.begin
+      push: doc-block
+    - match: /\*!<?
+      scope: punctuation.definition.comment.begin
+      push: doc-block
+    - match: /\*\*<
+      scope: punctuation.definition.comment.begin
+      push: doc-block
+
+    # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+    - match: (///?)\s*(@{)\s*$
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.section.group.begin
+    - match: (///?)\s*(@})\s*$
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.section.group.end
+
+    # http://www.stack.nl/~dimitri/doxygen/manual/docblocks.html#cppblock
+    - match: //[/!]<?
+      scope: punctuation.definition.comment
+      push: doc-line
+
+  doc-line:
+    - meta_scope: comment.line.documentation
+    - match: $
+      pop: true
+    - include: line-commands
+
+  doc-block:
+    - meta_scope: comment.block.documentation
+    - match: \*/
+      scope: punctuation.definition.comment.end
+      pop: true
+    - include: block-commands
+
+  line-commands:
+    - include: escape-literals
+    - include: line-groupings
+    - include: visual-studio-docs
+    - include: command-code
+    - include: command-latex
+    - include: command-generic
+    - include: command-language
+
+  block-commands:
+    - include: block-groupings
+    - include: line-commands
+
+  # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+  line-groupings:
+    - match: (@{)\s*$
+      captures:
+        1: punctuation.section.group.begin
+    - match: (@})\s*$
+      captures:
+        2: punctuation.section.group.end
+
+  # https://www.stack.nl/~dimitri/doxygen/manual/grouping.html
+  block-groupings:
+    - match: (@{)\s*(?=(?:\*/|$))
+      captures:
+        1: punctuation.section.group.begin
+    - match: (@})\s*(?=(?:\*/|$))
+      captures:
+        1: punctuation.section.group.end
+
+  command-code:
+    - match: (?<=\W)(\\|@)(code)\s*(({)([^}]+)(}))?
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation
+        4: punctuation.section.braces.begin
+        5: variable.parameter
+        6: punctuation.section.braces.end
+      push:
+        - meta_scope: meta.group.codeblock
+        - match: (\\|@)(endcode)
+          captures:
+            1: punctuation.definition.keyword
+            2: keyword.other.documentation
+          pop: true
+
+  command-latex:
+    - match: (\\)(f)(?=[$\[{])
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation
+      push:
+        - meta_scope: meta.function-call
+        - match: \$
+          scope: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.inline.dollar.latex
+            - match: (\\)(f)(\$)
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+        - match: \[
+          scope: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.block.bracket.latex
+            - match: (\\)(f)(\])
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+        - match: ({)(.+)(})({)
+          captures:
+            1: punctuation.section.block.begin
+            2: variable.parameter
+            3: punctuation.section.block.end
+            4: punctuation.section.block.begin
+          set:
+            - meta_scope: meta.environment.math.block.bracket.latex
+            - match: (\\)(f)(})
+              captures:
+                1: punctuation.definition.keyword
+                2: keyword.other.documentation
+                3: punctuation.section.block.end
+              pop: true
+            # - include: scope:text.tex.latex#math-content
+
+  command-generic:
+    - match: (?<=\W)(@|\\)({{identifier}})
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation
+      push:
+        - meta_scope: meta.function-call
+        - match: \s*(\[)
+          captures:
+            1: punctuation.section.brackets.begin
+          push:
+            - meta_content_scope: variable.parameter
+            - match: \]
+              scope: punctuation.section.brackets.end
+              pop: true
+        - match: \s*({)
+          captures:
+            1: punctuation.section.braces.begin
+          push:
+            - meta_content_scope: variable.parameter
+            - match: \}
+              scope: punctuation.section.braces.end
+              pop: true
+        - match: \b
+          pop: true
+
+  command-language:
+    - match: (\\)(~)
+      captures:
+        1: punctuation.definition.keyword
+        2: keyword.other.documentation
+      push:
+        - meta_scope: meta.function-call
+        - match: \w+
+          scope: variable.parameter
+          pop: true
+        - match: \W
+          pop: true
+
+  # https://msdn.microsoft.com/en-us/library/ms177226.aspx
+  visual-studio-docs:
+    - match: (<)({{identifier}})
+      captures:
+        1: punctuation.definition.tag.begin
+        2: entity.name.tag.begin
+      push:
+        - match: ({{identifier}})\s*(=)
+          captures:
+            1: entity.other.attribute-name
+            2: punctuation.separator.argument.value
+        - match: /?>
+          scope: punctuation.definition.tag.end
+          pop: true
+        - match: '"[^"]*"'
+          scope: string.quoted.double
+        - match: $
+          pop: true
+    - match: (</)({{identifier}})(>)
+      captures:
+        1: punctuation.definition.tag.begin
+        2: entity.name.tag.end
+        3: punctuation.definition.tag.end
+
+  escape-literals:
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdbackslash
+    - match: \\[\\@&$#<>%".|]
+      scope: constant.character.escape
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmddcolon
+    - match: '\\::'
+      scope: constant.character.escape
+    # http://www.stack.nl/~dimitri/doxygen/manual/commands.html#cmdndash
+    - match: \\---?
+      scope: constant.character.escape
