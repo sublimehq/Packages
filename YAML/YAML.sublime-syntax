@@ -51,11 +51,11 @@ variables:
   c_indicator: '[-?:,\[\]{}#&*!|>''"%@`]'
   c_flow_indicator: '[\[\]{},]'
   ns_word_char: '[0-9A-Za-z\-]'
-  ns_uri_char: '(?x: %\p{XDigit}{2} | [0-9A-Za-z\-#;/?:@&=+$,_.!~*''()\[\]] )'
+  ns_uri_char: '(?x: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$,_.!~*''()\[\]] )'
 
   # Tag stuff
   c_tag_handle: (?:!(?:{{ns_word_char}}*!)?)
-  ns_tag_char: '(?x: %\p{XDigit}{2} | [0-9A-Za-z\-#;/?:@&=+$_.~*''()] )' # ns-uri-char - "!" - c-flow-indicator
+  ns_tag_char: '(?x: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$_.~*''()] )' # ns-uri-char - "!" - c-flow-indicator
   ns_tag_prefix: |- # "!" ns-uri-char*  | ns-tag-char ns-uri-char*
     (?x:
         !              {{ns_uri_char}}*
