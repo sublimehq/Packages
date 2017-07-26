@@ -1286,12 +1286,13 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?="|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])(")'
       captures:
@@ -1302,11 +1303,12 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-          push: 'scope:source.regexp.python'
     # Single-line raw f-string
     - match: ((?i)fr|rf)(")
       captures:
@@ -1430,11 +1432,11 @@ contexts:
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.regexp.python
               with_prototype:
                 - match: (?=''')
                   pop: true
                 - include: escaped-unicode-char
-              push: 'scope:source.regexp.python'
     # Triple-quoted raw string, bytes, will use regex
     - match: ([bB]r|r[bB])(''')
       captures:
@@ -1446,10 +1448,10 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: (?=''')
               pop: true
-          push: 'scope:source.regexp.python'
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(''')
       captures:
@@ -1568,12 +1570,13 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])('')'
       captures:
@@ -1584,12 +1587,13 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw f-string
     - match: ((?i)fr|rf)(')
       captures:
