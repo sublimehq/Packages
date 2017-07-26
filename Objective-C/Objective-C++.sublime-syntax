@@ -1157,7 +1157,7 @@ contexts:
       captures:
         1: storage.modifier.objc++
         2: punctuation.section.class.objc++
-    - match: '^\s*(?=~?\w+)'
+    - match: '^\s*(?=(?:~?\w+|::))'
       push: data-structures-modifier
     - include: preprocessor-expressions
     - include: expressions-minus-generic-type

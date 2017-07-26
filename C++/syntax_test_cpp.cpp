@@ -1298,6 +1298,46 @@ private:
 /* <- meta.class meta.block punctuation.section.block.end */
  /* <- - meta.class meta.block */
 
+struct X {
+    Y f() override noexcept final;
+    /*^ entity.name.function */
+    /*    ^ storage.modifier */
+    /*             ^ storage.modifier */
+    /*                      ^ storage.modifier */
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+class X {
+  public:
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+union Y {
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+class Child : public Parent {
+    ::anotherClass Func() override;
+    /* <- punctuation.accessor */
+    /*             ^ entity.name.function */
+    /*                    ^ storage.modifier */
+}
+
 class Adapter2 : public Abstraction, private Scenario {
 /*                                 ^ punctuation.separator */
 }
