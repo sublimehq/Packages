@@ -750,6 +750,7 @@ contexts:
       pop: true
     - match: '{{identifier}}'
       scope: variable.parameter.ruby
+    - include: comments
     - match: ','
       scope: punctuation.separator.ruby
     - match: '\*'
