@@ -63,6 +63,10 @@ int func() {
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
 #define CONST0 16 // Comment
 #define CONST1 8
 /* <- keyword.control.import.define */

@@ -830,7 +830,9 @@ contexts:
                 - match: '(?=,|\))'
                   pop: true
                 - include: expressions-minus-generic-type
+                - include: scope:source.c#preprocessor-line-continuation
             - include: expressions-minus-generic-type
+            - include: scope:source.c#preprocessor-line-continuation
     - match: (?=\S)
       pop: true
 
