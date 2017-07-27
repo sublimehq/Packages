@@ -1281,14 +1281,14 @@ private:
     friend struct foo;
     /*              ^ entity.name.struct.forward-decl */
     friend class foo;
-    /*             ^ entity.name.struct.forward-decl */
+    /*             ^ entity.name.class.forward-decl */
     friend union foo;
-    /*             ^ entity.name.struct.forward-decl */
+    /*             ^ entity.name.union.forward-decl */
     friend foo;
-    /*       ^ entity.name.struct.forward-decl */
+    /*       ^ - entity.name.struct.forward-decl */
     friend ::foo;
     /*     ^^ punctuation.accessor */
-    /*         ^ entity.name.struct.forward-decl */
+    /*         ^ - entity.name.struct.forward-decl */
     friend bool operator == (const X& lhs, const X& rhs);
     /*          ^^^^^^^^^^^ entity.name.function */
     friend bool operator += (const X& lhs, const X& rhs);
