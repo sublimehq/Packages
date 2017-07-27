@@ -291,7 +291,7 @@ contexts:
       scope: constant.character.escape.regexp
 
   backslashes:
-    - match: '\\[bBAZzG]|[\^$]'
+    - match: '\\[bBAZzG><]|[\^$]'
       scope: keyword.control.anchors.regexp
       push: unexpected-quantifier-pop
     - match: '\\[QEK]'
