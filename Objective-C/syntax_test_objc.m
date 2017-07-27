@@ -28,6 +28,7 @@
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
+/*           ^ punctuation.separator */ \
 /* */ \
 /* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
