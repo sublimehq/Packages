@@ -273,6 +273,7 @@ contexts:
         1: keyword.operator.conditional.dosbatch
       push:
         - match: '\n'
+          scope: comment.line.rem.dosbatch
           pop: true
         - match: '({{colon_comment_start}})'
           scope: punctuation.definition.comment.dosbatch
@@ -287,6 +288,7 @@ contexts:
       push:
         - meta_content_scope: comment.line.rem.dosbatch
         - match: \n
+          scope: comment.line.rem.dosbatch
           pop: true
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
