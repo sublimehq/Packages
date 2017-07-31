@@ -286,9 +286,8 @@ contexts:
     - match: \b(?i)rem\b
       scope: keyword.command.rem.dosbatch
       push:
-        - meta_content_scope: comment.line.rem.dosbatch
+        - meta_scope: comment.line.rem.dosbatch
         - match: \n
-          scope: comment.line.rem.dosbatch
           pop: true
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
