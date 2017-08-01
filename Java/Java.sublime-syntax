@@ -125,11 +125,11 @@ contexts:
         - include: any_POP
   array-definition-body:
     - match: \[
-      scope: punctuation.section.brackets.begin.java keyword.operator.array.java
+      scope: punctuation.section.brackets.begin.java
       push:
         - meta_scope: meta.brackets.java
         - match: \]
-          scope: punctuation.section.brackets.end.java keyword.operator.array.java
+          scope: punctuation.section.brackets.end.java
           pop: true
         - include: code
     - include: array-construction-block
@@ -595,7 +595,7 @@ contexts:
     - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)((?:\[\])+)'
       scope: storage.type.primitive.array.java
       captures:
-        1: keyword.operator.array.java
+        1: storage.modifier.array.java
   primitive-types:
     - match: '{{primitives_with_void}}'
       scope: storage.type.primitive.java

@@ -593,7 +593,7 @@ public class Foo {
 
   byte[] byteArray;
 //^^^^ storage.type.primitive.array.java
-//    ^^ keyword.operator.array.java
+//    ^^ storage.modifier.array.java
   static {
 //       ^ meta.static.body.java punctuation.section.block.begin.java
     StaticFlag.setFlag("Boo!");
@@ -647,10 +647,11 @@ public class Foo {
 
     int[] data = new int[]{0, 0, 0};
 //  ^^^^^ storage.type.primitive.array.java
-//     ^^ keyword.operator.array.java
+//     ^^ storage.modifier.array.java
 //               ^^^ keyword.control.new.java
 //                   ^^^ storage.type.java
-//                      ^^ keyword.operator.array.java
+//                      ^ punctuation.section.brackets.begin.java
+//                       ^ punctuation.section.brackets.end.java
 //                        ^ punctuation.definition.array-constructor.begin.java
 //                         ^ constant.numeric.java
 //                          ^ punctuation.separator.java
@@ -661,8 +662,15 @@ public class Foo {
 
     int[][][] threeDimArr = new int[][][] {
 //  ^^^^^^^^^ storage.type.primitive.array.java
-//     ^^^^^^ keyword.operator.array.java
+//     ^^^^^^ storage.modifier.array.java
 //                              ^^^ storage.type.java
+//                                 ^ punctuation.section.brackets.begin.java
+//                                  ^ punctuation.section.brackets.end.java
+//                                   ^ punctuation.section.brackets.begin.java
+//                                    ^ punctuation.section.brackets.end.java
+//                                     ^ punctuation.section.brackets.begin.java
+//                                      ^ punctuation.section.brackets.end.java
+//                                        ^ punctuation.definition.array-constructor.begin.java
       { { 1, 2 }, { 3, 4 } },
 //        ^ constant.numeric.java
 //         ^ punctuation.separator.java
@@ -682,11 +690,22 @@ public class Foo {
     threeDimArr = new int[1][3][4];
 //                    ^^^ storage.type.java
 //                       ^^^^^^^^^ meta.brackets.java
+//                       ^ punctuation.section.brackets.begin.java
+//                        ^ constant.numeric.java
+//                         ^ punctuation.section.brackets.end.java
+//                          ^ punctuation.section.brackets.begin.java
+//                           ^ constant.numeric.java
+//                            ^ punctuation.section.brackets.end.java
+//                             ^ punctuation.section.brackets.begin.java
+//                              ^ constant.numeric.java
+//                               ^ punctuation.section.brackets.end.java
 
     bob = new some.path.to.MyObject[3];
 //            ^^^^^^^^^^^^^^^^^^^^^ support.class.java
 //                                 ^^^ meta.brackets.java
+//                                 ^ punctuation.section.brackets.begin.java
 //                                  ^ constant.numeric.java
+//                                   ^ punctuation.section.brackets.end.java
 
     foo.forEach((k, v) -> {
 //                     ^ storage.type.function.lambda.java
