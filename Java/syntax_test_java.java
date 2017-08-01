@@ -193,7 +193,7 @@ class AnyClass {
 //                          ^^^ - variable.parameter
 //                          ^ - meta.method.java
 }
-// <- punctuation.section.class.end.java
+// <- punctuation.section.block.end.java
 
 public enum FooBaz {
 //     ^^^^ storage.type.java
@@ -296,7 +296,7 @@ public class Lambdas {
 //        ^ keyword.operator.wildcard.java
 //                  ^^^ support.class.java
 //          ^^^^^^^ keyword.declaration.extends.java
-//                     ^ punctuation.section.generic.separator.java
+//                     ^ punctuation.separator.java
   //                     ^^^^^^ support.class.java
 
   new Foo<? super Bar>();
@@ -377,7 +377,7 @@ public enum FooEnum {
   FOO;
 //^^^ constant.other.enum
 }
-// <- meta.class.java meta.class.body.java punctuation.section.class.end.java
+// <- meta.class.java meta.class.body.java punctuation.section.block.end.java
 
 public enum FooBarEnum {
 //     ^^^^ storage.type.java
@@ -409,9 +409,9 @@ public enum AbstractEnum {
 public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //                          ^ punctuation.definition.generic.begin.java
 //                                                  ^ punctuation.definition.generic.end.java
-//                                               ^ punctuation.section.generic.separator.java
+//                                               ^ punctuation.separator.java
 //                                     ^ support.class.java
-//                                                                         ^ punctuation.section.class.begin.java
+//                                                                         ^ punctuation.section.block.begin.java
 }
 @MultiLineAnnotation(
 // <- meta.annotation.java
@@ -459,7 +459,7 @@ class Bàr {
 public class Foo {
 // <- meta.class.java storage.modifier.java
 //     ^ meta.class.java meta.class.identifier.java storage.type.java
-//               ^ punctuation.section.class.begin.java
+//               ^ punctuation.section.block.begin.java
 
   FooBar MY_CONST = new FooBar();
 //       ^^^^^^^^ entity.name.constant.java
@@ -564,7 +564,7 @@ public class Foo {
 //      ^ entity.name.class.java
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
 //                                    ^ punctuation.accessor.dot.java
-//                                                 ^ punctuation.section.class.begin.java
+//                                                 ^ punctuation.section.block.begin.java
   }
 
   class SubClass extends AbstractClass {
@@ -832,7 +832,7 @@ public class Foo {
 //                      ^ - meta.method.throws
   }
 }}
-// <- meta.class.java meta.class.body.java punctuation.section.class.end.java
+// <- meta.class.java meta.class.body.java punctuation.section.block.end.java
  //<- invalid.illegal.stray-brace-end
 
 public
@@ -849,7 +849,7 @@ public class Generic<T> implements fully.qualified.Other<T> {
 //                                                       ^ support.class.java
 //                                                        ^ punctuation.definition.generic.end.java
 }
-// <- punctuation.section.class.end.java
+// <- punctuation.section.block.end.java
 
 public class Bar {
   public void missingSemiColon() {
@@ -869,4 +869,4 @@ public class Bar {
   }
 //^ punctuation.definition.method.end.java
 }
-// <- punctuation.section.class.end.java
+// <- punctuation.section.block.end.java

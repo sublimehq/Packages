@@ -159,7 +159,7 @@ contexts:
           scope: variable.parameter.type.java
           push: generic-declaration-body
         - match: \,
-          scope: punctuation.section.generic.separator.java
+          scope: punctuation.separator.java
   generic-declaration-body:
     - meta_scope: meta.class.generic.extends.java
     - match: (?=,|>)
@@ -216,11 +216,11 @@ contexts:
               scope: punctuation.separator.implements.java
             - include: object-types-inherited
         - match: "{"
-          scope: punctuation.section.class.begin.java
+          scope: punctuation.section.block.begin.java
           push:
             - meta_scope: meta.class.body.java
             - match: "}"
-              scope: punctuation.section.class.end.java
+              scope: punctuation.section.block.end.java
               pop: true
             - include: class-body
         - include: any_POP
@@ -488,7 +488,7 @@ contexts:
       scope: keyword.operator.wildcard.java
       push: generic-declaration-body
     - match: \,
-      scope: punctuation.section.generic.separator.java
+      scope: punctuation.separator.java
     - match: '{{primitives}}'
       scope: invalid.illegal.primitive-instantiation.java
     - include: object-types
