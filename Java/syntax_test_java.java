@@ -494,7 +494,8 @@ public class Foo {
   public static void main(String[] args, String<List> moreArgs, a.b.c.Foo bar) {}
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                        ^^^^^^ support.class.java
-//                              ^^ keyword.operator.array.java
+//                              ^ punctuation.section.brackets.begin.java
+//                               ^ punctuation.section.brackets.end.java
 //                                 ^^^^ variable.parameter.java
 //                                     ^ punctuation.separator.java
 //                                       ^^^^^^^^^^^^ meta.generic.java
@@ -594,9 +595,10 @@ public class Foo {
 //^^^^ storage.type.primitive.array.java
 //    ^^ keyword.operator.array.java
   static {
-//       ^ meta.static.body.java
+//       ^ meta.static.body.java punctuation.section.block.begin.java
     StaticFlag.setFlag("Boo!");
   }
+//^ meta.static.body.java punctuation.section.block.end.java
 
   int operators() {
     if (this.scale<0) {

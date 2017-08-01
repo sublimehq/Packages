@@ -447,11 +447,11 @@ contexts:
         2: punctuation.accessor.dot.java
       push:
         - match: \[
-          scope: keyword.operator.array.java
+          scope: punctuation.section.brackets.begin.java
           push:
             - meta_scope: meta.brackets.java
             - match: \]
-              scope: keyword.operator.array.java
+              scope: punctuation.section.brackets.end.java
               pop: true
             - include: code
         - include: any_POP
@@ -620,9 +620,11 @@ contexts:
         - include: code
   static-code-block:
     - match: "{"
+      scope: punctuation.section.block.begin.java
       push:
         - meta_scope: meta.static.body.java
         - match: "}"
+          scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
   storage-modifiers:
