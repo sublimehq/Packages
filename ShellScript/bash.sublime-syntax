@@ -948,7 +948,7 @@ contexts:
         0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
         2: variable.other.readwrite.shell
-    - match: (\$)([#@!~*?_-])(?!\w)
+    - match: (\$)([$#@!~*?_-])(?!\w)
       captures:
         0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
