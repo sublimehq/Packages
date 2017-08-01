@@ -281,6 +281,36 @@ BOWL=$(($(cat food.txt | wc -l) + 5))
 : $_
 #  ^ variable.language
 
+fg %
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+fg %%
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^ meta.group.expansion.job variable.language.job
+fg %+
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^ meta.function-call.arguments meta.group.expansion.job variable.language.job
+fg %-
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^ meta.function-call.arguments meta.group.expansion.job variable.language.job
+fg %1 %2 %3
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^ meta.group.expansion.job constant.numeric.integer.decimal.job
+#     ^ meta.group.expansion.job punctuation.definition.variable.job
+#      ^ meta.group.expansion.job constant.numeric.integer.decimal.job
+#        ^ meta.group.expansion.job punctuation.definition.variable.job
+#         ^ meta.group.expansion.job constant.numeric.integer.decimal.job
+fg %ce
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^^ meta.group.expansion.job variable.other.readwrite
+fg %?ce
+#  ^ meta.group.expansion.job punctuation.definition.variable.job
+#   ^ meta.group.expansion.job keyword.operator.regexp.quantifier
+#    ^^ meta.group.expansion.job variable.other.readwrite
+
+%1
+# <- meta.group.expansion.job punctuation.definition.variable.job
+#^ meta.group.expansion.job constant.numeric.integer.decimal.job
+
 subdir/./myscript.sh --option arg1 arg2 -x
 
 ${foo}/${bar}/${baz}

@@ -659,6 +659,7 @@ contexts:
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
+    - include: expansion-job
     - include: line-continuation-or-pop-at-end
 
   cmd-args-common:
@@ -1048,6 +1049,7 @@ contexts:
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
+    - include: expansion-job
 
   expansion-parameter-common:
     - meta_content_scope: meta.group.expansion.parameter.shell
@@ -1146,6 +1148,42 @@ contexts:
       set: expansion-parameter-common
     - include: expansion-parameter-common
     - include: expansion-pattern
+
+  expansion-job:
+    # There are a number of ways to refer to a job in the shell. 
+    # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
+    # which is the last job stopped while it was in the foreground or started in
+    # the background. The previous job may be referenced using ‘%-’.
+    - match: (%)([%+-])
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: variable.language.job.shell
+    # The character ‘%’ introduces a job specification (jobspec). Job number n
+    # may be referred to as ‘%n’.
+    - match: (%)(\d+)
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: constant.numeric.integer.decimal.job.shell
+    # A job may also be referred to using a prefix of the name used to start it,
+    # or using a substring that appears in its command line. For example, ‘%ce’
+    # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
+    # job containing the string ‘ce’ in its command line. If the prefix or
+    # substring matches more than one job, Bash reports an error.
+    - match: (%)(\??)(\w+)
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: keyword.operator.regexp.quantifier.shell
+        3: variable.other.readwrite.shell
+    # A single ‘%’ (with no accompanying job specification) also refers to the
+    # current job.
+    - match: '%'
+      scope:
+        meta.group.expansion.job.shell
+        punctuation.definition.variable.job.shell
+
 
   expression:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
