@@ -250,7 +250,7 @@ public class Lambdas {
      Function<String, Integer> func = a -> 42;
 //                                  ^^^^^^^^^ meta.assignment.rhs.java
 //                                    ^ variable.parameter.java
-//                                      ^^ storage.type.lambda.java
+//                                      ^^ storage.type.function.lambda.java
 //                                         ^^ constant.numeric
 //                                           ^ punctuation.terminator.java
      foo(a -> 42);
@@ -258,7 +258,7 @@ public class Lambdas {
 //   ^^^ variable.function.java
 //      ^ punctuation.section.parens.begin.java
 //       ^ variable.parameter.java
-//         ^^ storage.type.lambda.java
+//         ^^ storage.type.function.lambda.java
 //            ^^ constant.numeric
 //              ^ punctuation.section.parens.end.java
 //               ^ punctuation.terminator.java
@@ -269,7 +269,7 @@ public class Lambdas {
      (a, b) -> 42;
 //    ^ variable.parameter.java
 //       ^ variable.parameter.java
-//          ^^ storage.type.lambda.java
+//          ^^ storage.type.function.lambda.java
 //             ^^ constant.numeric
 
      (int a, Foo<Integer>[] b) -> 42;
@@ -280,7 +280,7 @@ public class Lambdas {
 //               ^^^^^^^ support.class.java
 //                      ^ punctuation.definition.generic.end.java
 //                          ^ variable.parameter.java
-//                             ^^ storage.type.lambda.java
+//                             ^^ storage.type.function.lambda.java
 //                                ^^ constant.numeric
 
   new Foo<Abc>();
@@ -575,7 +575,7 @@ public class Foo {
   Function<Foo, Bar> BLOCK_LAMBDA = r -> {
 //                   ^ entity.name.constant
 //                                ^ keyword.operator.assignment.java
-//                                    ^ storage.type.lambda.java
+//                                    ^ storage.type.function.lambda.java
 //                                       ^ meta.block punctuation.section.block.begin
     return 1;
 //  ^ keyword.control.java
@@ -587,7 +587,7 @@ public class Foo {
 //                         ^ punctuation.section.parens.begin.java
 //                          ^ punctuation.section.parens.end.java
 //                       ^ keyword.operator.assignment.java
-//                            ^ storage.type.lambda.java
+//                            ^ storage.type.function.lambda.java
 //                                   ^ punctuation.terminator
 
   byte[] byteArray;
@@ -687,7 +687,7 @@ public class Foo {
 //                                  ^ constant.numeric.java
 
     foo.forEach((k, v) -> {
-//                     ^ storage.type.lambda.java
+//                     ^ storage.type.function.lambda.java
 //                        ^ punctuation.section.block.begin
 
       return;

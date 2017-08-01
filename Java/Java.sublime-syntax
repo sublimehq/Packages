@@ -575,7 +575,7 @@ contexts:
 
   lambda-arrow:
     - match: ->
-      scope: storage.type.lambda.java
+      scope: storage.type.function.lambda.java
       set:
         - meta_scope: meta.lambda.body.java
         - match: (?=[)};])
