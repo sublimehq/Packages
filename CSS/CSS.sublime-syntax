@@ -160,7 +160,7 @@ contexts:
           captures:
             1: punctuation.section.property-list.css
           pop: true
-        - match: \s*((@)custom-media)(?=.*?)
+        - match: \s*((@)custom-media)
           captures:
             1: keyword.control.at-rule.custom-media.css
             2: punctuation.definition.keyword.css
@@ -237,7 +237,7 @@ contexts:
     - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
       push:
         - include: rule-list-terminator
-        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)(?=.*?)
+        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
           captures:
             1: keyword.control.at-rule.keyframe.css
             2: punctuation.definition.keyword.css
@@ -269,7 +269,7 @@ contexts:
     - match: (?=\s*@media\s*.*?)
       push:
         - include: rule-list-terminator
-        - match: \s*((@)media)(?=.*?)
+        - match: \s*((@)media)
           captures:
             1: keyword.control.at-rule.media.css
             2: punctuation.definition.keyword.css
