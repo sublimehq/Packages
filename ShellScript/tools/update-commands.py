@@ -114,7 +114,7 @@ def main():
             "match": match,
             "scope": scope,
             "set": [
-                "{}cmd-post-bt".format(parent),
+                "{}cmd-post".format(parent),
                 "cmd-args-{}-bt".format(command)]
         })
     contexts["prototype"] = [{

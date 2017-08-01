@@ -708,33 +708,6 @@ contexts:
         - match: ""
           pop: true
 
-  cmd-post-bt: # looks like [main, cmd-post] at this point
-    - match: ""
-      set:
-        - meta_content_scope: meta.post-cmd.shell
-        - match: '{{reset_semicolon}}'
-          captures:
-            1: keyword.operator.logical.continue.shell
-          set: cmd-bt
-        - match: '{{reset_or}}'
-          captures:
-            1: keyword.operator.logical.or.shell
-          set: cmd-bt
-        - match: '{{reset_pipe}}'
-          captures:
-            1: keyword.operator.logical.pipe.shell
-          set: cmd-bt
-        - match: '{{reset_and}}'
-          captures:
-            1: keyword.operator.logical.and.shell
-          set: cmd-bt
-        - match: '{{reset_job}}'
-          captures:
-            1: keyword.operator.logical.job.shell
-          set: cmd-bt
-        - match: ""
-          pop: true
-
   cmd-args-boilerplate:
     - match: (?={{is_end_of_interpolation}})
       pop: true
@@ -827,17 +800,17 @@ contexts:
     - match: (\[)(?=\s)
       captures:
         1: support.function.test.begin.shell
-      set: [cmd-post-bt, cmd-test-brace-args-bt]
+      set: [cmd-post, cmd-test-brace-args-bt]
     - match: (\{)(?=\s)
       captures:
         1: punctuation.definition.compound.braces.begin.shell
       push:
         - match: \}
           scope: punctuation.definition.compound.braces.end.shell
-          set: [cmd-post-bt, cmd-args-bt]
+          set: [cmd-post, cmd-args-bt]
         - include: main-bt
     - match: (?=\S)
-      set: [cmd-post-bt, cmd-args-bt, cmd-name-bt]
+      set: [cmd-post, cmd-args-bt, cmd-name-bt]
 
   cmd-test-brace-args:
     - match: ""
