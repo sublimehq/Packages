@@ -315,7 +315,7 @@ sleep 2 & jobs
 # <- meta.function-call variable.function
 #     ^ meta.function-call.arguments
 #       ^ keyword.operator
-#         ^ meta.function-call variable.function - meta.function-call.arguments
+#         ^ meta.function-call support.function - meta.function-call.arguments
 
 subdir/./myscript.sh --option arg1 arg2 -x
 
