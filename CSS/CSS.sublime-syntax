@@ -154,7 +154,7 @@ contexts:
         - include: rule-list
 
   at-custom-media:
-    - match: (?=\s*@custom-media\s*.*?)
+    - match: (?=\s*@custom-media\b)
       push:
         - match: ;
           scope: punctuation.terminator.css
@@ -233,7 +233,7 @@ contexts:
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
   at-keyframes:
-    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
+    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\b)
       push:
         - include: rule-list-terminator
         - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
@@ -265,7 +265,7 @@ contexts:
             - include: main
 
   at-media:
-    - match: (?=\s*@media\s*.*?)
+    - match: (?=\s*@media\b)
       push:
         - include: rule-list-terminator
         - match: \s*((@)media)
