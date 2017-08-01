@@ -156,9 +156,8 @@ contexts:
   at-custom-media:
     - match: (?=\s*@custom-media\s*.*?)
       push:
-        - match: \s*;
-          captures:
-            1: punctuation.section.property-list.css
+        - match: ;
+          scope: punctuation.terminator.css
           pop: true
         - match: \s*((@)custom-media)
           captures:
@@ -289,50 +288,49 @@ contexts:
 
   media-query:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
-    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)?
-      captures:
-        1: keyword.operator.logic.media.css
-        2: support.constant.media.css
+    - include: comment-block
+    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
+      scope: support.constant.media.css
+    - match: '\b(?i:and|or|not|only)\b'
+      scope: keyword.operator.logic.media.css
+    - match: ','
+      scope: punctuation.definition.arbitrary-repetition.css
+    - match: \(
+      scope: punctuation.definition.group.begin.css
       push:
-        - match: '\s*(?:(,)|(?=[{;]))'
-          captures:
-            1: punctuation.definition.arbitrary-repetition.css
+        - match: \)
+          scope: punctuation.definition.group.end.css
           pop: true
-        - match: \s*(and)?\s*(\()\s*
-          captures:
-            1: keyword.operator.logic.media.css
-          push:
-            - match: \)
-              pop: true
-            - match: |-
-                (?x)
+        - include: comment-block
+        - match: |-
+            (?x)
+            (
+                (-webkit-|-o-)?
+                ((min|max)-)?
+                (-moz-)?
                 (
-                    (-webkit-|-o-)?
-                    ((min|max)-)?
-                    (-moz-)?
-                    (
-                        ((device-)?(height|width|aspect-ratio|pixel-ratio))|
-                        (color(-index)?)|monochrome|resolution
-                    )
-                )|grid|scan|orientation
-                \s*(?=[:)])
+                    ((device-)?(height|width|aspect-ratio|pixel-ratio))|
+                    (color(-index)?)|monochrome|resolution
+                )
+            )|grid|scan|orientation
+            \s*(?=[:)])
+          captures:
+            0: support.type.property-name.media.css
+            2: support.type.vendor-prefix.css
+            5: support.type.vendor-prefix.css
+          push:
+            - match: (:)|(?=\))
               captures:
-                0: support.type.property-name.media.css
-                2: support.type.vendor-prefix.css
-                5: support.type.vendor-prefix.css
-              push:
-                - match: (:)|(?=\))
-                  captures:
-                    1: punctuation.separator.key-value.css
-                  pop: true
-            - match: \b(portrait|landscape|progressive|interlace)
-              scope: support.constant.property-value.css
-            - match: \s*(\d+)(/)(\d+)
-              captures:
-                1: constant.numeric.css
-                2: keyword.operator.arithmetic.css
-                3: constant.numeric.css
-            - include: numeric-values
+                1: punctuation.separator.key-value.css
+              pop: true
+        - match: \b(portrait|landscape|progressive|interlace)
+          scope: support.constant.property-value.css
+        - match: \s*(\d+)(/)(\d+)
+          captures:
+            1: constant.numeric.css
+            2: keyword.operator.arithmetic.css
+            3: constant.numeric.css
+        - include: numeric-values
 
   media-query-list:
     - match: '\s*(?=[^{;])'
