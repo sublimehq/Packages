@@ -2,6 +2,25 @@
 ---
 # Automatically generated file -- do not edit!
 contexts:
+  cmd-args-bg:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-bg-base
+  cmd-args-bg-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-bg-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-bg-base
   cmd-args-bind:
   - match: ''
     set:
@@ -119,6 +138,29 @@ contexts:
     - meta_scope: meta.function-call.arguments.shell
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
     - include: cmd-args-command-base
+  cmd-args-disown:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-disown-base
+  cmd-args-disown-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[h]|[ar]+)(?=\s|;|$|`|\))
+  cmd-args-disown-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-disown-base
   cmd-args-dot:
   - match: ''
     set:
@@ -218,6 +260,25 @@ contexts:
     set:
     - meta_scope: meta.function-call.arguments.shell
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-fg:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-fg-base
+  cmd-args-fg-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-fg-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-fg-base
   cmd-args-getopts:
   - match: ''
     set:
@@ -283,6 +344,52 @@ contexts:
     - meta_scope: meta.function-call.arguments.shell
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
     - include: cmd-args-help-base
+  cmd-args-jobs:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-jobs-base
+  cmd-args-jobs-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[x]|[lnprs]+)(?=\s|;|$|`|\))
+  cmd-args-jobs-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-jobs-base
+  cmd-args-kill:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-kill-base
+  cmd-args-kill-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[snlL])(?=\s|;|$|`|\))
+  cmd-args-kill-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-kill-base
   cmd-args-logout:
   - match: ''
     set:
@@ -502,6 +609,29 @@ contexts:
     - meta_scope: meta.function-call.arguments.shell
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
     - include: cmd-args-source-base
+  cmd-args-suspend:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-suspend-base
+  cmd-args-suspend-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[f])(?=\s|;|$|`|\))
+  cmd-args-suspend-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-suspend-base
   cmd-args-times:
   - match: ''
     set:
@@ -659,6 +789,29 @@ contexts:
     - meta_scope: meta.function-call.arguments.shell
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
     - include: cmd-args-unset-base
+  cmd-args-wait:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-wait-base
+  cmd-args-wait-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[n])(?=\s|;|$|`|\))
+  cmd-args-wait-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-wait-base
   main:
   - match: '{{boundary_begin}}set{{boundary_end}}'
     scope: meta.function-call.shell support.function.set.shell
@@ -685,6 +838,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-cd
+  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+    scope: meta.function-call.shell support.function.suspend.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-suspend
   - match: '{{boundary_begin}}:{{boundary_end}}'
     scope: meta.function-call.shell support.function.colon.shell
     set:
@@ -730,11 +888,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-type
-  - match: '{{boundary_begin}}enable{{boundary_end}}'
-    scope: meta.function-call.shell support.function.enable.shell
+  - match: '{{boundary_begin}}bg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bg.shell
     set:
     - scope:source.shell.bash#cmd-post
-    - cmd-args-enable
+    - cmd-args-bg
   - match: '{{boundary_begin}}return{{boundary_end}}'
     scope: meta.function-call.shell keyword.control.return.shell
     set:
@@ -750,6 +908,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-read
+  - match: '{{boundary_begin}}enable{{boundary_end}}'
+    scope: meta.function-call.shell support.function.enable.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-enable
   - match: '{{boundary_begin}}pwd{{boundary_end}}'
     scope: meta.function-call.shell support.function.pwd.shell
     set:
@@ -765,6 +928,16 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-eval
+  - match: '{{boundary_begin}}fg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.fg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-fg
+  - match: '{{boundary_begin}}disown{{boundary_end}}'
+    scope: meta.function-call.shell support.function.disown.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-disown
   - match: '{{boundary_begin}}echo{{boundary_end}}'
     scope: meta.function-call.shell support.function.echo.shell
     set:
@@ -775,6 +948,16 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-dot
+  - match: '{{boundary_begin}}wait{{boundary_end}}'
+    scope: meta.function-call.shell support.function.wait.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-wait
+  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+    scope: meta.function-call.shell support.function.jobs.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-jobs
   - match: '{{boundary_begin}}bind{{boundary_end}}'
     scope: meta.function-call.shell support.function.bind.shell
     set:
@@ -810,6 +993,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shift
+  - match: '{{boundary_begin}}kill{{boundary_end}}'
+    scope: meta.function-call.shell support.function.kill.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-kill
   - match: '{{boundary_begin}}readarray{{boundary_end}}'
     scope: meta.function-call.shell support.function.readarray.shell
     set:
@@ -851,6 +1039,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-cd-bt
+  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+    scope: meta.function-call.shell support.function.suspend.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-suspend-bt
   - match: '{{boundary_begin}}:{{boundary_end}}'
     scope: meta.function-call.shell support.function.colon.shell
     set:
@@ -896,11 +1089,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-type-bt
-  - match: '{{boundary_begin}}enable{{boundary_end}}'
-    scope: meta.function-call.shell support.function.enable.shell
+  - match: '{{boundary_begin}}bg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bg.shell
     set:
     - scope:source.shell.bash#cmd-post
-    - cmd-args-enable-bt
+    - cmd-args-bg-bt
   - match: '{{boundary_begin}}return{{boundary_end}}'
     scope: meta.function-call.shell keyword.control.return.shell
     set:
@@ -916,6 +1109,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-read-bt
+  - match: '{{boundary_begin}}enable{{boundary_end}}'
+    scope: meta.function-call.shell support.function.enable.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-enable-bt
   - match: '{{boundary_begin}}pwd{{boundary_end}}'
     scope: meta.function-call.shell support.function.pwd.shell
     set:
@@ -931,6 +1129,16 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-eval-bt
+  - match: '{{boundary_begin}}fg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.fg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-fg-bt
+  - match: '{{boundary_begin}}disown{{boundary_end}}'
+    scope: meta.function-call.shell support.function.disown.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-disown-bt
   - match: '{{boundary_begin}}echo{{boundary_end}}'
     scope: meta.function-call.shell support.function.echo.shell
     set:
@@ -941,6 +1149,16 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-dot-bt
+  - match: '{{boundary_begin}}wait{{boundary_end}}'
+    scope: meta.function-call.shell support.function.wait.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-wait-bt
+  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+    scope: meta.function-call.shell support.function.jobs.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-jobs-bt
   - match: '{{boundary_begin}}bind{{boundary_end}}'
     scope: meta.function-call.shell support.function.bind.shell
     set:
@@ -976,6 +1194,11 @@ contexts:
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shift-bt
+  - match: '{{boundary_begin}}kill{{boundary_end}}'
+    scope: meta.function-call.shell support.function.kill.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-kill-bt
   - match: '{{boundary_begin}}readarray{{boundary_end}}'
     scope: meta.function-call.shell support.function.readarray.shell
     set:
