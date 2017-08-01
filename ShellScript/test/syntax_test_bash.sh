@@ -311,6 +311,12 @@ fg %?ce
 # <- meta.group.expansion.job punctuation.definition.variable.job
 #^ meta.group.expansion.job constant.numeric.integer.decimal.job
 
+sleep 2 & jobs
+# <- meta.function-call variable.function
+#     ^ meta.function-call.arguments
+#       ^ keyword.operator
+#         ^ meta.function-call variable.function - meta.function-call.arguments
+
 subdir/./myscript.sh --option arg1 arg2 -x
 
 ${foo}/${bar}/${baz}

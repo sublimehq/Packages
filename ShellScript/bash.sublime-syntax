@@ -60,6 +60,7 @@ variables:
   metachar: '[/$`=|&;()<>\s]'
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   reset_and: \s*(&&)
+  reset_job: \s*(&)
   reset_or: \s*(\|\|)
   reset_pipe: \s*(\|)
   reset_semicolon: \s*(;)(?![;&])
@@ -652,7 +653,7 @@ contexts:
     - include: main
 
   cmd-name-common:
-    - match: (?=}|\s+#|\s*(?:[|;]|&&))
+    - match: (?=}|\s+#|\s*(?:[|;]|&(?!>)))
       pop: true
     - include: string
     - include: expansion-parameter
@@ -666,7 +667,7 @@ contexts:
     - match: (?=}|\s+#)
       pop: true
     - include: redirection
-    - match: (?=\s*([|;]|&&))
+    - match: (?=\s*([|;]|&(?!>)))
       pop: true
     - include: expansion-and-string
     - include: line-continuation-or-pop-at-end
@@ -700,6 +701,10 @@ contexts:
           captures:
             1: keyword.operator.logical.and.shell
           pop: true
+        - match: '{{reset_job}}'
+          captures:
+            1: keyword.operator.logical.job.shell
+          pop: true
         - match: ""
           pop: true
 
@@ -722,6 +727,10 @@ contexts:
         - match: '{{reset_and}}'
           captures:
             1: keyword.operator.logical.and.shell
+          set: cmd-bt
+        - match: '{{reset_job}}'
+          captures:
+            1: keyword.operator.logical.job.shell
           set: cmd-bt
         - match: ""
           pop: true
