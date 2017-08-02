@@ -478,7 +478,7 @@ contexts:
 
   expression-begin:
     - match: \)
-      scope: invalid.illegal.stray-bracket-end
+      scope: invalid.illegal.stray-bracket-end.js
       pop: true
 
     - include: expression-break
@@ -1075,10 +1075,6 @@ contexts:
         - match: ':'
           scope: punctuation.separator.key-value.js
           push: expression-no-comma
-
-  meta-object-literal-key:
-    - meta_scope: meta.object-literal.key.js
-    - include: else-pop
 
   method-name:
     - match: '(\$)[_$[:alnum:]]*'
