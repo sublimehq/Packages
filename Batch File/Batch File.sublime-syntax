@@ -286,8 +286,11 @@ contexts:
     - match: \b(?i)rem\b
       scope: keyword.command.rem.dosbatch
       push:
-        - meta_scope: comment.line.rem.dosbatch
+        # REM is a command for creating comments
+        # https://github.com/sublimehq/Packages/pull/1091
+        - meta_content_scope: comment.line.rem.dosbatch
         - match: \n
+          scope: comment.line.rem.dosbatch
           pop: true
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
