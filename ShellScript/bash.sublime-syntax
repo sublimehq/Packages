@@ -56,7 +56,7 @@ variables:
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-  keyword_boundary_end: (?=[^\w_-])
+  keyword_boundary_end: (?!=)(?=[^\w_-])
   metachar: '[/$`=|&;()<>\s]'
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   reset_and: \s*(&&)
@@ -1132,7 +1132,7 @@ contexts:
     - include: expansion-pattern
 
   expansion-job:
-    # There are a number of ways to refer to a job in the shell. 
+    # There are a number of ways to refer to a job in the shell.
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
     # the background. The previous job may be referenced using ‘%-’.
