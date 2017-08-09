@@ -716,8 +716,6 @@ contexts:
           captures:
             1: punctuation.definition.placeholder.erlang
             2: punctuation.separator.placeholder-parts.erlang
-        - match: ~.?
-          scope: invalid.illegal.string.erlang
   symbolic-operator:
     - match: \+\+|\+|--|-|\*|/=|/|=/=|=:=|==|=<|=|<-|<|>=|>|!
       scope: keyword.operator.symbolic.erlang
