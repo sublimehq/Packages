@@ -1,6 +1,6 @@
 <snippet>
-	<content><![CDATA[func ${1:func_name}($2)$3 {
-	$0
+	<content><![CDATA[func ${1:name}($2) $3{
+	$4
 }]]></content>
 	<tabTrigger>func</tabTrigger>
 	<scope>source.go</scope>
