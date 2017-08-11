@@ -142,11 +142,12 @@ variables:
         : \d{2}                         # (minute)
         : \d{2}                         # (second)
         (?: \.\d*)?                     # (fraction)
+        [ \t]*
         (?:
-            (?:[ \t]*) Z
-          | [-+] \d{1,2} (?: :\d{1,2})?
+          Z | [-+] \d{1,2} (?: :\d{1,2})?
         )?                              # (time zone)
     )
+
   _type_value: '=' # http://yaml.org/type/value.html
   _type_merge: '<<' # http://yaml.org/type/merge.html
 
