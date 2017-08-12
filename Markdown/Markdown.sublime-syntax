@@ -94,7 +94,7 @@ variables:
         )
     fenced_code_block_start: |-
         (?x:
-          ^[ ]{0,3}    # up to 3 spaces
+          [ ]{0,3}     # up to 3 spaces
           (
             `{3,}      #   3 or more backticks
             (?![^`]*`) #   not followed by any more backticks on the same line
@@ -750,6 +750,11 @@ contexts:
       pop: true
   list-content:
     - meta_content_scope: meta.paragraph.list.markdown
+    - match: ^\s*(?={{fenced_code_block_start}})
+      push:
+        - match: $
+          pop: true
+        - include: fenced-code-block
     - match: ^
       pop: true
     - include: thematic-break
@@ -788,7 +793,11 @@ contexts:
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
   raw:
-    - include: fenced-code-block
+    - match: ^(?={{fenced_code_block_start}})
+      push:
+        - match: $
+          pop: true
+        - include: fenced-code-block
     - include: code-span
     - match: '`+'
       scope: invalid.deprecated.unescaped-backticks.markdown

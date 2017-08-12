@@ -1396,3 +1396,23 @@ paragraph
   * List Item 3
     Text under Item 3
 |   ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - markup.raw
+
+ 1. fenced code block inside a list item
+| ^ punctuation.definition.list_item
+    ```language
+|^^^^^^^^^^^^^^^ meta.paragraph.list
+|   ^^^ punctuation.definition.raw.code-fence.begin
+|      ^^^^^^^^ constant.other.language-name
+|   ^^^^^^^^^^^ markup.raw.code-fence
+    
+|^^^^ meta.paragraph.list markup.raw.code-fence
+    ```
+|   ^^^ punctuation.definition.raw.code-fence.end
+    test
+|   ^^^^^ meta.paragraph.list - markup.raw.code-fence
+
+ 2. test
+| ^ punctuation.definition.list_item
+
+Normal paragraph
+| <- meta.paragraph - markup
