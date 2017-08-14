@@ -1364,6 +1364,12 @@ not a table |
 |^ invalid.deprecated.unescaped-backticks
 |      ^ punctuation.separator.table-cell
 
+A line without bolded |
+|                     ^ - punctuation.separator.table-cell
+
+A line with bolded **|**
+|                    ^ - punctuation.separator.table-cell
+
 1. test
 |  ^^^^^ markup.list.numbered meta.paragraph.list
    - test
