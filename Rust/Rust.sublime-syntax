@@ -233,14 +233,14 @@ contexts:
 
   attributes:
     - match: '(#!?)(\[)'
-      scope: meta.annotation.rust
       captures:
         1: punctuation.definition.annotation.rust
         2: punctuation.section.group.begin.rust
       push:
+        - meta_scope: meta.annotation.rust
         - match: '({{identifier}})(\()'
           captures:
-            1: meta.annotation.rust variable.annotation.rust
+            1: variable.annotation.rust
             2: meta.annotation.parameters.rust meta.group.rust punctuation.section.group.begin.rust
           push:
             - meta_content_scope: meta.annotation.parameters.rust meta.group.rust
@@ -249,12 +249,14 @@ contexts:
               pop: true
             - include: attribute-call
         - match: '({{identifier}})'
-          scope: meta.annotation.rust variable.annotation.rust
+          scope: variable.annotation.rust
+        - match: '='
+          scope: keyword.operator.rust
         - match: '\]'
-          scope: meta.annotation.rust punctuation.section.group.end.rust
+          scope: punctuation.section.group.end.rust
           pop: true
         - match: '[ \t]+'
-          scope: meta.annotation.rust
+        - include: strings
 
   attribute-call:
     - match: \)
