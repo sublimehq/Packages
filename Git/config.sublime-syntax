@@ -1,0 +1,165 @@
+%YAML 1.2
+---
+# Syntax based on documentation here:
+# https://git-scm.com/docs/git-config#_syntax
+
+name: Git Config
+file_extensions:
+  - gitconfig                 # /etc/gitconfig
+  - .gitconfig                # ~/.gitconfig
+first_line_match: ^\[core\]   # .git/config files always start with [core]
+scope: source.gitconfig
+
+variables:
+  section_name: '[\w.-]+(?=[\s\]])'
+  space_or_eol: (?=(?:\s|$))  # makes values on very last line match properly
+  variable_name: '[a-zA-Z][\w-]*'
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - include: section
+    - include: key-value-pair
+
+  boolean:
+    # 0 and 1 omitted due to mismatches (e.g. "log -1", "HEAD~1"). will be
+    # matched as unquoted strings instead
+    - match: \b(?:yes|true|on|off|no|false){{space_or_eol}}
+      scope: constant.language.gitconfig
+
+  color-attribute:
+    - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink){{space_or_eol}}
+      scope: support.constant.color-attribute.gitconfig
+
+  color-hex:
+    - match: (#)\h{6}
+      captures:
+        0: constant.other.color.rgb-value.gitconfig
+        1: punctuation.definition.constant.gitconfig
+
+  color-named:
+    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto){{space_or_eol}}
+      scope: support.constant.color.gitconfig
+
+  comments:
+    - match: '[#;]'
+      scope: punctuation.definition.comment.gitconfig
+      push:
+        - meta_scope: comment.line.gitconfig
+        - match: $\n? # consume newline so completions aren't shown at end of line when typing comments
+          pop: true
+
+  # '\b', '\n', '\t', '\"', '\\'
+  escape:
+    - match: \\[\\"bnt]
+      scope: constant.character.escape.gitconfig
+
+  illegal-newline:
+    - match: \n
+      scope: invalid.illegal.gitconfig
+      pop: true
+
+  # key = val
+  key-value-pair:
+    - match: ^\s*({{variable_name}})\s*(\=)
+      captures:
+        1: variable.other.readwrite.gitconfig
+        2: keyword.operator.assignment.gitconfig
+      push:
+        # Hex colors like #efefef will be matched as comments unless we lower
+        # the precedence of comments. Here we disable the comments prototype and
+        # match comments after color-hex in the value rule.
+        - meta_include_prototype: false
+        - meta_scope: meta.key-value-pair.gitconfig
+        - meta_content_scope: meta.value.gitconfig
+        - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
+          pop: true
+        - match: (?=\[)                            # start of new section
+          pop: true
+        - include: value
+
+  # [section-name "subsection"]
+  section:
+    - match: \[
+      scope: punctuation.definition.section.begin.gitconfig
+      push:
+        - meta_scope: meta.brackets.gitconfig
+        - match: \]
+          scope: punctuation.definition.section.end.gitconfig
+          pop: true
+        - include: illegal-newline  # complain if '[' and ']' on separate lines
+        - include: section-name
+        - include: string-double    # subsection
+    - include: stray-bracket
+
+  section-name:
+    - match: '{{section_name}}'
+      scope: entity.name.gitconfig
+
+  stray-bracket:
+    - match: \]
+      scope: punctuation.definition.section.end.gitconfig invalid.illegal.stray-bracket.gitconfig
+
+  string:
+    - include: string-double-escaped-quotes
+    - include: string-double
+    - include: string-single-escaped-quotes
+    - include: string-single
+
+  string-double:
+    - match: '"'
+      scope: punctuation.definition.string.begin.gitconfig
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.gitconfig
+        - match: '"'
+          scope: punctuation.definition.string.end.gitconfig
+          pop: true
+        - include: escape
+
+  # some values use escaped quotes, e.g. --pretty=format:\"%h %ad | %s%d [%an]\"
+  string-double-escaped-quotes:
+    - match: \\"
+      scope: punctuation.definition.string.begin.gitconfig
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.unquoted.gitconfig
+        - match: \\"
+          scope: punctuation.definition.string.end.gitconfig
+          pop: true
+        - include: escape
+
+  string-single:
+    - match: "'"
+      scope: punctuation.definition.string.begin.gitconfig
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.gitconfig
+        - match: "'"
+          scope: punctuation.definition.string.end.gitconfig
+          pop: true
+        - include: escape
+
+  # \'foo\'
+  string-single-escaped-quotes:
+    - match: \\'
+      scope: punctuation.definition.string.begin.gitconfig
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.unquoted.gitconfig
+        - match: \\'
+          scope: punctuation.definition.string.end.gitconfig
+          pop: true
+        - include: escape
+
+  value:
+    - include: color-hex        # match #efefef as hex color not comment
+    - include: comments
+    - include: string           # match 09 in --format='%09' as string not int
+    - include: color-named      # red, blue, green
+    - include: color-attribute  # bold, italic, underline
+    - include: boolean          # true, yes, on, 1
+    - match: '\S+'              # match most values
+      scope: string.unquoted.value.gitconfig

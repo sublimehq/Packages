@@ -1,0 +1,58 @@
+%YAML 1.2
+---
+# Highlight interactive rebase text (git rebase -i).
+
+name: Git Rebase
+file_extensions:
+  - git-rebase-todo
+first_line_match: '^(?:pick|squash|reword|fixup|exec|edit|drop) \h{7,} '
+scope: source.gitrebase
+
+variables:
+  hash: \h{7,}
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - include: commit
+
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.gitrebase
+      push:
+        - meta_scope: comment.line.gitrebase
+        - match: \n
+          pop: true
+        - include: rebase-msg
+
+  # e.g. pick d284bb2 Initial commit
+  commit:
+    - match: ^\s*(squash|reword|pick|fixup|exec|edit|drop|x|s|r|p|f|e|d)[\t ]
+      captures:
+        1: storage.type.edit.gitrebase
+      push:
+        - meta_scope: meta.commit.gitrebase
+        - match: \n
+          pop: true
+        - match: \b({{hash}})\s # e.g. d284bb2
+          captures:
+            1: constant.numeric.hex.hash.gitrebase
+          push:
+            - meta_content_scope: text.plain.commit-msg.gitrebase
+            - match: $
+              pop: true
+
+  # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+  # highlight the hashes in this comment
+  rebase-msg:
+    - match: '\bRebase\s+'
+      push:
+        - meta_scope: meta.rebase-msg.gitrebase
+        - match: '$'
+          pop: true
+        - match: '\b{{hash}}\b'
+          scope: constant.numeric.hex.hash.gitrebase
+        - match: \.\.
+          scope: keyword.operator.commit-range.gitrebase
