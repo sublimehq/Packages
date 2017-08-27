@@ -1,0 +1,14 @@
+# SYNTAX TEST "Packages/Git/commit.sublime-syntax"
+# <- source.gitcommit comment.line punctuation.definition.comment
+Merge branch 'footest'
+# <- text.plain.commit-message
+#^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
+
+# Please enter a commit message to explain why this merge is necessary,
+# <- source.gitcommit comment.line punctuation.definition.comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+# especially if it merges an updated upstream into a topic branch.
+
+#
+# Lines starting with '#' will be ignored, and an empty message aborts
+# the commit.

@@ -1,0 +1,81 @@
+%YAML 1.2
+---
+# Highlight regular git commits, merge commits, and tags.
+
+name: Git Commit
+file_extensions:
+  - COMMIT_EDITMSG
+  - MERGE_MSG
+  - TAG_EDITMSG
+scope: source.gitcommit
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    - include: commit-message
+
+  branch-line:
+    - match: \bOn branch\s+(.*)
+      captures:
+        1: support.type.branch-name.gitcommit
+
+  change:
+    - match: (new file|modified|deleted)\s*(:)\s*(.*)
+      captures:
+        1: keyword.change-list.change.gitcommit
+        2: punctuation.separator.change.gitcommit
+        3: keyword.change-list.file.gitcommit
+
+  change-list:
+    - include: change-list-header
+    - include: change
+
+  change-list-header:
+    - match: '\bChanges to be committed\s*(:)'
+      scope: keyword.change-list.heading.gitcommit
+      captures:
+        1: punctuation.separator.change-list.gitcommit
+
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.gitcommit
+      push:
+        - meta_scope: comment.line.gitcommit
+        - match: \n
+          pop: true
+        - include: change-list
+        - include: branch-line
+        - include: date-line
+
+  commit-message:
+    # this absurd regex is necessary to:
+    #   1. match comments in the subject line
+    #   2. only style the first 50 chars in the subject line
+    - match: ([^#\n]{,50})[^#\n]*((#).*$)?
+      captures:
+        1: string.unquoted.subject-line.gitcommit markup.heading.gitcommit
+        2: comment.line.gitcommit
+        3: punctuation.definition.comment.gitcommit
+      push:
+        # enforce empty line following subject line
+        - match: \n
+          push:
+            - match: \n
+              pop: true
+            - match: '.+$'
+              scope: invalid.missing-newline.gitcommit
+        # everything left that isn't a comment is the commit message
+        - match: '[^#]*'
+          scope: text.plain.commit-message.gitcommit
+          push:
+            - match: '[^#]*'
+              scope: text.plain.commit-message.gitcommit
+
+  # apply a meta scope to the commit date
+  date-line:
+    - match: \bDate\s*(:)\s*(.*)
+      captures:
+        1: punctuation.separator.date.gitcommit
+        2: meta.commit-date.gitcommit

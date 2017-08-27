@@ -1,0 +1,39 @@
+# SYNTAX TEST "Packages/Git/rebase.sublime-syntax"
+# <- source.gitrebase comment.line punctuation.definition.comment
+pick d284bb2 Initial commit
+# <- meta.commit storage.type.edit
+#^^^ meta.commit storage.type.edit
+#   ^ meta.commit -storage.type.commit
+#    ^^^^^^^ meta.commit constant.numeric.hex.hash
+#            ^^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
+pick 6746220 Second commit
+# <- meta.commit storage.type.edit
+#^^^ meta.commit storage.type.edit
+#   ^ meta.commit -storage.type.commit
+#    ^^^^^^^ meta.commit constant.numeric.hex.hash
+#            ^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
+
+# Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+# <- comment.line punctuation.definition.comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.rebase-msg
+#        ^^^^^^^ comment.line constant.numeric.hex.hash
+#               ^^ comment.line keyword.operator.commit-range
+#                 ^^^^^^^ comment.line constant.numeric.hex.hash
+#                              ^^^^^^^ comment.line constant.numeric.hex.hash
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
