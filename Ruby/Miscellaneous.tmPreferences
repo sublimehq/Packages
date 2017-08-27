@@ -8,7 +8,7 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*([}\]]\s*$|(end|rescue|ensure|else|elsif|when)\b)</string>
+		<string>^\s*([}\]]|(end|rescue|ensure|else|elsif|when)\b)</string>
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)^
 		(\s*
