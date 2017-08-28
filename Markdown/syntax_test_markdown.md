@@ -11,6 +11,12 @@
 |  ^^^^^^^^^^^^^^ entity.name.section
 |                ^ - entity.name.section
 |                 ^ punctuation.definition.heading.end.markdown
+## Example 43 (trailing spaces!) #####    
+|                                    ^ punctuation.definition.heading.end.markdown
+|                                         ^ meta.whitespace.newline.markdown
+## Example 44 ####    >
+|^^^^^^^^^^^^^^^^^^^^^^ markup.heading
+|             ^ - punctuation.definition.heading.end.markdown
 
 Alternate Heading
 =================
