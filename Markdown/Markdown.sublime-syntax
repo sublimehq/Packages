@@ -411,6 +411,12 @@ contexts:
   escape:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
+  atx-heading-terminator:
+    - match: '[ ]*(#*)[ ]*(?=$)($\n?)'
+      captures:
+        1: punctuation.definition.heading.end.markdown
+        2: meta.whitespace.newline.markdown
+      pop: true
   atx-heading:
     - match: '(#)(?!#)\s*(?=\S)'
       captures:
@@ -418,11 +424,7 @@ contexts:
       push:
         - meta_scope: markup.heading.1.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$(\n)
-          captures:
-            1: punctuation.definition.heading.end.markdown
-            2: meta.whitespace.newline.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
     - match: '(##)(?!#)\s*(?=\S)'
       captures:
@@ -430,11 +432,7 @@ contexts:
       push:
         - meta_scope: markup.heading.2.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$(\n)
-          captures:
-            1: punctuation.definition.heading.end.markdown
-            2: meta.whitespace.newline.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
     - match: '(#{3,6})(?!#)\s*(?=\S)'
       captures:
@@ -442,11 +440,7 @@ contexts:
       push:
         - meta_scope: markup.heading.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$(\n)
-          captures:
-            1: punctuation.definition.heading.end.markdown
-            2: meta.whitespace.newline.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
   image-inline:
     - match: |-
