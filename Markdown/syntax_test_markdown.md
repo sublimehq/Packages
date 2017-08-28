@@ -3,6 +3,7 @@
 # Heading
 | <- markup.heading.1 punctuation.definition.heading
 |^^^^^^^^ markup.heading
+|        ^ meta.whitespace.newline.markdown
 
 ## Second Heading
 | <- markup.heading.2 punctuation.definition.heading

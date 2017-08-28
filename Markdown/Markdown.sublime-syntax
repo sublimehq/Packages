@@ -418,9 +418,10 @@ contexts:
       push:
         - meta_scope: markup.heading.1.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
+        - match: \s*(#*)$(\n)
           captures:
             1: punctuation.definition.heading.end.markdown
+            2: meta.whitespace.newline.markdown
           pop: true
         - include: inline-bold-italic
     - match: '(##)(?!#)\s*(?=\S)'
@@ -429,9 +430,10 @@ contexts:
       push:
         - meta_scope: markup.heading.2.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
+        - match: \s*(#*)$(\n)
           captures:
             1: punctuation.definition.heading.end.markdown
+            2: meta.whitespace.newline.markdown
           pop: true
         - include: inline-bold-italic
     - match: '(#{3,6})(?!#)\s*(?=\S)'
@@ -440,9 +442,10 @@ contexts:
       push:
         - meta_scope: markup.heading.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
+        - match: \s*(#*)$(\n)
           captures:
             1: punctuation.definition.heading.end.markdown
+            2: meta.whitespace.newline.markdown
           pop: true
         - include: inline-bold-italic
   image-inline:
