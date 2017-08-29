@@ -412,7 +412,7 @@ contexts:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
   atx-heading-terminator:
-    - match: '[ ]*(#*)[ ]*(?=$)($\n?)' # \n is optional so ## is matched as end punctuation in new document (at eof)
+    - match: '[ ]*(#*)[ ]*($\n?)' # \n is optional so ## is matched as end punctuation in new document (at eof)
       captures:
         1: punctuation.definition.heading.end.markdown
         2: meta.whitespace.newline.markdown
