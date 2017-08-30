@@ -968,7 +968,18 @@ contexts:
   docstrings:
     - match: ^\s*(?=(?i)(ur|ru|u|r)?("""|'''))
       push:
-      - match: (?i)(ur|ru|u|r)?("""|''')
+      - match: (?i)(u)?("""|''')
+        captures:
+          1: storage.type.string.python
+          2: punctuation.definition.comment.begin.python
+        set:
+          - meta_scope: comment.block.documentation.python
+          - include: escaped-char
+          - include: escaped-unicode-char
+          - match: '\2'
+            scope: punctuation.definition.comment.end.python
+            pop: true
+      - match: (?i)(u?ru?)("""|''')
         captures:
           1: storage.type.string.python
           2: punctuation.definition.comment.begin.python
