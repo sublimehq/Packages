@@ -25,8 +25,8 @@ variables:
   floating_point: '([0-9]+(?:\.[0-9]+)?(?:{{exponent}})?)([fFdDmM]?)'
 
   # characters
-  unicode_char: '\\u[0-9a-fA-F]{,4}'
-  escaped_char: '(?:\\[btnfr"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{,4}||\\[0-9]{,3})'
+  unicode_char: '(?:\\u\h{4}|\\U\h{8})'
+  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}||\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
