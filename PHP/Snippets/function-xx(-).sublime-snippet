@@ -4,6 +4,6 @@
 	${0:# code...}
 }]]></content>
 	<tabTrigger>fun</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>function …</description>
 </snippet>

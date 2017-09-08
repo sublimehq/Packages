@@ -871,6 +871,12 @@ var reg = /a+/gimy.exec('aabb')
 //    ^^ keyword.operator.arithmetic.js
 // */
 
+'str'.match(/[" ]+/g);
+//          ^^^^^^^^ string.regexp.js
+
+myvar = myvar.replace(/RTP\/SAVPF .*/, 'RTP/SAVPF ' + suffix);
+//                    ^^^^^^^^^^^^^^^ string.regexp.js
+
 'foo'.bar() / baz
 //            ^ variable.other.readwrite
 

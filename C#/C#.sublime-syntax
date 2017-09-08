@@ -181,8 +181,7 @@ contexts:
       scope: invalid.illegal.cs
 
   main:
-    - match: '\}'
-      scope: invalid.illegal.unexpected.closing-bracket.cs
+    - include: stray_close_bracket
     - match: '\{'
       scope: punctuation.section.block.begin.cs
       push:
@@ -199,6 +198,10 @@ contexts:
     - include: delegate_declaration
     # allows coloration of code outside a class
     - include: code_block_in
+
+  stray_close_bracket:
+    - match: '[})\]]'
+      scope: invalid.illegal.stray.brace.cs
 
   using:
     - match: '\b(using)\s+(?={{name}}\s*=\s*)'
@@ -414,6 +417,7 @@ contexts:
               scope: punctuation.section.block.end.cs
               pop: true
             - include: data_type_body
+        - include: stray_close_bracket
     - match: \S*
       scope: invalid.illegal
       pop: true
@@ -688,6 +692,7 @@ contexts:
             - match: \}
               scope: punctuation.section.block.end.cs
               pop: true
+            - include: stray_close_bracket
             - include: code_block_in
     - match: ;
       scope: punctuation.terminator.cs
@@ -896,17 +901,10 @@ contexts:
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
     - include: lambdas
-    - match: '\b({{base_type}})\s*(?=[\[\],*?]*\s+\w)'
+    - match: '\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
       captures:
         1: storage.type.cs
-      set: [variables_declaration, type_no_space]
-    - match: '\b({{base_type}})\s+'
-      captures:
-        1: storage.type.cs
-      push: variables_declaration
-    - match: '\b({{name}})(?=[\[\],*?]*\s+\w)'
-      captures:
-        1: support.type.cs
+        2: support.type.cs
       set: [variables_declaration, type_no_space]
     - match: '({{name}})\s*(:)(?!:)'
       captures:
@@ -1130,6 +1128,12 @@ contexts:
         - include: type
 
   line_of_code_in:
+    - include: line_of_code_in_no_semicolon
+    - match: ';'
+      scope: punctuation.terminator.statement.cs
+      pop: true
+
+  line_of_code_in_no_semicolon:
     - match: \b(value)\b
       scope: variable.language.cs
     - include: keywords
@@ -1269,9 +1273,6 @@ contexts:
           scope: punctuation.section.block.end.cs
           pop: true
         - include: code_block_in
-    - match: ';'
-      scope: punctuation.terminator.statement.cs
-      pop: true
     - match: (?=\}|\)|>|\]|,|{{reserved}})
       pop: true
 
@@ -1311,8 +1312,15 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cs
       pop: true
+    - match: ;
+      scope: invalid.illegal.expected-close-paren.cs
+      pop: true
+    - include: stray_close_bracket
     - match: '(?=\S)'
-      push: line_of_code_in
+      push:
+        - include: line_of_code_in_no_semicolon
+        - match: (?=;)
+          pop: true
 
   accessor_arguments:
     - meta_content_scope: meta.brackets.cs
@@ -1922,5 +1930,5 @@ contexts:
     - match: '^\s*(?!///)'
       pop: true
     - include: comments_in
-    - match: .
+    - match: '[\w\s]+|.'
       scope: text.documentation.cs

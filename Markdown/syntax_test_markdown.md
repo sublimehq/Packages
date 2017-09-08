@@ -250,6 +250,8 @@ Visit www.commonmark.org/a.b.
 www.google.com/search?q=(business))+ok
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                     ^ - markup.underline.link
+www.google.com/search?q=Markup+(business)
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 www.commonmark.org/he<lp>
 |^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                    ^ - markup.underline.link
@@ -267,6 +269,9 @@ www.google.com/search?q=commonmark&hl;
 Anonymous FTP is available at ftp://foo.bar.baz.
 |                             ^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                              ^^ - markup.underline.link
+(see http://www.google.com/search?q=commonmark&hl=en)
+|    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                   ^^ - markup.underline.link
 
 foo@bar.baz
 |^^^^^^^^^^ markup.underline.link

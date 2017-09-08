@@ -116,7 +116,7 @@ contexts:
       scope: meta.item-access.r punctuation.section.brackets.single.begin.r
       push:
         - meta_content_scope: meta.item-access.r meta.item-access.arguments.r
-        - match: \](?!\])
+        - match: \]
           scope: meta.item-access.r punctuation.section.brackets.single.end.r
           pop: true
         - include: main

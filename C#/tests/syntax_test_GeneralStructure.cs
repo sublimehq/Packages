@@ -1017,6 +1017,9 @@ namespace TestNamespace.Test
     abc:
 /// ^^^ entity.name.label
 ///    ^ punctuation.separator
+    
+        "hello".OfType<char>().Where(c => c == 'l').Count());
+///                                                        ^ invalid.illegal.stray.brace
 
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
@@ -1026,8 +1029,26 @@ namespace TestNamespace.Test
         
         string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
                          "Ebenezer", "Francine", "George" };
-        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80,
-                                 16.75m };
+        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80, 16.75m };
+///     ^^^^^^^ storage.type
+///            ^^ meta.brackets
+///               ^^^^^ variable.other
+
+        int?[] test;
+///     ^^^^ storage.type
+///         ^^ meta.brackets
+///            ^^^^ variable.other
+
+        test[ hello] = 2;
+///     ^^^^ variable.other
+///           ^^^^^ variable.other
+///         ^ punctuation.section.brackets.begin
+///                ^ punctuation.section.brackets.end
+        test[ 5 ] = 2;
+///     ^^^^ variable.other
+///           ^ constant.numeric
+///         ^ punctuation.section.brackets.begin
+///             ^ punctuation.section.brackets.end
 
         Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
 ///                        ^^^^^^^ constant.other.placeholder - invalid
@@ -1093,3 +1114,17 @@ namespace TestNamespace.Test
     }
 }
 ///<- punctuation.section.block.end
+}
+/// <- invalid.illegal.stray.brace
+
+class Test
+{
+    void Abc()
+    {
+        Something.SomeMethod(];
+///                         ^ meta.function-call meta.group punctuation.section.group.begin
+///                          ^ invalid.illegal.stray.brace
+///                           ^ invalid.illegal.expected-close-paren
+    }
+/// ^ - invalid.illegal.stray.brace
+}
