@@ -418,7 +418,7 @@ contexts:
         - meta_content_scope: variable.other.readwrite.assignment.shell
         - include: line-continuation-or-pop-at-end
         - include: any-escape
-        - match: (?={{varassign}}|\s)|$
+        - match: (?={{varassign}}|\s)|$|(?=[;&])
           pop: true
         - include: array
         - match: \s*$
@@ -456,6 +456,8 @@ contexts:
                   pop: true
             - include: expansion-and-string
         - include: expansion-and-string
+    - match: (?=&)
+      pop: true
     - match: ""
       set:
         - meta_include_prototype: false

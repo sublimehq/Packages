@@ -330,6 +330,16 @@ declare foo         # 'foo' is a variable name
 declare -A foo bar  # 'foo' and 'bar' are variable names
 #^^^^^^^^^^^^^^^^^ meta.function-call
 #                  ^ - meta.function-call
+declare ret; bar=foo
+#          ^ keyword.operator
+#               ^ keyword.operator
+#                ^ string.unquoted
+declare ret ;
+#           ^ keyword.operator
+declare ret&
+#          ^ keyword.operator
+declare ret &
+#           ^ keyword.operator
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
 # <- storage.modifier
