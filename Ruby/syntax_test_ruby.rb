@@ -442,3 +442,13 @@ end
 
 p huh?("H", 1) + huh?("u") + huh?("gs")
 )
+
+
+# issue #923
+foo = 2 / @d
+#         ^^ - string.regexp.classic
+#         ^ variable.other.readwrite.instance punctuation.definition.variable
+
+# issue #933
+a = b / "c"
+#       ^^^ string.quoted.double.ruby - string.regexp.classic.ruby

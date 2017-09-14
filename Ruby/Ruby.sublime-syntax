@@ -1055,9 +1055,7 @@ contexts:
   try-regex:
     # Generally for multiline regexes, one of the %r forms below will be used,
     # so we bail out if we can't find a second / on the current line
-    - match: '(?=\s*/[^/]*$)'
-      pop: true
-    - match: '\s*(/)(?![*+{}?])'
+    - match: '\s*(/)(?![*+{}?])(?=.*/)'
       captures:
         1: string.regexp.classic.ruby punctuation.definition.string.ruby
       push:
