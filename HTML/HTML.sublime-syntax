@@ -29,9 +29,11 @@ contexts:
       scope: punctuation.definition.comment.html
       push:
         - meta_scope: comment.block.html
-        - match: '--\s*>'
+        - match: '(-*)--\s*>'
+          captures:
+            1: invalid.illegal.bad-comments-or-CDATA.html
           pop: true
-        - match: '-{2,}(?!-?\s*>)'
+        - match: -{2,}
           scope: invalid.illegal.bad-comments-or-CDATA.html
     - match: <!
       scope: punctuation.definition.tag.html
