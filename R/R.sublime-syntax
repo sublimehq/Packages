@@ -11,7 +11,7 @@ file_extensions:
 scope: source.r
 
 variables:
-  var: '[a-zA-Z._][a-zA-Z0-9._]*'
+  var: '(?:[a-zA-Z._][a-zA-Z0-9._]*|`[^`]+`)'
 
 contexts:
   main:

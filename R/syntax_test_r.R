@@ -200,3 +200,7 @@ print.foo()
 foo[[bar[1]]] #
 #         ^ source.r meta.item-access.r meta.item-access.arguments.r meta.item-access.r
 #              ^ - meta.item-access.r
+
+
+`1+1` = 2
+# ^ - keyword.operator.arithmetic.r
