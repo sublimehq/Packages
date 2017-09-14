@@ -31,7 +31,7 @@ contexts:
         - meta_scope: comment.block.html
         - match: '--\s*>'
           pop: true
-        - match: '--(?!(>|->))'
+        - match: '-{2,}(?!-?\s*>)'
           scope: invalid.illegal.bad-comments-or-CDATA.html
     - match: <!
       scope: punctuation.definition.tag.html
