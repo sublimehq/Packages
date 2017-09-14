@@ -179,7 +179,7 @@ contexts:
   function-parameters:
     - meta_scope: meta.function-call.r
     - meta_content_scope: meta.function-call.parameters.r
-    - match: '{{var}}(?=\s*=)'
+    - match: '{{var}}(?=\s*=[^=])'
       scope: variable.parameter.r
     - match: '(?==)'
       push:
