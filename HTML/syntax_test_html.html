@@ -51,6 +51,33 @@
         <!-- Comment -->
         ## ^ comment.block.html
 
+        <!----- hyphens - -- --- -->
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
+        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                       ^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##                          ^ - comment.block.html
+
+        <!---   hyphens - -- --- -- >
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
+        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                       ^^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##                           ^ - comment.block.html
+
+        <!----- hyphens - -- --- ---->
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
+        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                       ^^ invalid.illegal.bad-comments-or-CDATA.html
+        ##                         ^^ - invalid.illegal.bad-comments-or-CDATA.html
+        ##                            ^ - comment.block.html
+
         <div title=description></div>
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^ entity.other.attribute-name
