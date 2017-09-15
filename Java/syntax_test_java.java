@@ -192,6 +192,18 @@ public enum FooBaz {
 //  ^^^^^^^^^^^^^^^^ comment.line
 }
 
+enum MyEnum {
+  FIRST_VALUE, // comment1
+//^^^^^^^^^^^ constant.other.enum
+//             ^^^^^^^^^^^ comment
+  MID_VALUE,   // comment2
+//^^^^^^^^^ constant.other.enum
+//             ^^^^^^^^^^^ comment
+  LAST_VALUE   // comment3
+//^^^^^^^^^^ constant.other.enum
+//             ^^^^^^^^^^^ comment
+}
+
 class InvalidStuff
 {
     goto
