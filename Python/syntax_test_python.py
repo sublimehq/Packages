@@ -9,6 +9,16 @@ r"""This is a syntax test file.
 And this right here, where we're writing in, is a docstring.
 """
 
+ur"""Raw docstring \"""
+# <- storage.type.string.python
+# ^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
+#                   ^^^ punctuation.definition.comment.end.python
+
+"""Normal docstring \""""
+# ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.python
+#                   ^^ constant.character.escape.python
+#                     ^^^ punctuation.definition.comment.end.python
+
 debug = False
 """
 This is a variable docstring, as supported by sphinx and epydoc
