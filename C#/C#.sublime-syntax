@@ -329,10 +329,11 @@ contexts:
   delegate_name:
     - match: '\s+'
       scope: meta.delegate.cs
-    - match: '({{name}})(<)'
+    - match: '({{name}})(\s*)(<)'
       captures:
         1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.cs meta.generic.cs punctuation.definition.generic.begin.cs
+        2: meta.delegate.cs
+        3: meta.delegate.cs meta.generic.cs punctuation.definition.generic.begin.cs
       set:
         - meta_content_scope: meta.delegate.cs meta.generic.cs
         - match: '>'
@@ -344,11 +345,14 @@ contexts:
               scope: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
               set: delegate_params
         - include: type_parameter
-    - match: '({{name}})(\()'
+    - match: '({{name}})(\s*)(\()'
       captures:
         1: meta.delegate.cs variable.other.member.delegate.cs
-        2: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
+        2: meta.delegate.cs
+        3: meta.delegate.parameters.cs punctuation.section.parameters.begin.cs
       set: delegate_params
+    - match: '(?=\S)'
+      pop: true
 
   delegate_params:
     - meta_content_scope: meta.delegate.parameters.cs

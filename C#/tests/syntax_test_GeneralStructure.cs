@@ -148,6 +148,18 @@ namespace YourNamespace
 ///                                  ^ variable.parameter
 ///                                    ^ punctuation.terminator
 
+    public delegate FooBar YourDelegate (int a);
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
+///        ^^^^^^^^ storage.type.delegate
+///                 ^^^^^^ support.type
+///                        ^^^^^^^^^^^^ variable.other.member.delegate
+///                                     ^^^^^^^ meta.delegate.parameters
+///                                     ^ punctuation.section.parameters.begin
+///                                      ^^^ storage.type
+///                                          ^ variable.parameter
+///                                           ^ punctuation.section.parameters.end
+///                                            ^ punctuation.terminator
+
     enum YourEnum
 /// ^^^^^^^^^^^^^ meta.enum
 /// ^ storage.type.enum
