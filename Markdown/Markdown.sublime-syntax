@@ -75,11 +75,11 @@ variables:
               )*\]                          #  closing square bracket
           )+                                # at least one character
         )
-    balance_square_brackets_and_pipes: |-
+    balance_square_brackets_pipes_and_emphasis: |-
         (?x:
           (?:
             {{escape}}+                     # escape characters
-          | [^\[\]`\\|]+(?=[\[\]`\\|]|$)    # anything that isn't a square bracket, a backtick, the start of an escape character, or a pipe
+          | [^\[\]`\\_*|]+(?=[\[\]`\\_*|]|$)  # anything that isn't a square bracket, a backtick, the start of an escape character, or an emphasis character
           | {{backticks}}                   # inline code
           | \[(?:                           # nested square brackets (one level deep)
                 [^\[\]`]+(?=[\[\]`])        #  anything that isn't a square bracket or a backtick
@@ -87,10 +87,24 @@ variables:
               )*\]                          #  closing square bracket
           )+                                # at least one character
         )
+    balanced_emphasis: |-
+      (?x:
+          \*  (?!\*){{balance_square_brackets_and_emphasis}}+\*  (?!\*)
+      |   \*\*      {{balance_square_brackets_and_emphasis}}+\*\*
+      |   _   (?!_) {{balance_square_brackets_and_emphasis}}+_   (?!_)
+      |   __        {{balance_square_brackets_and_emphasis}}+__
+      )
+    balanced_table_cell: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
+      (?x:
+        (?:
+          {{balance_square_brackets_pipes_and_emphasis}}
+        | {{balanced_emphasis}}
+        )+                                # at least one character
+      )
     table_first_row: |-
         (?x:
-            (?:{{balance_square_brackets_and_pipes}}?\|){2}           # at least 2 non-escaped pipe chars on the line
-        |   (?!\s+\|){{balance_square_brackets_and_pipes}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
+            (?:{{balanced_table_cell}}?\|){2}           # at least 2 non-escaped pipe chars on the line
+        |   (?!\s+\|){{balanced_table_cell}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
         )
     fenced_code_block_start: |-
         (?x:
@@ -910,14 +924,7 @@ contexts:
                       pop: true
                     - match: \|
                       scope: punctuation.separator.table-cell.markdown
-                    - match: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
-                        (?x)
-                        (?=
-                            \*  (?!\*){{balance_square_brackets_and_emphasis}}+\*  (?!\*)
-                        |   \*\*      {{balance_square_brackets_and_emphasis}}+\*\*
-                        |   _   (?!_) {{balance_square_brackets_and_emphasis}}+_   (?!_)
-                        |   __        {{balance_square_brackets_and_emphasis}}+__
-                        )
+                    - match: (?={{balanced_emphasis}})
                       push:
                         - include: bold
                         - include: italic
