@@ -3,14 +3,38 @@
 # Heading
 | <- markup.heading.1 punctuation.definition.heading
 |^^^^^^^^ markup.heading
+|        ^ meta.whitespace.newline.markdown
 
-## Second Heading
+## Second Heading #
 | <- markup.heading.2 punctuation.definition.heading
 |^^^^^^^^^^^^^^^^ markup.heading
+|  ^^^^^^^^^^^^^^ entity.name.section
+|                ^ - entity.name.section
+|                 ^ punctuation.definition.heading.end.markdown
+## Example 43 (trailing spaces!) #####    
+|                                    ^ punctuation.definition.heading.end.markdown
+|                                         ^ meta.whitespace.newline.markdown
+## Example 44 ####    >
+|^^^^^^^^^^^^^^^^^^^^^^ markup.heading
+|             ^ - punctuation.definition.heading.end.markdown
 
 Alternate Heading
 =================
 |^^^^^^^^^^^^^^^^ markup.heading.1 punctuation.definition
+
+heading underlined with dashes
+------------------------------
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2 punctuation.definition.heading
+
+underlined heading followed by a separator
+-------------------
+------
+| <- meta.block-level meta.separator - markup.heading
+
+underlined heading followed by another one that should be treated as a normal paragraph
+==================
+=====
+| <- - markup.heading
 
 Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
@@ -314,20 +338,6 @@ this is a raw ampersand & does not require HTML escaping
 |                                                  ^ punctuation.definition.string.begin
 |                                                                          ^ punctuation.definition.string.end
 
-heading underlined with dashes
-------------------------------
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2 punctuation.definition.heading
-
-underlined heading followed by a separator
--------------------
-------
-| <- meta.block-level meta.separator - markup.heading
-
-underlined heading followed by another one that should be treated as a normal paragraph
-==================
-=====
-| <- - markup.heading
-
 Paragraph followed immediately by a list, no blank line in between
 - list item 1
 | <- markup.list.unnumbered punctuation.definition.list_item
@@ -442,12 +452,6 @@ because it doesn't begin with the number one:
 
   <!-- HTML comment -->
 | ^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-
-## Heading with ending hashes ##
-| <- punctuation.definition.heading
-|  ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.section
-|                            ^ - entity.name.section
-|                             ^^ punctuation.definition.heading
 
 *italic text <span>HTML element</span> end of italic text*
 | <- punctuation.definition.italic
