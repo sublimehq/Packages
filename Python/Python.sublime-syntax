@@ -346,7 +346,7 @@ contexts:
     - match: \b(?i)(0o?)(?=o|[0-7])[0-7]*(L) # py2
       scope: constant.numeric.integer.long.octal.python
       captures:
-        1: constant.numeric.integer.octal.python
+        1: punctuation.definition.integer.octal.python
         2: storage.type.numeric.long.python
     - match: \b(?i)(0)[0-7]+ # py2
       scope: constant.numeric.integer.octal.python

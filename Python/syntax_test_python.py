@@ -809,7 +809,7 @@ octal = 0o755 ^ 0o644L
 #       ^^ punctuation.definition.numeric.octal.python
 #                    ^ storage.type.numeric.long.python
 #               ^^^^^^ constant.numeric.integer.long.octal.python
-#               ^^ constant.numeric.integer.octal.python
+#               ^^ punctuation.definition.integer.octal.python
 
 old_style_octal = 010 + 007 - 012345670L
 #                 ^^^ constant.numeric.integer.octal.python
@@ -817,7 +817,7 @@ old_style_octal = 010 + 007 - 012345670L
 #                       ^^^ constant.numeric.integer.octal.python
 #                       ^ punctuation.definition.numeric.octal.python
 #                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
-#                             ^ constant.numeric.integer.octal.python
+#                             ^ punctuation.definition.integer.octal.python
 #                                      ^ storage.type.numeric.long.python
 
 hexadecimal = 0x100af - 0XDEADF00L
