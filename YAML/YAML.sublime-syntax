@@ -479,9 +479,8 @@ contexts:
   block-sequence:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/sequence
     # l+block-sequence(n)
-    - match: (-)\s  # ( |\t|$) # https://github.com/SublimeTextIssues/Core/issues/963
-      captures:
-        1: punctuation.definition.block.sequence.item.yaml
+    - match: (-)(?!\S)
+      scope: punctuation.definition.block.sequence.item.yaml
 
   block-mapping:
     # http://www.yaml.org/spec/1.2/spec.html#style/block/mapping
