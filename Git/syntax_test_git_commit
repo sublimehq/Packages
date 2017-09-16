@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/commit.sublime-syntax"
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.gitcommit comment.line punctuation.definition.comment
 Add git package
 # <- text.plain.commit-message
 #^^^^^^^^^^^^^^ text.plain.commit-message
@@ -15,20 +15,20 @@ Add snippet for creating a gitconfig [section].
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
 
 # Please enter the commit message for your changes. Lines starting
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.gitcommit comment.line punctuation.definition.comment
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
 # with '#' will be ignored, and an empty message aborts the commit.
 #
 # Date:      Sun Aug 27 16:50:14 2017 -0700
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.gitcommit comment.line punctuation.definition.comment
 #     ^ comment.line punctuation.separator.date
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.commit-date
 #
 # On branch add_gitconfig_pkg
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.gitcommit comment.line punctuation.definition.comment
 #           ^^^^^^^^^^^^^^^^^ comment.line support.type.branch-name
 # Changes to be committed:
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.gitcommit comment.line punctuation.definition.comment
 # ^^^^^^^^^^^^^^^^^^^^^^^ comment.line keyword.change-list.heading
 #                        ^ comment.line punctuation.separator.change-list
 #    new file:   gitconfig/Comments.tmPreferences

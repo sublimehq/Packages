@@ -7,7 +7,7 @@ file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG
-scope: source.gitcommit
+scope: text.gitcommit
 
 contexts:
   prototype:

@@ -8,6 +8,38 @@
 # <- comment.line punctuation.definition.comment
 #^^^^^^^^^^^^^^^^^^ comment.line
 
+# SECTION HEADER TESTS
+[section]
+# <- meta.brackets punctuation.definition.section.begin
+#^^^^^^^ meta.brackets entity.name
+#       ^ meta.brackets punctuation.definition.section.end
+#        ^ -meta.brackets
+[section "subsection"]
+# <- meta.brackets punctuation.definition.section.begin
+#^^^^^^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#        ^^^^^^^^^^^^ string.quoted.double
+#        ^ punctuation.definition.string.begin
+#                   ^ punctuation.definition.string.end
+#                    ^ punctuation.definition.section.end
+[section \"subsection"]
+# <- meta.brackets punctuation.definition.section.begin
+#^^^^^^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#        ^ invalid.illegal
+[section "\slashes\are\legal"]
+#        ^^^^^^^^^^^^^^^^^ string.quoted.double
+#        ^ punctuation.definition.string.begin
+#         ^ -invalid.illegal
+#                 ^ -invalid.illegal
+#                     ^ -invalid.illegal
+#                           ^ punctuation.definition.string.end
+
+[section "slash prevents string from terminating\"]   "] # end the test
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+[sec\tion]
+#   ^ invalid.illegal
+
 # COLOR TESTS
 [color "diff"]
 # <- meta.brackets punctuation.definition.section.begin
@@ -33,11 +65,8 @@
 #      ^ -variable.other.readwrite
 #       ^ keyword.operator.assignment
 #        ^ -keyword.operator.assignment
-#         ^^^^^^^ meta.value constant.other.color.rgb-value
-#         ^ punctuation.definition.constant
-#                ^ -meta.value, -constant.other.color.rgb-value
-#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#                 ^ comment.line punctuation.definition.comment
+#         ^ comment.line punctuation.definition.comment
+#          ^^^^^^^ comment.line
     commit = bold yellow
 # <- meta.key-value-pair
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
@@ -48,6 +77,161 @@
 #            ^^^^^^^^^^^ meta.value
 #            ^^^^ support.constant.color-attribute
 #                 ^^^^^^ support.constant.color
+    commit = yellow 0
+#            ^^^^^^ support.constant.color
+#                   ^ constant.other.color.rgb-value
+    commit = yellow 99
+#            ^^^^^^ support.constant.color
+#                   ^^ constant.other.color.rgb-value
+    commit = yellow 100
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 123
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 199
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 255
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow255
+#            ^^^^^^ -support.constant.color
+#                  ^^^ -constant.other.color.rgb-value
+    commit = yellow 256
+#                   ^^^ -constant.other.color.rgb-value
+    commit = yellow 01
+#                   ^^ -constant.other.color.rgb-value
+    commit = yellow 999
+#                   ^^^ -constant.other.color.rgb-value
+
+# ESCAPE TESTS
+[escapes]
+    quoted = "\\ \" \b \n \t"
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+#   ^^^^^^ variable.other.readwrite
+#          ^ keyword.operator.assignment
+#            ^^^^^^^^^^^^^^^^ meta.value string.quoted.double
+#             ^^ constant.character.escape
+#                ^^ constant.character.escape
+#                   ^^ constant.character.escape
+#                      ^^ constant.character.escape
+#                         ^^ constant.character.escape
+    unquoted = \\ \" \b \n \t \
+#              ^^ constant.character.escape
+#                 ^^ constant.character.escape
+#                    ^^ constant.character.escape
+#                       ^^ constant.character.escape
+#                          ^^ constant.character.escape
+#                             ^ constant.character.escape
+    trailing-slash = \  # comments not legal after trailing slash
+#                    ^^ invalid.illegal.escape
+
+# BOOLEAN TESTS
+[bools]
+    foo = true
+#^^^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^^ meta.value constant.language
+    foo = false
+#^^^^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^^^ meta.value constant.language
+    foo = on
+#^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^ meta.value constant.language
+    foo = off
+#^^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^ meta.value constant.language
+    foo = no
+#^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^ meta.value constant.language
+    foo = yes
+#^^^^^^^^^^^^ meta.key-value-pair
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^ meta.value constant.language
+
+# STRAY BRACKET TEST
+[stray-bracket]]
+#              ^ punctuation.definition.section.end invalid.illegal.stray-bracket
+
+# STRING TESTS
+[strings]
+    foo = "foo"
+#         ^^^^^ meta.value string.quoted.double
+#         ^ punctuation.definition.string.begin
+#             ^ punctuation.definition.string.end
+    foo = \"foo\"
+#         ^^^^^^^ meta.value
+#         ^^ constant.character.escape
+#           ^^^ string.unquoted.value -string.quoted.double
+#              ^^ constant.character.escape
+    foo = 'foo'
+#         ^^^^^ meta.value string.unquoted.value -string.quoted
+    foo = \'foo\'
+#         ^^ invalid.illegal.escape
+#           ^^^ meta.value string.unquoted
+#              ^^ invalid.illegal.escape
+    foo = foo#bar
+#         ^^^ meta.value string.unquoted.value
+#            ^ punctuation.definition.comment
+#            ^^^^ comment.line
+    foo = 'foo#bar'
+#         ^^^^ string.unquoted.value
+#             ^ punctuation.definition.comment
+#             ^^^^^ comment.line
+    foo = \"foo#bar\"
+#         ^^ constant.character.escape
+#           ^^^ string.unquoted.value
+#              ^ punctuation.definition.comment
+#              ^^^^^^ comment.line
+    foo = 'hello#foo'
+#         ^^^^^^ string.unquoted.value
+#               ^ punctuation.definition.comment
+#               ^^^^^ comment.line
+    foo = 'hello\"
+#         ^^^^^^ string.unquoted.value
+#               ^^ constant.character.escape
+    foo = \
+          hello
+#         ^^^^^ string.unquoted.value
+    foo = "foo#bar"
+#         ^ punctuation.definition.string.begin
+#         ^^^^^^^^^ string.quoted.double
+#                 ^ punctuation.definition.string.end
+    foo = #123123
+#         ^ punctuation.definition.comment
+#         ^^^^^^^ comment.line
+    foo = \hello
+#         ^^ invalid.illegal.escape
+    foo = \\hello
+#         ^^ constant.character.escape
+#           ^^^^^ string.unquoted.value
+    foo = hello \ # comments not legal after trailing slash
+#               ^^ invalid.illegal.escape
+    foo = multi \
+#         ^^^^^ string.unquoted.value
+#               ^ constant.character.escape
+          line
+#         ^^^^ string.unquoted.value
+
+    foo = "multi\
+          line"
+#         ^^^^^ string.quoted.double
+#             ^ punctuation.definition.string.end
+    foo = "invalid
+          multi
+          line
+          "
 
 # REAL WORLD SAMPLE TESTS
 [alias]
@@ -64,10 +248,7 @@
 #                  ^ -keyword.operator.assignment
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.value
 #                   ^^^^^^^^^^^^ string.unquoted.value
-#                                ^^^^^^^^^ string.unquoted.value
-#                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
-#                                         ^ punctuation.definition.string.begin
-#                                                                                           ^ punctuation.definition.string.end
+
     fatch = fetch --all --prune --tags
 # <- meta.key-value-pair
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
@@ -117,70 +298,3 @@
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
-
-# ESCAPES TEST
-    foo = "\\ \" \b \n \t"
-#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^^^^^^^^^^^^^^^ meta.value string.quoted.double
-#          ^^ constant.character.escape
-#             ^^ constant.character.escape
-#                ^^ constant.character.escape
-#                   ^^ constant.character.escape
-#                      ^^ constant.character.escape
-
-
-# BOOLEAN TEST
-    foo = true
-#^^^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^^^ meta.value constant.language
-    foo = false
-#^^^^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^^^^ meta.value constant.language
-    foo = on
-#^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^ meta.value constant.language
-    foo = off
-#^^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^^ meta.value constant.language
-    foo = no
-#^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^ meta.value constant.language
-    foo = yes
-#^^^^^^^^^^^^ meta.key-value-pair
-#   ^^^ variable.other.readwrite
-#       ^ keyword.operator.assignment
-#         ^^^ meta.value constant.language
-
-# STRAY BRACKET TEST
-[foo]]
-#    ^ punctuation.definition.section.end invalid.illegal.stray-bracket
-
-# STRINGS TEST
-    foo = "foo"
-#         ^^^^^ meta.value string.quoted.double
-#         ^ punctuation.definition.string.begin
-#             ^ punctuation.definition.string.end
-    foo = \"foo\"
-#         ^^^^^^^ meta.value string.unquoted
-#         ^^ punctuation.definition.string.begin
-#              ^^ punctuation.definition.string.end
-    foo = 'foo'
-#         ^^^^^ meta.value string.quoted.single
-#         ^ punctuation.definition.string.begin
-#             ^ punctuation.definition.string.end
-    foo = \'foo\'
-#         ^^^^^^^ meta.value string.unquoted
-#         ^^ punctuation.definition.string.begin
-#              ^^ punctuation.definition.string.end
