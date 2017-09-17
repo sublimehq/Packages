@@ -57,6 +57,12 @@ contexts:
         3: constant.other.issue-ref.git.commit
         4: punctuation.accessor.issue-ref.repository.git.commit
         5: punctuation.definition.issue-ref.id.git.commit
+    # email reference
+    - match: \b\S+(\@)\S+?(\.)\S+\b
+      scope: constant.other.email.git.commit
+      captures:
+        1: punctuation.separator.email.git.commit
+        2: punctuation.separator.email.git.commit
     # user reference
     - match: (\@)\w+\b
       scope: constant.other.user-ref.git.commit

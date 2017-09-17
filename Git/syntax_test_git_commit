@@ -12,12 +12,15 @@ The message can contain # which is no comment start
 # <- meta.message.git.commit text.plain.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit text.plain.message.git.commit
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
-Thanks to @username.
+Thanks to @username <name@mail-host.domain>.
 # <- meta.message.git.commit text.plain.message.git.commit
-#^^^^^^^^^^^^^^^^^^^ meta.message.git.commit text.plain.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit text.plain.message.git.commit
 #         ^ punctuation.definition.user-ref.git.commit
 #         ^^^^^^^^^ constant.other.user-ref.git.commit
 #                  ^ - constant.other.user-ref.git.commit
+#                    ^^^^^^^^^^^^^^^^^^^^^ constant.other.email.git.commit
+#                        ^ punctuation.separator.email.git.commit
+#                                  ^ punctuation.separator.email.git.commit
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit text.plain.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit text.plain.message.git.commit
