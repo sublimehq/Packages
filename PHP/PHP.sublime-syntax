@@ -10,6 +10,7 @@ file_extensions:
   - phps
   - phpt
   - phtml
+  - .php_cs
 first_line_match: '^(#!.*[^-]php[0-9]?|<\?php)\b'
 scope: embedding.php
 contexts:
