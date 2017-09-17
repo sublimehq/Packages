@@ -1,19 +1,15 @@
 # SYNTAX TEST "Packages/Git/commit.sublime-syntax"
 # <- source.git.commit comment.line punctuation.definition.comment
-Add git package
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^^ text.plain.commit-message
-
-Add sublime-syntax definitions for gitconfig, commit, tag, merge, rebase.
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
-The new syntax definitions don't trigger Oniguruma.
-Add syntax tests.
-Add Comments and Symbol List.tmPreferences.
-Add snippet for creating a gitconfig [section].
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
-
+Add git package # no comment (#403)
+# <- meta.subject.git.commit markup.heading.subject.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
+#               ^^^^^^^^^^^^^^^^^^^ - comment
+-
+# <- meta.message.git.commit text.plain.message.git.commit invalid.illegal.empty-line-expected.git.commit
+The message can contain # which is no comment start
+# <- meta.message.git.commit text.plain.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit text.plain.message.git.commit
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
 # Please enter the commit message for your changes. Lines starting
 # <- source.git.commit comment.line punctuation.definition.comment
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line

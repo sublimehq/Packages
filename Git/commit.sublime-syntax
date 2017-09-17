@@ -14,36 +14,30 @@ contexts:
     - include: comments
 
   main:
-    - include: commit-message
+    # first none comment line is commit subject
+    - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
+    - match: \n
+      set: [commit-message, commit-separator]
+
+  commit-separator:
+    # empty line between subject and message
+    - match: \n
+      pop: true
+    - match: '[^\n]+'
+      scope: invalid.illegal.empty-line-expected.git.commit
 
   commit-message:
-    # this absurd regex is necessary to:
-    #   1. match comments in the subject line
-    #   2. only style the first 50 chars in the subject line
-    - match: ([^#\n]{,50})[^#\n]*((#).*$)?
-      captures:
-        1: string.unquoted.subject-line.git.commit markup.heading.git.commit
-        2: comment.line.git.commit
-        3: punctuation.definition.comment.git.commit
-      push:
-        # enforce empty line following subject line
-        - match: \n
-          push:
-            - match: \n
-              pop: true
-            - match: '.+$'
-              scope: invalid.missing-newline.git.commit
-        # everything left that isn't a comment is the commit message
-        - match: '[^#]*'
-          scope: text.plain.commit-message.git.commit
-          push:
-            - match: '[^#]*'
-              scope: text.plain.commit-message.git.commit
+    # all none comment lines after subject belong to the message
+    - clear_scopes: 2  # meta.subject markup.heading
+    - meta_scope: meta.message.git.commit text.plain.message.git.commit
 
   comments:
-    - match: '#'
-      scope: punctuation.definition.comment.git.commit
+    - match: ^\s*(#)
+      captures:
+        1: punctuation.definition.comment.git.commit
       push:
+        - clear_scopes: 2  # meta.heading markup.heading | meta.message text.plain
+        - meta_include_prototype: false
         - meta_scope: comment.line.git.commit
         - match: \n
           pop: true
