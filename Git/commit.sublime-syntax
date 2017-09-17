@@ -51,21 +51,28 @@ contexts:
         1: support.type.branch-name.git.commit
 
   change-list:
-    - include: change-list-header
-    - include: change
-
-  change-list-header:
-    - match: '\bChanges to be committed\s*(:)'
-      scope: keyword.change-list.heading.git.commit
+    # list header
+    - match: \bChanges to be committed(?=\s*:)
+      scope: markup.heading.change-list.git.commit
+    # list body
+    - match: (new file)\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
       captures:
-        1: punctuation.separator.change-list.git.commit
-
-  change:
-    - match: (new file|modified|deleted)\s*(:)\s*(.*)
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.inserted.file.git.commit
+    - match: (modified)\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
       captures:
-        1: keyword.change-list.change.git.commit
-        2: punctuation.separator.change.git.commit
-        3: keyword.change-list.file.git.commit
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.changed.file.git.commit
+    - match: (deleted)\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.deleted.file.git.commit
 
   # apply a meta scope to the commit date
   date-line:

@@ -24,27 +24,24 @@ The message can contain # which is no comment start
 # <- source.git.commit comment.line punctuation.definition.comment
 #           ^^^^^^^^^^^^^^^^^ comment.line support.type.branch-name
 # Changes to be committed:
-# <- source.git.commit comment.line punctuation.definition.comment
-# ^^^^^^^^^^^^^^^^^^^^^^^ comment.line keyword.change-list.heading
-#                        ^ comment.line punctuation.separator.change-list
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
 #    new file:   gitconfig/Comments.tmPreferences
-#    ^^^^^^^^ comment.line keyword.change-list.change
-#            ^ comment.line punctuation.separator.change
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#    new file:   gitconfig/Snippets/section.sublime-snippet
-#    ^^^^^^^^ comment.line keyword.change-list.change
-#            ^ comment.line punctuation.separator.change
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#    new file:   gitconfig/Symbol List.tmPreferences
-#    ^^^^^^^^ comment.line keyword.change-list.change
-#            ^ comment.line punctuation.separator.change
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#    new file:   gitconfig/gitconfig.sublime-syntax
-#    ^^^^^^^^ comment.line keyword.change-list.change
-#            ^ comment.line punctuation.separator.change
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#    new file:   gitconfig/syntax_test_gitconfig.gitconfig
-#    ^^^^^^^^ comment.line keyword.change-list.change
-#            ^ comment.line punctuation.separator.change
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-#
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^^ keyword.other.change-list.git.commit
+#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
+#    modified:   gitconfig/Snippets/section.sublime-snippet
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^^ keyword.other.change-list.git.commit
+#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#    deleted:    gitconfig/Symbol List.tmPreferences
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^ keyword.other.change-list.git.commit
+#           ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
