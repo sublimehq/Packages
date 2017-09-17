@@ -18,6 +18,7 @@ contexts:
     - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
     - match: \n
       set: [commit-message, commit-separator]
+    - include: references
 
   commit-separator:
     # empty line between subject and message
@@ -30,6 +31,37 @@ contexts:
     # all none comment lines after subject belong to the message
     - clear_scopes: 2  # meta.subject markup.heading
     - meta_scope: meta.message.git.commit text.plain.message.git.commit
+    - include: references
+
+  references:
+    # issue reference
+    # https://help.github.com/articles/closing-issues-using-keywords
+    - match: |-
+          (?x)
+          # optional closing keyword
+          (?i:
+            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
+            \s* (:)? \s*             # optional colon separator
+          )?                         # keyword is optional
+          # user/repo#issue
+          (
+            (?:
+              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+            )?
+            (\#)[0-9]+               # issue number
+          )\b
+      scope: meta.issue-ref.git.commit
+      captures:
+        1: keyword.other.resolved-issue.git.commit
+        2: punctuation.separator.mapping.pair.resolved-issue.git.commit
+        3: constant.other.issue-ref.git.commit
+        4: punctuation.accessor.issue-ref.repository.git.commit
+        5: punctuation.definition.issue-ref.id.git.commit
+    # user reference
+    - match: (\@)\w+\b
+      scope: constant.other.user-ref.git.commit
+      captures:
+        1: punctuation.definition.user-ref.git.commit
 
   comments:
     - match: ^\s*(#)
