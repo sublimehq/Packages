@@ -75,9 +75,8 @@ contexts:
         2: punctuation.separator.mapping.pair.change-list.git.commit
         3: string.unquoted.git.commit markup.deleted.file.git.commit
 
-  # apply a meta scope to the commit date
   date-line:
-    - match: \bDate\s*(:)\s*(.*)
+    - match: \b(Date)\s*:\s*(.*)
       captures:
-        1: punctuation.separator.date.git.commit
-        2: meta.commit-date.git.commit
+        1: markup.heading.git.commit
+        2: constant.language.timestamp.git.commit

@@ -16,9 +16,11 @@ The message can contain # which is no comment start
 # with '#' will be ignored, and an empty message aborts the commit.
 #
 # Date:      Sun Aug 27 16:50:14 2017 -0700
-# <- source.git.commit comment.line punctuation.definition.comment
-#     ^ comment.line punctuation.separator.date
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.commit-date
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^ markup.heading.git.commit
+#     ^^^^^^^ - markup.heading.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.timestamp.git.commit
 #
 # On branch add_gitconfig_pkg
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
