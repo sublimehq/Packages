@@ -16,39 +16,6 @@ contexts:
   main:
     - include: commit-message
 
-  branch-line:
-    - match: \bOn branch\s+(.*)
-      captures:
-        1: support.type.branch-name.git.commit
-
-  change:
-    - match: (new file|modified|deleted)\s*(:)\s*(.*)
-      captures:
-        1: keyword.change-list.change.git.commit
-        2: punctuation.separator.change.git.commit
-        3: keyword.change-list.file.git.commit
-
-  change-list:
-    - include: change-list-header
-    - include: change
-
-  change-list-header:
-    - match: '\bChanges to be committed\s*(:)'
-      scope: keyword.change-list.heading.git.commit
-      captures:
-        1: punctuation.separator.change-list.git.commit
-
-  comments:
-    - match: '#'
-      scope: punctuation.definition.comment.git.commit
-      push:
-        - meta_scope: comment.line.git.commit
-        - match: \n
-          pop: true
-        - include: change-list
-        - include: branch-line
-        - include: date-line
-
   commit-message:
     # this absurd regex is necessary to:
     #   1. match comments in the subject line
@@ -72,6 +39,39 @@ contexts:
           push:
             - match: '[^#]*'
               scope: text.plain.commit-message.git.commit
+
+  comments:
+    - match: '#'
+      scope: punctuation.definition.comment.git.commit
+      push:
+        - meta_scope: comment.line.git.commit
+        - match: \n
+          pop: true
+        - include: change-list
+        - include: branch-line
+        - include: date-line
+
+  branch-line:
+    - match: \bOn branch\s+(.*)
+      captures:
+        1: support.type.branch-name.git.commit
+
+  change-list:
+    - include: change-list-header
+    - include: change
+
+  change-list-header:
+    - match: '\bChanges to be committed\s*(:)'
+      scope: keyword.change-list.heading.git.commit
+      captures:
+        1: punctuation.separator.change-list.git.commit
+
+  change:
+    - match: (new file|modified|deleted)\s*(:)\s*(.*)
+      captures:
+        1: keyword.change-list.change.git.commit
+        2: punctuation.separator.change.git.commit
+        3: keyword.change-list.file.git.commit
 
   # apply a meta scope to the commit date
   date-line:
