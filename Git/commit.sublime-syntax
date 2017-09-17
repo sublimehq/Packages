@@ -46,9 +46,10 @@ contexts:
         - include: date-line
 
   branch-line:
-    - match: \bOn branch\s+(.*)
+    - match: \b(On branch)\s+(.*)
       captures:
-        1: support.type.branch-name.git.commit
+        1: markup.heading.on-branch.git.commit
+        2: constant.language.branch-name.git.commit
 
   change-list:
     # list header

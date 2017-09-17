@@ -21,8 +21,11 @@ The message can contain # which is no comment start
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.commit-date
 #
 # On branch add_gitconfig_pkg
-# <- source.git.commit comment.line punctuation.definition.comment
-#           ^^^^^^^^^^^^^^^^^ comment.line support.type.branch-name
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^ markup.heading.on-branch.git.commit
+#           ^^^^^^^^^^^^^^^^^ constant.language.branch-name.git.commit
+#
 # Changes to be committed:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
