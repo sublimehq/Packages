@@ -61,6 +61,8 @@ a 6746x20 Invalid command and hash # no comment
 #        ^ -constant.numeric.hex.hash -text.plain.commit-msg
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
 #                                              ^ -text.plain.commit-msg
+  # p 6746220 Second pick commit # no comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment

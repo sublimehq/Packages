@@ -20,8 +20,9 @@ contexts:
     - include: commit
 
   comments:
-    - match: '#'
-      scope: punctuation.definition.comment.git.rebase
+    - match: ^\s*(#)
+      captures:
+        1: punctuation.definition.comment.git.rebase
       push:
         - meta_scope: comment.line.git.rebase
         - match: \n
