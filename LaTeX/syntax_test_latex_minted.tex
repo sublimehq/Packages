@@ -1,6 +1,6 @@
-% SYNTAX TEST "Packages/LaTeX/LaTeX.sublime-syntax"
+% SYNTAX TEST "Packages/LaTeX/LaTeX (minted).sublime-syntax"
 
-% <- text.tex.latex
+% <- text.tex.latex.minted
 
 \documentclass[12pt]{article}
 % ^ keyword.control.preamble.latex
@@ -318,6 +318,43 @@ opening and closing commands.
 \endcomment
 % <- comment.block.command.comment.latex
 % ^ punctuation.definition.comment.end.latex
+
+
+% PACKAGE: minted
+% The minted package is used to highlight source code using
+% the Pygments library.
+
+\begin{minted}[linenos=true]{python}
+def my_function():
+    pass
+% <- meta.environment.verbatim.minted.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.python
+\end{minted}
+
+
+\mint{python}{import this}
+%             ^ meta.environment.verbatim.minted.latex
+%             ^ meta.environment.embedded.python.latex
+%             ^ source.python.embedded
+%             ^ keyword.control.import.python
+
+% instead of embedding the code into { and } it is also possible
+% to use an arbitrary character
+\mint{python}|import this|
+%             ^ meta.environment.verbatim.minted.latex
+%             ^ source.python.embedded
+
+
+\mintinline{python}{print(x ** 2)}
+%                    ^ meta.environment.verbatim.minted.latex
+%                    ^ meta.environment.embedded.python.latex
+%                    ^ source.python.embedded
+%                    ^ support.function.builtin.python
+
+\mintinline{python}+print(x ** 2)+
+%                    ^ source.python.embedded
 
 
 % PACKAGE: array
