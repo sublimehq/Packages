@@ -10,7 +10,8 @@ scope: source.git.rebase
 
 variables:
   hash: \b\h{7,}\b
-  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx])\b
+  shortcut: '[defprsx]'
+  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|{{shortcut}})\b
 
 contexts:
 
@@ -25,6 +26,7 @@ contexts:
         - meta_scope: comment.line.git.rebase
         - match: \n
           pop: true
+        - include: commands-msg
         - include: rebase-msg
 
   # e.g. pick d284bb2 Initial commit
@@ -65,9 +67,21 @@ contexts:
     - match: '\bRebase\s+'
       push:
         - meta_scope: meta.rebase-msg.git.rebase
-        - match: '$'
+        - match: $
           pop: true
-        - match: '\b{{hash}}\b'
+        - match: '{{hash}}'
           scope: constant.numeric.hex.hash.git.rebase
         - match: \.\.
-          scope: keyword.operator.commit-range.git.rebase
+          scope: punctuation.separator.commit-range.git.rebase
+
+  # e.g. p, pick = use commit
+  # highlight the commands and separators in this comment
+  commands-msg:
+    - match: ({{shortcut}})(,)\s*({{operator}})\s*(=)\s*(.+)
+      scope: meta.commands-help.git.rebase
+      captures:
+        1: keyword.operator.commit.git.rebase
+        2: punctuation.separator.comma.git.rebase
+        3: keyword.operator.commit.git.rebase
+        4: punctuation.separator.key-value.git.rebase
+        5: text.plain.command-description.git.rebase

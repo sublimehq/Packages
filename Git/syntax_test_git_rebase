@@ -65,13 +65,24 @@ a 6746x20 Invalid command and hash # no comment
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.rebase-msg
-#        ^^^^^^^ comment.line constant.numeric.hex.hash
-#               ^^ comment.line keyword.operator.commit-range
-#                 ^^^^^^^ comment.line constant.numeric.hex.hash
-#                              ^^^^^^^ comment.line constant.numeric.hex.hash
+#        ^^^^^^^ constant.numeric.hex.hash
+#               ^^ punctuation.separator.commit-range
+#                 ^^^^^^^ constant.numeric.hex.hash
+#                              ^^^^^^^ constant.numeric.hex.hash
 #
 # Commands:
 # p, pick = use commit
+#^^^^^^^^^^^^^^^^^^^^^^ comment.line
+# ^^^^^^^^^^^^^^^^^^^^ meta.commands-help
+#^ -keyword.operator.commit
+# ^ keyword.operator.commit
+#  ^^ -keyword.operator.commit
+#  ^ punctuation.separator.comma
+#    ^^^^ keyword.operator.commit
+#        ^^^^^^^^^^^^^ -keyword.operator.commit
+#         ^ punctuation.separator.key-value
+# ^^^^^^^^^^ -text.plain.command-description
+#           ^^^^^^^^^^ text.plain.command-description
 # r, reword = use commit, but edit the commit message
 # e, edit = use commit, but stop for amending
 # s, squash = use commit, but meld into previous commit
