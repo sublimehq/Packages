@@ -52,15 +52,17 @@ s 6746x20 Invalid hash # no comment
 #        ^ -constant.numeric.hex.hash -text.plain.commit-msg
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
 #                                  ^ -text.plain.commit-msg
-a 6746x20 Invalid command and hash # no comment
+a 6746x20 Invalid command and hash # no comment (#403)
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- invalid.illegal.command-expected
 #^ -storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
 #        ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
-#                                              ^ -text.plain.commit-msg
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#                                                ^ punctuation.definition.issue-ref.id
+#                                                ^^^^ meta.issue-ref constant.other.issue-ref
+#                                                     ^ -text.plain.commit-msg
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 

@@ -86,7 +86,47 @@ contexts:
 
   commit-message:
     - meta_scope: meta.commit.git.rebase
-    - match: (\S.+?)?\s*\n
-      captures:
-        1: text.plain.commit-msg
+    - match: \n
       pop: true
+    - match: (?=\S)  # subject beginns with first none whitespece
+      push:
+        - meta_content_scope: text.plain.commit-msg.git.rebase
+        - match: $
+          pop: true
+        - include: references
+
+  references:
+    # issue reference
+    # https://help.github.com/articles/closing-issues-using-keywords
+    - match: |-
+          (?x)
+          # optional closing keyword
+          (?i:
+            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
+            \s* (:)? \s*             # optional colon separator
+          )?                         # keyword is optional
+          # user/repo#issue
+          (
+            (?:
+              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+            )?
+            (\#)[0-9]+               # issue number
+          )\b
+      scope: meta.issue-ref.git.rebase
+      captures:
+        1: keyword.other.resolved-issue.git.rebase
+        2: punctuation.separator.mapping.pair.resolved-issue.git.rebase
+        3: constant.other.issue-ref.git.rebase
+        4: punctuation.accessor.issue-ref.repository.git.rebase
+        5: punctuation.definition.issue-ref.id.git.rebase
+    # email reference
+    - match: \b\S+(\@)\S+?(\.)\S+\b
+      scope: constant.other.email.git.rebase
+      captures:
+        1: punctuation.separator.email.git.rebase
+        2: punctuation.separator.email.git.rebase
+    # user reference
+    - match: (\@)\w+\b
+      scope: constant.other.user-ref.git.rebase
+      captures:
+        1: punctuation.definition.user-ref.git.rebase
