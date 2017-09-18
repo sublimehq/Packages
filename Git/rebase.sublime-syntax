@@ -29,6 +29,31 @@ contexts:
         - include: commands-msg
         - include: rebase-msg
 
+  # e.g. p, pick = use commit
+  # highlight the commands and separators in this comment
+  commands-msg:
+    - match: ({{shortcut}})(,)\s*({{operator}})\s*(=)\s*(.+)
+      scope: meta.commands-help.git.rebase
+      captures:
+        1: keyword.operator.commit.git.rebase
+        2: punctuation.separator.comma.git.rebase
+        3: keyword.operator.commit.git.rebase
+        4: punctuation.separator.key-value.git.rebase
+        5: text.plain.command-description.git.rebase
+
+  # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+  # highlight the hashes in this comment
+  rebase-msg:
+    - match: '\bRebase\s+'
+      push:
+        - meta_scope: meta.rebase-msg.git.rebase
+        - match: $
+          pop: true
+        - match: '{{hash}}'
+          scope: constant.numeric.hex.hash.git.rebase
+        - match: \.\.
+          scope: punctuation.separator.commit-range.git.rebase
+
   # e.g. pick d284bb2 Initial commit
   commit:
     - match: ^
@@ -60,28 +85,3 @@ contexts:
       captures:
         1: text.plain.commit-msg
       pop: true
-
-  # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
-  # highlight the hashes in this comment
-  rebase-msg:
-    - match: '\bRebase\s+'
-      push:
-        - meta_scope: meta.rebase-msg.git.rebase
-        - match: $
-          pop: true
-        - match: '{{hash}}'
-          scope: constant.numeric.hex.hash.git.rebase
-        - match: \.\.
-          scope: punctuation.separator.commit-range.git.rebase
-
-  # e.g. p, pick = use commit
-  # highlight the commands and separators in this comment
-  commands-msg:
-    - match: ({{shortcut}})(,)\s*({{operator}})\s*(=)\s*(.+)
-      scope: meta.commands-help.git.rebase
-      captures:
-        1: keyword.operator.commit.git.rebase
-        2: punctuation.separator.comma.git.rebase
-        3: keyword.operator.commit.git.rebase
-        4: punctuation.separator.key-value.git.rebase
-        5: text.plain.command-description.git.rebase
