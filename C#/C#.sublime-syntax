@@ -835,7 +835,7 @@ contexts:
       captures:
         1: keyword.control.flow.goto.cs
         2: keyword.control.switch.case.cs
-      push: line_of_code_in
+      set: line_of_code_in
     - match: '\b(goto)\s+({{name}})\s*(;)'
       captures:
         1: keyword.control.flow.goto.cs
