@@ -5,17 +5,17 @@
 name: Git Rebase
 file_extensions:
   - git-rebase-todo
-first_line_match: '^(?:pick|squash|reword|fixup|exec|edit|drop) \h{7,} '
+first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
 scope: source.git.rebase
 
 variables:
-  hash: \h{7,}
+  hash: \b\h{7,}\b
+  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx])\b
 
 contexts:
-  prototype:
-    - include: comments
 
   main:
+    - include: comments
     - include: commit
 
   comments:
@@ -29,20 +29,35 @@ contexts:
 
   # e.g. pick d284bb2 Initial commit
   commit:
-    - match: ^\s*(squash|reword|pick|fixup|exec|edit|drop|x|s|r|p|f|e|d)[\t ]
+    - match: ^
+      push: [commit-message, commit-hash, commit-commands]
+
+  commit-commands:
+    - match: '{{operator}}'
+      scope: keyword.operator.commit.git.rebase
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.command-expected.git.rebase
+      pop: true
+    - match: $
+      pop: true
+
+  commit-hash:
+    - match: '{{hash}}' # e.g. d284bb2
+      scope: constant.numeric.hex.hash.git.rebase
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.hash-expected.git.rebase
+      pop: true
+    - match: $
+      pop: true
+
+  commit-message:
+    - meta_scope: meta.commit.git.rebase
+    - match: (\S.+?)?\s*\n
       captures:
-        1: storage.type.edit.git.rebase
-      push:
-        - meta_scope: meta.commit.git.rebase
-        - match: \n
-          pop: true
-        - match: \b({{hash}})\s # e.g. d284bb2
-          captures:
-            1: constant.numeric.hex.hash.git.rebase
-          push:
-            - meta_content_scope: text.plain.commit-msg.git.rebase
-            - match: $
-              pop: true
+        1: text.plain.commit-msg
+      pop: true
 
   # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
   # highlight the hashes in this comment

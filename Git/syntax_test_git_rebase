@@ -1,17 +1,66 @@
 # SYNTAX TEST "Packages/Git/rebase.sublime-syntax"
-# <- source.git.rebase comment.line punctuation.definition.comment
+# <- source comment.line punctuation.definition.comment
 pick d284bb2 Initial commit
-# <- meta.commit storage.type.edit
-#^^^ meta.commit storage.type.edit
-#   ^ meta.commit -storage.type.commit
-#    ^^^^^^^ meta.commit constant.numeric.hex.hash
-#            ^^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
-pick 6746220 Second commit
-# <- meta.commit storage.type.edit
-#^^^ meta.commit storage.type.edit
-#   ^ meta.commit -storage.type.commit
-#    ^^^^^^^ meta.commit constant.numeric.hex.hash
-#            ^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                           ^ -meta.commit
+# <- keyword.operator.commit
+#^^^ keyword.operator.commit
+#   ^ -storage.type.commit
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#            ^^^^^^^^^^^^^^ text.plain.commit-msg
+#                          ^ -text.plain.commit-msg
+p 6746220 Second pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                         ^ -meta.commit
+# <- keyword.operator.commit
+#^ -keyword.operator.commit
+# ^^^^^^^ constant.numeric.hex.hash
+#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#                                        ^ -text.plain.commit-msg
+#                ^^^^ -keyword
+   p 6746220 Second pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                            ^ -meta.commit
+# ^ -keyword.operator.commit
+#  ^ keyword.operator.commit
+#   ^ -keyword.operator.commit -constant.numeric.hex.hash
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#                                           ^ -text.plain.commit-msg
+#                   ^^^^ -keyword
+puck 6746220 Invalid command
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^^^ invalid.illegal.command-expected
+#   ^ -storage.type.commit -invalid.illegal.command-expected
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#            ^^^^^^^^^^^^^^^ text.plain.commit-msg
+s 6746x20 Invalid hash # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- keyword.operator.commit
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#                                  ^ -text.plain.commit-msg
+a 6746x20 Invalid command and hash # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#                                              ^ -text.plain.commit-msg
 
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment
