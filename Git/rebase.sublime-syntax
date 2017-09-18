@@ -32,6 +32,10 @@ contexts:
   # e.g. p, pick = use commit
   # highlight the commands and separators in this comment
   commands-msg:
+    - match: \bCommands(:)
+      scope: markup.heading.git.rebase
+      captures:
+        1: punctuation.terminator.heading.git.rebase
     - match: ({{shortcut}})(,)\s*({{operator}})\s*(=)\s*(.+)
       scope: meta.commands-help.git.rebase
       captures:
@@ -44,9 +48,9 @@ contexts:
   # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
   # highlight the hashes in this comment
   rebase-msg:
-    - match: '\bRebase\s+'
+    - match: \bRebase\b
       push:
-        - meta_scope: meta.rebase-msg.git.rebase
+        - meta_scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
         - match: $
           pop: true
         - match: '{{hash}}'
