@@ -6,7 +6,7 @@ name: Git Rebase
 file_extensions:
   - git-rebase-todo
 first_line_match: '^(?:pick|squash|reword|fixup|exec|edit|drop) \h{7,} '
-scope: source.gitrebase
+scope: source.git.rebase
 
 variables:
   hash: \h{7,}
@@ -20,9 +20,9 @@ contexts:
 
   comments:
     - match: '#'
-      scope: punctuation.definition.comment.gitrebase
+      scope: punctuation.definition.comment.git.rebase
       push:
-        - meta_scope: comment.line.gitrebase
+        - meta_scope: comment.line.git.rebase
         - match: \n
           pop: true
         - include: rebase-msg
@@ -31,16 +31,16 @@ contexts:
   commit:
     - match: ^\s*(squash|reword|pick|fixup|exec|edit|drop|x|s|r|p|f|e|d)[\t ]
       captures:
-        1: storage.type.edit.gitrebase
+        1: storage.type.edit.git.rebase
       push:
-        - meta_scope: meta.commit.gitrebase
+        - meta_scope: meta.commit.git.rebase
         - match: \n
           pop: true
         - match: \b({{hash}})\s # e.g. d284bb2
           captures:
-            1: constant.numeric.hex.hash.gitrebase
+            1: constant.numeric.hex.hash.git.rebase
           push:
-            - meta_content_scope: text.plain.commit-msg.gitrebase
+            - meta_content_scope: text.plain.commit-msg.git.rebase
             - match: $
               pop: true
 
@@ -49,10 +49,10 @@ contexts:
   rebase-msg:
     - match: '\bRebase\s+'
       push:
-        - meta_scope: meta.rebase-msg.gitrebase
+        - meta_scope: meta.rebase-msg.git.rebase
         - match: '$'
           pop: true
         - match: '\b{{hash}}\b'
-          scope: constant.numeric.hex.hash.gitrebase
+          scope: constant.numeric.hex.hash.git.rebase
         - match: \.\.
-          scope: keyword.operator.commit-range.gitrebase
+          scope: keyword.operator.commit-range.git.rebase
