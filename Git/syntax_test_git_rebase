@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/git rebase.sublime-syntax"
-# <- source comment.line punctuation.definition.comment
+# <- text.git.rebase comment.line punctuation.definition.comment
 pick d284bb2 Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit

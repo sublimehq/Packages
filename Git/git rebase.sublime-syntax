@@ -6,7 +6,7 @@ name: Git Rebase
 file_extensions:
   - git-rebase-todo
 first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
-scope: source.git.rebase
+scope: text.git.rebase
 
 variables:
   hash: \b\h{7,}\b
