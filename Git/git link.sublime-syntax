@@ -6,7 +6,7 @@ name: Git Link
 file_extensions:
   - .git
 first_line_match: '^\s*gitdir\s*:'
-scope: source.git.link
+scope: text.git.link
 
 contexts:
 

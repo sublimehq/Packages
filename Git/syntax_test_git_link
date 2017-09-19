@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/git link.sublime-syntax"
-# <- source.git.link comment.line punctuation.definition.comment
+# <- text.git.link comment.line punctuation.definition.comment
 gitdir: c:/data/sublime/packages/.git.
 #^^^^^ meta.mapping.key.git.link - meta.mapping.value.git.link
 #     ^ meta.mapping.git.link - meta.mapping.key.git.link - meta.mapping.value.git.link
