@@ -1966,6 +1966,8 @@ contexts:
       scope: constant.numeric.css
       captures:
         1: keyword.other.unit.css
+    - match: '0\b(?!%)'
+      scope: constant.numeric.css
 
   time-type:
     - match: '{{number}}({{duration_units}})\b'
