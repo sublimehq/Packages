@@ -1266,7 +1266,6 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.shell
-          scope: constant.character.escape.shell.zsh
         - match: \'
           scope: punctuation.definition.string.end.shell
           pop: true
