@@ -113,7 +113,7 @@ Fix: #203
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    deleted:    gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -135,7 +135,7 @@ Fix: #203
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    gelöscht:   gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -144,8 +144,8 @@ Fix: #203
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
 # 要提交的变更:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
+#^^^^^^^^ comment.line.git.commit
+# ^^^^^^ markup.heading.change-list.git.commit
 #    新文件:        gitconfig/Comments.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -157,7 +157,7 @@ Fix: #203
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
 #    ^^ keyword.other.change-list.git.commit
 #      ^ punctuation.separator.mapping.pair.change-list.git.commit
-#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
 #    删除:         gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
