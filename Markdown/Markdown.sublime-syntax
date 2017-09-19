@@ -174,7 +174,7 @@ contexts:
         )
       captures:
         1: punctuation.definition.constant.begin.markdown
-        2: constant.other.reference.link.markdown
+        2: entity.name.reference.link.markdown
         3: punctuation.definition.constant.end.markdown
         4: punctuation.separator.key-value.markdown
         5: punctuation.definition.link.begin.markdown
