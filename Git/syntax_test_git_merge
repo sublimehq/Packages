@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/git commit.sublime-syntax"
-# <- source.git.commit comment.line punctuation.definition.comment
+# <- text.git.commit comment.line punctuation.definition.comment
 Merge branch 'footest'
 # <- text.plain.commit-message
 #^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message

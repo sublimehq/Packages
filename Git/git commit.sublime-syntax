@@ -7,7 +7,7 @@ file_extensions:
   - COMMIT_EDITMSG
   - MERGE_MSG
   - TAG_EDITMSG
-scope: source.git.commit
+scope: text.git.commit
 
 variables:
   # The following variables are required to support highlighting of special phrases

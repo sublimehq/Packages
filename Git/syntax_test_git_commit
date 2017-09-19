@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/git commit.sublime-syntax"
-# <- source.git.commit comment.line punctuation.definition.comment
+# <- text.git.commit comment.line punctuation.definition.comment
 Add git package # no comment (#403)
 # <- meta.subject.git.commit markup.heading.subject.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
@@ -81,7 +81,7 @@ Fix: #203
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
-# <- source.git.commit comment.line punctuation.definition.comment
+# <- text.git.commit comment.line punctuation.definition.comment
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
 # with '#' will be ignored, and an empty message aborts the commit.
 #
