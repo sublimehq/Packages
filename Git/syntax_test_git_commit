@@ -120,3 +120,47 @@ Fix: #203
 #    ^^^^^^^ keyword.other.change-list.git.commit
 #           ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
+# zum Commit vorgemerkte Änderungen:
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
+#    neue Datei: gitconfig/Comments.tmPreferences
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^^^^ keyword.other.change-list.git.commit
+#              ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
+#    geändert:   gitconfig/Snippets/section.sublime-snippet
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^^ keyword.other.change-list.git.commit
+#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#    gelöscht:   gitconfig/Symbol List.tmPreferences
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^^^^^^ keyword.other.change-list.git.commit
+#            ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
+# 要提交的变更:
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
+#    新文件:        gitconfig/Comments.tmPreferences
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^^ keyword.other.change-list.git.commit
+#       ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.inserted.file.git.commit
+#    修改:         gitconfig/Snippets/section.sublime-snippet
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^ keyword.other.change-list.git.commit
+#      ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.git.commit
+#    删除:         gitconfig/Symbol List.tmPreferences
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#    ^^ keyword.other.change-list.git.commit
+#      ^ punctuation.separator.mapping.pair.change-list.git.commit
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
