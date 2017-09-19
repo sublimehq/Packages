@@ -1032,6 +1032,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: number-type
+          - include: var-function
 
       # transform functions with comma separated <number> or <length> types
       # translate(), translate3d()
@@ -1050,6 +1051,7 @@ contexts:
           - include: percentage-type
           - include: length-type
           - include: number-type
+          - include: var-function
 
       # transform functions with a single <number> or <length> type
       # translateX(), translateY()
@@ -1966,6 +1968,8 @@ contexts:
       scope: constant.numeric.css
       captures:
         1: keyword.other.unit.css
+    - match: '0\b(?!%)'
+      scope: constant.numeric.css
 
   time-type:
     - match: '{{number}}({{duration_units}})\b'
