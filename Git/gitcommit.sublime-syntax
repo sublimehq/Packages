@@ -39,7 +39,7 @@ contexts:
         1: punctuation.separator.change-list.gitcommit
 
   comments:
-    - match: '#'
+    - match: ^#
       scope: punctuation.definition.comment.gitcommit
       push:
         - meta_scope: comment.line.gitcommit
@@ -50,30 +50,21 @@ contexts:
         - include: date-line
 
   commit-message:
-    # this absurd regex is necessary to:
-    #   1. match comments in the subject line
-    #   2. only style the first 50 chars in the subject line
-    - match: ([^#\n]{,50})[^#\n]*((#).*$)?
+    - match: ^([^#].{,49}).*\n
       captures:
         1: string.unquoted.subject-line.gitcommit markup.heading.gitcommit
-        2: comment.line.gitcommit
-        3: punctuation.definition.comment.gitcommit
       push:
-        # enforce empty line following subject line
+        # Contexts are never popped because they're expected to match the rest
+        # of the commit.
         - match: \n
           push:
-            - match: \n
-              pop: true
-            - match: '.+$'
-              scope: invalid.missing-newline.gitcommit
-        # everything left that isn't a comment is the commit message
-        - match: '[^#]*'
-          scope: text.plain.commit-message.gitcommit
-          push:
-            - match: '[^#]*'
-              scope: text.plain.commit-message.gitcommit
+          # Everything left that isn't a comment is the commit message.
+          - match: '.+'
+            scope: text.plain.commit-message.gitcommit
+        - match: '.+' # match any char on the first line after the subject line
+          scope: invalid.missing-newline.gitcommit
 
-  # apply a meta scope to the commit date
+  # Apply a meta scope to the commit date.
   date-line:
     - match: \bDate\s*(:)\s*(.*)
       captures:

@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Git/config.sublime-syntax"
+# SYNTAX TEST "Packages/Git/gitconfig.sublime-syntax"
 # <- source.gitconfig comment.line punctuation.definition.comment
 
 # COMMENT TEST
@@ -10,20 +10,20 @@
 
 # SECTION HEADER TESTS
 [section]
-# <- meta.brackets punctuation.definition.section.begin
+# <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^ meta.brackets entity.name
-#       ^ meta.brackets punctuation.definition.section.end
+#       ^ meta.brackets punctuation.definition.brackets.end
 #        ^ -meta.brackets
 [section "subsection"]
-# <- meta.brackets punctuation.definition.section.begin
+# <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^ meta.brackets
 #^^^^^^^ entity.name
 #        ^^^^^^^^^^^^ string.quoted.double
 #        ^ punctuation.definition.string.begin
 #                   ^ punctuation.definition.string.end
-#                    ^ punctuation.definition.section.end
+#                    ^ punctuation.definition.brackets.end
 [section \"subsection"]
-# <- meta.brackets punctuation.definition.section.begin
+# <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^ meta.brackets
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
@@ -42,25 +42,25 @@
 
 # COLOR TESTS
 [color "diff"]
-# <- meta.brackets punctuation.definition.section.begin
+# <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^^^^^^^^ meta.brackets
 #^^^^^ entity.name
 #      ^^^^^^ string.quoted.double
 #      ^ punctuation.definition.string.begin
 #           ^ punctuation.definition.string.end
-#            ^ punctuation.definition.section.end
+#            ^ punctuation.definition.brackets.end
 #             ^ -meta.brackets
     old = red
-# <- meta.key-value-pair
-#^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #      ^ -variable.other.readwrite
 #       ^ keyword.operator.assignment
 #        ^ -keyword.operator.assignment
-#         ^^^ meta.value support.constant.color
+#         ^^^ meta.mapping.value support.constant.color
     new = #00aa00 # this should be a comment
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #      ^ -variable.other.readwrite
 #       ^ keyword.operator.assignment
@@ -68,13 +68,13 @@
 #         ^ comment.line punctuation.definition.comment
 #          ^^^^^^^ comment.line
     commit = bold yellow
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^^ variable.other.readwrite
 #         ^ -variable.other.readwrite
 #          ^ keyword.operator.assignment
 #           ^ -keyword.operator.assignment
-#            ^^^^^^^^^^^ meta.value
+#            ^^^^^^^^^^^ meta.mapping.value
 #            ^^^^ support.constant.color-attribute
 #                 ^^^^^^ support.constant.color
     commit = yellow 0
@@ -108,10 +108,10 @@
 # ESCAPE TESTS
 [escapes]
     quoted = "\\ \" \b \n \t"
-#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^^ variable.other.readwrite
 #          ^ keyword.operator.assignment
-#            ^^^^^^^^^^^^^^^^ meta.value string.quoted.double
+#            ^^^^^^^^^^^^^^^^ meta.mapping.value string.quoted.double
 #             ^^ constant.character.escape
 #                ^^ constant.character.escape
 #                   ^^ constant.character.escape
@@ -130,59 +130,65 @@
 # BOOLEAN TESTS
 [bools]
     foo = true
-#^^^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^^^ meta.value constant.language
+#         ^^^^ meta.mapping.value constant.language
     foo = false
-#^^^^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^^^^ meta.value constant.language
+#         ^^^^^ meta.mapping.value constant.language
     foo = on
-#^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^ meta.value constant.language
+#         ^^ meta.mapping.value constant.language
     foo = off
-#^^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^^ meta.value constant.language
+#         ^^^ meta.mapping.value constant.language
     foo = no
-#^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^ meta.value constant.language
+#         ^^ meta.mapping.value constant.language
     foo = yes
-#^^^^^^^^^^^^ meta.key-value-pair
+#^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #       ^ keyword.operator.assignment
-#         ^^^ meta.value constant.language
+#         ^^^ meta.mapping.value constant.language
 
-# STRAY BRACKET TEST
+# STRAY CHARACTER TEST
 [stray-bracket]]
-#              ^ punctuation.definition.section.end invalid.illegal.stray-bracket
+#              ^ invalid.illegal.gitconfig
+[stray-chars]asdf
+#            ^^^^ invalid.illegal.gitconfig
+[valid-trailing-comment]# comments should not match as illegal characters
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -invalid.illegal.gitconfig
+[valid-trailing-space]  # trailing space should not match as illegal characters
+#                     ^^ -invalid.illegal.gitconfig
 
 # STRING TESTS
 [strings]
     foo = "foo"
-#         ^^^^^ meta.value string.quoted.double
+#         ^^^^^ meta.mapping.value string.quoted.double
 #         ^ punctuation.definition.string.begin
 #             ^ punctuation.definition.string.end
     foo = \"foo\"
-#         ^^^^^^^ meta.value
+#         ^^^^^^^ meta.mapping.value
 #         ^^ constant.character.escape
 #           ^^^ string.unquoted.value -string.quoted.double
 #              ^^ constant.character.escape
     foo = 'foo'
-#         ^^^^^ meta.value string.unquoted.value -string.quoted
+#         ^^^^^ meta.mapping.value string.unquoted.value -string.quoted
     foo = \'foo\'
 #         ^^ invalid.illegal.escape
-#           ^^^ meta.value string.unquoted
+#           ^^^ meta.mapping.value string.unquoted
 #              ^^ invalid.illegal.escape
     foo = foo#bar
-#         ^^^ meta.value string.unquoted.value
+#         ^^^ meta.mapping.value string.unquoted.value
 #            ^ punctuation.definition.comment
 #            ^^^^ comment.line
     foo = 'foo#bar'
@@ -235,40 +241,40 @@
 
 # REAL WORLD SAMPLE TESTS
 [alias]
-# <- meta.brackets punctuation.definition.section.begin
+# <- meta.brackets punctuation.definition.brackets.begin
 #^^^^^^ meta.brackets
 #^^^^^ entity.name
-#     ^ punctuation.definition.section.end
+#     ^ punctuation.definition.brackets.end
     branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^^^^^^^^^ variable.other.readwrite
 #                ^ -variable.other.readwrite
 #                 ^ keyword.operator.assignment
 #                  ^ -keyword.operator.assignment
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.value
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #                   ^^^^^^^^^^^^ string.unquoted.value
 
     fatch = fetch --all --prune --tags
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^ variable.other.readwrite
 #        ^ -variable.other.readwrite
 #         ^ keyword.operator.assignment
 #          ^ -keyword.operator.assignment
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.value
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #           ^^^^^ string.unquoted.value
 #                 ^^^^^ string.unquoted.value
 #                       ^^^^^^^ string.unquoted.value
 #                               ^^^^^^ string.unquoted.value
     lgrep = log -1 -E -i --grep
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^ variable.other.readwrite
 #        ^ -variable.other.readwrite
 #         ^ keyword.operator.assignment
 #          ^ -keyword.operator.assignment
-#           ^^^^^^^^^^^^^^^^^^^ meta.value
+#           ^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #           ^^^ string.unquoted.value
 #               ^^ string.unquoted.value
 #                  ^^ string.unquoted.value
@@ -276,23 +282,23 @@
 #                        ^^^^^^ string.unquoted.value
 
     pushf = push --force-with-lease
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^^^ variable.other.readwrite
 #        ^ -variable.other.readwrite
 #         ^ keyword.operator.assignment
 #          ^ -keyword.operator.assignment
-#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.value
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #           ^^^^ string.unquoted.value
 #                ^^^^^^^^^^^^^^^^^^ string.unquoted.value
     sla = log --oneline --decorate --graph --all
-# <- meta.key-value-pair
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.key-value-pair
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
 #   ^^^ variable.other.readwrite
 #      ^ -variable.other.readwrite
 #       ^ keyword.operator.assignment
 #        ^ -keyword.operator.assignment
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.value
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #         ^^^ string.unquoted.value
 #             ^^^^^^^^^
 #                       ^^^^^^^^^^ string.unquoted.value

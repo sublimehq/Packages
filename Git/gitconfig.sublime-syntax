@@ -63,6 +63,10 @@ contexts:
     - match: \\[{{escape_char}}]
       scope: constant.character.escape.gitconfig
 
+  illegal-char:
+    - match: \S
+      scope: invalid.illegal.gitconfig
+
   illegal-newline:
     - match: \n
       scope: invalid.illegal.gitconfig
@@ -76,11 +80,11 @@ contexts:
   key-color-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig
+        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
         2: keyword.operator.assignment.gitconfig
       push:
-        - meta_scope: meta.key-value-pair.gitconfig
-        - meta_content_scope: meta.value.gitconfig
+        - meta_scope: meta.mapping.gitconfig
+        - meta_content_scope: meta.mapping.value.gitconfig
         - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
           pop: true
         - match: (?=^\s*\[)                        # start of new section
@@ -91,11 +95,11 @@ contexts:
   key-value-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig
+        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
         2: keyword.operator.assignment.gitconfig
       push:
-        - meta_scope: meta.key-value-pair.gitconfig
-        - meta_content_scope: meta.value.gitconfig
+        - meta_scope: meta.mapping.gitconfig
+        - meta_content_scope: meta.mapping.value.gitconfig
         - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
           pop: true
         - match: (?=^\s*\[)                        # start of new section
@@ -105,17 +109,21 @@ contexts:
   # [section "subsection"]
   section-header:
     - match: \[
-      scope: punctuation.definition.section.begin.gitconfig
+      scope: punctuation.definition.brackets.begin.gitconfig
       push:
         - meta_scope: meta.brackets.gitconfig
         - match: \]
-          scope: punctuation.definition.section.end.gitconfig
-          pop: true
+          scope: punctuation.definition.brackets.end.gitconfig
+          set:
+            # Everything between the closing bracket and and end of the line
+            # that isn't a comment is illegal.
+            - match: $
+              pop: true
+            - include: illegal-char
         - include: illegal-newline  # complain if '[' and ']' on separate lines
         - include: illegal-slash
         - include: subsection-name
         - include: section-name
-    - include: stray-bracket
 
   # A section is a [section header] and the list of key-value pairs under it.
   #
@@ -155,10 +163,6 @@ contexts:
           pop: true
         - include: section-header
         - include: key-value-pair
-
-  stray-bracket:
-    - match: \]
-      scope: punctuation.definition.section.end.gitconfig invalid.illegal.stray-bracket.gitconfig
 
   string:
     - match: '"'

@@ -1,8 +1,8 @@
-# SYNTAX TEST "Packages/Git/commit.sublime-syntax"
+# SYNTAX TEST "Packages/Git/gitcommit.sublime-syntax"
 # <- text.gitcommit comment.line punctuation.definition.comment
 Release v0.0.2
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^ text.plain.commit-message
+# <- string.unquoted.subject-line
+#^^^^^^^^^^^^^ string.unquoted.subject-line
 
 # Write a message for tag:
 # <- text.gitcommit comment.line punctuation.definition.comment
