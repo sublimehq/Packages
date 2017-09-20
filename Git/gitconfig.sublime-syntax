@@ -31,37 +31,37 @@ contexts:
       scope: constant.language.gitconfig
 
   color:
-    - include: color-named      # red, blue, green
-    - include: color-attribute  # bold, italic, underline
-    - include: color-numeric    # 0-255
+    - include: color-named
+    - include: color-attribute
+    - include: color-numeric
 
   color-attribute:
     - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink){{space_or_eol}}
-      scope: support.constant.color-attribute.gitconfig
+      scope: constant.language.color.attribute.gitconfig
 
   color-named:
     - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto){{space_or_eol}}
-      scope: support.constant.color.gitconfig
+      scope: constant.language.color.name.gitconfig
 
   color-numeric:
     - match: '\b(?:{{zero_to_255}}){{space_or_eol}}'
-      scope: constant.other.color.rgb-value.gitconfig
+      scope: constant.numeric.color.rgb.gitconfig
 
   comments:
     - match: '[#;]'
       scope: punctuation.definition.comment.gitconfig
       push:
         - meta_scope: comment.line.gitconfig
-        - match: $\n?  # consume newline so completions aren't shown at EOL when
-          pop: true    # typing comments
+        - match: $
+          pop: true
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
     - include: trailing-slash
-    - match: \\[^{{escape_char}}]
-      scope: invalid.illegal.escape.gitconfig
     - match: \\[{{escape_char}}]
       scope: constant.character.escape.gitconfig
+    - match: \\[^{{escape_char}}]
+      scope: invalid.illegal.escape.gitconfig
 
   illegal-newline:
     - match: \n
@@ -76,46 +76,52 @@ contexts:
   key-color-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig
+        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
         2: keyword.operator.assignment.gitconfig
       push:
-        - meta_scope: meta.key-value-pair.gitconfig
-        - meta_content_scope: meta.value.gitconfig
-        - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
+        - meta_scope: meta.mapping.gitconfig
+        - meta_content_scope: meta.mapping.value.gitconfig
+        - match: \n
           pop: true
-        - match: (?=^\s*\[)                        # start of new section
-          pop: true
+        - include: escape
         - include: color
 
   # key = val
   key-value-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig
+        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
         2: keyword.operator.assignment.gitconfig
       push:
-        - meta_scope: meta.key-value-pair.gitconfig
-        - meta_content_scope: meta.value.gitconfig
-        - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
+        - meta_scope: meta.mapping.gitconfig
+        - meta_content_scope: meta.mapping.value.gitconfig
+        - match: \n
           pop: true
-        - match: (?=^\s*\[)                        # start of new section
-          pop: true
-        - include: value
+        - include: escape   # \", \\, \t
+        - include: string
+        - include: boolean  # true, yes, on, off, no, false
+        - match: \S         # match most values
+          scope: string.unquoted.value.gitconfig
 
   # [section "subsection"]
   section-header:
     - match: \[
-      scope: punctuation.definition.section.begin.gitconfig
+      scope: punctuation.definition.brackets.begin.gitconfig
       push:
         - meta_scope: meta.brackets.gitconfig
         - match: \]
-          scope: punctuation.definition.section.end.gitconfig
-          pop: true
+          scope: punctuation.definition.brackets.end.gitconfig
+          set:
+            # Everything between the closing bracket and and end of the line
+            # that isn't a comment is illegal.
+            - match: $
+              pop: true
+            - match: \S
+              scope: invalid.illegal.gitconfig
         - include: illegal-newline  # complain if '[' and ']' on separate lines
         - include: illegal-slash
         - include: subsection-name
         - include: section-name
-    - include: stray-bracket
 
   # A section is a [section header] and the list of key-value pairs under it.
   #
@@ -156,10 +162,6 @@ contexts:
         - include: section-header
         - include: key-value-pair
 
-  stray-bracket:
-    - match: \]
-      scope: punctuation.definition.section.end.gitconfig invalid.illegal.stray-bracket.gitconfig
-
   string:
     - match: '"'
       scope: punctuation.definition.string.begin.gitconfig
@@ -173,21 +175,25 @@ contexts:
         - include: illegal-newline  # newlines only permitting after trailing \
 
   # [section "subsection"]
-  # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
-  # slashes are not recognized. Newlines are illegal.
+  # Subsections are not normal strings. Newlines are illegal, even with trailing
+  # slashes. \<char> "escapes" are interpreted as <char>. The only true escapes
+  # are `\\` and `\"`.
   subsection-name:
     - match: '"'
       scope: punctuation.definition.string.begin.gitconfig
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.gitconfig
-        # '\' is legal in a subsection name, but in front of the trailing '"'
-        # it prevents the '"' from terminating the string. \" is not an escape.
-        # It is still interpreted as two characters.
-        - match: \\"  # no scope needed
         - match: '"'
           scope: punctuation.definition.string.end.gitconfig
           pop: true
+        - match: \\[\\"]
+          scope: constant.character.escape.gitconfig
+        # `\` is legal, but it can lead to confusion because escapes like `\t`
+        # are interpreted as `t` by the git config parser, not TAB or "\t"
+        # (two chars). Therefore, we discourage the use of `\`.
+        - match: \\
+          scope: invalid.unnecessary-escape.gitconfig
         - include: illegal-newline
 
   # Trailing slashes can be used to break up long lines. '\' is only legal at
@@ -197,10 +203,3 @@ contexts:
     - match: (\\)\s*$
       captures:
         1: constant.character.escape.gitconfig
-
-  value:
-    - include: escape   # \", \\, \t
-    - include: string
-    - include: boolean  # true, yes, on, off, no, false
-    - match: \S         # match most values
-      scope: string.unquoted.value.gitconfig

@@ -1,8 +1,8 @@
-# SYNTAX TEST "Packages/Git/commit.sublime-syntax"
+# SYNTAX TEST "Packages/Git/gitcommit.sublime-syntax"
 # <- text.gitcommit comment.line punctuation.definition.comment
 Merge branch 'footest'
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
+# <- string.unquoted.subject-line
+#^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject-line
 
 # Please enter a commit message to explain why this merge is necessary,
 # <- text.gitcommit comment.line punctuation.definition.comment
