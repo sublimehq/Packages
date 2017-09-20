@@ -56,7 +56,7 @@ contexts:
   commit-message:
     # all none comment lines after subject belong to the message
     - clear_scopes: 2  # meta.subject markup.heading
-    - meta_scope: meta.message.git.commit text.plain.message.git.commit
+    - meta_scope: meta.message.git.commit
     - include: references
 
   references:
@@ -100,7 +100,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.git.commit
       push:
-        - clear_scopes: 2  # meta.heading markup.heading | meta.message text.plain
+        - clear_scopes: 1  # meta.heading | meta.message
         - meta_include_prototype: false
         - meta_scope: comment.line.git.commit
         - match: \n

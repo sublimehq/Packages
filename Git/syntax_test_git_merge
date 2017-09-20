@@ -1,11 +1,11 @@
 # SYNTAX TEST "Packages/Git/git commit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment
-Merge branch 'footest'
-# <- text.plain.commit-message
-#^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-message
+Merge branch 'pr/git-commit' into add_gitconfig_pkg
+# <- meta.subject.git.commit markup.heading.subject.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
 
 # Please enter a commit message to explain why this merge is necessary,
-# <- source.gitcommit comment.line punctuation.definition.comment
+# <- text.git.commit comment.line punctuation.definition.comment
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
 # especially if it merges an updated upstream into a topic branch.
 
