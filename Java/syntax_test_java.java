@@ -71,6 +71,7 @@ public class SyntaxTest {
         try (Stream<String> lines = Files.lines(path)) {
 //      ^^^ keyword.control.catch-exception.java
 //                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                                    ^ - meta.parens.java
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
 //                                    ^^^^^^^ variable.function.reference.java
@@ -887,6 +888,25 @@ public class Bar {
 //                          ^ punctuation.definition.method.begin.java
     foo.bar(hello(world);
 //                      ^ invalid.illegal.stray-terminator-end
+  }
+//^ punctuation.definition.method.end.java
+
+  public void strayParansInBlock() {
+//                                 ^ punctuation.definition.method.begin.java
+    if (hello(world) {
+//                  ^ invalid.illegal
+//                   ^ - meta.parens.java
+//                   ^ meta.block.java
+      return false;
+    }
+  }
+
+  public void strayParansInForLoop() {
+//                                   ^ punctuation.definition.method.begin.java
+    for (;; {
+//         ^ invalid.illegal
+//          ^ meta.block.java - meta.parens.java
+    }
   }
 //^ punctuation.definition.method.end.java
 }

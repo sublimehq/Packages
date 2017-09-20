@@ -363,8 +363,23 @@ contexts:
   keywords-control:
     - match: \b(try|finally|throw)\b
       scope: keyword.control.catch-exception.java
-    - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
+    - match: \b(return|break|case|continue|default|do|while|switch|if|else)\b
       scope: keyword.control.java
+    - match: \b(for)\b
+      scope: keyword.control.java
+      push: for-loop-parens
+  illegal-open-block:
+    - match: \s?(?={)
+      scope: invalid.illegal.stray-terminator-end
+      pop: true
+  illegal-semicolon:
+    - match: ;
+      scope: invalid.illegal.stray-terminator-end
+      pop: true
+  illegal-parens-terminators:
+    # Pops the stack if anything matches
+    - include: illegal-semicolon
+    - include: illegal-open-block
   method-invocations:
     - match: (\.)(<)
       comment: Generic method invocations
@@ -381,9 +396,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.java
           pop: true
-        - match: ;
-          scope: invalid.illegal.stray-terminator-end
-          pop: true
+        - include: illegal-parens-terminators
         - include: code
         - match: \,
           scope: punctuation.separator.java
@@ -588,9 +601,22 @@ contexts:
       push:
         - meta_scope: meta.parens.java
         - match: \)
-          scope: punctuation.section.parens.begin.end
+          scope: punctuation.section.parens.end.java
           pop: true
+        - include: illegal-parens-terminators
         - include: code
+  for-loop-parens:
+    - meta_scope: for-loop
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.parens.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: true
+        - include: illegal-open-block
+        - include: code
+    - include: any_POP
   primitive-arrays:
     - match: '\b(?:void|boolean|byte|char|short|int|float|long|double)((?:\[\])+)'
       scope: storage.type.primitive.array.java
