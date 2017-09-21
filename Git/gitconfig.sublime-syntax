@@ -28,31 +28,20 @@ contexts:
           pop: true    # typing comments
 
   main:
-    # A section is a [section header] and the list of key-value pairs under it.
-    #
-    # [section "subsection"]
-    #   key1 = value1
-    #   key2 = value2
-    - include: section-color
-    - include: section-other
-
-  # We only want to match color values under these subsections:
-  #   [color "branch"]
-  #   [color "diff"]
-  #   [color "interactive"]
-  #   [color "status"]
-  # Note that this does not match [color] (without the subsection). This is
-  # because [color] doesn't actually take color values.
-  section-color:
+    # We only want to match color values under these subsections:
+    #   [color "branch"]
+    #   [color "diff"]
+    #   [color "interactive"]
+    #   [color "status"]
+    # Note that this does not match [color] (without the subsection). This is
+    # because [color] doesn't actually take color values.
     - match: ^\s*(?=\[\s*color\s+\")
       push:
         - match: (?=^\s*\[) # start of new section
           pop: true
         - include: section-header
         - include: key-color-pair
-
-  # section-other matches all sections except [color "subsection"].
-  section-other:
+    # section-other matches all sections except [color "subsection"].
     - match: ^\s*(?=\[)
       push:
         - match: (?=^\s*\[) # start of new section
@@ -72,12 +61,10 @@ contexts:
         - include: illegal-newline  # complain if '[' and ']' on separate lines
         - include: illegal-slash
         - include: subsection-name
-        - include: section-name
-    - include: stray-bracket
-
-  section-name:
-    - match: '{{section_name}}'
-      scope: entity.name.gitconfig
+        - match: '{{section_name}}'
+          scope: entity.name.gitconfig
+    - match: \]
+      scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
 
   # [section "subsection"]
   # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
@@ -97,10 +84,6 @@ contexts:
           pop: true
         - include: illegal-newline
 
-  stray-bracket:
-    - match: \]
-      scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
-
   # changed = red
   # untracked = bold green
   key-color-pair:
@@ -115,7 +98,7 @@ contexts:
           pop: true
         - match: (?=^\s*\[)                        # start of new section
           pop: true
-        - include: color
+        - include: color-value
 
   # key = val
   key-value-pair:
@@ -130,26 +113,20 @@ contexts:
           pop: true
         - match: (?=^\s*\[)                        # start of new section
           pop: true
-        - include: value
+        - include: other-value
 
-  color:
-    - include: color-named      # red, blue, green
-    - include: color-attribute  # bold, italic, underline
-    - include: color-numeric    # 0-255
-
-  color-attribute:
+  color-value:
+    # example: bold, italic, underline
     - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink){{space_or_eol}}
       scope: support.constant.color-attribute.gitconfig
-
-  color-named:
+    # example: red, blue, green
     - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto){{space_or_eol}}
       scope: support.constant.color.gitconfig
-
-  color-numeric:
+    # example: 0-255
     - match: '\b(?:{{zero_to_255}}){{space_or_eol}}'
       scope: constant.other.color.rgb-value.gitconfig
 
-  value:
+  other-value:
     - include: escape   # \", \\, \t
     - include: string
     - include: boolean  # true, yes, on, off, no, false
