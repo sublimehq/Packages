@@ -13,7 +13,6 @@ scope: source.gitconfig
 variables:
   escape_char: \\"bnt
   section_name: '[\w.-]+(?=[\s\]])'  # lookahead catches missing space, e.g. color"branch".
-  space_or_eol: (?=(?:\s|$))         # makes values on last line match properly
   variable_name: '[a-zA-Z][\w-]*'
   zero_to_255: 25[0-5]|2[0-4][0-9]|1\d\d|[1-9][0-9]|[0-9]
 
@@ -115,13 +114,13 @@ contexts:
 
   color-value:
     # example: bold, italic, underline
-    - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink){{space_or_eol}}
+    - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink)\b
       scope: support.constant.color-attribute.gitconfig
     # example: red, blue, green
-    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto){{space_or_eol}}
+    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto)\b
       scope: support.constant.color.gitconfig
     # example: 0-255
-    - match: '\b(?:{{zero_to_255}}){{space_or_eol}}'
+    - match: \b(?:{{zero_to_255}})\b
       scope: constant.other.color.rgb-value.gitconfig
 
   other-value:
@@ -132,7 +131,7 @@ contexts:
   boolean:
     # 0 and 1 are omitted due to mismatches (e.g. "log -1", "HEAD~1"). They will
     # be matched as unquoted strings instead.
-    - match: \b(?:yes|true|on|off|no|false){{space_or_eol}}
+    - match: \b(?:yes|true|on|off|no|false)\b
       scope: constant.language.gitconfig
 
   string-quoted:
@@ -143,7 +142,7 @@ contexts:
         - meta_scope: string.quoted.double.gitconfig
         - match: '"'
           scope: punctuation.definition.string.end.gitconfig
-          pop: true
+          set: expect-newline
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
 
