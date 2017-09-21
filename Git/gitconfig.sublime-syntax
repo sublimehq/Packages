@@ -57,12 +57,12 @@ contexts:
         - meta_scope: meta.brackets.gitconfig
         - match: \]
           scope: punctuation.definition.brackets.end.gitconfig
-          pop: true
+          set: expect-newline
         - include: illegal-newline  # complain if '[' and ']' on separate lines
         - include: illegal-slash
         - include: subsection-name
         - match: '{{section_name}}'
-          scope: entity.name.gitconfig
+          scope: entity.name.section.gitconfig
     - match: \]
       scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
 
@@ -127,11 +127,9 @@ contexts:
       scope: constant.other.color.rgb-value.gitconfig
 
   other-value:
-    - include: escape   # \", \\, \t
-    - include: string
-    - include: boolean  # true, yes, on, off, no, false
-    - match: \S         # match most values
-      scope: string.unquoted.value.gitconfig
+    - include: boolean
+    - include: string-quoted
+    - include: string-unquoted
 
   boolean:
     # 0 and 1 are omitted due to mismatches (e.g. "log -1", "HEAD~1"). They will
@@ -139,15 +137,7 @@ contexts:
     - match: \b(?:yes|true|on|off|no|false){{space_or_eol}}
       scope: constant.language.gitconfig
 
-  # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
-  escape:
-    - include: trailing-slash
-    - match: \\[^{{escape_char}}]
-      scope: invalid.illegal.escape.gitconfig
-    - match: \\[{{escape_char}}]
-      scope: constant.character.escape.gitconfig
-
-  string:
+  string-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.gitconfig
       push:
@@ -159,6 +149,28 @@ contexts:
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
 
+  string-unquoted:
+    - match: (?=\S)
+      push:
+        - meta_scope: string.unquoted.value.gitconfig
+        - include: escape
+        - match: \s*$
+          pop: true
+
+  # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
+  escape:
+    - include: trailing-slash
+    - match: \\[{{escape_char}}]
+      scope: constant.character.escape.gitconfig
+    - match: \\[^{{escape_char}}]
+      scope: invalid.illegal.escape.gitconfig
+
+  expect-newline:
+    - match: $
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected.eol.gitconfig
+
   # Trailing slashes can be used to break up long lines. '\' is only legal at
   # the end of a line, or in an escape such as '\"'. Anywhere else it will cause
   # a fatal parser error. Comments are not permitted after a trailing slash.
@@ -168,9 +180,9 @@ contexts:
         1: constant.character.escape.gitconfig
 
   illegal-newline:
-    - match: \n
-      scope: invalid.illegal.gitconfig
+    - match: $\n?
+      scope: invalid.illegal.unexpected.eol.gitconfig
 
   illegal-slash:
     - match: \\
-      scope: invalid.illegal.gitconfig
+      scope: invalid.illegal.unexpected.escape.gitconfig

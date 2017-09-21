@@ -160,15 +160,27 @@
 #       ^ keyword.operator.assignment
 #         ^^^ meta.mapping.value constant.language
 
-# STRAY CHARACTER TEST
-[stray-bracket]]
-#              ^ invalid.illegal.gitconfig
-[stray-chars]asdf
-#            ^^^^ invalid.illegal.gitconfig
-[valid-trailing-comment]# comments should not match as illegal characters
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -invalid.illegal.gitconfig
-[valid-trailing-space]  # trailing space should not match as illegal characters
-#                     ^^ -invalid.illegal.gitconfig
+# ILLEGAL NEWLINE IN SECTION TEST
+[section
+#^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#       ^ invalid.illegal.unexpected.eol
+]
+# <- meta.brackets punctuation.definition.brackets.end
+#
+# INVALID TEXT AFTER SECTION TEST
+[stray-bracket]] and anything # comment
+#              ^ invalid.illegal.expected.eol
+#               ^ -invalid.illegal.expected.eol
+#                ^^^ invalid.illegal.expected.eol
+#                   ^ -invalid.illegal.expected.eol
+#                    ^^^^^^^^ invalid.illegal.expected.eol
+#                             ^ punctuation.definition.comment
+#                             ^^^^^^^^^ comment.line
+
+# STRAY BRACKET TEST
+stray-bracket]
+#            ^ punctuation.definition.brackets.end invalid.illegal.stray-bracket
 
 # STRING TESTS
 [strings]
@@ -227,16 +239,22 @@
     foo = multi \
 #         ^^^^^ string.unquoted.value
 #               ^ constant.character.escape
+#                ^ -invalid.illegal.unexpected.eol
           line
 #         ^^^^ string.unquoted.value
 
     foo = "multi\
+#               ^ constant.character.escape
+#                ^ -invalid.illegal.unexpected.eol
           line"
 #         ^^^^^ string.quoted.double
 #             ^ punctuation.definition.string.end
     foo = "invalid
+#                 ^ invalid.illegal.unexpected.eol
           multi
+#              ^ invalid.illegal.unexpected.eol
           line
+#             ^ invalid.illegal.unexpected.eol
           "
 
 # REAL WORLD SAMPLE TESTS
