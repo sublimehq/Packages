@@ -36,24 +36,16 @@ contexts:
     # Note that this does not match [color] (without the subsection). This is
     # because [color] doesn't actually take color values.
     - match: ^\s*(?=\[\s*color\s+\")
-      push:
-        - match: (?=^\s*\[) # start of new section
-          pop: true
-        - include: section-header
-        - include: key-color-pair
+      push: [key-color-pair, section-header]
     # section-other matches all sections except [color "subsection"].
     - match: ^\s*(?=\[)
-      push:
-        - match: (?=^\s*\[) # start of new section
-          pop: true
-        - include: section-header
-        - include: key-value-pair
+      push: [key-value-pair, section-header]
 
   # [section "subsection"]
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.gitconfig
-      push:
+      set:
         - meta_scope: meta.brackets.gitconfig
         - match: \]
           scope: punctuation.definition.brackets.end.gitconfig
@@ -63,8 +55,6 @@ contexts:
         - include: subsection-name
         - match: '{{section_name}}'
           scope: entity.name.section.gitconfig
-    - match: \]
-      scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
 
   # [section "subsection"]
   # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
@@ -84,6 +74,12 @@ contexts:
           pop: true
         - include: illegal-newline
 
+  expect-section:
+    - match: (?=^\s*\[) # start of new section
+      pop: true
+    - match: \]
+      scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
+
   # changed = red
   # untracked = bold green
   key-color-pair:
@@ -94,11 +90,10 @@ contexts:
       push:
         - meta_scope: meta.mapping.gitconfig
         - meta_content_scope: meta.mapping.value.gitconfig
-        - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
-          pop: true
-        - match: (?=^\s*\[)                        # start of new section
-          pop: true
+        - include: expect-section
+        - include: expect-key
         - include: color-value
+    - include: expect-section
 
   # key = val
   key-value-pair:
@@ -109,11 +104,14 @@ contexts:
       push:
         - meta_scope: meta.mapping.gitconfig
         - meta_content_scope: meta.mapping.value.gitconfig
-        - match: '(?=^\s*{{variable_name}}\s*\=)'  # next key-value pair
-          pop: true
-        - match: (?=^\s*\[)                        # start of new section
-          pop: true
+        - include: expect-section
+        - include: expect-key
         - include: other-value
+    - include: expect-section
+
+  expect-key:
+    - match: (?=^\s*{{variable_name}}\s*\=)  # next key-value pair
+      pop: true
 
   color-value:
     # example: bold, italic, underline
