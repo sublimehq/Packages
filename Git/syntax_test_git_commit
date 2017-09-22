@@ -1,7 +1,9 @@
-# SYNTAX TEST "Packages/Git/git commit.sublime-syntax"
+# SYNTAX TEST "git commit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment
+
+# <- meta.expect-subject.git.commit - invalid.illegal
 Add git package # no comment (#403)
-# <- meta.subject.git.commit markup.heading.subject.git.commit
+# <- meta.subject.git.commit markup.heading.subject.git.commit - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
 #               ^^^^^^^^^^^^^^^^^^^ - comment
 #                             ^ punctuation.definition.issue-ref.id.git.commit
@@ -9,7 +11,7 @@ Add git package # no comment (#403)
 -
 # <- meta.message.git.commit invalid.illegal.empty-line-expected.git.commit
 The message can contain # which is no comment start
-# <- meta.message.git.commit
+# <- meta.message.git.commit - meta.subject - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
 Thanks to @username <name@mail-host.domain>.

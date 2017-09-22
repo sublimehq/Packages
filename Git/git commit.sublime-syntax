@@ -40,7 +40,13 @@ contexts:
     - include: comments
 
   main:
-    # first none comment line is commit subject
+    - meta_scope: meta.expect-subject.git.commit  # cleared by subject & comments
+    - match: (?=\S)
+      set: commit-subject
+
+  commit-subject:
+    # first none empty none comment line is commit subject
+    - clear_scopes: 1  # meta.message
     - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
     - match: \n
       set: [commit-message, commit-separator]
@@ -55,7 +61,7 @@ contexts:
 
   commit-message:
     # all none comment lines after subject belong to the message
-    - clear_scopes: 2  # meta.subject markup.heading
+    - clear_scopes: 1  # meta.expect-subject
     - meta_scope: meta.message.git.commit
     - include: references
 
@@ -100,7 +106,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.git.commit
       push:
-        - clear_scopes: 1  # meta.heading | meta.message
+        - clear_scopes: 1  # meta.message
         - meta_include_prototype: false
         - meta_scope: comment.line.git.commit
         - match: \n
