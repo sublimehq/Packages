@@ -2,7 +2,7 @@
 ---
 # Highlight interactive rebase text (git rebase -i).
 
-name: Git Rebase
+name: Git Rebase Todo
 file_extensions:
   - git-rebase-todo
 first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
