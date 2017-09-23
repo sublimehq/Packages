@@ -1644,3 +1644,6 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    def identity: CFId
    override final def equals(other: Any): Boolean
 // ^^^^^^^^ - support.type
+
+   def blam(other: Foo forSome { val or: Repr }) =
+//                                               ^ keyword.operator.assignment.scala

@@ -314,7 +314,7 @@ contexts:
       captures:
         1: storage.type.stable.scala
       push:
-        - match: '(?=[=\n])'
+        - match: '(?=[=\n\}\)\]])'
           pop: true
         - include: val-pattern-match
     - match: '\b(package)\s+(object)\s+({{id}})'
@@ -1216,6 +1216,8 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
+        - match: '(?=[\]\}\)])'
+          pop: true
         - match: '(?={{nonopchar}}={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
