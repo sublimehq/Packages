@@ -1081,6 +1081,8 @@ contexts:
     - meta_include_prototype: false
     - include: xml-comments
     - include: xml-entity
+    - match: '(?=[\}\)\]])'    # emergency bail-out
+      pop: true
     - match: '\?>'
       scope: punctuation.definition.tag.end.xml
       pop: true
