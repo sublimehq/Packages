@@ -1647,3 +1647,9 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 
    def blam(other: Foo forSome { val or: Repr }) =
 //                                               ^ keyword.operator.assignment.scala
+
+   type P = Repr.this
+//               ^^^^ variable.language.scala
+
+   type P = Repr.super
+//               ^^^^^ variable.language.scala

@@ -1340,6 +1340,8 @@ contexts:
     - include: base-types
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
@@ -1356,6 +1358,8 @@ contexts:
       set: single-type-expression-tail
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail
