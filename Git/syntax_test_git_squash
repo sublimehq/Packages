@@ -1,4 +1,4 @@
-# SYNTAX TEST "git commit.sublime-syntax"
+# SYNTAX TEST "gitcommit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment - meta.message - meta.expect-subject
 # This is a combination of 3 commits.
 # This is the 1st commit message:
