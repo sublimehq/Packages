@@ -111,9 +111,10 @@ contexts:
         - meta_scope: comment.line.git.commit
         - match: \n
           pop: true
-        - include: change-list
         - include: branch-line
+        - include: change-list
         - include: date-line
+        - include: head-line
 
   branch-line:
     - match: \b({{on_branch}})\s+(.*)
@@ -122,9 +123,6 @@ contexts:
         2: constant.language.branch-name.git.commit
 
   change-list:
-    # list header
-    - match: \b.+(?=:\s*$)
-      scope: markup.heading.change-list.git.commit
     # list body
     - match: \b({{new_file}}|{{added_by_them}}|{{added_by_us}}|{{both_added}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
@@ -163,3 +161,8 @@ contexts:
         1: markup.heading.git.commit
         2: punctuation.separator.mapping.pair.date.git.commit
         3: constant.language.timestamp.git.commit
+
+  head-line:
+    # all comments ending with colon are scoped as headlines
+    - match: \b\w.+(?=:\s*$)
+      scope: markup.heading.git.commit

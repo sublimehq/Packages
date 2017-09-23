@@ -103,7 +103,7 @@ Fix: #203
 # Changes to be committed:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
-# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
 #    new file:   gitconfig/Comments.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -125,7 +125,7 @@ Fix: #203
 # zum Commit vorgemerkte Änderungen:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.change-list.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
 #    neue Datei: gitconfig/Comments.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -147,7 +147,7 @@ Fix: #203
 # 要提交的变更:
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
 #^^^^^^^^ comment.line.git.commit
-# ^^^^^^ markup.heading.change-list.git.commit
+# ^^^^^^ markup.heading.git.commit
 #    新文件:        gitconfig/Comments.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
