@@ -1,5 +1,9 @@
 # SYNTAX TEST "gitcommit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment
+# This is a combination of 3 commits.
+# This is the 1st commit message:
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
 
 # <- meta.expect-subject.git.commit - invalid.illegal
 Add git package # no comment (#403)
@@ -80,6 +84,27 @@ Fix: #203
 #    ^ punctuation.definition.issue-ref.id.git.commit
 #    ^^^^ constant.other.issue-ref.git.commit
 #
+
+# This is the commit message #2:
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
+
+Fix: JSON resource format errors
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+
+This commit applies all changes required to satisfy the JSON format unittest.
+# <- meta.message.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+
+# The commit message #3 will be skipped:
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
+# fixup! Fix: JSON resource format errors
+# <- comment.line.git.commit punctuation.definition.comment.git.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
@@ -93,6 +118,15 @@ Fix: #203
 # ^^^^ markup.heading.git.commit
 #     ^^^^^^^ - markup.heading.git.commit
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.language.timestamp.git.commit
+#
+# interactive rebase in progress; onto 9e200cd
+# Last commands done (3 commands done):
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
+#    squash 26b2cc6 Fix: JSON resource format errors
+#    fixup 8e9e7bc fixup! Fix: JSON resource format errors
+# No commands remaining.
+# You are currently rebasing branch 'pr/test_json' on '9e200cd'.
 #
 # On branch add_gitconfig_pkg
 # <- comment.line.git.commit punctuation.definition.comment.git.commit
