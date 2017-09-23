@@ -10,6 +10,10 @@ file_extensions:
 scope: text.git.commit
 
 variables:
+  # Rebase operations
+  hash: \b\h{7,}\b
+  shortcut: '[defprsx]'
+  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|{{shortcut}})\b
   # The following variables are required to support highlighting of special phrases
   # in the git commit messages for all supported languages.
   # Source: https://github.com/git/git/tree/master/po
@@ -113,6 +117,7 @@ contexts:
           pop: true
         - include: branch-line
         - include: change-list
+        - include: commands-line
         - include: date-line
         - include: head-line
 
@@ -154,6 +159,16 @@ contexts:
         1: keyword.other.change-list.git.commit
         2: punctuation.separator.mapping.pair.change-list.git.commit
         3: string.unquoted.git.commit markup.ignored.file.git.commit
+
+  commands-line:
+    # A rebase commit message's comment contains the list of the recent
+    # operations to help understand the context of the current commit.
+    - match: \s*({{operator}})\s+({{hash}})\s+(.+?)\s*$
+      scope: meta.command-list.git.commit
+      captures:
+        1: keyword.operator.git.commit
+        2: constant.numeric.hex.hash.git.commit
+        3: string.unquoted.subject.git.commit
 
   date-line:
     - match: \b({{date}})\s*(:)\s*(.*)

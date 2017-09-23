@@ -124,7 +124,21 @@ This commit applies all changes required to satisfy the JSON format unittest.
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
 #    squash 26b2cc6 Fix: JSON resource format errors
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
+#    ^^^^^^ keyword.operator.git.commit
+#          ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
+#           ^^^^^^^ constant.numeric.hex.hash.git.commit
+#                  ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
+#                                                   ^ - string.unquoted.subject.git.commit
 #    fixup 8e9e7bc fixup! Fix: JSON resource format errors
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
+#    ^^^^^ keyword.operator.git.commit
+#         ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
+#          ^^^^^^^ constant.numeric.hex.hash.git.commit
+#                 ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
+#                                                         ^ - string.unquoted.subject.git.commit
 # No commands remaining.
 # You are currently rebasing branch 'pr/test_json' on '9e200cd'.
 #
