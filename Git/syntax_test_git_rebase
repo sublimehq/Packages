@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Git/git rebase.sublime-syntax"
+# SYNTAX TEST "Packages/Git/gitrebase.sublime-syntax"
 # <- text.git.rebase comment.line punctuation.definition.comment
 pick d284bb2 Initial commit
 # <- meta.commit
