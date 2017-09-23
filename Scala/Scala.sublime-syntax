@@ -1386,5 +1386,13 @@ contexts:
       captures:
         1: keyword.declaration.scala
       set: single-type-expression
+    - match: (?={{typeid}})
+      set: single-type-expression
+    - match: \n
+      set: single-type-expression-tail-newline
     - match: '(?=\S)'
       set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+  single-type-expression-tail-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: single-type-expression-tail
