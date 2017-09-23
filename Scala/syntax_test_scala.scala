@@ -1640,3 +1640,7 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type TS1 = trans.TransSpec1
    import library._
 // ^^^^^^ - support.type
+
+   def identity: CFId
+   override final def equals(other: Any): Boolean
+// ^^^^^^^^ - support.type
