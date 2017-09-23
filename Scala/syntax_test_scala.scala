@@ -1636,3 +1636,7 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 //    ^^^^^^^^^^^^^ support.class.scala
 //                  ^^ support.type.scala
 //                     ^^^^^^^^ support.class.scala
+
+   type TS1 = trans.TransSpec1
+   import library._
+// ^^^^^^ - support.type
