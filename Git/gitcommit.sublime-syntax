@@ -68,6 +68,7 @@ contexts:
     - clear_scopes: 1  # meta.expect-subject
     - meta_scope: meta.message.git.commit
     - include: references
+    - include: signed-off
 
   references:
     # issue reference
@@ -94,19 +95,25 @@ contexts:
         4: punctuation.separator.reference.issue.git.commit
         5: punctuation.definition.reference.issue.git.commit
     # email reference
-    - match: (<)?(\S+(\@)\S+?(\.)\S+)(>)?
+    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
       scope: meta.reference.email.git.commit
       captures:
-        1: punctuation.definition.reference.email.begin.git
+        1: punctuation.definition.reference.email.begin.git.commit
         2: string.unquoted.reference.email.git.commit
         3: punctuation.separator.email.git.commit
         4: punctuation.separator.email.git.commit
-        5: punctuation.definition.reference.email.end.git
+        5: punctuation.definition.reference.email.end.git.commit
     # user reference
     - match: (\@)\w+\b
       scope: meta.reference.username.git.commit string.unquoted.reference.username.git.commit
       captures:
         1: punctuation.definition.reference.username.git.commit
+
+  signed-off:
+    - match: ^\s*(Signed-off-by)\s*(:)
+      captures:
+        1: keyword.other.signed-off-by.git.commit
+        2: punctuation.separator.mapping.pair.git.commit
 
   comments:
     - match: ^\s*(#)
