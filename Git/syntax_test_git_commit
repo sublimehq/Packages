@@ -21,14 +21,14 @@ The message can contain # which is no comment start
 Thanks to @username <name@mail-host.domain>.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#         ^ punctuation.definition.reference.username.git.commit
-#         ^^^^^^^^^ string.unquoted.reference.username.git.commit
-#                  ^ - string.unquoted.reference.username.git.commit
-#                   ^ punctuation.definition.reference.email.begin.git.commit
-#                    ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.reference.email.git.commit
-#                        ^ punctuation.separator.email.git.commit
-#                                  ^ punctuation.separator.email.git.commit
-#                                         ^ punctuation.definition.reference.email.end.git.commit
+#         ^ punctuation.definition.reference.username.git
+#         ^^^^^^^^^ entity.name.reference.username.git
+#                  ^ - string.unquoted.reference.username.git
+#                   ^ punctuation.definition.reference.email.begin.git
+#                    ^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                        ^ punctuation.separator.email.git
+#                                  ^ punctuation.separator.email.git
+#                                         ^ punctuation.definition.reference.email.end.git
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
@@ -109,15 +109,15 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #
   Signed-off-by: username <user.name@domain.com>
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git.commit
+#                         ^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 # ^^^^^^^^^^^^^ keyword.other.signed-off-by.git.commit
 #              ^ punctuation.separator.mapping.pair.git.commit
-#                         ^ punctuation.definition.reference.email.begin.git.commit
-#                          ^^^^^^^^^^^^^^^^^^^^ string.unquoted.reference.email.git.commit
-#                              ^ - punctuation.separator.email.git.commit
-#                                   ^ punctuation.separator.email.git.commit
-#                                          ^ punctuation.separator.email.git.commit
-#                                              ^ punctuation.definition.reference.email.end.git.commit
+#                         ^ punctuation.definition.reference.email.begin.git
+#                          ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                              ^ - punctuation.separator.email.git
+#                                   ^ punctuation.separator.email.git
+#                                          ^ punctuation.separator.email.git
+#                                              ^ punctuation.definition.reference.email.end.git
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
