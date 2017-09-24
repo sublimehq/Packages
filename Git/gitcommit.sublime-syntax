@@ -60,7 +60,7 @@ contexts:
     # empty line between subject and message
     - match: \n
       pop: true
-    - match: '[^\n]+'
+    - match: \S.*
       scope: invalid.illegal.empty-line-expected.git.commit
 
   commit-message:
