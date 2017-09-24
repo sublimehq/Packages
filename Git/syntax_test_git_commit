@@ -10,8 +10,8 @@ Add git package # no comment (#403)
 # <- meta.subject.git.commit markup.heading.subject.git.commit - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
 #               ^^^^^^^^^^^^^^^^^^^ - comment
-#                             ^ punctuation.definition.issue-ref.id.git.commit
-#                             ^^^^ meta.issue-ref.git.commit constant.other.issue-ref.git.commit
+#                             ^ punctuation.definition.reference.issue.git.commit
+#                             ^^^^ meta.reference.issue.git.commit constant.other.reference.issue.git.commit
 -
 # <- meta.message.git.commit invalid.illegal.empty-line-expected.git.commit
 The message can contain # which is no comment start
@@ -21,68 +21,68 @@ The message can contain # which is no comment start
 Thanks to @username <name@mail-host.domain>.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#         ^ punctuation.definition.user-ref.git.commit
-#         ^^^^^^^^^ constant.other.user-ref.git.commit
-#                  ^ - constant.other.user-ref.git.commit
-#                    ^^^^^^^^^^^^^^^^^^^^^ constant.other.email.git.commit
+#         ^ punctuation.definition.reference.username.git.commit
+#         ^^^^^^^^^ string.unquoted.reference.username.git.commit
+#                  ^ - string.unquoted.reference.username.git.commit
+#                    ^^^^^^^^^^^^^^^^^^^^^ string.unquoted.reference.email.git.commit
 #                        ^ punctuation.separator.email.git.commit
 #                                  ^ punctuation.separator.email.git.commit
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#     ^^^^^^^^^^^^^ constant.other.issue-ref.git.commit
-#         ^ punctuation.accessor.issue-ref.repository.git.commit
-#              ^ punctuation.definition.issue-ref.id.git.commit
+#     ^^^^^^^^^^^^^ constant.other.reference.issue.git.commit
+#         ^ punctuation.separator.reference.issue.git.commit
+#              ^ punctuation.definition.reference.issue.git.commit
 #                          ^^^^^^ - keyword.other.resolved-issue.git.commit
 Issue repo#230 is not resolved yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#     ^^^^^^^^ constant.other.issue-ref.git.commit
-#         ^ punctuation.definition.issue-ref.id.git.commit
+#     ^^^^^^^^ constant.other.reference.issue.git.commit
+#         ^ punctuation.definition.reference.issue.git.commit
 #                     ^^^^^^^^ - keyword.other.resolved-issue.git.commit
 Issue #230 is not fixed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#     ^^^^ constant.other.issue-ref.git.commit
-#     ^ punctuation.definition.issue-ref.id.git.commit
+#     ^^^^ constant.other.reference.issue.git.commit
+#     ^ punctuation.definition.reference.issue.git.commit
 #                 ^^^^^ - keyword.other.resolved-issue.git.commit
 This commit closes #230 # without comment.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
-#           ^^^^^^^^^^^ meta.issue-ref.git.commit
+#           ^^^^^^^^^^^ meta.reference.issue.git.commit
 #           ^^^^^^ keyword.other.resolved-issue.git.commit
-#                  ^ punctuation.definition.issue-ref.id.git.commit
-#                  ^^^^ constant.other.issue-ref.git.commit
+#                  ^ punctuation.definition.reference.issue.git.commit
+#                  ^^^^ constant.other.reference.issue.git.commit
 #                       ^^^^^^^^^^^^^^^^^^^ - comment
 fix #203
-# <- meta.message.git.commit meta.issue-ref.git.commit keyword.other.resolved-issue.git.commit
+# <- meta.message.git.commit meta.reference.issue.git.commit keyword.other.resolved-issue.git.commit
 #^^^^^^^ meta.message.git.commit
-#^^^^^^^ meta.issue-ref.git.commit
+#^^^^^^^ meta.reference.issue.git.commit
 #^^ keyword.other.resolved-issue.git.commit
-#   ^ punctuation.definition.issue-ref.id.git.commit
-#   ^^^^ constant.other.issue-ref.git.commit
+#   ^ punctuation.definition.reference.issue.git.commit
+#   ^^^^ constant.other.reference.issue.git.commit
 fixes #203
-# <- meta.message.git.commit meta.issue-ref.git.commit keyword.other.resolved-issue.git.commit
+# <- meta.message.git.commit meta.reference.issue.git.commit keyword.other.resolved-issue.git.commit
 #^^^^^^^^^ meta.message.git.commit
-#^^^^^^^^^ meta.issue-ref.git.commit
+#^^^^^^^^^ meta.reference.issue.git.commit
 #^^^^ keyword.other.resolved-issue.git.commit
-#     ^ punctuation.definition.issue-ref.id.git.commit
-#     ^^^^ constant.other.issue-ref.git.commit
+#     ^ punctuation.definition.reference.issue.git.commit
+#     ^^^^ constant.other.reference.issue.git.commit
 fixed #203
-# <- meta.message.git.commit meta.issue-ref.git.commit keyword.other.resolved-issue.git.commit
+# <- meta.message.git.commit meta.reference.issue.git.commit keyword.other.resolved-issue.git.commit
 #^^^^^^^^^ meta.message.git.commit
-#^^^^^^^^^ meta.issue-ref.git.commit
+#^^^^^^^^^ meta.reference.issue.git.commit
 #^^^^ keyword.other.resolved-issue.git.commit
-#     ^ punctuation.definition.issue-ref.id.git.commit
-#     ^^^^ constant.other.issue-ref.git.commit
+#     ^ punctuation.definition.reference.issue.git.commit
+#     ^^^^ constant.other.reference.issue.git.commit
 Fix: #203
-# <- meta.message.git.commit meta.issue-ref.git.commit keyword.other.resolved-issue.git.commit
+# <- meta.message.git.commit meta.reference.issue.git.commit keyword.other.resolved-issue.git.commit
 #^^^^^^^^ meta.message.git.commit
-#^^^^^^^^ meta.issue-ref.git.commit
+#^^^^^^^^ meta.reference.issue.git.commit
 #^^ keyword.other.resolved-issue.git.commit
 #  ^ punctuation.separator.mapping.pair.resolved-issue.git.commit
-#    ^ punctuation.definition.issue-ref.id.git.commit
-#    ^^^^ constant.other.issue-ref.git.commit
+#    ^ punctuation.definition.reference.issue.git.commit
+#    ^^^^ constant.other.reference.issue.git.commit
 #
 
 # This is the commit message #2:
