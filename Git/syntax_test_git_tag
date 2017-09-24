@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Git/gitcommit.sublime-syntax"
+# SYNTAX TEST "gitcommit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment
 Release v0.0.2
 # <- meta.subject.git.commit markup.heading.subject.git.commit
