@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Git/gitrebase.sublime-syntax"
+# SYNTAX TEST "Packages/Git Files/gitrebase.sublime-syntax"
 # <- text.git.rebase comment.line punctuation.definition.comment
 pick d284bb2 Initial commit
 # <- meta.commit
@@ -75,18 +75,20 @@ a 6746x20 Invalid command and hash # no comment (#403)
 #                              ^^^^^^^ constant.numeric.hex.hash
 #
 # Commands:
+#^^^^^^^^^^^ comment.line.git.rebase
+# ^^^^^^^^ markup.heading.git.rebase
 # p, pick = use commit
 #^^^^^^^^^^^^^^^^^^^^^^ comment.line
 # ^^^^^^^^^^^^^^^^^^^^ meta.commands-help
-#^ -keyword.operator.commit
-# ^ keyword.operator.commit
-#  ^^ -keyword.operator.commit
-#  ^ punctuation.separator.comma
-#    ^^^^ keyword.operator.commit
-#        ^^^^^^^^^^^^^ -keyword.operator.commit
-#         ^ punctuation.separator.key-value
-# ^^^^^^^^^^ -text.plain.command-description
-#           ^^^^^^^^^^ text.plain.command-description
+#^ - keyword.operator
+# ^ keyword.operator
+#  ^^ - keyword.operator
+#  ^ punctuation.separator.sequence
+#    ^^^^ keyword.operator
+#        ^^^^^^^^^^^^^ - keyword.operator
+#         ^ punctuation.separator.mapping.pair
+# ^^^^^^^^^^ - string.unquoted
+#           ^^^^^^^^^^ string.unquoted
 # r, reword = use commit, but edit the commit message
 # e, edit = use commit, but stop for amending
 # s, squash = use commit, but meld into previous commit
