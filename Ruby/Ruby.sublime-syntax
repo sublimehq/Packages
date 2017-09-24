@@ -82,6 +82,9 @@ variables:
   path_lookahead: '(::)?({{identifier}}(\.|::))*{{identifier}}'
 
 contexts:
+  prototype:
+    - include: Packages/Git Conflicts/git-conflicts.sublime-syntax
+
   main:
     - include: expressions
 
