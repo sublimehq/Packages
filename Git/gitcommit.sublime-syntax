@@ -41,6 +41,7 @@ variables:
 
 contexts:
   prototype:
+    - include: dropped-content
     - include: comments
 
   main:
@@ -191,3 +192,13 @@ contexts:
     # all comments ending with colon are scoped as headlines
     - match: \b\w.+(?=:\s*$)
       scope: markup.heading.git.commit
+
+  dropped-content:
+    # ------------------------ >8 ------------------------
+    - match: '# -{24} >8 -{24}\s*\n'
+      scope: comment.line.git.commit markup.bold.commit
+      set:
+        - meta_content_scope: meta.dropped.git.commit
+        - include: comments
+        - match: ^(?=diff --git)
+          set: [Packages/Diff/Diff.sublime-syntax]

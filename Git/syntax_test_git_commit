@@ -227,3 +227,19 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^ keyword.other.change-list.git.commit
 #      ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.deleted.file.git.commit
+# ------------------------ >8 ------------------------
+# Do not touch the line above.
+# Everything below will be removed.
+diff --git a/modules/compare.py b/modules/compare.py
+index 5610357..b9b47f3 100644
+--- a/modules/compare.py
++++ b/modules/compare.py
+@@ -97,7 +97,7 @@ def set_against_branch(git_gutter, **kwargs):
+             message = pieces[0]
+             branch = pieces[1][11:]   # skip 'refs/heads/'
+             commit = pieces[2][0:7]   # 7-digit commit hash
+-            return [branch, '%s %s' % (commit, message)]
++            return [branch, '%s | %s' % (commit, message)]
+
+         # Create the list of branches to show in the quick panel
+         items = [parse_result(r) for r in output.split('\n')]
