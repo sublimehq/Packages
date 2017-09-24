@@ -1,0 +1,7 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
+
+<<<<<<< HEAD
+conflicted_key1: conflicted_value1
+=======
+conflicted_key2: conflicted_value2
+>>>>>>> master
