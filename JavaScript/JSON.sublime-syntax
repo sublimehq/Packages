@@ -15,6 +15,9 @@ file_extensions:
   - sublime-macro
 scope: source.json
 contexts:
+  prototype:
+    - include: Packages/Git Conflicts/git-conflicts.sublime-syntax
+
   main:
     - include: value
   array:
