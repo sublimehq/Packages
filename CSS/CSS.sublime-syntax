@@ -72,6 +72,9 @@ variables:
     )
 
 contexts:
+  prototype:
+    - include: Packages/Git Conflicts/git-conflicts.sublime-syntax
+
   main:
     - include: comment-block
     - include: selector
