@@ -5,7 +5,7 @@
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.git.commit
 
-# <- meta.expect-subject.git.commit - invalid.illegal
+# <- - invalid.illegal
 Add git package # no comment (#403)
 # <- meta.subject.git.commit markup.heading.subject.git.commit - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
@@ -13,7 +13,7 @@ Add git package # no comment (#403)
 #                             ^ punctuation.definition.reference.issue.git.commit
 #                             ^^^^ meta.reference.issue.git.commit constant.other.reference.issue.git.commit
 -
-# <- meta.message.git.commit invalid.illegal.empty-line-expected.git.commit
+# <- invalid.illegal.empty-line-expected.git.commit
 The message can contain # which is no comment start
 # <- meta.message.git.commit - meta.subject - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit

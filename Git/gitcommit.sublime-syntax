@@ -10,8 +10,8 @@ file_extensions:
 scope: text.git.commit
 
 variables:
-  # Rebase operations
   hash: \b\h{7,}\b
+  # Rebase operations
   shortcut: '[defprsx]'
   operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|{{shortcut}})\b
   # The following variables are required to support highlighting of special phrases
@@ -44,31 +44,33 @@ contexts:
     - include: comments
 
   main:
-    - meta_scope: meta.expect-subject.git.commit  # cleared by subject & comments
-    - match: (?=\S)
+    - match: ^\s*(?=\S)
       set: commit-subject
 
   commit-subject:
     # first none empty none comment line is commit subject
-    - clear_scopes: 1  # meta.message
     - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
-    - match: \n
-      set: [commit-message, commit-separator]
+    - match: $\n?
+      set: commit-separator
     - include: references
 
   commit-separator:
     # empty line between subject and message
     - match: \n
-      pop: true
+      set: commit-message
     - match: \S.*
       scope: invalid.illegal.empty-line-expected.git.commit
 
   commit-message:
     # all none comment lines after subject belong to the message
-    - clear_scopes: 1  # meta.expect-subject
-    - meta_scope: meta.message.git.commit
-    - include: references
-    - include: signed-off
+    - match: ^
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.message.git.commit
+        - match: ^(?=#)
+          pop: true
+        - include: references
+        - include: signed-off
 
   references:
     # issue reference
@@ -116,14 +118,12 @@ contexts:
         2: punctuation.separator.mapping.pair.git.commit
 
   comments:
-    - match: ^\s*(#)
-      captures:
-        1: punctuation.definition.comment.git.commit
+    - match: ^#
+      scope: punctuation.definition.comment.git.commit
       push:
-        - clear_scopes: 1  # meta.message
         - meta_include_prototype: false
         - meta_scope: comment.line.git.commit
-        - match: \n
+        - match: $\n?
           pop: true
         - include: branch-line
         - include: change-list
