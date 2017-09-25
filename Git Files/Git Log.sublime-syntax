@@ -1,0 +1,42 @@
+%YAML 1.2
+---
+name: Git Log
+file_extensions:
+  - gitlog   # no real extention but why not?
+first_line_match: commit\s+\h{7,}
+scope: text.git.log
+
+contexts:
+  prototype:
+    - include: Git Common.sublime-syntax#comments-line
+
+  main:
+    # 1st header line
+    # commit d9d9fb804f5d61c13ba2f8746af33a9f3c609075
+    - match: (?:(commit)\s+(\h{7,}))?\s*\n
+      scope: meta.header.git.commit markup.raw.block.git.log
+      captures:
+        1: keyword.other.commit.git.log
+        2: constant.numeric.hex.hash.git.log
+      push: commit-header
+      with_prototype:
+        # make sure to pop off stack for next commit
+        - match: ^(?=commit)
+          pop: true
+
+  commit-header:
+    # All header attributes are mappings of `key: value` format.
+    # For simplicity we do not want to distinguish the entries.
+    # Author: first lastname <mail@domain.com>
+    # Date:   Wed Sep 13 22:42:14 2017 +0200
+    - match: ^(\w+)\s*(:)\s*
+      captures:
+        1: keyword.other.header.git.log
+        2: punctuation.separator.mapping.pair.git.log
+      push:
+        - meta_scope: meta.header.git.commit markup.raw.block.git.log
+        - meta_content_scope: string.unquoted.log
+        - match: \n
+          pop: true
+        - include: Git Common.sublime-syntax#email
+    - include: Git Commit.sublime-syntax
