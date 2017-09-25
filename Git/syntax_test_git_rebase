@@ -60,8 +60,8 @@ a 6746x20 Invalid command and hash # no comment (#403)
 # ^^^^^^^ invalid.illegal.hash-expected
 #        ^ -constant.numeric.hex.hash -text.plain.commit-msg
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
-#                                                ^ punctuation.definition.issue-ref.id
-#                                                ^^^^ meta.issue-ref constant.other.issue-ref
+#                                                ^ punctuation.definition.reference.issue.git
+#                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
 #                                                     ^ -text.plain.commit-msg
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
