@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Git/gitconfig.sublime-syntax"
+# SYNTAX TEST "Git Config.sublime-syntax"
 # <- text.git.config comment.line punctuation.definition.comment
 
 # COMMENT TEST
