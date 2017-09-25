@@ -1,0 +1,81 @@
+%YAML 1.2
+---
+# This file is some kind of internal library which is used to store
+# common rules which are used by the visible syntax files.
+name: Git Common
+hidden: true
+scope: text.git.common
+
+variables:
+  comment_char: '[#;]'
+
+contexts:
+  main:
+    - include: references
+
+##[ COMMENTS ]#########################################################
+
+  comments:
+    # comment which may start in the middle of a line
+    - match: ({{comment_char}}).*\n?
+      scope: comment.line.git
+      captures:
+        1: punctuation.definition.comment.git
+
+  comments-line:
+    # comment which must start at the beginning of a line
+    - match: ^\s*({{comment_char}}).*\n?
+      scope: comment.line.git
+      captures:
+        1: punctuation.definition.comment.git
+
+##[ REFERENCES ]#######################################################
+
+  references:
+    # all github references
+    - include: issue
+    - include: email
+    - include: username
+
+  issue:
+    # issue reference
+    # https://help.github.com/articles/closing-issues-using-keywords
+    - match: |-
+          (?x)
+          # optional closing keyword
+          (?i:
+            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
+            \s* (:)? \s*             # optional colon separator
+          )?                         # keyword is optional
+          # user/repo#issue
+          (
+            (?:
+              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+            )?
+            (\#)[0-9]+               # issue number
+          )\b
+      scope: meta.reference.issue.git
+      captures:
+        1: keyword.other.resolved-issue.git
+        2: punctuation.separator.mapping.pair.resolved-issue.git
+        3: constant.other.reference.issue.git
+        4: punctuation.separator.reference.issue.git
+        5: punctuation.definition.reference.issue.git
+
+  email:
+    # email reference
+    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
+      scope: meta.reference.email.git
+      captures:
+        1: punctuation.definition.reference.email.begin.git
+        2: entity.name.reference.email.git
+        3: punctuation.separator.email.git
+        4: punctuation.separator.email.git
+        5: punctuation.definition.reference.email.end.git
+
+  username:
+    # user reference
+    - match: (\@)\w+\b
+      scope: meta.reference.username.git entity.name.reference.username.git
+      captures:
+        1: punctuation.definition.reference.username.git

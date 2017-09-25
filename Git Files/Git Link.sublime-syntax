@@ -11,15 +11,15 @@ scope: text.git.link
 contexts:
 
   main:
-    - match: '[#;]'
-      scope: punctuation.definition.comment.git.link
-      push:
-        - meta_scope: comment.line.git.link
-        - match: \n
-          pop: true
+    - include: Git Common.sublime-syntax#comments-line
+    - include: gitdir
+
+  gitdir:
     - match: \bgitdir\b
       scope: keyword.other.gitdir.git.link
       push: expect-separator
+    - match: \S+
+      scope: invalid.illegal.gitdir-expected.git.link
 
   expect-separator:
     - meta_scope: meta.mapping.key.git.link

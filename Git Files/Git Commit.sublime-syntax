@@ -10,6 +10,7 @@ file_extensions:
 scope: text.git.commit
 
 variables:
+  comment_char: '[#;]'
   hash: \b\h{7,}\b
   # Rebase operations
   shortcut: '[defprsx]'
@@ -53,7 +54,7 @@ contexts:
     - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
     - match: $\n?
       set: commit-separator
-    - include: references
+    - include: Git Common.sublime-syntax#references
 
   commit-separator:
     # empty line between subject and message
@@ -70,47 +71,8 @@ contexts:
         - meta_scope: meta.message.git.commit
         - match: ^(?=#)
           pop: true
-        - include: references
+        - include: Git Common.sublime-syntax#references
         - include: signed-off
-
-  references:
-    # issue reference
-    # https://help.github.com/articles/closing-issues-using-keywords
-    - match: |-
-          (?x)
-          # optional closing keyword
-          (?i:
-            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
-            \s* (:)? \s*             # optional colon separator
-          )?                         # keyword is optional
-          # user/repo#issue
-          (
-            (?:
-              \b(?: \w+ (/) )? \w+   # user (optional) / repo
-            )?
-            (\#)[0-9]+               # issue number
-          )\b
-      scope: meta.reference.issue.git.commit
-      captures:
-        1: keyword.other.resolved-issue.git.commit
-        2: punctuation.separator.mapping.pair.resolved-issue.git.commit
-        3: constant.other.reference.issue.git.commit
-        4: punctuation.separator.reference.issue.git.commit
-        5: punctuation.definition.reference.issue.git.commit
-    # email reference
-    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
-      scope: meta.reference.email.git
-      captures:
-        1: punctuation.definition.reference.email.begin.git
-        2: entity.name.reference.email.git
-        3: punctuation.separator.email.git
-        4: punctuation.separator.email.git
-        5: punctuation.definition.reference.email.end.git
-    # user reference
-    - match: (\@)\w+\b
-      scope: meta.reference.username.git entity.name.reference.username.git
-      captures:
-        1: punctuation.definition.reference.username.git
 
   signed-off:
     - match: ^\s*(Signed-off-by)\s*(:)
@@ -119,7 +81,7 @@ contexts:
         2: punctuation.separator.mapping.pair.git.commit
 
   comments:
-    - match: ^#
+    - match: ^{{comment_char}}
       scope: punctuation.definition.comment.git.commit
       push:
         - meta_include_prototype: false
@@ -195,7 +157,7 @@ contexts:
 
   dropped-content:
     # ------------------------ >8 ------------------------
-    - match: '# -{24} >8 -{24}\s*\n'
+    - match: '{{comment_char}} -{24} >8 -{24}\s*\n'
       scope: comment.line.git.commit markup.bold.commit
       set:
         - meta_content_scope: meta.dropped.git.commit

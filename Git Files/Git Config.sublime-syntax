@@ -18,13 +18,7 @@ variables:
 
 contexts:
   prototype:
-    # comments
-    - match: '[#;]'
-      scope: punctuation.definition.comment.gitconfig
-      push:
-        - meta_scope: comment.line.gitconfig
-        - match: $\n?  # consume newline so completions aren't shown at EOL when
-          pop: true    # typing comments
+    - include: Git Common.sublime-syntax#comments
 
   main:
     # We only want to match color values under these subsections:
