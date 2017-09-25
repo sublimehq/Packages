@@ -2,57 +2,136 @@
 ---
 # Highlight interactive rebase text (git rebase -i).
 
-name: Git Rebase
+name: Git Rebase Todo
 file_extensions:
   - git-rebase-todo
-first_line_match: '^(?:pick|squash|reword|fixup|exec|edit|drop) \h{7,} '
-scope: source.gitrebase
+first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
+scope: text.git.rebase
 
 variables:
-  hash: \h{7,}
+  hash: \b\h{7,}\b
+  shortcut: '[defprsx]'
+  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|{{shortcut}})\b
 
 contexts:
-  prototype:
-    - include: comments
 
   main:
+    - include: comments
     - include: commit
 
   comments:
-    - match: '#'
-      scope: punctuation.definition.comment.gitrebase
+    - match: ^\s*(#)
+      captures:
+        1: punctuation.definition.comment.git.rebase
       push:
-        - meta_scope: comment.line.gitrebase
-        - match: \n
+        - meta_scope: comment.line.git.rebase
+        - match: ^(?!\s*#)
           pop: true
+        - include: head-line
+        - include: commands-msg
         - include: rebase-msg
 
-  # e.g. pick d284bb2 Initial commit
-  commit:
-    - match: ^\s*(squash|reword|pick|fixup|exec|edit|drop|x|s|r|p|f|e|d)[\t ]
+  head-line:
+    # all comments ending with colon are scoped as headlines
+    - match: \b\w.+(?=:\s*$)
+      scope: markup.heading.git.rebase
+
+  # e.g. p, pick = use commit
+  # highlight the commands and separators in this comment
+  commands-msg:
+    - match: ({{shortcut}})\s*(,)\s*({{operator}})\s*(=)\s*(.+)
+      scope: meta.commands-help.git.rebase
       captures:
-        1: storage.type.edit.gitrebase
-      push:
-        - meta_scope: meta.commit.gitrebase
-        - match: \n
-          pop: true
-        - match: \b({{hash}})\s # e.g. d284bb2
-          captures:
-            1: constant.numeric.hex.hash.gitrebase
-          push:
-            - meta_content_scope: text.plain.commit-msg.gitrebase
-            - match: $
-              pop: true
+        1: keyword.operator.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
 
   # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
   # highlight the hashes in this comment
   rebase-msg:
-    - match: '\bRebase\s+'
+    - match: \bRebase\b
       push:
-        - meta_scope: meta.rebase-msg.gitrebase
-        - match: '$'
+        - meta_scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
+        - match: $
           pop: true
-        - match: '\b{{hash}}\b'
-          scope: constant.numeric.hex.hash.gitrebase
+        - match: '{{hash}}'
+          scope: constant.numeric.hex.hash.git.rebase
         - match: \.\.
-          scope: keyword.operator.commit-range.gitrebase
+          scope: punctuation.separator.commit-range.git.rebase
+
+  # e.g. pick d284bb2 Initial commit
+  commit:
+    - match: ^
+      push: [commit-message, commit-hash, commit-commands]
+
+  commit-commands:
+    - match: '{{operator}}'
+      scope: keyword.operator.commit.git.rebase
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.command-expected.git.rebase
+      pop: true
+    - match: $
+      pop: true
+
+  commit-hash:
+    - match: '{{hash}}' # e.g. d284bb2
+      scope: constant.numeric.hex.hash.git.rebase
+      pop: true
+    - match: \S+
+      scope: invalid.illegal.hash-expected.git.rebase
+      pop: true
+    - match: $
+      pop: true
+
+  commit-message:
+    - meta_scope: meta.commit.git.rebase
+    - match: \n
+      pop: true
+    - match: (?=\S)  # subject beginns with first none whitespece
+      push:
+        - meta_content_scope: meta.subject.git.commit
+        - match: $
+          pop: true
+        - include: references
+
+  references:
+    # issue reference
+    # https://help.github.com/articles/closing-issues-using-keywords
+    - match: |-
+          (?x)
+          # optional closing keyword
+          (?i:
+            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
+            \s* (:)? \s*             # optional colon separator
+          )?                         # keyword is optional
+          # user/repo#issue
+          (
+            (?:
+              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+            )?
+            (\#)[0-9]+               # issue number
+          )\b
+      scope: meta.reference.issue.git.commit
+      captures:
+        1: keyword.other.resolved-issue.git.commit
+        2: punctuation.separator.mapping.pair.resolved-issue.git.commit
+        3: constant.other.reference.issue.git.commit
+        4: punctuation.separator.reference.issue.git.commit
+        5: punctuation.definition.reference.issue.git.commit
+    # email reference
+    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
+      scope: meta.reference.email.git
+      captures:
+        1: punctuation.definition.reference.email.begin.git
+        2: entity.name.reference.email.git
+        3: punctuation.separator.email.git
+        4: punctuation.separator.email.git
+        5: punctuation.definition.reference.email.end.git
+    # user reference
+    - match: (\@)\w+\b
+      scope: meta.reference.username.git entity.name.reference.username.git
+      captures:
+        1: punctuation.definition.reference.username.git

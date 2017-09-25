@@ -1,28 +1,94 @@
-# SYNTAX TEST "Packages/Git/gitrebase.sublime-syntax"
-# <- source.gitrebase comment.line punctuation.definition.comment
+# SYNTAX TEST "gitrebase.sublime-syntax"
+# <- text.git.rebase comment.line punctuation.definition.comment
 pick d284bb2 Initial commit
-# <- meta.commit storage.type.edit
-#^^^ meta.commit storage.type.edit
-#   ^ meta.commit -storage.type.commit
-#    ^^^^^^^ meta.commit constant.numeric.hex.hash
-#            ^^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
-pick 6746220 Second commit
-# <- meta.commit storage.type.edit
-#^^^ meta.commit storage.type.edit
-#   ^ meta.commit -storage.type.commit
-#    ^^^^^^^ meta.commit constant.numeric.hex.hash
-#            ^^^^^^^^^^^^^ meta.commit text.plain.commit-msg
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                           ^ -meta.commit
+# <- keyword.operator.commit
+#^^^ keyword.operator.commit
+#   ^ -storage.type.commit
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^ meta.subject.git.commit
+#                          ^ -meta.subject.git.commit
+p 6746220 Second pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                         ^ -meta.commit
+# <- keyword.operator.commit
+#^ -keyword.operator.commit
+# ^^^^^^^ constant.numeric.hex.hash
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                        ^ -meta.subject.git.commit
+#                ^^^^ -keyword
+   p 6746220 Second pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                            ^ -meta.commit
+# ^ -keyword.operator.commit
+#  ^ keyword.operator.commit
+#   ^ -keyword.operator.commit -constant.numeric.hex.hash
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                           ^ -meta.subject.git.commit
+#                   ^^^^ -keyword
+puck 6746220 Invalid command
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^^^ invalid.illegal.command-expected
+#   ^ -storage.type.commit -invalid.illegal.command-expected
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^ meta.subject.git.commit
+s 6746x20 Invalid hash # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- keyword.operator.commit
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                  ^ -meta.subject.git.commit
+a 6746x20 Invalid command and hash # no comment (#403)
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                                ^ punctuation.definition.reference.issue.git
+#                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
+#                                                     ^ -meta.subject.git.commit
+  # p 6746220 Second pick commit # no comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.rebase-msg
-#        ^^^^^^^ comment.line constant.numeric.hex.hash
-#               ^^ comment.line keyword.operator.commit-range
-#                 ^^^^^^^ comment.line constant.numeric.hex.hash
-#                              ^^^^^^^ comment.line constant.numeric.hex.hash
+#        ^^^^^^^ constant.numeric.hex.hash
+#               ^^ punctuation.separator.commit-range
+#                 ^^^^^^^ constant.numeric.hex.hash
+#                              ^^^^^^^ constant.numeric.hex.hash
 #
 # Commands:
+#^^^^^^^^^^^ comment.line.git.rebase
+# ^^^^^^^^ markup.heading.git.rebase
 # p, pick = use commit
+#^^^^^^^^^^^^^^^^^^^^^^ comment.line
+# ^^^^^^^^^^^^^^^^^^^^ meta.commands-help
+#^ - keyword.operator
+# ^ keyword.operator
+#  ^^ - keyword.operator
+#  ^ punctuation.separator.sequence
+#    ^^^^ keyword.operator
+#        ^^^^^^^^^^^^^ - keyword.operator
+#         ^ punctuation.separator.mapping.pair
+# ^^^^^^^^^^ - string.unquoted
+#           ^^^^^^^^^^ string.unquoted
 # r, reword = use commit, but edit the commit message
 # e, edit = use commit, but stop for amending
 # s, squash = use commit, but meld into previous commit
