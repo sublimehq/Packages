@@ -25,7 +25,7 @@ contexts:
         1: punctuation.definition.comment.git.rebase
       push:
         - meta_scope: comment.line.git.rebase
-        - match: \n
+        - match: ^(?!\s*#)
           pop: true
         - include: head-line
         - include: commands-msg
