@@ -8,9 +8,9 @@ pick d284bb2 Initial commit
 #^^^ keyword.operator.commit
 #   ^ -storage.type.commit
 #    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#            ^^^^^^^^^^^^^^ text.plain.commit-msg
-#                          ^ -text.plain.commit-msg
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^ meta.subject.git.commit
+#                          ^ -meta.subject.git.commit
 p 6746220 Second pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
@@ -18,9 +18,9 @@ p 6746220 Second pick commit # no comment
 # <- keyword.operator.commit
 #^ -keyword.operator.commit
 # ^^^^^^^ constant.numeric.hex.hash
-#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
-#                                        ^ -text.plain.commit-msg
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                        ^ -meta.subject.git.commit
 #                ^^^^ -keyword
    p 6746220 Second pick commit # no comment
 # <- meta.commit
@@ -30,9 +30,9 @@ p 6746220 Second pick commit # no comment
 #  ^ keyword.operator.commit
 #   ^ -keyword.operator.commit -constant.numeric.hex.hash
 #    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
-#                                           ^ -text.plain.commit-msg
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                           ^ -meta.subject.git.commit
 #                   ^^^^ -keyword
 puck 6746220 Invalid command
 # <- meta.commit
@@ -41,28 +41,28 @@ puck 6746220 Invalid command
 #^^^ invalid.illegal.command-expected
 #   ^ -storage.type.commit -invalid.illegal.command-expected
 #    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#            ^^^^^^^^^^^^^^^ text.plain.commit-msg
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^ meta.subject.git.commit
 s 6746x20 Invalid hash # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- keyword.operator.commit
 #^ -storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
-#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
-#                                  ^ -text.plain.commit-msg
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                  ^ -meta.subject.git.commit
 a 6746x20 Invalid command and hash # no comment (#403)
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- invalid.illegal.command-expected
 #^ -storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
-#        ^ -constant.numeric.hex.hash -text.plain.commit-msg
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ text.plain.commit-msg
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
 #                                                ^ punctuation.definition.reference.issue.git
 #                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
-#                                                     ^ -text.plain.commit-msg
+#                                                     ^ -meta.subject.git.commit
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
 

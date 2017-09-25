@@ -92,7 +92,7 @@ contexts:
       pop: true
     - match: (?=\S)  # subject beginns with first none whitespece
       push:
-        - meta_content_scope: text.plain.commit-msg.git.rebase
+        - meta_content_scope: meta.subject.git.commit
         - match: $
           pop: true
         - include: references
