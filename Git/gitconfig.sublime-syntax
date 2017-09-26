@@ -8,7 +8,7 @@ file_extensions:
   - gitconfig                # /etc/gitconfig
   - .gitconfig               # ~/.gitconfig
 first_line_match: ^\[core\]  # .git/config files always start with [core]
-scope: source.gitconfig
+scope: text.git.config
 
 variables:
   escape_char: \\"bnt
@@ -43,55 +43,55 @@ contexts:
   # [section "subsection"]
   section-header:
     - match: \[
-      scope: punctuation.definition.brackets.begin.gitconfig
+      scope: punctuation.definition.brackets.begin.git.config
       set:
-        - meta_scope: meta.brackets.gitconfig
+        - meta_scope: meta.brackets.git.config
         - match: \]
-          scope: punctuation.definition.brackets.end.gitconfig
+          scope: punctuation.definition.brackets.end.git.config
           set: expect-newline
         - include: illegal-newline  # complain if '[' and ']' on separate lines
         - include: illegal-slash
         - include: subsection-name
         - match: '{{section_name}}'
-          scope: entity.name.section.gitconfig
+          scope: entity.name.section.git.config
 
   # [section "subsection"]
   # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
   # slashes are not recognized. Newlines are illegal.
   subsection-name:
     - match: '"'
-      scope: punctuation.definition.string.begin.gitconfig
+      scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.gitconfig
+        - meta_scope: string.quoted.double.git.config
         - match: '"'
-          scope: punctuation.definition.string.end.gitconfig
+          scope: punctuation.definition.string.end.git.config
           pop: true
         - match: \\[\\"]
-          scope: constant.character.escape.gitconfig
+          scope: constant.character.escape.git.config
         # `\` is legal, but it can lead to confusion because escapes like `\t`
         # are interpreted as `t` by the git config parser, not TAB or "\t"
         # (two chars). Therefore, we discourage the use of `\`.
         - match: \\
-          scope: invalid.unnecessary-escape.gitconfig
+          scope: invalid.unnecessary-escape.git.config
         - include: illegal-newline
 
   expect-section:
     - match: (?=^\s*\[) # start of new section
       pop: true
     - match: \]
-      scope: punctuation.definition.brackets.end.gitconfig invalid.illegal.stray-bracket.gitconfig
+      scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
 
   # changed = red
   # untracked = bold green
   key-color-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: meta.mapping.key.gitconfig variable.other.readwrite.gitconfig
-        2: keyword.operator.assignment.gitconfig
+        1: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.gitconfig
-        - meta_content_scope: meta.mapping.value.gitconfig
+        - meta_scope: meta.mapping.git.config
+        - meta_content_scope: meta.mapping.value.git.config
         - include: expect-section
         - include: expect-key
         - include: color-value
@@ -101,11 +101,11 @@ contexts:
   key-value-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: meta.mapping.key.gitconfig variable.other.readwrite.gitconfig
-        2: keyword.operator.assignment.gitconfig
+        1: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.gitconfig
-        - meta_content_scope: meta.mapping.value.gitconfig
+        - meta_scope: meta.mapping.git.config
+        - meta_content_scope: meta.mapping.value.git.config
         - include: expect-section
         - include: expect-key
         - include: other-value
@@ -118,13 +118,13 @@ contexts:
   color-value:
     # example: bold, italic, underline
     - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink)\b
-      scope: support.constant.color-attribute.gitconfig
+      scope: support.constant.color-attribute.git.config
     # example: red, blue, green
     - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto)\b
-      scope: support.constant.color.gitconfig
+      scope: support.constant.color.git.config
     # example: 0-255
     - match: \b(?:{{zero_to_255}})\b
-      scope: constant.other.color.rgb-value.gitconfig
+      scope: constant.other.color.rgb-value.git.config
 
   other-value:
     - include: boolean
@@ -135,16 +135,16 @@ contexts:
     # 0 and 1 are omitted due to mismatches (e.g. "log -1", "HEAD~1"). They will
     # be matched as unquoted strings instead.
     - match: \b(?:yes|true|on|off|no|false)\b
-      scope: constant.language.gitconfig
+      scope: constant.language.git.config
 
   string-quoted:
     - match: '"'
-      scope: punctuation.definition.string.begin.gitconfig
+      scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.gitconfig
+        - meta_scope: string.quoted.double.git.config
         - match: '"'
-          scope: punctuation.definition.string.end.gitconfig
+          scope: punctuation.definition.string.end.git.config
           set: expect-newline
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
@@ -152,7 +152,7 @@ contexts:
   string-unquoted:
     - match: (?=\S)
       push:
-        - meta_scope: string.unquoted.value.gitconfig
+        - meta_scope: string.unquoted.value.git.config
         - include: escape
         - match: \s*$
           pop: true
@@ -161,15 +161,15 @@ contexts:
   escape:
     - include: trailing-slash
     - match: \\[{{escape_char}}]
-      scope: constant.character.escape.gitconfig
+      scope: constant.character.escape.git.config
     - match: \\[^{{escape_char}}]
-      scope: invalid.illegal.escape.gitconfig
+      scope: invalid.illegal.escape.git.config
 
   expect-newline:
     - match: $
       pop: true
     - match: \S
-      scope: invalid.illegal.expected.eol.gitconfig
+      scope: invalid.illegal.expected.eol.git.config
 
   # Trailing slashes can be used to break up long lines. '\' is only legal at
   # the end of a line, or in an escape such as '\"'. Anywhere else it will cause
@@ -177,12 +177,12 @@ contexts:
   trailing-slash:
     - match: (\\)\s*$
       captures:
-        1: constant.character.escape.gitconfig
+        1: constant.character.escape.git.config
 
   illegal-newline:
     - match: $\n?
-      scope: invalid.illegal.unexpected.eol.gitconfig
+      scope: invalid.illegal.unexpected.eol.git.config
 
   illegal-slash:
     - match: \\
-      scope: invalid.illegal.unexpected.escape.gitconfig
+      scope: invalid.illegal.unexpected.escape.git.config
