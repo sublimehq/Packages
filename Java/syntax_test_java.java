@@ -42,6 +42,8 @@ public class SyntaxTest {
 //                                                        ^ punctuation.terminator.java - meta.assignment.rhs.java
     private int memberLpos = memberString3.indexOf("l");
 //          ^^^ storage.type
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                                 ^^^ string
 //                                                     ^ punctuation.terminator.java
 
     public static void main(String... args) {
@@ -907,6 +909,34 @@ public class Bar {
 //         ^ invalid.illegal
 //          ^ meta.block.java - meta.parens.java
     }
+  }
+//^ punctuation.definition.method.end.java
+
+  public void strayParansInConstructor() {
+//                                       ^ punctuation.definition.method.begin.java
+    return new Foo(;
+//                 ^ invalid.illegal
+  }
+//^ punctuation.definition.method.end.java
+
+  private boolean missingSemiColonForStaticAssignment = true
+//                                                      ^^^^ meta.assignment.rhs.java
+
+  public void strayParansInConstructor() {
+//^^^^^^ meta.class.body.java storage.modifier.java - meta.assignment.rhs.java
+//            ^ meta.method.identifier.java entity.name.function.java
+//                                       ^ punctuation.definition.method.begin.java
+    return;
+  }
+
+  private boolean missingSemiColonForStaticAssignmentPackageProtected = true
+//                                                                      ^^^^ meta.assignment.rhs.java
+
+  void strayParansInConstructor() {
+//^^^^ storage.type.primitive.java - meta.assignment.rhs.java
+//     ^ meta.method.identifier.java entity.name.function.java
+//                                ^ punctuation.definition.method.begin.java
+    return;
   }
 //^ punctuation.definition.method.end.java
 }

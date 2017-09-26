@@ -8,7 +8,8 @@ file_extensions:
 scope: source.java
 variables:
   primitives: \b(boolean|byte|char|short|int|float|long|double)\b
-  primitives_with_void: \bvoid\b|{{primitives}}
+  primitives_with_void: \b(void|boolean|byte|char|short|int|float|long|double)\b
+  storage_modifiers: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
 
   # source: http://stackoverflow.com/a/5205467/9815
   id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
@@ -113,6 +114,7 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.java
               pop: true
+            - include: illegal-parens-terminators
             - include: code
         - match: \{
           scope: punctuation.section.braces.begin.java
@@ -629,8 +631,13 @@ contexts:
     - match: \=
       scope: keyword.operator.assignment.java
       push:
-        - meta_scope: meta.assignment.rhs.java static
+        - meta_scope: meta.assignment.rhs.java
         - match: (?=;)
+          pop: true
+        # Prevent style from being removed from whole file when making a new expression
+        - match: '(?={{storage_modifiers}})'
+          pop: true
+        - match: '(?={{primitives_with_void}})'
           pop: true
         - include: code
         - include: stray-parens
@@ -654,7 +661,7 @@ contexts:
           pop: true
         - include: code-block
   storage-modifiers:
-    - match: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
+    - match: '{{storage_modifiers}}'
       scope: storage.modifier.java
   stray-braces:
     - match: '\}'
