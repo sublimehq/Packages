@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Indentation Rules</string>
 	<key>scope</key>
-	<string>source.php - comment</string>
+	<string>source.php - comment, meta.html-newline-after-php</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
@@ -39,7 +39,7 @@
 			|   \([^)"']*    # an open bracket not followed by a closing bracket or string punctuation
 			)$
 			| # OR
-			^\s*                                                                                # the beginning of the line followed by any amount of whitespace
+			^\s* (<\?(php)?\s+)?                                                                # the beginning of the line followed by any amount of whitespace and an optional PHP open tag
 			(   (?:
 			        (?:else)?if\s*\g<balanced_paren>|else                                       # PHP "if" related statements
 			    )\s*:(?!.*\bendif\b)                                                            # followed by a colon, not followed by an "endif" anywhere on the line
