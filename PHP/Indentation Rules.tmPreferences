@@ -23,7 +23,8 @@
 		<string><![CDATA[(?x)
 			# define subexpressions
 			(?<string>"(?:[^"]++|\\.)*+"|'(?:[^']++|\\.)*+'){0}
-			(?<not_paren>(?:\g<string>++|[^()'"]++)*+){0}
+			(?<block_comment>/\*(?:[^*]++|\*(?!/))*+\*/){0}
+			(?<not_paren>(?:\g<string>++|\g<block_comment>++|[^()'"/]++|/(?!\*))*+){0}
 			(?<balanced_paren>
 			    \(                         # an open paren
 			    \g<not_paren>              # followed by anything that's not a paren
