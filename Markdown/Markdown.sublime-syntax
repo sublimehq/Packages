@@ -117,6 +117,48 @@ variables:
             (?![^~]*~) #   not followed by any more tildas on the same line
           )
         )
+    html_tag_open_commonmark: |-
+      (?xi:
+        <
+        [a-z]             # A tag name consists of an ASCII letter
+        [a-z0-9-]*        # followed by zero or more ASCII letters, digits, or hyphens (-)
+        (?:               # An attribute consists of whitespace, an attribute name, and an optional attribute value specification
+          \s+
+          [a-z_:]         # An attribute name consists of an ASCII letter, _, or :
+          [a-z0-9_.:-]*   # followed by zero or more ASCII letters, digits, _, ., :, or -
+          (?:             # An attribute value specification consists of optional whitespace, a = character, optional whitespace, and an attribute value
+            \s*
+            =
+            \s*
+            (?:
+              [^ @'=<>`]+ # An unquoted attribute value is a nonempty string of characters not including spaces, ", ', =, <, >, or `
+            | '[^']*'     # A single-quoted attribute value consists of ', zero or more characters not including ', and a final '
+            | "[^"]*"     # A double-quoted attribute value consists of ", zero or more characters not including ", and a final "
+            )
+          )?
+        )*
+        \s*
+        /?
+        >
+      )
+    html_tag_close_commonmark: |-
+      (?xi:
+        </
+        [a-z]             # A tag name consists of an ASCII letter
+        [a-z0-9-]*        # followed by zero or more ASCII letters, digits, or hyphens (-)
+        \s*
+        >
+      )
+    html_tag_block_end_at_close_tag: |-
+      (?xi:
+        (script|style|pre)\b
+      )
+    html_tag_block_end_at_blank_line: |-
+      (?x:
+        /?
+        (?i:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)
+        (?:\s|$|/?>)
+      )
 contexts:
   main:
     - match: |-
@@ -159,9 +201,17 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)'
+    - match: '^[ ]{0,3}(?=<{{html_tag_block_end_at_close_tag}})'
       comment: Markdown formatting is disabled inside block-level tags.
-      push: [disabled-markdown-pop-at-eol, disable-markdown]
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-tag]
+    - match: '^[ ]{0,3}(?=<\?)'
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-php]
+    - match: '^[ ]{0,3}(?=<![A-Z])'
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-html-doctype]
+    - match: '^[ ]{0,3}(?=<!\[CDATA\[)'
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-cdata]
+    - match: '^[ ]{0,3}(?=(?:{{html_tag_open_commonmark}}|{{html_tag_close_commonmark}})\s*$|<{{html_tag_block_end_at_blank_line}})'
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-blank-line]
     - match: |-
         (?x:
             \s*                        # Leading whitespace
@@ -188,14 +238,22 @@ contexts:
       push:
         - meta_scope: meta.paragraph.markdown
         - match: |-
-            (?x)                       # pop out of this context when
+            (?x)                         # pop out of this context when one of the following conditions are met:
             ^(?:
-                \s*$                   # the line is blank (or only contains whitespace)
+                \s*$                     # the line is blank (or only contains whitespace)
             |   (?=
-                    {{block_quote}}    # a block quote begins the line
-                |   [ ]{,3}[*+-][ ]    # an unordered list item begins the line
-                |   [ ]{,3}1[.][ ]     # an ordered list item with number "1" begins the line
-                |   \#                 # an ATX heading begins the line
+                    {{block_quote}}      # a block quote begins the line
+                |   [ ]{,3}[*+-][ ]      # an unordered list item begins the line
+                |   [ ]{,3}1[.][ ]       # an ordered list item with number "1" begins the line
+                |   \#                   # an ATX heading begins the line
+                |   [ ]{,3}<(            # all types of HTML blocks except type 7 may interrupt a paragraph
+                      {{html_tag_block_end_at_close_tag}}   # 1
+                    | !--                                   # 2
+                    | \?                                    # 3
+                    | ![A-Z]                                # 4
+                    | !\[CDATA\[                            # 5
+                    | {{html_tag_block_end_at_blank_line}}  # 6
+                    )
                 )
             )
           pop: true
@@ -821,19 +879,37 @@ contexts:
         - match: '$\n?'
           pop: true
   disable-markdown:
+    - include: scope:text.html.basic
+  disable-markdown-pop-at-tag:
     - match: (</)(\1)(>)
       captures:
         1: meta.tag.block.any.html punctuation.definition.tag.begin.html
         2: meta.tag.block.any.html entity.name.tag.block.any.html
         3: meta.tag.block.any.html punctuation.definition.tag.end.html
       pop: true
-    - include: scope:text.html.basic
+    - include: disable-markdown
+  disable-markdown-pop-at-blank-line:
+    - match: ^\s*$
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-after-cdata:
+    - match: (?!<!\[CDATA\[)
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-at-php:
+    - match: \?>
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-after-html-doctype:
+    - match: (?!<![A-Z])
+      pop: true
+    - include: disable-markdown
   disabled-markdown-pop-at-eol:
     - meta_content_scope: meta.disable-markdown
-    - match: '$\n?'
+    - match: $\n?
       scope: meta.disable-markdown
       pop: true
-    - include: scope:text.html.basic
+    - include: disable-markdown
   link-text:
     - include: escape
     - include: ampersand

@@ -150,21 +150,25 @@ Paragraph break.
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^ markup.underline.link
 
-<div>this is HTML until <span>the corresponding closing tag</span> on the same line</div>
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+<div>this is HTML until <span>there are two</span> blank lines</div>
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+disabled markdown
+| <- meta.disable-markdown
+
 non-disabled markdown
 | <- - meta.disable-markdown
 
-<div>this is HTML until the closing tag on another line
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+<div>this is HTML until there are two blank lines
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
 still <span>HTML</span>
 |      ^^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
 </div>
 | ^^^^ meta.disable-markdown
+
 non-disabled markdown
 | <- - meta.disable-markdown
 
-<div>nested tags don't count <div>test</div>
+<pre>nested tags don't count <pre>test</pre>
 |                                     ^^^^^^ meta.disable-markdown meta.tag.block.any.html
 non-disabled markdown
 | <- - meta.disable-markdown
@@ -172,17 +176,35 @@ non-disabled markdown
 <div>nested tags don't count <div>test
 |                                 ^^^^^ meta.disable-markdown
 </div>
+| ^^^ meta.disable-markdown entity.name.tag.block.any.html
+
 non-disabled markdown
 | <- - meta.disable-markdown
 
-<div>one line</div> disable
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+<div>two blank lines needed</div> to stop disabled markdown
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+disabled markdown
+| <- meta.disable-markdown
+
 non-disabled markdown
 | <- - meta.disable-markdown
 
-<div>one line</div> <span>disable</span> test
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
-|                   ^^^^^^ meta.tag.inline.any.html
+<div>another</div> <span>disable</span> test
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+|                  ^^^^^^ meta.tag.inline.any.html
+disabled markdown
+| <- meta.disable-markdown
+
+non-disabled markdown
+| <- - meta.disable-markdown
+
+*a*
+| ^ markup.italic
+<p>*a*</p>
+| ^^^^^^^^^ meta.disable-markdown - markup.italic
+*a*
+| ^^ meta.disable-markdown
+
 non-disabled markdown
 | <- - meta.disable-markdown
 
@@ -1423,6 +1445,132 @@ paragraph
 
  2. test
 | ^ punctuation.definition.list_item
+Example 116:
 
 Normal paragraph
 | <- meta.paragraph - markup
+<table><tr><td>
+<pre>
+**Hello**,
+| ^^^^^^^^^ meta.disable-markdown
+
+_world_.
+| ^^^^ markup.italic - meta.disable-markdown
+</pre>
+</td></tr></table>
+
+Example 120:
+
+<DIV CLASS="foo">
+| ^^^^^^^^^^^^^^^^ meta.disable-markdown
+
+*Markdown*
+| ^^^^^^^ meta.paragraph markup.italic - meta.disable-markdown
+
+</DIV>
+| ^^^ meta.disable-markdown meta.tag.block.any.html
+
+Example 127:
+
+<div><a href="bar">*foo*</a></div>
+|                  ^^^^^ meta.disable-markdown - markup.italic
+
+Example 129:
+
+<div></div>
+``` c
+int x = 33;
+```
+| ^^ meta.disable-markdown
+
+Example 130:
+
+<a href="foo">
+*bar*
+|^^^^^ meta.disable-markdown
+</a>
+
+Example 131:
+
+<Warning>
+*bar*
+|^^^^^ meta.disable-markdown
+</Warning>
+| ^^^^^^^ meta.disable-markdown meta.tag.other.html entity.name.tag.other.html
+
+Example 135:
+
+<del>
+| ^^ meta.disable-markdown meta.tag.inline.any.html entity.name.tag.inline.any.html
+
+*foo*
+| ^^ meta.paragraph markup.italic
+
+</del>
+| ^^^ meta.disable-markdown meta.tag.inline.any.html entity.name.tag.inline.any.html
+
+<del>
+*foo*
+|^^^^^ meta.disable-markdown
+</del>
+
+Example 136:
+
+<del>*foo*</del>
+| ^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+|    ^^^^^ markup.italic
+|           ^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+|^^^^^^^^^^^^^^^ meta.paragraph - meta.disable-markdown
+
+Example 137:
+
+<pre language="haskell"><code>
+| ^^ meta.disable-markdown meta.tag.block.any.html entity.name.tag.block.any.html
+import Text.HTML.TagSoup
+
+main :: IO ()
+| ^^^^^^^^^^^^ meta.disable-markdown
+main = print $ parseTags tags
+</code></pre>
+| ^^^^^^^^^^^ meta.disable-markdown
+|        ^^^ meta.tag.block.any.html entity.name.tag.block.any.html
+okay
+| <- - meta.disable-markdown
+
+Example 147:
+
+<?php
+| ^^^^ meta.disable-markdown
+
+  echo '>';
+
+?>
+|^^ meta.disable-markdown
+okay
+| <- - meta.disable-markdown
+
+Example 148:
+
+<!DOCTYPE html>
+| ^^^^^^^ meta.disable-markdown meta.tag.sgml.html meta.tag.sgml.doctype.html entity.name.tag.doctype.html
+okay
+| <- - meta.disable-markdown
+
+Example 149:
+
+<![CDATA[
+| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+function matchwo(a,b)
+{
+  if (a < b && a < 0) then {
+    return 1;
+
+  } else {
+
+    return 0;
+  }
+}
+]]>
+|^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+okay
+| <- - meta.disable-markdown
