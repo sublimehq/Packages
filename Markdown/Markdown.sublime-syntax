@@ -201,16 +201,23 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^[ ]{0,3}(?=<{{html_tag_block_end_at_close_tag}})'
+    - match: '^[ ]{0,3}(?=<((?i:pre))\b)'
       comment: Markdown formatting is disabled inside block-level tags.
       push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-tag]
+    - match: '^[ ]{0,3}(?=<{{html_tag_block_end_at_close_tag}})'
+      comment: Markdown formatting is disabled inside block-level tags.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-tag]
     - match: '^[ ]{0,3}(?=<\?)'
+      comment: Markdown formatting is disabled inside preprocessor instructions.
       push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-php]
-    - match: '^[ ]{0,3}(?=<![A-Z])'
+    - match: '^[ ]{0,3}(?=<!(?:[A-Z]|--))'
+      comment: Markdown formatting is disabled inside doctype declarations and comments.
       push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-html-doctype]
     - match: '^[ ]{0,3}(?=<!\[CDATA\[)'
+      comment: Markdown formatting is disabled inside CDATA.
       push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-cdata]
     - match: '^[ ]{0,3}(?=(?:{{html_tag_open_commonmark}}|{{html_tag_close_commonmark}})\s*$|<{{html_tag_block_end_at_blank_line}})'
+      comment: Markdown formatting is disabled inside block level tags and if a complete HTML tag is the only thing on the line.
       push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-blank-line]
     - match: |-
         (?x:
@@ -888,6 +895,10 @@ contexts:
         3: meta.tag.block.any.html punctuation.definition.tag.end.html
       pop: true
     - include: disable-markdown
+  disable-markdown-pop-after-tag:
+    - match: (?!</?(?i:script|style)\b)
+      pop: true
+    - include: disable-markdown
   disable-markdown-pop-at-blank-line:
     - match: ^\s*$
       pop: true
@@ -901,7 +912,7 @@ contexts:
       pop: true
     - include: disable-markdown
   disable-markdown-pop-after-html-doctype:
-    - match: (?!<![A-Z])
+    - match: (?!<!([A-Z]|--))
       pop: true
     - include: disable-markdown
   disabled-markdown-pop-at-eol:

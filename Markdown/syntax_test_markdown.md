@@ -1537,6 +1537,70 @@ main = print $ parseTags tags
 okay
 | <- - meta.disable-markdown
 
+Example 138:
+
+<script type="text/javascript">
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.script.begin.html
+// JavaScript example
+| ^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown source.js.embedded.html comment.line.double-slash.js
+
+document.getElementById("demo").innerHTML = "Hello JavaScript!";
+| ^^^^^^ meta.disable-markdown source.js.embedded.html support.type.object.dom.js
+</script>
+| ^^^^^^ meta.disable-markdown meta.tag.script.end.html entity.name.tag.script.html
+okay
+| <- - meta.disable-markdown
+
+Example 139:
+
+<style
+  type="text/css">
+| ^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.style.begin.html meta.attribute-with-value.html
+h1 {color:red;}
+|   ^^^^^ meta.disable-markdown source.css.embedded.html meta.property-list.css meta.property-name.css support.type.property-name.css
+
+p {color:blue;}
+|  ^^^^^ meta.disable-markdown source.css.embedded.html meta.property-list.css meta.property-name.css support.type.property-name.css
+</style>
+| ^^^^^ meta.disable-markdown meta.tag.style.end.html entity.name.tag.style.html
+okay
+| <- - meta.disable-markdown
+
+Example 143:
+
+<style>p{color:red;}</style>
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
+*foo*
+| <- - meta.disable-markdown
+
+Example 144:
+
+<!-- foo -->*bar*
+| ^^^^^^^^^^ comment.block.html
+|           ^^^^^ meta.disable-markdown
+*baz*
+| <- - meta.disable-markdown
+
+Example 145:
+
+<script>
+foo
+</script>1. *bar*
+| ^^^^^^^^^^^^^^^^ meta.disable-markdown
+okay
+| <- - meta.disable-markdown
+
+Example 146:
+
+<!-- Foo
+| ^^ meta.disable-markdown comment.block.html punctuation.definition.comment.html
+
+bar
+   baz -->
+| ^^^^^^^^ meta.disable-markdown comment.block.html
+okay
+| <- - meta.disable-markdown
+
 Example 147:
 
 <?php
