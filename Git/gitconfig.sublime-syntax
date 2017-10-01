@@ -8,193 +8,168 @@ file_extensions:
   - gitconfig                # /etc/gitconfig
   - .gitconfig               # ~/.gitconfig
 first_line_match: ^\[core\]  # .git/config files always start with [core]
-scope: source.gitconfig
+scope: text.git.config
 
 variables:
   escape_char: \\"bnt
   section_name: '[\w.-]+(?=[\s\]])'  # lookahead catches missing space, e.g. color"branch".
-  space_or_eol: (?=(?:\s|$))         # makes values on last line match properly
   variable_name: '[a-zA-Z][\w-]*'
   zero_to_255: 25[0-5]|2[0-4][0-9]|1\d\d|[1-9][0-9]|[0-9]
 
 contexts:
   prototype:
-    - include: comments
-
-  main:
-    - include: section
-
-  boolean:
-    # 0 and 1 are omitted due to mismatches (e.g. "log -1", "HEAD~1"). They will
-    # be matched as unquoted strings instead.
-    - match: \b(?:yes|true|on|off|no|false){{space_or_eol}}
-      scope: constant.language.gitconfig
-
-  color:
-    - include: color-named
-    - include: color-attribute
-    - include: color-numeric
-
-  color-attribute:
-    - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink){{space_or_eol}}
-      scope: constant.language.color.attribute.gitconfig
-
-  color-named:
-    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto){{space_or_eol}}
-      scope: constant.language.color.name.gitconfig
-
-  color-numeric:
-    - match: '\b(?:{{zero_to_255}}){{space_or_eol}}'
-      scope: constant.numeric.color.rgb.gitconfig
-
-  comments:
+    # comments
     - match: '[#;]'
       scope: punctuation.definition.comment.gitconfig
       push:
         - meta_scope: comment.line.gitconfig
-        - match: $
+        - match: $\n?  # consume newline so completions aren't shown at EOL when
+          pop: true    # typing comments
+
+  main:
+    # We only want to match color values under these subsections:
+    #   [color "branch"]
+    #   [color "diff"]
+    #   [color "interactive"]
+    #   [color "status"]
+    # Note that this does not match [color] (without the subsection). This is
+    # because [color] doesn't actually take color values.
+    - match: ^\s*(?=\[\s*color\s+\")
+      push: [key-color-pair, section-header]
+    # section-other matches all sections except [color "subsection"].
+    - match: ^\s*(?=\[)
+      push: [key-value-pair, section-header]
+
+  # [section "subsection"]
+  section-header:
+    - match: \[
+      scope: punctuation.definition.brackets.begin.git.config
+      set:
+        - meta_scope: meta.brackets.git.config
+        - match: \]
+          scope: punctuation.definition.brackets.end.git.config
+          set: expect-newline
+        - include: illegal-newline  # complain if '[' and ']' on separate lines
+        - include: illegal-slash
+        - include: subsection-name
+        - match: '{{section_name}}'
+          scope: entity.name.section.git.config
+
+  # [section "subsection"]
+  # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
+  # slashes are not recognized. Newlines are illegal.
+  subsection-name:
+    - match: '"'
+      scope: punctuation.definition.string.begin.git.config
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.git.config
+        - match: '"'
+          scope: punctuation.definition.string.end.git.config
           pop: true
+        - match: \\[\\"]
+          scope: constant.character.escape.git.config
+        # `\` is legal, but it can lead to confusion because escapes like `\t`
+        # are interpreted as `t` by the git config parser, not TAB or "\t"
+        # (two chars). Therefore, we discourage the use of `\`.
+        - match: \\
+          scope: invalid.unnecessary-escape.git.config
+        - include: illegal-newline
 
-  # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
-  escape:
-    - include: trailing-slash
-    - match: \\[{{escape_char}}]
-      scope: constant.character.escape.gitconfig
-    - match: \\[^{{escape_char}}]
-      scope: invalid.illegal.escape.gitconfig
-
-  illegal-newline:
-    - match: \n
-      scope: invalid.illegal.gitconfig
-
-  illegal-slash:
-    - match: \\
-      scope: invalid.illegal.gitconfig
+  expect-section:
+    - match: (?=^\s*\[) # start of new section
+      pop: true
+    - match: \]
+      scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
 
   # changed = red
   # untracked = bold green
   key-color-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
-        2: keyword.operator.assignment.gitconfig
+        1: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.gitconfig
-        - meta_content_scope: meta.mapping.value.gitconfig
-        - match: \n
-          pop: true
-        - include: escape
-        - include: color
+        - meta_scope: meta.mapping.git.config
+        - meta_content_scope: meta.mapping.value.git.config
+        - include: expect-section
+        - include: expect-key
+        - include: color-value
+    - include: expect-section
 
   # key = val
   key-value-pair:
     - match: ^\s*({{variable_name}})\s*(\=)
       captures:
-        1: variable.other.readwrite.gitconfig meta.mapping.key.gitconfig
-        2: keyword.operator.assignment.gitconfig
+        1: meta.mapping.key.git.config variable.other.readwrite.git.config
+        2: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.gitconfig
-        - meta_content_scope: meta.mapping.value.gitconfig
-        - match: \n
-          pop: true
-        - include: escape   # \", \\, \t
-        - include: string
-        - include: boolean  # true, yes, on, off, no, false
-        - match: \S         # match most values
-          scope: string.unquoted.value.gitconfig
+        - meta_scope: meta.mapping.git.config
+        - meta_content_scope: meta.mapping.value.git.config
+        - include: expect-section
+        - include: expect-key
+        - include: other-value
+    - include: expect-section
 
-  # [section "subsection"]
-  section-header:
-    - match: \[
-      scope: punctuation.definition.brackets.begin.gitconfig
-      push:
-        - meta_scope: meta.brackets.gitconfig
-        - match: \]
-          scope: punctuation.definition.brackets.end.gitconfig
-          set:
-            # Everything between the closing bracket and and end of the line
-            # that isn't a comment is illegal.
-            - match: $
-              pop: true
-            - match: \S
-              scope: invalid.illegal.gitconfig
-        - include: illegal-newline  # complain if '[' and ']' on separate lines
-        - include: illegal-slash
-        - include: subsection-name
-        - include: section-name
+  expect-key:
+    - match: (?=^\s*{{variable_name}}\s*\=)  # next key-value pair
+      pop: true
 
-  # A section is a [section header] and the list of key-value pairs under it.
-  #
-  # [section "subsection"]
-  #   key1 = value1
-  #   key2 = value2
-  section:
-    # [color] subsections are matched separately, because they are the only
-    # sections that take colors for values.
-    - include: section-color  # e.g. [color "branch"], [color "status"]
-    - include: section-other
+  color-value:
+    # example: bold, italic, underline
+    - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink)\b
+      scope: support.constant.color-attribute.git.config
+    # example: red, blue, green
+    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto)\b
+      scope: support.constant.color.git.config
+    # example: 0-255
+    - match: \b(?:{{zero_to_255}})\b
+      scope: constant.other.color.rgb-value.git.config
 
-  # We only want to match color values under these subsections:
-  #   [color "branch"]
-  #   [color "diff"]
-  #   [color "interactive"]
-  #   [color "status"]
-  # Note that this does not match [color] (without the subsection). This is
-  # because [color] doesn't actually take color values.
-  section-color:
-    - match: ^\s*(?=\[\s*color\s+\")
-      push:
-        - match: (?=^\s*\[) # start of new section
-          pop: true
-        - include: section-header
-        - include: key-color-pair
+  other-value:
+    - include: boolean
+    - include: string-quoted
+    - include: string-unquoted
 
-  section-name:
-    - match: '{{section_name}}'
-      scope: entity.name.gitconfig
+  boolean:
+    # 0 and 1 are omitted due to mismatches (e.g. "log -1", "HEAD~1"). They will
+    # be matched as unquoted strings instead.
+    - match: \b(?:yes|true|on|off|no|false)\b
+      scope: constant.language.git.config
 
-  # section-other matches all sections except [color "subsection"].
-  section-other:
-    - match: ^\s*(?=\[)
-      push:
-        - match: (?=^\s*\[) # start of new section
-          pop: true
-        - include: section-header
-        - include: key-value-pair
-
-  string:
+  string-quoted:
     - match: '"'
-      scope: punctuation.definition.string.begin.gitconfig
+      scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.gitconfig
+        - meta_scope: string.quoted.double.git.config
         - match: '"'
-          scope: punctuation.definition.string.end.gitconfig
-          pop: true
+          scope: punctuation.definition.string.end.git.config
+          set: expect-newline
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
 
-  # [section "subsection"]
-  # Subsections are not normal strings. Newlines are illegal, even with trailing
-  # slashes. \<char> "escapes" are interpreted as <char>. The only true escapes
-  # are `\\` and `\"`.
-  subsection-name:
-    - match: '"'
-      scope: punctuation.definition.string.begin.gitconfig
+  string-unquoted:
+    - match: (?=\S)
       push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.gitconfig
-        - match: '"'
-          scope: punctuation.definition.string.end.gitconfig
+        - meta_scope: string.unquoted.value.git.config
+        - include: escape
+        - match: \s*$
           pop: true
-        - match: \\[\\"]
-          scope: constant.character.escape.gitconfig
-        # `\` is legal, but it can lead to confusion because escapes like `\t`
-        # are interpreted as `t` by the git config parser, not TAB or "\t"
-        # (two chars). Therefore, we discourage the use of `\`.
-        - match: \\
-          scope: invalid.unnecessary-escape.gitconfig
-        - include: illegal-newline
+
+  # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
+  escape:
+    - include: trailing-slash
+    - match: \\[{{escape_char}}]
+      scope: constant.character.escape.git.config
+    - match: \\[^{{escape_char}}]
+      scope: invalid.illegal.escape.git.config
+
+  expect-newline:
+    - match: $
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expected.eol.git.config
 
   # Trailing slashes can be used to break up long lines. '\' is only legal at
   # the end of a line, or in an escape such as '\"'. Anywhere else it will cause
@@ -202,4 +177,12 @@ contexts:
   trailing-slash:
     - match: (\\)\s*$
       captures:
-        1: constant.character.escape.gitconfig
+        1: constant.character.escape.git.config
+
+  illegal-newline:
+    - match: $\n?
+      scope: invalid.illegal.unexpected.eol.git.config
+
+  illegal-slash:
+    - match: \\
+      scope: invalid.illegal.unexpected.escape.git.config

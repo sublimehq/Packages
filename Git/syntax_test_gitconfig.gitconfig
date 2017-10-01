@@ -1,5 +1,5 @@
 # SYNTAX TEST "Packages/Git/gitconfig.sublime-syntax"
-# <- source.gitconfig comment.line punctuation.definition.comment
+# <- text.git.config comment.line punctuation.definition.comment
 
 # COMMENT TEST
 # <- comment.line punctuation.definition.comment
@@ -27,6 +27,14 @@
 #^^^^^^^^^^^^^ meta.brackets
 #^^^^^^^ entity.name
 #        ^ invalid.illegal
+[section "\slashes\are\legal"]
+#        ^^^^^^^^^^^^^^^^^ string.quoted.double
+#        ^ punctuation.definition.string.begin
+#         ^ -invalid.illegal
+#                 ^ -invalid.illegal
+#                     ^ -invalid.illegal
+#                           ^ punctuation.definition.string.end
+
 [section "slash prevents string from terminating\"]   "] # end the test
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 [sec\tion]
@@ -59,7 +67,7 @@
 #      ^ -variable.other.readwrite
 #       ^ keyword.operator.assignment
 #        ^ -keyword.operator.assignment
-#         ^^^ meta.mapping.value constant.language.color.name.gitconfig
+#         ^^^ meta.mapping.value support.constant.color
     new = #00aa00 # this should be a comment
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^ meta.mapping
@@ -77,35 +85,35 @@
 #          ^ keyword.operator.assignment
 #           ^ -keyword.operator.assignment
 #            ^^^^^^^^^^^ meta.mapping.value
-#            ^^^^ constant.language.color.attribute.gitconfig
-#                 ^^^^^^ constant.language.color.name.gitconfig
+#            ^^^^ support.constant.color-attribute
+#                 ^^^^^^ support.constant.color
     commit = yellow 0
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^ constant.other.color.rgb-value
     commit = yellow 99
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^^ constant.other.color.rgb-value
     commit = yellow 100
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^^^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
     commit = yellow 123
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^^^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
     commit = yellow 199
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^^^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
     commit = yellow 255
-#            ^^^^^^ constant.language.color.name.gitconfig
-#                   ^^^ constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
     commit = yellow255
-#            ^^^^^^ -constant.language.color.name.gitconfig
-#                  ^^^ -constant.numeric.color.rgb.gitconfig
+#            ^^^^^^ -support.constant.color
+#                  ^^^ -constant.other.color.rgb-value
     commit = yellow 256
-#                   ^^^ -constant.numeric.color.rgb.gitconfig
+#                   ^^^ -constant.other.color.rgb-value
     commit = yellow 01
-#                   ^^ -constant.numeric.color.rgb.gitconfig
+#                   ^^ -constant.other.color.rgb-value
     commit = yellow 999
-#                   ^^^ -constant.numeric.color.rgb.gitconfig
+#                   ^^^ -constant.other.color.rgb-value
 
 # ESCAPE TESTS
 [escapes]
@@ -162,97 +170,101 @@
 #       ^ keyword.operator.assignment
 #         ^^^ meta.mapping.value constant.language
 
-# STRAY CHARACTER TEST
-[stray-bracket]]
-#              ^ invalid.illegal.gitconfig
-[stray-chars]asdf
-#            ^^^^ invalid.illegal.gitconfig
-[valid-trailing-comment]# comments should not match as illegal characters
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -invalid.illegal.gitconfig
-[valid-trailing-space]  # trailing space should not match as illegal characters
-#                     ^^ -invalid.illegal.gitconfig
+# ILLEGAL NEWLINE IN SECTION TEST
+[section
+#^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#       ^ invalid.illegal.unexpected.eol
+]
+# <- meta.brackets punctuation.definition.brackets.end
+#
+# INVALID TEXT AFTER SECTION TEST
+[stray-bracket]] and anything # comment
+#              ^ invalid.illegal.expected.eol
+#               ^ -invalid.illegal.expected.eol
+#                ^^^ invalid.illegal.expected.eol
+#                   ^ -invalid.illegal.expected.eol
+#                    ^^^^^^^^ invalid.illegal.expected.eol
+#                             ^ punctuation.definition.comment
+#                             ^^^^^^^^^ comment.line
+
+# STRAY BRACKET TEST
+stray-bracket]
+#            ^ punctuation.definition.brackets.end invalid.illegal.stray-bracket
 
 # STRING TESTS
 [strings]
     foo = "foo"
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^^ meta.mapping.value string.quoted.double
 #         ^ punctuation.definition.string.begin
 #             ^ punctuation.definition.string.end
     foo = \"foo\"
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^^^^ meta.mapping.value
 #         ^^ constant.character.escape
 #           ^^^ string.unquoted.value -string.quoted.double
 #              ^^ constant.character.escape
     foo = 'foo'
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^^ meta.mapping.value string.unquoted.value -string.quoted
     foo = \'foo\'
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^ invalid.illegal.escape
 #           ^^^ meta.mapping.value string.unquoted
 #              ^^ invalid.illegal.escape
     foo = foo#bar
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^ meta.mapping.value string.unquoted.value
 #            ^ punctuation.definition.comment
 #            ^^^^ comment.line
     foo = 'foo#bar'
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^ string.unquoted.value
 #             ^ punctuation.definition.comment
 #             ^^^^^ comment.line
     foo = \"foo#bar\"
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^ constant.character.escape
 #           ^^^ string.unquoted.value
 #              ^ punctuation.definition.comment
 #              ^^^^^^ comment.line
     foo = 'hello#foo'
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^^^ string.unquoted.value
 #               ^ punctuation.definition.comment
 #               ^^^^^ comment.line
     foo = 'hello\"
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^^^^^ string.unquoted.value
 #               ^^ constant.character.escape
     foo = \
           hello
 #         ^^^^^ string.unquoted.value
     foo = "foo#bar"
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^ punctuation.definition.string.begin
 #         ^^^^^^^^^ string.quoted.double
 #                 ^ punctuation.definition.string.end
     foo = #123123
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^ punctuation.definition.comment
 #         ^^^^^^^ comment.line
     foo = \hello
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^ invalid.illegal.escape
     foo = \\hello
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #         ^^ constant.character.escape
 #           ^^^^^ string.unquoted.value
     foo = hello \ # comments not legal after trailing slash
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
 #               ^^ invalid.illegal.escape
     foo = multi \
-#   ^^^ variable.other.readwrite.gitconfig meta.mapping.key
-#         ^^^^ string.unquoted.value
+#         ^^^^^ string.unquoted.value
 #               ^ constant.character.escape
-    foo = "valid\
-          multi\
+#                ^ -invalid.illegal.unexpected.eol
+          line
+#         ^^^^ string.unquoted.value
+
+    foo = "multi\
+#               ^ constant.character.escape
+#                ^ -invalid.illegal.unexpected.eol
           line"
 #         ^^^^^ string.quoted.double
 #             ^ punctuation.definition.string.end
-
     foo = "invalid
+#                 ^ invalid.illegal.unexpected.eol
           multi
+#              ^ invalid.illegal.unexpected.eol
           line
+#             ^ invalid.illegal.unexpected.eol
           "
 
 # REAL WORLD SAMPLE TESTS
