@@ -64,13 +64,16 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.gitconfig
-        # '\' is legal in a subsection name, but in front of the trailing '"'
-        # it prevents the '"' from terminating the string. \" is not an escape.
-        # It is still interpreted as two characters.
-        - match: \\"  # no scope needed
         - match: '"'
           scope: punctuation.definition.string.end.gitconfig
           pop: true
+        - match: \\[\\"]
+          scope: constant.character.escape.gitconfig
+        # `\` is legal, but it can lead to confusion because escapes like `\t`
+        # are interpreted as `t` by the git config parser, not TAB or "\t"
+        # (two chars). Therefore, we discourage the use of `\`.
+        - match: \\
+          scope: invalid.unnecessary-escape.gitconfig
         - include: illegal-newline
 
   expect-section:

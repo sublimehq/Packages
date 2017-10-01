@@ -39,6 +39,16 @@
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 [sec\tion]
 #   ^ invalid.illegal
+[section "\ "]  # escaping a space is legal
+#         ^ invalid.unnecessary-escape
+[section "\\"]
+#         ^^ constant.character.escape
+[section "\""]
+#         ^^ constant.character.escape
+[section "\a"]  # every char can be escaped
+#         ^ invalid.unnecessary-escape
+[section "\n"]  # every char can be escaped
+#         ^ invalid.unnecessary-escape
 
 # COLOR TESTS
 [color "diff"]
