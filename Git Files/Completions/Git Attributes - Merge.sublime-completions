@@ -1,0 +1,13 @@
+{
+    "scope": "meta.mapping.expect-value & meta.attribute.builtin.merge.git.attributes",
+    "completions": [
+        {"trigger": "binary\t(built-in) merge", "contents": "binary"},
+        {"trigger": "ours\t(built-in) merge", "contents": "ours"},
+        {"trigger": "patience\t(built-in) merge", "contents": "patience"},
+        {"trigger": "recursive\t(built-in) merge", "contents": "recursive"},
+        {"trigger": "resolve\t(built-in) merge", "contents": "resolve"},
+        {"trigger": "text\t(built-in) merge", "contents": "text"},
+        {"trigger": "theirs\t(built-in) merge", "contents": "theirs"},
+        {"trigger": "union\t(built-in) merge", "contents": "union"}
+    ]
+}
