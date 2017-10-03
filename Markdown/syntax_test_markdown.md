@@ -1593,7 +1593,7 @@ okay
 Example 146:
 
 <!-- Foo
-| ^^ meta.disable-markdown comment.block.html punctuation.definition.comment.html
+| ^^ meta.disable-markdown comment.block.html punctuation.definition.comment
 
 bar
    baz -->
