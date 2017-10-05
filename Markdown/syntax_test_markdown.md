@@ -11,9 +11,11 @@
 |  ^^^^^^^^^^^^^^ entity.name.section
 |                ^ - entity.name.section
 |                 ^ punctuation.definition.heading.end.markdown
+http://spec.commonmark.org/0.28/#example-43
 ## Example 43 (trailing spaces!) #####    
 |                                    ^ punctuation.definition.heading.end.markdown
 |                                         ^ meta.whitespace.newline.markdown
+http://spec.commonmark.org/0.28/#example-44
 ## Example 44 ####    >
 |^^^^^^^^^^^^^^^^^^^^^^ markup.heading
 |             ^ - punctuation.definition.heading.end.markdown
@@ -573,61 +575,56 @@ http://spec.commonmark.org/0.28/#example-327
 
 | <- invalid.illegal.non-terminated.raw
 
-Example 328:
+http://spec.commonmark.org/0.27/#example-328
 *foo bar*
 | <- punctuation.definition.italic.begin
 |       ^ punctuation.definition.italic.end
 
-Example 329:
+http://spec.commonmark.org/0.27/#example-329
 This is not emphasis, because the opening `*` is followed by whitespace, and hence not part of a left-flanking delimiter run:
 a * foo bar*
 | ^^^^^^^^^^^ - punctuation
 
-Example 332:
+http://spec.commonmark.org/0.27/#example-332
 Intraword emphasis with `*` is permitted:
 foo*bar*
 |  ^ punctuation.definition.italic.begin
 |      ^ punctuation.definition.italic.end
-Example 333:
+http://spec.commonmark.org/0.27/#example-333
 5*6*78
 |^ punctuation.definition.italic.begin
 |  ^ punctuation.definition.italic.end
 
-Example 334:
+http://spec.commonmark.org/0.27/#example-334
 _foo bar_
 | <- punctuation.definition.italic.begin
 |       ^ punctuation.definition.italic.end
 
-Example 335:
+http://spec.commonmark.org/0.27/#example-335
 This is not emphasis, because the opening `_` is followed by whitespace:
 _ foo bar_
 | <- - punctuation
 | ^^^^^^^^^ - punctuation
 
-Example 336:
+http://spec.commonmark.org/0.27/#example-336
 This is not emphasis, because the opening `_` is preceded by an alphanumeric and followed by punctuation:
 a_"foo"_
 |^^^^^^^^ - punctuation
 
-Example 337:
+http://spec.commonmark.org/0.27/#example-337
 Emphasis with `_` is not allowed inside words:
 foo_bar_
 |  ^^^^^ - punctuation
 
-Example 338:
+http://spec.commonmark.org/0.27/#example-338
 5_6_78
 |^^^^^ - punctuation
 
-Example 339:
+http://spec.commonmark.org/0.27/#example-339
 пристаням_стремятся_
 |        ^^^^^^^^^^^ - punctuation
 
-aa_"bb"_cc_
-| ^ - punctuation
-|      ^ punctuation.definition.italic.begin
-|         ^ punctuation.definition.italic.end
-
-Example 341:
+http://spec.commonmark.org/0.27/#example-341
 foo-_(bar)_
 |   ^ punctuation.definition.italic.begin
 |         ^ punctuation.definition.italic.end
@@ -640,12 +637,12 @@ foo-_(bar)_
 abc*
 |  ^ punctuation.definition.italic.end
 
-Example 347:
+http://spec.commonmark.org/0.27/#example-347
 *foo*bar
 | <- punctuation.definition.italic.begin
 |   ^ punctuation.definition.italic.end
 
-Example 348:
+http://spec.commonmark.org/0.27/#example-348
 _foo bar _
 | <- punctuation.definition.italic.begin
 |        ^ - punctuation
@@ -654,6 +651,7 @@ _
 abc_
 |  ^ punctuation.definition.italic.end
 
+http://spec.commonmark.org/0.27/#example-351
 Intraword emphasis is disallowed for `_`:
 _foo_bar
 | <- punctuation.definition.italic.begin
@@ -661,93 +659,93 @@ _foo_bar
 abc_
 |  ^ punctuation.definition.italic.end
 
-Example 353:
+http://spec.commonmark.org/0.27/#example-353
 _foo_bar_baz_
 | <- punctuation.definition.italic.begin
 |   ^^^^^ - punctuation
 |           ^ punctuation.definition.italic.end
 
-Example 354:
+http://spec.commonmark.org/0.27/#example-354
 _(bar)_.
 | <-  punctuation.definition.italic.begin
 |     ^ punctuation.definition.italic.end
 
-Example 355:
+http://spec.commonmark.org/0.27/#example-355
  **foo bar**
 |^^ punctuation.definition.bold.begin
 |         ^^ punctuation.definition.bold.end
 
-Example 356:
+http://spec.commonmark.org/0.27/#example-356
 ** foo bar**
 | <- - punctuation
 |         ^^ - punctuation
 
-Example 358:
+http://spec.commonmark.org/0.27/#example-358
 foo**bar**
 |  ^^ punctuation.definition.bold.begin
 |       ^^ punctuation.definition.bold.end
 
-Example 359:
+http://spec.commonmark.org/0.27/#example-359
  __foo bar__
 |^^ punctuation.definition.bold.begin
 |         ^^ punctuation.definition.bold.end
 
-Example 360:
+http://spec.commonmark.org/0.27/#example-360
 This is not strong emphasis, because the opening delimiter is followed by whitespace:
 __ foo bar__
 | <- - punctuation
 |         ^^ - punctuation
 
-Example 361:
+http://spec.commonmark.org/0.27/#example-361
 __
 | <- - punctuation
 
-Example 362:
+http://spec.commonmark.org/0.27/#example-362
 a__"foo"__
 |^^^^^^^^^ - punctuation
 
-Example 363:
+http://spec.commonmark.org/0.27/#example-363
 Intraword strong emphasis is forbidden with `__`:
 foo__bar__
 |  ^^^^^^^ - punctuation
 
-Example 364:
+http://spec.commonmark.org/0.27/#example-364
 5__6__78
 |^^^^^^^ - punctuation
 
-Example 367:
+http://spec.commonmark.org/0.27/#example-367
 foo-__(bar)__
 |   ^^ punctuation.definition.bold.begin
 |          ^^ punctuation.definition.bold.end
 
-Example 368:
+http://spec.commonmark.org/0.27/#example-368
 **foo bar **
 | <- punctuation.definition.bold.begin
 |         ^^ - punctuation
 abc**
 |  ^^ punctuation.definition.bold.end
 
-Example 373:
+http://spec.commonmark.org/0.27/#example-373
 Intraword emphasis:
  **foo**bar
 |^^ punctuation.definition.bold.begin
 |     ^^ punctuation.definition.bold.end
 
-Example 374:
+http://spec.commonmark.org/0.27/#example-374
  __foo bar __
 |^^ punctuation.definition.bold.begin
 |          ^^ - punctuation
 abc__
 |  ^^ punctuation.definition.bold.end
 
-Example 376:
+http://spec.commonmark.org/0.27/#example-376
 _(__foo__)_
 | <- punctuation.definition.italic.begin
 | ^^ punctuation.definition.bold.begin
 |      ^^ punctuation.definition.bold.end
 |         ^ punctuation.definition.italic.end
 
-Example 377:
+http://spec.commonmark.org/0.27/#example-377
 Intraword strong emphasis is forbidden with `__`:
 __foo__bar
 | <- punctuation.definition.bold.begin
@@ -755,129 +753,128 @@ __foo__bar
 abc__
 |  ^^ punctuation.definition.bold.end
 
-Example 379:
+http://spec.commonmark.org/0.27/#example-379
 __foo__bar__baz__
 | <- punctuation.definition.bold.begin
 |              ^^ punctuation.definition.bold.end
 |    ^^^^^^^^^^ - punctuation
 
-Example 380:
+http://spec.commonmark.org/0.27/#example-380
 This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation:
 __(bar)__.
 | <- punctuation.definition.bold.begin
 |      ^^ punctuation.definition.bold.end
 
-Example 381:
+http://spec.commonmark.org/0.27/#example-381
 *foo [bar](/url)*
 | <- punctuation.definition.italic.begin
 |               ^ punctuation.definition.italic.end
 |    ^^^^^^^^^^^ meta.link.inline
 
-Example 382:
+http://spec.commonmark.org/0.27/#example-382
 *foo
 | <- punctuation.definition.italic.begin
 bar*
 |  ^ punctuation.definition.italic.end
 
-Example 383:
+http://spec.commonmark.org/0.27/#example-383
 _foo __bar__ baz_
 | <- punctuation.definition.italic.begin
 |    ^^ punctuation.definition.bold.begin
 |         ^^ punctuation.definition.bold.end
 |               ^ punctuation.definition.italic.end
 
-Example 394:
+http://spec.commonmark.org/0.27/#example-394
 ** is not an empty emphasis
 | <- - punctuation
 |^ - punctuation
 
-Example 395:
+http://spec.commonmark.org/0.27/#example-395
 **** is not an empty strong emphasis
 | <- - punctuation
 |^^^ - punctuation
 
-Example 396:
+http://spec.commonmark.org/0.27/#example-396
 **foo [bar](/url)**
 | <- punctuation.definition.bold.begin
 |     ^^^^^^^^^^^ meta.link.inline
 |                ^^ punctuation.definition.bold.end
 
-Example 397:
+http://spec.commonmark.org/0.27/#example-397
 **foo
 | <- punctuation.definition.bold.begin
 bar**
 |  ^^ punctuation.definition.bold.end
 
-Example 398:
+http://spec.commonmark.org/0.27/#example-398
 __foo _bar_ baz__
 | <- punctuation.definition.bold.begin
 |     ^ punctuation.definition.italic.begin
 |         ^ punctuation.definition.italic.end
 |              ^^ punctuation.definition.bold.end
 
-Example 408:
+http://spec.commonmark.org/0.27/#example-408
 __ is not an empty emphasis
 | <- - punctuation
 |^ - punctuation
 
-Example 409:
+http://spec.commonmark.org/0.27/#example-409
 ____ is not an empty strong emphasis
 | <- - punctuation
 |^^^ - punctuation
 
 
-Example 410:
+http://spec.commonmark.org/0.27/#example-410
 foo ***
 |   ^^^ - punctuation
 
-Example 411:
+http://spec.commonmark.org/0.27/#example-411
 foo *\**
 |   ^ punctuation.definition.italic.begin
 |    ^^ constant.character.escape
 |      ^ punctuation.definition.italic.end
 
-Example 412:
+http://spec.commonmark.org/0.27/#example-412
 foo *_*
 |   ^ punctuation.definition.italic.begin
 |    ^ - punctuation
 |     ^ punctuation.definition.italic.end
 
-Example 414:
+http://spec.commonmark.org/0.27/#example-414
 foo **\***
 |   ^^ punctuation.definition.bold.begin
 |     ^^ constant.character.escape
 |       ^^ punctuation.definition.bold.end
 
-Example 415:
+http://spec.commonmark.org/0.27/#example-415
 foo **_**
 |   ^^ punctuation.definition.bold.begin
 |     ^ - punctuation
 |      ^^ punctuation.definition.bold.end
 
-Example 422:
+http://spec.commonmark.org/0.27/#example-422
 foo ___
 |   ^^^^ - punctuation
 
-Example 423:
+http://spec.commonmark.org/0.27/#example-423
 foo _\__
 |   ^ punctuation.definition.italic.begin
 |    ^^ constant.character.escape
 |      ^ punctuation.definition.italic.end
 
-Example 424:
+http://spec.commonmark.org/0.27/#example-424
 foo _*_
 |   ^ punctuation.definition.italic.begin
 |    ^ - punctuation
 |     ^ punctuation.definition.italic.end
 
-Example 426:
+http://spec.commonmark.org/0.27/#example-426
 foo __\___
 |   ^^ punctuation.definition.bold.begin
 |     ^^ constant.character.escape
 |       ^^ punctuation.definition.bold.end
 
-Example 427:
-
+http://spec.commonmark.org/0.27/#example-427
 foo __*__
 |   ^^ punctuation.definition.bold.begin
 |     ^ - punctuation
@@ -1242,7 +1239,7 @@ blah*
   still a list item
 | ^^^^^^^^^^^^^^^^^^ markup.list.unnumbered meta.paragraph.list - meta.paragraph.list meta.paragraph.list
 
-Example 407:
+http://spec.commonmark.org/0.27/#example-407
 **foo [*bar*](/url)**
 | <- punctuation.definition.bold.begin
 |     ^^^^^^^^^^^^^ markup.bold meta.link.inline
@@ -1511,10 +1508,12 @@ paragraph
 
  2. test
 | ^ punctuation.definition.list_item
-Example 116:
 
 Normal paragraph
 | <- meta.paragraph - markup
+
+http://spec.commonmark.org/0.28/#example-116
+
 <table><tr><td>
 <pre>
 **Hello**,
@@ -1525,7 +1524,7 @@ _world_.
 </pre>
 </td></tr></table>
 
-Example 120:
+http://spec.commonmark.org/0.28/#example-120
 
 <DIV CLASS="foo">
 | ^^^^^^^^^^^^^^^^ meta.disable-markdown
@@ -1536,12 +1535,12 @@ Example 120:
 </DIV>
 | ^^^ meta.disable-markdown meta.tag.block.any.html
 
-Example 127:
+http://spec.commonmark.org/0.28/#example-127
 
 <div><a href="bar">*foo*</a></div>
 |                  ^^^^^ meta.disable-markdown - markup.italic
 
-Example 129:
+http://spec.commonmark.org/0.28/#example-129
 
 <div></div>
 ``` c
@@ -1549,14 +1548,14 @@ int x = 33;
 ```
 | ^^ meta.disable-markdown
 
-Example 130:
+http://spec.commonmark.org/0.28/#example-130
 
 <a href="foo">
 *bar*
 |^^^^^ meta.disable-markdown
 </a>
 
-Example 131:
+http://spec.commonmark.org/0.28/#example-131
 
 <Warning>
 *bar*
@@ -1564,7 +1563,7 @@ Example 131:
 </Warning>
 | ^^^^^^^ meta.disable-markdown meta.tag.other.html entity.name.tag.other.html
 
-Example 135:
+http://spec.commonmark.org/0.28/#example-135
 
 <del>
 | ^^ meta.disable-markdown meta.tag.inline.any.html entity.name.tag.inline.any.html
@@ -1580,7 +1579,7 @@ Example 135:
 |^^^^^ meta.disable-markdown
 </del>
 
-Example 136:
+http://spec.commonmark.org/0.28/#example-136
 
 <del>*foo*</del>
 | ^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
@@ -1588,7 +1587,7 @@ Example 136:
 |           ^^^ meta.tag.inline.any.html entity.name.tag.inline.any.html
 |^^^^^^^^^^^^^^^ meta.paragraph - meta.disable-markdown
 
-Example 137:
+http://spec.commonmark.org/0.28/#example-137
 
 <pre language="haskell"><code>
 | ^^ meta.disable-markdown meta.tag.block.any.html entity.name.tag.block.any.html
@@ -1603,7 +1602,7 @@ main = print $ parseTags tags
 okay
 | <- - meta.disable-markdown
 
-Example 138:
+http://spec.commonmark.org/0.28/#example-138
 
 <script type="text/javascript">
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown meta.tag.script.begin.html
@@ -1617,7 +1616,7 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
 okay
 | <- - meta.disable-markdown
 
-Example 139:
+http://spec.commonmark.org/0.28/#example-139
 
 <style
   type="text/css">
@@ -1632,14 +1631,14 @@ p {color:blue;}
 okay
 | <- - meta.disable-markdown
 
-Example 143:
+http://spec.commonmark.org/0.28/#example-143
 
 <style>p{color:red;}</style>
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.disable-markdown
 *foo*
 | <- - meta.disable-markdown
 
-Example 144:
+http://spec.commonmark.org/0.28/#example-144
 
 <!-- foo -->*bar*
 | ^^^^^^^^^^ comment.block.html
@@ -1647,7 +1646,7 @@ Example 144:
 *baz*
 | <- - meta.disable-markdown
 
-Example 145:
+http://spec.commonmark.org/0.28/#example-145
 
 <script>
 foo
@@ -1656,7 +1655,7 @@ foo
 okay
 | <- - meta.disable-markdown
 
-Example 146:
+http://spec.commonmark.org/0.28/#example-146
 
 <!-- Foo
 | ^^ meta.disable-markdown comment.block.html punctuation.definition.comment
@@ -1667,7 +1666,7 @@ bar
 okay
 | <- - meta.disable-markdown
 
-Example 147:
+http://spec.commonmark.org/0.28/#example-147
 
 <?php
 | ^^^^ meta.disable-markdown
@@ -1679,14 +1678,14 @@ Example 147:
 okay
 | <- - meta.disable-markdown
 
-Example 148:
+http://spec.commonmark.org/0.28/#example-148
 
 <!DOCTYPE html>
 | ^^^^^^^ meta.disable-markdown meta.tag.sgml.html meta.tag.sgml.doctype.html entity.name.tag.doctype.html
 okay
 | <- - meta.disable-markdown
 
-Example 149:
+http://spec.commonmark.org/0.28/#example-149
 
 <![CDATA[
 | ^^^^^^^^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
