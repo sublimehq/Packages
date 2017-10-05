@@ -267,7 +267,7 @@ public class Lambdas {
 //               ^ punctuation.terminator.java
 
      a -> { return 42; };
-//        ^^^^^^^^^^^^^^ meta.lambda.body.java
+//        ^^^^^^^^^^^^^^ meta.function.anonymous.body.java
 
      (a, b) -> 42;
 //    ^ variable.parameter.java

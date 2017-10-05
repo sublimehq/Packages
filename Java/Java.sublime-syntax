@@ -564,11 +564,11 @@ contexts:
       push: lambda-params
 
   lambda-params:
-    - meta_scope: meta.lambda.parameters.java
+    - meta_scope: meta.function.anonymous.parameters.java
     - match: \(
       scope: punctuation.section.parens.begin.java
       set:
-        - meta_scope: meta.lambda.parameters.paren.java
+        - meta_scope: meta.function.anonymous.parameters.paren.java
         - match: \)
           scope: punctuation.section.parens.end.java
           set: lambda-arrow
@@ -592,7 +592,7 @@ contexts:
     - match: ->
       scope: storage.type.function.lambda.java
       set:
-        - meta_scope: meta.lambda.body.java
+        - meta_scope: meta.function.anonymous.body.java
         - match: (?=[)};])
           pop: true
         - include: code
