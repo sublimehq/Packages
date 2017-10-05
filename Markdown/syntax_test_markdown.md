@@ -1012,6 +1012,16 @@ This is *__italic bold__*
 |                     ^^ punctuation.definition.bold.end
 |                       ^ punctuation.definition.italic.end
 
+**test!_test** Issue 1163
+|^^^^^^^^^^^^^ markup.bold
+|      ^ - punctuation.definition.italic
+|           ^^ punctuation.definition.bold.end
+
+__test!*test__ Issue 1163
+|^^^^^^^^^^^^^ markup.bold
+|      ^ - punctuation.definition.italic
+|           ^^ punctuation.definition.bold.end
+
 ```js
 | <- punctuation.definition.raw.code-fence.begin
 |  ^^ constant.other.language-name
