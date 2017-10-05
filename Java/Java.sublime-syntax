@@ -231,13 +231,13 @@ contexts:
           scope: keyword.operator.assert.expression-separator.java
         - include: code
   class:
-    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)(\s+\w+|\b))'
+    - match: '(?=[\w\s]*(?:\bclass|@?\binterface|\benum)\b)'
       push: class-declaration
 
   class-declaration:
     - meta_content_scope: meta.class.java
     - include: storage-modifiers
-    - match: (\bclass|(?:@)?\binterface|\benum)(?:\s+|\b)
+    - match: (\bclass|@?\binterface|\benum)(?:\s+|\b)
       captures:
         1: storage.type.java
       set:

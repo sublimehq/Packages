@@ -71,6 +71,9 @@ public class SyntaxTest {
             lines.forEach(System.out::println);
 //                                    ^^^^^^^ variable.function.reference.java
         }
+
+        Class<? extends Double> cdbl = n.getClass().asSubclass(Double.class);
+//                                                  ^^^^^^^^^^ variable.function.java
         for (int i = 0; i < 10; i+= 2) {
 //      ^^^ keyword.control
 //           ^^^ storage.type
