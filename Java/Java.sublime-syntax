@@ -430,11 +430,11 @@ contexts:
               pop: true
         - include: throws
         - match: "{"
-          scope: punctuation.definition.method.begin.java
+          scope: punctuation.section.block.begin.java
           push:
             - meta_scope: meta.method.body.java
             - match: "}"
-              scope: punctuation.definition.method.end.java
+              scope: punctuation.section.block.end.java
               pop: true # pop: 2 would be nice here
             - include: code-block
         - include: any_POP

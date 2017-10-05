@@ -95,7 +95,7 @@ public class SyntaxTest {
             System.out.println(i);
         }
     }
-//  ^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
+//  ^ meta.method.java meta.method.body.java punctuation.section.block.end.java
     private static void printList(List<String> args) {
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
 //  ^^^^^^^ storage.modifier.java
@@ -641,7 +641,7 @@ public class Foo {
 
     return foo<bar;
   }
-//^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
+//^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
   @Test
 //^ punctuation.definition.annotation.java
@@ -653,7 +653,7 @@ public class Foo {
 //                                      ^^^^^^^^^^^^^^^^ meta.method.throws.java
 //                                      ^^^^^^ storage.modifier.java
 //                                             ^^^^^^^^^ support.class.java
-//                                                       ^ meta.method.java meta.method.body.java punctuation.definition.method.begin.java
+//                                                       ^ meta.method.java meta.method.body.java punctuation.section.block.begin.java
     Object otherFoo = methodInvocation(foo);
 //  ^  support.class.java
 //                  ^ keyword.operator.assignment.java
@@ -760,7 +760,7 @@ public class Foo {
 //  ^^^^^^^^^^^^^ meta.annotation.java
     int foo;
   }
-//^ meta.method.java meta.method.body.java punctuation.definition.method.end.java
+//^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
   public class Foo<T extends int> {}
   //              ^^^^^^^^^^^^^^^ meta.generic.java
@@ -803,7 +803,7 @@ public class Foo {
 //  ^ meta.class.body.anonymous.java punctuation.section.braces.end.java
 //             ^ meta.function-call.java punctuation.section.parens.end.java
   }
-//^ meta.method.body.java punctuation.definition.method.end.java
+//^ meta.method.body.java punctuation.section.block.end.java
 
   public static <T> T writeAll(Collection<? extends T>, Sink<T>) {}
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
@@ -899,21 +899,21 @@ public class Bar {
     boolean foo = foo
 //               ^^^^ meta.assignment.rhs.java
   }
-//^ punctuation.definition.method.end.java
+//^ punctuation.section.block.end.java
 
   private SomeClass methodWithBadParens(
     CombinedServerSpec vendorManagementServerSpec;
 //                                               ^ invalid.illegal.missing-parameter-end
 
   public void strayParans() {
-//                          ^ punctuation.definition.method.begin.java
+//                          ^ punctuation.section.block.begin.java
     foo.bar(hello(world);
 //                      ^ invalid.illegal.stray-terminator-end
   }
-//^ punctuation.definition.method.end.java
+//^ punctuation.section.block.end.java
 
   public void strayParansInBlock() {
-//                                 ^ punctuation.definition.method.begin.java
+//                                 ^ punctuation.section.block.begin.java
     if (hello(world) {
 //                  ^ invalid.illegal
 //                   ^ - meta.parens.java
@@ -923,20 +923,20 @@ public class Bar {
   }
 
   public void strayParansInForLoop() {
-//                                   ^ punctuation.definition.method.begin.java
+//                                   ^ punctuation.section.block.begin.java
     for (;; {
 //         ^ invalid.illegal
 //          ^ meta.block.java - meta.parens.java
     }
   }
-//^ punctuation.definition.method.end.java
+//^ punctuation.section.block.end.java
 
   public void strayParansInConstructor() {
-//                                       ^ punctuation.definition.method.begin.java
+//                                       ^ punctuation.section.block.begin.java
     return new Foo(;
 //                 ^ invalid.illegal
   }
-//^ punctuation.definition.method.end.java
+//^ punctuation.section.block.end.java
 
   private boolean missingSemiColonForStaticAssignment = true
 //                                                      ^^^^ meta.assignment.rhs.java
@@ -944,7 +944,7 @@ public class Bar {
   public void strayParansInConstructor() {
 //^^^^^^ meta.class.body.java storage.modifier.java - meta.assignment.rhs.java
 //            ^ meta.method.identifier.java entity.name.function.java
-//                                       ^ punctuation.definition.method.begin.java
+//                                       ^ punctuation.section.block.begin.java
     return;
   }
 
@@ -954,9 +954,9 @@ public class Bar {
   void strayParansInConstructor() {
 //^^^^ storage.type.primitive.java - meta.assignment.rhs.java
 //     ^ meta.method.identifier.java entity.name.function.java
-//                                ^ punctuation.definition.method.begin.java
+//                                ^ punctuation.section.block.begin.java
     return;
   }
-//^ punctuation.definition.method.end.java
+//^ punctuation.section.block.end.java
 }
 // <- punctuation.section.block.end.java
