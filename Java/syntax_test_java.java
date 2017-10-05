@@ -59,7 +59,7 @@ public class SyntaxTest {
 //                                    ^^^^ variable.parameter.java
 //                                        ^ punctuation.section.parens.end.java
 //                                         ^ - meta.method.parameters
-//                                          ^^ meta.method.body.java
+//                                          ^ meta.method.body.java punctuation.section.block.begin.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                         ^^^ keyword.control.new.java
@@ -497,8 +497,7 @@ public class Foo {
   public static void main(String[] args, String<List> moreArgs, a.b.c.Foo bar) {}
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                        ^^^^^^ support.class.java
-//                              ^ punctuation.section.brackets.begin.java
-//                               ^ punctuation.section.brackets.end.java
+//                              ^^ storage.modifier.array.java
 //                                 ^^^^ variable.parameter.java
 //                                     ^ punctuation.separator.java
 //                                       ^^^^^^^^^^^^ meta.generic.java
@@ -614,7 +613,7 @@ public class Foo {
 //                                   ^ punctuation.terminator
 
   byte[] byteArray;
-//^^^^ storage.type.primitive.array.java
+//^^^^ storage.type.primitive.java
 //    ^^ storage.modifier.array.java
   static {
 //       ^ meta.static.body.java punctuation.section.block.begin.java
@@ -667,8 +666,32 @@ public class Foo {
 //                 ^ support.class.java
 //                         ^^^ meta.brackets
 
+   String[][] doubleStringArray;
+// ^^^^^^ support.class.java
+//       ^^^^ storage.modifier.array.java
+
+    String[] stringArray = new String[] {"foo", "bar"};
+//  ^^^^^^ support.class.java
+//        ^^ storage.modifier.array.java
+//                       ^ keyword.operator.assignment.java
+//                         ^^^ keyword.control.new.java
+//                             ^^^^^^ support.class.java
+//                                   ^ punctuation.section.brackets.begin.java
+//                                    ^ punctuation.section.brackets.end.java
+//                                      ^^^^^^^^^^^^^^ meta.block.java
+//                                      ^ punctuation.definition.array-constructor.begin.java
+//                                       ^^^^^ string.quoted.double.java
+//                                            ^ punctuation.separator.java
+//                                              ^^^^^ string.quoted.double.java
+//                                                   ^ punctuation.definition.array-constructor.end.java
+//                                                    ^ punctuation.terminator.java
+
+    void[] invalidVoid;
+//  ^^^^ storage.type.primitive.java invalid.illegal.void-array.java
+//      ^^ storage.modifier.array.java
+
     int[] data = new int[]{0, 0, 0};
-//  ^^^^^ storage.type.primitive.array.java
+//  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
 //               ^^^ keyword.control.new.java
 //                   ^^^ storage.type.java
@@ -683,7 +706,7 @@ public class Foo {
 //                                ^ punctuation.definition.array-constructor.end.java
 
     int[][][] threeDimArr = new int[][][] {
-//  ^^^^^^^^^ storage.type.primitive.array.java
+//  ^^^ storage.type.primitive.java
 //     ^^^^^^ storage.modifier.array.java
 //                              ^^^ storage.type.java
 //                                 ^ punctuation.section.brackets.begin.java
