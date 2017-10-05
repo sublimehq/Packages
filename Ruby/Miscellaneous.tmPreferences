@@ -13,7 +13,7 @@
 		<string><![CDATA[(?x)^
 		(\s*
 			(
-				module|class|def
+				module|class|(?:(?:private|protected|public)\s+)?def
 				|unless|if|else|elsif
 				|case|when
 				|begin|rescue|ensure
