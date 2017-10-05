@@ -468,7 +468,7 @@ contexts:
         2: punctuation.accessor.dot.java
         3: storage.modifier.array.java
     - match: '\b(?:{{id}}(\.))*(?:(?={{classes_named_as_constants}})|(?![A-Z0-9_]{2,}\b)){{uppercase_id}}\b'
-      scope: support.class.java simple
+      scope: support.class.java
       captures:
         1: punctuation.accessor.dot.java
   object-types-inherited:
