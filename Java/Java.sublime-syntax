@@ -10,11 +10,12 @@ variables:
   primitives: \b(boolean|byte|char|short|int|float|long|double)\b
   primitives_with_void: \b(void|boolean|byte|char|short|int|float|long|double)\b
   storage_modifiers: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
+  classes_named_as_constants: \b(?:UUID|URI)\b
 
   # source: http://stackoverflow.com/a/5205467/9815
   id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
   qualified_id: '(?:(?:{{id}}(\.))*{{id}})'
-  uppercaseId: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
+  uppercase_id: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
 
   # utility lookaround
   lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
@@ -228,20 +229,16 @@ contexts:
         - include: any_POP
 
   class-body:
+    - include: storage-modifiers
     - include: annotations
     - include: class
     - include: static-assignment
     - include: enums
     - include: generic-declaration # for methods
     - include: methods
-    # mark constants as constant
-    - match: '(\.)?\b(?!UUID\b|URI\b)([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: entity.name.constant.java
-      captures:
-        1: punctuation.accessor.dot.java
+    - include: constant-entity
     - include: constants-and-special-vars
     - include: all-types
-    - include: storage-modifiers
     - include: static-code-block
   code:
     - include: constants-and-special-vars
@@ -250,6 +247,7 @@ contexts:
     - include: strings
     - include: anonymous-classes-and-new
     - include: method-invocations
+    - include: constant-reference
     - include: all-types
     - include: assertions
     - include: keywords
@@ -300,8 +298,14 @@ contexts:
       scope: variable.language.java
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
       scope: constant.numeric.java
-    - match: '(\.)?\b(?!UUID\b|URI\b)([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: constant.other.java #variable.other.constant
+  constant-reference:
+    - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
+      scope: constant.other.java
+      captures:
+        1: punctuation.accessor.dot.java
+  constant-entity:
+    - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
+      scope: entity.name.constant.java
       captures:
         1: punctuation.accessor.dot.java
   enums:
@@ -407,7 +411,7 @@ contexts:
     - match: (?={{id}}\()
       push:
         - meta_scope: meta.method.java
-        - match: ({{uppercaseId}})\s*(?=\()
+        - match: ({{uppercase_id}})\s*(?=\()
           captures:
             1: meta.method.identifier.java entity.name.function.constructor.java
         - match: ({{id}})\s*(?=\()
@@ -470,10 +474,8 @@ contexts:
               pop: true
             - include: code
         - include: any_POP
-    - include: simple-object-type
-  simple-object-type:
-    - match: '\b(?:[a-zA-Z]\w*(\.))*(?:(?=UUID\b|URI\b)|(?![A-Z0-9_]{2,}\b))[A-Z]\w*\b'
-      scope: support.class.java
+    - match: '\b(?:{{id}}(\.))*(?:(?={{classes_named_as_constants}})|(?![A-Z0-9_]{2,}\b)){{uppercase_id}}\b'
+      scope: support.class.java simple
       captures:
         1: punctuation.accessor.dot.java
   object-types-inherited:
@@ -520,11 +522,9 @@ contexts:
     - match: \bfinal\b
       scope: storage.modifier.java
     - include: annotations
-    - include: primitive-arrays
-    - include: primitive-types
-    - include: object-types
+    - include: all-types
     - match: \.\.\.
-      scope: storage.modifier.variable-arity
+      scope: keyword.operator.variadic.java
     - match: \w+
       scope: variable.parameter.java
     - match: \,
@@ -548,7 +548,7 @@ contexts:
       scope: punctuation.definition.generic.begin.java
       push: object-type-generic
     - match: '\.\.\.'
-      scope: keyword.operator.varargs.java
+      scope: keyword.operator.variadic.java
     - match: '(\[)\s*(\])'
       captures:
         1: punctuation.section.brackets.begin.java
@@ -690,7 +690,3 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.java
-  values:
-    - include: strings
-    - include: object-types
-    - include: constants-and-special-vars

@@ -54,7 +54,7 @@ public class SyntaxTest {
 //                     ^^^^ meta.method.identifier.java entity.name.function.java
 //                         ^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                         ^ punctuation.section.parens.begin.java
-//                                ^^^ storage.modifier.variable-arity
+//                                ^^^ keyword.operator.variadic.java
 //                           ^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.java
 //                                        ^ punctuation.section.parens.end.java
@@ -553,6 +553,15 @@ public class Foo {
 
   private MyObject otherObject = MY_CONST;
 //                               ^ constant.other.java
+
+  private MyObject otherObject = SOME_CONST.FOO;
+//                               ^ constant.other.java
+//                                          ^ constant.other.java
+
+  private MyObject otherObject = SOME_CONST.get();
+//                               ^ constant.other.java
+//                                          ^ variable.function.java
+
   private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
 //                          ^^^^^^^^^^^^^ support.class.java
 //                             ^ punctuation.accessor.dot.java
@@ -563,6 +572,16 @@ public class Foo {
 //                          ^ entity.name.constant
 //                                      ^ support.class.java
 //                                           ^ meta.function-call.java variable.function.java
+
+  private URI uri = new URI();
+//        ^^^ support.class.java
+//                      ^^^ support.class.java
+
+  private URI URI2 = new URI();
+//        ^^^ support.class.java
+//            ^^^^ entity.name.constant.java
+//                       ^^^ support.class.java
+
 
   class SubClass extends AbstractClass.NestedClass {
 //      ^ entity.name.class.java
