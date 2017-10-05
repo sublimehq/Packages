@@ -590,7 +590,7 @@ contexts:
 
   lambda-arrow:
     - match: ->
-      scope: storage.type.function.lambda.java
+      scope: storage.type.function.anonymous.java
       set:
         - meta_scope: meta.function.anonymous.body.java
         - match: (?=[)};])
