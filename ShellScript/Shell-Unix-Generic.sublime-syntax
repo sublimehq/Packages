@@ -1,0 +1,8 @@
+%YAML 1.2
+---
+name: Shell-Unix-Generic
+hidden: true
+scope: source.shell
+contexts:
+  main:
+    - include: scope:source.shell.bash

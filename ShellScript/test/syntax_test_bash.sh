@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/ShellScript/bash.sublime-syntax"
+# SYNTAX TEST "Packages/ShellScript/Bash.sublime-syntax"
 # <- comment.line punctuation.definition.comment
 #^ comment.line
 #                                                      ^ comment.line
