@@ -8,12 +8,14 @@ package apple;
 import a.b.Class;
 // <- meta.import.java keyword.other.import.java
 //     ^ meta.import.java support.class.import.java
+//        ^ punctuation.accessor.dot.java
 //              ^ meta.import.java punctuation.terminator.java
 
 import static a.b.Class.fooMethod;
 // <- meta.import.java keyword.other.import.java
 //     ^  meta.import.java storage.modifier.static.java
 //            ^ meta.import.java support.function.import.java
+//                     ^ punctuation.accessor.dot.java
 //                               ^ meta.import.java punctuation.terminator.java
 
 import static a.b.Class.CONSTANT;

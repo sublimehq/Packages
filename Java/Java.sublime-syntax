@@ -52,14 +52,16 @@ contexts:
         - match: \bstatic\b
           scope: storage.modifier.static.java
           push:
-            - match: '[\w\.]+'
+            - match: '{{qualified_id}}'
               scope: support.function.import.java
-            - match: (?=;)
+              captures:
+                1: punctuation.accessor.dot.java
+            - match: (?=;|\n)
               pop: true
-            - match: (?=\n)
-              pop: true
-        - match: '[\w\.]+'
+        - match: '{{qualified_id}}'
           scope: support.class.import.java
+          captures:
+            1: punctuation.accessor.dot.java
         - match: ;
           scope: punctuation.terminator.java
           pop: true
