@@ -533,6 +533,46 @@ escaped backtick \`this is not code\`
 |                                  ^^ constant.character.escape
 |                  ^^^^^^^^^^^^^^^^ - markup.raw.inline
 
+http://spec.commonmark.org/0.28/#example-322
+*foo`*`
+|^^^^^^^ markup.italic
+|   ^^^ markup.raw.inline
+
+| <- invalid.illegal.non-terminated.bold-italic
+
+http://spec.commonmark.org/0.28/#example-323
+[not a `link](/foo`)
+|^^^^^^^^^^^^^^^^^^^ - meta.link
+|      ^^^^^^^^^^^^ markup.raw.inline
+
+http://spec.commonmark.org/0.28/#example-324
+`<a href="`">`
+|^^^^^^^^^^ markup.raw.inline
+|          ^^ - markup.raw
+
+| <- invalid.illegal.non-terminated.raw
+
+http://spec.commonmark.org/0.28/#example-325
+<a href="`">`
+| ^^^^^^^^^ meta.tag.inline.a
+|           ^ punctuation.definition.raw.begin
+
+| <- invalid.illegal.non-terminated.raw
+
+http://spec.commonmark.org/0.28/#example-326
+`<http://foo.bar.`baz>`
+|^^^^^^^^^^^^^^^^^ markup.raw.inline
+|                     ^ punctuation.definition.raw.begin
+
+| <- invalid.illegal.non-terminated.raw
+
+http://spec.commonmark.org/0.28/#example-327
+<http://foo.bar.`baz>`
+|^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                    ^ punctuation.definition.raw.begin
+
+| <- invalid.illegal.non-terminated.raw
+
 Example 328:
 *foo bar*
 | <- punctuation.definition.italic.begin
@@ -1075,9 +1115,25 @@ more text``
 text
 | <- - markup.raw
 
-inline backticks must be followed by non-whitespace `` characters``
-|                                                   ^^ invalid.deprecated.unescaped-backticks
-|                                                                ^^ invalid.deprecated.unescaped-backticks
+http://spec.commonmark.org/0.28/#example-315
+`` foo ` bar  ``
+|^ punctuation.definition.raw.begin
+|^^^^^^^^^^^^^^^ markup.raw.inline
+|      ^ - punctuation
+|             ^^ punctuation.definition.raw.end
+
+http://spec.commonmark.org/0.28/#example-316
+` `` `
+|<- punctuation.definition.raw.begin
+|^^^^^ markup.raw.inline
+| ^^ - punctuation
+|    ^ punctuation.definition.raw.end
+
+http://spec.commonmark.org/0.28/#example-318
+`foo   bar
+  baz`
+|^^^^^ markup.raw.inline
+|    ^ punctuation.definition.raw.end
 
 ~~~~ 
 | <- punctuation.definition.raw.code-fence.begin
