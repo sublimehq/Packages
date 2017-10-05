@@ -6,7 +6,7 @@
 # Includes a few improvement like special-target, a bit more shell command,
 # better variable recognition, fix ifeq/ifneq missing highlight ...
 # Rewritten by Raoul Wols on May 2017.
-# 
+#
 # All number references refer to the "Make manual" (see link above).
 name: Makefile
 file_extensions:
@@ -21,7 +21,7 @@ first_line_match: ^#!\s*/usr/bin/make\b
 scope: source.makefile
 #-------------------------------------------------------------------------------
 variables:
-  
+
   varassign: (\?|\+|::?)?=
   shellassign: '!='
   startdirective: ifn?(def|eq)
@@ -114,7 +114,7 @@ variables:
 contexts:
 
   # 3.1 What Makefiles Contain
-  # Makefiles contain five kinds of things: explicit rules, implicit rules, 
+  # Makefiles contain five kinds of things: explicit rules, implicit rules,
   # variable definitions, directives, and comments.
   main:
     - include: comments
@@ -229,7 +229,7 @@ contexts:
             1: keyword.operator.assignment.makefile
           set:
             - meta_content_scope:
-                meta.function.arguments.makefile 
+                meta.function.arguments.makefile
                 string.unquoted.makefile
             - include: line-continuation
             - include: variable-substitutions
@@ -366,9 +366,9 @@ contexts:
     # This hack is here in order to circumvent false-positives for the big
     # rule lookahead. For example, if this match is not present, then things
     # like
-    # 
+    #
     #     # A comment with a : colon
-    #     
+    #
     # will match the rule-lookahead.
     - match: (?=^\s*#)
       push:
@@ -405,7 +405,7 @@ contexts:
         2: constant.language.call.makefile
       push:
         - meta_content_scope:
-            meta.function-call.makefile 
+            meta.function-call.makefile
             variable.function.makefile
         - match: (?=,)
           set:
@@ -519,7 +519,7 @@ contexts:
       captures:
         1: keyword.control.makefile
       push:
-        - meta_content_scope: variable.other.makefile 
+        - meta_content_scope: variable.other.makefile
         - include: continuation-or-pop-on-line-end
         - include: variable-substitutions
         - match: (\?|\+|::?)?=
@@ -590,7 +590,7 @@ contexts:
         - match: ^\s*(endef)
           captures:
             1: keyword.control.makefile
-          pop: true  
+          pop: true
     - include: variable-substitutions
 
   variable-sub-common:
