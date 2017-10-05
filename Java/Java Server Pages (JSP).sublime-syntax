@@ -24,8 +24,6 @@ contexts:
         - match: \w+
           scope: keyword.other.directive.jsp
           push:
-            - match: (?=%>)
-              pop: true
             - match: \w+
               scope: constant.other.directive.attribute.jsp
             - match: "="
@@ -48,17 +46,16 @@ contexts:
                   pop: true
                 - match: \\.
                   scope: constant.character.escape.jsp
-    - match: "(<%(?!--)[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
+    - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
       captures:
         1: punctuation.section.embedded.begin.jsp
         2: meta.tag.block.jsp
       push:
-        - match: (?<=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>)
-          pop: true
         - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
           captures:
             1: meta.tag.block.jsp
             2: punctuation.section.embedded.end.jsp
+          pop: true
         - match: '(?<!\n)(?!</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})'
           push:
             - meta_scope: source.java.embedded.html
@@ -81,5 +78,8 @@ contexts:
                   pop: true
                 - include: scope:text.html.jsp
             - include: scope:source.java
+        # Prevent stray brace detection since brace matching won't work with
+        # %> pop pattern
+        - match: "}"
         - include: scope:source.java
     - include: scope:text.html.basic

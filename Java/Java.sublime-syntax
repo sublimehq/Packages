@@ -21,14 +21,15 @@ variables:
   lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
 contexts:
   prototype:
+    - match: '(?=%>)'
+      pop: true
     - include: comments
     - include: illegal-keywords
   any_POP:
     - match: '(?=\S)'
       pop: true
   main:
-    - include: comments
-    - include: illegal-keywords
+    - include: prototype
     - include: package
     - include: import
     - include: annotations
@@ -250,6 +251,7 @@ contexts:
     - include: lambdas
     - include: strings
     - include: anonymous-classes-and-new
+    - include: keywords-control
     - include: method-invocations
     - include: constant-reference
     - include: all-types
