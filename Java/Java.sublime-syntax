@@ -374,8 +374,14 @@ contexts:
           pop: true
     - match: \b(goto|const)\b
       scope: invalid.illegal.java
-    - match: \b(try|catch|finally|throw)\b
+    - match: \b(try|finally|throw)\b
       scope: keyword.control.catch-exception.java
+    - match: \b(catch)\b
+      scope: keyword.control.catch-exception.java
+      push:
+        - match: (?=[){}])
+          pop: true
+        - include: exception-parameter-declaration
     - match: '\?|:'
       scope: keyword.control.java
     - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
@@ -403,6 +409,49 @@ contexts:
         2: support.variable.magic.java
     - match: ;
       scope: punctuation.terminator.java
+
+  # https://docs.oracle.com/javase/specs/jls/se8/html/jls-14.html#jls-14.20
+  exception-parameter-declaration:
+    - match: \(
+      push:
+        - meta_content_scope: meta.catch.parameters.java
+        - include: annotations
+        # Stop the catch-clause early in case the user has left it
+        # incompletely mistyped; although { and } can be used in
+        # annotations, the annotations section should account for that.
+        - match: (?=[){}])
+          pop: true
+        # TODO: It is a compile-time error if final appears more than once
+        # as a modifier for an exception parameter declaration.
+        - match: \bfinal\b
+          scope: storage.modifier.java
+        - match: '{{qualified_id}}'
+          scope: support.class.java
+          push:
+            - match: (?=[){}])
+              pop: true
+            - match: ','
+              scope: invalid.illegal.java
+            - match: \|
+              scope: keyword.operator.logical.java
+              push:
+                - match: '[,|]'
+                  scope: invalid.illegal.java
+                - match: '{{qualified_id}}'
+                  scope: support.class.java
+                  pop: true
+                - match: (?=[){}])
+                  pop: true
+            - match: '{{id}}'
+              scope: variable.parameter.java
+              push:
+                - match: (?=[){}])
+                  pop: true
+                - match: '[,|]'
+                  scope: invalid.illegal.java
+        # Only a single | can separate the alternatives. Might detect typos.
+        - match: '[,|]'
+          scope: invalid.illegal.java
 
   methods:
     - match: '(?=\w.*\s+)(?=[^=;]+\()'
