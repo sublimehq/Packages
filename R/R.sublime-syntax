@@ -156,6 +156,7 @@ contexts:
       push:
         - meta_scope: meta.function.r
         - meta_content_scope: meta.function.parameters.r
+        - include: comments
         - match: '{{var}}'
           scope: variable.parameter.r
         - match: '(?==)'
