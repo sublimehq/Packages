@@ -27,6 +27,8 @@ contexts:
     - match: '(?=\S)'
       pop: true
   main:
+    - include: comments
+    - include: illegal-keywords
     - include: package
     - include: import
     - include: annotations
