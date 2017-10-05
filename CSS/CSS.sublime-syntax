@@ -108,7 +108,7 @@ contexts:
     - match: \b((?i)currentColor|transparent)\b
       scope: support.constant.color.w3c-special-color-keyword.css
       # Hex Color
-    - match: '(#)(\h{3}|\h{6})\b'
+    - match: '(#)(\h{3}|\h{4}|\h{6})\b'
       scope: constant.other.color.rgb-value.css
       captures:
         1: punctuation.definition.constant.css
@@ -576,7 +576,7 @@ contexts:
             )\b
       scope: support.constant.property-value.css
       # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive)\b(?=\s*[;,\n}])
+    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b(?=\s*[;,\n}])
       scope: support.constant.font-name.css
 
   property-values:
