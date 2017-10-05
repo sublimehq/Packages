@@ -491,15 +491,19 @@ contexts:
       captures:
         1: keyword.other.block.begin.makefile
         2: support.function.builtin.makefile
-      push: scope:source.shell
-      with_prototype:
+      push:
         - match: \)
           scope: keyword.other.block.end.makefile
           pop: true
-        - include: variable-substitutions
-        - include: quoted-string
-        - match: \(
-          push: textual-parenthesis-balancer
+        - match: ''
+          push: scope:source.shell
+          with_prototype:
+            - match: (?=\))
+              pop: true
+            - include: variable-substitutions
+            - include: quoted-string
+            - match: \(
+              push: textual-parenthesis-balancer
 
   variable-definitions:
     - match: \s*(override)\b
