@@ -221,13 +221,13 @@ contexts:
       scope: keyword.operator.increment-decrement.php
     - match: (\-|\+|\*|/|%)
       scope: keyword.operator.arithmetic.php
-    - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
-      scope: keyword.operator.logical.php
-    - include: function-call
     - match: '<<|>>|~|\^|&|\|'
       scope: keyword.operator.bitwise.php
     - match: (===|==|!==|!=|<=>|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.php
+    - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
+      scope: keyword.operator.logical.php
+    - include: function-call
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\b\s+(?=[[:alpha:]\\$_])'
