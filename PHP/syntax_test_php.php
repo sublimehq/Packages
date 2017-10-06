@@ -640,6 +640,9 @@ $var4 = 0b0111;
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
+if ($a !== $b);
+//     ^^^ keyword.operator.comparison.php
+
 if ():
 else:
 // <- keyword.control - entity.name.label
