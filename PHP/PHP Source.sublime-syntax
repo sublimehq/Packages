@@ -586,6 +586,8 @@ contexts:
     # Class name type hint
     - match: '{{identifier}}'
       scope: meta.path.php support.class.php
+    - match: '\?'
+      scope: storage.type.nullable.php
     - match: '&'
       scope: storage.modifier.reference.php
     - match: (\$+){{identifier}}
@@ -634,6 +636,8 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.php
+    - match: '\?'
+      scope: storage.type.nullable.php
     - match: \b(array|bool|int|float|string)\b
       scope: storage.type.php
     - include: class-builtin
