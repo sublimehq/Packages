@@ -624,6 +624,21 @@ try {
 //               ^^^^^^^^^ support.class.exception.php
 //                         ^^ variable.other.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (\Custom\Exception1 | \Custom\Exception2 $e) {
+//^ keyword.control.exception
+//       ^^^^^^^^^^^^^^^^^ meta.path.php
+//       ^ punctuation.separator.namespace.php
+//        ^^^^^^ support.other.namespace.php
+//              ^ punctuation.separator.namespace.php
+//               ^^^^^^^^^^ support.class.exception.php
+//                          ^ punctuation.separator.catch.php
+//                            ^^^^^^^^^^^^^^^^^ meta.path.php
+//                            ^ punctuation.separator.namespace.php
+//                             ^^^^^^ support.other.namespace.php
+//                                   ^ punctuation.separator.namespace.php
+//                                    ^^^^^^^^^^ support.class.exception.php
+//                                               ^^ variable.other.php
+    echo 'Caught exception: ', $e->getMessage(), "\n";
 } finally {
 //^ keyword.control.exception
     echo "First finally.\n";
