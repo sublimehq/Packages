@@ -223,7 +223,7 @@ contexts:
     - include: function-call
     - match: '<<|>>|~|\^|&|\|'
       scope: keyword.operator.bitwise.php
-    - match: (===|==|!==|!=|<=|>=|<>|<|>)
+    - match: (===|==|!==|!=|<=>|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.php
     - match: "="
       scope: keyword.operator.assignment.php
