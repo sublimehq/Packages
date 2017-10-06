@@ -271,6 +271,13 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                                    ^ punctuation.separator.namespace
 }
 
+new class implements Logger {};
+// <- keyword.other.new.php
+//  ^ storage.type.class.php
+//        ^ storage.modifier.implements.php
+//                   ^^^^^^ meta.path
+//                   ^^^^^^ entity.other.inherited-class
+
 interface MyInter {}
 // <- storage.type
 //        ^ entity.name.interface

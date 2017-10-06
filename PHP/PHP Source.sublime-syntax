@@ -422,6 +422,12 @@ contexts:
         2: storage.type.class.php
         3: entity.name.class.php
       push: class-definition
+    # http://php.net/manual/en/migration70.new-features.php#migration70.new-features.anonymous-classes
+    - match: '(?i)\b(new)\b\s+\b(class)\s+(?=extends|implements)\b\s*'
+      captures:
+        1: keyword.other.new.php
+        2: storage.type.class.php
+      push: class-definition
 
   class-definition:
     - meta_scope: meta.class.php
