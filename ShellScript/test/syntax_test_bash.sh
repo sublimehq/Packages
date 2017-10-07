@@ -1220,6 +1220,11 @@ foo=`cd -L`
 #        ^ meta.function-call.arguments variable.parameter
 #         ^ punctuation.section.group.end
 
+echo "`dirname -- foo/bar`"
+#     ^ punctuation.section.group.begin
+#              ^^ keyword.operator.end-of-options
+#                        ^ punctuation.section.group.end
+
 commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 # <- - variable.other.readwrite

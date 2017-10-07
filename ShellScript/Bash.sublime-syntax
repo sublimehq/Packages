@@ -673,15 +673,6 @@ contexts:
       pop: true
     - include: expansion-and-string
     - include: line-continuation-or-pop-at-end
-    - match: (?:\s+|^)--(?=\s|$)
-      scope: keyword.operator.end-of-options.shell
-      set:
-        - meta_content_scope: meta.function-call.arguments.shell
-        - include: redirection
-        - match: (?=[)};&|])
-          pop: true
-        - include: expansion-and-string
-        - include: line-continuation-or-pop-at-end
 
   cmd-post: # looks like [main, cmd-post] at this point
     - match: ""
@@ -714,11 +705,30 @@ contexts:
     - match: (?={{is_end_of_interpolation}})
       pop: true
     - include: cmd-args-common
+    - match: (?:\s+|^)--(?=\s|$)
+      scope: keyword.operator.end-of-options.shell
+      set:
+        - meta_content_scope: meta.function-call.arguments.shell
+        - include: end-of-options-common
 
   cmd-args-boilerplate-bt:
     - match: (?={{is_end_of_interpolation}}|`) # <-------------- extra backtick
       pop: true
     - include: cmd-args-common
+    - match: (?:\s+|^)--(?=\s|$)
+      scope: keyword.operator.end-of-options.shell
+      set:
+        - meta_content_scope: meta.function-call.arguments.shell
+        - match: (?=`) # <-------------------------------------- extra backtick
+          pop: true
+        - include: end-of-options-common
+
+  end-of-options-common:
+    - include: redirection
+    - match: (?=[)};&|])
+      pop: true
+    - include: expansion-and-string
+    - include: line-continuation-or-pop-at-end
 
   cmd-args:
     - match: ""
