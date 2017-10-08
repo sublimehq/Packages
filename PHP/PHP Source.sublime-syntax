@@ -230,7 +230,7 @@ contexts:
     - include: function-call
     - match: "="
       scope: keyword.operator.assignment.php
-    - match: '(?i)\b(instanceof)\b\s+(?=[[:alpha:]\\$_])'
+    - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
       captures:
         1: keyword.operator.type.php
       push:
@@ -419,7 +419,7 @@ contexts:
     - include: identifier-constant-pop
 
   class:
-    - match: '(?i)(\b(?:abstract|final)\b\s+)?\b(class)\s+({{identifier}})\s*'
+    - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
       captures:
         1: storage.modifier.abstract.php
         2: storage.type.class.php
