@@ -1305,14 +1305,6 @@ contexts:
         - include: nested-pattern-match
 
   base-type-expression:
-    # \x{03BB} = λ, \x{03B1} = α, \x{03B2} = β
-    - match: '\(\{\s*type\s+\x{03BB}\[\x{03B1}(\[_\])?(,\s*\x{03B2}(\[_\])?)?\]\s*='
-      scope: comment.block.scala
-      push:
-        - match: '\}\)#\x{03BB}'
-          scope: comment.block.scala
-          pop: true
-        - include: delimited-type-expression
     - match: \(
       push:
         - match: \)
@@ -1337,12 +1329,16 @@ contexts:
       scope: keyword.operator.bound.scala
   delimited-type-expression:
     - include: annotation
+    # kind-projector support
+    - match: '\?'
+      scope: variable.language.qmark.scala
+    # \x{03BB} = λ
+    - match: '\bLambda\b|\x{03BB}'
+      scope: keyword.operator.type-lambda.scala
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: '\b(with)\b'
       scope: keyword.declaration.scala
-    - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
-      scope: comment.block.empty.scala
     - match: '[\.#]'
       scope: punctuation.accessor.scala
     - include: base-types
@@ -1357,8 +1353,6 @@ contexts:
   single-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
-    - match: '[\x{03B1}\x{03B2}]'     # just here for type lambdas
-      scope: comment.block.empty.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
       set: single-type-expression-tail
