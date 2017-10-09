@@ -15,11 +15,15 @@
 
 graph n {}
 // <- storage.type.dot
+//    ^ entity.name.graph.dot
 
 node n { size="str" }
 //            ^     punctuation.definition.string.begin.dot
 //            ^^^^^ string.quoted.double.dot
 //                ^ punctuation.definition.string.end.dot
+//     ^              punctuation.definition.group.begin.dot
+//     ^^^^^^^^^^^^^^ meta.group.dot
+//                  ^ punctuation.definition.group.end.dot
 
 edge n { main="\n" }
 //             ^^ constant.character.escape.dot
@@ -30,5 +34,43 @@ node n { color="" }
 edge n { lhead="" }
 //       ^^^^^ support.constant.attribute.edge.dot
 
-graph n { page=""}
+graph n { page="" }
 //        ^^^^ support.constant.attribute.graph.dot
+
+graph cluster_n {
+//    ^^^^^^^^^ entity.name.graph.dot
+//    ^^^^^^^   meta.annotation.dot variable.annotation.cluster.dot
+    t -> n;
+//    ^^        punctuation.operator.relationship.dot
+}
+
+// Loosely taken from http://www.graphviz.org/content/node-shapes#html
+digraph structs {
+    node [shape=plaintext]
+    struct1 [label=<
+//                ^    keyword.operator.assignment.dot
+//                 ^   punctuation.section.embedded.begin.dot
+//                  ^^ source.dot.embedded.html
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
+  <TR><TD>left</TD><TD PORT="f1">mid dle</TD><TD PORT="f2">right</TD></TR>
+</TABLE>>];
+// ^^^^      source.dot.embedded.html
+// ^^^^^     source.dot.embedded.html
+//     ^     punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
+//      ^    punctuation.section.embedded.end.dot - source.dot.embedded.html
+    struct2 [label=<
+//                ^    keyword.operator.assignment.dot
+//                 ^   punctuation.section.embedded.begin.dot
+//                  ^^ source.dot.embedded.html
+<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+//                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
+  <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
+</TABLE> >];
+// ^^^^       source.dot.embedded.html
+// ^^^^^^     source.dot.embedded.html
+//     ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
+//       ^    punctuation.section.embedded.end.dot - source.dot.embedded.html
+    struct1:f1 -> struct2:f0;
+    struct2:f0 -> struct1:f2;
+}

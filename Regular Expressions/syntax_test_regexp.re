@@ -5,10 +5,12 @@
 ## Anchors and escapes
 ###################
 
-^foo \bbar$
+^foo \bbar$ \<test\>
 # <- keyword.control.anchors
 #    ^^ keyword.control.anchors
 #         ^ keyword.control.anchors
+#           ^^ keyword.control.anchors
+#                 ^^ keyword.control.anchors
 
 \^foo \\bbar\$
  # <- constant.character.escape
