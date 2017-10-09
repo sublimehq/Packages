@@ -618,6 +618,7 @@ contexts:
             - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.objc
             - include: expressions
+            - include: preprocessor-line-continuation
     - match: (?=\S)
       pop: true
 

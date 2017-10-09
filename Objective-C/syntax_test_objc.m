@@ -28,6 +28,7 @@
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
+/*           ^ punctuation.separator */ \
 /* */ \
 /* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
@@ -62,6 +63,10 @@ int func() {
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
+
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
 
 #define CONST0 16 // Comment
 #define CONST1 8
