@@ -300,6 +300,65 @@ public class Lambdas {
 //                             ^^ storage.type.function.anonymous.java
 //                                ^^ constant.numeric
 
+  // Lambda parameter tests
+  Function<String, String> lambda1 = (final @MyAnnotation String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^ storage.modifier.java
+//                                          ^^^^^^^^^^^^^ meta.annotation
+//                                          ^ punctuation.definition.annotation
+//                                                        ^^^^^^ support.class.java - meta.annotation
+//                                                               ^^^ variable.parameter.java
+//                                                                    ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda2 = (@MyAnnotation String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^^^^^^^^ meta.annotation
+//                                    ^ punctuation.definition.annotation
+//                                                  ^^^^^^ support.class.java - meta.annotation
+//                                                         ^^^ variable.parameter.java
+//                                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda3 = (@MyAnnotation(foo = Foo.BAR) String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                                    ^ punctuation.definition.annotation
+//                                                  ^^^ variable.parameter.java
+//                                                        ^^^ support.class.java simple
+//                                                           ^ punctuation.accessor.dot.java
+//                                                            ^^^ constant.other.java
+//                                                                 ^^^^^^ support.class.java - meta.annotation
+//                                                                        ^^^ variable.parameter.java
+//                                                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda4 = (String foo) -> foo;
+//                                   ^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^ support.class.java - meta.annotation
+//                                           ^^^ variable.parameter.java
+//                                                ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda5 = (foo) -> foo;
+//                                   ^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ variable.parameter.java
+//                                         ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda6 = foo -> foo;
+//                                   ^^^ meta.function.anonymous.parameters.java
+//                                   ^^^ variable.parameter.java
+//                                       ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String[], String> lambda7 = (String... foo) -> foo[0];
+//                                     ^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                      ^^^^^^ support.class.java - meta.annotation
+//                                            ^^^ keyword.operator.variadic.java
+//                                                ^^^ variable.parameter.java
+//                                                     ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  IntFunction<String> intLambda1 = (int foo) -> String.valueOf(foo);
+//                                 ^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                  ^^^ storage.type.primitive - meta.annotation
+//                                      ^^^ variable.parameter.java
+//                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
   new Foo<Abc>();
 //       ^^^^^ meta.generic.java
 //        ^^^ support.class.java
