@@ -1651,3 +1651,11 @@ type Foo = Monad[λ[α => OptionT[IO, α]]]
 
 type Foo = Monad[Lambda[α => OptionT[IO, α]]]
 //               ^^^^^^ keyword.operator.type-lambda.scala
+
+import scalaz._,
+   Scalaz._
+// ^^^^^^^ meta.import.scala variable.package.scala
+
+import scalaz._
+   Scalaz._
+// ^^^^^^ support.constant.scala
