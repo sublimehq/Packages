@@ -28,6 +28,7 @@
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
+/*           ^ punctuation.separator */ \
 /* */ \
 /* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
@@ -62,6 +63,10 @@ int func() {
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
+
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
 
 #define CONST0 16 // Comment
 #define CONST1 8
@@ -523,6 +528,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 // Includes
 /////////////////////////////////////////////
+
+#import <Cocoa/Cocoa.h>
+/* <- meta.preprocessor.import keyword.control.import.import */
+
+#include <uchar.h>
+/* <- meta.preprocessor.include keyword.control.import.include */
 
 #include "foobar.h"
 /* <- keyword.control.import.include */

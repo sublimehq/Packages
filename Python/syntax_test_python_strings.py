@@ -116,6 +116,9 @@ regex = R"\b ([fobar]*){1}(?:a|b)?"
 bad_string = 'SELECT * FROM users
 #                                ^ invalid.illegal.unclosed-string
 
+more_bad_string = r"
+#                   ^ invalid.illegal.unclosed-string.python
+
 string = '''
 
 # <- string.quoted.single.block

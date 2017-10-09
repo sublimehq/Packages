@@ -126,3 +126,7 @@ key on line one:
 
 scalar
 # <- -meta.block-mapping
+
+x:
+  - #1
+#   ^^ comment.line

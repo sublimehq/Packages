@@ -403,6 +403,7 @@ contexts:
             - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.c
             - include: expressions
+            - include: preprocessor-line-continuation
     - match: (?=\S)
       pop: true
 

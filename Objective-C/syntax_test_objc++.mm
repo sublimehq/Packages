@@ -30,6 +30,14 @@ int func() {
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
+int g(int x = 5 \
+         /*     ^ punctuation.separator.continuation */
+      , int y);
+
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /* <- keyword.control.import.define */
@@ -367,6 +375,89 @@ typedef std :: vector<std::vector<int> > Table;
 /*                               ^ punctuation.section.generic.begin */
 /*                                   ^ punctuation.section.generic.end */
 /*                                     ^ punctuation.section.generic.end */
+
+template <typename T = float, int a = 3, bool b = true>
+                  /* ^ meta.template keyword.operator                               */
+                  /*                ^ meta.template keyword.operator                */
+                  /*                  ^ meta.template constant.numeric              */
+                  /*                            ^ meta.template keyword.operator    */
+                  /*                              ^ meta.template constant.language */
+struct Foo
+{
+
+/* <- meta.struct - meta.template */
+
+    void bar(int a = 3, bool b = true) {}
+                /* ^ - meta.template keyword.operator                */
+                /*   ^ - meta.template constant.numeric              */
+                /*             ^ - meta.template keyword.operator    */
+                /*               ^ - meta.template constant.language */
+};
+
+/* <- - meta.block - meta.struct - meta.template  */
+
+template <std::size_t Count = 128>
+/*           ^^ meta.template punctuation.accessor             */
+/*                          ^ meta.template keyword.operator   */
+/*                            ^ meta.template constant.numeric */
+class fixed_array : private std::array<int, Count> {};
+
+constexpr std::size_t f() { return 128; }
+template <std::size_t Count = f()>
+/*           ^^ meta.template punctuation.accessor                             */
+/*                          ^ meta.template keyword.operator                   */
+/*                            ^ meta.template variable.function                */
+/*                             ^^ meta.template meta.function-call punctuation */
+/*                               ^ meta.template punctuation                   */
+class fixed_array : private std::array<int, Count> {};
+
+template<class T> class A { /* ... */ };
+template<class T, class U = T> class B { /* ... */ };
+/*                        ^ meta.template keyword.operator */
+/*                          ^ meta.template                */
+/*                           ^ meta.template punctuation   */
+/*                            ^ - meta.template            */
+template <class ...Types> class C { /* ... */ };
+
+// templates inside templates... it's templates all the way down
+template<template<class> class P> class X { /* ... */ };
+/*      ^ meta.template punctuation                              */
+/*               ^ meta.template meta.template punctuation       */
+/*                ^^^^^ meta.template meta.template storage.type */
+/*                     ^ meta.template meta.template punctuation */
+/*                       ^^^^^ meta.template storage.type        */
+/*                              ^ meta.template punctuation      */
+
+X<A> xa; // OK
+X<B> xb; // OK in C++14 after CWG 150
+         // Error earlier: not an exact match
+X<C> xc; // OK in C++14 after CWG 150
+
+// template declarations spanning multiple lines
+template
+/* <- meta.template storage.type */
+<
+/* <- meta.template punctuation.section.generic.begin */
+    class T,
+    class U = T
+>
+class B
+{
+    /* ... */
+};
+
+// template declarations spanning multiple lines
+template
+<
+/* <- meta.template punctuation.section.generic.begin */
+    std::size_t Count = f()
+/*     ^^ meta.template punctuation.accessor                             */
+/*                    ^ meta.template keyword.operator                   */
+/*                      ^ meta.template variable.function                */
+/*                       ^^ meta.template meta.function-call punctuation */
+>
+/* <- meta.template punctuation.section.generic.end */
+class fixed_array : private std::array<int, Count> {};
 
 /////////////////////////////////////////////
 // Storage Modifiers
@@ -1330,6 +1421,46 @@ private:
 /* <- meta.class meta.block punctuation.section.block.end */
  /* <- - meta.class meta.block */
 
+struct X {
+    Y f() override noexcept final;
+    /*^ entity.name.function */
+    /*    ^ storage.modifier */
+    /*             ^ storage.modifier */
+    /*                      ^ storage.modifier */
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+class X {
+  public:
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+union Y {
+    ::Y g() override noexcept final;
+    /* <- punctuation.accessor */
+    /*  ^ entity.name.function */
+    /*      ^ storage.modifier */
+    /*               ^ storage.modifier */
+    /*                        ^ storage.modifier */
+};
+
+class Child : public Parent {
+    ::anotherClass Func() override;
+    /* <- punctuation.accessor */
+    /*             ^ entity.name.function */
+    /*                    ^ storage.modifier */
+}
+
 class Adapter2 : public Abstraction, private Scenario {
 /*                                 ^ punctuation.separator */
 }
@@ -1354,7 +1485,7 @@ public:
                                  /* ^ meta.method.constructor.initializer-list */
                                  /*   ^ - meta.function-call - variable.function */
 private:
-    int var1, var2, var3, var4;    
+    int var1, var2, var3, var4;
 };
 
 class X {
@@ -1863,6 +1994,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 // Includes
 /////////////////////////////////////////////
+
+#import <Cocoa/Cocoa.h>
+/* <- meta.preprocessor.import keyword.control.import.import */
+
+#include <uchar.h>
+/* <- meta.preprocessor.include keyword.control.import.include */
 
 #include "foobar.h"
 /* <- keyword.control.import.include */

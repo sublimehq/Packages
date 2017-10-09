@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[func (${1:varname typename}) ${2:func_name}($3)$4 {
+	<content><![CDATA[func (${1:varname typename}) ${2:name}($3)$4 {
 	$0
 }]]></content>
 	<tabTrigger>tfunc</tabTrigger>

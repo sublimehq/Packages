@@ -1,0 +1,1223 @@
+%YAML 1.2
+---
+# Automatically generated file -- do not edit!
+contexts:
+  cmd-args-bg:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-bg-base
+  cmd-args-bg-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-bg-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-bg-base
+  cmd-args-bind:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-bind-base
+  cmd-args-bind-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[mqurfx]|[lpsvPSVX]+)(?=\s|;|$|`|\))
+  cmd-args-bind-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-bind-base
+  cmd-args-builtin:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-builtin-base
+  cmd-args-builtin-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-builtin-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-builtin-base
+  cmd-args-caller:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-caller-base
+  cmd-args-caller-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-caller-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-caller-base
+  cmd-args-cd:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-cd-base
+  cmd-args-cd-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[LPe@])(?=\s|;|$|`|\))
+  cmd-args-cd-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-cd-base
+  cmd-args-colon:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-colon-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-command:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-command-base
+  cmd-args-command-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[pVv]+)(?=\s|;|$|`|\))
+  cmd-args-command-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-command-base
+  cmd-args-disown:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-disown-base
+  cmd-args-disown-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[h]|[ar]+)(?=\s|;|$|`|\))
+  cmd-args-disown-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-disown-base
+  cmd-args-dot:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-dot-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-echo:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-echo-base
+  cmd-args-echo-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[neE]+)(?=\s|;|$|`|\))
+  cmd-args-echo-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-echo-base
+  cmd-args-enable:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-enable-base
+  cmd-args-enable-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[af]|[dnps]+)(?=\s|;|$|`|\))
+  cmd-args-enable-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-enable-base
+  cmd-args-eval:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-eval-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-exec:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-exec-base
+  cmd-args-exec-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[a]|[cl]+)(?=\s|;|$|`|\))
+  cmd-args-exec-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-exec-base
+  cmd-args-exit:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-exit-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-fg:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-fg-base
+  cmd-args-fg-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-fg-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-fg-base
+  cmd-args-getopts:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-getopts-base
+  cmd-args-getopts-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-getopts-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-getopts-base
+  cmd-args-hash:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-hash-base
+  cmd-args-hash-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[rpl]|[dt]+)(?=\s|;|$|`|\))
+  cmd-args-hash-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-hash-base
+  cmd-args-help:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-help-base
+  cmd-args-help-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[dms]+)(?=\s|;|$|`|\))
+  cmd-args-help-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-help-base
+  cmd-args-jobs:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-jobs-base
+  cmd-args-jobs-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[x]|[lnprs]+)(?=\s|;|$|`|\))
+  cmd-args-jobs-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-jobs-base
+  cmd-args-kill:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-kill-base
+  cmd-args-kill-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[snlL])(?=\s|;|$|`|\))
+  cmd-args-kill-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-kill-base
+  cmd-args-logout:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-logout-base
+  cmd-args-logout-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-logout-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-logout-base
+  cmd-args-mapfile:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-mapfile-base
+  cmd-args-mapfile-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[dnOstuCc])(?=\s|;|$|`|\))
+  cmd-args-mapfile-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-mapfile-base
+  cmd-args-printf:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-printf-base
+  cmd-args-printf-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[v])(?=\s|;|$|`|\))
+  cmd-args-printf-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-printf-base
+  cmd-args-pwd:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-pwd-base
+  cmd-args-pwd-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[LP]+)(?=\s|;|$|`|\))
+  cmd-args-pwd-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-pwd-base
+  cmd-args-read:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-read-base
+  cmd-args-read-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[adeinNprstu]|[ers]+)(?=\s|;|$|`|\))
+  cmd-args-read-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-read-base
+  cmd-args-readarray:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-readarray-base
+  cmd-args-readarray-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[adeinNprstu]|[ers]+)(?=\s|;|$|`|\))
+  cmd-args-readarray-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-readarray-base
+  cmd-args-return:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-return-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-set:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-set-base
+  cmd-args-set-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((\-|\+)(?:[o]|[abefhkmnptuvxBCEHPT]+))(?=\s|;|$|`|\))
+  cmd-args-set-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-set-base
+  cmd-args-shift:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+  cmd-args-shift-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+  cmd-args-shopt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-shopt-base
+  cmd-args-shopt-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[o]|[pqsu]+)(?=\s|;|$|`|\))
+  cmd-args-shopt-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-shopt-base
+  cmd-args-source:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-source-base
+  cmd-args-source-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-source-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-source-base
+  cmd-args-suspend:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-suspend-base
+  cmd-args-suspend-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[f])(?=\s|;|$|`|\))
+  cmd-args-suspend-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-suspend-base
+  cmd-args-times:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-times-base
+  cmd-args-times-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  cmd-args-times-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-times-base
+  cmd-args-trap:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-trap-base
+  cmd-args-trap-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[lp]+)(?=\s|;|$|`|\))
+  cmd-args-trap-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-trap-base
+  cmd-args-type:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-type-base
+  cmd-args-type-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[afptP]+)(?=\s|;|$|`|\))
+  cmd-args-type-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-type-base
+  cmd-args-ulimit:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-ulimit-base
+  cmd-args-ulimit-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[HSabcdefiklmnpqrstuvxPT]+)(?=\s|;|$|`|\))
+  cmd-args-ulimit-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-ulimit-base
+  cmd-args-umask:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-umask-base
+  cmd-args-umask-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[pS])(?=\s|;|$|`|\))
+  cmd-args-umask-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-umask-base
+  cmd-args-unalias:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-unalias-base
+  cmd-args-unalias-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[a])(?=\s|;|$|`|\))
+  cmd-args-unalias-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-unalias-base
+  cmd-args-unset:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-unset-base
+  cmd-args-unset-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[fnv]+)(?=\s|;|$|`|\))
+  cmd-args-unset-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-unset-base
+  cmd-args-wait:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: cmd-args-wait-base
+  cmd-args-wait-base:
+  - match: (?:\s+|^)--(?=\s|$)
+    scope: keyword.operator.end-of-options.shell
+    set:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#expansion-and-string
+    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+  - captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+    match: (?:\s+|^)((-)[n])(?=\s|;|$|`|\))
+  cmd-args-wait-bt:
+  - match: ''
+    set:
+    - meta_scope: meta.function-call.arguments.shell
+    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: cmd-args-wait-base
+  main:
+  - match: '{{boundary_begin}}set{{boundary_end}}'
+    scope: meta.function-call.shell support.function.set.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-set
+  - match: '{{boundary_begin}}help{{boundary_end}}'
+    scope: meta.function-call.shell support.function.help.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-help
+  - match: '{{boundary_begin}}mapfile{{boundary_end}}'
+    scope: meta.function-call.shell support.function.mapfile.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-mapfile
+  - match: '{{boundary_begin}}getopts{{boundary_end}}'
+    scope: meta.function-call.shell support.function.getopts.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-getopts
+  - match: '{{boundary_begin}}cd{{boundary_end}}'
+    scope: meta.function-call.shell support.function.cd.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-cd
+  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+    scope: meta.function-call.shell support.function.suspend.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-suspend
+  - match: '{{boundary_begin}}:{{boundary_end}}'
+    scope: meta.function-call.shell support.function.colon.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-colon
+  - match: '{{boundary_begin}}printf{{boundary_end}}'
+    scope: meta.function-call.shell support.function.printf.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-printf
+  - match: '{{boundary_begin}}hash{{boundary_end}}'
+    scope: meta.function-call.shell support.function.hash.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-hash
+  - match: '{{boundary_begin}}ulimit{{boundary_end}}'
+    scope: meta.function-call.shell support.function.ulimit.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-ulimit
+  - match: '{{boundary_begin}}umask{{boundary_end}}'
+    scope: meta.function-call.shell support.function.umask.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-umask
+  - match: '{{boundary_begin}}source{{boundary_end}}'
+    scope: meta.function-call.shell support.function.source.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-source
+  - match: '{{boundary_begin}}builtin{{boundary_end}}'
+    scope: meta.function-call.shell support.function.builtin.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-builtin
+  - match: '{{boundary_begin}}exit{{boundary_end}}'
+    scope: meta.function-call.shell support.function.exit.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-exit
+  - match: '{{boundary_begin}}type{{boundary_end}}'
+    scope: meta.function-call.shell support.function.type.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-type
+  - match: '{{boundary_begin}}bg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-bg
+  - match: '{{boundary_begin}}return{{boundary_end}}'
+    scope: meta.function-call.shell keyword.control.return.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-return
+  - match: '{{boundary_begin}}exec{{boundary_end}}'
+    scope: meta.function-call.shell support.function.exec.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-exec
+  - match: '{{boundary_begin}}read{{boundary_end}}'
+    scope: meta.function-call.shell support.function.read.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-read
+  - match: '{{boundary_begin}}enable{{boundary_end}}'
+    scope: meta.function-call.shell support.function.enable.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-enable
+  - match: '{{boundary_begin}}pwd{{boundary_end}}'
+    scope: meta.function-call.shell support.function.pwd.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-pwd
+  - match: '{{boundary_begin}}logout{{boundary_end}}'
+    scope: meta.function-call.shell support.function.logout.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-logout
+  - match: '{{boundary_begin}}eval{{boundary_end}}'
+    scope: meta.function-call.shell support.function.eval.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-eval
+  - match: '{{boundary_begin}}fg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.fg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-fg
+  - match: '{{boundary_begin}}disown{{boundary_end}}'
+    scope: meta.function-call.shell support.function.disown.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-disown
+  - match: '{{boundary_begin}}echo{{boundary_end}}'
+    scope: meta.function-call.shell support.function.echo.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-echo
+  - match: '{{boundary_begin}}\.{{boundary_end}}'
+    scope: meta.function-call.shell support.function.dot.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-dot
+  - match: '{{boundary_begin}}wait{{boundary_end}}'
+    scope: meta.function-call.shell support.function.wait.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-wait
+  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+    scope: meta.function-call.shell support.function.jobs.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-jobs
+  - match: '{{boundary_begin}}bind{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bind.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-bind
+  - match: '{{boundary_begin}}caller{{boundary_end}}'
+    scope: meta.function-call.shell support.function.caller.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-caller
+  - match: '{{boundary_begin}}times{{boundary_end}}'
+    scope: meta.function-call.shell support.function.times.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-times
+  - match: '{{boundary_begin}}unalias{{boundary_end}}'
+    scope: meta.function-call.shell support.function.unalias.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-unalias
+  - match: '{{boundary_begin}}command{{boundary_end}}'
+    scope: meta.function-call.shell support.function.command.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-command
+  - match: '{{boundary_begin}}trap{{boundary_end}}'
+    scope: meta.function-call.shell support.function.trap.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-trap
+  - match: '{{boundary_begin}}shift{{boundary_end}}'
+    scope: meta.function-call.shell support.function.shift.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-shift
+  - match: '{{boundary_begin}}kill{{boundary_end}}'
+    scope: meta.function-call.shell support.function.kill.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-kill
+  - match: '{{boundary_begin}}readarray{{boundary_end}}'
+    scope: meta.function-call.shell support.function.readarray.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-readarray
+  - match: '{{boundary_begin}}shopt{{boundary_end}}'
+    scope: meta.function-call.shell support.function.shopt.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-shopt
+  - match: '{{boundary_begin}}unset{{boundary_end}}'
+    scope: meta.function-call.shell support.function.unset.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-unset
+  main-bt:
+  - match: '{{boundary_begin}}set{{boundary_end}}'
+    scope: meta.function-call.shell support.function.set.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-set-bt
+  - match: '{{boundary_begin}}help{{boundary_end}}'
+    scope: meta.function-call.shell support.function.help.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-help-bt
+  - match: '{{boundary_begin}}mapfile{{boundary_end}}'
+    scope: meta.function-call.shell support.function.mapfile.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-mapfile-bt
+  - match: '{{boundary_begin}}getopts{{boundary_end}}'
+    scope: meta.function-call.shell support.function.getopts.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-getopts-bt
+  - match: '{{boundary_begin}}cd{{boundary_end}}'
+    scope: meta.function-call.shell support.function.cd.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-cd-bt
+  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+    scope: meta.function-call.shell support.function.suspend.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-suspend-bt
+  - match: '{{boundary_begin}}:{{boundary_end}}'
+    scope: meta.function-call.shell support.function.colon.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-colon-bt
+  - match: '{{boundary_begin}}printf{{boundary_end}}'
+    scope: meta.function-call.shell support.function.printf.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-printf-bt
+  - match: '{{boundary_begin}}hash{{boundary_end}}'
+    scope: meta.function-call.shell support.function.hash.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-hash-bt
+  - match: '{{boundary_begin}}ulimit{{boundary_end}}'
+    scope: meta.function-call.shell support.function.ulimit.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-ulimit-bt
+  - match: '{{boundary_begin}}umask{{boundary_end}}'
+    scope: meta.function-call.shell support.function.umask.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-umask-bt
+  - match: '{{boundary_begin}}source{{boundary_end}}'
+    scope: meta.function-call.shell support.function.source.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-source-bt
+  - match: '{{boundary_begin}}builtin{{boundary_end}}'
+    scope: meta.function-call.shell support.function.builtin.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-builtin-bt
+  - match: '{{boundary_begin}}exit{{boundary_end}}'
+    scope: meta.function-call.shell support.function.exit.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-exit-bt
+  - match: '{{boundary_begin}}type{{boundary_end}}'
+    scope: meta.function-call.shell support.function.type.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-type-bt
+  - match: '{{boundary_begin}}bg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-bg-bt
+  - match: '{{boundary_begin}}return{{boundary_end}}'
+    scope: meta.function-call.shell keyword.control.return.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-return-bt
+  - match: '{{boundary_begin}}exec{{boundary_end}}'
+    scope: meta.function-call.shell support.function.exec.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-exec-bt
+  - match: '{{boundary_begin}}read{{boundary_end}}'
+    scope: meta.function-call.shell support.function.read.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-read-bt
+  - match: '{{boundary_begin}}enable{{boundary_end}}'
+    scope: meta.function-call.shell support.function.enable.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-enable-bt
+  - match: '{{boundary_begin}}pwd{{boundary_end}}'
+    scope: meta.function-call.shell support.function.pwd.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-pwd-bt
+  - match: '{{boundary_begin}}logout{{boundary_end}}'
+    scope: meta.function-call.shell support.function.logout.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-logout-bt
+  - match: '{{boundary_begin}}eval{{boundary_end}}'
+    scope: meta.function-call.shell support.function.eval.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-eval-bt
+  - match: '{{boundary_begin}}fg{{boundary_end}}'
+    scope: meta.function-call.shell support.function.fg.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-fg-bt
+  - match: '{{boundary_begin}}disown{{boundary_end}}'
+    scope: meta.function-call.shell support.function.disown.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-disown-bt
+  - match: '{{boundary_begin}}echo{{boundary_end}}'
+    scope: meta.function-call.shell support.function.echo.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-echo-bt
+  - match: '{{boundary_begin}}\.{{boundary_end}}'
+    scope: meta.function-call.shell support.function.dot.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-dot-bt
+  - match: '{{boundary_begin}}wait{{boundary_end}}'
+    scope: meta.function-call.shell support.function.wait.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-wait-bt
+  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+    scope: meta.function-call.shell support.function.jobs.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-jobs-bt
+  - match: '{{boundary_begin}}bind{{boundary_end}}'
+    scope: meta.function-call.shell support.function.bind.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-bind-bt
+  - match: '{{boundary_begin}}caller{{boundary_end}}'
+    scope: meta.function-call.shell support.function.caller.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-caller-bt
+  - match: '{{boundary_begin}}times{{boundary_end}}'
+    scope: meta.function-call.shell support.function.times.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-times-bt
+  - match: '{{boundary_begin}}unalias{{boundary_end}}'
+    scope: meta.function-call.shell support.function.unalias.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-unalias-bt
+  - match: '{{boundary_begin}}command{{boundary_end}}'
+    scope: meta.function-call.shell support.function.command.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-command-bt
+  - match: '{{boundary_begin}}trap{{boundary_end}}'
+    scope: meta.function-call.shell support.function.trap.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-trap-bt
+  - match: '{{boundary_begin}}shift{{boundary_end}}'
+    scope: meta.function-call.shell support.function.shift.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-shift-bt
+  - match: '{{boundary_begin}}kill{{boundary_end}}'
+    scope: meta.function-call.shell support.function.kill.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-kill-bt
+  - match: '{{boundary_begin}}readarray{{boundary_end}}'
+    scope: meta.function-call.shell support.function.readarray.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-readarray-bt
+  - match: '{{boundary_begin}}shopt{{boundary_end}}'
+    scope: meta.function-call.shell support.function.shopt.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-shopt-bt
+  - match: '{{boundary_begin}}unset{{boundary_end}}'
+    scope: meta.function-call.shell support.function.unset.shell
+    set:
+    - scope:source.shell.bash#cmd-post
+    - cmd-args-unset-bt
+  prototype:
+  - include: scope:source.shell.bash#prototype
+hidden: true
+scope: commands.builtin.shell.bash
+variables:
+  boundary_begin: ''
+  boundary_end: (?=\s|;|$|>|<|\|)
