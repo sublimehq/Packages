@@ -239,16 +239,6 @@ contexts:
           pop: true
         - include: internal-expression-punctuation
         - include: everything-else
-    - match: \b(query)\b
-      captures:
-        1: keyword.control.query.erlang
-      push:
-        - meta_scope: meta.expression.query.erlang
-        - match: \b(end)\b
-          captures:
-            1: keyword.control.end.erlang
-          pop: true
-        - include: everything-else
   function:
     - match: '^\s*+([a-z][a-zA-Z\d@_]*+)\s*+(?=\()'
       captures:
@@ -422,7 +412,7 @@ contexts:
             4: storage.modifier.unit.erlang
             5: punctuation.separator.type-specifiers.erlang
   keyword:
-    - match: \b(after|begin|case|catch|cond|end|fun|if|let|of|query|try|receive|when)\b
+    - match: \b(after|begin|case|catch|cond|end|fun|if|let|of|try|receive|when)\b
       scope: keyword.control.erlang
   list:
     - match: '(\[)'
