@@ -750,8 +750,8 @@ contexts:
       push: members-after-accessor-junction
 
   members-arrow:
-    # This needs to be before operators in the 
-    # early-expressions-after-generic-type context because otherwise the "->" 
+    # This needs to be before operators in the
+    # early-expressions-after-generic-type context because otherwise the "->"
     # from the C language will match.
     - match: ->
       scope: punctuation.accessor.arrow.objc++
@@ -2000,6 +2000,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.import.objc++
         - include: preprocessor-other-include-common
+    - include: scope:source.c#preprocessor-practical-workarounds
 
   preprocessor-other-include-common:
     - include: scope:source.c#preprocessor-line-continuation
@@ -2019,4 +2020,3 @@ contexts:
         - match: ">"
           scope: punctuation.definition.string.end.objc++
           pop: true
-    - include: scope:source.c#preprocessor-practical-workarounds
