@@ -1076,7 +1076,7 @@ contexts:
       scope: keyword.operator.assignment.augmented.ruby
     - match: '(?=^\s*/)'
       push: try-regex
-    - match: '(?=/\s*[^[:alnum:](\s])'
+    - match: (?=/\s*[^\w\(\s@"'])
       push: try-regex
     # regular expressions (literal)
     - match: '%r\{'
