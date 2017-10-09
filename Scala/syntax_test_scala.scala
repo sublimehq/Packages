@@ -1648,3 +1648,15 @@ val x: = 42
    class Foo()
    IO
 // ^^ support.constant.scala
+
+val foo' = 42
+//  ^^^^ entity.name.val.scala
+
+val foo'' = 42
+//  ^^^^^ entity.name.val.scala
+
+def foo' = ()
+//  ^^^^ entity.name.function.scala
+
+val ' = 42
+//  ^ - entity.name
