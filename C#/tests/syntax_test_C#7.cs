@@ -141,6 +141,46 @@ class Foo {
 ///                           ^ constant.numeric
 ///                            ^ punctuation.section.group.end
 ///                             ^ punctuation.section.group.end
+
+        switch (sh) {
+            case Shape shape when sh.Area == 0:
+///         ^^^^ keyword.control.switch.case
+///              ^^^^^ support.type
+///                    ^^^^^ variable.other
+///                          ^^^^ keyword.control.switch.case.when
+///                               ^^ variable.other
+///                                 ^ punctuation.accessor.dot
+///                                  ^^^^ variable.other
+///                                       ^^ keyword.operator
+///                                          ^ constant.numeric
+///                                           ^ punctuation.separator.case-statement
+                Console.WriteLine($"The shape: {sh.GetType().Name} with no dimensions");
+                break;
+            case int? example when example == 5:
+///         ^^^^ keyword.control.switch.case
+///              ^^^ storage.type
+///                 ^ storage.type.nullable
+///                   ^^^^^^^ variable.other
+///                           ^^^^ keyword.control.switch.case.when
+///                                ^^^^^^^ variable.other
+///                                        ^^ keyword.operator
+///                                           ^ constant.numeric
+///                                            ^ punctuation.separator.case-statement
+            case Shape<Shape> shape when shape.Area > 0:
+///         ^^^^ keyword.control.switch.case
+///              ^^^^^ support.type
+///                   ^ punctuation.definition.generic.begin
+///                    ^^^^^ support.type
+///                         ^ punctuation.definition.generic.end
+///                           ^^^^^ variable.other
+///                                 ^^^^ keyword.control.switch.case.when
+///                                      ^^^^^ variable.other
+///                                           ^ punctuation.accessor.dot
+///                                            ^^^^ variable.other
+///                                                 ^ keyword.operator
+///                                                   ^ constant.numeric
+///                                                    ^ punctuation.separator.case-statement
+        }
     }
 /// ^ meta.class.body meta.method.body punctuation.section.block.end
 }

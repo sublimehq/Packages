@@ -1016,3 +1016,12 @@ fn abc() {
 impl ApplicationPreferenceseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee {
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.impl.rust
 }
+
+#[test = "foo ] bar"]
+// <- meta.annotation punctuation.definition.annotation
+//^^^^^^^^^^^^^^^^^^^ meta.annotation
+//^^^^ variable.annotation
+//     ^ keyword.operator
+//       ^^^^^^^^^^^ string.quoted.double
+pub trait Foo {
+}
