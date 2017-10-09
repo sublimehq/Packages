@@ -1677,3 +1677,8 @@ type Foo = true
 
 type Foo = null
 //         ^^^^ constant.language.scala
+
+   for {
+       _ <_
+   } yield true
+//   ^^^^^ keyword.control.flow.scala
