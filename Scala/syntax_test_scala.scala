@@ -1614,6 +1614,35 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
 
+type =?>[A] = Any
+//   ^^^ entity.name.type.scala
+
+  val x: Foo @> Bar
+//           ^^ support.type.scala
+
+val x: = 42
+//       ^^ constant.numeric.integer.scala
+
+   object Foo
+   IO
+// ^^ support.constant.scala
+
+   class Foo()
+   IO
+// ^^ support.constant.scala
+
+val foo' = 42
+//  ^^^^ entity.name.val.scala
+
+val foo'' = 42
+//  ^^^^^ entity.name.val.scala
+
+def foo' = ()
+//  ^^^^ entity.name.function.scala
+
+val ' = 42
+//  ^ - entity.name
+
 type Foo = Monad[OptionT[IO, ?]]
 //                           ^ variable.language.qmark.scala
 

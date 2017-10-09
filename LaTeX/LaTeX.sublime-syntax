@@ -486,6 +486,8 @@ contexts:
     - include: scope:text.tex#math-characters
     - include: scope:text.tex#math-numerics
     - include: general-constants
+    - match: (?=\})
+      pop: true
 
   inline-math:
     - match: \$
@@ -591,6 +593,7 @@ contexts:
         2: punctuation.definition.backslash.latex
         3: punctuation.definition.verb.latex
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.environment.verbatim.verb.latex
         - meta_content_scope: markup.raw.verb.latex
         - match: '\3'

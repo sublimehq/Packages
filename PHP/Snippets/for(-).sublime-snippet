@@ -3,6 +3,6 @@
 	${0:# code...}
 }]]></content>
 	<tabTrigger>for</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>for …</description>
 </snippet>

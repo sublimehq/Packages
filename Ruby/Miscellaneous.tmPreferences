@@ -8,12 +8,12 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*([}\]]\s*$|(end|rescue|ensure|else|elsif|when)\b)</string>
+		<string>^\s*([}\]]|(end|rescue|ensure|else|elsif|when)\b)</string>
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)^
 		(\s*
 			(
-				module|class|def
+				module|class|(?:(?:private|protected|public)\s+)?def
 				|unless|if|else|elsif
 				|case|when
 				|begin|rescue|ensure

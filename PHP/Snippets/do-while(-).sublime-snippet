@@ -3,6 +3,6 @@
 	${0:# code...}
 } while (${1:$a <= 10});]]></content>
 	<tabTrigger>do</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>do … while …</description>
 </snippet>

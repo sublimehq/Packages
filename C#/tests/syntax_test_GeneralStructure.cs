@@ -148,6 +148,18 @@ namespace YourNamespace
 ///                                  ^ variable.parameter
 ///                                    ^ punctuation.terminator
 
+    public delegate FooBar YourDelegate (int a);
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.delegate
+///        ^^^^^^^^ storage.type.delegate
+///                 ^^^^^^ support.type
+///                        ^^^^^^^^^^^^ variable.other.member.delegate
+///                                     ^^^^^^^ meta.delegate.parameters
+///                                     ^ punctuation.section.parameters.begin
+///                                      ^^^ storage.type
+///                                          ^ variable.parameter
+///                                           ^ punctuation.section.parameters.end
+///                                            ^ punctuation.terminator
+
     enum YourEnum
 /// ^^^^^^^^^^^^^ meta.enum
 /// ^ storage.type.enum
@@ -351,6 +363,12 @@ namespace TestNamespace.Test
 ///                             ^ punctuation.section.group.end
 ///                              ^ punctuation.separator.case-statement
                     break;
+                case abc.def:
+///             ^^^^ keyword.control.switch.case
+///                  ^^^ variable.other
+///                     ^ punctuation.accessor.dot
+///                      ^^^ constant.other
+///                         ^ punctuation.separator.case-statement
                 default:
 ///             ^ keyword.control
 ///                    ^ punctuation.separator
@@ -1018,6 +1036,29 @@ namespace TestNamespace.Test
 /// ^^^ entity.name.label
 ///    ^ punctuation.separator
 
+        switch (test[0])
+        {
+            case 'a':
+                result += 4;
+                goto case 'b';
+///             ^^^^ keyword.control.flow.goto
+///                  ^^^^ keyword.control.switch.case
+///                       ^^^ constant.character
+///                          ^ punctuation.terminator.statement
+            case 'b':
+///         ^^^^ keyword.control.switch.case - invalid
+///              ^^^ constant.character
+///                 ^ punctuation.separator.case-statement
+                result += 6;
+                break;
+            case 'c':
+                result += 8;
+                break;
+        }
+    
+        "hello".OfType<char>().Where(c => c == 'l').Count());
+///                                                        ^ invalid.illegal.stray.brace
+
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
         formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
@@ -1026,8 +1067,26 @@ namespace TestNamespace.Test
         
         string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
                          "Ebenezer", "Francine", "George" };
-        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80,
-                                 16.75m };
+        decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80, 16.75m };
+///     ^^^^^^^ storage.type
+///            ^^ meta.brackets
+///               ^^^^^ variable.other
+
+        int?[] test;
+///     ^^^^ storage.type
+///         ^^ meta.brackets
+///            ^^^^ variable.other
+
+        test[ hello] = 2;
+///     ^^^^ variable.other
+///           ^^^^^ variable.other
+///         ^ punctuation.section.brackets.begin
+///                ^ punctuation.section.brackets.end
+        test[ 5 ] = 2;
+///     ^^^^ variable.other
+///           ^ constant.numeric
+///         ^ punctuation.section.brackets.begin
+///             ^ punctuation.section.brackets.end
 
         Console.WriteLine("{0,-20} {1,5}\n", "Name", "Hours");
 ///                        ^^^^^^^ constant.other.placeholder - invalid
@@ -1093,3 +1152,17 @@ namespace TestNamespace.Test
     }
 }
 ///<- punctuation.section.block.end
+}
+/// <- invalid.illegal.stray.brace
+
+class Test
+{
+    void Abc()
+    {
+        Something.SomeMethod(];
+///                         ^ meta.function-call meta.group punctuation.section.group.begin
+///                          ^ invalid.illegal.stray.brace
+///                           ^ invalid.illegal.expected-close-paren
+    }
+/// ^ - invalid.illegal.stray.brace
+}

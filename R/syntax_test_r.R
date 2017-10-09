@@ -194,3 +194,25 @@ print.foo()
 #^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
 #  ^^^^^^ keyword.other.r
 #         ^^^ variable.parameter.r
+
+
+# issue #1019
+foo[[bar[1]]] #
+#         ^ source.r meta.item-access.r meta.item-access.arguments.r meta.item-access.r
+#              ^ - meta.item-access.r
+
+
+`1+1` = 2
+# ^ - keyword.operator.arithmetic.r
+
+# issue #1120
+sum(x == 1)
+#   ^^^^^^ - variable.parameter.r
+#     ^^ meta.function-call.r meta.function-call.parameters.r keyword.operator.assignment.r
+
+function(
+  x = 1, # this should be comment
+#        ^ punctuation.definition.comment
+#        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+  y = 2
+)

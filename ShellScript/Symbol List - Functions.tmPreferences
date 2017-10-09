@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+    <key>name</key>
+    <string>Symbol List - Functions</string>
+    <key>scope</key>
+    <string>entity.name.function.shell</string>
+    <key>settings</key>
+    <dict>
+        <key>showInSymbolList</key>
+        <integer>1</integer>
+        <key>showInIndexedSymbolList</key>
+        <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>s/.+/function\: $0/</string>
+    </dict>
+</dict>
+</plist>

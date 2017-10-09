@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Miscellaneous</string>
 	<key>scope</key>
-	<string>source.makefile</string>
+	<string>source.makefile - string - comment</string>
 	<key>settings</key>
 	<dict>
 		<key>increaseIndentPattern</key>
-		<string>^[^\t ]+:</string>
-		<key>shellVariables</key>
-		<array>
-			<dict>
-				<key>name</key>
-				<string>TM_COMMENT_START</string>
-				<key>value</key>
-				<string># </string>
-			</dict>
-		</array>
+		<string>^[^:]+:(?!=)|^\s*(else\s+)?ifn?(eq|def)\b|^\s*else\b</string>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(else|endif)\b</string>
 	</dict>
 </dict>
 </plist>

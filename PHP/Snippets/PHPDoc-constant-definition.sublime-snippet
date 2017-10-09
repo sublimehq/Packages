@@ -4,6 +4,6 @@
  **/
 define($1, $2);$0]]></content>
 	<tabTrigger>doc_d</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>Constant Definition</description>
 </snippet>
