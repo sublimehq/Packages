@@ -1682,3 +1682,25 @@ type Foo = null
        _ <_
    } yield true
 //   ^^^^^ keyword.control.flow.scala
+
+   x: ResourceError \/ Resource
+//    ^^^^^^^^^^^^^ support.class.scala
+//                  ^^ support.type.scala
+//                     ^^^^^^^^ support.class.scala
+
+   type TS1 = trans.TransSpec1
+   import library._
+// ^^^^^^ - support.type
+
+   def identity: CFId
+   override final def equals(other: Any): Boolean
+// ^^^^^^^^ - support.type
+
+   def blam(other: Foo forSome { val or: Repr }) =
+//                                               ^ keyword.operator.assignment.scala
+
+   type P = Repr.this
+//               ^^^^ variable.language.scala
+
+   type P = Repr.super
+//               ^^^^^ variable.language.scala

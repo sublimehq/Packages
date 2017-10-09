@@ -321,7 +321,7 @@ contexts:
       captures:
         1: storage.type.stable.scala
       push:
-        - match: '(?=[=\n])'
+        - match: '(?=[=\n\}\)\]])'
           pop: true
         - include: val-pattern-match
     - match: '\b(package)\s+(object)\s+({{id}})'
@@ -466,7 +466,7 @@ contexts:
   # this is included when a single newline is found in a declaration
   # you should never push/set this context, only include
   decl-newline-double-check:
-    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit|type)\b)'
+    - match: '(?=[\{\}\)]|\b(case|class|def|val|var|trait|object|private|protected|for|while|if|final|sealed|implicit|type|import|override)\b)'
       pop: true
     - match: '\n'
       pop: true
@@ -1230,7 +1230,8 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
-        - meta_scope: fubar
+        - match: '(?=[\]\}\)])'
+          pop: true
         - match: '(?={{nonopchar}}?={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
@@ -1353,6 +1354,8 @@ contexts:
     - include: base-types
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
@@ -1367,6 +1370,8 @@ contexts:
       set: single-type-expression-tail
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail
@@ -1403,5 +1408,13 @@ contexts:
       captures:
         1: keyword.declaration.scala
       set: single-type-expression
+    - match: (?={{typeid}})
+      set: single-type-expression
+    - match: \n
+      set: single-type-expression-tail-newline
     - match: '(?=\S)'
       set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+  single-type-expression-tail-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: single-type-expression-tail
