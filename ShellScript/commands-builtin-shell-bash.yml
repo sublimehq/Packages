@@ -1,0 +1,155 @@
+%YAML 1.2
+--- #---------------------------------------------------------------------------
+
+bind:
+  short-options: mqurfx
+  short-options-compact: lpsvPSVX
+
+builtin:
+  ~
+
+caller:
+  ~
+
+colon:
+  match: ":"
+  allow-end-of-options-token: false
+  scope: support.function.colon.shell
+
+command:
+  short-options-compact: pVv
+
+cd:
+  short-options: LPe@
+
+dot:
+  match: "\\."
+  allow-end-of-options-token: false
+  scope: support.function.dot.shell
+
+enable:
+  short-options: af
+  short-options-compact: dnps
+
+help:
+  short-options-compact: dms
+
+logout:
+  ~
+
+mapfile:
+  short-options: dnOstuCc
+
+printf:
+  short-options: v
+
+read:
+  short-options-compact: ers
+  short-options: adeinNprstu
+
+readarray:
+  short-options-compact: ers
+  short-options: adeinNprstu
+
+source:
+  allow-end-of-options-token: false
+  scope: support.function.dot.shell
+
+type:
+  short-options-compact: afptP
+
+ulimit:
+  short-options-compact: HSabcdefiklmnpqrstuvxPT
+
+unalias:
+  short-options: a
+
+eval:
+  allow-end-of-options-token: false
+
+exec:
+  short-options-compact: cl
+  short-options: a
+
+exit:
+  allow-end-of-options-token: false
+
+# "export" is handled as storage.modifier in the syntax def, don't put it here!
+# export, readonly, declare, local, typeset
+
+getopts:
+  ~
+
+hash:
+  short-options: rpl
+  short-options-compact: dt
+
+pwd:
+  short-options-compact: LP
+
+# "readonly" is handled as storage.modifier in the syntax def, don't put it here!
+
+return:
+  allow-end-of-options-token: false
+  scope: keyword.control.return.shell
+
+shift:
+  allow-end-of-options-token: false
+
+times:
+  ~
+
+trap:
+  short-options-compact: lp
+
+umask:
+  short-options: pS
+
+unset:
+  short-options-compact: fnv
+
+echo:
+  short-options-compact: neE
+
+set:
+  short-options-compact: abefhkmnptuvxBCEHPT
+  short-options: o
+  short-option-prefixes: [\-, \+]
+  allow-end-of-options-token: true
+  allow-short-end-of-options-token: true
+
+source:
+  ~
+
+shopt:
+  short-options-compact: pqsu
+  short-options: o
+
+# These are from
+# https://www.gnu.org/software/bash/manual/bash.html#Job-Control-Builtins
+
+bg:
+  ~
+
+fg:
+  ~
+
+jobs:
+  short-options-compact: lnprs
+  short-options: x
+
+kill:
+  short-options: snlL
+  # TODO: -sigspec
+
+wait:
+  short-options: "n"
+
+disown:
+  short-options-compact: ar
+  short-options: h
+
+suspend:
+  short-options: f
+
+...

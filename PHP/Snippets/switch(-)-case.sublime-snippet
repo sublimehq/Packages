@@ -3,6 +3,6 @@
 	${0:# code...}
 	break;]]></content>
 	<tabTrigger>case</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>case …</description>
 </snippet>

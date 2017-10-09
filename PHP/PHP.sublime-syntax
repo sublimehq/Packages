@@ -22,8 +22,10 @@ contexts:
           push:
             - meta_scope: meta.embedded.block.php
             - meta_content_scope: source.php
-            - match: \?>
+            - match: \?>(\s*\n)?
               scope: punctuation.section.embedded.end.php
+              captures:
+                1: meta.html-newline-after-php.php
               pop: true
             - include: 'scope:source.php'
         - match: <\?(?i:php|=)?
@@ -31,7 +33,9 @@ contexts:
           push:
             - meta_scope: meta.embedded.line.php
             - meta_content_scope: source.php
-            - match: \?>
+            - match: \?>(\s*\n)?
               scope: punctuation.section.embedded.end.php
+              captures:
+                1: meta.html-newline-after-php.php
               pop: true
             - include: 'scope:source.php'

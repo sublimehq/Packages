@@ -3,6 +3,6 @@
 	${0:# code...}
 }]]></content>
 	<tabTrigger>while</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>while …</description>
 </snippet>
