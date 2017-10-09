@@ -1637,3 +1637,14 @@ type =?>[A] = Any
 
   val x: Foo @> Bar
 //           ^^ support.type.scala
+
+val x: = 42
+//       ^^ constant.numeric.integer.scala
+
+   object Foo
+   IO
+// ^^ support.constant.scala
+
+   class Foo()
+   IO
+// ^^ support.constant.scala
