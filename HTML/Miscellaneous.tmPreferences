@@ -11,8 +11,7 @@
 		<string><![CDATA[(?x)
 			^\s*+                                                                                   # the beginning of the line followed by any amount of whitespace
 			(
-			    <\?(php)?\s+(else(if)?|end(if|for(each)?|while))\b                                  # ending PHP control keywords
-			|   [^<>]*+</(?!html)[A-Za-z0-9-]+\b[^>]*>                                              # optionally, anything that's not an angle bracket, followed by any valid HTML close tag except "html"
+			    [^<>]*+</(?!html)[A-Za-z0-9-]+\b[^>]*>                                              # optionally, anything that's not an angle bracket, followed by any valid HTML close tag except "html"
 			|   (<!\[endif\])?-->                                                                   # closing comment punctuation, optionally preceded by an end "comment selector"
 			|   \}                                                                                  # a closing curly brace
 			)
@@ -21,12 +20,7 @@
 		<string><![CDATA[(?x)
 			^\s*+                                                                                   # the beginning of the line followed by any amount of whitespace
 			(
-			    <\?(php)?\s*\b                                                                      # an open PHP tag
-			    (
-			        (if|else|elseif)\b.*:(?!.*?endif\b)                                             # PHP if related statements not followed by an endif
-			    |   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\k<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
-			    )
-			|   \{[^}"']*$                                                                          # open curly braces that don't have close braces or string punctuation after them
+			    \{[^}"']*$                                                                          # open curly braces that don't have close braces or string punctuation after them
 			|   <!--(?!.*-->)                                                                       # comments that don't close themselves on the same line
 			|   .*<(?!\?|(?i:area|base|br|col|frame|hr|html|img|input|link|meta|param)\b|[^>]*/>)   # skip self closing tags (tags that end with />, as well as known self closing tags)
 			        (?<html_tag>[A-Za-z0-9-]+)(?=\s|>)\b[^>]*>(?!.*</\k<html_tag>\s*>)              # a valid non-self-closing HTML tag that doesn't close itself on the same line

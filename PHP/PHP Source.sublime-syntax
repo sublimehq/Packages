@@ -85,8 +85,10 @@ contexts:
     - include: statements
 
   embedded-html:
-    - match: '\?>'
+    - match: '\?>(\s*\n)?'
       scope: meta.embedded.block.php punctuation.section.embedded.end.php
+      captures:
+        1: meta.html-newline-after-php.php
       push:
         - meta_scope: embedding.php text.html.basic
         - clear_scopes: true
@@ -107,8 +109,10 @@ contexts:
       push:
         - meta_scope: meta.embedded.line.nested.php
         - meta_content_scope: source.php
-        - match: \?>
+        - match: \?>(\s*\n)?
           scope: punctuation.section.embedded.end.php
+          captures:
+            1: meta.html-newline-after-php.php
           pop: true
         - include: statements
 
