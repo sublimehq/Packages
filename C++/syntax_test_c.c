@@ -140,6 +140,36 @@ int disabled_func() {
 /*  ^ comment.block */
 #endif
 
+FOO
+/* <- meta.assumed-macro */
+FOO;
+/* <- - meta.assumed-macro */
+foo
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+FOO()
+/* <- meta.assumed-macro variable.function.assumed-macro */
+FOO();
+/* <- - meta.assumed-macro */
+foo()
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+
+struct X
+{
+    ENABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    int foo;
+    /* <- storage.type */
+
+    DISABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    float bar;
+    /* <- storage.type */
+};
+
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
 /////////////////////////////////////////////
