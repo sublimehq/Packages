@@ -18,7 +18,7 @@ variables:
   uppercase_id: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
 
   # utility lookaround
-  lambda_lookahead: '(\([^)]*\)|{{id}})\s*->'
+  lambda_lookahead: '(?:\(.*\)|{{id}})\s*->'
 contexts:
   prototype:
     - match: '(?=%>)'
@@ -527,35 +527,6 @@ contexts:
     - match: \,
       scope: punctuation.separator.java
 
-  raw-parameters:
-    - match: \bfinal\b
-      scope: storage.modifier.java
-    - match: '{{primitives}}'
-      scope: storage.type.primitive.java
-      set: raw-parameter-after
-    - match: '{{qualified_id}}'
-      scope: support.class.java
-      set: raw-parameter-after
-    - match: ','
-      scope: punctuation.separator.java
-    - match: '(?=\))'
-      pop: true
-  raw-parameter-after:
-    - match: '<'
-      scope: punctuation.definition.generic.begin.java
-      push: object-type-generic
-    - match: '\.\.\.'
-      scope: keyword.operator.variadic.java
-    - match: '(\[)\s*(\])'
-      captures:
-        1: punctuation.section.brackets.begin.java
-        2: punctuation.section.brackets.end.java
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      set: raw-parameters
-    - match: (?=\S)
-      pop: true
-
   lambdas:
     - match: '(?={{lambda_lookahead}})'
       push: lambda-params
@@ -565,25 +536,14 @@ contexts:
     - match: \(
       scope: punctuation.section.parens.begin.java
       set:
-        - meta_scope: meta.function.anonymous.parameters.paren.java
+        - meta_scope: meta.function.anonymous.parameters.java
         - match: \)
           scope: punctuation.section.parens.end.java
           set: lambda-arrow
-        - match: (?=(\s*{{id}}\s*,)*\s*{{id}}\s*\))
-          push: lambda-params-simple
-        - match: (?=\S)
-          push: raw-parameters
+        - include: parameters
     - match: '{{id}}'
       scope: variable.parameter.java
       set: lambda-arrow
-
-  lambda-params-simple:
-    - match: '{{id}}'
-      scope: variable.parameter.java
-    - match: ','
-      scope: punctuation.separator.java
-    - match: (?=\S)
-      pop: true
 
   lambda-arrow:
     - match: ->
@@ -596,7 +556,7 @@ contexts:
 
   parens:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.parens.begin.java parens
       push:
         - meta_scope: meta.parens.java
         - match: \)
