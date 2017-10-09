@@ -793,6 +793,34 @@ contexts:
         - match: \)\)
           scope: meta.group.objc punctuation.section.group.end.objc
           pop: true
+    - match: \b(__declspec)(\()
+      captures:
+        1: storage.modifier.objc
+        2: meta.group.objc punctuation.section.group.begin.objc
+      push:
+        - meta_content_scope: meta.group.objc
+        - match: '\)'
+          scope: meta.group.objc punctuation.section.group.end.objc
+          pop: true
+        - match: '\b(align|allocate|code_seg|deprecated|property|uuid)\b\s*(\()'
+          captures:
+            1: storage.modifier.objc
+            2: meta.group.objc punctuation.section.group.begin.objc
+          push:
+            - meta_content_scope: meta.group.objc
+            - match: '\)'
+              scope: meta.group.objc punctuation.section.group.end.objc
+              pop: true
+            - include: numbers
+            - include: strings
+            - match: \b(get|put)\b
+              scope: variable.parameter.objc
+            - match: ','
+              scope: punctuation.separator.objc
+            - match: '='
+              scope: keyword.operator.assignment.objc
+        - match: '\b(appdomain|deprecated|dllimport|dllexport|jintrinsic|naked|noalias|noinline|noreturn|nothrow|novtable|process|restrict|safebuffers|selectany|thread)\b'
+          scope: constant.other.objc
 
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'

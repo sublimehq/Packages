@@ -463,6 +463,22 @@ int32
 /* <- - entity.name.function */
 () {}
 
+_declspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                ^ entity.name.function      */
+__declspec(deprecated("bla")) void func2(int) {}
+/* <- storage.modifier - variable.function                    */
+/*         ^ storage.modifier - variable.function             */
+/*                    ^ string.quoted.double punctuation      */
+/*                     ^ string.quoted.double - punctuation   */
+/*                       ^ string.quoted.double - punctuation */
+/*                        ^ string.quoted.double punctuation  */
+/*                         ^^ punctuation - invalid           */
+/*                                 ^ entity.name.function     */
+__notdeclspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                    ^ entity.name.function  */
+
 /////////////////////////////////////////////
 // Test function call in function parameters
 /////////////////////////////////////////////

@@ -587,7 +587,7 @@ contexts:
         - match: '\)'
           scope: meta.group.c punctuation.section.group.end.c
           pop: true
-        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+        - match: '\b(align|allocate|code_seg|deprecated|property|uuid)\b\s*(\()'
           captures:
             1: storage.modifier.c
             2: meta.group.c punctuation.section.group.begin.c

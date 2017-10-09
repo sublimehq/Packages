@@ -444,7 +444,7 @@ contexts:
         - match: '\)'
           scope: meta.group.objc++ punctuation.section.group.end.objc++
           pop: true
-        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+        - match: '\b(align|allocate|code_seg|deprecated|property|uuid)\b\s*(\()'
           captures:
             1: storage.modifier.objc++
             2: meta.group.objc++ punctuation.section.group.begin.objc++
