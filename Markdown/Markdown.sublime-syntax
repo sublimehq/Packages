@@ -861,7 +861,7 @@ contexts:
           scope: punctuation.definition.raw.code-fence.end.markdown
           pop: true
   code-span:
-    - match: (`+)(?=\S)(?!`)
+    - match: (`+)(?!`)
       scope: punctuation.definition.raw.begin.markdown
       push:
         - meta_scope: markup.raw.inline.markdown
@@ -879,8 +879,6 @@ contexts:
           pop: true
         - include: fenced-code-block
     - include: code-span
-    - match: '`+'
-      scope: invalid.deprecated.unescaped-backticks.markdown
   thematic-break:
     - match: '(?={{thematic_break}})'
       push:
