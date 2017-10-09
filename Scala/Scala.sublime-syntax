@@ -24,7 +24,7 @@ variables:
   op: |-
     (?x:
       [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
-      =[[^>]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-]&&{{operator_character}}]+|
@@ -36,7 +36,7 @@ variables:
   typeop: |-
     (?x:
       [[^:=<@\x{2190}\x{21D2}#+\-]&&{{operator_character}}]{{operator_character}}*|
-      =[[^>]&&{{operator_character}}]+|
+      =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-%:]&&{{operator_character}}]+|
@@ -50,7 +50,8 @@ variables:
   # an id that starts with lower-case OR underscore
   varid: '(?:(?:\p{Ll}|_+(?={{idcont}})){{idrest}})'
   boundvarid: '(?:`{{varid}}`|{{varid}})'
-  plainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{op}})'
+  alphaplainid: '(?:{{upper}}{{idrest}}|{{varid}})'
+  plainid: '(?:{{alphaplainid}}|{{op}})'
   typeplainid: '(?:{{upper}}{{idrest}}|{{varid}}|{{typeop}})'
   id: '(?:{{plainid}}|`[^`\n]+`)'
   idorunder: '(?:{{id}}|_)'
@@ -151,20 +152,20 @@ contexts:
       push: single-type-expression
 
   annotation:
-    - match: '(@)({{plainid}})(\.)'
+    - match: '(@)({{alphaplainid}})(\.)'
       captures:
         1: meta.annotation.scala punctuation.definition.annotation.scala
         2: meta.annotation.identifier.scala
         3: meta.annotation.identifier.scala punctuation.accessor.scala
       push:
         - meta_content_scope: meta.annotation.identifier.scala
-        - match: '({{plainid}})(\.)'
+        - match: '({{alphaplainid}})(\.)'
           captures:
             2: punctuation.accessor.scala
-        - match: '{{plainid}}'
+        - match: '{{alphaplainid}}'
           scope: variable.annotation.scala
           set: annotation-parameters
-    - match: '(@)({{plainid}})'
+    - match: '(@)({{alphaplainid}})'
       captures:
         1: meta.annotation.scala punctuation.definition.annotation.scala
         2: meta.annotation.identifier.scala variable.annotation.scala
@@ -287,7 +288,7 @@ contexts:
         1: storage.type.class.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
-      set: class-type-parameter-list
+      push: class-type-parameter-list
     - match: '\b(type)\s+({{id}})'
       captures:
         1: storage.type.scala
@@ -558,6 +559,8 @@ contexts:
       set: class-pre-inheritance-early-initializer
     - match: '\n'
       set: class-type-parameter-list-newline
+    - match: (?=\S)
+      pop: true
 
   class-type-parameter-list-newline:
     - include: decl-newline-double-check
@@ -605,6 +608,8 @@ contexts:
       set: class-pre-inheritance-early-initializer
     - match: '\n'
       set: class-parameter-list-newline
+    - match: (?=\S)
+      pop: true
 
   class-parameter-list-newline:
     - include: decl-newline-double-check
@@ -1220,7 +1225,8 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
-        - match: '(?={{nonopchar}}={{nonopchar}})'
+        - meta_scope: fubar
+        - match: '(?={{nonopchar}}?={{nonopchar}})'
           pop: true
         - include: delimited-type-expression
         - match: '(?=[\{\n])'

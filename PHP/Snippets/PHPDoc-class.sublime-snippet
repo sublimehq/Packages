@@ -9,6 +9,6 @@ $1class $2
 {$0
 } // END $1class $2]]></content>
 	<tabTrigger>doc_c</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>Class</description>
 </snippet>

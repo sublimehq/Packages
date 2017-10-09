@@ -53,7 +53,7 @@ contexts:
       captures:
         1: punctuation.definition.group.begin.regexp
         2: punctuation.definition.group.assertion.conditional.regexp
-        3: entity.name.section.back-reference.regexp
+        3: variable.other.back-reference.regexp
       push:
         - meta_scope: meta.group.assertion.conditional.regexp
         - match: \)
@@ -64,7 +64,7 @@ contexts:
       captures:
         1: punctuation.definition.group.begin.regexp
         3: punctuation.definition.group.capture.regexp
-        4: entity.name.section.group.regexp
+        4: entity.name.other.group.regexp
         5: punctuation.definition.group.capture.regexp
         6: punctuation.definition.group.no-capture.regexp
       push:

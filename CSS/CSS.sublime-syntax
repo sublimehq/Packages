@@ -14,7 +14,7 @@ variables:
   nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[^[:ascii:]]]'
   nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
   nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
-  ident: '-?{{nmstart}}{{nmchar}}*'
+  ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
@@ -33,21 +33,21 @@ variables:
 
   custom_element_chars: |-
     (?x:
-        [-_a-z0-9\xB7]
+        [-_a-z0-9\x{00B7}]
       | \\\.
-      | [\xC0-\xD6]
-      | [\xD8-\xF6]
-      | [\x{000000F8}-\x{000002FF}]
-      | [\x{00000300}-\x{0000037D}]
-      | [\x{0000037F}-\x{00001FFF}]
-      | [\x{0000200C}-\x{0000200D}]
-      | [\x{0000203F}-\x{00002040}]
-      | [\x{00002070}-\x{0000218F}]
-      | [\x{00002C00}-\x{00002FEF}]
-      | [\x{00003001}-\x{0000D7FF}]
-      | [\x{0000F900}-\x{0000FDCF}]
-      | [\x{0000FDF0}-\x{0000FFFD}]
-      | [\x{00010000}-\x{000EFFFF}]
+      | [\x{00C0}-\x{00D6}]
+      | [\x{00D8}-\x{00F6}]
+      | [\x{00F8}-\x{02FF}]
+      | [\x{0300}-\x{037D}]
+      | [\x{037F}-\x{1FFF}]
+      | [\x{200C}-\x{200D}]
+      | [\x{203F}-\x{2040}]
+      | [\x{2070}-\x{218F}]
+      | [\x{2C00}-\x{2FEF}]
+      | [\x{3001}-\x{D7FF}]
+      | [\x{F900}-\x{FDCF}]
+      | [\x{FDF0}-\x{FFFD}]
+      | [\x{10000}-\x{EFFFF}]
     )
 
   combinators: '(?:>{1,3}|[~+])'
@@ -154,13 +154,12 @@ contexts:
         - include: rule-list
 
   at-custom-media:
-    - match: (?=\s*@custom-media\s*.*?)
+    - match: (?=\s*@custom-media\b)
       push:
-        - match: \s*;
-          captures:
-            1: punctuation.section.property-list.css
+        - match: ;
+          scope: punctuation.terminator.css
           pop: true
-        - match: \s*((@)custom-media)(?=.*?)
+        - match: \s*((@)custom-media)
           captures:
             1: keyword.control.at-rule.custom-media.css
             2: punctuation.definition.keyword.css
@@ -234,10 +233,10 @@ contexts:
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
   at-keyframes:
-    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\s*.*?)
+    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\b)
       push:
         - include: rule-list-terminator
-        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)(?=.*?)
+        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
           captures:
             1: keyword.control.at-rule.keyframe.css
             2: punctuation.definition.keyword.css
@@ -266,10 +265,10 @@ contexts:
             - include: main
 
   at-media:
-    - match: (?=\s*@media\s*.*?)
+    - match: (?=\s*@media\b)
       push:
         - include: rule-list-terminator
-        - match: \s*((@)media)(?=.*?)
+        - match: \s*((@)media)
           captures:
             1: keyword.control.at-rule.media.css
             2: punctuation.definition.keyword.css
@@ -289,50 +288,49 @@ contexts:
 
   media-query:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
-    - match: (?i)\s*(only|not)?\s*(all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)?
-      captures:
-        1: keyword.operator.logic.media.css
-        2: support.constant.media.css
+    - include: comment-block
+    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
+      scope: support.constant.media.css
+    - match: '\b(?i:and|or|not|only)\b'
+      scope: keyword.operator.logic.media.css
+    - match: ','
+      scope: punctuation.definition.arbitrary-repetition.css
+    - match: \(
+      scope: punctuation.definition.group.begin.css
       push:
-        - match: '\s*(?:(,)|(?=[{;]))'
-          captures:
-            1: punctuation.definition.arbitrary-repetition.css
+        - match: \)
+          scope: punctuation.definition.group.end.css
           pop: true
-        - match: \s*(and)?\s*(\()\s*
-          captures:
-            1: keyword.operator.logic.media.css
-          push:
-            - match: \)
-              pop: true
-            - match: |-
-                (?x)
+        - include: comment-block
+        - match: |-
+            (?x)
+            (
+                (-webkit-|-o-)?
+                ((min|max)-)?
+                (-moz-)?
                 (
-                    (-webkit-|-o-)?
-                    ((min|max)-)?
-                    (-moz-)?
-                    (
-                        ((device-)?(height|width|aspect-ratio|pixel-ratio))|
-                        (color(-index)?)|monochrome|resolution
-                    )
-                )|grid|scan|orientation
-                \s*(?=[:)])
+                    ((device-)?(height|width|aspect-ratio|pixel-ratio))|
+                    (color(-index)?)|monochrome|resolution
+                )
+            )|grid|scan|orientation
+            \s*(?=[:)])
+          captures:
+            0: support.type.property-name.media.css
+            2: support.type.vendor-prefix.css
+            5: support.type.vendor-prefix.css
+          push:
+            - match: (:)|(?=\))
               captures:
-                0: support.type.property-name.media.css
-                2: support.type.vendor-prefix.css
-                5: support.type.vendor-prefix.css
-              push:
-                - match: (:)|(?=\))
-                  captures:
-                    1: punctuation.separator.key-value.css
-                  pop: true
-            - match: \b(portrait|landscape|progressive|interlace)
-              scope: support.constant.property-value.css
-            - match: \s*(\d+)(/)(\d+)
-              captures:
-                1: constant.numeric.css
-                2: keyword.operator.arithmetic.css
-                3: constant.numeric.css
-            - include: numeric-values
+                1: punctuation.separator.key-value.css
+              pop: true
+        - match: \b(portrait|landscape|progressive|interlace)
+          scope: support.constant.property-value.css
+        - match: \s*(\d+)(/)(\d+)
+          captures:
+            1: constant.numeric.css
+            2: keyword.operator.arithmetic.css
+            3: constant.numeric.css
+        - include: numeric-values
 
   media-query-list:
     - match: '\s*(?=[^{;])'
@@ -708,16 +706,16 @@ contexts:
               | font-variant|font-size-adjust|font-size|font-language-override
               | font-display|font-synthesis|font|line-box-contain|text-justify
               | text-decoration-color|text-decoration-style|text-decoration-line
-              | text-decoration|text-underline-position|grid-template|rotate
-              | scale|translate|grid-template-columns|grid-template-rows
-              | scroll-behavior|grid-column-start|grid-column-end|grid-column-gap
-              | grid-row-start|grid-row-end|grid-auto-rows|grid-template-areas
+              | text-decoration|text-underline-position|grid-template-rows
+              | grid-template-columns|grid-template-areas|grid-template|rotate|scale
+              | translate|scroll-behavior|grid-column-start|grid-column-end
+              | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
               | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
               | hyphens|overflow-scrolling|overflow|color-profile|kerning
-              | nbsp-mode|color|image-resolution|grid-row|grid-column|blend-mode
-              | azimuth|pause-after|pause-before|pause|pitch-range|pitch|text-height
-              | system|negative|prefix|suffix|range|pad|fallback|additive-symbols
-              | symbols|speak-as|speak|grid-gap|grid-row-gap
+              | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
+              | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
+              | text-height|system|negative|prefix|suffix|range|pad|fallback
+              | additive-symbols|symbols|speak-as|speak|grid-gap
             )\b
           scope: support.type.property-name.css
     - match: (:)([ \t]*)
@@ -1034,6 +1032,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: number-type
+          - include: var-function
 
       # transform functions with comma separated <number> or <length> types
       # translate(), translate3d()
@@ -1052,6 +1051,7 @@ contexts:
           - include: percentage-type
           - include: length-type
           - include: number-type
+          - include: var-function
 
       # transform functions with a single <number> or <length> type
       # translateX(), translateY()
@@ -1872,7 +1872,7 @@ contexts:
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property-name
   custom-property-name:
-    - match: '(--)({{ident}})'
+    - match: '(--)({{nmchar}}+)'
       scope: support.type.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
@@ -1968,6 +1968,8 @@ contexts:
       scope: constant.numeric.css
       captures:
         1: keyword.other.unit.css
+    - match: '0\b(?!%)'
+      scope: constant.numeric.css
 
   time-type:
     - match: '{{number}}({{duration_units}})\b'

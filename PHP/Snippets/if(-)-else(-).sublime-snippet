@@ -6,6 +6,6 @@
 }
 $0]]></content>
 	<tabTrigger>ifelse</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>if … else …</description>
 </snippet>

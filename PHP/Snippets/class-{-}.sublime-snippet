@@ -12,6 +12,6 @@ class ${2:ClassName}${3: extends ${4:AnotherClass}}
 }
 ]]></content>
 	<tabTrigger>class</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>class …</description>
 </snippet>

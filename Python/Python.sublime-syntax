@@ -6,6 +6,12 @@ file_extensions:
   - py3
   - pyw
   - pyi
+  - pyx
+  - pyx.in
+  - pxd
+  - pxd.in
+  - pxi
+  - pxi.in
   - rpy
   - cpy
   - SConstruct
@@ -16,7 +22,7 @@ file_extensions:
   - gypi
   - Snakefile
   - wscript
-first_line_match: ^#!\s*/.*\bpython\d?\b
+first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
 scope: source.python
 
 variables:
@@ -253,14 +259,15 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: lists
     - include: dictionaries-and-sets
+    - include: line-continuation
 
   line-expressions: # Always include this last!
     - include: expressions-common
-    - include: line-continuation
     - include: qualified-name
 
   expressions: # Always include this last!
     # Differs from the line scope in that invalid-name matches will pop the current context
+    # and matches accessors continued on a different line
     - include: expressions-common
     - include: illegal-names-pop
     - include: qualified-name
@@ -324,7 +331,9 @@ contexts:
           pop: true
 
   constants:
-    - match: \b(None|True|False|Ellipsis|NotImplemented)\b
+    - match: \b(None|True|False|Ellipsis|NotImplemented|__debug__)\b
+      scope: constant.language.python
+    - match: \.{3}(?!\w)
       scope: constant.language.python
 
   numbers:
@@ -546,6 +555,7 @@ contexts:
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
+    - include: line-continuation
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
@@ -951,7 +961,7 @@ contexts:
           # generic object
           class|dict|doc|module|name|
           # module-specific / global
-          all|debug|file|package|
+          all|file|package|
           # functions & methods
           annotations|closure|code|defaults|func|globals|kwdefaults|self|qualname|
           # classes (attributes)
@@ -964,7 +974,18 @@ contexts:
   docstrings:
     - match: ^\s*(?=(?i)(ur|ru|u|r)?("""|'''))
       push:
-      - match: (?i)(ur|ru|u|r)?("""|''')
+      - match: (?i)(u)?("""|''')
+        captures:
+          1: storage.type.string.python
+          2: punctuation.definition.comment.begin.python
+        set:
+          - meta_scope: comment.block.documentation.python
+          - include: escaped-char
+          - include: escaped-unicode-char
+          - match: '\2'
+            scope: punctuation.definition.comment.end.python
+            pop: true
+      - match: (?i)(u?ru?)("""|''')
         captures:
           1: storage.type.string.python
           2: punctuation.definition.comment.begin.python
@@ -1013,7 +1034,7 @@ contexts:
       scope: constant.other.placeholder.python
       captures:
         2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBmyYHIpMSfzZjUWcxX%]|-[dmHIMSj])'
+    - match: '%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj])'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
@@ -1034,7 +1055,7 @@ contexts:
         2: storage.modifier.conversion.python
         3: constant.other.format-spec.python
         4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}]+\{) # complex (nested) form
+    - match: \{(?=[^\}"']+\{) # complex (nested) form
       scope: punctuation.definition.placeholder.begin.python
       push:
         - meta_scope: constant.other.placeholder.python
@@ -1092,6 +1113,7 @@ contexts:
               pop: true
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
+            - include: inline-for
             - include: expressions
 
   string-quoted-double-block:
@@ -1281,12 +1303,13 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?="|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])(")'
       captures:
@@ -1297,11 +1320,12 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-          push: 'scope:source.regexp.python'
     # Single-line raw f-string
     - match: ((?i)fr|rf)(")
       captures:
@@ -1425,11 +1449,11 @@ contexts:
               scope: punctuation.definition.string.end.python
               set: after-expression
             - match: ''
+              push: scope:source.regexp.python
               with_prototype:
                 - match: (?=''')
                   pop: true
                 - include: escaped-unicode-char
-              push: 'scope:source.regexp.python'
     # Triple-quoted raw string, bytes, will use regex
     - match: ([bB]r|r[bB])(''')
       captures:
@@ -1441,10 +1465,10 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: (?=''')
               pop: true
-          push: 'scope:source.regexp.python'
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(''')
       captures:
@@ -1563,12 +1587,13 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw string, bytes, treated as regex
     - match: '([bB]r|r[bB])('')'
       captures:
@@ -1579,12 +1604,13 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-string
         - match: ''
+          push: scope:source.regexp.python
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
             - include: line-continuation-inside-string
-          push: 'scope:source.regexp.python'
     # Single-line raw f-string
     - match: ((?i)fr|rf)(')
       captures:

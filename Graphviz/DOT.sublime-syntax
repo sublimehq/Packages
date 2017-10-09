@@ -5,9 +5,18 @@ name: Graphviz (DOT)
 file_extensions:
   - dot
   - DOT
+  - gv
 scope: source.dot
 contexts:
   main:
+    - include: expressions
+
+  expressions:
+    - match: \b((sub|di)?graph)\b\s+((cluster)?\w+)\b
+      captures:
+        1: storage.type.dot
+        3: entity.name.graph.dot
+        4: meta.annotation.dot variable.annotation.cluster.dot
     - match: \b(node|edge|graph|digraph|subgraph|strict)\b
       scope: storage.type.dot
     - match: \b(bottomlabel|color|comment|distortion|fillcolor|fixedsize|fontcolor|fontname|fontsize|group|height|label|layer|orientation|peripheries|regular|shape|shapefile|sides|skew|style|toplabel|URL|width|z)\b
@@ -16,6 +25,12 @@ contexts:
       scope: support.constant.attribute.edge.dot
     - match: \b(bgcolor|center|clusterrank|color|comment|compound|concentrate|fillcolor|fontname|fontpath|fontsize|label|labeljust|labelloc|layers|margin|mclimit|nodesep|nslimit|nslimit1|ordering|orientation|page|pagedir|quantum|rank|rankdir|ranksep|ratio|remincross|rotate|samplepoints|searchsize|size|style|URL)\b
       scope: support.constant.attribute.graph.dot
+    - match: '-[->]'
+      scope: punctuation.operator.relationship.dot
+    - match: '='
+      scope: keyword.operator.assignment.dot
+    - match: ';'
+      scope: punctuation.separator.statement.dot
     - match: '"'
       scope: punctuation.definition.string.begin.dot
       push:
@@ -25,6 +40,57 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.dot
+        - match: '[{}|]'
+          scope: punctuation.separator.memory-block.dot
+    - include: braces
+    - include: brackets
+    - include: embedded-html
+    - include: comments
+
+  # http://www.graphviz.org/content/node-shapes#html
+  embedded-html:
+    - match: '<'
+      scope: punctuation.section.embedded.begin.dot
+      push:
+        - meta_content_scope: source.dot.embedded.html
+        - match: '((>)?\s*)(>)'
+          captures:
+            1: source.dot.embedded.html
+            2: punctuation.definition.tag.end.html
+            3: punctuation.section.embedded.end.dot
+          pop: true
+        - match: ''
+          push:
+            - include: 'scope:text.html.basic'
+          with_prototype:
+            - match: '(?=>\s*>)'
+              pop: true
+
+  braces:
+    - match: \{
+      scope: punctuation.definition.group.begin.dot
+      push:
+        - meta_scope: meta.group.dot
+        - match: \}
+          scope: punctuation.definition.group.end.dot
+          pop: true
+        - match: ',|;'
+          scope: punctuation.separator.dot
+        - include: expressions
+
+  brackets:
+    - match: \[
+      scope: punctuation.definition.attributes.begin.dot
+      push:
+        - meta_scope: meta.attributes.dot
+        - match: \]
+          scope: punctuation.definition.attributes.end.dot
+          pop: true
+        - match: ',|;'
+          scope: punctuation.separator.dot
+        - include: expressions
+
+  comments:
     - match: (//).*$\n?
       scope: comment.line.double-slash.dot
       captures:
