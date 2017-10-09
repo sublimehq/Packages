@@ -11,11 +11,16 @@
 		<string>^\s*(\}|(elif|else|fi|esac|done)\b)</string>
 		<key>increaseIndentPattern</key>
 		<string>(?x)
-			^\s*(if|elif|else|case)\b
+			^\s*(elif|else|case)\b
 		|	^.*(\{|\b(do)\b)\s*$
+		|	^.*\bthen\b\s*$
 		</string>
 		<key>indentNextLinePattern</key>
 		<string>^.*[^\\]\\$</string>
+		<key>disableIndentNextLinePattern</key>
+		<string>^\s*then\s*$</string>
+		<key>bracketIndentNextLinePattern</key>
+		<string>^\s*if\b.*(?!\bthen\b)$</string>
 	</dict>
 </dict>
 </plist>
