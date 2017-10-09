@@ -26,10 +26,11 @@ contexts:
         - include: string-double-quoted
         - include: string-single-quoted
     - match: <!--
-      scope: punctuation.definition.comment.html
+      scope: punctuation.definition.comment.begin.html
       push:
         - meta_scope: comment.block.html
         - match: '(-*)--\s*>'
+          scope: punctuation.definition.comment.end.html
           captures:
             1: invalid.illegal.bad-comments-or-CDATA.html
           pop: true

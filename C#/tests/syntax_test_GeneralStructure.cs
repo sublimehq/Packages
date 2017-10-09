@@ -363,6 +363,12 @@ namespace TestNamespace.Test
 ///                             ^ punctuation.section.group.end
 ///                              ^ punctuation.separator.case-statement
                     break;
+                case abc.def:
+///             ^^^^ keyword.control.switch.case
+///                  ^^^ variable.other
+///                     ^ punctuation.accessor.dot
+///                      ^^^ constant.other
+///                         ^ punctuation.separator.case-statement
                 default:
 ///             ^ keyword.control
 ///                    ^ punctuation.separator

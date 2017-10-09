@@ -26,6 +26,14 @@ int func() {
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
+int g(int x = 5 \
+         /*     ^ punctuation.separator.continuation */
+      , int y);
+
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /* <- keyword.control.import.define */
@@ -283,7 +291,7 @@ template <typename T = float, int a = 3, bool b = true>
                   /*                  ^ meta.template constant.numeric              */
                   /*                            ^ meta.template keyword.operator    */
                   /*                              ^ meta.template constant.language */
-struct Foo 
+struct Foo
 {
 
 /* <- meta.struct - meta.template */
@@ -320,7 +328,7 @@ template<class T, class U = T> class B { /* ... */ };
 /*                            ^ - meta.template            */
 template <class ...Types> class C { /* ... */ };
 
-// templates inside templates... it's templates all the way down 
+// templates inside templates... it's templates all the way down
 template<template<class> class P> class X { /* ... */ };
 /*      ^ meta.template punctuation                              */
 /*               ^ meta.template meta.template punctuation       */
@@ -1362,7 +1370,7 @@ public:
                                  /* ^ meta.method.constructor.initializer-list */
                                  /*   ^ - meta.function-call - variable.function */
 private:
-    int var1, var2, var3, var4;    
+    int var1, var2, var3, var4;
 };
 
 class X {
@@ -1871,6 +1879,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 // Includes
 /////////////////////////////////////////////
+
+#import <Cocoa/Cocoa.h>
+/* <- meta.preprocessor.import keyword.control.import.import */
+
+#include <uchar.h>
+/* <- meta.preprocessor.include keyword.control.import.include */
 
 #include "foobar.h"
 /* <- keyword.control.import.include */

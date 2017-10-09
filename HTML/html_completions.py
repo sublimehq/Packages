@@ -199,8 +199,8 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
         # Only trigger within HTML
-        if not view.match_selector(locations[0],
-           "text.html - source - string.quoted - meta.tag.style.end punctuation.definition.tag.begin"):
+        if not view.match_selector(locations[0], "text.html - (source - source text.html)"
+           " - string.quoted - meta.tag.style.end punctuation.definition.tag.begin"):
             return []
 
         # check if we are inside a tag

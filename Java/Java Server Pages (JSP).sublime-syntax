@@ -8,66 +8,54 @@ scope: text.html.jsp
 contexts:
   main:
     - match: <%--
-      captures:
-        0: punctuation.definition.comment.jsp
+      scope: punctuation.definition.comment.jsp
       push:
         - meta_scope: comment.block.jsp
         - match: "--%>"
-          captures:
-            0: punctuation.definition.comment.jsp
+          scope: punctuation.definition.comment.jsp
           pop: true
     - match: <%@
-      captures:
-        0: punctuation.section.directive.jsp
+      scope: punctuation.section.directive.jsp
       push:
         - meta_scope: meta.directive.jsp
         - match: "%>"
-          captures:
-            0: punctuation.section.directive.jsp
+          scope: punctuation.section.directive.jsp
           pop: true
         - match: \w+
-          captures:
-            0: keyword.other.directive.jsp
+          scope: keyword.other.directive.jsp
           push:
-            - match: (?=%>)
-              pop: true
             - match: \w+
               scope: constant.other.directive.attribute.jsp
             - match: "="
               scope: keyword.operator.assignment.jsp
             - match: '"'
-              captures:
-                0: punctuation.definition.string.begin.jsp
+              scope: punctuation.definition.string.begin.jsp
               push:
                 - meta_scope: string.quoted.double.jsp
                 - match: '"'
-                  captures:
-                    0: punctuation.definition.string.end.jsp
+                  scope: punctuation.definition.string.end.jsp
                   pop: true
                 - match: \\.
                   scope: constant.character.escape.jsp
             - match: "'"
-              captures:
-                0: punctuation.definition.string.begin.jsp
+              scope: punctuation.definition.string.begin.jsp
               push:
                 - meta_scope: string.quoted.single.jsp
                 - match: "'"
-                  captures:
-                    0: punctuation.definition.string.end.jsp
+                  scope: punctuation.definition.string.end.jsp
                   pop: true
                 - match: \\.
                   scope: constant.character.escape.jsp
-    - match: "(<%(?!--)[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
+    - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
       captures:
         1: punctuation.section.embedded.begin.jsp
         2: meta.tag.block.jsp
       push:
-        - match: (?<=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>)
-          pop: true
         - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
           captures:
             1: meta.tag.block.jsp
             2: punctuation.section.embedded.end.jsp
+          pop: true
         - match: '(?<!\n)(?!</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})'
           push:
             - meta_scope: source.java.embedded.html
@@ -90,5 +78,8 @@ contexts:
                   pop: true
                 - include: scope:text.html.jsp
             - include: scope:source.java
+        # Prevent stray brace detection since brace matching won't work with
+        # %> pop pattern
+        - match: "}"
         - include: scope:source.java
     - include: scope:text.html.basic

@@ -26,6 +26,14 @@ int func() {
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
+int g(int x = 5 \
+         /*     ^ punctuation.separator.continuation */
+      , int y);
+
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /* <- keyword.control.import.define */
