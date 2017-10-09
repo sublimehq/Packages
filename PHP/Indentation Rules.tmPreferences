@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Indentation Rules</string>
 	<key>scope</key>
-	<string>source.php - comment</string>
+	<string>source.php - comment, meta.html-newline-after-php</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
@@ -13,12 +13,26 @@
 			    ^                                                                             # start of the line
 			    (.*\*/)?                                                                      # optionally with an end block comment somewhere on the line
 			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing curly brace, square bracket or paren
-			|   \s* (<\?(php)?\s+)?(else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|while))\b) # or an optional PHP open tag followed by an keyword that ends a control flow block
+			|                                                                                 # OR
+			    \s* (<\?(php)?\s+)?                                                           # an optional PHP open tag
+			    (else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
 			)
 		]]></string>
 		
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)
+			# define subexpressions
+			(?<string>"(?:[^"]++|\\.)*+"|'(?:[^']++|\\.)*+'){0}
+			(?<block_comment>/\*(?:[^*]++|\*(?!/))*+\*/){0}
+			(?<not_paren>(?:\g<string>++|\g<block_comment>++|[^()'"/]++|/(?!\*))*+){0}
+			(?<balanced_paren>
+			    \(                         # an open paren
+			    \g<not_paren>              # followed by anything that's not a paren
+			    \g<balanced_paren>*+       # followed by any number of nested parens
+			    \g<not_paren>              # followed by anything that's not a paren
+			    \)                         # a closing paren
+			){0}
+			# begin rule
 			^.*              # anything on the line followed by:
 			(
 			    \{[^}"']*    # an open curly brace not followed by a closing brace or string punctuation
@@ -26,9 +40,13 @@
 			|   \([^)"']*    # an open bracket not followed by a closing bracket or string punctuation
 			)$
 			| # OR
-			^\s*                                                                                # the beginning of the line followed by any amount of whitespace
-			(   (if|else|elseif)\b.*:(?!.*?endif\b)                                             # PHP "if" related statements not followed by an "endif"
-			|   (?<php_control_word>for|foreach|while)\b.*:(?!.*?end\k<php_control_word>\b)     # PHP control keywords that don't end themselves on the same line
+			^\s* (<\?(php)?\s+)?                                                                # the beginning of the line followed by any amount of whitespace and an optional PHP open tag
+			(   (?:
+			        (?:else)?if\s*\g<balanced_paren>|else                                       # PHP "if" related statements
+			    )\s*:(?!.*\bendif\b)                                                            # followed by a colon, not followed by an "endif" anywhere on the line
+			    |
+			    (?<php_control_word>foreach|for|switch|while)\s*\g<balanced_paren>              # PHP control keywords, followed by balanced parens
+			    \s*:(?!.*\bend\k<php_control_word>\b)                                           # followed by a colon, and where the control structures don't end themselves on the same line
 			)
 		]]></string>
 		

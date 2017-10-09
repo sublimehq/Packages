@@ -26,10 +26,11 @@ contexts:
         - include: string-double-quoted
         - include: string-single-quoted
     - match: <!--
-      scope: punctuation.definition.comment.html
+      scope: punctuation.definition.comment.begin.html
       push:
         - meta_scope: comment.block.html
         - match: '(-*)--\s*>'
+          scope: punctuation.definition.comment.end.html
           captures:
             1: invalid.illegal.bad-comments-or-CDATA.html
           pop: true
@@ -80,8 +81,9 @@ contexts:
             2: entity.name.tag.style.html
             3: punctuation.definition.tag.end.html
           pop: true
-        - match: '>'
-          scope: meta.tag.style.begin.html punctuation.definition.tag.end.html
+        - match: '(>)\s*'
+          captures:
+            1: meta.tag.style.begin.html punctuation.definition.tag.end.html
           push:
             - meta_content_scope: source.css.embedded.html
             - include: 'scope:source.css'

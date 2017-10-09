@@ -421,19 +421,6 @@ type Foo = Bar[A] forSome { type A }
    override
 // ^^^^^^^^ storage.modifier.other
 
-   val t: ({ type λ[α] = Foo[α] })#λ
-//        ^^^^^^^^^^^^^^ comment.block.scala
-//                       ^^^ support.class
-//                           ^ comment.block.empty.scala
-//                              ^^^^ comment.block.scala
-
-   val t: ({ type λ[α, β] = Foo[α, β] })#λ
-//        ^^^^^^^^^^^^^^^^^ comment.block.scala
-//                          ^^^ support.class
-//                              ^ comment.block.empty.scala
-//                                 ^ comment.block.empty.scala
-//                                    ^^^^ comment.block.scala
-
    a :: b :: Nil
 // ^^^^^^^^^ source.scala
 //           ^^^ support.constant.scala
@@ -724,11 +711,6 @@ type Foo = Foo.Bar
 
 type Foo = Foo#Bar
 //            ^ punctuation.accessor.scala
-
-val x: OptionT[({ type λ[α] = Foo[α, Int] })#λ, String] = ???
-//             ^^^^^^^^^^^^^^ comment.block
-//                                ^ comment.block.empty
-//                                        ^^^^ comment.block
 
 class Foo[+A]
 //        ^ keyword.operator
@@ -1631,3 +1613,94 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
    type Bar = Unit
 //      ^^^ entity.name.type.scala
 //          ^ keyword.operator.assignment.scala
+
+type =?>[A] = Any
+//   ^^^ entity.name.type.scala
+
+  val x: Foo @> Bar
+//           ^^ support.type.scala
+
+val x: = 42
+//       ^^ constant.numeric.integer.scala
+
+   object Foo
+   IO
+// ^^ support.constant.scala
+
+   class Foo()
+   IO
+// ^^ support.constant.scala
+
+val foo' = 42
+//  ^^^^ entity.name.val.scala
+
+val foo'' = 42
+//  ^^^^^ entity.name.val.scala
+
+def foo' = ()
+//  ^^^^ entity.name.function.scala
+
+val ' = 42
+//  ^ - entity.name
+
+type Foo = Monad[OptionT[IO, ?]]
+//                           ^ variable.language.qmark.scala
+
+type Foo = Monad[λ[α => OptionT[IO, α]]]
+//               ^ keyword.operator.type-lambda.scala
+
+type Foo = Monad[Lambda[α => OptionT[IO, α]]]
+//               ^^^^^^ keyword.operator.type-lambda.scala
+
+import scalaz._,
+   Scalaz._
+// ^^^^^^^ meta.import.scala variable.package.scala
+
+import scalaz._
+   Scalaz._
+// ^^^^^^ support.constant.scala
+
+type Foo = 42
+//         ^^ constant.numeric.integer.scala
+
+type Foo = "foo"
+//         ^^^^^ string.quoted.double.scala
+
+type Foo = 'foo
+//         ^^^^ constant.other.symbol.scala
+
+type Foo = 'a'
+//         ^^^ constant.character.literal.scala
+
+type Foo = true
+//         ^^^^ constant.language.scala
+
+type Foo = null
+//         ^^^^ constant.language.scala
+
+   for {
+       _ <_
+   } yield true
+//   ^^^^^ keyword.control.flow.scala
+
+   x: ResourceError \/ Resource
+//    ^^^^^^^^^^^^^ support.class.scala
+//                  ^^ support.type.scala
+//                     ^^^^^^^^ support.class.scala
+
+   type TS1 = trans.TransSpec1
+   import library._
+// ^^^^^^ - support.type
+
+   def identity: CFId
+   override final def equals(other: Any): Boolean
+// ^^^^^^^^ - support.type
+
+   def blam(other: Foo forSome { val or: Repr }) =
+//                                               ^ keyword.operator.assignment.scala
+
+   type P = Repr.this
+//               ^^^^ variable.language.scala
+
+   type P = Repr.super
+//               ^^^^^ variable.language.scala

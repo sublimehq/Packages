@@ -27,11 +27,12 @@
         <style type="text/css">
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
         ## ^ entity.name.tag.style.html
-        ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
+        ## ^^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
         ##      ^ entity.other.attribute-name
         ##                     ^ - meta.tag
             h2 {
             ## <- entity.name.tag.css
+## <- source.css.embedded.html
                 font-family: "Arial";
                 ##             ^ string.quoted.double.css
             }
@@ -49,7 +50,10 @@
     </head>
     <body>
         <!-- Comment -->
-        ## ^ comment.block.html
+##      ^^^^^^^^^^^^^^^^ comment.block.html
+##      ^^^^ punctuation.definition.comment.begin.html
+##                   ^^^ punctuation.definition.comment.end.html
+##          ^^^^^^^^^ - punctuation
 
         <!----- hyphens - -- --- -->
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html

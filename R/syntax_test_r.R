@@ -209,3 +209,10 @@ foo[[bar[1]]] #
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
 #     ^^ meta.function-call.r meta.function-call.parameters.r keyword.operator.assignment.r
+
+function(
+  x = 1, # this should be comment
+#        ^ punctuation.definition.comment
+#        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+  y = 2
+)

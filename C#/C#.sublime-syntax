@@ -840,7 +840,7 @@ contexts:
       captures:
         1: keyword.control.flow.goto.cs
         2: keyword.control.switch.case.cs
-      push: line_of_code_in
+      set: line_of_code_in
     - match: '\b(goto)\s+({{name}})\s*(;)'
       captures:
         1: keyword.control.flow.goto.cs
@@ -1778,6 +1778,10 @@ contexts:
           push:
             - match: '{{name}}(?=\s*:)'
               scope: constant.other.cs
+            - match: '\bwhen\b'
+              scope: keyword.control.switch.case.when.cs
+            - match: '(?={{name}}{{type_suffix}}\s+{{name}}\s+when\b)'
+              push: var_declaration_explicit
             - match: ':'
               scope: punctuation.separator.case-statement.cs
               pop: true
