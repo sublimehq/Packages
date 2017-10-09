@@ -148,7 +148,7 @@ Paragraph break.
 [1]: https://google.com
 | <- meta.link.reference.def
 |^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
-|^ constant.other.reference.link
+|^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^ markup.underline.link
 
@@ -345,7 +345,7 @@ this is a raw ampersand & does not require HTML escaping
 [2]: https://github.com/sublimehq/Packages "Packages Repo"
 | <- meta.link.reference.def
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
-|^ constant.other.reference.link
+|^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                          ^^^^^^^^^^^^^^^ string.other.link.description.title
@@ -355,7 +355,7 @@ this is a raw ampersand & does not require HTML escaping
 [3]: https://github.com/sublimehq/Packages/issues/ 'Issues on Packages Repo'
 | <- meta.link.reference.def
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
-|^ constant.other.reference.link
+|^ entity.name.reference.link
 |  ^ punctuation.separator.key-value
 |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
@@ -1297,7 +1297,7 @@ _foo [**bar**](/url)_
 |                                                                                                                                          ^ punctuation.definition.metadata.end
 
 [img-example]: http://www.sublimetext.com/anim/rename2_packed.png
-|^^^^^^^^^^^ meta.link.reference.def constant.other.reference.link
+|^^^^^^^^^^^ meta.link.reference.def entity.name.reference.link
 |            ^ punctuation.separator.key-value
 |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 
