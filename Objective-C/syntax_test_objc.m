@@ -498,6 +498,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 // Includes
 /////////////////////////////////////////////
 
+#import <Cocoa/Cocoa.h>
+/* <- meta.preprocessor.import keyword.control.import.import */
+
+#include <uchar.h>
+/* <- meta.preprocessor.include keyword.control.import.include */
+
 #include "foobar.h"
 /* <- keyword.control.import.include */
 /*       ^ punctuation.definition.string.begin */
