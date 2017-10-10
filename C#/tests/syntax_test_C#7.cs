@@ -233,5 +233,35 @@ class Foo {
 ///     ^ punctuation.section.block.end
 ///      ^ meta.class.body meta.method.body - meta.method.body meta.method.body
     }
+    
+    // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#ref-locals-and-returns
+    public static ref int Find3(int[,] matrix, Func<int, bool> predicate) {
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^ storage.modifier
+///               ^^^ storage.modifier
+///                   ^^^ storage.type
+///                       ^^^^^ entity.name.function
+///                            ^ punctuation.section.parameters.begin
+///                             ^^^ storage.type
+///                                ^ punctuation.section.brackets.begin
+///                                 ^ punctuation.separator
+///                                  ^ punctuation.section.brackets.end
+///                                    ^^^^^^ variable.parameter
+        for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int j = 0; j < matrix.GetLength(1); j++)
+                if (predicate(matrix[i, j]))
+                    return ref matrix[i, j];
+///                 ^^^^^^ keyword.control.flow.return
+///                        ^^^ keyword.other
+///                            ^^^^^^ variable.other
+///                                  ^ punctuation.section.brackets.begin
+///                                   ^ variable.other
+///                                    ^ punctuation.separator.accessor
+///                                      ^ variable.other
+///                                       ^ punctuation.section.brackets.end
+///                                        ^ punctuation.terminator.statement
+        throw new InvalidOperationException("Not found");
+    }
+    }
 }
 /// <- meta.class.body punctuation.section.block.end

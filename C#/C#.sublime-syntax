@@ -474,11 +474,11 @@ contexts:
       scope: punctuation.separator.inherited-class.cs
 
   method_declaration:
-    - match: '\b(abstract|async|const|event|extern|new|override|readonly|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(abstract|async|const|event|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
-    - match: '\b(dynamic)\b'
+    - match: '\bdynamic\b'
       scope: storage.modifier.cs
     - match: '\b(implicit|explicit)\b'
       scope: storage.modifier.cs
