@@ -668,6 +668,12 @@ $var4 = 0b0111;
 if ($a !== $b);
 //     ^^^ keyword.operator.comparison.php
 
+$a += 1;
+// ^^ keyword.operator.assignment.augmented.php
+
+$a .= 1;
+// ^^ keyword.operator.assignment.augmented.php
+
 if ():
 else:
 // <- keyword.control - entity.name.label

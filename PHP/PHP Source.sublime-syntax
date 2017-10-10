@@ -210,8 +210,8 @@ contexts:
     - match: ;
       scope: punctuation.terminator.expression.php
     - include: heredoc
-    - match: \.=?
-      scope: keyword.operator.string.php
+    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.)=
+      scope: keyword.operator.assignment.augmented.php
     - match: "=>"
       scope: keyword.operator.key.php
     - match: '(?:(\=)(&))|(&(?=[[:alpha:]$_]))'
@@ -232,6 +232,8 @@ contexts:
     - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
+    - match: \.
+      scope: keyword.operator.string.php
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
