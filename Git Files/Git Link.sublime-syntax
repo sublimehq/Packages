@@ -39,7 +39,7 @@ contexts:
   expect-path:
     - meta_content_scope: meta.mapping.value.git.link
     - match: (?=\S)   # path starts with the first none space character
-      set: path
+      set: [path, path-start]
     - match: \n
       pop: true
 
@@ -48,9 +48,31 @@ contexts:
     - match: \.?\n
       scope: meta.mapping.value.git.link punctuation.terminator.path.git.link
       pop: true
-    - match: \.\.
-      scope: constant.character.escape.parent.git.link
-    - match: '[\\/:]'
+    - match: '[\\/]'
       scope: punctuation.separator.path.git.link
+      push: path-dir-pattern
     - match: '[*?]'
       scope: invalid.illegal.path.git.link
+
+  path-start:
+    # windows drive letter and separator
+    - match: '[A-Za-z](:)(?=[\\/])'
+      captures:
+        1: punctuation.separator.drive.git.link
+      pop: true
+    # homedir tilde operator
+    - match: ~(?=/)
+      scope: variable.language.environment.home.git.link
+      pop: true
+    # any other directory pattern
+    - include: path-dir-pattern
+
+  path-dir-pattern:
+    - match: \.\.(?=[\\/])
+      scope: constant.language.path.parent.git.link
+      pop: true
+    - match: \.(?=[\\/])
+      scope: constant.language.path.self.git.link
+      pop: true
+    - match: ''
+      pop: true
