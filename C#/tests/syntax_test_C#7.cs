@@ -181,6 +181,25 @@ class Foo {
 ///                                                   ^ constant.numeric
 ///                                                    ^ punctuation.separator.case-statement
         }
+
+        // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#out-variables
+        if (int.TryParse(input, out var quantity))
+///                             ^^^ storage.modifier.argument
+///                                ^ - storage.modifier.argument
+///                                 ^^^ storage.type.variable
+///                                     ^^^^^^^^ variable.other
+///                                             ^^ punctuation.section.group.end
+            WriteLine(quantity);
+        else
+            WriteLine("Quantity is not a valid integer!");
+
+        WriteLine($"{nameof(quantity)}: {quantity}"); // still valid
+
+        int.TryParse(input, out ref int quantity);
+///                         ^^^ storage.modifier.argument
+///                             ^^^ storage.modifier.argument
+///                                 ^^^ storage.type
+///                                     ^^^^^^^^ variable.other
     }
 /// ^ meta.class.body meta.method.body punctuation.section.block.end
 }

@@ -637,8 +637,9 @@ contexts:
     - include: attribute
     - match: (?=[^\s\[])
       set:
-      - match: '\s*(out|ref|this|params)\s+'
-        scope: storage.modifier.parameter.cs
+      - match: '\s*\b(out|ref|this|params)\s+'
+        captures:
+          1: storage.modifier.parameter.cs
       - match: \s
         pop: true
       - include: type
@@ -1299,8 +1300,19 @@ contexts:
       pop: true
 
   arguments:
-    - match: (out|ref)\s
-      scope: storage.modifier.argument.cs
+    - match: (out)\s
+      captures:
+        1: storage.modifier.argument.cs
+      push:
+        - match: (ref)\s
+          captures:
+            1: storage.modifier.argument.cs
+        - include: var_declaration
+        - match: ''
+          pop: true
+    - match: (ref)\s
+      captures:
+        1: storage.modifier.argument.cs
     - match: '({{name}})\s*(=)'
       captures:
         1: variable.parameter.cs
