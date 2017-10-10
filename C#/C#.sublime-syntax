@@ -844,19 +844,12 @@ contexts:
         3: punctuation.terminator.statement.cs
       pop: true
     - include: keywords
-    # TODO: use the same code for method detection
     # C#7, nested method
-    - match: '(?:({{base_type}})|({{name}})){{type_suffix_capture}}\s+(?={{name}}{{generic_declaration}}\()'
-      captures:
-        1: storage.type.cs
-        2: support.type.cs
-        3: storage.type.nullable.cs
-        4: meta.brackets.cs
-        5: punctuation.section.brackets.begin.cs
-        6: punctuation.separator.cs
-        7: punctuation.section.brackets.end.cs
-        8: keyword.operator.pointer.cs
-      push: method_name
+    - match: '(?=(?:\basync\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
+      push:
+        - include: method_declaration
+        - match: ''
+          pop: true
     - match: '({{name}})(<)(?=([^(={};]*>){{type_suffix}}\s+{{name}}{{generic_declaration}}\()'
       captures:
         1: support.type.cs
