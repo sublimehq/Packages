@@ -262,6 +262,111 @@ class Foo {
 ///                                        ^ punctuation.terminator.statement
         throw new InvalidOperationException("Not found");
     }
+    
+    // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#tuples
+    public void TupleTest () {
+        var letters = ("a", "b");
+///                   ^ punctuation.section.group.begin
+///                       ^ punctuation.separator.expression
+///                            ^ punctuation.section.group.end
+///                             ^ punctuation.terminator.statement
+        (string Alpha, string Beta) namedLetters = ("a", "b");
+///     ^ punctuation.section.group.begin
+///      ^^^^^^ storage.type
+///             ^^^^^ variable.other
+///                  ^ punctuation.separator.expression
+///                    ^^^^^^ storage.type
+///                           ^^^^ variable.other
+///                               ^ punctuation.section.group.end
+///                                 ^^^^^^^^^^^^ variable.other
+///                                              ^ keyword.operator.assignment
+///                                                ^ punctuation.section.group.begin
+///                                                    ^ punctuation.separator.expression
+///                                                         ^ punctuation.section.group.end
+///                                                          ^ punctuation.terminator.statement
+
+        (SomeType[] Alpha, SomeType<int> Beta) example = (a, b);
+///     ^ punctuation.section.group.begin
+///      ^^^^^^^^ support.type
+///              ^ punctuation.section.brackets.begin
+///               ^ punctuation.section.brackets.end
+///                 ^^^^^ variable.other
+///                      ^ punctuation.separator.expression
+///                        ^^^^^^^^ support.type
+///                                ^ punctuation.definition.generic.begin
+///                                 ^^^ storage.type
+///                                    ^ punctuation.definition.generic.end
+///                                      ^^^^ variable.other
+///                                          ^ punctuation.section.group.end
+///                                            ^^^^^^^ variable.other
+///                                                    ^ keyword.operator.assignment
+///                                                      ^ punctuation.section.group.begin
+///                                                        ^ punctuation.separator.expression
+///                                                           ^ punctuation.section.group.end
+///                                                            ^ punctuation.terminator.statement
+        var alphabetStart = (Alpha: "a", Beta: "b");
+///                         ^ punctuation.section.group.begin
+///                          ^^^^^ variable.other
+///                               ^ punctuation.separator.assignment
+///                                    ^ punctuation.separator.expression
+///                                      ^^^^ variable.other
+///                                          ^ punctuation.separator.assignment
+///                                               ^ punctuation.section.group.end
+///                                                ^ punctuation.terminator.statement
+        var abc = (this as object, input);
+///               ^ punctuation.section.group.begin
+///                ^^^^ variable.language
+///                     ^^ keyword.operator.reflection
+///                        ^^^^^^ storage.type
+///                              ^ punctuation.separator.expression
+///                                ^^^^^ variable.other
+///                                     ^ punctuation.section.group.end
+///                                      ^ punctuation.terminator.statement
+        var abc = (example.Alpha as SomeType);
+///               ^ punctuation.section.group.begin
+///                ^^^^^^^ variable.other
+///                       ^ punctuation.accessor.dot
+///                        ^^^^^ variable.other
+///                              ^^ keyword.operator.reflection
+///                                 ^^^^^^^^ support.type
+///                                         ^ punctuation.section.group.end
+///                                          ^ punctuation.terminator.statement
+    }
+
+    private static (int Max, int Min) Range(IEnumerable<int> numbers)
+/// ^^^^^^^ storage.modifier.access
+///         ^^^^^^ storage.modifier
+///                ^ punctuation.section.group.begin
+///                 ^^^ storage.type
+///                     ^^^ variable.other
+///                        ^ punctuation.separator
+///                          ^^^ storage.type
+///                              ^^^ variable.other
+///                                 ^ punctuation.section.group.end
+///                                   ^^^^^ entity.name.function - entity.name.function.constructor
+///                                        ^ punctuation.section.parameters.begin
+///                                         ^^^^^^^^^^^ support.type
+///                                                    ^ punctuation.definition.generic.begin
+///                                                     ^^^ storage.type
+///                                                        ^ punctuation.definition.generic.end
+///                                                          ^^^^^^^ variable.parameter
+///                                                                 ^ punctuation.section.parameters.end
+    {
+        int min = int.MaxValue;
+        int max = int.MinValue;
+        foreach(var n in numbers)
+        {
+            min = (n < min) ? n : min;
+            max = (n > max) ? n : max;
+        }
+        return (max, min);
+///     ^^^^^^ keyword.control.flow.return
+///            ^ punctuation.section.group.begin
+///             ^^^ variable.other
+///                ^ punctuation.separator.expression
+///                  ^^^ variable.other
+///                     ^ punctuation.section.group.end
+///                      ^ punctuation.terminator.statement
     }
 }
 /// <- meta.class.body punctuation.section.block.end

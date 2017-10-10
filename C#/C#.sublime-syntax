@@ -527,6 +527,17 @@ contexts:
         6: punctuation.section.brackets.end.cs
         7: keyword.operator.pointer.cs
       push: method_name
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      push:
+        - meta_scope: meta.group.cs
+        - match: \)
+          scope: punctuation.section.group.end.cs
+          set: method_name
+        - match: ','
+          scope: punctuation.separator.cs
+        - match: (?=\S)
+          push: var_declaration_explicit
 
   method_name:
     - match: '\.'
@@ -1263,7 +1274,11 @@ contexts:
           pop: true
         - match: ','
           scope: punctuation.separator.expression.cs
-        - include: line_of_code_in
+        - match: ':'
+          scope: punctuation.separator.assignment.cs
+        - match: (?!{{reserved}})(?={{name}}{{generic_declaration}}{{type_suffix}}\s+{{name}}\s*[:,])
+          push: var_declaration_explicit
+        - include: line_of_code_in_no_semicolon
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:
