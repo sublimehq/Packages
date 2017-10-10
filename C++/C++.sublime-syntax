@@ -21,7 +21,7 @@ first_line_match: '-\*- C\+\+ -\*-'
 scope: source.c++
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
-  path_lookahead: '(::\s*)?({{identifier}}\s*::\s*)*(template\s+)?{{identifier}}'
+  path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
   macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
   operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
@@ -456,7 +456,7 @@ contexts:
 
   template-common:
     # Exit the template scope if we hit some basic invalid characters. This
-    # helps when a user is in the middle of typing their template types and 
+    # helps when a user is in the middle of typing their template types and
     # prevents re-highlighting the whole file until the next > is found.
     - match: (?=[{};])
       pop: true
@@ -625,7 +625,7 @@ contexts:
         2: meta.group.c++ punctuation.section.group.begin.c++
       set: members-inside-function-call
     # Templated member function call
-    - match: (~?{{identifier}})\s*(<)
+    - match: (~?{{identifier}})\s*(?={{generic_lookahead}})(<)
       captures:
         1: variable.function.member.c++
         2: punctuation.section.generic.begin.c++
@@ -663,8 +663,8 @@ contexts:
       push: members-after-accessor-junction
 
   members-arrow:
-    # This needs to be before operators in the 
-    # early-expressions-after-generic-type context because otherwise the "->" 
+    # This needs to be before operators in the
+    # early-expressions-after-generic-type context because otherwise the "->"
     # from the C language will match.
     - match: ->
       scope: punctuation.accessor.arrow.c++
