@@ -9,7 +9,7 @@ file_extensions:
 scope: source.objc++
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
-  path_lookahead: '(::\s*)?(?:{{identifier}}\s*::\s*)*(template\s+)?{{identifier}}'
+  path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
   macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
   operator_method_name: '\boperator\s*(?:[-+*/%ˆ&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
@@ -620,7 +620,7 @@ contexts:
             - include: expressions
     - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}})'
       push:
-        - include: identifiers
+        - include: scope:source.c++#identifiers
         - match: '<'
           scope: punctuation.section.generic.begin.objc++
           set:
@@ -712,7 +712,7 @@ contexts:
         2: meta.group.objc++ punctuation.section.group.begin.objc++
       set: members-inside-function-call
     # Templated member function call
-    - match: (~?{{identifier}})\s*(<)
+    - match: (~?{{identifier}})\s*(?={{generic_lookahead}})(<)
       captures:
         1: variable.function.member.objc++
         2: punctuation.section.generic.begin.objc++
@@ -750,8 +750,8 @@ contexts:
       push: members-after-accessor-junction
 
   members-arrow:
-    # This needs to be before operators in the 
-    # early-expressions-after-generic-type context because otherwise the "->" 
+    # This needs to be before operators in the
+    # early-expressions-after-generic-type context because otherwise the "->"
     # from the C language will match.
     - match: ->
       scope: punctuation.accessor.arrow.objc++
@@ -2000,6 +2000,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.import.objc++
         - include: preprocessor-other-include-common
+    - include: scope:source.c#preprocessor-practical-workarounds
 
   preprocessor-other-include-common:
     - include: scope:source.c#preprocessor-line-continuation
@@ -2019,4 +2020,3 @@ contexts:
         - match: ">"
           scope: punctuation.definition.string.end.objc++
           pop: true
-    - include: scope:source.c#preprocessor-practical-workarounds

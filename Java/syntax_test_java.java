@@ -323,7 +323,7 @@ public class Lambdas {
 //                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
 //                                    ^ punctuation.definition.annotation
 //                                                  ^^^ variable.parameter.java
-//                                                        ^^^ support.class.java simple
+//                                                        ^^^ support.class.java
 //                                                           ^ punctuation.accessor.dot.java
 //                                                            ^^^ constant.other.java
 //                                                                 ^^^^^^ support.class.java - meta.annotation

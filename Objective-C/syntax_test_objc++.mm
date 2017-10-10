@@ -894,6 +894,12 @@ long func
         } while(true);
 
     }
+
+    if (version.major == 10 && version.minor < 11)
+/*                                           ^ keyword.operator.comparison */
+    {
+
+    }
 }
 /* <- meta.function meta.block punctuation.section.block.end */
 
