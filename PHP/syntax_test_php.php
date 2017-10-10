@@ -665,14 +665,15 @@ $var4 = 0b0111;
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
-if ($a !== $b);
-//     ^^^ keyword.operator.comparison.php
-
-$a += 1;
+$a += .5;
 // ^^ keyword.operator.assignment.augmented.php
+//    ^^ constant.numeric
 
 $a .= 1;
 // ^^ keyword.operator.assignment.augmented.php
+
+if ($a !== $b);
+//     ^^^ keyword.operator.comparison.php
 
 if ():
 else:
