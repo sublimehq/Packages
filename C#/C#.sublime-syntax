@@ -925,9 +925,6 @@ contexts:
         1: support.namespace.cs
         2: variable.other.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
-    - match: '{{name}}(\.)'
-      captures:
-        1: punctuation.accessor.dot.cs
     - match: '({{name}})\s+({{name}})'
       captures:
         1: support.type.cs

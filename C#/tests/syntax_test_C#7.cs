@@ -193,13 +193,22 @@ class Foo {
         else
             WriteLine("Quantity is not a valid integer!");
 
-        WriteLine($"{nameof(quantity)}: {quantity}"); // still valid
+        Console.WriteLine($"{nameof(quantity)}: {quantity}"); // still valid
+///     ^^^^^^^ variable.other
+///            ^ punctuation.accessor.dot
+///             ^^^^^^^^^ variable.function
 
         int.TryParse(input, out ref int quantity);
+///     ^^^ storage.type
+///        ^ punctuation.accessor.dot
+///         ^^^^^^^^ variable.function
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+///                 ^ punctuation.section.group.begin
 ///                         ^^^ storage.modifier.argument
 ///                             ^^^ storage.modifier.argument
 ///                                 ^^^ storage.type
 ///                                     ^^^^^^^^ variable.other
+///                                             ^ punctuation.section.group.end
     }
 /// ^ meta.class.body meta.method.body punctuation.section.block.end
 
