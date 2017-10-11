@@ -767,7 +767,7 @@ public class Foo {
 //  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
 //               ^^^ keyword.control.new.java
-//                   ^^^ storage.type.java
+//                   ^^^ storage.type.primitive.java
 //                      ^ punctuation.section.brackets.begin.java
 //                       ^ punctuation.section.brackets.end.java
 //                        ^ punctuation.definition.array-constructor.begin.java
@@ -778,10 +778,20 @@ public class Foo {
 //                               ^ constant.numeric.java
 //                                ^ punctuation.definition.array-constructor.end.java
 
+    byte [] foo;
+//  ^^^^ storage.type.primitive.java
+//      ^^^ storage.modifier.array.java
+    byte []b=new byte[size];
+//  ^^^^ storage.type.primitive.java
+//      ^^^ storage.modifier.array.java
+//          ^ keyword.operator.assignment.java
+//           ^^^ keyword.control.new.java
+//               ^^^^ storage.type.primitive.java
+
     int[][][] threeDimArr = new int[][][] {
 //  ^^^ storage.type.primitive.java
 //     ^^^^^^ storage.modifier.array.java
-//                              ^^^ storage.type.java
+//                              ^^^ storage.type.primitive.java
 //                                 ^ punctuation.section.brackets.begin.java
 //                                  ^ punctuation.section.brackets.end.java
 //                                   ^ punctuation.section.brackets.begin.java
@@ -806,7 +816,7 @@ public class Foo {
 //  ^ punctuation.definition.array-constructor.end.java
 
     threeDimArr = new int[1][3][4];
-//                    ^^^ storage.type.java
+//                    ^^^ storage.type.primitive.java
 //                       ^^^^^^^^^ meta.brackets.java
 //                       ^ punctuation.section.brackets.begin.java
 //                        ^ constant.numeric.java
@@ -857,6 +867,21 @@ public class Foo {
     int foo;
   }
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
+
+  void arrayMethod(byte [] [] a, int b, byte[] c) {}
+//^^^^ storage.type.primitive.java
+//     ^^^^^^^^^^^ entity.name.function.java
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java
+//                                               ^ - meta.method.parameters.java
+//                 ^^^^ storage.type.primitive.java
+//                      ^^^^^ storage.modifier.array.java
+//                            ^ variable.parameter.java
+//                               ^^^ storage.type.primitive.java
+//                                   ^ variable.parameter.java
+//                                      ^^^^ storage.type.primitive.java
+//                                          ^^ storage.modifier.array.java
+//                                             ^ variable.parameter.java
+
 
   public class Foo<T extends int> {}
   //              ^^^^^^^^^^^^^^^ meta.generic.java

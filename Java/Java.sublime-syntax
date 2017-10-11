@@ -105,7 +105,7 @@ contexts:
         - meta_scope: meta.instantiation.java
         - match: '({{primitives}})\s*(?=\[)'
           captures:
-            1: storage.type.java
+            1: storage.type.primitive.java
           push: array-definition-body
         - match: '({{qualified_id}})\s*(?=\[)'
           captures:
@@ -581,7 +581,7 @@ contexts:
       captures:
         1: storage.type.primitive.java invalid.illegal.void-array.java
         2: storage.modifier.array.java
-    - match: '{{primitives}}((?:\[\])+)'
+    - match: '{{primitives}}((?:\s*\[\s*\])+)'
       captures:
         1: storage.type.primitive.java
         2: storage.modifier.array.java
