@@ -534,6 +534,22 @@ void f()
     /*                           ^ - meta.method-call */
 };
 
+struct A { int foo; };
+int main() {
+    A a;
+    a.foo = a.foo < 0 ? 1 : 2;
+    /*            ^ - punctuation.section.generic */
+}
+/* <- - invalid.illegal */
+
+template <typename T>
+struct A<T, enable_if_t<std::is_arithmetic<T>::value && !is_std_char_type<T>::value>> {
+    using x = conditional_t<sizeof(T) <= sizeof(long), long, long long>;
+    /*                                ^^ keyword.operator */
+};
+/* <- - invalid.illegal */
+
+
 /////////////////////////////////////////////
 // Storage Modifiers
 /////////////////////////////////////////////

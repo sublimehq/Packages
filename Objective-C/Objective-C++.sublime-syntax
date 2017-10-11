@@ -103,6 +103,10 @@ contexts:
     - include: keywords-parens
     - include: keywords
     - include: numbers
+    # Prevent a '<' from getting scoped as the start of another template
+    # parameter list, if in reality a less-than-or-equals sign is meant.
+    - match: <=
+      scope: keyword.operator.comparison.c
 
   early-expressions-after-generic-type:
     - include: members-arrow
@@ -712,23 +716,26 @@ contexts:
         2: meta.group.objc++ punctuation.section.group.begin.objc++
       set: members-inside-function-call
     # Templated member function call
-    - match: (~?{{identifier}})\s*(?={{generic_lookahead}})(<)
+    - match: (~?{{identifier}})\s*(?={{generic_lookahead}})
       captures:
         1: variable.function.member.objc++
-        2: punctuation.section.generic.begin.objc++
       set:
         - meta_scope: meta.method-call.objc++
-        - match: '>'
-          scope: punctuation.section.generic.end.objc++
+        - match: <
+          scope: punctuation.section.generic.begin.objc++
           set:
             - meta_content_scope: meta.method-call.objc++
-            - include: comments
-            - match: \(
-              scope: punctuation.section.group.begin.objc++
-              set: members-inside-function-call
-            - match: (?=\S) # safety pop
-              pop: true
-        - include: expressions
+            - match: '>'
+              scope: punctuation.section.generic.end.objc++
+              set:
+                - meta_content_scope: meta.method-call.objc++
+                - include: comments
+                - match: \(
+                  scope: punctuation.section.group.begin.objc++
+                  set: members-inside-function-call
+                - match: (?=\S) # safety pop
+                  pop: true
+            - include: expressions
     # Explicit base-class access
     - match: ({{identifier}})\s*(::)
       captures:
