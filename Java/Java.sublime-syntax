@@ -344,7 +344,7 @@ contexts:
         - match: (?=\S)
           pop: true
     - match: '\?|:'
-      scope: keyword.control.java
+      scope: keyword.operator.ternary.java
     - match: \b(instanceof)\b
       scope: keyword.operator.java
     - match: (==|!=|<=|>=|<>|<|>)

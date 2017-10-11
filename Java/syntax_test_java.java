@@ -711,6 +711,14 @@ public class Foo {
     }
 //  ^ meta.block.java punctuation.section.block.end.java
 
+    int foo = true ? 1 : 2;
+//            ^^^^ constant.language.java
+//                 ^ keyword.operator.ternary.java
+//                   ^ constant.numeric.java
+//                     ^ keyword.operator.ternary.java
+//                       ^ constant.numeric.java
+//                        ^ punctuation.terminator.java
+
     return foo<bar;
   }
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
