@@ -295,7 +295,8 @@ int foo(int val, float val2[])
     myClass *result;
     result->kk = func(val);
 /*        ^^ punctuation.accessor */
-    if (result == 0) {
+    if (result != 0) {
+/*             ^^ keyword.operator.comparison.c */
         return 0;
 #if CROSS_SCOPE_MACRO
  /* <- keyword.control.import */

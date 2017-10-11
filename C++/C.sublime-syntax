@@ -166,10 +166,10 @@ contexts:
       scope: punctuation.accessor.c
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
       scope: keyword.operator.assignment.augmented.c
-    - match: \+|\-|/|%|<<|>>|&&|\|\||\||\^|~|!
-      scope: keyword.operator.arithmetic.c
     - match: <\=|>\=|\=\=|<|>|\!\=
       scope: keyword.operator.comparison.c
+    - match: \+|\-|/|%|<<|>>|&&|\|\||\||\^|~|!
+      scope: keyword.operator.arithmetic.c
     # These two operator can be both arithmetic and pointer/address related
     - match: \*|&
       scope: keyword.operator.c

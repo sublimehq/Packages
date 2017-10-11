@@ -210,8 +210,9 @@ contexts:
     - match: ;
       scope: punctuation.terminator.expression.php
     - include: heredoc
-    - match: \.=?
-      scope: keyword.operator.string.php
+    - include: numbers
+    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.)=
+      scope: keyword.operator.assignment.augmented.php
     - match: "=>"
       scope: keyword.operator.key.php
     - match: '(?:(\=)(&))|(&(?=[[:alpha:]$_]))'
@@ -232,6 +233,8 @@ contexts:
     - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
+    - match: \.
+      scope: keyword.operator.string.php
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -242,7 +245,6 @@ contexts:
           pop: true
         - include: class-name
         - include: variables
-    - include: numbers
     - include: instantiation
     - match: '(?i)(goto)\s+({{identifier}})'
       captures:
@@ -973,7 +975,12 @@ contexts:
         2: variable.other.php
       push: function-call-parameters
   numbers:
-    - match: '\b((0(b|B)[01]*)|(0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
+    - match: |-
+        (?x)(
+          \b(0[bB][01]*)\b |
+          \b(0[xX][0-9a-fA-F]*)\b |
+          (\b([0-9]+\.?[0-9]*)|\B(\.[0-9]+))([eE](\+|-)?[0-9]+)?\b
+        )
       scope: constant.numeric.php
   object:
     - match: '(->)(\$?\{)'
