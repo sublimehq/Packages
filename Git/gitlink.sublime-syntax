@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+# Highlight .git files.
+
+name: Git Link
+file_extensions:
+  - .git
+first_line_match: '^\s*gitdir\s*:'
+scope: text.git.link
+
+contexts:
+
+  main:
+    - match: '[#;]'
+      scope: punctuation.definition.comment.git.link
+      push:
+        - meta_scope: comment.line.git.link
+        - match: \n
+          pop: true
+    - match: \bgitdir\b
+      scope: keyword.other.gitdir.git.link
+      push: expect-separator
+
+  expect-separator:
+    - meta_scope: meta.mapping.key.git.link
+    - match: (?=:)
+      set: separator
+    - match: \S
+      scope: invalid.illegal.separator-expected.git.link
+
+  separator:
+    - meta_scope: meta.mapping.git.link
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.git.link
+      set: expect-path
+    - match: \n
+      pop: true
+
+  expect-path:
+    - meta_content_scope: meta.mapping.value.git.link
+    - match: (?=\S)   # path starts with the first none space character
+      set: path
+    - match: \n
+      pop: true
+
+  path:
+    - meta_content_scope: meta.mapping.value.git.link meta.path.git.link string.unquoted.git.link
+    - match: \.?\n
+      scope: meta.mapping.value.git.link punctuation.terminator.path.git.link
+      pop: true
+    - match: \.\.
+      scope: constant.character.escape.parent.git.link
+    - match: '[\\/:]'
+      scope: punctuation.separator.path.git.link
+    - match: '[*?]'
+      scope: invalid.illegal.path.git.link
