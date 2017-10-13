@@ -385,6 +385,21 @@ datetime.strptime('2011227', '%Y%V%u')
 #                            ^^^^^^^^ string.quoted.single.python
 #                             ^^^^^^ constant.other.placeholder.python
 
+'{0:%Y%m%d}'.format(datetime.date.today())
+# ^^^^^^^^^^ string.quoted.single.python
+# ^^^^^^^^ constant.other.placeholder.python
+#   ^^^^^^ constant.other.format-spec.python
+'{0:%Y}-{0:%m}-{0:%d}'.format(datetime.date.today())
+# ^^^^^^^^^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^ constant.other.placeholder.python
+#  ^^^ constant.other.format-spec.python
+#      ^ - constant.other.placeholder.python
+#       ^^^^^^ constant.other.placeholder.python
+#          ^^ constant.other.format-spec.python
+#             ^ - constant.other.placeholder.python
+#              ^^^^^^ constant.other.placeholder.python
+#                 ^^ constant.other.format-spec.python
+
 x = "hello \
 #   ^^^^^^^^^ string.quoted.double.python - invalid.illegal.unclosed-string.python, \
 #          ^ punctuation.separator.continuation.line.python, \
