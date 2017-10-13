@@ -789,7 +789,10 @@ contexts:
 
   code_block_in:
     - match: (?=\S)
-      push: line_of_code
+      push:
+        - match: (?={{reserved}})
+          pop: true
+        - include: line_of_code
 
   line_of_code:
     # language keywords
