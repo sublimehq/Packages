@@ -607,9 +607,15 @@ contexts:
       pop: true
 
   heredocs-body-common-with-expansion:
+    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
+    # expansion, command substitution, and arithmetic expansion, the character
+    # sequence \newline is ignored, and ‘\’ must be used to quote the
+    # characters ‘\’, ‘$’, and ‘`’.
     - match: \\[`$"\\]
       scope: constant.character.escape.backtick.shell
-    - include: expansion
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
 
   heredocs-body-no-expansion:
     - meta_include_prototype: false
