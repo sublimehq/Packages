@@ -250,7 +250,7 @@ contexts:
       set:
         - meta_scope: meta.group.for.shell
         - include: cmd-args-boilerplate
-        - include: compound
+        - include: arithmetic
         - match: \bin\b
           scope: keyword.control.in.shell
 
@@ -769,6 +769,13 @@ contexts:
 
   cmd:
     - include: cmd-common
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.definition.compound.end.shell
+          set: [cmd-post, cmd-args]
+        - include: main
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet\b
       scope: support.function.let.bash
@@ -798,6 +805,13 @@ contexts:
 
   cmd-bt:
     - include: cmd-common
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.definition.compound.end.shell
+          set: [cmd-post, cmd-args-bt]
+        - include: main
     - include: scope:commands.builtin.shell.bash#main-bt
     - match: \blet\b
       scope: support.function.let.bash
@@ -884,12 +898,12 @@ contexts:
 
   cmd-common:
     - include: control
-    - include: compound
+    - include: arithmetic
     - match: (?=\)|})
       pop: true
     - include: line-continuation-or-pop-at-end
 
-  compound:
+  arithmetic:
     - match: \(\((?=.+\)\))
       scope: punctuation.section.arithmetic.begin.shell
       push:
@@ -898,13 +912,6 @@ contexts:
           scope: punctuation.section.arithmetic.end.shell
           pop: true
         - include: expression
-    - match: \(
-      scope: punctuation.definition.compound.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.definition.compound.end.shell
-          set: [cmd-post, cmd-args]
-        - include: main
 
   expansion-tilde:
     - match: '~'

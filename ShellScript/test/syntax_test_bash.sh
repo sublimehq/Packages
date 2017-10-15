@@ -1225,6 +1225,15 @@ echo "`dirname -- foo/bar`"
 #              ^^ keyword.operator.end-of-options
 #                        ^ punctuation.section.group.end
 
+foo=`(uname -r) 2>/dev/null`
+#                          ^ punctuation.section.group.end - punctuation.section.group.begin
+UNAME_RELEASE=`(uname -r) 2>/dev/null` || UNAME_RELEASE=unknown
+#                                    ^ punctuation.section.group.end
+UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
+#                                   ^ punctuation.section.group.end
+UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
+#                                    ^ punctuation.section.group.end
+
 commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 # <- - variable.other.readwrite
