@@ -800,9 +800,11 @@ contexts:
   heredoc:
     - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
       push:
-        - match: ^(\1)\b
+        - match: ^(\1)\b(?:(;)(\s*$\n?))?
           captures:
             1: punctuation.section.embedded.end.php keyword.operator.heredoc.php
+            2: punctuation.terminator.expression.php
+            3: meta.heredoc-end.php
           pop: true
         - match: <<<\s*(HTML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php

@@ -784,6 +784,8 @@ This is a test!
 //         ^^^^^^^^^ string.quoted.double
 HTML;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+//  ^ punctuation.terminator.expression
+//   ^ meta.heredoc-end
 
 echo <<< JAVASCRIPT
 //   ^^^^^^^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
