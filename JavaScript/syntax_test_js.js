@@ -1080,3 +1080,14 @@ var str = `Hello, ${name}!`;
 
 let str = navigator.userAgent.toLowerCase();
 //        ^^^^^^^^^ support.type.object
+
+function yy (a, b) {
+// ^^^^^^^^^^^^^^^ meta.function.declaration
+//       ^^ entity.name.function
+//          ^ punctuation.section.group.begin
+//           ^ variable.parameter.function
+//            ^ punctuation.separator.parameter.function
+//              ^ variable.parameter.function
+//               ^ punctuation.section.group.end
+//                 ^ meta.block punctuation.section.block - meta.function
+}
