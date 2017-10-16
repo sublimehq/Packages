@@ -1,0 +1,322 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: LaTeX (listings)
+file_extensions:
+  - tex
+  - ltx
+scope: text.tex.latex.listings
+contexts:
+  prototype:
+    - include: scope:text.tex.latex#comments
+
+  # we import almost everything from LaTeX.sublime-syntax excepts
+  # 1. global-braces
+  # 2. lists
+  # 3. beamer
+  # since they contain `include: main` which need to be redefined here
+
+  main:
+    - include: lists
+    - include: scope:text.tex.latex#unique-latex
+    - include: pkglistings
+    - include: beamer
+    - include: scope:text.tex.latex#packages
+    - include: scope:text.tex.latex#plain-tex
+    - include: scope:text.tex.latex#begin-end-commands
+    - include: scope:text.tex.latex#general-commands
+    - include: global-braces
+
+  global-braces:
+    - match: '\{'
+      scope: punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.group.brace.latex
+        - match: '\}'
+          scope: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+
+  lists:
+    - match: '((\\)begin)(\{)\s*(itemize\*?)\s*(\})'
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_scope: meta.environment.list.itemize.latex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.begin.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(enumerate\*?)\s*(\})'
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_scope: meta.environment.list.enumerate.latex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.begin.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(list\*?)\s*(\})'
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_scope: meta.environment.list.list.latex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.begin.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+    - match: '((\\)begin)(\{)\s*(description\*?)\s*(\})'
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_scope: meta.environment.list.description.latex
+        - match: '((\\)end)(\{)\s*(\4)\s*(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.begin.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+
+  beamer:
+    - match: '((\\)begin)(\{)(frame)(\})'
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_scope: meta.environment.frame.latex
+        - match: '((\\)end)(\{)(frame)(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.end.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: scope:text.tex.latex#frametitles
+        - include: main
+
+
+  # listings package
+  pkglistings:
+    - match: (\\)lstinline\b
+      captures:
+        0: support.function.lstinline.latex
+        1: punctuation.definition.backslash.latex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.lstinline.latex
+        - include: scope:text.tex.latex#general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_include_prototype: false
+            - meta_scope: meta.group.brace.latex
+            - meta_content_scope: meta.environment.verbatim.lstinline.latex markup.raw.verb.latex
+            - match: '\}'
+              scope: meta.environment.verbatim.lstinline.latex punctuation.definition.group.brace.end.latex
+              pop: true
+        - match: '(\W)'
+          scope: punctuation.definition.verb.latex
+          set:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.verbatim.lstinline.latex markup.raw.verb.latex
+            - match: '\1'
+              scope: meta.environment.verbatim.lstinline.latex punctuation.definition.verb.latex
+              pop: true
+
+    - match: ((\\)begin)(\{)(lstlisting)(\})
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.environment.verbatim.lstlisting.latex
+        - match: '((\\)end)(\{)(lstlisting)(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.end.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: scope:text.tex.latex#general-optional-arguments
+        - match: '.*(%\s*(?i:c))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.c.latex source.c.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.c
+        - match: '.*(%\s*(?i:cpp|c\+\+))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.c++.latex source.c++.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.c++
+        - match: '.*(%\s*(?i:haskell|hs))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.haskell.latex source.haskell.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.haskell
+        - match: '.*(%\s*(?i:java))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.java.latex source.java.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.java
+        - match: '.*(%\s*(?i:tex|latex))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.latex.latex source.latex.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:text.tex.latex
+        - match: '.*(%\s*(?i:lisp))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.lisp.latex source.lisp.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.lisp
+        - match: '.*(%\s*(?i:lua))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.lua.latex source.lua.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.lua
+        - match: '.*(%\s*(?i:perl))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.perl.latex source.perl.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.perl
+        - match: '.*(%\s*(?i:php))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.php.latex source.php.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.php
+        - match: '.*(%\s*(?i:python|py))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.python.latex source.python.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.python
+        - match: '.*(%\s*(?i:r))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.r.latex source.r.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.r
+        - match: '.*(%\s*(?i:ruby))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.ruby.latex source.ruby.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.ruby
+        - match: '.*(%\s*(?i:sh|shell|bash ))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.shell.latex source.shell.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.shell
+        - match: '.*(%\s*(?i:sql|mysql|ddl|dml))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.sql.latex source.sql.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.sql
+        - match: '.*(%\s*(?i:yaml))$'
+          captures:
+            1: comment.line.percentage.latex
+          push:
+            - meta_include_prototype: false
+            - meta_content_scope: meta.environment.embedded.yaml.latex source.yaml.embedded
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true
+            - include: scope:source.yaml
+        - match: ''
+          push:
+            - meta_scope: meta.environment.embedded.generic.latex markup.raw.verb.latex
+            - match: '(?=\\end\{lstlisting\})'
+              pop: true

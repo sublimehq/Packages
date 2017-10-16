@@ -1,6 +1,6 @@
-% SYNTAX TEST "Packages/LaTeX/LaTeX.sublime-syntax"
+% SYNTAX TEST "Packages/LaTeX/LaTeX (listings).sublime-syntax"
 
-% <- text.tex.latex
+% <- text.tex.latex.listings
 
 \documentclass[12pt]{article}
 % ^ keyword.control.preamble.latex
@@ -318,6 +318,55 @@ opening and closing commands.
 \endcomment
 % <- comment.block.command.comment.latex
 % ^ punctuation.definition.comment.end.latex
+
+
+% PACKAGE: listings
+% The listings package is used to highlight source code.
+% Supported languages:
+% - python
+% - java
+
+\begin{lstlisting} % python
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.python
+\end{lstlisting}
+
+\begin{lstlisting}[frame=single,
+                   language=python] %python
+def my_function():
+    pass
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.python.latex
+% <- source.python.embedded
+%   ^ keyword.control.flow.python
+\end{lstlisting}
+
+\begin{lstlisting} %java
+class MyClass() {
+% <- meta.environment.verbatim.lstlisting.latex
+% <- meta.environment.embedded.java.latex
+% <- source.java.embedded
+% ^ storage.type.java
+}
+\end{lstlisting}
+
+\lstinline{var x = 15;}
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%         ^^^^^^^^^^^^^ meta.group.brace.latex
+%         ^ punctuation.definition.group.brace.begin.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                     ^ punctuation.definition.group.brace.end.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
+\lstinline|var x = 15;|
+% ^^^^^^^^^^^^^^^^^^^^^ meta.environment.verbatim.lstinline.latex
+%          ^^^^^^^^^^^ markup.raw.verb.latex
+%                      ^ - meta.environment.verbatim.lstinline.latex
+
 
 
 % PACKAGE: array
