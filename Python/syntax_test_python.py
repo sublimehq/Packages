@@ -109,6 +109,16 @@ open.open.open
 #   ^^^^^^^^ constant.language.python
 #            ^^^^^^^^^ constant.language.python
 
+CONSTANT.__
+#^^^^^^^ meta.qualified-name.python variable.other.constant.python
+#        ^^ - variable.other.constant
+
+NO _A_B
+#^ - variable.other.constant
+#  ^^^^ - variable.other.constant
+
+some.NO
+#    ^^ meta.qualified-name.python variable.other.constant.python
 
 ##################
 # Function Calls
@@ -119,6 +129,9 @@ identifier()
 #^^^^^^^^^ meta.qualified-name variable.function
 #         ^ punctuation.section.arguments.begin
 #          ^ punctuation.section.arguments.end
+
+IDENTIFIER()
+#^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
 
 dotted.identifier(12, True)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
