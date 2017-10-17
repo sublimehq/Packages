@@ -980,8 +980,8 @@ contexts:
           2: punctuation.definition.comment.begin.python
         set:
           - meta_scope: comment.block.documentation.python
-          - include: escaped-char
           - include: escaped-unicode-char
+          - include: escaped-char
           - match: '\2'
             scope: punctuation.definition.comment.end.python
             pop: true
@@ -1001,6 +1001,8 @@ contexts:
         1: constant.character.escape.hex.python
         2: constant.character.escape.octal.python
         3: constant.character.escape.python
+    - match: \\.  # deprecated in 3.6 and will eventually be a syntax error
+      scope: invalid.deprecated.character.escape.python
 
   escaped-unicode-char:
     - match: '(\\U\h{8})|(\\u\h{4})|(\\N\{[a-zA-Z ]+\})'
@@ -1368,8 +1370,8 @@ contexts:
           with_prototype:
             - match: '(?="|\n)'
               pop: true
-            - include: escaped-char
             - include: escaped-unicode-char
+            - include: escaped-char
             - include: line-continuation-inside-string
             - include: constant-placeholder
     # Single-line string, unicode or not
@@ -1382,8 +1384,8 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
-        - include: escaped-char
         - include: escaped-unicode-char
+        - include: escaped-char
         - include: line-continuation-inside-string
         - include: constant-placeholder
     # Single-line string, bytes
@@ -1439,8 +1441,8 @@ contexts:
               with_prototype:
                 - match: (?=''')
                   pop: true
-                - include: escaped-char
                 - include: escaped-unicode-char
+                - include: escaped-char
                 - include: constant-placeholder
         - match: '(?=\S)'
           set:
@@ -1511,8 +1513,8 @@ contexts:
               with_prototype:
                 - match: (?=''')
                   pop: true
-                - include: escaped-char
                 - include: escaped-unicode-char
+                - include: escaped-char
                 - include: constant-placeholder
         - match: '(?=\S)'
           set:
@@ -1520,8 +1522,8 @@ contexts:
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
-            - include: escaped-char
             - include: escaped-unicode-char
+            - include: escaped-char
             - include: constant-placeholder
     # Triple-quoted string, bytes, no syntax embedding
     - match: ([bB])(''')
@@ -1653,8 +1655,8 @@ contexts:
           with_prototype:
             - match: '(?=''|\n)'
               pop: true
-            - include: escaped-char
             - include: escaped-unicode-char
+            - include: escaped-char
             - include: line-continuation-inside-string
             - include: constant-placeholder
     # Single-line string, unicode or not
@@ -1667,8 +1669,8 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
-        - include: escaped-char
         - include: escaped-unicode-char
+        - include: escaped-char
         - include: line-continuation-inside-string
         - include: constant-placeholder
     # Single-line string, bytes

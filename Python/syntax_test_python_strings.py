@@ -23,6 +23,11 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                                            ^^^^^^^^^^ constant.character.escape.unicode
 #                                                                       ^^^^^^^^^ constant.character.escape.unicode
 
+invalid_escapes = "\.  \7 \-"
+#                  ^^ invalid.deprecated.character.escape.python
+#                      ^^ invalid.deprecated.character.escape.python
+#                         ^^ invalid.deprecated.character.escape.python
+
 conn.execute("SELECT * FROM foobar")
 #              ^ meta.string.python keyword.other.DML.sql
 
