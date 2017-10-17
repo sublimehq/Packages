@@ -891,7 +891,7 @@ contexts:
       push:
         # This prevents strings after a continuation from being a docstring
         - include: strings
-        - match: (?=\S|^\s*$)
+        - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
           pop: true
 
   line-continuation-or-pop:
