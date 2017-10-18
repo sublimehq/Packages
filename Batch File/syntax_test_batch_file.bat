@@ -435,13 +435,12 @@ ren example.txt example_%today%.txt
 ::                      ^^^^^^^ variable.other.readwrite.dosbatch
 ::                            ^ punctuation.definition.variable.end.dosbatch
 
-::                        | this is a deliberate trailing space
-set /p today=enter a date: 
+set /p today=enter a date:
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
-::                         ^ - meta.prompt.set.dosbatch
+::           ^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
+::                        ^ - meta.prompt.set.dosbatch
 set /p today=enter a date: REM :: this is not a comment
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch

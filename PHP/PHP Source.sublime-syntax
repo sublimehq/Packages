@@ -85,8 +85,10 @@ contexts:
     - include: statements
 
   embedded-html:
-    - match: '\?>'
+    - match: '\?>(\s*\n)?'
       scope: meta.embedded.block.php punctuation.section.embedded.end.php
+      captures:
+        1: meta.html-newline-after-php.php
       push:
         - meta_scope: embedding.php text.html.basic
         - clear_scopes: true
@@ -107,8 +109,10 @@ contexts:
       push:
         - meta_scope: meta.embedded.line.nested.php
         - meta_content_scope: source.php
-        - match: \?>
+        - match: \?>(\s*\n)?
           scope: punctuation.section.embedded.end.php
+          captures:
+            1: meta.html-newline-after-php.php
           pop: true
         - include: statements
 
@@ -121,15 +125,18 @@ contexts:
         1: keyword.control.exception.catch.php
       push:
         - meta_scope: meta.catch.php
+        - include: identifier-parts-as-path
         - match: '(\\)'
           scope: meta.path.php punctuation.separator.namespace.php
-        - match: '({{identifier}})\s*((\$+){{identifier}})\s*\)'
+        - match: '({{identifier}})\s*(\|)?'
           captures:
             1: meta.path.php support.class.exception.php
-            2: variable.other.php
-            3: punctuation.definition.variable.php
+            2: punctuation.separator.catch.php
+        - match: '((\$+){{identifier}})\s*\)'
+          captures:
+            1: variable.other.php
+            2: punctuation.definition.variable.php
           pop: true
-        - include: identifier-parts-as-path
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
     - include: closure
@@ -203,8 +210,9 @@ contexts:
     - match: ;
       scope: punctuation.terminator.expression.php
     - include: heredoc
-    - match: \.=?
-      scope: keyword.operator.string.php
+    - include: numbers
+    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.)=
+      scope: keyword.operator.assignment.augmented.php
     - match: "=>"
       scope: keyword.operator.key.php
     - match: '(?:(\=)(&))|(&(?=[[:alpha:]$_]))'
@@ -218,16 +226,18 @@ contexts:
       scope: keyword.operator.increment-decrement.php
     - match: (\-|\+|\*|/|%)
       scope: keyword.operator.arithmetic.php
+    - match: '<<|>>|~|\^|&|\|'
+      scope: keyword.operator.bitwise.php
+    - match: (===|==|!==|!=|<=>|<=|>=|<>|<|>)
+      scope: keyword.operator.comparison.php
     - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
-    - match: '<<|>>|~|\^|&|\|'
-      scope: keyword.operator.bitwise.php
-    - match: (===|==|!==|!=|<=|>=|<>|<|>)
-      scope: keyword.operator.comparison.php
+    - match: \.
+      scope: keyword.operator.string.php
     - match: "="
       scope: keyword.operator.assignment.php
-    - match: '(?i)\b(instanceof)\b\s+(?=[[:alpha:]\\$_])'
+    - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
       captures:
         1: keyword.operator.type.php
       push:
@@ -235,7 +245,6 @@ contexts:
           pop: true
         - include: class-name
         - include: variables
-    - include: numbers
     - include: instantiation
     - match: '(?i)(goto)\s+({{identifier}})'
       captures:
@@ -416,7 +425,7 @@ contexts:
     - include: identifier-constant-pop
 
   class:
-    - match: '(?i)(\b(?:abstract|final)\b\s+)?\b(class)\s+({{identifier}})\s*'
+    - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'
       captures:
         1: storage.modifier.abstract.php
         2: storage.type.class.php
@@ -586,6 +595,8 @@ contexts:
     # Class name type hint
     - match: '{{identifier}}'
       scope: meta.path.php support.class.php
+    - match: '\?'
+      scope: storage.type.nullable.php
     - match: '&'
       scope: storage.modifier.reference.php
     - match: (\$+){{identifier}}
@@ -634,6 +645,8 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.php
+    - match: '\?'
+      scope: storage.type.nullable.php
     - match: \b(array|bool|int|float|string)\b
       scope: storage.type.php
     - include: class-builtin
@@ -962,7 +975,12 @@ contexts:
         2: variable.other.php
       push: function-call-parameters
   numbers:
-    - match: '\b((0(b|B)[01]*)|(0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)\b'
+    - match: |-
+        (?x)(
+          \b(0[bB][01]*)\b |
+          \b(0[xX][0-9a-fA-F]*)\b |
+          (\b([0-9]+\.?[0-9]*)|\B(\.[0-9]+))([eE](\+|-)?[0-9]+)?\b
+        )
       scope: constant.numeric.php
   object:
     - match: '(->)(\$?\{)'

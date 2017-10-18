@@ -1,5 +1,5 @@
 {
-	"scope": "source.php - variable.other.php",
+	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
 
 	"completions":
 	[

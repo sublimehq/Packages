@@ -1,4 +1,9 @@
 /* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
+
+/////////////////////////////////////////////
+// Preprocessor
+/////////////////////////////////////////////
+
 #ifndef IGUARD_
  /* <- keyword.control.import */
 #define IGUARD_
@@ -25,6 +30,14 @@ int func() {
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
+
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
+int g(int x = 5 \
+         /*     ^ punctuation.separator.continuation */
+      , int y);
 
 #define MACRO_WITH_CURLY_BRACE {
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
@@ -70,6 +83,93 @@ int func() {
 #endif
 /* <- - keyword.control */
 #endif
+
+FOO()
+/* <- meta.assumed-macro variable.function.assumed-macro */
+FOO
+/* <- meta.assumed-macro */
+
+struct FOO1 FOO2 FOO3 Test {
+  /*   ^ meta.struct meta.assumed-macro           */
+  /*        ^ meta.struct meta.assumed-macro      */
+  /*             ^ meta.struct meta.assumed-macro */
+  Test();
+  Test() noexcept;
+  Test() final;
+  Test() noexcept final;
+  ~Test();
+  ~Test() noexcept;
+  ~Test() override noexcept;
+  virtual ~Test();
+  virtual ~Test() noexcept;
+  virtual ~Test() override noexcept;
+  DLL_API Test();
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  DLL_API Test() noexcept;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  DLL_API Test() final;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  DLL_API Test() noexcept final;
+  /* <- meta.assumed-macro                   */
+  /*      ^ meta.method.constructor          */
+  /*             ^ storage.modifier          */
+  /*                      ^ storage.modifier */
+  DLL_API ~Test();
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  DLL_API ~Test() noexcept;
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  /*              ^ storage.modifier          */
+  DLL_API ~Test() override noexcept;
+  /* <- meta.assumed-macro                    */
+  /*      ^ meta.method.destructor            */
+  /*              ^ storage.modifier          */
+  /*                       ^ storage.modifier */
+  DLL_API virtual ~Test();
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  DLL_API virtual ~Test() noexcept;
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  /*                      ^ storage.modifier          */
+  DLL_API virtual ~Test() override noexcept;
+  /* <- meta.assumed-macro                            */
+  /*      ^ storage.modifier                          */
+  /*              ^ meta.method.destructor            */
+  /*                      ^ storage.modifier          */
+  /*                               ^ storage.modifier */
+}
+
+#define DEPRECATED(msg) [[deprecated(msg)]]
+
+struct Test {
+    DEPRECATED("bla")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    bool foo (bool run=true) {}
+    /*   ^ entity.name.function */
+};
+
+namespace Test {
+    DEPRECATED("bla")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    bool foo (bool run=true) {}
+    /*   ^ entity.name.function */
+}
+
+struct Test {
+DEPRECATED("bla")
+/* <- meta.assumed-macro variable.function.assumed-macro */
+bool foo (bool run=true) {}
+/*   ^ entity.name.function */
+};
 
 /////////////////////////////////////////////
 // Strings
@@ -154,6 +254,7 @@ char rawStr2[] = R"A*!34( )" )A*!34";
 /*                           ^ punctuation.definition.string.end */
 /*                                 ^ punctuation.definition.string.end */
 
+foo.f<5> /* foo */ ();
 
 /////////////////////////////////////////////
 // Storage Types
@@ -359,6 +460,97 @@ template
 >
 /* <- meta.template punctuation.section.generic.end */
 class fixed_array : private std::array<int, Count> {};
+
+template <class T>
+static bool decode(const Node& node, T& sequence) {
+  if (!node.IsSequence())
+    return false;
+  sequence.clear();
+  for (const auto& item : node) {
+    sequence.push_back(item.template as<typename T::value_type>());
+    /*                     ^ punctuation.accessor                           */
+    /*                      ^ storage.type - variable.other                 */
+    /*                               ^ variable.function                    */
+    /*                                 ^ punctuation                        */
+    /*                                            ^^ punctuation.accessor   */
+    /*                                                        ^ punctuation */
+  }
+  return true;
+}
+
+// Example from section 14.2/4 of
+// http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
+struct X 
+{
+    template <std::size_t>
+    X* alloc();
+
+    template <std::size_t>
+    static X* adjust();
+};
+template <class T> 
+void f(T* p) 
+{
+    // Be optimistic: scope it as a template member function call anyway.
+    T* p1 = p->alloc<200>(); // ill-formed: < means less than
+    
+    T* p2 = p->template alloc<200>(); // OK: < starts template argument list
+    /*        ^ punctuation.accessor           */
+    /*         ^ storage.type - variable.other */
+    /*                  ^ variable.function    */
+
+    // Be optimistic: scope it as a template member function call anyway.
+    T::adjust<100>(); // ill-formed: < means less than
+    
+    T::template adjust<100>(); // OK: < starts template argument list
+    /* <- - variable.function                    */
+    /*^ punctuation.accessor                     */
+    /* ^ storage.type - variable.other           */
+    /* ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+    /*          ^ variable.function              */
+}
+
+struct X
+{
+    void template(); // <-- not allowed to be a function!
+    /*   ^ - entity.name.function */
+};
+
+void f()
+{
+    X x;
+    x.template(); // <-- should not be scoped as variable.function!
+    /* ^ - variable.function */
+
+    x /**/ . /**/ foo <5> /**/ () /**/ ;
+    /*^^^^ comment.block */
+    /*     ^ punctuation.accessor */
+    /*            ^^^ meta.method-call variable.function */
+    /*               ^ meta.method-call - variable.function */
+    /*                ^ meta.method-call punctuation.section.generic.begin */
+    /*                  ^ meta.method-call punctuation.section.generic.end */
+    /*                   ^ meta.method-call - punctuation - comment.block */
+    /*                    ^^^^ meta.method-call comment.block */
+    /*                        ^ meta.method-call - comment.block - punctuation */
+    /*                         ^^ meta.method-call punctuation - comment.block */
+    /*                           ^ - meta.method-call */
+};
+
+struct A { int foo; };
+int main() {
+    A a;
+    a.foo = a.foo < 0 ? 1 : 2;
+    /*            ^ - punctuation.section.generic */
+}
+/* <- - invalid.illegal */
+
+template <typename T>
+struct A<T, enable_if_t<std::is_arithmetic<T>::value && !is_std_char_type<T>::value>> {
+    using x = conditional_t<sizeof(T) <= sizeof(long), long, long long>;
+    /*                                ^^ keyword.operator */
+};
+/* <- - invalid.illegal */
+
 
 /////////////////////////////////////////////
 // Storage Modifiers
@@ -720,6 +912,11 @@ long func
         } while(true);
 
     }
+    if (version.major == 10 && version.minor < 11)
+/*                                           ^ keyword.operator.comparison */
+    {
+
+    }
 }
 /* <- meta.function meta.block punctuation.section.block.end */
 
@@ -984,6 +1181,30 @@ namespace std _GLIBCXX_VISIBILITY(default)
 {}
 }
 
+#define MY_NAMESPACE_BEGIN namespace greatapp {
+#define MY_NAMESPACE_END }
+MY_NAMESPACE_BEGIN
+class X {
+private:
+/* <- storage.modifier */
+    int a;
+protected:
+/* <- storage.modifier */
+    int b;
+public:
+/* <- storage.modifier */
+    int c;
+};
+MY_NAMESPACE_END
+
+MY_NAMESPACE_BEGIN int foo(); MY_NAMESPACE_END
+/*                 ^ storage.type */
+/*                     ^ meta.function entity.name.function */
+/*                        ^^^ punctuation */
+
+// Uncomment this some day
+// MY_NAMESPACE_BEGIN class X : public std::true_type {}; MY_NAMESPACE_END
+
 /////////////////////////////////////////////
 // Classes, structs, unions and enums
 /////////////////////////////////////////////
@@ -1113,7 +1334,8 @@ class DerivedClass : public ::BaseClass // Comment
 /*                        ^ punctuation.accessor */
 /*               ^^^^^^^^^^^^^^^^^ meta.function-call */
 /*                          ^^^^ variable.function */
-/*                                ^^^^^^ meta.method-call */
+/*                                ^ punctuation - meta.method-call */
+/*                                 ^^^^^^^ meta.method-call */
 /*                                 ^^^^^ variable.function */
 /*                                         ^ punctuation.separator */
         bounds_(NULL),
@@ -1127,12 +1349,14 @@ class DerivedClass : public ::BaseClass // Comment
 /*                     ^^^^^^^ support.function.C99 */
 
             base_id_->foobar(1, "foo");
-/*                  ^^^^^^^^^^ meta.method-call */
-/*                    ^^^^^^ variable.function */
+/*                  ^^ punctuation.accessor - meta.method-call */
+/*                    ^^^^^^^^^^^^^^^^ meta.method-call        */
+/*                    ^^^^^^ variable.function                 */
 
             base_id_->~BaseClass();
-/*                  ^^^^^^^^^^^^^^ meta.method-call */
-/*                    ^^^^^^^^^^ variable.function */
+/*                  ^^ punctuation.accessor - meta.method-call */
+/*                    ^^^^^^^^^^^^ meta.method-call            */
+/*                    ^^^^^^^^^^ variable.function             */
         }
 /*      ^ meta.method meta.block punctuation.section.block.end */
 
@@ -1788,6 +2012,22 @@ int& return_type_ref_no_space(){}
 int32
 /* <- - entity.name.function */
 () {}
+
+_declspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                ^ entity.name.function      */
+__declspec(deprecated("bla")) void func2(int) {}
+/* <- storage.modifier - variable.function                    */
+/*         ^ storage.modifier - variable.function             */
+/*                    ^ string.quoted.double punctuation      */
+/*                     ^ string.quoted.double - punctuation   */
+/*                       ^ string.quoted.double - punctuation */
+/*                        ^ string.quoted.double punctuation  */
+/*                         ^^ punctuation - invalid           */
+/*                                 ^ entity.name.function     */
+__notdeclspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                    ^ entity.name.function  */
 
 /////////////////////////////////////////////
 // Paths/identifiers

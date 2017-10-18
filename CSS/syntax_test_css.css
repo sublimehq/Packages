@@ -631,7 +631,12 @@
 /*                  ^^^ constant.numeric.css           */
 
     top: translateX(1%);
+/*       ^^^^^^^^^^ support.function.transform */
 /*                  ^^ constant.numeric.css */
+
+    top: translateZ(0);
+/*       ^^^^^^^^^^ support.function.transform */
+/*                  ^ constant.numeric.css */
 
     top: skewY(1deg);
 /*       ^^^^^      support.function.transform.css */
@@ -654,6 +659,13 @@
     top: skewY(1rad) rotate(1turn);
 /*                   ^^^^^^       support.function.transform.css */
 /*                          ^^^^^ constant.numeric.css           */
+
+    transform: translate(var(--center), 0) scale(var(--ripple-scale), 1);
+/*             ^^^^^^^^^ support.function.transform */
+/*                       ^^^ support.function.var */
+/*                           ^^^^^^^^ support.type.custom-property */
+/*                                      ^ constant.numeric */
+/*                                               ^^^ support.function.var */
 }
 
 .test-timing-functions {

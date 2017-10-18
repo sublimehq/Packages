@@ -9,7 +9,8 @@ first_line_match: "-[*]-( Mode:)? C -[*]-"
 scope: source.c
 
 variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
+  identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
+  macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   before_tag: 'struct|union|enum'
@@ -165,10 +166,12 @@ contexts:
       scope: punctuation.accessor.c
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
       scope: keyword.operator.assignment.augmented.c
-    - match: \+|\-|/|%|<<|>>|&&|\|\||\||\^|~|!
+    - match: <<|>>|&&|\|\|
       scope: keyword.operator.arithmetic.c
     - match: <\=|>\=|\=\=|<|>|\!\=
       scope: keyword.operator.comparison.c
+    - match: \+|\-|/|%|\||\^|~|!
+      scope: keyword.operator.arithmetic.c
     # These two operator can be both arithmetic and pointer/address related
     - match: \*|&
       scope: keyword.operator.c
@@ -180,13 +183,16 @@ contexts:
     - match: '\.\.\.'
       scope: keyword.operator.variadic.c
 
+  access-illegal:
+    - match: \.\.(?!\.)
+      scope: invalid.illegal.syntax.c
+
   access:
     - match: '(\.)({{identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c
-    - match: \.\.(?!\.)
-      scope: invalid.illegal.syntax.c
+    - include: access-illegal
     - match: \.(?!\.)
       scope: punctuation.accessor.c
 
@@ -402,6 +408,7 @@ contexts:
             - match: '{{identifier}}(?=\s*(\[|,|\)))'
               scope: variable.parameter.c
             - include: expressions
+            - include: preprocessor-line-continuation
     - match: (?=\S)
       pop: true
 
@@ -585,7 +592,7 @@ contexts:
         - match: '\)'
           scope: meta.group.c punctuation.section.group.end.c
           pop: true
-        - match: '\b(align|allocate|code_seg|property|uuid)\b\s*(\()'
+        - match: '\b(align|allocate|code_seg|deprecated|property|uuid)\b\s*(\()'
           captures:
             1: storage.modifier.c
             2: meta.group.c punctuation.section.group.begin.c
@@ -1095,6 +1102,26 @@ contexts:
       scope: punctuation.section.block.end.c
     - include: expressions
 
+  preprocessor-practical-workarounds:
+    - include: preprocessor-convention-ignore-uppercase-ident-lines
+    - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
+
+  preprocessor-convention-ignore-uppercase-ident-lines:
+    - match: ^(\s*{{macro_identifier}})+\s*$
+      scope: meta.assumed-macro.c
+
+  preprocessor-convention-ignore-uppercase-calls-without-semicolon:
+    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
+      captures:
+        1: variable.function.assumed-macro.c
+        2: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.assumed-macro.c
+        - match: \)
+          scope: punctuation.section.group.end.c
+          pop: true
+        - include: expressions
+
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
@@ -1142,3 +1169,4 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
+    - include: preprocessor-practical-workarounds

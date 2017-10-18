@@ -425,6 +425,16 @@ $anon = new class extends Test1 implements Countable {};
 //                                     ^ support.other.namespace.php
 //                                                 ^ support.class.php
 
+    function nullableReturnType(?int $param1): ?bool {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                             ^ punctuation.section.group.begin.php
+//                              ^ storage.type.nullable.php
+//                               ^ meta.function.parameters
+//                                          ^ punctuation.section.group.end.php
+//                                             ^ storage.type.nullable.php
+//                                              ^ storage.type.php
+
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
 //          ^^^ constant.character.escape.octal.php
@@ -614,6 +624,21 @@ try {
 //               ^^^^^^^^^ support.class.exception.php
 //                         ^^ variable.other.php
     echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (\Custom\Exception1 | \Custom\Exception2 $e) {
+//^ keyword.control.exception
+//       ^^^^^^^^^^^^^^^^^ meta.path.php
+//       ^ punctuation.separator.namespace.php
+//        ^^^^^^ support.other.namespace.php
+//              ^ punctuation.separator.namespace.php
+//               ^^^^^^^^^^ support.class.exception.php
+//                          ^ punctuation.separator.catch.php
+//                            ^^^^^^^^^^^^^^^^^ meta.path.php
+//                            ^ punctuation.separator.namespace.php
+//                             ^^^^^^ support.other.namespace.php
+//                                   ^ punctuation.separator.namespace.php
+//                                    ^^^^^^^^^^ support.class.exception.php
+//                                               ^^ variable.other.php
+    echo 'Caught exception: ', $e->getMessage(), "\n";
 } finally {
 //^ keyword.control.exception
     echo "First finally.\n";
@@ -639,6 +664,16 @@ $var4 = 0b0111;
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
+
+$a += .5;
+// ^^ keyword.operator.assignment.augmented.php
+//    ^^ constant.numeric
+
+$a .= 1;
+// ^^ keyword.operator.assignment.augmented.php
+
+if ($a !== $b);
+//     ^^^ keyword.operator.comparison.php
 
 if ():
 else:
