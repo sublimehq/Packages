@@ -705,7 +705,7 @@ public class Foo {
 //                   ^ - meta.parens.java
       return foo<<32;
 //    ^^^^^^ keyword.control.java
-//              ^^ keyword.operator.comparison.java
+//              ^^ keyword.operator.bitshift.java
 //                ^^ constant.numeric.java
 //                  ^ punctuation.terminator.java
     }
@@ -720,6 +720,23 @@ public class Foo {
 //                        ^ punctuation.terminator.java
 
     return foo<bar;
+
+    if (a == false) {
+//        ^^ keyword.operator.comparison
+
+        x = (e & 1) << c^2;
+//             ^ keyword.operator.bitwise
+//                  ^^ keyword.operator.bitshift
+//                      ^ keyword.operator.bitwise
+
+        y = ~e >>> (c | 2);
+//          ^ keyword.operator.bitwise
+//             ^^^ keyword.operator.bitshift
+//                    ^ keyword.operator.bitwise
+    }
+
+    boolean inst = a instanceof Object;
+//                   ^^^^^^^^^^ keyword.operator.word.instanceof
   }
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
