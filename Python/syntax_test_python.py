@@ -110,6 +110,11 @@ open.open.open
 #            ^^^^^^^^^ constant.language.python
 
 
+_ self
+# <- variable.language.python
+# ^^^^ variable.language.python
+
+
 ##################
 # Function Calls
 ##################
