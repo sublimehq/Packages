@@ -90,8 +90,7 @@ public class SyntaxTest {
 //                        ^ keyword.operator.comparison.java
 //                          ^^ constant.numeric.java
 //                            ^ punctuation.terminator.java
-//                               ^ keyword.operator.arithmetic.java
-//                                ^ keyword.operator.assignment.java
+//                               ^^ keyword.operator.assignment.java
 //                                 ^^ meta.assignment.rhs.java
 //                                   ^ - meta.assignment.rhs.java
             System.out.println(i);
@@ -733,6 +732,13 @@ public class Foo {
 //          ^ keyword.operator.bitwise
 //             ^^^ keyword.operator.bitshift
 //                    ^ keyword.operator.bitwise
+
+        z &= x; z ^= x; z *= x; z /= x;
+//        ^^ keyword.operator.assignment
+//                ^^ keyword.operator.assignment
+//                        ^^ keyword.operator.assignment
+//                                ^^ keyword.operator.assignment
+
     }
 
     boolean inst = a instanceof Object;
