@@ -68,86 +68,24 @@ contexts:
         - match: '[A-Za-z[:digit:]-]*(?=\s*\=)'
           scope: variable.parameter.bracket.latex
 
-  _general-1-more-argument:
+  argument-brace:
+    - meta_scope: meta.group.brace.latex
     - match: '\}'
       scope: punctuation.definition.group.brace.end.latex
-      set:
-        - match: '\{'
-          scope: punctuation.definition.group.brace.begin.latex
-          push:
-            - meta_scope: meta.group.brace.latex
-            - match: '(?=\})'
-              pop: true
-            - include: main
-        - match: '(?=\})'
-          pop: true
-
-  _general-2-more-arguments:
-    - match: '\}'
-      scope: punctuation.definition.group.brace.end.latex
-      set:
-        - match: '\{'
-          scope: punctuation.definition.group.brace.begin.latex
-          push:
-            - meta_scope: meta.group.brace.latex
-            - include: _general-1-more-argument
-            - match: '(?=\})'
-              pop: true
-            - include: main
-        - match: '(?=\})'
-          pop: true
-
-  general-1-argument:
-    - match: '\}'
-      scope: meta.group.brace.latex punctuation.definition.group.brace.end.latex
       pop: true
+    - include: main
+
+  argument:
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - match: '(?=\})'
-          pop: true
-        - include: main
+      set: argument-brace
+    - match: (?=\S)
+      pop: true
+
+  optional-arguments:
+    - include: general-optional-arguments
     - match: '(?=\S)'
       pop: true
-
-  general-2-arguments:
-    - match: '\}'
-      scope: meta.group.brace.latex punctuation.definition.group.brace.end.latex
-      pop: true
-    - match: '\{'
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - include: _general-1-more-argument
-        - include: main
-    - match: '(?=\S)'
-      pop: true
-
-  general-3-arguments:
-    - match: '\}'
-      scope: meta.group.brace.latex punctuation.definition.group.brace.end.latex
-      pop: true
-    - match: '\{'
-      scope: punctuation.definition.group.brace.begin.latex
-      push:
-        - meta_scope: meta.group.brace.latex
-        - include: _general-2-more-arguments
-        - include: main
-    - match: '(?=\S)'
-      pop: true
-
-  general-1-argument-with-options:
-    - include: general-optional-arguments
-    - include: general-1-argument
-
-  general-2-arguments-with-options:
-    - include: general-optional-arguments
-    - include: general-2-arguments
-
-  general-3-arguments-with-options:
-    - include: general-optional-arguments
-    - include: general-3-arguments
 
   # used in macros to prevent matching of \begin{env}...\end{env}
   macro-braces:
@@ -258,22 +196,26 @@ contexts:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.function.box.latex
-        - include: general-1-argument-with-options
+        - [{meta_scope: meta.function.box.latex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
     - match: '((\\)parbox)\b'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.function.box.latex
-        - include: general-2-arguments-with-options
+        - [{meta_scope: meta.function.box.latex}, {match: '', pop: true}]
+        - argument
+        - argument
+        - optional-arguments
     - match: '((\\)raisebox)\b'
       captures:
         1: support.function.box.latex
         2: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.function.box.latex
-        - include: general-1-argument-with-options
+        - [{meta_scope: meta.function.box.latex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
 
   preamble:
     - match: '(\\)documentclass\b'
@@ -573,8 +515,9 @@ contexts:
         1: support.function.includegraphics.latex
         2: punctuation.definition.backslash.latex
       push:
-        - meta_scope: meta.function.includegraphics.latex
-        - include: general-1-argument-with-options
+        - [{meta_scope: meta.function.includegraphics.latex}, {match: '', pop: true}]
+        - argument
+        - optional-arguments
 
   url:
     - match: '((\\)(?:url|href|path))(\{)([^}]*)(\})'
