@@ -49,6 +49,8 @@ contexts:
     - match: ^\s*(?=\S)
       set: commit-subject
 
+##[ COMMITS ]##########################################################
+
   commit-subject:
     # first none empty none comment line is commit subject
     - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
@@ -79,6 +81,8 @@ contexts:
       captures:
         1: keyword.other.signed-off-by.git.commit
         2: punctuation.separator.mapping.pair.git.commit
+
+##[ COMMENTS ]#########################################################
 
   comments:
     - match: ^{{comment_char}}
