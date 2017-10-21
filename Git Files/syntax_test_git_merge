@@ -1,4 +1,4 @@
-# SYNTAX TEST "gitcommit.sublime-syntax"
+# SYNTAX TEST "Git Commit.sublime-syntax"
 # <- text.git.commit comment.line punctuation.definition.comment
 Merge branch 'pr/git-commit' into add_gitconfig_pkg
 # <- meta.subject.git.commit markup.heading.subject.git.commit

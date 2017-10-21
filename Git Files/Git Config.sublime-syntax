@@ -18,13 +18,7 @@ variables:
 
 contexts:
   prototype:
-    # comments
-    - match: '[#;]'
-      scope: punctuation.definition.comment.gitconfig
-      push:
-        - meta_scope: comment.line.gitconfig
-        - match: $\n?  # consume newline so completions aren't shown at EOL when
-          pop: true    # typing comments
+    - include: Git Common.sublime-syntax#comments
 
   main:
     # We only want to match color values under these subsections:
@@ -59,12 +53,12 @@ contexts:
   # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
   # slashes are not recognized. Newlines are illegal.
   subsection-name:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.git.config
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.git.config
           pop: true
         - match: \\[\\"]
@@ -138,14 +132,15 @@ contexts:
       scope: constant.language.git.config
 
   string-quoted:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.git.config
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.git.config
           set: expect-newline
+        - include: trailing-slash
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
 
@@ -153,13 +148,15 @@ contexts:
     - match: (?=\S)
       push:
         - meta_scope: string.unquoted.value.git.config
+        - include: trailing-slash
         - include: escape
-        - match: \s*$
+        - match: $
           pop: true
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
-    - include: trailing-slash
+    - match: '%[A-Za-z]'
+      scope: constant.character.escape.git.config
     - match: \\[{{escape_char}}]
       scope: constant.character.escape.git.config
     - match: \\[^{{escape_char}}]
