@@ -140,6 +140,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.git.config
           set: expect-newline
+        - include: trailing-slash
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
 
@@ -147,13 +148,15 @@ contexts:
     - match: (?=\S)
       push:
         - meta_scope: string.unquoted.value.git.config
+        - include: trailing-slash
         - include: escape
-        - match: \s*$
+        - match: $
           pop: true
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
-    - include: trailing-slash
+    - match: '%[A-Za-z]'
+      scope: constant.character.escape.git.config
     - match: \\[{{escape_char}}]
       scope: constant.character.escape.git.config
     - match: \\[^{{escape_char}}]
