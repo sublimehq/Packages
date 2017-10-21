@@ -235,6 +235,8 @@ stray-bracket]
     foo = "foo#bar"
 #         ^ punctuation.definition.string.begin
 #         ^^^^^^^^^ string.quoted.double
+#             ^ - punctuation.definition.comment
+#             ^^^^^ - comment
 #                 ^ punctuation.definition.string.end
     foo = #123123
 #         ^ punctuation.definition.comment
@@ -247,7 +249,7 @@ stray-bracket]
     foo = hello \ # comments not legal after trailing slash
 #               ^^ invalid.illegal.escape
     foo = multi \
-#         ^^^^^ string.unquoted.value
+#         ^^^^^^^ string.unquoted.value
 #               ^ constant.character.escape
 #                ^ -invalid.illegal.unexpected.eol
           line
