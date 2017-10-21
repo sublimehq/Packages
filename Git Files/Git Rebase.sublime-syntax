@@ -20,6 +20,8 @@ contexts:
     - include: comments
     - include: commit
 
+##[ COMMENTS ]#########################################################
+
   comments:
     - match: ^\s*({{comment_char}})
       captures:
@@ -28,18 +30,18 @@ contexts:
         - meta_scope: comment.line.git.rebase
         - match: ^(?!\s*{{comment_char}})
           pop: true
-        - include: head-line
-        - include: commands-msg
+        - include: heading
+        - include: commands-help
         - include: rebase-msg
 
-  head-line:
+  heading:
     # all comments ending with colon are scoped as headlines
     - match: \b\w.+(?=:\s*$)
       scope: markup.heading.git.rebase
 
-  # e.g. p, pick = use commit
-  # highlight the commands and separators in this comment
-  commands-msg:
+  commands-help:
+    # highlight the commands and separators in this comment
+    # e.g. p, pick = use commit
     - match: ({{shortcut}})\s*(,)\s*({{operator}})\s*(=)\s*(.+)
       scope: meta.commands-help.git.rebase
       captures:
@@ -49,9 +51,9 @@ contexts:
         4: punctuation.separator.mapping.pair.git.rebase
         5: string.unquoted.git.rebase
 
-  # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
-  # highlight the hashes in this comment
   rebase-msg:
+    # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+    # highlight the hashes in this comment
     - match: \bRebase\b
       push:
         - meta_scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
@@ -62,8 +64,10 @@ contexts:
         - match: \.\.
           scope: punctuation.separator.commit-range.git.rebase
 
-  # e.g. pick d284bb2 Initial commit
+##[ COMMITS ]##########################################################
+
   commit:
+    # e.g. pick d284bb2 Initial commit
     - match: ^
       push: [commit-message, commit-hash, commit-commands]
 
