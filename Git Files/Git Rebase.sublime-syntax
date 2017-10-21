@@ -67,7 +67,7 @@ contexts:
   commit:
     # e.g. pick d284bb2 Initial commit
     - match: ^
-      push: [commit-message, commit-hash, commit-commands]
+      push: [commit-subject, commit-hash, commit-commands]
 
   commit-commands:
     - match: '{{operator}}'
@@ -87,7 +87,7 @@ contexts:
       pop: true
     - include: line-end
 
-  commit-message:
+  commit-subject:
     - meta_scope: meta.commit.git.rebase
     - match: \n
       pop: true
