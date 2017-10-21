@@ -96,7 +96,7 @@ contexts:
         - include: change-list
         - include: commands-line
         - include: date-line
-        - include: head-line
+        - include: heading
 
   branch-line:
     - match: \b({{on_branch}})\s+(.*)
@@ -154,7 +154,7 @@ contexts:
         2: punctuation.separator.mapping.pair.date.git.commit
         3: constant.language.timestamp.git.commit
 
-  head-line:
+  heading:
     # all comments ending with colon are scoped as headlines
     - match: \b\w.+(?=:\s*$)
       scope: markup.heading.git.commit
