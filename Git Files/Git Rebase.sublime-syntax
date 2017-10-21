@@ -57,12 +57,11 @@ contexts:
     - match: \bRebase\b
       push:
         - meta_scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
-        - match: $
-          pop: true
         - match: '{{hash}}'
           scope: constant.numeric.hex.hash.git.rebase
         - match: \.\.
           scope: punctuation.separator.commit-range.git.rebase
+        - include: line-end
 
 ##[ COMMITS ]##########################################################
 
@@ -78,8 +77,7 @@ contexts:
     - match: \S+
       scope: invalid.illegal.command-expected.git.rebase
       pop: true
-    - match: $
-      pop: true
+    - include: line-end
 
   commit-hash:
     - match: '{{hash}}' # e.g. d284bb2
@@ -88,8 +86,7 @@ contexts:
     - match: \S+
       scope: invalid.illegal.hash-expected.git.rebase
       pop: true
-    - match: $
-      pop: true
+    - include: line-end
 
   commit-message:
     - meta_scope: meta.commit.git.rebase
@@ -98,6 +95,11 @@ contexts:
     - match: (?=\S)  # subject beginns with first none whitespece
       push:
         - meta_content_scope: meta.subject.git.commit
-        - match: $
-          pop: true
         - include: Git Common.sublime-syntax#references
+        - include: line-end
+
+##[ PROTOTYPES ]#######################################################
+
+  line-end:
+    - match: $
+      pop: true
