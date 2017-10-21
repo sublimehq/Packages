@@ -53,12 +53,12 @@ contexts:
   # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
   # slashes are not recognized. Newlines are illegal.
   subsection-name:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.git.config
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.git.config
           pop: true
         - match: \\[\\"]
@@ -132,12 +132,12 @@ contexts:
       scope: constant.language.git.config
 
   string-quoted:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.git.config
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.git.config
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.git.config
           set: expect-newline
         - include: trailing-slash
