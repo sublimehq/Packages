@@ -54,14 +54,13 @@ contexts:
   rebase-msg:
     # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
     # highlight the hashes in this comment
-    - match: \bRebase\b
-      push:
-        - meta_scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
-        - match: '{{hash}}'
-          scope: constant.numeric.hex.hash.git.rebase
-        - match: \.\.
-          scope: punctuation.separator.commit-range.git.rebase
-        - include: line-end
+    - match: Rebase\s+({{hash}})(?:(..)({{hash}}))?.+({{hash}}).*
+      scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
+      captures:
+        1: constant.numeric.hex.hash.git.rebase
+        2: punctuation.separator.commit-range.git.rebase
+        3: constant.numeric.hex.hash.git.rebase
+        4: constant.numeric.hex.hash.git.rebase
 
 ##[ COMMITS ]##########################################################
 
