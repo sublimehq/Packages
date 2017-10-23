@@ -1055,7 +1055,7 @@ contexts:
         2: storage.modifier.conversion.python
         3: constant.other.format-spec.python
         4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}"']+\{) # complex (nested) form
+    - match: \{(?=[^\}"']+\{[^"']*\}) # complex (nested) form
       scope: punctuation.definition.placeholder.begin.python
       push:
         - meta_scope: constant.other.placeholder.python
