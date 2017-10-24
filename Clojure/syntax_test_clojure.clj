@@ -1,107 +1,666 @@
-;; SYNTAX TEST "Packages/Clojure/Clojure.sublime-syntax"
+; SYNTAX TEST "Packages/Clojure/Clojure.sublime-syntax"
 
-  (+ 3 3)
-;;<- - meta.sexpr.clojure
-;;^^^^^^^ meta.sexpr.clojure
-;;       ^ - meta.sexpr.clojure
-;; ^ keyword.operator.clojure
-;;   ^ constant.numeric.float.clojure
-;;     ^ constant.numeric.float.clojure
 
-  (/ 10 3)
-;;<- - meta.sexpr.clojure
-;;^^^^^^^^ meta.sexpr.clojure
-;;        ^ - meta.sexpr.clojure
-;; ^ keyword.operator.clojure
-;;   ^^ constant.numeric.float.clojure
-;;      ^ constant.numeric.float.clojure
 
-  (/ 10 3.0)
-;;<- - meta.sexpr.clojure
-;;^^^^^^^^^^ meta.sexpr.clojure
-;;          ^ - meta.sexpr.clojure
-;; ^ keyword.operator.clojure
-;;   ^^ constant.numeric.float.clojure
-;;      ^^^ constant.numeric.float.clojure
+; Comments and whitespace
+  ;blah
+  ; blah
+  ;;; blah
+  blah;blah;blah
+  blah ; blah ; blah
+  blah,blah,blah
+  blah, blah, blah
 
-  (+ 1 2 3 4 5 6)
-;;<- - meta.sexpr.clojure - meta.function.clojure
-;;^^^^^^^^^^^^^^^ meta.sexpr.clojure
-;;               ^ - meta.sexpr.clojure
-;; ^ keyword.operator.clojure
-;;   ^ constant.numeric.float.clojure
 
-  (defn square [x] (* x x))
-;;<- - meta.sexpr.clojure - meta.function.clojure
-;;^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.clojure
-;; ^^^^ storage.type.function.type.clojure 
-;;      ^^^^^ entity.name.function.clojure source.symbol.clojure
-;;             ^^^ meta.function.body.clojure meta.function.parameters.vector.clojure
-;;             ^ punctuation.definition.vector.begin.clojure
-;;              ^ meta.function.parameters.vector.clojure variable.parameter.clojure source.symbol.clojure
-;;               ^ punctuation.definition.vector.end.clojure
-;;                 ^^^^^^^ meta.function.body.clojure meta.function.body.code.clojure meta.sexpr.clojure
-;;                  ^ keyword.operator.clojure
-;;                   ^ - keyword.operator.clojure - source.symbol.clojure
-;;                    ^ source.symbol.clojure
-;;                     ^ - source.symbol.clojure
-;;                      ^ source.symbol.clojure
-;;                        ^ - meta.sexpr.clojure
 
-  (square 10) ;; test
-;;^^^^^^^^^^^ meta.sexpr.clojure
-;;           ^^^^^^^^ - meta.sexpr.clojure
-;;            ^^ punctuation.definition.comment.clojure
-;;            ^^^^^^^ comment.line.semicolon.double.clojure
-;;^^^^^^^^^^^ - keyword.operator.clojure
-;; ^^^^^^ source.symbol.clojure
-;;       ^^^^^^^^^^^^ - source.symbol.clojure
-;;        ^^ constant.numeric.float.clojure
+; Strings
+  "blah"
+  "blah \" blah"
+  "blah () [] {} ::blah
+  blah"
+; Breaks
+  "blah","blah","blah"
+  "blah";"blah";"blah"
+; Unaffected
+  '"blah" ("blah") ["blah"]
 
-  (def testfunc (fn [] "Hello world"))
-;; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sexpr.clojure meta.function.def_form.clojure
-;; ^^^ meta.sexpr.clojure meta.function.def_form.clojure storage.type.variable.clojure
-;;     ^^^^^^^^ entity.name.function.clojure source.symbol.clojure
-;;              ^^^^^^^^^^^^^^^^^^^^^ meta.function.lambda.clojure
-;;               ^^ storage.type.function.type.clojure
-;;                  ^^^^^^^^^^^^^^^^ meta.function.body.clojure
-;;                  ^^ meta.function.parameters.vector.clojure punctuation.definition.vector
-;;                     ^^^^^^^^^^^^^ meta.function.body.code.clojure string.quoted.double.clojure
-;;                                  ^ - meta.function.body.code.clojure string.quoted.double.clojure
-;;                     ^ punctuation.definition.string.begin.clojure
-;;                                 ^ punctuation.definition.string.end.clojure
 
-  (def hello1 (fn [] #"Hello world"))
-;;                   ^^^^^^^^^^^^^^ string.regexp.clojure
-;;                   ^^ punctuation.definition.string.begin.clojure
-;;                                ^ punctuation.definition.string.end.clojure
-;;                                 ^ - string.regexp.clojure
-;;                     ^^^^^^^^^^^ meta.literal.regexp
 
-  (def hello2 (fn [] #"Hello world\\"))
-;;                   ^^^^^^^^^^^^^^^^ string.regexp.clojure
-;;                   ^^ punctuation.definition.string.begin.clojure
-;;                                  ^ punctuation.definition.string.end.clojure
-;;                                   ^ - string.regexp.clojure
-;;                     ^^^^^^^^^^^ meta.literal.regexp
-;;                                ^^ constant.character.escape.regexp
+; Chars
+  \0
+  \newline
+  blah \c blah \c
+  \;
+  \,
+; Unsupported but should highlight anyway
+  \blah100
+; Capture exactly one char
+  \;;;;
+  \,,
+  \``blah
+  \''blah
+  \~~blah
+  \@@blah
+  \~@~@blah
+  \##{}
+  \^^blah
+; Breaks
+  \a,\b,\c
+  \a;\b;\c
+; Unaffected
+  \c (\c) ( \c ) [\c] [ \c ]
 
-  (def hello (fn [] #"{2}Hello*?* world\"{2} foobar*"))
-;;                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
-;;                  ^^ punctuation.definition.string.begin.clojure
-;;                                     ^^ constant.character.escape.regexp - punctuation.definition.string.end.clojure
-;;                                                  ^ punctuation.definition.string.end.clojure
-;;                                                   ^ - string.regexp.clojure
-;;                       ^^^^^ meta.literal.regexp
-;;                                          ^^^^^^^ meta.literal.regexp
-;;                    ^^^ invalid.illegal.unexpected-quantifier.regexp - meta.literal.regexp
-;;                            ^^ keyword.operator.quantifier.regexp
-;;                              ^ invalid.illegal.unexpected-quantifier.regexp
-;;                                       ^^ keyword.operator.quantifier.regexp
-;;                                                 ^ keyword.operator.quantifier.regexp
 
-  (def hello (fn [] #"(?=unclosed_paren"))
-;;                  ^^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
-;;                  ^^ punctuation.definition.string.begin.clojure
-;;                                     ^ punctuation.definition.string.end.clojure
-;;                                      ^ - string.regexp.clojure
+
+; Constants
+  true false nil
+; Breaks
+  true,false,nil
+  true;false;nil
+; Unaffected
+  'nil (true) (nil)
+; No highlighting
+  nill nil- -nil nil?
+
+
+
+; Numbers
+  1234 1234N +1234 +1234N -1234 -1234N
+  0x1234af 0x1234afN 0X1234AF 0X1234AFN
+  +0x1234af +0x1234afN +0X1234AF +0X1234AFN
+  -0x1234af -0x1234afN -0X1234AF -0X1234AFN
+  2r1010 16r1234af 32r1234az 2R1010 16R1234AF 32R1234AZ
+  +2r1010 +16r1234af +32r1234az +2R1010 +16R1234AF +32R1234AZ
+  -2r1010 -16r1234af -32r1234az -2R1010 -16R1234AF -32R1234AZ
+  0/10 10/20 30/0
+  +0/10 +10/20 +30/0
+  -0/10 -10/20 -30/0
+  1234M 1234.0M 1234.1234M
+  +1234M +1234.0M +1234.1234M
+  -1234M -1234.0M -1234.1234M
+  1234e10 1234E10M 1234.1234e10M 1234.1234E10M
+  +1234e10 +1234E10M +1234.1234e10M +1234.1234E10M
+  -1234e10 -1234E10M -1234.1234e10M -1234.1234E10M
+  1234.1234e+10 1234.1234E+10 1234.1234e-10 1234.1234E-10
+  +1234.1234e+10M +1234.1234E+10M +1234.1234e-10M +1234.1234E-10M
+  -1234.1234e+10M -1234.1234E+10M -1234.1234e-10M -1234.1234E-10M
+; Breaks
+  10,20,30
+  10;20;30
+  10'20'30
+  10`20`30
+  10#20#30
+; Unaffected
+  '1234 '+1234 '-1234
+  (10 20 30) [10 20 30]
+; Invalid numbers
+  01234 +01234 -01234 '01234
+  01234N +01234N -01234N '01234N
+  10-20 10+20 1234n 1234m 1234. 1234.M
+  10.0/20 10/20.0 10/+20 10/-20
+  10:20:30
+  1r000
+; Ignore
+  .1234 .1234M
+
+
+
+; Symbols
+  ! $ % & * - _ = + | < > . / ?
+  ++ --
+  blah
+  blah/blah
+  blah.blah
+  blah.blah/blah
+  blah.blah/blah.blah
+  blah/blah/blah
+  blah1000
+  blah1000.blah1000
+  *blah*
+  blah'blah'
+  blah'''blah'''
+  blah:blah:blah
+  blah#blah#
+  blah///blah
+; Breaks
+  blah,blah,blah
+  blah;blah;blah
+  blah`blah
+  blah~blah
+  blah@blah
+  blah^blah
+  blah\blah
+; Unaffected
+  'blah 'blah:blah
+  [blah blah blah]
+; Invalid
+  //
+  blah:
+  blah::blah
+  /blah
+  blah/
+
+
+
+; Keywords
+  :! :$ :% :& :* :- :_ := :+ :| :< :> :. :/ :?
+  :++ :--
+  :blah
+  :blah/blah
+  :blah.blah
+  :blah.blah/blah
+  :blah.blah/blah.blah
+  :blah/blah/blah
+  :blah1000
+  :blah1000.blah1000
+  :*blah*
+  :blah'blah'
+  :blah'''blah'''
+  :blah:blah:blah
+  :blah#blah#
+  ::blah///blah
+  ://blah
+  :///
+  :blah//
+; Unlike symbols, this works
+  :' :# :### :10 :10.20
+; Breaks
+  :,blah
+  :;blah
+  :blah,:blah,:blah
+  :blah;:blah;:blah
+  :blah`blah
+  :blah~blah
+  :blah@blah
+  :blah^blah
+  :blah\blah
+; Invalid
+  :
+  ://
+  :10/20
+  :blah10/20
+  :blah:
+  ::blah:
+  ::blah::blah
+  :::blah
+  :/blah
+  ::blah/
+
+
+
+; Dispatch
+  #""
+  #inst"0000"
+  #blah blah
+  #blah1000.blah1000/blah1000 blah
+  #blah:blah blah
+  # inst "0000"
+  #
+    inst
+    "0000"
+  #'blah
+  #(list % %1)
+  #[]
+  #_[]
+  #?[]
+; Breaks
+  #blah\newline
+  #blah`blah
+; Unaffected
+  '#'blah (#'blah blah)
+  '#inst"0000" (#inst"0000" blah)
+; Invalid
+  # ""
+  #111[]
+  (blah #) )
+; Ignore
+  #{}
+
+
+
+; Quoting and unquoting
+  ; Quote
+  '100
+  'true
+  ':blah
+  'blah
+  ' blah
+  '
+    blah
+  'blah:blah
+  'blah.blah/blah1000
+  '()
+  '(10 20 30)
+  '(blah blah)
+  '(quote blah)
+  ; Backquote
+  `blah
+  ; Unquote
+  ~blah
+  ~100
+  `(blah ~blah)
+  `(blah ~100)
+  ; Unquote-splicing
+  ~@blah
+  ~@[10 20 30]
+  `(blah ~@blah)
+  `(blah ~@[10 20 30])
+; Invalid
+  (blah ') )
+  (blah `) )
+  (blah `) )
+  (blah ~@) )
+
+
+
+; Deref
+  @100
+  @true
+  @blah
+  @:blah
+  @(atom blah)
+  @@@blah
+  @'blah
+  @~blah
+  @#blah[]
+; Breaks
+  blah@blah
+  100@blah
+; Invalid
+  (blah @) )
+
+
+
+; Metadata
+  ^File
+  ^File blah
+  ^:private blah
+  ^{:private true} blah
+  ; Metadata is merged
+  ^:private ^:dynamic blah
+  ; Useless but accepted by Clojure reader
+  ^^^{10 20}{30 40}{:tag File} blah
+; Breaks
+  blah^blah
+  100^blah
+; Invalid
+  (blah ^) )
+
+
+
+; Brackets
+  []
+  [10, 20, 30]
+  [10
+   ; ---
+   blah
+   #inst"0000"
+   [20]]
+; Invalid
+  [ ] ]
+
+
+
+; Braces
+  #{}
+  #{10, 20, 30}
+  #{10
+    ; ---
+    blah
+    #inst"0000"
+    {20}}
+  {10 20, 30 40}
+  {:blah [10 20 30]
+   ; ---
+   :blahblah #{10 20 30}}
+; Invalid
+  #{ } }
+  { } }
+
+
+
+; Parens
+  ()
+; Highlight operator
+  (blah blah true 10 "" [10 20])
+  #(blah blah true 10 "" [10 20])
+; Ignore operator
+  (true blah :blah)
+  (10 blah :blah)
+  (:blah blah 10)
+  #(true blah 10)
+; Whitespace
+  (
+    blah
+    ; ---
+    blah
+    :blah
+   )
+; Invalid
+  ( ) )
+
+
+
+
+; fn
+
+  (fn [])
+  (fn color-but-dont-declare [] blah)
+  (fn color-but-dont-declare
+    ([] blah)
+    ([_] blah))
+
+
+
+; Defs
+
+
+;; Declare
+
+  (def declare-def)
+
+  (def declare-def dont-declare)
+
+  ; declare "λ"
+  (def λ nil)
+
+  ; declare "👽"
+  (def 👽 nil)
+
+  ; declare "def"
+  (def def)
+
+  (
+   ; ---
+   def
+   ; ---
+   declare-def
+   dont-declare
+   )
+
+  (defonce declare-defonce)
+
+  (defonce ^:private declare-defonce nil)
+
+
+;; Declare with metadata
+
+  (def ^File declare-def)
+
+  (def ^:private declare-def)
+
+  (def ^:private declare-def dont-declare)
+
+  ; Metadata is merged
+  (def ^:private ^:dynamic declare-def)
+  (def ^:private ^:dynamic declare-def dont-declare)
+
+  (
+   def
+   ; ---
+   ^
+   ; ---
+   {:private
+   ; ---
+    true}
+   ; ---
+   declare-def
+   ; ---
+   dont-declare
+   )
+
+  ; Useless but accepted by Clojure reader
+  (^{10 20} def ^:private declare-def dont-declare)
+
+  ; Useless but accepted by Clojure reader
+  (def ^^^{10 20}{30 40}{:private true} declare-def dont-declare)
+
+
+;; Don't declare
+
+  (declare dont-declare)
+
+  (def nil dont-declare)
+
+  (def 10 dont-declare)
+
+  (def :blah dont-declare)
+
+  (def 'blah dont-declare)
+
+  (def () dont-declare)
+
+  (-def dont-declare)
+
+  (-def def dont-declare)
+
+
+;; Invalid
+
+  (def ^ ) )
+
+
+
+
+;; Function defs
+
+  (defn declare-defn [] dont-declare)
+
+  (defn declare-defn [arg & args] dont-declare)
+
+  (defn ^:private declare-defn [arg & args] dont-declare)
+
+  (defn declare-defn
+    "docstring"
+    [arg & args]
+    dont-declare)
+
+  (defn
+    ^:private
+    declare-defn
+    "docstring"
+    ([] dont-declare)
+    ([_] dont-declare))
+
+  (defn
+    declare-defn
+    "docstring"
+    {:private true}
+    ([] dont-declare)
+    ([_] dont-declare))
+
+  (defn declare-defn [value] {:pre [(int? value)]}
+    value)
+
+  (
+   defn
+   declare-defn
+   "docstring"
+   {:private true}
+   []
+   )
+
+  ; Invalid but take care anyway
+  (defn declare-defn dont-declare [] dont-declare)
+
+  (defmacro declare-defmacro [])
+
+
+
+;; defprotocol
+
+  (defprotocol DeclareProtocol)
+
+  (defprotocol ^:private DeclareProtocol)
+
+  (defprotocol ^:private ^:blah DeclareProtocol)
+
+  (
+   ; ---
+   defprotocol
+   ; ---
+   ^:private
+   ; ---
+   DeclareProtocol
+   ; ---
+   "docstring")
+
+  ; Invalid but take care anyway
+  (defprotocol DeclareProtocol dont-declare)
+
+  ; Protocol methods are added to namespace as functions
+  (defprotocol ^:private DeclareProtocol
+    ; ---
+    (declare-protocol-method [_])
+    ; ---
+    (^File declare-protocol-method [_]))
+
+  ; Invalid but take care anyway
+  (defprotocol DeclareProtocol
+    (declare-protocol-method dont-declare [_])
+    (100 dont-declare [_])
+    (true dont-declare [_])
+    (:blah dont-declare [_])
+    ('blah dont-declare [_]))
+
+
+;; definterface
+
+  (definterface DeclareInterface)
+
+  (definterface ^:private DeclareInterface)
+
+  (definterface
+    ^:private
+    DeclareInterface
+    "docstring")
+
+  ; Interface methods should have the same style
+  ; as protocol methods, but shouldn't be declared,
+  ; since they're not added to namespace as functions
+  (definterface DeclareInterface
+    (color-but-dont-declare [_]))
+
+
+;; deftype
+
+  (deftype DeclareType)
+
+  (deftype-custom DeclareWithCustomDeftype)
+
+  (deftype ^:private DeclareType [])
+
+  (
+   ; ---
+   deftype
+   ; ---
+   ^:private
+   ; ---
+   ^:blah
+   ; ---
+   DeclareType
+   ; ---
+   "docstring"
+   [])
+
+  ; Invalid but take care anyway
+  (deftype DeclareType dont-declare)
+
+  (deftype DeclareType
+    (color-but-dont-declare [_]))
+
+
+(deftype GrowingMap [^IFn make ^:unsynchronized-mutable inner]
+  ILookup
+  (valAt [this key]
+    (let [dict @this]
+      (if (contains? dict key)
+        (get dict key)
+        (locking this
+          (if (contains? inner key)
+            (get inner key)
+            (get (set! inner (assoc inner key (make inner key))) key))))))
+  (valAt [this key fallback] (get @this key fallback))
+
+  Seqable
+  (seq [this] (seq @this))
+
+  IFn
+  (invoke [this a] (.valAt this a))
+  (invoke [this a b] (.valAt this a b))
+  (applyTo [this args]
+    (case (count args)
+      1 (.invoke this (first args))
+      2 (.invoke this (first args) (second args))
+      (throw (new ArityException (count args) (.getName ^Class (type this))))))
+
+  IDeref
+  (deref [this]
+    (or inner
+        (locking this
+          (or inner
+              (let [dict (make)]
+                (when-not (map? dict)
+                  (throw (new Exception "GrowingMap initer failed to produce a map")))
+                (set! inner dict)))))))
+
+(defn new-growing-map
+  ([make] (new-growing-map make nil))
+  ([make init] {:pre [(ifn? make) (or (nil? init) (map? init))]}
+   (new GrowingMap make init)))
+
+
+;; defrecord
+
+  (defrecord DeclareRecord)
+
+  (defrecord-custom DeclareWithCustomDefrecord)
+
+  (defrecord ^:private DeclareRecord [])
+
+  (
+   ; ---
+   defrecord
+   ; ---
+   ^:private
+   ; ---
+   ^:blah
+   ; ---
+   DeclareRecord
+   ; ---
+   "docstring"
+   [])
+
+  ; Invalid but take care anyway
+  (defrecord DeclareRecord dont-declare)
+
+  (defrecord DeclareRecord
+    (color-but-dont-declare [_]))
+
+
+(defrecord Srv [^Server jetty session-store state-store]
+  component/Lifecycle
+
+  (start [this]
+    (let [port    (Long/parseLong (getenv "LOCAL_PORT"))
+          this    (component/stop this)
+          handler (new-handler this)
+          options {:port port
+                   :join? false
+                   :send-server-version? true}
+          jetty   (run-jetty handler options)]
+      (assoc this :jetty jetty)))
+
+  (stop [this]
+    (when jetty (.stop jetty))
+    (assoc this :jetty nil)))
+
+(defn new-srv [prev-sys]
+  (when-let [^Server jetty (-> prev-sys :srv :jetty)] (.stop jetty))
+  (new Srv
+       nil
+       (or (-> prev-sys :srv :session-store)
+           (util/expiring-session-store 72 {:time-unit :hours
+                                            :expiration-policy :access}))
+       (or (-> prev-sys :srv :state-store)
+           (em/expiring-map 1 {:time-unit :hours :expiration-policy :access}))))
