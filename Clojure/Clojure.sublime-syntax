@@ -11,11 +11,12 @@ file_extensions:
 scope: source.clojure
 
 variables:
-  non_symbol_chars: '\s,;\(\)\[\]{}"`~@\^\\'
+  non_symbol_chars: \s,;\(\)\[\]{}\"`~@\^\\
   non_symbol_start_chars: '{{non_symbol_chars}}\d#'':'
   non_number_chars: '{{non_symbol_chars}}#'''
   non_char_chars: '{{non_symbol_chars}}#'''
-  symbol: '(?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)'
+  symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
+
   # slightly too permissive on "/", too complex
   keyword: |
     (?x) # trim regex
@@ -27,8 +28,10 @@ variables:
       [^:{{non_symbol_chars}}]
     )
     (?=[{{non_symbol_chars}}])
-  constant: '(?:nil|true|false)(?=[{{non_symbol_chars}}])'
+
+  constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
   evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
+
   # similar to regexes in Clojure reader, rolled into one
   # doesn't accept octals and decimals ending with dot
   number: |
@@ -42,48 +45,45 @@ variables:
       |\d+(?:\.\d+)?(?:[Ee][-+]?\d+)?M? # decimal with scientific notation
     )
     (?=[{{non_number_chars}}])
-  reader_macro_scope: constant.other.symbol.reader-macro.clojure
-  # reader_macro_scope: keyword.operator.reader-macro.clojure
-  # deref_scope: keyword.deref.clojure
-  deref_scope: variable.function.deref.clojure
 
 contexts:
   main:
-    - include: match_expr
-  match_expr:
-    - include: match_noise
+    - include: match-expr
+
+  match-expr:
+    - include: match-noise
     - match: '[)\]}]'
       scope: invalid.illegal.clojure
-    - match: '\('
+    - match: \(
       scope: punctuation.section.parens.begin.clojure
-      push: pop_list_head
-    - match: '\['
+      push: pop-list-head
+    - match: \[
       scope: punctuation.section.brackets.begin.clojure
       push:
-        - match: '\]'
+        - match: \]
           scope: punctuation.section.brackets.end.clojure
           pop: true
-        - include: match_expr
+        - include: match-expr
     - match: '#?{'
       scope: punctuation.section.brackets.begin.clojure
       push:
         - match: '}'
           scope: punctuation.section.brackets.end.clojure
           pop: true
-        - include: match_expr
+        - include: match-expr
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
-      push: pop_dispatch_expr
+      push: pop-dispatch-expr
     - match: '''|`|~@|~'
       scope: constant.other.symbol.reader-macro.clojure
-      push: pop_expr
+      push: pop-expr
     - match: '@'
       scope: variable.function.deref.clojure
-      push: pop_expr
+      push: pop-expr
     - match: '"'
       scope: punctuation.definition.string.begin.clojure
-      push: pop_string_tail
-    - match: '\\\S[^{{non_char_chars}}]*'
+      push: pop-string-tail
+    - match: \\\S[^{{non_char_chars}}]*
       scope: constant.character.clojure
     - match: '{{constant}}'
       scope: constant.language.clojure
@@ -94,40 +94,41 @@ contexts:
     - match: '{{number}}'
       scope: constant.numeric.clojure
     - match: '[^{{non_symbol_chars}}]+'
-  pop_expr:
-    - include: match_noise
+
+  pop-expr:
+    - include: match-noise
     - match: '[)\]}]'
       scope: invalid.illegal.clojure
       pop: true
-    - match: '\('
+    - match: \(
       scope: punctuation.section.parens.begin.clojure
-      set: pop_list_head
-    - match: '\['
+      set: pop-list-head
+    - match: \[
       scope: punctuation.section.brackets.begin.clojure
       set:
-        - match: '\]'
+        - match: \]
           scope: punctuation.section.brackets.end.clojure
           pop: true
-        - include: match_expr
+        - include: match-expr
     - match: '#?{'
       scope: punctuation.section.brackets.begin.clojure
       set:
         - match: '}'
           scope: punctuation.section.brackets.end.clojure
           pop: true
-        - include: match_expr
+        - include: match-expr
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
-      set: pop_dispatch_expr
+      set: pop-dispatch-expr
     - match: '''|`|~@|~'
       scope: constant.other.symbol.reader-macro.clojure
-      set: pop_expr
+      set: pop-expr
     - match: '@'
       scope: variable.function.deref.clojure
-      set: pop_expr
+      set: pop-expr
     - match: '"'
       scope: punctuation.definition.string.begin.clojure
-      set: pop_string_tail
+      set: pop-string-tail
     - match: '\\\S[^{{non_char_chars}}]*'
       scope: constant.character.clojure
       pop: true
@@ -145,125 +146,141 @@ contexts:
       pop: true
     - match: '[^{{non_symbol_chars}}]+'
       pop: true
-  match_noise:
-    - match: '(;+).*'
+
+  match-noise:
+    - match: (;+).*
       scope: comment.line.clojure
       captures:
         1: punctuation.definition.comment
     - match: ','
       scope: comment.punctuation.comma.clojure
-    - match: '\^'
+    - match: \^
       scope: constant.other.symbol.reader-macro.clojure
-      push: pop_expr
-  pop_dispatch_expr:
-    - match: '\s*'
+      push: pop-expr
+
+  pop-dispatch-expr:
+    - match: \s*
     - match: '{{constant}}'
       scope: constant.language.clojure
       pop: true
     - match: '{{symbol}}'
       scope: constant.other.symbol.reader-macro.clojure
       pop: true
-    - match: '(?=\S)'
-      set: pop_expr
-  pop_string_tail:
+    - match: (?=\S)
+      set: pop-expr
+
+  pop-string-tail:
     - meta_scope: string.clojure
-    - match: '\\.'
+    - match: \\.
       scope: constant.character.escape.clojure
     - match: '"'
       scope: punctuation.definition.string.end.clojure
       pop: true
-  pop_list_head:
-    - include: match_noise
-    - match: 'defprotocol[^{{non_symbol_chars}}]*'
+
+  pop-list-head:
+    - include: match-noise
+    - match: defprotocol[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
-      set: pop_declare_protocol_list_tail
-    - match: 'definterface[^{{non_symbol_chars}}]*'
+      set: pop-declare-protocol-list-tail
+    - match: definterface[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
-      set: pop_declare_interface_list_tail
-    - match: '(?:deftype|defrecord)[^{{non_symbol_chars}}]*'
+      set: pop-declare-interface-list-tail
+    - match: (?:deftype|defrecord)[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
-      set: pop_declare_type_list_tail
-    - match: 'defmethod[^{{non_symbol_chars}}]*'
+      set: pop-declare-type-list-tail
+    - match: defmethod[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
-      set: pop_list_tail
-    - match: 'def[^{{non_symbol_chars}}]*'
+      set: pop-list-tail
+    - match: def[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
-      set: pop_declare_def_list_tail
-    - match: 'fn\*?(?=[{{non_symbol_chars}}])'
+      set: pop-declare-def-list-tail
+    - match: fn\*?(?=[{{non_symbol_chars}}])
       scope: storage.type.fn.clojure
-      set: pop_fn_list_tail
-    - match: '(?=\S)'
-      set: pop_invoke_list_tail
-  pop_list_tail:
-    - match: '\)'
+      set: pop-fn-list-tail
+    - match: (?=\S)
+      set: pop-invoke-list-tail
+
+  pop-list-tail:
+    - match: \)
       scope: punctuation.section.parens.end.clojure
       pop: true
-    - include: match_expr
-  pop_declare_protocol_list_tail:
-    - include: match_constant_set_normal_list_tail
+    - include: match-expr
+
+  pop-declare-protocol-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.type.clojure
-      set: pop_protocol_list_tail
-    - include: set_normal_list_tail
-  pop_declare_interface_list_tail:
-    - include: match_constant_set_normal_list_tail
+      set: pop-protocol-list-tail
+    - include: set-normal-list-tail
+
+  pop-declare-interface-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.type.clojure
-      set: pop_interface_list_tail
-    - include: set_normal_list_tail
-  pop_declare_type_list_tail:
-    - include: match_constant_set_normal_list_tail
+      set: pop-interface-list-tail
+    - include: set-normal-list-tail
+
+  pop-declare-type-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.type.clojure
-      set: pop_type_list_tail
-    - include: set_normal_list_tail
-  pop_declare_def_list_tail:
-    - include: match_constant_set_normal_list_tail
+      set: pop-type-list-tail
+    - include: set-normal-list-tail
+
+  pop-declare-def-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.function.clojure
-      set: pop_list_tail
-    - include: set_normal_list_tail
-  pop_protocol_list_tail:
-    - match: '\)'
+      set: pop-list-tail
+    - include: set-normal-list-tail
+
+  pop-protocol-list-tail:
+    - match: \)
       scope: punctuation.section.parens.end.clojure
       pop: true
-    - match: '\('
+    - match: \(
       scope: punctuation.section.parens.begin.clojure
-      push: pop_declare_def_list_tail
-    - include: match_expr
-  pop_interface_list_tail:
-    - match: '\)'
+      push: pop-declare-def-list-tail
+    - include: match-expr
+
+  pop-interface-list-tail:
+    - match: \)
       scope: punctuation.section.parens.end.clojure
       pop: true
-    - match: '\('
+    - match: \(
       scope: punctuation.section.parens.begin.clojure
-      push: pop_fn_list_tail
-    - include: match_expr
-  pop_type_list_tail:
-    - match: '\)'
+      push: pop-fn-list-tail
+    - include: match-expr
+
+  pop-type-list-tail:
+    - match: \)
       scope: punctuation.section.parens.end.clojure
       pop: true
-    - match: '\('
+    - match: \(
       scope: punctuation.section.parens.begin.clojure
-      push: pop_fn_list_tail
-    - include: match_expr
-  pop_fn_list_tail:
-    - include: match_constant_set_normal_list_tail
+      push: pop-fn-list-tail
+    - include: match-expr
+
+  pop-fn-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.fn.clojure
-      set: pop_list_tail
-    - include: set_normal_list_tail
-  pop_invoke_list_tail:
-    - include: match_constant_set_normal_list_tail
+      set: pop-list-tail
+    - include: set-normal-list-tail
+
+  pop-invoke-list-tail:
+    - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: variable.function.clojure
-      set: pop_list_tail
-    - include: set_normal_list_tail
-  match_constant_set_normal_list_tail:
-    - include: match_noise
+      set: pop-list-tail
+    - include: set-normal-list-tail
+
+  match-constant-set-normal-list-tail:
+    - include: match-noise
     - match: '{{constant}}'
       scope: constant.language.clojure
-      set: pop_list_tail
-  set_normal_list_tail:
-    - match: '(?=\S)'
-      set: pop_list_tail
+      set: pop-list-tail
+
+  set-normal-list-tail:
+    - match: (?=\S)
+      set: pop-list-tail
