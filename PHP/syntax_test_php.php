@@ -570,6 +570,13 @@ class B
         echo B::class;
 //              ^ constant.class
 
+        echo $this->pro1::FOO;
+//           ^^^^^ variable.language
+//                ^^ punctuation.accessor
+//                  ^^^^ variable.other.member
+//                      ^^ punctuation.accessor
+//                        ^^^ constant.other.class
+
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
 //            ^^ punctuation.accessor

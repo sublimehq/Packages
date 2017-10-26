@@ -1005,6 +1005,11 @@ contexts:
         2: variable.other.member.php
         3: punctuation.definition.variable.php
       push: after-identifier
+    - match: '(::)({{identifier}})?'
+      captures:
+        1: punctuation.accessor.php
+        2: constant.other.class.php
+      push: after-identifier
   parameter-default-types:
     - include: strings
     - include: numbers
