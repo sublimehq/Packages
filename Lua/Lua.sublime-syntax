@@ -17,6 +17,13 @@ contexts:
         4: punctuation.definition.parameters.begin.lua
         5: variable.parameter.function.lua
         6: punctuation.definition.parameters.end.lua
+    - match: '\b(function)\s*(\()([^)]*)(\))'
+      scope: meta.function.lua
+      captures:
+        1: keyword.control.lua
+        2: punctuation.definition.parameters.begin.lua
+        3: variable.parameter.function.lua
+        4: punctuation.definition.parameters.end.lua
     - match: '(?<![\d.])\b0[xX][a-fA-F\d\.]+([pP][\-\+]?\d+)?|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?'
       scope: constant.numeric.lua
     - match: "'"
