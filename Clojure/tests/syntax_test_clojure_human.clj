@@ -13,45 +13,6 @@
 
 
 
-; Strings
-  "blah"
-  "blah \" blah"
-  "blah () [] {} ::blah
-  blah"
-; Breaks
-  "blah","blah","blah"
-  "blah";"blah";"blah"
-; Unaffected
-  '"blah" ("blah") ["blah"]
-
-
-
-; Chars
-  \0
-  \newline
-  blah \c blah \c
-  \;
-  \,
-; Unsupported but should highlight anyway
-  \blah100
-; Capture exactly one char
-  \;;;;
-  \,,
-  \``blah
-  \''blah
-  \~~blah
-  \@@blah
-  \~@~@blah
-  \##{}
-  \^^blah
-; Breaks
-  \a,\b,\c
-  \a;\b;\c
-; Unaffected
-  \c (\c) ( \c ) [\c] [ \c ]
-
-
-
 ; Constants
   true false nil
 ; Breaks
@@ -101,6 +62,7 @@
   10:20:30
   1r000
 ; Ignore
+  ; valid symbols
   .1234 .1234M
 
 
@@ -161,8 +123,9 @@
   ::blah///blah
   ://blah
   :///
+  :/blah/blah
   :blah//
-; Unlike symbols, this works
+; These are valid, unlike symbols
   :' :# :### :10 :10.20
 ; Breaks
   :,blah
@@ -174,7 +137,7 @@
   :blah@blah
   :blah^blah
   :blah\blah
-; Invalid
+; These are invalid, but I couldn't get the regex right
   :
   ://
   :10/20
@@ -188,8 +151,64 @@
 
 
 
-; Dispatch
+; Chars
+  \0 \; \,
+  \newline
+  blah \c blah \c
+; Invalid but highlight anyway
+  \blah100
+; Capture exactly one char
+  \;;;;
+  \,,
+  \``blah
+  \''blah
+  \~~blah
+  \@@blah
+  \~@~@blah
+  \##{}
+  \^^blah
+; Breaks
+  \a,\b,\c
+  \a;\b;\c
+; Unaffected
+  \c (\c) ( \c ) [\c] [ \c ]
+
+
+
+; Strings
+  "blah"
+  "blah \" blah"
+  "
+  blah () [] {} ::blah
+  "
+  "
+  (unclosed paren ->
+  "
+; Breaks
+  "blah","blah","blah"
+  "blah";"blah";"blah"
+; Unaffected
+  '"blah" ("blah") ["blah"]
+
+
+
+; Regex
   #""
+  #" blah "
+  #"blah{1}"
+  #"
+  blah{1}
+  "
+  #"
+  \"
+  (unclosed paren ->
+  "
+; Invalid
+  # ""
+
+
+
+; Dispatch
   #inst"0000"
   #blah blah
   #blah1000.blah1000/blah1000 blah
@@ -210,7 +229,6 @@
   '#'blah (#'blah blah)
   '#inst"0000" (#inst"0000" blah)
 ; Invalid
-  # ""
   #111[]
   (blah #) )
 ; Ignore
@@ -246,10 +264,10 @@
   `(blah ~@blah)
   `(blah ~@[10 20 30])
 ; Invalid
-  (blah ') )
-  (blah `) )
-  (blah `) )
-  (blah ~@) )
+  ( ') )
+  ( `) )
+  ( `) )
+  ( ~@) )
 
 
 
@@ -276,7 +294,7 @@
   ^File blah
   ^:private blah
   ^{:private true} blah
-  ; Metadata is merged
+  ; Consequent metadata is merged
   ^:private ^:dynamic blah
   ; Useless but accepted by Clojure reader
   ^^^{10 20}{30 40}{:tag File} blah
@@ -284,7 +302,7 @@
   blah^blah
   100^blah
 ; Invalid
-  (blah ^) )
+  ( ^) )
 
 
 
@@ -462,23 +480,17 @@
     ([] dont-declare)
     ([_] dont-declare))
 
-  (defn
-    declare-defn
-    "docstring"
-    {:private true}
-    ([] dont-declare)
-    ([_] dont-declare))
-
-  (defn declare-defn [value] {:pre [(int? value)]}
-    value)
-
   (
    defn
    declare-defn
    "docstring"
    {:private true}
-   []
-   )
+   ([] dont-declare)
+   ([_] dont-declare))
+
+  (defn declare-defn [value] {:pre [(int? value)]}
+    value)
+
 
   ; Invalid but take care anyway
   (defn declare-defn dont-declare [] dont-declare)
@@ -508,7 +520,7 @@
   ; Invalid but take care anyway
   (defprotocol DeclareProtocol dont-declare)
 
-  ; Protocol methods are added to namespace as functions
+  ; Protocol methods are added to the namespace as functions
   (defprotocol ^:private DeclareProtocol
     ; ---
     (declare-protocol-method [_])
@@ -530,14 +542,16 @@
 
   (definterface ^:private DeclareInterface)
 
-  (definterface
-    ^:private
-    DeclareInterface
-    "docstring")
+  (
+   definterface
+   ^:private
+   DeclareInterface
+   "docstring"
+  )
 
-  ; Interface methods should have the same style
-  ; as protocol methods, but shouldn't be declared,
-  ; since they're not added to namespace as functions
+  ; Interface methods should have the same visual style as other function
+  ; and method declarations, but shouldn't be added to the symbol index,
+  ; since they're not added to the namespace as functions
   (definterface DeclareInterface
     (color-but-dont-declare [_]))
 
@@ -566,6 +580,9 @@
   ; Invalid but take care anyway
   (deftype DeclareType dont-declare)
 
+  ; Similarly to definterface, type methods should have the standard visual
+  ; style of function declarations, but not added to the symbol index,
+  ; since they're not added to the namespace.
   (deftype DeclareType
     (color-but-dont-declare [_]))
 
@@ -647,7 +664,7 @@
           handler (new-handler this)
           options {:port port
                    :join? false
-                   :send-server-version? true}
+                   :send-server-version? false}
           jetty   (run-jetty handler options)]
       (assoc this :jetty jetty)))
 
@@ -664,3 +681,19 @@
                                             :expiration-policy :access}))
        (or (-> prev-sys :srv :state-store)
            (em/expiring-map 1 {:time-unit :hours :expiration-policy :access}))))
+
+
+;; reify
+
+  (reify
+    clojure.lang.IDeref
+    (deref [_] nil)
+    clojure.lang.Seqable
+    (seq [_] nil))
+
+
+;; proxy
+
+  (proxy [clojure.lang.IDeref clojure.lang.Seqable] []
+    (deref [] nil)
+    (seq [] nil))

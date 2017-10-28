@@ -16,31 +16,20 @@ variables:
   non_number_chars: '{{non_symbol_chars}}#'''
   non_char_chars: '{{non_symbol_chars}}#'''
   symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
-
-  # slightly too permissive on "/", too complex
-  keyword: |
-    (?x) # trim regex
-    ::?(?:
-      [^:{{non_symbol_chars}}]
-      |
-      [^:{{non_symbol_chars}}]
-      (?:[^{{non_symbol_chars}}](?!::|/\d))*
-      [^:{{non_symbol_chars}}]
-    )
-    (?=[{{non_symbol_chars}}])
-
+  # Slightly too permissive
+  keyword: ::?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
   constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
   evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
 
-  # similar to regexes in Clojure reader, rolled into one
+  # similar to regexps in Clojure reader, rolled into one
   # doesn't accept octals and decimals ending with dot
   number: |
-    (?x) # trim regex
+    (?x) # trim regexp
     [-+]?
     (?:
       \d+N?                             # int
       |0[Xx][0-9A-Fa-f]+N?              # hex int
-      |[1-9]\d*[Rr][0-9A-z]+            # n-radix int
+      |(?:[2-9]|[1-9]\d+)[Rr][0-9A-z]+  # n-radix int
       |\d+/\d+                          # ratio
       |\d+(?:\.\d+)?(?:[Ee][-+]?\d+)?M? # decimal with scientific notation
     )
@@ -71,6 +60,12 @@ contexts:
           scope: punctuation.section.brackets.end.clojure
           pop: true
         - include: match-expr
+    - match: '"'
+      scope: punctuation.definition.string.begin.clojure
+      push: pop-string-tail
+    - match: '#"'
+      scope: punctuation.definition.string.begin.clojure
+      push: pop-regexp-tail
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
       push: pop-dispatch-expr
@@ -80,9 +75,6 @@ contexts:
     - match: '@'
       scope: variable.function.deref.clojure
       push: pop-expr
-    - match: '"'
-      scope: punctuation.definition.string.begin.clojure
-      push: pop-string-tail
     - match: \\\S[^{{non_char_chars}}]*
       scope: constant.character.clojure
     - match: '{{constant}}'
@@ -117,6 +109,12 @@ contexts:
           scope: punctuation.section.brackets.end.clojure
           pop: true
         - include: match-expr
+    - match: '"'
+      scope: punctuation.definition.string.begin.clojure
+      set: pop-string-tail
+    - match: '#"'
+      scope: punctuation.definition.string.begin.clojure
+      set: pop-regexp-tail
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
       set: pop-dispatch-expr
@@ -126,9 +124,6 @@ contexts:
     - match: '@'
       scope: variable.function.deref.clojure
       set: pop-expr
-    - match: '"'
-      scope: punctuation.definition.string.begin.clojure
-      set: pop-string-tail
     - match: '\\\S[^{{non_char_chars}}]*'
       scope: constant.character.clojure
       pop: true
@@ -169,6 +164,17 @@ contexts:
     - match: (?=\S)
       set: pop-expr
 
+  pop-regexp-tail:
+    - meta_scope: string.regexp.clojure
+    - match: '"'
+      scope: punctuation.definition.string.end.clojure
+      pop: true
+    - match: ''
+      push: scope:source.regexp#base-literal
+      with_prototype:
+        - match: (?=")
+          pop: true
+
   pop-string-tail:
     - meta_scope: string.clojure
     - match: \\.
@@ -194,6 +200,9 @@ contexts:
     - match: def[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
       set: pop-declare-def-list-tail
+    - match: (?:reify|proxy)[^{{non_symbol_chars}}]*
+      scope: variable.function.clojure
+      set: pop-type-list-tail
     - match: fn\*?(?=[{{non_symbol_chars}}])
       scope: storage.type.fn.clojure
       set: pop-fn-list-tail
@@ -217,7 +226,7 @@ contexts:
     - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.type.clojure
-      set: pop-interface-list-tail
+      set: pop-type-list-tail
     - include: set-normal-list-tail
 
   pop-declare-type-list-tail:
@@ -243,15 +252,6 @@ contexts:
       push: pop-declare-def-list-tail
     - include: match-expr
 
-  pop-interface-list-tail:
-    - match: \)
-      scope: punctuation.section.parens.end.clojure
-      pop: true
-    - match: \(
-      scope: punctuation.section.parens.begin.clojure
-      push: pop-fn-list-tail
-    - include: match-expr
-
   pop-type-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
@@ -264,7 +264,7 @@ contexts:
   pop-fn-list-tail:
     - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
-      scope: entity.name.fn.clojure
+      scope: entity.name.function.fn.clojure
       set: pop-list-tail
     - include: set-normal-list-tail
 
