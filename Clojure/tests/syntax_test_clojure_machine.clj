@@ -1454,6 +1454,51 @@
 
 
 
+; # defmulti / defmethod
+
+  (defmulti declare-multi-fn)
+;  ^^^^^^^^ storage.type.def.clojure
+;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
+
+  (defmulti declare-multi-fn dont-declare-dispatch-fn)
+;  ^^^^^^^^ storage.type.def.clojure
+;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
+;                           ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
+;                           ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+
+  (
+   defmulti
+;  ^^^^^^^^ storage.type.def.clojure
+   declare-multi-fn
+;  ^^^^^^^^^^^^^^^^ entity.name.function.clojure
+   dont-declare-dispatch-fn
+;  ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
+;  ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+  )
+
+  ; Invalid but take care anyway
+  (defmulti declare-multi-fn nil)
+;  ^^^^^^^^ storage.type.def.clojure
+;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
+;                            ^^^ constant.language.clojure
+
+  (defmethod dont-declare-multi-fn :dispatch-value [arg] ...)
+;                                  ^^^^^^^^^^^^^^^ constant.language.keyword.clojure
+
+  (defmethod dont-declare-multi-fn DispatchType [arg] ...)
+;                                  ^^^^^^^^^^^^^- storage.type
+;                                  ^^^^^^^^^^^^^- entity.name
+
+  (
+   defmethod
+;  ^^^^^^^^^ storage.type.def.clojure
+   dont-declare-multi-fn
+;  ^^^^^^^^^^^^^^^^^^^^^^- storage.type
+;  ^^^^^^^^^^^^^^^^^^^^^^- entity.name
+  )
+
+
+
 ; # defprotocol
 
   (defprotocol DeclareProtocol)

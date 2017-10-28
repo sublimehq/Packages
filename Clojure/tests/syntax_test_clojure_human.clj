@@ -498,6 +498,30 @@
   (defmacro declare-defmacro [])
 
 
+;; defmulti / defmethod
+
+  (defmulti declare-multi-fn)
+
+  (defmulti declare-multi-fn dont-declare-dispatch-fn)
+
+  (
+   defmulti
+   declare-multi-fn
+   dont-declare-dispatch-fn
+  )
+
+  ; Invalid but take care anyway
+  (defmulti declare-multi-fn nil)
+
+  (defmethod dont-declare-multi-fn :dispatch-value [arg] ...)
+
+  (defmethod dont-declare-multi-fn DispatchType [arg] ...)
+
+  (
+   defmethod
+   dont-declare-multi-fn
+  )
+
 
 ;; defprotocol
 
@@ -553,6 +577,7 @@
   ; and method declarations, but shouldn't be added to the symbol index,
   ; since they're not added to the namespace as functions
   (definterface DeclareInterface
+    (color-but-dont-declare [_])
     (color-but-dont-declare [_]))
 
 
@@ -584,6 +609,7 @@
   ; style of function declarations, but not added to the symbol index,
   ; since they're not added to the namespace.
   (deftype DeclareType
+    (color-but-dont-declare [_])
     (color-but-dont-declare [_]))
 
 
@@ -652,6 +678,7 @@
   (defrecord DeclareRecord dont-declare)
 
   (defrecord DeclareRecord
+    (color-but-dont-declare [_])
     (color-but-dont-declare [_]))
 
 
