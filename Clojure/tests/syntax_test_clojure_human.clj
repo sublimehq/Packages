@@ -502,10 +502,11 @@
 
   (defmulti declare-multi-fn)
 
-  (defmulti declare-multi-fn dont-declare-dispatch-fn)
+  (defmulti ^:private declare-multi-fn dont-declare-dispatch-fn)
 
   (
    defmulti
+   ^:private
    declare-multi-fn
    dont-declare-dispatch-fn
   )

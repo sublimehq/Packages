@@ -1460,15 +1460,19 @@
 ;  ^^^^^^^^ storage.type.def.clojure
 ;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
 
-  (defmulti declare-multi-fn dont-declare-dispatch-fn)
+  (defmulti ^:private declare-multi-fn dont-declare-dispatch-fn)
 ;  ^^^^^^^^ storage.type.def.clojure
-;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
-;                           ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;                           ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;           ^ constant.other.symbol.reader-macro.clojure
+;            ^^^^^^^^ constant.language.keyword.clojure
+;                     ^^^^^^^^^^^^^^^^ entity.name.function.clojure
+;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
+;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
 
   (
    defmulti
 ;  ^^^^^^^^ storage.type.def.clojure
+   ^:private
+;  ^ constant.other.symbol.reader-macro.clojure
    declare-multi-fn
 ;  ^^^^^^^^^^^^^^^^ entity.name.function.clojure
    dont-declare-dispatch-fn
