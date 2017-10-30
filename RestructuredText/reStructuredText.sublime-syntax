@@ -196,5 +196,5 @@ contexts:
         1: punctuation.definition.comment.restructuredtext
       push:
         - meta_scope: comment.line.double-dot.restructuredtext
-        - match: $\n?
+        - match: '^(?=\S)'
           pop: true
