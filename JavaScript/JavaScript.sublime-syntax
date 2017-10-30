@@ -955,6 +955,8 @@ contexts:
         - include: statements
 
   function-declaration-parameters:
+    - match: \s+
+      scope: meta.function.declaration.js
     - match: \(
       scope: punctuation.section.group.begin.js
       push:
