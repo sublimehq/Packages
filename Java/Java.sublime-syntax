@@ -346,7 +346,9 @@ contexts:
     - match: '\?|:'
       scope: keyword.operator.ternary.java
     - match: \b(instanceof)\b
-      scope: keyword.operator.java
+      scope: keyword.operator.word.instanceof.java
+    - match: (<<|>>>?)
+      scope: keyword.operator.bitshift.java
     - match: (==|!=|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.java
     - match: (\-\-|\+\+)
@@ -355,6 +357,8 @@ contexts:
       scope: keyword.operator.arithmetic.java
     - match: (!|&&|\|\|)
       scope: keyword.operator.logical.java
+    - match: (~|\^|&|\|)
+      scope: keyword.operator.bitwise.java
     - match: (\.)(class\b)?
       captures:
         1: punctuation.accessor.dot.java
@@ -605,7 +609,7 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
   assignment:
-    - match: \=
+    - match: ([|&^*/+-]\=|\=(?!=))
       scope: keyword.operator.assignment.java
       push:
         - meta_scope: meta.assignment.rhs.java
