@@ -474,11 +474,11 @@ contexts:
       scope: punctuation.separator.inherited-class.cs
 
   method_declaration:
-    - match: '\b(abstract|async|const|event|extern|new|override|readonly|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(abstract|async|const|event|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
-    - match: '\b(dynamic)\b'
+    - match: '\bdynamic\b'
       scope: storage.modifier.cs
     - match: '\b(implicit|explicit)\b'
       scope: storage.modifier.cs
@@ -527,6 +527,17 @@ contexts:
         6: punctuation.section.brackets.end.cs
         7: keyword.operator.pointer.cs
       push: method_name
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      push:
+        - meta_scope: meta.group.cs
+        - match: \)
+          scope: punctuation.section.group.end.cs
+          set: method_name
+        - match: ','
+          scope: punctuation.separator.cs
+        - match: (?=\S)
+          push: var_declaration_explicit
 
   method_name:
     - match: '\.'
@@ -637,8 +648,9 @@ contexts:
     - include: attribute
     - match: (?=[^\s\[])
       set:
-      - match: '\s*(out|ref|this|params)\s+'
-        scope: storage.modifier.parameter.cs
+      - match: '\s*\b(out|ref|this|params)\s+'
+        captures:
+          1: storage.modifier.parameter.cs
       - match: \s
         pop: true
       - include: type
@@ -777,7 +789,10 @@ contexts:
 
   code_block_in:
     - match: (?=\S)
-      push: line_of_code
+      push:
+        - match: (?={{reserved}})
+          pop: true
+        - include: line_of_code
 
   line_of_code:
     # language keywords
@@ -843,19 +858,12 @@ contexts:
         3: punctuation.terminator.statement.cs
       pop: true
     - include: keywords
-    # TODO: use the same code for method detection
     # C#7, nested method
-    - match: '(?:({{base_type}})|({{name}})){{type_suffix_capture}}\s+(?={{name}}{{generic_declaration}}\()'
-      captures:
-        1: storage.type.cs
-        2: support.type.cs
-        3: storage.type.nullable.cs
-        4: meta.brackets.cs
-        5: punctuation.section.brackets.begin.cs
-        6: punctuation.separator.cs
-        7: punctuation.section.brackets.end.cs
-        8: keyword.operator.pointer.cs
-      push: method_name
+    - match: '(?=(?:\basync\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
+      push:
+        - include: method_declaration
+        - match: ''
+          pop: true
     - match: '({{name}})(<)(?=([^(={};]*>){{type_suffix}}\s+{{name}}{{generic_declaration}}\()'
       captures:
         1: support.type.cs
@@ -920,9 +928,6 @@ contexts:
         1: support.namespace.cs
         2: variable.other.namespace.cs
         3: punctuation.accessor.double-colon.namespace.cs
-    - match: '{{name}}(\.)'
-      captures:
-        1: punctuation.accessor.dot.cs
     - match: '({{name}})\s+({{name}})'
       captures:
         1: support.type.cs
@@ -1269,7 +1274,11 @@ contexts:
           pop: true
         - match: ','
           scope: punctuation.separator.expression.cs
-        - include: line_of_code_in
+        - match: ':'
+          scope: punctuation.separator.assignment.cs
+        - match: (?!{{reserved}})(?={{name}}{{generic_declaration}}{{type_suffix}}\s+{{name}}\s*[:,])
+          push: var_declaration_explicit
+        - include: line_of_code_in_no_semicolon
     - match: \{
       scope: punctuation.section.block.begin.cs
       set:
@@ -1299,8 +1308,19 @@ contexts:
       pop: true
 
   arguments:
-    - match: (out|ref)\s
-      scope: storage.modifier.argument.cs
+    - match: (out)\s
+      captures:
+        1: storage.modifier.argument.cs
+      push:
+        - match: (ref)\s
+          captures:
+            1: storage.modifier.argument.cs
+        - include: var_declaration
+        - match: ''
+          pop: true
+    - match: (ref)\s
+      captures:
+        1: storage.modifier.argument.cs
     - match: '({{name}})\s*(=)'
       captures:
         1: variable.parameter.cs

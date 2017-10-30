@@ -1166,3 +1166,15 @@ class Test
     }
 /// ^ - invalid.illegal.stray.brace
 }
+
+void Main () { // method outside a class, i.e. a LINQPad script
+///^ storage.type
+///  ^^^^ entity.name.function
+}
+/// <- punctuation.section.block.end
+
+public class AfterTopLevelMethod {
+///^^^ storage.modifier.access
+///    ^^^^^ storage.type.class
+///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
+}
