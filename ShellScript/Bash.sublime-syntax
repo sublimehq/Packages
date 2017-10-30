@@ -15,6 +15,7 @@ file_extensions:
   - zsh
   - fish
   - .bash_aliases
+  - .bash_completions
   - .bash_functions
   - .bash_login
   - .bash_logout
