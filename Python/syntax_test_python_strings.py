@@ -493,6 +493,12 @@ a=["aaaa{", "bbbb{"]
 #       ^ - constant.other.placeholder
 #        ^ punctuation.definition.string.end.python
 
+foo = "{text{" # Comment
+#      ^^^^^^ - constant.other.placeholder
+#            ^ punctuation.definition.string.end
+bar = "}}" # Comment
+#      ^^ constant.character.escape
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
