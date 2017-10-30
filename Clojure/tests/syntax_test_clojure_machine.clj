@@ -1819,6 +1819,9 @@
   (reify
 ;  ^^^^^ variable.function.clojure
     clojure.lang.IDeref
+;   ^^^^^^^^^^^^^^^^^^^^- storage.type
+;   ^^^^^^^^^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^^^^^^^^^- variable
     (deref [_] nil)
 ;    ^^^^^ entity.name.function.fn.clojure
 ;              ^^^ constant.language.clojure
@@ -1833,9 +1836,52 @@
 
   (proxy [clojure.lang.IDeref clojure.lang.Seqable] []
 ;  ^^^^^ variable.function.clojure
+;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
+;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- variable
     (deref [] nil)
 ;    ^^^^^ entity.name.function.fn.clojure
 ;             ^^^ constant.language.clojure
     (seq [] nil))
 ;    ^^^ entity.name.function.fn.clojure
 ;           ^^^ constant.language.clojure
+
+
+
+; # extend-protocol
+
+  (extend-protocol clojure.lang.IDeref
+;  ^^^^^^^^^^^^^^^ variable.function.clojure
+;                  ^^^^^^^^^^^^^^^^^^^^- storage.type
+;                  ^^^^^^^^^^^^^^^^^^^^- entity.name
+;                  ^^^^^^^^^^^^^^^^^^^^- variable
+    String
+;   ^^^^^^- storage.type
+;   ^^^^^^- entity.name
+;   ^^^^^^- variable
+    (deref [this] this)
+;    ^^^^^ entity.name.function.fn.clojure
+    Srv
+    (deref [_] nil))
+;    ^^^^^ entity.name.function.fn.clojure
+;              ^^^ constant.language.clojure
+
+
+
+; # extend-type
+
+  (extend-type String
+;  ^^^^^^^^^^^ variable.function.clojure
+;              ^^^^^^^- storage.type
+;              ^^^^^^^- entity.name
+;              ^^^^^^^- variable
+    clojure.lang.IDeref
+;   ^^^^^^^^^^^^^^^^^^^^- storage.type
+;   ^^^^^^^^^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^^^^^^^^^- variable
+    (deref [this] this)
+;    ^^^^^ entity.name.function.fn.clojure
+    clojure.lang.IFn
+    (invoke [this] nil))
+;    ^^^^^^ entity.name.function.fn.clojure
+;                  ^^^ constant.language.clojure

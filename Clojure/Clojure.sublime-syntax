@@ -200,7 +200,7 @@ contexts:
     - match: def[^{{non_symbol_chars}}]*
       scope: storage.type.def.clojure
       set: pop-declare-def-list-tail
-    - match: (?:reify|proxy)[^{{non_symbol_chars}}]*
+    - match: (?:reify|proxy|extend-protocol|extend-type)[^{{non_symbol_chars}}]*
       scope: variable.function.clojure
       set: pop-type-list-tail
     - match: fn\*?(?=[{{non_symbol_chars}}])

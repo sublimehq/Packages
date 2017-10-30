@@ -725,3 +725,21 @@
   (proxy [clojure.lang.IDeref clojure.lang.Seqable] []
     (deref [] nil)
     (seq [] nil))
+
+
+;; extend-protocol
+
+  (extend-protocol clojure.lang.IDeref
+    String
+    (deref [this] this)
+    Srv
+    (deref [_] nil))
+
+
+;; extend-type
+
+  (extend-type String
+    clojure.lang.IDeref
+    (deref [this] this)
+    clojure.lang.IFn
+    (invoke [this] nil))
