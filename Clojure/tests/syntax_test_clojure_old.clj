@@ -55,10 +55,10 @@
 ;                ^^ storage.type.fn.clojure
 ;                   ^ punctuation.section.brackets.begin.clojure
 ;                    ^ punctuation.section.brackets.end.clojure
-;                      ^ string.clojure punctuation.definition.string.begin.clojure
-;                      ^^^^^^^^^^^^^ string.clojure
-;                                  ^ string.clojure punctuation.definition.string.end.clojure
-;                                   ^ - string.clojure
+;                      ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
+;                      ^^^^^^^^^^^^^ string.quoted.double.clojure
+;                                  ^ string.quoted.double.clojure punctuation.definition.string.end.clojure
+;                                   ^ - string.quoted.double.clojure
 ;                                   ^^ punctuation.section.parens.end.clojure
 
   (def hello1 (fn [] #"Hello world"))

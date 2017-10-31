@@ -176,7 +176,7 @@ contexts:
           pop: true
 
   pop-string-tail:
-    - meta_scope: string.clojure
+    - meta_scope: string.quoted.double.clojure
     - match: \\.
       scope: constant.character.escape.clojure
     - match: '"'
