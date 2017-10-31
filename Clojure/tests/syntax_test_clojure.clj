@@ -534,7 +534,7 @@
 ;          ^^^^^^ string.clojure
 ;                ^ punctuation.section.parens.end.clojure
 ;                  ^ punctuation.section.parens.begin.clojure
-;                    ^^^^^^
+;                    ^^^^^^ string.clojure
 ;                          ^- string.clojure
 ;                           ^ punctuation.section.parens.end.clojure
 
@@ -764,7 +764,6 @@
 ; ^ constant.other.symbol.reader-macro.clojure
 ;  ^ punctuation.section.parens.begin.clojure
 ;   ^^^^ variable.function.clojure
-;       ^
 ;        ^^ constant.other.symbol.reader-macro.clojure
 ;          ^^^^- constant.other.symbol.reader-macro.clojure
 
@@ -846,7 +845,6 @@
 ; ## Breaks
 
   blah@blah
-; ^^^^
 ;     ^ variable.function.deref.clojure
 ;      ^^^^^- variable.function.deref.clojure
 
@@ -1238,25 +1236,20 @@
    def
 ;  ^^^ storage.type.def.clojure
    ; ---
-;  ^ comment.line.clojure punctuation.definition.comment
    ^
 ;  ^ constant.other.symbol.reader-macro.clojure
    ; ---
-;  ^ comment.line.clojure punctuation.definition.comment
    {:private
 ;  ^ punctuation.section.brackets.begin.clojure
 ;   ^^^^^^^^ constant.language.keyword.clojure
    ; ---
-   ;^^^^ comment.line.clojure
     true}
 ;   ^^^^ constant.language.clojure
 ;       ^ punctuation.section.brackets.end.clojure
    ; ---
-;  ^ comment.line.clojure punctuation.definition.comment
    declare-def
 ;  ^^^^^^^^^^^ entity.name.function.clojure
    ; ---
-;  ^ comment.line.clojure punctuation.definition.comment
    dont-declare
 ;  ^^^^^^^^^^^^^- storage.type
 ;  ^^^^^^^^^^^^^- entity.name
@@ -1290,12 +1283,10 @@
 ;      ^^^ constant.other.symbol.reader-macro.clojure
 ;         ^ punctuation.section.brackets.begin.clojure
 ;          ^^ constant.numeric.clojure
-;            ^
 ;             ^^ constant.numeric.clojure
 ;               ^ punctuation.section.brackets.end.clojure
 ;                ^ punctuation.section.brackets.begin.clojure
 ;                 ^^ constant.numeric.clojure
-;                   ^
 ;                    ^^ constant.numeric.clojure
 ;                      ^ punctuation.section.brackets.end.clojure
 ;                       ^ punctuation.section.brackets.begin.clojure
