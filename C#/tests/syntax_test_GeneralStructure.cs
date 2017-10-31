@@ -1149,6 +1149,10 @@ namespace TestNamespace.Test
 ///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                            ^^^^ constant.character.escape
 ///                                                      ^ punctuation.definition.placeholder.end
+        formatted = string.Format(test, hello == true, world);
+///                                     ^^^^^ variable.other - variable.parameter
+///                                                    ^^^^^ variable.other - variable.parameter
+///                                           ^^ keyword.operator - keyword.operator.assignment
     }
 }
 ///<- punctuation.section.block.end
