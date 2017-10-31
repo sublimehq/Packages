@@ -313,7 +313,7 @@ namespace TestNamespace.Test
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
 
             switch (foo) {
-///         ^ keyword.control
+///         ^^^^^^ keyword.control.flow.switch
 ///                ^^^^^ meta.group
 ///                ^ punctuation.section.group.begin
 ///                 ^^^ variable.other
