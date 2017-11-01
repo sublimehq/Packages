@@ -746,6 +746,81 @@ public class Foo {
   }
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
+  int numbers() {
+    a = 0 + 0L;
+//      ^ constant.numeric
+//        ^ keyword.operator
+//          ^^ constant.numeric
+
+    a = 0xABCD + 0xAB_CD;
+//      ^^^^^^ constant.numeric
+//             ^ keyword.operator
+//               ^^^^^^ constant.numeric
+
+    a = 0xAB_CD_ - 0x_AB_CD - 0_xAB_CD;
+//      ^^^^^^^^ constant.numeric
+//                 ^^^^^^^^ -constant.numeric
+//                            ^^^^^^^^ -constant.numeric
+
+    a = 07 + 0_7;
+//      ^^ constant.numeric
+//         ^ keyword.operator
+//           ^^^ constant.numeric
+
+    a = 07_ - 09;
+//      ^^^ constant.numeric
+//            ^^ -constant.numeric
+
+    a = 0b101101 + 0b10_11_01;
+//      ^^^^^^^^ constant.numeric
+//               ^ keyword.operator
+//                 ^^^^^^^^^^ constant.numeric
+
+    a = 0b_101101;
+//      ^^^^^^^^^ -constant.numeric
+
+    a = 12345 + 12_34_5 + 1_____5;
+//      ^^^^^ constant.numeric
+//              ^^^^^^^ constant.numeric
+//                        ^^^^^^^ constant.numeric
+
+    a = 12345l + 12345L + 123_45d + 12_3245F
+//      ^^^^^^ constant.numeric
+//               ^^^^^^ constant.numeric
+//                        ^^^^^^^ constant.numeric
+//                                  ^^^^^^^^ constant.numeric
+
+    a = 12_34_5_ - _12_34_5 - 12_D - 12_L;
+//      ^^^^^^^^ constant.numeric
+//                 ^^^^^^^^ -constant.numeric
+//                            ^^^^ -constant.numeric
+//                                   ^^^^ -constant.numeric
+
+    a = 123_-_456;
+//      ^^^^ constant.numeric
+//          ^ keyword.operator
+//           ^^^^ -constant.numeric
+
+    a = 23.45 + 23.45F + 23.45d
+//      ^^^^^ constant.numeric
+//              ^^^^^^ constant.numeric
+//                       ^^^^^^ constant.numeric
+
+    a = .01 + .02e3+.02e3F
+//      ^^^ constant.numeric
+//          ^ keyword.operator
+//            ^^^^^ constant.numeric
+//                 ^ keyword.operator
+//                   ^^^^^ constant.numeric
+
+    a = 23.45e67+23.45e+6F+23.45e-67D
+//      ^^^^^^^^ constant.numeric
+//              ^ keyword.operator
+//               ^^^^^^^^^ constant.numeric
+//                        ^ keyword.operator
+//                         ^^^^^^^^^^ constant.numeric
+  }
+
   @Test
 //^ punctuation.definition.annotation.java
   public void someMethod(WithParam foo) throws Exception {

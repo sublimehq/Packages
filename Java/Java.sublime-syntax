@@ -302,7 +302,31 @@ contexts:
       scope: constant.language.java
     - match: \b(this|super)\b
       scope: variable.language.java
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDd]|UL|ul)?\b'
+    # Trailing underscores are allowed to prevent numbers from flickering while typing
+    - match: |-
+        (?x)
+        (?:
+          \b0(?:
+            [xX](?!_)[[:xdigit:]_]*[[:xdigit:]]
+            |
+            [bB](?!_)[01_]*[01]
+            |
+            [0-7_]*[0-7]+
+          )?(?:_*|[Ll]?)\b
+        |
+          \b[1-9](?:[\d_]*\d)?
+          (?:
+            _*
+            |
+            [LlFfDd]
+            |
+            \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|[FfDd]?)
+            |
+            [eE][+-]?(?!_)[\d_]*\d(?:_*|[FfDd]?)
+          )?\b
+        |
+          \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|[FfDd]?)\b
+        )
       scope: constant.numeric.java
   constant-reference:
     - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
