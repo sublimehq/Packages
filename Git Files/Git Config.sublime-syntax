@@ -155,8 +155,6 @@ contexts:
 
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
-    - match: '%[A-Za-z]'
-      scope: constant.character.escape.git.config
     - match: \\[{{escape_char}}]
       scope: constant.character.escape.git.config
     - match: \\[^{{escape_char}}]
