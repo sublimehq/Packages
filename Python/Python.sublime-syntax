@@ -891,7 +891,7 @@ contexts:
       push:
         # This prevents strings after a continuation from being a docstring
         - include: strings
-        - match: (?=\S|^\s*$)
+        - match: (?=\S|^\s*$|\n)  # '\n' for when we matched a string earlier
           pop: true
 
   line-continuation-or-pop:
@@ -1055,7 +1055,7 @@ contexts:
         2: storage.modifier.conversion.python
         3: constant.other.format-spec.python
         4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}"']+\{) # complex (nested) form
+    - match: \{(?=[^\}"']+\{[^"']*\}) # complex (nested) form
       scope: punctuation.definition.placeholder.begin.python
       push:
         - meta_scope: constant.other.placeholder.python
@@ -1121,9 +1121,9 @@ contexts:
     - match: '([uU]?R)(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1132,9 +1132,9 @@ contexts:
     - match: '([bB]R|R[bB])(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1142,9 +1142,9 @@ contexts:
     - match: '([uU]?r)(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: meta.string.python string.quoted.double.block.python
@@ -1174,9 +1174,9 @@ contexts:
     - match: '([bB]r|r[bB])(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1189,9 +1189,9 @@ contexts:
     - match: ((?i)fr|rf)(""")
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.begin.python
           set: after-expression
@@ -1200,9 +1200,9 @@ contexts:
     - match: ((?i)f|f)(""")
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.begin.python
           set: after-expression
@@ -1213,9 +1213,9 @@ contexts:
     - match: '([uU]?)(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: meta.string.python string.quoted.double.block.python
@@ -1243,9 +1243,9 @@ contexts:
     - match: '([bB])(""")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.block.python
+        - meta_content_scope: meta.string.python string.quoted.double.block.python
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1257,9 +1257,9 @@ contexts:
     - match: '([uU]?R)(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1268,9 +1268,9 @@ contexts:
     - match: '([bB]R|R[bB])(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1279,9 +1279,9 @@ contexts:
     - match: '([uU]?r)(")(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1297,9 +1297,9 @@ contexts:
     - match: '([uU]?r)(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1314,9 +1314,9 @@ contexts:
     - match: '([bB]r|r[bB])(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1330,9 +1330,9 @@ contexts:
     - match: ((?i)fr|rf)(")
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1342,9 +1342,9 @@ contexts:
     - match: ((?i)f|f)(")
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.double.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1356,9 +1356,9 @@ contexts:
     - match: '([uU]?)(")(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1376,9 +1376,9 @@ contexts:
     - match: '([uU]?)(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1390,9 +1390,9 @@ contexts:
     - match: '([bB])(")'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.double.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.double.python
+        - meta_content_scope: meta.string.python string.quoted.double.python
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1405,9 +1405,9 @@ contexts:
     - match: ([uU]?R)(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1415,9 +1415,9 @@ contexts:
     - match: ([bB]R|R[bB])(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1425,9 +1425,9 @@ contexts:
     - match: ([uU]?r)(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: meta.string.python string.quoted.single.block.python
@@ -1458,9 +1458,9 @@ contexts:
     - match: ([bB]r|r[bB])(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1473,20 +1473,20 @@ contexts:
     - match: ((?i)fr|rf)(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.begin.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted f-string
-    - match: ((?i)f|f)(''')
+    - match: ([fF])(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.begin.python
           set: after-expression
@@ -1497,9 +1497,9 @@ contexts:
     - match: ([uU]?)(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: '(?={{sql_indicator}})'
           set:
             - meta_scope: meta.string.python string.quoted.single.block.python
@@ -1527,9 +1527,9 @@ contexts:
     - match: ([bB])(''')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.block.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.block.python
+        - meta_content_scope: meta.string.python string.quoted.single.block.python
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1541,9 +1541,9 @@ contexts:
     - match: '([uU]?R)('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1552,9 +1552,9 @@ contexts:
     - match: '([bB]R|R[bB])('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1563,9 +1563,9 @@ contexts:
     - match: '([uU]?r)('')(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1581,9 +1581,9 @@ contexts:
     - match: '([uU]?r)('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1598,9 +1598,9 @@ contexts:
     - match: '([bB]r|r[bB])('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1615,9 +1615,9 @@ contexts:
     - match: ((?i)fr|rf)(')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1627,9 +1627,9 @@ contexts:
     - match: ((?i)f|f)(')
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.interpolated.python string.quoted.single.python
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1641,9 +1641,9 @@ contexts:
     - match: '([uU]?)('')(?={{sql_indicator}})'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1661,9 +1661,9 @@ contexts:
     - match: '([uU]?)('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
@@ -1675,9 +1675,9 @@ contexts:
     - match: '([bB])('')'
       captures:
         1: storage.type.string.python
-        2: punctuation.definition.string.begin.python
+        2: meta.string.python string.quoted.single.python punctuation.definition.string.begin.python
       push:
-        - meta_scope: meta.string.python string.quoted.single.python
+        - meta_content_scope: meta.string.python string.quoted.single.python
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression

@@ -570,6 +570,13 @@ class B
         echo B::class;
 //              ^ constant.class
 
+        echo $this->pro1::FOO;
+//           ^^^^^ variable.language
+//                ^^ punctuation.accessor
+//                  ^^^^ variable.other.member
+//                      ^^ punctuation.accessor
+//                        ^^^ constant.other.class
+
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
 //            ^^ punctuation.accessor
@@ -664,6 +671,18 @@ $var4 = 0b0111;
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
+
+if ((include 'vars.php') == TRUE) {
+//   ^^^^^^^ keyword.control.import.include.php
+//   ^^^^^^^^^^^^^^^^^^ meta.include.php
+//                     ^ - meta.include.php
+}
+
+// evaluated as include(('vars.php') == TRUE), i.e. include('')
+if (include('vars.php') == TRUE) {
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.include.php
+//                             ^ - meta.include.php
+}
 
 $a += .5;
 // ^^ keyword.operator.assignment.augmented.php

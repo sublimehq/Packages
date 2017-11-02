@@ -589,6 +589,15 @@ class Class():
 #   ^^^ storage.type.function - meta.decorator
 
 
+class AClass:
+    # `def` immediately after a line-continued string within a class
+    x =  "Type help() for interactive help, " \
+         "or help(object) for help about object."
+    def __call__(self, *args, **kwds):
+#   ^^^ - invalid.illegal
+        pass
+
+
 ##################
 # Collection literals and generators
 ##################

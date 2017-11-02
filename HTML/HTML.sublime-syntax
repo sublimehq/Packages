@@ -84,12 +84,9 @@ contexts:
         - match: '(>)\s*'
           captures:
             1: meta.tag.style.begin.html punctuation.definition.tag.end.html
-          push:
-            - meta_content_scope: source.css.embedded.html
-            - include: 'scope:source.css'
-          with_prototype:
-            - match: (?i)(?=</style)
-              pop: true
+          embed: scope:source.css
+          embed_scope: source.css.embedded.html
+          escape: (?i)(?=</style)
         - match: ''
           push:
             - meta_scope: meta.tag.style.begin.html
@@ -114,12 +111,9 @@ contexts:
           captures:
             1: meta.tag.script.begin.html punctuation.definition.tag.end.html
             2: comment.block.html punctuation.definition.comment.html
-          push:
-            - meta_content_scope: source.js.embedded.html
-            - include: 'scope:source.js'
-          with_prototype:
-             - match: (?i)(?=(-->)?\s*</script)
-               pop: true
+          embed: scope:source.js
+          embed_scope: source.js.embedded.html
+          escape: (?i)(?=(-->)?\s*</script)
         - match: ''
           push:
             - meta_scope: meta.tag.script.begin.html
@@ -359,43 +353,19 @@ contexts:
         3: punctuation.separator.key-value.html
       push:
         - match: '"'
-          scope: string.quoted.double punctuation.definition.string.begin.html
-          set:
-            - meta_scope: meta.attribute-with-value.style.html
-            - meta_content_scope: source.css
-            - match: '"'
-              scope: string.quoted.double punctuation.definition.string.end.html
-              pop: true
-            - match: ''
-              # An anonymous context with an include is used here rather than
-              # a direct push, so that if the target context isn't found it's
-              # only a warning rather than an error. This will likely happen
-              # if the user has replaced the default CSS syntax
-              push:
-                - include: 'CSS.sublime-syntax#rule-list-body'
-              with_prototype:
-                - match: '(?=")'
-                  pop: true
-                - include: attribute-entities
+          scope: meta.attribute-with-value.style.html string.quoted.double punctuation.definition.string.begin.html
+          embed: 'CSS.sublime-syntax#rule-list-body'
+          embed_scope: meta.attribute-with-value.style.html source.css
+          escape: '"'
+          escape_captures:
+            0: meta.attribute-with-value.style.html string.quoted.double punctuation.definition.string.end.html
         - match: "'"
-          scope: string.quoted.single punctuation.definition.string.begin.html
-          set:
-            - meta_scope: meta.attribute-with-value.style.html
-            - meta_content_scope: source.css
-            - match: "'"
-              scope: string.quoted.single punctuation.definition.string.end.html
-              pop: true
-            - match: ''
-              # An anonymous context with an include is used here rather than
-              # a direct push, so that if the target context isn't found it's
-              # only a warning rather than an error. This will likely happen
-              # if the user has replaced the default CSS syntax
-              push:
-                - include: 'CSS.sublime-syntax#rule-list-body'
-              with_prototype:
-                - match: "(?=')"
-                  pop: true
-                - include: attribute-entities
+          scope: meta.attribute-with-value.style.html string.quoted.single punctuation.definition.string.begin.html
+          embed: 'CSS.sublime-syntax#rule-list-body'
+          embed_scope: meta.attribute-with-value.style.html source.css
+          escape: "'"
+          escape_captures:
+            0: meta.attribute-with-value.style.html string.quoted.single punctuation.definition.string.end.html
         - match: ''
           pop: true
 
@@ -418,31 +388,19 @@ contexts:
         3: punctuation.separator.key-value.html
       push:
         - match: '"'
-          scope: string.quoted.double punctuation.definition.string.begin.html
-          set:
-            - meta_scope: meta.attribute-with-value.event.html
-            - match: '"'
-              scope: string.quoted.double punctuation.definition.string.end.html
-              pop: true
-            - match: ''
-              push: 'scope:source.js'
-              with_prototype:
-                - match: '(?=")'
-                  pop: true
-                - include: attribute-entities
+          scope: meta.attribute-with-value.event.html string.quoted.double punctuation.definition.string.begin.html
+          embed: scope:source.js
+          embed_scope: meta.attribute-with-value.event.html
+          escape: '"'
+          escape_captures:
+            0: meta.attribute-with-value.event.html string.quoted.double punctuation.definition.string.end.html
         - match: "'"
-          scope: string.quoted.single punctuation.definition.string.begin.html
-          set:
-            - meta_scope: meta.attribute-with-value.event.html
-            - match: "'"
-              scope: string.quoted.single punctuation.definition.string.end.html
-              pop: true
-            - match: ''
-              push: 'scope:source.js'
-              with_prototype:
-                - match: "(?=')"
-                  pop: true
-                - include: attribute-entities
+          scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
+          embed: scope:source.js
+          embed_scope: meta.attribute-with-value.event.html
+          escape: "'"
+          escape_captures:
+            0: meta.attribute-with-value.event.html string.quoted.single punctuation.definition.string.end.html
         - match: ''
           pop: true
 

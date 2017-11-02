@@ -801,6 +801,11 @@ contexts:
         - include: block-quote
         - match: $
           pop: true
+    - match: '^(?=\s+{{fenced_code_block_start}})'
+      push:
+        - include: fenced-code-block
+        - match: ''
+          pop: true
     - match: \s+(?=\S)
       push:
         - match: ^\s*$

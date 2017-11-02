@@ -1703,3 +1703,17 @@ function matchwo(a,b)
 |^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
 okay
 | <- - meta.disable-markdown
+
+1. Test
+
+   ```python
+|  ^^^ markup.list.numbered markup.raw.code-fence punctuation.definition.raw.code-fence.begin
+       Test
+
+| <- - invalid
+       Test
+   ```
+|  ^^^ punctuation.definition.raw.code-fence.end
+
+1. Test 2
+|^ markup.list.numbered.bullet punctuation.definition.list_item
