@@ -901,6 +901,58 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:xml))
+          \s*$          # any whitespace until eol
+      captures:
+        1: markup.raw.code-fence.xml.markdown punctuation.definition.raw.code-fence.begin.markdown
+        2: markup.raw.code-fence.xml.markdown constant.other.language-name.markdown
+      embed: scope:text.xml
+      embed_scope: markup.raw.code-fence.xml.markdown
+      escape: '^[ ]{,3}\1\s*$'
+      escape_captures:
+        0: markup.raw.code-fence.xml.markdown punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:sql))
+          \s*$          # any whitespace until eol
+      captures:
+        1: markup.raw.code-fence.sql.markdown punctuation.definition.raw.code-fence.begin.markdown
+        2: markup.raw.code-fence.sql.markdown constant.other.language-name.markdown
+      embed: scope:source.sql
+      embed_scope: markup.raw.code-fence.sql.markdown
+      escape: '^[ ]{,3}\1\s*$'
+      escape_captures:
+        0: markup.raw.code-fence.sql.markdown punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:python))
+          \s*$          # any whitespace until eol
+      captures:
+        1: markup.raw.code-fence.python.markdown punctuation.definition.raw.code-fence.begin.markdown
+        2: markup.raw.code-fence.python.markdown constant.other.language-name.markdown
+      embed: scope:source.python
+      embed_scope: markup.raw.code-fence.python.markdown
+      escape: '^[ ]{,3}\1\s*$'
+      escape_captures:
+        0: markup.raw.code-fence.python.markdown punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
+          ((?i:graphviz))
+          \s*$          # any whitespace until eol
+      captures:
+        1: markup.raw.code-fence.graphviz.markdown punctuation.definition.raw.code-fence.begin.markdown
+        2: markup.raw.code-fence.graphviz.markdown constant.other.language-name.markdown
+      embed: scope:source.dot
+      embed_scope: markup.raw.code-fence.graphviz.markdown
+      escape: '^[ ]{,3}\1\s*$'
+      escape_captures:
+        0: markup.raw.code-fence.graphviz.markdown punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ([\w-]*)     # any number of word characters or dashes
           .*$          # all characters until eol
       captures:

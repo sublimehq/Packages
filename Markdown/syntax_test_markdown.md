@@ -1765,3 +1765,44 @@ okay
 
 1. Test 2
 |^ markup.list.numbered.bullet punctuation.definition.list_item
+
+```xml
+|^^^^^ markup.raw.code-fence.xml
+|  ^^^ constant.other.language-name
+<?xml version="1.0" ?>
+|^^^^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.xml
+|     ^^^^^^^ meta.tag.preprocessor.xml entity.other.attribute-name.localname.xml
+<example>
+    <foobar />
+</example>
+```
+|^^^ punctuation.definition.raw.code-fence.end
+
+```sql
+|^^^^^ markup.raw.code-fence.sql
+|  ^^^ constant.other.language-name
+SELECT TOP 10 *
+|^^^^^^^^^^^^^^^ markup.raw.code-fence.sql
+|^^^^^^^^^ keyword.other.DML.sql
+FROM TableName
+```
+|^^^ markup.raw.code-fence.sql punctuation.definition.raw.code-fence.end
+
+```python
+|^^ punctuation.definition.raw.code-fence.begin
+|^^^^^^^^ markup.raw.code-fence.python
+|  ^^^^^^ constant.other.language-name
+def function():
+    pass
+|   ^^^^ keyword.control.flow.python
+unclosed_paren = (
+|                ^ meta.group.python punctuation.section.group.begin.python
+```
+|^^^ markup.raw.code-fence.python punctuation.definition.raw.code-fence.end
+
+```Graphviz
+graph n {}
+| ^^^ storage.type.dot
+```
+
+| <- - markup.raw
