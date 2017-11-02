@@ -56,15 +56,12 @@ contexts:
         - match: '((>)?\s*)(>)'
           captures:
             1: source.dot.embedded.html
-            2: punctuation.definition.tag.end.html
+            2: meta.tag punctuation.definition.tag.end.html
             3: punctuation.section.embedded.end.dot
           pop: true
         - match: ''
-          push:
-            - include: 'scope:text.html.basic'
-          with_prototype:
-            - match: '(?=>\s*>)'
-              pop: true
+          embed: scope:text.html.basic
+          escape: (?=>\s*>)
 
   braces:
     - match: \{
@@ -74,7 +71,7 @@ contexts:
         - match: \}
           scope: punctuation.definition.group.end.dot
           pop: true
-        - match: ',|;'
+        - match: '[,;]'
           scope: punctuation.separator.dot
         - include: expressions
 
@@ -86,19 +83,23 @@ contexts:
         - match: \]
           scope: punctuation.definition.attributes.end.dot
           pop: true
-        - match: ',|;'
+        - match: '[,;]'
           scope: punctuation.separator.dot
         - include: expressions
 
   comments:
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.dot
-      captures:
-        1: punctuation.definition.comment.dot
-    - match: (#).*$\n?
-      scope: comment.line.number-sign.dot
-      captures:
-        1: punctuation.definition.comment.dot
+    - match: //
+      scope: punctuation.definition.comment.dot
+      push:
+        - meta_scope: comment.line.double-slash.dot
+        - match: $\n?
+          pop: true
+    - match: '#'
+      scope: punctuation.definition.comment.dot
+      push:
+        - meta_scope: comment.line.number-sign.dot
+        - match: $\n?
+          pop: true
     - match: /\*
       scope: punctuation.definition.comment.dot
       push:
