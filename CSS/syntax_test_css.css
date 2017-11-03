@@ -507,6 +507,9 @@
     color: #137;
 /*         ^^^^ constant.other.color.rgb-value.css */
 
+    color: #0f0a;
+/*         ^^^^^ constant.other.color.rgba-value.css */
+
     color: #a1b2c3d4;
 /*         ^^^^^^^^^ constant.other.color.rgba-value.css */
 
@@ -1005,9 +1008,10 @@
 /*                                  ^^^^^^^^ string.unquoted */
 /*                                          ^ - string */
 /*                                            ^^^^^ support.constant.font-name */
-.generic-font-family2 { font-family: sans-serif , fantasy ; }
+.generic-font-family2 { font-family: sans-serif , fantasy , system-ui; }
 /*                                   ^^^^^^^^^^ support.constant.font-name */
 /*                                                ^^^^^^^ support.constant.font-name */
+/*                                                          ^^^^^^^^^ support.constant.font-name */
 .generic-font-family3 {
     font-family: cursive
 /*               ^^^^^^^ support.constant.font-name */
