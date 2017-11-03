@@ -845,3 +845,14 @@ $(foreach i,$(DO_IMPLS),$(foreach s,$(STEPS),$(i)^$(s))): $$(call $$(word 1,$$(s
 #                                                        ^ - keyword.operator.assignment
 #                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.function
 #                                                                                                            ^ punctuation.separator
+NAME = FeedProcessorSIAC
+
+target2:
+	@# Comment Text
+	#^ comment - variable
+	@# FeedProcessorSIAC -origin CQS -decodeData "binData"
+	#^ comment - variable
+
+	@# # Regular Message
+	#^ comment - variable
+	@FeedProcessorSIAC -origin CTS -decodeData "binData"
