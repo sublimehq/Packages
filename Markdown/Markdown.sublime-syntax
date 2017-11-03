@@ -964,7 +964,7 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          ((?i:javascript))
+          ((?i:javascript|js))
           \s*$          # any whitespace until EOL
       captures:
         1: markup.raw.code-fence.javascript.markdown punctuation.definition.raw.code-fence.begin.markdown
