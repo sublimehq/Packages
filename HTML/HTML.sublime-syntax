@@ -354,14 +354,14 @@ contexts:
       push:
         - match: '"'
           scope: meta.attribute-with-value.style.html string.quoted.double punctuation.definition.string.begin.html
-          embed: 'CSS.sublime-syntax#rule-list-body'
+          embed: scope:source.css#rule-list-body
           embed_scope: meta.attribute-with-value.style.html source.css
           escape: '"'
           escape_captures:
             0: meta.attribute-with-value.style.html string.quoted.double punctuation.definition.string.end.html
         - match: "'"
           scope: meta.attribute-with-value.style.html string.quoted.single punctuation.definition.string.begin.html
-          embed: 'CSS.sublime-syntax#rule-list-body'
+          embed: scope:source.css#rule-list-body
           embed_scope: meta.attribute-with-value.style.html source.css
           escape: "'"
           escape_captures:
