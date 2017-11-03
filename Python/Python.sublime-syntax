@@ -1181,10 +1181,8 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?=""")'
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?=""")
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(""")
       captures:
@@ -1322,10 +1320,8 @@ contexts:
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?="|\n)
     # Single-line raw f-string
     - match: ((?i)fr|rf)(")
       captures:
@@ -1465,10 +1461,8 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: (?=''')
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?=''')
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(''')
       captures:
