@@ -1144,7 +1144,7 @@ http://spec.commonmark.org/0.28/#example-318
 | ^^^^ punctuation.definition.raw.code-fence.begin
 |     ^^^^ constant.other.language-name
 ~~~~~~
-| ^^^^^ punctuation.definition.raw.code-fence.end
+| ^^^^ punctuation.definition.raw.code-fence.end
 
 ```test
 |  ^^^^ constant.other.language-name
@@ -1776,7 +1776,7 @@ okay
     <foobar />
 </example>
 ```
-|^^^ punctuation.definition.raw.code-fence.end
+|^^ punctuation.definition.raw.code-fence.end
 
 ```sql
 |^^^^^ markup.raw.code-fence.sql
@@ -1786,7 +1786,7 @@ SELECT TOP 10 *
 |^^^^^^^^^ keyword.other.DML.sql
 FROM TableName
 ```
-|^^^ markup.raw.code-fence.sql punctuation.definition.raw.code-fence.end
+|^^ markup.raw.code-fence.sql punctuation.definition.raw.code-fence.end
 
 ```python
 |^^ punctuation.definition.raw.code-fence.begin
@@ -1798,7 +1798,7 @@ def function():
 unclosed_paren = (
 |                ^ meta.group.python punctuation.section.group.begin.python
 ```
-|^^^ markup.raw.code-fence.python punctuation.definition.raw.code-fence.end
+|^^ markup.raw.code-fence.python punctuation.definition.raw.code-fence.end
 
 ```Graphviz
 graph n {}
