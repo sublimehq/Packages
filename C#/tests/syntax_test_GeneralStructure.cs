@@ -313,7 +313,7 @@ namespace TestNamespace.Test
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
 
             switch (foo) {
-///         ^ keyword.control
+///         ^^^^^^ keyword.control.flow.switch
 ///                ^^^^^ meta.group
 ///                ^ punctuation.section.group.begin
 ///                 ^^^ variable.other
@@ -1149,6 +1149,10 @@ namespace TestNamespace.Test
 ///                                 ^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                            ^^^^ constant.character.escape
 ///                                                      ^ punctuation.definition.placeholder.end
+        formatted = string.Format(test, hello == true, world);
+///                                     ^^^^^ variable.other - variable.parameter
+///                                                    ^^^^^ variable.other - variable.parameter
+///                                           ^^ keyword.operator - keyword.operator.assignment
     }
 }
 ///<- punctuation.section.block.end

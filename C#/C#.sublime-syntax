@@ -802,7 +802,7 @@ contexts:
       set: [else_block, if_block, if_condition]
     - match: \b(switch)\b
       captures:
-        1: keyword.control.conditional.if.cs
+        1: keyword.control.flow.switch.cs
       set: [switch_block, if_condition]
     - match: \b(for)\s*(\()
       captures:
@@ -1321,7 +1321,7 @@ contexts:
     - match: (ref)\s
       captures:
         1: storage.modifier.argument.cs
-    - match: '({{name}})\s*(=)'
+    - match: '({{name}})\s*(=)(?!=)'
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
