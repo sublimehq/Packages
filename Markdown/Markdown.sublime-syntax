@@ -1006,6 +1006,20 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:rust))
+          \s*$          # any whitespace until EOL
+      captures:
+        1: markup.raw.code-fence.rust.markdown punctuation.definition.raw.code-fence.begin.markdown
+        2: markup.raw.code-fence.rust.markdown constant.other.language-name.markdown
+      embed: scope:source.rust
+      embed_scope: markup.raw.code-fence.rust.markdown
+      escape: '^[ ]{,3}(\1)\s*$'
+      escape_captures:
+        0: markup.raw.code-fence.rust.markdown
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ([\w-]*)     # any number of word characters or dashes
           .*$          # all characters until EOL
       captures:
