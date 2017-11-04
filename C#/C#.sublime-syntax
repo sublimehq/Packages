@@ -1315,11 +1315,9 @@ contexts:
         - match: (ref)\s
           captures:
             1: storage.modifier.argument.cs
-        - match: (?={{name}}\s*\))
+        - match: (?!{{name}}{{type_suffix}}\s+{{name}})
           pop: true
         - include: var_declaration
-        - match: ''
-          pop: true
     - match: (ref)\s
       captures:
         1: storage.modifier.argument.cs

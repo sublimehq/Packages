@@ -1058,6 +1058,10 @@ namespace TestNamespace.Test
     
     int foo;
     int.TryParse(input, out foo);
+///                     ^^^ storage.modifier.argument
+///                         ^^^ variable.other - support.type
+    int.TryParse(input, out foo /* comment */);
+///                     ^^^ storage.modifier.argument
 ///                         ^^^ variable.other - support.type
     
         "hello".OfType<char>().Where(c => c == 'l').Count());
