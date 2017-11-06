@@ -1056,6 +1056,14 @@ namespace TestNamespace.Test
                 break;
         }
     
+    int foo;
+    int.TryParse(input, out foo);
+///                     ^^^ storage.modifier.argument
+///                         ^^^ variable.other - support.type
+    int.TryParse(input, out foo /* comment */);
+///                     ^^^ storage.modifier.argument
+///                         ^^^ variable.other - support.type
+    
         "hello".OfType<char>().Where(c => c == 'l').Count());
 ///                                                        ^ invalid.illegal.stray.brace
 
