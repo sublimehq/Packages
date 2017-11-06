@@ -79,7 +79,7 @@ contexts:
     - match: '\{'
       scope: punctuation.definition.group.brace.begin.latex
       set: argument-brace
-    - match: (?=\S)
+    - match: '(?=\S)'
       pop: true
 
   optional-arguments:
@@ -234,7 +234,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
               pop: true
-        - match: '(?=\S)'
+        - match: ''
           pop: true
 
     - match: '(\\)usepackage\b'
@@ -253,7 +253,7 @@ contexts:
               pop: true
             - match: '[A-Za-z[:digit:]-]*'
               scope: support.class.latex
-        - match: '(?=\S)'
+        - match: ''
           pop: true
 
   includes:
@@ -654,7 +654,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
               pop: true
-        - match: '(?=\S)'
+        - match: ''
           pop: true
     - match: |-
         (?x)
@@ -678,7 +678,7 @@ contexts:
             - match: '\}'
               scope: punctuation.definition.group.brace.end.latex
               pop: true
-        - match: '(?=\S)'
+        - match: ''
           pop: true
     - match: '((\\)label)(\{)'
       captures:
@@ -1597,5 +1597,5 @@ contexts:
                 - match: '\}'
                   scope: meta.function.insert-repeated-content.latex punctuation.definition.group.brace.end.latex
                   pop: true
-            - match: (?=\S)
+            - match: ''
               pop: true
