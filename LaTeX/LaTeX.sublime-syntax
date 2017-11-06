@@ -1519,8 +1519,8 @@ contexts:
     - match: '(?:p|m|b)(?=\s*\{)'
       scope: support.function.parbox-column.latex
       push:
-        - meta_scope: meta.function.parbox-column.latex
-        - include: general-1-argument
+        - [{meta_scope: meta.function.parbox-column.latex}, {match: '', pop: true}]
+        - argument
 
     - match: '(>)\s*(\{)'
       captures:
