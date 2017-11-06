@@ -454,7 +454,7 @@
 ;   ^ variable.function.deref.clojure
   \##{}
 ; ^^ constant.character.clojure
-;   ^^ punctuation.section.brackets.begin.clojure
+;   ^^ punctuation.section.braces.begin.clojure
   \^^blah
 ; ^^ constant.character.clojure
 ;   ^ constant.other.symbol.reader-macro.clojure
@@ -658,7 +658,7 @@
 ; ## Ignore
 
   #{}
-; ^^ punctuation.section.brackets.begin.clojure
+; ^^ punctuation.section.braces.begin.clojure
 
 
 
@@ -879,10 +879,10 @@
 
   ^{:private true} blah
 ; ^ constant.other.symbol.reader-macro.clojure
-;  ^ punctuation.section.brackets.begin.clojure
+;  ^ punctuation.section.braces.begin.clojure
 ;   ^^^^^^^^ constant.language.keyword.clojure
 ;            ^^^^ constant.language.clojure
-;                ^ punctuation.section.brackets.end.clojure
+;                ^ punctuation.section.braces.end.clojure
 
   ; Consequent metadata is merged
   ^:private ^:dynamic blah
@@ -895,15 +895,15 @@
   ^^^{10 20}{30 40}{:tag File} blah
 ; ^^^ constant.other.symbol.reader-macro.clojure
 ;    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant.other.symbol.reader-macro.clojure
-;    ^ punctuation.section.brackets.begin.clojure
+;    ^ punctuation.section.braces.begin.clojure
 ;     ^^ constant.numeric.clojure
 ;        ^^ constant.numeric.clojure
-;          ^ punctuation.section.brackets.end.clojure
-;           ^ punctuation.section.brackets.begin.clojure
+;          ^ punctuation.section.braces.end.clojure
+;           ^ punctuation.section.braces.begin.clojure
 ;            ^^ constant.numeric.clojure
 ;               ^^ constant.numeric.clojure
-;                 ^ punctuation.section.brackets.end.clojure
-;                  ^ punctuation.section.brackets.begin.clojure
+;                 ^ punctuation.section.braces.end.clojure
+;                  ^ punctuation.section.braces.begin.clojure
 ;                   ^^^^ constant.language.keyword.clojure
 
 ; ## Breaks
@@ -968,20 +968,20 @@
 ; # Braces
 
   #{}
-; ^^ punctuation.section.brackets.begin.clojure
-;   ^ punctuation.section.brackets.end.clojure
+; ^^ punctuation.section.braces.begin.clojure
+;   ^ punctuation.section.braces.end.clojure
 
   #{10, 20, 30}
-; ^^ punctuation.section.brackets.begin.clojure
+; ^^ punctuation.section.braces.begin.clojure
 ;   ^^ constant.numeric.clojure
 ;     ^ comment.punctuation.comma.clojure
 ;       ^^ constant.numeric.clojure
 ;         ^ comment.punctuation.comma.clojure
 ;           ^^ constant.numeric.clojure
-;             ^ punctuation.section.brackets.end.clojure
+;             ^ punctuation.section.braces.end.clojure
 
   #{10
-; ^^ punctuation.section.brackets.begin.clojure
+; ^^ punctuation.section.braces.begin.clojure
 ;   ^^ constant.numeric.clojure
     ; ---
 ;   ^ comment.line.clojure punctuation.definition.comment
@@ -990,21 +990,21 @@
 ;   ^^^^^ constant.other.symbol.reader-macro.clojure
 ;        ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
     {20}}
-;   ^ punctuation.section.brackets.begin.clojure
+;   ^ punctuation.section.braces.begin.clojure
 ;    ^^ constant.numeric.clojure
-;      ^^ punctuation.section.brackets.end.clojure
+;      ^^ punctuation.section.braces.end.clojure
 
   {10 20, 30 40}
-; ^ punctuation.section.brackets.begin.clojure
+; ^ punctuation.section.braces.begin.clojure
 ;  ^^ constant.numeric.clojure
 ;     ^^ constant.numeric.clojure
 ;       ^ comment.punctuation.comma.clojure
 ;         ^^ constant.numeric.clojure
 ;            ^^ constant.numeric.clojure
-;              ^ punctuation.section.brackets.end.clojure
+;              ^ punctuation.section.braces.end.clojure
 
   {:blah [10 20 30]
-; ^ punctuation.section.brackets.begin.clojure
+; ^ punctuation.section.braces.begin.clojure
 ;  ^^^^^ constant.language.keyword.clojure
 ;        ^ punctuation.section.brackets.begin.clojure
 ;         ^^ constant.numeric.clojure
@@ -1015,22 +1015,22 @@
 ;  ^ comment.line.clojure punctuation.definition.comment
    :blahblah #{10 20 30}}
 ;  ^^^^^^^^^ constant.language.keyword.clojure
-;            ^^ punctuation.section.brackets.begin.clojure
+;            ^^ punctuation.section.braces.begin.clojure
 ;              ^^ constant.numeric.clojure
 ;                 ^^ constant.numeric.clojure
 ;                    ^^ constant.numeric.clojure
-;                      ^^ punctuation.section.brackets.end.clojure
+;                      ^^ punctuation.section.braces.end.clojure
 
 ; ## Invalid
 
   #{ } }
-; ^^ punctuation.section.brackets.begin.clojure
-;    ^ punctuation.section.brackets.end.clojure
+; ^^ punctuation.section.braces.begin.clojure
+;    ^ punctuation.section.braces.end.clojure
 ;      ^ invalid.illegal.clojure
 
   { } }
-; ^ punctuation.section.brackets.begin.clojure
-;   ^ punctuation.section.brackets.end.clojure
+; ^ punctuation.section.braces.begin.clojure
+;   ^ punctuation.section.braces.end.clojure
 ;     ^ invalid.illegal.clojure
 
 
@@ -1240,12 +1240,12 @@
 ;  ^ constant.other.symbol.reader-macro.clojure
    ; ---
    {:private
-;  ^ punctuation.section.brackets.begin.clojure
+;  ^ punctuation.section.braces.begin.clojure
 ;   ^^^^^^^^ constant.language.keyword.clojure
    ; ---
     true}
 ;   ^^^^ constant.language.clojure
-;       ^ punctuation.section.brackets.end.clojure
+;       ^ punctuation.section.braces.end.clojure
    ; ---
    declare-def
 ;  ^^^^^^^^^^^ entity.name.function.clojure
@@ -1266,10 +1266,10 @@
   ; Useless but accepted by Clojure reader
   (^{10 20} def ^:private declare-def dont-declare)
 ;  ^ constant.other.symbol.reader-macro.clojure
-;   ^ punctuation.section.brackets.begin.clojure
+;   ^ punctuation.section.braces.begin.clojure
 ;    ^^ constant.numeric.clojure
 ;       ^^ constant.numeric.clojure
-;         ^ punctuation.section.brackets.end.clojure
+;         ^ punctuation.section.braces.end.clojure
 ;           ^^^ storage.type.def.clojure
 ;               ^ constant.other.symbol.reader-macro.clojure
 ;                ^^^^^^^^ constant.language.keyword.clojure
@@ -1281,18 +1281,18 @@
   (def ^^^{10 20}{30 40}{:private true} declare-def dont-declare)
 ;  ^^^ storage.type.def.clojure
 ;      ^^^ constant.other.symbol.reader-macro.clojure
-;         ^ punctuation.section.brackets.begin.clojure
+;         ^ punctuation.section.braces.begin.clojure
 ;          ^^ constant.numeric.clojure
 ;             ^^ constant.numeric.clojure
-;               ^ punctuation.section.brackets.end.clojure
-;                ^ punctuation.section.brackets.begin.clojure
+;               ^ punctuation.section.braces.end.clojure
+;                ^ punctuation.section.braces.begin.clojure
 ;                 ^^ constant.numeric.clojure
 ;                    ^^ constant.numeric.clojure
-;                      ^ punctuation.section.brackets.end.clojure
-;                       ^ punctuation.section.brackets.begin.clojure
+;                      ^ punctuation.section.braces.end.clojure
+;                       ^ punctuation.section.braces.begin.clojure
 ;                        ^^^^^^^^ constant.language.keyword.clojure
 ;                                 ^^^^ constant.language.clojure
-;                                     ^ punctuation.section.brackets.end.clojure
+;                                     ^ punctuation.section.braces.end.clojure
 ;                                       ^^^^^^^^^^^ entity.name.function.clojure
 ;                                                  ^^^^^^^^^^^^^- storage.type
 ;                                                  ^^^^^^^^^^^^^- entity.name

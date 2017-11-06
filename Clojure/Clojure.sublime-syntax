@@ -54,10 +54,10 @@ contexts:
           pop: true
         - include: match-expr
     - match: '#?{'
-      scope: punctuation.section.brackets.begin.clojure
+      scope: punctuation.section.braces.begin.clojure
       push:
         - match: '}'
-          scope: punctuation.section.brackets.end.clojure
+          scope: punctuation.section.braces.end.clojure
           pop: true
         - include: match-expr
     - match: '"'
@@ -103,10 +103,10 @@ contexts:
           pop: true
         - include: match-expr
     - match: '#?{'
-      scope: punctuation.section.brackets.begin.clojure
+      scope: punctuation.section.braces.begin.clojure
       set:
         - match: '}'
-          scope: punctuation.section.brackets.end.clojure
+          scope: punctuation.section.braces.end.clojure
           pop: true
         - include: match-expr
     - match: '"'
