@@ -458,3 +458,8 @@ a = b / "c"
 foo / "bar/bla"
 #   ^ keyword.operator.arithmetic.ruby
 #     ^^^^^^^^^ string.quoted.double.ruby
+
+{
+  /foo/ => :foo
+# ^^^^^ string.regexp.classic.ruby
+}

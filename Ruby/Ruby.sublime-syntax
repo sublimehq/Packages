@@ -282,7 +282,7 @@ contexts:
     - match: \|
       scope: meta.block.parameters.ruby punctuation.definition.parameters.begin.ruby
       set: block-parameters
-    - match: (?=\S)
+    - match: (?=\s*[^\s\|])
       pop: true
 
   block-parameters:
