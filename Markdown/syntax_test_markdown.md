@@ -1806,3 +1806,18 @@ graph n {}
 ```
 
 | <- - markup.raw
+
+```php
+var_dump(expression);
+| ^^^^^^ support.function.var.php
+```
+
+```html+php
+<div></div>
+|^^^ entity.name.tag.block.any.html
+<?php
+|^^^^ punctuation.section.embedded.begin.php
+var_dump(expression);
+| ^^^^^^ support.function.var.php
+```
+|^^ punctuation.definition.raw.code-fence.end.markdown
