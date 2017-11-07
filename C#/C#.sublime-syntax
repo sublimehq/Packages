@@ -217,7 +217,15 @@ contexts:
         3: meta.path.cs
       push: using_namespace
 
+  namespace_alias:
+    - match: '(?:(global)|({{name}}))\s*(::)'
+      captures:
+        1: support.namespace.cs
+        2: variable.other.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
+
   using_namespace:
+    - include: namespace_alias
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -230,7 +238,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.cs
       pop: true
-    - match: '\S+'
+    - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
     - match: '$'
       pop: true
@@ -923,11 +931,7 @@ contexts:
         1: entity.name.label.cs
         2: punctuation.separator.cs
       pop: true
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: variable.other.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
+    - include: namespace_alias
     - match: '({{name}})\s+({{name}})'
       captures:
         1: support.type.cs
@@ -1365,11 +1369,7 @@ contexts:
       scope: support.type.cs
 
   type_common:
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: variable.other.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
+    - include: namespace_alias
     - match: '(class|struct|enum)'
       scope: storage.type.other.cs
     - match: 'new\s*\(\s*\)'

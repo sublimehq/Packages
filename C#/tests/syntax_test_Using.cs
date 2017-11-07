@@ -18,6 +18,30 @@ using Wrapped = PC.MyCompany.Project.Wrapper<float>;
 ///    ^ meta.path
 ///           ^ keyword.operator.assignment
 ///                                            ^ storage.type
+using col = global::System.Collections;
+///^^ keyword.control.import
+///   ^^^ meta.path
+///       ^ keyword.operator.assignment
+///         ^^^^^^ support.namespace
+///               ^^ punctuation.accessor.double-colon.namespace
+///                 ^^^^^^ meta.path
+///                       ^ punctuation.separator.namespace
+///                        ^^^^^^^^^^^ meta.path
+///                                   ^ punctuation.terminator
+using sys = global::System;
+///^^ keyword.control.import
+///   ^^^ meta.path
+///       ^ keyword.operator.assignment
+///         ^^^^^^ support.namespace
+///               ^^ punctuation.accessor.double-colon.namespace
+///                 ^^^^^^ meta.path
+///                       ^ punctuation.terminator
+using abc = global:test;
+///   ^^^ meta.path
+///       ^ keyword.operator.assignment
+///         ^^^^^^ meta.path
+///               ^^^^^ invalid.illegal.expected-namespace
+///                    ^ punctuation.terminator
 
 class Foo {
 
@@ -38,8 +62,12 @@ class Foo {
 ///     ^ meta.method meta.block meta.block punctuation.section.block.begin
             // Use font3
             global::System.Console.WriteLine("foo");
-///         ^ support.namespace
-///               ^ punctuation.accessor.double-colon
+///         ^^^^^^ support.namespace
+///               ^^ punctuation.accessor.double-colon
+///                       ^ punctuation.accessor.dot
+///                        ^^^^^^^ variable.other
+///                               ^ punctuation.accessor.dot
+///                                ^^^^^^^^^ variable.function
         }
 ///     ^ meta.method meta.block meta.block punctuation.section.block.end
 
@@ -92,13 +120,21 @@ class Foo {
 [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
 ///  ^ support.namespace
 ///    ^^ punctuation.accessor.double-colon
-internal sealed partial class Test : global::System.Configuration.ApplicationSettingsBase {
-///                                    ^ support.namespace
-///                                        ^^ punctuation.accessor.double-colon
+///      ^^^^^^ variable.other.namespace
+///            ^ punctuation.accessor.dot.namespace
+///             ^^^^^^^ variable.other.namespace
+internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase {
+///                                  ^^^ meta.path
+///                                     ^^ punctuation.accessor.double-colon
+///                                       ^^^^^^^^^^^^^ meta.path
+///                                                    ^ punctuation.accessor.dot.namespace
+///                                                     ^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 
     private static Test defaultInstance = ((Test)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Test())));
-///                                                ^ support.namespace
+///                                               ^^^^^^ support.namespace
 ///                                                     ^^ punctuation.accessor.double-colon
+///                                                       ^^^^^^ variable.other
+///                                                             ^ punctuation.accessor.dot
 
     public static Test Default {
         [Tag]
