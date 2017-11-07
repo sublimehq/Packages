@@ -577,6 +577,13 @@ class B
 //                      ^^ punctuation.accessor
 //                        ^^^ constant.other.class
 
+        echo $this->pro1::bar();
+//           ^^^^^ variable.language
+//                ^^ punctuation.accessor
+//                  ^^^^ variable.other.member
+//                      ^^ punctuation.accessor
+//                        ^^^ variable.function
+
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
 //            ^^ punctuation.accessor
