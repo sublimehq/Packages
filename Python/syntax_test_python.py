@@ -70,6 +70,21 @@ import re; re.compile(r'')
 #        ^^^^^^^^^^^^^^^^^ - meta.statement.import
 #        ^ punctuation.terminator.statement
 
+from unicode.__init__ . 123 import unicode as unicode
+#    ^^^^^^^^^^^^^^^^^^^^^^ meta.import-source.python meta.import-path.python
+#    ^^^^^^^ meta.import-name.python - support
+#           ^ punctuation.accessor.dot.python
+#            ^^^^^^^^ meta.import-name.python - support
+#                     ^^^^^ invalid.illegal.name.python
+#                                  ^^^^^^^ support.type.python
+#                                             ^^^^^^^ support.type.python
+
+import .str
+#      ^ invalid.illegal.unexpected-relative-import.python
+#       ^^^ support.type.python
+
+import str
+#      ^^^ support.type.python
 
 ##################
 # Identifiers
