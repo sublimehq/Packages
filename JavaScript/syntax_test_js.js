@@ -581,6 +581,12 @@ class MyClass extends TheirClass {
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
+    #v = 42;
+//  ^ punctuation.definition.variable
+//   ^ variable.other.readwrite
+//     ^ keyword.operator.assignment
+//       ^^ constant.numeric
+
     static x = 42;
 //  ^^^^^^ storage.modifier.js
 //         ^ variable.other.readwrite
@@ -609,22 +615,37 @@ class MyClass extends TheirClass {
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
 
-    a, 'b' = 50, "c", [d] = 100;
+    static #v = 42;
+//         ^ punctuation.definition.variable
+//          ^ variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^^ constant.numeric
+
+    a, 'b' = 50, "c", [d] = 100, #e;
 //  ^ variable.other.readwrite
 //      ^ variable.other.readwrite
 //                ^ variable.other.readwrite
 //                     ^ variable.other.readwrite
+//                                ^ variable.other.readwrite
 
-    static a, 'b' = 50, "c", [d] = 100;
+    static a, 'b' = 50, "c", [d] = 100, #e;
 //  ^^^^^^ storage.modifier.js
 //         ^ variable.other.readwrite
 //             ^ variable.other.readwrite
 //                       ^ variable.other.readwrite
 //                            ^ variable.other.readwrite
+//                                       ^ variable.other.readwrite
 
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+
+    someMethod() {
+        return #e * 2;
+//             ^ punctuation.definition.variable
+//              ^ variable.other.readwrite
+//                ^ keyword.operator.arithmetic
+    }
 
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration

@@ -23,6 +23,12 @@ variables:
       | \[ {{identifier}} (?:\.{{identifier}})* \]
     )
 
+  class_element_name: |-
+    (?x)(?:
+      {{property_name}}
+      | \#{{identifier}}
+    )
+
   method_lookahead: |-
     (?x)(?=
       \b(?: get|set|async )\b
@@ -808,7 +814,7 @@ contexts:
       scope: storage.modifier.js
       push: class-field
 
-    - match: (?={{property_name}})
+    - match: (?={{class_element_name}})
       push: class-field
 
   class-field:
@@ -818,6 +824,12 @@ contexts:
     - match: (?={{property_name}})
       set:
         - field-initializer-or-method-declaration
+        - field-name
+
+    - match: (?=#{{identifier}})
+      set:
+        - class-field-rest
+        - field-initializer
         - field-name
 
     - include: else-pop
@@ -1263,6 +1275,10 @@ contexts:
             2: invalid.illegal.newline.js
           pop: true
         - include: string-content
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
 
     - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?'
       captures:
@@ -1532,6 +1548,10 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       pop: true
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
 
   support:
     - match: \bdebugger\b
