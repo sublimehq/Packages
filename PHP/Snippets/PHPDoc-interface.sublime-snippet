@@ -9,6 +9,6 @@ interface $1
 {$0
 } // END interface $1]]></content>
 	<tabTrigger>doc_i</tabTrigger>
-	<scope>source.php</scope>
+	<scope>source.php - string - comment</scope>
 	<description>Interface</description>
 </snippet>

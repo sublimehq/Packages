@@ -75,6 +75,68 @@
 /*         ^^^^        keyword.operator.logic.media.css   */
 /*              ^^^^^^ support.constant.media.css         */
 
+    @media (min-width: 700px) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^                  punctuation.definition.keyword.css */
+/*   ^^^^^             keyword.control.at-rule.media.css  */
+/*         ^ punctuation.definition.group.begin.css */
+/*          ^^^^^^^^^ support.type.property-name.media.css     */
+/*                     ^^^^^ constant.numeric.css */
+/*                          ^ punctuation.definition.group.end.css */
+
+    @media (min-width: 700px) and (max-width: 2000px) {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^                  punctuation.definition.keyword.css */
+/*   ^^^^^             keyword.control.at-rule.media.css */
+/*         ^ punctuation.definition.group.begin.css */
+/*          ^^^^^^^^^ support.type.property-name.media.css */
+/*                     ^^^^^ constant.numeric.css */
+/*                          ^ punctuation.definition.group.end.css */
+/*                            ^^^ keyword.operator.logic */
+/*                                ^ punctuation.definition.group.begin.css */
+/*                                 ^^^^^^^^^ support.type.property-name.media.css */
+/*                                            ^^^^^^ constant.numeric.css */
+/*                                                  ^ punctuation.definition.group.end.css */
+
+    @media only screen and (-webkit-min-device-pixel-ratio: /* comment */ 1.3),
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^                  punctuation.definition.keyword.css */
+/*   ^^^^^             keyword.control.at-rule.media.css */
+/*         ^^^^        keyword.operator.logic.media.css */
+/*              ^^^^^^ support.constant.media.css */
+/*                     ^^^ keyword.operator.logic.media.css */
+/*                         ^ punctuation.definition.group.begin.css */
+/*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                                                        ^ punctuation.separator.key-value.css */
+/*                                                          ^^^^^^^^^^^^^ comment.block.css */
+/*                                                                        ^^^ constant.numeric.css */
+/*                                                                           ^ punctuation.definition.group.end.css */
+/*                                                                            ^ punctuation.definition.arbitrary-repetition */
+    only screen and (-o-min-device-pixel-ratio: 13/10),
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^^^^        keyword.operator.logic.media.css */
+/*       ^^^^^^ support.constant.media.css */
+/*              ^^^ keyword.operator.logic.media.css */
+/*                  ^ punctuation.definition.group.begin.css */
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                                            ^ punctuation.separator.key-value.css */
+/*                                              ^^ constant.numeric.css */
+/*                                                ^ keyword.operator */
+/*                                                 ^^ constant.numeric.css */
+/*                                                   ^ punctuation.definition.group.end.css */
+/*                                                    ^ punctuation.definition.arbitrary-repetition */
+    only screen and (min-resolution: 120dpi)
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^^^^        keyword.operator.logic.media.css */
+/*       ^^^^^^ support.constant.media.css */
+/*              ^^^ keyword.operator.logic.media.css */
+/*                  ^ punctuation.definition.group.begin.css */
+/*                   ^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                                 ^ punctuation.separator.key-value.css */
+/*                                   ^^^^^^ constant.numeric.css */
+/*                                         ^ punctuation.definition.group.end.css */
+{}
+
     @custom-media --a-b (width: 1px);
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css */
 /*  ^                          punctuation.definition.keyword.css       */
@@ -445,6 +507,9 @@
     color: #137;
 /*         ^^^^ constant.other.color.rgb-value.css */
 
+    color: #0f0a;
+/*         ^^^^^ constant.other.color.rgba-value.css */
+
     color: #a1b2c3d4;
 /*         ^^^^^^^^^ constant.other.color.rgba-value.css */
 
@@ -569,7 +634,12 @@
 /*                  ^^^ constant.numeric.css           */
 
     top: translateX(1%);
+/*       ^^^^^^^^^^ support.function.transform */
 /*                  ^^ constant.numeric.css */
+
+    top: translateZ(0);
+/*       ^^^^^^^^^^ support.function.transform */
+/*                  ^ constant.numeric.css */
 
     top: skewY(1deg);
 /*       ^^^^^      support.function.transform.css */
@@ -592,6 +662,13 @@
     top: skewY(1rad) rotate(1turn);
 /*                   ^^^^^^       support.function.transform.css */
 /*                          ^^^^^ constant.numeric.css           */
+
+    transform: translate(var(--center), 0) scale(var(--ripple-scale), 1);
+/*             ^^^^^^^^^ support.function.transform */
+/*                       ^^^ support.function.var */
+/*                           ^^^^^^^^ support.type.custom-property */
+/*                                      ^ constant.numeric */
+/*                                               ^^^ support.function.var */
 }
 
 .test-timing-functions {
@@ -892,6 +969,27 @@
 /*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
 /*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
 
+.test-property-name-order-doesnt-prevent-full-matches {
+    grid-template-rows: none;
+/*  ^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                    ^ punctuation.separator.key-value */
+    grid-template-columns: none;
+/*  ^^^^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                       ^ punctuation.separator.key-value */
+    grid-template-areas: auto;
+/*  ^^^^^^^^^^^^^^^^^^^ support.type.property-name */
+/*                     ^ punctuation.separator.key-value */
+    grid-template: initial;
+/*  ^^^^^^^^^^^^^ support.type.property-name */
+/*               ^ punctuation.separator.key-value */
+    grid-row-gap: 3vmin;
+/*  ^^^^^^^^^^^^ support.type.property-name */
+/*              ^ punctuation.separator.key-value */
+    grid-row: auto;
+/*  ^^^^^^^^ support.type.property-name */
+/*          ^ punctuation.separator.key-value */
+}
+
 .test-meta-scopes-for-completions {
     top: 5px;
 /*^^^^^^^^^^^ meta.property-list */
@@ -910,9 +1008,10 @@
 /*                                  ^^^^^^^^ string.unquoted */
 /*                                          ^ - string */
 /*                                            ^^^^^ support.constant.font-name */
-.generic-font-family2 { font-family: sans-serif , fantasy ; }
+.generic-font-family2 { font-family: sans-serif , fantasy , system-ui; }
 /*                                   ^^^^^^^^^^ support.constant.font-name */
 /*                                                ^^^^^^^ support.constant.font-name */
+/*                                                          ^^^^^^^^^ support.constant.font-name */
 .generic-font-family3 {
     font-family: cursive
 /*               ^^^^^^^ support.constant.font-name */
@@ -920,4 +1019,21 @@
 .generic-font-family4 {
     font-family: droid serif;
 /*               ^^^^^^^^^^^ string.unquoted */
+}
+
+.variable-beginnings {
+    --1x: url(data:image/png;base64,PNG);
+/*  ^^^^ support.type.custom-property */
+/*  ^^ punctuation.definition.custom-property */
+/*    ^^ support.type.custom-property.name */
+/*      ^ punctuation.separator.key-value */
+    background-image: var(--1x);
+/*                        ^^^^ support.type.custom-property */
+/*                        ^^ punctuation.definition.custom-property */
+/*                          ^^ support.type.custom-property.name */
+    --\ff: 5px;
+/*  ^^^^^ support.type.custom-property */
+/*  ^^ punctuation.definition.custom-property */
+/*    ^^^ support.type.custom-property.name */
+/*       ^ punctuation.separator.key-value */
 }

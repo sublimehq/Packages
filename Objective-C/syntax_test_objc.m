@@ -28,6 +28,7 @@
 /*      ^ entity.name.function.preprocessor */ \
 /*         ^ punctuation.section.group.begin */ \
 /*          ^ variable.parameter */ \
+/*           ^ punctuation.separator */ \
 /* */ \
 /* <- comment.block */ \
  c)  ((a>b) ? (a>c?a:c) : (b>c?b:c))
@@ -62,6 +63,10 @@ int func() {
 }
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
+
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
 
 #define CONST0 16 // Comment
 #define CONST1 8
@@ -134,6 +139,37 @@ int disabled_func() {
     int d = 4;
 /*  ^ comment.block */
 #endif
+
+
+FOO
+/* <- meta.assumed-macro */
+FOO;
+/* <- - meta.assumed-macro */
+foo
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+FOO()
+/* <- meta.assumed-macro variable.function.assumed-macro */
+FOO();
+/* <- - meta.assumed-macro */
+foo()
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+
+struct X
+{
+    ENABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    int foo;
+    /* <- storage.type */
+
+    DISABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    float bar;
+    /* <- storage.type */
+};
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
@@ -427,6 +463,22 @@ int32
 /* <- - entity.name.function */
 () {}
 
+_declspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                ^ entity.name.function      */
+__declspec(deprecated("bla")) void func2(int) {}
+/* <- storage.modifier - variable.function                    */
+/*         ^ storage.modifier - variable.function             */
+/*                    ^ string.quoted.double punctuation      */
+/*                     ^ string.quoted.double - punctuation   */
+/*                       ^ string.quoted.double - punctuation */
+/*                        ^ string.quoted.double punctuation  */
+/*                         ^^ punctuation - invalid           */
+/*                                 ^ entity.name.function     */
+__notdeclspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                    ^ entity.name.function  */
+
 /////////////////////////////////////////////
 // Test function call in function parameters
 /////////////////////////////////////////////
@@ -492,6 +544,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K like %@",
 /////////////////////////////////////////////
 // Includes
 /////////////////////////////////////////////
+
+#import <Cocoa/Cocoa.h>
+/* <- meta.preprocessor.import keyword.control.import.import */
+
+#include <uchar.h>
+/* <- meta.preprocessor.include keyword.control.import.include */
 
 #include "foobar.h"
 /* <- keyword.control.import.include */

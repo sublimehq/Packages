@@ -64,6 +64,10 @@ int func() {
 /* <- meta.function meta.block punctuation.section.block.end */
  /* <- - meta.function meta.block */
 
+int f(int x, \
+         /*  ^ punctuation.separator.continuation */
+      int y);
+
 #define CONST0 16 // Comment
 #define CONST1 8
 /* <- keyword.control.import.define */
@@ -135,6 +139,36 @@ int disabled_func() {
     int d = 4;
 /*  ^ comment.block */
 #endif
+
+FOO
+/* <- meta.assumed-macro */
+FOO;
+/* <- - meta.assumed-macro */
+foo
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+FOO()
+/* <- meta.assumed-macro variable.function.assumed-macro */
+FOO();
+/* <- - meta.assumed-macro */
+foo()
+/* <- - meta.assumed-macro */
+; // fix highlighting
+/* <- punctuation.terminator */
+
+struct X
+{
+    ENABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    int foo;
+    /* <- storage.type */
+
+    DISABLED("reason")
+    /* <- meta.assumed-macro variable.function.assumed-macro */
+    float bar;
+    /* <- storage.type */
+};
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
@@ -261,7 +295,8 @@ int foo(int val, float val2[])
     myClass *result;
     result->kk = func(val);
 /*        ^^ punctuation.accessor */
-    if (result == 0) {
+    if (result != 0) {
+/*             ^^ keyword.operator.comparison.c */
         return 0;
 #if CROSS_SCOPE_MACRO
  /* <- keyword.control.import */
@@ -428,6 +463,22 @@ int* return_type_pointer_no_space(){}
 int32
 /* <- - entity.name.function */
 () {}
+
+_declspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                ^ entity.name.function      */
+__declspec(deprecated("bla")) void func2(int) {}
+/* <- storage.modifier - variable.function                    */
+/*         ^ storage.modifier - variable.function             */
+/*                    ^ string.quoted.double punctuation      */
+/*                     ^ string.quoted.double - punctuation   */
+/*                       ^ string.quoted.double - punctuation */
+/*                        ^ string.quoted.double punctuation  */
+/*                         ^^ punctuation - invalid           */
+/*                                 ^ entity.name.function     */
+__notdeclspec(deprecated("bla")) void func2(int) {}
+/* <- meta.function-call variable.function                    */
+/*                                    ^ entity.name.function  */
 
 /////////////////////////////////////////////
 // Test function call in function parameters

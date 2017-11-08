@@ -75,11 +75,11 @@ variables:
               )*\]                          #  closing square bracket
           )+                                # at least one character
         )
-    balance_square_brackets_and_pipes: |-
+    balance_square_brackets_pipes_and_emphasis: |-
         (?x:
           (?:
             {{escape}}+                     # escape characters
-          | [^\[\]`\\|]+(?=[\[\]`\\|]|$)    # anything that isn't a square bracket, a backtick, the start of an escape character, or a pipe
+          | [^\[\]`\\_*|]+(?=[\[\]`\\_*|]|$)  # anything that isn't a square bracket, a backtick, the start of an escape character, or an emphasis character
           | {{backticks}}                   # inline code
           | \[(?:                           # nested square brackets (one level deep)
                 [^\[\]`]+(?=[\[\]`])        #  anything that isn't a square bracket or a backtick
@@ -87,14 +87,28 @@ variables:
               )*\]                          #  closing square bracket
           )+                                # at least one character
         )
+    balanced_emphasis: |-
+      (?x:
+          \*  (?!\*){{balance_square_brackets_and_emphasis}}+\*  (?!\*)
+      |   \*\*      {{balance_square_brackets_and_emphasis}}+\*\*
+      |   _   (?!_) {{balance_square_brackets_and_emphasis}}+_   (?!_)
+      |   __        {{balance_square_brackets_and_emphasis}}+__
+      )
+    balanced_table_cell: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
+      (?x:
+        (?:
+          {{balance_square_brackets_pipes_and_emphasis}}
+        | {{balanced_emphasis}}
+        )+                                # at least one character
+      )
     table_first_row: |-
         (?x:
-            (?:{{balance_square_brackets_and_pipes}}?\|){2}           # at least 2 non-escaped pipe chars on the line
-        |   (?!\s+\|){{balance_square_brackets_and_pipes}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
+            (?:{{balanced_table_cell}}?\|){2}           # at least 2 non-escaped pipe chars on the line
+        |   (?!\s+\|){{balanced_table_cell}}\|(?!\s+$)  # something other than whitespace followed by a pipe char, followed by something other than whitespace and the end of the line
         )
     fenced_code_block_start: |-
         (?x:
-          ^[ ]{0,3}    # up to 3 spaces
+          [ ]{0,3}     # up to 3 spaces
           (
             `{3,}      #   3 or more backticks
             (?![^`]*`) #   not followed by any more backticks on the same line
@@ -103,6 +117,48 @@ variables:
             (?![^~]*~) #   not followed by any more tildas on the same line
           )
         )
+    html_tag_open_commonmark: |-
+      (?xi:
+        <
+        [a-z]             # A tag name consists of an ASCII letter
+        [a-z0-9-]*        # followed by zero or more ASCII letters, digits, or hyphens (-)
+        (?:               # An attribute consists of whitespace, an attribute name, and an optional attribute value specification
+          \s+
+          [a-z_:]         # An attribute name consists of an ASCII letter, _, or :
+          [a-z0-9_.:-]*   # followed by zero or more ASCII letters, digits, _, ., :, or -
+          (?:             # An attribute value specification consists of optional whitespace, a = character, optional whitespace, and an attribute value
+            \s*
+            =
+            \s*
+            (?:
+              [^ @'=<>`]+ # An unquoted attribute value is a nonempty string of characters not including spaces, ", ', =, <, >, or `
+            | '[^']*'     # A single-quoted attribute value consists of ', zero or more characters not including ', and a final '
+            | "[^"]*"     # A double-quoted attribute value consists of ", zero or more characters not including ", and a final "
+            )
+          )?
+        )*
+        \s*
+        /?
+        >
+      )
+    html_tag_close_commonmark: |-
+      (?xi:
+        </
+        [a-z]             # A tag name consists of an ASCII letter
+        [a-z0-9-]*        # followed by zero or more ASCII letters, digits, or hyphens (-)
+        \s*
+        >
+      )
+    html_tag_block_end_at_close_tag: |-
+      (?xi:
+        (script|style|pre)\b
+      )
+    html_tag_block_end_at_blank_line: |-
+      (?x:
+        /?
+        (?i:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)
+        (?:\s|$|/?>)
+      )
 contexts:
   main:
     - match: |-
@@ -145,9 +201,24 @@ contexts:
         - match: ^(?=\S)
           pop: true
         - include: list-paragraph
-    - match: '^(?=<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b)'
+    - match: '^[ ]{0,3}(?=<((?i:pre))\b)'
       comment: Markdown formatting is disabled inside block-level tags.
-      push: [disabled-markdown-pop-at-eol, disable-markdown]
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-tag]
+    - match: '^[ ]{0,3}(?=<{{html_tag_block_end_at_close_tag}})'
+      comment: Markdown formatting is disabled inside block-level tags.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-tag]
+    - match: '^[ ]{0,3}(?=<\?)'
+      comment: Markdown formatting is disabled inside preprocessor instructions.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-php]
+    - match: '^[ ]{0,3}(?=<!(?:[A-Z]|--))'
+      comment: Markdown formatting is disabled inside doctype declarations and comments.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-html-doctype]
+    - match: '^[ ]{0,3}(?=<!\[CDATA\[)'
+      comment: Markdown formatting is disabled inside CDATA.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-after-cdata]
+    - match: '^[ ]{0,3}(?=(?:{{html_tag_open_commonmark}}|{{html_tag_close_commonmark}})\s*$|<{{html_tag_block_end_at_blank_line}})'
+      comment: Markdown formatting is disabled inside block level tags and if a complete HTML tag is the only thing on the line.
+      push: [disabled-markdown-pop-at-eol, disable-markdown-pop-at-blank-line]
     - match: |-
         (?x:
             \s*                        # Leading whitespace
@@ -160,7 +231,7 @@ contexts:
         )
       captures:
         1: punctuation.definition.constant.begin.markdown
-        2: constant.other.reference.link.markdown
+        2: entity.name.reference.link.markdown
         3: punctuation.definition.constant.end.markdown
         4: punctuation.separator.key-value.markdown
         5: punctuation.definition.link.begin.markdown
@@ -174,14 +245,22 @@ contexts:
       push:
         - meta_scope: meta.paragraph.markdown
         - match: |-
-            (?x)                       # pop out of this context when
+            (?x)                         # pop out of this context when one of the following conditions are met:
             ^(?:
-                \s*$                   # the line is blank (or only contains whitespace)
+                \s*$                     # the line is blank (or only contains whitespace)
             |   (?=
-                    {{block_quote}}    # a block quote begins the line
-                |   [ ]{,3}[*+-][ ]    # an unordered list item begins the line
-                |   [ ]{,3}1[.][ ]     # an ordered list item with number "1" begins the line
-                |   \#                 # an ATX heading begins the line
+                    {{block_quote}}      # a block quote begins the line
+                |   [ ]{,3}[*+-][ ]      # an unordered list item begins the line
+                |   [ ]{,3}1[.][ ]       # an ordered list item with number "1" begins the line
+                |   \#                   # an ATX heading begins the line
+                |   [ ]{,3}<(            # all types of HTML blocks except type 7 may interrupt a paragraph
+                      {{html_tag_block_end_at_close_tag}}   # 1
+                    | !--                                   # 2
+                    | \?                                    # 3
+                    | ![A-Z]                                # 4
+                    | !\[CDATA\[                            # 5
+                    | {{html_tag_block_end_at_blank_line}}  # 6
+                    )
                 )
             )
           pop: true
@@ -335,6 +414,8 @@ contexts:
             1: punctuation.definition.bold.end.markdown
           pop: true
         - include: inline
+        - match: \b_(?=[^\s_])(?=[^*_]*\*\*)
+          comment: eat the underscore that has no corresponding underscore before the closing bold punctuation on the same line, as it won't be treated as italic by CommonMark
         - include: italic
         - include: bold-italic-trailing
     - match: '\b(__)(_)(?=\S)(?!_)'
@@ -386,7 +467,7 @@ contexts:
             - include: bold-italic-trailing
         - include: inline
         - include: bold-italic-trailing
-    - match: '\b__(?=\S)(?!__|_\s)'
+    - match: '\b__(?=\S)(?!_[_\s])'
       scope: punctuation.definition.bold.begin.markdown
       push:
         - meta_scope: markup.bold.markdown
@@ -400,6 +481,8 @@ contexts:
             1: punctuation.definition.bold.end.markdown
           pop: true
         - include: inline
+        - match: \*(?=[^\s*])(?=[^*_]*__\b)
+          comment: eat the asterisk that has no corresponding asterisk before the closing bold punctuation on the same line, as it won't be treated as italic by CommonMark
         - include: italic
         - include: bold-italic-trailing
   bracket:
@@ -411,6 +494,12 @@ contexts:
   escape:
     - match: '{{escape}}'
       scope: constant.character.escape.markdown
+  atx-heading-terminator:
+    - match: '[ ]*(#*)[ ]*($\n?)' # \n is optional so ## is matched as end punctuation in new document (at eof)
+      captures:
+        1: punctuation.definition.heading.end.markdown
+        2: meta.whitespace.newline.markdown
+      pop: true
   atx-heading:
     - match: '(#)(?!#)\s*(?=\S)'
       captures:
@@ -418,10 +507,7 @@ contexts:
       push:
         - meta_scope: markup.heading.1.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
-          captures:
-            1: punctuation.definition.heading.end.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
     - match: '(##)(?!#)\s*(?=\S)'
       captures:
@@ -429,10 +515,7 @@ contexts:
       push:
         - meta_scope: markup.heading.2.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
-          captures:
-            1: punctuation.definition.heading.end.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
     - match: '(#{3,6})(?!#)\s*(?=\S)'
       captures:
@@ -440,10 +523,7 @@ contexts:
       push:
         - meta_scope: markup.heading.markdown
         - meta_content_scope: entity.name.section.markdown
-        - match: \s*(#*)$\n?
-          captures:
-            1: punctuation.definition.heading.end.markdown
-          pop: true
+        - include: atx-heading-terminator
         - include: inline-bold-italic
   image-inline:
     - match: |-
@@ -721,6 +801,11 @@ contexts:
         - include: block-quote
         - match: $
           pop: true
+    - match: '^(?=\s+{{fenced_code_block_start}})'
+      push:
+        - include: fenced-code-block
+        - match: ''
+          pop: true
     - match: \s+(?=\S)
       push:
         - match: ^\s*$
@@ -750,6 +835,11 @@ contexts:
       pop: true
   list-content:
     - meta_content_scope: meta.paragraph.list.markdown
+    - match: ^\s*(?={{fenced_code_block_start}})
+      push:
+        - match: $
+          pop: true
+        - include: fenced-code-block
     - match: ^
       pop: true
     - include: thematic-break
@@ -776,7 +866,7 @@ contexts:
           scope: punctuation.definition.raw.code-fence.end.markdown
           pop: true
   code-span:
-    - match: (`+)(?=\S)(?!`)
+    - match: (`+)(?!`)
       scope: punctuation.definition.raw.begin.markdown
       push:
         - meta_scope: markup.raw.inline.markdown
@@ -788,10 +878,12 @@ contexts:
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true
   raw:
-    - include: fenced-code-block
+    - match: ^(?={{fenced_code_block_start}})
+      push:
+        - match: $
+          pop: true
+        - include: fenced-code-block
     - include: code-span
-    - match: '`+'
-      scope: invalid.deprecated.unescaped-backticks.markdown
   thematic-break:
     - match: '(?={{thematic_break}})'
       push:
@@ -801,19 +893,41 @@ contexts:
         - match: '$\n?'
           pop: true
   disable-markdown:
+    - include: scope:text.html.basic
+  disable-markdown-pop-at-tag:
     - match: (</)(\1)(>)
       captures:
         1: meta.tag.block.any.html punctuation.definition.tag.begin.html
         2: meta.tag.block.any.html entity.name.tag.block.any.html
         3: meta.tag.block.any.html punctuation.definition.tag.end.html
       pop: true
-    - include: scope:text.html.basic
+    - include: disable-markdown
+  disable-markdown-pop-after-tag:
+    - match: (?!</?(?i:script|style)\b)
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-at-blank-line:
+    - match: ^\s*$
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-after-cdata:
+    - match: (?!<!\[CDATA\[)
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-at-php:
+    - match: \?>
+      pop: true
+    - include: disable-markdown
+  disable-markdown-pop-after-html-doctype:
+    - match: (?!<!([A-Z]|--))
+      pop: true
+    - include: disable-markdown
   disabled-markdown-pop-at-eol:
     - meta_content_scope: meta.disable-markdown
-    - match: '$\n?'
+    - match: $\n?
       scope: meta.disable-markdown
       pop: true
-    - include: scope:text.html.basic
+    - include: disable-markdown
   link-text:
     - include: escape
     - include: ampersand
@@ -904,14 +1018,7 @@ contexts:
                       pop: true
                     - match: \|
                       scope: punctuation.separator.table-cell.markdown
-                    - match: |- # Pipes inside other inline spans (such as emphasis, code, etc.) will not break a cell, emphasis in table cells can't span multiple lines
-                        (?x)
-                        (?=
-                            \*  (?!\*){{balance_square_brackets_and_emphasis}}+\*  (?!\*)
-                        |   \*\*      {{balance_square_brackets_and_emphasis}}+\*\*
-                        |   _   (?!_) {{balance_square_brackets_and_emphasis}}+_   (?!_)
-                        |   __        {{balance_square_brackets_and_emphasis}}+__
-                        )
+                    - match: (?={{balanced_emphasis}})
                       push:
                         - include: bold
                         - include: italic

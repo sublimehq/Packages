@@ -98,7 +98,7 @@ ECHO "
 
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^                 keyword.control.repeat.dosbatch
-::             ^       constant.numeric.dosbatch
+::             ^       constant.numeric.integer.decimal.dosbatch
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
@@ -213,9 +213,11 @@ ECHO Not! a variable
 
 :: Numerics
 SET /A r = 010 + 0x20 - 24
-::         ^^^ constant.numeric.dosbatch
-::               ^^^^ constant.numeric.dosbatch
-::                      ^^ constant.numeric.dosbatch
+::         ^^^ constant.numeric.integer.octal.dosbatch
+::         ^ punctuation.definition.numeric.octal.dosbatch
+::               ^^^^ constant.numeric.integer.hexadecimal.dosbatch
+::               ^^ punctuation.definition.numeric.hexadecimal.dosbatch
+::                      ^^ constant.numeric.integer.decimal.dosbatch
 
 :: Escape Characters
 ECHO %% ^^! ^&
@@ -435,13 +437,12 @@ ren example.txt example_%today%.txt
 ::                      ^^^^^^^ variable.other.readwrite.dosbatch
 ::                            ^ punctuation.definition.variable.end.dosbatch
 
-::                        | this is a deliberate trailing space
-set /p today=enter a date: 
+set /p today=enter a date:
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
 ::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
-::                         ^ - meta.prompt.set.dosbatch
+::           ^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
+::                        ^ - meta.prompt.set.dosbatch
 set /p today=enter a date: REM :: this is not a comment
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch

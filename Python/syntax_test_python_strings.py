@@ -116,6 +116,9 @@ regex = R"\b ([fobar]*){1}(?:a|b)?"
 bad_string = 'SELECT * FROM users
 #                                ^ invalid.illegal.unclosed-string
 
+more_bad_string = r"
+#                   ^ invalid.illegal.unclosed-string.python
+
 string = '''
 
 # <- string.quoted.single.block
@@ -413,7 +416,7 @@ sql = Ur"SELECT `name` FROM `users` \
 #                              ^ punctuation.definition.string.end.python
 
 sql = b'just some \
-#     ^^^^^^^^^^^^^^ string.quoted.single.python - invalid.illegal.unclosed-string.python, \
+#      ^^^^^^^^^^^^^ string.quoted.single.python - invalid.illegal.unclosed-string.python, \
 #                 ^ punctuation.separator.continuation.line.python, \
     string'
 #^^^^^^^^^^ string.quoted.single
@@ -490,21 +493,27 @@ a=["aaaa{", "bbbb{"]
 #       ^ - constant.other.placeholder
 #        ^ punctuation.definition.string.end.python
 
+foo = "{text{" # Comment
+#      ^^^^^^ - constant.other.placeholder
+#            ^ punctuation.definition.string.end
+bar = "}}" # Comment
+#      ^^ constant.character.escape
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
 
  RF"""string"""
-#^^ storage.type.string
-#^^^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block
+#^^ storage.type.string - string
+#  ^^^^^^^^^^^^ meta.string.interpolated string.quoted.double.block
 
 F'''string'''
 # <- storage.type.string
 #^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
 
  rf'string'
-#^^ storage.type.string
-#^^^^^^^^^^ meta.string.interpolated string.quoted.single
+#^^ storage.type.string - string
+#  ^^^^^^^^ meta.string.interpolated string.quoted.single
 
 rf'\r\n' f'\r\n'
 #  ^^^^ - constant
@@ -555,7 +564,8 @@ f"result: {value:{width}.{precision}}\n"
 #                        ^^^^^^^^^^^ meta.interpolation.python meta.interpolation.python
 #                                   ^^^ - meta.interpolation.python meta.interpolation.python
 rf"{value:{width!s:d}}"
-#^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+# <- storage.type.string.python - string
+# ^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 #          ^^^^^ source source.python.embedded
 #               ^^ storage.modifier.conversion
 #                 ^^ constant.other.format-spec

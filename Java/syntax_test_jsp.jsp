@@ -41,9 +41,9 @@
             <%
 //          ^^ punctuation.section.embedded.begin.jsp - source.java.embedded.html
         }
-//      ^ - invalid.illegal.stray-bracket
+//      ^ - invalid.illegal.stray-brace-end
     }
-//  ^ - invalid.illegal.stray-bracket
+//  ^ - invalid.illegal.stray-brace-end
     %>
 //  ^^ punctuation.section.embedded.end.jsp - source.java.embedded.html
 //    ^ text.html.jsp - source.java.embedded.html

@@ -280,9 +280,9 @@ contexts:
             (?: # or modifier and optional type
               (?:(?:\b(public|private|protected)|(static)|(final)|(native|synchronized|abstract|threadsafe|transient))\b\s+)+\s* # modifier
               (?:\b
-                (void)
+                (void\b)
                 |
-                (boolean|byte|char|short|int|float|long|double) # primitive
+                ((?:boolean|byte|char|short|int|float|long|double)\b) # primitive
                 |
                 ( # or class type
                   (?:\w+\.)*[A-Z]\w+\b # Class name
@@ -293,11 +293,11 @@ contexts:
             )
             |
             (?:\b # or type by itself
-              (def)
+              (def\b)
               |
-              (void)
+              (void\b)
               |
-              (boolean|byte|char|short|int|float|long|double) # primitive
+              ((?:boolean|byte|char|short|int|float|long|double)\b) # primitive
               |
               ( # or class type
                 (?:\w+\.)*[A-Z]\w+\b # Class name
