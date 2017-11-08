@@ -92,7 +92,7 @@ string unclosed_interpolation = $"inner {
 
 string unclosed_interpolation = $"inner {2}
 ///                                     ^ punctuation.section.interpolation.begin.cs
-///                                      ^ constant.numeric.cs
+///                                      ^ constant.numeric
 ///                                       ^ punctuation.section.interpolation.end.cs
 ///                                        ^ invalid.illegal.unclosed-string.cs
 

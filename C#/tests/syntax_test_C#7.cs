@@ -142,6 +142,36 @@ class Foo {
 ///                            ^ punctuation.section.group.end
 ///                             ^ punctuation.section.group.end
 
+        // https://github.com/dotnet/roslyn/pull/2950
+        int bin = 0b1001_1010_0001_0100;
+///               ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
+///               ^^ punctuation.definition.numeric.binary
+        int hex = 0x1b_a0_44_fe;
+///               ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+///               ^^ punctuation.definition.numeric.hexadecimal
+        int dec = 33_554_432;
+///               ^^^^^^^^^^ constant.numeric.integer.decimal
+        int weird = 1_2__3___4____5_____6______7_______8________9;
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.decimal
+        double real = 1_000.111_1e-1_000;
+///                   ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+        double dbl = 33_554_432.5_2;
+///                  ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+        long lng = 33_554_4321L;
+///                ^^^^^^^^^^^ constant.numeric.integer.decimal
+///                           ^ storage.type.numeric
+        bin = _0b1001_1010_0001_0100;
+///           ^^^^^^^^^^^^^^^^^^^^^^ variable.other
+        bin = 0b1001_1010_0001_0100_;
+///                                ^ - constant.numeric
+        bin = 0b_1001_1010_0001_0100;
+///            ^^^^^^^^^^^^^^^^^^^^^ - constant.numeric
+        hex = _0x1b_a0_44_fe;
+///           ^^^^^^^^^^^^^^ variable.other
+        hex = 0x_1b_a0_44_fe;
+///            ^^^^^^^^^^^^^ - constant.numeric
+
+
         switch (sh) {
             case Shape shape when sh.Area == 0:
 ///         ^^^^ keyword.control.switch.case
