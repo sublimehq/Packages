@@ -165,6 +165,7 @@ variables:
 
 contexts:
   prototype:
+    - include: Packages/Git Conflicts/git-conflicts.sublime-syntax
     - include: comment
     - include: property
 

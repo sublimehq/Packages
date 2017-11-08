@@ -1,0 +1,10 @@
+/* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
+
+<<<<<<< HEAD
+.conflicted_style1 {
+  color: #123;
+=======
+.conflicted_style2 {
+  color: #456;
+>>>>>>> master
+}

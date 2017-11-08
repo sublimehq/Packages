@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+name: Git conflicts
+scope: source.git
+
+contexts:
+  main:
+    - match: '^<<<<<<<.*\n'
+      scope: invalid.illegal
+      push: git-conflict-head
+    - match: '^>>>>>>>.*\n'
+      scope: invalid.illegal
+
+  git-conflict-head:
+    - match: '^=======.*\n'
+      scope: invalid.illegal
+      pop: true

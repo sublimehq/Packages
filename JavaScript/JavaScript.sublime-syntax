@@ -39,6 +39,7 @@ contexts:
     - include: statements
 
   prototype:
+    - include: Packages/Git Conflicts/git-conflicts.sublime-syntax
     - include: comments
 
   comments:
