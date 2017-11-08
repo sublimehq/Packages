@@ -566,7 +566,7 @@ contexts:
 
   parens:
     - match: \(
-      scope: punctuation.section.parens.begin.java parens
+      scope: punctuation.section.parens.begin.java
       push:
         - meta_scope: meta.parens.java
         - match: \)
