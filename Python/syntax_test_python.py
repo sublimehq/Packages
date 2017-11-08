@@ -336,13 +336,14 @@ def _():
     for
 #   ^^^ keyword.control.flow.for
     b = c in d
-#         ^^ keyword.operator.logical
+#         ^^ keyword.operator.logical - keyword.control.flow.for.in
 
     for \
         a \
         in \
         b:
 #       ^^ meta.statement.for
+#        ^ punctuation.section.block.for.python
 
     async for i in myfunc():
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
@@ -358,8 +359,6 @@ def _():
     a for b in c:  # TODO make this invalid (for not at beginning of line)
 
 
-    with
-#   ^^^^ keyword.control.flow.with
     something as nothing:
 #             ^^ invalid.illegal.name
 
@@ -384,6 +383,73 @@ def _():
 #                                    ^ punctuation.section.block.with
         await something()
 #       ^^^^^ keyword.other.await
+
+    try:
+#   ^^^^ meta.statement.try.python
+#   ^^^ keyword.control.flow.try.python
+#      ^ punctuation.section.block.try.python
+        raise
+#       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
+    except Exception as x:
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except.python - meta.statement.except.python meta.statement.except.python
+#   ^^^^^^ keyword.control.flow.except.python
+#          ^^^^^^^^^ support.type.exception.python
+#                    ^^ keyword.control.flow.as.python
+#                       ^ meta.generic-name.python
+#                        ^ punctuation.section.block.except.python
+        pass
+    finally :
+#   ^^^^^^^^^ meta.statement.finally.python
+#   ^^^^^^^ keyword.control.flow.finally.python
+#           ^ punctuation.section.block.finally.python
+
+    while (
+#   ^^^^^^^^ meta.statement.while.python
+#   ^^^^^ keyword.control.flow.while.python
+#         ^ meta.statement.while.python meta.group.python punctuation.section.group.begin.python
+        a is b
+#       ^^^^^^ meta.statement.while.python
+#         ^^ keyword.operator.logical.python
+    ):
+#    ^ meta.statement.while.python punctuation.section.block.while.python
+        sleep()
+
+    if 213 is 231:
+#   ^^^^^^^^^^^^^^ meta.statement.if.python
+#   ^^ keyword.control.flow.conditional.python
+#      ^^^ constant.numeric.integer.decimal.python
+#          ^^ keyword.operator.logical.python
+#                ^ punctuation.section.block.conditional.python
+        pass
+    elif:
+#   ^^^^^ meta.statement.conditional.python
+#       ^ punctuation.section.block.python
+        pass
+    else  :
+#   ^^^^^^^ meta.statement.conditional.python
+#         ^ punctuation.section.block.python
+        pass
+
+    if \
+        True:
+#       ^^^^^ meta.statement.if.python
+#       ^^^^ constant.language.python
+#           ^ punctuation.section.block.conditional.python
+#
+
+    # verify that keywords also work when they are bare (useful when typing)
+    for
+#   ^^^ keyword.control.flow.for.python
+    with
+#   ^^^^ keyword.control.flow.with.python
+    if
+#   ^^ keyword.control.flow.conditional.python
+    finally
+#   ^^^^^^^ keyword.control.flow.finally.python
+    else
+#   ^^^^ keyword.control.flow.conditional.python
+    while
+#   ^^^^^ keyword.control.flow.while.python
 
 
 ##################

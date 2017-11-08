@@ -193,15 +193,46 @@ contexts:
         - match: '\b(as)\b'
           scope: keyword.control.flow.as.python
           set:
-            - meta_scope: meta.statement.except.python
+            - meta_content_scope: meta.statement.except.python
             - include: line-continuation-or-pop
             - match: ':'
-              scope: punctuation.section.block.except.python
+              scope: meta.statement.except.python punctuation.section.block.except.python
               pop: true
             - include: name
         - include: target-list
-    - match: \b(elif|else|finally|if|try|while)\b
-      scope: keyword.control.flow.python
+    - match: \bif\b
+      scope: keyword.control.flow.conditional.python
+      push:
+        - meta_scope: meta.statement.if.python
+        - include: line-continuation-or-pop
+        - match: ':'
+          scope: punctuation.section.block.conditional.python
+          pop: true
+        - include: expressions
+    - match: \bwhile\b
+      scope: keyword.control.flow.while.python
+      push:
+        - meta_scope: meta.statement.while.python
+        - include: line-continuation-or-pop
+        - match: ':'
+          scope: punctuation.section.block.while.python
+          pop: true
+        - include: expressions
+    - match: \b(elif|else)(?:\s*(:))?
+      scope: meta.statement.conditional.python
+      captures:
+        1: keyword.control.flow.conditional.python
+        2: punctuation.section.block.python
+    - match: \b(try)(?:\s*(:))?
+      scope: meta.statement.try.python
+      captures:
+        1: keyword.control.flow.try.python
+        2: punctuation.section.block.try.python
+    - match: \b(finally)(?:\s*(:))?
+      scope: meta.statement.finally.python
+      captures:
+        1: keyword.control.flow.finally.python
+        2: punctuation.section.block.finally.python
 
   with-body:
     - meta_scope: meta.statement.with.python
@@ -1181,10 +1212,8 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?=""")'
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?=""")
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(""")
       captures:
@@ -1322,10 +1351,8 @@ contexts:
           set: after-expression
         - include: line-continuation-inside-string
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: '(?="|\n)'
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?="|\n)
     # Single-line raw f-string
     - match: ((?i)fr|rf)(")
       captures:
@@ -1465,10 +1492,8 @@ contexts:
           scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
-          push: scope:source.regexp.python
-          with_prototype:
-            - match: (?=''')
-              pop: true
+          embed: scope:source.regexp.python
+          escape: (?=''')
     # Triple-quoted raw f-string
     - match: ((?i)fr|rf)(''')
       captures:

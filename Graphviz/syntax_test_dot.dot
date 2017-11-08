@@ -67,8 +67,9 @@ digraph structs {
 //                                              ^ punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
   <TR><TD PORT="f0">one</TD><TD>two</TD></TR>
 </TABLE> >];
-// ^^^^       source.dot.embedded.html
 // ^^^^^^     source.dot.embedded.html
+//^^^^^^ meta.tag
+//      ^ - meta.tag
 //     ^      punctuation.definition.tag.end.html - punctuation.section.embedded.end.dot
 //       ^    punctuation.section.embedded.end.dot - source.dot.embedded.html
     struct1:f1 -> struct2:f0;

@@ -9,6 +9,7 @@ name: Lisp
 file_extensions:
   - lisp
   - cl
+  - clisp
   - l
   - mud
   - el

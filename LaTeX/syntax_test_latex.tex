@@ -444,6 +444,18 @@ a & b
 \end{tabular}
 
 
+% issue 1280
+
+\begin{tabular}{p{2.6cm} | p{6.0cm} }
+%               ^^^^^^^^^^^^^^^^^^^ meta.environment.tabular meta.function.column-spec
+%               ^ support.function.parbox-column
+%                        ^ keyword.operator.inter-column-line
+%                          ^ support.function.parbox-column
+%                                  ^ meta.environment.tabular meta.function.column-spec
+\end{tabular}
+
+
+
 \AnyDeclarationCommand{\eq}{\begin{equation}}
 
 % <- - meta.environment.math

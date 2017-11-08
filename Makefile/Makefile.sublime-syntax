@@ -273,22 +273,14 @@ contexts:
     - match: $
       set: recipe-junction-between-spaces-or-tabs
     - match: ""
-      push: scope:source.shell
-      with_prototype:
-        - include: line-continuation
-        - include: variable-substitutions
-        - include: pop-on-line-end
+      push: shell
 
   recipe-with-spaces:
     - meta_content_scope: meta.function.body.makefile
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         2: constant.language.makefile
-      push: scope:source.shell
-      with_prototype:
-        - include: line-continuation
-        - include: variable-substitutions
-        - include: pop-on-line-end
+      push: shell
     - match: ^(\t)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.spaces.makefile
@@ -302,11 +294,7 @@ contexts:
     - match: ^\t([-@]{1,2})?
       captures:
         1: constant.language.makefile
-      push: scope:source.shell
-      with_prototype:
-        - include: line-continuation
-        - include: variable-substitutions
-        - include: pop-on-line-end
+      push: shell
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.tab.makefile
@@ -318,6 +306,26 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
+    
+  shell:
+    # Due to how the shell syntax handles comments, we must account for the case
+    # where a recipe-line is a single comment in combination with an "@" or "-"
+    # from Make.
+    - match: \s*(#)
+      captures:
+        1: punctuation.definition.comment.begin.shell
+      set:
+        # I don't like putting the string "source.shell" here, as the delegation
+        # seeps into this syntax now. But I don't see a cleaner way right now.
+        - meta_scope: source.shell comment.line.number-sign.shell
+        - include: pop-on-line-end
+    # Otherwise, delegate to the shell syntax (with various extra prototypes).
+    - match: ""
+      set: scope:source.shell
+      with_prototype:
+        - include: line-continuation
+        - include: variable-substitutions
+        - include: pop-on-line-end
 
   line-continuation:
     - match: (\\)([ ]*)$\n?
