@@ -96,21 +96,24 @@ contexts:
       push:
         - meta_scope: meta.statement.import.python
         - include: line-continuation-or-pop
-        - include: import-alias
-        - include: qualified-name
         - match: ','
           scope: punctuation.separator.import-list.python
+        - match: \.
+          scope: invalid.illegal.unexpected-relative-import.python
+        - include: import-alias
+        - include: qualified-name
         - match: (?=\S)
           pop: true
     - match: \b(from)\b
       scope: keyword.control.import.from.python
       push:
         - meta_scope: meta.statement.import.python
-          meta_content_scope: meta.import-source.python
+        - meta_content_scope: meta.import-source.python
         - include: line-continuation-or-pop
         - match: \b(import)\b
           scope: keyword.control.import.python
           set:
+            - meta_scope: meta.statement.import.python
             - include: line-continuation-or-pop
             - match: ' *(\()'
               captures:
@@ -133,9 +136,7 @@ contexts:
                   pop: true
             - match: (?=\S)
               pop: true
-        - include: qualified-name
-        - match: (\.)
-          scope: punctuation.accessor.dot.python
+        - include: import-from-name
         - match: (?=\S)
           pop: true
 
@@ -152,6 +153,23 @@ contexts:
   import-alias:
     - match: \b(as)\b
       scope: keyword.control.import.as.python
+
+  import-from-name:
+    - match: (?=(\. *)?{{path}})
+      push:
+        - meta_scope: meta.import-path.python
+        - match: '{{identifier}}'
+          scope: meta.import-name.python
+        - match: \s*(\.) *({{identifier}})
+          captures:
+            1: punctuation.accessor.dot.python
+            2: meta.import-name.python
+        - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+          captures:
+            1: invalid.illegal.name.python
+          pop: true
+        - match: ''
+          pop: true
 
   block-statements:
     # async for ... in ...:
