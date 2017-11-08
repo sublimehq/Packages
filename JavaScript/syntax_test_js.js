@@ -387,11 +387,8 @@ var obj = {
     "key '(": true,
     // <- meta.object-literal.key
 
-    static foo(bar) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //      ^entity.name.function
-    },
+    static,
+//  ^^^^^^ variable.other.readwrite
 
     *baz(){
 //  ^^^^^^ meta.function.declaration
@@ -561,7 +558,7 @@ class MyClass extends TheirClass {
 //                               ^ meta.block
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ entity.name.function
+    // ^ entity.name.function.constructor
     {
 //  ^ meta.class meta.block meta.block punctuation.section.block
         $.foo = "";
@@ -578,9 +575,9 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //       ^ entity.name.function
+//  ^^^^^^ storage.modifier
+//         ^^^^^^^^ meta.function.declaration
+    //     ^^^ entity.name.function
 
     }
 

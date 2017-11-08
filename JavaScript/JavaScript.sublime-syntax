@@ -785,6 +785,23 @@ contexts:
     - match: '\}'
       scope: punctuation.section.block.js
       pop: true
+
+    - match: \bconstructor\b
+      scope: entity.name.function.constructor.js
+      push:
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+
+    - match: \bstatic\b
+      scope: storage.modifier.js
+      push:
+        - include: class-field
+        - include: else-pop
+
+    - include: class-field
+
+  class-field:
     - include: method-declaration
 
   constants:
@@ -1172,7 +1189,7 @@ contexts:
   method-declaration:
     - match: |-
         (?x)(?=
-          \b(?: get|set|async|static )\b
+          \b(?: get|set|async )\b
           | \*
           | {{method_name}} \s* \(
         )
@@ -1188,8 +1205,6 @@ contexts:
       scope: keyword.generator.asterisk.js
     - match: \b(get|set)\b(?!\s*\()
       scope: storage.type.accessor.js
-    - match: \bstatic\b
-      scope: storage.type.js
     - include: else-pop
 
   parenthesized-expression:
