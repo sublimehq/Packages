@@ -1262,23 +1262,27 @@ contexts:
         - include: object-property
 
   literal-number:
-    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
+    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f_]*\.(\B|\b[0-9_]+)'
       scope: invalid.illegal.numeric.hex.js
       pop: true
-    - match: '(?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)'
+    - match: '(?:\B[-+]|\b)0[0-9_]+\.(\B|\b[0-9_]+)'
       scope: invalid.illegal.numeric.octal.js
       pop: true
     - match: |-
-        (?xi)
+        (?x)
         (?:\B[-+])?
         (?:
-          \b0b[0-1]*|                 # binary
-          \b0o[0-7]*|                 # octal
-          \b0x[0-9a-f]*|              # hex
-          (
-            \B\.[0-9]+|               # e.g. .999
-            \b[0-9]+(\.[0-9]*)?       # e.g. 999.999, 999. or 999
-          )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
+          (?i:
+            \B\.[0-9][0-9_]*|         # e.g. .999
+            \b[0-9][0-9_]*(\.[0-9_]*)?# e.g. 999.999, 999. or 999
+          )(e[-+]?[0-9_]+)?           # e.g. e+123, E-123
+          |
+          \b(?i:
+            [0-9][0-9_]*              # decimal
+            | 0b[0-1_]*               # binary
+            | 0o[0-7_]*               # octal
+            | 0x[0-9a-f_]*            # hex
+          )n?
         )
       scope: constant.numeric.js
       pop: true
