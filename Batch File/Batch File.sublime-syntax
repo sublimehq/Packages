@@ -281,6 +281,7 @@ contexts:
         1: keyword.operator.conditional.dosbatch
       push:
         - match: '\n'
+          scope: comment.line.rem.dosbatch
           pop: true
         - match: '({{colon_comment_start}})'
           scope: punctuation.definition.comment.dosbatch
@@ -293,8 +294,11 @@ contexts:
     - match: \b(?i)rem\b
       scope: keyword.command.rem.dosbatch
       push:
+        # REM is a command for creating comments
+        # https://github.com/sublimehq/Packages/pull/1091
         - meta_content_scope: comment.line.rem.dosbatch
         - match: \n
+          scope: comment.line.rem.dosbatch
           pop: true
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch

@@ -11,6 +11,10 @@ REM
    not a comment
 :: ^^^^^^^^^^^^^ - comment.line.rem.dosbatch
 
+REM This follows a REM command
+:: <- keyword.command - comment
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
    :: Me too!
 :: ^^         punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
