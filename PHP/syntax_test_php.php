@@ -354,7 +354,7 @@ func_call(true, 1, "string");
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
 //            ^ punctuation.separator.php
-//              ^ constant.numeric
+//              ^ constant.numeric.integer.decimal
 //               ^ punctuation.separator.php
 //                 ^^^^^^^^ string.quoted.double
 
@@ -462,7 +462,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                    ^^ variable.other
 //                                    ^ punctuation.definition.variable
 //                                      ^ punctuation.section.brackets.begin
-//                                       ^ constant.numeric
+//                                       ^ constant.numeric.integer.decimal
 //                                        ^ punctuation.section.brackets.end
 //                                                      ^^ variable.other
 //                                                      ^ punctuation.definition.variable
@@ -665,16 +665,18 @@ function generate()
 }
 
 $var = 0;
-//     ^ constant.numeric
+//     ^ constant.numeric.integer.decimal
 
 $var2 = -123.456e10;
-//       ^^^^^^^^^^ constant.numeric
+//       ^^^^^^^^^^ constant.numeric.float.decimal
 
 $var3 = 0x0f;
-//      ^^^^ constant.numeric
+//      ^^^^ constant.numeric.integer.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
 
 $var4 = 0b0111;
-//      ^^^^^^ constant.numeric
+//      ^^^^^^ constant.numeric.integer.binary
+//      ^^ punctuation.definition.numeric.binary
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php

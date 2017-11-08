@@ -1021,13 +1021,18 @@ contexts:
         2: variable.other.php
       push: function-call-parameters
   numbers:
-    - match: |-
-        (?x)(
-          \b(0[bB][01]*)\b |
-          \b(0[xX][0-9a-fA-F]*)\b |
-          (\b([0-9]+\.?[0-9]*)|\B(\.[0-9]+))([eE](\+|-)?[0-9]+)?\b
-        )
-      scope: constant.numeric.php
+    - match: '\b(0[bB])[01]*\b'
+      scope: constant.numeric.integer.binary.php
+      captures:
+        1: punctuation.definition.numeric.binary.php
+    - match: '\b(0[xX])\h*\b'
+      scope: constant.numeric.integer.hexadecimal.php
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.php
+    - match: '\b(?:\d*\.\d+|\d+\.\d*)(?:[eE][+-]?\d+)?\b'
+      scope: constant.numeric.float.decimal.php
+    - match: '\b\d+\b'
+      scope: constant.numeric.integer.decimal.php
   object:
     - match: '(->)(\$?\{)'
       captures:
