@@ -240,8 +240,16 @@ contexts:
       scope: punctuation.separator.dosbatch
 
   numbers:
-    - match: '\b(0[xX]\h*|[+-]?\d+)\b'
-      scope: constant.numeric.dosbatch
+    - match: '\b(0[xX])\h*\b'
+      scope: constant.numeric.integer.hexadecimal.dosbatch
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.dosbatch
+    - match: '\b(0)[0-7]+\b'
+      scope: constant.numeric.integer.octal.dosbatch
+      captures:
+        1: punctuation.definition.numeric.octal.dosbatch
+    - match: '\b[+-]?(?:0|[1-9][0-9]*)\b'
+      scope: constant.numeric.integer.decimal.dosbatch
 
   constants:
     - match: \b(?i:NUL)\b
