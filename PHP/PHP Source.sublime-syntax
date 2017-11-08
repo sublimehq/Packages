@@ -817,6 +817,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:text.html.basic
+        - match: <<<\s*('HTML')\s*$\n?
+          scope: meta.embedded.html punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:text.html.basic
+          embed_scope: meta.embedded.html text.html
+          escape: (?=^HTML\b)
         - match: <<<\s*(XML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -828,6 +835,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:text.xml
+        - match: <<<\s*('XML')\s*$\n?
+          scope: meta.embedded.xml punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:text.xml
+          embed_scope: meta.embedded.xml text.xml
+          escape: (?=^XML\b)
         - match: <<<\s*(SQL)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -839,6 +853,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.sql
+        - match: <<<\s*('SQL')\s*$\n?
+          scope: meta.embedded.sql punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.sql
+          embed_scope: meta.embedded.sql source.sql
+          escape: (?=^SQL\b)
         - match: <<<\s*(JAVASCRIPT)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -850,6 +871,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.js
+        - match: <<<\s*('JAVASCRIPT')\s*$\n?
+          scope: meta.embedded.js punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.js
+          embed_scope: meta.embedded.js source.js
+          escape: (?=^JAVASCRIPT\b)
         - match: (<<<)\s*(JSON)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -861,6 +889,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.json
+        - match: (<<<)\s*('JSON')\s*$\n?
+          scope: meta.embedded.json punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.json
+          embed_scope: meta.embedded.json source.json
+          escape: (?=^JSON\b)
         - match: <<<\s*(CSS)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -872,6 +907,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.css
+        - match: <<<\s*('CSS')\s*$\n?
+          scope: meta.embedded.css punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.css
+          embed_scope: meta.embedded.css source.css
+          escape: (?=^CSS\b)
         - match: '<<<\s*({{identifier}})'
           scope: punctuation.definition.string.php
           captures:
@@ -881,13 +923,15 @@ contexts:
             - match: (?=^\1\b)
               pop: true
             - include: interpolation
-        - match: '<<<\s*''({{identifier}})'''
+        - match: '<<<\s*('')({{identifier}})('')'
           scope: punctuation.definition.string.php
           captures:
-            1: keyword.operator.heredoc.php
+            1: keyword.operator.nowdoc.php
+            2: keyword.operator.nowdoc.php
+            3: keyword.operator.nowdoc.php
           push:
             - meta_scope: string.unquoted.nowdoc.php
-            - match: (?=^\1\b)
+            - match: (?=^\2\b)
               pop: true
   instantiation:
     - match: '(?i)(new)\s+(class)\b\s*'
