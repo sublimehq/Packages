@@ -466,28 +466,28 @@ public class GrafoTest {
 
 
      @Partial @Mock(type=Grafo.class) DataLoader inline;
- //  ^^^^^^^^                          meta.annotation
- //           ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
- //                                   ^ support.class
+//   ^^^^^^^^                          meta.annotation
+//            ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                                    ^ support.class
 
      @Override public int inline() {
- //  ^^^^^^^^^ meta.annotation
- //  ^ punctuation.definition.annotation
- //   ^^^^^^^^ variable.annotation
+//   ^^^^^^^^^ meta.annotation
+//   ^ punctuation.definition.annotation
+//    ^^^^^^^^ variable.annotation
      }
 
      void annotatedArgs(@NonNull final String p1,
- //                     ^^^^^^^^ meta.annotation
- //                              ^ storage.modifier - meta.annotation
+//                      ^^^^^^^^ meta.annotation
+//                               ^ storage.modifier - meta.annotation
          @Named(value = "") List<T> p2, @NonNull final String p3) {}
- //      ^^^^^^^^^^^^^^^^^^ meta.annotation
- //                         ^ support.class
- //                             ^ meta.generic punctuation.definition.generic.begin
- //                                 ^ variable.parameter
- //                                   ^ punctuation.separator
- //                                     ^^^^^^^^ meta.annotation
- //                                              ^ storage.modifier - meta.annotation
- //                                                    ^ support.class
+//       ^^^^^^^^^^^^^^^^^^ meta.annotation
+//                          ^ support.class
+//                              ^ meta.generic punctuation.definition.generic.begin
+//                                  ^ variable.parameter
+//                                    ^ punctuation.separator
+//                                      ^^^^^^^^ meta.annotation
+//                                               ^ storage.modifier - meta.annotation
+//                                                     ^ support.class
 
 }
 
