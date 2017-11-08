@@ -609,6 +609,23 @@ class MyClass extends TheirClass {
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
 
+    a, 'b' = 50, "c", [d] = 100;
+//  ^ variable.other.readwrite
+//      ^ variable.other.readwrite
+//                ^ variable.other.readwrite
+//                     ^ variable.other.readwrite
+
+    static a, 'b' = 50, "c", [d] = 100;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//             ^ variable.other.readwrite
+//                       ^ variable.other.readwrite
+//                            ^ variable.other.readwrite
+
+    foo // You thought I was a field...
+    () { return '...but was a method all along!'; }
+//  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function.constructor

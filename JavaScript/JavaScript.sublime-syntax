@@ -806,25 +806,46 @@ contexts:
 
     - match: \bstatic\b
       scope: storage.modifier.js
-      push:
-        - include: class-field
-        - include: else-pop
-
-    - include: class-field
-
-  class-field:
-    - include: method-declaration
+      push: class-field
 
     - match: (?={{property_name}})
+      push: class-field
+
+  class-field:
+    - match: '{{method_lookahead}}'
+      set: method-declaration
+      
+    - match: (?={{property_name}})
+      set:
+        - field-initializer-or-method-declaration
+        - field-name
+
+    - include: else-pop
+
+  class-field-rest:
+    - match: ','
+      scope: punctuation.separator.js
       push:
         - field-initializer
         - field-name
+    - include: else-pop
 
   field-initializer:
     - match: =
       scope: keyword.operator.assignment.js
-      set: expression-statement
+      set: expression-no-comma
     - include: else-pop
+
+  field-initializer-or-method-declaration:
+    - match: (?=\()
+      set:
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+    - match: (?=\S)
+      set:
+        - class-field-rest
+        - field-initializer
 
   constants:
     - match: \btrue\b
@@ -1124,7 +1145,8 @@ contexts:
             - object-literal-meta-key
             - method-name
 
-        - include: method-declaration
+        - match: '{{method_lookahead}}'
+          push: method-declaration
 
         - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
           scope: variable.other.readwrite.js
@@ -1252,8 +1274,8 @@ contexts:
     - include: else-pop
 
   method-declaration:
-    - match: '{{method_lookahead}}'
-      push:
+    - match: ''
+      set:
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
