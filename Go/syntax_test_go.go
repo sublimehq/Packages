@@ -224,7 +224,7 @@ func (v *Type) myFunc(nonHighlightedPrimitiveArg /* Test, comments(!) */ [10]str
 	variable[5].foo()
 	//      ^^^ meta.brackets
 	//      ^ punctuation.definition.brackets.begin.go
-	//       ^ constant.numeric
+	//       ^ constant.numeric.integer.decimal
 	//        ^ punctuation.definition.brackets.end.go
 	//         ^^^^^^ meta.function-call.method
 	//         ^ punctuation.accessor
@@ -280,11 +280,11 @@ func () {
 	//             ^ punctuation.separator
 	//               ^^^^^^ storage.type
 	//                     ^ punctuation.separator
-	case 1, 1.23, "str", 'c', true, false:
+	case 1, 1.23, "str", 'c', true, false, 0xff:
 	// <- keyword.control
-	//   ^ constant.numeric
+	//   ^ constant.numeric.integer.decimal
 	//    ^ punctuation.separator
-	//      ^^^^ constant.numeric
+	//      ^^^^ constant.numeric.float.decimal
 	//          ^ punctuation.separator
 	//            ^^^^^ string.quoted.double
 	//                 ^ punctuation.separator
@@ -294,6 +294,9 @@ func () {
 	//                            ^ punctuation.separator
 	//                              ^^^^^ constant.language
 	//                                   ^ punctuation.separator
+	//                                     ^^^^ constant.numeric.integer.hexadecimal
+	//                                     ^^ punctuation.definition.numeric.hexadecimal
+	//                                         ^ punctuation.separator
 		fallthrough
 		// <- keyword.control
 	default:
