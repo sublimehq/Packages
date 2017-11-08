@@ -1879,6 +1879,35 @@ cat << \FOO
 FOO
 # <- keyword.control.heredoc-token
 
+sed 's/^    //' << EOF >$dummy.c
+# <- meta.function-call variable.function
+#               ^^ keyword.operator.assignment.redirection
+#                  ^^^ keyword.control.heredoc-token
+#                      ^ keyword.operator.assignment.redirection
+#                       ^ punctuation.definition.variable
+#                        ^^^^^ variable.other.readwrite
+#ifdef __cplusplus
+#include <stdio.h>  /* for printf() prototype */
+    int main (int argc, char *argv[]) {
+#else
+    int main (argc, argv) int argc; char *argv[]; {
+#endif
+    #if defined (host_mips) && defined (MIPSEB)
+    #if defined (SYSTYPE_SYSV)
+      printf ("mips-mips-riscos%ssysv\n", argv[1]); exit (0);
+    #endif
+    #if defined (SYSTYPE_SVR4)
+      printf ("mips-mips-riscos%ssvr4\n", argv[1]); exit (0);
+    #endif
+    #if defined (SYSTYPE_BSD43) || defined(SYSTYPE_BSD)
+      printf ("mips-mips-riscos%sbsd\n", argv[1]); exit (0);
+    #endif
+    #endif
+      exit (-1);
+    }
+EOF
+# <- keyword.control.heredoc-token
+
 #############
 # Functions #
 #############
