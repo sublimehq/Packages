@@ -369,12 +369,18 @@ contexts:
     - match: \b(goto|const)\b
       scope: invalid.illegal.java
   catch-block:
-    - match: \b(catch)\s*\(
+    - match: \b(catch)\s*(\()
+      scope: meta.catch.java
       captures:
         1: keyword.control.catch-exception.java
+        2: punctuation.section.parens.begin.java
       push:
+        - meta_content_scope: meta.catch.parameters.java
         - match: \)
+          scope: meta.catch.java punctuation.section.parens.end.java
           pop: true
+        - match: \|
+          scope: punctuation.separator.java
         - include: parameters
   keywords-control:
     - match: \b(try|finally|throw)\b

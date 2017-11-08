@@ -79,7 +79,25 @@ public class SyntaxTest {
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
 //                                    ^^^^^^^ variable.function.reference.java
-        }
+        } catch (IOException ignore) {
+//        ^^^^^ keyword.control.catch-exception.java
+//               ^^^^^^^^^^^ support.class.java
+//                           ^^^^^^ variable.parameter
+        } catch (final MyException | com.net.org.Foo.Bar |
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//              ^ punctuation.section.parens.begin
+//               ^ meta.catch.parameters storage.modifier.java
+//                     ^ support.class
+//                                 ^ punctuation.separator
+//                                   ^ support.class
+//                                                       ^ punctuation.separator
+                YourException ignore) {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//              ^ support.class
+//                            ^ variable.parameter
+//                                 ^ meta.catch.parameters
+//                                  ^ punctuation.section.parens.end - meta.catch.parameters
+
         for (int i = 0; i < 10; i+= 2) {
 //      ^^^ keyword.control
 //           ^^^ storage.type
