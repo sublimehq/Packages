@@ -2013,6 +2013,68 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #                           ^ keyword.operator.assignment.redirection
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 
+function foo
+# <- meta.function
+#^^^^^^^^^^^ meta.function
+#       ^ - entity.name.function
+#        ^^^ entity.name.function
+#           ^ - entity.name.function
+{
+# <- punctuation.section
+    foo bar
+    # <- variable.function
+    # <- meta.function meta.function-call
+}
+# <- punctuation.section
+
+# <- - meta.function
+
+function foo (     ) {
+# <- meta.function
+#^^^^^^^^^^^ meta.function
+#       ^ - entity.name.function
+#        ^^^ entity.name.function
+#           ^ - entity.name.function
+#            ^ punctuation.section
+#                  ^ punctuation.section
+#                    ^ punctuation.section
+    echo 'hello from foo'
+    # <- support.function
+    # <- meta.function meta.function-call
+}
+# <- punctuation.section
+
+# <- - meta.function
+
+function foo {
+    # <- meta.function
+    function bar {
+        # <- meta.function meta.function
+        echo "baz"
+    }
+    bar
+    # <- meta.function meta.function-call
+
+    bar () {
+        # <- meta.function meta.function
+        echo "baz"
+    }
+    bar
+    # <- meta.function meta.function-call
+    function function
+    # <- meta.function meta.function
+    #       ^ - entity.name.function
+    #        ^^^^^^^^ entity.name.function
+    #                ^ - entity.name.function
+    {
+        echo "Hello! From 'function'!"
+    }
+    "function"
+    # <- meta.function meta.function-call
+}
+
+# <- - meta.function
+
 foo:foo () {
   # <- meta.function entity.name.function
     echo "this foo:foo"
