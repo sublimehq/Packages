@@ -234,9 +234,6 @@ not_a_comment;
     '// /* not a comment'() {},
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
 
-    '// /* not a comment'() {},
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
-
     "// /* not a comment"() {},
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
 //                       ^ - meta.function.declaration meta.function.declaration
