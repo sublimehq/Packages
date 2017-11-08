@@ -556,6 +556,59 @@ class MyClass extends TheirClass {
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
 //                               ^ meta.block
+
+    x = 42;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.assignment
+//      ^^ constant.numeric
+
+    'y' = 42;
+//  ^^^ string.quoted.single
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    "z" = 42;
+//  ^^^ string.quoted.double
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    [w] = 42;
+//  ^ punctuation.definition.symbol.begin
+//   ^ variable.other.readwrite
+//    ^ punctuation.definition.symbol.end
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    static x = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//           ^ keyword.operator.assignment
+//             ^^ constant.numeric
+
+    static 'y' = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.single
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static "z" = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.double
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static [w] = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ punctuation.definition.symbol.begin
+//          ^ variable.other.readwrite
+//           ^ punctuation.definition.symbol.end
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function.constructor
