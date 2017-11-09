@@ -305,29 +305,69 @@ contexts:
     # Trailing underscores are allowed to prevent numbers from flickering while typing
     - match: |-
         (?x)
+        \b(0[bB])
+        (?!_)[01_]*[01]
+        (?:_*|([Ll])?)\b
+      scope: constant.numeric.integer.binary.java
+      captures:
+        1: punctuation.definition.numeric.binary.java
+        2: storage.type.numeric.long.java
+    - match: |-
+        (?x)
+        \b(0[xX])
+        (?!_)[[:xdigit:]_]*[[:xdigit:]]
+        (?:_*|([Ll])?)\b
+      scope: constant.numeric.integer.hexadecimal.java
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.java
+        2: storage.type.numeric.long.java
+    - match: |-
+        (?x)
+        \b(0)
+        [0-7_]*[0-7]+
+        (?:_*|([Ll])?)\b
+      scope: constant.numeric.integer.octal.java
+      captures:
+        1: punctuation.definition.numeric.octal.java
+        2: storage.type.numeric.long.java
+    - match: |-
+        (?x)
+        \b[1-9](?:[\d_]*\d)?
         (?:
-          \b0(?:
-            [xX](?!_)[[:xdigit:]_]*[[:xdigit:]]
-            |
-            [bB](?!_)[01_]*[01]
-            |
-            [0-7_]*[0-7]+
-          )?(?:_*|[Ll]?)\b
-        |
-          \b[1-9](?:[\d_]*\d)?
+          \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|([FfDd])?)
+          |
+          [eE][+-]?(?!_)[\d_]*\d(?:_*|([FfDd])?)
+        )\b
+      scope: constant.numeric.float.java
+      captures:
+        1: storage.type.numeric.java
+        2: storage.type.numeric.java
+    - match: |-
+        (?x)
+        \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|([FfDd])?)\b
+      scope: constant.numeric.float.java
+      captures:
+        1: storage.type.numeric.java
+    - match: |-
+        (?x)
+          \b(?:0|[1-9](?:[\d_]*\d)?)
+          (?:
+            ([FfDd])
+          )\b
+      scope: constant.numeric.float.java
+      captures:
+        1: storage.type.numeric.java
+    - match: |-
+        (?x)
+          \b(?:0|[1-9](?:[\d_]*\d)?)
           (?:
             _*
             |
-            [LlFfDd]
-            |
-            \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|[FfDd]?)
-            |
-            [eE][+-]?(?!_)[\d_]*\d(?:_*|[FfDd]?)
+            ([Ll])
           )?\b
-        |
-          \.(?!_)[\d_]*\d(?:[eE][+-]?(?!_)[\d_]*\d)?(?:_*|[FfDd]?)\b
-        )
-      scope: constant.numeric.java
+      scope: constant.numeric.integer.decimal.java
+      captures:
+        1: storage.type.numeric.long.java
   constant-reference:
     - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
       scope: constant.other.java
