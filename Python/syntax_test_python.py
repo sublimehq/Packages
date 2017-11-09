@@ -985,6 +985,8 @@ foo <<= bar
 matrix @ multiplication
 #      ^ keyword.operator.matrix.python
 
+a @= b
+# ^^ keyword.operator.assignment.augmented.python
 
 
 ##################
