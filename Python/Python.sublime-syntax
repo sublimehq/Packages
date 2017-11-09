@@ -842,6 +842,8 @@ contexts:
     - match: '(?={{identifier}})'
       push:
         - include: name-specials
+        - match: '\b_*\p{Lu}{3,}[\p{Lu}_]*\b' # require 3 upper-case letters for undotted names
+          scope: variable.other.constant.python
         - include: generic-names
         - match: ''
           pop: true
@@ -852,6 +854,8 @@ contexts:
         1: punctuation.accessor.dot.python
       push:
         - include: dotted-name-specials
+        - match: '\b_*\p{Lu}+[\p{Lu}_]*\b'
+          scope: variable.other.constant.python
         - include: generic-names
         - match: ''
           pop: true
