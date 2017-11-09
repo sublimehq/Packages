@@ -945,6 +945,8 @@ contexts:
   language-variables:
     - match: \b(self|cls)\b
       scope: variable.language.python
+    - match: _(?!{{identifier_continue}})
+      scope: variable.language.python
 
   line-continuation:
     - match: (\\)(.*)$\n?

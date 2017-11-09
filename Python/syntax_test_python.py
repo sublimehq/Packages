@@ -135,6 +135,11 @@ NO _A_B
 some.NO
 #    ^^ meta.qualified-name.python variable.other.constant.python
 
+_ self
+# <- variable.language.python
+# ^^^^ variable.language.python
+
+
 ##################
 # Function Calls
 ##################
