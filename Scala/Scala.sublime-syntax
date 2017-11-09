@@ -1078,8 +1078,8 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
       push: xml-tag-decl
+
   xml-comments:
-    - meta_scope: text.xml
     - meta_include_prototype: false
     - match: '<!--'
       scope: punctuation.definition.comment.begin.xml
@@ -1088,6 +1088,7 @@ contexts:
         - match: '-->'
           scope: punctuation.definition.comment.end.xml
           pop: true
+
   xml-tag-decl:
     - meta_scope: text.xml meta.tag.xml
     - meta_include_prototype: false

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>Indentation Rules - HEREDOC end</string>
+	<key>scope</key>
+	<string>source.php meta.heredoc-end.php</string>
+	<key>settings</key>
+	<dict>
+		<key>unIndentedLinePattern</key>
+		<string>.</string>
+		<key>preserveIndent</key>
+		<true />
+	</dict>
+</dict>
+</plist>

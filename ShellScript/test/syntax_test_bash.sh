@@ -1225,6 +1225,15 @@ echo "`dirname -- foo/bar`"
 #              ^^ keyword.operator.end-of-options
 #                        ^ punctuation.section.group.end
 
+foo=`(uname -r) 2>/dev/null`
+#                          ^ punctuation.section.group.end - punctuation.section.group.begin
+UNAME_RELEASE=`(uname -r) 2>/dev/null` || UNAME_RELEASE=unknown
+#                                    ^ punctuation.section.group.end
+UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
+#                                   ^ punctuation.section.group.end
+UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
+#                                    ^ punctuation.section.group.end
+
 commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 # <- - variable.other.readwrite
@@ -1879,6 +1888,35 @@ cat << \FOO
 FOO
 # <- keyword.control.heredoc-token
 
+sed 's/^    //' << EOF >$dummy.c
+# <- meta.function-call variable.function
+#               ^^ keyword.operator.assignment.redirection
+#                  ^^^ keyword.control.heredoc-token
+#                      ^ keyword.operator.assignment.redirection
+#                       ^ punctuation.definition.variable
+#                        ^^^^^ variable.other.readwrite
+#ifdef __cplusplus
+#include <stdio.h>  /* for printf() prototype */
+    int main (int argc, char *argv[]) {
+#else
+    int main (argc, argv) int argc; char *argv[]; {
+#endif
+    #if defined (host_mips) && defined (MIPSEB)
+    #if defined (SYSTYPE_SYSV)
+      printf ("mips-mips-riscos%ssysv\n", argv[1]); exit (0);
+    #endif
+    #if defined (SYSTYPE_SVR4)
+      printf ("mips-mips-riscos%ssvr4\n", argv[1]); exit (0);
+    #endif
+    #if defined (SYSTYPE_BSD43) || defined(SYSTYPE_BSD)
+      printf ("mips-mips-riscos%sbsd\n", argv[1]); exit (0);
+    #endif
+    #endif
+      exit (-1);
+    }
+EOF
+# <- keyword.control.heredoc-token
+
 #############
 # Functions #
 #############
@@ -1974,6 +2012,68 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #        ^ variable.parameter
 #                           ^ keyword.operator.assignment.redirection
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+
+function foo
+# <- meta.function
+#^^^^^^^^^^^ meta.function
+#       ^ - entity.name.function
+#        ^^^ entity.name.function
+#           ^ - entity.name.function
+{
+# <- punctuation.section
+    foo bar
+    # <- variable.function
+    # <- meta.function meta.function-call
+}
+# <- punctuation.section
+
+# <- - meta.function
+
+function foo (     ) {
+# <- meta.function
+#^^^^^^^^^^^ meta.function
+#       ^ - entity.name.function
+#        ^^^ entity.name.function
+#           ^ - entity.name.function
+#            ^ punctuation.section
+#                  ^ punctuation.section
+#                    ^ punctuation.section
+    echo 'hello from foo'
+    # <- support.function
+    # <- meta.function meta.function-call
+}
+# <- punctuation.section
+
+# <- - meta.function
+
+function foo {
+    # <- meta.function
+    function bar {
+        # <- meta.function meta.function
+        echo "baz"
+    }
+    bar
+    # <- meta.function meta.function-call
+
+    bar () {
+        # <- meta.function meta.function
+        echo "baz"
+    }
+    bar
+    # <- meta.function meta.function-call
+    function function
+    # <- meta.function meta.function
+    #       ^ - entity.name.function
+    #        ^^^^^^^^ entity.name.function
+    #                ^ - entity.name.function
+    {
+        echo "Hello! From 'function'!"
+    }
+    "function"
+    # <- meta.function meta.function-call
+}
+
+# <- - meta.function
 
 foo:foo () {
   # <- meta.function entity.name.function

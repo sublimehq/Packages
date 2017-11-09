@@ -16,13 +16,18 @@ variables:
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
 
+  # digit separators
+  digit_separators: '(?:(?:_+[0-9]+)*)'
+  
   # integers
-  hex_numeral: '0[xX][0-9a-fA-F]+'
-  decimal_numeral: '(0|[1-9][0-9]*)((?i:ul|lu|u|l))'
+  hex_numeral: '(0[xX])\h+(?:_+\h+)*'
+  binary_numeral: '(0[bB])[01]+(?:_+[01]+)*'
+  decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l)?)'
 
   # floating point numbers
-  exponent: '[eE][+\-]?[0-9]+'
-  floating_point: '([0-9]+(?:\.[0-9]+)?(?:{{exponent}})?)([fFdDmM]?)'
+  exponent: '[eE][+\-]?[0-9]+{{digit_separators}}'
+  floating_point: '([0-9]+{{digit_separators}}(?={{floating_point_suffix}}|[.Ee])(?:\.[0-9]+{{digit_separators}})?(?:{{exponent}})?)({{floating_point_suffix}}?)'
+  floating_point_suffix: '[fFdDmM]'
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
@@ -217,7 +222,15 @@ contexts:
         3: meta.path.cs
       push: using_namespace
 
+  namespace_alias:
+    - match: '(?:(global)|({{name}}))\s*(::)'
+      captures:
+        1: support.namespace.cs
+        2: variable.other.namespace.cs
+        3: punctuation.accessor.double-colon.namespace.cs
+
   using_namespace:
+    - include: namespace_alias
     - match: '{{name}}'
       scope: meta.path.cs
     - match: '='
@@ -230,7 +243,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.cs
       pop: true
-    - match: '\S+'
+    - match: '[^\s;]+'
       scope: invalid.illegal.expected-namespace.cs
     - match: '$'
       pop: true
@@ -802,7 +815,7 @@ contexts:
       set: [else_block, if_block, if_condition]
     - match: \b(switch)\b
       captures:
-        1: keyword.control.conditional.if.cs
+        1: keyword.control.flow.switch.cs
       set: [switch_block, if_condition]
     - match: \b(for)\s*(\()
       captures:
@@ -923,11 +936,7 @@ contexts:
         1: entity.name.label.cs
         2: punctuation.separator.cs
       pop: true
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: variable.other.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
+    - include: namespace_alias
     - match: '({{name}})\s+({{name}})'
       captures:
         1: support.type.cs
@@ -1315,13 +1324,13 @@ contexts:
         - match: (ref)\s
           captures:
             1: storage.modifier.argument.cs
-        - include: var_declaration
-        - match: ''
+        - match: (?!{{name}}{{type_suffix}}\s+{{name}})
           pop: true
+        - include: var_declaration
     - match: (ref)\s
       captures:
         1: storage.modifier.argument.cs
-    - match: '({{name}})\s*(=)'
+    - match: '({{name}})\s*(=)(?!=)'
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
@@ -1365,11 +1374,7 @@ contexts:
       scope: support.type.cs
 
   type_common:
-    - match: '(?:(global)|({{name}}))\s*(::)'
-      captures:
-        1: support.namespace.cs
-        2: variable.other.namespace.cs
-        3: punctuation.accessor.double-colon.namespace.cs
+    - include: namespace_alias
     - match: '(class|struct|enum)'
       scope: storage.type.other.cs
     - match: 'new\s*\(\s*\)'
@@ -1438,28 +1443,34 @@ contexts:
     # characters
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
-    - match: "(')({{escaped_char}})(')"
+    - match: (')({{escaped_char}})(')
       scope: constant.character.cs
       captures:
         2: constant.character.escape.cs
-    - match: "(')({{escaped_char}})(')"
+    - match: (')({{escaped_char}})(')
       scope: constant.character.cs
       captures:
         2: constant.character.escape.cs
-    - match: "'.'"
+    - match: (').(')
       scope: constant.character.cs
-    - match: "'[^']+'"
+    - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
     - match: '{{hex_numeral}}'
-      scope: constant.numeric.cs
-    - match: '{{decimal_numeral}}'
+      scope: constant.numeric.integer.hexadecimal.cs
       captures:
-        1: constant.numeric.cs
-        2: storage.type.numeric.cs
+        1: punctuation.definition.numeric.hexadecimal.cs
+    - match: '{{binary_numeral}}'
+      scope: constant.numeric.integer.binary.cs
+      captures:
+        1: punctuation.definition.numeric.binary.cs
     - match: '{{floating_point}}'
       captures:
-        1: constant.numeric.cs
+        1: constant.numeric.float.decimal.cs
+        2: storage.type.numeric.cs
+    - match: '{{decimal_numeral}}'
+      captures:
+        1: constant.numeric.integer.decimal.cs
         2: storage.type.numeric.cs
     # strings
     - match: '"'

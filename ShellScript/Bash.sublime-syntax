@@ -53,7 +53,7 @@ variables:
   is_command: \s*(?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
-  is_function: \b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
+  is_function: \s*\b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
@@ -250,7 +250,7 @@ contexts:
       set:
         - meta_scope: meta.group.for.shell
         - include: cmd-args-boilerplate
-        - include: compound
+        - include: arithmetic
         - match: \bin\b
           scope: keyword.control.in.shell
 
@@ -274,7 +274,7 @@ contexts:
     - match: \s*
       set:
         - meta_content_scope: entity.name.function.shell
-        - match: (?=\s*[({])
+        - match: (?=\s*[({]|$)
           pop: true
 
   funcdef-parens:
@@ -607,9 +607,15 @@ contexts:
       pop: true
 
   heredocs-body-common-with-expansion:
+    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
+    # expansion, command substitution, and arithmetic expansion, the character
+    # sequence \newline is ignored, and ‘\’ must be used to quote the
+    # characters ‘\’, ‘$’, and ‘`’.
     - match: \\[`$"\\]
       scope: constant.character.escape.backtick.shell
-    - include: expansion
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
 
   heredocs-body-no-expansion:
     - meta_include_prototype: false
@@ -769,6 +775,13 @@ contexts:
 
   cmd:
     - include: cmd-common
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.definition.compound.end.shell
+          set: [cmd-post, cmd-args]
+        - include: main
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet\b
       scope: support.function.let.bash
@@ -798,6 +811,13 @@ contexts:
 
   cmd-bt:
     - include: cmd-common
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.definition.compound.end.shell
+          set: [cmd-post, cmd-args-bt]
+        - include: main
     - include: scope:commands.builtin.shell.bash#main-bt
     - match: \blet\b
       scope: support.function.let.bash
@@ -884,12 +904,12 @@ contexts:
 
   cmd-common:
     - include: control
-    - include: compound
+    - include: arithmetic
     - match: (?=\)|})
       pop: true
     - include: line-continuation-or-pop-at-end
 
-  compound:
+  arithmetic:
     - match: \(\((?=.+\)\))
       scope: punctuation.section.arithmetic.begin.shell
       push:
@@ -898,13 +918,6 @@ contexts:
           scope: punctuation.section.arithmetic.end.shell
           pop: true
         - include: expression
-    - match: \(
-      scope: punctuation.definition.compound.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.definition.compound.end.shell
-          set: [cmd-post, cmd-args]
-        - include: main
 
   expansion-tilde:
     - match: '~'

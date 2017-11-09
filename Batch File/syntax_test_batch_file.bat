@@ -11,6 +11,10 @@ REM
    not a comment
 :: ^^^^^^^^^^^^^ - comment.line.rem.dosbatch
 
+REM This follows a REM command
+:: <- keyword.command - comment
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
    :: Me too!
 :: ^^         punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
@@ -98,7 +102,7 @@ ECHO "
 
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^                 keyword.control.repeat.dosbatch
-::             ^       constant.numeric.dosbatch
+::             ^       constant.numeric.integer.decimal.dosbatch
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
@@ -213,9 +217,11 @@ ECHO Not! a variable
 
 :: Numerics
 SET /A r = 010 + 0x20 - 24
-::         ^^^ constant.numeric.dosbatch
-::               ^^^^ constant.numeric.dosbatch
-::                      ^^ constant.numeric.dosbatch
+::         ^^^ constant.numeric.integer.octal.dosbatch
+::         ^ punctuation.definition.numeric.octal.dosbatch
+::               ^^^^ constant.numeric.integer.hexadecimal.dosbatch
+::               ^^ punctuation.definition.numeric.hexadecimal.dosbatch
+::                      ^^ constant.numeric.integer.decimal.dosbatch
 
 :: Escape Characters
 ECHO %% ^^! ^&

@@ -79,7 +79,25 @@ public class SyntaxTest {
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
 //                                    ^^^^^^^ variable.function.reference.java
-        }
+
+        } catch (IOException ignore) {
+//        ^^^^^ keyword.control.catch-exception.java
+//               ^^^^^^^^^^^ support.class.java
+//                           ^^^^^^ variable.parameter
+        } catch (final MyException | com.net.org.Foo.Bar |
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//              ^ punctuation.section.parens.begin
+//               ^ meta.catch.parameters storage.modifier.java
+//                     ^ support.class
+//                                 ^ punctuation.separator
+//                                   ^ support.class
+//                                                       ^ punctuation.separator
+                YourException ignore) {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//              ^ support.class
+//                            ^ variable.parameter
+//                                 ^ meta.catch.parameters
+//                                  ^ punctuation.section.parens.end - meta.catch.parameters
 
         try (final InputStream is = new FileInputStream(args[0]);
 //           ^^^^^ storage.modifier
@@ -468,6 +486,32 @@ public class GrafoTest {
 //      ^ storage.modifier
 //            ^ support.class
     }
+
+
+     @Partial @Mock(type=Grafo.class) DataLoader inline;
+//   ^^^^^^^^                          meta.annotation
+//            ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                                    ^ support.class
+
+     @Override public int inline() {
+//   ^^^^^^^^^ meta.annotation
+//   ^ punctuation.definition.annotation
+//    ^^^^^^^^ variable.annotation
+     }
+
+     void annotatedArgs(@NonNull final String p1,
+//                      ^^^^^^^^ meta.annotation
+//                               ^ storage.modifier - meta.annotation
+         @Named(value = "") List<T> p2, @NonNull final String p3) {}
+//       ^^^^^^^^^^^^^^^^^^ meta.annotation
+//                          ^ support.class
+//                              ^ meta.generic punctuation.definition.generic.begin
+//                                  ^ variable.parameter
+//                                    ^ punctuation.separator
+//                                      ^^^^^^^^ meta.annotation
+//                                               ^ storage.modifier - meta.annotation
+//                                                     ^ support.class
+
 }
 
 public enum FooEnum {
@@ -768,6 +812,81 @@ public class Foo {
 //                   ^^^^^^^^^^ keyword.operator.word.instanceof
   }
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
+
+  int numbers() {
+    a = 0 + 0L;
+//      ^ constant.numeric
+//        ^ keyword.operator
+//          ^^ constant.numeric
+
+    a = 0xABCD + 0xAB_CD;
+//      ^^^^^^ constant.numeric
+//             ^ keyword.operator
+//               ^^^^^^ constant.numeric
+
+    a = 0xAB_CD_ - 0x_AB_CD - 0_xAB_CD;
+//      ^^^^^^^^ constant.numeric
+//                 ^^^^^^^^ -constant.numeric
+//                            ^^^^^^^^ -constant.numeric
+
+    a = 07 + 0_7;
+//      ^^ constant.numeric
+//         ^ keyword.operator
+//           ^^^ constant.numeric
+
+    a = 07_ - 09;
+//      ^^^ constant.numeric
+//            ^^ -constant.numeric
+
+    a = 0b101101 + 0b10_11_01;
+//      ^^^^^^^^ constant.numeric
+//               ^ keyword.operator
+//                 ^^^^^^^^^^ constant.numeric
+
+    a = 0b_101101;
+//      ^^^^^^^^^ -constant.numeric
+
+    a = 12345 + 12_34_5 + 1_____5;
+//      ^^^^^ constant.numeric
+//              ^^^^^^^ constant.numeric
+//                        ^^^^^^^ constant.numeric
+
+    a = 12345l + 12345L + 123_45d + 12_3245F
+//      ^^^^^^ constant.numeric
+//               ^^^^^^ constant.numeric
+//                        ^^^^^^^ constant.numeric
+//                                  ^^^^^^^^ constant.numeric
+
+    a = 12_34_5_ - _12_34_5 - 12_D - 12_L;
+//      ^^^^^^^^ constant.numeric
+//                 ^^^^^^^^ -constant.numeric
+//                            ^^^^ -constant.numeric
+//                                   ^^^^ -constant.numeric
+
+    a = 123_-_456;
+//      ^^^^ constant.numeric
+//          ^ keyword.operator
+//           ^^^^ -constant.numeric
+
+    a = 23.45 + 23.45F + 23.45d
+//      ^^^^^ constant.numeric
+//              ^^^^^^ constant.numeric
+//                       ^^^^^^ constant.numeric
+
+    a = .01 + .02e3+.02e3F
+//      ^^^ constant.numeric
+//          ^ keyword.operator
+//            ^^^^^ constant.numeric
+//                 ^ keyword.operator
+//                   ^^^^^ constant.numeric
+
+    a = 23.45e67+23.45e+6F+23.45e-67D
+//      ^^^^^^^^ constant.numeric
+//              ^ keyword.operator
+//               ^^^^^^^^^ constant.numeric
+//                        ^ keyword.operator
+//                         ^^^^^^^^^^ constant.numeric
+  }
 
   @Test
 //^ punctuation.definition.annotation.java

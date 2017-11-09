@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Indentation Rules</string>
 	<key>scope</key>
-	<string>source.php - comment, meta.html-newline-after-php</string>
+	<string>source.php - comment - meta.embedded.html - string - meta.heredoc-end, meta.html-newline-after-php</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>

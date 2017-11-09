@@ -153,12 +153,7 @@ contexts:
             )?
         )
       push:
-        - match: (::)({{identifier}})(?=\s*\()
-          scope: meta.function-call.static.php
-          captures:
-            1: punctuation.accessor.double-colon.php
-            2: variable.function.php
-          set: function-call-parameters
+        - include: function-call-static
         - match: |-
             (?x)(::)
             (?:
@@ -784,6 +779,13 @@ contexts:
         - include: support
         - match: '{{identifier}}'
           scope: variable.function.php
+  function-call-static:
+    - match: (::)({{identifier}})(?=\s*\()
+      scope: meta.function-call.static.php
+      captures:
+        1: punctuation.accessor.double-colon.php
+        2: variable.function.php
+      set: function-call-parameters
   function-call-parameters:
     - match: \s*(\()
       scope: meta.function-call.php
@@ -800,9 +802,11 @@ contexts:
   heredoc:
     - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
       push:
-        - match: ^(\1)\b
+        - match: ^(\1)\b(?:(;)(\s*$\n?))?
           captures:
             1: punctuation.section.embedded.end.php keyword.operator.heredoc.php
+            2: punctuation.terminator.expression.php
+            3: meta.heredoc-end.php
           pop: true
         - match: <<<\s*(HTML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
@@ -815,6 +819,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:text.html.basic
+        - match: <<<\s*('HTML')\s*$\n?
+          scope: meta.embedded.html punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:text.html.basic
+          embed_scope: meta.embedded.html text.html
+          escape: (?=^HTML\b)
         - match: <<<\s*(XML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -826,6 +837,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:text.xml
+        - match: <<<\s*('XML')\s*$\n?
+          scope: meta.embedded.xml punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:text.xml
+          embed_scope: meta.embedded.xml text.xml
+          escape: (?=^XML\b)
         - match: <<<\s*(SQL)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -837,6 +855,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.sql
+        - match: <<<\s*('SQL')\s*$\n?
+          scope: meta.embedded.sql punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.sql
+          embed_scope: meta.embedded.sql source.sql
+          escape: (?=^SQL\b)
         - match: <<<\s*(JAVASCRIPT)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -848,6 +873,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.js
+        - match: <<<\s*('JAVASCRIPT')\s*$\n?
+          scope: meta.embedded.js punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.js
+          embed_scope: meta.embedded.js source.js
+          escape: (?=^JAVASCRIPT\b)
         - match: (<<<)\s*(JSON)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -859,6 +891,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.json
+        - match: (<<<)\s*('JSON')\s*$\n?
+          scope: meta.embedded.json punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.json
+          embed_scope: meta.embedded.json source.json
+          escape: (?=^JSON\b)
         - match: <<<\s*(CSS)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -870,6 +909,13 @@ contexts:
               pop: true
             - include: interpolation
             - include: scope:source.css
+        - match: <<<\s*('CSS')\s*$\n?
+          scope: meta.embedded.css punctuation.section.embedded.begin.php punctuation.definition.string.php
+          captures:
+            1: keyword.operator.nowdoc.php
+          embed: scope:source.css
+          embed_scope: meta.embedded.css source.css
+          escape: (?=^CSS\b)
         - match: '<<<\s*({{identifier}})'
           scope: punctuation.definition.string.php
           captures:
@@ -879,13 +925,15 @@ contexts:
             - match: (?=^\1\b)
               pop: true
             - include: interpolation
-        - match: '<<<\s*''({{identifier}})'''
+        - match: '<<<\s*('')({{identifier}})('')'
           scope: punctuation.definition.string.php
           captures:
-            1: keyword.operator.heredoc.php
+            1: keyword.operator.nowdoc.php
+            2: keyword.operator.nowdoc.php
+            3: keyword.operator.nowdoc.php
           push:
             - meta_scope: string.unquoted.nowdoc.php
-            - match: (?=^\1\b)
+            - match: (?=^\2\b)
               pop: true
   instantiation:
     - match: '(?i)(new)\s+(class)\b\s*'
@@ -975,13 +1023,23 @@ contexts:
         2: variable.other.php
       push: function-call-parameters
   numbers:
+    - match: '\b(0[bB])[01]*\b'
+      scope: constant.numeric.integer.binary.php
+      captures:
+        1: punctuation.definition.numeric.binary.php
+    - match: '\b(0[xX])\h*\b'
+      scope: constant.numeric.integer.hexadecimal.php
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.php
     - match: |-
-        (?x)(
-          \b(0[bB][01]*)\b |
-          \b(0[xX][0-9a-fA-F]*)\b |
-          (\b([0-9]+\.?[0-9]*)|\B(\.[0-9]+))([eE](\+|-)?[0-9]+)?\b
+        (?x:
+          (?:(\b\d+|\B)\.\d+|\b\d+\.\d*)(?:[eE][+-]?\d+)?\b
+          |
+          \b\d+(?:[eE][+-]?\d+)\b
         )
-      scope: constant.numeric.php
+      scope: constant.numeric.float.decimal.php
+    - match: '\b\d+\b'
+      scope: constant.numeric.integer.decimal.php
   object:
     - match: '(->)(\$?\{)'
       captures:
@@ -999,6 +1057,7 @@ contexts:
         1: punctuation.accessor.arrow.php
         2: variable.function.php
       push: function-call-parameters
+    - include: function-call-static
     - match: (->)((\$+)?{{identifier}})?
       captures:
         1: punctuation.accessor.arrow.php

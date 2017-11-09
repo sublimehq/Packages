@@ -354,7 +354,7 @@ func_call(true, 1, "string");
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
 //            ^ punctuation.separator.php
-//              ^ constant.numeric
+//              ^ constant.numeric.integer.decimal
 //               ^ punctuation.separator.php
 //                 ^^^^^^^^ string.quoted.double
 
@@ -462,7 +462,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                    ^^ variable.other
 //                                    ^ punctuation.definition.variable
 //                                      ^ punctuation.section.brackets.begin
-//                                       ^ constant.numeric
+//                                       ^ constant.numeric.integer.decimal
 //                                        ^ punctuation.section.brackets.end
 //                                                      ^^ variable.other
 //                                                      ^ punctuation.definition.variable
@@ -577,6 +577,13 @@ class B
 //                      ^^ punctuation.accessor
 //                        ^^^ constant.other.class
 
+        echo $this->pro1::bar();
+//           ^^^^^ variable.language
+//                ^^ punctuation.accessor
+//                  ^^^^ variable.other.member
+//                      ^^ punctuation.accessor
+//                        ^^^ variable.function
+
         parent::abc($var, $var2, $var3);
 //      ^^^^^^ variable.language
 //            ^^ punctuation.accessor
@@ -658,16 +665,27 @@ function generate()
 }
 
 $var = 0;
-//     ^ constant.numeric
+//     ^ constant.numeric.integer.decimal
 
 $var2 = -123.456e10;
-//       ^^^^^^^^^^ constant.numeric
+//       ^^^^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -123.e10;
+//       ^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -.123e10;
+//       ^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -123e10;
+//       ^^^^^^ constant.numeric.float.decimal
 
 $var3 = 0x0f;
-//      ^^^^ constant.numeric
+//      ^^^^ constant.numeric.integer.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
 
 $var4 = 0b0111;
-//      ^^^^^^ constant.numeric
+//      ^^^^^^ constant.numeric.integer.binary
+//      ^^ punctuation.definition.numeric.binary
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
@@ -784,7 +802,7 @@ EOT;
 
 echo <<<'EOT'
 //   ^^^^^^^^ punctuation.definition.string
-//       ^^^ keyword.operator.heredoc
+//      ^^^^^ keyword.operator.nowdoc
 This is a test! $var
 //^^^^^^^^^^^^^^^^^^ string.unquoted.nowdoc
 //              ^^^^ - variable.other
@@ -803,6 +821,8 @@ This is a test!
 //         ^^^^^^^^^ string.quoted.double
 HTML;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+//  ^ punctuation.terminator.expression
+//   ^ meta.heredoc-end
 
 echo <<< JAVASCRIPT
 //   ^^^^^^^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
@@ -840,6 +860,20 @@ SELECT * FROM users WHERE first_name = 'John'
 //                                     ^^^^^^ string.quoted.single
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
+
+
+echo <<<'SQL'
+//   ^^^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
+//      ^^^^^ keyword.operator.nowdoc
+SELECT * FROM users WHERE first_name = 'John'\n
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
+// <- keyword.other.DML
+//     ^ keyword.operator.star
+//                                     ^^^^^^ string.quoted.single
+//                                           ^^^ - constant.character.escape.php
+SQL;
+// <- punctuation.section.embedded.end
+
 
 
 class OutputsHtml {
