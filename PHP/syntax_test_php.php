@@ -670,6 +670,15 @@ $var = 0;
 $var2 = -123.456e10;
 //       ^^^^^^^^^^ constant.numeric.float.decimal
 
+$var2 = -123.e10;
+//       ^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -.123e10;
+//       ^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -123e10;
+//       ^^^^^^ constant.numeric.float.decimal
+
 $var3 = 0x0f;
 //      ^^^^ constant.numeric.integer.hexadecimal
 //      ^^ punctuation.definition.numeric.hexadecimal

@@ -1031,7 +1031,12 @@ contexts:
       scope: constant.numeric.integer.hexadecimal.php
       captures:
         1: punctuation.definition.numeric.hexadecimal.php
-    - match: '(?:(\b\d+|\B)\.\d+|\b\d+\.\d*)(?:[eE][+-]?\d+)?\b'
+    - match: |-
+        (?x:
+          (?:(\b\d+|\B)\.\d+|\b\d+\.\d*)(?:[eE][+-]?\d+)?\b
+          |
+          \b\d+(?:[eE][+-]?\d+)\b
+        )
       scope: constant.numeric.float.decimal.php
     - match: '\b\d+\b'
       scope: constant.numeric.integer.decimal.php
