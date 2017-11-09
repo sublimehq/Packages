@@ -79,6 +79,7 @@ public class SyntaxTest {
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
             lines.forEach(System.out::println);
 //                                    ^^^^^^^ variable.function.reference.java
+
         } catch (IOException ignore) {
 //        ^^^^^ keyword.control.catch-exception.java
 //               ^^^^^^^^^^^ support.class.java
@@ -97,6 +98,28 @@ public class SyntaxTest {
 //                            ^ variable.parameter
 //                                 ^ meta.catch.parameters
 //                                  ^ punctuation.section.parens.end - meta.catch.parameters
+
+        try (final InputStream is = new FileInputStream(args[0]);
+//           ^^^^^ storage.modifier
+             final OutputStream os = new FileOutputStream(args[1])) {
+//           ^^^^^ storage.modifier
+
+          os.write(is.read());
+//                    ^^^^ variable.function
+        }
+
+        try {
+//      ^^^ keyword.control.catch-exception.java
+          Class.forName(args[2]);
+        } catch (Exception e) {
+//        ^^^^^ keyword.control.catch-exception.java
+          log.error(e);
+        } finally {
+//        ^^^^^^^ keyword.control.catch-exception.java
+        }
+
+      for (final int x = 10;;) { System.out.println(x); break; }
+//         ^^^^^ storage.modifier
 
         for (int i = 0; i < 10; i+= 2) {
 //      ^^^ keyword.control

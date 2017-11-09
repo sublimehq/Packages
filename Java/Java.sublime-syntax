@@ -407,13 +407,16 @@ contexts:
           scope: punctuation.separator.java
         - include: parameters
   keywords-control:
-    - match: \b(try|finally|throw)\b
+    - match: \btry\b
+      scope: keyword.control.catch-exception.java
+      push: declaration-statement-parens
+    - match: \b(finally|throw)\b
       scope: keyword.control.catch-exception.java
     - match: \b(return|break|case|continue|default|do|while|switch|if|else)\b
       scope: keyword.control.java
-    - match: \b(for)\b
+    - match: \bfor\b
       scope: keyword.control.java
-      push: for-loop-parens
+      push: declaration-statement-parens
   illegal-open-block:
     - match: \s?(?={)
       scope: invalid.illegal.stray-terminator-end
@@ -598,8 +601,7 @@ contexts:
           pop: true
         - include: illegal-parens-terminators
         - include: code
-  for-loop-parens:
-    - meta_scope: for-loop
+  declaration-statement-parens:
     - match: \(
       scope: punctuation.section.parens.begin.java
       set:
@@ -608,7 +610,7 @@ contexts:
           scope: punctuation.section.parens.end.java
           pop: true
         - include: illegal-open-block
-        - include: code
+        - include: code-block
     - include: any_POP
   primitive-arrays:
     - match: '\b(void)((?:\[\])+)'
