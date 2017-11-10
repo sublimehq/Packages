@@ -616,6 +616,9 @@ try {
 //             ^^^^^^ support.other.namespace.php
 //                   ^ punctuation.separator.namespace.php
 //                    ^^^^^^^^^ support.class
+} catch (/* comment */ ExceptionExample $e) {
+//       ^^^^^^^^^^^^^ comment.block
+    echo 'Caught exception: ', $e->getMessage(), "\n";
 } catch (Exception $e) {
 //^ keyword.control.exception
 //       ^^^^^^^^^ meta.path.php

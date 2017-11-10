@@ -125,6 +125,7 @@ contexts:
         1: keyword.control.exception.catch.php
       push:
         - meta_scope: meta.catch.php
+        - include: comments
         - include: identifier-parts-as-path
         - match: '(\\)'
           scope: meta.path.php punctuation.separator.namespace.php
