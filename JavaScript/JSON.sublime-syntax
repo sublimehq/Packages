@@ -13,6 +13,7 @@ file_extensions:
   - sublime-completions
   - sublime-commands
   - sublime-macro
+  - sublime-color-scheme
 scope: source.json
 contexts:
   main:
