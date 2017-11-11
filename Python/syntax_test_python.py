@@ -49,6 +49,9 @@ from collections.abc import Iterable
 from a.b.c.else import module
 #          ^^^^ invalid.illegal.name.python
 #               ^^^^^^ keyword.control.import
+from .while import module
+#     ^^^^^ invalid.illegal.name.python
+#           ^^^^^^ keyword.control.import
 from \
     os \
     import \

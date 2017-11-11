@@ -160,6 +160,8 @@ contexts:
     - match: (?={{path}})
       push:
         - meta_scope: meta.import-path.python
+        - match: '{{illegal_names}}'
+          scope: invalid.illegal.name.python
         - match: '{{identifier}}'
           scope: meta.import-name.python
         - match: \s*(\.) *(?:({{illegal_names}})|({{identifier}}))
