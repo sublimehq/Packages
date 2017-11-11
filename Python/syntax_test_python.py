@@ -38,8 +38,17 @@ from os import path, chdir # comment
 #       ^^^^^^ keyword.control.import
 #                  ^ punctuation.separator.import-list
 #                          ^ comment
+from . import module
+#    ^ keyword.control.import.relative.python
+#      ^^^^^^ keyword.control.import
+from .import module  # yes, this is actually legit
+#    ^ keyword.control.import.relative.python
+#     ^^^^^^ keyword.control.import.python
 from collections.abc import Iterable
 #                    ^^^^^^ keyword.control.import
+from a.b.c.else import module
+#          ^^^^ invalid.illegal.name.python
+#               ^^^^^^ keyword.control.import
 from \
     os \
     import \
@@ -85,6 +94,7 @@ import .str
 
 import str
 #      ^^^ support.type.python
+
 
 ##################
 # Identifiers
