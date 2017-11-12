@@ -1,0 +1,12 @@
+[
+  {
+    "keys": ["'"],
+    "command": "insert_snippet",
+    "args": {"contents": "'"},
+    "context": [
+      {"key": "selector", "operator": "equal", "operand": "source.clojure"},
+      {"key": "selector", "operator": "not_equal", "operand": "comment"},
+      {"key": "selector", "operator": "not_equal", "operand": "string"}
+    ]
+  }
+]

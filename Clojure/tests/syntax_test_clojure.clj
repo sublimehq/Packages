@@ -21,6 +21,11 @@
 ;          ^ comment.punctuation.comma.clojure
 ;           ^- comment.punctuation.comma.clojure
 
+; ## Include end-of-line
+
+; ; blah
+;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.clojure
+
 
 
 ; # Constants

@@ -143,7 +143,9 @@ contexts:
       pop: true
 
   match-noise:
-    - match: (;+).*
+    # Explicitly matching \s also captures end-of-line; this allows apostrophe
+    # pairing to work at the last cursor position in a comment line.
+    - match: (;+)(.|\s)*
       scope: comment.line.clojure
       captures:
         1: punctuation.definition.comment

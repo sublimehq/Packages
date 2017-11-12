@@ -1,3 +1,4 @@
 {
-  "word_separators": "/\\()[]{}\"'`,:;@#^~."
+  "word_separators": "/\\()[]{}\"'`,:;@#^~.",
+  "smart_indent": false
 }
