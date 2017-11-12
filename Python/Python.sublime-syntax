@@ -160,11 +160,11 @@ contexts:
     - match: (?={{path}})
       push:
         - meta_scope: meta.import-path.python
-        - match: '{{illegal_names}}'
+        - match: '{{illegal_names}}\b'
           scope: invalid.illegal.name.python
         - match: '{{identifier}}'
           scope: meta.import-name.python
-        - match: \s*(\.) *(?:({{illegal_names}})|({{identifier}}))
+        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}}))
           captures:
             1: punctuation.accessor.dot.python
             2: invalid.illegal.name.python

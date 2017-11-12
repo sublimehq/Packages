@@ -52,6 +52,8 @@ from a.b.c.else import module
 from .while import module
 #     ^^^^^ invalid.illegal.name.python
 #           ^^^^^^ keyword.control.import
+from .index import module
+#     ^^^^^ - invalid
 from \
     os \
     import \
