@@ -155,15 +155,20 @@ contexts:
       scope: keyword.control.import.as.python
 
   import-from-name:
-    - match: (?=(\. *)?{{path}})
+    - match: \.+
+      scope: meta.import-path.python keyword.control.import.relative.python
+    - match: (?={{path}})
       push:
         - meta_scope: meta.import-path.python
+        - match: '{{illegal_names}}\b'
+          scope: invalid.illegal.name.python
         - match: '{{identifier}}'
           scope: meta.import-name.python
-        - match: \s*(\.) *({{identifier}})
+        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}}))
           captures:
             1: punctuation.accessor.dot.python
-            2: meta.import-name.python
+            2: invalid.illegal.name.python
+            3: meta.import-name.python
         - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
           captures:
             1: invalid.illegal.name.python
