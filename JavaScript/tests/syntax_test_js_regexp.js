@@ -25,6 +25,14 @@
 //  ^^^^^^^^^^ string.regexp
 //       ^^^^^ keyword.other.js
 
+    /abc/
+    gimuy;
+//  ^^^^^ variable.other.readwrite - string.regexp;
+
+    /abc//*
+    */gimuy;
+//    ^^^^^ variable.other.readwrite - string.regexp;
+
     /abc//i;
 //  ^^^^^ string.regexp
 //       ^^ - string.regexp
@@ -36,6 +44,12 @@
 //       ^^ - string.regexp
 //       ^ keyword.operator.arithmetic - string.regexp
 //        ^ variable.other.readwrite
+
+    /abc/**i;
+//  ^^^^^ string.regexp
+//       ^^^ - string.regexp
+//       ^^ keyword.operator.arithmetic - string.regexp
+//         ^ variable.other.readwrite
 
 
     /a|b/;
@@ -154,6 +168,10 @@
 
     /[\b]/;
 //    ^^ constant.character.escape.backslash - keyword.control.anchor
+
+    /[/]/;
+//  ^^^^^ string.regexp
+//   ^^^ constant.other.character-class.set
 
     /][[]]/;
 //   ^ - punctuation
