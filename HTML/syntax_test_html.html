@@ -99,6 +99,21 @@
 title="description"></div>
 ## <- entity.other.attribute-name
 
+<div
+title = "description"></div>
+## <- entity.other.attribute-name
+##    ^ punctuation.separator.key-value.html
+##      ^^^^^^^^^^^^^ string
+
+<div title=
+    "description"></div>
+##  ^^^^^^^^^^^^^ string
+
+<div title
+    ="description"></div>
+##  ^ punctuation.separator.key-value
+##   ^^^^^^^^^^^^^ string
+
 <div title="description"
 class="foo"></div>
 ## <- entity.other.attribute-name.class
