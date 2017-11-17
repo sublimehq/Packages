@@ -241,17 +241,17 @@ contexts:
           scope: punctuation.section.block.while.python
           pop: true
         - include: expressions
-    - match: \b(elif|else)(?:\s*(:))?
+    - match: \b(elif|else)\b(?:\s*(:))?
       scope: meta.statement.conditional.python
       captures:
         1: keyword.control.flow.conditional.python
         2: punctuation.section.block.python
-    - match: \b(try)(?:\s*(:))?
+    - match: \b(try)\b(?:\s*(:))?
       scope: meta.statement.try.python
       captures:
         1: keyword.control.flow.try.python
         2: punctuation.section.block.try.python
-    - match: \b(finally)(?:\s*(:))?
+    - match: \b(finally)\b(?:\s*(:))?
       scope: meta.statement.finally.python
       captures:
         1: keyword.control.flow.finally.python
