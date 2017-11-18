@@ -490,7 +490,7 @@ class CSSCompletions(sublime_plugin.EventListener):
                     add_semi_colon = view.substr(sublime.Region(loc, loc + 1)) != ';'
 
                     for value in values:
-                        desc = value
+                        desc = value + "\t" + prop_name
                         snippet = value
 
                         if add_semi_colon:
@@ -509,8 +509,8 @@ class CSSCompletions(sublime_plugin.EventListener):
 
             for prop in self.props:
                 if add_colon:
-                    l.append((prop, prop + ": "))
+                    l.append((prop + "\tcss", prop + ": "))
                 else:
-                    l.append((prop, prop))
+                    l.append((prop + "\tcss", prop))
 
             return (l, sublime.INHIBIT_WORD_COMPLETIONS)
