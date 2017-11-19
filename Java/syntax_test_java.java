@@ -582,6 +582,9 @@ public @interface PublicAnnotation {
 //                                           ^ punctuation.section.block.end
 }
 
+@interface PackageAnnotation {}
+//^^^^^^^^ storage.type.java
+
 @MultiLineAnnotation(
 // <- meta.annotation.java
 // <- punctuation.definition.annotation.java

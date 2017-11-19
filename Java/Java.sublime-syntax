@@ -32,8 +32,8 @@ contexts:
     - include: prototype
     - include: package
     - include: import
-    - include: annotations
     - include: body
+    - include: annotations
     - include: code
   package:
     - match: '\bpackage\b'
@@ -190,8 +190,8 @@ contexts:
           scope: keyword.operator.assert.expression-separator.java
         - include: code
   body:
-    - include: annotations
     - include: class
+    - include: annotations
     # Get modifiers defined on a different line than the class
     - include: storage-modifiers
     - include: stray-braces
@@ -235,8 +235,8 @@ contexts:
 
   class-body:
     - include: storage-modifiers
-    - include: annotations
     - include: class
+    - include: annotations
     - include: static-assignment
     - include: enums
     - include: generic-declaration # for methods
