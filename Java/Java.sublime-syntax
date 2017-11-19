@@ -89,14 +89,28 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.java
               pop: true # pop: 2
-            - match: (\w*)\s*(?=\=)
+            - match: (\w*)\s*(=)
               captures:
                 1: variable.parameter.java
-            - include: array-construction-block
+                2: keyword.operator.assignment.java
+              push:
+                - match: (?=[,})])
+                  pop: true
+                - include: annotations
+                - include: code
+            - include: annotations-array-construction-block
+            - include: annotations
             - include: code
             - match: \,
               scope: punctuation.separator.java
         - include: any_POP
+  annotations-array-construction-block:
+    - match: \{
+      scope: punctuation.definition.array-constructor.begin.java
+      push:
+        - meta_scope: meta.block.java
+        - include: array-construction-block-end
+        - include: annotations
 
   anonymous-classes-and-new:
     - match: \bnew\b
@@ -143,17 +157,19 @@ contexts:
     - include: array-construction-block
     - include: any_POP
   array-construction-block:
-    - match: "{"
+    - match: \{
       scope: punctuation.definition.array-constructor.begin.java
       push:
         - meta_scope: meta.block.java
-        - match: "}"
-          scope: punctuation.definition.array-constructor.end.java
-          pop: true
-        - include: array-construction-block
-        - include: code
-        - match: \,
-          scope: punctuation.separator.java
+        - include: array-construction-block-end
+  array-construction-block-end:
+    - match: \}
+      scope: punctuation.definition.array-constructor.end.java
+      pop: true
+    - include: array-construction-block
+    - include: code
+    - match: \,
+      scope: punctuation.separator.java
   generic-declaration:
     - match: <
       comment: Generic parameter declaration scopes

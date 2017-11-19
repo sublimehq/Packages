@@ -626,6 +626,51 @@ class Bàr {
 //^^^ entity.name.function.constructor.java
 }
 
+@AnnotationAsParameterSingle(
+    @Parameter(name = "foo")
+//  ^ punctuation.definition.annotation.java
+//   ^^^^^^^^^ variable.annotation.java
+//             ^^^^ variable.parameter.java
+)
+
+@AnnotationAsParameterSingleNamed(
+  value = @Parameter(name = "foo")
+//^^^^^ variable.parameter.java
+//        ^ punctuation.definition.annotation.java
+//         ^^^^^^^^ variable.annotation.java
+//                   ^^^^ variable.parameter.java
+)
+
+@AnnotationAsParameterMultiple({
+//                             ^ punctuation.definition.array-constructor.begin.java
+    @Parameter(name = "foo"),
+//  ^ punctuation.definition.annotation.java
+//   ^^^^^^^^^ variable.annotation.java
+//             ^^^^ variable.parameter.java
+
+    @Parameter(name = "bar")
+//  ^ punctuation.definition.annotation.java
+//   ^^^^^^^^^ variable.annotation.java
+//             ^^^^ variable.parameter.java
+})
+// <- punctuation.definition.array-constructor.end.java
+
+@AnnotationAsParameterMultipleNamed(
+  first  = {@Parameter(name = "foo"), @Parameter(name = "bar")},
+//^^^^^ variable.parameter.java
+//          ^ punctuation.definition.annotation.java
+//           ^^^^^^^^^ variable.annotation.java
+//                     ^^^^ variable.parameter.java
+//                                    ^ punctuation.definition.annotation.java
+//                                     ^^^^^^^^^ variable.annotation.java
+//                                               ^^^^ variable.parameter.java
+  second = {@Parameter(name = "foo"), @Parameter(name = "bar")},
+//^^^^^^ variable.parameter.java
+  third = @Parameter(name = "foo")
+//^^^^^ variable.parameter.java
+//         ^^^^^^^^^ variable.annotation.java
+)
+
 @SomeInterface
 // <- punctuation.definition.annotation.java
 public class Foo {
