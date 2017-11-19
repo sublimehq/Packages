@@ -512,13 +512,14 @@ contexts:
               scope: invalid.illegal.missing-parameter-end
               pop: true
         - include: throws
+        - include: annotation-default
         - match: "{"
           scope: punctuation.section.block.begin.java
-          push:
-            - meta_scope: meta.method.body.java
+          set:
+            - meta_scope: meta.method.java meta.method.body.java
             - match: "}"
               scope: punctuation.section.block.end.java
-              pop: true # pop: 2 would be nice here
+              pop: true
             - include: code-block
         - include: any_POP
   invalid-generic-tags:
@@ -592,6 +593,14 @@ contexts:
         - match: '(?=\s*{|;)'
           pop: true
         - include: object-types
+  annotation-default:
+    - match: \bdefault\b
+      scope: keyword.declaration.default.java
+      push:
+        - meta_scope: meta.annotation.default.java
+        - match: (?=;)
+          pop: true
+        - include: code
   parameters:
     - match: \bfinal\b
       scope: storage.modifier.java

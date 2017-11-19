@@ -555,6 +555,33 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //                                     ^ support.class.java
 //                                                                         ^ punctuation.section.block.begin.java
 }
+
+public @interface PublicAnnotation {
+//     ^^^^^^^^^^ storage.type.java
+  int numericValue() default 42;
+//                   ^^^^^^^ keyword.declaration.default.java
+//                           ^^ constant.numeric
+  boolean booleanValue() default true;
+//                       ^^^^^^^ keyword.declaration.default.java
+//                               ^^^^ constant.language
+  char charValue() default 'S';
+//                 ^^^^^^^ keyword.declaration.default.java
+//                         ^^^ string.quoted.single.java
+  String value() default "Default value";
+//               ^^^^^^^ keyword.declaration.default.java
+//                       ^^^^^^^^^^^^^^^ string.quoted.double.java
+  Class<?> classValue() default String.class;
+//                      ^^^^^^^ keyword.declaration.default.java
+//                              ^^^^^^ support.class.java
+//                                     ^^^^^ variable.language.java
+  String[] arrayValue() default {"Foo", "Bar"};
+//                      ^^^^^^^ keyword.declaration.default.java
+//                              ^ punctuation.section.block.begin
+//                               ^^^^^ string.quoted.double.java
+//                                      ^^^^^ string.quoted.double.java
+//                                           ^ punctuation.section.block.end
+}
+
 @MultiLineAnnotation(
 // <- meta.annotation.java
 // <- punctuation.definition.annotation.java
