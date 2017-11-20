@@ -282,7 +282,7 @@ contexts:
     - include: immediately-pop
 
   tag-generic-attribute-equals:
-    - match: =
+    - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
     - match: '{{not_equals_lookahead}}'
@@ -321,7 +321,7 @@ contexts:
     - include: immediately-pop
 
   tag-class-attribute-equals:
-    - match: =
+    - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
     - match: '{{not_equals_lookahead}}'
@@ -362,7 +362,7 @@ contexts:
     - include: immediately-pop
 
   tag-id-attribute-equals:
-    - match: =
+    - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
     - match: '{{not_equals_lookahead}}'
@@ -403,7 +403,7 @@ contexts:
     - include: immediately-pop
 
   tag-style-attribute-equals:
-    - match: =
+    - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value
     - match: '{{not_equals_lookahead}}'
@@ -449,7 +449,7 @@ contexts:
     - include: immediately-pop
 
   tag-event-attribute-equals:
-    - match: =
+    - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
     - match: '{{not_equals_lookahead}}'
