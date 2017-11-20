@@ -586,7 +586,7 @@ contexts:
     - include: invalid-generic-tags
   throws:
     - match: \bthrows\b
-      scope: storage.modifier.java
+      scope: keyword.declaration.throws.java
       push:
         - meta_scope: meta.method.throws.java
         - match: '(?=\s*{|;)'
