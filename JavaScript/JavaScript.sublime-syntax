@@ -175,16 +175,23 @@ contexts:
   export-extended:
     - include: variable-declaration
 
+    - match: (?=\bclass\b)
+      set: class
+
+    - match: (?={{func_lookahead}})
+      set: function-declaration
+
     - match: '\bdefault\b'
       scope: keyword.control.import-export.js
       set:
         - match: (?=\bclass\b)
           set: class
 
-        - match: (?=\bfunction\b)
+        - match: (?={{func_lookahead}})
           set: function-declaration
 
-        - include: expression
+        - match: (?=\S)
+          set: expression-statement
 
     - match: (?=\S)
       set:
@@ -276,7 +283,7 @@ contexts:
     - match: (?=\bclass\b)
       push: class
 
-    - match: (?=\bfunction\b)
+    - match: (?={{func_lookahead}})
       push: function-declaration
 
   expression-statement:
@@ -936,6 +943,7 @@ contexts:
         - function-declaration-meta
         - function-declaration-expect-parameters
         - function-declaration-expect-name
+        - function-declaration-expect-generator-star
         - function-declaration-expect-function-keyword
         - function-declaration-expect-async
 
@@ -957,11 +965,15 @@ contexts:
       pop: true
     - include: else-pop
 
+  function-declaration-expect-generator-star:
+    - match: \*
+      scope: keyword.generator.asterisk.js
+      pop: true
+    - include: else-pop
+
   function-declaration-expect-function-keyword:
-    - match: \b(function)\b\s*(\*)?
-      captures:
-        1: storage.type.function.js
-        2: keyword.generator.asterisk.js
+    - match: \bfunction\b
+      scope: storage.type.function.js
       pop: true
     - include: else-pop
 

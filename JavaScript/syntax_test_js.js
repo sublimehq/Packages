@@ -46,6 +46,38 @@ export const name1 = 5;
 //     ^^^^^ storage.type
 //                 ^ keyword.operator.assignment
 
+export function foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^  meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export function* foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^  meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export async function foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export class Foo {}
+//^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^ meta.class
+
+[];
+// <- meta.sequence
+
 export default expression;
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
@@ -53,10 +85,23 @@ export default expression;
 
 export default function (a) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^ keyword.control.import-export
-//             ^ storage.type
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.function.declaration.js
 //                             ^ - meta.export
+
+[];
+// <- meta.sequence
+
+export default function* (a) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^^ meta.function.declaration.js
+//                              ^ - meta.export
+
+[];
+// <- meta.sequence
 
 export default function name1(b) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -64,6 +109,25 @@ export default function name1(b) { }
 //     ^ keyword.control.import-export
 //             ^ storage.type
 //                      ^ entity.name.function
+
+export default class Foo {}
+//^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.class
+
+[];
+// <- meta.sequence
+
+export default +function (a) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//              ^^^^^^^^^^^^ meta.function.declaration.js
+
+[];
+// <- meta.export
+// <- meta.brackets
 
 export { name1 as default };
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
