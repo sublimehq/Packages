@@ -205,11 +205,55 @@
   '1234 '+1234 '-1234
 ; ^ constant.other.symbol.reader-macro.clojure
 ;  ^^^^ constant.numeric.clojure
+
   (10 20 30) [10 20 30]
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^^ constant.numeric.clojure
 ;            ^ punctuation.section.brackets.begin.clojure
 ;             ^^ constant.numeric.clojure
+
+  ([100 200])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^ constant.numeric.clojure
+;       ^^^ constant.numeric.clojure
+;          ^ punctuation.section.brackets.end.clojure
+;           ^ punctuation.section.parens.end.clojure
+  ([0x10 0x20])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^^ constant.numeric.clojure
+;        ^^^^ constant.numeric.clojure
+;            ^ punctuation.section.brackets.end.clojure
+;             ^ punctuation.section.parens.end.clojure
+  ([2r100 16r200])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^^^ constant.numeric.clojure
+;         ^^^^^^ constant.numeric.clojure
+;               ^ punctuation.section.brackets.end.clojure
+;                ^ punctuation.section.parens.end.clojure
+  ([10/20 30/40])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^^^ constant.numeric.clojure
+;         ^^^^^ constant.numeric.clojure
+;              ^ punctuation.section.brackets.end.clojure
+;               ^ punctuation.section.parens.end.clojure
+  ([100.100 200.200])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^^^^^ constant.numeric.clojure
+;           ^^^^^^^ constant.numeric.clojure
+;                  ^ punctuation.section.brackets.end.clojure
+;                   ^ punctuation.section.parens.end.clojure
+  ([1e+10 2e-20])
+; ^ punctuation.section.parens.begin.clojure
+;  ^ punctuation.section.brackets.begin.clojure
+;   ^^^^^ constant.numeric.clojure
+;         ^^^^^ constant.numeric.clojure
+;              ^ punctuation.section.brackets.end.clojure
+;               ^ punctuation.section.parens.end.clojure
 
 ; ## Invalid numbers
 

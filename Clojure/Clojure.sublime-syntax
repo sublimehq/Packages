@@ -27,11 +27,11 @@ variables:
     (?x) # trim regexp
     [-+]?
     (?:
-      \d+N?                             # int
-      |0[Xx][0-9A-Fa-f]+N?              # hex int
-      |(?:[2-9]|[1-9]\d+)[Rr][0-9A-z]+  # n-radix int
-      |\d+/\d+                          # ratio
-      |\d+(?:\.\d+)?(?:[Ee][-+]?\d+)?M? # decimal with scientific notation
+      \d+N?                                # int
+      |0[Xx][0-9A-Fa-f]+N?                 # hex int
+      |(?:[2-9]|[1-9]\d+)[Rr][0-9A-Za-z]+  # n-radix int
+      |\d+/\d+                             # ratio
+      |\d+(?:\.\d+)?(?:[Ee][-+]?\d+)?M?    # decimal with scientific notation
     )
     (?=[{{non_number_chars}}])
 
