@@ -509,8 +509,8 @@ class CSSCompletions(sublime_plugin.EventListener):
 
             for prop in self.props:
                 if add_colon:
-                    l.append((prop + "\tcss", prop + ": "))
+                    l.append((prop + "\tproperty", prop + ": "))
                 else:
-                    l.append((prop + "\tcss", prop))
+                    l.append((prop + "\tproperty", prop))
 
             return (l, sublime.INHIBIT_WORD_COMPLETIONS)
