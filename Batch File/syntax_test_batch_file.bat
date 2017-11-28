@@ -475,6 +475,15 @@ set folder=%TEMP%\subfolder\
 ::         ^^^^^^ variable.other.readwrite.dosbatch
 ::               ^^^^^^^^^^^ string.unquoted - variable.other
 
+set test="c:\program files (x86)\%example%"abc
+::  ^^^^ variable.other.readwrite.dosbatch
+::      ^ keyword.operator.assignment.dosbatch
+::       ^ punctuation.definition.string.begin.dosbatch
+::       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
+::                                        ^ punctuation.definition.string.end.dosbatch 
+::                               ^^^^^^^^^ variable.other.readwrite.dosbatch
+::                                         ^^^ string.unquoted.dosbatch
+
 SETLOCAL EnableDelayedExpansion
 ::^^^^^^ keyword.command.dosbatch
   SET /P example="what is the answer? " & echo you have answered: !example!
