@@ -475,14 +475,15 @@ set folder=%TEMP%\subfolder\
 ::         ^^^^^^ variable.other.readwrite.dosbatch
 ::               ^^^^^^^^^^^ string.unquoted - variable.other
 
-set test="c:\program files (x86)\%example%"abc
+set test="c:\program files (x86)\%example%_%%test"abc
 ::  ^^^^ variable.other.readwrite.dosbatch
 ::      ^ keyword.operator.assignment.dosbatch
 ::       ^ punctuation.definition.string.begin.dosbatch
-::       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
-::                                        ^ punctuation.definition.string.end.dosbatch 
+::       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
 ::                               ^^^^^^^^^ variable.other.readwrite.dosbatch
-::                                         ^^^ string.unquoted.dosbatch
+::                                         ^^ constant.character.escape.dosbatch
+::                                               ^ punctuation.definition.string.end.dosbatch 
+::                                                ^^^ string.unquoted.dosbatch
 
 SETLOCAL EnableDelayedExpansion
 ::^^^^^^ keyword.command.dosbatch

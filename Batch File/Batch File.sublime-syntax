@@ -92,6 +92,7 @@ contexts:
               - match: '"'
                 scope: punctuation.definition.string.end.dosbatch
                 pop: true
+              - include: escaped_characters
               - include: variables
       - include: numbers
       - include: parens
