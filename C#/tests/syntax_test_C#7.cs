@@ -409,3 +409,25 @@ class Foo {
     }
 }
 /// <- meta.class.body punctuation.section.block.end
+
+public readonly struct S
+/// ^^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^^^^ storage.type.struct
+///                    ^ entity.name.struct
+{
+/// <- meta.struct.body meta.block punctuation.section.block.begin
+    public int Age { get; }
+    public string Name { get; }
+
+    public S(int age, string name)
+    {
+        this.Age = age;
+        this.Name = name;
+    }
+
+    public S(S other)
+    {
+        this = other;
+    }
+}
