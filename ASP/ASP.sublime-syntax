@@ -680,16 +680,13 @@ contexts:
           scope: string.quoted.double.html punctuation.definition.string.end.html
           push: # use a push and an include so that the root scope (text.html.basic) isn't applied
             - meta_scope: meta.tag.after-embedded-asp.any.html
-            - include: scope:text.html.basic#tag-stuff
-          with_prototype:
-            - match: '(?=<%)'
-              pop: true
             - match: '>'
               scope: punctuation.definition.tag.end.html
               set: scope:text.html.asp#html
-              with_prototype:
-                - match: '(?=<%)'
-                  pop: true
+            - include: scope:text.html.basic#tag-attributes
+          with_prototype:
+            - match: '(?=<%)'
+              pop: true
         - match: ''
           push: scope:text.html.asp#html
           with_prototype:
