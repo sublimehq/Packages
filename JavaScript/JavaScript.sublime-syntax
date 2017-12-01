@@ -15,12 +15,25 @@ variables:
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
-  method_name: >-
+  property_name: >-
     (?x)(?:
       {{identifier}}
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
       | \[ {{identifier}} (?:\.{{identifier}})* \]
+    )
+
+  class_element_name: |-
+    (?x)(?:
+      {{property_name}}
+      | \#{{identifier}}
+    )
+
+  method_lookahead: |-
+    (?x)(?=
+      \b(?: get|set|async )\b
+      | \*
+      | {{property_name}} \s* \(
     )
 
   line_continuation_lookahead: >-
@@ -782,10 +795,69 @@ contexts:
 
   class-body:
     - meta_scope: meta.class.js meta.block.js
+
     - match: '\}'
       scope: punctuation.section.block.js
       pop: true
-    - include: method-declaration
+
+    - match: \;
+      scope: punctuation.terminator.statement.js
+
+    - match: \bconstructor\b
+      scope: entity.name.function.constructor.js
+      push:
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+
+    - match: \bstatic\b
+      scope: storage.modifier.js
+      push: class-field
+
+    - match: (?={{class_element_name}})
+      push: class-field
+
+  class-field:
+    - match: '{{method_lookahead}}'
+      set: method-declaration
+      
+    - match: (?={{property_name}})
+      set:
+        - field-initializer-or-method-declaration
+        - field-name
+
+    - match: (?=#{{identifier}})
+      set:
+        - class-field-rest
+        - field-initializer
+        - field-name
+
+    - include: else-pop
+
+  class-field-rest:
+    - match: ','
+      scope: punctuation.separator.js
+      push:
+        - field-initializer
+        - field-name
+    - include: else-pop
+
+  field-initializer:
+    - match: =
+      scope: keyword.operator.assignment.js
+      set: expression-no-comma
+    - include: else-pop
+
+  field-initializer-or-method-declaration:
+    - match: (?=\()
+      set:
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+    - match: (?=\S)
+      set:
+        - class-field-rest
+        - field-initializer
 
   constants:
     - match: \btrue\b
@@ -1075,7 +1147,7 @@ contexts:
 
         - match: >-
             (?x)(?=
-              {{method_name}}\s*:
+              {{property_name}}\s*:
               (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
             )
           push:
@@ -1085,7 +1157,8 @@ contexts:
             - object-literal-meta-key
             - method-name
 
-        - include: method-declaration
+        - match: '{{method_lookahead}}'
+          push: method-declaration
 
         - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
           scope: variable.other.readwrite.js
@@ -1169,14 +1242,56 @@ contexts:
 
     - include: else-pop
 
+  field-name:
+    - match: '(\$)[_$[:alnum:]]*'
+      scope: meta.object-literal.key.dollar.js variable.other.readwrite.js
+      captures:
+        1: punctuation.dollar.js
+      pop: true
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js
+      pop: true
+    - match: "'"
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.js
+        - meta_content_scope: variable.other.readwrite.js
+        - match: (')|(\n)
+          captures:
+            1: punctuation.definition.string.end.js
+            2: invalid.illegal.newline.js
+          pop: true
+        - include: string-content
+    - match: '"'
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.js
+        - meta_content_scope: variable.other.readwrite.js
+        - match: (")|(\n)
+          captures:
+            1: punctuation.definition.string.end.js
+            2: invalid.illegal.newline.js
+          pop: true
+        - include: string-content
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
+
+    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?'
+      captures:
+        1: punctuation.definition.symbol.begin.js
+        2: variable.other.readwrite.js
+        3: punctuation.definition.symbol.end.js
+      pop: true
+
+    - include: else-pop
+
   method-declaration:
-    - match: |-
-        (?x)(?=
-          \b(?: get|set|async|static )\b
-          | \*
-          | {{method_name}} \s* \(
-        )
-      push:
+    - match: ''
+      set:
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
@@ -1188,8 +1303,6 @@ contexts:
       scope: keyword.generator.asterisk.js
     - match: \b(get|set)\b(?!\s*\()
       scope: storage.type.accessor.js
-    - match: \bstatic\b
-      scope: storage.type.js
     - include: else-pop
 
   parenthesized-expression:
@@ -1435,6 +1548,10 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       pop: true
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: variable.other.readwrite.js
 
   support:
     - match: \bdebugger\b

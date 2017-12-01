@@ -387,11 +387,8 @@ var obj = {
     "key '(": true,
     // <- meta.object-literal.key
 
-    static foo(bar) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //      ^entity.name.function
-    },
+    static,
+//  ^^^^^^ variable.other.readwrite
 
     *baz(){
 //  ^^^^^^ meta.function.declaration
@@ -559,9 +556,100 @@ class MyClass extends TheirClass {
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
 //                               ^ meta.block
+
+    x = 42;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.assignment
+//      ^^ constant.numeric
+
+    'y' = 42;
+//  ^^^ string.quoted.single
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    "z" = 42;
+//  ^^^ string.quoted.double
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    [w] = 42;
+//  ^ punctuation.definition.symbol.begin
+//   ^ variable.other.readwrite
+//    ^ punctuation.definition.symbol.end
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    #v = 42;
+//  ^ punctuation.definition.variable
+//   ^ variable.other.readwrite
+//     ^ keyword.operator.assignment
+//       ^^ constant.numeric
+
+    static x = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//           ^ keyword.operator.assignment
+//             ^^ constant.numeric
+
+    static 'y' = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.single
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static "z" = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.double
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static [w] = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ punctuation.definition.symbol.begin
+//          ^ variable.other.readwrite
+//           ^ punctuation.definition.symbol.end
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static #v = 42;
+//         ^ punctuation.definition.variable
+//          ^ variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^^ constant.numeric
+
+    a, 'b' = 50, "c", [d] = 100, #e;
+//  ^ variable.other.readwrite
+//      ^ variable.other.readwrite
+//                ^ variable.other.readwrite
+//                     ^ variable.other.readwrite
+//                                ^ variable.other.readwrite
+
+    static a, 'b' = 50, "c", [d] = 100, #e;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//             ^ variable.other.readwrite
+//                       ^ variable.other.readwrite
+//                            ^ variable.other.readwrite
+//                                       ^ variable.other.readwrite
+
+    foo // You thought I was a field...
+    () { return '...but was a method all along!'; }
+//  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+
+    someMethod() {
+        return #e * 2;
+//             ^ punctuation.definition.variable
+//              ^ variable.other.readwrite
+//                ^ keyword.operator.arithmetic
+    }
+
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ entity.name.function
+    // ^ entity.name.function.constructor
     {
 //  ^ meta.class meta.block meta.block punctuation.section.block
         $.foo = "";
@@ -578,9 +666,9 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //       ^ entity.name.function
+//  ^^^^^^ storage.modifier
+//         ^^^^^^^^ meta.function.declaration
+    //     ^^^ entity.name.function
 
     }
 
