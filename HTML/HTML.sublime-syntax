@@ -273,7 +273,7 @@ contexts:
       push:
         - tag-generic-attribute-meta
         - tag-generic-attribute-equals
-        
+
     - match: '[a-zA-Z0-9:\-_.]+'
       scope: entity.other.attribute-name.html
 
@@ -471,6 +471,10 @@ contexts:
       escape_captures:
         0: string.quoted.single punctuation.definition.string.end.html
     - include: else-pop
+
+  # This is to prevent breaking syntaxes referencing the old context name
+  tag-stuff:
+    - include: tag-attributes
 
   tag-attributes:
     - include: tag-id-attribute
