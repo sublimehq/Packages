@@ -910,6 +910,45 @@ public class Foo {
 //                                  ^ storage.type.numeric
   }
 
+  String stringAndChars() {
+    String doubleQuotes = "String with double quotes";
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                        ^ punctuation.definition.string.begin
+//                                                  ^ punctuation.definition.string.end
+
+    char singleQuotes = 'x';
+//                      ^^^ string.quoted.single
+//                      ^ punctuation.definition.string.begin
+//                        ^ punctuation.definition.string.end
+
+    String escapes = "Here \2 are \n some \t escaped \'\\' characters \"";
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                         ^^ constant.character.escape
+//                                ^^ constant.character.escape
+//                                                   ^^^^ constant.character.escape
+//                                                                    ^^ constant.character.escape
+
+    char escape = '\t' + '\1' + '\'' + '\\';
+//                ^^^^ string.quoted.single
+//                 ^^ constant.character.escape
+//                       ^^^^ string.quoted.single
+//                        ^^ constant.character.escape
+//                              ^^^^ string.quoted.single
+//                               ^^ constant.character.escape
+//                                     ^^^^ string.quoted.single
+//                                      ^^ constant.character.escape
+
+    String text = "String without closing quote
+//                                             ^ invalid.illegal.newline
+    System.out.println(text);
+//  ^^^^^^ support.class
+
+    char letter = 'z
+//                  ^ invalid.illegal.newline
+    System.out.println(letter);
+//  ^^^^^^ support.class
+  }
+
   @Test
 //^ punctuation.definition.annotation.java
   public void someMethod(WithParam foo) throws Exception {
