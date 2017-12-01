@@ -1375,26 +1375,56 @@ contexts:
         - include: object-property
 
   literal-number:
-    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
+    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f_]*\.(\B|\b[0-9_]+)'
       scope: invalid.illegal.numeric.hex.js
       pop: true
-    - match: '(?:\B[-+]|\b)0[0-9]+\.(\B|\b[0-9]+)'
+    - match: '(?:\B[-+]|\b)0[0-9_]+\.(\B|\b[0-9_]+)'
       scope: invalid.illegal.numeric.octal.js
       pop: true
-    - match: |-
-        (?xi)
-        (?:\B[-+])?
-        (?:
-          \b0b[0-1]*|                 # binary
-          \b0o[0-7]*|                 # octal
-          \b0x[0-9a-f]*|              # hex
-          (
-            \B\.[0-9]+|               # e.g. .999
-            \b[0-9]+(\.[0-9]*)?       # e.g. 999.999, 999. or 999
-          )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
-        )
-      scope: constant.numeric.js
+
+    - match: '[+-]?0[0-9]+'
+      scope: constant.numeric.octal.js invalid.deprecated.octal.js
       pop: true
+
+    - match: '[+-]?(0[Xx])[0-9a-fA-F_]*(n)?'
+      scope: constant.numeric.hexadecimal.js
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.js
+        2: storage.type.numeric.bigint.js
+      pop: true
+
+    - match: '[+-]?(0[Oo])[0-7_]*(n)?'
+      scope: constant.numeric.octal.js
+      captures:
+        1: punctuation.definition.numeric.octal.js
+        2: storage.type.numeric.bigint.js
+      pop: true
+
+    - match: '[+-]?(0[Bb])[0-1_]*(n)?'
+      scope: constant.numeric.binary.js
+      captures:
+        1: punctuation.definition.numeric.binary.js
+        2: storage.type.numeric.bigint.js
+      pop: true
+
+    - match: '[+-]?[0-9][0-9_]*(n)'
+      scope: constant.numeric.decimal.js
+      captures:
+        1: storage.type.numeric.bigint.js
+      pop: true
+
+    - match: |-
+        (?x)
+        (?:\B[-+])?
+        (?i:
+          (
+            \B\.[0-9][0-9_]*|         # e.g. .999
+            \b[0-9][0-9_]*(\.[0-9_]*)?# e.g. 999.999, 999. or 999
+          )(e[-+]?[0-9_]*)?           # e.g. e+123, E-123
+        )
+      scope: constant.numeric.decimal.js
+      pop: true
+
     - match: '(?:\B[-+]|\b)(Infinity)\b'
       scope: constant.language.infinity.js
       pop: true

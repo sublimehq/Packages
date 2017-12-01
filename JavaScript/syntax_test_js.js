@@ -1233,3 +1233,55 @@ function yy (a, b) {
 //               ^ punctuation.section.group.end
 //                 ^ meta.block punctuation.section.block - meta.function
 }
+
+// Integers
+
+    123_456_789_0n;
+//  ^^^^^^^^^^^^^^ constant.numeric.decimal
+//               ^ storage.type.numeric.bigint
+
+    0;
+//  ^ constant.numeric.decimal
+
+    0123456789;
+//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.octal
+
+    0b0110_1001_1001_0110n;
+//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.binary
+//  ^^ punctuation.definition.numeric.binary
+//                       ^ storage.type.numeric.bigint
+
+    0o0123_4567n;
+//  ^^^^^^^^^^^^ constant.numeric.octal
+//  ^^ punctuation.definition.numeric.octal
+//             ^ storage.type.numeric.bigint
+
+    0x01_23_45_67_89_ab_CD_efn;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hexadecimal
+//  ^^ punctuation.definition.numeric.hexadecimal
+//                           ^ storage.type.numeric.bigint
+
+    0B0; 0O0; 0X0;
+//  ^^^ constant.numeric.binary
+//       ^^^ constant.numeric.octal
+//            ^^^ constant.numeric.hexadecimal
+
+// Floats
+
+    1_234_567_890.123_456_789_0;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.decimal
+
+    .123_456_789_0;
+//  ^^^^^^^^^^^^^^ constant.numeric.decimal
+
+    0123.45;
+//  ^^^^^^^ invalid.illegal.numeric.octal
+
+    12345e6_7_8;
+//  ^^^^^^^^^^^ constant.numeric.decimal
+    
+    123.456e+789;
+//  ^^^^^^^^^^^^ constant.numeric.decimal
+
+    .123E-7_8_9;
+//  ^^^^^^^^^^^ constant.numeric.decimal
