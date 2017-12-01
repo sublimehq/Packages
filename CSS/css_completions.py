@@ -496,7 +496,7 @@ class CSSCompletions(sublime_plugin.EventListener):
                         if add_semi_colon:
                             snippet += ";"
 
-                        if snippet.find("$1") != -1:
+                        if "$1" in snippet:
                             desc = desc.replace("$1", "")
 
                         l.append((desc, snippet))
