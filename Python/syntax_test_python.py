@@ -450,6 +450,8 @@ def _():
 #   ^^^^^^^^^ meta.statement.finally.python
 #   ^^^^^^^ keyword.control.flow.finally.python
 #           ^ punctuation.section.block.finally.python
+    try_except_raise:
+#   ^^^ - keyword
 
     while (
 #   ^^^^^^^^ meta.statement.while.python
