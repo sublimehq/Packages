@@ -161,7 +161,7 @@ public class SyntaxTest {
 //                      ^^^^^^^^^^^^^ meta.method.identifier entity.name.function.java
 //                                   ^^ meta.method.parameters
 //                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws
-//                                      ^^^^^^ storage.modifier.java
+//                                      ^^^^^^ keyword.declaration.throws.java
 //                                                        ^^^^^ meta.generic.java
 //                                                             ^ - meta.method.throws
 //                                                              ^^ meta.method.body.java
@@ -1032,7 +1032,7 @@ public class Foo {
 //                       ^ support.class.java
 //                                 ^ variable.parameter.java
 //                                      ^^^^^^^^^^^^^^^^ meta.method.throws.java
-//                                      ^^^^^^ storage.modifier.java
+//                                      ^^^^^^ keyword.declaration.throws.java
 //                                             ^^^^^^^^^ support.class.java
 //                                                       ^ meta.method.java meta.method.body.java punctuation.section.block.begin.java
     Object otherFoo = methodInvocation(foo);
@@ -1215,7 +1215,7 @@ public class Foo {
 //                   ^ meta.method.java meta.method.parameters.java variable.parameter.java
 //                      ^ punctuation.section.parens.end
       throws Exception {
-//    ^ meta.method.java meta.method.throws.java storage.modifier.java
+//    ^ meta.method.java meta.method.throws.java keyword.declaration.throws.java
 //           ^ meta.method.java meta.method.throws.java support.class.java
     return someMethod(new Function<V, V>() {
 //                                         ^ meta.class.body.anonymous.java punctuation.section.braces.begin.java
