@@ -247,6 +247,10 @@
     }
 }
 
+    @counter-style {}
+/*  ^          punctuation.definition.keyword.css  */
+/*  ^^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css */
+
 @counter-style none {}
 /*             ^^^^ invalid.illegal.counter-style-name.css */
 
