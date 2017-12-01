@@ -16,7 +16,6 @@ contexts:
     - include: parens
     - include: transpose
     - include: string
-    - include: double_quote
     - include: members
     - include: all_matlab_keywords
     - include: all_matlab_comments
@@ -107,7 +106,6 @@ contexts:
     - include: brackets
     - include: transpose
     - include: string
-    - include: double_quote
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: variable
