@@ -84,6 +84,16 @@ contexts:
           - match: '(?=$\n|{{command_terminators}})'
             pop: true
           - include: variables
+          - match: '"'
+            scope: punctuation.definition.string.begin.dosbatch
+            push:
+              - meta_scope: string.quoted.double.dosbatch
+              - clear_scopes: 1
+              - match: '"'
+                scope: punctuation.definition.string.end.dosbatch
+                pop: true
+              - include: escaped_characters
+              - include: variables
       - include: numbers
       - include: parens
       - match: \b([^ ][^=\n]*)$
