@@ -345,14 +345,6 @@ var obj = {
     // ^ meta.object-literal.key
     //   ^ - constant.other
     //        ^ string.quoted.double
-    $key3: 0,
-    // <- meta.object-literal.key.dollar punctuation.dollar
-     // <- meta.object-literal.key.dollar - punctuation.dollar
-    $keyFunc: function() {
-//  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
-     // <- meta.object-literal.key.dollar entity.name.function - punctuation.dollar
-    },
 
     [true==false ? 'one' : 'two']: false,
 //  ^ punctuation.section.brackets
@@ -499,16 +491,11 @@ function x() {}
 
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.dollar.only punctuation.dollar entity.name.function
+//  ^ entity.name.function
 }
 
 $()
-// <- variable.other.dollar.only punctuation.dollar
-
-$foo = null;
-// <- variable.other.dollar punctuation.dollar
-// ^ variable.other.dollar - punctuation.dollar
-//     ^^^^ constant.language.null
+// <- support.function.jquery
 
 baz = "";
 // <- variable.other.readwrite
@@ -952,10 +939,7 @@ new Date().getTime()
 //        ^^^^^^^^^^ - meta.instance.constructor
 
 new $();
-//  ^ variable.type.dollar.only punctuation.dollar
-
-new $Dollar();
-//  ^ variable.type.dollar punctuation.dollar
+//  ^ support.constant.jquery
 
 void {
     'test1': [],
@@ -1135,14 +1119,6 @@ new FooBar(function(){
 //      ^ meta.property.object entity.name.function
 }
 
-['foo'].$ = function() {
-//      ^ meta.property.object.dollar.only entity.name.function
-}
-
-['foo'].$bar = function() {
-//      ^ meta.property.object.dollar entity.name.function
-}
-
 {
 // <- meta.block punctuation.section.block
     let foo = 1;
@@ -1190,19 +1166,19 @@ function test() {
 }
 
 $.each({})
-// <- variable.other.object.dollar.only punctuation.dollar
+// <- support.constant.jquery
 //     ^ meta.object-literal
 
 $varname.method()
-// <- variable.other.object.dollar punctuation.dollar - variable.other.object.dollar.only
-// ^ variable.other.object.dollar
+// <- variable.other.object
+// ^ variable.other.object
 
 $.fn.new_plugin = function() {}
-// <- support.class.dollar.only punctuation.dollar
+// <- support.class
 
 $var.fn.name = () => {}
-// <- support.class.dollar punctuation.dollar - support.class.dollar.only
-// ^ support.class.dollar - punctuation.dollar
+// <- support.class
+// ^ support.class
 
 someFunction(() => [() => 'X']);
 //                           ^ punctuation.section.brackets
@@ -1270,9 +1246,9 @@ var query = {
 //                        ^ keyword.operator.ternary
 //                          ^^^^ constant.language.null
 //                               ^ keyword.operator.ternary
-//                                 ^ punctuation.section.block.js
-//                                   ^^ meta.object-literal.key.dollar.js
-//                                     ^ punctuation.separator.key-value.js
+//                                 ^ punctuation.section.block
+//                                   ^^ meta.object-literal.key
+//                                     ^ punctuation.separator.key-value
 //                                                      ^ punctuation.section.block
 };
 
