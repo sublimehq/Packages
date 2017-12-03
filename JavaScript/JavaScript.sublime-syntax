@@ -14,6 +14,7 @@ variables:
   dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
+  either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
 
   property_name: >-
     (?x)(?:
@@ -287,10 +288,96 @@ contexts:
     - match: (?=\S)
       push: expression-statement
 
+  variable-binding-pattern:
+    - include: variable-binding-name
+    - include: variable-binding-array-destructuring
+    - include: variable-binding-object-destructuring
+    - include: else-pop
+
+  variable-binding-name:
+    - match: (?={{identifier}})
+      set:
+        - meta_scope: meta.binding.name.js
+        - include: literal-variable
+
+  variable-binding-array-destructuring:
+    - match: '\['
+      scope: punctuation.section.brackets.begin.js
+      set:
+        - meta_scope: meta.binding.destructuring.sequence.js
+        - match: '\]'
+          scope: punctuation.section.brackets.end.js
+          pop: true
+        - include: variable-binding-spread
+        - include: variable-binding-list
+
+  variable-binding-object-destructuring:
+    - match: '\{'
+      scope: punctuation.section.block.begin.js
+      set:
+        - meta_scope: meta.binding.destructuring.mapping.js
+        - match: '\}'
+          scope: punctuation.section.block.end.js
+          pop: true
+        - include: variable-binding-spread
+        - match: (?={{identifier}})
+          push:
+            - initializer
+            - variable-binding-object-alias
+            - object-literal-meta-key
+            - variable-binding-object-key
+        - include: comma-separator
+
+  variable-binding-object-alias:
+    - match: ':'
+      scope: punctuation.separator.key-value.js
+      set: variable-binding-pattern
+    - include: else-pop
+
+  variable-binding-object-key:
+    - match: '{{identifier}}(?=\s*:)'
+      pop: true
+    - match: (?=\S)
+      set: literal-variable
+
+  variable-binding-spread:
+    - match: '\.\.\.'
+      scope: keyword.operator.spread.js
+      push: variable-binding-pattern
+
+  variable-binding-list:
+    - include: comma-separator
+    - match: (?={{identifier}}|\{|\[)
+      push:
+        - initializer
+        - variable-binding-pattern
+    - include: else-pop
+
+  variable-binding-top:
+    - include: function-assignment
+    - match: (?={{identifier}}|\[|\{)
+      set:
+        - initializer
+        - variable-binding-pattern
+    - match: \n
+      set:
+        - match: '{{line_continuation_lookahead}}'
+          set: variable-binding-top
+        - include: else-pop
+    - include: else-pop
+
+  variable-binding-list-top:
+    - match: ','
+      scope: punctuation.separator.comma.js
+      push: variable-binding-top
+    - include: else-pop
+
   variable-declaration:
     - match: \b(const|let|var)\b
       scope: storage.type.js
-      push: expression-statement
+      push:
+        - variable-binding-list-top
+        - variable-binding-top
 
   function-or-class-declaration:
     - match: (?=\bclass\b)
@@ -298,6 +385,12 @@ contexts:
 
     - match: (?={{func_lookahead}})
       push: function-declaration
+
+  initializer:
+    - match: '='
+      scope: keyword.operator.assignment.js
+      set: expression-no-comma
+    - include: else-pop
 
   expression-statement:
     - match: (?=\S)
@@ -440,8 +533,7 @@ contexts:
         - match: ;
           scope: punctuation.terminator.statement.js
 
-        - match: \b(const|let|var)\b
-          scope: storage.type.js
+        - include: variable-declaration
 
         - include: expression-list
     - include: block-scope
@@ -836,7 +928,7 @@ contexts:
     - match: (?=#{{identifier}})
       set:
         - class-field-rest
-        - field-initializer
+        - initializer
         - field-name
 
     - include: else-pop
@@ -845,14 +937,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.js
       push:
-        - field-initializer
+        - initializer
         - field-name
-    - include: else-pop
-
-  field-initializer:
-    - match: =
-      scope: keyword.operator.assignment.js
-      set: expression-no-comma
     - include: else-pop
 
   field-initializer-or-method-declaration:
@@ -864,7 +950,7 @@ contexts:
     - match: (?=\S)
       set:
         - class-field-rest
-        - field-initializer
+        - initializer
 
   constants:
     - match: \btrue\b
@@ -884,34 +970,35 @@ contexts:
       pop: true
 
   literal-prototype:
-    - match: '({{identifier}})\s*(\.)\s*(prototype)(?=\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
+    - match: |-
+        (?x)
+          ({{identifier}})
+          \s*(\.)\s*
+          (prototype)
+          (?=\s*=\s*{{either_func_lookahead}})
       scope: meta.prototype.declaration.js
       captures:
         1: support.class.js
         2: punctuation.accessor.js
         3: support.constant.prototype.js
       set:
-        - meta_scope: meta.function.declaration.js
-        - match: '='
-          scope: keyword.operator.assignment.js
-        - match: '(?={{func_lookahead}})'
-          set: function-declaration
-        - match: '(?={{arrow_func_lookahead}})'
-          set: arrow-function-declaration
-        - include: else-pop
-    - match: '({{identifier}})\s*(\.)\s*(prototype)\s*(\.)\s*(?={{identifier}}\s*=\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
+        - function-declaration-meta
+        - initializer
+    - match: |-
+        (?x)
+          ({{identifier}})
+          \s*(\.)\s*
+          (prototype)\s*(\.)\s*
+          (?={{identifier}}\s*=\s*{{either_func_lookahead}})
       captures:
         1: support.class.js
         2: punctuation.accessor.js
         3: support.constant.prototype.js
         4: punctuation.accessor.js
       set:
-        - meta_scope: meta.function.declaration.js
-        - match: '(?={{func_lookahead}})'
-          set: function-declaration
-        - match: '(?={{arrow_func_lookahead}})'
-          set: arrow-function-declaration
-        - include: function-declaration-final-identifier
+        - function-declaration-meta
+        - initializer
+        - function-declaration-single-identifier
     - match: '({{identifier}})(\.)(prototype)\b'
       scope: meta.prototype.access.js
       captures:
@@ -921,29 +1008,24 @@ contexts:
       pop: true
 
   function-assignment:
-    - match: '(?=(({{identifier}})\s*(\.)\s*)+({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
+    - match: |-
+        (?x)(?=
+          ({{identifier}} \s* \. \s*)*
+          {{identifier}}
+          \s* = \s*
+          {{either_func_lookahead}}
+        )
       set:
-        - meta_scope: meta.function.declaration.js
-        - match: '(?={{func_lookahead}})'
-          set: function-declaration
-        - match: '(?={{arrow_func_lookahead}})'
-          set: arrow-function-declaration
-        - include: function-declaration-identifiers
-    - match: '(?=({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
-      set:
-        - meta_scope: meta.function.declaration.js
-        - match: '(?={{func_lookahead}})'
-          set: function-declaration
-        - match: '(?={{arrow_func_lookahead}})'
-          set: arrow-function-declaration
-        - include: function-declaration-single-identifier
+        - function-declaration-meta
+        - initializer
+        - function-declaration-identifiers
 
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*\.)'
       push:
         - function-declaration-identifiers-expect-dot
         - function-declaration-identifiers-expect-class
-    - include: function-declaration-final-identifier
+    - include: function-declaration-single-identifier
 
   function-declaration-identifiers-expect-dot:
     - match: '\.'
@@ -954,53 +1036,54 @@ contexts:
   function-declaration-identifiers-expect-class:
     - match: '\bprototype\b'
       scope: support.constant.prototype.js
+      pop: true
     - include: language-identifiers
     - match: '{{dollar_only_identifier}}'
       scope: support.class.dollar.only.js punctuation.dollar.js
+      pop: true
     - match: '{{dollar_identifier}}'
       scope: support.class.dollar.js
       captures:
         1: punctuation.dollar.js
+      pop: true
     - match: '{{identifier}}'
       scope: support.class.js
+      pop: true
     - include: else-pop
 
   function-declaration-final-identifier:
-    - match: '(?={{identifier}}\s*(=)\s*)'
-      push:
-        - match: '{{dollar_only_identifier}}'
-          scope: meta.property.object.dollar.only.js punctuation.dollar.js entity.name.function.js
-        - match: '{{dollar_identifier}}'
-          scope: meta.property.object.dollar.js entity.name.function.js
-          captures:
-            1: punctuation.dollar.js
-        - match: '{{identifier}}'
-          scope: meta.property.object.js entity.name.function.js
-        - match: '\s*(=)\s*'
-          captures:
-            1: keyword.operator.assignment.js
-          pop: true
+    - match: '{{dollar_only_identifier}}'
+      scope: meta.property.object.dollar.only.js punctuation.dollar.js entity.name.function.js
+      pop: true
+    - match: '{{dollar_identifier}}'
+      scope: meta.property.object.dollar.js entity.name.function.js
+      captures:
+        1: punctuation.dollar.js
+      pop: true
+    - match: '{{constant_identifier}}'
+      scope: meta.property.object.constant.js entity.name.function.js
+      pop: true
+    - match: '{{identifier}}'
+      scope: meta.property.object.readwrite.js entity.name.function.js
+      pop: true
+    - include: else-pop
 
   function-declaration-single-identifier:
-    - match: '\s*(=)\s*'
+    - match: '{{dollar_only_identifier}}'
+      scope: variable.other.dollar.only.js punctuation.dollar.js entity.name.function.js
+      pop: true
+    - match: '{{dollar_identifier}}'
+      scope: variable.other.dollar.js entity.name.function.js
       captures:
-        1: keyword.operator.assignment.js
-    - match: '(?={{identifier}})'
-      push:
-        # These matches have to be duplicated to get entity.name.function
-        # on the end of the scope stack since most color schemes require it
-        - match: '{{dollar_only_identifier}}'
-          scope: variable.other.dollar.only.js punctuation.dollar.js entity.name.function.js
-        - match: '{{dollar_identifier}}'
-          scope: variable.other.dollar.js entity.name.function.js
-          captures:
-            1: punctuation.dollar.js
-        - match: '{{constant_identifier}}'
-          scope: variable.other.constant.js entity.name.function.js
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.js entity.name.function.js
-        - match: (?=.)
-          pop: true
+        1: punctuation.dollar.js
+      pop: true
+    - match: '{{constant_identifier}}'
+      scope: variable.other.constant.js entity.name.function.js
+      pop: true
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.js entity.name.function.js
+      pop: true
+    - include: else-pop
 
   either-function-declaration:
     - match: '(?={{func_lookahead}})'
@@ -1160,7 +1243,7 @@ contexts:
         - match: >-
             (?x)(?=
               {{property_name}}\s*:
-              (?: {{func_lookahead}} | {{arrow_func_lookahead}} )
+              (?: {{either_func_lookahead}} )
             )
           push:
             - either-function-declaration
@@ -1292,12 +1375,13 @@ contexts:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
 
-    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?'
-      captures:
-        1: punctuation.definition.symbol.begin.js
-        2: variable.other.readwrite.js
-        3: punctuation.definition.symbol.end.js
-      pop: true
+    - match: \[
+      scope: punctuation.definition.symbol.begin.js
+      push:
+        - - match: \]
+            scope: punctuation.definition.symbol.end.js
+          - include: else-pop
+        - expression
 
     - include: else-pop
 
@@ -1366,19 +1450,16 @@ contexts:
     - match: \.
       scope: punctuation.accessor.js
       push:
-      # All of these matches use set (or effectively a set via the final
-      # include/match/pop construct) instead of push so that we escape this
-      # accessor state once a match has been made. Otherwise identifiers
-      # following method definitions or method calls will be scoped as
-      # properties.
-        - match: '(?=({{identifier}})\s*(=)\s*({{func_lookahead}}|{{arrow_func_lookahead}}))'
+        - match: |-
+            (?x)(?=
+              {{identifier}}
+              \s* = \s*
+              {{either_func_lookahead}}
+            )
           set:
-            - meta_scope: meta.function.declaration.js
-            - match: '(?={{func_lookahead}})'
-              set: function-declaration
-            - match: '(?={{arrow_func_lookahead}})'
-              set: arrow-function-declaration
-            - include: function-declaration-final-identifier
+            - function-declaration-meta
+            - initializer
+            - function-declaration-final-identifier
         - match: '(?={{identifier}}\s*\()'
           set:
             - include: method-call
