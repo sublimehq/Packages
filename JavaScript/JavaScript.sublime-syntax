@@ -10,8 +10,6 @@ scope: source.js
 variables:
   identifier: '[_$[:alpha:]][_$[:alnum:]]*'
   constant_identifier: '[[:upper:]][_$[:digit:][:upper:]]*\b'
-  dollar_only_identifier: '\$(?![_$[:alnum:]])'
-  dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
