@@ -708,22 +708,12 @@ contexts:
       scope: keyword.operator.word.new.js
       set:
         - constructor-meta
-        - constructor-body
+        - constructor-body-expect-arguments
+        - constructor-body-expect-class-end
+        - constructor-body-expect-class-begin
 
   constructor-meta:
-    - meta_scope: meta.instance.constructor.js
-    - include: immediately-pop
-
-  constructor-body:
-    - match: ''
-      set:
-        - constructor-body-meta
-        - constructor-body-expect-arguments
-        - constructor-body-expect-property-access
-        - constructor-body-expect-class
-
-  constructor-body-meta:
-    - meta_scope: meta.function-call.constructor.js
+    - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
     - include: immediately-pop
 
   constructor-body-expect-arguments:
@@ -731,41 +721,29 @@ contexts:
       set: function-call-params
     - include: else-pop
 
-  constructor-body-expect-property-access:
+  constructor-body-expect-class-end:
     - include: property-access
     - include: else-pop
 
-  constructor-body-expect-class:
-    - include: expression-break
-
-    - include: regexp-complete
-    - include: literal-string
-    - include: literal-string-template
-
-    - include: class
-    - include: constants
-    - include: either-function-declaration
-    - include: object-literal
-
-    - include: parenthesized-expression
-    - include: array-literal
-
-    - include: literal-number
-
+  constructor-body-expect-class-begin:
     - include: well-known-identifiers
-    - include: language-identifiers
 
-    - match: '{{dollar_only_identifier}}'
-      scope: variable.type.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: variable.type.dollar.js
-      captures:
-        1: punctuation.dollar.js
-    - match: '{{identifier}}'
-      scope: variable.type.js
-      pop: true
+    - match: (?={{identifier}}\s*\()
+      set:
+        - match: '{{dollar_only_identifier}}'
+          scope: variable.type.dollar.only.js punctuation.dollar.js
+          pop: true
+        - match: '{{dollar_identifier}}'
+          scope: variable.type.dollar.js
+          captures:
+            1: punctuation.dollar.js
+          pop: true
+        - match: '{{identifier}}'
+          scope: variable.type.js
+          pop: true
+        - include: else-pop
 
-    - include: else-pop
+    - include: expression-begin
 
   prefix-operators:
     - match: '~'
