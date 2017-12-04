@@ -551,6 +551,13 @@ for (var i = 0; i < 10; i++) {
 }
 // <- meta.block
 
+    for (const x of list) {}
+//  ^^^ keyword.control.loop
+
+    for await (const x of list) {}
+//  ^^^ keyword.control.loop
+//      ^^^^^ keyword.control.loop
+
 while (true)
 // ^^^^^^^^^ meta.while
 //     ^^^^ meta.group

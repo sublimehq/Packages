@@ -383,8 +383,9 @@ contexts:
     - match: \bfor\b
       scope: keyword.control.loop.js
       push:
-        - meta_scope: meta.for.js
-        - include: parens-block-scope
+        - for-meta
+        - parens-block-scope
+        - for-await
 
     - match: \bwhile\b
       scope: keyword.control.loop.js
@@ -427,6 +428,16 @@ contexts:
       push:
         - meta_scope: meta.catch.js
         - include: parens-block-scope
+
+  for-meta:
+    - meta_scope: meta.for.js
+    - include: immediately-pop
+
+  for-await:
+    - match: \bawait\b
+      scope: keyword.control.loop.js
+      pop: true
+    - include: else-pop
 
   parens-block-scope:
     - match: '\('
