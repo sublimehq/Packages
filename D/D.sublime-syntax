@@ -261,7 +261,7 @@ contexts:
             - include: $top_level_main
         - match: (in|out)
           scope: keyword.control.statement.d
-        - match: (?=body)
+        - match: (?=body|do)
           pop: true
     - match: '(?<=\})'
       pop: true
