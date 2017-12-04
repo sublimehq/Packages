@@ -1386,6 +1386,3 @@ debugger;
 debugger
 []
 // <- meta.sequence
-
-    +debugger;
-//   ^^^^^^^^ variable.other.readwrite - keyword
