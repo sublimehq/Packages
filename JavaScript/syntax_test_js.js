@@ -577,6 +577,10 @@ while (true)
     y = await 42;
 //      ^^^^^ keyword.control.flow
 
+    y = yield await 42;
+//      ^^^^^ keyword.control.flow
+//            ^^^^^ keyword.control.flow
+
     break;
 //  ^^^^^^ meta.while meta.block
 }
