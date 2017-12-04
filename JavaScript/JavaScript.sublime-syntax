@@ -272,7 +272,7 @@ contexts:
     - match: \b(break|continue|goto)\b
       scope: keyword.control.loop.js
 
-    - match: \b(await|return)\b
+    - match: \breturn\b
       scope: keyword.control.flow.js
       push: restricted-production
 
@@ -509,6 +509,7 @@ contexts:
     - include: constructor
     - include: prefix-operators
     - include: yield-expression
+    - include: await-expression
 
     - include: class
     - include: constants
@@ -786,6 +787,10 @@ contexts:
           set: expression-begin
         - match: (?=\S)
           set: expression-begin
+
+  await-expression:
+    - match: \bawait\b
+      scope: keyword.control.flow.js
 
   class:
     - match: \bclass\b

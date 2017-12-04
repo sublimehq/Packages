@@ -574,6 +574,9 @@ while (true)
     [];
 //  ^^ meta.brackets - meta.sequence
 
+    y = await 42;
+//      ^^^^^ keyword.control.flow
+
     break;
 //  ^^^^^^ meta.while meta.block
 }
