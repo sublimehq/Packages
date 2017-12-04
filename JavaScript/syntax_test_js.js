@@ -1379,3 +1379,10 @@ function yy (a, b) {
 
     .123E-7_8_9;
 //  ^^^^^^^^^^^ constant.numeric.decimal
+
+debugger;
+// <- keyword.other.debugger
+
+debugger
+[]
+// <- meta.sequence

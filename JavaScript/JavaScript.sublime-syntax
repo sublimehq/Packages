@@ -276,6 +276,9 @@ contexts:
       scope: keyword.control.flow.js
       push: restricted-production
 
+    - match: \bdebugger\b
+      scope: keyword.other.debugger.js
+
     - include: function-or-class-declaration
 
     - match: (?=\S)
@@ -1619,9 +1622,6 @@ contexts:
         2: variable.other.readwrite.js
 
   support:
-    - match: \bdebugger\b
-      scope: keyword.other.js
-      pop: true
     - match: |-
         (?x)
         \b(
