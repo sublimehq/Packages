@@ -10,8 +10,6 @@ scope: source.js
 variables:
   identifier: '[_$[:alpha:]][_$[:alnum:]]*'
   constant_identifier: '[[:upper:]][_$[:digit:][:upper:]]*\b'
-  dollar_only_identifier: '\$(?![_$[:alnum:]])'
-  dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
 
@@ -670,12 +668,6 @@ contexts:
     - include: well-known-identifiers
     - include: language-identifiers
 
-    - match: '{{dollar_only_identifier}}'
-      scope: variable.type.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: variable.type.dollar.js
-      captures:
-        1: punctuation.dollar.js
     - match: '{{identifier}}'
       scope: variable.type.js
       pop: true
@@ -978,12 +970,6 @@ contexts:
     - match: '\bprototype\b'
       scope: support.constant.prototype.js
     - include: language-identifiers
-    - match: '{{dollar_only_identifier}}'
-      scope: support.class.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: support.class.dollar.js
-      captures:
-        1: punctuation.dollar.js
     - match: '{{identifier}}'
       scope: support.class.js
     - include: else-pop
@@ -991,12 +977,6 @@ contexts:
   function-declaration-final-identifier:
     - match: '(?={{identifier}}\s*(=)\s*)'
       push:
-        - match: '{{dollar_only_identifier}}'
-          scope: meta.property.object.dollar.only.js punctuation.dollar.js entity.name.function.js
-        - match: '{{dollar_identifier}}'
-          scope: meta.property.object.dollar.js entity.name.function.js
-          captures:
-            1: punctuation.dollar.js
         - match: '{{identifier}}'
           scope: meta.property.object.js entity.name.function.js
         - match: '\s*(=)\s*'
@@ -1012,12 +992,6 @@ contexts:
       push:
         # These matches have to be duplicated to get entity.name.function
         # on the end of the scope stack since most color schemes require it
-        - match: '{{dollar_only_identifier}}'
-          scope: variable.other.dollar.only.js punctuation.dollar.js entity.name.function.js
-        - match: '{{dollar_identifier}}'
-          scope: variable.other.dollar.js entity.name.function.js
-          captures:
-            1: punctuation.dollar.js
         - match: '{{constant_identifier}}'
           scope: variable.other.constant.js entity.name.function.js
         - match: '{{identifier}}'
@@ -1209,10 +1183,6 @@ contexts:
           push:
             - object-literal-meta-key
             - literal-string
-        - match: '(\$)[$\w]*(?=\s*:)'
-          scope: meta.object-literal.key.dollar.js
-          captures:
-            1: punctuation.dollar.js
         - match: '{{identifier}}(?=\s*:)'
           scope: meta.object-literal.key.js
         - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
@@ -1235,11 +1205,6 @@ contexts:
     - include: else-pop
 
   method-name:
-    - match: '(\$)[_$[:alnum:]]*'
-      scope: meta.object-literal.key.dollar.js entity.name.function.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
     - match: '{{identifier}}'
       scope: entity.name.function.js
       pop: true
@@ -1278,11 +1243,6 @@ contexts:
     - include: else-pop
 
   field-name:
-    - match: '(\$)[_$[:alnum:]]*'
-      scope: meta.object-literal.key.dollar.js variable.other.readwrite.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       pop: true
@@ -1465,21 +1425,6 @@ contexts:
       pop: true
 
   literal-call:
-    - match: (\$)(?=\s*\()
-      scope: variable.function.js variable.other.dollar.only.js punctuation.dollar.js
-      set:
-        - meta_scope: meta.function-call.js
-        - include: function-call-params
-    - match: \b(clearTimeout|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|setTimeout|super|unescape)\b(?=\()
-      scope: support.function.js
-      set:
-        - meta_scope: meta.function-call.js
-        - include: function-call-params
-    - match: '({{identifier}})(?=\s*\()'
-      scope: variable.function.js
-      set:
-        - meta_scope: meta.function-call.js
-        - include: function-call-params
     - match: '(?={{identifier}}\s*\.\s*{{identifier}}\s*\()'
       set:
         - match: \b(console)(?:(\.)(warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace|timeStamp))?\b
@@ -1502,12 +1447,6 @@ contexts:
           push:
             - include: well-known-identifiers
             - include: language-identifiers
-            - match: '{{dollar_only_identifier}}'
-              scope: variable.other.object.dollar.only.js punctuation.dollar.js
-            - match: '{{dollar_identifier}}'
-              scope: variable.other.object.dollar.js
-              captures:
-                1: punctuation.dollar.js
             - match: '{{identifier}}'
               scope: variable.other.object.js
             - match: \.
@@ -1518,6 +1457,21 @@ contexts:
         - include: method-call
         - match: '(?=[^ ])'
           pop: true
+    - match: \b(clearTimeout|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|setTimeout|super|unescape)\b(?=\()
+      scope: support.function.js
+      set:
+        - meta_scope: meta.function-call.js
+        - include: function-call-params
+    - match: \B\$\B
+      scope: support.function.jquery.js
+      set:
+        - meta_scope: meta.function-call.method.js
+        - include: function-call-params
+    - match: '({{identifier}})(?=\s*\()'
+      scope: variable.function.js
+      set:
+        - meta_scope: meta.function-call.js
+        - include: function-call-params
 
   method-call:
     - match: \b(shift|sort|splice|unshift|pop|push|reverse|copyWithin|fill)\b(?=\()
@@ -1558,7 +1512,6 @@ contexts:
   literal-variable:
     - include: well-known-identifiers
     - include: language-identifiers
-    - include: dollar-identifiers
     - include: support
     - match: '\b[[:upper:]][_$[:alnum:]]*(?=\s*[\[.])'
       scope: support.class.js
@@ -1581,6 +1534,9 @@ contexts:
     - match: \b(Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip)\b
       scope: support.class.node.js
       pop: true
+    - match: \B\$\B
+      scope: support.constant.jquery.js
+      pop: true
 
   language-identifiers:
     - match: \b(arguments)\b
@@ -1594,16 +1550,6 @@ contexts:
       pop: true
     - match: \b(self)\b
       scope: variable.language.self.js
-      pop: true
-
-  dollar-identifiers:
-    - match: '{{dollar_only_identifier}}'
-      scope: variable.other.dollar.only.js punctuation.dollar.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: variable.other.dollar.js
-      captures:
-        1: punctuation.dollar.js
       pop: true
 
   simple-identifiers:
@@ -1659,14 +1605,6 @@ contexts:
       pop: true
     - match: \bprototype\b
       scope: variable.language.prototype.js
-      pop: true
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.property.object.dollar.only.js punctuation.dollar.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: meta.property.object.dollar.js
-      captures:
-        1: punctuation.dollar.js
       pop: true
     - match: '{{identifier}}'
       scope: meta.property.object.js
