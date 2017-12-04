@@ -272,13 +272,7 @@ contexts:
     - match: \b(break|continue|goto)\b
       scope: keyword.control.loop.js
 
-    - match: \b(yield)\b(?:\s*(\*))?
-      captures:
-        1: keyword.control.flow.js
-        2: keyword.generator.asterisk.js
-      push: restricted-production
-
-    - match: \b(await|return)\b
+    - match: \breturn\b
       scope: keyword.control.flow.js
       push: restricted-production
 
@@ -514,6 +508,8 @@ contexts:
     - include: literal-string-template
     - include: constructor
     - include: prefix-operators
+    - include: yield-expression
+    - include: await-expression
 
     - include: class
     - include: constants
@@ -779,6 +775,22 @@ contexts:
       scope: keyword.operator.arithmetic.js
     - match: '\+\+'
       scope: keyword.operator.arithmetic.js
+
+  yield-expression:
+    - match: \byield\b
+      scope: keyword.control.flow.js
+      set:
+        - match: $
+          pop: true
+        - match: \*
+          scope: keyword.generator.asterisk.js
+          set: expression-begin
+        - match: (?=\S)
+          set: expression-begin
+
+  await-expression:
+    - match: \bawait\b
+      scope: keyword.control.flow.js
 
   class:
     - match: \bclass\b
