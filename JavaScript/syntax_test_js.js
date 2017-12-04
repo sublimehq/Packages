@@ -556,8 +556,24 @@ while (true)
 //     ^^^^ meta.group
 {
 // <- meta.block
-    yield;
-//  ^^^^^ keyword.control.flow
+    x = yield;
+//      ^^^^^ keyword.control.flow
+
+    x = yield * 42;
+//      ^^^^^ keyword.control.flow
+//            ^ keyword.generator.asterisk
+
+    x = yield
+    function f() {}
+    [];
+//  ^^ meta.sequence - meta.brackets
+
+
+    x = yield*
+    function f() {}
+    [];
+//  ^^ meta.brackets - meta.sequence
+
     break;
 //  ^^^^^^ meta.while meta.block
 }
