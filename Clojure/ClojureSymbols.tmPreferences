@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Clojure Symbols</string>
 	<key>scope</key>
-	<string>entity.name.function.fn.clojure</string>
+	<string>entity.name.function.fn.clojure, entity.name.function.forward-decl.clojure</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>

@@ -150,7 +150,7 @@ contexts:
       captures:
         1: punctuation.definition.comment
     - match: ','
-      scope: comment.punctuation.comma.clojure
+      scope: punctuation.comma.clojure comment.punctuation.comma.clojure
     - match: \^
       scope: constant.other.symbol.reader-macro.clojure
       push: pop-expr
@@ -188,26 +188,29 @@ contexts:
   pop-list-head:
     - include: match-noise
     - match: defprotocol[^{{non_symbol_chars}}]*
-      scope: storage.type.def.clojure
+      scope: storage.type.clojure
       set: pop-declare-protocol-list-tail
     - match: definterface[^{{non_symbol_chars}}]*
-      scope: storage.type.def.clojure
+      scope: storage.type.clojure
       set: pop-declare-interface-list-tail
     - match: (?:deftype|defrecord)[^{{non_symbol_chars}}]*
-      scope: storage.type.def.clojure
+      scope: storage.type.clojure
       set: pop-declare-type-list-tail
     - match: defmethod[^{{non_symbol_chars}}]*
-      scope: storage.type.def.clojure
+      scope: storage.modifier.def.clojure
       set: pop-list-tail
     - match: def[^{{non_symbol_chars}}]*
-      scope: storage.type.def.clojure
+      scope: storage.modifier.def.clojure
       set: pop-declare-def-list-tail
     - match: (?:reify|proxy|extend-protocol|extend-type)[^{{non_symbol_chars}}]*
       scope: variable.function.clojure
       set: pop-type-list-tail
     - match: fn\*?(?=[{{non_symbol_chars}}])
-      scope: storage.type.fn.clojure
+      scope: storage.modifier.fn.clojure
       set: pop-fn-list-tail
+    - match: declare[^{{non_symbol_chars}}]*
+      scope: storage.modifier.declare.clojure
+      set: pop-declare-list-tail
     - match: (?=\S)
       set: pop-invoke-list-tail
 
@@ -224,27 +227,6 @@ contexts:
       set: pop-protocol-list-tail
     - include: set-normal-list-tail
 
-  pop-declare-interface-list-tail:
-    - include: match-constant-set-normal-list-tail
-    - match: '{{symbol}}'
-      scope: entity.name.type.clojure
-      set: pop-type-list-tail
-    - include: set-normal-list-tail
-
-  pop-declare-type-list-tail:
-    - include: match-constant-set-normal-list-tail
-    - match: '{{symbol}}'
-      scope: entity.name.type.clojure
-      set: pop-type-list-tail
-    - include: set-normal-list-tail
-
-  pop-declare-def-list-tail:
-    - include: match-constant-set-normal-list-tail
-    - match: '{{symbol}}'
-      scope: entity.name.function.clojure
-      set: pop-list-tail
-    - include: set-normal-list-tail
-
   pop-protocol-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
@@ -254,7 +236,14 @@ contexts:
       push: pop-declare-def-list-tail
     - include: match-expr
 
-  pop-type-list-tail:
+  pop-declare-interface-list-tail:
+    - include: match-constant-set-normal-list-tail
+    - match: '{{symbol}}'
+      scope: entity.name.type.clojure
+      set: pop-interface-list-tail
+    - include: set-normal-list-tail
+
+  pop-interface-list-tail:
     - match: \)
       scope: punctuation.section.parens.end.clojure
       pop: true
@@ -263,10 +252,41 @@ contexts:
       push: pop-fn-list-tail
     - include: match-expr
 
+  pop-declare-type-list-tail:
+    - include: match-constant-set-normal-list-tail
+    - match: '{{symbol}}'
+      scope: entity.name.type.clojure
+      set: pop-type-list-tail
+    - include: set-normal-list-tail
+
+  pop-type-list-tail:
+    - match: \)
+      scope: punctuation.section.parens.end.clojure
+      pop: true
+    - match: \(
+      scope: punctuation.section.parens.begin.clojure
+      push: pop-fn-list-tail
+    - include: match-symbol-implemented-or-extended
+    - include: match-expr
+
+  pop-declare-def-list-tail:
+    - include: match-constant-set-normal-list-tail
+    - match: '{{symbol}}'
+      scope: entity.name.function.clojure
+      set: pop-list-tail
+    - include: set-normal-list-tail
+
   pop-fn-list-tail:
     - include: match-constant-set-normal-list-tail
     - match: '{{symbol}}'
       scope: entity.name.function.fn.clojure
+      set: pop-list-tail
+    - include: set-normal-list-tail
+
+  pop-declare-list-tail:
+    - include: match-constant-set-normal-list-tail
+    - match: '{{symbol}}'
+      scope: entity.name.function.forward-decl.clojure
       set: pop-list-tail
     - include: set-normal-list-tail
 
@@ -282,6 +302,12 @@ contexts:
     - match: '{{constant}}'
       scope: constant.language.clojure
       set: pop-list-tail
+
+  match-symbol-implemented-or-extended:
+    - match: '{{constant}}'
+      scope: constant.language.clojure
+    - match: '{{symbol}}'
+      scope: entity.other.inherited-class.clojure
 
   set-normal-list-tail:
     - match: (?=\S)

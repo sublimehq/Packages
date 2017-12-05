@@ -1,6 +1,5 @@
 ; SYNTAX TEST "Packages/Clojure/Clojure.sublime-syntax"
 
-
 ; # Comments and whitespace
 
   ;blah
@@ -12,14 +11,14 @@
 ;    ^^^^^ comment.line.clojure
 
   blah;blah;blah
-; ^^^^- comment.line.clojure
+; ^^^^- comment
 ;     ^ comment.line.clojure
 
   blah,blah, blah
 ;     ^ comment.punctuation.comma.clojure
-;      ^- comment.punctuation.comma.clojure
+;      ^- comment
 ;          ^ comment.punctuation.comma.clojure
-;           ^- comment.punctuation.comma.clojure
+;           ^- comment
 
 ; ## Include end-of-line
 
@@ -32,9 +31,9 @@
 
   true false nil
 ; ^^^^ constant.language.clojure
-;     ^- constant.language.clojure
+;     ^- constant
 ;      ^^^^^ constant.language.clojure
-;           ^- constant.language.clojure
+;           ^- constant
 ;            ^^^ constant.language.clojure
 
 ; ## Breaks
@@ -58,7 +57,7 @@
 ; ## No highlighting
 
   nill nil- -nil nil?
-; ^^^^^^^^^^^^^^^^^^^- constant.language.clojure
+; ^^^^^^^^^^^^^^^^^^^- constant
 
 
 
@@ -66,7 +65,7 @@
 
   1234 1234N +1234 +1234N -1234 -1234N
 ; ^^^^ constant.numeric.clojure
-;     ^-constant.numeric.clojure
+;     ^- constant
 ;      ^^^^^ constant.numeric.clojure
 ;            ^^^^^ constant.numeric.clojure
 ;                  ^^^^^^ constant.numeric.clojure
@@ -74,25 +73,25 @@
 ;                               ^^^^^^ constant.numeric.clojure
   0x1234af 0x1234afN 0X1234AF 0X1234AFN
 ; ^^^^^^^^ constant.numeric.clojure
-;         ^- constant.numeric.clojure
+;         ^- constant
 ;          ^^^^^^^^^ constant.numeric.clojure
 ;                    ^^^^^^^^ constant.numeric.clojure
 ;                             ^^^^^^^^^ constant.numeric.clojure
   +0x1234af +0x1234afN +0X1234AF +0X1234AFN
 ; ^^^^^^^^^ constant.numeric.clojure
-;          ^- constant.numeric.clojure
+;          ^- constant
 ;           ^^^^^^^^^^ constant.numeric.clojure
 ;                      ^^^^^^^^^ constant.numeric.clojure
 ;                                ^^^^^^^^^^ constant.numeric.clojure
   -0x1234af -0x1234afN -0X1234AF -0X1234AFN
 ; ^^^^^^^^^ constant.numeric.clojure
-;          ^- constant.numeric.clojure
+;          ^- constant
 ;           ^^^^^^^^^^ constant.numeric.clojure
 ;                      ^^^^^^^^^ constant.numeric.clojure
 ;                                ^^^^^^^^^^ constant.numeric.clojure
   2r1010 16r1234af 32r1234az 2R1010 16R1234AF 32R1234AZ
 ; ^^^^^^ constant.numeric.clojure
-;       ^- constant.numeric.clojure
+;       ^- constant
 ;        ^^^^^^^^^ constant.numeric.clojure
 ;                  ^^^^^^^^^ constant.numeric.clojure
 ;                            ^^^^^^ constant.numeric.clojure
@@ -100,7 +99,7 @@
 ;                                             ^^^^^^^^^ constant.numeric.clojure
   +2r1010 +16r1234af +32r1234az +2R1010 +16R1234AF +32R1234AZ
 ; ^^^^^^^ constant.numeric.clojure
-;        ^- constant.numeric.clojure
+;        ^- constant
 ;         ^^^^^^^^^^ constant.numeric.clojure
 ;                    ^^^^^^^^^^ constant.numeric.clojure
 ;                               ^^^^^^^ constant.numeric.clojure
@@ -108,7 +107,7 @@
 ;                                                  ^^^^^^^^^^ constant.numeric.clojure
   -2r1010 -16r1234af -32r1234az -2R1010 -16R1234AF -32R1234AZ
 ; ^^^^^^^ constant.numeric.clojure
-;        ^- constant.numeric.clojure
+;        ^- constant
 ;         ^^^^^^^^^^ constant.numeric.clojure
 ;                    ^^^^^^^^^^ constant.numeric.clojure
 ;                               ^^^^^^^ constant.numeric.clojure
@@ -116,67 +115,67 @@
 ;                                                  ^^^^^^^^^^ constant.numeric.clojure
   0/10 10/20 30/0
 ; ^^^^ constant.numeric.clojure
-;     ^- constant.numeric.clojure
+;     ^- constant
 ;      ^^^^^ constant.numeric.clojure
 ;            ^^^^ constant.numeric.clojure
   +0/10 +10/20 +30/0
 ; ^^^^^ constant.numeric.clojure
-;      ^- constant.numeric.clojure
+;      ^- constant
 ;       ^^^^^^ constant.numeric.clojure
 ;              ^^^^^ constant.numeric.clojure
   -0/10 -10/20 -30/0
 ; ^^^^^ constant.numeric.clojure
-;      ^- constant.numeric.clojure
+;      ^- constant
 ;       ^^^^^^ constant.numeric.clojure
 ;              ^^^^^ constant.numeric.clojure
   1234M 1234.0M 1234.1234M
 ; ^^^^^ constant.numeric.clojure
-;      ^- constant.numeric.clojure
+;      ^- constant
 ;       ^^^^^^^ constant.numeric.clojure
 ;               ^^^^^^^^^^ constant.numeric.clojure
   +1234M +1234.0M +1234.1234M
 ; ^^^^^^ constant.numeric.clojure
-;       ^- constant.numeric.clojure
+;       ^- constant
 ;        ^^^^^^^^ constant.numeric.clojure
 ;                 ^^^^^^^^^^^ constant.numeric.clojure
   -1234M -1234.0M -1234.1234M
 ; ^^^^^^ constant.numeric.clojure
-;       ^- constant.numeric.clojure
+;       ^- constant
 ;        ^^^^^^^^ constant.numeric.clojure
 ;                 ^^^^^^^^^^^ constant.numeric.clojure
   1234e10 1234E10M 1234.1234e10M 1234.1234E10M
 ; ^^^^^^^ constant.numeric.clojure
-;        ^- constant.numeric.clojure
+;        ^- constant
 ;         ^^^^^^^^ constant.numeric.clojure
 ;                  ^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                ^^^^^^^^^^^^^ constant.numeric.clojure
   +1234e10 +1234E10M +1234.1234e10M +1234.1234E10M
 ; ^^^^^^^^ constant.numeric.clojure
-;         ^- constant.numeric.clojure
+;         ^- constant
 ;          ^^^^^^^^^ constant.numeric.clojure
 ;                    ^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                   ^^^^^^^^^^^^^^ constant.numeric.clojure
   -1234e10 -1234E10M -1234.1234e10M -1234.1234E10M
 ; ^^^^^^^^ constant.numeric.clojure
-;         ^- constant.numeric.clojure
+;         ^- constant
 ;          ^^^^^^^^^ constant.numeric.clojure
 ;                    ^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                   ^^^^^^^^^^^^^^ constant.numeric.clojure
   1234.1234e+10 1234.1234E+10 1234.1234e-10 1234.1234E-10
 ; ^^^^^^^^^^^^^ constant.numeric.clojure
-;              ^- constant.numeric.clojure
+;              ^- constant
 ;               ^^^^^^^^^^^^^ constant.numeric.clojure
 ;                             ^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                           ^^^^^^^^^^^^^ constant.numeric.clojure
   +1234.1234e+10M +1234.1234E+10M +1234.1234e-10M +1234.1234E-10M
 ; ^^^^^^^^^^^^^^^ constant.numeric.clojure
-;                ^- constant.numeric.clojure
+;                ^- constant
 ;                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
   -1234.1234e+10M -1234.1234E+10M -1234.1234e-10M -1234.1234E-10M
 ; ^^^^^^^^^^^^^^^ constant.numeric.clojure
-;                ^- constant.numeric.clojure
+;                ^- constant
 ;                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
 ;                                                 ^^^^^^^^^^^^^^^ constant.numeric.clojure
@@ -259,31 +258,31 @@
 
   01234 +01234 -01234 '01234
 ; ^^^^^ invalid.illegal.clojure
-;      ^- invalid.illegal.clojure
+;      ^- invalid
 ;       ^^^^^^ invalid.illegal.clojure
 ;              ^^^^^^ invalid.illegal.clojure
 ;                     ^ constant.other.symbol.reader-macro.clojure
 ;                      ^^^^^ invalid.illegal.clojure
   01234N +01234N -01234N '01234N
 ; ^^^^^^ invalid.illegal.clojure
-;       ^- invalid.illegal.clojure
+;       ^- invalid
 ;        ^^^^^^^ invalid.illegal.clojure
 ;                ^^^^^^^ invalid.illegal.clojure
 ;                        ^ constant.other.symbol.reader-macro.clojure
   10-20 10+20 1234n 1234m 1234. 1234.M
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant.numeric.clojure
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant
   10.0/20 10/20.0 10/+20 10/-20
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant.numeric.clojure
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant
   10:20:30
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant.numeric.clojure
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant
   1r000
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant.numeric.clojure
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant
 
 ; ## Ignore
 
   ; valid symbols
   .1234 .1234M
-; ^^^^^^^^^^^^- constant.numeric.clojure
+; ^^^^^^^^^^^^- constant
 
 
 
@@ -344,7 +343,7 @@
 
   :! :$ :% :& :* :- :_ := :+ :| :< :> :. :/ :?
 ; ^^ constant.language.keyword.clojure
-;   ^- constant.language.keyword.clojure
+;   ^- constant
 ;    ^^ constant.language.keyword.clojure
 ;       ^^ constant.language.keyword.clojure
 ;          ^^ constant.language.keyword.clojure
@@ -361,7 +360,7 @@
 ;                                           ^^ constant.language.keyword.clojure
   :++ :--
 ; ^^^ constant.language.keyword.clojure
-;    ^- constant.language.keyword.clojure
+;    ^- constant
 ;     ^^^ constant.language.keyword.clojure
   :blah
 ; ^^^^^ constant.language.keyword.clojure
@@ -404,7 +403,7 @@
 
   :' :# :### :10 :10.20
 ; ^^ constant.language.keyword.clojure
-;   ^- constant.language.keyword.clojure
+;   ^- constant
 ;    ^^ constant.language.keyword.clojure
 ;       ^^^^ constant.language.keyword.clojure
 ;            ^^^ constant.language.keyword.clojure
@@ -413,10 +412,10 @@
 ; ## Breaks
 
   :,blah
-; ^- constant.language.keyword.clojure
+; ^- constant
 ;  ^ comment.punctuation.comma.clojure
   :;blah
-; ^- constant.language.keyword.clojure
+; ^- constant
 ;  ^ comment.line.clojure punctuation.definition.comment
   :blah,:blah,:blah
 ; ^^^^^ constant.language.keyword.clojure
@@ -443,9 +442,9 @@
 ; ## These are invalid, but I couldn't get the regex right
 
   :
-; ^^- constant.language.keyword.clojure
+; ^^- constant
   :::blah
-; ^^^^^^^- constant.language.keyword.clojure
+; ^^^^^^^- constant
   ://
   :10/20
   :blah10/20
@@ -1160,30 +1159,30 @@
 ; # fn
 
   (fn [])
-;  ^^ storage.type.fn.clojure
+;  ^^ storage.modifier.fn.clojure
 ;     ^ punctuation.section.brackets.begin.clojure
 ;      ^ punctuation.section.brackets.end.clojure
 ;       ^ punctuation.section.parens.end.clojure
 
-  (fn color-but-dont-declare [] blah)
-;  ^^ storage.type.fn.clojure
-;     ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-;                            ^^^^^^^- storage.type
-;                            ^^^^^^^- entity.name
+  (fn declare-noindex [] blah)
+;  ^^ storage.modifier.fn.clojure
+;     ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+;                       ^^^^^^^- storage
+;                       ^^^^^^^- entity
 
-  (fn color-but-dont-declare
-;  ^^ storage.type.fn.clojure
-;     ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-;                           ^- entity.name
+  (fn declare-noindex
+;  ^^ storage.modifier.fn.clojure
+;     ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+;                    ^- entity
     ([] blah)
     ([_] blah))
 
   ; Invalid but take care anyway
-  (fn color-but-dont-declare dont-color-or-declare [])
-;  ^^ storage.type.fn.clojure
-;     ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-;                            ^^^^- storage.type
-;                            ^^^^- entity.name
+  (fn declare-noindex dont-declare [])
+;  ^^ storage.modifier.fn.clojure
+;     ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+;                    ^^^^- storage
+;                    ^^^^- entity
 
 
 
@@ -1192,28 +1191,28 @@
 ; ## Declare
 
   (def declare-def)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^^^^^^^^^ entity.name.function.clojure
 
   (def declare-def dont-declare)
 ; ^ punctuation.section.parens.begin.clojure
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^^^^^^^^^ entity.name.function.clojure
-;                  ^^^^^^^^^^^^- storage.type
-;                  ^^^^^^^^^^^^- entity.name
+;                 ^^^^^^^^^^^^- storage
+;                 ^^^^^^^^^^^^- entity
 
   (def λ nil)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ entity.name.function.clojure
 ;        ^^^ constant.language.clojure
 
   (def 👽 nil)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ entity.name.function.clojure
 ;        ^^^ constant.language.clojure
 
   (def def nil)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^ entity.name.function.clojure
 ;          ^^^ constant.language.clojure
 
@@ -1221,49 +1220,41 @@
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    def
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    declare-def
 ;  ^^^^^^^^^^^ entity.name.function.clojure
    dont-declare
-;  ^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^- entity
    )
 
   (defonce declare-defonce)
-;  ^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^ storage.modifier.def.clojure
 ;          ^^^^^^^^^^^^^^^ entity.name.function.clojure
 
 ; ## Declare with metadata
 
-  (def ^File declare-def nil)
-;  ^^^ storage.type.def.clojure
-;      ^ constant.other.symbol.reader-macro.clojure
-;       ^^^^- storage.type
-;       ^^^^- entity.name
-;            ^^^^^^^^^^^ entity.name.function.clojure
-;                        ^^^ constant.language.clojure
-
   (def ^:private declare-def nil)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
 ;       ^^^^^^^^ constant.language.keyword.clojure
 ;                ^^^^^^^^^^^ entity.name.function.clojure
 ;                            ^^^ constant.language.clojure
 
   (def ^:private declare-def dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
 ;       ^^^^^^^^ constant.language.keyword.clojure
 ;                ^^^^^^^^^^^ entity.name.function.clojure
-;                           ^^^^^^^^^^^^^- storage.type
-;                           ^^^^^^^^^^^^^- entity.name
+;                           ^^^^^^^^^^^^^- storage
+;                           ^^^^^^^^^^^^^- entity
 
   ; Consequent metadata is merged
 
   (def ^:private ^:dynamic declare-def nil)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
 ;       ^^^^^^^^ constant.language.keyword.clojure
 ;                ^ constant.other.symbol.reader-macro.clojure
@@ -1272,18 +1263,18 @@
 ;                                      ^^^ constant.language.clojure
 
   (def ^:private ^:dynamic declare-def dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
 ;       ^^^^^^^^ constant.language.keyword.clojure
 ;                ^ constant.other.symbol.reader-macro.clojure
 ;                 ^^^^^^^^ constant.language.keyword.clojure
 ;                          ^^^^^^^^^^^ entity.name.function.clojure
-;                                     ^^^^^^^^^^^^^- storage.type
-;                                     ^^^^^^^^^^^^^- entity.name
+;                                     ^^^^^^^^^^^^^- storage
+;                                     ^^^^^^^^^^^^^- entity
 
   (
    def
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
    ; ---
    ^
 ;  ^ constant.other.symbol.reader-macro.clojure
@@ -1300,13 +1291,13 @@
 ;  ^^^^^^^^^^^ entity.name.function.clojure
    ; ---
    dont-declare
-;  ^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^- entity
    )
 
   (defonce ^:private declare-defonce nil)
 ; ^ punctuation.section.parens.begin.clojure
-;  ^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^ storage.modifier.def.clojure
 ;          ^ constant.other.symbol.reader-macro.clojure
 ;           ^^^^^^^^ constant.language.keyword.clojure
 ;                    ^^^^^^^^^^^^^^^ entity.name.function.clojure
@@ -1319,16 +1310,16 @@
 ;    ^^ constant.numeric.clojure
 ;       ^^ constant.numeric.clojure
 ;         ^ punctuation.section.braces.end.clojure
-;           ^^^ storage.type.def.clojure
+;           ^^^ storage.modifier.def.clojure
 ;               ^ constant.other.symbol.reader-macro.clojure
 ;                ^^^^^^^^ constant.language.keyword.clojure
 ;                         ^^^^^^^^^^^ entity.name.function.clojure
-;                                    ^^^^^^^^^^^^^- storage.type
-;                                    ^^^^^^^^^^^^^- entity.name
+;                                    ^^^^^^^^^^^^^- storage
+;                                    ^^^^^^^^^^^^^- entity
 
   ; Useless but accepted by Clojure reader
   (def ^^^{10 20}{30 40}{:private true} declare-def dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^ constant.other.symbol.reader-macro.clojure
 ;         ^ punctuation.section.braces.begin.clojure
 ;          ^^ constant.numeric.clojure
@@ -1343,60 +1334,65 @@
 ;                                 ^^^^ constant.language.clojure
 ;                                     ^ punctuation.section.braces.end.clojure
 ;                                       ^^^^^^^^^^^ entity.name.function.clojure
-;                                                  ^^^^^^^^^^^^^- storage.type
-;                                                  ^^^^^^^^^^^^^- entity.name
+;                                                  ^^^^^^^^^^^^^- storage
+;                                                  ^^^^^^^^^^^^^- entity
+
+
+
+; ## declare
+
+  (declare declare-noindex)
+;  ^^^^^^^ storage.modifier.declare.clojure
+;          ^^^^^^^^^^^^^^^ entity.name.function.forward-decl.clojure
+;         ^^^^^^^^^^^^^^^^^- storage
+
 
 
 ; ## Don't declare
 
-  (declare dont-declare)
-;  ^^^^^^^ variable.function.clojure
-;         ^^^^^^^^^^^^^- storage.type
-;         ^^^^^^^^^^^^^- entity.name
-
   (def nil dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^ constant.language.clojure
-;         ^^^^^^^^^^^^^- storage.type
-;         ^^^^^^^^^^^^^- entity.name
+;         ^^^^^^^^^^^^^- storage
+;         ^^^^^^^^^^^^^- entity
 
   (def 10 dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^ constant.numeric.clojure
-;        ^^^^^^^^^^^^^- storage.type
-;        ^^^^^^^^^^^^^- entity.name
+;        ^^^^^^^^^^^^^- storage
+;        ^^^^^^^^^^^^^- entity
 
   (def :blah dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^^^^^ constant.language.keyword.clojure
-;           ^^^^^^^^^^^^^- storage.type
-;           ^^^^^^^^^^^^^- entity.name
+;           ^^^^^^^^^^^^^- storage
+;           ^^^^^^^^^^^^^- entity
 
   (def 'blah dont-declare)
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
-;       ^^^^^^^^^^^^^^^^^- storage.type
-;       ^^^^^^^^^^^^^^^^^- entity.name
+;       ^^^^^^^^^^^^^^^^^- storage
+;       ^^^^^^^^^^^^^^^^^- entity
 
   (def () dont-declare)
-;  ^^^ storage.type.def.clojure
-;      ^^^^^^^^^^^^^^^- storage.type
-;      ^^^^^^^^^^^^^^^- entity.name
+;  ^^^ storage.modifier.def.clojure
+;      ^^^^^^^^^^^^^^^- storage
+;      ^^^^^^^^^^^^^^^- entity
 
   (-def dont-declare)
 ;  ^^^^ variable.function.clojure
-;      ^^^^^^^^^^^^^- storage.type
-;      ^^^^^^^^^^^^^- entity.name
+;      ^^^^^^^^^^^^^- storage
+;      ^^^^^^^^^^^^^- entity
 
   (-def def dont-declare)
 ;  ^^^^ variable.function.clojure
-;      ^^^^^^^^^^^^^^^^^- storage.type
-;      ^^^^^^^^^^^^^^^^^- entity.name
+;      ^^^^^^^^^^^^^^^^^- storage
+;      ^^^^^^^^^^^^^^^^^- entity
 
 ; ## Invalid
 
   (def ^ ) )
-;  ^^^ storage.type.def.clojure
+;  ^^^ storage.modifier.def.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
 ;        ^ invalid.illegal.clojure
 ;          ^ punctuation.section.parens.end.clojure
@@ -1406,39 +1402,39 @@
 ; # Function defs
 
   (defn declare-defn [] dont-declare)
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^^^^^^^^^^^^ entity.name.function.clojure
-;                    ^^^^^^^^^^^^^^^- storage.type
-;                    ^^^^^^^^^^^^^^^- entity.name
+;                    ^^^^^^^^^^^^^^^- storage
+;                    ^^^^^^^^^^^^^^^- entity
 
   (defn declare-defn [arg & args] dont-declare)
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^^^^^^^^^^^^ entity.name.function.clojure
-;                    ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;                    ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;                    ^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;                    ^^^^^^^^^^^^^^^^^^^^^^^^^- entity
 
   (defn ^:private declare-defn [arg & args] dont-declare)
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^ constant.other.symbol.reader-macro.clojure
 ;        ^^^^^^^^ constant.language.keyword.clojure
 ;                 ^^^^^^^^^^^^ entity.name.function.clojure
-;                              ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;                              ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;                              ^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;                              ^^^^^^^^^^^^^^^^^^^^^^^^^- entity
 
   (defn declare-defn
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^^^^^^^^^^^^ entity.name.function.clojure
     "docstring"
 ;   ^^^^^^^^^^^ string.quoted.double.clojure
     [arg & args]
-;   ^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^- storage
+;   ^^^^^^^^^^^^- entity
     dont-declare)
-;   ^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^- storage
+;   ^^^^^^^^^^^^- entity
 
   (defn
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
     ^:private
 ;   ^ constant.other.symbol.reader-macro.clojure
 ;    ^^^^^^^^ constant.language.keyword.clojure
@@ -1447,15 +1443,15 @@
     "docstring"
 ;   ^^^^^^^^^^^ string.quoted.double.clojure
     ([] dont-declare)
-;   ^^^^^^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^^^^^^- storage
+;   ^^^^^^^^^^^^^^^^^- entity
     ([_] dont-declare))
-;   ^^^^^^^^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^^^^^^^^- entity.name
+;   ^^^^^^^^^^^^^^^^^^^- storage
+;   ^^^^^^^^^^^^^^^^^^^- entity
 
   (
    defn
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
    declare-defn
 ;  ^^^^^^^^^^^^ entity.name.function.clojure
    "docstring"
@@ -1464,32 +1460,32 @@
 ;   ^^^^^^^^ constant.language.keyword.clojure
 ;            ^^^^ constant.language.clojure
    ([] dont-declare)
-;  ^^^^^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^^^^^- entity
    ([_] dont-declare))
-;  ^^^^^^^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^^^^^^^- entity
 
   (defn declare-defn [value] {:pre [(int? value)]}
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^^^^^^^^^^^^ entity.name.function.clojure
-;                     ^^^^^- storage.type
-;                     ^^^^^- entity.name
+;                     ^^^^^- storage
+;                     ^^^^^- entity
 ;                             ^^^^ constant.language.keyword.clojure
 ;                                    ^^^^ variable.function.clojure
     value)
-;   ^^^^^- storage.type
-;   ^^^^^- entity.name
+;   ^^^^^- storage
+;   ^^^^^- entity
 
   ; Invalid but take care anyway
   (defn declare-defn dont-declare [] dont-declare)
-;  ^^^^ storage.type.def.clojure
+;  ^^^^ storage.modifier.def.clojure
 ;       ^^^^^^^^^^^^ entity.name.function.clojure
-;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- entity
 
   (defmacro declare-defmacro [])
-;  ^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^ storage.modifier.def.clojure
 ;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
 
 
@@ -1497,32 +1493,32 @@
 ; # defmulti / defmethod
 
   (defmulti declare-multi-fn)
-;  ^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^ storage.modifier.def.clojure
 ;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
 
   (defmulti ^:private declare-multi-fn dont-declare-dispatch-fn)
-;  ^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^ storage.modifier.def.clojure
 ;           ^ constant.other.symbol.reader-macro.clojure
 ;            ^^^^^^^^ constant.language.keyword.clojure
 ;                     ^^^^^^^^^^^^^^^^ entity.name.function.clojure
-;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;                                     ^^^^^^^^^^^^^^^^^^^^^^^^^- entity
 
   (
    defmulti
-;  ^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^ storage.modifier.def.clojure
    ^:private
 ;  ^ constant.other.symbol.reader-macro.clojure
    declare-multi-fn
 ;  ^^^^^^^^^^^^^^^^ entity.name.function.clojure
    dont-declare-dispatch-fn
-;  ^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^^^^^^^^^^^^^- entity
   )
 
   ; Invalid but take care anyway
   (defmulti declare-multi-fn nil)
-;  ^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^ storage.modifier.def.clojure
 ;           ^^^^^^^^^^^^^^^^ entity.name.function.clojure
 ;                            ^^^ constant.language.clojure
 
@@ -1530,15 +1526,15 @@
 ;                                  ^^^^^^^^^^^^^^^ constant.language.keyword.clojure
 
   (defmethod dont-declare-multi-fn DispatchType [arg] ...)
-;                                  ^^^^^^^^^^^^^- storage.type
-;                                  ^^^^^^^^^^^^^- entity.name
+;                                  ^^^^^^^^^^^^^- storage
+;                                  ^^^^^^^^^^^^^- entity
 
   (
    defmethod
-;  ^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^ storage.modifier.def.clojure
    dont-declare-multi-fn
-;  ^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;  ^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;  ^^^^^^^^^^^^^^^^^^^^^^- storage
+;  ^^^^^^^^^^^^^^^^^^^^^^- entity
   )
 
 
@@ -1546,17 +1542,17 @@
 ; # defprotocol
 
   (defprotocol DeclareProtocol)
-;  ^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^ storage.type.clojure
 ;              ^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (defprotocol ^:private DeclareProtocol)
-;  ^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^ storage.type.clojure
 ;              ^ constant.other.symbol.reader-macro.clojure
 ;               ^^^^^^^^ constant.language.keyword.clojure
 ;                        ^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (defprotocol ^:private ^:blah DeclareProtocol)
-;  ^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^ storage.type.clojure
 ;              ^ constant.other.symbol.reader-macro.clojure
 ;               ^^^^^^^^ constant.language.keyword.clojure
 ;                        ^ constant.other.symbol.reader-macro.clojure
@@ -1567,7 +1563,7 @@
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    defprotocol
-;  ^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^ storage.type.clojure
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    ^:private
@@ -1586,50 +1582,50 @@
   ; Invalid but take care anyway
   (defprotocol DeclareProtocol dont-declare)
 ; ^ punctuation.section.parens.begin.clojure
-;  ^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^ storage.type.clojure
 ;              ^^^^^^^^^^^^^^^ entity.name.type.clojure
-;                             ^^^^^^^^^^^^^- storage.type
-;                             ^^^^^^^^^^^^^- entity.name
+;                             ^^^^^^^^^^^^^- storage
+;                             ^^^^^^^^^^^^^- entity
 
   ; Protocol methods are added to the namespace as functions
   (defprotocol ^:private DeclareProtocol
     ; ---
     (declare-protocol-method [_] dont-declare)
 ;    ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.clojure
-;                               ^^^^^^^^^^^^^- storage.type
-;                               ^^^^^^^^^^^^^- entity.name
+;                               ^^^^^^^^^^^^^- storage
+;                               ^^^^^^^^^^^^^- entity
     ; ---
     (^File declare-protocol-method [_] dont-declare))
 ;    ^ constant.other.symbol.reader-macro.clojure
-;     ^^^^^- storage.type
-;     ^^^^^- entity.name
+;     ^^^^^- storage
+;     ^^^^^- entity
 ;     ^^^^^- variable.function
 ;          ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.clojure
-;                                     ^^^^^^^^^^^^^- storage.type
-;                                     ^^^^^^^^^^^^^- entity.name
+;                                     ^^^^^^^^^^^^^- storage
+;                                     ^^^^^^^^^^^^^- entity
 
   ; Invalid but take care anyway
   (defprotocol DeclareProtocol
     (declare-protocol-method dont-declare [_])
 ;    ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.clojure
-;                           ^^^^^^^^^^^^^^- storage.type
-;                           ^^^^^^^^^^^^^^- entity.name
+;                           ^^^^^^^^^^^^^^- storage
+;                           ^^^^^^^^^^^^^^- entity
     (100 dont-declare [_])
 ;    ^^^ constant.numeric.clojure
-;       ^^^^^^^^^^^^^^- storage.type
-;       ^^^^^^^^^^^^^^- entity.name
+;       ^^^^^^^^^^^^^^- storage
+;       ^^^^^^^^^^^^^^- entity
     (true dont-declare [_])
 ;    ^^^^ constant.language.clojure
-;         ^^^^^^^^^^^^^- storage.type
-;         ^^^^^^^^^^^^^- entity.name
+;         ^^^^^^^^^^^^^- storage
+;         ^^^^^^^^^^^^^- entity
     (:blah dont-declare [_])
 ;    ^^^^^ constant.language.keyword.clojure
-;          ^^^^^^^^^^^^^- storage.type
-;          ^^^^^^^^^^^^^- entity.name
+;          ^^^^^^^^^^^^^- storage
+;          ^^^^^^^^^^^^^- entity
     ('blah dont-declare [_]))
 ;    ^ constant.other.symbol.reader-macro.clojure
-;     ^^^^^^^^^^^^^^^^^^- storage.type
-;     ^^^^^^^^^^^^^^^^^^- entity.name
+;     ^^^^^^^^^^^^^^^^^^- storage
+;     ^^^^^^^^^^^^^^^^^^- entity
 ;     ^^^^^^^^^^^^^^^^^^- variable.function
 
 
@@ -1637,18 +1633,18 @@
 ; # definterface
 
   (definterface DeclareInterface)
-;  ^^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^^ storage.type.clojure
 ;               ^^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (definterface ^:private DeclareInterface)
-;  ^^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^^ storage.type.clojure
 ;               ^ constant.other.symbol.reader-macro.clojure
 ;                ^^^^^^^^ constant.language.keyword.clojure
 ;                         ^^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (
    definterface
-;  ^^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^^ storage.type.clojure
    ^:private
 ;  ^ constant.other.symbol.reader-macro.clojure
    DeclareInterface
@@ -1661,25 +1657,31 @@
   ; and method declarations, but shouldn't be added to the symbol index,
   ; since they're not added to the namespace as functions
   (definterface DeclareInterface
-    (color-but-dont-declare [_])
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-    (color-but-dont-declare [_]))
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_])
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_]))
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
 
-
+  ; Invalid but take care anyway
+  (definterface DeclareInterface dont-declare)
+; ^ punctuation.section.parens.begin.clojure
+;  ^^^^^^^^^^^^ storage.type.clojure
+;               ^^^^^^^^^^^^^^^^ entity.name.type.clojure
+;                               ^^^^^^^^^^^^^- storage
+;                               ^^^^^^^^^^^^^- entity
 
 ; # deftype
 
   (deftype DeclareType)
-;  ^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^ storage.type.clojure
 ;          ^^^^^^^^^^^ entity.name.type.clojure
 
   (deftype-custom DeclareWithCustomDeftype)
-;  ^^^^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^^^^ storage.type.clojure
 ;                 ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (deftype ^:private DeclareType [])
-;  ^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^ storage.type.clojure
 ;          ^ constant.other.symbol.reader-macro.clojure
 ;           ^^^^^^^^ constant.language.keyword.clojure
 ;                    ^^^^^^^^^^^ entity.name.type.clojure
@@ -1687,7 +1689,7 @@
   (
    ; ---
    deftype
-;  ^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^ storage.type.clojure
    ; ---
    ^:private
 ;  ^ constant.other.symbol.reader-macro.clojure
@@ -1703,25 +1705,31 @@
 ;  ^^^^^^^^^^^ string.quoted.double.clojure
    [])
 
-  ; Invalid but take care anyway
-  (deftype DeclareType dont-declare)
-;  ^^^^^^^ storage.type.def.clojure
-;          ^^^^^^^^^^^ entity.name.type.clojure
-;                     ^^^^^^^^^^^^^- storage.type
-;                     ^^^^^^^^^^^^^- entity.name
-
   ; Similarly to definterface, type methods should have the standard visual
   ; style of function declarations, but not added to the symbol index,
   ; since they're not added to the namespace.
   (deftype DeclareType
-    (color-but-dont-declare [_])
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-    (color-but-dont-declare [_]))
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_])
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_]))
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+
+  ; Scope the implemented protocols/interfaces
+  (deftype DeclareType
+;  ^^^^^^^ storage.type.clojure
+;          ^^^^^^^^^^^ entity.name.type.clojure
+    package.ImplementedInterface
+;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
+    (declare-noindex [_])
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    namespace/ImplementedProtocol
+;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
+    (declare-noindex [_]))
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
 
 
 (deftype GrowingMap [^IFn make ^:unsynchronized-mutable inner]
-;^^^^^^^ storage.type.def.clojure
+;^^^^^^^ storage.type.clojure
 ;        ^^^^^^^^^^ entity.name.type.clojure
 ;                   ^ punctuation.section.brackets.begin.clojure
 ;                    ^ constant.other.symbol.reader-macro.clojure
@@ -1729,8 +1737,8 @@
   ILookup
   (valAt [this key]
 ;  ^^^^^ entity.name.function.fn.clojure
-;       ^^^^^^^^^^^- storage.type
-;       ^^^^^^^^^^^- entity.name
+;       ^^^^^^^^^^^- storage
+;       ^^^^^^^^^^^- entity
     (let [dict @this]
 ;    ^^^ variable.function.clojure
       (if (contains? dict key)
@@ -1775,15 +1783,15 @@
 ; # defrecord
 
   (defrecord DeclareRecord)
-;  ^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^ storage.type.clojure
 ;            ^^^^^^^^^^^^^ entity.name.type.clojure
 
   (defrecord-custom DeclareWithCustomDefrecord)
-;  ^^^^^^^^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^^^^^^^^ storage.type.clojure
 ;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.type.clojure
 
   (defrecord ^:private DeclareRecord [])
-;  ^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^ storage.type.clojure
 ;            ^ constant.other.symbol.reader-macro.clojure
 ;             ^^^^^^^^ constant.language.keyword.clojure
 ;                      ^^^^^^^^^^^^^ entity.name.type.clojure
@@ -1791,7 +1799,7 @@
   (
    ; ---
    defrecord
-;  ^^^^^^^^^ storage.type.def.clojure
+;  ^^^^^^^^^ storage.type.clojure
    ; ---
    ^:private
 ;  ^ constant.other.symbol.reader-macro.clojure
@@ -1806,19 +1814,26 @@
 ;  ^^^^^^^^^^^ string.quoted.double.clojure
    [])
 
-  ; Invalid but take care anyway
-  (defrecord DeclareRecord dont-declare)
-;  ^^^^^^^^^ storage.type.def.clojure
-;            ^^^^^^^^^^^^^ entity.name.type.clojure
-;                         ^^^^^^^^^^^^^- storage.type
-;                         ^^^^^^^^^^^^^- entity.name
-
   ; Same reasoning as for definterface and deftype
   (defrecord DeclareRecord
-    (color-but-dont-declare [_])
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
-    (color-but-dont-declare [_]))
-;    ^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_])
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    (declare-noindex [_]))
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+
+  ; Scope the implemented protocols/interfaces
+  (defrecord DeclareRecord
+;  ^^^^^^^^^ storage.type.clojure
+;            ^^^^^^^^^^^^^ entity.name.type.clojure
+    package.ImplementedInterface
+;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
+    (declare-noindex [_])
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+    namespace/ImplementedProtocol
+;   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
+    (declare-noindex [_]))
+;    ^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
+
 
 
 (defrecord Srv [^Server jetty session-store state-store]
@@ -1826,8 +1841,8 @@
 
   (start [this]
 ;  ^^^^^ entity.name.function.fn.clojure
-;       ^^^^^^^^^^^- storage.type
-;       ^^^^^^^^^^^- entity.name
+;       ^^^^^^^^^^^- storage
+;       ^^^^^^^^^^^- entity
     (let [port    (Long/parseLong (getenv "LOCAL_PORT"))
 ;    ^^^ variable.function.clojure
           this    (component/stop this)
@@ -1859,9 +1874,7 @@
   (reify
 ;  ^^^^^ variable.function.clojure
     clojure.lang.IDeref
-;   ^^^^^^^^^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^^^^^^^^^- entity.name
-;   ^^^^^^^^^^^^^^^^^^^^- variable
+;   ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
     (deref [_] nil)
 ;    ^^^^^ entity.name.function.fn.clojure
 ;              ^^^ constant.language.clojure
@@ -1876,8 +1889,8 @@
 
   (proxy [clojure.lang.IDeref clojure.lang.Seqable] []
 ;  ^^^^^ variable.function.clojure
-;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- storage.type
-;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- entity.name
+;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- storage
+;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- entity
 ;         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- variable
     (deref [] nil)
 ;    ^^^^^ entity.name.function.fn.clojure
@@ -1891,14 +1904,10 @@
 ; # extend-protocol
 
   (extend-protocol clojure.lang.IDeref
+;                  ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
 ;  ^^^^^^^^^^^^^^^ variable.function.clojure
-;                  ^^^^^^^^^^^^^^^^^^^^- storage.type
-;                  ^^^^^^^^^^^^^^^^^^^^- entity.name
-;                  ^^^^^^^^^^^^^^^^^^^^- variable
     String
-;   ^^^^^^- storage.type
-;   ^^^^^^- entity.name
-;   ^^^^^^- variable
+;   ^^^^^^ entity.other.inherited-class.clojure
     (deref [this] this)
 ;    ^^^^^ entity.name.function.fn.clojure
     Srv
@@ -1911,14 +1920,10 @@
 ; # extend-type
 
   (extend-type String
+;              ^^^^^^ entity.other.inherited-class.clojure
 ;  ^^^^^^^^^^^ variable.function.clojure
-;              ^^^^^^^- storage.type
-;              ^^^^^^^- entity.name
-;              ^^^^^^^- variable
     clojure.lang.IDeref
-;   ^^^^^^^^^^^^^^^^^^^^- storage.type
-;   ^^^^^^^^^^^^^^^^^^^^- entity.name
-;   ^^^^^^^^^^^^^^^^^^^^- variable
+;   ^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.clojure
     (deref [this] this)
 ;    ^^^^^ entity.name.function.fn.clojure
     clojure.lang.IFn
