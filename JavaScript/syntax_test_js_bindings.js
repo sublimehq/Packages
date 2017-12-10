@@ -30,7 +30,7 @@ const [ x = 42, y = [a, b, c] ] = value;
 
 const { a, b: c, ...d } = value;
 //    ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//      ^ meta.object-literal.key variable.other.readwrite
+//      ^ meta.object-literal.key meta.binding.name variable.other.readwrite
 //       ^ punctuation.separator.comma
 //         ^ meta.object-literal.key - variable.other.readwrite
 //          ^ punctuation.separator.key-value

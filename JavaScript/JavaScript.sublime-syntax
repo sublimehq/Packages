@@ -15,6 +15,7 @@ variables:
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
+  binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
 
   property_name: >-
     (?x)(?:
@@ -337,8 +338,8 @@ contexts:
   variable-binding-object-key:
     - match: '{{identifier}}(?=\s*:)'
       pop: true
-    - match: (?=\S)
-      set: literal-variable
+    - include: variable-binding-name
+    - include: else-pop
 
   variable-binding-spread:
     - match: '\.\.\.'
@@ -347,7 +348,7 @@ contexts:
 
   variable-binding-list:
     - include: comma-separator
-    - match: (?={{identifier}}|\{|\[)
+    - match: (?={{binding_pattern_lookahead}})
       push:
         - initializer
         - variable-binding-pattern
@@ -355,7 +356,7 @@ contexts:
 
   variable-binding-top:
     - include: function-assignment
-    - match: (?={{identifier}}|\[|\{)
+    - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
         - variable-binding-pattern
