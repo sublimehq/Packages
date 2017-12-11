@@ -679,7 +679,7 @@ public class Foo {
 //               ^ punctuation.section.block.begin.java
 
   FooBar MY_CONST = new FooBar();
-//       ^^^^^^^^ entity.name.constant.java
+//       ^^^^^^^^ entity.name.constant.java constant.other.java
 
   @Inject
 //^^^^^^^ meta.annotation

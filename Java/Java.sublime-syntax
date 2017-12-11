@@ -391,7 +391,7 @@ contexts:
         1: punctuation.accessor.dot.java
   constant-entity:
     - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: entity.name.constant.java
+      scope: entity.name.constant.java constant.other.java
       captures:
         1: punctuation.accessor.dot.java
   enums:
