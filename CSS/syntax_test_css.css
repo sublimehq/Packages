@@ -63,6 +63,14 @@
 /*   ^^^^^^^^^     keyword.control.at-rule.namespace.css */
 /*             ^^^ entity.other.namespace-prefix.css     */
 
+    @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* only needed once */
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*             ^^^ support.function.url.css */
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
+/*                ^ meta.group.css punctuation.definition.group.begin.css */
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css string.quoted.double.css */
+/*                                                                                ^ meta.group.css punctuation.definition.group.end.css */
+
     @page :left {}
 /*  ^^^^^^^^^^^^^^ meta.at-rule.page.css */
 /*  ^     punctuation.definition.keyword.css */
