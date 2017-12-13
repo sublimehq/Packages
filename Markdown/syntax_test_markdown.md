@@ -1138,7 +1138,7 @@ http://spec.commonmark.org/0.28/#example-318
 | ^^^ punctuation.definition.raw.code-fence.end
 
 ~~~~~test~
-| ^^^^^^^^^ meta.paragraph - punctuation - constant - markup.raw
+| ^^^^^^^^^ meta.paragraph - constant - markup.raw
 
 ~~~~~~test
 | ^^^^ punctuation.definition.raw.code-fence.begin
@@ -1150,6 +1150,33 @@ http://spec.commonmark.org/0.28/#example-318
 |  ^^^^ constant.other.language-name
   ```
 | ^^^ punctuation.definition.raw.code-fence.end
+
+https://github.github.com/gfm/#example-469
+~Hi~ Hello, world!
+| <- punctuation.definition.strikethrough.begin
+|^^^ meta.paragraph markup.strikethrough
+|  ^ punctuation.definition.strikethrough.end
+|   ^^^^^^^^^^^^^^^ meta.paragraph - markup
+
+https://github.github.com/gfm/#example-470
+This ~text~~~~ is ~~~~curious~.
+|    ^^^^^^^^^ meta.paragraph markup.strikethrough
+|                 ^^^^^^^^^^^^ meta.paragraph markup.strikethrough
+|                             ^^ meta.paragraph - markup
+|    ^ punctuation.definition.strikethrough.begin
+|         ^^^^ punctuation.definition.strikethrough.end
+|                 ^^^^ punctuation.definition.strikethrough.begin
+|                            ^ punctuation.definition.strikethrough.end
+
+https://github.github.com/gfm/#example-471
+This ~~has a
+|    ^^^^^^^^ meta.paragraph markup.strikethrough
+
+| <- meta.paragraph markup.strikethrough invalid.illegal.non-terminated.bold-italic
+new paragraph~~.
+|            ^^ meta.paragraph markup.strikethrough punctuation.definition.strikethrough.begin
+
+| <- invalid.illegal.non-terminated.bold-italic
 
 hello world ````test````
 |           ^^^^^^^^^^^^ markup.raw.inline
