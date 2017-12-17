@@ -202,7 +202,11 @@ contexts:
     - include: namespace_declaration
     - include: delegate_declaration
     # allows coloration of code outside a class
-    - include: code_block_in
+    - match: (?=\S)
+      push:
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace)\b)
+          pop: true
+        - include: line_of_code
 
   stray_close_bracket:
     - match: '[})\]]'
@@ -803,10 +807,7 @@ contexts:
 
   code_block_in:
     - match: (?=\S)
-      push:
-        - match: (?={{reserved}})
-          pop: true
-        - include: line_of_code
+      push: line_of_code
 
   line_of_code:
     # language keywords
