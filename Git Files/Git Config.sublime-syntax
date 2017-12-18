@@ -143,6 +143,17 @@ contexts:
         - include: trailing-slash
         - include: escape
         - include: illegal-newline  # newlines only permitting after trailing \
+    - match: \'
+      scope: punctuation.definition.string.begin.git.config
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.git.config
+        - match: \'
+          scope: punctuation.definition.string.end.git.config
+          set: expect-newline
+        - include: trailing-slash
+        - include: escape
+        - include: illegal-newline  # newlines only permitting after trailing \
 
   string-unquoted:
     - match: (?=\S)
