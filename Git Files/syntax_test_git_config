@@ -334,3 +334,41 @@ stray-bracket]
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
+   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^ meta.mapping
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ keyword.control.import.shell
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+   serve = "!git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git"
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^ meta.mapping
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ string.quoted.double punctuation.definition.string.begin
+#           ^ keyword.control.import.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                               ^ string.quoted.double punctuation.definition.string.end
+   snapshot = '!git stash save "snapshot: $(date)" && \
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^^^^ meta.mapping.key
+#          ^^ meta.mapping
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^^^^ variable.other.readwrite
+#           ^ keyword.operator.assignment
+#             ^ string.quoted.single punctuation.definition.string.begin
+#              ^ keyword.control.import.shell
+#               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+               git stash apply "stash@{0}"'
+# <- meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                         ^ string.quoted.single punctuation.definition.string.end

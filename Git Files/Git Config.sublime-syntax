@@ -122,6 +122,7 @@ contexts:
 
   other-value:
     - include: boolean
+    - include: shell-script
     - include: string-quoted
     - include: string-unquoted
 
@@ -130,6 +131,28 @@ contexts:
     # be matched as unquoted strings instead.
     - match: \b(?:yes|true|on|off|no|false)\b
       scope: constant.language.git.config
+
+  shell-script:
+    - match: (\")(\!)
+      captures:
+        1: string.quoted.double.git.config punctuation.definition.string.begin.git.config
+        2: keyword.control.import.shell.git.config
+      escape: \1$
+      escape_captures:
+        0: meta.mapping.value.git.config string.quoted.double.git.config punctuation.definition.string.end.git.config
+      embed: scope:source.shell
+    - match: (\')(\!)
+      captures:
+        1: string.quoted.single.git.config punctuation.definition.string.begin.git.config
+        2: keyword.control.import.shell.git.config
+      escape: \1(?=\s*$)
+      escape_captures:
+        0: meta.mapping.value.git.config string.quoted.single.git.config punctuation.definition.string.end.git.config
+      embed: scope:source.shell
+    - match: \!
+      scope: keyword.control.import.shell.git.config
+      escape: $
+      embed: scope:source.shell
 
   string-quoted:
     - match: \"
