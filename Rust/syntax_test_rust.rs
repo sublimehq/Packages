@@ -803,6 +803,17 @@ fn collect_vec() {
 //              ^^^^^ storage.type
 //                     ^^^^^ storage.type
 //                          ^ punctuation.section.group.end
+//                             ^ keyword.operator
+//                               ^ punctuation.section.group.begin
+//                                ^ constant.numeric.integer.decimal
+//                                 ^^ keyword.operator
+//                                   ^^ constant.numeric.integer.decimal
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.accessor.dot
+//                                       ^^^^^^^^^ support.function
+//                                                ^^ punctuation.section.group
+//                                                  ^ punctuation.accessor.dot
+//                                                          ^^ punctuation.accessor
 //                                                            ^^^^^^^^ meta.generic
 //                                                             ^^^^^^ meta.generic meta.generic
 //                                                                 ^ keyword.operator

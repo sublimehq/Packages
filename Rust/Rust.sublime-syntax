@@ -231,7 +231,7 @@ contexts:
     - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
 
-    - match: '\b\.'
+    - match: '\.'
       scope: punctuation.accessor.dot.rust
 
   attributes:
