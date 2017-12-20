@@ -1025,3 +1025,32 @@ impl ApplicationPreferenceseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 //       ^^^^^^^^^^^ string.quoted.double
 pub trait Foo {
 }
+
+const FOO: usize = 5;
+let _: Box<[[bool; (FOO + 1) / 2]; FOO * 3 % 12 - 1]>;
+//  ^ keyword.operator
+//   ^ punctuation.separator
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^^ punctuation.section.group.begin
+//           ^^^^ storage.type
+//               ^ punctuation.separator
+//                 ^ punctuation.section.group.begin
+//                  ^^^ variable.other.constant
+//                      ^ keyword.operator.arithmetic
+//                        ^ constant.numeric.integer.decimal
+//                         ^ punctuation.section.group.end
+//                           ^ keyword.operator.arithmetic
+//                             ^ constant.numeric.integer.decimal
+//                              ^ punctuation.section.group.end
+//                               ^ punctuation.separator
+//                                 ^^^ variable.other.constant
+//                                     ^ keyword.operator.arithmetic
+//                                       ^ constant.numeric.integer.decimal
+//                                         ^ keyword.operator.arithmetic
+//                                           ^^ constant.numeric.integer.decimal
+//                                              ^ keyword.operator.arithmetic
+//                                                ^ constant.numeric.integer.decimal
+//                                                 ^ punctuation.section.group.end
+//                                                  ^ punctuation.definition.generic.end
+//                                                   ^ punctuation.terminator
