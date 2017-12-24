@@ -14,6 +14,16 @@
 ; ^^^^- comment
 ;     ^ comment.line.clojure
 
+  #!blah
+; ^^ comment.line.clojure punctuation.definition.comment
+;   ^^^^^ comment.line.clojure
+  #! blah
+; ^^ comment.line.clojure punctuation.definition.comment
+;   ^^^^^^ comment.line.clojure
+  #!#!#! blah
+; ^^ comment.line.clojure punctuation.definition.comment
+;   ^^^^^^^^^^ comment.line.clojure
+
   blah,blah, blah
 ;     ^ comment.punctuation.comma.clojure
 ;      ^- comment
