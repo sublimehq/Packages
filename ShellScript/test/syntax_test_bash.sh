@@ -2075,6 +2075,23 @@ function foo {
 
 # <- - meta.function
 
+foo=$(
+  #  ^ punctuation.section
+  func() {
+    # <- meta.function entity.name.function
+    #    ^ punctuation.section
+    echo bar
+  }
+  # <- punctuation.section
+  func
+  
+  # <- meta.group.expansion.command
+)
+# <- punctuation.section
+echo $foo # prints "bar"
+
+# <- - meta.function - meta.group.expansion
+
 foo:foo () {
   # <- meta.function entity.name.function
     echo "this foo:foo"

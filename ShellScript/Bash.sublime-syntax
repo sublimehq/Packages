@@ -1039,8 +1039,7 @@ contexts:
           captures:
             1: punctuation.section.parens.end.shell
           pop: true
-        - match: ""
-          push: cmd
+        - include: main
     - match: \`
       scope: punctuation.section.group.begin.shell
       push:
