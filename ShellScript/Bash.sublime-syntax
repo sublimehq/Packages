@@ -466,7 +466,7 @@ contexts:
         - include: expansion-and-string
         - include: line-continuation-or-pop-at-end
         - include: any-escape
-        - match: (?=[\s;])
+        - match: (?={{metachar}})
           pop: true
 
   redirection:
