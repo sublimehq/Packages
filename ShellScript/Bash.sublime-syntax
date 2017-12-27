@@ -1073,6 +1073,7 @@ contexts:
     - include: expansion-command
     - include: expansion-tilde
     # no pattern expansion
+    - include: any-escape
 
   array:
     - match: \[
@@ -1137,6 +1138,7 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set:
+        - meta_include_prototype: false
         - meta_content_scope: meta.group.expansion.parameter.shell
         - include: expansion-parameter-common
         - include: expansion-pattern
