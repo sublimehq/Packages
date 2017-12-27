@@ -1734,6 +1734,20 @@ gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
 #                                             ^ keyword.operator.assignment.redirection
 #                                                           ^ punctuation
 #                                                             ^ keyword.operator.assignment.redirection
+LC_ALL=C 2> /dev/null
+#        ^ constant.numeric.integer.decimal.file-descriptor
+#         ^ keyword.operator.assignment.redirection
+#           ^ - variable.function
+2>&1 echo foo
+# <- constant.numeric.integer.decimal.file-descriptor
+#^^ keyword.operator.assignment.redirection
+#  ^ constant.numeric.integer.decimal.file-descriptor
+#    ^^^^ meta.function-call support.function.echo
+#        ^^^^ meta.function-call.arguments
+touch file.txt
+foo=x <file.txt
+#     ^ keyword.operator.assignment.redirection
+#      ^ - variable.function
 
 ##################
 # Here documents #
