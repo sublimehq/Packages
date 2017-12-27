@@ -179,9 +179,9 @@ contexts:
     - match: "<<"
       scope: keyword.operator.leftshift.groovy
     - match: (?<=\S)\.(?=\S)
-      scope: keyword.operator.navigation.groovy
+      scope: punctuation.accessor.dot.groovy
     - match: (?<=\S)\?\.(?=\S)
-      scope: keyword.operator.safe-navigation.groovy
+      scope: punctuation.accessor.groovy
     - match: \?
       captures:
         0: keyword.operator.ternary.groovy
@@ -426,7 +426,7 @@ contexts:
       scope: variable.other.interpolated.groovy
       push:
         - match: \.(?={{single_dollar_interpolation_identifier}})
-          scope: keyword.operator.navigation.groovy
+          scope: punctuation.accessor.dot.groovy
         - match: '{{single_dollar_interpolation_identifier}}'
           scope: variable.other.interpolated.groovy
         - match: \b

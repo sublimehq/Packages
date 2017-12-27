@@ -91,7 +91,7 @@ interpolation3 = "Hello $name"
 
 interpolation4 = "Hello $person.name"
 //                      ^^^^^^^ variable.other.interpolated.groovy
-//                             ^ keyword.operator.navigation.groovy
+//                             ^ punctuation.accessor.dot.groovy
 //                              ^^^^ string.quoted.double.groovy variable.other.interpolated.groovy
 //                                  ^ punctuation.definition.string.end.groovy
 
@@ -126,13 +126,13 @@ unicodeInterpolation1 = "$À"
 
 unicodeInterpolation2 = "$À.ö"
 //                       ^^ variable.other.interpolated.groovy
-//                         ^ keyword.operator.navigation.groovy
+//                         ^ punctuation.accessor.dot.groovy
 //                          ^ variable.other.interpolated.groovy
 //                           ^ punctuation.definition.string.end.groovy
 
 unicodeInterpolation3 = "$\u00c0.\u00F6"
 //                       ^^^^^^^ variable.other.interpolated.groovy
-//                              ^ keyword.operator.navigation.groovy
+//                              ^ punctuation.accessor.dot.groovy
 //                               ^^^^^^ variable.other.interpolated.groovy
 //                                     ^ punctuation.definition.string.end.groovy
 
@@ -148,44 +148,44 @@ invalidInterpolation3 = "$$"
 //                       ^^ invalid.illegal - variable.other.interpolated.groovy
 //                         ^ punctuation.definition.string.end.groovy
 
-notANavigation1 = "$obj."
-//                 ^^^^^ string.quoted.double.groovy
-//                 ^^^^ variable.other.interpolated.groovy
-//                     ^ - keyword.operator.navigation.groovy
-//                      ^ punctuation.definition.string.end.groovy - variable.other.interpolated.groovy
+notAnAccessorDot1 = "$obj."
+//                   ^^^^^ string.quoted.double.groovy
+//                   ^^^^ variable.other.interpolated.groovy
+//                       ^ - punctuation.accessor.dot.groovy
+//                        ^ punctuation.definition.string.end.groovy - variable.other.interpolated.groovy
 
-notANavigation2 = "$obj.2"
-//                 ^^^^^^ string.quoted.double.groovy
-//                 ^^^^ variable.other.interpolated.groovy
-//                     ^ - keyword.operator.navigation.groovy
-//                      ^ - variable.other.interpolated.groovy
-//                       ^ punctuation.definition.string.end.groovy
+notAnAccessorDot2 = "$obj.2"
+//                   ^^^^^^ string.quoted.double.groovy
+//                   ^^^^ variable.other.interpolated.groovy
+//                       ^ - punctuation.accessor.dot.groovy
+//                        ^ - variable.other.interpolated.groovy
+//                         ^ punctuation.definition.string.end.groovy
 
-notANavigation3 = "$obj.×"
-//                 ^^^^^^ string.quoted.double.groovy
-//                 ^^^^ variable.other.interpolated.groovy
-//                     ^ - keyword.operator.navigation.groovy
-//                      ^ - variable.other.interpolated.groovy
-//                       ^ punctuation.definition.string.end.groovy
+notAnAccessorDot3 = "$obj.×"
+//                   ^^^^^^ string.quoted.double.groovy
+//                   ^^^^ variable.other.interpolated.groovy
+//                       ^ - punctuation.accessor.dot.groovy
+//                        ^ - variable.other.interpolated.groovy
+//                         ^ punctuation.definition.string.end.groovy
 
-notANavigation4 = "$obj.\u00D7"
-//                 ^^^^^^^^^^^ string.quoted.double.groovy
-//                 ^^^^ variable.other.interpolated.groovy
-//                     ^ - keyword.operator.navigation.groovy
-//                      ^^^^^^ constant.character.escape.groovy - variable.other.interpolated.groovy
-//                            ^ punctuation.definition.string.end.groovy
+notAnAccessorDot4 = "$obj.\u00D7"
+//                   ^^^^^^^^^^^ string.quoted.double.groovy
+//                   ^^^^ variable.other.interpolated.groovy
+//                       ^ - punctuation.accessor.dot.groovy
+//                        ^^^^^^ constant.character.escape.groovy - variable.other.interpolated.groovy
+//                              ^ punctuation.definition.string.end.groovy
 
 notASafeNavigation = "$obj?.nope"
 //                    ^^^^^^^^^^ string.quoted.double.groovy
 //                    ^^^^ variable.other.interpolated.groovy
-//                        ^^ - keyword.operator.safe-navigation.groovy
+//                        ^^ - punctuation.accessor.groovy
 //                          ^^^^ - variable.other.interpolated.groovy
 //                              ^ punctuation.definition.string.end.groovy
 
 notAMethodCall = "$obj.nope()"
 //                ^^^^^^^^^^^ string.quoted.double.groovy
 //                ^^^^ variable.other.interpolated.groovy
-//                    ^ keyword.operator.navigation.groovy
+//                    ^ punctuation.accessor.dot.groovy
 //                     ^^^^ variable.other.interpolated.groovy
 //                     ^^^^^^ - meta.method-call.groovy
 //                           ^ punctuation.definition.string.end.groovy
@@ -249,7 +249,7 @@ embeddedNonInterpolation = "${'$nope'}"
 
 dollarSlashy01 = $/Hello $person.name/$
 //                       ^^^^^^^ string.quoted.other.dollar-slashy.groovy variable.other.interpolated.groovy
-//                              ^ keyword.operator.navigation.groovy
+//                              ^ punctuation.accessor.dot.groovy
 //                               ^^^^ string.quoted.other.dollar-slashy.groovy variable.other.interpolated.groovy
 //                                   ^^ string.quoted.other.dollar-slashy.groovy punctuation.definition.string.end.groovy
 
