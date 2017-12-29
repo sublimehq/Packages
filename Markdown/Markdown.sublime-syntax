@@ -222,6 +222,18 @@ contexts:
     - match: |-
         (?x:
             \s*                        # Leading whitespace
+            (\[)\^(.+?)(\])(:)         # Reference name
+            (.*)                       # The footnote
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+        5: markup.underline.footnote.markdown
+    - match: |-
+        (?x:
+            \s*                        # Leading whitespace
             (\[)(.+?)(\])(:)           # Reference name
             [ \t]*                     # Optional whitespace
             (?:
