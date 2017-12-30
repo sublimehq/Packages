@@ -15,6 +15,7 @@ variables:
   non_symbol_start_chars: '{{non_symbol_chars}}\d#'':'
   non_number_chars: '{{non_symbol_chars}}#'''
   non_char_chars: '{{non_symbol_chars}}#'''
+  atom: '[^{{non_symbol_chars}}]+'
   symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
   # Slightly too permissive
   keyword: ::?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
@@ -63,17 +64,11 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.clojure
       push: pop-string-tail
-    - match: '#"'
-      scope: punctuation.definition.string.begin.clojure
-      push: pop-regexp-tail
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
       push: pop-dispatch-expr
-    - match: '''|`|~@|~'
+    - match: '''|`|~|@'
       scope: constant.other.symbol.reader-macro.clojure
-      push: pop-expr
-    - match: '@'
-      scope: variable.function.deref.clojure
       push: pop-expr
     - match: \\\S[^{{non_char_chars}}]*
       scope: constant.character.clojure
@@ -85,7 +80,7 @@ contexts:
       scope: invalid.illegal.clojure
     - match: '{{number}}'
       scope: constant.numeric.clojure
-    - match: '[^{{non_symbol_chars}}]+'
+    - match: '{{atom}}'
 
   pop-expr:
     - include: match-noise
@@ -112,17 +107,11 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.clojure
       set: pop-string-tail
-    - match: '#"'
-      scope: punctuation.definition.string.begin.clojure
-      set: pop-regexp-tail
     - match: '#'
       scope: constant.other.symbol.reader-macro.clojure
       set: pop-dispatch-expr
-    - match: '''|`|~@|~'
+    - match: '''|`|~|@'
       scope: constant.other.symbol.reader-macro.clojure
-      set: pop-expr
-    - match: '@'
-      scope: variable.function.deref.clojure
       set: pop-expr
     - match: '\\\S[^{{non_char_chars}}]*'
       scope: constant.character.clojure
@@ -139,7 +128,7 @@ contexts:
     - match: '{{number}}'
       scope: constant.numeric.clojure
       pop: true
-    - match: '[^{{non_symbol_chars}}]+'
+    - match: '{{atom}}'
       pop: true
 
   match-noise:
@@ -156,12 +145,37 @@ contexts:
       push: pop-expr
 
   pop-dispatch-expr:
-    - match: \s*
-    - match: '{{constant}}'
-      scope: constant.language.clojure
+    - match: (?=\s)
+      set: pop-dispatch-tag-expr
+    - match: _
+      scope: constant.other.symbol.reader-macro.clojure
+      set: pop-expr
+    - match: '#'
+      scope: constant.other.symbol.reader-macro.clojure
+      set: pop-symbolic-value
+    - match: "'"
+      scope: constant.other.symbol.reader-macro.clojure
       pop: true
+    - match: '"'
+      scope: punctuation.definition.string.begin.clojure
+      set: pop-regexp-tail
+    - match: (?=[\^:])
+      pop: true
+    - match: (?=\S)
+      set: pop-dispatch-tag-expr
+
+  pop-dispatch-tag-expr:
+    - include: match-noise
     - match: '{{symbol}}'
       scope: constant.other.symbol.reader-macro.clojure
+      pop: true
+    - match: (?=\S)
+      set: pop-expr
+
+  pop-symbolic-value:
+    - include: match-noise
+    - match: '{{atom}}'
+      scope: constant.other.symbolic.clojure
       pop: true
     - match: (?=\S)
       set: pop-expr

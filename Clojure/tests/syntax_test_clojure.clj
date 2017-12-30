@@ -326,7 +326,7 @@
   blah~blah
 ;     ^ constant.other.symbol.reader-macro.clojure
   blah@blah
-;     ^ variable.function.deref.clojure
+;     ^ constant.other.symbol.reader-macro.clojure
   blah^blah
 ;     ^ constant.other.symbol.reader-macro.clojure
   blah\blah
@@ -440,8 +440,7 @@
   :blah~blah
 ; ^^^^^ constant.language.keyword.clojure
   :blah@blah
-; ^^^^^ constant.language.keyword.clojure
-;      ^ variable.function.deref.clojure
+;      ^ constant.other.symbol.reader-macro.clojure
   :blah^blah
 ; ^^^^^ constant.language.keyword.clojure
 ;      ^ constant.other.symbol.reader-macro.clojure
@@ -506,10 +505,10 @@
 ;   ^ constant.other.symbol.reader-macro.clojure
   \@@blah
 ; ^^ constant.character.clojure
-;   ^ variable.function.deref.clojure
+;   ^ constant.other.symbol.reader-macro.clojure
   \~@~@blah
 ; ^^ constant.character.clojure
-;   ^ variable.function.deref.clojure
+;   ^^^ constant.other.symbol.reader-macro.clojure
   \##{}
 ; ^^ constant.character.clojure
 ;   ^^ punctuation.section.braces.begin.clojure
@@ -600,23 +599,27 @@
 ; # Regex
 
   #""
-; ^^^ string.regexp.clojure
-; ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^^ string.regexp.clojure
+;  ^ string.regexp.clojure punctuation.definition.string.begin.clojure
 ;   ^ string.regexp.clojure punctuation.definition.string.end.clojure
 
   #" blah "
-; ^^^^^^^^^ string.regexp.clojure
-; ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^^^^^^^^ string.regexp.clojure
+;  ^ string.regexp.clojure punctuation.definition.string.begin.clojure
 ;         ^ string.regexp.clojure punctuation.definition.string.end.clojure
 
   #"blah{1}"
-; ^^^^^^^^^^ string.regexp.clojure
-; ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^^^^^^^^^ string.regexp.clojure
+;  ^ string.regexp.clojure punctuation.definition.string.begin.clojure
 ;       ^^^ string.regexp.clojure keyword.operator.quantifier.regexp
 ;          ^ string.regexp.clojure punctuation.definition.string.end.clojure
 
   #"
-; ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^ string.regexp.clojure punctuation.definition.string.begin.clojure
   blah{1}
 ; ^^^^ string.regexp.clojure
 ;     ^^^ string.regexp.clojure keyword.operator.quantifier.regexp
@@ -624,7 +627,8 @@
 ; ^ string.regexp.clojure punctuation.definition.string.end.clojure
 
   #"
-; ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^ string.regexp.clojure punctuation.definition.string.begin.clojure
   \"
 ; ^^ string.regexp.clojure constant.character.escape.regexp
   (unclosed paren ->
@@ -636,7 +640,7 @@
 
   # ""
 ; ^ constant.other.symbol.reader-macro.clojure
-; ^^^^- string.regexp.clojure
+;  ^^^- string.regexp.clojure
 
 
 
@@ -644,49 +648,98 @@
 
   #inst"0000"
 ; ^^^^^ constant.other.symbol.reader-macro.clojure
+
   #blah blah
 ; ^^^^^ constant.other.symbol.reader-macro.clojure
 ;      ^^^^^^- constant.other.symbol.reader-macro.clojure
+
   #blah1000.blah1000/blah1000 blah
 ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.symbol.reader-macro.clojure
 ;                            ^^^^^^- constant.other.symbol.reader-macro.clojure
+
   #blah:blah blah
 ; ^^^^^^^^^^ constant.other.symbol.reader-macro.clojure
 ;           ^^^^^^- constant.other.symbol.reader-macro.clojure
+
   # inst "0000"
 ; ^ constant.other.symbol.reader-macro.clojure
 ;   ^^^^ constant.other.symbol.reader-macro.clojure
 ;       ^- constant.other.symbol.reader-macro.clojure
 ;        ^^^^^^ string.quoted.double.clojure
+
   #
 ; ^ constant.other.symbol.reader-macro.clojure
     inst
     "0000"
 ;   ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
+
   #'blah
 ; ^^ constant.other.symbol.reader-macro.clojure
 ;   ^^^^^- constant.other.symbol.reader-macro.clojure
+
+  #'
+; ^^ constant.other.symbol.reader-macro.clojure
+  ; blah
+; ^^^^^^^ comment.line.clojure
+  blah
+; ^^^^^- constant.other.symbol.reader-macro.clojure
+
   #(list % %1)
 ; ^ constant.other.symbol.reader-macro.clojure
 ;  ^- constant.other.symbol.reader-macro.clojure
+
   #[]
 ; ^ constant.other.symbol.reader-macro.clojure
 ;  ^- constant.other.symbol.reader-macro.clojure
+
   #_[]
 ; ^^ constant.other.symbol.reader-macro.clojure
 ;   ^- constant.other.symbol.reader-macro.clojure
+
   #?[]
 ; ^^ constant.other.symbol.reader-macro.clojure
 ;   ^- constant.other.symbol.reader-macro.clojure
+
+  #:blah{}
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^^^^^ constant.language.keyword.clojure
+
+  ##NaN ##Inf ##-Inf
+; ^^ constant.other.symbol.reader-macro.clojure
+;   ^^^ constant.other.symbolic.clojure
+;       ^^ constant.other.symbol.reader-macro.clojure
+;         ^^^ constant.other.symbolic.clojure
+;             ^^ constant.other.symbol.reader-macro.clojure
+;               ^^^^ constant.other.symbolic.clojure
+
+  ##
+; ^^ constant.other.symbol.reader-macro.clojure
+  ; blah
+; ^^^^^^^ comment.line.clojure
+  NaN
+; ^^^ constant.other.symbolic.clojure
 
 ; ## Breaks
 
   #blah\newline
 ; ^^^^^ constant.other.symbol.reader-macro.clojure
 ;      ^^^^^^^^ constant.character.clojure
+
   #blah`blah
 ; ^^^^^ constant.other.symbol.reader-macro.clojure
 ;       ^^^^^- constant.other.symbol.reader-macro.clojure
+
+  #_0.000692025M
+; ^^ constant.other.symbol.reader-macro.clojure
+;   ^^^^^^^^^^^^ constant.numeric.clojure
+
+  #_ 0.000692025M
+; ^^ constant.other.symbol.reader-macro.clojure
+;    ^^^^^^^^^^^^ constant.numeric.clojure
+
+  #_blah
+; ^^ constant.other.symbol.reader-macro.clojure
+;   ^^^^- constant.other.symbol.reader-macro.clojure
 
 ; ## Unaffected
 
@@ -704,6 +757,15 @@
 ;               ^^^^^ constant.other.symbol.reader-macro.clojure
 ;                    ^^^^^^ string.quoted.double.clojure
 
+  # :blah{}
+; ^ constant.other.symbol.reader-macro.clojure
+;   ^^^^^ constant.language.keyword.clojure
+
+  # ' blah
+; ^ constant.other.symbol.reader-macro.clojure
+;   ^ constant.other.symbol.reader-macro.clojure
+;          ^ comment.line.clojure punctuation.definition.comment
+
 ; ## Invalid
 
   #111[]
@@ -712,6 +774,10 @@
   (blah #) )
 ;       ^ constant.other.symbol.reader-macro.clojure
 ;        ^ invalid.illegal.clojure
+
+  # #NaN
+; ^ constant.other.symbol.reader-macro.clojure
+;   ^^^^ constant.other.symbol.reader-macro.clojure
 
 ; ## Ignore
 
@@ -864,58 +930,57 @@
 ; # Deref
 
   @100
-; ^ variable.function.deref.clojure
+; ^ constant.other.symbol.reader-macro.clojure
 ;  ^^^ constant.numeric.clojure
 
   @true
-; ^ variable.function.deref.clojure
+; ^ constant.other.symbol.reader-macro.clojure
 ;  ^^^^ constant.language.clojure
 
   @blah
-; ^ variable.function.deref.clojure
-;  ^^^^^- variable.function.deref.clojure
+; ^ constant.other.symbol.reader-macro.clojure
+;  ^^^^^- constant.other.symbol.reader-macro.clojure
 
   @:blah
-; ^ variable.function.deref.clojure
+; ^ constant.other.symbol.reader-macro.clojure
 ;  ^^^^^ constant.language.keyword.clojure
 
   @(atom blah)
-; ^ variable.function.deref.clojure
+; ^ constant.other.symbol.reader-macro.clojure
 ;  ^ punctuation.section.parens.begin.clojure
 ;   ^^^^ variable.function.clojure
 
   @@@blah
-; ^^^ variable.function.deref.clojure
-;    ^^^^^- variable.function.deref.clojure
+; ^^^ constant.other.symbol.reader-macro.clojure
+;    ^^^^^- constant.other.symbol.reader-macro.clojure
 
   @'blah
-; ^ variable.function.deref.clojure
+; ^^ constant.other.symbol.reader-macro.clojure
 ;  ^ constant.other.symbol.reader-macro.clojure
 
   @~blah
-; ^ variable.function.deref.clojure
+; ^^ constant.other.symbol.reader-macro.clojure
 ;  ^ constant.other.symbol.reader-macro.clojure
 
   @#blah[]
-; ^ variable.function.deref.clojure
-;  ^^^^^ constant.other.symbol.reader-macro.clojure
+; ^^^^^^ constant.other.symbol.reader-macro.clojure
 
 ; ## Breaks
 
   blah@blah
-;     ^ variable.function.deref.clojure
-;      ^^^^^- variable.function.deref.clojure
+;     ^ constant.other.symbol.reader-macro.clojure
+;      ^^^^^- constant.other.symbol.reader-macro.clojure
 
   100@blah
 ; ^^^ constant.numeric.clojure
-;    ^ variable.function.deref.clojure
-;     ^^^^^- variable.function.deref.clojure
+;    ^ constant.other.symbol.reader-macro.clojure
+;     ^^^^^- constant.other.symbol.reader-macro.clojure
 
 ; ## Invalid
 
   ( @) )
 ; ^ punctuation.section.parens.begin.clojure
-;   ^ variable.function.deref.clojure
+;   ^ constant.other.symbol.reader-macro.clojure
 ;    ^ invalid.illegal.clojure
 ;      ^ punctuation.section.parens.end.clojure
 
