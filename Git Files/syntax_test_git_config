@@ -392,3 +392,10 @@ stray-bracket]
 #           ^ keyword.control.import.shell
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
 #                                                                               ^ string.quoted.double punctuation.definition.string.end
+  impact = !git ls-files -z \
+         | xargs -0n1 git blame -w -C
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config source.shell
+  impact = "!git ls-files -z \
+         | xargs -0n1 git blame -w -C"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell

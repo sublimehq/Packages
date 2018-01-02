@@ -164,7 +164,7 @@ contexts:
       embed: scope:source.shell
     - match: \!
       scope: keyword.control.import.shell.git.config
-      escape: $
+      escape: (?<!\\)\n
       embed: scope:source.shell
 
   string-quoted:
