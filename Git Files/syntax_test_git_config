@@ -50,6 +50,42 @@
 [section "\n"]  # every char can be escaped
 #         ^ invalid.unnecessary-escape
 
+# LEGACY SECTION HEADER SYNTAX
+[section.subsection.subsubsection]
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                                 ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^^^^^^ entity.name.section
+#       ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ string.unquoted
+#                  ^ punctuation.accessor.dot
+#                   ^^^^^^^^^^^^^ string.unquoted
+#                                ^ punctuation.definition.brackets.end
+
+# LEGACY SECTION HEADER SYNTAX
+[se\ct\\ion.s"ub\se\\ct\"ion
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                            ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^ entity.name.section
+#  ^ invalid.illegal.section-name
+#   ^^ entity.name.section
+#     ^^ invalid.illegal.section-name
+#       ^^^ entity.name.section
+#          ^ punctuation.accessor.dot
+#           ^ string.unquoted
+#            ^ invalid.illegal.subsection-name
+#             ^^ string.unquoted
+#               ^ invalid.illegal.subsection-name
+#                ^^ string.unquoted
+#                  ^^ invalid.illegal.subsection-name
+#                    ^^ string.unquoted
+#                      ^^ invalid.illegal.subsection-name
+#                        ^^^ string.unquoted
+#                           ^ invalid.illegal.unexpected.eol
+
 # COLOR TESTS
 [color "diff"]
 # <- meta.brackets punctuation.definition.brackets.begin

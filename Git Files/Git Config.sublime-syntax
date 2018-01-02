@@ -12,7 +12,6 @@ scope: text.git.config
 
 variables:
   escape_char: \\"bnt
-  section_name: '[\w.-]+(?=[\s\]])'  # lookahead catches missing space, e.g. color"branch".
   variable_name: '[a-zA-Z][\w-]*'
   zero_to_255: 25[0-5]|2[0-4][0-9]|1\d\d|[1-9][0-9]|[0-9]
 
@@ -34,28 +33,34 @@ contexts:
     - match: ^\s*(?=\[)
       push: [key-value-pair, section-header]
 
-  # [section "subsection"]
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
-      set:
-        - meta_scope: meta.brackets.git.config
-        - match: \]
-          scope: punctuation.definition.brackets.end.git.config
-          set: expect-newline
-        - include: illegal-newline-pop
-        - include: illegal-slash
-        - include: subsection-name
-        - match: '{{section_name}}'
-          scope: entity.name.section.git.config
+      set: [expect-newline, section-header-end, subsection-name, section-name]
 
-  # [section "subsection"]
-  # Subsections are not normal strings. Escapes (e.g. \", \t) and trailing
-  # slashes are not recognized. Newlines are illegal.
+  section-header-end:
+    - meta_scope: meta.brackets.git.config
+    - match: \]
+      scope: punctuation.definition.brackets.end.git.config
+      pop: true
+    - include: illegal-newline-pop
+    - match: \S
+      scope: invalid.illegal.header-end.git.config
+
+  section-name:
+    - match: '[\w-]+'
+      scope: entity.name.section.git.config
+    - match: (?=[."\]])
+      pop: true
+    - include: illegal-newline-pop
+    - match: \S
+      scope: invalid.illegal.section-name.git.config
+
   subsection-name:
+    # [section "subsection"]
     - match: \"
       scope: punctuation.definition.string.begin.git.config
-      push:
+      set:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.git.config
         - match: \"
@@ -69,6 +74,24 @@ contexts:
         - match: \\
           scope: invalid.unnecessary-escape.git.config
         - include: illegal-newline-pop
+    # [section.subsection]
+    - match: \.
+      scope: punctuation.accessor.dot.git.config
+      set:
+        - match: '[\w-]+'
+          scope: string.unquoted.git.config
+        - match: \.
+          scope: punctuation.accessor.dot.git.config
+        - match: (?=\])
+          pop: true
+        - include: illegal-newline-pop
+        - match: \S
+          scope: invalid.illegal.subsection-name.git.config
+    - match: (?=\])
+      pop: true
+    - include: illegal-newline-pop
+    - match: \S
+      scope: invalid.illegal.subsection-name.git.config
 
   expect-section:
     - match: (?=^\s*\[) # start of new section
@@ -197,7 +220,3 @@ contexts:
     - match: $\n?
       scope: invalid.illegal.unexpected.eol.git.config
       pop: true
-
-  illegal-slash:
-    - match: \\
-      scope: invalid.illegal.unexpected.escape.git.config
