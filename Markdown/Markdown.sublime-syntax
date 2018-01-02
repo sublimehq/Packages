@@ -650,7 +650,7 @@ contexts:
     - match: '(~+)(?=\S)(?!~)'
       scope: punctuation.definition.strikethrough.begin.markdown
       push:
-        - meta_scope: markup.strikethrough.markdown
+        - meta_scope: markup.strikethrough.markdown-gfm
         - match: ~+
           scope: punctuation.definition.strikethrough.end.markdown
           pop: true
