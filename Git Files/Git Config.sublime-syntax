@@ -102,12 +102,13 @@ contexts:
   # changed = red
   # untracked = bold green
   key-color-pair:
-    - match: ^\s*({{variable_name}})\s*(\=)
+    - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
-        1: meta.mapping.key.git.config variable.other.readwrite.git.config
-        2: keyword.operator.assignment.git.config
+        1: meta.mapping.git.config
+        2: meta.mapping.key.git.config variable.other.readwrite.git.config
+        3: meta.mapping.git.config
+        4: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.git.config
         - meta_content_scope: meta.mapping.value.git.config
         - include: color-value
         - include: line-end
@@ -115,12 +116,13 @@ contexts:
 
   # key = val
   key-value-pair:
-    - match: ^\s*({{variable_name}})\s*(\=)
+    - match: ^(\s*)({{variable_name}})(\s*(\=)\s*)
       captures:
-        1: meta.mapping.key.git.config variable.other.readwrite.git.config
-        2: keyword.operator.assignment.git.config
+        1: meta.mapping.git.config
+        2: meta.mapping.key.git.config variable.other.readwrite.git.config
+        3: meta.mapping.git.config
+        4: keyword.operator.assignment.git.config
       push:
-        - meta_scope: meta.mapping.git.config
         - meta_content_scope: meta.mapping.value.git.config
         - include: other-value
         - include: line-end
