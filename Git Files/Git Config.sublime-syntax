@@ -36,7 +36,7 @@ contexts:
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
-      set: [expect-newline, section-header-end, subsection-name, section-name]
+      set: [expect-newline, section-header-end, section-name]
 
   section-header-end:
     - meta_scope: meta.brackets.git.config
@@ -50,43 +50,40 @@ contexts:
   section-name:
     - match: '[\w-]+'
       scope: entity.name.section.git.config
-    - match: (?=[."\]])
+    - match: \"
+      scope: punctuation.definition.string.begin.git.config
+      set: subsection-name-quoted
+    - match: \.
+      scope: punctuation.accessor.dot.git.config
+      set: subsection-name-unquoted
+    - match: (?=\])
       pop: true
     - include: illegal-newline-pop
     - match: \S
       scope: invalid.illegal.section-name.git.config
 
-  subsection-name:
-    # [section "subsection"]
+  # [section "subsection"]
+  subsection-name-quoted:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.git.config
     - match: \"
-      scope: punctuation.definition.string.begin.git.config
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.git.config
-        - match: \"
-          scope: punctuation.definition.string.end.git.config
-          pop: true
-        - match: \\[\\"]
-          scope: constant.character.escape.git.config
-        # `\` is legal, but it can lead to confusion because escapes like `\t`
-        # are interpreted as `t` by the git config parser, not TAB or "\t"
-        # (two chars). Therefore, we discourage the use of `\`.
-        - match: \\
-          scope: invalid.unnecessary-escape.git.config
-        - include: illegal-newline-pop
-    # [section.subsection]
+      scope: punctuation.definition.string.end.git.config
+      pop: true
+    - match: \\[\\"]
+      scope: constant.character.escape.git.config
+    # `\` is legal, but it can lead to confusion because escapes like `\t`
+    # are interpreted as `t` by the git config parser, not TAB or "\t"
+    # (two chars). Therefore, we discourage the use of `\`.
+    - match: \\
+      scope: invalid.unnecessary-escape.git.config
+    - include: illegal-newline-pop
+
+  # [section.subsection]
+  subsection-name-unquoted:
+    - match: '[\w-]+'
+      scope: string.unquoted.git.config
     - match: \.
       scope: punctuation.accessor.dot.git.config
-      set:
-        - match: '[\w-]+'
-          scope: string.unquoted.git.config
-        - match: \.
-          scope: punctuation.accessor.dot.git.config
-        - match: (?=\])
-          pop: true
-        - include: illegal-newline-pop
-        - match: \S
-          scope: invalid.illegal.subsection-name.git.config
     - match: (?=\])
       pop: true
     - include: illegal-newline-pop
