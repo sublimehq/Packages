@@ -8,7 +8,10 @@ file_extensions:
   - markdown
   - markdn
 scope: text.html.markdown
-comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/ with GitHub Formatted Markdown extensions https://github.github.com/gfm/
+comment: |-
+  this definition aims to meet CommonMark specifications http://spec.commonmark.org/
+  with GitHub Formatted Markdown extensions              https://github.github.com/gfm/
+  and has a few extras like Markdown Extra's footnotes   https://michelf.ca/projects/php-markdown/extra/#footnotes
 variables:
     thematic_break: |-
         (?x:
@@ -222,7 +225,23 @@ contexts:
     - match: |-
         (?x:
             \s*                        # Leading whitespace
-            (\[)(.+?)(\])(:)           # Reference name
+            (\[)(\^[^]]*)(\])(:)       # Reference name
+            [ \t]*                     # Optional whitespace
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+      push:
+        - meta_scope: meta.link.reference.def.footnote.markdown-extra
+        - match: ^(?![ ]{4}|$)
+          pop: true
+        - include: inline-bold-italic
+    - match: |-
+        (?x:
+            \s*                        # Leading whitespace
+            (\[)([^]]*)(\])(:)         # Reference name
             [ \t]*                     # Optional whitespace
             (?:
               (<)([^>]+)(>)            # The url
@@ -605,6 +624,7 @@ contexts:
     - include: image-ref
     - include: link-ref-literal
     - include: link-ref
+    - include: link-ref-footnote
   inline-bold-italic:
     - include: inline
     - include: bold
@@ -790,6 +810,18 @@ contexts:
         1: punctuation.definition.constant.begin.markdown
         2: punctuation.definition.constant.end.markdown
       pop: true
+  link-ref-footnote:
+    - match: |-
+        (?x:
+          (\[\^)
+          ([^]]+)
+          (\])
+        )
+      captures:
+        0: meta.link.reference.footnote.markdown-extra
+        1: punctuation.definition.link.begin.markdown
+        2: meta.link.reference.literal.footnote-id.markdown
+        3: punctuation.definition.link.end.markdown
   list-paragraph:
     - match: '^(?=\s+(?![>+*\s-]))(?={{indented_code_block}})'
       push:
