@@ -43,7 +43,7 @@ contexts:
         - match: \]
           scope: punctuation.definition.brackets.end.git.config
           set: expect-newline
-        - include: illegal-newline  # complain if '[' and ']' on separate lines
+        - include: illegal-newline-pop
         - include: illegal-slash
         - include: subsection-name
         - match: '{{section_name}}'
@@ -68,7 +68,7 @@ contexts:
         # (two chars). Therefore, we discourage the use of `\`.
         - match: \\
           scope: invalid.unnecessary-escape.git.config
-        - include: illegal-newline
+        - include: illegal-newline-pop
 
   expect-section:
     - match: (?=^\s*\[) # start of new section
@@ -192,6 +192,11 @@ contexts:
   illegal-newline:
     - match: $\n?
       scope: invalid.illegal.unexpected.eol.git.config
+
+  illegal-newline-pop:
+    - match: $\n?
+      scope: invalid.illegal.unexpected.eol.git.config
+      pop: true
 
   illegal-slash:
     - match: \\

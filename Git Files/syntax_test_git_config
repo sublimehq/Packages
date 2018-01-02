@@ -176,7 +176,7 @@
 #^^^^^^^ entity.name
 #       ^ invalid.illegal.unexpected.eol
 ]
-# <- meta.brackets punctuation.definition.brackets.end
+# <- punctuation.definition.brackets.end invalid.illegal.stray-bracket
 #
 # INVALID TEXT AFTER SECTION TEST
 [stray-bracket]] and anything # comment
