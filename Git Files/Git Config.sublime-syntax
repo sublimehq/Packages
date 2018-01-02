@@ -33,6 +33,8 @@ contexts:
     - match: ^\s*(?=\[)
       push: [key-value-pair, section-header]
 
+##[ SECTION HEADERS ]##################################################
+
   section-header:
     - match: \[
       scope: punctuation.definition.brackets.begin.git.config
@@ -96,6 +98,8 @@ contexts:
     - match: \]
       scope: punctuation.definition.brackets.end.git.config invalid.illegal.stray-bracket.git.config
 
+##[ SECTION BODY ]#####################################################
+
   # changed = red
   # untracked = bold green
   key-color-pair:
@@ -128,6 +132,8 @@ contexts:
   expect-key:
     - match: (?=^\s*{{variable_name}}\s*\=)  # next key-value pair
       pop: true
+
+##[ VALUES ]###########################################################
 
   color-value:
     # example: bold, italic, underline
@@ -188,6 +194,8 @@ contexts:
         - match: $
           pop: true
 
+##[ PROTOTYPES ]#######################################################
+
   # The only valid escapes: '\b', '\n', '\t', '\"', '\\'.
   escape:
     - match: \\[{{escape_char}}]
@@ -208,6 +216,8 @@ contexts:
     - match: (\\)\s*$
       captures:
         1: constant.character.escape.git.config
+
+##[ ILLEGAL ]##########################################################
 
   illegal-newline:
     - match: $\n?
