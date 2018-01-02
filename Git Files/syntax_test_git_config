@@ -169,7 +169,7 @@
 #                    ^^ constant.character.escape
 #                       ^^ constant.character.escape
 #                          ^^ constant.character.escape
-#                             ^ constant.character.escape
+#                             ^ punctuation.separator.continuation.line
     trailing-slash = \  # comments not legal after trailing slash
 #                    ^^ invalid.illegal.escape
 
@@ -286,13 +286,13 @@ stray-bracket]
 #               ^^ invalid.illegal.escape
     foo = multi \
 #         ^^^^^^^ string.unquoted.value
-#               ^ constant.character.escape
+#               ^ punctuation.separator.continuation.line
 #                ^ -invalid.illegal.unexpected.eol
           line
 #         ^^^^ string.unquoted.value
 
     foo = "multi\
-#               ^ constant.character.escape
+#               ^ punctuation.separator.continuation.line
 #                ^ -invalid.illegal.unexpected.eol
           line"
 #         ^^^^^ string.quoted.double
@@ -374,8 +374,8 @@ stray-bracket]
 # <- meta.mapping
 #^^ meta.mapping
 #  ^^^^^ meta.mapping.key
-#       ^^ meta.mapping
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #  ^^^^^ variable.other.readwrite
 #        ^ keyword.operator.assignment
 #          ^ keyword.control.import.shell
@@ -384,8 +384,8 @@ stray-bracket]
 # <- meta.mapping
 #^^ meta.mapping
 #  ^^^^^ meta.mapping.key
-#       ^^ meta.mapping
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #  ^^^^^ variable.other.readwrite
 #        ^ keyword.operator.assignment
 #          ^ string.quoted.double punctuation.definition.string.begin
