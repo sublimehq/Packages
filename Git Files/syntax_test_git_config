@@ -171,7 +171,7 @@
 #                          ^^ constant.character.escape
 #                             ^ punctuation.separator.continuation.line
     trailing-slash = \  # comments not legal after trailing slash
-#                    ^^ invalid.illegal.escape
+#                    ^ invalid.illegal.escape
 
 # BOOLEAN TESTS
 [bools]
@@ -283,7 +283,7 @@ stray-bracket]
 #         ^^ constant.character.escape
 #           ^^^^^ string.unquoted.value
     foo = hello \ # comments not legal after trailing slash
-#               ^^ invalid.illegal.escape
+#               ^ invalid.illegal.escape
     foo = multi \
 #         ^^^^^^^ string.unquoted.value
 #               ^ punctuation.separator.continuation.line
