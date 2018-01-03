@@ -178,7 +178,7 @@ contexts:
           set: expect-line-end
         - include: line-continuation
         - include: escape
-        - include: illegal-line-end  # newlines only permitting after trailing \
+        - include: illegal-line-end  # newlines only permitted after trailing \
 
   string-unquoted:
     - match: (?=\S)
