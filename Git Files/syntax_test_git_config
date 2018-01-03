@@ -370,17 +370,17 @@ stray-bracket]
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
-   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git  # shell comment
 # <- meta.mapping
 #^^ meta.mapping
 #  ^^^^^ meta.mapping.key
 #       ^^^ meta.mapping
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #  ^^^^^ variable.other.readwrite
 #        ^ keyword.operator.assignment
 #          ^ keyword.control.import.shell
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
-   serve = "!git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git"
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+   serve = "!git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git" # git "comment"
 # <- meta.mapping
 #^^ meta.mapping
 #  ^^^^^ meta.mapping.key
@@ -391,11 +391,17 @@ stray-bracket]
 #          ^ string.quoted.double punctuation.definition.string.begin
 #           ^ keyword.control.import.shell
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                               ^^^^^^^^^^^^^^^^^ -source.shell
 #                                                                               ^ string.quoted.double punctuation.definition.string.end
+#                                                                                 ^ punctuation.definition.comment
+#                                                                                 ^^^^^^^^^^^^^^^ comment.line
   impact = !git ls-files -z \
-         | xargs -0n1 git blame -w -C
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config source.shell
+         | xargs -0n1 git blame -w -C  # shell comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value source.shell
   impact = "!git ls-files -z \
-         | xargs -0n1 git blame -w -C"
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config
+         | xargs -0n1 git blame -w -C" ; git "comment"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                    ^^^^^^^^^^^^^^^^^ - source.shell
+#                                      ^ punctuation.definition.comment
+#                                      ^^^^^^^^^^^^^^^ comment.line
