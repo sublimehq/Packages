@@ -50,6 +50,42 @@
 [section "\n"]  # every char can be escaped
 #         ^ invalid.unnecessary-escape
 
+# LEGACY SECTION HEADER SYNTAX
+[section.subsection.subsubsection]
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                                 ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^^^^^^ entity.name.section
+#       ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ string.unquoted
+#                  ^ punctuation.accessor.dot
+#                   ^^^^^^^^^^^^^ string.unquoted
+#                                ^ punctuation.definition.brackets.end
+
+# LEGACY SECTION HEADER SYNTAX
+[se\ct\\ion.s"ub\se\\ct\"ion
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                            ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^ entity.name.section
+#  ^ invalid.illegal.section-name
+#   ^^ entity.name.section
+#     ^^ invalid.illegal.section-name
+#       ^^^ entity.name.section
+#          ^ punctuation.accessor.dot
+#           ^ string.unquoted
+#            ^ invalid.illegal.subsection-name
+#             ^^ string.unquoted
+#               ^ invalid.illegal.subsection-name
+#                ^^ string.unquoted
+#                  ^^ invalid.illegal.subsection-name
+#                    ^^ string.unquoted
+#                      ^^ invalid.illegal.subsection-name
+#                        ^^^ string.unquoted
+#                           ^ invalid.illegal.unexpected.eol
+
 # COLOR TESTS
 [color "diff"]
 # <- meta.brackets punctuation.definition.brackets.begin
@@ -133,9 +169,9 @@
 #                    ^^ constant.character.escape
 #                       ^^ constant.character.escape
 #                          ^^ constant.character.escape
-#                             ^ constant.character.escape
+#                             ^ punctuation.separator.continuation.line
     trailing-slash = \  # comments not legal after trailing slash
-#                    ^^ invalid.illegal.escape
+#                    ^ invalid.illegal.escape
 
 # BOOLEAN TESTS
 [bools]
@@ -176,7 +212,7 @@
 #^^^^^^^ entity.name
 #       ^ invalid.illegal.unexpected.eol
 ]
-# <- meta.brackets punctuation.definition.brackets.end
+# <- punctuation.definition.brackets.end invalid.illegal.stray-bracket
 #
 # INVALID TEXT AFTER SECTION TEST
 [stray-bracket]] and anything # comment
@@ -247,16 +283,16 @@ stray-bracket]
 #         ^^ constant.character.escape
 #           ^^^^^ string.unquoted.value
     foo = hello \ # comments not legal after trailing slash
-#               ^^ invalid.illegal.escape
+#               ^ invalid.illegal.escape
     foo = multi \
 #         ^^^^^^^ string.unquoted.value
-#               ^ constant.character.escape
+#               ^ punctuation.separator.continuation.line
 #                ^ -invalid.illegal.unexpected.eol
           line
 #         ^^^^ string.unquoted.value
 
     foo = "multi\
-#               ^ constant.character.escape
+#               ^ punctuation.separator.continuation.line
 #                ^ -invalid.illegal.unexpected.eol
           line"
 #         ^^^^^ string.quoted.double
@@ -334,3 +370,38 @@ stray-bracket]
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
+   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git  # shell comment
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ keyword.control.import.shell
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+   serve = "!git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git" # git "comment"
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ string.quoted.double punctuation.definition.string.begin
+#           ^ keyword.control.import.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                               ^^^^^^^^^^^^^^^^^ -source.shell
+#                                                                               ^ string.quoted.double punctuation.definition.string.end
+#                                                                                 ^ punctuation.definition.comment
+#                                                                                 ^^^^^^^^^^^^^^^ comment.line
+  impact = !git ls-files -z \
+         | xargs -0n1 git blame -w -C  # shell comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value source.shell
+  impact = "!git ls-files -z \
+         | xargs -0n1 git blame -w -C" ; git "comment"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                    ^^^^^^^^^^^^^^^^^ - source.shell
+#                                      ^ punctuation.definition.comment
+#                                      ^^^^^^^^^^^^^^^ comment.line
