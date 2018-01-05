@@ -245,11 +245,7 @@ contexts:
           set: style-css
 
   style-type-decider:
-    - match: (?i)(?=text/css|'text/css'|"text/css")
-      set:
-        - style-css
-        - tag-generic-attribute-value
-    - match: (?i)(?=module|'module'|"module")
+    - match: (?i)(?=text/css(?!{{unquoted_attribute_value}})|'text/css'|"text/css")
       set:
         - style-css
         - tag-generic-attribute-value
@@ -316,11 +312,11 @@ contexts:
           set: script-javascript
 
   script-type-decider:
-    - match: (?i)(?=text/javascript|'text/javascript'|"text/javascript")
+    - match: (?i)(?=text/javascript(?!{{unquoted_attribute_value}})|'text/javascript'|"text/javascript")
       set:
         - script-javascript
         - tag-generic-attribute-value
-    - match: (?i)(?=module|'module'|"module")
+    - match: (?i)(?=module(?!{{unquoted_attribute_value}})|'module'|"module")
       set:
         - script-javascript
         - tag-generic-attribute-value
