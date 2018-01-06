@@ -83,11 +83,13 @@ contexts:
         - include: tag-attributes
     - match: (<)((?i:style))\b
       captures:
+        0: meta.tag.style.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push: style-css
     - match: '(<)((?i:script))\b'
       captures:
+        0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push: script-javascript
@@ -196,7 +198,7 @@ contexts:
       scope: invalid.illegal.incomplete.html
 
   style-css:
-    - meta_scope: meta.tag.style.begin.html
+    - meta_content_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -208,7 +210,7 @@ contexts:
           escape: (?i)(?=(?:-->\s*)?</style)
 
   style-other:
-    - meta_scope: meta.tag.style.begin.html
+    - meta_content_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -233,13 +235,13 @@ contexts:
 
   style-type-attribute:
     - match: (?i)\btype\b
-      scope: entity.other.attribute-name.html
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
       set:
-        - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+        - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
             - include: style-type-decider
         - match: (?=\S)
           set: style-css
@@ -248,30 +250,33 @@ contexts:
     - match: (?i)(?=text/css(?!{{unquoted_attribute_value}})|'text/css'|"text/css")
       set:
         - style-css
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?i)(?=>|''|"")
       set:
         - style-css
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?=\S)
       set:
         - style-other
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
 
   script-javascript:
-    - meta_scope: meta.tag.script.begin.html
+    - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
-        - match: ''
+        - match: (?=\S)
           embed: scope:source.js
           embed_scope: source.js.embedded.html
           escape: (?i)(?=(?:-->\s*)?</script)
 
   script-other:
-    - meta_scope: meta.tag.script.begin.html
+    - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -300,13 +305,13 @@ contexts:
 
   script-type-attribute:
     - match: (?i)\btype\b
-      scope: entity.other.attribute-name.html
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
       set:
-        - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+        - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
             - include: script-type-decider
         - match: (?=\S)
           set: script-javascript
@@ -315,18 +320,22 @@ contexts:
     - match: (?i)(?=text/javascript(?!{{unquoted_attribute_value}})|'text/javascript'|"text/javascript")
       set:
         - script-javascript
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?i)(?=module(?!{{unquoted_attribute_value}})|'module'|"module")
       set:
         - script-javascript
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?i)(?=>|''|"")
       set:
         - script-javascript
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?=\S)
       set:
         - script-other
+        - tag-generic-attribute-meta
         - tag-generic-attribute-value
 
   entities-common:
@@ -400,6 +409,7 @@ contexts:
         - include: attribute-entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html
+      pop: true
     - include: else-pop
 
   tag-class-attribute:
