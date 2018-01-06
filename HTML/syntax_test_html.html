@@ -24,6 +24,24 @@
         ##    ^^^^^^ entity.name.tag.script.html
         ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
+
+        <script
+        type
+        =
+        text/javascript>
+            var foo = 100;
+        ##  ^^^^^^^^^^^^^^^ source.js.embedded
+        </script>
+
+        <script
+        type
+        =
+        'other'
+        >
+            var foo = 100;
+        ##  ^^^^^^^^^^^^^^^ - source.js
+        </script>
+
         <style type="text/css">
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
         ## ^ entity.name.tag.style.html
@@ -41,6 +59,23 @@
         ##<- meta.tag.style.end.html - source.css.embedded.html
         ##^^^^^^ meta.tag.style.end.html - source.css.embedded.html
         ##      ^ - meta.tag
+
+        <style
+        type
+        =
+        text/css>
+            div {}
+        ##  ^^^^^^ source.css.embedded
+        </style>
+
+        <style
+        type
+        =
+        text/csss>
+            div {}
+        ##  ^^^^^^ - source.css
+        </style>
+
         <style />
         ##       ^ - source.css.embedded.html
         ## ^ meta.tag.style entity.name.tag.style
