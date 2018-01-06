@@ -515,7 +515,7 @@ contexts:
     - match: \*
       scope: keyword.operator.unpacking.sequence.python
       pop: true
-    - match: (?!\s|#)
+    - match: (?=\S)
       pop: true
 
   classes:
@@ -1765,6 +1765,7 @@ contexts:
         1: storage.modifier.async.python
         2: keyword.control.flow.for.generator.python
       push:
+        - include: comments
         - meta_scope: meta.expression.generator.python
         - match: \b(in)\b
           scope: keyword.control.flow.for.in.python
@@ -1782,7 +1783,6 @@ contexts:
       scope: keyword.control.flow.else.inline.python
 
   target-list:
-    - include: line-continuation-or-pop
     - match: ','
       scope: punctuation.separator.target-list.python
     - match: \(
