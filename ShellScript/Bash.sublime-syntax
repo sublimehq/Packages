@@ -985,7 +985,7 @@ contexts:
     - match: \[
       scope: keyword.control.regexp.set.begin.shell
       push:
-        - match: \]
+        - match: (?=])
           set: expansion-pattern-post-first-char
         - match: '[!^]'
           scope: keyword.operator.logical.not.shell
@@ -1014,6 +1014,11 @@ contexts:
       captures:
         1: punctuation.separator.character-class.begin.shell
         2: punctuation.separator.character-class.end.shell
+    # You cannot have a regex set inside a regex set, so just consume this
+    # character in order to not push into another regex set.
+    # Except when writing a character class like [:lower:], so negative look
+    # ahead for that possibility.
+    - match: \[(?![\.=:])
     - include: expansion-and-string
 
   expansion-arithmetic:
