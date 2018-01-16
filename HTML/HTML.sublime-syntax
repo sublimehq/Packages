@@ -16,6 +16,21 @@ variables:
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
+  block_tag_name: |-
+    (?ix)(?:
+      address|applet|article|aside|blockquote|center|dd|dir|div|dl|dt|figcaption|figure|footer|frame|frameset|h1|h2|h3|h4|h5|h6|header|iframe|menu|nav|noframes|object|ol|p|pre|section|ul
+    )\b
+
+  inline_tag_name: |-
+    (?ix)(?:
+      abbr|acronym|area|audio|b|base|basefont|bdi|bdo|big|br|canvas|caption|cite|code|del|details|dfn|dialog|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|mark|menu|menuitem|meta|noscript|param|picture|q|rp|rt|rtc|ruby|s|samp|script|small|source|span|strike|strong|style|sub|summary|sup|time|title|track|tt|u|var|video|wbr
+    )\b
+
+  form_tag_name: |-
+    (?ix)(?:
+      button|datalist|input|label|legend|meter|optgroup|option|output|progress|select|template|textarea
+    )\b
+
 contexts:
   immediately-pop:
     - match: ''
@@ -143,7 +158,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-attributes
-    - match: (</?)((?i:address|blockquote|dd|div|section|article|aside|header|footer|nav|menu|dl|dt|frame|frameset|h1|h2|h3|h4|h5|h6|iframe|noframes|object|ol|p|ul|applet|center|dir|pre)\b)
+    - match: (</?)({{block_tag_name}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.block.any.html
@@ -173,7 +188,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-attributes
-    - match: (</?)((?i:abbr|acronym|area|b|base|basefont|bdo|big|br|caption|cite|code|del|dfn|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|meta|noscript|param|q|s|samp|script|small|span|strike|strong|style|sub|sup|title|tt|u|var)\b)
+    - match: (</?)({{inline_tag_name}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.any.html
@@ -183,7 +198,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-attributes
-    - match: (</?)((?i:button|input|label|legend|optgroup|option|select|textarea)\b)
+    - match: (</?)({{form_tag_name}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.inline.form.html
