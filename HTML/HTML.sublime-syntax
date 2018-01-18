@@ -256,8 +256,6 @@ contexts:
     - include: entities-common
   entities:
     - include: entities-common
-    - match: '&'
-      scope: invalid.illegal.bad-ampersand.html
   string-double-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.html
