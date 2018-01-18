@@ -237,17 +237,17 @@ contexts:
     - match: <>
       scope: invalid.illegal.incomplete.html
   entities-common:
-    - match: (?i)(&#x)(\h+)(;)
+    - match: (&#[xX])(\h+)(;)
       scope: constant.character.entity.hexadecimal.html
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
-    - match: (?i)(&#)([0-9]+)(;)
+    - match: (&#)([0-9]+)(;)
       scope: constant.character.entity.decimal.html
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
-    - match: (?i)(&)([a-zA-Z0-9]+)(;)
+    - match: (&)([a-zA-Z0-9]+)(;)
       scope: constant.character.entity.named.html
       captures:
         1: punctuation.definition.entity.html
