@@ -299,20 +299,14 @@ class="foo"></div>
 ##      ^ punctuation.definition.entity
 ##           ^ punctuation.definition.entity
 
-        &
-        ## <- invalid.illegal.bad-ampersand
-
         &β;
 ##      ^^^ - constant.character.entity
-##      ^ invalid.illegal.bad-ampersand
 
         &#;
 ##      ^^^ - constant.character.entity
-##      ^ invalid.illegal.bad-ampersand
 
         &#x;
 ##      ^^^^ - constant.character.entity
-##      ^ invalid.illegal.bad-ampersand
 
 
         <a href="http://google.com/?one=1&amp;two=2"></a>

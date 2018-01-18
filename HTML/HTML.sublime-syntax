@@ -236,7 +236,7 @@ contexts:
     - include: entities
     - match: <>
       scope: invalid.illegal.incomplete.html
-  entities-common:
+  entities:
     - match: (&#[xX])(\h+)(;)
       scope: constant.character.entity.hexadecimal.html
       captures:
@@ -252,12 +252,6 @@ contexts:
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
-  attribute-entities:
-    - include: entities-common
-  entities:
-    - include: entities-common
-    - match: '&'
-      scope: invalid.illegal.bad-ampersand.html
   string-double-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.html
@@ -306,7 +300,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
@@ -314,7 +308,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html
     - include: else-pop
@@ -346,7 +340,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
@@ -355,7 +349,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.class-name.html
     - include: else-pop
@@ -387,7 +381,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
@@ -396,7 +390,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
-        - include: attribute-entities
+        - include: entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.toc-list.id.html
     - include: else-pop
