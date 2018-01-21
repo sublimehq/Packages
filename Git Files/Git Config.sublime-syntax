@@ -210,7 +210,7 @@ contexts:
           pop: true
 
   line-end:
-    - match: $
+    - match: $\n?
       pop: true
 
   expect-line-end:
