@@ -406,6 +406,33 @@ class Foo {
 ///                  ^^^ variable.other
 ///                     ^ punctuation.section.group.end
 ///                      ^ punctuation.terminator.statement
+        
+        Func<string, (string example1, int Example2)> test = s => (example1: "hello", Example2: "world");
+///     ^^^^ support.type
+///         ^ punctuation.definition.generic.begin
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+///                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///                  ^ punctuation.section.group.begin
+///                   ^^^^^^ storage.type
+///                          ^^^^^^^^ variable.other
+///                                  ^ punctuation.separator
+///                                    ^^^ storage.type
+///                                        ^^^^^^^^ variable.other
+///                                                ^ punctuation.section.group.end
+///                                                 ^ punctuation.definition.generic.end
+///                                                   ^^^^ variable.other
+///                                                        ^ keyword.operator.assignment.variable
+///                                                          ^ variable.parameter
+///                                                            ^^ storage.type.function.lambda
+///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                                               ^ punctuation.section.group.begin
+///                                                                ^^^^^^^^ variable.other
+///                                                                        ^ punctuation.separator.assignment
+///                                                                                 ^ punctuation.separator
+///                                                                                   ^^^^^^^^ variable.other
+///                                                                                           ^ punctuation.separator.assignment
+///                                                                                                    ^ punctuation.section.group.end
+///                                                                                                     ^ punctuation.terminator.statement
     }
 }
 /// <- meta.class.body punctuation.section.block.end
