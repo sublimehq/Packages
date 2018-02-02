@@ -429,7 +429,7 @@ contexts:
   tag-event-attribute:
     - match: |-
         (?x)\bon(
-          abort|autocomplete|autocompleteerror|blur|cancel|canplay
+          abort|autocomplete|autocompleteerror|auxclick|blur|cancel|canplay
           |canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag
           |dragend|dragenter|dragexit|dragleave|dragover|dragstart|drop
           |durationchange|emptied|ended|error|focus|input|invalid|keydown
