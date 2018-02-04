@@ -246,6 +246,146 @@ $var->meth()[10];
 //   ^ comment.block - keyword.other.phpdoc
  */
 
+/**
+ * @api Methods: declares that elements are suitable for consumption by third parties.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @author Any: documents the author of the associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @category File, Class: groups a series of packages together.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @copyright Any: documents the copyright information for the associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @deprecated Any: indicates that the associated element is deprecated and can be removed in a future version.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @example Any: shows the code of a specified example file or, optionally, just a portion of it.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @filesource File: includes the source of the current file for use in the output.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @global Variable: informs phpDocumentor of a global variable or its usage.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @ignore Any: tells phpDocumentor that the associated element is not to be included in the documentation.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @internal Any: denotes that the associated elements is internal to this application or library and hides it by default.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @license File, Class: indicates which license is applicable for the associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @link Any: indicates a relation between the associated element and a page of a website.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @method Class: allows a class to know which ‘magic’ methods are callable.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @package File, Class: categorizes the associated element into a logical grouping or subdivision.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @param Method, Function: documents a single argument of a function or method.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @property Class: allows a class to know which ‘magic’ properties are present.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @property-read Class: allows a class to know which ‘magic’ properties are present that are read-only.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @property-write Class: allows a class to know which ‘magic’ properties are present that are write-only.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @return Method, Function: documents the return value of functions or methods.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @see Any: indicates a reference from the associated element to a website or other elements.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @since Any: indicates at which version the associated element became available.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @source Any, except File: shows the source code of the associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @subpackage File, Class: categorizes the associated element into a logical grouping or subdivision.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @throws Method, Function: indicates whether the associated element could throw a specific type of exception.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @todo Any: indicates whether any development activity should still be executed on the associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @uses Any: indicates a reference to (and from) a single associated element.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @var Properties: class properties.
+//  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @version Any: indicates the current version of Structural Elements.
+//  ^ keyword.other.phpdoc
+ */
+
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php
