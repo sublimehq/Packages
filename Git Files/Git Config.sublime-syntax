@@ -158,7 +158,7 @@ contexts:
       captures:
         1: string.quoted.double.git.config punctuation.definition.string.begin.git.config
         2: keyword.control.import.shell.git.config
-      escape: \"(?=[^"]*(?:[#;]|$))
+      escape: (?<!\\)\"(?=\s*(?:#.*)?$)
       escape_captures:
         0: meta.mapping.value.git.config string.quoted.double.git.config punctuation.definition.string.end.git.config
       embed: scope:source.shell
