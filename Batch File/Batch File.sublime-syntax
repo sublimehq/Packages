@@ -129,6 +129,7 @@ contexts:
               - meta_content_scope: string.unquoted.dosbatch
               - match: '(?=$\n|{{command_terminators}})'
                 pop: true
+              - include: strings
               - include: variables
 
   command_set_group:
