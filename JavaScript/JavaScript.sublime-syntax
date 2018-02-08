@@ -1266,6 +1266,10 @@ contexts:
           scope: punctuation.section.block.js
           pop: true
 
+        - match: \.\.\.
+          scope: keyword.operator.spread.js
+          push: literal-variable
+
         - match: >-
             (?x)(?=
               {{property_name}}\s*:
@@ -1283,14 +1287,8 @@ contexts:
 
         - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
           scope: variable.other.readwrite.js
-        - match: \[
-          scope: punctuation.section.brackets.js
-          push:
-            - match: \]
-              scope: punctuation.section.brackets.js
-              pop: true
-            - match: (?=\S)
-              push: expression
+        - match: (?=\[)
+          push: computed-property-name
         - match: "(?=\"|')"
           push:
             - object-literal-meta-key
@@ -1310,6 +1308,17 @@ contexts:
         - match: ':'
           scope: punctuation.separator.key-value.js
           push: expression-no-comma
+
+  computed-property-name:
+    - match: \[
+      scope: punctuation.section.brackets.begin.js
+      set:
+        - match: \]
+          scope: punctuation.section.brackets.end.js
+          pop: true
+        - match: (?=\S)
+          push: expression
+    - include: else-pop
 
   object-literal-meta-key:
     - meta_scope: meta.object-literal.key.js 
@@ -1354,12 +1363,8 @@ contexts:
           pop: true
         - include: string-content
 
-    - match: '(\[)({{identifier}}(?:\.{{identifier}}|\.)*)?(\])?'
-      captures:
-        1: punctuation.definition.symbol.begin.js
-        2: entity.name.function.js
-        3: punctuation.definition.symbol.end.js
-      pop: true
+    - match: (?=\[)
+      push: computed-property-name
 
     - include: else-pop
 
@@ -1401,13 +1406,8 @@ contexts:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
 
-    - match: \[
-      scope: punctuation.definition.symbol.begin.js
-      push:
-        - - match: \]
-            scope: punctuation.definition.symbol.end.js
-          - include: else-pop
-        - expression
+    - match: (?=\[)
+      push: computed-property-name
 
     - include: else-pop
 
