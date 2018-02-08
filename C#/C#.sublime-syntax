@@ -31,7 +31,7 @@ variables:
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
-  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}||\\[0-9]{1,3})'
+  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
@@ -202,7 +202,11 @@ contexts:
     - include: namespace_declaration
     - include: delegate_declaration
     # allows coloration of code outside a class
-    - include: code_block_in
+    - match: (?=\S)
+      push:
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace)\b)
+          pop: true
+        - include: line_of_code
 
   stray_close_bracket:
     - match: '[})\]]'
@@ -803,10 +807,7 @@ contexts:
 
   code_block_in:
     - match: (?=\S)
-      push:
-        - match: (?={{reserved}})
-          pop: true
-        - include: line_of_code
+      push: line_of_code
 
   line_of_code:
     # language keywords
