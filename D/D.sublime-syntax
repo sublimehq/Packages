@@ -11,9 +11,7 @@ scope: source.d
 contexts:
   main:
     - match: /\*\*/
-      scope: comment.block.empty.d
-      captures:
-        0: punctuation.definition.comment.d
+      scope: comment.block.empty.d punctuation.definition.comment.d
     - include: scope:text.html.javadoc
     - match: |-
         (?x)^\s*
@@ -224,22 +222,18 @@ contexts:
     - include: storage-type-d
   comments:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.d
+      scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.d
+          scope: punctuation.definition.comment.d
           pop: true
     - match: /\+
-      captures:
-        0: punctuation.definition.comment.d
+      scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
         - match: \+/
-          captures:
-            0: punctuation.definition.comment.d
+          scope: punctuation.definition.comment.d
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.d
@@ -294,13 +288,11 @@ contexts:
       scope: invalid.illegal.unknown-escape.d
   strings:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.double.d
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.d
+          scope: punctuation.definition.string.end.d
           pop: true
         - include: string_escaped_char
     - match: (r)(")
@@ -316,8 +308,7 @@ contexts:
           pop: true
         - include: regular_expressions
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.double.raw.backtick.d
         - match: ((?<=`)(`)|`)
@@ -326,13 +317,11 @@ contexts:
             2: meta.empty-string.double.d
           pop: true
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.single.d
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.d
+          scope: punctuation.definition.string.end.d
           pop: true
         - include: string_escaped_char
   support-type-built-ins-classes-d:
