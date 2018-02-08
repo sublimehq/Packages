@@ -16,6 +16,7 @@ variables:
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
+  accessor_expression: ({{identifier}}\s*\.\s*)+({{identifier}})
 
   property_name: >-
     (?x)(?:
@@ -274,15 +275,12 @@ contexts:
     - match: \b(break|continue|goto)\b
       scope: keyword.control.loop.js
 
-    - match: \b(yield)\b(?:\s*(\*))?
-      captures:
-        1: keyword.control.flow.js
-        2: keyword.generator.asterisk.js
-      push: restricted-production
-
-    - match: \b(await|return)\b
+    - match: \breturn\b
       scope: keyword.control.flow.js
       push: restricted-production
+
+    - match: \bdebugger\b
+      scope: keyword.other.debugger.js
 
     - include: function-or-class-declaration
 
@@ -477,8 +475,9 @@ contexts:
     - match: \bfor\b
       scope: keyword.control.loop.js
       push:
-        - meta_scope: meta.for.js
-        - include: parens-block-scope
+        - for-meta
+        - parens-block-scope
+        - for-await
 
     - match: \bwhile\b
       scope: keyword.control.loop.js
@@ -521,6 +520,16 @@ contexts:
       push:
         - meta_scope: meta.catch.js
         - include: parens-block-scope
+
+  for-meta:
+    - meta_scope: meta.for.js
+    - include: immediately-pop
+
+  for-await:
+    - match: \bawait\b
+      scope: keyword.control.loop.js
+      pop: true
+    - include: else-pop
 
   parens-block-scope:
     - match: '\('
@@ -607,6 +616,8 @@ contexts:
     - include: literal-string-template
     - include: constructor
     - include: prefix-operators
+    - include: yield-expression
+    - include: await-expression
 
     - include: class
     - include: constants
@@ -851,49 +862,85 @@ contexts:
     - match: '\+\+'
       scope: keyword.operator.arithmetic.js
 
+  yield-expression:
+    - match: \byield\b
+      scope: keyword.control.flow.js
+      set:
+        - match: $
+          pop: true
+        - match: \*
+          scope: keyword.generator.asterisk.js
+          set: expression-begin
+        - match: (?=\S)
+          set: expression-begin
+
+  await-expression:
+    - match: \bawait\b
+      scope: keyword.control.flow.js
+
   class:
     - match: \bclass\b
       scope: storage.type.class.js
       set:
-        - meta_scope: meta.class.js
-        - match: '\{'
-          scope: punctuation.section.block.js
-          set: class-body
-        - match: '\b(extends)\b\s+(?={{identifier}})'
-          captures:
-            1: storage.modifier.extends.js
-          push:
-            - match: '{{identifier}}'
-              scope: entity.other.inherited-class.js
-            - match: '\.'
-              scope: punctuation.accessor.js
-            - include: else-pop
-        - match: '{{identifier}}'
-          scope: entity.name.class.js
+        - - include: immediately-pop
+        - class-meta
+        - class-body
+        - class-extends
+        - class-name
+
+  class-meta:
+    - meta_scope: meta.class.js
+    - include: immediately-pop
 
   class-body:
-    - meta_scope: meta.class.js meta.block.js
-
-    - match: '\}'
+    - match: '\{'
       scope: punctuation.section.block.js
+      set:
+        - meta_scope: meta.block.js
+
+        - match: '\}'
+          scope: punctuation.section.block.js
+          pop: true
+
+        - match: \;
+          scope: punctuation.terminator.statement.js
+
+        - match: \bconstructor\b
+          scope: entity.name.function.constructor.js
+          push:
+            - function-declaration-expect-body
+            - function-declaration-meta
+            - function-declaration-expect-parameters
+
+        - match: \bstatic\b
+          scope: storage.modifier.js
+          push: class-field
+
+        - match: (?={{class_element_name}})
+          push: class-field
+
+    - include: else-pop
+
+  class-extends:
+    - match: \bextends\b
+      scope: storage.modifier.extends.js
+      set:
+        - match: (?={{accessor_expression}}\s*\{)
+          push:
+            - expect-dot-accessor
+            - literal-variable
+        - match: '{{identifier}}(?=\s*\{)'
+          scope: entity.other.inherited-class.js
+          pop: true
+        - match: (?=\S)
+          set: expression
+    - include: else-pop
+
+  class-name:
+    - match: '{{identifier}}'
+      scope: entity.name.class.js
       pop: true
-
-    - match: \;
-      scope: punctuation.terminator.statement.js
-
-    - match: \bconstructor\b
-      scope: entity.name.function.constructor.js
-      push:
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - function-declaration-expect-parameters
-
-    - match: \bstatic\b
-      scope: storage.modifier.js
-      push: class-field
-
-    - match: (?={{class_element_name}})
-      push: class-field
+    - include: else-pop
 
   class-field:
     - match: '{{method_lookahead}}'
@@ -1002,11 +1049,11 @@ contexts:
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*\.)'
       push:
-        - function-declaration-identifiers-expect-dot
+        - expect-dot-accessor
         - function-declaration-identifiers-expect-class
     - include: function-declaration-single-identifier
 
-  function-declaration-identifiers-expect-dot:
+  expect-dot-accessor:
     - match: '\.'
       scope: punctuation.accessor.js
       pop: true
@@ -1665,9 +1712,6 @@ contexts:
         2: variable.other.readwrite.js
 
   support:
-    - match: \bdebugger\b
-      scope: keyword.other.js
-      pop: true
     - match: |-
         (?x)
         \b(

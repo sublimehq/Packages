@@ -382,7 +382,7 @@ var obj = {
 //           ^^^ meta.property
     }(),
 
-    objKey: new class Foo() {
+    objKey: new class Foo {
 //              ^^^^^ storage.type.class
         get baz() {}
 //      ^^^ storage.type.accessor
@@ -551,13 +551,43 @@ for (var i = 0; i < 10; i++) {
 }
 // <- meta.block
 
+    for (const x of list) {}
+//  ^^^ keyword.control.loop
+
+    for await (const x of list) {}
+//  ^^^ keyword.control.loop
+//      ^^^^^ keyword.control.loop
+
 while (true)
 // ^^^^^^^^^ meta.while
 //     ^^^^ meta.group
 {
 // <- meta.block
-    yield;
-//  ^^^^^ keyword.control.flow
+    x = yield;
+//      ^^^^^ keyword.control.flow
+
+    x = yield * 42;
+//      ^^^^^ keyword.control.flow
+//            ^ keyword.generator.asterisk
+
+    x = yield
+    function f() {}
+    [];
+//  ^^ meta.sequence - meta.brackets
+
+
+    x = yield*
+    function f() {}
+    [];
+//  ^^ meta.brackets - meta.sequence
+
+    y = await 42;
+//      ^^^^^ keyword.control.flow
+
+    y = yield await 42;
+//      ^^^^^ keyword.control.flow
+//            ^^^^^ keyword.control.flow
+
     break;
 //  ^^^^^^ meta.while meta.block
 }
@@ -783,6 +813,13 @@ class Foo extends React.Component {
         return this.a;
     }
 }
+
+class Foo extends
+//        ^^^^^^^ storage.modifier.extends
+Bar {}
+
+class Foo extends getSomeClass() {}
+//                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
 () => {}
 // <- meta.function.declaration punctuation.section.group
@@ -1349,3 +1386,10 @@ function yy (a, b) {
 
     .123E-7_8_9;
 //  ^^^^^^^^^^^ constant.numeric.decimal
+
+debugger;
+// <- keyword.other.debugger
+
+debugger
+[]
+// <- meta.sequence

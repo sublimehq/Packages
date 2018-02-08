@@ -102,6 +102,7 @@ function [m,s] = stat(x)
 %         ^ variable.parameter.output.function.matlab
 %          ^ -variable.parameter.output.function.matlab
 %           ^ variable.parameter.output.function.matlab
+%              ^ keyword.operator.assignment.matlab
 %                ^^^^ entity.name.function.matlab
 %                     ^ variable.parameter.input.function.matlab
    n = length(x);
@@ -110,10 +111,34 @@ function [m,s] = stat(x)
 end
 
 function m = avg(x,n)
+%        ^ variable.parameter.output.function.matlab
 %            ^^^ entity.name.function.matlab
 %                ^ variable.parameter.input.function.matlab
 %                  ^ variable.parameter.input.function.matlab
    m = sum(x)/n;
+end
+
+function foo(bar)
+% <- keyword.other.matlab
+%        ^^^ entity.name.function.matlab
+%            ^^^ meta.function.parameters.matlab variable.parameter.input.function.matlab
+end
+
+function x = foo
+% <- keyword.other.matlab
+%        ^ variable.parameter.output.function.matlab
+%          ^ keyword.operator.assignment.matlab
+%            ^^^ entity.name.function.matlab
+end
+
+function foo
+% <- keyword.other.matlab
+%        ^^^ entity.name.function.matlab
+end
+
+function foo % with comment
+% <- keyword.other.matlab
+%        ^^^ entity.name.function.matlab
 end
 
 
