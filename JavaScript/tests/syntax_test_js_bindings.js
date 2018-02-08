@@ -5,7 +5,7 @@ const x = value;
 
 
 const [ x, y, ...z, ] = value;
-//    ^^^^^^^^^^^ meta.binding.destructuring.sequence
+//    ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //      ^ meta.binding.name variable.other.readwrite
 //       ^ punctuation.separator.comma
 //         ^ meta.binding.name variable.other.readwrite
