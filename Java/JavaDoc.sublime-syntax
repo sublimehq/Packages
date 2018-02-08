@@ -18,6 +18,16 @@ contexts:
 
   main:
     - meta_include_prototype: false
+    - match: /\*\*
+      scope: comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
+      embed: contents
+      embed_scope: comment.block.documentation.javadoc text.html.javadoc
+      escape: \*/
+      escape_captures:
+        0: comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+
+  contents:
+    - meta_include_prototype: false
 
     # Block tag in the first line (immediately after '/**').
     - match: \s*(?=@)
