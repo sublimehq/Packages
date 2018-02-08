@@ -101,8 +101,7 @@ contexts:
           pop: true
   comments:
     - match: /\*\*/
-      scope: comment.block.empty.groovy
-      scope: punctuation.definition.comment.groovy
+      scope: comment.block.empty.groovy punctuation.definition.comment.groovy
     - include: scope:text.html.javadoc
     - include: comment-block
     - match: (//).*$\n?
