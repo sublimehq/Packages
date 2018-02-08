@@ -609,6 +609,7 @@ contexts:
     - include: inline
     - include: bold
     - include: italic
+    - include: strikethrough
   inline-bold-italic-linebreak:
     - include: inline-bold-italic
     - include: hard-line-break
@@ -645,6 +646,18 @@ contexts:
         - include: bold
         - include: bold-italic-trailing
     - match: '[*_]+'
+  strikethrough:
+    - match: '(~+)(?=\S)(?!~)'
+      scope: punctuation.definition.strikethrough.begin.markdown
+      push:
+        - meta_scope: markup.strikethrough.markdown-gfm
+        - match: ~+
+          scope: punctuation.definition.strikethrough.end.markdown
+          pop: true
+        - include: inline
+        - include: bold
+        - include: italic
+        - include: bold-italic-trailing
   bold-italic-trailing:
     - include: scope:text.html.basic
     - match: ^\s*$\n?
