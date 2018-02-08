@@ -295,8 +295,16 @@ contexts:
   comments:
     - match: /\*\*/
       scope: comment.block.empty.java punctuation.definition.comment.java
-    - include: scope:text.html.javadoc
+    - include: javadoc
     - include: comments-inline
+  javadoc:
+    - match: /\*\*
+      scope: comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
+      embed: scope:text.html.javadoc
+      embed_scope: comment.block.documentation.javadoc
+      escape: \*/
+      escape_captures:
+        0: comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
   comments-inline:
     - match: /\*
       scope: punctuation.definition.comment.java
