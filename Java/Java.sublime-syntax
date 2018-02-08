@@ -704,6 +704,9 @@ contexts:
         - meta_scope: meta.assignment.rhs.java
         - match: (?=;)
           pop: true
+        - match: ","
+          scope: punctuation.separator.java
+          pop: true
         # Prevent style from being removed from whole file when making a new expression
         - match: '(?={{storage_modifiers}})'
           pop: true

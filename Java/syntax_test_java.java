@@ -732,6 +732,10 @@ public class Foo {
 
   public static final MyObject MY_CONST = new MyObject();
 //                             ^ entity.name.constant
+  public static final Object MY_CONST_2 = new Object(), MY_CONST_3 = new Object();
+//                           ^^^^^^^^^^ entity.name.constant
+//                                                    ^ punctuation.separator.java
+//                                                      ^^^^^^^^^^ entity.name.constant
 
   Object foo = new TypeLiteral<
       StandardReferenceNumberProcessor<
