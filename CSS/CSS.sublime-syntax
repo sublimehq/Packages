@@ -342,7 +342,7 @@ contexts:
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
-    - match: '\s*((@)namespace)\s+({{ident}})?'
+    - match: '\s*((@)namespace)\s+({{ident}}(?!{{nmchar}}|\())?'
       captures:
         1: keyword.control.at-rule.namespace.css
         2: punctuation.definition.keyword.css
@@ -351,6 +351,8 @@ contexts:
         - meta_scope: meta.at-rule.namespace.css
         - include: at-rule-punctuation
         - include: literal-string
+        - include: url-function
+        - include: comment-block
 
   # @page
   # https://www.w3.org/TR/CSS2/page.html
