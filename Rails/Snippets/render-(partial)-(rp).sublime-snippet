@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[render :partial => "${1:item}"]]></content>
+	<content><![CDATA[render partial: '${1:item}']]></content>
 	<tabTrigger>rp</tabTrigger>
 	<scope>source.ruby.rails</scope>
 	<description>render (partial)</description>
