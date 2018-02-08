@@ -157,9 +157,9 @@ contexts:
       scope: keyword.control.conditional.d
     - match: \b(goto|break|continue)\b
       scope: keyword.control.branch.d
-    - match: \b(while|for|do|foreach(_reverse)?)\b
+    - match: \b(while|for|foreach(_reverse)?)\b
       scope: keyword.control.repeat.d
-    - match: \b(version|return|with|invariant|body|do|scope|in|out|inout|asm|mixin|function|delegate)\b
+    - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
       scope: keyword.control.statement.d
     - match: \b(pragma)\b
       scope: keyword.control.pragma.d

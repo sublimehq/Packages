@@ -205,5 +205,5 @@ in {
     assert(true);
 }
 do {
-// <- meta.function keyword.control.statement
+// <- meta.function keyword.control
 }
