@@ -14,6 +14,7 @@ variables:
   dollar_identifier: '(\$)[_$[:alnum:]]+'
   func_lookahead: '\s*\b(async\s+)?function\b'
   arrow_func_lookahead: '\s*(\basync\s*)?([_$[:alpha:]][_$[:alnum:]]*|\(([^()]|\([^()]*\))*\))\s*=>'
+  accessor_expression: ({{identifier}}\s*\.\s*)+({{identifier}})
 
   property_name: >-
     (?x)(?:
@@ -810,45 +811,65 @@ contexts:
     - match: \bclass\b
       scope: storage.type.class.js
       set:
-        - meta_scope: meta.class.js
-        - match: '\{'
-          scope: punctuation.section.block.js
-          set: class-body
-        - match: '\b(extends)\b\s+(?={{identifier}})'
-          captures:
-            1: storage.modifier.extends.js
-          push:
-            - match: '{{identifier}}'
-              scope: entity.other.inherited-class.js
-            - match: '\.'
-              scope: punctuation.accessor.js
-            - include: else-pop
-        - match: '{{identifier}}'
-          scope: entity.name.class.js
+        - - include: immediately-pop
+        - class-meta
+        - class-body
+        - class-extends
+        - class-name
+
+  class-meta:
+    - meta_scope: meta.class.js
+    - include: immediately-pop
 
   class-body:
-    - meta_scope: meta.class.js meta.block.js
-
-    - match: '\}'
+    - match: '\{'
       scope: punctuation.section.block.js
+      set:
+        - meta_scope: meta.block.js
+
+        - match: '\}'
+          scope: punctuation.section.block.js
+          pop: true
+
+        - match: \;
+          scope: punctuation.terminator.statement.js
+
+        - match: \bconstructor\b
+          scope: entity.name.function.constructor.js
+          push:
+            - function-declaration-expect-body
+            - function-declaration-meta
+            - function-declaration-expect-parameters
+
+        - match: \bstatic\b
+          scope: storage.modifier.js
+          push: class-field
+
+        - match: (?={{class_element_name}})
+          push: class-field
+
+    - include: else-pop
+
+  class-extends:
+    - match: \bextends\b
+      scope: storage.modifier.extends.js
+      set:
+        - match: (?={{accessor_expression}}\s*\{)
+          push:
+            - expect-dot-accessor
+            - literal-variable
+        - match: '{{identifier}}(?=\s*\{)'
+          scope: entity.other.inherited-class.js
+          pop: true
+        - match: (?=\S)
+          set: expression
+    - include: else-pop
+
+  class-name:
+    - match: '{{identifier}}'
+      scope: entity.name.class.js
       pop: true
-
-    - match: \;
-      scope: punctuation.terminator.statement.js
-
-    - match: \bconstructor\b
-      scope: entity.name.function.constructor.js
-      push:
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - function-declaration-expect-parameters
-
-    - match: \bstatic\b
-      scope: storage.modifier.js
-      push: class-field
-
-    - match: (?={{class_element_name}})
-      push: class-field
+    - include: else-pop
 
   class-field:
     - match: '{{method_lookahead}}'
@@ -967,11 +988,11 @@ contexts:
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*\.)'
       push:
-        - function-declaration-identifiers-expect-dot
+        - expect-dot-accessor
         - function-declaration-identifiers-expect-class
     - include: function-declaration-final-identifier
 
-  function-declaration-identifiers-expect-dot:
+  expect-dot-accessor:
     - match: '\.'
       scope: punctuation.accessor.js
       pop: true

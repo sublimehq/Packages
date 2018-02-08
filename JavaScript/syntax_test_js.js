@@ -382,7 +382,7 @@ var obj = {
 //           ^^^ meta.property
     }(),
 
-    objKey: new class Foo() {
+    objKey: new class Foo {
 //              ^^^^^ storage.type.class
         get baz() {}
 //      ^^^ storage.type.accessor
@@ -813,6 +813,13 @@ class Foo extends React.Component {
         return this.a;
     }
 }
+
+class Foo extends
+//        ^^^^^^^ storage.modifier.extends
+Bar {}
+
+class Foo extends getSomeClass() {}
+//                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
 () => {}
 // <- meta.function.declaration punctuation.section.group
