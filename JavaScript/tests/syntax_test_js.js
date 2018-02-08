@@ -673,9 +673,9 @@ class MyClass extends TheirClass {
 //        ^^ constant.numeric
 
     [w] = 42;
-//  ^ punctuation.definition.symbol.begin
+//  ^ punctuation.section.brackets.begin
 //   ^ variable.other.readwrite
-//    ^ punctuation.definition.symbol.end
+//    ^ punctuation.section.brackets.end
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
@@ -707,9 +707,9 @@ class MyClass extends TheirClass {
 
     static [w] = 42;
 //  ^^^^^^ storage.modifier.js
-//         ^ punctuation.definition.symbol.begin
+//         ^ punctuation.section.brackets.begin
 //          ^ variable.other.readwrite
-//           ^ punctuation.definition.symbol.end
+//           ^ punctuation.section.brackets.end
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
 
@@ -812,7 +812,8 @@ class Foo extends React.Component {
     {}
 
     [foo.bar](arg) {
-//   ^^^^^^^ entity.name.function
+//   ^^^ variable.other
+//       ^^^ meta.property
 //            ^^^ variable.parameter
         return this.a;
     }
