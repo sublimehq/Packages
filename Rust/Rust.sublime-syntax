@@ -231,6 +231,9 @@ contexts:
     - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
 
+    - match: '\.'
+      scope: punctuation.accessor.dot.rust
+
   attributes:
     - match: '(#!?)(\[)'
       captures:
@@ -478,6 +481,8 @@ contexts:
     - match: ':'
       scope: punctuation.separator.rust
     - match: '\+'
+      scope: keyword.operator.rust
+    - match: '\bas\b'
       scope: keyword.operator.rust
 
   constant-integer-expression:

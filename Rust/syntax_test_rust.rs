@@ -256,6 +256,8 @@ impl fmt::Display for PrintableStruct {
 //            ^ punctuation.section.group.begin
 //                ^^^^ string.quoted.double
 //                 ^^ constant.other.placeholder
+//                      ^^^^ variable.language
+//                          ^ punctuation.accessor.dot
 //                            ^ punctuation.section.group.end
     }
 // ^^ meta.function meta.block
@@ -597,6 +599,9 @@ impl Point
     fn double(&mut self) {
     // ^^^^^^ entity.name.function
         self.x *= 2;
+    //  ^^^^ variable.language
+    //      ^ punctuation.accessor.dot
+    //         ^^ keyword.operator
         self.y *= 2;
     }
 
@@ -710,6 +715,8 @@ pub fn from_buf_reader<T>(s: io::BufReader<T>) -> Result<isize, &'static str>
     let mut starts_stops = eat_numbers!(relief_count_total * 2, "starts and stops");
 
     let starts = starts_stops.split_off(relief_count_total);
+//                           ^ punctuation.accessor.dot
+//                            ^^^^^^^^^ support.function
     let stops = starts_stops;
 
     unimplemented!();
@@ -796,6 +803,17 @@ fn collect_vec() {
 //              ^^^^^ storage.type
 //                     ^^^^^ storage.type
 //                          ^ punctuation.section.group.end
+//                             ^ keyword.operator
+//                               ^ punctuation.section.group.begin
+//                                ^ constant.numeric.integer.decimal
+//                                 ^^ keyword.operator
+//                                   ^^ constant.numeric.integer.decimal
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.accessor.dot
+//                                       ^^^^^^^^^ support.function
+//                                                ^^ punctuation.section.group
+//                                                  ^ punctuation.accessor.dot
+//                                                          ^^ punctuation.accessor
 //                                                            ^^^^^^^^ meta.generic
 //                                                             ^^^^^^ meta.generic meta.generic
 //                                                                 ^ keyword.operator
@@ -837,6 +855,7 @@ macro_rules! forward_ref_binop [
 //                                           ^ meta.macro meta.group meta.block meta.impl meta.block punctuation.section.block.begin
             type Output = <$t as $imp<$u>>::Output;
 //                        ^^^^^^^^^^^^^^^^ meta.generic
+//                            ^^ keyword.operator
 //                                        ^^ meta.path punctuation.accessor
 
             #[inline]
@@ -853,6 +872,7 @@ macro_rules! forward_ref_binop [
 //                                      ^^ variable.other
 //                                          ^^ punctuation.separator
 //                                             ^^^^^^^^^^^^^^^^ meta.generic
+//                                                 ^^ keyword.operator
 //                                                             ^^ meta.path punctuation.accessor
 //                                                                      ^ meta.macro meta.group meta.block meta.impl meta.block meta.block punctuation.section.block.begin
                 #![cfg(all(unix, target_pointer_width = "32"))]
