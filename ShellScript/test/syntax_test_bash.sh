@@ -432,6 +432,12 @@ done=hello
 # <- - keyword.control
 #   ^ keyword.operator
 
+(foo=bar)
+# <- punctuation.definition.compound.begin
+#   ^ keyword.operator.assignment
+#    ^^^ string.unquoted
+#       ^ punctuation.definition.compound.end - string-unquoted
+
 foo= pwd
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #     ^ - variable.parameter
@@ -741,6 +747,12 @@ ${var###Pattern}
 #      ^ - keyword.operator
 #              ^ punctuation
 
+: ${foo# #} # hello
+#      ^ keyword.operator.expansion
+#        ^ meta.group.expansion - comment-line
+#         ^ punctuation
+#           ^ comment.line punctuation
+
 ${var%Pattern}
 # <- punctuation.definition.variable
 #    ^ keyword.operator
@@ -757,6 +769,25 @@ ${var%%%Pattern}
 #      ^ - keyword.operator
 #              ^ punctuation
 
+: ${foo% #} # hello
+#      ^ keyword.operator.expansion
+#        ^ meta.group.expansion - comment-line
+#         ^ punctuation
+#           ^ comment.line punctuation
+
+: ${foo#\ \#} # hello
+#      ^ keyword.operator.expansion
+#       ^^^^ constant.character.escape
+#          ^ meta.group.expansion - comment-line
+#           ^ punctuation
+#             ^ comment.line punctuation
+
+: ${foo%\ \#} # hello
+#      ^ keyword.operator.expansion
+#       ^^^^ constant.character.escape
+#          ^ meta.group.expansion - comment-line
+#           ^ punctuation
+#             ^ comment.line punctuation
 
 ####################################################################
 # Parameter-expansion operators                                    #
@@ -998,6 +1029,40 @@ echo +(bar|qux)
 #     ^ punctuation.section.parens.begin
 #         ^ keyword.operator.logical.or
 #             ^ punctuation.section.parens.end
+[[ a == [abc[]* ]]
+#           ^ - keyword.control
+#               ^^ support.function
+: ${foo//[abc[]/x}
+#            ^ - keyword.control
+#                ^ punctuation.section.expansion.parameter.end
+if [[ ' foobar' == [\ ]foo* ]]; then
+  #                ^ keyword.control.regexp.set.begin
+  #                 ^^ constant.character.escape
+  #                   ^ keyword.control.regexp.set.end
+  #                         ^^ support.function.double-brace.end
+  :
+fi
+case $_G_unquoted_arg in
+*[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
+#^ keyword.control.regexp.set.begin
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+#                                 ^ keyword.control.regexp.set.end
+#                                     ^ - keyword.control
+  _G_quoted_arg=\"$_G_unquoted_arg\"
+  ;;
+*)
+  _G_quoted_arg=$_G_unquoted_arg
+;;
+esac
+case $1 in
+*[\\\`\"\$]*)
+#^ keyword.control.regexp.set.begin
+# ^^^^^^^^ constant.character.escape
+#         ^ keyword.control.regexp.set.end
+  _G_unquoted_arg=`printf '%s\n' "$1" |$SED "$sed_quote_subst"` ;;
+*)
+  _G_unquoted_arg=$1 ;;
+esac
 
 ###################
 # Misc. operators #
@@ -1734,6 +1799,20 @@ gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
 #                                             ^ keyword.operator.assignment.redirection
 #                                                           ^ punctuation
 #                                                             ^ keyword.operator.assignment.redirection
+LC_ALL=C 2> /dev/null
+#        ^ constant.numeric.integer.decimal.file-descriptor
+#         ^ keyword.operator.assignment.redirection
+#           ^ - variable.function
+2>&1 echo foo
+# <- constant.numeric.integer.decimal.file-descriptor
+#^^ keyword.operator.assignment.redirection
+#  ^ constant.numeric.integer.decimal.file-descriptor
+#    ^^^^ meta.function-call support.function.echo
+#        ^^^^ meta.function-call.arguments
+touch file.txt
+foo=x <file.txt
+#     ^ keyword.operator.assignment.redirection
+#      ^ - variable.function
 
 ##################
 # Here documents #
@@ -2074,6 +2153,23 @@ function foo {
 }
 
 # <- - meta.function
+
+foo=$(
+  #  ^ punctuation.section
+  func() {
+    # <- meta.function entity.name.function
+    #    ^ punctuation.section
+    echo bar
+  }
+  # <- punctuation.section
+  func
+  
+  # <- meta.group.expansion.command
+)
+# <- punctuation.section
+echo $foo # prints "bar"
+
+# <- - meta.function - meta.group.expansion
 
 foo:foo () {
   # <- meta.function entity.name.function

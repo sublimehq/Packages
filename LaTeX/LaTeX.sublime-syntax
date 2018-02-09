@@ -634,7 +634,7 @@ contexts:
         (
           (\\)
           (?:
-            [cC]ite(?:author|title|year|date|url|t|p|alt|alp|text)?
+            [cC]ite(?:author|title|year|date|url|t|p|alt|alp|text|yearpar)?
           | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext
           )
           \*?

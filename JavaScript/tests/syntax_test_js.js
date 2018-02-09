@@ -46,6 +46,42 @@ export const name1 = 5;
 //     ^^^^^ storage.type
 //                 ^ keyword.operator.assignment
 
+export let foo = 123 // No semicolon
+export function bar() {}
+// <- keyword.control.import-export
+
+export function foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^  meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export function* foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^  meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export async function foo() {}
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+
+[];
+// <- meta.sequence
+
+export class Foo {}
+//^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^^^^^^ meta.class
+
+[];
+// <- meta.sequence
+
 export default expression;
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
@@ -53,10 +89,23 @@ export default expression;
 
 export default function (a) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
-//^ keyword.control.import-export
-//     ^ keyword.control.import-export
-//             ^ storage.type
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.function.declaration.js
 //                             ^ - meta.export
+
+[];
+// <- meta.sequence
+
+export default function* (a) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^^ meta.function.declaration.js
+//                              ^ - meta.export
+
+[];
+// <- meta.sequence
 
 export default function name1(b) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -64,6 +113,25 @@ export default function name1(b) { }
 //     ^ keyword.control.import-export
 //             ^ storage.type
 //                      ^ entity.name.function
+
+export default class Foo {}
+//^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//             ^^^^^^^^^^^^ meta.class
+
+[];
+// <- meta.sequence
+
+export default +function (a) { }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^ keyword.control.import-export
+//     ^^^^^^^ keyword.control.import-export
+//              ^^^^^^^^^^^^ meta.function.declaration.js
+
+[];
+// <- meta.export
+// <- meta.brackets
 
 export { name1 as default };
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -147,9 +215,10 @@ function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^ meta.function.declaration - meta.function.declaration meta.function.declaration
 // ^ storage.type.function
 //        ^ entity.name.function
+//             ^ - meta.function.declaration
 }
 // <- meta.block
 
@@ -318,7 +387,7 @@ var obj = {
 //           ^^^ meta.property
     }(),
 
-    objKey: new class Foo() {
+    objKey: new class Foo {
 //              ^^^^^ storage.type.class
         get baz() {}
 //      ^^^ storage.type.accessor
@@ -387,11 +456,8 @@ var obj = {
     "key '(": true,
     // <- meta.object-literal.key
 
-    static foo(bar) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //      ^entity.name.function
-    },
+    static,
+//  ^^^^^^ variable.other.readwrite
 
     *baz(){
 //  ^^^^^^ meta.function.declaration
@@ -490,13 +556,43 @@ for (var i = 0; i < 10; i++) {
 }
 // <- meta.block
 
+    for (const x of list) {}
+//  ^^^ keyword.control.loop
+
+    for await (const x of list) {}
+//  ^^^ keyword.control.loop
+//      ^^^^^ keyword.control.loop
+
 while (true)
 // ^^^^^^^^^ meta.while
 //     ^^^^ meta.group
 {
 // <- meta.block
-    yield;
-//  ^^^^^ keyword.control.flow
+    x = yield;
+//      ^^^^^ keyword.control.flow
+
+    x = yield * 42;
+//      ^^^^^ keyword.control.flow
+//            ^ keyword.generator.asterisk
+
+    x = yield
+    function f() {}
+    [];
+//  ^^ meta.sequence - meta.brackets
+
+
+    x = yield*
+    function f() {}
+    [];
+//  ^^ meta.brackets - meta.sequence
+
+    y = await 42;
+//      ^^^^^ keyword.control.flow
+
+    y = yield await 42;
+//      ^^^^^ keyword.control.flow
+//            ^^^^^ keyword.control.flow
+
     break;
 //  ^^^^^^ meta.while meta.block
 }
@@ -559,9 +655,100 @@ class MyClass extends TheirClass {
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
 //                               ^ meta.block
+
+    x = 42;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.assignment
+//      ^^ constant.numeric
+
+    'y' = 42;
+//  ^^^ string.quoted.single
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    "z" = 42;
+//  ^^^ string.quoted.double
+//   ^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    [w] = 42;
+//  ^ punctuation.section.brackets.begin
+//   ^ variable.other.readwrite
+//    ^ punctuation.section.brackets.end
+//      ^ keyword.operator.assignment
+//        ^^ constant.numeric
+
+    #v = 42;
+//  ^ punctuation.definition.variable
+//   ^ variable.other.readwrite
+//     ^ keyword.operator.assignment
+//       ^^ constant.numeric
+
+    static x = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//           ^ keyword.operator.assignment
+//             ^^ constant.numeric
+
+    static 'y' = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.single
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static "z" = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^^^ string.quoted.double
+//          ^ variable.other.readwrite
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static [w] = 42;
+//  ^^^^^^ storage.modifier.js
+//         ^ punctuation.section.brackets.begin
+//          ^ variable.other.readwrite
+//           ^ punctuation.section.brackets.end
+//             ^ keyword.operator.assignment
+//               ^^ constant.numeric
+
+    static #v = 42;
+//         ^ punctuation.definition.variable
+//          ^ variable.other.readwrite
+//            ^ keyword.operator.assignment
+//              ^^ constant.numeric
+
+    a, 'b' = 50, "c", [d] = 100, #e;
+//  ^ variable.other.readwrite
+//      ^ variable.other.readwrite
+//                ^ variable.other.readwrite
+//                     ^ variable.other.readwrite
+//                                ^ variable.other.readwrite
+
+    static a, 'b' = 50, "c", [d] = 100, #e;
+//  ^^^^^^ storage.modifier.js
+//         ^ variable.other.readwrite
+//             ^ variable.other.readwrite
+//                       ^ variable.other.readwrite
+//                            ^ variable.other.readwrite
+//                                       ^ variable.other.readwrite
+
+    foo // You thought I was a field...
+    () { return '...but was a method all along!'; }
+//  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+
+    someMethod() {
+        return #e * 2;
+//             ^ punctuation.definition.variable
+//              ^ variable.other.readwrite
+//                ^ keyword.operator.arithmetic
+    }
+
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ entity.name.function
+    // ^ entity.name.function.constructor
     {
 //  ^ meta.class meta.block meta.block punctuation.section.block
         $.foo = "";
@@ -578,9 +765,9 @@ class MyClass extends TheirClass {
     }
 
     static foo(baz) {
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ storage.type
-    //       ^ entity.name.function
+//  ^^^^^^ storage.modifier
+//         ^^^^^^^^ meta.function.declaration
+    //     ^^^ entity.name.function
 
     }
 
@@ -626,11 +813,19 @@ class Foo extends React.Component {
     {}
 
     [foo.bar](arg) {
-//   ^^^^^^^ entity.name.function
+//   ^^^ variable.other
+//       ^^^ meta.property
 //            ^^^ variable.parameter
         return this.a;
     }
 }
+
+class Foo extends
+//        ^^^^^^^ storage.modifier.extends
+Bar {}
+
+class Foo extends getSomeClass() {}
+//                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
 () => {}
 // <- meta.function.declaration punctuation.section.group
@@ -654,8 +849,9 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 
 // We can't currently detect this properly, but we need to consume => properly
 ([a,
-  b]) => { }
+  b]) => { return x; }
 //    ^^ storage.type.function.arrow
+//         ^^^^^^ meta.block keyword.control.flow
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1053,6 +1249,18 @@ octal = 079.0;
 strayBracket = ());
 //               ^ invalid.illegal.stray-bracket-end
 
+strayBracket = []];
+//               ^ invalid.illegal.stray-bracket-end
+
+strayBracket = {}};
+//               ^ invalid.illegal.stray-bracket-end
+
+(a +) + c;
+//   ^^^^ - meta.group
+
+(a =>) + c;
+//    ^^^^ - meta.group
+
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
 //                      ^^ meta.parameter.optional
@@ -1131,3 +1339,62 @@ function yy (a, b) {
 //               ^ punctuation.section.group.end
 //                 ^ meta.block punctuation.section.block - meta.function
 }
+
+// Integers
+
+    123_456_789_0n;
+//  ^^^^^^^^^^^^^^ constant.numeric.decimal
+//               ^ storage.type.numeric.bigint
+
+    0;
+//  ^ constant.numeric.decimal
+
+    0123456789;
+//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.octal
+
+    0b0110_1001_1001_0110n;
+//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.binary
+//  ^^ punctuation.definition.numeric.binary
+//                       ^ storage.type.numeric.bigint
+
+    0o0123_4567n;
+//  ^^^^^^^^^^^^ constant.numeric.octal
+//  ^^ punctuation.definition.numeric.octal
+//             ^ storage.type.numeric.bigint
+
+    0x01_23_45_67_89_ab_CD_efn;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hexadecimal
+//  ^^ punctuation.definition.numeric.hexadecimal
+//                           ^ storage.type.numeric.bigint
+
+    0B0; 0O0; 0X0;
+//  ^^^ constant.numeric.binary
+//       ^^^ constant.numeric.octal
+//            ^^^ constant.numeric.hexadecimal
+
+// Floats
+
+    1_234_567_890.123_456_789_0;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.decimal
+
+    .123_456_789_0;
+//  ^^^^^^^^^^^^^^ constant.numeric.decimal
+
+    0123.45;
+//  ^^^^^^^ invalid.illegal.numeric.octal
+
+    12345e6_7_8;
+//  ^^^^^^^^^^^ constant.numeric.decimal
+    
+    123.456e+789;
+//  ^^^^^^^^^^^^ constant.numeric.decimal
+
+    .123E-7_8_9;
+//  ^^^^^^^^^^^ constant.numeric.decimal
+
+debugger;
+// <- keyword.other.debugger
+
+debugger
+[]
+// <- meta.sequence

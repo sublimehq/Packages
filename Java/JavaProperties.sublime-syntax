@@ -5,23 +5,46 @@ name: Java Properties
 file_extensions:
   - properties
 scope: source.java-props
+
+# https://en.wikipedia.org/wiki/.properties
 contexts:
   main:
-    - match: '([#!])(.+)?$\n?'
-      scope: comment.line.number-sign.java-props
+    - match: ^\s*([#!]).*
+      scope: comment.line.java-props
       captures:
         1: punctuation.definition.comment.java-props
-    - match: /\*
-      captures:
-        0: punctuation.definition.comment.java-props
+
+    - match: (?=\S)
       push:
-        - meta_scope: comment.block.java-props
-        - match: \*/
-          captures:
-            0: punctuation.definition.comment.java-props
+        - - meta_scope: meta.property.java-props
+          - match: ''
+            pop: true
+        - property
+
+  property:
+    - meta_content_scope: entity.name.key.java-props
+    - include: backslash
+    - match: (?=[:=\s])
+      set:
+        - match: '[:=]'
+          scope: punctuation.separator.java-props
+          set: property-value
+        - include: property-value
+      with_prototype:
+        - match: (?=\n)
           pop: true
-    - match: "^([^:=]+)([:=])(.*)$"
-      comment: Not compliant with the properties file spec, but this works for me, and I'm the one who counts around here.
+
+  property-value:
+    - match: (?=\S)
+      set:
+        - meta_content_scope: string.unquoted.java-props
+        - include: backslash
+
+  backslash:
+    - match: (\\)\n
       captures:
-        1: keyword.other.java-props
-        2: punctuation.separator.key-value.java-props
+        1: punctuation.separator.continuation.java-props
+    - match: \\u[[:xdigit:]]{4}
+      scope: constant.character.escape.unicode.java-props
+    - match: \\[^u]
+      scope: constant.character.escape.java-props

@@ -155,15 +155,20 @@ contexts:
       scope: keyword.control.import.as.python
 
   import-from-name:
-    - match: (?=(\. *)?{{path}})
+    - match: \.+
+      scope: meta.import-path.python keyword.control.import.relative.python
+    - match: (?={{path}})
       push:
         - meta_scope: meta.import-path.python
+        - match: '{{illegal_names}}\b'
+          scope: invalid.illegal.name.python
         - match: '{{identifier}}'
           scope: meta.import-name.python
-        - match: \s*(\.) *({{identifier}})
+        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}}))
           captures:
             1: punctuation.accessor.dot.python
-            2: meta.import-name.python
+            2: invalid.illegal.name.python
+            3: meta.import-name.python
         - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
           captures:
             1: invalid.illegal.name.python
@@ -236,17 +241,17 @@ contexts:
           scope: punctuation.section.block.while.python
           pop: true
         - include: expressions
-    - match: \b(elif|else)(?:\s*(:))?
+    - match: \b(elif|else)\b(?:\s*(:))?
       scope: meta.statement.conditional.python
       captures:
         1: keyword.control.flow.conditional.python
         2: punctuation.section.block.python
-    - match: \b(try)(?:\s*(:))?
+    - match: \b(try)\b(?:\s*(:))?
       scope: meta.statement.try.python
       captures:
         1: keyword.control.flow.try.python
         2: punctuation.section.block.try.python
-    - match: \b(finally)(?:\s*(:))?
+    - match: \b(finally)\b(?:\s*(:))?
       scope: meta.statement.finally.python
       captures:
         1: keyword.control.flow.finally.python

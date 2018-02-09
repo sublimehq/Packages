@@ -24,8 +24,8 @@ int c = 0x0;
 //       ^ constant.numeric
 int d = 0x0_00;
 //          ^ constant.numeric
-int e = .0_0;
-//         ^ constant.numeric
+float e = .0_0;
+//           ^ constant.numeric
 
 template testTemplate(X)
 {
@@ -79,7 +79,7 @@ void main(char[][] args)
         auto cl = new CmdLin(argc, argv);
         //         ^ keyword.other
         //              ^ meta.block - keyword.type
-        writefln(cl.argnum, cl.suffix, " arg: %s", cl.argv);
+        writefln("%s%s arg: %s", cl.argnum, cl.suffix, cl.argv);
         delete cl;
         // ^ keyword.other
     }
@@ -110,8 +110,8 @@ void main(char[][] args)
         return *s;
     }
 
-    char[] argcmsg  = "argc = %d";
-    char[] allocmsg = "allocated = %d";
+    char[] argcmsg  = "argc = %d".dup;
+    char[] allocmsg = "allocated = %d".dup;
     writefln(argcmsg ~ ", " ~ allocmsg,
          argspecs(args).count,argspecs(args).allocated);
 }
@@ -160,16 +160,16 @@ class CmdLin
         switch(_argc)
         {
         case 1:
-            suffix = "st";
+            suffix = "st"w.dup;
             break;
         case 2:
-            suffix = "nd";
+            suffix = "nd"w.dup;
             break;
         case 3:
-            suffix = "rd";
+            suffix = "rd"w.dup;
             break;
         default:
-             suffix = "th";
+             suffix = "th"w.dup;
         }
         return suffix;
     }
@@ -197,6 +197,13 @@ class MyClass {
 // <- storage.type
 }
 
-
 string sA = r"$";
 //             ^ punctuation.definition.string.end
+
+void func()
+in {
+    assert(true);
+}
+do {
+// <- meta.function keyword.control
+}

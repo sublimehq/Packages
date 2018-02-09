@@ -31,7 +31,7 @@ variables:
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
-  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}||\\[0-9]{1,3})'
+  escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
   base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
@@ -202,7 +202,11 @@ contexts:
     - include: namespace_declaration
     - include: delegate_declaration
     # allows coloration of code outside a class
-    - include: code_block_in
+    - match: (?=\S)
+      push:
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace)\b)
+          pop: true
+        - include: line_of_code
 
   stray_close_bracket:
     - match: '[})\]]'
@@ -283,10 +287,11 @@ contexts:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
-    - match: '\b(struct)\s+({{name}})'
+    - match: '(?:\b(readonly)\s+)?\b(struct)\s+({{name}})'
       captures:
-        1: storage.type.struct.cs
-        2: entity.name.struct.cs
+        1: storage.modifier.cs
+        2: storage.type.struct.cs
+        3: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs
@@ -543,7 +548,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.cs
       push:
-        - meta_scope: meta.group.cs
+        - meta_scope: meta.group.tuple.cs
         - match: \)
           scope: punctuation.section.group.end.cs
           set: method_name
@@ -802,10 +807,7 @@ contexts:
 
   code_block_in:
     - match: (?=\S)
-      push:
-        - match: (?={{reserved}})
-          pop: true
-        - include: line_of_code
+      push: line_of_code
 
   line_of_code:
     # language keywords
@@ -957,7 +959,7 @@ contexts:
         - match: '(?=;)'
           pop: true
         - include: line_of_code_in
-    - match: \((?=[^)]*\)\s+=>)
+    - match: \((?=[^()]*\)\s+=>)
       scope: meta.function.anonymous.cs meta.group.cs punctuation.section.group.begin.cs
       push:
         - meta_content_scope: meta.function.anonymous.cs meta.group.cs
@@ -1287,6 +1289,7 @@ contexts:
           scope: punctuation.separator.assignment.cs
         - match: (?!{{reserved}})(?={{name}}{{generic_declaration}}{{type_suffix}}\s+{{name}}\s*[:,])
           push: var_declaration_explicit
+        - include: lambdas
         - include: line_of_code_in_no_semicolon
     - match: \{
       scope: punctuation.section.block.begin.cs
@@ -1396,7 +1399,20 @@ contexts:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
-    - match: '(\(|\{|:)'
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      push:
+        - meta_scope: meta.group.tuple.cs
+        - match: (\))\s*([^,>\s/])? # expect a comma, close generic or a comment afterwards
+          captures:
+            1: punctuation.section.group.end.cs
+            2: invalid.illegal.expected-type-separator.cs
+          pop: true
+        - match: ','
+          scope: punctuation.separator.cs
+        - match: (?=\S)
+          push: var_declaration_explicit
+    - match: '[{:]'
       scope: invalid.illegal
       pop: true
     - match: (?=\}|\)|>|\]|,|;|>|=>)

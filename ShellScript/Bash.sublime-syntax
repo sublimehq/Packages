@@ -50,7 +50,7 @@ variables:
   extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*'
-  is_command: \s*(?=\S)
+  is_command: (?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
   is_function: \s*\b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
@@ -58,7 +58,12 @@ variables:
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
   keyword_boundary_end: (?!=)(?=[^\w_-])
-  metachar: '[/$`=|&;()<>\s]'
+
+  # A character that, when unquoted, separates words. A metacharacter is a
+  # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
+  # ‘(’, ‘)’, ‘<’, or ‘>’.
+  metachar: '[\s\t\n|&;()<>]'
+
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   reset_and: \s*(&&)
   reset_job: \s*(&)
@@ -121,6 +126,7 @@ contexts:
   main:
     - include: funcdef
     - include: vardef
+    - include: redirection
     - match: '{{is_command}}'
       push: cmd
 
@@ -137,6 +143,7 @@ contexts:
   main-bt:
     - include: funcdef-bt
     - include: vardef
+    - include: redirection
     - match: '{{is_command}}'
       push: cmd-bt
 
@@ -466,7 +473,7 @@ contexts:
         - include: expansion-and-string
         - include: line-continuation-or-pop-at-end
         - include: any-escape
-        - match: (?=[\s;])
+        - match: (?={{metachar}})
           pop: true
 
   redirection:
@@ -490,20 +497,32 @@ contexts:
         - include: main
 
   redirection-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))\s*(?:(\d+)|(-))?\s*
+    - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
-        3: constant.numeric.integer.decimal.file-descriptor.shell
-        4: punctuation.terminator.file-descriptor.shell
+      push: redirection-post
 
   redirection-input:
-    - match: (\d*)(<&?)((-)|(\d+))?\s*
+    - match: (\d*)(<&?)
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
-        4: punctuation.terminator.shell
-        5: constant.numeric.integer.decimal.file-descriptor.shell
+      push: redirection-post
+
+  redirection-post:
+    - match: \s*(?:(\d+)|(-))
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: punctuation.terminator.file-descriptor.shell
+      pop: true
+    - match: \s*(?=\S)
+      set:
+        - match: (?={{metachar}}|`)
+          pop: true
+        - include: expansion-and-string
+    - match: \s*
+      pop: true
 
   redirection-inout:
     - match: (\d*)(<>)
@@ -985,7 +1004,7 @@ contexts:
     - match: \[
       scope: keyword.control.regexp.set.begin.shell
       push:
-        - match: \]
+        - match: (?=])
           set: expansion-pattern-post-first-char
         - match: '[!^]'
           scope: keyword.operator.logical.not.shell
@@ -1014,6 +1033,11 @@ contexts:
       captures:
         1: punctuation.separator.character-class.begin.shell
         2: punctuation.separator.character-class.end.shell
+    # You cannot have a regex set inside a regex set, so just consume this
+    # character in order to not push into another regex set.
+    # Except when writing a character class like [:lower:], so negative look
+    # ahead for that possibility.
+    - match: \[(?![\.=:])
     - include: expansion-and-string
 
   expansion-arithmetic:
@@ -1039,8 +1063,7 @@ contexts:
           captures:
             1: punctuation.section.parens.end.shell
           pop: true
-        - match: ""
-          push: cmd
+        - include: main
     - match: \`
       scope: punctuation.section.group.begin.shell
       push:
@@ -1073,6 +1096,7 @@ contexts:
     - include: expansion-command
     - include: expansion-tilde
     # no pattern expansion
+    - include: any-escape
 
   array:
     - match: \[
@@ -1137,6 +1161,7 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set:
+        - meta_include_prototype: false
         - meta_content_scope: meta.group.expansion.parameter.shell
         - include: expansion-parameter-common
         - include: expansion-pattern

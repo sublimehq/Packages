@@ -1138,7 +1138,7 @@ http://spec.commonmark.org/0.28/#example-318
 | ^^^ punctuation.definition.raw.code-fence.end
 
 ~~~~~test~
-| ^^^^^^^^^ meta.paragraph - punctuation - constant - markup.raw
+| ^^^^^^^^^ meta.paragraph - constant - markup.raw
 
 ~~~~~~test
 | ^^^^ punctuation.definition.raw.code-fence.begin
@@ -1150,6 +1150,33 @@ http://spec.commonmark.org/0.28/#example-318
 |  ^^^^ constant.other.language-name
   ```
 | ^^^ punctuation.definition.raw.code-fence.end
+
+https://github.github.com/gfm/#example-469
+~Hi~ Hello, world!
+| <- punctuation.definition.strikethrough.begin
+|^^^ meta.paragraph markup.strikethrough
+|  ^ punctuation.definition.strikethrough.end
+|   ^^^^^^^^^^^^^^^ meta.paragraph - markup
+
+https://github.github.com/gfm/#example-470
+This ~text~~~~ is ~~~~curious~.
+|    ^^^^^^^^^ meta.paragraph markup.strikethrough
+|                 ^^^^^^^^^^^^ meta.paragraph markup.strikethrough
+|                             ^^ meta.paragraph - markup
+|    ^ punctuation.definition.strikethrough.begin
+|         ^^^^ punctuation.definition.strikethrough.end
+|                 ^^^^ punctuation.definition.strikethrough.begin
+|                            ^ punctuation.definition.strikethrough.end
+
+https://github.github.com/gfm/#example-471
+This ~~has a
+|    ^^^^^^^^ meta.paragraph markup.strikethrough
+
+| <- meta.paragraph markup.strikethrough invalid.illegal.non-terminated.bold-italic
+new paragraph~~.
+|            ^^ meta.paragraph markup.strikethrough punctuation.definition.strikethrough.begin
+
+| <- invalid.illegal.non-terminated.bold-italic
 
 hello world ````test````
 |           ^^^^^^^^^^^^ markup.raw.inline
@@ -1336,6 +1363,27 @@ text
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |           ^^^^^^^^ invalid.illegal.expected-eol
+
+https://michelf.ca/projects/php-markdown/extra/#footnotes
+That's some text with a footnote.[^1]
+|                                ^^^^ meta.paragraph meta.link.reference.footnote.markdown-extra
+|                                ^^ punctuation.definition.link.begin
+|                                  ^ meta.link.reference.literal.footnote-id
+|                                   ^ punctuation.definition.link.end
+
+ [^1]: And that's the footnote.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra
+|^ punctuation.definition.constant.begin
+|   ^ punctuation.definition.constant.end
+| ^^ entity.name.reference.link
+|    ^ punctuation.separator.key-value
+
+[^1]:
+    And that's the footnote.
+
+    That's the *second* paragraph.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra - markup.raw
+|              ^^^^^^^^ markup.italic
 
 - a
   - b

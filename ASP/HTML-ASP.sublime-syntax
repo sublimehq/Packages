@@ -30,7 +30,6 @@ contexts:
           scope: punctuation.separator.key-value.asp
           pop: true
         - match: '(?=%>)'
-          scope: punctuation.section.embedded.end.asp
           pop: true
     - match: '%>'
       scope: punctuation.section.embedded.end.asp

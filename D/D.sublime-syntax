@@ -11,9 +11,7 @@ scope: source.d
 contexts:
   main:
     - match: /\*\*/
-      scope: comment.block.empty.d
-      captures:
-        0: punctuation.definition.comment.d
+      scope: comment.block.empty.d punctuation.definition.comment.d
     - include: scope:text.html.javadoc
     - match: |-
         (?x)^\s*
@@ -157,7 +155,7 @@ contexts:
       scope: keyword.control.conditional.d
     - match: \b(goto|break|continue)\b
       scope: keyword.control.branch.d
-    - match: \b(while|for|do|foreach(_reverse)?)\b
+    - match: \b(while|for|foreach(_reverse)?)\b
       scope: keyword.control.repeat.d
     - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
       scope: keyword.control.statement.d
@@ -224,22 +222,18 @@ contexts:
     - include: storage-type-d
   comments:
     - match: /\*
-      captures:
-        0: punctuation.definition.comment.d
+      scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
         - match: \*/
-          captures:
-            0: punctuation.definition.comment.d
+          scope: punctuation.definition.comment.d
           pop: true
     - match: /\+
-      captures:
-        0: punctuation.definition.comment.d
+      scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
         - match: \+/
-          captures:
-            0: punctuation.definition.comment.d
+          scope: punctuation.definition.comment.d
           pop: true
     - match: (//).*$\n?
       scope: comment.line.double-slash.d
@@ -261,7 +255,7 @@ contexts:
             - include: $top_level_main
         - match: (in|out)
           scope: keyword.control.statement.d
-        - match: (?=body)
+        - match: (?=body|do)
           pop: true
     - match: '(?<=\})'
       pop: true
@@ -294,13 +288,11 @@ contexts:
       scope: invalid.illegal.unknown-escape.d
   strings:
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.double.d
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.d
+          scope: punctuation.definition.string.end.d
           pop: true
         - include: string_escaped_char
     - match: (r)(")
@@ -316,8 +308,7 @@ contexts:
           pop: true
         - include: regular_expressions
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.double.raw.backtick.d
         - match: ((?<=`)(`)|`)
@@ -326,13 +317,11 @@ contexts:
             2: meta.empty-string.double.d
           pop: true
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.d
+      scope: punctuation.definition.string.begin.d
       push:
         - meta_scope: string.quoted.single.d
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.d
+          scope: punctuation.definition.string.end.d
           pop: true
         - include: string_escaped_char
   support-type-built-ins-classes-d:

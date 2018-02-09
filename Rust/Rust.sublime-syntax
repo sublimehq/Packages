@@ -231,6 +231,9 @@ contexts:
     - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
       scope: keyword.operator.rust
 
+    - match: '\.'
+      scope: punctuation.accessor.dot.rust
+
   attributes:
     - match: '(#!?)(\[)'
       captures:
@@ -467,10 +470,10 @@ contexts:
         - match: ';'
           scope: punctuation.separator.rust
           set:
-            - include: integers
             - match: '\]'
               scope: punctuation.section.group.end.rust
               pop: true
+            - include: constant-integer-expression
             - match: '(?=\S)'
               pop: true
         - include: generic-angles-contents
@@ -479,6 +482,23 @@ contexts:
       scope: punctuation.separator.rust
     - match: '\+'
       scope: keyword.operator.rust
+    - match: '\bas\b'
+      scope: keyword.operator.rust
+
+  constant-integer-expression:
+    - include: integers
+    - match: \(
+      scope: punctuation.section.group.begin.rust
+      push:
+        - meta_scope: meta.group.rust
+        - match: \)
+          scope: punctuation.section.group.end.rust
+          pop: true
+        - include: constant-integer-expression
+    - match: '{{identifier}}'
+      scope: variable.other.constant.rust
+    - match: '[-+%/*]'
+      scope: keyword.operator.arithmetic.rust
 
   type-any-identifier:
     - match: '&'

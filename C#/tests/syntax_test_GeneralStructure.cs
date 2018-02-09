@@ -1067,6 +1067,24 @@ namespace TestNamespace.Test
         "hello".OfType<char>().Where(c => c == 'l').Count());
 ///                                                        ^ invalid.illegal.stray.brace
 
+        var test = (Action)(() => "hello".Dump());
+///                 ^^^^^^ meta.cast support.type
+///                        ^ punctuation.section.group.begin
+///                         ^^ meta.function.anonymous meta.group
+///                            ^^ storage.type.function.lambda
+///                                             ^ punctuation.section.group.end
+        test = (Action)(() => {});
+///            ^^^^^^^^ meta.cast
+///                    ^ meta.group punctuation.section.group.begin
+///                     ^^^^^^^ meta.function.anonymous
+///                     ^ meta.group punctuation.section.group.begin
+///                      ^ meta.group punctuation.section.group.end
+///                        ^^ storage.type.function.lambda
+///                           ^ punctuation.section.block.begin
+///                            ^ punctuation.section.block.end
+///                             ^ meta.group punctuation.section.group.end
+        test.Invoke();
+
         // https://msdn.microsoft.com/en-us/library/txafckwd(v=vs.110).aspx
 ///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
         formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
