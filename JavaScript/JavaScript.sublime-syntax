@@ -397,6 +397,17 @@ contexts:
       set: expression-no-comma
     - include: else-pop
 
+  function-initializer:
+    - meta_scope: meta.function.declaration.js
+    - match: '='
+      scope: keyword.operator.assignment.js
+      set:
+        - meta_content_scope: meta.function.declaration.js
+        - match: (?=\S)
+          set: expression-no-comma
+
+    - include: else-pop
+
   expression-statement:
     - match: (?=\S)
       set: [ expression-statement-end, expression-begin ]
@@ -1010,8 +1021,7 @@ contexts:
         2: punctuation.accessor.js
         3: support.constant.prototype.js
       set:
-        - function-declaration-meta
-        - initializer
+        - function-initializer
     - match: |-
         (?x)
           ({{identifier}})
@@ -1024,8 +1034,7 @@ contexts:
         3: support.constant.prototype.js
         4: punctuation.accessor.js
       set:
-        - function-declaration-meta
-        - initializer
+        - function-initializer
         - function-declaration-single-identifier
     - match: '({{identifier}})(\.)(prototype)\b'
       scope: meta.prototype.access.js
@@ -1044,8 +1053,7 @@ contexts:
           {{either_func_lookahead}}
         )
       set:
-        - function-declaration-meta
-        - initializer
+        - function-initializer
         - function-declaration-identifiers
 
   function-declaration-identifiers:
@@ -1210,8 +1218,6 @@ contexts:
     - include: else-pop
 
   function-declaration-parameters:
-    - match: \s+
-      scope: meta.function.declaration.js
     - match: \(
       scope: punctuation.section.group.begin.js
       push:
@@ -1482,8 +1488,7 @@ contexts:
               {{either_func_lookahead}}
             )
           set:
-            - function-declaration-meta
-            - initializer
+            - function-initializer
             - function-declaration-final-identifier
         - match: '(?={{identifier}}\s*\()'
           set:
