@@ -157,6 +157,18 @@
 //    ^^ punctuation.definition.group.assertion meta.assertion.negative-look-ahead
 //         ^ punctuation.definition.group
 
+    /(?<=foo)/;
+//   ^^^^^^^^ meta.group.assertion
+//   ^ punctuation.definition.group
+//    ^^^ punctuation.definition.group.assertion meta.assertion.look-behind
+//          ^ punctuation.definition.group
+
+    /(?<!foo)/;
+//   ^^^^^^^^ meta.group.assertion
+//   ^ punctuation.definition.group
+//    ^^^ punctuation.definition.group.assertion meta.assertion.negative-look-behind
+//          ^ punctuation.definition.group
+
 /* CHARACTER CLASSES */
 
     /[abc]/;
