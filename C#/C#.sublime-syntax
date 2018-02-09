@@ -548,7 +548,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.cs
       push:
-        - meta_scope: meta.group.cs
+        - meta_scope: meta.group.tuple.cs
         - match: \)
           scope: punctuation.section.group.end.cs
           set: method_name
@@ -1399,7 +1399,20 @@ contexts:
     - match: '<'
       scope: meta.generic.cs punctuation.definition.generic.begin.cs
       push: type_argument
-    - match: '(\(|\{|:)'
+    - match: \(
+      scope: punctuation.section.group.begin.cs
+      push:
+        - meta_scope: meta.group.tuple.cs
+        - match: (\))\s*([^,>\s/])? # expect a comma, close generic or a comment afterwards
+          captures:
+            1: punctuation.section.group.end.cs
+            2: invalid.illegal.expected-type-separator.cs
+          pop: true
+        - match: ','
+          scope: punctuation.separator.cs
+        - match: (?=\S)
+          push: var_declaration_explicit
+    - match: '[{:]'
       scope: invalid.illegal
       pop: true
     - match: (?=\}|\)|>|\]|,|;|>|=>)
