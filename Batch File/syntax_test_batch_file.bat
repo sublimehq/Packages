@@ -482,20 +482,20 @@ set test="c:\program files (x86)\%example%_%%test"abc
 ::       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
 ::                               ^^^^^^^^^ variable.other.readwrite.dosbatch
 ::                                         ^^ constant.character.escape.dosbatch
-::                                               ^ punctuation.definition.string.end.dosbatch 
+::                                               ^ punctuation.definition.string.end.dosbatch
 ::                                                ^^^ string.unquoted.dosbatch
 
 SETLOCAL EnableDelayedExpansion
 ::^^^^^^ keyword.command.dosbatch
-  SET /P example="what is the answer? " & echo you have answered: !example!
+  SET /P example="what is the answer? ;) " & echo you have answered: !example!
 ::   ^^^^ - variable.other.readwrite.dosbatch
 ::       ^^^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
-::               ^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
-::               ^ - punctuation
-::                                    ^ - punctuation
-::                                      ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
-::                                        ^^^^ keyword.command.dosbatch
-::                                                                ^^^^^^^^^ variable.other.readwrite.dosbatch
+::               ^ punctuation.definition.string.begin.dosbatch
+::               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
+::                                       ^ punctuation.definition.string.end.dosbatch
+::                                         ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
+::                                           ^^^^ keyword.command.dosbatch
+::                                                                   ^^^^^^^^^ variable.other.readwrite.dosbatch
 ENDLOCAL
 ::^^^^^^ keyword.command.dosbatch
