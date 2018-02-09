@@ -432,6 +432,12 @@ done=hello
 # <- - keyword.control
 #   ^ keyword.operator
 
+(foo=bar)
+# <- punctuation.definition.compound.begin
+#   ^ keyword.operator.assignment
+#    ^^^ string.unquoted
+#       ^ punctuation.definition.compound.end - string-unquoted
+
 foo= pwd
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #     ^ - variable.parameter
