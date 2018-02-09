@@ -189,7 +189,9 @@ contexts:
     - include: immediately-pop
 
   export-extended:
-    - include: variable-declaration
+    - match: \b(const|let|var)\b
+      scope: storage.type.js
+      set: expression-statement
 
     - match: (?=\bclass\b)
       set: class

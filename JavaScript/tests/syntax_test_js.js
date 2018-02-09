@@ -46,6 +46,10 @@ export const name1 = 5;
 //     ^^^^^ storage.type
 //                 ^ keyword.operator.assignment
 
+export let foo = 123 // No semicolon
+export function bar() {}
+// <- keyword.control.import-export
+
 export function foo() {}
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
@@ -844,8 +848,9 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 
 // We can't currently detect this properly, but we need to consume => properly
 ([a,
-  b]) => { }
+  b]) => { return x; }
 //    ^^ storage.type.function.arrow
+//         ^^^^^^ meta.block keyword.control.flow
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
