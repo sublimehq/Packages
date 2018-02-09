@@ -716,11 +716,15 @@ contexts:
   regexp:
       - meta_include_prototype: false
       - meta_scope: string.regexp.js
-      - match: "(/)([gimyu]*)"
-        captures:
-          1: punctuation.definition.string.end.js
-          2: keyword.other.js
-        pop: true
+      - match: "/"
+        scope: punctuation.definition.string.end.js
+        set:
+          - meta_include_prototype: false
+          - meta_content_scope: string.regexp.js
+          - match: '[gimyus]'
+            scope: keyword.other.js
+          - match: '[A-Za-z0-9]' # Ignore unknown flags for future-compatibility
+          - include: immediately-pop
       - match: '(?=.|\n)'
         push:
           - meta_include_prototype: false
