@@ -143,6 +143,18 @@
     /a(b)c\1/;
 //        ^^ keyword.other.back-reference
 
+    /a(?<foo>bc)d\k<foo>/;
+//    ^^^^^^^^^^ meta.group
+//    ^^ punctuation.definition.group
+//      ^ punctuation.definition.group.named.begin
+//       ^^^ entity.name.other.group
+//          ^ punctuation.definition.group.named.end
+//             ^ punctuation.definition.group
+//               ^^ keyword.other.back-reference
+//                 ^ punctuation.definition.group.named.begin
+//                  ^^^ variable.other.group
+//                     ^ punctuation.definition.group.named.end
+
 /* ASSERTIONS */
 
     /(?=foo)/;

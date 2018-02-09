@@ -3,6 +3,8 @@
 name: Regular Expressions (Javascript)
 scope: source.regexp.js
 hidden: true
+variables:
+  identifier: '[_$[:alpha:]][_$[:alnum:]]*'
 contexts:
   main:
     - include: anchor
@@ -21,6 +23,13 @@ contexts:
   backref:
     - match: '\\[1-9][0-9]*'
       scope: keyword.other.back-reference.regexp
+
+    - match: (\\k)(<)({{identifier}})(>)
+      captures:
+        1: keyword.other.back-reference.regexp
+        2: punctuation.definition.group.named.begin.regexp
+        3: variable.other.group.regexp
+        4: punctuation.definition.group.named.end.regexp
 
   character-class:
     - match: '\\[wWsSdD]|\.'
@@ -77,10 +86,14 @@ contexts:
         - include: main
 
   group-definition:
-    - match: (\()((\?:))?
+    - match: (\()(?:(\?:)|(\?)(<)({{identifier}})(>))?
       captures:
         1: punctuation.definition.group.begin.regexp
-        3: punctuation.definition.group.no-capture.regexp
+        2: punctuation.definition.group.no-capture.regexp
+        3: punctuation.definition.group.begin.regexp
+        4: punctuation.definition.group.named.begin.regexp
+        5: entity.name.other.group.regexp
+        6: punctuation.definition.group.named.end.regexp
       push:
         - meta_scope: meta.group.regexp
         - match: \)
