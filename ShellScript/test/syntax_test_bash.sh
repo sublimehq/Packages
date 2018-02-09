@@ -747,6 +747,12 @@ ${var###Pattern}
 #      ^ - keyword.operator
 #              ^ punctuation
 
+: ${foo# #} # hello
+#      ^ keyword.operator.expansion
+#        ^ meta.group.expansion - comment-line
+#         ^ punctuation
+#           ^ comment.line punctuation
+
 ${var%Pattern}
 # <- punctuation.definition.variable
 #    ^ keyword.operator
@@ -763,6 +769,25 @@ ${var%%%Pattern}
 #      ^ - keyword.operator
 #              ^ punctuation
 
+: ${foo% #} # hello
+#      ^ keyword.operator.expansion
+#        ^ meta.group.expansion - comment-line
+#         ^ punctuation
+#           ^ comment.line punctuation
+
+: ${foo#\ \#} # hello
+#      ^ keyword.operator.expansion
+#       ^^^^ constant.character.escape
+#          ^ meta.group.expansion - comment-line
+#           ^ punctuation
+#             ^ comment.line punctuation
+
+: ${foo%\ \#} # hello
+#      ^ keyword.operator.expansion
+#       ^^^^ constant.character.escape
+#          ^ meta.group.expansion - comment-line
+#           ^ punctuation
+#             ^ comment.line punctuation
 
 ####################################################################
 # Parameter-expansion operators                                    #
