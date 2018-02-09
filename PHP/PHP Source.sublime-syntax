@@ -1123,7 +1123,7 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
         2: markup.underline.link.php
-    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|internal|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|final)\b
+    - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property|method|source)\b
       scope: keyword.other.phpdoc.php
     - match: '\{(@(link)).+?\}'
       scope: meta.tag.inline.phpdoc.php
