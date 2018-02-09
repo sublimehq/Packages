@@ -1,5 +1,7 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
+/* LITERAL */
+
     //
 //  ^^ comment - string.regexp
 
@@ -55,7 +57,7 @@
     /a|b/;
 //    ^ keyword.operator.or
 
-//  ESCAPES
+/* ESCAPES */
 
     /a.c/;
 //    ^ constant.other.character-class.escape
@@ -89,7 +91,7 @@
     /\b\B^$/;
 //   ^^^^^^ keyword.control.anchor
 
-//  QUANTIFIERS
+/* QUANTIFIERS */
 
     /a*b+c?/;
 //    ^ keyword.operator.quantifier.regexp
@@ -115,7 +117,7 @@
     /a{b{}c{,1}d{1, 2}/;
 //   ^^^^^^^^^^^^^^^^^ - keyword.operator.quantifier'
 
-//  GROUPING
+/* GROUPING */
 
     /a(bc)d/;
 //    ^^^^ meta.group
@@ -139,7 +141,7 @@
     /a(b)c\1/;
 //        ^^ keyword.other.back-reference
 
-//  ASSERTIONS
+/* ASSERTIONS */
 
     /(?=foo)/;
 //   ^^^^^^^ meta.group.assertion
@@ -153,7 +155,7 @@
 //    ^^ punctuation.definition.group.assertion meta.assertion.negative-look-ahead
 //         ^ punctuation.definition.group
 
-//  CHARACTER CLASSES
+/* CHARACTER CLASSES */
 
     /[abc]/;
 //   ^^^^^ constant.other.character-class.set
