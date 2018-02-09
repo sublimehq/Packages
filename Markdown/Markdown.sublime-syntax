@@ -8,7 +8,11 @@ file_extensions:
   - markdown
   - markdn
 scope: text.html.markdown
-comment: this definition aims to (eventually) meet CommonMark specifications http://spec.commonmark.org/ with GitHub Formatted Markdown extensions https://github.github.com/gfm/
+comment: |-
+  this definition aims to meet CommonMark specifications http://spec.commonmark.org/
+  with GitHub Formatted Markdown extensions              https://github.github.com/gfm/
+  and has a few extras like Markdown Extra's footnotes   https://michelf.ca/projects/php-markdown/extra/#footnotes
+  the scope suffix should indicate which flavor of Markdown the feature came from, to help make this syntax definition easier to maintain
 variables:
     thematic_break: |-
         (?x:
@@ -222,7 +226,23 @@ contexts:
     - match: |-
         (?x:
             \s*                        # Leading whitespace
-            (\[)(.+?)(\])(:)           # Reference name
+            (\[)(\^[^]]*)(\])(:)       # Reference name
+            [ \t]*                     # Optional whitespace
+        )
+      captures:
+        1: punctuation.definition.constant.begin.markdown
+        2: entity.name.reference.link.markdown
+        3: punctuation.definition.constant.end.markdown
+        4: punctuation.separator.key-value.markdown
+      push:
+        - meta_scope: meta.link.reference.def.footnote.markdown-extra
+        - match: ^(?![ ]{4}|$)
+          pop: true
+        - include: inline-bold-italic
+    - match: |-
+        (?x:
+            \s*                        # Leading whitespace
+            (\[)([^]]*)(\])(:)         # Reference name
             [ \t]*                     # Optional whitespace
             (?:
               (<)([^>]+)(>)            # The url
@@ -605,6 +625,7 @@ contexts:
     - include: image-ref
     - include: link-ref-literal
     - include: link-ref
+    - include: link-ref-footnote
   inline-bold-italic:
     - include: inline
     - include: bold
@@ -690,7 +711,7 @@ contexts:
         2: markup.underline.link.markdown
         3: punctuation.definition.link.end.markdown
     - match: (((https|http|ftp)://)|www\.)[\w-]+(\.[\w-]+)+
-      scope: markup.underline.link.markdown
+      scope: markup.underline.link.markdown-gfm
       push: # After a valid domain, zero or more non-space non-< characters may follow
         - match: (?=[?!.,:*_~]*[\s<]) # Trailing punctuation (specifically, ?, !, ., ,, :, *, _, and ~) will not be considered part of the autolink, though they may be included in the interior of the link
           pop: true
@@ -698,7 +719,7 @@ contexts:
           pop: true
         - match: \( # When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the last character part of the autolink, in order to facilitate including an autolink inside a parenthesis
           push:
-            - meta_scope: markup.underline.link.markdown
+            - meta_scope: markup.underline.link.markdown-gfm
             - match: (?=[?!.,:*_~]*[\s<])
               pop: true
             - match: \)
@@ -706,7 +727,7 @@ contexts:
         - match: (?=\)[?!.,:*_~]*[\s<])
           pop: true
         - match: '[^?!.,:*_~\s<&()]+|\S'
-          scope: markup.underline.link.markdown
+          scope: markup.underline.link.markdown-gfm
   link-inline:
     - match: |-
         (?x:
@@ -803,6 +824,18 @@ contexts:
         1: punctuation.definition.constant.begin.markdown
         2: punctuation.definition.constant.end.markdown
       pop: true
+  link-ref-footnote:
+    - match: |-
+        (?x:
+          (\[\^)
+          ([^]]+)
+          (\])
+        )
+      captures:
+        0: meta.link.reference.footnote.markdown-extra
+        1: punctuation.definition.link.begin.markdown
+        2: meta.link.reference.literal.footnote-id.markdown
+        3: punctuation.definition.link.end.markdown
   list-paragraph:
     - match: '^(?=\s+(?![>+*\s-]))(?={{indented_code_block}})'
       push:
@@ -874,7 +907,7 @@ contexts:
         1: punctuation.definition.raw.code-fence.begin.markdown
         2: constant.other.language-name.markdown
       push:
-        - meta_scope: markup.raw.code-fence.markdown
+        - meta_scope: markup.raw.code-fence.markdown-gfm
         - match: '[ ]{,3}\1\s*$'
           scope: punctuation.definition.raw.code-fence.end.markdown
           pop: true
@@ -1002,7 +1035,7 @@ contexts:
   table:
     - match: ^(?={{table_first_row}})
       push:
-        - meta_content_scope: meta.table.header.markdown
+        - meta_content_scope: meta.table.header.markdown-gfm
         - match: \|
           scope: punctuation.separator.table-cell.markdown
         - include: inline-bold-italic
@@ -1010,7 +1043,7 @@ contexts:
           set:
             - match: ^
               set:
-                - meta_content_scope: meta.table.header-separator.markdown
+                - meta_content_scope: meta.table.header-separator.markdown-gfm
                 - match: \|
                   scope: punctuation.separator.table-cell.markdown
                 - match: ':'
@@ -1019,7 +1052,7 @@ contexts:
                   scope: punctuation.section.table-header.markdown
                 - match: $\n?
                   set:
-                    - meta_content_scope: meta.table.markdown
+                    - meta_content_scope: meta.table.markdown-gfm
                     - match: |- # The table is broken at the first empty line, or beginning of another block-level structure
                           (?x)^
                           (?=  {{block_quote}}

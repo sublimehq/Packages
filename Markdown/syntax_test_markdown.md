@@ -1364,6 +1364,27 @@ text
 |          ^ punctuation.definition.link.end
 |           ^^^^^^^^ invalid.illegal.expected-eol
 
+https://michelf.ca/projects/php-markdown/extra/#footnotes
+That's some text with a footnote.[^1]
+|                                ^^^^ meta.paragraph meta.link.reference.footnote.markdown-extra
+|                                ^^ punctuation.definition.link.begin
+|                                  ^ meta.link.reference.literal.footnote-id
+|                                   ^ punctuation.definition.link.end
+
+ [^1]: And that's the footnote.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra
+|^ punctuation.definition.constant.begin
+|   ^ punctuation.definition.constant.end
+| ^^ entity.name.reference.link
+|    ^ punctuation.separator.key-value
+
+[^1]:
+    And that's the footnote.
+
+    That's the *second* paragraph.
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.footnote.markdown-extra - markup.raw
+|              ^^^^^^^^ markup.italic
+
 - a
   - b
     - c
