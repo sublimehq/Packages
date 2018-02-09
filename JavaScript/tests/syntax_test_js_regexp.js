@@ -103,19 +103,21 @@
 //       ^^ keyword.operator.quantifier.regexp
 //          ^^ keyword.operator.quantifier.regexp
 
-    /a{10}b{1,2}c{1,}/;
+    /a{10}b{1,2}c{1,}d{,2}/;
 //    ^^^^ keyword.operator.quantifier
 //         ^^^^^ keyword.operator.quantifier
 //               ^^^^ keyword.operator.quantifier
+//                    ^^^^ keyword.operator.quantifier
 
 
-    /a{10}?b{1,2}?c{1,}?/;
+    /a{10}?b{1,2}?c{1,}?d{,2}?/;
 //    ^^^^^ keyword.operator.quantifier
 //          ^^^^^^ keyword.operator.quantifier
 //                 ^^^^^ keyword.operator.quantifier
+//                       ^^^^^ keyword.operator.quantifier
 
-    /a{b{}c{,1}d{1, 2}/;
-//   ^^^^^^^^^^^^^^^^^ - keyword.operator.quantifier'
+    /a{b{}c{,}d{1, 2}/;
+//   ^^^^^^^^^^^^^^^^ - keyword.operator.quantifier
 
 /* GROUPING */
 
@@ -181,3 +183,23 @@
 //    ^ punctuation.definition.character-class
 //      ^ punctuation.definition.character-class
 //       ^ - punctuation
+
+    /[a-z]/;
+//   ^^^^^ constant.other.character-class.set
+//    ^^^ constant.other.character-class.range
+//     ^ punctuation.definition.range
+//   ^ punctuation.definition.character-class
+//       ^ punctuation.definition.character-class
+
+    /[a-]/;
+//    ^^ - constant.other.character-class.range
+//     ^ - punctuation.definition.range
+
+
+    /[-z]/;
+//    ^^ - constant.other.character-class.range
+//    ^ - punctuation.definition.range
+
+    /[^-z]/;
+//    ^^^ - constant.other.character-class.range
+//     ^ - punctuation.definition.range
