@@ -215,9 +215,10 @@ function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^ meta.function.declaration - meta.function.declaration meta.function.declaration
 // ^ storage.type.function
 //        ^ entity.name.function
+//             ^ - meta.function.declaration
 }
 // <- meta.block
 
