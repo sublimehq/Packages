@@ -1262,6 +1262,18 @@ octal = 079.0;
 strayBracket = ());
 //               ^ invalid.illegal.stray-bracket-end
 
+strayBracket = []];
+//               ^ invalid.illegal.stray-bracket-end
+
+strayBracket = {}};
+//               ^ invalid.illegal.stray-bracket-end
+
+(a +) + c;
+//   ^^^^ - meta.group
+
+(a =>) + c;
+//    ^^^^ - meta.group
+
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
 //                      ^^ meta.parameter.optional

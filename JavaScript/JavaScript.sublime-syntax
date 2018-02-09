@@ -254,6 +254,10 @@ contexts:
     - include: else-pop
 
   statements:
+    - match: '\)|\}|\]'
+      scope: invalid.illegal.stray-bracket-end.js
+      pop: true
+
     - match: \;
       scope: punctuation.terminator.statement.js
 
@@ -605,10 +609,6 @@ contexts:
     - include: expression-end
 
   expression-begin:
-    - match: \)
-      scope: invalid.illegal.stray-bracket-end.js
-      pop: true
-
     - include: expression-break
 
     - include: literal-prototype
@@ -1439,9 +1439,6 @@ contexts:
           pop: true
         - match: (?=\S)
           push: expression
-    - match: \)
-      scope: invalid.illegal.stray-bracket-end.js
-      pop: true
 
   function-call:
     - match: \(
