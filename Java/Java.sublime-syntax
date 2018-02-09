@@ -34,6 +34,7 @@ contexts:
       pop: true
 
   main:
+    - include: prototype
     - include: package-statement
     - include: import-statement
     - include: body
