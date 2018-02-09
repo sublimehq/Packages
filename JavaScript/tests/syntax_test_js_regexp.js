@@ -23,17 +23,17 @@
 //     ^^ constant.character.escape.backslash
 //       ^ keyword.operator.quantifier
 
-    /abc/gimuy;
-//  ^^^^^^^^^^ string.regexp
-//       ^^^^^ keyword.other.js
+    /abc/gimuys;
+//  ^^^^^^^^^^^ string.regexp
+//       ^^^^^^ keyword.other.js
 
     /abc/
-    gimuy;
-//  ^^^^^ variable.other.readwrite - string.regexp;
+    gimuys;
+//  ^^^^^^ variable.other.readwrite - string.regexp;
 
     /abc//*
-    */gimuy;
-//    ^^^^^ variable.other.readwrite - string.regexp;
+    */gimuys;
+//    ^^^^^^ variable.other.readwrite - string.regexp;
 
     /abc//i;
 //  ^^^^^ string.regexp
