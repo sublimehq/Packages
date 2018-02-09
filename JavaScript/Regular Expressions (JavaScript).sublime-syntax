@@ -34,6 +34,14 @@ contexts:
   character-class:
     - match: '\\[wWsSdD]|\.'
       scope: constant.other.character-class.escape.backslash.regexp
+    - match: '(\\[pP])(\{)([[:alpha:]_]+)(?:(=)([[:alpha:]_]+)?)?(\})'
+      captures:
+        1: constant.other.character-class.escape.unicode-property.regexp
+        2: punctuation.definition.unicode-property.begin.regexp
+        3: support.constant.unicode-property.regexp
+        4: punctuation.separator.key-value.unicode-property.regexp
+        5: support.constant.unicode-property.regexp
+        6: punctuation.definition.unicode-property.end.regexp
     - match: '\\([trnvf0\\]|c[A-Z]|x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)'
       scope: constant.character.escape.backslash.regexp
 

@@ -91,6 +91,18 @@
     /\b\B^$/;
 //   ^^^^^^ keyword.control.anchor
 
+    /\p{General_Category=Letter} \P{Letter}/;
+//   ^^ constant.other.character-class.escape.unicode-property
+//     ^ punctuation.definition.unicode-property.begin
+//      ^^^^^^^^^^^^^^^^ support.constant.unicode-property
+//                      ^ punctuation.separator.key-value.unicode-property
+//                       ^^^^^^ support.constant.unicode-property
+//                             ^ punctuation.definition.unicode-property.end
+//                               ^^ constant.other.character-class.escape.unicode-property
+//                                 ^ punctuation.definition.unicode-property.begin
+//                                  ^^^^^^ support.constant.unicode-property
+//                                        ^ punctuation.definition.unicode-property.end
+
 /* QUANTIFIERS */
 
     /a*b+c?/;
