@@ -1029,6 +1029,40 @@ echo +(bar|qux)
 #     ^ punctuation.section.parens.begin
 #         ^ keyword.operator.logical.or
 #             ^ punctuation.section.parens.end
+[[ a == [abc[]* ]]
+#           ^ - keyword.control
+#               ^^ support.function
+: ${foo//[abc[]/x}
+#            ^ - keyword.control
+#                ^ punctuation.section.expansion.parameter.end
+if [[ ' foobar' == [\ ]foo* ]]; then
+  #                ^ keyword.control.regexp.set.begin
+  #                 ^^ constant.character.escape
+  #                   ^ keyword.control.regexp.set.end
+  #                         ^^ support.function.double-brace.end
+  :
+fi
+case $_G_unquoted_arg in
+*[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
+#^ keyword.control.regexp.set.begin
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+#                                 ^ keyword.control.regexp.set.end
+#                                     ^ - keyword.control
+  _G_quoted_arg=\"$_G_unquoted_arg\"
+  ;;
+*)
+  _G_quoted_arg=$_G_unquoted_arg
+;;
+esac
+case $1 in
+*[\\\`\"\$]*)
+#^ keyword.control.regexp.set.begin
+# ^^^^^^^^ constant.character.escape
+#         ^ keyword.control.regexp.set.end
+  _G_unquoted_arg=`printf '%s\n' "$1" |$SED "$sed_quote_subst"` ;;
+*)
+  _G_unquoted_arg=$1 ;;
+esac
 
 ###################
 # Misc. operators #
