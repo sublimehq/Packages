@@ -61,12 +61,14 @@ contexts:
         - include: character-class
 
   group-assertion:
-    - match: (\()((\?=)|(\?!))
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!))
       captures:
         1: punctuation.definition.group.begin.regexp
         2: punctuation.definition.group.assertion.regexp
         3: meta.assertion.look-ahead.regexp
         4: meta.assertion.negative-look-ahead.regexp
+        5: meta.assertion.look-behind.regexp
+        6: meta.assertion.negative-look-behind.regexp
       push:
         - meta_scope: meta.group.assertion.regexp
         - match: \)
