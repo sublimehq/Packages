@@ -22,8 +22,8 @@ variables:
   constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
   evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
 
-  # similar to regexps in Clojure reader, rolled into one
-  # doesn't accept octals and decimals ending with dot
+  # Similar to the number regexps in the Clojure reader, rolled into one. Unlike
+  # the Clojure reader, doesn't accept evil octals and dot-terminated decimals.
   number: |
     (?x) # trim regexp
     [-+]?
@@ -212,7 +212,7 @@ contexts:
       set: pop-declare-type-list-tail
     - match: defmethod[^{{non_symbol_chars}}]*
       scope: storage.modifier.def.clojure
-      set: pop-list-tail
+      set: pop-fn-list-tail
     - match: def[^{{non_symbol_chars}}]*
       scope: storage.modifier.def.clojure
       set: pop-declare-def-list-tail

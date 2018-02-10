@@ -1608,8 +1608,7 @@
    defmethod
 ;  ^^^^^^^^^ storage.modifier.def.clojure
    dont-declare-multi-fn
-;  ^^^^^^^^^^^^^^^^^^^^^^- storage
-;  ^^^^^^^^^^^^^^^^^^^^^^- entity
+;  ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.fn.clojure
   )
 
 
