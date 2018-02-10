@@ -49,7 +49,7 @@ variables:
   cmd_boundary: (?=\s|;|$|>|<)
   extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
-  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}]*'
+  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
   is_command: (?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'

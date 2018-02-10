@@ -1392,6 +1392,10 @@ array=([foo]== ["bar"]='what' [5+10]=qux)
 #                                  ^ punctuation.section.brackets.end
 #                                   ^ keyword.operator.assignment
 #                                       ^ punctuation.section.parens.end
+array=()  # an empty array
+#    ^ keyword.operator.assignment
+#     ^ punctuation.section.parens.begin
+#      ^ punctuation.section.parens.end
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
 # <- keyword.control
