@@ -386,6 +386,18 @@ $var->meth()[10];
 //  ^ keyword.other.phpdoc
  */
 
+/**
+ * PHP comment from issue #1378
+ *
+ * @see
+ * @author
+ * @package
+ * @version
+ NOTE: Modified */
+//^^^^^^^^^^^^^^^^ comment.block - comment.block.documentation
+//              ^^ punctuation.definition.comment.end
+//                ^ - comment
+
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php
