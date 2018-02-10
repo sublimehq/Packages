@@ -13,6 +13,7 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
+  attribute_name: (?:[^ "'>/=]+)
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
@@ -268,14 +269,11 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '[a-zA-Z0-9:\-_.]+'
+    - match: '{{attribute_name}}'
       scope: entity.other.attribute-name.html
       push:
         - tag-generic-attribute-meta
         - tag-generic-attribute-equals
-
-    - match: '[a-zA-Z0-9:\-_.]+'
-      scope: entity.other.attribute-name.html
 
   tag-generic-attribute-meta:
     - meta_scope: meta.attribute-with-value.html
