@@ -215,6 +215,11 @@ class="foo"></div>
         ##   ^^^^^ entity.other.attribute-name
         ##        ^ punctuation.separator.key-value
 
+        <tag    foo	bar></tag>Mind the tab character!
+        ##      ^^^ entity.other.attribute-name
+        ##         ^ - entity.other.attribute-name
+        ##          ^^^ entity.other.attribute-name
+
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##         ^ - meta.attribute-with-value.event
         ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event
