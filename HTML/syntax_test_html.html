@@ -220,6 +220,12 @@ class="foo"></div>
         ##         ^ - entity.other.attribute-name
         ##          ^^^ entity.other.attribute-name
 
+        <tag foo=a bar=b></tag>
+        ##   ^^^ entity.other.attribute-name
+        ##       ^ string.unquoted
+        ##         ^^^ entity.other.attribute-name
+        ##             ^ string.unquoted
+
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##         ^ - meta.attribute-with-value.event
         ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event

@@ -305,6 +305,7 @@ contexts:
         - include: attribute-entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html
+      pop: true
     - include: else-pop
 
   tag-class-attribute:
@@ -346,6 +347,7 @@ contexts:
         - include: attribute-entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.class-name.html
+      pop: true
     - include: else-pop
 
   tag-id-attribute:
@@ -387,6 +389,7 @@ contexts:
         - include: attribute-entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.toc-list.id.html
+      pop: true
     - include: else-pop
 
   tag-style-attribute:
