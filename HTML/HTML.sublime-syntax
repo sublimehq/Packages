@@ -81,58 +81,18 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-attributes
-    - match: '(?:^\s+)?(<)((?i:style))\b(?![^>]*/>)'
+    - match: (<)((?i:style))\b
       captures:
         0: meta.tag.style.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
-      push:
-        - match: (?i)(</)(style)(>)
-          captures:
-            0: meta.tag.style.end.html
-            1: punctuation.definition.tag.begin.html
-            2: entity.name.tag.style.html
-            3: punctuation.definition.tag.end.html
-          pop: true
-        - match: '(>)\s*'
-          captures:
-            1: meta.tag.style.begin.html punctuation.definition.tag.end.html
-          embed: scope:source.css
-          embed_scope: source.css.embedded.html
-          escape: (?i)(?=</style)
-        - match: ''
-          push:
-            - meta_scope: meta.tag.style.begin.html
-            - match: '(?=>)'
-              pop: true
-            - include: tag-attributes
-    - match: '(<)((?i:script))\b(?![^>]*/>)(?![^>]*(?i:type.?=.?text/((?!javascript).*)))'
+      push: style-css
+    - match: '(<)((?i:script))\b'
       captures:
         0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
-      push:
-        - match: (?i)(-->)?\s*(</)(script)(>)
-          captures:
-            0: meta.tag.script.end.html
-            1: comment.block.html punctuation.definition.comment.html
-            2: punctuation.definition.tag.begin.html
-            3: entity.name.tag.script.html
-            4: punctuation.definition.tag.end.html
-          pop: true
-        - match: '(>)\s*(<!--)?'
-          captures:
-            1: meta.tag.script.begin.html punctuation.definition.tag.end.html
-            2: comment.block.html punctuation.definition.comment.html
-          embed: scope:source.js
-          embed_scope: source.js.embedded.html
-          escape: (?i)(?=(-->)?\s*</script)
-        - match: ''
-          push:
-            - meta_scope: meta.tag.script.begin.html
-            - match: '(?=>)'
-              pop: true
-            - include: tag-attributes
+      push: script-javascript
     - match: (</?)((?i:body|head|html)\b)
       captures:
         1: punctuation.definition.tag.begin.html
@@ -236,6 +196,148 @@ contexts:
     - include: entities
     - match: <>
       scope: invalid.illegal.incomplete.html
+
+  style-css:
+    - meta_content_scope: meta.tag.style.begin.html
+    - include: style-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - include: style-close-tag
+        - match: ''
+          embed: scope:source.css
+          embed_scope: source.css.embedded.html
+          escape: (?i)(?=(?:-->\s*)?</style)
+
+  style-other:
+    - meta_content_scope: meta.tag.style.begin.html
+    - include: style-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - include: style-close-tag
+
+  style-close-tag:
+    - match: (?i)(</)(style)(>)
+      scope: meta.tag.style.end.html
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.style.html
+        3: punctuation.definition.tag.end.html
+      pop: true
+
+  style-common:
+    - include: style-type-attribute
+    - include: tag-attributes
+    - match: '/>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  style-type-attribute:
+    - match: (?i)\btype\b
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set:
+        - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+        - match: =
+          scope: punctuation.separator.key-value.html
+          set:
+            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+            - include: style-type-decider
+        - match: (?=\S)
+          set: style-css
+
+  style-type-decider:
+    - match: (?i)(?=text/css(?!{{unquoted_attribute_value}})|'text/css'|"text/css")
+      set:
+        - style-css
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?i)(?=>|''|"")
+      set:
+        - style-css
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=\S)
+      set:
+        - style-other
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+
+  script-javascript:
+    - meta_content_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - include: script-close-tag
+        - match: (?=\S)
+          embed: scope:source.js
+          embed_scope: source.js.embedded.html
+          escape: (?i)(?=(?:-->\s*)?</script)
+
+  script-other:
+    - meta_content_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - include: script-close-tag
+
+  script-close-tag:
+    - match: \s*(<!--)
+      captures:
+        1: comment.block.html punctuation.definition.comment.begin.html
+    - match: (?i)(?:(-->)\s*)?(</)(script)(>)
+      scope: meta.tag.script.end.html
+      captures:
+        1: comment.block.html punctuation.definition.comment.end.html
+        2: punctuation.definition.tag.begin.html
+        3: entity.name.tag.script.html
+        4: punctuation.definition.tag.end.html
+      pop: true
+
+  script-common:
+    - include: script-type-attribute
+    - include: tag-attributes
+    - match: '/>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  script-type-attribute:
+    - match: (?i)\btype\b
+      scope: meta.attribute-with-value.html entity.other.attribute-name.html
+      set:
+        - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+        - match: =
+          scope: punctuation.separator.key-value.html
+          set:
+            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+            - include: script-type-decider
+        - match: (?=\S)
+          set: script-javascript
+
+  script-type-decider:
+    - match: (?i)(?=text/javascript(?!{{unquoted_attribute_value}})|'text/javascript'|"text/javascript")
+      set:
+        - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?i)(?=module(?!{{unquoted_attribute_value}})|'module'|"module")
+      set:
+        - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?i)(?=>|''|"")
+      set:
+        - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?=\S)
+      set:
+        - script-other
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+
   entities-common:
     - match: (&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)
       scope: constant.character.entity.html
@@ -307,6 +409,7 @@ contexts:
         - include: attribute-entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html
+      pop: true
     - include: else-pop
 
   tag-class-attribute:
