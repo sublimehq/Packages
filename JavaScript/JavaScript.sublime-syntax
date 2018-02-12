@@ -729,13 +729,22 @@ contexts:
           - include: scope:source.regexp.js
 
   constructor:
+    - match: \bnew\b(?=\s*\.)
+      scope: keyword.operator.word.new.js
+      set: new-target
+
     - match: '\bnew\b'
       scope: keyword.operator.word.new.js
       set:
-        - constructor-meta
-        - constructor-body-expect-arguments
-        - constructor-body-expect-class-end
-        - constructor-body-expect-class-begin
+        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
+        - match: (?=\s*\.)
+          set: new-target
+        - match: (?=\s*\S)
+          set:
+            - constructor-meta
+            - constructor-body-expect-arguments
+            - constructor-body-expect-class-end
+            - constructor-body-expect-class-begin
 
   constructor-meta:
     - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
@@ -770,6 +779,17 @@ contexts:
 
     - include: expression-begin
 
+  new-target:
+    - match: \.
+      scope: punctuation.accessor.dot.js
+      set:
+        - match: \btarget\b
+          scope: variable.language.target.js
+          pop: true
+        - include: else-pop
+
+    - include: else-pop
+
   prefix-operators:
     - match: '~'
       scope: keyword.operator.bitwise.js
@@ -783,9 +803,6 @@ contexts:
       scope: keyword.operator.spread.js
     - match: \+|\-
       scope: keyword.operator.arithmetic.js
-
-    - match: \bnew\b
-      scope: keyword.operator.word.new.js
     - match: \b(?:delete|typeof|void)\b
       scope: keyword.operator.js
 
