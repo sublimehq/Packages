@@ -310,7 +310,7 @@ www.google.com/search?q=commonmark&hl=en
 |                                       ^ - markup.underline.link
 www.google.com/search?q=commonmark&hl;
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                                 ^^^^ constant.character.entity.html - markup.underline.link
+|                                 ^^^^ constant.character.entity.named.html - markup.underline.link
 (Visit https://encrypted.google.com/search?q=Markup+(business))
 |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                                             ^^ - markup.underline.link
@@ -1294,18 +1294,18 @@ _foo [**bar**](/url)_
 
 [**Read more &#8594;**][details]
 |^^ punctuation.definition.bold.begin
-|            ^^^^^^^ constant.character.entity.html
+|            ^^^^^^^ constant.character.entity.decimal.html
 |                   ^^ punctuation.definition.bold.end
 |                       ^^^^^^^ constant.other.reference.link
 
 [Read more &#8594;][details]
-|          ^^^^^^^ constant.character.entity.html
+|          ^^^^^^^ constant.character.entity.decimal.html
 |                   ^^^^^^^ constant.other.reference.link
 
 [Read more <span style="font-weight: bold;">&#8594;</span>][details]
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.description
 |                       ^^^^^^^^^^^^^^^^^^ source.css
-|                                           ^^^^^^^ constant.character.entity.html
+|                                           ^^^^^^^ constant.character.entity.decimal.html
 |                                                           ^^^^^^^ constant.other.reference.link
 
 [![Cool ★ Image - Click to Enlarge][img-example]][img-example]
