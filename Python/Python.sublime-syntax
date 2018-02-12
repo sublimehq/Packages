@@ -280,6 +280,8 @@ contexts:
       scope: punctuation.separator.with-resources.python
       set: with-body
     - include: name
+    - include: groups
+    - include: lists
 
   expressions-common:
     - include: comments
@@ -294,17 +296,7 @@ contexts:
     - include: strings
     - include: function-calls
     - include: item-access
-    - match: \(
-      scope: punctuation.section.group.begin.python
-      push:
-        - meta_scope: meta.group.python
-        - match: \)
-          scope: punctuation.section.group.end.python
-          set: after-expression
-        - match: ','
-          scope: punctuation.separator.tuple.python
-        - include: inline-for
-        - include: expressions
+    - include: groups
     - match: \)
       scope: invalid.illegal.stray.brace.round.python
     - match: \]
@@ -763,6 +755,19 @@ contexts:
       scope: variable.parameter.python
     - match: '\S'
       scope: invalid.illegal.expected-parameter.python
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.python
+      push:
+        - meta_scope: meta.group.python
+        - match: \)
+          scope: punctuation.section.group.end.python
+          set: after-expression
+        - match: ','
+          scope: punctuation.separator.tuple.python
+        - include: inline-for
+        - include: expressions
 
   lists:
     - match: '(\[)(\s*(\]))\b'
