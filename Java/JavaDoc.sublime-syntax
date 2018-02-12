@@ -1,223 +1,200 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
-name: JavaDoc
+name: Javadoc
 file_extensions: []
 scope: text.html.javadoc
+hidden: true
+
+variables:
+  id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
+
 contexts:
+  prototype:
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#leadingasterisks
+    - match: ^\s*(\*)\s*(?!\s*@)
+      captures:
+        1: punctuation.definition.comment.javadoc
+
   main:
-    - match: (/\*\*)\s*$
-      captures:
-        1: punctuation.definition.comment.begin.javadoc
+    - meta_include_prototype: false
+    - match: /\*\*
+      scope: comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
+      embed: contents
+      embed_scope: comment.block.documentation.javadoc text.html.javadoc
+      escape: \*/
+      escape_captures:
+        0: comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+
+  contents:
+    - meta_include_prototype: false
+
+    # Block tag in the first line (immediately after '/**').
+    - match: \s*(?=@)
+      push: javadoc-block-tags
+      with_prototype:
+        - include: javadoc-block-tag-terminator
+
+    # We rely on 'escape' to pop the inner context out.
+    # 'set' unfortunately will mess up the meta scopes.
+    - match: ''
       push:
-        - meta_scope: comment.block.documentation.javadoc
-        - match: \*/
+        - match: ^\s*(\*)?\s*(?=@)
           captures:
-            0: punctuation.definition.comment.javadoc
-          pop: true
-        - include: invalid
-        - match: \*\s*(?=\w)
-          push:
-            - meta_scope: meta.documentation.comment.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)param)
-          captures:
-            1: keyword.other.documentation.param.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.param.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)return)
-          captures:
-            1: keyword.other.documentation.return.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.return.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)throws)
-          captures:
-            1: keyword.other.documentation.throws.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.throws.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)exception)
-          captures:
-            1: keyword.other.documentation.exception.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.exception.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)author)
-          captures:
-            1: keyword.other.documentation.author.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.author.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)version)
-          captures:
-            1: keyword.other.documentation.version.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.version.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)see)
-          captures:
-            1: keyword.other.documentation.see.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.see.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)since)
-          captures:
-            1: keyword.other.documentation.since.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.since.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)serial)
-          captures:
-            1: keyword.other.documentation.serial.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.serial.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)serialField)
-          captures:
-            1: keyword.other.documentation.serialField.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.serialField.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)serialData)
-          captures:
-            1: keyword.other.documentation.serialData.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.serialData.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)deprecated)
-          captures:
-            1: keyword.other.documentation.deprecated.javadoc
-            2: punctuation.definition.keyword.javadoc
-          push:
-            - meta_scope: meta.documentation.tag.deprecated.javadoc
-            - meta_content_scope: text.html
-            - match: (?=\s*\*\s*@)|(?=\s*\*\s*/)
-              pop: true
-            - include: inline
-        - match: \*\s*((\@)\S+)\s
-          captures:
-            1: keyword.other.documentation.custom.javadoc
-            2: punctuation.definition.keyword.javadoc
-  inline:
-    - include: invalid
-    - include: inline-formatting
-    - include: scope:text.html.basic
-    - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]+(?<![.?:])"
-      scope: markup.underline.link
+            1: punctuation.definition.comment.javadoc
+          push: javadoc-block-tags
+          with_prototype:
+            - include: javadoc-block-tag-terminator
+        - include: inline-formatting
+
   inline-formatting:
-    - match: '(\{)((\@)code)'
+    - include: javadoc-inline-tags
+    - include: scope:text.html.basic
+
+  javadoc-block-tag-terminator:
+    - match: (?=^\s*\*?\s*@)
+      pop: true
+
+  javadoc-block-tag-base:
+    - meta_scope: meta.block-tag.javadoc
+    - include: inline-formatting
+
+  javadoc-block-tags:
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
+    - match: (@)param\b
+      scope: keyword.other.documentation.param.javadoc
       captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.code.javadoc
+        1: punctuation.definition.keyword.javadoc
+      push: [javadoc-block-tag-base, param-tag-parameter]
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
+    - match: (@)see\b
+      scope: keyword.other.documentation.see.javadoc
+      captures:
+        1: punctuation.definition.keyword.javadoc
+      push: [javadoc-block-tag-base, see-tag-content]
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
+    - match: (@)(throws|exception)\b
+      scope: keyword.other.documentation.throws.javadoc
+      captures:
+        1: punctuation.definition.keyword.javadoc
+      push: [javadoc-block-tag-base, reference]
+    - match: (@)(uses|provides)\b
+      scope: keyword.other.documentation.uses-or-provides.javadoc
+      captures:
+        1: punctuation.definition.keyword.javadoc
+      push: [javadoc-block-tag-base, reference]
+    - match: (@)(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
+      scope: keyword.other.documentation.javadoc
+      captures:
+        1: punctuation.definition.keyword.javadoc
+      push: javadoc-block-tag-base
+    - match: '@'
+      pop: true
+
+  param-tag-parameter:
+    - match: \S+
+      scope: variable.parameter.javadoc
+      pop: true
+
+  see-tag-content:
+    - match: (?=['<])
+      pop: true
+    - match: (?=\S)
+      set: reference
+
+  reference:
+    - match: (?:{{id}}\.)*{{id}}(?:#{{id}})?|#{{id}}
+      scope: markup.underline.link.javadoc
+      set:
+        - match: \(
+          scope: markup.underline.link.javadoc
+          set:
+          - match: \)
+            scope: markup.underline.link.javadoc
+            pop: true
+          - match: .
+            scope: markup.underline.link.javadoc
+        - match: ''
+          pop: true
+
+  javadoc-inline-tag-terminator:
+    - match: \}
+      scope: punctuation.section.inline-tag.end.javadoc
+      pop: true
+
+  javadoc-inline-tag-base:
+    - meta_scope: meta.inline-tag.javadoc
+    - include: javadoc-inline-tag-terminator
+
+  # Multi-line tags mustn't highlight leading asterisk.
+  javadoc-inline-tags:
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#code
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#literal
+    - match: ({)((@)(?:code|literal))(?:\s+|(?=\}))
+      captures:
+        1: punctuation.section.inline-tag.begin.javadoc
+        2: keyword.other.documentation.code-or-literal.javadoc
         3: punctuation.definition.keyword.javadoc
       push:
-        - meta_scope: meta.directive.code.javadoc
-        - meta_content_scope: markup.raw.code.javadoc
-        - match: '\}'
-          captures:
-            0: punctuation.definition.directive.end.javadoc
-          pop: true
-    - match: '(\{)((\@)literal)'
+        - meta_scope: meta.inline-tag.javadoc
+        - include: javadoc-inline-tag-terminator
+        - include: code-tag-bracket-balancing
+        - match: ^\s+
+        - match: .
+          scope: markup.raw.javadoc
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
+    - match: ({)((@)link(?:plain)?)\b
       captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.literal.javadoc
+        1: punctuation.section.inline-tag.begin.javadoc
+        2: keyword.other.documentation.link.javadoc
         3: punctuation.definition.keyword.javadoc
+      push: [javadoc-inline-tag-base, link-tag-label, reference-in-inline-tag]
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#value
+    - match: ({)((@)value)\b
+      captures:
+        1: punctuation.section.inline-tag.begin.javadoc
+        2: keyword.other.documentation.value.javadoc
+        3: punctuation.definition.keyword.javadoc
+      push: [javadoc-inline-tag-base, reference-in-inline-tag]
+    # http://openjdk.java.net/jeps/225
+    # https://bugs.openjdk.java.net/browse/JDK-8178725
+    - match: ({)((@)(?:index|extLink))\b
+      captures:
+        1: punctuation.section.inline-tag.begin.javadoc
+        2: keyword.other.documentation.javadoc
+        3: punctuation.definition.keyword.javadoc
+      push: javadoc-inline-tag-base
+    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#inheritDoc
+    - match: ({)((@)inheritDoc)(})
+      scope: meta.inline-tag.javadoc
+      captures:
+        1: punctuation.section.inline-tag.begin.javadoc
+        2: keyword.other.documentation.javadoc
+        3: punctuation.definition.keyword.javadoc
+        4: punctuation.section.inline-tag.end.javadoc
+
+  code-tag-bracket-balancing:
+    - match: \{
+      scope: markup.raw.javadoc
       push:
-        - meta_scope: meta.directive.literal.javadoc
-        - meta_content_scope: markup.raw.literal.javadoc
-        - match: '\}'
-          captures:
-            0: punctuation.definition.directive.end.javadoc
+        - match: \}
+          scope: markup.raw.javadoc
           pop: true
-    - match: '(\{)((\@)docRoot)(\})'
-      scope: meta.directive.docRoot.javadoc
-      captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.docRoot.javadoc
-        3: punctuation.definition.keyword.javadoc
-        4: punctuation.definition.directive.end.javadoc
-    - match: '(\{)((\@)inheritDoc)(\})'
-      scope: meta.directive.inheritDoc.javadoc
-      captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.inheritDoc.javadoc
-        3: punctuation.definition.keyword.javadoc
-        4: punctuation.definition.directive.end.javadoc
-    - match: '(\{)((\@)link)(?:\s+(\S+?))?(?:\s+(.+?))?\s*(\})'
-      scope: meta.directive.link.javadoc
-      captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.link.javadoc
-        3: punctuation.definition.keyword.javadoc
-        4: markup.underline.link.javadoc
-        5: string.other.link.title.javadoc
-        6: punctuation.definition.directive.end.javadoc
-    - match: '(\{)((\@)linkplain)(?:\s+(\S+?))?(?:\s+(.+?))?\s*(\})'
-      scope: meta.directive.linkplain.javadoc
-      captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.linkplain.javadoc
-        3: punctuation.definition.keyword.javadoc
-        4: markup.underline.linkplain.javadoc
-        5: string.other.link.title.javadoc
-        6: punctuation.definition.directive.end.javadoc
-    - match: '(\{)((\@)value)\s*(\S+?)?\s*(\})'
-      scope: meta.directive.value.javadoc
-      captures:
-        1: punctuation.definition.directive.begin.javadoc
-        2: keyword.other.documentation.directive.value.javadoc
-        3: punctuation.definition.keyword.javadoc
-        4: variable.other.javadoc
-        5: punctuation.definition.directive.end.javadoc
-  invalid:
-    - match: ^(?!\s*\*).*$\n?
-      scope: invalid.illegal.missing-asterisk.javadoc
+        - include: code-tag-bracket-balancing
+        - match: .
+          scope: markup.raw.javadoc
+
+  link-tag-label:
+    - match: \s*
+      set:
+        - meta_content_scope: meta.label.javadoc
+        - include: scope:text.html.basic
+        - match: (?=\})
+          pop: true
+
+  reference-in-inline-tag:
+    - match: ''
+      set: reference
+      with_prototype:
+        - match: (?=\})
+          pop: true

@@ -11,7 +11,7 @@
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
         ## ^ entity.name.tag.script - source.js.embedded.html
         ##            ^ string.quoted.double.html - source.js.embedded.html
-        ##                              ^^^^ comment.block.html punctuation.definition.comment.html
+        ##                              ^^^^ comment.block.html punctuation.definition.comment.begin.html
             var foo = 100;
             var baz = function() {
                 ## <- entity.name.function.js
@@ -20,14 +20,32 @@
             (a --> b);
             ## ^^^ source.js.embedded.html meta.group.js keyword.operator
         --> </script>
-        ## <- comment.block.html punctuation.definition.comment.html
+        ## <- comment.block.html punctuation.definition.comment.end.html
         ##    ^^^^^^ entity.name.tag.script.html
         ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
         ##           ^ - meta.tag
+
+        <script
+        type
+        =
+        text/javascript>
+            var foo = 100;
+        ##  ^^^^^^^^^^^^^^^ source.js.embedded
+        </script>
+
+        <script
+        type
+        =
+        'other'
+        >
+            var foo = 100;
+        ##  ^^^^^^^^^^^^^^^ - source.js
+        </script>
+
         <style type="text/css">
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
         ## ^ entity.name.tag.style.html
-        ## ^^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
+        ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
         ##      ^ entity.other.attribute-name
         ##                     ^ - meta.tag
             h2 {
@@ -41,12 +59,29 @@
         ##<- meta.tag.style.end.html - source.css.embedded.html
         ##^^^^^^ meta.tag.style.end.html - source.css.embedded.html
         ##      ^ - meta.tag
+
+        <style
+        type
+        =
+        text/css>
+            div {}
+        ##  ^^^^^^ source.css.embedded
+        </style>
+
+        <style
+        type
+        =
+        text/csss>
+            div {}
+        ##  ^^^^^^ - source.css
+        </style>
+
         <style />
         ##       ^ - source.css.embedded.html
-        ## ^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+        ## ^ meta.tag.style entity.name.tag.style
         <script />
         ##        ^ - source.js.embedded.html
-        ## ^ meta.tag.inline.any.html entity.name.tag.inline.any.html
+        ## ^ meta.tag.script entity.name.tag.script
     </head>
     <body>
         <!-- Comment -->
@@ -56,38 +91,19 @@
 ##          ^^^^^^^^^ - punctuation
 
         <!----- hyphens - -- --- -->
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                          ^ - comment.block.html
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - invalid.illegal.bad-comments-or-CDATA
 
-        <!---   hyphens - -- --- -- >
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                           ^ - comment.block.html
+        <!-->-- hyphens <!-- --!> <!--->
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##          ^ invalid.illegal.bad-comments-or-CDATA
+##                      ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                           ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                                ^^^ invalid.illegal.bad-comments-or-CDATA
 
-        <!----- hyphens - -- --- ---->
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                         ^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                            ^ - comment.block.html
-
-        <!--- hyphens --- >
-        ## ^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##            ^ invalid.illegal.bad-comments-or-CDATA.html
-        ##             ^^^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                 ^ - comment.block.html
+        <!--->- hyphens <!-   -!> <!-->
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##          ^^ invalid.illegal.bad-comments-or-CDATA
+##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
 
         <div title=description></div>
         ##  ^ - meta.attribute-with-value

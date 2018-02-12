@@ -46,6 +46,10 @@ export const name1 = 5;
 //     ^^^^^ storage.type
 //                 ^ keyword.operator.assignment
 
+export let foo = 123 // No semicolon
+export function bar() {}
+// <- keyword.control.import-export
+
 export function foo() {}
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
@@ -211,9 +215,10 @@ function foo() {
 // <- meta.function.declaration
  // <- meta.function.declaration
   // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration
+// ^^^^^^^^^^^ meta.function.declaration - meta.function.declaration meta.function.declaration
 // ^ storage.type.function
 //        ^ entity.name.function
+//             ^ - meta.function.declaration
 }
 // <- meta.block
 
@@ -382,7 +387,7 @@ var obj = {
 //           ^^^ meta.property
     }(),
 
-    objKey: new class Foo() {
+    objKey: new class Foo {
 //              ^^^^^ storage.type.class
         get baz() {}
 //      ^^^ storage.type.accessor
@@ -669,9 +674,9 @@ class MyClass extends TheirClass {
 //        ^^ constant.numeric
 
     [w] = 42;
-//  ^ punctuation.definition.symbol.begin
+//  ^ punctuation.section.brackets.begin
 //   ^ variable.other.readwrite
-//    ^ punctuation.definition.symbol.end
+//    ^ punctuation.section.brackets.end
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
@@ -703,9 +708,9 @@ class MyClass extends TheirClass {
 
     static [w] = 42;
 //  ^^^^^^ storage.modifier.js
-//         ^ punctuation.definition.symbol.begin
+//         ^ punctuation.section.brackets.begin
 //          ^ variable.other.readwrite
-//           ^ punctuation.definition.symbol.end
+//           ^ punctuation.section.brackets.end
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
 
@@ -808,11 +813,19 @@ class Foo extends React.Component {
     {}
 
     [foo.bar](arg) {
-//   ^^^^^^^ entity.name.function
+//   ^^^ variable.other
+//       ^^^ meta.property
 //            ^^^ variable.parameter
         return this.a;
     }
 }
+
+class Foo extends
+//        ^^^^^^^ storage.modifier.extends
+Bar {}
+
+class Foo extends getSomeClass() {}
+//                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
 () => {}
 // <- meta.function.declaration punctuation.section.group
@@ -836,8 +849,9 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 
 // We can't currently detect this properly, but we need to consume => properly
 ([a,
-  b]) => { }
+  b]) => { return x; }
 //    ^^ storage.type.function.arrow
+//         ^^^^^^ meta.block keyword.control.flow
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1249,6 +1263,18 @@ octal = 079.0;
 strayBracket = ());
 //               ^ invalid.illegal.stray-bracket-end
 
+strayBracket = []];
+//               ^ invalid.illegal.stray-bracket-end
+
+strayBracket = {}};
+//               ^ invalid.illegal.stray-bracket-end
+
+(a +) + c;
+//   ^^^^ - meta.group
+
+(a =>) + c;
+//    ^^^^ - meta.group
+
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
 //                      ^^ meta.parameter.optional
@@ -1379,3 +1405,10 @@ function yy (a, b) {
 
     .123E-7_8_9;
 //  ^^^^^^^^^^^ constant.numeric.decimal
+
+debugger;
+// <- keyword.other.debugger
+
+debugger
+[]
+// <- meta.sequence

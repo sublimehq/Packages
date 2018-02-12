@@ -137,7 +137,7 @@ contexts:
         - include: main
 
   function-declarations:
-    - match: ^\s*({{var}})\s*(<<?-|=)\s*(?=function\s*\()
+    - match: ({{var}})\s*(<<?-|=)\s*(?=function\s*\()
       scope: meta.function.r
       captures:
         1: entity.name.function.r

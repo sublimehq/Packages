@@ -1,25 +1,106 @@
 // SYNTAX TEST "Packages/Java/Java.sublime-syntax"
 
 package apple;
-// <- source.java meta.package.java keyword.other.package.java
-//      ^ meta.package.java support.other.package.java
-//           ^ meta.package.java punctuation.terminator.java
+// <- source.java meta.package-declaration.java keyword.other.package.java
+//      ^^^^^ entity.name.namespace.java
+//           ^ punctuation.terminator.java
+
+package com.example.apple;
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.package-declaration.java
+//      ^^^^^^^^^^^^^^^^^ entity.name.namespace.java
+//         ^ punctuation.accessor.dot.java
+//                 ^ punctuation.accessor.dot.java
+//                       ^ punctuation.terminator.java
 
 import a.b.Class;
-// <- meta.import.java keyword.other.import.java
-//     ^ meta.import.java support.class.import.java
+// <- meta.import.java keyword.control.import.java
+//     ^^^^^^^^^ meta.path.java
+//     ^ support.type.package.java
+//      ^ punctuation.accessor.dot.java
+//       ^ support.type.package.java
 //        ^ punctuation.accessor.dot.java
-//              ^ meta.import.java punctuation.terminator.java
+//         ^^^^^ support.class.import.java
+//              ^ punctuation.terminator.java
+
+import a.b.Class.SubClass;
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^ support.class.import.java
+
+import a.b.Class.*;
+//^^^^^^^^^^^^^^^^ meta.import.java
+//              ^ punctuation.accessor.dot.java
+//               ^ keyword.operator.wildcard.asterisk.java
+
+import com.google
+//     ^^^^^^^^^^ meta.import.java meta.path.java
+//        ^ punctuation.accessor.dot.java
+//         ^^^^^^ support.type.package.java
+  .common.collect
+//^ punctuation.accessor.dot.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^^^^^ support.type.package.java
+//^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+  .ListMultimap;
+//^ punctuation.accessor.dot.java
+// ^^^^^^^^^^^^ support.class.import.java
+//^^^^^^^^^^^^^ meta.import.java meta.path.java
+//             ^ punctuation.terminator.java
+
+import no.terminator
+// <- meta.import.java keyword.control.import.java
+
+import static no.terminator
+// <- meta.import.java keyword.control.import.java
+
+import
+// <- meta.import.java keyword.control.import.java
+
+import static
+// <- meta.import.java keyword.control.import.java
+
+import java.net.URL;
+// <- meta.import.java keyword.control.import.java
+//^^^^^^^^^^^^^^^^^ meta.import.java
+//     ^^^^^^^^^^^^ meta.path.java
+//              ^^^ support.class.import.java
+//     ^^^^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^ support.type.package.java
+//             ^ punctuation.accessor.dot.java
+//                 ^ punctuation.terminator.java
+
+import java.util.*;
+//^^^^^^^^^^^^^^^^ meta.import.java
+//     ^^^^^^^^^^^ meta.path.java
+//     ^^^^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^ support.type.package.java
+//              ^ punctuation.accessor.dot.java
+//               ^ keyword.operator.wildcard.asterisk.java
 
 import static a.b.Class.fooMethod;
-// <- meta.import.java keyword.other.import.java
-//     ^  meta.import.java storage.modifier.static.java
-//            ^ meta.import.java support.function.import.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
+// <- meta.import.java keyword.control.import.java
+//     ^^^^^^ meta.import.java keyword.control.import.static.java
+//             ^ punctuation.accessor.dot.java
+//            ^^^^^^^^^ meta.path.java
+//                 ^^^^ support.class.import.java
+//               ^ punctuation.accessor.dot.java
 //                     ^ punctuation.accessor.dot.java
-//                               ^ meta.import.java punctuation.terminator.java
+//                      ^^^^^^^^^ meta.import.java support.function.import.java
+//                               ^ punctuation.terminator.java
 
 import static a.b.Class.CONSTANT;
-/*                      ^ constant.other.java */
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
+//            ^^^^^^^^^ meta.path.java
+//                 ^^^^ support.class.import.java
+//                     ^ punctuation.accessor.dot.java
+//                      ^^^^^^^^ constant.other.import.java
+
+import static a.b.Class.*;
+//                     ^ punctuation.accessor.dot.java
+//                      ^ keyword.operator.wildcard.asterisk.java
 
 public class SyntaxTest {
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class
@@ -88,9 +169,17 @@ public class SyntaxTest {
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
 //              ^ punctuation.section.parens.begin
 //               ^ meta.catch.parameters storage.modifier.java
-//                     ^ support.class
+//                     ^^^^^^^^^^^ support.class
 //                                 ^ punctuation.separator
-//                                   ^ support.class
+//                                   ^^^ support.type.package.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^^^ support.type.package.java
+//                                          ^ punctuation.accessor.dot.java
+//                                           ^^^ support.type.package.java
+//                                              ^ punctuation.accessor.dot.java
+//                                               ^^^ support.class.java
+//                                                  ^ punctuation.accessor.dot.java
+//                                                   ^^^ support.class.java
 //                                                       ^ punctuation.separator
                 YourException ignore) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
@@ -163,13 +252,11 @@ public class SyntaxTest {
 //                                      ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws
 //                                      ^^^^^^ keyword.declaration.throws.java
 //                                                        ^^^^^ meta.generic.java
-//                                                             ^ - meta.method.throws
-//                                                              ^^ meta.method.body.java
+//                                                              ^^ meta.method.body.java -meta.method.throws
         throw new MyException
                 ("hello (world)");
 //                              ^ - string
     }
-
     <T> void save(T obj);
 //           ^^^^^^^^^^^ meta.method
 //  ^^^ meta.generic
@@ -184,18 +271,18 @@ class ExtendsTest extends Foo {}
 //                ^^^^^^^^^^^ meta.class.extends
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^ entity.other.inherited-class.java
-//                           ^ - meta.class.extends
+//                            ^ - meta.class.extends
 
 class ExtendsTest implements Foo {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //                ^^^^^^^^^^^^^^ meta.class.implements.java
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
-//                              ^ - meta.class.implements.java
+//                               ^ - meta.class.implements.java
 
 class Foo<A> extends Bar<? extends A> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//       ^^^ meta.generic.java
+//       ^^^ meta.generic.declaration.java
 //        ^ variable.parameter.type.java
 //           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
 //                         ^^^^^^^ keyword.declaration.extends.java
@@ -205,14 +292,14 @@ class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //                             ^^^^^^^^^^^ meta.class.extends
 //                             ^^^^^^^ keyword.declaration.extends.java
 //                                     ^^^ entity.other.inherited-class.java
-//                                        ^ - meta.class.extends
+//                                         ^ - meta.class.extends
 //                                         ^^^^^^^^^^^^^^ meta.class.implements.java
 //                                         ^^^^^^^^^^ keyword.declaration.implements.java
-//                                                    ^^^^^^^^ meta.generic.java
 //                                                    ^^^ entity.other.inherited-class.java
+//                                                       ^^^^^ meta.generic.java
 //                                                            ^ punctuation.separator.implements.java
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
-//                                                                      ^ - meta.class.implements.java
+//                                                                       ^ - meta.class.implements.java
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
@@ -231,7 +318,7 @@ class AnyClass {
     }
 
     public abstract <A> void test(A thing);
-//                  ^^^ meta.generic.java
+//                  ^^^ meta.generic.declaration.java
 //                   ^ variable.parameter.type.java
 
     public void test2(Type) abc
@@ -398,6 +485,75 @@ public class Lambdas {
 //                                  ^^^ storage.type.primitive - meta.annotation
 //                                      ^^^ variable.parameter.java
 //                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+  }
+}
+
+class Generics {
+
+  List<String> field;
+//    ^^^^^^^^ meta.generic.java
+//    ^ punctuation.definition.generic.begin.java
+//     ^^^^^^ support.class.java
+//           ^ punctuation.definition.generic.end.java
+
+  List<java.net.URI> field;
+//    ^^^^^^^^^^^^^^ meta.generic.java
+//    ^ punctuation.definition.generic.begin.java
+//     ^^^^^^^^^^^^ meta.path.java
+//     ^^^^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^ support.type.package.java
+//             ^ punctuation.accessor.dot.java
+//              ^^^ support.class.java
+
+  void variableTypes() {
+    List<String> x;
+//      ^^^^^^^^ meta.generic.java
+//      ^ punctuation.definition.generic.begin.java
+//             ^ punctuation.definition.generic.end.java
+
+    List<java.lang.String> x;
+//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//       ^^^^ support.type.package.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ support.type.package.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^ support.class.java
+//                       ^ punctuation.definition.generic.end.java
+
+    List<URI> x;
+//      ^^^^^ meta.generic.java
+//       ^^^ support.class.java
+
+    List<java.net.URI> x;
+//      ^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^ meta.path.java
+//                ^^^ support.class.java
+
+    List<int[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^ storage.modifier.array.java
+
+    List<java.lang.String[]> x;
+//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//                       ^^ storage.modifier.array.java
+
+    List<URI[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ support.class.java
+//          ^^ storage.modifier.array.java
+
+    List<int[][]>[][] x;
+//      ^^^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^^^ storage.modifier.array.java
+//               ^^^^ storage.modifier.array.java
+  }
+
+  void instantiation() {
 
   new Foo<Abc>();
 //       ^^^^^ meta.generic.java
@@ -420,13 +576,41 @@ public class Lambdas {
 //          ^^^^^ keyword.declaration.super.java
 
   new Foo<int>();
-//        ^^^ invalid.illegal.primitive-instantiation.java
+//        ^^^ -storage.type.primitive
 
   new Foo<String, int>();
 //        ^^^^^^ support.class.java
-//                ^^^ invalid.illegal.primitive-instantiation.java
+//                ^^^ -storage.type.primitive
+
   new Foo<a.b.FooBar>();
-/*       ^^^^^^^^^^^^ meta.generic.java */
+//       ^^^^^^^^^^^^ meta.generic.java
+//        ^^^^^^^^^^ meta.path.java
+//        ^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^ support.type.package.java
+//           ^ punctuation.accessor.dot.java
+
+    new Foo<?>[] { new Foo(1), new Foo(2) };
+//         ^^^ meta.generic.java
+//            ^^ punctuation.section.brackets
+//               ^ punctuation.section.braces.begin
+//                     ^^^ support.class.java
+//                           ^ punctuation.separator.java
+//                                 ^^^ support.class.java
+//                                        ^ punctuation.section.braces.end
+
+    new ArrayList<?>[] { new ArrayList<java.sql.Date>(), new ArrayList<Date>() }
+//                                    ^^^^^^^^^^^^^^^ meta.generic.java
+//                                     ^^^^^^^^^^^^^ meta.path.java
+//                                                                    ^^^^^^ meta.generic.java
+
+    new a.
+//      ^^ meta.path.java
+      b.Foo<a.
+//    ^^^^^ meta.path.java
+//          ^^ meta.generic.java meta.path.java
+        b.Foo>();
+//      ^^^^^ meta.generic.java meta.path.java
   }
 }
 
@@ -448,10 +632,11 @@ public class Test {
 }
 
 @ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
-// <- meta.annotation punctuation.definition.annotation
- // <- meta.annotation.identifier
+// <- meta.annotation punctuation.definition.annotation -meta.annotation.identifier
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier
+//^^^^^^^^ variable.annotation.java
+//        ^ punctuation.accessor.dot.java
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters
 //                                      ^ punctuation.accessor.dot
 //                                       ^ constant
@@ -603,7 +788,28 @@ public @interface PublicAnnotation {
 // <- meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.end.java
 @fully.qualified.Annotation
 // <- punctuation.definition.annotation.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^ variable.annotation.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.java meta.annotation.identifier.java meta.path.java
+//^^^^ variable.annotation.package.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^^^^ variable.annotation.package.java
+//              ^ punctuation.accessor.dot.java
+//                ^^^^^^^^^ variable.annotation.java
+@fully.qualified.ParentClass.InnerAnnotation
+// <- punctuation.definition.annotation.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.java meta.annotation.identifier.java meta.path.java
+//^^^^ variable.annotation.package.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^^^^ variable.annotation.package.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^^^^ variable.annotation.java
+//                          ^ punctuation.accessor.dot.java
+//                           ^^^^^^^^^^^^^^^ variable.annotation.java
+@fully.qualified
+//^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
+    .multiline.Annotation
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java meta.path.java
+        (foo = "bar")
+//      ^^^^^^^^^^^^^ meta.annotation.parameters.java -meta.annotation.identifier.java
 @FancyAnnotation({
 // <- punctuation.definition.annotation.java
 //              ^^ meta.annotation.parameters.java
@@ -617,7 +823,7 @@ public @interface PublicAnnotation {
 //   ^ punctuation.accessor.dot.java
 //    ^^^^^ variable.language.java
 })
-// <- punctuation.definition.array-constructor.end.java
+// <- punctuation.section.braces.end.java
  // <- meta.annotation.java meta.annotation.parameters.java punctuation.section.parens.end.java
 class Bàr {
 //    ^^^ entity.name.class.java
@@ -642,7 +848,7 @@ class Bàr {
 )
 
 @AnnotationAsParameterMultiple({
-//                             ^ punctuation.definition.array-constructor.begin.java
+//                             ^ punctuation.section.braces.begin.java
     @Parameter(name = "foo"),
 //  ^ punctuation.definition.annotation.java
 //   ^^^^^^^^^ variable.annotation.java
@@ -653,7 +859,7 @@ class Bàr {
 //   ^^^^^^^^^ variable.annotation.java
 //             ^^^^ variable.parameter.java
 })
-// <- punctuation.definition.array-constructor.end.java
+// <- punctuation.section.braces.end.java
 
 @AnnotationAsParameterMultipleNamed(
   first  = {@Parameter(name = "foo"), @Parameter(name = "bar")},
@@ -714,12 +920,14 @@ public class Foo {
 //                              ^^ storage.modifier.array.java
 //                                 ^^^^ variable.parameter.java
 //                                     ^ punctuation.separator.java
-//                                       ^^^^^^^^^^^^ meta.generic.java
+//                                             ^^^^^^ meta.generic.java
 //                                       ^^^^^^ support.class.java
 //                                              ^^^^ support.class.java
 //                                                    ^^^^^^^^ variable.parameter.java
-//                                                              ^^^^^^^^^ support.class.java
+//                                                                ^ support.type.package.java
+//                                                                 ^ punctuation.accessor.dot.java
 //                                                                   ^ punctuation.accessor.dot.java
+//                                                                    ^^^ support.class.java
 //                                                                        ^^^ variable.parameter.java
 
   MyClass myClass = new MyClass(
@@ -730,8 +938,11 @@ public class Foo {
           new SuperNestedClass(param, 2)),
       anotherParam);
 
-  public static final MyObject MY_CONST = new MyObject();
+  public static final MyObject MY_CONST = new MyObject(),
 //                             ^ entity.name.constant
+
+    _MY_ANOTHER_CONST = new MyObject();
+//  ^^^^^^^^^^^^^^^^^ entity.name.constant
 
   Object foo = new TypeLiteral<
       StandardReferenceNumberProcessor<
@@ -760,8 +971,10 @@ public class Foo {
 
   private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
 //                             ^ meta.generic.java support.class.java
-//                                       ^ meta.generic.java support.class.java punctuation.accessor.dot.java
+//                                       ^ meta.generic.java punctuation.accessor.dot.java
+//                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
       and.fully.Qualified<Generic>> myVariable;
+//    ^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                          ^ meta.generic.java meta.generic.java support.class.java
 
   private MyObject otherObject = MY_CONST;
@@ -776,10 +989,15 @@ public class Foo {
 //                                          ^ variable.function.java
 
   private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
-//                          ^^^^^^^^^^^^^ support.class.java
+//                          ^^^^^^^^^^^^^ meta.path.java
+//                          ^ support.type.package.java
+//                           ^ punctuation.accessor.dot.java
+//                            ^ support.type.package.java
 //                             ^ punctuation.accessor.dot.java
+//                              ^^^^^^^^^ support.class.java
 //                                       ^ punctuation.accessor.dot.java
 //                                        ^ constant.other.java
+
   private static final UUID SECURE_ID = UUID.randomUUID();
 //                     ^ support.class.java
 //                          ^ entity.name.constant
@@ -798,14 +1016,29 @@ public class Foo {
 
   class SubClass extends AbstractClass.NestedClass {
 //      ^ entity.name.class.java
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                       ^^^^^^^^^^^^^ entity.other.inherited-class.java
 //                                    ^ punctuation.accessor.dot.java
+//                                     ^^^^^^^^^^^ entity.other.inherited-class.java
 //                                                 ^ punctuation.section.block.begin.java
   }
 
   class SubClass extends AbstractClass {
 //      ^ entity.name.class.java
 //                       ^ entity.other.inherited-class.java
+  }
+
+  class SubClass extends fully.qualified
+//      ^ entity.name.class.java
+//                       ^^^^^^^^^^^^^^^ meta.path.java
+//                       ^^^^^ entity.other.inherited-class.package.java
+//                            ^ punctuation.accessor.dot.java
+//                             ^^^^^^^^^ entity.other.inherited-class.package.java
+    .name.AbstractClass {
+//  ^^^^^^^^^^^^^^^^^^^ meta.path.java
+//  ^ punctuation.accessor.dot.java
+//   ^^^^ entity.other.inherited-class.package.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^^^^^^^^^^^ entity.other.inherited-class.java
   }
 
   Function<Foo, Bar> BLOCK_LAMBDA = r -> {
@@ -829,6 +1062,12 @@ public class Foo {
   byte[] byteArray;
 //^^^^ storage.type.primitive.java
 //    ^^ storage.modifier.array.java
+
+  byte byteArray2[] = {1, 2};
+//^^^^ storage.type.primitive.java
+//               ^^ storage.modifier.array.java
+//                  ^^^^^^^^ meta.assignment.rhs.java
+
   static {
 //       ^ meta.static.body.java punctuation.section.block.begin.java
     StaticFlag.setFlag("Boo!");
@@ -1048,6 +1287,11 @@ public class Foo {
 //                 ^ support.class.java
 //                         ^^^ meta.brackets
 
+    OuterClass.InnerClass foo = new OuterClass.InnerClass();
+//                                  ^^^^^^^^^^ support.class.java
+//                                            ^ punctuation.accessor.dot.java
+//                                             ^^^^^^^^^^ support.class.java
+
    String[][] doubleStringArray;
 // ^^^^^^ support.class.java
 //       ^^^^ storage.modifier.array.java
@@ -1060,17 +1304,13 @@ public class Foo {
 //                             ^^^^^^ support.class.java
 //                                   ^ punctuation.section.brackets.begin.java
 //                                    ^ punctuation.section.brackets.end.java
-//                                      ^^^^^^^^^^^^^^ meta.block.java
-//                                      ^ punctuation.definition.array-constructor.begin.java
+//                                      ^^^^^^^^^^^^^^ meta.braces.array-initialization.java
+//                                      ^ punctuation.section.braces.begin.java
 //                                       ^^^^^ string.quoted.double.java
 //                                            ^ punctuation.separator.java
 //                                              ^^^^^ string.quoted.double.java
-//                                                   ^ punctuation.definition.array-constructor.end.java
+//                                                   ^ punctuation.section.braces.end.java
 //                                                    ^ punctuation.terminator.java
-
-    void[] invalidVoid;
-//  ^^^^ storage.type.primitive.java invalid.illegal.void-array.java
-//      ^^ storage.modifier.array.java
 
     int[] data = new int[]{0, 0, 0};
 //  ^^^ storage.type.primitive.java
@@ -1079,20 +1319,20 @@ public class Foo {
 //                   ^^^ storage.type.primitive.java
 //                      ^ punctuation.section.brackets.begin.java
 //                       ^ punctuation.section.brackets.end.java
-//                        ^ punctuation.definition.array-constructor.begin.java
+//                        ^ punctuation.section.braces.begin.java
 //                         ^ constant.numeric.integer.decimal
 //                          ^ punctuation.separator.java
 //                            ^ constant.numeric.integer.decimal
 //                             ^ punctuation.separator.java
 //                               ^ constant.numeric.integer.decimal
-//                                ^ punctuation.definition.array-constructor.end.java
+//                                ^ punctuation.section.braces.end.java
 
     byte [] foo;
 //  ^^^^ storage.type.primitive.java
-//      ^^^ storage.modifier.array.java
+//       ^^ storage.modifier.array.java
     byte []b=new byte[size];
 //  ^^^^ storage.type.primitive.java
-//      ^^^ storage.modifier.array.java
+//       ^^ storage.modifier.array.java
 //          ^ keyword.operator.assignment.java
 //           ^^^ keyword.control.new.java
 //               ^^^^ storage.type.primitive.java
@@ -1107,26 +1347,26 @@ public class Foo {
 //                                    ^ punctuation.section.brackets.end.java
 //                                     ^ punctuation.section.brackets.begin.java
 //                                      ^ punctuation.section.brackets.end.java
-//                                        ^ punctuation.definition.array-constructor.begin.java
+//                                        ^ punctuation.section.braces.begin.java
       { { 1, 2 }, { 3, 4 } },
 //        ^ constant.numeric.integer.decimal
 //         ^ punctuation.separator.java
 //           ^ constant.numeric.integer.decimal
-//    ^ punctuation.definition.array-constructor.begin.java
-//                         ^ punctuation.definition.array-constructor.end.java
+//    ^ punctuation.section.braces.begin.java
+//                         ^ punctuation.section.braces.end.java
 //                          ^ punctuation.separator.java
       { { 5, 6 }, { 7, 8 } }
 //        ^ constant.numeric.integer.decimal
 //         ^ punctuation.separator.java
 //           ^ constant.numeric.integer.decimal
-//    ^ punctuation.definition.array-constructor.begin.java
-//                         ^ punctuation.definition.array-constructor.end.java
+//    ^ punctuation.section.braces.begin.java
+//                         ^ punctuation.section.braces.end.java
     };
-//  ^ punctuation.definition.array-constructor.end.java
+//  ^ punctuation.section.braces.end.java
 
     threeDimArr = new int[1][3][4];
 //                    ^^^ storage.type.primitive.java
-//                       ^^^^^^^^^ meta.brackets.java
+//                       ^^^^^^^^^ meta.brackets.array-initialization.java
 //                       ^ punctuation.section.brackets.begin.java
 //                        ^ constant.numeric.integer.decimal
 //                         ^ punctuation.section.brackets.end.java
@@ -1138,8 +1378,9 @@ public class Foo {
 //                               ^ punctuation.section.brackets.end.java
 
     bob = new some.path.to.MyObject[3];
-//            ^^^^^^^^^^^^^^^^^^^^^ support.class.java
-//                                 ^^^ meta.brackets.java
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                         ^^^^^^^^ support.class.java
+//                                 ^^^ meta.brackets.array-initialization.java
 //                                 ^ punctuation.section.brackets.begin.java
 //                                  ^ constant.numeric.integer.decimal
 //                                   ^ punctuation.section.brackets.end.java
@@ -1178,12 +1419,13 @@ public class Foo {
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
   void arrayMethod(byte [] [] a, int b, byte[] c) {}
-//^^^^ storage.type.primitive.java
+//^^^^ storage.type.void.java
 //     ^^^^^^^^^^^ entity.name.function.java
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java
 //                                               ^ - meta.method.parameters.java
 //                 ^^^^ storage.type.primitive.java
-//                      ^^^^^ storage.modifier.array.java
+//                      ^^ storage.modifier.array.java
+//                         ^^ storage.modifier.array.java
 //                            ^ variable.parameter.java
 //                               ^^^ storage.type.primitive.java
 //                                   ^ variable.parameter.java
@@ -1191,12 +1433,30 @@ public class Foo {
 //                                          ^^ storage.modifier.array.java
 //                                             ^ variable.parameter.java
 
+  int[] arrayMethod2(int a[], String b[]) {}
+//^^^ storage.type.primitive.java
+//   ^^ storage.modifier.array.java
+//                   ^^^ storage.type.primitive.java
+//                       ^ variable.parameter.java
+//                        ^^ storage.modifier.array.java
+//                            ^^^^^^ support.class.java
+//                                   ^ variable.parameter.java
+//                                    ^^ storage.modifier.array.java
+
+  void arrayOfGenericMethod(Map<Long, Date>[] mapping) {}
+//                                         ^^ storage.modifier.array.java
+//                                            ^^^^^^^ variable.parameter.java
+
+  void primitiveVarArgs(int... values) {}
+//                      ^^^ storage.type.primitive.java
+//                         ^^^ keyword.operator.variadic.java
+//                             ^^^ variable.parameter.java
 
   public class Foo<T extends int> {}
-  //              ^^^^^^^^^^^^^^^ meta.generic.java
+  //              ^^^^^^^^^^^^^^^ meta.generic.declaration.java
   //               ^ variable.parameter.type.java
   //                 ^^^^^^^ keyword.declaration.extends.java
-  //                         ^^^ invalid.illegal.primitive-instantiation.java
+  //                         ^^^ - storage.type.primitive.java
 
   @RunWith(JUnit4.class)
 //^ punctuation.definition.annotation.java
@@ -1206,12 +1466,12 @@ public class Foo {
   public void someReallyReallyLongMethodNameThatMakesTheBraceOverflowToTheNextLine(
 //            ^ meta.method.java meta.method.identifier.java entity.name.function.java
 //                                                                                ^ punctuation.section.parens.begin
-      WithSomeParams foo,
+      WITHSOMEPARAMS foo,
 //    ^ meta.method.java meta.method.parameters.java support.class.java
 //                   ^ meta.method.java meta.method.parameters.java variable.parameter.java
       Generic<Param> bar)
 //    ^ meta.method.java meta.method.parameters.java support.class.java
-//    ^^^^^^^^^^^^^^ meta.generic.java
+//           ^^^^^^^ meta.generic.java
 //                   ^ meta.method.java meta.method.parameters.java variable.parameter.java
 //                      ^ punctuation.section.parens.end
       throws Exception {
@@ -1237,22 +1497,22 @@ public class Foo {
 
   public static <T> T writeAll(Collection<? extends T>, Sink<T>) {}
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
-//              ^^^ meta.generic.java
+//              ^^^ meta.generic.declaration.java
 //               ^ variable.parameter.type.java
 //                 ^ - meta.generic.java
 //                  ^ support.class.java
 //                             ^ support.class.java
-//                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//                                       ^^^^^^^^^^^^^ meta.generic.java
 //                                       ^ punctuation.definition.generic.begin.java
 //                                        ^ keyword.operator.wildcard.java
 //                                          ^ keyword.declaration.extends.java
 //                                                  ^ support.class.java
 //                                                   ^ punctuation.definition.generic.end.java
 //                                                    ^ punctuation.separator.java - meta.generic.java
-//                                                      ^^^^^^^ meta.generic.java
+//                                                          ^^^ meta.generic.java
 
   public static <T extends Comparable<? super T>>
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.declaration.java
 //               ^ variable.parameter.type.java
 //                         ^^^^^^^^^^ support.class.java
 //                                   ^ punctuation.definition.generic.begin.java
@@ -1261,16 +1521,16 @@ public class Foo {
 //                                            ^ support.class.java
 //                                             ^ punctuation.definition.generic.end.java
 //                                              ^ punctuation.definition.generic.end.java
-//                                   ^^^^^^^^^^^  meta.generic.java meta.generic.java
+//                                   ^^^^^^^^^^^  meta.generic.java
         T max(Collection<T> coll);
 //      ^ support.class.java
 
     <T> public static Set<T> unmodifiableSet(Set<T> set);
-//  ^^^ meta.generic.java
+//  ^^^ meta.generic.declaration.java
 //   ^ variable.parameter.type.java
 
   public void
-//       ^ storage.type.primitive.java
+//       ^ storage.type.void.java
       methodNameOnDifferentLine();
 //    ^ meta.method.identifier.java entity.name.function.java
 
@@ -1282,7 +1542,7 @@ public class Foo {
 //                                   ^ meta.method.java meta.method.parameters.java punctuation.definition.annotation.java
 
   public MyGeneric<Param, With, Multiple, Types> otherAbstractMethod(Foo<With, Another> bar);
-//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
 //                                              ^ - meta.generic.java
 //       ^ support.class.java
 //                 ^ support.class.java
@@ -1292,17 +1552,17 @@ public class Foo {
 //                                               ^ meta.method.java meta.method.identifier.java entity.name.function.java
 
   public static <T extends AutoCloseable> void myGenericMethod(SomeType<T> root)
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.declaration.java
 //              ^ punctuation.definition.generic.begin.java
 //               ^  variable.parameter.type.java
 //                 ^ keyword.declaration.extends.java
 //                         ^ support.class.java
-//                                        ^ storage.type.primitive.java
+//                                        ^ storage.type.void.java
 //                                             ^entity.name.function.java
 
-        throws Exception {
-//      ^^^^^^^^^^^^^^^^ meta.method.throws
-//                      ^ - meta.method.throws
+        throws Exception, IOException, SAXException {
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws
+//                                                  ^ - meta.method.throws
   }
 }}
 // <- meta.class.java meta.class.body.java punctuation.section.block.end.java
@@ -1314,9 +1574,12 @@ class IOException { }
 // <- storage.type.java
 
 public class Generic<T> implements fully.qualified.Other<T> {
-//                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java
-//                                 ^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                 ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                 ^^^^^ entity.other.inherited-class.package.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^^^^^^^^^ entity.other.inherited-class.package.java
 //                                                ^ punctuation.accessor.dot.java
+//                                                 ^^^^^ entity.other.inherited-class.java
 //                                                      ^^^ meta.generic.java
 //                                                      ^ punctuation.definition.generic.begin.java
 //                                                       ^ support.class.java
@@ -1382,7 +1645,7 @@ public class Bar {
 //                                                                      ^^^^ meta.assignment.rhs.java
 
   void strayParansInConstructor() {
-//^^^^ storage.type.primitive.java - meta.assignment.rhs.java
+//^^^^ storage.type.void.java - meta.assignment.rhs.java
 //     ^ meta.method.identifier.java entity.name.function.java
 //                                ^ punctuation.section.block.begin.java
     return;
@@ -1390,3 +1653,217 @@ public class Bar {
 //^ punctuation.section.block.end.java
 }
 // <- punctuation.section.block.end.java
+
+class Javadoc {
+
+  /** This is javadoc, not a simple comment */
+//^^^ punctuation.definition.comment.begin.javadoc
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//                                          ^^ punctuation.definition.comment.end.javadoc
+
+  /**
+//^^^ comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
+   * Description of some sort.
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+   */
+// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+
+  /**
+   * <p>Description that starts with tag
+//   ^^^ text.html.javadoc meta.tag
+   */
+
+  /** <b>One-liner with tags</b> */
+//    ^^^ text.html.javadoc meta.tag
+//                          ^^^ text.html.javadoc meta.tag
+
+  /** @param onFirstLine     @param
+//    ^^^^^^ keyword.other.documentation.param.javadoc
+//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+   *  @param normal          @param
+//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+//    ^^^^^^ keyword.other.documentation.param.javadoc
+   *
+      @param withoutAsterisk @param
+//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+//    ^^^^^^ keyword.other.documentation.param.javadoc
+   */
+
+  /**
+   * Parameters
+   *
+   * @param paramName Some description
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
+//          ^^^^^^^^^ variable.parameter.javadoc
+   *                  that spans <i>several</i> lines.
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
+//                               ^^^ meta.tag
+//                                         ^^^^ meta.tag
+// ^ punctuation.definition.comment.javadoc
+   *
+   * @param
+   * paramName1
+//   ^^^^^^^^^^ variable.parameter.javadoc
+   * Parameter description
+//   ^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
+   *
+   * @param
+   * paramName2
+//   ^^^^^^^^^^ variable.parameter.javadoc
+   *
+   * @param
+   * @param
+   * paramName3
+//   ^^^^^^^^^^ variable.parameter.javadoc
+   */
+// ^^ punctuation.definition.comment.end.javadoc
+
+  /** Not a @param tag */
+// ^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//          ^^^^^^ -keyword.other.documentation.param.javadoc
+
+  /**
+   * Code blocks
+   *
+   * {@code} {@literal}
+//    ^^^^^ keyword.other.documentation.code-or-literal.javadoc
+//    ^ punctuation.definition.keyword.javadoc
+//            ^^^^^^^^ keyword.other.documentation.code-or-literal.javadoc
+//            ^ punctuation.definition.keyword.javadoc
+
+   * {@code List<T> lst = new ArrayList<>()}
+//   ^ punctuation.section.inline-tag.begin.javadoc
+//    ^^^^^ keyword.other.documentation.code-or-literal.javadoc
+//         ^ -markup.raw.javadoc
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc -meta.tag
+//                                         ^ punctuation.section.inline-tag.end.javadoc
+
+   * Multiline, line break in content: {@code x + y
+//                                            ^^^^^ markup.raw.javadoc
+//                                                 ^ -markup.raw.javadoc
+   * = z}
+//^^^ -markup.raw.javadoc
+//   ^^^ markup.raw.javadoc
+
+   * Multiline, line break before content: {@literal
+//                                                  ^ -markup.raw.javadoc
+   * x + y = z}
+//^^^ -markup.raw.javadoc
+//   ^^^^^^^^^ markup.raw.javadoc
+
+   * Bracket balancing: {@code int[][] a = {{1, 2, 3}, {4, 5}}}
+//                      ^ punctuation.section.inline-tag.begin.javadoc
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
+//                                                            ^ punctuation.section.inline-tag.end.javadoc
+
+   * Bracket balancing with line break: {@code int[][] a = {
+//                                      ^ punctuation.section.inline-tag.begin.javadoc
+//                                             ^^^^^^^^^^^^^ markup.raw.javadoc
+//                                                          ^ -markup.raw.javadoc
+   * {1, 2, 3}, {4, 5}}}
+//^^^ -markup.raw.javadoc
+//   ^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
+//                     ^ punctuation.section.inline-tag.end.javadoc
+   */
+
+  /**
+   * Inline tags with references
+
+   * {@link} {@linkplain}
+//    ^^^^^ keyword.other.documentation.link.javadoc
+//            ^^^^^^^^^^ keyword.other.documentation.link.javadoc
+
+   * {@link Class} {@linkplain org.package.Class} {@link org.package.Class.NestedClass}
+//    ^^^^^ keyword.other.documentation.link.javadoc
+//          ^^^^^ markup.underline.link.javadoc
+//                   ^^^^^^^^^ keyword.other.documentation.link.javadoc
+//                             ^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+//                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+
+   * Method separator:
+   * {@link package.Class#method} {@linkplain #method}
+//          ^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+//                                            ^^^^^^^ markup.underline.link.javadoc
+
+   * Brackets:
+   * {@link Class#method(Type, Type)} {@link #method(Type, Type) label}
+//          ^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+//                                           ^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+//                                                               ^^^^^ meta.label.javadoc -markup.underline.link.javadoc
+
+   * Line breaks:
+   * {@link Class#method(Type,
+   * Type, Type) label}
+//   ^^^^^^^^^^^ markup.underline.link.javadoc
+//               ^^^^^ meta.label.javadoc
+//^^^ -markup.underline.link.javadoc
+   * {@link
+   * Class#method(Type, Type, Type) label}
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+//                                  ^^^^^ meta.label.javadoc
+   * {@link Class#method(Type, Type, Type)
+   * label}
+//   ^^^^^ meta.label.javadoc
+   *
+   * Tags in label:
+   * {@link Class#method(Type, Type, Type) <i>label</i>}
+//                                         ^^^^^^^^^^^^ meta.label.javadoc
+//                                         ^^^ meta.tag
+//                                                 ^^^^ meta.tag
+   *
+   * {@value} {@value #SOME_CONSTANT} {@value package.Class#SOME_CONSTANT}
+//    ^^^^^^ keyword.other.documentation.value.javadoc
+//                    ^^^^^^^^^^^ markup.underline.link.javadoc
+//                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+   */
+
+  /**
+   * Block tags with reference
+   *
+   * @see Class#method(Type, Type)
+//   ^^^^ keyword.other.documentation.see.javadoc
+//        ^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
+   *
+   * @see <a>java.util.stream</a>
+//   ^^^^ keyword.other.documentation.see.javadoc
+//        ^^^^^^^^^^^^^^^^^^^^^^^ -markup.underline.link.javadoc
+//        ^^^ meta.tag
+//                           ^^^ meta.tag
+   *
+   * @see 'java.util.stream'
+//   ^^^^ keyword.other.documentation.see.javadoc
+//        ^^^^^^^^^^^^^^^^^^ -markup.underline.link.javadoc
+   *
+   * @throws IOException
+//   ^^^^^^^ keyword.other.documentation.throws.javadoc
+//           ^^^^^^^^^^^ markup.underline.link.javadoc
+
+   * @throws IOException because IOException
+//   ^^^^^^^ keyword.other.documentation.throws.javadoc
+//           ^^^^^^^^^^^ markup.underline.link.javadoc
+//                       ^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
+   */
+
+  /**
+   * Leading asterisk with space
+// ^ punctuation.definition.comment.javadoc
+   *Without space
+// ^ punctuation.definition.comment.javadoc
+   *<p>Before tag
+// ^ punctuation.definition.comment.javadoc
+   *{@value} Before inline tag
+// ^ punctuation.definition.comment.javadoc
+   *@return Before block tag
+// ^ punctuation.definition.comment.javadoc
+   */
+
+  /**
+   * Unclosed html tag: <li
+   */
+// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+
+  /**
+   * Unclosed javadoc tag: {@link
+   */
+// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+}

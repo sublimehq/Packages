@@ -256,6 +256,8 @@ impl fmt::Display for PrintableStruct {
 //            ^ punctuation.section.group.begin
 //                ^^^^ string.quoted.double
 //                 ^^ constant.other.placeholder
+//                      ^^^^ variable.language
+//                          ^ punctuation.accessor.dot
 //                            ^ punctuation.section.group.end
     }
 // ^^ meta.function meta.block
@@ -597,6 +599,9 @@ impl Point
     fn double(&mut self) {
     // ^^^^^^ entity.name.function
         self.x *= 2;
+    //  ^^^^ variable.language
+    //      ^ punctuation.accessor.dot
+    //         ^^ keyword.operator
         self.y *= 2;
     }
 
@@ -710,6 +715,8 @@ pub fn from_buf_reader<T>(s: io::BufReader<T>) -> Result<isize, &'static str>
     let mut starts_stops = eat_numbers!(relief_count_total * 2, "starts and stops");
 
     let starts = starts_stops.split_off(relief_count_total);
+//                           ^ punctuation.accessor.dot
+//                            ^^^^^^^^^ support.function
     let stops = starts_stops;
 
     unimplemented!();
@@ -796,6 +803,17 @@ fn collect_vec() {
 //              ^^^^^ storage.type
 //                     ^^^^^ storage.type
 //                          ^ punctuation.section.group.end
+//                             ^ keyword.operator
+//                               ^ punctuation.section.group.begin
+//                                ^ constant.numeric.integer.decimal
+//                                 ^^ keyword.operator
+//                                   ^^ constant.numeric.integer.decimal
+//                                     ^ punctuation.section.group.end
+//                                      ^ punctuation.accessor.dot
+//                                       ^^^^^^^^^ support.function
+//                                                ^^ punctuation.section.group
+//                                                  ^ punctuation.accessor.dot
+//                                                          ^^ punctuation.accessor
 //                                                            ^^^^^^^^ meta.generic
 //                                                             ^^^^^^ meta.generic meta.generic
 //                                                                 ^ keyword.operator
@@ -837,6 +855,7 @@ macro_rules! forward_ref_binop [
 //                                           ^ meta.macro meta.group meta.block meta.impl meta.block punctuation.section.block.begin
             type Output = <$t as $imp<$u>>::Output;
 //                        ^^^^^^^^^^^^^^^^ meta.generic
+//                            ^^ keyword.operator
 //                                        ^^ meta.path punctuation.accessor
 
             #[inline]
@@ -853,6 +872,7 @@ macro_rules! forward_ref_binop [
 //                                      ^^ variable.other
 //                                          ^^ punctuation.separator
 //                                             ^^^^^^^^^^^^^^^^ meta.generic
+//                                                 ^^ keyword.operator
 //                                                             ^^ meta.path punctuation.accessor
 //                                                                      ^ meta.macro meta.group meta.block meta.impl meta.block meta.block punctuation.section.block.begin
                 #![cfg(all(unix, target_pointer_width = "32"))]
@@ -1025,3 +1045,49 @@ impl ApplicationPreferenceseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 //       ^^^^^^^^^^^ string.quoted.double
 pub trait Foo {
 }
+
+const FOO: usize = 5;
+let _: Box<[[bool; (FOO + 1) / 2]; FOO * 3 % 12 - 1]>;
+//  ^ keyword.operator
+//   ^ punctuation.separator
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//        ^ punctuation.definition.generic.begin
+//         ^^ punctuation.section.group.begin
+//           ^^^^ storage.type
+//               ^ punctuation.separator
+//                 ^ punctuation.section.group.begin
+//                  ^^^ variable.other.constant
+//                      ^ keyword.operator.arithmetic
+//                        ^ constant.numeric.integer.decimal
+//                         ^ punctuation.section.group.end
+//                           ^ keyword.operator.arithmetic
+//                             ^ constant.numeric.integer.decimal
+//                              ^ punctuation.section.group.end
+//                               ^ punctuation.separator
+//                                 ^^^ variable.other.constant
+//                                     ^ keyword.operator.arithmetic
+//                                       ^ constant.numeric.integer.decimal
+//                                         ^ keyword.operator.arithmetic
+//                                           ^^ constant.numeric.integer.decimal
+//                                              ^ keyword.operator.arithmetic
+//                                                ^ constant.numeric.integer.decimal
+//                                                 ^ punctuation.section.group.end
+//                                                  ^ punctuation.definition.generic.end
+//                                                   ^ punctuation.terminator
+
+let x = 5;
+let raw = &x as *const i32;
+//              ^^^^^^ storage.type
+
+let mut y = 10;
+let raw_mut = &mut y as *mut i32;
+//                      ^^^^ storage.modifier
+
+let i: u32 = 1;
+let p_imm: *const u32 = &i as *const u32;
+//         ^^^^^^ storage.type
+//                            ^^^^^^ storage.type
+
+type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
+//                               ^^^^^^ storage.modifier - invalid
+//                                      ^^^ storage.type

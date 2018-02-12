@@ -6,195 +6,295 @@ file_extensions:
   - java
   - bsh
 scope: source.java
-variables:
-  primitives: \b(boolean|byte|char|short|int|float|long|double)\b
-  primitives_with_void: \b(void|boolean|byte|char|short|int|float|long|double)\b
-  storage_modifiers: \b(public|private|protected|static|final|native|synchronized|strictfp|abstract|threadsafe|transient|default|volatile)\b
-  classes_named_as_constants: \b(?:UUID|URI)\b
 
-  # source: http://stackoverflow.com/a/5205467/9815
-  id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
-  qualified_id: '(?:(?:{{id}}(\.))*{{id}})'
-  uppercase_id: '(?:[\p{Lu}][\p{L}\p{N}_$]*)'
+variables:
+  primitives: (?:boolean|byte|char|short|int|float|long|double)
+  storage_modifiers: (?:public|private|protected|static|final|native|synchronized|strictfp|abstract|transient|default|volatile)
+
+  id: (?:[\p{L}_$][\p{L}\p{N}_$]*)
+  classcase_id: (?:\p{Lu}[\p{L}\p{N}_$]*)
+  lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
+  uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*\b)
+
+  # One dot is mandatory to not compete with other regexes that match an id.
+  before_fqn: (?={{lowercase_id}}\s*\.)
 
   # utility lookaround
   lambda_lookahead: '(?:\(.*\)|{{id}})\s*->'
+
 contexts:
   prototype:
     - match: '(?=%>)'
       pop: true
     - include: comments
     - include: illegal-keywords
+
   any_POP:
     - match: '(?=\S)'
       pop: true
+
   main:
     - include: prototype
-    - include: package
-    - include: import
+    - include: package-statement
+    - include: import-statement
     - include: body
     - include: annotations
     - include: code
-  package:
-    - match: '\bpackage\b'
+
+  package-statement:
+    - match: \bpackage\b
       scope: keyword.other.package.java
       push:
-        - meta_scope: meta.package.java
-        - match: '[\w\.]+'
-          scope: support.other.package.java
-        - match: ;
-          scope: punctuation.terminator.java
-          pop: true
-        - match: (?=\n)
-          pop: true
-  import:
-    - match: \bimport\b
-      scope: keyword.other.import.java
-      push:
-        - meta_scope: meta.import.java
-        - match: \bstatic\b
-          scope: storage.modifier.static.java
-          push:
-            - match: '{{qualified_id}}'
-              scope: support.function.import.java
-              captures:
-                1: punctuation.accessor.dot.java
-            - match: (?=;|\n)
+        - meta_scope: meta.package-declaration.java
+        - match: '{{id}}'
+          set:
+            - meta_scope: meta.package-declaration.java entity.name.namespace.java
+            - match: \.
+              scope: punctuation.accessor.dot.java
+            - match: '{{id}}'
+            - match: ''
               pop: true
-        - match: '{{qualified_id}}'
+        - include: any_POP
+
+  import-statement:
+    - match: \bimport\b
+      scope: keyword.control.import.java
+      push:
+        - - meta_scope: meta.import.java
+          - include: any_POP
+        - import-statement-body
+
+  import-statement-body:
+    - match: \bstatic\b
+      scope: keyword.control.import.static.java
+      set: static-import-statement-body
+    - include: before-next-import
+    - match: '{{lowercase_id}}'
+      scope: meta.path.java support.type.package.java
+      set:
+        - meta_content_scope: meta.path.java
+        - include: before-next-import
+        - include: package
+        - match: \*
+          scope: meta.path.java keyword.operator.wildcard.asterisk.java
+          pop: true
+        - match: '{{classcase_id}}'
           scope: support.class.import.java
-          captures:
-            1: punctuation.accessor.dot.java
-        - match: ;
-          scope: punctuation.terminator.java
-          pop: true
-        - match: (?=\n)
-          pop: true
+          set:
+            - include: before-next-import
+            - match: \.
+              scope: punctuation.accessor.dot.java
+            - match: ({{classcase_id}})|(\*)
+              captures:
+                1: support.class.import.java
+                2: keyword.operator.wildcard.asterisk.java
+            - include: any_POP
+        - include: any_POP
+    - include: any_POP
+
+  static-import-statement-body:
+    - include: before-next-import
+    - match: '{{lowercase_id}}'
+      scope: meta.path.java support.type.package.java
+      set:
+        - meta_content_scope: meta.path.java
+        - include: before-next-import
+        - include: package
+        - match: '{{classcase_id}}'
+          scope: support.class.import.java
+          set:
+            - include: before-next-import
+            - match: \.
+              scope: punctuation.accessor.dot.java
+            - match: ({{uppercase_id}})|({{classcase_id}})|({{id}})|(\*)
+              captures:
+                1: constant.other.import.java
+                2: support.class.import.java
+                3: support.function.import.java
+                4: keyword.operator.wildcard.asterisk.java
+            - include: any_POP
+        - include: any_POP
+    - include: any_POP
+
+  before-next-import:
+    # Prevent next import statement to be consumed when a current statement isn't terminated with ';'.
+    - match: (?=\bimport\b)
+      pop: true
+    # For a case of a statement immediately before a class definition.
+    - match: (?=\b(?:{{storage_modifiers}}|class|interface|enum)\b)
+      pop: true
+
+  package:
+    - match: '{{lowercase_id}}'
+      scope: support.type.package.java
+    - match: \.
+      scope: punctuation.accessor.dot.java
+
   all-types:
-    - include: primitive-arrays
     - include: primitive-types
     - include: object-types
+
   annotations:
-    - match: '(@)({{qualified_id}})'
-      captures:
-        1: punctuation.definition.annotation.java
-        2: meta.annotation.identifier.java variable.annotation.java
-        3: punctuation.accessor.dot.java
+    - match: '@'
+      scope: punctuation.definition.annotation.java
       push:
-        - meta_scope: meta.annotation.java
-        - match: '\('
-          scope: punctuation.section.parens.begin.java
+        - - meta_scope: meta.annotation.java
+          - include: any_POP
+        - annotation-parameters
+        - - meta_content_scope: meta.annotation.identifier.java
+          - include: any_POP
+        - annotation-type-reference
+
+  annotation-type-reference:
+    - match: '{{before_fqn}}'
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{lowercase_id}}'
+          scope: variable.annotation.package.java
+        - match: \.
+          scope: punctuation.accessor.dot.java
+        - include: annotation-type-no-fqn
+    - include: annotation-type-no-fqn
+
+  annotation-type-no-fqn:
+    - match: '{{classcase_id}}'
+      scope: variable.annotation.java
+      set: after-annotation-type-reference
+    - include: any_POP
+
+  after-annotation-type-reference:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set: annotation-type-no-fqn
+    - include: any_POP
+
+  annotation-parameters:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.annotation.parameters.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: true
+        - match: ({{id}})\s*(=)
+          captures:
+            1: variable.parameter.java
+            2: keyword.operator.assignment.java
           push:
-            - meta_scope: meta.annotation.parameters.java
-            - match: \)
-              scope: punctuation.section.parens.end.java
-              pop: true # pop: 2
-            - match: (\w*)\s*(=)
-              captures:
-                1: variable.parameter.java
-                2: keyword.operator.assignment.java
-              push:
-                - match: (?=[,})])
-                  pop: true
-                - include: annotations
-                - include: code
-            - include: annotations-array-construction-block
+            - match: (?=[,})])
+              pop: true
             - include: annotations
             - include: code
-            - match: \,
-              scope: punctuation.separator.java
-        - include: any_POP
-  annotations-array-construction-block:
+        - include: annotation-array-initialization
+        - include: annotations
+        - include: code
+        - match: \,
+          scope: punctuation.separator.java
+    - include: any_POP
+
+  annotation-array-initialization:
     - match: \{
-      scope: punctuation.definition.array-constructor.begin.java
+      scope: punctuation.section.braces.begin.java
       push:
-        - meta_scope: meta.block.java
-        - include: array-construction-block-end
+        - meta_scope: meta.braces.annotation-array-initialization.java
+        - include: array-initialization-common
         - include: annotations
 
   anonymous-classes-and-new:
     - match: \bnew\b
       scope: keyword.control.new.java
       push:
-        - meta_scope: meta.instantiation.java
-        - match: '({{primitives}})\s*(?=\[)'
-          captures:
-            1: storage.type.primitive.java
-          push: array-definition-body
-        - match: '({{qualified_id}})\s*(?=\[)'
-          captures:
-            1: support.class.java
-            2: punctuation.accessor.dot.java
-          push: array-definition-body
-        - include: object-types
-        - match: \(
-          scope: punctuation.section.parens.begin.java
-          push:
-            - meta_scope: meta.parens.java
-            - match: \)
-              scope: punctuation.section.parens.end.java
-              pop: true
-            - include: illegal-parens-terminators
-            - include: code
-        - match: \{
-          scope: punctuation.section.braces.begin.java
-          push:
-            - meta_scope: meta.class.body.anonymous.java
-            - match: \}
-              scope: punctuation.section.braces.end.java
-              pop: true
-            - include: class-body
-        - include: any_POP
-  array-definition-body:
+        - - meta_scope: meta.instantiation.java
+          - include: any_POP
+        - instantiation
+
+  instantiation:
+    - match: \b{{primitives}}\b
+      scope: storage.type.primitive.java
+      set: array-definition
+    - match: '{{before_fqn}}'
+      set: [after-object-type-in-instantiation, object-type-fqn]
+    - include: object-type-instantiation-no-fqn
+
+  object-type-instantiation-no-fqn:
+    - match: '{{classcase_id}}'
+      scope: support.class.java
+      set: after-object-type-in-instantiation
+    - include: any_POP
+
+  after-object-type-in-instantiation:
+    - match: (?=\[)
+      set: array-definition
+    - match: (?=\()
+      set: object-construction
+    - match: <>
+      scope: punctuation.definition.generic.diamond.java
+      set: object-construction
+    - match: (?=<)
+      set: [after-generic-in-instantiation, generic-type-invocation]
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set: object-type-instantiation-no-fqn
+    - include: any_POP
+
+  after-generic-in-instantiation:
+    - match: (?=\[)
+      set: array-definition
+    - include: object-construction
+
+  object-construction:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.parens.constructor-arguments.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          set:
+            - match: \{
+              scope: punctuation.section.braces.begin.java
+              set:
+                - meta_scope: meta.class.body.anonymous.java
+                - match: \}
+                  scope: punctuation.section.braces.end.java
+                  pop: true
+                - include: class-body
+            - include: any_POP
+        - include: illegal-parens-terminators
+        - include: code
+    - include: any_POP
+
+  array-definition:
     - match: \[
       scope: punctuation.section.brackets.begin.java
-      push:
-        - meta_scope: meta.brackets.java
+      set:
+        - meta_scope: meta.brackets.array-initialization.java
         - match: \]
           scope: punctuation.section.brackets.end.java
-          pop: true
+          set:
+            - match: (?=\[)
+              set: array-definition
+            - match: \{
+              scope: punctuation.section.braces.begin.java
+              set: array-initialization
+            - include: any_POP
         - include: code
-    - include: array-construction-block
     - include: any_POP
-  array-construction-block:
-    - match: \{
-      scope: punctuation.definition.array-constructor.begin.java
-      push:
-        - meta_scope: meta.block.java
-        - include: array-construction-block-end
-  array-construction-block-end:
+
+  array-initialization:
+    - meta_scope: meta.braces.array-initialization.java
+    - include: array-initialization-common
+
+  array-initialization-common:
     - match: \}
-      scope: punctuation.definition.array-constructor.end.java
+      scope: punctuation.section.braces.end.java
       pop: true
-    - include: array-construction-block
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      push: array-initialization
     - include: code
     - match: \,
       scope: punctuation.separator.java
-  generic-declaration:
-    - match: <
-      comment: Generic parameter declaration scopes
-      scope: punctuation.definition.generic.begin.java
-      push:
-        - meta_scope: meta.generic.java
-        - match: \>
-          scope: punctuation.definition.generic.end.java
-          pop: true
-        - match: \w+
-          scope: variable.parameter.type.java
-          push: generic-declaration-body
-        - match: \,
-          scope: punctuation.separator.java
-  generic-declaration-body:
-    - meta_scope: meta.class.generic.extends.java
-    - match: (?=,|>)
-      pop: true
-    - match: extends
-      scope: keyword.declaration.extends.java
-    - match: super
-      scope: keyword.declaration.super.java
-    - match: '{{primitives}}'
-      scope: invalid.illegal.primitive-instantiation.java
-    - include: object-types
+
   assertions:
     - match: \b(assert)\b
       scope: keyword.control.assert.java
@@ -217,28 +317,27 @@ contexts:
         - meta_scope: meta.class.java
         # Needed because the modifers are part of the meta scope
         - include: storage-modifiers
-        - include: generic-declaration
         - match: (\bclass|(?:@)?\binterface|\benum)\s+(\w+)
           scope: meta.class.identifier.java
           captures:
             1: storage.type.java
             2: entity.name.class.java
+          push: generic-type-declaration
         - match: \bextends\b
           scope: keyword.declaration.extends.java
           push:
-            - meta_scope: meta.class.extends.java
-            - match: '(?=\s*{|\s*\bimplements\b)'
-              pop: true
-            - include: object-types-inherited
+            - - meta_scope: meta.class.extends.java
+              - include: any_POP
+            - inherited-object-type-reference
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
-            - meta_scope: meta.class.implements.java
-            - match: '(?=\s*{|\s*\bextends\b)'
-              pop: true
-            - match: \,
-              scope: punctuation.separator.implements.java
-            - include: object-types-inherited
+            - - meta_scope: meta.class.implements.java
+              - match: \,
+                scope: punctuation.separator.implements.java
+                push: inherited-object-type-reference
+              - include: any_POP
+            - inherited-object-type-reference
         - match: "{"
           scope: punctuation.section.block.begin.java
           push:
@@ -253,14 +352,14 @@ contexts:
     - include: storage-modifiers
     - include: class
     - include: annotations
-    - include: static-assignment
     - include: enums
-    - include: generic-declaration # for methods
-    - include: methods
-    - include: constant-entity
+    - include: fields-and-methods
     - include: constants-and-special-vars
     - include: all-types
     - include: static-code-block
+    - match: (?=<)
+      push: generic-type-declaration
+
   code:
     - include: constants-and-special-vars
     - include: assignment
@@ -269,7 +368,7 @@ contexts:
     - include: anonymous-classes-and-new
     - include: keywords-control
     - include: method-invocations
-    - include: constant-reference
+    - include: uppercase-identifiers
     - include: all-types
     - include: assertions
     - include: keywords
@@ -384,16 +483,7 @@ contexts:
       scope: constant.numeric.integer.decimal.java
       captures:
         1: storage.type.numeric.long.java
-  constant-reference:
-    - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: constant.other.java
-      captures:
-        1: punctuation.accessor.dot.java
-  constant-entity:
-    - match: '(\.)?(?!{{classes_named_as_constants}})\b([A-Z][A-Z0-9_]+)(?!<|\.class|\s*\w+\s*=)\b'
-      scope: entity.name.constant.java
-      captures:
-        1: punctuation.accessor.dot.java
+
   enums:
     - match: '^(?=\s*[A-Z0-9_]+\s*({|\(|,|;))'
       push:
@@ -486,12 +576,10 @@ contexts:
     - include: illegal-semicolon
     - include: illegal-open-block
   method-invocations:
-    - match: (\.)(<)
-      comment: Generic method invocations
+    - match: (\.)\s*(?=<)
       captures:
         1: punctuation.accessor.dot.java
-        2: punctuation.definition.generic.begin.java
-      push: object-type-generic
+      push: generic-type-invocation
     - match: ({{id}})\s*(\()
       captures:
         1: variable.function.java
@@ -506,109 +594,273 @@ contexts:
         - match: \,
           scope: punctuation.separator.java
 
-  methods:
-    - match: (?={{id}}\()
-      push:
-        - meta_scope: meta.method.java
-        - match: ({{uppercase_id}})\s*(?=\()
-          captures:
-            1: meta.method.identifier.java entity.name.function.constructor.java
-        - match: ({{id}})\s*(?=\()
-          captures:
-            1: meta.method.identifier.java entity.name.function.java
-        - match: \(
-          scope: punctuation.section.parens.begin.java
-          push:
-            - meta_scope: meta.method.parameters.java meta.parens.java
-            - match: \)
-              scope: punctuation.section.parens.end.java
-              pop: true
-            - include: parameters
-            - match: \S
-              scope: invalid.illegal.missing-parameter-end
-              pop: true
-        - include: throws
-        - include: annotation-default
-        - match: "{"
-          scope: punctuation.section.block.begin.java
-          set:
-            - meta_scope: meta.method.java meta.method.body.java
-            - match: "}"
-              scope: punctuation.section.block.end.java
-              pop: true
-            - include: code-block
-        - include: any_POP
-  invalid-generic-tags:
-    - match: <
-      comment: This is just to support <>'s with no actual type prefix
-      push:
-        - meta_scope: invalid.generic
-        - match: '>|[^\w\s,\[\]<]'
-          pop: true
-  object-types:
-    - match: '\b({{qualified_id}})(<)(?={{primitives}})'
-      captures:
-        1: support.class.java
-        2: punctuation.accessor.dot.java
-        3: punctuation.definition.generic.begin.java
-      push: object-type-generic
-    # This will match the < operator if there is no space in between.
-    - match: '\b({{qualified_id}})(<)(?!\s*(?:\d+|<|[a-z]))'
-      comment: Don't match foo<2, foo<bar, foo<<12
-      captures:
-        1: support.class.java
-        2: punctuation.accessor.dot.java
-        3: punctuation.definition.generic.begin.java
-      push: object-type-generic
-    - match: '\b({{qualified_id}})((?:\[\])+)'
-      captures:
-        1: support.class.java
-        2: punctuation.accessor.dot.java
-        3: storage.modifier.array.java
-    - match: '\b(?:{{id}}(\.))*(?:(?={{classes_named_as_constants}})|(?![A-Z0-9_]{2,}\b)){{uppercase_id}}\b'
+  fields-and-methods:
+    - match: \bvoid\b
+      scope: storage.type.void.java
+      push: method
+    - match: (?={{id}}\s*\()
+      push: method
+    - match: '{{before_fqn}}'
+      push: [field-or-method, after-object-and-array-types, object-type-fqn]
+    - match: \b{{classcase_id}}
       scope: support.class.java
+      push: [field-or-method, after-object-and-array-types]
+    - match: \b{{primitives}}\b
+      scope: storage.type.primitive.java
+      push: [field-or-method, array-brackets]
+
+  field-or-method:
+    - match: (?={{id}}\s*\()
+      set: method
+    - match: (?=\S)
+      set:
+      - include: before-next-field
+      - match: (?:({{uppercase_id}})|({{id}}))
+        captures:
+          1: entity.name.constant.java
+          2: meta.field.java
+        push: [static-assignment, array-brackets]
+      - match: ','
+        scope: punctuation.separator.java
+      - match: ';'
+        scope: punctuation.terminator.java
+        pop: true
+      - include: any_POP
+
+  before-next-field:
+    # Prevent style from being removed from whole file when making a new expression
+    - match: '(?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)'
+      pop: true
+
+  method:
+    - meta_scope: meta.method.java
+    - match: ({{classcase_id}})\s*(?=\()
       captures:
-        1: punctuation.accessor.dot.java
-  object-types-inherited:
-    - match: '\b({{qualified_id}})(?=<)'
+        1: meta.method.identifier.java entity.name.function.constructor.java
+    - match: ({{id}})\s*(?=\()
       captures:
-        1: entity.other.inherited-class.java
-        2: punctuation.accessor.dot.java
+        1: meta.method.identifier.java entity.name.function.java
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       push:
-        - meta_scope: meta.generic.java
-        - match: <
-          scope: punctuation.definition.generic.begin.java
-          push: object-type-generic
-        - include: any_POP
-    - match: '\b({{qualified_id}})\b'
-      captures:
-        1: entity.other.inherited-class.java
-        2: punctuation.accessor.dot.java
-  object-type-generic:
-    - meta_scope: meta.generic.java
-    - match: ">"
-      scope: punctuation.definition.generic.end.java
-      pop: true
-    - match: (?=\))
-      comment: We either matched the < operator, or are missing a >
-      pop: true
-    - match: \?
-      scope: keyword.operator.wildcard.java
-      push: generic-declaration-body
-    - match: \,
-      scope: punctuation.separator.java
-    - match: '{{primitives}}'
-      scope: invalid.illegal.primitive-instantiation.java
-    - include: object-types
-    - include: invalid-generic-tags
+        - meta_scope: meta.method.parameters.java meta.parens.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: true
+        - include: parameters
+        - match: \S
+          scope: invalid.illegal.missing-parameter-end
+          pop: true
+    - include: throws
+    - include: annotation-default
+    - match: "{"
+      scope: punctuation.section.block.begin.java
+      set:
+        - meta_scope: meta.method.java meta.method.body.java
+        - match: "}"
+          scope: punctuation.section.block.end.java
+          pop: true
+        - include: code-block
+    - include: any_POP
+
   throws:
     - match: \bthrows\b
       scope: keyword.declaration.throws.java
       push:
-        - meta_scope: meta.method.throws.java
-        - match: '(?=\s*{|;)'
+      - - meta_scope: meta.method.throws.java
+        - match: \,
+          scope: punctuation.separator.implements.java
+          push: object-type-reference
+        - include: any_POP
+      - object-type-reference
+
+  # Stand-along uppercase id, either type or constant.
+  # Should be used only inside code blocks.
+  uppercase-identifiers:
+    # Popular JDK classes
+    - match: \b(?:UUID|UR[LI])\b
+      scope: support.class.java
+      push: after-object-type
+    # Generic type variable
+    - match: \b\p{Lu}\b
+      scope: support.class.java
+      push: after-object-type
+    # Uppercase constants
+    - match: \b{{uppercase_id}}
+      scope: constant.other.java
+
+  # Stand-alone type, maybe type of the variable or class object reference.
+  # Should be used only inside code blocks.
+  object-types:
+    # Here the match is more complex than 'before_fqn'.
+    # In code block we can't simply distinguish package from variable.
+    - match: (?=\b(?:{{lowercase_id}}\.)+\p{Lu})
+      push: [after-object-type, object-type-fqn]
+    - match: \b{{classcase_id}}\b
+      scope: support.class.java
+      push: after-object-type
+
+  object-type-fqn:
+    - meta_scope: meta.path.java
+    - include: package
+    - match: '{{classcase_id}}'
+      scope: support.class.java
+      pop: true
+    - include: any_POP
+
+  after-object-type:
+    - match: (?=<)
+      set: [array-brackets, generic-type-invocation]
+    - match: \.(?!\.)
+      scope: punctuation.accessor.dot.java
+      set:
+        - match: (?=<)
+          set: generic-type-invocation
+        - match: (?:(class)\b|({{uppercase_id}}))
+          captures:
+            1: variable.language.java
+            2: constant.other.java
           pop: true
-        - include: object-types
+        - match: '{{classcase_id}}'
+          scope: support.class.java
+          set: after-object-type
+        - include: any_POP
+    - include: array-brackets
+
+  # Used in 'throws' and generic bounds
+  object-type-reference:
+    - match: '{{before_fqn}}'
+      set:
+        - meta_scope: meta.path.java
+        - include: package
+        - include: object-type-reference-no-fqn
+    - include: object-type-reference-no-fqn
+
+  object-type-reference-no-fqn:
+    - match: '{{classcase_id}}'
+      scope: support.class.java
+      set: after-object-type-reference
+    - include: any_POP
+
+  after-object-type-reference:
+    - match: (?=<)
+      set: generic-type-invocation
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set: object-type-reference-no-fqn
+    - include: any_POP
+
+  # Used in method's and generic's parameters
+  object-and-array-types:
+    - match: '{{before_fqn}}'
+      push:
+        - meta_scope: meta.path.java
+        - include: package
+        - include: object-and-array-types-no-fqn
+    - match: \b({{primitives}})(?=\s*\[)
+      scope: storage.type.primitive.java
+      push: array-brackets
+    - match: \b{{classcase_id}}
+      scope: support.class.java
+      push: after-object-and-array-types
+
+  object-and-array-types-no-fqn:
+    - match: '{{classcase_id}}'
+      scope: support.class.java
+      set: after-object-and-array-types
+    - include: any_POP
+
+  after-object-and-array-types:
+    - match: (?=<)
+      set: [array-brackets, generic-type-invocation]
+    - match: \.(?!\.)
+      scope: punctuation.accessor.dot.java
+      set: object-and-array-types-no-fqn
+    - include: array-brackets
+
+  # Used in class-level 'extends' and 'implements'
+  inherited-object-type-reference:
+    - match: '{{before_fqn}}'
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{lowercase_id}}'
+          scope: entity.other.inherited-class.package.java
+        - match: \.
+          scope: punctuation.accessor.dot.java
+        - include: inherited-object-type-reference-no-fqn
+    - include: inherited-object-type-reference-no-fqn
+
+  inherited-object-type-reference-no-fqn:
+    - match: '{{classcase_id}}'
+      scope: entity.other.inherited-class.java
+      set: after-inherited-object-type-reference
+    - include: any_POP
+
+  after-inherited-object-type-reference:
+    - match: (?=<)
+      set: generic-type-invocation
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set: inherited-object-type-reference-no-fqn
+    - include: any_POP
+
+  generic-type-declaration:
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      push: generic-type-parameter
+    - include: any_POP
+
+  generic-type-terminator:
+    - include: illegal-semicolon
+    # These characters can't appear in a generic. If we've matched
+    # them then someone forgot to close it.
+    - match: (?=[{}()])
+      pop: true
+    - match: '>'
+      scope: punctuation.definition.generic.end.java
+      pop: true
+
+  generic-type-parameter:
+    - meta_scope: meta.generic.declaration.java
+    - match: \b{{id}}\b
+      scope: variable.parameter.type.java
+      push: generic-type-bounds
+    - include: generic-type-terminator
+
+  generic-type-bounds:
+    - match: (,)|(?=>)
+      captures:
+        1: punctuation.separator.java
+      pop: true
+    - match: \bextends\b
+      scope: keyword.declaration.extends.java
+      push: [generic-type-extends-multiple-bounds, object-type-reference]
+    - match: \bsuper\b
+      scope: keyword.declaration.super.java
+      push: object-type-reference
+
+  generic-type-extends-multiple-bounds:
+    - match: '&'
+      scope: keyword.operator.multiple-bounds.java
+      set: [generic-type-extends-multiple-bounds, object-type-reference]
+    - include: any_POP
+
+  generic-type-invocation:
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      set: generic-type-argument
+    - include: any_POP
+
+  generic-type-argument:
+    - meta_scope: meta.generic.java
+    - match: \?
+      scope: keyword.operator.wildcard.java
+      push: generic-type-bounds
+    - include: generic-type-terminator
+    - include: object-and-array-types
+    - match: ','
+      scope: punctuation.separator.java
+
   annotation-default:
     - match: \bdefault\b
       scope: keyword.declaration.default.java
@@ -617,15 +869,18 @@ contexts:
         - match: (?=;)
           pop: true
         - include: code
+
   parameters:
     - match: \bfinal\b
       scope: storage.modifier.java
     - include: annotations
-    - include: all-types
+    - include: primitive-types
+    - include: object-and-array-types
     - match: \.\.\.
       scope: keyword.operator.variadic.java
-    - match: \w+
+    - match: '{{id}}'
       scope: variable.parameter.java
+      push: array-brackets
     - match: \,
       scope: punctuation.separator.java
 
@@ -677,34 +932,29 @@ contexts:
         - include: illegal-open-block
         - include: code-block
     - include: any_POP
-  primitive-arrays:
-    - match: '\b(void)((?:\[\])+)'
-      captures:
-        1: storage.type.primitive.java invalid.illegal.void-array.java
-        2: storage.modifier.array.java
-    - match: '{{primitives}}((?:\s*\[\s*\])+)'
-      captures:
-        1: storage.type.primitive.java
-        2: storage.modifier.array.java
+
   primitive-types:
-    - match: '{{primitives_with_void}}'
+    - match: \b{{primitives}}\b
       scope: storage.type.primitive.java
+      push: array-brackets
+
+  array-brackets:
+    - match: \[\s*\]
+      scope: storage.modifier.array.java
+    - include: any_POP
+
   static-assignment:
     - match: \=
       scope: keyword.operator.assignment.java
-      push:
+      set:
         - meta_scope: meta.assignment.rhs.java
-        - match: (?=;)
+        - match: (?=[,;])
           pop: true
-        # Prevent style from being removed from whole file when making a new expression
-        - match: '(?={{storage_modifiers}})'
-          pop: true
-        - match: '(?={{primitives_with_void}})'
-          pop: true
+        - include: before-next-field
         - include: code
         - include: stray-parens
-    - match: ;
-      scope: punctuation.terminator.java
+    - include: any_POP
+
   assignment:
     - match: ([|&^*/+-]\=|\=(?!=))
       scope: keyword.operator.assignment.java
@@ -723,7 +973,7 @@ contexts:
           pop: true
         - include: code-block
   storage-modifiers:
-    - match: '{{storage_modifiers}}'
+    - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
   stray-braces:
     - match: '\}'

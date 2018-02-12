@@ -266,7 +266,7 @@ def _():
 #                       ^ invalid.illegal.expected-parameter.python
 #                            ^ invalid.illegal.expected-parameter.python
 
-    lambda
+    lambda x
 #   ^^^^^^ storage.type.function.inline
 
     ( 3 - 6 \
@@ -578,6 +578,16 @@ def func(*args, other_arg=2**10, **kwargs):
 #                                ^^ keyword.operator.unpacking.mapping.python
     pass
 
+def func(
+    *args,
+#   ^ keyword.operator.unpacking.sequence
+    other_arg=2**10,
+#              ^^ keyword.operator.arithmetic
+    **kwargs
+#   ^^ keyword.operator.unpacking.mapping
+):
+    pass
+
 
 ##################
 # Class definitions
@@ -848,6 +858,16 @@ l = [1 * 2, 2**10, *result]
 d = {1: 3**4, **dict_}
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
+
+generator = (
+    i
+    for
+#   ^^^ keyword.control.flow.for.generator
+    i
+    in
+#   ^^ keyword.control.flow.for.in
+    range(100)
+)
 
 ##################
 # Exception handling

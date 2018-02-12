@@ -216,3 +216,12 @@ function(
 #        ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
   y = 2
 )
+
+foo(abc = function() {})
+#   ^^^ variable.parameter
+
+foo(
+  NULL,
+  bar = function() {}
+# ^^^ variable.parameter
+)
