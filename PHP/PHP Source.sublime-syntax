@@ -586,7 +586,7 @@ contexts:
         - match: (?=\S)
           pop: true
     - include: comments
-    - match: \b(array|callable|int|string|bool|float)\b
+    - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     # Class name type hint
     - match: '{{identifier}}'
@@ -643,7 +643,7 @@ contexts:
       scope: punctuation.separator.php
     - match: '\?'
       scope: storage.type.nullable.php
-    - match: \b(array|bool|int|float|string)\b
+    - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     - include: class-builtin
     - include: identifier-parts-as-path
