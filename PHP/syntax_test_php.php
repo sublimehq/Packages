@@ -435,6 +435,16 @@ $anon = new class extends Test1 implements Countable {};
 //                                             ^ storage.type.nullable.php
 //                                              ^ storage.type.php
 
+    function nullableObjectReturnType(?int $param1): ?object {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                                   ^ punctuation.section.group.begin.php
+//                                    ^ storage.type.nullable.php
+//                                     ^ meta.function.parameters
+//                                                ^ punctuation.section.group.end.php
+//                                                   ^ storage.type.nullable.php
+//                                                    ^ storage.type.php
+
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
 //          ^^^ constant.character.escape.octal.php
