@@ -136,6 +136,12 @@ contexts:
                 - match: \}
                   pop: true
                 - include: regexp-braces
+            - match: '(?=")'
+              set:
+                - include: strings
+                # One of these characters indicates the string is complete
+                - match: '(?={{inline_end_chars}})'
+                  pop: true
         - match: '(?=")'
           set:
             - include: strings

@@ -42,6 +42,12 @@ regsub -all {\/} $line {\\} line;
 # <- keyword.other
 #            ^ string.regexp
 #                       ^ constant.character.escape
+
+foreach {one_arg_opt_pattern} [list {-first\S*} {-second\S*} {-group\S*}] {
+    regsub -- "${one_arg_opt_pattern}\\s+\\S+" $args {} args
+#             ^ string.quoted.double
+}
+
 regsub -all {\\\\} $line {\\} line;
 # <- keyword.other
 #            ^ string.regexp constant.character.escape
