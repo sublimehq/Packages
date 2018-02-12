@@ -1050,20 +1050,6 @@ var reg = /a+/gimy.exec('aabb')
 // <- string.regexp
 //  ^^ punctuation.definition.group.no-capture.regexp
 
-/test// 1;
-// <- string.regexp.js
-//    ^ keyword.operator.arithmetic.js
-
-/test/* 1;
-// <- string.regexp.js
-//    ^ keyword.operator.arithmetic.js
-// */
-
-/test/** 1;
-// <- string.regexp.js
-//    ^^ keyword.operator.arithmetic.js
-// */
-
 'str'.match(/[" ]+/g);
 //          ^^^^^^^^ string.regexp.js
 
