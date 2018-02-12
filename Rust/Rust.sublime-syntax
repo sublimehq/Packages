@@ -94,6 +94,9 @@ contexts:
     - match: \b(let|const|static)\b
       scope: storage.type.rust
 
+    - match: \*const\b
+      scope: storage.type.rust
+
     - match: \bfn\b
       scope: storage.type.function.rust
 
@@ -116,6 +119,9 @@ contexts:
       scope: storage.type.trait.rust
 
     - match: \b(mut|pub|unsafe|move|ref)\b
+      scope: storage.modifier.rust
+
+    - match: \*mut\b
       scope: storage.modifier.rust
 
     - match: \b(crate|extern|use|where)\b
@@ -451,7 +457,7 @@ contexts:
         - include: strings
         - match: '(?=\S)'
           pop: true
-    - match: '(?=>|[^ \t\n\$=<_+''(),&:\[\][:alnum:]])'
+    - match: '(?=>|[^ \t\n\$=<_+''(),&:\[\]*[:alnum:]])'
       pop: true
     - match: '<'
       scope: punctuation.definition.generic.begin.rust
@@ -503,7 +509,9 @@ contexts:
   type-any-identifier:
     - match: '&'
       scope: keyword.operator.rust
-    - match: \b(mut|ref)\b
+    - match: \bref\b
+      scope: storage.modifier.rust
+    - match: (?:\b|\*)(?:mut|const)\b
       scope: storage.modifier.rust
     - match: \b(fn)\b(\()
       captures:
