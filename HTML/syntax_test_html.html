@@ -91,38 +91,19 @@
 ##          ^^^^^^^^^ - punctuation
 
         <!----- hyphens - -- --- -->
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                          ^ - comment.block.html
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block - invalid.illegal.bad-comments-or-CDATA
 
-        <!---   hyphens - -- --- -- >
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                           ^ - comment.block.html
+        <!-->-- hyphens <!-- --!> <!--->
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##          ^ invalid.illegal.bad-comments-or-CDATA
+##                      ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                           ^^^^ invalid.illegal.bad-comments-or-CDATA
+##                                ^^^ invalid.illegal.bad-comments-or-CDATA
 
-        <!----- hyphens - -- --- ---->
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##  ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                   ^^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                       ^^ invalid.illegal.bad-comments-or-CDATA.html
-        ##                         ^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                            ^ - comment.block.html
-
-        <!--- hyphens --- >
-        ## ^^^^^^^^^^^^^^^^ comment.block.html
-        ##^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##            ^ invalid.illegal.bad-comments-or-CDATA.html
-        ##             ^^^^ - invalid.illegal.bad-comments-or-CDATA.html
-        ##                 ^ - comment.block.html
+        <!--->- hyphens <!-   -!> <!-->
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##          ^^ invalid.illegal.bad-comments-or-CDATA
+##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
 
         <div title=description></div>
         ##  ^ - meta.attribute-with-value
