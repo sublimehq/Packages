@@ -327,6 +327,10 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 //                        ^ constant.character.escape.js
 //                                                ^ punctuation.definition.string.template.end.js
 
+tag `template`;
+// <- variable.function.tagged-template
+//  ^^^^^^^^^^ string.template
+
 mylabel:
 // ^ entity.name.label
 //     ^ punctuation.separator
