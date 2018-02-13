@@ -609,6 +609,7 @@ contexts:
 
     - include: property-access
     - include: function-call
+    - include: literal-string-template
 
     - include: fallthrough
 

@@ -331,6 +331,10 @@ tag `template`;
 // <- variable.function.tagged-template
 //  ^^^^^^^^^^ string.template
 
+x ? y // y is a template tag!
+`template` : z;
+//         ^ keyword.operator.ternary
+
 mylabel:
 // ^ entity.name.label
 //     ^ punctuation.separator
