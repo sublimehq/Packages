@@ -195,6 +195,10 @@ export from from "./othermod";
 export { from } from "./othermod";
 //       ^^^^ variable.other.readwrite.js
 
+export default$
+//     ^^^^^^^^ - keyword
+;
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
@@ -307,6 +311,40 @@ not_a_comment;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ -comment() {}
 //                       ^ - meta.function.declaration meta.function.declaration
 });
+
+{
+    let _$Foobar1Ù𝓩ʷªאξ‿ᛮↂ〩;
+//      ^^^^^^^^^^^^^^^^^^^ variable.other.readwrite
+
+    let ಠ_ಠ;
+//      ^^^ variable.other.readwrite
+
+    import$;export$;class$;throw$;break$;continue$;goto$;return$;debugger$;let$;const$;var$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword
+
+    switch$;do$;while$;for$;if$;with$:try$;catch$;finally$;new$;delete$;typeof$;void$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword
+
+    true$;false$;null$;undefined$;NaN$;Infinity$;this$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.language
+
+    x
+    instanceof$;
+//  ^^^^^^^^^^^ - keyword
+
+    x
+    in$;
+//  ^^^ - keyword
+
+    await$ [];
+//  ^^^^^^ variable.other
+//         ^^ meta.brackets - meta.sequence
+
+    yield$ [];
+//  ^^^^^^ variable.other
+//         ^^ meta.brackets - meta.sequence
+
+};
 
 var str = '\':';
 var str2 = NaN;
@@ -625,6 +663,14 @@ switch ($foo) {
     // ^ meta.switch meta.block keyword.control.switch
     //     ^ - punctuation.separator.key-value
         qux = 3;
+
+    case$
+//  ^^^^^ - keyword
+    ;
+
+    default$
+//  ^^^^^^^^ - keyword
+    ;
 }
 // <- meta.block
 
@@ -804,6 +850,13 @@ class MyClass extends TheirClass {
 //           ^^^^^^ variable.parameter.function.js
 //                 ^ punctuation.separator.parameter.function.js
 //                   ^^^^^^ variable.parameter.function.js
+
+    static$
+//  ^^^^^^^ - storage
+    () {};
+
+    constructor$() {}
+//  ^^^^^^^^^^^^ entity.name.function - entity.name.function.constructor
 }
 // <- meta.block
 
@@ -885,6 +938,9 @@ var Proto = () => {
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
+
+var notAFunc = function$;
+//  ^^^^^^^^ - entity.name.function
 
 Proto.prototype.getVar = () => this._var;
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1241,10 +1297,12 @@ string = 'invalid
 //               ^ invalid.illegal.newline
 
 hex = 0xFA.5;
-//    ^^^^^^ invalid.illegal.numeric.hex
+//         ^ invalid.illegal - constant.numeric
+
+hex = 0xFA.toString;
 
 octal = 079.0;
-//      ^^^^^ invalid.illegal.numeric.octal
+//          ^ invalid.illegal - constant.numeric
 
 strayBracket = ());
 //               ^ invalid.illegal.stray-bracket-end
@@ -1349,8 +1407,29 @@ function yy (a, b) {
     0;
 //  ^ constant.numeric.decimal
 
+    123 .foo
+//  ^^^ constant.numeric.decimal
+//      ^ punctuation.accessor
+//       ^^^ meta.property.object
+
+    123xyz;
+//  ^^^^^^ invalid.illegal.numeric.decimal
+
     0123456789;
-//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.octal
+//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.numeric.octal
+
+    0123456789xyz;
+//  ^^^^^^^^^^^^^ invalid.illegal.numeric.octal
+
+    0123456789.xyz;
+//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
+//            ^ punctuation.accessor
+//             ^^^ meta.property.object
+
+    0123456789.123;
+//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
+//            ^ punctuation.accessor
+//             ^^^ invalid.illegal.illegal-identifier
 
     0b0110_1001_1001_0110n;
 //  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.binary
@@ -1372,6 +1451,21 @@ function yy (a, b) {
 //       ^^^ constant.numeric.octal
 //            ^^^ constant.numeric.hexadecimal
 
+    0b1.foo;
+//  ^^^^^^^ - invalid
+//  ^^^ constant.numeric.binary
+//     ^ punctuation.accessor
+//      ^^^ meta.property.object
+
+    0b1.0;
+//  ^^^ constant.numeric.binary
+//     ^ punctuation.accessor
+//      ^ invalid.illegal.illegal-identifier
+
+    0b123;
+//  ^^^^^ invalid.illegal.numeric.binary
+
+
 // Floats
 
     1_234_567_890.123_456_789_0;
@@ -1379,9 +1473,6 @@ function yy (a, b) {
 
     .123_456_789_0;
 //  ^^^^^^^^^^^^^^ constant.numeric.decimal
-
-    0123.45;
-//  ^^^^^^^ invalid.illegal.numeric.octal
 
     12345e6_7_8;
 //  ^^^^^^^^^^^ constant.numeric.decimal
@@ -1391,6 +1482,20 @@ function yy (a, b) {
 
     .123E-7_8_9;
 //  ^^^^^^^^^^^ constant.numeric.decimal
+
+    0123.45;
+//       ^^ invalid.illegal - constant.numeric
+
+    123.4foo;
+//  ^^^^^^^^ invalid.illegal.numeric.decimal
+
+    123.4e+foo;
+//  ^^^^^^ invalid.illegal.numeric.decimal
+
+    123..foo;
+//  ^^^^ constant.numeric.decimal
+//      ^ punctuation.accessor
+//       ^^^ meta.property.object
 
 debugger;
 // <- keyword.other.debugger
