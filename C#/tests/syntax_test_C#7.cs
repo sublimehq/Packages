@@ -471,3 +471,29 @@ public readonly struct S
         this = other;
     }
 }
+
+// "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be 
+// accessed inside the current assembly.
+class BaseClass           { private protected void Foo() {} }
+///                         ^^^^^^^ storage.modifier.access
+///                                 ^^^^^^^^^ storage.modifier.access
+///                                           ^^^^ storage.type
+///                                                ^^^ entity.name.function
+class Derived : BaseClass { void Bar() => Foo();            }
+
+// You can now place the "in" keyword before parameters to prevent them from being modified. This is
+// particularly useful with structs, because the compiler avoids the overhead of having to copy the value:
+void Foo (in string s, in int x, in Point point)
+///^ storage.type
+///  ^^^ entity.name.function
+///       ^^ storage.modifier.parameter
+///          ^^^^^^ storage.type
+///                 ^ variable.parameter
+///                  ^ punctuation.separator.parameter
+{
+    // s = "new";  // error
+    // x++;        // error
+    // point.X++;  // error
+}
+// Note that you don't specify the 'in' modifier when calling the method:
+void TestFoo() => Foo ("hello", 123, new Point (2, 3));

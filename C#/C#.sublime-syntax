@@ -673,7 +673,7 @@ contexts:
     - include: attribute
     - match: (?=[^\s\[])
       set:
-      - match: '\s*\b(out|ref|this|params)\s+'
+      - match: '\s*\b(out|ref|this|params|in)\s+'
         captures:
           1: storage.modifier.parameter.cs
       - match: \s
