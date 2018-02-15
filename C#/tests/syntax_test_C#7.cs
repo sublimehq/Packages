@@ -165,12 +165,15 @@ class Foo {
         bin = 0b1001_1010_0001_0100_;
 ///                                ^ - constant.numeric
         bin = 0b_1001_1010_0001_0100;
-///            ^^^^^^^^^^^^^^^^^^^^^ - constant.numeric
+///           ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+        bin = 0b__1001__1010__0001__0_1_0_0;
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
         hex = _0x1b_a0_44_fe;
 ///           ^^^^^^^^^^^^^^ variable.other
         hex = 0x_1b_a0_44_fe;
-///            ^^^^^^^^^^^^^ - constant.numeric
-
+///           ^^^^^^^^^^^^^^ constant.numeric
+        int abc = _123;
+///               ^^^^ variable.other
 
         switch (sh) {
             case Shape shape when sh.Area == 0:
@@ -444,7 +447,11 @@ public readonly struct S
 ///                    ^ entity.name.struct
 {
 /// <- meta.struct.body meta.block punctuation.section.block.begin
-    public int Age { get; }
+    public readonly int Age;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^ storage.type
+///                     ^^^ variable.other.member
     public string Name { get; }
 
     public S(int age, string name)

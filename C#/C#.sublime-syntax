@@ -20,8 +20,8 @@ variables:
   digit_separators: '(?:(?:_+[0-9]+)*)'
   
   # integers
-  hex_numeral: '(0[xX])\h+(?:_+\h+)*'
-  binary_numeral: '(0[bB])[01]+(?:_+[01]+)*'
+  hex_numeral: '(0[xX])_*\h+(?:_+\h+)*'
+  binary_numeral: '(0[bB])_*[01]+(?:_+[01]+)*'
   decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l)?)'
 
   # floating point numbers
