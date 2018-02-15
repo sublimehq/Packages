@@ -453,6 +453,12 @@ public readonly struct S
 ///                 ^^^ storage.type
 ///                     ^^^ variable.other.member
     public string Name { get; }
+    
+    public readonly int X, Y;    // All fields must be readonly
+///                     ^ variable.other.member
+///                      ^ punctuation.separator.variables
+///                        ^ variable.other.member
+///                         ^ punctuation.terminator.statement
 
     public S(int age, string name)
     {

@@ -625,8 +625,15 @@ contexts:
       captures:
         1: entity.other.inherited-class.cs
         2: punctuation.accessor.dot.cs
-    - match: '({{name}})'
+    - match: '{{name}}'
       scope: meta.property.cs variable.other.member.cs
+      push:
+        - match: \s*(,)
+          captures:
+            1: punctuation.separator.variables.cs
+          pop: true
+        - match: ''
+          pop: true
     - match: '(?=\s*\{)'
       set: method_accessor
 
