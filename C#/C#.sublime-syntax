@@ -204,7 +204,7 @@ contexts:
     # allows coloration of code outside a class
     - match: (?=\S)
       push:
-        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace)\b)
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly)\b)
           pop: true
         - include: line_of_code
 
