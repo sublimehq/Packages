@@ -1011,6 +1011,11 @@ contexts:
       push:
         - match: (?=;|,)
           pop: true
+        - match: (?=\{)
+          push:
+            - match: (?=[^,\s{}])
+              pop: true
+            - include: initializer_constructor
         - include: line_of_code_in
     - match: '{{name}}'
       scope: variable.other.cs

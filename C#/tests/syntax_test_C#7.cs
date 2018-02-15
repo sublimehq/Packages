@@ -538,6 +538,9 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 void Test ()
 {
     int[] array = { 1, 15, -39, 0, 7, 14, -12 };
+///                 ^ constant.numeric.integer.decimal
+///                  ^ punctuation.separator.array-element
+///                                            ^ punctuation.terminator.statement
     ref int place = ref Find (7, array); // aliases 7's place in the array
 /// ^^^ storage.modifier
 ///     ^^^ storage.type
