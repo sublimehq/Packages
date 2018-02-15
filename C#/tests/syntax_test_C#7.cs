@@ -534,3 +534,36 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 ///                              ^ punctuation.separator.type
 ///                                ^^ storage.modifier
 ///                                   ^^^^ support.type
+
+void Test ()
+{
+    int[] array = { 1, 15, -39, 0, 7, 14, -12 };
+    ref int place = ref Find (7, array); // aliases 7's place in the array
+/// ^^^ storage.modifier
+///     ^^^ storage.type
+///         ^^^^^ variable.other
+///               ^ keyword.operator.assignment.variable
+///                 ^^^ keyword.other
+///                     ^^^^ variable.function
+    place = 9; // replaces 7 with 9 in the array
+    Console.WriteLine (array [4]); // prints 9
+}
+
+public ref int Find (int number, int[] numbers)
+/// ^^ storage.modifier.access
+///    ^^^ storage.modifier
+///        ^^^ storage.type
+///            ^^^^ entity.name.function
+{
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        if (numbers [i] == number)
+        {
+            return ref numbers [i]; // return the storage location, not the value
+///         ^^^^^^ keyword.control.flow.return
+///                ^^^ keyword.other
+///                    ^^^^^^^ variable.other
+        }
+    }
+    throw new IndexOutOfRangeException ($"{nameof (number)} not found");
+}

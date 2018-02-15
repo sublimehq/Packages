@@ -882,7 +882,7 @@ contexts:
       pop: true
     - include: keywords
     # C#7, nested method
-    - match: '(?=(?:\basync\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
+    - match: '(?=(?:\b(?:async|ref)\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
       push:
         - include: method_declaration
         - match: ''
@@ -936,10 +936,11 @@ contexts:
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
     - include: lambdas
-    - match: '\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
+    - match: '(?:\b(ref)\s+)?\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
       captures:
-        1: storage.type.cs
-        2: support.type.cs
+        1: storage.modifier.cs
+        2: storage.type.cs
+        3: support.type.cs
       set: [variables_declaration, type_no_space]
     - match: '({{name}})\s*(:)(?!:)'
       captures:
