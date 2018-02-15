@@ -287,11 +287,12 @@ contexts:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
-    - match: '(?:\b(readonly)\s+)?\b(struct)\s+({{name}})'
+    - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
-        2: storage.type.struct.cs
-        3: entity.name.struct.cs
+        2: storage.modifier.cs
+        3: storage.type.struct.cs
+        4: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs

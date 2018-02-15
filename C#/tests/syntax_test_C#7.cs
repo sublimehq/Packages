@@ -497,3 +497,40 @@ void Foo (in string s, in int x, in Point point)
 }
 // Note that you don't specify the 'in' modifier when calling the method:
 void TestFoo() => Foo ("hello", 123, new Point (2, 3));
+
+// https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
+Span<byte> bytes = length <= 128 ? stackalloc byte[length] : new byte[length];
+///                                ^^^^^^^^^^ keyword.other
+///                                           ^^^^ variable.other
+bytes[0] = 42;
+bytes[1] = 43;
+Assert.Equal(42, bytes[0]);
+Assert.Equal(43, bytes[1]);
+bytes[2] = 44; // throws IndexOutOfRangeException
+
+public readonly ref struct Span<T>
+///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
+///  ^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^ storage.modifier
+///                 ^^^^^^ storage.type.struct
+///                        ^^^^ entity.name.struct
+{
+    private readonly ref T _pointer;
+/// ^^^^^^^ storage.modifier.access
+///         ^^^^^^^^ storage.modifier
+///                  ^^^ storage.modifier
+///                      ^ support.type
+///                        ^^^^^^^^ variable.other.member
+    private readonly int _length;
+}
+
+public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+///    ^^^^^^^^ storage.type.delegate
+///             ^^^^ storage.type
+///                  ^^^^^^^^^^ variable.other.member.delegate
+///                            ^^^^^^^^^^^^ meta.generic
+///                             ^ support.type
+///                              ^ punctuation.separator.type
+///                                ^^ storage.modifier
+///                                   ^^^^ support.type
