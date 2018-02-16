@@ -853,6 +853,14 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^^ storage.type.function.arrow
 //         ^^^^^^ meta.block keyword.control.flow
 
+(
+    ()
+    => { return; }
+//  ^^ storage.type.function.arrow
+//     ^^^^^^^^^^^ meta.block - meta.object-literal
+//       ^^^^^^ keyword.control.flow
+);
+
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
