@@ -1590,7 +1590,7 @@ contexts:
 
   long_format_string:
     - meta_include_prototype: false
-    - meta_scope: string.quoted.double.interpolated.cs
+    - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
     - match: '""'
       scope: constant.character.escape.cs
     - match: '"'
