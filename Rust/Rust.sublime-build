@@ -15,8 +15,7 @@
         },
         {
             "selector": "source.rust",
-            "cmd": ["rustc $file && ./${file_base_name}"],
-            "shell": true,
+            "shell_cmd": "rustc \"$file\" && \"./$file_base_name\"",
             "name": "Build & Run",
         },
     ]
