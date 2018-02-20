@@ -33,6 +33,10 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+  immediate_POP:
+    - match: ''
+      pop: true
+
   main:
     - include: prototype
     - include: package-statement
@@ -73,7 +77,7 @@ contexts:
       scope: keyword.control.import.java
       push:
         - - meta_scope: meta.import.java
-          - include: any_POP
+          - include: immediate_POP
         - import-statement-body
 
   import-statement-body:
@@ -148,10 +152,10 @@ contexts:
       scope: punctuation.definition.annotation.java
       push:
         - - meta_scope: meta.annotation.java
-          - include: any_POP
+          - include: immediate_POP
         - annotation-parameters
         - - meta_content_scope: meta.annotation.identifier.java
-          - include: any_POP
+          - include: immediate_POP
         - annotation-type-reference
 
   annotation-type-reference:
@@ -212,7 +216,7 @@ contexts:
       scope: keyword.control.new.java
       push:
         - - meta_scope: meta.instantiation.java
-          - include: any_POP
+          - include: immediate_POP
         - instantiation
 
   instantiation:
@@ -333,7 +337,7 @@ contexts:
           scope: keyword.declaration.extends.java
           push:
             - - meta_scope: meta.class.extends.java
-              - include: any_POP
+              - include: immediate_POP
             - inherited-object-type-reference
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
