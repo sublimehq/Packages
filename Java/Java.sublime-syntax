@@ -41,6 +41,18 @@ contexts:
     - include: annotations
     - include: code
 
+  punctuation-accessor-dot:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+
+  punctuation-separator-comma:
+    - match: \,
+      scope: punctuation.separator.comma.java
+
+  punctuation-terminator-semicolon:
+    - match: ;
+      scope: punctuation.terminator.java
+
   package-statement:
     - match: \bpackage\b
       scope: keyword.other.package.java
@@ -82,8 +94,7 @@ contexts:
           scope: support.class.import.java
           set:
             - include: before-next-import
-            - match: \.
-              scope: punctuation.accessor.dot.java
+            - include: punctuation-accessor-dot
             - match: ({{classcase_id}})|(\*)
               captures:
                 1: support.class.import.java
@@ -104,8 +115,7 @@ contexts:
           scope: support.class.import.java
           set:
             - include: before-next-import
-            - match: \.
-              scope: punctuation.accessor.dot.java
+            - include: punctuation-accessor-dot
             - match: ({{uppercase_id}})|({{classcase_id}})|({{id}})|(\*)
               captures:
                 1: constant.other.import.java
@@ -127,8 +137,7 @@ contexts:
   package:
     - match: '{{lowercase_id}}'
       scope: support.type.package.java
-    - match: \.
-      scope: punctuation.accessor.dot.java
+    - include: punctuation-accessor-dot
 
   all-types:
     - include: primitive-types
@@ -151,8 +160,7 @@ contexts:
         - meta_scope: meta.path.java
         - match: '{{lowercase_id}}'
           scope: variable.annotation.package.java
-        - match: \.
-          scope: punctuation.accessor.dot.java
+        - include: punctuation-accessor-dot
         - include: annotation-type-no-fqn
     - include: annotation-type-no-fqn
 
@@ -188,8 +196,7 @@ contexts:
         - include: annotation-array-initialization
         - include: annotations
         - include: code
-        - match: \,
-          scope: punctuation.separator.java
+        - include: punctuation-separator-comma
     - include: any_POP
 
   annotation-array-initialization:
@@ -292,8 +299,7 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
-    - match: \,
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   assertions:
     - match: \b(assert)\b
@@ -334,7 +340,7 @@ contexts:
           push:
             - - meta_scope: meta.class.implements.java
               - match: \,
-                scope: punctuation.separator.implements.java
+                scope: punctuation.separator.comma.java
                 push: inherited-object-type-reference
               - include: any_POP
             - inherited-object-type-reference
@@ -533,8 +539,7 @@ contexts:
       captures:
         1: punctuation.accessor.dot.java
         2: variable.language.java
-    - match: ;
-      scope: punctuation.terminator.java
+    - include: punctuation-terminator-semicolon
   illegal-keywords:
     - match: \b(goto|const)\b
       scope: invalid.illegal.java
@@ -550,7 +555,7 @@ contexts:
           scope: meta.catch.java punctuation.section.parens.end.java
           pop: true
         - match: \|
-          scope: punctuation.separator.java
+          scope: punctuation.separator.bar.java
         - include: parameters
   keywords-control:
     - match: \btry\b
@@ -591,8 +596,7 @@ contexts:
           pop: true
         - include: illegal-parens-terminators
         - include: code
-        - match: \,
-          scope: punctuation.separator.java
+        - include: punctuation-separator-comma
 
   fields-and-methods:
     - match: \bvoid\b
@@ -620,8 +624,7 @@ contexts:
           1: entity.name.constant.java
           2: meta.field.java
         push: [static-assignment, array-brackets]
-      - match: ','
-        scope: punctuation.separator.java
+      - include: punctuation-separator-comma
       - match: ';'
         scope: punctuation.terminator.java
         pop: true
@@ -669,7 +672,7 @@ contexts:
       push:
       - - meta_scope: meta.method.throws.java
         - match: \,
-          scope: punctuation.separator.implements.java
+          scope: punctuation.separator.comma.java
           push: object-type-reference
         - include: any_POP
       - object-type-reference
@@ -785,8 +788,7 @@ contexts:
         - meta_scope: meta.path.java
         - match: '{{lowercase_id}}'
           scope: entity.other.inherited-class.package.java
-        - match: \.
-          scope: punctuation.accessor.dot.java
+        - include: punctuation-accessor-dot
         - include: inherited-object-type-reference-no-fqn
     - include: inherited-object-type-reference-no-fqn
 
@@ -830,7 +832,7 @@ contexts:
   generic-type-bounds:
     - match: (,)|(?=>)
       captures:
-        1: punctuation.separator.java
+        1: punctuation.separator.comma.java
       pop: true
     - match: \bextends\b
       scope: keyword.declaration.extends.java
@@ -858,8 +860,7 @@ contexts:
       push: generic-type-bounds
     - include: generic-type-terminator
     - include: object-and-array-types
-    - match: ','
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   annotation-default:
     - match: \bdefault\b
@@ -881,8 +882,7 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.java
       push: array-brackets
-    - match: \,
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   lambdas:
     - match: '(?={{lambda_lookahead}})'
