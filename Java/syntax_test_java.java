@@ -1867,3 +1867,97 @@ class Javadoc {
    */
 // ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
 }
+
+module java.base {
+//^^^^^^^^^^^^^^^^ meta.module.java
+//^^^^^^^^^^^^^^ meta.module.identifier.java
+//              ^ -meta.module.identifier.java
+//^^^^ storage.type.java
+//     ^^^^^^^^^ entity.name.module.java
+//               ^ meta.module.body.java punctuation.section.braces.begin.java
+
+  exports java.io;
+//^^^^^^^^^^^^^^^^ meta.module.java meta.module.body.java
+//^^^^^^^^^^^^^^^ meta.exports.java
+//^^^^^^ keyword.other.module.exports.java
+//        ^^^^^^^ support.type.package.java
+//            ^ punctuation.accessor.dot.java
+//               ^ punctuation.terminator.java
+
+  exports jdk.internal.jmod to jdk.compiler, jdk.jlink;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.exports.java
+//                          ^^ keyword.other.module.to.java
+//                             ^^^^^^^^^^^^ support.type.module.java
+//                                         ^ punctuation.separator.comma.java
+//                                           ^^^^^^^^^ support.type.module.java
+//                                                    ^ punctuation.terminator.java
+
+  opens java.io;
+//^^^^^^^^^^^^^ meta.opens.java
+//^^^^^ keyword.other.module.opens.java
+//      ^^^^^^^ support.type.package.java
+//          ^ punctuation.accessor.dot.java
+//             ^ punctuation.terminator.java
+
+  opens jdk.internal.jmod to jdk.compiler, jdk.jlink;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.opens.java
+//                        ^^ keyword.other.module.to.java
+//                           ^^^^^^^^^^^^ support.type.module.java
+//                                       ^ punctuation.separator.comma.java
+//                                         ^^^^^^^^^ support.type.module.java
+//                                                  ^ punctuation.terminator.java
+
+  opens // incomplete to check if it affects the next statement
+
+  uses java.security.Provider;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.uses.java
+//^^^^ keyword.other.module.uses.java
+//     ^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//     ^^^^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^^^^ support.type.package.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^^^^^^ support.class.java
+//                           ^ punctuation.terminator.java
+
+  provides java.nio.file.spi.FileSystemProvider with jdk.internal.jrtfs.JrtFileSystemProvider;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java
+//^^^^^^^^ keyword.other.module.provides.java
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                              ^^^^ keyword.other.module.with.java
+//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                                                                           ^ punctuation.terminator.java
+
+  provides incomplete.but.should.not.break.next.Statement;
+//                                                       ^ punctuation.terminator.java
+
+  provides sun.jvmstat.monitor.MonitoredHostService with
+    sun.jvmstat.perfdata.monitor.protocol.file.MonitoredHostFileService,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java meta.path.java
+//                                                                     ^ punctuation.separator.comma.java
+    sun.jvmstat.perfdata.monitor.protocol.local.MonitoredHostLocalService;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java meta.path.java
+
+  requires java.xml;
+//^^^^^^^^^^^^^^^^^ meta.requires.java
+//^^^^^^^^ keyword.other.module.requires.java
+//         ^^^^^^^^ support.type.module.java
+//                 ^ punctuation.terminator.java
+
+  requires transitive javafx.base;
+//^^^^^^^^ keyword.other.module.requires.java
+//         ^^^^^^^^^^ keyword.other.module.transitive.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.requires.java
+//                    ^^^^^^^^^^^ support.type.module.java
+//                               ^ punctuation.terminator.java
+
+}
+//<- meta.module.body.java punctuation.section.braces.end.java
+
+open module open.module {}
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.module.java
+//^^^ -meta.module.identifier.java
+//^^ storage.modifier.java
+//   ^^^^^^ storage.type.java
+//   ^^^^^^^^^^^^^^^^^^ meta.module.identifier.java
+//                      ^^ meta.module.body.java
