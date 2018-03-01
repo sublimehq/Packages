@@ -74,6 +74,11 @@ function f ({ a, b: c, ...d }) {}
 //                     ^^^ keyword.operator.spread
 //                        ^ meta.binding.name variable.parameter.function
 
+function f (a, ...rest) {}
+//          ^ meta.binding.name variable.parameter.function
+//             ^^^ keyword.operator.spread
+//                ^^^^ variable.parameter.function
+
 let f = ([ x, y, ...z, ]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
@@ -113,3 +118,10 @@ let f = ({ a, b: c, ...d }) => {};
 //             ^ punctuation.separator.key-value
 //                  ^^^ keyword.operator.spread
 //                     ^ meta.binding.name variable.parameter.function
+
+let f = (a, ...rest) => {};
+//  ^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^ variable.other.readwrite entity.name.function
+//       ^ meta.binding.name variable.parameter.function
+//          ^^^ keyword.operator.spread
+//             ^^^^ meta.binding.name variable.parameter.function

@@ -402,7 +402,6 @@ contexts:
         - match: '\]'
           scope: punctuation.section.brackets.end.js
           pop: true
-        - include: function-parameter-binding-spread
         - include: function-parameter-binding-list
 
   function-parameter-binding-object-destructuring:
@@ -443,6 +442,7 @@ contexts:
   function-parameter-binding-list:
     - match: ','
       scope: punctuation.separator.parameter.function.js
+    - include: function-parameter-binding-spread
     - match: (?={{binding_pattern_lookahead}})
       push:
         - initializer
