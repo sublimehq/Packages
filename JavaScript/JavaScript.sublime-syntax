@@ -1280,7 +1280,7 @@ contexts:
 
         - match: \.\.\.
           scope: keyword.operator.spread.js
-          push: literal-variable
+          push: expression-no-comma
 
         - match: >-
             (?x)(?=
