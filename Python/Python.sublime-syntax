@@ -86,8 +86,12 @@ contexts:
       scope: keyword.other.exec.python
     - match: \b(return)\b
       scope: keyword.control.flow.return.python
-    - match: \b(break|continue|pass)\b
-      scope: keyword.control.flow.python
+    - match: \b(break)\b
+      scope: keyword.control.flow.break.python
+    - match: \b(continue)\b
+      scope: keyword.control.flow.continue.python
+    - match: \b(pass)\b
+      scope: keyword.control.flow.pass.python
     - match: ':'
       scope: punctuation.separator.annotation.variable.python
 
