@@ -1,0 +1,35 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+indent_size = 2
+trim_trailing_whitespace = false
+
+# Keep Makefiles sane
+[Makefile*]
+indent_style = tab
+indent_size = 4
+
+# Ensure specific settings for YAML (and similar) in case defaults change
+[{*.yml,*.sublime-syntax}]
+indent_style = space
+indent_size = 2
+
+[{*.tmPreferences,*.sublime-snippet}]
+indent_style = tab
+indent_size = 2
+
+[syntax_test_*]
+indent_style = space
+indent_size = unset
+trim_trailing_whitespace = false
+end_of_line = unset
+insert_final_newline = unset
+charset = unset
