@@ -1135,17 +1135,17 @@ a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
 
-var re = /^\/[^/]+/
+var re = /^\/[^/]+/;
 //             ^ constant.other.character-class.set.regexp
 //               ^ keyword.operator.quantifier
 
-(y - 1) / ((x - 1) / -2)
+(y - 1) / ((x - 1) / -2);
 //      ^ keyword.operator.arithmetic
 //        ^ punctuation.section.group
-(y - 1) / ((x - 1) /  2)
+(y - 1) / ((x - 1) /  2);
 //    ^ punctuation.section.group
 //      ^ keyword.operator.arithmetic
- y      / ((x - 1) / -2)
+ y      / ((x - 1) / -2);
 
 define(['common'], function(common) {
 //                 ^ meta.function.declaration
