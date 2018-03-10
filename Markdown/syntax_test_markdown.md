@@ -59,6 +59,14 @@ Inline `code sample`.
 |      ^ punctuation.definition.raw
 |                  ^ punctuation.definition.raw
 
+Here is a [](https://example.com).
+|         ^^ meta.link.inline
+|         ^ punctuation.definition.link.begin
+|          ^ punctuation.definition.link.end
+|           ^ punctuation.definition.metadata
+|            ^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                               ^ punctuation.definition.metadata
+
 Here is a [reference link][name].
 |         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                         ^ punctuation.definition.constant.begin
@@ -69,6 +77,14 @@ Here is a [blank reference link][].
 |         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                               ^ punctuation.definition.constant.begin
 |                                ^ punctuation.definition.constant.end
+
+Here is a ![](https://example.com/cat.gif).
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
+|          ^ punctuation.definition.image.begin
+|           ^ punctuation.definition.image.end - string
+|            ^ punctuation.definition.metadata
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                        ^ punctuation.definition.metadata
 
 Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
