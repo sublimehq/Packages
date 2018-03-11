@@ -3,29 +3,29 @@
   (+ 3 3)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^ constant.numeric.clojure
-;      ^ constant.numeric.clojure
+;    ^ constant.numeric
+;      ^ constant.numeric
 ;       ^ punctuation.section.parens.end.clojure
 
   (/ 10 3)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^^ constant.numeric.clojure
-;       ^ constant.numeric.clojure
+;    ^^ constant.numeric
+;       ^ constant.numeric
 ;        ^ punctuation.section.parens.end.clojure
 
   (/ 10 3.0)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^^ constant.numeric.clojure
-;       ^^^ constant.numeric.clojure
+;    ^^ constant.numeric
+;       ^^^ constant.numeric
 ;          ^ punctuation.section.parens.end.clojure
 
   (+ 1 2 3 4 5 6)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^ constant.numeric.clojure
-;              ^ constant.numeric.clojure
+;    ^ constant.numeric
+;              ^ constant.numeric
 ;               ^ punctuation.section.parens.end.clojure
 
   (defn square [x] (* x x))
@@ -42,7 +42,7 @@
   (square 10) ;; test
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^^^^^^ variable.function.clojure
-;         ^^ constant.numeric.clojure
+;         ^^ constant.numeric
 ;           ^ punctuation.section.parens.end.clojure
 ;             ^^ comment.line.clojure punctuation.definition.comment
 ;               ^^^^^ comment.line.clojure
@@ -62,24 +62,24 @@
 ;                                   ^^ punctuation.section.parens.end.clojure
 
   (def hello1 (fn [] #"Hello world"))
-;                    ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
-;                    ^^^^^^^^^^^^^^ string.regexp.clojure
 ;                     ^ punctuation.definition.string.begin.clojure
+;                     ^^^^^^^^^^^^^ string.regexp.clojure
+;                                 ^ punctuation.definition.string.end.clojure
 ;                                  ^- string.regexp.clojure
 ;                                  ^^ punctuation.section.parens.end.clojure
 
   (def hello2 (fn [] #"Hello world\\"))
-;                    ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
-;                    ^^^^^^^^^^^^^^^^ string.regexp.clojure
 ;                     ^ punctuation.definition.string.begin.clojure
-;                                 ^^ string.regexp.clojure constant.character.escape.regexp
+;                     ^^^^^^^^^^^^^^^ string.regexp.clojure
+;                                 ^^ constant.character.escape.regexp
 ;                                    ^- string.regexp.clojure
+;                                   ^ punctuation.definition.string.end.clojure
 ;                                    ^^ punctuation.section.parens.end.clojure
 ;
 
   (def hello (fn [] #"{2}Hello*?* world\"{2} foobar*"))
-;                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
-;                   ^^ punctuation.definition.string.begin.clojure
+;                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
+;                    ^ punctuation.definition.string.begin.clojure
 ;                                      ^^ constant.character.escape.regexp - punctuation.definition.string.end.clojure
 ;                                                   ^ punctuation.definition.string.end.clojure
 ;                                                    ^- string.regexp.clojure
@@ -93,10 +93,11 @@
 ;
 
   (def hello (fn [] #"(?=unclosed_paren"))
-;                   ^^ string.regexp.clojure punctuation.definition.string.begin.clojure
-;                     ^ string.regexp.clojure meta.group.regexp keyword.control.group.regexp
-;                      ^^ string.regexp.clojure meta.group.regexp constant.other.assertion.regexp
-;                        ^^^^^^^^^^^^^^ string.regexp.clojure meta.group.regexp meta.literal.regexp
-;                                      ^ string.regexp.clojure punctuation.definition.string.end.clojure
+;                    ^^^^^^^^^^^^^^^^^^^ string.regexp.clojure
+;                    ^ punctuation.definition.string.begin.clojure
+;                     ^ meta.group.regexp keyword.control.group.regexp
+;                      ^^ meta.group.regexp constant.other.assertion.regexp
+;                        ^^^^^^^^^^^^^^ meta.group.regexp meta.literal.regexp
+;                                      ^ punctuation.definition.string.end.clojure
 ;                                       ^- string.regexp.clojure
 ;                                       ^^ punctuation.section.parens.end.clojure
