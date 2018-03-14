@@ -1263,6 +1263,17 @@ public class Foo {
 //  ^^^^^^ support.class
   }
 
+  void varType() {
+    var x = "String";
+//  ^^^ storage.type.var.java
+
+    try (var in = new BufferedReader()) {
+//       ^^^ storage.type.var.java
+        var line = in.readLine();
+//      ^^^ storage.type.var.java
+    }
+  }
+
   @Test
 //^ punctuation.definition.annotation.java
   public void someMethod(WithParam foo) throws Exception {

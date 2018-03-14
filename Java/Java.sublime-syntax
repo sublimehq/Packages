@@ -397,6 +397,7 @@ contexts:
         - include: code-block
   code-block:
     - include: storage-modifiers
+    - include: var-type
     - include: keywords-control
     - include: catch-block
     - include: code
@@ -943,6 +944,10 @@ contexts:
     - match: \b{{primitives}}\b
       scope: storage.type.primitive.java
       push: array-brackets
+
+  var-type:
+    - match: \bvar\b
+      scope: storage.type.var.java
 
   array-brackets:
     - match: \[\s*\]
