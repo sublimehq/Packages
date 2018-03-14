@@ -677,7 +677,9 @@ contexts:
     - include: ternary-operator
 
     - include: property-access
-    - include: function-call
+
+    - match: (?=\()
+      push: function-call-arguments
     - include: literal-string-template
 
     - include: fallthrough
@@ -832,8 +834,7 @@ contexts:
     - include: immediately-pop
 
   constructor-body-expect-arguments:
-    - match: '(?=\()'
-      set: function-call-params
+    - include: function-call-arguments
     - include: else-pop
 
   constructor-body-expect-class-end:
@@ -1516,16 +1517,15 @@ contexts:
         - match: (?=\S)
           push: expression
 
-  function-call:
+  function-call-arguments:
     - match: \(
-      scope: punctuation.section.group.js
-      push:
+      scope: punctuation.section.group.begin.js
+      set:
         - meta_scope: meta.group.js
         - match: \)
-          scope: punctuation.section.group.js
+          scope: punctuation.section.group.end.js
           pop: true
-        - match: (?=\S)
-          push: expression
+        - include: expression-list
 
   array-literal:
     - match: '\['
@@ -1640,7 +1640,7 @@ contexts:
     - match: '(?={{identifier}}\s*\()'
       set:
         - call-expression-meta
-        - function-call-params
+        - function-call-arguments
         - call-expression-function-name
     - match: '(?={{identifier}}\s*\.\s*{{identifier}}\s*\()'
       set:
@@ -1651,7 +1651,7 @@ contexts:
             3: support.function.console.js
           set:
             - call-expression-method-meta
-            - function-call-params
+            - function-call-arguments
         - match: (process)(?:(\.)(abort|chdir|cwd|disconnect|exit|[sg]ete?[gu]id|send|[sg]etgroups|initgroups|kill|memoryUsage|nextTick|umask|uptime|hrtime))?{{identifier_break}}
           captures:
             1: support.type.object.process.js
@@ -1659,7 +1659,7 @@ contexts:
             3: support.function.process.js
           set:
             - call-expression-method-meta
-            - function-call-params
+            - function-call-arguments
         - match: '(?={{identifier}}\s*\.)'
           push:
             - include: well-known-identifiers
@@ -1706,36 +1706,17 @@ contexts:
       scope: support.function.mutator.js
       set:
         - call-expression-method-meta
-        - function-call-params
+        - function-call-arguments
     - match: (s(ub(stringData|mit)|plitText|e(t(NamedItem|Attribute(Node)?)|lect))|has(ChildNodes|Feature)|namedItem|c(l(ick|o(se|neNode))|reate(C(omment|DATASection|aption)|T(Head|extNode|Foot)|DocumentFragment|ProcessingInstruction|E(ntityReference|lement)|Attribute))|tabIndex|i(nsert(Row|Before|Cell|Data)|tem)|open|delete(Row|C(ell|aption)|T(Head|Foot)|Data)|focus|write(ln)?|a(dd|ppend(Child|Data))|re(set|place(Child|Data)|move(NamedItem|Child|Attribute(Node)?)?)|get(NamedItem|Element(sBy(Name|TagName)|ById)|Attribute(Node)?)|blur){{identifier_break}}(?=\()
       scope: support.function.dom.js
       set:
         - call-expression-method-meta
-        - function-call-params
+        - function-call-arguments
     - match: '({{identifier}})\s*(?=\()'
       scope: variable.function.js
       set:
         - call-expression-method-meta
-        - function-call-params
-
-  function-call-params:
-    - match: '\)'
-      scope: meta.group.js punctuation.section.group.js
-      pop: true
-    - match: '\('
-      scope: punctuation.section.group.js
-      push:
-        - meta_scope: meta.group.js
-        - match: '(?=\))'
-          pop: true
-        # Consume comma plus any whitespace to prevent whitespace from
-        # getting meta scopes when they don't really apply
-        - match: '(,)\s+'
-          captures:
-            1: punctuation.separator.comma.js
-        - match: (?=\S)
-          push: expression-no-comma
-    - include: else-pop
+        - function-call-arguments
 
   literal-variable:
     - include: well-known-identifiers
