@@ -4,13 +4,13 @@
 	<key>name</key>
 	<string>Indent</string>
 	<key>scope</key>
-	<string>source.lua</string>
+	<string>source.lua - string - comment</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^\s*(elseif|else|end|\})\s*$</string>
+		<string>(^(?!=.*(then|do).*).*\b(elseif|else|end|until)\b(?!.*(\"|\'|\[\=*\[)).*$|^((?!\{).)*\}\;?.*$)</string>
 		<key>increaseIndentPattern</key>
-		<string>^\s*(else|elseif|for|(local\s+)?function|if|repeat|until|while)\b((?!end).)*$|\{\s*$</string>
+		<string>(^.*\b((local\s+)?function|repeat)(?!.*(\"|\'|\[\=*\[))\b((?!\bend\b).)*$|^.*\b(do|then|else)(?!.*(\"|\'|\[\=*\[))\b((?!\bend\b).)*$|^.*\{((?!\}).)*$)</string>
 	</dict>
 </dict>
 </plist>
