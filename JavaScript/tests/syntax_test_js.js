@@ -365,6 +365,14 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 //                        ^ constant.character.escape.js
 //                                                ^ punctuation.definition.string.template.end.js
 
+tag `template`;
+// <- variable.function.tagged-template
+//  ^^^^^^^^^^ string.template
+
+x ? y // y is a template tag!
+`template` : z;
+//         ^ keyword.operator.ternary
+
 mylabel:
 // ^ entity.name.label
 //     ^ punctuation.separator
@@ -502,6 +510,17 @@ var obj = {
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
+
+    ...foo,
+//  ^^^ keyword.operator.spread
+//     ^^^ variable.other.readwrite
+//        ^ punctuation.separator.comma
+
+    ...bar(baz),
+//  ^^^ keyword.operator.spread
+//     ^^^^^^^^ meta.function-call
+//     ^^^ variable.function
+//             ^ punctuation.separator.comma
 }
 // <- meta.object-literal - meta.block
 
@@ -889,7 +908,7 @@ class Foo extends getSomeClass() {}
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
@@ -905,6 +924,14 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
   b]) => { return x; }
 //    ^^ storage.type.function.arrow
 //         ^^^^^^ meta.block keyword.control.flow
+
+(
+    ()
+    => { return; }
+//  ^^ storage.type.function.arrow
+//     ^^^^^^^^^^^ meta.block - meta.object-literal
+//       ^^^^^^ keyword.control.flow
+);
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1044,6 +1071,19 @@ var abc = new ABC(
 //      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group meta.block
     })
 );
+
+function f() {
+    new.target;
+//  ^^^ keyword.operator.word.new
+//     ^ punctuation.accessor.dot.js
+//      ^^^^^^ variable.language.target
+
+    new
+//  ^^^ keyword.operator.word.new
+    .target;
+//  ^ punctuation.accessor.dot.js
+//   ^^^^^^ variable.language.target
+}
 
 new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
@@ -1321,7 +1361,7 @@ strayBracket = {}};
 
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
-//                      ^^ meta.parameter.optional
+//                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
 var path = require('path');

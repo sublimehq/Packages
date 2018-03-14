@@ -165,12 +165,15 @@ class Foo {
         bin = 0b1001_1010_0001_0100_;
 ///                                ^ - constant.numeric
         bin = 0b_1001_1010_0001_0100;
-///            ^^^^^^^^^^^^^^^^^^^^^ - constant.numeric
+///           ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+        bin = 0b__1001__1010__0001__0_1_0_0;
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
         hex = _0x1b_a0_44_fe;
 ///           ^^^^^^^^^^^^^^ variable.other
         hex = 0x_1b_a0_44_fe;
-///            ^^^^^^^^^^^^^ - constant.numeric
-
+///           ^^^^^^^^^^^^^^ constant.numeric
+        int abc = _123;
+///               ^^^^ variable.other
 
         switch (sh) {
             case Shape shape when sh.Area == 0:
@@ -444,8 +447,18 @@ public readonly struct S
 ///                    ^ entity.name.struct
 {
 /// <- meta.struct.body meta.block punctuation.section.block.begin
-    public int Age { get; }
+    public readonly int Age;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^ storage.modifier
+///                 ^^^ storage.type
+///                     ^^^ variable.other.member
     public string Name { get; }
+    
+    public readonly int X, Y;    // All fields must be readonly
+///                     ^ variable.other.member
+///                      ^ punctuation.separator.variables
+///                        ^ variable.other.member
+///                         ^ punctuation.terminator.statement
 
     public S(int age, string name)
     {
@@ -457,4 +470,103 @@ public readonly struct S
     {
         this = other;
     }
+}
+
+// "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be 
+// accessed inside the current assembly.
+class BaseClass           { private protected void Foo() {} }
+///                         ^^^^^^^ storage.modifier.access
+///                                 ^^^^^^^^^ storage.modifier.access
+///                                           ^^^^ storage.type
+///                                                ^^^ entity.name.function
+class Derived : BaseClass { void Bar() => Foo();            }
+
+// You can now place the "in" keyword before parameters to prevent them from being modified. This is
+// particularly useful with structs, because the compiler avoids the overhead of having to copy the value:
+void Foo (in string s, in int x, in Point point)
+///^ storage.type
+///  ^^^ entity.name.function
+///       ^^ storage.modifier.parameter
+///          ^^^^^^ storage.type
+///                 ^ variable.parameter
+///                  ^ punctuation.separator.parameter
+{
+    // s = "new";  // error
+    // x++;        // error
+    // point.X++;  // error
+}
+// Note that you don't specify the 'in' modifier when calling the method:
+void TestFoo() => Foo ("hello", 123, new Point (2, 3));
+
+// https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
+Span<byte> bytes = length <= 128 ? stackalloc byte[length] : new byte[length];
+///                                ^^^^^^^^^^ keyword.other
+///                                           ^^^^ variable.other
+bytes[0] = 42;
+bytes[1] = 43;
+Assert.Equal(42, bytes[0]);
+Assert.Equal(43, bytes[1]);
+bytes[2] = 44; // throws IndexOutOfRangeException
+
+public readonly ref struct Span<T>
+///    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.struct
+///  ^ storage.modifier.access
+///    ^^^^^^^^ storage.modifier
+///             ^^^ storage.modifier
+///                 ^^^^^^ storage.type.struct
+///                        ^^^^ entity.name.struct
+{
+    private readonly ref T _pointer;
+/// ^^^^^^^ storage.modifier.access
+///         ^^^^^^^^ storage.modifier
+///                  ^^^ storage.modifier
+///                      ^ support.type
+///                        ^^^^^^^^ variable.other.member
+    private readonly int _length;
+}
+
+public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+///    ^^^^^^^^ storage.type.delegate
+///             ^^^^ storage.type
+///                  ^^^^^^^^^^ variable.other.member.delegate
+///                            ^^^^^^^^^^^^ meta.generic
+///                             ^ support.type
+///                              ^ punctuation.separator.type
+///                                ^^ storage.modifier
+///                                   ^^^^ support.type
+
+void Test ()
+{
+    int[] array = { 1, 15, -39, 0, 7, 14, -12 };
+///                 ^ constant.numeric.integer.decimal
+///                  ^ punctuation.separator.array-element
+///                                            ^ punctuation.terminator.statement
+    ref int place = ref Find (7, array); // aliases 7's place in the array
+/// ^^^ storage.modifier
+///     ^^^ storage.type
+///         ^^^^^ variable.other
+///               ^ keyword.operator.assignment.variable
+///                 ^^^ keyword.other
+///                     ^^^^ variable.function
+    place = 9; // replaces 7 with 9 in the array
+    Console.WriteLine (array [4]); // prints 9
+}
+
+public ref int Find (int number, int[] numbers)
+/// ^^ storage.modifier.access
+///    ^^^ storage.modifier
+///        ^^^ storage.type
+///            ^^^^ entity.name.function
+{
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        if (numbers [i] == number)
+        {
+            return ref numbers [i]; // return the storage location, not the value
+///         ^^^^^^ keyword.control.flow.return
+///                ^^^ keyword.other
+///                    ^^^^^^^ variable.other
+        }
+    }
+    throw new IndexOutOfRangeException ($"{nameof (number)} not found");
 }

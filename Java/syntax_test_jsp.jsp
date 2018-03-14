@@ -7,6 +7,14 @@
 //  ^^^^^^^^^^^^^^^ meta.tag
 </head>
 <body>
+    <%@ include file="foo.bar" %>
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive
+//  ^^^ punctuation.section.directive
+//                             ^^ punctuation.section.directive
+
+    Plain text
+//  ^^^^^^^^^^ text.html.jsp - meta
+
     <%-- This is a comment --%>
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.jsp
     <%

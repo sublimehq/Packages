@@ -1000,9 +1000,6 @@ floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
 #                                      ^^ constant.numeric.float.python
 #                                       ^ punctuation.separator.decimal.python
 
-not_floating = abc.123
-#                 ^^^^ invalid.illegal.name - constant
-
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
 #        ^^ punctuation.definition.numeric.binary.python
@@ -1130,6 +1127,13 @@ class Class(object
 #   ^^^ invalid.illegal.name
 #      ^ - meta.class
 
+# "Hang on, I'm still typing"
+
+foo.'bar'
+# ^^^^^^^ - invalid
+
+foo.bar(baz., True)
+#       ^^^^^ - invalid
 
 ##################
 # Variable annotations
