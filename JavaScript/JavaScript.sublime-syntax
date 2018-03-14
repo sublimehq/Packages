@@ -886,7 +886,7 @@ contexts:
       scope: keyword.operator.arithmetic.js
     - match: new{{identifier_break}}
       scope: keyword.operator.word.new.js
-    - match: \b(?:delete|typeof|void)\b
+    - match: (?:delete|typeof|void){{identifier_break}}
       scope: keyword.operator.js
 
   binary-operators:
