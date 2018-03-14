@@ -836,7 +836,7 @@ class Foo extends getSomeClass() {}
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
@@ -1263,7 +1263,7 @@ strayBracket = {}};
 
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
-//                      ^^ meta.parameter.optional
+//                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
 var path = require('path');
