@@ -674,6 +674,7 @@ contexts:
 
     - include: property-access
     - include: function-call
+    - include: literal-string-template
 
     - include: fallthrough
 
@@ -691,6 +692,7 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
+    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: prefix-operators
@@ -742,11 +744,16 @@ contexts:
           pop: true
         - include: string-content
 
+  tagged-template:
+    - match: '{{identifier}}(?=\s*`)'
+      scope: variable.function.tagged-template.js
+      set:
+        - include: literal-string-template
+        - include: else-pop
+
   literal-string-template:
-    - match: '({{identifier}})?(`)'
-      captures:
-        1: variable.function.tagged-template.js
-        2: punctuation.definition.string.template.begin.js
+    - match: '`'
+      scope: punctuation.definition.string.template.begin.js
       set:
         - meta_include_prototype: false
         - meta_scope: string.template.js
