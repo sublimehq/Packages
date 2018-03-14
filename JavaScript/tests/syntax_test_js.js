@@ -989,6 +989,19 @@ var abc = new ABC(
     })
 );
 
+function f() {
+    new.target;
+//  ^^^ keyword.operator.word.new
+//     ^ punctuation.accessor.dot.js
+//      ^^^^^^ variable.language.target
+
+    new
+//  ^^^ keyword.operator.word.new
+    .target;
+//  ^ punctuation.accessor.dot.js
+//   ^^^^^^ variable.language.target
+}
+
 new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
