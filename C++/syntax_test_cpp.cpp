@@ -538,9 +538,37 @@ void f()
 
 struct A { int foo; };
 int main() {
-    A a;
+    A a, b;
     a.foo = a.foo < 0 ? 1 : 2;
     /*            ^ - punctuation.section.generic */
+    a.operator<(b);
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^ variable.function.member */
+    /*         ^^^ meta.group */
+    a.operator>(b);
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^ variable.function.member */
+    /*         ^^^ meta.group */
+    a.operator<=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator>=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator==(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator!=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator->();
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^ meta.group */
 }
 /* <- - invalid.illegal */
 
