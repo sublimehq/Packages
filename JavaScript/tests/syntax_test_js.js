@@ -802,7 +802,7 @@ class MyClass extends TheirClass {
 
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
-//  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+//  ^^ meta.class.js meta.block.js meta.function.declaration.js
 
     someMethod() {
         return #e * 2;

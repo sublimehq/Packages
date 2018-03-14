@@ -1325,9 +1325,7 @@ contexts:
       set:
         - match: \)
           scope: punctuation.section.group.end.js
-          set:
-            - meta_include_prototype: false
-            - include: else-pop
+          pop: true
         - include: function-parameter-binding-list
 
   label:
