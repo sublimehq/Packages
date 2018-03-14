@@ -1052,7 +1052,7 @@ contexts:
   class-field:
     - match: '{{method_lookahead}}'
       set: method-declaration
-      
+
     - match: (?={{property_name}})
       set:
         - field-initializer-or-method-declaration
@@ -1237,6 +1237,7 @@ contexts:
       set: function-block
 
   function-declaration-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function.declaration.js
     - include: immediately-pop
 
@@ -1314,10 +1315,12 @@ contexts:
   function-declaration-parameters:
     - match: \(
       scope: punctuation.section.group.begin.js
-      push:
+      set:
         - match: \)
           scope: punctuation.section.group.end.js
-          pop: true
+          set:
+            - meta_include_prototype: false
+            - include: else-pop
         - include: function-parameter-binding-list
 
   label:
@@ -1390,7 +1393,7 @@ contexts:
     - include: else-pop
 
   object-literal-meta-key:
-    - meta_scope: meta.object-literal.key.js 
+    - meta_scope: meta.object-literal.key.js
     - include: else-pop
 
   object-literal-expect-colon:
