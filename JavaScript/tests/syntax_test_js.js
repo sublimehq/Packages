@@ -472,6 +472,17 @@ var obj = {
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
+
+    ...foo,
+//  ^^^ keyword.operator.spread
+//     ^^^ variable.other.readwrite
+//        ^ punctuation.separator.comma
+
+    ...bar(baz),
+//  ^^^ keyword.operator.spread
+//     ^^^^^^^^ meta.function-call
+//     ^^^ variable.function
+//             ^ punctuation.separator.comma
 }
 // <- meta.object-literal - meta.block
 
