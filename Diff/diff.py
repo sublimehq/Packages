@@ -5,15 +5,21 @@ import os.path
 import codecs
 
 
-def read_file_lines(fname, keepends):
-    with codecs.open(fname, "r", "utf-8") as f:
-        lines = f.read().splitlines(keepends)
-    # if line ends are not kept, there is no way to tell if the file ends
-    # in a new line char or not from the output of splitlines
-    # https://bugs.python.org/issue2142
-    if keepends and not lines[-1].endswith('\n'):
-        lines[-1] += '\n\\ No newline at end of file\n'
+def read_file_lines(fname):
+    with open(fname, mode="rt", encoding="utf-8", newline=None) as f:
+        lines = f.readlines()
+
+    # as `difflib` doesn't work properly when the file does not end
+    # with a new line character (https://bugs.python.org/issue2142),
+    # we add a warning ourselves to fix it
+    add_no_eol_warning_if_applicable(lines)
     return lines
+
+def add_no_eol_warning_if_applicable(lines):
+    if len(lines) > 0 and not lines[-1].endswith('\n'):
+        # note we update the last line rather than adding a new one
+        # so that the diff will show the warning with the last line
+        lines[-1] += '\n\\ No newline at end of file\n'
 
 class DiffFilesCommand(sublime_plugin.WindowCommand):
     def run(self, files):
@@ -21,8 +27,8 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
             return
 
         try:
-            a = read_file_lines(files[1], True)
-            b = read_file_lines(files[0], True)
+            a = read_file_lines(files[1])
+            b = read_file_lines(files[0])
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
@@ -56,20 +62,19 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             return
 
         try:
-            a = read_file_lines(fname, False)
+            a = read_file_lines(fname)
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b = self.view.substr(sublime.Region(0, self.view.size())).splitlines()
-        # if self.view.substr(self.view.size() - 1) != '\n':
-        #     b += ['\\ No newline at end of file']
+        b = self.view.substr(sublime.Region(0, self.view.size())).splitlines(True)
+        add_no_eol_warning_if_applicable(b)
 
         adate = time.ctime(os.stat(fname).st_mtime)
         bdate = time.ctime()
 
-        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate, lineterm='')
-        difftxt = u"\n".join(line for line in diff)
+        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
+        difftxt = u"".join(line for line in diff)
 
         if difftxt == "":
             sublime.status_message("No changes")
