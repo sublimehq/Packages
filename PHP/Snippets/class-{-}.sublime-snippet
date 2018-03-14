@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[/**
-* $1
-*/
+ * $1
+ */
 class ${2:ClassName}${3: extends ${4:AnotherClass}}
 {
 	$5

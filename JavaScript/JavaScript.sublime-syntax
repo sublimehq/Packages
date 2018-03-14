@@ -384,6 +384,71 @@ contexts:
         - variable-binding-list-top
         - variable-binding-top
 
+  function-parameter-binding-pattern:
+    - include: function-parameter-binding-name
+    - include: function-parameter-binding-array-destructuring
+    - include: function-parameter-binding-object-destructuring
+    - include: else-pop
+
+  function-parameter-binding-name:
+    - match: '{{identifier}}'
+      scope: meta.binding.name.js variable.parameter.function.js
+
+  function-parameter-binding-array-destructuring:
+    - match: '\['
+      scope: punctuation.section.brackets.begin.js
+      set:
+        - meta_scope: meta.binding.destructuring.sequence.js
+        - match: '\]'
+          scope: punctuation.section.brackets.end.js
+          pop: true
+        - include: function-parameter-binding-list
+
+  function-parameter-binding-object-destructuring:
+    - match: '\{'
+      scope: punctuation.section.block.begin.js
+      set:
+        - meta_scope: meta.binding.destructuring.mapping.js
+        - match: ','
+          scope: punctuation.separator.parameter.function.js
+        - match: '\}'
+          scope: punctuation.section.block.end.js
+          pop: true
+        - include: function-parameter-binding-spread
+        - match: (?={{identifier}})
+          push:
+            - initializer
+            - function-parameter-binding-object-alias
+            - object-literal-meta-key
+            - function-parameter-binding-object-key
+
+  function-parameter-binding-object-alias:
+    - match: ':'
+      scope: punctuation.separator.key-value.js
+      set: function-parameter-binding-pattern
+    - include: else-pop
+
+  function-parameter-binding-object-key:
+    - match: '{{identifier}}(?=\s*:)'
+      pop: true
+    - include: function-parameter-binding-name
+    - include: else-pop
+
+  function-parameter-binding-spread:
+    - match: '\.\.\.'
+      scope: keyword.operator.spread.js
+      push: function-parameter-binding-pattern
+
+  function-parameter-binding-list:
+    - match: ','
+      scope: punctuation.separator.parameter.function.js
+    - include: function-parameter-binding-spread
+    - match: (?={{binding_pattern_lookahead}})
+      push:
+        - initializer
+        - function-parameter-binding-pattern
+    - include: else-pop
+
   function-or-class-declaration:
     - match: (?=\bclass\b)
       push: class
@@ -611,6 +676,7 @@ contexts:
 
     - match: (?=\()
       push: function-call-arguments
+    - include: literal-string-template
 
     - include: fallthrough
 
@@ -628,6 +694,7 @@ contexts:
 
     - include: regexp-complete
     - include: literal-string
+    - include: tagged-template
     - include: literal-string-template
     - include: constructor
     - include: prefix-operators
@@ -653,6 +720,7 @@ contexts:
     # If an arrow function has the ( and ) on different lines, we won't have matched
     - match: =>
       scope: storage.type.function.arrow.js
+      push: arrow-function-expect-body
 
   literal-string:
     - match: "'"
@@ -679,11 +747,16 @@ contexts:
           pop: true
         - include: string-content
 
+  tagged-template:
+    - match: '{{identifier}}(?=\s*`)'
+      scope: variable.function.tagged-template.js
+      set:
+        - include: literal-string-template
+        - include: else-pop
+
   literal-string-template:
-    - match: '({{identifier}})?(`)'
-      captures:
-        1: variable.function.tagged-template.js
-        2: punctuation.definition.string.template.begin.js
+    - match: '`'
+      scope: punctuation.definition.string.template.begin.js
       set:
         - meta_include_prototype: false
         - meta_scope: string.template.js
@@ -735,13 +808,22 @@ contexts:
           - include: scope:source.regexp.js
 
   constructor:
+    - match: \bnew\b(?=\s*\.)
+      scope: keyword.operator.word.new.js
+      set: new-target
+
     - match: '\bnew\b'
       scope: keyword.operator.word.new.js
       set:
-        - constructor-meta
-        - constructor-body-expect-arguments
-        - constructor-body-expect-class-end
-        - constructor-body-expect-class-begin
+        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
+        - match: (?=\s*\.)
+          set: new-target
+        - match: (?=\s*\S)
+          set:
+            - constructor-meta
+            - constructor-body-expect-arguments
+            - constructor-body-expect-class-end
+            - constructor-body-expect-class-begin
 
   constructor-meta:
     - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
@@ -775,6 +857,17 @@ contexts:
 
     - include: expression-begin
 
+  new-target:
+    - match: \.
+      scope: punctuation.accessor.dot.js
+      set:
+        - match: \btarget\b
+          scope: variable.language.target.js
+          pop: true
+        - include: else-pop
+
+    - include: else-pop
+
   prefix-operators:
     - match: '~'
       scope: keyword.operator.bitwise.js
@@ -788,9 +881,6 @@ contexts:
       scope: keyword.operator.spread.js
     - match: \+|\-
       scope: keyword.operator.arithmetic.js
-
-    - match: \bnew\b
-      scope: keyword.operator.word.new.js
     - match: \b(?:delete|typeof|void)\b
       scope: keyword.operator.js
 
@@ -1229,40 +1319,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.js
           pop: true
-        # Destructuring
-        - match: \{
-          scope: punctuation.section.block.begin.js
-          push:
-            - meta_scope: meta.block.js
-            - match: \}
-              scope: punctuation.section.block.end.js
-              pop: true
-            - match: '{{identifier}}'
-              scope: variable.parameter.function.js
-            - match: ','
-              scope: punctuation.separator.parameter.function.js
-            - match: '='
-              scope: keyword.operator.assignment.js
-              push:
-                - meta_scope: meta.parameter.optional.js
-                - match: "(?=[,)}])"
-                  pop: true
-                - match: (?=\S)
-                  push: expression-no-comma
-        - match: \.\.\.
-          scope: keyword.operator.spread.js
-        - match: '{{identifier}}'
-          scope: variable.parameter.function.js
-        - match: ','
-          scope: punctuation.separator.parameter.function.js
-        - match: '='
-          scope: keyword.operator.assignment.js
-          push:
-            - meta_scope: meta.parameter.optional.js
-            - match: "(?=[,)])"
-              pop: true
-            - match: (?=\S)
-              push: expression-no-comma
+        - include: function-parameter-binding-list
 
   label:
     - match: '({{identifier}})\s*(:)'
@@ -1281,7 +1338,7 @@ contexts:
 
         - match: \.\.\.
           scope: keyword.operator.spread.js
-          push: literal-variable
+          push: expression-no-comma
 
         - match: >-
             (?x)(?=
