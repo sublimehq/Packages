@@ -718,6 +718,7 @@ contexts:
     # If an arrow function has the ( and ) on different lines, we won't have matched
     - match: =>
       scope: storage.type.function.arrow.js
+      push: arrow-function-expect-body
 
   literal-string:
     - match: "'"
