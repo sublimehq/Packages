@@ -20,8 +20,8 @@ variables:
   digit_separators: '(?:(?:_+[0-9]+)*)'
   
   # integers
-  hex_numeral: '(0[xX])\h+(?:_+\h+)*'
-  binary_numeral: '(0[bB])[01]+(?:_+[01]+)*'
+  hex_numeral: '(0[xX])_*\h+(?:_+\h+)*'
+  binary_numeral: '(0[bB])_*[01]+(?:_+[01]+)*'
   decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l)?)'
 
   # floating point numbers
@@ -204,7 +204,7 @@ contexts:
     # allows coloration of code outside a class
     - match: (?=\S)
       push:
-        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace)\b)
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly)\b)
           pop: true
         - include: line_of_code
 
@@ -287,11 +287,12 @@ contexts:
         1: storage.type.class.cs
         2: entity.name.class.cs
       push: [class_signature, data_type_signature]
-    - match: '(?:\b(readonly)\s+)?\b(struct)\s+({{name}})'
+    - match: '(?:\b(readonly)\s+)?(?:\b(ref)\s+)?\b(struct)\s+({{name}})'
       captures:
         1: storage.modifier.cs
-        2: storage.type.struct.cs
-        3: entity.name.struct.cs
+        2: storage.modifier.cs
+        3: storage.type.struct.cs
+        4: entity.name.struct.cs
       push: [struct_signature, data_type_signature]
     - match: '\b(enum)\s+({{name}})\s*(?:(:)\s*(byte|sbyte|short|ushort|int|uint|long|ulong))?'
       scope: meta.enum.cs
@@ -625,8 +626,15 @@ contexts:
       captures:
         1: entity.other.inherited-class.cs
         2: punctuation.accessor.dot.cs
-    - match: '({{name}})'
+    - match: '{{name}}'
       scope: meta.property.cs variable.other.member.cs
+      push:
+        - match: \s*(,)
+          captures:
+            1: punctuation.separator.variables.cs
+          pop: true
+        - match: ''
+          pop: true
     - match: '(?=\s*\{)'
       set: method_accessor
 
@@ -666,7 +674,7 @@ contexts:
     - include: attribute
     - match: (?=[^\s\[])
       set:
-      - match: '\s*\b(out|ref|this|params)\s+'
+      - match: '\s*\b(out|ref|this|params|in)\s+'
         captures:
           1: storage.modifier.parameter.cs
       - match: \s
@@ -874,7 +882,7 @@ contexts:
       pop: true
     - include: keywords
     # C#7, nested method
-    - match: '(?=(?:\basync\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
+    - match: '(?=(?:\b(?:async|ref)\s+)?({{base_type}}|{{name}}){{type_suffix_capture}}({{generic_declaration}})?\s+{{name}}{{generic_declaration}}\()'
       push:
         - include: method_declaration
         - match: ''
@@ -928,10 +936,11 @@ contexts:
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
     - include: lambdas
-    - match: '\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
+    - match: '(?:\b(ref)\s+)?\b(?:({{base_type}})|({{name}}))(?=[,*?]*(\[\])?\s+{{start_char}})'
       captures:
-        1: storage.type.cs
-        2: support.type.cs
+        1: storage.modifier.cs
+        2: storage.type.cs
+        3: support.type.cs
       set: [variables_declaration, type_no_space]
     - match: '({{name}})\s*(:)(?!:)'
       captures:
@@ -1002,6 +1011,11 @@ contexts:
       push:
         - match: (?=;|,)
           pop: true
+        - match: (?=\{)
+          push:
+            - match: (?=[^,\s{}])
+              pop: true
+            - include: initializer_constructor
         - include: line_of_code_in
     - match: '{{name}}'
       scope: variable.other.cs
