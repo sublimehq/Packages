@@ -309,3 +309,96 @@ func () {
 	// <- entity.name.label
 	//   ^ punctuation.separator
 }
+
+func template() {
+	t := "{{.Count}} items are made of {{.Material}}"
+	//    ^^^^^^^^^^ template.go
+	//    ^^ punctuation.section.embedded.begin.template.go
+	//            ^^ punctuation.section.embedded.end.template.go
+	//      ^^^^^^ variable.other.template.go
+	t := `{{.Count}} items are made of {{.Material}}`
+	//    ^^^^^^^^^^ template.go
+	//    ^^ punctuation.section.embedded.begin.template.go
+	//            ^^ punctuation.section.embedded.end.template.go
+	//      ^^^^^^ variable.other.template.go
+	t = "{{23 -}} < {{- 45}}"
+	//   ^^^^^^^^ template.go
+	//   ^^ punctuation.section.embedded.begin.template.go
+	//        ^ keyword.operator.begin.trim.template.go
+	//         ^^ punctuation.section.embedded.end.template.go
+	//                ^ keyword.operator.end.trim.template.go
+	t = "{{/* a comment */}}"
+	//     ^^^^^^^^^^^^^^^ comment.block.template.go
+	t = "{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}"
+	//     ^^ keyword.control.template.go
+	//                        ^^^^ keyword.control.template.go
+	//                                ^^ keyword.control.template.go
+	//                                                   ^^^ keyword.control.template.go
+	//                                                          ^^^ keyword.control.template.go
+	t = "{{range pipeline}} T1 {{else}} T0 {{end}}"
+	//     ^^^^^ keyword.control.template.go
+	//                           ^^^^ keyword.control.template.go
+	//                                       ^^^ keyword.control.template.go
+	t = "{{template "name" pipeline}}"
+	//     ^^^^^^^^ keyword.control.template.go
+	//              ^ punctuation.definition.string.begin.template.go
+	//              ^^^^^^ string.quoted.double.template.go
+	//                   ^ punctuation.definition.string.end.template.go
+	t = "{{block "name" pipeline}} T1 {{end}}"
+	//     ^^^^^ keyword.control.template.go
+	//                                  ^^^ keyword.control.template.go
+	t = "{{with pipeline}} T1 {{else}} T0 {{end}}"
+	//     ^^^^ keyword.control.template.go
+	//                          ^^^^ keyword.control.template.go
+	//                                      ^^^ keyword.control.template.go
+	t = "{{$piOver2}}"
+	//     ^^^^^^^^ variable.other.template.go
+	t = "{{.Field1.Field2}}"
+	//     ^^^^^^^^^^^^^^ variable.other.template.go
+	t = "{{$x.Field1.Field2}}"
+	//     ^^^^^^^^^^^^^^^^ variable.other.template.go
+	t = "{{$variable := pipeline}}"
+	//     ^^^^^^^^^ variable.other.template.go
+	//               ^^ keyword.operator.initialize.template.go
+	t = "{{range $index, $element := pipeline}}"
+	//     ^^^^^ keyword.control.template.go
+	//           ^^^^^^ variable.other.template.go
+	//                   ^^^^^^^^ variable.other.template.go
+	//                            ^^ keyword.operator.initialize.template.go
+	t = "{{`"output"`}}"
+	t = "{{printf "%q" "output"}}"
+	//     ^^^^^^ support.function.builtin.template.go
+	t = "{{"output" | printf "%q"}}"
+	//              ^ keyword.operator.pipe.template.go
+	//                ^^^^^^ support.function.builtin.template.go
+	t = "{{printf "%q" (print "out" "put")}}"
+	//     ^^^^^^ support.function.builtin.template.go
+	//                  ^^^^^ support.function.builtin.template.go
+	t = "{{"put" | printf "%s%s" "out" | printf "%q"}}"
+	//           ^ keyword.operator.pipe.template.go
+	//             ^^^^^^ support.function.builtin.template.go
+	//                                 ^ keyword.operator.pipe.template.go
+	//                                   ^^^^^^ support.function.builtin.template.go
+	t = "{{"output" | printf "%s" | printf "%q"}}"
+	t = "{{with "output"}}{{printf "%q" .}}{{end}}"
+	t = "{{with $x := "output" | printf "%q"}}{{$x}}{{end}}"
+	t = "{{with $x := "output"}}{{printf "%q" $x}}{{end}}"
+	t = "{{with $x := "output"}}{{$x | printf "%q"}}{{end}}"
+	t = `{{define "T1"}}ONE{{end}}
+{{define "T2"}}TWO{{end}}
+{{define "T3"}}{{template "T1"}} {{template "T2"}}{{end}}
+{{template "T3"}}`
+	t = `
+Dear {{.Name}},
+{{if .Attended}}
+It was a pleasure to see you at the wedding.
+{{- else}}
+It is a shame you couldn't make it to the wedding.
+{{- end}}
+{{with .Gift -}}
+Thank you for the lovely {{.}}.
+{{end}}
+Best wishes,
+Josie
+`
+}

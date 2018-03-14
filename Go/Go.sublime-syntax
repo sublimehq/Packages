@@ -590,6 +590,55 @@ contexts:
     - match: "%"
       scope: invalid.illegal.placeholder.go
 
+  string-template:
+    - match: "{{"
+      scope: punctuation.section.embedded.begin.template.go
+      push:
+        - meta_scope: template.go
+        - match: "\\s-"
+          scope: keyword.operator.begin.trim.template.go
+        - match: "-\\s"
+          scope: keyword.operator.end.trim.template.go
+        - match: ":="
+          scope: keyword.operator.initialize.template.go
+        - match: \|
+          scope: keyword.operator.pipe.template.go
+        - match: '[.$][\w]*'
+          scope: variable.other.template.go
+        - match: \b(if|else|range|template|with|end|nil|define|block)\b
+          scope: keyword.control.template.go
+        - match: \b(and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+          scope: support.function.builtin.template.go
+        - match: /\*
+          push:
+            - meta_scope: comment.block.template.go
+            - match: \*/
+              pop: true
+        - match: '"'
+          captures:
+            0: punctuation.definition.string.begin.template.go
+          push:
+            - meta_scope: string.quoted.double.template.go
+            - match: '"'
+              captures:
+                0: punctuation.definition.string.end.template.go
+              pop: true
+            - include: string-placeholder
+            - include: string-escaped-char
+        - match: "`"
+          captures:
+            0: punctuation.definition.string.begin.template.go
+          push:
+            - meta_scope: string.quoted.raw.template.go
+            - match: "`"
+              captures:
+                0: punctuation.definition.string.end.template.go
+              pop: true
+            - include: string-placeholder
+        - match: "}}"
+          scope: punctuation.section.embedded.end.template.go
+          pop: true
+
   strings:
     - match: '"'
       scope: punctuation.definition.string.begin.go
@@ -600,6 +649,7 @@ contexts:
           pop: true
         - include: string-placeholder
         - include: string-escaped-char
+        - include: string-template
     - match: "`"
       scope: punctuation.definition.string.begin.go
       push:
@@ -608,6 +658,7 @@ contexts:
           scope: punctuation.definition.string.end.go
           pop: true
         - include: string-placeholder
+        - include: string-template
   char:
     - match: "'"
       scope: punctuation.definition.string.begin.go
