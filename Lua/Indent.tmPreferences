@@ -10,7 +10,7 @@
 			<key>decreaseIndentPattern</key>
 			<string>(^\s*\b(elsei|elseif|else|end|until)\b.*$|^((?!\{).)*\}\;?.*$)</string>
 			<key>increaseIndentPattern</key>
-			<string>(^\s*\b((local[\s\w=]+)?function|repeat|do|then|else|elseif|if)\b((?!\bend\b).)*$|^.*\{((?!\}).)*$)</string>
+			<string>(^\s*\b((local[\s\w=]+)?function|repeat)\b((?!\bend\b).)*$|^.*\b(do|then|else|elseif|if)((?!\bend\b).)*$|^.*\{((?!\}).)*$)</string>
 		</dict>
 	</dict>
 </plist>
