@@ -324,9 +324,9 @@ func template() {
 	t = "{{23 -}} < {{- 45}}"
 	//   ^^^^^^^^ template.go
 	//   ^^ punctuation.section.embedded.begin.template.go
-	//        ^ keyword.operator.begin.trim.template.go
+	//        ^ keyword.operator.right.trim.template.go
 	//         ^^ punctuation.section.embedded.end.template.go
-	//                ^ keyword.operator.end.trim.template.go
+	//                ^ keyword.operator.left.trim.template.go
 	t = "{{/* a comment */}}"
 	//     ^^^^^^^^^^^^^^^ comment.block.template.go
 	t = "{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}"

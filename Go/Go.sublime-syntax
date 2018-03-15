@@ -596,9 +596,9 @@ contexts:
       push:
         - meta_scope: template.go
         - match: "\\s-"
-          scope: keyword.operator.begin.trim.template.go
+          scope: keyword.operator.right.trim.template.go
         - match: "-\\s"
-          scope: keyword.operator.end.trim.template.go
+          scope: keyword.operator.left.trim.template.go
         - match: ":="
           scope: keyword.operator.initialize.template.go
         - match: \|
