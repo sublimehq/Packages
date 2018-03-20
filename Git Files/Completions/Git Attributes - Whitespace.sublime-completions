@@ -1,0 +1,13 @@
+{
+    "scope": "meta.mapping.expect-value & meta.attribute.builtin.whitespace.git.attributes",
+    "completions": [
+        {"trigger": "blank-at-eof\twhitespace", "contents": "blank-at-eof"},
+        {"trigger": "blank-at-eol\twhitespace", "contents": "blank-at-eol"},
+        {"trigger": "cr-at-eol\twhitespace", "contents": "cr-at-eol"},
+        {"trigger": "indent-with-non-tab\twhitespace", "contents": "indent-with-non-tab"},
+        {"trigger": "space-before-tab\twhitespace", "contents": "space-before-tab"},
+        {"trigger": "tab-in-indent\twhitespace", "contents": "tab-in-indent"},
+        {"trigger": "trailing-space\twhitespace", "contents": "trailing-space"},
+        {"trigger": "tabwidth=x\twhitespace", "contents": "tabwidth=${0:8}"}
+    ]
+}

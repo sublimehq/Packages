@@ -1,0 +1,18 @@
+{
+    "scope": "meta.attributes-list.git.attributes - meta.mapping.value - punctuation.separator",
+    "completions": [
+        {"trigger": "binary\tattribute", "contents": "binary"},
+        {"trigger": "conflict-marker-size\tattribute", "contents": "conflict-marker-size"},
+        {"trigger": "delta\tattribute", "contents": "delta"},
+        {"trigger": "diff\tattribute", "contents": "diff"},
+        {"trigger": "encoding\tattribute", "contents": "encoding"},
+        {"trigger": "eol\tattribute", "contents": "eol"},
+        {"trigger": "export-ignore\tattribute", "contents": "export-ignore"},
+        {"trigger": "export-subst\tattribute", "contents": "export-subst"},
+        {"trigger": "filter\tattribute", "contents": "filter"},
+        {"trigger": "ident\tattribute", "contents": "ident"},
+        {"trigger": "merge\tattribute", "contents": "merge"},
+        {"trigger": "text\tattribute", "contents": "text"},
+        {"trigger": "whitespace\tattribute", "contents": "whitespace"}
+    ]
+}

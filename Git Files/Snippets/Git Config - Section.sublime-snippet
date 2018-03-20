@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+[${1:section}]
+	$0
+]]></content>
+	<tabTrigger>section</tabTrigger>
+	<scope>source.git.config</scope>
+	<description>[section]</description>
+</snippet>

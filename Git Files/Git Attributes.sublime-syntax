@@ -1,0 +1,210 @@
+%YAML 1.2
+---
+# Syntax based on documentation here:
+# https://git-scm.com/docs/gitattributes
+# https://git-scm.com/book/en/v2/Customizing-Git-Git-Attributes
+
+# Examples: https://github.com/alexkaratarakis/gitattributes
+
+name: Git Attributes
+file_extensions:
+  - attributes                # .git/info/attributes
+  - gitattributes             # *.gitattributes
+  - .gitattributes            # ~/.gitattributes
+scope: text.git.attributes
+
+contexts:
+
+  main:
+    - include: Git Common.sublime-syntax#comments-line
+    - include: macro
+    - include: pattern
+
+##[ MACROS ]###########################################################
+
+  macro:
+    - match: (\[)([^-!]\S*)(\])
+      scope: meta.brackets.git.attributes
+      captures:
+        1: punctuation.definition.brackets.begin.git.attributes
+        2: string.unquoted.git.attributes entity.name.macro.git.attributes
+        3: punctuation.definition.brackets.end.git.attributes
+      push: attributes-list
+
+##[ PATH PATTERN ]#####################################################
+
+  pattern:
+    # ignore whitespace at the beginning of a line
+    # patterns may not start with operators: - ! [
+    - match: '[-!\[]|(?=\S)'
+      scope: invalid.illegal.operator.git.attributes
+      push: [pattern-attributes, pattern-content]
+
+  pattern-content:
+    # quoted path pattern
+    - match: \"
+      scope: punctuation.definition.string.begin.git.attributes
+      set: [pattern-content-quoted, Git Common.sublime-syntax#fnmatch-start]
+    # unquoted path pattern
+    - match: ''
+      set: [pattern-content-unquoted, Git Common.sublime-syntax#fnmatch-start]
+
+  pattern-content-quoted:
+    - meta_scope: string.quoted.double.git.attributes
+    - meta_content_scope: entity.name.pattern.git.attributes
+    - include: string-end
+    - include: Git Common.sublime-syntax#fnmatch-body
+
+  pattern-content-unquoted:
+    - meta_scope: string.unquoted.git.attributes
+    - meta_content_scope: entity.name.pattern.git.attributes
+    - match: (?=\s)
+      pop: true
+    - include: Git Common.sublime-syntax#fnmatch-body
+
+  pattern-attributes:
+    - match: ''
+      set: attributes-list
+
+##[ ATTRIBUTES LIST ]##################################################
+
+  attributes-list:
+    - meta_content_scope: meta.attributes-list.git.attributes
+    # attriubte list ends with line
+    - match: $\n?
+      scope: meta.attributes-list.git.attributes
+      pop: true
+    # set/unset operators
+    - match: '[-!](?=\w)'
+      scope: keyword.operator.logical.git.attributes
+    # known attributes
+    - match: (?=diff\b)
+      push: [meta-diff, attribute-key]
+    - match: (?=encoding\b)
+      push: [meta-encoding, attribute-key]
+    - match: (?=eol\b)
+      push: [meta-eol, attribute-key]
+    - match: (?=filter\b)
+      push: [meta-filter, attribute-key]
+    - match: (?=merge\b)
+      push: [meta-merge, attribute-key]
+    - match: (?=text\b)
+      push: [meta-text, attribute-key]
+    - match: (?=whitespace\b)
+      push: [meta-whitespace, attribute-key]
+    # unknown/other attribute
+    - match: (?=\w)
+      push: [meta-other, attribute-key]
+    # close the meta mapping gab
+    - match: \s+
+      scope: meta.mapping.git.attributes
+    # invalid attribute name
+    - match: \S+
+      scope: invalid.illegal.attribute-name.git.attributes
+
+  meta-diff:
+    - meta_scope: meta.attribute.builtin.diff.git.attributes
+    - include: else-pop
+
+  meta-encoding:
+    - meta_scope: meta.attribute.builtin.encoding.git.attributes
+    - include: else-pop
+
+  meta-eol:
+    - meta_scope: meta.attribute.builtin.eol.git.attributes
+    - include: else-pop
+
+  meta-filter:
+    - meta_scope: meta.attribute.builtin.filter.git.attributes
+    - include: else-pop
+
+  meta-merge:
+    - meta_scope: meta.attribute.builtin.merge.git.attributes
+    - include: else-pop
+
+  meta-text:
+    - meta_scope: meta.attribute.builtin.text.git.attributes
+    - include: else-pop
+
+  meta-whitespace:
+    - meta_scope: meta.attribute.builtin.whitespace.git.attributes
+    - include: else-pop
+
+  meta-other:
+    - meta_scope: meta.attribute.other.git.attributes
+    - include: else-pop
+
+##[ ATTRIBUTE KEY VALUE ]##############################################
+
+  attribute-key:
+    - match: \w+[-\w]*\b
+      scope: meta.mapping.key.git.attributes variable.language.attribute.git.attributes
+      set: attribute-maybe-value-list
+    - include: else-pop
+
+  attribute-maybe-value-list:
+    - meta_content_scope: meta.mapping.git.attributes
+    - match: =(?=\S)
+      scope: punctuation.separator.mapping.key-value.git.attributes
+      set: [attribute-value-list, attribute-value-content]
+    - match: =
+      scope: punctuation.separator.mapping.key-value.git.attributes
+      set: attribute-value-expected
+    - include: attribute-separator
+    - include: else-pop
+
+  attribute-value-list:
+    - meta_content_scope: meta.mapping.value.git.attributes
+    - include: attribute-separator
+    - match: ',(?=\S)'
+      scope: punctuation.separator.mapping.values.git.attributes
+      push: attribute-value-content
+    - match: ','
+      scope: punctuation.separator.mapping.values.git.attributes
+      set: attribute-value-expected
+    - match: \S
+      scope: invalid.illegal.value.git.attributes
+    - include: else-pop
+
+  attribute-value-content:
+    # double quoted value
+    - match: \"
+      scope: punctuation.definition.string.begin.git.attributes
+      set:
+        - meta_scope: string.quoted.double.git.attributes
+        - include: string-end
+        - match: \\[\\\"\'fnrst]
+          scope: constant.character.escape.git.attributes
+    # unquoted value is everything except , and whitespace
+    - match: '[^,\s]*'
+      scope: string.unquoted.git.attributes
+      pop: true
+    - include: else-pop
+
+  attribute-value-expected:
+    # Attributes are separated by whitespace
+    # One whitespace after each attribute/value is captured as separator
+    - match: \s
+      scope: meta.mapping.expect-value.git.attributes punctuation.separator.mapping.pair.git.attributes
+      pop: true
+
+  attribute-separator:
+    # Attributes are separated by whitespace
+    # One whitespace after each attribute/value is captured as separator
+    - match: \s
+      scope: meta.mapping.git.attributes punctuation.separator.mapping.pair.git.attributes
+      pop: true
+
+##[ PROTOTYPES ]#######################################################
+
+  string-end:
+    - match: \"
+      scope: punctuation.definition.string.end.git.attributes
+      pop: true
+    - match: $\n?
+      scope: invalid.illegal.unexpected.eol.git.attributes
+      pop: true
+
+  else-pop:
+    - match: ''
+      pop: true

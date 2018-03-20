@@ -1,0 +1,11 @@
+# SYNTAX TEST "Git Commit.sublime-syntax"
+# <- text.git.commit comment.line punctuation.definition.comment
+Release v0.0.2
+# <- meta.subject.git.commit markup.heading.subject.git.commit
+#^^^^^^^^^^^^^ meta.subject.git.commit markup.heading.subject.git.commit
+
+# Write a message for tag:
+# <- text.git.commit comment.line punctuation.definition.comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+#   v0.0.2
+# Lines starting with '#' will be ignored.
