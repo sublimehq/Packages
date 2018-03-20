@@ -399,6 +399,10 @@ var obj = {
     $key3: 0,
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
+
+    $: 0,
+//  ^ meta.object-literal.key.dollar.only punctuation.dollar
+
     $keyFunc: function() {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar

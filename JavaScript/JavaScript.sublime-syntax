@@ -996,7 +996,6 @@ contexts:
     - match: class{{identifier_break}}
       scope: storage.type.class.js
       set:
-        - - include: immediately-pop
         - class-meta
         - class-body
         - class-extends
@@ -1009,31 +1008,33 @@ contexts:
   class-body:
     - match: '\{'
       scope: punctuation.section.block.js
-      set:
-        - meta_scope: meta.block.js
-
-        - match: '\}'
-          scope: punctuation.section.block.js
-          pop: true
-
-        - match: \;
-          scope: punctuation.terminator.statement.js
-
-        - match: constructor{{identifier_break}}
-          scope: entity.name.function.constructor.js
-          push:
-            - function-declaration-expect-body
-            - function-declaration-meta
-            - function-declaration-expect-parameters
-
-        - match: static{{identifier_break}}
-          scope: storage.modifier.js
-          push: class-field
-
-        - match: (?={{class_element_name}})
-          push: class-field
+      set: class-body-contents
 
     - include: else-pop
+
+  class-body-contents:
+    - meta_scope: meta.block.js
+
+    - match: '\}'
+      scope: punctuation.section.block.js
+      pop: true
+
+    - match: \;
+      scope: punctuation.terminator.statement.js
+
+    - match: constructor{{identifier_break}}
+      scope: entity.name.function.constructor.js
+      push:
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+
+    - match: static{{identifier_break}}
+      scope: storage.modifier.js
+      push: class-field
+
+    - match: (?={{class_element_name}})
+      push: class-field
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1337,54 +1338,62 @@ contexts:
   object-literal:
     - match: '\{'
       scope: punctuation.section.block.js
-      set:
-        - meta_scope: meta.object-literal.js
-        - match: '\}'
-          scope: punctuation.section.block.js
-          pop: true
+      set: object-literal-contents
 
-        - match: \.\.\.
-          scope: keyword.operator.spread.js
-          push: expression-no-comma
+  object-literal-contents:
+    - meta_scope: meta.object-literal.js
 
-        - match: >-
-            (?x)(?=
-              {{property_name}}\s*:
-              (?: {{either_func_lookahead}} )
-            )
-          push:
-            - either-function-declaration
-            - function-declaration-meta
-            - object-literal-expect-colon
-            - object-literal-meta-key
-            - method-name
+    - match: '\}'
+      scope: punctuation.section.block.js
+      pop: true
 
-        - match: '{{method_lookahead}}'
-          push: method-declaration
+    - match: \.\.\.
+      scope: keyword.operator.spread.js
+      push: expression-no-comma
 
-        - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
-          scope: variable.other.readwrite.js
-        - match: (?=\[)
-          push: computed-property-name
-        - match: "(?=\"|')"
-          push:
-            - object-literal-meta-key
-            - literal-string
-        - match: '{{dollar_identifier}}'
-          scope: meta.object-literal.key.dollar.js
-          captures:
-            1: punctuation.dollar.js
-        - match: '{{identifier}}'
-          scope: meta.object-literal.key.js
-        - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
-          push:
-            - meta_scope: meta.object-literal.key.js
-            - include: literal-number
+    - match: >-
+        (?x)(?=
+          {{property_name}}\s*:
+          (?: {{either_func_lookahead}} )
+        )
+      push:
+        - either-function-declaration
+        - function-declaration-meta
+        - object-literal-expect-colon
+        - object-literal-meta-key
+        - method-name
 
-        - include: comma-separator
-        - match: ':'
-          scope: punctuation.separator.key-value.js
-          push: expression-no-comma
+    - match: '{{method_lookahead}}'
+      push: method-declaration
+
+    - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
+      scope: variable.other.readwrite.js
+    - match: (?=\[)
+      push: computed-property-name
+    - match: "(?=\"|')"
+      push:
+        - object-literal-meta-key
+        - literal-string
+    - include: bare-property-name
+    - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
+      push:
+        - meta_scope: meta.object-literal.key.js
+        - include: literal-number
+
+    - include: comma-separator
+    - match: ':'
+      scope: punctuation.separator.key-value.js
+      push: expression-no-comma
+
+  bare-property-name:
+    - match: '{{dollar_only_identifier}}'
+      scope: meta.object-literal.key.dollar.only.js punctuation.dollar.js
+    - match: '{{dollar_identifier}}'
+      scope: meta.object-literal.key.dollar.js
+      captures:
+        1: punctuation.dollar.js
+    - match: '{{identifier}}'
+      scope: meta.object-literal.key.js
 
   computed-property-name:
     - match: \[
