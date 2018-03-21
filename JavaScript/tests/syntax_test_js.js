@@ -1,6 +1,7 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
 import TheirClass from "./mypath";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 // ^ keyword.control.import-export
 //                  ^ keyword.control.import-export
 
@@ -23,7 +24,7 @@ import 'module'
 // ^^^^^^^^^^^^ meta.import
 
 export { name1, name2 as name3 };
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //            ^ punctuation.separator.comma
