@@ -59,6 +59,14 @@ Inline `code sample`.
 |      ^ punctuation.definition.raw
 |                  ^ punctuation.definition.raw
 
+Here is a [](https://example.com).
+|         ^^ meta.link.inline
+|         ^ punctuation.definition.link.begin
+|          ^ punctuation.definition.link.end
+|           ^ punctuation.definition.metadata
+|            ^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                               ^ punctuation.definition.metadata
+
 Here is a [reference link][name].
 |         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                         ^ punctuation.definition.constant.begin
@@ -69,6 +77,14 @@ Here is a [blank reference link][].
 |         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                               ^ punctuation.definition.constant.begin
 |                                ^ punctuation.definition.constant.end
+
+Here is a ![](https://example.com/cat.gif).
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
+|          ^ punctuation.definition.image.begin
+|           ^ punctuation.definition.image.end - string
+|            ^ punctuation.definition.metadata
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                        ^ punctuation.definition.metadata
 
 Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
@@ -310,7 +326,7 @@ www.google.com/search?q=commonmark&hl=en
 |                                       ^ - markup.underline.link
 www.google.com/search?q=commonmark&hl;
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
-|                                 ^^^^ constant.character.entity.html - markup.underline.link
+|                                 ^^^^ constant.character.entity.named.html - markup.underline.link
 (Visit https://encrypted.google.com/search?q=Markup+(business))
 |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                                                             ^^ - markup.underline.link
@@ -1294,18 +1310,18 @@ _foo [**bar**](/url)_
 
 [**Read more &#8594;**][details]
 |^^ punctuation.definition.bold.begin
-|            ^^^^^^^ constant.character.entity.html
+|            ^^^^^^^ constant.character.entity.decimal.html
 |                   ^^ punctuation.definition.bold.end
 |                       ^^^^^^^ constant.other.reference.link
 
 [Read more &#8594;][details]
-|          ^^^^^^^ constant.character.entity.html
+|          ^^^^^^^ constant.character.entity.decimal.html
 |                   ^^^^^^^ constant.other.reference.link
 
 [Read more <span style="font-weight: bold;">&#8594;</span>][details]
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.description
 |                       ^^^^^^^^^^^^^^^^^^ source.css
-|                                           ^^^^^^^ constant.character.entity.html
+|                                           ^^^^^^^ constant.character.entity.decimal.html
 |                                                           ^^^^^^^ constant.other.reference.link
 
 [![Cool ★ Image - Click to Enlarge][img-example]][img-example]

@@ -386,6 +386,18 @@ $var->meth()[10];
 //  ^ keyword.other.phpdoc
  */
 
+/**
+ * PHP comment from issue #1378
+ *
+ * @see
+ * @author
+ * @package
+ * @version
+ NOTE: Modified */
+//^^^^^^^^^^^^^^^^ comment.block - comment.block.documentation
+//              ^^ punctuation.definition.comment.end
+//                ^ - comment
+
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php
@@ -574,6 +586,16 @@ $anon = new class extends Test1 implements Countable {};
 //                                          ^ punctuation.section.group.end.php
 //                                             ^ storage.type.nullable.php
 //                                              ^ storage.type.php
+
+    function nullableObjectReturnType(?int $param1): ?object {}
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+//                                   ^ punctuation.section.group.begin.php
+//                                    ^ storage.type.nullable.php
+//                                     ^ meta.function.parameters
+//                                                ^ punctuation.section.group.end.php
+//                                                   ^ storage.type.nullable.php
+//                                                    ^ storage.type.php
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php

@@ -1,0 +1,78 @@
+%YAML 1.2
+---
+# Highlight .git files.
+
+name: Git Link
+file_extensions:
+  - .git
+first_line_match: '^\s*gitdir\s*:'
+scope: text.git.link
+
+contexts:
+
+  main:
+    - include: Git Common.sublime-syntax#comments-line
+    - include: gitdir
+
+  gitdir:
+    - match: \bgitdir\b
+      scope: keyword.other.gitdir.git.link
+      push: expect-separator
+    - match: \S+
+      scope: invalid.illegal.gitdir-expected.git.link
+
+  expect-separator:
+    - meta_scope: meta.mapping.key.git.link
+    - match: (?=:)
+      set: separator
+    - match: \S
+      scope: invalid.illegal.separator-expected.git.link
+
+  separator:
+    - meta_scope: meta.mapping.git.link
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.git.link
+      set: expect-path
+    - match: \n
+      pop: true
+
+  expect-path:
+    - meta_content_scope: meta.mapping.value.git.link
+    - match: (?=\S)   # path starts with the first none space character
+      set: [path, path-start]
+    - match: \n
+      pop: true
+
+  path:
+    - meta_content_scope: meta.mapping.value.git.link meta.path.git.link string.unquoted.git.link
+    - match: \.?\n
+      scope: meta.mapping.value.git.link punctuation.terminator.path.git.link
+      pop: true
+    - match: '[\\/]'
+      scope: punctuation.separator.path.git.link
+      push: path-dir-pattern
+    - match: '[*?]'
+      scope: invalid.illegal.path.git.link
+
+  path-start:
+    # windows drive letter and separator
+    - match: '[A-Za-z](:)(?=[\\/])'
+      captures:
+        1: punctuation.separator.drive.git.link
+      pop: true
+    # homedir tilde operator
+    - match: ~(?=/)
+      scope: variable.language.environment.home.git.link
+      pop: true
+    # any other directory pattern
+    - include: path-dir-pattern
+
+  path-dir-pattern:
+    - match: \.\.(?=[\\/])
+      scope: constant.language.path.parent.git.link
+      pop: true
+    - match: \.(?=[\\/])
+      scope: constant.language.path.self.git.link
+      pop: true
+    - match: ''
+      pop: true

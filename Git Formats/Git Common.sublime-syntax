@@ -1,0 +1,161 @@
+%YAML 1.2
+---
+# This file is some kind of internal library which is used to store
+# common rules which are used by the visible syntax files.
+name: Git Common
+hidden: true
+scope: text.git.common
+
+variables:
+  comment_char: '[#;]'
+
+contexts:
+  main:
+    - include: references
+
+##[ COMMENTS ]#########################################################
+
+  comments:
+    # comment which may start in the middle of a line
+    - match: ({{comment_char}}).*\n?
+      scope: comment.line.git
+      captures:
+        1: punctuation.definition.comment.git
+
+  comments-line:
+    # comment which must start at the beginning of a line
+    - match: ^\s*({{comment_char}}).*\n?
+      scope: comment.line.git
+      captures:
+        1: punctuation.definition.comment.git
+
+##[ REFERENCES ]#######################################################
+
+  references:
+    # all github references
+    - include: issue
+    - include: email
+    - include: username
+
+  issue:
+    # issue reference
+    # https://help.github.com/articles/closing-issues-using-keywords
+    - match: |-
+          (?x)
+          # optional closing keyword
+          (?i:
+            ( (?:close|fixe|resolve)[ds]? | fix )     # keyword
+            \s* (:)? \s*             # optional colon separator
+          )?                         # keyword is optional
+          # user/repo#issue
+          (
+            (?:
+              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+            )?
+            (\#)[0-9]+               # issue number
+          )\b
+      scope: meta.reference.issue.git
+      captures:
+        1: keyword.other.resolved-issue.git
+        2: punctuation.separator.mapping.pair.resolved-issue.git
+        3: constant.other.reference.issue.git
+        4: punctuation.separator.reference.issue.git
+        5: punctuation.definition.reference.issue.git
+
+  email:
+    # email reference
+    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
+      scope: meta.reference.email.git
+      captures:
+        1: punctuation.definition.reference.email.begin.git
+        2: entity.name.reference.email.git
+        3: punctuation.separator.email.git
+        4: punctuation.separator.email.git
+        5: punctuation.definition.reference.email.end.git
+
+  username:
+    # user reference
+    - match: (\@)\w+\b
+      scope: meta.reference.username.git entity.name.reference.username.git
+      captures:
+        1: punctuation.definition.reference.username.git
+
+##[ FNMATCH ]##########################################################
+
+  # The first characters of a path pattern may have special meaning and
+  # must therefore be treated differently. This scope finally pops off
+  # if no more match is found. It must therefore be used as multi-push.
+  fnmatch-start:
+    # windows drive letter and separator
+    - match: '[A-Za-z](:)(?=/)'
+      captures:
+        1: punctuation.separator.drive.fnmatch.git
+      pop: true
+    # homedir tilde operator
+    - match: ~(?=/)
+      scope: variable.language.environment.home.fnmatch.git
+      pop: true
+    # any other directory pattern
+    - include: fnmatch-dir-pattern
+
+  # In order to use fnmatch by other syntaxes, it is importand to use
+  # fnmatch-body as include in a scope, which defines the desired meta
+  # and the required bail-out scopes as they might be different and
+  # therefore are not part of the following section.
+  fnmatch-body:
+    - match: \[           # shell style character class
+      scope: keyword.control.char-class.begin.fnmatch.git
+      push:
+        - fnmatch-char-class-body
+        - fnmatch-char-class-start
+        - fnmatch-char-class-operator
+    - match: '/'          # path separators
+      scope: punctuation.separator.path.fnmatch.git
+      push: fnmatch-dir-pattern
+    - match: \.(?!.*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.extension.fnmatch.git
+    - match: '[*?]'       # unescapable operators
+      scope: keyword.operator.path.asterix.fnmatch.git
+    - match: '\\[^$*?]'   # backslash escapes nearly everything
+      scope: constant.character.escape.path.fnmatch.git
+    - match: \$\w+
+      scope: variable.language.environment.other.fnmatch.git
+    - match: ':'          # drive separators
+      scope: invalid.illegal.separator.drive.fnmatch.git
+    - match: '\\(?=\s)'   # single backslash is invalid
+      scope: invalid.illegal.escape.path.fnmatch.git
+
+  fnmatch-dir-pattern:
+    - match: \.\.(?=/)
+      scope: constant.language.path.parent.fnmatch.git
+      pop: true
+    - match: \.(?=/)
+      scope: constant.language.path.self.fnmatch.git
+      pop: true
+    - match: ''
+      pop: true
+
+  fnmatch-char-class-operator:
+    - match: '[!^]?'  # optional pattern negation
+      scope: keyword.operator.logical.fnmatch.git
+      pop: true
+
+  fnmatch-char-class-start:
+    - match: \]?  # first unescaped ']' is matched as normal char
+      scope: constant.character.char-class.fnmatch.git
+      pop: true
+
+  fnmatch-char-class-body:
+    - meta_scope: meta.char-class.fnmatch.git
+    - match: \]
+      scope: keyword.control.char-class.end.fnmatch.git
+      pop: true
+    - match: $\n?     # class must end before end of line
+      scope: invalid.illegal.unexpected.eol.fnmatch.git
+      pop: true
+    - match: '\\\]'   # backslash escapes only ']'
+      scope: constant.character.escape.char-class.fnmatch.git
+    - match: '[*?]'   # asterix is ignored by fnmatch
+      scope: invalid.illegal.unexpected.char-class.fnmatch.git
+    - match: \S
+      scope: constant.character.char-class.fnmatch.git

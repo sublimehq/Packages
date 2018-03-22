@@ -565,11 +565,11 @@ contexts:
   image-inline:
     - match: |-
         (?x:
-            (\!\[)                            # Images start with ![
-            (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
-                  \]                          # Closing square bracket
-                  [ ]?                        # Space not allowed, but we check for it anyway to mark it as invalid
-                  \(                          # Open paren
+            (\!\[)                             # Images start with ![
+            (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                  \]                           # Closing square bracket
+                  [ ]?                         # Space not allowed, but we check for it anyway to mark it as invalid
+                  \(                           # Open paren
             )
          )
       captures:
@@ -604,13 +604,13 @@ contexts:
   image-ref:
     - match: |-
         (?x:
-          (\!\[)                            # Images start with ![
-          (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
-                \]                          # Closing square bracket
-                [ ]?                        # Space
-                \[                          # [
-                [^\]]+                      # anything other than ]
-                \]                          # ]
+          (\!\[)                             # Images start with ![
+          (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                \]                           # Closing square bracket
+                [ ]?                         # Space
+                \[                           # [
+                [^\]]+                       # anything other than ]
+                \]                           # ]
           )
         )
       captures:
@@ -750,7 +750,7 @@ contexts:
         (?x:
             (\[)
             (?=
-                {{balance_square_brackets}}
+                {{balance_square_brackets}}?
                 \]
                 {{url_and_title}}
             )
@@ -788,12 +788,12 @@ contexts:
     - match: |-
         (?x:
           (\[)
-          (?=   {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
-                \]                          # Closing square bracket
-                [ ]?                        # Space
-                \[                          # [
-                [^\]]+                      # anything other than ]
-                \]                          # ]
+          (?=   {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+                \]                           # Closing square bracket
+                [ ]?                         # Space
+                \[                           # [
+                [^\]]+                       # anything other than ]
+                \]                           # ]
           )
         )
       captures:
@@ -818,11 +818,11 @@ contexts:
         (?x:
           (\[)
           (?=
-              {{balance_square_brackets}} # balanced square brackets, backticks, taking into account escapes etc.
-              \]                          # Closing square bracket
-              [ ]?                        # Space
-              \[                          # [
-              \]                          # ]
+              {{balance_square_brackets}}? # balanced square brackets, backticks, taking into account escapes etc.
+              \]                           # Closing square bracket
+              [ ]?                         # Space
+              \[                           # [
+              \]                           # ]
           )
         )
       captures:

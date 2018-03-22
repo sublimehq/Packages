@@ -1,0 +1,143 @@
+# SYNTAX TEST "Git Rebase.sublime-syntax"
+# <- text.git.rebase comment.line punctuation.definition.comment
+pick d284bb2 Initial commit
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                           ^ -meta.commit
+# <- keyword.operator.commit.pick
+#^^^ keyword.operator.commit.pick
+#   ^ -storage.type.commit
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^ meta.subject.git.commit
+#                          ^ -meta.subject.git.commit
+p 6746220 Second pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                         ^ -meta.commit
+# <- keyword.operator.commit.pick
+#^ -keyword.operator.commit
+# ^^^^^^^ constant.numeric.hex.hash
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                        ^ -meta.subject.git.commit
+#                ^^^^ -keyword
+   p 6746220 Third pick commit # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+#                                            ^ -meta.commit
+# ^ -keyword.operator.commit
+#  ^ keyword.operator.commit.pick
+#   ^ -keyword.operator.commit -constant.numeric.hex.hash
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                          ^ -meta.subject.git.commit
+#                  ^^^^ -keyword
+puck 6746220 Invalid command
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^^^ invalid.illegal.command-expected
+#   ^ -storage.type.commit -invalid.illegal.command-expected
+#    ^^^^^^^ constant.numeric.hex.hash
+#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#            ^^^^^^^^^^^^^^^ meta.subject.git.commit
+p 6746x20 Invalid hash # no comment
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- keyword.operator.commit.pick
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                  ^ -meta.subject.git.commit
+a 6746x20 Invalid command and hash # no comment (#403)
+# <- meta.commit
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
+# <- invalid.illegal.command-expected
+#^ -storage.type.commit
+# ^^^^^^^ invalid.illegal.hash-expected
+#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
+#                                                ^ punctuation.definition.reference.issue.git
+#                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
+#                                                     ^ -meta.subject.git.commit
+  # p 6746220 Second pick commit # no comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
+  d d284bb2 Drop commit
+# ^ keyword.operator.commit.drop
+  drop d284bb2 Drop commit
+# ^^^^ keyword.operator.commit.drop
+  e d284bb2 Edit commit
+# ^ keyword.operator.commit.edit
+  edit d284bb2 Edit commit
+# ^^^^ keyword.operator.commit.edit
+  x d284bb2 Execute command
+# ^ keyword.operator.commit.exec
+  exec d284bb2 Execute command
+# ^^^^ keyword.operator.commit.exec
+  f d284bb2 Fixup commit
+# ^ keyword.operator.commit.fixup
+  fixup d284bb2 Fixup commit
+# ^^^^^ keyword.operator.commit.fixup
+  r d284bb2 Reword commit
+# ^ keyword.operator.commit.reword
+  reword d284bb2 Reword commit
+# ^^^^^^ keyword.operator.commit.reword
+
+# Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+# <- comment.line punctuation.definition.comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.rebase-msg
+#        ^^^^^^^ constant.numeric.hex.hash
+#               ^^ punctuation.separator.commit-range
+#                 ^^^^^^^ constant.numeric.hex.hash
+#                              ^^^^^^^ constant.numeric.hex.hash
+#
+# Commands:
+#^^^^^^^^^^^ comment.line.git.rebase
+# ^^^^^^^^ markup.heading.git.rebase
+# p, pick = use commit
+#^^^^^^^^^^^^^^^^^^^^^^ comment.line
+# ^^^^^^^^^^^^^^^^^^^^ meta.commands-help.pick
+#^ - keyword.operator
+# ^ keyword.operator.commit.pick
+#  ^^ - keyword.operator
+#  ^ punctuation.separator.sequence
+#    ^^^^ keyword.operator.commit.pick
+#        ^^^^^^^^^^^^^ - keyword.operator
+#         ^ punctuation.separator.mapping.pair
+# ^^^^^^^^^^ - string.unquoted
+#           ^^^^^^^^^^ string.unquoted
+# r, reword = use commit, but edit the commit message
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.reword
+# ^ keyword.operator.commit.reword
+#    ^^^^^^ keyword.operator.commit.reword
+# e, edit = use commit, but stop for amending
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.edit
+# ^ keyword.operator.commit.edit
+#    ^^^^ keyword.operator.commit.edit
+# s, squash = use commit, but meld into previous commit
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.squash
+# ^ keyword.operator.commit.squash
+#    ^^^^^^ keyword.operator.commit.squash
+# f, fixup = like "squash", but discard this commit's log message
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.fixup
+# ^ keyword.operator.commit.fixup
+#    ^^^^^ keyword.operator.commit.fixup
+# x, exec = run command (the rest of the line) using shell
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.exec
+# ^ keyword.operator.commit.exec
+#    ^^^^ keyword.operator.commit.exec
+# d, drop = remove commit
+# ^^^^^^^^^^^^^^^^^^^^^^^ meta.commands-help.drop
+# ^ keyword.operator.commit.drop
+#    ^^^^ keyword.operator.commit.drop
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out

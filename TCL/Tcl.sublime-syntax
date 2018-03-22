@@ -11,6 +11,7 @@ variables:
   end_chars: '[;\n\}\]]'
   inline_end_chars: '[;\s\}\]\\]'
   var_unquoted_string: '(?:\$\{[^ \}]+\}|{{unquoted_string}})+'
+  most_likely_code: 'while|for|catch|return|break|continue|switch|exit|foreach|if|after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait'
 
 contexts:
   main:
@@ -21,6 +22,8 @@ contexts:
       push: command-name
     - match: ';'
       scope: punctuation.terminator.tcl
+      push: command-name
+    - match: '(?={{most_likely_code}})'
       push: command-name
     - include: expressions
 
@@ -51,6 +54,8 @@ contexts:
     - include: substitution
     - include: escape
     - include: variable
+    - match: '-'
+      scope: keyword.operator.tcl
     - include: numbers
     - include: strings
 
@@ -90,6 +95,18 @@ contexts:
     - match: \b[0-9]+\b(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
 
+  comments:
+    - match: '#'
+      scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
+      set:
+        - meta_content_scope: comment.line.number-sign.tcl
+        - match: \n
+          scope: comment.line.number-sign.tcl
+          pop: true
+        - match: \\\\
+        - match: \\\n
+          scope: punctuation.separator.continuation.tcl
+
   command-name:
     - match: '(?=\bproc\b\s)'
       set: proc
@@ -108,9 +125,35 @@ contexts:
     - match: \b(if)\b\s+(\{)
       captures:
         1: keyword.control.tcl
-        2: meta.block.tcl punctuation.definition.block.begin.tcl
+        2: meta.block.tcl punctuation.section.block.begin.tcl
       set: [conditional, conditional-expr]
-    - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=\s)
+    - match: \b(if)\b\s+(?=\S)
+      captures:
+        1: keyword.control.tcl
+        2: meta.block.tcl punctuation.section.block.begin.tcl
+      set: [conditional, conditional-bare-expr]
+    - match: \bset\b
+      scope: keyword.other.tcl
+      push:
+        - match: \b\w+\b
+          set:
+            - match: '\{(?=(\n|\s*({{most_likely_code}})))'
+              scope: punctuation.section.block.begin.tcl
+              set: [command-braces, command-name]
+            - match: '\{(?=\s)'
+              scope: punctuation.section.block.begin.tcl
+              set: non-command-braces
+            - match: '\{'
+              scope: punctuation.definition.string.begin.tcl
+              set: string-braces
+            - match: '(?=\S)'
+              set:
+                - match: (?={{inline_end_chars}})
+                  pop: true
+                - include: expressions
+        - match: (?=\S)
+          pop: true
+    - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=[{{inline_end_chars}}])
       scope: keyword.control.tcl
       set:
         - match: '(?={{end_chars}})'
@@ -136,6 +179,12 @@ contexts:
                 - match: \}
                   pop: true
                 - include: regexp-braces
+            - match: '(?=")'
+              set:
+                - include: strings
+                # One of these characters indicates the string is complete
+                - match: '(?={{inline_end_chars}})'
+                  pop: true
         - match: '(?=")'
           set:
             - include: strings
@@ -149,16 +198,7 @@ contexts:
             - match: '(?={{inline_end_chars}})'
               pop: true
     - match: (?=#)
-      set:
-        - match: '#'
-          scope: comment.line.number-sign.tcl punctuation.definition.comment.tcl
-          set:
-            - meta_content_scope: comment.line.number-sign.tcl
-            - match: \n
-              set: command-name
-            - match: \\\\
-            - match: \\\n
-              scope: punctuation.separator.continuation.tcl
+      set: comments
     - match: '(?={{var_unquoted_string}})'
       set:
         - meta_content_scope: variable.function.tcl
@@ -183,7 +223,7 @@ contexts:
     - match: '\b(elseif)\b\s+(\{)'
       captures:
         1: keyword.control.tcl
-        2: meta.block.tcl punctuation.definition.block.begin.tcl
+        2: meta.block.tcl punctuation.section.block.begin.tcl
       push: conditional-expr
     - match: '\b(then|elseif|else)\b(?=\s)'
       scope: keyword.control.tcl
@@ -193,8 +233,17 @@ contexts:
     - meta_content_scope: meta.block.tcl
     - match: '(\})([^{{inline_end_chars}}]*)'
       captures:
-        1: meta.block.tcl punctuation.definition.block.end.tcl
+        1: meta.block.tcl punctuation.section.block.end.tcl
         2: invalid.illegal.tcl
+      pop: true
+    - match: '\\[\\{}n]'
+      scope: constant.character.escape.tcl
+    - include: operators
+    - include: commands
+
+  conditional-bare-expr:
+    - meta_content_scope: meta.block.tcl
+    - match: '(?=[\{{{inline_end_chars}}{{end_chars}}])'
       pop: true
     - match: '\\[\\{}n]'
       scope: constant.character.escape.tcl
@@ -216,12 +265,12 @@ contexts:
     - match: \s+
       scope: meta.function.tcl
     - match: \{
-      scope: punctuation.definition.block.begin.tcl
+      scope: punctuation.section.block.begin.tcl
       set:
         - meta_scope: meta.function.parameters.tcl meta.block.tcl
         - match: '(\})([^{{inline_end_chars}}]*)'
           captures:
-            1: punctuation.definition.block.end.tcl
+            1: punctuation.section.block.end.tcl
             2: invalid.illegal.tcl
           set: proc-body
         - match: '^\s*(#)'
@@ -250,7 +299,7 @@ contexts:
 
   proc-parameter:
     - match: '\{'
-      scope: punctuation.definition.block.begin.tcl
+      scope: punctuation.section.block.begin.tcl
       push:
         - meta_scope: meta.block.tcl
         - match: '{{unquoted_string}}'
@@ -259,7 +308,7 @@ contexts:
             - meta_content_scope: meta.block.tcl
             - match: '(\})([^{{inline_end_chars}}]*)'
               captures:
-                1: meta.block.tcl punctuation.definition.block.end.tcl
+                1: meta.block.tcl punctuation.section.block.end.tcl
                 2: invalid.illegal.tcl
               pop: true
             - include: commands
@@ -294,12 +343,12 @@ contexts:
 
   expr-body:
     - match: '\{'
-      scope: punctuation.definition.block.begin.tcl
+      scope: punctuation.section.block.begin.tcl
       push:
         - meta_scope: meta.block.tcl
         - match: '(\})([^{{inline_end_chars}}]*)'
           captures:
-            1: punctuation.definition.block.end.tcl
+            1: punctuation.section.block.end.tcl
             2: invalid.illegal.tcl
           pop: true
         - match: '\\[\\{}n]'
@@ -315,26 +364,63 @@ contexts:
     - match: '\b(eq|ne|in|ni)\b(?=\s)'
       scope: keyword.operator.word.tcl
 
+  command-braces:
+    - meta_scope: meta.block.tcl
+    - match: \}
+      scope: punctuation.section.block.end.tcl
+      pop: true
+    - include: commands
+
+  non-command-braces:
+    - meta_scope: meta.block.tcl
+    - match: ^\s*(?=#)
+      push: comments
+    - include: braces
+    - match: '(\})([^{{inline_end_chars}}]*)'
+      captures:
+        1: punctuation.section.block.end.tcl
+        2: invalid.illegal.tcl
+      pop: true
+    - match: '\\[\\{}n]'
+      scope: constant.character.escape.tcl
+    - include: expressions
+
+  string-braces:
+    - meta_scope: string.quoted.brace.tcl
+    - match: '(\})(?=[\s\n{{inline_end_chars}}])'
+      captures:
+        1: punctuation.definition.string.end.tcl
+        2: invalid.illegal.tcl
+      pop: true
+    - match: '\n'
+      pop: true
+    - match: '\\[\\{}n]'
+      scope: constant.character.escape.tcl
+
   braces:
     - match: (\{)(\*)(\})
       scope: meta.block.tcl
       captures:
-        1: punctuation.definition.block.begin.tcl
+        1: punctuation.section.block.begin.tcl
         2: keyword.operator.tcl
-        3: punctuation.definition.block.end.tcl
-    - match: '\{'
-      scope: punctuation.definition.block.begin.tcl
+        3: punctuation.section.block.end.tcl
+    # Heuristic: if the brace is followed by whitespace,
+    # or what appears to be a command name followed by
+    # whitespace, treat it as code, otherwise a regexp
+    - match: '\{(?=\s*({{most_likely_code}})\b|\n)'
+      scope: punctuation.section.block.begin.tcl
       push:
         - meta_scope: meta.block.tcl
-        - include: regexp-braces
-        - match: '(\})([^{{inline_end_chars}}]*)'
-          captures:
-            1: punctuation.definition.block.end.tcl
-            2: invalid.illegal.tcl
+        - match: \}
+          scope: punctuation.section.block.end.tcl
           pop: true
-        - match: '\\[\\{}n]'
-          scope: constant.character.escape.tcl
         - include: commands
+    - match: '\{(?=\s|\})'
+      scope: punctuation.section.block.begin.tcl
+      push: non-command-braces
+    - match: '\{'
+      scope: punctuation.definition.string.begin.tcl
+      push: string-braces
 
   substitution:
     - match: '\[(?!{{special_chars}})'

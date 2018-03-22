@@ -42,6 +42,12 @@ regsub -all {\/} $line {\\} line;
 # <- keyword.other
 #            ^ string.regexp
 #                       ^ constant.character.escape
+
+foreach {one_arg_opt_pattern} [list {-first\S*} {-second\S*} {-group\S*}] {
+    regsub -- "${one_arg_opt_pattern}\\s+\\S+" $args {} args
+#             ^ string.quoted.double
+}
+
 regsub -all {\\\\} $line {\\} line;
 # <- keyword.other
 #            ^ string.regexp constant.character.escape
@@ -137,14 +143,11 @@ proc ${ns}::suffix {} {}
 # Issue 131: https://github.com/SublimeTextIssues/DefaultPackages/issues/131
 # -------------------------------------------------------------------------- #
 set ok1 {["]"]}
-#       ^^^^^^^ meta.block
-#         ^^^ string.quoted.double
+#       ^^^^^^^ string.quoted.brace
 set ok2 {["][]"]}
-#       ^^^^^^^^^ meta.block
-#         ^^^^^ string.quoted.double
+#       ^^^^^^^^^ string.quoted.brace
 set not_ok {["]["]}
-#          ^^^^^^^^ meta.block
-#            ^^^^ string.quoted.double
+#          ^^^^^^^^ string.quoted.brace
 puts $ok1            ;# ["]"]
 # ^ keyword.other
 #    ^^^^ variable.other
@@ -194,27 +197,33 @@ if {$var == true} {
 else {}
 # <- - keyword.control
 
+# Ideally this would be a test to make the "a" invalid,
+# but there isn't a good way to handle that and brace strings
+# containing regexes as exhibited in the tests for issues
+# 783 and 784
 set y {1 2 3}a
-#            ^ invalid.illegal
+#     ^^^^^^^^ string.quoted.brace
+#     ^ punctuation.definition.string.begin
+#           ^ - punctuation.definition.string
 
 # -------------------------------------------------#
 # https://github.com/sublimehq/Packages/issues/779
 # ------------------------------------------------ #
 regexp -inline -all -- {%[a-zA-Z_]*%} "whatever"
-#      ^^^^^^^^^^^^^^^^^ - string
+#      ^^^^^^^^^^^^^^^^ - string
 
 regexp -all -inline {%[a-zA-Z_]*%} "whatever"
-#      ^^^^^^^^^^^^^^ - string
+#      ^^^^^^^^^^^^^ - string
 
 # -------------------------------------------------#
 # https://github.com/sublimehq/Packages/issues/783
 # https://github.com/sublimehq/Packages/issues/784
 # ------------------------------------------------ #
 set objRegExp {(^[a-zA-Z]{2}[a-zA-Z0-9-]{2,12}$)}
-#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block - invalid
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.brace - invalid
 #                                                ^ - meta.block
 set objRegExp {(.{0,200})}
-#             ^^^^^^^^^^^^ meta.block - invalid
+#             ^^^^^^^^^^^^ string.quoted.brace - invalid
 #                         ^ - meta.block
 
 proc test {} {
@@ -269,3 +278,130 @@ proc test {} {
 		}
 	}
 }
+
+# https://github.com/sublimehq/Packages/issues/1145
+
+# When set has a brace followed by non-whitespace,
+# we treat it as a string
+set w {foobar}
+#     ^^^^^^^^ string.quoted.brace
+#     ^ punctuation.definition.string.begin
+#            ^ punctuation.definition.string.end
+
+# For set when the brace is not followed by a newline,
+# we treat it as expression, but without command names
+set x { 1 { 2 3 } }
+#     ^^^^^^^^^^^^^ meta.block
+#       ^ constant.numeric
+#         ^^^^^^^ meta.block meta.block
+#           ^ constant.numeric
+#             ^ constant.numeric
+
+set y { foo {}
+#     ^^^^^^^^ meta.block
+#     ^ punctuation.section.block.begin
+#       ^ - variable.function
+#           ^^ meta.block meta.block
+#           ^ punctuation.section.block.begin
+#            ^ punctuation.section.block.end
+        # comment
+#       ^^^^^^^^^^ comment
+        bar {}
+#       ^^^^^^ meta.block
+#       ^ - variable.function
+#           ^^ meta.block meta.block
+#           ^ punctuation.section.block.begin
+#            ^ punctuation.section.block.end
+        baz {} }
+#       ^^^^^^^^ meta.block
+#       ^ - variable.function
+#           ^^ meta.block meta.block
+#           ^ punctuation.section.block.begin
+#            ^ punctuation.section.block.end
+#              ^ meta.block punctuation.section.block.end
+
+# For a set with a brace followed by a newline, we
+# treat it as a block of code with commands
+set z {
+#     ^ meta.block punctuation.section.block.begin
+    foo {}
+#   ^ meta.block variable.function
+#       ^^ meta.block meta.block
+#       ^ punctuation.section.block.begin
+#        ^ punctuation.section.block.end
+    bar {}
+#   ^ variable.function
+#       ^^ meta.block meta.block
+#       ^ punctuation.section.block.begin
+#        ^ punctuation.section.block.end
+    baz {}
+#   ^ variable.function
+#       ^^ meta.block meta.block
+#       ^ punctuation.section.block.begin
+#        ^ punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
+if { 1 } {
+# <- keyword.control
+#  ^^^^^ meta.block
+#    ^ constant.numeric
+#       ^ - meta.block
+#        ^ meta.block
+
+# This tests an implicit block after the if statement. This could
+# be refactored, but the current implementation treats it this way.
+    if 2 {
+#   ^^^ meta.block - meta.block meta.block
+#   ^^ keyword.control
+#      ^ meta.block meta.block constant.numeric
+#       ^ meta.block - meta.block meta.block
+#        ^ meta.block meta.block punctuation.section.block.begin
+
+        set x 1
+#       ^^^^^^^ meta.block meta.block
+#             ^ constant.numeric
+
+        set y 2
+#       ^^^^^^^ meta.block meta.block
+#             ^ constant.numeric
+    }
+#   ^ meta.block meta.block punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
+if { $mpv(radar) eq "VHF" } {
+# <- keyword.control
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+#                ^^ keyword.operator.word
+#                           ^ meta.block punctuation.section.block.begin
+
+    if [ catch  {UpdateIfKst} imf ] {
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+#   ^^ keyword.control
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.substitution
+#                                   ^ meta.block meta.block punctuation.section.block.begin
+        set imf -1
+#               ^ keyword.operator
+#                ^ constant.numeric
+
+        if { $mpv(ifmon_errcount) < 5 } {
+#       ^ keyword.control
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block meta.block meta.block
+#                                 ^ keyword.operator
+#                                   ^ constant.numeric
+            EngineMsg [list $msg] [Utime]
+#           ^ variable.function
+            incr mpv(ifmon,errcount)
+        } else {
+#       ^ punctuation.section.block.end
+#         ^ keyword.control
+#              ^ punctuation.section.block.begin
+            set msg "Too many IF monitor errors -- giving up"
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+            EngineMsg [list $msg] [Utime]
+#           ^ variable.function
+        }
+    }
+}
+

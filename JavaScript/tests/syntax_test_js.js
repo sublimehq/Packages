@@ -195,6 +195,10 @@ export from from "./othermod";
 export { from } from "./othermod";
 //       ^^^^ variable.other.readwrite.js
 
+export default$
+//     ^^^^^^^^ - keyword
+;
+
 // This object literal is technically broken since foo() does not have a
 // method body, but we include it here to ensure that highlighting is not
 // broken as the user is typing
@@ -308,6 +312,40 @@ not_a_comment;
 //                       ^ - meta.function.declaration meta.function.declaration
 });
 
+{
+    let _$Foobar1Ù𝓩ʷªאξ‿ᛮↂ〩;
+//      ^^^^^^^^^^^^^^^^^^^ variable.other.readwrite
+
+    let ಠ_ಠ;
+//      ^^^ variable.other.readwrite
+
+    import$;export$;class$;throw$;break$;continue$;goto$;return$;debugger$;let$;const$;var$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword
+
+    switch$;do$;while$;for$;if$;with$:try$;catch$;finally$;new$;delete$;typeof$;void$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword
+
+    true$;false$;null$;undefined$;NaN$;Infinity$;this$;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant.language
+
+    x
+    instanceof$;
+//  ^^^^^^^^^^^ - keyword
+
+    x
+    in$;
+//  ^^^ - keyword
+
+    await$ [];
+//  ^^^^^^ variable.other
+//         ^^ meta.brackets - meta.sequence
+
+    yield$ [];
+//  ^^^^^^ variable.other
+//         ^^ meta.brackets - meta.sequence
+
+};
+
 var str = '\':';
 var str2 = NaN;
 // <- storage.type
@@ -326,6 +364,14 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 //                 ^ punctuation.definition.template-expression.end.js
 //                        ^ constant.character.escape.js
 //                                                ^ punctuation.definition.string.template.end.js
+
+tag `template`;
+// <- variable.function.tagged-template
+//  ^^^^^^^^^^ string.template
+
+x ? y // y is a template tag!
+`template` : z;
+//         ^ keyword.operator.ternary
 
 mylabel:
 // ^ entity.name.label
@@ -353,6 +399,10 @@ var obj = {
     $key3: 0,
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
+
+    $: 0,
+//  ^ meta.object-literal.key.dollar.only punctuation.dollar
+
     $keyFunc: function() {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
     // <- meta.object-literal.key.dollar entity.name.function punctuation.dollar
@@ -464,6 +514,17 @@ var obj = {
     // <- keyword.generator.asterisk
     // ^ entity.name.function
     }
+
+    ...foo,
+//  ^^^ keyword.operator.spread
+//     ^^^ variable.other.readwrite
+//        ^ punctuation.separator.comma
+
+    ...bar(baz),
+//  ^^^ keyword.operator.spread
+//     ^^^^^^^^ meta.function-call
+//     ^^^ variable.function
+//             ^ punctuation.separator.comma
 }
 // <- meta.object-literal - meta.block
 
@@ -625,6 +686,14 @@ switch ($foo) {
     // ^ meta.switch meta.block keyword.control.switch
     //     ^ - punctuation.separator.key-value
         qux = 3;
+
+    case$
+//  ^^^^^ - keyword
+    ;
+
+    default$
+//  ^^^^^^^^ - keyword
+    ;
 }
 // <- meta.block
 
@@ -737,7 +806,7 @@ class MyClass extends TheirClass {
 
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
-//  ^^^ meta.class.js meta.block.js meta.function.declaration.js
+//  ^^ meta.class.js meta.block.js meta.function.declaration.js
 
     someMethod() {
         return #e * 2;
@@ -804,6 +873,13 @@ class MyClass extends TheirClass {
 //           ^^^^^^ variable.parameter.function.js
 //                 ^ punctuation.separator.parameter.function.js
 //                   ^^^^^^ variable.parameter.function.js
+
+    static$
+//  ^^^^^^^ - storage
+    () {};
+
+    constructor$() {}
+//  ^^^^^^^^^^^^ entity.name.function - entity.name.function.constructor
 }
 // <- meta.block
 
@@ -836,7 +912,7 @@ class Foo extends getSomeClass() {}
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
@@ -852,6 +928,14 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
   b]) => { return x; }
 //    ^^ storage.type.function.arrow
 //         ^^^^^^ meta.block keyword.control.flow
+
+(
+    ()
+    => { return; }
+//  ^^ storage.type.function.arrow
+//     ^^^^^^^^^^^ meta.block - meta.object-literal
+//       ^^^^^^ keyword.control.flow
+);
 
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -885,6 +969,9 @@ var Proto = () => {
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
+
+var notAFunc = function$;
+//  ^^^^^^^^ - entity.name.function
 
 Proto.prototype.getVar = () => this._var;
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -989,6 +1076,19 @@ var abc = new ABC(
     })
 );
 
+function f() {
+    new.target;
+//  ^^^ keyword.operator.word.new
+//     ^ punctuation.accessor.dot.js
+//      ^^^^^^ variable.language.target
+
+    new
+//  ^^^ keyword.operator.word.new
+    .target;
+//  ^ punctuation.accessor.dot.js
+//   ^^^^^^ variable.language.target
+}
+
 new Date().getTime()
 // ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
@@ -1049,20 +1149,6 @@ var reg = /a+/gimy.exec('aabb')
 /a+(?:bc)/;
 // <- string.regexp
 //  ^^ punctuation.definition.group.no-capture.regexp
-
-/test// 1;
-// <- string.regexp.js
-//    ^ keyword.operator.arithmetic.js
-
-/test/* 1;
-// <- string.regexp.js
-//    ^ keyword.operator.arithmetic.js
-// */
-
-/test/** 1;
-// <- string.regexp.js
-//    ^^ keyword.operator.arithmetic.js
-// */
 
 'str'.match(/[" ]+/g);
 //          ^^^^^^^^ string.regexp.js
@@ -1149,17 +1235,17 @@ a = /foo\/bar/g // Ensure handling of escape / in regex detection
 //    ^ string.regexp
 //       ^ constant.character.escape
 
-var re = /^\/[^/]+/
+var re = /^\/[^/]+/;
 //             ^ constant.other.character-class.set.regexp
 //               ^ keyword.operator.quantifier
 
-(y - 1) / ((x - 1) / -2)
+(y - 1) / ((x - 1) / -2);
 //      ^ keyword.operator.arithmetic
 //        ^ punctuation.section.group
-(y - 1) / ((x - 1) /  2)
+(y - 1) / ((x - 1) /  2);
 //    ^ punctuation.section.group
 //      ^ keyword.operator.arithmetic
- y      / ((x - 1) / -2)
+ y      / ((x - 1) / -2);
 
 define(['common'], function(common) {
 //                 ^ meta.function.declaration
@@ -1255,10 +1341,12 @@ string = 'invalid
 //               ^ invalid.illegal.newline
 
 hex = 0xFA.5;
-//    ^^^^^^ invalid.illegal.numeric.hex
+//         ^ invalid.illegal - constant.numeric
+
+hex = 0xFA.toString;
 
 octal = 079.0;
-//      ^^^^^ invalid.illegal.numeric.octal
+//          ^ invalid.illegal - constant.numeric
 
 strayBracket = ());
 //               ^ invalid.illegal.stray-bracket-end
@@ -1277,7 +1365,7 @@ strayBracket = {}};
 
 function optionalParam(b=0) {};
 //                    ^ punctuation.section.group.begin
-//                      ^^ meta.parameter.optional
+//                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
 var path = require('path');
@@ -1363,8 +1451,29 @@ function yy (a, b) {
     0;
 //  ^ constant.numeric.decimal
 
+    123 .foo
+//  ^^^ constant.numeric.decimal
+//      ^ punctuation.accessor
+//       ^^^ meta.property.object
+
+    123xyz;
+//  ^^^^^^ invalid.illegal.numeric.decimal
+
     0123456789;
-//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.octal
+//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.numeric.octal
+
+    0123456789xyz;
+//  ^^^^^^^^^^^^^ invalid.illegal.numeric.octal
+
+    0123456789.xyz;
+//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
+//            ^ punctuation.accessor
+//             ^^^ meta.property.object
+
+    0123456789.123;
+//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
+//            ^ punctuation.accessor
+//             ^^^ invalid.illegal.illegal-identifier
 
     0b0110_1001_1001_0110n;
 //  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.binary
@@ -1386,6 +1495,21 @@ function yy (a, b) {
 //       ^^^ constant.numeric.octal
 //            ^^^ constant.numeric.hexadecimal
 
+    0b1.foo;
+//  ^^^^^^^ - invalid
+//  ^^^ constant.numeric.binary
+//     ^ punctuation.accessor
+//      ^^^ meta.property.object
+
+    0b1.0;
+//  ^^^ constant.numeric.binary
+//     ^ punctuation.accessor
+//      ^ invalid.illegal.illegal-identifier
+
+    0b123;
+//  ^^^^^ invalid.illegal.numeric.binary
+
+
 // Floats
 
     1_234_567_890.123_456_789_0;
@@ -1393,9 +1517,6 @@ function yy (a, b) {
 
     .123_456_789_0;
 //  ^^^^^^^^^^^^^^ constant.numeric.decimal
-
-    0123.45;
-//  ^^^^^^^ invalid.illegal.numeric.octal
 
     12345e6_7_8;
 //  ^^^^^^^^^^^ constant.numeric.decimal
@@ -1405,6 +1526,20 @@ function yy (a, b) {
 
     .123E-7_8_9;
 //  ^^^^^^^^^^^ constant.numeric.decimal
+
+    0123.45;
+//       ^^ invalid.illegal - constant.numeric
+
+    123.4foo;
+//  ^^^^^^^^ invalid.illegal.numeric.decimal
+
+    123.4e+foo;
+//  ^^^^^^ invalid.illegal.numeric.decimal
+
+    123..foo;
+//  ^^^^ constant.numeric.decimal
+//      ^ punctuation.accessor
+//       ^^^ meta.property.object
 
 debugger;
 // <- keyword.other.debugger

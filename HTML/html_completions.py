@@ -154,7 +154,7 @@ def get_tag_to_attributes():
 
     # Extend `global_attributes` by the event handler attributes
     global_attributes.extend([
-        'onabort', 'onautocomplete', 'onautocompleteerror', 'onblur',
+        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
         'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
         'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick', 'ondrag',
         'ondragend', 'ondragenter', 'ondragexit', 'ondragleave', 'ondragover',

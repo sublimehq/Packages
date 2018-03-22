@@ -266,7 +266,7 @@ def _():
 #                       ^ invalid.illegal.expected-parameter.python
 #                            ^ invalid.illegal.expected-parameter.python
 
-    lambda
+    lambda x
 #   ^^^^^^ storage.type.function.inline
 
     ( 3 - 6 \
@@ -424,6 +424,57 @@ def _():
 #                           ^ punctuation.separator.with-resources
 #                             ^^^^ support.function
 #                                    ^^ keyword.control.flow.with.as
+
+    with captured() as (out, err):
+#   ^^^^ keyword.control.flow.with
+#        ^^^^^^^^ variable.function
+#                ^ punctuation.section.arguments.begin
+#                 ^ punctuation.section.arguments.end
+#                   ^^ keyword.control.flow.with.as
+#                      ^ punctuation.section.group.begin
+#                       ^^^ meta.generic-name
+#                          ^ punctuation.separator.tuple
+#                            ^^^ meta.generic-name
+#                               ^ punctuation.section.group.end
+#                                ^ punctuation.section.block.with
+
+    with captured() \
+    as (
+#      ^ punctuation.section.group.begin
+        out,
+#       ^^^ meta.generic-name
+#          ^ punctuation.separator.tuple
+        err
+#       ^^^ meta.generic-name
+    ):
+#   ^ punctuation.section.group.end
+#    ^ punctuation.section.block.with
+
+    with captured() as [out, err]:
+#   ^^^^ keyword.control.flow.with
+#        ^^^^^^^^ variable.function
+#                ^ punctuation.section.arguments.begin
+#                 ^ punctuation.section.arguments.end
+#                   ^^ keyword.control.flow.with.as
+#                      ^ punctuation.section.list.begin
+#                       ^^^ meta.generic-name
+#                          ^ punctuation.separator.list
+#                            ^^^ meta.generic-name
+#                               ^ punctuation.section.list.end
+#                                ^ punctuation.section.block.with
+
+    with captured() \
+    as [
+#      ^ punctuation.section.list.begin
+        out,
+#       ^^^ meta.generic-name
+#          ^ punctuation.separator.list
+        err
+#       ^^^ meta.generic-name
+    ]:
+#   ^ punctuation.section.list.end
+#    ^ punctuation.section.block.with
+
     async with context_manager() as c:
 #   ^^^^^ storage.modifier.async
 #         ^^^^ keyword.control.flow.with
@@ -576,6 +627,16 @@ def func(*args, other_arg=2**10, **kwargs):
 #        ^ keyword.operator.unpacking.sequence.python
 #                          ^^ keyword.operator.arithmetic.python
 #                                ^^ keyword.operator.unpacking.mapping.python
+    pass
+
+def func(
+    *args,
+#   ^ keyword.operator.unpacking.sequence
+    other_arg=2**10,
+#              ^^ keyword.operator.arithmetic
+    **kwargs
+#   ^^ keyword.operator.unpacking.mapping
+):
     pass
 
 
@@ -849,6 +910,16 @@ d = {1: 3**4, **dict_}
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
 
+generator = (
+    i
+    for
+#   ^^^ keyword.control.flow.for.generator
+    i
+    in
+#   ^^ keyword.control.flow.for.in
+    range(100)
+)
+
 ##################
 # Exception handling
 ##################
@@ -928,9 +999,6 @@ floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
 #                              ^^^^^ constant.numeric.float.python
 #                                      ^^ constant.numeric.float.python
 #                                       ^ punctuation.separator.decimal.python
-
-not_floating = abc.123
-#                 ^^^^ invalid.illegal.name - constant
 
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
@@ -1059,6 +1127,13 @@ class Class(object
 #   ^^^ invalid.illegal.name
 #      ^ - meta.class
 
+# "Hang on, I'm still typing"
+
+foo.'bar'
+# ^^^^^^^ - invalid
+
+foo.bar(baz., True)
+#       ^^^^^ - invalid
 
 ##################
 # Variable annotations

@@ -586,7 +586,7 @@ contexts:
         - match: (?=\S)
           pop: true
     - include: comments
-    - match: \b(array|callable|int|string|bool|float)\b
+    - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     # Class name type hint
     - match: '{{identifier}}'
@@ -643,7 +643,7 @@ contexts:
       scope: punctuation.separator.php
     - match: '\?'
       scope: storage.type.nullable.php
-    - match: \b(array|bool|int|float|string)\b
+    - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     - include: class-builtin
     - include: identifier-parts-as-path
@@ -685,19 +685,19 @@ contexts:
     # /**#@+ (which is used for docblock templates). Otherwise block-level
     # comment would be highlighted as invalid for constructs such as /**** ****/
     - match: /\*\*(?:#@\+)?\s*$
-      scope: punctuation.definition.comment.php
+      scope: punctuation.definition.comment.begin.php
       push:
         - meta_scope: comment.block.documentation.phpdoc.php
         - match: \*/
-          scope: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.end.php
           pop: true
         - include: php_doc
     - match: /\*
-      scope: punctuation.definition.comment.php
+      scope: punctuation.definition.comment.begin.php
       push:
         - meta_scope: comment.block.php
         - match: \*/
-          scope: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.end.php
           pop: true
     - match: //
       scope: punctuation.definition.comment.php
@@ -1106,11 +1106,11 @@ contexts:
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
     # of marking the comment as invalid, we just switch to a normal block-level
     # comment.
-    - match: ^(?!\s*\*).*$\n?
+    - match: ^(?!\s*\*)
       set:
         - meta_scope: comment.block.php
         - match: \*/
-          scope: punctuation.definition.comment.php
+          scope: punctuation.definition.comment.end.php
           pop: true
     - match: ^\s*\*\s*(@access)\s+((public|private|protected)|(.+))\s*$
       captures:

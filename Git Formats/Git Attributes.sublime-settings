@@ -1,0 +1,14 @@
+{
+    "auto_complete_selector": "text.git - comment - string.quoted",
+    "auto_complete_triggers": [
+        {
+            "selector": "meta.attributes-list.git.attributes - meta.attribute - punctuation.separator",
+            "characters": " -!"
+        },
+        {
+            "selector": "meta.attribute.builtin & meta.mapping.expect-value.git.attributes",
+            "characters": "-=,"
+        }
+    ],
+    "word_separators": "./\\()\"':,.;<>~!@#$%^&*|+=[]{}`~?" // default without '-'
+}

@@ -1074,3 +1074,20 @@ let _: Box<[[bool; (FOO + 1) / 2]; FOO * 3 % 12 - 1]>;
 //                                                 ^ punctuation.section.group.end
 //                                                  ^ punctuation.definition.generic.end
 //                                                   ^ punctuation.terminator
+
+let x = 5;
+let raw = &x as *const i32;
+//              ^^^^^^ storage.type
+
+let mut y = 10;
+let raw_mut = &mut y as *mut i32;
+//                      ^^^^ storage.modifier
+
+let i: u32 = 1;
+let p_imm: *const u32 = &i as *const u32;
+//         ^^^^^^ storage.type
+//                            ^^^^^^ storage.type
+
+type ExampleRawPointer = HashMap<*const i32, Option<i32>, BuildHasherDefault<FnvHasher>>;
+//                               ^^^^^^ storage.modifier - invalid
+//                                      ^^^ storage.type

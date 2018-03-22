@@ -621,6 +621,13 @@ contexts:
               pop: true
         - match: (?=\S) # safety pop
           pop: true
+    # Operator overloading
+    - match: '({{operator_method_name}})\s*(\()'
+      captures:
+        0: meta.method-call.c++
+        1: variable.function.member.c++
+        2: meta.group.c++ punctuation.section.group.begin.c++
+      set: members-inside-function-call
     # Non-templated member function call
     - match: (~?{{identifier}})\s*(\()
       captures:
