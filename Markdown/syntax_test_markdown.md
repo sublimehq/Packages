@@ -1562,7 +1562,7 @@ paragraph
 |^^^^^^^^^^^^^^^ meta.paragraph.list
 |   ^^^ punctuation.definition.raw.code-fence.begin
 |      ^^^^^^^^ constant.other.language-name
-|   ^^^^^^^^^^^ markup.raw.code-fence
+|   ^^^^^^^^^^^ meta.code-fence
     
 |^^^^ meta.paragraph.list markup.raw.code-fence
     ```
@@ -1771,7 +1771,7 @@ okay
 1. Test
 
    ```python
-|  ^^^ markup.list.numbered markup.raw.code-fence punctuation.definition.raw.code-fence.begin
+|  ^^^ markup.list.numbered meta.code-fence punctuation.definition.raw.code-fence.begin
        Test
 
 | <- - invalid
@@ -1783,7 +1783,7 @@ okay
 |^ markup.list.numbered.bullet punctuation.definition.list_item
 
 ```xml
-|^^^^^ markup.raw.code-fence.xml
+|^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
 <?xml version="1.0" ?>
 |^^^^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.xml
@@ -1795,18 +1795,18 @@ okay
 |^^ punctuation.definition.raw.code-fence.end
 
 ```sql
-|^^^^^ markup.raw.code-fence.sql
+|^^^^^ meta.code-fence.definition.begin.sql
 |  ^^^ constant.other.language-name
 SELECT TOP 10 *
 |^^^^^^^^^^^^^^^ markup.raw.code-fence.sql
 |^^^^^^^^^ keyword.other.DML.sql
 FROM TableName
 ```
-|^^ markup.raw.code-fence.sql punctuation.definition.raw.code-fence.end
+|^^ meta.code-fence.definition.end.sql punctuation.definition.raw.code-fence.end - markup
 
 ```python
 |^^ punctuation.definition.raw.code-fence.begin
-|^^^^^^^^ markup.raw.code-fence.python
+|^^^^^^^^^ meta.code-fence.definition.begin.python - markup
 |  ^^^^^^ constant.other.language-name
 def function():
     pass
@@ -1814,7 +1814,7 @@ def function():
 unclosed_paren = (
 |                ^ meta.group.python punctuation.section.group.begin.python
 ```
-|^^ markup.raw.code-fence.python punctuation.definition.raw.code-fence.end
+|^^ meta.code-fence.definition.end.python punctuation.definition.raw.code-fence.end
 
 ```Graphviz
 graph n {}
@@ -1837,3 +1837,10 @@ var_dump(expression);
 | ^^^^^^ support.function.var.php
 ```
 |^^ punctuation.definition.raw.code-fence.end.markdown
+
+```regex
+(?x)
+\s+
+```
+|^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
+|^^ punctuation.definition.raw.code-fence.end
