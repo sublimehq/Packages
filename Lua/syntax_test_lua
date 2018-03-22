@@ -1,0 +1,14 @@
+-- SYNTAX TEST "Lua.sublime-syntax"
+
+local func = function(arg1, arg2)
+-- ^ source.lua
+        -- ^ source.lua
+             -- ^ source.lua meta.function.lua
+                  -- ^ source.lua meta.function.lua punctuation.definition.parameters.begin.lua
+                    -- ^ source.lua meta.function.lua variable.parameter.function.lua
+                             -- ^ source.lua meta.function.lua punctuation.definition.parameters.end.lua
+    return arg1
+    -- ^ source.lua
+            -- ^ source.lua
+end
+-- ^ source.lua
