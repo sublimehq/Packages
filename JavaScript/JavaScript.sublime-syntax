@@ -106,14 +106,14 @@ contexts:
   import-export:
     - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
-      push:
+      set:
         - import-meta
         - expect-semicolon
         - import-string-or-items
 
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
-      push:
+      set:
         - export-meta
         - export-extended
 
@@ -245,9 +245,6 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.js
       pop: true
 
-    - match: \;
-      scope: punctuation.terminator.statement.js
-
     - match: (?=\S)
       push: statement
 
@@ -285,7 +282,7 @@ contexts:
 
   expect-semicolon:
     - match: \;
-      scope: punctuation.terminator.statement.empty.js
+      scope: punctuation.terminator.statement.js
       pop: true
     - include: else-pop
 

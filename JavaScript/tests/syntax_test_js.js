@@ -10,7 +10,7 @@ import {identifier, otherIdentifier} from "somewhere";
 //       ^ meta.import meta.block variable.other.readwrite
 
 import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import
 // ^ keyword.control.import-export
 //      ^ variable.other.readwrite
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
@@ -20,8 +20,8 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 //                                             ^ constant.other.js
 //                                                             ^ keyword.control.import-export
 
-import 'module'
-// ^^^^^^^^^^^^ meta.import
+import 'module';
+// ^^^^^^^^^^^^^ meta.import
 
 export { name1, name2 as name3 };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -31,18 +31,18 @@ export { name1, name2 as name3 };
 //                    ^^ keyword.control.import-export
 
 export let name1, name2;
-//^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^ storage.type
 //              ^ punctuation.separator.comma
 
 export var name3;
-//^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^ storage.type
 
 export const name1 = 5;
-//^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^ storage.type
 //                 ^ keyword.operator.assignment
@@ -51,62 +51,48 @@ export let foo = 123 // No semicolon
 export function bar() {}
 // <- keyword.control.import-export
 
-export function foo() {}
+export function foo() {};
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^  meta.function.declaration
+//                      ^ punctuation.terminator.statement.empty
 
-[];
-// <- meta.sequence
-
-export function* foo() {}
-//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export function* foo() {};
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^  meta.function.declaration
+//                       ^ punctuation.terminator.statement.empty
 
-[];
-// <- meta.sequence
-
-export async function foo() {}
-//^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export async function foo() {};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//                            ^ punctuation.terminator.statement.empty
 
-[];
-// <- meta.sequence
-
-export class Foo {}
+export class Foo {};
 //^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^^^^^^ meta.class
-
-[];
-// <- meta.sequence
+//                 ^ punctuation.terminator.statement.empty
 
 export default expression;
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
 
-export default function (a) { }
+export default function (a) { };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^ keyword.control.import-export
 //             ^^^^^^^^^^^^ meta.function.declaration.js
-//                             ^ - meta.export
+//                             ^ punctuation.terminator.statement.empty - meta.export
 
-[];
-// <- meta.sequence
-
-export default function* (a) { }
+export default function* (a) { };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^ keyword.control.import-export
 //             ^^^^^^^^^^^^^ meta.function.declaration.js
-//                              ^ - meta.export
-
-[];
-// <- meta.sequence
+//                              ^ punctuation.terminator.statement.empty - meta.export
 
 export default function name1(b) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
@@ -115,46 +101,40 @@ export default function name1(b) { }
 //             ^ storage.type
 //                      ^ entity.name.function
 
-export default class Foo {}
+export default class Foo {};
 //^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^ keyword.control.import-export
 //             ^^^^^^^^^^^^ meta.class
+//                         ^ punctuation.terminator.statement.empty
 
-[];
-// <- meta.sequence
-
-export default +function (a) { }
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+export default +function (a) { };
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^^^^ keyword.control.import-export
 //     ^^^^^^^ keyword.control.import-export
 //              ^^^^^^^^^^^^ meta.function.declaration.js
 
-[];
-// <- meta.export
-// <- meta.brackets
-
 export { name1 as default };
-//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^ meta.block
 //             ^ keyword.control.import-export
 //                ^ keyword.control.import-export
 
 export * from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ constant.other
 //       ^ keyword.control.import-export
 
 export { name1, name2 } from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^ meta.block
 //                      ^ keyword.control.import-export
 
 export { import1 as name1, import2 as name2, nameN } from "./othermod";
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block
 //               ^ keyword.control.import-export
@@ -163,23 +143,23 @@ export { import1 as name1, import2 as name2, nameN } from "./othermod";
 
 import * as
     alias from "module";
-// ^^^^^^^^^^^^^^^^^^^^ meta.import.js
+// ^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 
 import { member as
     alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+// ^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 
 import { * as
     alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
+// ^^^^^^^^^^^^^^^^^^^^^^^ meta.import.js
 
 export { member as
     alias } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
+// ^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
 
 export { member as
     default } from "module";
-// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
+// ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export.js
 
 let from;
 //  ^^^^ variable.other.readwrite.js
