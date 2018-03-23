@@ -34,7 +34,7 @@ variables:
               ((\().+?(\)))       # Match title in parens…
             | ((")[^"]+("))       # or in double quotes…
             | ((')[^']+('))       # or in single quotes.
-          )?                      # Title is optional
+          )
         )
     escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
@@ -61,7 +61,7 @@ variables:
           ([ ])?                        # Space not allowed, but we check for it anyway to mark it as invalid
           (\()                          # Opening paren for url
               (<?)(\S+?)(>?)            # The url
-              {{link_title}}            # Optional title
+              {{link_title}}?           # Optional title
               \s*                       # Optional whitespace
           (\))
         )
@@ -565,24 +565,50 @@ contexts:
       scope: meta.image.inline.markdown punctuation.definition.image.end.markdown
       pop: true
   image-inline-after-text:
-    - match: '{{url_and_title}}'
+    - match: '([ ]*)(\()' # spaces not allowed before the open paren, but we check for it anyway to mark it as invalid
       captures:
         1: invalid.illegal.whitespace.markdown
         2: punctuation.definition.metadata.begin.markdown
-        3: punctuation.definition.link.begin.markdown
-        4: markup.underline.link.image.markdown
-        5: punctuation.definition.link.end.markdown
-        6: string.other.link.description.title.markdown
-        7: punctuation.definition.string.begin.markdown
-        8: punctuation.definition.string.end.markdown
-        9: string.other.link.description.title.markdown
-        10: punctuation.definition.string.begin.markdown
-        11: punctuation.definition.string.end.markdown
-        12: string.other.link.description.title.markdown
-        13: punctuation.definition.string.begin.markdown
-        14: punctuation.definition.string.end.markdown
-        15: punctuation.definition.metadata.end.markdown
-      scope: meta.image.inline.markdown
+      set:
+        - meta_scope: meta.image.inline.markdown
+        - match: \)
+          scope: punctuation.definition.metadata.end.markdown
+          pop: true
+        - match: <(?=[^>)]*>)
+          scope: punctuation.definition.link.begin.markdown
+          push:
+            - meta_content_scope: markup.underline.link.image.markdown
+            - match: \>
+              scope: punctuation.definition.link.end.markdown
+              set: image-title
+            - match: \s+
+              scope: invalid.illegal.unexpected-whitespace.markdown
+        - match: (?=\S)
+          set:
+            - meta_scope: meta.image.inline.markdown
+            - match: '[^\s)]+'
+              scope: markup.underline.link.image.markdown
+            - match: \)
+              scope: punctuation.definition.metadata.end.markdown
+              pop: true
+            - match: (?!\n)\s+(?!\s*(?:\)|$)|{{link_title}})
+              scope: invalid.illegal.unexpected-whitespace.markdown
+            - match: (?=\s*(?!\)))
+              push: image-title
+  image-title:
+    - match: '{{link_title}}'
+      captures:
+        1: string.other.link.description.title.markdown
+        2: punctuation.definition.string.begin.markdown
+        3: punctuation.definition.string.end.markdown
+        4: string.other.link.description.title.markdown
+        5: punctuation.definition.string.begin.markdown
+        6: punctuation.definition.string.end.markdown
+        7: string.other.link.description.title.markdown
+        8: punctuation.definition.string.begin.markdown
+        9: punctuation.definition.string.end.markdown
+      pop: true
+    - match: (?=\S|$)
       pop: true
   image-ref:
     - match: |-
