@@ -154,9 +154,26 @@ Here is a ![Image Ref Alt][1].
 |                           ^ punctuation.definition.constant
 
 now you can access the [The Ever Cool Site: Documentation about Sites](
-  www.thecoolsite.com.ca/documentations/about/cool) for more information about...
+  www.thecoolsite.com.ca/documentations/about/cool ) for more information about...
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline markup.underline.link
-|                                                 ^ meta.link.inline punctuation.definition.metadata.end
+|                                                 ^ - invalid
+|                                                  ^ meta.link.inline punctuation.definition.metadata.end
+
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca /documentations/about/cool ) for more information about...
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inline
+| ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                       ^ invalid.illegal.unexpected-whitespace
+|                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                  ^ - invalid
+|                                                   ^ punctuation.definition.metadata.end
+
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca/documentations/about/cool
+  (title)) for more information about...
+| ^^^^^^^^ meta.paragraph meta.link.inline
+|        ^ punctuation.definition.metadata.end
+| ^^^^^^^ string.other.link.description.title.markdown
 
   1. Ordered list item
 | ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered

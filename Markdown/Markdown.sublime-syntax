@@ -28,14 +28,6 @@ variables:
     atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
-    link_title: |-
-        (?x:[ \t]*                # Optional whitespace
-          (?:
-              ((\().+?(\)))       # Match title in parens…
-            | ((")[^"]+("))       # or in double quotes…
-            | ((')[^']+('))       # or in single quotes.
-          )
-        )
     escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
         (?x:
@@ -55,15 +47,6 @@ variables:
                 {{backticks}}?          #  balanced backticks
               )*\]                      #  closing square bracket
           )+                            # at least one character
-        )
-    url_and_title: |-
-        (?x:
-          ([ ])?                        # Space not allowed, but we check for it anyway to mark it as invalid
-          (\()                          # Opening paren for url
-              (<?)(\S+?)(>?)            # The url
-              {{link_title}}?           # Optional title
-              \s*                       # Optional whitespace
-          (\))
         )
     html_entity: '&([a-zA-Z0-9]+|#\d+|#x\h+);'
     skip_html_tags: (?:<[^>]+>)
@@ -593,7 +576,7 @@ contexts:
             - match: \)
               scope: punctuation.definition.metadata.end.markdown
               pop: true
-            - match: (?!\n)\s+(?!\s*(?:\)|$)|{{link_title}})
+            - match: (?!\n)\s+(?!\s*(?:[)('"]|$))
               scope: invalid.illegal.unexpected-whitespace.markdown
             - match: (?=\s*(?!\)))
               push: link-title
@@ -780,7 +763,7 @@ contexts:
             - match: \)
               scope: punctuation.definition.metadata.end.markdown
               pop: true
-            - match: (?!\n)\s+(?!\s*(?:\)|$)|{{link_title}})
+            - match: (?!\n)\s+(?!\s*(?:[)('"]|$))
               scope: invalid.illegal.unexpected-whitespace.markdown
             - match: (?=\s*(?!\)))
               push: link-title
