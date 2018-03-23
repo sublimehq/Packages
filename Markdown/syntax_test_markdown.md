@@ -153,6 +153,10 @@ Here is a ![Image Ref Alt][1].
 |                          ^ constant.other.reference.link
 |                           ^ punctuation.definition.constant
 
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca/documentations/about/cool) for more information about...
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline markup.underline.link
+|                                                 ^ meta.link.inline punctuation.definition.metadata.end
 
   1. Ordered list item
 | ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
