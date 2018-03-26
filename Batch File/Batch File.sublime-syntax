@@ -61,7 +61,7 @@ contexts:
         pop: true
       - include: escaped_characters
       - include: variables
-      - match: '(")\s*([^ ][^=]*)(=)"?'
+      - match: (")\s*([^ ][^=]*)(=)
         captures:
           1: punctuation.definition.string.begin.dosbatch
           2: variable.other.readwrite.dosbatch
@@ -75,13 +75,13 @@ contexts:
           - include: variables
           - include: numbers
           - include: parens
-      - match: '([^ ][^=]*)(=)'
+      - match: ([^ ][^=]*)(=)
         captures:
           1: variable.other.readwrite.dosbatch
           2: keyword.operator.assignment.dosbatch
         push:
           - meta_content_scope: string.unquoted.dosbatch
-          - match: '(?=$\n|{{command_terminators}})'
+          - match: (?=$\n|{{command_terminators}})
             pop: true
           - include: variables
           - match: '"'
@@ -118,19 +118,27 @@ contexts:
           - include: command_set_group
       - match: '\s+/[pP]\s+' # SET from standard input
         push:
-          - match: '(?=$\n|{{command_terminators}})'
+          - match: (?=$\n|{{command_terminators}})
             pop: true
-          - match: '([^ ][^=]*)(=)'
+          - match: ([^ ][^=]*)(=)
             captures:
               1: variable.other.readwrite.dosbatch
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - meta_content_scope: string.unquoted.dosbatch
-              - match: '(?=$\n|{{command_terminators}})'
+              - match: (?=$\n|{{command_terminators}})
                 pop: true
-              - include: strings
-              - include: variables
+              - match: (?=")
+                push:
+                  - include: strings
+                  - match: ''
+                    pop: true
+              - match: ''
+                push:
+                  - meta_content_scope: string.unquoted.dosbatch
+                  - match: (?=$\n|{{command_terminators}})
+                    pop: true
+                  - include: variables
 
   command_set_group:
     - match: '\('

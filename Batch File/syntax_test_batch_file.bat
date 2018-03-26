@@ -492,10 +492,25 @@ SETLOCAL EnableDelayedExpansion
 ::       ^^^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.string.begin.dosbatch
-::               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string
+::               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted
 ::                                       ^ punctuation.definition.string.end.dosbatch
 ::                                         ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
 ::                                           ^^^^ keyword.command.dosbatch
 ::                                                                   ^^^^^^^^^ variable.other.readwrite.dosbatch
 ENDLOCAL
 ::^^^^^^ keyword.command.dosbatch
+
+set "X="
+::  ^^^^ string.quoted.double
+::  ^ punctuation.definition.string.begin
+::   ^ variable.other.readwrite
+::    ^ keyword.operator.assignment
+::     ^ punctuation.definition.string.end
+::      ^ - string
+
+set /p OUTPUT="( ... )|&... "
+::            ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
+set /p OUTPUT=hi|echo
+::            ^^ meta.prompt.set string.unquoted
+::              ^ keyword.operator.pipe - meta.prompt
+::               ^^^^ keyword.command
