@@ -8,7 +8,7 @@ file_extensions:
 scope: source.dosbatch
 variables:
   colon_comment_start: '(?::[+=,;: ])'
-  command_terminators: '[&|><)]'
+  command_terminators: (?=$\n|[&|><)])
 
 contexts:
   main:
@@ -41,7 +41,7 @@ contexts:
     - match: \b(?i:echo)\b
       scope: keyword.command.dosbatch
       push:
-        - match: '(?=$\n|{{command_terminators}})'
+        - match: '{{command_terminators}}'
           pop: true
         - include: escaped_characters
         - include: variables
@@ -57,7 +57,7 @@ contexts:
       push: inside_command_set
 
   inside_command_set:
-      - match: '(?=$\n|{{command_terminators}})'
+      - match: '{{command_terminators}}'
         pop: true
       - include: escaped_characters
       - include: variables
@@ -68,7 +68,7 @@ contexts:
           3: keyword.operator.assignment.dosbatch
         push:
           - meta_scope: string.quoted.double.dosbatch
-          - match: '"(?=\s*[\n{{command_terminators}}])'
+          - match: '"(?=\s*(?:{{command_terminators}}))'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
           - include: escaped_characters
@@ -81,7 +81,7 @@ contexts:
           2: keyword.operator.assignment.dosbatch
         push:
           - meta_content_scope: string.unquoted.dosbatch
-          - match: (?=$\n|{{command_terminators}})
+          - match: '{{command_terminators}}'
             pop: true
           - include: variables
           - match: '"'
@@ -118,7 +118,7 @@ contexts:
           - include: command_set_group
       - match: '\s+/[pP]\s+' # SET from standard input
         push:
-          - match: (?=$\n|{{command_terminators}})
+          - match: '{{command_terminators}}'
             pop: true
           - match: ([^ ][^=]*)(=)
             captures:
@@ -126,7 +126,7 @@ contexts:
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - match: (?=$\n|{{command_terminators}})
+              - match: '{{command_terminators}}'
                 pop: true
               - match: (?=")
                 push:
@@ -136,7 +136,7 @@ contexts:
               - match: ''
                 push:
                   - meta_content_scope: string.unquoted.dosbatch
-                  - match: (?=$\n|{{command_terminators}})
+                  - match: '{{command_terminators}}'
                     pop: true
                   - include: variables
 
