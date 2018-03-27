@@ -328,12 +328,12 @@ $var->meth()[10];
 
 /**
  * @property-read Class: allows a class to know which ‘magic’ properties are present that are read-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
  * @property-write Class: allows a class to know which ‘magic’ properties are present that are write-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
