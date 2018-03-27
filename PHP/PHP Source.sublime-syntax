@@ -118,7 +118,16 @@ contexts:
         - match: (?=;|\)|\])
           pop: true
         - include: expressions
-    - match: \b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|yield|switch|use|while)\b
+    # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
+    - match: \byield\b
+      scope: keyword.control.php
+      push:
+        - match: \bfrom\b
+          scope: keyword.control.php
+          pop: true
+        - match: (?=\S)
+          pop: true
+    - match: \b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|switch|use|while)\b
       scope: keyword.control.php
     - match: \b(catch)\b\s*\(\s*
       captures:
