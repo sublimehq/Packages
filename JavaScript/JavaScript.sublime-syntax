@@ -55,7 +55,6 @@ contexts:
   main:
     - include: comments
     - include: comments-top-level
-    - include: keywords-top-level
     - include: statements
 
   prototype:
@@ -104,22 +103,19 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
 
-  keywords-top-level:
+  import-export:
     - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
-      push:
+      set:
         - import-meta
-        - import-export-final
-        - import-extended
+        - expect-semicolon
+        - import-string-or-items
 
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
-      push:
+      set:
         - export-meta
         - export-extended
-
-    - match: (?:export|default|from|as){{identifier_break}}
-      scope: keyword.control.import-export.js
 
   import-meta:
     - meta_scope: meta.import.js
@@ -138,18 +134,17 @@ contexts:
         - include: else-pop
     - include: else-pop
 
-  import-export-final:
+  import-export-from:
     - match: 'from{{identifier_break}}'
       scope: keyword.control.import-export.js
-    - match: (?=['"])
-      push: literal-string
+      set: literal-string
     - include: else-pop
 
-  import-extended:
-    - match: (?='|")
-      pop: true
+  import-string-or-items:
+    - include: literal-string
     - match: (?=\S)
       set:
+        - import-export-from
         - import-list
         - import-export-alias
         - import-item
@@ -193,31 +188,20 @@ contexts:
     - include: immediately-pop
 
   export-extended:
-    - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
-      set: expression-statement
-
-    - match: (?=class{{identifier_break}})
-      set: class
-
-    - match: (?={{func_lookahead}})
-      set: function-declaration
+    - include: variable-declaration
+    - include: function-or-class-declaration
 
     - match: 'default{{identifier_break}}'
       scope: keyword.control.import-export.js
       set:
-        - match: (?=class{{identifier_break}})
-          set: class
-
-        - match: (?={{func_lookahead}})
-          set: function-declaration
-
+        - include: function-or-class-declaration
         - match: (?=\S)
           set: expression-statement
 
     - match: (?=\S)
       set:
-        - import-export-final
+        - expect-semicolon
+        - import-export-from
         - export-list
         - import-export-alias
         - export-item
@@ -233,8 +217,7 @@ contexts:
   export-item:
     - match: '\{'
       scope: punctuation.section.block.js
-      set:
-        - export-brace
+      set: export-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       pop: true
@@ -262,10 +245,48 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.js
       pop: true
 
+    - match: (?=\S)
+      push: statement
+
+  statement:
+    - match: \;
+      scope: punctuation.terminator.statement.empty.js
+      pop: true
+
+    - include: import-export
+    - include: conditional
+    - include: block
+    - include: label
+    - include: variable-declaration
+
+    - match: throw{{identifier_break}}
+      scope: keyword.control.trycatch.js
+      set: restricted-production
+
+    - match: (?:break|continue|goto){{identifier_break}}
+      scope: keyword.control.loop.js
+      set: expect-semicolon
+
+    - match: return{{identifier_break}}
+      scope: keyword.control.flow.js
+      set: restricted-production
+
+    - match: debugger{{identifier_break}}
+      scope: keyword.other.debugger.js
+      set: expect-semicolon
+
+    - include: function-or-class-declaration
+
+    - match: (?=\S)
+      set: expression-statement
+
+  expect-semicolon:
     - match: \;
       scope: punctuation.terminator.statement.js
+      pop: true
+    - include: else-pop
 
-    - include: conditional
+  block:
     - match: '\{'
       scope: punctuation.section.block.js
       push:
@@ -274,28 +295,6 @@ contexts:
           scope: punctuation.section.block.js
           pop: true
         - include: statements
-    - include: label
-
-    - include: variable-declaration
-
-    - match: throw{{identifier_break}}
-      scope: keyword.control.trycatch.js
-      push: restricted-production
-
-    - match: (?:break|continue|goto){{identifier_break}}
-      scope: keyword.control.loop.js
-
-    - match: return{{identifier_break}}
-      scope: keyword.control.flow.js
-      push: restricted-production
-
-    - match: debugger{{identifier_break}}
-      scope: keyword.other.debugger.js
-
-    - include: function-or-class-declaration
-
-    - match: (?=\S)
-      push: expression-statement
 
   variable-binding-pattern:
     - include: variable-binding-name
@@ -384,7 +383,8 @@ contexts:
   variable-declaration:
     - match: (?:const|let|var){{identifier_break}}
       scope: storage.type.js
-      push:
+      set:
+        - expect-semicolon
         - variable-binding-list-top
         - variable-binding-top
 
@@ -455,10 +455,10 @@ contexts:
 
   function-or-class-declaration:
     - match: (?=class{{identifier_break}})
-      push: class
+      set: class
 
     - match: (?={{func_lookahead}})
-      push: function-declaration
+      set: function-declaration
 
   initializer:
     - match: '='
@@ -472,14 +472,16 @@ contexts:
       scope: keyword.operator.assignment.js
       set:
         - meta_content_scope: meta.function.declaration.js
-        - match: (?=\S)
-          set: expression-no-comma
+        - include: expression-no-comma
 
     - include: else-pop
 
   expression-statement:
     - match: (?=\S)
-      set: [ expression-statement-end, expression-begin ]
+      set:
+        - expect-semicolon
+        - expression-statement-end
+        - expression-begin
 
   expression-statement-end:
     - match: \n
@@ -504,108 +506,80 @@ contexts:
   conditional:
     - match: switch{{identifier_break}}
       scope: keyword.control.switch.js
-      push:
-        - meta_scope: meta.switch.js
-        - match: (?=\()
-          push: parenthesized-expression
-        - match: '\}'
-          scope: meta.block.js punctuation.section.block.js
-          pop: true
-        - match: '\{'
-          scope: punctuation.section.block.js
-          push:
-            - meta_scope: meta.block.js
-
-            - match: '(?=\})'
-              pop: true
-
-            - match: case{{identifier_break}}
-              scope: keyword.control.switch.js
-              push:
-                - expect-case-colon
-                - expression
-
-            - match: default{{identifier_break}}
-              scope: keyword.control.switch.js
-              push:
-                - expect-case-colon
-
-            - include: statements
+      set:
+        - - meta_scope: meta.switch.js
+          - include: immediately-pop
+        - switch-block
+        - parenthesized-expression
 
     - match: do{{identifier_break}}
       scope: keyword.control.loop.js
-      push:
-        - meta_scope: meta.do-while.js
-        - match: '\{'
-          scope: punctuation.section.block.js
-          push:
-            - meta_scope: meta.block.js
-            - match: '\}'
-              scope: punctuation.section.block.js
-              pop: true
-            - include: statements
-        - match: while{{identifier_break}}
-          scope: keyword.control.loop.js
-        - match: '\('
-          scope: punctuation.section.group.js
-          push:
-            - meta_scope: meta.group.js
-            - match: '(?=\))'
-              pop: true
-            - match: (?=\S)
-              push: expression
-        - match: '\)'
-          scope: meta.group.js punctuation.section.group.js
-          pop: true
+      set:
+        - - meta_scope: meta.do-while.js
+          - include: immediately-pop
+        - do-while-condition
+        - block-scope
 
     - match: for{{identifier_break}}
       scope: keyword.control.loop.js
-      push:
+      set:
         - for-meta
-        - parens-block-scope
+        - block-scope
+        - for-condition
         - for-await
 
     - match: while{{identifier_break}}
       scope: keyword.control.loop.js
-      push:
-        - meta_scope: meta.while.js
-        - include: parens-block-scope
+      set:
+        - - meta_scope: meta.while.js
+          - include: immediately-pop
+        - block-scope
+        - parenthesized-expression
 
     - match: with{{identifier_break}}
       scope: keyword.control.with.js
-      push:
-        - meta_scope: meta.with.js
-        - include: parens-block-scope
+      set:
+        - - meta_scope: meta.with.js
+          - include: immediately-pop
+        - block-scope
+        - parenthesized-expression
 
     - match: (?:else\s+if|if){{identifier_break}}
       scope: keyword.control.conditional.js
-      push:
-        - meta_scope: meta.conditional.js
-        - include: parens-block-scope
+      set:
+        - - meta_scope: meta.conditional.js
+          - include: immediately-pop
+        - block-scope
+        - parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.js
-      push:
-        - meta_scope: meta.conditional.js
-        - include: block-scope
+      set:
+        - - meta_scope: meta.conditional.js
+          - include: immediately-pop
+        - block-scope
 
     - match: try{{identifier_break}}
       scope: keyword.control.trycatch.js
-      push:
-        - meta_scope: meta.try.js
-        - include: block-scope
+      set:
+        - - meta_scope: meta.try.js
+          - include: immediately-pop
+        - block-scope
 
     - match: finally{{identifier_break}}
       scope: keyword.control.trycatch.js
-      push:
-        - meta_scope: meta.finally.js
-        - include: block-scope
+      set:
+        - - meta_scope: meta.finally.js
+          - include: immediately-pop
+        - block-scope
 
     - match: catch{{identifier_break}}
       scope: keyword.control.trycatch.js
-      push:
-        - meta_scope: meta.catch.js
-        - include: parens-block-scope
+      set:
+        - - meta_scope: meta.catch.js
+          - include: immediately-pop
+        - block-scope
+        - parenthesized-expression
 
   for-meta:
     - meta_scope: meta.for.js
@@ -617,39 +591,83 @@ contexts:
       pop: true
     - include: else-pop
 
-  parens-block-scope:
+  for-condition:
     - match: '\('
       scope: punctuation.section.group.js
-      push:
-        - meta_scope: meta.group.js
-        - match: '\)'
-          scope: punctuation.section.group.js
-          pop: true
+      set:
+        - for-condition-end
+        - for-condition-contents
+    - include: else-pop
 
-        - match: ;
-          scope: punctuation.terminator.statement.js
+  for-condition-end:
+    - meta_scope: meta.group.js
 
-        - include: variable-declaration
+    - match: '\)'
+      scope: punctuation.section.group.js
+      pop: true
 
-        - include: expression-list
-    - include: block-scope
+  for-condition-contents:
+    # This could be either type of for loop.
+    - match: (?:const|let|var){{identifier_break}}
+      scope: storage.type.js
+      set:
+        - - match: (?:of|in){{identifier_break}}
+            scope: keyword.operator.word.js
+            set: expression
+          - match: (?=\S)
+            set:
+              - statements-in-parens
+              - variable-binding-list
+              - initializer
+        - variable-binding-pattern
+
+    - match: (?=\S)
+      set: statements-in-parens
+
+  statements-in-parens:
+    - match: (?=\))
+      pop: true
+    - include: statements
 
   block-scope:
-    - match: '\}'
-      scope: meta.block.js punctuation.section.block.js
-      pop: true
-    - match: '\{'
-      scope: punctuation.section.block.js
-      push:
-        - meta_scope: meta.block.js
-        - match: (?=})
-          pop: true
-        - include: statements
+    - include: block
     - include: else-pop
 
   block-meta:
     - meta_scope: meta.block.js
     - include: immediately-pop
+
+  switch-block:
+    - match: '\{'
+      scope: punctuation.section.block.js
+      set: switch-block-contents
+    - include: else-pop
+
+  switch-block-contents:
+    - meta_scope: meta.block.js
+
+    - match: '\}'
+      scope: punctuation.section.block.js
+      pop: true
+
+    - match: case{{identifier_break}}
+      scope: keyword.control.switch.js
+      push:
+        - expect-case-colon
+        - expression
+
+    - match: default{{identifier_break}}
+      scope: keyword.control.switch.js
+      push:
+        - expect-case-colon
+
+    - include: statements
+
+  do-while-condition:
+    - match: while{{identifier_break}}
+      scope: keyword.control.loop.js
+      set: parenthesized-expression
+    - include: else-pop
 
   expression-break:
     - match: (?=[;})\]])
@@ -894,7 +912,7 @@ contexts:
     - match: instanceof{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
-    - match: (?:in|of){{identifier_break}}
+    - match: in{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
     - match: '&&|\|\|'
