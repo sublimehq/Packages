@@ -387,6 +387,151 @@ $var->meth()[10];
  */
 
 /**
+ * @after
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @afterClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupGlobals
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupStaticAttributes
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @before
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @beforeClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @codeCoverageIgnore*
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @covers
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversDefaultClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversNothing
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @dataProvider
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @depends
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @doesNotPerformAssertions
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedException
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionCode
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessage
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessageRegExp
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @group
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @large
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @medium
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @preserveGlobalState
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @requires
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runTestsInSeparateProcesses
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runInSeparateProcess
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @small
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @test
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testdox
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testWith
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @ticket
+//  ^ keyword.other.phpunit
+ */
+
+/**
  * PHP comment from issue #1378
  *
  * @see
