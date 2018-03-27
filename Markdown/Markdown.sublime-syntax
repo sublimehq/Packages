@@ -837,7 +837,7 @@ contexts:
         2: meta.link.reference.literal.footnote-id.markdown
         3: punctuation.definition.link.end.markdown
   list-paragraph:
-    - match: '^(?=\s+(?![>+*\s-]))(?={{indented_code_block}})'
+    - match: '^(?=(?:[ ]{4}|\t){2,}(?![>+*\s-]))(?={{indented_code_block}})'
       push:
         - include: indented-code-block
         - match: $

@@ -1576,6 +1576,16 @@ paragraph
 Normal paragraph
 | <- meta.paragraph - markup
 
+1. List
+    1. Nested list
+    2. Second item
+
+    This line is still list item 1
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered - markup.raw.block
+
+Test
+| <- meta.paragraph - markup.list
+
 http://spec.commonmark.org/0.28/#example-116
 
 <table><tr><td>
