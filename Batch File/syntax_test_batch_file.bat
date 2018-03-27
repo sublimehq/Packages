@@ -514,3 +514,17 @@ set /p OUTPUT=hi|echo
 ::            ^^ meta.prompt.set string.unquoted
 ::              ^ keyword.operator.pipe - meta.prompt
 ::               ^^^^ keyword.command
+set /p OUTPUT="( ... )|&... "ignored & echo
+::            ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
+::                           ^^^^^^^ meta.prompt.set comment.line.ignored
+::                                   ^ keyword.operator.conditional - comment
+::                                     ^^^^ keyword.command
+set /p today="enter a date: " REM :: this is a comment & echo !today!
+:: ^^^^ - variable.other.readwrite.dosbatch
+::     ^^^^^ variable.other.readwrite.dosbatch
+::          ^ keyword.operator.assignment.dosbatch - variable.other.readwrite.dosbatch
+::           ^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted - variable.other.readwrite.dosbatch - comment
+::                            ^^^^^^^^^^^^^^^^^^^^^^^^ comment
+::                                                     ^ keyword.operator.conditional - comment - meta.prompt
+::                                                       ^^^^ keyword.command
+::                                                            ^^^^^^^ variable.other.readwrite

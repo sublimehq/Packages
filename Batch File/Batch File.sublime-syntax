@@ -131,8 +131,10 @@ contexts:
               - match: (?=")
                 push:
                   - include: strings
-                  - match: ''
+                  - match: '{{command_terminators}}'
                     pop: true
+                  - match: .
+                    scope: comment.line.ignored.dosbatch
               - match: ''
                 push:
                   - meta_content_scope: string.unquoted.dosbatch
