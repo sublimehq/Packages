@@ -687,22 +687,25 @@ contexts:
     - match: (?=\S)
       push: expression-no-comma
 
-  expression-end:
+  left-expression-end:
     - include: expression-break
 
-    - include: postfix-operators
-    - include: binary-operators
-    - include: ternary-operator
-
     - include: property-access
+    - include: literal-string-template
 
     - match: (?=\()
       push: function-call-arguments
-    - include: literal-string-template
 
     - include: fallthrough
 
     - include: else-pop
+
+  expression-end:
+    - include: postfix-operators
+    - include: binary-operators
+    - include: ternary-operator
+
+    - include: left-expression-end
 
   expression-end-no-comma:
     - match: (?=,)
@@ -1068,18 +1071,13 @@ contexts:
       pop: true
 
   inherited-class-expression-end:
-    - include: expression-break
-
     - match: \.
       scope: punctuation.accessor.js
       push:
         - include: inherited-class-name
         - include: object-property
 
-    - include: property-access
-    - include: function-call
-    - include: fallthrough
-    - include: else-pop
+    - include: left-expression-end
 
   inherited-class-expression-begin:
     - include: inherited-class-name
