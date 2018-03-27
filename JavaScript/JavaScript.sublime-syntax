@@ -20,7 +20,7 @@ variables:
   arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
-  accessor_expression: ({{identifier}}\s*\.\s*)+({{identifier}})
+  left_expression_end_lookahead: '(?!\s*[.\[\(])'
 
   property_name: >-
     (?x)(?:
@@ -1058,16 +1058,32 @@ contexts:
     - match: extends{{identifier_break}}
       scope: storage.modifier.extends.js
       set:
-        - match: (?={{accessor_expression}}\s*\{)
-          push:
-            - expect-dot-accessor
-            - literal-variable
-        - match: '{{identifier}}(?=\s*\{)'
-          scope: entity.other.inherited-class.js
-          pop: true
-        - match: (?=\S)
-          set: expression
+        - inherited-class-expression-end
+        - inherited-class-expression-begin
     - include: else-pop
+
+  inherited-class-name:
+    - match: '{{identifier}}{{left_expression_end_lookahead}}'
+      scope: entity.other.inherited-class.js
+      pop: true
+
+  inherited-class-expression-end:
+    - include: expression-break
+
+    - match: \.
+      scope: punctuation.accessor.js
+      push:
+        - include: inherited-class-name
+        - include: object-property
+
+    - include: property-access
+    - include: function-call
+    - include: fallthrough
+    - include: else-pop
+
+  inherited-class-expression-begin:
+    - include: inherited-class-name
+    - include: expression-begin
 
   class-name:
     - match: '{{identifier}}'
@@ -1575,21 +1591,7 @@ contexts:
 
     - match: \.
       scope: punctuation.accessor.js
-      push:
-        - match: |-
-            (?x)(?=
-              {{identifier}}
-              \s* = \s*
-              {{either_func_lookahead}}
-            )
-          set:
-            - function-initializer
-            - function-declaration-final-identifier
-        - match: '(?={{identifier}}\s*\()'
-          set:
-            - include: method-call
-            - include: else-pop
-        - include: object-property
+      push: object-property
 
   literal-number:
     - match: '[+-]?0[0-9]+{{identifier_break}}'
@@ -1836,6 +1838,19 @@ contexts:
       pop: true
 
   object-property:
+    - match: |-
+        (?x)(?=
+          {{identifier}}
+          \s* = \s*
+          {{either_func_lookahead}}
+        )
+      set:
+        - function-initializer
+        - function-declaration-final-identifier
+    - match: '(?={{identifier}}\s*\()'
+      set:
+        - include: method-call
+        - include: else-pop
     - match: __proto__{{identifier_break}}
       scope: variable.language.proto.js
       pop: true
