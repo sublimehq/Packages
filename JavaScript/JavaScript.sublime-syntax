@@ -104,12 +104,19 @@ contexts:
       scope: punctuation.separator.comma.js
 
   import-export:
-    - match: import{{identifier_break}}
+    - match: import{{identifier_break}}(?!\s*\.)
       scope: keyword.control.import-export.js
       set:
-        - import-meta
-        - expect-semicolon
-        - import-string-or-items
+        - meta_scope: meta.import.js
+        - match: (?=\.) # Recovery for import.meta
+          set:
+            - expression-statement-end
+            - import-meta-expression-dot
+        - match: (?=\S)
+          set:
+            - import-meta
+            - expect-semicolon
+            - import-string-or-items
 
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
@@ -722,6 +729,7 @@ contexts:
     - include: prefix-operators
     - include: yield-expression
     - include: await-expression
+    - include: import-meta-expression
 
     - include: class
     - include: constants
@@ -1862,4 +1870,19 @@ contexts:
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
       pop: true
+    - include: else-pop
+
+  import-meta-expression:
+    - match: import{{identifier_break}}
+      scope: variable.language.import.js
+      set: import-meta-expression-dot
+
+  import-meta-expression-dot:
+    - match: \.
+      scope: punctuation.accessor.js
+      set:
+        - match: meta{{identifier_break}}
+          scope: variable.language.import.js
+          pop: true
+        - include: object-property
     - include: else-pop
