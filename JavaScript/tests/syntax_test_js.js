@@ -704,6 +704,7 @@ class MyClass extends TheirClass {
 // <- storage.type.class
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
+//                    ^^^^^^^^^^ entity.other.inherited-class
 //                               ^ meta.block
 
     x = 42;
@@ -865,7 +866,8 @@ class MyClass extends TheirClass {
 // <- meta.block
 
 class Foo extends React.Component {
-//                      ^ entity.other.inherited-class
+//                ^^^^^ - entity.other.inherited-class
+//                      ^^^^^^^^^ entity.other.inherited-class
     constructor()
     {}
 
@@ -876,6 +878,16 @@ class Foo extends React.Component {
         return this.a;
     }
 }
+
+class Foo extends (Foo).Bar {}
+//                      ^^^ entity.other.inherited-class
+
+class Foo extends Bar
+//                ^^^ entity.other.inherited-class
+    .baz {}
+//  ^^^^^^^ meta.class
+//  ^ punctuation.accessor
+//   ^^^ entity.other.inherited-class
 
 class Foo extends
 //        ^^^^^^^ storage.modifier.extends
