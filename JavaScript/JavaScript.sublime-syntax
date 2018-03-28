@@ -507,16 +507,14 @@ contexts:
     - match: switch{{identifier_break}}
       scope: keyword.control.switch.js
       set:
-        - - meta_scope: meta.switch.js
-          - include: immediately-pop
+        - switch-meta
         - switch-block
         - parenthesized-expression
 
     - match: do{{identifier_break}}
       scope: keyword.control.loop.js
       set:
-        - - meta_scope: meta.do-while.js
-          - include: immediately-pop
+        - do-while-meta
         - do-while-condition
         - block-scope
 
@@ -531,58 +529,83 @@ contexts:
     - match: while{{identifier_break}}
       scope: keyword.control.loop.js
       set:
-        - - meta_scope: meta.while.js
-          - include: immediately-pop
+        - while-meta
         - block-scope
         - parenthesized-expression
 
     - match: with{{identifier_break}}
       scope: keyword.control.with.js
       set:
-        - - meta_scope: meta.with.js
-          - include: immediately-pop
+        - with-meta
         - block-scope
         - parenthesized-expression
 
     - match: (?:else\s+if|if){{identifier_break}}
       scope: keyword.control.conditional.js
       set:
-        - - meta_scope: meta.conditional.js
-          - include: immediately-pop
+        - conditional-meta
         - block-scope
         - parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.js
       set:
-        - - meta_scope: meta.conditional.js
-          - include: immediately-pop
+        - conditional-meta
         - block-scope
 
     - match: try{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.try.js
-          - include: immediately-pop
+        - try-meta
         - block-scope
 
     - match: finally{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.finally.js
-          - include: immediately-pop
+        - finally-meta
         - block-scope
 
     - match: catch{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.catch.js
-          - include: immediately-pop
+        - catch-meta
         - block-scope
         - parenthesized-expression
 
+  switch-meta:
+    - meta_scope: meta.switch.js
+    - include: immediately-pop
+
+  do-while-meta:
+    - meta_scope: meta.do-while.js
+    - include: immediately-pop
+
   for-meta:
     - meta_scope: meta.for.js
+    - include: immediately-pop
+
+  while-meta:
+    - meta_scope: meta.while.js
+    - include: immediately-pop
+
+  with-meta:
+    - meta_scope: meta.with.js
+    - include: immediately-pop
+
+  conditional-meta:
+    - meta_scope: meta.conditional.js
+    - include: immediately-pop
+
+  try-meta:
+    - meta_scope: meta.try.js
+    - include: immediately-pop
+
+  finally-meta:
+    - meta_scope: meta.finally.js
+    - include: immediately-pop
+
+  catch-meta:
+    - meta_scope: meta.catch.js
     - include: immediately-pop
 
   for-await:
