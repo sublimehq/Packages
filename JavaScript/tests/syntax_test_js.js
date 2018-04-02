@@ -336,7 +336,7 @@ var str2 = NaN;
 
 tag`Hello ${ a + b } world\nanother ${expression}.`;
 // <- variable.function.tagged-template.js
-// ^ punctuation.definition.string.template.begin.js
+// ^ punctuation.definition.string.begin.js
 //   ^ string.template.js
 //        ^ punctuation.definition.template-expression.begin.js
 //           ^ variable.other.readwrite.js
@@ -344,7 +344,7 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 //               ^ meta.template.expression.js source.js.embedded.expression
 //                 ^ punctuation.definition.template-expression.end.js
 //                        ^ constant.character.escape.js
-//                                                ^ punctuation.definition.string.template.end.js
+//                                                ^ punctuation.definition.string.end.js
 
 tag `template`;
 // <- variable.function.tagged-template
