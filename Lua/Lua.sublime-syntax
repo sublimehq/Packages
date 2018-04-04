@@ -6,17 +6,22 @@ comment: "Lua Syntax: version 0.8"
 file_extensions:
   - lua
 scope: source.lua
+variables:
+  identifier: '[a-zA-Z_]\w*'
 contexts:
   main:
-    - match: '\b(function)\s+([a-zA-Z_.:]+[.:])?([a-zA-Z_]\w*)\s*(\()([^)]*)(\))'
+    - match: '\b(function)\b\s*((({{identifier}})\s*([.])\s*)*)?\s*(({{identifier}})\s*([:]))?\s*({{identifier}})?\s*(\()([^)]*)(\))?'
       scope: meta.function.lua
       captures:
         1: keyword.control.lua
-        2: entity.name.function.scope.lua
-        3: entity.name.function.lua
-        4: punctuation.definition.parameters.begin.lua
-        5: variable.parameter.function.lua
-        6: punctuation.definition.parameters.end.lua
+        2: entity.name.scope.lua
+        5: punctuation.accessor.lua
+        6: entity.name.scope.lua
+        8: punctuation.accessor.lua
+        9: entity.name.function.lua
+        10: punctuation.definition.parameters.begin.lua
+        11: variable.parameter.function.lua
+        12: punctuation.definition.parameters.end.lua
     - match: '(?<![\d.])\b0[xX][a-fA-F\d\.]+([pP][\-\+]?\d+)?|\b\d+(\.\d+)?([eE]-?\d+)?|\.\d+([eE]-?\d+)?'
       scope: constant.numeric.lua
     - match: "'"
