@@ -196,35 +196,31 @@ someFunction({
 //                ^ variable.other.readwrite
 });
 
-function foo() {
-// <- meta.function.declaration
- // <- meta.function.declaration
-  // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration - meta.function.declaration meta.function.declaration
-// ^ storage.type.function
-//        ^ entity.name.function
-//             ^ - meta.function.declaration
-}
-// <- meta.block
+    function foo() {
+//  ^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
+//  ^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^ storage.type.function
+//           ^^^ entity.name.function
+//                ^^ - meta.function.declaration
+    }
+//  ^ meta.function meta.block
 
-var bar = function() {
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration
-// <- storage.type
-//   ^ variable.other.readwrite entity.name.function
-//         ^ storage.type.function
-}
+    var bar = function() {
+//  ^^^ storage.type
+//      ^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
+//      ^^^^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^ variable.other.readwrite entity.name.function
+//            ^^^^^^^^ storage.type.function
+    }
 
-baz = function*()
-// <- meta.function.declaration
- // <- meta.function.declaration
-  // <- meta.function.declaration
-// ^^^^^^^^^^^^^^ meta.function.declaration
-// <- variable.other.readwrite entity.name.function
-//     ^ storage.type.function
-//            ^ keyword.generator.asterisk
-{
+    baz = function*()
+//  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function meta.function
+//  ^^^ variable.other.readwrite entity.name.function
+//        ^^^^^^^^ storage.type.function
+//                ^ keyword.generator.asterisk
+    {
 
-}
+    }
 
 if (true)
 // <- keyword.control.conditional
@@ -897,7 +893,7 @@ class Foo extends getSomeClass() {}
 //                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
     () => {}
-//  ^^^^^^^^ meta.function
+//  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^^^^ meta.function.declaration
 //  ^ punctuation.section.group.begin
 //   ^ punctuation.section.group.end
