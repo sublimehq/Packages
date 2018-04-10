@@ -328,12 +328,12 @@ $var->meth()[10];
 
 /**
  * @property-read Class: allows a class to know which ‘magic’ properties are present that are read-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
  * @property-write Class: allows a class to know which ‘magic’ properties are present that are write-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
@@ -384,6 +384,151 @@ $var->meth()[10];
 /**
  * @version Any: indicates the current version of Structural Elements.
 //  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @after
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @afterClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupGlobals
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupStaticAttributes
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @before
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @beforeClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @codeCoverageIgnore*
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @covers
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversDefaultClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversNothing
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @dataProvider
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @depends
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @doesNotPerformAssertions
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedException
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionCode
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessage
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessageRegExp
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @group
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @large
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @medium
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @preserveGlobalState
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @requires
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runTestsInSeparateProcesses
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runInSeparateProcess
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @small
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @test
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testdox
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testWith
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @ticket
+//  ^ keyword.other.phpunit
  */
 
 /**
@@ -827,6 +972,13 @@ function generate()
 {
     yield 1;
 //  ^ keyword.control
+}
+
+function generate2()
+{
+    yield from generate();
+//  ^ keyword.control
+//        ^ keyword.control
 }
 
 $var = 0;

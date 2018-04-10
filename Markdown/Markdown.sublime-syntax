@@ -28,14 +28,6 @@ variables:
     atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
-    link_title: |-
-        (?x:[ \t]*                # Optional whitespace
-          (?:
-              ((\().+?(\)))       # Match title in parens…
-            | ((")[^"]+("))       # or in double quotes…
-            | ((')[^']+('))       # or in single quotes.
-          )?                      # Title is optional
-        )
     escape: '\\[-`*_#+.!(){}\[\]\\>|]'
     backticks: |-
         (?x:
@@ -55,15 +47,6 @@ variables:
                 {{backticks}}?          #  balanced backticks
               )*\]                      #  closing square bracket
           )+                            # at least one character
-        )
-    url_and_title: |-
-        (?x:
-          ([ ])?                        # Space not allowed, but we check for it anyway to mark it as invalid
-          (\()                          # Opening paren for url
-              (<?)(\S+?)(>?)            # The url
-              {{link_title}}            # Optional title
-              \s*                       # Optional whitespace
-          (\))
         )
     html_entity: '&([a-zA-Z0-9]+|#\d+|#x\h+);'
     skip_html_tags: (?:<[^>]+>)
@@ -275,9 +258,7 @@ contexts:
         6: markup.underline.link.markdown
         7: punctuation.definition.link.end.markdown
         8: markup.underline.link.markdown
-      push:
-        - meta_scope: meta.link.reference.def.markdown
-        - include: link-title
+      push: [link-ref-def, after-link-title, link-title]
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       push:
         - meta_scope: meta.paragraph.markdown
@@ -313,6 +294,10 @@ contexts:
           captures:
             1: punctuation.definition.heading.setext.markdown
           pop: true
+  link-ref-def:
+    - meta_scope: meta.link.reference.def.markdown
+    - match: ''
+      pop: true
   ampersand:
     - match: (?!{{html_entity}})&
       comment: |
@@ -582,25 +567,36 @@ contexts:
       scope: meta.image.inline.markdown punctuation.definition.image.end.markdown
       pop: true
   image-inline-after-text:
-    - match: '{{url_and_title}}'
+    - match: '([ ]*)(\()' # spaces not allowed before the open paren, but we check for it anyway to mark it as invalid
       captures:
         1: invalid.illegal.whitespace.markdown
         2: punctuation.definition.metadata.begin.markdown
-        3: punctuation.definition.link.begin.markdown
-        4: markup.underline.link.image.markdown
-        5: punctuation.definition.link.end.markdown
-        6: string.other.link.description.title.markdown
-        7: punctuation.definition.string.begin.markdown
-        8: punctuation.definition.string.end.markdown
-        9: string.other.link.description.title.markdown
-        10: punctuation.definition.string.begin.markdown
-        11: punctuation.definition.string.end.markdown
-        12: string.other.link.description.title.markdown
-        13: punctuation.definition.string.begin.markdown
-        14: punctuation.definition.string.end.markdown
-        15: punctuation.definition.metadata.end.markdown
-      scope: meta.image.inline.markdown
-      pop: true
+      set:
+        - meta_scope: meta.image.inline.markdown
+        - match: \)
+          scope: punctuation.definition.metadata.end.markdown
+          pop: true
+        - match: <(?=[^>)]*>)
+          scope: punctuation.definition.link.begin.markdown
+          push:
+            - meta_content_scope: markup.underline.link.image.markdown
+            - match: \>
+              scope: punctuation.definition.link.end.markdown
+              set: link-title
+            - match: \s+
+              scope: invalid.illegal.unexpected-whitespace.markdown
+        - match: (?=\S)
+          set:
+            - meta_scope: meta.image.inline.markdown
+            - match: '[^\s)]+'
+              scope: markup.underline.link.image.markdown
+            - match: \)
+              scope: punctuation.definition.metadata.end.markdown
+              pop: true
+            - match: (?!\n)\s+(?!\s*(?:[)('"]|$))
+              scope: invalid.illegal.unexpected-whitespace.markdown
+            - match: (?=\s*(?!\)))
+              push: link-title
   image-ref:
     - match: |-
         (?x:
@@ -752,37 +748,47 @@ contexts:
             (?=
                 {{balance_square_brackets}}?
                 \]
-                {{url_and_title}}
+                [ ]?\(
             )
         )
       captures:
         1: meta.link.inline.markdown punctuation.definition.link.begin.markdown
       push: [link-inline-after-text, link-inline-link-text]
+  link-inline-after-text:
+    - match: '([ ]*)(\()' # spaces not allowed before the open paren, but we check for it anyway to mark it as invalid
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.metadata.begin.markdown
+      set:
+        - meta_scope: meta.link.inline.markdown
+        - match: \)
+          scope: punctuation.definition.metadata.end.markdown
+          pop: true
+        - match: <(?=[^>)]*>)
+          scope: punctuation.definition.link.begin.markdown
+          push:
+            - match: \>
+              scope: punctuation.definition.link.end.markdown
+              set: link-title
+            - match: \s+
+              scope: invalid.illegal.unexpected-whitespace.markdown
+        - match: (?=\S)
+          set:
+            - meta_scope: meta.link.inline.markdown
+            - match: '[^\s)]+'
+              scope: markup.underline.link.markdown
+            - match: \)
+              scope: punctuation.definition.metadata.end.markdown
+              pop: true
+            - match: (?!\n)\s+(?!\s*(?:[)('"]|$))
+              scope: invalid.illegal.unexpected-whitespace.markdown
+            - match: (?=\s*(?!\)))
+              push: link-title
   link-inline-link-text:
     - meta_content_scope: meta.link.inline.description.markdown
     - include: link-text-allow-image
     - match: \]
       scope: meta.link.inline.markdown punctuation.definition.link.end.markdown
-      pop: true
-  link-inline-after-text:
-    - match: '{{url_and_title}}'
-      captures:
-        1: invalid.illegal.whitespace.markdown
-        2: punctuation.definition.metadata.begin.markdown
-        3: punctuation.definition.link.begin.markdown
-        4: markup.underline.link.markdown
-        5: punctuation.definition.link.end.markdown
-        6: string.other.link.description.title.markdown
-        7: punctuation.definition.string.begin.markdown
-        8: punctuation.definition.string.end.markdown
-        9: string.other.link.description.title.markdown
-        10: punctuation.definition.string.begin.markdown
-        11: punctuation.definition.string.end.markdown
-        12: string.other.link.description.title.markdown
-        13: punctuation.definition.string.begin.markdown
-        14: punctuation.definition.string.end.markdown
-        15: punctuation.definition.metadata.end.markdown
-      scope: meta.link.inline.markdown
       pop: true
   link-ref:
     - match: |-
@@ -854,7 +860,7 @@ contexts:
         2: meta.link.reference.literal.footnote-id.markdown
         3: punctuation.definition.link.end.markdown
   list-paragraph:
-    - match: '^(?=\s+(?![>+*\s-]))(?={{indented_code_block}})'
+    - match: '^(?=(?:[ ]{4}|\t){2,}(?![>+*\s-]))(?={{indented_code_block}})'
       push:
         - include: indented-code-block
         - match: $
@@ -1315,38 +1321,38 @@ contexts:
     - match: \s*(')
       captures:
         1: punctuation.definition.string.begin.markdown
-      push:
+      set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \'
           scope: punctuation.definition.string.end.markdown
-          set: after-link-title
+          pop: true
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.link-title.markdown
           pop: true
     - match: \s*(")
       captures:
         1: punctuation.definition.string.begin.markdown
-      push:
+      set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \"
           scope: punctuation.definition.string.end.markdown
-          set: after-link-title
+          pop: true
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.link-title.markdown
           pop: true
     - match: \s*(\()
       captures:
         1: punctuation.definition.string.begin.markdown
-      push:
+      set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \)
           scope: punctuation.definition.string.end.markdown
-          set: after-link-title
+          pop: true
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.link-title.markdown
           pop: true
     - match: \s*
-      set: after-link-title
+      pop: true
   after-link-title:
     - match: '(.*)$\n?'
       captures:

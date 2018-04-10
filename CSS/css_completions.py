@@ -266,7 +266,7 @@ PROPERTY_DICT = {
     'grid': [],
     'grid-area': [],
     'grid-auto-columns': ['auto', '<percentage>', '<length>'],
-    'grid-auto-flow': ['row', 'column' 'dense'],
+    'grid-auto-flow': ['row', 'column', 'dense'],
     'grid-auto-rows': ['auto', '<percentage>', '<length>'],
     'grid-column-gap': ['<length>', '<percentage>'],
     'grid-gap': ['<length>', '<percentage>'],

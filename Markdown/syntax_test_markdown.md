@@ -94,6 +94,57 @@ Here is a ![Image Alt Text](https://example.com/cat.gif).
 |                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                                      ^ punctuation.definition.metadata
 
+Here is a ![Image Alt Text](  https://example.com/cat.gif  ).
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
+|          ^ punctuation.definition.image.begin
+|                         ^ punctuation.definition.image.end - string
+|                          ^ punctuation.definition.metadata
+|                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                                          ^ punctuation.definition.metadata
+
+Here is a ![Image Alt Text](
+  https://example.com/cat.gif  ).
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                              ^ punctuation.definition.metadata
+
+Here is a ![Image Alt Text](
+  https://example.com/cat.gif
+ "hello"   ).
+|^^^^^^^ meta.image.inline string.other.link.description.title
+|       ^^^^ meta.image.inline
+|          ^ punctuation.definition.metadata.end
+
+Here is a ![Image Alt Text](
+  <https://example.com/cat.gif> "hello"   ).
+| ^ punctuation.definition.link.begin
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                             ^ punctuation.definition.link.end
+|                               ^^^^^^^ string.other.link.description.title
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
+|                                         ^ punctuation.definition.metadata.end
+
+Here is a ![Image Alt Text](
+  <https://example .com /cat.gif> (hello)   ).
+| ^ punctuation.definition.link.begin
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                 ^ invalid.illegal.unexpected-whitespace
+|                      ^ invalid.illegal.unexpected-whitespace
+|                               ^ punctuation.definition.link.end
+|                                 ^^^^^^^ string.other.link.description.title
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
+|                                           ^ punctuation.definition.metadata.end
+
+Here is a ![Image Alt Text](
+  https://example .com /cat.gif (hello)   ).
+| ^^^^^^^^^^^^^^^ markup.underline.link.image
+|                ^ invalid.illegal.unexpected-whitespace
+|                 ^^^^ markup.underline.link.image
+|                     ^ invalid.illegal.unexpected-whitespace
+|                      ^^^^^^^^ markup.underline.link.image
+|                               ^^^^^^^ string.other.link.description.title
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.image.inline
+|                                         ^ punctuation.definition.metadata.end
+
 Here is a ![Image Ref Alt][1].
 |         ^^^^^^^^^^^^^^^^^^^ meta.image.reference
 |         ^^ punctuation.definition.image.begin
@@ -102,6 +153,27 @@ Here is a ![Image Ref Alt][1].
 |                          ^ constant.other.reference.link
 |                           ^ punctuation.definition.constant
 
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca/documentations/about/cool ) for more information about...
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline markup.underline.link
+|                                                 ^ - invalid
+|                                                  ^ meta.link.inline punctuation.definition.metadata.end
+
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca /documentations/about/cool ) for more information about...
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph meta.link.inline
+| ^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                       ^ invalid.illegal.unexpected-whitespace
+|                        ^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                  ^ - invalid
+|                                                   ^ punctuation.definition.metadata.end
+
+now you can access the [The Ever Cool Site: Documentation about Sites](
+  www.thecoolsite.com.ca/documentations/about/cool
+  (title)) for more information about...
+| ^^^^^^^^ meta.paragraph meta.link.inline
+|        ^ punctuation.definition.metadata.end
+| ^^^^^^^ string.other.link.description.title.markdown
 
   1. Ordered list item
 | ^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered
@@ -1575,6 +1647,16 @@ paragraph
 
 Normal paragraph
 | <- meta.paragraph - markup
+
+1. List
+    1. Nested list
+    2. Second item
+
+    This line is still list item 1
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.numbered - markup.raw.block
+
+Test
+| <- meta.paragraph - markup.list
 
 http://spec.commonmark.org/0.28/#example-116
 

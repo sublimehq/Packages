@@ -7,6 +7,7 @@ name: Git Config
 file_extensions:
   - gitconfig                # /etc/gitconfig
   - .gitconfig               # ~/.gitconfig
+  - .gitmodules              # ~/.gitmodules
 first_line_match: ^\[core\]  # .git/config files always start with [core]
 scope: text.git.config
 
