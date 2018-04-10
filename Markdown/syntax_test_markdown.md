@@ -1926,3 +1926,13 @@ var_dump(expression);
 ```
 |^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
 |^^ punctuation.definition.raw.code-fence.end
+
+```bash
+# test
+| ^^^^^ source.shell comment.line.number-sign
+echo hello, \
+|           ^^ punctuation.separator.continuation.line
+echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
+|                       ^^ constant.character.escape
+```
+| <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end
