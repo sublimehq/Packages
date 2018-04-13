@@ -570,3 +570,48 @@ public ref int Find (int number, int[] numbers)
     }
     throw new IndexOutOfRangeException ($"{nameof (number)} not found");
 }
+
+public class MyClass {
+    object obj;
+    public MyClass () => obj = null;
+///        ^^^^^^^ meta.method.constructor entity.name.function.constructor
+///               ^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.method
+///                   ^^ storage.type.function
+///                      ^^^ variable.other
+///                          ^ keyword.operator.assignment
+///                            ^^^^ constant.language
+///                                ^ punctuation.terminator.statement - meta.method
+}
+/// <- meta.class.body meta.block punctuation.section.block.end
+
+public class Person // https://stackoverflow.com/a/41974829/4473405
+{
+    public string Name { get; }
+    public int Age { get; }
+
+    public Person(string name, int age) => (Name, Age) = (name, age);
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.constructor
+///        ^^^^^^ entity.name.function.constructor
+///              ^ punctuation.section.parameters.begin
+///               ^^^^^^ storage.type
+///                      ^^^^ variable.parameter
+///                          ^ punctuation.separator.parameter.function
+///                            ^^^ storage.type
+///                                ^^^ variable.parameter
+///                                   ^ punctuation.section.parameters.end
+///                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
+///                                     ^^ storage.type.function
+///                                        ^ meta.group punctuation.section.group.begin
+///                                         ^^^^ meta.group variable.other
+///                                             ^ meta.group punctuation.separator.expression
+///                                               ^^^ meta.group variable.other
+///                                                  ^ meta.group punctuation.section.group.end
+///                                                    ^ keyword.operator.assignment
+///                                                      ^ meta.group punctuation.section.group.begin
+///                                                       ^^^^ meta.group variable.other
+///                                                           ^ punctuation.separator.expression
+///                                                             ^^^ meta.group variable.other
+///                                                                ^ meta.group punctuation.section.group.end
+///                                                                 ^ punctuation.terminator.statement
+}
