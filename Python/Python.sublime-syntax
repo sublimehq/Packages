@@ -1049,7 +1049,7 @@ contexts:
           (?: [\w.\[\]]+)?             # field_name
           (   ! [ars])?                # conversion
           (   : (?:{{format_spec}}|    # format_spec OR
-                   {{strftime_spec}}+) # strftime_spec
+                   [^}%]*%.[^}]*)      # any format-like string
           )?
         (\})
       scope: constant.other.placeholder.python
