@@ -324,10 +324,12 @@ func template() {
 	t = "{{23 -}} < {{- 45}}"
 	//   ^^^^^^^^ template.go
 	//   ^^ punctuation.section.embedded.begin.template.go
-	//        ^ keyword.operator.right.trim.template.go
+	//        ^ keyword.operator.template.right.trim.go
 	//         ^^ punctuation.section.embedded.end.template.go
-	//                ^ keyword.operator.left.trim.template.go
+	//                ^ keyword.operator.template.left.trim.go
 	t = "{{/* a comment */}}"
+	//     ^^ punctuation.definition.comment.template.go
+	//                  ^^ punctuation.definition.comment.template.go
 	//     ^^^^^^^^^^^^^^^ comment.block.template.go
 	t = "{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}"
 	//     ^^ keyword.control.template.go
@@ -359,46 +361,42 @@ func template() {
 	//     ^^^^^^^^^^^^^^^^ variable.other.template.go
 	t = "{{$variable := pipeline}}"
 	//     ^^^^^^^^^ variable.other.template.go
-	//               ^^ keyword.operator.initialize.template.go
+	//               ^^ keyword.operator.template.initialize.go
 	t = "{{range $index, $element := pipeline}}"
 	//     ^^^^^ keyword.control.template.go
 	//           ^^^^^^ variable.other.template.go
 	//                   ^^^^^^^^ variable.other.template.go
-	//                            ^^ keyword.operator.initialize.template.go
+	//                            ^^ keyword.operator.template.initialize.go
 	t = "{{`"output"`}}"
 	t = "{{printf "%q" "output"}}"
 	//     ^^^^^^ support.function.builtin.template.go
 	t = "{{"output" | printf "%q"}}"
-	//              ^ keyword.operator.pipe.template.go
+	//              ^ keyword.operator.template.pipe.go
 	//                ^^^^^^ support.function.builtin.template.go
 	t = "{{printf "%q" (print "out" "put")}}"
 	//     ^^^^^^ support.function.builtin.template.go
 	//                  ^^^^^ support.function.builtin.template.go
 	t = "{{"put" | printf "%s%s" "out" | printf "%q"}}"
-	//           ^ keyword.operator.pipe.template.go
+	//           ^ keyword.operator.template.pipe.go
 	//             ^^^^^^ support.function.builtin.template.go
-	//                                 ^ keyword.operator.pipe.template.go
+	//                                 ^ keyword.operator.template.pipe.go
 	//                                   ^^^^^^ support.function.builtin.template.go
 	t = "{{"output" | printf "%s" | printf "%q"}}"
+	//     ^^^^^^^^ string.quoted.double.template.go
+	//              ^ keyword.operator.template.pipe.go
+	//                ^^^^^^ support.function.builtin.template.go
+	//                       ^^^^ string.quoted.double.template.go
+	//                            ^ keyword.operator.template.pipe.go
+	//                              ^^^^^^ support.function.builtin.template.go
+	//                                     ^^^^ string.quoted.double.template.go
 	t = "{{with "output"}}{{printf "%q" .}}{{end}}"
+	//     ^^^^ keyword.control.template.go
+	//                                  ^ variable.other.template.go
 	t = "{{with $x := "output" | printf "%q"}}{{$x}}{{end}}"
-	t = "{{with $x := "output"}}{{printf "%q" $x}}{{end}}"
+	//          ^^ variable.other.template.go
+	//             ^^ keyword.operator.template.initialize.go
+	//                                          ^^ variable.other.template.go
 	t = "{{with $x := "output"}}{{$x | printf "%q"}}{{end}}"
-	t = `{{define "T1"}}ONE{{end}}
-{{define "T2"}}TWO{{end}}
-{{define "T3"}}{{template "T1"}} {{template "T2"}}{{end}}
-{{template "T3"}}`
-	t = `
-Dear {{.Name}},
-{{if .Attended}}
-It was a pleasure to see you at the wedding.
-{{- else}}
-It is a shame you couldn't make it to the wedding.
-{{- end}}
-{{with .Gift -}}
-Thank you for the lovely {{.}}.
-{{end}}
-Best wishes,
-Josie
-`
-}
+	//                            ^^ variable.other.template.go
+	//                               ^ keyword.operator.template.pipe.go
+	//                                 ^^^^^^ support.function.builtin.template.go

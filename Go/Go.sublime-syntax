@@ -596,13 +596,13 @@ contexts:
       push:
         - meta_scope: template.go
         - match: "\\s-"
-          scope: keyword.operator.right.trim.template.go
+          scope: keyword.operator.template.right.trim.go
         - match: "-\\s"
-          scope: keyword.operator.left.trim.template.go
+          scope: keyword.operator.template.left.trim.go
         - match: ":="
-          scope: keyword.operator.initialize.template.go
+          scope: keyword.operator.template.initialize.go
         - match: \|
-          scope: keyword.operator.pipe.template.go
+          scope: keyword.operator.template.pipe.go
         - match: '[.$][\w]*'
           scope: variable.other.template.go
         - match: \b(if|else|range|template|with|end|nil|define|block)\b
@@ -610,29 +610,27 @@ contexts:
         - match: \b(and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
           scope: support.function.builtin.template.go
         - match: /\*
+          scope: punctuation.definition.comment.template.go
           push:
             - meta_scope: comment.block.template.go
             - match: \*/
+              scope: punctuation.definition.comment.template.go
               pop: true
         - match: '"'
-          captures:
-            0: punctuation.definition.string.begin.template.go
+          scope: punctuation.definition.string.begin.template.go
           push:
             - meta_scope: string.quoted.double.template.go
             - match: '"'
-              captures:
-                0: punctuation.definition.string.end.template.go
+              scope: punctuation.definition.string.end.template.go
               pop: true
             - include: string-placeholder
             - include: string-escaped-char
         - match: "`"
-          captures:
-            0: punctuation.definition.string.begin.template.go
+          scope: punctuation.definition.string.begin.template.go
           push:
             - meta_scope: string.quoted.raw.template.go
             - match: "`"
-              captures:
-                0: punctuation.definition.string.end.template.go
+              scope: punctuation.definition.string.end.template.go
               pop: true
             - include: string-placeholder
         - match: "}}"
