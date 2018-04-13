@@ -368,7 +368,27 @@ void funcName<C>() {
 /*           ^ punctuation.section.generic.begin */
 /*             ^ punctuation.section.generic.end */
 }
-
+bool A::operator<(const A& a) { return false; }
+/* ^ storage.type */
+/*   ^^^^^^^^^^^^ meta.function entity.name.function */
+/*               ^ meta.function.parameters punctuation.section.group.begin */
+template <class T> bool A<T>::operator<(const A& a) { return false; }
+/*     ^ storage.type.template */
+/*       ^ punctuation.section.generic.begin */
+/*               ^ punctuation.section.generic.end */
+/*                      ^^^^^^^^^^^^^^^ meta.function entity.name.function */
+/*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
+template <typename Foo>
+SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
+/*                          ^^^^^^ meta.function entity.name.function */
+template <typename Foo> SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
+/*                                                  ^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator   >    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator    ==    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
 /*                   ^ punctuation.section.generic.begin */
