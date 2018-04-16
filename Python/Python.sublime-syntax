@@ -733,8 +733,9 @@ contexts:
       scope: punctuation.section.arguments.end.python
       set: after-expression
     - match: \(
-      scope: punctuation.section.arguments.begin.python
+      scope: meta.function-call.python punctuation.section.arguments.begin.python
       push:
+        - clear_scopes: 1
         - meta_content_scope: meta.function-call.arguments.python
         - match: (?=\))
           pop: true

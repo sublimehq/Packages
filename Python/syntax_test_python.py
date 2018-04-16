@@ -169,7 +169,7 @@ IDENTIFIER()
 #^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
 
 dotted . identifier(12, True)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call
 #                   ^^^^^^^^ meta.function-call.arguments
 #^^^^^^^^^^^^^^^^^^ meta.qualified-name
 #^^^^^^ - variable.function
