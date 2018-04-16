@@ -168,19 +168,19 @@ identifier()
 IDENTIFIER()
 #^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
 
-dotted.identifier(12, True)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-#                 ^^^^^^^^ meta.function-call.arguments
-#^^^^^^^^^^^^^^^^ meta.qualified-name
+dotted . identifier(12, True)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+#                   ^^^^^^^^ meta.function-call.arguments
+#^^^^^^^^^^^^^^^^^^ meta.qualified-name
 #^^^^^^ - variable.function
-#     ^ punctuation.accessor.dot
-#      ^^^^^^^^^^ variable.function
+#      ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ variable.function
 
 open.__new__(12, \
 #^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 #^^^ support.function.builtin
 #   ^ punctuation.accessor.dot
-#    ^^^^^^^ support.function.magic
+#    ^^^^^^^ variable.function support.function.magic
 #                ^ punctuation.separator.continuation.line.python
              True)
 
@@ -189,8 +189,7 @@ TypeError()
 #
 module.TypeError()
 #^^^^^^^^^^^^^^^ meta.function-call
-#      ^^^^^^^^^ - support
-#      ^^^^^^^^^ variable.function
+#      ^^^^^^^^^ variable.function - support
 
 open.open.open()
 #^^^ support.function.builtin
@@ -707,18 +706,20 @@ class Unterminated(Inherited:
 # ^^^^^^^^^^^^^^^^^^ meta.qualified-name
 # ^^^^^^ meta.generic-name - variable.annotation
 #          ^^^^^^^^^ variable.annotation
-#        ^ punctuation.accessor.dot
+#        ^ punctuation.accessor.dot - variable
 #                   ^ - meta.annotation
 class Class():
 
     @functools.wraps(method, 12, kwarg=None)# comment
 #^^^ - meta.annotation
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.function
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - meta.annotation meta.annotation
+#                    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments
 #   ^ punctuation.definition.annotation
+#    ^^^^^^^^^^^^^^^^ meta.annotation.function
 #    ^^^^^^^^^^^^^^^ meta.qualified-name
 #    ^^^^^^^^^ meta.generic-name - variable.annotation
 #             ^ punctuation.accessor.dot
-#              ^^^^^ variable.annotation.function
+#              ^^^^^ variable.annotation.function meta.generic-name
 #                   ^ punctuation.section.arguments.begin
 #                          ^ punctuation.separator.arguments
 #                            ^^ constant.numeric
@@ -726,7 +727,7 @@ class Class():
 #                                     ^ keyword.operator
 #                                      ^^^^ constant.language
 #                              ^ punctuation.separator.arguments
-#                                          ^ punctuation.section.arguments.end
+#                                          ^ meta.annotation.function punctuation.section.arguments.end
 #                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
@@ -740,8 +741,18 @@ class Class():
 
     @staticmethod
 #   ^^^^^^^^^^^^^ meta.annotation
-#    ^^^^^^^^^^^^ support.function.builtin
+#    ^^^^^^^^^^^^ variable.annotation support.function.builtin
 #                ^ - meta.annotation
+
+    @not_a.staticmethod
+#   ^^^^^^^^^^^^^^^^^^^ meta.annotation
+#          ^^^^^^^^^^^^ variable.annotation - support
+#         ^ punctuation.accessor.dot
+
+    @not_a.__init__()
+#   ^^^^^^^^^^^^^^^ meta.annotation
+#          ^^^^^^^^ variable.annotation support.function.magic
+#         ^ punctuation.accessor.dot
 
     @deco[4]
 #        ^ invalid.illegal.character
@@ -753,7 +764,7 @@ class Class():
 
     @ deco \
         . rator()
-#       ^^^^^^^ meta.annotation.function
+#       ^^^^^^^^^ meta.annotation.function
 #         ^^^^^ variable.annotation.function
 
     @ deco \
