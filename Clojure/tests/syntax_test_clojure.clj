@@ -544,6 +544,11 @@
 
 ; # Keywords
 
+; Basic structure
+  :blah
+; ^ punctuation.definition.keyword.clojure
+; ^^^^^ constant.other.keyword.clojure
+
   :! :$ :% :& :* :- :_ := :+ :| :< :> :. :/ :?
 ; ^^ constant.other.keyword.clojure
 ;   ^- constant

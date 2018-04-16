@@ -18,7 +18,7 @@ variables:
   atom: '[^{{non_symbol_chars}}]+'
   symbol: (?:/|[^{{non_symbol_start_chars}}][^{{non_symbol_chars}}]*)
   # Slightly too permissive
-  keyword: ::?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
+  keyword: (:):?[^:{{non_symbol_chars}}][^{{non_symbol_chars}}]*
   constant: (?:nil|true|false)(?=[{{non_symbol_chars}}])
   evil_octal: '[-+]?0\d+N?(?=[{{non_symbol_chars}}])'
 
@@ -73,6 +73,8 @@ contexts:
       scope: constant.language.clojure
     - match: '{{keyword}}'
       scope: constant.other.keyword.clojure
+      captures:
+        1: punctuation.definition.keyword.clojure
     - match: '{{evil_octal}}'
       scope: invalid.illegal.clojure
     - match: '{{integer}}'
@@ -143,6 +145,8 @@ contexts:
       pop: true
     - match: '{{keyword}}'
       scope: constant.other.keyword.clojure
+      captures:
+        1: punctuation.definition.keyword.clojure
       pop: true
     - match: '{{evil_octal}}'
       scope: invalid.illegal.clojure
