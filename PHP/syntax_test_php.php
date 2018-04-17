@@ -1101,11 +1101,11 @@ $sql = '
 // <- string.quoted.single punctuation.definition.string.end - meta.string-contents
 
 preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m');
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 //                                 ^ keyword.operator
 
 preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m");
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.double-quoted
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
 //                                 ^ keyword.operator
 
 echo <<<EOT
