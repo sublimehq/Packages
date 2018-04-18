@@ -383,6 +383,10 @@ readonly foo        # 'foo' is a variable name
 #           ^ - variable.other.readwrite
 #^^^^^^^^^^^ meta.function-call
 #                  ^ - meta.function-call
+local readonly foo
+# <- storage.modifier
+#            ^ storage.modifier
+#                ^ variable.other.readwrite.assignment
 typeset foo         # 'foo' is a variable name
 #^^^^^^^^^^ meta.function-call
 # <- storage.modifier
