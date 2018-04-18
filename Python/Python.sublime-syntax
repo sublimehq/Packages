@@ -44,6 +44,7 @@ variables:
       (?:\.\d+)?         # precision
       [bcdeEfFgGnosxX%]? # type
     )
+  strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
 contexts:
   main:
     - include: statements
@@ -1108,7 +1109,7 @@ contexts:
       scope: constant.other.placeholder.python
       captures:
         2: variable.other.placeholder.python
-    - match: '%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj])'
+    - match: '{{strftime_spec}}'
       scope: constant.other.placeholder.python
     - match: '\{\{|\}\}'
       scope: constant.character.escape.python
@@ -1119,9 +1120,11 @@ contexts:
     - match: |- # simple form
         (?x)
         (\{)
-          (?: [\w.\[\]]+)?         # field_name
-          (   ! [ars])?            # conversion
-          (   : {{format_spec}} )? # format_spec
+          (?: [\w.\[\]]+)?             # field_name
+          (   ! [ars])?                # conversion
+          (   : (?:{{format_spec}}|    # format_spec OR
+                   [^}%]*%.[^}]*)      # any format-like string
+          )?
         (\})
       scope: constant.other.placeholder.python
       captures:

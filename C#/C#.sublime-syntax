@@ -697,7 +697,7 @@ contexts:
           set: [constructor_initializer, arguments]
         - match: '(?=\{)'
           set: method_body
-    - match: '(?=\{)'
+    - match: '(?=\{|=>)'
       set: method_body
 
   constructor_initializer:
