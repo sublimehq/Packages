@@ -932,7 +932,7 @@ contexts:
     # All uppercase identifier just before a newline is most likely a macro
     - match: '[[:upper:][:digit:]_]+\s*$'
     # Operator overloading
-    - match: '(?=({{path_lookahead}}\s*::\s*)?{{operator_method_name}}\s*(\(|$))'
+    - match: '(?=({{path_lookahead}}\s*(?:{{generic_lookahead}})?::\s*)?{{operator_method_name}}\s*(\(|$))'
       set:
         - meta_content_scope: meta.function.objc++ entity.name.function.objc++
         - include: scope:source.c++#identifiers

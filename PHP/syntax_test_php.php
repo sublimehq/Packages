@@ -974,6 +974,13 @@ function generate()
 //  ^ keyword.control
 }
 
+function generate2()
+{
+    yield from generate();
+//  ^ keyword.control
+//        ^ keyword.control
+}
+
 $var = 0;
 //     ^ constant.numeric.integer.decimal
 

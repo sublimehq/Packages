@@ -62,20 +62,20 @@ contexts:
 
   comments:
     - match: /\*\*(?!/)
-      scope: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.begin.js
       push:
         - meta_include_prototype: false
         - meta_scope: comment.block.documentation.js
         - match: \*/
-          scope: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.end.js
           pop: true
     - match: /\*
-      scope: punctuation.definition.comment.js
+      scope: punctuation.definition.comment.begin.js
       push:
         - meta_include_prototype: false
         - meta_scope: comment.block.js
         - match: \*/
-          scope: punctuation.definition.comment.js
+          scope: punctuation.definition.comment.end.js
           pop: true
     - match: //
       scope: punctuation.definition.comment.js
@@ -104,12 +104,19 @@ contexts:
       scope: punctuation.separator.comma.js
 
   import-export:
-    - match: import{{identifier_break}}
+    - match: import{{identifier_break}}(?!\s*\.)
       scope: keyword.control.import-export.js
       set:
-        - import-meta
-        - expect-semicolon
-        - import-string-or-items
+        - meta_scope: meta.import.js
+        - match: (?=\.) # Recovery for import.meta
+          set:
+            - expression-statement-end
+            - import-meta-expression-dot
+        - match: (?=\S)
+          set:
+            - import-meta
+            - expect-semicolon
+            - import-string-or-items
 
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
@@ -159,7 +166,7 @@ contexts:
 
   import-item:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       set: import-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -173,7 +180,7 @@ contexts:
     - meta_scope: meta.block.js
     - include: comma-separator
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -216,7 +223,7 @@ contexts:
 
   export-item:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       set: export-brace
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -230,7 +237,7 @@ contexts:
     - meta_scope: meta.block.js
     - include: comma-separator
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
@@ -290,11 +297,11 @@ contexts:
 
   block:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       push:
         - meta_scope: meta.block.js
         - match: '\}'
-          scope: punctuation.section.block.js
+          scope: punctuation.section.block.end.js
           pop: true
         - include: statements
 
@@ -509,16 +516,14 @@ contexts:
     - match: switch{{identifier_break}}
       scope: keyword.control.switch.js
       set:
-        - - meta_scope: meta.switch.js
-          - include: immediately-pop
+        - switch-meta
         - switch-block
         - parenthesized-expression
 
     - match: do{{identifier_break}}
       scope: keyword.control.loop.js
       set:
-        - - meta_scope: meta.do-while.js
-          - include: immediately-pop
+        - do-while-meta
         - do-while-condition
         - block-scope
 
@@ -533,58 +538,83 @@ contexts:
     - match: while{{identifier_break}}
       scope: keyword.control.loop.js
       set:
-        - - meta_scope: meta.while.js
-          - include: immediately-pop
+        - while-meta
         - block-scope
         - parenthesized-expression
 
     - match: with{{identifier_break}}
       scope: keyword.control.with.js
       set:
-        - - meta_scope: meta.with.js
-          - include: immediately-pop
+        - with-meta
         - block-scope
         - parenthesized-expression
 
     - match: (?:else\s+if|if){{identifier_break}}
       scope: keyword.control.conditional.js
       set:
-        - - meta_scope: meta.conditional.js
-          - include: immediately-pop
+        - conditional-meta
         - block-scope
         - parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.js
       set:
-        - - meta_scope: meta.conditional.js
-          - include: immediately-pop
+        - conditional-meta
         - block-scope
 
     - match: try{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.try.js
-          - include: immediately-pop
+        - try-meta
         - block-scope
 
     - match: finally{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.finally.js
-          - include: immediately-pop
+        - finally-meta
         - block-scope
 
     - match: catch{{identifier_break}}
       scope: keyword.control.trycatch.js
       set:
-        - - meta_scope: meta.catch.js
-          - include: immediately-pop
+        - catch-meta
         - block-scope
         - parenthesized-expression
 
+  switch-meta:
+    - meta_scope: meta.switch.js
+    - include: immediately-pop
+
+  do-while-meta:
+    - meta_scope: meta.do-while.js
+    - include: immediately-pop
+
   for-meta:
     - meta_scope: meta.for.js
+    - include: immediately-pop
+
+  while-meta:
+    - meta_scope: meta.while.js
+    - include: immediately-pop
+
+  with-meta:
+    - meta_scope: meta.with.js
+    - include: immediately-pop
+
+  conditional-meta:
+    - meta_scope: meta.conditional.js
+    - include: immediately-pop
+
+  try-meta:
+    - meta_scope: meta.try.js
+    - include: immediately-pop
+
+  finally-meta:
+    - meta_scope: meta.finally.js
+    - include: immediately-pop
+
+  catch-meta:
+    - meta_scope: meta.catch.js
     - include: immediately-pop
 
   for-await:
@@ -641,7 +671,7 @@ contexts:
 
   switch-block:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       set: switch-block-contents
     - include: else-pop
 
@@ -649,7 +679,7 @@ contexts:
     - meta_scope: meta.block.js
 
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
 
     - match: case{{identifier_break}}
@@ -757,6 +787,7 @@ contexts:
     - include: prefix-operators
     - include: yield-expression
     - include: await-expression
+    - include: import-meta-expression
 
     - include: class
     - include: constants
@@ -1060,7 +1091,7 @@ contexts:
 
   class-body:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       set: class-body-contents
 
     - include: else-pop
@@ -1069,7 +1100,7 @@ contexts:
     - meta_scope: meta.block.js
 
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
 
     - match: \;
@@ -1376,10 +1407,10 @@ contexts:
   function-block:
     - meta_scope: meta.block.js
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       push:
         - match: '(?=\})'
           pop: true
@@ -1403,14 +1434,14 @@ contexts:
 
   object-literal:
     - match: '\{'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.begin.js
       set: object-literal-contents
 
   object-literal-contents:
     - meta_scope: meta.object-literal.js
 
     - match: '\}'
-      scope: punctuation.section.block.js
+      scope: punctuation.section.block.end.js
       pop: true
 
     - match: \.\.\.
@@ -1581,11 +1612,11 @@ contexts:
 
   parenthesized-expression:
     - match: \(
-      scope: punctuation.section.group.js
+      scope: punctuation.section.group.begin.js
       set:
         - meta_scope: meta.group.js
         - match: \)
-          scope: punctuation.section.group.js
+          scope: punctuation.section.group.end.js
           pop: true
         - match: (?=\S)
           push: expression
@@ -1602,21 +1633,21 @@ contexts:
 
   array-literal:
     - match: '\['
-      scope: punctuation.section.brackets.js
+      scope: punctuation.section.brackets.begin.js
       set:
         - meta_scope: meta.sequence.js
         - match: '\]'
-          scope: punctuation.section.brackets.js
+          scope: punctuation.section.brackets.end.js
           pop: true
         - include: expression-list
 
   property-access:
     - match: '\['
-      scope: punctuation.section.brackets.js
+      scope: punctuation.section.brackets.begin.js
       push:
         - meta_scope: meta.brackets.js
         - match: '\]'
-          scope: punctuation.section.brackets.js
+          scope: punctuation.section.brackets.end.js
           pop: true
         - match: (?=\S)
           push: expression
@@ -1909,4 +1940,19 @@ contexts:
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
       pop: true
+    - include: else-pop
+
+  import-meta-expression:
+    - match: import{{identifier_break}}
+      scope: variable.language.import.js
+      set: import-meta-expression-dot
+
+  import-meta-expression-dot:
+    - match: \.
+      scope: punctuation.accessor.js
+      set:
+        - match: meta{{identifier_break}}
+          scope: variable.language.import.js
+          pop: true
+        - include: object-property
     - include: else-pop
