@@ -320,7 +320,19 @@ contexts:
       - vardef-assign
       - vardef-alias-name
       - vardef-alias-options
-    - match: \s*\b(typeset|declare|local){{keyword_boundary_end}}
+    - match: \s*\b(local){{keyword_boundary_end}}
+      captures:
+        1: storage.modifier.shell
+      push:
+      - vardef-ensure-function-call-scope
+      - vardef-maybe-more
+      - vardef-value
+      - vardef-assign
+      - vardef-name
+      - vardef-maybe-readonly-after-local
+      # [Bash] 4.2: The options can be any of the options accepted by declare.
+      - vardef-declare-options
+    - match: \s*\b(typeset|declare){{keyword_boundary_end}}
       captures:
         1: storage.modifier.shell
       push:
@@ -355,6 +367,14 @@ contexts:
       - vardef-value
       - vardef-assign
       - vardef-name
+
+  vardef-maybe-readonly-after-local:
+    - match: \s*\b(readonly){{keyword_boundary_end}}
+      captures:
+        1: storage.modifier.shell
+      set: vardef-readonly-options
+    - match: ""
+      pop: true
 
   vardef-readonly-options:
     - match: \s*((-)(?:[aAf]+|p))
