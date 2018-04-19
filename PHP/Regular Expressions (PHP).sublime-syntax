@@ -54,6 +54,11 @@ contexts:
     - match: \|
       scope: keyword.operator.or.regexp
 
+    # recursive pattern
+    # ref: http://php.net/manual/en/regexp.reference.recursive.php
+    - match: \(\?R\)
+      scope: keyword.other.recursive-pattern.regexp
+
     # option setting
     # ref: http://php.net/manual/en/regexp.reference.internal-options.php
     - match: \(\?[imsxJUX]+\)
