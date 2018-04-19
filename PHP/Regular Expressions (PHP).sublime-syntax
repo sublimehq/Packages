@@ -33,7 +33,7 @@ contexts:
           scope: punctuation.definition.group.end.regexp
           pop: true
         - include: main
-    # http://php.net/manual/en/regexp.reference.subpatterns.php
+    # ref: http://php.net/manual/en/regexp.reference.subpatterns.php
     - match: (\()((\?P?)(<)([^>]+)(>))?
       captures:
         1: punctuation.definition.group.begin.regexp
@@ -41,6 +41,19 @@ contexts:
         4: punctuation.definition.group.capture.begin.regexp
         5: entity.name.other.group.regexp
         6: punctuation.definition.group.capture.end.regexp
+      push:
+        - meta_scope: meta.group.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+    - match: (\()(\?)(')([^']+)(')
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: constant.other.assertion.regexp
+        3: punctuation.definition.group.capture.begin.regexp
+        4: entity.name.other.group.regexp
+        5: punctuation.definition.group.capture.end.regexp
       push:
         - meta_scope: meta.group.regexp
         - match: \)
