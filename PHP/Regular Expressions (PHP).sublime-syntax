@@ -14,9 +14,11 @@ contexts:
       scope: keyword.operator.quantifier.regexp
     - match: \|
       scope: keyword.operator.or.regexp
+    - match: '\(\?[iLmsux]+\)'
+      scope: keyword.other.option-toggle.regexp
     - match: '(\()(\?P=([a-zA-Z_][a-zA-Z_0-9]*\w*))(\))'
       scope: keyword.other.back-reference.named.regexp
-    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!)|(\?>)|(\?:)|(\?\|))
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!)|(\?>)|(\?:)|(\?\|)|(\?[iLmsux]+:))
       captures:
         1: punctuation.definition.group.begin.regexp
         2: constant.other.assertion.regexp
@@ -27,6 +29,7 @@ contexts:
         7: meta.assertion.atomic-group.regexp
         8: meta.assertion.no-capture-group.regexp
         9: meta.assertion.branch-reset-group.regexp
+        10: keyword.other.option-toggle.regexp
       push:
         - meta_scope: meta.group.assertion.regexp
         - match: \)
