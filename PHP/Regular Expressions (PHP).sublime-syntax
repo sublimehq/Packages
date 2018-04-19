@@ -16,7 +16,7 @@ contexts:
       scope: keyword.operator.or.regexp
     - match: '(\()(\?P=([a-zA-Z_][a-zA-Z_0-9]*\w*))(\))'
       scope: keyword.other.back-reference.named.regexp
-    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!)|(\?>)|(\?:))
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!)|(\?>)|(\?:)|(\?\|))
       captures:
         1: punctuation.definition.group.begin.regexp
         2: constant.other.assertion.regexp
@@ -26,13 +26,15 @@ contexts:
         6: meta.assertion.negative-look-behind.regexp
         7: meta.assertion.atomic-group.regexp
         8: meta.assertion.no-capture-group.regexp
+        9: meta.assertion.branch-reset-group.regexp
       push:
         - meta_scope: meta.group.assertion.regexp
         - match: \)
           scope: punctuation.definition.group.end.regexp
           pop: true
         - include: main
-    - match: '(\()((\?P)(<)([^>]+)(>))?'
+    # http://php.net/manual/en/regexp.reference.subpatterns.php
+    - match: (\()((\?P?)(<)([^>]+)(>))?
       captures:
         1: punctuation.definition.group.begin.regexp
         3: constant.other.assertion.regexp
