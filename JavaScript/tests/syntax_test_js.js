@@ -1472,7 +1472,7 @@ function yy (a, b) {
 //            ^ punctuation.separator.parameter.function
 //              ^ variable.parameter.function
 //               ^ punctuation.section.group.end
-//                 ^ meta.block punctuation.section.block.begin - meta.function
+//                 ^ meta.block punctuation.section.block.begin
 }
 // <- meta.function meta.block punctuation.section.block
 
