@@ -24,6 +24,7 @@ contexts:
     - include: includes
     - include: sections
     - include: text-decorators
+    - include: footnote
     - include: references
     - include: verbatim
     - include: verb
@@ -627,6 +628,41 @@ contexts:
           scope: punctuation.definition.group.brace.end.latex
           pop: true
         - include: main
+
+  footnote:
+    - match: |-
+        (?x)
+        ((\\)footnote(?:text)?)\s*
+        ((\[)
+            \s*\d*\s*
+        (\]))?\s*
+        (\{)
+      captures:
+        1: support.function.footnote.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.bracket.latex
+        4: punctuation.definition.group.bracket.begin.latex
+        5: punctuation.definition.group.bracket.end.latex
+        6: meta.group.brace.latex punctuation.definition.group.brace.begin.latex
+      push:
+        - meta_scope: meta.function.footnote.latex
+        - meta_content_scope: meta.group.brace.latex markup.italic.footnote.latex
+        - match: '\}'
+          scope: meta.group.brace.latex punctuation.definition.group.brace.end.latex
+          pop: true
+        - include: main
+    - match: |-
+        (?x)
+        ((\\)footnotemark)\s*
+        ((\[)
+            \s*\d*\s*
+        (\]))?
+      captures:
+        1: support.function.footnote.latex
+        2: punctuation.definition.backslash.latex
+        3: meta.group.bracket.latex
+        4: punctuation.definition.group.bracket.begin.latex
+        5: punctuation.definition.group.bracket.end.latex
 
   references:
     - match: |-
