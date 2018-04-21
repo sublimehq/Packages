@@ -298,6 +298,7 @@ int foo(int val, float val2[])
 /*        ^^ punctuation.accessor */
     if (result == 0) {
         return 0;
+/*      ^^^^^^ keyword.control.flow.return */
 #if CROSS_SCOPE_MACRO
  /* <- keyword.control.import */
     } else if (result > 0) {
@@ -401,6 +402,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*       ^ punctuation.separator */
         do {
             break;
+/*          ^^^^^ keyword.control.flow.break */
         } while(true);
 
     switch (a) {

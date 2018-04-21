@@ -1323,10 +1323,10 @@ while true; do
 #         ^ keyword.operator
 #            ^ keyword.control
     break
-    # <- keyword.control.break.shell keyword.control.flow.break.shell
+    # <- keyword.control.flow.break.shell
 
     continue
-    # <- keyword.control.continue.shell keyword.control.flow.continue.shell
+    # <- keyword.control.flow.continue.shell
 
 done
 # <- keyword.control
@@ -2113,7 +2113,7 @@ function foo
     # <- meta.function meta.function-call
 
     return 0
-    # <- keyword.control.return.shell keyword.control.flow.return.shell
+    # <- keyword.control.flow.return.shell
 }
 # <- punctuation.section
 

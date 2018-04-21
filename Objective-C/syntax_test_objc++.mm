@@ -613,11 +613,11 @@ switch (x)
 case 1:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 default:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 }
 
 do
@@ -625,7 +625,7 @@ do
 {
     if (y == 3)
         continue;
-        /* <- keyword.control */
+        /* <- keyword.control.flow.continue */
 } while (y < x);
 /*^ keyword.control */
 
@@ -639,13 +639,13 @@ switch (a) {
 }
 
 goto label;
-/* <- keyword.control */
+/* <- keyword.control.flow.goto */
 
 try
 /* <- keyword.control */
 {
     throw std :: string("xyz");
-    /* <- keyword.control */
+    /* <- keyword.control.flow.throw */
     /*    ^^^^^^^^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
@@ -661,7 +661,7 @@ delete ptr;
 /* <- keyword.control */
 
 return 123;
-/* <- keyword.control */
+/* <- keyword.control.flow.return */
 
 
 /////////////////////////////////////////////
