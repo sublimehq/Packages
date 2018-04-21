@@ -653,16 +653,11 @@ contexts:
         - include: main
     - match: |-
         (?x)
-        ((\\)footnotemark)\s*
-        ((\[)
-            \s*\d*\s*
-        (\]))?
+        ((\\)footnotemark)\b
       captures:
         1: support.function.footnote.latex
         2: punctuation.definition.backslash.latex
-        3: meta.group.bracket.latex
-        4: punctuation.definition.group.bracket.begin.latex
-        5: punctuation.definition.group.bracket.end.latex
+      push: optional-arguments
 
   references:
     - match: |-
