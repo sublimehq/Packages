@@ -630,27 +630,24 @@ contexts:
         - include: main
 
   footnote:
-    - match: |-
-        (?x)
-        ((\\)footnote(?:text)?)\s*
-        ((\[)
-            \s*\d*\s*
-        (\]))?\s*
-        (\{)
+    - match: ((\\)footnote(?:text)?)\b
       captures:
         1: support.function.footnote.latex
         2: punctuation.definition.backslash.latex
-        3: meta.group.bracket.latex
-        4: punctuation.definition.group.bracket.begin.latex
-        5: punctuation.definition.group.bracket.end.latex
-        6: meta.group.brace.latex punctuation.definition.group.brace.begin.latex
       push:
         - meta_scope: meta.function.footnote.latex
-        - meta_content_scope: meta.group.brace.latex markup.italic.footnote.latex
-        - match: '\}'
-          scope: meta.group.brace.latex punctuation.definition.group.brace.end.latex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          set:
+            - meta_scope: meta.function.footnote.latex meta.group.brace.latex
+            - meta_content_scope: markup.italic.footnote.latex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.latex
+              pop: true
+            - include: main
+        - match: '(?=\S)'
           pop: true
-        - include: main
     - match: |-
         (?x)
         ((\\)footnotemark)\b
