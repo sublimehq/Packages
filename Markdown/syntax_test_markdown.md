@@ -1232,7 +1232,7 @@ http://spec.commonmark.org/0.28/#example-318
 | ^^^^ punctuation.definition.raw.code-fence.begin
 |     ^^^^ constant.other.language-name
 ~~~~~~
-| ^^^^^ punctuation.definition.raw.code-fence.end
+| ^^^^ punctuation.definition.raw.code-fence.end
 
 ```test
 |  ^^^^ constant.other.language-name
@@ -1634,7 +1634,7 @@ paragraph
 |^^^^^^^^^^^^^^^ meta.paragraph.list
 |   ^^^ punctuation.definition.raw.code-fence.begin
 |      ^^^^^^^^ constant.other.language-name
-|   ^^^^^^^^^^^ markup.raw.code-fence
+|   ^^^^^^^^^^^ meta.code-fence
     
 |^^^^ meta.paragraph.list markup.raw.code-fence
     ```
@@ -1853,7 +1853,7 @@ okay
 1. Test
 
    ```python
-|  ^^^ markup.list.numbered markup.raw.code-fence punctuation.definition.raw.code-fence.begin
+|  ^^^ markup.list.numbered meta.code-fence punctuation.definition.raw.code-fence.begin
        Test
 
 | <- - invalid
@@ -1863,3 +1863,76 @@ okay
 
 1. Test 2
 |^ markup.list.numbered.bullet punctuation.definition.list_item
+
+```xml
+|^^^^^ meta.code-fence.definition.begin.xml
+|  ^^^ constant.other.language-name
+<?xml version="1.0" ?>
+|^^^^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.xml
+|     ^^^^^^^ meta.tag.preprocessor.xml entity.other.attribute-name.localname.xml
+<example>
+    <foobar />
+</example>
+```
+|^^ punctuation.definition.raw.code-fence.end
+
+```sql
+|^^^^^ meta.code-fence.definition.begin.sql
+|  ^^^ constant.other.language-name
+SELECT TOP 10 *
+|^^^^^^^^^^^^^^^ markup.raw.code-fence.sql
+|^^^^^^^^^ keyword.other.DML.sql
+FROM TableName
+```
+|^^ meta.code-fence.definition.end.sql punctuation.definition.raw.code-fence.end - markup
+
+```python
+|^^ punctuation.definition.raw.code-fence.begin
+|^^^^^^^^^ meta.code-fence.definition.begin.python - markup
+|  ^^^^^^ constant.other.language-name
+def function():
+    pass
+|   ^^^^ keyword.control.flow.python
+unclosed_paren = (
+|                ^ meta.group.python punctuation.section.group.begin.python
+```
+|^^ meta.code-fence.definition.end.python punctuation.definition.raw.code-fence.end
+
+```Graphviz
+graph n {}
+| ^^^ storage.type.dot
+```
+
+| <- - markup.raw
+
+```php
+var_dump(expression);
+| ^^^^^^ support.function.var.php
+```
+
+```html+php
+<div></div>
+|^^^ entity.name.tag.block.any.html
+<?php
+|^^^^ punctuation.section.embedded.begin.php
+var_dump(expression);
+| ^^^^^^ support.function.var.php
+```
+|^^ punctuation.definition.raw.code-fence.end.markdown
+
+```regex
+(?x)
+\s+
+```
+|^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
+|^^ punctuation.definition.raw.code-fence.end
+
+```bash
+# test
+| ^^^^^ source.shell comment.line.number-sign
+echo hello, \
+|           ^^ punctuation.separator.continuation.line
+echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
+|                       ^^ constant.character.escape
+```
+| <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end

@@ -674,24 +674,30 @@ $test = new Test1;
 //          ^ support.class.php
 
 $anon = new class{};
-//      ^^^^^^^^^^^ meta.class
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
+//               ^^ meta.class.php
 //               ^^ meta.block.php
 //               ^ punctuation.section.block.php - meta.class meta.class
 //                ^ punctuation.section.block.php
 
-$anon = new class extends Test1 implements Countable {};
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class - meta.class meta.class
+$anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
-//                ^ storage.modifier.extends.php
-//                        ^^^^^ meta.path
-//                         ^ entity.other.inherited-class.php
-//                              ^ storage.modifier.implements.php
-//                                         ^^^^^^^^^ meta.path
-//                                         ^ entity.other.inherited-class.php
-//                                                   ^^ meta.block.php
+//               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
+//               ^ punctuation.section.group.begin.php
+//                ^ variable.other.php
+//                       ^ punctuation.separator.php
+//                         ^ variable.other.php
+//                                ^ punctuation.section.group.end.php
+//                                  ^ storage.modifier.extends.php
+//                                          ^^^^^ meta.path
+//                                           ^ entity.other.inherited-class.php
+//                                                ^ storage.modifier.implements.php
+//                                                           ^^^^^^^^^ meta.path
+//                                                           ^ entity.other.inherited-class.php
+//                                                                     ^^ meta.class.php
+//                                                                     ^^ meta.block.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ storage.type.function.php
@@ -1355,6 +1361,17 @@ var_dump(new C(42));
 //           ^ meta.path support.class
 
 ?>
+
+<div attr-<?= $bar ?>-true></div>
+//   ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
+//        ^^^ punctuation.section.embedded.begin
+//                 ^^ punctuation.section.embedded.end
+
+<option<?php if($condition): ?> selected<?php endif; ?>></option>
+//     ^^^^^ punctuation.section.embedded.begin
+//                           ^^ punctuation.section.embedded.end
+//                                      ^^^^^ punctuation.section.embedded.begin
+//                                                   ^^ punctuation.section.embedded.end
 
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
