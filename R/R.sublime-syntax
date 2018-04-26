@@ -75,8 +75,12 @@ contexts:
       scope: keyword.operator.logical.r
     - match: (%in%|:=|%between%|%chin%|%like%|%\+%|%\+replace%|%:%|%do%|%dopar%|%>%|%<>%|%T>%|%\$%)
       scope: keyword.operator.other.r
+    - match: (:::?)
+      scope: punctuation.accessor.colons.r
     - match: (\.\.\.|\$|:|\~|@)
       scope: keyword.other.r
+    - match: ;
+      scope: punctuation.terminator.semicolon.r
 
   storage-types:
     - match: \b(character|complex|double|expression|integer|list|logical|numeric|single|raw)\b(\s*\()
