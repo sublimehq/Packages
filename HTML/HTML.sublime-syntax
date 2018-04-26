@@ -310,6 +310,16 @@ contexts:
           embed_scope: source.js.embedded.html
           escape: (?i)(?=(?:-->\s*)?</script)
 
+  script-html:
+    - meta_content_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - meta_content_scope: text.html.embedded.html
+        - include: script-close-tag
+        - include: main
+
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
@@ -365,6 +375,11 @@ contexts:
     - match: (?i)(?=>|''|"")
       set:
         - script-javascript
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
+    - match: (?i)(?=text/html(?!{{unquoted_attribute_value}})|'text/html'|"text/html")
+      set:
+        - script-html
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
     - match: (?=\S)
