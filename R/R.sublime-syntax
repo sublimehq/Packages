@@ -63,7 +63,7 @@ contexts:
   keywords:
     - match: \b(break|next|repeat|else|in)\b
       scope: keyword.control.r
-    - match: \b(ifelse|if|for|return|switch|while|invisible)\b(?=\s*\()
+    - match: \b(if|for|return|while|invisible)\b(?=\s*\()
       scope: keyword.control.r
     - match: (\-|\+|\*|\/|%\/%|%%|%\*%|%o%|%x%|\^)
       scope: keyword.operator.arithmetic.r
