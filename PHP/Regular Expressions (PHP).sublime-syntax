@@ -27,8 +27,8 @@ contexts:
     # named group backreference
     # ref: http://php.net/manual/en/regexp.reference.back-references.php
     - match: \\{1,2}(?:[gk]\{([^\}]+)\}|k(?:<([^>]+)>|'([^']+)'))
+      scope: keyword.other.back-reference.named.regexp
       captures:
-        0: keyword.other.back-reference.named.regexp
         1: entity.name.other.group.regexp
         2: entity.name.other.group.regexp
         3: entity.name.other.group.regexp
