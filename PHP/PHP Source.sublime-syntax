@@ -1169,7 +1169,7 @@ contexts:
   regex-single-quoted:
     - match: (?='/(\\.|[^'/])+/[eimsuxADJSUX]*')
       push:
-        - meta_scope: meta.string.php string.quoted.double.php
+        - meta_scope: meta.string.php string.quoted.single.php
         - match: (')(/)
           captures:
             1: punctuation.definition.string.begin.php
