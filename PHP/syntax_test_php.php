@@ -1362,6 +1362,17 @@ var_dump(new C(42));
 
 ?>
 
+<div attr-<?= $bar ?>-true></div>
+//   ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
+//        ^^^ punctuation.section.embedded.begin
+//                 ^^ punctuation.section.embedded.end
+
+<option<?php if($condition): ?> selected<?php endif; ?>></option>
+//     ^^^^^ punctuation.section.embedded.begin
+//                           ^^ punctuation.section.embedded.end
+//                                      ^^^^^ punctuation.section.embedded.begin
+//                                                   ^^ punctuation.section.embedded.end
+
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
 //         ^ punctuation.definition.string.begin.html
