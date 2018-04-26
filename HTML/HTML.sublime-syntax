@@ -14,7 +14,6 @@ scope: text.html.basic
 
 variables:
   attribute_char: (?:[^ "'>/=\x00-\x1f\x7f-\x9f])
-  # attribute_name: (?:[^ "'>/=\x00-\x1f\x7f-\x9f]+)
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
