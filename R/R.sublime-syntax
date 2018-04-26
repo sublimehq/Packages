@@ -119,6 +119,8 @@ contexts:
         - match: \]
           scope: meta.item-access.r punctuation.section.brackets.single.end.r
           pop: true
+        - match: ','
+          scope: punctuation.separator.parameters.r
         - include: main
     - match: \[\[
       scope: meta.item-access.r punctuation.section.brackets.double.begin.r
@@ -127,6 +129,8 @@ contexts:
         - match: \]\]
           scope: meta.item-access.r punctuation.section.brackets.double.end.r
           pop: true
+        - match: ','
+          scope: punctuation.separator.parameters.r
         - include: main
     - match: \{
       scope: punctuation.section.braces.begin.r
