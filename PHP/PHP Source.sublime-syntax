@@ -946,11 +946,16 @@ contexts:
             - match: (?=^\2\b)
               pop: true
   instantiation:
+    # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
     - match: '(?i)(new)\s+(class)\b\s*'
       captures:
         1: keyword.other.new.php
         2: storage.type.class.php
-      push: class-definition
+      push:
+        - match: (?=\()
+          push: function-call-parameters
+        - match: ''
+          set: class-definition
     - match: (?i)(new)\s+
       captures:
         1: keyword.other.new.php
