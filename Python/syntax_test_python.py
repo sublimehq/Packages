@@ -269,6 +269,36 @@ def _():
     lambda x
 #   ^^^^^^ storage.type.function.inline
 
+    lambda (x, y): pass
+#   ^^^^^^^^^^^^^^ meta.function.inline.python
+#         ^^^^^^^ meta.function.inline.parameters.python
+#          ^^^^^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+#           ^ variable.parameter.python
+#            ^ punctuation.separator.parameters.python
+#              ^ variable.parameter.python
+#               ^ punctuation.section.group.end.python
+#                ^ punctuation.section.function.begin.python
+#                  ^^^^ keyword.control.flow.python
+    lambda (
+#   ^^^^^^^^^ meta.function.inline.python
+#         ^^^ meta.function.inline.parameters.python
+#          ^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+        x,
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+#        ^ punctuation.separator.parameters.python
+        y
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+    ):
+#^^^^ meta.function.inline.parameters.python meta.group.python
+#   ^ punctuation.section.group.end.python
+#    ^ punctuation.section.function.begin.python
+        pass
+#       ^^^^ keyword.control.flow.python
+
     ( 3 - 6 \
 #   ^^^^^^^^^ meta.group.python
 #   ^ punctuation.section.group.begin.python

@@ -783,6 +783,7 @@ contexts:
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
     - include: keyword-arguments
+    - include: function-parameters-tuble
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
