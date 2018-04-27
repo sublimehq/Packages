@@ -610,14 +610,14 @@ contexts:
             - match: '(?=[,)=])'
               set: function-parameters
             - include: expressions
-    - include: function-parameters-tuble
+    - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
     - include: line-continuation
 
-  function-parameters-tuble:
-    # python 2 style tuble arguments
+  function-parameters-tuple:
+    # python 2 style tuple arguments
     # removed from python 3 since PEP-3113
     - match: \(
       scope: punctuation.section.group.begin.python
@@ -783,7 +783,7 @@ contexts:
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
     - include: keyword-arguments
-    - include: function-parameters-tuble
+    - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
