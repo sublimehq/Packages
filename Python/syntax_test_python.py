@@ -639,6 +639,45 @@ def func(
 ):
     pass
 
+def func(args, (x, y)=(0,0)):
+#       ^^^^^^^^^^^^^ meta.function.parameters.python
+#                    ^^^^^^ meta.function.parameters.default-value.python
+#                          ^ meta.function.parameters.python
+#              ^^^^^^ meta.group.python
+#                    ^ - meta.group.python
+#                     ^^^^^ meta.group.python
+#                          ^ - meta.group.python
+#       ^ punctuation.section.parameters.begin.python
+#            ^ punctuation.separator.parameters.python
+#              ^ punctuation.section.group.begin.python
+#               ^ variable.parameter.python
+#                ^ punctuation.separator.parameters.python
+#                  ^ variable.parameter.python
+#                   ^ punctuation.section.group.end.python
+#                    ^ keyword.operator.assignment.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ constant.numeric.integer.decimal.python
+#                       ^ punctuation.separator.tuple.python
+#                        ^ constant.numeric.integer.decimal.python
+#                         ^ punctuation.section.group.end.python
+#                          ^ punctuation.section.parameters.end.python
+    pass
+
+def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
+#                     ^^^^^^^^^^^^^^^^ meta.group.python
+#                                     ^^^ - meta.group.python
+#                                        ^^^^^^^^^^^^^^^^ meta.group.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ variable.parameter.python
+#                       ^^^^^^^ invalid.illegal.annotation.python
+#                              ^ punctuation.separator.parameters.python
+#                                ^ variable.parameter.python
+#                                 ^^^ invalid.illegal.default-value.python
+#                                    ^ punctuation.section.group.end.python
+#                                      ^ keyword.operator.assignment.python
+#                                        ^ punctuation.section.group.begin.python
+#                                                       ^ punctuation.section.group.end.python
+    pass
 
 ##################
 # Class definitions
