@@ -889,6 +889,19 @@ class MyClass extends TheirClass {
 
     constructor$() {}
 //  ^^^^^^^^^^^^ entity.name.function - entity.name.function.constructor
+
+
+    ['foo']() {}
+//  ^^^^^^^^^ meta.function.declaration
+
+    static ['foo']() {}
+//         ^^^^^^^^^ meta.function.declaration
+
+    async foo() {}
+//  ^^^^^ storage.type
+
+    static async foo() {}
+//         ^^^^^ storage.type
 }
 // <- meta.block punctuation.section.block.end
 
