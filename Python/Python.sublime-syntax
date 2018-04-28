@@ -1790,11 +1790,14 @@ contexts:
     - match: ','
       scope: punctuation.separator.target-list.python
     - match: \(
+      scope: punctuation.section.target-list.begin.python
       push:
         - include: comments
         - match: ','
           scope: punctuation.separator.target-list.python
         - match: \)
+          scope: punctuation.section.target-list.end.python
           pop: true
+        - include: target-list
         - include: name
     - include: name
