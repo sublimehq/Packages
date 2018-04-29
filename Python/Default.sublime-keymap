@@ -1,6 +1,7 @@
 [
     // Auto-pair quotes even after string modifiers.
-    // Copied over from the default bindings with moficiations to `preceding_text`.
+    // Copied over from the default bindings with modifications to `preceding_text`
+    // and an added selector condition.
     { "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
         [
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
