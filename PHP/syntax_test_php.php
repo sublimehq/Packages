@@ -1106,13 +1106,75 @@ $sql = '
 ';
 // <- string.quoted.single punctuation.definition.string.end - meta.string-contents
 
-preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m');
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted
-//                                 ^ keyword.operator
+preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+//             ^ punctuation.definition.character-class.begin.regexp
+//              ^^^ constant.other.character-class.range.regexp
+//                 ^^^^^^^^^ constant.other.character-class.set.regexp
+//                          ^ punctuation.definition.character-class.end.regexp
+//                           ^^ keyword.operator.quantifier
+//                             ^^^^ constant.character.escape
+//                                   ^ keyword.control.anchor.regexp
+//                                             ^^ keyword.other.back-reference.regexp
+//                                                 ^^^ keyword.other.back-reference.regexp
+//                                                    ^ punctuation.definition.string.regex-delimiter.end
+//                                                     ^ meta.regex.modifier
+//                                                      ^ string.quoted.single
 
-preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m");
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.double-quoted
-//                                 ^ keyword.operator
+preg_replace("/[a-zSOME_CHAR]*+\'\n  $vairble  \1  \\1/m");
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+//             ^ punctuation.definition.character-class.begin.regexp
+//              ^^^ constant.other.character-class.range.regexp
+//                 ^^^^^^^^^ constant.other.character-class.set.regexp
+//                          ^ punctuation.definition.character-class.end.regexp
+//                           ^^ keyword.operator.quantifier
+//                             ^^^^ constant.character.escape
+//                                   ^ punctuation.definition.variable
+//                                             ^^ constant.character.escape
+//                                                 ^^ constant.character.escape
+//                                                    ^ punctuation.definition.string.regex-delimiter.end
+//                                                     ^ meta.regex.modifier
+//                                                      ^ string.quoted.double
+
+preg_replace("/^(?=foo)|(?>a|b|\s*)|(?im:toggle)(?#comment)$/uxS");
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^ keyword.control.anchor.regexp
+//               ^^ constant.other.assertion.regexp meta.assertion.look-ahead.regexp
+//                     ^ keyword.operator.or.regexp
+//                       ^^ constant.other.assertion.regexp meta.assertion.atomic-group.regexp
+//                          ^ keyword.operator.or.regexp
+//                            ^ keyword.operator.or.regexp
+//                             ^^ constant.character.character-class.regexp
+//                               ^ keyword.operator.quantifier.regexp
+//                                   ^^^^ keyword.other.option-toggle.regexp
+//                                              ^^^^^^^^^^^ comment.block
+//                                              ^ punctuation.definition.comment.begin.regexp
+//                                                        ^ punctuation.definition.comment.end.regexp
+//                                                         ^ keyword.control.anchor.regexp
+//                                                          ^ punctuation.definition.string.regex-delimiter.end
+//                                                           ^^^ meta.regex.modifier
+
+preg_replace('/(?P<name>foo|bar)\g{name}\k<name>/');
+//             ^ punctuation.definition.group.begin.regexp
+//              ^^ constant.other.assertion.regexp
+//                ^ punctuation.definition.group.capture.begin.regexp
+//                 ^^^^ entity.name.other.group.regexp
+//                         ^ keyword.operator.or.regexp
+//                             ^ punctuation.definition.group.end.regexp
+//                              ^^^ keyword.other.back-reference.named.regexp
+//                                 ^^^^ entity.name.other.group.regexp
+//                                     ^ keyword.other.back-reference.named.regexp
+//                                      ^^^ keyword.other.back-reference.named.regexp
+//                                         ^^^^ entity.name.other.group.regexp
+
+preg_replace("/a{,6}b{3,}c{3,6}/");
+//              ^^^^ keyword.operator.quantifier.regexp
+//                   ^^^^ keyword.operator.quantifier.regexp
+//                        ^^^^^ keyword.operator.quantifier.regexp
 
 echo <<<EOT
 //   ^^^^^^ punctuation.definition.string

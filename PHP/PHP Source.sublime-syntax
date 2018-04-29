@@ -1147,62 +1147,42 @@ contexts:
       captures:
         1: keyword.other.phpdoc.php
   regex-double-quoted:
-    - match: '(?x)"/ (?= (\\.|[^"/])+/[imsxeADSUXu]*" )'
-      scope: punctuation.definition.string.begin.php
+    - match: (?="/(\\.|[^"/])+/[eimsuxADJSUX]*")
       push:
-        - meta_scope: string.regexp.double-quoted.php
-        - match: '(/)([imsxeADSUXu]*)(")'
-          scope: punctuation.definition.string.end.php
-          pop: true
-        # Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
-        - match: '(\\){1,2}[.$^\[\]{}]'
-          scope: constant.character.escape.regex.php
-        - include: interpolation
-        - match: '(\{)\d+(,\d+)?(\})'
-          scope: string.regexp.arbitrary-repetition.php
+        - meta_scope: meta.string.php string.quoted.double.php
+        - match: (")(/)
           captures:
-            1: punctuation.definition.arbitrary-repetition.php
-            3: punctuation.definition.arbitrary-repetition.php
-        - match: '\[(?:\^?\])?'
-          scope: punctuation.definition.character-class.php
-          push:
-            - meta_scope: string.regexp.character-class.php
-            - match: '\]'
-              scope: punctuation.definition.character-class.php
+            1: punctuation.definition.string.begin.php
+            2: punctuation.definition.string.regex-delimiter.begin.php
+        - match: (/)([eimsuxADJSUX]*)(")
+          captures:
+            1: punctuation.definition.string.regex-delimiter.end.php
+            2: meta.regex.modifier.php
+            3: punctuation.definition.string.end.php
+          pop: true
+        - match: ''
+          push: scope:source.regexp.php
+          with_prototype:
+            - match: (?=(/)([eimsuxADJSUX]*)("))
               pop: true
             - include: interpolation
-        - match: "[$^+*]"
-          scope: keyword.operator.regexp.php
   regex-single-quoted:
-    - match: '(?x)''/ (?= (\\.|[^''/])+/[imsxeADSUXu]*'' )'
-      scope: punctuation.definition.string.begin.php
+    - match: (?='/(\\.|[^'/])+/[eimsuxADJSUX]*')
       push:
-        - meta_scope: string.regexp.single-quoted.php
-        - match: "(/)([imsxeADSUXu]*)(')"
-          scope: punctuation.definition.string.end.php
-          pop: true
-        - match: '(\{)\d+(,\d+)?(\})'
-          scope: string.regexp.arbitrary-repetition.php
+        - meta_scope: meta.string.php string.quoted.single.php
+        - match: (')(/)
           captures:
-            1: punctuation.definition.arbitrary-repetition.php
-            3: punctuation.definition.arbitrary-repetition.php
-        # Escaped from the regexp – there can also be 2 backslashes (since 1 will escape the first)
-        - match: '(\\){1,2}[.$^\[\]{}]'
-          scope: constant.character.escape.regex.php
-        # Escaped from the PHP string – there can also be 2 backslashes (since 1 will escape the first)
-        - match: '\\{1,2}[\\'']'
-          scope: constant.character.escape.php
-        - match: '\[(?:\^?\])?'
-          scope: punctuation.definition.character-class.php
-          push:
-            - meta_scope: string.regexp.character-class.php
-            - match: '\]'
-              scope: punctuation.definition.character-class.php
-              pop: true
-            - match: '\\[\\''\[\]]'
-              scope: constant.character.escape.php
-        - match: "[$^+*]"
-          scope: keyword.operator.regexp.php
+            1: punctuation.definition.string.begin.php
+            2: punctuation.definition.string.regex-delimiter.begin.php
+        - match: (/)([eimsuxADJSUX]*)(')
+          captures:
+            1: punctuation.definition.string.regex-delimiter.end.php
+            2: meta.regex.modifier.php
+            3: punctuation.definition.string.end.php
+          pop: true
+        - match: ''
+          embed: scope:source.regexp.php
+          escape: (?=(/)([eimsuxADJSUX]*)('))
   string-backtick:
     - match: "`"
       scope: punctuation.definition.string.begin.php
