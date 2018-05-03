@@ -27,7 +27,7 @@ variables:
       {{identifier}}
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
-      | \[ {{identifier}} (?:\.{{identifier}})* \]
+      | \[ .* \]
     )
 
   class_element_name: |-
@@ -1602,6 +1602,7 @@ contexts:
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-prefix
+        - function-declaration-expect-async
 
   method-declaration-expect-prefix:
     - match: \*

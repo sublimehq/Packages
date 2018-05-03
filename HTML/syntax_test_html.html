@@ -33,6 +33,23 @@
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
 
+        <script type = "text/html"> <!--
+        ## ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
+        ## ^ entity.name.tag.script - text.html.embedded.html
+        ##             ^ string.quoted.double.html - text.html.embedded.html
+        ##                          ^^^^ comment.block.html punctuation
+            <div></div>
+        ##  ^^^^^^^^^^^ text.html.basic text.html.embedded meta.tag.block.any
+            <script type=text/javascript>
+        ##  ^ text.html.basic text.html.embedded.html - source.js.embedded.html
+                function test() {}
+        ##  ^ text.html.basic text.html.embedded.html source.js.embedded.html
+            </script>
+        ##  ^^^^^^^^^ text.html.basic text.html.embedded.html meta.tag.script.end
+        </script>
+##     ^ text.html.basic text.html.embedded.html
+##      ^^^^^^^^^ text.html.basic - text.html.embedded.html meta.tag.script.end
+
         <script
         type
         =

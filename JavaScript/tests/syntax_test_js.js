@@ -908,6 +908,18 @@ class MyClass extends TheirClass {
 //  ^ punctuation.definition.annotation
 //   ^^^^^^^^^^ meta.group
 //              ^^^ entity.name.function
+
+    ['foo']() {}
+//  ^^^^^^^^^ meta.function.declaration
+
+    static ['foo']() {}
+//         ^^^^^^^^^ meta.function.declaration
+
+    async foo() {}
+//  ^^^^^ storage.type
+
+    static async foo() {}
+//         ^^^^^ storage.type
 }
 // <- meta.block punctuation.section.block.end
 

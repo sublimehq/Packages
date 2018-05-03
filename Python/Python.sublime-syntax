@@ -610,10 +610,42 @@ contexts:
             - match: '(?=[,)=])'
               set: function-parameters
             - include: expressions
+    - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
     - include: line-continuation
+
+  function-parameters-tuple:
+    # python 2 style tuple arguments
+    # removed from python 3 since PEP-3113
+    - match: \(
+      scope: punctuation.section.group.begin.python
+      push:
+        - meta_scope: meta.group.python
+        - match: \)
+          scope: punctuation.section.group.end.python
+          set: after-expression
+        - include: comments
+        - match: ','
+          scope: punctuation.separator.parameters.python
+          push: allow-unpack-operators
+        # default values should follow the argument
+        - match: '(?==)'
+          push:
+            - meta_scope: invalid.illegal.default-value.python
+            - match: '(?=[,)=])'
+              pop: true
+        # python 2 does not support type annotations
+        - match: '(?=:)'
+          push:
+            - meta_scope: invalid.illegal.annotation.python
+            - match: '(?=[,)=])'
+              pop: true
+        - include: illegal-names
+        - match: '{{identifier}}'
+          scope: variable.parameter.python
+        - include: line-continuation
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
@@ -751,6 +783,7 @@ contexts:
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
     - include: keyword-arguments
+    - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
       scope: variable.parameter.python
@@ -1790,11 +1823,14 @@ contexts:
     - match: ','
       scope: punctuation.separator.target-list.python
     - match: \(
+      scope: punctuation.section.target-list.begin.python
       push:
         - include: comments
         - match: ','
           scope: punctuation.separator.target-list.python
         - match: \)
+          scope: punctuation.section.target-list.end.python
           pop: true
+        - include: target-list
         - include: name
     - include: name

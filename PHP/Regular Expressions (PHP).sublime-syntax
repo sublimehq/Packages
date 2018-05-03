@@ -1,0 +1,141 @@
+%YAML 1.2
+---
+# http://php.net/manual/en/reference.pcre.pattern.syntax.php
+name: Regular Expressions (PHP)
+comment: Matches PHP's regular expression syntax.
+scope: source.regexp.php
+hidden: true
+contexts:
+  main:
+    # comment
+    # ref: http://php.net/manual/en/regexp.reference.comments.php
+    - match: \(\?\#
+      scope: punctuation.definition.comment.begin.regexp
+      push:
+        - meta_scope: comment.block.regexp
+        - match: \)
+          scope: punctuation.definition.comment.end.regexp
+          pop: true
+
+    # backreference
+    # ref: http://php.net/manual/en/regexp.reference.back-references.php
+    - match: \\{1,2}[1-9]
+      scope: keyword.other.back-reference.regexp
+    - match: \\{1,2}g([1-9]|\{-?[0-9]+\})
+      scope: keyword.other.back-reference.regexp
+
+    # named group backreference
+    # ref: http://php.net/manual/en/regexp.reference.back-references.php
+    - match: \\{1,2}(?:[gk]\{([^\}]+)\}|k(?:<([^>]+)>|'([^']+)'))
+      scope: keyword.other.back-reference.named.regexp
+      captures:
+        1: entity.name.other.group.regexp
+        2: entity.name.other.group.regexp
+        3: entity.name.other.group.regexp
+    - match: (\()(\?P=)([a-zA-Z_][a-zA-Z_0-9]*\w*)(\))
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: keyword.other.back-reference.named.regexp
+        3: entity.name.other.group.regexp
+        4: punctuation.definition.group.begin.regexp
+
+    # anchor
+    # ref: http://php.net/manual/en/regexp.reference.anchors.php
+    - match: \\{1,2}[bBAZzG]|\^|\$
+      scope: keyword.control.anchor.regexp
+
+    # repetition
+    # ref: http://php.net/manual/en/regexp.reference.repetition.php
+    - match: '[?+*][?+]?|\{([0-9]+(,([0-9]+)?)?|,[0-9]+)\}\??'
+      scope: keyword.operator.quantifier.regexp
+
+    # alternation
+    # ref: http://php.net/manual/en/regexp.reference.alternation.php
+    - match: \|
+      scope: keyword.operator.or.regexp
+
+    # recursive pattern
+    # ref: http://php.net/manual/en/regexp.reference.recursive.php
+    - match: \(\?R\)
+      scope: keyword.other.recursive-pattern.regexp
+
+    # option setting
+    # ref: http://php.net/manual/en/regexp.reference.internal-options.php
+    - match: \(\?[imsxJUX]+\)
+      scope: keyword.other.option-toggle.regexp
+
+    # group assertion
+    - match: (\()((\?=)|(\?!)|(\?<=)|(\?<!)|(\?>)|(\?:)|(\?\|)|(\?[imsxJUX]+:))
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: constant.other.assertion.regexp
+        3: meta.assertion.look-ahead.regexp
+        4: meta.assertion.negative-look-ahead.regexp
+        5: meta.assertion.look-behind.regexp
+        6: meta.assertion.negative-look-behind.regexp
+        7: meta.assertion.atomic-group.regexp
+        8: meta.assertion.no-capture-group.regexp
+        9: meta.assertion.branch-reset-group.regexp
+        10: keyword.other.option-toggle.regexp
+      push:
+        - meta_scope: meta.group.assertion.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+
+    # named group
+    # ref: http://php.net/manual/en/regexp.reference.subpatterns.php
+    - match: (\()(\?)(?:(P)?(<)([^>]+)(>)|(')([^']+)('))
+      captures:
+        1: punctuation.definition.group.begin.regexp
+        2: constant.other.assertion.regexp
+        3: constant.other.assertion.regexp
+        4: punctuation.definition.group.capture.begin.regexp
+        5: entity.name.other.group.regexp
+        6: punctuation.definition.group.capture.end.regexp
+        7: punctuation.definition.group.capture.begin.regexp
+        8: entity.name.other.group.regexp
+        9: punctuation.definition.group.capture.end.regexp
+      push:
+        - meta_scope: meta.group.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+
+    # capture group
+    - match: (\()
+      scope: punctuation.definition.group.begin.regexp
+      push:
+        - meta_scope: meta.group.regexp
+        - match: \)
+          scope: punctuation.definition.group.end.regexp
+          pop: true
+        - include: main
+
+    - include: character-class
+
+  character-class:
+    # 3~4 backslashes = matches actualy 1 backslash
+    # 1~2 backslashes = esacpe the next character
+    # ref: http://php.net/manual/en/regexp.reference.escape.php
+    - match: \\{1,2}(\\{2}|[^wWsSdDhH\\])
+      scope: constant.character.escape.backslash.regexp
+    - match: \\{1,2}[wWsSdDhH]|\.
+      scope: constant.character.character-class.regexp
+    - match: (\[)(\^)?
+      captures:
+        1: punctuation.definition.character-class.begin.regexp
+        2: keyword.operator.negation.regexp
+      push:
+        - meta_scope: constant.other.character-class.set.regexp
+        - match: \]
+          scope: punctuation.definition.character-class.end.regexp
+          pop: true
+        - include: character-class
+        - match: ((\\{1,2}.)|.)\-((\\{1,2}.)|[^\]])
+          scope: constant.other.character-class.range.regexp
+          captures:
+            2: constant.character.escape.backslash.regexp
+            4: constant.character.escape.backslash.regexp
