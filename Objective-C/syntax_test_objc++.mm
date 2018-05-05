@@ -1773,6 +1773,33 @@ class __declspec(dllimport) SkBitmap {}
 /*               ^ constant.other */
 /*                          ^ entity.name.class */
 
+// Make sure not to match macros that have "too few characters".
+template <class T> class Sample {
+ public:
+  // The T here should not be consumed as a macro.
+  T operator()  (const foo x) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  int operator == (const int x) {
+    /*^^^^^^^^^^^ entity.name.function */
+    return 0;
+  }
+  // The T here should not be consumed as a macro.
+  T operator()(int a) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  // The T here should not be consumed as a macro.
+  T operator[](int a)  {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+     return T;
+  }
+};
+
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
