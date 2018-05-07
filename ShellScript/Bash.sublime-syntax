@@ -380,6 +380,8 @@ contexts:
 
   vardef-maybe-more:
     - meta_include_prototype: false
+    - match: (?=`)
+      pop: true
     - match: (?=\s*#)
       pop: true
     - include: cmd-args-boilerplate
@@ -426,7 +428,7 @@ contexts:
         - meta_content_scope: variable.other.readwrite.assignment.shell
         - include: line-continuation-or-pop-at-end
         - include: any-escape
-        - match: (?={{varassign}}|\s)|$|(?=[;&])
+        - match: (?={{varassign}}|\s)|$|(?=[;&`]|{{metachar}})
           pop: true
         - include: array
         - match: \s*$
@@ -464,12 +466,14 @@ contexts:
                   pop: true
             - include: expansion-and-string
         - include: expansion-and-string
-    - match: (?=&)
+    - match: (?=[&`])
       pop: true
     - match: ""
       set:
         - meta_include_prototype: false
         - meta_scope: string.unquoted.shell
+        - match: (?=`)
+          pop: true
         - include: expansion-and-string
         - include: line-continuation-or-pop-at-end
         - include: any-escape
