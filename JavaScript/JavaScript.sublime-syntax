@@ -15,7 +15,7 @@ variables:
   identifier: '{{identifier_start}}{{identifier_part}}*{{identifier_break}}'
   constant_identifier: '[[:upper:]]{{identifier_part}}*{{identifier_break}}'
   dollar_only_identifier: '\${{identifier_break}}'
-  dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}+'
+  dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}'
   func_lookahead: '\s*(async\s+)?function{{identifier_break}}'
   arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
