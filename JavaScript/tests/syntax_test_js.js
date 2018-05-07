@@ -884,6 +884,37 @@ class MyClass extends TheirClass {
 
     constructor$() {}
 //  ^^^^^^^^^^^^ entity.name.function - entity.name.function.constructor
+
+    @foo bar() {}
+//  ^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.annotation
+//       ^^^ entity.name.function
+
+    @foo.bar bar() {}
+//  ^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.other.object - variable.annotation
+//       ^^^ variable.annotation
+//           ^^^ entity.name.function
+
+    @(whatever) bar() {}
+//  ^^^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^^^^^^^^ meta.group
+//              ^^^ entity.name.function
+
+    ['foo']() {}
+//  ^^^^^^^^^ meta.function.declaration
+
+    static ['foo']() {}
+//         ^^^^^^^^^ meta.function.declaration
+
+    async foo() {}
+//  ^^^^^ storage.type
+
+    static async foo() {}
+//         ^^^^^ storage.type
 }
 // <- meta.block punctuation.section.block.end
 
@@ -927,6 +958,32 @@ class Foo extends getSomeClass() {}
 //        ^^ meta.block
 //        ^ punctuation.section.block
 //         ^ punctuation.section.block
+
+    @foo class Foo {}
+//  ^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.annotation
+//       ^^^^^ storage.type.class
+
+    @foo.bar class Foo {}
+//  ^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^ variable.other.object - variable.annotation
+//       ^^^ variable.annotation
+//           ^^^^^ storage.type.class
+
+    @(whatever) class Foo {}
+//  ^^^^^^^^^^^ meta.annotation
+//  ^ punctuation.definition.annotation
+//   ^^^^^^^^^^ meta.group
+//              ^^^^^ storage.type.class
+
+() => {}
+// <- meta.function.declaration punctuation.section.group.begin
+ // <- meta.function.declaration punctuation.section.group.end
+//^^^ meta.function.declaration
+//    ^ meta.block punctuation.section.block.begin
+//     ^ meta.block punctuation.section.block.end
 
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function

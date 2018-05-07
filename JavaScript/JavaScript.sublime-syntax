@@ -15,7 +15,7 @@ variables:
   identifier: '{{identifier_start}}{{identifier_part}}*{{identifier_break}}'
   constant_identifier: '[[:upper:]]{{identifier_part}}*{{identifier_break}}'
   dollar_only_identifier: '\${{identifier_break}}'
-  dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}+'
+  dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}'
   func_lookahead: '\s*(async\s+)?function{{identifier_break}}'
   arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
@@ -27,7 +27,7 @@ variables:
       {{identifier}}
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
-      | \[ {{identifier}} (?:\.{{identifier}})* \]
+      | \[ .* \]
     )
 
   class_element_name: |-
@@ -283,6 +283,8 @@ contexts:
       set: expect-semicolon
 
     - include: function-or-class-declaration
+
+    - include: decorator
 
     - match: (?=\S)
       set: expression-statement
@@ -699,6 +701,36 @@ contexts:
       set: parenthesized-expression
     - include: else-pop
 
+  decorator:
+    - match: '@'
+      scope: punctuation.definition.annotation.js
+      push:
+        - decorator-meta
+        - decorator-expression-end
+        - decorator-expression-begin
+
+  decorator-meta:
+    - meta_scope: meta.annotation.js
+    - include: immediately-pop
+
+  decorator-name:
+    - match: '{{identifier}}{{left_expression_end_lookahead}}'
+      scope: variable.annotation.js
+      pop: true
+
+  decorator-expression-end:
+    - match: \.
+      scope: punctuation.accessor.js
+      push:
+        - include: decorator-name
+        - include: object-property
+
+    - include: left-expression-end
+
+  decorator-expression-begin:
+    - include: decorator-name
+    - include: expression-begin
+
   expression-break:
     - match: (?=[;})\]])
       pop: true
@@ -1075,6 +1107,8 @@ contexts:
 
     - match: \;
       scope: punctuation.terminator.statement.js
+
+    - include: decorator
 
     - match: constructor{{identifier_break}}
       scope: entity.name.function.constructor.js
@@ -1581,6 +1615,7 @@ contexts:
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-prefix
+        - function-declaration-expect-async
 
   method-declaration-expect-prefix:
     - match: \*

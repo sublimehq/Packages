@@ -13,7 +13,7 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
-  attribute_name: (?:[^ "'>/=\x00-\x1f\x7f-\x9f]+)
+  attribute_char: (?:[^ "'>/=\x00-\x1f\x7f-\x9f])
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
@@ -310,6 +310,16 @@ contexts:
           embed_scope: source.js.embedded.html
           escape: (?i)(?=(?:-->\s*)?</script)
 
+  script-html:
+    - meta_content_scope: meta.tag.script.begin.html
+    - include: script-common
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      set:
+        - meta_content_scope: text.html.embedded.html
+        - include: script-close-tag
+        - include: main
+
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
@@ -367,6 +377,11 @@ contexts:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
+    - match: (?i)(?=text/html(?!{{unquoted_attribute_value}})|'text/html'|"text/html")
+      set:
+        - script-html
+        - tag-generic-attribute-meta
+        - tag-generic-attribute-value
     - match: (?=\S)
       set:
         - script-other
@@ -393,11 +408,17 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: '{{attribute_name}}'
+    - match: (?={{attribute_char}})
       scope: entity.other.attribute-name.html
       push:
         - tag-generic-attribute-meta
         - tag-generic-attribute-equals
+        - generic-attribute-name
+
+  generic-attribute-name:
+    - meta_scope: entity.other.attribute-name.html
+    - match: (?!{{attribute_char}})
+      pop: true
 
   tag-generic-attribute-meta:
     - meta_scope: meta.attribute-with-value.html

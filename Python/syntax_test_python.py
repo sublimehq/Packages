@@ -269,6 +269,36 @@ def _():
     lambda x
 #   ^^^^^^ storage.type.function.inline
 
+    lambda (x, y): pass
+#   ^^^^^^^^^^^^^^ meta.function.inline.python
+#         ^^^^^^^ meta.function.inline.parameters.python
+#          ^^^^^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+#           ^ variable.parameter.python
+#            ^ punctuation.separator.parameters.python
+#              ^ variable.parameter.python
+#               ^ punctuation.section.group.end.python
+#                ^ punctuation.section.function.begin.python
+#                  ^^^^ keyword.control.flow.python
+    lambda (
+#   ^^^^^^^^^ meta.function.inline.python
+#         ^^^ meta.function.inline.parameters.python
+#          ^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+        x,
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+#        ^ punctuation.separator.parameters.python
+        y
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+    ):
+#^^^^ meta.function.inline.parameters.python meta.group.python
+#   ^ punctuation.section.group.end.python
+#    ^ punctuation.section.function.begin.python
+        pass
+#       ^^^^ keyword.control.flow.python
+
     ( 3 - 6 \
 #   ^^^^^^^^^ meta.group.python
 #   ^ punctuation.section.group.begin.python
@@ -639,6 +669,45 @@ def func(
 ):
     pass
 
+def func(args, (x, y)=(0,0)):
+#       ^^^^^^^^^^^^^ meta.function.parameters.python
+#                    ^^^^^^ meta.function.parameters.default-value.python
+#                          ^ meta.function.parameters.python
+#              ^^^^^^ meta.group.python
+#                    ^ - meta.group.python
+#                     ^^^^^ meta.group.python
+#                          ^ - meta.group.python
+#       ^ punctuation.section.parameters.begin.python
+#            ^ punctuation.separator.parameters.python
+#              ^ punctuation.section.group.begin.python
+#               ^ variable.parameter.python
+#                ^ punctuation.separator.parameters.python
+#                  ^ variable.parameter.python
+#                   ^ punctuation.section.group.end.python
+#                    ^ keyword.operator.assignment.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ constant.numeric.integer.decimal.python
+#                       ^ punctuation.separator.tuple.python
+#                        ^ constant.numeric.integer.decimal.python
+#                         ^ punctuation.section.group.end.python
+#                          ^ punctuation.section.parameters.end.python
+    pass
+
+def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
+#                     ^^^^^^^^^^^^^^^^ meta.group.python
+#                                     ^^^ - meta.group.python
+#                                        ^^^^^^^^^^^^^^^^ meta.group.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ variable.parameter.python
+#                       ^^^^^^^ invalid.illegal.annotation.python
+#                              ^ punctuation.separator.parameters.python
+#                                ^ variable.parameter.python
+#                                 ^^^ invalid.illegal.default-value.python
+#                                    ^ punctuation.section.group.end.python
+#                                      ^ keyword.operator.assignment.python
+#                                        ^ punctuation.section.group.begin.python
+#                                                       ^ punctuation.section.group.end.python
+    pass
 
 ##################
 # Class definitions
@@ -879,6 +948,40 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
 #                              ^^ keyword.control.flow.for.in
 #                                                 ^^ keyword.operator.logical
+
+generator = ((k1, k2, v) for ((k1, k2), v) in xs)
+#           ^ meta.group.python
+#            ^^^^^^^^^^^ meta.group.python meta.group.python
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^ punctuation.section.group.begin.python
+#                      ^ punctuation.section.group.end.python
+#                            ^^ punctuation.section.target-list.begin.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                        ^ punctuation.section.target-list.end.python
+#                                               ^ punctuation.section.group.end.python
+
+list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list.python
+#        ^^^^^^^^^^^ meta.group.python
+#                   ^ - meta.group.python - meta.expression.generator.python
+#       ^ punctuation.section.list.begin.python
+#        ^ punctuation.section.group.begin.python
+#                  ^ punctuation.section.group.end.python
+#                        ^^ punctuation.section.target-list.begin.python
+#                                ^ punctuation.section.target-list.end.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                           ^ punctuation.section.list.end.python
+
+dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set.python
+#       ^ punctuation.section.dictionary-or-set.begin.python
+#            ^^^^^^^ meta.group.python
+#            ^ punctuation.section.group.begin.python
+#                  ^ punctuation.section.group.end.python
+#                        ^^ punctuation.section.target-list.begin.python
+#                                ^ punctuation.section.target-list.end.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                           ^ punctuation.section.dictionary-or-set.end.python
 
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator

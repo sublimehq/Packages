@@ -171,6 +171,37 @@
 %          ^ markup.underline.underline.latex
 
 
+% FOOTNOTE COMMANDS
+
+\footnote{This is a basic footnote}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.latex
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+
+\footnote [ 5 ] {This is a footnote with a specific reference mark}
+% ^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%         ^ punctuation.definition.group.bracket.begin.latex
+%         ^^^^^ meta.function.footnote.latex meta.group.bracket.latex
+%             ^ punctuation.definition.group.bracket.end.latex
+%               ^ punctuation.definition.group.brace.begin.latex
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+%                                                                 ^ punctuation.definition.group.brace.end.latex
+
+\footnotetext{Footnote text without creating a mark}
+% ^^^^^^^^^^^ meta.function.footnote.latex support.function.footnote.latex
+%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.footnote.latex meta.group.brace.latex
+%                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.italic.footnote.latex
+
+\footnotemark
+% ^^^^^^^^^^^ support.function.footnote.latex
+
+\footnotemark  [ 1   ]
+% ^^^^^^^^^^^ support.function.footnote.latex
+%              ^ punctuation.definition.group.bracket.begin.latex
+%              ^^^^^^^ meta.group.bracket.latex
+%                    ^ punctuation.definition.group.bracket.end.latex
+
 % LIST ENVIRONMENTS
 
 \begin{itemize}
