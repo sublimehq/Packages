@@ -32,6 +32,15 @@ variables:
       button|datalist|input|label|legend|meter|optgroup|option|output|progress|select|template|textarea
     )\b
 
+  javascript_mime_type: |-
+    (?ix)(?:
+      # https://mimesniff.spec.whatwg.org/#javascript-mime-type
+      (?:application|text)/(?:x-)?(?:java|ecma)script
+      | text/javascript1\.[0-5]
+      | text/jscript
+      | text/livescript
+    )
+
 contexts:
   immediately-pop:
     - match: ''
@@ -362,7 +371,7 @@ contexts:
           set: script-javascript
 
   script-type-decider:
-    - match: (?i)(?=text/javascript(?!{{unquoted_attribute_value}})|'text/javascript'|"text/javascript")
+    - match: (?i)(?={{javascript_mime_type}}(?!{{unquoted_attribute_value}})|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
       set:
         - script-javascript
         - tag-generic-attribute-meta
