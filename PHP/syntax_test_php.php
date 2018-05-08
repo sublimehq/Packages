@@ -204,7 +204,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
 //           ^ meta.array.empty.php punctuation.section.array.end.php
-   []
+   [];
 // ^ meta.array.empty.php punctuation.section.array.begin.php
 //  ^ meta.array.empty.php punctuation.section.array.end.php
 
@@ -1423,6 +1423,9 @@ var_dump(new C(42));
 //           ^ meta.path support.class
 
 ?>
+
+<div><?php include 'image.svg' ?></div>
+//                             ^^ punctuation.section.embedded.end.php
 
 <div attr-<?= $bar ?>-true></div>
 //   ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
