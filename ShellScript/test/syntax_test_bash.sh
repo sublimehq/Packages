@@ -340,6 +340,32 @@ declare ret&
 #          ^ keyword.operator
 declare ret &
 #           ^ keyword.operator
+printFunction "$variableString1" "$(declare -p variableArray)"
+#                                ^ string.quoted.double punctuation.definition.string.begin
+#                                 ^ string.quoted.double meta.group.expansion.command.parens punctuation.definition.variable
+#                                  ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.begin
+#                                         ^ string.quoted.double meta.group.expansion.command.parens storage.modifier
+#                                                          ^ string.quoted.double meta.group.expansion.command.parens variable.other
+#                                                           ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.end
+#                                                            ^ string.quoted.double punctuation.definition.string.end
+
+# <- - variable.other
+printFunction "$variableString1" "`declare -p variableArray`"
+#                                ^ string.quoted.double punctuation.definition.string.begin
+#                                 ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.begin
+#                                        ^ string.quoted.double meta.group.expansion.command.backticks storage.modifier
+#                                                         ^ string.quoted.double meta.group.expansion.command.backticks variable.other
+#                                                          ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.end
+#                                                           ^ string.quoted.double punctuation.definition.string.end
+foo=`readonly x=5`
+# <- variable.other.readwrite.assignment
+#   ^ meta.group.expansion.command.backticks punctuation.section.group.begin
+#             ^ meta.group.expansion.command.backticks variable.other.readwrite.assignment
+#              ^ meta.group.expansion.command.backticks keyword.operator.assignment
+#               ^ meta.group.expansion.command.backticks string.unquoted
+#                ^ meta.group.expansion.command.backticks punctuation.section.group.end
+
+# <- - meta.group.expansion.command.backticks
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
 # <- storage.modifier
