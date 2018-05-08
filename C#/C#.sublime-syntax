@@ -497,8 +497,6 @@ contexts:
       scope: storage.modifier.cs
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
-    - match: '\bdynamic\b'
-      scope: storage.modifier.cs
     - match: '\b(implicit|explicit)\b'
       scope: storage.modifier.cs
     - match: '{{visibility}}'
