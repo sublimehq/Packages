@@ -6,8 +6,6 @@ file_extensions:
   - htm
   - shtml
   - xhtml
-  - tmpl
-  - tpl
 first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
