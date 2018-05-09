@@ -115,7 +115,8 @@ contexts:
         1: keyword.control.import.include.php
       push:
         - meta_scope: meta.include.php
-        - match: (?=;|\)|\])
+        # "\s*\?>" is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
+        - match: (?=;|\)|\]|\s*\?>)
           pop: true
         - include: expressions
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
