@@ -1533,10 +1533,19 @@ function yy (a, b) {
     0;
 //  ^ constant.numeric.decimal
 
-    123 .foo
+    123 .foo;
 //  ^^^ constant.numeric.decimal
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
+
+    +123;
+//  ^^^^ constant.numeric.decimal - keyword
+
+    -123;
+//  ^^^^ constant.numeric.decimal - keyword
+
+    + 123;
+//  ^ keyword.operator.arithmetic
 
     123xyz;
 //  ^^^^^^ invalid.illegal.numeric.decimal
