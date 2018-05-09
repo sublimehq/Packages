@@ -6,7 +6,6 @@ file_extensions:
   - htm
   - shtml
   - xhtml
-  - inc
   - tmpl
   - tpl
 first_line_match: (?i)<(!DOCTYPE\s*)?html
