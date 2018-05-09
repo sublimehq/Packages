@@ -1329,6 +1329,17 @@ var re = /^\/[^/]+/;
 //      ^ keyword.operator.arithmetic
  y      / ((x - 1) / -2);
 
+    1, 2;
+//   ^ keyword.operator.comma - punctuation
+
+    a;
+    [1, 2];
+//    ^ meta.sequence punctuation.separator.comma - meta.brackets - keyword
+
+    a
+    [1, 2];
+//    ^ meta.brackets keyword.operator.comma - meta.sequence - punctuation
+
 define(['common'], function(common) {
 //                 ^ meta.function.declaration
     var namedFunc = function() {
