@@ -9,10 +9,13 @@
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string><![CDATA[(?x)
+			^                                                                                 # the start of the line
 			(
-			    ^                                                                             # start of the line
-			    (.*\*/)?                                                                      # optionally with an end block comment somewhere on the line
-			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing curly brace, square bracket or paren
+			    (
+			        .*\*/                                                                     # with an end block comment somewhere on the line
+			    |   \s* (<\?(php)?\s+)?                                                       # OR a PHP open tag
+			    )?                                                                            # the above is optional
+			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing: curly brace, square bracket or paren
 			|                                                                                 # OR
 			    \s* (<\?(php)?\s+)?                                                           # an optional PHP open tag
 			    (else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
