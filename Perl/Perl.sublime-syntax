@@ -244,16 +244,16 @@ contexts:
             - include: escaped_char
             - include: variable
         - match: \s+
-        - match: '((([egimosx]*)))(?=(\s+\S|\s*[;\,\#\{\}\)\]>]|$))'
+        - match: '((([egimorsx]*)))(?=(\s+\S|\s*[;\,\#\{\}\)\]>]|$))'
           captures:
             1: string.regexp.replace.perl
             2: punctuation.definition.string.perl
             3: keyword.control.regexp-option.perl
           pop: true
-    - match: '\b(?=s([^\s\w\[({<]).*\1([egimos]*)([\}\)\;\,]|\s+))'
+    - match: '\b(?=s([^\s\w\[({<]).*\1([egimors]*)([\}\)\;\,]|\s+))'
       comment: string.regexp.replaceXXX
       push:
-        - match: '((([egimos]*)))(?=([\}\)\;\,]|\s+|$))'
+        - match: '((([egimors]*)))(?=([\}\)\;\,]|\s+|$))'
           captures:
             1: string.regexp.replace.perl
             2: punctuation.definition.string.perl
@@ -296,7 +296,7 @@ contexts:
     - match: '\b(?=(?<!\\)s\s*([^\s\w\[({<]))'
       comment: string.regexp.replace.extended
       push:
-        - match: '\2((([egimos]*x[egimos]*)))\b'
+        - match: '\2((([egimors]*x[egimos]*)))\b'
           captures:
             1: string.regexp.replace.perl
             2: punctuation.definition.string.perl
@@ -349,7 +349,7 @@ contexts:
         0: punctuation.definition.string.perl
       push:
         - meta_scope: string.regexp.find.extended.perl
-        - match: '\/([cgimos]*x[cgimos]*)\b'
+        - match: '\/([cgimors]*x[cgimors]*)\b'
           captures:
             1: keyword.control.regexp-option.perl
           pop: true
