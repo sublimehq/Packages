@@ -12,15 +12,13 @@ variables:
   identifier_part: '[_$\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]'
   identifier_break: (?!{{identifier_part}})
 
-  identifier: '{{identifier_start}}{{identifier_part}}*{{identifier_break}}'
-  constant_identifier: '[[:upper:]]{{identifier_part}}*{{identifier_break}}'
-  dollar_only_identifier: '\${{identifier_break}}'
-  dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}'
-  func_lookahead: '\s*(async\s+)?function{{identifier_break}}'
-  arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
+  identifier: (?:{{identifier_start}}{{identifier_part}}*{{identifier_break}})
+  constant_identifier: (?:[[:upper:]]{{identifier_part}}*{{identifier_break}})
+  dollar_only_identifier: (?:\${{identifier_break}})
+  dollar_identifier: '(?:(\$){{identifier_part}}*{{identifier_break}})'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
-  left_expression_end_lookahead: '(?!\s*[.\[\(])'
+  left_expression_end_lookahead: (?!\s*[.\[\(])
 
   property_name: >-
     (?x)(?:
@@ -36,6 +34,25 @@ variables:
       | \#{{identifier}}
     )
 
+  func_lookahead: |-
+    (?x)(?:
+      \s*
+      (?:async\s+)?
+      function{{identifier_break}}
+    )
+
+  arrow_func_lookahead: |-
+    (?x)(?:
+      \s*
+      (?:async\s*)?
+      (?:
+        {{identifier}}
+        | \( ( [^()] | \( [^()]* \) )* \)
+      )
+      \s*
+      =>
+    )
+
   method_lookahead: |-
     (?x)(?=
       (?: get|set|async ){{identifier_break}}
@@ -44,11 +61,12 @@ variables:
     )
 
   line_continuation_lookahead: >-
-    (?x)
-    (?! \+\+ | -- )
-    (?=
-      != |
-      [ -+*/% ><= &|^ \[( ;,.:? ]
+    (?x)(?:
+      (?! \+\+ | -- )
+      (?=
+        != |
+        [ -+*/% ><= &|^ \[( ;,.:? ]
+      )
     )
 
 contexts:
