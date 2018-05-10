@@ -8,9 +8,9 @@ file_extensions:
   - h
 scope: source.objc++
 variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
+  identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
+  macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
-  macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
   operator_method_name: '\boperator\s*(?:[-+*/%ˆ&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
   operator_keywords: 'and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|noexcept'
@@ -1518,7 +1518,7 @@ contexts:
   preprocessor-data-structures:
     - include: preprocessor-rule-enabled-data-structures
     - include: preprocessor-rule-disabled-data-structures
-    - include: scope:source.c#preprocessor-practical-workarounds
+    - include: scope:source.c++#preprocessor-practical-workarounds
 
   preprocessor-rule-disabled-data-structures:
     - match: ^\s*((#if)\s+(0))\b
@@ -2007,7 +2007,7 @@ contexts:
       push:
         - meta_scope: meta.preprocessor.import.objc++
         - include: preprocessor-other-include-common
-    - include: scope:source.c#preprocessor-practical-workarounds
+    - include: scope:source.c++#preprocessor-practical-workarounds
 
   preprocessor-other-include-common:
     - include: scope:source.c#preprocessor-line-continuation
