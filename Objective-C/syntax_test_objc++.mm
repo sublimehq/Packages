@@ -1,4 +1,14 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
+
+int main(){
+    int a=5,b=0;
+    while(a-->0)++b;
+    /*     ^^ keyword.operator.arithmetic */
+    /*       ^ keyword.operator.comparison */
+    /*        ^ constant.numeric */
+    /*          ^^ keyword.operator.arithmetic */
+}
+
 /////////////////////////////////////////////
 // Preprocessor
 /////////////////////////////////////////////
