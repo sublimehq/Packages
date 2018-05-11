@@ -77,34 +77,34 @@ contexts:
     - include: statements
 
   embedded-html:
-    - match: '\?>(\s*\n)?'
-      scope: meta.embedded.block.php punctuation.section.embedded.end.php
+    - match: (\?>)(\s*\n)?
+      scope: meta.embedded.block.php
       captures:
-        1: meta.html-newline-after-php.php
+        1: punctuation.section.embedded.end.php
+        2: meta.html-newline-after-php.php
       push:
         - meta_scope: embedding.php text.html.basic
         - clear_scopes: true
-        - match: '<\?(?i:php)?'
+        - match: <\?(?i:php)?
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
           pop: true
         - match: ''
           with_prototype:
             - include: single-line-php-tag
-            - match: '(?=<\?(?i:php)?)'
+            - match: (?=<\?(?i:php)?)
               pop: true
-          push:
-            - include: scope:text.html.basic
+          push: scope:text.html.basic
 
   single-line-php-tag:
-    - match: '(<\?=|<\?(?i:php)?(?=.*\?>))'
+    - match: (?:<\?=|<\?(?i:php)?(?=.*\?>))
       scope: punctuation.section.embedded.begin.php
       push:
         - meta_scope: meta.embedded.line.nested.php
         - meta_content_scope: source.php
-        - match: \?>(\s*\n)?
-          scope: punctuation.section.embedded.end.php
+        - match: (\?>)(\s*\n)?
           captures:
-            1: meta.html-newline-after-php.php
+            1: punctuation.section.embedded.end.php
+            2: meta.html-newline-after-php.php
           pop: true
         - include: statements
 
