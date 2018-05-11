@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[${1:expression} until ${2:condition};
+]]></content>
+	<tabTrigger>xuntil</tabTrigger>
+	<scope>source.perl</scope>
+	<description>until.. Loop One-line</description>
+</snippet>

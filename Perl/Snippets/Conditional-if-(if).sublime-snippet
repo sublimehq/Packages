@@ -5,5 +5,5 @@
 ]]></content>
 	<tabTrigger>if</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Conditional</description>
+	<description>if.. Conditional</description>
 </snippet>
