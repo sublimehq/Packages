@@ -335,21 +335,21 @@ foo="bar" />
  -->
 
      &amp;
-<!-- ^ punctuation.definition.constant -->
-<!--  ^^^ - punctuation.definition.constant -->
+<!-- ^ punctuation.definition.entity -->
+<!--  ^^^ - punctuation.definition.entity -->
 <!-- ^^^^^ constant.character.entity -->
-<!--     ^ punctuation.definition.constant -->
-<!--      ^ - constant.character.entity - punctuation.definition.constant -->
+<!--     ^ punctuation.definition.entity -->
+<!--      ^ - constant.character.entity - punctuation.definition.entity -->
 
      &#160;
-<!-- ^ punctuation.definition.constant -->
-<!--  ^^^^ -punctuation.definition.constant -->
+<!-- ^ punctuation.definition.entity -->
+<!--   ^^^ - punctuation.definition.entity -->
 <!-- ^^^^^^ constant.character.entity -->
-<!--      ^ punctuation.definition.constant -->
+<!--      ^ punctuation.definition.entity -->
 <!--       ^ - constant.character.entity -->
 
      <!-- &amp; -->
-<!--      ^ -punctuation.definition.constant -->
+<!--      ^ -punctuation.definition.entity -->
 
      <example attr="&quot;test&quot;" />
 <!--               ^^^^^^^^^^^^^^^^^^ string.quoted.double -->

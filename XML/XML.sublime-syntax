@@ -114,8 +114,8 @@ contexts:
   doctype-content:
     - match: \b(PUBLIC|SYSTEM)\b
       scope: keyword.content.external.xml
-    - include: double-quoted-string
-    - include: single-quoted-string
+    - include: string-douple-quoted
+    - include: string-single-quoted
     - include: doctype-internal-subset
     - include: doctype-end
 
@@ -170,8 +170,8 @@ contexts:
         - include: tag-attributes
 
   tag-attributes:
-    - include: double-quoted-string
-    - include: single-quoted-string
+    - include: string-douple-quoted
+    - include: string-single-quoted
     # valid attribute name followed by '='
     - match: '\b{{qualified_name}}\s*(=)'
       captures:
@@ -188,7 +188,7 @@ contexts:
     - match: '[^\s=]'
       scope: invalid.illegal.bad-attribute-value.xml
 
-  double-quoted-string:
+  string-douple-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
       push:
@@ -200,7 +200,7 @@ contexts:
         - include: entity
         - include: should-be-entity
 
-  single-quoted-string:
+  string-single-quoted:
     - match: "'"
       scope: punctuation.definition.string.begin.xml
       push:
@@ -213,11 +213,21 @@ contexts:
         - include: should-be-entity
 
   entity:
-    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
-      scope: constant.character.entity.xml
+    - match: (&#[xX])(\h+)(;)
+      scope: constant.character.entity.hexadecimal.xml
       captures:
-        1: punctuation.definition.constant.xml
-        2: punctuation.definition.constant.xml
+        1: punctuation.definition.entity.xml
+        3: punctuation.definition.entity.xml
+    - match: (&#)([0-9]+)(;)
+      scope: constant.character.entity.decimal.xml
+      captures:
+        1: punctuation.definition.entity.xml
+        3: punctuation.definition.entity.xml
+    - match: (&)([a-zA-Z0-9]+)(;)
+      scope: constant.character.entity.named.xml
+      captures:
+        1: punctuation.definition.entity.xml
+        3: punctuation.definition.entity.xml
 
   should-be-entity:
     - match: '&'
