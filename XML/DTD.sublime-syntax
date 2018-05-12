@@ -14,6 +14,9 @@ variables:
 
 contexts:
   main:
+    # NOTE: prototype is ignored if the file is included by another one.
+    #       Including it explicitly fixes the issue.
+    - include: prototype
     - include: decl-attlist
     - include: decl-element
     - include: decl-entity

@@ -95,29 +95,46 @@
 <!-- ^ meta.tag.declaration.doctype -->
 <!-- ^ punctuation.definition.tag.end -->
 
-     <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
-     <!-- <- meta.tag.declaration.doctype -->
+     <!DOCTYPE root [<!ENTITY br "\n" <!-- comment --> > %name; <!-- comment --> ]>
+<!-- ^^^^^^^^^^^^^^^ meta.tag.declaration.doctype - meta.tag.declaration.doctype.internal-subset - meta.brackets  -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype.internal-subset meta.brackets -->
+<!--                                                                              ^ meta.tag.declaration.doctype -->
+<!--                   ^^^^^^ meta.tag.declaration.entity -->
+<!--                         ^^^ meta.tag.declaration.entity.name -->
+<!--                            ^ meta.tag.declaration.entity.type.dtd -->
+<!--                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.content.internal -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
 <!--           ^^^^ variable.documentroot -->
 <!--                ^ punctuation.section.brackets.begin -->
-<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype.internal-subset meta.brackets -->
-<!--                                                           ^ punctuation.section.brackets.end -->
 <!--                 ^^ punctuation.definition.tag.begin -->
 <!--                   ^^^^^^ entity.name.tag.entity -->
 <!--                          ^^ variable.entity -->
-<!--                                   ^ punctuation.definition.variable.begin -->
-<!--                                    ^^^^ variable.parameter -->
-<!--                                        ^ punctuation.definition.variable.end -->
-<!--                                          ^^^^^^^^^^^^^^^^ comment.block -->
-<!--                                          ^^^^ punctuation.definition.comment.begin -->
-<!--                                                       ^^^ punctuation.definition.comment.end -->
-<!--                                                            ^ punctuation.definition.tag.end -->
+<!--                             ^ punctuation.definition.string.begin -->
+<!--                             ^^^^ string.quoted.double -->
+<!--                                ^ punctuation.definition.string.end -->
+<!--                                  ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                                   ^ punctuation.definition.tag.end -->
+<!--                                                     ^ punctuation.definition.variable.begin -->
+<!--                                                      ^^^^ variable.parameter -->
+<!--                                                          ^ punctuation.definition.variable.end -->
+<!--                                                            ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                                            ^^^^ punctuation.definition.comment.begin -->
+<!--                                                                         ^^^ punctuation.definition.comment.end -->
+<!--                                                                             ^ punctuation.section.brackets.end -->
+<!--                                                                              ^ punctuation.definition.tag.end -->
 
 <!DOCTYPE data [
 <!-- ^ entity.name.tag.doctype -->
 <!--      ^ variable.documentroot -->
 <!--           ^ punctuation.section.brackets.begin -->
+
+<!ENTITY name PUBLIC "content" <!-- comment --> >
+<!-- ^ entity.name.tag.entity -->
+<!--     ^^^^ variable.entity -->
+<!--          ^^^^^^ keyword.content.external -->
+<!--                 ^^^^^^^^^ string.quoted.double -->
+<!--                           ^^^^^^^^^^^^^^^^ comment.block -->
 
 <!ENTITY auml  "&#228;">
 <!-- ^ entity.name.tag.entity -->

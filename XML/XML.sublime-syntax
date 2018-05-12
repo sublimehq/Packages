@@ -95,8 +95,6 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.doctype.xml
       push: doctype-root-name
-      with_prototype:
-        - include: comment
 
   doctype-root-name:
     - meta_scope: meta.tag.declaration.doctype.xml
@@ -128,6 +126,7 @@ contexts:
         - include: scope:text.xml.dtd
 
   doctype-end:
+    - include: comment
     - match: '>'
       scope: meta.tag.declaration.doctype.xml punctuation.definition.tag.end.xml
       pop: true
