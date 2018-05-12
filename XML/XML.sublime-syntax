@@ -108,12 +108,11 @@ contexts:
     - include: doctype-end
 
   doctype-content:
-    - match: (?=\[)
-      set: doctype-internal-subset
     - match: \b(PUBLIC|SYSTEM)\b
       scope: keyword.content.external.xml
     - include: double-quoted-string
     - include: single-quoted-string
+    - include: doctype-internal-subset
     - include: doctype-end
 
   doctype-internal-subset:
