@@ -51,6 +51,7 @@ contexts:
       pop: true
 
   main:
+    - include: comment
     - match: (<\?)(xml)
       captures:
         1: punctuation.definition.tag.begin.html
@@ -63,19 +64,6 @@ contexts:
         - include: tag-generic-attribute
         - include: string-double-quoted
         - include: string-single-quoted
-    - match: (<!--)(-?>)?
-      captures:
-        1: punctuation.definition.comment.begin.html
-        2: invalid.illegal.bad-comments-or-CDATA.html
-      push:
-        - meta_scope: comment.block.html
-        - match: '(<!-)?(--\s*>)'
-          captures:
-            1: invalid.illegal.bad-comments-or-CDATA.html
-            2: punctuation.definition.comment.end.html
-          pop: true
-        - match: '<!--(?!-?>)|--!>'
-          scope: invalid.illegal.bad-comments-or-CDATA.html
     - match: <!
       scope: punctuation.definition.tag.html
       push:
@@ -240,6 +228,21 @@ contexts:
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
+
+  comment:
+    - match: (<!--)(-?>)?
+      captures:
+        1: punctuation.definition.comment.begin.html
+        2: invalid.illegal.bad-comments-or-CDATA.html
+      push:
+        - meta_scope: comment.block.html
+        - match: '(<!-)?(--\s*>)'
+          captures:
+            1: invalid.illegal.bad-comments-or-CDATA.html
+            2: punctuation.definition.comment.end.html
+          pop: true
+        - match: '<!--(?!-?>)|--!>'
+          scope: invalid.illegal.bad-comments-or-CDATA.html
 
   style-css:
     - meta_content_scope: meta.tag.style.begin.html
