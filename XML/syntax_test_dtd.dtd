@@ -63,6 +63,36 @@
 <!--^ meta.tag.declaration.entity -->
 <!--^ punctuation.definition.tag.end -->
 
+    <!ENTITY nbsp "&#160;">
+<!--^^^^^^^^ meta.tag.declaration.entity -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^ entity.name.tag.entity -->
+<!--         ^^^^ variable.entity -->
+<!--              ^^^^^^^^ string.quoted.double -->
+<!--               ^^^^^^ constant.character.entity -->
+
+    <!ENTITY
+<!--^^^^^^^^ meta.tag.declaration.entity -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^ entity.name.tag.entity -->
+      nbsp
+<!--  ^^^^ variable.entity -->
+      "&#160;"
+<!--  ^^^^^^^^ string.quoted.double -->
+<!--   ^^^^^^ constant.character.entity -->
+    >
+<!--^ meta.tag.declaration.entity -->
+<!--^ punctuation.definition.tag.end -->
+
+    <!ENTITY nbsp "&#A60;">
+<!--^^^^^^^^ meta.tag.declaration.entity -->
+<!--^^ punctuation.definition.tag.begin -->
+<!--  ^^^^^^ entity.name.tag.entity -->
+<!--         ^^^^ variable.entity -->
+<!--              ^^^^^^^^ string.quoted.double -->
+<!--               ^^^^^^ - constant.character.entity -->
+<!--               ^ invalid.illegal.bad-ampersand -->
+
 <!--
   ============
   DTD Elements
