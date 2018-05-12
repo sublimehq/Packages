@@ -1,0 +1,343 @@
+%YAML 1.2
+---
+name: DTD
+file_extensions:
+  - dtd
+  - mod
+  - ent
+scope: text.xml.dtd
+variables:
+  # This is the full XML Name production, but should not be used where namespaces
+  # are possible. Those locations should use a qualified_name.
+  name: '[[:alpha:]:_][[:alnum:]:_.-]*'
+  param: (%){{name}}(;)
+
+contexts:
+  main:
+    # NOTE: prototype is ignored if the file is included by another one.
+    #       Including it explicitly fixes the issue.
+    - include: prototype
+    - include: decl-attlist
+    - include: decl-element
+    - include: decl-entity
+    - include: decl-notation
+    - include: decl-subset
+    - include: parameter-entity
+
+  prototype:
+    - match: '<!--'
+      scope: punctuation.definition.comment.begin.dtd
+      push:
+        - meta_scope: comment.block.dtd
+        - match: '-->'
+          scope: punctuation.definition.comment.end.dtd
+          pop: true
+        - match: '-{2,}'
+          scope: invalid.illegal.double-hyphen-within-comment.dtd
+
+  # <!ENTITY name PUBLIC "CDATA">
+  # https://www.quackit.com/xml/tutorial/dtd_general_entities.cfm
+  # https://www.quackit.com/xml/tutorial/dtd_parameter_entities.cfm
+  decl-entity:
+    - match: (<!)(ENTITY)\b
+      scope: meta.tag.declaration.entity.dtd
+      captures:
+        1: punctuation.definition.tag.begin.dtd
+        2: entity.name.tag.entity.dtd
+      push: decl-entity-name
+
+  decl-entity-name:
+    - meta_content_scope: meta.tag.declaration.entity.name.dtd
+    # % indicates an parameter entity declaration
+    - match: '%'
+      scope: punctuation.definition.tag.separator.entity.dtd
+      set:
+        - meta_content_scope: meta.tag.declaration.entity.name.dtd
+        - match: '{{name}}'
+          scope: variable.entity.parameter-entity.dtd
+          set: decl-entity-type
+    - match: '{{name}}'
+      scope: variable.entity.general-entity.dtd
+      set: decl-entity-type
+    - include: decl-end
+
+  decl-entity-type:
+    - meta_content_scope: meta.tag.declaration.entity.type.dtd
+    - match: (?:PUBLIC|SYSTEM)\b
+      scope: keyword.content.external.dtd
+      set: decl-entity-content-external
+    - match: (?=\S)
+      set: decl-entity-content-internal
+    - include: decl-end
+
+  decl-entity-content-external:
+    # contains at most 2 strings with FPI and uri
+    - meta_content_scope: meta.tag.declaration.entity.content.external.dtd
+    - include: decl-entity-content-ndata
+    - include: double-quoted-string
+    - include: single-quoted-string
+    - include: decl-end
+
+  decl-entity-content-internal:
+    # contains one string which contains the content
+    # of any other kind of declaration from this file
+    - meta_content_scope: meta.tag.declaration.entity.content.internal.dtd
+    - include: decl-entity-content-ndata
+    - include: double-quoted-string
+    - include: single-quoted-string
+    - include: decl-end
+
+  # embedded images
+  # https://www.quackit.com/xml/tutorial/dtd_embedded_images.cfm
+  decl-entity-content-ndata:
+    - match: NDATA\b
+      scope: keyword.ndata.dtd
+      push:
+        # one of variable.notation
+        - include: unquoted-string
+        - match: (?=>)
+          pop: true
+
+  # <!ELEMENT name (values+)>
+  # https://www.quackit.com/xml/tutorial/dtd_elements.cfm
+  decl-element:
+    - match: (<!)(ELEMENT)\b
+      scope: meta.tag.declaration.element.dtd
+      captures:
+        1: punctuation.definition.tag.begin.dtd
+        2: entity.name.tag.element.dtd
+      push: decl-element-name
+
+  decl-element-name:
+    - meta_content_scope: meta.tag.declaration.element.name.dtd
+    - match: '{{param}}'
+      scope: variable.parameter.dtd
+      captures:
+        1: punctuation.definition.variable.begin.dtd
+        2: punctuation.definition.variable.end.dtd
+      set: decl-element-content
+    - match: '{{name}}'
+      scope: variable.element.dtd
+      set: decl-element-content
+    - include: decl-end
+
+  decl-element-content:
+    - meta_content_scope: meta.tag.declaration.element.content.dtd
+    - match: \bANY\b
+      scope: storage.type.content.any.dtd
+    - match: \bEMPTY\b
+      scope: storage.type.content.empty.dtd
+    - include: group
+    - include: parameter-entity
+    - include: double-quoted-string
+    - include: single-quoted-string
+    - include: decl-end
+
+  # <!ATTLIST element-name attribute-name attribute-type attribute-value>
+  # https://www.w3schools.com/xml/xml_dtd_attributes.asp
+  decl-attlist:
+    - match: (<!)(ATTLIST)\b
+      scope: meta.tag.declaration.attlist.dtd
+      captures:
+        1: punctuation.definition.tag.begin.dtd
+        2: entity.name.tag.attlist.dtd
+      push: decl-attlist-name
+
+  decl-attlist-name:
+    - meta_content_scope: meta.tag.declaration.attlist.element.dtd
+    - match: '{{param}}'
+      scope: variable.parameter.dtd
+      captures:
+        1: punctuation.definition.variable.begin.dtd
+        2: punctuation.definition.variable.end.dtd
+      set: decl-attlist-content
+    - match: '{{name}}'
+      scope: variable.element.dtd
+      set: decl-attlist-content
+    - include: decl-end
+
+  decl-attlist-content:
+    - meta_content_scope: meta.tag.declaration.attlist.content.dtd
+    - include: enumerated
+    - include: parameter-entity
+    - include: double-quoted-string
+    - include: single-quoted-string
+    - match: (?:CDATA|ENTITY|ENTITIES|IDREFS?|ID|NMTOKENS?|NOTATION)\b
+      scope: storage.type.attribute.dtd
+    - match: (#)(?:FIXED|IMPLIED|REQUIRED)
+      scope: constant.other.attribute-value.dtd
+      captures:
+        1: punctuation.definition.constant.attribute-value.dtd
+    - match: '{{name}}'
+      scope: entity.other.attribute-name.dtd
+    - include: decl-end
+
+  # <!-- W3C XML 1.0 Recommendation -->
+  # https://www.quackit.com/xml/tutorial/dtd_attribute_types_notation.cfm
+  # <!NOTATION w3c-xml PUBLIC "ISO 8879//NOTATION Extensible Markup Language (XML) 1.0//EN
+  decl-notation:
+    - match: (<!)(NOTATION)\b
+      scope: meta.tag.declaration.notation.dtd
+      captures:
+        1: punctuation.definition.tag.begin.dtd
+        2: entity.name.tag.notation.dtd
+      push: decl-notation-name
+
+  decl-notation-name:
+    - meta_content_scope: meta.tag.declaration.notation.name.dtd
+    - match: '{{name}}'
+      scope: variable.notation.dtd
+      set: decl-notation-type
+    - include: decl-end
+
+  decl-notation-type:
+    - meta_content_scope: meta.tag.declaration.notation.type.dtd
+    - match: (?:PUBLIC|SYSTEM)\b
+      scope: keyword.content.external.dtd
+      set: decl-notation-content
+    - include: decl-end
+
+  decl-notation-content:
+    - meta_content_scope: meta.tag.declaration.notation.content.dtd
+    - include: double-quoted-string
+    - include: single-quoted-string
+    - include: decl-end
+
+  decl-end:
+    # don't pop off directly to include > into current meta_content_scope
+    - match: '>'
+      scope: punctuation.definition.tag.end.dtd
+      set:
+        - match: ''
+          pop: true
+    - match: <!
+      scope: invalid.illegal.unexpected.dtd
+
+  # <![%name[ ... ]]>
+  decl-subset:
+    - match: <!\[
+      scope: punctuation.definition.tag.begin.dtd
+      push: decl-subset-name
+
+  decl-subset-name:
+    - meta_scope: meta.tag.declaration.internal-subset.dtd
+    - match: (?=\[)
+      set: decl-subset-content
+    - include: parameter-entity
+    - match: '{{name}}'
+      scope: variable.entity.dtd
+    - include: decl-subset-end
+
+  decl-subset-content:
+    - match: \[
+      scope: punctuation.section.brackets.begin.dtd
+      set:
+        - meta_scope: meta.tag.declaration.internal-subset.content.dtd meta.brackets.dtd
+        - match: \]
+          scope: punctuation.section.brackets.end.dtd
+          set: decl-subset-end
+        - include: main
+    - include: decl-subset-end
+
+  decl-subset-end:
+    - meta_content_scope: meta.tag.declaration.internal-subset.dtd
+    - match: \]>
+      scope: meta.tag.declaration.internal-subset.dtd punctuation.definition.tag.end.dtd
+      pop: true
+
+  double-quoted-string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.dtd
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.dtd
+        - match: '"'
+          scope: punctuation.definition.string.end.dtd
+          pop: true
+        - match: "'(?:[^'\"]+')?"
+          scope: constant.character.escape.string.dtd
+        - include: string-body
+
+  single-quoted-string:
+    - match: "'"
+      scope: punctuation.definition.string.begin.dtd
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.dtd
+        - match: "'"
+          scope: punctuation.definition.string.end.dtd
+          pop: true
+        - match: "\"(?:[^'\"]+\")?"
+          scope: constant.character.escape.string.dtd
+        - include: string-body
+
+  string-body:
+    - match: '[\(\)\|,]'
+      scope: constant.character.escape.punctuation.dtd
+    - match: '[*?+]'
+      scope: keyword.operator.dtd
+    - include: constant-entity
+    - include: should-be-entity
+
+  unquoted-string:
+    - match: '{{name}}'
+      scope: string.unquoted.dtd
+
+  enumerated:
+    - match: \(
+      scope: punctuation.definition.group.begin.dtd
+      push:
+        - meta_scope: meta.group.enumerated.dtd
+        - match: \)
+          scope: punctuation.definition.group.end.dtd
+          pop: true
+        - match: \|
+          scope: punctuation.separator.logical.dtd
+        - include: constant-entity
+        - include: parameter-entity
+        - include: unquoted-string
+
+  group:
+    - match: \(
+      scope: punctuation.definition.group.begin.dtd
+      push:
+        - meta_scope: meta.group.sequence.dtd
+        - match: (\))\s*([*?+])?
+          captures:
+            1: punctuation.definition.group.end.dtd
+            2: keyword.operator.dtd
+          pop: true
+        - match: '[*?+]'
+          scope: keyword.operator.dtd
+        - match: ','
+          scope: punctuation.separator.group.dtd
+        - match: \|
+          scope: punctuation.separator.logical.dtd
+        - include: group
+        - include: constant-entity
+        - include: parameter-entity
+        - include: unquoted-string
+
+  parameter-entity:
+    - match: '{{param}}'
+      scope: variable.parameter.dtd
+      captures:
+        1: punctuation.definition.variable.begin.dtd
+        2: punctuation.definition.variable.end.dtd
+
+  constant-entity:
+    - match: (#)PCDATA
+      scope: variable.language.parsed-character-data.dtd
+      captures:
+        1: punctuation.definition.variable.begin.dtd
+    - match: (&)(?:{{name}}|#[0-9]+|#x\h+)(;)
+      scope: constant.character.entity.dtd
+      captures:
+        1: punctuation.definition.constant.begin.dtd
+        2: punctuation.definition.constant.end.dtd
+
+  should-be-entity:
+    - match: '&'
+      scope: invalid.illegal.bad-ampersand.dtd
+    - match: '<'
+      scope: invalid.illegal.missing-entity.dtd

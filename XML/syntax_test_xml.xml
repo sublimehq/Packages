@@ -17,11 +17,23 @@
 <!--                     ^^ punctuation.definition.tag.end -->
 <!--                       ^ - meta.tag.preprocessor -->
 
-
      <?XML version="1.0" ?>
 <!-- ^ invalid.illegal.missing-entity - meta.tag.preprocessor -->
 
      <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
+<!--                                                   ^ - meta.tag.preprocessor -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^^^^^^^^ entity.name.tag -->
+<!--                 ^ - entity -->
+<!--                  ^^^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.separator.key-value -->
+<!--                       ^ punctuation.definition.string.begin -->
+<!--                       ^^^^^^^^^^ string.quoted.single -->
+<!--                                ^ punctuation.definition.string.end -->
+<!--                                 ^ - string -->
+
+     <?XML-STYLESHEET TYPE='TEXT/XSL' HREF='FREB.XSL'?>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
 <!--                                                   ^ - meta.tag.preprocessor -->
 <!-- ^^ punctuation.definition.tag.begin -->
@@ -46,44 +58,100 @@
   DOCTYPE Declaration
  -->
 
-     <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
-     <!-- <- meta.tag.sgml.doctype -->
+     <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
+ <!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
-<!--   ^^^^^^^ keyword.doctype -->
-<!--           ^^^^ variable.documentroot -->
-<!--                ^ meta.internalsubset -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
+<!--           ^^^^ constant.language.doctype.xml -->
+<!--                ^^^^^^ keyword.content.external -->
+<!--                       ^ string.quoted.double -->
+<!--                                                   ^ string.quoted.double -->
+<!--                                                                                 ^ punctuation.definition.tag.end     -->
+
+     <!DOCTYPE
+     <!-- <- meta.tag.doctype -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
+        root
+<!-- <- meta.tag.doctype -->
+<!--    ^^^^ constant.language.doctype.xml -->
+        PUBLIC
+<!-- <- meta.tag.doctype -->
+<!--    ^^^^^^ keyword.content.external -->
+        "-//W3C//DTD XHTML 1.1//EN"
+<!-- <- meta.tag.doctype -->
+<!--    ^ string.quoted.double -->
+        "http://www.w3.org/1999/xhtml"
+<!-- <- meta.tag.doctype -->
+<!--    ^ string.quoted.double -->
+        [
+<!--    ^ punctuation.section.brackets.begin -->
+            <!ELEMENT p "">
+<!--    <- meta.brackets meta.internal-subset.xml.dtd -->
+        ]
+<!--    <- meta.brackets meta.internal-subset.xml.dtd -->
+<!--    ^ punctuation.section.brackets.end -->
+     >
+<!-- ^ meta.tag.doctype -->
+<!-- ^ punctuation.definition.tag.end -->
+
+     <!DOCTYPE root [<!ENTITY br "\n" <!-- comment --> > %name; <!-- comment --> ]>
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.doctype  -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets meta.internal-subset.xml.dtd -->
+<!--                   ^^^^^^ meta.tag.declaration.entity -->
+<!--                         ^^^ meta.tag.declaration.entity.name -->
+<!--                            ^ meta.tag.declaration.entity.type.dtd -->
+<!--                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.content.internal -->
+<!-- ^^ punctuation.definition.tag.begin -->
+<!--   ^^^^^^^ entity.name.tag.doctype -->
+<!--           ^^^^ constant.language.doctype.xml -->
+<!--                ^ punctuation.section.brackets.begin -->
 <!--                 ^^ punctuation.definition.tag.begin -->
-<!--                   ^^^^^^ keyword.entity -->
+<!--                   ^^^^^^ entity.name.tag.entity -->
 <!--                          ^^ variable.entity -->
-<!--                                   ^ punctuation.definition.constant -->
-<!--                                    ^^^^ constant.character.parameter-entity -->
-<!--                                        ^ punctuation.definition.constant -->
-<!--                                          ^^^^^^^^^^^^^^^^ comment.block.xml -->
-<!--                                          ^^^^ punctuation.definition.comment.begin.xml -->
-<!--                                                       ^^^ punctuation.definition.comment.end.xml -->
-<!--                                                            ^ punctuation.definition.tag.end -->
+<!--                             ^ punctuation.definition.string.begin -->
+<!--                             ^^^^ string.quoted.double -->
+<!--                                ^ punctuation.definition.string.end -->
+<!--                                  ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                                   ^ punctuation.definition.tag.end -->
+<!--                                                     ^ punctuation.definition.variable.begin -->
+<!--                                                      ^^^^ variable.parameter -->
+<!--                                                          ^ punctuation.definition.variable.end -->
+<!--                                                            ^^^^^^^^^^^^^^^^ comment.block -->
+<!--                                                            ^^^^ punctuation.definition.comment.begin -->
+<!--                                                                         ^^^ punctuation.definition.comment.end -->
+<!--                                                                             ^ punctuation.section.brackets.end -->
+<!--                                                                              ^ punctuation.definition.tag.end -->
 
 <!DOCTYPE data [
-<!-- ^ keyword.doctype -->
-<!--      ^ variable.documentroot -->
+<!-- ^ entity.name.tag.doctype -->
+<!--      ^ constant.language.doctype.xml -->
+<!--           ^ punctuation.section.brackets.begin -->
+
+<!ENTITY name PUBLIC "content" <!-- comment --> >
+<!-- ^ entity.name.tag.entity -->
+<!--     ^^^^ variable.entity -->
+<!--          ^^^^^^ keyword.content.external -->
+<!--                 ^^^^^^^^^ string.quoted.double -->
+<!--                           ^^^^^^^^^^^^^^^^ comment.block -->
 
 <!ENTITY auml  "&#228;">
-<!-- ^ keyword.entity -->
+<!-- ^ entity.name.tag.entity -->
 <!--      ^ variable.entity -->
 <!--           ^ string.quoted.double -->
 <!--            ^ constant.character.entity -->
 
 <!ELEMENT ArticleTitle (#PCDATA)>
-<!-- ^ keyword.element -->
+<!-- ^ entity.name.tag.element -->
 <!--      ^ variable.element -->
 <!--                   ^ punctuation.definition.group -->
-<!--                    ^ constant.other -->
+<!--                    ^ variable.language.parsed-character-data -->
 <!--                           ^ punctuation.definition.group -->
 
 <!ELEMENT AbstractText (#PCDATA)>
 
 <!ELEMENT info (ArticleTitle,AbstractText)+>
-<!-- ^ keyword.element -->
+<!-- ^ entity.name.tag.element -->
 <!--      ^ variable.element -->
 <!--           ^ punctuation.definition.group -->
 <!--                        ^ punctuation.separator -->
@@ -91,16 +159,17 @@
 <!--                                      ^ keyword.operator -->
 
 <!ATTLIST image width CDATA #REQUIRED>
-<!-- ^ keyword.attlist -->
+<!-- ^ entity.name.tag.attlist -->
 <!--      ^ variable.element -->
-<!--            ^ variable.attribute-name -->
+<!--            ^ entity.other.attribute-name -->
 
 <!NOTATION name PUBLIC "public_ID" "URI">
-<!-- ^ keyword.notation -->
+<!-- ^ entity.name.tag.notation -->
 <!--       ^ variable.notation -->
 <!--                   ^ string.quoted.double -->
 
 ]>
+<!-- <- meta.brackets meta.internal-subset.xml.dtd punctuation.section.brackets.end -->
 
 <!--
   Comments
@@ -160,9 +229,33 @@
      >
 <!-- ^ text - punctuation - illegal -->
 
+     <NS:TAGNAME XMLNS:NS="URI">
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag -->
+<!--                            ^ - meta.tag -->
+<!-- ^ punctuation.definition.tag.begin -->
+<!--  ^^ entity.name.tag.namespace -->
+<!--    ^ punctuation.separator.namespace -->
+<!--     ^^^^^^^ entity.name.tag.localname -->
+<!--            ^ - entity -->
+<!--             ^^^^^ entity.other.attribute-name.namespace -->
+<!--                  ^ punctuation.separator.namespace -->
+<!--                   ^^ entity.other.attribute-name.localname -->
+<!--                      ^ punctuation.definition.string.begin -->
+<!--                      ^^^^^ string.quoted -->
+<!--                          ^ punctuation.definition.string.end -->
+<!--                           ^ punctuation.definition.tag.end -->
+     text
+<!-- ^^^^ text -->
+     >
+<!-- ^ text - punctuation - illegal -->
+
      <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
-<!--                                           ^ - string.unquoted.cdata -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.cdata.xml -->
+<!-- ^^^ punctuation.definition.tag.begin.xml -->
+<!--    ^^^^^ entity.name.tag.cdata.xml -->
+<!--         ^ punctuation.definition.tag.begin.xml - string.unquoted.cdata -->
+<!--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata -->
+<!--                                        ^^^ punctuation.definition.tag.end.xml - string.unquoted.cdata -->
 
      <?pi "markup" is <ignored>?>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
@@ -242,21 +335,21 @@ foo="bar" />
  -->
 
      &amp;
-<!-- ^ punctuation.definition.constant -->
-<!--  ^^^ - punctuation.definition.constant -->
+<!-- ^ punctuation.definition.entity -->
+<!--  ^^^ - punctuation.definition.entity -->
 <!-- ^^^^^ constant.character.entity -->
-<!--     ^ punctuation.definition.constant -->
-<!--      ^ - constant.character.entity - punctuation.definition.constant -->
+<!--     ^ punctuation.definition.entity -->
+<!--      ^ - constant.character.entity - punctuation.definition.entity -->
 
      &#160;
-<!-- ^ punctuation.definition.constant -->
-<!--  ^^^^ -punctuation.definition.constant -->
+<!-- ^ punctuation.definition.entity -->
+<!--   ^^^ - punctuation.definition.entity -->
 <!-- ^^^^^^ constant.character.entity -->
-<!--      ^ punctuation.definition.constant -->
+<!--      ^ punctuation.definition.entity -->
 <!--       ^ - constant.character.entity -->
 
      <!-- &amp; -->
-<!--      ^ -punctuation.definition.constant -->
+<!--      ^ -punctuation.definition.entity -->
 
      <example attr="&quot;test&quot;" />
 <!--               ^^^^^^^^^^^^^^^^^^ string.quoted.double -->
