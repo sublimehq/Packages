@@ -250,8 +250,12 @@
 <!-- ^ text - punctuation - illegal -->
 
      <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword -->
-<!--                                           ^ - string.unquoted.cdata -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.cdata.xml -->
+<!-- ^^^ punctuation.definition.tag.begin.xml -->
+<!--    ^^^^^ entity.name.tag.cdata.xml -->
+<!--         ^ punctuation.definition.tag.begin.xml - string.unquoted.cdata -->
+<!--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata -->
+<!--                                        ^^^ punctuation.definition.tag.end.xml - string.unquoted.cdata -->
 
      <?pi "markup" is <ignored>?>
 <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor -->
