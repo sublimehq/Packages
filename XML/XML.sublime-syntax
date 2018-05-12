@@ -94,17 +94,20 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.doctype.xml
-      push: doctype-root-name
+      push: [doctype-meta, doctype-root-name]
+
+  doctype-meta:
+    - meta_scope: meta.tag.declaration.doctype.xml
+    - match: ''
+      pop: true
 
   doctype-root-name:
-    - meta_scope: meta.tag.declaration.doctype.xml
     - match: '{{name}}'
       scope: variable.documentroot.xml
       set: doctype-content
     - include: doctype-end
 
   doctype-content:
-    - meta_content_scope: meta.tag.declaration.doctype.xml
     - match: (?=\[)
       set: doctype-internal-subset
     - match: \b(PUBLIC|SYSTEM)\b
@@ -117,18 +120,16 @@ contexts:
     - match: \[
       scope: punctuation.section.brackets.begin.xml
       set:
-        - meta_scope: meta.tag.declaration.doctype.internal-subset.xml meta.brackets.xml
+        - meta_scope: meta.brackets.xml meta.internal-subset.xml.dtd
         - match: \]
           scope: punctuation.section.brackets.end.xml
-          set:
-            - meta_content_scope: meta.tag.declaration.doctype.xml
-            - include: doctype-end
+          set: doctype-end
         - include: scope:text.xml.dtd
 
   doctype-end:
     - include: comment
     - match: '>'
-      scope: meta.tag.declaration.doctype.xml punctuation.definition.tag.end.xml
+      scope: punctuation.definition.tag.end.xml
       pop: true
     - match: '[^>\s]'
       scope: invalid.illegal.unexpected.xml

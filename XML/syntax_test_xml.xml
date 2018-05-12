@@ -87,18 +87,17 @@
         [
 <!--    ^ punctuation.section.brackets.begin -->
             <!ELEMENT p "">
-<!--    <- meta.tag.declaration.doctype.internal-subset meta.brackets -->
+<!--    <- meta.brackets meta.internal-subset.xml.dtd -->
         ]
-<!--    <- meta.tag.declaration.doctype.internal-subset meta.brackets -->
+<!--    <- meta.brackets meta.internal-subset.xml.dtd -->
 <!--    ^ punctuation.section.brackets.end -->
      >
 <!-- ^ meta.tag.declaration.doctype -->
 <!-- ^ punctuation.definition.tag.end -->
 
      <!DOCTYPE root [<!ENTITY br "\n" <!-- comment --> > %name; <!-- comment --> ]>
-<!-- ^^^^^^^^^^^^^^^ meta.tag.declaration.doctype - meta.tag.declaration.doctype.internal-subset - meta.brackets  -->
-<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype.internal-subset meta.brackets -->
-<!--                                                                              ^ meta.tag.declaration.doctype -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype  -->
+<!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets meta.internal-subset.xml.dtd -->
 <!--                   ^^^^^^ meta.tag.declaration.entity -->
 <!--                         ^^^ meta.tag.declaration.entity.name -->
 <!--                            ^ meta.tag.declaration.entity.type.dtd -->
@@ -170,7 +169,7 @@
 <!--                   ^ string.quoted.double -->
 
 ]>
-<!-- <- meta.tag.declaration.doctype.internal-subset meta.brackets punctuation.section.brackets.end -->
+<!-- <- meta.brackets meta.internal-subset.xml.dtd punctuation.section.brackets.end -->
 
 <!--
   Comments
