@@ -94,20 +94,20 @@ contexts:
   # DOCTYPE declaration
   # see: https://www.quackit.com/xml/tutorial/dtd_doctype.cfm
   doctype:
-    - match: (<!)(DOCTYPE)
+    - match: (<!)(?i)(DOCTYPE)
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.doctype.xml
       push: [doctype-meta, doctype-root-name]
 
   doctype-meta:
-    - meta_scope: meta.tag.declaration.doctype.xml
+    - meta_scope: meta.tag.doctype.xml
     - match: ''
       pop: true
 
   doctype-root-name:
     - match: '{{name}}'
-      scope: variable.documentroot.xml
+      scope: constant.language.doctype.xml
       set: doctype-content
     - include: doctype-end
 

@@ -59,30 +59,30 @@
  -->
 
      <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
- <!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag.declaration.doctype -->
+ <!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
-<!--           ^^^^ variable.documentroot -->
+<!--           ^^^^ constant.language.doctype.xml -->
 <!--                ^^^^^^ keyword.content.external -->
 <!--                       ^ string.quoted.double -->
 <!--                                                   ^ string.quoted.double -->
 <!--                                                                                 ^ punctuation.definition.tag.end     -->
 
      <!DOCTYPE
-     <!-- <- meta.tag.declaration.doctype -->
+     <!-- <- meta.tag.doctype -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
         root
-<!-- <- meta.tag.declaration.doctype -->
-<!--    ^^^^ variable.documentroot -->
+<!-- <- meta.tag.doctype -->
+<!--    ^^^^ constant.language.doctype.xml -->
         PUBLIC
-<!-- <- meta.tag.declaration.doctype -->
+<!-- <- meta.tag.doctype -->
 <!--    ^^^^^^ keyword.content.external -->
         "-//W3C//DTD XHTML 1.1//EN"
-<!-- <- meta.tag.declaration.doctype -->
+<!-- <- meta.tag.doctype -->
 <!--    ^ string.quoted.double -->
         "http://www.w3.org/1999/xhtml"
-<!-- <- meta.tag.declaration.doctype -->
+<!-- <- meta.tag.doctype -->
 <!--    ^ string.quoted.double -->
         [
 <!--    ^ punctuation.section.brackets.begin -->
@@ -92,11 +92,11 @@
 <!--    <- meta.brackets meta.internal-subset.xml.dtd -->
 <!--    ^ punctuation.section.brackets.end -->
      >
-<!-- ^ meta.tag.declaration.doctype -->
+<!-- ^ meta.tag.doctype -->
 <!-- ^ punctuation.definition.tag.end -->
 
      <!DOCTYPE root [<!ENTITY br "\n" <!-- comment --> > %name; <!-- comment --> ]>
-<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.doctype  -->
+<!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.doctype  -->
 <!--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets meta.internal-subset.xml.dtd -->
 <!--                   ^^^^^^ meta.tag.declaration.entity -->
 <!--                         ^^^ meta.tag.declaration.entity.name -->
@@ -104,7 +104,7 @@
 <!--                             ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.declaration.entity.content.internal -->
 <!-- ^^ punctuation.definition.tag.begin -->
 <!--   ^^^^^^^ entity.name.tag.doctype -->
-<!--           ^^^^ variable.documentroot -->
+<!--           ^^^^ constant.language.doctype.xml -->
 <!--                ^ punctuation.section.brackets.begin -->
 <!--                 ^^ punctuation.definition.tag.begin -->
 <!--                   ^^^^^^ entity.name.tag.entity -->
@@ -125,7 +125,7 @@
 
 <!DOCTYPE data [
 <!-- ^ entity.name.tag.doctype -->
-<!--      ^ variable.documentroot -->
+<!--      ^ constant.language.doctype.xml -->
 <!--           ^ punctuation.section.brackets.begin -->
 
 <!ENTITY name PUBLIC "content" <!-- comment --> >
