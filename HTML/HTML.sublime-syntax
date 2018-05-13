@@ -623,6 +623,6 @@ contexts:
       pop: true
 
   tag-end-maybe-self-closing:
-    - match: '(?: ?/)?>'
+    - match: '/?>'
       scope: punctuation.definition.tag.end.html
       pop: true

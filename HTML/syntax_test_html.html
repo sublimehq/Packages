@@ -272,6 +272,7 @@ class="foo"></div>
         ## ^^^^^ entity.name.tag.block.any.html
         ##        ^^^^ entity.name.tag.inline.any.html
         ##              ^^^^^^^^ entity.name.tag.other.html
+        ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
 
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
@@ -284,6 +285,7 @@ class="foo"></div>
         <test-custom-tag/>
         ##^^^^^^^^^^^^^^^^ meta.tag.custom.html
         ##              ^^ punctuation.definition.tag.end.html
+        ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
 
         <INVALID-CUSTOM-TAG></INVALID-CUSTOM-TAG>
         ## ^^^^^^^^^^^^^^^^ invalid.illegal.uppercase-custom-tag-name.html
