@@ -871,8 +871,7 @@ contexts:
           scope: punctuation.definition.string.template.end.js
           pop: true
         - match: '\$\{'
-          captures:
-            0: punctuation.definition.template-expression.begin.js
+          scope: punctuation.definition.template-expression.begin.js
           push:
             - clear_scopes: 1
             - meta_scope: meta.template.expression.js
@@ -1546,10 +1545,11 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.js
         - meta_content_scope: entity.name.function.js
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - match: \'
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - match: \n
+          scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
     - match: '"'
@@ -1558,10 +1558,11 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.js
         - meta_content_scope: entity.name.function.js
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.js
-            2: invalid.illegal.newline.js
+        - match: \"
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - match: \n
+          scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
 
