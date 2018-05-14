@@ -1053,14 +1053,12 @@ Proto.prototype.getVar = () => this._var;
 //                           ^ storage.type.function.arrow
 
 Class3.prototype = function() {
-// ^^^^^^^^^^^^^ meta.prototype.declaration
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class
 //       ^ support.constant.prototype
 }
 
 Proto.prototype.attr
-// ^^^^^^^^^^^^ meta.prototype.access
 // ^ support.class
 //     ^ support.constant.prototype
 //               ^ meta.property.object
