@@ -973,6 +973,42 @@ class Foo extends getSomeClass() {}
 //   ^^^^^^^^^^ meta.group
 //              ^^^^^ storage.type.class
 
+    class {
+//  ^^^^^^^^ meta.class
+//        ^^ meta.block
+//  ^^^^^ storage.type.class
+//        ^ punctuation.section.block.begin
+        init() {}
+//  ^^^^^^^^^^^^^ meta.class.js meta.block.js
+//      ^^^^^^ meta.function.declaration.js
+//      ^^^^ entity.name.function.js
+//          ^ punctuation.section.group.begin.js
+//           ^ punctuation.section.group.end.js
+//             ^ punctuation.section.block.begin.js
+//              ^ punctuation.section.block.end.js
+    };
+//  ^ meta.class.js meta.block.js punctuation.section.block.end.js
+//   ^ punctuation.terminator.statement.empty.js
+
+    class extends B {
+//  ^^^^^^^^^^^^^^^^^ meta.class
+//                  ^^ meta.block
+//  ^^^^^ storage.type.class
+//        ^^^^^^^ storage.modifier.extends.js
+//                ^ entity.other.inherited-class.js
+//                  ^ punctuation.section.block.begin
+        init() {}
+//  ^^^^^^^^^^^^^ meta.class.js meta.block.js
+//      ^^^^^^ meta.function.declaration.js
+//      ^^^^ entity.name.function.js
+//          ^ punctuation.section.group.begin.js
+//           ^ punctuation.section.group.end.js
+//             ^ punctuation.section.block.begin.js
+//              ^ punctuation.section.block.end.js
+    };
+//  ^ meta.class.js meta.block.js punctuation.section.block.end.js
+//   ^ punctuation.terminator.statement.empty.js
+
 () => {}
 // <- meta.function.declaration punctuation.section.group.begin
  // <- meta.function.declaration punctuation.section.group.end
@@ -1602,7 +1638,7 @@ function yy (a, b) {
 
     12345e6_7_8;
 //  ^^^^^^^^^^^ constant.numeric.decimal
-    
+
     123.456e+789;
 //  ^^^^^^^^^^^^ constant.numeric.decimal
 
