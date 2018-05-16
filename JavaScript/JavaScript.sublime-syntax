@@ -1149,7 +1149,7 @@ contexts:
     - include: expression-begin
 
   class-name:
-    - match: (?=\bextends\b)
+    - match: (?=extends{{identifier_break}})
       pop: true
     - match: '{{identifier}}'
       scope: entity.name.class.js
