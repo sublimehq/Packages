@@ -143,12 +143,18 @@ CONSTANT.__
 #^^^^^^^ meta.qualified-name.python variable.other.constant.python
 #        ^^ - variable.other.constant
 
+CONSTANT_123.__
+#^^^^^^^^^^^ meta.qualified-name.python variable.other.constant.python
+
 NO _A_B
 #^ - variable.other.constant
 #  ^^^^ - variable.other.constant
 
 some.NO
 #    ^^ meta.qualified-name.python variable.other.constant.python
+
+some.NO_123
+#    ^^^^^^ meta.qualified-name.python variable.other.constant.python
 
 _ self
 # <- variable.language.python
