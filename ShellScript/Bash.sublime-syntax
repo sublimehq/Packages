@@ -285,14 +285,15 @@ contexts:
           pop: true
 
   funcdef-parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.section.parens.end.shell
-          pop: true
+    - match: (\()\s*(\))
+      captures:
+        1: punctuation.section.parens.begin.shell
+        2: punctuation.section.parens.end.shell
     - match: \{
       scope: punctuation.section.braces.begin.shell
+      pop: true
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
       pop: true
 
   funcdef-body:
@@ -300,12 +301,18 @@ contexts:
     - match: \}
       scope: punctuation.section.braces.end.shell
       pop: true
+    - match: \)
+      scope: punctuation.definition.compound.end.shell
+      pop: true
     - include: main
 
   funcdef-body-bt:
     - meta_scope: meta.function.shell
     - match: \}
       scope: punctuation.section.braces.end.shell
+      pop: true
+    - match: \)
+      scope: punctuation.definition.compound.end.shell
       pop: true
     - include: main-bt
 

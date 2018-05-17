@@ -2155,6 +2155,23 @@ function foo (     ) {
 
 # <- - meta.function
 
+f () (
+# <- meta.function entity.name.function
+  #  ^ meta.function punctuation.definition.compound.begin
+  echo hello
+  # <- meta.function meta.function-call support.function.echo
+)
+# <- meta.function punctuation.definition.compound.end
+
+function f (
+  #    ^ meta.function storage.type.function
+  #      ^ meta.function entity.name.function
+  #        ^ meta.function punctuation.definition.compound.begin
+  echo hello
+  # <- meta.function meta.function-call support.function.echo
+)
+# <- meta.function punctuation.definition.compound.end
+
 function foo {
     # <- meta.function
     function bar {
