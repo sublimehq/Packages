@@ -615,6 +615,10 @@ do {
 // ^^^^ keyword.control.loop
 //      ^^^^^^^^ meta.group
 
+do // Incomplete statement
+    42;
+//  ^^ constant.numeric - meta.do-while
+
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
 //   ^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -631,6 +635,10 @@ for (var i = 0; i < 10; i++) {
     for await (const x of list) {}
 //  ^^^ keyword.control.loop
 //      ^^^^^ keyword.control.loop
+
+for
+    42;
+//  ^^ constant.numeric - meta.for
 
 while (true)
 // ^^^^^^^^^ meta.while
@@ -667,12 +675,20 @@ while (true)
 }
 // <- meta.block
 
+while // Incomplete statement
+    42;
+//  ^^ constant.numeric - meta.while
+
 with (undefined) {
 // <- keyword.control.with
 //^^^^^^^^^^ meta.with
 //    ^^^^^^^^^ constant.language.undefined
     return;
 }
+
+with // Incomplete statement
+    42;
+//  ^^ constant.numeric - meta.while
 
 switch ($foo) {
 // ^^^^^^^^^^^^ meta.switch
@@ -726,6 +742,10 @@ try {
 //  ^^^^^^^^^^^ meta.finally meta.block
 }
 // <- meta.block
+
+switch // Incomplete statement
+    42;
+//  ^^ constant.numeric - meta.switch
 
 class MyClass extends TheirClass {
 // <- storage.type.class
