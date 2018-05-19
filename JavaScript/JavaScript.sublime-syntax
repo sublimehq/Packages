@@ -32,6 +32,7 @@ variables:
 
   class_element_name: |-
     (?x)(?:
+      \*?
       {{property_name}}
       | \#{{identifier}}
     )
