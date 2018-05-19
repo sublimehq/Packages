@@ -1338,8 +1338,8 @@ contexts:
         - function-declaration-expect-async
 
   function-declaration-expect-body:
-    - match: (?=\S)
-      set: function-block
+    - include: function-block
+    - include: else-pop
 
   function-declaration-meta:
     - meta_include_prototype: false
@@ -1384,8 +1384,7 @@ contexts:
         - function-declaration-expect-async
 
   arrow-function-expect-body:
-    - match: (?=\{)
-      set: function-block
+    - include: function-block
     - match: (?=\S)
       set:
         - block-meta
@@ -1405,17 +1404,14 @@ contexts:
     - include: else-pop
 
   function-block:
-    - meta_scope: meta.block.js
-    - match: '\}'
-      scope: punctuation.section.block.end.js
-      pop: true
     - match: '\{'
       scope: punctuation.section.block.begin.js
-      push:
-        - match: '(?=\})'
+      set:
+        - meta_scope: meta.block.js
+        - match: '\}'
+          scope: punctuation.section.block.end.js
           pop: true
         - include: statements
-    - include: else-pop
 
   function-declaration-parameters:
     - match: \(
