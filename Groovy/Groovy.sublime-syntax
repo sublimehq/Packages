@@ -6,6 +6,7 @@ file_extensions:
   - groovy
   - gvy
   - gradle
+  - Jenkinsfile
 variables:
   unicode_letter: |-
     (?:(?xi)
