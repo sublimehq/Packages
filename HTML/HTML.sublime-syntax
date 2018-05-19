@@ -229,17 +229,17 @@ contexts:
       scope: constant.character.entity.hexadecimal.html
       captures:
         1: punctuation.definition.entity.html
-        3: punctuation.definition.entity.html
+        3: punctuation.terminator.entity.html
     - match: (&#)([0-9]+)(;)
       scope: constant.character.entity.decimal.html
       captures:
         1: punctuation.definition.entity.html
-        3: punctuation.definition.entity.html
+        3: punctuation.terminator.entity.html
     - match: (&)([a-zA-Z0-9]+)(;)
       scope: constant.character.entity.named.html
       captures:
         1: punctuation.definition.entity.html
-        3: punctuation.definition.entity.html
+        3: punctuation.terminator.entity.html
 
   style-css:
     - meta_content_scope: meta.tag.style.begin.html
