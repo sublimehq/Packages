@@ -48,7 +48,8 @@ variables:
     (?! \+\+ | -- )
     (?=
       != |
-      [ -+*/% ><= &|^ \[( ;,.:? ]
+      [ -+*/% ><= &|^ \[( ;,.:? ] |
+      (?:in|instanceof){{identifier_break}}
     )
 
 contexts:
