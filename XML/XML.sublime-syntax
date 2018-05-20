@@ -127,27 +127,9 @@ contexts:
     - match: ']]>'
       scope: invalid.illegal.missing-entity.xml
     - include: should-be-entity
-  should-be-entity:
-    - match: '&'
-      scope: invalid.illegal.bad-ampersand.xml
-    - match: '<'
-      scope: invalid.illegal.missing-entity.xml
-  double-quoted-string:
-    - match: '"'
-      scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_scope: string.quoted.double.xml
-        - match: '"'
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
-  entity:
-    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
-      scope: constant.character.entity.xml
-      captures:
-        1: punctuation.definition.constant.xml
-        2: punctuation.definition.constant.xml
+
+###[ COMMENT ]################################################################
+
   comment:
     - match: '<!--'
       scope: punctuation.definition.comment.begin.xml
@@ -158,6 +140,7 @@ contexts:
           pop: true
         - match: '-{2,}'
           scope: invalid.illegal.double-hyphen-within-comment.xml
+
   internal-subset:
     - match: \[
       scope: punctuation.definition.constant.xml
@@ -171,6 +154,7 @@ contexts:
         - include: attlist-decl
         - include: notation-decl
         - include: parameter-entity
+
   entity-decl:
     - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
       captures:
@@ -185,6 +169,7 @@ contexts:
           pop: true
         - include: double-quoted-string
         - include: single-quoted-string
+
   element-decl:
     - match: '(<!)(ELEMENT)\s+({{name}})\s+'
       captures:
@@ -198,6 +183,7 @@ contexts:
         - match: '\b(EMPTY|ANY)\b'
           scope: constant.other.xml
         - include: element-parens
+
   element-parens:
     - match: \(
       scope: punctuation.definition.group.xml
@@ -214,6 +200,7 @@ contexts:
         - match: '[,|]'
           scope: punctuation.separator.xml
         - include: element-parens
+
   attlist-decl:
     - match: '(<!)(ATTLIST)\s+({{name}})\s+({{name}})'
       captures:
@@ -227,6 +214,7 @@ contexts:
           pop: true
         - include: double-quoted-string
         - include: single-quoted-string
+
   notation-decl:
     - match: '(<!)(NOTATION)\s+({{name}})'
       captures:
@@ -239,22 +227,14 @@ contexts:
           pop: true
         - include: double-quoted-string
         - include: single-quoted-string
+
   parameter-entity:
     - match: '(%){{name}}(;)'
       scope: constant.character.parameter-entity.xml
       captures:
         1: punctuation.definition.constant.xml
         2: punctuation.definition.constant.xml
-  single-quoted-string:
-    - match: "'"
-      scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_scope: string.quoted.single.xml
-        - match: "'"
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
+
   tag-stuff:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
       captures:
@@ -268,3 +248,38 @@ contexts:
         2: punctuation.separator.key-value.xml
     - include: double-quoted-string
     - include: single-quoted-string
+
+  entity:
+    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
+      scope: constant.character.entity.xml
+      captures:
+        1: punctuation.definition.constant.xml
+        2: punctuation.definition.constant.xml
+
+  should-be-entity:
+    - match: '&'
+      scope: invalid.illegal.bad-ampersand.xml
+    - match: '<'
+      scope: invalid.illegal.missing-entity.xml
+
+  double-quoted-string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.quoted.double.xml
+        - match: '"'
+          scope: punctuation.definition.string.end.xml
+          pop: true
+        - include: entity
+        - include: should-be-entity
+
+  single-quoted-string:
+    - match: "'"
+      scope: punctuation.definition.string.begin.xml
+      push:
+        - meta_scope: string.quoted.single.xml
+        - match: "'"
+          scope: punctuation.definition.string.end.xml
+          pop: true
+        - include: entity
+        - include: should-be-entity
