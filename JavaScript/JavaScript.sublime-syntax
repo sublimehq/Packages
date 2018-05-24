@@ -16,6 +16,19 @@ variables:
   constant_identifier: '[[:upper:]]{{identifier_part}}*{{identifier_break}}'
   dollar_only_identifier: '\${{identifier_break}}'
   dollar_identifier: '(\$){{identifier_part}}*{{identifier_break}}'
+
+  # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
+  reserved_word: |-
+    (?x)(?:
+      break|case|catch|class|const|continue|debugger|default|delete|do|else|
+      export|extends|finally|for|function|if|import|in|instanceof|new|return|
+      super|switch|this|throw|try|typeof|var|void|while|with|yield|
+      enum|
+      null|true|false
+    ){{identifier_break}}
+
+  non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier}})
+
   func_lookahead: '\s*(async\s+)?function{{identifier_break}}'
   arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
@@ -1131,7 +1144,7 @@ contexts:
     - include: else-pop
 
   inherited-class-name:
-    - match: '{{identifier}}{{left_expression_end_lookahead}}'
+    - match: '{{non_reserved_identifier}}{{left_expression_end_lookahead}}'
       scope: entity.other.inherited-class.js
       pop: true
 
@@ -1149,7 +1162,7 @@ contexts:
     - include: expression-begin
 
   class-name:
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.class.js
       pop: true
     - include: else-pop
