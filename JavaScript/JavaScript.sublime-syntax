@@ -753,7 +753,9 @@ contexts:
     - include: expression-break
 
     - include: property-access
-    - include: literal-string-template
+
+    - match: (?=`)
+      push: literal-string-template
 
     - match: (?=\()
       push: function-call-arguments
@@ -838,9 +840,7 @@ contexts:
   tagged-template:
     - match: '{{identifier}}(?=\s*`)'
       scope: variable.function.tagged-template.js
-      set:
-        - include: literal-string-template
-        - include: else-pop
+      pop: true
 
   literal-string-template:
     - match: '`'
