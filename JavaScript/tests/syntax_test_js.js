@@ -663,7 +663,29 @@ while (true)
 //            ^^^^^ keyword.control.flow
 
     break;
-//  ^^^^^^ meta.while meta.block
+//  ^^^^^ keyword.control.loop
+
+    break foo;
+//  ^^^^^ keyword.control.loop
+//        ^^^ variable.label
+
+    break
+    foo;
+//  ^^^ variable.other.readwrite - variable.label
+
+    continue;
+//  ^^^^^^^^ keyword.control.loop
+
+    continue foo;
+//  ^^^^^^^^ keyword.control.loop
+//           ^^^ variable.label
+
+    continue
+    foo;
+//  ^^^ variable.other.readwrite - variable.label
+
+    goto;
+//  ^^^^ variable.other.readwrite - keyword
 }
 // <- meta.block
 
