@@ -1927,7 +1927,7 @@ var_dump(expression);
 |^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
 |^^ punctuation.definition.raw.code-fence.end
 
-```bash
+``` bash
 # test
 | ^^^^^ source.shell comment.line.number-sign
 echo hello, \
