@@ -556,6 +556,17 @@
 ##        ^ variable.other.documentroot
 
 <!--
+  XML processing instructions
+ -->
+
+     <?pi "markup" is <ignored>?>
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^ entity.name.tag
+##                             ^^ punctuation.definition.tag.end
+##                               ^ - meta.tag.preprocessor
+
+<!--
   DTD Entities
  -->
 
@@ -1221,6 +1232,99 @@
 ##^^^ meta.tag.sgml.notation
 ##  ^ punctuation.definition.tag.end
 ##   ^ - meta.tag.sgml.notation
+
+ <!--
+  DTD Subsets
+ -->
+
+    <![CDATA[<this is no tag>]]>
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata
+
+    <![
+##  ^^^ meta.tag.sgml.subset punctuation.definition.tag.begin
+
+    <![subset-name
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ variable.other.subset
+
+    <![sub?et!name
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ invalid.illegal.bad-identifier
+
+    <![subset-name[]
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ variable.other.subset
+##                ^^ meta.brackets
+##                ^ punctuation.section.brackets.begin
+##                 ^ punctuation.section.brackets.end
+
+    <![sub?et!name[]
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ invalid.illegal.bad-identifier
+##                ^^ meta.brackets
+##                ^ punctuation.section.brackets.begin
+##                 ^ punctuation.section.brackets.end
+
+    <![subset-name[]>
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##                   ^ - meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ variable.other.subset
+##                ^^ meta.brackets
+##                ^ punctuation.section.brackets.begin
+##                 ^ punctuation.section.brackets.end
+##                  ^ invalid.illegal.bad-tag-end
+
+    <![subset-name[]]
+## ^ - meta.tag.sgml.subset - invalid
+##  ^^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ variable.other.subset
+##                ^^ meta.brackets
+##                ^ punctuation.section.brackets.begin
+##                 ^ punctuation.section.brackets.end
+##                  ^ - punctuation
+
+    <![subset-name[]]>
+## ^ meta.tag.sgml.subset invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##                    ^ - meta.tag.sgml.subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^ variable.other.subset
+##                ^^ meta.brackets
+##                ^ punctuation.section.brackets.begin
+##                 ^ punctuation.section.brackets.end
+##                  ^^ punctuation.definition.tag.end
+
+    <![%subset-name;[<!ELEMENT element-name 'value'><!-- comment -->]]>
+## ^ - meta.tag.sgml.subset - invalid
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.subset
+##                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.internal-subset meta.internal-subset
+##  ^^^ punctuation.definition.tag.begin
+##     ^ punctuation.definition.parameter
+##     ^^^^^^^^^^^^^ variable.parameter
+##                 ^ punctuation.terminator.parameter
+##                  ^ punctuation.section.brackets.begin
+##                   ^^ punctuation.definition.tag.begin
+##                     ^^^^^^^ keyword.declaration.element
+##                             ^^^^^^^^^^^^ variable.other.element
+##                                          ^ punctuation.definition.string.begin
+##                                          ^^^^^^ string.quoted.single
+##                                                ^ punctuation.definition.string.end
+##                                                 ^ punctuation.definition.tag.end
+##                                                  ^^^^^^^^^^^^^^^^ comment.block
+##                                                                  ^ punctuation.section.brackets.end
+##                                                                   ^^ punctuation.definition.tag.end
+
 
 ]>
 

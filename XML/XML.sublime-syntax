@@ -132,7 +132,7 @@ contexts:
         3: invalid.illegal.bad-tag-name.xml
       push:
         - doctype-meta
-        - doctype-content
+        - dtd-subset-brackets
         - dtd-content-quoted
         - dtd-content-type
         - doctype-root-name
@@ -152,26 +152,18 @@ contexts:
       pop: true
     - include: dtd-else-pop
 
-  doctype-content:
-    - match: \[
-      scope: punctuation.section.brackets.begin.xml
-      set:
-        - meta_scope: meta.brackets.xml meta.internal-subset.xml
-        - match: \]
-          scope: punctuation.section.brackets.end.xml
-          pop: true
-        - include: comment
-        - include: dtd
-    - include: dtd-else-pop
-
 ###[ DTD TAGS ]###############################################################
 
   dtd:
+    - include: cdata
+    - include: comment
     - include: dtd-entity
     - include: dtd-element
     - include: dtd-attlist
     - include: dtd-notation
+    - include: dtd-subset
     - include: entity-parameter
+    - include: preprocessor
 
 ###[ DTD ENTITY ]#############################################################
 
@@ -328,6 +320,43 @@ contexts:
       scope: variable.other.notation.xml
       pop: true
     - include: dtd-common-name
+
+###[ DTD SUBSET ]#############################################################
+
+  dtd-subset:
+    - match: <!\[
+      scope: punctuation.definition.tag.begin.xml
+      push:
+        - dtd-subset-meta
+        - dtd-subset-brackets
+        - dtd-subset-name
+
+  dtd-subset-meta:
+    - meta_scope: meta.tag.sgml.subset.xml
+    - match: \]>
+      scope: punctuation.definition.tag.end.xml
+      pop: true
+    - match: '[/\?]?>'
+      scope: invalid.illegal.bad-tag-end.xml
+      pop: true
+    - include: tag-end-missing-pop
+
+  dtd-subset-name:
+    - match: '{{qualified_dtd_name}}'
+      scope: variable.other.subset.xml
+      pop: true
+    - include: dtd-common-name
+
+  dtd-subset-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.xml
+      set:
+        - meta_scope: meta.brackets.xml meta.internal-subset.xml
+        - match: \]
+          scope: punctuation.section.brackets.end.xml
+          pop: true
+        - include: dtd
+    - include: dtd-else-pop
 
 ###[ DTD PROTOTYPES ]#########################################################
 
