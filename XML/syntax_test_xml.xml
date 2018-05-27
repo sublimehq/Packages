@@ -540,8 +540,8 @@
 ##                 ^ - constant - keyword - punctuation
 ##                  ^ punctuation.section.brackets.begin
 ##                   ^^ punctuation.definition.tag.begin
-##                     ^^^^^^ keyword.entity
-##                            ^^ variable.entity
+##                     ^^^^^^ keyword.declaration.entity
+##                            ^^ variable.other.entity
 ##                                     ^ punctuation.definition.parameter
 ##                                      ^^^^ variable.parameter
 ##                                          ^ punctuation.terminator.parameter
@@ -555,11 +555,155 @@
 ##   ^ keyword.declaration.doctype
 ##        ^ variable.other.documentroot
 
-<!ENTITY auml  "&#228;">
-##   ^ keyword.entity
-##        ^ variable.entity
-##             ^ string.quoted.double
-##              ^ constant.character.entity
+<!--
+  DTD Entities
+ -->
+
+    <!ENTITY auml "&#228;">
+## ^ - meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##                         ^ - meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^^^^ variable.other.entity
+##                ^^^^^^^^ string.quoted.double
+##                        ^ punctuation.definition.tag.end
+
+    <!ENTITY<!ENTITY <!ENTITY
+## ^ - meta.tag.sgml.entity
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##          ^^ punctuation.definition.tag.begin
+##            ^^^^^^ keyword.declaration.entity
+##                  ^ invalid.illegal.missing-tag-end
+##                   ^^ punctuation.definition.tag.begin
+##                     ^^^^^^ keyword.declaration.entity
+
+    <!ENTITY %
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+
+    <!ENTITY % entiy-name
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^^^^^ variable.other.entity
+
+    <!ENTITY % entiy-name<!ENTITY
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^^^^^ variable.other.entity
+##                       ^^ punctuation.definition.tag.begin
+##                         ^^^^^^ keyword.declaration.entity
+
+    <!ENTITY % n$=?me<!ENTITY
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^ invalid.illegal.bad-identifier
+##                   ^^ punctuation.definition.tag.begin
+##                     ^^^^^^ keyword.declaration.entity
+
+    <!ENTITY % PUBLIC
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^ variable.other.entity
+
+    <!ENTITY % enity-name PUBLIC
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^^^^^ variable.other.entity
+##                        ^^^^^^ storage.type.external-content
+
+    <!ENTITY % enity-name PUBLIC "URL
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^^^^^ variable.other.entity
+##                        ^^^^^^ storage.type.external-content
+##                               ^^^^^ string.quoted.double
+
+    <!ENTITY % enity-name PUBLIC "URL" "uri" NDATA jpeg>
+## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##                                                      ^ - meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+##           ^ punctuation.definition.entity
+##             ^^^^^^^^^^ variable.other.entity
+##                        ^^^^^^ storage.type.external-content
+##                               ^^^^^ string.quoted.double
+##                                     ^^^^^ string.quoted.double
+##                                           ^^^^^ storage.type.ndata
+##                                                 ^^^^ string.unquoted
+##                                                     ^ punctuation.definition.tag.end
+
+    <!ENTITY
+## ^ - meta.tag.sgml.entity
+##  ^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+      %
+##^^^^^^ meta.tag.sgml.entity
+##    ^ punctuation.definition.entity
+      enity-name
+##^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^^^^^^ variable.other.entity
+      PUBLIC
+##^^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^^ storage.type.external-content
+      "URL"
+##^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^ string.quoted.double
+      "uri"
+##^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^ string.quoted.double
+    >
+##^^^ meta.tag.sgml.entity
+##  ^ punctuation.definition.tag.end
+##   ^ - meta.tag.sgml.entity
+
+    <!ENTITY
+## ^ - meta.tag.sgml.entity
+##  ^^^^^^^^^ meta.tag.sgml.entity
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^ keyword.declaration.entity
+      %
+##^^^^^^ meta.tag.sgml.entity
+##    ^ punctuation.definition.entity
+      enity%name
+##^^^^^^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^^^^^^ invalid.illegal.bad-identifier
+      PUBLIC
+##^^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^^ storage.type.external-content
+      "URL"
+##^^^^^^^^^^ meta.tag.sgml.entity
+##    ^^^^^ string.quoted.double
+    >
+##^^^ meta.tag.sgml.entity
+##  ^ punctuation.definition.tag.end
+##   ^ - meta.tag.sgml.entity
+
 
 <!ELEMENT ArticleTitle (#PCDATA)>
 ##   ^ keyword.element

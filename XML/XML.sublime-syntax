@@ -57,6 +57,17 @@ variables:
       ([^=/<>\s]+?)                # 4: invalid localname
     )(?=[=<>\s]|[/?]>)
 
+  # A doctype definition identifier is always followed by one of the
+  # characters of `dtd_break`.
+  dtd_break: '[''"\[\]()<>\s]'
+  # A valid or invalid doctype declaration identifiere consists of any
+  # character but one of `dtd_break`.
+  invalid_dtd_name: '[^{{dtd_break}}]+'
+  # A qualified doctype declaration identifier consists of a valid
+  # name which is followed by a valid break character.
+  qualified_dtd_name: '{{name}}(?=[{{dtd_break}}])'
+
+
 contexts:
 
   # prototype:
@@ -162,17 +173,41 @@ contexts:
     - include: dtd-notation
     - include: entity-parameter
 
+###[ DTD ENTITY ]#############################################################
+
   dtd-entity:
-    - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
+    - match: (<!)(ENTITY)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.entity.xml
-        3: punctuation.definition.entity.xml
-        4: variable.entity.xml
-        5: keyword.entitytype.xml
+        2: keyword.declaration.entity.xml
       push:
-        - include: string-quoted
-        - include: dtd-end
+        - dtd-entity-meta
+        - dtd-entity-content
+        - dtd-content-type
+        - dtd-entity-name
+        - dtd-entity-punctuation
+
+  dtd-entity-meta:
+    - meta_scope: meta.tag.sgml.entity.xml
+    - include: dtd-end
+
+  dtd-entity-punctuation:
+    - match: '%'
+      scope: punctuation.definition.entity.xml
+      pop: true
+    - include: dtd-else-pop
+
+  dtd-entity-name:
+    - match: '{{qualified_dtd_name}}'
+      scope: variable.other.entity.xml
+      pop: true
+    - include: dtd-common-name
+
+  dtd-entity-content:
+    - match: NDATA\b
+      scope: storage.type.ndata.xml
+      set: dtd-content-unquoted
+    - include: dtd-content-quoted
 
   dtd-element:
     - match: '(<!)(ELEMENT)\s+({{name}})\s+'
@@ -225,6 +260,22 @@ contexts:
         - include: dtd-end
 
 ###[ DTD PROTOTYPES ]#########################################################
+
+  dtd-common-name:
+    - match: (%){{name}}(;)
+      scope: variable.parameter.xml
+      captures:
+        1: punctuation.definition.parameter.xml
+        2: punctuation.terminator.parameter.xml
+      pop: true
+    - match: '{{invalid_dtd_name}}'
+      scope: invalid.illegal.bad-identifier.xml
+      pop: true
+    - include: dtd-else-pop
+
+  dtd-content-unquoted:
+    - include: string-unquoted
+    - include: dtd-else-pop
 
   dtd-content-quoted:
     - include: string-quoted
@@ -410,6 +461,15 @@ contexts:
       scope: invalid.illegal.bad-ampersand.xml
     - match: '<'
       scope: invalid.illegal.missing-entity.xml
+
+  string-unquoted:
+    - match: '{{name}}'
+      scope: string.unquoted.xml
+
+  string-unquoted-pop:
+    - match: '{{name}}'
+      scope: string.unquoted.xml
+      pop: true
 
   string-quoted:
     - include: string-double-quoted
