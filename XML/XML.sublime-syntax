@@ -105,7 +105,13 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
+    - include: cdata
     - include: entity
+    - include: should-be-entity
+
+###[ CDATA ]##################################################################
+
+  cdata:
     - match: '<!\[CDATA\['
       scope: punctuation.definition.string.begin.xml
       push:
@@ -115,7 +121,6 @@ contexts:
           pop: true
     - match: ']]>'
       scope: invalid.illegal.missing-entity.xml
-    - include: should-be-entity
 
 ###[ COMMENT ]################################################################
 
