@@ -156,13 +156,13 @@ contexts:
 ###[ DTD TAGS ]###############################################################
 
   dtd:
-    - include: entity-decl
-    - include: element-decl
-    - include: attlist-decl
-    - include: notation-decl
+    - include: dtd-entity
+    - include: dtd-element
+    - include: dtd-attlist
+    - include: dtd-notation
     - include: entity-parameter
 
-  entity-decl:
+  dtd-entity:
     - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -171,28 +171,22 @@ contexts:
         4: variable.entity.xml
         5: keyword.entitytype.xml
       push:
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-end-missing-pop
         - include: string-quoted
+        - include: dtd-end
 
-  element-decl:
+  dtd-element:
     - match: '(<!)(ELEMENT)\s+({{name}})\s+'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.element.xml
         3: variable.element.xml
       push:
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
         - match: '\b(EMPTY|ANY)\b'
           scope: constant.other.xml
-        - include: tag-end-missing-pop
-        - include: element-parens
+        - include: dtd-element-parens
+        - include: dtd-end
 
-  element-parens:
+  dtd-element-parens:
     - match: \(
       scope: punctuation.definition.group.xml
       push:
@@ -207,9 +201,9 @@ contexts:
           scope: keyword.operator.xml
         - match: '[,|]'
           scope: punctuation.separator.xml
-        - include: element-parens
+        - include: dtd-element-parens
 
-  attlist-decl:
+  dtd-attlist:
     - match: '(<!)(ATTLIST)\s+({{name}})\s+({{name}})'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -217,24 +211,18 @@ contexts:
         3: variable.element.xml
         4: variable.attribute-name.xml
       push:
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-end-missing-pop
         - include: string-quoted
+        - include: dtd-end
 
-  notation-decl:
+  dtd-notation:
     - match: '(<!)(NOTATION)\s+({{name}})'
       captures:
         1: punctuation.definition.tag.begin.xml
         2: keyword.notation.xml
         3: variable.notation.xml
       push:
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-end-missing-pop
         - include: string-quoted
+        - include: dtd-end
 
 ###[ DTD PROTOTYPES ]#########################################################
 
