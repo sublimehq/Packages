@@ -230,10 +230,10 @@ contexts:
 
   parameter-entity:
     - match: '(%){{name}}(;)'
-      scope: constant.character.parameter-entity.xml
+      scope: constant.character.entity.parameter.xml
       captures:
-        1: punctuation.definition.constant.xml
-        2: punctuation.definition.constant.xml
+        1: punctuation.definition.entity.xml
+        2: punctuation.terminator.entity.xml
 
   tag-stuff:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
@@ -250,11 +250,21 @@ contexts:
     - include: single-quoted-string
 
   entity:
-    - match: '(&)(?:{{name}}|#[0-9]+|#x\h+)(;)'
-      scope: constant.character.entity.xml
+    - match: (&#[xX])\h+(;)
+      scope: constant.character.entity.hexadecimal.xml
       captures:
-        1: punctuation.definition.constant.xml
-        2: punctuation.definition.constant.xml
+        1: punctuation.definition.entity.xml
+        2: punctuation.terminator.entity.xml
+    - match: (&#)[0-9]+(;)
+      scope: constant.character.entity.decimal.xml
+      captures:
+        1: punctuation.definition.entity.xml
+        2: punctuation.terminator.entity.xml
+    - match: (&)[a-zA-Z0-9]+(;)
+      scope: constant.character.entity.named.xml
+      captures:
+        1: punctuation.definition.entity.xml
+        2: punctuation.terminator.entity.xml
 
   should-be-entity:
     - match: '&'

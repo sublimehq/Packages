@@ -55,9 +55,9 @@
 ##                   ^^ punctuation.definition.tag.begin
 ##                     ^^^^^^ keyword.entity
 ##                            ^^ variable.entity
-##                                     ^ punctuation.definition.constant
-##                                      ^^^^ constant.character.parameter-entity
-##                                          ^ punctuation.definition.constant
+##                                     ^ punctuation.definition.entity
+##                                      ^^^^ constant.character.entity.parameter
+##                                          ^ punctuation.terminator.entity
 ##                                            ^^^^^^^^^^^^^^^^ comment.block.xml
 ##                                            ^^^^ punctuation.definition.comment.begin.xml
 ##                                                         ^^^ punctuation.definition.comment.end.xml
@@ -241,21 +241,28 @@ foo="bar" />
  -->
 
      &amp;
-##   ^ punctuation.definition.constant
-##    ^^^ - punctuation.definition.constant
+##   ^ punctuation.definition.entity
+##    ^^^ - punctuation.definition.entity
 ##   ^^^^^ constant.character.entity
-##       ^ punctuation.definition.constant
-##        ^ - constant.character.entity - punctuation.definition.constant
+##       ^ punctuation.terminator.entity
+##        ^ - constant.character.entity - punctuation.definition.entity
 
      &#160;
-##   ^ punctuation.definition.constant
-##    ^^^^ - punctuation.definition.constant
+##   ^ punctuation.definition.entity
+##     ^^^ - punctuation.definition.entity
 ##   ^^^^^^ constant.character.entity
-##        ^ punctuation.definition.constant
+##        ^ punctuation.terminator.entity
+##         ^ - constant.character.entity
+
+     &#xA9;
+##   ^ punctuation.definition.entity
+##      ^^ - punctuation.definition.entity
+##   ^^^^^^ constant.character.entity
+##        ^ punctuation.terminator.entity
 ##         ^ - constant.character.entity
 
      <!-- &amp; -->
-##        ^ -punctuation.definition.constant
+##        ^ - punctuation.definition.entity
 
      <example attr="&quot;test&quot;" />
 ##                 ^^^^^^^^^^^^^^^^^^ string.quoted.double
