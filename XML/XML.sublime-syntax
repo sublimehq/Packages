@@ -114,34 +114,53 @@ contexts:
 ###[ DOCTYPE DECLARATION ]####################################################
 
   doctype:
-    # see: https://www.quackit.com/xml/tutorial/dtd_doctype.cfm
-    - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
+    - match: (<!)(?:(DOCTYPE)|(?i:(DOCTYPE)))\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.doctype.xml
-        3: variable.documentroot.xml
+        2: keyword.declaration.doctype.xml
+        3: invalid.illegal.bad-tag-name.xml
       push:
-        - meta_scope: meta.tag.sgml.doctype.xml
-        - match: \s*(>)
-          captures:
-            1: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-end-missing-pop
-        - include: internal-subset
+        - doctype-meta
+        - doctype-content
+        - dtd-content-quoted
+        - dtd-content-type
+        - doctype-root-name
 
-  internal-subset:
+  doctype-meta:
+    - meta_scope: meta.tag.sgml.doctype.xml
+    - include: dtd-end
+
+  doctype-root-name:
+    - match: '{{qualified_tag_name}}'
+      captures:
+        1: variable.other.documentroot.namespace.xml
+        2: invalid.illegal.bad-tag-name.xml
+        3: variable.other.documentroot.xml punctuation.separator.namespace.xml
+        4: variable.other.documentroot.localname.xml
+        5: invalid.illegal.bad-tag-name.xml
+      pop: true
+    - include: dtd-else-pop
+
+  doctype-content:
     - match: \[
-      scope: punctuation.definition.constant.xml
-      push:
-        - meta_scope: meta.internalsubset.xml
+      scope: punctuation.section.brackets.begin.xml
+      set:
+        - meta_scope: meta.brackets.xml meta.internal-subset.xml
         - match: \]
+          scope: punctuation.section.brackets.end.xml
           pop: true
         - include: comment
-        - include: entity-decl
-        - include: element-decl
-        - include: attlist-decl
-        - include: notation-decl
-        - include: parameter-entity
+        - include: dtd
+    - include: dtd-else-pop
+
+###[ DTD TAGS ]###############################################################
+
+  dtd:
+    - include: entity-decl
+    - include: element-decl
+    - include: attlist-decl
+    - include: notation-decl
+    - include: entity-parameter
 
   entity-decl:
     - match: '(<!)(ENTITY)\s+(%\s+)?({{name}})(\s+(?:SYSTEM|PUBLIC)\s+)?'
@@ -217,12 +236,48 @@ contexts:
         - include: tag-end-missing-pop
         - include: string-quoted
 
-  parameter-entity:
-    - match: '(%){{name}}(;)'
-      scope: constant.character.entity.parameter.xml
+###[ DTD PROTOTYPES ]#########################################################
+
+  dtd-content-quoted:
+    - include: string-quoted
+    - include: dtd-else-pop
+
+  dtd-content-type:
+    - match: (?:PUBLIC|SYSTEM)\b
+      scope: storage.type.external-content.xml
+      pop: true
+    - include: dtd-else-pop
+
+  dtd-else-pop:
+    # try to keep one whitespace if the end of a subset is detected
+    # in order to scope it as `invalid.illegal.missing-tag-end`
+    - match: (?=\s?\])
+      pop: true
+    - include: tag-else-pop
+
+  dtd-end:
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      pop: true
+    - match: \s?(?=[<\]])
+      scope: invalid.illegal.missing-tag-end.xml
+      pop: true
+    - match: '[/\?]>'
+      scope: invalid.illegal.bad-tag-end.xml
+      pop: true
+    - match: \S
+      scope: invalid.illegal.unexpected.xml
+
+  entity-parameter:
+    - match: (#)P?CDATA
+      scope: constant.other.placeholder.xml
       captures:
-        1: punctuation.definition.entity.xml
-        2: punctuation.terminator.entity.xml
+        1: punctuation.definition.constant.xml
+    - match: (%){{name}}(;)
+      scope: variable.parameter.xml
+      captures:
+        1: punctuation.definition.parameter.xml
+        2: punctuation.terminator.parameter.xml
 
 ###[ XML PREPROCESSOR ]#######################################################
 

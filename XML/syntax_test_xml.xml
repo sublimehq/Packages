@@ -372,26 +372,188 @@
   DOCTYPE Declaration
  -->
 
+     <!DOCTYPE
+##  ^ - meta.tag.sgml.doctype
+##   ^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+
+     <!DOCTYPE SYSTEM
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant - keyword
+##             ^^^^^^ variable.other.documentroot
+
+     <!DOCTYPE SYSTEM "uri"
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant - keyword
+##             ^^^^^^ variable.other.documentroot
+##                    ^^^^^ string.quoted.double
+
+     <!DOCTYPE SYSTEM SYSTEM
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^^^^^ variable.other.documentroot
+##                   ^ - constant - keyword
+##                    ^^^^^^ storage.type.external-content
+
+     <!DOCTYPE SYSTEM SYSTEM "uri"
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^^^^^ variable.other.documentroot
+##                   ^ - constant - keyword
+##                    ^^^^^^ storage.type.external-content
+##                           ^^^^^ string.quoted.double
+
+     <!DOCTYPE ns:tag
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^ variable.other.documentroot.namespace
+##               ^ variable.other.documentroot punctuation.separator.namespace
+##                ^^^ variable.other.documentroot.localname
+
+     <!DOCTYPE ns:tag SYSTEM
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^ variable.other.documentroot.namespace
+##               ^ variable.other.documentroot punctuation.separator.namespace
+##                ^^^ variable.other.documentroot.localname
+##                   ^ - constant - keyword
+##                    ^^^^^^ storage.type.external-content
+
+     <!DOCTYPE -s:tag SYSTEM "-//W3C//DTD
+##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^ invalid.illegal.bad-tag-name
+##               ^ variable.other.documentroot punctuation.separator.namespace
+##                ^^^ variable.other.documentroot.localname
+##                   ^ - constant - keyword
+##                    ^^^^^^ storage.type.external-content
+##                           ^^^^^^^^^^^^^ string.quoted.double
+
+     <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
+##  ^ meta.tag.sgml.doctype string.quoted.double invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  meta.tag.sgml.doctype
+##                                                                                    ^ - meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.doctype
+##            ^ - entity - constant
+##             ^^^^ variable.other.documentroot
+##                 ^ - constant - keyword
+##                  ^^^^^^ storage.type.external-content
+##                        ^ - keyword - string
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                                                    ^ - string
+##                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                                                                                   ^ punctuation.definition.tag.end - string
+
+     <!DOCTYPE root SYSTEM "url" />
+##                               ^^ meta.tag.sgml.doctype invalid.illegal.bad-tag-end
+##                                 ^ - meta.tag.sgml.doctype
+
+     <!DOCTYPE root SYSTEM "url" ?>
+##                               ^^ meta.tag.sgml.doctype invalid.illegal.bad-tag-end
+##                                 ^ - meta.tag.sgml.doctype
+
+     <!DOCTYPE
+##  ^ - meta.tag.sgml.doctype
+##   ^^^^^^^^^^  meta.tag.sgml.doctype
+##   ^^ punctuation.definition.tag.begin - entity
+##     ^^^^^^^ keyword.declaration.doctype - punctuation
+##            ^ - entity - constant
+       root
+##    ^ - entity - constant
+##     ^^^^ variable.other.documentroot
+##         ^ - constant - keyword
+       PUBLIC
+##    ^ - constant - keyword
+##     ^^^^^^ storage.type.external-content
+##           ^ - keyword - string
+       "-//W3C//DTD XHTML 1.1//EN"
+##    ^ - keyword - string
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                                ^ - string
+       "http://www.w3.org/1999/xhtml"
+##    ^ - string
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                                   ^ - string
+    >
+##  ^ punctuation.definition.tag.end - string
+##   ^ - meta.tag.sgml.doctype
+
+     <!DOCTYPE ROOT PUBLIC "FPI" "URL" "don't care" [<!ATTLIST ]>
+##  ^ - meta.tag.sgml.doctype
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##                                                 ^ - meta.brackets - meta.internal-subset
+##                                                  ^^^^^^^^^^^^ meta.brackets meta.internal-subset
+##                                                              ^ - meta.brackets - meta.internal-subset
+##                           ^ string.quoted.double
+##                                 ^ string.quoted.double
+##                                       ^ string.quoted.double
+##                                                  ^ punctuation.section.brackets.begin
+##                                                             ^ punctuation.section.brackets.end
+##                                                              ^ punctuation.definition.tag.end
+##                                                               ^ - meta.tag.sgml.doctype
+
+     <!DOCTYPE ROOT SYSTEM "URL" "don't-care" [<!ENTITY ]>
+##  ^ - meta.tag.sgml.doctype
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##                                           ^ - meta.brackets - meta.internal-subset
+##                                            ^^^^^^^^^^^ meta.brackets meta.internal-subset
+##                                                       ^ - meta.brackets - meta.internal-subset
+##                                                        ^ - meta.tag.sgml.doctype
+##                           ^ string.quoted.double
+##                                 ^ string.quoted.double
+##                                            ^ punctuation.section.brackets.begin
+##                                                      ^ punctuation.section.brackets.end
+##                                                       ^ punctuation.definition.tag.end
+##                                                        ^ - meta.tag.sgml.doctype
+
      <!DOCTYPE root [<!ENTITY br "\n"> %name; <!-- comment --> ]>
 ##  ^ - meta.tag.sgml.doctype
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.xml meta.internal-subset
+##                                                               ^ - meta.tag.sgml.doctype
 ##   ^^ punctuation.definition.tag.begin
-##     ^^^^^^^ keyword.doctype
-##             ^^^^ variable.documentroot
-##                  ^ meta.internalsubset
+##     ^^^^^^^ keyword.declaration.doctype
+##             ^^^^ variable.other.documentroot
+##                 ^ - constant - keyword - punctuation
+##                  ^ punctuation.section.brackets.begin
 ##                   ^^ punctuation.definition.tag.begin
 ##                     ^^^^^^ keyword.entity
 ##                            ^^ variable.entity
-##                                     ^ punctuation.definition.entity
-##                                      ^^^^ constant.character.entity.parameter
-##                                          ^ punctuation.terminator.entity
-##                                            ^^^^^^^^^^^^^^^^ comment.block.xml
-##                                            ^^^^ punctuation.definition.comment.begin.xml
-##                                                         ^^^ punctuation.definition.comment.end.xml
+##                                     ^ punctuation.definition.parameter
+##                                      ^^^^ variable.parameter
+##                                          ^ punctuation.terminator.parameter
+##                                            ^^^^^^^^^^^^^^^^ comment.block
+##                                            ^^^^ punctuation.definition.comment.begin
+##                                                         ^^^ punctuation.definition.comment.end
+##                                                             ^ punctuation.section.brackets.end
 ##                                                              ^ punctuation.definition.tag.end
 
 <!DOCTYPE data [
-##   ^ keyword.doctype
-##        ^ variable.documentroot
+##   ^ keyword.declaration.doctype
+##        ^ variable.other.documentroot
 
 <!ENTITY auml  "&#228;">
 ##   ^ keyword.entity
@@ -427,6 +589,12 @@
 ##                     ^ string.quoted.double
 
 ]>
+
+   <!doctype >
+## ^^^^^^^^^^^ meta.tag.sgml.doctype
+## ^^ punctuation.definition.tag.begin
+##   ^^^^^^^ invalid.illegal.bad-tag-name
+##           ^ punctuation.definition.tag.end
 
 <!--
   Comments
