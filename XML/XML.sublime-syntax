@@ -44,23 +44,7 @@ contexts:
   #     scope: comment.line.double-dash.test-case.xml
 
   main:
-    - match: '(<\?)(xml)(?=\s)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - match: '\s+{{qualified_name}}(=)?'
-          captures:
-            1: entity.other.attribute-name.namespace.xml
-            2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
-            3: entity.other.attribute-name.localname.xml
-            4: punctuation.separator.key-value.xml
-        - include: string-double-quoted
-        - include: string-single-quoted
+    - include: preprocessor
     - include: doctype
     - include: comment
     - match: '(</?){{qualified_name}}([^/>\s]*)'
@@ -86,25 +70,6 @@ contexts:
           scope: punctuation.definition.tag.end.xml
           pop: true
         - include: tag-attribute
-    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-attribute
-    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
     - include: cdata
     - include: entity
     - include: should-be-entity
@@ -245,6 +210,46 @@ contexts:
       captures:
         1: punctuation.definition.entity.xml
         2: punctuation.terminator.entity.xml
+
+###[ XML PREPROCESSOR ]#######################################################
+
+  preprocessor:
+    - match: '(<\?)(xml)(?=\s)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - match: '\s+{{qualified_name}}(=)?'
+          captures:
+            1: entity.other.attribute-name.namespace.xml
+            2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
+            3: entity.other.attribute-name.localname.xml
+            4: punctuation.separator.key-value.xml
+        - include: string-double-quoted
+        - include: string-single-quoted
+    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tag-attribute
+    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.xml
+      push:
+        - meta_scope: meta.tag.preprocessor.xml
+        - match: \?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
 
   tag-attribute:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
