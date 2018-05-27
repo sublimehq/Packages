@@ -41,7 +41,8 @@ variables:
       | text/livescript
     )
 
-  tag_name: '[[:alpha:]_][[:alnum:]:_.-]*'
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  tag_name: '[[:alpha:]_][^/>\s]*'
 
 contexts:
   immediately-pop:
