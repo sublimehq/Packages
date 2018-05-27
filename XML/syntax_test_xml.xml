@@ -1325,6 +1325,46 @@
 ##                                                                  ^ punctuation.section.brackets.end
 ##                                                                   ^^ punctuation.definition.tag.end
 
+<!--
+  UNKNOWN Tests
+ -->
+
+     <!attlist
+##   ^^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ invalid.illegal.bad-tag-name
+##            ^ - keyword - variable
+
+     <!attlist name content>
+##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ invalid.illegal.bad-tag-name
+##             ^^^^ invalid.illegal.unexpected
+##                  ^^^^^^^ invalid.illegal.unexpected
+
+     <!element
+##   ^^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ invalid.illegal.bad-tag-name
+
+     <!element name content>
+##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ invalid.illegal.bad-tag-name
+##             ^^^^ invalid.illegal.unexpected
+##                  ^^^^^^^ invalid.illegal.unexpected
+
+     <!entity
+##   ^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^ invalid.illegal.bad-tag-name
+
+     <!entity name content>
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.unknown
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^ invalid.illegal.bad-tag-name
+##            ^^^^ invalid.illegal.unexpected
+##                 ^^^^^^^ invalid.illegal.unexpected
 
 ]>
 

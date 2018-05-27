@@ -162,6 +162,7 @@ contexts:
     - include: dtd-attlist
     - include: dtd-notation
     - include: dtd-subset
+    - include: dtd-unknown
     - include: entity-parameter
     - include: preprocessor
 
@@ -357,6 +358,17 @@ contexts:
           pop: true
         - include: dtd
     - include: dtd-else-pop
+
+###[ DTD UNKNOWN ]############################################################
+
+  dtd-unknown:
+    - match: (<!)([^?/<>\s]*)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.sgml.unknown.xml
+        - include: dtd-end
 
 ###[ DTD PROTOTYPES ]#########################################################
 
