@@ -59,8 +59,8 @@ contexts:
             2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
             3: entity.other.attribute-name.localname.xml
             4: punctuation.separator.key-value.xml
-        - include: double-quoted-string
-        - include: single-quoted-string
+        - include: string-double-quoted
+        - include: string-single-quoted
     - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -86,7 +86,7 @@ contexts:
         - match: /?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: tag-stuff
+        - include: tag-attribute
     - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -96,7 +96,7 @@ contexts:
         - match: /?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: tag-stuff
+        - include: tag-attribute
     - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -106,7 +106,7 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: tag-stuff
+        - include: tag-attribute
     - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
       captures:
         1: punctuation.definition.tag.begin.xml
@@ -167,8 +167,8 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: double-quoted-string
-        - include: single-quoted-string
+        - include: string-double-quoted
+        - include: string-single-quoted
 
   element-decl:
     - match: '(<!)(ELEMENT)\s+({{name}})\s+'
@@ -212,8 +212,8 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: double-quoted-string
-        - include: single-quoted-string
+        - include: string-double-quoted
+        - include: string-single-quoted
 
   notation-decl:
     - match: '(<!)(NOTATION)\s+({{name}})'
@@ -225,8 +225,8 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: double-quoted-string
-        - include: single-quoted-string
+        - include: string-double-quoted
+        - include: string-single-quoted
 
   parameter-entity:
     - match: '(%){{name}}(;)'
@@ -235,7 +235,7 @@ contexts:
         1: punctuation.definition.entity.xml
         2: punctuation.terminator.entity.xml
 
-  tag-stuff:
+  tag-attribute:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
       captures:
         1: entity.other.attribute-name.namespace.xml
@@ -246,8 +246,8 @@ contexts:
       captures:
         1: invalid.illegal.bad-attribute-name.xml
         2: punctuation.separator.key-value.xml
-    - include: double-quoted-string
-    - include: single-quoted-string
+    - include: string-double-quoted
+    - include: string-single-quoted
 
   entity:
     - match: (&#[xX])\h+(;)
@@ -272,7 +272,7 @@ contexts:
     - match: '<'
       scope: invalid.illegal.missing-entity.xml
 
-  double-quoted-string:
+  string-double-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
       push:
@@ -283,7 +283,7 @@ contexts:
         - include: entity
         - include: should-be-entity
 
-  single-quoted-string:
+  string-single-quoted:
     - match: "'"
       scope: punctuation.definition.string.begin.xml
       push:
@@ -293,3 +293,4 @@ contexts:
           pop: true
         - include: entity
         - include: should-be-entity
+
