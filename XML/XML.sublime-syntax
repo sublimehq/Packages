@@ -47,29 +47,7 @@ contexts:
     - include: preprocessor
     - include: doctype
     - include: comment
-    - match: '(</?){{qualified_name}}([^/>\s]*)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.namespace.xml
-        3: entity.name.tag.xml punctuation.separator.namespace.xml
-        4: entity.name.tag.localname.xml
-        5: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: /?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-attribute
-    - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: /?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-attribute
+    - include: tag
     - include: cdata
     - include: entity
     - include: should-be-entity
@@ -250,6 +228,33 @@ contexts:
         - match: \?>
           scope: punctuation.definition.tag.end.xml
           pop: true
+
+###[ XML TAGS ]###############################################################
+
+  tag:
+    - match: '(</?){{qualified_name}}([^/>\s]*)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: entity.name.tag.namespace.xml
+        3: entity.name.tag.xml punctuation.separator.namespace.xml
+        4: entity.name.tag.localname.xml
+        5: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - match: /?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tag-attribute
+    - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: invalid.illegal.bad-tag-name.xml
+      push:
+        - meta_scope: meta.tag.xml
+        - match: /?>
+          scope: punctuation.definition.tag.end.xml
+          pop: true
+        - include: tag-attribute
 
   tag-attribute:
     - match: '(?:\s+|^){{qualified_name}}\s*(=)'
