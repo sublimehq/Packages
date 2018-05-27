@@ -561,7 +561,7 @@ contexts:
       captures:
         1: punctuation.definition.entity.xml
         2: punctuation.terminator.entity.xml
-    - match: (&)[a-zA-Z0-9]+(;)
+    - match: (&){{name}}(;)
       scope: constant.character.entity.named.xml
       captures:
         1: punctuation.definition.entity.xml

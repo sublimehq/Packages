@@ -1963,6 +1963,13 @@ bar="baz" />
 ##       ^ punctuation.terminator.entity
 ##        ^ - constant.character.entity - punctuation.definition.entity
 
+     &ut-d-att_da;
+##   ^ punctuation.definition.entity
+##    ^^^ - punctuation.definition.entity
+##   ^^^^^^^^^^^^^ constant.character.entity
+##               ^ punctuation.terminator.entity
+##                ^ - constant.character.entity - punctuation.definition.entity
+
      &#160;
 ##   ^ punctuation.definition.entity
 ##     ^^^ - punctuation.definition.entity
@@ -1976,6 +1983,9 @@ bar="baz" />
 ##   ^^^^^^ constant.character.entity
 ##        ^ punctuation.terminator.entity
 ##         ^ - constant.character.entity
+
+     %no-parameter;
+##   ^^^^^^^^^^^^^^ - variable.parameter
 
      <!-- &amp; -->
 ##        ^ - punctuation.definition.entity
