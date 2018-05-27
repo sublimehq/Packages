@@ -415,11 +415,38 @@
 ##        ^^^^^^^ entity.name.tag.localname
 ##               ^ punctuation.definition.tag.end
 
+     </ns:tagname/>
+##   ^^^^^^^^^^^^^^ meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^ entity.name.tag.namespace
+##       ^ punctuation.separator.namespace
+##        ^^^^^^^ entity.name.tag.localname
+##               ^^ invalid.illegal.bad-tag-end
+
+     </ns:tagname attr="Value" />
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                               ^ - meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^ entity.name.tag.namespace
+##       ^ punctuation.separator.namespace
+##        ^^^^^^^ entity.name.tag.localname
+##                ^^^^^^^^^^^^ invalid.illegal.unexpected-attribute
+##                             ^^ invalid.illegal.bad-tag-end
+
+     </ns:tagname attr="Value" ?>
+##                             ^^ meta.tag invalid.illegal.bad-tag-end
+
      <element attr_with.space = "value" />
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                                        ^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^^^^^ entity.name.tag.localname
 ##            ^^^^^^^^^^^^^^^ entity.other.attribute-name.localname
 ##                            ^ punctuation.separator.key-value
 ##                              ^ punctuation.definition.string.begin
-##                               ^^^^^ string.quoted
+##                              ^^^^^^^ string.quoted.double
+##                                    ^ punctuation.definition.string.end
+##                                      ^^ punctuation.definition.tag.end
 
      <element validinattr="a > b ]]> c"/>
 ##                         ^^^^^^^^^^^ string.quoted - punctuation - illegal
@@ -439,6 +466,10 @@ foo="bar" />
 ##       ^^^^^^^^ entity.name.tag.localname
 ##               ^^ punctuation.definition.tag.end
 
+     <xs:sequence
+     />
+##   ^^ meta.tag punctuation.definition.tag.end
+##     ^ - meta.tag
 
 <!--
   Entities
@@ -518,8 +549,9 @@ foo="bar" />
      <ns::tag ns::attr1="na" ns:2attr ="nope"></ns:t:ag>
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 ##   ^ punctuation.definition.tag.begin
-##    ^^ entity.name.tag
-##      ^^^^^ invalid.illegal.bad-tag-name - entity.name.tag
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^ invalid.illegal.bad-tag-name - entity.name.tag
 ##            ^^^^^^^^^ invalid.illegal.bad-attribute-name - entity.other.attribute-name
 ##                     ^ punctuation.separator.key-value
 ##                      ^^^^ string.quoted
@@ -528,8 +560,9 @@ foo="bar" />
 ##                                     ^^^^^^ string.quoted
 ##                                           ^ punctuation.definition.tag.end
 ##                                            ^^ punctuation.definition.tag.begin
-##                                              ^^^^ entity.name.tag
-##                                                  ^^^ invalid.illegal.bad-tag-name - entity.name.tag
+##                                              ^^ entity.name.tag.namespace
+##                                                ^ punctuation.separator.namespace.xml
+##                                                 ^^^^ invalid.illegal.bad-tag-name - entity.name.tag
 ##                                                     ^ punctuation.definition.tag.end
 ##                                                      ^ - meta.tag
 
@@ -539,3 +572,75 @@ foo="bar" />
 ##                                                                                                     ^^^ comment.block invalid.illegal.double-hyphen-within-comment
 ##                                                                                                                               ^^^ comment.block punctuation.definition.comment.end
 ##                                                                                                                                  ^ - comment
+
+     <-ns:tag attr="value">content <!-- comment --></-ns:tag>
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##                                                 ^^^^^^^^^^ meta.tag
+##                                                           ^ - meta.tag
+##   ^ punctuation.definition.tag.begin - illegal
+##    ^^^ invalid.illegal.bad-tag-name
+##       ^ punctuation.separator.namespace - illegal
+##        ^^^ entity.name.tag.localname - illegal
+##           ^ - entity - illegal
+##            ^^^^ entity.other.attribute-name
+##                        ^ punctuation.definition.tag.end
+##                                                 ^^ punctuation.definition.tag.begin - illegal
+##                                                   ^^^ invalid.illegal.bad-tag-name
+##                                                      ^ punctuation.separator.namespace - illegal
+##                                                       ^^^ entity.name.tag.localname - illegal
+##                                                          ^ punctuation.definition.tag.end
+
+     <1ns:tag attr="value">content <!-- comment --></1ns:tag>
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##                                                 ^^^^^^^^^^ meta.tag
+##                                                           ^ - meta.tag
+##   ^ punctuation.definition.tag.begin - illegal
+##    ^^^ invalid.illegal.bad-tag-name
+##       ^ punctuation.separator.namespace - illegal
+##        ^^^ entity.name.tag.localname - illegal
+##           ^ - entity - illegal
+##            ^^^^ entity.other.attribute-name
+##                        ^ punctuation.definition.tag.end
+##                                                 ^^ punctuation.definition.tag.begin - illegal
+##                                                   ^^^ invalid.illegal.bad-tag-name
+##                                                      ^ punctuation.separator.namespace - illegal
+##                                                       ^^^ entity.name.tag.localname - illegal
+##                                                          ^ punctuation.definition.tag.end
+
+     <n!s:tag attr="value">content <!-- comment --></n!s:tag>
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##                                                 ^^^^^^^^^^ meta.tag
+##                                                           ^ - meta.tag
+##   ^ punctuation.definition.tag.begin - illegal
+##    ^^^ invalid.illegal.bad-tag-name
+##       ^ punctuation.separator.namespace - illegal
+##        ^^^ entity.name.tag.localname - illegal
+##           ^ - entity - illegal
+##            ^^^^ entity.other.attribute-name
+##                        ^ punctuation.definition.tag.end
+##                                                 ^^ punctuation.definition.tag.begin - illegal
+##                                                   ^^^ invalid.illegal.bad-tag-name
+##                                                      ^ punctuation.separator.namespace - illegal
+##                                                       ^^^ entity.name.tag.localname - illegal
+##                                                          ^ punctuation.definition.tag.end
+
+     <n?s:tag attr="value">content <!-- comment --></n?s:tag>
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##                                                 ^^^^^^^^^^ meta.tag
+##                                                           ^ - meta.tag
+##   ^ punctuation.definition.tag.begin - illegal
+##    ^^^ invalid.illegal.bad-tag-name
+##       ^ punctuation.separator.namespace - illegal
+##        ^^^ entity.name.tag.localname - illegal
+##           ^ - entity - illegal
+##            ^^^^ entity.other.attribute-name
+##                        ^ punctuation.definition.tag.end
+##                                                 ^^ punctuation.definition.tag.begin - illegal
+##                                                   ^^^ invalid.illegal.bad-tag-name
+##                                                      ^ punctuation.separator.namespace - illegal
+##                                                       ^^^ entity.name.tag.localname - illegal
+##                                                          ^ punctuation.definition.tag.end

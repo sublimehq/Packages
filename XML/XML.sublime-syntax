@@ -18,6 +18,8 @@ first_line_match: |-
      )
 scope: text.xml
 variables:
+  # The atomic part of a tag or attribute name without namespace separator `:`
+  identifier: '[[:alpha:]_][[:alnum:]_.-]*'
   # This is the full XML Name production, but should not be used where namespaces
   # are possible. Those locations should use a qualified_name.
   name: '[[:alpha:]:_][[:alnum:]:_.-]*'
@@ -26,7 +28,25 @@ variables:
   #  1: namespace prefix name
   #  2: namespace prefix colon
   #  3: local tag name
-  qualified_name: '(?:([[:alpha:]_][[:alnum:]_.-]*)(:))?([[:alpha:]_][[:alnum:]_.-]*)'
+  qualified_name: (?:({{identifier}})(:))?({{identifier}})
+  # The qualified tag name allows a namespace prefix (ns:) followed by a local
+  # name while both parts are validated separately. The namespace is optional,
+  # but is matched valid if not followed by a localname in order to not disturb
+  # writing.
+  qualified_tag_name: |-
+    (?x)
+    (?:
+      (?:
+        ({{identifier}})           # 1: valid namespace
+        |
+        ([^?!/<>\s][^:/<>\s]*)     # 2: invalid namespace
+      )(:)
+    )?                             # namespace is optional
+    (?:
+      ({{identifier}})(?=[/<>\s])  # 3: valid localname
+      |
+      ([^?!/<>\s][^/<>\s]*)        # 4: invalid localname
+    )
 
 contexts:
 
@@ -47,8 +67,8 @@ contexts:
     - include: preprocessor
     - include: doctype
     - include: comment
-    - include: tag
     - include: cdata
+    - include: tag
     - include: entity
     - include: should-be-entity
 
@@ -234,23 +254,34 @@ contexts:
 ###[ XML TAGS ]###############################################################
 
   tag:
-    - match: '(</?){{qualified_name}}([^/>\s]*)'
+    # end-tag without attribute support
+    - match: (</){{qualified_tag_name}}
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.namespace.xml
-        3: entity.name.tag.xml punctuation.separator.namespace.xml
-        4: entity.name.tag.localname.xml
-        5: invalid.illegal.bad-tag-name.xml
+        3: invalid.illegal.bad-tag-name.xml
+        4: entity.name.tag.xml punctuation.separator.namespace.xml
+        5: entity.name.tag.localname.xml
+        6: invalid.illegal.bad-tag-name.xml
       push:
         - meta_scope: meta.tag.xml
-        - match: /?>
+        - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: tag-attribute
-    - match: '(</?)([[:digit:].-][[:alnum:]:_.-]*)'
+        - match: '[/\?]>'
+          scope: invalid.illegal.bad-tag-end.xml
+          pop: true
+        - match: \S
+          scope: invalid.illegal.unexpected-attribute.xml
+    # opening maybe self-closing tag with optional attributes
+    - match: (<){{qualified_tag_name}}
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: invalid.illegal.bad-tag-name.xml
+        2: entity.name.tag.namespace.xml
+        3: invalid.illegal.bad-tag-name.xml
+        4: entity.name.tag.xml punctuation.separator.namespace.xml
+        5: entity.name.tag.localname.xml
+        6: invalid.illegal.bad-tag-name.xml
       push:
         - meta_scope: meta.tag.xml
         - match: /?>
