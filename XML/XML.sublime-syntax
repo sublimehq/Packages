@@ -262,16 +262,49 @@ contexts:
     - include: should-be-entity
     - include: string-unquoted
 
+###[ DTD ATTLIST ]############################################################
+
   dtd-attlist:
-    - match: '(<!)(ATTLIST)\s+({{name}})\s+({{name}})'
+    - match: (<!)(ATTLIST)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.attlist.xml
-        3: variable.element.xml
-        4: variable.attribute-name.xml
+        2: keyword.declaration.attlist.xml
       push:
-        - include: string-quoted
-        - include: dtd-end
+        - dtd-attlist-meta
+        - dtd-attlist-content
+        - dtd-element-name
+
+  dtd-attlist-meta:
+    - meta_scope: meta.tag.sgml.attlist.xml
+    - include: dtd-end
+
+  dtd-attlist-content:
+    - include: entity-parameter
+    - include: dtd-attlist-parens
+    - match: \b(?:CDATA|ENTITY|ENTITIES|IDREFS?|ID|NMTOKENS?|NOTATION)\b
+      scope: storage.type.attribute.xml
+    - match: (#)(?:FIXED|IMPLIED|REQUIRED)\b
+      scope: storage.modifier.attribute.default-value.xml
+      captures:
+        1: punctuation.definition.storage.xml
+    - match: \b{{name}}\b
+      scope: entity.other.attribute-name.xml
+    - include: dtd-content-quoted
+
+  dtd-attlist-parens:
+    - match: \(
+      scope: punctuation.definition.group.begin.xml
+      push:
+        - meta_scope: meta.group.enumerated.xml
+        - match: \)
+          scope: punctuation.definition.group.end.xml
+          pop: true
+        - match: \|
+          scope: punctuation.separator.logical.xml
+        - include: entity-parameter
+        - include: entity
+        - include: should-be-entity
+        - include: string-unquoted
 
   dtd-notation:
     - match: '(<!)(NOTATION)\s+({{name}})'

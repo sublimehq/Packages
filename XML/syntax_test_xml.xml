@@ -892,10 +892,206 @@
 ##^^^^^ meta.tag.sgml.element
 ##     ^ - meta.tag.sgml.element
 
-<!ATTLIST image width CDATA #REQUIRED>
-##   ^ keyword.attlist
-##        ^ variable.element
-##              ^ variable.attribute-name
+<!--
+  ATTLIST Tests
+ -->
+
+     <!ATTLIST
+##  ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+
+     <!ATTLIST>
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##             ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ punctuation.definition.tag.end
+
+     <!ATTLIST list.name
+##  ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+
+     <!ATTLIST list.name>
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##                       ^ - meta.tag.sgml.attlist
+##   ^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ punctuation.definition.tag.end
+
+     <!ATTLIST _xml:space-2>
+##             ^^^^^^^^^^^^ variable.other.element
+
+     <!ATTLIST list%name>
+##  ^ - meta.tag.sgml.attlist - invalid
+##                       ^ - meta.tag.sgml.attlist
+##   ^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ invalid.illegal.bad-identifier
+##                      ^ punctuation.definition.tag.end
+
+     <!ATTLIST list.name attr
+##  ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+
+     <!ATTLIST list.name attr>
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##                            ^ - meta.tag.sgml.attlist
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ punctuation.definition.tag.end
+
+     <!ATTLIST list.name attr CDATA
+##  ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ - entity - storage
+##                            ^^^^^ storage.type.attribute
+
+     <!ATTLIST list.name attr CDATA>
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##                                  ^ - meta.tag.sgml.attlist
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ - entity - storage
+##                            ^^^^^ storage.type.attribute
+##                                 ^ punctuation.definition.tag.end
+
+     <!ATTLIST list.name attr CDATA #IMPLI
+##  ^ - meta.tag.sgml.attlist - invalid
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ - entity - storage
+##                            ^^^^^ storage.type.attribute
+##                                 ^ - storage - constant
+##                                  ^^^^^^ - storage.modifier.attribute.default-value
+
+     <!ATTLIST list.name attr CDATA #IMPLIED
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ - entity - storage
+##                            ^^^^^ storage.type.attribute
+##                                 ^ - storage - constant
+##                                  ^^^^^^^^ storage.modifier.attribute.default-value
+
+     <!ATTLIST list.name attr CDATA #IMPLIED>
+##  ^ meta.tag.sgml.attlist invalid.illegal.missing-tag-end
+##                                           ^ - meta.tag.sgml.attlist
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.attlist
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - variable - entity
+##                       ^^^^ entity.other.attribute-name
+##                           ^ - entity - storage
+##                            ^^^^^ storage.type.attribute
+##                                 ^ - storage - constant
+##                                  ^^^^^^^^ storage.modifier.attribute.default-value
+##                                          ^ punctuation.definition.tag.end
+
+    <!ATTLIST %element-name;
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##  ^^ punctuation.definition.tag.begin
+##    ^^^^^^^ keyword.declaration.attlist
+##            ^ punctuation.definition.parameter
+##            ^^^^^^^^^^^^^^ variable.parameter
+##                         ^ punctuation.terminator.parameter
+          id            ID                     #IMPLIED
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##        ^^ entity.other.attribute-name
+##                      ^^ storage.type.attribute
+##                                             ^ punctuation.definition.storage
+##                                             ^^^^^^^^ storage.modifier.attribute.default-value
+          %nds;         %URIref;               #FIXED 'http://www.w3.org/2001/XMLSchema'
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##        ^ punctuation.definition.parameter
+##        ^^^^^ variable.parameter
+##            ^ punctuation.terminator.parameter
+##                      ^ punctuation.definition.parameter
+##                      ^^^^^^^^ variable.parameter
+##                             ^ punctuation.terminator.parameter
+##                                             ^ punctuation.definition.storage
+##                                             ^^^^^^ storage.modifier.attribute.default-value
+##                                                    ^ punctuation.definition.string.begin
+##                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+##                                                                                     ^ punctuation.definition.string.end
+          enum          (value1|value2|value3) 'value1'
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##        ^^^^ entity.other.attribute-name
+##                      ^ punctuation.definition.group.begin
+##                      ^^^^^^^^^^^^^^^^^^^^^^ meta.group.enumerated
+##                       ^^^^^^ string.unquoted
+##                             ^ punctuation.separator.logical
+##                              ^^^^^^ string.unquoted
+##                                    ^ punctuation.separator.logical
+##                                     ^^^^^^ string.unquoted
+##                                           ^ punctuation.definition.group.end
+##                                             ^ punctuation.definition.string.begin
+##                                             ^^^^^^^^ string.quoted.single
+##                                                    ^ punctuation.definition.string.end
+          finalDefault  %complexDerivationSet; ''
+##  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##        ^^^^^^^^^^^^ entity.other.attribute-name
+##                      ^ punctuation.definition.parameter
+##                      ^^^^^^^^^^^^^^^^^^^^^^ variable.parameter
+##                                           ^ punctuation.terminator.parameter
+##                                             ^ punctuation.definition.string.begin
+##                                             ^^ string.quoted.single
+##                                              ^ punctuation.definition.string.end
+          %sequenceAttrs;
+##  ^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.attlist
+##        ^ punctuation.definition.parameter
+##        ^^^^^^^^^^^^^^^ variable.parameter
+##                      ^ punctuation.terminator.parameter
+    >
+##  ^ meta.tag.sgml.attlist
+##  ^ punctuation.definition.tag.end
+
 
 <!NOTATION name PUBLIC "public_ID" "URI">
 ##   ^ keyword.notation
