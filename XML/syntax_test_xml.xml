@@ -2,10 +2,24 @@
 
 
 <!--
-  XML Declaration
+  XML Preprocessor
  -->
 
+     <!--
+      The absense of attributes does not render the tagname invalid
+      even though this is no valid declaration
+     -->
+
+     <?xml?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+##        ^^ punctuation.definition.tag.end
+##          ^ - meta.tag.preprocessor
+
      <?xml version="1.0" ?>
+##  ^ - meta.tag.preprocessor
 ##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
 ##   ^^ punctuation.definition.tag.begin
 ##     ^^^ entity.name.tag
@@ -17,11 +31,84 @@
 ##                       ^^ punctuation.definition.tag.end
 ##                         ^ - meta.tag.preprocessor
 
+     <?xml
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+      ?>
+##    ^^ punctuation.definition.tag.end
+##      ^ - meta.tag.preprocessor
+
+     <?xml
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+        version="1.0"
+##      ^^^^^^^ entity.other.attribute-name
+##             ^ punctuation.separator.key-value
+##              ^ punctuation.definition.string.begin
+##              ^^^^^ string.quoted
+##                  ^ punctuation.definition.string.end
+      ?>
+##    ^^ punctuation.definition.tag.end
+##      ^ - meta.tag.preprocessor
+
+     <!--
+      Mixed- or uppercase XML prolog names are not well-formed.
+      Handle <?...?> normally but highlight invalid tag name.
+     -->
+
+     <?XML?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^ meta.tag.preprocessor
+##          ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ invalid.illegal.bad-tag-name
+##        ^^ punctuation.definition.tag.end
+
+     <?Xml?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^ meta.tag.preprocessor
+##          ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ invalid.illegal.bad-tag-name
+##        ^^ punctuation.definition.tag.end
 
      <?XML version="1.0" ?>
-##   ^ invalid.illegal.missing-entity - meta.tag.preprocessor
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##                         ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ invalid.illegal.bad-tag-name
+##         ^^^^^^^ entity.other.attribute-name
+##                ^ punctuation.separator.key-value
+##                 ^ punctuation.definition.string.begin
+##                 ^^^^^ string.quoted
+##                     ^ punctuation.definition.string.end
+##                       ^^ punctuation.definition.tag.end
+
+
+<!--
+  XML Stylesheet Preprocessor
+ -->
+
+     <!--
+      The absense of attributes does not render the tagname invalid
+      even though this is no valid declaration
+     -->
+
+     <?xml-stylesheet?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##                     ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^^^^ entity.name.tag
+##                   ^^ punctuation.definition.tag.end
 
      <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+##  ^ - meta.tag.preprocessor
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
 ##                                                     ^ - meta.tag.preprocessor
 ##   ^^ punctuation.definition.tag.begin
@@ -34,13 +121,130 @@
 ##                                  ^ punctuation.definition.string.end
 ##                                   ^ - string
 
-     <?xml-model href="http://www.oxygenxml.com/docbook/xml/5.0/rng/dbmathmlsvg.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
-##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+     <?xml-stylesheet
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^^^^ entity.name.tag
+     ?>
+##   ^^ meta.tag.preprocessor punctuation.definition.tag.end
+##     ^ - meta.tag.preprocessor
+
+     <?xml-stylesheet
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^^^^ entity.name.tag
+##                   ^ - entity
+        type='text/xsl'
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##      ^^^^ entity.other.attribute-name.localname
+##          ^ punctuation.separator.key-value
+##           ^ punctuation.definition.string.begin
+##           ^^^^^^^^^^ string.quoted.single
+##                    ^ punctuation.definition.string.end
+##                     ^ - string
+        href = 'freb.xsl'
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##      ^^^^ entity.other.attribute-name.localname
+##           ^ punctuation.separator.key-value
+##             ^ punctuation.definition.string.begin
+##             ^^^^^^^^^^ string.quoted.single
+##                      ^ punctuation.definition.string.end
+##                       ^ - string
+     ?>
+##   ^^ meta.tag.preprocessor punctuation.definition.tag.end
+##     ^ - meta.tag.preprocessor
+
+     <!--
+      Mixed- or uppercase XML prolog names are not well-formed.
+      Handle <?...?> normally but highlight invalid tag name.
+     -->
+
+     <?xml-stYlesheet type='text/xsl' href='freb.xsl'?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##                                                     ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^^^^ invalid.illegal.bad-tag-name
+##                   ^ - entity
+##                    ^^^^ entity.other.attribute-name.localname
+##                        ^ punctuation.separator.key-value
+##                         ^ punctuation.definition.string.begin
+##                         ^^^^^^^^^^ string.quoted.single
+##                                  ^ punctuation.definition.string.end
+##                                   ^ - string
+
+
+<!--
+  XML Model Preprocessor
+ -->
+
+     <!--
+      The absense of attributes does not render the tagname invalid
+      even though this is no valid declaration
+     -->
+
+     <?xml-model?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^ meta.tag.preprocessor
+##                ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
 ##     ^^^^^^^^^ entity.name.tag
+##              ^^ punctuation.definition.tag.end
+
+     <?xml-model href="http://www.oxygenxml.com/docbook/xml/5.0/rng/dbmathmlsvg.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##                                                                                                                                       ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^ entity.name.tag
+##              ^ - entity
 ##               ^^^^ entity.other.attribute-name.localname
 ##                   ^ punctuation.separator.key-value
 ##                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 ##                                                                                                                                     ^^ punctuation.definition.tag.end
+
+     <?xml-model
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^ meta.tag.preprocessor
+##     ^^^^^^^^^ entity.name.tag
+##              ^ - entity
+        href="http://www.oxygenxml.com/docbook/xml/5.0/rng/dbmathmlsvg.rng"
+##      ^^^^ entity.other.attribute-name.localname
+##          ^ punctuation.separator.key-value
+##           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+        schematypens="http://relaxng.org/ns/structure/1.0"?>
+##                                                        ^^ punctuation.definition.tag.end
+##                                                          ^ - meta.tag.preprocessor
+
+
+<!--
+  XML Custom Preprocessor
+ -->
+
+     <!--
+      The XML specification currently knows about the following declarations:
+        <?xml ...?>
+        <?xml-model ...?>
+        <?xml-stylesheet ...?>
+
+      To be future proof, this syntax handles any kind of lower case
+      <?xml-...?> as valid declaration.
+      -->
+
+     <?xml-third-party_preprocessor name = "foo" ?>
+##  ^ - meta.tag.preprocessor
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##                                                 ^ - meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag
+##                                  ^^^^ entity.other.attribute-name
+##                                       ^ punctuation.separator.key-value
+##                                         ^^^^^ string.quoted.double
+##                                               ^^ punctuation.definition.tag.end
+
 
 <!--
   DOCTYPE Declaration

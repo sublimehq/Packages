@@ -192,42 +192,44 @@ contexts:
 ###[ XML PREPROCESSOR ]#######################################################
 
   preprocessor:
-    - match: '(<\?)(xml)(?=\s)'
+    # Prolog tags like <?xml...?> without respect of details
+    # Examples:
+    #   <?xml version="1.0" ?>
+    #   <?xml-model href='freb.xsl'?>
+    #   <?xml-stylesheet type='text/xsl' href='freb.xsl'?>
+    #   <?xml-third-party ... ?>
+    - match: |-
+        (?x)
+        (<\?) # opening <? punctuation
+        (?:
+          # valid lowercase prolog tag name
+          (xml(?:-[_a-z][-_a-z0-9]*)?)(?=[?<>\s])
+          |
+          # invalid mixed or uppercase tag name
+          ([xX][mM][lL][^?<>\s]*)
+        )
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
+        3: invalid.illegal.bad-tag-name.xml
       push:
         - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - match: '\s+{{qualified_name}}(=)?'
-          captures:
-            1: entity.other.attribute-name.namespace.xml
-            2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
-            3: entity.other.attribute-name.localname.xml
-            4: punctuation.separator.key-value.xml
-        - include: string-double-quoted
-        - include: string-single-quoted
-    - match: '(<\?)(xml-stylesheet|xml-model)(?=\s|\?>)'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
+        - include: preprocessor-end
         - include: tag-attribute
-    - match: '(<\?)((?![xX][mM][lL]){{qualified_name}})(?=\s|\?>)'
+    # Processing instructions like <?...?>
+    # meta tag without internal highlighting
+    - match: (<\?)({{name}})\b
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
       push:
         - meta_scope: meta.tag.preprocessor.xml
-        - match: \?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
+        - include: preprocessor-end
+
+  preprocessor-end:
+    - match: \?>
+      scope: punctuation.definition.tag.end.xml
+      pop: true
 
 ###[ XML TAGS ]###############################################################
 
