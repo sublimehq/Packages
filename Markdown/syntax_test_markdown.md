@@ -1834,7 +1834,7 @@ okay
 http://spec.commonmark.org/0.28/#example-149
 
 <![CDATA[
-| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.cdata.html
 function matchwo(a,b)
 {
   if (a < b && a < 0) then {
@@ -1846,7 +1846,7 @@ function matchwo(a,b)
   }
 }
 ]]>
-|^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+|^ meta.disable-markdown meta.tag.sgml.cdata.html
 okay
 | <- - meta.disable-markdown
 

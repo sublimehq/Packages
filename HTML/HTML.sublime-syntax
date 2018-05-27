@@ -54,6 +54,7 @@ contexts:
 
   main:
     - include: comment
+    - include: cdata
     - include: doctype
     - match: (<\?)(xml)
       captures:
@@ -67,20 +68,6 @@ contexts:
         - include: tag-generic-attribute
         - include: string-double-quoted
         - include: string-single-quoted
-    - match: <!
-      scope: punctuation.definition.tag.html
-      push:
-        - meta_scope: meta.tag.sgml.html
-        - match: ">"
-          scope: punctuation.definition.tag.html
-          pop: true
-        - match: '\[CDATA\['
-          push:
-            - meta_scope: constant.other.inline-data.html
-            - match: ']](?=>)'
-              pop: true
-        - match: (\s*)(?!--|>)\S(\s*)
-          scope: invalid.illegal.bad-comments-or-CDATA.html
     - match: (</?)([a-z_][a-z0-9:_]*-[a-z0-9:_-]+)
       captures:
         1: punctuation.definition.tag.begin.html
@@ -223,6 +210,21 @@ contexts:
       captures:
         1: punctuation.definition.entity.html
         3: punctuation.definition.entity.html
+
+  cdata:
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: keyword.declaration.cdata.html
+        3: punctuation.definition.tag.begin.html
+      push:
+        - meta_scope: meta.tag.sgml.cdata.html
+        - meta_content_scope: string.unquoted.cdata.html
+        - match: ']]>'
+          scope: punctuation.definition.tag.end.html
+          pop: true
+    - match: ']]>'
+      scope: invalid.illegal.missing-entity.html
 
   comment:
     - match: (<!--)(-?>)?

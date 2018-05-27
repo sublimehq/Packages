@@ -115,6 +115,36 @@
         ## ^ meta.tag.script entity.name.tag.script
     </head>
     <body>
+
+     <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##                                          ^ - string.unquoted.cdata
+##                                          ^^^ punctuation.definition.tag.end
+     <![CDATA[
+##   ^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+        <!DOCTYPE catalog plist "dtd">
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+    ]]>
+##  ^ - string.unquoted.cdata
+##  ^^^ punctuation.definition.tag.end
+
+     <![CDATA[
+        <![CDATA[ unparsed! ]]>
+##      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^ - punctuation.definition.tag.begin
+##         ^^^^^ - keyword.declaration.cdata
+##              ^ - punctuation.definition.tag.begin
+##                          ^^^ punctuation.definition.tag.end
+    ]]>
+##  ^^^ invalid.illegal.missing-entity
+
         <!-- Comment -->
 ##      ^^^^^^^^^^^^^^^^ comment.block.html
 ##      ^^^^ punctuation.definition.comment.begin.html
@@ -238,7 +268,7 @@ class="foo"></div>
         ##                     ^ punctuation.definition.string.end.html - source.css
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^ meta.property-value.css constant.numeric.css
-        
+
         <div style='width: 100%;'></div>
         ##  ^ - meta.attribute-with-value.style
         ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style
@@ -294,7 +324,7 @@ class="foo"></div>
         ##                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
         ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        
+
         <test-custom-tag/>
         ##^^^^^^^^^^^^^^^^ meta.tag.custom.html
         ##              ^^ punctuation.definition.tag.end.html
@@ -377,7 +407,7 @@ class="foo"></div>
         <a href="http://google.com/?one=1&two=2"></a>
         ##                               ^ - constant.character.entity
         ##                               ^ - invalid.illegal
-        
+
         <hr/><hr />
         ## ^^ meta.tag.block.any punctuation.definition.tag.end
         ##    ^^ entity.name.tag.block.any
