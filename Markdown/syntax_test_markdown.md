@@ -1954,5 +1954,5 @@ echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 def foo(x)
   return 3
 end
-~~~~
+~~~~~~~
 | <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end
