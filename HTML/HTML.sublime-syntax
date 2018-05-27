@@ -41,6 +41,8 @@ variables:
       | text/livescript
     )
 
+  tag_name: '[[:alpha:]_][[:alnum:]:_.-]*'
+
 contexts:
   immediately-pop:
     - match: ''
@@ -52,6 +54,7 @@ contexts:
 
   main:
     - include: comment
+    - include: doctype
     - match: (<\?)(xml)
       captures:
         1: punctuation.definition.tag.begin.html
@@ -71,14 +74,6 @@ contexts:
         - match: ">"
           scope: punctuation.definition.tag.html
           pop: true
-        - match: (?i:DOCTYPE)
-          scope: entity.name.tag.doctype.html
-          push:
-            - meta_scope: meta.tag.sgml.doctype.html
-            - match: (?=>)
-              pop: true
-            - match: '"[^">]*"'
-              scope: string.quoted.double.doctype.identifiers-and-DTDs.html
         - match: '\[CDATA\['
           push:
             - meta_scope: constant.other.inline-data.html
@@ -243,6 +238,48 @@ contexts:
           pop: true
         - match: '<!--(?!-?>)|--!>'
           scope: invalid.illegal.bad-comments-or-CDATA.html
+
+  doctype:
+    - match: (<!)(DOCTYPE)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: keyword.declaration.doctype.html
+      push:
+        - doctype-meta
+        - doctype-content
+        - doctype-content-type
+        - doctype-name
+
+  doctype-meta:
+    - meta_scope: meta.tag.sgml.doctype.html
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  doctype-name:
+    - match: '{{tag_name}}'
+      scope: variable.other.doctype.html
+      pop: true
+    - include: else-pop
+
+  doctype-content-type:
+    - match: (?:PUBLIC|SYSTEM)\b
+      scope: keyword.content.external.html
+      pop: true
+    - include: else-pop
+
+  doctype-content:
+    - match: \[
+      scope: punctuation.section.brackets.begin.html
+      set:
+        - meta_scope: meta.brackets.html meta.internal-subset.xml.html
+        - match: \]
+          scope: punctuation.section.brackets.end.html
+          pop: true
+        - include: comment
+    - include: string-double-quoted
+    - include: string-single-quoted
+    - include: else-pop
 
   style-css:
     - meta_content_scope: meta.tag.style.begin.html

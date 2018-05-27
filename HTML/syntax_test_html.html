@@ -3,7 +3,21 @@
 ## <- meta.tag.preprocessor punctuation.definition.tag.begin
 ##^^^entity.name.tag.xml
 ##                                   ^ punctuation.definition.tag.end
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "html5.dtd" [ <!-- comment -->
+## <- meta.tag.sgml.doctype punctuation.definition.tag.begin
+##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##^^^^^^^ keyword.declaration.doctype
+##        ^^^^ variable.other.doctype
+##             ^^^^^^ keyword.content.external
+##                    ^^^^^^^^^^^ string.quoted.double
+##                                ^ meta.brackets meta.internal-subset punctuation.section.brackets.begin
+##                                  ^^^^^^^^^^^^^^^^ comment.block
+##                                  ^^^^ punctuation.definition.comment.begin
+##                                               ^^^ punctuation.definition.comment.end
+    <!ENTITY name "&#160;">;
+##  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype meta.brackets meta.internal-subset
+]>
+## <- meta.tag.sgml.doctype meta.brackets meta.internal-subset punctuation.section.brackets.end
 <html>
     <head>
         <title>Test HTML</title>
