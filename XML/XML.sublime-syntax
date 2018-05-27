@@ -61,18 +61,7 @@ contexts:
             4: punctuation.separator.key-value.xml
         - include: string-double-quoted
         - include: string-single-quoted
-    - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
-      captures:
-        1: punctuation.definition.tag.begin.xml
-        2: keyword.doctype.xml
-        3: variable.documentroot.xml
-      push:
-        - meta_scope: meta.tag.sgml.doctype.xml
-        - match: \s*(>)
-          captures:
-            1: punctuation.definition.tag.end.xml
-          pop: true
-        - include: internal-subset
+    - include: doctype
     - include: comment
     - match: '(</?){{qualified_name}}([^/>\s]*)'
       captures:
@@ -140,6 +129,23 @@ contexts:
           pop: true
         - match: '-{2,}'
           scope: invalid.illegal.double-hyphen-within-comment.xml
+
+###[ DOCTYPE DECLARATION ]####################################################
+
+  doctype:
+    # see: https://www.quackit.com/xml/tutorial/dtd_doctype.cfm
+    - match: '(<!)(DOCTYPE)(?:\s+({{name}}))?'
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.doctype.xml
+        3: variable.documentroot.xml
+      push:
+        - meta_scope: meta.tag.sgml.doctype.xml
+        - match: \s*(>)
+          captures:
+            1: punctuation.definition.tag.end.xml
+          pop: true
+        - include: internal-subset
 
   internal-subset:
     - match: \[
