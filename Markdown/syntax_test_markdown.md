@@ -1927,7 +1927,7 @@ var_dump(expression);
 |^^^ meta.paragraph meta.code-fence.definition.end.regexp - markup
 |^^ punctuation.definition.raw.code-fence.end
 
-``` bash
+```bash
 # test
 | ^^^^^ source.shell comment.line.number-sign
 echo hello, \
@@ -1936,3 +1936,23 @@ echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 ```
 | <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end
+
+```     bash
+| <- punctuation.definition.raw.code-fence.begin
+|  ^^^^^ meta.code-fence.definition.begin.shell-script.markdown-gfm
+|       ^^^^ constant.other.language-name
+# test
+| ^^^^^ source.shell comment.line.number-sign
+```
+| <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end
+
+~~~~    ruby startline=3 $%@#$
+| <- punctuation.definition.raw.code-fence.begin
+|   ^^^^ meta.code-fence.definition.begin.ruby.markdown-gfm
+|       ^^^^ constant.other.language-name
+|           ^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.ruby.markdown-gfm
+def foo(x)
+  return 3
+end
+~~~~
+| <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end

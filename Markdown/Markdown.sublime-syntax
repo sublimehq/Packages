@@ -104,6 +104,16 @@ variables:
             ~{3,}      #   3 or more tildas
             (?![^~]*~) #   not followed by any more tildas on the same line
           )
+          \s*          # allow for whitespace between code block start and info string
+        )
+    fenced_code_block_trailing_infostring_characters: |-
+        (?x:
+          (
+            \s*        # any whitespace, or ..
+          |
+            \s[^`]*    # any characters (except backticks), separated by whitespace ...
+          )
+          $\n?         # ... until EOL
         )
     code_fence_escape: |-
       (?x:
@@ -924,9 +934,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:xml))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.xml.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -940,9 +949,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:sql))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.sql.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -956,9 +964,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:python|py))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.python.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -972,9 +979,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:graphviz))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.graphviz.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -988,9 +994,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:javascript|js))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.javascript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1004,9 +1009,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:json))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.json.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1020,9 +1024,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:java))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.java.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1036,9 +1039,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:csharp|c\#|cs))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.csharp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1052,9 +1054,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:rust))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.rust.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1068,9 +1069,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:shell-script|sh|bash|zsh))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.shell-script.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1084,9 +1084,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:php|inc))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.php.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1100,9 +1099,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:html\+php))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.html-php.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1116,9 +1114,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:rscript|r|splus))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.r.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1132,9 +1129,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:golang))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.go.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1148,9 +1144,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:ruby|rb|rbx))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.ruby.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1164,9 +1159,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:objc|obj-c|objectivec|objective-c))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.objc.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1180,9 +1174,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:objc\+\+|obj-c\+\+|objectivec\+\+|objective-c\+\+))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.objc++.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1196,9 +1189,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:c))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.c.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1212,9 +1204,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:c\+\+|cpp))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.c++.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1228,9 +1219,8 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ((?i:regexp|regex))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.regexp.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
@@ -1244,7 +1234,6 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
-          \s*
           ([\w-]*)     # any number of word characters or dashes
           .*$\n?       # all characters until EOL
       captures:
