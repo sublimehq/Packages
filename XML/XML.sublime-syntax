@@ -209,34 +209,58 @@ contexts:
       set: dtd-content-unquoted
     - include: dtd-content-quoted
 
+###[ DTD ELEMENT ]############################################################
+
   dtd-element:
-    - match: '(<!)(ELEMENT)\s+({{name}})\s+'
+    - match: (<!)(ELEMENT)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.element.xml
-        3: variable.element.xml
+        2: keyword.declaration.element.xml
       push:
-        - match: '\b(EMPTY|ANY)\b'
-          scope: constant.other.xml
-        - include: dtd-element-parens
-        - include: dtd-end
+        - dtd-element-meta
+        - dtd-element-content
+        - dtd-element-name
+
+  dtd-element-meta:
+    - meta_scope: meta.tag.sgml.element.xml
+    - include: dtd-end
+
+  dtd-element-name:
+    - match: '{{qualified_dtd_name}}'
+      scope: variable.other.element.xml
+      pop: true
+    - include: dtd-common-name
+
+  dtd-element-content:
+    - match: \b(?:EMPTY|ANY)\b
+      scope: constant.other.xml
+      pop: true
+    - match: \(
+      scope: punctuation.definition.group.begin.xml
+      set: dtd-element-parens
+    - include: entity-parameter
+    - include: dtd-content-quoted
 
   dtd-element-parens:
-    - match: \(
-      scope: punctuation.definition.group.xml
-      push:
-        - match: (\))([*?+])?
-          captures:
-            1: punctuation.definition.group.xml
-            2: keyword.operator.xml
-          pop: true
-        - match: '#PCDATA'
-          scope: constant.other.xml
+    - meta_scope: meta.group.xml
+    - match: \)
+      scope: punctuation.definition.group.end.xml
+      set:
         - match: '[*?+]'
           scope: keyword.operator.xml
-        - match: '[,|]'
-          scope: punctuation.separator.xml
-        - include: dtd-element-parens
+          pop: true
+        - include: dtd-else-pop
+    - match: \(
+      scope: punctuation.definition.group.begin.xml
+      push: dtd-element-parens
+    - match: '[*?+]'
+      scope: keyword.operator.xml
+    - match: '[,|]'
+      scope: punctuation.separator.xml
+    - include: entity-parameter
+    - include: entity
+    - include: should-be-entity
+    - include: string-unquoted
 
   dtd-attlist:
     - match: '(<!)(ATTLIST)\s+({{name}})\s+({{name}})'

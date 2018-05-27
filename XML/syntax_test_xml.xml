@@ -704,23 +704,193 @@
 ##  ^ punctuation.definition.tag.end
 ##   ^ - meta.tag.sgml.entity
 
+<!--
+  DTD Elements
+ -->
 
-<!ELEMENT ArticleTitle (#PCDATA)>
-##   ^ keyword.element
-##        ^ variable.element
-##                     ^ punctuation.definition.group
-##                      ^ constant.other
-##                             ^ punctuation.definition.group
+     <!ELEMENT
+##  ^ - meta.tag.sgml.element
+##   ^^^^^^^^^^ meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
 
-<!ELEMENT AbstractText (#PCDATA)>
+     <!ELEMENT<!ELEMENT
+##  ^ meta.tag.sgml.element invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^^ punctuation.definition.tag.begin - keyword
+##              ^^^^^^^ keyword.declaration.element
+##                     ^ - keyword - variable
 
-<!ELEMENT info (ArticleTitle,AbstractText)+>
-##   ^ keyword.element
-##        ^ variable.element
-##             ^ punctuation.definition.group
-##                          ^ punctuation.separator
-##                                       ^ punctuation.definition.group
+     <!ELEMENT elem.name
+##  ^ meta.tag.sgml.element invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+
+     <!ELEMENT %entity;
+##  ^ meta.tag.sgml.element invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^ variable.parameter
+##                     ^ - keyword - variable - constant - string
+
+     <!ELEMENT elem.name ANY>
+##  ^ meta.tag.sgml.element invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##                           ^ - meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - keyword - variable - constant - string
+##                       ^^^ constant.other
+##                          ^ punctuation.definition.tag.end
+
+     <!ELEMENT elem.name EMPTY>
+##  ^ - meta.tag.sgml.element - invalid
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##                             ^ - meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                      ^ - keyword - variable - constant - string
+##                       ^^^^^ constant.other
+##                            ^ punctuation.definition.tag.end
+
+     <!ELEMENT elem.name "quoted content">
+##  ^ - meta.tag.sgml.element - invalid
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##                                        ^ - meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                       ^^^^^^^^^^^^^^^^ string.quoted.double
+##                                       ^ punctuation.definition.tag.end
+
+     <!ELEMENT elem.name %author.content;>
+##  ^ - meta.tag.sgml.element - illegal
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##                                        ^ - meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                       ^ punctuation.definition.parameter
+##                       ^^^^^^^^^^^^^^^^ variable.parameter
+##                                      ^ punctuation.terminator.parameter
+##                                       ^ punctuation.definition.tag.end
+
+     <!ELEMENT elem.name (#PCDATA|str?,chr*|%ent;|(&amp;,&#05;,&#xA1;)+)+>
+##  ^ - meta.tag.sgml.element - illegal
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+##                                                ^^^^^^^^^^^^^^^^^^^^ meta.group meta.group
+##                                                                    ^^ meta.group
+##                                                                        ^ - meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+##             ^^^^^^^^^ variable.other.element
+##                       ^ punctuation.definition.group.begin
+##                        ^^^^^^^ constant.other.placeholder
+##                               ^ punctuation.separator
+##                                ^^^ string.unquoted
+##                                   ^ keyword.operator
+##                                    ^ punctuation.separator
+##                                     ^^^ string.unquoted
 ##                                        ^ keyword.operator
+##                                         ^ punctuation.separator
+##                                          ^ punctuation.definition.parameter
+##                                          ^^^^^ variable.parameter
+##                                              ^ punctuation.terminator.parameter
+##                                               ^ punctuation.separator
+##                                                ^ punctuation.definition.group.begin
+##                                                 ^ punctuation.definition.entity
+##                                                 ^^^^^ constant.character.entity.named
+##                                                     ^ punctuation.terminator.entity
+##                                                      ^ punctuation.separator
+##                                                       ^^ punctuation.definition.entity
+##                                                       ^^^^^ constant.character.entity.decimal
+##                                                           ^ punctuation.terminator.entity
+##                                                            ^ punctuation.separator
+##                                                             ^^^ punctuation.definition.entity
+##                                                             ^^^^^^ constant.character.entity.hexadecimal
+##                                                                  ^ punctuation.terminator.entity
+##                                                                   ^ punctuation.definition.group.end
+##                                                                    ^ keyword.operator
+##                                                                     ^ punctuation.definition.group.end
+##                                                                      ^ keyword.operator
+##                                                                       ^ punctuation.definition.tag.end
+
+     <!ELEMENT
+##  ^ - meta.tag.sgml.element - illegal
+##   ^^^^^^^^^^ meta.tag.sgml.element
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^ keyword.declaration.element
+##            ^ - keyword - variable
+     elem.name
+##^^^^^^^^^^^^^ meta.tag.sgml.element
+##  ^ - keyword - variable
+##   ^^^^^^^^^ variable.other.element
+     (
+##^^^^^ meta.tag.sgml.element
+##   ^ punctuation.definition.group.begin
+       #PCDATA
+##^^^^^^^^^^^^^ meta.tag.sgml.element
+##     ^^^^^^^ constant.other.placeholder
+       |
+##^^^^^^^ meta.tag.sgml.element
+##     ^ punctuation.separator
+       str?
+##     ^^^ string.unquoted
+##        ^ keyword.operator
+       ,
+##     ^ punctuation.separator
+##^^^^^^^ meta.tag.sgml.element
+       chr* |
+##^^^^^^^^^^^^ meta.tag.sgml.element
+##     ^^^ string.unquoted
+##        ^ keyword.operator
+##          ^ punctuation.separator
+       %ent; | ( &amp; , &#05; ,
+##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.element
+##             ^ punctuation.definition.group.begin
+##     ^ punctuation.definition.parameter
+##     ^^^^^ variable.parameter
+##         ^ punctuation.terminator.parameter
+##           ^ punctuation.separator
+##             ^ punctuation.definition.group.begin
+##               ^ punctuation.definition.entity
+##               ^^^^^ constant.character.entity.named
+##                   ^ punctuation.terminator.entity
+##                     ^ punctuation.separator
+##                       ^^ punctuation.definition.entity
+##                       ^^^^^ constant.character.entity.decimal
+##                           ^ punctuation.terminator.entity
+##                             ^ punctuation.separator
+&#xA1; )+
+##^^^^^^^^ meta.tag.sgml.element
+## <- punctuation.definition.entity
+##^^^^ constant.character.entity.hexadecimal
+##   ^ punctuation.terminator.entity
+##     ^ punctuation.definition.group.end
+##      ^ keyword.operator
+       )+
+##^^^^^^^^ meta.tag.sgml.element
+##     ^ punctuation.definition.group.end
+##      ^ keyword.operator
+      >
+##^^^^^ meta.tag.sgml.element
+##     ^ - meta.tag.sgml.element
 
 <!ATTLIST image width CDATA #REQUIRED>
 ##   ^ keyword.attlist
