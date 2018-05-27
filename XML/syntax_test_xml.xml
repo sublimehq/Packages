@@ -18,8 +18,40 @@
 ##        ^^ punctuation.definition.tag.end
 ##          ^ - meta.tag.preprocessor
 
+     <?xml
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
+##   ^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+
+     <?xml version
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+##         ^^^^^^^ entity.other.attribute-name
+
+     <?xml version=
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+##         ^^^^^^^ entity.other.attribute-name
+##                ^ punctuation.separator.key-value
+
+     <?xml version="1.0"
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+##         ^^^^^^^ entity.other.attribute-name
+##                ^ punctuation.separator.key-value
+##                 ^ punctuation.definition.string.begin
+##                 ^^^^^ string.quoted
+##                     ^ punctuation.definition.string.end
+
      <?xml version="1.0" ?>
-##  ^ - meta.tag.preprocessor
+##  ^ meta.tag invalid.illegal.missing-tag-end
 ##   ^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
 ##   ^^ punctuation.definition.tag.begin
 ##     ^^^ entity.name.tag
@@ -97,7 +129,7 @@
 ##                                                  ^ - meta.tag.preprocessor
 
      <?xml
-##  ^ - meta.tag.preprocessor
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
 ##   ^^^^^^ meta.tag.preprocessor
 ##   ^^ punctuation.definition.tag.begin
 ##     ^^^ entity.name.tag
@@ -106,6 +138,31 @@
 ##      ^ - meta.tag.preprocessor
 
      <?xml
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
+##   ^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+        version
+##      ^^^^^^^ entity.other.attribute-name
+      ?>
+##    ^^ punctuation.definition.tag.end
+##      ^ - meta.tag.preprocessor
+
+     <?xml
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
+##   ^^^^^^ meta.tag.preprocessor
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ entity.name.tag
+        version
+##      ^^^^^^^ entity.other.attribute-name
+        =
+##      ^ punctuation.separator.key-value
+      ?>
+##    ^^ punctuation.definition.tag.end
+##      ^ - meta.tag.preprocessor
+
+     <?xml
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
 ##  ^ - meta.tag.preprocessor
 ##   ^^^^^^ meta.tag.preprocessor
 ##   ^^ punctuation.definition.tag.begin
@@ -416,8 +473,85 @@
 <!--
   Elements / Tags
  -->
+     <ns
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
+##   ^^^ meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.localname
+
+     <ns:
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^ meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ invalid.illegal.bad-tag-name
+
+     <:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^^^^^ meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^^^^^^ invalid.illegal.bad-tag-name
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+
+     <ns:tagname xmlns
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##               ^^^^^ entity.other.attribute-name.localname
+
+     <ns:tagname xmlns:
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##               ^^^^^^ invalid.illegal.bad-attribute-name
+
+     <ns:tagname xmlns:ns
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##               ^^^^^ entity.other.attribute-name.namespace
+##                    ^ punctuation.separator.namespace
+##                     ^^ entity.other.attribute-name.localname
+
+     <ns:tagname xmlns:ns=
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##               ^^^^^ entity.other.attribute-name.namespace
+##                    ^ punctuation.separator.namespace
+##                     ^^ entity.other.attribute-name.localname
+##                       ^ punctuation.separator.key-value
+
+     <ns:tagname xmlns:ns="uri"
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##              ^ - entity
+##               ^^^^^ entity.other.attribute-name.namespace
+##                    ^ punctuation.separator.namespace
+##                     ^^ entity.other.attribute-name.localname
+##                       ^ punctuation.separator.key-value
+##                        ^ punctuation.definition.string.begin
+##                        ^^^^^ string.quoted
+##                            ^ punctuation.definition.string.end
 
      <ns:tagname xmlns:ns="uri">
+##  ^ meta.tag invalid.illegal.missing-tag-end
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
 ##                              ^ - meta.tag
 ##   ^ punctuation.definition.tag.begin
@@ -435,7 +569,67 @@
 ##                             ^ punctuation.definition.tag.end
 
      <ns:tagname
-##  ^ - meta.tag
+##  ^ - meta.tag - invalid.illegal
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+      xmlns
+##    ^^^^^ entity.other.attribute-name.localname
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+      xmlns:
+##    ^^^^^^ invalid.illegal.bad-attribute-name
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+      xmlns:ns
+##    ^^^^^ entity.other.attribute-name.namespace
+##         ^ punctuation.separator.namespace
+##          ^^ entity.other.attribute-name.localname
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+      xmlns:ns
+##    ^^^^^ entity.other.attribute-name.namespace
+##         ^ punctuation.separator.namespace
+##          ^^ entity.other.attribute-name.localname
+      =
+##    ^ punctuation.separator.key-value
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##              ^ - entity
+      xmlns:ns
+##    ^^^^^ entity.other.attribute-name.namespace
+##         ^ punctuation.separator.namespace
+##          ^^ entity.other.attribute-name.localname
+      =
+##    ^ punctuation.separator.key-value
+      "uri"
+##    ^ punctuation.definition.string.begin
+##    ^^^^^ string.quoted
+##        ^ punctuation.definition.string.end
+
+     <ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
 ##   ^ punctuation.definition.tag.begin
 ##    ^^ entity.name.tag.namespace
 ##      ^ punctuation.separator.namespace
@@ -454,6 +648,158 @@
      >
 ##   ^ punctuation.definition.tag.end
 ##    ^ - meta.tag
+
+     <ns:tagname <!-- a comment is a next tag --> >
+##  ^ - meta.tag
+##   ^^^^^^^^^^^^ meta.tag
+##               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^ entity.name.tag.namespace
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##              ^ invalid.illegal.missing-tag-end - entity
+##               ^^^^ punctuation.definition.comment.begin
+##               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                            ^^^ punctuation.definition.comment.end
+##                                                ^ - punctuation.definition.tag.end
+
+     <foo <!-- a comment is a next tag --> >
+##  ^ - meta.tag
+##   ^^^^^ meta.tag
+##        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ entity.name.tag.localname
+##       ^ invalid.illegal.missing-tag-end
+##        ^^^^ punctuation.definition.comment.begin
+##        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                     ^^^ punctuation.definition.comment.end
+##                                         ^ - punctuation.definition.tag.end
+
+     <foo bar <!-- a comment is a next tag --> bar="baz" />
+##  ^ - meta.tag
+##   ^^^^^^^^^ meta.tag
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ entity.name.tag.localname
+##        ^^^ entity.other.attribute-name.localname
+##           ^ invalid.illegal.missing-tag-end
+##            ^^^^ punctuation.definition.comment.begin
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                         ^^^ punctuation.definition.comment.end
+##                                             ^^^ - entity.other.attribute-name.localname
+##                                                ^ - punctuation.separator.key-value
+##                                                 ^^^^^ - string.quoted.double
+##                                                       ^^ - punctuation.definition.tag.end
+
+     <foo bar= <!-- a comment is a next tag --> bar="baz" />
+##  ^ - meta.tag
+##   ^^^^^^^^^^ meta.tag
+##             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ entity.name.tag.localname
+##        ^^^ entity.other.attribute-name.localname
+##           ^ punctuation.separator.key-value
+##            ^ invalid.illegal.missing-tag-end
+##             ^^^^ punctuation.definition.comment.begin
+##             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                          ^^^ punctuation.definition.comment.end
+##                                              ^^^ - entity.other.attribute-name.localname
+##                                                 ^ - punctuation.separator.key-value
+##                                                  ^^^^^ - string.quoted.double
+##                                                        ^^ - punctuation.definition.tag.end
+
+     <foo bar="baz <!-- a comment is a next tag --> bar="baz" />
+##  ^ - meta.tag
+##   ^^^^^^^^^^^^^^ meta.tag
+##                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ entity.name.tag.localname
+##        ^^^ entity.other.attribute-name.localname
+##           ^ punctuation.separator.key-value
+##            ^^^^^ string.quoted.double
+##                ^ invalid.illegal.missing-tag-end
+##                 ^^^^ punctuation.definition.comment.begin
+##                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                              ^^^ punctuation.definition.comment.end
+##                                                  ^^^ - entity.other.attribute-name.localname
+##                                                     ^ - punctuation.separator.key-value
+##                                                      ^^^^^ - string.quoted.double
+##                                                            ^^ - punctuation.definition.tag.end
+
+     <foo bar="baz" <!-- a comment is a next tag --> bar="baz" />
+##  ^ - meta.tag
+##   ^^^^^^^^^^^^^^^ meta.tag
+##                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##    ^^^ entity.name.tag.localname
+##        ^^^ entity.other.attribute-name.localname
+##           ^ punctuation.separator.key-value
+##            ^^^^^ string.quoted.double
+##                 ^ invalid.illegal.missing-tag-end
+##                  ^^^^ punctuation.definition.comment.begin
+##                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                               ^^^ punctuation.definition.comment.end
+##                                                   ^^^ - entity.other.attribute-name.localname
+##                                                      ^ - punctuation.separator.key-value
+##                                                       ^^^^^ - string.quoted.double
+##                                                             ^^ - punctuation.definition.tag.end
+
+     <foo
+##  ^ - meta.tag
+##   ^^^^^ meta.tag
+       bar
+##     ^^^ entity.other.attribute-name.localname
+       <!-- a comment is a next tag -->
+##    ^ invalid.illegal.missing-tag-end
+##     ^^^^ punctuation.definition.comment.begin
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                  ^^^ punctuation.definition.comment.end
+       bar="baz"
+##     ^^^^^^^^^ text
+##     ^^^ - entity.other.attribute-name.localname
+##        ^ - punctuation.separator.key-value
+##         ^^^^^ - string.quoted.double
+       />
+##     ^^ text - punctuation.definition.tag.end
+
+     <foo
+##  ^ - meta.tag
+##   ^^^^^ meta.tag
+       bar=
+##     ^^^ entity.other.attribute-name.localname
+##        ^ punctuation.separator.key-value
+       <!-- a comment is a next tag -->
+##    ^ invalid.illegal.missing-tag-end
+##     ^^^^ punctuation.definition.comment.begin
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                  ^^^ punctuation.definition.comment.end
+       bar="baz"
+##     ^^^^^^^^^ text
+##     ^^^ - entity.other.attribute-name.localname
+##        ^ - punctuation.separator.key-value
+##         ^^^^^ - string.quoted.double
+       />
+##     ^^ text - punctuation.definition.tag.end
+
+     <foo
+##  ^ - meta.tag
+##   ^^^^^ meta.tag
+       bar="baz"
+##     ^^^ entity.other.attribute-name.localname
+##        ^ punctuation.separator.key-value
+##         ^^^^^ string.quoted.double
+       <!-- a comment is a next tag -->
+##    ^ invalid.illegal.missing-tag-end
+##     ^^^^ punctuation.definition.comment.begin
+##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
+##                                  ^^^ punctuation.definition.comment.end
+       bar="baz"
+##     ^^^^^^^^^ text
+##     ^^^ - entity.other.attribute-name.localname
+##        ^ - punctuation.separator.key-value
+##         ^^^^^ - string.quoted.double
+       />
+##     ^^ text - punctuation.definition.tag.end
 
      text
 ##   ^^^^ text
@@ -502,7 +848,34 @@
 ##                            ^ punctuation.definition.string.end
 ##                       ^^^^^ constant.character.entity
 
+     </ns
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
+##   ^^^^ meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^ entity.name.tag.localname
+
+     </ns:
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^ meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^^ invalid.illegal.bad-tag-name
+
+     </:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^ meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ invalid.illegal.bad-tag-name
+
+     </ns:tagname
+##  ^ meta.tag invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^ meta.tag
+##   ^^ punctuation.definition.tag.begin
+##     ^^ entity.name.tag.namespace
+##       ^ punctuation.separator.namespace
+##        ^^^^^^^ entity.name.tag.localname
+
      </ns:tagname>
+##  ^ meta.tag invalid.illegal.missing-tag-end
 ##   ^^^^^^^^^^^^^ meta.tag
 ##                ^ - meta.tag
 ##   ^^ punctuation.definition.tag.begin
@@ -512,6 +885,7 @@
 ##               ^ punctuation.definition.tag.end
 
      </ns:tagname/>
+##  ^ - meta.tag - invalid.illegal.missing-tag-end
 ##   ^^^^^^^^^^^^^^ meta.tag
 ##   ^^ punctuation.definition.tag.begin
 ##     ^^ entity.name.tag.namespace
