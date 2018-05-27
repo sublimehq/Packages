@@ -84,12 +84,16 @@ contexts:
 ###[ CDATA ]##################################################################
 
   cdata:
-    - match: '<!\[CDATA\['
-      scope: punctuation.definition.string.begin.xml
+    - match: (<!\[)(CDATA)(\[)
+      captures:
+        1: punctuation.definition.tag.begin.xml
+        2: keyword.declaration.cdata.xml
+        3: punctuation.definition.tag.begin.xml
       push:
-        - meta_scope: string.unquoted.cdata.xml
+        - meta_scope: meta.tag.sgml.cdata.xml
+        - meta_content_scope: string.unquoted.cdata.xml
         - match: ']]>'
-          scope: punctuation.definition.string.end.xml
+          scope: punctuation.definition.tag.end.xml
           pop: true
     - match: ']]>'
       scope: invalid.illegal.missing-entity.xml

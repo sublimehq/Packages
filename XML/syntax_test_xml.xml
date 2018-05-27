@@ -807,8 +807,33 @@
 ##   ^ text - punctuation - illegal
 
      <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
-##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata - meta.tag - keyword
-##                                             ^ - string.unquoted.cdata
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##                                          ^ - string.unquoted.cdata
+##                                          ^^^ punctuation.definition.tag.end
+     <![CDATA[
+##   ^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+        <!DOCTYPE catalog plist "dtd">
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+    ]]>
+##  ^ - string.unquoted.cdata
+##  ^^^ punctuation.definition.tag.end
+
+     <![CDATA[
+        <![CDATA[ unparsed! ]]>
+##      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^ - punctuation.definition.tag.begin
+##         ^^^^^ - keyword.declaration.cdata
+##              ^ - punctuation.definition.tag.begin
+##                          ^^^ punctuation.definition.tag.end
+    ]]>
+##  ^^^ invalid.illegal.missing-entity.xml
 
      <?pi "markup" is <ignored>?>
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
