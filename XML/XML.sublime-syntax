@@ -306,15 +306,28 @@ contexts:
         - include: should-be-entity
         - include: string-unquoted
 
+###[ DTD NOTATION ]###########################################################
+
   dtd-notation:
-    - match: '(<!)(NOTATION)\s+({{name}})'
+    - match: (<!)(NOTATION)\b
       captures:
         1: punctuation.definition.tag.begin.xml
-        2: keyword.notation.xml
-        3: variable.notation.xml
+        2: keyword.declaration.notation.xml
       push:
-        - include: string-quoted
-        - include: dtd-end
+        - dtd-notation-meta
+        - dtd-content-quoted
+        - dtd-content-type
+        - dtd-notation-name
+
+  dtd-notation-meta:
+    - meta_scope: meta.tag.sgml.notation.xml
+    - include: dtd-end
+
+  dtd-notation-name:
+    - match: '{{qualified_dtd_name}}'
+      scope: variable.other.notation.xml
+      pop: true
+    - include: dtd-common-name
 
 ###[ DTD PROTOTYPES ]#########################################################
 

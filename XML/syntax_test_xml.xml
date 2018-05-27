@@ -1093,10 +1093,134 @@
 ##  ^ punctuation.definition.tag.end
 
 
-<!NOTATION name PUBLIC "public_ID" "URI">
-##   ^ keyword.notation
-##         ^ variable.notation
-##                     ^ string.quoted.double
+<!--
+  NOTATION Tests
+ -->
+
+     <!NOTATION
+##  ^ - meta.tag.sgml.notation - invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable
+
+     <!NOTATION<!NOTATION
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^^ punctuation.definition.tag.begin - keyword
+##               ^^^^^^^^ keyword.declaration.notation
+##                       ^^ - keyword
+
+     <!NOTATION PUBLIC
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable - storage
+##              ^^^^^^ variable.other.notation
+
+     <!NOTATION PUBLIC PUBLIC
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable - storage
+##              ^^^^^^ variable.other.notation
+##                    ^ - variable - storage
+##                     ^^^^^^ storage.type.external-content
+
+     <!NOTATION PUBLIC "public
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable - storage
+##              ^^^^^^ variable.other.notation
+##                     ^^^^^^^^ string.quoted.double
+
+     <!NOTATION PUBLIC PUBLIC "public
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable - storage
+##              ^^^^^^ variable.other.notation
+##                    ^ - variable - storage
+##                     ^^^^^^ storage.type.external-content
+##                            ^^^^^^^^ string.quoted.double
+
+     <!NOTATION name
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable
+##              ^^^^ variable.other.notation
+
+     <!NOTATION name PUBLIC
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable
+##              ^^^^ variable.other.notation
+##                  ^ - variable - storage
+##                   ^^^^^^ storage.type.external-content
+
+     <!NOTATION name PUBLIC "public
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable
+##              ^^^^ variable.other.notation
+##                  ^ - variable - storage
+##                   ^^^^^^ storage.type.external-content
+##                          ^^^^^^^^ string.quoted.double
+
+     <!NOTATION m$me PUBLIC "public
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##             ^ - keyword - variable - storage
+##              ^^^^ invalid.illegal.bad-identifier
+##                   ^^^^^^ storage.type.external-content
+##                          ^^^^^^^^ string.quoted.double
+
+     <!NOTATION name PUBLIC "public_ID" "URI">
+##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##                                            ^ - meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+##                   ^^^^^^ storage.type.external-content
+##                          ^^^^^^^^^^^ string.quoted.double
+##                                      ^^^^^ string.quoted.double
+##                                           ^ punctuation.definition.tag.end
+
+     <!NOTATION
+##   ^^^^^^^^^^ meta.tag.sgml.notation
+##   ^^ punctuation.definition.tag.begin
+##     ^^^^^^^^ keyword.declaration.notation
+       name
+##^^^^^^^^^^ meta.tag.sgml.notation
+##     ^^^^ variable.other.notation
+       PUBLIC
+##^^^^^^^^^^^^ meta.tag.sgml.notation
+##     ^^^^^^ storage.type.external-content
+       "public_ID"
+##^^^^^^^^^^^^^^^^^ meta.tag.sgml.notation
+##     ^^^^^^^^^^^ string.quoted.double
+       "URI"
+##^^^^^^^^^^^ meta.tag.sgml.notation
+##     ^^^^^ string.quoted.double
+    >
+##^^^ meta.tag.sgml.notation
+##  ^ punctuation.definition.tag.end
+##   ^ - meta.tag.sgml.notation
 
 ]>
 
