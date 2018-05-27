@@ -23,12 +23,6 @@ variables:
   # This is the full XML Name production, but should not be used where namespaces
   # are possible. Those locations should use a qualified_name.
   name: '[[:alpha:]:_][[:alnum:]:_.-]*'
-  # This is the form that allows a namespace prefix (ns:) followed by a local
-  # name. The captures are:
-  #  1: namespace prefix name
-  #  2: namespace prefix colon
-  #  3: local tag name
-  qualified_name: (?:({{identifier}})(:))?({{identifier}})
   # The qualified tag name allows a namespace prefix (ns:) followed by a local
   # name while both parts are validated separately. The namespace is optional,
   # but is matched valid if not followed by a localname in order to not disturb
@@ -47,6 +41,21 @@ variables:
       |
       ([^?!/<>\s][^/<>\s]*)        # 4: invalid localname
     )
+
+  qualified_attribute_name: |-
+    (?x)
+    (?:
+      (?:
+        ({{identifier}})           # 1: valid namespace
+        |
+        ([^:=/<>\s]+)              # 2: invalid namespace
+      )(:)
+    )?                             # namespace is optional
+    (?:
+      ({{identifier}})             # 3: valid localname
+      |
+      ([^=/<>\s]+?)                # 4: invalid localname
+    )(?=[=<>\s]|[/?]>)
 
 contexts:
 
@@ -141,8 +150,7 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: string-double-quoted
-        - include: string-single-quoted
+        - include: string-quoted
 
   element-decl:
     - match: '(<!)(ELEMENT)\s+({{name}})\s+'
@@ -186,8 +194,7 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: string-double-quoted
-        - include: string-single-quoted
+        - include: string-quoted
 
   notation-decl:
     - match: '(<!)(NOTATION)\s+({{name}})'
@@ -199,8 +206,7 @@ contexts:
         - match: '>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-        - include: string-double-quoted
-        - include: string-single-quoted
+        - include: string-quoted
 
   parameter-entity:
     - match: '(%){{name}}(;)'
@@ -290,18 +296,29 @@ contexts:
         - include: tag-attribute
 
   tag-attribute:
-    - match: '(?:\s+|^){{qualified_name}}\s*(=)'
+    - match: '{{qualified_attribute_name}}'
       captures:
         1: entity.other.attribute-name.namespace.xml
-        2: entity.other.attribute-name.xml punctuation.separator.namespace.xml
-        3: entity.other.attribute-name.localname.xml
-        4: punctuation.separator.key-value.xml
-    - match: '(?:\s+|^)([[:alnum:]:_.-]+)\s*(=)'
-      captures:
-        1: invalid.illegal.bad-attribute-name.xml
-        2: punctuation.separator.key-value.xml
-    - include: string-double-quoted
-    - include: string-single-quoted
+        2: invalid.illegal.bad-attribute-name.xml
+        3: entity.other.attribute-name.xml punctuation.separator.namespace.xml
+        4: entity.other.attribute-name.localname.xml
+        5: invalid.illegal.bad-attribute-name.xml
+      push: tag-attribute-separator-key-value
+
+  tag-attribute-separator-key-value:
+    - match: '='
+      scope: punctuation.separator.key-value.xml
+      set:
+        - include: string-quoted-pop
+        - match: '[^?/<>\s]+'
+          scope: invalid.illegal.bad-attribute-value.xml
+          pop: true
+        - match: (?=\S)
+          pop: true
+    - match: (?=\S)
+      pop: true
+
+###[ CONSTANTS ]##############################################################
 
   entity:
     - match: (&#[xX])\h+(;)
@@ -326,25 +343,47 @@ contexts:
     - match: '<'
       scope: invalid.illegal.missing-entity.xml
 
+  string-quoted:
+    - include: string-double-quoted
+    - include: string-single-quoted
+
+  string-quoted-pop:
+    - include: string-double-quoted-pop
+    - include: string-single-quoted-pop
+
   string-double-quoted:
     - match: '"'
       scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_scope: string.quoted.double.xml
-        - match: '"'
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
+      push: string-double-quoted-body
+
+  string-double-quoted-pop:
+    - match: '"'
+      scope: punctuation.definition.string.begin.xml
+      set: string-double-quoted-body
+
+  string-double-quoted-body:
+    - meta_scope: string.quoted.double.xml
+    - match: '"'
+      scope: punctuation.definition.string.end.xml
+      pop: true
+    - include: entity
+    - include: should-be-entity
 
   string-single-quoted:
     - match: "'"
       scope: punctuation.definition.string.begin.xml
-      push:
-        - meta_scope: string.quoted.single.xml
-        - match: "'"
-          scope: punctuation.definition.string.end.xml
-          pop: true
-        - include: entity
-        - include: should-be-entity
+      push: string-single-quoted-body
+
+  string-single-quoted-pop:
+    - match: "'"
+      scope: punctuation.definition.string.begin.xml
+      set: string-single-quoted-body
+
+  string-single-quoted-body:
+    - meta_scope: string.quoted.single.xml
+    - match: "'"
+      scope: punctuation.definition.string.end.xml
+      pop: true
+    - include: entity
+    - include: should-be-entity
 
