@@ -76,7 +76,7 @@ contexts:
       captures:
         1: punctuation.definition.keyword.clojure
     - match: '{{evil_octal}}'
-      scope: invalid.illegal.clojure
+      scope: invalid.deprecated.clojure
     - match: '{{integer}}'
       scope: constant.numeric.integer.clojure
       captures:
@@ -149,7 +149,7 @@ contexts:
         1: punctuation.definition.keyword.clojure
       pop: true
     - match: '{{evil_octal}}'
-      scope: invalid.illegal.clojure
+      scope: invalid.deprecated.clojure
       pop: true
     - match: '{{integer}}'
       scope: constant.numeric.integer.clojure
