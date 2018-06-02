@@ -17,6 +17,9 @@ variables:
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  tag_name: '[[:alpha:]_][^/>\s]*'
+
   block_tag_name: |-
     (?ix)(?:
       address|applet|article|aside|blockquote|center|dd|dir|div|dl|dt|figcaption|figure|footer|frame|frameset|h1|h2|h3|h4|h5|h6|header|iframe|menu|nav|noframes|object|ol|p|pre|section|ul
@@ -40,9 +43,6 @@ variables:
       | text/jscript
       | text/livescript
     )
-
-  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name: '[[:alpha:]_][^/>\s]*'
 
 contexts:
   immediately-pop:
