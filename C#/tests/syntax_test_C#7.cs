@@ -308,32 +308,46 @@ class Foo {
     // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#tuples
     public void TupleTest () {
         var letters = ("a", "b");
+///                   ^^^^^^^^^^ meta.group.tuple
 ///                   ^ punctuation.section.group.begin
-///                       ^ punctuation.separator.expression
+///                       ^ punctuation.separator.tuple
 ///                            ^ punctuation.section.group.end
 ///                             ^ punctuation.terminator.statement
+        var (a, b, c) = (1, 2, 3);
+///     ^^^ storage.type.variable
+///         ^^^^^^^^^ meta.group.tuple
+///          ^ variable.other
+///           ^ punctuation.separator.tuple
+///             ^ variable.other
+///              ^ punctuation.separator.tuple
+///                   ^ keyword.operator.assignment - meta.group
+///                     ^^^^^^^^^ meta.group.tuple
+///                      ^ constant.numeric.integer.decimal
+///                       ^ punctuation.separator.tuple
         (string Alpha, string Beta) namedLetters = ("a", "b");
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
 ///     ^ punctuation.section.group.begin
 ///      ^^^^^^ storage.type
 ///             ^^^^^ variable.other
-///                  ^ punctuation.separator.expression
+///                  ^ punctuation.separator.tuple
 ///                    ^^^^^^ storage.type
 ///                           ^^^^ variable.other
 ///                               ^ punctuation.section.group.end
 ///                                 ^^^^^^^^^^^^ variable.other
 ///                                              ^ keyword.operator.assignment
 ///                                                ^ punctuation.section.group.begin
-///                                                    ^ punctuation.separator.expression
+///                                                    ^ punctuation.separator.tuple
 ///                                                         ^ punctuation.section.group.end
 ///                                                          ^ punctuation.terminator.statement
 
         (SomeType[] Alpha, SomeType<int> Beta) example = (a, b);
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
 ///     ^ punctuation.section.group.begin
 ///      ^^^^^^^^ support.type
 ///              ^ punctuation.section.brackets.begin
 ///               ^ punctuation.section.brackets.end
 ///                 ^^^^^ variable.other
-///                      ^ punctuation.separator.expression
+///                      ^ punctuation.separator.tuple
 ///                        ^^^^^^^^ support.type
 ///                                ^ punctuation.definition.generic.begin
 ///                                 ^^^ storage.type
@@ -342,17 +356,20 @@ class Foo {
 ///                                          ^ punctuation.section.group.end
 ///                                            ^^^^^^^ variable.other
 ///                                                    ^ keyword.operator.assignment
+///                                                      ^^^^^^ meta.group.tuple
 ///                                                      ^ punctuation.section.group.begin
-///                                                        ^ punctuation.separator.expression
+///                                                       ^ variable.other
+///                                                        ^ punctuation.separator.tuple
 ///                                                           ^ punctuation.section.group.end
 ///                                                            ^ punctuation.terminator.statement
         var alphabetStart = (Alpha: "a", Beta: "b");
+///                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
 ///                         ^ punctuation.section.group.begin
 ///                          ^^^^^ variable.other
-///                               ^ punctuation.separator.assignment
-///                                    ^ punctuation.separator.expression
+///                               ^ keyword.operator.assignment
+///                                    ^ punctuation.separator.tuple
 ///                                      ^^^^ variable.other
-///                                          ^ punctuation.separator.assignment
+///                                          ^ keyword.operator.assignment
 ///                                               ^ punctuation.section.group.end
 ///                                                ^ punctuation.terminator.statement
         var abc = (this as object, input);
@@ -360,11 +377,12 @@ class Foo {
 ///                ^^^^ variable.language
 ///                     ^^ keyword.operator.reflection
 ///                        ^^^^^^ storage.type
-///                              ^ punctuation.separator.expression
+///                              ^ punctuation.separator.tuple
 ///                                ^^^^^ variable.other
 ///                                     ^ punctuation.section.group.end
 ///                                      ^ punctuation.terminator.statement
         var abc = (example.Alpha as SomeType);
+///               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group - meta.group.tuple
 ///               ^ punctuation.section.group.begin
 ///                ^^^^^^^ variable.other
 ///                       ^ punctuation.accessor.dot
@@ -373,6 +391,66 @@ class Foo {
 ///                                 ^^^^^^^^ support.type
 ///                                         ^ punctuation.section.group.end
 ///                                          ^ punctuation.terminator.statement
+        // https://docs.microsoft.com/en-us/dotnet/csharp/deconstruct
+        (string city, _, double area) = QueryCityData("New York City");
+///     ^ punctuation.section.group.begin
+///      ^^^^^^ storage.type
+///             ^^^^ variable.other
+///                 ^ punctuation.separator.tuple
+///                   ^ variable.language.deconstruction.discard
+///                    ^ punctuation.separator.tuple
+///                      ^^^^^^ storage.type
+///                             ^^^^ variable.other
+///                                 ^ punctuation.section.group.end
+///                                   ^ keyword.operator.assignment
+        (city, population, _) = QueryCityData("New York City");
+///     ^ punctuation.section.group.begin
+///      ^^^^ variable.other
+///          ^ punctuation.separator.tuple
+///            ^^^^^^^^^^ variable.other
+///                      ^ punctuation.separator.tuple
+///                        ^ variable.language.deconstruction
+///                         ^ punctuation.section.group.end
+///                           ^ keyword.operator.assignment
+        var (_, _, _, pop1, _, pop2) = QueryCityDataForYears("New York City", 1960, 2010);
+///     ^^^ storage.type.variable
+///         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///                                 ^ - meta.group
+///         ^ punctuation.definition.group.begin
+///          ^ variable.language
+///           ^ punctuation.separator.tuple
+///             ^ variable.language
+///              ^ punctuation.separator.tuple
+///                   ^^^^ variable.other
+///                       ^ punctuation.separator.tuple
+///                         ^ variable.language
+///                          ^ punctuation.separator.tuple
+///                            ^^^^ variable.other
+///                                ^ punctuation.definition.group.end
+        (Func<int, int> test1, string test2) = ((int d) => d * 2, 5.ToString());
+///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///      ^^^^ support.type
+///          ^^^^^^^^^^ meta.generic
+///                     ^^^^^ variable.other
+///                          ^ punctuation.separator.tuple
+///                            ^^^^^^ storage.type
+///                                   ^^^^^ variable.other
+///                                          ^ keyword.operator.assignment - meta.group
+///                                            ^ meta.group.tuple punctuation.section.group.begin
+///                                             ^^^^^^^^^^^^^^^^ meta.function.anonymous
+///                                                             ^ punctuation.separator.tuple - meta.function.anonymous
+///                                                               ^ constant.numeric.float.decimal
+///                                                                ^ punctuation.accessor.dot
+///                                                                 ^^^^^^^^ variable.function
+///                                                                         ^ punctuation.section.group.begin
+///                                                                          ^ punctuation.section.group.end
+///                                                                           ^ punctuation.section.group.end
+        (a, b) = (new Random().Next(), 15);
+///               ^^^ keyword.operator.new
+///                   ^^^^^^ support.type
+///                                  ^ punctuation.separator.tuple
+///                                    ^^ meta.group.tuple constant.numeric.integer.decimal
+///                                      ^ punctuation.section.group.end
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
@@ -381,7 +459,7 @@ class Foo {
 ///                ^ punctuation.section.group.begin
 ///                 ^^^ storage.type
 ///                     ^^^ variable.other
-///                        ^ punctuation.separator
+///                        ^ punctuation.separator.tuple
 ///                          ^^^ storage.type
 ///                              ^^^ variable.other
 ///                                 ^ punctuation.section.group.end
@@ -405,7 +483,7 @@ class Foo {
 ///     ^^^^^^ keyword.control.flow.return
 ///            ^ punctuation.section.group.begin
 ///             ^^^ variable.other
-///                ^ punctuation.separator.expression
+///                ^ punctuation.separator.tuple
 ///                  ^^^ variable.other
 ///                     ^ punctuation.section.group.end
 ///                      ^ punctuation.terminator.statement
@@ -418,7 +496,7 @@ class Foo {
 ///                  ^ punctuation.section.group.begin
 ///                   ^^^^^^ storage.type
 ///                          ^^^^^^^^ variable.other
-///                                  ^ punctuation.separator
+///                                  ^ punctuation.separator.tuple
 ///                                    ^^^ storage.type
 ///                                        ^^^^^^^^ variable.other
 ///                                                ^ punctuation.section.group.end
@@ -430,13 +508,56 @@ class Foo {
 ///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///                                                               ^ punctuation.section.group.begin
 ///                                                                ^^^^^^^^ variable.other
-///                                                                        ^ punctuation.separator.assignment
+///                                                                        ^ keyword.operator.assignment
 ///                                                                                 ^ punctuation.separator
 ///                                                                                   ^^^^^^^^ variable.other
-///                                                                                           ^ punctuation.separator.assignment
+///                                                                                           ^ keyword.operator.assignment
 ///                                                                                                    ^ punctuation.section.group.end
 ///                                                                                                     ^ punctuation.terminator.statement
     }
+    
+    public void Deconstruct(out string firstName, out string lastName, out int age)
+    {
+        firstName = FirstName;
+        lastName = LastName;
+        age = Age;
+    }
+    
+    public void Example((int foo, float bar) val, (int foo, string bar) otherVal) {}
+///             ^^^^^^^ entity.name.function
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters
+///                    ^ punctuation.section.parameters.begin
+///                     ^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///                     ^ punctuation.section.group.begin
+///                      ^^^ storage.type
+///                          ^^^ variable.other
+///                             ^ punctuation.separator.tuple
+///                               ^^^^^ storage.type
+///                                     ^^^ variable.other
+///                                        ^ punctuation.section.group.end
+///                                          ^^^ variable.parameter
+///                                             ^ punctuation.separator.parameter.function
+///                                               ^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
+///                                                                     ^^^^^^^^ variable.parameter
+///                                                                             ^ punctuation.section.parameters.end
+    public void Example((int , float ) val, (int, string) otherVal) {}
+///             ^^^^^^^ entity.name.function
+///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters
+///                     ^^^^^^^^^^^^^^ meta.group.tuple
+///                      ^^^ storage.type
+///                          ^ punctuation.separator.tuple
+///                            ^^^^^ storage.type
+///                                  ^ punctuation.section.group.end
+///                                    ^^^ variable.parameter - meta.group.tuple
+///                                       ^ punctuation.separator.parameter.function
+///                                         ^^^^^^^^^^^^^ meta.group.tuple
+///                                         ^ punctuation.section.group.begin
+///                                          ^^^ storage.type
+///                                             ^ punctuation.separator.tuple
+///                                               ^^^^^^ storage.type
+///                                                     ^ punctuation.section.group.end
+///                                                       ^^^^^^^^ variable.parameter
+///                                                               ^ punctuation.section.parameters.end
 }
 /// <- meta.class.body punctuation.section.block.end
 
@@ -604,13 +725,13 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                     ^^ storage.type.function
 ///                                        ^ meta.group punctuation.section.group.begin
 ///                                         ^^^^ meta.group variable.other
-///                                             ^ meta.group punctuation.separator.expression
+///                                             ^ meta.group punctuation.separator.tuple
 ///                                               ^^^ meta.group variable.other
 ///                                                  ^ meta.group punctuation.section.group.end
 ///                                                    ^ keyword.operator.assignment
 ///                                                      ^ meta.group punctuation.section.group.begin
 ///                                                       ^^^^ meta.group variable.other
-///                                                           ^ punctuation.separator.expression
+///                                                           ^ punctuation.separator.tuple
 ///                                                             ^^^ meta.group variable.other
 ///                                                                ^ meta.group punctuation.section.group.end
 ///                                                                 ^ punctuation.terminator.statement
