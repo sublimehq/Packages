@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Indentation Rules</string>
 	<key>scope</key>
-	<string>source.php - comment - meta.embedded.html - string - meta.heredoc-end, meta.html-newline-after-php</string>
+	<string>source.php - comment - meta.embedded.html - string, meta.html-newline-after-php</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
@@ -21,7 +21,7 @@
 			    (else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
 			)
 		]]></string>
-		
+
 		<key>increaseIndentPattern</key>
 		<string><![CDATA[(?x)
 			# define subexpressions
@@ -52,7 +52,7 @@
 			    \s*:(?!.*\bend\k<php_control_word>\b)                                           # followed by a colon, and where the control structures don't end themselves on the same line
 			)
 		]]></string>
-		
+
 		<key>indentNextLinePattern</key>
 		<string><![CDATA[^(?!.*(#|//|\*/|<\?))(?!.*[};:]\s*(//|/\*.*\*/\s*$)).*[^\s;:{}]\s*$|<\?php.+?\b(if|else(?:if)?|for(?:each)?|while)\b.*:(?!.*end\1)]]></string>
 
