@@ -705,7 +705,7 @@ switch ($foo) {
 
     case 0: {}
     case 1:
-//  keyword.control.switch
+//  ^^^^ keyword.control.switch
 }
 // <- meta.block punctuation.section.block.end
 
