@@ -1149,9 +1149,11 @@ var Constructor = function() {
 var abc = new ABC(
 //        ^^^ keyword.operator.word.new
 //            ^^^^ meta.function-call.constructor
+//        ^^^^^^^^ - meta.instance.constructor
     'my-name-is-abc',
     new (function () {
 //  ^^^ keyword.operator.word.new
+//  ^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 //      ^^^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group
         var foo = 1;
 //      ^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group meta.block
@@ -1174,6 +1176,7 @@ function f() {
 new Date().getTime()
 //  ^^^^^^ meta.function-call.constructor
 //  ^^^^ support.class.builtin
+//^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 
 new $();
 //  ^ variable.type.dollar.only punctuation.dollar
