@@ -1340,6 +1340,11 @@ contexts:
     - clear_scopes: 1
     - include: immediately-pop
 
+  function-declaration-meta-no-clear:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.declaration.js
+    - include: immediately-pop
+
   function-declaration-expect-parameters:
     - include: function-declaration-parameters
     - include: else-pop
@@ -1446,7 +1451,7 @@ contexts:
         )
       push:
         - either-function-declaration
-        - function-declaration-meta
+        - function-declaration-meta-no-clear
         - object-literal-expect-colon
         - object-literal-meta-key
         - method-name
