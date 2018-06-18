@@ -1454,6 +1454,9 @@ someFunction(() => [() => 'X']);
 string = 'invalid
 //               ^ invalid.illegal.newline
 
+string = 'invalid\ 
+//                 ^ invalid.illegal.newline
+
 hex = 0xFA.5;
 //         ^ invalid.illegal - constant.numeric
 
