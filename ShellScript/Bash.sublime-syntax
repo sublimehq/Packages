@@ -57,7 +57,7 @@ variables:
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-  keyword_boundary_end: (?!=)(?=[^\w_-])
+  keyword_boundary_end: (?!=)(?=[^\w_-]|$)
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
