@@ -784,6 +784,7 @@ contexts:
     - include: tagged-template
     - include: literal-string-template
     - include: constructor
+    - include: literal-number
     - include: prefix-operators
     - include: yield-expression
     - include: await-expression
@@ -798,7 +799,6 @@ contexts:
     - include: parenthesized-expression
     - include: array-literal
 
-    - include: literal-number
     - include: literal-call
     - include: literal-variable
 
