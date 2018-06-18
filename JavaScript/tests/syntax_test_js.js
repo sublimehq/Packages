@@ -933,6 +933,9 @@ class MyClass extends TheirClass {
     async foo() {}
 //  ^^^^^ storage.type
 
+    *foo() {}
+//  ^ keyword.generator.asterisk
+
     static async foo() {}
 //         ^^^^^ storage.type
 }
