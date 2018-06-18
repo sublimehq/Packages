@@ -1475,10 +1475,6 @@ contexts:
       scope: constant.character.cs
       captures:
         2: constant.character.escape.cs
-    - match: (')({{escaped_char}})(')
-      scope: constant.character.cs
-      captures:
-        2: constant.character.escape.cs
     - match: (').(')
       scope: constant.character.cs
     - match: (')[^']+(')
