@@ -1001,7 +1001,7 @@ contexts:
         0: meta.code-fence.definition.begin.javascript.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
         5: constant.other.language-name.markdown
-      embed: scope:source.javascript
+      embed: scope:source.js
       embed_scope: markup.raw.code-fence.javascript.markdown-gfm
       escape: '{{code_fence_escape}}'
       escape_captures:
