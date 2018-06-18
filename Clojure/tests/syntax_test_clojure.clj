@@ -460,17 +460,17 @@
 ; ## Invalid numbers
 
   01234 +01234 -01234 '01234
-; ^^^^^ invalid.illegal.clojure
+; ^^^^^ invalid.deprecated.clojure
 ;      ^- invalid
-;       ^^^^^^ invalid.illegal.clojure
-;              ^^^^^^ invalid.illegal.clojure
+;       ^^^^^^ invalid.deprecated.clojure
+;              ^^^^^^ invalid.deprecated.clojure
 ;                     ^ keyword.operator.macro.clojure
-;                      ^^^^^ invalid.illegal.clojure
+;                      ^^^^^ invalid.deprecated.clojure
   01234N +01234N -01234N '01234N
-; ^^^^^^ invalid.illegal.clojure
+; ^^^^^^ invalid.deprecated.clojure
 ;       ^- invalid
-;        ^^^^^^^ invalid.illegal.clojure
-;                ^^^^^^^ invalid.illegal.clojure
+;        ^^^^^^^ invalid.deprecated.clojure
+;                ^^^^^^^ invalid.deprecated.clojure
 ;                        ^ keyword.operator.macro.clojure
   10-20 10+20 1234n 1234m 1234. 1234.M
 ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- constant
