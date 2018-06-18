@@ -1004,6 +1004,15 @@ Bar {}
 class Foo extends getSomeClass() {}
 //                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
+    (class extends Bar {});
+//         ^^^^^^^ storage.modifier.extends - entity.name.class
+
+    (class extends class {} {});
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//         ^^^^^^^ storage.modifier.extends
+//                 ^^^^^^^^ meta.class meta.class
+//                 ^^^^^ storage.type.class
+
     () => {}
 //  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^^^^ meta.function.declaration
