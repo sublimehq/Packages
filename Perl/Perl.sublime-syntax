@@ -244,16 +244,16 @@ contexts:
             - include: escaped_char
             - include: variable
         - match: \s+
-        - match: '((([egimosx]*)))(?=(\s+\S|\s*[;\,\#\{\}\)\]>]|$))'
+        - match: '((([egimosxpr]*)))(?=(\s+\S|\s*[;\,\#\{\}\)\]>]|$))'
           captures:
             1: string.regexp.replace.perl
             2: punctuation.definition.string.perl
             3: keyword.control.regexp-option.perl
           pop: true
-    - match: '\b(?=s([^\s\w\[({<]).*\1([egimos]*)([\}\)\;\,]|\s+))'
+    - match: '\b(?=s([^\s\w\[({<]).*\1([egimosxpr]*)([\}\)\;\,]|\s+))'
       comment: string.regexp.replaceXXX
       push:
-        - match: '((([egimos]*)))(?=([\}\)\;\,]|\s+|$))'
+        - match: '((([egimosxpr]*)))(?=([\}\)\;\,]|\s+|$))'
           captures:
             1: string.regexp.replace.perl
             2: punctuation.definition.string.perl
@@ -339,11 +339,12 @@ contexts:
       scope: constant.other.key.perl
     - match: '(?<={)\s*\w+\s*(?=})'
       scope: constant.other.bareword.perl
-    - match: '(?<!\\)((~\s*)?\/)(\S.*?)(?<!\\)(\\{2})*(\/)'
-      scope: string.regexp.find.perl
+    - match: '(?<!\\)(~\s*)?((\/)(.+?)(?<!\\)(\\{2})*(\/)([cgimosxpr]*))'
       captures:
-        1: punctuation.definition.string.perl
-        5: punctuation.definition.string.perl
+        2: string.regexp.find.perl
+        3: punctuation.definition.string.perl
+        6: punctuation.definition.string.perl
+        7: keyword.control.regexp-option.perl
     - match: (?<!\\)(\~\s*\/)
       captures:
         0: punctuation.definition.string.perl
@@ -1087,11 +1088,11 @@ contexts:
       scope: variable.other.subpattern.perl
       captures:
         1: punctuation.definition.variable.perl
-    - match: '([\$\@\%](#)?)([a-zA-Zx7f-xff\$]|::)([a-zA-Z0-9_x7f-xff\$]|::)*\b'
+    - match: '([\$\@\%](#)?)([a-zA-Zx7f-xff\$_]|::)([a-zA-Z0-9_x7f-xff\$]|::)*\b'
       scope: variable.other.readwrite.global.perl
       captures:
         1: punctuation.definition.variable.perl
-    - match: '(\$\{)(?:[a-zA-Zx7f-xff\$]|::)(?:[a-zA-Z0-9_x7f-xff\$]|::)*(\})'
+    - match: '(\$\{)(?:[a-zA-Zx7f-xff\$_]|::)(?:[a-zA-Z0-9_x7f-xff\$]|::)*(\})'
       scope: variable.other.readwrite.global.perl
       captures:
         1: punctuation.definition.variable.perl
