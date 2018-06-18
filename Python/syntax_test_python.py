@@ -270,44 +270,44 @@ def _():
 #   ^^^^^^ storage.type.function.inline
 
     lambda (x, y): pass
-#   ^^^^^^^^^^^^^^ meta.function.inline.python
-#         ^^^^^^^ meta.function.inline.parameters.python
-#          ^^^^^^ meta.group.python
-#          ^ punctuation.section.group.begin.python
-#           ^ variable.parameter.python
-#            ^ punctuation.separator.parameters.python
-#              ^ variable.parameter.python
-#               ^ punctuation.section.group.end.python
-#                ^ punctuation.section.function.begin.python
-#                  ^^^^ keyword.control.flow.python
+#   ^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^^ meta.function.inline.parameters
+#          ^^^^^^ meta.group
+#          ^ punctuation.section.group.begin
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#               ^ punctuation.section.group.end
+#                ^ punctuation.section.function.begin
+#                  ^^^^ keyword.control.flow
     lambda (
-#   ^^^^^^^^^ meta.function.inline.python
-#         ^^^ meta.function.inline.parameters.python
-#          ^^ meta.group.python
-#          ^ punctuation.section.group.begin.python
+#   ^^^^^^^^^ meta.function.inline
+#         ^^^ meta.function.inline.parameters
+#          ^^ meta.group
+#          ^ punctuation.section.group.begin
         x,
-#      ^^^^ meta.function.inline.parameters.python meta.group.python
-#       ^ variable.parameter.python
-#        ^ punctuation.separator.parameters.python
+#      ^^^^ meta.function.inline.parameters meta.group
+#       ^ variable.parameter
+#        ^ punctuation.separator.parameters
         y
-#      ^^^^ meta.function.inline.parameters.python meta.group.python
-#       ^ variable.parameter.python
+#      ^^^^ meta.function.inline.parameters meta.group
+#       ^ variable.parameter
     ):
-#^^^^ meta.function.inline.parameters.python meta.group.python
-#   ^ punctuation.section.group.end.python
-#    ^ punctuation.section.function.begin.python
+#^^^^ meta.function.inline.parameters meta.group
+#   ^ punctuation.section.group.end
+#    ^ punctuation.section.function.begin
         pass
-#       ^^^^ keyword.control.flow.python
+#       ^^^^ keyword.control.flow
 
     ( 3 - 6 \
-#   ^^^^^^^^^ meta.group.python
-#   ^ punctuation.section.group.begin.python
-#     ^ constant.numeric.integer.decimal.python
-#       ^ keyword.operator.arithmetic.python
-#         ^ constant.numeric.integer.decimal.python
-#           ^ punctuation.separator.continuation.line.python
+#   ^^^^^^^^^ meta.group
+#   ^ punctuation.section.group.begin
+#     ^ constant.numeric.integer.decimal
+#       ^ keyword.operator.arithmetic
+#         ^ constant.numeric.integer.decimal
+#           ^ punctuation.separator.continuation.line
      )
-#^^^^^ meta.group.python
+#^^^^^ meta.group
 
 ##################
 # Compound expressions
