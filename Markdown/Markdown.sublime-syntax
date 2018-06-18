@@ -1413,3 +1413,4 @@ contexts:
                         `+
                       scope: invalid.deprecated.unescaped-backticks.markdown
                     - include: inline
+                    - include: scope:text.html.basic

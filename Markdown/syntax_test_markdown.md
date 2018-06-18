@@ -1514,8 +1514,10 @@ abc
 |           ^ punctuation.separator.table-cell
 | ^^^^ - punctuation.separator.table-cell
 | --- | --- |
-| baz | bim |
+| baz | bim <kbd>Ctrl+C</kbd> |
 | <- meta.block-level meta.table punctuation.separator.table-cell
+|           ^^^^^ meta.tag.inline.any
+|                             ^ punctuation.separator.table-cell
 
 | <- - meta.block-level - meta.table
 
