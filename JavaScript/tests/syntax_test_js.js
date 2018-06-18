@@ -1090,6 +1090,29 @@ var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                                                           ^ meta.block meta.block variable.other.readwrite
 //                                                                            ^ meta.block punctuation.section.block.end
 
+var var = ~{a:function(){}.a()}
+//  ^^^ meta.binding.name
+//  ^^^ variable.other.readwrite
+//      ^ keyword.operator.assignment
+//        ^ keyword.operator.bitwise
+//         ^ punctuation.section.block.begin
+//         ^^^^^^^^^^^^^^^^^^^^ meta.object-literal
+//          ^^^^^^^^^^^^ meta.function.declaration
+//          ^ entity.name.function
+//           ^ punctuation.separator.key-value
+//            ^^^^^^^^ storage.type.function
+//                    ^ punctuation.section.group.begin
+//                     ^ punctuation.section.group.end
+//                      ^ meta.block punctuation.section.block.begin
+//                       ^ meta.block punctuation.section.block.end
+//                        ^ meta.object-literal
+//                         ^^^ meta.function.declaration
+//                         ^ entity.name.function
+//                          ^ punctuation.section.group.begin
+//                           ^ punctuation.section.group.end
+//                            ^ punctuation.section.block.end
+//                             ^ - meta
+
 baz(foo(x => x('bar')));
 //                   ^ meta.function-call meta.function-call punctuation.section.group.end
 //                    ^ meta.function-call punctuation.section.group.end
