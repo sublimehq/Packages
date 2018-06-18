@@ -5,5 +5,5 @@
 ]]></content>
 	<tabTrigger>fore</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Loop</description>
+	<description>foreach.. Loop</description>
 </snippet>

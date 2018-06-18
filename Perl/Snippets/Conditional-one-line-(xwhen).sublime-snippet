@@ -1,0 +1,7 @@
+<snippet>
+	<content><![CDATA[${1:expression} when ${2:condition};
+]]></content>
+	<tabTrigger>xwhen</tabTrigger>
+	<scope>source.perl</scope>
+	<description>when.. Conditional One-line</description>
+</snippet>
