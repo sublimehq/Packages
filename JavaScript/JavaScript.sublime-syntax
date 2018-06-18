@@ -29,8 +29,6 @@ variables:
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier}})
 
-  func_lookahead: '\s*(async\s+)?function{{identifier_break}}'
-  arrow_func_lookahead: '\s*(async\s*)?({{identifier}}|\(([^()]|\([^()]*\))*\))\s*=>'
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
