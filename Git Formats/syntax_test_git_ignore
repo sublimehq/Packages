@@ -8,9 +8,9 @@
 #  ^ variable.language.environment.home.fnmatch.git
 #   ^ punctuation.separator.path.fnmatch.git
 #    ^ - constant
-#       ^ keyword.operator.path.asterix.fnmatch.git
+#       ^ keyword.operator.path.asterisk.fnmatch.git
 #               ^ punctuation.separator.path.fnmatch.git
-#                ^ keyword.operator.path.asterix.fnmatch.git
+#                ^ keyword.operator.path.asterisk.fnmatch.git
 #                 ^ punctuation.separator.path.extension.fnmatch.git
 
   ~/../f..o\'ld\"er/fo\*l\?der/fol../der
@@ -22,9 +22,9 @@
 #          ^^ constant.character.escape.path.fnmatch.git
 #              ^^ constant.character.escape.path.fnmatch.git
 #                     ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
-#                      ^ keyword.operator.path.asterix.fnmatch.git
+#                      ^ keyword.operator.path.asterisk.fnmatch.git
 #                        ^ - constant.character.escape.path.fnmatch.git - punctuation.separator.path.fnmatch.git
-#                         ^ keyword.operator.path.asterix.fnmatch.git
+#                         ^ keyword.operator.path.asterisk.fnmatch.git
 #                                 ^^ - constant.language.path.parent.fnmatch.git
 #                                       ^ - entity.name.pattern
 
@@ -35,7 +35,7 @@
 #       ^ - variable.language.environment.home.fnmatch.git
 #         ^ punctuation.separator.path.extension.fnmatch.git
 #          ^ - variable.language.environment.home.fnmatch.git
-#            ^ keyword.operator.path.asterix.fnmatch.git
+#            ^ keyword.operator.path.asterisk.fnmatch.git
   ~..fname
 # ^^^^^^^^ string.unquoted.git.ignore entity.name.pattern.git.ignore
 # ^ - variable.language.environment.home.fnmatch.git

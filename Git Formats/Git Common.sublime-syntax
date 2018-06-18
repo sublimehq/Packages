@@ -115,7 +115,7 @@ contexts:
     - match: \.(?!.*[./]) # the last dot not followed by path sep
       scope: punctuation.separator.path.extension.fnmatch.git
     - match: '[*?]'       # unescapable operators
-      scope: keyword.operator.path.asterix.fnmatch.git
+      scope: keyword.operator.path.asterisk.fnmatch.git
     - match: '\\[^$*?]'   # backslash escapes nearly everything
       scope: constant.character.escape.path.fnmatch.git
     - match: \$\w+
@@ -155,7 +155,7 @@ contexts:
       pop: true
     - match: '\\\]'   # backslash escapes only ']'
       scope: constant.character.escape.char-class.fnmatch.git
-    - match: '[*?]'   # asterix is ignored by fnmatch
+    - match: '[*?]'   # asterisk is ignored by fnmatch
       scope: invalid.illegal.unexpected.char-class.fnmatch.git
     - match: \S
       scope: constant.character.char-class.fnmatch.git

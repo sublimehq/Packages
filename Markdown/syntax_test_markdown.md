@@ -1892,7 +1892,7 @@ FROM TableName
 |  ^^^^^^ constant.other.language-name
 def function():
     pass
-|   ^^^^ keyword.control.flow.python
+|   ^^^^ keyword.control.flow.pass.python
 unclosed_paren = (
 |                ^ meta.group.python punctuation.section.group.begin.python
 ```

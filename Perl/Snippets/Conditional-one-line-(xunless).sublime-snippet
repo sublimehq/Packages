@@ -3,5 +3,5 @@
 ]]></content>
 	<tabTrigger>xunless</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Conditional One-line</description>
+	<description>unless. Conditional One-line</description>
 </snippet>

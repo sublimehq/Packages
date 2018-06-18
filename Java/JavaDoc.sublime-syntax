@@ -8,6 +8,7 @@ hidden: true
 
 variables:
   id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
+  javadoc_block_tag_terminator: (?=^\s*\*?\s*@)
 
 contexts:
   prototype:
@@ -31,9 +32,8 @@ contexts:
 
     # Block tag in the first line (immediately after '/**').
     - match: \s*(?=@)
-      push: javadoc-block-tags
-      with_prototype:
-        - include: javadoc-block-tag-terminator
+      embed: javadoc-block-tags
+      escape: '{{javadoc_block_tag_terminator}}'
 
     # We rely on 'escape' to pop the inner context out.
     # 'set' unfortunately will mess up the meta scopes.
@@ -42,18 +42,13 @@ contexts:
         - match: ^\s*(\*)?\s*(?=@)
           captures:
             1: punctuation.definition.comment.javadoc
-          push: javadoc-block-tags
-          with_prototype:
-            - include: javadoc-block-tag-terminator
+          embed: javadoc-block-tags
+          escape: '{{javadoc_block_tag_terminator}}'
         - include: inline-formatting
 
   inline-formatting:
     - include: javadoc-inline-tags
     - include: scope:text.html.basic
-
-  javadoc-block-tag-terminator:
-    - match: (?=^\s*\*?\s*@)
-      pop: true
 
   javadoc-block-tag-base:
     - meta_scope: meta.block-tag.javadoc

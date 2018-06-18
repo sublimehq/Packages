@@ -3,5 +3,5 @@
 ]]></content>
 	<tabTrigger>xwhile</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Loop One-line</description>
+	<description>while.. Loop One-line</description>
 </snippet>
