@@ -863,12 +863,12 @@ contexts:
 
   literal-string-template:
     - match: '`'
-      scope: punctuation.definition.string.template.begin.js
+      scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
         - meta_scope: string.template.js
         - match: "`"
-          scope: punctuation.definition.string.template.end.js
+          scope: punctuation.definition.string.end.js
           pop: true
         - match: '\$\{'
           scope: punctuation.definition.template-expression.begin.js
