@@ -4149,6 +4149,10 @@
 		{ "trigger": "zip_entry_read", "contents": "zip_entry_read(${1:zip_entry})" },
 		{ "trigger": "zip_open", "contents": "zip_open(${1:filename})" },
 		{ "trigger": "zip_read", "contents": "zip_read(${1:zip})" },
-		{ "trigger": "zlib_get_coding_type", "contents": "zlib_get_coding_type()" }
+		{ "trigger": "zlib_get_coding_type", "contents": "zlib_get_coding_type()" },
+		{ "trigger": "password_hash", "contents": "password_hash(${1:string}, ${2:PASSWORD_DEFAULT})" },
+		{ "trigger": "password_verify", "contents": "password_verify(${1:password}, ${2:hash})" },
+		{ "trigger": "password_get_info", "contents": "password_get_info(${1:hash})" },
+		{ "trigger": "password_needs_rehash", "contents": "password_needs_rehash(${1:hash}, ${2:PASSWORD_DEFAULT})" }
 	]
 }

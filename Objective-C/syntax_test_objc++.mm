@@ -1,4 +1,14 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
+
+int main(){
+    int a=5,b=0;
+    while(a-->0)++b;
+    /*     ^^ keyword.operator.arithmetic */
+    /*       ^ keyword.operator.comparison */
+    /*        ^ constant.numeric */
+    /*          ^^ keyword.operator.arithmetic */
+}
+
 /////////////////////////////////////////////
 // Preprocessor
 /////////////////////////////////////////////
@@ -664,11 +674,11 @@ switch (x)
 case 1:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 default:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 }
 
 do
@@ -676,7 +686,7 @@ do
 {
     if (y == 3)
         continue;
-        /* <- keyword.control */
+        /* <- keyword.control.flow.continue */
 } while (y < x);
 /*^ keyword.control */
 
@@ -690,13 +700,13 @@ switch (a) {
 }
 
 goto label;
-/* <- keyword.control */
+/* <- keyword.control.flow.goto */
 
 try
 /* <- keyword.control */
 {
     throw std :: string("xyz");
-    /* <- keyword.control */
+    /* <- keyword.control.flow.throw */
     /*    ^^^^^^^^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
@@ -712,7 +722,7 @@ delete ptr;
 /* <- keyword.control */
 
 return 123;
-/* <- keyword.control */
+/* <- keyword.control.flow.return */
 
 
 /////////////////////////////////////////////
@@ -1823,6 +1833,33 @@ class __declspec(align(8)) SkBitmap {}
 class __declspec(dllimport) SkBitmap {}
 /*               ^ constant.other */
 /*                          ^ entity.name.class */
+
+// Make sure not to match macros that have "too few characters".
+template <class T> class Sample {
+ public:
+  // The T here should not be consumed as a macro.
+  T operator()  (const foo x) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  int operator == (const int x) {
+    /*^^^^^^^^^^^ entity.name.function */
+    return 0;
+  }
+  // The T here should not be consumed as a macro.
+  T operator()(int a) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  // The T here should not be consumed as a macro.
+  T operator[](int a)  {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+     return T;
+  }
+};
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
