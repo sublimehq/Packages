@@ -170,6 +170,8 @@ contexts:
       scope: constant.numeric.c
 
   operators:
+    - match: (?:\+\+|--)
+      scope: keyword.operator.arithmetic.c
     - match: '->'
       scope: punctuation.accessor.c
     - match: \+\=|-\=|\*\=|/\=|%\=|&\=|\|\=|\^\=|>>\=|<<\=
