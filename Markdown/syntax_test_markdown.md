@@ -1173,6 +1173,7 @@ __test!*test__ Issue 1163
 | <- punctuation.definition.raw.code-fence.begin
 |  ^^ constant.other.language-name
 for (var i = 0; i < 10; i++) {
+| ^ keyword.control.loop.js
     console.log(i);
 }
 ```
@@ -1936,3 +1937,23 @@ echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
 |                       ^^ constant.character.escape
 ```
 | <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end
+
+```     bash
+| <- punctuation.definition.raw.code-fence.begin
+|  ^^^^^ meta.code-fence.definition.begin.shell-script.markdown-gfm
+|       ^^^^ constant.other.language-name
+# test
+| ^^^^^ source.shell comment.line.number-sign
+```
+| <- meta.code-fence.definition.end.shell-script punctuation.definition.raw.code-fence.end
+
+~~~~    ruby startline=3 $%@#$
+| <- punctuation.definition.raw.code-fence.begin
+|   ^^^^ meta.code-fence.definition.begin.ruby.markdown-gfm
+|       ^^^^ constant.other.language-name
+|           ^^^^^^^^^^^^^^^^^^ meta.code-fence.definition.begin.ruby.markdown-gfm
+def foo(x)
+  return 3
+end
+~~~~~~~
+| <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end
