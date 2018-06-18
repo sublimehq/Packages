@@ -1372,6 +1372,14 @@ a = /\//u + 0;
 //       ^ constant.numeric
 //         ^ keyword.operator
 
+    x
+    in y;
+//  ^^ keyword.operator
+
+    x
+    instanceof y;
+//  ^^^^^^^^^^ keyword.operator
+
 var π = 3.141592653
 //  ^ variable.other.readwrite
 

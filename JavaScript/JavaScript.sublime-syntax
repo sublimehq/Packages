@@ -62,11 +62,12 @@ variables:
     )
 
   line_continuation_lookahead: >-
-    (?x)(?:
+    (?x:
       (?! \+\+ | -- )
       (?=
         != |
-        [ -+*/% ><= &|^ \[( ;,.:? ]
+        [ -+*/% ><= &|^ \[( ;,.:? ] |
+        (?:in|instanceof){{identifier_break}}
       )
     )
 
