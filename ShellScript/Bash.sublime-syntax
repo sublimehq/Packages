@@ -270,12 +270,35 @@ contexts:
       captures:
         1: storage.type.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
+    - match: \bcoproc{{keyword_boundary_end}}
+      scope: keyword.other.coproc.shell
+      push: [cmd-post, cmd-args, coproc-body]
 
   funcdef-bt:
     - match: '{{is_function}}'
       captures:
         1: storage.type.function.shell
       push: [funcdef-body-bt, funcdef-parens, funcdef-name]
+    - match: \bcoproc{{keyword_boundary_end}}
+      scope: keyword.other.coproc.shell
+      push: [cmd-post, cmd-args-bt, coproc-body]
+
+  coproc-body:
+    - match: \s*(?=\S+\s*\{)
+      set:
+        - meta_content_scope: entity.name.function.coproc.shell
+        - match: (?=\s*\{)
+          set:
+            - match: \{
+              scope: punctuation.section.braces.begin.shell
+              set:
+                - meta_scope: meta.function.coproc.shell
+                - match: \}
+                  scope: punctuation.section.braces.end.shell
+                  pop: true
+                - include: main
+    - match: ""
+      set: main-with-pop-at-end
 
   funcdef-name:
     - match: \s*
