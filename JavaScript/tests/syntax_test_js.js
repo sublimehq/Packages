@@ -220,36 +220,31 @@ someFunction({
 //                ^ variable.other.readwrite
 });
 
-function foo() {
-// <- meta.function.declaration
- // <- meta.function.declaration
-  // <- meta.function.declaration
-// ^^^^^^^^^^^ meta.function.declaration - meta.function.declaration meta.function.declaration
-// ^ storage.type.function
-//        ^ entity.name.function
-//             ^ - meta.function.declaration
-//             ^ meta.block punctuation.section.block.begin
-}
-// <- meta.block punctuation.section.block.end
+    function foo() {
+//  ^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
+//  ^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^ storage.type.function
+//           ^^^ entity.name.function
+//                ^^ - meta.function.declaration
+    }
+//  ^ meta.function meta.block
 
-var bar = function() {
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration
-// <- storage.type
-//   ^ variable.other.readwrite entity.name.function
-//         ^ storage.type.function
-}
+    var bar = function() {
+//  ^^^ storage.type
+//      ^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
+//      ^^^^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^ variable.other.readwrite entity.name.function
+//            ^^^^^^^^ storage.type.function
+    }
 
-baz = function*()
-// <- meta.function.declaration
- // <- meta.function.declaration
-  // <- meta.function.declaration
-// ^^^^^^^^^^^^^^ meta.function.declaration
-// <- variable.other.readwrite entity.name.function
-//     ^ storage.type.function
-//            ^ keyword.generator.asterisk
-{
+    baz = function*()
+//  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function meta.function
+//  ^^^ variable.other.readwrite entity.name.function
+//        ^^^^^^^^ storage.type.function
+//                ^ keyword.generator.asterisk
+    {
 
-}
+    }
 
 if (true)
 // <- keyword.control.conditional
@@ -828,11 +823,11 @@ class MyClass extends TheirClass {
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function.constructor
     {
-//  ^ meta.class meta.block meta.block punctuation.section.block.begin
+//  ^ meta.class meta.block meta.function meta.block punctuation.section.block
         $.foo = "";
         super(el);
     }
-//  ^ meta.class meta.block meta.block punctuation.section.block.end
+//  ^ meta.class meta.block meta.function meta.block punctuation.section.block
 
     get foo()
 //  ^^^^^^^^^ meta.function.declaration
@@ -954,6 +949,16 @@ Bar {}
 class Foo extends getSomeClass() {}
 //                ^^^^^^^^^^^^ meta.function-call variable.function - entity.other.inherited-class
 
+    () => {}
+//  ^^^^^^^^ meta.function - meta.function meta.function
+//  ^^^^^ meta.function.declaration
+//  ^ punctuation.section.group.begin
+//   ^ punctuation.section.group.end
+//     ^^ storage.type.function.arrow
+//        ^^ meta.block
+//        ^ punctuation.section.block
+//         ^ punctuation.section.block
+
     @foo class Foo {}
 //  ^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
@@ -982,6 +987,7 @@ class Foo extends getSomeClass() {}
 
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
@@ -998,6 +1004,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 // We can't currently detect this properly, but we need to consume => properly
 ([a,
   b]) => { return x; }
+//    ^^^^^^^^^^^^^^^^ meta.function
 //    ^^ storage.type.function.arrow
 //         ^^^^^^ meta.block keyword.control.flow
 
@@ -1549,6 +1556,7 @@ let str = navigator.userAgent.toLowerCase();
 //        ^^^^^^^^^ support.type.object
 
 function yy (a, b) {
+// ^^^^^^^^^^^^^^^^^ meta.function
 // ^^^^^^^^^^^^^^^ meta.function.declaration
 //       ^^ entity.name.function
 //          ^ punctuation.section.group.begin
@@ -1556,8 +1564,9 @@ function yy (a, b) {
 //            ^ punctuation.separator.parameter.function
 //              ^ variable.parameter.function
 //               ^ punctuation.section.group.end
-//                 ^ meta.block punctuation.section.block.begin - meta.function
+//                 ^ meta.block punctuation.section.block.begin
 }
+// <- meta.function meta.block punctuation.section.block
 
 // Integers
 

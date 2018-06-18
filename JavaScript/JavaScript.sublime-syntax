@@ -824,7 +824,9 @@ contexts:
     # If an arrow function has the ( and ) on different lines, we won't have matched
     - match: =>
       scope: storage.type.function.arrow.js
-      push: arrow-function-expect-body
+      push:
+        - function-meta
+        - arrow-function-expect-body
 
   literal-string:
     - match: "'"
@@ -1127,6 +1129,7 @@ contexts:
     - match: constructor{{identifier_break}}
       scope: entity.name.function.constructor.js
       push:
+        - function-meta
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
@@ -1198,6 +1201,7 @@ contexts:
   field-initializer-or-method-declaration:
     - match: (?=\()
       set:
+        - function-meta
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
@@ -1312,6 +1316,7 @@ contexts:
   function-declaration:
     - match: ''
       set:
+        - function-meta
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
@@ -1324,9 +1329,15 @@ contexts:
     - include: function-block
     - include: else-pop
 
+  function-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.js
+    - include: immediately-pop
+
   function-declaration-meta:
     - meta_include_prototype: false
     - meta_scope: meta.function.declaration.js
+    - clear_scopes: 1
     - include: immediately-pop
 
   function-declaration-expect-parameters:
@@ -1360,6 +1371,7 @@ contexts:
   arrow-function-declaration:
     - match: ''
       set:
+        - function-meta
         - arrow-function-expect-body
         - function-declaration-meta
         - arrow-function-expect-arrow
@@ -1580,6 +1592,7 @@ contexts:
   method-declaration:
     - match: ''
       set:
+        - function-meta
         - function-declaration-expect-body
         - function-declaration-meta
         - function-declaration-expect-parameters
