@@ -7,6 +7,24 @@
 <html>
     <head>
         <title>Test HTML</title>
+
+        <script> <!--
+        ## ^^^^^ meta.tag.script.begin.html
+        ## ^ entity.name.tag.script - source.js.embedded.html
+        ##       ^^^^ comment.block.html punctuation.definition.comment.begin.html
+            var foo = 100;
+            var baz = function() {
+                ## <- entity.name.function.js
+            }
+
+            (a --> b);
+            ## ^^^ source.js.embedded.html meta.group.js keyword.operator
+        --> </script>
+        ## <- comment.block.html punctuation.definition.comment.end.html
+        ##    ^^^^^^ entity.name.tag.script.html
+        ##  ^^^^^^^^^ meta.tag.script.end.html - source.js.embedded.html
+        ##           ^ - meta.tag
+
         <script type="text/javascript"> <!--
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.script.begin.html
         ## ^ entity.name.tag.script - source.js.embedded.html
@@ -28,7 +46,7 @@
         <script
         type
         =
-        application/javascript>
+        application/jAvAsCrIpT>
             var foo = 100;
         ##  ^^^^^^^^^^^^^^^ source.js.embedded
         </script>
@@ -38,6 +56,8 @@
         ## ^ entity.name.tag.script - text.html.embedded.html
         ##             ^ string.quoted.double.html - text.html.embedded.html
         ##                          ^^^^ comment.block.html punctuation
+            comment -->
+        ##  ^^^^^^^^^^^ text.html.embedded.html comment.block.html
             <div></div>
         ##  ^^^^^^^^^^^ text.html.basic text.html.embedded meta.tag.block.any
             <script type=text/javascript>

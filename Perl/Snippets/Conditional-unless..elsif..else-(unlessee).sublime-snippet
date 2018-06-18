@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[if ($1) {
+	<content><![CDATA[unless ($1) {
 	${2:# body...}
 } elsif ($3) {
 	${4:# elsif...}
@@ -7,7 +7,7 @@
 	${5:# else...}
 }
 ]]></content>
-	<tabTrigger>ifee</tabTrigger>
+	<tabTrigger>unlessee</tabTrigger>
 	<scope>source.perl</scope>
-	<description>if..elsif..else.. Conditional</description>
+	<description>unless..elsif..else.. Conditional</description>
 </snippet>

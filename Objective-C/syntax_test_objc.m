@@ -1,5 +1,14 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C.sublime-syntax" */
 
+int main(){
+    int a=5,b=0;
+    while(a-->0)++b;
+    /*     ^^ keyword.operator.arithmetic */
+    /*       ^ keyword.operator.comparison */
+    /*        ^ constant.numeric */
+    /*          ^^ keyword.operator.arithmetic */
+}
+
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
@@ -298,6 +307,7 @@ int foo(int val, float val2[])
 /*        ^^ punctuation.accessor */
     if (result == 0) {
         return 0;
+/*      ^^^^^^ keyword.control.flow.return */
 #if CROSS_SCOPE_MACRO
  /* <- keyword.control.import */
     } else if (result > 0) {
@@ -401,6 +411,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*       ^ punctuation.separator */
         do {
             break;
+/*          ^^^^^ keyword.control.flow.break */
         } while(true);
 
     switch (a) {

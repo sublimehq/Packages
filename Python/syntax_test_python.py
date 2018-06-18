@@ -544,6 +544,12 @@ def _():
     ):
 #    ^ meta.statement.while.python punctuation.section.block.while.python
         sleep()
+        if a:
+            break
+#           ^^^^^ keyword.control.flow.break.python
+        elif b:
+            continue
+#           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
 #   ^^^^^^^^^^^^^^ meta.statement.if.python
@@ -581,6 +587,10 @@ def _():
 #   ^^^^ keyword.control.flow.conditional.python
     while
 #   ^^^^^ keyword.control.flow.while.python
+    return
+#   ^^^^^^ keyword.control.flow.return.python
+    raise
+#   ^^^^^ keyword.control.flow.raise.python
 
 
 ##################
