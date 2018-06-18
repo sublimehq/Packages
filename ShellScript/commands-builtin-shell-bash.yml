@@ -91,7 +91,7 @@ pwd:
 
 return:
   allow-end-of-options-token: false
-  scope: keyword.control.return.shell
+  scope: keyword.control.flow.return.shell
 
 shift:
   allow-end-of-options-token: false

@@ -182,9 +182,9 @@ contexts:
       scope: keyword.control.case.begin.shell
       set: [case-body, case-item, case-item-first-character, case-preamble]
     - match: \bcontinue{{keyword_boundary_end}}
-      scope: keyword.control.continue.shell
+      scope: keyword.control.flow.continue.shell
     - match: \bbreak{{keyword_boundary_end}}
-      scope: keyword.control.break.shell
+      scope: keyword.control.flow.break.shell
       set: [cmd-post, cmd-args]
 
   case-preamble:

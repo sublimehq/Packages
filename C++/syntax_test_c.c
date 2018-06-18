@@ -578,3 +578,57 @@ scanf("%ms %as %*[, ]", &buf);
 
 "foo % baz"
 /*   ^ - invalid */
+
+
+/////////////////////////////////////////////
+// Control Keywords
+/////////////////////////////////////////////
+
+int control_keywords()
+{
+  if (x < 5)
+  /* <- keyword.control */
+  {}
+  else
+  /* <- keyword.control */
+  {}
+
+  switch (x)
+  /* <- keyword.control */
+  {
+  case 1:
+  /* <- keyword.control */
+      break;
+      /* <- keyword.control.flow.break */
+  default:
+  /* <- keyword.control */
+      break;
+      /* <- keyword.control.flow.break */
+  }
+
+  do
+  /* <- keyword.control */
+  {
+      if (y == 3)
+          continue;
+          /* <- keyword.control.flow.continue */
+  } while (y < x);
+  /*^ keyword.control */
+
+  switch (a) {
+      case 1: break;
+  /*        ^ punctuation.separator */
+      case 100 - 10: break;
+  /*               ^ punctuation.separator */
+      default: break;
+  /*         ^ punctuation.separator */
+  }
+
+  goto label;
+  /* <- keyword.control.flow.goto */
+
+label:
+
+  return 123;
+  /* <- keyword.control.flow.return */
+}
