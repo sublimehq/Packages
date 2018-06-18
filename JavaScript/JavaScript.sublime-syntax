@@ -21,7 +21,7 @@ variables:
   left_expression_end_lookahead: (?!\s*[.\[\(])
 
   property_name: >-
-    (?x)(?:
+    (?x:
       {{identifier}}
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
@@ -29,21 +29,21 @@ variables:
     )
 
   class_element_name: |-
-    (?x)(?:
+    (?x:
       \*?
       {{property_name}}
       | \#{{identifier}}
     )
 
   func_lookahead: |-
-    (?x)(?:
+    (?x:
       \s*
       (?:async\s+)?
       function{{identifier_break}}
     )
 
   arrow_func_lookahead: |-
-    (?x)(?:
+    (?x:
       \s*
       (?:async\s*)?
       (?:
@@ -55,11 +55,11 @@ variables:
     )
 
   method_lookahead: |-
-    (?x)(?=
+    (?x:(?=
       (?: get|set|async ){{identifier_break}}
       | \*
       | {{property_name}} \s* \(
-    )
+    ))
 
   line_continuation_lookahead: >-
     (?x:
