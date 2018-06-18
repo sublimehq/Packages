@@ -1038,7 +1038,7 @@ contexts:
       scope: keyword.operator.arithmetic.js
       push: expression-begin
     - match: ','
-      scope: punctuation.separator.comma.js # TODO: Change to keyword.operator.comma.js ?
+      scope: keyword.operator.comma.js # Comma operator, not punctuation.
       push: expression-begin
 
   ternary-operator:
