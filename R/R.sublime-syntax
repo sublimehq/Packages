@@ -63,7 +63,7 @@ contexts:
   keywords:
     - match: \b(break|next|repeat|else|in)\b
       scope: keyword.control.r
-    - match: \b(ifelse|if|for|return|switch|while|invisible)\b(?=\s*\()
+    - match: \b(if|for|return|while|invisible)\b(?=\s*\()
       scope: keyword.control.r
     - match: (\-|\+|\*|\/|%\/%|%%|%\*%|%o%|%x%|\^)
       scope: keyword.operator.arithmetic.r
@@ -75,8 +75,12 @@ contexts:
       scope: keyword.operator.logical.r
     - match: (%in%|:=|%between%|%chin%|%like%|%\+%|%\+replace%|%:%|%do%|%dopar%|%>%|%<>%|%T>%|%\$%)
       scope: keyword.operator.other.r
+    - match: (:::?)
+      scope: punctuation.accessor.colons.r
     - match: (\.\.\.|\$|:|\~|@)
       scope: keyword.other.r
+    - match: ;
+      scope: punctuation.terminator.semicolon.r
 
   storage-types:
     - match: \b(character|complex|double|expression|integer|list|logical|numeric|single|raw)\b(\s*\()
@@ -119,6 +123,8 @@ contexts:
         - match: \]
           scope: meta.item-access.r punctuation.section.brackets.single.end.r
           pop: true
+        - match: ','
+          scope: punctuation.separator.parameters.r
         - include: main
     - match: \[\[
       scope: meta.item-access.r punctuation.section.brackets.double.begin.r
@@ -127,6 +133,8 @@ contexts:
         - match: \]\]
           scope: meta.item-access.r punctuation.section.brackets.double.end.r
           pop: true
+        - match: ','
+          scope: punctuation.separator.parameters.r
         - include: main
     - match: \{
       scope: punctuation.section.braces.begin.r

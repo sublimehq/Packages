@@ -1,0 +1,25 @@
+[
+    // Auto-pair quotes even after string modifiers.
+    // Copied over from the default bindings with modifications to `preceding_text`
+    // and an added selector condition.
+    { "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i)\\b[bfru]+$", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.python" },
+            { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true }
+        ]
+    },
+    { "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'"}, "context":
+        [
+            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?i)\\b[bfru]+$", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.python" },
+            { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.single - punctuation.definition.string.end", "match_all": true }
+        ]
+    },
+]

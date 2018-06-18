@@ -6,9 +6,6 @@ file_extensions:
   - htm
   - shtml
   - xhtml
-  - inc
-  - tmpl
-  - tpl
 first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
@@ -18,22 +15,22 @@ variables:
   not_equals_lookahead: (?=\s*[^\s=])
 
   block_tag_name: |-
-    (?ix)(?:
+    (?ix:
       address|applet|article|aside|blockquote|center|dd|dir|div|dl|dt|figcaption|figure|footer|frame|frameset|h1|h2|h3|h4|h5|h6|header|iframe|menu|nav|noframes|object|ol|p|pre|section|ul
     )\b
 
   inline_tag_name: |-
-    (?ix)(?:
+    (?ix:
       abbr|acronym|area|audio|b|base|basefont|bdi|bdo|big|br|canvas|caption|cite|code|del|details|dfn|dialog|em|font|head|html|i|img|ins|isindex|kbd|li|link|map|mark|menu|menuitem|meta|noscript|param|picture|q|rp|rt|rtc|ruby|s|samp|script|small|source|span|strike|strong|style|sub|summary|sup|time|title|track|tt|u|var|video|wbr
     )\b
 
   form_tag_name: |-
-    (?ix)(?:
+    (?ix:
       button|datalist|input|label|legend|meter|optgroup|option|output|progress|select|template|textarea
     )\b
 
   javascript_mime_type: |-
-    (?ix)(?:
+    (?ix:
       # https://mimesniff.spec.whatwg.org/#javascript-mime-type
       (?:application|text)/(?:x-)?(?:java|ecma)script
       | text/javascript1\.[0-5]
@@ -248,7 +245,7 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
-        - match: ''
+        - match: (?=\S)
           embed: scope:source.css
           embed_scope: source.css.embedded.html
           escape: (?i)(?=(?:-->\s*)?</style)
@@ -326,8 +323,8 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: script-close-tag
         - include: main
+        - include: script-close-tag
 
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
@@ -338,9 +335,8 @@ contexts:
         - include: script-close-tag
 
   script-close-tag:
-    - match: \s*(<!--)
-      captures:
-        1: comment.block.html punctuation.definition.comment.begin.html
+    - match: <!--
+      scope: comment.block.html punctuation.definition.comment.begin.html
     - match: (?i)(?:(-->)\s*)?(</)(script)(>)
       scope: meta.tag.script.end.html
       captures:
