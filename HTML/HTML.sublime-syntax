@@ -248,7 +248,7 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
-        - match: ''
+        - match: (?=\S)
           embed: scope:source.css
           embed_scope: source.css.embedded.html
           escape: (?i)(?=(?:-->\s*)?</style)
