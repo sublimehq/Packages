@@ -992,6 +992,10 @@ status="${status#${status%%[![:space:]]*}}"
 #                          ^ - punctuation
 #                            ^ - punctuation
 #                                    ^^ - punctuation
+CURPOS=${CURPOS#*[}
+#                ^ - keyword.control.regexp
+echo "${ROW#*[}"
+#            ^ - keyword.control.regexp
 echo *
 #    ^ keyword.operator.regexp.quantifier
 echo {a,g*}

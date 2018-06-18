@@ -1035,7 +1035,7 @@ contexts:
         - include: expansion-and-string
     - match: '[*?]'
       scope: keyword.operator.regexp.quantifier.shell
-    - match: \[
+    - match: \[(?=.*])
       scope: keyword.control.regexp.set.begin.shell
       push:
         - match: (?=])
