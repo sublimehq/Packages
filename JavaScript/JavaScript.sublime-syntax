@@ -289,9 +289,11 @@ contexts:
       scope: keyword.control.trycatch.js
       set: restricted-production
 
-    - match: (?:break|continue|goto){{identifier_break}}
+    - match: (?:break|continue){{identifier_break}}
       scope: keyword.control.loop.js
-      set: expect-semicolon
+      set:
+        - expect-semicolon
+        - expect-label
 
     - match: return{{identifier_break}}
       scope: keyword.control.flow.js
@@ -311,6 +313,14 @@ contexts:
   expect-semicolon:
     - match: \;
       scope: punctuation.terminator.statement.js
+      pop: true
+    - include: else-pop
+
+  expect-label:
+    - match: '{{identifier}}'
+      scope: variable.label.js
+      pop: true
+    - match: $
       pop: true
     - include: else-pop
 
