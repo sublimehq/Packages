@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[when ($1) {
+	${2:# body...}
+}
+]]></content>
+	<tabTrigger>when</tabTrigger>
+	<scope>source.perl</scope>
+	<description>when.. Conditional</description>
+</snippet>

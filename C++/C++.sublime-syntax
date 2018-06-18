@@ -22,7 +22,7 @@ scope: source.c++
 variables:
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
-  macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]*\b'
+  macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]+\b'
   operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
   operator_keywords: 'and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|noexcept'
@@ -87,6 +87,16 @@ contexts:
   unique-keywords:
     - match: \busing\b
       scope: keyword.control.c++
+    - match: \bbreak\b
+      scope: keyword.control.flow.break.c++
+    - match: \bcontinue\b
+      scope: keyword.control.flow.continue.c++
+    - match: \bgoto\b
+      scope: keyword.control.flow.goto.c++
+    - match: \breturn\b
+      scope: keyword.control.flow.return.c++
+    - match: \bthrow\b
+      scope: keyword.control.flow.throw.c++
     - match: \b({{control_keywords}})\b
       scope: keyword.control.c++
     - match: '\bdelete\b(\s*\[\])?|\bnew\b(?!])'

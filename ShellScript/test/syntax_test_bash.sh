@@ -1089,6 +1089,46 @@ case $1 in
 *)
   _G_unquoted_arg=$1 ;;
 esac
+coproc sed s/^/foo/
+# <- keyword.other.coproc
+#      ^^^ variable.function
+coproc ls thisfiledoesntexist; read; 2>&1
+# <- keyword.other.coproc
+#      ^^ meta.function-call variable.function
+#                            ^ keyword.operator
+#                              ^^^^ support.function
+#                                  ^ keyword.operator
+#                                    ^ constant.numeric.integer.decimal.file-descriptor
+#                                     ^^ keyword.operator.assignment.redirection
+#                                       ^ constant.numeric.integer.decimal.file-descriptor
+coproc awk '{print "foo" $0;fflush()}'
+# <- keyword.other.coproc
+#      ^^^ variable.function
+#          ^ string.quoted.single punctuation.definition.string.begin
+#                                    ^ string.quoted.single punctuation.definition.string.end
+{ coproc tee { tee logfile ;} >&3 ;} 3>&1
+# <- punctuation.definition.compound.braces.begin
+# ^^^^^^ keyword.other.coproc
+#        ^^^ entity.name.function.coproc
+#            ^ punctuation.section.braces.begin
+#              ^^^ variable.function
+#                           ^ punctuation.section.braces.end
+#                             ^^ keyword.operator.assignment.redirection
+#                               ^ constant.numeric.integer.decimal.file-descriptor
+#                                  ^ punctuation.definition.compound.braces.end
+#                                    ^ constant.numeric.integer.decimal.file-descriptor
+#                                     ^^ keyword.operator.assignment.redirection
+#                                       ^ constant.numeric.integer.decimal.file-descriptor
+coproc foobar {
+    #  ^^^^^^ entity.name.function.coproc
+    read
+    # <- meta.function.coproc meta.function-call
+}
+
+# <- - meta.function
+exec >&${tee[1]} 2>&1
+#    ^^ keyword.operator.assignment.redirection
+#      ^ meta.group.expansion.parameter punctuation.definition.variable
 
 ###################
 # Misc. operators #
@@ -1349,7 +1389,11 @@ while true; do
 #         ^ keyword.operator
 #            ^ keyword.control
     break
-    # <- keyword.control
+    # <- keyword.control.flow.break.shell
+
+    continue
+    # <- keyword.control.flow.continue.shell
+
 done
 # <- keyword.control
 
@@ -2133,6 +2177,9 @@ function foo
     foo bar
     # <- variable.function
     # <- meta.function meta.function-call
+
+    return 0
+    # <- keyword.control.flow.return.shell
 }
 # <- punctuation.section
 
