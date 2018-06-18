@@ -225,3 +225,13 @@ foo(
   bar = function() {}
 # ^^^ variable.parameter
 )
+
+a[, "weight"];
+# ^ meta.item-access.r meta.item-access.arguments.r punctuation.separator.parameters.r
+#            ^ punctuation.terminator.semicolon.r
+
+a[[1, 2]]
+#   ^ meta.item-access.r meta.item-access.arguments.r punctuation.separator.parameters.r
+
+foo:::bar
+#  ^^^ punctuation.accessor.colons.r
