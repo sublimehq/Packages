@@ -1188,6 +1188,7 @@ func(a, b);
 //       ^ punctuation.section.group.end
 
 var instance = new Constructor(param1, param2)
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
 //                 ^^^^^^^^^^^ variable.type
 //                            ^^^^^^^^^^^^^^^^ meta.group
 //                            ^ punctuation.section.group.begin
@@ -1229,15 +1230,16 @@ var Constructor = function() {
 // Tests to ensure the new keyword is highlighted properly even when the
 // following element is not an identifier
 var abc = new ABC(
-//         ^ meta.instance.constructor keyword.operator.word.new
-//               ^ meta.instance.constructor meta.function-call.constructor
-//               ^ - meta.instance.constructor meta.instance.constructor
+//        ^^^ keyword.operator.word.new
+//            ^^^^ meta.function-call.constructor
+//        ^^^^^^^^ - meta.instance.constructor
     'my-name-is-abc',
     new (function () {
-//  ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor keyword.operator.word.new
-//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group
+//  ^^^ keyword.operator.word.new
+//  ^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
+//      ^^^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group
         var foo = 1;
-//      ^ meta.instance.constructor meta.function-call.constructor meta.instance.constructor meta.function-call.constructor meta.group meta.block
+//      ^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group meta.block
     })
 );
 
@@ -1255,10 +1257,9 @@ function f() {
 }
 
 new Date().getTime()
-// ^^^^^^^ meta.instance.constructor
 //  ^^^^^^ meta.function-call.constructor
 //  ^^^^ support.class.builtin
-//        ^^^^^^^^^^ - meta.instance.constructor
+//^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 
 new $();
 //  ^ variable.type.dollar.only punctuation.dollar

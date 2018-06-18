@@ -929,14 +929,9 @@ contexts:
           - include: scope:source.regexp.js
 
   constructor:
-    - match: new{{identifier_break}}(?=\s*\.)
-      scope: keyword.operator.word.new.js
-      set: new-target
-
-    - match: 'new{{identifier_break}}'
+    - match: new{{identifier_break}}
       scope: keyword.operator.word.new.js
       set:
-        - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
         - match: (?=\s*\.)
           set: new-target
         - match: (?=\s*\S)
@@ -947,7 +942,7 @@ contexts:
             - constructor-body-expect-class-begin
 
   constructor-meta:
-    - meta_scope: meta.instance.constructor.js meta.function-call.constructor.js
+    - meta_scope: meta.function-call.constructor.js
     - include: immediately-pop
 
   constructor-body-expect-arguments:
@@ -959,10 +954,9 @@ contexts:
     - include: else-pop
 
   constructor-body-expect-class-begin:
-    - include: well-known-identifiers
-
     - match: (?={{identifier}}\s*\()
       set:
+        - include: well-known-identifiers
         - match: '{{dollar_only_identifier}}'
           scope: variable.type.dollar.only.js punctuation.dollar.js
           pop: true
@@ -1002,8 +996,6 @@ contexts:
       scope: keyword.operator.spread.js
     - match: \+|\-
       scope: keyword.operator.arithmetic.js
-    - match: new{{identifier_break}}
-      scope: keyword.operator.word.new.js
     - match: (?:delete|typeof|void){{identifier_break}}
       scope: keyword.operator.js
 
