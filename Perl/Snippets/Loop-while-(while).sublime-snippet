@@ -5,5 +5,5 @@
 ]]></content>
 	<tabTrigger>while</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Loop</description>
+	<description>while.. Loop</description>
 </snippet>

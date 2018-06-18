@@ -1,5 +1,14 @@
 /* SYNTAX TEST "Packages/C++/C.sublime-syntax" */
 
+int main(){
+    int a=5,b=0;
+    while(a-->0)++b;
+    /*     ^^ keyword.operator.arithmetic */
+    /*       ^ keyword.operator.comparison */
+    /*        ^ constant.numeric */
+    /*          ^^ keyword.operator.arithmetic */
+}
+
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
@@ -578,3 +587,57 @@ scanf("%ms %as %*[, ]", &buf);
 
 "foo % baz"
 /*   ^ - invalid */
+
+
+/////////////////////////////////////////////
+// Control Keywords
+/////////////////////////////////////////////
+
+int control_keywords()
+{
+  if (x < 5)
+  /* <- keyword.control */
+  {}
+  else
+  /* <- keyword.control */
+  {}
+
+  switch (x)
+  /* <- keyword.control */
+  {
+  case 1:
+  /* <- keyword.control */
+      break;
+      /* <- keyword.control.flow.break */
+  default:
+  /* <- keyword.control */
+      break;
+      /* <- keyword.control.flow.break */
+  }
+
+  do
+  /* <- keyword.control */
+  {
+      if (y == 3)
+          continue;
+          /* <- keyword.control.flow.continue */
+  } while (y < x);
+  /*^ keyword.control */
+
+  switch (a) {
+      case 1: break;
+  /*        ^ punctuation.separator */
+      case 100 - 10: break;
+  /*               ^ punctuation.separator */
+      default: break;
+  /*         ^ punctuation.separator */
+  }
+
+  goto label;
+  /* <- keyword.control.flow.goto */
+
+label:
+
+  return 123;
+  /* <- keyword.control.flow.return */
+}
