@@ -1,0 +1,415 @@
+%YAML 1.2
+---
+name: Swift
+file_extensions: [swift]
+scope: source.swift
+prototype:
+  - include: main
+
+contexts:
+  main:
+    - include: comments
+###################################################### STRING
+    - match: '"'
+      scope: punctuation.definition.string.begin
+      push: string_double
+###################################################### ENUMS
+    - match: '\.([A-Z]\w*)'
+      scope: constant.language.enum
+###################################################### GROUPS
+    - match: '\('
+      scope: punctuation.definition.group.begin
+      push: paren_expr
+    - match: '\['
+      scope: punctuation.definition.array.begin
+      push: array_expr
+###################################################### CONSTANTS
+    - match: \btrue\b
+      scope: constant.language.true
+    - match: \bfalse\b
+      scope: constant.language.false
+    - match: \bnil\b
+      scope: constant.language.nil
+###################################################### NUMERICS
+    - match: \d+\.\d+
+      scope: constant.numeric.float
+    - match: 0[xX][\da-fA-F]+
+      scope: constant.numeric.hexadecimal
+    - match: 0[xX][\d\w]+
+      scope: invalid
+    - match: 0[oO][0-7]+
+      scope: constant.numeric.octal
+    - match: 0[oO]\d+
+      scope: invalid
+    - match: 0[bB][01]+
+      scope: constant.numeric.binary
+    - match: 0[bB]\d+
+      scope: invalid
+    - match: \d{1,}(_\d+)*
+      scope: constant.numeric.decimal
+    - match: \d+
+      scope: constant.numeric.decimal
+###################################################### TYPES
+    # optional func
+    - match: \b(optional)\s+(?=func)
+      scope: meta.function storage.type.function
+    # class func
+    - match: \b(class)\s+(?=func)
+      scope: meta.function storage.type.function
+    # types that have a parent class
+    - match: \benum\b
+      scope: storage.type.enum
+      push: storage_type
+    - match: \bclass\b
+      scope: storage.type.class
+      push: storage_type
+    - match: \bprotocol\b
+      scope: storage.type.protocol
+      push: storage_type
+    - match: \bextension\b
+      scope: storage.type.extension
+      push: storage_type
+    - match: \b(struct)\b
+      scope: storage.type.struct
+      push: storage_type
+###################################################### KEYWORDS
+    - match: \b(self|super)\b
+      scope: keyword.variable
+    - match: \b_\b
+      scope: constant.language.other
+    - match: \b(import)\b
+      scope: keyword.other.import
+###################################################### CONTROL
+    - match: \b(if|guard|try|catch|while|for|switch)\b
+      scope: keyword.control
+      push: conditional_body
+    - match: where
+      scope: invalid
+    - match: \b(else|do|defer)\b
+      scope: keyword.control
+      push: control_body
+    - match: \b(break|fallthrough|throws|return|case|continue|default|in)\b
+      scope: keyword.control
+    - match: '#(available)\b'
+      scope: keyword.control
+###################################################### VARIABLES
+    - match: '\b(var|let)\s+(\w+)\s*(:)'
+      captures:
+        1: keyword.variable
+        2: variable.other
+        3: keyword.operator.type
+      push: variable_type
+    - match: '\b(var|let)\s+\('
+      captures:
+        1: keyword.variable
+      push: tuple_body
+    - match: \b(var|let)\s+(\w+)
+      captures:
+        1: keyword.variable
+        2: variable.other
+    - match: \b(typealias|associatedtype|unowned)\b
+      captures:
+        1: keyword.variable
+###################################################### MODIFIERS
+    - match: \b(weak|lazy|convenience|public|internal|private|final|static|override|required|prefix|postfix|infix)\b
+      scope: storage.modifier
+    - match: '@\w+'
+      scope: storage.type.decorator
+###################################################### SUPPORT
+    # "system" classes:
+    - match: '\b([A-Z]{2}\w+)(\.)(?=\w)'
+      captures:
+        1: support.class
+        2: keyword.operator
+    - match: '\b[A-Z]{2}\w+'
+      scope: support.class
+    - match: '\b(String|Array|Int\d*|Float|Double)(\.)(?=\w)'
+      captures:
+        1: support.class
+        2: keyword.operator
+    - match: '\b(String|Array|Int\d*|Float|Double)\b'
+      scope: support.class
+    # user classes:
+    - match: '\b([A-Z]\w+)(\.)(?=\w)'
+      captures:
+        1: support.class
+        2: keyword.operator
+    - match: \b([A-Z])\w*
+      scope: support.class
+###################################################### FUNCTIONS
+    - match: '\b(func|operator)\s+(\w+)\s*(\()'
+      captures:
+        1: storage.type.function
+        2: entity.name.function variable.function
+        3: punctuation.definition.args.begin
+      push: function_params
+    - match: '\b(deinit|init)\s*(\()'
+      captures:
+        1: storage.type.function keyword.other
+        2: punctuation.definition.args.begin
+      push: function_params
+    - match: \b(func)\s+(\w+)
+      captures:
+        1: storage.type.function
+        2: entity.name.function variable.function
+    - match: \b(func|deinit|init)\b
+      scope: entity.name.type storage.type.function
+###################################################### CLOSURES
+    - match: '{'
+      push: closure_body
+###################################################### MACROS
+    - match: __(FILE|LINE|FUNCTION|COLUMN|DSO_HANDLE)__
+      scope: variable.other invalid.deprecated
+    - match: '#(file|line|function|column|dso_handle)'
+      scope: constant.language
+###################################################### PRECOMPILED
+    - match: ^\s*(#)(\w+)(.*)$
+      captures:
+       1: punctuation.definition.preprocessor
+       2: meta.preprocessor.c
+###################################################### VARIABLES
+    - match: \b(\w+\?)
+      scope: variable.other.optional
+    - match: \b(\w+\!)
+      scope: variable.other.force-unwrap
+    - match: \b(\w+)
+      scope: variable.other
+    - match: (\$)(\d+)
+      scope: invalid
+###################################################### OPERATORS
+    - match: '[?]{3,}'
+      scope: keyword.operator
+    - match: '[?]{2}'
+      scope: keyword.operator.nil-coalesce
+    - match: '[:]{2,}'
+      scope: keyword.operator
+    - match: '[?:]'
+      scope: keyword.operator.ternary
+    - match: '[-+=<>^$#@!~*\\|&?\/]+[.][-+=<>^$#@!~*\\|&?\/.]*'
+      scope: invalid keyword.operator
+    - match: '[-+=<>^$#@!~*\\|&?\/]+'
+      scope: keyword.operator
+    - match: '[.][-+=<>^$#@!~*\\|&?\/.]+'
+      scope: keyword.operator
+    - match: '[.]'
+      scope: keyword.operator.accessor
+      push: accessor_operator
+    - match: '[\]}\)]'
+      scope: invalid
+###################################################### COMMENTS
+  comments:
+    - match: (//+)\s+(MARK:) ?(.*)
+      scope: comment.line.double-slash
+      captures:
+        1: punctuation.definition.comment
+        2: punctuation.definition.comment
+        3: meta.toc-list
+    - match: (//+).*(\n|$)
+      scope: comment.line.double-slash
+      captures:
+        1: punctuation.definition.comment
+    - match: (/\*)
+      scope: punctuation.definition.comment
+      push: comment_block
+######################################################
+  comment_block:
+    - meta_scope: comment.block
+    - match: (/\*)
+      scope: punctuation.definition.comment
+      push: comment_block
+    - match: \*/
+      scope: punctuation.definition.comment
+      pop: true
+  function_params:
+    - meta_scope: meta.function meta.toc-list
+    - match: '(\w+)\s*:'
+      captures:
+        1: variable.parameter
+      push: variable_type
+    - match: \w+
+      scope: invalid
+    - match: '(\))\s*(\{)'
+      captures:
+        - punctuation.definition.function.begin
+      set: function_body
+    - match: '\)'
+      pop: true
+    - match: '\}'
+      pop: true
+  function_body:
+    - meta_scope: meta.function
+    - match: '}'
+      scope: punctuation.definition.function.end
+      pop: true
+    - include: main
+  string_double:
+    - meta_scope: string.quoted.double
+    - match: '\\u[{][a-zA-Z\d]+[}]'
+      scope: constant.character.escape.unicode
+    - match: '\\\('
+      scope: punctuation.section.embedded
+      set: embedded
+    - match: \\[0tnr"'\\]
+      scope: constant.character.escape.c
+    - match: '"'
+      scope: punctuation.definition.string.end
+      pop: true
+  embedded:
+    - match: '\)'
+      scope: punctuation.section.embedded
+      set: string_double
+    - include: main
+  dictionary_value:
+    - meta_scope: meta.dictionary-value
+    - match: ','
+      scope: keyword.operator.comma
+      pop: true
+    - match: '(?=])'
+      pop: true
+    - include: main
+  array_expr:
+    - meta_scope: meta.array-or-dictionary
+    - match: '(")(\w+)(")\s*(:)'
+      captures:
+        1: string.quoted.double punctuation.definition.string.begin
+        2: string.quoted.double
+        3: string.quoted.double punctuation.definition.string.end
+        4: keyword.operator.dictionary-key
+      push: dictionary_value
+    - match: '(\w+)\s*(:)'
+      captures:
+        1: variable.other
+        2: keyword.operator.dictionary-key
+      push: dictionary_value
+    - match: '\]'
+      scope: punctuation.definition.array.end
+      pop: true
+    - include: main
+  paren_expr:
+    - meta_scope: meta.group
+    - match: '\)'
+      scope: punctuation.definition.group.end
+      pop: true
+    - include: main
+  storage_type:
+    - match: (\w+)\s*(:)
+      captures:
+        1: entity.name.type
+        2: keyword.operator.type
+      push: class_type
+    - match: '{'
+      scope: punctuation.definition.block.begin meta.class
+      set: storage_body
+    - match: (\w+)
+      scope: entity.name.type
+      set: storage_body_start
+    - include: comments
+  storage_body_start:
+    - include: comments
+    - match: '\{'
+      scope: punctuation.definition.block.begin meta.class
+      set: storage_body
+    - match: '.'
+      scope: invalid
+  storage_body:
+    - meta_scope: meta.class
+    - match: \b((var|let)\s+(\w+)\s*(?:(:)\s*(\w+))?)
+      captures:
+        1: meta.toc-list
+        2: keyword.variable
+    - match: '}'
+      scope: punctuation.definition.block.end
+      pop: true
+    - include: main
+  tuple_body:
+    - meta_scope: support.tuple
+    - match: '(\w+)\s*:'
+      captures:
+        1: variable.other
+      push: variable_type
+    - match: \w+
+      scope: variable.other
+    - match: ','
+    - match: '\)'
+      pop: true
+  closure_body:
+    - meta_scope: meta.closure
+    - match: (\$)(\d+)
+      scope: variable.placeholder
+    - match: '}'
+      pop: true
+    - include: main
+  generic_type:
+    - match: '[.]'
+      scope: keyword.operator
+    - match: \w+
+      scope: support.class
+    - match: '>'
+      pop: true
+  class_type:
+    - match: \w+
+      scope: support.class
+      set: class_type_valid
+    - match: \W
+      scope: invalid
+  class_type_valid:
+    - match: \w+
+      scope: support.class
+    - match: '[.,]'
+      scope: keyword.operator
+    - match: '(?=[{])'
+      pop: true
+    - match: \W
+      scope: invalid
+    - match: '$'
+      pop: true
+  variable_type:
+    - match: \w+
+      scope: support.class
+      set: variable_type_valid
+    - match: '<'
+      push: generic_type
+    - match: \W
+      scope: invalid
+  variable_type_valid:
+    - match: \w+
+      scope: support.class
+    - match: '<'
+      push: generic_type
+    - match: '[.]'
+      scope: keyword.operator
+    - match: '(?=[=,)\]}])'
+      pop: true
+    - match: \W
+      scope: invalid
+    - match: '$'
+      pop: true
+  accessor_operator:
+    - match: '\.'
+      scope: invalid
+    - match: '\w+\?'
+      scope: variable.other.optional
+      pop: true
+    - match: '\w+\!'
+      scope: variable.other.force-unwrap
+      pop: true
+    - match: '\w+'
+      scope: variable.other
+      pop: true
+  conditional_body:
+    - meta_scope: testing
+    - match: '\{'
+      scope: punctuation.definition.control.begin
+    - match: 'where'
+      scope: keyword.control
+    - match: '}'
+      scope: punctuation.definition.control.end
+      pop: true
+    - include: main
+  control_body:
+    - match: '\{'
+      scope: punctuation.definition.control.begin
+    - match: '}'
+      scope: punctuation.definition.control.end
+      pop: true
+    - include: main
