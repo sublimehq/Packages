@@ -30,6 +30,7 @@ variables:
 
   class_element_name: |-
     (?x)(?:
+      \*?
       {{property_name}}
       | \#{{identifier}}
     )
@@ -317,7 +318,7 @@ contexts:
   block:
     - match: '\{'
       scope: punctuation.section.block.begin.js
-      push:
+      set:
         - meta_scope: meta.block.js
         - match: '\}'
           scope: punctuation.section.block.end.js
@@ -537,7 +538,7 @@ contexts:
       set:
         - switch-meta
         - switch-block
-        - parenthesized-expression
+        - expect-parenthesized-expression
 
     - match: do{{identifier_break}}
       scope: keyword.control.loop.js
@@ -559,21 +560,21 @@ contexts:
       set:
         - while-meta
         - block-scope
-        - parenthesized-expression
+        - expect-parenthesized-expression
 
     - match: with{{identifier_break}}
       scope: keyword.control.with.js
       set:
         - with-meta
         - block-scope
-        - parenthesized-expression
+        - expect-parenthesized-expression
 
     - match: (?:else\s+if|if){{identifier_break}}
       scope: keyword.control.conditional.js
       set:
         - conditional-meta
         - block-scope
-        - parenthesized-expression
+        - expect-parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.js
@@ -598,7 +599,11 @@ contexts:
       set:
         - catch-meta
         - block-scope
-        - parenthesized-expression
+        - expect-parenthesized-expression
+
+  expect-parenthesized-expression:
+    - include: parenthesized-expression
+    - include: else-pop
 
   switch-meta:
     - meta_scope: meta.switch.js

@@ -323,8 +323,8 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: script-close-tag
         - include: main
+        - include: script-close-tag
 
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
@@ -335,9 +335,8 @@ contexts:
         - include: script-close-tag
 
   script-close-tag:
-    - match: \s*(<!--)
-      captures:
-        1: comment.block.html punctuation.definition.comment.begin.html
+    - match: <!--
+      scope: comment.block.html punctuation.definition.comment.begin.html
     - match: (?i)(?:(-->)\s*)?(</)(script)(>)
       scope: meta.tag.script.end.html
       captures:
