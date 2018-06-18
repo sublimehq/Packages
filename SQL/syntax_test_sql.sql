@@ -28,3 +28,6 @@ multiline comment
 -- ^ source.sql comment.block.c
 */
 select
+
+
+<=>  -- <- keyword.operator.star.sql
