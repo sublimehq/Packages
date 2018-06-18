@@ -317,7 +317,7 @@ contexts:
   block:
     - match: '\{'
       scope: punctuation.section.block.begin.js
-      push:
+      set:
         - meta_scope: meta.block.js
         - match: '\}'
           scope: punctuation.section.block.end.js
