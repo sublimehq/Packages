@@ -375,6 +375,12 @@ x ? y // y is a template tag!
 `template` : z;
 //         ^ keyword.operator.ternary
 
+    1``
+    /a/;
+//  ^^^ - string
+//  ^ keyword.operator.arithmetic
+//    ^ keyword.operator.arithmetic
+
 mylabel:
 // ^ entity.name.label
 //     ^ punctuation.separator

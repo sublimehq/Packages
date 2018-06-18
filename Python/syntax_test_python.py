@@ -279,7 +279,7 @@ def _():
 #              ^ variable.parameter.python
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
-#                  ^^^^ keyword.control.flow.python
+#                  ^^^^ keyword.control.flow.pass.python
     lambda (
 #   ^^^^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
@@ -297,7 +297,7 @@ def _():
 #   ^ punctuation.section.group.end.python
 #    ^ punctuation.section.function.begin.python
         pass
-#       ^^^^ keyword.control.flow.python
+#       ^^^^ keyword.control.flow.pass.python
 
     ( 3 - 6 \
 #   ^^^^^^^^^ meta.group.python
