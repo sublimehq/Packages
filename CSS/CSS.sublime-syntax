@@ -384,7 +384,6 @@ contexts:
             - meta_scope: meta.block.css
             - match: '(?=\})'
               pop: true
-            - include: rule-list-body
             - include: main
         - match: '\}'
           scope: meta.block.css punctuation.definition.block.end.css
