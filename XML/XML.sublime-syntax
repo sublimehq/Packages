@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+
 name: XML
 file_extensions:
   - xml
@@ -69,19 +70,6 @@ variables:
 
 
 contexts:
-
-  # prototype:
-  #   # Inject consistent comment scopes for syntax test rules into
-  #   # the XML syntax without interfering with existing features.
-  #   #
-  #   # NOTE
-  #   #   Without this rule, some test cases will fail due to
-  #   #   restricted syntax definitions of certain tags!
-  #   #
-  #   # CAUTION
-  #   #   COMMENT THIS RULE OUT IN PRODUCTION BUILTS!
-  #   - match: ^## *[<^]+.*
-  #     scope: comment.line.double-dash.test-case.xml
 
   main:
     - include: preprocessor
