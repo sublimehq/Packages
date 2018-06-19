@@ -1216,10 +1216,6 @@ arguments;
 // <- variable.language.arguments
 super.func();
 // <- variable.language.super
-foo.constructor;
-//  ^^^^^^^^^^^ variable.language.constructor
-foo.__proto__
-//  ^^^^^^^^^ invalid.deprecated variable.language.prototype
 
 foo[bar];
 // ^^^^^ meta.brackets

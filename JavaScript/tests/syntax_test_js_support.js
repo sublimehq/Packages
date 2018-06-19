@@ -131,3 +131,28 @@
 //  ^^^^^^ invalid.deprecated support.function
     unescape
 //  ^^^^^^^^ invalid.deprecated support.function
+
+
+foo.constructor;
+//  ^^^^^^^^^^^ variable.language.constructor
+foo.__proto__
+//  ^^^^^^^^^ invalid.deprecated variable.language.prototype
+foo.__defineGetter__
+//  ^^^^^^^^^^^^^^^^ invalid.deprecated support.function
+foo.__defineSetter__
+//  ^^^^^^^^^^^^^^^^ invalid.deprecated support.function
+foo.__lookupGetter__
+//  ^^^^^^^^^^^^^^^^ invalid.deprecated support.function
+
+foo.hasOwnProperty;
+//  ^^^^^^^^^^^^^^ support.function
+foo.isPrototypeOf;
+//  ^^^^^^^^^^^^^ support.function
+foo.propertyIsEnumerable;
+//  ^^^^^^^^^^^^^^^^^^^^ support.function
+foo.toLocaleString;
+//  ^^^^^^^^^^^^^^ support.function
+foo.toString;
+//  ^^^^^^^^ support.function
+foo.valueOf;
+//  ^^^^^^^ support.function
