@@ -261,7 +261,7 @@ contexts:
 
   doctype-name:
     - match: '{{tag_name}}'
-      scope: variable.other.doctype.html
+      scope: constant.language.doctype.html
       pop: true
     - include: else-pop
 
