@@ -970,7 +970,7 @@ contexts:
   constructor-body-expect-class-begin:
     - match: (?={{identifier}}\s*\()
       set:
-        - include: well-known-identifiers
+        - include: support
         - match: '{{dollar_only_identifier}}'
           scope: variable.type.dollar.only.js punctuation.dollar.js
           pop: true
@@ -1240,12 +1240,6 @@ contexts:
       pop: true
     - match: null{{identifier_break}}
       scope: constant.language.null.js
-      pop: true
-    - match: undefined{{identifier_break}}
-      scope: constant.language.undefined.js
-      pop: true
-    - match: NaN{{identifier_break}}
-      scope: constant.language.nan.js
       pop: true
 
   function-assignment:
@@ -1732,10 +1726,6 @@ contexts:
       scope: constant.numeric.decimal.js
       pop: true
 
-    - match: '[+-]?Infinity{{identifier_break}}'
-      scope: constant.language.infinity.js
-      pop: true
-
     - match: '[+-]?0[Xx]{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
@@ -1807,7 +1797,6 @@ contexts:
 
   literal-variable:
     - include: language-identifiers
-    - include: well-known-identifiers
     - include: support
 
     - match: '{{constant_identifier}}(?=\s*[\[.])'
@@ -1850,20 +1839,6 @@ contexts:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
 
-  well-known-identifiers:
-    - match: (?:Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|XMLHttpRequest){{identifier_break}}
-      scope: support.class.builtin.js
-      pop: true
-    - match: (?:(?:Eval|Range|Reference|Syntax|Type|URI)?Error){{identifier_break}}
-      scope: support.class.error.js
-      pop: true
-    - match: (?:document|window|navigator){{identifier_break}}
-      scope: support.type.object.dom.js
-      pop: true
-    - match: (?:Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip){{identifier_break}}
-      scope: support.class.node.js
-      pop: true
-
   language-identifiers:
     - match: arguments{{identifier_break}}
       scope: variable.language.arguments.js
@@ -1874,22 +1849,82 @@ contexts:
     - match: this{{identifier_break}}
       scope: variable.language.this.js
       pop: true
-    - match: self{{identifier_break}}
-      scope: variable.language.self.js
-      pop: true
 
   support:
+    - include: support-variable-ecma
+    - include: support-variable-console
+    - include: support-variable-dom
+    - include: support-variable-node
+
+  support-variable-ecma:
+    # These three are ordinary variables, not literals!
+    - match: undefined{{identifier_break}}
+      scope: constant.language.undefined.js
+      pop: true
+    - match: NaN{{identifier_break}}
+      scope: constant.language.nan.js
+      pop: true
+    - match: Infinity{{identifier_break}}
+      scope: constant.language.infinity.js
+      pop: true
+
+    - match: (?:Array|ArrayBuffer|Boolean|DataView|Date|Float(?:32|64)Array|Function|Int(?:8|16|32)Array|Map|Number|Object|Promise|Proxy|RegExp|Set|String|Symbol|Uint(?:8|16|32|32Clamped)Array|WeakMap|WeakSet){{identifier_break}}
+      scope: support.class.builtin.js
+      pop: true
+    - match: (?:Eval|Range|Reference|Syntax|Type|URI)?Error{{identifier_break}}
+      scope: support.class.error.js
+      pop: true
+    - match: (?:Atomics|Math|JSON|Reflect){{identifier_break}}
+      scope: support.constant.builtin.js
+      pop: true
+
+    - match: (?:eval|isFinite|isNaN|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent){{identifier_break}}
+      scope: support.function.js
+      pop: true
+
+    # Annex B
+    - match: (?:escape|unescape){{identifier_break}}
+      scope: invalid.deprecated.js support.function.js
+      pop: true
+
+  support-variable-console:
+    # https://console.spec.whatwg.org/
+    - match: console{{identifier_break}}
+      scope: support.type.object.console.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set: builtin-console-properties
+        - include: else-pop
+
+  support-variable-dom:
+    - match: XMLHttpRequest{{identifier_break}}
+      scope: support.class.dom.js
+      pop: true
+    - match: (?:document|window|navigator){{identifier_break}}
+      scope: support.type.object.dom.js
+      pop: true
+    - match: (?:clearTimeout|setTimeout){{identifier_break}}
+      scope: support.function.dom.js
+      pop: true
     - match: |-
-        (?x)
-        (?:
+        (?x:
           ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
           DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
           WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
         ){{identifier_break}}
       scope: support.constant.dom.js
       pop: true
+
+  support-variable-node:
+    - match: (?:Buffer|EventEmitter|Server|Pipe|Socket|REPLServer|ReadStream|WriteStream|Stream|Inflate|Deflate|InflateRaw|DeflateRaw|GZip|GUnzip|Unzip|Zip){{identifier_break}}
+      scope: support.class.node.js
+      pop: true
     - match: (?:assert|buffer|child_process|cluster|constants|crypto|dgram|dns|domain|events|fs|http|https|net|os|path|punycode|querystring|readline|repl|stream|string_decoder|timers|tls|tty|url|util|vm|zlib){{identifier_break}}
       scope: support.module.node.js
+      pop: true
+    - match: (?:global|__dirname|__filename){{identifier_break}}
+      scope: support.type.object.node.js
       pop: true
     - match: (process)(?:(\.)(arch|argv|config|connected|env|execArgv|execPath|exitCode|mainModule|pid|platform|release|stderr|stdin|stdout|title|version|versions))?{{identifier_break}}
       captures:
@@ -1903,21 +1938,9 @@ contexts:
         2: punctuation.accessor.js
         3: support.type.object.module.js
       pop: true
-    - match: (?:global|GLOBAL|root|__dirname|__filename){{identifier_break}}
-      scope: support.type.object.node.js
+    - match: require{{identifier_break}}
+      scope: support.function.node.js
       pop: true
-
-    - match: (?:clearTimeout|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|setTimeout|super|unescape){{identifier_break}}
-      scope: support.function.js
-      pop: true
-
-    - match: console{{identifier_break}}
-      scope: support.type.object.console.js
-      set:
-        - match: \.
-          scope: punctuation.accessor.js
-          set: builtin-console-properties
-        - include: else-pop
 
   builtin-console-properties:
     - match: (?:warn|info|log|error|time|timeEnd|assert|count|dir|group|groupCollapsed|groupEnd|profile|profileEnd|table|trace|timeStamp){{identifier_break}}
@@ -1936,21 +1959,10 @@ contexts:
         - function-initializer
         - function-declaration-final-identifier
 
+    - include: support-property
+
     - match: '(?={{identifier}}\s*\()'
       set: call-method-name
-
-    - match: __proto__{{identifier_break}}
-      scope: variable.language.proto.js
-      pop: true
-    - match: constructor{{identifier_break}}
-      scope: variable.language.constructor.js
-      pop: true
-    - match: prototype{{identifier_break}}
-      scope: support.constant.prototype.js
-      pop: true
-    - match: (?:s(?:hape|ystemId|c(?:heme|ope|rolling)|ta(?:ndby|rt)|ize|ummary|pecified|e(?:ctionRowIndex|lected(?:Index)?)|rc)|h(?:space|t(?:tpEquiv|mlFor)|e(?:ight|aders)|ref(?:lang)?)|n(?:o(?:Resize|tation(?:s|Name)|Shade|Href|de(?:Name|Type|Value)|Wrap)|extSibling|ame)|c(?:h(?:ildNodes|Off|ecked|arset)?|ite|o(?:ntent|o(?:kie|rds)|de(?:Base|Type)?|l(?:s|Span|or)|mpact)|ell(?:s|Spacing|Padding)|l(?:ear|assName)|aption)|t(?:ype|Bodies|itle|Head|ext|a(?:rget|gName)|Foot)|i(?:sMap|ndex|d|m(?:plementation|ages))|o(?:ptions|wnerDocument|bject)|d(?:i(?:sabled|r)|o(?:c(?:type|umentElement)|main)|e(?:clare|f(?:er|ault(?:Selected|Checked|Value)))|at(?:eTime|a))|useMap|p(?:ublicId|arentNode|r(?:o(?:file|mpt)|eviousSibling))|e(?:n(?:ctype|tities)|vent|lements)|v(?:space|ersion|alue(?:Type)?|Link|Align)|URL|f(?:irstChild|orm(?:s)?|ace|rame(?:Border)?)|width|l(?:ink(?:s)?|o(?:ngDesc|wSrc)|a(?:stChild|ng|bel))|a(?:nchors|c(?:ce(?:ssKey|pt(?:Charset)?)|tion)|ttributes|pplets|l(?:t|ign)|r(?:chive|eas)|xis|Link|bbr)|r(?:ow(?:s|Span|Index)|ules|e(?:v|ferrer|l|adOnly))|m(?:ultiple|e(?:thod|dia)|a(?:rgin(?:Height|Width)|xLength))|b(?:o(?:dy|rder)|ackground|gColor)){{identifier_break}}
-      scope: support.constant.dom.js
-      pop: true
 
     - match: '{{dollar_only_identifier}}'
       scope: meta.property.object.dollar.only.js punctuation.dollar.js
@@ -1967,6 +1979,30 @@ contexts:
       scope: invalid.illegal.illegal-identifier.js
       pop: true
     - include: else-pop
+
+  support-property:
+    - include: support-property-dom
+    - include: support-property-ecma
+
+  support-property-ecma:
+    - match: constructor{{identifier_break}}
+      scope: variable.language.constructor.js
+      pop: true
+    - match: prototype{{identifier_break}}
+      scope: support.constant.prototype.js
+      pop: true
+
+    # Annex B
+    - match: __proto__{{identifier_break}}
+      scope: invalid.deprecated.js variable.language.prototype.js
+      pop: true
+    - match: (?:__defineGetter__|__defineSetter__|__lookupGetter__){{identifier_break}}
+      scope: invalid.deprecated.js support.function.js
+
+  support-property-dom:
+    - match: (?:s(?:hape|ystemId|c(?:heme|ope|rolling)|ta(?:ndby|rt)|ize|ummary|pecified|e(?:ctionRowIndex|lected(?:Index)?)|rc)|h(?:space|t(?:tpEquiv|mlFor)|e(?:ight|aders)|ref(?:lang)?)|n(?:o(?:Resize|tation(?:s|Name)|Shade|Href|de(?:Name|Type|Value)|Wrap)|extSibling|ame)|c(?:h(?:ildNodes|Off|ecked|arset)?|ite|o(?:ntent|o(?:kie|rds)|de(?:Base|Type)?|l(?:s|Span|or)|mpact)|ell(?:s|Spacing|Padding)|l(?:ear|assName)|aption)|t(?:ype|Bodies|itle|Head|ext|a(?:rget|gName)|Foot)|i(?:sMap|ndex|d|m(?:plementation|ages))|o(?:ptions|wnerDocument|bject)|d(?:i(?:sabled|r)|o(?:c(?:type|umentElement)|main)|e(?:clare|f(?:er|ault(?:Selected|Checked|Value)))|at(?:eTime|a))|useMap|p(?:ublicId|arentNode|r(?:o(?:file|mpt)|eviousSibling))|e(?:n(?:ctype|tities)|vent|lements)|v(?:space|ersion|alue(?:Type)?|Link|Align)|URL|f(?:irstChild|orm(?:s)?|ace|rame(?:Border)?)|width|l(?:ink(?:s)?|o(?:ngDesc|wSrc)|a(?:stChild|ng|bel))|a(?:nchors|c(?:ce(?:ssKey|pt(?:Charset)?)|tion)|ttributes|pplets|l(?:t|ign)|r(?:chive|eas)|xis|Link|bbr)|r(?:ow(?:s|Span|Index)|ules|e(?:v|ferrer|l|adOnly))|m(?:ultiple|e(?:thod|dia)|a(?:rgin(?:Height|Width)|xLength))|b(?:o(?:dy|rder)|ackground|gColor)){{identifier_break}}
+      scope: support.constant.dom.js
+      pop: true
 
   import-meta-expression:
     - match: import{{identifier_break}}

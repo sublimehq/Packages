@@ -1212,8 +1212,6 @@ var obj2 = new class Foo{}();
 
 this.func()
 // <- variable.language.this
-self.func()
-// <- variable.language.self
 arguments;
 // <- variable.language.arguments
 super.func();
@@ -1221,7 +1219,7 @@ super.func();
 foo.constructor;
 //  ^^^^^^^^^^^ variable.language.constructor
 foo.__proto__
-//  ^^^^^^^^^ variable.language.proto
+//  ^^^^^^^^^ invalid.deprecated variable.language.prototype
 
 foo[bar];
 // ^^^^^ meta.brackets
