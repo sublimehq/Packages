@@ -170,7 +170,7 @@ IDENTIFIER()
 
 dotted . identifier(12, True)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call
-#                   ^^^^^^^^ meta.function-call.arguments
+#                  ^^^^^^^^^^ meta.function-call.arguments
 #^^^^^^^^^^^^^^^^^^ meta.qualified-name
 #^^^^^^ - variable.function
 #      ^ punctuation.accessor.dot
