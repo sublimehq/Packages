@@ -29,6 +29,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
+  identifier_constant: '\b(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
   digitpart: (?:\d(?:_?\d)*)
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
@@ -45,6 +46,8 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+
+
 contexts:
   main:
     - include: statements
@@ -890,7 +893,7 @@ contexts:
     - match: '(?={{identifier}})'
       push:
         - include: name-specials
-        - match: '\b_*\p{Lu}{3,}[\p{Lu}_]*\b' # require 3 upper-case letters for undotted names
+        - match: '{{identifier_constant}}'
           scope: variable.other.constant.python
         - include: generic-names
         - match: ''
@@ -902,7 +905,7 @@ contexts:
         1: punctuation.accessor.dot.python
       push:
         - include: dotted-name-specials
-        - match: '\b_*\p{Lu}+[\p{Lu}_]*\b'
+        - match: '{{identifier_constant}}'
           scope: variable.other.constant.python
         - include: generic-names
         - match: ''

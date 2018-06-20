@@ -139,16 +139,21 @@ open.open.open
 #   ^^^^^^^^ constant.language.python
 #            ^^^^^^^^^ constant.language.python
 
-CONSTANT.__
+CONSTANT._13_
 #^^^^^^^ meta.qualified-name.python variable.other.constant.python
-#        ^^ - variable.other.constant
+#        ^^^^ - variable.other.constant
 
-NO _A_B
-#^ - variable.other.constant
-#  ^^^^ - variable.other.constant
+ _A_B A1
+#^^^^ - variable.other.constant
+#     ^^ - variable.other.constant
 
 some.NO
 #    ^^ meta.qualified-name.python variable.other.constant.python
+
+NO_SWEAT NO AA1
+# <- meta.qualified-name.python variable.other.constant.python
+#        ^^ variable.other.constant
+#           ^^^ variable.other.constant
 
 _ self
 # <- variable.language.python
