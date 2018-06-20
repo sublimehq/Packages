@@ -30,5 +30,5 @@ multiline comment
 select
 
 
-<=>  
+   <=>  
 -- ^^^ keyword.operator.comparison.sql
