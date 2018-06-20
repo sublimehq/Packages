@@ -296,6 +296,7 @@ myobj.method().attribute
 func()(1, 2)
 # <- meta.function-call
 #^^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^ - meta.function-call meta.function-call
 
 myobj[1](True)
 #^^^^^^^ meta.item-access
