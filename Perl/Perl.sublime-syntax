@@ -243,8 +243,8 @@ contexts:
     # SEE: http://perldoc.perl.org/index-pragmas.html
     #      http://perldoc.perl.org/perlmodlib.html#Pragmatic-Modules
     - match: |-
-        \b(?x)
-        (?:attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
+        \b(?x:
+           attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
           |base|bigint|bignum|bigrat|blib|bytes
           |charnames|constant
           |diagnostics
