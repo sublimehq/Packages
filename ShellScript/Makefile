@@ -9,7 +9,7 @@ all: $(addsuffix .sublime-syntax, $(basename $(wildcard *.yml)))
 	@echo "Done."
 
 test:
-	@-/usr/bin/env bash test/syntax_test_bash.sh 2>&1 \
-		| sed -nE "/^test\/syntax_test_bash.sh: line [[:digit:]]+: syntax .*/p"
+	@-/usr/bin/env bash Tests/syntax_test_bash.sh 2>&1 \
+		| sed -nE "/^Tests\/syntax_test_bash.sh: line [[:digit:]]+: syntax .*/p"
 
 .PHONY: test
