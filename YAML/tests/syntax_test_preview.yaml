@@ -1,3 +1,4 @@
+# SYNTAX TEST "Packages/YAML/YAML.sublime-syntax"
 %YAML 1.2
 %TAG !e! tag:example.com,2000:app/ # comment
 %RESERVED name parameter #comment
