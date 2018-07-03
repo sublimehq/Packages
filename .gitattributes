@@ -1,0 +1,120 @@
+*                           eol=lf      text=auto
+
+################################################################################
+#                                  LANGUAGES                                   #
+################################################################################
+
+# C#
+
+**/*.cs                     diff=csharp
+
+# C++
+
+**/*.cpp                    diff=cpp
+
+# CSS
+
+**/*.css                    diff=css
+
+# Go
+
+**/*.go                     diff=go
+
+# HTML
+
+**/*.html                   diff=html
+
+# Java
+
+**/*.java                   diff=java
+**/*.properties             diff=java
+**/*.jsp                    diff=java
+
+# Matlab
+
+**/*.m                      diff=matlab
+
+# Objective-C
+
+**/*.mm                     diff=objc
+
+# Pascal
+
+**/*.pas                    diff=pascal
+
+# Perl
+
+**/*.pl                     diff=perl
+
+# Python
+
+**/*.py                     diff=python
+**/*.pyc                    binary
+**/*.pyo                    binary
+
+# Ruby
+
+**/*.rb                     diff=ruby
+
+# LaTeX
+
+**/*.tex                    diff=tex
+**/*.bib                    diff=bibtex
+
+################################################################################
+#                                  WHITESPACE                                  #
+################################################################################
+
+# build files
+
+**/*.sublime-build          eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# color schemes
+
+**/*.tmTheme                eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.hidden-tmTheme         eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.sublime-color-scheme   eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.hidden-color-scheme    eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# commands
+
+**/*.sublime-commands       eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# completions
+
+**/*.sublime-completions    eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# input-maps
+
+**/*.sublime-keymap         eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.sublime-mousemap       eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# macros
+
+**/*.sublime-macro          eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# menus
+
+**/*.sublime-menu           eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# metadata
+
+**/*.tmPreferences          eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# settings
+
+**/*.sublime-settings       eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# snippets
+
+**/*.sublime-snippet        eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+
+# syntaxes
+
+**/*.tmLanguage             eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.hidden-tmLanguage      eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
+**/*.sublime-syntax         eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=2
+
+# themes
+
+**/*.sublime-theme          eol=lf  whitespace=tab-in-indent,trailing-space,tabwidth=4
