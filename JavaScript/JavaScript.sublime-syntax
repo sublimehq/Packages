@@ -75,14 +75,15 @@ variables:
     ))
 
   line_continuation_lookahead: >-
-    (?x:
+    (?x:(?=
+      \s*
       (?! \+\+ | -- )
       (?=
         != |
-        [ -+*/% ><= &|^ \[( ;,.:? ] |
+        [-+*/%><=&|^\[(;,.:?] |
         (?:in|instanceof){{identifier_break}}
       )
-    )
+    ))
 
 contexts:
   main:
@@ -201,7 +202,7 @@ contexts:
     - match: '\{'
       scope: punctuation.section.block.begin.js
       set: import-brace
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: variable.other.readwrite.js
       pop: true
     - match: '\*'
@@ -258,7 +259,7 @@ contexts:
     - match: '\{'
       scope: punctuation.section.block.begin.js
       set: export-brace
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: variable.other.readwrite.js
       pop: true
     - match: '\*'
@@ -331,8 +332,11 @@ contexts:
     - include: else-pop
 
   expect-label:
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: variable.label.js
+      pop: true
+    - match: '{{identifier}}'
+      scope: invalid.illegal.identifier.js variable.label.js
       pop: true
     - match: $
       pop: true
@@ -355,7 +359,7 @@ contexts:
     - include: else-pop
 
   variable-binding-name:
-    - match: (?={{identifier}})
+    - match: (?={{non_reserved_identifier}})
       set:
         - meta_scope: meta.binding.name.js
         - include: literal-variable
@@ -419,14 +423,14 @@ contexts:
       set:
         - initializer
         - variable-binding-pattern
+    - include: else-pop
+
+  variable-binding-list-top:
     - match: \n
       set:
         - match: '{{line_continuation_lookahead}}'
           set: variable-binding-top
         - include: else-pop
-    - include: else-pop
-
-  variable-binding-list-top:
     - match: ','
       scope: punctuation.separator.comma.js
       push: variable-binding-top
@@ -447,8 +451,10 @@ contexts:
     - include: else-pop
 
   function-parameter-binding-name:
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: meta.binding.name.js variable.parameter.function.js
+    - match: '{{identifier}}'
+      scope: invalid.illegal.identifier.js meta.binding.name.js variable.parameter.function.js
 
   function-parameter-binding-array-destructuring:
     - match: '\['
@@ -1371,7 +1377,7 @@ contexts:
     - include: else-pop
 
   function-declaration-expect-name:
-    - match: '{{identifier}}'
+    - match: '{{non_reserved_identifier}}'
       scope: entity.name.function.js
       pop: true
     - include: else-pop
