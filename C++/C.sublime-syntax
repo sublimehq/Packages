@@ -1119,6 +1119,16 @@ contexts:
   preprocessor-convention-ignore-uppercase-ident-lines:
     - match: ^(\s*{{macro_identifier}})+\s*$
       scope: meta.assumed-macro.c
+      push:
+        # It's possible that we are dealing with a function return type on its own line, and the
+        # name of the function is on the subsequent line.
+        - match: \s*({{identifier}})(?=\s*\()
+          captures:
+            1: meta.function.c entity.name.function.c
+          set: function-definition-params
+        - match: ^
+          pop: true
+
 
   preprocessor-convention-ignore-uppercase-calls-without-semicolon:
     - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
