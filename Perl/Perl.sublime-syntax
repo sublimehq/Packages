@@ -244,7 +244,7 @@ contexts:
     #      http://perldoc.perl.org/perlmodlib.html#Pragmatic-Modules
     - match: |-
         \b(?x:
-           attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
+           attributes|autodie(?:\s*::\s*(?:exception(?:\s*::\s*system)|hints|skip))?|autouse
           |base|bigint|bignum|bigrat|blib|bytes
           |charnames|constant
           |diagnostics
@@ -260,7 +260,7 @@ contexts:
           |threads|threads::shared
           |utf8
           |vars|vmsish
-          |warnings|warnings::register){{break}}
+          |warnings|warnings\s*::\s*register){{break}}
       scope: storage.modifier.perl
 
 ### [ EXPRESSIONS ]###########################################################
