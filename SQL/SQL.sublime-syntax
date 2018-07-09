@@ -99,7 +99,7 @@ contexts:
       scope: keyword.other.order.sql
     - match: \*
       scope: keyword.operator.star.sql
-    - match: "[!<>]?=|<>|<|>"
+    - match: "<=>|[!<>]?=|<>|<|>"
       scope: keyword.operator.comparison.sql
     - match: '-|\+|/'
       scope: keyword.operator.math.sql
