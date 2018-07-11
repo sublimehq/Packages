@@ -1,0 +1,14 @@
+{
+    "shell_cmd": "docker build -t sublime-docker-`date +%s` \"$file_path\"",
+    "selector": "source.dockerfile",
+    "variants": [
+        {
+            "name": "Dockerfile run in background",
+            "shell_cmd": "docker build -t sublime-docker-`date +%s` \"$file_path\" && (docker images -q | head -1) | xargs docker run -P -d | xargs docker port"
+        },
+        {
+            "name": "Dockerfile run in foreground non interactive",
+            "shell_cmd": "docker build -t sublime-docker-`date +%s` \"$file_path\" && (docker images -q | head -1) | xargs docker run -P -t --rm"
+        }
+    ]
+}

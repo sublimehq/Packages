@@ -1,0 +1,112 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Docker Common
+hidden: true
+scope: text.docker.common
+
+variables:
+  comment_char: '[#;]'
+
+contexts:
+
+  main:
+    - include: comments
+    - include: comments-line
+
+##[ COMMENTS ]#########################################################
+
+  comments:
+    # comment which may start in the middle of a line
+    - match: ({{comment_char}}).*\n?
+      scope: comment.line.docker
+      captures:
+        1: punctuation.definition.comment.docker
+
+  comments-line:
+    # comment which must start at the beginning of a line
+    - match: ^\s*({{comment_char}}).*\n?
+      scope: comment.line.docker
+      captures:
+        1: punctuation.definition.comment.docker
+
+##[ FNMATCH ]##########################################################
+
+  # The first characters of a path pattern may have special meaning and
+  # must therefore be treated differently. This scope finally pops off
+  # if no more match is found. It must therefore be used as multi-push.
+  fnmatch-start:
+    # windows drive letter and separator
+    - match: '[A-Za-z](:)(?=/)'
+      captures:
+        1: punctuation.separator.drive.fnmatch.docker
+      pop: true
+    # homedir tilde operator
+    - match: ~(?=/)
+      scope: variable.language.environment.home.fnmatch.docker
+      pop: true
+    # any other directory pattern
+    - include: fnmatch-dir-pattern
+
+  # In order to use fnmatch by other syntaxes, it is importand to use
+  # fnmatch-body as include in a scope, which defines the desired meta
+  # and the required bail-out scopes as they might be different and
+  # therefore are not part of the following section.
+  fnmatch-body:
+    - match: \[           # shell style character class
+      scope: keyword.control.char-class.begin.fnmatch.docker
+      push:
+        - fnmatch-char-class-body
+        - fnmatch-char-class-start
+        - fnmatch-char-class-operator
+    - match: '/'          # path separators
+      scope: punctuation.separator.path.fnmatch.docker
+      push: fnmatch-dir-pattern
+    - match: \.(?!.*[./]) # the last dot not followed by path sep
+      scope: punctuation.separator.path.extension.fnmatch.docker
+    - match: '[*?]'       # unescapable operators
+      scope: keyword.operator.path.asterisk.fnmatch.docker
+    - match: '\\[^$*?]'   # backslash escapes nearly everything
+      scope: constant.character.escape.path.fnmatch.docker
+    - match: \$\w+
+      scope: variable.language.environment.other.fnmatch.docker
+    - match: ':'          # drive separators
+      scope: invalid.illegal.separator.drive.fnmatch.docker
+    - match: '\\(?=\s)'   # single backslash is invalid
+      scope: invalid.illegal.escape.path.fnmatch.docker
+
+  fnmatch-dir-pattern:
+    - match: \.\.(?=/)
+      scope: constant.language.path.parent.fnmatch.docker
+      pop: true
+    - match: \.(?=/)
+      scope: constant.language.path.self.fnmatch.docker
+      pop: true
+    - match: ''
+      pop: true
+
+  fnmatch-char-class-operator:
+    - match: '[!^]?'  # optional pattern negation
+      scope: keyword.operator.logical.fnmatch.docker
+      pop: true
+
+  fnmatch-char-class-start:
+    - match: \]?  # first unescaped ']' is matched as normal char
+      scope: constant.character.char-class.fnmatch.docker
+      pop: true
+
+  fnmatch-char-class-body:
+    - meta_scope: meta.char-class.fnmatch.docker
+    - match: \]
+      scope: keyword.control.char-class.end.fnmatch.docker
+      pop: true
+    - match: $\n?     # class must end before end of line
+      scope: invalid.illegal.unexpected.eol.fnmatch.docker
+      pop: true
+    - match: '\\\]'   # backslash escapes only ']'
+      scope: constant.character.escape.char-class.fnmatch.docker
+    - match: '[*?]'   # asterisk is ignored by fnmatch
+      scope: invalid.illegal.unexpected.char-class.fnmatch.docker
+    - match: \S
+      scope: constant.character.char-class.fnmatch.docker
+

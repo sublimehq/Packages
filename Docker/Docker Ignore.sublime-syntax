@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Docker Ignore
+file_extensions:
+  - dockerignore             # *.dockerignore
+  - .dockerignore            # ~/.dockerignore
+scope: text.docker.ignore
+
+contexts:
+
+  main:
+    - include: Docker Common.sublime-syntax#comments
+    - match: '!|(?=\S)'   # optional pattern negation
+      scope: keyword.operator.logical.path.fnmatch.docker.ignore
+      push: [pattern-content, Docker Common.sublime-syntax#fnmatch-start]
+
+  pattern-content:
+    - meta_scope: string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+    - match: $
+      pop: true
+    - include: Docker Common.sublime-syntax#fnmatch-body

@@ -1,0 +1,83 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Docker File (Bash)
+
+scope: source.dockerfile.bash
+
+variables:
+  identifier: '[[:alnum:]]+'
+  onbuild_directive: (?i:(onbuild)\s+)?
+  onbuild_commands_directive:
+    "{{onbuild_directive}}(?i:add|arg|env|copy|expose|healthcheck|label|shell|stopsignal|user|volume|workdir)"
+  nononbuild_commands_directive: (?i:maintainer)
+  embeddable_directive: '{{onbuild_directive}}(?i:run|cmd|entrypoint)'
+
+contexts:
+  prototype:
+    - include: scope:source.shell.bash#prototype
+
+  main:
+    - match: ^(?i:arg)\s
+      scope: keyword.control.dockerfile
+    - include: from
+
+  expect-container-tag:
+    - match: ({{identifier}})(?:([:@])(\S+))?
+      captures:
+        1: entity.name.label.dockerfile
+        2: punctuation.separator.dockerfile
+        3: constant.numeric.dockerfile
+      pop: true
+
+  optional-as:
+    - match: (?i)\s*as\b
+      scope: keyword.control.dockerfile
+      set:
+        - match: \S+
+          scope: variable.stage-name.dockerfile
+          pop: true
+        - match: $
+          pop: true
+    - match: ""
+      pop: true
+
+  from:
+    - match: ^\s*(?i:(from))\b
+      captures:
+        1: keyword.control.dockerfile
+      set: [body, optional-as, expect-container-tag]
+
+  body:
+    - include: directives
+    - include: from
+    - include: invalid
+
+  directives:
+    - match: ^\s*({{embeddable_directive}})\b
+      captures:
+        1: keyword.control.dockerfile
+      push:
+        - match: (?=\s*\[)
+          set: scope:source.json#array
+          with_prototype:
+            - match: \n
+              pop: true
+        - match: ""
+          set: scope:source.shell.bash
+          with_prototype:
+            - include: scope:source.shell.bash#prototype
+            - match: \n|^(?=\S)
+              pop: true
+    - match: ^\s*{{onbuild_commands_directive}}\s
+      captures:
+        0: keyword.control.dockerfile
+        1: keyword.other.special-method.dockerfile
+      push: scope:source.shell.bash#cmd-args
+    - match: ^\s*{{nononbuild_commands_directive}}\s
+      scope: keyword.control.dockerfile
+      push: scope:source.shell.bash#cmd-args
+
+  invalid:
+    - match: ^[^A-Z\n](.*)$
+      scope: invalid.illegal.dockerfile

@@ -1,0 +1,5 @@
+# SYNTAX TEST "Docker File.sublime-syntax"
+
+FROM scratch
+ADD busybox.tar.xz /
+CMD ["sh"]
