@@ -1,0 +1,177 @@
+# SYNTAX TEST "Docker Ignore.sublime-syntax"
+# <- text.docker comment.line punctuation.definition.comment
+
+  !~/.fo?d[a-a]r/*.dub
+# <- - meta - string
+# ^^^^^^^^^^^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^ keyword.operator.logical.path.fnmatch.docker
+#  ^ variable.language.environment.home.fnmatch.docker
+#   ^ punctuation.separator.path.fnmatch.docker
+#    ^ - constant
+#       ^ keyword.operator.path.asterisk.fnmatch.docker
+#               ^ punctuation.separator.path.fnmatch.docker
+#                ^ keyword.operator.path.asterisk.fnmatch.docker
+#                 ^ punctuation.separator.path.extension.fnmatch.docker
+
+  ~/../f..o\'ld\"er/fo\*l\?der/fol../der
+#^ - entity.name.pattern
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.pattern
+# ^ variable.language.environment.home.fnmatch.docker
+#   ^^ constant.language.path.parent.fnmatch.docker
+#       ^^ - constant.language.path.parent.fnmatch.docker
+#          ^^ constant.character.escape.path.fnmatch.docker
+#              ^^ constant.character.escape.path.fnmatch.docker
+#                     ^ - constant.character.escape.path.fnmatch.docker - punctuation.separator.path.fnmatch.docker
+#                      ^ keyword.operator.path.asterisk.fnmatch.docker
+#                        ^ - constant.character.escape.path.fnmatch.docker - punctuation.separator.path.fnmatch.docker
+#                         ^ keyword.operator.path.asterisk.fnmatch.docker
+#                                 ^^ - constant.language.path.parent.fnmatch.docker
+#                                       ^ - entity.name.pattern
+
+# NO HOME pattern
+  ~fname~1.~e*
+# ^^^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^ - variable.language.environment.home.fnmatch.docker
+#       ^ - variable.language.environment.home.fnmatch.docker
+#         ^ punctuation.separator.path.extension.fnmatch.docker
+#          ^ - variable.language.environment.home.fnmatch.docker
+#            ^ keyword.operator.path.asterisk.fnmatch.docker
+  ~..fname
+# ^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^ - variable.language.environment.home.fnmatch.docker
+#  ^^ - constant.language.path.parent.fnmatch.docker
+  ~../fname
+# ^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^ - variable.language.environment.home.fnmatch.docker
+#  ^^ - constant.language.path.parent.fnmatch.docker
+#    ^ punctuation.separator.path.fnmatch.docker
+
+# PARENT DIR TESTS
+  ../..fname../../
+# ^^^^^^^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^^ constant.language.path.parent.fnmatch.docker
+#   ^ punctuation.separator.path.fnmatch.docker
+#    ^^ - constant.language.path.parent.fnmatch.docker
+#           ^^ - constant.language.path.parent.fnmatch.docker
+#             ^ punctuation.separator.path.fnmatch.docker
+#              ^^ constant.language.path.parent.fnmatch.docker
+#                ^ punctuation.separator.path.fnmatch.docker
+  ..fname../..
+# ^^^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+#        ^^ - constant.language.path.parent.fnmatch.docker
+#           ^^ - constant.language.path.parent.fnmatch.docker
+
+# DRIVE SEPARATOR TESTS
+  c:/fo:lder:/
+# ^^^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+#  ^ punctuation.separator.drive.fnmatch.docker
+#   ^ punctuation.separator.path.fnmatch.docker
+#      ^ invalid.illegal.separator.drive.fnmatch.docker
+#           ^ invalid.illegal.separator.drive.fnmatch.docker
+#            ^ punctuation.separator.path.fnmatch.docker
+  cd:/folder
+# ^^^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+#   ^ invalid.illegal.separator.drive.fnmatch.docker
+#    ^ punctuation.separator.path.fnmatch.docker
+  :/folder
+# ^^^^^^^^ string.unquoted.docker.ignore entity.name.pattern.docker.ignore
+# ^ invalid.illegal.separator.drive.fnmatch.docker
+#  ^ punctuation.separator.path.fnmatch.docker
+
+
+# CARACTER CLASS TESTS
+  [
+# ^ meta.char-class.fnmatch.docker keyword.control.char-class.begin.fnmatch.docker
+  ]
+# ^ string.unquoted.docker - keyword.control.char-class
+  [][]]
+# ^^^^ meta.char-class.fnmatch.docker
+#     ^ - meta.char-class.fnmatch.docker
+# ^ keyword.control.char-class.begin.fnmatch.docker
+#  ^^ constant.character.char-class.fnmatch.docker
+#    ^ keyword.control.char-class.end.fnmatch.docker
+#     ^ string.unquoted.docker - keyword.control.char-class
+  [^[\]] [^[[] [^]\[] [^]]] [^^][^!]
+# ^^^^^^ meta.char-class.fnmatch.docker
+#       ^ - meta.char-class.fnmatch.docker
+#        ^^^^^ meta.char-class.fnmatch.docker
+#             ^ - meta.char-class.fnmatch.docker
+#              ^^^^^^ meta.char-class.fnmatch.docker
+#                    ^ - meta.char-class.fnmatch.docker
+#                     ^^^^ meta.char-class.fnmatch.docker
+#                         ^^ - meta.char-class.fnmatch.docker
+#                           ^^^^^^^^ meta.char-class.fnmatch.docker
+# ^ keyword.control.char-class.begin.fnmatch.docker
+#  ^ keyword.operator.logical.fnmatch.docker
+#   ^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.begin.fnmatch.docker
+#    ^^ constant.character.escape.char-class - keyword.control.char-class.end.fnmatch.docker
+#      ^ keyword.control.char-class.end.fnmatch.docker
+#        ^ keyword.control.char-class.begin.fnmatch.docker
+#         ^ keyword.operator.logical.fnmatch.docker
+#          ^^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.begin.fnmatch.docker
+#            ^ keyword.control.char-class.end.fnmatch.docker
+#              ^ keyword.control.char-class.begin.fnmatch.docker
+#               ^ keyword.operator.logical.fnmatch.docker
+#                ^^^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.end.fnmatch.docker
+#                   ^ keyword.control.char-class.end.fnmatch.docker
+#                     ^ keyword.control.char-class.begin.fnmatch.docker
+#                      ^ keyword.operator.logical.fnmatch.docker
+#                       ^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.end.fnmatch.docker
+#                        ^ keyword.control.char-class.end.fnmatch.docker
+#                         ^ string.unquoted.docker - keyword.control.char-class
+#                           ^ keyword.control.char-class.begin.fnmatch.docker
+#                            ^ keyword.operator.logical.fnmatch.docker
+#                             ^ constant.character.char-class.fnmatch.docker - keyword.operator
+#                              ^ keyword.control.char-class.end.fnmatch.docker
+#                               ^ keyword.control.char-class.begin.fnmatch.docker
+#                                ^ keyword.operator.logical.fnmatch.docker
+#                                 ^ constant.character.char-class.fnmatch.docker - keyword.operator
+#                                  ^ keyword.control.char-class.end.fnmatch.docker
+  [![\]] [![[] [!]\[] [!]]] [!!][!^]
+# ^^^^^^ meta.char-class.fnmatch.docker
+#       ^ - meta.char-class.fnmatch.docker
+#        ^^^^^ meta.char-class.fnmatch.docker
+#             ^ - meta.char-class.fnmatch.docker
+#              ^^^^^^ meta.char-class.fnmatch.docker
+#                    ^ - meta.char-class.fnmatch.docker
+#                     ^^^^ meta.char-class.fnmatch.docker
+#                         ^^ - meta.char-class.fnmatch.docker
+#                           ^^^^^^^^ meta.char-class.fnmatch.docker
+# ^ keyword.control.char-class.begin.fnmatch.docker
+#  ^ keyword.operator.logical.fnmatch.docker
+#   ^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.begin.fnmatch.docker
+#    ^^ constant.character.escape.char-class - keyword.control.char-class.end.fnmatch.docker
+#      ^ keyword.control.char-class.end.fnmatch.docker
+#        ^ keyword.control.char-class.begin.fnmatch.docker
+#         ^ keyword.operator.logical.fnmatch.docker
+#          ^^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.begin.fnmatch.docker
+#            ^ keyword.control.char-class.end.fnmatch.docker
+#              ^ keyword.control.char-class.begin.fnmatch.docker
+#               ^ keyword.operator.logical.fnmatch.docker
+#                ^^^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.end.fnmatch.docker
+#                   ^ keyword.control.char-class.end.fnmatch.docker
+#                     ^ keyword.control.char-class.begin.fnmatch.docker
+#                      ^ keyword.operator.logical.fnmatch.docker
+#                       ^ constant.character.char-class.fnmatch.docker - keyword.control.char-class.end.fnmatch.docker
+#                        ^ keyword.control.char-class.end.fnmatch.docker
+#                         ^ string.unquoted.docker - keyword.control.char-class
+#                           ^ keyword.control.char-class.begin.fnmatch.docker
+#                            ^ keyword.operator.logical.fnmatch.docker
+#                             ^ constant.character.char-class.fnmatch.docker - keyword.operator
+#                              ^ keyword.control.char-class.end.fnmatch.docker
+#                               ^ keyword.control.char-class.begin.fnmatch.docker
+#                                ^ keyword.operator.logical.fnmatch.docker
+#                                 ^ constant.character.char-class.fnmatch.docker - keyword.operator
+#                                  ^ keyword.control.char-class.end.fnmatch.docker
+# The only escape is \]. All other \ are expanded to \\ by fnmatch.
+  [0123456789abcde-z \t\n\\\"\'./()'-:,.;<>~!@#$%&*|+=\[\]{}`~?]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.char-class.fnmatch.docker
+# ^ keyword.control.char-class.begin.fnmatch.docker
+#  ^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.docker
+#                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.char-class.fnmatch.docker
+#                                                 ^ invalid.illegal.unexpected.char-class.fnmatch.docker
+#                                                  ^^^^^ constant.character.char-class.fnmatch.docker
+#                                                       ^^ constant.character.escape.char-class.fnmatch.docker
+#                                                         ^^^^ constant.character.char-class.fnmatch.docker
+#                                                             ^ invalid.illegal.unexpected.char-class.fnmatch.docker
+#                                                              ^ keyword.control.char-class.end.fnmatch.docker

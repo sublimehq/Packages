@@ -1,0 +1,5 @@
+# SYNTAX TEST "Docker File.sublime-syntax"
+
+FROM scratch
+ADD rootfs.tar.xz /
+CMD ["/bin/bash"]
