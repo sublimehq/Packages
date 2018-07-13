@@ -471,6 +471,15 @@ namespace TestNamespace.Test
 ///                                                                 ^ punctuation.section.group.end
             {
 ///         ^ meta.method meta.block meta.block punctuation.section.block.begin
+            } catch (System.ArgumentException e) {
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                             ^ - meta.group
+///                 ^ punctuation.section.group.begin
+///                  ^^^^^^ support.type
+///                        ^ punctuation.accessor.dot.namespace
+///                         ^^^^^^^^^^^^^^^^^ support.type
+///                                           ^ variable.other
+///                                            ^ punctuation.section.group.end
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
             finally {

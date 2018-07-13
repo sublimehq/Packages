@@ -1674,10 +1674,18 @@ contexts:
       captures:
         1: keyword.control.trycatch.catch.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      push: [catch_block, var_declaration_explicit]
+      push: [catch_block, var_declaration_explicit, catch_namespace]
     - match: 'catch'
       scope: keyword.control.trycatch.catch.cs
       push: trycatch_block
+    - match: (?=\S)
+      pop: true
+
+  catch_namespace:
+    - match: '({{name}})(\.)'
+      captures:
+        1: support.type.cs
+        2: punctuation.accessor.dot.namespace.cs
     - match: (?=\S)
       pop: true
 
