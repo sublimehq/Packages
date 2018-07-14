@@ -1294,6 +1294,18 @@ class BaseClass;
 /*    ^ - meta.class meta.class */
 /*    ^^^^^^^^^ entity.name.class.forward-decl */
 
+struct Namespace::BaseClass
+/*     ^^^^^^^^^^^^^^^^^^^^ entity.name.struct */
+/*              ^^ punctuation.accessor */
+{
+};
+
+class Namespace::BaseClass : public SuperClass
+/*    ^^^^^^^^^^^^^^^^^^^^ entity.name.class */
+/*             ^^ punctuation.accessor */
+{
+};
+
 class BaseClass // comment
 /* <- storage.type */
 /*    ^ entity.name.class */

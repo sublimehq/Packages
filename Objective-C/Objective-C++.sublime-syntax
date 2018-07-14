@@ -1086,6 +1086,12 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.objc++
       set: data-structures-class-definition-after-identifier
+    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+      set:
+        - meta_scope: entity.name.class.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-class-definition-after-identifier
     - match: '{{identifier}}'
       scope: entity.name.class.objc++
       set: data-structures-class-definition-after-identifier
@@ -1114,6 +1120,12 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.objc++
       set: data-structures-struct-definition-after-identifier
+    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+      set:
+        - meta_scope: entity.name.struct.foo.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-struct-definition-after-identifier
     - match: '{{identifier}}'
       scope: entity.name.struct.objc++
       set: data-structures-struct-definition-after-identifier
