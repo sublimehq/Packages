@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[for ${2:i} := 0; $2 < ${1:count}; ${3:$2++} {
-	$0
-}]]></content>
-	<tabTrigger>for</tabTrigger>
-	<scope>source.go</scope>
-	<description>For Loop</description>
-</snippet>
