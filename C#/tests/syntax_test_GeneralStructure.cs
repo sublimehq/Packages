@@ -278,6 +278,12 @@ namespace TestNamespace.Test
 ///         ^^ meta.method meta.block meta.block
 ///         ^ punctuation.section.block.begin
 ///          ^ punctuation.section.block.end
+            for (i = 0; i < items.Count; i++) {}
+///         ^^^ keyword.control.loop.for
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                          ^ - meta.group
+///              ^ variable.other
+///                ^ keyword.operator.assignment
 
             if (true)
 ///         ^ keyword.control
@@ -480,8 +486,14 @@ namespace TestNamespace.Test
 ///                         ^^^^^^^^^^^^^^^^^ support.type
 ///                                           ^ variable.other
 ///                                            ^ punctuation.section.group.end
+                System.String blah = "test";
+///             ^^^^^^ support.type
+///                   ^ punctuation.accessor.dot
+///                    ^^^^^^ support.type
+///                           ^^^^ variable.other
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
+            
             finally {
 ///         ^ keyword.control
 ///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
