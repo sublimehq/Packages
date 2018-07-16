@@ -2,56 +2,53 @@
 
 Current problems / limitations:
 
-	* fails to unindent labels: tricky to detect without false positives
-	* fails to indent extra lines in multiline expressions
-	* affects contents of multiline string literals
+  * fails to unindent labels: tricky to detect without false positives
+  * fails to indent extra lines in multiline expressions
+  * affects contents of multiline string literals
 
 -->
 
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Go Indentation Rules</string>
+  <key>scope</key>
+  <string>source.go</string>
 
-	<key>scope</key>
-	<string>source.go</string>
+  <key>settings</key>
+  <dict>
+    <key>increaseIndentPattern</key>
+    <string><![CDATA[(?x)
+      (?:
+        .*\{
+        |
+        .*\(
+        |
+        .*\b(?:case|default)\b.*[,:]
+      )
+      # Ignore whitespace, line comment, inline comments
+      (?:\s*|\s*//.*|/[*](?:[^*]|[*](?!/))*[*]/)*
+      $
+    ]]></string>
 
-	<key>settings</key>
-	<dict>
-		<key>increaseIndentPattern</key>
-		<string><![CDATA[(?x)
-			(?:
-				.*\{
-				|
-				.*\(
-				|
-				.*\b(?:case|default)\b.*[,:]
-			)
-			# Ignore whitespace and inline comments
-			(?:\s*|/[*](?:[^*]|[*](?!/))*[*]/)*
-			$
-		]]></string>
+    <key>decreaseIndentPattern</key>
+    <string><![CDATA[(?x)(?:
+      \s*\}
+      |
+      \s*\)
+      |
+      (?:.(?!\bswitch\b))*\b(?:case|default)\b
+      |
+      \s*\*/$
+    )]]></string>
 
-		<key>decreaseIndentPattern</key>
-		<string><![CDATA[(?x)(?:
-			\s*\}
-			|
-			\s*\)
-			|
-			(?:.(?!\bswitch\b))*\b(?:case|default)\b
-			|
-			\s*\*/$
-		)]]></string>
+    <key>bracketIndentNextLinePattern</key>
+    <string></string>
 
-		<key>bracketIndentNextLinePattern</key>
-		<string></string>
+    <key>disableIndentNextLinePattern</key>
+    <string></string>
 
-		<key>disableIndentNextLinePattern</key>
-		<string></string>
-
-		<key>unIndentedLinePattern</key>
-		<string></string>
-	</dict>
+    <key>unIndentedLinePattern</key>
+    <string></string>
+  </dict>
 </dict>
 </plist>
