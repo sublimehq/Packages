@@ -1177,22 +1177,40 @@ contexts:
     - include: expressions-minus-generic-type
 
   data-structures-modifier:
-    - match: '\bfriend\b'
+    - match: \bfriend\b
       scope: storage.modifier.c++
-      push:
-        - match: (?=;)
-          pop: true
-        - match: '\{'
-          scope: punctuation.section.block.begin.c++
+      set:
+        # "friend class SomeClass;"
+        # - match: (?=\s*{{before_tag}}\s+{{path_lookahead}}\s*;)
+        #   set:
+        #     # Not a super precise meta scope, but I don't think anyone will be
+        #     # bothered by this. e.g. if you type "friend class Foo;", then this
+        #     # will also get this meta scope.
+        #     - meta_scope: entity.name.struct.forward-decl.c++
+        #     - match: '{{before_tag}}'
+        #       scope: storage.type.c++
+        #     - match: (?=\s*;)
+        #       set:
+        #         - match: ;
+        #           scope: punctuation.terminator.c++
+        #           pop: true
+        #     - include: comments
+        #     - match: '::'
+        #       scope: punctuation.accessor.double-colon.c++
+        # "friend SomeClass;" (without struct/class/union)
+        - match: (?=\s*{{path_lookahead}}\s*;)
           set:
-            - meta_scope: meta.block.c++
-            - match: '\}'
-              scope: punctuation.section.block.end.c++
-              pop: true
-            - include: statements
-        - match: '\b({{before_tag}})\b'
-          scope: storage.type.c++
-        - include: expressions-minus-function-call
+            - match: (?=\s*;)
+              set:
+                - match: ;
+                  scope: punctuation.terminator.c++
+                  pop: true
+            - include: comments
+            - match: '::'
+              scope: punctuation.accessor.double-colon.c++
+        # It must be a friend function
+        - match: ""
+          set: data-structures-modifier
     - include: comments
     - include: modifiers-parens
     - include: modifiers
