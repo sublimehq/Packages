@@ -1294,18 +1294,6 @@ class BaseClass;
 /*    ^ - meta.class meta.class */
 /*    ^^^^^^^^^ entity.name.class.forward-decl */
 
-struct Namespace::BaseClass
-/*     ^^^^^^^^^^^^^^^^^^^^ entity.name.struct */
-/*              ^^ punctuation.accessor */
-{
-};
-
-class Namespace::BaseClass : public SuperClass
-/*    ^^^^^^^^^^^^^^^^^^^^ entity.name.class */
-/*             ^^ punctuation.accessor */
-{
-};
-
 class BaseClass // comment
 /* <- storage.type */
 /*    ^ entity.name.class */
@@ -1871,6 +1859,30 @@ template <class T> class Sample {
     /*^^^^^^^^ entity.name.function */
      return T;
   }
+};
+
+struct Namespace::MyStruct
+/*     ^^^^^^^^^^^^^^^^^^^ entity.name.struct */
+/*              ^^ punctuation.accessor */
+{
+};
+
+class Namespace::MyClass : public SuperClass
+/*    ^^^^^^^^^^^^^^^^^^ entity.name.class */
+/*             ^^ punctuation.accessor */
+{
+};
+
+union Namespace::MyUnion
+/*    ^^^^^^^^^^^^^^^^^^ entity.name.union */
+/*             ^^ punctuation.accessor */
+{
+};
+
+enum class Namespace::MyEnum
+/*         ^^^^^^^^^^^^^^^^^ entity.name.enum */
+/*                  ^^ punctuation.accessor */
+{
 };
 
 /////////////////////////////////////////////

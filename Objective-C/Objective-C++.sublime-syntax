@@ -1154,6 +1154,12 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.objc++
       set: data-structures-enum-definition-after-identifier
+    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+      set:
+        - meta_scope: entity.name.enum.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-enum-definition-after-identifier
     - match: '{{identifier}}'
       scope: entity.name.enum.objc++
       set: data-structures-enum-definition-after-identifier
@@ -1183,6 +1189,12 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.objc++
       set: data-structures-union-definition-after-identifier
+    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+      set:
+        - meta_scope: entity.name.union.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-union-definition-after-identifier
     - match: '{{identifier}}'
       scope: entity.name.union.objc++
       set: data-structures-union-definition-after-identifier
