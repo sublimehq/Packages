@@ -1,11 +1,4 @@
 {
   // Prefer tabs because gofmt enforces tabs.
   "translate_tabs_to_spaces": false,
-  // Trigger autocompletion on dot access.
-  "auto_complete_triggers": [
-    {
-      "characters": ".",
-      "selector": "source.go",
-    },
-  ],
 }
