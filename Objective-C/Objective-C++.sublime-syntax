@@ -1086,15 +1086,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.objc++
       set: data-structures-class-definition-after-identifier
-    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+    - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: entity.name.class.objc++
+        - meta_scope: meta.class.objc++ entity.name.class.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          set: data-structures-class-definition-after-identifier
         - include: scope:source.c++#identifiers
+        - match: data-structures-class-definition-after-identifier
         - match: '(?=[^\w\s])'
           set: data-structures-class-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.class.objc++
-      set: data-structures-class-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-class-definition-after-identifier
     - match: '(?=;)'
@@ -1120,15 +1120,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.objc++
       set: data-structures-struct-definition-after-identifier
-    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+    - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: entity.name.struct.foo.objc++
+        - meta_scope: meta.struct.objc++ entity.name.struct.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          set: data-structures-class-definition-after-identifier
         - include: scope:source.c++#identifiers
+        - match: data-structures-struct-definition-after-identifier
         - match: '(?=[^\w\s])'
           set: data-structures-struct-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.struct.objc++
-      set: data-structures-struct-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-struct-definition-after-identifier
     - match: '(?=;)'
@@ -1154,15 +1154,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.objc++
       set: data-structures-enum-definition-after-identifier
-    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+    - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: entity.name.enum.objc++
+        - meta_scope: meta.enum.objc++ entity.name.enum.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          set: data-structures-class-definition-after-identifier
         - include: scope:source.c++#identifiers
+        - match: data-structures-enum-definition-after-identifier
         - match: '(?=[^\w\s])'
           set: data-structures-enum-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.enum.objc++
-      set: data-structures-enum-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-enum-definition-after-identifier
     - match: '(?=;)'
@@ -1189,15 +1189,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.objc++
       set: data-structures-union-definition-after-identifier
-    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}})'
+    - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: entity.name.union.objc++
+        - meta_scope: meta.union.objc++ entity.name.union.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          set: data-structures-class-definition-after-identifier
         - include: scope:source.c++#identifiers
+        - match: data-structures-union-definition-after-identifier
         - match: '(?=[^\w\s])'
           set: data-structures-union-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.union.objc++
-      set: data-structures-union-definition-after-identifier
     - match: '(?=[{])'
       set: data-structures-union-definition-after-identifier
     - match: '(?=;)'

@@ -1861,15 +1861,16 @@ template <class T> class Sample {
   }
 };
 
-struct Namespace::MyStruct
-/*     ^^^^^^^^^^^^^^^^^^^ entity.name.struct */
-/*              ^^ punctuation.accessor */
+class Namespace::MyClass MACRO1 MACRO2 : public SuperClass
+/*    ^^^^^^^^^^^^^^^^^^ entity.name.class */
+/*             ^^ punctuation.accessor */
+/*                       ^ - entity.name */
 {
 };
 
-class Namespace::MyClass : public SuperClass
-/*    ^^^^^^^^^^^^^^^^^^ entity.name.class */
-/*             ^^ punctuation.accessor */
+struct Namespace::MyStruct
+/*     ^^^^^^^^^^^^^^^^^^^ entity.name.struct */
+/*              ^^ punctuation.accessor */
 {
 };
 
@@ -1882,6 +1883,34 @@ union Namespace::MyUnion
 enum class Namespace::MyEnum
 /*         ^^^^^^^^^^^^^^^^^ entity.name.enum */
 /*                  ^^ punctuation.accessor */
+{
+};
+
+class Namespace::
+MyClass MACRO1 
+/* <- entity.name.class */
+/*      ^ - entity.name */
+{
+};
+
+struct Namespace::
+MyStruct MACRO1
+/* <- entity.name.struct */
+/*       ^ - entity.name */
+{
+};
+
+union Namespace::
+MyUnion MACRO1
+/* <- entity.name.union */
+/*      ^ - entity.name */
+{
+};
+
+enum class Namespace::
+MyEnum MACRO1
+/* <- entity.name.enum */
+/*     ^ - entity.name */
 {
 };
 
