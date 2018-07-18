@@ -1477,11 +1477,6 @@ class DerivedClass : public ::BaseClass // Comment
 /*                           ^^^ entity.name.type.typedef */
 };
 
-DerivedClass::DerivedClass()
-  : a(a),
-    base_id_(BaseClass::None().ToInt())
-{}
-
 
 template<typename A>
 class class1<A> : class2<A>
