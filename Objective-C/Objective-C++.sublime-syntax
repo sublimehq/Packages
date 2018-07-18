@@ -99,6 +99,7 @@ contexts:
     - include: comments
     - include: case-default
     - include: typedef
+    - include: using-alias
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -763,6 +764,12 @@ contexts:
     - match: ->
       scope: punctuation.accessor.arrow.objc++
       push: members-after-accessor-junction
+
+  using-alias:
+    - match: '\b(using)\b\s+({{identifier}})(?!\s*::)'
+      captures:
+        1: storage.type.objc++
+        2: entity.name.type.using.objc++
 
   typedef:
     - match: \btypedef\b

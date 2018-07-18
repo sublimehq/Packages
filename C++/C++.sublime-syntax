@@ -234,6 +234,7 @@ contexts:
     - include: comments
     - include: case-default
     - include: typedef
+    - include: using-alias
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -694,6 +695,12 @@ contexts:
       scope: punctuation.accessor.arrow.c++
       push: members-after-accessor-junction
 
+  using-alias:
+    - match: '\b(using)\b\s+({{identifier}})(?!\s*::)'
+      captures:
+        1: storage.type.c++
+        2: entity.name.type.using.c++
+        
   typedef:
     - match: \btypedef\b
       scope: storage.type.c++
@@ -1168,6 +1175,7 @@ contexts:
         - match: (?=\S)
           set: data-structures-modifier
     - include: typedef
+    - include: using-alias
     - match: \b({{visibility_modifiers}})\s*(:)(?!:)
       captures:
         1: storage.modifier.c++

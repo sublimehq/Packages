@@ -378,6 +378,37 @@ typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
+using Alias = Foo;
+/* <- storage.type.c++ */
+/*    ^^^^^ entity.name.type.using */
+
+using Alias
+  = NewLineFoo;
+/*^ - entity.name */
+
+template <typename T>
+using TemplateAlias = Foo<T>;
+/*    ^^^^^^^^^^^^^ entity.name.type.using */
+
+using std::cout;
+/* <- keyword.control */
+/*    ^ - entity.name */
+
+using std::
+  cout;
+/*^ - entity.name */
+
+class MyClass : public SuperClass
+{
+    using This = MyClass;
+/*  ^ storage.type.c++ */
+/*        ^^^^ entity.name.type.using */
+
+    using SuperClass::SuperClass;
+/*  ^ keyword.control */
+/*        ^ - entity.name */
+};
+
 template class MyStack<int, 6>;
 /* <- storage.type.template */
 /*                    ^ punctuation.section.generic */
