@@ -376,7 +376,7 @@ typedef struct Books {
 /*^ entity.name.type */
 
 using Alias = Foo;
-/* <- storage.type.c++ */
+/* <- storage.type */
 /*    ^^^^^ entity.name.type.using */
 
 using Alias
@@ -398,7 +398,7 @@ using std::
 class MyClass : public SuperClass
 {
     using This = MyClass;
-/*  ^ storage.type.c++ */
+/*  ^ storage.type */
 /*        ^^^^ entity.name.type.using */
 
     using SuperClass::SuperClass;

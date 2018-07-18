@@ -379,7 +379,7 @@ typedef struct Books Book;
 /*                   ^ entity.name.type.typedef */
 
 using Alias = Foo;
-/* <- storage.type.c++ */
+/* <- storage.type */
 /*    ^^^^^ entity.name.type.using */
 
 using Alias
@@ -401,7 +401,7 @@ using std::
 class MyClass : public SuperClass
 {
     using This = MyClass;
-/*  ^ storage.type.c++ */
+/*  ^ storage.type */
 /*        ^^^^ entity.name.type.using */
 
     using SuperClass::SuperClass;
@@ -1476,6 +1476,11 @@ class DerivedClass : public ::BaseClass // Comment
     typedef std::vector<int> qux;
 /*                           ^^^ entity.name.type.typedef */
 };
+
+DerivedClass::DerivedClass()
+  : a(a),
+    base_id_(BaseClass::None().ToInt())
+{}
 
 
 template<typename A>
