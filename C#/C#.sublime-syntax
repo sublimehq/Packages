@@ -946,11 +946,11 @@ contexts:
         - match: ','
           scope: punctuation.separator.tuple.cs
     - include: lambdas
-    - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{start_char}})
+    - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
       captures:
         1: storage.modifier.cs
       set: [variables_declaration, type_no_space]
-    - match: '(?:\b(ref)\s+)?\b(?:({{base_type}})|({{name}}))(?={{type_suffix}}\s+{{start_char}})'
+    - match: '(?:\b(ref)\s+)?\b(?:({{base_type}})|({{name}}))(?={{type_suffix}}\s+{{name}}(?!\s*:))' # avoid picking up `test ? something : something_else` as a variable declaration of `something` with nullable type `test`.
       captures:
         1: storage.modifier.cs
         2: storage.type.cs
