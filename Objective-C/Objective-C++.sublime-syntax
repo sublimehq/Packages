@@ -1124,7 +1124,7 @@ contexts:
       set:
         - meta_scope: meta.struct.objc++ entity.name.struct.objc++
         - match: '{{identifier}}(?!\s*::)'
-          set: data-structures-class-definition-after-identifier
+          set: data-structures-struct-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-struct-definition-after-identifier
         - match: '(?=[^\w\s])'
@@ -1158,7 +1158,7 @@ contexts:
       set:
         - meta_scope: meta.enum.objc++ entity.name.enum.objc++
         - match: '{{identifier}}(?!\s*::)'
-          set: data-structures-class-definition-after-identifier
+          set: data-structures-enum-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-enum-definition-after-identifier
         - match: '(?=[^\w\s])'
@@ -1193,7 +1193,7 @@ contexts:
       set:
         - meta_scope: meta.union.objc++ entity.name.union.objc++
         - match: '{{identifier}}(?!\s*::)'
-          set: data-structures-class-definition-after-identifier
+          set: data-structures-union-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-union-definition-after-identifier
         - match: '(?=[^\w\s])'
