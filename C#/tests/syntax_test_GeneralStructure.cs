@@ -22,6 +22,14 @@ namespace YourNamespace
 ///               ^ punctuation.separator
 ///                  ^ variable.other.member
 ///                    ^ keyword.operator.assignment
+        string[][] test = new[] { new[] { "hello", "world" }, new[] { "foo", "bar" }};
+///     ^^^^^^ storage.type
+///           ^ punctuation.section.brackets.begin
+///            ^ punctuation.section.brackets.end
+///             ^ punctuation.section.brackets.begin
+///              ^ punctuation.section.brackets.end
+///                ^^^^ variable.other.member
+///                     ^ keyword.operator.assignment.variable
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter

@@ -433,14 +433,14 @@ contexts:
         - include: interface_declaration
         - include: delegate_declaration
         - include: method_declaration
-        - match: '\{'
-          scope: punctuation.section.block.begin.cs
-          push:
-            - meta_scope: meta.block.cs
-            - match: '\}'
-              scope: punctuation.section.block.end.cs
-              pop: true
-            - include: data_type_body
+        # - match: '\{'
+        #   scope: punctuation.section.block.begin.cs
+        #   push:
+        #     - meta_scope: meta.block.cs
+        #     - match: '\}'
+        #       scope: punctuation.section.block.end.cs
+        #       pop: true
+        #     - include: data_type_body
         - include: stray_close_bracket
     - match: \S*
       scope: invalid.illegal
@@ -518,37 +518,32 @@ contexts:
         1: entity.name.function.constructor.cs
         2: meta.method.parameters.cs punctuation.section.parameters.begin.cs
       push: [constructor_prebody, method_params]
-    - match: \b({{base_type}}){{type_suffix_capture}}
-      captures:
-        1: storage.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
-      push: method_name
-    - match: '\b(operator)\b'
-      scope: storage.modifier.cs
-      push: method_name
     - match: '({{name}})\s*(\.)'
       captures:
         1: entity.other.inherited-class.cs
         2: punctuation.accessor.dot.cs
-    - match: '({{name}}){{type_suffix_capture}}'
+    - match: \b(?:({{base_type}})|({{name}}))
       captures:
-        1: support.type.cs
-        2: storage.type.nullable.cs
-        3: meta.brackets.cs
-        4: punctuation.section.brackets.begin.cs
-        5: punctuation.separator.cs
-        6: punctuation.section.brackets.end.cs
-        7: keyword.operator.pointer.cs
+        1: storage.type.cs
+        2: support.type.cs
+      push:
+        - match: '{{type_suffix_capture}}'
+          captures:
+            1: storage.type.nullable.cs
+            2: meta.brackets.cs
+            3: punctuation.section.brackets.begin.cs
+            4: punctuation.separator.cs
+            5: punctuation.section.brackets.end.cs
+            6: keyword.operator.pointer.cs
+        - match: ''
+          set: method_name
+    - match: '\b(operator)\b'
+      scope: storage.modifier.cs
       push: method_name
     - match: (?=\()
       push: [method_name, type_tuple]
 
-  method_name:
+  method_name: # also matches member variables
     - match: '\.'
       scope: punctuation.accessor.dot.cs
     - match: '(operator)\s*({{unary_op}}|{{bin_op}})\s*(\()'
