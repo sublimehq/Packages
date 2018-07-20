@@ -173,10 +173,10 @@ a = a' % is the conjugate and transpose
 a = a.' % is the transpose
 %   ^ -keyword.operator.transpose.matlab
 %    ^^ keyword.operator.transpose.matlab
-x = a[3]' + b(4)' % is the conjugate and transpose
+x = a[3]' + b(4)' + c{5}' % is the conjugate and transpose
 %       ^ keyword.operator.transpose.matlab
 %               ^ keyword.operator.transpose.matlab
-
+%                       ^ keyword.operator.transpose.matlab
 
 %---------------------------------------------
 % String
