@@ -1248,6 +1248,14 @@ using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
 
+void func() {
+    using namespace NAME __attribute__((visibility ("hidden")));
+/*  ^ keyword.control */
+/*        ^ keyword.control */
+/*                       ^ storage.modifier */
+/*                                                   ^ string */
+}
+
 namespace ns :: abc /* Neither this comment... */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace */
 /*        ^^^^^^^^^ entity.name.namespace */

@@ -44,6 +44,7 @@ contexts:
         - include: template
         - match: (?=\S)
           set: global-modifier
+    - include: using-namespace
     - include: namespace
     - include: keywords-angle-brackets
     - match: '(?={{path_lookahead}}\s*<)'
@@ -98,6 +99,7 @@ contexts:
   early-expressions-before-generic-type:
     - include: comments
     - include: case-default
+    - include: using-namespace
     - include: typedef
     - include: using-alias
     - include: keywords-angle-brackets
@@ -508,7 +510,7 @@ contexts:
           pop: true
         - include: expressions
 
-  namespace:
+  using-namespace:
     - match: '\b(using)\s+(namespace)\s+(?={{path_lookahead}})'
       captures:
         1: keyword.control.objc++
@@ -517,6 +519,8 @@ contexts:
         - include: scope:source.c++#identifiers
         - match: ''
           pop: true
+
+  namespace:
     - match: '\b(namespace)\s+(?=({{path_lookahead}})?(?!\s*[;,]))'
       scope: meta.namespace.objc++
       captures:
