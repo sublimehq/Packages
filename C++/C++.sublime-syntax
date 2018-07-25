@@ -41,7 +41,6 @@ variables:
   generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|\.|<.*?>|\s|\d)*)?>'
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
-  ivu_macro_identifier: '\bEXP_[[:alnum:]_]*\b'
 
 contexts:
   main:
@@ -1045,7 +1044,7 @@ contexts:
 
   preprocessor-workaround-eat-macro-before-identifier:
     # Handle macros so they aren't matched as the class name
-    - match: ({{macro_identifier}}|{{ivu_macro_identifier}})(?=\s+~?{{identifier}})
+    - match: ({{macro_identifier}})(?=\s+~?{{identifier}})
       captures:
         1: meta.assumed-macro.c
 
