@@ -12,7 +12,7 @@
     <key>showInIndexedSymbolList</key>
     <integer>1</integer>
     <key>symbolTransformation</key>
-    <string>/^/var /</string>
+    <string><![CDATA[/^/var /]]></string>
   </dict>
 </dict>
 </plist>

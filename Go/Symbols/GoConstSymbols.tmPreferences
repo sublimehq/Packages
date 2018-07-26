@@ -12,7 +12,7 @@
     <key>showInIndexedSymbolList</key>
     <integer>1</integer>
     <key>symbolTransformation</key>
-    <string>/^/const /</string>
+    <string><![CDATA[/^/const /]]></string>
   </dict>
 </dict>
 </plist>

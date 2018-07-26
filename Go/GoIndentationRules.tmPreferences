@@ -49,6 +49,9 @@ Current problems / limitations:
 
     <key>unIndentedLinePattern</key>
     <string></string>
+
+    <key>indentParens</key>
+    <false />
   </dict>
 </dict>
 </plist>
