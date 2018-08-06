@@ -321,6 +321,15 @@ not_a_comment;
     let ಠ_ಠ;
 //      ^^^ variable.other.readwrite
 
+    function \u123fxyz () {};
+//           ^^^^^^^^^ entity.name.function
+
+    function xyz\u123fxyz () {};
+//           ^^^^^^^^^^^^ entity.name.function
+
+    function xyz\u{deadbeef42}xyz () {};
+//           ^^^^^^^^^^^^^^^^^^^^ entity.name.function
+
     import$;export$;class$;throw$;break$;continue$;goto$;return$;debugger$;let$;const$;var$;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword
 
