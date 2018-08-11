@@ -1959,3 +1959,6 @@ def foo(x)
 end
 ~~~~~~~
 | <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end
+
+\~/.bashrc
+|^ constant.character.escape
