@@ -401,9 +401,23 @@ class MyClass : public SuperClass
 /*  ^ storage.type */
 /*        ^^^^ entity.name.type.using */
 
+    using MyInt
+/*  ^ storage.type */
+        = int32_t;
+
     using SuperClass::SuperClass;
 /*  ^ keyword.control */
 /*        ^ - entity.name */
+};
+
+class MyClass : public CrtpClass<MyClass>
+{
+    using typename CrtpClass<MyClass>::PointerType;
+/*  ^ keyword.control */
+/*        ^ storage.modifier */ 
+    using CrtpClass<
+/*  ^ keyword.control */
+        MyClass>::method;
 };
 
 typedef struct Books Book;
