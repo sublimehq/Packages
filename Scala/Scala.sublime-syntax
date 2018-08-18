@@ -254,7 +254,10 @@ contexts:
     - include: literal-constants
     - match: \b(this|super)\b
       scope: variable.language.scala
-    - include: base-types
+    # base-types with try-dispatch followup
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      push: try-dispatch
   constants:
     - include: base-constants
     - include: char-literal
