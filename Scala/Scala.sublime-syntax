@@ -248,6 +248,8 @@ contexts:
       scope: constant.numeric.hex.scala
     - match: '\b(?:(?:0|[1-9][0-9]*)[lL]?)\b'
       scope: constant.numeric.integer.scala
+    - match: '\(\)'
+      scope: constant.language.scala
   base-constants:
     - include: literal-constants
     - match: \b(this|super)\b
@@ -262,8 +264,6 @@ contexts:
       push: try-dispatch
     - match: '{{id}}(?=[\(\[])'
       push: try-dispatch
-    - match: '\(\)'
-      scope: constant.language.scala
   try-dispatch:
     - match: '\('
       push:

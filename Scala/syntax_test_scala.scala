@@ -812,6 +812,11 @@ type Foo >: Bar
    ()
 // ^^ constant.language.scala
 
+{
+  case () => ()
+//     ^^ constant.language.scala
+}
+
    Foo()
 // ^^^ support.constant.scala
 //    ^^ - constant.language.scala
