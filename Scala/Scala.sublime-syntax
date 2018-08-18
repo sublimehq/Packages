@@ -1248,9 +1248,13 @@ contexts:
           pop: true
         - include: val-pattern-match-inner
   val-pattern-match-inner:
+    # ascription with ',' stop token
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=,)'
+          pop: true
+        - include: single-type-expression
     - include: val-pattern-match-main
-    - match: '{{upperid}}'
-      scope: support.class.scala
 
   base-pattern-match:
     - include: keywords
