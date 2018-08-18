@@ -1231,6 +1231,9 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
+        - match: '\bif\b'
+          scope: invalid.keyword.if-in-val-match.scala
+          pop: true
         - match: '(?=[\]\}\)])'
           pop: true
         - match: '(?={{nonopchar}}?={{nonopchar}})'
@@ -1364,6 +1367,9 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
   single-type-expression:
+    - meta_scope: single-type-expression
+    - match: '(?=\bif\b)'   # for pattern matching
+      pop: true
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
@@ -1389,6 +1395,7 @@ contexts:
     - match: '(?=[\s,\)\}\]])'
       pop: true
   single-type-expression-tail:
+    - meta_scope: single-type-expression-tail
     - match: (?=@{{plainid}})
       set:
         - include: annotation
@@ -1405,6 +1412,8 @@ contexts:
           scope: punctuation.definition.generic.end.scala
           set: single-type-expression-tail
         - include: delimited-type-expression
+    - match: '(?=\bif\b)'
+      pop: true
     - match: '\b(with)(?:\s+|\b)'
       captures:
         1: keyword.declaration.scala
