@@ -1712,3 +1712,5 @@ type Foo = null
 
 Data.Boolean()
 //          ^^ - constant.language.scala
+
+        prop { k: Int Refined RPositive => }
