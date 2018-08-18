@@ -879,7 +879,7 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
-    - match: \b(eq)\b
+    - match: \b(eq|ne)\b
       scope: keyword.operator.word.scala
 
   late-keywords:
