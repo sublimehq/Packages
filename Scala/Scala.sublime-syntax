@@ -7,6 +7,9 @@ file_extensions:
   - sbt
 scope: source.scala
 variables:
+  # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
+  keywords: '\b(?:abstract|case|catch|class|def|do|else|extends|false|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
+
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
@@ -1370,8 +1373,9 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
+    - match: '(?={{keywords}})'
+      pop: true
   single-type-expression:
-    - meta_scope: single-type-expression
     - match: '(?=\bif\b)'   # for pattern matching
       pop: true
     - match: '\b(type)\b'
@@ -1390,6 +1394,8 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: strings
+    - match: '(?={{keywords}})'
+      pop: true
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
@@ -1399,7 +1405,6 @@ contexts:
     - match: '(?=[\s,\)\}\]])'
       pop: true
   single-type-expression-tail:
-    - meta_scope: single-type-expression-tail
     - match: (?=@{{plainid}})
       set:
         - include: annotation
@@ -1424,6 +1429,8 @@ contexts:
       set: single-type-expression
     - match: (?={{typeid}})
       set: single-type-expression
+    - match: '(?={{keywords}})'
+      pop: true
     - match: \n
       set: single-type-expression-tail-newline
     - match: '(?=\S)'

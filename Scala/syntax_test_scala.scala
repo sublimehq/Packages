@@ -1717,3 +1717,9 @@ val foo: Abc if bar = 42
 val (a: Foo, b: Bar) = ()
 //      ^^^ support.class.scala
 //              ^^^ support.class.scala
+
+   if (true)
+     new BitSet
+   else
+// ^^^^ keyword.control.flow.scala
+     ()
