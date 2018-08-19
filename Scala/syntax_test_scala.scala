@@ -1717,3 +1717,14 @@ Data.Boolean()
 
 tail: _ *
 //    ^^^ keyword.operator.varargs.scala
+
+    val Message(
+      Address(from),
+//            ^^^^ entity.name.val.scala
+      Address(to),
+//            ^^ entity.name.val.scala
+      subject,
+//    ^^^^^^^ entity.name.val.scala
+      Content(tpe, value)) = m
+//            ^^^ entity.name.val.scala
+//                 ^^^^^ entity.name.val.scala

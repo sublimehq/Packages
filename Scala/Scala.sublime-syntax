@@ -1243,10 +1243,13 @@ contexts:
           pop: true
     - include: val-pattern-match-main
     - match: \(
-      push:
-        - match: \)
-          pop: true
-        - include: val-pattern-match-inner
+      push: val-pattern-match-inner-paren
+  val-pattern-match-inner-paren:
+    - match: \(
+      push: val-pattern-match-inner-paren
+    - match: \)
+      pop: true
+    - include: val-pattern-match-inner
   val-pattern-match-inner:
     - include: val-pattern-match-main
     - match: '{{upperid}}'
