@@ -1714,3 +1714,6 @@ Data.Boolean()
 //          ^^ - constant.language.scala
 
         prop { k: Int Refined RPositive => }
+
+tail: _ *
+//    ^^^ keyword.operator.varargs.scala

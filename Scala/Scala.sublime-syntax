@@ -1223,7 +1223,7 @@ contexts:
     - match: '{{op}}'     # let it fall through
     - match: '@'
       scope: keyword.operator.at.scala
-    - match: '_\*'
+    - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
     - match: '_'
       scope: variable.language.underscore.scala
@@ -1287,7 +1287,7 @@ contexts:
         - include: delimited-type-expression
     - match: '@'
       scope: keyword.operator.at.scala
-    - match: '_\*'
+    - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
     - match: '_'
       scope: variable.language.underscore.scala
@@ -1332,7 +1332,7 @@ contexts:
         - include: declarations
     - match: =>|\x{21D2}
       scope: keyword.operator.arrow.scala
-    - match: '_\*'
+    - match: '_\s*\*'
       scope: keyword.operator.varargs.scala
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
