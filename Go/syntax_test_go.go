@@ -31,6 +31,9 @@ You may have to disable Go-specific linters when working on this file.
     /* * */
 //  ^^^^^^^ comment.block.go
 
+    //go:generate one two three
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
+
 
 // # Imports
 

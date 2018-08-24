@@ -93,6 +93,17 @@ contexts:
     - include: match-general-comment
 
   match-line-comment:
+    # Go has special comments in the form of:
+    #   //go:some-directive arg0 arg1 ...
+    # This regexp captures such a line, carefully scoping it as a comment and
+    # an annotation, while assigning ONLY the commend scope to the end of the
+    # line. This way, a background color applied to an annotation scope doesn't
+    # apply to the infinite blank space on the rest of the line.
+    - match: (//go:.*)\s
+      scope: comment.line.go
+      captures:
+        1: meta.annotation.go
+
     # Explicitly matching \s also captures end-of-line. This ensures that things
     # that rely on comment scoping, such as hotkeys, work properly at the end of
     # the line when typing a new comment.
