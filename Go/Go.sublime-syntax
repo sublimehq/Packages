@@ -846,7 +846,7 @@ contexts:
               scope: variable.other.go
             - match: \.
               scope: punctuation.accessor.dot.go
-            - match: '{{ident}}(?={{noise}}(?:;|\}|$))'
+            - match: '{{ident}}(?={{noise}}(?:"|`|;|\}|$))'
               scope: entity.other.inherited-class.go
 
             - match: '{{ident}}'

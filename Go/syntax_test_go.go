@@ -907,6 +907,29 @@ You may have to disable Go-specific linters when working on this file.
 //                                             ^ meta.type.go punctuation.terminator.go
 //                                              ^ meta.type.go punctuation.section.braces.end.go
 
+    struct {
+//  ^^^^^^ storage.type.go
+        field typ `json:"field"`
+//      ^^^^^ meta.type.go variable.other.member.declaration.go
+//            ^^^ meta.type.go storage.type.go
+//                ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+        field /**/ typ /**/ `json:"field"`
+//      ^^^^^ meta.type.go variable.other.member.declaration.go
+//            ^^^^ meta.type.go comment.block.go
+//                 ^^^ meta.type.go storage.type.go
+//                     ^^^^ meta.type.go comment.block.go
+//                          ^^^^^^^^^^^^^^ meta.type.go string.quoted.other.go
+        typ       `json:"-"`
+//      ^^^ meta.type.go entity.other.inherited-class.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+        typ /**/  `json:"-"`
+//      ^^^ meta.type.go entity.other.inherited-class.go
+//          ^^^^ meta.type.go comment.block.go
+//                ^^^^^^^^^^ meta.type.go string.quoted.other.go
+        typ
+//      ^^^ meta.type.go entity.other.inherited-class.go
+    }
+
     struct
 //  ^^^^^^ storage.type.go
     /**/
