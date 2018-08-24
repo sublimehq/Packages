@@ -467,8 +467,6 @@ contexts:
     - match: \bconst\b
       scope: storage.modifier.const.go
       push:
-        - include: match-comments
-
         - match: \(
           scope: punctuation.section.parens.begin.go
           set:
@@ -487,6 +485,9 @@ contexts:
               push: pop-const-type-and-or-assignment
 
             - include: match-any
+
+        - include: match-comments
+        - include: match-comma
 
         - match: \b_\b(?={{noise}},)
         - match: '{{ident}}(?={{noise}},)'
@@ -635,8 +636,6 @@ contexts:
     - match: \bvar\b
       scope: storage.modifier.var.go
       push:
-        - include: match-comments
-
         - match: \(
           scope: punctuation.section.parens.begin.go
           set:
@@ -655,6 +654,9 @@ contexts:
               push: pop-var-type-and-or-assignment
 
             - include: match-any
+
+        - include: match-comments
+        - include: match-comma
 
         - match: \b_\b(?={{noise}},)
         - match: '{{ident}}(?={{noise}},)'

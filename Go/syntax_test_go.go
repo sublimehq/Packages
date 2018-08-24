@@ -371,12 +371,14 @@ You may have to disable Go-specific linters when working on this file.
     )
 
 // Named, multiline, grouped parameters. We can't scope them perfectly. When
-// scoping the first identifier, we don't know whether it's a name or a type. In
-// this scenario, we default to unnamed parameters, because named groups and
-// their type are nearly always written on the same line.
+// scoping the first identifier, we don't know whether it's a name or a type.
+// In this scenario, we default to unnamed parameters, because named groups
+// and their type are nearly always written on the same line.
     func(
         param,
+//      ^^^^^ storage.type.go
         param typ,
+//      ^^^^^ storage.type.go
 //            ^^^ storage.type.go
     )
 
@@ -1381,107 +1383,135 @@ You may have to disable Go-specific linters when working on this file.
     /**/ const
 //  ^^^^ comment.block.go
 //       ^^^^^ storage.modifier.const.go
-    /**/ CONST0 /**/ int /**/ = /**/ iota /**/
+    /**/ ident /**/ typ /**/ = /**/ iota /**/
 //  ^^^^ comment.block.go
-//       ^^^^^^ variable.other.constant.declaration.go
-//              ^^^^ comment.block.go
-//                   ^^^ storage.type.go
-//                       ^^^^ comment.block.go
-//                            ^ keyword.operator.assignment.go
-//                              ^^^^ comment.block.go
-//                                   ^^^^ constant.numeric.integer.go
-//                                        ^^^^ comment.block.go
+//       ^^^^^ variable.other.constant.declaration.go
+//             ^^^^ comment.block.go
+//                  ^^^ storage.type.go
+//                      ^^^^ comment.block.go
+//                           ^ keyword.operator.assignment.go
+//                             ^^^^ comment.block.go
+//                                  ^^^^ constant.numeric.integer.go
+//                                       ^^^^ comment.block.go
+
+    const ident, ident = 10, 20
+//  ^^^^^ storage.modifier.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//             ^ punctuation.separator.go
+//               ^^^^^ variable.other.constant.declaration.go
+
+    const ident, ident typ
+//  ^^^^^ storage.modifier.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//             ^ punctuation.separator.go
+//               ^^^^^ variable.other.constant.declaration.go
+//                     ^^^ storage.type.go
+
+    const ident,
+//  ^^^^^ storage.modifier.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//             ^ punctuation.separator.go
+          ident = 10, 20
+//        ^^^^^ variable.other.constant.declaration.go
+
+    const ident,
+//  ^^^^^ storage.modifier.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//             ^ punctuation.separator.go
+          ident typ
+//        ^^^^^ variable.other.constant.declaration.go
+//              ^^^ storage.type.go
 
     /**/ const
 //  ^^^^ comment.block.go
 //       ^^^^^ storage.modifier.const.go
     (
 //  ^ punctuation.section.parens.begin.go
-        /**/ CONST1 /**/ int /**/ = /**/ iota + iota /**/
+        /**/ ident /**/ typ /**/ = /**/ iota + iota /**/
 //      ^^^^ comment.block.go
-//           ^^^^^^ variable.other.constant.declaration.go
-//                  ^^^^ comment.block.go
-//                       ^^^ storage.type.go
-//                           ^^^^ comment.block.go
-//                                ^ keyword.operator.assignment.go
-//                                  ^^^^ comment.block.go
-//                                       ^^^^ constant.numeric.integer.go
-//                                            ^ keyword.operator.go
-//                                              ^^^^ constant.numeric.integer.go
-//                                                   ^^^^ comment.block.go
+//           ^^^^^ variable.other.constant.declaration.go
+//                 ^^^^ comment.block.go
+//                      ^^^ storage.type.go
+//                          ^^^^ comment.block.go
+//                               ^ keyword.operator.assignment.go
+//                                 ^^^^ comment.block.go
+//                                      ^^^^ constant.numeric.integer.go
+//                                           ^ keyword.operator.go
+//                                             ^^^^ constant.numeric.integer.go
+//                                                  ^^^^ comment.block.go
 
-        /**/ CONST2 /**/ = /**/ CONST1 + 100 /**/
+        /**/ ident /**/ = /**/ ident + 100 /**/
 //      ^^^^ comment.block.go
-//           ^^^^^^ variable.other.constant.declaration.go
-//                  ^^^^ comment.block.go
-//                       ^ keyword.operator.assignment.go
-//                         ^^^^ comment.block.go
-//                              ^^^^^^ variable.other.go
-//                                     ^ keyword.operator.go
-//                                       ^^^ constant.numeric.integer.go
-//                                           ^^^^ comment.block.go
+//           ^^^^^ variable.other.constant.declaration.go
+//                 ^^^^ comment.block.go
+//                      ^ keyword.operator.assignment.go
+//                        ^^^^ comment.block.go
+//                             ^^^^^ variable.other.go
+//                                   ^ keyword.operator.go
+//                                     ^^^ constant.numeric.integer.go
+//                                         ^^^^ comment.block.go
 
-        /**/ CONST3 /**/
+        /**/ ident /**/
 //      ^^^^ comment.block.go
-//           ^^^^^^ variable.other.constant.declaration.go
-//                  ^^^^ comment.block.go
+//           ^^^^^ variable.other.constant.declaration.go
+//                 ^^^^ comment.block.go
 
-        /**/ CONST4 /**/
+        /**/ ident /**/
 //      ^^^^ comment.block.go
-//           ^^^^^^ variable.other.constant.declaration.go
-//                  ^^^^ comment.block.go
+//           ^^^^^ variable.other.constant.declaration.go
+//                 ^^^^ comment.block.go
 
-        CONST5,
-//      ^^^^^^ variable.other.constant.declaration.go
-//            ^ punctuation.separator.go
-        CONST6 int = 10, 20
-//      ^^^^^^ variable.other.constant.declaration.go
-//             ^^^ storage.type.go
-//                 ^ keyword.operator.assignment.go
-//                   ^^ constant.numeric.integer.go
-//                     ^ punctuation.separator.go
-//                       ^^ constant.numeric.integer.go
+        ident,
+//      ^^^^^ variable.other.constant.declaration.go
+//           ^ punctuation.separator.go
+        ident typ = 10, 20
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^^^ storage.type.go
+//                ^ keyword.operator.assignment.go
+//                  ^^ constant.numeric.integer.go
+//                    ^ punctuation.separator.go
+//                      ^^ constant.numeric.integer.go
 
-        CONST7,
-//      ^^^^^^ variable.other.constant.declaration.go
-//            ^ punctuation.separator.go
-        CONST8 = CONST5, CONST6
-//      ^^^^^^ variable.other.constant.declaration.go
-//             ^ keyword.operator.assignment.go
-//               ^^^^^^ variable.other.go
-//                     ^ punctuation.separator.go
-//                       ^^^^^^ variable.other.go
+        ident,
+//      ^^^^^ variable.other.constant.declaration.go
+//           ^ punctuation.separator.go
+        ident = ident, ident
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^ keyword.operator.assignment.go
+//              ^^^^^ variable.other.go
+//                   ^ punctuation.separator.go
+//                     ^^^^^ variable.other.go
 
-        CONST9,
-//      ^^^^^^ variable.other.constant.declaration.go
-//            ^ punctuation.separator.go
-        CONST10
-//      ^^^^^^^ variable.other.constant.declaration.go
+        ident,
+//      ^^^^^ variable.other.constant.declaration.go
+//           ^ punctuation.separator.go
+        ident
+//      ^^^^^ variable.other.constant.declaration.go
 
 // This verifies that we're not still trying to match a type after the preceding
 // identifier.
 
-        CONST11,
-//      ^^^^^^^ variable.other.constant.declaration.go
-//             ^ punctuation.separator.go
-        CONST12
-//      ^^^^^^^ variable.other.constant.declaration.go
+        ident,
+//      ^^^^^ variable.other.constant.declaration.go
+//           ^ punctuation.separator.go
+        ident
+//      ^^^^^ variable.other.constant.declaration.go
 
-        CONST13 =
-//      ^^^^^^^ variable.other.constant.declaration.go
-//              ^ keyword.operator.assignment.go
+        ident =
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^ keyword.operator.assignment.go
         "blah"
 //      ^^^^^^ string.quoted.double.go
 
-        CONST14 =
-//      ^^^^^^^ variable.other.constant.declaration.go
-//              ^ keyword.operator.assignment.go
+        ident =
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^ keyword.operator.assignment.go
         10
 //      ^^ constant.numeric.integer.go
 
-        CONST15 =
-//      ^^^^^^^ variable.other.constant.declaration.go
-//              ^ keyword.operator.assignment.go
+        ident =
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^ keyword.operator.assignment.go
         iota + iota
 //      ^^^^ constant.numeric.integer.go
 //           ^ keyword.operator.go
@@ -1520,58 +1550,86 @@ func _() {
     /**/ var
 //  ^^^^ comment.block.go
 //       ^^^ storage.modifier.var.go
-    /**/ VAR0 /**/ int /**/ = /**/ 10 /**/
+    /**/ ident /**/ typ /**/ = /**/ 10 /**/
 //  ^^^^ comment.block.go
-//       ^^^^ variable.declaration.go
-//            ^^^^ comment.block.go
-//                 ^^^ storage.type.go
-//                     ^^^^ comment.block.go
-//                          ^ keyword.operator.assignment.go
-//                            ^^^^ comment.block.go
-//                                 ^^ constant.numeric.integer.go
-//                                    ^^^^ comment.block.go
+//       ^^^^^ variable.declaration.go
+//             ^^^^ comment.block.go
+//                  ^^^ storage.type.go
+//                      ^^^^ comment.block.go
+//                           ^ keyword.operator.assignment.go
+//                             ^^^^ comment.block.go
+//                                  ^^ constant.numeric.integer.go
+//                                     ^^^^ comment.block.go
+
+    var ident, ident = 10, 20
+//  ^^^ storage.modifier.var.go
+//      ^^^^^ variable.declaration.go
+//           ^ punctuation.separator.go
+//             ^^^^^ variable.declaration.go
+
+    var ident, ident typ
+//  ^^^ storage.modifier.var.go
+//      ^^^^^ variable.declaration.go
+//           ^ punctuation.separator.go
+//             ^^^^^ variable.declaration.go
+//                   ^^^ storage.type.go
+
+    var ident,
+//  ^^^ storage.modifier.var.go
+//      ^^^^^ variable.declaration.go
+//           ^ punctuation.separator.go
+        ident = 10, 20
+//      ^^^^^ variable.declaration.go
+
+    var ident,
+//  ^^^ storage.modifier.var.go
+//      ^^^^^ variable.declaration.go
+//           ^ punctuation.separator.go
+        ident typ
+//      ^^^^^ variable.declaration.go
+//            ^^^ storage.type.go
 
     /**/ var
 //  ^^^^ comment.block.go
 //       ^^^ storage.modifier.var.go
     (
 //  ^ punctuation.section.parens.begin.go
-        /**/ VAR1 /**/ int /**/ = /**/ VAR0 /**/ + /**/ 20 /**/
+        /**/ ident /**/ typ /**/ = /**/ ident /**/ + /**/ 20 /**/
 //      ^^^^ comment.block.go
-//           ^^^^ variable.declaration.go
-//                ^^^^ comment.block.go
-//                     ^^^ storage.type.go
-//                         ^^^^ comment.block.go
-//                              ^ keyword.operator.assignment.go
-//                                ^^^^ comment.block.go
-//                                     ^^^^ variable.other.go
-//                                          ^^^^ comment.block.go
-//                                               ^ keyword.operator.go
-//                                                 ^^^^ comment.block.go
-//                                                      ^^ constant.numeric.integer.go
-//                                                         ^^^^ comment.block.go
+//           ^^^^^ variable.declaration.go
+//                 ^^^^ comment.block.go
+//                      ^^^ storage.type.go
+//                          ^^^^ comment.block.go
+//                               ^ keyword.operator.assignment.go
+//                                 ^^^^ comment.block.go
+//                                      ^^^^^ variable.other.go
+//                                            ^^^^ comment.block.go
+//                                                 ^ keyword.operator.go
+//                                                   ^^^^ comment.block.go
+//                                                        ^^ constant.numeric.integer.go
+//                                                           ^^^^ comment.block.go
 
-        /**/ VAR2 /**/ = /**/ VAR0 + 20 /**/
+        /**/ ident /**/ = /**/ ident + 20 /**/
 //      ^^^^ comment.block.go
-//           ^^^^ variable.declaration.go
-//                ^^^^ comment.block.go
-//                     ^ keyword.operator.assignment.go
-//                       ^^^^ comment.block.go
-//                            ^^^^ variable.other.go
-//                                 ^ keyword.operator.go
-//                                   ^^ constant.numeric.integer.go
-//                                      ^^^^ comment.block.go
+//           ^^^^^ variable.declaration.go
+//                 ^^^^ comment.block.go
+//                      ^ keyword.operator.assignment.go
+//                        ^^^^ comment.block.go
+//                             ^^^^^ variable.other.go
+//                                   ^ keyword.operator.go
+//                                     ^^ constant.numeric.integer.go
+//                                        ^^^^ comment.block.go
 
-        VAR3,
-//      ^^^^ variable.declaration.go
-//          ^ punctuation.separator.go
-        VAR4 int = VAR1, VAR2
-//      ^^^^ variable.declaration.go
-//           ^^^ storage.type.go
-//               ^ keyword.operator.assignment.go
-//                 ^^^^ variable.other.go
-//                     ^ punctuation.separator.go
-//                       ^^^^ variable.other.go
+        ident,
+//      ^^^^^ variable.declaration.go
+//           ^ punctuation.separator.go
+        ident typ = ident, ident
+//      ^^^^^ variable.declaration.go
+//            ^^^ storage.type.go
+//                ^ keyword.operator.assignment.go
+//                  ^^^^^ variable.other.go
+//                       ^ punctuation.separator.go
+//                         ^^^^^ variable.other.go
     )
 //  ^ punctuation.section.parens.end.go
 
@@ -2010,7 +2068,7 @@ func _() {
 //                     ^^^^^^^^^^^ comment.block.go
 //                                 ^^^^^ variable.other.go
 
-    ident.(chan int)
+    ident.(chan typ)
 //  ^^^^^ variable.other.go
 //       ^ punctuation.accessor.dot.go
 //         ^^^^ storage.type.go
@@ -2162,7 +2220,7 @@ func _() {
     ))
 //  ^^ punctuation.section.parens.end.go
 
-    (*chan int)(ident)
+    (*chan typ)(ident)
 //   ^ keyword.operator.go
 //    ^^^^ storage.type.go
 //         ^^^ storage.type.go
