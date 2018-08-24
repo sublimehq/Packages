@@ -1617,15 +1617,20 @@ func _() {
 
     000.000; 123.456; .0; 1.;
 //  ^^^^^^^ constant.numeric.float.go
-//           ^^^^^^^ constant.numeric.float.go
+//     ^ punctuation.separator.decimal.go
+//           ^^^ constant.numeric.float.go
+//              ^ punctuation.separator.decimal.go
+//               ^^^ constant.numeric.float.go
 //                    ^^ invalid.deprecated.go
 //                        ^^ invalid.deprecated.go
 
     -000.000; -123.456; -.0; -1.;
 //  ^ keyword.operator.go
 //   ^^^^^^^ constant.numeric.float.go
+//      ^ punctuation.separator.decimal.go
 //            ^ keyword.operator.go
 //             ^^^^^^^ constant.numeric.float.go
+//                ^ punctuation.separator.decimal.go
 //                      ^ keyword.operator.go
 //                       ^^ invalid.deprecated.go
 //                           ^ keyword.operator.go
@@ -1633,27 +1638,90 @@ func _() {
 
     0e+0; 0E+0; 0.0e+0; 0.0E+0; 123.456e+789;
 //  ^^^^ constant.numeric.float.go
+//   ^^ punctuation.separator.exponent.go
 //        ^^^^ constant.numeric.float.go
+//         ^^ punctuation.separator.exponent.go
 //              ^^^^^^ constant.numeric.float.go
 //                      ^^^^^^ constant.numeric.float.go
+//                       ^ punctuation.separator.decimal.go
+//                         ^^ punctuation.separator.exponent.go
+//                           ^ constant.numeric.float.go
+//                            ^ punctuation.terminator.go
 //                              ^^^^^^^^^^^^ constant.numeric.float.go
+//                                 ^ punctuation.separator.decimal.go
+//                                     ^^ punctuation.separator.exponent.go
 
-    0.e+0; .0e+0;
+    0e-0; 0E-0; 0.0e-0; 0.0E-0; 123.456e-789;
+//  ^^^^ constant.numeric.float.go
+//   ^^ punctuation.separator.exponent.go
+//        ^^^^ constant.numeric.float.go
+//         ^^ punctuation.separator.exponent.go
+//           ^ constant.numeric.float.go
+//              ^^^^^^ constant.numeric.float.go
+//               ^ punctuation.separator.decimal.go
+//                 ^^ punctuation.separator.exponent.go
+//                      ^^^^^^ constant.numeric.float.go
+//                       ^ punctuation.separator.decimal.go
+//                         ^^ punctuation.separator.exponent.go
+//                              ^^^^^^^^^^^^ constant.numeric.float.go
+//                                 ^ punctuation.separator.decimal.go
+//                                     ^^ punctuation.separator.exponent.go
+
+    0.e+0; .0e+0; 0.e-0; .0e-0;
 //  ^^^^^ invalid.deprecated.go
 //         ^^^^^ invalid.deprecated.go
+//                ^^^^^ invalid.deprecated.go
+//                       ^^^^^ invalid.deprecated.go
 
 // ## Imaginary
 
     000i; 100i; -100i;
 //  ^^^^ constant.numeric.imaginary.go
+//     ^ storage.type.numeric.imaginary.go
 //        ^^^^ constant.numeric.imaginary.go
+//           ^ storage.type.numeric.imaginary.go
 //              ^ keyword.operator.go
 //               ^^^^ constant.numeric.imaginary.go
+//                  ^ storage.type.numeric.imaginary.go
 
     123.456i; -123.456i;
 //  ^^^^^^^^ constant.numeric.imaginary.go
+//     ^ punctuation.separator.decimal.go
+//         ^ storage.type.numeric.imaginary.go
 //            ^ keyword.operator.go
 //             ^^^^^^^^ constant.numeric.imaginary.go
+//                ^ punctuation.separator.decimal.go
+//                    ^ storage.type.numeric.imaginary.go
+
+    1e+2i; 1e-2i; 1.2e+3i; 1.2e-3i; 1E+2i; 1E-2i; 1.2E+3i; 1.2E-3i;
+//  ^^^^^ constant.numeric.imaginary.go
+//   ^^ punctuation.separator.exponent.go
+//      ^ storage.type.numeric.imaginary.go
+//         ^^^^^ constant.numeric.imaginary.go
+//          ^^ punctuation.separator.exponent.go
+//             ^ storage.type.numeric.imaginary.go
+//                ^^^^^^^ constant.numeric.imaginary.go
+//                 ^ punctuation.separator.decimal.go
+//                   ^^ punctuation.separator.exponent.go
+//                      ^ storage.type.numeric.imaginary.go
+//                         ^^^^^^^ constant.numeric.imaginary.go
+//                          ^ punctuation.separator.decimal.go
+//                            ^^ punctuation.separator.exponent.go
+//                               ^ storage.type.numeric.imaginary.go
+//                                  ^^^^^ constant.numeric.imaginary.go
+//                                   ^^ punctuation.separator.exponent.go
+//                                      ^ storage.type.numeric.imaginary.go
+//                                         ^^^^^ constant.numeric.imaginary.go
+//                                          ^^ punctuation.separator.exponent.go
+//                                             ^ storage.type.numeric.imaginary.go
+//                                                ^^^^^^^ constant.numeric.imaginary.go
+//                                                 ^ punctuation.separator.decimal.go
+//                                                   ^^ punctuation.separator.exponent.go
+//                                                      ^ storage.type.numeric.imaginary.go
+//                                                         ^^^^^^^ constant.numeric.imaginary.go
+//                                                          ^ punctuation.separator.decimal.go
+//                                                            ^^ punctuation.separator.exponent.go
+//                                                               ^ storage.type.numeric.imaginary.go
 
     0.i; .0i; -0.i; -.0i;
 //  ^^^ invalid.deprecated.go
@@ -1662,6 +1730,12 @@ func _() {
 //             ^^^ invalid.deprecated.go
 //                  ^ keyword.operator.go
 //                   ^^^ invalid.deprecated.go
+
+    0.e+0i; .0e+0i; 0.e-0i; .0e-0i;
+//  ^^^^^^ invalid.deprecated.go
+//          ^^^^^^ invalid.deprecated.go
+//                  ^^^^^^ invalid.deprecated.go
+//                          ^^^^^^ invalid.deprecated.go
 
 // ## Runes
 

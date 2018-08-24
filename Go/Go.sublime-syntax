@@ -79,6 +79,8 @@ variables:
   # This should only be used for lookahead, not for capturing / scoping.
   noise: (?:\s*|{{inline_comment}})*
 
+  exponent: '[Ee][+-]?'
+
 contexts:
   main:
     - include: match-any
@@ -346,21 +348,37 @@ contexts:
     - include: match-strings
 
   match-imaginary:
-    - match: (?:\d+|\d+\.\d+)(i)
+    # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
+    - match: \d+(?:(\.)\d+)?(?:({{exponent}})\d+)?(i)
       scope: constant.numeric.imaginary.go
       captures:
-        1: storage.type.numeric.imaginary.go
-    - match: (?:\.\d+|\d+\.)(i)
+        1: punctuation.separator.decimal.go
+        2: punctuation.separator.exponent.go
+        3: storage.type.numeric.imaginary.go
+    # Dot without fraction
+    - match: \d+\.(?:{{exponent}}\d+)?i
+      scope: invalid.deprecated.go
+    # Dot without integer
+    - match: \.\d+(?:{{exponent}}\d+)?i
       scope: invalid.deprecated.go
 
   match-floats:
-    - match: \d+[Ee]\+\d+
+    # Integer, no fraction, exponent
+    - match: \d+({{exponent}})\d+
       scope: constant.numeric.float.go
-    - match: \d+\.\d+(?:[Ee]\+\d+)?
+      captures:
+        1: punctuation.separator.exponent.go
+    # Integer, fraction, optional exponent
+    - match: \d+(\.)\d+(?:({{exponent}})\d+)?
       scope: constant.numeric.float.go
-    - match: \.\d+(?:[Ee]\+\d+)?
+      captures:
+        1: punctuation.separator.decimal.go
+        2: punctuation.separator.exponent.go
+    # Dot without fraction
+    - match: \d+\.(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
-    - match: \d+\.(?=\D)(?:[Ee]\+\d+)?
+    # Dot without integer
+    - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
 
   match-integers:
@@ -369,14 +387,18 @@ contexts:
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: 0[0-7]+(?=\D)
+    - match: (0)[0-7]+(?=\D)
       scope: constant.numeric.octal.go
+      captures:
+        1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
 
   match-hex-integer:
-    - match: 0[Xx]\h+
+    - match: (0[Xx])\h+
       scope: constant.numeric.hex.go
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.go
 
   match-decimal-integer:
     - match: \d+
