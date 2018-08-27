@@ -140,7 +140,7 @@ contexts:
             - match: '\{(?=(\n|\s*({{most_likely_code}})))'
               scope: punctuation.section.block.begin.tcl
               set: [command-braces, command-name]
-            - match: '\{(?=\s)'
+            - match: '\{(?=\s*)'
               scope: punctuation.section.block.begin.tcl
               set: non-command-braces
             - match: '\{'
@@ -415,7 +415,7 @@ contexts:
           scope: punctuation.section.block.end.tcl
           pop: true
         - include: commands
-    - match: '\{(?=\s|\})'
+    - match: '\{(?=\s*|\})'
       scope: punctuation.section.block.begin.tcl
       push: non-command-braces
     - match: '\{'
