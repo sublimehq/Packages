@@ -275,8 +275,17 @@ proc test {} {
             set ifoid $paroid
             set eaoid [elm_oid_by_iface $ifoid]
             set earole [objectGetField -oid $eaoid -fieldname role]
-		}
-	}
+        }
+    }
+}
+
+# https://github.com/sublimehq/Packages/issues/1681
+
+# When set has a brace followed by non-whitespace,
+# based on Manual Braces[6] https://wiki.tcl.tk/10259,
+# we don't treat it as a string, we treat it as list
+foreach var ${list_of_vars} {
+    set list_of_lists {{first ONE} {second TWO} {third THREE} {fourth FOUR}}
 }
 
 # https://github.com/sublimehq/Packages/issues/1145
