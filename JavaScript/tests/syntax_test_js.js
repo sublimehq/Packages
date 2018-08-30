@@ -1559,12 +1559,6 @@ function optionalParam(b=0) {};
 //                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
-var path = require('path');
-//  ^^^^ support.module.node
-
-foo = path.join(__dirname, bar);
-//              ^^^^^^^^^ support.type.object.node
-
 nodeClass = new Buffer();
 //              ^^^^^^ support.class.node
 
