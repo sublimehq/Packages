@@ -1863,14 +1863,166 @@ contexts:
     - include: support-variable-node
 
   support-variable-ecma:
-    - match: (?:Array|ArrayBuffer|Boolean|DataView|Date|Float(?:32|64)Array|Function|Int(?:8|16|32)Array|Map|Number|Object|Promise|Proxy|RegExp|Set|String|Symbol|Uint(?:8|16|32|32Clamped)Array|WeakMap|WeakSet){{identifier_break}}
+    - match: Array{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-array
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: ArrayBuffer{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-arraybuffer
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Atomics{{identifier_break}}
+      scope: support.constant.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-atomics
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Date{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-date
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: JSON{{identifier_break}}
+      scope: support.constant.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-json
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Math{{identifier_break}}
+      scope: support.constant.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-math
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Number{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-number
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Object{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-object
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Promise{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-promise
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Proxy{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-proxy
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Reflect{{identifier_break}}
+      scope: support.constant.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-reflect
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: String{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-string
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: Symbol{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-symbol
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    - match: (?:Float(?:32|64)|Int(?:8|16|32)|Uint(?:8|16|32|32Clamped))Array{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-typedarray
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
+    # Classes with no constructor properties
+    - match: (?:Boolean|DataView|Function|Map|RegExp|Set|WeakMap|WeakSet){{identifier_break}}
       scope: support.class.builtin.js
       pop: true
     - match: (?:Eval|Range|Reference|Syntax|Type|URI)?Error{{identifier_break}}
       scope: support.class.error.js
-      pop: true
-    - match: (?:Atomics|Math|JSON|Reflect){{identifier_break}}
-      scope: support.constant.builtin.js
       pop: true
 
     - match: (?:eval|isFinite|isNaN|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent){{identifier_break}}
@@ -1880,6 +2032,85 @@ contexts:
     # Annex B
     - match: (?:escape|unescape){{identifier_break}}
       scope: invalid.deprecated.js support.function.js
+      pop: true
+
+  support-property-ecma-array:
+    - match: (?:from|isArray|of){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-arraybuffer:
+    - match: isView{{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-atomics:
+    - match: (?:and|add|compareExchange|exchange|isLockFree|load|or|store|sub|wait|wake|xor){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-date:
+    - match: (?:now|parse|UTC){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-json:
+    - match: (?:parse|stringify){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-math:
+    - match: (?:E|LN10|LN2|LOG10E|LOG2E|PI|SQRT1_2|SQRT2){{identifier_break}}
+      scope: support.constant.builtin.js
+      pop: true
+    - match: (?:abs|acos|acosh|asin|asin|atan|atanh|atan2|cbrt|ceil|clz32|cos|cosh|exp|expm1|floor|fround|hypot|imul|log|log1p|log10|log2|max|min|pow|random|round|sign|sin|sinh|sqrt|tan|tanh|trunc){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-number:
+    - match: (?:EPSILON|MAX_SAFE_INTEGER|MAX_VALUE|MIN_SAFE_INTEGER|MIN_VALUE|NEGATIVE_INFINITY|POSITIVE_INFINITY){{identifier_break}}
+      scope: support.constant.builtin.js
+      pop: true
+    - match: (?:isFinite|isInteger|isNaN|isSafeInteger|NaN|parseFloat|parseInt){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-object:
+    - match: (?:assign|create|defineProperties|defineProperty|entries|freeze|getOwnPropertyDescriptors?|getOwnPropertyNames|getOwnPropertySymbols|getPrototypeOf|is|isExtensible|isFrozen|isSealed|keys|preventExtensions|seal|setPrototypeOf|values){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-promise:
+    - match: (?:all|race|reject|resolve){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-proxy:
+    - match: revocable{{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-reflect:
+    - match: (?:apply|construct|defineProperty|deleteProperty|get|getOwnPropertyDescriptor|getPrototypeOf|has|isExtensible|ownKeys|preventExtensions|set|setPrototypeOf){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-string:
+    - match: (?:fromCharCode|fromCodePoint|raw){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-symbol:
+    - match: (?:asyncIterator|hasInstance|isConcatSpreadable|iterator|match|replace|search|species|split|toPrimitive|toStringTag|unscopeables){{identifier_break}}
+      scope: support.constant.builtin.js
+      pop: true
+    - match: (?:for|keyFor){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
+  support-property-ecma-typedarray:
+    - match: (?:BYTES_PER_ELEMENT){{identifier_break}}
+      scope: support.constant.builtin.js
       pop: true
 
   support-variable-console:
