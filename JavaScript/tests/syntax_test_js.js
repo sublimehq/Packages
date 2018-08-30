@@ -1261,7 +1261,7 @@ function f() {
 
 new Date().getTime()
 //  ^^^^^^ meta.function-call.constructor
-//  ^^^^ support.class.builtin
+//  ^^^^ support.class
 //^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 
 new $();
@@ -1559,14 +1559,9 @@ function optionalParam(b=0) {};
 //                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
-nodeClass = new Buffer();
-//              ^^^^^^ support.class.node
 
 var CONST;
 //  ^^^^^ variable.other.constant
-
-err = new Error();
-//        ^^^^^ support.class.error
 
 return;
 {a: 1};
@@ -1577,11 +1572,7 @@ return
 // ^ meta.block - meta.object-literal
 
 const abc = new Set
-console.log('abc');
-// ^^^^ support.type.object.console
-
-const abc = new Set
-if (true) console.log('abc');
+if (true) {};
 // <- keyword.control.conditional
 
 var o = {
@@ -1612,9 +1603,6 @@ var str = `Hello, ${name}!`;
 //                ^^ punctuation.definition.template-expression.begin
 //                  ^^^^ source.js.embedded.expression variable.other.readwrite
 //                      ^ punctuation.definition.template-expression.end
-
-let str = navigator.userAgent.toLowerCase();
-//        ^^^^^^^^^ support.type.object
 
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function

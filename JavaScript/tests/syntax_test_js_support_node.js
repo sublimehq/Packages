@@ -13,6 +13,11 @@
 //  ^^^^^^ support.constant.node
     require;
 //  ^^^^^^^ support.function.node
+    Buffer;
+//  ^^^^^^ support.class.node
+
+nodeClass = new Buffer();
+//              ^^^^^^ support.class.node
 
 module.children;
 //     ^^^^^^^^ support.constant.node

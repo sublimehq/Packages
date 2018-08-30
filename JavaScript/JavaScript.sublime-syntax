@@ -2133,14 +2133,6 @@ contexts:
     - match: (?:clearTimeout|setTimeout){{identifier_break}}
       scope: support.function.dom.js
       pop: true
-    - match: |-
-        (?x:
-          ELEMENT_NODE|ATTRIBUTE_NODE|TEXT_NODE|CDATA_SECTION_NODE|ENTITY_REFERENCE_NODE|ENTITY_NODE|PROCESSING_INSTRUCTION_NODE|COMMENT_NODE|
-          DOCUMENT_NODE|DOCUMENT_TYPE_NODE|DOCUMENT_FRAGMENT_NODE|NOTATION_NODE|INDEX_SIZE_ERR|DOMSTRING_SIZE_ERR|HIERARCHY_REQUEST_ERR|
-          WRONG_DOCUMENT_ERR|INVALID_CHARACTER_ERR|NO_DATA_ALLOWED_ERR|NO_MODIFICATION_ALLOWED_ERR|NOT_FOUND_ERR|NOT_SUPPORTED_ERR|INUSE_ATTRIBUTE_ERR
-        ){{identifier_break}}
-      scope: support.constant.dom.js
-      pop: true
 
   support-variable-node:
     - match: global{{identifier_break}}
