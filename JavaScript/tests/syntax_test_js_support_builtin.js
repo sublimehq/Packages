@@ -21,6 +21,8 @@
 //  ^^^^^^^^^^^ support.class.builtin
     Boolean;
 //  ^^^^^^^ support.class.builtin
+    BigInt;
+//  ^^^^^^ support.class.builtin
     DataView;
 //  ^^^^^^^^ support.class.builtin
     Date;
@@ -176,6 +178,11 @@ Atomics.wake;
 Atomics.xor;
 //      ^^^ support.function.builtin
 
+BigInt.asUintN;
+//     ^^^^^^^ support.function.builtin
+BigInt.asIntN;
+//     ^^^^^^ support.function.builtin
+
 Date.now;
 //   ^^^ support.function.builtin
 Date.parse;
@@ -316,6 +323,8 @@ Object.entries;
 //     ^^^^^^^ support.function.builtin
 Object.freeze;
 //     ^^^^^^ support.function.builtin
+Object.fromEntries;
+//     ^^^^^^^^^^^ support.function.builtin
 Object.getOwnPropertyDescriptors;
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^ support.function.builtin
 Object.getOwnPropertyNames;

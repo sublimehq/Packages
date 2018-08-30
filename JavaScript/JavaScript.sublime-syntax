@@ -1896,6 +1896,17 @@ contexts:
             - include: else-pop
         - include: else-pop
 
+    - match: BigInt{{identifier_break}}
+      scope: support.class.builtin.js
+      set:
+        - match: \.
+          scope: punctuation.accessor.js
+          set:
+            - include: support-property-ecma-bigint
+            - include: object-property
+            - include: else-pop
+        - include: else-pop
+
     - match: Date{{identifier_break}}
       scope: support.class.builtin.js
       set:
@@ -2049,6 +2060,11 @@ contexts:
       scope: support.function.builtin.js
       pop: true
 
+  support-property-ecma-bigint:
+    - match: (?:asUintN|asIntN){{identifier_break}}
+      scope: support.function.builtin.js
+      pop: true
+
   support-property-ecma-date:
     - match: (?:now|parse|UTC){{identifier_break}}
       scope: support.function.builtin.js
@@ -2076,7 +2092,7 @@ contexts:
       pop: true
 
   support-property-ecma-object:
-    - match: (?:assign|create|defineProperties|defineProperty|entries|freeze|getOwnPropertyDescriptors?|getOwnPropertyNames|getOwnPropertySymbols|getPrototypeOf|is|isExtensible|isFrozen|isSealed|keys|preventExtensions|seal|setPrototypeOf|values){{identifier_break}}
+    - match: (?:assign|create|defineProperties|defineProperty|entries|freeze|fromEntries|getOwnPropertyDescriptors?|getOwnPropertyNames|getOwnPropertySymbols|getPrototypeOf|is|isExtensible|isFrozen|isSealed|keys|preventExtensions|seal|setPrototypeOf|values){{identifier_break}}
       scope: support.function.builtin.js
       pop: true
 
