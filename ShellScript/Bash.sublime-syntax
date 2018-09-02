@@ -13,6 +13,7 @@ file_extensions:
   - sh
   - bash
   - zsh
+  - ash
   - fish
   - .bash_aliases
   - .bash_completions
@@ -27,22 +28,22 @@ file_extensions:
   - .zshrc
 
 first_line_match: |
-  (?x)                     # ignore whitespace in this regex
-    ^                      # assert start of the line
-    \#!                    # shebang token
-    .*                     # any characters
-    \b(bash|zsh|sh|tcsh)\b # "bash" or "zsh" or "sh" or "tcsh"
-    |                      # ... or ...
-    ^                      # assert start of the line
-    \#                     # literal "#" character
-    \s*                    # any whitespace
-    -\*-                   # literal "-*-" string
-    [^*]*                  # any characters except "*"
-    mode:                  # literal "mode:" string
-    \s*                    # any whitespace
-    shell-script           # literal "shell-script" string
-    [^*]*                  # any characters except "*"
-    -\*-                   # literal "-*-" string
+  (?x)                         # ignore whitespace in this regex
+    ^                          # assert start of the line
+    \#!                        # shebang token
+    .*                         # any characters
+    \b(bash|zsh|sh|tcsh|ash)\b # "bash" or "zsh" or "sh" or "tcsh"
+    |                          # ... or ...
+    ^                          # assert start of the line
+    \#                         # literal "#" character
+    \s*                        # any whitespace
+    -\*-                       # literal "-*-" string
+    [^*]*                      # any characters except "*"
+    mode:                      # literal "mode:" string
+    \s*                        # any whitespace
+    shell-script               # literal "shell-script" string
+    [^*]*                      # any characters except "*"
+    -\*-                       # literal "-*-" string
 
 #-------------------------------------------------------------------------------
 variables:
