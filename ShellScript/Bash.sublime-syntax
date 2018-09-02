@@ -32,7 +32,7 @@ first_line_match: |
     ^                          # assert start of the line
     \#!                        # shebang token
     .*                         # any characters
-    \b(bash|zsh|sh|tcsh|ash)\b # "bash" or "zsh" or "sh" or "tcsh"
+    \b(bash|zsh|sh|tcsh|ash)\b # "bash" or "zsh" or "sh", "tcsh" or "ash"
     |                          # ... or ...
     ^                          # assert start of the line
     \#                         # literal "#" character
