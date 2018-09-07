@@ -79,6 +79,8 @@ variables:
   # This should only be used for lookahead, not for capturing / scoping.
   noise: (?:\s*|{{inline_comment}})*
 
+  char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
+
   exponent: '[Ee][+-]?'
 
 contexts:
@@ -406,7 +408,7 @@ contexts:
 
   # https://golang.org/ref/spec#Rune_literals
   match-runes:
-    - match: \'(\\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.)'
+    - match: \'({{char_escape}})'
       scope: constant.character.go
       captures:
         1: constant.character.escape.go
@@ -437,7 +439,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.go
           pop: true
-        - match: \\.
+        - match: '{{char_escape}}'
           scope: constant.character.escape.go
         - match: \%%
           scope: constant.character.escape.go
