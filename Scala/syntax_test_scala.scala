@@ -1704,3 +1704,6 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+case (foo => } abc
+//             ^^^ - variable
