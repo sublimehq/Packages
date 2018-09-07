@@ -1211,8 +1211,16 @@ contexts:
     - match: '(\.){{varid}}'
       captures:
         1: punctuation.accessor.scala
-    - match: '{{upperid}}'
+    - match: '{{upperid}}|\b{{varid}}(?=\s*\()'
       scope: support.constant.scala
+      push:
+        - match: '(\()(\))'
+          captures:
+            1: punctuation.section.group.begin.scala
+            2: punctuation.section.group.end.scala
+          pop: true
+        - match: (?=\S)
+          pop: true
     - match: '\b{{varid}}'
       scope: entity.name.val.scala
     - match: \[
@@ -1243,17 +1251,28 @@ contexts:
           pop: true
     - include: val-pattern-match-main
     - match: \(
+      scope: punctuation.section.group.begin.scala
       push: val-pattern-match-inner-paren
   val-pattern-match-inner-paren:
     - match: \(
+      scope: punctuation.section.group.begin.scala
       push: val-pattern-match-inner-paren
     - match: \)
+      scope: punctuation.section.group.end.scala
       pop: true
     - include: val-pattern-match-inner
   val-pattern-match-inner:
     - include: val-pattern-match-main
-    - match: '{{upperid}}'
+    - match: '{{upperid}}|\b{{varid}}(?=\s*\()'
       scope: support.class.scala
+      push:
+        - match: '(\()(\))'
+          captures:
+            1: punctuation.section.group.begin.scala
+            2: punctuation.section.group.end.scala
+          pop: true
+        - match: (?=\S)
+          pop: true
 
   base-pattern-match:
     - include: keywords
@@ -1312,7 +1331,7 @@ contexts:
           pop: true
         - include: delimited-type-expression
     - match: \(
-      scope: punctuation.section.group.start.scala
+      scope: punctuation.section.group.begin.scala
       push:
         - match: \)
           scope: punctuation.section.group.end.scala
@@ -1322,7 +1341,7 @@ contexts:
     - include: base-pattern-match
     - include: ascription
     - match: \(
-      scope: punctuation.section.group.start.scala
+      scope: punctuation.section.group.begin.scala
       push:
         - match: \)
           scope: punctuation.section.group.end.scala

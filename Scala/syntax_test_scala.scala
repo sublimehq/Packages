@@ -1735,10 +1735,39 @@ tail: _ *
 {
   case Foo() =>
 //        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
   case foo(abc) =>
 //     ^^^ support.constant.scala
 //     ^^^ - variable
+//        ^ punctuation.section.group.begin.scala
+//            ^ punctuation.section.group.end.scala
   case foo() =>
 //     ^^^ - variable
 //        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
 }
+
+val Foo() = 42
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+val foo() = 42
+//  ^^^ support.constant.scala - entity
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+
+val (Foo(), _) = 42
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
+
+val (foo(), _) = 42
+//   ^^^ support.constant.scala - entity
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
