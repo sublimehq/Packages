@@ -58,6 +58,7 @@ file_extensions:
   - Guardfile
   - irbrc
   - jbuilder
+  - Podfile
   - podspec
   - prawn
   - rabl
