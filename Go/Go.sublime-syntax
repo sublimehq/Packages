@@ -58,7 +58,6 @@
 
 
 
-name: Go
 file_extensions:
   - go
 scope: source.go
