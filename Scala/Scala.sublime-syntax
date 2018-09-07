@@ -990,6 +990,19 @@ contexts:
           pop: true
         - match: \n
           scope: invalid.string.newline.scala
+    - match: '\b(raw)(")'
+      captures:
+        1: support.function.scala
+        2: punctuation.definition.string.begin.scala
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.raw.interpolated.scala
+        - match: '"'
+          scope: punctuation.definition.string.end.scala
+          pop: true
+        - match: \n
+          scope: invalid.string.newline.scala
+        - include: interpolated-vars-expressions
     - match: '({{alphaid}})(")'
       captures:
         1: support.function.scala

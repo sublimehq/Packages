@@ -1704,3 +1704,11 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+   raw"foo\nbar\rbaz"
+// ^^^ string.quoted.raw.interpolated.scala support.function.scala
+//    ^ string.quoted.raw.interpolated.scala punctuation.definition.string.begin.scala
+//     ^^^^^^^^^^^^^ string.quoted.raw.interpolated.scala
+//        ^^ string.quoted.raw.interpolated.scala
+//             ^^ string.quoted.raw.interpolated.scala
+//                  ^ string.quoted.raw.interpolated.scala punctuation.definition.string.end.scala
