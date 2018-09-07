@@ -1704,3 +1704,15 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+val x: Any
+//     ^^^ storage.type.primitive.scala
+
+val x: AnyRef
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: AnyVal
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: Nothing
+//     ^^^^^^^ storage.type.primitive.scala
