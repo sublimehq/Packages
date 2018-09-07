@@ -1278,8 +1278,16 @@ contexts:
     - match: '(\.){{varid}}'
       captures:
         1: punctuation.accessor.scala
-    - match: '{{upperid}}'
+    - match: '{{upperid}}|\b{{varid}}(?=\s*\()'
       scope: support.constant.scala
+      push:
+        - match: '(\()(\))'
+          captures:
+            1: punctuation.section.group.begin.scala
+            2: punctuation.section.group.end.scala
+          pop: true
+        - match: (?=\S)
+          pop: true
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
     - match: '{{op}}'   # let it fall through
@@ -1304,16 +1312,20 @@ contexts:
           pop: true
         - include: delimited-type-expression
     - match: \(
+      scope: punctuation.section.group.start.scala
       push:
         - match: \)
+          scope: punctuation.section.group.end.scala
           pop: true
         - include: nested-pattern-match
   pattern-match:
     - include: base-pattern-match
     - include: ascription
     - match: \(
+      scope: punctuation.section.group.start.scala
       push:
         - match: \)
+          scope: punctuation.section.group.end.scala
           pop: true
         - include: nested-pattern-match
 

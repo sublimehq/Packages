@@ -1714,7 +1714,7 @@ type Foo = null
 //               ^^^^^ variable.language.scala
 
 Data.Boolean()
-//          ^^ - constant.language.scala
+//          ^^ - constant
 
         prop { k: Int Refined RPositive => }
 
@@ -1731,3 +1731,14 @@ tail: _ *
       Content(tpe, value)) = m
 //            ^^^ entity.name.val.scala
 //                 ^^^^^ entity.name.val.scala
+
+{
+  case Foo() =>
+//        ^^ - constant
+  case foo(abc) =>
+//     ^^^ support.constant.scala
+//     ^^^ - variable
+  case foo() =>
+//     ^^^ - variable
+//        ^^ - constant
+}
