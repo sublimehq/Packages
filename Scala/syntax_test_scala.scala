@@ -1704,3 +1704,25 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+for {
+   _<- fu
+// ^ variable.language.underscore.scala
+//  ^^ keyword.operator.assignment.scala
+
+   _← fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+
+   _= fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+}
+
+for (_<- fu; _← fu; _= fu)
+//   ^ variable.language.underscore.scala
+//    ^^ keyword.operator.assignment.scala
+//           ^ variable.language.underscore.scala
+//            ^ keyword.operator.assignment.scala
+//                  ^ variable.language.underscore.scala
+//                   ^ keyword.operator.assignment.scala
