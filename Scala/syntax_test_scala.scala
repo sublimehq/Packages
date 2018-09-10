@@ -1607,7 +1607,7 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
   type Foo =
 
      Bar
-//   ^^^ support.constant.scala
+//   ^^^ support.constant.scala - support.class
 
    type Foo = Unit
    type Bar = Unit
@@ -1704,3 +1704,31 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+   type S = Map
+   evalNT
+// ^^^^^^ - support.type
+
+   type S = Map x
+   evalNT
+// ^^^^^^ support.type.scala
+
+   type S = Map x y
+   evalNT
+// ^^^^^^ - support.type
+
+   type S = Map x y z
+   evalNT
+// ^^^^^^ support.type.scala
+
+   type S = Map x y z q
+   evalNT
+// ^^^^^^ - support.type
+
+   new Foo
+   evalNT
+// ^^^^^^ - support.type.scala
+
+   def c: String
+   override def d = "blah"
+// ^^^^^^^^ storage.modifier.other.scala

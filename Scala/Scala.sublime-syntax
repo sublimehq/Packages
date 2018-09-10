@@ -310,9 +310,9 @@ contexts:
             - match: '(?=[\n\}\)\]])'
               pop: true
             - include: delimited-type-expression
-        - match: '='
+        - match: '=[ \t]*'
           scope: keyword.operator.assignment.scala
-          set: type-alias-body
+          set: single-type-expression-leading-newline
     - match: '\b(var)\s+({{id}})'
       captures:
         1: storage.type.volatile.scala
@@ -368,18 +368,6 @@ contexts:
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
         - include: pattern-match
-
-  type-alias-body:
-    - match: \n
-      set: type-alias-body-newline
-    - match: '(?=[;\}\)\]])'
-      pop: true
-    - include: delimited-type-expression
-
-  type-alias-body-newline:
-    - include: decl-newline-double-check
-    - match: (?=\S)
-      set: type-alias-body
 
   case-body-first:
     - meta_content_scope: meta.block.case.first.scala
@@ -1334,6 +1322,7 @@ contexts:
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.bound.scala
+
   delimited-type-expression:
     - include: annotation
     # kind-projector support
@@ -1363,6 +1352,8 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
+
+  # a type expression with semicolon inference
   single-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
@@ -1386,8 +1377,21 @@ contexts:
     - match: (?=@{{plainid}})
       set: single-type-expression-tail
     - include: base-type-expression
-    - match: '(?=[\s,\)\}\]])'
+    - match: '(?=.)'    # we can be SUPER aggressive about popping out here
       pop: true
+
+  # single-type-expression, but with an allowance for one *leading* newline and whitespace
+  single-type-expression-leading-newline:
+    - match: \n
+      set:
+        - match: '\s+'
+          set: single-type-expression
+        - match: '(?=\S)'
+          set: single-type-expression
+    - match: '(?=.)'
+      set: single-type-expression
+
+  # we already saw one type component, now we *might* see a second
   single-type-expression-tail:
     - match: (?=@{{plainid}})
       set:
@@ -1409,13 +1413,41 @@ contexts:
       captures:
         1: keyword.declaration.scala
       set: single-type-expression
-    - match: (?={{typeid}})
-      set: single-type-expression
+    - match: '\b(type)\b'
+      scope: invalid.keyword.type.in-tail-position.scala
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail-type-expectation
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail-type-expectation
+    - include: literal-constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: single-type-expression-tail-type-expectation
+    - match: '(?=\()'
+      push: try-dispatch
+    - include: base-type-expression
+    - match: \n
+      pop: true
+    - match: '(?=\S)'
+      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+
+  # we saw an infix type component, eat a single newline
+  single-type-expression-tail-type-expectation:
     - match: \n
       set: single-type-expression-tail-newline
     - match: '(?=\S)'
-      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      set: single-type-expression
+
   single-type-expression-tail-newline:
     - include: decl-newline-double-check
     - match: '(?=\S)'
-      set: single-type-expression-tail
+      set: single-type-expression
