@@ -1732,3 +1732,12 @@ type Foo = null
    def c: String
    override def d = "blah"
 // ^^^^^^^^ storage.modifier.other.scala
+
+   new DataCodec {
+     import PreciseKeys._
+//   ^^^^^^ meta.import.scala keyword.other.import.scala
+//          ^^^^^^^^^^^^ meta.import.scala variable.package.scala
+//                      ^ meta.import.scala variable.language.underscore.scala
+   } foo
+   bar
+// ^^^ support.type.scala

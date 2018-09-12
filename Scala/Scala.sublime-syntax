@@ -1432,6 +1432,11 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail-type-expectation
+    - match: '\{'
+      set:
+        - match: \}
+          set: single-type-expression-tail
+        - include: main
     - match: '(?=\()'
       push: try-dispatch
     - include: base-type-expression
