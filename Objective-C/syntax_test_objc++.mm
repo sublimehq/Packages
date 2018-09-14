@@ -615,6 +615,20 @@ void f()
     /*                           ^ - meta.method-call */
 };
 
+template<typename T> C<T> f(T t)
+{
+    return C<T> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*          ^ punctuation.section.block.begin */
+}
+
+template<typename T> C<X<T>> f(T t)
+{
+    return C<X<T>> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*             ^ punctuation.section.block.begin */
+}
+
 struct A { int foo; };
 int main() {
     A a;
