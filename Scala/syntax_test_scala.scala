@@ -1741,3 +1741,7 @@ type Foo = null
    } foo
    bar
 // ^^^ support.type.scala
+
+type Foo = (Bar, Baz) => Result
+//                    ^^ keyword.operator.arrow.scala
+//                       ^^^^^^ support.class.scala

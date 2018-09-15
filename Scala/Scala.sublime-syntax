@@ -1376,6 +1376,11 @@ contexts:
       set: single-type-expression-tail
     - match: (?=@{{plainid}})
       set: single-type-expression-tail
+    - match: \(
+      set:
+        - match: \)
+          set: single-type-expression-tail
+        - include: delimited-type-expression
     - include: base-type-expression
     - match: '(?=.)'    # we can be SUPER aggressive about popping out here
       pop: true
