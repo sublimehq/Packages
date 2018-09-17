@@ -770,7 +770,11 @@ contexts:
       push: members-after-accessor-junction
 
   using-alias:
-    - match: '\b(using)\b\s+({{identifier}})(?!\s*::)'
+    # consume keyword if followed by typename
+    - match: '\b(using)\b(?=\s+typename\b)'
+      captures:
+        1: keyword.control.objc++
+    - match: '\b(using)\b\s+({{identifier}})(?!\s*(<|::))'
       captures:
         1: storage.type.objc++
         2: entity.name.type.using.objc++
