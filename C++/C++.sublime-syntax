@@ -782,6 +782,7 @@ contexts:
         - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
           set: function-definition-params
+    - include: unique-strings
     - match: '(?=\S)'
       set: global-type
 
