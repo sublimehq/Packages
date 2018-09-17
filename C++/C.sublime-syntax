@@ -337,14 +337,11 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.c
-    # If a struct/union/enum followed by a name that is not a macro or declspec
-    # then this is likely a return type of a function. This is uncommon.
     - match: |-
         (?x:
           ({{before_tag}})
           \s+
           (?=
-            (?![[:upper:][:digit:]_]+\b|__declspec)
             {{identifier}}
             (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
           )

@@ -9,6 +9,18 @@ int main(){
     /*          ^^ keyword.operator.arithmetic */
 }
 
+enum Foo { kFoo, kBar };
+#define FOO Foo
+enum FOO do_the_foo(void);
+/*       ^ entity.name.function */
+/*                  ^ storage.type */
+
+#define APIC_CAPABILITY TheEnum
+enum TheEnum { kFoo, kBar };
+static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
+/*                          ^ entity.name.function */
+/*                                            ^ storage.type */
+
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
