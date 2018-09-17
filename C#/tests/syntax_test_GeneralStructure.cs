@@ -1207,4 +1207,45 @@ public class AfterTopLevelMethod {
 ///^^^ storage.modifier.access
 ///    ^^^^^ storage.type.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
+
+    // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
+    protected event EventHandler IDrawingObject.OnDraw
+/// ^^^^^^^^^ storage.modifier.access
+///           ^^^^^ storage.modifier
+///                 ^^^^^^^^^^^^ support.type
+///                              ^^^^^^^^^^^^^^ entity.other.inherited-class
+///                                            ^ punctuation.accessor.dot
+///                                             ^^^^^^ variable.other.member
+    {
+/// ^ punctuation.section.block.begin
+        add
+///     ^^^ meta.method storage.type.function.accessor.add
+        {
+///     ^ punctuation.section.block.begin
+            lock (objectLock)
+///         ^^^^ keyword.control.other.lock
+///               ^^^^^^^^^^ variable.other
+            {
+                PreDrawEvent += value;
+            }
+        }
+///     ^ punctuation.section.block.end
+///      ^ - meta.method
+        remove
+///     ^^^^^^ meta.method storage.type.function.accessor.remove
+        {
+            lock (objectLock)
+            {
+                PreDrawEvent -= value;
+            }
+        }
+    }
+/// ^ punctuation.section.block.end
+    
+    public event SampleEventHandler SampleEvent;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^ storage.modifier
+///              ^^^^^^^^^^^^^^^^^^ support.type
+///                                 ^^^^^^^^^^^ variable.other.member
+///                                            ^ punctuation.terminator.statement
 }
