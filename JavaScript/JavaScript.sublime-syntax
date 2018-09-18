@@ -732,7 +732,6 @@ contexts:
     - match: case{{identifier_break}}
       scope: keyword.control.switch.js
       push:
-        - expect-case-colon
         - expression
 
     - match: default{{identifier_break}}
