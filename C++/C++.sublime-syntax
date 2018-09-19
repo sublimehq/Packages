@@ -184,6 +184,18 @@ contexts:
     - include: keywords-angle-brackets
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
+    # Take care of comments just before a function definition.
+    - match: /\*
+      scope: punctuation.definition.comment.c
+      push:
+        - - match: \s*(?=\w)
+            set: global-modifier
+          - match: ""
+            pop: true
+        - - meta_scope: comment.block.c
+          - match: \*/
+            scope: punctuation.definition.comment.c
+            pop: true
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.c++
@@ -211,7 +223,7 @@ contexts:
             - include: global
         - match: (?=\S)
           set: global-modifier
-    - match: '^\s*(?=\w+)'
+    - match: ^\s*(?=\w)
       push: global-modifier
     - include: late-expressions
 

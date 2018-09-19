@@ -1090,9 +1090,23 @@ void FooBar :: baz(int a)
 /*                     ^ variable.parameter */
 /*                      ^ punctuation.section.group.end */
 {
-
 }
-
+/* A comment. */ void FooBar :: baz(int a)
+/*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*                    ^^^^^^^^^^^^^ entity.name.function */
+/*                           ^^ punctuation.accessor */
+/*                                 ^^^^^^^ meta.function.parameters meta.group */
+/*                                 ^ punctuation.section.group.begin */
+/*                                      ^ variable.parameter */
+/*                                       ^ punctuation.section.group.end */
+{
+}
+// prevent leading comment from function recognition
+/**/ HRESULT A::b()
+/*           ^ meta.function entity.name.function */
+{
+    return S_OK;
+}
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^ entity.name.function */
