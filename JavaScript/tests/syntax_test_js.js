@@ -233,13 +233,13 @@ someFunction({
 //  ^^^ storage.type
 //      ^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
 //      ^^^^^^^^^^^^^^^^ meta.function.declaration
-//      ^^^ variable.other.readwrite entity.name.function
+//      ^^^ entity.name.function variable.other.readwrite
 //            ^^^^^^^^ storage.type.function
     }
 
     baz = function*()
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration - meta.function meta.function
-//  ^^^ variable.other.readwrite entity.name.function
+//  ^^^ entity.name.function variable.other.readwrite
 //        ^^^^^^^^ storage.type.function
 //                ^ keyword.generator.asterisk
     {
@@ -574,7 +574,7 @@ function x() {}
 
 var $ = function(baz) {
 //  ^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.dollar.only punctuation.dollar entity.name.function
+//  ^ entity.name.function variable.other.dollar.only punctuation.dollar
 }
 
 $()
@@ -811,6 +811,20 @@ class MyClass extends TheirClass {
 //     ^ keyword.operator.assignment
 //       ^^ constant.numeric
 
+    f = a => b;
+//  ^^^^^^^^ meta.function.declaration
+//  ^ entity.name.function variable.other.readwrite
+//      ^ variable.parameter.function
+
+    g = function() {};
+//  ^^^^^^^^^^^^^^^^^ meta.function
+//  ^ entity.name.function variable.other.readwrite
+
+    #h = function() {};
+//  ^^^^^^^^^^^^^^^^^^ meta.function
+//  ^ punctuation.definition.variable
+//   ^ entity.name.function variable.other.readwrite
+
     static x = 42;
 //  ^^^^^^ storage.modifier.js
 //         ^ variable.other.readwrite
@@ -844,6 +858,15 @@ class MyClass extends TheirClass {
 //          ^ variable.other.readwrite
 //            ^ keyword.operator.assignment
 //              ^^ constant.numeric
+
+    static f = a => b;
+//         ^^^^^^^^ meta.function.declaration
+//         ^ entity.name.function variable.other.readwrite
+//             ^ variable.parameter.function
+
+    static g = function() {};
+//         ^^^^^^^^^^^^^^^^^ meta.function
+//         ^ entity.name.function variable.other.readwrite
 
     a, 'b' = 50, "c", [d] = 100, #e;
 //  ^ variable.other.readwrite
@@ -1456,15 +1479,16 @@ new FooBar(function(){
 })
 
 ['foo'].bar = function() {
-//      ^ meta.property.object entity.name.function
+//      ^^^ entity.name.function meta.property.object
 }
 
 ['foo'].$ = function() {
-//      ^ meta.property.object.dollar.only entity.name.function
+//      ^ entity.name.function meta.property.object.dollar.only punctuation.dollar
 }
 
 ['foo'].$bar = function() {
-//      ^ meta.property.object.dollar entity.name.function
+//      ^^^^ entity.name.function meta.property.object.dollar
+//      ^ punctuation.dollar
 }
 
 {
