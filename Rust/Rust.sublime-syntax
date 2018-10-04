@@ -158,7 +158,7 @@ contexts:
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
       scope: support.function.rust
 
-    - match: '\b((?:format|print|println)!)\s*(\()'
+    - match: '\b((?:format|print|println|eprint|eprintln)!)\s*(\()'
       captures:
         1: support.macro.rust
         2: meta.group.rust punctuation.section.group.begin.rust
