@@ -1722,7 +1722,7 @@ import scalaz._
 //                      ^ meta.import.scala variable.language.underscore.scala
    } foo
    bar
-// ^^^ support.type.scala
+// ^^^ - support
 
 type Foo = (Bar, Baz) => Result
 //                    ^^ keyword.operator.arrow.scala
@@ -1747,3 +1747,13 @@ type Foo = this.Bar
 
 type Foo = super.Bar
 //               ^^^ support.class.scala
+
+new Foo().bar
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+//        ^^^ - support
+
+new Foo[A].bar
+//     ^ punctuation.definition.generic.begin.scala
+//       ^ punctuation.definition.generic.end.scala
+//         ^^^ - support

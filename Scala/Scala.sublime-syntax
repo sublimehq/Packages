@@ -792,18 +792,91 @@ contexts:
     - match: '{{op}}'   # no explicit scope, just pulling it out
 
   initialization:
-    - match: '\b(new)(?:\s+|\b)'
-      captures:
-        1: keyword.other.scala
-      push:
-        # anonymous inner class AnyRef declaration syntax
-        - match: '(?=\{)'
-          pop: true
-        # emergency bail-out for better experience while typing
-        - match: '(?=[\n\}\),])'
-          pop: true
-        - match: '(?=\S)'
-          set: single-type-expression
+    - match: '\b(new)\b'
+      scope: keyword.other.scala
+      push: initialization-body
+
+  initialization-block:
+    - match: \{
+      scope: punctuation.section.block.begin.scala
+      set:
+        - meta_scope: meta.block.scala
+        - match: \}
+          scope: punctuation.section.block.end.scala
+          set: initialization-term-tail
+        - include: main
+
+  initialization-body-base:
+    - include: initialization-block
+    - match: \(
+      scope: punctuation.section.group.begin.scala
+      set:
+        - match: \)
+          scope: punctuation.section.group.end.scala
+          set: initialization-term-tail
+        - include: delimited-type-expression
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set: initialization-term-tail
+        - include: delimited-type-expression
+    - match: '\b(with)\b'
+      scope: keyword.declaration.scala
+      set: initialization-body-allow-newline
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: initialization-term-tail
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: initialization-term-tail
+
+  initialization-body-allow-newline:
+    - include: initialization-body-base
+    - match: \n
+      set: initialization-body
+
+  initialization-body:
+    - include: initialization-body-base
+    # emergency bail-out for better experience while typing
+    - match: '(?=[\S\n])'
+      pop: true
+
+  initialization-term-tail:
+    - include: initialization-block
+    - match: '(?=\s+with\b)'
+      set: initialization-body
+    - match: \(
+      scope: punctuation.section.group.begin.scala
+      set:
+        - match: \)
+          scope: punctuation.section.group.end.scala
+          set:
+            - match: '(?=\s+with\b)'
+              set: initialization-body
+            - match: '(?=.)'
+              pop: true
+        - include: main
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set:
+            - match: '(?=\s+with\b)'
+              set: initialization-body
+            - match: '(?=.)'
+              pop: true
+        - include: delimited-type-expression
+    - match: '[.#]'
+      scope: punctuation.accessor.scala
+      set: initialization-body-allow-newline
+    - match: '(?=[^ \t])'
+      pop: true
+
   try-initialization:
     - match: (?=\s*with\b)
       set: single-type-expression-tail
