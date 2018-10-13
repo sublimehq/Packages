@@ -877,11 +877,6 @@ contexts:
     - match: '(?=[^ \t])'
       pop: true
 
-  try-initialization:
-    - match: (?=\s*with\b)
-      set: single-type-expression-tail
-    - include: try-dispatch
-
   for-comprehension:
     - match: '\b(for)\s*\{'
       captures:
@@ -1571,7 +1566,7 @@ contexts:
     - match: \n
       pop: true
     - match: '(?=\S)'
-      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      pop: true
 
   single-type-expression-tail:
     - match: (?=@{{plainid}})
@@ -1627,7 +1622,7 @@ contexts:
     - match: \n
       pop: true
     - match: '(?=\S)'
-      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+      pop: true
 
   # we saw an infix type component, eat a single newline
   single-type-expression-tail-no-function-type-expectation:
