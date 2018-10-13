@@ -1351,10 +1351,10 @@ contexts:
       scope: keyword.declaration.scala
     - match: '[\.#]'
       scope: punctuation.accessor.scala
-    - include: literal-constants
-    - include: char-literal
-    - include: scala-symbol
-    - include: strings
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
     - include: base-types
     - match: '\b(forSome)\b'
       scope: keyword.declaration.scala
@@ -1378,13 +1378,14 @@ contexts:
       scope: keyword.declaration.scala
     - match: '\b(this|super)\b'
       scope: variable.language.scala
+      set: single-type-expression-tail-no-function
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail-no-function
-    - include: literal-constants
-    - include: char-literal
-    - include: scala-symbol
-    - include: strings
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail-no-function
@@ -1409,13 +1410,14 @@ contexts:
       scope: keyword.declaration.scala
     - match: '\b(this|super)\b'
       scope: variable.language.scala
+      set: single-type-expression-tail
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail
-    - include: literal-constants
-    - include: char-literal
-    - include: scala-symbol
-    - include: strings
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
@@ -1472,13 +1474,14 @@ contexts:
       scope: keyword.declaration.scala
     - match: '\b(this|super)\b'
       scope: variable.language.scala
+      set: single-type-expression-tail-no-function-type-expectation
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail-no-function-type-expectation
-    - include: literal-constants
-    - include: char-literal
-    - include: scala-symbol
-    - include: strings
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
     - match: '(?={{keywords}})'
       pop: true
     - match: '{{typeid}}'
@@ -1527,13 +1530,14 @@ contexts:
       scope: keyword.declaration.scala
     - match: '\b(this|super)\b'
       scope: variable.language.scala
+      set: single-type-expression-tail-type-expectation
     - match: '{{upperid}}'
       scope: support.class.scala
       set: single-type-expression-tail-type-expectation
-    - include: literal-constants
-    - include: char-literal
-    - include: scala-symbol
-    - include: strings
+    # - include: literal-constants
+    # - include: char-literal
+    # - include: scala-symbol
+    # - include: strings
     - match: '(?={{keywords}})'
       pop: true
     - match: '{{typeid}}'

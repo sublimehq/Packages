@@ -1660,24 +1660,6 @@ import scalaz._
    Scalaz._
 // ^^^^^^ support.constant.scala
 
-type Foo = 42
-//         ^^ constant.numeric.integer.scala
-
-type Foo = "foo"
-//         ^^^^^ string.quoted.double.scala
-
-type Foo = 'foo
-//         ^^^^ constant.other.symbol.scala
-
-type Foo = 'a'
-//         ^^^ constant.character.literal.scala
-
-type Foo = true
-//         ^^^^ constant.language.scala
-
-type Foo = null
-//         ^^^^ constant.language.scala
-
    for {
        _ <_
    } yield true
@@ -1759,3 +1741,9 @@ type Foo = (Bar, Baz) => Result
 new AsyncException else data(i)
 //                 ^^^^ keyword.control.flow.scala
 //                      ^^^^ - support
+
+type Foo = this.Bar
+//              ^^^ support.class.scala
+
+type Foo = super.Bar
+//               ^^^ support.class.scala
