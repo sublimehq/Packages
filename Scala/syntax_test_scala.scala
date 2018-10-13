@@ -1755,3 +1755,7 @@ type Foo = (Bar, Baz) => Result
   case _: (NumberFormatException => Bar) => Bar
   //                                ^^^ support.class.scala
 }
+
+new AsyncException else data(i)
+//                 ^^^^ keyword.control.flow.scala
+//                      ^^^^ - support
