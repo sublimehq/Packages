@@ -147,6 +147,13 @@ contexts:
       captures:
         1: punctuation.definition.comment.scala
 
+  ascription-no-function:
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?={{rightarrow}})'
+          pop: true
+        - include: single-type-expression-no-function
+
   ascription:
     - match: '{{typeprefix}}'
       push: single-type-expression
@@ -1292,14 +1299,14 @@ contexts:
         - include: nested-pattern-match
   pattern-match:
     - include: base-pattern-match
-    - include: ascription
+    - include: ascription-no-function
     - match: \(
       push:
         - match: \)
           pop: true
         - include: nested-pattern-match
 
-  base-type-expression:
+  base-type-expression-no-function:
     - match: \(
       push:
         - match: \)
@@ -1315,10 +1322,14 @@ contexts:
         - match: \}
           pop: true
         - include: declarations
-    - match: =>|\x{21D2}
-      scope: keyword.operator.arrow.scala
     - match: '_\*'
       scope: keyword.operator.varargs.scala
+
+  base-type-expression:
+    - include: base-type-expression-no-function
+    - match: '{{rightarrow}}'
+      scope: keyword.operator.arrow.scala
+
   type-constraints:
     - match: '<:|>:|<%|\+|-|:'
       scope: keyword.operator.bound.scala
@@ -1353,7 +1364,38 @@ contexts:
       scope: support.type.scala
     - include: base-type-expression
 
-  # a type expression with semicolon inference
+  # single-type is a type expression with semicolon inference
+  single-type-expression-no-function:
+    - match: '\b(type)\b'
+      scope: keyword.other.scala
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail-no-function
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail-no-function
+    - include: literal-constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: single-type-expression-tail-no-function
+    - match: (?=@{{plainid}})
+      set: single-type-expression-tail-no-function
+    - match: \(
+      set:
+        - match: \)
+          set: single-type-expression-tail-no-function
+        - include: delimited-type-expression
+    - include: base-type-expression-no-function
+    - match: '(?=.)'    # we can be SUPER aggressive about popping out here
+      pop: true
+
   single-type-expression:
     - match: '\b(type)\b'
       scope: keyword.other.scala
@@ -1397,6 +1439,59 @@ contexts:
       set: single-type-expression
 
   # we already saw one type component, now we *might* see a second
+  single-type-expression-tail-no-function:
+    - match: (?=@{{plainid}})
+      set:
+        - include: annotation
+        - match: '(?=\S)'
+          set: single-type-expression-tail-no-function
+    - match: '[\.#]'
+      scope: punctuation.accessor.scala
+      set: single-type-expression-no-function
+    - match: \[
+      scope: punctuation.definition.generic.begin.scala
+      set:
+        - meta_scope: meta.generic.scala
+        - match: \]
+          scope: punctuation.definition.generic.end.scala
+          set: single-type-expression-tail-no-function
+        - include: delimited-type-expression
+    - match: '\b(with)(?:\s+|\b)'
+      captures:
+        1: keyword.declaration.scala
+      set: single-type-expression-no-function
+    - match: '\b(type)\b'
+      scope: invalid.keyword.type.in-tail-position.scala
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+      scope: storage.type.primitive.scala
+      set: single-type-expression-tail-no-function-type-expectation
+    - match: '\b(forSome)\b'
+      scope: keyword.declaration.scala
+    - match: '\b(this|super)\b'
+      scope: variable.language.scala
+    - match: '{{upperid}}'
+      scope: support.class.scala
+      set: single-type-expression-tail-no-function-type-expectation
+    - include: literal-constants
+    - include: char-literal
+    - include: scala-symbol
+    - include: strings
+    - match: '{{typeid}}'
+      scope: support.type.scala
+      set: single-type-expression-tail-no-function-type-expectation
+    - match: '\{'
+      set:
+        - match: \}
+          set: single-type-expression-tail-no-function
+        - include: main
+    - match: '(?=\()'
+      push: try-dispatch
+    - include: base-type-expression-no-function
+    - match: \n
+      pop: true
+    - match: '(?=\S)'
+      set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
+
   single-type-expression-tail:
     - match: (?=@{{plainid}})
       set:
@@ -1451,11 +1546,22 @@ contexts:
       set: try-initialization       # this is needed for initialization (new ...) and doesn't HURT elsewhere
 
   # we saw an infix type component, eat a single newline
+  single-type-expression-tail-no-function-type-expectation:
+    - match: \n
+      set: single-type-expression-tail-no-function-newline
+    - match: '(?=\S)'
+      set: single-type-expression-no-function
+
   single-type-expression-tail-type-expectation:
     - match: \n
       set: single-type-expression-tail-newline
     - match: '(?=\S)'
       set: single-type-expression
+
+  single-type-expression-tail-no-function-newline:
+    - include: decl-newline-double-check
+    - match: '(?=\S)'
+      set: single-type-expression-no-function
 
   single-type-expression-tail-newline:
     - include: decl-newline-double-check

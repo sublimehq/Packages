@@ -1745,3 +1745,13 @@ type Foo = null
 type Foo = (Bar, Baz) => Result
 //                    ^^ keyword.operator.arrow.scala
 //                       ^^^^^^ support.class.scala
+
+{
+  case _: NumberFormatException =>
+    val col = foo
+//  ^^^ storage.type.stable.scala
+//      ^^^ entity.name.val.scala
+//          ^ keyword.operator.assignment.scala
+  case _: (NumberFormatException => Bar) => Bar
+  //                                ^^^ support.class.scala
+}
