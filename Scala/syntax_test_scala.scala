@@ -1757,3 +1757,6 @@ new Foo[A].bar
 //     ^ punctuation.definition.generic.begin.scala
 //       ^ punctuation.definition.generic.end.scala
 //         ^^^ - support
+
+val foo: () => Unit
+//       ^^ - constant
