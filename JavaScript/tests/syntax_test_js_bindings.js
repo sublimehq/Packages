@@ -37,6 +37,19 @@ const { a, b: c, ...d } = value;
 //               ^^^ keyword.operator.spread
 //                  ^ meta.binding.name variable.other.readwrite
 
+const { 'a': x, "b": y, [c]: z } = value;
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//      ^^^ meta.object-literal.key string.quoted.single
+//         ^ punctuation.separator.key-value
+//           ^ meta.binding.name variable.other.readwrite
+//              ^^^ meta.object-literal.key string.quoted.double
+//                 ^ punctuation.separator.key-value
+//                   ^ meta.binding.name variable.other.readwrite
+//                      ^^^ meta.object-literal.key
+//                       ^ variable.other.readwrite
+//                         ^ punctuation.separator.key-value
+//                           ^ meta.binding.name variable.other.readwrite
+
 const x;
 //    ^ meta.binding.name variable.other.readwrite
 
@@ -73,6 +86,19 @@ function f ({ a, b: c, ...d }) {}
 //                ^ punctuation.separator.key-value
 //                     ^^^ keyword.operator.spread
 //                        ^ meta.binding.name variable.parameter.function
+
+function f ({ 'a': x, "b": y, [c]: z }) = value;
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//            ^^^ meta.object-literal.key string.quoted.single
+//               ^ punctuation.separator.key-value
+//                 ^ meta.binding.name variable.parameter.function
+//                    ^^^ meta.object-literal.key string.quoted.double
+//                       ^ punctuation.separator.key-value
+//                         ^ meta.binding.name variable.parameter.function
+//                            ^^^ meta.object-literal.key
+//                             ^ variable.other.readwrite
+//                               ^ punctuation.separator.key-value
+//                                 ^ meta.binding.name variable.parameter.function
 
 function f (a, ...rest) {}
 //          ^ meta.binding.name variable.parameter.function
@@ -118,6 +144,19 @@ let f = ({ a, b: c, ...d }) => {};
 //             ^ punctuation.separator.key-value
 //                  ^^^ keyword.operator.spread
 //                     ^ meta.binding.name variable.parameter.function
+
+let f = ({ 'a': x, "b": y, [c]: z }) => {};
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//         ^^^ meta.object-literal.key string.quoted.single
+//            ^ punctuation.separator.key-value
+//              ^ meta.binding.name variable.parameter.function
+//                 ^^^ meta.object-literal.key string.quoted.double
+//                    ^ punctuation.separator.key-value
+//                      ^ meta.binding.name variable.parameter.function
+//                         ^^^ meta.object-literal.key
+//                          ^ variable.other.readwrite
+//                            ^ punctuation.separator.key-value
+//                              ^ meta.binding.name variable.parameter.function
 
 let f = (a, ...rest) => {};
 //  ^^^^^^^^^^^^^^^^ meta.function.declaration

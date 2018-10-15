@@ -380,7 +380,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: variable-binding-spread
-        - match: (?={{identifier}})
+        - match: (?={{identifier}}|\[|'|")
           push:
             - initializer
             - variable-binding-object-alias
@@ -397,6 +397,8 @@ contexts:
   variable-binding-object-key:
     - match: '{{identifier}}(?=\s*:)'
       pop: true
+    - include: literal-string
+    - include: computed-property-name
     - include: variable-binding-name
     - include: else-pop
 
@@ -471,7 +473,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: function-parameter-binding-spread
-        - match: (?={{identifier}})
+        - match: (?={{identifier}}|\[|'|")
           push:
             - initializer
             - function-parameter-binding-object-alias
@@ -487,6 +489,8 @@ contexts:
   function-parameter-binding-object-key:
     - match: '{{identifier}}(?=\s*:)'
       pop: true
+    - include: literal-string
+    - include: computed-property-name
     - include: function-parameter-binding-name
     - include: else-pop
 
@@ -1518,7 +1522,6 @@ contexts:
           pop: true
         - match: (?=\S)
           push: expression
-    - include: else-pop
 
   object-literal-meta-key:
     - meta_scope: meta.object-literal.key.js
