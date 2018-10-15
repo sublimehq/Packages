@@ -575,12 +575,22 @@ struct Point
 // <- meta.struct meta.block punctuation.section.block.begin
     x: i32,
 //  ^ variable.other.member
-//   ^ punctuation.separator
+//   ^ punctuation.separator.type
 //     ^^^ storage.type
-    y: i32
-//  ^ variable.other.member
-//   ^ punctuation.separator
-//     ^^^ storage.type
+    #[serde(default)]
+//  ^ punctuation.definition.annotation
+//   ^ punctuation.section.group.begin
+//    ^^^^^ variable.annotation
+//                  ^ punctuation.section.group.end
+//  ^^^^^^^^^^^^^^^^^ meta.annotation
+    pub(crate) y: i32
+//  ^^^ storage.modifier
+//     ^ punctuation.definition.modifier-scope.begin
+//      ^^^^^ storage.modifier
+//           ^ punctuation.definition.modifier-scope.end
+//             ^ variable.other.member
+//              ^ punctuation.separator.type
+//                ^^^ storage.type
 }
 // <-  meta.block punctuation.section.block.end
 
