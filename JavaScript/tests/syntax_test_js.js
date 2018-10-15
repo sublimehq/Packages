@@ -1080,6 +1080,16 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 //       ^^^^^^ keyword.control.flow
 );
 
+({
+    a = {},
+//    ^ keyword.operator.assignment
+//      ^^ punctuation.section.block
+//        ^ punctuation.separator.comma - keyword.operator.comma
+    b,
+//   ^ punctuation.separator.comma - keyword.operator.comma
+}) => null;
+// ^^ storage.type.function.arrow
+
 MyClass.foo = function() {}
 // ^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 // ^ support.class

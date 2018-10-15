@@ -1499,6 +1499,12 @@ contexts:
       scope: punctuation.separator.key-value.js
       push: expression-no-comma
 
+    # In case we're inside a destructured arrow function parameter that we
+    # misidentified as an object literal.
+    - match: '='
+      scope: keyword.operator.assignment.js
+      push: expression-no-comma
+
   bare-property-name:
     - match: '{{dollar_only_identifier}}'
       scope: meta.object-literal.key.dollar.only.js punctuation.dollar.js
