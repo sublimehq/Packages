@@ -25,6 +25,8 @@ file_extensions:
   - .profile
   - .textmate_init
   - .zshrc
+  - .ebuild
+  - .eclass
 
 first_line_match: |
   (?x)                     # ignore whitespace in this regex
