@@ -801,6 +801,10 @@ contexts:
       set:
         - match: \]
           scope: punctuation.section.brackets.end.go
+          # BUG:
+          #   _ = blah[0] * blah
+          # This currently parses as an array type of `[0]*blah`.
+          # Can we fix this false positive?
           set: pop-type
         - include: match-any
 

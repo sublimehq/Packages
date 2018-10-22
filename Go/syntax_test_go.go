@@ -1539,6 +1539,42 @@ You may have to disable Go-specific linters when working on this file.
 //             ^^^^ constant.numeric.integer.go
     )
 
+const ident typ = ident +
+// ^^ storage.modifier.const.go
+//    ^^^^^ variable.other.constant.declaration.go
+//          ^^^ storage.type.go
+//              ^ keyword.operator.assignment.go
+//                ^^^^^ variable.other.go
+//                      ^ keyword.operator.go
+    ident +
+//  ^^^^^ variable.other.go
+//        ^ keyword.operator.go
+    ident +
+//  ^^^^^ variable.other.go
+//        ^ keyword.operator.go
+    ident
+//  ^^^^^ variable.other.go
+
+const (
+// ^^ storage.modifier.const.go
+    ident typ = ident +
+//  ^^^^^ variable.other.constant.declaration.go
+//        ^^^ storage.type.go
+//            ^ keyword.operator.assignment.go
+//              ^^^^^ variable.other.go
+//                    ^ keyword.operator.go
+        ident +
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^ keyword.operator.go
+
+// BUG: this is incorrectly scoped as a type. TODO consider detecting multiline
+// expressions, or find another way of handling this properly.
+        ident +
+
+        ident
+//      ^^^^^ variable.other.constant.declaration.go
+)
+
 // iota is predefined only in constant declarations. It's not a reserved word.
 func _() {
     var iota = 0

@@ -25,7 +25,7 @@ Current problems / limitations:
         |
         .*\b(?:case|default)\b.*[,:]
       )
-      # Ignore whitespace, line comment, inline comments
+      # Ignore whitespace, line comment, inline comments to the end
       (?:\s*|\s*//.*|/[*](?:[^*]|[*](?!/))*[*]/)*
       $
     ]]></string>
