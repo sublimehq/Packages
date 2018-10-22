@@ -645,6 +645,14 @@ You may have to disable Go-specific linters when working on this file.
 //            ^ meta.type.go punctuation.accessor.dot.go
 //             ^^^^^^^ meta.type.go entity.other.inherited-class.go
 
+        Inherit // comment
+//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//              ^^^^^^^^^^^ meta.type.go comment.line.go
+
+        Inherit /* comment */
+//      ^^^^^^^ meta.type.go entity.other.inherited-class.go
+//              ^^^^^^^^^^^^^ meta.type.go comment.block.go
+
         Method(
 //      ^^^^^^ meta.type.go entity.name.function.go
             typ,
@@ -930,6 +938,14 @@ You may have to disable Go-specific linters when working on this file.
 //                ^^^^^^^^^^ meta.type.go string.quoted.other.go
         typ
 //      ^^^ meta.type.go entity.other.inherited-class.go
+
+        typ // comment
+//      ^^^ meta.type.go entity.other.inherited-class.go
+//          ^^^^^^^^^^^ meta.type.go comment.line.go
+
+        typ /* comment */
+//      ^^^ meta.type.go entity.other.inherited-class.go
+//          ^^^^^^^^^^^^^ meta.type.go comment.block.go
     }
 
     struct
