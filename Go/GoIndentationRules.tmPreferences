@@ -37,8 +37,6 @@ Current problems / limitations:
       \s*\)
       |
       (?:.(?!\bswitch\b))*\b(?:case|default)\b
-      |
-      \s*\*/$
     )]]></string>
 
     <key>bracketIndentNextLinePattern</key>
