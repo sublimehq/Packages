@@ -84,15 +84,15 @@ contexts:
     - match: '{{unquoted_string}}'
 
   numbers:
-    - match: \b0x\h*\b(?={{inline_end_chars}})
+    - match: \b0x\h*(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
-    - match: \b0b[01]*\b(?={{inline_end_chars}})
+    - match: \b0b[01]*(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
-    - match: \b0o[0-7]*\b(?={{inline_end_chars}})
+    - match: \b0o[0-7]*(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
-    - match: \b[0-9]+\.[0-9]+\b(?={{inline_end_chars}})
+    - match: \b[0-9]+\.[0-9]+(?={{inline_end_chars}})
       scope: constant.numeric.float.tcl
-    - match: \b[0-9]+\b(?={{inline_end_chars}})
+    - match: \b[0-9]+(?={{inline_end_chars}})
       scope: constant.numeric.integer.tcl
 
   comments:
@@ -108,9 +108,9 @@ contexts:
           scope: punctuation.separator.continuation.tcl
 
   command-name:
-    - match: '(?=\bproc\b\s)'
+    - match: '(?=\bproc\s)'
       set: proc
-    - match: '\bexpr\b(?=\s)'
+    - match: '\bexpr(?=\s)'
       scope: keyword.other.tcl
       set: expr
     - match: \b(namespace)\s+eval\s+({{var_unquoted_string}})
@@ -122,12 +122,12 @@ contexts:
         - match: '(?={{end_chars}})'
           pop: true
         - include: commands
-    - match: \b(if)\b\s+(\{)
+    - match: \b(if)\s+(\{)
       captures:
         1: keyword.control.tcl
         2: meta.block.tcl punctuation.section.block.begin.tcl
       set: [conditional, conditional-expr]
-    - match: \b(if)\b\s+(?=\S)
+    - match: \b(if)\s+(?=\S)
       captures:
         1: keyword.control.tcl
         2: meta.block.tcl punctuation.section.block.begin.tcl
@@ -153,7 +153,7 @@ contexts:
                 - include: expressions
         - match: (?=\S)
           pop: true
-    - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)\b(?=[{{inline_end_chars}}])
+    - match: \b(while|for|catch|return|break|continue|switch|exit|foreach)(?=[{{inline_end_chars}}])
       scope: keyword.control.tcl
       set:
         - match: '(?={{end_chars}})'
@@ -162,14 +162,14 @@ contexts:
     - match: '\b(after|append|array|auto_execok|auto_import|auto_load|auto_mkindex|auto_mkindex_old|auto_qualify|auto_reset|bgerror|binary|cd|clock|close|concat|dde|encoding|eof|error|eval|exec|expr|fblocked|fconfigure|fcopy|file|fileevent|filename|flush|format|gets|glob|global|history|http|incr|info|interp|join|lappend|library|lindex|linsert|list|llength|load|lrange|lreplace|lsearch|lset|lsort|memory|msgcat|namespace|open|package|parray|pid|pkg::create|pkg_mkIndex|proc|puts|pwd|re_syntax|read|registry|rename|resource|scan|seek|set|socket|SafeBase|source|split|string|subst|Tcl|tcl_endOfWord|tcl_findLibrary|tcl_startOfNextWord|tcl_startOfPreviousWord|tcl_wordBreakAfter|tcl_wordBreakBefore|tcltest|tclvars|tell|time|trace|unknown|unset|update|uplevel|upvar|variable|vwait)\b'
       scope: keyword.other.tcl
       pop: true
-    - match: '\b(regexp|regsub)\b(?=\s)'
+    - match: '\b(regexp|regsub)(?=\s)'
       captures:
         1: keyword.other.tcl
       set:
         - match: '(?={{end_chars}})'
           pop: true
         # Consume the switches (https://www.tcl.tk/man/tcl8.4/TclCmd/regexp.htm)
-        - match: '\s+-(about|all|expanded|indices|inline|linestop|lineanchor|line|nocase|start\s+\b[0-9]+)\b(?=\s)'
+        - match: '\s+-(about|all|expanded|indices|inline|linestop|lineanchor|line|nocase|start\s+[0-9]+)(?=\s)'
         # The next non-space element will be a regex string
         - match: '(?=\{|\s+--\s+)'
           set:
@@ -220,12 +220,12 @@ contexts:
   conditional:
     - match: '(?={{end_chars}})'
       pop: true
-    - match: '\b(elseif)\b\s+(\{)'
+    - match: '\b(elseif)\s+(\{)'
       captures:
         1: keyword.control.tcl
         2: meta.block.tcl punctuation.section.block.begin.tcl
       push: conditional-expr
-    - match: '\b(then|elseif|else)\b(?=\s)'
+    - match: '\b(then|elseif|else)(?=\s)'
       scope: keyword.control.tcl
     - include: commands
 
@@ -257,7 +257,7 @@ contexts:
         1: keyword.other.tcl
         2: entity.name.function.tcl
       set: proc-parameters
-    - match: \bproc\b(?=\s)
+    - match: \bproc(?=\s)
       scope: keyword.other.tcl
       pop: true
 
@@ -284,7 +284,7 @@ contexts:
             - match: \\\n
               scope: punctuation.separator.continuation.tcl
         - include: proc-parameter
-    - match: '(\[)\s*(list)\b(?=\s)'
+    - match: '(\[)\s*(list)(?=\s)'
       captures:
         1: punctuation.definition.substitution.begin.tcl
         2: keyword.other.tcl
@@ -312,7 +312,7 @@ contexts:
                 2: invalid.illegal.tcl
               pop: true
             - include: commands
-    - match: '\[\s*(list)\b(?=\s)'
+    - match: '\[\s*(list)(?=\s)'
       captures:
         1: punctuation.definition.substitution.begin.tcl
         2: keyword.other.tcl
@@ -361,7 +361,7 @@ contexts:
   operators:
     - match: '[~!*/%<>&^|=?:+-]'
       scope: keyword.operator.tcl
-    - match: '\b(eq|ne|in|ni)\b(?=\s)'
+    - match: '\b(eq|ne|in|ni)(?=\s)'
       scope: keyword.operator.word.tcl
 
   command-braces:
