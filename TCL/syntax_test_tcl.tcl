@@ -288,6 +288,68 @@ set w {foobar}
 #     ^ punctuation.definition.string.begin
 #            ^ punctuation.definition.string.end
 
+# https://github.com/sublimehq/Packages/issues/1681
+# https://github.com/sublimehq/Packages/issues/1734
+
+set w {{foobar}}
+#     ^^^^^^^^^^ meta.block
+#     ^ punctuation.section.block.begin
+#      ^^^^^^^^ string.quoted.brace
+#      ^ punctuation.definition.string.begin
+#             ^ punctuation.definition.string.end
+#              ^ punctuation.section.block.end
+
+set w { {{foobar}} }
+#     ^^^^^^^^^^^^^^ meta.block
+#     ^ punctuation.section.block.begin
+#       ^ punctuation.section.block.begin
+#        ^^^^^^^^ string.quoted.brace
+#        ^ punctuation.definition.string.begin
+#               ^ punctuation.definition.string.end
+#                ^ punctuation.section.block.end
+#                  ^ punctuation.section.block.end
+
+{
+# <- meta.block punctuation.section.block.begin
+    set w {{1 -1 0}}
+#         ^ punctuation.section.block.begin
+#          ^^^^^^^^ string.quoted.brace
+#          ^ punctuation.definition.string.begin
+#                 ^ punctuation.definition.string.end
+#                  ^ punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
+{
+# <- meta.block punctuation.section.block.begin
+    set w {{ 1 -1 0 } { 1 -1 0 }}
+#         ^ meta.block punctuation.section.block.begin
+#         ^ meta.block meta.block punctuation.section.block.begin
+#          ^ meta.block meta.block meta.block punctuation.section.block.begin
+#                   ^ meta.block meta.block meta.block punctuation.section.block.end
+#                     ^ meta.block meta.block meta.block punctuation.section.block.begin
+#                              ^ meta.block meta.block meta.block punctuation.section.block.end
+#                               ^ meta.block meta.block punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
+{
+# <- meta.block punctuation.section.block.begin
+    set w {{first ONE} {second TWO} {third THREE}}
+#         ^ punctuation.section.block.begin
+#          ^^^^^^^^^^^ string.quoted.brace
+#          ^ punctuation.definition.string.begin
+#                    ^ punctuation.definition.string.end
+#                      ^ punctuation.definition.string.begin
+#                      ^^^^^^^^^^^^ string.quoted.brace
+#                                 ^ punctuation.definition.string.end
+#                                   ^ punctuation.definition.string.begin
+#                                   ^^^^^^^^^^^^^ string.quoted.brace
+#                                               ^ punctuation.definition.string.end
+#                                                ^ punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
 # For set when the brace is not followed by a newline,
 # we treat it as expression, but without command names
 set x { 1 { 2 3 } }
@@ -404,4 +466,3 @@ if { $mpv(radar) eq "VHF" } {
         }
     }
 }
-
