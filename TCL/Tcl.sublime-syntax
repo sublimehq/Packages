@@ -387,10 +387,8 @@ contexts:
 
   string-braces:
     - meta_scope: string.quoted.brace.tcl
-    - match: '(\})(?=[\s\n{{inline_end_chars}}])'
-      captures:
-        1: punctuation.definition.string.end.tcl
-        2: invalid.illegal.tcl
+    - match: '\}(?={{inline_end_chars}})'
+      scope: punctuation.definition.string.end.tcl
       pop: true
     - match: '\n'
       pop: true
