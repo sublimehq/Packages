@@ -1415,5 +1415,9 @@ contexts:
                     - include: inline
                     - include: scope:text.html.basic
   embed-codefence-js:
+    # this is necessary because the JavaScript syntax definition's `main` context includes the `statements` context,
+    # which pops `main` off the stack when encountering a stray close brace
+    # without this push below, it would cause the embed action to be popped out of early before the closing code
+    # fence is reached
     - match: ''
       push: scope:source.js
