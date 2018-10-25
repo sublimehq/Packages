@@ -1959,3 +1959,8 @@ def foo(x)
 end
 ~~~~~~~
 | <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end
+
+```js
+test)
+```
+|^^ punctuation.definition.raw.code-fence.end
