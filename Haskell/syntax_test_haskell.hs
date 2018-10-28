@@ -88,3 +88,23 @@
 --                                     ^ keyword.other.arrow.haskell
    sequenceA = traverse id
 --           ^ keyword.operator.haskell
+
+--
+-- infix operators
+--
+   a a = (+) a 2
+--     ^ keyword.operator.haskell
+--       ^^^ entity.name.function.infix.haskell
+--             ^ constant.numeric.haskell
+   a a = (-) a 2
+--     ^ keyword.operator.haskell
+--       ^^^ entity.name.function.infix.haskell
+--             ^ constant.numeric.haskell
+   a a = (*) a 2
+--     ^ keyword.operator.haskell
+--       ^^^ entity.name.function.infix.haskell
+--             ^ constant.numeric.haskell
+   a a = (/) a 2
+--     ^ keyword.operator.haskell
+--       ^^^ entity.name.function.infix.haskell
+--             ^ constant.numeric.haskell
