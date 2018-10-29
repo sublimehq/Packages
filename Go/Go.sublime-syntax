@@ -76,7 +76,7 @@ variables:
 
   # Whitespace and general comments on a single line.
   # This should only be used for lookahead, not for capturing / scoping.
-  noise: (?:\s*|{{inline_comment}})*
+  noise: (?:\s|{{inline_comment}})*
 
   char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
 
