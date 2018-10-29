@@ -396,6 +396,7 @@ contexts:
       pop: true
     - match: '\\[\\{}n]'
       scope: constant.character.escape.tcl
+    - include: braces
 
   braces:
     - match: (\{)(\*)(\})
@@ -415,7 +416,7 @@ contexts:
           scope: punctuation.section.block.end.tcl
           pop: true
         - include: commands
-    - match: '\{(?=[\s{}])'
+    - match: '\{(?=[\s{}]|(?:\w[^}]*)?\{)'
       scope: punctuation.section.block.begin.tcl
       push: non-command-braces
     - match: '\{'

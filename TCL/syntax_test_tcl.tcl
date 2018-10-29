@@ -225,6 +225,9 @@ set objRegExp {(^[a-zA-Z]{2}[a-zA-Z0-9-]{2,12}$)}
 set objRegExp {(.{0,200})}
 #             ^^^^^^^^^^^^ string.quoted.brace - invalid
 #                         ^ - meta.block
+set objRegExp {word(.{0,200})}
+#             ^^^^^^^^^^^^^^^^ string.quoted.brace - invalid
+#                             ^ - meta.block
 
 proc test {} {
 
@@ -347,6 +350,30 @@ set w { {{foobar}} }
 #                                   ^^^^^^^^^^^^^ string.quoted.brace
 #                                               ^ punctuation.definition.string.end
 #                                                ^ punctuation.section.block.end
+}
+# <- meta.block punctuation.section.block.end
+
+{
+# <- meta.block punctuation.section.block.begin
+    set w {{first ONE} {{second TWO} third THREE} {fourth {FOUR}} {fifth FIVE}}
+#         ^ punctuation.section.block.begin
+#          ^^^^^^^^^^^ string.quoted.brace
+#          ^ punctuation.definition.string.begin
+#                    ^ punctuation.definition.string.end
+#                      ^ punctuation.section.block.begin
+#                       ^ punctuation.definition.string.begin
+#                       ^^^^^^^^^^^^ string.quoted.brace
+#                                  ^ punctuation.definition.string.end
+#                                               ^ punctuation.section.block.end
+#                                                 ^ punctuation.section.block.begin
+#                                                         ^ punctuation.definition.string.begin
+#                                                         ^^^^^^ string.quoted.brace
+#                                                              ^ punctuation.definition.string.end
+#                                                               ^ punctuation.section.block.end
+#                                                                 ^ punctuation.definition.string.begin
+#                                                                 ^^^^^^^^^^^^ string.quoted.brace
+#                                                                            ^ punctuation.definition.string.end
+#                                                                             ^ punctuation.section.block.end
 }
 # <- meta.block punctuation.section.block.end
 
