@@ -1948,32 +1948,32 @@ func _() {
     "_\n_"
 //  ^^^^^^ string.quoted.double.go
 //    ^^ string.quoted.double.go constant.character.escape.go
-//   ^-constant.character.escape
-//      ^-constant.character.escape
+//   ^- constant.character.escape
+//      ^- constant.character.escape
 
     "_\x00_"
 //  ^^^^^^^^ string.quoted.double.go
 //    ^^^^ string.quoted.double.go constant.character.escape.go
-//   ^-constant.character.escape
-//        ^-constant.character.escape
+//   ^- constant.character.escape
+//        ^- constant.character.escape
 
     "_\u0000_"
 //  ^^^^^^^^^^ string.quoted.double.go
 //    ^^^^^^ string.quoted.double.go constant.character.escape.go
-//   ^-constant.character.escape
-//          ^-constant.character.escape
+//   ^- constant.character.escape
+//          ^- constant.character.escape
 
     "_\U00000000_"
 //  ^^^^^^^^^^^^^^ string.quoted.double.go
 //    ^^^^^^^^^^ string.quoted.double.go constant.character.escape.go
-//   ^-constant.character.escape
+//   ^- constant.character.escape
 //              constant.character.escape
 
     "_\000_"
 //  ^^^^^^^^ string.quoted.double.go
 //    ^^^^ string.quoted.double.go constant.character.escape.go
-//   ^-constant.character.escape
-//        ^-constant.character.escape
+//   ^- constant.character.escape
+//        ^- constant.character.escape
 
     `one two`
 //  ^ punctuation.definition.string.begin.go

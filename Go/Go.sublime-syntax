@@ -8,10 +8,10 @@
 
 
 # The following is a simplified model of Sublime Text's syntax engine, reverse-
-# engineered from experience. This description uses assertive language for
-# brevity, but does not reflect the real implementation and should not be taken
-# literally. Still, this model helps a LOT, and is necessary for understanding
-# this syntax.
+# engineered through experience. This model uses assertive language for brevity,
+# but does not reflect the real implementation and should not be taken
+# literally. Still, it helps a LOT, and is necessary for understanding this
+# syntax.
 #
 # The engine has a stack of rulesets. The topmost frame is the current ruleset:
 #
