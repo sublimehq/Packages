@@ -466,7 +466,7 @@ contexts:
 
   match-keyword-const:
     - match: \bconst\b
-      scope: storage.modifier.const.go
+      scope: storage.keyword.const.go
       push:
         - match: \(
           scope: punctuation.section.parens.begin.go
@@ -528,7 +528,7 @@ contexts:
 
   match-keyword-func:
     - match: \bfunc\b
-      scope: storage.type.func.go
+      scope: storage.keyword.function.go
       push:
         - include: match-comments
 
@@ -569,7 +569,7 @@ contexts:
 
   match-keyword-interface:
     - match: (?=\binterface\b)
-      scope: storage.type.go
+      scope: storage.keyword.interface.go
       push: pop-interface
 
   match-keyword-map:
@@ -602,7 +602,7 @@ contexts:
 
   match-keyword-type:
     - match: \btype\b
-      scope: storage.type.go
+      scope: storage.keyword.type.go
       push:
         - include: match-comments
 
@@ -635,7 +635,7 @@ contexts:
 
   match-keyword-var:
     - match: \bvar\b
-      scope: storage.modifier.var.go
+      scope: storage.keyword.var.go
       push:
         - match: \(
           scope: punctuation.section.parens.begin.go
@@ -819,7 +819,7 @@ contexts:
     - match: (?=\bstruct\b)
       set: pop-struct
     - match: \bfunc\b
-      scope: storage.type.func.go
+      scope: storage.keyword.function.go
       set: pop-func-parameter-and-return-lists
     - match: (?={{ident}})
       set: pop-named-type
@@ -834,7 +834,7 @@ contexts:
 
   pop-struct:
     - match: \bstruct\b
-      scope: storage.type.go
+      scope: storage.keyword.struct.go
       set:
         - include: match-comments
         - match: \{
@@ -872,7 +872,7 @@ contexts:
 
   pop-interface:
     - match: \binterface\b
-      scope: storage.type.go
+      scope: storage.keyword.interface.go
       set:
         - include: match-comments
         - match: \{
@@ -907,7 +907,7 @@ contexts:
     # Note: newlines between `map` and `[` are ok, but newlines after `]`
     # terminate the type.
     - match: \bmap\b
-      scope: storage.type.go
+      scope: storage.keyword.map.go
       set:
         - include: match-comments
         - include: pop-on-semicolon
@@ -931,7 +931,7 @@ contexts:
   # perfectly ok.
   pop-chan:
     - match: \bchan\b
-      scope: storage.type.go
+      scope: storage.keyword.chan.go
       set: pop-type
 
   pop-named-type:
