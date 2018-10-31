@@ -132,11 +132,11 @@ contexts:
 
   pop-line-comment:
     - meta_scope: comment.line.go
-    # Unlike plain $, this doesn't terminate where the text ends. Instead,
-    # it stretches the scope "infinitely" to the right. This ensures that
-    # things that rely on comment scopes, such as hotkeys, work properly at
-    # the end of the line when typing a new comment.
-    - match: \s$
+    # Including the newline allows the scope to visually stretch to the right,
+    # and ensures that functionality that relies on comment scoping, such as
+    # contextual hotkeys, works properly at EOL while typing a comment. This
+    # should also match \r\n due to internal conversions.
+    - match: $\n?
       pop: true
 
   # https://golang.org/ref/spec#Tokens
