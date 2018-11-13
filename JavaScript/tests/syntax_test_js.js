@@ -630,8 +630,48 @@ for (var i = 0; i < 10; i++) {
 }
 // <- meta.block
 
-    for (const x of list) {}
+    for (; x in list;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^^^^ meta.group
+//       ^ punctuation.terminator.statement.empty
+//           ^^ keyword.operator
+//                  ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+
+    for (a[x in list];;) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^^^^^^ meta.group
+//        ^^^^^^^^^^^ meta.brackets
+//           ^^ keyword.operator
+//                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//                    ^ punctuation.terminator.statement.empty
+
+    for (const x in list) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^^^ storage.type
+//               ^^ keyword.operator.word
+
+    for (const x of list) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^^^ storage.type
+//               ^^ keyword.operator.word
+
+    for (x in list) {}
+//  ^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^ meta.group
+//         ^^ keyword.operator.word
+
+    for (x of list) {}
+//  ^^^^^^^^^^^^^^^^^^ meta.for
+//  ^^^ keyword.control.loop
+//      ^^^^^^^^^^^ meta.group
+//         ^^ keyword.operator.word
 
     for await (const x of list) {}
 //  ^^^ keyword.control.loop

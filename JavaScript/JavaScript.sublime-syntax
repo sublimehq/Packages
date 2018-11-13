@@ -690,9 +690,7 @@ contexts:
     - match: (?:const|let|var){{identifier_break}}
       scope: storage.type.js
       set:
-        - - match: (?:of|in){{identifier_break}}
-            scope: keyword.operator.word.js
-            set: expression
+        - - include: for-condition-decider
           - match: (?=\S)
             set:
               - statements-in-parens
@@ -700,8 +698,23 @@ contexts:
               - initializer
         - variable-binding-pattern
 
-    - match: (?=\S)
+    - match: (?=;)
       set: statements-in-parens
+
+    - match: (?=\S)
+      set:
+        - - include: for-condition-decider
+          - match: (?=\S)
+            set:
+              - statements-in-parens
+              - expect-semicolon
+        - expression-end-no-in
+        - expression-begin
+
+  for-condition-decider:
+    - match: (?:of|in){{identifier_break}}
+      scope: keyword.operator.word.js
+      set: expression
 
   statements-in-parens:
     - match: (?=\))
@@ -820,6 +833,11 @@ contexts:
 
   expression-end-no-comma:
     - match: (?=,)
+      pop: true
+    - include: expression-end
+
+  expression-end-no-in:
+    - match: (?=in{{identifier_break}})
       pop: true
     - include: expression-end
 
