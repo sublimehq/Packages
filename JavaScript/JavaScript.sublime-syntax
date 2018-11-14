@@ -690,36 +690,34 @@ contexts:
     - match: (?:const|let|var){{identifier_break}}
       scope: storage.type.js
       set:
-        - - include: for-condition-decider
+        - - include: for-of-rest
           - match: (?=\S)
             set:
-              - statements-in-parens
+              - for-oldstyle-rest
               - variable-binding-list
               - initializer
         - variable-binding-pattern
 
-    - match: (?=;)
-      set: statements-in-parens
-
     - match: (?=\S)
       set:
-        - - include: for-condition-decider
+        - - include: for-of-rest
           - match: (?=\S)
-            set:
-              - statements-in-parens
-              - expect-semicolon
+            set: for-oldstyle-rest
         - expression-end-no-in
         - expression-begin
 
-  for-condition-decider:
+  for-of-rest:
     - match: (?:of|in){{identifier_break}}
       scope: keyword.operator.word.js
       set: expression
 
-  statements-in-parens:
+  for-oldstyle-rest:
     - match: (?=\))
       pop: true
-    - include: statements
+    - match: ;
+      scope: punctuation.separator.expression.js
+    - match: (?=\S)
+      push: expression
 
   block-scope:
     - include: block

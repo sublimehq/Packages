@@ -634,9 +634,9 @@ for (var i = 0; i < 10; i++) {
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.for
 //  ^^^ keyword.control.loop
 //      ^^^^^^^^^^^^^^ meta.group
-//       ^ punctuation.terminator.statement.empty
+//       ^ punctuation.separator.expression
 //           ^^ keyword.operator
-//                  ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
+//                  ^ punctuation.separator.expression
 
     for (a[x in list];;) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -644,8 +644,11 @@ for (var i = 0; i < 10; i++) {
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
 //           ^^ keyword.operator
-//                   ^ punctuation.terminator.statement - punctuation.terminator.statement.empty
-//                    ^ punctuation.terminator.statement.empty
+//                   ^ punctuation.separator.expression
+//                    ^ punctuation.separator.expression
+
+    for (;function () {}/a/g;) {}
+//                      ^ keyword.operator
 
     for (const x in list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
