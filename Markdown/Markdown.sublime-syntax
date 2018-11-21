@@ -936,7 +936,7 @@ contexts:
          (?x)
           {{fenced_code_block_start}}
           ((?i:clojure|clj))
-          \s*$\n?          # any whitespace until EOL
+          {{fenced_code_block_trailing_infostring_characters}}
       captures:
         0: meta.code-fence.definition.begin.clojure.markdown-gfm
         2: punctuation.definition.raw.code-fence.begin.markdown
