@@ -1205,15 +1205,20 @@ contexts:
     - match: '{{method_lookahead}}'
       set: method-declaration
 
-    - match: (?={{property_name}})
+    - match: |-
+        (?x)(?=
+          \#? {{identifier}}
+          \s* = \s*
+          {{either_func_lookahead}}
+        )
+      set:
+        - function-initializer
+        - function-name-meta
+        - literal-variable-base
+
+    - match: (?=#?{{property_name}})
       set:
         - field-initializer-or-method-declaration
-        - field-name
-
-    - match: (?=#{{identifier}})
-      set:
-        - class-field-rest
-        - initializer
         - field-name
 
     - include: else-pop
@@ -1269,7 +1274,10 @@ contexts:
     - match: 'prototype{{identifier_break}}'
       scope: support.constant.prototype.js
       pop: true
-    - include: function-declaration-single-identifier
+    - match: (?=#?{{identifier}})
+      set:
+        - function-name-meta
+        - literal-variable-base
 
   expect-dot-accessor:
     - match: '\.'
@@ -1295,39 +1303,9 @@ contexts:
       pop: true
     - include: else-pop
 
-  function-declaration-final-identifier:
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.property.object.dollar.only.js punctuation.dollar.js entity.name.function.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: meta.property.object.dollar.js entity.name.function.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
-    - match: '{{constant_identifier}}'
-      scope: meta.property.object.constant.js entity.name.function.js
-      pop: true
-    - match: '{{identifier}}'
-      scope: meta.property.object.readwrite.js entity.name.function.js
-      pop: true
-    - include: else-pop
-
-  function-declaration-single-identifier:
-    - match: '{{dollar_only_identifier}}'
-      scope: variable.other.dollar.only.js punctuation.dollar.js entity.name.function.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: variable.other.dollar.js entity.name.function.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
-    - match: '{{constant_identifier}}'
-      scope: variable.other.constant.js entity.name.function.js
-      pop: true
-    - match: '{{identifier}}'
-      scope: variable.other.readwrite.js entity.name.function.js
-      pop: true
-    - include: else-pop
+  function-name-meta:
+    - meta_scope: entity.name.function.js
+    - include: immediately-pop
 
   either-function-declaration:
     - match: '(?={{func_lookahead}})'
@@ -1822,6 +1800,9 @@ contexts:
           scope: variable.other.object.js
           pop: true
 
+    - include: literal-variable-base
+
+  literal-variable-base:
     - match: '{{dollar_only_identifier}}'
       scope: variable.other.dollar.only.js punctuation.dollar.js
       pop: true
@@ -1840,6 +1821,7 @@ contexts:
       captures:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
+      pop: true
 
   language-identifiers:
     - match: arguments{{identifier_break}}
@@ -2225,13 +2207,18 @@ contexts:
         )
       set:
         - function-initializer
-        - function-declaration-final-identifier
+        - function-name-meta
+        - object-property-base
 
     - include: support-property
 
     - match: '(?={{identifier}}\s*\()'
       set: call-method-name
 
+    - include: object-property-base
+    - include: else-pop
+
+  object-property-base:
     - match: '{{dollar_only_identifier}}'
       scope: meta.property.object.dollar.only.js punctuation.dollar.js
       pop: true
@@ -2246,7 +2233,6 @@ contexts:
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
       pop: true
-    - include: else-pop
 
   support-property:
     - include: support-property-ecma

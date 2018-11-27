@@ -128,7 +128,7 @@ let f = ([ x, y, ...z, ]) => {};
 
 let f = ([ x, [a, b], z]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //            ^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
 //             ^ meta.binding.name variable.parameter.function
@@ -136,7 +136,7 @@ let f = ([ x, [a, b], z]) => {};
 
 let f = ([ x = 42, y = [a, b, c] ]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
 //             ^^ meta.binding.destructuring.sequence.js constant.numeric.decimal.js
@@ -146,7 +146,7 @@ let f = ([ x = 42, y = [a, b, c] ]) => {};
 
 let f = ({ a, b: c, ...d }) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
 //         ^ meta.object-literal.key meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -157,7 +157,7 @@ let f = ({ a, b: c, ...d }) => {};
 
 let f = (a, ...rest) => {};
 //  ^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
 //             ^^^^ meta.binding.name variable.parameter.function
