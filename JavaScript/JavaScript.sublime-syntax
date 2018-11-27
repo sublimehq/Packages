@@ -701,23 +701,34 @@ contexts:
     - match: (?:const|let|var){{identifier_break}}
       scope: storage.type.js
       set:
-        - - match: (?:of|in){{identifier_break}}
-            scope: keyword.operator.word.js
-            set: expression
+        - - include: for-of-rest
           - match: (?=\S)
             set:
-              - statements-in-parens
+              - for-oldstyle-rest
               - variable-binding-list
               - initializer
         - variable-binding-pattern
 
     - match: (?=\S)
-      set: statements-in-parens
+      set:
+        - - include: for-of-rest
+          - match: (?=\S)
+            set: for-oldstyle-rest
+        - expression-end-no-in
+        - expression-begin
 
-  statements-in-parens:
+  for-of-rest:
+    - match: (?:of|in){{identifier_break}}
+      scope: keyword.operator.word.js
+      set: expression
+
+  for-oldstyle-rest:
     - match: (?=\))
       pop: true
-    - include: statements
+    - match: ;
+      scope: punctuation.separator.expression.js
+    - match: (?=\S)
+      push: expression
 
   block-scope:
     - include: block
@@ -831,6 +842,11 @@ contexts:
 
   expression-end-no-comma:
     - match: (?=,)
+      pop: true
+    - include: expression-end
+
+  expression-end-no-in:
+    - match: (?=in{{identifier_break}})
       pop: true
     - include: expression-end
 
