@@ -20,7 +20,7 @@ puts <<-HTML
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
   def #{sym}(*args, &block)
-#     ^^ punctuation.definition.interpolation.begin
+#     ^^ punctuation.section.interpolation.begin
 #          ^ punctuation.definition.interpolation.end
     custom(Mime[:#{sym}], *args, &block)
   end
