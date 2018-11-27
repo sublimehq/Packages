@@ -27,6 +27,11 @@ import thing, {identifier as otherIdentifier}, * as otherName from "otherplace";
 import 'module';
 // ^^^^^^^^^^^^^ meta.import
 
+// Better highlighting while typing.
+import
+import;
+// <- keyword.control.import-export
+
 export { name1, name2 as name3 };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
@@ -147,6 +152,11 @@ export { import1 as name1, import2 as name2, nameN } from "./othermod";
 //                                 ^ keyword.control.import-export
 //                                                   ^ keyword.control.import-export
 
+// Better highlighting while typing.
+export
+export;
+// <- keyword.control.import-export
+
 import * as
     alias from "module";
 // ^^^^^^^^^^^^^^^^^^^^^ meta.import.js
@@ -245,6 +255,11 @@ someFunction({
     {
 
     }
+
+// Better highlighting when typing
+function
+function() {}
+// <- storage.type.function - entity.name.function
 
 if (true)
 // <- keyword.control.conditional
@@ -682,6 +697,9 @@ while (true)
     foo;
 //  ^^^ variable.other.readwrite - variable.label
 
+    break function;
+//        ^^^^^^^^ invalid.illegal.identifier variable.label
+
     continue;
 //  ^^^^^^^^ keyword.control.loop
 
@@ -1013,6 +1031,11 @@ class Foo extends getSomeClass() {}
 //                 ^^^^^^^^ meta.class meta.class
 //                 ^^^^^ storage.type.class
 
+// Better highlighting while typing.
+class
+class
+// <- storage.type.class - entity.name.class
+
     () => {}
 //  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^^^^ meta.function.declaration
@@ -1159,7 +1182,7 @@ var anotherSingle = function(){a = param => param; return param2 => param2 * a}
 //                                                                           ^ meta.block meta.block variable.other.readwrite
 //                                                                            ^ meta.block punctuation.section.block.end
 
-var var = ~{a:function(){}.a()}
+var foo = ~{a:function(){}.a()}
 //  ^^^ meta.binding.name
 //  ^^^ variable.other.readwrite
 //      ^ keyword.operator.assignment
@@ -1212,16 +1235,10 @@ var obj2 = new class Foo{}();
 
 this.func()
 // <- variable.language.this
-self.func()
-// <- variable.language.self
 arguments;
 // <- variable.language.arguments
 super.func();
 // <- variable.language.super
-foo.constructor;
-//  ^^^^^^^^^^^ variable.language.constructor
-foo.__proto__
-//  ^^^^^^^^^ variable.language.proto
 
 foo[bar];
 // ^^^^^ meta.brackets
@@ -1267,7 +1284,7 @@ function f() {
 
 new Date().getTime()
 //  ^^^^^^ meta.function-call.constructor
-//  ^^^^ support.class.builtin
+//  ^^^^ support.class
 //^^^^^^^^^^^^^^^^^^ - meta.instance.constructor
 
 new $();
@@ -1565,20 +1582,9 @@ function optionalParam(b=0) {};
 //                      ^ keyword.operator.assignment
 //                        ^ punctuation.section.group.end
 
-var path = require('path');
-//  ^^^^ support.module.node
-
-foo = path.join(__dirname, bar);
-//              ^^^^^^^^^ support.type.object.node
-
-nodeClass = new Buffer();
-//              ^^^^^^ support.class.node
 
 var CONST;
 //  ^^^^^ variable.other.constant
-
-err = new Error();
-//        ^^^^^ support.class.error
 
 return;
 {a: 1};
@@ -1589,11 +1595,7 @@ return
 // ^ meta.block - meta.object-literal
 
 const abc = new Set
-console.log('abc');
-// ^^^^ support.type.object.console
-
-const abc = new Set
-if (true) console.log('abc');
+if (true) {};
 // <- keyword.control.conditional
 
 var o = {
@@ -1624,9 +1626,6 @@ var str = `Hello, ${name}!`;
 //                ^^ punctuation.definition.template-expression.begin
 //                  ^^^^ source.js.embedded.expression variable.other.readwrite
 //                      ^ punctuation.definition.template-expression.end
-
-let str = navigator.userAgent.toLowerCase();
-//        ^^^^^^^^^ support.type.object
 
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function

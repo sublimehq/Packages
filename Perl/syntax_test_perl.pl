@@ -1076,6 +1076,17 @@ eval { require Mail::Send; };
 #      ^^^^^^^^^^^^^^^^^^ meta.import.require.perl
 #                        ^^^^ - meta.import.require.perl
 #      ^^^^^^^ keyword.control.import.require.perl
+eval { require Mail :: Send; };
+#<- support.function.perl
+#^^^ support.function.perl
+#    ^ punctuation.section.block.begin.perl
+#      ^^^^^^^^^^^^^^^^^^^^ meta.import.require.perl
+#              ^^^^ support.class.perl
+#                  ^^^^ - support.class
+#                   ^^ punctuation.accessor.double-colon.perl
+#                      ^^^^ support.class.perl
+#                          ^^^^ - meta.import.require.perl
+#      ^^^^^^^ keyword.control.import.require.perl
 use strict;
 # <- meta.use.perl keyword.control.import.use.perl
 #^^^^^^^^^ meta.use.perl
@@ -1103,7 +1114,6 @@ use File;
 #^^ keyword.control.import.use.perl
 #   ^^^^ support.class.perl
 #       ^ punctuation.terminator.statement.perl
-
 use File::data;
 # <- meta.use.perl keyword.control.import.use.perl
 #^^^^^^^^^^^^^ meta.use.perl
@@ -1112,6 +1122,15 @@ use File::data;
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^ variable.other.member.perl
 #             ^ punctuation.terminator.statement.perl
+use warnings :: register File :: data;
+# <- meta.use.perl keyword.control.import.use.perl
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.perl
+#^^ keyword.control.import.use.perl
+#   ^^^^^^^^^^^^^^^^^^^^ storage.modifier.perl
+#                        ^^^^ support.class.perl
+#                             ^^ punctuation.accessor.double-colon.perl
+#                                ^^^^ variable.other.member.perl
+#                                    ^ punctuation.terminator.statement.perl
 no strict;
 # <- meta.no.perl keyword.declaration.no.perl
 #^^^^^^^^ meta.no.perl

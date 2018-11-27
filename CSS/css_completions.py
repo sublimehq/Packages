@@ -407,6 +407,7 @@ PROPERTY_DICT = {
     'white-space': ['normal', 'pre', 'nowrap', 'pre-wrap', 'pre-line'],
     'widows': ['<integer>'],
     'width': ['<length>', '<percentage>', 'auto'],
+    'will-change': ['auto', 'contents', 'scroll-position', '<custom-ident>'],
     'word-break': ['normal', 'break-all', 'keep-all'],
     'word-spacing': ['normal', '<length>'],
     'word-wrap': ['normal', 'break-word'],

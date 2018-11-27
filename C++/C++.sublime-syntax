@@ -20,9 +20,9 @@ file_extensions:
 first_line_match: '-\*- C\+\+ -\*-'
 scope: source.c++
 variables:
-  identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
+  identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
+  macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
-  macro_identifier: '\b[[:upper:]_][[:upper:][:digit:]_]+\b'
   operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
   operator_keywords: 'and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|noexcept'
@@ -1447,7 +1447,7 @@ contexts:
   preprocessor-data-structures:
     - include: preprocessor-rule-enabled-data-structures
     - include: preprocessor-rule-disabled-data-structures
-    - include: scope:source.c#preprocessor-practical-workarounds
+    - include: preprocessor-practical-workarounds
 
   preprocessor-rule-disabled-data-structures:
     - match: ^\s*((#if)\s+(0))\b
@@ -1899,6 +1899,23 @@ contexts:
       scope: punctuation.section.block.end.c++
     - include: expressions
 
+  preprocessor-practical-workarounds:
+    - include: preprocessor-convention-ignore-uppercase-ident-lines
+    - include: scope:source.c#preprocessor-convention-ignore-uppercase-calls-without-semicolon
+
+  preprocessor-convention-ignore-uppercase-ident-lines:
+    - match: ^(\s*{{macro_identifier}})+\s*$
+      scope: meta.assumed-macro.c++
+      push:
+        # It's possible that we are dealing with a function return type on its own line, and the
+        # name of the function is on the subsequent line.
+        - match: '(?={{path_lookahead}}({{generic_lookahead}}({{path_lookahead}})?)\s*\()'
+          set: [function-definition-params, global-function-identifier-generic]
+        - match: '(?={{path_lookahead}}\s*\()'
+          set: [function-definition-params, global-function-identifier]
+        - match: ^
+          pop: true
+
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
@@ -1946,4 +1963,4 @@ contexts:
             - match: '>'
               scope: punctuation.definition.string.end.c++
               pop: true
-    - include: scope:source.c#preprocessor-practical-workarounds
+    - include: preprocessor-practical-workarounds
