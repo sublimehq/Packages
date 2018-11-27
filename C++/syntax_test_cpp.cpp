@@ -58,6 +58,57 @@ int g(int x = 5 \
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant */
 
+FOOBAR
+hello() {
+    /* <- meta.function entity.name.function */
+    return 0;
+}
+
+EFIAPI
+UserStructCompare (
+  /* <- meta.function entity.name.function */
+  IN CONST VOID *UserStruct1,
+  IN CONST VOID *UserStruct2
+  )
+{
+  const USER_STRUCT *CmpStruct1;
+  /* <- meta.block storage.modifier */
+
+  CmpStruct1 = UserStruct1;
+  return KeyCompare (&CmpStruct1->Key, UserStruct2);
+  /* <- meta.block keyword.control */
+  /*              ^ meta.block meta.function-call variable.function */
+}
+
+LIB_RESULT
+foo()
+/* <- meta.function entity.name.function */
+{
+   return LIB_SUCCESS;
+}
+
+LIB_RESULT bar()
+/*           ^ meta.function entity.name.function */
+{
+    return LIB_SUCCESS;
+}
+
+THIS_IS_REALLY_JUST_A_MACRO_AND_NOT_A_RETURN_TYPE
+/* <- meta.assumed-macro */
+
+int main() {
+/* <- storage.type */
+    /* ^ meta.function entity.name.function */
+    return 0;
+}
+
+// This is a method/function with the return type on a separate line and so should not be a
+// constructor.
+FOOLIB_RESULT
+some_namespace::some_function(int a_parameter, double another_parameter) {
+  /* <- meta.function entity.name.function - entity.name.function.constructor */
+  return FOOLIB_SUCCESS;
+}
 
 #pragma foo(bar, \
 "baz", \

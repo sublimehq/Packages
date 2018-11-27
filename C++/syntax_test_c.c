@@ -111,6 +111,50 @@ bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
+FOOBAR
+hello() {
+    /* <- meta.function entity.name.function */
+    return 0;
+}
+
+EFIAPI
+UserStructCompare (
+  /* <- meta.function entity.name.function */
+  IN CONST VOID *UserStruct1,
+  IN CONST VOID *UserStruct2
+  )
+{
+  const USER_STRUCT *CmpStruct1;
+  /* <- meta.block storage.modifier */
+
+  CmpStruct1 = UserStruct1;
+  return KeyCompare (&CmpStruct1->Key, UserStruct2);
+  /* <- meta.block keyword.control */
+  /*              ^ meta.block meta.function-call variable.function */
+}
+
+LIB_RESULT
+foo()
+/* <- meta.function entity.name.function */
+{
+   return LIB_SUCCESS;
+}
+
+LIB_RESULT bar()
+/*           ^ meta.function entity.name.function */
+{
+    return LIB_SUCCESS;
+}
+
+THIS_IS_REALLY_JUST_A_MACRO_AND_NOT_A_RETURN_TYPE
+/* <- meta.assumed-macro */
+
+int main() {
+/* <- storage.type */
+    /* ^ meta.function entity.name.function */
+    return 0;
+}
+
 #if 0
 #ifdef moo
 /* <- - keyword.control */

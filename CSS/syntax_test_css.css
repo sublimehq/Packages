@@ -1052,3 +1052,19 @@
 /*    ^^^ support.type.custom-property.name */
 /*       ^ punctuation.separator.key-value */
 }
+
+img{
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% calc(100% - 31px),
+/*       ^^^^ support.function.calc */
+/*            ^^^ constant.numeric */
+/*                        ^ punctuation.separator.sequence */
+    calc(100% - 196px) calc(100% - 31px),
+    calc(100% - 196px) 100%,
+    0% 100%
+  ) !important;
+/*^ punctuation.definition.group.end */
+/*  ^^^^^^^^^^ keyword.other.important */
+}
