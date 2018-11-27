@@ -1258,12 +1258,16 @@ contexts:
           scope: punctuation.definition.group.begin.css
           push:
           - meta_scope: meta.group.css
+          - include: comment-block
           - match: '(?=\))'
             pop: true
           - match: '\b(nonzero|evenodd)\b'
             scope: support.constant.property-value.css
           - include: length-type
           - include: percentage-type
+          - include: calc-function
+          - match: ','
+            scope: punctuation.separator.sequence.css
 
       # toggle()
       # https://www.w3.org/TR/css3-values/#toggle-notation

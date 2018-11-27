@@ -12,7 +12,7 @@ first_line_match: ^#!.*\bperl\b
 scope: source.perl
 
 variables:
-  break: (?!\w| *::)
+  break: (?!\w|\s*::)
   identifier: '\b[_[:alpha:]]\w*{{break}}'
   module: '\b[_[:upper:]]\w*\b'
   member: '\b[_[:lower:]]\w*\b'
@@ -243,8 +243,8 @@ contexts:
     # SEE: http://perldoc.perl.org/index-pragmas.html
     #      http://perldoc.perl.org/perlmodlib.html#Pragmatic-Modules
     - match: |-
-        \b(?x)
-        (?:attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
+        \b(?x:
+           attributes|autodie(?:\s*::\s*(?:exception(?:\s*::\s*system)|hints|skip))?|autouse
           |base|bigint|bignum|bigrat|blib|bytes
           |charnames|constant
           |diagnostics
@@ -260,7 +260,7 @@ contexts:
           |threads|threads::shared
           |utf8
           |vars|vmsish
-          |warnings|warnings::register){{break}}
+          |warnings|warnings\s*::\s*register){{break}}
       scope: storage.modifier.perl
 
 ### [ EXPRESSIONS ]###########################################################
@@ -589,16 +589,16 @@ contexts:
 ### [ CLASSES ]################################################################
 
   class:
-    - match: '{{module}}(?= *(?:::|[#;]|$))'
+    - match: '{{module}}(?=\s*(?:::|[#;]|$))'
       scope: support.class.perl
       push: members-pop
 
   members-pop:
-    - match: ' *(::) *({{module}})'
+    - match: \s*(::)\s*({{module}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: support.class.perl
-    - match: ' *(::) *({{identifier}})'
+    - match: \s*(::)\s*({{identifier}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: variable.other.member.perl
@@ -1029,7 +1029,7 @@ contexts:
         1: punctuation.definition.variable.perl
     # $Module::SubModule::member
     # $::SubModule::member
-    - match: ([\$\@\%]#?)({{module}})?(?= *::)
+    - match: ([\$\@\%]#?)({{module}})?(?=\s*::)
       captures:
         1: punctuation.definition.variable.perl
         2: support.class.perl
