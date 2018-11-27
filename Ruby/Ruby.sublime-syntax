@@ -1253,7 +1253,7 @@ contexts:
 
   interpolated-ruby:
     - match: '#\{'
-      scope: punctuation.definition.interpolation.begin.ruby
+      scope: punctuation.section.interpolation.begin.ruby
       push:
         - clear_scopes: 1
         - meta_scope: meta.interpolation
