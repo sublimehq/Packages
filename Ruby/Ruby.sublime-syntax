@@ -1259,7 +1259,7 @@ contexts:
         - meta_scope: meta.interpolation
         - meta_content_scope: source.ruby.embedded
         - match: '\}'
-          scope: punctuation.definition.interpolation.end.ruby
+          scope: punctuation.section.interpolation.end.ruby
           pop: true
         - include: nest-curly-expressions
         - include: expressions
