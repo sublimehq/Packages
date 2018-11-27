@@ -1,5 +1,8 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
+
+// Variable declarations
+
 const x = value;
 //    ^ meta.binding.name variable.other.readwrite
 
@@ -40,6 +43,35 @@ const { a, b: c, ...d } = value;
 const x;
 //    ^ meta.binding.name variable.other.readwrite
 
+let
+// <- storage.type
+w
+//  <- meta.binding.name variable.other.readwrite
+,
+// <- punctuation.separator.comma
+x
+// <- meta.binding.name variable.other.readwrite
+y
+// <- variable.other.readwrite - meta.binding.name
+,
+// <- keyword.operator.comma
+z
+// <- variable.other.readwrite - meta.binding.name
+
+// `let` is only reserved in strict mode, and we can't distinguish that yet.
+
+let let;
+//  ^^^ meta.binding.name variable.other.readwrite
+
+let
+let;
+// <- meta.binding.name variable.other.readwrite
+
+const
+const x = 0;
+// <- storage.type
+
+// Function parameters
 
 function f ([ x, y, ...z, ]) {}
 //          ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
@@ -78,6 +110,10 @@ function f (a, ...rest) {}
 //          ^ meta.binding.name variable.parameter.function
 //             ^^^ keyword.operator.spread
 //                ^^^^ variable.parameter.function
+
+function f (new) {}
+// ^^^^^^^^^^^^^^^^ meta.function
+//          ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
 
 let f = ([ x, y, ...z, ]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -125,3 +161,7 @@ let f = (a, ...rest) => {};
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
 //             ^^^^ meta.binding.name variable.parameter.function
+
+let f = (new) => {};
+//  ^^^^^^^^^^^^^^^ meta.function
+//       ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function

@@ -29,6 +29,7 @@ variables:
   # We support unicode here because Python 3 is the future
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
+  identifier_constant: '\b(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
   digitpart: (?:\d(?:_?\d)*)
   path: '({{identifier}} *\. *)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
@@ -45,6 +46,8 @@ variables:
       [bcdeEfFgGnosxX%]? # type
     )
   strftime_spec: '(?:%(?:[aAwdbBGmyYHIpMSfzZjuUVWcxX%]|-[dmHIMSj]))'
+
+
 contexts:
   main:
     - include: statements
@@ -339,8 +342,7 @@ contexts:
       captures:
         1: punctuation.section.arguments.begin.python
       push:
-        - meta_scope: meta.function-call.python
-        - meta_content_scope: meta.function-call.arguments.python
+        - meta_scope: meta.function-call.arguments.python
         - match: \)
           scope: punctuation.section.arguments.end.python
           pop: true
@@ -688,25 +690,54 @@ contexts:
           pop: true
 
   decorator-wrapper:
-    - match: '{{identifier}}'
-      scope: meta.qualified-name.python variable.annotation.python
+    - match: (\.)\s*
+      captures:
+        1: punctuation.accessor.dot.python
+      set:
+        - meta_scope: meta.qualified-name.python
+        - meta_content_scope: variable.annotation.python
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
     - match: ''
-      pop: true
+      set:
+        - meta_scope: meta.qualified-name.python variable.annotation.python
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
 
   decorator-function-call-wrapper:
     - meta_scope: meta.annotation.function.python
-    - match: '{{identifier}}'
-      scope: meta.qualified-name.python variable.annotation.function.python
     - match: \)
       scope: punctuation.section.arguments.end.python
       set: after-expression
     - match: \(
-      scope: punctuation.section.arguments.begin.python
+      scope: meta.annotation.function.python punctuation.section.arguments.begin.python
       push:
+        - clear_scopes: 1
         - meta_content_scope: meta.annotation.arguments.python
         - match: (?=\))
           pop: true
         - include: arguments
+    - match: (\.)\s*
+      captures:
+        1: punctuation.accessor.dot.python
+      push:
+        - meta_scope: meta.qualified-name.python
+        - meta_content_scope: variable.annotation.function.python
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
+    - match: ''
+      push:
+        - meta_scope: meta.qualified-name.python variable.annotation.function.python
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
 
   item-access:
     - match: '(?={{path}}\s*\[)'
@@ -736,18 +767,33 @@ contexts:
 
   function-call-wrapper:
     - meta_scope: meta.function-call.python
-    - match: '{{identifier}}'
-      scope: meta.qualified-name.python variable.function.python
-    - match: \)
-      scope: punctuation.section.arguments.end.python
-      set: after-expression
-    - match: \(
-      scope: punctuation.section.arguments.begin.python
+    - match: (?=\()  # need to remove meta.function-call.python from opening parens
+      set:
+        - match: \(
+          scope: punctuation.section.arguments.begin.python
+          set:
+            - meta_scope: meta.function-call.arguments.python
+            - match: \)
+              scope: punctuation.section.arguments.end.python
+              set: after-expression
+            - include: arguments
+    - match: (\.)\s*(?={{identifier}})
+      captures:
+        1: punctuation.accessor.dot.python
       push:
-        - meta_content_scope: meta.function-call.arguments.python
-        - match: (?=\))
+        - meta_scope: meta.qualified-name.python
+        - meta_content_scope: variable.function.python
+        - include: dotted-name-specials
+        - include: generic-names
+        - match: ''
           pop: true
-        - include: arguments
+    - match: (?={{identifier}})
+      push:
+        - meta_scope: meta.qualified-name.python variable.function.python
+        - include: name-specials
+        - include: generic-names
+        - match: ''
+          pop: true
 
   arguments:
     - include: keyword-arguments
@@ -869,7 +915,7 @@ contexts:
   builtin-functions:
     - match: |-
         (?x)\b(
-        	__import__|all|abs|any|apply|ascii|bin|callable|chr|classmethod|cmp|coerce|
+        	__import__|all|abs|any|apply|ascii|bin|breakpoint|callable|chr|classmethod|cmp|coerce|
         	compile|delattr|dir|divmod|enumerate|eval|exec|execfile|filter|format|getattr|
         	globals|hasattr|hash|help|hex|id|input|intern|isinstance|issubclass|iter|
         	len|locals|map|max|min|next|oct|open|ord|pow|print|property|range|
@@ -890,7 +936,7 @@ contexts:
     - match: '(?={{identifier}})'
       push:
         - include: name-specials
-        - match: '\b_*\p{Lu}{3,}[\p{Lu}_]*\b' # require 3 upper-case letters for undotted names
+        - match: '{{identifier_constant}}'
           scope: variable.other.constant.python
         - include: generic-names
         - match: ''
@@ -902,7 +948,7 @@ contexts:
         1: punctuation.accessor.dot.python
       push:
         - include: dotted-name-specials
-        - match: '\b_*\p{Lu}+[\p{Lu}_]*\b'
+        - match: '{{identifier_constant}}'
           scope: variable.other.constant.python
         - include: generic-names
         - match: ''
@@ -922,17 +968,14 @@ contexts:
     # until the last non-special identifier (if any).
     # This allows the leaf to be scoped individually.
     - meta_scope: meta.qualified-name.python
-    - include: name-specials
     # If a line continuation follows, this may or may not be the last leaf (most likley not though)
-    - match: '{{identifier}}(?=\s*\\)'
-      scope: meta.generic-name.python
-    - match: (?={{identifier}}\s*\.)
+    - match: (?={{identifier}}\s*(\.|\\))
       push:
         - include: name-specials
         - include: generic-names
         - match: ''
           pop: true
-    - match: (\.)\s*(?={{identifier}}\s*\.)
+    - match: (\.)\s*(?={{identifier}}\s*(\.|\\))
       captures:
         1: punctuation.accessor.dot.python
       push:
@@ -940,13 +983,8 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
-    - match: (\.)\s*(?={{identifier}})
-      captures:
-        1: punctuation.accessor.dot.python
-      set:
-        - include: dotted-name-specials
-        - match: ''
-          pop: true
+    - match: \.(?!\s*{{identifier}})  # don't match last dot
+      scope: punctuation.accessor.dot.python
     - match: (?=\S|$)
       pop: true
 
@@ -1056,7 +1094,11 @@ contexts:
           # descriptors
           delete|get|set|set_name|
           # class-specific
-          subclasses
+          subclasses|
+          # dataclasses (PEP 557)
+          post_init|
+          # for typing core support (PEP 560)
+          class_getitem|mro_entries
         )__\b
       comment: these methods have magic interpretation by python and are generally called indirectly through syntactic constructs
       scope: support.function.magic.python
