@@ -72,9 +72,7 @@ contexts:
         2: entity.name.tag.custom.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (<)((?i:style))\b
       captures:
@@ -94,9 +92,7 @@ contexts:
         2: entity.name.tag.structure.any.html
       push:
         - meta_scope: meta.tag.structure.any.html
-        - match: '>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end
         - include: tag-attributes
     - match: (</?)({{block_tag_name}})
       captures:
@@ -104,9 +100,7 @@ contexts:
         2: entity.name.tag.block.any.html
       push:
         - meta_scope: meta.tag.block.any.html
-        - match: '>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end
         - include: tag-attributes
     - match: (</?)((?i:hr)\b)
       captures:
@@ -114,9 +108,7 @@ contexts:
         2: entity.name.tag.block.any.html
       push:
         - meta_scope: meta.tag.block.any.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)((?i:form|fieldset)\b)
       captures:
@@ -124,9 +116,7 @@ contexts:
         2: entity.name.tag.block.form.html
       push:
         - meta_scope: meta.tag.block.form.html
-        - match: '>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end
         - include: tag-attributes
     - match: (</?)({{inline_tag_name}})
       captures:
@@ -134,9 +124,7 @@ contexts:
         2: entity.name.tag.inline.any.html
       push:
         - meta_scope: meta.tag.inline.any.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)({{form_tag_name}})
       captures:
@@ -144,9 +132,7 @@ contexts:
         2: entity.name.tag.inline.form.html
       push:
         - meta_scope: meta.tag.inline.form.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)((?i:a)\b)
       captures:
@@ -154,9 +140,7 @@ contexts:
         2: entity.name.tag.inline.a.html
       push:
         - meta_scope: meta.tag.inline.a.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)((?i:col|colgroup|table|tbody|td|tfoot|th|thead|tr)\b)
       captures:
@@ -164,9 +148,7 @@ contexts:
         2: entity.name.tag.inline.table.html
       push:
         - meta_scope: meta.tag.inline.table.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)([A-Za-z0-9:_]+-[A-Za-z0-9:_-]+)
       captures:
@@ -174,9 +156,7 @@ contexts:
         2: invalid.illegal.uppercase-custom-tag-name.html
       push:
         - meta_scope: meta.tag.custom.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - match: (</?)([a-zA-Z0-9:]+)
       captures:
@@ -184,9 +164,7 @@ contexts:
         2: entity.name.tag.other.html
       push:
         - meta_scope: meta.tag.other.html
-        - match: '(?: ?/)?>'
-          scope: punctuation.definition.tag.end.html
-          pop: true
+        - include: tag-end-maybe-self-closing
         - include: tag-attributes
     - include: entities
     - match: <>
@@ -313,9 +291,7 @@ contexts:
   style-common:
     - include: style-type-attribute
     - include: tag-attributes
-    - match: '/>'
-      scope: punctuation.definition.tag.end.html
-      pop: true
+    - include: tag-end-self-closing
 
   style-type-attribute:
     - match: (?i)\btype\b
@@ -392,9 +368,7 @@ contexts:
   script-common:
     - include: script-type-attribute
     - include: tag-attributes
-    - match: '/>'
-      scope: punctuation.definition.tag.end.html
-      pop: true
+    - include: tag-end-self-closing
 
   script-type-attribute:
     - match: (?i)\btype\b
@@ -676,3 +650,18 @@ contexts:
     - include: tag-style-attribute
     - include: tag-event-attribute
     - include: tag-generic-attribute
+
+  tag-end:
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  tag-end-self-closing:
+    - match: '/>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
+
+  tag-end-maybe-self-closing:
+    - match: '/?>'
+      scope: punctuation.definition.tag.end.html
+      pop: true
