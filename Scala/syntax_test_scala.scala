@@ -1822,3 +1822,15 @@ for (_<- fu; _← fu; _= fu)
 
 case (foo => } abc
 //             ^^^ - variable
+
+val x: Any
+//     ^^^ storage.type.primitive.scala
+
+val x: AnyRef
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: AnyVal
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: Nothing
+//     ^^^^^^^ storage.type.primitive.scala

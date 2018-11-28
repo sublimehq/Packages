@@ -232,7 +232,7 @@ contexts:
     - include: lambda-declaration-base
 
   base-types:
-    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
+    - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double|Any|AnyRef|AnyVal|Nothing)\b
       scope: storage.type.primitive.scala
   literal-constants:
     - match: \b(false|null|true)\b
