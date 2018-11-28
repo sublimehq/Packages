@@ -177,6 +177,8 @@ x = a[3]' + b(4)' % is the conjugate and transpose
 %       ^ keyword.operator.transpose.matlab
 %               ^ keyword.operator.transpose.matlab
 
+l = {l.n}';
+%        ^ keyword.operator.transpose.matlab
 
 %---------------------------------------------
 % String
