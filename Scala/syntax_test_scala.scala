@@ -1779,7 +1779,6 @@ val foo() = 42
 //     ^ punctuation.section.group.begin.scala
 //      ^ punctuation.section.group.end.scala
 
-
 val (Foo(), _) = 42
 //      ^^ - constant
 //      ^ punctuation.section.group.begin.scala
@@ -1790,3 +1789,25 @@ val (foo(), _) = 42
 //      ^^ - constant
 //      ^ punctuation.section.group.begin.scala
 //       ^ punctuation.section.group.end.scala
+
+for {
+   _<- fu
+// ^ variable.language.underscore.scala
+//  ^^ keyword.operator.assignment.scala
+
+   _← fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+
+   _= fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+}
+
+for (_<- fu; _← fu; _= fu)
+//   ^ variable.language.underscore.scala
+//    ^^ keyword.operator.assignment.scala
+//           ^ variable.language.underscore.scala
+//            ^ keyword.operator.assignment.scala
+//                  ^ variable.language.underscore.scala
+//                   ^ keyword.operator.assignment.scala

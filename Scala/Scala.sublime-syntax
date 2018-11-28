@@ -843,7 +843,7 @@ contexts:
               |"([^"\\]|\\\.)*"
               |/\*([^*]|\*(?!/))*\*/
             )+
-            {{nonopchar}}(<-|\x{2190}|=){{nonopchar}}
+            (?:{{nonopchar}}|_)(<-|\x{2190}|=){{nonopchar}}
           )
       push:
         - match: '\b(val)\b'
