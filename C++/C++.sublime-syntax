@@ -1374,7 +1374,7 @@ contexts:
           set:
             - meta_content_scope: meta.method.parameters.c++ meta.group.c++
             - match : \)
-              scope: meta.group.c++ punctuation.section.group.end.c++
+              scope: punctuation.section.group.end.c++
               set: method-definition-continue
             - match: '\bvoid\b'
               scope: storage.type.c++

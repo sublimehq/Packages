@@ -208,6 +208,12 @@ struct FOO1 FOO2 FOO3 Test {
   /*                               ^ storage.modifier */
 }
 
+struct X {
+  X();
+   /* <- meta.group */
+  /*^ meta.group - meta.group meta.group */
+};
+
 #define DEPRECATED(msg) [[deprecated(msg)]]
 
 struct Test {
