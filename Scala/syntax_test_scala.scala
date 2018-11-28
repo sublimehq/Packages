@@ -1811,3 +1811,11 @@ for (_<- fu; _← fu; _= fu)
 //            ^ keyword.operator.assignment.scala
 //                  ^ variable.language.underscore.scala
 //                   ^ keyword.operator.assignment.scala
+
+   raw"foo\nbar\rbaz"
+// ^^^ string.quoted.raw.interpolated.scala support.function.scala
+//    ^ string.quoted.raw.interpolated.scala punctuation.definition.string.begin.scala
+//     ^^^^^^^^^^^^^ string.quoted.raw.interpolated.scala
+//        ^^ string.quoted.raw.interpolated.scala
+//             ^^ string.quoted.raw.interpolated.scala
+//                  ^ string.quoted.raw.interpolated.scala punctuation.definition.string.end.scala
