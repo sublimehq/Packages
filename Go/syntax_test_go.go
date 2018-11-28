@@ -113,7 +113,7 @@ You may have to disable Go-specific linters when working on this file.
 
     chan _
 //  ^^^^ storage.keyword.chan.go
-//       ^- storage
+//       ^ variable.language.blank.go
 
     chan typ
 //  ^^^^ storage.keyword.chan.go
@@ -1435,6 +1435,7 @@ You may have to disable Go-specific linters when working on this file.
 // Empty identifier is NOT scoped
     const _ = 10
 //  ^^^^^ storage.keyword.const.go
+//        ^ variable.language.blank.go
 //          ^ keyword.operator.assignment.go
 //            ^^ constant.numeric.integer.go
 
@@ -1626,6 +1627,7 @@ func _() {
 //             ^ constant.numeric.integer.go
     var _ = iota
 //  ^^^ storage.keyword.var.go
+//      ^ variable.language.blank.go
 //        ^ keyword.operator.assignment.go
 //          ^^^^ variable.other.go
 //          ^^^^ -constant
@@ -1633,9 +1635,7 @@ func _() {
 
     var _ = log.Println
 //  ^^^ storage.keyword.var.go
-//      ^- constant
-//      ^- variable
-//      ^- storage
+//      ^ variable.language.blank.go
 //        ^ keyword.operator.assignment.go
 //          ^^^ variable.other.go
 //             ^ punctuation.accessor.dot.go
