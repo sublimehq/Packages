@@ -1704,3 +1704,22 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+a match {
+  case x: b if Foo =>
+//          ^^ keyword.control.flow.scala
+//             ^^^ support.constant.scala
+}
+
+val foo: Abc if bar = 42
+//           ^^ invalid.keyword.if-in-val-match.scala
+
+val (a: Foo, b: Bar) = ()
+//      ^^^ support.class.scala
+//              ^^^ support.class.scala
+
+   if (true)
+     new BitSet
+   else
+// ^^^^ keyword.control.flow.scala
+     ()

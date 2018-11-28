@@ -7,6 +7,9 @@ file_extensions:
   - sbt
 scope: source.scala
 variables:
+  # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
+  keywords: '\b(?:abstract|case|catch|class|def|do|else|extends|false|final|finally|for|forSome|if|implicit|import|lazy|match|new|null|object|override|package|private|protected|return|sealed|super|this|throw|trait|true|try|type|val|var|while|with|yield)\b'
+
   # lookaround for operators
   nonopchar: '[[[:alpha:]]0-9\s\(\)\[\]\{\}'']'
   # From http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html
@@ -1231,6 +1234,9 @@ contexts:
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
       push:
+        - match: '\bif\b'
+          scope: invalid.keyword.if-in-val-match.scala
+          pop: true
         - match: '(?=[\]\}\)])'
           pop: true
         - match: '(?={{nonopchar}}?={{nonopchar}})'
@@ -1245,9 +1251,13 @@ contexts:
           pop: true
         - include: val-pattern-match-inner
   val-pattern-match-inner:
+    # ascription with ',' stop token
+    - match: '{{typeprefix}}'
+      push:
+        - match: '(?=,)'
+          pop: true
+        - include: single-type-expression
     - include: val-pattern-match-main
-    - match: '{{upperid}}'
-      scope: support.class.scala
 
   base-pattern-match:
     - include: keywords
@@ -1363,7 +1373,11 @@ contexts:
     - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
+    - match: '(?={{keywords}})'
+      pop: true
   single-type-expression:
+    - match: '(?=\bif\b)'   # for pattern matching
+      pop: true
     - match: '\b(type)\b'
       scope: keyword.other.scala
     - match: \b(Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
@@ -1380,6 +1394,8 @@ contexts:
     - include: char-literal
     - include: scala-symbol
     - include: strings
+    - match: '(?={{keywords}})'
+      pop: true
     - match: '{{typeid}}'
       scope: support.type.scala
       set: single-type-expression-tail
@@ -1405,12 +1421,16 @@ contexts:
           scope: punctuation.definition.generic.end.scala
           set: single-type-expression-tail
         - include: delimited-type-expression
+    - match: '(?=\bif\b)'
+      pop: true
     - match: '\b(with)(?:\s+|\b)'
       captures:
         1: keyword.declaration.scala
       set: single-type-expression
     - match: (?={{typeid}})
       set: single-type-expression
+    - match: '(?={{keywords}})'
+      pop: true
     - match: \n
       set: single-type-expression-tail-newline
     - match: '(?=\S)'
