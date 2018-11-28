@@ -955,21 +955,8 @@ contexts:
         2: variable.other.cs
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
-    - match: (var)\s+(\()
-      captures:
-        1: storage.type.variable.cs
-        2: meta.group.tuple.cs punctuation.definition.group.begin.cs
-      set:
-        - meta_content_scope: meta.group.tuple.cs
-        - match: \)
-          scope: meta.group.tuple.cs punctuation.definition.group.end.cs
-          set: line_of_code_in
-        - match: _\b
-          scope: variable.language.deconstruction.discard.cs
-        - match: '{{name}}'
-          scope: variable.other.cs
-        - match: ','
-          scope: punctuation.separator.tuple.cs
+    - match: (?=var\s+\()
+      push: var_declaration
     - include: lambdas
     - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
       captures:
@@ -1920,6 +1907,21 @@ contexts:
       pop: true
 
   var_declaration:
+    - match: (var)\s+(\()
+      captures:
+        1: storage.type.variable.cs
+        2: meta.group.tuple.cs punctuation.definition.group.begin.cs
+      set:
+        - meta_content_scope: meta.group.tuple.cs
+        - match: \)
+          scope: meta.group.tuple.cs punctuation.definition.group.end.cs
+          pop: true
+        - match: _\b
+          scope: variable.language.deconstruction.discard.cs
+        - match: '{{name}}'
+          scope: variable.other.cs
+        - match: ','
+          scope: punctuation.separator.tuple.cs
     - match: '(var)\s+({{name}})\s*'
       captures:
         1: storage.type.variable.cs
