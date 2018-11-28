@@ -253,6 +253,11 @@ all: foo.o # a comment
 	rm -rf /
 # <- meta.function.body
 
+# A make comment.
+#                ^ comment.line.number-sign.makefile
+foo: qux
+	@bar # A shell comment.
+	#                      ^ comment.line.number-sign.shell
 
 sources := $($(a1)_objects:.o=.c)
 # ^ variable
