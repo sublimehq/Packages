@@ -1,10 +1,14 @@
-import sublime, sublime_plugin
-import difflib
-import time
-import os.path
 import codecs
+import difflib
+import os.path
+import time
+
+import sublime
+import sublime_plugin
+
 
 class DiffFilesCommand(sublime_plugin.WindowCommand):
+
     def run(self, files):
         if len(files) != 2:
             return
@@ -35,7 +39,9 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
     def is_visible(self, files):
         return len(files) == 2
 
+
 class DiffChangesCommand(sublime_plugin.TextCommand):
+
     def run(self, edit):
 
         fname = self.view.file_name()
@@ -55,7 +61,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
         adate = time.ctime(os.stat(fname).st_mtime)
         bdate = time.ctime()
 
-        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate,lineterm='')
+        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate, lineterm='')
         difftxt = u"\n".join(line for line in diff)
 
         if difftxt == "":
@@ -81,4 +87,4 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             win.run_command("show_panel", {"panel": "output.unsaved_changes"})
 
     def is_enabled(self):
-        return self.view.is_dirty() and self.view.file_name() != None
+        return self.view.is_dirty() and self.view.file_name() is not None
