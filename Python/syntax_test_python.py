@@ -567,6 +567,11 @@ def _():
 #   ^^^^^ meta.statement.conditional.python
 #       ^ punctuation.section.block.python
         pass
+    elif False :
+#   ^^^^^^^^^^^^ meta.statement.conditional.python
+#        ^^^^^ constant.language
+#              ^ punctuation.section.block.python
+        pass
     else  :
 #   ^^^^^^^ meta.statement.conditional.python
 #         ^ punctuation.section.block.python

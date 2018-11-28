@@ -25,3 +25,8 @@
 ///                                     ^^ constant.character.escape.cs
 ///                                        ^^ constant.character.escape.cs
 ///                                           ^^ constant.character.escape.cs
+
+    "{32F31D43-81CC-4C15-9DE6-3FC5453562B6}"
+/// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+///  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.guid
+

@@ -31,7 +31,8 @@
 		<key>increaseIndentPattern</key>
 		<string>(?x)^\s*
 		\b(
-		function
+		classdef|properties|events|methods|enumeration
+		|function
 		|if|else|elseif
 		|switch|case|otherwise
 		|for|while

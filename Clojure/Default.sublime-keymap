@@ -1,0 +1,26 @@
+[
+	// Disable apostrophe auto-pairing
+	{
+		"keys": ["'"],
+		"command": "insert_snippet",
+		"args": {"contents": "'"},
+		"context": [
+			{"key": "selector", "operator": "equal", "operand": "source.clojure", "match_all": true},
+			{"key": "selector", "operator": "not_equal", "operand": "comment", "match_all": true},
+			{"key": "selector", "operator": "not_equal", "operand": "string", "match_all": true},
+		]
+	},
+	// Prevent the inconvenient `word_wrap` command from running by emulating
+	// the default brace wrapping behavior and giving it a higher priority.
+	{
+		"keys": ["{"],
+		"command": "insert_snippet",
+		"args": {"contents": "{${0:$SELECTION}}"},
+		"context": [
+			{"key": "selector", "operator": "equal", "operand": "source.clojure", "match_all": true},
+			{"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true},
+			{"key": "following_text", "operator": "regex_match", "operand": "\\S|$", "match_all": true},
+			{"key": "setting.auto_match_enabled", "operator": "equal", "operand": true, "match_all": true},
+		]
+	}
+]

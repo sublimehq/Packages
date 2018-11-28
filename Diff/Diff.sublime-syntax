@@ -25,12 +25,13 @@ contexts:
         1: punctuation.definition.separator.diff
     - match: ^\d+(,\d+)*(a|d|c)\d+(,\d+)*$\n?
       scope: meta.diff.range.normal
-    - match: ^(@@)\s*(.+?)\s*(@@)($\n?)?
+    - match: ^(@@)\s*(.+?)\s*(@@)\s*(.*?)\s*$\n?
       scope: meta.diff.range.unified
       captures:
         1: punctuation.definition.range.diff
         2: meta.toc-list.line-number.diff
         3: punctuation.definition.range.diff
+        4: entity.name.section.diff
     - match: '^(((\-{3}) .+ (\-{4}))|((\*{3}) .+ (\*{4})))$\n?'
       scope: meta.diff.range.context
       captures:

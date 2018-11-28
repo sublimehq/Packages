@@ -208,6 +208,12 @@ struct FOO1 FOO2 FOO3 Test {
   /*                               ^ storage.modifier */
 }
 
+struct X {
+  X();
+   /* <- meta.group */
+  /*^ meta.group - meta.group meta.group */
+};
+
 #define DEPRECATED(msg) [[deprecated(msg)]]
 
 struct Test {
@@ -313,6 +319,14 @@ char rawStr2[] = R"A*!34( )" )A*!34";
 /*                        ^ string.quoted.double */
 /*                           ^ punctuation.definition.string.end */
 /*                                 ^ punctuation.definition.string.end */
+
+const char IncludeRegexPattern[] =
+    R"(^[\t\ ]*#[\t\ ]*(import|include)[^"<]*(["<][^">]*[">]))";
+/*  ^ storage.type.string */
+/*   ^ punctuation.definition.string.begin */
+/*         ^^ - invalid */
+/*                 ^^ - invalid */
+/*                                                            ^ punctuation.definition.string.end */
 
 
 /////////////////////////////////////////////
@@ -557,6 +571,47 @@ static bool decode(const Node& node, T& sequence) {
   return true;
 }
 
+#include <functional>
+template <class T> struct A {};
+template <class T> struct B {};
+struct C {};
+A<B<C>> f(std::function<A<B<C>>()> g) {
+    /*   ^ punctuation.section.group.begin */
+    /*       ^^ punctuation.accessor */
+    /*                 ^ punctuation.section.generic.begin */
+    /*                   ^ punctuation.section.generic.begin */
+    /*                     ^ punctuation.section.generic.begin */
+    /*                       ^^ punctuation.section.generic.end */
+    /*                         ^ punctuation.section.group.begin */
+    /*                          ^ punctuation.section.group.end */
+    /*                           ^ punctuation.section.generic.end */
+    /*                             ^ variable.parameter */
+    /*                              ^ punctuation.section.group.end */
+    /*                                ^ punctuation.section.block.begin */
+    return g();
+}
+int main() {
+    std::function<C()> foo1;
+    /*          ^ - variabe.function */
+    std::function<B<C>()> foo2;
+    /*          ^ - variable.function */
+    auto f = [](std::function<A<B<C>>()> g) { return g(); };
+    /*         ^ punctuation.section.group.begin */
+    /*             ^^ punctuation.accessor */
+    /*                       ^ punctuation.section.generic.begin */
+    /*                         ^ punctuation.section.generic.begin */
+    /*                           ^ punctuation.section.generic.begin */
+    /*                             ^^ punctuation.section.generic.end */
+    /*                               ^ punctuation.section.group.begin */
+    /*                                ^ punctuation.section.group.end */
+    /*                                 ^ punctuation.section.generic.end */
+    /*                                    ^ punctuation.section.group.end */
+    /*                                      ^ punctuation.section.block.begin */
+    /*                                                    ^ punctuation.section.block.end */
+    return 0;
+}
+/* <- - invalid.illegal */
+
 // Example from section 14.2/4 of
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
 struct X 
@@ -614,6 +669,20 @@ void f()
     /*                         ^^ meta.method-call punctuation - comment.block */
     /*                           ^ - meta.method-call */
 };
+
+template<typename T> C<T> f(T t)
+{
+    return C<T> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*          ^ punctuation.section.block.begin */
+}
+
+template<typename T> C<X<T>> f(T t)
+{
+    return C<X<T>> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*             ^ punctuation.section.block.begin */
+}
 
 struct A { int foo; };
 int main() {
@@ -1062,9 +1131,23 @@ void FooBar :: baz(int a)
 /*                     ^ variable.parameter */
 /*                      ^ punctuation.section.group.end */
 {
-
 }
-
+/* A comment. */ void FooBar :: baz(int a)
+/*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*                    ^^^^^^^^^^^^^ entity.name.function */
+/*                           ^^ punctuation.accessor */
+/*                                 ^^^^^^^ meta.function.parameters meta.group */
+/*                                 ^ punctuation.section.group.begin */
+/*                                      ^ variable.parameter */
+/*                                       ^ punctuation.section.group.end */
+{
+}
+// prevent leading comment from function recognition
+/**/ HRESULT A::b()
+/*           ^ meta.function entity.name.function */
+{
+    return S_OK;
+}
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^ entity.name.function */
@@ -1658,6 +1741,12 @@ class Adapter : public Abstraction
 {
 
 }
+
+struct Base {};
+class Derived final : Base {};
+/*             ^ storage.modifier */
+struct Derived final : Base {};
+/*             ^ storage.modifier */
 
 /* C++11 "uniform initialization" in initializer lists */
 class Foo {

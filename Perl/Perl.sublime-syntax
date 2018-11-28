@@ -135,7 +135,7 @@ contexts:
         - include: comment-pod-formatting
 
   comment-pod-formatting:
-    # non-breaking spaces : S<content>
+    # bold text : B<content>
     - match: (B)(<)
       captures:
         1: entity.name.tag.bold.perl
@@ -209,35 +209,35 @@ contexts:
 ### [ DECLARATIONS ]##########################################################
 
   declarations:
-      # KEYWORD package
-      - match: \bpackage{{break}}
-        scope: keyword.declaration.package.perl
-      # KEYWORD 'my' and its friends
-      - match: \b(?:local|my|our|state){{break}}
-        scope: keyword.declaration.variable.perl
-      # KEYWORD no
-      - match: \bno{{break}}
-        scope: keyword.declaration.no.perl
-        push:
-          - meta_scope: meta.no.perl
-          - include: eol-pop
-          - include: pragma
-          - include: expressions
-      # KEYWORD use
-      - match: \buse{{break}}
-        scope: keyword.control.import.use.perl
-        push:
-          - meta_scope: meta.use.perl
-          - include: eol-pop
-          - include: pragma
-          - include: expressions
-      # KEYWORD require
-      - match: \brequire{{break}}
-        scope: keyword.control.import.require.perl
-        push:
-          - meta_scope: meta.import.require.perl
-          - include: eol-pop
-          - include: expressions
+    # KEYWORD package
+    - match: \bpackage{{break}}
+      scope: keyword.declaration.package.perl
+    # KEYWORD 'my' and its friends
+    - match: \b(?:local|my|our|state){{break}}
+      scope: keyword.declaration.variable.perl
+    # KEYWORD no
+    - match: \bno{{break}}
+      scope: keyword.declaration.no.perl
+      push:
+        - meta_scope: meta.no.perl
+        - include: eol-pop
+        - include: pragma
+        - include: expressions
+    # KEYWORD use
+    - match: \buse{{break}}
+      scope: keyword.control.import.use.perl
+      push:
+        - meta_scope: meta.use.perl
+        - include: eol-pop
+        - include: pragma
+        - include: expressions
+    # KEYWORD require
+    - match: \brequire{{break}}
+      scope: keyword.control.import.require.perl
+      push:
+        - meta_scope: meta.import.require.perl
+        - include: eol-pop
+        - include: expressions
 
   pragma:
     # SEE: http://perldoc.perl.org/index-pragmas.html
@@ -520,7 +520,7 @@ contexts:
   string-heredoc-expr:
     # The rest of the line right after the heredoc tag needs to be handled
     # as ordinary perl. The embedded syntax starts at the next line.
-    - clear_scopes: 1 # remove 'string.quoted'
+    - clear_scopes: 1  # remove 'string.quoted'
     - match: $
       pop: true
     - include: expressions

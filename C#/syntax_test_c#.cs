@@ -67,6 +67,37 @@ class TestGenericList
         GenericList<string> list2 = new GenericList<string>();
 
         GenericList<ExampleClass> list3 = new GenericList<ExampleClass>();
+
+        string hello, wow = "test", test;
+//      ^^^^^^ storage.type
+//             ^^^^^ variable.other
+//                  ^ punctuation.separator.variables
+//                    ^^^ variable.other
+//                        ^ keyword.operator.assignment
+//                          ^^^^^^ string.quoted.double
+//                                ^ punctuation.separator.variables
+//                                  ^^^^ variable.other
+//                                      ^ punctuation.terminator.statement
+        System . String test1;
+//      ^^^^^^ support.type
+//             ^ punctuation.accessor.dot
+//               ^^^^^^ support.type
+//                      ^^^^^ variable.other
+        List <int ?> . Enumerator a;
+//      ^^^^ support.type
+//           ^ punctuation.definition.generic.begin
+//            ^^^ storage.type
+//                ^ storage.type.nullable
+//                 ^ punctuation.definition.generic.end
+//                   ^ punctuation.accessor.dot.namespace
+//                     ^^^^^^^^^^ support.type
+//                                ^ variable.other
+        int ? test2 = 4;
+//      ^^^ storage.type
+//          ^ storage.type.nullable
+//            ^^^^^ variable.other
+//                  ^ keyword.operator.assignment.variable
+//                    ^ constant.numeric.integer.decimal
     }
 }
 
