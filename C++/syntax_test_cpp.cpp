@@ -1695,6 +1695,12 @@ class Adapter : public Abstraction
 
 }
 
+struct Base {};
+class Derived final : Base {};
+/*             ^ storage.modifier */
+struct Derived final : Base {};
+/*             ^ storage.modifier */
+
 /* C++11 "uniform initialization" in initializer lists */
 class Foo {
 public:
