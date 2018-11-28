@@ -67,14 +67,7 @@ contexts:
         6: entity.name.type.class.groovy
       push:
         - meta_scope: meta.definition.class.groovy
-        - match: $
-          captures:
-            1: storage.modifier.access-control.groovy
-            2: storage.modifier.static.groovy
-            3: storage.modifier.final.groovy
-            4: storage.modifier.other.groovy
-            5: storage.type.class.groovy
-            6: entity.name.type.class.groovy
+        - match: $|(?=\})
           pop: true
         - match: '(extends)\s+([a-zA-Z0-9_\.]+(?:<(?:[a-zA-Z0-9_, ])+>)?)\s*'
           scope: meta.definition.class.inherited.classes.groovy
@@ -153,7 +146,7 @@ contexts:
         1: keyword.control.assert.groovy
       push:
         - meta_scope: meta.declaration.assertion.groovy
-        - match: $
+        - match: $|(?=\})
           pop: true
         - match: ":"
           scope: keyword.operator.assert.expression-separator.groovy
@@ -181,7 +174,7 @@ contexts:
       scope: keyword.operator.ternary.groovy
       push:
         - meta_scope: meta.evaluation.ternary.groovy
-        - match: $
+        - match: $|(?=\})
           pop: true
         - match: ":"
           scope: keyword.operator.ternary.expression-separator.groovy
