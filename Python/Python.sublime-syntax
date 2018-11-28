@@ -1240,6 +1240,17 @@ contexts:
     - match: \}
       scope: invalid.illegal.stray-brace.python
 
+  f-string-content-reset:
+    # Same as f-string-content, but will reset the entire scope stack
+    - match: \{\{|\}\}
+      scope: constant.character.escape.python
+    - match: \{\s*\}
+      scope: invalid.illegal.empty-expression.python
+    - match: (?=\{)
+      push: f-string-replacement-reset
+    - match: \}
+      scope: invalid.illegal.stray-brace.python
+
   f-string-replacement:
     - clear_scopes: 1
     - match: \}
@@ -1259,6 +1270,37 @@ contexts:
             # Because replacements can also be used *within* the format-spec,
             # basically any character is valid and matching {{format_spec}} is useless.
             # - match: '{{format_spec}}'
+            - match: (?=\})
+              pop: true
+            - include: f-string-content
+        - match: ''
+          push:
+            - meta_content_scope: source.python.embedded
+            - match: (?=![^=]|:|\})
+              pop: true
+            - match: \\
+              scope: invalid.illegal.backslash-in-fstring.python
+            - include: inline-for
+            - include: expressions
+
+  f-string-replacement-reset:
+    # Same as f-string-replacement, but with clear_scopes: true
+    - clear_scopes: true
+    - meta_scope: source.python meta.string.interpolated.python
+    - match: \}
+      scope: meta.interpolation.python punctuation.section.interpolation.end.python
+      pop: true
+    - match: \{
+      scope: punctuation.section.interpolation.begin.python
+      push:
+        - meta_scope: meta.interpolation.python
+        - match: (?=\})
+          pop: true
+        - match: '![ars]'
+          scope: storage.modifier.conversion.python
+        - match: ':'
+          push:
+            - meta_scope: meta.format-spec.python constant.other.format-spec.python
             - match: (?=\})
               pop: true
             - include: f-string-content
@@ -1340,7 +1382,7 @@ contexts:
           embed: scope:source.regexp.python
           escape: (?=""")
     # Triple-quoted raw f-string
-    - match: ((?i)fr|rf)(""")
+    - match: ([fF]R|R[fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
@@ -1350,6 +1392,23 @@ contexts:
           scope: punctuation.definition.string.begin.python
           set: after-expression
         - include: f-string-content
+    # Triple-quoted raw f-string, treated as regex
+    - match: ([fF]r|r[fF])(""")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
+      push:
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
+        - match: '"""'
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - match: ''
+          push: scope:source.regexp.python
+          with_prototype:
+            - match: '(?=""")'
+              pop: true
+            - include: line-continuation-inside-string
+            - include: f-string-content-reset
     # Triple-quoted f-string
     - match: ((?i)f|f)(""")
       captures:
@@ -1479,7 +1538,7 @@ contexts:
           embed: scope:source.regexp.python
           escape: (?="|\n)
     # Single-line raw f-string
-    - match: ((?i)fr|rf)(")
+    - match: (R[fF]|[fF]R)(")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
@@ -1490,6 +1549,24 @@ contexts:
           set: after-expression
         - include: line-continuation-inside-string
         - include: f-string-content
+    # Single-line raw f-string, treated as regex
+    - match: (r[fF]|[fF]r)(")
+      captures:
+        1: storage.type.string.python
+        2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
+      push:
+        - meta_content_scope: meta.string.interpolated.python string.quoted.double.python
+        - match: '"'
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - match: ''
+          push: scope:source.regexp.python
+          with_prototype:
+            - match: '(?="|\n)'
+              pop: true
+            - include: line-continuation-inside-string
+            - include: f-string-content-reset
     # Single-line f-string
     - match: ((?i)f|f)(")
       captures:
@@ -1620,7 +1697,7 @@ contexts:
           embed: scope:source.regexp.python
           escape: (?=''')
     # Triple-quoted raw f-string
-    - match: ((?i)fr|rf)(''')
+    - match: ([fF]R|R[fF])(''')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
@@ -1630,6 +1707,23 @@ contexts:
           scope: punctuation.definition.string.begin.python
           set: after-expression
         - include: f-string-content
+    # Triple-quoted raw f-string, treated as regex
+    - match: ([fF]r|r[fF])(''')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+      push:
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
+        - match: "'''"
+          scope: punctuation.definition.string.begin.python
+          set: after-expression
+        - match: ''
+          push: scope:source.regexp.python
+          with_prototype:
+            - match: (?=''')
+              pop: true
+            - include: line-continuation-inside-string
+            - include: f-string-content-reset
     # Triple-quoted f-string
     - match: ([fF])(''')
       captures:
@@ -1762,7 +1856,7 @@ contexts:
               pop: true
             - include: line-continuation-inside-string
     # Single-line raw f-string
-    - match: ((?i)fr|rf)(')
+    - match: ([fF]R|R[fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
@@ -1773,6 +1867,24 @@ contexts:
           set: after-expression
         - include: line-continuation-inside-string
         - include: f-string-content
+    # Single-line raw f-string, treated as regex
+    - match: ([fF]r|r[fF])(')
+      captures:
+        1: storage.type.string.python
+        2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
+      push:
+        - meta_content_scope: meta.string.interpolated.python string.quoted.single.python
+        - match: "'"
+          scope: punctuation.definition.string.end.python
+          set: after-expression
+        - include: line-continuation-inside-string
+        - match: ''
+          push: scope:source.regexp.python
+          with_prototype:
+            - match: (?='|\n)
+              pop: true
+            - include: line-continuation-inside-string
+            - include: f-string-content-reset
     # Single-line f-string
     - match: ((?i)f|f)(')
       captures:
