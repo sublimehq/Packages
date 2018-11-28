@@ -13,7 +13,6 @@ file_extensions:
   - sh
   - bash
   - zsh
-  - fish
   - .bash_aliases
   - .bash_completions
   - .bash_functions
