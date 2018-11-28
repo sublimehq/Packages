@@ -314,6 +314,14 @@ char rawStr2[] = R"A*!34( )" )A*!34";
 /*                           ^ punctuation.definition.string.end */
 /*                                 ^ punctuation.definition.string.end */
 
+const char IncludeRegexPattern[] =
+    R"(^[\t\ ]*#[\t\ ]*(import|include)[^"<]*(["<][^">]*[">]))";
+/*  ^ storage.type.string */
+/*   ^ punctuation.definition.string.begin */
+/*         ^^ - invalid */
+/*                 ^^ - invalid */
+/*                                                            ^ punctuation.definition.string.end */
+
 foo.f<5> /* foo */ ();
 
 /////////////////////////////////////////////
