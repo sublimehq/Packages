@@ -25,6 +25,7 @@ file_extensions:
   - .profile
   - .textmate_init
   - .zshrc
+  - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
 
 first_line_match: |
   (?x)                     # ignore whitespace in this regex
