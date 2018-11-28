@@ -1610,6 +1610,8 @@ contexts:
 
   string_placeholders:
     - include: string_placeholder_escape
+    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
+      scope: constant.other.guid.cs
     - match: '(\{)(\d+)(?=")'
       scope: constant.other.placeholder.cs
       captures:
