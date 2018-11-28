@@ -187,12 +187,11 @@ contexts:
 
   # https://golang.org/ref/spec#Predeclared_identifiers
   match-predefined-identifiers:
-    # Note: these are NOT keywords, and can be redefined. This syntax treats
-    # them as regular identifiers in positions that enforce a certain scope,
-    # such as variable declarations, types, function names, etc. This rule
-    # should be used in places that are "left over". Detecting redefinition is
-    # beyond the scope of this syntax engine, but it should be very uncommon, so
-    # we can get away with constant scopes.
+    # Note: these are NOT keywords, but rather predeclared identifiers that can
+    # be redefined. We treat them as regular identifiers in variable
+    # declarations, types, function names, etc. This rule should be used in
+    # places that are "left over". Detecting redefinition is beyond the scope of
+    # this syntax engine.
     - match: \b(?:true|false|nil)\b
       scope: constant.language.go
     - include: match-new
@@ -471,8 +470,9 @@ contexts:
 
   # https://godoc.org/fmt
   #
-  # Tries to match known patterns precisely, to avoid false positives in non-fmt
-  # strings that just happen to contain %.
+  # Tries to match known patterns without being too specific. We want to avoid
+  # false positives in non-fmt strings that just happen to contain %, but don't
+  # want too much coupling with the current version of fmt.
   match-fmt:
     - match: '\%[ .\d#+-]*[A-Za-z]'
       scope: constant.other.placeholder.go
@@ -1019,10 +1019,11 @@ contexts:
 
   # Note: this doesn't support multiline expressions.
   #
-  # Note on iota support. See https://golang.org/ref/spec#Iota. `iota` is a
-  # regular identifier that happens to be predeclared in constant initialization
-  # expressions, and not anywhere else. Just like `true|false|nil`, you can
-  # redefine it, eliminating the magic constant for the rest of the package.
+  # Note on `iota`. See https://golang.org/ref/spec#Iota. `iota` is a regular
+  # identifier that happens to be predeclared in constant initialization
+  # expressions, but not anywhere else. Just like `true|false|nil`, you can
+  # redefine it. Doing so in the root scope makes the magic constant unavailable
+  # for the entire package.
   pop-const-expressions:
     - include: pop-on-semicolon
     - include: match-comments
