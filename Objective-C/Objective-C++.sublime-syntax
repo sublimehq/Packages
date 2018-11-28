@@ -26,7 +26,15 @@ variables:
   other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
-  generic_lookahead: '<(?:\s*(?:{{path_lookahead}}|\d+)(?:{{path_lookahead}}|&(?!&)|\*|,|\.|<.*?>|\s|\d)*)?>'
+
+  regular: '[^(){}&;*^%=<>-]*'
+  paren_open: (?:\(
+  paren_close: '\))?'
+  generic_open: (?:<
+  generic_close: '>)?'
+  balance_parentheses: '{{regular}}{{paren_open}}{{regular}}{{paren_close}}{{regular}}'
+  generic_lookahead: <{{regular}}{{generic_open}}{{regular}}{{generic_open}}{{regular}}{{generic_close}}\s*{{generic_close}}{{balance_parentheses}}>
+
   data_structures_forward_decl_lookahead: '(\s+{{macro_identifier}})*\s*(:\s*({{path_lookahead}}|{{visibility_modifiers}}|,|\s|<[^;]*>)+)?;'
   non_func_keywords: 'if|for|switch|while|decltype|sizeof|__declspec|__attribute__|typeid|alignof|alignas|static_assert'
 
@@ -49,6 +57,18 @@ contexts:
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     - include: objc-structures
+    # Take care of comments just before a function definition.
+    - match: /\*
+      scope: punctuation.definition.comment.c
+      push:
+        - - match: \s*(?=\w)
+            set: global-modifier
+          - match: ""
+            pop: true
+        - - meta_scope: comment.block.c
+          - match: \*/
+            scope: punctuation.definition.comment.c
+            pop: true
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.objc++
@@ -76,7 +96,7 @@ contexts:
             - include: global
         - match: (?=\S)
           set: global-modifier
-    - match: '^\s*(?=\w+)'
+    - match: ^\s*(?=\w)
       push: global-modifier
     - include: late-expressions
 
@@ -852,6 +872,7 @@ contexts:
         - match: '~{{identifier}}'
         - match: '(?=[^\w\s])'
           set: function-definition-params
+    - include: scope:source.c++#unique-strings
     - match: '(?=\S)'
       set: global-type
 
@@ -1207,6 +1228,8 @@ contexts:
 
   data-structures-definition-common-end:
     - include: angle-brackets
+    - match: \bfinal\b
+      scope: storage.modifier.c++
     - match: ':'
       scope: punctuation.separator.objc++
       push:
