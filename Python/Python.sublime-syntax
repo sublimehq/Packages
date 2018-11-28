@@ -249,7 +249,7 @@ contexts:
           scope: punctuation.section.block.while.python
           pop: true
         - include: expressions
-    - match: \b(elif|else)\b(?:\s*(:))?
+    - match: \b(else)\b(?:\s*(:))?
       scope: meta.statement.conditional.python
       captures:
         1: keyword.control.flow.conditional.python
@@ -264,6 +264,16 @@ contexts:
       captures:
         1: keyword.control.flow.finally.python
         2: punctuation.section.block.finally.python
+    - match: \belif\b
+      scope: keyword.control.flow.conditional.python
+      push:
+        - meta_scope: meta.statement.conditional.python
+        - match: ':'
+          scope: punctuation.section.block.python
+          pop: true
+        - match: $\n?
+          pop: true
+        - include: line-expressions
 
   with-body:
     - meta_scope: meta.statement.with.python
