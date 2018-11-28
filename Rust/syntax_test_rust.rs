@@ -1085,6 +1085,24 @@ let _: Box<[[bool; (FOO + 1) / 2]; FOO * 3 % 12 - 1]>;
 //                                                  ^ punctuation.definition.generic.end
 //                                                   ^ punctuation.terminator
 
+let _: Box<[[u8; aa::COUNT - 1]; 5]>;
+//        ^ punctuation.definition.generic.begin
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.begin
+//           ^^ storage.type
+//             ^ punctuation.separator
+//               ^^ variable.other.constant
+//                 ^^ punctuation.accessor.double-colon
+//                   ^^^^^ variable.other.constant
+//                         ^ keyword.operator.arithmetic
+//                           ^ constant.numeric.integer.decimal
+//                            ^ punctuation.section.group.end
+//                             ^ punctuation.separator
+//                               ^ constant.numeric.integer.decimal
+//                                ^ punctuation.section.group.end
+//                                 ^ punctuation.definition.generic.end
+//                                  ^ punctuation.terminator
+
 let x = 5;
 let raw = &x as *const i32;
 //              ^^^^^^ storage.type

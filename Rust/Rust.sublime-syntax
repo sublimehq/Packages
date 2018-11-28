@@ -503,6 +503,8 @@ contexts:
         - include: constant-integer-expression
     - match: '{{identifier}}'
       scope: variable.other.constant.rust
+    - match: '::'
+      scope: punctuation.accessor.double-colon.rust
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
 
