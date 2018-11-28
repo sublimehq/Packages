@@ -812,6 +812,11 @@ type Foo >: Bar
    ()
 // ^^ constant.language.scala
 
+{
+  case () => ()
+//     ^^ constant.language.scala
+}
+
    Foo()
 // ^^^ support.constant.scala
 //    ^^ - constant.language.scala
@@ -1001,6 +1006,9 @@ val (foo, bar) = ???
 //      ^ punctuation.separator.scala
 
 foo eq bar
+//  ^^ keyword.operator.word.scala
+
+foo ne bar
 //  ^^ keyword.operator.word.scala
 
 new Config()
@@ -1704,3 +1712,125 @@ type Foo = null
 
    type P = Repr.super
 //               ^^^^^ variable.language.scala
+
+a match {
+  case x: b if Foo =>
+//          ^^ keyword.control.flow.scala
+//             ^^^ support.constant.scala
+}
+
+val foo: Abc if bar = 42
+//           ^^ invalid.keyword.if-in-val-match.scala
+
+val (a: Foo, b: Bar) = ()
+//      ^^^ support.class.scala
+//              ^^^ support.class.scala
+
+   if (true)
+     new BitSet
+   else
+// ^^^^ keyword.control.flow.scala
+     ()
+
+Data.Boolean()
+//          ^^ - constant
+
+        prop { k: Int Refined RPositive => }
+
+tail: _ *
+//    ^^^ keyword.operator.varargs.scala
+
+    val Message(
+      Address(from),
+//            ^^^^ entity.name.val.scala
+      Address(to),
+//            ^^ entity.name.val.scala
+      subject,
+//    ^^^^^^^ entity.name.val.scala
+      Content(tpe, value)) = m
+//            ^^^ entity.name.val.scala
+//                 ^^^^^ entity.name.val.scala
+
+{
+  case Foo() =>
+//        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
+  case foo(abc) =>
+//     ^^^ support.constant.scala
+//     ^^^ - variable
+//        ^ punctuation.section.group.begin.scala
+//            ^ punctuation.section.group.end.scala
+  case foo() =>
+//     ^^^ - variable
+//        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
+}
+
+val Foo() = 42
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+val foo() = 42
+//  ^^^ support.constant.scala - entity
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+val (Foo(), _) = 42
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
+
+val (foo(), _) = 42
+//   ^^^ support.constant.scala - entity
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
+
+for {
+   _<- fu
+// ^ variable.language.underscore.scala
+//  ^^ keyword.operator.assignment.scala
+
+   _← fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+
+   _= fu
+// ^ variable.language.underscore.scala
+//  ^ keyword.operator.assignment.scala
+}
+
+for (_<- fu; _← fu; _= fu)
+//   ^ variable.language.underscore.scala
+//    ^^ keyword.operator.assignment.scala
+//           ^ variable.language.underscore.scala
+//            ^ keyword.operator.assignment.scala
+//                  ^ variable.language.underscore.scala
+//                   ^ keyword.operator.assignment.scala
+
+   raw"foo\nbar\rbaz"
+// ^^^ string.quoted.raw.interpolated.scala support.function.scala
+//    ^ string.quoted.raw.interpolated.scala punctuation.definition.string.begin.scala
+//     ^^^^^^^^^^^^^ string.quoted.raw.interpolated.scala
+//        ^^ string.quoted.raw.interpolated.scala
+//             ^^ string.quoted.raw.interpolated.scala
+//                  ^ string.quoted.raw.interpolated.scala punctuation.definition.string.end.scala
+
+case (foo => } abc
+//             ^^^ - variable
+
+val x: Any
+//     ^^^ storage.type.primitive.scala
+
+val x: AnyRef
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: AnyVal
+//     ^^^^^^ storage.type.primitive.scala
+
+val x: Nothing
+//     ^^^^^^^ storage.type.primitive.scala

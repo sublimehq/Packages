@@ -34,7 +34,7 @@ variables:
   escaped_char: '(?:\\[abfnrtv"''\\]|{{unicode_char}}|\\x[0-9a-fA-F]{1,4}|\\[0-9]{1,3})'
 
   visibility: \b(?:public|private|protected|internal|protected\s+internal)\b
-  base_type: (?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)
+  base_type: (?:(?:bool|byte|sbyte|char|decimal|double|float|int|uint|long|ulong|short|ushort|object|string|void)\b)
   type_suffix: (?:\s*(?:\[,*\]|\*|\?)*)
   generic_declaration: \s*(<[^(={};<]*>)?\s*
 
@@ -485,9 +485,42 @@ contexts:
     - match: ','
       scope: punctuation.separator.inherited-class.cs
 
+  event_handler_declaration:
+    - match: '({{name}})(\.)'
+      captures:
+        1: entity.other.inherited-class.cs
+        2: punctuation.accessor.dot.cs
+    - match: '{{name}}'
+      scope: variable.other.member.cs
+      set:
+        - match: ';'
+          scope: punctuation.terminator.statement.cs
+          pop: true
+        - match: \{
+          scope: punctuation.section.block.begin.cs
+          set:
+            - meta_scope: meta.block.cs
+            - match: \}
+              scope: punctuation.section.block.end.cs
+              pop: true
+            - match: \b(add)\b
+              scope: storage.type.function.accessor.add.cs
+              push: method_body
+            - match: \b(remove)\b
+              scope: storage.type.function.accessor.remove.cs
+              push: method_body
+        - match: (?=\S)
+          pop: true
+    - match: (?=\S)
+      pop: true
+
   method_declaration:
-    - match: '\b(abstract|async|const|event|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
+    - match: \b(event)\b\s*
+      captures:
+        1: storage.modifier.cs
+      push: [event_handler_declaration, type_no_space]
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
     - match: '\b(implicit|explicit)\b'
@@ -830,6 +863,11 @@ contexts:
     - match: \b(fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
+        2: meta.group.cs punctuation.section.group.begin.cs
+      set: [expression_block, line_of_code]
+    - match: \b(lock)\s*(\()
+      captures:
+        1: keyword.control.other.lock.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [expression_block, line_of_code]
     - match: \bdo\b
@@ -1584,6 +1622,8 @@ contexts:
 
   string_placeholders:
     - include: string_placeholder_escape
+    - match: \{\h{8}-(?:\h{4}-){3}\h{12}\}
+      scope: constant.other.guid.cs
     - match: '(\{)(\d+)(?=")'
       scope: constant.other.placeholder.cs
       captures:
