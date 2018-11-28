@@ -135,7 +135,7 @@ contexts:
         - include: comment-pod-formatting
 
   comment-pod-formatting:
-    # non-breaking spaces : S<content>
+    # bold text : B<content>
     - match: (B)(<)
       captures:
         1: entity.name.tag.bold.perl
