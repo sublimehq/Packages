@@ -593,7 +593,7 @@ contexts:
     # All uppercase identifier just before a newline is most likely a macro
     - match: '[[:upper:][:digit:]_]+\s*$'
     # Identifier that is not the function name - likely a macro
-    - match: '{{identifier}}(?!\s*(\(|$))(?=\s+)'
+    - match: '{{identifier}}(?!\s*(\(|$))'
     # Real function definition
     - match: '{{identifier}}(?=\s*(\(|$))'
       scope: meta.function.objc entity.name.function.objc

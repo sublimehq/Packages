@@ -289,11 +289,17 @@ struct point get_point() {}
 /*     ^ - entity.name.struct */
 /*           ^ entity.name.function */
 
-struct foo **alloc_foo();
+struct point **alloc_points();
 /* ^ storage.type */
 /*     ^ - entity.name.struct */
-/*         ^^ keyword.operator */
-/*           ^ entity.name.function */
+/*           ^^ keyword.operator */
+/*             ^ entity.name.function */
+
+struct point* alloc_point();
+/*                  ^ entity.name.function - variable.function */
+
+struct point FOO_API *alloc_point3();
+/*                     ^ entity.name.function - variable.function */
 
 int main(void)
 {

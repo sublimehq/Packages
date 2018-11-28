@@ -253,6 +253,11 @@ all: foo.o # a comment
 	rm -rf /
 # <- meta.function.body
 
+# A make comment.
+#                ^ comment.line.number-sign.makefile
+foo: qux
+	@bar # A shell comment.
+	#                      ^ comment.line.number-sign.shell
 
 sources := $($(a1)_objects:.o=.c)
 # ^ variable
@@ -348,6 +353,15 @@ foo = $(call reverse,a,b)
 #                     ^ string.unquoted meta.function-call.arguments punctuation.separator
 #                      ^ string.unquoted meta.function-call.arguments
 #                       ^ string.unquoted keyword.other.block.end
+
+foo = $(call something)
+#                     ^ - variable.function
+
+foo = $(eval $(call bar))
+#       ^ support.function
+#                 ^ constant.language
+#                     ^ variable.function
+#                      ^^ string.unquoted keyword.other.block.end - variable.function
 
 pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
 #              ^^^^^^^^^ meta.function-call support.function
