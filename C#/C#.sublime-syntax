@@ -433,14 +433,6 @@ contexts:
         - include: interface_declaration
         - include: delegate_declaration
         - include: method_declaration
-        # - match: '\{'
-        #   scope: punctuation.section.block.begin.cs
-        #   push:
-        #     - meta_scope: meta.block.cs
-        #     - match: '\}'
-        #       scope: punctuation.section.block.end.cs
-        #       pop: true
-        #     - include: data_type_body
         - include: stray_close_bracket
     - match: \S*
       scope: invalid.illegal
