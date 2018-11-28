@@ -812,6 +812,11 @@ type Foo >: Bar
    ()
 // ^^ constant.language.scala
 
+{
+  case () => ()
+//     ^^ constant.language.scala
+}
+
    Foo()
 // ^^^ support.constant.scala
 //    ^^ - constant.language.scala
@@ -1001,6 +1006,9 @@ val (foo, bar) = ???
 //      ^ punctuation.separator.scala
 
 foo eq bar
+//  ^^ keyword.operator.word.scala
+
+foo ne bar
 //  ^^ keyword.operator.word.scala
 
 new Config()
@@ -1723,3 +1731,62 @@ val (a: Foo, b: Bar) = ()
    else
 // ^^^^ keyword.control.flow.scala
      ()
+
+Data.Boolean()
+//          ^^ - constant
+
+        prop { k: Int Refined RPositive => }
+
+tail: _ *
+//    ^^^ keyword.operator.varargs.scala
+
+    val Message(
+      Address(from),
+//            ^^^^ entity.name.val.scala
+      Address(to),
+//            ^^ entity.name.val.scala
+      subject,
+//    ^^^^^^^ entity.name.val.scala
+      Content(tpe, value)) = m
+//            ^^^ entity.name.val.scala
+//                 ^^^^^ entity.name.val.scala
+
+{
+  case Foo() =>
+//        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
+  case foo(abc) =>
+//     ^^^ support.constant.scala
+//     ^^^ - variable
+//        ^ punctuation.section.group.begin.scala
+//            ^ punctuation.section.group.end.scala
+  case foo() =>
+//     ^^^ - variable
+//        ^^ - constant
+//        ^ punctuation.section.group.begin.scala
+//         ^ punctuation.section.group.end.scala
+}
+
+val Foo() = 42
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+val foo() = 42
+//  ^^^ support.constant.scala - entity
+//     ^^ - constant
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+
+
+val (Foo(), _) = 42
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
+
+val (foo(), _) = 42
+//   ^^^ support.constant.scala - entity
+//      ^^ - constant
+//      ^ punctuation.section.group.begin.scala
+//       ^ punctuation.section.group.end.scala
