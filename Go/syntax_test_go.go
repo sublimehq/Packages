@@ -15,53 +15,53 @@ You may have to disable Go-specific linters when working on this file.
 // # Comments
 
     //
-// ^- comment -punctuation
+// ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^ comment.line.go
 
     // comment // comment
-// ^- comment -punctuation
+// ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.go
-//             ^^- punctuation
+//             ^^ -punctuation
 
     /* comment // comment */  // comment
-// ^- comment -punctuation
+// ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.begin.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.go
-//             ^^- punctuation
+//             ^^ -punctuation
 //                        ^^ punctuation.definition.comment.end.go
-//                          ^^- comment -punctuation
+//                          ^^ -comment -punctuation
 //                            ^^ punctuation.definition.comment.go
 //                            ^^^^^^^^^^^ comment.line.go
 
     /*
-// ^- comment
+// ^ -comment
 //  ^^^^ comment.block.go
     comment
 //  ^^^^^^^^ comment.block.go
     */
 //  ^^ comment.block.go
-//    ^- comment
+//    ^ -comment
 
     /* * */
-// ^- comment
+// ^ -comment
 //  ^^^^^^^ comment.block.go
-//         ^- comment
+//         ^ -comment
 
     //go
-// ^- comment -punctuation
+// ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^ comment.line.go -meta.annotation
 
     //go:
-// ^- comment -meta -punctuation
+// ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^ comment.line.go meta.annotation.go
 //       ^ comment.line.go -meta.annotation
 
     //go:generate one two three
-// ^- comment -meta -punctuation
+// ^ -comment -meta -punctuation
 //  ^^ punctuation.definition.comment.go
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.go meta.annotation.go
 //                             ^ comment.line.go -meta.annotation
@@ -71,7 +71,7 @@ You may have to disable Go-specific linters when working on this file.
 
     package main
 //  ^^^^^^^ keyword.other.package.go
-//         ^^^^^- keyword
+//         ^^^^^ -keyword
 
     import "module"
 //  ^^^^^^ keyword.other.import.go
@@ -334,7 +334,7 @@ You may have to disable Go-specific linters when working on this file.
     func()
 //  ^^^^ storage.keyword.function.go
     ident
-//  ^^^^^- storage
+//  ^^^^^ -storage
 //  ^^^^^ variable.other.go
 
     func(true false) (nil iota)
@@ -751,7 +751,7 @@ You may have to disable Go-specific linters when working on this file.
 //      ^^^ storage.type.go
 //         ^ punctuation.section.brackets.end.go
 //          ^^^ storage.type.go
-//              ^^^^^- storage
+//              ^^^^^ -storage
 //              ^^^^^ variable.other.go
 
     map[typ]
@@ -1239,7 +1239,7 @@ You may have to disable Go-specific linters when working on this file.
 
     [0]
     ident
-//  ^^^^^- storage
+//  ^^^^^ -storage
 //  ^^^^^ variable.other.go
 
     [/**/
@@ -1251,7 +1251,7 @@ You may have to disable Go-specific linters when working on this file.
 
     []
     ident
-//  ^^^^^- storage
+//  ^^^^^ -storage
 //  ^^^^^ variable.other.go
 
     []func(
@@ -1435,9 +1435,6 @@ You may have to disable Go-specific linters when working on this file.
 // Empty identifier is NOT scoped
     const _ = 10
 //  ^^^^^ storage.keyword.const.go
-//        ^- constant
-//        ^- variable
-//        ^- storage
 //          ^ keyword.operator.assignment.go
 //            ^^ constant.numeric.integer.go
 
@@ -1631,7 +1628,7 @@ func _() {
 //  ^^^ storage.keyword.var.go
 //        ^ keyword.operator.assignment.go
 //          ^^^^ variable.other.go
-//          ^^^^- constant
+//          ^^^^ -constant
 }
 
     var _ = log.Println
@@ -1971,41 +1968,41 @@ func _() {
 //       ^^^^^ constant.other.placeholder.go
     "%"
 //  ^^^ string.quoted.double.go
-//   ^- constant.other.placeholder
+//   ^ -constant.other.placeholder
 
     "one /* two */ three"
 //  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.go
-//  ^^^^^^^^^^^^^^^^^^^^^- comment
+//  ^^^^^^^^^^^^^^^^^^^^^ -comment
 
     "_\n_"
 //  ^^^^^^ string.quoted.double.go
 //    ^^ string.quoted.double.go constant.character.escape.go
-//   ^- constant.character.escape
-//      ^- constant.character.escape
+//   ^ -constant.character.escape
+//      ^ -constant.character.escape
 
     "_\x00_"
 //  ^^^^^^^^ string.quoted.double.go
 //    ^^^^ string.quoted.double.go constant.character.escape.go
-//   ^- constant.character.escape
-//        ^- constant.character.escape
+//   ^ -constant.character.escape
+//        ^ -constant.character.escape
 
     "_\u0000_"
 //  ^^^^^^^^^^ string.quoted.double.go
 //    ^^^^^^ string.quoted.double.go constant.character.escape.go
-//   ^- constant.character.escape
-//          ^- constant.character.escape
+//   ^ -constant.character.escape
+//          ^ -constant.character.escape
 
     "_\U00000000_"
 //  ^^^^^^^^^^^^^^ string.quoted.double.go
 //    ^^^^^^^^^^ string.quoted.double.go constant.character.escape.go
-//   ^- constant.character.escape
+//   ^ -constant.character.escape
 //              constant.character.escape
 
     "_\000_"
 //  ^^^^^^^^ string.quoted.double.go
 //    ^^^^ string.quoted.double.go constant.character.escape.go
-//   ^- constant.character.escape
-//        ^- constant.character.escape
+//   ^ -constant.character.escape
+//        ^ -constant.character.escape
 
     `one two`
 //  ^ punctuation.definition.string.begin.go
@@ -2013,7 +2010,7 @@ func _() {
 //          ^ punctuation.definition.string.end.go
     `one \\ \n two`
 //  ^^^^^^^^^^^^^^^ string.quoted.other.go
-//  ^^^^^^^^^^^^^^^- constant.character.escape
+//  ^^^^^^^^^^^^^^^ -constant.character.escape
     `one %% two`
 //  ^^^^^^^^^^^^ string.quoted.other.go
 //       ^^ constant.character.escape.go
@@ -2031,7 +2028,7 @@ func _() {
 //       ^^^^^ constant.other.placeholder.go
     `%`
 //  ^^^ string.quoted.other.go
-//   ^- constant.other.placeholder
+//   ^ -constant.other.placeholder
 
     `
 //  ^ string.quoted.other.go punctuation.definition.string.begin.go
@@ -2046,7 +2043,7 @@ func _() {
 
     `one /* two */ three`
 //  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go
-//  ^^^^^^^^^^^^^^^^^^^^^- comment
+//  ^^^^^^^^^^^^^^^^^^^^^ -comment
 
 
 // # Operators
