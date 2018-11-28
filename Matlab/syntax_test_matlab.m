@@ -205,5 +205,5 @@ s1="00:06:57";
 % parfor keyword test
 % parfor
 parfor x = 1:10
-^ keyword.control.matlab
+%^ keyword.control.matlab
 end
