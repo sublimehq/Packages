@@ -1,8 +1,10 @@
-import sublime, sublime_plugin
-import difflib
-import time
-import os.path
 import codecs
+import difflib
+import os.path
+import time
+
+import sublime
+import sublime_plugin
 
 
 def read_file_lines(fname):
@@ -15,13 +17,16 @@ def read_file_lines(fname):
     add_no_eol_warning_if_applicable(lines)
     return lines
 
+
 def add_no_eol_warning_if_applicable(lines):
     if len(lines) > 0 and not lines[-1].endswith('\n'):
         # note we update the last line rather than adding a new one
         # so that the diff will show the warning with the last line
         lines[-1] += '\n\\ No newline at end of file\n'
 
+
 class DiffFilesCommand(sublime_plugin.WindowCommand):
+
     def run(self, files):
         if len(files) != 2:
             return
@@ -52,7 +57,9 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
     def is_visible(self, files):
         return len(files) == 2
 
+
 class DiffChangesCommand(sublime_plugin.TextCommand):
+
     def run(self, edit):
 
         fname = self.view.file_name()

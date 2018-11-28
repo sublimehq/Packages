@@ -9,6 +9,8 @@
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
 	</dict>
 </dict>
 </plist>

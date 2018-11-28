@@ -1,5 +1,14 @@
 /* SYNTAX TEST "Packages/C++/C++.sublime-syntax" */
 
+int main(){
+    int a=5,b=0;
+    while(a-->0)++b;
+    /*     ^^ keyword.operator.arithmetic */
+    /*       ^ keyword.operator.comparison */
+    /*        ^ constant.numeric */
+    /*          ^^ keyword.operator.arithmetic */
+}
+
 /////////////////////////////////////////////
 // Preprocessor
 /////////////////////////////////////////////
@@ -49,6 +58,57 @@ int g(int x = 5 \
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant */
 
+FOOBAR
+hello() {
+    /* <- meta.function entity.name.function */
+    return 0;
+}
+
+EFIAPI
+UserStructCompare (
+  /* <- meta.function entity.name.function */
+  IN CONST VOID *UserStruct1,
+  IN CONST VOID *UserStruct2
+  )
+{
+  const USER_STRUCT *CmpStruct1;
+  /* <- meta.block storage.modifier */
+
+  CmpStruct1 = UserStruct1;
+  return KeyCompare (&CmpStruct1->Key, UserStruct2);
+  /* <- meta.block keyword.control */
+  /*              ^ meta.block meta.function-call variable.function */
+}
+
+LIB_RESULT
+foo()
+/* <- meta.function entity.name.function */
+{
+   return LIB_SUCCESS;
+}
+
+LIB_RESULT bar()
+/*           ^ meta.function entity.name.function */
+{
+    return LIB_SUCCESS;
+}
+
+THIS_IS_REALLY_JUST_A_MACRO_AND_NOT_A_RETURN_TYPE
+/* <- meta.assumed-macro */
+
+int main() {
+/* <- storage.type */
+    /* ^ meta.function entity.name.function */
+    return 0;
+}
+
+// This is a method/function with the return type on a separate line and so should not be a
+// constructor.
+FOOLIB_RESULT
+some_namespace::some_function(int a_parameter, double another_parameter) {
+  /* <- meta.function entity.name.function - entity.name.function.constructor */
+  return FOOLIB_SUCCESS;
+}
 
 #pragma foo(bar, \
 "baz", \
@@ -254,6 +314,14 @@ char rawStr2[] = R"A*!34( )" )A*!34";
 /*                           ^ punctuation.definition.string.end */
 /*                                 ^ punctuation.definition.string.end */
 
+const char IncludeRegexPattern[] =
+    R"(^[\t\ ]*#[\t\ ]*(import|include)[^"<]*(["<][^">]*[">]))";
+/*  ^ storage.type.string */
+/*   ^ punctuation.definition.string.begin */
+/*         ^^ - invalid */
+/*                 ^^ - invalid */
+/*                                                            ^ punctuation.definition.string.end */
+
 foo.f<5> /* foo */ ();
 
 /////////////////////////////////////////////
@@ -370,7 +438,27 @@ void funcName<C>() {
 /*           ^ punctuation.section.generic.begin */
 /*             ^ punctuation.section.generic.end */
 }
-
+bool A::operator<(const A& a) { return false; }
+/* ^ storage.type */
+/*   ^^^^^^^^^^^^ meta.function entity.name.function */
+/*               ^ meta.function.parameters punctuation.section.group.begin */
+template <class T> bool A<T>::operator<(const A& a) { return false; }
+/*     ^ storage.type.template */
+/*       ^ punctuation.section.generic.begin */
+/*               ^ punctuation.section.generic.end */
+/*                      ^^^^^^^^^^^^^^^ meta.function entity.name.function */
+/*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
+template <typename Foo>
+SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
+/*                          ^^^^^^ meta.function entity.name.function */
+template <typename Foo> SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
+/*                                                  ^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator   >    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator    ==    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
 /*                   ^ punctuation.section.generic.begin */
@@ -478,6 +566,47 @@ static bool decode(const Node& node, T& sequence) {
   return true;
 }
 
+#include <functional>
+template <class T> struct A {};
+template <class T> struct B {};
+struct C {};
+A<B<C>> f(std::function<A<B<C>>()> g) {
+    /*   ^ punctuation.section.group.begin */
+    /*       ^^ punctuation.accessor */
+    /*                 ^ punctuation.section.generic.begin */
+    /*                   ^ punctuation.section.generic.begin */
+    /*                     ^ punctuation.section.generic.begin */
+    /*                       ^^ punctuation.section.generic.end */
+    /*                         ^ punctuation.section.group.begin */
+    /*                          ^ punctuation.section.group.end */
+    /*                           ^ punctuation.section.generic.end */
+    /*                             ^ variable.parameter */
+    /*                              ^ punctuation.section.group.end */
+    /*                                ^ punctuation.section.block.begin */
+    return g();
+}
+int main() {
+    std::function<C()> foo1;
+    /*          ^ - variabe.function */
+    std::function<B<C>()> foo2;
+    /*          ^ - variable.function */
+    auto f = [](std::function<A<B<C>>()> g) { return g(); };
+    /*         ^ punctuation.section.group.begin */
+    /*             ^^ punctuation.accessor */
+    /*                       ^ punctuation.section.generic.begin */
+    /*                         ^ punctuation.section.generic.begin */
+    /*                           ^ punctuation.section.generic.begin */
+    /*                             ^^ punctuation.section.generic.end */
+    /*                               ^ punctuation.section.group.begin */
+    /*                                ^ punctuation.section.group.end */
+    /*                                 ^ punctuation.section.generic.end */
+    /*                                    ^ punctuation.section.group.end */
+    /*                                      ^ punctuation.section.block.begin */
+    /*                                                    ^ punctuation.section.block.end */
+    return 0;
+}
+/* <- - invalid.illegal */
+
 // Example from section 14.2/4 of
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
 struct X 
@@ -536,11 +665,53 @@ void f()
     /*                           ^ - meta.method-call */
 };
 
+template<typename T> C<T> f(T t)
+{
+    return C<T> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*          ^ punctuation.section.block.begin */
+}
+
+template<typename T> C<X<T>> f(T t)
+{
+    return C<X<T>> { g<X<T>>(t) };
+    /*     ^ - variable.function */
+    /*             ^ punctuation.section.block.begin */
+}
+
 struct A { int foo; };
 int main() {
-    A a;
+    A a, b;
     a.foo = a.foo < 0 ? 1 : 2;
     /*            ^ - punctuation.section.generic */
+    a.operator<(b);
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^ variable.function.member */
+    /*         ^^^ meta.group */
+    a.operator>(b);
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^ variable.function.member */
+    /*         ^^^ meta.group */
+    a.operator<=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator>=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator==(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator!=(b);
+    /*^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^^ meta.group */
+    a.operator->();
+    /*^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^ variable.function.member */
+    /*          ^^ meta.group */
 }
 /* <- - invalid.illegal */
 
@@ -595,11 +766,11 @@ switch (x)
 case 1:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 default:
 /* <- keyword.control */
     break;
-    /* <- keyword.control */
+    /* <- keyword.control.flow.break */
 }
 
 do
@@ -607,7 +778,7 @@ do
 {
     if (y == 3)
         continue;
-        /* <- keyword.control */
+        /* <- keyword.control.flow.continue */
 } while (y < x);
 /*^ keyword.control */
 
@@ -621,13 +792,13 @@ switch (a) {
 }
 
 goto label;
-/* <- keyword.control */
+/* <- keyword.control.flow.goto */
 
 try
 /* <- keyword.control */
 {
     throw std :: string("xyz");
-    /* <- keyword.control */
+    /* <- keyword.control.flow.throw */
     /*    ^^^^^^^^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
@@ -643,7 +814,7 @@ delete ptr;
 /* <- keyword.control */
 
 return 123;
-/* <- keyword.control */
+/* <- keyword.control.flow.return */
 
 
 /////////////////////////////////////////////
@@ -982,9 +1153,23 @@ void FooBar :: baz(int a)
 /*                     ^ variable.parameter */
 /*                      ^ punctuation.section.group.end */
 {
-
 }
-
+/* A comment. */ void FooBar :: baz(int a)
+/*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*                    ^^^^^^^^^^^^^ entity.name.function */
+/*                           ^^ punctuation.accessor */
+/*                                 ^^^^^^^ meta.function.parameters meta.group */
+/*                                 ^ punctuation.section.group.begin */
+/*                                      ^ variable.parameter */
+/*                                       ^ punctuation.section.group.end */
+{
+}
+// prevent leading comment from function recognition
+/**/ HRESULT A::b()
+/*           ^ meta.function entity.name.function */
+{
+    return S_OK;
+}
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
 /*^^^^^^^^^^^^ entity.name.function */
@@ -1579,6 +1764,12 @@ class Adapter : public Abstraction
 
 }
 
+struct Base {};
+class Derived final : Base {};
+/*             ^ storage.modifier */
+struct Derived final : Base {};
+/*             ^ storage.modifier */
+
 /* C++11 "uniform initialization" in initializer lists */
 class Foo {
 public:
@@ -1753,6 +1944,33 @@ class __declspec(align(8)) SkBitmap {}
 class __declspec(dllimport) SkBitmap {}
 /*               ^ constant.other */
 /*                          ^ entity.name.class */
+
+// Make sure not to match macros that have "too few characters".
+template <class T> class Sample {
+ public:
+  // The T here should not be consumed as a macro.
+  T operator()  (const foo x) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  int operator == (const int x) {
+    /*^^^^^^^^^^^ entity.name.function */
+    return 0;
+  }
+  // The T here should not be consumed as a macro.
+  T operator()(int a) {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+    return T;
+  }
+  // The T here should not be consumed as a macro.
+  T operator[](int a)  {
+    /* <- entity.name.function */
+    /*^^^^^^^^ entity.name.function */
+     return T;
+  }
+};
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks

@@ -1,0 +1,168 @@
+%YAML 1.2
+---
+# Highlight interactive rebase text (git rebase -i).
+
+name: Git Rebase Todo
+file_extensions:
+  - git-rebase-todo
+first_line_match: '^(?:drop|edit|exec|fixup|pick|reword|squash|[defprsx]) \h{7,} '
+scope: text.git.rebase
+
+variables:
+  comment_char: '[#;]'
+  hash: \b\h{7,}\b
+
+contexts:
+
+  main:
+    - include: comments
+    - include: commit
+
+##[ COMMENTS ]#########################################################
+
+  comments:
+    - match: ^\s*({{comment_char}})
+      captures:
+        1: punctuation.definition.comment.git.rebase
+      push:
+        - meta_scope: comment.line.git.rebase
+        - match: ^(?!\s*{{comment_char}})
+          pop: true
+        - include: heading
+        - include: commands-help
+        - include: rebase-msg
+
+  heading:
+    # all comments ending with colon are scoped as headlines
+    - match: \b\w.+(?=:\s*$)
+      scope: markup.heading.git.rebase
+
+  commands-help:
+    # highlight the commands and separators in this comment
+    # e.g. p, pick = use commit
+    - match: \b(d)\s*(,)\s*(drop)\s*(=)\s*(.+)
+      scope: meta.commands-help.drop.git.rebase
+      captures:
+        1: keyword.operator.commit.drop.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.drop.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(e)\s*(,)\s*(edit)\s*(=)\s*(.+)
+      scope: meta.commands-help.edit.git.rebase
+      captures:
+        1: keyword.operator.commit.edit.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.edit.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(x)\s*(,)\s*(exec)\s*(=)\s*(.+)
+      scope: meta.commands-help.exec.git.rebase
+      captures:
+        1: keyword.operator.commit.exec.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.exec.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(f)\s*(,)\s*(fixup)\s*(=)\s*(.+)
+      scope: meta.commands-help.fixup.git.rebase
+      captures:
+        1: keyword.operator.commit.fixup.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.fixup.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(p)\s*(,)\s*(pick)\s*(=)\s*(.+)
+      scope: meta.commands-help.pick.git.rebase
+      captures:
+        1: keyword.operator.commit.pick.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.pick.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(r)\s*(,)\s*(reword)\s*(=)\s*(.+)
+      scope: meta.commands-help.reword.git.rebase
+      captures:
+        1: keyword.operator.commit.reword.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.reword.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+    - match: \b(s)\s*(,)\s*(squash)\s*(=)\s*(.+)
+      scope: meta.commands-help.squash.git.rebase
+      captures:
+        1: keyword.operator.commit.squash.git.rebase
+        2: punctuation.separator.sequence.git.rebase
+        3: keyword.operator.commit.squash.git.rebase
+        4: punctuation.separator.mapping.pair.git.rebase
+        5: string.unquoted.git.rebase
+
+  rebase-msg:
+    # e.g. Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
+    # highlight the hashes in this comment
+    - match: Rebase\s+({{hash}})(?:(..)({{hash}}))?.+({{hash}}).*
+      scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
+      captures:
+        1: constant.numeric.hex.hash.git.rebase
+        2: punctuation.separator.commit-range.git.rebase
+        3: constant.numeric.hex.hash.git.rebase
+        4: constant.numeric.hex.hash.git.rebase
+
+##[ COMMITS ]##########################################################
+
+  commit:
+    # e.g. pick d284bb2 Initial commit
+    - match: ^\s*
+      push: [commit-subject, commit-hash, commit-commands]
+
+  commit-commands:
+    - match: (?:d|drop)\b
+      scope: keyword.operator.commit.drop.git.rebase
+      pop: true
+    - match: (?:e|edit)\b
+      scope: keyword.operator.commit.edit.git.rebase
+      pop: true
+    - match: (?:x|exec)\b
+      scope: keyword.operator.commit.exec.git.rebase
+      pop: true
+    - match: (?:f|fixup)\b
+      scope: keyword.operator.commit.fixup.git.rebase
+      pop: true
+    - match: (?:p|pick)\b
+      scope: keyword.operator.commit.pick.git.rebase
+      pop: true
+    - match: (?:r|reword)\b
+      scope: keyword.operator.commit.reword.git.rebase
+      pop: true
+    - match: (?:s|squash)\b
+      scope: keyword.operator.commit.squash.git.rebase
+      pop: true
+    - include: line-end
+    - match: \S+
+      scope: invalid.illegal.command-expected.git.rebase
+      pop: true
+
+  commit-hash:
+    - match: '{{hash}}' # e.g. d284bb2
+      scope: constant.numeric.hex.hash.git.rebase
+      pop: true
+    - include: line-end
+    - match: \S+
+      scope: invalid.illegal.hash-expected.git.rebase
+      pop: true
+
+  commit-subject:
+    - meta_scope: meta.commit.git.rebase
+    - include: line-end
+    - match: (?=\S)  # subject beginns with first none whitespece
+      set:
+        - meta_scope: meta.commit.git.rebase
+        - meta_content_scope: meta.subject.git.commit
+        - include: Git Common.sublime-syntax#references
+        - include: line-end
+
+##[ PROTOTYPES ]#######################################################
+
+  line-end:
+    - match: $\n?
+      pop: true

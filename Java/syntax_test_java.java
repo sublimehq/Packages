@@ -170,7 +170,7 @@ public class SyntaxTest {
 //              ^ punctuation.section.parens.begin
 //               ^ meta.catch.parameters storage.modifier.java
 //                     ^^^^^^^^^^^ support.class
-//                                 ^ punctuation.separator
+//                                 ^ punctuation.separator.bar.java
 //                                   ^^^ support.type.package.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^ support.type.package.java
@@ -180,7 +180,7 @@ public class SyntaxTest {
 //                                               ^^^ support.class.java
 //                                                  ^ punctuation.accessor.dot.java
 //                                                   ^^^ support.class.java
-//                                                       ^ punctuation.separator
+//                                                       ^ punctuation.separator.bar.java
                 YourException ignore) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
 //              ^ support.class
@@ -297,7 +297,7 @@ class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //                                         ^^^^^^^^^^ keyword.declaration.implements.java
 //                                                    ^^^ entity.other.inherited-class.java
 //                                                       ^^^^^ meta.generic.java
-//                                                            ^ punctuation.separator.implements.java
+//                                                            ^ punctuation.separator.comma.java
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
 //                                                                       ^ - meta.class.implements.java
 
@@ -568,7 +568,7 @@ class Generics {
 //        ^ keyword.operator.wildcard.java
 //                  ^^^ support.class.java
 //          ^^^^^^^ keyword.declaration.extends.java
-//                     ^ punctuation.separator.java
+//                     ^ punctuation.separator.comma.java
   //                     ^^^^^^ support.class.java
 
   new Foo<? super Bar>();
@@ -595,7 +595,7 @@ class Generics {
 //            ^^ punctuation.section.brackets
 //               ^ punctuation.section.braces.begin
 //                     ^^^ support.class.java
-//                           ^ punctuation.separator.java
+//                           ^ punctuation.separator.comma.java
 //                                 ^^^ support.class.java
 //                                        ^ punctuation.section.braces.end
 
@@ -658,7 +658,7 @@ public class GrafoTest {
 //          ^^^^^ variable.parameter.java
 //                ^ keyword.operator
 //                  ^^^^^^^^ string
-//                          ^ punctuation.separator.java
+//                          ^ punctuation.separator.comma.java
 //                            ^^^^ variable.parameter.java
 //                                 ^ keyword.operator
 //                                   ^^^^^^^^ string
@@ -736,7 +736,7 @@ public enum AbstractEnum {
 public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 //                          ^ punctuation.definition.generic.begin.java
 //                                                  ^ punctuation.definition.generic.end.java
-//                                               ^ punctuation.separator.java
+//                                               ^ punctuation.separator.comma.java
 //                                     ^ support.class.java
 //                                                                         ^ punctuation.section.block.begin.java
 }
@@ -779,7 +779,7 @@ public @interface PublicAnnotation {
 //^^^ variable.parameter.java
 //    ^ keyword.operator.assignment.java
 //      ^ constant.other.java
-//         ^ punctuation.separator.java
+//         ^ punctuation.separator.comma.java
   other = "foo"
 //^^^^^ variable.parameter.java
 //      ^ keyword.operator.assignment.java
@@ -817,7 +817,7 @@ public @interface PublicAnnotation {
 //^^^ support.class.java
 //   ^ punctuation.accessor.dot.java
 //    ^^^^^ variable.language.java
-//         ^ punctuation.separator.java
+//         ^ punctuation.separator.comma.java
   Bar.class
 //^^^ support.class.java
 //   ^ punctuation.accessor.dot.java
@@ -919,7 +919,7 @@ public class Foo {
 //                        ^^^^^^ support.class.java
 //                              ^^ storage.modifier.array.java
 //                                 ^^^^ variable.parameter.java
-//                                     ^ punctuation.separator.java
+//                                     ^ punctuation.separator.comma.java
 //                                             ^^^^^^ meta.generic.java
 //                                       ^^^^^^ support.class.java
 //                                              ^^^^ support.class.java
@@ -1263,6 +1263,17 @@ public class Foo {
 //  ^^^^^^ support.class
   }
 
+  void varType() {
+    var x = "String";
+//  ^^^ storage.type.var.java
+
+    try (var in = new BufferedReader()) {
+//       ^^^ storage.type.var.java
+        var line = in.readLine();
+//      ^^^ storage.type.var.java
+    }
+  }
+
   @Test
 //^ punctuation.definition.annotation.java
   public void someMethod(WithParam foo) throws Exception {
@@ -1307,7 +1318,7 @@ public class Foo {
 //                                      ^^^^^^^^^^^^^^ meta.braces.array-initialization.java
 //                                      ^ punctuation.section.braces.begin.java
 //                                       ^^^^^ string.quoted.double.java
-//                                            ^ punctuation.separator.java
+//                                            ^ punctuation.separator.comma.java
 //                                              ^^^^^ string.quoted.double.java
 //                                                   ^ punctuation.section.braces.end.java
 //                                                    ^ punctuation.terminator.java
@@ -1321,9 +1332,9 @@ public class Foo {
 //                       ^ punctuation.section.brackets.end.java
 //                        ^ punctuation.section.braces.begin.java
 //                         ^ constant.numeric.integer.decimal
-//                          ^ punctuation.separator.java
+//                          ^ punctuation.separator.comma.java
 //                            ^ constant.numeric.integer.decimal
-//                             ^ punctuation.separator.java
+//                             ^ punctuation.separator.comma.java
 //                               ^ constant.numeric.integer.decimal
 //                                ^ punctuation.section.braces.end.java
 
@@ -1350,14 +1361,14 @@ public class Foo {
 //                                        ^ punctuation.section.braces.begin.java
       { { 1, 2 }, { 3, 4 } },
 //        ^ constant.numeric.integer.decimal
-//         ^ punctuation.separator.java
+//         ^ punctuation.separator.comma.java
 //           ^ constant.numeric.integer.decimal
 //    ^ punctuation.section.braces.begin.java
 //                         ^ punctuation.section.braces.end.java
-//                          ^ punctuation.separator.java
+//                          ^ punctuation.separator.comma.java
       { { 5, 6 }, { 7, 8 } }
 //        ^ constant.numeric.integer.decimal
-//         ^ punctuation.separator.java
+//         ^ punctuation.separator.comma.java
 //           ^ constant.numeric.integer.decimal
 //    ^ punctuation.section.braces.begin.java
 //                         ^ punctuation.section.braces.end.java
@@ -1508,7 +1519,7 @@ public class Foo {
 //                                          ^ keyword.declaration.extends.java
 //                                                  ^ support.class.java
 //                                                   ^ punctuation.definition.generic.end.java
-//                                                    ^ punctuation.separator.java - meta.generic.java
+//                                                    ^ punctuation.separator.comma.java - meta.generic.java
 //                                                          ^^^ meta.generic.java
 
   public static <T extends Comparable<? super T>>
@@ -1867,3 +1878,97 @@ class Javadoc {
    */
 // ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
 }
+
+module java.base {
+//^^^^^^^^^^^^^^^^ meta.module.java
+//^^^^^^^^^^^^^^ meta.module.identifier.java
+//              ^ -meta.module.identifier.java
+//^^^^ storage.type.java
+//     ^^^^^^^^^ entity.name.module.java
+//               ^ meta.module.body.java punctuation.section.braces.begin.java
+
+  exports java.io;
+//^^^^^^^^^^^^^^^^ meta.module.java meta.module.body.java
+//^^^^^^^^^^^^^^^ meta.exports.java
+//^^^^^^ keyword.other.module.exports.java
+//        ^^^^^^^ support.type.package.java
+//            ^ punctuation.accessor.dot.java
+//               ^ punctuation.terminator.java
+
+  exports jdk.internal.jmod to jdk.compiler, jdk.jlink;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.exports.java
+//                          ^^ keyword.other.module.to.java
+//                             ^^^^^^^^^^^^ support.type.module.java
+//                                         ^ punctuation.separator.comma.java
+//                                           ^^^^^^^^^ support.type.module.java
+//                                                    ^ punctuation.terminator.java
+
+  opens java.io;
+//^^^^^^^^^^^^^ meta.opens.java
+//^^^^^ keyword.other.module.opens.java
+//      ^^^^^^^ support.type.package.java
+//          ^ punctuation.accessor.dot.java
+//             ^ punctuation.terminator.java
+
+  opens jdk.internal.jmod to jdk.compiler, jdk.jlink;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.opens.java
+//                        ^^ keyword.other.module.to.java
+//                           ^^^^^^^^^^^^ support.type.module.java
+//                                       ^ punctuation.separator.comma.java
+//                                         ^^^^^^^^^ support.type.module.java
+//                                                  ^ punctuation.terminator.java
+
+  opens // incomplete to check if it affects the next statement
+
+  uses java.security.Provider;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.uses.java
+//^^^^ keyword.other.module.uses.java
+//     ^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//     ^^^^ support.type.package.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^^^^ support.type.package.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^^^^^^ support.class.java
+//                           ^ punctuation.terminator.java
+
+  provides java.nio.file.spi.FileSystemProvider with jdk.internal.jrtfs.JrtFileSystemProvider;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java
+//^^^^^^^^ keyword.other.module.provides.java
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                              ^^^^ keyword.other.module.with.java
+//                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                                                                           ^ punctuation.terminator.java
+
+  provides incomplete.but.should.not.break.next.Statement;
+//                                                       ^ punctuation.terminator.java
+
+  provides sun.jvmstat.monitor.MonitoredHostService with
+    sun.jvmstat.perfdata.monitor.protocol.file.MonitoredHostFileService,
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java meta.path.java
+//                                                                     ^ punctuation.separator.comma.java
+    sun.jvmstat.perfdata.monitor.protocol.local.MonitoredHostLocalService;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java meta.path.java
+
+  requires java.xml;
+//^^^^^^^^^^^^^^^^^ meta.requires.java
+//^^^^^^^^ keyword.other.module.requires.java
+//         ^^^^^^^^ support.type.module.java
+//                 ^ punctuation.terminator.java
+
+  requires transitive javafx.base;
+//^^^^^^^^ keyword.other.module.requires.java
+//         ^^^^^^^^^^ keyword.other.module.transitive.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.requires.java
+//                    ^^^^^^^^^^^ support.type.module.java
+//                               ^ punctuation.terminator.java
+
+}
+//<- meta.module.body.java punctuation.section.braces.end.java
+
+open module open.module {}
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.module.java
+//^^^ -meta.module.identifier.java
+//^^ storage.modifier.java
+//   ^^^^^^ storage.type.java
+//   ^^^^^^^^^^^^^^^^^^ meta.module.identifier.java
+//                      ^^ meta.module.body.java

@@ -1,0 +1,515 @@
+# SYNTAX TEST "Git Config.sublime-syntax"
+# <- text.git.config comment.line punctuation.definition.comment
+
+# COMMENT TEST
+# <- comment.line punctuation.definition.comment
+#^^^^^^^^^^^^^ comment.line
+; this is a comment
+# <- comment.line punctuation.definition.comment
+#^^^^^^^^^^^^^^^^^^ comment.line
+
+# SECTION HEADER TESTS
+[section]
+# <- meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^ meta.brackets entity.name
+#       ^ meta.brackets punctuation.definition.brackets.end
+#        ^ -meta.brackets
+[section "subsection"]
+# <- meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#        ^^^^^^^^^^^^ string.quoted.double
+#        ^ punctuation.definition.string.begin
+#                   ^ punctuation.definition.string.end
+#                    ^ punctuation.definition.brackets.end
+[section \"subsection"]
+# <- meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#        ^ invalid.illegal
+[section "\slashes\are\legal"]
+#        ^^^^^^^^^^^^^^^^^ string.quoted.double
+#        ^ punctuation.definition.string.begin
+#         ^ -invalid.illegal
+#                 ^ -invalid.illegal
+#                     ^ -invalid.illegal
+#                           ^ punctuation.definition.string.end
+
+[section "slash prevents string from terminating\"]   "] # end the test
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+[sec\tion]
+#   ^ invalid.illegal
+[section "\ "]  # escaping a space is legal
+#         ^ invalid.unnecessary-escape
+[section "\\"]
+#         ^^ constant.character.escape
+[section "\""]
+#         ^^ constant.character.escape
+[section "\a"]  # every char can be escaped
+#         ^ invalid.unnecessary-escape
+[section "\n"]  # every char can be escaped
+#         ^ invalid.unnecessary-escape
+
+# LEGACY SECTION HEADER SYNTAX
+[section.subsection.subsubsection]
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                                 ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^^^^^^ entity.name.section
+#       ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ string.unquoted
+#                  ^ punctuation.accessor.dot
+#                   ^^^^^^^^^^^^^ string.unquoted
+#                                ^ punctuation.definition.brackets.end
+
+# LEGACY SECTION HEADER SYNTAX
+[se\ct\\ion.s"ub\se\\ct\"ion
+# <- meta.brackets
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets
+#                            ^ - meta.brackets
+# <- punctuation.definition.brackets.begin
+#^^ entity.name.section
+#  ^ invalid.illegal.section-name
+#   ^^ entity.name.section
+#     ^^ invalid.illegal.section-name
+#       ^^^ entity.name.section
+#          ^ punctuation.accessor.dot
+#           ^ string.unquoted
+#            ^ invalid.illegal.subsection-name
+#             ^^ string.unquoted
+#               ^ invalid.illegal.subsection-name
+#                ^^ string.unquoted
+#                  ^^ invalid.illegal.subsection-name
+#                    ^^ string.unquoted
+#                      ^^ invalid.illegal.subsection-name
+#                        ^^^ string.unquoted
+#                           ^ invalid.illegal.unexpected.eol
+
+# COLOR TESTS
+[color "diff"]
+# <- meta.brackets punctuation.definition.brackets.begin
+#^^^^^^^^^^^^^ meta.brackets
+#^^^^^ entity.name
+#      ^^^^^^ string.quoted.double
+#      ^ punctuation.definition.string.begin
+#           ^ punctuation.definition.string.end
+#            ^ punctuation.definition.brackets.end
+#             ^ -meta.brackets
+    old = red
+# <- meta.mapping
+#^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#      ^ -variable.other.readwrite
+#       ^ keyword.operator.assignment
+#        ^ -keyword.operator.assignment
+#         ^^^ meta.mapping.value support.constant.color
+    new = #00aa00 # this should be a comment
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#      ^ -variable.other.readwrite
+#       ^ keyword.operator.assignment
+#        ^ -keyword.operator.assignment
+#         ^ comment.line punctuation.definition.comment
+#          ^^^^^^^ comment.line
+    commit = bold yellow
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^^ variable.other.readwrite
+#         ^ -variable.other.readwrite
+#          ^ keyword.operator.assignment
+#           ^ -keyword.operator.assignment
+#            ^^^^^^^^^^^ meta.mapping.value
+#            ^^^^ support.constant.color-attribute
+#                 ^^^^^^ support.constant.color
+    commit = yellow 0
+#            ^^^^^^ support.constant.color
+#                   ^ constant.other.color.rgb-value
+    commit = yellow 99
+#            ^^^^^^ support.constant.color
+#                   ^^ constant.other.color.rgb-value
+    commit = yellow 100
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 123
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 199
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow 255
+#            ^^^^^^ support.constant.color
+#                   ^^^ constant.other.color.rgb-value
+    commit = yellow255
+#            ^^^^^^ -support.constant.color
+#                  ^^^ -constant.other.color.rgb-value
+    commit = yellow 256
+#                   ^^^ -constant.other.color.rgb-value
+    commit = yellow 01
+#                   ^^ -constant.other.color.rgb-value
+    commit = yellow 999
+#                   ^^^ -constant.other.color.rgb-value
+
+# ESCAPE TESTS
+[escapes]
+    quoted = "\\ \" \b \n \t"
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^^ variable.other.readwrite
+#          ^ keyword.operator.assignment
+#            ^^^^^^^^^^^^^^^^ meta.mapping.value string.quoted.double
+#             ^^ constant.character.escape
+#                ^^ constant.character.escape
+#                   ^^ constant.character.escape
+#                      ^^ constant.character.escape
+#                         ^^ constant.character.escape
+    unquoted = \\ \" \b \n \t \
+#              ^^ constant.character.escape
+#                 ^^ constant.character.escape
+#                    ^^ constant.character.escape
+#                       ^^ constant.character.escape
+#                          ^^ constant.character.escape
+#                             ^ punctuation.separator.continuation.line
+    trailing-slash = \  # comments not legal after trailing slash
+#                    ^ invalid.illegal.escape
+
+# BOOLEAN TESTS
+[bools]
+    foo = true
+#^^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^^ meta.mapping.value constant.language
+    foo = false
+#^^^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^^^ meta.mapping.value constant.language
+    foo = on
+#^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^ meta.mapping.value constant.language
+    foo = off
+#^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^ meta.mapping.value constant.language
+    foo = no
+#^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^ meta.mapping.value constant.language
+    foo = yes
+#^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#       ^ keyword.operator.assignment
+#         ^^^ meta.mapping.value constant.language
+
+# ILLEGAL NEWLINE IN SECTION TEST
+[section
+#^^^^^^^^ meta.brackets
+#^^^^^^^ entity.name
+#       ^ invalid.illegal.unexpected.eol
+]
+# <- punctuation.definition.brackets.end invalid.illegal.stray-bracket
+#
+# INVALID TEXT AFTER SECTION TEST
+[stray-bracket]] and anything # comment
+#              ^ invalid.illegal.expected.eol
+#               ^ -invalid.illegal.expected.eol
+#                ^^^ invalid.illegal.expected.eol
+#                   ^ -invalid.illegal.expected.eol
+#                    ^^^^^^^^ invalid.illegal.expected.eol
+#                             ^ punctuation.definition.comment
+#                             ^^^^^^^^^ comment.line
+
+# STRAY BRACKET TEST
+stray-bracket]
+#            ^ punctuation.definition.brackets.end invalid.illegal.stray-bracket
+
+# STRING TESTS
+[strings]
+    foo = "foo"
+#         ^^^^^ meta.mapping.value string.quoted.double
+#         ^ punctuation.definition.string.begin
+#             ^ punctuation.definition.string.end
+    foo = \"foo\"
+#         ^^^^^^^ meta.mapping.value
+#         ^^ constant.character.escape
+#           ^^^ string.unquoted.value -string.quoted.double
+#              ^^ constant.character.escape
+    foo = 'foo'
+#         ^^^^^ meta.mapping.value string.unquoted.value -string.quoted
+    foo = \'foo\'
+#         ^^ invalid.illegal.escape
+#           ^^^ meta.mapping.value string.unquoted
+#              ^^ invalid.illegal.escape
+    foo = foo#bar
+#         ^^^ meta.mapping.value string.unquoted.value
+#            ^ punctuation.definition.comment
+#            ^^^^ comment.line
+    foo = 'foo#bar'
+#         ^^^^ string.unquoted.value
+#             ^ punctuation.definition.comment
+#             ^^^^^ comment.line
+    foo = \"foo#bar\"
+#         ^^ constant.character.escape
+#           ^^^ string.unquoted.value
+#              ^ punctuation.definition.comment
+#              ^^^^^^ comment.line
+    foo = 'hello#foo'
+#         ^^^^^^ string.unquoted.value
+#               ^ punctuation.definition.comment
+#               ^^^^^ comment.line
+    foo = 'hello\"
+#         ^^^^^^ string.unquoted.value
+#               ^^ constant.character.escape
+    foo = \
+          hello
+#         ^^^^^ string.unquoted.value
+    foo = "foo#bar"
+#         ^ punctuation.definition.string.begin
+#         ^^^^^^^^^ string.quoted.double
+#             ^ - punctuation.definition.comment
+#             ^^^^^ - comment
+#                 ^ punctuation.definition.string.end
+    foo = #123123
+#         ^ punctuation.definition.comment
+#         ^^^^^^^ comment.line
+    foo = \hello
+#         ^^ invalid.illegal.escape
+    foo = \\hello
+#         ^^ constant.character.escape
+#           ^^^^^ string.unquoted.value
+    foo = hello \ # comments not legal after trailing slash
+#               ^ invalid.illegal.escape
+    foo = multi \
+#         ^^^^^^^ string.unquoted.value
+#               ^ punctuation.separator.continuation.line
+#                ^ -invalid.illegal.unexpected.eol
+          line
+#         ^^^^ string.unquoted.value
+
+    foo = "multi\
+#               ^ punctuation.separator.continuation.line
+#                ^ -invalid.illegal.unexpected.eol
+          line"
+#         ^^^^^ string.quoted.double
+#             ^ punctuation.definition.string.end
+    foo = "invalid
+#                 ^ invalid.illegal.unexpected.eol
+          multi
+#              ^ invalid.illegal.unexpected.eol
+          line
+#             ^ invalid.illegal.unexpected.eol
+          "
+
+# REAL WORLD SAMPLE TESTS
+[alias]
+# <- meta.brackets punctuation.definition.brackets.begin
+#^^^^^^ meta.brackets
+#^^^^^ entity.name
+#     ^ punctuation.definition.brackets.end
+    branch-author = for-each-ref --format='%(committerdate) %09 %(authorname) %09 %(refname)'
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^^^^^^^^^ variable.other.readwrite
+#                ^ -variable.other.readwrite
+#                 ^ keyword.operator.assignment
+#                  ^ -keyword.operator.assignment
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#                   ^^^^^^^^^^^^ string.unquoted.value
+
+    fatch = fetch --all --prune --tags
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^ variable.other.readwrite
+#        ^ -variable.other.readwrite
+#         ^ keyword.operator.assignment
+#          ^ -keyword.operator.assignment
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#           ^^^^^ string.unquoted.value
+#                 ^^^^^ string.unquoted.value
+#                       ^^^^^^^ string.unquoted.value
+#                               ^^^^^^ string.unquoted.value
+    lgrep = log -1 -E -i --grep
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^ variable.other.readwrite
+#        ^ -variable.other.readwrite
+#         ^ keyword.operator.assignment
+#          ^ -keyword.operator.assignment
+#           ^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#           ^^^ string.unquoted.value
+#               ^^ string.unquoted.value
+#                  ^^ string.unquoted.value
+#                     ^^ string.unquoted.value
+#                        ^^^^^^ string.unquoted.value
+
+    pushf = push --force-with-lease
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^^^ variable.other.readwrite
+#        ^ -variable.other.readwrite
+#         ^ keyword.operator.assignment
+#          ^ -keyword.operator.assignment
+#           ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#           ^^^^ string.unquoted.value
+#                ^^^^^^^^^^^^^^^^^^ string.unquoted.value
+    sla = log --oneline --decorate --graph --all
+# <- meta.mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
+#   ^^^ variable.other.readwrite
+#      ^ -variable.other.readwrite
+#       ^ keyword.operator.assignment
+#        ^ -keyword.operator.assignment
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#         ^^^ string.unquoted.value
+#             ^^^^^^^^^
+#                       ^^^^^^^^^^ string.unquoted.value
+#                                  ^^^^^^^ string.unquoted.value
+#                                          ^^^^^ string.unquoted.value
+   serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git  # shell comment
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ keyword.control.import.shell
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+   serve = "!git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git"
+# <- meta.mapping
+#^^ meta.mapping
+#  ^^^^^ meta.mapping.key
+#       ^^^ meta.mapping
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#  ^^^^^ variable.other.readwrite
+#        ^ keyword.operator.assignment
+#          ^ string.quoted.double punctuation.definition.string.begin
+#           ^ keyword.control.import.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                                                               ^^^^^^^^^^^^^^^^^ -source.shell
+#                                                                               ^ string.quoted.double punctuation.definition.string.end
+#                                                                                 ^ punctuation.definition.comment
+#                                                                                 ^^^^^^^^^^^^^^^ comment.line
+  impact = !git ls-files -z \
+         | xargs -0n1 git blame -w -C  # shell comment
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value source.shell
+  impact = "!git ls-files -z \
+         | xargs -0n1 git blame -w -C" # git "comment"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                    ^^^^^^^^^^^^^^^^^ - source.shell
+#                                      ^ punctuation.definition.comment
+#                                      ^^^^^^^^^^^^^^^ comment.line
+# check shell script quotation handling
+  single_quote = "!echo 'This is fine';"
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#                                       ^ - meta.mapping
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                      ^ - source.shell
+#                                      ^ string.quoted.double punctuation.definition.string.end
+  double_quote = "!echo "This is fine";"
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+#                                       ^ - meta.mapping
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                      ^ - source.shell
+#                                      ^ string.quoted.double punctuation.definition.string.end
+# check unescaped double quotes within shell script followed by comment with double-quotes
+  double_quote = "!echo "This is fine";" # with quoted "comment"
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                      ^ - source.shell
+#                                      ^ string.quoted.double punctuation.definition.string.end
+#                                        ^ punctuation.definition.comment
+#                                        ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
+# check escaped double quotes within shell script
+  double_quote = "!echo \"This is fine\";"
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                        ^ - source.shell
+#                                        ^ string.quoted.double punctuation.definition.string.end
+# check escaped double quotes within shell script followed by comment with double-quotes
+  double_quote = "!echo \"This is fine.\";" # with quoted "comment"
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                         ^ - source.shell
+#                                         ^ string.quoted.double punctuation.definition.string.end
+#                                           ^ punctuation.definition.comment
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
+  double_quote = "!echo \"This is fine.\";
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+                   echo \"This is fine.\";" # with quoted "comment"
+# <- meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# <- source.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                         ^ - source.shell
+#                                         ^ string.quoted.double punctuation.definition.string.end
+#                                           ^ punctuation.definition.comment
+#                                           ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
+  double_quote = "!echo "This is fine." ;
+# ^^^^^^^^^^^^ meta.mapping.key
+#             ^^^ meta.mapping - meta.mapping.key - meta.mapping.value
+#                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# ^^^^^^^^^^^^ variable.other.readwrite
+#              ^ keyword.operator.assignment
+#                ^ string.quoted.double punctuation.definition.string.begin
+#                 ^ keyword.control.import.shell
+#                 ^ - source.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^ source.shell
+                   echo "This is fine.";" # with quoted "comment"
+# <- meta.mapping.value
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
+# <- source.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.shell
+#                                       ^ - source.shell
+#                                       ^ string.quoted.double punctuation.definition.string.end
+#                                         ^ punctuation.definition.comment
+#                                         ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git

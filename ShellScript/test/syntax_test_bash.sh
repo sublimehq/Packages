@@ -340,6 +340,32 @@ declare ret&
 #          ^ keyword.operator
 declare ret &
 #           ^ keyword.operator
+printFunction "$variableString1" "$(declare -p variableArray)"
+#                                ^ string.quoted.double punctuation.definition.string.begin
+#                                 ^ string.quoted.double meta.group.expansion.command.parens punctuation.definition.variable
+#                                  ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.begin
+#                                         ^ string.quoted.double meta.group.expansion.command.parens storage.modifier
+#                                                          ^ string.quoted.double meta.group.expansion.command.parens variable.other
+#                                                           ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.end
+#                                                            ^ string.quoted.double punctuation.definition.string.end
+
+# <- - variable.other
+printFunction "$variableString1" "`declare -p variableArray`"
+#                                ^ string.quoted.double punctuation.definition.string.begin
+#                                 ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.begin
+#                                        ^ string.quoted.double meta.group.expansion.command.backticks storage.modifier
+#                                                         ^ string.quoted.double meta.group.expansion.command.backticks variable.other
+#                                                          ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.end
+#                                                           ^ string.quoted.double punctuation.definition.string.end
+foo=`readonly x=5`
+# <- variable.other.readwrite.assignment
+#   ^ meta.group.expansion.command.backticks punctuation.section.group.begin
+#             ^ meta.group.expansion.command.backticks variable.other.readwrite.assignment
+#              ^ meta.group.expansion.command.backticks keyword.operator.assignment
+#               ^ meta.group.expansion.command.backticks string.unquoted
+#                ^ meta.group.expansion.command.backticks punctuation.section.group.end
+
+# <- - meta.group.expansion.command.backticks
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
 # <- storage.modifier
@@ -966,6 +992,10 @@ status="${status#${status%%[![:space:]]*}}"
 #                          ^ - punctuation
 #                            ^ - punctuation
 #                                    ^^ - punctuation
+CURPOS=${CURPOS#*[}
+#                ^ - keyword.control.regexp
+echo "${ROW#*[}"
+#            ^ - keyword.control.regexp
 echo *
 #    ^ keyword.operator.regexp.quantifier
 echo {a,g*}
@@ -1063,6 +1093,46 @@ case $1 in
 *)
   _G_unquoted_arg=$1 ;;
 esac
+coproc sed s/^/foo/
+# <- keyword.other.coproc
+#      ^^^ variable.function
+coproc ls thisfiledoesntexist; read; 2>&1
+# <- keyword.other.coproc
+#      ^^ meta.function-call variable.function
+#                            ^ keyword.operator
+#                              ^^^^ support.function
+#                                  ^ keyword.operator
+#                                    ^ constant.numeric.integer.decimal.file-descriptor
+#                                     ^^ keyword.operator.assignment.redirection
+#                                       ^ constant.numeric.integer.decimal.file-descriptor
+coproc awk '{print "foo" $0;fflush()}'
+# <- keyword.other.coproc
+#      ^^^ variable.function
+#          ^ string.quoted.single punctuation.definition.string.begin
+#                                    ^ string.quoted.single punctuation.definition.string.end
+{ coproc tee { tee logfile ;} >&3 ;} 3>&1
+# <- punctuation.definition.compound.braces.begin
+# ^^^^^^ keyword.other.coproc
+#        ^^^ entity.name.function.coproc
+#            ^ punctuation.section.braces.begin
+#              ^^^ variable.function
+#                           ^ punctuation.section.braces.end
+#                             ^^ keyword.operator.assignment.redirection
+#                               ^ constant.numeric.integer.decimal.file-descriptor
+#                                  ^ punctuation.definition.compound.braces.end
+#                                    ^ constant.numeric.integer.decimal.file-descriptor
+#                                     ^^ keyword.operator.assignment.redirection
+#                                       ^ constant.numeric.integer.decimal.file-descriptor
+coproc foobar {
+    #  ^^^^^^ entity.name.function.coproc
+    read
+    # <- meta.function.coproc meta.function-call
+}
+
+# <- - meta.function
+exec >&${tee[1]} 2>&1
+#    ^^ keyword.operator.assignment.redirection
+#      ^ meta.group.expansion.parameter punctuation.definition.variable
 
 ###################
 # Misc. operators #
@@ -1323,7 +1393,11 @@ while true; do
 #         ^ keyword.operator
 #            ^ keyword.control
     break
-    # <- keyword.control
+    # <- keyword.control.flow.break.shell
+
+    continue
+    # <- keyword.control.flow.continue.shell
+
 done
 # <- keyword.control
 
@@ -2107,6 +2181,9 @@ function foo
     foo bar
     # <- variable.function
     # <- meta.function meta.function-call
+
+    return 0
+    # <- keyword.control.flow.return.shell
 }
 # <- punctuation.section
 
@@ -2128,6 +2205,23 @@ function foo (     ) {
 # <- punctuation.section
 
 # <- - meta.function
+
+f () (
+# <- meta.function entity.name.function
+  #  ^ meta.function punctuation.definition.compound.begin
+  echo hello
+  # <- meta.function meta.function-call support.function.echo
+)
+# <- meta.function punctuation.definition.compound.end
+
+function f (
+  #    ^ meta.function storage.type.function
+  #      ^ meta.function entity.name.function
+  #        ^ meta.function punctuation.definition.compound.begin
+  echo hello
+  # <- meta.function meta.function-call support.function.echo
+)
+# <- meta.function punctuation.definition.compound.end
 
 function foo {
     # <- meta.function

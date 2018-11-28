@@ -139,16 +139,21 @@ open.open.open
 #   ^^^^^^^^ constant.language.python
 #            ^^^^^^^^^ constant.language.python
 
-CONSTANT.__
+CONSTANT._13_
 #^^^^^^^ meta.qualified-name.python variable.other.constant.python
-#        ^^ - variable.other.constant
+#        ^^^^ - variable.other.constant
 
-NO _A_B
-#^ - variable.other.constant
-#  ^^^^ - variable.other.constant
+ _A_B A1
+#^^^^ - variable.other.constant
+#     ^^ - variable.other.constant
 
 some.NO
 #    ^^ meta.qualified-name.python variable.other.constant.python
+
+NO_SWEAT NO AA1
+# <- meta.qualified-name.python variable.other.constant.python
+#        ^^ variable.other.constant
+#           ^^^ variable.other.constant
 
 _ self
 # <- variable.language.python
@@ -168,19 +173,19 @@ identifier()
 IDENTIFIER()
 #^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
 
-dotted.identifier(12, True)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-#                 ^^^^^^^^ meta.function-call.arguments
-#^^^^^^^^^^^^^^^^ meta.qualified-name
+dotted . identifier(12, True)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call
+#                  ^^^^^^^^^^ meta.function-call.arguments
+#^^^^^^^^^^^^^^^^^^ meta.qualified-name
 #^^^^^^ - variable.function
-#     ^ punctuation.accessor.dot
-#      ^^^^^^^^^^ variable.function
+#      ^ punctuation.accessor.dot
+#        ^^^^^^^^^^ variable.function
 
 open.__new__(12, \
 #^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 #^^^ support.function.builtin
 #   ^ punctuation.accessor.dot
-#    ^^^^^^^ support.function.magic
+#    ^^^^^^^ variable.function support.function.magic
 #                ^ punctuation.separator.continuation.line.python
              True)
 
@@ -189,8 +194,7 @@ TypeError()
 #
 module.TypeError()
 #^^^^^^^^^^^^^^^ meta.function-call
-#      ^^^^^^^^^ - support
-#      ^^^^^^^^^ variable.function
+#      ^^^^^^^^^ variable.function - support
 
 open.open.open()
 #^^^ support.function.builtin
@@ -269,6 +273,36 @@ def _():
     lambda x
 #   ^^^^^^ storage.type.function.inline
 
+    lambda (x, y): pass
+#   ^^^^^^^^^^^^^^ meta.function.inline.python
+#         ^^^^^^^ meta.function.inline.parameters.python
+#          ^^^^^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+#           ^ variable.parameter.python
+#            ^ punctuation.separator.parameters.python
+#              ^ variable.parameter.python
+#               ^ punctuation.section.group.end.python
+#                ^ punctuation.section.function.begin.python
+#                  ^^^^ keyword.control.flow.pass.python
+    lambda (
+#   ^^^^^^^^^ meta.function.inline.python
+#         ^^^ meta.function.inline.parameters.python
+#          ^^ meta.group.python
+#          ^ punctuation.section.group.begin.python
+        x,
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+#        ^ punctuation.separator.parameters.python
+        y
+#      ^^^^ meta.function.inline.parameters.python meta.group.python
+#       ^ variable.parameter.python
+    ):
+#^^^^ meta.function.inline.parameters.python meta.group.python
+#   ^ punctuation.section.group.end.python
+#    ^ punctuation.section.function.begin.python
+        pass
+#       ^^^^ keyword.control.flow.pass.python
+
     ( 3 - 6 \
 #   ^^^^^^^^^ meta.group.python
 #   ^ punctuation.section.group.begin.python
@@ -297,6 +331,7 @@ myobj.method().attribute
 func()(1, 2)
 # <- meta.function-call
 #^^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^ - meta.function-call meta.function-call
 
 myobj[1](True)
 #^^^^^^^ meta.item-access
@@ -514,6 +549,12 @@ def _():
     ):
 #    ^ meta.statement.while.python punctuation.section.block.while.python
         sleep()
+        if a:
+            break
+#           ^^^^^ keyword.control.flow.break.python
+        elif b:
+            continue
+#           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
 #   ^^^^^^^^^^^^^^ meta.statement.if.python
@@ -551,6 +592,10 @@ def _():
 #   ^^^^ keyword.control.flow.conditional.python
     while
 #   ^^^^^ keyword.control.flow.while.python
+    return
+#   ^^^^^^ keyword.control.flow.return.python
+    raise
+#   ^^^^^ keyword.control.flow.raise.python
 
 
 ##################
@@ -639,6 +684,45 @@ def func(
 ):
     pass
 
+def func(args, (x, y)=(0,0)):
+#       ^^^^^^^^^^^^^ meta.function.parameters.python
+#                    ^^^^^^ meta.function.parameters.default-value.python
+#                          ^ meta.function.parameters.python
+#              ^^^^^^ meta.group.python
+#                    ^ - meta.group.python
+#                     ^^^^^ meta.group.python
+#                          ^ - meta.group.python
+#       ^ punctuation.section.parameters.begin.python
+#            ^ punctuation.separator.parameters.python
+#              ^ punctuation.section.group.begin.python
+#               ^ variable.parameter.python
+#                ^ punctuation.separator.parameters.python
+#                  ^ variable.parameter.python
+#                   ^ punctuation.section.group.end.python
+#                    ^ keyword.operator.assignment.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ constant.numeric.integer.decimal.python
+#                       ^ punctuation.separator.tuple.python
+#                        ^ constant.numeric.integer.decimal.python
+#                         ^ punctuation.section.group.end.python
+#                          ^ punctuation.section.parameters.end.python
+    pass
+
+def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
+#                     ^^^^^^^^^^^^^^^^ meta.group.python
+#                                     ^^^ - meta.group.python
+#                                        ^^^^^^^^^^^^^^^^ meta.group.python
+#                     ^ punctuation.section.group.begin.python
+#                      ^ variable.parameter.python
+#                       ^^^^^^^ invalid.illegal.annotation.python
+#                              ^ punctuation.separator.parameters.python
+#                                ^ variable.parameter.python
+#                                 ^^^ invalid.illegal.default-value.python
+#                                    ^ punctuation.section.group.end.python
+#                                      ^ keyword.operator.assignment.python
+#                                        ^ punctuation.section.group.begin.python
+#                                                       ^ punctuation.section.group.end.python
+    pass
 
 ##################
 # Class definitions
@@ -707,18 +791,20 @@ class Unterminated(Inherited:
 # ^^^^^^^^^^^^^^^^^^ meta.qualified-name
 # ^^^^^^ meta.generic-name - variable.annotation
 #          ^^^^^^^^^ variable.annotation
-#        ^ punctuation.accessor.dot
+#        ^ punctuation.accessor.dot - variable
 #                   ^ - meta.annotation
 class Class():
 
     @functools.wraps(method, 12, kwarg=None)# comment
 #^^^ - meta.annotation
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.function
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation - meta.annotation meta.annotation
+#                    ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.arguments
 #   ^ punctuation.definition.annotation
+#    ^^^^^^^^^^^^^^^^ meta.annotation.function
 #    ^^^^^^^^^^^^^^^ meta.qualified-name
 #    ^^^^^^^^^ meta.generic-name - variable.annotation
 #             ^ punctuation.accessor.dot
-#              ^^^^^ variable.annotation.function
+#              ^^^^^ variable.annotation.function meta.generic-name
 #                   ^ punctuation.section.arguments.begin
 #                          ^ punctuation.separator.arguments
 #                            ^^ constant.numeric
@@ -726,7 +812,7 @@ class Class():
 #                                     ^ keyword.operator
 #                                      ^^^^ constant.language
 #                              ^ punctuation.separator.arguments
-#                                          ^ punctuation.section.arguments.end
+#                                          ^ meta.annotation.function punctuation.section.arguments.end
 #                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
@@ -740,8 +826,18 @@ class Class():
 
     @staticmethod
 #   ^^^^^^^^^^^^^ meta.annotation
-#    ^^^^^^^^^^^^ support.function.builtin
+#    ^^^^^^^^^^^^ variable.annotation support.function.builtin
 #                ^ - meta.annotation
+
+    @not_a.staticmethod
+#   ^^^^^^^^^^^^^^^^^^^ meta.annotation
+#          ^^^^^^^^^^^^ variable.annotation - support
+#         ^ punctuation.accessor.dot
+
+    @not_a.__init__()
+#   ^^^^^^^^^^^^^^^ meta.annotation
+#          ^^^^^^^^ variable.annotation support.function.magic
+#         ^ punctuation.accessor.dot
 
     @deco[4]
 #        ^ invalid.illegal.character
@@ -753,7 +849,7 @@ class Class():
 
     @ deco \
         . rator()
-#       ^^^^^^^ meta.annotation.function
+#       ^^^^^^^^^ meta.annotation.function
 #         ^^^^^ variable.annotation.function
 
     @ deco \
@@ -880,6 +976,40 @@ list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #                              ^^ keyword.control.flow.for.in
 #                                                 ^^ keyword.operator.logical
 
+generator = ((k1, k2, v) for ((k1, k2), v) in xs)
+#           ^ meta.group.python
+#            ^^^^^^^^^^^ meta.group.python meta.group.python
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#           ^^ punctuation.section.group.begin.python
+#                      ^ punctuation.section.group.end.python
+#                            ^^ punctuation.section.target-list.begin.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                        ^ punctuation.section.target-list.end.python
+#                                               ^ punctuation.section.group.end.python
+
+list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list.python
+#        ^^^^^^^^^^^ meta.group.python
+#                   ^ - meta.group.python - meta.expression.generator.python
+#       ^ punctuation.section.list.begin.python
+#        ^ punctuation.section.group.begin.python
+#                  ^ punctuation.section.group.end.python
+#                        ^^ punctuation.section.target-list.begin.python
+#                                ^ punctuation.section.target-list.end.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                           ^ punctuation.section.list.end.python
+
+dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set.python
+#       ^ punctuation.section.dictionary-or-set.begin.python
+#            ^^^^^^^ meta.group.python
+#            ^ punctuation.section.group.begin.python
+#                  ^ punctuation.section.group.end.python
+#                        ^^ punctuation.section.target-list.begin.python
+#                                ^ punctuation.section.target-list.end.python
+#                                    ^ punctuation.section.target-list.end.python
+#                                           ^ punctuation.section.dictionary-or-set.end.python
+
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator
 list((i for i in generator), 123)
@@ -999,9 +1129,6 @@ floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
 #                              ^^^^^ constant.numeric.float.python
 #                                      ^^ constant.numeric.float.python
 #                                       ^ punctuation.separator.decimal.python
-
-not_floating = abc.123
-#                 ^^^^ invalid.illegal.name - constant
 
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
@@ -1130,6 +1257,13 @@ class Class(object
 #   ^^^ invalid.illegal.name
 #      ^ - meta.class
 
+# "Hang on, I'm still typing"
+
+foo.'bar'
+# ^^^^^^^ - invalid
+
+foo.bar(baz., True)
+#       ^^^^^ - invalid
 
 ##################
 # Variable annotations

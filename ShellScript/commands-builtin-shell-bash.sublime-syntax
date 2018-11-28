@@ -894,7 +894,7 @@ contexts:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bg
   - match: '{{boundary_begin}}return{{boundary_end}}'
-    scope: meta.function-call.shell keyword.control.return.shell
+    scope: meta.function-call.shell keyword.control.flow.return.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-return
@@ -1095,7 +1095,7 @@ contexts:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bg-bt
   - match: '{{boundary_begin}}return{{boundary_end}}'
-    scope: meta.function-call.shell keyword.control.return.shell
+    scope: meta.function-call.shell keyword.control.flow.return.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-return-bt

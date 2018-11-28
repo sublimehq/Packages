@@ -389,6 +389,47 @@ rB'''This is a \n (test|with), %s no unicode \uDEAD'''
 datetime.strptime('2011227', '%Y%V%u')
 #                            ^^^^^^^^ string.quoted.single.python
 #                             ^^^^^^ constant.other.placeholder.python
+datetime.strftime(datetime.now(), '%Y%V%uT')
+#                                 ^^^^^^^^^ string.quoted.single.python
+#                                  ^^^^^^ constant.other.placeholder.python
+#                                        ^ - constant.other.placeholder.python
+
+'{0:%Y%m%d}'.format(datetime.date.today())
+# ^^^^^^^^^^ string.quoted.single.python
+# ^^^^^^^^ constant.other.placeholder.python
+#   ^^^^^^ constant.other.format-spec.python
+'{0:%Y-%m-%d}'.format(datetime.date.today())
+# ^^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^^^^^^ constant.other.placeholder.python
+#   ^^^^^^^^ constant.other.format-spec.python
+'{0:%Y-%m-%dT}'.format(datetime.date.today())
+# ^^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^^^^^^^ constant.other.placeholder.python
+#   ^^^^^^^^^ constant.other.format-spec.python
+'{0:T}'.format(datetime.date.today())  # This is legal but uninteresting
+# ^^^^^ string.quoted.single.python
+'{0:%Y}-{0:%m}-{0:%d}'.format(datetime.date.today())
+# ^^^^^^^^^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^ constant.other.placeholder.python
+#  ^^^ constant.other.format-spec.python
+#      ^ - constant.other.placeholder.python
+#       ^^^^^^ constant.other.placeholder.python
+#          ^^ constant.other.format-spec.python
+#             ^ - constant.other.placeholder.python
+#              ^^^^^^ constant.other.placeholder.python
+#                 ^^ constant.other.format-spec.python
+'{0:%Y}-{0:%m
+# ^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^ constant.other.placeholder.python
+#  ^^^ constant.other.format-spec.python
+#      ^^^^ - constant.other.placeholder.python
+#            ^ invalid.illegal.unclosed-string.python
+'{0:%Y}-{0:%
+# ^^^^^^^^^^^ string.quoted.single.python
+# ^^^^^ constant.other.placeholder.python
+#  ^^^ constant.other.format-spec.python
+#      ^^^^^ - constant.other.placeholder.python
+#           ^ invalid.illegal.unclosed-string.python
 
 x = "hello \
 #   ^^^^^^^^^ string.quoted.double.python - invalid.illegal.unclosed-string.python, \
@@ -520,13 +561,23 @@ F'''string'''
 #^^ storage.type.string - string
 #  ^^^^^^^^ meta.string.interpolated string.quoted.single
 
-rf'\r\n' f'\r\n'
-#  ^^^^ - constant
-#          ^^^^ constant.character.escape
+rf'\r\n' f'\r\n' Rf'\r\n'
+#  ^^^^ source.regexp constant.character.escape.backslash.regexp
+#          ^^^^ constant.character.escape.python
+#                   ^^^^ - constant
 
-rf"\r\n" f"\r\n"
-#  ^^^^ - constant
-#          ^^^^ constant.character.escape
+rf"\r\n" f"\r\n" Rf'\r\n'
+#  ^^^^ source.regexp constant.character.escape.backslash.regexp
+#          ^^^^ constant.character.escape.python
+#                   ^^^^ - constant
+
+expr = fr"^\s*({label}|{notlabel})"
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated.python
+#         ^ meta.string.interpolated.python string.quoted.double.python source.regexp.python keyword.control.anchor.regexp
+#             ^ source.regexp.python meta.group.regexp punctuation.definition.group.begin.regexp
+#              ^^^^^^^ source.python meta.string.interpolated.python meta.interpolation.python
+#               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
+#                                ^ source.regexp.python meta.group.regexp punctuation.definition.group.end.regexp
 
 f"{something}"
 #^^^^^^^^^^^^ meta.string.interpolated

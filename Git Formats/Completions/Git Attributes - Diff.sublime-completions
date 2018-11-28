@@ -1,0 +1,25 @@
+{
+    "scope": "meta.mapping.expect-value & meta.attribute.builtin.diff.git.attributes",
+    "completions": [
+        {"trigger": "ada\t(built-in) diff", "contents": "ada"},
+        {"trigger": "astextplain\t(built-in) diff", "contents": "astextplain"},
+        {"trigger": "bibtex\t(built-in) diff", "contents": "bibtex"},
+        {"trigger": "cpp\t(built-in) diff", "contents": "cpp"},
+        {"trigger": "csharp\t(built-in) diff", "contents": "csharp"},
+        {"trigger": "css\t(built-in) diff", "contents": "css"},
+        {"trigger": "exif\t(built-in) diff", "contents": "exif"},
+        {"trigger": "fortran\t(built-in) diff", "contents": "fortran"},
+        {"trigger": "fountain\t(built-in) diff", "contents": "fountain"},
+        {"trigger": "html\t(built-in) diff", "contents": "html"},
+        {"trigger": "java\t(built-in) diff", "contents": "java"},
+        {"trigger": "matlab\t(built-in) diff", "contents": "matlab"},
+        {"trigger": "objc\t(built-in) diff", "contents": "objc"},
+        {"trigger": "pascal\t(built-in) diff", "contents": "pascal"},
+        {"trigger": "perl\t(built-in) diff", "contents": "perl"},
+        {"trigger": "php\t(built-in) diff", "contents": "php"},
+        {"trigger": "python\t(built-in) diff", "contents": "python"},
+        {"trigger": "ruby\t(built-in) diff", "contents": "ruby"},
+        {"trigger": "tex\t(built-in) diff", "contents": "tex"},
+        {"trigger": "word\t(built-in) diff", "contents": "word"}
+    ]
+}

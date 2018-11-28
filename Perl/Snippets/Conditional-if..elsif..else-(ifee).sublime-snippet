@@ -9,5 +9,5 @@
 ]]></content>
 	<tabTrigger>ifee</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Conditional if..elsif..else</description>
+	<description>if..elsif..else.. Conditional</description>
 </snippet>

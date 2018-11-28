@@ -1,0 +1,170 @@
+%YAML 1.2
+---
+# Highlight regular git commits, merge commits, and tags.
+
+name: Git Commit
+file_extensions:
+  - COMMIT_EDITMSG
+  - MERGE_MSG
+  - TAG_EDITMSG
+scope: text.git.commit
+
+variables:
+  comment_char: '[#;]'
+  hash: \b\h{7,}\b
+  # Rebase operations
+  shortcut: '[defprsx]'
+  operator: \b(?:drop|edit|exec|fixup|pick|reword|squash|{{shortcut}})\b
+  # The following variables are required to support highlighting of special phrases
+  # in the git commit messages for all supported languages.
+  # Source: https://github.com/git/git/tree/master/po
+  # Languages: bg,ca,de,fr,is,it,ko,pt_PT,ru,sv,vi,zh_CH
+  on_branch: On branch|На клон|En la branca|Auf Branch|Sur la branche|Sul branch|현재 브랜치|No ramo|На ветке|På grenen|Trên nhánh|位于分支
+  date: Date|Дата|Data|Datum|Date|@is.po|@it.po|시각|Data|Дата|Datum|Ngày tháng|日期
+  # file state variables
+  #  - @it.po , @is.po means no translation in the file found
+  #  - the order is used from the *.po files for easy multi cursor copy & paste
+  both_deleted: both deleted|изтрити в двата случая|suprimit per ambdós|beide gelöscht|supprimé des deux côtés|@is.po|@it.po|양쪽에서 삭제|eliminado por ambos|оба удалены|borttaget av bägge|bị xóa bởi cả hai|双方删除
+  added_by_us: added by us|добавени от вас|afegit per nosaltres|von uns hinzugefügt|ajouté par nous|@is.po|@it.po|이 쪽에서 추가|adicionado por nós|добавлено нами|tillagt av oss|được thêm vào bởi chúng ta|由我们添加
+  deleted_by_them: deleted by them|изтрити от тях|suprimit per ells|von denen gelöscht|supprimé par eux|@is.po|@it.po|저 쪽에서 삭제|eliminado por eles|удалено ими|borttaget av dem|bị xóa đi bởi họ|由他们删除
+  added_by_them: added by them|добавени от тях|afegit per ells|von denen hinzugefügt|ajouté par eux|@is.po|@it.po|저 쪽에서 추가|adicionado por eles|добавлено ими|tillagt av dem|được thêm vào bởi họ|由他们添加
+  deleted_by_us: deleted by us|изтрити от вас|suprimit per nosaltres|von uns gelöscht|supprimé par nous|@is.po|@it.po|이 쪽에서 삭제|eliminado por nós|удалено нами|borttaget av oss|bị xóa bởi chúng ta|由我们删除
+  both_added: both added|добавени и в двата случая|afegit per ambdós|von beiden hinzugefügt|ajouté de deux côtés|@is.po|@it.po|양쪽에서 추가|adicionado por ambos|оба добавлены|tillagt av bägge|được thêm vào bởi cả hai|双方添加
+  both_modified: both modified|променени и в двата случая|modificat per ambdós|von beiden geändert|modifié des deux côtés|@is.po|@it.po|양쪽에서 수정|modificado por ambos|оба изменены|ändrat av bägge|bị sửa bởi cả hai|双方修改
+  new_file: new file|нов файл|fitxer nou|neue Datei|nouveau fichier|@is.po|nuovo file|새 파일|novo ficheiro|новый файл|ny fil|tập tin mới|新文件
+  copied: copied|копиран|copiat|kopiert|copié|@is.po|copiato|복사함|copiado|скопировано|kopierad|đã chép|拷贝
+  deleted: deleted|изтрит|suprimit|gelöscht|supprimé|@is.po|eliminato|삭제함|eliminado|удалено|borttagen|đã xóa|删除
+  modified: modified|променен|modificat|geändert|modifié|@is.po|modificato|수정함|modificado|изменено|ändrad|đã sửa|修改
+  renamed: renamed|преименуван|canviat de nom|umbenannt|renommé|@is.po|rinominato|이름 바꿈|nome mudado|переименовано|namnbytt|đã đổi tên|重命名
+  typechange: typechange|смяна на вида|canviat de tipus|Typänderung|modif. type|@is.po|typechange|종류 바뀜|tipo alterado|изменен тип|typbyte|đổi-kiểu|类型变更
+  unknown: unknown|непозната промяна|desconegut|unbekannt|inconnu|@is.po|sconosciuto|알 수 없음|desconhecido|неизвестно|okänd|không hiểu|未知
+  unmerged: unmerged|неслят|sense fusionar|nicht gemerged|non fusionné|@is.po|@it.po|병합하지 않음|não integrado|не слитые|osammanslagen|chưa hòa trộn|未合并
+
+contexts:
+  prototype:
+    - include: dropped-content
+    - include: comments
+
+  main:
+    - match: ^\s*(?=\S)
+      set: commit-subject
+
+##[ COMMITS ]##########################################################
+
+  commit-subject:
+    # first none empty none comment line is commit subject
+    - meta_scope: meta.subject.git.commit markup.heading.subject.git.commit
+    - match: $\n?
+      set: commit-separator
+    - include: Git Common.sublime-syntax#references
+
+  commit-separator:
+    # empty line between subject and message
+    - match: \n
+      set: commit-message
+    - match: \S.*
+      scope: invalid.illegal.empty-line-expected.git.commit
+
+  commit-message:
+    # all none comment lines after subject belong to the message
+    - match: ^
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.message.git.commit
+        - match: ^(?=#)
+          pop: true
+        - include: Git Common.sublime-syntax#references
+        - include: signed-off
+
+  signed-off:
+    - match: ^\s*(Signed-off-by)\s*(:)
+      captures:
+        1: keyword.other.signed-off-by.git.commit
+        2: punctuation.separator.mapping.pair.git.commit
+
+##[ COMMENTS ]#########################################################
+
+  comments:
+    - match: ^{{comment_char}}
+      scope: punctuation.definition.comment.git.commit
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.git.commit
+        - match: $\n?
+          pop: true
+        - include: branch-line
+        - include: change-list
+        - include: commands-line
+        - include: date-line
+        - include: heading
+
+  branch-line:
+    - match: \b({{on_branch}})\s+(.*)
+      captures:
+        1: markup.heading.on-branch.git.commit
+        2: constant.language.branch-name.git.commit
+
+  change-list:
+    # list body
+    - match: \b({{new_file}}|{{added_by_them}}|{{added_by_us}}|{{both_added}})\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.inserted.file.git.commit
+    - match: \b({{copied}}|{{renamed}}|{{typechange}})\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.changed.file.name.git.commit
+    - match: \b({{modified}}|{{both_modified}})\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.changed.file.content.git.commit
+    - match: \b({{deleted}}|{{deleted_by_them}}|{{deleted_by_us}}|{{both_deleted}})\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.deleted.file.git.commit
+    - match: \b({{unknown}}|{{unmerged}})\s*(:)\s*(.*)
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit markup.ignored.file.git.commit
+
+  commands-line:
+    # A rebase commit message's comment contains the list of the recent
+    # operations to help understand the context of the current commit.
+    - match: \s*({{operator}})\s+({{hash}})\s+(.+?)\s*$
+      scope: meta.command-list.git.commit
+      captures:
+        1: keyword.operator.git.commit
+        2: constant.numeric.hex.hash.git.commit
+        3: string.unquoted.subject.git.commit
+
+  date-line:
+    - match: \b({{date}})\s*(:)\s*(.*)
+      captures:
+        1: markup.heading.git.commit
+        2: punctuation.separator.mapping.pair.date.git.commit
+        3: constant.language.timestamp.git.commit
+
+  heading:
+    # all comments ending with colon are scoped as headlines
+    - match: \b\w.+(?=:\s*$)
+      scope: markup.heading.git.commit
+
+  dropped-content:
+    # ------------------------ >8 ------------------------
+    - match: '{{comment_char}} -{24} >8 -{24}\s*\n'
+      scope: comment.line.git.commit markup.bold.commit
+      set:
+        - meta_content_scope: meta.dropped.git.commit
+        - include: comments
+        - match: ^(?=diff --git)
+          set: [Packages/Diff/Diff.sublime-syntax]

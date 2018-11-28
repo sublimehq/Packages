@@ -3,5 +3,5 @@
 ]]></content>
 	<tabTrigger>xif</tabTrigger>
 	<scope>source.perl</scope>
-	<description>Conditional One-line</description>
+	<description>if.. Conditional One-line</description>
 </snippet>

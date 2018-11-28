@@ -33,35 +33,58 @@ contexts:
     - match: '(?=\S)'
       pop: true
 
+  immediate_POP:
+    - match: ''
+      pop: true
+
   main:
     - include: prototype
     - include: package-statement
     - include: import-statement
-    - include: body
+    - include: module
+    - include: class
     - include: annotations
+    # Get modifiers defined on a different line than the class
+    - include: storage-modifiers
+    - include: stray-braces
     - include: code
+
+  punctuation-accessor-dot:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+
+  punctuation-separator-comma:
+    - match: \,
+      scope: punctuation.separator.comma.java
+
+  punctuation-terminator-semicolon:
+    - match: ;
+      scope: punctuation.terminator.java
+
+  dot-separated-identifier:
+    - match: '{{id}}'
+    - include: punctuation-accessor-dot
+    - include: immediate_POP
 
   package-statement:
     - match: \bpackage\b
       scope: keyword.other.package.java
       push:
-        - meta_scope: meta.package-declaration.java
-        - match: '{{id}}'
-          set:
-            - meta_scope: meta.package-declaration.java entity.name.namespace.java
-            - match: \.
-              scope: punctuation.accessor.dot.java
-            - match: '{{id}}'
-            - match: ''
-              pop: true
-        - include: any_POP
+        - - meta_scope: meta.package-declaration.java
+          - include: immediate_POP
+        - - match: '{{id}}'
+            set:
+              - - meta_scope: entity.name.namespace.java
+                - include: immediate_POP
+              - dot-separated-identifier
+          - include: any_POP
 
   import-statement:
     - match: \bimport\b
       scope: keyword.control.import.java
       push:
         - - meta_scope: meta.import.java
-          - include: any_POP
+          - include: immediate_POP
         - import-statement-body
 
   import-statement-body:
@@ -82,8 +105,7 @@ contexts:
           scope: support.class.import.java
           set:
             - include: before-next-import
-            - match: \.
-              scope: punctuation.accessor.dot.java
+            - include: punctuation-accessor-dot
             - match: ({{classcase_id}})|(\*)
               captures:
                 1: support.class.import.java
@@ -104,8 +126,7 @@ contexts:
           scope: support.class.import.java
           set:
             - include: before-next-import
-            - match: \.
-              scope: punctuation.accessor.dot.java
+            - include: punctuation-accessor-dot
             - match: ({{uppercase_id}})|({{classcase_id}})|({{id}})|(\*)
               captures:
                 1: constant.other.import.java
@@ -127,8 +148,7 @@ contexts:
   package:
     - match: '{{lowercase_id}}'
       scope: support.type.package.java
-    - match: \.
-      scope: punctuation.accessor.dot.java
+    - include: punctuation-accessor-dot
 
   all-types:
     - include: primitive-types
@@ -139,10 +159,10 @@ contexts:
       scope: punctuation.definition.annotation.java
       push:
         - - meta_scope: meta.annotation.java
-          - include: any_POP
+          - include: immediate_POP
         - annotation-parameters
         - - meta_content_scope: meta.annotation.identifier.java
-          - include: any_POP
+          - include: immediate_POP
         - annotation-type-reference
 
   annotation-type-reference:
@@ -151,8 +171,7 @@ contexts:
         - meta_scope: meta.path.java
         - match: '{{lowercase_id}}'
           scope: variable.annotation.package.java
-        - match: \.
-          scope: punctuation.accessor.dot.java
+        - include: punctuation-accessor-dot
         - include: annotation-type-no-fqn
     - include: annotation-type-no-fqn
 
@@ -188,8 +207,7 @@ contexts:
         - include: annotation-array-initialization
         - include: annotations
         - include: code
-        - match: \,
-          scope: punctuation.separator.java
+        - include: punctuation-separator-comma
     - include: any_POP
 
   annotation-array-initialization:
@@ -205,7 +223,7 @@ contexts:
       scope: keyword.control.new.java
       push:
         - - meta_scope: meta.instantiation.java
-          - include: any_POP
+          - include: immediate_POP
         - instantiation
 
   instantiation:
@@ -292,8 +310,7 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
-    - match: \,
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   assertions:
     - match: \b(assert)\b
@@ -305,12 +322,7 @@ contexts:
         - match: ":"
           scope: keyword.operator.assert.expression-separator.java
         - include: code
-  body:
-    - include: class
-    - include: annotations
-    # Get modifiers defined on a different line than the class
-    - include: storage-modifiers
-    - include: stray-braces
+
   class:
     - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
       push:
@@ -327,14 +339,14 @@ contexts:
           scope: keyword.declaration.extends.java
           push:
             - - meta_scope: meta.class.extends.java
-              - include: any_POP
+              - include: immediate_POP
             - inherited-object-type-reference
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
           push:
             - - meta_scope: meta.class.implements.java
               - match: \,
-                scope: punctuation.separator.implements.java
+                scope: punctuation.separator.comma.java
                 push: inherited-object-type-reference
               - include: any_POP
             - inherited-object-type-reference
@@ -385,6 +397,7 @@ contexts:
         - include: code-block
   code-block:
     - include: storage-modifiers
+    - include: var-type
     - include: keywords-control
     - include: catch-block
     - include: code
@@ -533,8 +546,7 @@ contexts:
       captures:
         1: punctuation.accessor.dot.java
         2: variable.language.java
-    - match: ;
-      scope: punctuation.terminator.java
+    - include: punctuation-terminator-semicolon
   illegal-keywords:
     - match: \b(goto|const)\b
       scope: invalid.illegal.java
@@ -550,7 +562,7 @@ contexts:
           scope: meta.catch.java punctuation.section.parens.end.java
           pop: true
         - match: \|
-          scope: punctuation.separator.java
+          scope: punctuation.separator.bar.java
         - include: parameters
   keywords-control:
     - match: \btry\b
@@ -591,8 +603,7 @@ contexts:
           pop: true
         - include: illegal-parens-terminators
         - include: code
-        - match: \,
-          scope: punctuation.separator.java
+        - include: punctuation-separator-comma
 
   fields-and-methods:
     - match: \bvoid\b
@@ -620,8 +631,7 @@ contexts:
           1: entity.name.constant.java
           2: meta.field.java
         push: [static-assignment, array-brackets]
-      - match: ','
-        scope: punctuation.separator.java
+      - include: punctuation-separator-comma
       - match: ';'
         scope: punctuation.terminator.java
         pop: true
@@ -669,7 +679,7 @@ contexts:
       push:
       - - meta_scope: meta.method.throws.java
         - match: \,
-          scope: punctuation.separator.implements.java
+          scope: punctuation.separator.comma.java
           push: object-type-reference
         - include: any_POP
       - object-type-reference
@@ -785,8 +795,7 @@ contexts:
         - meta_scope: meta.path.java
         - match: '{{lowercase_id}}'
           scope: entity.other.inherited-class.package.java
-        - match: \.
-          scope: punctuation.accessor.dot.java
+        - include: punctuation-accessor-dot
         - include: inherited-object-type-reference-no-fqn
     - include: inherited-object-type-reference-no-fqn
 
@@ -830,7 +839,7 @@ contexts:
   generic-type-bounds:
     - match: (,)|(?=>)
       captures:
-        1: punctuation.separator.java
+        1: punctuation.separator.comma.java
       pop: true
     - match: \bextends\b
       scope: keyword.declaration.extends.java
@@ -858,8 +867,7 @@ contexts:
       push: generic-type-bounds
     - include: generic-type-terminator
     - include: object-and-array-types
-    - match: ','
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   annotation-default:
     - match: \bdefault\b
@@ -881,8 +889,7 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.java
       push: array-brackets
-    - match: \,
-      scope: punctuation.separator.java
+    - include: punctuation-separator-comma
 
   lambdas:
     - match: '(?={{lambda_lookahead}})'
@@ -937,6 +944,10 @@ contexts:
     - match: \b{{primitives}}\b
       scope: storage.type.primitive.java
       push: array-brackets
+
+  var-type:
+    - match: \bvar\b
+      scope: storage.type.var.java
 
   array-brackets:
     - match: \[\s*\]
@@ -1006,3 +1017,117 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.java
+
+  module:
+    - match: (?=\b(?:open\s+)?module\b)
+      push:
+      - - meta_scope: meta.module.java
+        - include: immediate_POP
+      - - match: \bopen\b
+          scope: storage.modifier.java
+        - match: \bmodule\b
+          scope: storage.type.java
+          set: [module-body, module-identifier-scope, module-identifier]
+
+  module-identifier-scope:
+    - meta_scope: meta.module.identifier.java
+    - include: immediate_POP
+
+  module-identifier:
+    - match: '{{id}}'
+      set:
+        - - meta_scope: entity.name.module.java
+          - include: immediate_POP
+        - dot-separated-identifier
+    - include: any_POP
+
+  module-body:
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      set:
+        - meta_scope: meta.module.body.java
+        - include: module-body-content
+        - match: \}
+          scope: punctuation.section.braces.end.java
+          pop: true
+    - include: any_POP
+
+  module-body-content:
+    - match: \bexports\b
+      scope: keyword.other.module.exports.java
+      push: [exports-statement-scope, exports-or-opens-statement]
+    - match: \bopens\b
+      scope: keyword.other.module.opens.java
+      push: [opens-statement-scope, exports-or-opens-statement]
+    - match: \brequires\b
+      scope: keyword.other.module.requires.java
+      push: requires-statement
+    - match: \buses\b
+      scope: keyword.other.module.uses.java
+      push: [uses-statement-scope, object-type-reference]
+    - match: \bprovides\b
+      scope: keyword.other.module.provides.java
+      push: [provides-statement-scope, provides-with-statement, object-type-reference]
+    - include: punctuation-terminator-semicolon
+
+  # Should always come before module/package patterns
+  module-statement-terminator:
+    - match: (?=[;\}])
+      pop: true
+    - match: (?=\b(?:requires|exports|uses|provides|opens)\b)
+      pop: true
+
+  support-type-module:
+    - match: '{{id}}'
+      push:
+        - - meta_scope: support.type.module.java
+          - include: immediate_POP
+        - dot-separated-identifier
+
+  exports-statement-scope:
+    - meta_scope: meta.exports.java
+    - include: immediate_POP
+
+  opens-statement-scope:
+    - meta_scope: meta.opens.java
+    - include: immediate_POP
+
+  exports-or-opens-statement:
+    - match: \bto\b
+      scope: keyword.other.module.to.java
+      set:
+        - include: module-statement-terminator
+        - include: support-type-module
+        - include: punctuation-separator-comma
+    - include: module-statement-terminator
+    - match: '{{id}}'
+      push:
+        - - meta_scope: support.type.package.java
+          - include: immediate_POP
+        - dot-separated-identifier
+
+  requires-statement:
+    - meta_scope: meta.requires.java
+    - match: \btransitive\b
+      scope: keyword.other.module.transitive.java
+    - include: module-statement-terminator
+    - include: support-type-module
+
+  uses-statement-scope:
+    - meta_scope: meta.uses.java
+    - include: immediate_POP
+
+  provides-statement-scope:
+    - meta_scope: meta.provides.java
+    - include: immediate_POP
+
+  provides-with-statement:
+    - match: \bwith\b
+      scope: keyword.other.module.with.java
+      set:
+        - - match: \,
+            scope: punctuation.separator.comma.java
+            push: object-type-reference
+          - include: any_POP
+        - object-type-reference
+    - include: any_POP

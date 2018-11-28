@@ -204,7 +204,7 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
 //           ^ meta.array.empty.php punctuation.section.array.end.php
-   []
+   [];
 // ^ meta.array.empty.php punctuation.section.array.begin.php
 //  ^ meta.array.empty.php punctuation.section.array.end.php
 
@@ -328,12 +328,12 @@ $var->meth()[10];
 
 /**
  * @property-read Class: allows a class to know which ‘magic’ properties are present that are read-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
  * @property-write Class: allows a class to know which ‘magic’ properties are present that are write-only.
-//  ^ keyword.other.phpdoc
+//  ^^^^^^^^^^^^^^ keyword.other.phpdoc
  */
 
 /**
@@ -384,6 +384,151 @@ $var->meth()[10];
 /**
  * @version Any: indicates the current version of Structural Elements.
 //  ^ keyword.other.phpdoc
+ */
+
+/**
+ * @after
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @afterClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupGlobals
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @backupStaticAttributes
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @before
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @beforeClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @codeCoverageIgnore*
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @covers
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversDefaultClass
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @coversNothing
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @dataProvider
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @depends
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @doesNotPerformAssertions
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedException
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionCode
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessage
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @expectedExceptionMessageRegExp
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @group
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @large
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @medium
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @preserveGlobalState
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @requires
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runTestsInSeparateProcesses
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @runInSeparateProcess
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @small
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @test
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testdox
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @testWith
+//  ^ keyword.other.phpunit
+ */
+
+/**
+ * @ticket
+//  ^ keyword.other.phpunit
  */
 
 /**
@@ -518,6 +663,12 @@ $object->method(func_call());
 //              ^^^^^^^^^ variable.function
 //                       ^^ meta.group meta.group
 
+$object->property::method();
+//     ^^ punctuation.accessor.arrow
+//               ^^ punctuation.accessor.double-colon
+//                 ^^^^^^ meta.function-call.static variable.function
+//                       ^^ meta.group
+
 strval($foo);
 //^^^^^^^^^^ meta.function-call
 //^^^^ support.function.var - variable.function
@@ -529,24 +680,30 @@ $test = new Test1;
 //          ^ support.class.php
 
 $anon = new class{};
-//      ^^^^^^^^^^^ meta.class
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
+//               ^^ meta.class.php
 //               ^^ meta.block.php
 //               ^ punctuation.section.block.php - meta.class meta.class
 //                ^ punctuation.section.block.php
 
-$anon = new class extends Test1 implements Countable {};
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class - meta.class meta.class
+$anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
 //          ^ storage.type.class.php
-//                ^ storage.modifier.extends.php
-//                        ^^^^^ meta.path
-//                         ^ entity.other.inherited-class.php
-//                              ^ storage.modifier.implements.php
-//                                         ^^^^^^^^^ meta.path
-//                                         ^ entity.other.inherited-class.php
-//                                                   ^^ meta.block.php
+//               ^^^^^^^^^^^^^^^^^^ meta.function-call.php
+//               ^ punctuation.section.group.begin.php
+//                ^ variable.other.php
+//                       ^ punctuation.separator.php
+//                         ^ variable.other.php
+//                                ^ punctuation.section.group.end.php
+//                                  ^ storage.modifier.extends.php
+//                                          ^^^^^ meta.path
+//                                           ^ entity.other.inherited-class.php
+//                                                ^ storage.modifier.implements.php
+//                                                           ^^^^^^^^^ meta.path
+//                                                           ^ entity.other.inherited-class.php
+//                                                                     ^^ meta.class.php
+//                                                                     ^^ meta.block.php
 
     function noReturnType(array $param1, int $param2) {}
 //  ^ storage.type.function.php
@@ -758,10 +915,17 @@ class B
 //      ^^^^^ variable.other
 //      ^ punctuation.definition.variable
 
+        foreach (A::B() as $c => $d) {}
+        //        ^^ punctuation.accessor
+        //          ^ variable.function
+        //              ^^ keyword.operator.logical.php
+        //                    ^^ keyword.operator.key.php
+
         return new self();
 //                 ^^^^ variable.language
     }
 }
+
 
 try {
 // <- keyword.control.exception
@@ -827,6 +991,13 @@ function generate()
 {
     yield 1;
 //  ^ keyword.control
+}
+
+function generate2()
+{
+    yield from generate();
+//  ^ keyword.control
+//        ^ keyword.control
 }
 
 $var = 0;
@@ -948,13 +1119,75 @@ $sql = '
 ';
 // <- string.quoted.single punctuation.definition.string.end - meta.string-contents
 
-preg_replace('/(foo|bar)a{1,4}[a-z]*\'\n/m');
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.single-quoted
-//                                 ^ keyword.operator
+preg_replace('/[a-zSOME_CHAR]*+\'\n  $justTxt  \1  \\1/m');
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+//             ^ punctuation.definition.character-class.begin.regexp
+//              ^^^ constant.other.character-class.range.regexp
+//                 ^^^^^^^^^ constant.other.character-class.set.regexp
+//                          ^ punctuation.definition.character-class.end.regexp
+//                           ^^ keyword.operator.quantifier
+//                             ^^^^ constant.character.escape
+//                                   ^ keyword.control.anchor.regexp
+//                                             ^^ keyword.other.back-reference.regexp
+//                                                 ^^^ keyword.other.back-reference.regexp
+//                                                    ^ punctuation.definition.string.regex-delimiter.end
+//                                                     ^ meta.regex.modifier
+//                                                      ^ string.quoted.single
 
-preg_replace("/(foo|bar)a{1,4}[a-z]*\'\n/m");
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.double-quoted
-//                                 ^ keyword.operator
+preg_replace("/[a-zSOME_CHAR]*+\'\n  $vairble  \1  \\1/m");
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.regexp
+//             ^ punctuation.definition.character-class.begin.regexp
+//              ^^^ constant.other.character-class.range.regexp
+//                 ^^^^^^^^^ constant.other.character-class.set.regexp
+//                          ^ punctuation.definition.character-class.end.regexp
+//                           ^^ keyword.operator.quantifier
+//                             ^^^^ constant.character.escape
+//                                   ^ punctuation.definition.variable
+//                                             ^^ constant.character.escape
+//                                                 ^^ constant.character.escape
+//                                                    ^ punctuation.definition.string.regex-delimiter.end
+//                                                     ^ meta.regex.modifier
+//                                                      ^ string.quoted.double
+
+preg_replace("/^(?=foo)|(?>a|b|\s*)|(?im:toggle)(?#comment)$/uxS");
+//            ^ punctuation.definition.string.regex-delimiter.begin
+//             ^ keyword.control.anchor.regexp
+//               ^^ constant.other.assertion.regexp meta.assertion.look-ahead.regexp
+//                     ^ keyword.operator.or.regexp
+//                       ^^ constant.other.assertion.regexp meta.assertion.atomic-group.regexp
+//                          ^ keyword.operator.or.regexp
+//                            ^ keyword.operator.or.regexp
+//                             ^^ constant.character.character-class.regexp
+//                               ^ keyword.operator.quantifier.regexp
+//                                   ^^^^ keyword.other.option-toggle.regexp
+//                                              ^^^^^^^^^^^ comment.block
+//                                              ^ punctuation.definition.comment.begin.regexp
+//                                                        ^ punctuation.definition.comment.end.regexp
+//                                                         ^ keyword.control.anchor.regexp
+//                                                          ^ punctuation.definition.string.regex-delimiter.end
+//                                                           ^^^ meta.regex.modifier
+
+preg_replace('/(?P<name>foo|bar)\g{name}\k<name>/');
+//             ^ punctuation.definition.group.begin.regexp
+//              ^^ constant.other.assertion.regexp
+//                ^ punctuation.definition.group.capture.begin.regexp
+//                 ^^^^ entity.name.other.group.regexp
+//                         ^ keyword.operator.or.regexp
+//                             ^ punctuation.definition.group.end.regexp
+//                              ^^^ keyword.other.back-reference.named.regexp
+//                                 ^^^^ entity.name.other.group.regexp
+//                                     ^ keyword.other.back-reference.named.regexp
+//                                      ^^^ keyword.other.back-reference.named.regexp
+//                                         ^^^^ entity.name.other.group.regexp
+
+preg_replace("/a{,6}b{3,}c{3,6}/");
+//              ^^^^ keyword.operator.quantifier.regexp
+//                   ^^^^ keyword.operator.quantifier.regexp
+//                        ^^^^^ keyword.operator.quantifier.regexp
 
 echo <<<EOT
 //   ^^^^^^ punctuation.definition.string
@@ -1050,15 +1283,17 @@ class OutputsHtml {
         else {
 //           ^ meta.function meta.block punctuation.section.block.begin
             ?>
-//          ^^ punctuation.section.embedded.end
+//          ^^ meta.embedded.block punctuation.section.embedded.end - source.php
+//            ^ meta.embedded.block meta.html-newline-after-php - punctuation.section.embedded - source.php
             <span></span>
 //          ^^^^^^ meta.tag - source.php
             <?
-//          ^^ punctuation.section.embedded.begin
+//          ^^ meta.embedded.block punctuation.section.embedded.begin
         }
 //      ^ meta.function meta.block punctuation.section.block.end
         ?>
-//      ^^ punctuation.section.embedded.end - source.php
+//      ^^ meta.embedded.block punctuation.section.embedded.end - source.php
+//        ^ meta.embedded.block meta.html-newline-after-php - punctuation.section.embedded - source.php
 
         <div class="acf-gallery-side-info acf-cf<?php if (true) { echo ' class-name'; } ?>" id="myid"></div>
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag
@@ -1078,10 +1313,11 @@ class OutputsHtml {
 //      ^^^ punctuation.section.embedded.begin - source.php
 //         ^^^^^^^^^^^^^^^ source.php
         ?>
-//      ^^ punctuation.section.embedded.end - source.php
+//      ^^ meta.embedded.line.nested punctuation.section.embedded.end - source.php
+//        ^ meta.embedded.line.nested meta.html-newline-after-php - punctuation.section.embedded - source.php
 
         <?php
-//      ^^^^^ punctuation.section.embedded.begin
+//      ^^^^^ meta.embedded.block punctuation.section.embedded.begin - source.php
     }
 }
 
@@ -1093,7 +1329,8 @@ function embedHtml() {
     else {
 //       ^ meta.function meta.block punctuation.section.block.begin
         ?>
-//      ^^ punctuation.section.embedded.end - source.php
+//      ^^ meta.embedded.block.php punctuation.section.embedded.end - source.php
+//        ^ meta.embedded.block.php meta.html-newline-after-php - punctuation.section.embedded.end
         <span></span>
 //      ^^^^^^ meta.tag - source.php
         <?
@@ -1104,6 +1341,8 @@ function embedHtml() {
     $myClass = new class {
         function foo() {
             ?>
+//          ^^ meta.embedded.block.php punctuation.section.embedded.end - source.php
+//            ^ meta.embedded.block.php meta.html-newline-after-php - punctuation.section.embedded.end
             <div></div>
 //          ^^^^^^^^^^^ meta.tag - source.php
             <?
@@ -1203,6 +1442,20 @@ var_dump(new C(42));
 //           ^ meta.path support.class
 
 ?>
+
+<div><?php include 'image.svg' ?></div>
+//                             ^^ punctuation.section.embedded.end.php
+
+<div attr-<?= $bar ?>-true></div>
+//   ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
+//        ^^^ punctuation.section.embedded.begin
+//                 ^^ punctuation.section.embedded.end
+
+<option<?php if($condition): ?> selected<?php endif; ?>></option>
+//     ^^^^^ punctuation.section.embedded.begin
+//                           ^^ punctuation.section.embedded.end
+//                                      ^^^^^ punctuation.section.embedded.begin
+//                                                   ^^ punctuation.section.embedded.end
 
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html

@@ -176,3 +176,12 @@ class Car
     {
     }
 }
+
+public interface IObjectRepository
+{
+    bool CanGetObjects(IGetObjectsRequest request);
+    dynamic GetObjects(IGetObjectsRequest request);
+//  ^^^^^^^ support.type
+//          ^^^^^^^^^^ entity.name.function
+//                                                ^ punctuation.terminator
+}

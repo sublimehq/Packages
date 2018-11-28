@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[unless ($1) {
+	${2:# body...}
+} elsif ($3) {
+	${4:# elsif...}
+} else {
+	${5:# else...}
+}
+]]></content>
+	<tabTrigger>unlessee</tabTrigger>
+	<scope>source.perl</scope>
+	<description>unless..elsif..else.. Conditional</description>
+</snippet>
