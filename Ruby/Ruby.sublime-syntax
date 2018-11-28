@@ -58,6 +58,7 @@ file_extensions:
   - Guardfile
   - irbrc
   - jbuilder
+  - Podfile
   - podspec
   - prawn
   - rabl
@@ -1252,17 +1253,14 @@ contexts:
       scope: constant.character.escape.ruby
 
   interpolated-ruby:
-    - match: '(#\{)(\})'
-      scope: punctuation.section.embedded.ruby
-      captures:
-        1: source.ruby.embedded.source
-        2: source.ruby.embedded.source.empty
     - match: '#\{'
-      scope: punctuation.section.embedded.ruby
+      scope: punctuation.section.interpolation.begin.ruby
       push:
-        - meta_scope: source.ruby.embedded.source
+        - clear_scopes: 1
+        - meta_scope: meta.interpolation
+        - meta_content_scope: source.ruby.embedded
         - match: '\}'
-          scope: punctuation.section.embedded.ruby
+          scope: punctuation.section.interpolation.end.ruby
           pop: true
         - include: nest-curly-expressions
         - include: expressions

@@ -3,7 +3,21 @@
 ## <- meta.tag.preprocessor punctuation.definition.tag.begin
 ##^^^entity.name.tag.xml
 ##                                   ^ punctuation.definition.tag.end
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "html5.dtd" [ <!-- comment -->
+## <- meta.tag.sgml.doctype punctuation.definition.tag.begin
+##^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype
+##^^^^^^^ keyword.declaration.doctype
+##        ^^^^ constant.language.doctype
+##             ^^^^^^ keyword.content.external
+##                    ^^^^^^^^^^^ string.quoted.double
+##                                ^ meta.brackets meta.internal-subset punctuation.section.brackets.begin
+##                                  ^^^^^^^^^^^^^^^^ comment.block
+##                                  ^^^^ punctuation.definition.comment.begin
+##                                               ^^^ punctuation.definition.comment.end
+    <!ENTITY name "&#160;">;
+##  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.doctype meta.brackets meta.internal-subset
+]>
+## <- meta.tag.sgml.doctype meta.brackets meta.internal-subset punctuation.section.brackets.end
 <html>
     <head>
         <title>Test HTML</title>
@@ -121,6 +135,36 @@
         ## ^ meta.tag.script entity.name.tag.script
     </head>
     <body>
+
+     <![CDATA[<!DOCTYPE catalog plist "dtd">]]>
+##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##                                          ^ - string.unquoted.cdata
+##                                          ^^^ punctuation.definition.tag.end
+     <![CDATA[
+##   ^^^^^^^^^^ meta.tag.sgml.cdata
+##   ^^^ punctuation.definition.tag.begin
+##      ^^^^^ keyword.declaration.cdata
+##           ^ punctuation.definition.tag.begin
+        <!DOCTYPE catalog plist "dtd">
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+    ]]>
+##  ^ - string.unquoted.cdata
+##  ^^^ punctuation.definition.tag.end
+
+     <![CDATA[
+        <![CDATA[ unparsed! ]]>
+##      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^ - punctuation.definition.tag.begin
+##         ^^^^^ - keyword.declaration.cdata
+##              ^ - punctuation.definition.tag.begin
+##                          ^^^ punctuation.definition.tag.end
+    ]]>
+##  ^^^ invalid.illegal.missing-entity
+
         <!-- Comment -->
 ##      ^^^^^^^^^^^^^^^^ comment.block.html
 ##      ^^^^ punctuation.definition.comment.begin.html
@@ -244,7 +288,7 @@ class="foo"></div>
         ##                     ^ punctuation.definition.string.end.html - source.css
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^ meta.property-value.css constant.numeric.css
-        
+
         <div style='width: 100%;'></div>
         ##  ^ - meta.attribute-with-value.style
         ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style
@@ -285,13 +329,14 @@ class="foo"></div>
         ##                  ^ - source.js
         ##                                                ^ - source.js
         ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js
-        ##                   ^ meta.function-call.js support.function.js
+        ##                   ^ meta.function-call.js support.function
         ## ^^^^^^^^ entity.other.attribute-name
 
         <article><span><othertag></othertag><othertag /></span></article>
         ## ^^^^^ entity.name.tag.block.any.html
         ##        ^^^^ entity.name.tag.inline.any.html
         ##              ^^^^^^^^ entity.name.tag.other.html
+        ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
 
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
@@ -300,10 +345,11 @@ class="foo"></div>
         ##                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
         ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        
+
         <test-custom-tag/>
         ##^^^^^^^^^^^^^^^^ meta.tag.custom.html
         ##              ^^ punctuation.definition.tag.end.html
+        ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
 
         <INVALID-CUSTOM-TAG></INVALID-CUSTOM-TAG>
         ## ^^^^^^^^^^^^^^^^ invalid.illegal.uppercase-custom-tag-name.html
@@ -351,22 +397,22 @@ class="foo"></div>
         &amp;
 ##      ^^^^^ constant.character.entity.named
 ##      ^ punctuation.definition.entity
-##          ^ punctuation.definition.entity
+##          ^ punctuation.terminator.entity
 
         &#123;
 ##      ^^^^^^ constant.character.entity.decimal
 ##      ^^ punctuation.definition.entity
-##           ^ punctuation.definition.entity
+##           ^ punctuation.terminator.entity
 
         &#x7f;
 ##      ^^^^^^ constant.character.entity.hexadecimal
-##      ^^ punctuation.definition.entity
-##           ^ punctuation.definition.entity
+##      ^^^ punctuation.definition.entity
+##           ^ punctuation.terminator.entity
 
         &#X7F;
 ##      ^^^^^^ constant.character.entity.hexadecimal
-##      ^^ punctuation.definition.entity
-##           ^ punctuation.definition.entity
+##      ^^^ punctuation.definition.entity
+##           ^ punctuation.terminator.entity
 
         &β;
 ##      ^^^ - constant.character.entity
@@ -383,7 +429,7 @@ class="foo"></div>
         <a href="http://google.com/?one=1&two=2"></a>
         ##                               ^ - constant.character.entity
         ##                               ^ - invalid.illegal
-        
+
         <hr/><hr />
         ## ^^ meta.tag.block.any punctuation.definition.tag.end
         ##    ^^ entity.name.tag.block.any
