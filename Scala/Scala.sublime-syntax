@@ -1348,6 +1348,8 @@ contexts:
       scope: variable.language.underscore.scala
     - match: ','
       scope: punctuation.separator.scala
+    - match: (?=\})
+      pop: true
   nested-pattern-match:
     - include: base-pattern-match
     - match: '{{typeprefix}}'

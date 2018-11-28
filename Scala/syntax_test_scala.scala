@@ -1819,3 +1819,6 @@ for (_<- fu; _← fu; _= fu)
 //        ^^ string.quoted.raw.interpolated.scala
 //             ^^ string.quoted.raw.interpolated.scala
 //                  ^ string.quoted.raw.interpolated.scala punctuation.definition.string.end.scala
+
+case (foo => } abc
+//             ^^^ - variable
