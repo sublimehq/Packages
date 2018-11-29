@@ -1324,6 +1324,8 @@ arguments;
 // <- variable.language.arguments
 super.func();
 // <- variable.language.super
+globalThis;
+// <- variable.language.global
 
 foo[bar];
 // ^^^^^ meta.brackets

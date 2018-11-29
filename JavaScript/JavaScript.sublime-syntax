@@ -1858,6 +1858,9 @@ contexts:
     - match: this{{identifier_break}}
       scope: variable.language.this.js
       pop: true
+    - match: globalThis{{identifier_break}}
+      scope: variable.language.global.js
+      pop: true
 
     # These three are ordinary variables, not literals!
     - match: undefined{{identifier_break}}
