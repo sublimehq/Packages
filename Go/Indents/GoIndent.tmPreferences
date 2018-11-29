@@ -1,0 +1,59 @@
+<!--
+
+Note: with the current API, it seems impossible to make rules that would
+batch-reindent real-world code without wrecking it. As such, these rules are
+optimized for convenience while typing, not for batch reindentation.
+
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>scope</key>
+  <string>source.go</string>
+
+  <key>settings</key>
+  <dict>
+    <key>increaseIndentPattern</key>
+    <string><![CDATA[(?x)
+      (?:
+        .*\{
+        |
+        .*\([^()]*
+        |
+        ^\s*\b(?:case|default)\b.*[,:]
+      )
+      # Ignore whitespace, line comment, inline comments to the end
+      (?:\s*|\s*//.*|/[*](?:[^*]|[*](?!/))*[*]/)*
+      $
+    ]]></string>
+
+    <key>decreaseIndentPattern</key>
+    <string><![CDATA[(?x)(?:
+      \s*\}
+      |
+      \s*\)
+      |
+      ^(?:\s(?!\bswitch\b))*\b(?:case|default)\b
+    )]]></string>
+
+    <key>bracketIndentNextLinePattern</key>
+    <string></string>
+
+    <key>disableIndentNextLinePattern</key>
+    <string></string>
+
+    <key>unIndentedLinePattern</key>
+    <string></string>
+
+    <key>indentParens</key>
+    <false />
+
+    <key>indentSquareBrackets</key>
+    <false />
+
+    <key>preserveIndent</key>
+    <false />
+  </dict>
+</dict>
+</plist>

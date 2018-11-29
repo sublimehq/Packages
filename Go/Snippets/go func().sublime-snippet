@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[go func($1) {
-	$0
-}${2:($3)}]]></content>
-	<tabTrigger>gfn</tabTrigger>
-	<scope>source.go</scope>
-	<description>go func()</description>
-</snippet>
