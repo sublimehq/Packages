@@ -2031,7 +2031,17 @@ contexts:
             - include: else-pop
         - include: else-pop
 
-    - match: (?:Float(?:32|64)|Int(?:8|16|32)|Uint(?:8|16|32|32Clamped))Array{{identifier_break}}
+    - match: |-
+        (?x:
+          (?:
+            BigInt64|
+            BigUint64|
+            Float(?:32|64)|
+            Int(?:8|16|32)|
+            Uint(?:8|16|32|32Clamped)
+          )
+          Array{{identifier_break}}
+        )
       scope: support.class.builtin.js
       set:
         - match: \.

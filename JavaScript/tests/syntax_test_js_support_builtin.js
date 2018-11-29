@@ -23,6 +23,10 @@
 //  ^^^^^^^ support.class.builtin
     BigInt;
 //  ^^^^^^ support.class.builtin
+    BigInt64Array;
+//  ^^^^^^^^^^^^^ support.class.builtin
+    BigUint64Array;
+//  ^^^^^^^^^^^^^^ support.class.builtin
     DataView;
 //  ^^^^^^^^ support.class.builtin
     Date;
@@ -428,6 +432,12 @@ Symbol.keyFor;
 Symbol.notABuiltin;
 //     ^^^^^^^^^^^ meta.property.object - support
 
+BigInt64Array.BYTES_PER_ELEMENT;
+//            ^^^^^^^^^^^^^^^^^ support.constant.builtin
+BigUint64Array.BYTES_PER_ELEMENT;
+//             ^^^^^^^^^^^^^^^^^ support.constant.builtin
+Int8Array.BYTES_PER_ELEMENT;
+//        ^^^^^^^^^^^^^^^^^ support.constant.builtin
 Float32Array.BYTES_PER_ELEMENT;
 //           ^^^^^^^^^^^^^^^^^ support.constant.builtin
 Float64Array.BYTES_PER_ELEMENT;
