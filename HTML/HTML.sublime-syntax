@@ -15,9 +15,9 @@ variables:
   not_equals_lookahead: (?=\s*[^\s=])
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name_break: (?=[\s/>])
-  tag_name_char: '[^\s/>]'
-  tag_name: '[[:alpha:]_]{{tag_name_char}}*'
+  tag_name_break: (?=[ \t\f\n/<>])
+  tag_name_char: '[^ \t\f\n/<>]'
+  tag_name: '[A-Za-z]{{tag_name_char}}*'
 
   block_tag_name: |-
     (?ix:
@@ -674,16 +674,16 @@ contexts:
     - include: tag-generic-attribute
 
   tag-end:
-    - match: '>'
+    - match: '>|(?=<)'
       scope: punctuation.definition.tag.end.html
       pop: true
 
   tag-end-self-closing:
-    - match: '/>'
+    - match: '/>|(?=<)'
       scope: punctuation.definition.tag.end.html
       pop: true
 
   tag-end-maybe-self-closing:
-    - match: '/?>'
+    - match: '/?>|(?=<)'
       scope: punctuation.definition.tag.end.html
       pop: true

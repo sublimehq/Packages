@@ -461,6 +461,15 @@ class="foo"></div>
         ##    ^^ entity.name.tag.block.any
         ##       ^^ punctuation.definition.tag.end
 
+        # make sure to stop tag names before the next < to prevent php
+        # and other syntaxes from breaking.
+        <article<?php>
+        ##^^^^^^ entity.name.tag.block.any.html
+        ##      ^^^^^^ - entity.name.tag
+
+        <_notag>
+        ##^^^^^ - entity.name.tag
+
         <2notag>
         ##^^^^^ - entity.name.tag
 
