@@ -199,8 +199,6 @@ contexts:
         - match: ']]>'
           scope: punctuation.definition.tag.end.html
           pop: true
-    - match: ']]>'
-      scope: invalid.illegal.missing-entity.html
 
   comment:
     - match: (<!--)(-?>)?
