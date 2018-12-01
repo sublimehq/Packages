@@ -10,7 +10,12 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
-  attribute_char: (?:[^ "'>/=\x00-\x1f\x7f-\x9f])
+  # https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+  # 0000-0020   -- code point, C0 control (space)
+  # 007F-009F   -- controls
+  # FDD0-FDEF   -- noncharacters
+  # ?FFFE-?FFFF -- noncharacters
+  attribute_name: '[^''">/=\x{0000}-\x{0020}\x{007F}-\x{009F}\x{FDD0}-\x{FDEF}\x{FFFE}\x{FFFF}\x{1FFFE}\x{1FFFF}\x{2FFFE}\x{2FFFF}\x{3FFFE}\x{3FFFF}\x{4FFFE}\x{4FFFF}\x{5FFFE}\x{5FFFF}\x{6FFFE}\x{6FFFF}\x{7FFFE}\x{7FFFF}\x{8FFFE}\x{8FFFF}\x{9FFFE}\x{9FFFF}\x{AFFFE}\x{AFFFF}\x{BFFFE}\x{BFFFF}\x{CFFFE}\x{CFFFF}\x{DFFFE}\x{DFFFF}\x{EFFFE}\x{EFFFF}\x{FFFFE}\x{FFFFF}\x{10FFFE}\x{10FFFF}]+'
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
@@ -430,17 +435,11 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: (?={{attribute_char}})
+    - match: '{{attribute_name}}'
       scope: entity.other.attribute-name.html
       push:
         - tag-generic-attribute-meta
         - tag-generic-attribute-equals
-        - generic-attribute-name
-
-  generic-attribute-name:
-    - meta_scope: entity.other.attribute-name.html
-    - match: (?!{{attribute_char}})
-      pop: true
 
   tag-generic-attribute-meta:
     - meta_scope: meta.attribute-with-value.html
