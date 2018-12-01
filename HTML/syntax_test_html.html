@@ -377,8 +377,13 @@ class="foo"></div>
         <body-custom·tag₡name/>
         ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
 
-        <INVALID-CUSTOM-TAG></INVALID-CUSTOM-TAG>
-        ## ^^^^^^^^^^^^^^^^ invalid.illegal.uppercase-custom-tag-name.html
+        <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
+        ## ^^^^^ invalid.illegal.custom-tag-name.html
+        ##       ^^^^^^ - invalid.illegal.custom-tag-name.html
+        ##              ^^^ invalid.illegal.custom-tag-name.html
+        ##                    ^^^^^^^ invalid.illegal.custom-tag-name.html
+        ##                            ^^^^^^ invalid.illegal.custom-tag-name.html
+        ##                                   ^^^ invalid.illegal.custom-tag-name.html
 
         <form name="formName" type="post">
         ## ^ entity.name.tag.block.form.html

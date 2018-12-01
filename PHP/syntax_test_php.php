@@ -1457,6 +1457,41 @@ var_dump(new C(42));
 //                                      ^^^^^ punctuation.section.embedded.begin
 //                                                   ^^ punctuation.section.embedded.end
 
+  <tag-<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.custom.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
+//     ^^^^^ punctuation.section.embedded.begin.php
+//     ^^^^^^^^^^^^^ meta.embedded.line.php
+//                ^^ punctuation.section.embedded.end
+//                    ^^^^^ punctuation.section.embedded.begin.php
+//                    ^^^^^^^^^^^^^ meta.embedded.line.php
+//                               ^^ punctuation.section.embedded.end
+//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
+//                                    ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
+//                                       ^^^^^ punctuation.section.embedded.begin.php
+//                                       ^^^^^^^^^^^^^ meta.embedded.line.php
+//                                                  ^^ punctuation.section.embedded.end
+//                                                              ^^ punctuation.definition.tag.end.html
+
+  <tag<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
+//^ punctuation.definition.tag.begin.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
+//    ^^^^^ punctuation.section.embedded.begin.php
+//    ^^^^^^^^^^^^^ meta.embedded.line.php
+//               ^^ punctuation.section.embedded.end
+//                   ^^^^^ punctuation.section.embedded.begin.php
+//                   ^^^^^^^^^^^^^ meta.embedded.line.php
+//                              ^^ punctuation.section.embedded.end
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
+//                                   ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
+//                                      ^^^^^ punctuation.section.embedded.begin.php
+//                                      ^^^^^^^^^^^^^ meta.embedded.line.php
+//                                                 ^^ punctuation.section.embedded.end
+//                                                             ^^ punctuation.definition.tag.end.html
+
+
 <div class="test <?= $foo ?>"></div>
 //   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class.html
 //         ^ punctuation.definition.string.begin.html

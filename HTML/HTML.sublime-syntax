@@ -10,13 +10,15 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
+  ascii_space: '\t\n\f '
+
   attribute_char: (?:[^ "'>/=\x00-\x1f\x7f-\x9f])
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name_break: (?=[ \t\f\n/<>])
-  tag_name_char: '[^ \t\f\n/<>]'
+  tag_name_char: '[^{{ascii_space}}/<>]'
+  tag_name_break: (?=[^{{tag_name_char}}])
   tag_name: '[A-Za-z]{{tag_name_char}}*'
 
   block_tag_name: |-
@@ -164,33 +166,43 @@ contexts:
         - meta_scope: meta.tag.inline.table.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
-    - match: (</?)([a-z]{{custom_element_char}}*?-{{custom_element_char}}*)
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.custom.html
+    - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
+      scope: punctuation.definition.tag.begin.html
       push:
-        - meta_scope: meta.tag.custom.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (</?)([A-Z]{{tag_name_char}}*?-{{tag_name_char}}*)
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: invalid.illegal.uppercase-custom-tag-name.html
+        - tag-custom-body
+        - tag-custom-name
+    - match: </?(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
       push:
-        - meta_scope: meta.tag.custom.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
-    - match: (</?)({{tag_name}})
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.other.html
-      push:
-        - meta_scope: meta.tag.other.html
-        - include: tag-end-maybe-self-closing
-        - include: tag-attributes
+        - tag-other-body
+        - tag-other-name
     - include: entities
     - match: <>
       scope: invalid.illegal.incomplete.html
+
+  tag-custom-name:
+      - meta_content_scope: entity.name.tag.custom.html
+      - match: '{{tag_name_break}}'
+        pop: true
+      - match: '{{custom_element_char}}+'
+        # no scope
+      - match: '{{tag_name_char}}'
+        scope: invalid.illegal.custom-tag-name.html
+
+  tag-custom-body:
+      - meta_scope: meta.tag.custom.html
+      - include: tag-end-maybe-self-closing
+      - include: tag-attributes
+
+  tag-other-name:
+      - meta_content_scope: entity.name.tag.other.html
+      - match: '{{tag_name_break}}'
+        pop: true
+
+  tag-other-body:
+      - meta_scope: meta.tag.other.html
+      - include: tag-end-maybe-self-closing
+      - include: tag-attributes
 
   entities:
     - match: (&#[xX])\h+(;)
