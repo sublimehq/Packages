@@ -451,6 +451,20 @@ class Foo {
 ///                                  ^ punctuation.separator.tuple
 ///                                    ^^ meta.group.tuple constant.numeric.integer.decimal
 ///                                      ^ punctuation.section.group.end
+
+        var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
+        foreach (var (name, age) in dic.Select(x => (x.Key, x.Value)))
+///              ^^^ storage.type.variable
+///                  ^^^^^^^^^^^ meta.group.tuple
+///                  ^ punctuation.definition.group.begin
+///                   ^^^^ variable.other
+///                       ^ punctuation.separator.tuple
+///                         ^^^ variable.other
+///                            ^ punctuation.definition.group.end
+///                              ^^ keyword.control.flow
+        {
+            Console.WriteLine($"{name} is {age} years old.");
+        }
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)

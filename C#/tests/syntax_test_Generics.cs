@@ -43,6 +43,17 @@ List<int> bar = new List<int>();
 ///                 ^^^^ support.type
 ///                      ^^^ storage.type
 
+List<Nullable<System.Int16>> list;
+///^ support.type
+/// ^ punctuation.definition.generic.begin
+///  ^^^^^^^^ support.type
+///          ^ punctuation.definition.generic.begin
+///           ^^^^^^ support.type
+///                 ^ punctuation.accessor.dot
+///                  ^^^^^ support.type
+///                       ^^ punctuation.definition.generic.end
+///                          ^^^^ variable.other
+
 string verbatim = @"This is a test "" of a verbatim string literal - C:\User";
 ///               ^^ string.quoted.double punctuation.definition.string
 ///                                ^^ constant.character.escape

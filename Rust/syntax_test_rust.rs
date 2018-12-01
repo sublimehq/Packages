@@ -575,12 +575,22 @@ struct Point
 // <- meta.struct meta.block punctuation.section.block.begin
     x: i32,
 //  ^ variable.other.member
-//   ^ punctuation.separator
+//   ^ punctuation.separator.type
 //     ^^^ storage.type
-    y: i32
-//  ^ variable.other.member
-//   ^ punctuation.separator
-//     ^^^ storage.type
+    #[serde(default)]
+//  ^ punctuation.definition.annotation
+//   ^ punctuation.section.group.begin
+//    ^^^^^ variable.annotation
+//                  ^ punctuation.section.group.end
+//  ^^^^^^^^^^^^^^^^^ meta.annotation
+    pub(crate) y: i32
+//  ^^^ storage.modifier
+//     ^ punctuation.definition.modifier-scope.begin
+//      ^^^^^ storage.modifier
+//           ^ punctuation.definition.modifier-scope.end
+//             ^ variable.other.member
+//              ^ punctuation.separator.type
+//                ^^^ storage.type
 }
 // <-  meta.block punctuation.section.block.end
 
@@ -1074,6 +1084,24 @@ let _: Box<[[bool; (FOO + 1) / 2]; FOO * 3 % 12 - 1]>;
 //                                                 ^ punctuation.section.group.end
 //                                                  ^ punctuation.definition.generic.end
 //                                                   ^ punctuation.terminator
+
+let _: Box<[[u8; aa::COUNT - 1]; 5]>;
+//        ^ punctuation.definition.generic.begin
+//         ^ punctuation.section.group.begin
+//          ^ punctuation.section.group.begin
+//           ^^ storage.type
+//             ^ punctuation.separator
+//               ^^ variable.other.constant
+//                 ^^ punctuation.accessor.double-colon
+//                   ^^^^^ variable.other.constant
+//                         ^ keyword.operator.arithmetic
+//                           ^ constant.numeric.integer.decimal
+//                            ^ punctuation.section.group.end
+//                             ^ punctuation.separator
+//                               ^ constant.numeric.integer.decimal
+//                                ^ punctuation.section.group.end
+//                                 ^ punctuation.definition.generic.end
+//                                  ^ punctuation.terminator
 
 let x = 5;
 let raw = &x as *const i32;

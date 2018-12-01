@@ -158,7 +158,7 @@ contexts:
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
       scope: support.function.rust
 
-    - match: '\b((?:format|print|println)!)\s*(\()'
+    - match: '\b((?:format|print|println|eprint|eprintln)!)\s*(\()'
       captures:
         1: support.macro.rust
         2: meta.group.rust punctuation.section.group.begin.rust
@@ -503,6 +503,8 @@ contexts:
         - include: constant-integer-expression
     - match: '{{identifier}}'
       scope: variable.other.constant.rust
+    - match: '::'
+      scope: punctuation.accessor.double-colon.rust
     - match: '[-+%/*]'
       scope: keyword.operator.arithmetic.rust
 
@@ -604,8 +606,13 @@ contexts:
         - match: '(?=\})'
           pop: true
         - include: comments
-        - match: \bpub\b
-          scope: storage.modifier.rust
+        - include: attributes
+        - match: \b(pub)\b(?:(\()(crate)(\)))?
+          captures:
+            1: storage.modifier.rust
+            2: punctuation.definition.modifier-scope.begin.rust
+            3: storage.modifier.rust
+            4: punctuation.definition.modifier-scope.end.rust
         - match: '{{identifier}}(?=\s*:)'
           scope: variable.other.member.rust
           push:
@@ -613,7 +620,7 @@ contexts:
               pop: true
             - include: comments
             - match: ':'
-              scope: punctuation.separator.rust
+              scope: punctuation.separator.type.rust
             - include: type-any-identifier
 
   macro-block:

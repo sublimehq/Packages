@@ -18,6 +18,9 @@ The message can contain # which is no comment start
 # <- meta.message.git.commit - meta.subject - meta.expect-subject
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
+  @user-name
+# ^ punctuation.definition.reference.username
+# ^^^^^^^^^^ meta.reference.username entity.name.reference.username
 Thanks to @username <name@mail-host.domain>.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit

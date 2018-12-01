@@ -13,7 +13,6 @@ file_extensions:
   - sh
   - bash
   - zsh
-  - fish
   - .bash_aliases
   - .bash_completions
   - .bash_functions
@@ -25,6 +24,9 @@ file_extensions:
   - .profile
   - .textmate_init
   - .zshrc
+  - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
+  - .ebuild
+  - .eclass
 
 first_line_match: |
   (?x)                     # ignore whitespace in this regex

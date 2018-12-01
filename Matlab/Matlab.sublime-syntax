@@ -134,7 +134,7 @@ contexts:
         - meta_content_scope: meta.brackets.curly.matlab
         - match: '\}'
           scope: meta.brackets.curly.matlab
-          pop: true
+          set: transpose_post_parens
         - include: allofem
         - include: end_in_parens
   end_in_parens:
@@ -479,7 +479,6 @@ contexts:
         1 : meta.variable.other.valid.matlab
         2 : keyword.operator.transpose.matlab
   transpose_post_parens:
-    - meta_scope: toto
     - match: '(\.?'')'
       captures:
         1 : keyword.operator.transpose.matlab

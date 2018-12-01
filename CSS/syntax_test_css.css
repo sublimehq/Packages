@@ -1036,6 +1036,13 @@
 /*               ^^^^^^^^^^^ string.unquoted */
 }
 
+a {
+  height:calc(10px/*);
+  font-family:"a*/);
+/* ^^^^^^^^^^^^^^^  comment.block.css */
+/*                ^ punctuation.definition.group.end.css */
+}
+
 .variable-beginnings {
     --1x: url(data:image/png;base64,PNG);
 /*  ^^^^ support.type.custom-property */

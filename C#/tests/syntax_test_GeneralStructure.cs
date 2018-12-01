@@ -22,6 +22,14 @@ namespace YourNamespace
 ///               ^ punctuation.separator
 ///                  ^ variable.other.member
 ///                    ^ keyword.operator.assignment
+        string[][] test = new[] { new[] { "hello", "world" }, new[] { "foo", "bar" }};
+///     ^^^^^^ storage.type
+///           ^ punctuation.section.brackets.begin
+///            ^ punctuation.section.brackets.end
+///             ^ punctuation.section.brackets.begin
+///              ^ punctuation.section.brackets.end
+///                ^^^^ variable.other.member
+///                     ^ keyword.operator.assignment.variable
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
@@ -278,6 +286,12 @@ namespace TestNamespace.Test
 ///         ^^ meta.method meta.block meta.block
 ///         ^ punctuation.section.block.begin
 ///          ^ punctuation.section.block.end
+            for (i = 0; i < items.Count; i++) {}
+///         ^^^ keyword.control.loop.for
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                          ^ - meta.group
+///              ^ variable.other
+///                ^ keyword.operator.assignment
 
             if (true)
 ///         ^ keyword.control
@@ -471,8 +485,23 @@ namespace TestNamespace.Test
 ///                                                                 ^ punctuation.section.group.end
             {
 ///         ^ meta.method meta.block meta.block punctuation.section.block.begin
+            } catch (System.ArgumentException e) {
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                             ^ - meta.group
+///                 ^ punctuation.section.group.begin
+///                  ^^^^^^ support.type
+///                        ^ punctuation.accessor.dot.namespace
+///                         ^^^^^^^^^^^^^^^^^ support.type
+///                                           ^ variable.other
+///                                            ^ punctuation.section.group.end
+                System.String blah = "test";
+///             ^^^^^^ support.type
+///                   ^ punctuation.accessor.dot
+///                    ^^^^^^ support.type
+///                           ^^^^ variable.other
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
+            
             finally {
 ///         ^ keyword.control
 ///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
@@ -1207,4 +1236,45 @@ public class AfterTopLevelMethod {
 ///^^^ storage.modifier.access
 ///    ^^^^^ storage.type.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
+
+    // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
+    protected event EventHandler IDrawingObject.OnDraw
+/// ^^^^^^^^^ storage.modifier.access
+///           ^^^^^ storage.modifier
+///                 ^^^^^^^^^^^^ support.type
+///                              ^^^^^^^^^^^^^^ entity.other.inherited-class
+///                                            ^ punctuation.accessor.dot
+///                                             ^^^^^^ variable.other.member
+    {
+/// ^ punctuation.section.block.begin
+        add
+///     ^^^ meta.method storage.type.function.accessor.add
+        {
+///     ^ punctuation.section.block.begin
+            lock (objectLock)
+///         ^^^^ keyword.control.other.lock
+///               ^^^^^^^^^^ variable.other
+            {
+                PreDrawEvent += value;
+            }
+        }
+///     ^ punctuation.section.block.end
+///      ^ - meta.method
+        remove
+///     ^^^^^^ meta.method storage.type.function.accessor.remove
+        {
+            lock (objectLock)
+            {
+                PreDrawEvent -= value;
+            }
+        }
+    }
+/// ^ punctuation.section.block.end
+    
+    public event SampleEventHandler SampleEvent;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^ storage.modifier
+///              ^^^^^^^^^^^^^^^^^^ support.type
+///                                 ^^^^^^^^^^^ variable.other.member
+///                                            ^ punctuation.terminator.statement
 }

@@ -1830,14 +1830,14 @@ okay
 http://spec.commonmark.org/0.28/#example-148
 
 <!DOCTYPE html>
-| ^^^^^^^ meta.disable-markdown meta.tag.sgml.html meta.tag.sgml.doctype.html entity.name.tag.doctype.html
+| ^^^^^^^ meta.disable-markdown meta.tag.sgml.doctype.html keyword.declaration.doctype.html
 okay
 | <- - meta.disable-markdown
 
 http://spec.commonmark.org/0.28/#example-149
 
 <![CDATA[
-| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+| ^^^^^^^^ meta.disable-markdown meta.tag.sgml.cdata.html
 function matchwo(a,b)
 {
   if (a < b && a < 0) then {
@@ -1849,7 +1849,7 @@ function matchwo(a,b)
   }
 }
 ]]>
-|^ meta.disable-markdown meta.tag.sgml.html constant.other.inline-data.html
+|^ meta.disable-markdown meta.tag.sgml.cdata.html
 okay
 | <- - meta.disable-markdown
 
@@ -1959,3 +1959,6 @@ def foo(x)
 end
 ~~~~~~~
 | <- meta.code-fence.definition.end.ruby punctuation.definition.raw.code-fence.end
+
+\~/.bashrc
+|^ constant.character.escape

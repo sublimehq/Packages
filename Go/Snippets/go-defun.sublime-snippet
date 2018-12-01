@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[defer func() {
+	$0
+}()]]></content>
+	<tabTrigger>defun</tabTrigger>
+	<scope>source.go</scope>
+	<description>defer func(){}()</description>
+</snippet>
