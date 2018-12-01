@@ -17,7 +17,6 @@ variables:
   # ?FFFE-?FFFF -- noncharacters
   attribute_name: '[^''">/=\x{0000}-\x{0020}\x{007F}-\x{009F}\x{FDD0}-\x{FDEF}\x{FFFE}\x{FFFF}\x{1FFFE}\x{1FFFF}\x{2FFFE}\x{2FFFF}\x{3FFFE}\x{3FFFF}\x{4FFFE}\x{4FFFF}\x{5FFFE}\x{5FFFF}\x{6FFFE}\x{6FFFF}\x{7FFFE}\x{7FFFF}\x{8FFFE}\x{8FFFF}\x{9FFFE}\x{9FFFF}\x{AFFFE}\x{AFFFF}\x{BFFFE}\x{BFFFF}\x{CFFFE}\x{CFFFF}\x{DFFFE}\x{DFFFF}\x{EFFFE}\x{EFFFF}\x{FFFFE}\x{FFFFF}\x{10FFFE}\x{10FFFF}]+'
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
-  not_equals_lookahead: (?=\s*[^\s=])
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   tag_name: '[[:alpha:]_][^/>\s]*'
@@ -449,8 +448,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-generic-attribute-value:
     - match: '"'
@@ -489,8 +487,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-class-attribute-value:
     - match: '"'
@@ -531,8 +528,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-id-attribute-value:
     - match: '"'
@@ -573,8 +569,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-style-attribute-value:
     - match: '"'
@@ -619,8 +614,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-event-attribute-value:
     - match: '"'
