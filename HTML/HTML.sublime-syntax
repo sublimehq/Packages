@@ -10,9 +10,16 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
+  ascii_space: '\t\n\f '
+
   # https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
-  attribute_char: '[^\t\n\f />=]'
-  unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
+  attribute_char: '[^{{ascii_space}}=/>]'
+
+  # https://html.spec.whatwg.org/multipage/syntax.html#syntax-attribute-value
+  unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
+  unquoted_attribute_value: '[^{{ascii_space}}=<>`''"]+?{{unquoted_attribute_break}}'
+  # looks like an unquoted attribute value but may contain forbidden characters (=<>`'")
+  unquoted_attribute_invalid: '[^{{ascii_space}}>]+?{{unquoted_attribute_break}}'
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   tag_name: '[[:alpha:]_][^/>\s]*'
@@ -307,7 +314,7 @@ contexts:
           set: style-css
 
   style-type-decider:
-    - match: (?i)(?=text/css(?!{{unquoted_attribute_value}})|'text/css'|"text/css")
+    - match: (?i)(?=text/css{{unquoted_attribute_break}}|'text/css'|"text/css")
       set:
         - style-css
         - tag-generic-attribute-meta
@@ -384,12 +391,12 @@ contexts:
           set: script-javascript
 
   script-type-decider:
-    - match: (?i)(?={{javascript_mime_type}}(?!{{unquoted_attribute_value}})|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
+    - match: (?i)(?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
       set:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=module(?!{{unquoted_attribute_value}})|'module'|"module")
+    - match: (?i)(?=module{{unquoted_attribute_break}}|'module'|"module")
       set:
         - script-javascript
         - tag-generic-attribute-meta
@@ -399,7 +406,7 @@ contexts:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=text/html(?!{{unquoted_attribute_value}})|'text/html'|"text/html")
+    - match: (?i)(?=text/html{{unquoted_attribute_break}}|'text/html'|"text/html")
       set:
         - script-html
         - tag-generic-attribute-meta
@@ -471,6 +478,9 @@ contexts:
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html
       pop: true
+    - match: '{{unquoted_attribute_invalid}}'
+      scope: invalid.illegal.attribute-value.html
+      pop: true
     - include: else-pop
 
   tag-class-attribute:
@@ -512,6 +522,9 @@ contexts:
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.class-name.html
       pop: true
+    - match: '{{unquoted_attribute_invalid}}'
+      scope: invalid.illegal.attribute-value.html meta.class-name.html
+      pop: true
     - include: else-pop
 
   tag-id-attribute:
@@ -552,6 +565,9 @@ contexts:
         - include: entities
     - match: '{{unquoted_attribute_value}}'
       scope: string.unquoted.html meta.toc-list.id.html
+      pop: true
+    - match: '{{unquoted_attribute_invalid}}'
+      scope: invalid.illegal.attribute-value.html meta.toc-list.id.html
       pop: true
     - include: else-pop
 

@@ -186,6 +186,51 @@
 ##          ^^ invalid.illegal.bad-comments-or-CDATA
 ##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
 
+        <script type=html/text/>
+        ##     ^ - meta.attribute-with-value
+        ##      ^^^^ entity.other.attribute-name
+        ##      ^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##           ^^^^^^^^^ string.unquoted
+        ##                    ^^ punctuation.definition.tag.end.html
+
+        <img title/>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^ meta.attribute-with-value
+        ##        ^^ punctuation.definition.tag.end.html
+
+        <img src=/f̱oo⏡/bar/baz//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^ string.unquoted
+        ##                      ^^ punctuation.definition.tag.end.html
+
+        <img src=/f̱oo⏡/bar/baz/ />
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^ string.unquoted
+        ##                      ^ - meta.attribute-with-value
+        ##                       ^^ punctuation.definition.tag.end.html
+
+        <img title=foo"/>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^ invalid.illegal.attribute-value.html
+        ##            ^ - punctuation
+        ##             ^^ punctuation.definition.tag.end.html
+
+        <img title=/f̱oo⏡/"bar"/baz//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^^^^^^^^^^^^^^ invalid.illegal.attribute-value.html
+        ##                ^ - punctuation
+        ##                    ^ - punctuation
+        ##                          ^^ punctuation.definition.tag.end.html
+
         <div title=description></div>
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^ entity.other.attribute-name
