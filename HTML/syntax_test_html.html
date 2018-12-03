@@ -199,6 +199,13 @@
         ##   ^^^^^ meta.attribute-with-value
         ##        ^^ punctuation.definition.tag.end.html
 
+        <img src=//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^ meta.attribute-with-value
+        ##       ^ string.unquoted.html
+        ##        ^^ punctuation.definition.tag.end.html
+
         <img src=/f̱oo⏡/bar/baz//>
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
@@ -218,17 +225,17 @@
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^ entity.other.attribute-name
         ##   ^^^^^^^^^^ meta.attribute-with-value
-        ##         ^^^^ invalid.illegal.attribute-value.html
-        ##            ^ - punctuation
+        ##         ^^^^ string.unquoted.html
+        ##            ^ invalid.illegal.attribute-value.html
         ##             ^^ punctuation.definition.tag.end.html
 
         <img title=/f̱oo⏡/"bar"/baz//>
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^ entity.other.attribute-name
         ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
-        ##         ^^^^^^^^^^^^^^^^^ invalid.illegal.attribute-value.html
-        ##                ^ - punctuation
-        ##                    ^ - punctuation
+        ##         ^^^^^^^^^^^^^^^^^ string.unquoted.html
+        ##                ^ invalid.illegal.attribute-value.html
+        ##                    ^ invalid.illegal.attribute-value.html
         ##                          ^^ punctuation.definition.tag.end.html
 
         <div title=description></div>
@@ -351,6 +358,15 @@ class="foo"></div>
         ##                                   ^ entity.other.attribute-name.html
         ##                                                         ^^^^^^^^^^^^^ entity.other.attribute-name.html
         ##                                                                       ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
+
+        <tag "f'o`o<bar"="bar"></tag>
+        ##   ^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
+        ##   ^^^^^^^^^^^ entity.other.attribute-name.html
+        ##   ^ invalid.illegal.attribute-name.html
+        ##     ^ invalid.illegal.attribute-name.html
+        ##       ^ invalid.illegal.attribute-name.html
+        ##         ^ invalid.illegal.attribute-name.html
+        ##             ^ invalid.illegal.attribute-name.html
 
         <tag *([&\=></tag>
         ##   ^^^^^^^ - invalid
