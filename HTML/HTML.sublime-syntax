@@ -686,16 +686,16 @@ contexts:
     - include: tag-generic-attribute
 
   tag-end:
-    - match: '>|(?=<)'
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       pop: true
 
   tag-end-self-closing:
-    - match: '/>|(?=<)'
+    - match: '/>'
       scope: punctuation.definition.tag.end.html
       pop: true
 
   tag-end-maybe-self-closing:
-    - match: '/?>|(?=<)'
+    - match: '/?>'
       scope: punctuation.definition.tag.end.html
       pop: true
