@@ -1565,7 +1565,7 @@
 ##              ^ - punctuation.definition.tag.begin
 ##                          ^^^ punctuation.definition.tag.end
     ]]>
-##  ^^^ invalid.illegal.missing-entity.xml
+##  ^^^ - punctuation - invalid.illegal.missing-entity.xml
 
      <?pi "markup" is <ignored>?>
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.preprocessor
@@ -1818,8 +1818,7 @@ bar="baz" />
 ##    ^ - invalid.illegal.missing-entity
 
      ]]>
-##   ^^^ invalid.illegal.missing-entity
-##      ^ - invalid.illegal.missing-entity
+##   ^^^ - punctuation - invalid.illegal.missing-entity
 
      <ns::tag ns::attr1="na" ns:2a?tr = "nope"></ns:t:ag>
 ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag

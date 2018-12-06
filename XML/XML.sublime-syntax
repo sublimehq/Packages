@@ -94,8 +94,6 @@ contexts:
         - match: ']]>'
           scope: punctuation.definition.tag.end.xml
           pop: true
-    - match: ']]>'
-      scope: invalid.illegal.missing-entity.xml
 
 ###[ COMMENT ]################################################################
 
