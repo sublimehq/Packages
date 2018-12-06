@@ -260,7 +260,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: using-namespace
     - include: typedef
     - include: keywords-angle-brackets
     - include: keywords-parens
