@@ -626,6 +626,14 @@
 }
 
 .test-transform-functions {
+    top: rotate(0);
+/*       ^^^^^^   support.function.transform.css */
+/*              ^ constant.numeric.css           */
+
+    top: rotate(1)
+/*       ^^^^^^   support.function.transform.css */
+/*              ^ - constant.numeric.css         */
+
     top: rotate3d(-1, 2deg);
 /*       ^^^^^^^^          support.function.transform.css */
 /*                ^^       constant.numeric.css           */
