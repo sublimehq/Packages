@@ -900,9 +900,10 @@
 }
 
 .test-grid-functions {
-    top: repeat(20);
-/*       ^^^^^^    support.function.grid.css */
-/*              ^^ constant.numeric.css      */
+    grid: repeat(20) / auto-flow 1fr;
+/*        ^^^^^^                 support.function.grid.css */
+/*               ^^              constant.numeric.css      */
+/*                     ^^^^^^^^^ support.constant.property-value.css */
 
     top: repeat(auto-fit, 2fr minmax() 5%);
 /*              ^^^^^^^^                  support.keyword.repetitions.css */

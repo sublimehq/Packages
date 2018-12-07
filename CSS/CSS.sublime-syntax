@@ -423,7 +423,7 @@ contexts:
               | alpha(betic)?
               | alternate(-reverse)?
               | always|annotation|antialiased|at
-              | auto(hiding-scrollbar)?
+              | auto(hiding-scrollbar|-flow)?
               | avoid(-column|-page|-region)?
               | background(-color|-image|-position|-size)?
               | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
