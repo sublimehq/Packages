@@ -5,6 +5,7 @@ name: Scala
 file_extensions:
   - scala
   - sbt
+  - sc
 scope: source.scala
 variables:
   # all reserved words (https://www.safaribooksonline.com/library/view/learning-scala/9781449368814/apa.html)
