@@ -904,18 +904,20 @@
 /*       ^^^^^^    support.function.grid.css */
 /*              ^^ constant.numeric.css      */
 
-    top: repeat(auto-fit, 2fr minmax() 5%);
-/*              ^^^^^^^^                  support.keyword.repetitions.css */
-/*                      ^                 punctuation.separator.css       */
-/*                        ^^^             constant.numeric.css            */
-/*                            ^^^^^^      support.function.grid.css       */
-/*                                     ^^ constant.numeric.css            */
+    top: repeat(auto-fit, 2fr minmax(auto) 5%);
+/*              ^^^^^^^^                      support.keyword.repetitions.css     */
+/*                      ^                     punctuation.separator.css           */
+/*                        ^^^                 constant.numeric.css                */
+/*                            ^^^^^^          support.function.grid.css           */
+/*                                   ^^^^     support.constant.property-value.css */
+/*                                         ^^ constant.numeric.css                */
 
-    top: minmax(min-content, 1fr);
+    top: minmax(min-content, 1fr, 10%);
 /*       ^^^^^^                  support.function.grid.css           */
 /*              ^^^^^^^^^^^      support.constant.property-value.css */
 /*                         ^     punctuation.separator.css           */
 /*                           ^^^ constant.numeric.css                */
+/*                                ^^^ constant.numeric.css           */
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);
 /*                           ^^^ support.function.var.css */
 /*                               ^^^^^^ support.type.custom-property.css */
