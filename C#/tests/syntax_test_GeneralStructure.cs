@@ -501,7 +501,7 @@ namespace TestNamespace.Test
 ///                           ^^^^ variable.other
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
-            
+
             finally {
 ///         ^ keyword.control
 ///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
@@ -1047,7 +1047,7 @@ namespace TestNamespace.Test
 ///     ^^^^^^^ keyword.control.trycatch.finally
         {
         }
-        
+
         Func<string, bool, int> test = (a, b) => a.len();
 ///                                    ^^^^^^^^^^^^^^^^^ meta.function.anonymous
 ///                                    ^^^^^^ meta.group
@@ -1084,7 +1084,7 @@ namespace TestNamespace.Test
                 result += 8;
                 break;
         }
-    
+
     int foo;
     int.TryParse(input, out foo);
 ///                     ^^^ storage.modifier.argument
@@ -1092,7 +1092,7 @@ namespace TestNamespace.Test
     int.TryParse(input, out foo /* comment */);
 ///                     ^^^ storage.modifier.argument
 ///                         ^^^ variable.other - support.type
-    
+
         "hello".OfType<char>().Where(c => c == 'l').Count());
 ///                                                        ^ invalid.illegal.stray.brace
 
@@ -1119,7 +1119,7 @@ namespace TestNamespace.Test
         formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
 ///                                     ^^^^^^^^^^^^^ constant.other.placeholder
 ///                                                  ^ - constant
-        
+
         string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
                          "Ebenezer", "Francine", "George" };
         decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80, 16.75m };
@@ -1161,7 +1161,7 @@ namespace TestNamespace.Test
 ///                        ^ punctuation.definition.placeholder.begin
 ///                            ^ punctuation.definition.placeholder.end
 ///                             ^ punctuation.definition.string.end
-        // The example displays the following output 
+        // The example displays the following output
         // if en-US is the current culture:
         //        $100.00
         formatted = string.Format(@"Price = |{0,-10:C}|", myInt);
@@ -1177,7 +1177,7 @@ namespace TestNamespace.Test
 ///                                ^ punctuation.definition.placeholder.begin
 ///                                  ^^^^ invalid.illegal.unexpected-character-in-placeholder
 ///                                      ^ punctuation.definition.placeholder.end
-        
+
         formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
 ///                                ^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                           ^^ constant.character.escape
@@ -1270,7 +1270,7 @@ public class AfterTopLevelMethod {
         }
     }
 /// ^ punctuation.section.block.end
-    
+
     public event SampleEventHandler SampleEvent;
 /// ^^^^^^ storage.modifier.access
 ///        ^^^^^ storage.modifier
