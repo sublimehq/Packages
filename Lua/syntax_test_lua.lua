@@ -345,6 +345,7 @@
 --       ^^^ entity.name.function
 
     local function foo () end
+--  ^^^^^ storage.modifier
 --        ^^^^^^^^^^^^^^^^^^^ meta.function
 --                 ^^^ entity.name.function
 
@@ -450,7 +451,7 @@
 --         ^^^ variable.other
 
     local x = 1, y = 2;
---  ^^^^^ storage.type
+--  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
 --            ^ constant.numeric.decimal

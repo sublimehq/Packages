@@ -77,7 +77,7 @@ contexts:
       push: expression-list
 
     - match: local{{identifier_break}}
-      scope: storage.type.lua
+      scope: storage.modifier.lua
       push: expression-list
 
     - match: (?=\S)
