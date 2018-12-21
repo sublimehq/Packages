@@ -1198,6 +1198,17 @@ This is a test! $var
 EOT;
 // <- keyword.operator.heredoc
 
+// PHP 7.3: Flexible Heredoc and Nowdoc Syntaxes
+// @see https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
+echo <<<EOT
+//   ^^^^^^ punctuation.definition.string
+//      ^^^ keyword.operator.heredoc
+    This is a test! $var
+//  ^^^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc
+//                  ^^^^ variable.other
+    EOT;
+//  ^^^ keyword.operator.heredoc
+
 echo <<<'EOT'
 //   ^^^^^^^^ punctuation.definition.string
 //      ^^^^^ keyword.operator.nowdoc
