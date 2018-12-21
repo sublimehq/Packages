@@ -19,6 +19,7 @@ variables:
 
   function_args_begin: (?:\(|"|'|\[=*\[)
   function_call_ahead: (?=\s*{{function_args_begin}})
+  function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
 
 contexts:
   main:
@@ -281,6 +282,9 @@ contexts:
     - match: '[.:]'
       scope: punctuation.accessor.lua
       push:
+        - match: '{{identifier}}{{function_assignment_ahead}}'
+          scope: meta.property.lua entity.name.function.lua
+          pop: true
         - match: '{{identifier}}{{function_call_ahead}}'
           scope: meta.property.lua variable.function.lua
           pop: true
@@ -341,6 +345,10 @@ contexts:
       pop: true
 
   variable:
+    - match: '{{identifier}}{{function_assignment_ahead}}'
+      scope: entity.name.function.lua
+      pop: true
+
     - match: '{{identifier}}{{function_call_ahead}}'
       scope: variable.function.lua
       pop: true

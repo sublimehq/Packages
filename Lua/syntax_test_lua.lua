@@ -342,9 +342,15 @@
 --           ^^^^^^^^^^^^^ meta.group
 --                         ^^^ keyword.control.end
 
-    ~function foo () end
+    ~function foo () end;
 --   ^^^^^^^^^^^^^^^^^^^ meta.function
 --            ^^^ entity.name.function
+
+    foo = function() end;
+--  ^^^ entity.name.function
+
+    foo.bar = function() end;
+--      ^^^ entity.name.function
 
 --STATEMENTS
 
