@@ -88,19 +88,19 @@
 
 --STRINGS
 
-    '\a\b\f\n\r\t\v\\\'\"';
---  ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
---   ^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+    '\a\b\f\n\r\t\v\\\'\"\[\]';
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
 
     '\x1ff';
 --   ^^^^ constant.character.escape.hexadecimal
 --       ^ - constant
 
-    '\d0 \d123 \d1234';
---   ^^^ constant.character.escape.decimal
---       ^^^^^ constant.character.escape.decimal
---             ^^^^^ constant.character.escape.decimal
---                  ^ - constant
+    '\0 \123 \1234';
+--   ^^ constant.character.escape.decimal
+--      ^^^^ constant.character.escape.decimal
+--           ^^^^ constant.character.escape.decimal
+--                ^ - constant
 
     '\u{0} \u{f00d}';
 --   ^^^^^ constant.character.escape.unicode

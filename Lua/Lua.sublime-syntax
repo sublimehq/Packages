@@ -395,13 +395,13 @@ contexts:
           pop: true
 
   string-content:
-    - match: \\[abfnrtv\\'"\n]
+    - match: \\[abfnrtv\\'"\[\]\n]
       scope: constant.character.escape.lua
 
     - match: \\x\h\h
       scope: constant.character.escape.hexadecimal.lua
 
-    - match: \\d\d{1,3}
+    - match: \\\d{1,3}
       scope: constant.character.escape.decimal.lua
 
     - match: \\u\{\h+\}
