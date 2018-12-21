@@ -49,6 +49,9 @@
     ...;
 --  ^^^ constant.language
 
+    self;
+--  ^^^^ variable.language.this
+
 --NUMBERS
 
     0;

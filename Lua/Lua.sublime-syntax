@@ -344,6 +344,9 @@ contexts:
     - match: \.\.\.
       scope: constant.language.lua
       pop: true
+    - match: self{{identifier_break}}
+      scope: variable.language.this.lua
+      pop: true
 
   variable:
     - match: '{{identifier}}{{function_assignment_ahead}}'
