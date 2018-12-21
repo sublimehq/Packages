@@ -90,7 +90,13 @@ contexts:
   main:
     - include: comments
     - include: comments-top-level
-    - include: statements
+
+    - match: '\)|\}|\]'
+      scope: invalid.illegal.stray-bracket-end.js
+      # Don't pop or embedding could break.
+
+    - match: (?=\S)
+      push: statement
 
   prototype:
     - include: comments
