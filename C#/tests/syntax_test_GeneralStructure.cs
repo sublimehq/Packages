@@ -837,6 +837,34 @@ namespace TestNamespace.Test
 ///                                     ^^^^^^^^^^ meta.function.anonymous
 ///                                       ^^ storage.type.function.lambda
 
+            var changes = refs.ToDictionary(kvp => kvp.key, arg => k + 5);
+///                                         ^^^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                         ^^^ variable.parameter.cs
+///                                             ^^ storage.type.function.lambda.cs
+///                                                ^^^ variable.other.cs
+///                                                       ^ punctuation.separator.argument.cs
+///                                                       ^^ - meta.function.anonymous
+///                                                         ^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                                         ^^^ variable.parameter.cs
+///                                                             ^^ storage.type.function.lambda.cs
+///                                                                ^ variable.other.cs
+///                                                                  ^ keyword.operator.cs
+///                                                                    ^ constant.numeric.integer.decimal.cs
+///                                                                     ^ - meta.function.anonymous
+
+            var shortDigits = digits.Where((digit, index) => digit.Length < index);
+///                                       ^ - meta.function.anonymous
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                                                              ^ - meta.function.anonymous
+///                                        ^ punctuation.section.group.begin.cs
+///                                        ^^^^^^^^^^^^^^ meta.group.cs
+///                                         ^^^^^ variable.parameter.cs
+///                                              ^ punctuation.separator.parameter.function.cs
+///                                                ^^^^^ variable.parameter.cs
+///                                                     ^ punctuation.section.group.end.cs
+///                                                       ^^ storage.type.function.lambda.cs
+///                                                          ^^^^^ variable.other.cs
+
         }
 
         void CodeContainingConstructors(){
