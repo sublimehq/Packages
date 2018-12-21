@@ -24,6 +24,10 @@
 --      ^^^ comment.block - punctuation
         ]==]
 --      ^^^^ comment.block - punctuation
+        --
+--      ^^ - punctuation
+        [[
+--      ^^ - punctuation
     ]=]
 --  ^^^ comment.block punctuation.definition.comment.end
 
@@ -91,6 +95,22 @@
 
 --STRINGS
 
+    'foo';
+--  ^^^^^ string.quoted.single
+--  ^ punctuation.definition.string.begin
+--      ^ punctuation.definition.string.end
+
+    '-- [[';
+--  ^^^^^^^ string.quoted.single - comment
+
+    "foo";
+--  ^^^^^ string.quoted.double
+--  ^ punctuation.definition.string.begin
+--      ^ punctuation.definition.string.end
+
+    "-- [[";
+--  ^^^^^^^ string.quoted.double - comment
+
     '\a\b\f\n\r\t\v\\\'\"\[\]';
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
 --   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
@@ -143,6 +163,9 @@
 --  ^^^^^^^^^^ string.quoted.block
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
+
+    [[ -- [[ ]];
+--  ^^^^^^^^^^^ string.quoted.block - comment
 
     [[ Foo! \a \]];
 --  ^^^^^^^^^^^^^^ string.quoted.block

@@ -36,6 +36,7 @@ contexts:
     - match: --\[(=*)\[
       scope: punctuation.definition.comment.begin.lua
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.block.lua
         - match: \]\1\]
           scope: punctuation.definition.comment.end.lua
@@ -249,6 +250,7 @@ contexts:
 
     - include: prefix-operator
     - include: builtin
+    - include: support
     - include: variable
     - include: number
     - include: string
@@ -351,6 +353,11 @@ contexts:
       scope: variable.language.this.lua
       pop: true
 
+  support:
+    - match: (?:assert){{identifier_break}}
+      scope: support.function.builtin.lua
+      pop: true
+
   variable:
     - match: '{{identifier}}{{function_assignment_ahead}}'
       scope: entity.name.function.lua
@@ -377,6 +384,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.lua
       set:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.single.lua
         - include: string-content
         - match: \'
@@ -386,6 +394,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.lua
       set:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.lua
         - include: string-content
         - match: \"
@@ -395,6 +404,7 @@ contexts:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
       set:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.block.lua
         - match: \]\1\]
           scope: punctuation.definition.string.end.lua
