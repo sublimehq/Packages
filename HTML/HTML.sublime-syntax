@@ -10,7 +10,7 @@ first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
 
 variables:
-  attribute_char: (?:[^ "'>/=\x00-\x1f\x7f-\x9f])
+  attribute_char: (?:[^ "'>/=\x{00}-\x{1f}\x{7f}-\x{9f}])
   unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
   not_equals_lookahead: (?=\s*[^\s=])
 
