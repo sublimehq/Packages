@@ -332,11 +332,19 @@
 --      ^ punctuation.accessor
 --       ^^^ entity.name.function
 
+    local function foo () end
+--        ^^^^^^^^^^^^^^^^^^^ meta.function
+--                 ^^^ entity.name.function
+
     ~function( a, b, ... ) end;
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 --   ^^^^^^^^ storage.type
 --           ^^^^^^^^^^^^^ meta.group
 --                         ^^^ keyword.control.end
+
+    ~function foo () end
+--   ^^^^^^^^^^^^^^^^^^^ meta.function
+--            ^^^ entity.name.function
 
 --STATEMENTS
 

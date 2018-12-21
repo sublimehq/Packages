@@ -454,10 +454,12 @@ contexts:
   function-literal:
     - match: function{{identifier_break}}
       scope: storage.type.function.lua
-      push:
+      set:
         - function-meta
         - block-contents
         - function-parameter-list
+        - function-name-end
+        - function-name-begin
 
   function-meta:
     - meta_scope: meta.function.lua
