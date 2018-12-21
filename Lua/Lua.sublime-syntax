@@ -1,6 +1,5 @@
 %YAML 1.2
 ---
-name: Lua
 file_extensions:
   - lua
 scope: source.lua
