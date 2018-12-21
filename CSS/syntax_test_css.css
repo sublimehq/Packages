@@ -931,6 +931,22 @@
 /*                               ^^^^^^ support.type.custom-property.css */
 /*                                     ^^ punctuation.definition.group.end.css */
 /*                                          ^^^^^^ support.function.grid.css */
+    grid-template-columns:
+      [a-line-name] auto
+/*    ^ punctuation.section.begin.css */
+/*     ^^^^^^^^^^^  string.unquoted.line-name.css */
+/*                ^ punctuation.section.end.css */
+      [b]     minmax(min-content, 1fr)
+      [b c d] repeat(2, [e] 40px)
+/*    ^                     punctuation.section.begin.css */
+/*     ^                    string.unquoted.line-name.css */
+/*      ^                   - string.unquoted.line-name.css */
+/*       ^                  string.unquoted.line-name.css */
+/*          ^               punctuation.section.end.css */
+/*                      ^   punctuation.section.begin.css */
+/*                       ^  string.unquoted.line-name.css */
+/*                        ^ punctuation.section.end.css */
+              repeat(5, auto);
 }
 
 .test-filter-functions {

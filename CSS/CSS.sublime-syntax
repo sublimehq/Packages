@@ -584,6 +584,7 @@ contexts:
     - include: comment-block
     - include: vendor-prefix
     - include: builtin-functions
+    - include: line-names
     - include: unicode-range
     - include: numeric-values
     - include: color-values
@@ -1308,6 +1309,7 @@ contexts:
           - include: minmax-function
           - include: integer-type
           - include: var-function
+          - include: line-names
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
           - match: \b(max-content|min-content|auto)\b
@@ -1908,6 +1910,18 @@ contexts:
       scope: punctuation.terminator.rule.css
     - match: (?=;|$)
       pop: true
+
+  # Named Grid Lines
+  # https://drafts.csswg.org/css-grid/#named-lines
+  line-names:
+    - match: '\['
+      scope: punctuation.section.begin.css
+      push:
+        - match: '{{ident}}'
+          scope: string.unquoted.line-name.css
+        - match: '\]'
+          scope: punctuation.section.end.css
+          pop: true
 
   unquoted-string:
     - match: '[^\s''"]'
