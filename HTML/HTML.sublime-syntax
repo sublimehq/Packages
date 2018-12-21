@@ -12,9 +12,14 @@ scope: text.html.basic
 variables:
   ascii_space: '\t\n\f '
 
-  attribute_char: (?:[^ "'>/=\x{00}-\x{1f}\x{7f}-\x{9f}])
-  unquoted_attribute_value: (?:[^\s<>/''"]|/(?!>))+
-  not_equals_lookahead: (?=\s*[^\s=])
+  # https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+  attribute_name_char: '[{{ascii_space}}=/>]'
+  attribute_name_start: (?=[^{{attribute_name_char}}])
+  attribute_name_break: (?={{attribute_name_char}})
+
+  # https://html.spec.whatwg.org/multipage/syntax.html#syntax-attribute-value
+  unquoted_attribute_start: (?=[^{{ascii_space}}=>])
+  unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   tag_name_char: '[^{{ascii_space}}/<>]'
@@ -341,7 +346,7 @@ contexts:
           set: style-css
 
   style-type-decider:
-    - match: (?i)(?=text/css(?!{{unquoted_attribute_value}})|'text/css'|"text/css")
+    - match: (?i)(?=text/css{{unquoted_attribute_break}}|'text/css'|"text/css")
       set:
         - style-css
         - tag-generic-attribute-meta
@@ -418,12 +423,12 @@ contexts:
           set: script-javascript
 
   script-type-decider:
-    - match: (?i)(?={{javascript_mime_type}}(?!{{unquoted_attribute_value}})|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
+    - match: (?i)(?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
       set:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=module(?!{{unquoted_attribute_value}})|'module'|"module")
+    - match: (?i)(?=module{{unquoted_attribute_break}}|'module'|"module")
       set:
         - script-javascript
         - tag-generic-attribute-meta
@@ -433,7 +438,7 @@ contexts:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=text/html(?!{{unquoted_attribute_value}})|'text/html'|"text/html")
+    - match: (?i)(?=text/html{{unquoted_attribute_break}}|'text/html'|"text/html")
       set:
         - script-html
         - tag-generic-attribute-meta
@@ -464,17 +469,18 @@ contexts:
         - include: entities
 
   tag-generic-attribute:
-    - match: (?={{attribute_char}})
-      scope: entity.other.attribute-name.html
+    - match: '{{attribute_name_start}}'
       push:
         - tag-generic-attribute-meta
         - tag-generic-attribute-equals
-        - generic-attribute-name
+        - tag-generic-attribute-name
 
-  generic-attribute-name:
+  tag-generic-attribute-name:
     - meta_scope: entity.other.attribute-name.html
-    - match: (?!{{attribute_char}})
+    - match: '{{attribute_name_break}}'
       pop: true
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-name.html
 
   tag-generic-attribute-meta:
     - meta_scope: meta.attribute-with-value.html
@@ -484,8 +490,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-generic-attribute-value:
     - match: '"'
@@ -504,9 +509,13 @@ contexts:
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
-    - match: '{{unquoted_attribute_value}}'
-      scope: string.unquoted.html
-      pop: true
+    - match: '{{unquoted_attribute_start}}'
+      set:
+        - meta_scope: string.unquoted.html
+        - match: '{{unquoted_attribute_break}}'
+          pop: true
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.html
     - include: else-pop
 
   tag-class-attribute:
@@ -524,8 +533,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-class-attribute-value:
     - match: '"'
@@ -546,9 +554,13 @@ contexts:
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
-    - match: '{{unquoted_attribute_value}}'
-      scope: string.unquoted.html meta.class-name.html
-      pop: true
+    - match: '{{unquoted_attribute_start}}'
+      set:
+        - meta_scope: string.unquoted.html meta.class-name.html
+        - match: '{{unquoted_attribute_break}}'
+          pop: true
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.html
     - include: else-pop
 
   tag-id-attribute:
@@ -566,8 +578,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-id-attribute-value:
     - match: '"'
@@ -588,9 +599,13 @@ contexts:
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
-    - match: '{{unquoted_attribute_value}}'
-      scope: string.unquoted.html meta.toc-list.id.html
-      pop: true
+    - match: '{{unquoted_attribute_start}}'
+      set:
+        - meta_scope: string.unquoted.html meta.toc-list.id.html
+        - match: '{{unquoted_attribute_break}}'
+          pop: true
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.html
     - include: else-pop
 
   tag-style-attribute:
@@ -608,8 +623,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-style-attribute-value:
     - match: '"'
@@ -654,8 +668,7 @@ contexts:
     - match: '='
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
-    - match: '{{not_equals_lookahead}}'
-      pop: true
+    - include: else-pop
 
   tag-event-attribute-value:
     - match: '"'

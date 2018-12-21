@@ -1446,10 +1446,13 @@ var_dump(new C(42));
 <div><?php include 'image.svg' ?></div>
 //                             ^^ punctuation.section.embedded.end.php
 
-<div attr-<?= $bar ?>-true></div>
-//   ^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
+<div attr-<?= $bar ?>-true=va<? $baz ?>l?ue></div>
+//   ^^^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name
 //        ^^^ punctuation.section.embedded.begin
 //                 ^^ punctuation.section.embedded.end
+//                         ^^^^^^^^^^^^^^^^ string.unquoted
+//                           ^^ punctuation.section.embedded.begin.php
+//                                   ^^ punctuation.section.embedded.end.php
 
 <option<?php if($condition): ?> selected<?php endif; ?>></option>
 //     ^^^^^ punctuation.section.embedded.begin
