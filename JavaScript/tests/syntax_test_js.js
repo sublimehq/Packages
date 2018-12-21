@@ -1039,7 +1039,7 @@ class MyClass extends TheirClass {
     @foo.bar bar() {}
 //  ^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
-//   ^^^ variable.other.object - variable.annotation
+//   ^^^ variable.other.readwrite - variable.annotation
 //       ^^^ variable.annotation
 //           ^^^ entity.name.function
 
@@ -1130,7 +1130,7 @@ class
     @foo.bar class Foo {}
 //  ^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
-//   ^^^ variable.other.object - variable.annotation
+//   ^^^ variable.other.readwrite - variable.annotation
 //       ^^^ variable.annotation
 //           ^^^^^ storage.type.class
 
@@ -1252,7 +1252,7 @@ Proto.prototype = {
 
 sources.DOM.status()
 sources.DOM
-// <- variable.other.object
+// <- variable.other.readwrite
     .status()
     // ^ meta.function-call.method variable.function
 
@@ -1324,6 +1324,8 @@ arguments;
 // <- variable.language.arguments
 super.func();
 // <- variable.language.super
+globalThis;
+// <- variable.language.global
 
 foo[bar];
 // ^^^^^ meta.brackets
@@ -1617,12 +1619,12 @@ function test() {
 }
 
 $.each({})
-// <- variable.other.object.dollar.only punctuation.dollar
+// <- variable.other.dollar.only punctuation.dollar
 //     ^ meta.object-literal
 
 $varname.method()
-// <- variable.other.object.dollar punctuation.dollar - variable.other.object.dollar.only
-// ^ variable.other.object.dollar
+// <- variable.other.dollar punctuation.dollar - variable.object.dollar.only
+// ^ variable.other.dollar
 
 $.fn.new_plugin = function() {}
 // <- support.class.dollar.only punctuation.dollar
