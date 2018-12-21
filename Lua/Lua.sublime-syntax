@@ -289,17 +289,7 @@ contexts:
   accessor:
     - match: '[.:]'
       scope: punctuation.accessor.lua
-      push:
-        - match: '{{identifier}}{{function_assignment_ahead}}'
-          scope: meta.property.lua entity.name.function.lua
-          pop: true
-        - match: '{{identifier}}{{function_call_ahead}}'
-          scope: meta.property.lua variable.function.lua
-          pop: true
-        - match: '{{identifier}}'
-          scope: meta.property.lua
-          pop: true
-        - include: else-pop
+      push: property
 
     - match: \[
       scope: punctuation.section.brackets.begin.lua
@@ -310,6 +300,18 @@ contexts:
           pop: true
         - match: (?=\S)
           push: expression
+
+  property:
+    - match: '{{identifier}}{{function_assignment_ahead}}'
+      scope: meta.property.lua entity.name.function.lua
+      pop: true
+    - match: '{{identifier}}{{function_call_ahead}}'
+      scope: meta.property.lua variable.function.lua
+      pop: true
+    - match: '{{identifier}}'
+      scope: meta.property.lua
+      pop: true
+    - include: else-pop
 
   function-arguments-meta:
     - meta_scope: meta.function-call.arguments.lua
@@ -361,6 +363,7 @@ contexts:
         (?x:_G|_VERSION){{identifier_break}}
       scope: support.constant.builtin.lua
       pop: true
+
     - match: |-
         (?x:
           assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile
@@ -370,6 +373,8 @@ contexts:
         ){{identifier_break}}
       scope: support.function.builtin.lua
       pop: true
+
+    - include: builtin-modules
 
   variable:
     - match: '{{identifier}}{{function_assignment_ahead}}'
@@ -501,3 +506,162 @@ contexts:
   function-meta:
     - meta_scope: meta.function.lua
     - include: immediately-pop
+
+  builtin-modules:
+    - match: coroutine{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  create|isyieldable|resume|running|status|wrap|yield
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: package{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  config|cpath|loaded|path|preload|searchers
+                ){{identifier_break}}
+              scope: meta.property.lua support.constant.builtin.lua
+              pop: true
+            - match: |-
+                (?x:
+                  loadlib|searchpath
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: string{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack
+                  |packsize|rep|reverse|sub|unpack|other
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: utf8{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  charpattern
+                ){{identifier_break}}
+              scope: meta.property.lua support.constant.builtin.lua
+              pop: true
+            - match: |-
+                (?x:
+                  char|codes|codepoint|len|offset
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: table{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  const|insert|move|pack|remove|sort|unpack
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: math{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  huge|maxinteger|mininteger|pi
+                ){{identifier_break}}
+              scope: meta.property.lua support.constant.builtin.lua
+              pop: true
+            - match: |-
+                (?x:
+                  abs|acos|asin|atan|ceil|cos|deg|exp|floor|fmod|log|max|min
+                  |modf|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: io{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  close|flush|input|lines|open|output|popen|read|tmpfile|type|write
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: os{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  clock|date|difftime|execute|exit|getenv|remove|rename
+                  |setlocale|time|tmpname
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: debug{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  debug|gethook|getinfo|getlocal|getmetatable|getregistry
+                  |getupvalue|getuservalue|sethook|setlocal|setmetatable
+                  |setupvalue|setuservalue|traceback|upvalueid|upvaluejoin
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
