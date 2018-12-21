@@ -483,3 +483,80 @@
 --                 ^ keyword.operator.assignment
 --                   ^ constant.numeric.decimal
 --                    ^ punctuation.terminator.statement
+
+--BUILTINS
+
+    _G;
+--  ^^ support.constant.builtin
+
+    _VERSION;
+--  ^^^^^^^^ support.constant.builtin
+
+    assert();
+--  ^^^^^^ support.function.builtin
+
+    collectgarbage();
+--  ^^^^^^^^^^^^^^ support.function.builtin
+
+    dofile();
+--  ^^^^^^ support.function.builtin
+
+    error();
+--  ^^^^^ support.function.builtin
+
+    getmetatable();
+--  ^^^^^^^^^^^^ support.function.builtin
+
+    ipairs();
+--  ^^^^^^ support.function.builtin
+
+    load();
+--  ^^^^ support.function.builtin
+
+    loadfile();
+--  ^^^^^^^^ support.function.builtin
+
+    next();
+--  ^^^^ support.function.builtin
+
+    pairs();
+--  ^^^^^ support.function.builtin
+
+    pcall();
+--  ^^^^^ support.function.builtin
+
+    print();
+--  ^^^^^ support.function.builtin
+
+    rawequal();
+--  ^^^^^^^^ support.function.builtin
+
+    rawget();
+--  ^^^^^^ support.function.builtin
+
+    rawlen();
+--  ^^^^^^ support.function.builtin
+
+    rawset();
+--  ^^^^^^ support.function.builtin
+
+    select();
+--  ^^^^^^ support.function.builtin
+
+    setmetatable();
+--  ^^^^^^^^^^^^ support.function.builtin
+
+    tonumber();
+--  ^^^^^^^^ support.function.builtin
+
+    tostring();
+--  ^^^^^^^^ support.function.builtin
+
+    type();
+--  ^^^^ support.function.builtin
+
+    xpcall();
+--  ^^^^^^ support.function.builtin
+
+    require();
+--  ^^^^^^^ support.function.builtin

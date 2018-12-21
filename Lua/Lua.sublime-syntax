@@ -354,7 +354,17 @@ contexts:
       pop: true
 
   support:
-    - match: (?:assert){{identifier_break}}
+    - match: |-
+        (?x:_G|_VERSION){{identifier_break}}
+      scope: support.constant.builtin.lua
+      pop: true
+    - match: |-
+        (?x:
+          assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile
+          |next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select
+          |setmetatable|tonumber|tostring|type|xpcall
+          |require
+        ){{identifier_break}}
       scope: support.function.builtin.lua
       pop: true
 
