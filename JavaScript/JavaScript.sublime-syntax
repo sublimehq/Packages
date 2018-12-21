@@ -1811,20 +1811,6 @@ contexts:
     - match: (?={{identifier}}\s*\()
       set: call-function-name
 
-    - match: '(?={{identifier}}\s*[\[.])'
-      set:
-        - match: '{{dollar_only_identifier}}'
-          scope: variable.other.object.dollar.only.js punctuation.dollar.js
-          pop: true
-        - match: '{{dollar_identifier}}'
-          scope: variable.other.object.dollar.js
-          captures:
-            1: punctuation.dollar.js
-          pop: true
-        - match: '{{identifier}}'
-          scope: variable.other.object.js
-          pop: true
-
     - include: literal-variable-base
 
   literal-variable-base:
