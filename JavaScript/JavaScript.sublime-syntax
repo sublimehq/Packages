@@ -859,6 +859,9 @@ contexts:
   expression-begin:
     - include: expression-break
 
+    - include: yield-expression
+    - include: await-expression
+
     - include: regexp-complete
     - include: literal-string
     - include: tagged-template
@@ -866,8 +869,6 @@ contexts:
     - include: constructor
     - include: literal-number
     - include: prefix-operators
-    - include: yield-expression
-    - include: await-expression
     - include: import-meta-expression
 
     - include: class

@@ -738,6 +738,12 @@ while (true)
 //      ^^^^^ keyword.control.flow
 //            ^^^^^ keyword.control.flow
 
+    yield (parenthesized_expression);
+//  ^^^^^ keyword.control.flow
+
+    yield `template`;
+//  ^^^^^ keyword.control.flow
+
     break;
 //  ^^^^^ keyword.control.loop
 
