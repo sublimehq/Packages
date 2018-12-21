@@ -81,6 +81,9 @@ contexts:
       scope: storage.modifier.lua
       push: expression-list
 
+    - match: end{{identifier_break}}
+      scope: invalid.illegal.unexpected-end.lua keyword.control.end.lua
+
     - match: (?=\S)
       push: expression
 

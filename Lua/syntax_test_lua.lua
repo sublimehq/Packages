@@ -390,6 +390,9 @@
 
 --STATEMENTS
 
+    end;
+--  ^^^ invalid.illegal.unexpected-end keyword.control.end
+
     do
 --  ^^^ meta.block
 --  ^^ keyword.control
@@ -424,7 +427,10 @@
 
     repeat
 --  ^^^^^^ keyword.control.loop
-        2 + 2
+        2 + 2;
+
+        end;
+--      ^^^ invalid.illegal.unexpected-end keyword.control.end
     until true;
 --  ^^^^^ keyword.control.loop
 
