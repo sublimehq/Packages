@@ -8,6 +8,7 @@ file_extensions:
   - xslt
   - tld
   - dtml
+  - rng
   - rss
   - opml
   - svg
