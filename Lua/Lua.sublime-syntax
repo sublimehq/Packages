@@ -65,8 +65,7 @@ contexts:
         - function-meta
         - block-contents
         - function-parameter-list
-        - function-name-end
-        - function-name-begin
+        - function-name
 
     - include: control-statements
 
@@ -100,7 +99,12 @@ contexts:
           scope: constant.language.lua
     - include: else-pop
 
+  function-name:
+    - match: (?=\S)
+      set: [ function-name-end, function-name-begin ]
+
   function-name-end:
+    - meta_scope: meta.name.function
     - match: '[.:]'
       scope: punctuation.accessor.lua
       push: function-name-begin
@@ -469,8 +473,7 @@ contexts:
         - function-meta
         - block-contents
         - function-parameter-list
-        - function-name-end
-        - function-name-begin
+        - function-name
 
   function-meta:
     - meta_scope: meta.function.lua
