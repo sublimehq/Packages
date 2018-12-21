@@ -17,7 +17,7 @@ variables:
   identifier_raw: (?:{{identifier_start}}{{identifier_char}}*)
   identifier: (?:(?!{{reserved_word}}){{identifier_raw}})
 
-  function_args_begin: (?:\(|"|'|\[=*\[)
+  function_args_begin: (?:\(|"|'|\[=*\[|\{)
   function_call_ahead: (?=\s*{{function_args_begin}})
   function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
 
@@ -309,6 +309,7 @@ contexts:
 
   function-arguments:
     - include: string
+    - include: table-constructor
 
     - match: \(
       scope: punctuation.section.group.begin.lua

@@ -274,6 +274,11 @@
 --     ^ punctuation.accessor
 --      ^^^ meta.property variable.function
 
+    foo.baz {};
+--     ^ punctuation.accessor
+--      ^^^ meta.property variable.function
+--          ^^ meta.function-call.arguments meta.mapping
+
     foo[bar + baz];
 --     ^^^^^^^^^^^ meta.brackets
 --     ^ punctuation.section.brackets.begin
@@ -298,6 +303,10 @@
     f [[ foo ]];
 --  ^ variable.function
 --    ^^^^^^^^^ meta.function-call.arguments string.quoted.block
+
+    f {};
+--  ^ variable.function
+--    ^^ meta.function-call.arguments meta.mapping
 
 --FUNCTIONS
 
