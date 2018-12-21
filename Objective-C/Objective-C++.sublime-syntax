@@ -23,7 +23,7 @@ variables:
   type_qualifier: 'const|constexpr|mutable|typename|volatile'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
-  other_keywords: 'typedef|decltype|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
+  other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
   non_angle_brackets: '(?=<<|<=)'
 

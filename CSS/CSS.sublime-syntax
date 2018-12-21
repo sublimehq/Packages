@@ -11,7 +11,7 @@ variables:
   # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
   unicode: '\\\h{1,6}[ \t\n\f]?'
   escape: '(?:{{unicode}}|\\[^\n\f\h])'
-  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[^[:ascii:]]]'
+  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
   nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
   nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
   ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
