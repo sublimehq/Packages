@@ -1672,7 +1672,8 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: length-type
-          - match: \b(max-content|min-content)\b
+          - include: percentage-type
+          - match: \b(auto|max-content|min-content)\b
             scope: support.constant.property-value.css
 
   # Color Functions
