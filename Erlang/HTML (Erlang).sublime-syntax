@@ -4,17 +4,47 @@
 name: HTML (Erlang)
 file_extensions:
   - yaws
-scope: text.html.erlang.yaws
+scope: text.html.erlang
+
+variables:
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  break_char: '[\t\n\f /<>]'
+
 contexts:
   main:
-    - match: <erl>
-      captures:
-        0: punctuation.section.embedded.erlang
-      push:
-        - meta_scope: source.erlang.embedded.html
-        - match: </erl>
-          captures:
-            0: punctuation.section.embedded.erlang
-          pop: true
-        - include: scope:source.erlang
+    - include: tag-erlang
     - include: scope:text.html.basic
+
+###[ PUBLIC CONTEXT ]#########################################################
+
+  tag-erlang:
+    # Note: This context can be included in other HTML
+    #       variants to support the Erlang custom tag.
+    # Use:  - import: scope:text.html.erlang#tag-erlang
+    - match: (<)((?i:erl))(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.erl.html
+      push: [tag-erlang-body, tag-erlang-attributes]
+
+###[ PRIVATE CONTEXTS ]#######################################################
+
+  tag-erlang-attributes:
+    - meta_scope: meta.tag.erl.begin.html
+    - include: scope:text.html.basic#tag-end
+    - include: scope:text.html.basic#tag-attributes
+
+  tag-erlang-body:
+    - match: (</)((?i:erl))(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.erl.html
+      set:
+        - meta_scope: meta.tag.erl.end.html
+        - include: scope:text.html.basic#tag-end
+        - match: '[^{{break_char}}]+'
+          scope: invalid.illegal.attributes-unexpected.html
+    - match: ''
+      embed: scope:source.erlang#statements
+      embed_scope: source.erlang.embedded.html
+      escape: (?=</(?i:erl){{break_char}})
