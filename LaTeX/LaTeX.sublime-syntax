@@ -663,7 +663,7 @@ contexts:
           (\\)
           (?:
             [cC]ite(?:author|title|year|date|url|t|p|alt|alp|text|yearpar)?
-          | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite|footcitetext
+          | (?:[pP]aren|foot|[tT]ext|[sS]mart|super|[aA]|no|full|footfull)cite(?:s)?|footcitetext
           )
           \*?
         )\b
@@ -672,6 +672,16 @@ contexts:
         2: punctuation.definition.backslash.latex
       push:
         - meta_scope: meta.function.citation.latex
+        - include: general-optional-arguments
+        - match: '\{'
+          scope: punctuation.definition.group.brace.begin.latex
+          push:
+            - meta_scope: meta.function.citation.latex meta.group.brace.latex
+            - match: '[a-zA-Z0-9\.:/*!^_-]+'
+              scope: constant.other.citation.latex
+            - match: '\}'
+              scope: punctuation.definition.group.brace.end.latex
+              pop: true
         - include: general-optional-arguments
         - match: '\{'
           scope: punctuation.definition.group.brace.begin.latex
