@@ -7,10 +7,15 @@
 	<string>source.php meta.heredoc-end.php</string>
 	<key>settings</key>
 	<dict>
-		<key>unIndentedLinePattern</key>
+		<!--
+			If you are writing codes for PHP less then 7.3, you may want to
+			uncomment the the following section to ensure that "heredoc ending
+			token must be at BOL".
+		-->
+		<!-- <key>unIndentedLinePattern</key>
 		<string>.</string>
 		<key>preserveIndent</key>
-		<true />
+		<true /> -->
 	</dict>
 </dict>
 </plist>

@@ -18,7 +18,7 @@ variables:
 
   # digit separators
   digit_separators: '(?:(?:_+[0-9]+)*)'
-  
+
   # integers
   hex_numeral: '(0[xX])_*\h+(?:_+\h+)*'
   binary_numeral: '(0[bB])_*[01]+(?:_+[01]+)*'
@@ -1395,7 +1395,7 @@ contexts:
     - match: (ref)\s
       captures:
         1: storage.modifier.argument.cs
-    - match: '({{name}})\s*(=)(?!=)'
+    - match: '({{name}})\s*(=)(?=[^>=])'
       captures:
         1: variable.parameter.cs
         2: keyword.operator.assignment.cs
@@ -1437,7 +1437,7 @@ contexts:
     - include: type_common
     - match: (?=\()
       push: type_tuple
-      
+
   type_tuple:
     - match: \(
       scope: punctuation.section.group.begin.cs

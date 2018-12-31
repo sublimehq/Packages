@@ -163,7 +163,10 @@
 ##              ^ - punctuation.definition.tag.begin
 ##                          ^^^ punctuation.definition.tag.end
     ]]>
-##  ^^^ invalid.illegal.missing-entity
+##  ^^^ - punctuation.definition.tag.end - illegal
+
+    <code>]]></code>
+##        ^^^ - punctuation.definition.tag.end - illegal
 
         <!-- Comment -->
 ##      ^^^^^^^^^^^^^^^^ comment.block.html
@@ -185,6 +188,58 @@
 ##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
 ##          ^^ invalid.illegal.bad-comments-or-CDATA
 ##                      ^^^^^^^^^^^^^^^ - invalid.illegal.bad-comments-or-CDATA
+
+        <script type=html/text/>
+        ##     ^ - meta.attribute-with-value
+        ##      ^^^^ entity.other.attribute-name
+        ##      ^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##           ^^^^^^^^^ string.unquoted
+        ##                    ^^ punctuation.definition.tag.end.html
+
+        <img title/>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^ meta.attribute-with-value
+        ##        ^^ punctuation.definition.tag.end.html
+
+        <img src=//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^ meta.attribute-with-value
+        ##       ^ string.unquoted.html
+        ##        ^^ punctuation.definition.tag.end.html
+
+        <img src=/f̱oo⏡/bar/baz//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^ string.unquoted
+        ##                      ^^ punctuation.definition.tag.end.html
+
+        <img src=/f̱oo⏡/bar/baz/ />
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^ string.unquoted
+        ##                      ^ - meta.attribute-with-value
+        ##                       ^^ punctuation.definition.tag.end.html
+
+        <img title=foo"/>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^ string.unquoted.html
+        ##            ^ invalid.illegal.attribute-value.html
+        ##             ^^ punctuation.definition.tag.end.html
+
+        <img title=/f̱oo⏡/"bar"/baz//>
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^^^^^^^^^^^^^^ string.unquoted.html
+        ##                ^ invalid.illegal.attribute-value.html
+        ##                    ^ invalid.illegal.attribute-value.html
+        ##                          ^^ punctuation.definition.tag.end.html
 
         <div title=description></div>
         ##  ^ - meta.attribute-with-value
@@ -307,6 +362,15 @@ class="foo"></div>
         ##                                                         ^^^^^^^^^^^^^ entity.other.attribute-name.html
         ##                                                                       ^^^^^^^^^^^^^^^^^^^ entity.other.attribute-name.html
 
+        <tag "f'o`o<bar"="bar"></tag>
+        ##   ^^^^^^^^^^^^^^^^^ meta.attribute-with-value.html
+        ##   ^^^^^^^^^^^ entity.other.attribute-name.html
+        ##   ^ invalid.illegal.attribute-name.html
+        ##     ^ invalid.illegal.attribute-name.html
+        ##       ^ invalid.illegal.attribute-name.html
+        ##         ^ invalid.illegal.attribute-name.html
+        ##             ^ invalid.illegal.attribute-name.html
+
         <tag *([&\=></tag>
         ##   ^^^^^^^ - invalid
         ##   ^^^^^ entity.other.attribute-name
@@ -339,6 +403,29 @@ class="foo"></div>
         ##                                           ^ - punctuation.definition.tag.end.html
         ##                                            ^^ meta.tag.other.html punctuation.definition.tag.end.html
 
+        <body·other attrib=1/>
+        ## ^^^^^^^^ entity.name.tag.other.html
+        ##          ^^^^^^ entity.other.attribute-name.html
+
+        <xsl:tag></xsl:tag>
+        ##^^^^^^ entity.name.tag.other.html
+        ##         ^^^^^^^ entity.name.tag.other.html
+
+        <t*([&/>
+        ##^^^^ entity.name.tag.other.html
+        ##    ^^ punctuation.definition.tag.end.html
+
+        <t*℗[& *([&\="₦"></t*([&>
+        ##^^^^ entity.name.tag.other.html
+        ##^^^^^^^^^^^^^^^^^^^^^^^ - invalid
+        ##     ^^^^^ entity.other.attribute-name.html
+        ##          ^ punctuation.separator.key-value.html
+        ##           ^^^ string.quoted.double.html
+        ##              ^ punctuation.definition.tag.end.html
+        ##               ^^ punctuation.definition.tag.begin.html
+        ##                 ^^^^^ entity.name.tag.other.html
+        ##                      ^ punctuation.definition.tag.end.html
+
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
         ##^^^^^^^^^^^^^^ entity.name.tag.custom.html
         ##                ^^^^^^^^^^^^^^ entity.name.tag.custom.html
@@ -351,8 +438,16 @@ class="foo"></div>
         ##              ^^ punctuation.definition.tag.end.html
         ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
 
-        <INVALID-CUSTOM-TAG></INVALID-CUSTOM-TAG>
-        ## ^^^^^^^^^^^^^^^^ invalid.illegal.uppercase-custom-tag-name.html
+        <body-custom·tag₡name/>
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
+
+        <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
+        ## ^^^^^ invalid.illegal.custom-tag-name.html
+        ##       ^^^^^^ - invalid.illegal.custom-tag-name.html
+        ##              ^^^ invalid.illegal.custom-tag-name.html
+        ##                    ^^^^^^^ invalid.illegal.custom-tag-name.html
+        ##                            ^^^^^^ invalid.illegal.custom-tag-name.html
+        ##                                   ^^^ invalid.illegal.custom-tag-name.html
 
         <form name="formName" type="post">
         ## ^ entity.name.tag.block.form.html
@@ -434,6 +529,19 @@ class="foo"></div>
         ## ^^ meta.tag.block.any punctuation.definition.tag.end
         ##    ^^ entity.name.tag.block.any
         ##       ^^ punctuation.definition.tag.end
+
+        # make sure to stop tag names before the next < to prevent php
+        # and other syntaxes from breaking.
+        <article<?php>
+        ##^^^^^^ entity.name.tag.block.any.html
+        ##      ^^^^^^ - entity.name.tag
+
+        <_notag>
+        ##^^^^^ - entity.name.tag
+
+        <2notag>
+        ##^^^^^ - entity.name.tag
+
     </body>
     # ^^^^ entity.name.tag.structure
 </html>
