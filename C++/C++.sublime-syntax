@@ -910,7 +910,7 @@ contexts:
         - include: identifier-path-generic
         - match: '(?:(::)\s*)?({{operator_method_name}})(?=\s*\()'
           captures:
-            1: punctuation.accessor.c++
+            1: punctuation.accessor.double-colon.c++
             2: entity.name.function.c++
         - match: '(?=\s*(\(|$))'
           set: function-definition-params
@@ -944,7 +944,7 @@ contexts:
     - meta_content_scope: meta.function.local-symbol.c++
     - match: '(?:(::)\s*)?({{identifier}})(?!\s*(::))'
       captures:
-        1: punctuation.accessor.c++
+        1: punctuation.accessor.double-colon.c++
         2: entity.name.function.c++
     - include: identifiers
     - match: '(?=\S)'

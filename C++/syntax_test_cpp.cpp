@@ -1260,6 +1260,7 @@ myns::FooBar::~FooBar() { }
 /*                      ^^^ meta.block */
 /*                      ^ punctuation.section.block.begin */
 /*                        ^ punctuation.section.block.end */
+/*^^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
 /*            ^^^^^^^ entity.name.function */
 
     extern "C" void test_in_extern_c_block()
