@@ -559,7 +559,7 @@ contexts:
             2: variable.function.c++
             3: punctuation.section.group.begin.c++
           set:
-            - meta_scope: meta.constructor-call.c++
+            - meta_scope: meta.function-call.c++
             - meta_content_scope: meta.group.c++
             - match: '\}'
               scope: meta.group.c++ punctuation.section.group.end.c++
