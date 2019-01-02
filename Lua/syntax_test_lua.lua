@@ -137,30 +137,30 @@
 --          ^ punctuation.definition.string.end
 
     [[ Foo! ]];
---  ^^^^^^^^^^ string.quoted.block
+--  ^^^^^^^^^^ string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
 
     [[ Foo! \a \]];
---  ^^^^^^^^^^^^^^ string.quoted.block
+--  ^^^^^^^^^^^^^^ string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^^^ - constant
 --              ^^ punctuation.definition.string.end
 
     [=[ Foo! ]] ]=];
---  ^^^^^^^^^^^^^^^ string.quoted.block
+--  ^^^^^^^^^^^^^^^ string.quoted.multiline
 --  ^^^ punctuation.definition.string.begin
 --           ^^ - punctuation
 --              ^^^ punctuation.definition.string.end
 
     [=[
---  ^^^ string.quoted.block punctuation.definition.string.begin
+--  ^^^ string.quoted.multiline punctuation.definition.string.begin
         ]]
---      ^^^ string.quoted.block - punctuation
+--      ^^^ string.quoted.multiline - punctuation
         ]==]
---      ^^^^ string.quoted.block - punctuation
+--      ^^^^ string.quoted.multiline - punctuation
     ]=];
---  ^^^ string.quoted.block punctuation.definition.string.end
+--  ^^^ string.quoted.multiline punctuation.definition.string.end
 
 --OPERATORS
 
@@ -297,7 +297,7 @@
 
     f [[ foo ]];
 --  ^ variable.function
---    ^^^^^^^^^ meta.function-call.arguments string.quoted.block
+--    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
 
 --FUNCTIONS
 

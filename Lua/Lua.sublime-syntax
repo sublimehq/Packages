@@ -380,7 +380,7 @@ contexts:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
       set:
-        - meta_scope: string.quoted.block.lua
+        - meta_scope: string.quoted.multiline.lua
         - match: \]\1\]
           scope: punctuation.definition.string.end.lua
           pop: true
