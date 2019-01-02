@@ -165,7 +165,7 @@
 --          ^^ punctuation.definition.string.end
 
     [[ -- [[ ]];
---  ^^^^^^^^^^^ string.quoted.block - comment
+--  ^^^^^^^^^^^ string.quoted.multiline - comment
 
     [[ Foo! \a \]];
 --  ^^^^^^^^^^^^^^ string.quoted.multiline
