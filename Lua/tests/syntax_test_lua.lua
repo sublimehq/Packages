@@ -78,15 +78,19 @@
 
     0x0;
 --  ^^^ constant.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.hexadecimal
 
     0XdeafBEEF42;
 --  ^^^^^^^^^^^^ constant.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.hexadecimal
 
     0xa.bc;
 --  ^^^^^^ constant.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.hexadecimal
 
     0x1p10;
 --  ^^^^^^ constant.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.hexadecimal
 
     'foo';
 --  ^^^^^ string.quoted.single
