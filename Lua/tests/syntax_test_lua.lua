@@ -269,7 +269,7 @@
 --       ^ punctuation.separator.key-value
 --         ^ variable.other
 --          ^ punctuation.separator.field
---            ^ meta.key
+--            ^ meta.key string.unquoted.key
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
