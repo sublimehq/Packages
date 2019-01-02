@@ -24,6 +24,10 @@
 --      ^^^ comment.block - punctuation
         ]==]
 --      ^^^^ comment.block - punctuation
+        --
+--      ^^ - punctuation
+        [[
+--      ^^ - punctuation
     ]=]
 --  ^^^ comment.block punctuation.definition.comment.end
 
@@ -48,6 +52,9 @@
 
     ...;
 --  ^^^ constant.language
+
+    self;
+--  ^^^^ variable.language.this
 
 --NUMBERS
 
@@ -88,19 +95,35 @@
 
 --STRINGS
 
-    '\a\b\f\n\r\t\v\\\'\"';
---  ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
---   ^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+    'foo';
+--  ^^^^^ string.quoted.single
+--  ^ punctuation.definition.string.begin
+--      ^ punctuation.definition.string.end
+
+    '-- [[';
+--  ^^^^^^^ string.quoted.single - comment
+
+    "foo";
+--  ^^^^^ string.quoted.double
+--  ^ punctuation.definition.string.begin
+--      ^ punctuation.definition.string.end
+
+    "-- [[";
+--  ^^^^^^^ string.quoted.double - comment
+
+    '\a\b\f\n\r\t\v\\\'\"\[\]';
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
 
     '\x1ff';
 --   ^^^^ constant.character.escape.hexadecimal
 --       ^ - constant
 
-    '\d0 \d123 \d1234';
---   ^^^ constant.character.escape.decimal
---       ^^^^^ constant.character.escape.decimal
---             ^^^^^ constant.character.escape.decimal
---                  ^ - constant
+    '\0 \123 \1234';
+--   ^^ constant.character.escape.decimal
+--      ^^^^ constant.character.escape.decimal
+--           ^^^^ constant.character.escape.decimal
+--                ^ - constant
 
     '\u{0} \u{f00d}';
 --   ^^^^^ constant.character.escape.unicode
@@ -140,6 +163,9 @@
 --  ^^^^^^^^^^ string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
+
+    [[ -- [[ ]];
+--  ^^^^^^^^^^^ string.quoted.block - comment
 
     [[ Foo! \a \]];
 --  ^^^^^^^^^^^^^^ string.quoted.multiline
@@ -274,6 +300,11 @@
 --     ^ punctuation.accessor
 --      ^^^ meta.property variable.function
 
+    foo.baz {};
+--     ^ punctuation.accessor
+--      ^^^ meta.property variable.function
+--          ^^ meta.function-call.arguments meta.mapping
+
     foo[bar + baz];
 --     ^^^^^^^^^^^ meta.brackets
 --     ^ punctuation.section.brackets.begin
@@ -298,6 +329,10 @@
     f [[ foo ]];
 --  ^ variable.function
 --    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
+
+    f {};
+--  ^ variable.function
+--    ^^ meta.function-call.arguments meta.mapping
 
 --FUNCTIONS
 
@@ -332,13 +367,31 @@
 --      ^ punctuation.accessor
 --       ^^^ entity.name.function
 
+    local function foo () end
+--  ^^^^^ storage.modifier
+--        ^^^^^^^^^^^^^^^^^^^ meta.function
+--                 ^^^ entity.name.function
+
     ~function( a, b, ... ) end;
 --   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 --   ^^^^^^^^ storage.type
 --           ^^^^^^^^^^^^^ meta.group
 --                         ^^^ keyword.control.end
 
+    ~function foo () end;
+--   ^^^^^^^^^^^^^^^^^^^ meta.function
+--            ^^^ entity.name.function
+
+    foo = function() end;
+--  ^^^ entity.name.function
+
+    foo.bar = function() end;
+--      ^^^ entity.name.function
+
 --STATEMENTS
+
+    end;
+--  ^^^ invalid.illegal.unexpected-end keyword.control.end
 
     do
 --  ^^^ meta.block
@@ -374,7 +427,10 @@
 
     repeat
 --  ^^^^^^ keyword.control.loop
-        2 + 2
+        2 + 2;
+
+        end;
+--      ^^^ invalid.illegal.unexpected-end keyword.control.end
     until true;
 --  ^^^^^ keyword.control.loop
 
@@ -424,7 +480,7 @@
 --         ^^^ variable.other
 
     local x = 1, y = 2;
---  ^^^^^ storage.type
+--  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
 --            ^ constant.numeric.decimal
