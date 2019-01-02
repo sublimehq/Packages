@@ -82,7 +82,7 @@ contexts:
       push: expression-list
 
     - match: end{{identifier_break}}
-      scope: invalid.illegal.unexpected-end.lua keyword.control.end.lua
+      scope: invalid.illegal.unexpected-end.lua
 
     - match: (?=\S)
       push: expression
@@ -111,7 +111,7 @@ contexts:
     - meta_scope: meta.name.function
     - match: '[.:]'
       scope: punctuation.accessor.lua
-      push: function-name-begin
+      push: function-name-property
     - include: else-pop
 
   function-name-begin:
@@ -120,6 +120,15 @@ contexts:
       pop: true
     - match: '{{identifier}}'
       scope: entity.name.function.lua
+      pop: true
+    - include: else-pop
+
+  function-name-property:
+    - match: '{{identifier}}(?=\s*[.:])'
+      scope: meta.property.lua
+      pop: true
+    - match: '{{identifier}}'
+      scope: meta.property.lua entity.name.function.lua
       pop: true
     - include: else-pop
 

@@ -355,9 +355,9 @@
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 --           ^^^ variable.other - entity
 --              ^ punctuation.accessor
---               ^^^ variable.other - entity
+--               ^^^ meta.property - entity
 --                  ^ punctuation.accessor
---                   ^^^ entity.name.function
+--                   ^^^ meta.property entity.name.function
 --                       ^^^^^ meta.group
 --                             ^^^ keyword.control.end
 
@@ -386,12 +386,12 @@
 --  ^^^ entity.name.function
 
     foo.bar = function() end;
---      ^^^ entity.name.function
+--      ^^^ meta.property entity.name.function
 
 --STATEMENTS
 
     end;
---  ^^^ invalid.illegal.unexpected-end keyword.control.end
+--  ^^^ invalid.illegal.unexpected-end
 
     do
 --  ^^^ meta.block
@@ -430,9 +430,10 @@
         2 + 2;
 
         end;
---      ^^^ invalid.illegal.unexpected-end keyword.control.end
+--      ^^^ invalid.illegal.unexpected-end
     until true;
 --  ^^^^^ keyword.control.loop
+--        ^^^^ constant.language.boolean.true
 
     for x = 1, y, z do end
 --  ^^^ keyword.control.loop
@@ -457,7 +458,7 @@
 --                 ^ variable.other
 --                   ^^^^^^ meta.block
 --                   ^^ keyword.control
---                      ^^^ meta.block keyword.control.end
+--                      ^^^ keyword.control.end
 
 
     :: foo ::;
