@@ -11,7 +11,7 @@ variables:
   # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
   unicode: '\\\h{1,6}[ \t\n\f]?'
   escape: '(?:{{unicode}}|\\[^\n\f\h])'
-  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[^[:ascii:]]]'
+  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
   nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
   nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
   ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
@@ -423,7 +423,7 @@ contexts:
               | alpha(betic)?
               | alternate(-reverse)?
               | always|annotation|antialiased|at
-              | auto(hiding-scrollbar)?
+              | auto(hiding-scrollbar|-flow)?
               | avoid(-column|-page|-region)?
               | background(-color|-image|-position|-size)?
               | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
@@ -584,6 +584,7 @@ contexts:
     - include: comment-block
     - include: vendor-prefix
     - include: builtin-functions
+    - include: line-names
     - include: unicode-range
     - include: numeric-values
     - include: color-values
@@ -1308,6 +1309,7 @@ contexts:
           - include: minmax-function
           - include: integer-type
           - include: var-function
+          - include: line-names
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
           - match: \b(max-content|min-content|auto)\b
@@ -1672,7 +1674,8 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: length-type
-          - match: \b(max-content|min-content)\b
+          - include: percentage-type
+          - match: \b(auto|max-content|min-content)\b
             scope: support.constant.property-value.css
 
   # Color Functions
@@ -1908,6 +1911,18 @@ contexts:
     - match: (?=;|$)
       pop: true
 
+  # Named Grid Lines
+  # https://drafts.csswg.org/css-grid/#named-lines
+  line-names:
+    - match: '\['
+      scope: punctuation.section.begin.css
+      push:
+        - match: '{{ident}}'
+          scope: string.unquoted.line-name.css
+        - match: '\]'
+          scope: punctuation.section.end.css
+          pop: true
+
   unquoted-string:
     - match: '[^\s''"]'
       scope: string.unquoted.css
@@ -2000,6 +2015,8 @@ contexts:
       scope: constant.numeric.css
       captures:
         1: keyword.other.unit.css
+    - match: '0\b(?!%)'
+      scope: constant.numeric.css
 
   # https://drafts.csswg.org/css-images-3/#typedef-image
   image-type:

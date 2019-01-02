@@ -647,7 +647,7 @@ contexts:
           scope: punctuation.separator.parameters.python
           push: allow-unpack-operators
         # default values should follow the argument
-        - match: '(?==)'
+        - match: '='
           push:
             - meta_scope: invalid.illegal.default-value.python
             - match: '(?=[,)=])'
