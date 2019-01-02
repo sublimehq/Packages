@@ -90,7 +90,13 @@ contexts:
   main:
     - include: comments
     - include: comments-top-level
-    - include: statements
+
+    - match: '\)|\}|\]'
+      scope: invalid.illegal.stray-bracket-end.js
+      # Don't pop or embedding could break.
+
+    - match: (?=\S)
+      push: statement
 
   prototype:
     - include: comments
@@ -853,6 +859,9 @@ contexts:
   expression-begin:
     - include: expression-break
 
+    - include: yield-expression
+    - include: await-expression
+
     - include: regexp-complete
     - include: literal-string
     - include: tagged-template
@@ -860,8 +869,6 @@ contexts:
     - include: constructor
     - include: literal-number
     - include: prefix-operators
-    - include: yield-expression
-    - include: await-expression
     - include: import-meta-expression
 
     - include: class
@@ -1811,20 +1818,6 @@ contexts:
     - match: (?={{identifier}}\s*\()
       set: call-function-name
 
-    - match: '(?={{identifier}}\s*[\[.])'
-      set:
-        - match: '{{dollar_only_identifier}}'
-          scope: variable.other.object.dollar.only.js punctuation.dollar.js
-          pop: true
-        - match: '{{dollar_identifier}}'
-          scope: variable.other.object.dollar.js
-          captures:
-            1: punctuation.dollar.js
-          pop: true
-        - match: '{{identifier}}'
-          scope: variable.other.object.js
-          pop: true
-
     - include: literal-variable-base
 
   literal-variable-base:
@@ -1857,6 +1850,9 @@ contexts:
       pop: true
     - match: this{{identifier_break}}
       scope: variable.language.this.js
+      pop: true
+    - match: globalThis{{identifier_break}}
+      scope: variable.language.global.js
       pop: true
 
     # These three are ordinary variables, not literals!
@@ -2031,7 +2027,17 @@ contexts:
             - include: else-pop
         - include: else-pop
 
-    - match: (?:Float(?:32|64)|Int(?:8|16|32)|Uint(?:8|16|32|32Clamped))Array{{identifier_break}}
+    - match: |-
+        (?x:
+          (?:
+            BigInt64|
+            BigUint64|
+            Float(?:32|64)|
+            Int(?:8|16|32)|
+            Uint(?:8|16|32|32Clamped)
+          )
+          Array{{identifier_break}}
+        )
       scope: support.class.builtin.js
       set:
         - match: \.
