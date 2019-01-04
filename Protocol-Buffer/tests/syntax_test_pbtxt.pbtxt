@@ -1,0 +1,59 @@
+# SYNTAX TEST "Packages/Protocol-Buffer/Protocol-Buffer-Text.sublime-syntax"
+
+name: "player_1"
+# <- variable.other.member.prototxt
+#   ^ punctuation.separator.key-value.prototxt
+#     ^ string.quoted.double.prototxt punctuation.definition.string.begin.prototxt
+#      ^^^^^^^^ string.quoted.double.prototxt
+health: 100.0
+# <- variable.other.member.prototxt
+#     ^ punctuation.separator.key-value.prototxt
+#       ^^^^^ constant.numeric.float.prototxt
+health: 100f
+#       ^^^^ constant.numeric.float.prototxt
+health: 1e+2
+#       ^^^^ constant.numeric.float.prototxt
+xp: 4200   # normal digit
+#   ^^^^ constant.numeric.integer.prototxt
+xp: 04200  # octal
+#   ^^^^^ constant.numeric.octal.prototxt
+xp: 0xFFFF # hex
+#   ^^^^^^ constant.numeric.hex.prototxt
+xp: -24
+#   ^^^ constant.numeric.integer.prototxt
+xp: +24
+#   ^^^ constant.numeric.integer.prototxt
+xp: 0
+#   ^ constant.numeric.integer.prototxt
+
+stats {
+# <- meta.message.prototxt variable.other.member.prototxt
+#     ^ meta.message.prototxt punctuation.definition.dictionary.begin.prototxt
+  key: "STR"
+  value {
+    id: "STR"
+    max_value: 100
+    # <- meta.message.prototxt meta.message.prototxt variable.other.member.prototxt
+  }
+# ^ meta.message.prototxt meta.message.prototxt punctuation.definition.dictionary.end.prototxt
+}
+# <- meta.message.prototxt punctuation.definition.dictionary.end.prototxt
+
+stats {
+  key: "INT"
+  value {
+    id: "INT"
+    max_value: 20
+  }
+}
+
+buffs: [BURNING, POISONED]
+# <- variable.other.member.prototxt
+#    ^ punctuation.separator.key-value.prototxt
+#      ^ punctuation.definition.array.begin.prototxt
+#       ^^^^^^^ constant.numeric.enum.prototxt
+#                ^^^^^^^^ constant.numeric.enum.prototxt
+#                        ^ punctuation.definition.array.end.prototxt
+avatar: "aaabbbccc\c"
+#       ^^^^^^^^^^^^^ string.quoted.double.prototxt
+alive: true
