@@ -6,7 +6,7 @@ scope: source.proto
 file_extensions:
   - proto
   - protodevel
-first_line_match: 'syntax\s*=\s* "proto\d";'
+first_line_match: '^(syntax)\s*(=)\s*("proto\d")\s*(;)\s*$'
 variables:
   ident: '\b([A-Za-z][A-Za-z0-9_]*)\b'
 
@@ -14,8 +14,8 @@ contexts:
   prototype:
     # Captured for practical reasons (keeps other patterns simpler)
     - match: '\s+'
-      scope: meta.whitespace.proto
     - include: comments
+
   comments:
     - match: //
       scope: punctuation.definition.comment.begin.proto
@@ -30,11 +30,19 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.proto
           pop: true
+
   any_POP:
     # Pop when seeing unexpected characters.
-    # Contexts including this are suffixed by _POP.
     - match: '(?=\S)'
       pop: true
+
+  one_liner:
+    - match: ;
+      scope: punctuation.terminator.proto
+      pop: true
+    - match: $
+      pop: true
+
   closingBraceUnexpected_POP:
     - match: '(?=\})' # Recover from a non complete assignment
       pop: true
@@ -52,18 +60,8 @@ contexts:
           pop: true
 
   stringDoubleMultiline:
-    - match: '"'
-      scope: punctuation.definition.string.quoted.double.begin.proto
-      set:
-        - meta_scope: string.quoted.double.proto
-        - meta_include_prototype: false
-        - match: '\\"'
-          scope: constant.character.escape.proto
-        - match: '"'
-          scope: punctuation.definition.string.quoted.double.end.proto
-          set:
-            - include: stringDoubleMultiline
-            - include: any_POP
+    - include: stringDouble
+    - include: any_POP
 
   enum_START:
     - match: '\b(enum)\b'
@@ -82,7 +80,7 @@ contexts:
       pop: true
     - include: inlineOption
     - include: fieldAttributes
-    - match: '[a-zA-z]\w*'
+    - match: '{{ident}}'
       scope: support.variable.proto
     - match: =
       scope: keyword.operator.assignment.proto
@@ -140,42 +138,33 @@ contexts:
 
   # Service rules
   service_START:
-    - match: '\b(service)\b'
-      scope: storage.modifier.service.proto
-      push: [serviceBody_START, service_NAME]
-
-  service_NAME:
-    - match: '{{ident}}'
-      scope: entity.name.type.service.proto
-      pop: true
+    - match: '\b(service)\b\s*{{ident}}'
+      captures:
+        1: storage.modifier.service.proto
+        2: entity.name.type.service.proto
+      push: serviceBody_START
 
   serviceBody_START:
     - match: '\{'
       scope: punctuation.definition.block.service.begin.proto
       set: serviceBody_AFTER_OPEN
+    - include: any_POP
 
   serviceBody_AFTER_OPEN:
     - meta_scope: meta.service.body.proto
     - match: '}'
       scope: punctuation.definition.block.service.end.proto
       pop: true
-    - include: serviceBody
-
-  serviceBody:
-    - meta_scope: meta.service.body.proto
     - include: inlineOption
     - include: rpc_START
 
   # RPC Service rules
   rpc_START:
-    - match: '\b(rpc)\b'
-      scope: storage.modifier.rpc.proto
-      push: [rpcBody_START, rpc_PARAM, rpc_RETURNS, rpc_PARAM, rpc_NAME]
-
-  rpc_NAME:
-    - match: '{{ident}}'
-      scope: entity.name.function.rpc.proto
-      pop: true
+    - match: '\b(rpc)\b\s*{{ident}}'
+      captures:
+        1: storage.modifier.rpc.proto
+        2: entity.name.function.rpc.proto
+      push: [rpcBody_START, rpc_PARAM, rpc_RETURNS, rpc_PARAM]
 
   rpc_RETURNS:
     - match: returns
@@ -189,12 +178,17 @@ contexts:
         - match: \)
           scope: punctuation.definition.parameter.rpc.end.proto
           pop: true
+        - match: '\bstream\b'
+          scope: storage.modifier.proto
         - include: messageType_POP
 
   rpcBody_START:
     - match: '\{'
       scope: punctuation.definition.block.rpc.begin.proto
       set: rpcBody_AFTER_OPEN
+    - match: ;
+      scope: punctuation.terminator.proto
+      pop: true
 
   rpcBody_AFTER_OPEN:
     - meta_scope: meta.rpc.body.proto
@@ -232,7 +226,6 @@ contexts:
     - include: messageBody
 
   messageType_POP:
-    - meta_scope: storage.type.message.proto
     - match: '\bString\b|\bboolean\b'
       scope: invalid.type.proto
       pop: true
@@ -314,18 +307,16 @@ contexts:
           pop: true
 
   fieldAttribute_BODY:
-    - match: \bdefault\b
+    - match: \b(default|deprecated|packed)\b
       scope: constant.language.default.proto
-    - match: \bdeprecated\b
-      scope: constant.language.deprecated.proto
     - match: '{{ident}}'
-      scope: invalid.illegal.constant.proto
+      scope: variable.other.option.proto
     - include: optionName
     - include: optionAssignment
 
   option_BODY:
     - match: '{{ident}}'
-      scope: variable.option.other.proto
+      scope: variable.other.option.proto
     - include: optionName
     - include: optionAssignment
 
@@ -336,7 +327,6 @@ contexts:
         - match: \)
           scope: punctuation.definition.name.option.end.proto
           set:
-            - meta_scope: foo
             - match: (\.)([\w\d]*)
               captures:
                 1: punctuation.accessor.proto
@@ -359,13 +349,9 @@ contexts:
     - meta_scope: meta.option.assignment.after.proto
     - match: '{'
       scope: punctuation.definition.block.option.begin.proto
-      set:
-        - meta_content_scope: source.prototext
-        - include: optionEnd_pop
-        - include: Packages/google-syntax/Protocol-Buffer-Text.sublime-syntax#prototype
-        - include: Packages/google-syntax/Protocol-Buffer-Text.sublime-syntax
-      with_prototype:
-        - include: comments
+      embed: scope:source.prototext
+      embed_scope: source.prototext.embedded.proto
+      escape: '}'
     - include: constant_POP
 
   option_ASSIGN_BLOCK:
@@ -400,52 +386,43 @@ contexts:
     - include: any_POP
 
   main:
-    - match: \b(package)\s+(\w[\w\.]+)
-      scope: meta.package.proto
-      captures:
-        1: keyword.other.package.proto
-        2: entity.name.package.proto
-    - match: '\b(parsed)?\s*((class))\s+(\w+)\s+{'
+    - match: \b(package)\b
+      scope: keyword.other.package.proto
+      push:
+        - match: '{{ident}}(\.)'
+          captures:
+            1: variable.namespace.proto
+            2: punctuation.separator.namespace.proto
+        - match: '{{ident}}'
+          scope: entity.name.namespace.proto
+        - include: one_liner
+    # This proto1 syntax is deprecated, only providing minimal support.
+    - match: '\b(parsed)?\s*((class))\s+{{ident}}\s+{'
       scope: meta.parsed.message.proto
       captures:
         1: storage.type.parsed.proto
         3: storage.type.message.proto
         4: invalid.deprecated.class.proto
         5: entity.name.function.proto
-    - match: '\b(rpc)\s+(\w+)\((\w+)\)\s+(returns)\s+\((\w+)\)\s+\{'
-      scope: meta.rpc.proto
-      captures:
-        1: storage.type.rpc.proto
-        2: entity.name.function.proto
-        3: variable.parameter.proto
-        4: keyword.other.returns.proto
-        5: variable.parameter.proto
     - match: '(?x)\b(group)\s+(\w+)\s+=\s+(\d+)\s+{'
       scope: meta.group.proto
       captures:
         1: storage.type.proto
         2: support.variable.proto
         3: constant.numeric.proto
-    - match: \b(syntax)\b
+    - match: '^\s*(syntax)\s*(=)'
       captures:
         1: keyword.other.syntax.proto
+        2: keyword.operator.assignment.proto
       push:
-        - meta_scope: meta.keyword.syntax
-        - match: ;
-          scope: punctuation.terminator.proto
-          pop: true
-        - match: =
-          scope: keyword.operator.assignment.proto
         - include: stringDouble
-    - match: \b(import)\b
+        - include: one_liner
+    - match: '\b(import)\b'
       captures:
         1: keyword.other.import.proto
       push:
-        - meta_scope: meta.keyword.import
-        - match: ;
-          scope: punctuation.terminator.proto
-          pop: true
         - include: stringDouble
+        - include: one_liner
     - include: inlineOption
     - include: message_START
     - include: service_START
