@@ -4,13 +4,9 @@
 name: Protocol Buffer
 file_extensions:
   - proto
-  - protodevel
 scope: source.proto
 variables:
-  PLA_anything: '(?=[\S\s])'
-  messagePath: '\b(((?:[A-Za-z]\w*\.)*)([a-zA-Z]\w*))\b'
-  keywordLanguage: >-
-    syntax | package | import | optional | required | repeated | message
+  ident: '\b([A-Za-z][A-Za-z0-9_]*)\b'
 
 contexts:
   prototype:
@@ -19,18 +15,12 @@ contexts:
       scope: meta.whitespace.proto
     - include: comments
   comments:
-    - match: '((\/\/))'
-      captures:
-        1: meta.comment.border.proto
-        2: punctuation.definition.comment.begin.proto
+    - match: //
+      scope: punctuation.definition.comment.begin.proto
       push:
         - meta_scope: comment.line.proto
         - match: '$'
           pop: true
-        - match: '\/\/+'
-          scope: meta.comment.border.proto
-        - match: '\b(?i:todo|hack)\b'
-          scope: comment.line.todo.proto
     - match: /\*
       scope: punctuation.definition.comment.proto
       push:
@@ -39,11 +29,14 @@ contexts:
           scope: punctuation.definition.comment.proto
           pop: true
   any_POP:
+    # Pop when seeing unexpected characters.
+    # Contexts including this are suffixed by _POP.
     - match: '(?=\S)'
       pop: true
   closingBraceUnexpected_POP:
     - match: '(?=\})' # Recover from a non complete assignment
       pop: true
+
   stringDouble:
     - match: '"'
       scope: punctuation.definition.string.begin.proto
@@ -69,14 +62,17 @@ contexts:
           set:
             - include: stringDoubleMultiline
             - include: any_POP
+
   enum_START:
     - match: '\b(enum)\b'
       scope: storage.modifier.enum.proto
       push: [ enumBody_START, message_NAME]
+
   enumBody_START:
     - match: '\{'
       scope: punctuation.definition.block.enum.begin.proto
       set: enumBody_AFTER_OPEN
+
   enumBody_AFTER_OPEN:
     - meta_scope: meta.enum.body.proto
     - match: '}'
@@ -147,7 +143,7 @@ contexts:
       push: [serviceBody_START, service_NAME]
 
   service_NAME:
-    - match: \w+
+    - match: '{{ident}}'
       scope: entity.name.type.service.proto
       pop: true
 
@@ -169,20 +165,21 @@ contexts:
     - include: rpc_START
 
   # RPC Service rules
-
   rpc_START:
     - match: '\b(rpc)\b'
       scope: storage.modifier.rpc.proto
       push: [rpcBody_START, rpc_PARAM, rpc_RETURNS, rpc_PARAM, rpc_NAME]
 
   rpc_NAME:
-    - match: \w+
+    - match: '{{ident}}'
       scope: entity.name.function.rpc.proto
       pop: true
+
   rpc_RETURNS:
     - match: returns
       scope: keyword.other.returns.proto
       pop: true
+
   rpc_PARAM:
     - match: \(
       scope: punctuation.definition.parameter.rpc.start.proto
@@ -190,11 +187,12 @@ contexts:
         - match: \)
           scope: punctuation.definition.parameter.rpc.end.proto
           pop: true
-        - match: '{{messagePath}}'
+        - match: '{{ident}}\.'
           captures:
-            1: storage.type.message.field.proto
-            2: storage.type.message.field.path.proto
-            3: storage.type.message.field.message.proto
+            1: storage.type.message.field.path.proto
+            2: punctuation.separator.proto
+        - match: '{{ident}}'
+          scope: storage.type.message.field.message.proto
 
   rpcBody_START:
     - match: '\{'
@@ -215,7 +213,7 @@ contexts:
   # Message Rules
 
   message_NAME:
-    - match: \w+
+    - match: '{{ident}}'
       scope: entity.name.type.message.proto
       pop: true
 
@@ -258,11 +256,13 @@ contexts:
       pop: true
     - match: ''
       set: [messageType_META, messageType_POP]
+
   messageField_NAME:
-    - match: \w+
+    - match: '{{ident}}'
       scope: support.variable.proto
       pop: true
     - include: closingBraceUnexpected_POP
+
   messageField_END:
     - include: fieldAttributes
     - match: ';'
@@ -273,6 +273,7 @@ contexts:
     - match: \d+
       scope: constant.numeric.proto
     - include: closingBraceUnexpected_POP
+
   fieldAttributes:
     - match: '\['
       scope: punctuation.definition.attributes.begin.proto
@@ -314,6 +315,7 @@ contexts:
     - include: enum_START
     - include: reserved_START
     - include: messageBodyField
+
   inlineOption_START:
     - match: '\b(option)\b'
       scope: keyword.other.option.proto
@@ -329,13 +331,13 @@ contexts:
       scope: constant.language.default.proto
     - match: \bdeprecated\b
       scope: constant.language.deprecated.proto
-    - match: \w+
+    - match: '{{ident}}'
       scope: invalid.illegal.constant.proto
     - include: optionName
     - include: optionAssignment
 
   option_BODY:
-    - match: \w+
+    - match: '{{ident}}'
       scope: variable.option.other.proto
     - include: optionName
     - include: optionAssignment
@@ -403,12 +405,13 @@ contexts:
     - match: \btrue\b|\bfalse\b
       scope: constant.language.proto
       pop: true
-    - match: \w+
+    - match: '{{ident}}'
       scope: constant.other.proto
       pop: true
     - include: stringDoubleMultiline
     # No constants matched
     - include: any_POP
+
   main:
     - match: \b(package)\s+(\w[\w\.]+)
       scope: meta.package.proto
