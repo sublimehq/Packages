@@ -2,9 +2,11 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Protocol Buffer
+scope: source.proto
 file_extensions:
   - proto
-scope: source.proto
+  - protodevel
+first_line_match: 'syntax\s*=\s* "proto\d";'
 variables:
   ident: '\b([A-Za-z][A-Za-z0-9_]*)\b'
 
@@ -78,7 +80,7 @@ contexts:
     - match: '}'
       scope: punctuation.definition.block.enum.end.proto
       pop: true
-    - include: inlineOption_START
+    - include: inlineOption
     - include: fieldAttributes
     - match: '[a-zA-z]\w*'
       scope: support.variable.proto
@@ -89,10 +91,10 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.proto
 
-  oneof_START:
+  oneof:
     - match: '\b(oneof)\b'
       scope: storage.modifier.oneof.proto
-      push: [ oneofBody_START, messageField_NAME]
+      push: [ oneofBody_START, field_name_POP]
   oneofBody_START:
     - match: '\{'
       scope: punctuation.definition.block.oneof.begin.proto
@@ -103,12 +105,12 @@ contexts:
       scope: punctuation.definition.block.oneof.end.proto
       pop: true
     - match: ''
-      push: [ messageField_END, messageField_NAME, messageField_TYPE ]
+      push: [ messageField_END, field_name_POP, messageType_POP ]
 
   extend_START:
     - match: '\b(extend)\b'
       scope: storage.modifier.extend.proto
-      push: [ extendBody_START, messageField_TYPE]
+      push: [ extendBody_START, messageType_POP]
   extendBody_START:
     - match: '\{'
       scope: punctuation.definition.block.extend.begin.proto
@@ -161,7 +163,7 @@ contexts:
 
   serviceBody:
     - meta_scope: meta.service.body.proto
-    - include: inlineOption_START
+    - include: inlineOption
     - include: rpc_START
 
   # RPC Service rules
@@ -182,17 +184,12 @@ contexts:
 
   rpc_PARAM:
     - match: \(
-      scope: punctuation.definition.parameter.rpc.start.proto
+      scope: punctuation.definition.parameter.rpc.begin.proto
       set:
         - match: \)
           scope: punctuation.definition.parameter.rpc.end.proto
           pop: true
-        - match: '{{ident}}\.'
-          captures:
-            1: storage.type.message.field.path.proto
-            2: punctuation.separator.proto
-        - match: '{{ident}}'
-          scope: storage.type.message.field.message.proto
+        - include: messageType_POP
 
   rpcBody_START:
     - match: '\{'
@@ -208,7 +205,7 @@ contexts:
 
   rpcBody:
     - meta_scope: meta.rpc.body.proto
-    - include: inlineOption_START
+    - include: inlineOption
 
   # Message Rules
 
@@ -234,30 +231,21 @@ contexts:
       pop: true
     - include: messageBody
 
-  messageType_META:
-    - meta_scope: storage.type.message.proto
-    - match: ''
-      pop: true
-
   messageType_POP:
-    - match: '[A-Za-z]\w*'
-      scope: storage.type.message.part.proto
-      set:
-        - match: '\.'
-          scope: punctuation.accessor.proto
-          set: messageType_POP
-        - include: any_POP
-    - include: any_POP
-
-  messageField_TYPE:
-    - meta_scope: messageField_TYPE
+    - meta_scope: storage.type.message.proto
     - match: '\bString\b|\bboolean\b'
       scope: invalid.type.proto
       pop: true
-    - match: ''
-      set: [messageType_META, messageType_POP]
+    - match: '{{ident}}(\.)'
+      captures:
+        1: variable.namespace.proto
+        2: punctuation.accessor.proto
+    - match: '{{ident}}'
+      scope: storage.type.message.proto
+      pop: true
+    - include: any_POP
 
-  messageField_NAME:
+  field_name_POP:
     - match: '{{ident}}'
       scope: support.variable.proto
       pop: true
@@ -285,38 +273,37 @@ contexts:
         - match: '\]'
           scope: punctuation.definition.attributes.end.proto
           pop: true
-  map_TYPES:
-    - match: '<'
-      scope: punctuation.definition.map.start.proto
-      set:
-        - match: '\b(((?:[A-Za-z][a-z0-9]+\.)*)([a-zA-Z]\w+))\b'
-          captures:
-            1: storage.type.message.field.proto
-            2: storage.type.message.field.path.proto
-            3: storage.type.message.field.message.proto
-        - match: '>'
-          scope: punctuation.definition.map.end.proto
-          pop: true
+  map_type:
+    - match: ','
+      scope: punctuation.separator.map.proto
+    - match: '>'
+      scope: punctuation.definition.map.end.proto
+      pop: true
+    - match: '(?={{ident}})'
+      push: messageType_POP
+
   messageBodyField:
     - match: '\b(optional|required|repeated)\b'
       captures:
         1: storage.modifier.proto
-      push: [ messageField_END, messageField_NAME, messageField_TYPE ]
-    - match: '\b(map)\b'
+      push: [ messageField_END, field_name_POP, messageType_POP ]
+    - match: '\b(map)\b\s*\b(<)'
       captures:
         1: storage.modifier.proto
-      push: [ messageField_END, messageField_NAME, map_TYPES ]
+        2: punctuation.definition.map.begin.proto
+      push: [ messageField_END, field_name_POP, map_type ]
+
   messageBody:
     - meta_scope: meta.message.body.proto
-    - include: inlineOption_START
+    - include: inlineOption
     - include: message_START
     - include: extend_START
-    - include: oneof_START
+    - include: oneof
     - include: enum_START
     - include: reserved_START
     - include: messageBodyField
 
-  inlineOption_START:
+  inlineOption:
     - match: '\b(option)\b'
       scope: keyword.other.option.proto
       push:
@@ -459,7 +446,7 @@ contexts:
           scope: punctuation.terminator.proto
           pop: true
         - include: stringDouble
-    - include: inlineOption_START
+    - include: inlineOption
     - include: message_START
     - include: service_START
     - include: extend_START
