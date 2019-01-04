@@ -1,0 +1,111 @@
+// SYNTAX TEST "Packages/Protocol-Buffer/Protocol-Buffer.sublime-syntax"
+syntax = "proto2";
+// <- keyword.other.syntax.proto
+//        ^^^^^^ string.quoted.double.proto
+
+package escape_dungeon;
+// <- keyword.other.namespace.proto
+//      ^^^^^^^^^^^^^^ entity.name.namespace.proto
+
+import "escape_dungeon/weapons.proto";
+// <- keyword.other.import.proto
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.proto
+
+message Player {
+// <- meta.class.proto storage.modifier.message.proto
+//      ^^^^^^ entity.name.class.proto
+
+  required string name = 1;
+  // ^^^^^ storage.modifier.proto
+  //       ^^^^^^ support.type.proto
+  //              ^^^^ variable.other.field.proto
+  //                   ^ keyword.operator.assignment.proto
+  //                     ^ constant.numeric.proto
+  //                      ^ punctuation.terminator.proto
+  optional float health = 2;
+  //       ^^^^^ support.type.proto
+
+  optional uint64 xp = 3;
+  //       ^^^^^^ support.type.proto
+
+  map<string, Stats> stats = 4;
+  // <- storage.modifier.proto
+  //  ^^^^^^ support.type.proto
+  //          ^^^^^ variable.type.proto
+  //                 ^^^^^ variable.other.field.proto
+  repeated Buff buffs = 5;
+  repeated escape_dungeon.Weapon weapons = 6;
+  optional bytes avatar = 7;
+  //       ^^^^^ support.type.proto
+
+  optional bool alive = 8;
+  //       ^^^^ support.type.proto
+  reserved 42;
+  // <- storage.modifier.reserved.proto
+  //       ^^ constant.numeric.proto
+  reserved 100 to 200;
+  // <- storage.modifier.reserved.proto
+  //       ^^^ constant.numeric.proto
+  //           ^^ keyword.other.to.proto
+  //              ^^^ constant.numeric.proto
+
+  // Stats describing the user characteristic (Strenght, Intelligence, ...).
+  // <- comment.line.proto punctuation.definition.comment.begin.proto
+  message Stats {
+  // <- meta.class.proto meta.class.proto storage.modifier.message.proto
+    required string id = 1;
+    // <- storage.modifier.proto
+    optional int32 max_value = 2;
+    optional int32 value = 3 [(custom.annotation) = -1];
+  }
+
+// <- meta.class.proto -(meta.class.proto meta.class.proto)
+}
+
+// <- - meta.class.proto
+
+message Config {
+  oneof config {
+    StatConfig stat = 1;
+    LevelConfig level = 2;
+    WeaponConfig weapon = 3;
+  }
+}
+
+message LevelConfig {
+  optional int32 max_level = 1 [default = 100];
+  repeated uint64 xp_levels = 2 [packed=true];
+}
+
+enum Buff {
+// <- meta.enum.proto storage.modifier.enum.proto
+//   ^^^^ entity.name.enum.proto
+
+  option allow_alias = true;
+  // <- keyword.other.option.proto
+
+  NO_BUFF = 0;
+  FROZEN = 1;
+  BURNING = 2;
+  POISONED = 2;
+}
+
+service PlayerService {
+// <- meta.service.proto storage.modifier.service.proto
+  rpc GetPlayer (PlayerRequest) returns (PlayerResponse);
+  // <- storage.modifier.rpc.proto
+  //  ^^^^^^^^^ entity.name.function.rpc.proto
+  //             ^^^^^^^^^^^^^ variable.type.proto
+  //                            ^^^^^^^ keyword.other.returns.proto
+  //                                     ^^^^^^^^^^^^^^ variable.type.proto
+
+  rpc GetAllPlayers(AllPlayersRequest) returns (stream PlayerResponse) {
+  // <- storage.modifier.rpc.proto
+  //  ^^^^^^^^^^^^^ entity.name.function.rpc.proto
+  //                ^^^^^^^^^^^^^^^^^ variable.type.proto
+  //                                   ^^^^^^^ keyword.other
+  //                                            ^^^^^^ storage.modifier
+  //                                                   ^^^^^^^^^^^^^^ variable.type.proto
+    option security_label = "read";
+  }
+}
