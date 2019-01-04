@@ -234,13 +234,13 @@ contexts:
         1: variable.namespace.proto
         2: punctuation.accessor.proto
     - match: '{{ident}}'
-      scope: storage.type.message.proto
+      scope: variable.type.message.proto
       pop: true
     - include: any_POP
 
   field_name_POP:
     - match: '{{ident}}'
-      scope: support.variable.proto
+      scope: variable.other.field.proto
       pop: true
     - include: closingBraceUnexpected_POP
 
@@ -387,7 +387,7 @@ contexts:
 
   main:
     - match: \b(package)\b
-      scope: keyword.other.package.proto
+      scope: keyword.other.namespace.proto
       push:
         - match: '{{ident}}(\.)'
           captures:
