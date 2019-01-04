@@ -177,7 +177,8 @@ contexts:
           pop: true
         - match: '\bstream\b'
           scope: storage.modifier.proto
-        - include: message_type_or_pop
+        - match: (?=\S)
+          push: message_type_or_pop
 
   rpc_body:
     - match: '\{'
@@ -238,7 +239,6 @@ contexts:
     - match: '{{ident}}'
       scope: variable.type.proto
       pop: true
-    - include: or_pop
 
   field_name_POP:
     - match: '{{ident}}'

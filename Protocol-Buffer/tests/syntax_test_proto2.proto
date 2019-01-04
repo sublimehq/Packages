@@ -123,7 +123,9 @@ service PlayerService {
   //  ^^^^^^^^^ entity.name.function.rpc.proto
   //             ^^^^^^^^^^^^^ variable.type.proto
   //                            ^^^^^^^ keyword.other.returns.proto
+  //                                    ^ punctuation.definition.parameter.rpc.begin.proto
   //                                     ^^^^^^^^^^^^^^ variable.type.proto
+  //                                                   ^ punctuation.definition.parameter.rpc.end.proto
 
   rpc GetAllPlayers(AllPlayersRequest) returns (stream PlayerResponse) {
   // <- storage.modifier.rpc.proto
