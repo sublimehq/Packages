@@ -293,6 +293,9 @@ contexts:
         1: storage.modifier.proto
         2: punctuation.definition.map.begin.proto
       push: [ messageField_END, field_name_POP, map_type ]
+    # field are assumed 'optional' by default in proto3.
+    - match: '(?=\S)'
+      push: [ messageField_END, field_name_POP, messageType_POP ]
 
   inlineOption:
     - match: '\b(option)\b'
@@ -419,9 +422,10 @@ contexts:
       push:
         - include: stringDouble
         - include: one_liner
-    - match: '\b(import)\b'
+    - match: '\b(import)\b\s*(weak|public)?\b'
       captures:
         1: keyword.other.import.proto
+        2: storage.modifier.proto
       push:
         - include: stringDouble
         - include: one_liner

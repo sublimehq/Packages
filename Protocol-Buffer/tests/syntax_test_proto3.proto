@@ -1,0 +1,29 @@
+// SYNTAX TEST "Protocol-Buffer.sublime-syntax"
+syntax = "proto3";
+// <- keyword.other.syntax.proto
+//        ^^^^^^ string.quoted.double.proto
+
+import public "escape_dungeon/weapons.proto";
+// <- keyword.other.import.proto
+//     ^^^^^^ storage.modifier.proto
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.proto
+
+message Player {
+
+  required string name = 1;
+  // ^^^^^ storage.modifier.proto
+  //       ^^^^^^ support.type.proto
+  //              ^^^^ variable.other.field.proto
+  //                   ^ keyword.operator.assignment.proto
+  //                     ^ constant.numeric.proto
+  //                      ^ punctuation.terminator.proto
+
+  float health = 2;
+  // <- support.type.proto
+  //    ^^^^^^ variable.other.field.proto
+  //           ^ keyword.operator.assignment.proto
+  //             ^ constant.numeric.proto
+  //              ^ punctuation.terminator.proto
+}
+
+// Proto3 is really similar to Proto2 so no more tests here.
