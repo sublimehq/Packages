@@ -63,18 +63,20 @@ contexts:
     - include: stringDouble
     - include: any_POP
 
-  enum_START:
-    - match: '\b(enum)\b'
-      scope: storage.modifier.enum.proto
-      push: [ enumBody_START, message_NAME]
+  enum:
+    - match: '\b(enum)\b\s*{{ident}}'
+      captures:
+        1: storage.modifier.enum.proto
+        2: entity.name.enum.proto
+      push:
+        - meta_scope: meta.enum.proto
+        - match: '\{'
+          scope: punctuation.definition.block.enum.begin.proto
+          set: enumBody
+        - include: any_POP
 
-  enumBody_START:
-    - match: '\{'
-      scope: punctuation.definition.block.enum.begin.proto
-      set: enumBody_AFTER_OPEN
-
-  enumBody_AFTER_OPEN:
-    - meta_scope: meta.enum.body.proto
+  enumBody:
+    - meta_scope: meta.enum.proto
     - match: '}'
       scope: punctuation.definition.block.enum.end.proto
       pop: true
@@ -124,7 +126,6 @@ contexts:
     - match: '\b(reserved)\b'
       scope: storage.modifier.reserved.proto
       push:
-        - meta_scope: meta.keyword.reserved.proto
         - match: \d+
           scope: constant.numeric.proto
         - match: ','
@@ -137,26 +138,23 @@ contexts:
 
 
   # Service rules
-  service_START:
+  service:
     - match: '\b(service)\b\s*{{ident}}'
       captures:
         1: storage.modifier.service.proto
-        2: entity.name.type.service.proto
-      push: serviceBody_START
-
-  serviceBody_START:
-    - match: '\{'
-      scope: punctuation.definition.block.service.begin.proto
-      set: serviceBody_AFTER_OPEN
-    - include: any_POP
-
-  serviceBody_AFTER_OPEN:
-    - meta_scope: meta.service.body.proto
-    - match: '}'
-      scope: punctuation.definition.block.service.end.proto
-      pop: true
-    - include: inlineOption
-    - include: rpc_START
+        2: entity.name.class.proto
+      push:
+        - meta_scope: meta.service.proto
+        - match: '\{'
+          scope: punctuation.definition.block.service.begin.proto
+          set:
+            - meta_scope: meta.service.proto
+            - match: '}'
+              scope: punctuation.definition.block.service.end.proto
+              pop: true
+            - include: inlineOption
+            - include: rpc_START
+        - include: any_POP
 
   # RPC Service rules
   rpc_START:
@@ -202,39 +200,49 @@ contexts:
     - include: inlineOption
 
   # Message Rules
+  message:
+    - match: '\b(message)\b\s*{{ident}}'
+      captures:
+        1: storage.modifier.message.proto
+        2: entity.name.class.proto
+      push:
+        - meta_scope: meta.class.proto
+        - match: '\{'
+          scope: punctuation.definition.block.message.begin.proto
+          set: messageBody
+        - include: any_POP
 
-  message_NAME:
-    - match: '{{ident}}'
-      scope: entity.name.type.message.proto
-      pop: true
-
-  message_START:
-    - match: '\b(message)\b'
-      scope: storage.modifier.message.proto
-      push: [messageBody_START, message_NAME]
-
-  messageBody_START:
-    - match: '\{'
-      scope: punctuation.definition.block.message.begin.proto
-      set: messageBody_AFTER_OPEN
-
-  messageBody_AFTER_OPEN:
-    - meta_scope: meta.message.body.proto
+  messageBody:
+    - meta_scope: meta.class.proto
     - match: '}'
       scope: punctuation.definition.block.message.end.proto
       pop: true
-    - include: messageBody
+    - include: inlineOption
+    - include: message
+    - include: extend_START
+    - include: oneof
+    - include: enum
+    - include: reserved_START
+    - include: messageBodyField
 
   messageType_POP:
-    - match: '\bString\b|\bboolean\b'
-      scope: invalid.type.proto
+    # see documentation for the list of base types:
+    # https://developers.google.com/protocol-buffers/docs/proto#scalar
+    - match: '(double|float|bool|string|bytes)'
+      scope: support.type.proto
+      pop: true
+    - match: '(u|s)?int(32|64)'
+      scope: support.type.proto
+      pop: true
+    - match: 's?fixed(32|64)'
+      scope: support.type.proto
       pop: true
     - match: '{{ident}}(\.)'
       captures:
         1: variable.namespace.proto
         2: punctuation.accessor.proto
     - match: '{{ident}}'
-      scope: variable.type.message.proto
+      scope: variable.type.proto
       pop: true
     - include: any_POP
 
@@ -286,21 +294,10 @@ contexts:
         2: punctuation.definition.map.begin.proto
       push: [ messageField_END, field_name_POP, map_type ]
 
-  messageBody:
-    - meta_scope: meta.message.body.proto
-    - include: inlineOption
-    - include: message_START
-    - include: extend_START
-    - include: oneof
-    - include: enum_START
-    - include: reserved_START
-    - include: messageBodyField
-
   inlineOption:
     - match: '\b(option)\b'
       scope: keyword.other.option.proto
       push:
-        - meta_scope: meta.option.proto
         - include: option_BODY
         - match: ';'
           scope: punctuation.terminator.option.proto
@@ -396,7 +393,7 @@ contexts:
         - match: '{{ident}}'
           scope: entity.name.namespace.proto
         - include: one_liner
-    # This proto1 syntax is deprecated, only providing minimal support.
+    # This is proto1 syntax which is deprecated, only providing minimal support.
     - match: '\b(parsed)?\s*((class))\s+{{ident}}\s+{'
       scope: meta.parsed.message.proto
       captures:
@@ -404,12 +401,17 @@ contexts:
         3: storage.type.message.proto
         4: invalid.deprecated.class.proto
         5: entity.name.function.proto
+    # Groups are deprecated, only providing minimal support.
     - match: '(?x)\b(group)\s+(\w+)\s+=\s+(\d+)\s+{'
       scope: meta.group.proto
       captures:
-        1: storage.type.proto
+        1: storage.type.proto invalid.deprecated.group.proto
         2: support.variable.proto
         3: constant.numeric.proto
+      push:
+        - match: '\}'
+          pop: true
+        - include: field
     - match: '^\s*(syntax)\s*(=)'
       captures:
         1: keyword.other.syntax.proto
@@ -424,7 +426,7 @@ contexts:
         - include: stringDouble
         - include: one_liner
     - include: inlineOption
-    - include: message_START
-    - include: service_START
+    - include: message
+    - include: service
     - include: extend_START
-    - include: enum_START
+    - include: enum
