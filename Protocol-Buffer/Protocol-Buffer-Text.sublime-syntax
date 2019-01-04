@@ -1,0 +1,156 @@
+%YAML 1.2
+---
+name: Protocol Buffer (TEXT)
+file_extensions:
+  - pb.txt
+  - proto.text
+  - textpb
+  - METADATA
+scope: source.protocolbuffertext
+variables:
+  stringEscape: |-
+    (?x:                # turn on extended mode
+      \\                # a literal backslash
+      (?:               # ...followed by...
+        ['"\\/bfnrt]     # one of these characters
+        |               # ...or...
+        [0-9]{3}        # and one or three decimal digits
+      )
+    )
+  field_name: '([\w_][\w\d_]*)'
+
+contexts:
+  prototype:
+    # Captured for practical reasons (keeps other patterns simpler)
+    - match: '\s+'
+      scope: meta.whitespace.protocolbuffertext
+    - include: comments
+  any_POP:
+    - match: '(?=[\S\s])'
+      comment: Pop if nothing matched
+      pop: true
+  main:
+    - include: fieldMessage
+    - include: field
+  comments:
+    - match: '((#))'
+      captures:
+        1: meta.comment.border.protocolbuffertext
+        2: punctuation.definition.comment.begin.protocolbuffertext
+      push:
+        - meta_scope: comment.line.protocolbuffertext
+        - match: '$'
+          pop: true
+        - match: '\/\/+'
+          scope: meta.comment.border.protocolbuffertext
+        - match: '\b(?i:todo|hack)\b'
+          scope: comment.line.todo.protocolbuffertext
+  fieldMessage:
+    - match: '{{field_name}}(:?)\s*({|<)'
+      captures:
+        1: entity.name.tag.protocolbuffertext
+        2: punctuation.separator.dictionary.key-value.protocolbuffertext
+        3: punctuation.definition.dictionary.begin.protocolbuffertext
+      push:
+        - meta_scope: meta.message.protocolbuffertext
+        - match: '\}|>'
+          scope: punctuation.definition.dictionary.end.protocolbuffertext
+          pop: true
+        - include: fieldMessage
+        - include: field
+  fieldValue_POP:
+    - include: constant
+    - include: stringDoubleMultiline
+    - include: stringSingleMultiline
+    - include: stringUnquoted
+    - include: number
+    - include: array
+    - include: any_POP
+  array:
+    - match: '\['
+      scope: punctuation.section.brackets.begin.protocolbuffertext
+      set:
+        - meta_scope: meta.brackets
+        - match: '\]'
+          scope: punctuation.section.brackets.end
+          pop: true
+        - match: \,
+          scope: punctuation.separator.protocolbuffertext
+        - match: ""
+          push: fieldValue_POP
+  optionalComma:
+    - match: \,
+      scope: punctuation.separator.protocolbuffertext
+      pop: true
+    - include: any_POP
+  field:
+    - match: '{{field_name}}\s*(:)'
+      captures:
+        1: entity.name.tag.protocolbuffertext
+        2: punctuation.separator.key-value.mapping.protocolbuffertext
+      push:
+        - optionalComma
+        - fieldValue_POP
+  constant:
+    - match: \b(?:true|false|null)\b
+      scope: constant.language.protocolbuffertext
+      pop: true
+  number:
+    - match: |-
+        (?x:         # turn on extended mode
+          -?         # an optional minus
+          (?:
+            0        # a zero
+            |        # ...or...
+            [1-9]    # a 1-9 character
+            \d*      # followed by zero or more digits
+          )
+          (?:
+            (?:
+              \.     # a period
+              \d+    # followed by one or more digits
+            )?
+            (?:
+              [eE]   # an e character
+              [+-]?  # followed by an option +/-
+              \d+    # followed by one or more digits
+            )?       # make exponent optional
+          )?         # make decimal portion optional
+        )
+      comment: handles integer and decimal numbers
+      scope: constant.numeric.protocolbuffertext
+      pop: true
+  stringUnquoted:
+    - match: '[a-zA-Z_]\w*'
+      scope: string.unquoted.protocolbuffertext
+      pop: true
+  stringDoubleMultiline:
+    - match: '"'
+      scope: punctuation.definition.string.begin.protocolbuffertext
+      set:
+        - meta_scope: string.quoted.double.protocolbuffertext
+        - meta_include_prototype: false
+        - match: '{{stringEscape}}'
+          scope: constant.character.escape.protocolbuffertext
+        - match: \\.
+          scope: invalid.illegal.unrecognized-string-escape.protocolbuffertext
+        - match: '"'
+          scope: punctuation.definition.string.end.protocolbuffertext
+          set:
+            - include: stringDoubleMultiline
+            - include: any_POP
+  stringSingleMultiline:
+    - match: "'"
+      scope: punctuation.definition.string.quoted.single.begin.protocolbuffertext
+      set:
+        - meta_scope: string.quoted.single.protocolbuffertext
+        - meta_include_prototype: false
+        - match: '{{stringEscape}}'
+          scope: constant.character.escape.protocolbuffertext
+        - match: \\.
+          scope: invalid.illegal.unrecognized-string-escape.protocolbuffertext
+        - match: "'"
+          scope: punctuation.definition.string.quoted.single.end.protocolbuffertext
+          set:
+            - include: stringSingleMultiline
+            - include: any_POP
