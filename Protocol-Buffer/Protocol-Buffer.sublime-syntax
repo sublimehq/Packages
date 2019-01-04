@@ -31,7 +31,7 @@ contexts:
           scope: punctuation.definition.comment.proto
           pop: true
 
-  any_POP:
+  or_pop:
     # Pop when seeing unexpected characters.
     - match: '(?=\S)'
       pop: true
@@ -61,7 +61,7 @@ contexts:
 
   stringDoubleMultiline:
     - include: stringDouble
-    - include: any_POP
+    - include: or_pop
 
   enum:
     - match: '\b(enum)\b\s*{{ident}}'
@@ -72,15 +72,15 @@ contexts:
         - meta_scope: meta.enum.proto
         - match: '\{'
           scope: punctuation.definition.block.enum.begin.proto
-          set: enumBody
-        - include: any_POP
+          set: enum_body
+        - include: or_pop
 
-  enumBody:
+  enum_body:
     - meta_scope: meta.enum.proto
     - match: '}'
       scope: punctuation.definition.block.enum.end.proto
       pop: true
-    - include: inlineOption
+    - include: inline_option
     - include: fieldAttributes
     - match: '{{ident}}'
       scope: support.variable.proto
@@ -92,37 +92,41 @@ contexts:
       scope: punctuation.terminator.proto
 
   oneof:
-    - match: '\b(oneof)\b'
-      scope: storage.modifier.oneof.proto
-      push: [ oneofBody_START, field_name_POP]
-  oneofBody_START:
-    - match: '\{'
-      scope: punctuation.definition.block.oneof.begin.proto
-      set: oneofBody_AFTER_OPEN
-  oneofBody_AFTER_OPEN:
+    - match: '\b(oneof)\b\s*{{ident}}'
+      captures:
+        1: storage.modifier.oneof.proto
+        2: entity.name.member.proto
+      push:
+        - match: '\{'
+          scope: punctuation.definition.block.oneof.begin.proto
+          set: oneof_body
+        - include: or_pop
+
+  oneof_body:
     - meta_scope: meta.oneof.body.proto
     - match: '}'
       scope: punctuation.definition.block.oneof.end.proto
       pop: true
-    - match: ''
-      push: [ messageField_END, field_name_POP, messageType_POP ]
+    - match: '(?=\S)'
+      push: [ messageField_END, field_name_POP, message_type_or_pop ]
 
-  extend_START:
+  extend:
     - match: '\b(extend)\b'
       scope: storage.modifier.extend.proto
-      push: [ extendBody_START, messageType_POP]
-  extendBody_START:
+      push: [ extend_body_or_pop, message_type_or_pop]
+
+  extend_body_or_pop:
     - match: '\{'
       scope: punctuation.definition.block.extend.begin.proto
-      set: extendBody_AFTER_OPEN
-  extendBody_AFTER_OPEN:
-    - meta_scope: meta.extend.body.proto
-    - match: '}'
-      scope: punctuation.definition.block.extend.end.proto
-      pop: true
-    - include: messageBody
+      set:
+        - meta_scope: meta.extend.body.proto
+        - match: '}'
+          scope: punctuation.definition.block.extend.end.proto
+          pop: true
+        - include: messageBody
+    - include: or_pop
 
-  reserved_START:
+  reserved:
     - match: '\b(reserved)\b'
       scope: storage.modifier.reserved.proto
       push:
@@ -136,8 +140,7 @@ contexts:
           scope: punctuation.terminator.proto
           pop: true
 
-
-  # Service rules
+  # Service definition.
   service:
     - match: '\b(service)\b\s*{{ident}}'
       captures:
@@ -152,24 +155,24 @@ contexts:
             - match: '}'
               scope: punctuation.definition.block.service.end.proto
               pop: true
-            - include: inlineOption
-            - include: rpc_START
-        - include: any_POP
+            - include: inline_option
+            - include: rpc
+        - include: or_pop
 
-  # RPC Service rules
-  rpc_START:
+  # Service RPCs.
+  rpc:
     - match: '\b(rpc)\b\s*{{ident}}'
       captures:
         1: storage.modifier.rpc.proto
         2: entity.name.function.rpc.proto
-      push: [rpcBody_START, rpc_PARAM, rpc_RETURNS, rpc_PARAM]
+      push: [rpc_body, rpc_param, rpc_returns, rpc_param]
 
-  rpc_RETURNS:
+  rpc_returns:
     - match: returns
       scope: keyword.other.returns.proto
       pop: true
 
-  rpc_PARAM:
+  rpc_param:
     - match: \(
       scope: punctuation.definition.parameter.rpc.begin.proto
       set:
@@ -178,26 +181,21 @@ contexts:
           pop: true
         - match: '\bstream\b'
           scope: storage.modifier.proto
-        - include: messageType_POP
+        - include: message_type_or_pop
 
-  rpcBody_START:
+  rpc_body:
     - match: '\{'
       scope: punctuation.definition.block.rpc.begin.proto
-      set: rpcBody_AFTER_OPEN
+      set:
+        - meta_scope: meta.rpc.body.proto
+        - match: '}'
+          scope: punctuation.definition.block.rpc.end.proto
+          pop: true
+        - include: inline_option
     - match: ;
       scope: punctuation.terminator.proto
       pop: true
-
-  rpcBody_AFTER_OPEN:
-    - meta_scope: meta.rpc.body.proto
-    - match: '}'
-      scope: punctuation.definition.block.rpc.end.proto
-      pop: true
-    - include: rpcBody
-
-  rpcBody:
-    - meta_scope: meta.rpc.body.proto
-    - include: inlineOption
+    - include: any_pop
 
   # Message Rules
   message:
@@ -210,22 +208,22 @@ contexts:
         - match: '\{'
           scope: punctuation.definition.block.message.begin.proto
           set: messageBody
-        - include: any_POP
+        - include: or_pop
 
   messageBody:
     - meta_scope: meta.class.proto
     - match: '}'
       scope: punctuation.definition.block.message.end.proto
       pop: true
-    - include: inlineOption
+    - include: inline_option
     - include: message
-    - include: extend_START
+    - include: extend
     - include: oneof
     - include: enum
-    - include: reserved_START
+    - include: reserved
     - include: messageBodyField
 
-  messageType_POP:
+  message_type_or_pop:
     # see documentation for the list of base types:
     # https://developers.google.com/protocol-buffers/docs/proto#scalar
     - match: '(double|float|bool|string|bytes)'
@@ -244,7 +242,7 @@ contexts:
     - match: '{{ident}}'
       scope: variable.type.proto
       pop: true
-    - include: any_POP
+    - include: or_pop
 
   field_name_POP:
     - match: '{{ident}}'
@@ -257,10 +255,10 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.proto
       pop: true
-    - match: =
-      scope: keyword.operator.assignment.proto
-    - match: \d+
-      scope: constant.numeric.proto
+    - match: (=)\s*(\d+)
+      captures:
+        1: keyword.operator.assignment.proto
+        2: constant.numeric.proto
     - include: closingBraceUnexpected_POP
 
   fieldAttributes:
@@ -274,6 +272,7 @@ contexts:
         - match: '\]'
           scope: punctuation.definition.attributes.end.proto
           pop: true
+
   map_type:
     - match: ','
       scope: punctuation.separator.map.proto
@@ -281,13 +280,13 @@ contexts:
       scope: punctuation.definition.map.end.proto
       pop: true
     - match: '(?={{ident}})'
-      push: messageType_POP
+      push: message_type_or_pop
 
   messageBodyField:
     - match: '\b(optional|required|repeated)\b'
       captures:
         1: storage.modifier.proto
-      push: [ messageField_END, field_name_POP, messageType_POP ]
+      push: [ messageField_END, field_name_POP, message_type_or_pop ]
     - match: '\b(map)\b\s*\b(<)'
       captures:
         1: storage.modifier.proto
@@ -295,9 +294,9 @@ contexts:
       push: [ messageField_END, field_name_POP, map_type ]
     # field are assumed 'optional' by default in proto3.
     - match: '(?=\S)'
-      push: [ messageField_END, field_name_POP, messageType_POP ]
+      push: [ messageField_END, field_name_POP, message_type_or_pop ]
 
-  inlineOption:
+  inline_option:
     - match: '\b(option)\b'
       scope: keyword.other.option.proto
       push:
@@ -308,9 +307,9 @@ contexts:
 
   fieldAttribute_BODY:
     - match: \b(default|deprecated|packed)\b
-      scope: constant.language.default.proto
+      scope: support.function.proto
     - match: '{{ident}}'
-      scope: variable.other.option.proto
+      scope: variable.annotation.proto
     - include: optionName
     - include: optionAssignment
 
@@ -331,7 +330,7 @@ contexts:
               captures:
                 1: punctuation.accessor.proto
                 2: storage.type.option.proto
-            - include: any_POP
+            - include: or_pop
         - match: '[^\)]+'
           scope: storage.type.option.proto
 
@@ -352,7 +351,7 @@ contexts:
       embed: scope:source.prototext
       embed_scope: source.prototext.embedded.proto
       escape: '}'
-    - include: constant_POP
+    - include: scope:text.prototxt#field_value_or_pop
 
   option_ASSIGN_BLOCK:
     - meta_scope: meta.object-literal.proto
@@ -383,7 +382,7 @@ contexts:
       pop: true
     - include: stringDoubleMultiline
     # No constants matched
-    - include: any_POP
+    - include: or_pop
 
   main:
     - match: \b(package)\b
@@ -429,8 +428,8 @@ contexts:
       push:
         - include: stringDouble
         - include: one_liner
-    - include: inlineOption
+    - include: inline_option
     - include: message
     - include: service
-    - include: extend_START
+    - include: extend
     - include: enum

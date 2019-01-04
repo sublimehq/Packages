@@ -75,6 +75,7 @@ message Config {
 message LevelConfig {
   optional int32 max_level = 1 [default = 100];
   repeated uint64 xp_levels = 2 [packed=true];
+  optional int32 min_level = 3 [my_option="important"];
 }
 
 enum Buff {
