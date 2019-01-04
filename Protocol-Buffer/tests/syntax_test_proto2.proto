@@ -1,4 +1,4 @@
-// SYNTAX TEST "Packages/Protocol-Buffer/Protocol-Buffer.sublime-syntax"
+// SYNTAX TEST "Protocol-Buffer.sublime-syntax"
 syntax = "proto2";
 // <- keyword.other.syntax.proto
 //        ^^^^^^ string.quoted.double.proto

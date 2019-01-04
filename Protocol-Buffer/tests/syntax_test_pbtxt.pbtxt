@@ -1,4 +1,4 @@
-# SYNTAX TEST "Packages/Protocol-Buffer/Protocol-Buffer-Text.sublime-syntax"
+# SYNTAX TEST "Protocol-Buffer-Text.sublime-syntax"
 
 name: "player_1"
 # <- variable.other.member.prototxt
@@ -11,14 +11,17 @@ health: 100.0
 #       ^^^^^ constant.numeric.float.prototxt
 health: 100f
 #       ^^^^ constant.numeric.float.prototxt
+#          ^ punctuation.definition.numeric.float.prototxt
 health: 1e+2
 #       ^^^^ constant.numeric.float.prototxt
 xp: 4200   # normal digit
 #   ^^^^ constant.numeric.integer.prototxt
 xp: 04200  # octal
 #   ^^^^^ constant.numeric.octal.prototxt
+#   ^ punctuation.definition.numeric.octal.prototxt
 xp: 0xFFFF # hex
 #   ^^^^^^ constant.numeric.hex.prototxt
+#   ^^ punctuation.definition.numeric.hex.prototxt
 xp: -24
 #   ^^^ constant.numeric.integer.prototxt
 xp: +24
@@ -39,13 +42,17 @@ stats {
 }
 # <- meta.message.prototxt punctuation.definition.dictionary.end.prototxt
 
-stats {
+stats <
+# <- meta.message.prototxt variable.other.member.prototxt
+#     ^ punctuation.definition.dictionary.begin.prototxt
   key: "INT"
-  value {
+  value <
+    # <- meta.message.prototxt meta.message.prototxt variable.other.member.prototxt
+    #   ^ punctuation.definition.dictionary.begin.prototxt
     id: "INT"
     max_value: 20
-  }
-}
+  >
+>
 
 buffs: [BURNING, POISONED]
 # <- variable.other.member.prototxt
@@ -54,6 +61,11 @@ buffs: [BURNING, POISONED]
 #       ^^^^^^^ constant.numeric.enum.prototxt
 #                ^^^^^^^^ constant.numeric.enum.prototxt
 #                        ^ punctuation.definition.array.end.prototxt
-avatar: "aaabbbccc\c"
-#       ^^^^^^^^^^^^^ string.quoted.double.prototxt
+avatar: "aaabbb\nccc\c"
+#       ^^^^^^^^^^^^^^^ string.quoted.double.prototxt
+#              ^^ constant.character.escape.prototxt
+#                   ^^ invalid.illegal
+        "dddddddd"
+#       ^^^^^^^^^^ string.quoted.double.prototxt
+name: "Conan"
 alive: true

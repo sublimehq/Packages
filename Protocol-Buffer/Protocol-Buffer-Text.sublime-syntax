@@ -13,26 +13,20 @@ variables:
   field_name: '\b([A-Za-z][A-Za-z0-9_]*)\b'
   integer: '(?:\+|-)?(?:0|[1-9]\d*)'
   exp: '(?i:e(?:\+|-)?{{integer}})'
-  float: |-
-    (?xi:
-      {{integer}}?\.\d+{{exp}}?f?  # literal with a dot: .3 .3e+4 1.3 1.3f
-      |{{integer}}f                # literal with a 'f': 1f
-      |{{integer}}{{exp}}f?        # literal with an exp: .3e+4 1e-3 1e3f
-    )
 
 contexts:
   prototype:
-    # Captured for practical reasons (keeps other patterns simpler)
-    - match: '\s+'
-      scope: meta.whitespace.prototxt
     - include: comments
-  any_POP:
-    - match: '(?=[\S\s])'
+
+  or_pop:
+    - match: '(?=[\S])'
       comment: Pop if nothing matched
       pop: true
+
   main:
-    - include: fieldMessage
+    - include: field_message
     - include: field
+
   comments:
     - match: '#'
       scope: punctuation.definition.comment.begin.prototxt
@@ -41,8 +35,8 @@ contexts:
         - match: '$'
           pop: true
 
-  fieldMessage:
-    - match: '{{field_name}}(:?)\s*({|<)'
+  field_message:
+    - match: '{{field_name}}(:?)\s*(\{|<)'
       captures:
         1: variable.other.member.prototxt
         2: punctuation.separator.dictionary.key-value.prototxt
@@ -52,16 +46,18 @@ contexts:
         - match: '\}|>'
           scope: punctuation.definition.dictionary.end.prototxt
           pop: true
-        - include: fieldMessage
+        - include: field_message
         - include: field
-  fieldValue_POP:
+
+  field_value_or_pop:
     - include: constant
     - include: stringDoubleMultiline
     - include: stringSingleMultiline
     - include: enum_value
     - include: number
     - include: array
-    - include: any_POP
+    - include: or_pop
+
   array:
     - match: '\['
       scope: punctuation.definition.array.begin.prototxt
@@ -70,14 +66,16 @@ contexts:
           scope: punctuation.definition.array.end.prototxt
           pop: true
         - match: \,
-          scope: punctuation.separator.prototxt
-        - match: ""
-          push: fieldValue_POP
+          scope: punctuation.separator.array.prototxt
+        - match: (?=\S)
+          push: field_value_or_pop
+
   optionalComma:
     - match: \,
       scope: punctuation.separator.prototxt
       pop: true
-    - include: any_POP
+    - include: or_pop
+
   field:
     - match: '{{field_name}}\s*(:)'
       captures:
@@ -85,23 +83,38 @@ contexts:
         2: punctuation.separator.key-value.prototxt
       push:
         - optionalComma
-        - fieldValue_POP
+        - field_value_or_pop
+
   constant:
     - match: \b(?:true|false|null)\b
       scope: constant.language.prototxt
       pop: true
+
   number:
-    - match: '{{float}}\b'
+    - match: |-
+        (?xi:
+          {{integer}}?\.\d+{{exp}}?(f?)  # literal with a dot: .3 .3e+4 1.3 1.3f
+          |{{integer}}(f)                # literal with a 'f': 1f
+          |{{integer}}{{exp}}(f?)        # literal with an exp: .3e+4 1e-3 1e3f
+        )\b
       scope: constant.numeric.float.prototxt
+      captures:
+        1: punctuation.definition.numeric.float.prototxt
+        2: punctuation.definition.numeric.float.prototxt
+        3: punctuation.definition.numeric.float.prototxt
       pop: true
     - match: '{{integer}}\b'
       scope: constant.numeric.integer.prototxt
       pop: true
-    - match: '0[0-8]+\b'
+    - match: '(0)[0-8]+\b'
       scope: constant.numeric.octal.prototxt
+      captures:
+        1: punctuation.definition.numeric.octal.prototxt
       pop: true
-    - match: '0[xX][0-9A-Fa-f]+\b'
+    - match: '(0[xX])[0-9A-Fa-f]+\b'
       scope: constant.numeric.hex.prototxt
+      captures:
+        1: punctuation.definition.numeric.hex.prototxt
       pop: true
 
   enum_value:
@@ -123,7 +136,7 @@ contexts:
           scope: punctuation.definition.string.end.prototxt
           set:
             - include: stringDoubleMultiline
-            - include: any_POP
+            - include: or_pop
   stringSingleMultiline:
     - match: "'"
       scope: punctuation.definition.string.quoted.single.begin.prototxt
@@ -141,4 +154,4 @@ contexts:
           scope: punctuation.definition.string.quoted.single.end.prototxt
           set:
             - include: stringSingleMultiline
-            - include: any_POP
+            - include: or_pop
