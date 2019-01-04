@@ -1,6 +1,12 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# Syntax for Protocol Buffer definition files.
+# Works with proto2 and proto3.
+# See official Protobuff documentation at https://developers.google.com/protocol-buffers/docs/proto3
+#
+# Authors: Raul Rangel & Guillaume Wenzek
+#
+# .sublime-syntax reference: http://www.sublimetext.com/docs/3/syntax.html
 name: Protocol Buffer
 scope: source.proto
 file_extensions:
