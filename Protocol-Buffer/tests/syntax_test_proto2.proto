@@ -11,6 +11,12 @@ import "escape_dungeon/weapons.proto";
 // <- keyword.other.import.proto
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.proto
 
+option java_package = "com.example.foo";
+// <- keyword.other.option.proto
+//     ^^^^^^^^^^^^ variable.annotation.proto
+//                  ^ keyword.operator.assignment.proto
+//                    ^^^^^^^^^^^^^^^^^ string
+
 message Player {
 // <- meta.class.proto storage.modifier.message.proto
 //      ^^^^^^ entity.name.class.proto
@@ -57,6 +63,10 @@ message Player {
     // <- storage.modifier.proto
     optional int32 max_value = 2;
     optional int32 value = 3 [(custom.annotation) = -1];
+    //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.attributes.proto
+    //                         ^^^^^^ variable.namespace.proto
+    //                                ^^^^^^^^^^ variable.annotation.proto
+    //                                              ^^ constant.numeric
   }
 
 // <- meta.class.proto -(meta.class.proto meta.class.proto)
@@ -74,8 +84,23 @@ message Config {
 
 message LevelConfig {
   optional int32 max_level = 1 [default = 100];
+  //                            ^^^^^^^ support.function.proto
+  //                                      ^^^ constant.numeric
   repeated uint64 xp_levels = 2 [packed=true];
-  optional int32 min_level = 3 [my_option="important"];
+  //                             ^^^^^^ support.function.proto
+  //                                    ^^^^ constant.language
+  optional int32 min_level = 3 [(str.option)="important"];
+  //                             ^^^ variable.namespace.proto
+  //                                 ^^^^^^ variable.annotation.proto
+  //                                         ^^^^^^^^^^^ string.quoted
+  optional int32 another_value = 4 [proto={ enum: FROZEN }];
+  //                                      ^^^^^^^^^^^^^^^^ meta.embedded.prototxt
+  //                                        ^^^^ variable.other.member.prototxt
+  //                                              ^^^^^^ meta.embedded.prototxt constant.numeric.enum.prototxt
+  optional int32 another_value = 4 [proto={ nested {} enum: FROZEN }];
+  //                                               ^^ meta.embedded.prototxt
+  optional int32 another_value = 4 [unset=];
+  //                                      ^ punctuation.definition.attributes.end.proto
 }
 
 enum Buff {
