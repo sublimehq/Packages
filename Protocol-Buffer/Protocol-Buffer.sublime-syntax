@@ -5,7 +5,7 @@ name: Protocol Buffer
 file_extensions:
   - proto
   - protodevel
-scope: source.protocolbuffer
+scope: source.proto
 variables:
   PLA_anything: '(?=[\S\s])'
   messagePath: '\b(((?:[A-Za-z]\w*\.)*)([a-zA-Z]\w*))\b'
@@ -16,27 +16,27 @@ contexts:
   prototype:
     # Captured for practical reasons (keeps other patterns simpler)
     - match: '\s+'
-      scope: meta.whitespace.protocolbuffer
+      scope: meta.whitespace.proto
     - include: comments
   comments:
     - match: '((\/\/))'
       captures:
-        1: meta.comment.border.protocolbuffer
-        2: punctuation.definition.comment.begin.protocolbuffer
+        1: meta.comment.border.proto
+        2: punctuation.definition.comment.begin.proto
       push:
-        - meta_scope: comment.line.protocolbuffer
+        - meta_scope: comment.line.proto
         - match: '$'
           pop: true
         - match: '\/\/+'
-          scope: meta.comment.border.protocolbuffer
+          scope: meta.comment.border.proto
         - match: '\b(?i:todo|hack)\b'
-          scope: comment.line.todo.protocolbuffer
+          scope: comment.line.todo.proto
     - match: /\*
-      scope: punctuation.definition.comment.protocolbuffer
+      scope: punctuation.definition.comment.proto
       push:
-        - meta_scope: comment.block.protocolbuffer
+        - meta_scope: comment.block.proto
         - match: \*/
-          scope: punctuation.definition.comment.protocolbuffer
+          scope: punctuation.definition.comment.proto
           pop: true
   any_POP:
     - match: '(?=\S)'
@@ -46,125 +46,125 @@ contexts:
       pop: true
   stringDouble:
     - match: '"'
-      scope: punctuation.definition.string.begin.protocolbuffer
+      scope: punctuation.definition.string.begin.proto
       push:
-        - meta_scope: string.quoted.double.protocolbuffer
+        - meta_scope: string.quoted.double.proto
         - meta_include_prototype: false
         - match: '\\"'
-          scope: constant.character.escape.protocolbuffer
+          scope: constant.character.escape.proto
         - match: '"'
-          scope: punctuation.definition.string.end.protocolbuffer
+          scope: punctuation.definition.string.end.proto
           pop: true
 
   stringDoubleMultiline:
     - match: '"'
-      scope: punctuation.definition.string.quoted.double.begin.protocolbuffer
+      scope: punctuation.definition.string.quoted.double.begin.proto
       set:
-        - meta_scope: string.quoted.double.protocolbuffer
+        - meta_scope: string.quoted.double.proto
         - meta_include_prototype: false
         - match: '\\"'
-          scope: constant.character.escape.protocolbuffer
+          scope: constant.character.escape.proto
         - match: '"'
-          scope: punctuation.definition.string.quoted.double.end.protocolbuffer
+          scope: punctuation.definition.string.quoted.double.end.proto
           set:
             - include: stringDoubleMultiline
             - include: any_POP
   enum_START:
     - match: '\b(enum)\b'
-      scope: storage.modifier.enum.protocolbuffer
+      scope: storage.modifier.enum.proto
       push: [ enumBody_START, message_NAME]
   enumBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.enum.begin.protocolbuffer
+      scope: punctuation.definition.block.enum.begin.proto
       set: enumBody_AFTER_OPEN
   enumBody_AFTER_OPEN:
-    - meta_scope: meta.enum.body.protocolbuffer
+    - meta_scope: meta.enum.body.proto
     - match: '}'
-      scope: punctuation.definition.block.enum.end.protocolbuffer
+      scope: punctuation.definition.block.enum.end.proto
       pop: true
     - include: inlineOption_START
     - include: fieldAttributes
     - match: '[a-zA-z]\w*'
-      scope: support.variable.protocolbuffer
+      scope: support.variable.proto
     - match: =
-      scope: keyword.operator.assignment.protocolbuffer
+      scope: keyword.operator.assignment.proto
     - match: \d+
-      scope: constant.numeric.protocolbuffer
+      scope: constant.numeric.proto
     - match: ';'
-      scope: punctuation.terminator.protocolbuffer
+      scope: punctuation.terminator.proto
 
   oneof_START:
     - match: '\b(oneof)\b'
-      scope: storage.modifier.oneof.protocolbuffer
+      scope: storage.modifier.oneof.proto
       push: [ oneofBody_START, messageField_NAME]
   oneofBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.oneof.begin.protocolbuffer
+      scope: punctuation.definition.block.oneof.begin.proto
       set: oneofBody_AFTER_OPEN
   oneofBody_AFTER_OPEN:
-    - meta_scope: meta.oneof.body.protocolbuffer
+    - meta_scope: meta.oneof.body.proto
     - match: '}'
-      scope: punctuation.definition.block.oneof.end.protocolbuffer
+      scope: punctuation.definition.block.oneof.end.proto
       pop: true
     - match: ''
       push: [ messageField_END, messageField_NAME, messageField_TYPE ]
 
   extend_START:
     - match: '\b(extend)\b'
-      scope: storage.modifier.extend.protocolbuffer
+      scope: storage.modifier.extend.proto
       push: [ extendBody_START, messageField_TYPE]
   extendBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.extend.begin.protocolbuffer
+      scope: punctuation.definition.block.extend.begin.proto
       set: extendBody_AFTER_OPEN
   extendBody_AFTER_OPEN:
-    - meta_scope: meta.extend.body.protocolbuffer
+    - meta_scope: meta.extend.body.proto
     - match: '}'
-      scope: punctuation.definition.block.extend.end.protocolbuffer
+      scope: punctuation.definition.block.extend.end.proto
       pop: true
     - include: messageBody
 
   reserved_START:
     - match: '\b(reserved)\b'
-      scope: storage.modifier.reserved.protocolbuffer
+      scope: storage.modifier.reserved.proto
       push:
-        - meta_scope: meta.keyword.reserved.protocolbuffer
+        - meta_scope: meta.keyword.reserved.proto
         - match: \d+
-          scope: constant.numeric.protocolbuffer
+          scope: constant.numeric.proto
         - match: ','
-          scope: punctuation.separator.protocolbuffer
+          scope: punctuation.separator.proto
         - match: to
-          scope: keyword.other.to.protocolbuffer
+          scope: keyword.other.to.proto
         - match: ';'
-          scope: punctuation.terminator.protocolbuffer
+          scope: punctuation.terminator.proto
           pop: true
 
 
   # Service rules
   service_START:
     - match: '\b(service)\b'
-      scope: storage.modifier.service.protocolbuffer
+      scope: storage.modifier.service.proto
       push: [serviceBody_START, service_NAME]
 
   service_NAME:
     - match: \w+
-      scope: entity.name.type.service.protocolbuffer
+      scope: entity.name.type.service.proto
       pop: true
 
   serviceBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.service.begin.protocolbuffer
+      scope: punctuation.definition.block.service.begin.proto
       set: serviceBody_AFTER_OPEN
 
   serviceBody_AFTER_OPEN:
-    - meta_scope: meta.service.body.protocolbuffer
+    - meta_scope: meta.service.body.proto
     - match: '}'
-      scope: punctuation.definition.block.service.end.protocolbuffer
+      scope: punctuation.definition.block.service.end.proto
       pop: true
     - include: serviceBody
 
   serviceBody:
-    - meta_scope: meta.service.body.protocolbuffer
+    - meta_scope: meta.service.body.proto
     - include: inlineOption_START
     - include: rpc_START
 
@@ -172,81 +172,81 @@ contexts:
 
   rpc_START:
     - match: '\b(rpc)\b'
-      scope: storage.modifier.rpc.protocolbuffer
+      scope: storage.modifier.rpc.proto
       push: [rpcBody_START, rpc_PARAM, rpc_RETURNS, rpc_PARAM, rpc_NAME]
 
   rpc_NAME:
     - match: \w+
-      scope: entity.name.function.rpc.protocolbuffer
+      scope: entity.name.function.rpc.proto
       pop: true
   rpc_RETURNS:
     - match: returns
-      scope: keyword.other.returns.protocolbuffer
+      scope: keyword.other.returns.proto
       pop: true
   rpc_PARAM:
     - match: \(
-      scope: punctuation.definition.parameter.rpc.start.protocolbuffer
+      scope: punctuation.definition.parameter.rpc.start.proto
       set:
         - match: \)
-          scope: punctuation.definition.parameter.rpc.end.protocolbuffer
+          scope: punctuation.definition.parameter.rpc.end.proto
           pop: true
         - match: '{{messagePath}}'
           captures:
-            1: storage.type.message.field.protocolbuffer
-            2: storage.type.message.field.path.protocolbuffer
-            3: storage.type.message.field.message.protocolbuffer
+            1: storage.type.message.field.proto
+            2: storage.type.message.field.path.proto
+            3: storage.type.message.field.message.proto
 
   rpcBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.rpc.begin.protocolbuffer
+      scope: punctuation.definition.block.rpc.begin.proto
       set: rpcBody_AFTER_OPEN
 
   rpcBody_AFTER_OPEN:
-    - meta_scope: meta.rpc.body.protocolbuffer
+    - meta_scope: meta.rpc.body.proto
     - match: '}'
-      scope: punctuation.definition.block.rpc.end.protocolbuffer
+      scope: punctuation.definition.block.rpc.end.proto
       pop: true
     - include: rpcBody
 
   rpcBody:
-    - meta_scope: meta.rpc.body.protocolbuffer
+    - meta_scope: meta.rpc.body.proto
     - include: inlineOption_START
 
   # Message Rules
 
   message_NAME:
     - match: \w+
-      scope: entity.name.type.message.protocolbuffer
+      scope: entity.name.type.message.proto
       pop: true
 
   message_START:
     - match: '\b(message)\b'
-      scope: storage.modifier.message.protocolbuffer
+      scope: storage.modifier.message.proto
       push: [messageBody_START, message_NAME]
 
   messageBody_START:
     - match: '\{'
-      scope: punctuation.definition.block.message.begin.protocolbuffer
+      scope: punctuation.definition.block.message.begin.proto
       set: messageBody_AFTER_OPEN
 
   messageBody_AFTER_OPEN:
-    - meta_scope: meta.message.body.protocolbuffer
+    - meta_scope: meta.message.body.proto
     - match: '}'
-      scope: punctuation.definition.block.message.end.protocolbuffer
+      scope: punctuation.definition.block.message.end.proto
       pop: true
     - include: messageBody
 
   messageType_META:
-    - meta_scope: storage.type.message.protocolbuffer
+    - meta_scope: storage.type.message.proto
     - match: ''
       pop: true
 
   messageType_POP:
     - match: '[A-Za-z]\w*'
-      scope: storage.type.message.part.protocolbuffer
+      scope: storage.type.message.part.proto
       set:
         - match: '\.'
-          scope: punctuation.accessor.protocolbuffer
+          scope: punctuation.accessor.proto
           set: messageType_POP
         - include: any_POP
     - include: any_POP
@@ -254,59 +254,59 @@ contexts:
   messageField_TYPE:
     - meta_scope: messageField_TYPE
     - match: '\bString\b|\bboolean\b'
-      scope: invalid.type.protocolbuffer
+      scope: invalid.type.proto
       pop: true
     - match: ''
       set: [messageType_META, messageType_POP]
   messageField_NAME:
     - match: \w+
-      scope: support.variable.protocolbuffer
+      scope: support.variable.proto
       pop: true
     - include: closingBraceUnexpected_POP
   messageField_END:
     - include: fieldAttributes
     - match: ';'
-      scope: punctuation.terminator.protocolbuffer
+      scope: punctuation.terminator.proto
       pop: true
     - match: =
-      scope: keyword.operator.assignment.protocolbuffer
+      scope: keyword.operator.assignment.proto
     - match: \d+
-      scope: constant.numeric.protocolbuffer
+      scope: constant.numeric.proto
     - include: closingBraceUnexpected_POP
   fieldAttributes:
     - match: '\['
-      scope: punctuation.definition.attributes.begin.protocolbuffer
+      scope: punctuation.definition.attributes.begin.proto
       push:
-        - meta_scope: meta.field.attributes.protocolbuffer
+        - meta_scope: meta.field.attributes.proto
         - include: fieldAttribute_BODY
         - match: \,
-          scope: punctuation.separator.option.protocolbuffer
+          scope: punctuation.separator.option.proto
         - match: '\]'
-          scope: punctuation.definition.attributes.end.protocolbuffer
+          scope: punctuation.definition.attributes.end.proto
           pop: true
   map_TYPES:
     - match: '<'
-      scope: punctuation.definition.map.start.protocolbuffer
+      scope: punctuation.definition.map.start.proto
       set:
         - match: '\b(((?:[A-Za-z][a-z0-9]+\.)*)([a-zA-Z]\w+))\b'
           captures:
-            1: storage.type.message.field.protocolbuffer
-            2: storage.type.message.field.path.protocolbuffer
-            3: storage.type.message.field.message.protocolbuffer
+            1: storage.type.message.field.proto
+            2: storage.type.message.field.path.proto
+            3: storage.type.message.field.message.proto
         - match: '>'
-          scope: punctuation.definition.map.end.protocolbuffer
+          scope: punctuation.definition.map.end.proto
           pop: true
   messageBodyField:
     - match: '\b(optional|required|repeated)\b'
       captures:
-        1: storage.modifier.protocolbuffer
+        1: storage.modifier.proto
       push: [ messageField_END, messageField_NAME, messageField_TYPE ]
     - match: '\b(map)\b'
       captures:
-        1: storage.modifier.protocolbuffer
+        1: storage.modifier.proto
       push: [ messageField_END, messageField_NAME, map_TYPES ]
   messageBody:
-    - meta_scope: meta.message.body.protocolbuffer
+    - meta_scope: meta.message.body.proto
     - include: inlineOption_START
     - include: message_START
     - include: extend_START
@@ -316,62 +316,62 @@ contexts:
     - include: messageBodyField
   inlineOption_START:
     - match: '\b(option)\b'
-      scope: keyword.other.option.protocolbuffer
+      scope: keyword.other.option.proto
       push:
-        - meta_scope: meta.option.protocolbuffer
+        - meta_scope: meta.option.proto
         - include: option_BODY
         - match: ';'
-          scope: punctuation.terminator.option.protocolbuffer
+          scope: punctuation.terminator.option.proto
           pop: true
 
   fieldAttribute_BODY:
     - match: \bdefault\b
-      scope: constant.language.default.protocolbuffer
+      scope: constant.language.default.proto
     - match: \bdeprecated\b
-      scope: constant.language.deprecated.protocolbuffer
+      scope: constant.language.deprecated.proto
     - match: \w+
-      scope: invalid.illegal.constant.protocolbuffer
+      scope: invalid.illegal.constant.proto
     - include: optionName
     - include: optionAssignment
 
   option_BODY:
     - match: \w+
-      scope: variable.option.other.protocolbuffer
+      scope: variable.option.other.proto
     - include: optionName
     - include: optionAssignment
 
   optionName:
     - match: \(
-      scope: punctuation.definition.name.option.begin.protocolbuffer
+      scope: punctuation.definition.name.option.begin.proto
       push:
         - match: \)
-          scope: punctuation.definition.name.option.end.protocolbuffer
+          scope: punctuation.definition.name.option.end.proto
           set:
             - meta_scope: foo
             - match: (\.)([\w\d]*)
               captures:
-                1: punctuation.accessor.protocolbuffer
-                2: storage.type.option.protocolbuffer
+                1: punctuation.accessor.proto
+                2: storage.type.option.proto
             - include: any_POP
         - match: '[^\)]+'
-          scope: storage.type.option.protocolbuffer
+          scope: storage.type.option.proto
 
   optionAssignment:
     - match: =
-      scope: keyword.operator.assignment.protocolbuffer
+      scope: keyword.operator.assignment.proto
       push: optionAfterAssignment_POP
 
   optionEnd_pop:
     - match: '}'
-      scope: punctuation.definition.block.option.end.protocolbuffer
+      scope: punctuation.definition.block.option.end.proto
       pop: true
 
   optionAfterAssignment_POP:
-    - meta_scope: meta.option.assignment.after.protocolbuffer
+    - meta_scope: meta.option.assignment.after.proto
     - match: '{'
-      scope: punctuation.definition.block.option.begin.protocolbuffer
+      scope: punctuation.definition.block.option.begin.proto
       set:
-        - meta_content_scope: source.protocolbuffertext
+        - meta_content_scope: source.prototext
         - include: optionEnd_pop
         - include: Packages/google-syntax/Protocol-Buffer-Text.sublime-syntax#prototype
         - include: Packages/google-syntax/Protocol-Buffer-Text.sublime-syntax
@@ -380,80 +380,80 @@ contexts:
     - include: constant_POP
 
   option_ASSIGN_BLOCK:
-    - meta_scope: meta.object-literal.protocolbuffer
+    - meta_scope: meta.object-literal.proto
     - match: '}'
-      scope: punctuation.definition.block.option.end.protocolbuffer
+      scope: punctuation.definition.block.option.end.proto
       pop: true
     - match: '(\w+)(:)'
       captures:
-        1: meta.object-literal.key.protocolbuffer
-        2: punctuation.separator.key-value.protocolbuffer
+        1: meta.object-literal.key.proto
+        2: punctuation.separator.key-value.proto
       push: [objectLiteralValue_META, constant_POP]
 
   # This is a hack to get the meta scope to wrap
   objectLiteralValue_META:
-    - meta_scope: meta.object-literal.value.protocolbuffer
+    - meta_scope: meta.object-literal.value.proto
     - match: ''
       pop: true
 
   constant_POP:
     - match: \d+
-      scope: constant.numeric.protocolbuffer
+      scope: constant.numeric.proto
       pop: true
     - match: \btrue\b|\bfalse\b
-      scope: constant.language.protocolbuffer
+      scope: constant.language.proto
       pop: true
     - match: \w+
-      scope: constant.other.protocolbuffer
+      scope: constant.other.proto
       pop: true
     - include: stringDoubleMultiline
     # No constants matched
     - include: any_POP
   main:
     - match: \b(package)\s+(\w[\w\.]+)
-      scope: meta.package.protocolbuffer
+      scope: meta.package.proto
       captures:
-        1: keyword.other.package.protocolbuffer
-        2: entity.name.package.protocolbuffer
+        1: keyword.other.package.proto
+        2: entity.name.package.proto
     - match: '\b(parsed)?\s*((class))\s+(\w+)\s+{'
-      scope: meta.parsed.message.protocolbuffer
+      scope: meta.parsed.message.proto
       captures:
-        1: storage.type.parsed.protocolbuffer
-        3: storage.type.message.protocolbuffer
-        4: invalid.deprecated.class.protocolbuffer
-        5: entity.name.function.protocolbuffer
+        1: storage.type.parsed.proto
+        3: storage.type.message.proto
+        4: invalid.deprecated.class.proto
+        5: entity.name.function.proto
     - match: '\b(rpc)\s+(\w+)\((\w+)\)\s+(returns)\s+\((\w+)\)\s+\{'
-      scope: meta.rpc.protocolbuffer
+      scope: meta.rpc.proto
       captures:
-        1: storage.type.rpc.protocolbuffer
-        2: entity.name.function.protocolbuffer
-        3: variable.parameter.protocolbuffer
-        4: keyword.other.returns.protocolbuffer
-        5: variable.parameter.protocolbuffer
+        1: storage.type.rpc.proto
+        2: entity.name.function.proto
+        3: variable.parameter.proto
+        4: keyword.other.returns.proto
+        5: variable.parameter.proto
     - match: '(?x)\b(group)\s+(\w+)\s+=\s+(\d+)\s+{'
-      scope: meta.group.protocolbuffer
+      scope: meta.group.proto
       captures:
-        1: storage.type.protocolbuffer
-        2: support.variable.protocolbuffer
-        3: constant.numeric.protocolbuffer
+        1: storage.type.proto
+        2: support.variable.proto
+        3: constant.numeric.proto
     - match: \b(syntax)\b
       captures:
-        1: keyword.other.syntax.protocolbuffer
+        1: keyword.other.syntax.proto
       push:
         - meta_scope: meta.keyword.syntax
         - match: ;
-          scope: punctuation.terminator.protocolbuffer
+          scope: punctuation.terminator.proto
           pop: true
         - match: =
-          scope: keyword.operator.assignment.protocolbuffer
+          scope: keyword.operator.assignment.proto
         - include: stringDouble
     - match: \b(import)\b
       captures:
-        1: keyword.other.import.protocolbuffer
+        1: keyword.other.import.proto
       push:
         - meta_scope: meta.keyword.import
         - match: ;
-          scope: punctuation.terminator.protocolbuffer
+          scope: punctuation.terminator.proto
           pop: true
         - include: stringDouble
     - include: inlineOption_START
