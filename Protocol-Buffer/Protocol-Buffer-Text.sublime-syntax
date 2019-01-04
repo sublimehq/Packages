@@ -9,7 +9,7 @@ file_extensions:
   - prototxt
 scope: text.prototxt
 variables:
-  stringEscape: '(?:\\(?:[''"\\/bfnrt]|[0-9]{3}))'
+  stringEscape: '(?:\\(?:[''"\\/abfnrtv?]|[0-9]{3}|(?i:u|x)[0-9A-Fa-f]+))'
   field_name: '\b([A-Za-z][A-Za-z0-9_]*)\b'
   integer: '(?:\+|-)?(?:0|[1-9]\d*)'
   exp: '(?i:e(?:\+|-)?{{integer}})'
@@ -19,12 +19,11 @@ contexts:
     - include: comments
 
   or_pop:
-    - match: '(?=[\S])'
-      comment: Pop if nothing matched
+    # Pop if nothing matched (whitespace are ignored).
+    - match: '(?=\S)'
       pop: true
 
   main:
-    - include: field_message
     - include: field
 
   comments:
@@ -35,19 +34,38 @@ contexts:
         - match: '$'
           pop: true
 
-  field_message:
-    - match: '{{field_name}}(:?)\s*(\{|<)'
-      captures:
-        1: variable.other.member.prototxt
-        2: punctuation.separator.dictionary.key-value.prototxt
-        3: punctuation.definition.dictionary.begin.prototxt
+  field:
+    - match: '{{field_name}}'
+      scope: variable.other.member.prototxt
+      push: field_sep_or_pop
+    - match: \[
+      scope: punctuation.definition.field_name.begin.prototxt
       push:
+        - match: \]
+          set: field_sep_or_pop
+          scope: punctuation.definition.field_name.end.prototxt
+        - match: '{{field_name}}(\.)'
+          captures:
+            1: variable.other.namespace.prototxt
+            2: punctuation.accessor.prototxt
+        - match: '{{field_name}}'
+          scope: variable.other.member.prototxt
+
+  field_sep_or_pop:
+    - match: '(:?)\s*(\{|<)'
+      captures:
+        1: punctuation.separator.dictionary.key-value.prototxt
+        2: punctuation.definition.dictionary.begin.prototxt
+      set:
         - meta_scope: meta.message.prototxt
         - match: '\}|>'
           scope: punctuation.definition.dictionary.end.prototxt
           pop: true
-        - include: field_message
         - include: field
+    - match: ':'
+      scope: punctuation.separator.key-value.prototxt
+      set: [comma_or_pop, field_value_or_pop]
+    - include: or_pop
 
   field_value_or_pop:
     - include: constant
@@ -70,23 +88,20 @@ contexts:
         - match: (?=\S)
           push: field_value_or_pop
 
-  optionalComma:
-    - match: \,
+  comma_or_pop:
+    - match: ','
       scope: punctuation.separator.prototxt
       pop: true
     - include: or_pop
 
-  field:
-    - match: '{{field_name}}\s*(:)'
-      captures:
-        1: variable.other.member.prototxt
-        2: punctuation.separator.key-value.prototxt
-      push:
-        - optionalComma
-        - field_value_or_pop
-
   constant:
-    - match: \b(?:true|false|null)\b
+    - match: \b(true|True|t|false|False|f)\b
+      scope: constant.language.prototxt
+      pop: true
+    - match: (\+|-)?\b(?i:inf|infinity)\b
+      scope: constant.language.prototxt
+      pop: true
+    - match: \b(?i:nan)\b
       scope: constant.language.prototxt
       pop: true
 
@@ -137,6 +152,7 @@ contexts:
           set:
             - include: stringDoubleMultiline
             - include: or_pop
+
   stringSingleMultiline:
     - match: "'"
       scope: punctuation.definition.string.quoted.single.begin.prototxt

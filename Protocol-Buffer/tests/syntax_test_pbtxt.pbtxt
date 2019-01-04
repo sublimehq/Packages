@@ -28,9 +28,13 @@ xp: +24
 #   ^^^ constant.numeric.integer.prototxt
 xp: 0
 #   ^ constant.numeric.integer.prototxt
+xp: +Inf
+#   ^^^^ constant.language.prototxt
+xp: NaN
+#   ^^^ constant.language.prototxt
 
 stats {
-# <- meta.message.prototxt variable.other.member.prototxt
+# <- variable.other.member.prototxt
 #     ^ meta.message.prototxt punctuation.definition.dictionary.begin.prototxt
   key: "STR"
   value {
@@ -43,16 +47,18 @@ stats {
 # <- meta.message.prototxt punctuation.definition.dictionary.end.prototxt
 
 stats <
-# <- meta.message.prototxt variable.other.member.prototxt
-#     ^ punctuation.definition.dictionary.begin.prototxt
+# <- variable.other.member.prototxt
+#     ^ meta.message.prototxt punctuation.definition.dictionary.begin.prototxt
   key: "INT"
   value <
-    # <- meta.message.prototxt meta.message.prototxt variable.other.member.prototxt
-    #   ^ punctuation.definition.dictionary.begin.prototxt
+    # <- variable.other.member.prototxt
+    #   ^ meta.message.prototxt punctuation.definition.dictionary.begin.prototxt
     id: "INT"
     max_value: 20
   >
+# ^ punctuation.definition.dictionary.end.prototxt
 >
+# <- meta.message.prototxt punctuation.definition.dictionary.end.prototxt
 
 buffs: [BURNING, POISONED]
 # <- variable.other.member.prototxt
@@ -67,5 +73,36 @@ avatar: "aaabbb\nccc\c"
 #                   ^^ invalid.illegal
         "dddddddd"
 #       ^^^^^^^^^^ string.quoted.double.prototxt
-name: "Conan"
+
+escaped_chars: "\x12  \" \' \u124"
+#               ^^^^ constant.character.escape.prototxt
+#                     ^^ constant.character.escape.prototxt
+#                        ^^ constant.character.escape.prototxt
+#                           ^^^^^ constant.character.escape.prototxt
+
+name: "Conan", name: "The barbar"
+#            ^ punctuation.separator.prototxt
+#              ^^^^ variable.other.member.prototxt
 alive: true
+
+[extension.field]: 20
+# <- punctuation.definition.field_name.begin.prototxt
+#^^^^^^^^^ variable.other.namespace.prototxt
+#         ^ punctuation.accessor.prototxt
+#          ^^^^^ variable.other.member.prototxt
+#               ^ punctuation.definition.field_name.end.prototxt
+#                ^ punctuation.separator.key-value.prototxt
+#                  ^^ constant.numeric.integer.prototxt
+
+[extension.field_message] {
+# <- punctuation.definition.field_name.begin.prototxt
+#^^^^^^^^^ variable.other.namespace.prototxt
+#         ^ punctuation.accessor.prototxt
+#          ^^^^^^^^^^^^^ variable.other.member.prototxt
+#                       ^ punctuation.definition.field_name.end.prototxt
+#                         ^ meta.message.prototxt punctuation.definition.dictionary.begin.prototxt
+
+  value: 20
+#        ^^ constant.numeric.integer.prototxt
+}
+# <- meta.message.prototxt punctuation.definition.dictionary.end.prototxt
