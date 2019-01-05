@@ -581,6 +581,9 @@ func_call(foo
 /* <- keyword.other punctuation.definition.keyword */
 /*^ keyword.other */
 @property (readonly) NSString *lastName;
+/* <- keyword.other punctuation.definition.keyword */
+/*^ keyword.other */
+@property (readonly, nullable, class) NSString *middleName;
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */
