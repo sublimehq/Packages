@@ -165,12 +165,12 @@ contexts:
       set:
         - meta_scope: string.quoted.single.prototxt
         - meta_include_prototype: false
+        # Note that technically "bytes" field main don't respect escapes,
+        # but there is no way to know if the given string will be interpreted as
+        # "bytes".
         - match: '{{stringEscape}}'
           scope: constant.character.escape.prototxt
         - match: \\.
-          # Invalid escapes are only allowed if the field is of kind 'bytes'.
-          # But we don't know in the text description if the field is meant to
-          # be a string or bytes.
           scope: invalid.illegal.unrecognized-string-escape.prototxt
         - match: "'"
           scope: punctuation.definition.string.quoted.single.end.prototxt
