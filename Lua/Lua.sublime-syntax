@@ -496,7 +496,7 @@ contexts:
               push: expression
 
         - match: '{{identifier}}(?=\s*=)'
-          scope: meta.key.lua string.unquoted.key
+          scope: meta.key.lua string.unquoted.key.lua
 
         - match: =
           scope: punctuation.separator.key-value.lua
