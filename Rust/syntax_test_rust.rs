@@ -214,6 +214,7 @@ struct PrintableStruct(Box<i32>);
 //^^^^ storage.type.struct
 //     ^^^^^^^^^^^^^^^ entity.name.struct
 //                    ^ punctuation.section.group.begin
+//                     ^^^ support.type
 //                     ^^^^^^^^ meta.generic
 //                        ^ punctuation.definition.generic.begin
 //                         ^^^ storage.type
@@ -808,6 +809,7 @@ pub trait Animal {
 
 fn collect_vec() {
     let _: Vec<(usize, usize)> = (0..10).enumerate().collect::<Vec<_>>();
+//         ^^^ support.type
 //         ^^^^^^^^^^^^^^^^^^^ meta.generic
 //             ^ punctuation.section.group.begin
 //              ^^^^^ storage.type
@@ -825,6 +827,7 @@ fn collect_vec() {
 //                                                  ^ punctuation.accessor.dot
 //                                                          ^^ punctuation.accessor
 //                                                            ^^^^^^^^ meta.generic
+//                                                             ^^^ support.type
 //                                                             ^^^^^^ meta.generic meta.generic
 //                                                                 ^ keyword.operator
     let _: Vec<(usize, usize)> = vec!();
@@ -833,6 +836,8 @@ fn collect_vec() {
 //                               ^^^^ support.macro
     let _: Vec<(usize, usize)> = vec![];
 //                               ^^^^ support.macro
+    let _: Vec<String> = vec![];
+//             ^^^^^^ meta.generic support.type
 }
 
 macro_rules! forward_ref_binop [

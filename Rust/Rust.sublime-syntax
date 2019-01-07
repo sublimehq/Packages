@@ -10,6 +10,7 @@ variables:
   escaped_byte: '\\(x\h{2}|n|r|t|0|"|''|\\)'
   escaped_char: '\\(x\h{2}|n|r|t|0|"|''|\\|u\{\h{1,6}\})'
   int_suffixes: 'i8|i16|i32|i64|isize|u8|u16|u32|u64|usize'
+  support_type: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
 contexts:
   main:
     - include: statements
@@ -188,7 +189,7 @@ contexts:
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*!(?=\s*(\(|\{|\[))'
       scope: support.macro.rust
 
-    - match: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
+    - match: '{{support_type}}'
       scope: support.type.rust
 
     - include: basic-identifiers
@@ -427,7 +428,9 @@ contexts:
     - include: block
 
   type:
-    - match: '{{identifier}}(?=<)'
+    - match: (?:{{support_type}}|{{identifier}})(?=<)
+      captures:
+        1: support.type.rust
       push: generic-angles
     - match: \b(Self|i8|i16|i32|i64|isize|u8|u16|u32|u64|usize|f32|f64|bool|char|str)\b
       scope: storage.type.rust
@@ -484,6 +487,8 @@ contexts:
               pop: true
         - include: generic-angles-contents
     - include: type-any-identifier
+    - match: '{{support_type}}'
+      scope: support.type.rust
     - match: ':'
       scope: punctuation.separator.rust
     - match: '\+'
