@@ -52,25 +52,31 @@ contexts:
           scope: variable.other.member.prototxt
 
   field_sep_or_pop:
-    - match: '(:?)\s*(\{|<)'
-      captures:
-        1: punctuation.separator.dictionary.key-value.prototxt
-        2: punctuation.definition.dictionary.begin.prototxt
-      set:
-        - meta_scope: meta.message.prototxt
-        - match: '\}|>'
-          scope: punctuation.definition.dictionary.end.prototxt
-          pop: true
-        - include: field
-    - match: ':'
+    - match: '(:)|(?=\{|<)'
       scope: punctuation.separator.key-value.prototxt
       set: [comma_or_pop, field_value_or_pop]
     - include: or_pop
 
   field_value_or_pop:
+    - match: '{'
+      scope: punctuation.definition.dictionary.begin.prototxt
+      set:
+        - meta_scope: meta.message.prototxt
+        - match: '}'
+          scope: punctuation.definition.dictionary.end.prototxt
+          pop: true
+        - include: field
+    - match: '<'
+      scope: punctuation.definition.dictionary.begin.prototxt
+      set:
+        - meta_scope: meta.message.prototxt
+        - match: '>'
+          scope: punctuation.definition.dictionary.end.prototxt
+          pop: true
+        - include: field
     - include: constant
-    - include: stringDoubleMultiline
-    - include: stringSingleMultiline
+    - include: string_double_multiline
+    - include: string_single_multiline
     - include: enum_value
     - include: number
     - include: array
@@ -137,7 +143,7 @@ contexts:
       scope: constant.numeric.enum.prototxt
       pop: true
 
-  stringDoubleMultiline:
+  string_double_multiline:
     - match: '"'
       scope: punctuation.definition.string.begin.prototxt
       set:
@@ -150,10 +156,10 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.prototxt
           set:
-            - include: stringDoubleMultiline
+            - include: string_double_multiline
             - include: or_pop
 
-  stringSingleMultiline:
+  string_single_multiline:
     - match: "'"
       scope: punctuation.definition.string.quoted.single.begin.prototxt
       set:
@@ -169,5 +175,5 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.quoted.single.end.prototxt
           set:
-            - include: stringSingleMultiline
+            - include: string_single_multiline
             - include: or_pop
