@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.dosbatch entity.name.label.dosbatch</string>
+	<string>source.dosbatch entity.name.label.dosbatch - meta.function-call</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
