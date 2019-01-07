@@ -151,5 +151,25 @@ service PlayerService {
   //                                            ^^^^^^ storage.modifier
   //                                                   ^^^^^^^^^^^^^^ variable.type.proto
     option security_label = "read";
+    // <- meta.service.proto meta.rpc.body.proto
+    //     ^^^^^^^^^^^^^^ meta.service.proto meta.rpc.body.proto variable.annotation.proto
+    //                    ^ meta.service.proto meta.rpc.body.proto keyword.operator.assignment.proto
+    //                      ^^^^^^ meta.service.proto meta.rpc.body.proto string.quoted.double.prototxt
+    //                            ^ meta.service.proto meta.rpc.body.proto punctuation.terminator.option.proto
+    option deadline = 5.0;
+    // <- keyword.other.option.proto
+    //     ^^^^^^^^ variable.annotation.proto
+    //              ^ keyword.operator.assignment.proto
+    //                ^^^ constant.numeric.float.prototxt
+    //                   ^ punctuation.terminator.option.proto
+    option (method_doc) =
+    // <- keyword.other.option.proto
+    //      ^^^^^^^^^^ variable.annotation.proto
+    //                  ^ keyword.operator.assignment.proto
+        "Returns all the player."
+        "This documentation doesn't fit in one line,"
+        "nor in two.";
+    //   ^^^^^^^^^^^ string.quoted.double.prototxt
+    //               ^ punctuation.terminator.option.proto
   }
 }
