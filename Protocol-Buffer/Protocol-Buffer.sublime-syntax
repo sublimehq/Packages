@@ -12,8 +12,6 @@ variables:
 
 contexts:
   prototype:
-    # Captured for practical reasons (keeps other patterns simpler)
-    - match: '\s+'
     - include: comments
 
   comments:
@@ -43,11 +41,7 @@ contexts:
     - match: $
       pop: true
 
-  closingBraceUnexpected_POP:
-    - match: '(?=\})' # Recover from a non complete assignment
-      pop: true
-
-  stringDouble:
+  string_double:
     - match: '"'
       scope: punctuation.definition.string.begin.proto
       push:
@@ -58,6 +52,8 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.proto
           pop: true
+        - match: (?=$)
+          pop: true
 
   enum:
     - match: '\b(enum)\b\s*{{ident}}'
@@ -66,7 +62,7 @@ contexts:
         2: entity.name.enum.proto
       push:
         - meta_scope: meta.enum.proto
-        - match: '\{'
+        - match: '{'
           scope: punctuation.definition.block.enum.begin.proto
           set: enum_body
         - include: or_pop
@@ -77,15 +73,13 @@ contexts:
       scope: punctuation.definition.block.enum.end.proto
       pop: true
     - include: option
-    - include: fieldAttributes
     - match: '{{ident}}'
       scope: support.variable.proto
-    - match: =
-      scope: keyword.operator.assignment.proto
-    - match: \d+
-      scope: constant.numeric.proto
-    - match: ';'
-      scope: punctuation.terminator.proto
+      push:
+        - terminator_or_pop
+        - field_attributes_or_pop
+        - number_or_pop
+        - assignment_or_pop
 
   oneof:
     - match: '\b(oneof)\b\s*{{ident}}'
@@ -93,18 +87,18 @@ contexts:
         1: storage.modifier.oneof.proto
         2: entity.name.member.proto
       push:
-        - match: '\{'
+        - meta_scope: meta.oneof.proto
+        - match: '{'
           scope: punctuation.definition.block.oneof.begin.proto
           set: oneof_body
         - include: or_pop
 
   oneof_body:
-    - meta_scope: meta.oneof.body.proto
     - match: '}'
       scope: punctuation.definition.block.oneof.end.proto
       pop: true
     - match: '(?=\S)'
-      push: [ messageField_END, field_name_POP, message_type_or_pop ]
+      push: [ field_end_or_pop, field_name_or_pop, message_type_or_pop ]
 
   extend:
     - match: '\b(extend)\b'
@@ -112,7 +106,7 @@ contexts:
       push: [ extend_body_or_pop, message_type_or_pop]
 
   extend_body_or_pop:
-    - match: '\{'
+    - match: '{'
       scope: punctuation.definition.block.extend.begin.proto
       set:
         - meta_scope: meta.extend.body.proto
@@ -144,7 +138,7 @@ contexts:
         2: entity.name.class.proto
       push:
         - meta_scope: meta.service.proto
-        - match: '\{'
+        - match: '{'
           scope: punctuation.definition.block.service.begin.proto
           set:
             - meta_scope: meta.service.proto
@@ -181,7 +175,7 @@ contexts:
           push: message_type_or_pop
 
   rpc_body:
-    - match: '\{'
+    - match: '{'
       scope: punctuation.definition.block.rpc.begin.proto
       set:
         - meta_scope: meta.rpc.body.proto
@@ -202,7 +196,7 @@ contexts:
         2: entity.name.class.proto
       push:
         - meta_scope: meta.class.proto
-        - match: '\{'
+        - match: '{'
           scope: punctuation.definition.block.message.begin.proto
           set: messageBody
         - include: or_pop
@@ -240,27 +234,42 @@ contexts:
       scope: variable.type.proto
       pop: true
 
-  field_name_POP:
+  field_name_or_pop:
     - match: '{{ident}}'
       scope: variable.other.field.proto
       pop: true
-    - include: closingBraceUnexpected_POP
+    - include: or_pop
 
-  messageField_END:
-    - include: fieldAttributes
-    - match: ';'
+  assignment_or_pop:
+    - match: =
+      scope: keyword.operator.assignment.proto
+      pop: true
+    - include: or_pop
+
+  number_or_pop:
+    - match: \d+
+      scope: constant.numeric.proto
+      pop: true
+    - include: or_pop
+
+  terminator_or_pop:
+    - match: ;
       scope: punctuation.terminator.proto
       pop: true
-    - match: (=)\s*(\d+)
-      captures:
-        1: keyword.operator.assignment.proto
-        2: constant.numeric.proto
-    - include: closingBraceUnexpected_POP
+    - include: or_pop
 
-  fieldAttributes:
+  field_end_or_pop:
+    - match: ''
+      set:
+        - terminator_or_pop
+        - field_attributes_or_pop
+        - number_or_pop
+        - assignment_or_pop
+
+  field_attributes_or_pop:
     - match: '\['
       scope: punctuation.definition.attributes.begin.proto
-      push:
+      set:
         - meta_scope: meta.field.attributes.proto
         - match: \b(default|deprecated|packed)\b
           scope: support.function.proto
@@ -270,6 +279,7 @@ contexts:
           scope: punctuation.definition.attributes.end.proto
           pop: true
         - include: option_inline
+    - include: or_pop
 
   map_type:
     - match: ','
@@ -284,15 +294,15 @@ contexts:
     - match: '\b(optional|required|repeated)\b'
       captures:
         1: storage.modifier.proto
-      push: [ messageField_END, field_name_POP, message_type_or_pop ]
+      push: [ field_end_or_pop, field_name_or_pop, message_type_or_pop ]
     - match: '\b(map)\b\s*\b(<)'
       captures:
-        1: storage.modifier.proto
+        1: support.type.map.proto
         2: punctuation.definition.map.begin.proto
-      push: [ messageField_END, field_name_POP, map_type ]
+      push: [ field_end_or_pop, field_name_or_pop, map_type ]
     # field are assumed 'optional' by default in proto3.
     - match: '(?=\S)'
-      push: [ messageField_END, field_name_POP, message_type_or_pop ]
+      push: [ field_end_or_pop, field_name_or_pop, message_type_or_pop ]
 
   option:
     - match: '\b(option)\b'
@@ -338,7 +348,7 @@ contexts:
         - match: '}'
           scope: punctuation.definition.block.option.end.proto
           pop: true
-        - include: scope:text.prototxt#field
+        - include: scope:text.prototxt
     - include: scope:text.prototxt#field_value_or_pop
 
   main:
@@ -376,14 +386,14 @@ contexts:
         1: keyword.other.syntax.proto
         2: keyword.operator.assignment.proto
       push:
-        - include: stringDouble
+        - include: string_double
         - include: one_liner
     - match: '\b(import)\b\s*(weak|public)?\b'
       captures:
         1: keyword.other.import.proto
         2: storage.modifier.proto
       push:
-        - include: stringDouble
+        - include: string_double
         - include: one_liner
     - include: option
     - include: message

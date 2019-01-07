@@ -35,7 +35,7 @@ message Player {
   //       ^^^^^^ support.type.proto
 
   map<string, Stats> stats = 4;
-  // <- storage.modifier.proto
+  // <- support.type.map.proto
   //  ^^^^^^ support.type.proto
   //          ^^^^^ variable.type.proto
   //                 ^^^^^ variable.other.field.proto
@@ -46,6 +46,15 @@ message Player {
 
   optional bool alive = 8;
   //       ^^^^ support.type.proto
+
+  optional
+  // ^^^^^ storage.modifier.proto
+      very_long_namespace_name.VeryLongMessageType
+  //  ^^^^^^^^^^^^^^^^^^^^^^^^ variable.namespace.proto
+  //                           ^^^^^^^^^^^^^^^^^^^ meta.class.proto variable.type.proto
+          very_long_field_name = 9;
+  //      ^^^^^^^^^^^^^^^^^^^^ variable.other.field.proto
+
   reserved 42;
   // <- storage.modifier.reserved.proto
   //       ^^ constant.numeric.proto
@@ -89,10 +98,11 @@ message LevelConfig {
   repeated uint64 xp_levels = 2 [packed=true];
   //                             ^^^^^^ support.function.proto
   //                                    ^^^^ constant.language
-  optional int32 min_level = 3 [(str.option)="important"];
+  optional int32 min_level = 3 [(str.option)="important", (another)="foo"];
   //                             ^^^ variable.namespace.proto
   //                                 ^^^^^^ variable.annotation.proto
   //                                         ^^^^^^^^^^^ string.quoted
+  //                                                       ^^^^^^^ variable.annotation.proto
   optional int32 another_value = 4 [proto={ enum: FROZEN }];
   //                                      ^^^^^^^^^^^^^^^^ meta.embedded.prototxt
   //                                        ^^^^ variable.other.member.prototxt
@@ -109,11 +119,17 @@ enum Buff {
 
   option allow_alias = true;
   // <- keyword.other.option.proto
+  //     ^^^^^^^^^^^ variable.annotation.proto
+  //                 ^ keyword.operator.assignment.proto
+  //                   ^^^^ constant.language
 
   NO_BUFF = 0;
   FROZEN = 1;
   BURNING = 2;
-  POISONED = 2;
+  POISONED = 2 [(doc) = "Poisoned by a magic weapon."];
+  INVALID == 2;
+  //       ^ -keyword
+  //         ^ -constant
 }
 
 service PlayerService {
