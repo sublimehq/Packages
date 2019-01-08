@@ -253,7 +253,7 @@ contexts:
     {match: \-   , scope: keyword.operator.go},
     {match: /=   , scope: keyword.operator.assignment.go},
     {match: /    , scope: keyword.operator.go},
-    {match: :=   , scope: keyword.operator.assignment.go},
+    {match: ':=' , scope: keyword.operator.assignment.go},
     {match: <-   , scope: keyword.operator.go},
     {match: <    , scope: keyword.operator.go},
     {match: <<=  , scope: keyword.operator.assignment.go},
