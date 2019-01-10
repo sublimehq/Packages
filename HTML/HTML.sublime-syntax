@@ -381,8 +381,9 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: main
+        - include: comment
         - include: script-close-tag
+        - include: main
 
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
