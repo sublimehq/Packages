@@ -23,6 +23,10 @@ file_extensions:
   - .bashrc
   - .profile
   - .textmate_init
+  - .zlogin
+  - .zlogout
+  - .zprofile
+  - .zshenv
   - .zshrc
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - .ebuild
