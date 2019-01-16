@@ -4,6 +4,134 @@ module test;
 
 import std.stdio;
 
+  /+
+//^^ comment.block.nested.d punctuation.definition.comment.d
+  /+
+//^^ comment.block.nested.d comment.block.nested.d punctuation.definition.comment.d
+  +/
+//^^ comment.block.nested.d comment.block.nested.d punctuation.definition.comment.d
+  +/
+//^^ comment.block.nested.d punctuation.definition.comment.d
+
+auto wysiwyg = r"foo \n\";
+//             ^^ punctuation.definition.string.begin.d
+//             ^^^^^^^^^^ string.quoted.double.raw.d
+//                      ^ punctuation.definition.string.end.d
+auto wysiwygAlt = `foo\n\`;
+//                ^ punctuation.definition.string.begin.d
+//                ^^^^^^^^ string.quoted.double.raw.backtick.d
+//                       ^ punctuation.definition.string.end.d
+auto doubleQuoted = "c:\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
+//                  ^ punctuation.definition.string.begin.d
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.d
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.d
+//                                                                                 ^ punctuation.definition.string.end.d
+auto invalidEscape = "\p";
+//                    ^^ string.quoted.double.d invalid.illegal.unknown-escape.d
+auto hexString = x"00 ba
+//               ^^ punctuation.definition.string.begin.d
+//               ^^^^^^^^ string.quoted.double.raw.d
+    5 5 b";
+// ^^^^^^^ string.quoted.double.raw.d
+//  ^^^ string.quoted.double.raw.d constant.character.escape.d
+//      ^ string.quoted.double.raw.d invalid.illegal.unknown-escape.d
+//       ^ string.quoted.double.raw.d punctuation.definition.string.end.d
+auto deliminated = q"SQL_1
+//                 ^^^^^^^ string.quoted.double.raw.d punctuation.definition.string.begin.d
+    select foo \n
+//  ^^^^^^^^^^^^^^ string.quoted.double.raw.d
+SQL_1";
+// <- string.quoted.double.raw.d punctuation.definition.string.end.d
+// ^^^ string.quoted.double.raw.d punctuation.definition.string.end.d
+auto deliminatedBad = q"SQL\
+//                         ^ string.quoted.double.raw.d punctuation.definition.string.begin.d invalid.illegal.d
+SQL"
+auto deliminatedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
+//                       ^^^ punctuation.definition.string.begin.d
+//                       ^^^^^^^^^ string.quoted.double.raw.d
+//                              ^^ punctuation.definition.string.end.d
+//                                   ^^^ punctuation.definition.string.begin.d
+//                                   ^^^^^^^^^ string.quoted.double.raw.d
+//                                          ^^ punctuation.definition.string.end.d
+//                                               ^^^ punctuation.definition.string.begin.d
+//                                               ^^^^^^^^^ string.quoted.double.raw.d
+//                                                      ^^ punctuation.definition.string.end.d
+//                                                           ^^^ punctuation.definition.string.begin.d
+//                                                           ^^^^^^^^^ string.quoted.double.raw.d
+//                                                                  ^^ punctuation.definition.string.end.d
+auto deliminatedAny = q"/foo(xxx)/";
+//                    ^^^ punctuation.definition.string.begin.d
+//                    ^^^^^^^^^^^^^ string.quoted.double.raw.d
+//                               ^^ punctuation.definition.string.end.d
+auto stringPostfix = ``c + ""w + q"//"d;
+//                     ^ string.quoted.double.raw.backtick.d storage.type.string.d
+//                           ^ string.quoted.double.d storage.type.string.d
+//                                    ^ string.quoted.double.raw.d storage.type.string.d
+auto tokenString = q{
+//                 ^^ string.unquoted.embedded.d.d punctuation.definition.string.begin.d
+    this is
+//  ^^^^ string.unquoted.embedded.d.d source.d variable.language.d
+//       ^^ string.unquoted.embedded.d.d source.d keyword.other.d
+    /*}*/
+    __TIME__
+//  ^^^^^^^^ string.unquoted.embedded.d.d source.d constant.language.d
+};
+// <- string.unquoted.embedded.d.d punctuation.definition.string.end.d
+
+
+auto c = 'a';
+//       ^^^ string.quoted.single.d
+c = 'Ó';
+//  ^^^ string.quoted.single.d
+c = '\n';
+//  ^^^^ string.quoted.single.d
+//   ^^ constant.character.escape.d
+c = '\x';
+//  ^^^^ invalid.illegal.d
+c = 'aa';
+//  ^^^^ invalid.illegal.d
+c = '\';
+//  ^^^ invalid.illegal.d
+c = '';
+//  ^^ invalid.illegal.d
+c = ''';
+//  ^^ invalid.illegal.d
+
+auto dec = 2_0_000;
+//         ^^^^^^^ constant.numeric.d
+dec = 1L;
+//    ^ constant.numeric.d
+//     ^ storage.type.integer.d
+dec = 1u;
+//    ^ constant.numeric.d
+//     ^ storage.type.integer.d
+dec = 1U;
+//    ^ constant.numeric.d
+//     ^ storage.type.integer.d
+dec = 1Lu;
+//    ^ constant.numeric.d
+//     ^^ storage.type.integer.d
+dec = 1LU;
+//    ^ constant.numeric.d
+//     ^^ storage.type.integer.d
+dec = 1uL;
+//    ^ constant.numeric.d
+//     ^^ storage.type.integer.d
+dec = 1UL;
+//    ^ constant.numeric.d
+//     ^^ storage.type.integer.d
+auto bin = 0b1;
+//         ^^^ constant.numeric.d
+bin = 0b10_1;
+//    ^^^^^^ constant.numeric.d
+bin = 0B1;
+//    ^^^ constant.numeric.d
+auto hex = 0xF;
+//         ^^^ constant.numeric.d
+hex = 0x012_3;
+//    ^^^^^^^ constant.numeric.d
+hex = 0X1;
+//    ^^^ constant.numeric.d
 shared static this()
 // ^ storage.modifier
 //      ^ storage.modifier
