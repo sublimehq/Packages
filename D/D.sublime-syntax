@@ -9,11 +9,13 @@ file_extensions:
 first_line_match: ^#!.*\bg?dmd\b.
 scope: source.d
 variables:
-  identifier: '[[:alpha:]_][[:alnum:]_]*'
+  name: '[[:alpha:]_][[:alnum:]_]*'
+  identifier: '{{name}}(?:\.{{name}})*'
   string_postfix: '[cwd]?'
   escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
   hex_char: '[0-9a-fA-F]'
 contexts:
+
   main:
     - match: /\*\*/
       scope: comment.block.empty.d punctuation.definition.comment.d
@@ -170,11 +172,11 @@ contexts:
       scope: keyword.control.alias.d
     - match: \b(import)\b
       scope: keyword.control.import.d
-    - match: '^\s*(module)\s+([^ ;]+?);'
+    - match: '^\s*(module)\s+({{identifier}});'
       scope: meta.module.d
       captures:
         1: keyword.control.module.d
-        2: entity.name.function.package.d
+        2: entity.name.namespace.d
     - match: \b(true|false)\b
       scope: constant.language.boolean.d
     - match: \b(__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|null)\b
@@ -354,7 +356,7 @@ contexts:
         - match: '.'
           scope: invalid.illegal.unknown-escape.d
     # Deliminated string with custom identifier
-    - match: 'q"({{identifier}})(.*)$'
+    - match: 'q"({{name}})(.*)$'
       scope: punctuation.definition.string.begin.d
       captures:
         2: invalid.illegal.d
