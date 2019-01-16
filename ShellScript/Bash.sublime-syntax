@@ -201,7 +201,14 @@ contexts:
     - include: expansion-and-string
 
   case-item-highlights:
-    - include: expansion-and-string
+    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
+    # expansion, command substitution, and arithmetic expansion.
+    - include: expansion-pattern
+    - include: expansion-tilde
+    - include: expansion-parameter
+    - include: expansion-command
+    - include: expansion-arithmetic
+    - include: string
     - match: \|
       scope: keyword.operator.logical.shell
     - match: \(
