@@ -1968,6 +1968,18 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     "one %1.2d two"
 //  ^^^^^^^^^^^^^^^ string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
+    "one %[1] two"
+//  ^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^ constant.other.placeholder.go
+    "one %[1]v two"
+//  ^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^ constant.other.placeholder.go
+    "one %[1]+v two"
+//  ^^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^ constant.other.placeholder.go
+    "one %[1]1.2d two"
+//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^^^ constant.other.placeholder.go
     "%"
 //  ^^^ string.quoted.double.go
 //   ^ -constant.other.placeholder
@@ -2026,6 +2038,18 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     `one %1.2d two`
 //  ^^^^^^^^^^^^^^^ string.quoted.other.go
 //       ^^^^^ constant.other.placeholder.go
+    `one %[1] two`
+//  ^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^ constant.other.placeholder.go
+    `one %[1]v two`
+//  ^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^ constant.other.placeholder.go
+    `one %[1]+v two`
+//  ^^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^ constant.other.placeholder.go
+    `one %[1]1.2d two`
+//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^^^ constant.other.placeholder.go
     `%`
 //  ^^^ string.quoted.other.go
 //   ^ -constant.other.placeholder
