@@ -684,12 +684,12 @@ contexts:
 
   quoted-like-match:
     - match: \bq[qwx]?\b
-      scope: support.function.perl
+      scope: variable.function.perl support.function.perl
       push:
         - quoted-like-meta
         - quoted-like-args-find-literal
     - match: \b(m|qr)(?=\s*[\(\[\{<])
-      scope: support.function.perl
+      scope: variable.function.perl support.function.perl
       push:
         - quoted-like-meta
         - quoted-like-flags
@@ -697,7 +697,7 @@ contexts:
     - match: \b(m|qr)({{regexp_delim}})
       captures:
         0: meta.function-call.perl
-        1: support.function.perl
+        1: variable.function.perl support.function.perl
         2: punctuation.section.generic.begin.perl
       embed_scope: meta.function-call.perl string.regexp.perl
       embed: scope:source.regexp
@@ -709,7 +709,7 @@ contexts:
 
   quoted-like-replace:
     - match: \b(s|ty|y)(?=\s*[\(\[\{<])
-      scope: support.function.perl
+      scope: variable.function.perl support.function.perl
       push:
         - quoted-like-meta
         - quoted-like-flags
@@ -718,7 +718,7 @@ contexts:
     - match: \b(s|tr|y)({{regexp_delim}})
       captures:
         0: meta.function-call.perl
-        1: support.function.perl
+        1: variable.function.perl support.function.perl
         2: punctuation.section.generic.begin.perl
       embed_scope: meta.function-call.perl string.regexp.perl
       embed: scope:source.regexp
@@ -931,7 +931,7 @@ contexts:
           |times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie
           |utime|values|vec|wait|waitpid|wantarray|warn|write
         ){{break}}
-      scope: support.function.perl
+      scope: variable.function.perl support.function.perl
       push: regexp-pop
     - match: ^\s*(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
       scope: meta.function.perl
