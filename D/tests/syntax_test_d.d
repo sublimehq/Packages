@@ -255,3 +255,24 @@ extern(1)
 //                                       ^ keyword.operator.assignment.d
 //                                         ^ variable.other.constant.d
 //                                          ^ punctuation.terminator.d
+
+  int a;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//     ^ punctuation.terminator.d
+  foo[string] b = 123;
+//^^^ storage.type.d
+//   ^ keyword.operator.other.d
+//    ^^^^^^ storage.type.d
+//          ^ keyword.operator.other.d
+//            ^ variable.other.d
+//              ^ keyword.operator.assignment.d
+//                ^^^ constant.numeric.d
+//                   ^ punctuation.terminator.d
+  bar* some_long_Name;
+//^^^ storage.type.d
+//   ^ keyword.operator.pointer.d
+//     ^^^^^^^^^^^^^^ variable.other.d
+//                   ^ punctuation.terminator.d
+
+//TODO: Test for functions
