@@ -19,16 +19,31 @@ variables:
   at_attributes: 'disable|nogc|property|safe|system|trusted'
 contexts:
   main:
-    - match: '^\s*(module)\s+({{identifier}});'
+    - match: '^#!.*$'
+      scope: comment.line.shebang.d
+      set: main-after-shebang
+    - match: '(?=.)'
+      set: main-after-shebang
+  main-after-shebang:
+    - include: comments
+    - include: attribute-specifier
+    - match: '\b(module)\s+({{identifier}})(;)'
       scope: meta.module.d
       captures:
         1: keyword.control.module.d
         2: entity.name.namespace.d
-    - match: /\*\*/
-      scope: comment.block.empty.d punctuation.definition.comment.d
-    - include: scope:text.html.javadoc
+        3: punctuation.terminator.d
+      set: module-context
+    - match: '\s'
+    - match: (?=.)
+      set: module-context
+  module-context:
+    # - match: /\*\*/
+    #   scope: comment.block.empty.d punctuation.definition.comment.d
+    # - include: scope:text.html.javadoc
     - include: attribute-specifier
     - include: comments
+    - include: imports
     - include: all-types
     - match: |-
         (?x)^\s*
@@ -209,28 +224,6 @@ contexts:
     - include: support-type-built-ins-d
     - include: support-type-d
     - include: storage-type-d
-  comments:
-    - match: /\*
-      scope: punctuation.definition.comment.d
-      push:
-        - meta_scope: comment.block.d
-        - match: \*/
-          scope: punctuation.definition.comment.d
-          pop: true
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.d
-      captures:
-        1: punctuation.definition.comment.d
-    - include: nested_comment
-  nested_comment:
-    - match: /\+
-      scope: punctuation.definition.comment.d
-      push:
-        - meta_scope: comment.block.nested.d
-        - match: \+/
-          scope: punctuation.definition.comment.d
-          pop: true
-        - include: nested_comment
   constant_placeholder:
     - match: '(?i:%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])'
       scope: constant.other.placeholder.d
@@ -271,11 +264,28 @@ contexts:
   storage-type-d:
     - match: '\b(void|byte|short|char|int|long|float|double|boolean|([a-z]\w+\.)*[A-Z]\w+(?![\(\.]))\b'
       scope: storage.type.d
-  string_escaped_char:
-    - match: '{{escape_sequence}}'
-      scope: constant.character.escape.d
-    - match: \\.
-      scope: invalid.illegal.unknown-escape.d
+  comments:
+    - match: /\*
+      scope: punctuation.definition.comment.d
+      push:
+        - meta_scope: comment.block.d
+        - match: \*/
+          scope: punctuation.definition.comment.d
+          pop: true
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.d
+      captures:
+        1: punctuation.definition.comment.d
+    - include: nested_comment
+  nested_comment:
+    - match: /\+
+      scope: punctuation.definition.comment.d
+      push:
+        - meta_scope: comment.block.nested.d
+        - match: \+/
+          scope: punctuation.definition.comment.d
+          pop: true
+        - include: nested_comment
   number:
     # TODO: Hex floats
     - match: |-
@@ -314,7 +324,10 @@ contexts:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-        - include: string_escaped_char
+        - match: '{{escape_sequence}}'
+          scope: constant.character.escape.d
+        - match: \\.
+          scope: invalid.illegal.unknown-escape.d
     # Wysiwyg string
     - match: r"
       scope:  punctuation.definition.string.begin.d
@@ -345,10 +358,9 @@ contexts:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-        - match: '\s*'
         - match: '{{hex_char}}\s*{{hex_char}}'
           scope: constant.character.escape.d
-        - match: '.'
+        - match: '[^\s]'
           scope: invalid.illegal.unknown-escape.d
     # Deliminated string with custom identifier
     - match: 'q"({{name}})(.*)$'
@@ -419,7 +431,7 @@ contexts:
         - match: '}'
           scope: punctuation.definition.string.end.d
           pop: true
-        - include: main
+        - include: module-context
   attribute-specifier:
     - include: attribute
     - match: ':'
@@ -469,7 +481,7 @@ contexts:
       scope:  variable.other.constant.d
       pop: true
   uda:
-    - include: main
+    - include: module-context
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
@@ -483,16 +495,15 @@ contexts:
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
-    - match: '\s'
-    - match: '.'
+    - match: '[^\s]'
       scope: invalid.illegal.d
   align-attribute:
-    - include: main
+    - include: module-context
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
   deprecated-attribute:
-    - include: main
+    - include: module-context
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
@@ -517,12 +528,12 @@ contexts:
     - match: '\b({{name}})\b'
       scope: variable.function.d
       set:
-        - include: main
+        - include: module-context
         - match: '\)'
           scope: punctuation.definition.annotation.end.d
           pop: true
-    - match: \s
-    - match: '.'
+    - match: '[^\s]'
+      scope: invalid.illegal.d
       scope: invalid.illegal.d
   support-type-built-ins-classes-d:
     - match: \b(AbstractServer|ArchiveMember|ArgParser|Barrier|BomSniffer|Buffer|BufferInput|BufferOutput|BufferSlice|BufferedFile|BufferedStream|BzipInput|BzipOutput|CFile|CacheInvalidatee|CacheInvalidator|CacheServer|CacheThread|Certificate|CertificateStore|CertificateStoreCtx|ChunkInput|ChunkOutput|ClassInfo|Cluster|ClusterCache|ClusterQueue|ClusterThread|CmdParser|ComObject|Compress|Condition|Conduit|Cookie|CookieParser|CookieStack|CounterInput|CounterOutput|DataFileInput|DataFileOutput|DataInput|DataOutput|Database|DatagramConduit|DeviceConduit|DigestInput|DigestOutput|DocPrinter|Document|DummyInputStream|DummyOutputStream|EndianInput|EndianOutput|EndianProtocol|EndianStream|EventSeekInputStream|EventSeekOutputStream|FTPConnection|Fiber|Field|File|FileConduit|FileFolder|FileGroup|FileInput|FileOutput|FilePath|FileScan|FilterStream|Foo|FormatOutput|GreedyInput|GreedyOutput|Gregorian|GrowBuffer|HeapCopy|HeapSlice|Hierarchy|HttpClient|HttpCookies|HttpCookiesView|HttpGet|HttpHeaders|HttpHeadersView|HttpParams|HttpPost|HttpStack|HttpTokens|HttpTriplet|IPv4Address|IUnknown|InputFilter|InternetAddress|InternetHost|Layout|LineInput|LineIterator|LinkedFolder|Log|MapInput|MapOutput|MappedBuffer|Md2|Md4|MemoryQueue|MemoryStream|MmFile|MmFileStream|ModuleInfo|MulticastConduit|Mutex|NativeProtocol|NetCall|NetHost|NetworkAlert|NetworkCache|NetworkCall|NetworkClient|NetworkCombo|NetworkMessage|NetworkQueue|NetworkRegistry|NetworkTask|NotImplemented|Object|Observer|OutBuffer|OutputFilter|PersistQueue|Pipe|PipeConduit|Print|PrivateKey|Process|Properties|Protocol|ProtocolReader|ProtocolWriter|PublicKey|PullParser|QueueFile|QueueServer|QueueThread|QueuedCache|QuoteIterator|Random|Range|ReadWriteMutex|Reader|Record|RegExp|RegExpT|RegexIterator|RollCall|SSLCtx|SSLServerSocket|SSLSocketConduit|SaxParser|SelectionKey|Semaphore|ServerSocket|ServerThread|Service|SimpleIterator|SliceInputStream|SliceSeekInputStream|SliceSeekOutputStream|SliceStream|SnoopInput|SnoopOutput|Socket|SocketConduit|SocketListener|SocketSet|SocketStream|Sprint|Stream|StreamIterator|TArrayStream|TaskServer|TaskThread|TcpSocket|Telnet|TempFile|Text|TextFileInput|TextFileOutput|TextView|Thread|ThreadGroup|ThreadLocal|ThreadPool|Token|TypeInfo|TypeInfo_AC|TypeInfo_Aa|TypeInfo_Ab|TypeInfo_Ac|TypeInfo_Ad|TypeInfo_Ae|TypeInfo_Af|TypeInfo_Ag|TypeInfo_Ah|TypeInfo_Ai|TypeInfo_Aj|TypeInfo_Ak|TypeInfo_Al|TypeInfo_Am|TypeInfo_Ao|TypeInfo_Ap|TypeInfo_Aq|TypeInfo_Ar|TypeInfo_Array|TypeInfo_As|TypeInfo_AssociativeArray|TypeInfo_At|TypeInfo_Au|TypeInfo_Av|TypeInfo_Aw|TypeInfo_C|TypeInfo_Class|TypeInfo_D|TypeInfo_Delegate|TypeInfo_Enum|TypeInfo_Function|TypeInfo_Interface|TypeInfo_P|TypeInfo_Pointer|TypeInfo_StaticArray|TypeInfo_Struct|TypeInfo_Tuple|TypeInfo_Typedef|TypeInfo_a|TypeInfo_b|TypeInfo_c|TypeInfo_d|TypeInfo_e|TypeInfo_f|TypeInfo_g|TypeInfo_h|TypeInfo_i|TypeInfo_j|TypeInfo_k|TypeInfo_l|TypeInfo_m|TypeInfo_o|TypeInfo_p|TypeInfo_q|TypeInfo_r|TypeInfo_s|TypeInfo_t|TypeInfo_u|TypeInfo_v|TypeInfo_w|TypedInput|TypedOutput|URIerror|UdpSocket|UnCompress|UniText|UnicodeBom|UnicodeFile|UnknownAddress|Uri|UtfInput|UtfOutput|VirtualFolder|WrapSeekInputStream|WrapSeekOutputStream|Writer|XmlPrinter|ZipArchive|ZipBlockReader|ZipBlockWriter|ZipEntry|ZipEntryVerifier|ZipFile|ZipFileGroup|ZipFolder|ZipSubFolder|ZipSubFolderEntry|ZipSubFolderGroup|ZlibInput|ZlibOutput)\b
