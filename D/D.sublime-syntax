@@ -11,6 +11,7 @@ scope: source.d
 variables:
   name: '[[:alpha:]_][[:alnum:]_]*'
   identifier: '{{name}}(?:\.{{name}})*'
+  std_identifier: '(?:std|core)\.{{identifier}}'
   string_postfix: '[cwd]?'
   escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
   hex_char: '[0-9a-fA-F]'
@@ -187,8 +188,6 @@ contexts:
       scope: keyword.control.statement.d
     - match: \b(alias|typedef)\b
       scope: keyword.control.alias.d
-    - match: \b(import)\b
-      scope: keyword.control.import.d
     - match: \b(true|false)\b
       scope: constant.language.boolean.d
     - match: \b(__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|null)\b
@@ -534,6 +533,78 @@ contexts:
           pop: true
     - match: '[^\s]'
       scope: invalid.illegal.d
+  imports:
+    - match: '\b(import)\b'
+      scope: keyword.control.import.d
+      push: import-list
+  import-list:
+    - match: '\b(?:({{std_identifier}})|({{identifier}}))\b'
+      captures:
+        1: support.module.d
+        2: variable.other.constant.d
+      set:
+        - match: ':'
+          scope: punctuation.separator.import-binding.d
+          set: import-binding-list
+        - match: ';'
+          scope: punctuation.terminator.d
+          pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: import-list
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set:
+            - match: '\b(?:({{std_identifier}})|({{identifier}}))\b'
+              captures:
+                1: support.module.d
+                2: variable.other.constant.d
+              set:
+                - match: ';'
+                  scope: punctuation.terminator.d
+                  pop: true
+                - match: ','
+                  scope: punctuation.separator.sequence.d
+                  set: import-list
+
+                - match: '[^\s]'
+                  scope: invalid.illegal.d
+            - match: '[^\s]'
+              scope: invalid.illegal.d
+        - match: '[^\s]'
+          scope: invalid.illegal.d
+    - match: '[^\s]'
+      scope: invalid.illegal.d
+  import-binding-list:
+    - match: '\b({{identifier}})\b'
+      scope: variable.other.constant.d
+      set:
+        - match: ';'
+          scope: punctuation.terminator.d
+          pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: import-binding-list
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set:
+            - match: '\b({{identifier}})\b'
+              scope: variable.other.constant.d
+              set:
+                - match: ';'
+                  scope: punctuation.terminator.d
+                  pop: true
+                - match: ','
+                  scope: punctuation.separator.sequence.d
+                  set: import-binding-list
+
+                - match: '[^\s]'
+                  scope: invalid.illegal.d
+            - match: '[^\s]'
+              scope: invalid.illegal.d
+        - match: '[^\s]'
+          scope: invalid.illegal.d
+    - match: '[^\s]'
       scope: invalid.illegal.d
   support-type-built-ins-classes-d:
     - match: \b(AbstractServer|ArchiveMember|ArgParser|Barrier|BomSniffer|Buffer|BufferInput|BufferOutput|BufferSlice|BufferedFile|BufferedStream|BzipInput|BzipOutput|CFile|CacheInvalidatee|CacheInvalidator|CacheServer|CacheThread|Certificate|CertificateStore|CertificateStoreCtx|ChunkInput|ChunkOutput|ClassInfo|Cluster|ClusterCache|ClusterQueue|ClusterThread|CmdParser|ComObject|Compress|Condition|Conduit|Cookie|CookieParser|CookieStack|CounterInput|CounterOutput|DataFileInput|DataFileOutput|DataInput|DataOutput|Database|DatagramConduit|DeviceConduit|DigestInput|DigestOutput|DocPrinter|Document|DummyInputStream|DummyOutputStream|EndianInput|EndianOutput|EndianProtocol|EndianStream|EventSeekInputStream|EventSeekOutputStream|FTPConnection|Fiber|Field|File|FileConduit|FileFolder|FileGroup|FileInput|FileOutput|FilePath|FileScan|FilterStream|Foo|FormatOutput|GreedyInput|GreedyOutput|Gregorian|GrowBuffer|HeapCopy|HeapSlice|Hierarchy|HttpClient|HttpCookies|HttpCookiesView|HttpGet|HttpHeaders|HttpHeadersView|HttpParams|HttpPost|HttpStack|HttpTokens|HttpTriplet|IPv4Address|IUnknown|InputFilter|InternetAddress|InternetHost|Layout|LineInput|LineIterator|LinkedFolder|Log|MapInput|MapOutput|MappedBuffer|Md2|Md4|MemoryQueue|MemoryStream|MmFile|MmFileStream|ModuleInfo|MulticastConduit|Mutex|NativeProtocol|NetCall|NetHost|NetworkAlert|NetworkCache|NetworkCall|NetworkClient|NetworkCombo|NetworkMessage|NetworkQueue|NetworkRegistry|NetworkTask|NotImplemented|Object|Observer|OutBuffer|OutputFilter|PersistQueue|Pipe|PipeConduit|Print|PrivateKey|Process|Properties|Protocol|ProtocolReader|ProtocolWriter|PublicKey|PullParser|QueueFile|QueueServer|QueueThread|QueuedCache|QuoteIterator|Random|Range|ReadWriteMutex|Reader|Record|RegExp|RegExpT|RegexIterator|RollCall|SSLCtx|SSLServerSocket|SSLSocketConduit|SaxParser|SelectionKey|Semaphore|ServerSocket|ServerThread|Service|SimpleIterator|SliceInputStream|SliceSeekInputStream|SliceSeekOutputStream|SliceStream|SnoopInput|SnoopOutput|Socket|SocketConduit|SocketListener|SocketSet|SocketStream|Sprint|Stream|StreamIterator|TArrayStream|TaskServer|TaskThread|TcpSocket|Telnet|TempFile|Text|TextFileInput|TextFileOutput|TextView|Thread|ThreadGroup|ThreadLocal|ThreadPool|Token|TypeInfo|TypeInfo_AC|TypeInfo_Aa|TypeInfo_Ab|TypeInfo_Ac|TypeInfo_Ad|TypeInfo_Ae|TypeInfo_Af|TypeInfo_Ag|TypeInfo_Ah|TypeInfo_Ai|TypeInfo_Aj|TypeInfo_Ak|TypeInfo_Al|TypeInfo_Am|TypeInfo_Ao|TypeInfo_Ap|TypeInfo_Aq|TypeInfo_Ar|TypeInfo_Array|TypeInfo_As|TypeInfo_AssociativeArray|TypeInfo_At|TypeInfo_Au|TypeInfo_Av|TypeInfo_Aw|TypeInfo_C|TypeInfo_Class|TypeInfo_D|TypeInfo_Delegate|TypeInfo_Enum|TypeInfo_Function|TypeInfo_Interface|TypeInfo_P|TypeInfo_Pointer|TypeInfo_StaticArray|TypeInfo_Struct|TypeInfo_Tuple|TypeInfo_Typedef|TypeInfo_a|TypeInfo_b|TypeInfo_c|TypeInfo_d|TypeInfo_e|TypeInfo_f|TypeInfo_g|TypeInfo_h|TypeInfo_i|TypeInfo_j|TypeInfo_k|TypeInfo_l|TypeInfo_m|TypeInfo_o|TypeInfo_p|TypeInfo_q|TypeInfo_r|TypeInfo_s|TypeInfo_t|TypeInfo_u|TypeInfo_v|TypeInfo_w|TypedInput|TypedOutput|URIerror|UdpSocket|UnCompress|UniText|UnicodeBom|UnicodeFile|UnknownAddress|Uri|UtfInput|UtfOutput|VirtualFolder|WrapSeekInputStream|WrapSeekOutputStream|Writer|XmlPrinter|ZipArchive|ZipBlockReader|ZipBlockWriter|ZipEntry|ZipEntryVerifier|ZipFile|ZipFileGroup|ZipFolder|ZipSubFolder|ZipSubFolderEntry|ZipSubFolderGroup|ZlibInput|ZlibOutput)\b
