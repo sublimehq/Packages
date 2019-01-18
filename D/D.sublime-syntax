@@ -329,12 +329,11 @@ contexts:
           pop: true
     # Token string
     - match: 'q{'
-      scope: punctuation.definition.string.begin.d
+      scope: string.unquoted.embedded.d punctuation.definition.string.begin.d
       push:
-        - meta_scope: string.unquoted.embedded.d
         - meta_content_scope: source.d
         - match: '}'
-          scope: punctuation.definition.string.end.d
+          scope: string.unquoted.embedded.d punctuation.definition.string.end.d
           pop: true
         - include: tokens-in
   tokens-in: # Purely a set of un-verified tokens, for use in token string

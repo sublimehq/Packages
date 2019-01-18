@@ -77,9 +77,9 @@ auto tokenString = q{
     this is not real code 12
 //  ^^^^ source.d variable.language.d
 //       ^^ source.d keyword.d
-//          ^^^^^^^^^^^^^ string.unquoted.embedded.d source.d
-//              ^^^^ string.unquoted.embedded.d source.d storage.type.d
-//                        ^^ string.unquoted.embedded.d source.d constant.numeric.d
+//          ^^^^^^^^^^^^^ source.d
+//              ^^^^ source.d storage.type.d
+//                        ^^ source.d constant.numeric.d
     /*}*/
 //  ^^ punctuation.definition.comment.d
 //     ^^ punctuation.definition.comment.d
@@ -207,7 +207,7 @@ extern(1)
 //                     ^ punctuation.definition.annotation.end.d
 //                       ^^^^^^^^^^ keyword.other.deprecated.d
 //                                 ^ punctuation.definition.annotation.begin.d
-//                                    ^^^^ string.unquoted.embedded.d source.d storage.type.d
+//                                    ^^^^ source.d storage.type.d
 //                                         ^ punctuation.definition.annotation.end.d
   private protected public export package
 //^^^^^^^ storage.modifier.access-control.d
