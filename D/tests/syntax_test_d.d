@@ -323,8 +323,6 @@ extern(1)
 //     ^^^^^^^^^^^^^^ variable.other.d
 //                   ^ punctuation.terminator.d
 
-//TODO: Test for functions
-
   class Foo;
 //^^^^^ storage.type.class.d
 //      ^^^ entity.name.class.d
@@ -534,6 +532,55 @@ extern(1)
 //              ^^ constant.numeric.d
 //                ^ punctuation.section.brackets.end.d
 //                 ^ punctuation.terminator.d
+
+  int[string] foo() {
+//^^^ storage.type.d
+//   ^ keyword.operator.other.d
+//    ^^^^^^ storage.type.d
+//          ^ keyword.operator.other.d
+//            ^^^ entity.name.function.d
+//               ^ punctuation.section.group.begin.d
+//                ^ punctuation.section.group.end.d
+//                  ^ punctuation.section.block.begin.d
+    void bar();
+  //^^^^ storage.type.d
+  //     ^^^ entity.name.function.d
+  //        ^ punctuation.section.group.begin.d
+  //         ^ punctuation.section.group.end.d
+  //          ^ punctuation.terminator.d
+    int[] map(int[] array, ) {
+  //^^^ storage.type.d
+  //   ^^ keyword.operator.other.d
+  //      ^^^ entity.name.function.d
+  //         ^ punctuation.section.group.begin.d
+  //          ^^^ storage.type.d
+  //             ^^ keyword.operator.other.d
+  //                ^^^^^ variable.parameter.d
+  //                     ^ punctuation.separator.sequence.d
+  //                       ^
+  //                         ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+    T[] map(T, void fn)(T[] array) {
+  //^ storage.type.d
+  // ^^ keyword.operator.other.d
+  //    ^^^ entity.name.function.d
+  //       ^ punctuation.section.group.begin.d
+  //        ^ storage.type.d
+  //         ^ punctuation.separator.sequence.d
+  //           ^^^^ storage.type.d
+  //                ^^ variable.parameter.d
+  //                  ^ punctuation.section.group.end.d
+  //                   ^ punctuation.section.group.begin.d
+  //                    ^ storage.type.d
+  //                     ^^ keyword.operator.other.d
+  //                        ^^^^^ variable.parameter.d
+  //                             ^ punctuation.section.group.end.d
+  //                               ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d

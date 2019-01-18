@@ -624,6 +624,7 @@ contexts:
       scope: variable.parameter.d
       set:
         - match: ','
+          scope: punctuation.separator.sequence.d
           set: [function-argument, type]
         - match: '='
           # TODO
@@ -633,6 +634,7 @@ contexts:
         - include: not-whitespace-illegal
     # - match: '\.\.\.' # TODO
     - match: ','
+      scope: punctuation.separator.sequence.d
       push: type
     - match: '\)'
       scope: punctuation.section.group.end.d
