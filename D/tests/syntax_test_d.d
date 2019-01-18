@@ -50,7 +50,7 @@ SQL_1";
 // ^^^ string.quoted.double.raw.d punctuation.definition.string.end.d
 auto deliminatedBad = q"SQL\
 //                         ^ string.quoted.double.raw.d punctuation.definition.string.begin.d invalid.illegal.d
-SQL"
+SQL";
 auto deliminatedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
 //                       ^^^ punctuation.definition.string.begin.d
 //                       ^^^^^^^^^ string.quoted.double.raw.d
@@ -73,7 +73,7 @@ auto stringPostfix = ``c + ""w + q"//"d;
 //                           ^ string.quoted.double.d storage.type.string.d
 //                                    ^ string.quoted.double.raw.d storage.type.string.d
 auto tokenString = q{
-//                 ^^ string.unquoted.embedded.d.d punctuation.definition.string.begin.d
+//                 ^^ string.unquoted.embedded.d punctuation.definition.string.begin.d
     this is
 //  ^^^^ source.d variable.language.d
 //       ^^ source.d keyword.other.d
@@ -81,7 +81,7 @@ auto tokenString = q{
     __TIME__
 //  ^^^^^^^^ source.d constant.language.d
 };
-// <- string.unquoted.embedded.d.d punctuation.definition.string.end.d
+// <- string.unquoted.embedded.d punctuation.definition.string.end.d
 
 
 auto c = 'a';
@@ -187,7 +187,6 @@ extern(1)
 //       ^ punctuation.definition.annotation.end.d
 //         ^^^^^ keyword.other.alignment.d
 //              ^ punctuation.definition.annotation.begin.d
-//                   ^ keyword.operator.arithmetic.d
 //                     ^ constant.numeric.d
 //                      ^ punctuation.definition.annotation.end.d
   deprecated
@@ -199,7 +198,7 @@ extern(1)
 //                    ^ punctuation.definition.annotation.end.d
 //                      ^^^^^^^^^^ keyword.other.deprecated.d
 //                                ^ punctuation.definition.annotation.begin.d
-//                                   ^^^^ string.unquoted.embedded.d.d source.d storage.type.d
+//                                   ^^^^ string.unquoted.embedded.d source.d storage.type.d
 //                                        ^ punctuation.definition.annotation.end.d
   private protected public export package
 //^^^^^^^ storage.modifier.access-control.d
@@ -255,6 +254,44 @@ extern(1)
 //                                       ^ keyword.operator.assignment.d
 //                                         ^ variable.other.constant.d
 //                                          ^ punctuation.terminator.d
+
+  alias foo = int;
+//^^^^^ keyword.control.alias.d
+//      ^^^ entity.name.type.d
+//          ^ keyword.operator.assignment.d
+//            ^^^ storage.type.d
+//               ^ punctuation.terminator.d
+  alias Foo = const int[string], bar = long;
+//^^^^^ keyword.control.alias.d
+//      ^^^ entity.name.type.d
+//          ^ keyword.operator.assignment.d
+//            ^^^ storage.type.d
+//               ^ keyword.operator.other.d
+//                ^^^^^^ storage.type.d
+//                      ^ keyword.operator.other.d
+//                       ^ punctuation.separator.sequence.d
+//                         ^^^ entity.name.type.d
+//                             ^ keyword.operator.assignment.d
+//                               ^^^^ storage.type.d
+//                                   ^ punctuation.terminator.d
+  alias int a;
+//^^^^^ keyword.control.alias.d
+//      ^^^ storage.type.d
+//          ^ entity.name.type.d
+//           ^ punctuation.terminator.d
+  alias const foo[string] long_name, foo, b;
+//^^^^^ keyword.control.alias.d
+//      ^^^^^ storage.modifier.d
+//            ^^^ storage.type.d
+//               ^ keyword.operator.other.d
+//                ^^^^^^ storage.type.d
+//                      ^ keyword.operator.other.d
+//                        ^^^^^^^^^ entity.name.type.d
+//                                 ^ punctuation.separator.sequence.d
+//                                   ^^^ entity.name.type.d
+//                                      ^ punctuation.separator.sequence.d
+//                                        ^ entity.name.type.d
+//                                         ^ punctuation.terminator.d
 
   int a;
 //^^^ storage.type.d
