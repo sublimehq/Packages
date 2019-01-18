@@ -598,3 +598,22 @@ extern(1)
 //        ^ punctuation.definition.annotation.begin.d
 //         ^^^^^^^ storage.attribute.d
 //                ^ punctuation.terminator.d
+
+  invariant(0, "test") {
+//^^^^^^^^^ keyword.control.flow.d
+//         ^ punctuation.section.brackets.begin.d
+//          ^ constant.numeric.d
+//           ^ punctuation.separator.sequence.d
+//             ^^^^^^ string.quoted.double.d
+//                   ^ punctuation.section.brackets.end.d
+//                     ^ punctuation.section.block.begin.d
+    invariant();
+  //^^^^^^^^^ keyword.control.flow.d
+  //         ^ punctuation.section.brackets.begin.d
+  //          ^ punctuation.section.brackets.end.d
+    invariant {}
+  //^^^^^^^^^ keyword.control.flow.d
+  //          ^ punctuation.section.block.begin.d
+  //           ^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d

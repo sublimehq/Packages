@@ -64,6 +64,7 @@ contexts:
     - include: static-assert-in
     - include: constructor-in
     - include: destructor-in
+    - include: invariant-in
     - include: attribute-specifier-in
     - include: comment-in
     - match: '\{'
@@ -981,7 +982,7 @@ contexts:
       captures:
         1: keyword.control.conditional.d
         2: keyword.control.conditional.d
-      push: [expect-end-of-line, condition]
+      push: [expect-end-of-line, assert-arguments]
   constructor-in:
     - match: '\b(this)\s*(?=\(|$)'
       captures:
@@ -993,7 +994,27 @@ contexts:
         1: entity.name.function.destructor.d
         2: entity.name.function.destructor.d
       push: function-definition-begin
-
+  invariant-in:
+    - match: '\b(invariant)\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: '(?=\()'
+          set: [invariant-block, assert-arguments]
+        - match: '(?={)'
+          set: invariant-block
+        - include: not-whitespace-illegal
+  invariant-block:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+      - include: module-context-in
+      - match: '}'
+        scope: punctuation.section.block.end.d
+        pop: true
+    - match: ';'
+      scope: punctuation.terminator.d
+      pop: true
+    - include: not-whitespace-illegal
   foreach-condition:
     - match: '\('
       scope: punctuation.section.brackets.begin.d
@@ -1019,6 +1040,24 @@ contexts:
           scope: punctuation.section.brackets.end.d
           pop: true
         - include: value-in
+    - include: not-whitespace-illegal
+  assert-arguments:
+    - match: '\('
+      scope: punctuation.section.brackets.begin.d
+      set:
+        - include: value-in
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set:
+            - include: value-in
+            - match: '\)'
+              scope: punctuation.section.brackets.end.d
+              pop: true
+            - include: not-whitespace-illegal
+        - match: '\)'
+          scope: punctuation.section.brackets.end.d
+          pop: true
+        - include: not-whitespace-illegal
     - include: not-whitespace-illegal
   condition:
     - match: '\('
