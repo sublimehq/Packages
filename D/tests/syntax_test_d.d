@@ -302,6 +302,16 @@ extern(1)
 //                                      ^ punctuation.separator.sequence.d
 //                                        ^ entity.name.type.d
 //                                         ^ punctuation.terminator.d
+  alias foo this;
+//^^^^^ keyword.control.alias.d
+//      ^^^ variable.d
+//          ^^^^ constant.language.d
+//              ^ punctuation.terminator.d
+  alias foo.bar.baz this;
+//^^^^^ keyword.control.alias.d
+//      ^^^^^^^^^^^ variable.d
+//                  ^^^^ constant.language.d
+//                      ^ punctuation.terminator.d
 
   int a;
 //^^^ storage.type.d

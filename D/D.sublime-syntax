@@ -667,6 +667,12 @@ contexts:
     - include: number-in
     - include: string-in
   alias-in:
+    - match: '\b(alias)\s+({{identifier}})\s+(this)(;)'
+      captures:
+        1: keyword.control.alias.d
+        2: variable.d
+        3: constant.language.d
+        4: punctuation.terminator.d
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
       push:
