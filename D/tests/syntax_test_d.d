@@ -74,10 +74,19 @@ auto stringPostfix = ``c + ""w + q"//"d;
 //                                    ^ string.quoted.double.raw.d storage.type.string.d
 auto tokenString = q{
 //                 ^^ string.unquoted.embedded.d punctuation.definition.string.begin.d
-    this is
+    this is not real code 12
 //  ^^^^ source.d variable.language.d
-//       ^^ source.d keyword.other.d
+//       ^^ source.d keyword.d
+//          ^^^^^^^^^^^^^ string.unquoted.embedded.d source.d
+//              ^^^^ string.unquoted.embedded.d source.d storage.type.d
+//                        ^^ string.unquoted.embedded.d source.d constant.numeric.d
     /*}*/
+//  ^^ punctuation.definition.comment.d
+//     ^^ punctuation.definition.comment.d
+//  ^^^^^ source.d comment.block.d
+    ''  'a'
+//  ^^ source.d invalid.illegal.d
+//      ^^^ source.d string.quoted.single.d
     __TIME__
 //  ^^^^^^^^ source.d constant.language.d
 };
@@ -265,15 +274,16 @@ extern(1)
 //^^^^^ keyword.control.alias.d
 //      ^^^ entity.name.type.d
 //          ^ keyword.operator.assignment.d
-//            ^^^ storage.type.d
-//               ^ keyword.operator.other.d
-//                ^^^^^^ storage.type.d
-//                      ^ keyword.operator.other.d
-//                       ^ punctuation.separator.sequence.d
-//                         ^^^ entity.name.type.d
-//                             ^ keyword.operator.assignment.d
-//                               ^^^^ storage.type.d
-//                                   ^ punctuation.terminator.d
+//            ^^^^^ storage.modifier.d
+//                  ^^^ storage.type.d
+//                     ^ keyword.operator.other.d
+//                      ^^^^^^ storage.type.d
+//                            ^ keyword.operator.other.d
+//                             ^ punctuation.separator.sequence.d
+//                               ^^^ entity.name.type.d
+//                                   ^ keyword.operator.assignment.d
+//                                     ^^^^ storage.type.d
+//                                         ^ punctuation.terminator.d
   alias int a;
 //^^^^^ keyword.control.alias.d
 //      ^^^ storage.type.d

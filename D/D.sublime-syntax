@@ -24,7 +24,12 @@ variables:
   attributes: 'static|abstract|final|override|synchronized|auto|scope|const|immutable|inout|shared|__gshared|nothrow|pure|ref|return'
   at_attributes: 'disable|nogc|property|safe|system|trusted'
 
-  basic_types: 'bool|byte|ubyte|short|ushort|int|uint|long|ulong|cent|ucent|char|wchar|dchar|float|double|real|ifloat|idouble|ireal|cfloat|cdouble|creal|void'
+  keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
+  basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar'
+  language_constant: 'null|true|false|__FILE__|__FILE_FULL_PATH__|__MODULE__|__LINE__|__FUNCTION__|__PRETTY_FUNCTION__|__DATE__|__EOF__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__'
+  langauge_variable: 'this|super'
+  reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{langauge_variable}}'
+
 contexts:
   main:
     - match: '^#!.*$'
@@ -319,7 +324,7 @@ contexts:
       scope: string.quoted.single.d
       captures:
         1: constant.character.escape.d
-    - match: \'.*\'
+    - match: \'[^']*\'
       scope: invalid.illegal.d
   string-in:
     # Regular string
@@ -439,7 +444,29 @@ contexts:
         - match: '}'
           scope: punctuation.definition.string.end.d
           pop: true
-        - include: module-context-in
+        - include: tokens-in
+  tokens-in: # Purely a set of un-verified tokens, for use in token string
+    - match: '\b({{keyword}})\b'
+      scope: keyword.d
+    - match: '\b({{basic_type}})\b'
+      scope: storage.type.d
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+    - match: '\b({{langauge_variable}})\b'
+      scope: variable.language.d
+    - include: comment-in
+    - include: character-in
+    - include: string-in
+    - include: number-in
+    - match: '{{name}}'
+    - match: '(/|&|\||-|\+|<<|<>|>>|>>>||\*|%|\^|\^\^|~)='
+      scope: keyword.operator.assignment.d
+    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\(|\)|\[|\]|{|}|\?|,|;|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
+      scope: keyword.operator.d
+    - match: '\.'
+      scope: keyword.operator.d
+    - match: '[^\s]'
+      scope: invalid.illegal.d
   attribute-specifier-in:
     - include: attribute-in
     - match: ':'
