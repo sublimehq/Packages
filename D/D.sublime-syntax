@@ -55,6 +55,11 @@ contexts:
     # - match: /\*\*/
     #   scope: comment.block.empty.d punctuation.definition.comment.d
     # - include: scope:text.html.javadoc
+    - include: import-in
+    - include: alias-in
+    - include: aggregate-in
+    - include: enum-in
+    - include: conditional-declaration-in
     - include: attribute-specifier-in
     - include: comment-in
     - match: |-
@@ -126,8 +131,8 @@ contexts:
       scope: keyword.control.branch.d
     - match: \b(while|for|foreach(_reverse)?)\b
       scope: keyword.control.repeat.d
-    - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
-      scope: keyword.control.statement.d
+    # - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
+    #   scope: keyword.control.statement.d
     - match: \b(true|false)\b
       scope: constant.language.boolean.d
     - match: \b(__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|null)\b
@@ -151,15 +156,15 @@ contexts:
       scope: keyword.other.d
     - match: \b(new|throws)\b
       scope: keyword.other.class-fns.d
-    - match: \b(deprecated|unittest|debug)\b
-      scope: keyword.other.debug.d
+    # - match: \b(deprecated|unittest|debug)\b
+    #   scope: keyword.other.debug.d
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
       scope: support.type.sys-types.c
     - match: \b(pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t)\b
       scope: support.type.pthread.c
     - match: \b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t)\b
       scope: support.type.stdint.c
-    - include: declaration-in
+    - include: function-or-variable-in
   all-types-in:
     - include: support-type-built-ins-in
     - include: support-type-in
@@ -205,9 +210,6 @@ contexts:
     - match: '\b(void|byte|short|char|int|long|float|double|boolean|([a-z]\w+\.)*[A-Z]\w+(?![\(\.]))\b'
       scope: storage.type.d
 
-  function-context-in:
-    - include: comment-in
-    - include: declaration-in
   comment-in:
     - match: /\*
       scope: punctuation.definition.comment.d
@@ -612,12 +614,6 @@ contexts:
     # TODO
     - match: '.'
       pop: true
-  declaration-in:
-    - include: import-in
-    - include: alias-in
-    - include: aggregate-in
-    - include: enum-in
-    - include: function-or-variable-in
   function-or-variable-in:
     - match: '{{type_look_ahead}}'
       push: [function-or-variable-after-type, type]
@@ -646,7 +642,7 @@ contexts:
     - match: '{'
       scope: punctuation.section.block.begin.d
       set:
-        - include: function-context-in
+        - include: module-context-in
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
@@ -913,6 +909,91 @@ contexts:
         - match: '(?=})'
           pop: true
         - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  conditional-declaration-in:
+    - match: '\b(static)\s+(if)\b'
+      captures:
+        1: keyword.control.conditional.d
+        2: keyword.control.conditional.d
+      push: [conditional-declaration-body, condition]
+    - match: '\b(version)\b'
+      scope: keyword.control.conditional.d
+      push: [conditional-declaration-body, version-condition]
+    - match: '\b(debug)\b'
+      scope: keyword.control.conditional.d
+      push: [conditional-declaration-body, debug-condition]
+  conditional-declaration-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          set:
+            - match: '\b(else)\b'
+              scope: keyword.control.conditional.d
+              set:
+                - match: '{'
+                  scope: punctuation.section.block.begin.d
+                  set:
+                    - match: '}'
+                      scope: punctuation.section.block.end.d
+                      pop: true
+                    - include: module-context-in
+                - match: ':'
+                  scope: punctuation.section.block.begin.d
+                  pop: true
+                - include: not-whitespace-illegal
+            - match: '(?=[^\s])'
+              pop: true
+        - include: module-context-in
+    - match: ':'
+      scope: punctuation.section.block.begin.d
+      pop: true
+    - include: not-whitespace-illegal
+  version-condition:
+    - match: '\('
+      scope: punctuation.section.brackets.begin.d
+      set:
+        - match: '\b(unittest|assert)\b'
+          scope: keyword.d
+          set: version-condition-end
+        - match: '\b({{name}})\b'
+          scope: constant.other.d
+          set: version-condition-end
+        # TODO: Use proper integer literals here
+        - match: '\b([0-9]+)\b'
+          scope: constant.numeric.d
+          set: version-condition-end
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  version-condition-end:
+    - match: '\)'
+      scope: punctuation.section.brackets.end.d
+      pop: true
+    - include: not-whitespace-illegal
+  debug-condition:
+    - match: '\('
+      scope: punctuation.section.brackets.begin.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: constant.other.d
+          set: version-condition-end
+        # TODO: Use proper integer literals here
+        - match: '\b([0-9]+)\b'
+          scope: constant.numeric.d
+          set: version-condition-end
+        - include: not-whitespace-illegal
+    - match: '(?={|:)'
+      pop: true
+    - include: not-whitespace-illegal
+  condition:
+    - match: '\('
+      scope: punctuation.section.brackets.begin.d
+      set:
+        - include: value-in
+        - match: '\)'
+          scope: punctuation.section.brackets.end.d
+          pop: true
     - include: not-whitespace-illegal
   not-whitespace-illegal:
     - match: '[^\s]'

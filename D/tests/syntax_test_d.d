@@ -434,3 +434,70 @@ extern(1)
   //^^^ entity.name.constant.d
   }
 //^ punctuation.section.block.end.d
+
+  version(unittest) {}
+//^^^^^^^ keyword.control.conditional.d
+//       ^ punctuation.section.brackets.begin.d
+//        ^^^^^^^^ keyword.d
+//                ^ punctuation.section.brackets.end.d
+//                  ^ punctuation.section.block.begin.d
+//                   ^ punctuation.section.block.end.d
+  version(assert) {}
+//^^^^^^^ keyword.control.conditional.d
+//       ^ punctuation.section.brackets.begin.d
+//        ^^^^^^ keyword.d
+//              ^ punctuation.section.brackets.end.d
+//                ^ punctuation.section.block.begin.d
+//                 ^ punctuation.section.block.end.d
+  version(foo) {}
+//^^^^^^^ keyword.control.conditional.d
+//       ^ punctuation.section.brackets.begin.d
+//        ^^^ constant.other.d
+//           ^ punctuation.section.brackets.end.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
+  version(1):
+//^^^^^^^ keyword.control.conditional.d
+//       ^ punctuation.section.brackets.begin.d
+//        ^ constant.numeric.d
+//         ^ punctuation.section.brackets.end.d
+//          ^ punctuation.section.block.begin.d
+
+  debug:
+//^^^^^ keyword.control.conditional.d
+//     ^ punctuation.section.block.begin.d
+  debug {} else {}
+//^^^^^ keyword.control.conditional.d
+//      ^ punctuation.section.block.begin.d
+//       ^ punctuation.section.block.end.d
+//         ^^^^ keyword.control.conditional.d
+//              ^ punctuation.section.block.begin.d
+//               ^ punctuation.section.block.end.d
+  debug(foo) {} else:
+//^^^^^ keyword.control.conditional.d
+//     ^ punctuation.section.brackets.begin.d
+//      ^^^ constant.other.d
+//         ^ punctuation.section.brackets.end.d
+//           ^ punctuation.section.block.begin.d
+//            ^ punctuation.section.block.end.d
+//              ^^^^ keyword.control.conditional.d
+//                  ^ punctuation.section.block.begin.d
+
+  static if (12 + 5):
+//^^^^^^ keyword.control.conditional.d
+//       ^^ keyword.control.conditional.d
+//          ^ punctuation.section.brackets.begin.d
+//           ^^ constant.numeric.d
+//                ^ constant.numeric.d
+//                 ^ punctuation.section.brackets.end.d
+//                  ^ punctuation.section.block.begin.d
+  static if (true) {} else {}
+//^^^^^^ keyword.control.conditional.d
+//       ^^ keyword.control.conditional.d
+//          ^ punctuation.section.brackets.begin.d
+//               ^ punctuation.section.brackets.end.d
+//                 ^ punctuation.section.block.begin.d
+//                  ^ punctuation.section.block.end.d
+//                    ^^^^ keyword.control.conditional.d
+//                         ^ punctuation.section.block.begin.d
+//                          ^ punctuation.section.block.end.d
