@@ -616,3 +616,14 @@ extern(1)
   //           ^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+
+  unittest {
+//^^^^^^^^ keyword.control.conditional.d
+//         ^ punctuation.section.block.begin.d
+    unittest {
+  //^^^^^^^^ keyword.control.conditional.d
+  //         ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d

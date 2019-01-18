@@ -68,6 +68,7 @@ contexts:
     - include: constructor-in
     - include: destructor-in
     - include: invariant-in
+    - include: unittest-in
     - include: attribute-specifier-in
     - match: '\{'
       push:
@@ -1022,6 +1023,19 @@ contexts:
       scope: punctuation.terminator.d
       pop: true
     - include: not-whitespace-illegal
+  unittest-in:
+    - match: '\b(unittest)\b'
+      scope: keyword.control.conditional.d
+      push:
+        - match: '{'
+          scope: punctuation.section.block.begin.d
+          set:
+            - include: module-context-in
+            - match: '}'
+              scope: punctuation.section.block.end.d
+              pop: true
+        - include: not-whitespace-illegal
+
   foreach-condition:
     - match: '\('
       scope: punctuation.section.brackets.begin.d
