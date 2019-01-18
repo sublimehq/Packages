@@ -60,6 +60,7 @@ contexts:
     - include: aggregate-in
     - include: enum-in
     - include: conditional-declaration-in
+    - include: static-foreach-in
     - include: attribute-specifier-in
     - include: comment-in
     - match: |-
@@ -129,8 +130,8 @@ contexts:
       scope: keyword.control.conditional.d
     - match: \b(goto|break|continue)\b
       scope: keyword.control.branch.d
-    - match: \b(while|for|foreach(_reverse)?)\b
-      scope: keyword.control.repeat.d
+    # - match: \b(while|for|foreach(_reverse)?)\b
+    #   scope: keyword.control.repeat.d
     # - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
     #   scope: keyword.control.statement.d
     - match: \b(true|false)\b
@@ -985,6 +986,47 @@ contexts:
         - include: not-whitespace-illegal
     - match: '(?={|:)'
       pop: true
+    - include: not-whitespace-illegal
+  static-foreach-in:
+    - match: '\b(static)\s+(foreach|foreach_reverse)\b'
+      captures:
+        1: keyword.control.flow.d
+        2: keyword.control.flow.d
+      push: [static-foreach-block, foreach-condition]
+  static-foreach-block:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: module-context-in
+    - include: not-whitespace-illegal
+  foreach-condition:
+    - match: '\('
+      scope: punctuation.section.brackets.begin.d
+      set:
+        - match: '\b({{name}})\s*(?=;)'
+          captures:
+            1: variable.other.d
+          set: foreach-condition-end
+        - match: '{{type_look_ahead}}'
+          set: [foreach-condition-name, type]
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  foreach-condition-name:
+    - match: '\b({{name}})\b'
+      scope: variable.other.d
+      set: foreach-condition-end
+    - include: not-whitespace-illegal
+  foreach-condition-end:
+    - match: ';'
+      scope: punctuation.separator.sequence.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.brackets.end.d
+          pop: true
+        - include: value-in
     - include: not-whitespace-illegal
   condition:
     - match: '\('

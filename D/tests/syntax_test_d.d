@@ -501,3 +501,28 @@ extern(1)
 //                    ^^^^ keyword.control.conditional.d
 //                         ^ punctuation.section.block.begin.d
 //                          ^ punctuation.section.block.end.d
+
+  static foreach (foo; 12 .. 3) {
+//^^^^^^ keyword.control.flow.d
+//       ^^^^^^^ keyword.control.flow.d
+//               ^ punctuation.section.brackets.begin.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.separator.sequence.d
+//                     ^^ constant.numeric.d
+//                           ^ constant.numeric.d
+//                            ^ punctuation.section.brackets.end.d
+//                              ^ punctuation.section.block.begin.d
+    static foreach (int a; 123) {
+  //^^^^^^ keyword.control.flow.d
+  //       ^^^^^^^ keyword.control.flow.d
+  //               ^ punctuation.section.brackets.begin.d
+  //                ^^^ storage.type.d
+  //                    ^ variable.other.d
+  //                     ^ punctuation.separator.sequence.d
+  //                       ^^^ constant.numeric.d
+  //                          ^ punctuation.section.brackets.end.d
+  //                            ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
