@@ -616,6 +616,7 @@ contexts:
     - include: import-in
     - include: alias-in
     - include: aggregate-in
+    - include: enum-in
     - include: function-or-variable-in
   function-or-variable-in:
     - match: '{{type_look_ahead}}'
@@ -843,6 +844,74 @@ contexts:
           pop: true
         # TODO: Don't use module-context-in
         - include: module-context-in
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  enum-in:
+    - match: '\b(enum)\b'
+      scope: storage.type.enum.d
+      push:
+        - match: '\b({{name}})\b'
+          scope: entity.name.enum.d
+          set:
+            - include: end-of-line
+            - match: '(?={)'
+              set: enum-body
+            - match: ':'
+              scope: punctuation.separator.mapping.d
+              set: [enum-body, type]
+            - include: not-whitespace-illegal
+        - match: ':'
+          scope: punctuation.separator.mapping.d
+          set: [enum-body, type]
+        - match: '(?={)'
+          set: anonymous-enum-body
+        - include: not-whitespace-illegal
+  enum-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: comment-in
+        - match: '(?=\b({{name}})\b)'
+          push: enum-member
+    - include: not-whitespace-illegal
+  anonymous-enum-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: comment-in
+        - include: attribute-in
+        - match: '(?=\b({{name}})\s*(=|,|}|$))'
+          push: enum-member
+        - match: '{{type_look_ahead}}'
+          push: [enum-member, type]
+    - include: not-whitespace-illegal
+  enum-member:
+    - match: '\b({{name}})\b'
+      scope: entity.name.constant.d
+      set:
+        - include: comment-in
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set:
+            - include: value-in
+            - include: comment-in
+            - match: ','
+              scope: punctuation.separator.sequence.d
+              pop: true
+            - match: '(?=})'
+              pop: true
+            - include: not-whitespace-illegal
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          pop: true
+        - match: '(?=})'
+          pop: true
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
   not-whitespace-illegal:

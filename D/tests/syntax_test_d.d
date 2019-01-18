@@ -387,3 +387,50 @@ extern(1)
 //      ^^^ entity.name.union.d
 //          ^ punctuation.section.block.begin.d
 //           ^ punctuation.section.block.end.d
+
+  enum Foo {
+//^^^^ storage.type.enum.d
+//     ^^^ entity.name.enum.d
+//         ^ punctuation.section.block.begin.d
+    foo,
+  //^^^ entity.name.constant.d
+  //   ^ punctuation.separator.sequence.d
+    bar = 2,
+  //^^^ entity.name.constant.d
+  //    ^ keyword.operator.assignment.d
+  //      ^ constant.numeric.d
+  //       ^ punctuation.separator.sequence.d
+  }
+//^ punctuation.section.block.end.d
+  enum Foo : int { a = 12 }
+//^^^^ storage.type.enum.d
+//     ^^^ entity.name.enum.d
+//         ^ punctuation.separator.mapping.d
+//           ^^^ storage.type.d
+//               ^ punctuation.section.block.begin.d
+//                 ^ entity.name.constant.d
+//                   ^ keyword.operator.assignment.d
+//                     ^^ constant.numeric.d
+//                        ^ punctuation.section.block.end.d
+  enum : foo[stirng] { TEST }
+//^^^^ storage.type.enum.d
+//     ^ punctuation.separator.mapping.d
+//       ^^^ storage.type.d
+//          ^ keyword.operator.other.d
+//           ^^^^^^ storage.type.d
+//                 ^ keyword.operator.other.d
+//                   ^ punctuation.section.block.begin.d
+//                     ^^^^ entity.name.constant.d
+//                          ^ punctuation.section.block.end.d
+  enum { int a = 12,
+//^^^^ storage.type.enum.d
+//     ^ punctuation.section.block.begin.d
+//       ^^^ storage.type.d
+//           ^ entity.name.constant.d
+//             ^ keyword.operator.assignment.d
+//               ^^ constant.numeric.d
+//                 ^ punctuation.separator.sequence.d
+    Foo
+  //^^^ entity.name.constant.d
+  }
+//^ punctuation.section.block.end.d
