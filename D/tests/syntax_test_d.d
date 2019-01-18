@@ -526,3 +526,11 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+
+  static assert(12);
+//^^^^^^ keyword.control.conditional.d
+//       ^^^^^^ keyword.control.conditional.d
+//             ^ punctuation.section.brackets.begin.d
+//              ^^ constant.numeric.d
+//                ^ punctuation.section.brackets.end.d
+//                 ^ punctuation.terminator.d
