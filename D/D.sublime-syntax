@@ -62,53 +62,10 @@ contexts:
     - include: conditional-declaration-in
     - include: static-foreach-in
     - include: static-assert-in
+    - include: constructor-in
+    - include: destructor-in
     - include: attribute-specifier-in
     - include: comment-in
-    - match: |-
-        (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|shared|__gshared)\b\s*)*) # modifier
-        (\b(this))\s* # identifier
-        (?!.*;)  # abort if line has a ;
-        (?=\()
-      captures:
-        1: storage.modifier.d
-        3: entity.name.function.constructor.d
-      push:
-        - meta_scope: meta.function.d meta.function.constructor.d
-        - include: function_assertions
-        - include: $top_level_main
-    - match: |-
-        (?x)
-                    (?:  ^                                 # begin-of-line
-                      |  (?: (?<!else|new|=) )             #  or word + space before name
-                    )
-                  ((?:\b(?:private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|override)\b\s*)*) # modifier
-                    (~this) # actual name
-                     \s*(\()                           # start bracket or end-of-line
-
-      captures:
-        1: storage.modifier.d
-        2: entity.name.function.destructor.d
-      push:
-        - meta_scope: meta.function.d meta.function.destructor.d
-        - include: function_assertions
-        - include: $top_level_main
-    # - match: |-
-    #     (?x)^\s*
-    #     (?!else(?:\s+static)?\s+if\b)
-    #     ((?:\b(?:private|package|protected|public|export|static|final|native|lazy|synchronized|abstract|threadsafe|transient|override|pure|nothrow)\b\s*)*+) # modifier
-    #     (\b(?:void|boolean|byte|char|short|int|float|long|double|[\w_]+[\w0-9_]*|(?:\w+\.)*[A-Z]\w+)\b(?:<(?:(?:(?:\w+\.)*[A-Z]\w+)(?:\s*,\s*)?)+>|(?:\[\s*\])*)?|typeof\(.*?\)|const\(.*?\)\*?)\s* # type
-    #     (\w+)\s* # identifier
-    #     (?!.*;)  # abort if line has a ;
-    #     (?=\()
-    #   captures:
-    #     1: storage.modifier.d
-    #     2: storage.type.d
-    #     3: entity.name.function.d
-    #   push:
-    #     - meta_scope: meta.function.d
-    #     - include: function_assertions
-    #     - include: $top_level_main
     - match: '\{'
       push:
         - meta_scope: meta.block.d
@@ -637,30 +594,32 @@ contexts:
     - match: '\b({{name}})\s*(?=\(|$)'
       captures:
         1: entity.name.function.d
-      set: [function-definition, function-argument-definition-list]
+      set: function-definition-begin
     - match: '(?=[^\s])'
       pop: true
-  function-definition:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - include: module-context-in
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-    - match: ';'
-      pop: true
-  value-in:
-    - include: number-in
-    - include: string-in
+  function-definition-begin:
+    - match: '(?=\()'
+      set: [function-definition-after-argument-list1, function-argument-definition-list]
+    - include: not-whitespace-illegal
+  function-definition-after-argument-list1:
+    - match: '(?=\()'
+      set: [function-definition-after-argument-list2, function-argument-definition-list]
+    - include: function-definition-after-argument-list2
+  function-definition-after-argument-list2:
+    - include: attribute-specifier-in
+    - match: '(?={|;)'
+      set: function-definition
+    - include: not-whitespace-illegal
   function-argument-definition-list:
     - match: '\('
-      scope: punctuation.section.group.start.d
+      scope: punctuation.section.group.begin.d
       set:
         - match: '{{type_look_ahead}}'
           set: [function-argument, type]
-    - match: '(?=[^\s])'
-      pop: true
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+    - include: not-whitespace-illegal
   function-argument:
     - match: '\b{{name}}\b'
       scope: variable.parameter.d
@@ -680,6 +639,19 @@ contexts:
       scope: punctuation.section.group.end.d
       pop: true
     - include: not-whitespace-illegal
+  function-definition:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - include: module-context-in
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+    - include: end-of-line
+    - include: not-whitespace-illegal
+  value-in:
+    - include: number-in
+    - include: string-in
   alias-in:
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
@@ -1009,6 +981,18 @@ contexts:
         1: keyword.control.conditional.d
         2: keyword.control.conditional.d
       push: [expect-end-of-line, condition]
+  constructor-in:
+    - match: '\b(this)\s*(?=\(|$)'
+      captures:
+        1: entity.name.function.constructor.d
+      push: function-definition-begin
+  destructor-in:
+    - match: '(~)\s*(this)\s*(?=\(|$)'
+      captures:
+        1: entity.name.function.destructor.d
+        2: entity.name.function.destructor.d
+      push: function-definition-begin
+
   foreach-condition:
     - match: '\('
       scope: punctuation.section.brackets.begin.d

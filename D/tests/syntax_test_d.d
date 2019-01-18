@@ -534,3 +534,20 @@ extern(1)
 //              ^^ constant.numeric.d
 //                ^ punctuation.section.brackets.end.d
 //                 ^ punctuation.terminator.d
+
+  this(int foo) {
+//^^^^ entity.name.function.constructor.d
+//    ^ punctuation.section.group.begin.d
+//     ^^^ storage.type.d
+//         ^^^ variable.parameter.d
+//            ^ punctuation.section.group.end.d
+//              ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  ~this() @disable;
+//^^^^^ entity.name.function.destructor.d
+//     ^ punctuation.section.group.begin.d
+//      ^ punctuation.section.group.end.d
+//        ^ punctuation.definition.annotation.begin.d
+//         ^^^^^^^ storage.attribute.d
+//                ^ punctuation.terminator.d
