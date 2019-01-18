@@ -31,14 +31,17 @@ variables:
   reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{langauge_variable}}'
 
 contexts:
+  prototype:
+    - include: comment-in
+
   main:
+    - meta_include_prototype: false
     - match: '^#!.*$'
       scope: comment.line.shebang.d
       set: main-after-shebang-in
     - match: '(?=.)'
       set: main-after-shebang-in
   main-after-shebang-in:
-    - include: comment-in
     - include: attribute-specifier-in
     - match: '\b(module)\s+({{identifier}})(;)'
       scope: meta.module.d
@@ -66,7 +69,6 @@ contexts:
     - include: destructor-in
     - include: invariant-in
     - include: attribute-specifier-in
-    - include: comment-in
     - match: '\{'
       push:
         - meta_scope: meta.block.d
@@ -224,6 +226,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.d
         - match: '(")({{string_postfix}})'
           captures:
@@ -238,6 +241,7 @@ contexts:
     - match: r"
       scope:  punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(")({{string_postfix}})'
           captures:
@@ -248,6 +252,7 @@ contexts:
     - match: "`"
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.backtick.d
         - match: '(`)({{string_postfix}})'
           captures:
@@ -258,6 +263,7 @@ contexts:
     - match: x"
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(")({{string_postfix}})'
           captures:
@@ -274,6 +280,7 @@ contexts:
       captures:
         2: invalid.illegal.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(^\1")({{string_postfix}})'
           captures:
@@ -284,6 +291,7 @@ contexts:
     - match: 'q"\['
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(\]")({{string_postfix}})'
           captures:
@@ -293,6 +301,7 @@ contexts:
     - match: 'q"\('
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(\)")({{string_postfix}})'
           captures:
@@ -302,6 +311,7 @@ contexts:
     - match: 'q"<'
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(>")({{string_postfix}})'
           captures:
@@ -311,6 +321,7 @@ contexts:
     - match: 'q"{'
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(}")({{string_postfix}})'
           captures:
@@ -321,6 +332,7 @@ contexts:
     - match: 'q"(.)'
       scope: punctuation.definition.string.begin.d
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.d
         - match: '(\1"|\1(.))({{string_postfix}})'
           captures:
@@ -346,7 +358,6 @@ contexts:
       scope: constant.language.d
     - match: '\b({{langauge_variable}})\b'
       scope: variable.language.d
-    - include: comment-in
     - include: character-in
     - include: string-in
     - include: number-in
@@ -845,7 +856,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        - include: comment-in
         - match: '(?=\b({{name}})\b)'
           push: enum-member
     - include: not-whitespace-illegal
@@ -856,7 +866,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        - include: comment-in
         - include: attribute-in
         - match: '(?=\b({{name}})\s*(=|,|}|$))'
           push: enum-member
@@ -867,12 +876,10 @@ contexts:
     - match: '\b({{name}})\b'
       scope: entity.name.constant.d
       set:
-        - include: comment-in
         - match: '='
           scope: keyword.operator.assignment.d
           set:
             - include: value-in
-            - include: comment-in
             - match: ','
               scope: punctuation.separator.sequence.d
               pop: true

@@ -18,19 +18,19 @@ module foo.a.b1_3;
   +/
 //^^ comment.block.nested.d punctuation.definition.comment.d
 
-auto wysiwyg = r"foo \n\";
+auto wysiwyg = r"f// \n\";
 //             ^^ punctuation.definition.string.begin.d
 //             ^^^^^^^^^^ string.quoted.double.raw.d
 //                      ^ punctuation.definition.string.end.d
-auto wysiwygAlt = `foo\n\`;
+auto wysiwygAlt = `f//\n\`;
 //                ^ punctuation.definition.string.begin.d
 //                ^^^^^^^^ string.quoted.double.raw.backtick.d
 //                       ^ punctuation.definition.string.end.d
-auto doubleQuoted = "c:\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
+auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
 //                  ^ punctuation.definition.string.begin.d
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.d
-//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.d
-//                                                                                 ^ punctuation.definition.string.end.d
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.d
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.d
+//                                                                                   ^ punctuation.definition.string.end.d
 auto invalidEscape = "\p";
 //                    ^^ string.quoted.double.d invalid.illegal.unknown-escape.d
 auto hexString = x"00 ba
@@ -91,7 +91,6 @@ auto tokenString = q{
 //  ^^^^^^^^ source.d constant.language.d
 };
 // <- string.unquoted.embedded.d punctuation.definition.string.end.d
-
 
 auto c = 'a';
 //       ^^^ string.quoted.single.d
