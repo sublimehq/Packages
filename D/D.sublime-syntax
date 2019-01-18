@@ -59,75 +59,6 @@ contexts:
     - include: comment-in
     - match: |-
         (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract)\b\s*)*) # modifier
-        (class|interface)\s+
-        (\w+)\s* # identifier
-        (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
-        (?:
-          \s*(:)\s*
-          (\w+)
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-        )? # super class
-      captures:
-        1: storage.modifier.d
-        3: storage.type.d
-        4: entity.name.type.class.d
-        5: storage.type.template.d
-        6: punctuation.separator.inheritance.d
-        7: entity.other.inherited-class.d
-        8: entity.other.inherited-class.d
-        9: entity.other.inherited-class.d
-        10: entity.other.inherited-class.d
-        11: entity.other.inherited-class.d
-        12: entity.other.inherited-class.d
-        13: entity.other.inherited-class.d
-      push:
-        - meta_scope: meta.class.d
-        - match: \b(_|:)\b
-          captures:
-            1: storage.modifier.d
-          push:
-            - meta_scope: meta.definition.class.extends.d
-            - match: "(?={)"
-              captures:
-                1: storage.modifier.d
-              pop: true
-            - include: all-types-in
-        - match: '(?<=\})'
-          pop: true
-        - include: $top_level_main
-    - match: |-
-        (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|const)\b\s*)*) # modifier
-        (struct)\s+
-        (\w+)\s* # identifier
-        (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
-      captures:
-        1: storage.modifier.d
-        3: storage.type.d
-        4: entity.name.type.struct.d
-        5: storage.type.template.d
-      push:
-        - meta_scope: meta.definition.struct.d
-        - match: "(?={|//|;)"
-          pop: true
-        - match: \b(_|:)\b
-          captures:
-            1: storage.modifier.d
-          push:
-            - meta_scope: meta.definition.class.extends.d
-            - match: "(?={)"
-              captures:
-                1: storage.modifier.d
-              pop: true
-            - include: all-types-in
-    - match: |-
-        (?x)^\s*
         ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|shared|__gshared)\b\s*)*) # modifier
         (\b(this))\s* # identifier
         (?!.*;)  # abort if line has a ;
@@ -181,8 +112,8 @@ contexts:
       scope: constant.other.d
     - match: \b(auto|static|override|final|const|abstract|volatile|synchronized|lazy|immutable|shared|__gshared|pure|nothrow|ref)\b
       scope: storage.modifier.d
-    - match: \b(template|interface|class|enum|struct|union)\b
-      scope: storage.type.d
+    # - match: \b(template|interface|class|enum|struct|union)\b
+    #   scope: storage.type.d
     # - match: \b(ushort|int|uint|long|ulong|float|void|byte|ubyte|double|bit|char|wchar|ucent|cent|short|bool|dchar|real|ireal|ifloat|idouble|creal|cfloat|cdouble|string)\b
     #   scope: storage.type.d
     - match: \b(try|catch|finally|throw)\b
@@ -465,8 +396,7 @@ contexts:
       scope: keyword.operator.d
     - match: '\.'
       scope: keyword.operator.d
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   attribute-specifier-in:
     - include: attribute-in
     - match: ':'
@@ -530,8 +460,7 @@ contexts:
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   align-attribute:
     - include: value-in
     - match: '\)'
@@ -555,8 +484,7 @@ contexts:
         - match: '\)'
           scope: punctuation.definition.annotation.end.d
           pop: true
-        - match: '.'
-          scope: invalid.illegal.d
+        - include: not-whitespace-illegal
     - match: '\b(package)\b'
       scope: storage.modifier.access-control.d
   pragma-attribute:
@@ -567,8 +495,7 @@ contexts:
         - match: '\)'
           scope: punctuation.definition.annotation.end.d
           pop: true
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   import-in:
     - match: '\b(import)\b'
       scope: keyword.control.import.d
@@ -603,14 +530,10 @@ contexts:
                   scope: punctuation.separator.sequence.d
                   set: import-list
 
-                - match: '[^\s]'
-                  scope: invalid.illegal.d
-            - match: '[^\s]'
-              scope: invalid.illegal.d
-        - match: '[^\s]'
-          scope: invalid.illegal.d
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+                - include: not-whitespace-illegal
+            - include: not-whitespace-illegal
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
   import-binding-list:
     - match: '\b({{identifier}})\b'
       scope: variable.other.constant.d
@@ -634,14 +557,10 @@ contexts:
                   scope: punctuation.separator.sequence.d
                   set: import-binding-list
 
-                - match: '[^\s]'
-                  scope: invalid.illegal.d
-            - match: '[^\s]'
-              scope: invalid.illegal.d
-        - match: '[^\s]'
-          scope: invalid.illegal.d
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+                - include: not-whitespace-illegal
+            - include: not-whitespace-illegal
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
   type:
     - match: '\b({{type_ctor}})\b'
       scope: storage.modifier.d
@@ -657,8 +576,9 @@ contexts:
     - match: '\)'
       scope: punctuation.section.group.end.d
       pop: true
-    - match: '(?=[^\s])'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
+    # - match: '(?=[^\s])'
+    #   scope: invalid.illegal.d
   basic-type:
     - match: '\b({{identifier_ref}})\b'
       scope: storage.type.d
@@ -695,6 +615,7 @@ contexts:
   declaration-in:
     - include: import-in
     - include: alias-in
+    - include: aggregate-in
     - include: function-or-variable-in
   function-or-variable-in:
     - match: '{{type_look_ahead}}'
@@ -752,16 +673,14 @@ contexts:
         - match: '\)'
           scope: punctuation.section.group.end.d
           pop: true
-        - match: '[^\s]'
-          scope: invalid.illegal.d
+        - include: not-whitespace-illegal
     # - match: '\.\.\.' # TODO
     - match: ','
       push: type
     - match: '\)'
       scope: punctuation.section.group.end.d
       pop: true
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   alias-in:
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
@@ -774,8 +693,7 @@ contexts:
           set: alias-new
         - match: '{{type_look_ahead}}'
           set: [alias-old, type]
-        - match: '[^\s]'
-          scope: invalid.illegal.d
+        - include: not-whitespace-illegal
   alias-old:
     - match: '\b({{name}})\b'
       scope: entity.name.type.d
@@ -784,24 +702,20 @@ contexts:
           scope: punctuation.separator.sequence.d
           set: alias-old
         - include: end-of-line
-        - match: '[^\s]'
-          scope: invalid.illegal.d
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
   alias-new:
     - match: '\('
       # TODO: template aliases
       pop: true
     - match: '(?==)'
       set: alias-new-assign
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   alias-new-assign:
     - match: '='
       scope: keyword.operator.assignment.d
       set: [alias-new-after-type, type]
-    - match: '[^\s]'
-      scope: invalid.illegal.d
+    - include: not-whitespace-illegal
   alias-new-after-type:
     - include: end-of-line
     - match: ','
@@ -810,8 +724,128 @@ contexts:
         - match: '\b{{name}}\b'
           scope: entity.name.type.d
           set: alias-new
-        - match: '[^\s]'
-          scope: invalid.illegal.d
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  aggregate-in:
+    - include: class-in
+    - include: interface-in
+    - include: struct-in
+    - include: union-in
+  # TODO: Templated aggregates!!
+  class-in:
+    - match: '\b(class)\b'
+      scope: storage.type.class.d
+      push:
+        - match: '\b({{name}})\b'
+          scope: entity.name.class.d
+          set:
+            - include: end-of-line
+            - match: ':'
+              scope: punctuation.separator.mapping.d
+              set: [class-body, base-class-list]
+            - match: '(?={)'
+              set: class-body
+            - include: not-whitespace-illegal
+        - include: not-whitespace-illegal
+  base-class-list:
+    - match: '{{type_look_ahead}}'
+      set: [base-class-list-after, basic-type]
+    - include: not-whitespace-illegal
+  base-class-list-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: base-class-list
+    - match: '(?={)'
+      pop: true
+    - include: not-whitespace-illegal
+  class-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        # TODO: Don't use module-context-in
+        - include: module-context-in
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  interface-in:
+    - match: '\b(interface)\b'
+      scope: storage.type.interface.d
+      push:
+        - match: '\b({{name}})\b'
+          scope: entity.name.interface.d
+          set:
+            - include: end-of-line
+            - match: ':'
+              scope: punctuation.separator.mapping.d
+              set: [interface-body, base-class-list]
+            - match: '(?={)'
+              set: interface-body
+            - include: not-whitespace-illegal
+        - include: not-whitespace-illegal
+  interface-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        # TODO: Don't use module-context-in
+        - include: module-context-in
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  struct-in:
+    - match: '\b(struct)\b'
+      scope: storage.type.struct.d
+      push:
+        - match: '\b({{name}})\b'
+          scope: entity.name.struct.d
+          set:
+            - include: end-of-line
+            - match: '(?={)'
+              set: struct-body
+            - include: not-whitespace-illegal
+        - match: '(?={)'
+          set: struct-body
+        - include: not-whitespace-illegal
+  struct-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        # TODO: Don't use module-context-in
+        - include: module-context-in
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  union-in:
+    - match: '\b(union)\b'
+      scope: storage.type.union.d
+      push:
+        - match: '\b({{name}})\b'
+          scope: entity.name.union.d
+          set:
+            - include: end-of-line
+            - match: '(?={)'
+              set: union-body
+            - include: not-whitespace-illegal
+        - match: '(?={)'
+          set: union-body
+        - include: not-whitespace-illegal
+  union-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        # TODO: Don't use module-context-in
+        - include: module-context-in
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  not-whitespace-illegal:
     - match: '[^\s]'
       scope: invalid.illegal.d
   end-of-line:

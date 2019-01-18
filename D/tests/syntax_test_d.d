@@ -200,27 +200,28 @@ extern(1)
 //                      ^ punctuation.definition.annotation.end.d
   deprecated
 //^^^^^^^^^^ keyword.other.deprecated.d
-  deprecated("message") deprecated(q{void})
+  deprecated( "message") deprecated(q{void})
 //^^^^^^^^^^ keyword.other.deprecated.d
 //          ^ punctuation.definition.annotation.begin.d
-//           ^^^^^^^^^ string.quoted.double.d
-//                    ^ punctuation.definition.annotation.end.d
-//                      ^^^^^^^^^^ keyword.other.deprecated.d
-//                                ^ punctuation.definition.annotation.begin.d
-//                                   ^^^^ string.unquoted.embedded.d source.d storage.type.d
-//                                        ^ punctuation.definition.annotation.end.d
+//            ^^^^^^^^^ string.quoted.double.d
+//                     ^ punctuation.definition.annotation.end.d
+//                       ^^^^^^^^^^ keyword.other.deprecated.d
+//                                 ^ punctuation.definition.annotation.begin.d
+//                                    ^^^^ string.unquoted.embedded.d source.d storage.type.d
+//                                         ^ punctuation.definition.annotation.end.d
   private protected public export package
 //^^^^^^^ storage.modifier.access-control.d
 //        ^^^^^^^^^ storage.modifier.access-control.d
 //                  ^^^^^^ storage.modifier.access-control.d
 //                         ^^^^^^ storage.modifier.access-control.d
 //                                ^^^^^^^ storage.modifier.access-control.d
-  package(foo.bar.)
+  package(foo.bar. )
 //^^^^^^^ storage.modifier.access-control.d
 //       ^ punctuation.definition.annotation.begin.d
 //        ^^^^^^^ variable.other.constant.d
 //               ^ invalid.illegal.d
-//                ^ punctuation.definition.annotation.end.d
+//                ^ - invalid.illegal.d
+//                 ^ punctuation.definition.annotation.end.d
   pragma(f) pragma(test, void)
 //^^^^^^ keyword.other.pragma.d
 //      ^ punctuation.definition.annotation.begin.d
@@ -323,3 +324,66 @@ extern(1)
 //                   ^ punctuation.terminator.d
 
 //TODO: Test for functions
+
+  class Foo;
+//^^^^^ storage.type.class.d
+//      ^^^ entity.name.class.d
+//         ^ punctuation.terminator.d
+
+  class Bar : Foo, b {
+//^^^^^ storage.type.class.d
+//      ^^^ entity.name.class.d
+//          ^ punctuation.separator.mapping.d
+//            ^^^ storage.type.d
+//               ^ punctuation.separator.sequence.d
+//                 ^ storage.type.d
+//                   ^ punctuation.section.block.begin.d
+    class b {}
+  //^^^^^ storage.type.class.d
+  //      ^ entity.name.class.d
+  //        ^ punctuation.section.block.begin.d
+  //         ^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
+
+  interface S;
+//^^^^^^^^^ storage.type.interface.d
+//          ^ entity.name.interface.d
+//           ^ punctuation.terminator.d
+  interface Foo: Bar, Baz {
+//^^^^^^^^^ storage.type.interface.d
+//          ^^^ entity.name.interface.d
+//             ^ punctuation.separator.mapping.d
+//               ^^^ storage.type.d
+//                  ^ punctuation.separator.sequence.d
+//                    ^^^ storage.type.d
+//                        ^ punctuation.section.block.begin.d
+    interface c{}
+  //^^^^^^^^^ storage.type.interface.d
+  //          ^ entity.name.interface.d
+  //           ^ punctuation.section.block.begin.d
+  //            ^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
+
+  struct Foo {
+//^^^^^^ storage.type.struct.d
+//       ^^^ entity.name.struct.d
+//           ^ punctuation.section.block.begin.d
+    struct {
+  //^^^^^^ storage.type.struct.d
+  //       ^ punctuation.section.block.begin.d
+      union {}
+    //^^^^^ storage.type.union.d
+    //      ^ punctuation.section.block.begin.d
+    //       ^ punctuation.section.block.end.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
+
+  union Foo {}
+//^^^^^ storage.type.union.d
+//      ^^^ entity.name.union.d
+//          ^ punctuation.section.block.begin.d
+//           ^ punctuation.section.block.end.d
