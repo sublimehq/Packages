@@ -70,6 +70,8 @@ contexts:
     - include: destructor-in
     - include: invariant-in
     - include: unittest-in
+    - include: template-in
+    - include: mixin-in
     - include: attribute-specifier-in
     - match: '\{'
       push:
@@ -632,6 +634,7 @@ contexts:
         - match: '\)'
           scope: punctuation.section.group.end.d
           pop: true
+        - include: not-whitespace-illegal
     - include: not-whitespace-illegal
   function-argument:
     - match: '\b{{name}}\b'
@@ -1055,6 +1058,47 @@ contexts:
         - match: '[0-9]+'
           scope: constant.numeric.d
           set: expect-end-of-line
+        - include: not-whitespace-illegal
+  template-in:
+    - match: '\b(template)\b'
+      scope: storage.type.d
+      push: template
+  template:
+    - match: '\b({{name}})\b'
+      scope: entity.name.template.d
+      set: template-definition-begin
+    - include: not-whitespace-illegal
+  template-definition-begin:
+    - match: '(?=\()'
+      set: [template-definition-after-argument-list, function-argument-definition-list]
+    - include: not-whitespace-illegal
+  template-definition-after-argument-list:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: module-context-in
+    - include: not-whitespace-illegal
+  mixin-in:
+    - match: '\b(mixin)\b'
+      scope: keyword.control.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set:
+            - match: '\)'
+              scope: punctuation.section.parens.end.d
+              set:
+                - match: ';'
+                  scope: punctuation.terminator.d
+                  pop: true
+            - include: value-in
+        - match: '\b(template)\b'
+          scope: storage.type.d
+          set: template
+        # TODO: Template
         - include: not-whitespace-illegal
 
   foreach-condition:

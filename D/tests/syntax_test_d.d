@@ -601,6 +601,26 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  VeryLongTypeNameThatWillForceALineWrapWith80WidthLines
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ storage.type.d
+  veryLongFunctionNameToHelpWithTheLineWrappingThing
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.d
+  (
+//^ punctuation.section.group.begin.d
+    int aVeryLongArgumentName,
+  //^^^ storage.type.d
+  //    ^^^^^^^^^^^^^^^^^^^^^ variable.parameter.d
+  //                         ^ punctuation.separator.sequence.d
+  )
+//^ punctuation.section.group.end.d
+  {
+//^ punctuation.section.block.begin.d
+    int a;
+  //^^^ storage.type.d
+  //    ^ variable.other.d
+  //     ^ punctuation.terminator.d
+  }
+//^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -648,3 +668,45 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+
+  template foo(T, A) {
+//^^^^^^^^ storage.type.d
+//         ^^^ entity.name.template.d
+//            ^ punctuation.section.group.begin.d
+//             ^ storage.type.d
+//              ^ punctuation.separator.sequence.d
+//                ^ storage.type.d
+//                 ^ punctuation.section.group.end.d
+//                   ^ punctuation.section.block.begin.d
+    template a(size_t f) {
+  //^^^^^^^^ storage.type.d
+  //         ^ entity.name.template.d
+  //          ^ punctuation.section.group.begin.d
+  //           ^^^^^^ storage.type.d
+  //                  ^ variable.parameter.d
+  //                   ^ punctuation.section.group.end.d
+  //                     ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
+
+  mixin template f(int a) {
+//^^^^^ keyword.control.d
+//      ^^^^^^^^ storage.type.d
+//               ^ entity.name.template.d
+//                ^ punctuation.section.group.begin.d
+//                 ^^^ storage.type.d
+//                     ^ variable.parameter.d
+//                      ^ punctuation.section.group.end.d
+//                        ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  mixin("foo");
+//^^^^^ keyword.control.d
+//     ^ punctuation.section.parens.begin.d
+//      ^ punctuation.definition.string.begin.d
+//      ^^^^^ string.quoted.double.d
+//          ^ punctuation.definition.string.end.d
+//           ^ punctuation.section.parens.end.d
+//            ^ punctuation.terminator.d
