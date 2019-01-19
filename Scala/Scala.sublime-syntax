@@ -1575,6 +1575,8 @@ contexts:
           set: single-type-expression
         - match: '(?=\S)'
           set: single-type-expression
+    - match: '\s+'
+      set: single-type-expression
     - match: '(?=.)'
       set: single-type-expression
 
@@ -1687,7 +1689,10 @@ contexts:
         - include: main
     - match: '(?=\()'
       push: try-dispatch
-    - include: base-type-expression
+    - match: '{{rightarrow}}'
+      scope: keyword.operator.arrow.scala
+      set:  single-type-expression-leading-newline
+    - include: base-type-expression-no-function
     - match: \n
       pop: true
     - match: '(?=\S)'

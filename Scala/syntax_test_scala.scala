@@ -1890,3 +1890,8 @@ new Foo[A].bar
 
 val foo: () => Unit
 //       ^^ - constant
+
+type T = Foo => (Bar, Baz)
+//       ^^^ support.class.scala
+//               ^^^ support.class.scala
+//                    ^^^ support.class.scala
