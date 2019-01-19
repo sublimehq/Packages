@@ -200,7 +200,7 @@ contexts:
     - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
       push:
         - match: '{{rightarrow}}'
-          scope: storage.type.function.arrow.scala
+          scope: storage.type.function.arrow.lambda.scala
           pop: true
         - include: lambda-declaration
   lambda-declaration-base:
@@ -362,14 +362,14 @@ contexts:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -422,14 +422,14 @@ contexts:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-non-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-non-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
