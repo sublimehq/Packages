@@ -871,6 +871,8 @@ contexts:
           set:
             - match: '(?=\s+with\b)'
               set: initialization-body
+            - match: '(?=\s*\()'
+              set:  initialization-term-tail
             - match: '(?=.)'
               pop: true
         - include: delimited-type-expression

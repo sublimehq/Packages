@@ -1895,3 +1895,7 @@ type T = Foo => (Bar, Baz)
 //       ^^^ support.class.scala
 //               ^^^ support.class.scala
 //                    ^^^ support.class.scala
+
+new Array[Long]()
+//             ^ punctuation.section.group.begin.scala
+//              ^ punctuation.section.group.end.scala
