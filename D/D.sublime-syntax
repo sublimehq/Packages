@@ -422,7 +422,8 @@ contexts:
       scope:  variable.other.constant.d
       pop: true
   uda:
-    - include: module-context-in
+    # TODO: Use function call here
+    - include: value-in
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
@@ -936,7 +937,8 @@ contexts:
                 - match: ':'
                   scope: punctuation.section.block.begin.d
                   pop: true
-                - include: not-whitespace-illegal
+                - match: '(?=[^\s])'
+                  pop: true
             - match: '(?=[^\s])'
               pop: true
         - include: module-context-in
