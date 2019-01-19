@@ -490,6 +490,17 @@ extern(1)
 //              ^^^^ keyword.control.conditional.d
 //                  ^ punctuation.section.block.begin.d
 
+  debug = 2;
+//^^^^^ keyword.control.conditional.d
+//      ^ keyword.operator.assignment.d
+//        ^ constant.numeric.d
+//         ^ punctuation.terminator.d
+  version = foo;
+//^^^^^^^ keyword.control.conditional.d
+//        ^ keyword.operator.assignment.d
+//          ^^^ entity.name.constant.d
+//             ^ punctuation.terminator.d
+
   static if (12 + 5):
 //^^^^^^ keyword.control.conditional.d
 //       ^^ keyword.control.conditional.d

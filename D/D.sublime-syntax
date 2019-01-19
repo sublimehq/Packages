@@ -62,6 +62,7 @@ contexts:
     - include: alias-in
     - include: aggregate-in
     - include: enum-in
+    - include: specification-in
     - include: conditional-declaration-in
     - include: static-foreach-in
     - include: static-assert-in
@@ -1040,6 +1041,20 @@ contexts:
             - match: '}'
               scope: punctuation.section.block.end.d
               pop: true
+        - include: not-whitespace-illegal
+  specification-in:
+    - match: '\b(version|debug)\s*(=)'
+      captures:
+        1: keyword.control.conditional.d
+        2: keyword.operator.assignment.d
+      push:
+        - match: '\b{{name}}\b'
+          scope: entity.name.constant.d
+          set: expect-end-of-line
+        # TODO: Use proper integer literals here
+        - match: '[0-9]+'
+          scope: constant.numeric.d
+          set: expect-end-of-line
         - include: not-whitespace-illegal
 
   foreach-condition:
