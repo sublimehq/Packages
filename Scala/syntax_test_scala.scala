@@ -1838,3 +1838,11 @@ val x: Nothing
 fold(a => b, { case c => d })
 //     ^^ storage.type.function.arrow.lambda.scala
 //                    ^^ storage.type.function.arrow.case.scala
+
+gzis =>/* foo */
+//   ^^ storage.type.function.arrow.lambda.scala
+//     ^^^^^^^^^ comment.block.scala
+
+gzis =>// foo
+//   ^^ storage.type.function.arrow.lambda.scala
+//     ^^ comment.line.double-slash.scala punctuation.definition.comment.scala

@@ -197,7 +197,7 @@ contexts:
 
   lambdas:
     # lambda lookahead
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}]))'
       push:
         - match: '{{rightarrow}}'
           scope: storage.type.function.arrow.lambda.scala
