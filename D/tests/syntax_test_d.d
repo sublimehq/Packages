@@ -868,3 +868,83 @@ extern(1)
 //     ^^^^ keyword.control.flow.d
 //          ^ constant.numeric.d
 //           ^ punctuation.terminator.d
+
+  with (2) {}
+//^^^^ keyword.other.with.d
+//     ^ punctuation.section.parens.begin.d
+//      ^ constant.numeric.d
+//       ^ punctuation.section.parens.end.d
+//         ^ punctuation.section.block.begin.d
+//          ^ punctuation.section.block.end.d
+  with (2) 3;
+//^^^^ keyword.other.with.d
+//     ^ punctuation.section.parens.begin.d
+//      ^ constant.numeric.d
+//       ^ punctuation.section.parens.end.d
+//         ^ constant.numeric.d
+
+  synchronized (3) {}
+//^^^^^^^^^^^^ keyword.other.synchronized.d
+//             ^ punctuation.section.parens.begin.d
+//              ^ constant.numeric.d
+//               ^ punctuation.section.parens.end.d
+//                 ^ punctuation.section.block.begin.d
+//                  ^ punctuation.section.block.end.d
+  synchronized(3);
+//^^^^^^^^^^^^ keyword.other.synchronized.d
+//            ^ punctuation.section.parens.begin.d
+//             ^ constant.numeric.d
+//              ^ punctuation.section.parens.end.d
+
+  try {
+//^^^ keyword.control.flow.d
+//    ^ punctuation.section.block.begin.d
+  } catch (int a) {
+//^ punctuation.section.block.end.d
+//  ^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.parens.begin.d
+//         ^^^ storage.type.d
+//             ^ variable.parameter.d
+//              ^ punctuation.section.parens.end.d
+//                ^ punctuation.section.block.begin.d
+  } catch (Throwable; foo a) {
+//^ punctuation.section.block.end.d
+//  ^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.parens.begin.d
+//         ^^^^^^^^^ storage.type.d
+//                  ^ invalid.illegal.d
+//                    ^^^ variable.parameter.d
+//                        ^ invalid.illegal.d
+//                         ^ punctuation.section.parens.end.d
+//                           ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  finally {
+//^^^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  throw 3;
+//^^^^^ keyword.control.flow.d
+//      ^ constant.numeric.d
+
+  scope (exit) {}
+//^^^^^ keyword.control.flow.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^^ keyword.control.flow.d
+//           ^ punctuation.section.parens.end.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
+  scope(failure) {}
+//^^^^^ keyword.control.flow.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^^^^^ keyword.control.flow.d
+//             ^ punctuation.section.parens.end.d
+//               ^ punctuation.section.block.begin.d
+//                ^ punctuation.section.block.end.d
+  scope(success) 2;
+//^^^^^ keyword.control.flow.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^^^^^ keyword.control.flow.d
+//             ^ punctuation.section.parens.end.d
+//               ^ constant.numeric.d

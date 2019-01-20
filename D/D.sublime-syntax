@@ -78,6 +78,11 @@ contexts:
     - include: conditional-in
     - include: loop-in
     - include: flow-statement-in
+    - include: with-in
+    - include: synchronized-in
+    - include: try-in
+    - include: throw-in
+    - include: scope-in
     - include: attribute-specifier-in
     # TODO: Remote these
     - include: number-in
@@ -1183,6 +1188,71 @@ contexts:
           scope: variable.other.constant.d
           set: expect-end-of-line
         - include: not-whitespace-illegal
+  with-in:
+    - match: '\bwith\b'
+      scope: keyword.other.with.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set:
+            - match: '\)'
+              scope: punctuation.section.parens.end.d
+              set: optional-block-statement
+            - include: value-in
+        - include: not-whitespace-illegal
+  synchronized-in:
+    - match: '\bsynchronized\b'
+      scope: keyword.other.synchronized.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set:
+            - match: '\)'
+              scope: punctuation.section.parens.end.d
+              set: optional-block-statement
+            - include: value-in
+        - match: '(?=[^\s])'
+          set: optional-block-statement
+  try-in:
+    - match: '\btry\b'
+      scope: keyword.control.flow.d
+      push: optional-block-statement
+    - match: '\bcatch\b'
+      scope: keyword.control.flow.d
+      push: [optional-block-statement, catch-arguments]
+    - match: '\bfinally\b'
+      scope: keyword.control.flow.d
+      push: optional-block-statement
+  catch-arguments:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [catch-arguments-after, type]
+    - include: not-whitespace-illegal
+  catch-arguments-after:
+    - match: '\b{{name}}\b'
+      scope: variable.parameter.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  throw-in:
+    - match: '\bthrow\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: ';'
+          scope: punctuation.terminator.d
+          pop: true
+        - include: value-in
+  scope-in:
+    - match: '\b(scope)\s*(\()(exit|success|failure)(\))'
+      captures:
+        1: keyword.control.flow.d
+        2: punctuation.section.parens.begin.d
+        3: keyword.control.flow.d
+        4: punctuation.section.parens.end.d
+      push: optional-block-statement
 
   for-condition:
     - match: '\('
