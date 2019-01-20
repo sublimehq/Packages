@@ -149,10 +149,10 @@ hex = 0X1;
   @foo:
 //^ punctuation.definition.annotation.begin.d
 // ^^^ variable.other.constant.d
-//    ^ punctuation.section.d
-  @(void)@safer@Foo(2, 4)@property
+//    ^ punctuation.separator.d
+  @("oo")@safer@Foo(2, 4)@property
 //^^ punctuation.definition.annotation.begin.d
-//  ^^^^ storage.type.d
+//  ^^^^ string.quoted.double.d
 //       ^ punctuation.definition.annotation.begin.d
 //        ^^^^^ variable.other.constant.d
 //             ^ punctuation.definition.annotation.begin.d
@@ -519,6 +519,24 @@ extern(1)
 //                    ^^^^ keyword.control.conditional.d
 //                         ^ punctuation.section.block.begin.d
 //                          ^ punctuation.section.block.end.d
+  static if (0) {
+//^^^^^^ keyword.control.conditional.d
+//       ^^ keyword.control.conditional.d
+//          ^ punctuation.section.brackets.begin.d
+//           ^ constant.numeric.d
+//            ^ punctuation.section.brackets.end.d
+//              ^ punctuation.section.block.begin.d
+  } else static if (1) {
+//^ punctuation.section.block.end.d
+//  ^^^^ keyword.control.conditional.d
+//       ^^^^^^ keyword.control.conditional.d
+//              ^^ keyword.control.conditional.d
+//                 ^ punctuation.section.brackets.begin.d
+//                  ^ constant.numeric.d
+//                   ^ punctuation.section.brackets.end.d
+//                     ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   static foreach (foo; 12 .. 3) {
 //^^^^^^ keyword.control.flow.d
@@ -710,3 +728,143 @@ extern(1)
 //          ^ punctuation.definition.string.end.d
 //           ^ punctuation.section.parens.end.d
 //            ^ punctuation.terminator.d
+
+  foo:
+//^^^ entity.name.label.d
+//   ^ punctuation.separator.d
+
+  if (2) {
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^ constant.numeric.d
+//     ^ punctuation.section.brackets.end.d
+//       ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  if (1) {} else {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^ constant.numeric.d
+//     ^ punctuation.section.brackets.end.d
+//       ^ punctuation.section.block.begin.d
+//        ^ punctuation.section.block.end.d
+//          ^^^^ keyword.control.conditional.d
+//               ^ punctuation.section.block.begin.d
+//                ^ punctuation.section.block.end.d
+  if (1) 1;
+  if (1) {} else 1;
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.brackets.begin.d
+//    ^ constant.numeric.d
+//     ^ punctuation.section.brackets.end.d
+//       ^ punctuation.section.block.begin.d
+//        ^ punctuation.section.block.end.d
+//          ^^^^ keyword.control.conditional.d
+//               ^ constant.numeric.d
+
+  while (2) 1;
+//^^^^^ keyword.control.flow.d
+//      ^ punctuation.section.brackets.begin.d
+//       ^ constant.numeric.d
+//        ^ punctuation.section.brackets.end.d
+//          ^ constant.numeric.d
+  while (2)
+//^^^^^ keyword.control.flow.d
+//      ^ punctuation.section.brackets.begin.d
+//       ^ constant.numeric.d
+//        ^ punctuation.section.brackets.end.d
+  {
+//^ punctuation.section.block.begin.d
+    do 2;
+  //^^ keyword.control.flow.d
+  //   ^ constant.numeric.d
+    while (3);
+  //^^^^^ keyword.control.flow.d
+  //      ^ punctuation.section.brackets.begin.d
+  //       ^ constant.numeric.d
+  //        ^ punctuation.section.brackets.end.d
+    do
+  //^^ keyword.control.flow.d
+    {
+  //^ punctuation.section.block.begin.d
+    } while (1);
+  //^ punctuation.section.block.end.d
+  //  ^^^^^ keyword.control.flow.d
+  //        ^ punctuation.section.brackets.begin.d
+  //         ^ constant.numeric.d
+  //          ^ punctuation.section.brackets.end.d
+  }
+//^ punctuation.section.block.end.d
+  for (1; 2; 3) {
+//^^^ keyword.control.flow.d
+//    ^ punctuation.section.parens.begin.d
+//     ^ constant.numeric.d
+//      ^ punctuation.separator.sequence.d
+//        ^ constant.numeric.d
+//         ^ punctuation.separator.sequence.d
+//           ^ constant.numeric.d
+//            ^ punctuation.section.parens.end.d
+//              ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
+  foreach (int a; 2) {
+//^^^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.brackets.begin.d
+//         ^^^ storage.type.d
+//             ^ variable.other.d
+//              ^ punctuation.separator.sequence.d
+//                ^ constant.numeric.d
+//                 ^ punctuation.section.brackets.end.d
+//                   ^ punctuation.section.block.begin.d
+    foreach_reverse (int a; 2) {
+  //^^^^^^^^^^^^^^^ keyword.control.flow.d
+  //                ^ punctuation.section.brackets.begin.d
+  //                 ^^^ storage.type.d
+  //                     ^ variable.other.d
+  //                      ^ punctuation.separator.sequence.d
+  //                        ^ constant.numeric.d
+  //                         ^ punctuation.section.brackets.end.d
+  //                           ^ punctuation.section.block.begin.d
+    }
+  //^ punctuation.section.block.end.d
+  }
+//^ punctuation.section.block.end.d
+
+  continue;
+//^^^^^^^^ keyword.control.flow.d
+//        ^ punctuation.terminator.d
+  continue foo;
+//^^^^^^^^ keyword.control.flow.d
+//         ^^^ variable.other.constant.d
+//            ^ punctuation.terminator.d
+  break;
+//^^^^^ keyword.control.flow.d
+//     ^ punctuation.terminator.d
+  break foo;
+//^^^^^ keyword.control.flow.d
+//      ^^^ variable.other.constant.d
+//         ^ punctuation.terminator.d
+  return;
+//^^^^^^ keyword.control.flow.d
+//      ^ punctuation.terminator.d
+  return 2;
+//^^^^^^ keyword.control.flow.d
+//       ^ constant.numeric.d
+//        ^ punctuation.terminator.d
+  goto foo;
+//^^^^ keyword.control.flow.d
+//     ^^^ variable.other.constant.d
+//        ^ punctuation.terminator.d
+  goto default;
+//^^^^ keyword.control.flow.d
+//     ^^^^^^^ keyword.control.flow.d
+//            ^ punctuation.terminator.d
+  goto case;
+//^^^^ keyword.control.flow.d
+//     ^^^^ keyword.control.flow.d
+//         ^ punctuation.terminator.d
+  goto case 2;
+//^^^^ keyword.control.flow.d
+//     ^^^^ keyword.control.flow.d
+//          ^ constant.numeric.d
+//           ^ punctuation.terminator.d
