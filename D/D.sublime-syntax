@@ -83,6 +83,7 @@ contexts:
     - include: try-in
     - include: throw-in
     - include: scope-in
+    - include: asm-in
     - include: attribute-specifier-in
     # TODO: Remote these
     - include: number-in
@@ -400,8 +401,10 @@ contexts:
     - match: '{{name}}'
     - match: '(/|&|\||-|\+|<<|<>|>>|>>>||\*|%|\^|\^\^|~)='
       scope: keyword.operator.assignment.d
-    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\(|\)|\[|\]|{|}|\?|,|;|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
+    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\(|\)|\[|\]|{|}|\?|,|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
       scope: keyword.operator.d
+    - match: ';'
+      scope: punctuation.terminator.d
     - match: '\.'
       scope: keyword.operator.d
     - include: not-whitespace-illegal
@@ -1253,6 +1256,19 @@ contexts:
         3: keyword.control.flow.d
         4: punctuation.section.parens.end.d
       push: optional-block-statement
+  asm-in:
+    - match: '\basm\b'
+      scope: keyword.declaration.asm.d
+      push:
+        - include: attribute-in
+        - match: '{'
+          scope: punctuation.section.block.begin.d
+          set:
+            - match: '}'
+              scope: punctuation.section.block.end.d
+              pop: true
+            - include: tokens-in
+        - include: not-whitespace-illegal
 
   for-condition:
     - match: '\('

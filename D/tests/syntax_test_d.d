@@ -948,3 +948,21 @@ extern(1)
 //      ^^^^^^^ keyword.control.flow.d
 //             ^ punctuation.section.parens.end.d
 //               ^ constant.numeric.d
+
+  asm {
+//^^^ keyword.declaration.asm.d
+//    ^ punctuation.section.block.begin.d
+    foo; // foo
+//     ^ punctuation.terminator.d
+//       ^^^^^^ comment.line.double-slash.d
+    foo bar;
+//         ^ punctuation.terminator.d
+  }
+//^ punctuation.section.block.end.d
+  asm nothrow @safe {}
+//^^^ keyword.declaration.asm.d
+//    ^^^^^^^ storage.modifier.d
+//            ^ punctuation.definition.annotation.begin.d
+//             ^^^^ storage.attribute.d
+//                  ^ punctuation.section.block.begin.d
+//                   ^ punctuation.section.block.end.d
