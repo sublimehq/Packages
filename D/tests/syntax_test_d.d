@@ -163,18 +163,17 @@ hex = 0X1;
 //                      ^ punctuation.definition.annotation.end.d
 //                       ^ punctuation.definition.annotation.begin.d
 //                        ^^^^^^^^ storage.attribute.d
-  static shared const immutable auto final synchronized __gshared nothrow pure ref
+  static shared const immutable auto final __gshared nothrow pure ref
 //^^^^^^ storage.modifier.d
 //       ^^^^^^ storage.modifier.d
 //              ^^^^^ storage.modifier.d
 //                    ^^^^^^^^^ storage.modifier.d
 //                              ^^^^ storage.modifier.d
 //                                   ^^^^^ storage.modifier.d
-//                                         ^^^^^^^^^^^^ storage.modifier.d
-//                                                      ^^^^^^^^^ storage.modifier.d
-//                                                                ^^^^^^^ storage.modifier.d
-//                                                                        ^^^^ storage.modifier.d
-//                                                                             ^^^ storage.modifier.d
+//                                         ^^^^^^^^^ storage.modifier.d
+//                                                   ^^^^^^^ storage.modifier.d
+//                                                           ^^^^ storage.modifier.d
+//                                                                ^^^ storage.modifier.d
   extern(C) extern (C++, foo.a)
 //^^^^^^ keyword.other.external.d
 //      ^ punctuation.definition.annotation.begin.d
