@@ -217,20 +217,20 @@ contexts:
     #   scope: comment.block.empty.d punctuation.definition.comment.d
     # - include: scope:text.html.javadoc
 
-    - match: /\*
+    - match: /\*\*?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
         - match: \*/
           scope: punctuation.definition.comment.d
           pop: true
-    - match: (//).*$
+    - match: (///?).*$
       scope: comment.line.double-slash.d
       captures:
         1: punctuation.definition.comment.d
     - include: nested-comment
   nested-comment:
-    - match: /\+
+    - match: /\+\+?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
