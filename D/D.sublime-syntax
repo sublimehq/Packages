@@ -17,8 +17,15 @@ variables:
   string_postfix: '[cwd]?'
   escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
   hex_char: '[0-9a-fA-F]'
+  hex_or_under: '(?:{{hex_char}}|_)'
   type_ctor: 'const|immutable|inout|shared'
   type2_look_ahead: '(?=\*|\[|\bdelegate\b|\bfunction\b)'
+
+  integer_lookahead: '(?=\b[0-9])'
+  integer_suffix: 'L[uU]|[uU]L|[LuU]'
+  integer_float_suffix: '[fF]i?|i'
+  float_suffix: '[fFL]i?|i'
+  float_exponent: '[eE][+\-]?[0-9]+'
 
   attribute_lookahead: '(?={{attributes}}|@)'
   attributes: 'static|abstract|final|override|synchronized|auto|scope|const|immutable|inout|shared|__gshared|nothrow|pure|ref|return'
@@ -232,25 +239,84 @@ contexts:
           pop: true
         - include: nested-comment
   number-in:
-    # TODO: Hex floats
-    - match: |-
-        (?x)
-        (
-          (\b0[xX]{{hex_char}}+(_{{hex_char}}+)*)            # 0x0, 0X0, 0x000_000
-          |
-          (\b0[bB][01]+(_[01]+)*)
-          |
-          (
-            (\b[0-9]+(_[0-9]+)*\.?([0-9]+_[0-9]+)?[0-9]*)  # 0.0, 0_0.0, 0.0_0
-            |
-            (\.[0-9]+(_[0-9]+)*)                           # .0, .0_0
-          )((e|E)(\+|-)?[0-9]+)?                           # 0e+5
-        )
-        (L[uU]|[uU]L|[LuU])?                                # 0l, 0U, 0Lu, 0UL
-        \b
+    - match: '(?=(\b|\.)[0-9])'
+      push: number
+  number:
+    - include: floating-point-opt
+    - include: integer-opt
+    - include: not-whitespace-illegal
+  integer:
+    - include: integer-opt
+    - include: not-whitespace-illegal
+  integer-opt:
+    - match: '\b(0|[1-9][0-9_]*)({{integer_suffix}})?\b'
       captures:
-        1: constant.numeric.d
-        15: storage.type.integer.d
+        1: constant.numeric.integer.d
+        2: storage.type.integer.d
+      pop: true
+    - match: '\b(0[bB])([01][01_]*)({{integer_suffix}})?\b'
+      captures:
+        1: storage.modifier.d
+        2: constant.numeric.binary.d
+        3: storage.type.integer.d
+      pop: true
+    - match: '\b(0[xX])({{hex_char}}(?:_|{{hex_char}})*)({{integer_suffix}})?\b'
+      captures:
+        1: storage.modifier.d
+        2: constant.numeric.hex.d
+        3: storage.type.integer.d
+      pop: true
+  floating-point:
+    - include: floating-point-opt
+    - include: not-whitespace-illegal
+  floating-point-opt:
+    - match: '\b(0[xX])({{hex_or_under}}*\.?{{hex_or_under}}+)([pP][+\-]?[0-9]+)({{float_suffix}})?\b'
+      captures:
+        1: storage.modifier.d
+        2: constant.numeric.float.d
+        3: constant.numeric.float.d
+        4: storage.type.float.d
+      pop: true
+    - match: '\b(0|[1-9][0-9_]*)({{integer_float_suffix}})\b'
+      captures:
+        1: constant.numeric.float.d
+        2: storage.type.float.d
+      pop: true
+    - match: '\b(0[bB])([01][01_]*)({{integer_float_suffix}})\b'
+      captures:
+        1: storage.modifier.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b(0[xX])({{hex_char}}{{hex_or_under}}*)({{integer_float_suffix}})\b'
+      captures:
+        1: storage.modifier.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*\.)({{float_suffix}})?'
+      captures:
+        1: constant.numeric.float.d
+        2: storage.type.float.d
+      pop: true
+    - match: '(\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*)({{float_exponent}})({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
   character-in:
     - match: \'(?:({{escape_sequence}})|[^\\'])\'
       scope: string.quoted.single.d
@@ -986,10 +1052,8 @@ contexts:
         - match: '\b({{name}})\b'
           scope: constant.other.d
           set: version-condition-end
-        # TODO: Use proper integer literals here
-        - match: '\b([0-9]+)\b'
-          scope: constant.numeric.d
-          set: version-condition-end
+        - match: '{{integer_lookahead}}'
+          set: [version-condition-end, integer]
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
   version-condition-end:
@@ -1004,10 +1068,8 @@ contexts:
         - match: '\b({{name}})\b'
           scope: constant.other.d
           set: version-condition-end
-        # TODO: Use proper integer literals here
-        - match: '\b([0-9]+)\b'
-          scope: constant.numeric.d
-          set: version-condition-end
+        - match: '{{integer_lookahead}}'
+          set: [version-condition-end, integer]
         - include: not-whitespace-illegal
     - match: '(?={|:)'
       pop: true
@@ -1086,10 +1148,8 @@ contexts:
         - match: '\b{{name}}\b'
           scope: entity.name.constant.d
           set: expect-end-of-line
-        # TODO: Use proper integer literals here
-        - match: '[0-9]+'
-          scope: constant.numeric.d
-          set: expect-end-of-line
+        - match: '{{integer_lookahead}}'
+          set: [expect-end-of-line, integer]
         - include: not-whitespace-illegal
   template-in:
     - match: '\b(template)\b'

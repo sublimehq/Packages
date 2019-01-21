@@ -79,7 +79,7 @@ auto tokenString = q{
 //       ^^ source.d keyword.d
 //          ^^^^^^^^^^^^^ source.d
 //              ^^^^ source.d storage.type.d
-//                        ^^ source.d constant.numeric.d
+//                        ^^ source.d constant.numeric.integer.d
     /*}*/
 //  ^^ punctuation.definition.comment.d
 //     ^^ punctuation.definition.comment.d
@@ -110,41 +110,80 @@ c = '';
 c = ''';
 //  ^^ invalid.illegal.d
 
-auto dec = 2_0_000;
-//         ^^^^^^^ constant.numeric.d
+auto dec = 2_0__000;
+//         ^^^^^^^^ constant.numeric.integer.d
 dec = 1L;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ storage.type.integer.d
 dec = 1u;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ storage.type.integer.d
 dec = 1U;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ storage.type.integer.d
 dec = 1Lu;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^^ storage.type.integer.d
 dec = 1LU;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^^ storage.type.integer.d
 dec = 1uL;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^^ storage.type.integer.d
 dec = 1UL;
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^^ storage.type.integer.d
 auto bin = 0b1;
-//         ^^^ constant.numeric.d
-bin = 0b10_1;
-//    ^^^^^^ constant.numeric.d
+//         ^^ storage.modifier.d
+//           ^ constant.numeric.binary.d
+bin = 0b10__1;
+//    ^^ storage.modifier.d
+//      ^^^^^ constant.numeric.binary.d
 bin = 0B1;
-//    ^^^ constant.numeric.d
+//    ^^ storage.modifier.d
+//      ^ constant.numeric.binary.d
 auto hex = 0xF;
-//         ^^^ constant.numeric.d
+//         ^^ storage.modifier.d
+//           ^ constant.numeric.hex.d
 hex = 0x012_3;
-//    ^^^^^^^ constant.numeric.d
+//    ^^ storage.modifier.d
+//      ^^^^^ constant.numeric.hex.d
 hex = 0X1;
-//    ^^^ constant.numeric.d
+//    ^^ storage.modifier.d
+//      ^ constant.numeric.hex.d
+
+auto f = 0_.0_;
+//       ^^^ constant.numeric.float.d
+f = 0_.;
+//  ^^ constant.numeric.float.d
+f = .123_1243;
+//  ^^^^^^^^^ constant.numeric.float.d
+f = 2313472389742e1i;
+//  ^^^^^^^^^^^^^^^ constant.numeric.float.d
+//                 ^ storage.type.float.d
+f = 3423.2e-45;
+//  ^^^^^^^^^ constant.numeric.float.d
+f = .4E+4L;
+//  ^^^^^ constant.numeric.float.d
+//       ^ storage.type.float.d
+f =  1f;
+//   ^ constant.numeric.float.d
+//    ^ storage.type.float.d
+f = 0x123f;
+//  ^^ storage.modifier.d
+//    ^^^ constant.numeric.float.d
+//       ^ storage.type.float.d
+f = 0b10101101f;
+//  ^^ storage.modifier.d
+//    ^^^^^^^^ constant.numeric.float.d
+//            ^ storage.type.float.d
+f = 0x.1aFp2;
+//  ^^ storage.modifier.d
+//    ^^^^^^ constant.numeric.float.d
+f = 0xF.AP-2f;
+//  ^^ storage.modifier.d
+//    ^^^^^^ constant.numeric.float.d
+//          ^ storage.type.float.d
 
   @foo:
 //^ punctuation.definition.annotation.begin.d
@@ -158,8 +197,8 @@ hex = 0X1;
 //             ^ punctuation.definition.annotation.begin.d
 //              ^^^ variable.function.d
 //                 ^ punctuation.definition.annotation.begin.d
-//                  ^ constant.numeric.d
-//                     ^ constant.numeric.d
+//                  ^ constant.numeric.integer.d
+//                     ^ constant.numeric.integer.d
 //                      ^ punctuation.definition.annotation.end.d
 //                       ^ punctuation.definition.annotation.begin.d
 //                        ^^^^^^^^ storage.attribute.d
@@ -190,11 +229,11 @@ extern(1)
   align(1) align(foo * 2)
 //^^^^^ keyword.other.alignment.d
 //     ^ punctuation.definition.annotation.begin.d
-//      ^ constant.numeric.d
+//      ^ constant.numeric.integer.d
 //       ^ punctuation.definition.annotation.end.d
 //         ^^^^^ keyword.other.alignment.d
 //              ^ punctuation.definition.annotation.begin.d
-//                     ^ constant.numeric.d
+//                     ^ constant.numeric.integer.d
 //                      ^ punctuation.definition.annotation.end.d
   deprecated
 //^^^^^^^^^^ keyword.other.deprecated.d
@@ -323,7 +362,7 @@ extern(1)
 //          ^ keyword.operator.other.d
 //            ^ variable.other.d
 //              ^ keyword.operator.assignment.d
-//                ^^^ constant.numeric.d
+//                ^^^ constant.numeric.integer.d
 //                   ^ punctuation.terminator.d
   bar* some_long_Name;
 //^^^ storage.type.d
@@ -404,7 +443,7 @@ extern(1)
     bar = 2,
   //^^^ entity.name.constant.d
   //    ^ keyword.operator.assignment.d
-  //      ^ constant.numeric.d
+  //      ^ constant.numeric.integer.d
   //       ^ punctuation.separator.sequence.d
   }
 //^ punctuation.section.block.end.d
@@ -416,7 +455,7 @@ extern(1)
 //               ^ punctuation.section.block.begin.d
 //                 ^ entity.name.constant.d
 //                   ^ keyword.operator.assignment.d
-//                     ^^ constant.numeric.d
+//                     ^^ constant.numeric.integer.d
 //                        ^ punctuation.section.block.end.d
   enum : foo[stirng] { TEST }
 //^^^^ storage.type.enum.d
@@ -434,7 +473,7 @@ extern(1)
 //       ^^^ storage.type.d
 //           ^ entity.name.constant.d
 //             ^ keyword.operator.assignment.d
-//               ^^ constant.numeric.d
+//               ^^ constant.numeric.integer.d
 //                 ^ punctuation.separator.sequence.d
     Foo
   //^^^ entity.name.constant.d
@@ -465,7 +504,7 @@ extern(1)
   version(1):
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.brackets.begin.d
-//        ^ constant.numeric.d
+//        ^ constant.numeric.integer.d
 //         ^ punctuation.section.brackets.end.d
 //          ^ punctuation.section.block.begin.d
 
@@ -492,7 +531,7 @@ extern(1)
   debug = 2;
 //^^^^^ keyword.control.conditional.d
 //      ^ keyword.operator.assignment.d
-//        ^ constant.numeric.d
+//        ^ constant.numeric.integer.d
 //         ^ punctuation.terminator.d
   version = foo;
 //^^^^^^^ keyword.control.conditional.d
@@ -504,8 +543,8 @@ extern(1)
 //^^^^^^ keyword.control.conditional.d
 //       ^^ keyword.control.conditional.d
 //          ^ punctuation.section.brackets.begin.d
-//           ^^ constant.numeric.d
-//                ^ constant.numeric.d
+//           ^^ constant.numeric.integer.d
+//                ^ constant.numeric.integer.d
 //                 ^ punctuation.section.brackets.end.d
 //                  ^ punctuation.section.block.begin.d
   static if (true) {} else {}
@@ -522,7 +561,7 @@ extern(1)
 //^^^^^^ keyword.control.conditional.d
 //       ^^ keyword.control.conditional.d
 //          ^ punctuation.section.brackets.begin.d
-//           ^ constant.numeric.d
+//           ^ constant.numeric.integer.d
 //            ^ punctuation.section.brackets.end.d
 //              ^ punctuation.section.block.begin.d
   } else static if (1) {
@@ -531,7 +570,7 @@ extern(1)
 //       ^^^^^^ keyword.control.conditional.d
 //              ^^ keyword.control.conditional.d
 //                 ^ punctuation.section.brackets.begin.d
-//                  ^ constant.numeric.d
+//                  ^ constant.numeric.integer.d
 //                   ^ punctuation.section.brackets.end.d
 //                     ^ punctuation.section.block.begin.d
   }
@@ -543,8 +582,8 @@ extern(1)
 //               ^ punctuation.section.brackets.begin.d
 //                ^^^ variable.other.d
 //                   ^ punctuation.separator.sequence.d
-//                     ^^ constant.numeric.d
-//                           ^ constant.numeric.d
+//                     ^^ constant.numeric.integer.d
+//                           ^ constant.numeric.integer.d
 //                            ^ punctuation.section.brackets.end.d
 //                              ^ punctuation.section.block.begin.d
     static foreach (int a; 123) {
@@ -554,7 +593,7 @@ extern(1)
   //                ^^^ storage.type.d
   //                    ^ variable.other.d
   //                     ^ punctuation.separator.sequence.d
-  //                       ^^^ constant.numeric.d
+  //                       ^^^ constant.numeric.integer.d
   //                          ^ punctuation.section.brackets.end.d
   //                            ^ punctuation.section.block.begin.d
     }
@@ -566,7 +605,7 @@ extern(1)
 //^^^^^^ keyword.control.conditional.d
 //       ^^^^^^ keyword.control.conditional.d
 //             ^ punctuation.section.brackets.begin.d
-//              ^^ constant.numeric.d
+//              ^^ constant.numeric.integer.d
 //                ^ punctuation.section.brackets.end.d
 //                 ^ punctuation.terminator.d
 
@@ -659,7 +698,7 @@ extern(1)
   invariant(0, "test") {
 //^^^^^^^^^ keyword.control.flow.d
 //         ^ punctuation.section.brackets.begin.d
-//          ^ constant.numeric.d
+//          ^ constant.numeric.integer.d
 //           ^ punctuation.separator.sequence.d
 //             ^^^^^^ string.quoted.double.d
 //                   ^ punctuation.section.brackets.end.d
@@ -735,7 +774,7 @@ extern(1)
   if (2) {
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.brackets.begin.d
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ punctuation.section.brackets.end.d
 //       ^ punctuation.section.block.begin.d
   }
@@ -743,7 +782,7 @@ extern(1)
   if (1) {} else {}
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.brackets.begin.d
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ punctuation.section.brackets.end.d
 //       ^ punctuation.section.block.begin.d
 //        ^ punctuation.section.block.end.d
@@ -754,33 +793,33 @@ extern(1)
   if (1) {} else 1;
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.brackets.begin.d
-//    ^ constant.numeric.d
+//    ^ constant.numeric.integer.d
 //     ^ punctuation.section.brackets.end.d
 //       ^ punctuation.section.block.begin.d
 //        ^ punctuation.section.block.end.d
 //          ^^^^ keyword.control.conditional.d
-//               ^ constant.numeric.d
+//               ^ constant.numeric.integer.d
 
   while (2) 1;
 //^^^^^ keyword.control.flow.d
 //      ^ punctuation.section.brackets.begin.d
-//       ^ constant.numeric.d
+//       ^ constant.numeric.integer.d
 //        ^ punctuation.section.brackets.end.d
-//          ^ constant.numeric.d
+//          ^ constant.numeric.integer.d
   while (2)
 //^^^^^ keyword.control.flow.d
 //      ^ punctuation.section.brackets.begin.d
-//       ^ constant.numeric.d
+//       ^ constant.numeric.integer.d
 //        ^ punctuation.section.brackets.end.d
   {
 //^ punctuation.section.block.begin.d
     do 2;
   //^^ keyword.control.flow.d
-  //   ^ constant.numeric.d
+  //   ^ constant.numeric.integer.d
     while (3);
   //^^^^^ keyword.control.flow.d
   //      ^ punctuation.section.brackets.begin.d
-  //       ^ constant.numeric.d
+  //       ^ constant.numeric.integer.d
   //        ^ punctuation.section.brackets.end.d
     do
   //^^ keyword.control.flow.d
@@ -790,18 +829,18 @@ extern(1)
   //^ punctuation.section.block.end.d
   //  ^^^^^ keyword.control.flow.d
   //        ^ punctuation.section.brackets.begin.d
-  //         ^ constant.numeric.d
+  //         ^ constant.numeric.integer.d
   //          ^ punctuation.section.brackets.end.d
   }
 //^ punctuation.section.block.end.d
   for (1; 2; 3) {
 //^^^ keyword.control.flow.d
 //    ^ punctuation.section.parens.begin.d
-//     ^ constant.numeric.d
+//     ^ constant.numeric.integer.d
 //      ^ punctuation.separator.sequence.d
-//        ^ constant.numeric.d
+//        ^ constant.numeric.integer.d
 //         ^ punctuation.separator.sequence.d
-//           ^ constant.numeric.d
+//           ^ constant.numeric.integer.d
 //            ^ punctuation.section.parens.end.d
 //              ^ punctuation.section.block.begin.d
   }
@@ -812,7 +851,7 @@ extern(1)
 //         ^^^ storage.type.d
 //             ^ variable.other.d
 //              ^ punctuation.separator.sequence.d
-//                ^ constant.numeric.d
+//                ^ constant.numeric.integer.d
 //                 ^ punctuation.section.brackets.end.d
 //                   ^ punctuation.section.block.begin.d
     foreach_reverse (int a; 2) {
@@ -821,7 +860,7 @@ extern(1)
   //                 ^^^ storage.type.d
   //                     ^ variable.other.d
   //                      ^ punctuation.separator.sequence.d
-  //                        ^ constant.numeric.d
+  //                        ^ constant.numeric.integer.d
   //                         ^ punctuation.section.brackets.end.d
   //                           ^ punctuation.section.block.begin.d
     }
@@ -848,7 +887,7 @@ extern(1)
 //      ^ punctuation.terminator.d
   return 2;
 //^^^^^^ keyword.control.flow.d
-//       ^ constant.numeric.d
+//       ^ constant.numeric.integer.d
 //        ^ punctuation.terminator.d
   goto foo;
 //^^^^ keyword.control.flow.d
@@ -865,34 +904,34 @@ extern(1)
   goto case 2;
 //^^^^ keyword.control.flow.d
 //     ^^^^ keyword.control.flow.d
-//          ^ constant.numeric.d
+//          ^ constant.numeric.integer.d
 //           ^ punctuation.terminator.d
 
   with (2) {}
 //^^^^ keyword.other.with.d
 //     ^ punctuation.section.parens.begin.d
-//      ^ constant.numeric.d
+//      ^ constant.numeric.integer.d
 //       ^ punctuation.section.parens.end.d
 //         ^ punctuation.section.block.begin.d
 //          ^ punctuation.section.block.end.d
   with (2) 3;
 //^^^^ keyword.other.with.d
 //     ^ punctuation.section.parens.begin.d
-//      ^ constant.numeric.d
+//      ^ constant.numeric.integer.d
 //       ^ punctuation.section.parens.end.d
-//         ^ constant.numeric.d
+//         ^ constant.numeric.integer.d
 
   synchronized (3) {}
 //^^^^^^^^^^^^ keyword.other.synchronized.d
 //             ^ punctuation.section.parens.begin.d
-//              ^ constant.numeric.d
+//              ^ constant.numeric.integer.d
 //               ^ punctuation.section.parens.end.d
 //                 ^ punctuation.section.block.begin.d
 //                  ^ punctuation.section.block.end.d
   synchronized(3);
 //^^^^^^^^^^^^ keyword.other.synchronized.d
 //            ^ punctuation.section.parens.begin.d
-//             ^ constant.numeric.d
+//             ^ constant.numeric.integer.d
 //              ^ punctuation.section.parens.end.d
 
   try {
@@ -925,7 +964,7 @@ extern(1)
 //^ punctuation.section.block.end.d
   throw 3;
 //^^^^^ keyword.control.flow.d
-//      ^ constant.numeric.d
+//      ^ constant.numeric.integer.d
 
   scope (exit) {}
 //^^^^^ keyword.control.flow.d
@@ -946,7 +985,7 @@ extern(1)
 //     ^ punctuation.section.parens.begin.d
 //      ^^^^^^^ keyword.control.flow.d
 //             ^ punctuation.section.parens.end.d
-//               ^ constant.numeric.d
+//               ^ constant.numeric.integer.d
 
   asm {
 //^^^ keyword.declaration.asm.d
