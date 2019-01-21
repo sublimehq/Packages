@@ -831,14 +831,19 @@ contexts:
         - match: '\b({{name}})\b'
           scope: entity.name.class.d
           set:
-            - include: end-of-line
-            - match: ':'
-              scope: punctuation.separator.mapping.d
-              set: [class-body, base-class-list]
-            - match: '(?={)'
-              set: class-body
-            - include: not-whitespace-illegal
+            - match: '(?=\()'
+              set: [class-after, function-argument-definition-list]
+            - match: '(?=[^\s])'
+              set: class-after
         - include: not-whitespace-illegal
+  class-after:
+    - include: end-of-line
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [class-body, base-class-list]
+    - match: '(?={)'
+      set: class-body
+    - include: not-whitespace-illegal
   base-class-list:
     - match: '{{type_look_ahead}}'
       set: [base-class-list-after, basic-type]
@@ -857,7 +862,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        # TODO: Don't use statement-list-in
         - include: statement-list-in
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
@@ -868,14 +872,19 @@ contexts:
         - match: '\b({{name}})\b'
           scope: entity.name.interface.d
           set:
-            - include: end-of-line
-            - match: ':'
-              scope: punctuation.separator.mapping.d
-              set: [interface-body, base-class-list]
-            - match: '(?={)'
-              set: interface-body
-            - include: not-whitespace-illegal
+            - match: '(?=\()'
+              set: [interface-after, function-argument-definition-list]
+            - match: '(?=[^\s])'
+              set: interface-after
         - include: not-whitespace-illegal
+  interface-after:
+    - include: end-of-line
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [interface-body, base-class-list]
+    - match: '(?={)'
+      set: interface-body
+    - include: not-whitespace-illegal
   interface-body:
     - match: '{'
       scope: punctuation.section.block.begin.d
@@ -883,7 +892,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        # TODO: Don't use statement-list-in
         - include: statement-list-in
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
@@ -894,13 +902,18 @@ contexts:
         - match: '\b({{name}})\b'
           scope: entity.name.struct.d
           set:
-            - include: end-of-line
-            - match: '(?={)'
-              set: struct-body
-            - include: not-whitespace-illegal
+            - match: '(?=\()'
+              set: [struct-after, function-argument-definition-list]
+            - match: '(?=[^\s])'
+              set: struct-after
         - match: '(?={)'
           set: struct-body
         - include: not-whitespace-illegal
+  struct-after:
+    - include: end-of-line
+    - match: '(?={)'
+      set: struct-body
+    - include: not-whitespace-illegal
   struct-body:
     - match: '{'
       scope: punctuation.section.block.begin.d
@@ -908,7 +921,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        # TODO: Don't use statement-list-in
         - include: statement-list-in
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
@@ -919,13 +931,18 @@ contexts:
         - match: '\b({{name}})\b'
           scope: entity.name.union.d
           set:
-            - include: end-of-line
-            - match: '(?={)'
-              set: union-body
-            - include: not-whitespace-illegal
+            - match: '(?=\()'
+              set: [union-after, function-argument-definition-list]
+            - match: '(?=[^\s])'
+              set: union-after
         - match: '(?={)'
           set: union-body
         - include: not-whitespace-illegal
+  union-after:
+    - include: end-of-line
+    - match: '(?={)'
+      set: union-body
+    - include: not-whitespace-illegal
   union-body:
     - match: '{'
       scope: punctuation.section.block.begin.d
@@ -933,7 +950,6 @@ contexts:
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
-        # TODO: Don't use statement-list-in
         - include: statement-list-in
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal

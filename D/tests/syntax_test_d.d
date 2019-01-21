@@ -390,6 +390,18 @@ extern(1)
   //         ^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  class b(T, int s) {
+//^^^^^ storage.type.class.d
+//      ^ entity.name.class.d
+//       ^ punctuation.section.group.begin.d
+//        ^ storage.type.d
+//         ^ punctuation.separator.sequence.d
+//           ^^^ storage.type.d
+//               ^ variable.parameter.d
+//                ^ punctuation.section.group.end.d
+//                  ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   interface S;
 //^^^^^^^^^ storage.type.interface.d
@@ -410,6 +422,18 @@ extern(1)
   //            ^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  interface A(T, float f) {
+//^^^^^^^^^ storage.type.interface.d
+//          ^ entity.name.interface.d
+//           ^ punctuation.section.group.begin.d
+//            ^ storage.type.d
+//             ^ punctuation.separator.sequence.d
+//               ^^^^^ storage.type.d
+//                     ^ variable.parameter.d
+//                      ^ punctuation.section.group.end.d
+//                        ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   struct Foo {
 //^^^^^^ storage.type.struct.d
@@ -426,12 +450,35 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  struct F(int a, T) {
+//^^^^^^ storage.type.struct.d
+//       ^ entity.name.struct.d
+//        ^ punctuation.section.group.begin.d
+//         ^^^ storage.type.d
+//             ^ variable.parameter.d
+//              ^ punctuation.separator.sequence.d
+//                ^ storage.type.d
+//                 ^ punctuation.section.group.end.d
+//                   ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   union Foo {}
 //^^^^^ storage.type.union.d
 //      ^^^ entity.name.union.d
 //          ^ punctuation.section.block.begin.d
 //           ^ punctuation.section.block.end.d
+  union Test(string s, F) {}
+//^^^^^ storage.type.union.d
+//      ^^^^ entity.name.union.d
+//          ^ punctuation.section.group.begin.d
+//           ^^^^^^ storage.type.d
+//                  ^ variable.parameter.d
+//                   ^ punctuation.separator.sequence.d
+//                     ^ storage.type.d
+//                      ^ punctuation.section.group.end.d
+//                        ^ punctuation.section.block.begin.d
+//                         ^ punctuation.section.block.end.d
 
   enum Foo {
 //^^^^ storage.type.enum.d
