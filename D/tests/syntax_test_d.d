@@ -201,17 +201,16 @@ f = 0xF.AP-2f;
 //                      ^ punctuation.definition.annotation.end.d
 //                       ^ punctuation.definition.annotation.begin.d
 //                        ^^^^^^^^ storage.attribute.d
-  static shared const immutable auto final __gshared nothrow pure ref
+  static shared const immutable final __gshared nothrow pure ref
 //^^^^^^ storage.modifier.d
 //       ^^^^^^ storage.modifier.d
 //              ^^^^^ storage.modifier.d
 //                    ^^^^^^^^^ storage.modifier.d
-//                              ^^^^ storage.modifier.d
-//                                   ^^^^^ storage.modifier.d
-//                                         ^^^^^^^^^ storage.modifier.d
-//                                                   ^^^^^^^ storage.modifier.d
-//                                                           ^^^^ storage.modifier.d
-//                                                                ^^^ storage.modifier.d
+//                              ^^^^^ storage.modifier.d
+//                                    ^^^^^^^^^ storage.modifier.d
+//                                              ^^^^^^^ storage.modifier.d
+//                                                      ^^^^ storage.modifier.d
+//                                                           ^^^ storage.modifier.d
   extern(C) extern (C++, foo.a)
 //^^^^^^ keyword.other.external.d
 //      ^ punctuation.definition.annotation.begin.d
@@ -373,6 +372,19 @@ extern(1)
 //   ^ keyword.operator.pointer.d
 //     ^^^^^^^^^^^^^^ variable.other.d
 //                   ^ punctuation.terminator.d
+  auto foo = 3;
+//^^^^ keyword.other.d
+//     ^^^ variable.other.d
+//         ^ keyword.operator.assignment.d
+//           ^ constant.numeric.integer.d
+//            ^ punctuation.terminator.d
+  auto
+//^^^^ keyword.other.d
+  asjfaisdjaksdjaklsjdnaskjjks = 3;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.d
+//                             ^ keyword.operator.assignment.d
+//                               ^ constant.numeric.integer.d
+//                                ^ punctuation.terminator.d
 
   class Foo;
 //^^^^^ storage.type.class.d
@@ -827,8 +839,15 @@ extern(1)
 //       ^^^ entity.name.function.d
 //          ^ punctuation.section.group.begin.d
 //           ^ punctuation.section.group.end.d
-//             ^ meta.function.d punctuation.section.block.begin.d
-//              ^ meta.function.d punctuation.section.block.end.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
+  auto foo() {}
+//^^^^ keyword.other.d
+//     ^^^ entity.name.function.d
+//        ^ punctuation.section.group.begin.d
+//         ^ punctuation.section.group.end.d
+//           ^ punctuation.section.block.begin.d
+//            ^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -1218,7 +1237,7 @@ extern(1)
 //                                                ^ punctuation.terminator.d
 
   auto f = foo ? 12 : 15;
-//^^^^ storage.modifier.d
+//^^^^ keyword.other.d
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ variable.other.d
@@ -1229,7 +1248,7 @@ extern(1)
 //                      ^ punctuation.terminator.d
 
   auto c = new class(12) T, Bar {
-//^^^^ storage.modifier.d
+//^^^^ keyword.other.d
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ keyword.operator.word.d

@@ -31,10 +31,10 @@ variables:
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
   definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
-  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}}))'
+  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\bauto\b)'
 
   attribute_lookahead: '(?={{attributes}}|@)'
-  attributes: 'static|abstract|final|override|synchronized|auto|scope|const|immutable|inout|shared|__gshared|nothrow|pure|ref|return'
+  attributes: 'static|abstract|final|override|synchronized|scope|const|immutable|inout|shared|__gshared|nothrow|pure|ref|return'
   at_attributes: 'disable|nogc|property|safe|system|trusted'
   parameter_attributes: 'in|lazy|out'
 
@@ -648,6 +648,9 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-parens, typeof-value]
+    - match: '\bauto\b'
+      scope: keyword.other.d
+      pop: true
     - match: '\b({{identifier_ref}})\b'
       scope: storage.type.d
       set: basic-type2
