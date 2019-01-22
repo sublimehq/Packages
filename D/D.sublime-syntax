@@ -30,6 +30,9 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
+  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
+  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}}))'
+
   attribute_lookahead: '(?={{attributes}}|@)'
   attributes: 'static|abstract|final|override|synchronized|auto|scope|const|immutable|inout|shared|__gshared|nothrow|pure|ref|return'
   at_attributes: 'disable|nogc|property|safe|system|trusted'
@@ -42,6 +45,8 @@ variables:
   reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
 
   operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
+
+  type_specialization: 'struct|union|class|interface|enum|__vector|function|delegate|super|const|immutable|inout|shared|return|__parameters'
 
   block_statement_loohahead: '(?={)'
 
@@ -636,6 +641,12 @@ contexts:
     # - match: '(?=[^\s])'
     #   scope: invalid.illegal.d
   basic-type:
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2, basic-type2-after-parens, value]
     - match: '\b({{identifier_ref}})\b'
       scope: storage.type.d
       set: basic-type2
@@ -703,13 +714,14 @@ contexts:
   function-argument-definition-list:
     - match: '\('
       scope: punctuation.section.group.begin.d
-      set:
-        - match: '{{type_look_ahead}}'
-          set: [function-argument, function-argument-or-type]
-        - match: '\)'
-          scope: punctuation.section.group.end.d
-          pop: true
-        - include: not-whitespace-illegal
+      set: function-argument-definition-list-content
+    - include: not-whitespace-illegal
+  function-argument-definition-list-content:
+    - match: '{{type_look_ahead}}'
+      set: [function-argument, function-argument-or-type]
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
     - include: not-whitespace-illegal
   function-argument-or-type:
     - include: parameter-attribute-in
@@ -768,17 +780,17 @@ contexts:
     - include: expect-end-of-line
   value-or-declaration-in:
     - match: '\s'
-    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{language_variable}}))'
+    - match: '{{definitely_value_lookahead}}'
       push: [maybe-end-of-line, value-list]
-    - match: '(?=({{name}}|\]|\))(\s+{{name}}))'
+    - match: '{{definitely_declaration_lookahead}}'
       push: [function-or-variable-after-type, type]
     - match: '(?=[^\s])'
       push: [maybe-end-of-line, first-value]
   value-or-declaration:
     - match: '\s'
-    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{language_variable}}))'
+    - match: '{{definitely_value_lookahead}}'
       set: value-list
-    - match: '(?=({{name}}|\]|\))(\s+{{name}}))'
+    - match: '{{definitely_declaration_lookahead}}'
       set: [function-or-variable-after-type, type]
     - match: '(?=[^\s])'
       set: first-value
@@ -786,13 +798,21 @@ contexts:
   # We highlight as if it were a value, but switch to a definition if it turns out to be one
   first-value:
     # - meta_scope: first-value
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [first-value-parens-after, value]
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
     - match: '\b({{name}})\b'
       scope: variable.other.d
       set: first-value-after
-    - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
+    # - match: '(?=[^\s])'
+    #   set: value
   first-value-after:
     # - meta_scope: first-value-after
     - match: '\.'
@@ -868,18 +888,31 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [new-after-parens, value]
+          set: [value-parens-after, value]
         - include: not-whitespace-illegal
     - match: '\bmixin\b'
       scope: keyword.other.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [new-after-parens, value-list]
+          set: [value-parens-after, value-list]
         - include: not-whitespace-illegal
+    - match: '\bis\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-after, is-after-type, type]
+        - include: not-whitespace-illegal-pop
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-parens-after, value]
     - match: '\('
       scope: punctuation.section.parens.begin.d
-      set: [new-after-parens, value]
+      set: [value-parens-after, value]
     - match: '(?={)'
       set: [value-after, block-statement]
     - match: '\['
@@ -946,6 +979,30 @@ contexts:
         - match: '(?=[^\s])'
           set: [class-body, base-class-list]
     - include: not-whitespace-illegal
+  is-after-type:
+    - match: '\b({{name}})\b'
+      scope: variable.parameter.d
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - match: '\=\=|:'
+      scope: keyword.operator.logical.d
+      set: [is-after, type-specialization]
+  is-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: function-argument-definition-list-content
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal
+  type-specialization:
+    - match: '\b({{type_specialization}})\b'
+      scope: storage.type.d
+      pop: true
+    - match: '(?=[^\s])'
+      set: type
+    - include: not-whitespace-illegal-pop
   value-after:
     # - meta_scope: value-after
     - match: '\.\.'

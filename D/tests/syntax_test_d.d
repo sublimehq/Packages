@@ -822,6 +822,13 @@ extern(1)
 //                   ^ punctuation.section.group.end.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
+  caster foo() {}
+//^^^^^^ storage.type.d
+//       ^^^ entity.name.function.d
+//          ^ punctuation.section.group.begin.d
+//           ^ punctuation.section.group.end.d
+//             ^ meta.function.d punctuation.section.block.begin.d
+//              ^ meta.function.d punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -1349,3 +1356,47 @@ extern(1)
   //       ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
+
+  is(int T == class, T, int foo);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^ storage.type.d
+//       ^ variable.parameter.d
+//         ^^ keyword.operator.logical.d
+//            ^^^^^ storage.type.d
+//                 ^ punctuation.separator.sequence.d
+//                   ^ variable.parameter.d
+//                    ^ punctuation.separator.sequence.d
+//                      ^^^ storage.type.d
+//                          ^^^ variable.parameter.d
+//                             ^ punctuation.section.group.end.d
+//                              ^ punctuation.terminator.d
+  is(int : foo);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^ storage.type.d
+//       ^ keyword.operator.logical.d
+//         ^^^ storage.type.d
+//            ^ punctuation.section.parens.end.d
+//             ^ punctuation.terminator.d
+  is(T);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^ storage.type.d
+//    ^ punctuation.section.parens.end.d
+
+  typeof(2) a(typeof('f') b);
+//^^^^^^ keyword.other.d
+//      ^ punctuation.section.parens.begin.d
+//       ^ constant.numeric.integer.d
+//        ^ punctuation.section.parens.end.d
+//          ^ entity.name.function.d
+//           ^ punctuation.section.group.begin.d
+//            ^^^^^^ keyword.other.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^^^ string.quoted.single.d
+//                      ^ punctuation.section.brackets.end.d
+//                        ^ variable.parameter.d
+//                         ^ punctuation.section.group.end.d
+//                          ^ punctuation.terminator.d
+//                           ^
