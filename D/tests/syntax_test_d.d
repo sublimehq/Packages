@@ -353,6 +353,15 @@ extern(1)
 //      ^^^^^^^^^^^ variable.d
 //                  ^^^^ keyword.control.alias.d
 //                      ^ punctuation.terminator.d
+  alias F(x) = foo;
+//^^^^^ keyword.control.alias.d
+//      ^ entity.name.type.d
+//       ^ punctuation.section.group.begin.d
+//        ^ variable.parameter.d
+//         ^ punctuation.section.group.end.d
+//           ^ keyword.operator.assignment.d
+//             ^^^ storage.type.d
+//                ^ punctuation.terminator.d
 
   int a;
 //^^^ storage.type.d
@@ -542,6 +551,28 @@ extern(1)
   //^^^ entity.name.constant.d
   }
 //^ punctuation.section.block.end.d
+  enum f = 12;
+//^^^^ storage.type.enum.d
+//     ^ entity.name.enum.d
+//       ^ keyword.operator.assignment.d
+//         ^^ constant.numeric.integer.d
+//           ^ punctuation.terminator.d
+  enum f(x, int t) = cast(x)t;
+//^^^^ storage.type.enum.d
+//     ^ entity.name.enum.d
+//      ^ punctuation.section.group.begin.d
+//       ^ variable.parameter.d
+//        ^ punctuation.separator.sequence.d
+//          ^^^ storage.type.d
+//              ^ variable.parameter.d
+//               ^ punctuation.section.group.end.d
+//                 ^ keyword.operator.assignment.d
+//                   ^^^^ keyword.operator.word.d
+//                       ^ punctuation.section.parens.begin.d
+//                        ^ storage.type.d
+//                         ^ punctuation.section.parens.end.d
+//                          ^ variable.other.d
+//                           ^ punctuation.terminator.d
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d

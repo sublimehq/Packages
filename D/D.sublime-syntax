@@ -717,8 +717,8 @@ contexts:
     - include: function-definition-after-argument-list2
   function-definition-after-argument-list2:
     - include: attribute-specifier-in
-    - match: '(?={|;)'
-      set: function-definition
+    - match: '(?={|;|\bif\b)'
+      set: optional-template-body-block
     - include: not-whitespace-illegal
   function-argument-definition-list:
     - match: '\('
@@ -760,15 +760,12 @@ contexts:
       scope: punctuation.section.group.end.d
       pop: true
     - include: not-whitespace-illegal
-  function-definition:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - meta_scope: meta.function.d
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
+  optional-template-body-block:
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - match: '\bif\b'
+      scope: keyword.control.conditional.d
+      set: [block-statement, condition]
     - include: end-of-line
     - include: not-whitespace-illegal
   variable-definition-begin:
@@ -985,9 +982,9 @@ contexts:
           scope: punctuation.section.parens.begin.d
           set: [new-anonymous-after-args, value-list]
         - match: '(?={)'
-          set: class-body
+          set: optional-template-body-block
         - match: '(?=[^\s])'
-          set: [class-body, base-class-list]
+          set: [optional-template-body-block, base-class-list]
     - match: (?=[^\s])
       set: [new-after-named, type]
     - include: not-whitespace-illegal
@@ -1002,9 +999,9 @@ contexts:
       scope: punctuation.section.parens.end.d
       set:
         - match: '(?={)'
-          set: class-body
+          set: optional-template-body-block
         - match: '(?=[^\s])'
-          set: [class-body, base-class-list]
+          set: [optional-template-body-block, base-class-list]
     - include: not-whitespace-illegal
   is-after-type:
     - match: '\b({{name}})\b'
@@ -1153,9 +1150,8 @@ contexts:
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal
   alias-new:
-    - match: '\('
-      # TODO: template aliases
-      pop: true
+    - match: '(?=\()'
+      push: function-argument-definition-list
     - match: '(?==)'
       set: alias-new-assign
     - include: not-whitespace-illegal
@@ -1191,10 +1187,9 @@ contexts:
     - include: end-of-line
     - match: ':'
       scope: punctuation.separator.mapping.d
-      set: [class-body, base-class-list]
-    - match: '(?={)'
-      set: class-body
-    - include: not-whitespace-illegal
+      set: [optional-template-body-block, base-class-list]
+    - match: '(?=[^\s])'
+      set: optional-template-body-block
   base-class-list:
     - match: '{{type_look_ahead}}'
       set: [base-class-list-after, basic-type]
@@ -1205,15 +1200,6 @@ contexts:
       set: base-class-list
     - match: '(?={)'
       pop: true
-    - include: not-whitespace-illegal
-  class-body:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
     - include: not-whitespace-illegal
   interface-in:
     - match: '\b(interface)\b'
@@ -1231,18 +1217,9 @@ contexts:
     - include: end-of-line
     - match: ':'
       scope: punctuation.separator.mapping.d
-      set: [interface-body, base-class-list]
+      set: [optional-template-body-block, base-class-list]
     - match: '(?={)'
-      set: interface-body
-    - include: not-whitespace-illegal
-  interface-body:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
+      set: optional-template-body-block
     - include: not-whitespace-illegal
   struct-in:
     - match: '\b(struct)\b'
@@ -1252,26 +1229,12 @@ contexts:
           scope: entity.name.struct.d
           set:
             - match: '(?=\()'
-              set: [struct-after, function-argument-definition-list]
+              set: [optional-template-body-block, function-argument-definition-list]
             - match: '(?=[^\s])'
-              set: struct-after
+              set: optional-template-body-block
         - match: '(?={)'
-          set: struct-body
+          set: optional-template-body-block
         - include: not-whitespace-illegal
-  struct-after:
-    - include: end-of-line
-    - match: '(?={)'
-      set: struct-body
-    - include: not-whitespace-illegal
-  struct-body:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
-    - include: not-whitespace-illegal
   union-in:
     - match: '\b(union)\b'
       scope: storage.type.union.d
@@ -1280,26 +1243,12 @@ contexts:
           scope: entity.name.union.d
           set:
             - match: '(?=\()'
-              set: [union-after, function-argument-definition-list]
+              set: [optional-template-body-block, function-argument-definition-list]
             - match: '(?=[^\s])'
-              set: union-after
+              set: optional-template-body-block
         - match: '(?={)'
-          set: union-body
+          set: optional-template-body-block
         - include: not-whitespace-illegal
-  union-after:
-    - include: end-of-line
-    - match: '(?={)'
-      set: union-body
-    - include: not-whitespace-illegal
-  union-body:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
-    - include: not-whitespace-illegal
   enum-in:
     - match: '\b(enum)\b'
       scope: storage.type.enum.d
@@ -1313,9 +1262,8 @@ contexts:
             - match: ':'
               scope: punctuation.separator.mapping.d
               set: [enum-body, type]
-            - match: '='
-              scope: keyword.operator.assignment.d
-              set: [expect-end-of-line, value]
+            - match: '(?==|\()'
+              set: enum-assignment
             - include: not-whitespace-illegal
         - match: ':'
           scope: punctuation.separator.mapping.d
@@ -1333,6 +1281,13 @@ contexts:
         - match: '(?=\b({{name}})\b)'
           push: enum-member
     - include: not-whitespace-illegal
+  enum-assignment:
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [expect-end-of-line, value]
+    - match: '(?=\()'
+      push: function-argument-definition-list
+    - include: not-whitespace-illegal-pop
   anonymous-enum-body:
     - match: '{'
       scope: punctuation.section.block.begin.d
