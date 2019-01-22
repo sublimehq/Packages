@@ -789,7 +789,7 @@ extern(1)
 //           ^ punctuation.section.group.begin.d
 //            ^^^ storage.modifier.d
 //                ^ storage.type.d
-//                 ^ value-list punctuation.section.brackets.begin.d
+//                 ^ punctuation.section.brackets.begin.d
 //                  ^ punctuation.section.brackets.end.d
 //                    ^ variable.parameter.d
 //                     ^ punctuation.section.group.end.d
@@ -803,7 +803,7 @@ extern(1)
 //        ^^^ keyword.operator.d
 //           ^ punctuation.separator.sequence.d
 //             ^^^^^^ storage.type.d
-//                   ^ value-list punctuation.section.brackets.begin.d
+//                   ^ punctuation.section.brackets.begin.d
 //                    ^ punctuation.section.brackets.end.d
 //                      ^ variable.parameter.d
 //                       ^^^ keyword.operator.d
@@ -811,7 +811,7 @@ extern(1)
 //                           ^ punctuation.section.group.begin.d
 //                            ^^^ storage.modifier.d
 //                                ^ storage.type.d
-//                                 ^ value-list punctuation.section.brackets.begin.d
+//                                 ^ punctuation.section.brackets.begin.d
 //                                  ^ punctuation.section.brackets.end.d
 //                                    ^ variable.parameter.d
 //                                     ^^^ keyword.operator.d
@@ -828,7 +828,7 @@ extern(1)
 //              ^ punctuation.section.group.end.d
 //               ^ punctuation.section.group.begin.d
 //                ^ storage.type.d
-//                 ^ value-list punctuation.section.brackets.begin.d
+//                 ^ punctuation.section.brackets.begin.d
 //                  ^ punctuation.section.brackets.end.d
 //                    ^ variable.parameter.d
 //                      ^ keyword.operator.assignment.d
@@ -1248,21 +1248,21 @@ extern(1)
 //      ^^^ string.quoted.double.d
 //         ^ punctuation.section.parens.end.d
 //           ^ keyword.operator.assignment.d
-//             ^ punctuation.section.parens.begin.d
+//             ^ punctuation.section.group.begin.d
 //              ^^ constant.numeric.integer.d
 //                 ^^ keyword.operator.arithmetic.d
 //                    ^ constant.numeric.integer.d
-//                     ^ punctuation.section.parens.end.d
+//                     ^ punctuation.section.group.end.d
 //                       ^ keyword.operator.arithmetic.d
 //                         ^ constant.numeric.integer.d
 //                           ^ keyword.operator.arithmetic.d
-//                             ^ punctuation.section.parens.begin.d
+//                             ^ punctuation.section.group.begin.d
 //                              ^ constant.numeric.integer.d
 //                               ^^ keyword.operator.arithmetic.d
 //                                  ^ keyword.operator.arithmetic.d
 //                                    ^^ keyword.operator.arithmetic.d
 //                                      ^ constant.numeric.integer.d
-//                                       ^ punctuation.section.parens.end.d
+//                                       ^ punctuation.section.group.end.d
 //                                         ^ keyword.operator.arithmetic.d
 //                                           ^^^^^ string.quoted.double.d
 //                                                ^ punctuation.terminator.d
@@ -1359,7 +1359,7 @@ extern(1)
 //^ variable.other.d
 //  ^ keyword.operator.assignment.d
 //    ^^^^^ string.quoted.double.d
-//         ^ value-list punctuation.separator.sequence.d
+//         ^ punctuation.separator.sequence.d
 //           ^ variable.other.d
 //             ^ keyword.operator.assignment.d
 //               ^^^^^ string.quoted.double.d
@@ -1457,6 +1457,66 @@ extern(1)
 //             ^ punctuation.section.parens.end.d
 //              ^ punctuation.terminator.d
 
+  () @trusted => 2;
+//^ punctuation.section.parens.begin.d
+// ^ punctuation.section.parens.end.d
+//   ^ punctuation.definition.annotation.begin.d
+//    ^^^^^^^ storage.attribute.d
+//            ^^ keyword.operator.lambda.d
+//               ^ constant.numeric.integer.d
+//                ^ punctuation.terminator.d
+  (a => 2);
+//^ punctuation.section.group.begin.d
+// ^ variable.parameter.d
+//   ^^ keyword.operator.lambda.d
+//      ^ constant.numeric.integer.d
+//       ^ punctuation.section.group.end.d
+//        ^ punctuation.terminator.d
+  (foo) @trusted => foo(3);
+//^ punctuation.section.group.begin.d
+// ^^^ variable.other.d
+//    ^ punctuation.section.group.end.d
+//      ^ punctuation.definition.annotation.begin.d
+//       ^^^^^^^ storage.attribute.d
+//               ^^ keyword.operator.lambda.d
+//                  ^^^ variable.other.d
+//                     ^ punctuation.section.parens.begin.d
+//                      ^ constant.numeric.integer.d
+//                       ^ punctuation.section.parens.end.d
+//                        ^ punctuation.terminator.d
+  (foo..., bar) @safe {};
+//^ punctuation.section.group.begin.d
+// ^^^ variable.other.d
+//    ^^^ keyword.operator.d
+//       ^ punctuation.separator.sequence.d
+//         ^^^ variable.parameter.d
+//            ^ punctuation.section.group.end.d
+//              ^ punctuation.definition.annotation.begin.d
+//               ^^^^ storage.attribute.d
+//                    ^ punctuation.section.block.begin.d
+//                     ^ punctuation.section.block.end.d
+//                      ^ punctuation.terminator.d
+  (foo) {} ();
+//^ punctuation.section.group.begin.d
+// ^^^ variable.other.d
+//    ^ punctuation.section.group.end.d
+//      ^ punctuation.section.block.begin.d
+//       ^ punctuation.section.block.end.d
+//         ^ punctuation.section.parens.begin.d
+//          ^ punctuation.section.parens.end.d
+//           ^ punctuation.terminator.d
+  (int foo) pure @safe {};
+//^ punctuation.section.group.begin.d
+// ^^^ storage.type.d
+//     ^^^ variable.parameter.d
+//        ^ punctuation.section.group.end.d
+//          ^^^^ storage.modifier.d
+//               ^ punctuation.definition.annotation.begin.d
+//                ^^^^ storage.attribute.d
+//                     ^ punctuation.section.block.begin.d
+//                      ^ punctuation.section.block.end.d
+//                       ^ punctuation.terminator.d
+
   3 != 3 && "s" !in [2];
 //^ constant.numeric.integer.d
 //  ^^ keyword.operator.comparison.d
@@ -1472,10 +1532,21 @@ extern(1)
   AliasSeq!(immutable char, int);
 //^^^^^^^^ variable.other.d
 //        ^ keyword.operator.d
-//         ^ value-list punctuation.section.parens.begin.d
+//         ^ punctuation.section.parens.begin.d
 //          ^^^^^^^^^ storage.modifier.d
 //                    ^^^^ storage.type.d
-//                        ^ value-list punctuation.separator.sequence.d
+//                        ^ punctuation.separator.sequence.d
 //                          ^^^ storage.type.d
 //                             ^ punctuation.section.parens.end.d
 //                              ^ punctuation.terminator.d
+
+  cast(Unqual!T*)foo;
+//^^^^ keyword.operator.word.d
+//    ^ punctuation.section.parens.begin.d
+//     ^^^^^^ storage.type.d
+//           ^ keyword.operator.d
+//            ^ variable.other.d
+//             ^ keyword.operator.arithmetic.d
+//              ^ punctuation.section.parens.end.d
+//               ^^^ variable.other.d
+//                  ^ punctuation.terminator.d

@@ -817,8 +817,6 @@ contexts:
       scope: variable.other.d
       set: first-value-after
     - include: not-whitespace-illegal-pop
-    # - match: '(?=[^\s])'
-    #   set: value
   first-value-after:
     # - meta_scope: first-value-after
     - match: '\.'
@@ -930,8 +928,8 @@ contexts:
           set: [value-after, block-statement]
         - include: not-whitespace-illegal-pop
     - match: '\('
-      scope: punctuation.section.parens.begin.d
-      set: [value-parens-after, value]
+      scope: punctuation.section.group.begin.d
+      set: [value-group-after, value]
     - match: '(?={)'
       set: [value-after, block-statement]
     - match: '\['
@@ -1027,12 +1025,34 @@ contexts:
     - match: '(?=[^\s])'
       set: type
     - include: not-whitespace-illegal-pop
+  value-group-after:
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: value-group-after-parens
+    - match: '\b({{name}})\b'
+      scope: variable.parameter.d
+      set: value-group-after
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [value-group-after-parens, function-argument]
+    - match: '\.\.\.'
+      scope: keyword.operator.d
+    - include: not-whitespace-illegal
+  value-group-after-parens:
+    - include: attribute-in
+    - match: (?={)
+      set: [value-after, block-statement]
+    - match: '=>'
+      scope: keyword.operator.lambda.d
+      set: value
+    - match: (?=[^\s])
+      set: value-after
   value-after:
     # - meta_scope: value-after
-    - match: '\.\.'
+    - match: '\.\.(?!\.)'
       scope: keyword.operator.d
       set: value
-    - match: '\.'
+    - match: '\.(?!\.\.)'
       scope: punctuation.accessor.dot.d
       set:
         - match: '{{identifier}}'
@@ -1058,13 +1078,21 @@ contexts:
           set: [value-parens-after, value-list]
         - match: '(?=[^\s])'
           set: value
-    - match: '(\+|-|\*|/|%|&|\||\^\^|\^|~|<<|>>>|>>)?='
+    - match: '(\+|-|/|%|\*|&|\||\^\^|\^|~|<<|>>>|>>)?='
       scope: keyword.operator.assignment.d
       set: value
     - match: '(&&|\|\|)'
       scope: keyword.operator.logical.d
       set: value
-    - match: '(\+|\-|~|\*|/|%|\^\^)'
+    # This can also be a pointer in some situations
+    - match: \*
+      scope: keyword.operator.arithmetic.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - match: '(?=[^\s])'
+          set: value
+    - match: '(\+|\-|~|/|%|\^\^)'
       scope: keyword.operator.arithmetic.d
       set: value
     - match: '(<<|>>>|>>|\||\^|&)'
@@ -1091,7 +1119,7 @@ contexts:
       set: value-after
     - include: not-whitespace-illegal
   value-list:
-    - meta_scope: value-list
+    # - meta_scope: value-list
     - match: '(?=\)|}|]|;)'
       pop: true
     - match: '(?=[^\s])'
