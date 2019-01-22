@@ -420,7 +420,8 @@ contexts:
           scope: string.unquoted.embedded.d punctuation.definition.string.end.d
           pop: true
         - include: tokens-in
-  tokens-in: # Purely a set of un-verified tokens, for use in token string
+  # Purely a set of un-verified tokens, for use in token string
+  tokens-in:
     - match: '\b({{keyword}})\b'
       scope: keyword.d
     - match: '\b({{basic_type}})\b'
@@ -915,7 +916,19 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [value-parens-after, value]
+          set: [value-parens-after, typeof-value]
+    - match: '(\()\s*(\))'
+      captures:
+        1: punctuation.section.parens.begin.d
+        2: punctuation.section.parens.end.d
+      set:
+        - include: attribute-in
+        - match: '=>'
+          scope: keyword.operator.lambda.d
+          set: value
+        - match: '(?={)'
+          set: [value-after, block-statement]
+        - include: not-whitespace-illegal-pop
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set: [value-parens-after, value]
@@ -942,6 +955,11 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: value-after
+    - match: '\b({{name}})\s*(=>)'
+      captures:
+        1: variable.parameter.d
+        2: keyword.operator.lambda.d
+      set: value
     - match: '\b({{name}})\b'
       scope: variable.other.d
       set: value-after
