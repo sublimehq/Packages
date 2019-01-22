@@ -20,7 +20,6 @@ variables:
 
   type_ctor: 'const|immutable|inout|shared'
   type_look_ahead: '(?=\b({{identifier_ref}}))'
-  type2_look_ahead: '(?=\*|\[|\bdelegate\b|\bfunction\b)'
 
   number_lookahead: '(?=(\b|\.)[0-9])'
   integer_lookahead: '(?=\b[0-9])'
@@ -38,8 +37,8 @@ variables:
   keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
   basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar|string|dstring|wstring'
   language_constant: 'null|true|false|__FILE__|__FILE_FULL_PATH__|__MODULE__|__LINE__|__FUNCTION__|__PRETTY_FUNCTION__|__DATE__|__EOF__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__'
-  langauge_variable: 'this|super'
-  reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{langauge_variable}}'
+  language_variable: 'this|super'
+  reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
 
   block_statement_loohahead: '(?={)'
 
@@ -425,7 +424,7 @@ contexts:
       scope: storage.type.d
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
-    - match: '\b({{langauge_variable}})\b'
+    - match: '\b({{language_variable}})\b'
       scope: variable.language.d
     - include: character-in
     - include: string-in
@@ -637,11 +636,7 @@ contexts:
   basic-type:
     - match: '\b({{identifier_ref}})\b'
       scope: storage.type.d
-      set:
-        - match: '{{type2_look_ahead}}'
-          set: basic-type2
-        - match: '(?=[^\s])'
-          pop: true
+      set: basic-type2
     # TODO: More basic types
     - match: '(?=[^\s])'
       pop: true
@@ -654,10 +649,23 @@ contexts:
     - match: '\b(delegate|function)\b'
       scope: keyword.other.d
       push: function-pointer-type
+    - match: '!'
+      scope: keyword.operator.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2-after-parens, value-list]
+        - match: '(?=[^\s])'
+          set: value
     - match: '(?=[^\s])'
       pop: true
   basic-type2-after-brackets:
     - match: '\]'
+      scope: punctuation.section.brackets.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+  basic-type2-after-parens:
+    - match: '\)'
       scope: punctuation.section.brackets.end.d
       pop: true
     - include: not-whitespace-illegal-pop
@@ -667,22 +675,12 @@ contexts:
     - match: '.'
       pop: true
   function-or-variable-after-type:
-    - match: '\b({{name}})\s*(=)'
-      captures:
-        1: variable.other.d
-        2: keyword.operator.assignment.d
-      set: [expect-end-of-line, value]
-    - match: '\b({{name}})\s*(;)'
-      captures:
-        1: variable.other.d
-        2: punctuation.terminator.d
-      pop: true
     - match: '\b({{name}})\s*(?=\(|$)'
       captures:
         1: entity.name.function.d
       set: function-definition-begin
     - match: '(?=[^\s])'
-      pop: true
+      set: variable-definition-begin
   function-definition-begin:
     - match: '(?=\()'
       set: [function-definition-after-argument-list1, function-argument-definition-list]
@@ -740,18 +738,34 @@ contexts:
         - include: statement-list-in
     - include: end-of-line
     - include: not-whitespace-illegal
+  variable-definition-begin:
+    - match: '\b{{name}}\b'
+      scope: variable.other.d
+      set:
+        - match: '(?=,)'
+          set: variable-definition-after
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set: [variable-definition-after, value]
+        - include: expect-end-of-line
+    - include: not-whitespace-illegal-pop
+  variable-definition-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: variable-definition-begin
+    - include: expect-end-of-line
   value-or-declaration-in:
     - match: '\s'
-    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{langauge_variable}}))'
-      push: [maybe-end-of-line, value]
+    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{language_variable}}))'
+      push: [maybe-end-of-line, value-list]
     - match: '(?=({{name}}|\]|\))(\s+{{name}}))'
       push: [function-or-variable-after-type, type]
     - match: '(?=[^\s])'
       push: [maybe-end-of-line, first-value]
   value-or-declaration:
     - match: '\s'
-    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{langauge_variable}}))'
-      set: value
+    - match: '(?=(!|~|\+|\-|\*|&|cast|delete|new|import|mixin|[0-9]|\[|\(|{{name}}\s*\(|{{string_lookahead}}|{{language_constant}}|{{language_variable}}))'
+      set: value-list
     - match: '(?=({{name}}|\]|\))(\s+{{name}}))'
       set: [function-or-variable-after-type, type]
     - match: '(?=[^\s])'
@@ -759,7 +773,7 @@ contexts:
   # The first value in an expression ending with a * is always a function/variable definition, otherwise it could be either
   # We highlight as if it were a value, but switch to a definition if it turns out to be one
   first-value:
-    # - meta_scope: first-value
+    - meta_scope: first-value
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
@@ -768,7 +782,7 @@ contexts:
       set: first-value-after
     - include: not-whitespace-illegal
   first-value-after:
-    # - meta_scope: first-value-after
+    - meta_scope: first-value-after
     - match: '\.'
       scope: punctuation.accessor.dot.d
       set:
@@ -786,12 +800,15 @@ contexts:
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [first-value-bracket-after, value-list]
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-list
     - match: '(?=\*)'
       set: [function-or-variable-after-type, basic-type2]
     - match: '(?={{name}}\s*([;=\(]|$))'
       set: function-or-variable-after-type
     - match: '(?=[^\s])'
-      set: value-after
+      set: [value-list-after, value-after]
   first-value-bracket-after:
     - match: '\]'
       scope: punctuation.section.brackets.end.d
@@ -803,7 +820,7 @@ contexts:
       set: first-value-after
     - include: not-whitespace-illegal
   value:
-    # - meta_scope: value
+    - meta_scope: value
     - match: '!'
       scope: keyword.operator.logical.d
       set: value
@@ -851,6 +868,11 @@ contexts:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set: [new-after-parens, value]
+    - match: '(?={)'
+      set: [value-after, block-statement]
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      set: [value-bracket-after, value-array-list]
     - match: '{{number_lookahead}}'
       set: [value-after, number]
     - match: '{{character_lookahead}}'
@@ -860,7 +882,10 @@ contexts:
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
       set: value-after
-    - match: '\b({{langauge_variable}})\b'
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      set: value-after
+    - match: '\$'
       scope: variable.language.d
       set: value-after
     - match: '\b({{basic_type}})\b'
@@ -910,7 +935,7 @@ contexts:
           set: [class-body, base-class-list]
     - include: not-whitespace-illegal
   value-after:
-    # - meta_scope: value-after
+    - meta_scope: value-after
     - match: '\.\.'
       scope: keyword.operator.d
       set: value
@@ -973,23 +998,41 @@ contexts:
       set: value-after
     - include: not-whitespace-illegal
   value-list:
-    - match: '(?=\)|}|])'
+    - meta_scope: value-list
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: '(?=[^\s])'
       set: [value-list-after, value]
   value-list-after:
-    - match: '(?=\)|}|])'
+    - match: '(?=\)|}|]|;)'
       pop: true
     - match: ','
       scope: punctuation.separator.sequence.d
       set: value-list
+    - include: not-whitespace-illegal
+  value-array-list:
+    - match: '(?=\])'
+      pop: true
+    - match: '(?=[^\s])'
+      set: [value-array-list-after, value]
+  value-array-list-after:
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.d
+      set: [value-array-list-after-value, value]
+    - include: value-array-list-after-value
+  value-array-list-after-value:
+    - match: '(?=\])'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-array-list
     - include: not-whitespace-illegal
   alias-in:
     - match: '\b(alias)\s+({{identifier}})\s+(this)(;)'
       captures:
         1: keyword.control.alias.d
         2: variable.d
-        3: constant.language.d
+        3: keyword.control.alias.d
         4: punctuation.terminator.d
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
@@ -1551,6 +1594,7 @@ contexts:
       pop: true
     - match: '(?=\b{{name}}\s*[;,])'
       set: foreach-parameter-after-type
+    - include: attribute-in
     - match: '(?=[^\s])'
       set: [foreach-parameter-after-type, type]
   foreach-parameter-after-type:
@@ -1612,7 +1656,7 @@ contexts:
       pop: true
   expect-end-of-line:
     - include: end-of-line
-    - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
   maybe-end-of-line:
     - include: end-of-line
     - match: '(?=[^\s])'

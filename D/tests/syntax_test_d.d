@@ -310,7 +310,7 @@ extern(1)
 //          ^ keyword.operator.assignment.d
 //            ^^^ storage.type.d
 //               ^ punctuation.terminator.d
-  alias Foo = const int[string], bar = long;
+  alias Foo = const int[string], bar = long!int;
 //^^^^^ keyword.control.alias.d
 //      ^^^ entity.name.type.d
 //          ^ keyword.operator.assignment.d
@@ -323,7 +323,9 @@ extern(1)
 //                               ^^^ entity.name.type.d
 //                                   ^ keyword.operator.assignment.d
 //                                     ^^^^ storage.type.d
-//                                         ^ punctuation.terminator.d
+//                                         ^ keyword.operator.d
+//                                          ^^^ value value-after storage.type.d
+//                                             ^ punctuation.terminator.d
   alias int a;
 //^^^^^ keyword.control.alias.d
 //      ^^^ storage.type.d
@@ -345,12 +347,12 @@ extern(1)
   alias foo this;
 //^^^^^ keyword.control.alias.d
 //      ^^^ variable.d
-//          ^^^^ constant.language.d
+//          ^^^^ keyword.control.alias.d
 //              ^ punctuation.terminator.d
   alias foo.bar.baz this;
 //^^^^^ keyword.control.alias.d
 //      ^^^^^^^^^^^ variable.d
-//                  ^^^^ constant.language.d
+//                  ^^^^ keyword.control.alias.d
 //                      ^ punctuation.terminator.d
 
   int a;
@@ -1185,5 +1187,59 @@ extern(1)
     //              ^ punctuation.terminator.d
     }
   //^ punctuation.section.block.end.d
-  }
+  };
 //^ punctuation.section.block.end.d
+// ^ punctuation.terminator.d
+
+  foreach (ref a; foo) {}
+//^^^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.brackets.begin.d
+//         ^^^ storage.modifier.d
+//             ^ variable.parameter.d
+//              ^ value punctuation.separator.sequence.d
+//                ^^^ value value-after variable.other.d
+//                   ^ punctuation.section.brackets.end.d
+//                     ^ punctuation.section.block.begin.d
+//                      ^ punctuation.section.block.end.d
+
+  int a = 2, b = 3;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//      ^ value keyword.operator.assignment.d
+//        ^ value-after constant.numeric.integer.d
+//         ^ punctuation.separator.sequence.d
+//           ^ variable.other.d
+//             ^ value keyword.operator.assignment.d
+//               ^ value-after constant.numeric.integer.d
+//                ^ punctuation.terminator.d
+
+  a = "foo", b = "bar";
+//^ first-value first-value-after variable.other.d
+//  ^ value-after value keyword.operator.assignment.d
+//    ^^^^^ value-after string.quoted.double.d
+//         ^ value-list punctuation.separator.sequence.d
+//           ^ value value-after variable.other.d
+//             ^ value-after value keyword.operator.assignment.d
+//               ^^^^^ value-after string.quoted.double.d
+//                    ^ punctuation.terminator.d
+
+  string[] f = [
+//^^^^^^ first-value first-value-after storage.type.d
+//      ^ first-value-after value-list punctuation.section.brackets.begin.d
+//       ^ first-value-after punctuation.section.brackets.end.d
+//         ^ variable.other.d
+//           ^ value keyword.operator.assignment.d
+//             ^ value punctuation.section.brackets.begin.d
+    1: 2,
+  //^ value-after constant.numeric.integer.d
+  // ^ value punctuation.separator.mapping.key-value.d
+  //   ^ value-after constant.numeric.integer.d
+  //    ^ punctuation.separator.sequence.d
+    "foo",
+  //^^^^^ value-after string.quoted.double.d
+  //     ^ punctuation.separator.sequence.d
+    "bar",
+  //^^^^^ value-after string.quoted.double.d
+  //     ^ punctuation.separator.sequence.d
+  ];
+//^ value-after punctuation.section.brackets.end.d
