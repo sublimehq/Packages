@@ -557,11 +557,11 @@ extern(1)
 //       ^ punctuation.section.brackets.begin.d
 //        ^ constant.numeric.integer.d
 //         ^ punctuation.section.brackets.end.d
-//          ^ punctuation.section.block.begin.d
+//          ^ punctuation.separator.d
 
   debug:
 //^^^^^ keyword.control.conditional.d
-//     ^ punctuation.section.block.begin.d
+//     ^ punctuation.separator.d
   debug {} else {}
 //^^^^^ keyword.control.conditional.d
 //      ^ punctuation.section.block.begin.d
@@ -577,7 +577,7 @@ extern(1)
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
 //              ^^^^ keyword.control.conditional.d
-//                  ^ punctuation.section.block.begin.d
+//                  ^ punctuation.separator.d
 
   debug = 2;
 //^^^^^ keyword.control.conditional.d
@@ -1400,3 +1400,26 @@ extern(1)
 //                         ^ punctuation.section.group.end.d
 //                          ^ punctuation.terminator.d
 //                           ^
+
+  3 != 3 && "s" !in [2];
+//^ constant.numeric.integer.d
+//  ^^ keyword.operator.comparison.d
+//     ^ constant.numeric.integer.d
+//       ^^ keyword.operator.logical.d
+//          ^^^ string.quoted.double.d
+//              ^^^ keyword.operator.comparison.d
+//                  ^ punctuation.section.brackets.begin.d
+//                   ^ constant.numeric.integer.d
+//                    ^ punctuation.section.brackets.end.d
+//                     ^ punctuation.terminator.d
+
+  AliasSeq!(immutable char, int);
+//^^^^^^^^ variable.other.d
+//        ^ keyword.operator.d
+//         ^ value-list punctuation.section.parens.begin.d
+//          ^^^^^^^^^ storage.modifier.d
+//                    ^^^^ storage.type.d
+//                        ^ value-list punctuation.separator.sequence.d
+//                          ^^^ storage.type.d
+//                             ^ punctuation.section.parens.end.d
+//                              ^ punctuation.terminator.d
