@@ -646,7 +646,7 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [basic-type2, basic-type2-after-parens, value]
+          set: [basic-type2, basic-type2-after-parens, typeof-value]
     - match: '\b({{identifier_ref}})\b'
       scope: storage.type.d
       set: basic-type2
@@ -682,6 +682,11 @@ contexts:
       scope: punctuation.section.brackets.end.d
       pop: true
     - include: not-whitespace-illegal-pop
+  typeof-value:
+    - match: '\breturn\b'
+      scope: keyword.other.d
+      pop: true
+    - include: value
 
   function-pointer-type:
     # TODO
@@ -803,7 +808,7 @@ contexts:
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [first-value-parens-after, value]
+          set: [first-value-parens-after, typeof-value]
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after

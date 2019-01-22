@@ -1400,6 +1400,12 @@ extern(1)
 //                         ^ punctuation.section.group.end.d
 //                          ^ punctuation.terminator.d
 //                           ^
+  typeof(return);
+//^^^^^^ keyword.other.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^^^^ keyword.other.d
+//             ^ punctuation.section.parens.end.d
+//              ^ punctuation.terminator.d
 
   3 != 3 && "s" !in [2];
 //^ constant.numeric.integer.d
