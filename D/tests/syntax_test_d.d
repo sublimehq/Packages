@@ -637,6 +637,11 @@ extern(1)
 //            ^ punctuation.section.block.end.d
 //              ^^^^ keyword.control.conditional.d
 //                  ^ punctuation.separator.d
+  debug foo bar;
+//^^^^^ keyword.control.conditional.d
+//      ^^^ storage.type.d
+//          ^^^ variable.other.d
+//             ^ punctuation.terminator.d
 
   debug = 2;
 //^^^^^ keyword.control.conditional.d
@@ -1304,7 +1309,7 @@ extern(1)
 //        ^^^ storage.type.d
 //           ^ punctuation.section.parens.begin.d
 //            ^ value-after punctuation.section.parens.end.d
-//             ^ punctuation.terminator.double
+//             ^ punctuation.terminator.d
   new(1, 2, 3) string[12];
 //^^^ value keyword.operator.word.d
 //   ^ punctuation.section.parens.begin.d
@@ -1649,6 +1654,29 @@ extern(1)
 //                                                           ^ variable.parameter.d
 //                                                            ^ punctuation.section.group.end.d
 //                                                             ^ punctuation.terminator.d
+
+  __traits(foo, a);
+//^^^^^^^^ value keyword.other.d
+//        ^ punctuation.section.parens.begin.d
+//         ^^^ variable.function.d
+//            ^ punctuation.separator.sequence.d
+//              ^ value value-after variable.other.d
+//               ^ value-after punctuation.section.parens.end.d
+//                ^ punctuation.terminator.d
+  values ~= toValue(__traits(getMember, this, primaryKey));
+//^^^^^^ first-value first-value-after variable.other.d
+//       ^^ value-after value keyword.operator.assignment.d
+//          ^^^^^^^ value value-after variable.other.d
+//                 ^ value-after punctuation.section.parens.begin.d
+//                  ^^^^^^^^ value keyword.other.d
+//                          ^ punctuation.section.parens.begin.d
+//                           ^^^^^^^^^ variable.function.d
+//                                    ^ punctuation.separator.sequence.d
+//                                      ^^^^ value value-after variable.language.d
+//                                          ^ punctuation.separator.sequence.d
+//                                            ^^^^^^^^^^ value value-after variable.other.d
+//                                                      ^^ value-after punctuation.section.parens.end.d
+//                                                        ^ punctuation.terminator.d
 
   3 != 3 && "s" !in [2];
 //^ constant.numeric.integer.d

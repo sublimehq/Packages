@@ -30,7 +30,7 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
-  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
+  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|__traits|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
   definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\bauto\b)'
 
   attribute_lookahead: '(?={{attributes}}|@)'
@@ -977,6 +977,18 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [value-parens-after, typeof-value]
+    - match: '\b__traits\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set:
+            - match: '\b{{name}}\b'
+              scope: variable.function.d
+              set:
+                - match: ','
+                  scope: punctuation.separator.sequence.d
+                  set: [value-parens-after, value-list]
     - match: '(\()\s*(\))'
       captures:
         1: punctuation.section.parens.begin.d
@@ -1481,9 +1493,8 @@ contexts:
         - match: '{{integer_lookahead}}'
           set: [version-condition-end, integer]
         - include: not-whitespace-illegal
-    - match: '(?={|:)'
+    - match: '(?=[^\s])'
       pop: true
-    - include: not-whitespace-illegal
   static-foreach-in:
     - match: '\b(static)\s+(foreach|foreach_reverse)\b'
       captures:
