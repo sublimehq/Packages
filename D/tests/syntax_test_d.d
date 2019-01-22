@@ -186,15 +186,15 @@ f = 0xF.AP-2f;
 
   @foo:
 //^ punctuation.definition.annotation.begin.d
-// ^^^ variable.other.constant.d
+// ^^^ storage.type.d
 //    ^ punctuation.separator.d
   @("oo")@safer@Foo(2, 4)@property
 //^^ punctuation.definition.annotation.begin.d
 //  ^^^^ string.quoted.double.d
 //       ^ punctuation.definition.annotation.begin.d
-//        ^^^^^ variable.other.constant.d
+//        ^^^^^ storage.type.d
 //             ^ punctuation.definition.annotation.begin.d
-//              ^^^ variable.function.d
+//              ^^^ storage.type.d
 //                 ^ punctuation.definition.annotation.begin.d
 //                  ^ constant.numeric.integer.d
 //                     ^ constant.numeric.integer.d
@@ -979,6 +979,23 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  template foo(T) if (is(T : class)) {}
+//^^^^^^^^ storage.type.d
+//         ^^^ entity.name.template.d
+//            ^ punctuation.section.group.begin.d
+//             ^ variable.parameter.d
+//              ^ punctuation.section.group.end.d
+//                ^^ keyword.control.conditional.d
+//                   ^ value punctuation.section.brackets.begin.d
+//                    ^^ value keyword.other.d
+//                      ^ value-after punctuation.section.parens.begin.d
+//                       ^ value-after storage.type.d
+//                         ^ value-after keyword.operator.logical.d
+//                           ^^^^^ value-after storage.type.d
+//                                ^ value-after punctuation.section.parens.end.d
+//                                 ^ punctuation.section.brackets.end.d
+//                                   ^ punctuation.section.block.begin.d
+//                                    ^ punctuation.section.block.end.d
 
   mixin template f(int a) {
 //^^^^^ keyword.control.d
@@ -992,7 +1009,7 @@ extern(1)
   }
 //^ punctuation.section.block.end.d
   mixin Foo!("foo");
-//^^^^^ keyword.other.d
+//^^^^^ keyword.control.d
 //      ^^^ variable.other.d
 //         ^ keyword.operator.d
 //          ^ punctuation.section.parens.begin.d
@@ -1280,43 +1297,28 @@ extern(1)
 //                                               ^^ constant.numeric.integer.d
 //                                                 ^ punctuation.section.brackets.end.d
 //                                                  ^ punctuation.terminator.d
-
-  mixin("a") = (12 ^^ 4) % 5 / (3++ + --4) ~ "foo";
-//^^^^^ keyword.other.d
-//     ^ punctuation.section.parens.begin.d
-//      ^^^ string.quoted.double.d
-//         ^ punctuation.section.parens.end.d
-//           ^ keyword.operator.assignment.d
-//             ^ punctuation.section.group.begin.d
-//              ^^ constant.numeric.integer.d
-//                 ^^ keyword.operator.arithmetic.d
-//                    ^ constant.numeric.integer.d
-//                     ^ punctuation.section.group.end.d
-//                       ^ keyword.operator.arithmetic.d
-//                         ^ constant.numeric.integer.d
-//                           ^ keyword.operator.arithmetic.d
-//                             ^ punctuation.section.group.begin.d
-//                              ^ constant.numeric.integer.d
-//                               ^^ keyword.operator.arithmetic.d
-//                                  ^ keyword.operator.arithmetic.d
-//                                    ^^ keyword.operator.arithmetic.d
-//                                      ^ constant.numeric.integer.d
-//                                       ^ punctuation.section.group.end.d
-//                                         ^ keyword.operator.arithmetic.d
-//                                           ^^^^^ string.quoted.double.d
-//                                                ^ punctuation.terminator.d
-
-  auto f = foo ? 12 : 15;
-//^^^^ keyword.other.d
-//     ^ variable.other.d
-//       ^ keyword.operator.assignment.d
-//         ^^^ variable.other.d
-//             ^ keyword.operator.logical.d
-//               ^^ constant.numeric.integer.d
-//                  ^ keyword.operator.logical.d
-//                    ^^ constant.numeric.integer.d
-//                      ^ punctuation.terminator.d
-
+  i = new Foo();
+//^ first-value first-value-after variable.other.d
+//  ^ value-after value keyword.operator.assignment.d
+//    ^^^ value keyword.operator.word.d
+//        ^^^ storage.type.d
+//           ^ punctuation.section.parens.begin.d
+//            ^ value-after punctuation.section.parens.end.d
+//             ^ punctuation.terminator.double
+  new(1, 2, 3) string[12];
+//^^^ value keyword.operator.word.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ value-after constant.numeric.integer.d
+//     ^ punctuation.separator.sequence.d
+//       ^ value-after constant.numeric.integer.d
+//        ^ punctuation.separator.sequence.d
+//          ^ value-after constant.numeric.integer.d
+//           ^ punctuation.section.parens.end.d
+//             ^^^^^^ storage.type.d
+//                   ^ punctuation.section.brackets.begin.d
+//                    ^^ value-after constant.numeric.integer.d
+//                      ^ punctuation.section.brackets.end.d
+//                       ^ punctuation.terminator.d
   auto c = new class(12) T, Bar {
 //^^^^ keyword.other.d
 //     ^ variable.other.d
@@ -1371,6 +1373,42 @@ extern(1)
   };
 //^ punctuation.section.block.end.d
 // ^ punctuation.terminator.d
+
+  mixin("a") = (12 ^^ 4) % 5 / (3++ + --4) ~ "foo";
+//^^^^^ keyword.other.d
+//     ^ punctuation.section.parens.begin.d
+//      ^^^ string.quoted.double.d
+//         ^ punctuation.section.parens.end.d
+//           ^ keyword.operator.assignment.d
+//             ^ punctuation.section.group.begin.d
+//              ^^ constant.numeric.integer.d
+//                 ^^ keyword.operator.arithmetic.d
+//                    ^ constant.numeric.integer.d
+//                     ^ punctuation.section.group.end.d
+//                       ^ keyword.operator.arithmetic.d
+//                         ^ constant.numeric.integer.d
+//                           ^ keyword.operator.arithmetic.d
+//                             ^ punctuation.section.group.begin.d
+//                              ^ constant.numeric.integer.d
+//                               ^^ keyword.operator.arithmetic.d
+//                                  ^ keyword.operator.arithmetic.d
+//                                    ^^ keyword.operator.arithmetic.d
+//                                      ^ constant.numeric.integer.d
+//                                       ^ punctuation.section.group.end.d
+//                                         ^ keyword.operator.arithmetic.d
+//                                           ^^^^^ string.quoted.double.d
+//                                                ^ punctuation.terminator.d
+
+  auto f = foo ? 12 : 15;
+//^^^^ keyword.other.d
+//     ^ variable.other.d
+//       ^ keyword.operator.assignment.d
+//         ^^^ variable.other.d
+//             ^ keyword.operator.logical.d
+//               ^^ constant.numeric.integer.d
+//                  ^ keyword.operator.logical.d
+//                    ^^ constant.numeric.integer.d
+//                      ^ punctuation.terminator.d
 
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.flow.d
@@ -1555,6 +1593,62 @@ extern(1)
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d
+
+  void delegate(int a ..., foo) foo;
+//^^^^ storage.type.d
+//     ^^^^^^^^ keyword.other.d
+//             ^ punctuation.section.group.begin.d
+//              ^^^ storage.type.d
+//                  ^ variable.parameter.d
+//                    ^^^ keyword.operator.d
+//                       ^ punctuation.separator.sequence.d
+//                         ^^^ storage.type.d
+//                            ^ punctuation.section.group.end.d
+//                              ^^^ variable.other.d
+//                                 ^ punctuation.terminator.d
+  void delegate()[] foo() {}
+//^^^^ storage.type.d
+//     ^^^^^^^^ keyword.other.d
+//             ^ punctuation.section.group.begin.d
+//              ^ punctuation.section.group.end.d
+//               ^ punctuation.section.brackets.begin.d
+//                ^ punctuation.section.brackets.end.d
+//                  ^^^ entity.name.function.d
+//                     ^ punctuation.section.group.begin.d
+//                      ^ punctuation.section.group.end.d
+//                        ^ punctuation.section.block.begin.d
+//                         ^ punctuation.section.block.end.d
+  (void function(int foo)).sizeof;
+//^ punctuation.section.group.begin.d
+// ^^^^ storage.type.d
+//      ^^^^^^^^ keyword.other.d
+//              ^ punctuation.section.group.begin.d
+//               ^^^ storage.type.d
+//                   ^^^ variable.parameter.d
+//                      ^^ punctuation.section.group.end.d
+//                        ^ punctuation.accessor.dot.d
+//                         ^^^^^^ variable.other.d
+//                               ^ punctuation.terminator.d
+  void fn(int delegate(ref Foo, scope float function(int a)) f);
+//^^^^ storage.type.d
+//     ^^ entity.name.function.d
+//       ^ punctuation.section.group.begin.d
+//        ^^^ storage.type.d
+//            ^^^^^^^^ keyword.other.d
+//                    ^ punctuation.section.group.begin.d
+//                     ^^^ storage.modifier.d
+//                         ^^^ storage.type.d
+//                            ^ punctuation.separator.sequence.d
+//                              ^^^^^ storage.modifier.d
+//                                    ^^^^^ storage.type.d
+//                                          ^^^^^^^^ keyword.other.d
+//                                                  ^ punctuation.section.group.begin.d
+//                                                   ^^^ storage.type.d
+//                                                       ^ variable.parameter.d
+//                                                        ^^ punctuation.section.group.end.d
+//                                                           ^ variable.parameter.d
+//                                                            ^ punctuation.section.group.end.d
+//                                                             ^ punctuation.terminator.d
 
   3 != 3 && "s" !in [2];
 //^ constant.numeric.integer.d

@@ -495,11 +495,11 @@ contexts:
       set: [uda-after, value-list]
     - match: '({{name}})\s*(\()'
       captures:
-        1: variable.function.d
+        1: storage.type.d
         2: punctuation.definition.annotation.begin.d
       set: [uda-after, value-list]
     - match: '({{name}})\b'
-      scope:  variable.other.constant.d
+      scope: storage.type.d
       pop: true
   uda-after:
     - match: '\)'
@@ -665,15 +665,21 @@ contexts:
       push: [basic-type2-after-brackets, value-list]
     - match: '\b(delegate|function)\b'
       scope: keyword.other.d
-      push: function-pointer-type
+      set: [basic-type2, function-type]
     - match: '!'
       scope: keyword.operator.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
-          set: [basic-type2-after-parens, value-list]
+          set: [basic-type2, basic-type2-after-parens, value-list]
         - match: '(?=[^\s])'
           set: value
+    - match: '\.(?!\.\.)'
+      scope: storage.type.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: storage.type.d
+          set: basic-type2
     - match: '(?=[^\s])'
       pop: true
   basic-type2-after-brackets:
@@ -692,10 +698,58 @@ contexts:
       pop: true
     - include: value
 
-  function-pointer-type:
-    # TODO
-    - match: '.'
+  function-type:
+    - match: (?=\()
+      set: [function-type-after, function-type-argument-definition-list]
+    - include: not-whitespace-illegal-pop
+  function-type-after:
+    - include: attribute-in
+    - match: '(?=[^\s])'
       pop: true
+  # Function type arguments are slightly different to regular function
+  # arguments. With regular arguments a standalone "name" is asssumed to be a
+  # template argument, but with function types they must be a type.
+  function-type-argument-definition-list:
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set:
+        - match: '{{type_look_ahead}}'
+          set: [function-type-argument, function-type-argument-type]
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  function-type-argument-type:
+    - include: parameter-attribute-in
+    - include: type
+  function-type-argument:
+    - match: '\b{{name}}\b'
+      scope: variable.parameter.d
+      set:
+        - match: '\.\.\.'
+          scope: keyword.operator.d
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: [function-type-argument, function-type-argument-type]
+        - match: '='
+          scope: keyword.operator.assignment.d
+          push: value
+        - match: ':'
+          scope: keyword.operator.assignment.d
+          push: value
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      push: function-type-argument-type
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
+    - include: not-whitespace-illegal
+
   function-or-variable-after-type:
     - match: '\b({{operator_overloads}})\s*(?=\(|$)'
       captures:
@@ -734,7 +788,7 @@ contexts:
     - include: not-whitespace-illegal
   function-argument-or-type:
     - include: parameter-attribute-in
-    - match: '(?={{name}}\s*[,=:\)\.])'
+    - match: '(?={{name}}\s*([,=:\)]|\.\.\.))'
       pop: true
     - include: type
   function-argument:
@@ -806,7 +860,7 @@ contexts:
   # The first value in an expression ending with a * is always a function/variable definition, otherwise it could be either
   # We highlight as if it were a value, but switch to a definition if it turns out to be one
   first-value:
-    # - meta_scope: first-value
+    - meta_scope: first-value
     - match: '\btypeof\b'
       scope: keyword.other.d
       set:
@@ -819,9 +873,11 @@ contexts:
     - match: '{{identifier_ref}}'
       scope: variable.other.d
       set: first-value-after
-    - include: not-whitespace-illegal-pop
+    - match: '(?=[^\s])'
+      set: value
+    # - include: not-whitespace-illegal-pop
   first-value-after:
-    # - meta_scope: first-value-after
+    - meta_scope: first-value-after
     - match: '\.'
       scope: punctuation.accessor.dot.d
       set:
@@ -844,6 +900,9 @@ contexts:
       set: value-list
     - match: '(?=\*)'
       set: [function-or-variable-after-type, basic-type2]
+    - match: '\b(function|delegate)\b'
+      scope: keyword.other.d
+      set: [function-or-variable-after-type, basic-type2, function-type]
     - match: '(?={{name}}\s*([;=\(]|$))'
       set: function-or-variable-after-type
     - match: '(?=[^\s])'
@@ -859,7 +918,7 @@ contexts:
       set: first-value-after
     - include: not-whitespace-illegal
   value:
-    # - meta_scope: value
+    - meta_scope: value
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1029,6 +1088,9 @@ contexts:
       set: type
     - include: not-whitespace-illegal-pop
   value-group-after:
+    - match: '\b(function|delegate)\b'
+      scope: keyword.other.d
+      set: [value-group-after, basic-type2, function-type]
     - match: '\)'
       scope: punctuation.section.group.end.d
       set: value-group-after-parens
@@ -1051,7 +1113,7 @@ contexts:
     - match: (?=[^\s])
       set: value-after
   value-after:
-    # - meta_scope: value-after
+    - meta_scope: value-after
     - match: '\.\.(?!\.)'
       scope: keyword.operator.d
       set: value
@@ -1501,16 +1563,7 @@ contexts:
     - include: not-whitespace-illegal
   template-definition-begin:
     - match: '(?=\()'
-      set: [template-definition-after-argument-list, function-argument-definition-list]
-    - include: not-whitespace-illegal
-  template-definition-after-argument-list:
-    - match: '{'
-      scope: punctuation.section.block.begin.d
-      set:
-        - match: '}'
-          scope: punctuation.section.block.end.d
-          pop: true
-        - include: statement-list-in
+      set: [optional-template-body-block, function-argument-definition-list]
     - include: not-whitespace-illegal
   mixin-in:
     - match: '\b(mixin)\s+(template)\b'
