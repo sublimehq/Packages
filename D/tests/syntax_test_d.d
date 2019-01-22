@@ -573,6 +573,22 @@ extern(1)
 //                         ^ punctuation.section.parens.end.d
 //                          ^ variable.other.d
 //                           ^ punctuation.terminator.d
+  enum bool[] foo = 12;
+//^^^^ storage.type.enum.d
+//     ^^^^ storage.type.d
+//         ^ punctuation.section.brackets.begin.d
+//          ^ punctuation.section.brackets.end.d
+//            ^^^ entity.name.enum.d
+//                ^ keyword.operator.assignment.d
+//                  ^^ constant.numeric.integer.d
+//                    ^ punctuation.terminator.d
+  enum bool
+//^^^^ storage.type.enum.d
+//     ^^^^ entity.name.enum.d
+  {
+//^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
@@ -879,6 +895,21 @@ extern(1)
 //         ^ punctuation.section.group.end.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
+  void foo(A : int, string a : "s") {}
+//^^^^ storage.type.d
+//     ^^^ entity.name.function.d
+//        ^ punctuation.section.group.begin.d
+//         ^ variable.parameter.d
+//           ^ keyword.operator.assignment.d
+//             ^^^ storage.type.d
+//                ^ punctuation.separator.sequence.d
+//                  ^^^^^^ storage.type.d
+//                         ^ variable.parameter.d
+//                           ^ keyword.operator.assignment.d
+//                             ^^^ string.quoted.double.d
+//                                ^ punctuation.section.group.end.d
+//                                  ^ punctuation.section.block.begin.d
+//                                   ^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -960,6 +991,14 @@ extern(1)
 //                        ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
+  mixin Foo!("foo");
+//^^^^^ keyword.other.d
+//      ^^^ variable.other.d
+//         ^ keyword.operator.d
+//          ^ punctuation.section.parens.begin.d
+//           ^^^^^ string.quoted.double.d
+//                ^ punctuation.section.parens.end.d
+//                 ^ punctuation.terminator.d
   mixin("foo");
 //^^^^^ keyword.other.d
 //     ^ punctuation.section.parens.begin.d
@@ -1529,18 +1568,18 @@ extern(1)
 //                    ^ punctuation.section.brackets.end.d
 //                     ^ punctuation.terminator.d
 
-  AliasSeq!(immutable char, int);
-//^^^^^^^^ variable.other.d
-//        ^ keyword.operator.d
-//         ^ punctuation.section.parens.begin.d
-//          ^^^^^^^^^ storage.modifier.d
-//                    ^^^^ storage.type.d
-//                        ^ punctuation.separator.sequence.d
-//                          ^^^ storage.type.d
-//                             ^ punctuation.section.parens.end.d
-//                              ^ punctuation.terminator.d
+  .AliasSeq!(immutable char, int);
+//^^^^^^^^^ variable.other.d
+//         ^ keyword.operator.d
+//          ^ punctuation.section.parens.begin.d
+//           ^^^^^^^^^ storage.modifier.d
+//                     ^^^^ storage.type.d
+//                         ^ punctuation.separator.sequence.d
+//                           ^^^ storage.type.d
+//                              ^ punctuation.section.parens.end.d
+//                               ^ punctuation.terminator.d
 
-  cast(Unqual!T*)foo;
+  cast(Unqual!T*).foo;
 //^^^^ keyword.operator.word.d
 //    ^ punctuation.section.parens.begin.d
 //     ^^^^^^ storage.type.d
@@ -1548,5 +1587,5 @@ extern(1)
 //            ^ variable.other.d
 //             ^ keyword.operator.arithmetic.d
 //              ^ punctuation.section.parens.end.d
-//               ^^^ variable.other.d
-//                  ^ punctuation.terminator.d
+//               ^^^^ variable.other.d
+//                   ^ punctuation.terminator.d
