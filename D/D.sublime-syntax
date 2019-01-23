@@ -433,6 +433,7 @@ contexts:
     - match: ':'
       scope: punctuation.separator.d
       pop: true
+    - include: end-of-line
     - match: '{{block_statement_loohahead}}'
       set: block-statement
     - match: '{{attribute_lookahead}}'
@@ -454,7 +455,6 @@ contexts:
       set: [function-or-variable-after-type]
     - match: '(?=[^\s])'
       set: [function-or-variable-after-type, type]
-    - include: not-whitespace-illegal-pop
   parameter-attribute-in:
     - match: '{{attribute_lookahead}}'
       push: [parameter-attribute-after, attribute]
@@ -947,7 +947,7 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.other.d
           set: first-value-after
-    - match: '!'
+    - match: '!(?!=)'
       scope: keyword.operator.d
       set:
         - match: '\('
@@ -961,7 +961,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: value-list
-    - match: '(?=\*(?!=))'
+    - match: '(?=\*(?!=)(?!{{name}}\s*[^,=\(]))'
       set: [function-or-variable-after-type, basic-type2]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-list-after, value]
@@ -1448,7 +1448,7 @@ contexts:
           push: type
         - match: '{{type_qualifier_lookahead}}'
           push: type
-        - match: '\b({{name}})(?=\s*({|:|=|\(|$))\b'
+        - match: '\b({{name}})(?=\s*({|:|=|\(|;|$))\b'
           scope: entity.name.enum.d
           set: enum-after
         - match: ':'
@@ -1469,7 +1469,7 @@ contexts:
       set: enum-assignment
     - match: '\b({{name}})\b'
       scope: entity.name.enum.d
-    - include: not-whitespace-illegal
+    - include: expect-end-of-line
   enum-body:
     - match: '{'
       scope: punctuation.section.block.begin.d

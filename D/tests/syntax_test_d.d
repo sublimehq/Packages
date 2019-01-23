@@ -661,6 +661,8 @@ extern(1)
   //    ^ keyword.operator.assignment.d
   //      ^ constant.numeric.integer.d
   //       ^ punctuation.terminator.d
+  enum Attr;
+//^^^^ storage.type.enum.d
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
@@ -1408,6 +1410,23 @@ extern(1)
 //                                              ^ punctuation.section.parens.end.d
 //                                                ^ punctuation.section.block.begin.d
 //                                                 ^ punctuation.section.block.end.d
+  for (; a *b < cast(int)2;) {}
+//^^^ keyword.control.flow.d
+//    ^ punctuation.section.parens.begin.d
+//     ^ punctuation.terminator.d
+//       ^ variable.other.d
+//         ^ keyword.operator.arithmetic.d
+//          ^ variable.other.d
+//            ^ keyword.operator.comparison.d
+//              ^^^^ keyword.operator.word.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^^^ storage.type.d
+//                      ^ punctuation.section.parens.end.d
+//                       ^ constant.numeric.integer.d
+//                        ^ punctuation.terminator.d
+//                         ^ punctuation.section.parens.end.d
+//                           ^ punctuation.section.block.begin.d
+//                            ^ punctuation.section.block.end.d
   foreach (int a; 2) {
 //^^^^^^^ keyword.control.flow.d
 //        ^ punctuation.section.brackets.begin.d
@@ -2107,6 +2126,11 @@ extern(1)
 //   ^ punctuation.section.parens.begin.d
 //    ^ punctuation.section.parens.end.d
 //     ^ punctuation.terminator.d
+  a != 2;
+//^ variable.other.d
+//  ^^ keyword.operator.comparison.d
+//     ^ constant.numeric.integer.d
+//      ^ punctuation.terminator.d
 
   .AliasSeq!(immutable char, int);
 //^^^^^^^^^ variable.other.d
