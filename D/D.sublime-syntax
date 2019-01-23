@@ -38,7 +38,7 @@ variables:
   attributes: 'static|abstract|final|override|synchronized|scope|__gshared|nothrow|pure|ref|return|auto'
   at_attributes: 'disable|nogc|property|safe|system|trusted'
   parameter_attribute_lookahead: '(?=\b({{parameter_attribute}})\b)'
-  parameter_attribute: 'in|lazy|out'
+  parameter_attribute: 'in|lazy|out|alias'
 
   keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
   basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar|string|dstring|wstring'
@@ -88,8 +88,7 @@ contexts:
     - include: conditional-declaration-in
     - include: static-foreach-in
     - include: static-assert-in
-    - include: constructor-in
-    - include: destructor-in
+    - include: constructions-in
     - include: invariant-in
     - include: unittest-in
     - include: template-in
@@ -132,9 +131,6 @@ contexts:
       pop: true
     - include: optional-block-statement
   comment-in:
-    # - match: /\*\*/
-    #   scope: comment.block.empty.d punctuation.definition.comment.d
-    # - include: scope:text.html.javadoc
     - match: /\*\*?
       scope: punctuation.definition.comment.d
       push:
@@ -399,12 +395,33 @@ contexts:
     - match: '{{name}}'
     - match: '(/|&|\||-|\+|<<|<>|>>|>>>||\*|%|\^|\^\^|~)='
       scope: keyword.operator.assignment.d
-    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\(|\)|\[|\]|\{|\}|\?|,|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
+    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\?|,|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
       scope: keyword.operator.d
     - match: ';'
       scope: punctuation.terminator.d
     - match: '\.'
       scope: keyword.operator.d
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      push:
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
+          pop: true
+        - include: tokens-in
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      push:
+        - match: '\]'
+          scope: punctuation.section.brackets.end.d
+          pop: true
+        - include: tokens-in
+    - match: '\{'
+      scope: punctuation.section.braces.begin.d
+      push:
+        - match: '\}'
+          scope: punctuation.section.braces.end.d
+          pop: true
+        - include: tokens-in
     - include: not-whitespace-illegal
   attribute-specifier-in:
     - match: '{{attribute_lookahead}}'
@@ -779,18 +796,17 @@ contexts:
       set: variable-definition-begin
   function-definition-begin:
     - match: '(?=\()'
-      set: [function-definition-after-argument-list1, function-argument-definition-list]
+      set: [function-definition-after-first-argument-list, function-argument-definition-list]
     - include: not-whitespace-illegal
-  function-definition-after-argument-list1:
+  function-definition-after-first-argument-list:
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [expect-end-of-line, value]
     - match: '(?=\()'
-      set: [function-definition-after-argument-list2, function-argument-definition-list]
-    - include: function-definition-after-argument-list2
-  function-definition-after-argument-list2:
-    - include: function-attribute-in
-    - match: '(?={|;|\bif\b|\bin\b|\bout\b|\bdo\b)'
-      set: function-definition-after-arguments
-    - include: not-whitespace-illegal
+      set: [function-definition-after-arguments, function-argument-definition-list]
+    - include: function-definition-after-arguments
   function-definition-after-arguments:
+    - include: function-attribute-in
     - match: '\bif\b'
       scope: keyword.control.conditional.d
       set: [function-definition-after-condition, condition]
@@ -914,7 +930,7 @@ contexts:
       set: first-value-after
     # Check for simple function call to highlight the identifier correctly
     - match: '(?={{identifier_ref}}\s*\()'
-      set: value
+      set: [value-list-after, value]
     - match: '{{identifier_ref}}'
       scope: variable.other.d
       set: first-value-after
@@ -1418,6 +1434,8 @@ contexts:
       push:
         - match: '(?=\b({{basic_type}})\b)'
           push: type
+        - match: '{{type_qualifier_lookahead}}'
+          push: type
         - match: '\b({{name}})(?=\s*({|:|=|\(|$))\b'
           scope: entity.name.enum.d
           set: enum-after
@@ -1551,17 +1569,49 @@ contexts:
         1: keyword.control.conditional.d
         2: keyword.control.conditional.d
       push: [expect-end-of-line, assert-arguments]
-  constructor-in:
+  constructions-in:
+    # Post-blit constructor
+    - match: '\b(this)\s*(\()\s*(this)\s*(\))'
+      captures:
+        1: entity.name.function.post-blit.d
+        2: punctuation.section.group.begin.d
+        3: variable.language.d
+        4: punctuation.section.group.end.d
+      push: function-definition-after-arguments
     - match: '\b(this)\s*(?=\(|$)'
       captures:
         1: entity.name.function.constructor.d
-      push: function-definition-begin
-  destructor-in:
-    - match: '(~)\s*(this)\s*(?=\(|$)'
+        2: punctuation.section.group.begin.d
+      push: constructor-argument-list
+    - match: '(~\s*this)\s*(\()\s*(\))'
       captures:
         1: entity.name.function.destructor.d
-        2: entity.name.function.destructor.d
-      push: function-definition-begin
+        2: punctuation.section.group.begin.d
+        3: punctuation.section.group.end.d
+      push: function-definition-after-arguments
+  # This could either be function/template parameters or arguments. Assume
+  # arguments and switch to parameters when possible
+  constructor-argument-list:
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          set: function-definition-after-first-argument-list
+        - match: '{{parameter_attribute_lookahead}}'
+          set: [function-definition-after-first-argument-list, function-argument-definition-list-content]
+        - match: '(?=[^\s])'
+          set: [constructor-argument-list-after-value, value]
+    - include: not-whitespace-illegal-pop
+  constructor-argument-list-after-value:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [constructor-argument-list-after-value, value]
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: function-definition-after-first-argument-list
+    - match: '(?=[^\s])'
+      set: [function-definition-after-first-argument-list, function-argument]
   invariant-in:
     - match: '\b(invariant)\b'
       scope: keyword.control.flow.d
@@ -1793,7 +1843,16 @@ contexts:
   case-after:
     - match: ':'
       scope: punctuation.section.block.begin.d
-      pop: true
+      set:
+        - match: '\.\.(?!\.)'
+          scope: keyword.operator.d
+          set:
+            - match: '\bcase\b'
+              scope: keyword.control.flow.d
+              set: [case-after, value]
+            - include: not-whitespace-illegal-pop
+        - match: '(?=[^\s])'
+          pop: true
     - include: not-whitespace-illegal-pop
 
   for-arguments:

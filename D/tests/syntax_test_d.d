@@ -624,6 +624,18 @@ extern(1)
 //                                     ^ keyword.operator.assignment.d
 //                                       ^ constant.numeric.integer.d
 //                                        ^ punctuation.terminator.d
+  enum immutable(Char)[] seqBefore = "[";
+//^^^^ storage.type.enum.d
+//     ^^^^^^^^^ storage.modifier.d
+//              ^ punctuation.section.group.begin.d
+//               ^^^^ storage.type.d
+//                   ^ punctuation.section.group.end.d
+//                    ^ punctuation.section.brackets.begin.d
+//                     ^ punctuation.section.brackets.end.d
+//                       ^^^^^^^^^ entity.name.enum.d
+//                                 ^ keyword.operator.assignment.d
+//                                   ^^^ string.quoted.double.d
+//                                      ^ punctuation.terminator.d
   enum ulong
 //^^^^ storage.type.enum.d
 //     ^^^^^ storage.type.d
@@ -1113,6 +1125,38 @@ extern(1)
 //        ^ punctuation.definition.annotation.begin.d
 //         ^^^^^^^ storage.attribute.d
 //                ^ punctuation.terminator.d
+  this(this) {}
+//^^^^ entity.name.function.post-blit.d
+  this(1, 2, 3);
+//^^^^ entity.name.function.constructor.d
+//    ^ punctuation.section.group.begin.d
+//     ^ constant.numeric.integer.d
+//      ^ punctuation.separator.sequence.d
+//        ^ constant.numeric.integer.d
+//         ^ punctuation.separator.sequence.d
+//           ^ constant.numeric.integer.d
+//            ^ punctuation.section.group.end.d
+//             ^ punctuation.terminator.d
+  this(T)(T foo);
+//^^^^ entity.name.function.constructor.d
+//    ^ punctuation.section.group.begin.d
+//     ^ variable.other.d
+//      ^ punctuation.section.group.end.d
+//       ^ punctuation.section.group.begin.d
+//        ^ storage.type.d
+//          ^^^ variable.parameter.d
+//             ^ punctuation.section.group.end.d
+//              ^ punctuation.terminator.d
+  this(in ref foo t) {}
+//^^^^ entity.name.function.constructor.d
+//    ^ punctuation.section.group.begin.d
+//     ^^ storage.modifier.d
+//        ^^^ storage.modifier.d
+//            ^^^ storage.type.d
+//                ^ variable.parameter.d
+//                 ^ punctuation.section.group.end.d
+//                   ^ punctuation.section.block.begin.d
+//                    ^ punctuation.section.block.end.d
 
   static this(int foo) {}
 //^^^^^^ storage.modifier.d
@@ -1199,6 +1243,24 @@ extern(1)
 //                                 ^ punctuation.section.brackets.end.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
+  @property foo(T) = {
+//^ punctuation.definition.annotation.begin.d
+// ^^^^^^^^ storage.attribute.d
+//          ^^^ entity.name.function.d
+//             ^ punctuation.section.group.begin.d
+//              ^ variable.parameter.d
+//               ^ punctuation.section.group.end.d
+//                 ^ keyword.operator.assignment.d
+//                   ^ punctuation.section.block.begin.d
+    T a;
+  //^ storage.type.d
+  //  ^ variable.other.d
+  //   ^ punctuation.terminator.d
+  }();
+//^ punctuation.section.block.end.d
+// ^ punctuation.section.parens.begin.d
+//  ^ punctuation.section.parens.end.d
+//   ^ punctuation.terminator.d
 
   mixin template f(int a) {
 //^^^^^ keyword.control.d
@@ -1321,7 +1383,24 @@ extern(1)
 //             ^ punctuation.section.parens.end.d
 //               ^ punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+  for (size_t i; !val.empty; val.popFront(), ++i) {}
+//^^^ keyword.control.flow.d
+//    ^ punctuation.section.parens.begin.d
+//     ^^^^^^ storage.type.d
+//            ^ variable.other.d
+//             ^ punctuation.terminator.d
+//               ^ keyword.operator.logical.d
+//                ^^^^^^^^^ variable.other.d
+//                         ^ punctuation.terminator.d
+//                           ^^^^^^^^^^^^ variable.function.d
+//                                       ^ punctuation.section.parens.begin.d
+//                                        ^ punctuation.section.parens.end.d
+//                                         ^ punctuation.separator.sequence.d
+//                                           ^^ keyword.operator.arithmetic.d
+//                                             ^ variable.other.d
+//                                              ^ punctuation.section.parens.end.d
+//                                                ^ punctuation.section.block.begin.d
+//                                                 ^ punctuation.section.block.end.d
   foreach (int a; 2) {
 //^^^^^^^ keyword.control.flow.d
 //        ^ punctuation.section.brackets.begin.d
@@ -1696,6 +1775,14 @@ extern(1)
   //       ^^ keyword.operator.arithmetic.d
   //          ^ constant.numeric.integer.d
   //           ^ punctuation.section.block.begin.d
+    case 2: .. case 4:
+  //^^^^ keyword.control.flow.d
+  //     ^ constant.numeric.integer.d
+  //      ^ punctuation.section.block.begin.d
+  //        ^^ keyword.operator.d
+  //           ^^^^ keyword.control.flow.d
+  //                ^ constant.numeric.integer.d
+  //                 ^ punctuation.section.block.begin.d
     default:
   //^^^^^^^ keyword.control.flow.d
   //       ^ punctuation.section.block.begin.d
