@@ -746,15 +746,17 @@ contexts:
     - match: '\('
       scope: punctuation.section.group.begin.d
       set:
-        - match: '{{type_look_ahead}}'
-          set: [function-type-argument, function-type-argument-type]
         - match: '\)'
           scope: punctuation.section.group.end.d
           pop: true
-        - include: not-whitespace-illegal
+        - match: '(?=[^\s])'
+          set: [function-type-argument, function-type-argument-type]
     - include: not-whitespace-illegal
   function-type-argument-type:
     - include: parameter-attribute-in
+    - match: '\.\.\.'
+      scope: keyword.operator.d
+      pop: true
     - include: type
   function-type-argument:
     - match: '\b{{name}}\b'
@@ -839,14 +841,16 @@ contexts:
       set: function-argument-definition-list-content
     - include: not-whitespace-illegal
   function-argument-definition-list-content:
-    - match: '{{type_look_ahead}}'
-      set: [function-argument, function-argument-or-type]
     - match: '\)'
       scope: punctuation.section.group.end.d
       pop: true
-    - include: not-whitespace-illegal
+    - match: '(?=[^\s])'
+      set: [function-argument, function-argument-or-type]
   function-argument-or-type:
     - include: parameter-attribute-in
+    - match: '\.\.\.'
+      scope: keyword.operator.d
+      pop: true
     - match: '(?={{name}}\s*([,=:\)]|\.\.\.))'
       pop: true
     - include: type
@@ -959,9 +963,9 @@ contexts:
       set: value-list
     - match: '(?=\*(?!=))'
       set: [function-or-variable-after-type, basic-type2]
-    - match: '\b(function|delegate)\b'
+    - match: '(?=\b(function|delegate)\b)'
+      set: [value-list-after, value]
       scope: keyword.other.d
-      set: [function-or-variable-after-type, basic-type2, function-type]
     - match: '(?={{name}}\s*([;=\(,]|$))'
       set: function-or-variable-after-type
     - match: '(?=[^\s])'
@@ -1049,7 +1053,11 @@ contexts:
                   set: [value-parens-after, value-list]
     - match: '\b(function|delegate)\b'
       scope: keyword.other.d
-      set: [value-after, function-definition-begin]
+      set:
+        - match: '(?=\()'
+          set: [value-after, function-definition-begin]
+        - match: '(?=[^\s])'
+          set: [value-after, function-definition-begin, type]
     - match: '(\()\s*(\))'
       captures:
         1: punctuation.section.parens.begin.d
@@ -1064,7 +1072,11 @@ contexts:
         - include: not-whitespace-illegal-pop
     - match: '\('
       scope: punctuation.section.group.begin.d
-      set: [value-group-after, value]
+      set:
+        - match: '{{parameter_attribute_lookahead}}'
+          set: [value-group-after-parens, function-argument, function-argument-or-type]
+        - match: '(?=[^\s])'
+          set: [value-group-after, value]
     - match: '(?={)'
       set: [value-after, block-statement]
     - match: '\['

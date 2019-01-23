@@ -1108,6 +1108,13 @@ extern(1)
 //   ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
+  void f(...);
+//^^^^ storage.type.d
+//     ^ entity.name.function.d
+//      ^ punctuation.section.group.begin.d
+//       ^^^ keyword.operator.d
+//          ^ punctuation.section.group.end.d
+//           ^ punctuation.terminator.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -1993,6 +2000,15 @@ extern(1)
 //^^^^^^ keyword.control.flow.d
 //       ^ punctuation.section.parens.begin.d
 //        ^ punctuation.section.parens.end.d
+  (in ref a) {};
+//^ punctuation.section.group.begin.d
+// ^^ storage.modifier.d
+//    ^^^ storage.modifier.d
+//        ^ variable.parameter.d
+//         ^ punctuation.section.group.end.d
+//           ^ punctuation.section.block.begin.d
+//            ^ punctuation.section.block.end.d
+//             ^ punctuation.terminator.d
   void delegate(int) shared dg1;
 //^^^^ storage.type.d
 //     ^^^^^^^^ keyword.other.d
@@ -2016,6 +2032,24 @@ extern(1)
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
 //                                     ^ punctuation.terminator.d
+  function size_t(foo a) {};
+//^^^^^^^^ keyword.other.d
+//         ^^^^^^ storage.type.d
+//               ^ punctuation.section.group.begin.d
+//                ^^^ storage.type.d
+//                    ^ variable.parameter.d
+//                     ^ punctuation.section.group.end.d
+//                       ^ punctuation.section.block.begin.d
+//                        ^ punctuation.section.block.end.d
+//                         ^ punctuation.terminator.d
+  void delegate(...) f;
+//^^^^ storage.type.d
+//     ^^^^^^^^ keyword.other.d
+//             ^ punctuation.section.group.begin.d
+//              ^^^ keyword.operator.d
+//                 ^ punctuation.section.group.end.d
+//                   ^ variable.other.d
+//                    ^ punctuation.terminator.d
 
   __traits(foo, a);
 //^^^^^^^^ keyword.other.d
