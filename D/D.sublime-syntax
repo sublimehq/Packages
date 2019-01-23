@@ -911,7 +911,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: value-list
-    - match: '(?=\*)'
+    - match: '(?=\*(?!=))'
       set: [function-or-variable-after-type, basic-type2]
     - match: '\b(function|delegate)\b'
       scope: keyword.other.d

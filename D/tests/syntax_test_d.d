@@ -1897,6 +1897,11 @@ extern(1)
 //        ^^ keyword.operator.comparison.d
 //           ^ variable.other.d
 //            ^ punctuation.terminator.d
+  x *= 12345;
+//^ variable.other.d
+//  ^^ keyword.operator.assignment.d
+//     ^^^^^ constant.numeric.integer.d
+//          ^ punctuation.terminator.d
 
   .AliasSeq!(immutable char, int);
 //^^^^^^^^^ variable.other.d
