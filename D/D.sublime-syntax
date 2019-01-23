@@ -117,6 +117,7 @@ contexts:
     - match: '{'
       scope: punctuation.section.block.begin.d
       set:
+        - meta_scope: meta.block.d
         - match: '}'
           scope: punctuation.section.block.end.d
           pop: true
