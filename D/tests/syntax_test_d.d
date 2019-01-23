@@ -1167,7 +1167,7 @@ extern(1)
 //                   ^ punctuation.section.block.begin.d
 //                    ^ punctuation.section.block.end.d
 
-  static this(int foo) {}
+  static this(int foo) { int b; }
 //^^^^^^ storage.modifier.d
 //       ^^^^ entity.name.function.constructor.d
 //           ^ punctuation.section.group.begin.d
@@ -1175,14 +1175,20 @@ extern(1)
 //                ^^^ variable.parameter.d
 //                   ^ punctuation.section.group.end.d
 //                     ^ punctuation.section.block.begin.d
-//                      ^ punctuation.section.block.end.d
-  static ~this() {}
+//                       ^^^ storage.type.d
+//                           ^ variable.other.d
+//                            ^ punctuation.terminator.d
+//                              ^ punctuation.section.block.end.d
+  static ~this() { int a; }
 //^^^^^^ storage.modifier.d
 //       ^^^^^ entity.name.function.destructor.d
 //            ^ punctuation.section.group.begin.d
 //             ^ punctuation.section.group.end.d
 //               ^ punctuation.section.block.begin.d
-//                ^ punctuation.section.block.end.d
+//                 ^^^ storage.type.d
+//                     ^ variable.other.d
+//                      ^ punctuation.terminator.d
+//                        ^ punctuation.section.block.end.d
 
   invariant(0, "test") {
 //^^^^^^^^^ keyword.control.flow.d

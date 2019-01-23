@@ -40,6 +40,8 @@ variables:
   parameter_attribute_lookahead: '(?=\b({{parameter_attribute}})\b)'
   parameter_attribute: 'in|lazy|out|alias'
 
+  construction_lookahead: '(?=~?\s*this\s*\()'
+
   keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
   basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar|string|dstring|wstring'
   language_constant: 'null|true|false|__FILE__|__FILE_FULL_PATH__|__MODULE__|__LINE__|__FUNCTION__|__PRETTY_FUNCTION__|__DATE__|__EOF__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__|__ctfe'
@@ -442,15 +444,8 @@ contexts:
       scope: storage.modifier.d
     - match: '(?=\b({{reserved}})\b)'
       pop: true
-    - match: '\b(this)\s*(?=\(|$)'
-      captures:
-        1: entity.name.function.constructor.d
-      set: function-definition-begin
-    - match: '(~)\s*(this)\s*(?=\(|$)'
-      captures:
-        1: entity.name.function.destructor.d
-        2: entity.name.function.destructor.d
-      push: function-definition-begin
+    - match: '{{construction_lookahead}}'
+      set: construction
     - match: '(?=\b{{name}}\b\s*[,=\()])'
       set: [function-or-variable-after-type]
     - match: '(?=[^\s])'
@@ -1582,6 +1577,9 @@ contexts:
         2: keyword.control.conditional.d
       push: [expect-end-of-line, assert-arguments]
   constructions-in:
+    - match: '{{construction_lookahead}}'
+      push: construction
+  construction:
     # Post-blit constructor
     - match: '\b(this)\s*(\()\s*(this)\s*(\))'
       captures:
@@ -1589,18 +1587,19 @@ contexts:
         2: punctuation.section.group.begin.d
         3: variable.language.d
         4: punctuation.section.group.end.d
-      push: function-definition-after-arguments
+      set: function-definition-after-arguments
     - match: '\b(this)\s*(?=\(|$)'
       captures:
         1: entity.name.function.constructor.d
         2: punctuation.section.group.begin.d
-      push: constructor-argument-list
+      set: constructor-argument-list
     - match: '(~\s*this)\s*(\()\s*(\))'
       captures:
         1: entity.name.function.destructor.d
         2: punctuation.section.group.begin.d
         3: punctuation.section.group.end.d
-      push: function-definition-after-arguments
+      set: function-definition-after-arguments
+    - include: not-whitespace-illegal-pop
   # This could either be function/template parameters or arguments. Assume
   # arguments and switch to parameters when possible
   constructor-argument-list:
