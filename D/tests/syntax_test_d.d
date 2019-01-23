@@ -406,6 +406,14 @@ extern(1)
 //                             ^ keyword.operator.assignment.d
 //                               ^ constant.numeric.integer.d
 //                                ^ punctuation.terminator.d
+  char[] buffer_, encoded_;
+//^^^^ storage.type.d
+//    ^ punctuation.section.brackets.begin.d
+//     ^ punctuation.section.brackets.end.d
+//       ^^^^^^^ variable.other.d
+//              ^ punctuation.separator.sequence.d
+//                ^^^^^^^^ variable.other.d
+//                        ^ punctuation.terminator.d
 
   class Foo;
 //^^^^^ storage.type.class.d
@@ -594,13 +602,53 @@ extern(1)
 //                ^ keyword.operator.assignment.d
 //                  ^^ constant.numeric.integer.d
 //                    ^ punctuation.terminator.d
-  enum bool
+  enum fool
 //^^^^ storage.type.enum.d
 //     ^^^^ entity.name.enum.d
   {
 //^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
+  enum uint a = 1, b = 2, exponentBits = 3;
+//^^^^ storage.type.enum.d
+//     ^^^^ storage.type.d
+//          ^ entity.name.enum.d
+//            ^ keyword.operator.assignment.d
+//              ^ constant.numeric.integer.d
+//               ^ punctuation.separator.sequence.d
+//                 ^ entity.name.enum.d
+//                   ^ keyword.operator.assignment.d
+//                     ^ constant.numeric.integer.d
+//                      ^ punctuation.separator.sequence.d
+//                        ^^^^^^^^^^^^ entity.name.enum.d
+//                                     ^ keyword.operator.assignment.d
+//                                       ^ constant.numeric.integer.d
+//                                        ^ punctuation.terminator.d
+  enum ulong
+//^^^^ storage.type.enum.d
+//     ^^^^^ storage.type.d
+    a = 1 << 2,
+  //^ entity.name.enum.d
+  //  ^ keyword.operator.assignment.d
+  //    ^ constant.numeric.integer.d
+  //      ^^ keyword.operator.bitwise.d
+  //         ^ constant.numeric.integer.d
+  //          ^ punctuation.separator.sequence.d
+    b = 1 << 3;
+  //^ entity.name.enum.d
+  //  ^ keyword.operator.assignment.d
+  //    ^ constant.numeric.integer.d
+  //      ^^ keyword.operator.bitwise.d
+  //         ^ constant.numeric.integer.d
+  //          ^ punctuation.terminator.d
+  enum foo
+//^^^^ storage.type.enum.d
+//     ^^^ entity.name.enum.d
+    bar = 2;
+  //^^^ entity.name.enum.d
+  //    ^ keyword.operator.assignment.d
+  //      ^ constant.numeric.integer.d
+  //       ^ punctuation.terminator.d
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
@@ -1002,6 +1050,23 @@ extern(1)
 //         ^^^^^^^ storage.attribute.d
 //                ^ punctuation.terminator.d
 
+  static this(int foo) {}
+//^^^^^^ storage.modifier.d
+//       ^^^^ entity.name.function.constructor.d
+//           ^ punctuation.section.group.begin.d
+//            ^^^ storage.type.d
+//                ^^^ variable.parameter.d
+//                   ^ punctuation.section.group.end.d
+//                     ^ punctuation.section.block.begin.d
+//                      ^ punctuation.section.block.end.d
+  static ~this() {}
+//^^^^^^ storage.modifier.d
+//       ^^^^^ entity.name.function.destructor.d
+//            ^ punctuation.section.group.begin.d
+//             ^ punctuation.section.group.end.d
+//               ^ punctuation.section.block.begin.d
+//                ^ punctuation.section.block.end.d
+
   invariant(0, "test") {
 //^^^^^^^^^ keyword.control.flow.d
 //         ^ punctuation.section.brackets.begin.d
@@ -1090,6 +1155,11 @@ extern(1)
 //           ^^^^^ string.quoted.double.d
 //                ^ punctuation.section.parens.end.d
 //                 ^ punctuation.terminator.d
+  mixin Template e;
+//^^^^^ keyword.control.d
+//      ^^^^^^^^ variable.other.d
+//               ^ variable.other.d
+//                ^ punctuation.terminator.d
   mixin("foo");
 //^^^^^ keyword.other.d
 //     ^ punctuation.section.parens.begin.d
@@ -1757,6 +1827,30 @@ extern(1)
 //^^^^^^ keyword.control.flow.d
 //       ^ punctuation.section.parens.begin.d
 //        ^ punctuation.section.parens.end.d
+  void delegate(int) shared dg1;
+//^^^^ storage.type.d
+//     ^^^^^^^^ keyword.other.d
+//             ^ punctuation.section.group.begin.d
+//              ^^^ storage.type.d
+//                 ^ punctuation.section.group.end.d
+//                   ^^^^^^ storage.modifier.d
+//                          ^^^ variable.other.d
+//                             ^ punctuation.terminator.d
+  function(int a, string b) @trusted {};
+//^^^^^^^^ keyword.other.d
+//        ^ punctuation.section.group.begin.d
+//         ^^^ storage.type.d
+//             ^ variable.parameter.d
+//              ^ punctuation.separator.sequence.d
+//                ^^^^^^ storage.type.d
+//                       ^ variable.parameter.d
+//                        ^ punctuation.section.group.end.d
+//                          ^ punctuation.definition.annotation.begin.d
+//                           ^^^^^^^ storage.attribute.d
+//                                   ^ punctuation.section.block.begin.d
+//                                    ^ punctuation.section.block.end.d
+//                                     ^ punctuation.terminator.d
+
   __traits(foo, a);
 //^^^^^^^^ keyword.other.d
 //        ^ punctuation.section.parens.begin.d
@@ -1791,7 +1885,6 @@ extern(1)
 //                   ^ constant.numeric.integer.d
 //                    ^ punctuation.section.brackets.end.d
 //                     ^ punctuation.terminator.d
-  x *= 12345;
   j ^^= 11;
 //^ variable.other.d
 //  ^^^ keyword.operator.assignment.d
@@ -1892,4 +1985,41 @@ extern(1)
 //                                         ^ punctuation.section.block.begin.d
 //                                          ^ punctuation.section.block.end.d
 
-  char[] buffer_, encoded_;
+  static foreach (Sint; AliasSeq!(S, const S, immutable S))
+//^^^^^^ keyword.control.flow.d
+//       ^^^^^^^ keyword.control.flow.d
+//               ^ punctuation.section.brackets.begin.d
+//                ^^^^ variable.parameter.d
+//                    ^ punctuation.separator.sequence.d
+//                      ^^^^^^^^ variable.other.d
+//                              ^ keyword.operator.d
+//                               ^ punctuation.section.parens.begin.d
+//                                ^ variable.other.d
+//                                 ^ punctuation.separator.sequence.d
+//                                   ^^^^^ storage.modifier.d
+//                                         ^ storage.type.d
+//                                          ^ punctuation.separator.sequence.d
+//                                            ^^^^^^^^^ storage.modifier.d
+//                                                      ^ storage.type.d
+//                                                       ^ punctuation.section.parens.end.d
+//                                                        ^ punctuation.section.brackets.end.d
+  static foreach (Uint; AliasSeq!(U, const U, immutable U)) {}
+//^^^^^^ keyword.control.flow.d
+//       ^^^^^^^ keyword.control.flow.d
+//               ^ punctuation.section.brackets.begin.d
+//                ^^^^ variable.parameter.d
+//                    ^ punctuation.separator.sequence.d
+//                      ^^^^^^^^ variable.other.d
+//                              ^ keyword.operator.d
+//                               ^ punctuation.section.parens.begin.d
+//                                ^ variable.other.d
+//                                 ^ punctuation.separator.sequence.d
+//                                   ^^^^^ storage.modifier.d
+//                                         ^ storage.type.d
+//                                          ^ punctuation.separator.sequence.d
+//                                            ^^^^^^^^^ storage.modifier.d
+//                                                      ^ storage.type.d
+//                                                       ^ punctuation.section.parens.end.d
+//                                                        ^ punctuation.section.brackets.end.d
+//                                                          ^ punctuation.section.block.begin.d
+//                                                           ^ punctuation.section.block.end.d

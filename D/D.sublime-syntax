@@ -29,7 +29,7 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
-  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|__traits|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
+  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
   definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
@@ -424,6 +424,15 @@ contexts:
       scope: storage.modifier.d
     - match: '(?=\b({{reserved}})\b)'
       pop: true
+    - match: '\b(this)\s*(?=\(|$)'
+      captures:
+        1: entity.name.function.constructor.d
+      set: function-definition-begin
+    - match: '(~)\s*(this)\s*(?=\(|$)'
+      captures:
+        1: entity.name.function.destructor.d
+        2: entity.name.function.destructor.d
+      push: function-definition-begin
     - match: '(?=\b{{name}}\b\s*[,=\()])'
       set: [function-or-variable-after-type]
     - match: '(?=[^\s])'
@@ -710,7 +719,7 @@ contexts:
       set: [function-type-after, function-type-argument-definition-list]
     - include: not-whitespace-illegal-pop
   function-type-after:
-    - include: attribute-in
+    - include: function-attribute-in
     - match: '(?=[^\s])'
       pop: true
   # Function type arguments are slightly different to regular function
@@ -881,7 +890,6 @@ contexts:
       set: first-value-after
     - match: '(?=[^\s])'
       set: value
-    # - include: not-whitespace-illegal-pop
   first-value-after:
     - match: '\.'
       scope: punctuation.accessor.dot.d
@@ -908,7 +916,7 @@ contexts:
     - match: '\b(function|delegate)\b'
       scope: keyword.other.d
       set: [function-or-variable-after-type, basic-type2, function-type]
-    - match: '(?={{name}}\s*([;=\(]|$))'
+    - match: '(?={{name}}\s*([;=\(,]|$))'
       set: function-or-variable-after-type
     - match: '(?=[^\s])'
       set: [value-list-after, value-after]
@@ -993,6 +1001,9 @@ contexts:
                 - match: ','
                   scope: punctuation.separator.sequence.d
                   set: [value-parens-after, value-list]
+    - match: '\b(function|delegate)\b'
+      scope: keyword.other.d
+      set: [value-after, function-definition-begin]
     - match: '(\()\s*(\))'
       captures:
         1: punctuation.section.parens.begin.d
@@ -1038,6 +1049,9 @@ contexts:
         1: variable.parameter.d
         2: keyword.operator.lambda.d
       set: value
+    - match: '{{identifier_ref}}(?=\s*\()'
+      scope: variable.function.d
+      set: value-after
     - match: '{{identifier_ref}}'
       scope: variable.other.d
       set: value-after
@@ -1191,6 +1205,8 @@ contexts:
     - match: '\?'
       scope: keyword.operator.logical.d
       set: [value-condition-after, value]
+    - match: '(?=function|delegate)'
+      set: [value-after, basic-type2]
     - match: '(?=[^\s])'
       pop: true
   value-condition-after:
@@ -1209,7 +1225,6 @@ contexts:
       set: value-after
     - include: not-whitespace-illegal
   value-list:
-    # - meta_scope: value-list
     - match: '(?=\)|}|]|;)'
       pop: true
     - match: '(?=[^\s])'
@@ -1371,18 +1386,11 @@ contexts:
     - match: '\b(enum)\b'
       scope: storage.type.enum.d
       push:
+        - match: '(?=\b({{basic_type}})\b)'
+          push: type
         - match: '\b({{name}})(?=\s*({|:|=|\(|$))\b'
           scope: entity.name.enum.d
-          set:
-            - include: end-of-line
-            - match: '(?={)'
-              set: enum-body
-            - match: ':'
-              scope: punctuation.separator.mapping.d
-              set: [enum-body, type]
-            - match: '(?==|\()'
-              set: enum-assignment
-            - include: not-whitespace-illegal
+          set: enum-after
         - match: ':'
           scope: punctuation.separator.mapping.d
           set: [enum-body, type]
@@ -1390,6 +1398,18 @@ contexts:
           set: anonymous-enum-body
         - match: '(?=[^\s])'
           push: type
+  enum-after:
+    - include: end-of-line
+    - match: '(?={)'
+      set: enum-body
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [enum-body, type]
+    - match: '(?==|\()'
+      set: enum-assignment
+    - match: '\b({{name}})\b'
+      scope: entity.name.enum.d
+    - include: not-whitespace-illegal
   enum-body:
     - match: '{'
       scope: punctuation.section.block.begin.d
@@ -1403,9 +1423,19 @@ contexts:
   enum-assignment:
     - match: '='
       scope: keyword.operator.assignment.d
-      set: [expect-end-of-line, value]
+      set: [enum-assignment-after, value]
     - match: '(?=\()'
       push: function-argument-definition-list
+    - include: not-whitespace-illegal-pop
+  enum-assignment-after:
+    - include: end-of-line
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: entity.name.enum.d
+          set: enum-assignment
+        - include: not-whitespace-illegal-pop
     - include: not-whitespace-illegal-pop
   anonymous-enum-body:
     - match: '{'
@@ -1484,7 +1514,7 @@ contexts:
       captures:
         1: keyword.control.flow.d
         2: keyword.control.flow.d
-      push: [block-statement, foreach-arguments]
+      push: [optional-block-statement, foreach-arguments]
   static-assert-in:
     - match: '\b(static)\s+(assert)\b'
       captures:
@@ -1566,9 +1596,14 @@ contexts:
         1: keyword.control.d
         2: storage.type.d
       push: template
-    - match: '\b(mixin)\s+(?!\()'
+    - match: '\b(mixin)(?!\s+\()'
       scope: keyword.control.d
-      push: [expect-end-of-line, value]
+      push: [mixin-after, value]
+  mixin-after:
+    - match: '\b({{name}})\b'
+      scope: variable.other.d
+      set: expect-end-of-line
+    - include: expect-end-of-line
   statement-label-in:
     - match: '\b({{name}})\s*(:)'
       captures:
