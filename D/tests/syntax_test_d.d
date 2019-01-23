@@ -260,7 +260,7 @@ extern(1)
 //               ^ invalid.illegal.d
 //                ^ - invalid.illegal.d
 //                 ^ punctuation.definition.annotation.end.d
-  pragma(f) pragma(test, void)
+  pragma(f) pragma(test, void):
 //^^^^^^ keyword.other.pragma.d
 //      ^ punctuation.definition.annotation.begin.d
 //       ^ variable.function.d
@@ -270,6 +270,9 @@ extern(1)
 //                 ^^^^ variable.function.d
 //                       ^^^^ storage.type.d
 //                           ^ punctuation.definition.annotation.end.d
+  private:
+//^^^^^^^ storage.modifier.access-control.d
+//       ^ punctuation.separator.d
 
   import foo;
 //^^^^^^ keyword.control.import.d
@@ -353,15 +356,24 @@ extern(1)
 //      ^^^^^^^^^^^ variable.d
 //                  ^^^^ keyword.control.alias.d
 //                      ^ punctuation.terminator.d
-  alias F(x) = foo;
+  alias F(x) = foo*;
 //^^^^^ keyword.control.alias.d
 //      ^ entity.name.type.d
 //       ^ punctuation.section.group.begin.d
 //        ^ variable.parameter.d
 //         ^ punctuation.section.group.end.d
 //           ^ keyword.operator.assignment.d
-//             ^^^ storage.type.d
-//                ^ punctuation.terminator.d
+//             ^^^ variable.other.d
+//                ^ keyword.operator.arithmetic.d
+//                 ^ punctuation.terminator.d
+  alias rSave = a => a;
+//^^^^^ keyword.control.alias.d
+//      ^^^^^ entity.name.type.d
+//            ^ keyword.operator.assignment.d
+//              ^ variable.parameter.d
+//                ^^ keyword.operator.lambda.d
+//                   ^ variable.other.d
+//                    ^ punctuation.terminator.d
 
   int a;
 //^^^ storage.type.d
@@ -382,13 +394,13 @@ extern(1)
 //     ^^^^^^^^^^^^^^ variable.other.d
 //                   ^ punctuation.terminator.d
   auto foo = 3;
-//^^^^ keyword.other.d
+//^^^^ storage.modifier.d
 //     ^^^ variable.other.d
 //         ^ keyword.operator.assignment.d
 //           ^ constant.numeric.integer.d
 //            ^ punctuation.terminator.d
   auto
-//^^^^ keyword.other.d
+//^^^^ storage.modifier.d
   asjfaisdjaksdjaklsjdnaskjjks = 3;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.d
 //                             ^ keyword.operator.assignment.d
@@ -894,12 +906,58 @@ extern(1)
 //             ^ punctuation.section.block.begin.d
 //              ^ punctuation.section.block.end.d
   auto foo() {}
-//^^^^ keyword.other.d
+//^^^^ storage.modifier.d
 //     ^^^ entity.name.function.d
 //        ^ punctuation.section.group.begin.d
 //         ^ punctuation.section.group.end.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
+  static foo() {}
+//^^^^^^ storage.modifier.d
+//       ^^^ entity.name.function.d
+//          ^ punctuation.section.group.begin.d
+//           ^ punctuation.section.group.end.d
+//             ^ punctuation.section.block.begin.d
+//              ^ punctuation.section.block.end.d
+  @property foo() {}
+//^ punctuation.definition.annotation.begin.d
+// ^^^^^^^^ storage.attribute.d
+//          ^^^ entity.name.function.d
+//             ^ punctuation.section.group.begin.d
+//              ^ punctuation.section.group.end.d
+//                ^ punctuation.section.block.begin.d
+//                 ^ punctuation.section.block.end.d
+  pure foo() {}
+//^^^^ storage.modifier.d
+//     ^^^ entity.name.function.d
+//        ^ punctuation.section.group.begin.d
+//         ^ punctuation.section.group.end.d
+//           ^ punctuation.section.block.begin.d
+//            ^ punctuation.section.block.end.d
+  const(string) foo(T)(ref const(int) a, auto ref T b) {}
+//^^^^^ storage.modifier.d
+//     ^ punctuation.section.group.begin.d
+//      ^^^^^^ storage.type.d
+//            ^ punctuation.section.group.end.d
+//              ^^^ entity.name.function.d
+//                 ^ punctuation.section.group.begin.d
+//                  ^ variable.parameter.d
+//                   ^ punctuation.section.group.end.d
+//                    ^ punctuation.section.group.begin.d
+//                     ^^^ storage.modifier.d
+//                         ^^^^^ storage.modifier.d
+//                              ^ punctuation.section.group.begin.d
+//                               ^^^ storage.type.d
+//                                  ^ punctuation.section.group.end.d
+//                                    ^ variable.parameter.d
+//                                     ^ punctuation.separator.sequence.d
+//                                       ^^^^ storage.modifier.d
+//                                            ^^^ storage.modifier.d
+//                                                ^ storage.type.d
+//                                                  ^ variable.parameter.d
+//                                                   ^ punctuation.section.group.end.d
+//                                                     ^ punctuation.section.block.begin.d
+//                                                      ^ punctuation.section.block.end.d
   void foo(A : int, string a : "s") {}
 //^^^^ storage.type.d
 //     ^^^ entity.name.function.d
@@ -915,6 +973,17 @@ extern(1)
 //                                ^ punctuation.section.group.end.d
 //                                  ^ punctuation.section.block.begin.d
 //                                   ^ punctuation.section.block.end.d
+  void foo() const inout @property {}
+//^^^^ storage.type.d
+//     ^^^ entity.name.function.d
+//        ^ punctuation.section.group.begin.d
+//         ^ punctuation.section.group.end.d
+//           ^^^^^ storage.modifier.d
+//                 ^^^^^ storage.modifier.d
+//                       ^ punctuation.definition.annotation.begin.d
+//                        ^^^^^^^^ storage.attribute.d
+//                                 ^ punctuation.section.block.begin.d
+//                                  ^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -991,13 +1060,13 @@ extern(1)
 //             ^ variable.parameter.d
 //              ^ punctuation.section.group.end.d
 //                ^^ keyword.control.conditional.d
-//                   ^ value punctuation.section.brackets.begin.d
-//                    ^^ value keyword.other.d
-//                      ^ value-after punctuation.section.parens.begin.d
-//                       ^ value-after storage.type.d
-//                         ^ value-after keyword.operator.logical.d
-//                           ^^^^^ value-after storage.type.d
-//                                ^ value-after punctuation.section.parens.end.d
+//                   ^ punctuation.section.brackets.begin.d
+//                    ^^ keyword.other.d
+//                      ^ punctuation.section.parens.begin.d
+//                       ^ storage.type.d
+//                         ^ keyword.operator.logical.d
+//                           ^^^^^ storage.type.d
+//                                ^ punctuation.section.parens.end.d
 //                                 ^ punctuation.section.brackets.end.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
@@ -1141,6 +1210,16 @@ extern(1)
   //^ punctuation.section.block.end.d
   }
 //^ punctuation.section.block.end.d
+  foreach (ref a; foo) {}
+//^^^^^^^ keyword.control.flow.d
+//        ^ punctuation.section.brackets.begin.d
+//         ^^^ storage.modifier.d
+//             ^ variable.parameter.d
+//              ^ punctuation.separator.sequence.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.section.brackets.end.d
+//                     ^ punctuation.section.block.begin.d
+//                      ^ punctuation.section.block.end.d
 
   continue;
 //^^^^^^^^ keyword.control.flow.d
@@ -1303,29 +1382,29 @@ extern(1)
 //                                                 ^ punctuation.section.brackets.end.d
 //                                                  ^ punctuation.terminator.d
   i = new Foo();
-//^ first-value first-value-after variable.other.d
-//  ^ value-after value keyword.operator.assignment.d
-//    ^^^ value keyword.operator.word.d
+//^ variable.other.d
+//  ^ keyword.operator.assignment.d
+//    ^^^ keyword.operator.word.d
 //        ^^^ storage.type.d
 //           ^ punctuation.section.parens.begin.d
-//            ^ value-after punctuation.section.parens.end.d
+//            ^ punctuation.section.parens.end.d
 //             ^ punctuation.terminator.d
   new(1, 2, 3) string[12];
-//^^^ value keyword.operator.word.d
+//^^^ keyword.operator.word.d
 //   ^ punctuation.section.parens.begin.d
-//    ^ value-after constant.numeric.integer.d
+//    ^ constant.numeric.integer.d
 //     ^ punctuation.separator.sequence.d
-//       ^ value-after constant.numeric.integer.d
+//       ^ constant.numeric.integer.d
 //        ^ punctuation.separator.sequence.d
-//          ^ value-after constant.numeric.integer.d
+//          ^ constant.numeric.integer.d
 //           ^ punctuation.section.parens.end.d
 //             ^^^^^^ storage.type.d
 //                   ^ punctuation.section.brackets.begin.d
-//                    ^^ value-after constant.numeric.integer.d
+//                    ^^ constant.numeric.integer.d
 //                      ^ punctuation.section.brackets.end.d
 //                       ^ punctuation.terminator.d
   auto c = new class(12) T, Bar {
-//^^^^ keyword.other.d
+//^^^^ storage.modifier.d
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ keyword.operator.word.d
@@ -1405,7 +1484,7 @@ extern(1)
 //                                                ^ punctuation.terminator.d
 
   auto f = foo ? 12 : 15;
-//^^^^ keyword.other.d
+//^^^^ storage.modifier.d
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ variable.other.d
@@ -1516,6 +1595,26 @@ extern(1)
 //  ^ punctuation.section.parens.begin.d
 //   ^ storage.type.d
 //    ^ punctuation.section.parens.end.d
+  is(T : immutable);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^ storage.type.d
+//     ^ keyword.operator.logical.d
+//       ^^^^^^^^^ storage.modifier.d
+//                ^ punctuation.section.parens.end.d
+//                 ^ punctuation.terminator.d
+  is(immutable Range == immutable T[]);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^^^^^^^ storage.modifier.d
+//             ^^^^^ storage.type.d
+//                   ^^ keyword.operator.logical.d
+//                      ^^^^^^^^^ storage.modifier.d
+//                                ^ storage.type.d
+//                                 ^ punctuation.section.brackets.begin.d
+//                                  ^ punctuation.section.brackets.end.d
+//                                   ^ punctuation.section.parens.end.d
+//                                    ^ punctuation.terminator.d
 
   typeof(2) a(typeof('f') b);
 //^^^^^^ keyword.other.d
@@ -1654,28 +1753,31 @@ extern(1)
 //                                                           ^ variable.parameter.d
 //                                                            ^ punctuation.section.group.end.d
 //                                                             ^ punctuation.terminator.d
-
+  return () @trusted inout {};
+//^^^^^^ keyword.control.flow.d
+//       ^ punctuation.section.parens.begin.d
+//        ^ punctuation.section.parens.end.d
   __traits(foo, a);
-//^^^^^^^^ value keyword.other.d
+//^^^^^^^^ keyword.other.d
 //        ^ punctuation.section.parens.begin.d
 //         ^^^ variable.function.d
 //            ^ punctuation.separator.sequence.d
-//              ^ value value-after variable.other.d
-//               ^ value-after punctuation.section.parens.end.d
+//              ^ variable.other.d
+//               ^ punctuation.section.parens.end.d
 //                ^ punctuation.terminator.d
   values ~= toValue(__traits(getMember, this, primaryKey));
-//^^^^^^ first-value first-value-after variable.other.d
-//       ^^ value-after value keyword.operator.assignment.d
-//          ^^^^^^^ value value-after variable.other.d
-//                 ^ value-after punctuation.section.parens.begin.d
-//                  ^^^^^^^^ value keyword.other.d
+//^^^^^^ variable.other.d
+//       ^^ keyword.operator.assignment.d
+//          ^^^^^^^ variable.other.d
+//                 ^ punctuation.section.parens.begin.d
+//                  ^^^^^^^^ keyword.other.d
 //                          ^ punctuation.section.parens.begin.d
 //                           ^^^^^^^^^ variable.function.d
 //                                    ^ punctuation.separator.sequence.d
-//                                      ^^^^ value value-after variable.language.d
+//                                      ^^^^ variable.language.d
 //                                          ^ punctuation.separator.sequence.d
-//                                            ^^^^^^^^^^ value value-after variable.other.d
-//                                                      ^^ value-after punctuation.section.parens.end.d
+//                                            ^^^^^^^^^^ variable.other.d
+//                                                      ^^ punctuation.section.parens.end.d
 //                                                        ^ punctuation.terminator.d
 
   3 != 3 && "s" !in [2];
@@ -1689,6 +1791,19 @@ extern(1)
 //                   ^ constant.numeric.integer.d
 //                    ^ punctuation.section.brackets.end.d
 //                     ^ punctuation.terminator.d
+  x *= 12345;
+  j ^^= 11;
+//^ variable.other.d
+//  ^^^ keyword.operator.assignment.d
+//      ^^ constant.numeric.integer.d
+//        ^ punctuation.terminator.d
+  k ^^ 11 == j;
+//^ variable.other.d
+//  ^^ keyword.operator.arithmetic.d
+//     ^^ constant.numeric.integer.d
+//        ^^ keyword.operator.comparison.d
+//           ^ variable.other.d
+//            ^ punctuation.terminator.d
 
   .AliasSeq!(immutable char, int);
 //^^^^^^^^^ variable.other.d
@@ -1711,3 +1826,70 @@ extern(1)
 //              ^ punctuation.section.parens.end.d
 //               ^^^^ variable.other.d
 //                   ^ punctuation.terminator.d
+
+  void toString(Writer)(ref Writer w, const ref FormatSpec!char fmt) {}
+//^^^^ storage.type.d
+//     ^^^^^^^^ entity.name.function.d
+//             ^ punctuation.section.group.begin.d
+//              ^^^^^^ variable.parameter.d
+//                    ^ punctuation.section.group.end.d
+//                     ^ punctuation.section.group.begin.d
+//                      ^^^ storage.modifier.d
+//                          ^^^^^^ storage.type.d
+//                                 ^ variable.parameter.d
+//                                  ^ punctuation.separator.sequence.d
+//                                    ^^^^^ storage.modifier.d
+//                                          ^^^ storage.modifier.d
+//                                              ^^^^^^^^^^ storage.type.d
+//                                                        ^ keyword.operator.d
+//                                                         ^^^^ storage.type.d
+//                                                              ^^^ variable.parameter.d
+//                                                                 ^ punctuation.section.group.end.d
+//                                                                   ^ punctuation.section.block.begin.d
+//                                                                    ^ punctuation.section.block.end.d
+
+  auto sc1 = const(S1)();
+//^^^^ storage.modifier.d
+//     ^^^ variable.other.d
+//         ^ keyword.operator.assignment.d
+//           ^^^^^ storage.modifier.d
+//                ^ punctuation.section.group.begin.d
+//                 ^^ storage.type.d
+//                   ^ punctuation.section.group.end.d
+//                    ^ punctuation.section.parens.begin.d
+//                     ^ punctuation.section.parens.end.d
+//                      ^ punctuation.terminator.d
+
+  auto reference = new ubyte[](2048 + 1);
+//^^^^ storage.modifier.d
+//     ^^^^^^^^^ variable.other.d
+//               ^ keyword.operator.assignment.d
+//                 ^^^ keyword.operator.word.d
+//                     ^^^^^ storage.type.d
+//                          ^ punctuation.section.brackets.begin.d
+//                           ^ punctuation.section.brackets.end.d
+//                            ^ punctuation.section.parens.begin.d
+//                             ^^^^ constant.numeric.integer.d
+//                                  ^ keyword.operator.arithmetic.d
+//                                    ^ constant.numeric.integer.d
+//                                     ^ punctuation.section.parens.end.d
+//                                      ^ punctuation.terminator.d
+
+  auto staticArray(size_t n, T)(scope T a) {}
+//^^^^ storage.modifier.d
+//     ^^^^^^^^^^^ entity.name.function.d
+//                ^ punctuation.section.group.begin.d
+//                 ^^^^^^ storage.type.d
+//                        ^ variable.parameter.d
+//                         ^ punctuation.separator.sequence.d
+//                           ^ variable.parameter.d
+//                            ^ punctuation.section.group.end.d
+//                             ^ punctuation.section.group.begin.d
+//                              ^^^^^ storage.modifier.d
+//                                    ^ storage.type.d
+//                                      ^ variable.parameter.d
+//                                       ^ punctuation.section.group.end.d
+//                                         ^ punctuation.section.block.begin.d
+//                                          ^ punctuation.section.block.end.d
+
+  char[] buffer_, encoded_;
