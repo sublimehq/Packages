@@ -789,18 +789,18 @@ extern(1)
   static assert(12);
 //^^^^^^ keyword.control.conditional.d
 //       ^^^^^^ keyword.control.conditional.d
-//             ^ punctuation.section.brackets.begin.d
+//             ^ punctuation.section.parens.begin.d
 //              ^^ constant.numeric.integer.d
-//                ^ punctuation.section.brackets.end.d
+//                ^ punctuation.section.parens.end.d
 //                 ^ punctuation.terminator.d
   static assert(12, "foobar");
 //^^^^^^ keyword.control.conditional.d
 //       ^^^^^^ keyword.control.conditional.d
-//             ^ punctuation.section.brackets.begin.d
+//             ^ punctuation.section.parens.begin.d
 //              ^^ constant.numeric.integer.d
 //                ^ punctuation.separator.sequence.d
 //                  ^^^^^^^^ string.quoted.double.d
-//                          ^ punctuation.section.brackets.end.d
+//                          ^ punctuation.section.parens.end.d
 //                           ^ punctuation.terminator.d
 
   int[string] foo() {
@@ -1063,13 +1063,14 @@ extern(1)
 //        ^^ keyword.operator.logical.d
 //           ^^^^^ constant.language.d
 //                ^ punctuation.section.parens.end.d
-  out(false || true)
+  out(; false || true)
 //^^^ keyword.control.conditional.d
 //   ^ punctuation.section.parens.begin.d
-//    ^^^^^ constant.language.d
-//          ^^ keyword.operator.logical.d
-//             ^^^^ constant.language.d
-//                 ^ punctuation.section.parens.end.d
+//    ^ punctuation.separator.sequence.d
+//      ^^^^^ constant.language.d
+//            ^^ keyword.operator.logical.d
+//               ^^^^ constant.language.d
+//                   ^ punctuation.section.parens.end.d
   {}
 //^ punctuation.section.block.begin.d
 // ^ punctuation.section.block.end.d
@@ -1094,9 +1095,12 @@ extern(1)
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.block.begin.d
 //    ^ punctuation.section.block.end.d
-  out {
+  out (foo) {
 //^^^ keyword.control.conditional.d
-//    ^ punctuation.section.block.begin.d
+//    ^ punctuation.section.parens.begin.d
+//     ^^^ variable.parameter.d
+//        ^ punctuation.section.parens.end.d
+//          ^ punctuation.section.block.begin.d
     assert(true);
   //^^^^^^ variable.function.d
   //      ^ punctuation.section.parens.begin.d
@@ -1105,11 +1109,26 @@ extern(1)
   //            ^ punctuation.terminator.d
   }
 //^ punctuation.section.block.end.d
-  do {
-//^^ keyword.other.d
-//   ^ punctuation.section.block.begin.d
+  body {
+//^^^^ keyword.other.d
+//     ^ punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+  void f()
+//^^^^ storage.type.d
+//     ^ entity.name.function.d
+//      ^ punctuation.section.group.begin.d
+//       ^ punctuation.section.group.end.d
+  out (foo; foo == true) {}
+//^^^ keyword.control.conditional.d
+//    ^ punctuation.section.parens.begin.d
+//     ^^^ variable.parameter.d
+//        ^ punctuation.separator.sequence.d
+//          ^^^ variable.other.d
+//              ^^ keyword.operator.comparison.d
+//                 ^^^^ constant.language.d
+//                     ^ punctuation.section.parens.end.d
+//                       ^ punctuation.section.block.begin.d
+//                        ^ punctuation.section.block.end.d
   void f(...);
 //^^^^ storage.type.d
 //     ^ entity.name.function.d
@@ -1192,16 +1211,16 @@ extern(1)
 
   invariant(0, "test") {
 //^^^^^^^^^ keyword.control.flow.d
-//         ^ punctuation.section.brackets.begin.d
+//         ^ punctuation.section.parens.begin.d
 //          ^ constant.numeric.integer.d
 //           ^ punctuation.separator.sequence.d
 //             ^^^^^^ string.quoted.double.d
-//                   ^ punctuation.section.brackets.end.d
+//                   ^ punctuation.section.parens.end.d
 //                     ^ punctuation.section.block.begin.d
     invariant();
   //^^^^^^^^^ keyword.control.flow.d
-  //         ^ punctuation.section.brackets.begin.d
-  //          ^ punctuation.section.brackets.end.d
+  //         ^ punctuation.section.parens.begin.d
+  //          ^ punctuation.section.parens.end.d
     invariant {}
   //^^^^^^^^^ keyword.control.flow.d
   //          ^ punctuation.section.block.begin.d

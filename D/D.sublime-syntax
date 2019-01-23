@@ -810,26 +810,48 @@ contexts:
     - match: '(?=[^\s])'
       set: function-definition-after-condition
   function-definition-after-condition:
-    - match: '\b(in|out)\b'
+    - match: '\bin\b'
       scope: keyword.control.conditional.d
       set:
-        - match: '\('
-          scope: punctuation.section.parens.begin.d
-          set: [function-contract-after-value, value]
+        - match: '(?=\()'
+          set: [function-definition-after-condition, assert-arguments]
         - match: '{{block_statement_loohahead}}'
           set: [function-definition-after-condition, block-statement]
         - include: not-whitespace-illegal
-    - match: '\bdo\b'
+    - match: '\bout\b'
+      scope: keyword.control.conditional.d
+      push: function-out-contract
+    - match: '\b(do|body)\b'
       scope: keyword.other.d
       set: block-statement
     - match: '{{block_statement_loohahead}}'
       set: block-statement
-    - include: expect-end-of-line
-  function-contract-after-value:
+    - include: end-of-line
+    - include: not-whitespace-illegal-pop
+  function-out-contract:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set:
+        - match: '{{name}}'
+          scope: variable.parameter.d
+          set:
+            - match: ';'
+              scope: punctuation.separator.sequence.d
+              set: [function-out-contract-after, value-list]
+            - match: '(?=[^\s])'
+              set: [block-statement, function-out-contract-after]
+        - match: ';'
+          scope: punctuation.separator.sequence.d
+          set: [function-out-contract-after, value-list]
+        - include: not-whitespace-illegal-pop
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - include: not-whitespace-illegal-pop
+  function-out-contract-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d
-      set: function-definition-after-condition
-    - include: not-whitespace-illegal
+      pop: true
+    - include: not-whitespace-illegal-pop
   function-argument-definition-list:
     - match: '\('
       scope: punctuation.section.group.begin.d
@@ -1912,12 +1934,12 @@ contexts:
 
   assert-arguments:
     - match: '\('
-      scope: punctuation.section.brackets.begin.d
+      scope: punctuation.section.parens.begin.d
       set: [assert-arguments-after, value-list]
     - include: not-whitespace-illegal
   assert-arguments-after:
     - match: '\)'
-      scope: punctuation.section.brackets.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
 
