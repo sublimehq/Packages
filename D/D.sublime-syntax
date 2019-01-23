@@ -787,8 +787,35 @@ contexts:
     - include: function-definition-after-argument-list2
   function-definition-after-argument-list2:
     - include: function-attribute-in
-    - match: '(?={|;|\bif\b)'
-      set: optional-template-body-block
+    - match: '(?={|;|\bif\b|\bin\b|\bout\b|\bdo\b)'
+      set: function-definition-after-arguments
+    - include: not-whitespace-illegal
+  function-definition-after-arguments:
+    - match: '\bif\b'
+      scope: keyword.control.conditional.d
+      set: [function-definition-after-condition, condition]
+    - match: '(?=[^\s])'
+      set: function-definition-after-condition
+  function-definition-after-condition:
+    - match: '\b(in|out)\b'
+      scope: keyword.control.conditional.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [function-contract-after-value, value]
+        - match: '{{block_statement_loohahead}}'
+          set: [function-definition-after-condition, block-statement]
+        - include: not-whitespace-illegal
+    - match: '\bdo\b'
+      scope: keyword.other.d
+      set: block-statement
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - include: expect-end-of-line
+  function-contract-after-value:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: function-definition-after-condition
     - include: not-whitespace-illegal
   function-argument-definition-list:
     - match: '\('
@@ -885,6 +912,9 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
+    # Check for simple function call to highlight the identifier correctly
+    - match: '(?={{identifier_ref}}\s*\()'
+      set: value
     - match: '{{identifier_ref}}'
       scope: variable.other.d
       set: first-value-after
@@ -970,7 +1000,7 @@ contexts:
           set: [value-parens-after, value]
         - include: not-whitespace-illegal
     - match: '\bmixin\b'
-      scope: keyword.other.d
+      scope: keyword.control.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
@@ -1136,7 +1166,7 @@ contexts:
       set: value-group-after
     - match: ','
       scope: punctuation.separator.sequence.d
-      set: [value-group-after-parens, function-argument]
+      set: [value-group-after-parens, function-argument, function-argument-or-type]
     - match: '\.\.\.'
       scope: keyword.operator.d
     - include: not-whitespace-illegal
@@ -1596,7 +1626,7 @@ contexts:
         1: keyword.control.d
         2: storage.type.d
       push: template
-    - match: '\b(mixin)(?!\s+\()'
+    - match: '\b(mixin)(?!\s*\()'
       scope: keyword.control.d
       push: [mixin-after, value]
   mixin-after:

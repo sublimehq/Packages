@@ -1032,6 +1032,70 @@ extern(1)
 //                        ^^^^^^^^ storage.attribute.d
 //                                 ^ punctuation.section.block.begin.d
 //                                  ^ punctuation.section.block.end.d
+  void f()
+//^^^^ storage.type.d
+//     ^ entity.name.function.d
+//      ^ punctuation.section.group.begin.d
+//       ^ punctuation.section.group.end.d
+  in(true)
+//^^ keyword.control.conditional.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^^ constant.language.d
+//       ^ punctuation.section.parens.end.d
+  in(true || false)
+//^^ keyword.control.conditional.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^^ constant.language.d
+//        ^^ keyword.operator.logical.d
+//           ^^^^^ constant.language.d
+//                ^ punctuation.section.parens.end.d
+  out(false || true)
+//^^^ keyword.control.conditional.d
+//   ^ punctuation.section.parens.begin.d
+//    ^^^^^ constant.language.d
+//          ^^ keyword.operator.logical.d
+//             ^^^^ constant.language.d
+//                 ^ punctuation.section.parens.end.d
+  {}
+//^ punctuation.section.block.begin.d
+// ^ punctuation.section.block.end.d
+  void f(A)() if (is(A : B))
+//^^^^ storage.type.d
+//     ^ entity.name.function.d
+//      ^ punctuation.section.group.begin.d
+//       ^ variable.parameter.d
+//        ^
+//         ^ punctuation.section.group.begin.d
+//          ^ punctuation.section.group.end.d
+//            ^^ keyword.control.conditional.d
+//               ^ punctuation.section.brackets.begin.d
+//                ^^ keyword.other.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^ storage.type.d
+//                     ^ keyword.operator.logical.d
+//                       ^ storage.type.d
+//                        ^ punctuation.section.parens.end.d
+//                         ^ punctuation.section.brackets.end.d
+  in {}
+//^^ keyword.control.conditional.d
+//   ^ punctuation.section.block.begin.d
+//    ^ punctuation.section.block.end.d
+  out {
+//^^^ keyword.control.conditional.d
+//    ^ punctuation.section.block.begin.d
+    assert(true);
+  //^^^^^^ variable.function.d
+  //      ^ punctuation.section.parens.begin.d
+  //       ^^^^ constant.language.d
+  //           ^ punctuation.section.parens.end.d
+  //            ^ punctuation.terminator.d
+  }
+//^ punctuation.section.block.end.d
+  do {
+//^^ keyword.other.d
+//   ^ punctuation.section.block.begin.d
+  }
+//^ punctuation.section.block.end.d
 
   this(int foo) {
 //^^^^ entity.name.function.constructor.d
@@ -1161,7 +1225,7 @@ extern(1)
 //               ^ variable.other.d
 //                ^ punctuation.terminator.d
   mixin("foo");
-//^^^^^ keyword.other.d
+//^^^^^ keyword.control.d
 //     ^ punctuation.section.parens.begin.d
 //      ^ punctuation.definition.string.begin.d
 //      ^^^^^ string.quoted.double.d
@@ -1529,7 +1593,7 @@ extern(1)
 // ^ punctuation.terminator.d
 
   mixin("a") = (12 ^^ 4) % 5 / (3++ + --4) ~ "foo";
-//^^^^^ keyword.other.d
+//^^^^^ keyword.control.d
 //     ^ punctuation.section.parens.begin.d
 //      ^^^ string.quoted.double.d
 //         ^ punctuation.section.parens.end.d
@@ -1730,7 +1794,7 @@ extern(1)
 //      ^ punctuation.definition.annotation.begin.d
 //       ^^^^^^^ storage.attribute.d
 //               ^^ keyword.operator.lambda.d
-//                  ^^^ variable.other.d
+//                  ^^^ variable.function.d
 //                     ^ punctuation.section.parens.begin.d
 //                      ^ constant.numeric.integer.d
 //                       ^ punctuation.section.parens.end.d
@@ -1764,6 +1828,21 @@ extern(1)
 //          ^^^^ storage.modifier.d
 //               ^ punctuation.definition.annotation.begin.d
 //                ^^^^ storage.attribute.d
+//                     ^ punctuation.section.block.begin.d
+//                      ^ punctuation.section.block.end.d
+//                       ^ punctuation.terminator.d
+  (a, int b, c, int d) {};
+//^ punctuation.section.group.begin.d
+// ^ variable.other.d
+//  ^ punctuation.separator.sequence.d
+//    ^^^ storage.type.d
+//        ^ variable.parameter.d
+//         ^ punctuation.separator.sequence.d
+//           ^ variable.parameter.d
+//            ^ punctuation.separator.sequence.d
+//              ^^^ storage.type.d
+//                  ^ variable.parameter.d
+//                   ^ punctuation.section.group.end.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d
@@ -1862,7 +1941,7 @@ extern(1)
   values ~= toValue(__traits(getMember, this, primaryKey));
 //^^^^^^ variable.other.d
 //       ^^ keyword.operator.assignment.d
-//          ^^^^^^^ variable.other.d
+//          ^^^^^^^ variable.function.d
 //                 ^ punctuation.section.parens.begin.d
 //                  ^^^^^^^^ keyword.other.d
 //                          ^ punctuation.section.parens.begin.d
@@ -1902,6 +1981,11 @@ extern(1)
 //  ^^ keyword.operator.assignment.d
 //     ^^^^^ constant.numeric.integer.d
 //          ^ punctuation.terminator.d
+  foo();
+//^^^ variable.function.d
+//   ^ punctuation.section.parens.begin.d
+//    ^ punctuation.section.parens.end.d
+//     ^ punctuation.terminator.d
 
   .AliasSeq!(immutable char, int);
 //^^^^^^^^^ variable.other.d
