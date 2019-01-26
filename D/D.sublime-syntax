@@ -61,8 +61,11 @@ contexts:
 
   main:
     - meta_include_prototype: false
-    - match: '^#!.*$'
-      scope: comment.line.shebang.d
+    - match: '^(#)!(.*)$'
+      scope: comment.line.number-sign.d
+      captures:
+        1: punctuation.definition.comment.number-sign
+        2: source.shell
       set: main-after-shebang-in
     - match: ''
       set: main-after-shebang-in
