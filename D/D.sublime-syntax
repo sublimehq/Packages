@@ -69,12 +69,14 @@ contexts:
   main-after-shebang-in:
     - include: attribute-specifier-in
     - match: '\b(module)\s+({{identifier}})(;)'
-      scope: meta.module.d
+      # scope: meta.namespace.d
       captures:
         1: keyword.control.module.d
         2: entity.name.namespace.d
         3: punctuation.terminator.d
-      set: statement-list-in
+      set:
+        - meta_scope: meta.namespace.d
+        - include: statement-list-in
     - match: '\s'
     - match: (?=.)
       set: statement-list-in

@@ -1,13 +1,14 @@
 // SYNTAX TEST "Packages/D/D.sublime-syntax"
 
 module foo.a.b1_3;
-// <- meta.module.d keyword.control.module.d
- // <- meta.module.d keyword.control.module.d
-//^^^^ meta.module.d keyword.control.module.d
-//     ^^^^^^^^^^ meta.module.d entity.name.namespace.d
-//               ^ meta.module.d punctuation.terminator.d
+// <- meta.namespace.d keyword.control.module.d
+ // <- meta.namespace.d keyword.control.module.d
+//^^^^ meta.namespace.d keyword.control.module.d
+//     ^^^^^^^^^^ meta.namespace.d entity.name.namespace.d
+//               ^ meta.namespace.d punctuation.terminator.d
   module foo.a.b1_3;
-//^^^^^^^^^^^^^^^^^^ - meta.module.d
+//^^^^^^ - keyword.control.module
+//       ^^^^^^^^^^ - entity.name.namespace
 
   /+
 //^^ comment.block.nested.d punctuation.definition.comment.d
