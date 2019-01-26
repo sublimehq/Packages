@@ -64,7 +64,7 @@ contexts:
     - match: '^#!.*$'
       scope: comment.line.shebang.d
       set: main-after-shebang-in
-    - match: '(?=.)'
+    - match: ''
       set: main-after-shebang-in
   main-after-shebang-in:
     - include: attribute-specifier-in
