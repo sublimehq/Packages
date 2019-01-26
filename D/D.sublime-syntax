@@ -72,7 +72,6 @@ contexts:
   main-after-shebang-in:
     - include: attribute-specifier-in
     - match: '\b(module)\s+({{identifier}})(;)'
-      # scope: meta.namespace.d
       captures:
         1: keyword.declaration.module.d
         2: entity.name.namespace.d
@@ -80,8 +79,7 @@ contexts:
       set:
         - meta_scope: meta.namespace.d
         - include: statement-list-in
-    - match: '\s'
-    - match: (?=.)
+    - match: (?=\S)
       set: statement-list-in
   statement-list-in:
     - include: import-in
@@ -928,7 +926,6 @@ contexts:
       set: variable-definition-begin
     - include: expect-end-of-line
   value-or-declaration-in:
-    - match: '\s'
     - match: '{{definitely_value_lookahead}}'
       push: [maybe-end-of-line, value-list]
     - match: '{{definitely_declaration_lookahead}}'
@@ -936,7 +933,6 @@ contexts:
     - match: '(?=\S)'
       push: [maybe-end-of-line, first-value]
   value-or-declaration:
-    - match: '\s'
     - match: '{{definitely_value_lookahead}}'
       set: value-list
     - match: '{{definitely_declaration_lookahead}}'
