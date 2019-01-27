@@ -1899,3 +1899,28 @@ type T = Foo => (Bar, Baz)
 new Array[Long]()
 //             ^ punctuation.section.group.begin.scala
 //              ^ punctuation.section.group.end.scala
+
+val foo: Bar = baz
+//     ^ punctuation.ascription.scala
+//      ^ - punctuation
+
+val (foo: Bar) = baz
+//      ^ punctuation.ascription.scala
+
+{
+  case foo: Bar => baz
+//        ^ punctuation.ascription.scala
+}
+
+foo: Bar
+// ^ punctuation.ascription.scala
+
+(foo: Bar) => 42
+//  ^ punctuation.ascription.scala
+
+def foo(bar: Baz): Unit
+//         ^ punctuation.ascription.scala
+
+class Foo(bar: Baz)
+//           ^ punctuation.ascription.scala
+

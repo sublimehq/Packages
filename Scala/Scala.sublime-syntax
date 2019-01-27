@@ -152,6 +152,8 @@ contexts:
 
   ascription-no-function:
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: '(?={{rightarrow}})'
           pop: true
@@ -159,6 +161,8 @@ contexts:
 
   ascription:
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push: single-type-expression
 
   annotation:
@@ -222,6 +226,8 @@ contexts:
       scope: variable.language.underscore.scala
   lambda-declaration-parens:
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: ','
           scope: punctuation.separator.scala
@@ -232,6 +238,8 @@ contexts:
     - include: lambda-declaration-base
   lambda-declaration:
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: '(?={{nonopchar}}({{rightarrow}}){{nonopchar}})'
           pop: true
@@ -523,6 +531,8 @@ contexts:
             1: variable.parameter.scala
           push:
             - match: '{{typeprefix}}'
+              captures:
+                1: punctuation.ascription.scala
               set:
                 - match: '(\*)\s*(?=[\),=])'
                   captures:
@@ -592,6 +602,8 @@ contexts:
             1: variable.parameter.scala
           push:
             - match: '{{typeprefix}}'
+              captures:
+                1: punctuation.ascription.scala
               set:
                 - match: '(\*)\s*(?=[\),=])'
                   captures:
@@ -1322,6 +1334,8 @@ contexts:
     - match: '(?:{{upperid}}|{{op}})(?=[\s=:])'
       scope: entity.name.val.scala
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: '\bif\b'
           scope: invalid.keyword.if-in-val-match.scala
@@ -1348,6 +1362,8 @@ contexts:
   val-pattern-match-inner:
     # ascription with ',' stop token
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: '(?=,)'
           pop: true
@@ -1418,6 +1434,8 @@ contexts:
   nested-pattern-match:
     - include: base-pattern-match
     - match: '{{typeprefix}}'
+      captures:
+        1: punctuation.ascription.scala
       push:
         - match: '(?=[,\)@])'
           pop: true
