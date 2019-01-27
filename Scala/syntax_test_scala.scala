@@ -1834,3 +1834,9 @@ val x: AnyVal
 
 val x: Nothing
 //     ^^^^^^^ storage.type.primitive.scala
+
+  class Context(var abc: Boolean, val fed: Int)
+//              ^^^ storage.type.volatile.scala
+//                  ^^^ variable.parameter.scala
+//                                ^^^ storage.type.scala
+//                                    ^^^ variable.parameter.scala
