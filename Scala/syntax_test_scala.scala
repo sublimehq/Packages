@@ -656,6 +656,14 @@ type Foo = Bar[A] forSome { type A }
    val Foo = 42
 //     ^^^ entity.name.val
 
+   val * = 42
+//     ^ entity.name.val
+
+   val * : abc = 42
+//     ^ entity.name.val
+//       ^ punctuation.ascription.scala
+//         ^^^ support.type.scala
+
    val (Foo, x) = 42
 //      ^^^ support.constant.scala
 //           ^ entity.name.val
@@ -1924,3 +1932,40 @@ def foo(bar: Baz): Unit
 class Foo(bar: Baz)
 //           ^ punctuation.ascription.scala
 
+val firstA :: firstB :: Nil = results
+//  ^^^^^^ entity.name.val.scala
+//         ^^ - entity
+//            ^^^^^^ entity.name.val.scala
+//                   ^^ - entity
+//                      ^^^ support.constant.scala - entity
+
+val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
+//   ^^^^^^ entity.name.val.scala
+//          ^^ - entity
+//             ^^^^^^ entity.name.val.scala
+//                    ^^ - entity
+//                       ^^^ support.constant.scala - entity
+//                                ^^^^^^^ entity.name.val.scala
+//                                        ^^ - entity
+//                                            ^^^^^^ entity.name.val.scala
+//                                                      ^^^ support.constant.scala - entity
+//                                                           ^^ - entity
+//                                                              ^^^ support.constant.scala - entity
+
+{
+  case (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil => results
+//      ^^^^^^ variable.parameter.scala
+//             ^^ - variable
+//                ^^^^^^ variable.parameter.scala
+//                       ^^ - variable
+//                          ^^^ support.constant.scala - variable
+//                               ^^ - variable
+//                                   ^^^^^^^ variable.parameter.scala
+//                                           ^^ - variable
+//                                              ^^^^^^^ variable.parameter.scala
+//                                                      ^^ - variable
+//                                                         ^^^ support.constant.scala - variable
+//                                                              ^^ - variable
+//                                                                 ^^^ support.constant.scala - variable
+//                                                                        ^^^^^^^ - variable
+}

@@ -341,10 +341,7 @@ contexts:
     - match: '\b(val)\b'
       captures:
         1: storage.type.stable.scala
-      push:
-        - match: '(?=[=\n\}\)\]])'
-          pop: true
-        - include: val-pattern-match
+      push: val-simple-body
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
         1: keyword.control.scala
@@ -1282,13 +1279,16 @@ contexts:
     - include: xml-should-be-entity
 
   val-pattern-match-main:
-    - include: keywords
+    - match: '(?={{keywords}})'
+      pop: true
+
     - include: base-constants
     - include: char-literal
     - include: scala-symbol
     - include: strings
     - include: xml-literal
     - include: late-keywords
+
     - match: '`'
       scope: punctuation.definition.identifier.scala
       push:
@@ -1330,13 +1330,32 @@ contexts:
       scope: variable.language.underscore.scala
     - match: ','
       scope: punctuation.separator.scala
-  val-pattern-match:
-    - match: '(?:{{upperid}}|{{op}})(?=[\s=:])'
+    - include: ascription
+
+  val-bailout:
+    - match: '(?=[=\n\}\)\]])'
+      pop: true
+
+  val-simple-body:
+    - include: val-bailout
+
+    - match: '(?={{keywords}})'
+      pop: true
+
+    # an id followed by a type, or an =, or EOL
+    - match: '{{id}}(?=\s*:{{nonopchar}}|\s*=|\s*$)'
       scope: entity.name.val.scala
+      set: val-simple-body-tail
+    - match: (?=\S)
+      set:
+        - include: val-bailout
+        - include: val-pattern-match
+
+  val-simple-body-tail:
     - match: '{{typeprefix}}'
       captures:
         1: punctuation.ascription.scala
-      push:
+      set:
         - match: '\bif\b'
           scope: invalid.keyword.if-in-val-match.scala
           pop: true
@@ -1347,10 +1366,15 @@ contexts:
         - include: delimited-type-expression
         - match: '(?=[\{\n])'
           pop: true
+    - match: (?=\S)
+      pop: true
+
+  val-pattern-match:
     - include: val-pattern-match-main
     - match: \(
       scope: punctuation.section.group.begin.scala
       push: val-pattern-match-inner-paren
+
   val-pattern-match-inner-paren:
     - match: \(
       scope: punctuation.section.group.begin.scala
@@ -1360,14 +1384,6 @@ contexts:
       pop: true
     - include: val-pattern-match-inner
   val-pattern-match-inner:
-    # ascription with ',' stop token
-    - match: '{{typeprefix}}'
-      captures:
-        1: punctuation.ascription.scala
-      push:
-        - match: '(?=,)'
-          pop: true
-        - include: single-type-expression
     - include: val-pattern-match-main
     - match: '{{upperid}}|\b{{varid}}(?=\s*\()'
       scope: support.class.scala
