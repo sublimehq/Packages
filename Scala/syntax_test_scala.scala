@@ -1834,3 +1834,6 @@ val x: AnyVal
 
 val x: Nothing
 //     ^^^^^^^ storage.type.primitive.scala
+
+(abc)()
+//   ^^ - constant

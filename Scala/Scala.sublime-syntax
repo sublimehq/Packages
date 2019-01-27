@@ -458,7 +458,7 @@ contexts:
         - meta_scope: meta.group.scala
         - match: \)
           scope: punctuation.section.group.end.scala
-          pop: true
+          set: try-dispatch
         - include: main
     - match: \{
       scope: punctuation.section.block.begin.scala
