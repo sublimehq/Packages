@@ -1834,3 +1834,35 @@ val x: AnyVal
 
 val x: Nothing
 //     ^^^^^^^ storage.type.primitive.scala
+
+   42L
+// ^^^ constant.numeric.integer.scala
+//   ^ storage.type.numeric.long.scala
+
+   42l
+// ^^^ constant.numeric.integer.scala
+//   ^ storage.type.numeric.long.scala
+
+   0x42L
+// ^^^^^ constant.numeric.hex.scala
+//     ^ storage.type.numeric.long.scala
+
+   0x42l
+// ^^^^^ constant.numeric.hex.scala
+//     ^ storage.type.numeric.long.scala
+
+   42F
+// ^^^ constant.numeric.float.scala
+//   ^ storage.type.numeric.scala
+
+   42f
+// ^^^ constant.numeric.float.scala
+//   ^ storage.type.numeric.scala
+
+   42D
+// ^^^ constant.numeric.float.scala
+//   ^ storage.type.numeric.scala
+
+   42d
+// ^^^ constant.numeric.float.scala
+//   ^ storage.type.numeric.scala
