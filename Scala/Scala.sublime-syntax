@@ -1537,14 +1537,14 @@ contexts:
       scope: keyword.declaration.scala
     - match: '\b(this|super)\b'
       scope: variable.language.scala
+    - match: '(?={{keywords}})'
+      pop: true
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
     - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
-    - match: '(?={{keywords}})'
-      pop: true
 
   # single-type is a type expression with semicolon inference
   single-type-expression-no-function:

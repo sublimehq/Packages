@@ -2002,3 +2002,7 @@ val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
 //                                                                 ^^^ support.constant.scala - variable
 //                                                                        ^^^^^^^ - variable
 }
+
+   val JsonStreamEq:
+   protected
+// ^^^^^^^^^ storage.modifier.access.scala
