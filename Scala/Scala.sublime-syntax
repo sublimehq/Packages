@@ -1336,11 +1336,33 @@ contexts:
     - match: '(?=[=\n\}\)\]])'
       pop: true
 
+  val-simple-ascription:
+    - match: '\bif\b'
+      scope: invalid.keyword.if-in-val-match.scala
+      pop: true
+    - match: '(?=[\]\}\)])'
+      pop: true
+    - match: '(?={{nonopchar}}?={{nonopchar}})'
+      pop: true
+    - include: delimited-type-expression
+    - match: '(?=[\{\n])'
+      pop: true
+
   val-simple-body:
     - include: val-bailout
 
     - match: '(?={{keywords}})'
       pop: true
+
+    # special form lookahead to prevent invalid operator ascription syntax
+    - match: '(?:{{op}}|{{id}}_{{operator_character}}*):(?=\s+:|\s*=|\s*$)'
+      scope: entity.name.val.scala
+      set: val-simple-body-tail
+    - match: '({{op}}|{{id}}_{{operator_character}}*)(:)(?=\s)'
+      captures:
+        1: entity.name.val.scala
+        2: invalid.ascription.following-operator.scala
+      set: val-simple-ascription
 
     # an id followed by a type, or an =, or EOL
     - match: '{{id}}(?=\s*:{{nonopchar}}|\s*=|\s*$)'
@@ -1355,17 +1377,7 @@ contexts:
     - match: '{{typeprefix}}'
       captures:
         1: punctuation.ascription.scala
-      set:
-        - match: '\bif\b'
-          scope: invalid.keyword.if-in-val-match.scala
-          pop: true
-        - match: '(?=[\]\}\)])'
-          pop: true
-        - match: '(?={{nonopchar}}?={{nonopchar}})'
-          pop: true
-        - include: delimited-type-expression
-        - match: '(?=[\{\n])'
-          pop: true
+      set: val-simple-ascription
     - match: (?=\S)
       pop: true
 

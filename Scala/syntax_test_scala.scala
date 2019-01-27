@@ -659,9 +659,42 @@ type Foo = Bar[A] forSome { type A }
    val * = 42
 //     ^ entity.name.val
 
+   val *: abc = 42
+//     ^ entity.name.val
+//      ^ invalid.ascription.following-operator.scala
+//        ^^^ support.type.scala
+
+   val foo_::: abc
+//     ^^^^^^ entity.name.val.scala
+//           ^ invalid.ascription.following-operator.scala
+
+   val ::: abc
+//       ^ invalid.ascription.following-operator.scala
+
+   val :: : abc
+//     ^^ entity.name.val.scala
+//        ^ - invalid
+
+  val foo_:::: = 42
+//    ^^^^^^^^ entity.name.val.scala
+//           ^ - invalid
+
+  val :::: = 42
+//    ^^^^ entity.name.val.scala
+//       ^ - invalid
+
+   val foo_: : abc
+//     ^^^^^ entity.name.val.scala
+//         ^ - invalid
+//           ^ - invalid
+   val foo_:: : abc
+//     ^^^^^^ entity.name.val.scala
+//          ^ - invalid
+//            ^ - invalid
+
    val * : abc = 42
 //     ^ entity.name.val
-//       ^ punctuation.ascription.scala
+//       ^ punctuation.ascription.scala - invalid
 //         ^^^ support.type.scala
 
    val (Foo, x) = 42
