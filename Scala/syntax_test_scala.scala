@@ -1834,3 +1834,7 @@ val x: AnyVal
 
 val x: Nothing
 //     ^^^^^^^ storage.type.primitive.scala
+
+s"testing '$foo' bar"
+//        ^ string.quoted.interpolated.scala - variable
+//             ^ string.quoted.interpolated.scala - variable
