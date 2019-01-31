@@ -21,6 +21,7 @@ file_extensions:
   - gyp
   - gypi
   - Snakefile
+  - vpy
   - wscript
 first_line_match: ^#!\s*/.*\bpython(\d(\.\d)?)?\b
 scope: source.python
