@@ -1,0 +1,9 @@
+<snippet>
+	<tabTrigger>if</tabTrigger>
+	<scope>source.python</scope>
+	<description>If Condition</description>
+	<content><![CDATA[
+if ${1:$SELECTION}:
+	${0:pass}
+]]></content>
+</snippet>
