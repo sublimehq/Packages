@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[{${1:i} for ${4:i} in ${5:range(${6:10})}}]]></content>
+	<tabTrigger>set comprehesion</tabTrigger>
+	<scope>source.python</scope>
+	<description>Set Comprehesion</description>
+</snippet>

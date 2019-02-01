@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+import ${1:module} as ${2:name}
+]]></content>
+	<tabTrigger>ims</tabTrigger>
+	<description>import/as</description>
+	<scope>source.python</scope>
+</snippet>

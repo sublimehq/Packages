@@ -1,0 +1,9 @@
+<snippet>
+	<tabTrigger>elif</tabTrigger>
+	<scope>source.python</scope>
+	<description>Elif Condition</description>
+	<content><![CDATA[
+elif ${1:$SELECTION}:
+	${0:pass}
+]]></content>
+</snippet>

@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[
+from ${1:module} import ${2:name}
+]]></content>
+	<tabTrigger>fim</tabTrigger>
+	<description>From/Import</description>
+	<scope>source.python</scope>
+</snippet>

@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[[(${1:i} for ${4:i} in ${5:range(${6:10})})]]></content>
+	<tabTrigger>generator expression</tabTrigger>
+	<scope>source.python</scope>
+	<description>Generator Expression</description>
+</snippet>
