@@ -2,6 +2,6 @@
 	<tabTrigger>defs</tabTrigger>
 	<scope>source.python</scope>
 	<description>Method</description>
-	<content><![CDATA[def ${1:function}(self${2}):
+	<content><![CDATA[def ${1:method}(self${2}):
 	${0:pass}]]></content>
 </snippet>
