@@ -8,8 +8,8 @@
 	"variants":
 	[
 		{
-			"name": "PyPy",
-			"shell_cmd": "pypy3 -u \"$file\"",
+			"name": "Syntax Check",
+			"shell_cmd": "python -m py_compile \"${file}\"",
 		}
 	]
 }
