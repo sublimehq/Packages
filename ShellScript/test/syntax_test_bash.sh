@@ -1675,10 +1675,13 @@ f() {
     done
 }
 
-case "${foo}" in
-#^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
+case "${foo}" in- in_ in=10 in
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
 # <- keyword.control.conditional.case
-#             ^^ keyword.control.in
+#             ^^ - keyword.control.in
+#                 ^^ - keyword.control.in
+#                     ^^ - keyword.control.in
+#                           ^^ keyword.control.in
     ( help | h ) bar ;;
 #^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
 #   ^^^^^^^^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
