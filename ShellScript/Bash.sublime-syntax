@@ -64,8 +64,8 @@ variables:
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-  keyword_boundary_char: '[^-=\w]'
-  keyword_boundary_end: (?={{keyword_boundary_char}})
+  keyword_break_char: '[^-=\w]'
+  keyword_break: (?={{keyword_break_char}})
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
@@ -156,54 +156,54 @@ contexts:
       push: cmd-bt
 
   control:
-    - match: \b(if){{keyword_boundary_end}}(?:\s*(!))?
+    - match: \b(if){{keyword_break}}(?:\s*(!))?
       captures:
         1: keyword.control.conditional.if.shell
         2: keyword.operator.logical.shell
     - match: \bthen\b
       scope: keyword.control.conditional.then.shell
       pop: true
-    - match: \b(elif){{keyword_boundary_end}}(?:\s*(!))?
+    - match: \b(elif){{keyword_break}}(?:\s*(!))?
       captures:
         1: keyword.control.conditional.elif.shell
         2: keyword.operator.logical.shell
-    - match: \bfi{{keyword_boundary_end}}
+    - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       set: [cmd-post, cmd-args]
-    - match: \belse{{keyword_boundary_end}}
+    - match: \belse{{keyword_break}}
       scope: keyword.control.conditional.else.shell
       pop: true
-    - match: \bfor{{keyword_boundary_end}}
+    - match: \bfor{{keyword_break}}
       scope: keyword.control.loop.for.shell
       set: [cmd-post, for-args]
-    - match: \bdo{{keyword_boundary_end}}
+    - match: \bdo{{keyword_break}}
       scope: keyword.control.loop.do.shell
       pop: true
-    - match: \bdone{{keyword_boundary_end}}
+    - match: \bdone{{keyword_break}}
       scope: keyword.control.loop.done.shell
       set: [cmd-post, cmd-args]
-    - match: \bwhile{{keyword_boundary_end}}
+    - match: \bwhile{{keyword_break}}
       scope: keyword.control.loop.while.shell
-    - match: \buntil{{keyword_boundary_end}}
+    - match: \buntil{{keyword_break}}
       scope:  keyword.control.loop.until.shell
-    - match: \bcase{{keyword_boundary_end}}
+    - match: \bcase{{keyword_break}}
       scope: keyword.control.conditional.case.shell
       set: [case-body, case-word]
-    - match: \bcontinue{{keyword_boundary_end}}
+    - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
-    - match: \bbreak{{keyword_boundary_end}}
+    - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
       set: [cmd-post, cmd-args]
 
   case-word:
-    - match: \bin{{keyword_boundary_end}}
+    - match: \bin{{keyword_break}}
       scope: keyword.control.in.shell
       pop: true
     - include: expansion-and-string
 
   case-body:
     - meta_scope: meta.conditional.case.shell
-    - match: \besac{{keyword_boundary_end}}
+    - match: \besac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       pop: true
     - match: (?=\()
@@ -224,7 +224,7 @@ contexts:
     # emergency bail outs if ')' is missing
     - match: (?=;;&?|;&)
       set: case-clause-commands
-    - match: (?=\besac{{keyword_boundary_char}})
+    - match: (?=\besac{{keyword_break_char}})
       pop: true
     - include: case-clause-patterns-body
 
@@ -255,7 +255,7 @@ contexts:
         meta.conditional.case.clause.commands.shell
         punctuation.terminator.case.clause.shell
       pop: true
-    - match: (?=\besac{{keyword_boundary_char}})
+    - match: (?=\besac{{keyword_break_char}})
       pop: true
     - include: main
 
@@ -267,7 +267,7 @@ contexts:
         - meta_scope: meta.group.for.shell
         - include: cmd-args-boilerplate
         - include: arithmetic
-        - match: \bin{{keyword_boundary_end}}
+        - match: \bin{{keyword_break}}
           scope: keyword.control.in.shell
 
   expansion-and-string:
@@ -279,7 +279,7 @@ contexts:
       captures:
         1: storage.type.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_boundary_end}}
+    - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
       push: [cmd-post, cmd-args, coproc-body]
 
@@ -288,7 +288,7 @@ contexts:
       captures:
         1: storage.type.function.shell
       push: [funcdef-body-bt, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_boundary_end}}
+    - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
       push: [cmd-post, cmd-args-bt, coproc-body]
 
@@ -349,7 +349,7 @@ contexts:
     - include: main-bt
 
   vardef:
-    - match: \s*\b(alias){{keyword_boundary_end}}
+    - match: \s*\b(alias){{keyword_break}}
       captures:
         1: support.function.alias.shell
       push:
@@ -359,7 +359,7 @@ contexts:
       - vardef-assign
       - vardef-alias-name
       - vardef-alias-options
-    - match: \s*\b(typeset|declare|local){{keyword_boundary_end}}
+    - match: \s*\b(typeset|declare|local){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
@@ -369,7 +369,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: \s*\b(export){{keyword_boundary_end}}
+    - match: \s*\b(export){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
@@ -379,7 +379,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-export-options
-    - match: \s*\b(readonly){{keyword_boundary_end}}
+    - match: \s*\b(readonly){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
