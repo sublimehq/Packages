@@ -425,10 +425,7 @@ contexts:
       pop: true
     - include: cmd-args-boilerplate
     - match: (?=\S)
-      push:
-      - vardef-value
-      - vardef-assign
-      - vardef-name
+      push: [vardef-value, vardef-assign, vardef-name]
 
   vardef-alias-options:
     - match: \s*((-)p)
