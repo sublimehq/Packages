@@ -631,15 +631,87 @@ contexts:
 ###[ CONTROL KEYWORDS ]#######################################################
 
   control:
-    - match: \b(?:default|else|elsif|given|if|unless|when){{break}}
-      scope: keyword.control.conditional.perl
+    # conditional
+    - match: \bdefault{{break}}
+      scope: keyword.control.conditional.default.perl
       push: regexp-pop
-    - match: \b(?:break|caller|continue|die|dump|exit|goto|last|next|redo|return|wait){{break}}
-      scope: keyword.other.flow.perl
+    - match: \belse{{break}}
+      scope: keyword.control.conditional.else.perl
       push: regexp-pop
-    - match: \b(?:do|for|foreach|until|while){{break}}
-      scope: keyword.control.flow.perl
+    - match: \belsif{{break}}
+      scope: keyword.control.conditional.elseif.perl
       push: regexp-pop
+    - match: \bgiven{{break}}
+      scope: keyword.control.conditional.given.perl
+      push: regexp-pop
+    - match: \bif{{break}}
+      scope: keyword.control.conditional.if.perl
+      push: regexp-pop
+    - match: \bunless{{break}}
+      scope: keyword.control.conditional.unless.perl
+      push: regexp-pop
+    - match: \bwhen{{break}}
+      scope: keyword.control.conditional.when.perl
+      push: regexp-pop
+    # flow
+    - match: \bbreak{{break}}
+      scope: keyword.control.flow.break.perl
+      push: regexp-pop
+    - match: \bcaller{{break}}
+      scope: keyword.control.flow.caller.perl
+      push: regexp-pop
+    - match: \bcontinue{{break}}
+      scope: keyword.control.flow.continue.perl
+      push: regexp-pop
+    - match: \bdie{{break}}
+      scope: keyword.control.flow.die.perl
+      push: regexp-pop
+    - match: \bdo{{break}}
+      scope: keyword.control.flow.do.perl
+      push: regexp-pop
+    - match: \bdump{{break}}
+      scope: keyword.control.flow.dump.perl
+      push: regexp-pop
+    - match: \bexit{{break}}
+      scope: keyword.control.flow.exit.perl
+      push: regexp-pop
+    - match: \bgoto{{break}}
+      scope: keyword.control.flow.goto.perl
+      push: regexp-pop
+    - match: \blast{{break}}
+      scope: keyword.control.flow.last.perl
+      push: regexp-pop
+    - match: \bnext{{break}}
+      scope: keyword.control.flow.next.perl
+      push: label-usage
+    - match: \bredo{{break}}
+      scope: keyword.control.flow.redo.perl
+      push: label-usage
+    - match: \breturn{{break}}
+      scope: keyword.control.flow.return.perl
+      push: regexp-pop
+    - match: \bwait{{break}}
+      scope: keyword.control.flow.wait.perl
+      push: regexp-pop
+    # loop
+    - match: \bfor{{break}}
+      scope: keyword.control.loop.for.perl
+      push: regexp-pop
+    - match: \bforeach{{break}}
+      scope: keyword.control.loop.foreach.perl
+      push: regexp-pop
+    - match: \buntil{{break}}
+      scope: keyword.control.loop.until.perl
+      push: regexp-pop
+    - match: \bwhile{{break}}
+      scope: keyword.control.loop.while.perl
+      push: regexp-pop
+
+  label-usage:
+    - match: '{{identifier}}'
+      scope: variable.label.perl
+      pop: true
+    - include: regexp-pop
 
   label:
     - match: ({{identifier}})(:)(?!:)

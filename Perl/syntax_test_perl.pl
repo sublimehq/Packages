@@ -1050,7 +1050,7 @@ our $VERSION = do {
 #^^ keyword.declaration.variable.perl
 #   ^^^^^^^^ variable.other.readwrite.global.perl
 #            ^ keyword.operator.assignment.perl
-#              ^^ keyword.control.flow.perl
+#              ^^ keyword.control.flow.do.perl
 #                 ^ punctuation.section.block.begin.perl
   my @r = (q$Revision: 2.20 $ =~ /\d+/g);
 # ^^ keyword.declaration.variable.perl
@@ -1306,7 +1306,89 @@ sub AUTOLOAD () {}
 #              ^^^ meta.function.perl
 #   ^^^^^^^^ entity.name.function.callback.perl
 
-###[ EXPRESSIONS ]############################################################
+###[ CONTROL KEYWORDS ]#######################################################
+
+  # conditional
+
+  default -> word
+# ^^^^^^^ keyword.control.conditional.default.perl
+  default->word
+# ^^^^^^^ keyword.control.conditional.default.perl
+  default - word
+# ^^^^^^^ keyword.control.conditional.default.perl
+  default-word
+# ^^^^^^^ keyword.control.conditional.default.perl
+  default_word
+# ^^^^^^^ - keyword.control
+  default:word
+# ^^^^^^^ - keyword.control
+  default :: word
+# ^^^^^^^ - keyword.control
+  default::word
+# ^^^^^^^ - keyword.control
+  else -> word
+# ^^^^ keyword.control.conditional.else.perl
+  else->word
+# ^^^^ keyword.control.conditional.else.perl
+  else - word
+# ^^^^ keyword.control.conditional.else.perl
+  else-word
+# ^^^^ keyword.control.conditional.else.perl
+  else_word
+# ^^^^ - keyword.control
+  else:word
+# ^^^^ - keyword.control
+  else :: word
+# ^^^^ - keyword.control
+  else::word
+# ^^^^ - keyword.control
+  elsif
+# ^^^^^ keyword.control.conditional.elseif.perl
+  elif
+# ^^^^ - keyword.control
+  elseif
+# ^^^^^^ - keyword.control
+  given
+# ^^^^^ keyword.control.conditional.given.perl
+  if
+# ^^ keyword.control.conditional.if.perl
+  unless
+# ^^^^^^ keyword.control.conditional.unless.perl
+  when
+# ^^^^ keyword.control.conditional.when.perl
+
+  # flow
+
+  break
+# ^^^^^ keyword.control.flow.break.perl
+  caller
+# ^^^^^^ keyword.control.flow.caller.perl
+  continue
+# ^^^^^^^^ keyword.control.flow.continue.perl
+  die
+# ^^^ keyword.control.flow.die.perl
+  do
+# ^^ keyword.control.flow.do.perl
+  dump
+# ^^^^ keyword.control.flow.dump.perl
+  exit
+# ^^^^ keyword.control.flow.exit.perl
+  goto
+# ^^^^ keyword.control.flow.goto.perl
+  last
+# ^^^^ keyword.control.flow.last.perl
+  next retry
+# ^^^^ keyword.control.flow.next.perl
+#      ^^^^^ variable.label.perl
+  redo LINE
+# ^^^^ keyword.control.flow.redo.perl
+#      ^^^^ variable.label.perl
+  return
+# ^^^^^^ keyword.control.flow.return.perl
+  wait
+# ^^^^ keyword.control.flow.wait.perl
+
+###[ LABELS ]#################################################################
 
   retry:
 # ^^^^^ entity.name.label.perl
@@ -1314,7 +1396,7 @@ sub AUTOLOAD () {}
   retry:die "bye!";
 # ^^^^^ entity.name.label.perl
 #      ^ punctuation.separator.perl
-#       ^^^ keyword.other.flow.perl
+#       ^^^ keyword.control.flow.die.perl
 #           ^^^^^^ string.quoted.double.perl
 #                 ^ punctuation.terminator.statement.perl
   retry::
@@ -1327,18 +1409,20 @@ sub AUTOLOAD () {}
   LINE:exit -1
 # ^^^^ entity.name.label.perl
 #     ^ punctuation.separator.perl
-#      ^^^^ keyword.other.flow.perl
+#      ^^^^ keyword.control.flow.exit.perl
 #           ^^ constant.numeric.integer.perl
 
+###[ FUNCTION CALLS ]#########################################################
+
   if(exists($curargs{$index}))
-# ^^ keyword.control.conditional.perl
+# ^^ keyword.control.conditional.if.perl
 #   ^ punctuation.section.group.begin.perl
 #    ^^^^^^ support.function.perl
 #          ^ punctuation.section.group.begin.perl
 #           ^^^^^^^^ variable.other.readwrite.global.perl
 #                            ^ punctuation.section.group.end.perl
   if(exists $curargs{$index})
-# ^^ keyword.control.conditional.perl
+# ^^ keyword.control.conditional.if.perl
 #   ^ punctuation.section.group.begin.perl
 #    ^^^^^^ support.function.perl
 #           ^^^^^^^^ variable.other.readwrite.global.perl
@@ -1395,8 +1479,33 @@ _EOD_
 )
 # <- meta.function-call.arguments.perl punctuation.section.arguments.end.perl - meta.function-call.name.perl
 
+###[ CONDITIONAL EXPRESSIONS ]################################################
+
+  if ($self->value <= $self->other);
+#            ^^^^^ variable.other.member.perl
+#                  ^^ keyword.operator.logical.perl
+#                  ^^^^^^^^^^ - string
+#                          ^^ keyword.accessor.arrow.perl
+  if ($value <= $self->other);
+#            ^^ keyword.operator.logical.perl
+#            ^^^^^^^^^^ - string
+#                    ^^ keyword.accessor.arrow.perl
+#                      ^^^^^ variable.other.member.perl
+
+###[ LOOP EXPRESSIONS ]#######################################################
+
+  for ($i = 1; $i < 10; $i++) {
+# ^^^ keyword.control.loop.for.perl
+#     ^ punctuation.section.group.begin.perl
+#                           ^ punctuation.section.group.end.perl
+#                             ^ punctuation.section.block.begin.perl
+    break;
+#   ^^^^^ keyword.control.flow.break.perl
+  }
+# ^ punctuation.section.block.end.perl
+
   foreach my $vsn_mk (<lib/*/vsn.mk>, <erts/vsn.mk>) {
-# ^^^^^^^ keyword.control.flow.perl
+# ^^^^^^^ keyword.control.loop.foreach.perl
 #         ^^ keyword.declaration.variable.perl
 #            ^ punctuation.definition.variable.perl
 #            ^^^^^^^ variable.other.readwrite.global.perl
@@ -1413,13 +1522,25 @@ _EOD_
   }
 # ^ punctuation.section.block.end.perl
 
-  if ($self->value <= $self->other);
-#            ^^^^^ variable.other.member.perl
-#                  ^^ keyword.operator.logical.perl
-#                  ^^^^^^^^^^ - string
-#                          ^^ keyword.accessor.arrow.perl
-  if ($value <= $self->other);
-#            ^^ keyword.operator.logical.perl
-#            ^^^^^^^^^^ - string
-#                    ^^ keyword.accessor.arrow.perl
-#                      ^^^^^ variable.other.member.perl
+  LINE: until (STDIN) { next LINE if /^#/; } continue { while ($foo) { redo LINE if /@#/; } }
+# ^^^^ entity.name.label.perl
+#       ^^^^^ keyword.control.loop.until.perl
+#              ^^^^^ constant.language.filehandle.perl
+#                       ^^^^ keyword.control.flow.next.perl
+#                            ^^^^ variable.label.perl
+#                                 ^^ keyword.control.conditional.if.perl
+#                                            ^^^^^^^^ keyword.control.flow.continue.perl
+#                                                       ^^^^^ keyword.control.loop.while.perl
+#                                                                      ^^^^ keyword.control.flow.redo.perl
+#                                                                           ^^^^ variable.label.perl
+#                                                                                ^^ keyword.control.conditional.if.perl
+
+  LINE: while ($foo) { next LINE if /^#/; redo LINE if $bar }
+# ^^^^ entity.name.label.perl
+#       ^^^^^ keyword.control.loop.while.perl
+#                      ^^^^ keyword.control.flow.next.perl
+#                           ^^^^ variable.label.perl
+#                                ^^ keyword.control.conditional.if.perl
+#                                         ^^^^ keyword.control.flow.redo.perl
+#                                              ^^^^ variable.label.perl
+#                                                   ^^ keyword.control.conditional.if.perl
