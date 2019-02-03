@@ -1521,7 +1521,7 @@ case "$1" in
 #         ^^ keyword.control.in
 setup )
 # <- - variable.function - support.function - meta.function-call
-#     ^ keyword.control.conditional.pattern
+#     ^ keyword.control.conditional.patterns
 echo Preparing the server...
 # <- meta.function-call support.function.echo
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
@@ -1530,7 +1530,7 @@ echo Preparing the server...
 #^ punctuation.terminator.case.clause
 deploy )
 # <- - variable.function - support.function - meta.function-call
-#      ^ keyword.control.conditional.pattern
+#      ^ keyword.control.conditional.patterns
 echo Deploying...
 # <- meta.function-call support.function.echo
 #   ^^^^^^^^^^^^^ meta.function-call.arguments
@@ -1539,7 +1539,7 @@ echo Deploying...
 #^ punctuation.terminator.case.clause
 * )
 # <- keyword.operator.regexp.quantifier
-# ^ keyword.control.conditional.pattern
+# ^ keyword.control.conditional.patterns
 cat <<'ENDCAT'
 # <- meta.function-call variable.function
 #   ^^ meta.function-call.arguments string.unquoted.heredoc keyword.operator.assignment.redirection
@@ -1676,27 +1676,43 @@ f() {
 }
 
 case "${foo}" in
+#^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
 # <- keyword.control.conditional.case
 #             ^^ keyword.control.in
     ( help | h ) bar ;;
-    # <- keyword.control.conditional.pattern.begin
-    #          ^ keyword.control.conditional.pattern.end
+#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#   ^^^^^^^^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#               ^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#                      ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+    # <- keyword.control.conditional.patterns.begin
+    #          ^ keyword.control.conditional.patterns.end
     #                ^^ punctuation.terminator.case.clause
     do1 ) foo1 ;&
-    #   ^ keyword.control.conditional.pattern.end
+#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#   ^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#        ^^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#                ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+    #   ^ keyword.control.conditional.patterns.end
     #          ^^ punctuation.terminator.case.clause
     (do2 ) foo2 ;;&
-    # <- keyword.control.conditional.pattern.begin
-    #    ^ keyword.control.conditional.pattern.end
+#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#   ^^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#         ^^^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#                  ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+    # <- keyword.control.conditional.patterns.begin
+    #    ^ keyword.control.conditional.patterns.end
     #           ^^^ punctuation.terminator.case.clause
     *) bar
-    #^ keyword.control.conditional.pattern.end
+#^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
+#   ^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#     ^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+    #^ keyword.control.conditional.patterns.end
 esac
 # <- keyword.control.conditional.end
 
 case $TERM in
     sun-cmd)
-        #  ^ keyword.control.conditional.pattern
+        #  ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
         #                                              ^ meta.function punctuation.section.braces.end
         #                                               ^^ punctuation.terminator.case.clause
@@ -1707,13 +1723,13 @@ case $TERM in
         #           ^ keyword.operator.logical
         #             ^ keyword.operator.logical
         #               ^ punctuation.section.parens.end
-        #                    ^ keyword.control.conditional.pattern
+        #                    ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.braces.end
         #                                              ^^ punctuation.terminator.case.clause
     *)
     # <- keyword.operator.regexp.quantifier
-    #^ keyword.control.conditional.pattern
+    #^ keyword.control.conditional.patterns
         update_terminal_cwd() {};;
         #                      ^ meta.function punctuation.section.braces.end
         #                       ^^ punctuation.terminator.case.clause
@@ -1728,7 +1744,7 @@ ws-+([0-9]).host.com) echo "Web Server"
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
 #         ^ punctuation.section.parens.end
-#                   ^ keyword.control.conditional.pattern
+#                   ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
@@ -1739,7 +1755,7 @@ db-+([0-9])\.host\.com) echo "DB server"
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
 #         ^ punctuation.section.parens.end
-#                     ^ keyword.control.conditional.pattern
+#                     ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
@@ -1750,13 +1766,13 @@ bk-+([0-9])\.host\.com) echo "Backup server"
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
 #         ^ punctuation.section.parens.end
-#                     ^ keyword.control.conditional.pattern
+#                     ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
 *)echo "Unknown server"
 # <- keyword.operator.regexp.quantifier
- # <- keyword.control.conditional.pattern
+ # <- keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
@@ -2312,7 +2328,7 @@ __git_aliased_command ()
         case "$word" in
         {)  : skip start of shell helper function ;;
 #       ^ - punctuation.section.expansion.brace.begin
-#        ^ keyword.control.conditional.pattern
+#        ^ keyword.control.conditional.patterns
         \'*)    : skip opening quote after sh -c ;;
         *)
             echo "$word"
