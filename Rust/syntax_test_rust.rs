@@ -42,11 +42,14 @@ let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
 //                                                  ^^ constant.character.escape
 //                                                     ^^ constant.character.escape
 //                                                        ^^ constant.character.escape
-let r = r#"This is a raw string, no escapes! \x00 \0 \n"#;
+let r = r##"This is a raw string, no escapes! \x00 \0 \n"###;
 // <- storage.type
 //    ^ keyword.operator.assignment
 //      ^ storage.type
-//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw - constant.character.escape
+//       ^^^ punctuation.definition.string.begin.rust
+//                                                      ^^^ punctuation.definition.string.end.rust
+//                                                         ^ - string
 
 let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\n_\t_\0";
 // <- storage.type
