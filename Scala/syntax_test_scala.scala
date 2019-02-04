@@ -1846,3 +1846,7 @@ gzis =>/* foo */
 gzis =>// foo
 //   ^^ storage.type.function.arrow.lambda.scala
 //     ^^ comment.line.double-slash.scala punctuation.definition.comment.scala
+
+s"testing '$foo' bar"
+//        ^ string.quoted.interpolated.scala - variable
+//             ^ string.quoted.interpolated.scala - variable

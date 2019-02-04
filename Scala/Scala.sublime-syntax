@@ -1057,6 +1057,11 @@ contexts:
       scope: constant.other.formatting.scala
 
   interpolated-vars-expressions:
+    # we duplicate this pattern to encode a greedy ? on the [']
+    - match: '(\$)({{alphaid}})['']'
+      captures:
+        1: punctuation.definition.variable.scala variable.other.scala
+        2: variable.other.scala
     - match: '(\$){{alphaid}}'
       scope: variable.other.scala
       captures:
