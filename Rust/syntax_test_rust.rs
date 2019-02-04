@@ -21,17 +21,17 @@ Block doc comments
 
 let c = 'c';
 // <- storage.type
-//    ^ keyword.operator
+//    ^ keyword.operator.assignment
 //      ^^^ string.quoted.single
 let b = b'c';
 // <- storage.type
-//    ^ keyword.operator
+//    ^ keyword.operator.assignment
 //      ^ storage.type
 //       ^^^ string.quoted.single
 
 let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
 // <- storage.type
-//    ^ keyword.operator
+//    ^ keyword.operator.assignment
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                        ^^^^ constant.character.escape
 //                             ^^^^^^^^ constant.character.escape
@@ -42,11 +42,14 @@ let s = "This is a string \x01_\u{007F}_\"_\'_\\_\r_\n_\t_\0";
 //                                                  ^^ constant.character.escape
 //                                                     ^^ constant.character.escape
 //                                                        ^^ constant.character.escape
-let r = r#"This is a raw string, no escapes! \x00 \0 \n"#;
+let r = r##"This is a raw string, no escapes! \x00 \0 \n"###;
 // <- storage.type
-//    ^ keyword.operator
+//    ^ keyword.operator.assignment
 //      ^ storage.type
-//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw - constant.character.escape
+//       ^^^ punctuation.definition.string.begin.rust
+//                                                      ^^^ punctuation.definition.string.end.rust
+//                                                         ^ - string
 
 let bytes = b"This won't escape unicode \u{0123}, but will do \x01_\"_\'_\\_\r_\n_\t_\0";
 // <- storage.type
@@ -173,7 +176,7 @@ use foo::{Baz, QUX, quux};
 
 String my_var = format!("Hello {0}", "World");
 // ^^^ support.type
-//            ^ keyword.operator
+//            ^ keyword.operator.assignment
 //              ^^^^^^^ support.macro
 //                     ^ punctuation.section.group.begin
 //                     ^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -182,7 +185,7 @@ String my_var = format!("Hello {0}", "World");
 //                                          ^ punctuation.section.group.end
 
 my_var = format!("Hello {name}, how are you?",
-//     ^ keyword.operator
+//     ^ keyword.operator.assignment
 //       ^^^^^^^ support.macro
 //              ^ punctuation.section.group.begin
 //              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
@@ -190,7 +193,7 @@ my_var = format!("Hello {name}, how are you?",
 //                      ^^^^^^ constant.other.placeholder
     name="John");
 // ^^^^^^^^^^^^^ meta.group
-//      ^ keyword.operator
+//      ^ keyword.operator.assignment
 //       ^^^^^^ string.quoted.double
 //             ^ punctuation.section.group.end
 
@@ -269,7 +272,7 @@ impl fmt::Display for PrintableStruct {
 let logical: bool = true;
 //         ^ punctuation.separator
 //           ^^^^ storage.type
-//                ^ keyword.operator
+//                ^ keyword.operator.assignment
 //                  ^^^^ constant.language
 //                      ^ punctuation.terminator
 let mut mutable = 12;
@@ -369,14 +372,14 @@ const ZERO: u64 = 0;
 //    ^^^^ constant.other
 //        ^ punctuation.separator
 //          ^^^ storage.type
-//              ^ keyword.operator
+//              ^ keyword.operator.assignment
 //                ^ constant.numeric.integer.decimal
 static NAME: &'static str = "John";
 // <- storage.type
 //           ^ keyword.operator
 //            ^^^^^^^ storage.modifier.lifetime
 //                    ^^^ storage.type
-//                        ^ keyword.operator
+//                        ^ keyword.operator.assignment
 //                          ^^^^^^ string.quoted.double
 
 
@@ -384,7 +387,7 @@ let z = {
 //      ^ meta.block punctuation.section.block.begin
     2 * 5
 //  ^ constant.numeric.integer.decimal
-//    ^ keyword.operator
+//    ^ keyword.operator.arithmetic
 //      ^ constant.numeric.integer.decimal
 };
 // <- meta.block punctuation.section.block.end
@@ -406,6 +409,7 @@ fn my_func(x: i32)
 let n = 5;
 
 if n < 0 {
+//   ^ keyword.operator.comparison
 //       ^ meta.block punctuation.section.block.begin
 // <- keyword.control
     print!("{} is negative", n);
@@ -426,7 +430,7 @@ if n < 0 {
 // <- meta.block punctuation.section.block.end
 
 let big_n =
-//        ^ keyword.operator
+//        ^ keyword.operator.assignment
     if n < 10 && n > -10 {
 //                       ^ meta.block punctuation.section.block.begin
         10 * n
@@ -443,8 +447,10 @@ let big_n =
 //           ^^^^ keyword.control
 //                ^ meta.block punctuation.section.block.begin
     n += 1;
+//    ^^ keyword.operator.assignment
     if n / 2 == 5 {
-//       ^ keyword.operator
+//       ^ keyword.operator.arithmetic
+//           ^^ keyword.operator.comparison
         continue;
 //      ^^^^^^^^ keyword.control
     }
@@ -463,7 +469,7 @@ for i in 1..10 {
 // <- keyword.control
 //    ^^ keyword.operator
 //       ^ constant.numeric.integer.decimal
-//        ^^ keyword.operator
+//        ^^ keyword.operator.range
 //          ^^ constant.numeric.integer.decimal
     println!("I: {}", i);
 // ^^^^^^^^^^^^^^^^^^^^^^ meta.block
@@ -482,7 +488,7 @@ let o = match n {
 //       ^^^^^ string.quoted.double
     3...5 => "a few",
 //  ^ constant.numeric.integer.decimal
-//   ^^^ keyword.operator
+//   ^^^ keyword.operator.range
 //      ^ constant.numeric.integer.decimal
 //        ^^ keyword.operator
 //           ^^^^^^^ string.quoted.double
@@ -497,7 +503,7 @@ let mut j = BasicStruct(10);
 
 if let BasicStruct(i) = j {
 // ^^^ storage.type
-//                    ^ keyword.operator
+//                    ^ keyword.operator.assignment
 //                        ^ meta.block punctuation.section.block.begin
     println!("Basic value: {}", i);
 }
@@ -506,7 +512,7 @@ if let BasicStruct(i) = j {
 while let BasicStruct(k) = j {
 //^^^ keyword.control
 //    ^^^ storage.type
-//                       ^ keyword.operator
+//                       ^ keyword.operator.assignment
 //                           ^ meta.block punctuation.section.block.begin
     println!("Constructed example: {}", j)
     j = BasicStruct(j + 1);
@@ -534,12 +540,12 @@ match n {
 // <- keyword.control
     a if n > 5 => println!("Big: {}", a),
 //    ^^ keyword.control
-//         ^ keyword.operator
+//         ^ keyword.operator.comparison
 //             ^^ keyword.operator
 //                ^^^^^^^^ support.macro
     b if n <= 5 => println!("Small: {}", b),
 //    ^^ keyword.control
-//         ^^ keyword.operator
+//         ^^ keyword.operator.comparison
 //              ^^ keyword.operator
 //                 ^^^^^^^^ support.macro
 //                                  ^^ constant.other.placeholder
@@ -612,7 +618,7 @@ impl Point
         self.x *= 2;
     //  ^^^^ variable.language
     //      ^ punctuation.accessor.dot
-    //         ^^ keyword.operator
+    //         ^^ keyword.operator.assignment
         self.y *= 2;
     }
 
@@ -693,7 +699,7 @@ let f = |(x, y): (u32, &mut u32)| { x + y };
 
 
 let c = a | b;
-//        ^ keyword.operator
+//        ^ keyword.operator.bitwise
 
 call_func(|c| 1 + 2 + c);
 //        ^^^^^^^^^^^^^ meta.function.closure
@@ -815,10 +821,10 @@ fn collect_vec() {
 //              ^^^^^ storage.type
 //                     ^^^^^ storage.type
 //                          ^ punctuation.section.group.end
-//                             ^ keyword.operator
+//                             ^ keyword.operator.assignment
 //                               ^ punctuation.section.group.begin
 //                                ^ constant.numeric.integer.decimal
-//                                 ^^ keyword.operator
+//                                 ^^ keyword.operator.range
 //                                   ^^ constant.numeric.integer.decimal
 //                                     ^ punctuation.section.group.end
 //                                      ^ punctuation.accessor.dot
