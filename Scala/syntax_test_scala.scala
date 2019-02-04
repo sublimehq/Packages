@@ -1856,3 +1856,6 @@ s"testing '$foo' bar"
 //                  ^^^ variable.parameter.scala
 //                                ^^^ storage.type.scala
 //                                    ^^^ variable.parameter.scala
+
+(abc)()
+//   ^^ - constant
