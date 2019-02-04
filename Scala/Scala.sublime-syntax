@@ -198,10 +198,10 @@ contexts:
 
   lambdas:
     # lambda lookahead
-    - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})[[[:alpha:]]0-9\s\)\]\}])'
+    - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}]))'
       push:
         - match: '{{rightarrow}}'
-          scope: storage.type.function.arrow.scala
+          scope: storage.type.function.arrow.lambda.scala
           pop: true
         - include: lambda-declaration
   lambda-declaration-base:
@@ -363,14 +363,14 @@ contexts:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -423,14 +423,14 @@ contexts:
             1: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-non-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: keyword.operator.arrow.scala
+              scope: storage.type.function.arrow.case.scala
               set: case-body-non-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -593,6 +593,8 @@ contexts:
           pop: true
         - match: '\b(val)\b'
           scope: storage.type.scala
+        - match: '\b(var)\b'
+          scope: storage.type.volatile.scala
         - match: '({{alphaid}})(?=\s*:)'
           captures:
             1: variable.parameter.scala
@@ -1057,6 +1059,11 @@ contexts:
       scope: constant.other.formatting.scala
 
   interpolated-vars-expressions:
+    # we duplicate this pattern to encode a greedy ? on the [']
+    - match: '(\$)({{alphaid}})['']'
+      captures:
+        1: punctuation.definition.variable.scala variable.other.scala
+        2: variable.other.scala
     - match: '(\$){{alphaid}}'
       scope: variable.other.scala
       captures:
