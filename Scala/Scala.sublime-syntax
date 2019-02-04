@@ -593,6 +593,8 @@ contexts:
           pop: true
         - match: '\b(val)\b'
           scope: storage.type.scala
+        - match: '\b(var)\b'
+          scope: storage.type.volatile.scala
         - match: '({{alphaid}})(?=\s*:)'
           captures:
             1: variable.parameter.scala
