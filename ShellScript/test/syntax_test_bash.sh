@@ -1073,6 +1073,12 @@ if [[ ' foobar' == [\ ]foo* ]]; then
   :
 fi
 
+case-
+#^ - keyword
+
+esac
+#^ keyword.control.conditional.end
+
 case
 #^ keyword.control.conditional.case
 
