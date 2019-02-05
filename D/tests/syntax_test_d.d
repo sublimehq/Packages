@@ -768,12 +768,12 @@ extern(1)
 //^ punctuation.section.block.end.d
 
   static foreach (int foo, f; 12..3) {
-//^^^^^^ keyword.control.flow.d
-//       ^^^^^^^ keyword.control.flow.d
+//^^^^^^ keyword.control.loop.d
+//       ^^^^^^^ keyword.control.loop.d
 //               ^ punctuation.section.brackets.begin.d
     static foreach (int a; 123) {
-  //^^^^^^ keyword.control.flow.d
-  //       ^^^^^^^ keyword.control.flow.d
+  //^^^^^^ keyword.control.loop.d
+  //       ^^^^^^^ keyword.control.loop.d
   //               ^ punctuation.section.brackets.begin.d
   //                ^^^ storage.type.d
   //                    ^ variable.parameter.d
@@ -1364,40 +1364,40 @@ extern(1)
 //               ^ constant.numeric.integer.d
 
   while (2) 1;
-//^^^^^ keyword.control.flow.d
+//^^^^^ keyword.control.loop.d
 //      ^ punctuation.section.brackets.begin.d
 //       ^ constant.numeric.integer.d
 //        ^ punctuation.section.brackets.end.d
 //          ^ constant.numeric.integer.d
   while (2)
-//^^^^^ keyword.control.flow.d
+//^^^^^ keyword.control.loop.d
 //      ^ punctuation.section.brackets.begin.d
 //       ^ constant.numeric.integer.d
 //        ^ punctuation.section.brackets.end.d
   {
 //^ punctuation.section.block.begin.d
     do 2;
-  //^^ keyword.control.flow.d
+  //^^ keyword.control.loop.d
   //   ^ constant.numeric.integer.d
     while (3);
-  //^^^^^ keyword.control.flow.d
+  //^^^^^ keyword.control.loop.d
   //      ^ punctuation.section.brackets.begin.d
   //       ^ constant.numeric.integer.d
   //        ^ punctuation.section.brackets.end.d
     do
-  //^^ keyword.control.flow.d
+  //^^ keyword.control.loop.d
     {
   //^ punctuation.section.block.begin.d
     } while (1);
   //^ punctuation.section.block.end.d
-  //  ^^^^^ keyword.control.flow.d
+  //  ^^^^^ keyword.control.loop.d
   //        ^ punctuation.section.brackets.begin.d
   //         ^ constant.numeric.integer.d
   //          ^ punctuation.section.brackets.end.d
   }
 //^ punctuation.section.block.end.d
   for (1; 2; 3) {
-//^^^ keyword.control.flow.d
+//^^^ keyword.control.loop.d
 //    ^ punctuation.section.parens.begin.d
 //     ^ constant.numeric.integer.d
 //      ^ punctuation.terminator.d
@@ -1409,7 +1409,7 @@ extern(1)
   }
 //^ punctuation.section.block.end.d
   for(int a;;12) {
-//^^^ keyword.control.flow.d
+//^^^ keyword.control.loop.d
 //   ^ punctuation.section.parens.begin.d
 //    ^^^ storage.type.d
 //        ^ variable.other.d
@@ -1419,7 +1419,7 @@ extern(1)
 //               ^ punctuation.section.block.begin.d
   }
   for (size_t i; !val.empty; val.popFront(), ++i) {}
-//^^^ keyword.control.flow.d
+//^^^ keyword.control.loop.d
 //    ^ punctuation.section.parens.begin.d
 //     ^^^^^^ storage.type.d
 //            ^ variable.other.d
@@ -1437,7 +1437,7 @@ extern(1)
 //                                                ^ punctuation.section.block.begin.d
 //                                                 ^ punctuation.section.block.end.d
   for (; a *b < cast(int)2;) {}
-//^^^ keyword.control.flow.d
+//^^^ keyword.control.loop.d
 //    ^ punctuation.section.parens.begin.d
 //     ^ punctuation.terminator.d
 //       ^ variable.other.d
@@ -1454,7 +1454,7 @@ extern(1)
 //                           ^ punctuation.section.block.begin.d
 //                            ^ punctuation.section.block.end.d
   foreach (int a; 2) {
-//^^^^^^^ keyword.control.flow.d
+//^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.brackets.begin.d
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
@@ -1463,7 +1463,7 @@ extern(1)
 //                 ^ punctuation.section.brackets.end.d
 //                   ^ punctuation.section.block.begin.d
     foreach_reverse (int a; 2) {
-  //^^^^^^^^^^^^^^^ keyword.control.flow.d
+  //^^^^^^^^^^^^^^^ keyword.control.loop.d
   //                ^ punctuation.section.brackets.begin.d
   //                 ^^^ storage.type.d
   //                     ^ variable.parameter.d
@@ -1476,7 +1476,7 @@ extern(1)
   }
 //^ punctuation.section.block.end.d
   foreach (ref a; foo) {}
-//^^^^^^^ keyword.control.flow.d
+//^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.brackets.begin.d
 //         ^^^ storage.modifier.d
 //             ^ variable.parameter.d
@@ -1760,7 +1760,7 @@ extern(1)
 //                      ^ punctuation.terminator.d
 
   foreach (ref a; foo) {}
-//^^^^^^^ keyword.control.flow.d
+//^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.brackets.begin.d
 //         ^^^ storage.modifier.d
 //             ^ variable.parameter.d
@@ -2246,8 +2246,8 @@ extern(1)
 //                                          ^ punctuation.section.block.end.d
 
   static foreach (Sint; AliasSeq!(S, const S, immutable S))
-//^^^^^^ keyword.control.flow.d
-//       ^^^^^^^ keyword.control.flow.d
+//^^^^^^ keyword.control.loop.d
+//       ^^^^^^^ keyword.control.loop.d
 //               ^ punctuation.section.brackets.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
@@ -2264,8 +2264,8 @@ extern(1)
 //                                                       ^ punctuation.section.parens.end.d
 //                                                        ^ punctuation.section.brackets.end.d
   static foreach (Uint; AliasSeq!(U, const U, immutable U)) {}
-//^^^^^^ keyword.control.flow.d
-//       ^^^^^^^ keyword.control.flow.d
+//^^^^^^ keyword.control.loop.d
+//       ^^^^^^^ keyword.control.loop.d
 //               ^ punctuation.section.brackets.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d

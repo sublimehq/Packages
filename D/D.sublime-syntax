@@ -1630,8 +1630,8 @@ contexts:
   static-foreach-in:
     - match: '\b(static)\s+(foreach|foreach_reverse)\b'
       captures:
-        1: keyword.control.flow.d
-        2: keyword.control.flow.d
+        1: keyword.control.loop.d
+        2: keyword.control.loop.d
       push: [optional-block-statement, foreach-arguments]
 
   static-assert-in:
@@ -1782,16 +1782,16 @@ contexts:
 
   loop-in:
     - match: '\bwhile\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.loop.d
       push: [optional-block-statement, condition]
     - match: '\bdo\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.loop.d
       push: optional-block-statement
     - match: '\bfor\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.loop.d
       push: [optional-block-statement, for-arguments]
     - match: '\b(foreach|foreach_reverse)\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.loop.d
       push: [optional-block-statement, foreach-arguments]
 
   flow-statement-in:
