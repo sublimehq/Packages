@@ -1553,11 +1553,11 @@ extern(1)
 //              ^ punctuation.section.parens.end.d
 
   try {
-//^^^ keyword.control.flow.d
+//^^^ keyword.control.exception.d
 //    ^ punctuation.section.block.begin.d
   } catch (int a) {
 //^ punctuation.section.block.end.d
-//  ^^^^^ keyword.control.flow.d
+//  ^^^^^ keyword.control.exception.d
 //        ^ punctuation.section.parens.begin.d
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
@@ -1565,7 +1565,7 @@ extern(1)
 //                ^ punctuation.section.block.begin.d
   } catch (Throwable; foo a) {
 //^ punctuation.section.block.end.d
-//  ^^^^^ keyword.control.flow.d
+//  ^^^^^ keyword.control.exception.d
 //        ^ punctuation.section.parens.begin.d
 //         ^^^^^^^^^ storage.type.d
 //                  ^ invalid.illegal.d
@@ -1576,12 +1576,12 @@ extern(1)
   }
 //^ punctuation.section.block.end.d
   finally {
-//^^^^^^^ keyword.control.flow.d
+//^^^^^^^ keyword.control.exception.d
 //        ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
   throw 3;
-//^^^^^ keyword.control.flow.d
+//^^^^^ keyword.control.flow.exception.d
 //      ^ constant.numeric.integer.d
 
   scope (exit) {}

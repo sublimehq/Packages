@@ -1856,13 +1856,13 @@ contexts:
 
   try-in:
     - match: '\btry\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.exception.d
       push: optional-block-statement
     - match: '\bcatch\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.exception.d
       push: [optional-block-statement, catch-arguments]
     - match: '\bfinally\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.exception.d
       push: optional-block-statement
   catch-arguments:
     - match: '\('
@@ -1884,7 +1884,7 @@ contexts:
 
   throw-in:
     - match: '\bthrow\b'
-      scope: keyword.control.flow.d
+      scope: keyword.control.flow.exception.d
       push: [expect-end-of-line, value]
 
   scope-in:
