@@ -1072,6 +1072,13 @@ if [[ ' foobar' == [\ ]foo* ]]; then
   #                         ^^ support.function.double-brace.end
   :
 fi
+
+case
+#^ keyword.control.conditional.case
+
+esac
+#^ keyword.control.conditional.end
+
 case $_G_unquoted_arg in
 *[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
 #^ keyword.control.regexp.set.begin
