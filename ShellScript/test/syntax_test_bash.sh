@@ -1489,7 +1489,7 @@ for (( i = 0; i < 10; i++ )); do
     #    ^ meta.function-call.arguments punctuation.definition.variable
     #     ^ meta.function-call.arguments variable.other.readwrite
 done
-# <- keyword.control
+# <- keyword.control.loop.end
 
 for i in $(seq 100); do
 # <- keyword.control.loop.for
@@ -1503,7 +1503,7 @@ for i in $(seq 100); do
   :
   # <- meta.function-call support.function.colon
 done
-# <- keyword.control.loop.done
+# <- keyword.control.loop.end
 
 [[ "${foo}" == bar*baz ]]
  # <- support.function.double-brace.begin
@@ -1611,7 +1611,7 @@ if [ "$1" != "" -a "$2" != "" ]; then
     #     ^^^^^^ variable.other.readwrite.assignment
     #           ^ keyword.operator.assignment
 elif [ "$1" ]; then
-# <- keyword.control.conditional.elif
+# <- keyword.control.conditional.elseif
 #              ^^^^ keyword.control.conditional.then
     local DIR=$PWD
     # <- storage.modifier
@@ -1804,7 +1804,7 @@ else remotefilter="grep"
          #          ^ variable.other.readwrite.assignment
          #           ^ keyword.operator.assignment
      done
-     # <- keyword.control.loop.done
+     # <- keyword.control.loop.end
 fi
 # <- keyword.control.conditional.end
 

@@ -65,7 +65,7 @@ variables:
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
   keyword_break_char: '[^-=\w]'
-  keyword_break: (?={{keyword_break_char}})
+  keyword_break: (?![-=\w])
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
@@ -165,7 +165,7 @@ contexts:
       pop: true
     - match: \b(elif){{keyword_break}}(?:\s*(!))?
       captures:
-        1: keyword.control.conditional.elif.shell
+        1: keyword.control.conditional.elseif.shell
         2: keyword.operator.logical.shell
     - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
@@ -180,7 +180,7 @@ contexts:
       scope: keyword.control.loop.do.shell
       pop: true
     - match: \bdone{{keyword_break}}
-      scope: keyword.control.loop.done.shell
+      scope: keyword.control.loop.end.shell
       set: [cmd-post, cmd-args]
     - match: \bwhile{{keyword_break}}
       scope: keyword.control.loop.while.shell
