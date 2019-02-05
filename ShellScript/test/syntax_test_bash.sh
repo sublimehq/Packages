@@ -1077,13 +1077,13 @@ case-
 #^ - keyword
 
 esac
-#^ keyword.control.conditional.end
+#^ keyword.control.conditional.end - meta.conditional.case
 
 case
-#^ keyword.control.conditional.case
+#^ meta.conditional.case keyword.control.conditional.case
 
 esac
-#^ keyword.control.conditional.end
+#^ meta.conditional.case keyword.control.conditional.end
 
 case $_G_unquoted_arg in
 *[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
