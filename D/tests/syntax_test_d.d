@@ -134,22 +134,22 @@ dec = 1UL;
 //    ^ constant.numeric.integer.d
 //     ^^ storage.type.integer.d
 auto bin = 0b1;
-//         ^^ storage.modifier.d
+//         ^^ punctuation.definition.numeric.binary.d
 //           ^ constant.numeric.binary.d
 bin = 0b10__1;
-//    ^^ storage.modifier.d
+//    ^^ punctuation.definition.numeric.binary.d
 //      ^^^^^ constant.numeric.binary.d
 bin = 0B1;
-//    ^^ storage.modifier.d
+//    ^^ punctuation.definition.numeric.binary.d
 //      ^ constant.numeric.binary.d
 auto hex = 0xF;
-//         ^^ storage.modifier.d
+//         ^^ punctuation.definition.numeric.hex.d
 //           ^ constant.numeric.hex.d
 hex = 0x012_3;
-//    ^^ storage.modifier.d
+//    ^^ punctuation.definition.numeric.hex.d
 //      ^^^^^ constant.numeric.hex.d
 hex = 0X1;
-//    ^^ storage.modifier.d
+//    ^^ punctuation.definition.numeric.hex.d
 //      ^ constant.numeric.hex.d
 
 auto f = 0_.0_;
@@ -170,18 +170,18 @@ f =  1f;
 //   ^ constant.numeric.float.d
 //    ^ storage.type.float.d
 f = 0x123f;
-//  ^^ storage.modifier.d
+//  ^^ punctuation.definition.numeric.hex.d
 //    ^^^ constant.numeric.float.d
 //       ^ storage.type.float.d
 f = 0b10101101f;
-//  ^^ storage.modifier.d
+//  ^^ punctuation.definition.numeric.binary.d
 //    ^^^^^^^^ constant.numeric.float.d
 //            ^ storage.type.float.d
 f = 0x.1aFp2;
-//  ^^ storage.modifier.d
+//  ^^ punctuation.definition.numeric.hex.d
 //    ^^^^^^ constant.numeric.float.d
 f = 0xF.AP-2f;
-//  ^^ storage.modifier.d
+//  ^^ punctuation.definition.numeric.hex.d
 //    ^^^^^^ constant.numeric.float.d
 //          ^ storage.type.float.d
 
