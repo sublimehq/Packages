@@ -737,7 +737,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   basic-type2-after-parens:
     - match: '\)'
-      scope: punctuation.section.brackets.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
 
@@ -1596,7 +1596,7 @@ contexts:
 
   version-condition:
     - match: '\('
-      scope: punctuation.section.brackets.begin.d
+      scope: punctuation.section.parens.begin.d
       set:
         - match: '\b(unittest|assert)\b'
           scope: keyword.d
@@ -1610,13 +1610,13 @@ contexts:
     - include: not-whitespace-illegal
   version-condition-end:
     - match: '\)'
-      scope: punctuation.section.brackets.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal
 
   debug-condition:
     - match: '\('
-      scope: punctuation.section.brackets.begin.d
+      scope: punctuation.section.parens.begin.d
       set:
         - match: '\b({{name}})\b'
           scope: constant.other.d
@@ -1959,7 +1959,7 @@ contexts:
 
   foreach-arguments:
     - match: '\('
-      scope: punctuation.section.brackets.begin.d
+      scope: punctuation.section.parens.begin.d
       set: [foreach-arguments-end, foreach-parameter-list]
     - include: not-whitespace-illegal
   foreach-parameter-list:
@@ -1988,7 +1988,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   foreach-arguments-after:
     - match: '\)'
-      scope: punctuation.section.brackets.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
 
@@ -2005,12 +2005,12 @@ contexts:
 
   condition:
     - match: '\('
-      scope: punctuation.section.brackets.begin.d
+      scope: punctuation.section.parens.begin.d
       set: [condition-after, value]
     - include: not-whitespace-illegal-pop
   condition-after:
     - match: '\)'
-      scope: punctuation.section.brackets.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
 

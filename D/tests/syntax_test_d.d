@@ -667,30 +667,30 @@ extern(1)
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
-//       ^ punctuation.section.brackets.begin.d
+//       ^ punctuation.section.parens.begin.d
 //        ^^^^^^^^ keyword.d
-//                ^ punctuation.section.brackets.end.d
+//                ^ punctuation.section.parens.end.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
   version(assert) {}
 //^^^^^^^ keyword.control.conditional.d
-//       ^ punctuation.section.brackets.begin.d
+//       ^ punctuation.section.parens.begin.d
 //        ^^^^^^ keyword.d
-//              ^ punctuation.section.brackets.end.d
+//              ^ punctuation.section.parens.end.d
 //                ^ punctuation.section.block.begin.d
 //                 ^ punctuation.section.block.end.d
   version(foo) {}
 //^^^^^^^ keyword.control.conditional.d
-//       ^ punctuation.section.brackets.begin.d
+//       ^ punctuation.section.parens.begin.d
 //        ^^^ constant.other.d
-//           ^ punctuation.section.brackets.end.d
+//           ^ punctuation.section.parens.end.d
 //             ^ punctuation.section.block.begin.d
 //              ^ punctuation.section.block.end.d
   version(1):
 //^^^^^^^ keyword.control.conditional.d
-//       ^ punctuation.section.brackets.begin.d
+//       ^ punctuation.section.parens.begin.d
 //        ^ constant.numeric.integer.d
-//         ^ punctuation.section.brackets.end.d
+//         ^ punctuation.section.parens.end.d
 //          ^ punctuation.separator.d
 
   debug:
@@ -705,9 +705,9 @@ extern(1)
 //               ^ punctuation.section.block.end.d
   debug(foo) {} else:
 //^^^^^ keyword.control.conditional.d
-//     ^ punctuation.section.brackets.begin.d
+//     ^ punctuation.section.parens.begin.d
 //      ^^^ constant.other.d
-//         ^ punctuation.section.brackets.end.d
+//         ^ punctuation.section.parens.end.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
 //              ^^^^ keyword.control.conditional.d
@@ -732,17 +732,17 @@ extern(1)
   static if (12 + 5):
 //^^^^^^ storage.modifier.d
 //       ^^ keyword.control.conditional.d
-//          ^ punctuation.section.brackets.begin.d
+//          ^ punctuation.section.parens.begin.d
 //           ^^ constant.numeric.integer.d
 //              ^ keyword.operator.arithmetic.d
 //                ^ constant.numeric.integer.d
-//                 ^ punctuation.section.brackets.end.d
+//                 ^ punctuation.section.parens.end.d
 //                  ^ punctuation.separator.d
   static if (true) {} else {}
 //^^^^^^ storage.modifier.d
 //       ^^ keyword.control.conditional.d
-//          ^ punctuation.section.brackets.begin.d
-//               ^ punctuation.section.brackets.end.d
+//          ^ punctuation.section.parens.begin.d
+//               ^ punctuation.section.parens.end.d
 //                 ^ punctuation.section.block.begin.d
 //                  ^ punctuation.section.block.end.d
 //                    ^^^^ keyword.control.conditional.d
@@ -751,18 +751,18 @@ extern(1)
   static if (0) {
 //^^^^^^ storage.modifier.d
 //       ^^ keyword.control.conditional.d
-//          ^ punctuation.section.brackets.begin.d
+//          ^ punctuation.section.parens.begin.d
 //           ^ constant.numeric.integer.d
-//            ^ punctuation.section.brackets.end.d
+//            ^ punctuation.section.parens.end.d
 //              ^ punctuation.section.block.begin.d
   } else static if (1) {
 //^ punctuation.section.block.end.d
 //  ^^^^ keyword.control.conditional.d
 //       ^^^^^^ storage.modifier.d
 //              ^^ keyword.control.conditional.d
-//                 ^ punctuation.section.brackets.begin.d
+//                 ^ punctuation.section.parens.begin.d
 //                  ^ constant.numeric.integer.d
-//                   ^ punctuation.section.brackets.end.d
+//                   ^ punctuation.section.parens.end.d
 //                     ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
@@ -770,16 +770,16 @@ extern(1)
   static foreach (int foo, f; 12..3) {
 //^^^^^^ keyword.control.loop.d
 //       ^^^^^^^ keyword.control.loop.d
-//               ^ punctuation.section.brackets.begin.d
+//               ^ punctuation.section.parens.begin.d
     static foreach (int a; 123) {
   //^^^^^^ keyword.control.loop.d
   //       ^^^^^^^ keyword.control.loop.d
-  //               ^ punctuation.section.brackets.begin.d
+  //               ^ punctuation.section.parens.begin.d
   //                ^^^ storage.type.d
   //                    ^ variable.parameter.d
   //                     ^ punctuation.separator.sequence.d
   //                       ^^^ constant.numeric.integer.d
-  //                          ^ punctuation.section.brackets.end.d
+  //                          ^ punctuation.section.parens.end.d
   //                            ^ punctuation.section.block.begin.d
   //                             ^
     }
@@ -1084,14 +1084,14 @@ extern(1)
 //         ^ punctuation.section.group.begin.d
 //          ^ punctuation.section.group.end.d
 //            ^^ keyword.control.conditional.d
-//               ^ punctuation.section.brackets.begin.d
+//               ^ punctuation.section.parens.begin.d
 //                ^^ keyword.other.d
 //                  ^ punctuation.section.parens.begin.d
 //                   ^ storage.type.d
 //                     ^ keyword.operator.logical.d
 //                       ^ storage.type.d
 //                        ^ punctuation.section.parens.end.d
-//                         ^ punctuation.section.brackets.end.d
+//                         ^ punctuation.section.parens.end.d
   in {}
 //^^ keyword.control.conditional.d
 //   ^ punctuation.section.block.begin.d
@@ -1268,14 +1268,14 @@ extern(1)
 //             ^ variable.parameter.d
 //              ^ punctuation.section.group.end.d
 //                ^^ keyword.control.conditional.d
-//                   ^ punctuation.section.brackets.begin.d
+//                   ^ punctuation.section.parens.begin.d
 //                    ^^ keyword.other.d
 //                      ^ punctuation.section.parens.begin.d
 //                       ^ storage.type.d
 //                         ^ keyword.operator.logical.d
 //                           ^^^^^ storage.type.d
 //                                ^ punctuation.section.parens.end.d
-//                                 ^ punctuation.section.brackets.end.d
+//                                 ^ punctuation.section.parens.end.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
   @property foo(T) = {
@@ -1336,17 +1336,17 @@ extern(1)
 
   if (2) {
 //^^ keyword.control.conditional.d
-//   ^ punctuation.section.brackets.begin.d
+//   ^ punctuation.section.parens.begin.d
 //    ^ constant.numeric.integer.d
-//     ^ punctuation.section.brackets.end.d
+//     ^ punctuation.section.parens.end.d
 //       ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
   if (1) {} else {}
 //^^ keyword.control.conditional.d
-//   ^ punctuation.section.brackets.begin.d
+//   ^ punctuation.section.parens.begin.d
 //    ^ constant.numeric.integer.d
-//     ^ punctuation.section.brackets.end.d
+//     ^ punctuation.section.parens.end.d
 //       ^ punctuation.section.block.begin.d
 //        ^ punctuation.section.block.end.d
 //          ^^^^ keyword.control.conditional.d
@@ -1355,9 +1355,9 @@ extern(1)
   if (1) 1;
   if (1) {} else 1;
 //^^ keyword.control.conditional.d
-//   ^ punctuation.section.brackets.begin.d
+//   ^ punctuation.section.parens.begin.d
 //    ^ constant.numeric.integer.d
-//     ^ punctuation.section.brackets.end.d
+//     ^ punctuation.section.parens.end.d
 //       ^ punctuation.section.block.begin.d
 //        ^ punctuation.section.block.end.d
 //          ^^^^ keyword.control.conditional.d
@@ -1365,15 +1365,15 @@ extern(1)
 
   while (2) 1;
 //^^^^^ keyword.control.loop.d
-//      ^ punctuation.section.brackets.begin.d
+//      ^ punctuation.section.parens.begin.d
 //       ^ constant.numeric.integer.d
-//        ^ punctuation.section.brackets.end.d
+//        ^ punctuation.section.parens.end.d
 //          ^ constant.numeric.integer.d
   while (2)
 //^^^^^ keyword.control.loop.d
-//      ^ punctuation.section.brackets.begin.d
+//      ^ punctuation.section.parens.begin.d
 //       ^ constant.numeric.integer.d
-//        ^ punctuation.section.brackets.end.d
+//        ^ punctuation.section.parens.end.d
   {
 //^ punctuation.section.block.begin.d
     do 2;
@@ -1381,9 +1381,9 @@ extern(1)
   //   ^ constant.numeric.integer.d
     while (3);
   //^^^^^ keyword.control.loop.d
-  //      ^ punctuation.section.brackets.begin.d
+  //      ^ punctuation.section.parens.begin.d
   //       ^ constant.numeric.integer.d
-  //        ^ punctuation.section.brackets.end.d
+  //        ^ punctuation.section.parens.end.d
     do
   //^^ keyword.control.loop.d
     {
@@ -1391,9 +1391,9 @@ extern(1)
     } while (1);
   //^ punctuation.section.block.end.d
   //  ^^^^^ keyword.control.loop.d
-  //        ^ punctuation.section.brackets.begin.d
+  //        ^ punctuation.section.parens.begin.d
   //         ^ constant.numeric.integer.d
-  //          ^ punctuation.section.brackets.end.d
+  //          ^ punctuation.section.parens.end.d
   }
 //^ punctuation.section.block.end.d
   for (1; 2; 3) {
@@ -1455,21 +1455,21 @@ extern(1)
 //                            ^ punctuation.section.block.end.d
   foreach (int a; 2) {
 //^^^^^^^ keyword.control.loop.d
-//        ^ punctuation.section.brackets.begin.d
+//        ^ punctuation.section.parens.begin.d
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
 //              ^ punctuation.separator.sequence.d
 //                ^ constant.numeric.integer.d
-//                 ^ punctuation.section.brackets.end.d
+//                 ^ punctuation.section.parens.end.d
 //                   ^ punctuation.section.block.begin.d
     foreach_reverse (int a; 2) {
   //^^^^^^^^^^^^^^^ keyword.control.loop.d
-  //                ^ punctuation.section.brackets.begin.d
+  //                ^ punctuation.section.parens.begin.d
   //                 ^^^ storage.type.d
   //                     ^ variable.parameter.d
   //                      ^ punctuation.separator.sequence.d
   //                        ^ constant.numeric.integer.d
-  //                         ^ punctuation.section.brackets.end.d
+  //                         ^ punctuation.section.parens.end.d
   //                           ^ punctuation.section.block.begin.d
     }
   //^ punctuation.section.block.end.d
@@ -1477,12 +1477,12 @@ extern(1)
 //^ punctuation.section.block.end.d
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.loop.d
-//        ^ punctuation.section.brackets.begin.d
+//        ^ punctuation.section.parens.begin.d
 //         ^^^ storage.modifier.d
 //             ^ variable.parameter.d
 //              ^ punctuation.separator.sequence.d
 //                ^^^ variable.other.d
-//                   ^ punctuation.section.brackets.end.d
+//                   ^ punctuation.section.parens.end.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 
@@ -1761,12 +1761,12 @@ extern(1)
 
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.loop.d
-//        ^ punctuation.section.brackets.begin.d
+//        ^ punctuation.section.parens.begin.d
 //         ^^^ storage.modifier.d
 //             ^ variable.parameter.d
 //              ^ punctuation.separator.sequence.d
 //                ^^^ variable.other.d
-//                   ^ punctuation.section.brackets.end.d
+//                   ^ punctuation.section.parens.end.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 
@@ -1899,7 +1899,7 @@ extern(1)
 //            ^^^^^^ keyword.other.d
 //                  ^ punctuation.section.parens.begin.d
 //                   ^^^ string.quoted.single.d
-//                      ^ punctuation.section.brackets.end.d
+//                      ^ punctuation.section.parens.end.d
 //                        ^ variable.parameter.d
 //                         ^ punctuation.section.group.end.d
 //                          ^ punctuation.terminator.d
@@ -2248,7 +2248,7 @@ extern(1)
   static foreach (Sint; AliasSeq!(S, const S, immutable S))
 //^^^^^^ keyword.control.loop.d
 //       ^^^^^^^ keyword.control.loop.d
-//               ^ punctuation.section.brackets.begin.d
+//               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
 //                      ^^^^^^^^ variable.other.d
@@ -2262,11 +2262,11 @@ extern(1)
 //                                            ^^^^^^^^^ storage.modifier.d
 //                                                      ^ storage.type.d
 //                                                       ^ punctuation.section.parens.end.d
-//                                                        ^ punctuation.section.brackets.end.d
+//                                                        ^ punctuation.section.parens.end.d
   static foreach (Uint; AliasSeq!(U, const U, immutable U)) {}
 //^^^^^^ keyword.control.loop.d
 //       ^^^^^^^ keyword.control.loop.d
-//               ^ punctuation.section.brackets.begin.d
+//               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
 //                      ^^^^^^^^ variable.other.d
@@ -2280,6 +2280,6 @@ extern(1)
 //                                            ^^^^^^^^^ storage.modifier.d
 //                                                      ^ storage.type.d
 //                                                       ^ punctuation.section.parens.end.d
-//                                                        ^ punctuation.section.brackets.end.d
+//                                                        ^ punctuation.section.parens.end.d
 //                                                          ^ punctuation.section.block.begin.d
 //                                                           ^ punctuation.section.block.end.d
