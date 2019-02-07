@@ -35,6 +35,7 @@ contexts:
         - meta_scope: comment.line.number-sign.r
         - match: \n
           pop: true
+
   constants:
     - match: \b(pi|letters|LETTERS|month\.abb|month\.name)\b
       scope: support.constant.misc.r
