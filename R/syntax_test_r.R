@@ -160,34 +160,35 @@ function(x = "string", y = 2) {}
 #                          ^ meta.function.parameters.r constant.numeric.float.decimal.r
 
 foo(200, x = function(x) {x + y})
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+#^^ meta.function-call.r - meta.function-call.arguments.r
 # <- variable.function.r
-#  ^ punctuation.section.parens.begin.r
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
+#  ^ punctuation.section.arguments.begin.r
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.r
 #   ^^^ constant.numeric.float.decimal.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
 #            ^^^^^^^^^^^ meta.function.r
-#                               ^ punctuation.section.parens.end.r
+#                               ^ punctuation.section.arguments.end.r
 
 .foo(200, x = function(x) {x + y})
 # <- meta.function-call.r
-#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+#^^^ meta.function-call.r - meta.function-call.arguments.r
 # <- variable.function.r
-#   ^ punctuation.section.parens.begin.r
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
+#   ^ punctuation.section.arguments.begin.r
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.r
 #    ^^^ constant.numeric.float.decimal.r
 #         ^ variable.parameter.r
 #           ^ keyword.operator.assignment.r
 #             ^^^^^^^^^^^ meta.function.r
-#                                ^ punctuation.section.parens.end.r
+#                                ^ punctuation.section.arguments.end.r
 
 
 print.foo()
 #^^^^^^^^ variable.function.r
 
   plot()
-# ^^^^^^ meta.function-call.r
+# ^^^^ meta.function-call.r - meta.function-call.arguments.r
+#     ^^ meta.function-call.arguments.r - meta.function-call.r
 # ^^^^ support.function.r
 
 #' @param xyz abcde
@@ -208,7 +209,7 @@ foo[[bar[1]]] #
 # issue #1120
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
-#     ^^ meta.function-call.r meta.function-call.parameters.r keyword.operator.assignment.r
+#     ^^ keyword.operator.assignment.r
 
 function(
   x = 1, # this should be comment
