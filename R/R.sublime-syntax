@@ -152,7 +152,7 @@ contexts:
       captures:
         1: entity.name.function.r
         2: keyword.operator.assignment.r
-        3: keyword.control.r
+        3: keyword.declaration.function.r
       push:
         - include: lambda-functions
         - match: ''
@@ -162,7 +162,7 @@ contexts:
     - match: \b(function)\s*(?=\()
       scope: meta.function.r
       captures:
-        1: keyword.control.r
+        1: keyword.declaration.function.r
       push:
         - match: \(
           scope: punctuation.section.parameters.begin.r
