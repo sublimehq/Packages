@@ -513,3 +513,26 @@ stray-bracket]
 #                                       ^ string.quoted.double punctuation.definition.string.end
 #                                         ^ punctuation.definition.comment
 #                                         ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
+  lg1 = log --graph --format=tformat:'%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s %C(dim white)<%aN>%C(reset) %w(0,0,9)%C(auto)%+d%C(reset)'
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config string.unquoted.value.git.config
+#                            ^^^^^^^ keyword.declaration.git.pretty-formats
+#                                   ^ keyword.operator.assignment.option.git.pretty-formats
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.shell
+#                                    ^ punctuation.definition.string.begin.shell
+#                                     ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#                                       ^^^^^^^^^^^^^ meta.function-call.arguments.git.pretty-formats
+#                                       ^ punctuation.section.parens.begin.git.pretty-formats
+#                                        ^^^^ support.constant.color-attribute.git.config
+#                                            ^ - support
+#                                             ^^^^^^ support.constant.color.git.config
+#                                                   ^ punctuation.section.parens.end.git.pretty-formats
+#                                                    ^^ constant.other.placeholder.git.pretty-formats
+#                                                                         ^^^ constant.other.placeholder.git.pretty-formats
+#                                                                                     ^ - constant
+#                                                                                                       ^^^ constant.other.placeholder.git.pretty-formats
+#                                                                                                                     ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+  lgs = log --graph --format=format:'%h - [%ar] %s%n%-w(80,9)%+d'
+#                                                   ^^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#                                                      ^^^^^^ meta.function-call.arguments.git.pretty-formats
+#                                                            ^^^ constant.other.placeholder.git.pretty-formats
+#                                                                ^ - text.git.pretty-formats

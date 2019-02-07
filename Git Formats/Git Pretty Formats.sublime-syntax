@@ -1,0 +1,153 @@
+%YAML 1.2
+---
+# Syntax based on documentation here:
+# https://git-scm.com/docs/pretty-formats
+
+name: Git Pretty Formats
+hidden: true
+scope: text.git.pretty-formats
+
+variables:
+  builtins: oneline|short|medium|fuller|full|email|raw
+  empty_value_modifiers: '[-+ ]?'
+
+contexts:
+  as-arg:
+    - match: (--)(pretty|format)(=)({{builtins}})?(?:(t?format)(:))?
+      captures:
+        1: punctuation.definition.parameter.shell
+        2: variable.parameter.option.shell
+        3: keyword.operator.assignment.option.shell
+        4: constant.language.git.pretty-formats
+        5: keyword.declaration.git.pretty-formats
+        6: keyword.operator.assignment.option.pretty-formats
+      push:
+        - meta_content_scope: text.git.pretty-formats
+        - include: include-main
+
+  as-arg-minimal:
+    - match: (--)(pretty|format)(=)({{builtins}})?(?:(t?format)(:))?
+      captures:
+        # 1: punctuation.definition.parameter.shell
+        # 2: variable.parameter.option.shell
+        # 3: keyword.operator.assignment.option.shell
+        # 4: constant.language.git.pretty-formats
+        5: keyword.declaration.git.pretty-formats
+        6: keyword.operator.assignment.option.git.pretty-formats
+      push:
+        - meta_content_scope: text.git.pretty-formats
+        - include: include-main
+
+  include-main:
+    - match: (?=\s)
+      pop: true
+    - include: main
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: string.quoted.single.shell
+        - match: \'
+          scope: punctuation.definition.string.end.shell
+          pop: true
+        - include: main
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: string.quoted.double.shell
+        - match: \"
+          scope: punctuation.definition.string.end.shell
+          pop: true
+        - include: main
+
+  main:
+    - match: '%%'
+      scope: constant.character.escape.git.pretty-formats
+    - match: '%x\d\d'
+      scope: constant.character.byte.git.pretty-formats
+    - match: |
+        (?x)
+          %{{empty_value_modifiers}}
+          (?:
+            [HhTtPpdDesfbBNmn]|  # single-char
+            [ac][nNeEdDrtiI]|    # author and committer
+            G[G?DKFP]|           # GPG
+            g[dnNeEs]            # reflog
+          )
+
+      scope: constant.other.placeholder.git.pretty-formats
+    - include: colors
+    - include: wrap-formatting
+    - include: string-formatting
+    - include: trailers
+
+  wrap-formatting:
+    - match: '(%{{empty_value_modifiers}}w)(\()'
+      captures:
+        1: meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+        2: meta.function-call.arguments.git.pretty-formats punctuation.section.parens.begin.git.pretty-formats
+      push:
+        - meta_content_scope: meta.function-call.arguments.git.pretty-formats
+        - match: '\)'
+          scope: meta.function-call.arguments.git.pretty-formats punctuation.section.parens.end.git.pretty-formats
+          pop: true
+        - match: \d+
+          scope: constant.numeric.integer.git.pretty-formats
+        - match: ',,'
+          scope: invalid.illegal.git.pretty-formats
+        - match: ','
+          scope: punctuation.separator.parameters.git.pretty-formats
+        - match: \S
+          scope: invalid.illegal.git.pretty-formats
+
+  string-formatting:
+    - match: '(%{{empty_value_modifiers}}(?:<\|?|>\|?|><\|?))((\()(\d+)(?:(,)([lm]?trunc))?(\)))'
+      captures:
+        1: meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+        2: meta.function-call.arguments.git.pretty-formats
+        3: punctuation.section.parens.begin.git.pretty-formats
+        4: constant.numeric.integer.git.pretty-formats
+        5: punctuation.separator.parameters.git.pretty-formats
+        6: support.constant.truncation.git.pretty-formats
+        7: punctuation.section.parens.end.git.pretty-formats
+
+  colors:
+    - match: '(%{{empty_value_modifiers}}C)((red|green|blue)|(reset))'
+      captures:
+        1: meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+        2: meta.function-call.arguments.git.pretty-formats
+        3: support.constant.color.git.config
+        4: support.constant.color-reset.git.config
+    - match: '(%{{empty_value_modifiers}}C)(\()'
+      captures:
+        1: meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+        2: meta.function-call.arguments.git.pretty-formats punctuation.section.parens.begin.git.pretty-formats
+      push:
+        - meta_content_scope: meta.function-call.arguments.git.pretty-formats
+        - match: \)
+          scope: meta.function-call.arguments.git.pretty-formats punctuation.section.parens.end.git.pretty-formats
+          pop: true
+        - include: Git Config.sublime-syntax#color-value
+        - match: reset
+          scope: support.constant.color-reset.git.config
+
+  trailers:
+    - match: '%(\()(trailers)(\))'
+      captures:
+        1: punctuation.section.parens.begin.git.pretty-formats
+        2: keyword.other.trailers.git.pretty-formats
+        3: punctuation.section.parens.end.git.pretty-formats
+    - match: '%(\()(trailers)(:)'
+      captures:
+        1: punctuation.section.parens.begin.git.pretty-formats
+        2: keyword.other.trailers.git.pretty-formats
+      push:
+        - meta_scope: bar
+        - match: \)
+          scope: punctuation.section.parens.end.git.pretty-formats
+        - match: ',,|:'
+          scope: invalid.illegal.git.pretty-formats
+        - match: ','
+          scope: punctuation.separator.parameters.git.pretty-formats
+        # Unclear from https://git-scm.com/docs/git-interpret-trailers what other values are valid here
+        - match: only|unfold
+          scope: support.constant.trailer.git.config

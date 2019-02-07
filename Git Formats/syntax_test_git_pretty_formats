@@ -1,0 +1,87 @@
+# SYNTAX TEST "Git Pretty Formats.sublime-syntax"
+  %h
+# ^^ constant.other.placeholder.git.pretty-formats
+
+  %<(5)%h
+# ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#   ^^^ meta.function-call.arguments.git.pretty-formats
+#   ^   punctuation.section.parens.begin.git.pretty-formats
+#    ^  constant.numeric.integer.git.pretty-formats
+#     ^ punctuation.section.parens.end.git.pretty-formats
+#      ^^ constant.other.placeholder.git.pretty-formats
+  %<(5,ltrunc)%h
+# ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#   ^^^^^^^^^^ meta.function-call.arguments.git.pretty-formats
+#   ^   punctuation.section.parens.begin.git.pretty-formats
+#    ^  constant.numeric.integer.git.pretty-formats
+#     ^ punctuation.separator.parameters.git.pretty-formats
+#      ^^^^^^ support.constant.truncation.git.pretty-formats
+#            ^ punctuation.section.parens.end.git.pretty-formats
+#             ^^ constant.other.placeholder.git.pretty-formats
+  %<|(5)%h
+# ^^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#    ^^^ meta.function-call.arguments.git.pretty-formats
+#    ^   punctuation.section.parens.begin.git.pretty-formats
+#     ^  constant.numeric.integer.git.pretty-formats
+#      ^ punctuation.section.parens.end.git.pretty-formats
+#       ^^ constant.other.placeholder.git.pretty-formats
+  %>(5)%h
+# ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#   ^^^ meta.function-call.arguments.git.pretty-formats
+#   ^   punctuation.section.parens.begin.git.pretty-formats
+#    ^  constant.numeric.integer.git.pretty-formats
+#     ^ punctuation.section.parens.end.git.pretty-formats
+#      ^^ constant.other.placeholder.git.pretty-formats
+  %>|(5)%h
+# ^^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#    ^^^ meta.function-call.arguments.git.pretty-formats
+#    ^   punctuation.section.parens.begin.git.pretty-formats
+#     ^  constant.numeric.integer.git.pretty-formats
+#      ^ punctuation.section.parens.end.git.pretty-formats
+#       ^^ constant.other.placeholder.git.pretty-formats
+  %><(5)%h
+# ^^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#    ^^^ meta.function-call.arguments.git.pretty-formats
+#    ^   punctuation.section.parens.begin.git.pretty-formats
+#     ^  constant.numeric.integer.git.pretty-formats
+#      ^ punctuation.section.parens.end.git.pretty-formats
+#       ^^ constant.other.placeholder.git.pretty-formats
+  %><|(5)%h
+# ^^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#     ^^^ meta.function-call.arguments.git.pretty-formats
+#     ^   punctuation.section.parens.begin.git.pretty-formats
+#      ^  constant.numeric.integer.git.pretty-formats
+#       ^ punctuation.section.parens.end.git.pretty-formats
+#        ^^ constant.other.placeholder.git.pretty-formats
+
+  %a
+# ^^ - constant
+  %aD
+# ^^^ constant.other.placeholder.git.pretty-formats
+  %+aD
+# ^^^^ constant.other.placeholder.git.pretty-formats
+  %-aD
+# ^^^^ constant.other.placeholder.git.pretty-formats
+  % aD
+# ^^^^ constant.other.placeholder.git.pretty-formats
+
+
+  %C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s
+# ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#   ^^^^^^^^^^^^^ meta.function-call.arguments.git.pretty-formats
+#    ^^^^         support.constant.color-attribute.git.config
+#        ^        - support
+#         ^^^^^^  support.constant.color.git.config
+  %C(dim white)<%aN>%C(reset) %w(0,0,9)%C(auto)%+d%C(reset)
+#              ^ - constant
+#               ^^^ constant.other.placeholder.git.pretty-formats
+#                             ^^ meta.function-call.git.pretty-formats variable.function.git.pretty-formats
+#                               ^^^^^^^ meta.function-call.arguments.git.pretty-formats
+#                               ^ punctuation.section.parens.begin.git.pretty-formats
+#                                ^ constant.numeric.integer.git.pretty-formats
+#                                 ^ punctuation.separator.parameters.git.pretty-formats
+#                                  ^ constant.numeric.integer.git.pretty-formats
+#                                   ^ punctuation.separator.parameters.git.pretty-formats
+#                                    ^ constant.numeric.integer.git.pretty-formats
+#                                     ^ punctuation.section.parens.end.git.pretty-formats
+#                                              ^^^ constant.other.placeholder.git.pretty-formats
