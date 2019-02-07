@@ -141,15 +141,15 @@ foo[1:10]
 #    ^ meta.item-access.r meta.item-access.arguments.r keyword.other.r
 
 f = function(x, y){ }
-#^^^^^^^^^^^^^^^^^ meta.function.r
+#^^^^^^^^^^^ meta.function.r - meta.function.parameters.r
 # <- entity.name.function.r
 # ^ keyword.operator.assignment.r
 #   ^^^^^^^^ keyword.control.r
-#           ^ punctuation.section.parens.begin.r
-#            ^^^^ meta.function.parameters.r
+#           ^ punctuation.section.parameters.begin.r
+#            ^^^^ meta.function.parameters.r - meta.function.r
 #            ^ variable.parameter.r
 #             ^ punctuation.separator.parameters.r
-#                ^ punctuation.section.parens.end.r
+#                ^ punctuation.section.parameters.end.r
 #                 ^ punctuation.section.braces.begin.r
 #                   ^ punctuation.section.braces.end.r
 
@@ -167,7 +167,8 @@ foo(200, x = function(x) {x + y})
 #   ^^^ constant.numeric.float.decimal.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
-#            ^^^^^^^^^^^ meta.function.r
+#            ^^^^^^^^ meta.function.r - meta.function.parameters.r
+#                    ^^^ meta.function.parameters.r
 #                               ^ punctuation.section.arguments.end.r
 
 .foo(200, x = function(x) {x + y})
@@ -179,7 +180,8 @@ foo(200, x = function(x) {x + y})
 #    ^^^ constant.numeric.float.decimal.r
 #         ^ variable.parameter.r
 #           ^ keyword.operator.assignment.r
-#             ^^^^^^^^^^^ meta.function.r
+#             ^^^^^^^^ meta.function.r - meta.function.parameters.r
+#                     ^^^ meta.function.parameters.r
 #                                ^ punctuation.section.arguments.end.r
 
 
