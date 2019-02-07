@@ -153,9 +153,9 @@ contexts:
         2: keyword.operator.assignment.r
         3: keyword.control.r
       push:
-          - include: lambda-functions
-          - match: ''
-            pop: true
+        - include: lambda-functions
+        - match: ''
+          pop: true
 
   lambda-functions:
     - match: \b(function)\s*(?=\()
