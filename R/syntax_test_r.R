@@ -114,14 +114,32 @@ x <- 'abc'
 "\n\r"
 #^^^^ constant.character.escape.r
 
+
+if (1) {} else {return()}
+#<- keyword.control.conditional.if.r
+#         ^^^^ keyword.control.conditional.else.r
+#               ^^^^^^ keyword.control.flow.return.r
+
+
 for (i in 1:10) {
-# <- keyword.control.r
+# <- keyword.control.loop.for.r
 #   ^ punctuation.section.parens.begin.r
-#      ^^ keyword.control.r
+#      ^^ keyword.operator.word.r
 #             ^ punctuation.section.parens.end.r
 #               ^ punctuation.section.braces.begin.r
 }
 # <- punctuation.section.braces.end.r
+
+
+repeat {next}
+#^^^^^ keyword.control.loop.repeat.r
+#       ^^^^ keyword.control.flow.continue.r
+
+
+while (1) {break}
+#^^^^ keyword.control.loop.while.r
+#          ^^^^^ keyword.control.flow.break.r
+
 
 foo[bar]
 #  ^ punctuation.section.brackets.single.begin.r
@@ -139,6 +157,7 @@ foo[[bar]]
 
 foo[1:10]
 #    ^ meta.item-access.r meta.item-access.arguments.r keyword.other.r
+
 
 f = function(x, y){ }
 #^^^^^^^^^^^ meta.function.r - meta.function.parameters.r
