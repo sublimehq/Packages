@@ -72,11 +72,6 @@ variables:
   metachar: '[\s\t\n|&;()<>]'
 
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
-  reset_and: \s*(&&)
-  reset_job: \s*(&)
-  reset_or: \s*(\|\|)
-  reset_pipe: \s*(\|)
-  reset_semicolon: \s*(;)(?![;&])
   start_of_option: (?:\s+|^)--?(?=[\w$])
   varassign: '[+\-?]?='
 #-------------------------------------------------------------------------------
@@ -744,31 +739,23 @@ contexts:
     - include: line-continuation-or-pop-at-end
 
   cmd-post: # looks like [main, cmd-post] at this point
-    - match: ""
-      set:
-        - meta_content_scope: meta.post-cmd.shell
-        - match: '{{reset_semicolon}}'
-          captures:
-            1: keyword.operator.logical.continue.shell
-          set: maybe-operator-logical
-        - match: '{{reset_or}}'
-          captures:
-            1: keyword.operator.logical.or.shell
-          set: maybe-operator-logical
-        - match: '{{reset_pipe}}'
-          captures:
-            1: keyword.operator.logical.pipe.shell
-          set: maybe-operator-logical
-        - match: '{{reset_and}}'
-          captures:
-            1: keyword.operator.logical.and.shell
-          set: maybe-operator-logical
-        - match: '{{reset_job}}'
-          captures:
-            1: keyword.operator.logical.job.shell
-          set: maybe-operator-logical
-        - match: ""
-          pop: true
+    - match: ;(?![;&])
+      scope: keyword.operator.logical.continue.shell
+      set: maybe-operator-logical
+    - match: \|\|
+      scope: keyword.operator.logical.or.shell
+      set: maybe-operator-logical
+    - match: \|
+      scope: keyword.operator.logical.pipe.shell
+      set: maybe-operator-logical
+    - match: \&\&
+      scope: keyword.operator.logical.and.shell
+      set: maybe-operator-logical
+    - match: \&
+      scope: keyword.operator.logical.job.shell
+      set: maybe-operator-logical
+    - match: $|(?=\S)
+      pop: true
 
   cmd-args-boilerplate:
     - match: (?={{is_end_of_interpolation}})
