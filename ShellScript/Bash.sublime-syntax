@@ -155,17 +155,15 @@ contexts:
       push: cmd-bt
 
   control:
-    - match: \b(if){{keyword_break}}(?:\s*(!))?
-      captures:
-        1: keyword.control.conditional.if.shell
-        2: keyword.operator.logical.shell
+    - match: \bif{{keyword_break}}
+      scope: keyword.control.conditional.if.shell
+      set: maybe-operator-logical
     - match: \bthen{{keyword_break}}
       scope: keyword.control.conditional.then.shell
       pop: true
-    - match: \b(elif){{keyword_break}}(?:\s*(!))?
-      captures:
-        1: keyword.control.conditional.elseif.shell
-        2: keyword.operator.logical.shell
+    - match: \belif{{keyword_break}}
+      scope: keyword.control.conditional.elseif.shell
+      set: maybe-operator-logical
     - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       set: [cmd-post, cmd-args]
@@ -752,23 +750,23 @@ contexts:
         - match: '{{reset_semicolon}}'
           captures:
             1: keyword.operator.logical.continue.shell
-          pop: true
+          set: maybe-operator-logical
         - match: '{{reset_or}}'
           captures:
             1: keyword.operator.logical.or.shell
-          pop: true
+          set: maybe-operator-logical
         - match: '{{reset_pipe}}'
           captures:
             1: keyword.operator.logical.pipe.shell
-          pop: true
+          set: maybe-operator-logical
         - match: '{{reset_and}}'
           captures:
             1: keyword.operator.logical.and.shell
-          pop: true
+          set: maybe-operator-logical
         - match: '{{reset_job}}'
           captures:
             1: keyword.operator.logical.job.shell
-          pop: true
+          set: maybe-operator-logical
         - match: ""
           pop: true
 
@@ -1346,6 +1344,13 @@ contexts:
         - include: expansion-and-string
     - match: ==?|!=?|<|>|\|\||&&
       scope: keyword.operator.logical.shell
+
+  maybe-operator-logical:
+    - match: \!
+      scope: keyword.operator.logical.shell
+      pop: true
+    - match: $|(?=\S)
+      pop: true
 
   string:
     - include: string-quoted-double

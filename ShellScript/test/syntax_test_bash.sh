@@ -471,11 +471,45 @@ local-pid
 # ^ - storage.modifier
 #    ^^ - variable.parameter
 
-if [[ -z "$PLATFORM" ]]; then PLATFORM=docker; fi
-#                                    ^ variable.other.readwrite.assignment
-#                                     ^ keyword.operator.assignment
-#                                      ^ string.unquoted
+if [[ ! -z "$PLATFORM" ]] && ! cmd || !cmd2; then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#     ^ keyword.operator.logical
+#                         ^^ keyword.operator.logical.and
+#                            ^ keyword.operator.logical.shell
+#                              ^^^ meta.function-call.shell variable.function
+#                                  ^^ keyword.operator.logical.or.shell
+#                                     ^ keyword.operator.logical.shell
+#                                      ^^^^ meta.function-call.shell variable.function.shell
+#                                          ^ keyword.operator.logical.continue
+#                                            ^^^^ keyword.control.conditional.then
+#                                                        ^ variable.other.readwrite.assignment
+#                                                         ^ keyword.operator.assignment
+#                                                          ^ string.unquoted
+if cmd && \
+    ! cmd
+#   ^ keyword.operator.logical.shell
+#     ^^^ meta.function-call.shell variable.function.shell
+if cmd &&
+    ! cmd
+#   ^ - keyword
+#     ^^^ - variable.function.shell
+if cmd || \
+    ! cmd
+#   ^ keyword.operator.logical.shell
+#     ^^^ meta.function-call.shell variable.function.shell
+if cmd ||
+    ! cmd
+#   ^ - keyword
+#     ^^^ - variable.function.shell
+if \
+   !cmd
+#  ^ keyword.operator.logical.shell
+#   ^^^ meta.function-call.shell variable.function.shell
 
+then-
+#^^^^ - keyword
+-then
+#^^^^ - keyword
 if-up
 # <- - keyword
 # ^ - keyword
