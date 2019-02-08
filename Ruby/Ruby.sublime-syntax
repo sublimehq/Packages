@@ -497,6 +497,7 @@ contexts:
           |
           \b(
             assert_match|
+            assert_no_match|
             gsub|
             index|
             match|
