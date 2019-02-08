@@ -204,8 +204,6 @@ s1="00:06:57";
 %           ^ punctuation.definition.string.end.matlab
 
 %---------------------------------------------
-% parfor keyword test
-% parfor
 parfor x = 1:10
 %^ keyword.control.matlab
 end
