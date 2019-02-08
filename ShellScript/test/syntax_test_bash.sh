@@ -481,6 +481,14 @@ if-up
 # ^ - keyword
 up-if
 #  ^^ - keyword
+then-
+#^^^^ - keyword
+-then
+#^^^^ - keyword
+then-fi
+#^^^^^^ - keyword
+if-then
+#^^^^^^ - keyword
 done-foo
 # <- - keyword
 foo-done

@@ -159,7 +159,7 @@ contexts:
       captures:
         1: keyword.control.conditional.if.shell
         2: keyword.operator.logical.shell
-    - match: \bthen\b
+    - match: \bthen{{keyword_break}}
       scope: keyword.control.conditional.then.shell
       pop: true
     - match: \b(elif){{keyword_break}}(?:\s*(!))?
