@@ -161,12 +161,12 @@ contexts:
         - include: main
 
   function-declarations:
-    - match: ({{var}})\s*(<<?-|=)\s*(?=function\s*\()
-      scope: meta.function.r
+    - match: (({{var}})\s*)((<<?-|=)\s*)(?=function\s*\()
       captures:
-        1: entity.name.function.r
-        2: keyword.operator.assignment.r
-        3: keyword.declaration.function.r
+        1: meta.function.name.r
+        2: entity.name.function.r
+        3: meta.function.r
+        4: keyword.operator.assignment.r
       push:
         - include: lambda-functions
         - match: ''

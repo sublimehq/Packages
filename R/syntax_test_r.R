@@ -160,7 +160,9 @@ foo[1:10]
 
 
 f = function(x, y){ }
-#^^^^^^^^^^^ meta.function.r - meta.function.parameters.r
+# <- meta.function.name.r
+#^ meta.function.name.r - meta.function.r
+# ^^^^^^^^^^ meta.function.r - meta.function.parameters.r
 # <- entity.name.function.r
 # ^ keyword.operator.assignment.r
 #   ^^^^^^^^ keyword.declaration.function.r
