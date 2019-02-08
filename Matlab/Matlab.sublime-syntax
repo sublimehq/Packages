@@ -193,7 +193,7 @@ contexts:
       comment: Data Analysis
       scope: keyword.analysis.matlab
   matlab_keyword_control:
-    - match: \b(break|case|catch|continue|else|elseif|end|for|if|otherwise|pause|rethrow|return|start|startat|stop|switch|try|wait|while)\b
+    - match: \b(break|case|catch|continue|else|elseif|end|for|parfor|if|otherwise|pause|rethrow|return|start|startat|stop|switch|try|wait|while)\b
       comment: Control keywords
       scope: keyword.control.matlab
   matlab_keyword_desktop:
