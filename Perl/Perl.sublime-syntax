@@ -644,6 +644,9 @@ contexts:
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
       push: regexp-pop
+    - match: <<|>>
+      scope: keyword.operator.bitwise.perl
+      push: regexp-pop
     - match: <=>|//|\&\&|\|\||==|!=|>=|<=|[<>:!?]
       scope: keyword.operator.logical.perl
       push: regexp-pop
@@ -901,6 +904,15 @@ contexts:
       escape_captures:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
+    # angle quoted strings
+    - match: \<(?=[^<])
+      scope: punctuation.definition.string.begin.perl
+      set:
+        - meta_scope: string.quoted.angle.perl
+        - match: \>
+          scope: punctuation.definition.string.end.perl
+          pop: true
+        - include: character-escape
     - include: else-pop
 
 ### [ FUNCTIONS ]#############################################################
