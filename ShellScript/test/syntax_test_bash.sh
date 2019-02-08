@@ -2304,3 +2304,22 @@ function [[]] () {
 [[]]
 # <- meta.function-call variable.function
 #^^^ meta.function-call variable.function
+
+__git_aliased_command ()
+{
+    local word cmdline=$(__git config --get "alias.$1")
+    for word in $cmdline; do
+        case "$word" in
+        {)  : skip start of shell helper function ;;
+#       ^ - punctuation.section.expansion.brace.begin
+#        ^ keyword.control.case.item
+        \'*)    : skip opening quote after sh -c ;;
+        *)
+            echo "$word"
+            return
+        esac
+    done
+}
+# <- meta.function punctuation.section.braces.end
+
+# <- - meta.function

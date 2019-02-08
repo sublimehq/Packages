@@ -13,6 +13,7 @@ file_extensions:
   - sh
   - bash
   - zsh
+  - ash
   - .bash_aliases
   - .bash_completions
   - .bash_functions
@@ -23,28 +24,19 @@ file_extensions:
   - .bashrc
   - .profile
   - .textmate_init
+  - .zlogin
+  - .zlogout
+  - .zprofile
+  - .zshenv
   - .zshrc
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
   - .ebuild
   - .eclass
 
 first_line_match: |
-  (?x)                     # ignore whitespace in this regex
-    ^                      # assert start of the line
-    \#!                    # shebang token
-    .*                     # any characters
-    \b(bash|zsh|sh|tcsh)\b # "bash" or "zsh" or "sh" or "tcsh"
-    |                      # ... or ...
-    ^                      # assert start of the line
-    \#                     # literal "#" character
-    \s*                    # any whitespace
-    -\*-                   # literal "-*-" string
-    [^*]*                  # any characters except "*"
-    mode:                  # literal "mode:" string
-    \s*                    # any whitespace
-    shell-script           # literal "shell-script" string
-    [^*]*                  # any characters except "*"
-    -\*-                   # literal "-*-" string
+  (?x)
+    ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b
+  | ^\# \s* -\*- [^*]* mode: \s* shell-script [^*]* -\*-
 
 #-------------------------------------------------------------------------------
 variables:
@@ -197,7 +189,14 @@ contexts:
     - include: expansion-and-string
 
   case-item-highlights:
-    - include: expansion-and-string
+    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
+    # expansion, command substitution, and arithmetic expansion.
+    - include: expansion-pattern
+    - include: expansion-tilde
+    - include: expansion-parameter
+    - include: expansion-command
+    - include: expansion-arithmetic
+    - include: string
     - match: \|
       scope: keyword.operator.logical.shell
     - match: \(

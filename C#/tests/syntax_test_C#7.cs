@@ -275,7 +275,7 @@ class Foo {
 ///     ^ punctuation.section.block.end
 ///      ^ meta.class.body meta.method.body - meta.method.body meta.method.body
     }
-    
+
     // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#ref-locals-and-returns
     public static ref int Find3(int[,] matrix, Func<int, bool> predicate) {
 /// ^^^^^^ storage.modifier.access
@@ -304,7 +304,7 @@ class Foo {
 ///                                        ^ punctuation.terminator.statement
         throw new InvalidOperationException("Not found");
     }
-    
+
     // https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#tuples
     public void TupleTest () {
         var letters = ("a", "b");
@@ -501,7 +501,7 @@ class Foo {
 ///                  ^^^ variable.other
 ///                     ^ punctuation.section.group.end
 ///                      ^ punctuation.terminator.statement
-        
+
         Func<string, (string example1, int Example2)> test = s => (example1: "hello", Example2: "world");
 ///     ^^^^ support.type
 ///         ^ punctuation.definition.generic.begin
@@ -529,14 +529,14 @@ class Foo {
 ///                                                                                                    ^ punctuation.section.group.end
 ///                                                                                                     ^ punctuation.terminator.statement
     }
-    
+
     public void Deconstruct(out string firstName, out string lastName, out int age)
     {
         firstName = FirstName;
         lastName = LastName;
         age = Age;
     }
-    
+
     public void Example((int foo, float bar) val, (int foo, string bar) otherVal) {}
 ///             ^^^^^^^ entity.name.function
 ///                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters
@@ -588,7 +588,7 @@ public readonly struct S
 ///                 ^^^ storage.type
 ///                     ^^^ variable.other.member
     public string Name { get; }
-    
+
     public readonly int X, Y;    // All fields must be readonly
 ///                     ^ variable.other.member
 ///                      ^ punctuation.separator.variables
@@ -607,7 +607,7 @@ public readonly struct S
     }
 }
 
-// "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be 
+// "private protected" is now a valid modifier. It's equivalent to protected, except that it can only be
 // accessed inside the current assembly.
 class BaseClass           { private protected void Foo() {} }
 ///                         ^^^^^^^ storage.modifier.access

@@ -626,6 +626,14 @@
 }
 
 .test-transform-functions {
+    top: rotate(0);
+/*       ^^^^^^   support.function.transform.css */
+/*              ^ constant.numeric.css           */
+
+    top: rotate(1)
+/*       ^^^^^^   support.function.transform.css */
+/*              ^ - constant.numeric.css         */
+
     top: rotate3d(-1, 2deg);
 /*       ^^^^^^^^          support.function.transform.css */
 /*                ^^       constant.numeric.css           */
@@ -900,27 +908,46 @@
 }
 
 .test-grid-functions {
-    top: repeat(20);
-/*       ^^^^^^    support.function.grid.css */
-/*              ^^ constant.numeric.css      */
+    grid: repeat(20) / auto-flow 1fr;
+/*        ^^^^^^                 support.function.grid.css */
+/*               ^^              constant.numeric.css      */
+/*                     ^^^^^^^^^ support.constant.property-value.css */
 
-    top: repeat(auto-fit, 2fr minmax() 5%);
-/*              ^^^^^^^^                  support.keyword.repetitions.css */
-/*                      ^                 punctuation.separator.css       */
-/*                        ^^^             constant.numeric.css            */
-/*                            ^^^^^^      support.function.grid.css       */
-/*                                     ^^ constant.numeric.css            */
+    top: repeat(auto-fit, 2fr minmax(auto) 5%);
+/*              ^^^^^^^^                      support.keyword.repetitions.css     */
+/*                      ^                     punctuation.separator.css           */
+/*                        ^^^                 constant.numeric.css                */
+/*                            ^^^^^^          support.function.grid.css           */
+/*                                   ^^^^     support.constant.property-value.css */
+/*                                         ^^ constant.numeric.css                */
 
-    top: minmax(min-content, 1fr);
+    top: minmax(min-content, 1fr, 10%);
 /*       ^^^^^^                  support.function.grid.css           */
 /*              ^^^^^^^^^^^      support.constant.property-value.css */
 /*                         ^     punctuation.separator.css           */
 /*                           ^^^ constant.numeric.css                */
+/*                                ^^^ constant.numeric.css           */
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);
 /*                           ^^^ support.function.var.css */
 /*                               ^^^^^^ support.type.custom-property.css */
 /*                                     ^^ punctuation.definition.group.end.css */
 /*                                          ^^^^^^ support.function.grid.css */
+    grid-template-columns:
+      [a-line-name] auto
+/*    ^ punctuation.section.begin.css */
+/*     ^^^^^^^^^^^  string.unquoted.line-name.css */
+/*                ^ punctuation.section.end.css */
+      [b]     minmax(min-content, 1fr)
+      [b c d] repeat(2, [e] 40px)
+/*    ^                     punctuation.section.begin.css */
+/*     ^                    string.unquoted.line-name.css */
+/*      ^                   - string.unquoted.line-name.css */
+/*       ^                  string.unquoted.line-name.css */
+/*          ^               punctuation.section.end.css */
+/*                      ^   punctuation.section.begin.css */
+/*                       ^  string.unquoted.line-name.css */
+/*                        ^ punctuation.section.end.css */
+              repeat(5, auto);
 }
 
 .test-filter-functions {

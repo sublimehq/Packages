@@ -447,14 +447,14 @@ type Foo = Bar[A] forSome { type A }
 //            ^^^ support.class
 //                 ^^^ variable.parameter
 //                       ^ variable.language.underscore.scala
-//                          ^^ keyword.operator.arrow.scala
+//                          ^^ storage.type.function.arrow.case.scala
 
    case abc @ `abc` =>
 //      ^^^ variable.parameter
 //          ^ keyword.operator.at.scala
 //            ^ punctuation.definition.identifier.scala
 //                ^ punctuation.definition.identifier.scala
-//                  ^^ keyword.operator.arrow.scala
+//                  ^^ storage.type.function.arrow.case.scala
 //            ^^^^^ - variable.parameter
 
    case foo: (Int => Boolean) :: _ =>
@@ -831,7 +831,7 @@ type Foo >: Bar
    case _ if thing =>
 // ^^^^ keyword.other.declaration.scala
 //           ^^^^^ - variable.parameter
-//                 ^^ - storage.type.function.arrow
+//                 ^^ - keyword
 }
 
    a =>a
@@ -1118,7 +1118,7 @@ val Stuff(thing, other) = ???
 
    x: List[Int] => ()
 // ^ variable.parameter.scala
-//              ^^ storage.type.function.arrow.scala
+//              ^^ storage.type.function.arrow.lambda.scala
 
 /** private */ class Foo
 //             ^^^^^ storage.type.class
@@ -1271,11 +1271,11 @@ def foo: Map[Bar]=42
 
    x: Foo.Bar => ()
 // ^ variable.parameter.scala
-//            ^^ storage.type.function.arrow.scala
+//            ^^ storage.type.function.arrow.lambda.scala
 
    x: Foo#Bar => ()
 // ^ variable.parameter.scala
-//            ^^ storage.type.function.arrow.scala
+//            ^^ storage.type.function.arrow.lambda.scala
 
     object Stuff {
       case
@@ -1293,13 +1293,13 @@ def foo: Map[Bar]=42
 
 for {
   abc = () => 42
-//         ^^ storage.type.function.arrow.scala
+//         ^^ storage.type.function.arrow.lambda.scala
 }
 
 
 for (
   abc = () => 42
-//         ^^ storage.type.function.arrow.scala
+//         ^^ storage.type.function.arrow.lambda.scala
 )
 
 new {
@@ -1857,6 +1857,31 @@ val x: AnyVal
 
 val x: Nothing
 //     ^^^^^^^ storage.type.primitive.scala
+
+fold(a => b, { case c => d })
+//     ^^ storage.type.function.arrow.lambda.scala
+//                    ^^ storage.type.function.arrow.case.scala
+
+gzis =>/* foo */
+//   ^^ storage.type.function.arrow.lambda.scala
+//     ^^^^^^^^^ comment.block.scala
+
+gzis =>// foo
+//   ^^ storage.type.function.arrow.lambda.scala
+//     ^^ comment.line.double-slash.scala punctuation.definition.comment.scala
+
+s"testing '$foo' bar"
+//        ^ string.quoted.interpolated.scala - variable
+//             ^ string.quoted.interpolated.scala - variable
+
+  class Context(var abc: Boolean, val fed: Int)
+//              ^^^ storage.type.volatile.scala
+//                  ^^^ variable.parameter.scala
+//                                ^^^ storage.type.scala
+//                                    ^^^ variable.parameter.scala
+
+(abc)()
+//   ^^ - constant
 
    type S = Map
    evalNT

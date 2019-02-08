@@ -305,7 +305,7 @@ contexts:
         - include: expressions
 
   class-builtin:
-    - match: (?i)(\\)?\b(st(dClass|reamWrapper)|R(RD(Graph|Creator|Updater)|untimeException|e(sourceBundle|cursive(RegexIterator|CachingIterator|TreeIterator|Iterator(Iterator)?|DirectoryIterator|FilterIterator|ArrayIterator)|flect(ion(Method|Class|Object|P(arameter|roperty)|Extension|Function(Abstract)?)?|or)|gexIterator)|angeException)|G(lobIterator|magick(Draw|Pixel)?)|X(ML(Reader|Writer)|SLTProcessor)|M(ongo(Regex|Grid(fsFile|FS(Cursor|File)?)|BinData|C(o(de|llection)|ursor)|Timestamp|I(nt(32|64)|d)|D(B(Ref)?|ate))?|ultipleIterator|e(ssageFormatter|mcache(d)?))|Bad(MethodCallException|FunctionCallException)|tidy(Node)?|S(impleXML(Iterator|Element)|oap(Server|Header|Client|Param|Var|Fault)|NMP|CA(_(SoapProxy|LocalProxy))?|p(hinxClient|l(M(inHeap|axHeap)|Bool|S(t(ack|ring)|ubject)|Heap|TempFileObject|Int|Ob(server|jectStorage)|DoublyLinkedList|PriorityQueue|Enum|Queue|F(i(le(Info|Object)|xedArray)|loat)))|e(ekableIterator|rializable)|DO_(Model_(ReflectionDataObject|Type|Property)|Sequence|D(ata(Object|Factory)|AS_(Relational|XML(_Document)?|Setting|ChangeSummary|Data(Object|Factory)))|Exception|List)|wish(Result(s)?|Search)?|VM(Model)?|QLite(Result|3(Result|Stmt)?|Database|Unbuffered)|AM(Message|Connection))|H(ttp(Re(sponse|quest(Pool)?)|Message|InflateStream|DeflateStream|QueryString)|aru(Image|Outline|D(oc|estination)|Page|Encoder|Font|Annotation))|N(o(RewindIterator|rmalizer)|umberFormatter)|C(o(untable|llator)|achingIterator)|T(okyoTyrant(Table|Query)?|ra(nsliterator|versable))|I(n(tlDateFormatter|validArgumentException|finiteIterator)|terator(Iterator|Aggregate)?|magick(Draw|Pixel(Iterator)?)?)|ZipArchive|O(CI-(Collection|Lob)|ut(erIterator|Of(RangeException|BoundsException))|verflowException)|D(irectoryIterator|om(XsltStylesheet|Node|Document(Type)?|ProcessingInstruction|Element|ainException|Attribute)|OM(XPath|N(ode(list)?|amedNodeMap)|C(haracterData|omment)|Text|Implementation|Document(Fragment)?|ProcessingInstruction|E(ntityReference|lement)|Attr)|ate(Time(Zone)?|Interval|Period))|Un(derflowException|expectedValueException)|finfo|P(har(Data|FileInfo)?|DO(Statement)?|arentIterator)|E(rrorException|xception|mptyIterator)|V8Js(Exception)?|KTaglib_(MPEG_(File|AudioProperties)|Tag|ID3v2_(Tag|Frame|AttachedPictureFrame))|Fil(terIterator|esystemIterator)|mysqli(_(stmt|driver|warning|result))?|L(imitIterator|o(cale|gicException)|engthException)|A(MQP(Connection|Exchange|Queue)|ppendIterator|PCIterator|rray(Iterator|Object|Access)))\b
+    - match: (?i)(\\)?\b(st(dClass|reamWrapper)|R(RD(Graph|Creator|Updater)|untimeException|e(sourceBundle|cursive(RegexIterator|CachingIterator|TreeIterator|Iterator(Iterator)?|DirectoryIterator|FilterIterator|ArrayIterator)|flect(ion(Method|Class|Object|P(arameter|roperty)|Extension|Function(Abstract)?)?|or)|gexIterator)|angeException)|G(lobIterator|magick(Draw|Pixel)?)|X(ML(Reader|Writer)|SLTProcessor)|M(ongo(Regex|Grid(fsFile|FS(Cursor|File)?)|BinData|C(o(de|llection)|ursor)|Timestamp|I(nt(32|64)|d)|D(B(Ref)?|ate))?|ultipleIterator|e(ssageFormatter|mcache(d)?))|Bad(MethodCallException|FunctionCallException)|tidy(Node)?|S(impleXML(Iterator|Element)|oap(Server|Header|Client|Param|Var|Fault)|NMP|CA(_(SoapProxy|LocalProxy))?|p(hinxClient|l(M(inHeap|axHeap)|Bool|S(t(ack|ring)|ubject)|Heap|TempFileObject|Int|Ob(server|jectStorage)|DoublyLinkedList|PriorityQueue|Enum|Queue|F(i(le(Info|Object)|xedArray)|loat)))|e(ekableIterator|rializable)|DO_(Model_(ReflectionDataObject|Type|Property)|Sequence|D(ata(Object|Factory)|AS_(Relational|XML(_Document)?|Setting|ChangeSummary|Data(Object|Factory)))|Exception|List)|wish(Result(s)?|Search)?|VM(Model)?|QLite(Result|3(Result|Stmt)?|Database|Unbuffered)|AM(Message|Connection))|H(ttp(Re(sponse|quest(Pool)?)|Message|InflateStream|DeflateStream|QueryString)|aru(Image|Outline|D(oc|estination)|Page|Encoder|Font|Annotation))|N(o(RewindIterator|rmalizer)|umberFormatter)|C(o(untable|llator)|achingIterator)|T(okyoTyrant(Table|Query)?|ra(nsliterator|versable))|I(n(tlDateFormatter|validArgumentException|finiteIterator)|terator(Iterator|Aggregate)?|magick(Draw|Pixel(Iterator)?)?)|ZipArchive|O(CI-(Collection|Lob)|ut(erIterator|Of(RangeException|BoundsException))|verflowException)|D(irectoryIterator|om(XsltStylesheet|Node|Document(Type)?|ProcessingInstruction|Element|ainException|Attribute)|OM(XPath|N(ode(list)?|amedNodeMap)|C(haracterData|omment)|Text|Implementation|Document(Fragment)?|ProcessingInstruction|E(ntityReference|lement)|Attr)|ate(Time(Zone)?|Interval|Period))|Un(derflowException|expectedValueException)|finfo|P(har(Data|FileInfo)?|DO(Statement)?|arentIterator)|E(rrorException|xception|mptyIterator)|V8Js(Exception)?|KTaglib_(MPEG_(File|AudioProperties)|Tag|ID3v2_(Tag|Frame|AttachedPictureFrame))|Fil(terIterator|esystemIterator)|mysqli(_(stmt|driver|warning|result))?|L(imitIterator|o(cale|gicException)|engthException)|A(MQP(Connection|Exchange|Queue)|ppendIterator|PCIterator|rray(Iterator|Object|Access))|Json(Exception|Serializable))\b
       captures:
         1: punctuation.separator.namespace.php
         2: support.class.builtin.php
@@ -820,7 +820,7 @@ contexts:
   heredoc:
     - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
       push:
-        - match: ^(\1)\b(?:(;)(\s*$\n?))?
+        - match: ^\s*(\1)\b(?:(;)(\s*$\n?))?
           captures:
             1: punctuation.section.embedded.end.php keyword.operator.heredoc.php
             2: punctuation.terminator.expression.php
@@ -833,7 +833,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.html
             - meta_content_scope: text.html
-            - match: (?=^HTML\b)
+            - match: (?=^\s*HTML\b)
               pop: true
             - include: interpolation
             - include: scope:text.html.basic
@@ -843,7 +843,7 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:text.html.basic
           embed_scope: meta.embedded.html text.html
-          escape: (?=^HTML\b)
+          escape: (?=^\s*HTML\b)
         - match: <<<\s*(XML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -851,7 +851,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.xml
             - meta_content_scope: text.xml
-            - match: (?=^XML\b)
+            - match: (?=^\s*XML\b)
               pop: true
             - include: interpolation
             - include: scope:text.xml
@@ -861,7 +861,7 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:text.xml
           embed_scope: meta.embedded.xml text.xml
-          escape: (?=^XML\b)
+          escape: (?=^\s*XML\b)
         - match: <<<\s*(SQL)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -869,7 +869,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.sql
             - meta_content_scope: source.sql
-            - match: (?=^SQL\b)
+            - match: (?=^\s*SQL\b)
               pop: true
             - include: interpolation
             - include: scope:source.sql
@@ -879,7 +879,7 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:source.sql
           embed_scope: meta.embedded.sql source.sql
-          escape: (?=^SQL\b)
+          escape: (?=^\s*SQL\b)
         - match: <<<\s*(JAVASCRIPT)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -887,7 +887,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.js
             - meta_content_scope: source.js
-            - match: (?=^JAVASCRIPT\b)
+            - match: (?=^\s*JAVASCRIPT\b)
               pop: true
             - include: interpolation
             - include: scope:source.js
@@ -897,7 +897,7 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:source.js
           embed_scope: meta.embedded.js source.js
-          escape: (?=^JAVASCRIPT\b)
+          escape: (?=^\s*JAVASCRIPT\b)
         - match: (<<<)\s*(JSON)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -905,7 +905,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.json
             - meta_content_scope: source.json
-            - match: (?=^JSON\b)
+            - match: (?=^\s*JSON\b)
               pop: true
             - include: interpolation
             - include: scope:source.json
@@ -915,7 +915,7 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:source.json
           embed_scope: meta.embedded.json source.json
-          escape: (?=^JSON\b)
+          escape: (?=^\s*JSON\b)
         - match: <<<\s*(CSS)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -923,7 +923,7 @@ contexts:
           push:
             - meta_scope: meta.embedded.css
             - meta_content_scope: source.css
-            - match: (?=^CSS\b)
+            - match: (?=^\s*CSS\b)
               pop: true
             - include: interpolation
             - include: scope:source.css
@@ -933,14 +933,14 @@ contexts:
             1: keyword.operator.nowdoc.php
           embed: scope:source.css
           embed_scope: meta.embedded.css source.css
-          escape: (?=^CSS\b)
+          escape: (?=^\s*CSS\b)
         - match: '<<<\s*({{identifier}})'
           scope: punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
           push:
             - meta_scope: string.unquoted.heredoc.php
-            - match: (?=^\1\b)
+            - match: (?=^\s*\1\b)
               pop: true
             - include: interpolation
         - match: '<<<\s*('')({{identifier}})('')'
@@ -951,7 +951,7 @@ contexts:
             3: keyword.operator.nowdoc.php
           push:
             - meta_scope: string.unquoted.nowdoc.php
-            - match: (?=^\2\b)
+            - match: (?=^\s*\2\b)
               pop: true
   instantiation:
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
