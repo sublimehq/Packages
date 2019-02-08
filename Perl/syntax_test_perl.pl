@@ -4,7 +4,7 @@
 # ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.perl
 #         ^ - punctuation
 
-### [ POD TESTS ] ############################################################
+###[ POD TESTS ] #############################################################
 
 =pod
 # <- comment.block.documentation.perl entity.name.tag.pod.perl
@@ -136,7 +136,7 @@
 # <- comment.block.documentation.perl entity.name.tag.pod.perl
 #^^^ comment.block.documentation.perl entity.name.tag.pod.perl
 
-### [ FORMAT ] ###############################################################
+###[ FORMAT ]#################################################################
 
 format name =
 # <- meta.block.format.perl storage.type.format.perl
@@ -166,7 +166,7 @@ format name =
 .
 # <- punctuation.terminator.format.perl
 
-### [ HEREDOC ] ##############################################################
+###[ HEREDOC ]################################################################
 
 $var = << CSS;
 #      ^^^^^^^ meta.heredoc.perl
@@ -368,7 +368,7 @@ EOT
 #    ^^^^^^^^^^ - meta.heredoc.perl
 #    ^^ - keyword.operator.heredoc.perl
 
-### [ OPERATORS ]#############################################################
+###[ OPERATORS ]##############################################################
   ,
 # ^ punctuation.separator.sequence.perl
   ;
@@ -444,7 +444,7 @@ EOT
   ..
 # ^^ keyword.operator.range.perl
 
-### [ VARIABLES ]#############################################################
+###[ VARIABLES ]##############################################################
 
   $&
 # ^^ variable.other.regexp.match.perl
@@ -613,7 +613,7 @@ EOT
 #                       ^ keyword.operator.assignment.perl
 #                         ^^^^^^ string.quoted.single.perl
 #                               ^ punctuation.terminator.statement.perl
-### [ CONSTANTS ] ############################################################
+###[ CONSTANTS ] #############################################################
 
   1234             # decimal integer
 # ^^^^ constant.numeric.integer.perl
@@ -662,7 +662,7 @@ EOT
   ARGV
 # ^^^^ constant.language.filehandle.perl
 
-### [ STRINGS ] ##############################################################
+###[ STRINGS ]################################################################
 
   "quoted \"interpolated\" foo 'bar' baz"
 # ^ punctuation.definition.string.begin.perl
@@ -740,7 +740,7 @@ EOT
 # ^ string
 #  ^ punctuation.section.generic.end.perl - string
 
-### [ REGEX ] ################################################################
+###[ REGEX ]##################################################################
 
   /[a-z]test\d{3}/g;
 # ^ punctuation.section.generic.begin.perl - string.regexp - source.regexp
@@ -924,7 +924,7 @@ EOT
 #        ^ punctuation.section.generic.end.perl
 #         ^ punctuation.terminator.statement.perl
 
-### [ DECLARATIONS ]##########################################################
+###[ DECLARATIONS ]###########################################################
 
 my
 # <- keyword.declaration.variable
@@ -1138,7 +1138,7 @@ no strict;
 #  ^^^^^^ storage.modifier.perl
 #        ^ punctuation.terminator.statement.perl
 
-### [ SUB ]###################################################################
+###[ SUB ]####################################################################
 
 sub
 # <- meta.function.perl keyword.control.sub.perl
@@ -1277,7 +1277,7 @@ sub name ($) {}
 #         ^ variable.parameter.perl
 #          ^ punctuation.section.group.end.perl - variable.parameter.perl
 
-### [ EXPRESSIONS ]###########################################################
+###[ EXPRESSIONS ]############################################################
 
   retry:
 # ^^^^^ entity.name.label.perl

@@ -26,7 +26,7 @@ contexts:
     - include: declarations
     - include: expressions
 
-### [ PROTOTYPES ] ###########################################################
+###[ PROTOTYPES ]#############################################################
 
   immediately-pop:
     - match: ''
@@ -44,7 +44,7 @@ contexts:
     - match: (?=;)
       pop: true
 
-### [ COMMENTS ] #############################################################
+###[ COMMENTS ]###############################################################
 
   comment-line:
     - match: \#+
@@ -206,7 +206,7 @@ contexts:
     - include: comment-pod-formatting
     - include: literal-ltgt-nested
 
-### [ DECLARATIONS ]##########################################################
+###[ DECLARATIONS ]###########################################################
 
   declarations:
     # KEYWORD package
@@ -263,7 +263,7 @@ contexts:
           |warnings|warnings\s*::\s*register){{break}}
       scope: storage.modifier.perl
 
-### [ EXPRESSIONS ]###########################################################
+###[ EXPRESSIONS ]############################################################
 
   expressions:
     - include: blocks
@@ -281,7 +281,7 @@ contexts:
     - match: ^ *(?=/.*[^\\]/)
       push: regexp-pop
 
-### [ BLOCKS AND GROUPS ]#####################################################
+###[ BLOCKS AND GROUPS ]######################################################
 
   blocks:
     # can't push into scope due to HEREDOCs!
@@ -321,7 +321,7 @@ contexts:
       pop: true
     - include: expressions
 
-### [ CONSTANTS ]#############################################################
+###[ CONSTANTS ]##############################################################
 
   constants:
     - include: constants-numbers
@@ -379,7 +379,7 @@ contexts:
     - match: \b[A-Z0-9_]+{{break}}
       scope: constant.other.perl
 
-### [ STRINGS ]###############################################################
+###[ STRINGS ]################################################################
 
   string:
     - include: string-quoted-backtick
@@ -586,7 +586,7 @@ contexts:
       scope: constant.language.heredoc.plain.perl
       pop: true
 
-### [ CLASSES ]################################################################
+###[ CLASSES ]################################################################
 
   class:
     - match: '{{module}}(?=\s*(?:::|[#;]|$))'
@@ -604,7 +604,7 @@ contexts:
         2: variable.other.member.perl
     - include: else-pop
 
-### [ CONTROL KEYWORDS ]#######################################################
+###[ CONTROL KEYWORDS ]#######################################################
 
   control:
     - match: \b(?:default|else|elsif|given|if|unless|when){{break}}
@@ -625,7 +625,7 @@ contexts:
         2: punctuation.separator.perl
       push: regexp-pop
 
-### [ OPERATORS ]#############################################################
+###[ OPERATORS ]##############################################################
 
   operators:
     # SEE: https://www.tutorialspoint.com/perl/perl_operators.htm
@@ -678,7 +678,7 @@ contexts:
       scope: keyword.operator.logical.perl
       push: regexp-pop
 
-### [ QUOTED LIKE ]###########################################################
+###[ QUOTED LIKE ]############################################################
 
   quoted-like:
     # SEE: http://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
@@ -892,7 +892,7 @@ contexts:
     - match: \\.
       scope: constant.character.escape.perl
 
-### [ REGEXP ] ###############################################################
+###[ REGEXP ]#################################################################
 
   regexp-pop:
     # /<pattern>/<flags>
@@ -915,7 +915,7 @@ contexts:
         - include: character-escape
     - include: else-pop
 
-### [ FUNCTIONS ]#############################################################
+###[ FUNCTIONS ]##############################################################
 
   functions:
     - match: |-
@@ -953,7 +953,7 @@ contexts:
       scope: variable.function.perl
       push: regexp-pop
 
-### [ SUB ]###################################################################
+###[ SUB ]####################################################################
 
   sub:
     - match: \bsub\b
@@ -1007,7 +1007,7 @@ contexts:
       pop: true
     - include: main
 
-### [ VARIABLES ]#############################################################
+###[ VARIABLES ]##############################################################
 
   variables:
     # SEE: http://perldoc.perl.org/perlvar.html
