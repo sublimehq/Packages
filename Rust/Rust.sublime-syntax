@@ -223,9 +223,7 @@ contexts:
       scope: keyword.operator.rust
       push: after-operator
 
-    - match: '='
-      scope: keyword.operator.rust
-      push: after-operator
+    - include: operators
 
     - match: ';'
       scope: punctuation.terminator.rust
@@ -235,11 +233,28 @@ contexts:
       scope: punctuation.separator.rust
       push: after-operator
 
-    - match: '\.\.\.|\.\.|[-=<>&|!~@?+*/%^''#$]|\b_\b'
-      scope: keyword.operator.rust
-
     - match: '\.'
       scope: punctuation.accessor.dot.rust
+
+  operators:
+    - match: \.{2,3}
+      scope: keyword.operator.range.rust
+    - match: '[!<>=]=|[<>]'
+      scope: keyword.operator.comparison.rust
+    - match: '(?:[-+%/*^&|]|<<|>>)?='
+      scope: keyword.operator.assignment.rust
+      push: after-operator
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.rust
+    - match: '[-+%/*]'
+      scope: keyword.operator.arithmetic.rust
+    - match: '[&|^]|<<|>>'
+      scope: keyword.operator.bitwise.rust
+    - match: '[@~?$#'']'
+      scope: keyword.operator.rust
+    - match: '\b_\b'
+      scope: keyword.operator.rust
+
 
   attributes:
     - match: '(#!?)(\[)'
@@ -1002,14 +1017,14 @@ contexts:
           scope: punctuation.separator.continuation.line.rust
 
   raw-string:
-    - match: (r)(#*)"
+    - match: (r)((#*)")
       captures:
         1: storage.type.string.rust
         2: punctuation.definition.string.begin.rust
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.raw.rust
-        - match: '"\2'
+        - match: '"\3'
           scope: punctuation.definition.string.end.rust
           pop: true
 

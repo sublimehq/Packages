@@ -1306,3 +1306,21 @@ sub name ($) {}
 # ^^^^^^^^^^^^^^ variable.function.perl
 #                ^^^^ variable.other.readwrite.global.perl
 #                    ^ punctuation.terminator.statement.perl
+
+  foreach my $vsn_mk (<lib/*/vsn.mk>, <erts/vsn.mk>) {
+# ^^^^^^^ keyword.control.flow.perl
+#         ^^ keyword.declaration.variable.perl
+#            ^ punctuation.definition.variable.perl
+#            ^^^^^^^ variable.other.readwrite.global.perl
+#                    ^ punctuation.section.group.begin.perl
+#                     ^ punctuation.definition.string.begin.perl
+#                     ^^^^^^^^^^^^^^ string.quoted.angle.perl
+#                                  ^ punctuation.definition.string.end.perl
+#                                   ^ punctuation.separator.sequence.perl
+#                                     ^ punctuation.definition.string.begin.perl
+#                                     ^^^^^^^^^^^^^ string.quoted.angle.perl
+#                                                 ^ punctuation.definition.string.end.perl
+#                                                  ^ punctuation.section.group.end.perl
+#                                                    ^ punctuation.section.block.begin.perl
+  }
+# ^ punctuation.section.block.end.perl

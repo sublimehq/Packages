@@ -203,3 +203,7 @@ s1="00:06:57";
 %   ^^^^^^^^ string.quoted.double.matlab
 %           ^ punctuation.definition.string.end.matlab
 
+%---------------------------------------------
+parfor x = 1:10
+%^ keyword.control.matlab
+end

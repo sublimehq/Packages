@@ -467,3 +467,9 @@ foo / "bar/bla"
   /foo/ => :foo
 # ^^^^^ string.regexp.classic.ruby
 }
+
+assert_no_match /1/, "2"
+# <- source.ruby
+# <- support.function.builtin.ruby
+#               ^ punctuation.definition.string.ruby
+#                    ^ string.quoted.double.ruby
