@@ -129,6 +129,7 @@ contexts:
     - include: funcdef
     - include: vardef
     - include: redirection
+    - include: operator-exclamation
     - match: '{{is_command}}'
       push: cmd
 
@@ -152,13 +153,13 @@ contexts:
   control:
     - match: \bif{{keyword_break}}
       scope: keyword.control.conditional.if.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \bthen{{keyword_break}}
       scope: keyword.control.conditional.then.shell
       pop: true
     - match: \belif{{keyword_break}}
       scope: keyword.control.conditional.elseif.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       set: [cmd-post, cmd-args]
@@ -741,19 +742,19 @@ contexts:
   cmd-post: # looks like [main, cmd-post] at this point
     - match: ;(?![;&])
       scope: keyword.operator.logical.continue.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \|\|
       scope: keyword.operator.logical.or.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \|
       scope: keyword.operator.logical.pipe.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \&\&
       scope: keyword.operator.logical.and.shell
-      set: maybe-operator-logical
+      pop: true
     - match: \&
       scope: keyword.operator.logical.job.shell
-      set: maybe-operator-logical
+      pop: true
     - match: $|(?=\S)
       pop: true
 
@@ -1332,12 +1333,11 @@ contexts:
     - match: ==?|!=?|<|>|\|\||&&
       scope: keyword.operator.logical.shell
 
-  maybe-operator-logical:
-    - match: \!
+  operator-exclamation:
+    - match: \!(?=\s)
       scope: keyword.operator.logical.shell
-      pop: true
-    - match: $|(?=\S)
-      pop: true
+    - match: \!(?=\S)
+      scope: punctuation.definition.history.shell
 
   string:
     - include: string-quoted-double

@@ -471,7 +471,7 @@ local-pid
 # ^ - storage.modifier
 #    ^^ - variable.parameter
 
-if [[ ! -z "$PLATFORM" ]] && ! cmd || !cmd2; then PLATFORM=docker; fi
+if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #     ^ keyword.operator.logical
 #                         ^^ keyword.operator.logical.and
@@ -479,32 +479,41 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || !cmd2; then PLATFORM=docker; fi
 #                              ^^^ meta.function-call.shell variable.function
 #                                  ^^ keyword.operator.logical.or.shell
 #                                     ^ keyword.operator.logical.shell
-#                                      ^^^^ meta.function-call.shell variable.function.shell
-#                                          ^ keyword.operator.logical.continue
-#                                            ^^^^ keyword.control.conditional.then
-#                                                        ^ variable.other.readwrite.assignment
-#                                                         ^ keyword.operator.assignment
-#                                                          ^ string.unquoted
+#                                       ^^^^ meta.function-call.shell variable.function.shell
+#                                           ^ keyword.operator.logical.continue
+#                                             ^^^^ keyword.control.conditional.then
+#                                                         ^ variable.other.readwrite.assignment
+#                                                          ^ keyword.operator.assignment
+#                                                           ^ string.unquoted
 if cmd && \
     ! cmd
 #   ^ keyword.operator.logical.shell
 #     ^^^ meta.function-call.shell variable.function.shell
 if cmd &&
     ! cmd
-#   ^ - keyword
-#     ^^^ - variable.function.shell
+#   ^ keyword.operator.logical.shell
+#     ^^^ meta.function-call.shell variable.function.shell
 if cmd || \
     ! cmd
 #   ^ keyword.operator.logical.shell
 #     ^^^ meta.function-call.shell variable.function.shell
 if cmd ||
     ! cmd
-#   ^ - keyword
-#     ^^^ - variable.function.shell
+#   ^ keyword.operator.logical.shell
+#     ^^^ meta.function-call.shell variable.function.shell
 if \
-   !cmd
+   ! cmd
 #  ^ keyword.operator.logical.shell
+#    ^^^ meta.function-call.shell variable.function.shell
+if !cmd
+#  ^ punctuation.definition.history.shell
 #   ^^^ meta.function-call.shell variable.function.shell
+! cmd
+# <- keyword.operator.logical.shell
+# ^^^ meta.function-call.shell variable.function.shell
+!cmd
+# <- punctuation.definition.history.shell
+#^^^ meta.function-call.shell variable.function.shell
 
 then-
 #^^^^ - keyword
