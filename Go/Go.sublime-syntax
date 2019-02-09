@@ -477,6 +477,7 @@ contexts:
         - match: '`'
           scope: punctuation.definition.string.end.go
           pop: true
+        - include: match-template-string
         - match: \%%
           scope: constant.character.escape.go
         - include: match-fmt
@@ -489,11 +490,46 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.go
           pop: true
+        - include: match-template-string
         - match: '{{char_escape}}'
           scope: constant.character.escape.go
         - match: \%%
           scope: constant.character.escape.go
         - include: match-fmt
+
+  match-template-string:
+   - match: "{{"
+     scope: punctuation.section.interpolation.begin.go
+     push:
+       - meta_scope: meta.interpolation.go
+       - clear_scopes: 1
+       - match: "}}"
+         scope: punctuation.section.interpolation.end.go
+         pop: true
+       - match: "\\s-"
+         scope: keyword.operator.template.right.trim.go
+       - match: "-\\s"
+         scope: keyword.operator.template.left.trim.go
+       - match: ":="
+         scope: keyword.operator.assignment.go
+       - match: \|
+         scope: keyword.operator.template.pipe.go
+       - match: '(\.)([\w]+)'
+         captures:
+           1: punctuation.accessor.dot.go
+           2: variable.other.member.go
+       - match: '(\$)[\w]+'
+         scope: variable.other.template.go
+         captures:
+           1: punctuation.definition.variable.go
+       - match: '[.$]'
+         scope: variable.other.template.go
+       - match: \b(if|else|range|template|with|end|nil|define|block)\b
+         scope: keyword.control.go
+       - match: \b(and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+         scope: variable.function.go support.function.builtin.go
+       - include: match-comments
+       - include: match-strings
 
   # https://godoc.org/fmt
   #
