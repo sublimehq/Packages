@@ -1,0 +1,37 @@
+# SYNTAX TEST "Mailmap.sublime-syntax"
+# <- comment.line.git punctuation.definition.comment.git
+
+<cto@company.xx>                       <cto@coompany.xx> # typos again!
+# ^^^^^^^^^^^^^^ meta.reference.email.git
+# <- punctuation.definition.reference.email.begin.git
+# ^^^^^^^^^^^^^ entity.name.reference.email.git
+#   ^ punctuation.separator.email.git
+#           ^ punctuation.separator.email.git
+#              ^ punctuation.definition.reference.email.end.git
+#               ^^^^^^^^^^^^^^^^^^^^^^^ - meta - entity
+#                                      ^^^^^^^^^^^^^^^^^ meta.reference.email.git
+#                                      ^ punctuation.definition.reference.email.begin.git
+#                                       ^^^^^^^^^^^^^^^ entity.name.reference.email.git
+#                                          ^ punctuation.separator.email.git
+#                                                   ^ punctuation.separator.email.git
+#                                                      ^ punctuation.definition.reference.email.end.git
+#                                                        ^^^^^^^^^^^^^^^ comment.line.git - meta - entity
+#                                                        ^ punctuation.definition.comment.git
+Some Dude <some@dude.xx>         nick1 <bugs@company.xx>
+# ^^^^^^^ meta.reference.user.git
+#         ^^^^^^^^^^^^^^ meta.reference.email.git
+#         ^ punctuation.definition.reference.email.begin.git
+#          ^^^^^^^^^^^^ entity.name.reference.email.git
+#              ^ punctuation.separator.email.git
+#                   ^ punctuation.separator.email.git
+#                       ^^^^^^^^^ - meta - entity
+#                                ^^^^^ meta.reference.user.git
+#                                     ^ - meta - entity
+Other Author <other@author.xx>   nick2 <bugs@company.xx>
+Other Author <other@author.xx>   sp ce <bugs@company.xx>
+#                             ^^^ - meta - entity
+#                                ^^^^^ meta.reference.user.git
+#                                     ^ - meta - entity
+Other Author <other@author.xx>         <nick2@company.xx>
+Santa Claus <santa.claus@northpole.xx> <me@company.xx>
+#                                     ^ - meta - entity

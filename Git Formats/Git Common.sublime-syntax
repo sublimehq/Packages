@@ -64,7 +64,7 @@ contexts:
 
   email:
     # email reference
-    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
+    - match: (<)(\S+(\@)\S+?(\.)[^\s>]+)(>)
       scope: meta.reference.email.git
       captures:
         1: punctuation.definition.reference.email.begin.git
