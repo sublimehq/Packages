@@ -646,3 +646,50 @@ stray-bracket]
 #                                                      ^^^^^^ meta.function-call.arguments.pretty-formats.git
 #                                                            ^^^ constant.other.placeholder.pretty-formats.git
 #                                                                ^ - text.pretty-formats.git
+  foo = --format=tformat:'%(trailers
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers)'
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ punctuation.section.parens.end.pretty-formats.git
+  foo = --format=tformat:'%(trailers:
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                    ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers: only
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                     ^^^^ support.constant.trailer.git.config
+#                                         ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers:)'
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                    ^ punctuation.section.parens.end.pretty-formats.git
+
+  foo = --format=tformat:'%(trailers: only)
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                     ^^^^ support.constant.trailer.git.config
+#                                         ^ punctuation.section.parens.end.pretty-formats.git
+  foo = --format=tformat:'%(trailers
+      :
+#     ^ - punctuation.separator
+  foo = --format=tformat:'%(trailers\
+      :
+#     ^ keyword.operator.assignment.option.pretty-formats.git
+#      ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers\
+      :\
+      only)
+#     ^^^^ support.constant.trailer.git.config
+  foo = --format=tformat:'%(trailers\
+      :\
+      only\
+      )
+#     ^ punctuation.section.parens.end.pretty-formats.git
