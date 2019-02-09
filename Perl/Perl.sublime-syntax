@@ -957,7 +957,7 @@ contexts:
 
   sub:
     - match: \bsub\b
-      scope: keyword.control.sub.perl
+      scope: storage.type.function.perl
       push: sub-name
 
   sub-name:

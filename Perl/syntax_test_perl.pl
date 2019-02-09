@@ -1141,38 +1141,38 @@ no strict;
 ###[ SUB ]####################################################################
 
 sub
-# <- meta.function.perl keyword.control.sub.perl
-#^^ meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
+#^^ meta.function.perl storage.type.function.perl
 #  ^ - invalid
 sub name
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #       ^ - invalid
 sub name invalid
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^^^^^^^ invalid.illegal.function-name.perl
 sub name;
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #       ^ punctuation.terminator.statement.perl
 sub name invalid;
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^^^^^^^ invalid.illegal.function-name.perl
 #               ^ punctuation.terminator.statement.perl
 sub {
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^ punctuation.section.block.begin.perl
   say "Hello";
 # <- meta.function.perl
@@ -1186,9 +1186,9 @@ sub
 }
 # <- meta.function.perl punctuation.section.block.end.perl
 sub name {
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^ punctuation.section.block.begin.perl
   say "Hello";
@@ -1204,9 +1204,9 @@ sub name
 }
 # <- meta.function.perl punctuation.section.block.end.perl
 sub name invalid {
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^^^^^^^^ meta.function.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^^^^^^^ invalid.illegal.function-name.perl
 #                ^ punctuation.section.block.begin.perl
@@ -1219,11 +1219,11 @@ sub name invalid
 # <- meta.function.perl punctuation.section.block.end.perl
 
 sub name ($arg, $arg) {
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^ meta.function.perl - meta.function.parameters.perl
 #        ^^^^^^^^^^^^ meta.function.parameters.perl - meta.function.perl
 #                    ^^ meta.function.perl - meta.function.parameters.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^ punctuation.section.group.begin.perl
 #         ^^^^ variable.parameter.perl
@@ -1240,11 +1240,11 @@ sub name ($arg, $arg)
 # <- meta.function.perl punctuation.section.block.end.perl
 
 sub name invalid ($arg, $arg) {
-# <- meta.function.perl keyword.control.sub.perl
+# <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^^^^^^^ meta.function.perl - meta.function.parameters.perl
 #                ^^^^^^^^^^^^ meta.function.parameters.perl - meta.function.perl
 #                            ^^ meta.function.perl - meta.function.parameters.perl
-#^^ keyword.control.sub.perl
+#^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
 #        ^^^^^^^ invalid.illegal.function-name.perl
 #                ^ punctuation.section.group.begin.perl
@@ -1265,7 +1265,7 @@ $var = sub {
 #^^^ variable.other.readwrite.global.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^ meta.function.perl
-#      ^^^ keyword.control.sub.perl
+#      ^^^ storage.type.function.perl
   say "hello";
 # <- meta.function.perl
 # ^^^ meta.function.perl support.function.perl
