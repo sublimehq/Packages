@@ -514,6 +514,24 @@ if !cmd
 !cmd
 # <- punctuation.definition.history.shell
 #^^^ meta.function-call.shell variable.function.shell
+! \
+# <- keyword.operator.logical.shell
+# ^ punctuation.separator.continuation.line.shell
+! \
+ cmd
+#^^^ meta.function-call.shell variable.function.shell
+!\
+# <- punctuation.definition.history.shell
+#^ punctuation.separator.continuation.line.shell
+!\
+ cmd
+#^^^ meta.function-call.shell variable.function.shell
+! [[ ]]
+# <- keyword.operator.logical.shell
+# ^^^^^ meta.function-call.arguments.shell
+![[ ]]
+# <- punctuation.definition.history.shell
+#^^^^^ meta.function-call.arguments.shell
 
 then-
 #^^^^ - keyword

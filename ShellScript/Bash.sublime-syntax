@@ -1336,7 +1336,7 @@ contexts:
   operator-exclamation:
     - match: \!(?!\S)
       scope: keyword.operator.logical.shell
-    - match: \!(?=\S)
+    - match: \!
       scope: punctuation.definition.history.shell
 
   string:
