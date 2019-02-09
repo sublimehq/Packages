@@ -216,7 +216,7 @@ f = function(x, y){ }
 # ^^^^^^^^^^ meta.function.r - meta.function.parameters.r
 # <- entity.name.function.r
 # ^ keyword.operator.assignment.r
-#   ^^^^^^^^ keyword.declaration.function.r
+#   ^^^^^^^^ storage.type.function.r
 #           ^ punctuation.section.parameters.begin.r
 #            ^^^^ meta.function.parameters.r - meta.function.r
 #            ^ variable.parameter.r
@@ -239,7 +239,7 @@ foo(200, x = function(x) {x + y})
 #   ^^^ constant.numeric.float.decimal.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
-#            ^^^^^^^^ meta.function.r keyword.declaration.function.r - meta.function.parameters.r
+#            ^^^^^^^^ meta.function.r storage.type.function.r - meta.function.parameters.r
 #                    ^^^ meta.function.parameters.r
 #                               ^ punctuation.section.arguments.end.r
 
