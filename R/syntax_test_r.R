@@ -95,6 +95,57 @@ NaN
   99.9999i
 # ^^^^^^^^ constant.numeric.imaginary.decimal.r
 
+  %*% %/% %% %o% %x% %:% %+%
+# ^^^ keyword.operator.arithmetic.r
+#     ^^^ keyword.operator.arithmetic.r
+#         ^^ keyword.operator.arithmetic.r
+#            ^^^ keyword.operator.arithmetic.r
+#                ^^^ keyword.operator.arithmetic.r
+#                    ^^^ keyword.operator.other.r
+#                        ^^^ keyword.operator.other.r
+
+  ** * - + / ^
+# ^^ keyword.operator.arithmetic.r
+#    ^ keyword.operator.arithmetic.r
+#      ^ keyword.operator.arithmetic.r
+#        ^ keyword.operator.arithmetic.r
+#          ^ keyword.operator.arithmetic.r
+#            ^ keyword.operator.arithmetic.r
+
+  <<- <- = -> ->>
+# ^^^ keyword.operator.assignment.r
+#     ^^ keyword.operator.assignment.r
+#        ^ keyword.operator.assignment.r
+#          ^^ keyword.operator.assignment.r
+#             ^^^ keyword.operator.assignment.r
+
+  == != <= >= <> < > && & || | !
+# ^^ keyword.operator.logical.r
+#    ^^ keyword.operator.logical.r
+#       ^^ keyword.operator.logical.r
+#          ^^ keyword.operator.logical.r
+#             ^^ keyword.operator.logical.r
+#                ^ keyword.operator.logical.r
+#                  ^ keyword.operator.logical.r
+#                    ^^ keyword.operator.logical.r
+#                       ^ keyword.operator.logical.r
+#                         ^^ keyword.operator.logical.r
+#                            ^ keyword.operator.logical.r
+#                              ^ keyword.operator.logical.r
+
+  %:% := ::: ::
+# ^^^ keyword.operator.other.r
+#     ^^ keyword.operator.other.r
+#        ^^^ punctuation.accessor.colons.r
+#            ^^ punctuation.accessor.colons.r
+
+  ... : ~ @ $
+# ^^^ keyword.other.r
+#     ^ keyword.other.r
+#       ^ keyword.other.r
+#         ^ keyword.other.r
+#           ^ keyword.other.r
+
   foo.99 <- 1
 #    ^^^ - constant.numeric
 #        ^^ keyword.operator.assignment.r
@@ -232,7 +283,7 @@ foo[[bar[1]]] #
 # issue #1120
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
-#     ^^ keyword.operator.assignment.r
+#     ^^ keyword.operator.logical.r
 
 function(
   x = 1, # this should be comment

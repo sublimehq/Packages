@@ -18,6 +18,7 @@ contexts:
     - include: roxygen
     - include: comments
     - include: constants
+    - include: operators
     - include: keywords
     - include: storage-types
     - include: strings
@@ -80,19 +81,38 @@ contexts:
       scope: keyword.control.loop.while.r
     - match: \bin\b
       scope: keyword.operator.word.r
-    - match: (\-|\+|\*|\/|%\/%|%%|%\*%|%o%|%x%|\^)
+
+  operators:
+    # NOTE: sorted by length to ensure not to break ligatures
+
+    # operators with 3+ characters
+    - match: '%[*/ox]%'
       scope: keyword.operator.arithmetic.r
-    - match: (=|<-|<<-|->|->>)
+    - match: (<<-|->>)
       scope: keyword.operator.assignment.r
-    - match: (==|!=|<>|<|>|<=|>=)
-      scope: keyword.operator.comparison.r
-    - match: (!|&{1,2}|[|]{1,2})
-      scope: keyword.operator.logical.r
-    - match: (%in%|:=|%between%|%chin%|%like%|%\+%|%\+replace%|%:%|%do%|%dopar%|%>%|%<>%|%T>%|%\$%)
+    - match: '%(between|chin|do|dopar|in|like|\+replace|\+|:|T>|<>|>|\$)%'
       scope: keyword.operator.other.r
-    - match: (:::?)
+    - match: \.\.\.
+      scope: keyword.other.r
+    - match: :::?
       scope: punctuation.accessor.colons.r
-    - match: (\.\.\.|\$|:|\~|@)
+    # operators with 2 characters
+    - match: (%%|\*\*)
+      scope: keyword.operator.arithmetic.r
+    - match: (<-|->)
+      scope: keyword.operator.assignment.r
+    - match: (==|!=|<=|>=|<>|&&|\|\|)
+      scope: keyword.operator.logical.r
+    - match: :=
+      scope: keyword.operator.other.r
+    # operators with 1 characters
+    - match: '[-+*/^]'
+      scope: keyword.operator.arithmetic.r
+    - match: =
+      scope: keyword.operator.assignment.r
+    - match: '[!&|<>]'
+      scope: keyword.operator.logical.r
+    - match: '[$:~@]'
       scope: keyword.other.r
     - match: ;
       scope: punctuation.terminator.semicolon.r
