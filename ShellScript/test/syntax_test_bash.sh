@@ -532,6 +532,15 @@ if !cmd
 ![[ ]]
 # <- punctuation.definition.history.shell
 #^^^^^ meta.function-call.arguments.shell
+!!
+# <- variable.language.history.shell punctuation.definition.history.shell
+#^ variable.language.history.shell
+!-1
+# <- variable.language.history.shell punctuation.definition.history.shell
+#^^ variable.language.history.shell
+!51
+# <- variable.language.history.shell punctuation.definition.history.shell
+#^^ variable.language.history.shell
 
 then-
 #^^^^ - keyword

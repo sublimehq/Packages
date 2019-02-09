@@ -1336,6 +1336,10 @@ contexts:
   operator-exclamation:
     - match: \!(?!\S)
       scope: keyword.operator.logical.shell
+    - match: (\!)(-?\d+|!)
+      scope: variable.language.history.shell
+      captures:
+        1: punctuation.definition.history.shell
     - match: \!
       scope: punctuation.definition.history.shell
 
