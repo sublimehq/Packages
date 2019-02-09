@@ -1290,6 +1290,17 @@ sub name ($) {}
 #                 ^ punctuation.terminator.statement.perl
   retry::
 # ^^^^^^^ - entity.name.label.perl
+
+  LINE:
+# ^^^^ entity.name.label.perl
+#     ^ punctuation.separator.perl
+
+  LINE:exit -1
+# ^^^^ entity.name.label.perl
+#     ^ punctuation.separator.perl
+#      ^^^^ keyword.other.flow.perl
+#           ^^ constant.numeric.integer.perl
+
   if(exists($curargs{$index}))
 # ^^ keyword.control.conditional.perl
 #   ^ punctuation.section.group.begin.perl
