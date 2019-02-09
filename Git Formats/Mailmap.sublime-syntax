@@ -13,6 +13,13 @@ contexts:
   main:
     - include: Git Common.sublime-syntax#comments
     - include: Git Common.sublime-syntax#email
-    - match: '[ \t]*(\b[^<#\n]+?)[ \t]*(?=<|$)'
+    - match: (<)(\S+?(?:(@)\S+)?)(>)
+      captures:
+        0: meta.reference.email.git
+        1: punctuation.definition.reference.email.begin.git
+        2: entity.name.reference.email.git
+        3: punctuation.separator.email.git
+        4: punctuation.definition.reference.email.end.git
+    - match: '[ \t]*([^ \t<#][^<#\n]+?)[ \t]*(?=<|$)'
       captures:
         1: meta.reference.user.git
