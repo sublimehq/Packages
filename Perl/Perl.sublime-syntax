@@ -945,7 +945,7 @@ contexts:
 
   sub:
     - match: \bsub\b
-      scope: keyword.declaration.function.perl
+      scope: storage.type.function.perl
       push: sub-name
 
   sub-name:
