@@ -3,7 +3,7 @@
 # Syntax based on documentation here:
 # https://www.git-scm.com/docs/git-check-mailmap#_mapping_authors
 
-name: Mailmap
+name: Git Mailmap
 file_extensions:
   - .mailmap
   - mailmap

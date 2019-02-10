@@ -1,4 +1,4 @@
-# SYNTAX TEST "Mailmap.sublime-syntax"
+# SYNTAX TEST "Git Mailmap.sublime-syntax"
 # <- comment.line.git punctuation.definition.comment.git
 
 <cto@company.xx>                       <cto@coompany.xx> # typos again!
