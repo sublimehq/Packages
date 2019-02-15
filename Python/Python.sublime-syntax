@@ -228,21 +228,21 @@ contexts:
         2: keyword.control.flow.with.python
       push: with-body
     # except ... as ...:
-    - match: \b(except)\b
-      scope: keyword.control.flow.except.python
+    - match: \bexcept\b
+      scope: keyword.control.exception.except.python
       push:
-        - meta_scope: meta.statement.except.python
+        - meta_scope: meta.statement.exception.except.python
         - include: line-continuation-or-pop
         - match: ':'
-          scope: punctuation.section.block.except.python
+          scope: punctuation.section.block.exception.except.python
           pop: true
-        - match: '\b(as)\b'
-          scope: keyword.control.flow.as.python
+        - match: '\bas\b'
+          scope: keyword.control.exception.except.as.python
           set:
-            - meta_content_scope: meta.statement.except.python
+            - meta_content_scope: meta.statement.exception.except.python
             - include: line-continuation-or-pop
             - match: ':'
-              scope: meta.statement.except.python punctuation.section.block.except.python
+              scope: meta.statement.exception.except.python punctuation.section.block.exception.except.python
               pop: true
             - include: name
         - include: target-list
@@ -270,15 +270,15 @@ contexts:
         1: keyword.control.conditional.else.python
         2: punctuation.section.block.conditional.python
     - match: \b(try)\b(?:\s*(:))?
-      scope: meta.statement.try.python
+      scope: meta.statement.exception.try.python
       captures:
-        1: keyword.control.flow.try.python
-        2: punctuation.section.block.try.python
+        1: keyword.control.exception.try.python
+        2: punctuation.section.block.exception.try.python
     - match: \b(finally)\b(?:\s*(:))?
-      scope: meta.statement.finally.python
+      scope: meta.statement.exception.finally.python
       captures:
-        1: keyword.control.flow.finally.python
-        2: punctuation.section.block.finally.python
+        1: keyword.control.exception.finally.python
+        2: punctuation.section.block.exception.finally.python
     - match: \belif\b
       scope: keyword.control.conditional.elseif.python
       push:

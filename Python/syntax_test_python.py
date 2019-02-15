@@ -519,23 +519,23 @@ def _():
 #       ^^^^^ keyword.other.await
 
     try:
-#   ^^^^ meta.statement.try.python
-#   ^^^ keyword.control.flow.try.python
-#      ^ punctuation.section.block.try.python
+#   ^^^^ meta.statement.exception.try.python
+#   ^^^ keyword.control.exception.try.python
+#      ^ punctuation.section.block.exception.try.python
         raise
 #       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
     except Exception as x:
-#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except.python - meta.statement.except.python meta.statement.except.python
-#   ^^^^^^ keyword.control.flow.except.python
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.except.python - meta.statement.exception.except.python meta.statement.exception.except.python
+#   ^^^^^^ keyword.control.exception.except.python
 #          ^^^^^^^^^ support.type.exception.python
-#                    ^^ keyword.control.flow.as.python
+#                    ^^ keyword.control.exception.except.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.except.python
+#                        ^ punctuation.section.block.exception.except.python
         pass
     finally :
-#   ^^^^^^^^^ meta.statement.finally.python
-#   ^^^^^^^ keyword.control.flow.finally.python
-#           ^ punctuation.section.block.finally.python
+#   ^^^^^^^^^ meta.statement.exception.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
+#           ^ punctuation.section.block.exception.finally.python
     try_except_raise:
 #   ^^^ - keyword
 
@@ -592,7 +592,7 @@ def _():
     if
 #   ^^ keyword.control.conditional.if.python
     finally
-#   ^^^^^^^ keyword.control.flow.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
     else
 #   ^^^^ keyword.control.conditional.else.python
     while
@@ -1120,30 +1120,30 @@ generator = (
 ##################
 
 except Exception:
-#^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^ meta.statement.exception.except
+#^^^^^ keyword.control.exception.except
 #      ^^^^^^^^^ support.type.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.except
+#^^^^^ keyword.control.exception.except
 #       ^^^^^^^^ support.type.exception
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
-#                            ^^ keyword.control.flow.as
+#                            ^^ keyword.control.exception.except.as
 #                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
     err:
-#   ^^^^ meta.statement.except
+#   ^^^^ meta.statement.exception.except
 
 except StopIteration
     as
-#   ^^ invalid.illegal.name - meta.statement.except
+#   ^^ invalid.illegal.name - meta.statement.exception.except
 
 except
-#^^^^^ keyword.control.flow.except
+#^^^^^ keyword.control.exception.except
 
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise
