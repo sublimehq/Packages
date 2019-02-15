@@ -1088,8 +1088,9 @@ contexts:
       set: data-structures-class-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.class.objc++ entity.name.class.objc++
+        - meta_scope: meta.class.objc++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.class.objc++
           set: data-structures-class-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-class-definition-after-identifier
@@ -1122,8 +1123,9 @@ contexts:
       set: data-structures-struct-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.struct.objc++ entity.name.struct.objc++
+        - meta_scope: meta.struct.objc++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.struct.objc++
           set: data-structures-struct-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-struct-definition-after-identifier
@@ -1156,8 +1158,9 @@ contexts:
       set: data-structures-enum-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.enum.objc++ entity.name.enum.objc++
+        - meta_scope: meta.enum.objc++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.enum.objc++
           set: data-structures-enum-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-enum-definition-after-identifier
@@ -1191,8 +1194,9 @@ contexts:
       set: data-structures-union-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.union.objc++ entity.name.union.objc++
+        - meta_scope: meta.union.objc++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.union.objc++
           set: data-structures-union-definition-after-identifier
         - include: scope:source.c++#identifiers
         - match: data-structures-union-definition-after-identifier

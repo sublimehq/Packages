@@ -1862,26 +1862,26 @@ template <class T> class Sample {
 };
 
 class Namespace::MyClass MACRO1 MACRO2 : public SuperClass
-/*    ^^^^^^^^^^^^^^^^^^ entity.name.class */
+/*               ^^^^^^^ entity.name.class */
 /*             ^^ punctuation.accessor */
 /*                       ^ - entity.name */
 {
 };
 
 struct Namespace::MyStruct
-/*     ^^^^^^^^^^^^^^^^^^^ entity.name.struct */
+/*                ^^^^^^^^ entity.name.struct */
 /*              ^^ punctuation.accessor */
 {
 };
 
 union Namespace::MyUnion
-/*    ^^^^^^^^^^^^^^^^^^ entity.name.union */
+/*               ^^^^^^^ entity.name.union */
 /*             ^^ punctuation.accessor */
 {
 };
 
 enum class Namespace::MyEnum
-/*         ^^^^^^^^^^^^^^^^^ entity.name.enum */
+/*                    ^^^^^^ entity.name.enum */
 /*                  ^^ punctuation.accessor */
 {
 };

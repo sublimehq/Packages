@@ -1018,8 +1018,9 @@ contexts:
       set: data-structures-class-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.class.c++ entity.name.class.c++
+        - meta_scope: meta.class.c++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.class.c++
           set: data-structures-class-definition-after-identifier
         - include: identifiers
         - match: '(?=[^\w\s])'
@@ -1051,8 +1052,9 @@ contexts:
       set: data-structures-struct-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.struct.c++ entity.name.struct.c++
+        - meta_scope: meta.struct.c++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.struct.c++
           set: data-structures-struct-definition-after-identifier
         - include: identifiers
         - match: '(?=[^\w\s])'
@@ -1084,8 +1086,9 @@ contexts:
       set: data-structures-enum-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.enum.c++ entity.name.enum.c++
+        - meta_scope: meta.enum.c++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.enum.c++
           set: data-structures-enum-definition-after-identifier
         - include: identifiers
         - match: '(?=[^\w\s])'
@@ -1118,8 +1121,9 @@ contexts:
       set: data-structures-union-definition-after-identifier
     - match: '(?={{path_lookahead}})'
       set:
-        - meta_scope: meta.union.c++ entity.name.union.c++
+        - meta_scope: meta.union.c++
         - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.union.c++
           set: data-structures-union-definition-after-identifier
         - include: identifiers
         - match: '(?=[^\w\s])'
