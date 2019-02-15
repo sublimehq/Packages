@@ -204,17 +204,17 @@ contexts:
     - match: \b(async +)?(for)\b
       captures:
         1: storage.modifier.async.python
-        2: keyword.control.flow.for.python
+        2: keyword.control.loop.for.python
       push:
-        - meta_scope: meta.statement.for.python
+        - meta_scope: meta.statement.loop.for.python
         - include: line-continuation-or-pop
-        - match: \b(in)\b
-          scope: keyword.control.flow.for.in.python
+        - match: \bin\b
+          scope: keyword.control.loop.for.in.python
           set:
-            - meta_scope: meta.statement.for.python
+            - meta_content_scope: meta.statement.loop.for.python
             - include: line-continuation-or-pop
             - match: ':'
-              scope: punctuation.section.block.for.python
+              scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
               pop: true
             - include: expressions
         - match: ':'
@@ -256,12 +256,12 @@ contexts:
           pop: true
         - include: expressions
     - match: \bwhile\b
-      scope: keyword.control.flow.while.python
+      scope: keyword.control.loop.while.python
       push:
-        - meta_scope: meta.statement.while.python
+        - meta_scope: meta.statement.loop.while.python
         - include: line-continuation-or-pop
         - match: ':'
-          scope: punctuation.section.block.while.python
+          scope: punctuation.section.block.loop.while.python
           pop: true
         - include: expressions
     - match: \b(else)\b(?:\s*(:))?
@@ -2105,12 +2105,12 @@ contexts:
     - match: \b(?:(async)\s+)?(for)\b
       captures:
         1: storage.modifier.async.python
-        2: keyword.control.flow.for.generator.python
+        2: keyword.control.loop.for.generator.python
       push:
         - include: comments
         - meta_scope: meta.expression.generator.python
-        - match: \b(in)\b
-          scope: keyword.control.flow.for.in.python
+        - match: \bin\b
+          scope: keyword.control.loop.for.in.python
           pop: true
         - match: '(?=[)\]}])'
           scope: invalid.illegal.missing-in.python

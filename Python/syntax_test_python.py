@@ -417,23 +417,23 @@ def _():
 ##################
 def _():
     for
-#   ^^^ keyword.control.flow.for
+#   ^^^ keyword.control.loop.for
     b = c in d
-#         ^^ keyword.operator.logical - keyword.control.flow.for.in
+#         ^^ keyword.operator.logical - keyword.control.loop.for.in
 
     for \
         a \
         in \
         b:
-#       ^^ meta.statement.for
-#        ^ punctuation.section.block.for.python
+#       ^^ meta.statement.loop.for
+#        ^ punctuation.section.block.loop.for.python
 
     async for i in myfunc():
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
-#         ^^^ keyword.control.flow.for
-#               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.section.block.for
+#         ^^^ keyword.control.loop.for
+#               ^^ keyword.control.loop.for.in
+#                          ^ punctuation.section.block.loop.for
         pass
 
     for i:
@@ -540,14 +540,14 @@ def _():
 #   ^^^ - keyword
 
     while (
-#   ^^^^^^^^ meta.statement.while.python
-#   ^^^^^ keyword.control.flow.while.python
-#         ^ meta.statement.while.python meta.group.python punctuation.section.group.begin.python
+#   ^^^^^^^^ meta.statement.loop.while.python
+#   ^^^^^ keyword.control.loop.while.python
+#         ^ meta.statement.loop.while.python meta.group.python punctuation.section.group.begin.python
         a is b
-#       ^^^^^^ meta.statement.while.python
+#       ^^^^^^ meta.statement.loop.while.python
 #         ^^ keyword.operator.logical.python
     ):
-#    ^ meta.statement.while.python punctuation.section.block.while.python
+#    ^ meta.statement.loop.while.python punctuation.section.block.loop.while.python
         sleep()
         if a:
             break
@@ -586,7 +586,7 @@ def _():
 
     # verify that keywords also work when they are bare (useful when typing)
     for
-#   ^^^ keyword.control.flow.for.python
+#   ^^^ keyword.control.loop.for.python
     with
 #   ^^^^ keyword.control.flow.with.python
     if
@@ -596,7 +596,7 @@ def _():
     else
 #   ^^^^ keyword.control.conditional.else.python
     while
-#   ^^^^^ keyword.control.flow.while.python
+#   ^^^^^ keyword.control.loop.while.python
     return
 #   ^^^^^^ keyword.control.flow.return.python
     raise
@@ -980,18 +980,18 @@ complex_mapping = {(): "value"}
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^ meta.expression.generator
-#              ^^^ keyword.control.flow.for.generator
-#                    ^^ keyword.control.flow.for.in
+#              ^^^ keyword.control.loop.for.generator
+#                    ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#          ^^^ keyword.control.flow.for.generator
-#                ^^ keyword.control.flow.for.in
+#          ^^^ keyword.control.loop.for.generator
+#                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
 #         ^^^^^^^^ meta.expression.generator
-#         ^^^ keyword.control.flow.for.generator
-#               ^^ keyword.control.flow.for.in
+#         ^^^ keyword.control.loop.for.generator
+#               ^^ keyword.control.loop.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ meta.mapping.key.python
@@ -999,8 +999,8 @@ dict_ = {i: i for i in range(100)}
 #           ^ meta.mapping.value.python
 #            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
 #             ^^^^^^^^ meta.expression.generator
-#             ^^^ keyword.control.flow.for.generator
-#                   ^^ keyword.control.flow.for.in
+#             ^^^ keyword.control.loop.for.generator
+#                   ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
@@ -1009,7 +1009,7 @@ list_ = [i for i in range(100) if i > 0 else -1]
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
-#                              ^^ keyword.control.flow.for.in
+#                              ^^ keyword.control.loop.for.in
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
@@ -1055,11 +1055,11 @@ list((i for i in generator), 123)
 
 _ = [m
      for cls in self.__class__.mro()
-#    ^^^ keyword.control.flow.for.generator
-#            ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#            ^^ keyword.control.loop.for.in
      for m in cls.__dict__]
-#    ^^^ keyword.control.flow.for.generator
-#          ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#          ^^ keyword.control.loop.for.in
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
@@ -1107,10 +1107,10 @@ s = {*d, *set()}
 generator = (
     i
     for
-#   ^^^ keyword.control.flow.for.generator
+#   ^^^ keyword.control.loop.for.generator
     i
     in
-#   ^^ keyword.control.flow.for.in
+#   ^^ keyword.control.loop.for.in
     range(100)
 )
 
