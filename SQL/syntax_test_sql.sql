@@ -13,6 +13,8 @@ SELECT "My "" Crazy Column Name" FROM my_table;
 SELECT
 (
 SELECT CASE field
+USING a
+-- <- keword.other.DML
     WHEN 1
     THEN -- comment's say that
 --                    ^ comment.line.double-dash
