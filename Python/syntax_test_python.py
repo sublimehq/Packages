@@ -232,8 +232,8 @@ def _():
 #         ^^^^ - keyword
 
     a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
+#     ^^ keyword.control.conditional.if
+#          ^^^^ keyword.control.conditional.else
 
     c = lambda: pass
 #       ^^^^^^^ meta.function.inline
@@ -557,29 +557,29 @@ def _():
 #           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
-#   ^^^^^^^^^^^^^^ meta.statement.if.python
-#   ^^ keyword.control.flow.conditional.python
+#   ^^^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
 #                ^ punctuation.section.block.conditional.python
         pass
     elif:
 #   ^^^^^ meta.statement.conditional.python
-#       ^ punctuation.section.block.python
+#       ^ punctuation.section.block.conditional.python
         pass
     elif False :
 #   ^^^^^^^^^^^^ meta.statement.conditional.python
 #        ^^^^^ constant.language
-#              ^ punctuation.section.block.python
+#              ^ punctuation.section.block.conditional.python
         pass
     else  :
 #   ^^^^^^^ meta.statement.conditional.python
-#         ^ punctuation.section.block.python
+#         ^ punctuation.section.block.conditional.python
         pass
 
     if \
         True:
-#       ^^^^^ meta.statement.if.python
+#       ^^^^^ meta.statement.conditional.python
 #       ^^^^ constant.language.python
 #           ^ punctuation.section.block.conditional.python
 #
@@ -590,11 +590,11 @@ def _():
     with
 #   ^^^^ keyword.control.flow.with.python
     if
-#   ^^ keyword.control.flow.conditional.python
+#   ^^ keyword.control.conditional.if.python
     finally
 #   ^^^^^^^ keyword.control.flow.finally.python
     else
-#   ^^^^ keyword.control.flow.conditional.python
+#   ^^^^ keyword.control.conditional.else.python
     while
 #   ^^^^^ keyword.control.flow.while.python
     return
@@ -1004,8 +1004,8 @@ dict_ = {i: i for i in range(100)}
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#                              ^^ keyword.control.flow.if.inline
-#                                       ^^^^ keyword.control.flow.else.inline
+#                              ^^ keyword.control.conditional.if
+#                                       ^^^^ keyword.control.conditional.else
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
