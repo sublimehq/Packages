@@ -72,7 +72,6 @@
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --  ^^ keyword.other.arrow.haskell
    traverse f = sequenceA . fmap f
--- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --            ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
 
@@ -108,3 +107,25 @@
 --     ^ keyword.operator.haskell
 --       ^^^ entity.name.function.infix.haskell
 --             ^ constant.numeric.haskell
+
+-- Tests for #1320, #1880.
+
+   class TooMany a where
+     tooMany :: a -> Bool
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+     tooManyToo ::
+-- ^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+      a -> Bool
+-- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
+
+   instance TooMany Int where
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+     tooMany n = n > 42
+
+   foldBoolGuard :: a -> a -> Bool -> a
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+   foldBoolGuard x y z
+-- ^^^^^^^^^^^^^^^^^^^ source.haskell
+       | z         = y
+--     ^ keyword.operator.haskell
+       | otherwise = x
