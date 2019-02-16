@@ -229,20 +229,20 @@ contexts:
       push: with-body
     # except ... as ...:
     - match: \bexcept\b
-      scope: keyword.control.exception.except.python
+      scope: keyword.control.exception.catch.python
       push:
-        - meta_scope: meta.statement.exception.except.python
+        - meta_scope: meta.statement.exception.catch.python
         - include: line-continuation-or-pop
         - match: ':'
-          scope: punctuation.section.block.exception.except.python
+          scope: punctuation.section.block.exception.catch.python
           pop: true
         - match: '\bas\b'
-          scope: keyword.control.exception.except.as.python
+          scope: keyword.control.exception.catch.as.python
           set:
-            - meta_content_scope: meta.statement.exception.except.python
+            - meta_content_scope: meta.statement.exception.catch.python
             - include: line-continuation-or-pop
             - match: ':'
-              scope: meta.statement.exception.except.python punctuation.section.block.exception.except.python
+              scope: meta.statement.exception.catch.python punctuation.section.block.exception.catch.python
               pop: true
             - include: name
         - include: target-list

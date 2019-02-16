@@ -525,12 +525,12 @@ def _():
         raise
 #       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
     except Exception as x:
-#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.except.python - meta.statement.exception.except.python meta.statement.exception.except.python
-#   ^^^^^^ keyword.control.exception.except.python
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.python - meta.statement.exception.catch.python meta.statement.exception.catch.python
+#   ^^^^^^ keyword.control.exception.catch.python
 #          ^^^^^^^^^ support.type.exception.python
-#                    ^^ keyword.control.exception.except.as.python
+#                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.exception.except.python
+#                        ^ punctuation.section.block.exception.catch.python
         pass
     finally :
 #   ^^^^^^^^^ meta.statement.exception.finally.python
@@ -1120,30 +1120,30 @@ generator = (
 ##################
 
 except Exception:
-#^^^^^^^^^^^^^^^^ meta.statement.exception.except
-#^^^^^ keyword.control.exception.except
+#^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #      ^^^^^^^^^ support.type.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.except
-#^^^^^ keyword.control.exception.except
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #       ^^^^^^^^ support.type.exception
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
-#                            ^^ keyword.control.exception.except.as
+#                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
     err:
-#   ^^^^ meta.statement.exception.except
+#   ^^^^ meta.statement.exception.catch
 
 except StopIteration
     as
-#   ^^ invalid.illegal.name - meta.statement.exception.except
+#   ^^ invalid.illegal.name - meta.statement.exception.catch
 
 except
-#^^^^^ keyword.control.exception.except
+#^^^^^ keyword.control.exception.catch
 
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise
