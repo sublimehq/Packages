@@ -512,7 +512,7 @@ map_tests() -> .
 %                                   ^ punctuation.section.arguments.begin.erlang
 %                                    ^ punctuation.section.arguments.end.erlang
 %                                     ^ punctuation.separator.mapping.pair.erlang
-%                                      ^^^ constant.numeric.float.erlang
+%                                      ^^^ constant.numeric.float.decimal.erlang
 %                                         ^^ punctuation.separator.mapping.key-value.erlang
 %                                           ^ punctuation.section.sequence.begin.erlang
 %                                            ^^^^ constant.other.symbol.erlang
@@ -552,7 +552,7 @@ map_tests() -> .
 %                                           ^ punctuation.section.arguments.begin.erlang
 %                                            ^ punctuation.section.arguments.end.erlang
 %                                              ^ punctuation.separator.mapping.pair.erlang
-%                                                ^^^ constant.numeric.float.erlang
+%                                                ^^^ constant.numeric.float.decimal.erlang
 %                                                    ^^ punctuation.separator.mapping.key-value.erlang
 %                                                       ^ punctuation.section.sequence.begin.erlang
 %                                                         ^^^^ constant.other.symbol.erlang
@@ -614,7 +614,7 @@ map_tests() -> .
 %       ^ punctuation.separator.mapping.pair.erlang
         4.0
 %      ^^^^^ meta.mapping.key.erlang - meta.mapping.value.erlang - meta.mapping.erlang
-%       ^^^ constant.numeric.float.erlang
+%       ^^^ constant.numeric.float.decimal.erlang
         :=
 %      ^ meta.mapping.key.erlang - meta.mapping.value.erlang - meta.mapping.erlang
 %       ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
@@ -652,21 +652,21 @@ numbers_test() -> .
 %   ^^^ invalid.illegal.integer.erlang
 
     2.3
-%   ^^^ constant.numeric.float.erlang
+%   ^^^ constant.numeric.float.decimal.erlang
 %    ^ punctuation.separator.decimal.erlang
 
     2.3e3
-%   ^^^^^ constant.numeric.float.erlang
+%   ^^^^^ constant.numeric.float.decimal.erlang
 %    ^ punctuation.separator.decimal.erlang
 %      ^ punctuation.definition.exponent.erlang
 
     2.3e+3
-%   ^^^^^^ constant.numeric.float.erlang
+%   ^^^^^^ constant.numeric.float.decimal.erlang
 %    ^ punctuation.separator.decimal.erlang
 %      ^ punctuation.definition.exponent.erlang
 
     2.3e-3
-%   ^^^^^^ constant.numeric.float.erlang
+%   ^^^^^^ constant.numeric.float.decimal.erlang
 %    ^ punctuation.separator.decimal.erlang
 %      ^ punctuation.definition.exponent.erlang
 
@@ -681,13 +681,13 @@ numbers_test() -> .
 %         ^ punctuation.definition.numeric.base.erlang
 
     3#012 3#123
-%   ^^^^^ constant.numeric.integer.base-3.erlang
+%   ^^^^^ constant.numeric.integer.other.erlang
 %    ^ punctuation.definition.numeric.base.erlang
 %         ^^^^^ invalid.illegal.integer.erlang
 %          ^ punctuation.definition.numeric.base.erlang
 
     4#0123 4#1234
-%   ^^^^^^ constant.numeric.integer.base-4.erlang
+%   ^^^^^^ constant.numeric.integer.other.erlang
 %    ^ punctuation.definition.numeric.base.erlang
 %          ^^^^^^ invalid.illegal.integer.erlang
 %           ^ punctuation.definition.numeric.base.erlang
@@ -711,7 +711,7 @@ numbers_test() -> .
 %             ^ punctuation.definition.numeric.base.erlang
 
     35#0Y2B 35#F8Z4
-%   ^^^^^^^ constant.numeric.integer.base-35.erlang
+%   ^^^^^^^ constant.numeric.integer.other.erlang
 %     ^ punctuation.definition.numeric.base.erlang
 %           ^^^^^^^ invalid.illegal.integer.erlang
 %             ^ punctuation.definition.numeric.base.erlang
