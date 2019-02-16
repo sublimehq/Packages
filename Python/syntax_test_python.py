@@ -561,27 +561,27 @@ def _():
 #   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
-#                ^ punctuation.section.block.conditional.python
+#                ^ punctuation.section.block.conditional.if.python
         pass
     elif:
 #   ^^^^^ meta.statement.conditional.elseif.python
-#       ^ punctuation.section.block.conditional.python
+#       ^ punctuation.section.block.conditional.elseif.python
         pass
     elif False :
 #   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language
-#              ^ punctuation.section.block.conditional.python
+#              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
 #   ^^^^^^^ meta.statement.conditional.else.python
-#         ^ punctuation.section.block.conditional.python
+#         ^ punctuation.section.block.conditional.else.python
         pass
 
     if \
         True:
 #       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.python
-#           ^ punctuation.section.block.conditional.python
+#           ^ punctuation.section.block.conditional.if.python
 #
 
     # verify that keywords also work when they are bare (useful when typing)

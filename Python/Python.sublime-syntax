@@ -252,7 +252,7 @@ contexts:
         - meta_scope: meta.statement.conditional.if.python
         - include: line-continuation-or-pop
         - match: ':'
-          scope: punctuation.section.block.conditional.python
+          scope: punctuation.section.block.conditional.if.python
           pop: true
         - include: expressions
     - match: \bwhile\b
@@ -268,7 +268,7 @@ contexts:
       scope: meta.statement.conditional.else.python
       captures:
         1: keyword.control.conditional.else.python
-        2: punctuation.section.block.conditional.python
+        2: punctuation.section.block.conditional.else.python
     - match: \b(try)\b(?:\s*(:))?
       scope: meta.statement.exception.try.python
       captures:
@@ -284,7 +284,7 @@ contexts:
       push:
         - meta_scope: meta.statement.conditional.elseif.python
         - match: ':'
-          scope: punctuation.section.block.conditional.python
+          scope: punctuation.section.block.conditional.elseif.python
           pop: true
         - match: $\n?
           pop: true
