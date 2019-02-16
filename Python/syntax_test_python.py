@@ -557,29 +557,29 @@ def _():
 #           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
-#   ^^^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^^^^^^^^ meta.statement.conditional.if.python
 #   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
 #                ^ punctuation.section.block.conditional.python
         pass
     elif:
-#   ^^^^^ meta.statement.conditional.python
+#   ^^^^^ meta.statement.conditional.elseif.python
 #       ^ punctuation.section.block.conditional.python
         pass
     elif False :
-#   ^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language
 #              ^ punctuation.section.block.conditional.python
         pass
     else  :
-#   ^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^ meta.statement.conditional.else.python
 #         ^ punctuation.section.block.conditional.python
         pass
 
     if \
         True:
-#       ^^^^^ meta.statement.conditional.python
+#       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.python
 #           ^ punctuation.section.block.conditional.python
 #

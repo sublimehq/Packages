@@ -249,7 +249,7 @@ contexts:
     - match: \bif\b
       scope: keyword.control.conditional.if.python
       push:
-        - meta_scope: meta.statement.conditional.python
+        - meta_scope: meta.statement.conditional.if.python
         - include: line-continuation-or-pop
         - match: ':'
           scope: punctuation.section.block.conditional.python
@@ -265,7 +265,7 @@ contexts:
           pop: true
         - include: expressions
     - match: \b(else)\b(?:\s*(:))?
-      scope: meta.statement.conditional.python
+      scope: meta.statement.conditional.else.python
       captures:
         1: keyword.control.conditional.else.python
         2: punctuation.section.block.conditional.python
@@ -282,7 +282,7 @@ contexts:
     - match: \belif\b
       scope: keyword.control.conditional.elseif.python
       push:
-        - meta_scope: meta.statement.conditional.python
+        - meta_scope: meta.statement.conditional.elseif.python
         - match: ':'
           scope: punctuation.section.block.conditional.python
           pop: true
