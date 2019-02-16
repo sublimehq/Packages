@@ -14,7 +14,7 @@ SELECT
 (
 SELECT CASE field
 USING a
--- <- keword.other.DML
+-- <- keyword.other.DML
     WHEN 1
     THEN -- comment's say that
 --                    ^ comment.line.double-dash
