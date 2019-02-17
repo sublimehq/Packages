@@ -254,7 +254,7 @@ contexts:
         (?x)
           %{{pretty_formats_empty_value_modifiers}}
           (?:
-            [HhTtPpdDesfbBNmn]|  # single-char
+            [HhTtPpdDesSfbBNmn]| # single-char
             [ac][nNeEdDrtiI]|    # author and committer
             G[G?DKFP]|           # GPG
             g[dnNeEs]            # reflog
