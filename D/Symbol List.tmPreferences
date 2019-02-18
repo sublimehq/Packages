@@ -4,7 +4,7 @@
     <key>name</key>
     <string>Symbol List</string>
     <key>scope</key>
-    <string><![CDATA[source.d & (entity.name)]]></string>
+    <string>source.d entity.name</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>

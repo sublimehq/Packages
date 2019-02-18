@@ -9,7 +9,7 @@
 	<dict>
 		<key>decreaseIndentPattern</key>
 		<string>(?x)
-		^ (.*\*/)? \s* \} .* $
+		^ (.*\*/)? \s* \}
 		|   ^ \s* (public|private|protected|package): \s* $
 		</string>
 		<key>increaseIndentPattern</key>
