@@ -21,6 +21,7 @@ shared int b = 5000;
 //              ^ constant.numeric
 
 int c = 0x0;
+//      ^^ punctuation.definition.numeric.hex
 //        ^ constant.numeric
 int d = 0x0_00;
 //          ^ constant.numeric

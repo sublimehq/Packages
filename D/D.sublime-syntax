@@ -9,7 +9,7 @@ file_extensions:
 first_line_match: ^#!.*\bg?dmd\b.
 scope: source.d
 variables:
-  name: '[[:alpha:]_][[:alnum:]_]*'
+  name: '[[:alpha:]_][[:alpha:]0-9_]*'
   identifier: '{{name}}(?:\.{{name}})*'
   std_identifier: '(?:std|core)\.{{identifier}}'
   identifier_ref: '(\b|\.){{identifier}}\b'
@@ -60,28 +60,29 @@ contexts:
     - include: comment-in
 
   main:
-    - meta_include_prototype: false
     - match: '^#!'
-      scope: punctuation.definition.comment.number-sign
-      set:
+      scope: punctuation.definition.comment.number-sign.d
+      push:
         - meta_include_prototype: false
-        - meta_scope: source.shell comment.line.number-sign.d
+        - meta_scope: comment.line.number-sign.d
         - match: '$\n?'
-          set: main-after-shebang-in
-    - match: ''
-      set: main-after-shebang-in
-  main-after-shebang-in:
-    - include: attribute-specifier-in
-    - match: '\b(module)\s+({{identifier}})(;)'
-      captures:
-        1: keyword.declaration.module.d
-        2: entity.name.namespace.d
-        3: punctuation.terminator.d
-      set:
-        - meta_scope: meta.namespace.d
-        - include: statement-list-in
-    - match: (?=\S)
-      set: statement-list-in
+          pop: true
+    - include: module-in
+    - include: statement-list-in
+  module-in:
+    - match: \bmodule\b
+      scope: keyword.declaration.module.d
+      push:
+        - match: '{{name}}(?=\s*(;|$))'
+          scope: entity.name.namespace.d
+        - match: '{{name}}'
+          scope: variable.other.d
+          push:
+            - match: \.
+              scope: punctuation.accessor.dot.d
+              pop: true
+            - include: not-whitespace-illegal
+        - include: expect-end-of-line
 
   statement-list-in:
     - include: import-in
