@@ -144,22 +144,22 @@ dec = 1UL;
 //     ^^ storage.type.integer.d
 auto bin = 0b1;
 //         ^^ punctuation.definition.numeric.binary.d
-//           ^ constant.numeric.binary.d
+//           ^ constant.numeric.integer.binary.d
 bin = 0b10__1;
 //    ^^ punctuation.definition.numeric.binary.d
-//      ^^^^^ constant.numeric.binary.d
+//      ^^^^^ constant.numeric.integer.binary.d
 bin = 0B1;
 //    ^^ punctuation.definition.numeric.binary.d
-//      ^ constant.numeric.binary.d
+//      ^ constant.numeric.integer.binary.d
 auto hex = 0xF;
-//         ^^ punctuation.definition.numeric.hex.d
-//           ^ constant.numeric.hex.d
+//         ^^ punctuation.definition.numeric.hexadecimal.d
+//           ^ constant.numeric.integer.hexadecimal.d
 hex = 0x012_3;
-//    ^^ punctuation.definition.numeric.hex.d
-//      ^^^^^ constant.numeric.hex.d
+//    ^^ punctuation.definition.numeric.hexadecimal.d
+//      ^^^^^ constant.numeric.integer.hexadecimal.d
 hex = 0X1;
-//    ^^ punctuation.definition.numeric.hex.d
-//      ^ constant.numeric.hex.d
+//    ^^ punctuation.definition.numeric.hexadecimal.d
+//      ^ constant.numeric.integer.hexadecimal.d
 
 auto f = 0_.0_;
 //       ^^^ constant.numeric.float.d
@@ -179,19 +179,19 @@ f =  1f;
 //   ^ constant.numeric.float.d
 //    ^ storage.type.float.d
 f = 0x123f;
-//  ^^ punctuation.definition.numeric.hex.d
-//    ^^^ constant.numeric.float.d
+//  ^^ punctuation.definition.numeric.hexadecimal.d
+//    ^^^ constant.numeric.float.hexadecimal.d
 //       ^ storage.type.float.d
 f = 0b10101101f;
 //  ^^ punctuation.definition.numeric.binary.d
-//    ^^^^^^^^ constant.numeric.float.d
+//    ^^^^^^^^ constant.numeric.float.binary.d
 //            ^ storage.type.float.d
 f = 0x.1aFp2;
-//  ^^ punctuation.definition.numeric.hex.d
-//    ^^^^^^ constant.numeric.float.d
+//  ^^ punctuation.definition.numeric.hexadecimal.d
+//    ^^^^^^ constant.numeric.float.hexadecimal.d
 f = 0xF.AP-2f;
-//  ^^ punctuation.definition.numeric.hex.d
-//    ^^^^^^ constant.numeric.float.d
+//  ^^ punctuation.definition.numeric.hexadecimal.d
+//    ^^^^^^ constant.numeric.float.hexadecimal.d
 //          ^ storage.type.float.d
 
   @foo:
