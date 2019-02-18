@@ -71,7 +71,7 @@ contexts:
     - include: statement-list-in
   module-in:
     - match: \bmodule\b
-      scope: keyword.declaration.module.d
+      scope: keyword.declaration.namespace.d
       push:
         - match: '{{name}}(?=\s*(;|$))'
           scope: entity.name.namespace.d
