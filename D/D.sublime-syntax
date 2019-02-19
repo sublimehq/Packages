@@ -85,7 +85,6 @@ contexts:
     - include: struct-in
     - include: union-in
     - include: enum-in
-    - include: specification-in
     - include: conditional-declaration-in
     - include: static-foreach-in
     - include: static-assert-in
