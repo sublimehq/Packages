@@ -504,13 +504,13 @@ contexts:
     - match: '\b(extern)\s*(\()'
       captures:
         1: keyword.other.external.d
-        2: punctuation.definition.annotation.begin.d
+        2: punctuation.section.parens.begin.d
       set: extern-attribute
     - match: '\b(align)\b'
       scope: keyword.other.alignment.d
       set:
         - match: '\('
-          scope: punctuation.definition.annotation.begin.d
+          scope: punctuation.section.parens.begin.d
           set: [align-attribute-after, value]
         - match: '(?=\S)'
           pop: true
@@ -518,7 +518,7 @@ contexts:
       scope: keyword.other.deprecated.d
       set:
         - match: '\('
-          scope: punctuation.definition.annotation.begin.d
+          scope: punctuation.section.parens.begin.d
           set: [deprecated-attribute-after, value]
         - match: '(?=\S)'
           pop: true
@@ -529,7 +529,7 @@ contexts:
       scope: storage.modifier.access-control.d
       set:
         - match: '\('
-          scope: punctuation.definition.annotation.begin.d
+          scope: punctuation.section.parens.begin.d
           set: [attribute-parens-after, identifier]
         - match: (?=\S)
           pop: true
@@ -537,13 +537,13 @@ contexts:
       scope: keyword.other.pragma.d
       set:
         - match: '\('
-          scope: punctuation.definition.annotation.begin.d
+          scope: punctuation.section.parens.begin.d
           set: pragma-attribute
         - include: not-whitespace-illegal
     - include: not-whitespace-illegal-pop
   attribute-parens-after:
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
   at-attribute:
@@ -551,19 +551,19 @@ contexts:
       scope: storage.attribute.d
       pop: true
     - match: '\('
-      scope: punctuation.definition.annotation.begin.d
+      scope: punctuation.section.parens.begin.d
       set: [uda-after, value-list]
     - match: '({{name}})\s*(\()'
       captures:
         1: storage.type.d
-        2: punctuation.definition.annotation.begin.d
+        2: punctuation.section.parens.begin.d
       set: [uda-after, value-list]
     - match: '({{name}})\b'
       scope: storage.type.d
       pop: true
   uda-after:
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal
   extern-attribute:
@@ -577,23 +577,23 @@ contexts:
       scope: punctuation.separator.sequence.d
       set: extern-attribute
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal
   align-attribute-after:
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
   deprecated-attribute-after:
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
   pragma-attribute:
     - match: '\b({{name}})\b'
       scope: variable.function.d
       set:
         - match: '\)'
-          scope: punctuation.definition.annotation.end.d
+          scope: punctuation.section.parens.end.d
           pop: true
         - match: ','
           scope: punctuation.separator.sequence.d
@@ -602,7 +602,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   pragma-attribute-after:
     - match: '\)'
-      scope: punctuation.definition.annotation.end.d
+      scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
 

@@ -211,16 +211,18 @@ f = 0xF.AP-2f;
 // ^^^ storage.type.d
 //    ^ punctuation.separator.d
   @("oo")@safer@Foo(2, 4)@property
-//^^ punctuation.definition.annotation.begin.d
+//^ punctuation.definition.annotation.begin.d
+// ^ punctuation.section.parens.begin.d
 //  ^^^^ string.quoted.double.d
+//      ^ punctuation.section.parens.end.d
 //       ^ punctuation.definition.annotation.begin.d
 //        ^^^^^ storage.type.d
 //             ^ punctuation.definition.annotation.begin.d
 //              ^^^ storage.type.d
-//                 ^ punctuation.definition.annotation.begin.d
+//                 ^ punctuation.section.parens.begin.d
 //                  ^ constant.numeric.integer.d
 //                     ^ constant.numeric.integer.d
-//                      ^ punctuation.definition.annotation.end.d
+//                      ^ punctuation.section.parens.end.d
 //                       ^ punctuation.definition.annotation.begin.d
 //                        ^^^^^^^^ storage.attribute.d
   static shared const immutable final __gshared nothrow pure ref
@@ -235,42 +237,42 @@ f = 0xF.AP-2f;
 //                                                           ^^^ storage.modifier.d
   extern(C) extern (C++, foo.a)
 //^^^^^^ keyword.other.external.d
-//      ^ punctuation.definition.annotation.begin.d
+//      ^ punctuation.section.parens.begin.d
 //       ^ string.other.d
-//        ^ punctuation.definition.annotation.end.d
+//        ^ punctuation.section.parens.end.d
 //          ^^^^^^ keyword.other.external.d
-//                 ^ punctuation.definition.annotation.begin.d
+//                 ^ punctuation.section.parens.begin.d
 //                  ^^^ string.other.d
 //                     ^ punctuation.separator.sequence.d
 //                       ^^^ variable.other.d
 //                          ^ punctuation.accessor.dot.d
 //                           ^ variable.other.d
-//                            ^ punctuation.definition.annotation.end.d
+//                            ^ punctuation.section.parens.end.d
 extern(1)
 //     ^ invalid.illegal.d
   align align(1) align(foo * 2)
 //^^^^^ keyword.other.alignment.d
 //      ^^^^^ keyword.other.alignment.d
-//           ^ punctuation.definition.annotation.begin.d
+//           ^ punctuation.section.parens.begin.d
 //            ^ constant.numeric.integer.d
-//             ^ punctuation.definition.annotation.end.d
+//             ^ punctuation.section.parens.end.d
 //               ^^^^^ keyword.other.alignment.d
-//                    ^ punctuation.definition.annotation.begin.d
+//                    ^ punctuation.section.parens.begin.d
 //                     ^^^ variable.other.d
 //                         ^ keyword.operator.arithmetic.d
 //                           ^ constant.numeric.integer.d
-//                            ^ punctuation.definition.annotation.end.d
+//                            ^ punctuation.section.parens.end.d
   deprecated
 //^^^^^^^^^^ keyword.other.deprecated.d
   deprecated( "message") deprecated(q{void})
 //^^^^^^^^^^ keyword.other.deprecated.d
-//          ^ punctuation.definition.annotation.begin.d
+//          ^ punctuation.section.parens.begin.d
 //            ^^^^^^^^^ string.quoted.double.d
-//                     ^ punctuation.definition.annotation.end.d
+//                     ^ punctuation.section.parens.end.d
 //                       ^^^^^^^^^^ keyword.other.deprecated.d
-//                                 ^ punctuation.definition.annotation.begin.d
+//                                 ^ punctuation.section.parens.begin.d
 //                                    ^^^^ source.d storage.type.d
-//                                         ^ punctuation.definition.annotation.end.d
+//                                         ^ punctuation.section.parens.end.d
   private protected public export package
 //^^^^^^^ storage.modifier.access-control.d
 //        ^^^^^^^^^ storage.modifier.access-control.d
@@ -279,23 +281,23 @@ extern(1)
 //                                ^^^^^^^ storage.modifier.access-control.d
   package(foo.bar.2)
 //^^^^^^^ storage.modifier.access-control.d
-//       ^ punctuation.definition.annotation.begin.d
+//       ^ punctuation.section.parens.begin.d
 //        ^^^ variable.other.d
 //           ^ punctuation.accessor.dot.d
 //            ^^^ variable.other.d
 //               ^ punctuation.accessor.dot.d
 //                ^ invalid.illegal.d
-//                 ^ punctuation.definition.annotation.end.d
+//                 ^ punctuation.section.parens.end.d
   pragma(f) pragma(test, void):
 //^^^^^^ keyword.other.pragma.d
-//      ^ punctuation.definition.annotation.begin.d
+//      ^ punctuation.section.parens.begin.d
 //       ^ variable.function.d
-//        ^ punctuation.definition.annotation.end.d
+//        ^ punctuation.section.parens.end.d
 //          ^^^^^^ keyword.other.pragma.d
-//                ^ punctuation.definition.annotation.begin.d
+//                ^ punctuation.section.parens.begin.d
 //                 ^^^^ variable.function.d
 //                       ^^^^ storage.type.d
-//                           ^ punctuation.definition.annotation.end.d
+//                           ^ punctuation.section.parens.end.d
   private:
 //^^^^^^^ storage.modifier.access-control.d
 //       ^ punctuation.separator.d
