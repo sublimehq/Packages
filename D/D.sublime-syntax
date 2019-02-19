@@ -1021,7 +1021,7 @@ contexts:
         - match: '(?=\S)'
           set: new-after
     - match: '\bimport\b'
-      scope: keyword.declaration.d
+      scope: keyword.control.import.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d

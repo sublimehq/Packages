@@ -337,6 +337,25 @@ extern(1)
 //                                       ^ keyword.operator.assignment.d
 //                                         ^ variable.other.d
 //                                          ^ punctuation.terminator.d
+  string foo = import("foo.txt");
+//^^^^^^ storage.type.d
+//       ^^^ variable.other.d
+//           ^ keyword.operator.assignment.d
+//             ^^^^^^ keyword.control.import.d
+//                   ^ punctuation.section.parens.begin.d
+//                    ^^^^^^^^^ string.quoted.double.d
+//                             ^ punctuation.section.parens.end.d
+//                              ^ punctuation.terminator.d
+  import("foo").each!writeln;
+//^^^^^^ keyword.control.import.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^^^ string.quoted.double.d
+//            ^ punctuation.section.parens.end.d
+//             ^ punctuation.accessor.dot.d
+//              ^^^^ variable.other.d
+//                  ^ keyword.operator.d
+//                   ^^^^^^^ variable.other.d
+//                          ^ punctuation.terminator.d
 
   alias foo = int;
 //^^^^^ keyword.control.alias.d
