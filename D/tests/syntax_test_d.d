@@ -31,10 +31,12 @@ module foo.a.b1_3;
 auto wysiwyg = r"f// \n\";
 //             ^^ punctuation.definition.string.begin.d
 //             ^^^^^^^^^^ string.quoted.double.raw.d
+//                   ^^ - constant.character.escape.d
 //                      ^ punctuation.definition.string.end.d
 auto wysiwygAlt = `f//\n\`;
 //                ^ punctuation.definition.string.begin.d
 //                ^^^^^^^^ string.quoted.double.raw.backtick.d
+//                    ^^ - constant.character.escape.d
 //                       ^ punctuation.definition.string.end.d
 auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
 //                  ^ punctuation.definition.string.begin.d
@@ -43,6 +45,16 @@ auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&
 //                                                                                   ^ punctuation.definition.string.end.d
 auto invalidEscape = "\p";
 //                    ^^ string.quoted.double.d invalid.illegal.unknown-escape.d
+auto invalidEscape2 = "\u0fe";
+//                    ^^^^^^^ string.quoted.double.d
+//                     ^^ invalid.illegal.unknown-escape.d
+auto invalidEscape3 = "\&;";
+//                    ^^^^^ string.quoted.double.d
+//                     ^^ invalid.illegal.unknown-escape.d
+auto invalidEscape4 = "\u12398";
+//                    ^^^^^^^^^ string.quoted.double.d
+//                     ^^^^^^ constant.character.escape.d
+//                           ^ - constant.character.escape.d
 auto hexString = x"00 ba
 //               ^^ punctuation.definition.string.begin.d
 //               ^^^^^^^^ string.quoted.double.raw.d
