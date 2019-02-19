@@ -79,7 +79,7 @@ contexts:
       scope: constant.numeric.sql
     - match: (?i:\b(true|false)\b)
       scope: constant.boolean.sql
-    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\sby|or|like|between|and|with|case|when|then|else|end|union(\s+all)?|having|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
+    - match: (?i:\b(select(\s+(distinct|top))?|insert(\s+(ignore\s+)?into)?|update|delete|truncate|from|set|where|group\sby|or|like|between|and|with|case|when|then|else|end|union(\s+all)?|having|using|order\sby|limit|(inner|cross)\s+join|join|straight_join|(left|right)(\s+outer)?\s+join|natural(\s+(left|right)(\s+outer)?)?\s+join)\b)
       scope: keyword.other.DML.sql
     - match: (?i:\b(on|((is\s+)?not\s+)?null)\b)
       scope: keyword.other.DDL.create.II.sql
