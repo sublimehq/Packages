@@ -10,15 +10,11 @@ first_line_match: ^#!.*\bg?dmd\b.
 scope: source.d
 variables:
   name: '[[:alpha:]_][[:alpha:]0-9_]*'
-  identifier: '{{name}}(?:\.{{name}})*'
-  std_identifier: '(?:std|core)\.{{identifier}}'
-  identifier_ref: '(\b|\.){{identifier}}\b'
+  name_lookahead: '(?=\b{{name}}\b)'
   string_postfix: '[cwd]?'
   escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
   hex_char: '[0-9a-fA-F]'
   hex_or_under: '(?:{{hex_char}}|_)'
-
-  type_look_ahead: '(?={{identifier_ref}})'
 
   number_lookahead: '(?=(\b|\.)[0-9])'
   integer_lookahead: '(?=\b[0-9])'
@@ -418,7 +414,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.d
     - match: '\.'
-      scope: keyword.operator.d
+      scope: punctuation.accessor.dot.d
     - match: '\('
       scope: punctuation.section.parens.begin.d
       push:
@@ -529,20 +525,14 @@ contexts:
     - match: '\b(private|protected|public|export)\b'
       scope: storage.modifier.access-control.d
       pop: true
-    - match: '\b(package)\s*(\()'
-      captures:
-        1: storage.modifier.access-control.d
-        2: punctuation.definition.annotation.begin.d
-      set:
-        - match: '{{identifier}}'
-          scope: variable.other.constant.d
-        - match: '\)'
-          scope: punctuation.definition.annotation.end.d
-          pop: true
-        - include: not-whitespace-illegal
     - match: '\b(package)\b'
       scope: storage.modifier.access-control.d
-      pop: true
+      set:
+        - match: '\('
+          scope: punctuation.definition.annotation.begin.d
+          set: [attribute-parens-after, identifier]
+        - match: (?=\S)
+          pop: true
     - match: '\b(pragma)\b'
       scope: keyword.other.pragma.d
       set:
@@ -550,6 +540,11 @@ contexts:
           scope: punctuation.definition.annotation.begin.d
           set: pragma-attribute
         - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
+  attribute-parens-after:
+    - match: '\)'
+      scope: punctuation.definition.annotation.end.d
+      pop: true
     - include: not-whitespace-illegal-pop
   at-attribute:
     - match: '({{at_attributes}})\b'
@@ -574,10 +569,13 @@ contexts:
   extern-attribute:
     - match: '(C\+\+|C|D|Windows|System|Objective-C)'
       scope: string.other.d
-    - match: '{{identifier}}'
-      scope: string.other.d
+      set: extern-attribute-after
+    - match: (?=\S)
+      set: [extern-attribute-after, identifier]
+  extern-attribute-after:
     - match: ','
       scope: punctuation.separator.sequence.d
+      set: extern-attribute
     - match: '\)'
       scope: punctuation.definition.annotation.end.d
       pop: true
@@ -608,71 +606,40 @@ contexts:
       pop: true
     - include: not-whitespace-illegal-pop
 
+  # TODO: Maybe make imports non-indexed entities (as opposed to variables)
   import-in:
     - match: '\b(import)(?!\s*\()\b'
       scope: keyword.control.import.d
-      push: import-list
+      push: [import-list, identifier]
   import-list:
-    - match: '\b(?:({{std_identifier}})|({{identifier}}))\b'
-      captures:
-        1: support.module.d
-        2: variable.other.constant.d
-      set:
-        - match: ':'
-          scope: punctuation.separator.import-binding.d
-          set: import-binding-list
-        - match: ';'
-          scope: punctuation.terminator.d
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.d
-          set: import-list
-        - match: '='
-          scope: keyword.operator.assignment.d
-          set:
-            - match: '\b(?:({{std_identifier}})|({{identifier}}))\b'
-              captures:
-                1: support.module.d
-                2: variable.other.constant.d
-              set:
-                - match: ';'
-                  scope: punctuation.terminator.d
-                  pop: true
-                - match: ','
-                  scope: punctuation.separator.sequence.d
-                  set: import-list
-
-                - include: not-whitespace-illegal
-            - include: not-whitespace-illegal
-        - include: not-whitespace-illegal
-    - include: not-whitespace-illegal
+    - match: ':'
+      scope: punctuation.separator.import-binding.d
+      set: [import-binding-list, identifier]
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-list, identifier]
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [import-list-after-assignment, identifier]
+    - include: expect-end-of-line
+  import-list-after-assignment:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-list, identifier]
+    - include: expect-end-of-line
   import-binding-list:
-    - match: '\b({{identifier}})\b'
-      scope: variable.other.constant.d
-      set:
-        - match: ';'
-          scope: punctuation.terminator.d
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.d
-          set: import-binding-list
-        - match: '='
-          scope: keyword.operator.assignment.d
-          set:
-            - match: '\b({{identifier}})\b'
-              scope: variable.other.constant.d
-              set:
-                - match: ';'
-                  scope: punctuation.terminator.d
-                  pop: true
-                - match: ','
-                  scope: punctuation.separator.sequence.d
-                  set: import-binding-list
-
-                - include: not-whitespace-illegal
-            - include: not-whitespace-illegal
-        - include: not-whitespace-illegal
-    - include: not-whitespace-illegal
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-binding-list, identifier]
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [import-binding-list-after-assignment, identifier]
+    - include: expect-end-of-line
+  import-binding-list-after-assignment:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-binding-list, identifier]
+    - include: expect-end-of-line
 
   type:
     - match: '\b({{type_qualifier}})\b'
@@ -701,9 +668,8 @@ contexts:
     - match: '\bauto\b'
       scope: keyword.other.d
       pop: true
-    - match: '{{identifier_ref}}'
-      scope: storage.type.d
-      set: basic-type2
+    - match: '{{name_lookahead}}'
+      set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
       pop: true
 
@@ -975,21 +941,19 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
-    # Check for simple function call to highlight the identifier correctly
-    - match: '(?={{identifier_ref}}\s*\()'
-      set: [value-list-after, value]
-    - match: '{{identifier_ref}}'
+    # Match a regular function call so we properly highlight the name as a
+    # function
+    - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
+      set: value-list
+    - match: '{{name_lookahead}}'
       scope: variable.other.d
-      set: first-value-after
+      set: [first-value-after, identifier-ref]
     - match: '(?=\S)'
-      set: value
+      set: value-list
   first-value-after:
     - match: '\.'
       scope: punctuation.accessor.dot.d
-      set:
-        - match: '{{identifier}}'
-          scope: variable.other.d
-          set: first-value-after
+      push: identifier
     - match: '!(?!=)'
       scope: keyword.operator.d
       set:
@@ -1070,6 +1034,9 @@ contexts:
           scope: punctuation.section.parens.begin.d
           set: [value-parens-after, value-list]
         - include: not-whitespace-illegal
+    - match: \bassert\b
+      scope: keyword.other.assert.d
+      set: [value-after, assert-arguments]
     - match: '\bis\b'
       scope: keyword.other.d
       set:
@@ -1151,12 +1118,11 @@ contexts:
         1: variable.parameter.d
         2: keyword.operator.lambda.d
       set: value
-    - match: '{{identifier_ref}}(?=\s*\()'
-      scope: variable.function.d
-      set: value-after
-    - match: '{{identifier_ref}}'
-      scope: variable.other.d
-      set: value-after
+    - match: \.
+      scope: punctuation.accessor.dot.d
+      set: [value-after, value-identifier]
+    - match: '{{name_lookahead}}'
+      set: [value-after, value-identifier]
     - include: not-whitespace-illegal
   cast-after:
     - match: '\)'
@@ -1251,16 +1217,26 @@ contexts:
       set: value
     - match: (?=\S)
       set: value-after
+  value-identifier:
+    - match: '\b{{name}}\b(?=\s*\()'
+      scope: variable.function.d
+      pop: true
+    - match: '\b{{name}}\b'
+      scope: variable.other.d
+      set:
+        - match: \.(?!\.)
+          scope: punctuation.accessor.dot.d
+          set: value-identifier
+        - match: (?=\S)
+          pop: true
+    - include: not-whitespace-illegal-pop
   value-after:
     - match: '\.\.(?!\.)'
       scope: keyword.operator.d
       set: value
     - match: '\.(?!\.\.)'
       scope: punctuation.accessor.dot.d
-      set:
-        - match: '{{identifier}}'
-          scope: variable.other.d
-          set: value-after
+      set: [value-after, identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set: [value-parens-after, value-list]
@@ -1359,12 +1335,9 @@ contexts:
     - include: not-whitespace-illegal
 
   alias-in:
-    - match: '\b(alias)\s+({{identifier}})\s+(this)(;)'
-      captures:
-        1: keyword.control.alias.d
-        2: variable.d
-        3: keyword.control.alias.d
-        4: punctuation.terminator.d
+    - match: '\b(alias)\b(?=[^;]*\bthis\s*;)'
+      scope: keyword.control.alias.d
+      push:  [alias-this-after, identifier]
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
       push:
@@ -1374,9 +1347,13 @@ contexts:
           captures:
             1: entity.name.type.d
           set: alias-new
-        - match: '{{type_look_ahead}}'
+        - match: (?=\S)
           set: [alias-old, type]
-        - include: not-whitespace-illegal
+  alias-this-after:
+    - match: \b(this)\b
+      scope: keyword.control.alias.d
+      set: expect-end-of-line
+    - include: not-whitespace-illegal-pop
   alias-old:
     - match: '\b({{name}})\b'
       scope: entity.name.type.d
@@ -1430,9 +1407,8 @@ contexts:
       set: optional-template-body-block
 
   base-class-list:
-    - match: '{{type_look_ahead}}'
+    - match: ''
       set: [base-class-list-after, basic-type]
-    - include: not-whitespace-illegal
   base-class-list-after:
     - match: ','
       scope: punctuation.separator.sequence.d
@@ -1532,6 +1508,7 @@ contexts:
           pop: true
         - match: '(?=\b({{name}})\b)'
           push: enum-member
+        - include: not-whitespace-illegal
     - include: not-whitespace-illegal
 
   enum-assignment:
@@ -1562,7 +1539,7 @@ contexts:
         - include: attribute-in
         - match: '(?=\b({{name}})\s*(=|,|}|$))'
           push: enum-member
-        - match: '{{type_look_ahead}}'
+        - match: '(?=\S)'
           push: [enum-member, type]
     - include: not-whitespace-illegal
 
@@ -1589,10 +1566,10 @@ contexts:
     - include: not-whitespace-illegal-pop
 
   conditional-declaration-in:
-    - match: '\b(version)\b'
+    - match: '\bversion\b'
       scope: keyword.control.conditional.d
       push: [optional-block-statement-or-label, version-condition]
-    - match: '\b(debug)\b'
+    - match: '\bdebug\b'
       scope: keyword.control.conditional.d
       push: [optional-block-statement-or-label, debug-condition]
 
@@ -1600,8 +1577,11 @@ contexts:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set:
-        - match: '\b(unittest|assert)\b'
-          scope: keyword.d
+        - match: \bunittest\b
+          scope: keyword.control.conditional.d
+          set: version-condition-end
+        - match: \bassert\b
+          scope: keyword.other.assert.d
           set: version-condition-end
         - match: '\b({{name}})\b'
           scope: constant.other.d
@@ -1639,8 +1619,8 @@ contexts:
   static-assert-in:
     - match: '\b(static)\s+(assert)\b'
       captures:
-        1: keyword.control.conditional.d
-        2: keyword.control.conditional.d
+        1: keyword.other.assert.d
+        2: keyword.other.assert.d
       push: [expect-end-of-line, assert-arguments]
 
   constructions-in:
@@ -1998,7 +1978,7 @@ contexts:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set: [assert-arguments-after, value-list]
-    - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
   assert-arguments-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d
@@ -2015,6 +1995,40 @@ contexts:
       scope: punctuation.section.parens.end.d
       pop: true
     - include: not-whitespace-illegal-pop
+
+  identifier:
+    - match: '\b{{name}}\b'
+      scope: variable.other.d
+      set:
+        - match: \.
+          scope: punctuation.accessor.dot.d
+          set: identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  identifier-ref:
+    - match: \.
+      scope: punctuation.accessor.dot.d
+      set: identifier
+    - match: '(?=\S)'
+      set: identifier
+
+  type-identifier:
+    - match: '\b{{name}}\b'
+      scope: storage.type.d
+      set:
+        - match: \.
+          scope: punctuation.accessor.dot.d
+          set: type-identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  type-identifier-ref:
+    - match: \.
+      scope: punctuation.accessor.dot.d
+      set: type-identifier
+    - match: '(?=\S)'
+      set: type-identifier
 
   not-whitespace-illegal:
     - match: '\S'

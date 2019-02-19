@@ -230,7 +230,9 @@ f = 0xF.AP-2f;
 //                 ^ punctuation.definition.annotation.begin.d
 //                  ^^^ string.other.d
 //                     ^ punctuation.separator.sequence.d
-//                       ^^^^^ string.other.d
+//                       ^^^ variable.other.d
+//                          ^ punctuation.accessor.dot.d
+//                           ^ variable.other.d
 //                            ^ punctuation.definition.annotation.end.d
 extern(1)
 //     ^ invalid.illegal.d
@@ -263,12 +265,14 @@ extern(1)
 //                  ^^^^^^ storage.modifier.access-control.d
 //                         ^^^^^^ storage.modifier.access-control.d
 //                                ^^^^^^^ storage.modifier.access-control.d
-  package(foo.bar. )
+  package(foo.bar.2)
 //^^^^^^^ storage.modifier.access-control.d
 //       ^ punctuation.definition.annotation.begin.d
-//        ^^^^^^^ variable.other.constant.d
-//               ^ invalid.illegal.d
-//                ^ - invalid.illegal.d
+//        ^^^ variable.other.d
+//           ^ punctuation.accessor.dot.d
+//            ^^^ variable.other.d
+//               ^ punctuation.accessor.dot.d
+//                ^ invalid.illegal.d
 //                 ^ punctuation.definition.annotation.end.d
   pragma(f) pragma(test, void):
 //^^^^^^ keyword.other.pragma.d
@@ -286,34 +290,38 @@ extern(1)
 
   import foo;
 //^^^^^^ keyword.control.import.d
-//       ^^^ variable.other.constant.d
+//       ^^^ variable.other.d
 //          ^ punctuation.terminator.d
   import std.foo; import core.thread;
 //^^^^^^ keyword.control.import.d
-//       ^^^^^^^ support.module.d
+//       ^^^ variable.other.d
+//          ^ punctuation.accessor.dot.d
+//           ^^^ variable.other.d
 //              ^ punctuation.terminator.d
 //                ^^^^^^ keyword.control.import.d
-//                       ^^^^^^^^^^^ support.module.d
+//                       ^^^^ variable.other.d
+//                           ^ punctuation.accessor.dot.d
+//                            ^^^^^^ variable.other.d
 //                                  ^ punctuation.terminator.d
   import foo';
 //          ^ invalid.illegal.d
   import foo, a = bar, std : foo, bar, c = d;
 //^^^^^^ keyword.control.import.d
-//       ^^^ variable.other.constant.d
+//       ^^^ variable.other.d
 //          ^ punctuation.separator.sequence.d
-//            ^ variable.other.constant.d
+//            ^ variable.other.d
 //              ^ keyword.operator.assignment.d
-//                ^^^ variable.other.constant.d
+//                ^^^ variable.other.d
 //                   ^ punctuation.separator.sequence.d
-//                     ^^^ variable.other.constant.d
+//                     ^^^ variable.other.d
 //                         ^ punctuation.separator.import-binding.d
-//                           ^^^ variable.other.constant.d
+//                           ^^^ variable.other.d
 //                              ^ punctuation.separator.sequence.d
-//                                ^^^ variable.other.constant.d
+//                                ^^^ variable.other.d
 //                                   ^ punctuation.separator.sequence.d
-//                                     ^ variable.other.constant.d
+//                                     ^ variable.other.d
 //                                       ^ keyword.operator.assignment.d
-//                                         ^ variable.other.constant.d
+//                                         ^ variable.other.d
 //                                          ^ punctuation.terminator.d
 
   alias foo = int;
@@ -358,12 +366,16 @@ extern(1)
 //                                         ^ punctuation.terminator.d
   alias foo this;
 //^^^^^ keyword.control.alias.d
-//      ^^^ variable.d
+//      ^^^ variable.other.d
 //          ^^^^ keyword.control.alias.d
 //              ^ punctuation.terminator.d
   alias foo.bar.baz this;
 //^^^^^ keyword.control.alias.d
-//      ^^^^^^^^^^^ variable.d
+//      ^^^ variable.other.d
+//         ^ punctuation.accessor.dot.d
+//          ^^^ variable.other.d
+//             ^ punctuation.accessor.dot.d
+//              ^^^ variable.other.d
 //                  ^^^^ keyword.control.alias.d
 //                      ^ punctuation.terminator.d
   alias F(x) = foo*;
@@ -547,6 +559,8 @@ extern(1)
   //    ^ keyword.operator.assignment.d
   //      ^ constant.numeric.integer.d
   //       ^ punctuation.separator.sequence.d
+    1
+  //^ invalid.illegal.d
   }
 //^ punctuation.section.block.end.d
   enum Foo : int { a = 12 }
@@ -579,6 +593,8 @@ extern(1)
 //                 ^ punctuation.separator.sequence.d
     Foo
   //^^^ entity.name.constant.d
+    2
+  //^ invalid.illegal.d
   }
 //^ punctuation.section.block.end.d
   enum f = 12;
@@ -677,14 +693,14 @@ extern(1)
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^^^^^^^^ keyword.d
+//        ^^^^^^^^ keyword.control.conditional.d
 //                ^ punctuation.section.parens.end.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
   version(assert) {}
 //^^^^^^^ keyword.control.conditional.d
 //       ^ punctuation.section.parens.begin.d
-//        ^^^^^^ keyword.d
+//        ^^^^^^ keyword.other.assert.d
 //              ^ punctuation.section.parens.end.d
 //                ^ punctuation.section.block.begin.d
 //                 ^ punctuation.section.block.end.d
@@ -797,15 +813,15 @@ extern(1)
 //^ punctuation.section.block.end.d
 
   static assert(12);
-//^^^^^^ keyword.control.conditional.d
-//       ^^^^^^ keyword.control.conditional.d
+//^^^^^^ keyword.other.assert.d
+//       ^^^^^^ keyword.other.assert.d
 //             ^ punctuation.section.parens.begin.d
 //              ^^ constant.numeric.integer.d
 //                ^ punctuation.section.parens.end.d
 //                 ^ punctuation.terminator.d
   static assert(12, "foobar");
-//^^^^^^ keyword.control.conditional.d
-//       ^^^^^^ keyword.control.conditional.d
+//^^^^^^ keyword.other.assert.d
+//       ^^^^^^ keyword.other.assert.d
 //             ^ punctuation.section.parens.begin.d
 //              ^^ constant.numeric.integer.d
 //                ^ punctuation.separator.sequence.d
@@ -1112,11 +1128,17 @@ extern(1)
 //        ^ punctuation.section.parens.end.d
 //          ^ punctuation.section.block.begin.d
     assert(true);
-  //^^^^^^ variable.function.d
+  //^^^^^^ keyword.other.assert.d
   //      ^ punctuation.section.parens.begin.d
   //       ^^^^ constant.language.d
   //           ^ punctuation.section.parens.end.d
   //            ^ punctuation.terminator.d
+    foo(4);
+  //^^^ variable.function.d
+  //   ^ punctuation.section.parens.begin.d
+  //    ^ constant.numeric.integer.d
+  //     ^ punctuation.section.parens.end.d
+  //      ^ punctuation.terminator.d
   }
 //^ punctuation.section.block.end.d
   body {
@@ -1434,9 +1456,13 @@ extern(1)
 //            ^ variable.other.d
 //             ^ punctuation.terminator.d
 //               ^ keyword.operator.logical.d
-//                ^^^^^^^^^ variable.other.d
+//                ^^^ variable.other.d
+//                   ^ punctuation.accessor.dot.d
+//                    ^^^^^ variable.other.d
 //                         ^ punctuation.terminator.d
-//                           ^^^^^^^^^^^^ variable.function.d
+//                           ^^^ variable.other.d
+//                              ^ punctuation.accessor.dot.d
+//                               ^^^^^^^^ variable.function.d
 //                                       ^ punctuation.section.parens.begin.d
 //                                        ^ punctuation.section.parens.end.d
 //                                         ^ punctuation.separator.sequence.d
@@ -2168,7 +2194,8 @@ extern(1)
 //      ^ punctuation.terminator.d
 
   .AliasSeq!(immutable char, int);
-//^^^^^^^^^ variable.other.d
+//^ punctuation.accessor.dot.d
+// ^^^^^^^^ variable.other.d
 //         ^ keyword.operator.d
 //          ^ punctuation.section.parens.begin.d
 //           ^^^^^^^^^ storage.modifier.d
@@ -2186,7 +2213,8 @@ extern(1)
 //            ^ variable.other.d
 //             ^ keyword.operator.arithmetic.d
 //              ^ punctuation.section.parens.end.d
-//               ^^^^ variable.other.d
+//               ^ punctuation.accessor.dot.d
+//                ^^^ variable.other.d
 //                   ^ punctuation.terminator.d
 
   void toString(Writer)(ref Writer w, const ref FormatSpec!char fmt) {}
