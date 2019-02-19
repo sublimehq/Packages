@@ -268,10 +268,11 @@ contexts:
   expressions:
     - include: blocks
     - include: groups
+    - include: quoted-like
+    - include: label
     - include: constants
     - include: class
     - include: operators
-    - include: quoted-like
     - include: control
     - include: sub
     - include: variables
@@ -616,7 +617,6 @@ contexts:
     - match: \b(?:do|for|foreach|until|while){{break}}
       scope: keyword.control.flow.perl
       push: regexp-pop
-    - include: label
 
   label:
     - match: ({{identifier}})(:)(?!:)
