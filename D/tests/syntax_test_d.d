@@ -921,13 +921,13 @@ extern(1)
 //     ^ entity.name.function.d
 //      ^ punctuation.section.group.begin.d
 //       ^ variable.parameter.d
-//        ^^^ keyword.operator.d
+//        ^^^ keyword.operator.variadic.d
 //           ^ punctuation.separator.sequence.d
 //             ^^^^^^ storage.type.d
 //                   ^ punctuation.section.brackets.begin.d
 //                    ^ punctuation.section.brackets.end.d
 //                      ^ variable.parameter.d
-//                       ^^^ keyword.operator.d
+//                       ^^^ keyword.operator.variadic.d
 //                          ^ punctuation.section.group.end.d
 //                           ^ punctuation.section.group.begin.d
 //                            ^^^ storage.modifier.d
@@ -935,7 +935,7 @@ extern(1)
 //                                 ^ punctuation.section.brackets.begin.d
 //                                  ^ punctuation.section.brackets.end.d
 //                                    ^ variable.parameter.d
-//                                     ^^^ keyword.operator.d
+//                                     ^^^ keyword.operator.variadic.d
 //                                        ^ punctuation.section.group.end.d
 //                                          ^ punctuation.section.block.begin.d
 //                                           ^ punctuation.section.block.end.d
@@ -1165,7 +1165,7 @@ extern(1)
 //^^^^ storage.type.d
 //     ^ entity.name.function.d
 //      ^ punctuation.section.group.begin.d
-//       ^^^ keyword.operator.d
+//       ^^^ keyword.operator.variadic.d
 //          ^ punctuation.section.group.end.d
 //           ^ punctuation.terminator.d
 
@@ -1242,7 +1242,7 @@ extern(1)
 //                        ^ punctuation.section.block.end.d
 
   invariant(0, "test") {
-//^^^^^^^^^ keyword.control.flow.d
+//^^^^^^^^^ keyword.other.invariant.d
 //         ^ punctuation.section.parens.begin.d
 //          ^ constant.numeric.integer.d
 //           ^ punctuation.separator.sequence.d
@@ -1250,11 +1250,11 @@ extern(1)
 //                   ^ punctuation.section.parens.end.d
 //                     ^ punctuation.section.block.begin.d
     invariant();
-  //^^^^^^^^^ keyword.control.flow.d
+  //^^^^^^^^^ keyword.other.invariant.d
   //         ^ punctuation.section.parens.begin.d
   //          ^ punctuation.section.parens.end.d
     invariant {}
-  //^^^^^^^^^ keyword.control.flow.d
+  //^^^^^^^^^ keyword.other.invariant.d
   //          ^ punctuation.section.block.begin.d
   //           ^ punctuation.section.block.end.d
   }
@@ -1488,15 +1488,17 @@ extern(1)
 //                         ^ punctuation.section.parens.end.d
 //                           ^ punctuation.section.block.begin.d
 //                            ^ punctuation.section.block.end.d
-  foreach (int a; 2) {
+  foreach (int a; 2..5) {
 //^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.parens.begin.d
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
 //              ^ punctuation.separator.sequence.d
 //                ^ constant.numeric.integer.d
-//                 ^ punctuation.section.parens.end.d
-//                   ^ punctuation.section.block.begin.d
+//                 ^^ keyword.operator.slice.d
+//                   ^ constant.numeric.integer.d
+//                    ^ punctuation.section.parens.end.d
+//                      ^ punctuation.section.block.begin.d
     foreach_reverse (int a; 2) {
   //^^^^^^^^^^^^^^^ keyword.control.loop.d
   //                ^ punctuation.section.parens.begin.d
@@ -1976,7 +1978,7 @@ extern(1)
   (foo..., bar) @safe {};
 //^ punctuation.section.group.begin.d
 // ^^^ variable.other.d
-//    ^^^ keyword.operator.d
+//    ^^^ keyword.operator.variadic.d
 //       ^ punctuation.separator.sequence.d
 //         ^^^ variable.parameter.d
 //            ^ punctuation.section.group.end.d
@@ -2027,7 +2029,7 @@ extern(1)
 //             ^ punctuation.section.group.begin.d
 //              ^^^ storage.type.d
 //                  ^ variable.parameter.d
-//                    ^^^ keyword.operator.d
+//                    ^^^ keyword.operator.variadic.d
 //                       ^ punctuation.separator.sequence.d
 //                         ^^^ storage.type.d
 //                            ^ punctuation.section.group.end.d
@@ -2126,7 +2128,7 @@ extern(1)
 //^^^^ storage.type.d
 //     ^^^^^^^^ keyword.other.d
 //             ^ punctuation.section.group.begin.d
-//              ^^^ keyword.operator.d
+//              ^^^ keyword.operator.variadic.d
 //                 ^ punctuation.section.group.end.d
 //                   ^ variable.other.d
 //                    ^ punctuation.terminator.d

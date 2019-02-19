@@ -740,7 +740,7 @@ contexts:
   function-type-argument-type:
     - include: parameter-attribute-in
     - match: '\.\.\.'
-      scope: keyword.operator.d
+      scope: keyword.operator.variadic.d
       pop: true
     - include: type
   function-type-argument:
@@ -748,7 +748,7 @@ contexts:
       scope: variable.parameter.d
       set:
         - match: '\.\.\.'
-          scope: keyword.operator.d
+          scope: keyword.operator.variadic.d
         - match: ','
           scope: punctuation.separator.sequence.d
           set: [function-type-argument, function-type-argument-type]
@@ -856,7 +856,7 @@ contexts:
   function-argument-or-type:
     - include: parameter-attribute-in
     - match: '\.\.\.'
-      scope: keyword.operator.d
+      scope: keyword.operator.variadic.d
       pop: true
     - match: '(?={{name}}\s*([,=:\)]|\.\.\.))'
       pop: true
@@ -866,7 +866,7 @@ contexts:
       scope: variable.parameter.d
       set:
         - match: '\.\.\.'
-          scope: keyword.operator.d
+          scope: keyword.operator.variadic.d
         - match: ','
           scope: punctuation.separator.sequence.d
           set: [function-argument, function-argument-or-type]
@@ -1206,7 +1206,7 @@ contexts:
       scope: punctuation.separator.sequence.d
       set: [value-group-after-parens, function-argument, function-argument-or-type]
     - match: '\.\.\.'
-      scope: keyword.operator.d
+      scope: keyword.operator.variadic.d
     - include: not-whitespace-illegal
   value-group-after-parens:
     - include: function-attribute-in
@@ -1232,7 +1232,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   value-after:
     - match: '\.\.(?!\.)'
-      scope: keyword.operator.d
+      scope: keyword.operator.slice.d
       set: value
     - match: '\.(?!\.\.)'
       scope: punctuation.accessor.dot.d
