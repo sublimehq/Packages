@@ -1136,7 +1136,7 @@ contexts:
     - include: not-whitespace-illegal
   new-after:
     - match: '\bclass\b'
-      scope: storage.type.class.d
+      scope: storage.type.class.d keyword.declaration.class.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d
@@ -1388,7 +1388,7 @@ contexts:
 
   class-in:
     - match: '\b(class)\b'
-      scope: storage.type.class.d
+      scope: storage.type.class.d keyword.declaration.class.d
       push:
         - match: '\b({{name}})\b'
           scope: entity.name.class.d
@@ -1419,7 +1419,7 @@ contexts:
 
   interface-in:
     - match: '\b(interface)\b'
-      scope: storage.type.interface.d
+      scope: storage.type.interface.d keyword.declaration.interface.d
       push:
         - match: '\b({{name}})\b'
           scope: entity.name.interface.d
@@ -1440,7 +1440,7 @@ contexts:
 
   struct-in:
     - match: '\b(struct)\b'
-      scope: storage.type.struct.d
+      scope: storage.type.struct.d keyword.declaration.struct.d
       push:
         - match: '\b({{name}})\b'
           scope: entity.name.struct.d
@@ -1455,7 +1455,7 @@ contexts:
 
   union-in:
     - match: '\b(union)\b'
-      scope: storage.type.union.d
+      scope: storage.type.union.d keyword.declaration.union.d
       push:
         - match: '\b({{name}})\b'
           scope: entity.name.union.d
@@ -1470,7 +1470,7 @@ contexts:
 
   enum-in:
     - match: '\b(enum)\b'
-      scope: storage.type.enum.d
+      scope: storage.type.enum.d keyword.declaration.enum.d
       push:
         - match: '(?=\b({{basic_type}})\b)'
           push: type
@@ -1568,46 +1568,57 @@ contexts:
   conditional-declaration-in:
     - match: '\bversion\b'
       scope: keyword.control.conditional.d
-      push: [optional-block-statement-or-label, version-condition]
+      push: version-condition
     - match: '\bdebug\b'
       scope: keyword.control.conditional.d
-      push: [optional-block-statement-or-label, debug-condition]
-
+      push: debug-condition
+  conditional-declaration-after-parens:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: optional-block-statement-or-label
+    - include: not-whitespace-illegal
+  conditional-declaration-assignment:
+    - match: '\b{{name}}\b'
+      scope: entity.name.constant.d
+      set: expect-end-of-line
+    - match: '{{integer_lookahead}}'
+      set: [expect-end-of-line, integer]
+    - include: not-whitespace-illegal
   version-condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set:
         - match: \bunittest\b
           scope: keyword.control.conditional.d
-          set: version-condition-end
+          set: conditional-declaration-after-parens
         - match: \bassert\b
           scope: keyword.other.assert.d
-          set: version-condition-end
+          set: conditional-declaration-after-parens
         - match: '\b({{name}})\b'
           scope: constant.other.d
-          set: version-condition-end
+          set: conditional-declaration-after-parens
         - match: '{{integer_lookahead}}'
-          set: [version-condition-end, integer]
+          set: [conditional-declaration-after-parens, integer]
         - include: not-whitespace-illegal
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: conditional-declaration-assignment
     - include: not-whitespace-illegal
-  version-condition-end:
-    - match: '\)'
-      scope: punctuation.section.parens.end.d
-      pop: true
-    - include: not-whitespace-illegal
-
   debug-condition:
     - match: '\('
       scope: punctuation.section.parens.begin.d
       set:
         - match: '\b({{name}})\b'
           scope: constant.other.d
-          set: version-condition-end
+          set: conditional-declaration-after-parens
         - match: '{{integer_lookahead}}'
-          set: [version-condition-end, integer]
+          set: [conditional-declaration-after-parens, integer]
         - include: not-whitespace-illegal
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: conditional-declaration-assignment
     - match: '(?=\S)'
-      pop: true
+      set: optional-block-statement-or-label
 
   static-foreach-in:
     - match: '\b(static)\s+(foreach|foreach_reverse)\b'
@@ -1673,7 +1684,7 @@ contexts:
 
   invariant-in:
     - match: '\b(invariant)\b'
-      scope: keyword.control.flow.d
+      scope: keyword.other.invariant.d
       push:
         - match: '(?=\()'
           set: [invariant-block, assert-arguments]
@@ -1706,22 +1717,9 @@ contexts:
             - include: statement-list-in
         - include: not-whitespace-illegal
 
-  specification-in:
-    - match: '\b(version|debug)\s*(=)'
-      captures:
-        1: keyword.control.conditional.d
-        2: keyword.operator.assignment.d
-      push:
-        - match: '\b{{name}}\b'
-          scope: entity.name.constant.d
-          set: expect-end-of-line
-        - match: '{{integer_lookahead}}'
-          set: [expect-end-of-line, integer]
-        - include: not-whitespace-illegal
-
   template-in:
     - match: '\b(template)\b'
-      scope: storage.type.d
+      scope: storage.type.d keyword.declaration.template.d
       push: template
   template:
     - match: '\b({{name}})\b'
@@ -1737,7 +1735,7 @@ contexts:
     - match: '\b(mixin)\s+(template)\b'
       captures:
         1: keyword.control.d
-        2: storage.type.d
+        2: storage.type.d keyword.declaration.template.d
       push: template
     - match: '\b(mixin)(?!\s*\()'
       scope: keyword.control.d
