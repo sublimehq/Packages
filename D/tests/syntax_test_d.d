@@ -1964,6 +1964,30 @@ extern(1)
 //                                  ^ punctuation.section.brackets.end.d
 //                                   ^ punctuation.section.parens.end.d
 //                                    ^ punctuation.terminator.d
+  is(foo : super);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^ storage.type.d
+//       ^ keyword.operator.logical.d
+//         ^^^^^ variable.language.d
+//              ^ punctuation.section.parens.end.d
+//               ^ punctuation.terminator.d
+  is(foo : return);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^ storage.type.d
+//       ^ keyword.operator.logical.d
+//         ^^^^^^ keyword.control.flow.d
+//               ^ punctuation.section.parens.end.d
+//                ^ punctuation.terminator.d
+  is(foo : class);
+//^^ keyword.other.d
+//  ^ punctuation.section.parens.begin.d
+//   ^^^ storage.type.d
+//       ^ keyword.operator.logical.d
+//         ^^^^^ storage.type.d keyword.declaration.d
+//              ^ punctuation.section.parens.end.d
+//               ^ punctuation.terminator.d
 
   typeof(2) a(typeof('f') b);
 //^^^^^^ keyword.other.d

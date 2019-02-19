@@ -46,9 +46,6 @@ variables:
 
   operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
 
-  type_specialization_keyword: '__vector|function|delegate|super|return|__parameters'
-  type_specialization_storage: 'struct|union|class|interface|enum'
-
   block_statement_loohahead: '(?={)'
 
 contexts:
@@ -1181,10 +1178,26 @@ contexts:
       pop: true
     - include: not-whitespace-illegal
   type-specialization:
-    - match: '\b(?:({{type_specialization_storage}})|({{type_specialization_keyword}}))\b'
-      captures:
-        1: storage.type.d
-        2: keyword.d
+    - match: '\b(?:__vector|function|delegate|__parameters)\b'
+      scope: keyword.other.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\breturn\b'
+      scope: keyword.control.flow.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\bsuper\b'
+      scope: variable.language.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\b(?:struct|union|class|interface|enum)\b'
+      scope: storage.type.d keyword.declaration.d
       set:
         - match: '(?=\))'
           pop: true
