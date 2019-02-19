@@ -1869,18 +1869,18 @@ extern(1)
   //     ^ constant.numeric.integer.d
   //       ^^ keyword.operator.arithmetic.d
   //          ^ constant.numeric.integer.d
-  //           ^ punctuation.section.block.begin.d
+  //           ^ punctuation.separator.case-statement.d
     case 2: .. case 4:
   //^^^^ keyword.control.flow.d
   //     ^ constant.numeric.integer.d
-  //      ^ punctuation.section.block.begin.d
+  //      ^ punctuation.separator.case-statement.d
   //        ^^ keyword.operator.d
   //           ^^^^ keyword.control.flow.d
   //                ^ constant.numeric.integer.d
-  //                 ^ punctuation.section.block.begin.d
+  //                 ^ punctuation.separator.case-statement.d
     default:
   //^^^^^^^ keyword.control.flow.d
-  //       ^ punctuation.section.block.begin.d
+  //       ^ punctuation.separator.case-statement.d
   }
 //^ punctuation.section.block.end.d
 

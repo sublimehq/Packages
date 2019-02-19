@@ -1904,7 +1904,7 @@ contexts:
       scope: keyword.control.flow.d
       push:
         - match: ':'
-          scope: punctuation.section.block.begin.d
+          scope: punctuation.separator.case-statement.d
           pop: true
         - include: not-whitespace-illegal-pop
   switch-after:
@@ -1914,7 +1914,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   case-after:
     - match: ':'
-      scope: punctuation.section.block.begin.d
+      scope: punctuation.separator.case-statement.d
       set:
         - match: '\.\.(?!\.)'
           scope: keyword.operator.d
