@@ -107,7 +107,7 @@ int f(int x, \
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant */
 
-bool still_C_code_here = true;
+//bool still_C_code_here = true;
 /* <- storage.type */
 /*                       ^ constant.language */
 
