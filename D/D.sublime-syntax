@@ -66,6 +66,7 @@ contexts:
     - match: \bmodule\b
       scope: keyword.declaration.namespace.d
       push:
+        - meta_scope: meta.namespace.d
         - match: '{{name}}(?=\s*(;|$))'
           scope: entity.name.namespace.d
         - match: '{{name}}'

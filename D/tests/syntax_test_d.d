@@ -1,9 +1,10 @@
 // SYNTAX TEST "Packages/D/D.sublime-syntax"
 
 module foo.a.b1_3;
-// <- keyword.declaration.namespace.d
- // <- keyword.declaration.namespace.d
+// <- meta.namespace.d keyword.declaration.namespace.d
+ // <- meta.namespace.d keyword.declaration.namespace.d
 //^^^^ keyword.declaration.namespace.d
+//^^^^^^^^^^^^^^^^ meta.namespace.d
 //     ^^^ variable.other.d
 //        ^ punctuation.accessor.dot.d
 //         ^ variable.other.d
@@ -11,6 +12,7 @@ module foo.a.b1_3;
 //           ^^^^ entity.name.namespace.d
 //               ^ punctuation.terminator.d
   module foo.a.b1_3;
+//^^^^^^^^^^^^^^^^^^ meta.namespace.d
 //^^^^^^ keyword.declaration.namespace.d
 //       ^^^ variable.other.d
 //          ^ punctuation.accessor.dot.d
