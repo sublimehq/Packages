@@ -776,7 +776,7 @@ contexts:
           scope: keyword.operator.assignment.d
           push: value
         - match: ':'
-          scope: keyword.operator.assignment.d
+          scope: punctuation.separator.mapping.d
           push: value
         - match: '\)'
           scope: punctuation.section.group.end.d
@@ -792,10 +792,12 @@ contexts:
 
   function-or-variable-after-type:
     - match: '\b({{operator_overloads}})\s*(?=\(|$)'
+      scope: meta.function.d
       captures:
         1: keyword.operator.overload.d
       set: function-definition-begin
     - match: '\b({{name}})\s*(?=\(|$)'
+      scope: meta.function.d
       captures:
         1: entity.name.function.d
       set: function-definition-begin
@@ -806,19 +808,24 @@ contexts:
       set: [function-definition-after-first-argument-list, function-argument-definition-list]
     - include: not-whitespace-illegal
   function-definition-after-first-argument-list:
+    - match: '(?=\()'
+      set: [function-definition-before-after-arguments, function-argument-definition-list]
+    - match: '(?=\S)'
+      set: function-definition-after-arguments
+  function-definition-before-after-arguments:
+    - match: ''
+      set: function-definition-after-arguments
+  function-definition-after-arguments:
+    - meta_scope: meta.function.d
+    - include: function-attribute-in
     - match: '='
       scope: keyword.operator.assignment.d
-      set: [expect-end-of-line, value]
-    - match: '(?=\()'
-      set: [function-definition-after-arguments, function-argument-definition-list]
-    - include: function-definition-after-arguments
-  function-definition-after-arguments:
-    - include: function-attribute-in
+      set: [meta-function, expect-end-of-line, value]
     - match: '\bif\b'
       scope: keyword.control.conditional.d
-      set: [function-definition-after-condition, condition]
+      set: [meta-function, function-definition-after-condition, condition]
     - match: '(?=\S)'
-      set: function-definition-after-condition
+      set: [meta-function, function-definition-after-condition]
   function-definition-after-condition:
     - match: '\bin\b'
       scope: keyword.control.conditional.d
@@ -863,16 +870,18 @@ contexts:
       pop: true
     - include: not-whitespace-illegal-pop
   function-argument-definition-list:
+    - meta_scope: meta.function.parameters.d
     - match: '\('
       scope: punctuation.section.group.begin.d
       set: function-argument-definition-list-content
     - include: not-whitespace-illegal
   function-argument-definition-list-content:
+    - meta_scope: meta.function.parameters.d
     - match: '\)'
       scope: punctuation.section.group.end.d
       pop: true
     - match: '(?=\S)'
-      set: [function-argument, function-argument-or-type]
+      set: [meta-function-parameters, function-argument, function-argument-or-type]
   function-argument-or-type:
     - include: parameter-attribute-in
     - match: '\.\.\.'
@@ -1677,38 +1686,38 @@ contexts:
     # Post-blit constructor
     - match: '\b(this)\s*(\()\s*(this)\s*(\))'
       captures:
-        1: entity.name.function.post-blit.d
-        2: punctuation.section.group.begin.d
-        3: variable.language.d
-        4: punctuation.section.group.end.d
+        1: meta.function.d entity.name.function.post-blit.d
+        2: meta.function.parameters.d punctuation.section.group.begin.d
+        3: meta.function.parameters.d variable.language.d
+        4: meta.function.parameters.d punctuation.section.group.end.d
       set: function-definition-after-arguments
     - match: '\b(this)\s*(?=\(|$)'
       captures:
-        1: entity.name.function.constructor.d
+        1: meta.function.d entity.name.function.constructor.d
         2: punctuation.section.group.begin.d
       set: constructor-argument-list
-    - match: '(~\s*this)\s*(\()\s*(\))'
-      captures:
-        1: entity.name.function.destructor.d
-        2: punctuation.section.group.begin.d
-        3: punctuation.section.group.end.d
-      set: function-definition-after-arguments
+    - match: '~\s*this'
+      scope: meta.function.d entity.name.function.destructor.d
+      set: destructor-arguments
     - include: not-whitespace-illegal-pop
   # This could either be function/template parameters or arguments. Assume
   # arguments and switch to parameters when possible
   constructor-argument-list:
+    - meta_scope: meta.function.parameters.d
     - match: '\('
       scope: punctuation.section.group.begin.d
       set:
+        - meta_scope: meta.function.parameters.d
         - match: '\)'
           scope: punctuation.section.group.end.d
           set: function-definition-after-first-argument-list
         - match: '{{parameter_attribute_lookahead}}'
-          set: [function-definition-after-first-argument-list, function-argument-definition-list-content]
+          set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument-definition-list-content]
         - match: '(?=\S)'
           set: [constructor-argument-list-after-value, value]
     - include: not-whitespace-illegal-pop
   constructor-argument-list-after-value:
+    - meta_scope: meta.function.parameters.d
     - match: ','
       scope: punctuation.separator.sequence.d
       set: [constructor-argument-list-after-value, value]
@@ -1716,7 +1725,17 @@ contexts:
       scope: punctuation.section.group.end.d
       set: function-definition-after-first-argument-list
     - match: '(?=\S)'
-      set: [function-definition-after-first-argument-list, function-argument]
+      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument]
+  destructor-arguments:
+    - match: '\('
+      scope: meta.function.parameters.d punctuation.section.group.begin.d
+      set:
+        - meta_scope: meta.function.parameters.d
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          set: function-definition-after-arguments
+        - include: not-whitespace-illegal-pop
+    - include: not-whitespace-illegal-pop
 
   invariant-in:
     - match: '\b(invariant)\b'
@@ -2082,4 +2101,13 @@ contexts:
   maybe-end-of-line:
     - include: end-of-line
     - match: '(?=\S)'
+      pop: true
+
+  meta-function:
+    - meta_scope: meta.function.d
+    - match: ''
+      pop: true
+  meta-function-parameters:
+    - meta_scope: meta.function.parameters.d
+    - match: ''
       pop: true
