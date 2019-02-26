@@ -33,6 +33,7 @@ variables:
   attribute_lookahead: '(?=@|\b({{attributes}}|extern|align|deprecated|pragma|private|protected|public|export|package)\b)'
   attributes: 'static|abstract|final|override|synchronized|scope|__gshared|nothrow|pure|ref|return|auto'
   at_attributes: 'disable|nogc|property|safe|system|trusted'
+  function_attribute_lookahead: '{{attribute_lookahead}}|{{type_qualifier_lookahead}}'
   parameter_attribute_lookahead: '(?=\b({{parameter_attribute}})\b)'
   parameter_attribute: 'in|lazy|out|alias'
 
@@ -870,7 +871,6 @@ contexts:
       pop: true
     - include: not-whitespace-illegal-pop
   function-argument-definition-list:
-    - meta_scope: meta.function.parameters.d
     - match: '\('
       scope: punctuation.section.group.begin.d
       set: function-argument-definition-list-content
@@ -1092,24 +1092,19 @@ contexts:
                   scope: punctuation.separator.sequence.d
                   set: [value-parens-after, value-list]
     - match: '\b(function|delegate)\b'
-      scope: keyword.other.d
+      scope: meta.function.d keyword.other.d
       set:
+        - meta_scope: meta.function.d
         - match: '(?=\()'
           set: [value-after, function-definition-begin]
         - match: '(?=\S)'
-          set: [value-after, function-definition-begin, type]
+          set: [value-after, function-definition-begin, meta-function, type]
     - match: '(\()\s*(\))'
+      scope: meta.function.parameters.d
       captures:
         1: punctuation.section.parens.begin.d
         2: punctuation.section.parens.end.d
-      set:
-        - include: function-attribute-in
-        - match: '=>'
-          scope: keyword.operator.lambda.d
-          set: value
-        - match: '(?={)'
-          set: [value-after, block-statement]
-        - include: not-whitespace-illegal-pop
+      set: [value-after, value-group-after-parens]
     - match: '\('
       scope: punctuation.section.group.begin.d
       set:
@@ -1146,7 +1141,7 @@ contexts:
       captures:
         1: variable.parameter.d
         2: keyword.operator.lambda.d
-      set: value
+      set: [meta-function, value]
     - match: \.
       scope: punctuation.accessor.dot.d
       set: [value-after, value-identifier]
@@ -1254,14 +1249,24 @@ contexts:
       scope: keyword.operator.variadic.d
     - include: not-whitespace-illegal
   value-group-after-parens:
-    - include: function-attribute-in
+    - match: '{{function_attribute_lookahead}}'
+      set: value-group-after-lambda
     - match: (?={)
-      set: [value-after, block-statement]
+      set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: keyword.operator.lambda.d
-      set: value
+      scope: meta.function.d keyword.operator.lambda.d
+      set: [meta-function, value]
     - match: (?=\S)
       set: value-after
+  value-group-after-lambda:
+    - meta_scope: meta.function.d
+    - include: function-attribute-in
+    - match: (?={)
+      set: [value-after, meta-function, block-statement]
+    - match: '=>'
+      scope: meta.function.d keyword.operator.lambda.d
+      set: [meta-function, value]
+    - include: not-whitespace-illegal-pop
   value-identifier:
     - match: '\b{{name}}\b(?=\s*\()'
       scope: variable.function.d

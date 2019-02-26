@@ -448,6 +448,7 @@ extern(1)
 //^^^^^ keyword.control.alias.d
 //      ^^^^^ entity.name.type.d
 //            ^ keyword.operator.assignment.d
+//              ^^^^^^ meta.function.d
 //              ^ variable.parameter.d
 //                ^^ keyword.operator.lambda.d
 //                   ^ variable.other.d
@@ -2236,14 +2237,18 @@ extern(1)
 //                                                             ^ meta.function.d punctuation.terminator.d
   return () @trusted inout {};
 //^^^^^^ keyword.control.flow.d
+//       ^^ meta.function.parameters.d
 //       ^ punctuation.section.parens.begin.d
 //        ^ punctuation.section.parens.end.d
+//          ^^^^^^^^^^^^^^^^^ meta.function.d
+//                         ^^ meta.block.d
   (in ref a) {};
 //^ punctuation.section.group.begin.d
 // ^^ storage.modifier.d
 //    ^^^ storage.modifier.d
 //        ^ variable.parameter.d
 //         ^ punctuation.section.group.end.d
+//           ^^ meta.function.d meta.block.d
 //           ^ punctuation.section.block.begin.d
 //            ^ punctuation.section.block.end.d
 //             ^ punctuation.terminator.d
@@ -2257,7 +2262,8 @@ extern(1)
 //                          ^^^ variable.other.d
 //                             ^ punctuation.terminator.d
   function(int a, string b) @trusted {};
-//^^^^^^^^ keyword.other.d
+//^^^^^^^^ meta.function.d keyword.other.d
+//        ^^^^^^^^^^^^^^^^^ meta.function.parameters.d
 //        ^ punctuation.section.group.begin.d
 //         ^^^ storage.type.d
 //             ^ variable.parameter.d
@@ -2265,18 +2271,22 @@ extern(1)
 //                ^^^^^^ storage.type.d
 //                       ^ variable.parameter.d
 //                        ^ punctuation.section.group.end.d
+//                          ^^^^^^^^^^^ meta.function.d
 //                          ^ punctuation.definition.annotation.begin.d
 //                           ^^^^^^^ storage.attribute.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
 //                                     ^ punctuation.terminator.d
   function size_t(foo a) {};
+//^^^^^^^^^^^^^^^ meta.function.d
 //^^^^^^^^ keyword.other.d
 //         ^^^^^^ storage.type.d
+//               ^^^^^^^ meta.function.parameters.d
 //               ^ punctuation.section.group.begin.d
 //                ^^^ storage.type.d
 //                    ^ variable.parameter.d
 //                     ^ punctuation.section.group.end.d
+//                       ^^ meta.function.d meta.block.d
 //                       ^ punctuation.section.block.begin.d
 //                        ^ punctuation.section.block.end.d
 //                         ^ punctuation.terminator.d
