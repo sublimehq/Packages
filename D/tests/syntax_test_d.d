@@ -450,7 +450,7 @@ extern(1)
 //            ^ keyword.operator.assignment.d
 //              ^^^^^^ meta.function.d
 //              ^ variable.parameter.d
-//                ^^ keyword.operator.lambda.d
+//                ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //                   ^ variable.other.d
 //                    ^ punctuation.terminator.d
 
@@ -2105,17 +2105,20 @@ extern(1)
 //              ^ punctuation.terminator.d
 
   () @trusted => 2;
+//^^ meta.function.parameters.d
 //^ punctuation.section.parens.begin.d
 // ^ punctuation.section.parens.end.d
+//   ^^^^^^^^^^^^^ meta.function.d
 //   ^ punctuation.definition.annotation.begin.d
 //    ^^^^^^^ storage.attribute.d
-//            ^^ keyword.operator.lambda.d
+//            ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //               ^ constant.numeric.integer.d
 //                ^ punctuation.terminator.d
   (a => 2);
 //^ punctuation.section.group.begin.d
+// ^^^^^^ meta.function.d
 // ^ variable.parameter.d
-//   ^^ keyword.operator.lambda.d
+//   ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //      ^ constant.numeric.integer.d
 //       ^ punctuation.section.group.end.d
 //        ^ punctuation.terminator.d
@@ -2123,9 +2126,10 @@ extern(1)
 //^ punctuation.section.group.begin.d
 // ^^^ variable.other.d
 //    ^ punctuation.section.group.end.d
+//      ^^^^^^^^^^^^^^^^^^ meta.function.d
 //      ^ punctuation.definition.annotation.begin.d
 //       ^^^^^^^ storage.attribute.d
-//               ^^ keyword.operator.lambda.d
+//               ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //                  ^^^ variable.function.d
 //                     ^ punctuation.section.parens.begin.d
 //                      ^ constant.numeric.integer.d
@@ -2138,8 +2142,10 @@ extern(1)
 //       ^ punctuation.separator.sequence.d
 //         ^^^ variable.parameter.d
 //            ^ punctuation.section.group.end.d
+//              ^^^^^^^^ meta.function.d
 //              ^ punctuation.definition.annotation.begin.d
 //               ^^^^ storage.attribute.d
+//                    ^^ meta.block.d
 //                    ^ punctuation.section.block.begin.d
 //                     ^ punctuation.section.block.end.d
 //                      ^ punctuation.terminator.d
@@ -2147,6 +2153,7 @@ extern(1)
 //^ punctuation.section.group.begin.d
 // ^^^ variable.other.d
 //    ^ punctuation.section.group.end.d
+//      ^^ meta.function.d meta.block.d
 //      ^ punctuation.section.block.begin.d
 //       ^ punctuation.section.block.end.d
 //         ^ punctuation.section.parens.begin.d
@@ -2157,9 +2164,11 @@ extern(1)
 // ^^^ storage.type.d
 //     ^^^ variable.parameter.d
 //        ^ punctuation.section.group.end.d
+//          ^^^^^^^^^^^^^ meta.function.d
 //          ^^^^ storage.modifier.d
 //               ^ punctuation.definition.annotation.begin.d
 //                ^^^^ storage.attribute.d
+//                     ^^ meta.block.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d
@@ -2175,6 +2184,7 @@ extern(1)
 //              ^^^ storage.type.d
 //                  ^ variable.parameter.d
 //                   ^ punctuation.section.group.end.d
+//                     ^^ meta.function.d meta.block.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
 //                       ^ punctuation.terminator.d

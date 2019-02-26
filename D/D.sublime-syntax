@@ -1140,7 +1140,7 @@ contexts:
     - match: '\b({{name}})\s*(=>)'
       captures:
         1: variable.parameter.d
-        2: keyword.operator.lambda.d
+        2: storage.type.function.d keyword.declaration.function.lambda.d
       set: [meta-function, value]
     - match: \.
       scope: punctuation.accessor.dot.d
@@ -1254,7 +1254,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d keyword.operator.lambda.d
+      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
       set: [meta-function, value]
     - match: (?=\S)
       set: value-after
@@ -1264,7 +1264,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d keyword.operator.lambda.d
+      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
