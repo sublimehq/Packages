@@ -31,96 +31,117 @@ module foo.a.b1_3;
 //^^ comment.block.nested.d punctuation.definition.comment.d
 
 auto wysiwyg = r"f// \n\";
-//             ^^ punctuation.definition.string.begin.d
-//             ^^^^^^^^^^ string.quoted.double.raw.d
+//             ^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//             ^ storage.modifier.string.d
+//              ^ punctuation.definition.string.begin.d
 //                   ^^ - constant.character.escape.d
 //                      ^ punctuation.definition.string.end.d
 auto wysiwygAlt = `f//\n\`;
+//                ^^^^^^^^ meta.string.d string.quoted.double.raw.backtick.d
 //                ^ punctuation.definition.string.begin.d
-//                ^^^^^^^^ string.quoted.double.raw.backtick.d
 //                    ^^ - constant.character.escape.d
 //                       ^ punctuation.definition.string.end.d
 auto doubleQuoted = "c://\'\"\?\\\0\a\b\f\n\r\t\v\x0B\2\12\762\u0feb\Uabcdef98\&quot;";
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d string.quoted.double.d
 //                  ^ punctuation.definition.string.begin.d
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.d
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.d
 //                                                                                   ^ punctuation.definition.string.end.d
 auto invalidEscape = "\p";
 //                    ^^ string.quoted.double.d invalid.illegal.unknown-escape.d
 auto invalidEscape2 = "\u0fe";
-//                    ^^^^^^^ string.quoted.double.d
+//                    ^^^^^^^ meta.string.d string.quoted.double.d
 //                     ^^ invalid.illegal.unknown-escape.d
 auto invalidEscape3 = "\&;";
-//                    ^^^^^ string.quoted.double.d
+//                    ^^^^^ meta.string.d string.quoted.double.d
 //                     ^^ invalid.illegal.unknown-escape.d
 auto invalidEscape4 = "\u12398";
-//                    ^^^^^^^^^ string.quoted.double.d
+//                    ^^^^^^^^^ meta.string.d string.quoted.double.d
 //                     ^^^^^^ constant.character.escape.d
 //                           ^ - constant.character.escape.d
 auto hexString = x"00 ba
-//               ^^ punctuation.definition.string.begin.d
-//               ^^^^^^^^ string.quoted.double.raw.d
+//               ^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//               ^ storage.modifier.string.d
+//                ^ punctuation.definition.string.begin.d
     5 5 b";
-// ^^^^^^^ string.quoted.double.raw.d
+// ^^^^^^^ meta.string.d string.quoted.double.raw.d
 //  ^^^ string.quoted.double.raw.d constant.character.escape.d
 //      ^ string.quoted.double.raw.d invalid.illegal.unknown-escape.d
 //       ^ string.quoted.double.raw.d punctuation.definition.string.end.d
 auto deliminated = q"SQL_1
-//                 ^^^^^^^ string.quoted.double.raw.d punctuation.definition.string.begin.d
+//                 ^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                 ^ storage.modifier.string.d
+//                  ^ punctuation.definition.string.begin.d
+//                   ^^^^^ constant.other.delimeter.d
     select foo \n
-//  ^^^^^^^^^^^^^^ string.quoted.double.raw.d
+//  ^^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 SQL_1";
-// <- string.quoted.double.raw.d punctuation.definition.string.end.d
-// ^^^ string.quoted.double.raw.d punctuation.definition.string.end.d
+// <- meta.string.d string.quoted.double.raw.d constant.other.delimeter.d
+//^^^^ meta.string.d string.quoted.double.raw.d
+// ^^ constant.other.delimeter.d
+//   ^ punctuation.definition.string.end.d
+//    ^ punctuation.terminator.d
+//    - meta.string.d
 auto deliminatedBad = q"SQL\
-//                         ^ string.quoted.double.raw.d punctuation.definition.string.begin.d invalid.illegal.d
+//                         ^ meta.string.d string.quoted.double.raw.d invalid.illegal.d
 SQL";
 auto deliminatedNested = q"(f("))" + q"{f{"}}" + q"[f["]]" + q"<f<">>";
-//                       ^^^ punctuation.definition.string.begin.d
-//                       ^^^^^^^^^ string.quoted.double.raw.d
+//                       ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                       ^ storage.modifier.string.d
+//                        ^^ punctuation.definition.string.begin.d
 //                              ^^ punctuation.definition.string.end.d
-//                                   ^^^ punctuation.definition.string.begin.d
-//                                   ^^^^^^^^^ string.quoted.double.raw.d
+//                                   ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                   ^ storage.modifier.string.d
+//                                    ^^ punctuation.definition.string.begin.d
 //                                          ^^ punctuation.definition.string.end.d
-//                                               ^^^ punctuation.definition.string.begin.d
-//                                               ^^^^^^^^^ string.quoted.double.raw.d
+//                                               ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                               ^ storage.modifier.string.d
+//                                                ^^ punctuation.definition.string.begin.d
 //                                                      ^^ punctuation.definition.string.end.d
-//                                                           ^^^ punctuation.definition.string.begin.d
-//                                                           ^^^^^^^^^ string.quoted.double.raw.d
+//                                                           ^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                                                           ^ storage.modifier.string.d
+//                                                            ^^ punctuation.definition.string.begin.d
 //                                                                  ^^ punctuation.definition.string.end.d
 auto deliminatedAny = q"/foo(xxx)/";
-//                    ^^^ punctuation.definition.string.begin.d
-//                    ^^^^^^^^^^^^^ string.quoted.double.raw.d
-//                               ^^ punctuation.definition.string.end.d
+//                    ^^^^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
+//                    ^ storage.modifier.string.d
+//                     ^ punctuation.definition.string.begin.d
+//                      ^ constant.other.delimeter.d
+//                               ^ constant.other.delimeter.d
+//                                ^ punctuation.definition.string.end.d
 auto stringPostfix = ``c + ""w + q"//"d;
-//                     ^ string.quoted.double.raw.backtick.d storage.type.string.d
-//                           ^ string.quoted.double.d storage.type.string.d
-//                                    ^ string.quoted.double.raw.d storage.type.string.d
+//                     ^ meta.string.d string.quoted.double.raw.backtick.d storage.type.string.d
+//                           ^ meta.string.d string.quoted.double.d storage.type.string.d
+//                                    ^ meta.string.d string.quoted.double.raw.d storage.type.string.d
 auto tokenString = q{
-//                 ^^ string.unquoted.embedded.d punctuation.definition.string.begin.d
+//                 ^^ meta.string.d string.unquoted.embedded.d
+//                 ^ storage.modifier.string.d
+//                  ^ punctuation.definition.string.begin.d
     this is not real code 12
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.d
 //  ^^^^ variable.language.d
 //       ^^ keyword.d
 //              ^^^^ storage.type.d
 //                        ^^ constant.numeric.integer.d
     /*}*/
+//  ^^^^^^ meta.string.d
 //  ^^ punctuation.definition.comment.d
 //     ^^ punctuation.definition.comment.d
 //  ^^^^^ comment.block.d
     ''  'a'
+//  ^^^^^^^^ meta.string.d
 //  ^^ invalid.illegal.d
 //      ^^^ string.quoted.single.d
     __TIME__
-//  ^^^^^^^^ constant.language.d
+//  ^^^^^^^^ meta.string.d constant.language.d
 };
-// <- string.unquoted.embedded.d punctuation.definition.string.end.d
+// <- meta.string.d string.unquoted.embedded.d punctuation.definition.string.end.d
 
 auto c = 'a';
-//       ^^^ string.quoted.single.d
+//       ^^^ meta.string.d string.quoted.single.d
 c = 'Ó';
-//  ^^^ string.quoted.single.d
+//  ^^^ meta.string.d string.quoted.single.d
 c = '\n';
-//  ^^^^ string.quoted.single.d
+//  ^^^^ meta.string.d string.quoted.single.d
 //   ^^ constant.character.escape.d
 c = '\x';
 //  ^^^^ invalid.illegal.d

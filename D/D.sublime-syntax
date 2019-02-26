@@ -247,7 +247,7 @@ contexts:
       push: character
   character:
     - match: \'(?:({{escape_sequence}})|[^\\'])\'
-      scope: string.quoted.single.d
+      scope: meta.string.d string.quoted.single.d
       captures:
         1: constant.character.escape.d
       pop: true
@@ -268,7 +268,7 @@ contexts:
       scope: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.d
+        - meta_scope: meta.string.d string.quoted.double.d
         - match: '(")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
@@ -279,11 +279,13 @@ contexts:
         - match: \\.
           scope: invalid.illegal.unknown-escape.d
     # Wysiwyg string
-    - match: r"
-      scope:  punctuation.definition.string.begin.d
+    - match: (r)(")
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
@@ -294,18 +296,20 @@ contexts:
       scope: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.backtick.d
+        - meta_scope: meta.string.d string.quoted.double.raw.backtick.d
         - match: '(`)({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
     # Deprecated Hex string
-    - match: x"
-      scope: punctuation.definition.string.begin.d
+    - match: (x)(")
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
@@ -316,75 +320,94 @@ contexts:
         - match: '\S'
           scope: invalid.illegal.unknown-escape.d
     # Deliminated string with custom identifier
-    - match: 'q"({{name}})(.*)$'
-      scope: punctuation.definition.string.begin.d
+    - match: '(q)(")({{name}})(.*)$'
       captures:
-        2: invalid.illegal.d
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+        3: constant.other.delimeter.d
+        4: invalid.illegal.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
-        - match: '(^\1")({{string_postfix}})'
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(^\3)(")({{string_postfix}})'
           captures:
-            1: punctuation.definition.string.end.d
-            2: storage.type.string.d
+            1: constant.other.delimeter.d
+            2: punctuation.definition.string.end.d
+            3: storage.type.string.d
           pop: true
     # Nested Deliminated string
-    - match: 'q"\['
-      scope: punctuation.definition.string.begin.d
+    - match: (q)("\[)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(\]")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-    - match: 'q"\('
-      scope: punctuation.definition.string.begin.d
+    - match: (q)("\()
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(\)")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-    - match: 'q"<'
-      scope: punctuation.definition.string.begin.d
+    - match: (q)("<)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(>")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-    - match: 'q"{'
-      scope: punctuation.definition.string.begin.d
+    - match: (q)("{)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
+        - meta_scope: meta.string.d string.quoted.double.raw.d
         - match: '(}")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
     # Other deliminated string
-    - match: 'q"(.)'
-      scope: punctuation.definition.string.begin.d
+    - match: '(q)(")(.)'
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+        3: constant.other.delimeter.d
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.raw.d
-        - match: '(\1"|\1(.))({{string_postfix}})'
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(\3)(?:(")|(.))({{string_postfix}})'
           captures:
-            1: punctuation.definition.string.end.d
-            2: invalid.illegal.d
-            3: storage.type.string.d
+            1: constant.other.delimeter.d
+            2: punctuation.definition.string.end.d
+            3: invalid.illegal.d
+            4: storage.type.string.d
           pop: true
     # Token string
-    - match: 'q{'
-      scope: string.unquoted.embedded.d punctuation.definition.string.begin.d
+    - match: '(q)({)'
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      scope: string.unquoted.embedded.d
       set:
+        - meta_scope: meta.string.d
         - match: '}'
           scope: string.unquoted.embedded.d punctuation.definition.string.end.d
           pop: true
@@ -1712,10 +1735,7 @@ contexts:
           scope: punctuation.section.block.end.d
           pop: true
         - include: statement-list-in
-    - match: ';'
-      scope: punctuation.terminator.d
-      pop: true
-    - include: not-whitespace-illegal
+    - include: expect-end-of-line
 
   unittest-in:
     - match: '\b(unittest)\b'
