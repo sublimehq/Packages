@@ -497,11 +497,13 @@ extern(1)
 //                        ^ punctuation.terminator.d
 
   class Foo;
+//^^^^^^^^^ meta.class.d
 //^^^^^ storage.type.class.d keyword.declaration.class.d
 //      ^^^ entity.name.class.d
 //         ^ punctuation.terminator.d
 
   class Bar : Foo, b {
+//^^^^^^^^^^^^^^^^^^^^^ meta.class.d
 //^^^^^ storage.type.class.d keyword.declaration.class.d
 //      ^^^ entity.name.class.d
 //          ^ punctuation.separator.mapping.d
@@ -510,13 +512,15 @@ extern(1)
 //                 ^ storage.type.d
 //                   ^ punctuation.section.block.begin.d
     class b {}
+  //^^^^^^^^^^ meta.class.d meta.block.d meta.class.d
   //^^^^^ storage.type.class.d keyword.declaration.class.d
   //      ^ entity.name.class.d
   //        ^ punctuation.section.block.begin.d
   //         ^ punctuation.section.block.end.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.class.d punctuation.section.block.end.d
   class b(T, int s) {
+//^^^^^^^^^^^^^^^^^^^^ meta.class.d
 //^^^^^ storage.type.class.d keyword.declaration.class.d
 //      ^ entity.name.class.d
 //       ^ punctuation.section.group.begin.d
@@ -527,7 +531,7 @@ extern(1)
 //                ^ punctuation.section.group.end.d
 //                  ^ punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.class.d punctuation.section.block.end.d
 
   interface S;
 //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
@@ -1841,26 +1845,29 @@ extern(1)
 //                    ^^ constant.numeric.integer.d
 //                      ^ punctuation.section.brackets.end.d
 //                       ^ punctuation.terminator.d
-  auto c = new class(12) T, Bar {
+  auto c = new class (12) T, Bar {
 //^^^^ storage.modifier.d
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ keyword.operator.word.d
+//             ^^^^^^^^^^^^^^^^^^^^ meta.class.d
 //             ^^^^^ storage.type.class.d keyword.declaration.class.d
-//                  ^ punctuation.section.parens.begin.d
-//                   ^^ constant.numeric.integer.d
-//                     ^ punctuation.section.parens.end.d
-//                       ^ storage.type.d
-//                        ^ punctuation.separator.sequence.d
-//                          ^^^ storage.type.d
-//                              ^ punctuation.section.block.begin.d
+//                   ^ punctuation.section.parens.begin.d
+//                    ^^ constant.numeric.integer.d
+//                      ^ punctuation.section.parens.end.d
+//                        ^ storage.type.d
+//                         ^ punctuation.separator.sequence.d
+//                           ^^^ storage.type.d
+//                               ^ meta.block.d punctuation.section.block.begin.d
     private int foo;
+  //^^^^^^^^^^^^^^^^^ meta.class.d meta.block.d
   //^^^^^^^ storage.modifier.access-control.d
   //        ^^^ storage.type.d
   //            ^^^ variable.other.d
   //               ^ punctuation.terminator.d
 
     this(int num) {
+  //^^^^^^^^^^^^^^^^ meta.class.d meta.block.d
   //^^^^ entity.name.function.constructor.d
   //    ^ punctuation.section.group.begin.d
   //     ^^^ storage.type.d
@@ -1868,6 +1875,7 @@ extern(1)
   //            ^ punctuation.section.group.end.d
   //              ^ punctuation.section.block.begin.d
       this.foo = num;
+    //^^^^^^^^^^^^^^^^ meta.class.d meta.block.d meta.function.d meta.block.d
     //^^^^ variable.language.d
     //    ^ punctuation.accessor.dot.d
     //     ^^^ variable.other.d
@@ -1875,9 +1883,10 @@ extern(1)
     //           ^^^ variable.other.d
     //              ^ punctuation.terminator.d
     }
-  //^ punctuation.section.block.end.d
+  //^ meta.class.d meta.block.d meta.function.d meta.block.d punctuation.section.block.end.d
 
     override int foo() {
+  //^^^^^^^^^^^^^^^^^^^^^ meta.class.d meta.block.d
   //^^^^^^^^ storage.modifier.d
   //         ^^^ storage.type.d
   //             ^^^ meta.function.d entity.name.function.d
@@ -1886,16 +1895,16 @@ extern(1)
   //                 ^ punctuation.section.group.end.d
   //                   ^ meta.function.d meta.block.d punctuation.section.block.begin.d
       return num * 3;
-    //^^^^^^^^^^^^^^^^ meta.block.d meta.function.d meta.block.d
+    //^^^^^^^^^^^^^^^^ meta.class.d meta.block.d meta.function.d meta.block.d
     //^^^^^^ keyword.control.flow.d
     //       ^^^ variable.other.d
     //           ^ keyword.operator.arithmetic.d
     //             ^ constant.numeric.integer.d
     //              ^ punctuation.terminator.d
     }
-  //^ meta.function.d meta.block.d punctuation.section.block.end.d
+  //^ meta.class.d meta.block.d meta.function.d meta.block.d punctuation.section.block.end.d
   };
-//^ punctuation.section.block.end.d
+//^ meta.class.d meta.block.d punctuation.section.block.end.d
 // ^ punctuation.terminator.d
 
   mixin("a") = (12 ^^ 4) % 5 / (3++ + --4) ~ "foo";

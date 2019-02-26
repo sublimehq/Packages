@@ -1167,18 +1167,19 @@ contexts:
     - include: not-whitespace-illegal
   new-after:
     - match: '\bclass\b'
-      scope: storage.type.class.d keyword.declaration.class.d
-      set:
-        - match: '\('
-          scope: punctuation.section.parens.begin.d
-          set: [new-anonymous-after-args, value-list]
-        - match: '(?={)'
-          set: optional-template-body-block
-        - match: '(?=\S)'
-          set: [optional-template-body-block, base-class-list]
+      scope: meta.class.d storage.type.class.d keyword.declaration.class.d
+      set: [meta-class, new-class]
     - match: (?=\S)
       set: [new-after-named, type]
     - include: not-whitespace-illegal
+  new-class:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [new-anonymous-after-args, value-list]
+    - match: '(?={)'
+      set: optional-template-body-block
+    - match: '(?=\S)'
+      set: [optional-template-body-block, base-class-list]
   new-after-named:
     - meta_scope: meta.function-call.d
     - match: '\('
@@ -1469,15 +1470,16 @@ contexts:
   class-in:
     - match: '\b(class)\b'
       scope: storage.type.class.d keyword.declaration.class.d
-      push:
-        - match: '\b({{name}})\b'
-          scope: entity.name.class.d
-          set:
-            - match: '(?=\()'
-              set: [class-after, function-argument-definition-list]
-            - match: '(?=\S)'
-              set: class-after
-        - include: not-whitespace-illegal
+      push: [meta-class, class-name]
+  class-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.class.d
+      set:
+        - match: '(?=\()'
+          set: [class-after, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: class-after
+    - include: not-whitespace-illegal
   class-after:
     - include: end-of-line
     - match: ':'
@@ -2153,5 +2155,10 @@ contexts:
 
   meta-function-call:
     - meta_scope: meta.function-call.d
+    - match: ''
+      pop: true
+
+  meta-class:
+    - meta_scope: meta.class.d
     - match: ''
       pop: true
