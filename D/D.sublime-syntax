@@ -69,12 +69,12 @@ contexts:
       push:
         - meta_scope: meta.namespace.d
         - match: '{{name}}(?=\s*(;|$))'
-          scope: entity.name.namespace.d
+          scope: meta.path.d entity.name.namespace.d
         - match: '{{name}}'
-          scope: variable.other.d
+          scope: meta.path.d variable.other.d
           push:
             - match: \.
-              scope: punctuation.accessor.dot.d
+              scope: meta.path.d punctuation.accessor.dot.d
               pop: true
             - include: not-whitespace-illegal
         - include: expect-end-of-line
@@ -577,11 +577,11 @@ contexts:
     - match: '({{name}})\s*(\()'
       scope: meta.function-call.d
       captures:
-        1: storage.type.d
+        1: meta.path.d storage.type.d
         2: punctuation.section.parens.begin.d
       set: [meta-function-call, uda-after, value-list]
     - match: '({{name}})\b'
-      scope: storage.type.d
+      scope: meta.path.d storage.type.d
       pop: true
   uda-after:
     - match: '\)'
@@ -985,8 +985,8 @@ contexts:
       set: value-list
   first-value-after:
     - match: '\.'
-      scope: punctuation.accessor.dot.d
-      push: identifier
+      scope: meta.path.d punctuation.accessor.dot.d
+      push: value-identifier
     - match: '!(?!=)'
       scope: meta.function-call.d keyword.operator.d
       set:
@@ -1150,7 +1150,7 @@ contexts:
         2: storage.type.function.d keyword.declaration.function.lambda.d
       set: [meta-function, value]
     - match: \.
-      scope: punctuation.accessor.dot.d
+      scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
     - match: '{{name_lookahead}}'
       set: [value-after, value-identifier]
@@ -1278,13 +1278,13 @@ contexts:
     - include: not-whitespace-illegal-pop
   value-identifier:
     - match: '\b{{name}}\b(?=\s*(\(|!(?!=)))'
-      scope: meta.function-call.d variable.function.d
+      scope: meta.function-call.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
-      scope: variable.other.d
+      scope: meta.path.d variable.other.d
       set:
         - match: \.(?!\.)
-          scope: punctuation.accessor.dot.d
+          scope: meta.path.d punctuation.accessor.dot.d
           set: value-identifier
         - match: (?=\S)
           pop: true
@@ -1294,7 +1294,7 @@ contexts:
       scope: keyword.operator.slice.d
       set: value
     - match: '\.(?!\.\.)'
-      scope: punctuation.accessor.dot.d
+      scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
     - match: '\('
       scope: punctuation.section.parens.begin.d
@@ -2089,37 +2089,37 @@ contexts:
 
   identifier:
     - match: '\b{{name}}\b'
-      scope: variable.other.d
+      scope: meta.path.d variable.other.d
       set:
         - match: \.
-          scope: punctuation.accessor.dot.d
+          scope: meta.path.d punctuation.accessor.dot.d
           set: identifier
         - match: '(?=\S)'
           pop: true
     - include: not-whitespace-illegal-pop
   identifier-ref:
     - match: \.
-      scope: punctuation.accessor.dot.d
+      scope: meta.path.d punctuation.accessor.dot.d
       set: identifier
     - match: '(?=\S)'
       set: identifier
 
   type-identifier:
     - match: '\b{{name}}\b(?=\s*!)'
-      scope: meta.function-call.d variable.function.d
+      scope: meta.function-call.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
-      scope: storage.type.d
+      scope: meta.path.d storage.type.d
       set:
         - match: \.
-          scope: punctuation.accessor.dot.d
+          scope: meta.path.d punctuation.accessor.dot.d
           set: type-identifier
         - match: '(?=\S)'
           pop: true
     - include: not-whitespace-illegal-pop
   type-identifier-ref:
     - match: \.
-      scope: punctuation.accessor.dot.d
+      scope: meta.path.d punctuation.accessor.dot.d
       set: type-identifier
     - match: '(?=\S)'
       set: type-identifier
