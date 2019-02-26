@@ -534,10 +534,12 @@ extern(1)
 //^ meta.class.d punctuation.section.block.end.d
 
   interface S;
+//^^^^^^^^^^^^ meta.interface.d
 //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
 //          ^ entity.name.interface.d
 //           ^ punctuation.terminator.d
   interface Foo: Bar, Baz {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.d
 //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
 //          ^^^ entity.name.interface.d
 //             ^ punctuation.separator.mapping.d
@@ -546,13 +548,15 @@ extern(1)
 //                    ^^^ storage.type.d
 //                        ^ punctuation.section.block.begin.d
     interface c{}
+  //^^^^^^^^^^^^^ meta.interface.d meta.block.d meta.interface.d
   //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
   //          ^ entity.name.interface.d
   //           ^ punctuation.section.block.begin.d
   //            ^ punctuation.section.block.end.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.interface.d meta.block.d punctuation.section.block.end.d
   interface A(T, float f) {
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.d
 //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
 //          ^ entity.name.interface.d
 //           ^ punctuation.section.group.begin.d
@@ -563,24 +567,28 @@ extern(1)
 //                      ^ punctuation.section.group.end.d
 //                        ^ punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.interface.d meta.block.d punctuation.section.block.end.d
 
   struct Foo {
+//^^^^^^^^^^^^^ meta.struct.d
 //^^^^^^ storage.type.struct.d keyword.declaration.struct.d
 //       ^^^ entity.name.struct.d
 //           ^ punctuation.section.block.begin.d
     struct {
+  //^^^^^^^^^ meta.struct.d meta.block.d meta.struct.d
   //^^^^^^ storage.type.struct.d keyword.declaration.struct.d
   //       ^ punctuation.section.block.begin.d
       union {}
+    //^^^^^^^^ meta.struct.d meta.block.d meta.struct.d meta.block.d meta.union.d
     //^^^^^ storage.type.union.d keyword.declaration.union.d
     //      ^ punctuation.section.block.begin.d
     //       ^ punctuation.section.block.end.d
     }
-  //^ punctuation.section.block.end.d
+  //^ meta.struct.d meta.block.d meta.struct.d meta.block.d punctuation.section.block.end.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.struct.d meta.block.d punctuation.section.block.end.d
   struct F(int a, T) {
+//^^^^^^^^^^^^^^^^^^^^^ meta.struct.d
 //^^^^^^ storage.type.struct.d keyword.declaration.struct.d
 //       ^ entity.name.struct.d
 //        ^ punctuation.section.group.begin.d
@@ -591,14 +599,16 @@ extern(1)
 //                 ^ punctuation.section.group.end.d
 //                   ^ punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.struct.d meta.block.d punctuation.section.block.end.d
 
   union Foo {}
+//^^^^^^^^^^^^ meta.union.d
 //^^^^^ storage.type.union.d keyword.declaration.union.d
 //      ^^^ entity.name.union.d
 //          ^ punctuation.section.block.begin.d
 //           ^ punctuation.section.block.end.d
   union Test(string s, F) {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.union.d
 //^^^^^ storage.type.union.d keyword.declaration.union.d
 //      ^^^^ entity.name.union.d
 //          ^ punctuation.section.group.begin.d
@@ -611,22 +621,26 @@ extern(1)
 //                         ^ punctuation.section.block.end.d
 
   enum Foo {
+//^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
 //         ^ punctuation.section.block.begin.d
     foo,
+  //^^^^^ meta.enum.d
   //^^^ entity.name.constant.d
   //   ^ punctuation.separator.sequence.d
     bar = 2,
+  //^^^^^^^^^ meta.enum.d
   //^^^ entity.name.constant.d
   //    ^ keyword.operator.assignment.d
   //      ^ constant.numeric.integer.d
   //       ^ punctuation.separator.sequence.d
     1
-  //^ invalid.illegal.d
+  //^ meta.enum.d invalid.illegal.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.enum.d punctuation.section.block.end.d
   enum Foo : int { a = 12 }
+//^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
 //         ^ punctuation.separator.mapping.d
@@ -637,6 +651,7 @@ extern(1)
 //                     ^^ constant.numeric.integer.d
 //                        ^ punctuation.section.block.end.d
   enum : foo[string] { TEST }
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^ punctuation.separator.mapping.d
 //       ^^^ storage.type.d
@@ -647,6 +662,7 @@ extern(1)
 //                     ^^^^ entity.name.constant.d
 //                          ^ punctuation.section.block.end.d
   enum { int a = 12,
+//^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^ punctuation.section.block.begin.d
 //       ^^^ storage.type.d
@@ -655,18 +671,21 @@ extern(1)
 //               ^^ constant.numeric.integer.d
 //                 ^ punctuation.separator.sequence.d
     Foo
+  //^^^^ meta.enum.d
   //^^^ entity.name.constant.d
     2
-  //^ invalid.illegal.d
+  //^ meta.enum.d invalid.illegal.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.enum.d punctuation.section.block.end.d
   enum f = 12;
+//^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^ entity.name.enum.d
 //       ^ keyword.operator.assignment.d
 //         ^^ constant.numeric.integer.d
 //           ^ punctuation.terminator.d
   enum f(x, int t) = cast(x)t;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^ entity.name.enum.d
 //      ^ punctuation.section.group.begin.d
@@ -683,6 +702,7 @@ extern(1)
 //                          ^ variable.other.d
 //                           ^ punctuation.terminator.d
   enum bool[] foo = 12;
+//^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^^ storage.type.d
 //         ^ punctuation.section.brackets.begin.d
@@ -692,13 +712,15 @@ extern(1)
 //                  ^^ constant.numeric.integer.d
 //                    ^ punctuation.terminator.d
   enum fool
+//^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^^ entity.name.enum.d
   {
-//^ punctuation.section.block.begin.d
+//^ meta.enum.d punctuation.section.block.begin.d
   }
-//^ punctuation.section.block.end.d
+//^ meta.enum.d punctuation.section.block.end.d
   enum uint a = 1, b = 2, exponentBits = 3;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^^ storage.type.d
 //          ^ entity.name.enum.d
@@ -714,6 +736,7 @@ extern(1)
 //                                       ^ constant.numeric.integer.d
 //                                        ^ punctuation.terminator.d
   enum immutable(Char)[] seqBefore = "[";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^^^^^^^ storage.modifier.d
 //              ^ punctuation.section.group.begin.d
@@ -726,9 +749,11 @@ extern(1)
 //                                   ^^^ string.quoted.double.d
 //                                      ^ punctuation.terminator.d
   enum ulong
+//^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^^^ storage.type.d
     a = 1 << 2,
+  //^^^^^^^^^^^^ meta.enum.d
   //^ entity.name.enum.d
   //  ^ keyword.operator.assignment.d
   //    ^ constant.numeric.integer.d
@@ -736,6 +761,7 @@ extern(1)
   //         ^ constant.numeric.integer.d
   //          ^ punctuation.separator.sequence.d
     b = 1 << 3;
+  //^^^^^^^^^^^ meta.enum.d
   //^ entity.name.enum.d
   //  ^ keyword.operator.assignment.d
   //    ^ constant.numeric.integer.d
@@ -743,14 +769,17 @@ extern(1)
   //         ^ constant.numeric.integer.d
   //          ^ punctuation.terminator.d
   enum foo
+//^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
     bar = 2;
+  //^^^^^^^^ meta.enum.d
   //^^^ entity.name.enum.d
   //    ^ keyword.operator.assignment.d
   //      ^ constant.numeric.integer.d
   //       ^ punctuation.terminator.d
   enum Attr;
+//^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
 
   version(unittest) {}

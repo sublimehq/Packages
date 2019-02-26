@@ -1502,15 +1502,16 @@ contexts:
   interface-in:
     - match: '\b(interface)\b'
       scope: storage.type.interface.d keyword.declaration.interface.d
-      push:
-        - match: '\b({{name}})\b'
-          scope: entity.name.interface.d
-          set:
-            - match: '(?=\()'
-              set: [interface-after, function-argument-definition-list]
-            - match: '(?=\S)'
-              set: interface-after
-        - include: not-whitespace-illegal
+      push: [meta-interface, interface-name]
+  interface-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.interface.d
+      set:
+        - match: '(?=\()'
+          set: [interface-after, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: interface-after
+    - include: not-whitespace-illegal
   interface-after:
     - include: end-of-line
     - match: ':'
@@ -1523,51 +1524,54 @@ contexts:
   struct-in:
     - match: '\b(struct)\b'
       scope: storage.type.struct.d keyword.declaration.struct.d
-      push:
-        - match: '\b({{name}})\b'
-          scope: entity.name.struct.d
-          set:
-            - match: '(?=\()'
-              set: [optional-template-body-block, function-argument-definition-list]
-            - match: '(?=\S)'
-              set: optional-template-body-block
-        - match: '(?={)'
+      push: [meta-struct, struct-name]
+  struct-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.struct.d
+      set:
+        - match: '(?=\()'
+          set: [optional-template-body-block, function-argument-definition-list]
+        - match: '(?=\S)'
           set: optional-template-body-block
-        - include: not-whitespace-illegal
+    - match: '(?={)'
+      set: optional-template-body-block
+    - include: not-whitespace-illegal
 
   union-in:
     - match: '\b(union)\b'
       scope: storage.type.union.d keyword.declaration.union.d
-      push:
-        - match: '\b({{name}})\b'
-          scope: entity.name.union.d
-          set:
-            - match: '(?=\()'
-              set: [optional-template-body-block, function-argument-definition-list]
-            - match: '(?=\S)'
-              set: optional-template-body-block
-        - match: '(?={)'
+      push: [meta-union, union-name]
+  union-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.union.d
+      set:
+        - match: '(?=\()'
+          set: [optional-template-body-block, function-argument-definition-list]
+        - match: '(?=\S)'
           set: optional-template-body-block
-        - include: not-whitespace-illegal
+    - match: '(?={)'
+      set: optional-template-body-block
+    - include: not-whitespace-illegal
 
   enum-in:
     - match: '\b(enum)\b'
       scope: storage.type.enum.d keyword.declaration.enum.d
-      push:
-        - match: '(?=\b({{basic_type}})\b)'
-          push: type
-        - match: '{{type_qualifier_lookahead}}'
-          push: type
-        - match: '\b({{name}})(?=\s*({|:|=|\(|;|$))\b'
-          scope: entity.name.enum.d
-          set: enum-after
-        - match: ':'
-          scope: punctuation.separator.mapping.d
-          set: [enum-body, type]
-        - match: '(?={)'
-          set: anonymous-enum-body
-        - match: '(?=\S)'
-          push: type
+      push: [meta-enum, enum-after-kw]
+  enum-after-kw:
+    - match: '(?=\b({{basic_type}})\b)'
+      push: type
+    - match: '{{type_qualifier_lookahead}}'
+      push: type
+    - match: '\b({{name}})(?=\s*({|:|=|\(|;|$))\b'
+      scope: entity.name.enum.d
+      set: enum-after
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [enum-body, type]
+    - match: '(?={)'
+      set: anonymous-enum-body
+    - match: '(?=\S)'
+      push: type
   enum-after:
     - include: end-of-line
     - match: '(?={)'
@@ -2160,5 +2164,25 @@ contexts:
 
   meta-class:
     - meta_scope: meta.class.d
+    - match: ''
+      pop: true
+
+  meta-interface:
+    - meta_scope: meta.interface.d
+    - match: ''
+      pop: true
+
+  meta-struct:
+    - meta_scope: meta.struct.d
+    - match: ''
+      pop: true
+
+  meta-union:
+    - meta_scope: meta.union.d
+    - match: ''
+      pop: true
+
+  meta-enum:
+    - meta_scope: meta.enum.d
     - match: ''
       pop: true
