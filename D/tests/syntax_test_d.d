@@ -241,6 +241,7 @@ f = 0xF.AP-2f;
 //       ^ punctuation.definition.annotation.begin.d
 //        ^^^^^ storage.type.d
 //             ^ punctuation.definition.annotation.begin.d
+//              ^^^^^^^^^ meta.function-call.d
 //              ^^^ storage.type.d
 //                 ^ punctuation.section.parens.begin.d
 //                  ^ constant.numeric.integer.d
@@ -375,7 +376,8 @@ extern(1)
 //       ^^^^^ string.quoted.double.d
 //            ^ punctuation.section.parens.end.d
 //             ^ punctuation.accessor.dot.d
-//              ^^^^ variable.other.d
+//              ^^^^^^^^^^^^ meta.function-call.d
+//              ^^^^ variable.function.d
 //                  ^ keyword.operator.d
 //                   ^^^^^^^ variable.other.d
 //                          ^ punctuation.terminator.d
@@ -1243,6 +1245,7 @@ extern(1)
   //            ^ punctuation.terminator.d
     foo(4);
   //^^^^^^^^ meta.function.d meta.block.d
+  //^^^^^^ meta.function-call.d
   //^^^ variable.function.d
   //   ^ punctuation.section.parens.begin.d
   //    ^ constant.numeric.integer.d
@@ -1471,7 +1474,8 @@ extern(1)
 //^ punctuation.section.block.end.d
   mixin Foo!("foo");
 //^^^^^ keyword.control.d
-//      ^^^ variable.other.d
+//      ^^^^^^^^^^^ meta.function-call.d
+//      ^^^ variable.function.d
 //         ^ keyword.operator.d
 //          ^ punctuation.section.parens.begin.d
 //           ^^^^^ string.quoted.double.d
@@ -1592,6 +1596,7 @@ extern(1)
 //                         ^ punctuation.terminator.d
 //                           ^^^ variable.other.d
 //                              ^ punctuation.accessor.dot.d
+//                               ^^^^^^^^^^ meta.function-call.d
 //                               ^^^^^^^^ variable.function.d
 //                                       ^ punctuation.section.parens.begin.d
 //                                        ^ punctuation.section.parens.end.d
@@ -1817,6 +1822,7 @@ extern(1)
 //^ variable.other.d
 //  ^ keyword.operator.assignment.d
 //    ^^^ keyword.operator.word.d
+//        ^^^^^ meta.function-call.d
 //        ^^^ storage.type.d
 //           ^ punctuation.section.parens.begin.d
 //            ^ punctuation.section.parens.end.d
@@ -2130,6 +2136,7 @@ extern(1)
 //      ^ punctuation.definition.annotation.begin.d
 //       ^^^^^^^ storage.attribute.d
 //               ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//                  ^^^^^^ meta.function-call.d
 //                  ^^^ variable.function.d
 //                     ^ punctuation.section.parens.begin.d
 //                      ^ constant.numeric.integer.d
@@ -2208,9 +2215,11 @@ extern(1)
 //              ^ punctuation.section.group.end.d
 //               ^ punctuation.section.brackets.begin.d
 //                ^ punctuation.section.brackets.end.d
-//                  ^^^ entity.name.function.d
+//                  ^^^ meta.function.d entity.name.function.d
+//                     ^^ meta.function.parameters.d
 //                     ^ punctuation.section.group.begin.d
 //                      ^ punctuation.section.group.end.d
+//                        ^^ meta.function.d meta.block.d
 //                        ^ punctuation.section.block.begin.d
 //                         ^ punctuation.section.block.end.d
   (void function(int foo)).sizeof;
@@ -2320,6 +2329,7 @@ extern(1)
   values ~= toValue(__traits(getMember, this, primaryKey));
 //^^^^^^ variable.other.d
 //       ^^ keyword.operator.assignment.d
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
 //          ^^^^^^^ variable.function.d
 //                 ^ punctuation.section.parens.begin.d
 //                  ^^^^^^^^ keyword.other.d
@@ -2361,6 +2371,7 @@ extern(1)
 //     ^^^^^ constant.numeric.integer.d
 //          ^ punctuation.terminator.d
   foo();
+//^^^^^ meta.function-call.d
 //^^^ variable.function.d
 //   ^ punctuation.section.parens.begin.d
 //    ^ punctuation.section.parens.end.d
@@ -2373,7 +2384,8 @@ extern(1)
 
   .AliasSeq!(immutable char, int);
 //^ punctuation.accessor.dot.d
-// ^^^^^^^^ variable.other.d
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+// ^^^^^^^^ variable.function.d
 //         ^ keyword.operator.d
 //          ^ punctuation.section.parens.begin.d
 //           ^^^^^^^^^ storage.modifier.d
@@ -2386,7 +2398,8 @@ extern(1)
   cast(Unqual!T*).foo;
 //^^^^ keyword.operator.word.d
 //    ^ punctuation.section.parens.begin.d
-//     ^^^^^^ storage.type.d
+//     ^^^^^^^^ meta.function-call.d
+//     ^^^^^^ variable.function.d
 //           ^ keyword.operator.d
 //            ^ variable.other.d
 //             ^ keyword.operator.arithmetic.d
@@ -2409,7 +2422,8 @@ extern(1)
 //                                  ^ punctuation.separator.sequence.d
 //                                    ^^^^^ storage.modifier.d
 //                                          ^^^ storage.modifier.d
-//                                              ^^^^^^^^^^ storage.type.d
+//                                              ^^^^^^^^^^^^^^^ meta.function-call.d
+//                                              ^^^^^^^^^^ variable.function.d
 //                                                        ^ keyword.operator.d
 //                                                         ^^^^ storage.type.d
 //                                                              ^^^ variable.parameter.d
@@ -2470,7 +2484,8 @@ extern(1)
 //               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
-//                      ^^^^^^^^ variable.other.d
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+//                      ^^^^^^^^ variable.function.d
 //                              ^ keyword.operator.d
 //                               ^ punctuation.section.parens.begin.d
 //                                ^ variable.other.d
@@ -2488,7 +2503,8 @@ extern(1)
 //               ^ punctuation.section.parens.begin.d
 //                ^^^^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
-//                      ^^^^^^^^ variable.other.d
+//                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
+//                      ^^^^^^^^ variable.function.d
 //                              ^ keyword.operator.d
 //                               ^ punctuation.section.parens.begin.d
 //                                ^ variable.other.d
