@@ -144,7 +144,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.d
           pop: true
-    - match: (///?).*$
+    - match: (///?).*$\n?
       scope: comment.line.double-slash.d
       captures:
         1: punctuation.definition.comment.d
