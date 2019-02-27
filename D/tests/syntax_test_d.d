@@ -1958,7 +1958,7 @@ extern(1)
 //                                    ^^ keyword.operator.arithmetic.d
 //                                      ^ constant.numeric.integer.d
 //                                       ^ punctuation.section.group.end.d
-//                                         ^ keyword.operator.arithmetic.d
+//                                         ^ keyword.operator.concatenation.d
 //                                           ^^^^^ string.quoted.double.d
 //                                                ^ punctuation.terminator.d
 

@@ -1317,8 +1317,11 @@ contexts:
     - match: '(\+|-|/|%|\*|&|\||\^\^|\^|~|<<|>>>|>>)='
       scope: keyword.operator.assignment.d
       set: value
-    - match: '(\+|\-|~|/|%|\^\^)'
+    - match: '(\+|\-|/|%|\^\^)'
       scope: keyword.operator.arithmetic.d
+      set: value
+    - match: '~'
+      scope: keyword.operator.concatenation.d
       set: value
     - match: '(<<|>>>|>>|\||\^|&)'
       scope: keyword.operator.bitwise.d
