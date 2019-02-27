@@ -1100,7 +1100,7 @@ extern(1)
 //                               ^ punctuation.section.block.end.d
   void opEquals(int a) {}
 //^^^^ storage.type.d
-//     ^^^^^^^^ meta.function.d keyword.operator.overload.d
+//     ^^^^^^^^ meta.function.d entity.name.function.operator.d
 //             ^^^^^^^ meta.function.parameters.d
 //             ^ punctuation.section.group.begin.d
 //              ^^^ storage.type.d

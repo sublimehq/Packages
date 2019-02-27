@@ -799,7 +799,7 @@ contexts:
     - match: '\b({{operator_overloads}})\s*(?=\(|$)'
       scope: meta.function.d
       captures:
-        1: keyword.operator.overload.d
+        1: entity.name.function.operator.d
       set: function-definition-begin
     - match: '\b({{name}})\s*(?=\(|$)'
       scope: meta.function.d
