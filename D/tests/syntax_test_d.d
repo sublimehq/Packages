@@ -1187,12 +1187,12 @@ extern(1)
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters.d
 //        ^ punctuation.section.group.begin.d
 //         ^ variable.parameter.d
-//           ^ keyword.operator.assignment.d
+//           ^ keyword.operator.comparison.d
 //             ^^^ storage.type.d
 //                ^ punctuation.separator.sequence.d
 //                  ^^^^^^ storage.type.d
 //                         ^ variable.parameter.d
-//                           ^ keyword.operator.assignment.d
+//                           ^ keyword.operator.comparison.d
 //                             ^^^ string.quoted.double.d
 //                                ^ punctuation.section.group.end.d
 //                                  ^^ meta.function.d meta.block.d
@@ -1259,7 +1259,7 @@ extern(1)
 //                ^^ keyword.other.d
 //                  ^ punctuation.section.parens.begin.d
 //                   ^ storage.type.d
-//                     ^ keyword.operator.logical.d
+//                     ^ keyword.operator.comparison.d
 //                       ^ storage.type.d
 //                        ^ punctuation.section.parens.end.d
 //                         ^ punctuation.section.parens.end.d
@@ -1475,7 +1475,7 @@ extern(1)
 //                    ^^ keyword.other.d
 //                      ^ punctuation.section.parens.begin.d
 //                       ^ storage.type.d
-//                         ^ keyword.operator.logical.d
+//                         ^ keyword.operator.comparison.d
 //                           ^^^^^ storage.type.d
 //                                ^ punctuation.section.parens.end.d
 //                                 ^ punctuation.section.parens.end.d
@@ -1973,9 +1973,9 @@ extern(1)
 //     ^ variable.other.d
 //       ^ keyword.operator.assignment.d
 //         ^^^ meta.path.d variable.other.d
-//             ^ keyword.operator.logical.d
+//             ^ keyword.operator.ternary.d
 //               ^^ constant.numeric.integer.d
-//                  ^ keyword.operator.logical.d
+//                  ^ keyword.operator.ternary.d
 //                    ^^ constant.numeric.integer.d
 //                      ^ punctuation.terminator.d
 
@@ -2066,7 +2066,7 @@ extern(1)
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ storage.type.d
 //       ^ variable.parameter.d
-//         ^^ keyword.operator.logical.d
+//         ^^ keyword.operator.comparison.d
 //            ^^^^^ storage.type.d
 //                 ^ punctuation.separator.sequence.d
 //                   ^ variable.parameter.d
@@ -2079,7 +2079,7 @@ extern(1)
 //^^ keyword.other.d
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ storage.type.d
-//       ^ keyword.operator.logical.d
+//       ^ keyword.operator.comparison.d
 //         ^^^ storage.type.d
 //            ^ punctuation.section.parens.end.d
 //             ^ punctuation.terminator.d
@@ -2092,7 +2092,7 @@ extern(1)
 //^^ keyword.other.d
 //  ^ punctuation.section.parens.begin.d
 //   ^ meta.path.d storage.type.d
-//     ^ keyword.operator.logical.d
+//     ^ keyword.operator.comparison.d
 //       ^^^^^^^^^ storage.modifier.d
 //                ^ punctuation.section.parens.end.d
 //                 ^ punctuation.terminator.d
@@ -2101,7 +2101,7 @@ extern(1)
 //  ^ punctuation.section.parens.begin.d
 //   ^^^^^^^^^ storage.modifier.d
 //             ^^^^^ meta.path.d storage.type.d
-//                   ^^ keyword.operator.logical.d
+//                   ^^ keyword.operator.comparison.d
 //                      ^^^^^^^^^ storage.modifier.d
 //                                ^ meta.path.d storage.type.d
 //                                 ^ punctuation.section.brackets.begin.d
@@ -2112,7 +2112,7 @@ extern(1)
 //^^ keyword.other.d
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ meta.path.d storage.type.d
-//       ^ keyword.operator.logical.d
+//       ^ keyword.operator.comparison.d
 //         ^^^^^ variable.language.d
 //              ^ punctuation.section.parens.end.d
 //               ^ punctuation.terminator.d
@@ -2120,7 +2120,7 @@ extern(1)
 //^^ keyword.other.d
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ meta.path.d storage.type.d
-//       ^ keyword.operator.logical.d
+//       ^ keyword.operator.comparison.d
 //         ^^^^^^ keyword.control.flow.d
 //               ^ punctuation.section.parens.end.d
 //                ^ punctuation.terminator.d
@@ -2128,7 +2128,7 @@ extern(1)
 //^^ keyword.other.d
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ meta.path.d storage.type.d
-//       ^ keyword.operator.logical.d
+//       ^ keyword.operator.comparison.d
 //         ^^^^^ storage.type.d keyword.declaration.d
 //              ^ punctuation.section.parens.end.d
 //               ^ punctuation.terminator.d
