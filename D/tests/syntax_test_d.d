@@ -1856,7 +1856,7 @@ extern(1)
 //  ^ keyword.operator.assignment.d
 //    ^^^ keyword.operator.word.d
 //        ^^^^^ meta.function-call.d
-//        ^^^ storage.type.d
+//        ^^^ variable.function.d
 //           ^ punctuation.section.parens.begin.d
 //            ^ punctuation.section.parens.end.d
 //             ^ punctuation.terminator.d

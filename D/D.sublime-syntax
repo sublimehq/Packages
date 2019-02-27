@@ -11,6 +11,7 @@ scope: source.d
 variables:
   name: '[[:alpha:]_][[:alpha:]0-9_]*'
   name_lookahead: '(?=\b{{name}}\b)'
+  identifier_ref: '\.?\s*{{name}}(\s*\.\s*{{name}})*'
   string_postfix: '[cwd]?'
   escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
   hex_char: '[0-9a-fA-F]'
@@ -1172,6 +1173,8 @@ contexts:
     - match: '\bclass\b'
       scope: meta.class.d storage.type.class.d keyword.declaration.class.d
       set: [meta-class, new-class]
+    - match: (?={{identifier_ref}}\s*\()
+      set: [new-after-named, new-type-identifier-ref]
     - match: (?=\S)
       set: [new-after-named, type]
     - include: not-whitespace-illegal
@@ -2126,6 +2129,26 @@ contexts:
       set: type-identifier
     - match: '(?=\S)'
       set: type-identifier
+
+  new-type-identifier:
+    - match: '\b{{name}}(?=\s*\()'
+      scope: meta.function-call.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b'
+      scope: meta.path.d storage.type.d
+      set:
+        - match: \.
+          scope: meta.path.d punctuation.accessor.dot.d
+          set: new-type-identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  new-type-identifier-ref:
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: new-type-identifier
+    - match: '(?=\S)'
+      set: new-type-identifier
 
   not-whitespace-illegal:
     - match: '\S'
