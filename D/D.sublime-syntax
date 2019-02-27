@@ -1340,7 +1340,7 @@ contexts:
         - match: '(?=\S)'
           set: value
     - match: '\?'
-      scope: keyword.operator.logical.d
+      scope: keyword.operator.ternary.d
       set: [value-condition-after, value]
     - match: '(?=function|delegate)'
       set: [value-after, basic-type2]
@@ -1367,7 +1367,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   value-condition-after:
     - match: ':'
-      scope: keyword.operator.logical.d
+      scope: keyword.operator.ternary.d
       set: value
     - include: not-whitespace-illegal
   value-parens-after:
