@@ -1352,21 +1352,21 @@ contexts:
   value-template-single:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
-      set: value-after
+      pop: true
     - match: '{{number_lookahead}}'
-      set: [value-after, number]
+      set: number
     - match: '{{character_lookahead}}'
-      set: [value-after, character]
+      set: character
     - match: '{{string_lookahead}}'
-      set: [value-after, string]
+      set: string
     - match: '\b({{language_constant}})\b'
       scope: constant.language.d
-      set: value-after
+      pop: true
     - match: '\b({{language_variable}})\b'
       scope: variable.language.d
-      set: value-after
+      pop: true
     - match: '{{name_lookahead}}|\.'
-      set: [value-after, identifier-ref]
+      set: identifier-ref
     - include: not-whitespace-illegal-pop
   value-condition-after:
     - match: ':'
