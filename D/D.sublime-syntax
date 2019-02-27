@@ -2006,7 +2006,7 @@ contexts:
   switch-after:
     - match: '\)'
       scope: punctuation.section.parens.end.d
-      set: block-statement
+      set: optional-block-statement
     - include: not-whitespace-illegal-pop
   case-after:
     - match: ':'

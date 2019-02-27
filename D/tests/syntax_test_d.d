@@ -2554,3 +2554,16 @@ extern(1)
 //                                                        ^ punctuation.section.parens.end.d
 //                                                          ^ punctuation.section.block.begin.d
 //                                                           ^ punctuation.section.block.end.d
+
+  switch (foo) with (bar) {}
+//^^^^^^ keyword.control.flow.d
+//       ^ punctuation.section.parens.begin.d
+//        ^^^ meta.path.d variable.other.d
+//           ^ punctuation.section.parens.end.d
+//             ^^^^ keyword.other.with.d
+//                  ^ punctuation.section.parens.begin.d
+//                   ^^^ meta.path.d variable.other.d
+//                      ^ punctuation.section.parens.end.d
+//                        ^^ meta.block.d
+//                        ^ punctuation.section.block.begin.d
+//                         ^ punctuation.section.block.end.d
