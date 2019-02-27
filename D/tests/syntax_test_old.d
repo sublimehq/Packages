@@ -53,10 +53,10 @@ template testTemplate(X)
 }
 
 @safe pure nothrow @nogc unittest {}
-// ^ storage.attribute
+// ^ storage.modifier
 //     ^ storage.modifier
 //            ^ storage.modifier
-//                  ^ storage.attribute
+//                  ^ storage.modifier
 
 auto takeByRef(ref int h)
 // ^ storage.modifier

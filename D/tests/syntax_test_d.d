@@ -249,8 +249,7 @@ f = 0xF.AP-2f;
 //                  ^ constant.numeric.integer.d
 //                     ^ constant.numeric.integer.d
 //                      ^ punctuation.section.parens.end.d
-//                       ^ punctuation.definition.annotation.begin.d
-//                        ^^^^^^^^ storage.attribute.d
+//                       ^^^^^^^^^ storage.modifier.d
   static shared const immutable final __gshared nothrow pure ref
 //^^^^^^ storage.modifier.d
 //       ^^^^^^ storage.modifier.d
@@ -1137,8 +1136,7 @@ extern(1)
 //             ^ punctuation.section.block.begin.d
 //              ^ punctuation.section.block.end.d
   @property foo() {}
-//^ punctuation.definition.annotation.begin.d
-// ^^^^^^^^ storage.attribute.d
+//^^^^^^^^^ storage.modifier.d
 //          ^^^ meta.function.d entity.name.function.d
 //             ^^ meta.function.parameters.d
 //             ^ punctuation.section.group.begin.d
@@ -1207,8 +1205,7 @@ extern(1)
 //           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.d
 //           ^^^^^ storage.modifier.d
 //                 ^^^^^ storage.modifier.d
-//                       ^ punctuation.definition.annotation.begin.d
-//                        ^^^^^^^^ storage.attribute.d
+//                       ^^^^^^^^^ storage.modifier.d
 //                                 ^ punctuation.section.block.begin.d
 //                                  ^ punctuation.section.block.end.d
   void f()
@@ -1339,8 +1336,7 @@ extern(1)
 //     ^ punctuation.section.group.begin.d
 //      ^ punctuation.section.group.end.d
 //        ^^^^^^^^^ meta.function.d
-//        ^ punctuation.definition.annotation.begin.d
-//         ^^^^^^^ storage.attribute.d
+//        ^^^^^^^^ storage.modifier.d
 //                ^ punctuation.terminator.d
   this(this) {}
 //^^^^ meta.function.d entity.name.function.post-blit.d
@@ -1482,8 +1478,7 @@ extern(1)
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
   @property foo(T) = {
-//^ punctuation.definition.annotation.begin.d
-// ^^^^^^^^ storage.attribute.d
+//^^^^^^^^^ storage.modifier.d
 //          ^^^ entity.name.function.d
 //             ^ punctuation.section.group.begin.d
 //              ^ variable.parameter.d
@@ -1829,8 +1824,7 @@ extern(1)
   asm nothrow @safe {}
 //^^^ keyword.declaration.asm.d
 //    ^^^^^^^ storage.modifier.d
-//            ^ punctuation.definition.annotation.begin.d
-//             ^^^^ storage.attribute.d
+//            ^^^^^ storage.modifier.d
 //                  ^ punctuation.section.block.begin.d
 //                   ^ punctuation.section.block.end.d
 
@@ -2160,8 +2154,7 @@ extern(1)
 //^ punctuation.section.parens.begin.d
 // ^ punctuation.section.parens.end.d
 //   ^^^^^^^^^^^^^ meta.function.d
-//   ^ punctuation.definition.annotation.begin.d
-//    ^^^^^^^ storage.attribute.d
+//   ^^^^^^^^ storage.modifier.d
 //            ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //               ^ constant.numeric.integer.d
 //                ^ punctuation.terminator.d
@@ -2178,8 +2171,7 @@ extern(1)
 // ^^^ variable.other.d
 //    ^ punctuation.section.group.end.d
 //      ^^^^^^^^^^^^^^^^^^ meta.function.d
-//      ^ punctuation.definition.annotation.begin.d
-//       ^^^^^^^ storage.attribute.d
+//      ^^^^^^^^ storage.modifier.d
 //               ^^ storage.type.function.d keyword.declaration.function.lambda.d
 //                  ^^^^^^ meta.function-call.d
 //                  ^^^ variable.function.d
@@ -2195,8 +2187,7 @@ extern(1)
 //         ^^^ variable.parameter.d
 //            ^ punctuation.section.group.end.d
 //              ^^^^^^^^ meta.function.d
-//              ^ punctuation.definition.annotation.begin.d
-//               ^^^^ storage.attribute.d
+//              ^^^^^ storage.modifier.d
 //                    ^^ meta.block.d
 //                    ^ punctuation.section.block.begin.d
 //                     ^ punctuation.section.block.end.d
@@ -2218,8 +2209,7 @@ extern(1)
 //        ^ punctuation.section.group.end.d
 //          ^^^^^^^^^^^^^ meta.function.d
 //          ^^^^ storage.modifier.d
-//               ^ punctuation.definition.annotation.begin.d
-//                ^^^^ storage.attribute.d
+//               ^^^^^ storage.modifier.d
 //                     ^^ meta.block.d
 //                     ^ punctuation.section.block.begin.d
 //                      ^ punctuation.section.block.end.d
@@ -2337,8 +2327,7 @@ extern(1)
 //                       ^ variable.parameter.d
 //                        ^ punctuation.section.group.end.d
 //                          ^^^^^^^^^^^ meta.function.d
-//                          ^ punctuation.definition.annotation.begin.d
-//                           ^^^^^^^ storage.attribute.d
+//                          ^^^^^^^^ storage.modifier.d
 //                                   ^ punctuation.section.block.begin.d
 //                                    ^ punctuation.section.block.end.d
 //                                     ^ punctuation.terminator.d

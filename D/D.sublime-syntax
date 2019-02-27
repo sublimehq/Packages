@@ -519,7 +519,10 @@ contexts:
     - match: '\b({{attributes}})\b'
       scope: storage.modifier.d
       pop: true
-    - match: '(@)'
+    - match: '@(?=\s*({{at_attributes}})\b)'
+      scope: storage.modifier.d
+      set: at-attribute
+    - match: '@'
       scope: punctuation.definition.annotation.begin.d
       set: at-attribute
     - match: '\b(extern)\s*(\()'
@@ -569,7 +572,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   at-attribute:
     - match: '({{at_attributes}})\b'
-      scope: storage.attribute.d
+      scope: storage.modifier.d
       pop: true
     - match: '\('
       scope: punctuation.section.parens.begin.d
