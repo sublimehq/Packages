@@ -1333,7 +1333,7 @@ contexts:
       scope: keyword.operator.assignment.d
       set: value
     - match: '!'
-      scope: meta.function-call.d keyword.operator.d
+      scope: meta.function-call.d punctuation.section.generic.begin.d
       set:
         - match: '\('
           scope: punctuation.section.parens.begin.d

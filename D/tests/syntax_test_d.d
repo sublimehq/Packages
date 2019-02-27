@@ -382,7 +382,7 @@ extern(1)
 //             ^ punctuation.accessor.dot.d
 //              ^^^^^^^^^^^^ meta.function-call.d
 //              ^^^^ meta.path.d variable.function.d
-//                  ^ keyword.operator.d
+//                  ^ punctuation.section.generic.begin.d
 //                   ^^^^^^^ meta.path.d variable.other.d
 //                          ^ punctuation.terminator.d
 
@@ -405,7 +405,7 @@ extern(1)
 //                               ^^^ entity.name.type.d
 //                                   ^ keyword.operator.assignment.d
 //                                     ^^^^ storage.type.d
-//                                         ^ keyword.operator.d
+//                                         ^ punctuation.section.generic.begin.d
 //                                          ^^^ storage.type.d
 //                                             ^ punctuation.terminator.d
   alias int a;
@@ -1510,7 +1510,7 @@ extern(1)
 //^^^^^ keyword.control.d
 //      ^^^^^^^^^^^ meta.function-call.d
 //      ^^^ variable.function.d
-//         ^ keyword.operator.d
+//         ^ punctuation.section.generic.begin.d
 //          ^ punctuation.section.parens.begin.d
 //           ^^^^^ string.quoted.double.d
 //                ^ punctuation.section.parens.end.d
@@ -2421,7 +2421,7 @@ extern(1)
 //^ punctuation.accessor.dot.d
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
 // ^^^^^^^^ variable.function.d
-//         ^ keyword.operator.d
+//         ^ punctuation.section.generic.begin.d
 //          ^ punctuation.section.parens.begin.d
 //           ^^^^^^^^^ storage.modifier.d
 //                     ^^^^ storage.type.d
@@ -2522,7 +2522,7 @@ extern(1)
 //                    ^ punctuation.separator.sequence.d
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
 //                      ^^^^^^^^ meta.path.d variable.function.d
-//                              ^ keyword.operator.d
+//                              ^ punctuation.section.generic.begin.d
 //                               ^ punctuation.section.parens.begin.d
 //                                ^ meta.path.d variable.other.d
 //                                 ^ punctuation.separator.sequence.d
@@ -2541,7 +2541,7 @@ extern(1)
 //                    ^ punctuation.separator.sequence.d
 //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.d
 //                      ^^^^^^^^ meta.path.d variable.function.d
-//                              ^ keyword.operator.d
+//                              ^ punctuation.section.generic.begin.d
 //                               ^ punctuation.section.parens.begin.d
 //                                ^ meta.path.d variable.other.d
 //                                 ^ punctuation.separator.sequence.d
