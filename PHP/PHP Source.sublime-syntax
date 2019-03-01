@@ -623,28 +623,28 @@ contexts:
         - include: expressions
 
   function-use:
-      - meta_content_scope: meta.function.closure.use.php
-      - include: comments
-      - match: '\)'
-        scope: punctuation.section.group.end.php
-        set:
-          - meta_content_scope: meta.function.php
-          - match: '(?=:)'
-            set: function-return-type
-          - match: \{
-            scope: meta.block.php punctuation.section.block.begin.php
-            set: function-body
-          # Exit on unexpected content
-          - match: (?=\S)
-            pop: true
-      - match: '&'
-        scope: storage.modifier.reference.php
-      - match: '(\$+){{identifier}}'
-        scope: variable.parameter.php
-        captures:
-          1: punctuation.definition.variable.php
-      - match: ','
-        scope: punctuation.separator.php
+    - meta_content_scope: meta.function.closure.use.php
+    - include: comments
+    - match: '\)'
+      scope: punctuation.section.group.end.php
+      set:
+        - meta_content_scope: meta.function.php
+        - match: '(?=:)'
+          set: function-return-type
+        - match: \{
+          scope: meta.block.php punctuation.section.block.begin.php
+          set: function-body
+        # Exit on unexpected content
+        - match: (?=\S)
+          pop: true
+    - match: '&'
+      scope: storage.modifier.reference.php
+    - match: '(\$+){{identifier}}'
+      scope: variable.parameter.php
+      captures:
+        1: punctuation.definition.variable.php
+    - match: ','
+      scope: punctuation.separator.php
 
   function-return-type:
     - meta_content_scope: meta.function.return-type.php
