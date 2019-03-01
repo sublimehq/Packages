@@ -26,7 +26,7 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
-  definitely_value_lookahead: '(?=(!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b))'
+  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
   definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
@@ -958,13 +958,6 @@ contexts:
       push: [function-or-variable-after-type, type]
     - match: '(?=\S)'
       push: [maybe-end-of-line, first-value]
-  value-or-declaration:
-    - match: '{{definitely_value_lookahead}}'
-      set: value-list
-    - match: '{{definitely_declaration_lookahead}}'
-      set: [function-or-variable-after-type, type]
-    - match: '(?=\S)'
-      set: first-value
 
   # The first value in an expression ending with a * is always a function/variable definition, otherwise it could be either
   # We highlight as if it were a value, but switch to a definition if it turns out to be one
@@ -998,7 +991,7 @@ contexts:
           scope: punctuation.section.parens.begin.d
           set: [first-value-call-after, value-list]
         - match: '(?=\S)'
-          set: first-value
+          set: [first-value-after, meta-function-call, value-template-single]
     - match: '\['
       scope: punctuation.section.brackets.begin.d
       set: [first-value-bracket-after, value-list]
