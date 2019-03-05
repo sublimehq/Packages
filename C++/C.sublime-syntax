@@ -402,6 +402,7 @@ contexts:
       pop: true
 
   global-maybe-function:
+    - meta_scope: debug.global-maybe-function
     - include: comments
     # Consume pointer info, macros and any type info that was offset by macros
     - match: \*
@@ -494,6 +495,7 @@ contexts:
         - include: statements
 
   data-structures:
+    - meta_scope: debug.data-structures
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}(?:\s+{{identifier}})*(?:\s*\*\s*|\s)+{{identifier}}\s*[,=;\[])'
       scope: storage.type.c
@@ -585,6 +587,38 @@ contexts:
       scope: punctuation.separator debug.variable-identifier-list
     - include: or_pop
 
+  struct-keyword-typedef:
+    - match: '\bstruct\b'
+      scope: storage.type.c
+      push:
+        - meta_scope: meta.struct.c debug.struct-keyword-typedef
+        - match: \*
+          scope: storage.modifier.c
+        - match: '(?={{identifier}}\s*;)'
+          pop: true
+          comment: Let the typedef scope handle the entity
+        - match: '{{identifier}}(?=\s*{|\s*\n)'
+          scope: entity.name.struct.c
+          comment: Struct definition
+          set: struct-body-typedef
+        - match: '(?={)'
+          comment: Anonymous struct definition
+          set: struct-body-typedef
+        - match: '{{identifier}}'
+          scope: support.type.c
+        - include: or_pop
+  struct-body-typedef:
+    - match: '\{'
+      scope: punctuation.section.block.begin.c
+      push:
+        - meta_scope: meta.struct.c meta.block.c debug.struct-body-typedef
+        - match: '\}'
+          scope: punctuation.section.block.end.c
+          comment: Let the typedef handle the entity
+          pop: true
+        - include: data-structures-body
+    - include: or_pop
+
   struct-keyword-parameter:
     - match: '\bstruct\b'
       scope: storage.type.c
@@ -610,24 +644,24 @@ contexts:
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.struct.c
           comment: Struct definition
-          set: struct-body
+          set: struct-body-global
         - match: '(?={)'
           comment: Anonymous struct definition
-          set: struct-body
+          set: struct-body-global
         - match: '{{identifier}}'
           scope: support.type.c debug.data-structures-struct-definition
           comment: Type for variable declaration
           set: variable-identifier-list
         - include: or_pop
-  struct-body:
+  struct-body-global:
     - match: '\{'
       scope: punctuation.section.block.begin.c
       push:
-        - meta_scope: meta.struct.c meta.block.c debug.struct-body
+        - meta_scope: meta.struct.c meta.block.c debug.struct-body-global
         - match: '\}'
           scope: punctuation.section.block.end.c
           set:
-            - meta_scope: debug.struct-body.struct-end
+            - meta_scope: debug.struct-body-global.struct-end
             - match: '\n'
               comment: >
                 Struct body declarations should normally have an identifier
@@ -638,7 +672,6 @@ contexts:
               pop: true
             - include: variable-identifier-list
             - include: or_pop
-        - include: struct-keyword
         - include: data-structures-body
     - include: or_pop
 
@@ -836,13 +869,46 @@ contexts:
     - match: \btypedef\b
       scope: storage.type.c
       push:
-        - match: ({{identifier}})?\s*(?=;)
+        - meta_scope: debug.typedef
+        - match: ({{identifier}})(?=\s*;)
           captures:
             1: entity.name.type.typedef.c
           pop: true
-        - match: \b(struct)\s+({{identifier}})
-          captures:
-            1: storage.type.c
+        - match: '{{identifier}}(?=\s*\[)'
+          scope: entity.name.type.typedef.c debug.typedef.array
+          push:
+            - match: \[
+              scope: punctuation.section.brackets.begin.c storage.modifier.c
+              push:
+                - meta_scope: meta.brackets.c
+                - match: \]
+                  scope: punctuation.section.brackets.end.c storage.modifier.c
+                  pop: true
+                - include: expressions
+                # Expressions doesn't handle macro identifiers or enum constants
+                - match: '{{macro_identifier}}'
+                  scope: support.constant.c
+            - include: or_pop
+        - include: struct-keyword-typedef
+        - match: '\((?=\s*\*)'
+          scope: punctuation.section.group.begin debug.typedef.function-pointer
+          comment: Function pointers
+          set:
+            - meta_scope: meta.parens
+            - match: \)
+              scope: punctuation.section.parens.end
+              set:
+                - include: function-definition-params-group
+                - include: or_pop
+            - match: \*
+              scope: storage.modifier.c
+            - match: '{{identifier}}'
+              scope: entity.name.type.c debug.typedef.function-pointer
+            - include: or_pop
+        - match: \;
+          scope: punctuation.terminator.c
+          comment: Don't let expressions gobble up the ;
+          pop: true
         - include: expressions
 
   function-call:

@@ -259,7 +259,7 @@ typedef int myint;
 
 typedef struct mystruct {
 /* <- storage.type */
-/*             ^ - entity */
+/*             ^ entity.name.struct.c */
 } mystruct;
 /* ^ entity.name.type */
 
@@ -351,10 +351,105 @@ struct {
 /*                                                             ^ punctuation.terminator.c */
 
 static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
+/*<- storage.modifier.c */
+/*     ^^^^^^ storage.modifier.c */
+/*                ^^^^^^^^^^^^ entity.name.function.c */
+/*                            ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
+/*                             ^^^^^ storage.modifier.c */
+/*                                   ^^^^^^ storage.type.c */
+/*                                          ^^^^^^^^ support.type.c */
+/*                                                   ^ storage.modifier.c */
+/*                                                    ^^^^ variable.parameter.c */
+/*                                                        ^ punctuation.separator.c */
     __le64 __iomem *regs);
+/*  ^^^^^^ support.type.c */
+/*         ^^^^^^^ support.type.c */
+/*                 ^ storage.modifier.c */
+/*                  ^^^^ variable.parameter.c */
+/*                      ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+/*                       ^ punctuation.terminator.c */
 
-typedef void (*xhci_get_quirks_t)(struct device *, struct xhci_hcd *);
-// TODO
+typedef void (*xhci_get_quirks_t)(struct device *d, struct xhci_hcd *);
+/*<- storage.type.c */
+/*      ^^^^ storage.type.c */
+/*            ^ storage.modifier.c */
+/*             ^^^^^^^^^^^^^^^^^ entity.name.type.c */
+/*                                ^^^^^^ storage.type.c */
+/*                                       ^^^^^^ support.type.c */
+/*                                              ^ storage.modifier.c */
+/*                                               ^ variable.parameter.c */
+/*                                                ^ punctuation.separator */
+/*                                                  ^^^^^^ storage.type.c */
+/*                                                         ^^^^^^^^ support.type.c */
+/*                                                                  ^ storage.modifier.c */
+
+typedef struct Node* (*get_node_t)(struct device *d, struct xhci_hcd *);
+/*<- storage.type.c */
+/*      ^^^^^^ storage.type.c */
+/*             ^^^^ support.type.c */
+/*                 ^ storage.modifier.c */
+/*                    ^ storage.modifier.c */
+/*                     ^^^^^^^^^^ entity.name.type.c */
+/*                                 ^^^^^^ storage.type.c */
+/*                                        ^^^^^^ support.type.c */
+/*                                               ^ storage.modifier.c */
+/*                                                ^ variable.parameter.c */
+/*                                                 ^ punctuation.separator */
+/*                                                   ^^^^^^ storage.type.c */
+/*                                                          ^^^^^^^^ support.type.c */
+/*                                                                   ^ storage.modifier.c */
+
+
+typedef struct Node Node;
+/*<- storage.type.c */
+/*      ^^^^^^storage.type.c */
+/*             ^^^^ support.type.c */
+/*                  ^^^^ entity.name.type.typedef.c */
+typedef struct Node* NodePtr;
+/*<- storage.type.c */
+/*      ^^^^^^storage.type.c */
+/*             ^^^^ support.type.c */
+/*                 ^ storage.modifier.c */
+/*                   ^^^^^^^ entity.name.type.typedef.c */
+
+typedef struct {
+/*<- storage.type.c */
+/*      ^^^^^^storage.type.c */
+/*             ^ meta.struct.c punctuation.section.block.begin.c */
+    int data1;
+/*  ^^^ storage.type.c */
+/*      ^^^^^ variable.other.c */
+} newtype;
+/* <- meta.struct.c punctuation.section.block.end.c */
+/*^^^^^^^ entity.name.type.typedef.c */
+
+typedef struct MyStruct {
+/*<- storage.type.c */
+/*      ^^^^^^storage.type.c */
+/*             ^^^^^^^^ entity.name.struct.c */
+/*                      ^ meta.struct.c punctuation.section.block.begin.c */
+    int data1;
+/*  ^^^ storage.type.c */
+/*      ^^^^^ variable.other.c */
+} newtype;
+/* <- meta.struct.c punctuation.section.block.end.c */
+/*^^^^^^^ entity.name.type.typedef.c */
+
+typedef char arrType[6];
+/*<- storage.type.c */
+/*      ^^^^ storage.type.c */
+/*           ^^^^^^^ entity.name.type */
+/*                  ^ storage.modifier */
+/*                   ^ constant.numeric.c */
+/*                    ^ storage.modifier */
+
+typedef char arrType[NUMBER_OF_ELEMENTS];
+/*<- storage.type.c */
+/*      ^^^^ storage.type.c */
+/*           ^^^^^^^ entity.name.type */
+/*                  ^ storage.modifier */
+/*                   ^^^^^^^^^^^^^^^^^^ support.constant.c */
+/*                                     ^ storage.modifier */
 
 int main(void)
 {
