@@ -2567,3 +2567,11 @@ extern(1)
 //                        ^^ meta.block.d
 //                        ^ punctuation.section.block.begin.d
 //                         ^ punctuation.section.block.end.d
+
+  Foo!2 foo;
+//^^^^^ meta.function-call.d
+//^^^ meta.path.d variable.function.d
+//   ^ keyword.operator.d
+//    ^ constant.numeric.integer.d
+//      ^^^ variable.other.d
+//         ^ punctuation.terminator.d
