@@ -2622,3 +2622,10 @@ extern(1)
 //   ^ punctuation.section.group.begin.d
 //    ^ punctuation.section.group.end.d
 //     ^ meta.function.d punctuation.terminator.d
+
+  }
+//^ invalid.illegal.d
+  )
+//^ invalid.illegal.d
+  ]
+//^ invalid.illegal.d

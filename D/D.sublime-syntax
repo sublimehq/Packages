@@ -110,6 +110,7 @@ contexts:
     - include: attribute-specifier-in
     - include: statement-label-in
     - include: end-of-line-in
+    - include: check-brackets-in
     - include: value-or-declaration-in
 
   block-statement-in:
@@ -2177,6 +2178,10 @@ contexts:
     - include: end-of-line
     - match: '(?=\S)'
       pop: true
+
+  check-brackets-in:
+    - match: '[\}\]\)]'
+      scope: invalid.illegal.d
 
   meta-function:
     - meta_scope: meta.function.d
