@@ -110,6 +110,7 @@ contexts:
     - include: attribute-specifier-in
     - include: statement-label-in
     - include: end-of-line-in
+    - include: check-brackets-in
     - include: value-or-declaration-in
 
   block-statement-in:
@@ -998,7 +999,10 @@ contexts:
     - match: ','
       scope: punctuation.separator.sequence.d
       set: value-list
-    - match: '(?=\*(?!=)(?!{{name}}\s*[^,=\(]))'
+    # Attempt to match pointers
+    - match: '(?=\*\s*([\*\[]|$))'
+      set: [function-or-variable-after-type, basic-type2]
+    - match: '(?=\*\s*{{name}}\s*[=;\(])'
       set: [function-or-variable-after-type, basic-type2]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-list-after, value]
@@ -1333,14 +1337,12 @@ contexts:
           set: [value-call-parens-after, value-list]
         - match: '(?=\S)'
           set: [value-after, meta-function-call, value-template-single]
-    # This can also be a pointer in some situations
+    - match: \*(?=\s*[\),;\]\*])
+      scope: keyword.operator.pointer.d
+      set: value-maybe-pointer-after
     - match: \*
       scope: keyword.operator.arithmetic.d
-      set:
-        - match: '(?=\)|,|;)'
-          pop: true
-        - match: '(?=\S)'
-          set: value
+      set: value-maybe-pointer-after
     - match: '\?'
       scope: keyword.operator.ternary.d
       set: [value-condition-after, value]
@@ -1367,6 +1369,14 @@ contexts:
     - match: '{{name_lookahead}}|\.'
       set: identifier-ref
     - include: not-whitespace-illegal-pop
+  value-maybe-pointer-after:
+    # This can also be a pointer in some situations
+    - match: '(?=[\),;\]])'
+      pop: true
+    - match: '(?=\*)'
+      set: basic-type2
+    - match: '(?=\S)'
+      set: value
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d
@@ -2168,6 +2178,10 @@ contexts:
     - include: end-of-line
     - match: '(?=\S)'
       pop: true
+
+  check-brackets-in:
+    - match: '[\}\]\)]'
+      scope: invalid.illegal.d
 
   meta-function:
     - meta_scope: meta.function.d

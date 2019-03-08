@@ -449,7 +449,7 @@ extern(1)
 //         ^ punctuation.section.group.end.d
 //           ^ keyword.operator.assignment.d
 //             ^^^ meta.path.d variable.other.d
-//                ^ keyword.operator.arithmetic.d
+//                ^ keyword.operator.pointer.d
 //                 ^ punctuation.terminator.d
   alias rSave = a => a;
 //^^^^^ keyword.control.alias.d
@@ -2437,7 +2437,7 @@ extern(1)
 //     ^^^^^^ meta.path.d variable.function.d
 //           ^ keyword.operator.d
 //            ^ meta.path.d variable.other.d
-//             ^ keyword.operator.arithmetic.d
+//             ^ keyword.operator.pointer.d
 //              ^ punctuation.section.parens.end.d
 //               ^^^^ meta.path.d
 //               ^ punctuation.accessor.dot.d
@@ -2575,3 +2575,57 @@ extern(1)
 //    ^ constant.numeric.integer.d
 //      ^^^ variable.other.d
 //         ^ punctuation.terminator.d
+
+  void[int**]* foo;
+//^^^^ storage.type.d
+//    ^ punctuation.section.brackets.begin.d
+//     ^^^ storage.type.d
+//        ^^ keyword.operator.pointer.d
+//          ^ punctuation.section.brackets.end.d
+//           ^ keyword.operator.pointer.d
+//             ^^^ variable.other.d
+//                ^ punctuation.terminator.d
+  a * 2;
+//^ meta.path.d variable.other.d
+//  ^ keyword.operator.arithmetic.d
+//    ^ constant.numeric.integer.d
+//     ^ punctuation.terminator.d
+  void* foo() {}
+//^^^^ storage.type.d
+//    ^ keyword.operator.pointer.d
+//      ^^^ meta.function.d entity.name.function.d
+//         ^^ meta.function.parameters.d
+//         ^ punctuation.section.group.begin.d
+//          ^ punctuation.section.group.end.d
+//            ^^ meta.function.d meta.block.d
+//            ^ punctuation.section.block.begin.d
+//             ^ punctuation.section.block.end.d
+  a[b] * c;
+//^ meta.path.d variable.other.d
+// ^ punctuation.section.brackets.begin.d
+//  ^ meta.path.d variable.other.d
+//   ^ punctuation.section.brackets.end.d
+//     ^ keyword.operator.pointer.d
+//       ^ variable.other.d
+//        ^ punctuation.terminator.d
+  a **2;
+//^ meta.path.d variable.other.d
+//  ^^ keyword.operator.pointer.d
+//    ^ invalid.illegal.d
+//     ^ punctuation.terminator.d
+  void*
+//^^^^ storage.type.d
+//    ^ keyword.operator.pointer.d
+  foo();
+//^^^ meta.function.d entity.name.function.d
+//   ^^ meta.function.parameters.d
+//   ^ punctuation.section.group.begin.d
+//    ^ punctuation.section.group.end.d
+//     ^ meta.function.d punctuation.terminator.d
+
+  }
+//^ invalid.illegal.d
+  )
+//^ invalid.illegal.d
+  ]
+//^ invalid.illegal.d
