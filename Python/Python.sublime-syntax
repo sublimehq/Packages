@@ -1003,7 +1003,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.mapping.python
           set: inside-dictionary
-    - match: (?=for)
+    - match: (?=for\b)
       push:
         - match: (?=\})
           pop: true
