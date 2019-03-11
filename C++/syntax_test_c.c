@@ -255,119 +255,66 @@ if (4) {
 
 typedef int myint;
 /* <- storage.type */
+/*      ^^^ storage.type.c */
 /*          ^ entity.name.type */
+/*               ^ punctuation.terminator.c */
+
+typedef unsigned long long ull_t,
+/* <- storage.type */
+/*      ^^^^^^^^ storage.type.c */
+/*               ^^^^ storage.type.c */
+/*                    ^^^^ storage.type.c */
+/*                         ^^^^^ entity.name.type.typedef.c */
+/*                              ^ punctuation.separator.c */
+                           ull2_t,
+/*                         ^^^^^^ entity.name.type.typedef.c */
+/*                               ^ punctuation.separator.c */
+                           *ullp_t;
+/*                         ^ storage.modifier.c */
+/*                          ^^^^^^ entity.name.type.typedef.c */
+/*                                ^ punctuation.terminator.c */
 
 typedef struct mystruct {
 /* <- storage.type */
+/*      ^^^^^^ storage.type.c */
 /*             ^ entity.name.struct.c */
-} mystruct;
-/* ^ entity.name.type */
-
-/////////////////////////////////////////////
-// Data structures and return values
-/////////////////////////////////////////////
-
-struct point
-/* ^ storage.type */
-/*     ^ entity.name.struct */
-{
-/* <- meta.struct.c meta.block.c punctuation.section.block.begin.c */
-    int x;
-    int y;
-}
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
-
-struct point2 {
-/* ^ storage.type */
-/*     ^ entity.name.struct */
-/*            ^ meta.struct.c meta.block.c punctuation.section.block.begin.c */
-    int x;
-    int y;
-}
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
-
-int main(void) {
-/*  ^^^^ entity.name.function */
-/*       ^^^^ storage.type */
-}
-
-struct point get_point() {}
-/*           ^^^^^^^^^  meta.function */
-/*                    ^^ meta.function.parameters */
-/*                       ^^ meta.function */
-/*                    ^^ meta.function.parameters */
-/*                       ^^ meta.block */
-/*                       ^ punctuation.section.block.begin
-/*                        ^ punctuation.section.block.end
-/* <- storage.type */
-/*     ^ support.type - entity.name.struct */
-/*           ^ entity.name.function */
-
-inline struct point **alloc_points();
-/*     ^ storage.type */
-/*            ^ support.type - entity.name.struct */
-/*                  ^^ storage.modifier.c */
-/*                    ^ entity.name.function */
-
-struct point* alloc_point();
-/* <- storage.type.c */
-/*     ^^^^^ meta.struct.c support.type.c */
-/*          ^ storage.modifier.c */
-/*                  ^ entity.name.function - variable.function */
-
-struct point FOO_API *alloc_point3(), alloc_point2(), struct_var2;
-/* <- storage.type.c */
-/*     ^^^^^ meta.struct.c support.type.c */
-/*                   ^ storage.modifier.c */
-/*                     ^ entity.name.function - variable.function */
-/*                                  ^ punctuation.separator */
-/*                                    ^ entity.name.function - variable.function */
-/*                                                    ^^^^^^^^^^^ variable.other.c */
-
-struct {
-/* <- storage.type.c */
-/*     ^ meta.struct.c meta.block.c punctuation.section.block.begin.c */
+/*                      ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int a;
 /*^^^ storage.type.c */
 /*    ^ variable.other.c */
-} anon_s, *anon_b, anon_s_f(), anon_c = {
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
-/*^^^^^^ variable.other.c  */
-/*         ^^^^^^ variable.other.c  */
-/*                 ^^^^^^^^ entity.name.function.c  */
-/*                             ^^^^^^ variable.other.c  */
-/*                                    ^ keyword.operator.assignment.c */
-  .a = 4
-}, anon_d = {.a = 6}, anon_arr[] = {{.a = 1}, {.a = 2}}, anon_g;
- /* <- punctuation.separator */
-/* ^^^^^^ variable.other.c  */
-/*        ^ keyword.operator.assignment.c */
-/*                  ^ punctuation.separator */
-/*                    ^^^^^^^^ variable.other.c  */
-/*                            ^^ meta.brackets.c storage.modifier.c */
-/*                               ^ keyword.operator.assignment.c */
-/*                                                     ^ punctuation.separator */
-/*                                                       ^^^^^^ variable.other.c  */
-/*                                                             ^ punctuation.terminator.c */
+} mystruct;
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+/*^^^^^^^^ entity.name.type */
+/*        ^ punctuation.terminator.c */
 
-static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
-/*<- storage.modifier.c */
-/*     ^^^^^^ storage.modifier.c */
-/*                ^^^^^^^^^^^^ entity.name.function.c */
-/*                            ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
-/*                             ^^^^^ storage.modifier.c */
-/*                                   ^^^^^^ storage.type.c */
-/*                                          ^^^^^^^^ support.type.c */
-/*                                                   ^ storage.modifier.c */
-/*                                                    ^^^^ variable.parameter.c */
-/*                                                        ^ punctuation.separator.c */
-    __le64 __iomem *regs);
-/*  ^^^^^^ support.type.c */
-/*         ^^^^^^^ support.type.c */
-/*                 ^ storage.modifier.c */
-/*                  ^^^^ variable.parameter.c */
-/*                      ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
-/*                       ^ punctuation.terminator.c */
+typedef struct another
+/* <- storage.type */
+/*      ^^^^^^ storage.type.c */
+/*             ^ entity.name.struct.c */
+{
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
+  int f;
+/*^^^ storage.type.c */
+/*    ^ variable.other.c */
+} another_t, another2_t;
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+/*^^^^^^^^^ entity.name.type */
+/*         ^ punctuation.separator.c */
+/*           ^^^^^^^^^^ entity.name.type.typedef.c */
+/*                     ^ punctuation.terminator.c */
+
+typedef another_t another2_t;
+/* <- storage.type */
+/*      ^^^^^^^^^ support.type.c */
+/*                ^^^^^^^^^^ entity.name.type.typedef.c */
+/*                          ^ punctuation.terminator.c */
+
+typedef another_t *anotherp_t;
+/* <- storage.type */
+/*      ^^^^^^^^^ support.type.c */
+/*                ^ storage.modifier.c */
+/*                 ^^^^^^^^^^ entity.name.type.typedef.c */
+/*                           ^ punctuation.terminator.c */
 
 typedef void (*xhci_get_quirks_t)(struct device *d, struct xhci_hcd *);
 /*<- storage.type.c */
@@ -415,24 +362,24 @@ typedef struct Node* NodePtr;
 typedef struct {
 /*<- storage.type.c */
 /*      ^^^^^^storage.type.c */
-/*             ^ meta.struct.c punctuation.section.block.begin.c */
+/*             ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
 /*  ^^^ storage.type.c */
 /*      ^^^^^ variable.other.c */
 } newtype;
-/* <- meta.struct.c punctuation.section.block.end.c */
+/* <- meta.struct.body.c punctuation.section.block.end.c */
 /*^^^^^^^ entity.name.type.typedef.c */
 
 typedef struct MyStruct {
 /*<- storage.type.c */
 /*      ^^^^^^storage.type.c */
 /*             ^^^^^^^^ entity.name.struct.c */
-/*                      ^ meta.struct.c punctuation.section.block.begin.c */
+/*                      ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
 /*  ^^^ storage.type.c */
 /*      ^^^^^ variable.other.c */
 } newtype;
-/* <- meta.struct.c punctuation.section.block.end.c */
+/* <- meta.struct.body.c punctuation.section.block.end.c */
 /*^^^^^^^ entity.name.type.typedef.c */
 
 typedef char arrType[6];
@@ -446,17 +393,208 @@ typedef char arrType[6];
 typedef char arrType[NUMBER_OF_ELEMENTS];
 /*<- storage.type.c */
 /*      ^^^^ storage.type.c */
-/*           ^^^^^^^ entity.name.type */
+/*           ^^^^^^^ entity.name.type.typedef.c */
 /*                  ^ storage.modifier */
 /*                   ^^^^^^^^^^^^^^^^^^ support.constant.c */
 /*                                     ^ storage.modifier */
+
+typedef unsigned long ulong, *ulongptr;
+/*<- storage.type.c */
+/*      ^^^^^^^^ storage.type.c */
+/*               ^^^^ storage.type.c */
+/*                    ^^^^^ entity.name.type.typedef.c */
+/*                         ^ punctuation.separator.c */
+/*                           ^ storage.modifier.c */
+/*                            ^^^^^^^^ entity.name.type.typedef.c */
+
+typedef enum state {DEAD,ALIVE} State;
+/*<- storage.type.c */
+/*      ^^^^ storage.type.c */
+/*           ^^^^^ entity.name.enum.c */
+/*                  ^^^^ constant.other.enum.c */
+/*                      ^ punctuation.separator.c */
+/*                       ^^^^^ constant.other.enum.c */
+/*                              ^^^^^ entity.name.type.typedef.c */
+/*                                   ^ punctuation.terminator.c */
+
+/////////////////////////////////////////////
+// Data structures and return values
+/////////////////////////////////////////////
+
+struct point
+/* ^ storage.type */
+/*     ^ entity.name.struct */
+{
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
+    int x;
+    int y;
+}
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+
+struct point2 {
+/* ^ storage.type */
+/*     ^ entity.name.struct */
+/*            ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
+    int x;
+    int y;
+}
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+
+int main(void) {
+/*  ^^^^ entity.name.function */
+/*       ^^^^ storage.type */
+}
+
+enum codes get_code() {}
+/* <- storage.type */
+/*     ^ support.type - entity.name.struct */
+/*         ^^^^^^^^^  meta.function */
+/*         ^ entity.name.function */
+/*                 ^^ meta.function.parameters */
+/*                    ^^ meta.function meta.block */
+/*                    ^ punctuation.section.block.begin */
+/*                     ^ punctuation.section.block.end */
+
+union codes get_code() {}
+/* <- storage.type */
+/*     ^ support.type - entity.name.struct */
+/*          ^^^^^^^^^  meta.function */
+/*          ^ entity.name.function */
+/*                  ^^ meta.function.parameters */
+/*                     ^^ meta.function meta.block */
+/*                     ^ punctuation.section.block.begin */
+/*                      ^ punctuation.section.block.end */
+
+struct point get_point() {}
+/* <- storage.type */
+/*     ^ support.type - entity.name.struct */
+/*           ^^^^^^^^^  meta.function */
+/*           ^ entity.name.function */
+/*                    ^^ meta.function.parameters */
+/*                       ^^ meta.function meta.block */
+/*                       ^ punctuation.section.block.begin */
+/*                        ^ punctuation.section.block.end */
+
+EXPORT_SYMBOL(get_point);
+/* <- meta.function-call.c variable.function.c*/
+/*            ^^^^^^^^^ variable.other.c */
+
+inline struct point **alloc_points();
+/*     ^ storage.type */
+/*            ^ support.type - entity.name.struct */
+/*                  ^^ storage.modifier.c */
+/*                    ^ entity.name.function */
+/*                                ^^ meta.function.parameters.c meta.group.c */
+/*                                ^ punctuation.section.group.begin.c */
+/*                                 ^ punctuation.section.group.end.c */
+/*                                  ^ punctuation.terminator.c */
+EXPORT_SYMBOL(alloc_points);
+/* <- meta.function-call.c variable.function.c*/
+/*            ^^^^^^^^^^^^ variable.other.c */
+
+struct point* alloc_point();
+/* <- storage.type.c */
+/*     ^^^^^ meta.struct.c support.type.c */
+/*          ^ storage.modifier.c */
+/*                  ^ entity.name.function - variable.function */
+/*                       ^^ meta.function.parameters.c meta.group.c */
+/*                       ^ punctuation.section.group.begin.c */
+/*                        ^ punctuation.section.group.end.c */
+/*                         ^ punctuation.terminator.c */
+
+struct point FOO_API *alloc_point3(), alloc_point2(), struct_var2;
+/* <- storage.type.c */
+/*     ^^^^^ meta.struct.c support.type.c */
+/*                   ^ storage.modifier.c */
+/*                     ^ entity.name.function - variable.function */
+/*                                ^^ meta.function.parameters.c meta.group.c */
+/*                                ^ punctuation.section.group.begin.c */
+/*                                 ^ punctuation.section.group.end.c */
+/*                                  ^ punctuation.separator */
+/*                                    ^ entity.name.function - variable.function */
+/*                                                    ^^^^^^^^^^^ variable.other.c */
+
+struct {
+/* <- storage.type.c */
+/*     ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
+  int a;
+/*^^^ storage.type.c */
+/*    ^ variable.other.c */
+} anon_s, *anon_b, anon_s_f(), anon_c = {
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+/*^^^^^^ variable.other.c  */
+/*         ^^^^^^ variable.other.c  */
+/*                 ^^^^^^^^ entity.name.function.c  */
+/*                             ^^^^^^ variable.other.c  */
+/*                                    ^ keyword.operator.assignment.c */
+  .a = 4
+}, anon_d = {.a = 6}, anon_arr[] = {{.a = 1}, {.a = 2}}, anon_g;
+ /* <- punctuation.separator */
+/* ^^^^^^ variable.other.c  */
+/*        ^ keyword.operator.assignment.c */
+/*                  ^ punctuation.separator */
+/*                    ^^^^^^^^ variable.other.c  */
+/*                            ^^ meta.brackets.c storage.modifier.c */
+/*                               ^ keyword.operator.assignment.c */
+/*                                                     ^ punctuation.separator */
+/*                                                       ^^^^^^ variable.other.c  */
+/*                                                             ^ punctuation.terminator.c */
+
+int f_with_s(struct { int a; } *s);
+/*<- storage.type.c */
+/*  ^^^^^^^^ meta.function.c entity.name.function.c */
+/*          ^ meta.function.parameters.c punctuation.section.group.begin.c */
+/*           ^^^^^^ meta.struct.c storage.type.c */
+/*                  ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
+/*                    ^^^ storage.type.c */
+/*                        ^ variable.other.c */
+/*                           ^ meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+/*                             ^ storage.modifier.c */
+/*                              ^ variable.parameter.c */
+/*                               ^ punctuation.section.group.end.c */
+/*                                ^ punctuation.terminator.c */
+
+TRACE_EVENT(mmc_request_start,
+/* <- meta.function-call.c variable.function.c */
+/*          ^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                           ^ punctuation.separator.c */
+  TP_PROTO(struct mmc_host *host, struct mmc_request *mrq)
+/*^^^^^^^^ meta.assumed-macro.c variable.function.assumed-macro.c */
+/*         ^^^^^^ storage.type.c */
+/*                ^^^^^^^^ support.type.c */
+/*                         ^ keyword.operator.c */
+/*                          ^^^^ variable.other.c */
+/*                              ^ punctuation.separator.c */
+/*                                ^^^^^^ storage.type.c */
+/*                                       ^^^^^^^^^^^ support.type.c */
+/*                                                   ^ keyword.operator.c */
+/*                                                    ^^^ variable.other.c */
+);
+
+static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
+/*<- storage.modifier.c */
+/*     ^^^^^^ storage.modifier.c */
+/*                ^^^^^^^^^^^^ entity.name.function.c */
+/*                            ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
+/*                             ^^^^^ storage.modifier.c */
+/*                                   ^^^^^^ storage.type.c */
+/*                                          ^^^^^^^^ support.type.c */
+/*                                                   ^ storage.modifier.c */
+/*                                                    ^^^^ variable.parameter.c */
+/*                                                        ^ punctuation.separator.c */
+    __le64 __iomem *regs);
+/*  ^^^^^^ support.type.c */
+/*         ^^^^^^^ support.type.c */
+/*                 ^ storage.modifier.c */
+/*                  ^^^^ variable.parameter.c */
+/*                      ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+/*                       ^ punctuation.terminator.c */
 
 int main(void)
 {
     struct UI_BoundingBox decorativeBox = {10, titleHeight-3, width-20, height-10};
 /*  ^^^^^^ storage.type */
 /*         ^ support.type - entity.name */
-/*                        ^ variable.other - entity.name */
 }
 
 struct MACRO foo {
@@ -503,47 +641,55 @@ struct UI_MenuBoxData
 /* <- storage.type */
 /*     ^ entity.name.struct */
 {
-/* <- meta.struct.c meta.block.c punctuation.section.block.begin.c */
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     struct UI_BoundingBox position;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ variable.other.c - entity.name */
+/*                                ^ punctuation.terminator.c */
     struct UI_BoundingBox *position_p;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                         ^ variable.other.c - entity.name */
+/*                                   ^ punctuation.terminator.c */
     struct UI_BoundingBox * position_p1;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                          ^ variable.other.c - entity.name */
+/*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox **position_p2;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
 /*                          ^ variable.other.c - entity.name */
+/*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox ** position_p3;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
 /*                           ^ variable.other.c - entity.name */
+/*                                      ^ punctuation.terminator.c */
     struct UI_BoundingBox* position_p4;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^ storage.modifier.c */
 /*                         ^ variable.other.c - entity.name */
+/*                                    ^ punctuation.terminator.c */
     struct UI_BoundingBox** position_p5;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^^ storage.modifier.c */
 /*                          ^ variable.other.c - entity.name */
+/*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox * * position_p5;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                          ^ storage.modifier.c */
 /*                            ^ variable.other.c - entity.name */
+/*                                       ^ punctuation.terminator.c */
     struct UI_BoundingBox *pos_1, *pos_1;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
@@ -551,6 +697,7 @@ struct UI_MenuBoxData
 /*                         ^ variable.other.c - entity.name */
 /*                                ^ storage.modifier.c */
 /*                                 ^ variable.other.c - entity.name */
+/*                                      ^ punctuation.terminator.c */
 
     const volatile struct UI_BoundingBox *cv_p;
 /*  ^^^^^ storage.modifier.c */
@@ -559,7 +706,7 @@ struct UI_MenuBoxData
 /*                        ^ support.type.c - entity.name */
 /*                                       ^ storage.modifier.c */
 /*                                        ^ variable.other.c - entity.name */
-
+/*                                            ^ punctuation.terminator.c */
     long resume_done[USB_MAXCHILDREN];
 /*  ^^^^ storage.type.c */
 /*       ^^^^^^^^^^^ variable.other.c */
@@ -567,51 +714,71 @@ struct UI_MenuBoxData
 /*                  ^ punctuation.section.brackets.begin.c */
 /*                   ^^^^^^^^^^^^^^^ support.constant.c */
 /*                                  ^ punctuation.section.brackets.end.c */
-
+/*                                   ^ punctuation.terminator.c */
     struct xhci_run_regs __iomem *run_regs;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^ - entity.name */
 /*                               ^ storage.modifier.c */
 /*                                 ^ variable.other.c - entity.name */
+/*                                        ^ punctuation.terminator.c */
     struct xhci_run_regs __attribute__((noderef)) *run_regs;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^ - entity.name */
 /*                                                ^ storage.modifier.c */
 /*                                                 ^ variable.other.c - entity.name */
-
+/*                                                         ^ punctuation.terminator.c */
     struct __attribute__((noderef)) xhci_run_regs *run_regs;
 /*  ^^^^^^ storage.type */
 /*                                  ^ support.type.c - entity.name */
 /*                                                ^ storage.modifier.c */
 /*                                                 ^ - entity.name */
+/*                                                         ^ punctuation.terminator.c */
     struct nested_t {
 /*  ^^^^^^ storage.type */
 /*         ^^^^^^^^ entity.name.struct.c */
-/*                  ^ meta.struct.c meta.block.c meta.struct.c meta.block.c punctuation.section.block.begin.c */
+/*                  ^ meta.struct.body.c meta.block.c meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
         int bar;
 /*      ^^^ storage.type.c */
 /*          ^^^ variable.other.c */
     } nested;
+/*  ^ meta.struct.body.c meta.block.c meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*    ^^^^^^ variable.other.c */
+/*          ^ punctuation.terminator.c */
 
 #define CMD_RING_STATE_RUNNING         (1 << 0)
 /* <- meta.preprocessor.macro.c keyword.control.import.define.c */
 /*      ^ meta.preprocessor.macro.c entity.name.constant.preprocessor.c */
 
     enum UI_BoxCharType borderType;
-/*       ^ - entity.name */
-/*                      ^ - entity.name */
+/*  ^^^^ storage.type.c */
+/*       ^^^^^^^^^^^^^^ support.type.c - entity.name */
+/*                      ^ variable.other.c - entity.name */
+/*                                ^ punctuation.terminator.c */
     unsigned int paddingX;
+/*  ^^^^^^^^ storage.type.c */
+/*           ^^^ storage.type.c */
+/*               ^^^^^^^^ variable.other.c */
+/*                       ^ punctuation.terminator.c */
     unsigned int paddingY;
+/*  ^^^^^^^^ storage.type.c */
+/*           ^^^ storage.type.c */
+/*               ^^^^^^^^ variable.other.c */
+/*                       ^ punctuation.terminator.c */
     struct UI_ScrollBoxText boxContents[];
-/*  ^^^^^^ storage.type */
-/*         ^ - entity.name */
-/*                          ^ - entity.name */
+/*  ^^^^^^ storage.type.c */
+/*         ^^^^^^^^^^^^^^^^ support.type.c */
+/*                          ^^^^^^^^^^^ variable.other.c */
+/*                                     ^ storage.modifier.c */
+/*                                       ^ punctuation.terminator.c */
 
     struct delayed_work monitor_work ____cacheline_aligned_in_smp;
 /*  ^^^^^^ storage.type */
+/*         ^^^^^^^^^^^^ support.type.c */
+/*                      ^^^^^^^^^^^^ support.type.c */
+/*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c*/
+/*                                                               ^ punctuation.terminator.c */
     const struct efx_channel_type *
 /*  ^^^^^storage.modifier.c */
 /*        ^^^^^^ storage.type.c */
@@ -631,7 +798,7 @@ struct UI_MenuBoxData
     struct UI_BoundingBox bb1;
 #endif
 };
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 #define CMD_RING_STATE_RUNNING         (1 << 0)
 /* <- meta.preprocessor.macro.c keyword.control.import.define.c */
@@ -662,17 +829,17 @@ struct __attribute__((packed))
 /* <- storage.type */
 /*     ^ meta.attribute.c storage.modifier.c */
 {
-/* <- meta.struct.c meta.block.c punctuation.section.block.begin.c */
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int foo;
 /*  ^^^ storage.type.c */
 /*      ^^^ variable.other.c */
 };
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 struct rproc_ops {
 /* <- storage.type */
 /*     ^ entity.name.struct */
-/*               ^ meta.struct.c meta.block.c punctuation.section.block.begin.c */
+/*               ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int (*start)(struct rproc *rproc);
 /*  ^^^ storage.type.c */
 /*        ^^^^^ variable.other.c */
@@ -724,7 +891,7 @@ struct rproc_ops {
 /*                                                ^^^^^^^^ support.type.c */
 /*                                                          ^^ variable.parameter.c */
 };
-/* <- meta.struct.c meta.block.c punctuation.section.block.end.c */
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /* <- storage.type.c */
@@ -800,17 +967,20 @@ enum {
 // Test preprocessor branching and C blocks
 /////////////////////////////////////////////
 
-int foo(int val, float val2[])
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
+int foo(int val, float val2[][])
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters meta.group */
 /*     ^ punctuation.section.group.begin */
-/*                           ^ punctuation.section.group.end */
 /*          ^^^ variable.parameter */
 /*             ^ punctuation.separator */
 /*                     ^^^^ variable.parameter */
-/*                         ^^ meta.brackets */
+/*                         ^^ meta.brackets.c storage.modifier.c */
 /*                         ^ punctuation.section.brackets.begin */
 /*                          ^ punctuation.section.brackets.end */
+/*                           ^^ meta.brackets.c storage.modifier.c */
+/*                           ^ punctuation.section.brackets.begin */
+/*                            ^ punctuation.section.brackets.end */
+/*                             ^ punctuation.section.group.end */
 {
 /* <- meta.function meta.block */
     myClass *result;
@@ -891,7 +1061,7 @@ int a;
 int /* comment */ * myfunc
 /* <- storage.type */
 /*  ^ comment.block */
-/*                ^ keyword.operator */
+/*                ^ storage.modifier.c */
 /*                  ^^^^^^ meta.function entity.name.function */
 (int * a)
 /*^^^^^^^ meta.function.parameters meta.group */
@@ -915,7 +1085,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*                              ^^ meta.function.parameters */
 /*                                 ^ meta.block punctuation.section.block.begin
 /*     ^ storage.type */
-/*          ^ keyword.operator */
+/*          ^ storage.modifier */
 /*                   ^ entity.name.function */
 
     label:
@@ -953,7 +1123,7 @@ static const uint32_t * const MACRO funcname();
 /* ^ storage.modifier */
 /*     ^ storage.modifier */
 /*           ^ support.type */
-/*                    ^ keyword.operator */
+/*                    ^ storage.modifier.c */
 /*                      ^ storage.modifier */
 /*                                  ^ entity.name.function */
 
@@ -977,6 +1147,8 @@ MACRO_CALL(int) macro_prefixed_func(){}
 /*              ^ entity.name.function */
 
 int* return_type_pointer_no_space(){}
+/* <- storage.type.c */
+/* ^ storage.modifier.c */
 /*   ^ entity.name.function */
 
 // Make sure there isn't an incorrect match here since this is not a valid
