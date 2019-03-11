@@ -1066,6 +1066,24 @@ enum {
 /*         ^ keyword.operator.assignment */
 /*           ^ constant.numeric.c */
 /*            ^ punctuation.separator.c */
+#ifdef ENABLED_FEATURE
+/* <- meta.preprocessor.c keyword.control.import.c */
+    ENUM_ENABLED,
+/*  ^^^^^^^^^^^^ constant.other.enum.c */
+#else
+/* <- meta.preprocessor.c keyword.control.import.c */
+    ENUM_DISABLED,
+/*  ^^^^^^^^^^^^^ constant.other.enum.c */
+#endif
+/* <- meta.preprocessor.c keyword.control.import.c */
+
+#if 0
+/* <- meta.preprocessor.c keyword.control.import.c */
+    ENUM_FIELD_DISABLED
+/*  ^^^^^^^^^^^^^^^^^^^ constant.other.enum.c */
+#endif
+/* <- meta.preprocessor.c keyword.control.import.c */
+
     ENUM_C
 /*  ^ constant.other.enum.c */
 };
