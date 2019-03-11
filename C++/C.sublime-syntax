@@ -346,6 +346,8 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     - include: function-call
+    - match: ';'
+      scope: punctuation.terminator.c debug.global-function-call
     - include: or_pop
 
   global-modifier:
@@ -544,7 +546,7 @@ contexts:
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
-      push:
+      set:
         - meta_scope: meta.struct.body.c meta.block.c debug.struct-body.block
         - include: comments
         - match: '\}'
@@ -628,7 +630,7 @@ contexts:
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
-      push:
+      set:
         - meta_scope: meta.union.body.c meta.block.c debug.union-body.block
         - include: comments
         - match: '\}'
@@ -766,7 +768,7 @@ contexts:
     - meta_scope: debug.typedef-types
     - include: comments
     - include: types
-    - match: ({{identifier}})(?!\s*;|\s*,|\s*;|\s*\[|\s*\()
+    - match: ({{identifier}})(?!\s*;|\s*,|\s*;|\s*\[|\s*\(|\s*=)
       captures:
         1: support.type.c debug.typedef-types.identifier
       comment: Must be a negative of typedef-identifier-list
@@ -819,7 +821,6 @@ contexts:
       scope: punctuation.terminator.c
       pop: true
     - include: or_pop
-    # - include: expressions
 
   function-call:
     - match: (?={{identifier}}\s*\()
@@ -829,15 +830,22 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.function.c
         - match: '\('
-          scope: meta.group.c punctuation.section.group.begin.c
+          scope: punctuation.section.group.begin.c
           set:
-            - meta_content_scope: meta.function-call.c meta.group.c
+            - meta_scope: meta.function-call.parameters.c meta.group.c debug.function-call.params
             - match : \)
               scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
               pop: true
+            # - include: macro-identifiers
+            - match: '{{macro_identifier}}(?!\()'
+              comment: Not sure I think we need this special case
+              scope: variable.annotation.c
             - include: expressions
             - match: '{{identifier}}'
               scope: variable.other.c
+            - match: '\b\w+\b'
+              scope: variable.other.c
+              comment: Inside macro params, the identifiers can start with numbers
 
   ## Preprocessor for data-structures
 
@@ -1137,7 +1145,7 @@ contexts:
     - include: statements
 
   preprocessor-if-branch-function-call:
-    - meta_content_scope: meta.function-call.c
+    - meta_content_scope: meta.function-call.c debug.preprocessor-if-branch-function-call
     - include: c99
     - match: '{{identifier}}'
       scope: variable.function.c
@@ -1146,7 +1154,7 @@ contexts:
       set: preprocessor-if-branch-function-call-arguments
 
   preprocessor-if-branch-function-call-arguments:
-    - meta_content_scope: meta.function-call.c meta.group.c
+    - meta_content_scope: meta.function-call.c meta.group.c debug.preprocessor-if-branch-function-call-arguments
     - match : \)
       scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
       set: preprocessor-if-branch-statements
@@ -1161,7 +1169,7 @@ contexts:
     - include: expressions
 
   preprocessor-if-branch-function-call-arguments-finish:
-    - meta_content_scope: meta.function-call.c meta.group.c
+    - meta_content_scope: meta.function-call.c meta.group.c debug.preprocessor-if-branch-function-call-arguments-finish
     - match: \)
       scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
       pop: true
@@ -1295,13 +1303,13 @@ contexts:
 
   preprocessor-convention-ignore-uppercase-ident-lines:
     - match: ^(\s*{{macro_identifier}})+\s*$
-      scope: meta.assumed-macro.c
+      scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-ident-lines
       push:
         # It's possible that we are dealing with a function return type on its own line, and the
         # name of the function is on the subsequent line.
         - match: \s*({{identifier}})(?=\s*\()
           captures:
-            1: meta.function.c entity.name.function.c debug.preprocessor-convention-ignore-uppercase-ident-lines
+            1: meta.function.c entity.name.function.c debug.preprocessor-convention-ignore-uppercase-ident-lines.params
           set: function-definition-params
         - match: ^
           pop: true
@@ -1310,7 +1318,7 @@ contexts:
   preprocessor-convention-ignore-uppercase-calls-without-semicolon:
     - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
       captures:
-        1: variable.function.assumed-macro.c
+        1: variable.function.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
         2: punctuation.section.group.begin.c
       push:
         - meta_scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
@@ -1369,4 +1377,4 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
-    - include: preprocessor-practical-workarounds
+    # - include: preprocessor-practical-workarounds

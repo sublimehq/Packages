@@ -115,9 +115,17 @@ int f(int x, \
 /* <- keyword.control.import.define */
 /*      ^ entity.name.constant */
 
-bool still_C_code_here = true;
+bool still_C_code_here = true, foo = false;
 /* <- storage.type */
+/*   ^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                     ^ keyword.operator.assignment.c */
 /*                       ^ constant.language */
+/*                                        ^ punctuation.terminator.c */
+/*                           ^ punctuation.separator.c */
+/*                             ^^^ variable.other.c*/
+/*                                 ^ keyword.operator.assignment.c */
+/*                                   ^^^^^ constant.language.c */
+/*                                        ^ punctuation.terminator.c */
 
 FOOBAR
 hello() {
@@ -142,20 +150,26 @@ UserStructCompare (
 }
 
 LIB_RESULT
+/* <- support.type.c */
 foo()
 /* <- meta.function entity.name.function */
 {
+/* <- meta.function.c punctuation.section.block.begin.c */
    return LIB_SUCCESS;
 }
+/* <- meta.function.c punctuation.section.block.end.c */
 
 LIB_RESULT bar()
+/* <- support.type.c */
 /*           ^ meta.function entity.name.function */
 {
+/* <- meta.function.c punctuation.section.block.begin.c */
     return LIB_SUCCESS;
 }
+/* <- meta.function.c punctuation.section.block.end.c */
 
 THIS_IS_REALLY_JUST_A_MACRO_AND_NOT_A_RETURN_TYPE
-/* <- meta.assumed-macro */
+/* <- support.type */
 
 int main() {
 /* <- storage.type */
@@ -202,19 +216,19 @@ int disabled_func() {
 #endif
 
 FOO
-/* <- meta.assumed-macro */
+/* <- support.type */
 FOO;
-/* <- - meta.assumed-macro */
+/* <- variable.other */
 foo
-/* <- - meta.assumed-macro */
+/* <- support.type */
 ; // fix highlighting
 /* <- punctuation.terminator */
 FOO()
-/* <- meta.assumed-macro variable.function.assumed-macro */
+/* <- meta.function-call.c variable.function.c */
 FOO();
-/* <- - meta.assumed-macro */
+/* <- meta.function-call.c variable.function.c */
 foo()
-/* <- - meta.assumed-macro */
+/* <- meta.function-call.c variable.function.c */
 ; // fix highlighting
 /* <- punctuation.terminator */
 
@@ -559,7 +573,7 @@ TRACE_EVENT(mmc_request_start,
 /*          ^^^^^^^^^^^^^^^^^ variable.other.c */
 /*                           ^ punctuation.separator.c */
   TP_PROTO(struct mmc_host *host, struct mmc_request *mrq)
-/*^^^^^^^^ meta.assumed-macro.c variable.function.assumed-macro.c */
+/*^^^^^^^^ variable.function */
 /*         ^^^^^^ storage.type.c */
 /*                ^^^^^^^^ support.type.c */
 /*                         ^ keyword.operator.c */
@@ -570,6 +584,99 @@ TRACE_EVENT(mmc_request_start,
 /*                                                   ^ keyword.operator.c */
 /*                                                    ^^^ variable.other.c */
 );
+
+TRACE_EVENT(802154_rdev_add_virtual_intf,
+/* <-meta.function-call.c variable.function.c */
+/*         ^ meta.function-call.c punctuation.section.group.begin.c */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                                      ^ punctuation.separator.c */
+  TP_STRUCT__entry(
+/*^^^^^^^^^^^^^^^^ meta.function-call.parameters.c meta.function-call.c variable.function.c */
+/*                ^ meta.function-call.parameters.c meta.function-call.parameters.c meta.group.c punctuation.section.group.begin.c */
+    WPAN_PHY_ENTRY
+/*  ^^^^^^^^^^^^^^ variable.annotation.c */
+    __string(vir_intf_name, name ? name : "<noname>")
+/*  ^^^^^^^^ meta.function-call.c variable.function.c */
+/*          ^ punctuation.section.group.begin.c */
+/*           ^^^^^^^^^^^^^ variable.other.c */
+/*                        ^ punctuation.separator.c */
+/*                          ^^^^ variable.other.c */
+/*                               ^ keyword.operator.ternary.c */
+/*                                 ^^^^ variable.other.c */
+/*                                      ^ keyword.operator.ternary.c */
+/*                                        ^^^^^^^^^^ string.quoted.double.c */
+/*                                                  ^ punctuation.section.group.end.c */
+    __field(enum nl802154_iftype, type)
+/*  ^^^^^^^ meta.function-call.c variable.function.c */
+/*         ^ punctuation.section.group.begin.c */
+/*          ^^^^ storage.type.c */
+/*               ^^^^^^^^^^^^^^^ support.type.c */
+/*                              ^ punctuation.separator.c */
+/*                                ^^^^ variable.other.c */
+/*                                    ^ punctuation.section.group.end.c */
+    __field(__le64, extended_addr)
+/*  ^^^^^^^ meta.function-call.c variable.function.c */
+/*         ^ punctuation.section.group.begin.c */
+/*          ^^^^^^ variable.other.c */
+/*                ^ punctuation.separator.c */
+/*                  ^^^^^^^^^^^^^ variable.other.c */
+/*                               ^ punctuation.section.group.end.c */
+  ),
+/*^ meta.function-call.parameters.c meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
+/* ^ punctuation.separator.c */
+  TP_fast_assign(
+/*^^^^^^^^^^^^^^ variable.function.c */
+/*              ^ meta.function-call.parameters.c meta.function-call.parameters.c punctuation.section.group.begin.c */
+    WPAN_PHY_ASSIGN;
+/*  ^^^^^^^^^^^^^^^ variable.annotation.c */
+    __assign_str(vir_intf_name, name ? name : "<noname>");
+/*  ^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*              ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
+/*               ^^^^^^^^^^^^^ variable.other.c */
+/*                            ^ punctuation.separator.c */
+/*                              ^^^^ variable.other.c */
+/*                                   ^ keyword.operator.ternary.c */
+/*                                     ^^^^ variable.other.c */
+/*                                          ^ keyword.operator.ternary.c */
+/*                                            ^^^^^^^^^^ string.quoted.double.c */
+/*                                                      ^ meta.function-call.parameters.c punctuation.section.group.end.c */
+/*                                                       ^ punctuation.terminator.c */
+    __entry->type = type;
+/*  ^^^^^^^ variable.other.c */
+/*         ^^ punctuation.accessor.c */
+/*           ^^^^ variable.other.c */
+/*                ^ keyword.operator.assignment.c */
+/*                  ^^^^ variable.other.c */
+/*                      ^ punctuation.terminator.c */
+  ),
+/*^ meta.function-call.parameters.c meta.function-call.parameters.c punctuation.section.group.end.c */
+/* ^ punctuation.separator.c */
+  TP_printk(WPAN_PHY_PR_FMT ", name: %s, type: %d, addr: 0x%llx",
+/*^^^^^^^^^ meta.function-call.c variable.function.c */
+/*         ^ meta.function-call.parameters.c meta.function-call.parameters.c punctuation.section.group.begin.c */
+/*          ^^^^^^^^^^^^^^^ variable.annotation */
+/*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
+/*                                                              ^ punctuation.separator.c */
+      WPAN_PHY_PR_ARG, __get_str(vir_intf_name), __entry->type,
+/*    ^^^^^^^^^^^^^^^ variable.annotation */
+/*                   ^ punctuation.separator.c */
+/*                     ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                               ^^^^^^^^^^^^^ variable.other.c */
+/*                                             ^ punctuation.separator.c */
+/*                                               ^^^^^^^ variable.other.c */
+/*                                                      ^^ punctuation.accessor.c */
+/*                                                        ^^^^ variable.other.c */
+/*                                                            ^ punctuation.separator.c */
+      __le64_to_cpu(__entry->extended_addr))
+/*    ^^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                  ^^^^^^^ variable.other.c */
+/*                         ^^ punctuation.accessor.c */
+/*                           ^^^^^^^^^^^^^ variable.other.c */
+/*                                        ^ meta.function-call.c meta.group.c punctuation.section.group.end.c */
+/*                                         ^ meta.function-call.c meta.group.c punctuation.section.group.end.c */
+);
+/* <- meta.function-call.c meta.group.c punctuation.section.group.end.c */
+ /* <- punctuation.terminator.c */
 
 static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 /*<- storage.modifier.c */
