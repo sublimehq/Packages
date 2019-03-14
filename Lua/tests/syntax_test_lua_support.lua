@@ -18,6 +18,9 @@
     error();
 --  ^^^^^ support.function.builtin
 
+    getfenv();
+--  ^^^^^^^ support.function.builtin
+
     getmetatable();
 --  ^^^^^^^^^^^^ support.function.builtin
 
@@ -29,6 +32,9 @@
 
     loadfile();
 --  ^^^^^^^^ support.function.builtin
+
+    module();
+--  ^^^^^^ support.function.builtin
 
     next();
 --  ^^^^ support.function.builtin
@@ -57,6 +63,9 @@
     select();
 --  ^^^^^^ support.function.builtin
 
+    setfenv();
+--  ^^^^^^^ support.function.builtin
+
     setmetatable();
 --  ^^^^^^^^^^^^ support.function.builtin
 
@@ -68,6 +77,9 @@
 
     type();
 --  ^^^^ support.function.builtin
+
+    unpack();
+--  ^^^^^^ support.function.builtin
 
     xpcall();
 --  ^^^^^^ support.function.builtin
@@ -113,11 +125,6 @@
 --           ^ punctuation.accessor
 --            ^^^^^ meta.property support.function.builtin
 
-    coroutine.other();
---  ^^^^^^^^^ support.constant.builtin
---           ^ punctuation.accessor
---            ^^^^^ meta.property - support.function.builtin
-
     package;
 --  ^^^^^^^ support.constant.builtin
 
@@ -135,6 +142,11 @@
 --  ^^^^^^^ support.constant.builtin
 --         ^ punctuation.accessor
 --          ^^^^^^ meta.property support.constant.builtin
+
+    package.loaders;
+--  ^^^^^^^ support.constant.builtin
+--         ^ punctuation.accessor
+--          ^^^^^^^ meta.property support.constant.builtin
 
     package.path;
 --  ^^^^^^^ support.constant.builtin
@@ -160,6 +172,11 @@
 --  ^^^^^^^ support.constant.builtin
 --         ^ punctuation.accessor
 --          ^^^^^^^^^^ meta.property support.function.builtin
+
+    package.seeall();
+--  ^^^^^^^ support.constant.builtin
+--         ^ punctuation.accessor
+--          ^^^^^^ meta.property support.function.builtin
 
     string;
 --  ^^^^^^ support.constant.builtin
@@ -244,7 +261,7 @@
 --        ^ punctuation.accessor
 --         ^^^^^^ meta.property support.function.builtin
 
-    string.other();
+    string.upper();
 --  ^^^^^^ support.constant.builtin
 --        ^ punctuation.accessor
 --         ^^^^^ meta.property support.function.builtin
@@ -285,15 +302,20 @@
     table;
 --  ^^^^^ support.constant.builtin
 
-    table.const();
+    table.concat();
 --  ^^^^^ support.constant.builtin
 --       ^ punctuation.accessor
---
+--        ^^^^^^ meta.property support.function.builtin
 
     table.insert();
 --  ^^^^^ support.constant.builtin
 --       ^ punctuation.accessor
 --        ^^^^^^ meta.property support.function.builtin
+
+    table.maxn();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^ meta.property support.function.builtin
 
     table.move();
 --  ^^^^^ support.constant.builtin
@@ -363,6 +385,11 @@
 --      ^ punctuation.accessor
 --       ^^^^ meta.property support.function.builtin
 
+    math.atan2();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^^ meta.property support.function.builtin
+
     math.ceil();
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
@@ -372,6 +399,11 @@
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
 --       ^^^ meta.property support.function.builtin
+
+    math.cosh();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^ meta.property support.function.builtin
 
     math.deg();
 --  ^^^^ support.constant.builtin
@@ -393,10 +425,25 @@
 --      ^ punctuation.accessor
 --       ^^^^ meta.property support.function.builtin
 
+    math.frexp();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^^ meta.property support.function.builtin
+
+    math.ldexp();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^^ meta.property support.function.builtin
+
     math.log();
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
 --       ^^^ meta.property support.function.builtin
+
+    math.log10();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^^ meta.property support.function.builtin
 
     math.max();
 --  ^^^^ support.constant.builtin
@@ -412,6 +459,11 @@
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
 --       ^^^^ meta.property support.function.builtin
+
+    math.pow();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^ meta.property support.function.builtin
 
     math.rad();
 --  ^^^^ support.constant.builtin
@@ -433,6 +485,11 @@
 --      ^ punctuation.accessor
 --       ^^^ meta.property support.function.builtin
 
+    math.sinh();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^ meta.property support.function.builtin
+
     math.sqrt();
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
@@ -442,6 +499,11 @@
 --  ^^^^ support.constant.builtin
 --      ^ punctuation.accessor
 --       ^^^ meta.property support.function.builtin
+
+    math.tanh();
+--  ^^^^ support.constant.builtin
+--      ^ punctuation.accessor
+--       ^^^^ meta.property support.function.builtin
 
     math.tointeger();
 --  ^^^^ support.constant.builtin
@@ -460,6 +522,21 @@
 
     io;
 --  ^^ support.constant.builtin
+
+    io.stderr;
+--  ^^ support.constant.builtin
+--    ^ punctuation.accessor
+--      ^^^^^ meta.property support.constant.builtin
+
+    io.stdin;
+--  ^^ support.constant.builtin
+--    ^ punctuation.accessor
+--      ^^^^ meta.property support.constant.builtin
+
+    io.stdout;
+--  ^^ support.constant.builtin
+--    ^ punctuation.accessor
+--      ^^^^^ meta.property support.constant.builtin
 
     io.close();
 --  ^^ support.constant.builtin
@@ -582,6 +659,11 @@
 --       ^ punctuation.accessor
 --        ^^^^^ meta.property support.function.builtin
 
+    debug.getfenv();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^ meta.property support.function.builtin
+
     debug.gethook();
 --  ^^^^^ support.constant.builtin
 --       ^ punctuation.accessor
@@ -616,6 +698,11 @@
 --  ^^^^^ support.constant.builtin
 --       ^ punctuation.accessor
 --        ^^^^^^^^^^^^ meta.property support.function.builtin
+
+    debug.setfenv();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
 
     debug.sethook();
 --  ^^^^^ support.constant.builtin
@@ -656,3 +743,66 @@
 --  ^^^^^ support.constant.builtin
 --       ^ punctuation.accessor
 --        ^^^^^^^^^^^ meta.property support.function.builtin
+
+    bit32;
+--  ^^^^^ support.constant.builtin
+
+    bit32.arshift();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
+
+    bit32.band();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^ meta.property support.function.builtin
+
+    bit32.bnot();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^ meta.property support.function.builtin
+
+    bit32.bor();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^ meta.property support.function.builtin
+
+    bit32.btest();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^ meta.property support.function.builtin
+
+    bit32.bxor();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^ meta.property support.function.builtin
+
+    bit32.extract();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
+
+    bit32.lrotate();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
+
+    bit32.lshift();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^ meta.property support.function.builtin
+
+    bit32.replace();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
+
+    bit32.rrotate();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^^ meta.property support.function.builtin
+
+    bit32.rshift();
+--  ^^^^^ support.constant.builtin
+--       ^ punctuation.accessor
+--        ^^^^^^ meta.property support.function.builtin
