@@ -458,7 +458,8 @@ contexts:
         - include: else-pop
 
     - match: \n
-      scope: invalid.illegal.newline.lua
+      scope: invalid.illegal.unclosed-string.lua
+      pop: true
     - match: \\.
       scope: invalid.illegal.invalid-escape.lua
 
