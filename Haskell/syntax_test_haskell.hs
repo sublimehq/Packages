@@ -115,8 +115,8 @@
 -- ^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
      tooManyToo ::
 -- ^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
-      a -> Bool
--- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
+       a -> Bool
+-- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 
    instance TooMany Int where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
@@ -126,6 +126,20 @@
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
    foldBoolGuard x y z
 -- ^^^^^^^^^^^^^^^^^^^ source.haskell
-       | z         = y
---     ^ keyword.operator.haskell
-       | otherwise = x
+     | z         = y
+--   ^ keyword.operator.haskell
+     | otherwise = x
+
+   countTheBeforeVowel :: String
+   -- This comment should not interrupt the type signature.
+
+   -- The blank line above should not interrupt the type signature.
+
+   {-
+      This multiline comment should
+      not interrupt the type signature.
+   -}
+
+     -> Integer
+-- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
+   countTheBeforeVowel = undefined
