@@ -1016,7 +1016,7 @@ contexts:
       push:
         - clear_scopes: 1
         - meta_content_scope: meta.mapping.value.python
-        - match: (?=\s*(\}|,|for))
+        - match: (?=\s*(\}|,|for\b))
           pop: true
         - include: expressions
 
