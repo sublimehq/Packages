@@ -163,8 +163,7 @@ contexts:
         3: keyword.other.double-colon.haskell
       push:
         - meta_scope: meta.function.type-declaration.haskell
-        - include: comments
-        - match: ^(?!\1\s)
+        - match: ^(?!\s*(?:--|{-|$)|\1\s)
           pop: true
         - include: type_signature
     - match: '\b[A-Z]\w*\b'
