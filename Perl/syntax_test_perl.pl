@@ -515,7 +515,7 @@ EOT
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.member.perl
   $Foo :: Bar :: baz
-# ^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+# ^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
 #  ^^^ support.class.perl
 #      ^^ punctuation.accessor.double-colon.perl
@@ -532,7 +532,7 @@ EOT
 #            ^^^^ variable.other.readwrite.global.perl
 #            ^ punctuation.definition.variable.perl
   $Foo :: Bar -> $baz
-# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
 #  ^^^ support.class.perl
 #      ^^ punctuation.accessor.double-colon.perl
@@ -540,6 +540,27 @@ EOT
 #             ^^ keyword.operator.arrow.perl - variable
 #                ^^^^ variable.other.readwrite.global.perl
 #                ^ punctuation.definition.variable.perl
+  $Foo::Bar::baz()
+# ^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ meta.function-call.name.perl variable.function.member.perl
+#               ^ meta.function-call.arguments.perl punctuation.section.arguments.begin.perl
+#                ^ meta.function-call.arguments.perl punctuation.section.arguments.end.perl
+  $Foo :: Bar :: baz ()
+# ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#         ^^^ support.class.perl
+#             ^^ punctuation.accessor.double-colon.perl
+#                ^^^^ meta.function-call.name.perl
+#                ^^^ variable.function.member.perl
+#                    ^ meta.function-call.arguments.perl punctuation.section.arguments.begin.perl
+#                     ^ meta.function-call.arguments.perl punctuation.section.arguments.end.perl
   $c = C::Scan->new(KEY => 'value')
 # ^^ variable.other.readwrite.global.perl
 #    ^ keyword.operator.assignment.perl

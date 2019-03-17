@@ -592,17 +592,27 @@ contexts:
   class:
     - match: '{{module}}(?=\s*(?:::|[#;]|$))'
       scope: support.class.perl
-      push: members-pop
+      push: class-members-pop
 
-  members-pop:
+  class-members-pop:
+    # nested class
     - match: \s*(::)\s*({{module}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: support.class.perl
+    # member function
+    - match: \s*(::)\s*(({{member}})\s*)(?=\()
+      captures:
+        1: punctuation.accessor.double-colon.perl
+        2: meta.function-call.name.perl
+        3: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
     - match: \s*(::)\s*({{identifier}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: variable.other.member.perl
+      pop: true
     - include: else-pop
 
 ###[ CONTROL KEYWORDS ]#######################################################
@@ -953,6 +963,17 @@ contexts:
       scope: variable.function.perl
       push: regexp-pop
 
+  function-call-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.perl
+      set:
+        - - meta_scope: meta.function-call.arguments.perl
+          - match: \)
+            scope: punctuation.section.arguments.end.perl
+            pop: true
+          - include: main
+        - regexp-pop
+
 ###[ SUB ]####################################################################
 
   sub:
@@ -1046,8 +1067,9 @@ contexts:
         1: punctuation.definition.variable.perl
         2: support.class.perl
       push:
-        - meta_scope: variable.other.readwrite.global.perl
-        - include: members-pop
+        - - meta_scope: variable.other.readwrite.global.perl
+          - include: immediately-pop
+        - class-members-pop
     - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
       scope: variable.other.predefined.perl
       captures:
