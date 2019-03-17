@@ -1298,6 +1298,12 @@ sub name ($) {}
 #         ^ variable.parameter.perl
 #          ^ punctuation.section.group.end.perl - variable.parameter.perl
 
+sub AUTOLOAD () {}
+#^^^^^^^^^^^^ meta.function.perl
+#            ^^ meta.function.parameters.perl
+#              ^^^ meta.function.perl
+#   ^^^^^^^^ entity.name.function.callback.perl
+
 ###[ EXPRESSIONS ]############################################################
 
   retry:

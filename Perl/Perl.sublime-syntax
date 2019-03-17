@@ -955,10 +955,6 @@ contexts:
         ){{break}}
       scope: support.function.perl
       push: regexp-pop
-    - match: ^\s*(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
-      scope: meta.function.perl
-      captures:
-        1: entity.name.function.perl
     - match: \b{{member}}{{break}}
       scope: variable.function.perl
       push: regexp-pop
@@ -983,6 +979,9 @@ contexts:
 
   sub-name:
     - meta_scope: meta.function.perl
+    - match: \b(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
+      scope: entity.name.function.callback.perl
+      set: sub-expect-parameters
     - match: '{{identifier}}'
       scope: entity.name.function.perl
       set: sub-expect-parameters
