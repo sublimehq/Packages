@@ -334,9 +334,9 @@ contexts:
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
     - match: 0b[01]+(?![\.\w+])
-      scope: constant.numeric.binary.perl
+      scope: constant.numeric.integer.binary.perl
     - match: 0x[\h_]+(?![\.\w+])
-      scope: constant.numeric.hex.perl
+      scope: constant.numeric.integer.hexadecimal.perl
     - include: constants-numbers-float
     - include: constants-numbers-integer
 
@@ -345,32 +345,32 @@ contexts:
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.perl
+        2: constant.numeric.float.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (')([-+]?\d+\.\d+(?:e[-+]?\d+)?)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.perl
+        2: constant.numeric.float.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (?:[-+]|\b)\d+\.\d+(?:e[-+]?\d+)?(?![\.\w+])
-      scope: constant.numeric.float.perl
+      scope: constant.numeric.float.decimal.perl
 
   constants-numbers-integer:
     - match: (")([-+]?\d+)(")
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.perl
+        2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (')([-+]?\d+)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.perl
+        2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (?:[-+]|\b)\d+(?![\.\w+])
-      scope: constant.numeric.integer.perl
+      scope: constant.numeric.integer.decimal.perl
 
   constants-language:
     - match: \b__(?:END|DATA|FILE|LINE|PACKAGE|SUB)__\b
