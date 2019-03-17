@@ -276,7 +276,7 @@ contexts:
     - include: control
     - include: sub
     - include: variables
-    - include: functions
+    - include: function-call
     - include: comment-line
     # /<find>/<flags> statement at line start
     - match: ^ *(?=/.*[^\\]/)
@@ -927,7 +927,8 @@ contexts:
 
 ###[ FUNCTIONS ]##############################################################
 
-  functions:
+  function-call:
+    # builtin function calls
     - match: |-
         \b(?x:
            abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod
@@ -955,9 +956,12 @@ contexts:
         ){{break}}
       scope: support.function.perl
       push: regexp-pop
-    - match: \b{{member}}{{break}}
-      scope: variable.function.perl
-      push: regexp-pop
+    # user defined function calls
+    - match: \b({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
+      captures:
+        1: variable.function.perl
+      push: function-call-arguments
 
   function-call-arguments:
     - match: \(
