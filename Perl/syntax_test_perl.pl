@@ -376,7 +376,7 @@ EOT
   ::
 # ^^ - punctuation.accessor.double-colon.perl
   ->
-# ^^ keyword.operator.arrow.perl
+# ^^ keyword.accessor.arrow.perl
   **=
 # ^^^ keyword.operator.assignment.perl
   -=
@@ -528,7 +528,7 @@ EOT
 #  ^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ support.class.perl
-#          ^^ keyword.operator.arrow.perl - variable
+#          ^^ keyword.accessor.arrow.perl - variable
 #            ^^^^ variable.other.readwrite.global.perl
 #            ^ punctuation.definition.variable.perl
   $Foo :: Bar -> $baz
@@ -537,7 +537,7 @@ EOT
 #  ^^^ support.class.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #         ^^^ support.class.perl
-#             ^^ keyword.operator.arrow.perl - variable
+#             ^^ keyword.accessor.arrow.perl - variable
 #                ^^^^ variable.other.readwrite.global.perl
 #                ^ punctuation.definition.variable.perl
   $Foo::Bar::baz()
@@ -569,8 +569,8 @@ EOT
 #      ^ support.class.perl
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^ support.class.perl
-#             ^^ keyword.operator.arrow.perl
-#               ^^^ variable.function.perl
+#             ^^ keyword.accessor.arrow.perl
+#               ^^^ variable.function.member.perl
 #                  ^ punctuation.section.arguments.begin.perl
 #                   ^^^ constant.other.perl
 #                       ^^ keyword.operator.assignment.perl
@@ -595,8 +595,8 @@ EOT
 #   ^^^ support.class.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^^ variable.other.member.perl
-#           ^^ keyword.operator.arrow.perl
-#             ^^^ variable.function.perl
+#           ^^ keyword.accessor.arrow.perl
+#             ^^^ variable.function.member.perl
   }
 # <- variable.other.readwrite.global.perl
 #^^ variable.other.readwrite.global.perl
@@ -1412,3 +1412,14 @@ _EOD_
 #                                                    ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
+
+  if ($self->value <= $self->other);
+#            ^^^^^ variable.other.member.perl
+#                  ^^ keyword.operator.logical.perl
+#                  ^^^^^^^^^^ - string
+#                          ^^ keyword.accessor.arrow.perl
+  if ($value <= $self->other);
+#            ^^ keyword.operator.logical.perl
+#            ^^^^^^^^^^ - string
+#                    ^^ keyword.accessor.arrow.perl
+#                      ^^^^^ variable.other.member.perl

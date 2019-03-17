@@ -615,6 +615,19 @@ contexts:
       pop: true
     - include: else-pop
 
+  object-members-pop:
+    # member function
+    - match: ({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
+      captures:
+        1: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
+    - match: '{{identifier}}'
+      scope: variable.other.member.perl
+      pop: true
+    - include: else-pop
+
 ###[ CONTROL KEYWORDS ]#######################################################
 
   control:
@@ -649,8 +662,8 @@ contexts:
       scope: keyword.operator.filetest.perl
       push: regexp-pop
     - match: '->'
-      scope: keyword.operator.arrow.perl
-      push: regexp-pop
+      scope: keyword.accessor.arrow.perl
+      push: object-members-pop
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
       push: regexp-pop
