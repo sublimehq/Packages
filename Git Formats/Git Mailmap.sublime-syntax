@@ -12,14 +12,16 @@ scope: text.git.mailmap
 contexts:
   main:
     - include: Git Common.sublime-syntax#comments
-    - include: Git Common.sublime-syntax#email
-    - match: (<)(\S+?(?:(@)\S+)?)(>)
+    # email reference
+    - match: (<)(\S+?(?:(@)\S+?(?:(\.)\S+?)?)?)(>)
+      scope: meta.reference.email.git
       captures:
-        0: meta.reference.email.git
         1: punctuation.definition.reference.email.begin.git
         2: entity.name.reference.email.git
         3: punctuation.separator.email.git
-        4: punctuation.definition.reference.email.end.git
-    - match: '[ \t]*([^ \t<#][^<#\n]+?)[ \t]*(?=<|$)'
+        4: punctuation.separator.email.git
+        5: punctuation.definition.reference.email.end.git
+    # proper name
+    - match: ([^ \t<#][^<#\n]+?)[ \t]*(?=<|$)
       captures:
         1: meta.reference.user.git
