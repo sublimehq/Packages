@@ -276,7 +276,7 @@ contexts:
     - include: control
     - include: sub
     - include: variables
-    - include: functions
+    - include: function-call
     - include: comment-line
     # /<find>/<flags> statement at line start
     - match: ^ *(?=/.*[^\\]/)
@@ -592,17 +592,40 @@ contexts:
   class:
     - match: '{{module}}(?=\s*(?:::|[#;]|$))'
       scope: support.class.perl
-      push: members-pop
+      push: class-members-pop
 
-  members-pop:
+  class-members-pop:
+    # nested class
     - match: \s*(::)\s*({{module}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: support.class.perl
+    # member function
+    - match: \s*(::)\s*(({{member}})\s*)(?=\()
+      captures:
+        1: punctuation.accessor.double-colon.perl
+        2: meta.function-call.name.perl
+        3: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
     - match: \s*(::)\s*({{identifier}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: variable.other.member.perl
+      pop: true
+    - include: else-pop
+
+  object-members-pop:
+    # member function
+    - match: ({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
+      captures:
+        1: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
+    - match: '{{identifier}}'
+      scope: variable.other.member.perl
+      pop: true
     - include: else-pop
 
 ###[ CONTROL KEYWORDS ]#######################################################
@@ -639,8 +662,8 @@ contexts:
       scope: keyword.operator.filetest.perl
       push: regexp-pop
     - match: '->'
-      scope: keyword.operator.arrow.perl
-      push: regexp-pop
+      scope: keyword.accessor.arrow.perl
+      push: object-members-pop
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
       push: regexp-pop
@@ -917,7 +940,8 @@ contexts:
 
 ###[ FUNCTIONS ]##############################################################
 
-  functions:
+  function-call:
+    # builtin function calls
     - match: |-
         \b(?x:
            abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod
@@ -945,13 +969,23 @@ contexts:
         ){{break}}
       scope: support.function.perl
       push: regexp-pop
-    - match: ^\s*(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
-      scope: meta.function.perl
+    # user defined function calls
+    - match: \b({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
       captures:
-        1: entity.name.function.perl
-    - match: \b{{member}}{{break}}
-      scope: variable.function.perl
-      push: regexp-pop
+        1: variable.function.perl
+      push: function-call-arguments
+
+  function-call-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.perl
+      set:
+        - - meta_scope: meta.function-call.arguments.perl
+          - match: \)
+            scope: punctuation.section.arguments.end.perl
+            pop: true
+          - include: main
+        - regexp-pop
 
 ###[ SUB ]####################################################################
 
@@ -962,6 +996,9 @@ contexts:
 
   sub-name:
     - meta_scope: meta.function.perl
+    - match: \b(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
+      scope: entity.name.function.callback.perl
+      set: sub-expect-parameters
     - match: '{{identifier}}'
       scope: entity.name.function.perl
       set: sub-expect-parameters
@@ -1046,8 +1083,9 @@ contexts:
         1: punctuation.definition.variable.perl
         2: support.class.perl
       push:
-        - meta_scope: variable.other.readwrite.global.perl
-        - include: members-pop
+        - - meta_scope: variable.other.readwrite.global.perl
+          - include: immediately-pop
+        - class-members-pop
     - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
       scope: variable.other.predefined.perl
       captures:
