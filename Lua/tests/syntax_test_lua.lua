@@ -148,14 +148,14 @@
 
     '\
 --   ^^ constant.character.escape
-    ';
+
+-- <- - invalid
 
     'foo\q';
 --      ^^ invalid.illegal.invalid-escape
 
     '
---   ^ invalid.illegal.newline
-    ';
+--   ^ invalid.illegal.unclosed-string
 
     "foo\"\'";
 --  ^^^^^^^^^ string.quoted.double
