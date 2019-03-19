@@ -378,7 +378,7 @@ contexts:
           assert|collectgarbage|dofile|error|getmetatable|ipairs|load|loadfile
           |next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select
           |setmetatable|tonumber|tostring|type|xpcall
-          |require
+          |require|getfenv|module|setfenv|unpack
         ){{identifier_break}}
       scope: support.function.builtin.lua
       pop: true
@@ -542,13 +542,13 @@ contexts:
           set:
             - match: |-
                 (?x:
-                  config|cpath|loaded|path|preload|searchers
+                  config|cpath|loaded|path|preload|searchers|loaders
                 ){{identifier_break}}
               scope: meta.property.lua support.constant.builtin.lua
               pop: true
             - match: |-
                 (?x:
-                  loadlib|searchpath
+                  loadlib|searchpath|seeall
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
@@ -564,7 +564,7 @@ contexts:
             - match: |-
                 (?x:
                   byte|char|dump|find|format|gmatch|gsub|len|lower|match|pack
-                  |packsize|rep|reverse|sub|unpack|other
+                  |packsize|rep|reverse|sub|unpack|upper
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
@@ -600,7 +600,7 @@ contexts:
           set:
             - match: |-
                 (?x:
-                  const|insert|move|pack|remove|sort|unpack
+                  concat|insert|move|pack|remove|sort|unpack|maxn
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
@@ -623,6 +623,7 @@ contexts:
                 (?x:
                   abs|acos|asin|atan|ceil|cos|deg|exp|floor|fmod|log|max|min
                   |modf|rad|random|randomseed|sin|sqrt|tan|tointeger|type|ult
+                  |atan2|cosh|frexp|ldexp|log10|pow|sinh|tanh
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
@@ -635,6 +636,12 @@ contexts:
         - match: \.
           scope: punctuation.accessor.lua
           set:
+            - match: |-
+                (?x:
+                  stderr|stdin|stdout
+                ){{identifier_break}}
+              scope: meta.property.lua support.constant.builtin.lua
+              pop: true
             - match: |-
                 (?x:
                   close|flush|input|lines|open|output|popen|read|tmpfile|type|write
@@ -671,6 +678,23 @@ contexts:
                   debug|gethook|getinfo|getlocal|getmetatable|getregistry
                   |getupvalue|getuservalue|sethook|setlocal|setmetatable
                   |setupvalue|setuservalue|traceback|upvalueid|upvaluejoin
+                  |getfenv|setfenv
+                ){{identifier_break}}
+              scope: meta.property.lua support.function.builtin.lua
+              pop: true
+            - include: property
+        - include: else-pop
+
+    - match: bit32{{identifier_break}}
+      scope: support.constant.builtin.lua
+      set:
+        - match: \.
+          scope: punctuation.accessor.lua
+          set:
+            - match: |-
+                (?x:
+                  arshift|band|bnot|bor|btest|bxor|extract|lrotate|lshift
+                  |replace|rrotate|rshift
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
