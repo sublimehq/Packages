@@ -76,4 +76,7 @@
 
   "typing json": {}
   ,,,, "another key": false,
+
+  "ke//y": "value"
+//^^^^^^^ meta.mapping.key.json string.quoted.double.json - comment
 }

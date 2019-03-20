@@ -101,6 +101,7 @@ contexts:
           push:
             - clear_scopes: 1
             - meta_scope: meta.mapping.key.json string.quoted.double.json
+            - meta_include_prototype: false
             - include: inside-string
         - match: ":"
           scope: punctuation.separator.mapping.key-value.json
