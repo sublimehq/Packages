@@ -59,6 +59,10 @@
 
 // <- - string
 
+  "string/* not a comment */": "string /* also not a comment */",
+//       ^ - comment
+//                                     ^ - comment
+
 /**/: "test",
 // ^ meta.mapping.json comment.block.json
 //  ^ punctuation.separator.mapping.key-value.json - comment
