@@ -32,6 +32,9 @@ Thanks to @username <name@mail-host.domain>.
 #                        ^ punctuation.separator.email.git
 #                                  ^ punctuation.separator.email.git
 #                                         ^ punctuation.definition.reference.email.end.git
+This is a <tag> name <tag.name>
+#         ^^^^^ - meta.reference - entity
+#                    ^^^^^^^^^^ - meta.reference - entity
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
