@@ -1350,6 +1350,33 @@ class Starship:
 #        ^ punctuation.separator.annotation.variable.python
 #                                   ^ keyword.operator.assignment
 
+primes = 5  # type: ignore # type: not-a-type-comment
+#           ^ comment.line.type-hint punctuation.definition.comment.python comment.line.number-sign.python
+#             ^^^^ comment.line.type-hint keyword.other.annotation.type-comment
+#                 ^ comment.line.type-hint punctuation.separator.annotation.type-comment
+#                   ^^^^^^ comment.line.type-hint keyword.other.annotation.type-comment.ignore
+#                          ^ comment.line.type-hint comment.line.number-sign.python punctuation.definition.comment.python
+#                            ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint comment.line.number-sign.python
+
+primes = 5  # type: List[Dict[property:str, ...]], bool # comment
+#           ^ comment.line.type-hint punctuation.definition.comment.python comment.line.number-sign.python
+#             ^^^^ comment.line.type-hint keyword.other.annotation.type-comment
+#                 ^ comment.line.type-hint punctuation.separator.annotation.type-comment
+#                   ^^^^ comment.line.type-hint support.class.python
+#                       ^ comment.line.type-hint meta.item-access.python punctuation.section.brackets.begin.python
+#                        ^^^^ comment.line.type-hint meta.item-access.arguments.python support.class.python
+#                            ^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.python punctuation.section.brackets.begin.python
+#                             ^^^^^^^^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.arguments.python support.function.builtin.python
+#                                     ^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.arguments.python punctuation.separator.slice.python
+#                                      ^^^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.arguments.python support.type.python
+#                                         ^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.arguments.python punctuation.separator.sequence.python
+#                                           ^^^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.arguments.python constant.language.python
+#                                              ^ comment.line.type-hint meta.item-access.arguments.python meta.item-access.python punctuation.section.brackets.end.python
+#                                               ^ comment.line.type-hint meta.item-access.python punctuation.section.brackets.end.python
+#                                                ^ comment.line.type-hint punctuation.separator.sequence.python
+#                                                  ^^^^ comment.line.type-hint support.type.python
+#                                                       ^ comment.line.type-hint comment.line.number-sign.python punctuation.definition.comment.python
+
 
 # <- - meta
 # ensure we're not leaking a context

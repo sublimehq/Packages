@@ -402,6 +402,68 @@ contexts:
       pop: true
 
   comments:
+    # Type-ignore must be the only hint allowed!
+    - match: '(#)\s*(type)(:)\s*(ignore)'
+      captures:
+        1: punctuation.definition.comment.python comment.line.number-sign.python
+        2: keyword.other.annotation.type-comment
+        3: punctuation.separator.annotation.type-comment
+        4: keyword.other.annotation.type-comment.ignore
+      set:
+        - meta_scope: comment.line.type-hint
+        - include: comments_noannotation
+        - match: \n
+          pop: true
+        - match: \S
+          scope: invalid.illegal
+    - match: '(#)\s*(type)(:)'
+      scope: comment.line.type-hint
+      captures:
+        1: punctuation.definition.comment.python comment.line.number-sign.python
+        2: keyword.other.annotation.type-comment
+        3: punctuation.separator.annotation.type-comment
+      embed: type-comment
+      escape: '\n'
+      embed_scope: comment.line.type-hint
+
+    - include: comments_noannotation
+
+  type-comment:
+    - include: comments_noannotation
+
+    # Don't use expressions here, only a few types are reasonable
+    # as annotations.
+    - include: constants
+    - include: builtin-exceptions
+    - include: builtin-types
+    - include: builtin-functions
+    - match: '{{identifier}}'
+      scope: support.class.python
+
+    - match: '\s*(\[)'
+      captures:
+        1: meta.item-access.python punctuation.section.brackets.begin.python
+      push:
+        - meta_content_scope: meta.item-access.arguments.python
+        - match: \]
+          scope: meta.item-access.python punctuation.section.brackets.end.python
+          pop: true
+        - match: ':'
+          scope: punctuation.separator.slice.python
+        - include: type-comment
+
+    - match: ','
+      scope: punctuation.separator.sequence.python
+    - match: \)
+      scope: invalid.illegal.stray.brace.round.python
+    - match: \]
+      scope: invalid.illegal.stray.brace.square.python
+    - match: \}
+      scope: invalid.illegal.stray.brace.curly.python
+    - match: \S
+      scope: invalid.illegal
+
+  comments_noannotation:
     - match: "#"
       scope: punctuation.definition.comment.python
       push:
