@@ -452,6 +452,34 @@ contexts:
           scope: punctuation.separator.slice.python
         - include: type-comment
 
+    - match: '\('
+      scope: punctuation.section.parens.begin.python
+      push:
+        - meta_content_scope: meta.function.parameters.python
+        - match: \)
+          scope: punctuation.section.parens.end.python
+          pop: true
+        - match: \(
+          scope: invalid.illegal.stray.brace.round.python
+
+        - match: \*{3,}
+          scope: invalid.illegal.syntax.python
+        - match: \*\*
+          scope: keyword.operator.unpacking.mapping.python
+        - match: \*
+          scope: keyword.operator.unpacking.sequence.python
+
+        - match: '->'
+          scope: invalid.illegal.stray.return.arrow.python
+        - include: type-comment
+
+    - match: '->'
+      scope: punctuation.separator.sequence.python meta.function.return-type.python
+      set:
+        - match: '->'
+          scope: invalid.illegal.stray.return.arrow.python
+        - include: type-comment
+        - meta_scope: meta.function.return-type.python
     - match: ','
       scope: punctuation.separator.sequence.python
     - match: \)
