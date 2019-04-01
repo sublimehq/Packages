@@ -389,6 +389,20 @@ contexts:
         - match : \)
           scope: punctuation.section.group.end.c
           pop: true
+        - match: \(
+          scope: punctuation.section.group.begin.c debug.function-definition-params-group.function-pointer
+          comment: Function pointer declaration
+          push:
+            - meta_scope: meta.group.c
+            - match: \)
+              scope: punctuation.section.group.end.c
+              set:
+                - include: function-definition-params-group
+                - include: or_pop
+            - match: \*
+              scope: storage.modifier.c
+            - match: '{{identifier}}'
+              scope: variable.parameter.c debug.function-definition-params-group.function-pointer
         - match: '\bvoid\b'
           scope: storage.type.c
         - match: \*
@@ -482,14 +496,17 @@ contexts:
     - match: \*
       scope: storage.modifier.c
     - match: '{{identifier}}(?=\s*\(|\s*\n)'
-      scope: entity.name.function.c debug.variable-identifier-list.function-first
+      scope: meta.function.c entity.name.function.c debug.variable-identifier-list.function
       set:
-        - meta_scope: meta.function.c debug.variable-identifier-list.function
-        - include: comments
-        - include: function-definition-params-group
-        - include: function-definition-body
-        - match: '(?=\S)'
-          set: variable-identifier-list
+        - - meta_scope: debug.variable-identifier-list.function-body
+          - include: comments
+          - include: function-definition-body
+          - match: '(?=\S)'
+            set: variable-identifier-list
+        - - meta_scope: debug.variable-identifier-list.function-params
+          - include: comments
+          - include: function-definition-params-group
+          - include: or_pop
     - match: \(
       scope: punctuation.section.group.begin debug.variable-identifier-list.function-pointer
       comment: Function pointer declaration

@@ -1028,6 +1028,28 @@ struct resource_table *(*find_loaded_rsc_table)(
 /*                                                     ^ storage.modifier.c */
 /*                                                      ^^ variable.parameter.c */
 
+
+void do_pci_scan_bridge(struct device *dev,
+/*   ^^^^^^^^^^^^^^^^^^ meta.function.c entity.name.function.c */
+/*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c - meta.function.c */
+/*                      ^^^^^^ storage.type.c */
+/*                             ^^^^^^ support.type.c */
+/*                                    ^ storage.modifier.c */
+/*                                     ^^^ variable.parameter.c */
+/*                                        ^ punctuation.separator.c */
+  void (*do_scan_bus)(int max_devfn));
+/*^^^^ storage.type.c */
+/*     ^ meta.function.parameters.c meta.group.c meta.group.c punctuation.section.group.begin.c */
+/*      ^ storage.modifier.c */
+/*       ^^^^^^^^^^^ variable.parameter.c */
+/*                  ^ meta.function.parameters.c meta.group.c meta.group.c punctuation.section.group.end.c */
+/*                   ^ meta.function.parameters.c meta.group.c meta.function.parameters.c meta.group.c punctuation.section.group.begin.c - meta.function.c */
+/*                    ^^^ storage.type.c */
+/*                        ^^^^^^^^^ variable.parameter.c */
+/*                                 ^ meta.function.parameters.c meta.group.c meta.function.parameters.c meta.group.c punctuation.section.group.end.c - meta.function.c */
+/*                                  ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c - meta.function.c */
+/*                                   ^ punctuation.terminator.c - meta.function */
+
 static const struct pci_driver my_driver __pci_driver __driver = {
 /* <- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
