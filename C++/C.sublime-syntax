@@ -11,6 +11,7 @@ scope: source.c
 variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
+  attr_macro_identifier: \b__[[:alnum:]_]{2,}\b # __aligned, __pci_driver
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   microsoft_types: '__int8|__int16|__int32|__int64'
@@ -135,6 +136,17 @@ contexts:
   modifiers:
     - match: \b({{modifiers}})\b
       scope: storage.modifier.c
+
+  modifiers-macros:
+    - match: '{{attr_macro_identifier}}(?=\s*\()'
+      scope: variable.function.c
+      comment: Preprocessor Attributes with parameters
+      push:
+        - meta_scope: meta.function-call.c
+        - include: function-call-params
+    - match: '{{attr_macro_identifier}}(?!\s*->|\s*\.)'
+      scope: support.type.c # Should this be storage.modifier.c?
+      comment: Preprocessor Attributes
 
   variables:
     - match: '\bg[A-Z]\w*\b'
@@ -463,15 +475,16 @@ contexts:
       scope: variable.parameter.c debug.parameter-variable-identifier
 
   variable-identifier-list:
-    - meta_scope: variable-identifier-list
+    - meta_scope: debug.variable-identifier-list
     - include: modifiers
     - include: modifiers-parens
+    - include: modifiers-macros
     - match: \*
       scope: storage.modifier.c
     - match: '{{identifier}}(?=\s*\(|\s*\n)'
-      scope: meta.function.c entity.name.function.c debug.variable-identifier-list.function-first
+      scope: entity.name.function.c debug.variable-identifier-list.function-first
       set:
-        - meta_scope: debug.variable-identifier-list.function
+        - meta_scope: meta.function.c debug.variable-identifier-list.function
         - include: comments
         - include: function-definition-params-group
         - include: function-definition-body
@@ -648,10 +661,6 @@ contexts:
     - match: '\b[[:upper:][:digit:]_]+\b'
       scope: variable.annotation.c
 
-  data-structures-definition-common-end:
-    - match: '(?=;)'
-      pop: true
-
   data-structures-body:
     - include: preprocessor-data-structures
     - include: preprocessor-expressions
@@ -767,6 +776,23 @@ contexts:
   typedef-types:
     - meta_scope: debug.typedef-types
     - include: comments
+    - include: modifiers
+    # Make sure to pop when a data structure keyword is found
+    - match: (?=\bstruct\b)
+      set:
+        - meta_scope: debug.typedef-types.struct
+        - include: struct-keyword
+        - include: or_pop
+    - match: (?=\benum\b)
+      set:
+        - meta_scope: debug.typedef-types.enum
+        - include: enum-keyword
+        - include: or_pop
+    - match: (?=\bunion\b)
+      set:
+        - meta_scope: debug.typedef-types.union
+        - include: union-keyword
+        - include: or_pop
     - include: types
     - match: ({{identifier}})(?!\s*;|\s*,|\s*;|\s*\[|\s*\(|\s*=)
       captures:
@@ -829,23 +855,25 @@ contexts:
         - include: c99
         - match: '{{identifier}}'
           scope: variable.function.c
-        - match: '\('
-          scope: punctuation.section.group.begin.c
-          set:
-            - meta_scope: meta.function-call.parameters.c meta.group.c debug.function-call.params
-            - match : \)
-              scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
-              pop: true
-            # - include: macro-identifiers
-            - match: '{{macro_identifier}}(?!\()'
-              comment: Not sure I think we need this special case
-              scope: variable.annotation.c
-            - include: expressions
-            - match: '{{identifier}}'
-              scope: variable.other.c
-            - match: '\b\w+\b'
-              scope: variable.other.c
-              comment: Inside macro params, the identifiers can start with numbers
+        - include: function-call-params
+  function-call-params:
+    - match: '\('
+      scope: punctuation.section.group.begin.c
+      set:
+        - meta_scope: meta.function-call.parameters.c meta.group.c debug.function-call.params
+        - match : \)
+          scope: meta.group.c punctuation.section.group.end.c
+          pop: true
+        # - include: macro-identifiers
+        - match: '{{macro_identifier}}(?!\()'
+          comment: Not sure I think we need this special case
+          scope: support.constant.c
+        - include: expressions
+        - match: '{{identifier}}'
+          scope: variable.other.c
+        - match: '\b\w+\b'
+          scope: variable.other.c
+          comment: Inside macro params, the identifiers can start with numbers
 
   ## Preprocessor for data-structures
 

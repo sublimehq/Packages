@@ -594,7 +594,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*^^^^^^^^^^^^^^^^ meta.function-call.parameters.c meta.function-call.c variable.function.c */
 /*                ^ meta.function-call.parameters.c meta.function-call.parameters.c meta.group.c punctuation.section.group.begin.c */
     WPAN_PHY_ENTRY
-/*  ^^^^^^^^^^^^^^ variable.annotation.c */
+/*  ^^^^^^^^^^^^^^ support.constant.c */
     __string(vir_intf_name, name ? name : "<noname>")
 /*  ^^^^^^^^ meta.function-call.c variable.function.c */
 /*          ^ punctuation.section.group.begin.c */
@@ -628,7 +628,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*^^^^^^^^^^^^^^ variable.function.c */
 /*              ^ meta.function-call.parameters.c meta.function-call.parameters.c punctuation.section.group.begin.c */
     WPAN_PHY_ASSIGN;
-/*  ^^^^^^^^^^^^^^^ variable.annotation.c */
+/*  ^^^^^^^^^^^^^^^ support.constant.c */
     __assign_str(vir_intf_name, name ? name : "<noname>");
 /*  ^^^^^^^^^^^^ meta.function-call.c variable.function.c */
 /*              ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
@@ -654,11 +654,11 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
   TP_printk(WPAN_PHY_PR_FMT ", name: %s, type: %d, addr: 0x%llx",
 /*^^^^^^^^^ meta.function-call.c variable.function.c */
 /*         ^ meta.function-call.parameters.c meta.function-call.parameters.c punctuation.section.group.begin.c */
-/*          ^^^^^^^^^^^^^^^ variable.annotation */
+/*          ^^^^^^^^^^^^^^^ support.constant.c */
 /*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.c*/
 /*                                                              ^ punctuation.separator.c */
       WPAN_PHY_PR_ARG, __get_str(vir_intf_name), __entry->type,
-/*    ^^^^^^^^^^^^^^^ variable.annotation */
+/*    ^^^^^^^^^^^^^^^ support.constant.c */
 /*                   ^ punctuation.separator.c */
 /*                     ^^^^^^^^^ meta.function-call.c variable.function.c */
 /*                               ^^^^^^^^^^^^^ variable.other.c */
@@ -672,10 +672,10 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*                  ^^^^^^^ variable.other.c */
 /*                         ^^ punctuation.accessor.c */
 /*                           ^^^^^^^^^^^^^ variable.other.c */
-/*                                        ^ meta.function-call.c meta.group.c punctuation.section.group.end.c */
-/*                                         ^ meta.function-call.c meta.group.c punctuation.section.group.end.c */
+/*                                        ^ meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
+/*                                         ^ meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
 );
-/* <- meta.function-call.c meta.group.c punctuation.section.group.end.c */
+/* <- meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
  /* <- punctuation.terminator.c */
 
 static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
@@ -883,8 +883,8 @@ struct UI_MenuBoxData
     struct delayed_work monitor_work ____cacheline_aligned_in_smp;
 /*  ^^^^^^ storage.type */
 /*         ^^^^^^^^^^^^ support.type.c */
-/*                      ^^^^^^^^^^^^ support.type.c */
-/*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c*/
+/*                      ^^^^^^^^^^^^ variable.other.c */
+/*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.c */
 /*                                                               ^ punctuation.terminator.c */
     const struct efx_channel_type *
 /*  ^^^^^storage.modifier.c */
@@ -1028,7 +1028,14 @@ struct resource_table *(*find_loaded_rsc_table)(
 /*                                                     ^ storage.modifier.c */
 /*                                                      ^^ variable.parameter.c */
 
-static const struct pci_driver my_driver __pci_driver = {
+static const struct pci_driver my_driver __pci_driver __driver = {
+/* <- storage.modifier.c */
+/*     ^^^^^ storage.modifier.c */
+/*           ^^^^^^ storage.type.c */
+/*                  ^^^^^^^^^^ support.type.c */
+/*                             ^^^^^^^^^ variable.other.c */
+/*                                       ^^^^^^^^^^^^ support.type.c */
+/*                                                    ^^^^^^^^ support.type.c */
   .ops      = &pci_my_device_ops,
   .vendor   = PCI_VENDOR_ID,
   .devices  = pci_device_ids,
@@ -1055,6 +1062,86 @@ static const struct spd_info {
         .spd_part_len = SPD_DEFAULT_PART_LEN,
     },
 };
+
+void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
+/* <- storage.type.c */
+/*   ^ storage.modifier.c */
+/*     ^^^^^ storage.modifier.c */
+/*           ^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                                ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
+/*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
+/*                                                       ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                                                                ^^^^^^ meta.function-call.parameters.c */
+/*                                                                 ^^^^ constant.numeric.c */
+/*                                                                       ^ keyword.operator.assignment.c */
+/*                                                                         ^ meta.block.c punctuation.section.block.begin.c */
+  [0 ... __NR_compat_syscalls - 1] = sys_ni_syscall,
+#include <asm/unistd32.h>
+};
+/* <- meta.block.c punctuation.section.block.end.c */
+ /* <- punctuation.terminator.c */
+
+pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
+/* <- support.type.c */
+/*    ^^^^^^^^^^^^^^ variable.other.c */
+/*                  ^^^^^^^^^^^^^^ meta.brackets.c
+/*                  ^ punctuation.section.brackets.begin.c storage.modifier.c */
+/*                   ^^^^^^^^^^^^ support.constant.c */
+/*                               ^ punctuation.section.brackets.end.c storage.modifier.c */
+/*                                 ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                                          ^^^^^^^^^^^ meta.function-call.parameters.c
+/*                                          ^ meta.group.c punctuation.section.group.begin.c */
+/*                                           ^^^^^^^^^ support.constant.c */
+/*                                                    ^ meta.group.c punctuation.section.group.end.c */
+/*                                                     ^ punctuation.terminator.c */
+
+struct mac_tfm_ctx {
+/* <- storage.type.c */
+/*     ^^^^^^^^^^^ entity.name.struct.c */
+/*                 ^ meta.block.c  punctuation.section.block.begin.c */
+  struct crypto_aes_ctx key;
+/*^^^^^^ storage.type.c */
+/*       ^^^^^^^^^^^^^^ support.type.c */
+/*                      ^^^ variable.other.c */
+/*                         ^ punctuation.terminator.c */
+  struct crypto_aes_ctx __aligned(8) key2;
+/*^^^^^^ storage.type.c */
+/*       ^^^^^^^^^^^^^^ support.type.c */
+/*                      ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                               ^^^ meta.function-call.parameters.c
+/*                               ^ meta.group.c punctuation.section.group.begin.c */
+/*                                ^ constant.numeric.c */
+/*                                 ^ meta.group.c punctuation.section.group.end.c */
+/*                                   ^^^^ variable.other.c */
+/*                                       ^ punctuation.terminator.c */
+  u8 __aligned(8) consts[];
+/*^^ support.type.c */
+/*   ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*            ^^^ meta.function-call.parameters.c
+/*            ^ meta.group.c punctuation.section.group.begin.c */
+/*             ^ constant.numeric.c */
+/*              ^ meta.group.c punctuation.section.group.end.c */
+/*                ^^^^^^ variable.other.c */
+/*                      ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
+/*                       ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
+/*                        ^ punctuation.terminator.c */
+} __packed __aligned(4);
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+/*^^^^^^^^ support.type.c */
+/*         ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                  ^^^ meta.function-call.parameters.c
+/*                  ^ meta.group.c punctuation.section.group.begin.c */
+/*                   ^ constant.numeric.c */
+/*                    ^ meta.group.c punctuation.section.group.end.c */
+/*                     ^ punctuation.terminator.c */
+
+static const struct print_field const err_flags[];
+/*<- storage.modifier.c */
+/*     ^^^^^ storage.modifier.c */
+/*                              ^^^^^ storage.modifier.c */
+/*                                    ^^^^^^^^^ variable.other.c */
+/*                                             ^^ storage.modifier.c */
+/*                                               ^ punctuation.terminator.c */
 
 enum {
 /* <- storage.type */
