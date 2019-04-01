@@ -811,10 +811,9 @@ contexts:
         - include: union-keyword
         - include: or_pop
     - include: types
-    - match: ({{identifier}})(?!\s*;|\s*,|\s*;|\s*\[|\s*\(|\s*=)
+    - match: ({{identifier}})\s*(?={{identifier}}|\(\*|\n|\*)
       captures:
         1: support.type.c debug.typedef-types.identifier
-      comment: Must be a negative of typedef-identifier-list
     - include: or_pop
   typedef-identifier-list:
     - meta_scope: debug.typedef-identifier-list

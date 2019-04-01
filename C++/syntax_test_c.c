@@ -961,8 +961,8 @@ struct rproc_ops {
 /*                      ^^^^^ support.type.c */
 /*                            ^ storage.modifier.c */
 /*                             ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
-    int (*start)(struct rproc *, struct rproc *);
-/*  ^^^ storage.type.c */
+    u32 (*start)(struct rproc *, struct rproc *);
+/*  ^^^ support.type.c */
 /*        ^^^^^ variable.other.c */
 /*              ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
 /*               ^^^^^^ storage.type.c */
