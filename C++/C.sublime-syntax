@@ -138,13 +138,15 @@ contexts:
       scope: storage.modifier.c
 
   modifiers-macros:
-    - match: '{{attr_macro_identifier}}(?=\s*\()'
+    - match: '{{attr_macro_identifier}}(?=\s*\((?:\d+|{{macro_identifier}})\))'
       scope: variable.function.c
-      comment: Preprocessor Attributes with parameters
+      comment: Preprocessor Attributes with parameters.
+        We only support a very limited definition so it doesn't gobble up
+        actual function definitions.
       push:
         - meta_scope: meta.function-call.c
         - include: function-call-params
-    - match: '{{attr_macro_identifier}}(?!\s*->|\s*\.)'
+    - match: '{{attr_macro_identifier}}(?!\s*\()'
       scope: support.type.c # Should this be storage.modifier.c?
       comment: Preprocessor Attributes
 

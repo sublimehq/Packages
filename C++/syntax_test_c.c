@@ -177,6 +177,10 @@ int main() {
     return 0;
 }
 
+void __sdhci_read_caps(struct sdhci_host *host, u16 *ver);
+/* <- storage.type.c */
+/*   ^^^^^^^^^^^^^^^^^ meta.function entity.name.function */
+
 #if 0
 #ifdef moo
 /* <- - keyword.control */
