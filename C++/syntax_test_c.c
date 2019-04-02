@@ -429,9 +429,9 @@ typedef enum state {DEAD,ALIVE} State;
 /*<- storage.type.c */
 /*      ^^^^ storage.type.c */
 /*           ^^^^^ entity.name.enum.c */
-/*                  ^^^^ constant.other.enum.c */
+/*                  ^^^^ entity.name.constant.enum.c */
 /*                      ^ punctuation.separator.c */
-/*                       ^^^^^ constant.other.enum.c */
+/*                       ^^^^^ entity.name.constant.enum.c */
 /*                              ^^^^^ entity.name.type.typedef.c */
 /*                                   ^ punctuation.terminator.c */
 
@@ -1172,34 +1172,57 @@ static const struct print_field const err_flags[];
 enum {
 /* <- storage.type */
     ENUM_A,
-/*  ^ constant.other.enum.c */
+/*  ^ entity.name.constant.enum.c */
 /*        ^ punctuation.separator.c */
     ENUM_B = 6,
-/*  ^ constant.other.enum.c */
+/*  ^ entity.name.constant.enum.c */
 /*         ^ keyword.operator.assignment */
 /*           ^ constant.numeric.c */
 /*            ^ punctuation.separator.c */
 #ifdef ENABLED_FEATURE
 /* <- meta.preprocessor.c keyword.control.import.c */
     ENUM_ENABLED,
-/*  ^^^^^^^^^^^^ constant.other.enum.c */
+/*  ^^^^^^^^^^^^ entity.name.constant.enum.c */
 #else
 /* <- meta.preprocessor.c keyword.control.import.c */
     ENUM_DISABLED,
-/*  ^^^^^^^^^^^^^ constant.other.enum.c */
+/*  ^^^^^^^^^^^^^ entity.name.constant.enum.c */
 #endif
 /* <- meta.preprocessor.c keyword.control.import.c */
 
 #if 0
 /* <- meta.preprocessor.c keyword.control.import.c */
     ENUM_FIELD_DISABLED
-/*  ^^^^^^^^^^^^^^^^^^^ constant.other.enum.c */
+/*  ^^^^^^^^^^^^^^^^^^^ entity.name.constant.enum.c */
 #endif
 /* <- meta.preprocessor.c keyword.control.import.c */
 
     ENUM_C
-/*  ^ constant.other.enum.c */
+/*  ^ entity.name.constant.enum.c */
 };
+
+enum typec_mux {
+/* <- meta.enum.c storage.type.c */
+/*   ^^^^^^^^^ entity.name.enum.c */
+  TYPEC_MUX_NONE = 0,
+/*^^^^^^^^^^^^^^ entity.name.constant.enum.c */
+/*               ^ keyword.operator.assignment.c */
+/*                 ^ constant.numeric.c */
+/*                  ^ punctuation.separator.c */
+  TYPEC_MUX_USB  = MUX_USB_ENABLED,
+/*^^^^^^^^^^^^^ entity.name.constant.enum.c */
+/*               ^ keyword.operator.assignment.c */
+/*                 ^^^^^^^^^^^^^^^ support.constant.c */
+/*                                ^ punctuation.separator.c */
+  TYPEC_MUX_DOCK = MUX_USB_ENABLED | MUX_DP_ENABLED,
+/*^^^^^^^^^^^^^^ entity.name.constant.enum.c */
+/*               ^ keyword.operator.assignment.c */
+/*                 ^^^^^^^^^^^^^^^ support.constant.c */
+/*                                 ^ keyword.operator */
+/*                                   ^^^^^^^^^^^^^^ support.constant.c */
+};
+/* <-meta.enum.c meta.block.c punctuation.section.block.end.c */
+ /* <- punctuation.terminator.c */
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks

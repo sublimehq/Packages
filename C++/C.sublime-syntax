@@ -617,12 +617,12 @@ contexts:
           pop: true
         - include: preprocessor-expressions
         - match: '{{identifier}}'
-          scope: constant.other.enum.c
+          scope: entity.name.constant.enum.c
           push:
             - meta_scope: debug.data-structures-enum-definition.pre-assignment
             - include: comments
             - match: '='
-              scope: keyword.operator.assignment
+              scope: keyword.operator.assignment.c
               set:
                 - meta_scope: debug.data-structures-enum-definition.post
                 - include: comments
@@ -632,6 +632,9 @@ contexts:
                 - match: '(?=,|})'
                   pop: true
                 - include: expressions
+                # Expressions doesn't handle macro identifiers or enum constants
+                - match: '{{macro_identifier}}'
+                  scope: support.constant.c
                 - include: or_pop
             # No equals
             - include: or_pop
