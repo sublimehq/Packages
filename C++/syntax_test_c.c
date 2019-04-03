@@ -1161,6 +1161,49 @@ struct mac_tfm_ctx {
 /*                    ^ meta.group.c punctuation.section.group.end.c */
 /*                     ^ punctuation.terminator.c */
 
+void __attributes(int *bar) __must_hold(&foo)
+/* <- storage.type.c */
+/*   ^^^^^^^^^^^^ entity.name.function.c */
+/*                ^^^ storage.type.c */
+/*                    ^ storage.modifier.c */
+/*                     ^^^ variable.parameter.c */
+/*                          ^^^^^^^^^^^ meta.function-call.c */
+/*                                     ^^^^^^ meta.function-call.parameters.c */
+/*                                      ^ keyword.operator.c
+/*                                       ^^^ variable.other.c */
+    __safe
+/*  ^^^^^^ support.type.c */
+    SAFE
+/*  ^^^^ support.type.c */
+    __blah(bar)
+/*  ^^^^^^ meta.function-call.c variable.function.c */
+/*         ^^^ variable.other.c */
+    __blah(bar, foo)
+/*  ^^^^^^ meta.function-call.c variable.function.c */
+/*        ^^^^^^^^^^ meta.function-call.parameters.c */
+/*         ^^^ variable.other.c */
+/*              ^^^ variable.other.c */
+    __must_hold(&abc->lock)
+/*  ^^^^^^^^^^^ meta.function-call.c */
+/*             ^^^^^^^^^^^^ meta.function-call.parameters.c */
+/*              ^ keyword.operator.c
+/*               ^^^ variable.other.c */
+/*                  ^^ punctuation.accessor.c */
+/*                    ^^^^ variable.other.c */
+    {}
+/*  ^^ meta.function.c meta.block.c */
+
+
+void f_attributes(int *bar) __attribute__((context(&foo,1,1))) {}
+/* <- storage.type.c */
+/*   ^^^^^^^^^^^^ entity.name.function.c */
+/*                ^^^ storage.type.c */
+/*                    ^ storage.modifier.c */
+/*                     ^^^ variable.parameter.c */
+/*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                          ^^^^^^^^^^^^^ storage.modifier.c */
+/*                                                             ^^ meta.function.c meta.block.c */
+
 static const struct print_field const err_flags[];
 /*<- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */

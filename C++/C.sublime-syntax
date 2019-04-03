@@ -139,7 +139,7 @@ contexts:
 
   modifiers-macros:
     - match: '{{attr_macro_identifier}}(?=\s*\((?:\d+|{{macro_identifier}})\))'
-      scope: variable.function.c
+      scope: variable.function.c debug.modifiers-macros
       comment: Preprocessor Attributes with parameters.
         We only support a very limited definition so it doesn't gobble up
         actual function definitions.
@@ -505,6 +505,14 @@ contexts:
           - include: function-definition-body
           - match: '(?=\S)'
             set: variable-identifier-list
+        - - meta_scope: debug.variable-identifier-list.function-modifiers
+          - include: comments
+          - include: modifiers-parens
+          # Macro invocations
+          - include: function-call
+          - match: '{{identifier}}'
+            scope: support.type.c debug.variable-identifier-list.function-attribute
+          - include: or_pop
         - - meta_scope: debug.variable-identifier-list.function-params
           - include: comments
           - include: function-definition-params-group
@@ -696,13 +704,13 @@ contexts:
 
   block:
     - match: '\{'
-      scope: punctuation.section.block.begin.c debug.block
+      scope: punctuation.section.block.begin.c debug.block.open-brace
       push:
-        - meta_scope: meta.block.c
+        - meta_scope: meta.block.c debug.block
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - match: '\}'
-          scope: punctuation.section.block.end.c
+          scope: punctuation.section.block.end.c debug.block.close-brace
           pop: true
         - include: statements
 
@@ -883,7 +891,7 @@ contexts:
       set:
         - meta_scope: meta.function-call.parameters.c meta.group.c debug.function-call.params
         - match : \)
-          scope: meta.group.c punctuation.section.group.end.c
+          scope: punctuation.section.group.end.c
           pop: true
         # - include: macro-identifiers
         - match: '{{macro_identifier}}(?!\()'
