@@ -34,8 +34,7 @@ contexts:
         1: keyword.control.statement.dosbatch
         2: punctuation.separator.dosbatch
         3: keyword.control.flow.return.dosbatch
-        4: meta.function-call.dosbatch entity.name.label.dosbatch
-
+        4: meta.function-call.dosbatch variable.function.dosbatch
     - match: \b(?i)(if)\s+(?:(not)\s+)?(exist|defined|errorlevel|cmdextversion)\b
       captures:
         1: keyword.control.conditional.dosbatch
