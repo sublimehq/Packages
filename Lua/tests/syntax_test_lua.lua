@@ -84,14 +84,6 @@
 --  ^^^^^^^^^^^^ constant.numeric.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
     'foo';
 --  ^^^^^ string.quoted.single
 --  ^ punctuation.definition.string.begin
