@@ -148,8 +148,10 @@ contexts:
         - include: function-call-params
     - match: '{{attr_macro_identifier}}(?!\s*\()'
       # Should this be storage.modifier.c?
-      scope: support.type.c debug.modifiers-macros
+      scope: support.type.c debug.modifiers-macros.underscore
       comment: Preprocessor Attributes
+    - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*)'
+      scope: support.type.c debug.modifiers-macros.caps
 
   variables:
     - match: '\bg[A-Z]\w*\b'
@@ -493,6 +495,7 @@ contexts:
 
   variable-identifier-list:
     - meta_scope: debug.variable-identifier-list
+    - include: comments
     - include: modifiers
     - include: modifiers-parens
     - include: modifiers-macros

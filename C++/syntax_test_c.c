@@ -446,7 +446,7 @@ struct point
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int x;
     int y;
-}
+};
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 struct point2 {
@@ -455,7 +455,7 @@ struct point2 {
 /*            ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int x;
     int y;
-}
+};
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
 int main(void) {
@@ -1204,6 +1204,110 @@ void f_attributes(int *bar) __attribute__((context(&foo,1,1))) {}
 /*                          ^^^^^^^^^^^^^ storage.modifier.c */
 /*                                                             ^^ meta.function.c meta.block.c */
 
+char *__attribute__((aligned(8))) *e,
+/* <- storage.type.c */
+/*   ^ storage.modifier.c */
+/*    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*    ^^^^^^^^^^^^^ storage.modifier.c */
+/*                                ^ storage.modifier.c */
+/*                                 ^ variable.other.c */
+/*                                  ^ punctuation.separator.c */
+  *f,
+/*^ storage.modifier.c */
+/* ^ variable.other.c */
+/*  ^ punctuation.separator.c */
+  __attribute__((aligned(8))) * g,
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*^^^^^^^^^^^^^ storage.modifier.c */
+/*                            ^ storage.modifier.c */
+/*                              ^ variable.other.c */
+/*                               ^ punctuation.separator.c */
+  * __attribute__((aligned(8))) h;
+/*^ storage.modifier.c */
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*  ^^^^^^^^^^^^^ storage.modifier.c */
+/*                              ^ variable.other.c */
+/*                               ^ punctuation.terminator.c */
+
+char *MACRO1 *e,
+/* <- storage.type.c */
+/*   ^ storage.modifier.c */
+/*    ^^^^^^ support.type.c */
+/*           ^ storage.modifier.c */
+/*            ^ variable.other.c */
+/*             ^ punctuation.separator.c */
+  *f,
+/*^ storage.modifier.c */
+/* ^ variable.other.c */
+/*  ^ punctuation.separator.c */
+  MACRO1 * g,
+/*^^^^^^ support.type.c */
+/*       ^ storage.modifier.c */
+/*         ^ variable.other.c */
+/*          ^ punctuation.separator.c */
+  * MACRO1 * h;
+/*^ storage.modifier.c */
+/*  ^^^^^^ support.type.c*/
+/*         ^ storage.modifier.c */
+/*           ^ variable.other.c */
+/*            ^ punctuation.terminator.c */
+
+char *MACRO1 e,
+/* <- storage.type.c */
+/*   ^ storage.modifier.c */
+/*    ^^^^^^ support.type.c */
+/*           ^ variable.other.c */
+/*            ^ punctuation.separator.c */
+  f,
+/*^ variable.other.c */
+/* ^ punctuation.separator.c */
+  MACRO1 g,
+/*^^^^^^ support.type.c */
+/*       ^ variable.other.c */
+/*        ^ punctuation.separator.c */
+  * MACRO1 h;
+/*^ storage.modifier.c */
+/*  ^^^^^^ support.type.c*/
+/*         ^ variable.other.c */
+/*          ^ punctuation.terminator.c */
+
+char *__aligned(8) *e,
+/* <- storage.type.c */
+/*   ^ storage.modifier.c */
+/*    ^^^^^^^^^^^^ meta.function-call */
+/*                 ^ storage.modifier.c */
+/*                  ^ variable.other.c */
+/*                   ^ punctuation.separator.c */
+  *f,
+/*^ storage.modifier.c */
+/* ^ variable.other.c */
+/*  ^ punctuation.separator.c */
+  __aligned(8) * g,
+/*^^^^^^^^^^^^ meta.function-call */
+/*             ^ storage.modifier.c */
+/*               ^ variable.other.c */
+/*                ^ punctuation.separator.c */
+  * __aligned(8) h;
+/*^ storage.modifier.c */
+/*  ^^^^^^^^^^^^ meta.function-call */
+/*               ^ variable.other.c */
+/*                ^ punctuation.terminator.c */
+
+MACRO1 UPPER_VAR;
+/* <- support.type.c */
+/*     ^^^^^^^^^ variable.other.c */
+/*              ^ punctuation.terminator.c */
+
+__safe UPPER_VAR;
+/* <- support.type.c */
+/*     ^^^^^^^^^ variable.other.c */
+/*              ^ punctuation.terminator.c */
+
+TYPE(int) UPPER_VAR;
+/* <- meta.function-call */
+/*        ^^^^^^^^^ variable.other.c */
+/*                 ^ punctuation.terminator.c */
+
 static const struct print_field const err_flags[];
 /*<- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
@@ -1378,13 +1482,44 @@ int /* comment */ * myfunc
 }
 
 MACRO1
+/* <- support.type.c */
 RETURN_TYPE
-/* <- - entity.name.function */
+/* <- support.type.c */
 func_name() {
 /* < entity.name.function */
 }
 
+MACRO1 void MACRO2 * myfuncname ();
+/* <- support.type.c */
+/*     ^ storage.type.c */
+/*          ^ support.type.c */
+/*                 ^ storage.modifier.c */
+/*                   ^^^^^^^^^^ meta.function.c entity.name.function.c */
+/*                              ^^ meta.function.parameters.c*/
+/*                                ^ punctuation.terminator.c */
+
+MACRO1 void MACRO2 myfuncname (), MACRO2 foo(), UPPER_VAR, UPPERFN();
+/* <- support.type.c */
+/*     ^ storage.type.c */
+/*          ^ support.type.c */
+/*                 ^^^^^^^^^^ meta.function.c entity.name.function.c */
+/*                            ^^ meta.group.c*/
+/*                              ^ punctuation.separator.c */
+/*                                ^^^^^^ support.type.c */
+/*                                       ^^^ entity.name.function.c */
+/*                                          ^^ meta.function.parameters.c
+/*                                            ^ punctuation.separator.c */
+/*                                              ^^^^^^^^^ variable.other.c */
+/*                                                       ^ punctuation.separator.c */
+/*                                                         ^^^^^^^ entity.name.function.c */
+/*                                                                ^^ meta.function.parameters.c */
+/*                                                                  ^ punctuation.terminator.c */
+
 MACRO1 void * MACRO2 myfuncname () {
+/* <- support.type.c */
+/*     ^^^^ storage.type.c */
+/*          ^ storage.modifier.c */
+/*            ^^^^^^ support.type.c */
 /*                   ^^^^^^^^^^ meta.function */
 /*                              ^^ meta.function.parameters */
 /*                                 ^ meta.block punctuation.section.block.begin
@@ -1429,6 +1564,7 @@ static const uint32_t * const MACRO funcname();
 /*           ^ support.type */
 /*                    ^ storage.modifier.c */
 /*                      ^ storage.modifier */
+/*                            ^^^^^ support.type.c */
 /*                                  ^ entity.name.function */
 
 MACRO int
