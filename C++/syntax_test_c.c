@@ -230,7 +230,7 @@ foo
 FOO()
 /* <- meta.function-call.c variable.function.c */
 FOO();
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function.c entity.name.function.c */
 foo()
 /* <- meta.function-call.c variable.function.c */
 ; // fix highlighting
@@ -591,7 +591,7 @@ TRACE_EVENT(mmc_request_start,
 
 TRACE_EVENT(802154_rdev_add_virtual_intf,
 /* <-meta.function-call.c variable.function.c */
-/*         ^ meta.function-call.c punctuation.section.group.begin.c */
+/*         ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
 /*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
 /*                                      ^ punctuation.separator.c */
   TP_STRUCT__entry(
@@ -1570,7 +1570,7 @@ static const uint32_t * const MACRO funcname();
 MACRO int
 /*    ^ storage.type */
 funcname2
-/* ^ entity.name.function */
+/* ^ support.type.c */
 ()
 {
     int a[5];
@@ -1579,12 +1579,55 @@ funcname2
 /*         ^ punctuation.section.brackets.end */
 }
 
-MACRO_CALL(int) macro_prefixed_func(){}
+MACRO_CALL(int) foo;
 /*^^^^^^^^^^^^^ meta.function-call */
 /*        ^^^^^ meta.group */
+/*              ^^^ variable.other.c */
+/*                 ^ punctuation.terminator.c */
+MACRO_CALL(int) ALIGNED(8) foo;
+/*^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^ meta.function-call.parameters.c */
+/*              ^^^^^^^^^^ meta.function-call */
+/*                     ^^^ meta.function-call.parameters.c */
+/*                         ^^^ variable.other.c */
+/*                            ^ punctuation.terminator.c */
+
+MACRO_CALL(int) ALIGNED(8) macro_prefixed_func(){}
+/*^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^ meta.function-call.parameters.c */
+/*              ^^^^^^^^^^ meta.function-call */
+/*                     ^^^ meta.function-call.parameters.c */
+/*                         ^ entity.name.function */
+
+
+MACRO_CALL(int) macro_prefixed_func(){}
+/*^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^ meta.function-call.parameters.c */
 /*        ^ punctuation.section.group.begin */
 /*            ^ punctuation.section.group.end */
 /*              ^ entity.name.function */
+
+extern NCURSES_EXPORT(int) use_default_colors (void);
+/* <- storage.modifier.c */
+/*     ^^^^^^^^^^^^^^ meta.function-call.c */
+/*                   ^^^^^ meta.function-call.parameters.c */
+/*                         ^^^^^^^^^^^^^^^^^^ meta.function.c */
+/*                                            ^^^^^^ meta.function.parameters.c */
+/*                                                  ^ punctuation.terminator.c */
+
+extern NCURSES_EXPORT(const char *) curses_version (void);
+/* <- storage.modifier.c */
+/*     ^^^^^^^^^^^^^^ meta.function-call.c */
+/*                   ^^^^^^^^^^^^^^ meta.function-call.parameters.c */
+/*                                  ^^^^^^^^^^^^^^ meta.function.c */
+/*                                                 ^^^^^^ meta.function.parameters.c */
+/*                                                       ^ punctuation.terminator.c */
+
+extern NCURSES_EXPORT_VAR(int) COLORS;
+/* <- storage.modifier.c */
+/*     ^^^^^^^^^^^^^^^^^ meta.function-call.c */
+/*                       ^^^^^ meta.function-call.parameters.c */
+/*                             ^^^^^^ variable.other.c */
 
 int* return_type_pointer_no_space(){}
 /* <- storage.type.c */

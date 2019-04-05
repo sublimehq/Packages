@@ -138,7 +138,7 @@ contexts:
       scope: storage.modifier.c
 
   modifiers-macros:
-    - match: '{{attr_macro_identifier}}(?=\s*\((?:\d+|{{macro_identifier}})\))'
+    - match: '(?:{{macro_identifier}}|{{attr_macro_identifier}})(?=\s*\((?:\d+|{{macro_identifier}})\))'
       scope: variable.function.c debug.modifiers-macros
       comment: Preprocessor Attributes with parameters.
         We only support a very limited definition so it doesn't gobble up
@@ -310,10 +310,10 @@ contexts:
 
   global:
     - include: early-expressions
-    - match: '^\s*(?=\w+)'
+    - match: '(?=\w+)'
       push:
-        - global-modifier
-        - global-function-call
+        - include: global-function-call
+        - include: global-modifier
     - include: late-expressions
 
   statements:
@@ -359,18 +359,29 @@ contexts:
   global-function-call:
     - meta_scope: debug.global-function-call
     - include: comments
+    - match: \bextern\b
+      scope: storage.modifier.c
     - include: modifiers-parens
-    - include: modifiers
-    - include: function-call
-    - match: ';'
-      scope: punctuation.terminator.c debug.global-function-call
+    - match: (?={{identifier}}\s*\()
+      set:
+        - - meta_scope: debug.global-function-call.type-or-terminator
+          - match: ';'
+            scope: punctuation.terminator.c debug.global-function-call
+            pop: true
+          - match: '(?=\S)'
+            set: global-modifier
+        - - meta_scope: debug.global-function-call.params
+          - include: function-call-params
+        - - meta_scope: meta.function-call.c
+          - match: '{{identifier}}'
+            # Really a macro
+            scope: variable.function.c
+            pop: true
     - include: or_pop
 
   global-modifier:
     - meta_scope: debug.global-modifier
     - include: comments
-    - include: modifiers-parens
-    - include: modifiers
     - match: '(?=\S)'
       set:
         - variable-identifier-list
