@@ -1515,6 +1515,25 @@ MACRO1 void MACRO2 myfuncname (), MACRO2 foo(), UPPER_VAR, UPPERFN();
 /*                                                                ^^ meta.function.parameters.c */
 /*                                                                  ^ punctuation.terminator.c */
 
+void func(int pack __attribute__((unused)),
+/* <- storage.type.c */
+/*   ^^^^ meta.function.c entity.name.function.c */
+/*       ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
+/*        ^^^ storage.type.c */
+/*            ^^^^ - variable.parameter.c - This is wrong */
+/*                 ^^^^^^^^^^^^^ storage.modifier.c */
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c
+/*                                        ^ punctuation.separator.c */
+  struct usbip_usb_interface *udev
+/*^^^^^^ storage.type.c */
+/*       ^^^^^^^^^^^^^^^^^^^ support.type.c */
+/*                           ^ storage.modifier.c */
+/*                            ^^^^ variable.parameter.c */
+  __attribute__((unused)));
+/*^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                       ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+/*                        ^ punctuation.terminator.c */
+
 MACRO1 void * MACRO2 myfuncname () {
 /* <- support.type.c */
 /*     ^^^^ storage.type.c */

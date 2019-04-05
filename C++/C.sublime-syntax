@@ -426,7 +426,7 @@ contexts:
         - match: \.\.\.
           scope: keyword.operator.variadic.c
         - include: modifiers
-        #- include: modifiers-parens
+        - include: modifiers-parens
         - match: '{{identifier}}(?=\s*\[)'
           scope: variable.parameter.c
           push:
@@ -440,7 +440,7 @@ contexts:
                   scope: storage.modifier.c punctuation.section.brackets.end
                   pop: true
             - include: or_pop
-        - match: '{{identifier}}(?=\s*(\[|,|\)))'
+        - match: '{{identifier}}(?=\s*(,|\)|\n))'
           scope: variable.parameter.c
         - include: types
         - match: '{{identifier}}'
