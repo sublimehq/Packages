@@ -230,7 +230,7 @@ foo
 FOO()
 /* <- meta.function-call.c variable.function.c */
 FOO();
-/* <- meta.function.c entity.name.function.c */
+/* <- meta.function-call.c variable.function.c */
 foo()
 /* <- meta.function-call.c variable.function.c */
 ; // fix highlighting
@@ -682,6 +682,24 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /* <- meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
  /* <- punctuation.terminator.c */
 
+MACRO_CALL_NO_SEMI(
+/* <- meta.function-call.c variable.function.c */
+/*                ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
+  __with_complex_params(34)
+/*^ meta.function-call.c variable.function.c */
+/*                     ^^^^ meta.function-call.parameters.c */
+)
+/* <- meta.function-call.parameters.c punctuation.section.group.end.c */
+
+MACRO_CALL_NO_SEMI(
+/* <- meta.function-call.c variable.function.c */
+/*                ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
+  __with_complex_params(34)
+/*^ meta.function-call.c variable.function.c */
+/*                     ^^^^ meta.function-call.parameters.c */
+)
+/* <- meta.function-call.parameters.c punctuation.section.group.end.c */
+
 static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 /*<- storage.modifier.c */
 /*     ^^^^^^ storage.modifier.c */
@@ -709,7 +727,8 @@ int main(void)
 }
 
 struct MACRO foo {
-/*     ^ variable.annotation - entity.name - support.type*/
+/* <- storage.type.c */
+/*     ^ support.type.c */
 /*           ^ entity.name.struct */
 }
 
@@ -1067,6 +1086,21 @@ static const struct pci_driver my_driver __pci_driver __driver = {
   .devices  = pci_device_ids,
 };
 
+struct __ec_align4 ec_response_get_version {};
+/* <- storage.type.c */
+/*     ^^^^^^^^^^^ support.type.c */
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
+struct __align(4) ec_response_get_version {};
+/* <- storage.type.c */
+/*     ^^^^^^^ meta.function-call.c variable.function.c */
+/*            ^^^ meta.function-call.parameters.c  */
+/*                ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
+
+struct ALIGN4 ec_response_get_version {};
+/* <- storage.type.c */
+/*     ^^^^^^ support.type.c */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
+
 static const struct spd_info {
 /*           ^^^^^^ meta.struct.c storage.type.c */
 /*                  ^^^^^^^^ entity.name.struct.c */
@@ -1287,11 +1321,27 @@ char *__aligned(8) *e,
 /*             ^ storage.modifier.c */
 /*               ^ variable.other.c */
 /*                ^ punctuation.separator.c */
-  * __aligned(8) h;
+  * __aligned(8) h,
 /*^ storage.modifier.c */
 /*  ^^^^^^^^^^^^ meta.function-call */
 /*               ^ variable.other.c */
-/*                ^ punctuation.terminator.c */
+/*                ^ punctuation.separator.c */
+
+  __aligned(sizeof(int)) * i,
+/*^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                       ^ storage.modifier.c */
+/*                         ^ variable.other.c */
+/*                          ^ punctuation.separator.c */
+  __aligned(sizeof(void *)) * j,
+/*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*                          ^ storage.modifier.c */
+/*                            ^ variable.other.c */
+/*                             ^ punctuation.separator.c */
+  __aligned(0x8) * k;
+/*^^^^^^^^^^^^^^ meta.function-call */
+/*               ^ storage.modifier.c */
+/*                 ^ variable.other.c */
+/*                  ^ punctuation.terminator.c */
 
 MACRO1 UPPER_VAR;
 /* <- support.type.c */
