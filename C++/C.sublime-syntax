@@ -147,11 +147,10 @@ contexts:
         - meta_scope: meta.function-call.c
         - include: function-call-params
     - match: '{{attr_macro_identifier}}(?!\s*\()'
-      # Should this be storage.modifier.c?
-      scope: support.type.c debug.modifiers-macros.underscore
+      scope: constant.other.macro.c debug.modifiers-macros.underscore
       comment: Preprocessor Attributes
     - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*)'
-      scope: support.type.c debug.modifiers-macros.caps
+      scope: constant.other.macro.c debug.modifiers-macros.caps
 
   variables:
     - match: '\bg[A-Z]\w*\b'
@@ -330,6 +329,8 @@ contexts:
   expressions:
     - include: early-expressions
     - include: late-expressions
+    - match: '{{macro_identifier}}'
+      scope: constant.other.macro.c
 
   early-expressions:
     - include: preprocessor-expressions
@@ -530,7 +531,7 @@ contexts:
           # Macro invocations
           - include: function-call
           - match: '{{identifier}}'
-            scope: support.type.c debug.variable-identifier-list.function-attribute
+            scope: constant.other.macro.c debug.variable-identifier-list.function-attribute
           - include: or_pop
         - - meta_scope: debug.variable-identifier-list.function-params
           - include: comments
@@ -562,9 +563,6 @@ contexts:
               scope: punctuation.section.brackets.end.c storage.modifier.c
               pop: true
             - include: expressions
-            # Expressions doesn't handle macro identifiers or enum constants
-            - match: '{{macro_identifier}}'
-              scope: support.constant.c
         - match: \=
           scope: keyword.operator.assignment.c
           set:
@@ -659,9 +657,6 @@ contexts:
                 - match: '(?=,|})'
                   pop: true
                 - include: expressions
-                # Expressions doesn't handle macro identifiers or enum constants
-                - match: '{{macro_identifier}}'
-                  scope: support.constant.c
                 - include: or_pop
             # No equals
             - include: or_pop
@@ -867,9 +862,6 @@ contexts:
               scope: punctuation.section.brackets.end.c storage.modifier.c
               pop: true
             - include: expressions
-            # Expressions doesn't handle macro identifiers or enum constants
-            - match: '{{macro_identifier}}'
-              scope: support.constant.c
         - include: or_pop
     - match: '\((?=\s*\*)'
       scope: punctuation.section.group.begin debug.typedef.function-pointer
@@ -911,8 +903,7 @@ contexts:
           pop: true
         # - include: macro-identifiers
         - match: '{{macro_identifier}}(?!\()'
-          comment: Not sure I think we need this special case
-          scope: support.constant.c
+          scope: constant.other.macro.c
         - include: expressions
         - match: '{{identifier}}'
           scope: variable.other.c
