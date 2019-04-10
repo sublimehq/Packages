@@ -682,6 +682,12 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /* <- meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
  /* <- punctuation.terminator.c */
 
+static DEFINE_SPINLOCK(my_lock);
+/* <- storage.modifier.c */
+/*     ^^^^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                    ^^^^^^^^^ meta.function-call.parameters.c */
+/*                     ^^^^^^^ variable.other.c */
+
 MACRO_CALL_NO_SEMI(
 /* <- meta.function-call.c variable.function.c */
 /*                ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
