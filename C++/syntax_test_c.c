@@ -74,7 +74,7 @@ int func() {
 
   print("// String");
 /*^^^^^ meta.function-call.c variable.function.c */
-/*      ^^^^^^^^^^^ string.quoted.double.c
+/*      ^^^^^^^^^^^ string.quoted.double.c */
 /*      ^ punctuation.definition.string.begin.c */
 /*                ^ punctuation.definition.string.end.c */
 }
@@ -1156,12 +1156,12 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
 /* <- support.type.c */
 /*    ^^^^^^^^^^^^^^ variable.other.c */
-/*                  ^^^^^^^^^^^^^^ meta.brackets.c
+/*                  ^^^^^^^^^^^^^^ meta.brackets.c */
 /*                  ^ punctuation.section.brackets.begin.c storage.modifier.c */
 /*                   ^^^^^^^^^^^^ constant.other.macro.c */
 /*                               ^ punctuation.section.brackets.end.c storage.modifier.c */
 /*                                 ^^^^^^^^^ meta.function-call.c variable.function.c */
-/*                                          ^^^^^^^^^^^ meta.function-call.parameters.c
+/*                                          ^^^^^^^^^^^ meta.function-call.parameters.c */
 /*                                          ^ meta.group.c punctuation.section.group.begin.c */
 /*                                           ^^^^^^^^^ constant.other.macro.c */
 /*                                                    ^ meta.group.c punctuation.section.group.end.c */
@@ -1180,7 +1180,7 @@ struct mac_tfm_ctx {
 /*^^^^^^ storage.type.c */
 /*       ^^^^^^^^^^^^^^ support.type.c */
 /*                      ^^^^^^^^^ meta.function-call.c variable.function.c */
-/*                               ^^^ meta.function-call.parameters.c
+/*                               ^^^ meta.function-call.parameters.c */
 /*                               ^ meta.group.c punctuation.section.group.begin.c */
 /*                                ^ constant.numeric.c */
 /*                                 ^ meta.group.c punctuation.section.group.end.c */
@@ -1189,7 +1189,7 @@ struct mac_tfm_ctx {
   u8 __aligned(8) consts[];
 /*^^ support.type.c */
 /*   ^^^^^^^^^ meta.function-call.c variable.function.c */
-/*            ^^^ meta.function-call.parameters.c
+/*            ^^^ meta.function-call.parameters.c */
 /*            ^ meta.group.c punctuation.section.group.begin.c */
 /*             ^ constant.numeric.c */
 /*              ^ meta.group.c punctuation.section.group.end.c */
@@ -1201,7 +1201,7 @@ struct mac_tfm_ctx {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*^^^^^^^^ constant.other.macro.c */
 /*         ^^^^^^^^^ meta.function-call.c variable.function.c */
-/*                  ^^^ meta.function-call.parameters.c
+/*                  ^^^ meta.function-call.parameters.c */
 /*                  ^ meta.group.c punctuation.section.group.begin.c */
 /*                   ^ constant.numeric.c */
 /*                    ^ meta.group.c punctuation.section.group.end.c */
@@ -1215,7 +1215,7 @@ void __attributes(int *bar) __must_hold(&foo)
 /*                     ^^^ variable.parameter.c */
 /*                          ^^^^^^^^^^^ meta.function-call.c */
 /*                                     ^^^^^^ meta.function-call.parameters.c */
-/*                                      ^ keyword.operator.c
+/*                                      ^ keyword.operator.c */
 /*                                       ^^^ variable.other.c */
     __safe
 /*  ^^^^^^ constant.other.macro.c */
@@ -1232,7 +1232,7 @@ void __attributes(int *bar) __must_hold(&foo)
     __must_hold(&abc->lock)
 /*  ^^^^^^^^^^^ meta.function-call.c */
 /*             ^^^^^^^^^^^^ meta.function-call.parameters.c */
-/*              ^ keyword.operator.c
+/*              ^ keyword.operator.c */
 /*               ^^^ variable.other.c */
 /*                  ^^ punctuation.accessor.c */
 /*                    ^^^^ variable.other.c */
@@ -1569,7 +1569,7 @@ MACRO1 void MACRO2 myfuncname (), MACRO2 foo(), UPPER_VAR, UPPERFN();
 /*                              ^ punctuation.separator.c */
 /*                                ^^^^^^ constant.other.macro.c */
 /*                                       ^^^ entity.name.function.c */
-/*                                          ^^ meta.function.parameters.c
+/*                                          ^^ meta.function.parameters.c */
 /*                                            ^ punctuation.separator.c */
 /*                                              ^^^^^^^^^ variable.other.c */
 /*                                                       ^ punctuation.separator.c */
@@ -1584,7 +1584,7 @@ void func(int pack __attribute__((unused)),
 /*        ^^^ storage.type.c */
 /*            ^^^^ - variable.parameter.c - This is wrong */
 /*                 ^^^^^^^^^^^^^ storage.modifier.c */
-/*                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*                                        ^ punctuation.separator.c */
   struct usbip_usb_interface *udev
 /*^^^^^^ storage.type.c */
@@ -1603,7 +1603,7 @@ MACRO1 void * MACRO2 myfuncname () {
 /*            ^^^^^^ constant.other.macro */
 /*                   ^^^^^^^^^^ meta.function */
 /*                              ^^ meta.function.parameters */
-/*                                 ^ meta.block punctuation.section.block.begin
+/*                                 ^ meta.block punctuation.section.block.begin */
 /*     ^ storage.type */
 /*          ^ storage.modifier */
 /*                   ^ entity.name.function */
