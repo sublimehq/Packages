@@ -479,7 +479,6 @@ contexts:
         - include: statements
 
   data-structures:
-    - meta_scope: debug.data-structures
     - include: struct-keyword
     - include: union-keyword
     - include: enum-keyword
