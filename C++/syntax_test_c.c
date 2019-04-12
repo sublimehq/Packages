@@ -858,6 +858,17 @@ MACRO_CALL_NO_SEMI(
 )
 /* <- meta.function-call.parameters.c punctuation.section.group.end.c */
 
+SHOW(temp0, temp0)   /* a comment */
+/* <- meta.function-call.c variable.function.c */
+/*   ^^^^ variable.other.c */
+/*          ^^^^^ variable.other.c */
+/*                   ^^^^^^^^^^^^^^^ comment.block.c */
+SHOW(temp1, temp1)   /* a comment */
+/* <- meta.function-call.c variable.function.c */
+/*   ^^^^ variable.other.c */
+/*          ^^^^^ variable.other.c */
+/*                   ^^^^^^^^^^^^^^^ comment.block.c */
+
 static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 /*<- storage.modifier.c */
 /*     ^^^^^^ storage.modifier.c */

@@ -367,6 +367,7 @@ contexts:
     - match: (?={{identifier}}\s*\()
       set:
         - - meta_scope: debug.global-function-call.type-or-terminator
+          - include: comments
           - match: ';'
             scope: punctuation.terminator.c debug.global-function-call
             pop: true
