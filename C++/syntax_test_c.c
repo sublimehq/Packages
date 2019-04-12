@@ -150,7 +150,7 @@ UserStructCompare (
 }
 
 LIB_RESULT
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 foo()
 /* <- meta.function entity.name.function */
 {
@@ -160,7 +160,7 @@ foo()
 /* <- meta.function.c punctuation.section.block.end.c */
 
 LIB_RESULT bar()
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*           ^ meta.function entity.name.function */
 {
 /* <- meta.function.c punctuation.section.block.begin.c */
@@ -169,7 +169,7 @@ LIB_RESULT bar()
 /* <- meta.function.c punctuation.section.block.end.c */
 
 THIS_IS_REALLY_JUST_A_MACRO_AND_NOT_A_RETURN_TYPE
-/* <- support.type */
+/* <- constant.other.macro.c */
 
 int main() {
 /* <- storage.type */
@@ -220,7 +220,7 @@ int disabled_func() {
 #endif
 
 FOO
-/* <- support.type */
+/* <- constant.other.macro.c */
 FOO;
 /* <- variable.other */
 foo
@@ -434,6 +434,158 @@ typedef enum state {DEAD,ALIVE} State;
 /*                       ^^^^^ entity.name.constant.enum.c */
 /*                              ^^^^^ entity.name.type.typedef.c */
 /*                                   ^ punctuation.terminator.c */
+
+/////////////////////////////////////////////
+// Parameter Declarations
+/////////////////////////////////////////////
+
+typedef void (*attrs_t)(
+/* <- storage.type.c */
+/*      ^^^^ storage.type.c */
+/*             ^^^^^^^ entity.name.type.c */
+/*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
+  const __aligned(4) char __aligned(8) * __aligned(2) bob __aligned(2),
+/*^^^^^ storage.modifier.c */
+/*      ^^^^^^^^^^^^ meta.function-call */
+/*                   ^^^^ storage.type.c */
+/*                        ^^^^^^^^^^^^ meta.function-call */
+/*                                     ^ storage.modifier.c */
+/*                                       ^^^^^^^^^^^^ meta.function-call */
+/*                                                    ^^^ variable.parameter.c */
+/*                                                        ^^^^^^^^^^^^ meta.function-call */
+/*                                                                    ^ punctuation.separator.c */
+
+  __unused char foo,
+/*^^^^^^^^ constant.other.macro.c */
+/*         ^^^^ storage.type.c */
+/*              ^^^ variable.parameter.c */
+/*                 ^ punctuation.separator.c */
+  volatile MACRO foo,
+/*^^^^^^^^ storage.modifier.c */
+/*         ^^^^^ constant.other.macro.c */
+/*               ^^^ variable.parameter.c */
+/*                  ^ punctuation.separator.c */
+  MACRO int MACRO bar,
+/*^^^^^ constant.other.macro.c */
+/*      ^^^ storage.type.c */
+/*          ^^^^^ constant.other.macro.c */
+/*                ^^^ variable.parameter.c */
+/*                   ^ punctuation.separator.c */
+  FOO(BAR) bar,
+/*^^^^^^^^ meta.function-call */
+/*    ^^^ constant.other.macro.c */
+/*         ^^^ variable.parameter.c */
+/*            ^ punctuation.separator.c */
+  const char foo __attribute__((unused)),
+/*^^^^^ storage.modifier.c */
+/*      ^^^^ storage.type.c */
+/*           ^^^ - variable.parameter.c This is broken :( */
+/*               ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                                      ^ punctuation.separator.c */
+  __attribute__((unused)) char foo1,
+/*^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                        ^^^^ storage.type.c */
+/*                             ^^^^ variable.parameter.c */
+/*                                 ^ punctuation.separator.c */
+  char __attribute__((unused)) foo2);
+/*^^^^ storage.type.c */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                             ^^^^ variable.parameter.c */
+/*                                 ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+
+void attrs(
+/* <- storage.type.c */
+/*   ^^^^^ entity.name.function.c */
+  const __aligned(4) char __aligned(8) * __aligned(2) bob __aligned(2),
+/*^^^^^ storage.modifier.c */
+/*      ^^^^^^^^^^^^ meta.function-call */
+/*                   ^^^^ storage.type.c */
+/*                        ^^^^^^^^^^^^ meta.function-call */
+/*                                     ^ storage.modifier.c */
+/*                                       ^^^^^^^^^^^^ meta.function-call */
+/*                                                    ^^^ variable.parameter.c */
+/*                                                        ^^^^^^^^^^^^ meta.function-call */
+/*                                                                    ^ punctuation.separator.c */
+
+  __unused char foo,
+/*^^^^^^^^ constant.other.macro.c */
+/*         ^^^^ storage.type.c */
+/*              ^^^ variable.parameter.c */
+/*                 ^ punctuation.separator.c */
+  volatile MACRO foo,
+/*^^^^^^^^ storage.modifier.c */
+/*         ^^^^^ constant.other.macro.c */
+/*               ^^^ variable.parameter.c */
+/*                  ^ punctuation.separator.c */
+  MACRO int MACRO bar,
+/*^^^^^ constant.other.macro.c */
+/*      ^^^ storage.type.c */
+/*          ^^^^^ constant.other.macro.c */
+/*                ^^^ variable.parameter.c */
+/*                   ^ punctuation.separator.c */
+  FOO(BAR) bar,
+/*^^^^^^^^ meta.function-call */
+/*    ^^^ constant.other.macro.c */
+/*         ^^^ variable.parameter.c */
+/*            ^ punctuation.separator.c */
+  const char foo __attribute__((unused)),
+/*^^^^^ storage.modifier.c */
+/*      ^^^^ storage.type.c */
+/*           ^^^ - variable.parameter.c This is broken :( */
+/*               ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                                      ^ punctuation.separator.c */
+  __attribute__((unused)) char foo1,
+/*^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                        ^^^^ storage.type.c */
+/*                             ^^^^ variable.parameter.c */
+/*                                 ^ punctuation.separator.c */
+  char __attribute__((unused)) foo2);
+/*^^^^ storage.type.c */
+/*     ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+/*                             ^^^^ variable.parameter.c */
+/*                                 ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+
+void proto(int, char*, char, struct foobar);
+/* <- storage.type.c */
+/*   ^^^^^ entity.name.function.c */
+/*         ^^^ storage.type.c */
+/*            ^ punctuation.separator.c */
+/*              ^^^^ storage.type.c */
+/*                  ^ storage.modifier.c */
+/*                   ^ punctuation.separator.c */
+/*                     ^^^^ storage.type.c */
+/*                         ^ punctuation.separator.c */
+/*                           ^^^^^^ storage.type.c */
+/*                                  ^^^^^^ support.type.c */
+/*                                         ^ punctuation.terminator.c */
+
+static string foo(__bar);
+/*                ^^^^^ constant.other.macro.c */
+static string foo(BAR);
+/*                ^^^ constant.other.macro.c */
+static string foo(FOO(1));
+/*                ^^^^^^ meta.function-call */
+static string foo(__align(1));
+/*                ^^^^^^^^^^ meta.function-call */
+static string foo(__attribute__((unused)));
+/*                ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
+
+  __unused char foo;
+/*^^^^^^^^ constant.other.macro.c */
+/*         ^^^^ storage.type.c */
+/*              ^^^ variable.other.c */
+/*                 ^ punctuation.terminator.c */
+  volatile MACRO foo;
+/*^^^^^^^^ storage.modifier.c */
+/*         ^^^^^ constant.other.macro.c */
+/*               ^^^ variable.other.c */
+/*                  ^ punctuation.terminator.c */
+  MACRO int MACRO bar;
+/*^^^^^ constant.other.macro.c */
+/*      ^^^ storage.type.c */
+/*          ^^^^^ constant.other.macro.c */
+/*                ^^^ variable.other.c */
+/*                   ^ punctuation.terminator.c */
 
 /////////////////////////////////////////////
 // Data structures and return values
@@ -718,8 +870,8 @@ static inline u64 xhci_read_64(const struct xhci_hcd *xhci,
 /*                                                    ^^^^ variable.parameter.c */
 /*                                                        ^ punctuation.separator.c */
     __le64 __iomem *regs);
-/*  ^^^^^^ support.type.c */
-/*         ^^^^^^^ support.type.c */
+/*  ^^^^^^ constant.other.macro.c */
+/*         ^^^^^^^ constant.other.macro.c */
 /*                 ^ storage.modifier.c */
 /*                  ^^^^ variable.parameter.c */
 /*                      ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
@@ -1071,7 +1223,7 @@ void do_pci_scan_bridge(struct device *dev,
 /*     ^ meta.function.parameters.c meta.group.c meta.group.c punctuation.section.group.begin.c */
 /*      ^ storage.modifier.c */
 /*       ^^^^^^^^^^^ variable.parameter.c */
-/*                  ^ meta.function.parameters.c meta.group.c meta.group.c punctuation.section.group.end.c */
+/*                  ^ meta.function.parameters.c meta.group.c meta.group.c punctuation.section.parens.end.c */
 /*                   ^ meta.function.parameters.c meta.group.c meta.function.parameters.c meta.group.c punctuation.section.group.begin.c - meta.function.c */
 /*                    ^^^ storage.type.c */
 /*                        ^^^^^^^^^ variable.parameter.c */
@@ -1356,12 +1508,12 @@ char *__aligned(8) *e,
 /*                  ^ punctuation.terminator.c */
 
 MACRO1 UPPER_VAR;
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*     ^^^^^^^^^ variable.other.c */
 /*              ^ punctuation.terminator.c */
 
 __safe UPPER_VAR;
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*     ^^^^^^^^^ variable.other.c */
 /*              ^ punctuation.terminator.c */
 
@@ -1544,26 +1696,26 @@ int /* comment */ * myfunc
 }
 
 MACRO1
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 RETURN_TYPE
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 func_name() {
 /* < entity.name.function */
 }
 
 MACRO1 void MACRO2 * myfuncname ();
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*     ^ storage.type.c */
-/*          ^ support.type.c */
+/*          ^ constant.other.macro.c */
 /*                 ^ storage.modifier.c */
 /*                   ^^^^^^^^^^ meta.function.c entity.name.function.c */
 /*                              ^^ meta.function.parameters.c*/
 /*                                ^ punctuation.terminator.c */
 
 MACRO1 void MACRO2 myfuncname (), MACRO2 foo(), UPPER_VAR, UPPERFN();
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*     ^ storage.type.c */
-/*          ^ support.type.c */
+/*          ^ constant.other.macro.c */
 /*                 ^^^^^^^^^^ meta.function.c entity.name.function.c */
 /*                            ^^ meta.group.c*/
 /*                              ^ punctuation.separator.c */
@@ -1597,7 +1749,7 @@ void func(int pack __attribute__((unused)),
 /*                        ^ punctuation.terminator.c */
 
 MACRO1 void * MACRO2 myfuncname () {
-/* <- support.type.c */
+/* <- constant.other.macro.c */
 /*     ^^^^ storage.type.c */
 /*          ^ storage.modifier.c */
 /*            ^^^^^^ constant.other.macro */
@@ -1725,6 +1877,7 @@ _declspec(deprecated("bla")) void func2(int) {}
 /* <- meta.function-call variable.function                    */
 /*                           ^^^^ storage.type.c */
 /*                                ^ entity.name.function      */
+/*                                      ^^^ storage.type.c */
 __declspec(deprecated("bla")) void func2(int) {}
 /* <- storage.modifier - variable.function                    */
 /*         ^ storage.modifier - variable.function             */
@@ -1734,10 +1887,12 @@ __declspec(deprecated("bla")) void func2(int) {}
 /*                        ^ string.quoted.double punctuation  */
 /*                         ^^ punctuation - invalid           */
 /*                                 ^ entity.name.function     */
+/*                                       ^^^ storage.type.c */
 __notdeclspec(deprecated("bla")) void func2(int) {}
 /* <- meta.function-call variable.function                    */
 /*                               ^^^^ storage.type.c */
 /*                                    ^ entity.name.function  */
+/*                                          ^^^ storage.type.c */
 
 /////////////////////////////////////////////
 // Test function call in function parameters

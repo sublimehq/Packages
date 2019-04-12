@@ -149,7 +149,7 @@ contexts:
     - match: '{{attr_macro_identifier}}(?!\s*\()'
       scope: constant.other.macro.c debug.modifiers-macros.underscore
       comment: Preprocessor Attributes
-    - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*)'
+    - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*|\)|\s*\n)'
       scope: constant.other.macro.c debug.modifiers-macros.caps
 
   variables:
@@ -410,50 +410,50 @@ contexts:
         - match : \)
           scope: punctuation.section.group.end.c
           pop: true
-        - match: \(
-          scope: punctuation.section.group.begin.c debug.function-definition-params-group.function-pointer
-          comment: Function pointer declaration
-          push:
-            - meta_scope: meta.group.c
-            - match: \)
-              scope: punctuation.section.group.end.c
-              set:
-                - include: function-definition-params-group
-                - include: or_pop
-            - match: \*
-              scope: storage.modifier.c
-            - match: '{{identifier}}'
-              scope: variable.parameter.c debug.function-definition-params-group.function-pointer
-        - match: '\bvoid\b'
-          scope: storage.type.c
-        - match: \*
-          scope: storage.modifier.c
-        - match: \.\.\.
-          scope: keyword.operator.variadic.c
-        - include: modifiers
-        - include: modifiers-parens
-        - match: '{{identifier}}(?=\s*\[)'
-          scope: variable.parameter.c
-          push:
-            - include: comments
-            - match: \[
-              scope: storage.modifier.c punctuation.section.brackets.begin
-              push:
-                - meta_scope: meta.brackets.c
-                - include: comments
-                - match: \]
-                  scope: storage.modifier.c punctuation.section.brackets.end
-                  pop: true
-            - include: or_pop
-        - match: '{{identifier}}(?=\s*(,|\)|\n))'
-          scope: variable.parameter.c
-        - include: types
-        - match: '{{identifier}}'
-          scope: support.type.c
-          comment: We match the variable name above
         - match: ','
           scope: punctuation.separator.c
         - include: preprocessor-line-continuation
+        - match: '(?=\S)'
+          push:
+            - parameter-identifier
+            - typedef-types
+
+  parameter-identifier:
+    - meta_scope: debug.parameter-identifier
+    - include: comments
+    - include: modifiers
+    - include: modifiers-parens
+    - include: modifiers-macros
+    - match: \*
+      scope: storage.modifier.c
+    - match: \(
+      scope: punctuation.section.group.begin.c debug.parameter-identifier.function-pointer
+      comment: Function pointer declaration
+      push:
+        - meta_scope: meta.group.c
+        - match: \)
+          scope: punctuation.section.parens.end.c
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: variable.parameter.c debug.parameter-identifier.function-pointer
+    - match: '{{identifier}}'
+      scope: variable.parameter.c debug.parameter-identifier
+      push:
+        - meta_scope: debug.parameter-identifier.array-or-assignment
+        - match: \[
+          scope: punctuation.section.brackets.begin.c storage.modifier.c
+          push:
+            - meta_scope: meta.brackets.c
+            - match: \]
+              scope: punctuation.section.brackets.end.c storage.modifier.c
+              pop: true
+            - include: expressions
+        - include: or_pop
+    - include: or_pop
 
   function-definition-continue:
     - meta_content_scope: meta.function.c
@@ -493,7 +493,7 @@ contexts:
     - match: \*
       scope: storage.modifier.c
     - match: \(
-      scope: punctuation.section.group.begin debug.parameter-variable-identifier.function-pointer
+      scope: punctuation.section.group.begin.c debug.parameter-variable-identifier.function-pointer
       comment: Function pointer declaration as variable
       push:
         - meta_scope: meta.parens
@@ -538,7 +538,7 @@ contexts:
           - include: function-definition-params-group
           - include: or_pop
     - match: \(
-      scope: punctuation.section.group.begin debug.variable-identifier-list.function-pointer
+      scope: punctuation.section.group.begin.c debug.variable-identifier-list.function-pointer
       comment: Function pointer declaration
       push:
         - meta_scope: meta.parens
@@ -598,7 +598,7 @@ contexts:
           set: struct-body
         - include: or_pop
   struct-body:
-    - meta_scope: debug.struct-body
+    - meta_content_scope: debug.struct-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
@@ -630,7 +630,7 @@ contexts:
           set: enum-body
         - include: or_pop
   enum-body:
-    - meta_scope: debug.enum-body
+    - meta_content_scope: debug.enum-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
@@ -683,7 +683,7 @@ contexts:
           set: union-body
         - include: or_pop
   union-body:
-    - meta_scope: debug.union-body
+    - meta_content_scope: debug.union-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
@@ -818,6 +818,8 @@ contexts:
     - meta_scope: debug.typedef-types
     - include: comments
     - include: modifiers
+    - include: modifiers-macros
+    - include: modifiers-parens
     # Make sure to pop when a data structure keyword is found
     - match: (?=\bstruct\b)
       set:
@@ -864,7 +866,7 @@ contexts:
             - include: expressions
         - include: or_pop
     - match: '\((?=\s*\*)'
-      scope: punctuation.section.group.begin debug.typedef.function-pointer
+      scope: punctuation.section.group.begin.c debug.typedef.function-pointer
       comment: Function pointers
       set:
         - meta_scope: meta.parens
