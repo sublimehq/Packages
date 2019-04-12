@@ -1894,19 +1894,6 @@ __notdeclspec(deprecated("bla")) void func2(int) {}
 /*                                    ^ entity.name.function  */
 /*                                          ^^^ storage.type.c */
 
-/////////////////////////////////////////////
-// Test function call in function parameters
-/////////////////////////////////////////////
-
-static string foo(bar() + ';');
-/*            ^^^^^^^^^^^^^^^^ meta.function */
-/*               ^^^^^^^^^^^^^ meta.function.parameters */
-/*            ^^^ entity.name.function */
-/*                ^^^^^ meta.function-call */
-/*                ^^^ variable.function */
-/*                        ^^^ string */
-/*                           ^ -string */
-
 func_call(foo
 /*^^^^^^^^^^^ meta.function-call */
 /*       ^^^^ meta.group */
