@@ -117,12 +117,12 @@ int f(int x, \
 
 bool still_C_code_here = true, foo = false;
 /* <- storage.type */
-/*   ^^^^^^^^^^^^^^^^^ variable.other.c */
+/*   ^^^^^^^^^^^^^^^^^ entity.name.variable.c */
 /*                     ^ keyword.operator.assignment.c */
 /*                       ^ constant.language */
 /*                                        ^ punctuation.terminator.c */
 /*                           ^ punctuation.separator.c */
-/*                             ^^^ variable.other.c*/
+/*                             ^^^ entity.name.variable.c*/
 /*                                 ^ keyword.operator.assignment.c */
 /*                                   ^^^^^ constant.language.c */
 /*                                        ^ punctuation.terminator.c */
@@ -222,7 +222,7 @@ int disabled_func() {
 FOO
 /* <- constant.other.macro.c */
 FOO;
-/* <- variable.other */
+/* <- entity.name.variable.c */
 foo
 /* <- support.type */
 ; // fix highlighting
@@ -573,18 +573,18 @@ static string foo(__attribute__((unused)));
   __unused char foo;
 /*^^^^^^^^ constant.other.macro.c */
 /*         ^^^^ storage.type.c */
-/*              ^^^ variable.other.c */
+/*              ^^^ entity.name.variable.c */
 /*                 ^ punctuation.terminator.c */
   volatile MACRO foo;
 /*^^^^^^^^ storage.modifier.c */
 /*         ^^^^^ constant.other.macro.c */
-/*               ^^^ variable.other.c */
+/*               ^^^ entity.name.variable.c */
 /*                  ^ punctuation.terminator.c */
   MACRO int MACRO bar;
 /*^^^^^ constant.other.macro.c */
 /*      ^^^ storage.type.c */
 /*          ^^^^^ constant.other.macro.c */
-/*                ^^^ variable.other.c */
+/*                ^^^ entity.name.variable.c */
 /*                   ^ punctuation.terminator.c */
 
 /////////////////////////////////////////////
@@ -682,7 +682,7 @@ struct point FOO_API *alloc_point3(), alloc_point2(), struct_var2;
 /*                                 ^ punctuation.section.group.end.c */
 /*                                  ^ punctuation.separator */
 /*                                    ^ entity.name.function - variable.function */
-/*                                                    ^^^^^^^^^^^ variable.other.c */
+/*                                                    ^^^^^^^^^^^ entity.name.variable.c */
 
 struct {
 /* <- storage.type.c */
@@ -692,22 +692,22 @@ struct {
 /*    ^ variable.other.member.c */
 } anon_s, *anon_b, anon_s_f(), anon_c = {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
-/*^^^^^^ variable.other.c  */
-/*         ^^^^^^ variable.other.c  */
+/*^^^^^^ entity.name.variable.c  */
+/*         ^^^^^^ entity.name.variable.c  */
 /*                 ^^^^^^^^ entity.name.function.c  */
-/*                             ^^^^^^ variable.other.c  */
+/*                             ^^^^^^ entity.name.variable.c  */
 /*                                    ^ keyword.operator.assignment.c */
   .a = 4
 }, anon_d = {.a = 6}, anon_arr[] = {{.a = 1}, {.a = 2}}, anon_g;
  /* <- punctuation.separator */
-/* ^^^^^^ variable.other.c  */
+/* ^^^^^^ entity.name.variable.c  */
 /*        ^ keyword.operator.assignment.c */
 /*                  ^ punctuation.separator */
-/*                    ^^^^^^^^ variable.other.c  */
+/*                    ^^^^^^^^ entity.name.variable.c  */
 /*                            ^^ meta.brackets.c storage.modifier.c */
 /*                               ^ keyword.operator.assignment.c */
 /*                                                     ^ punctuation.separator */
-/*                                                       ^^^^^^ variable.other.c  */
+/*                                                       ^^^^^^ entity.name.variable.c  */
 /*                                                             ^ punctuation.terminator.c */
 
 int f_with_s(struct { int a; } *s);
@@ -903,34 +903,34 @@ struct MACRO foo {
 
 struct UI_BoundingBox position;
 /*     ^ support.type.c - entity.name */
-/*                     ^ variable.other - entity.name */
+/*                     ^ entity.name.variable.c */
 
 struct UI_BoundingBox *position_p;
 /*     ^ support.type.c - entity.name */
-/*                     ^ variable.other - entity.name */
+/*                     ^ entity.name.variable.c */
 
 struct UI_BoundingBox * position_p1;
 /*     ^ support.type.c - entity.name */
-/*                      ^ variable.other - entity.name */
+/*                      ^ entity.name.variable.c */
 
 struct UI_BoundingBox **position_p2;
 /*     ^ support.type.c - entity.name */
-/*                      ^ variable.other - entity.name */
+/*                      ^ entity.name.variable.c */
 
 struct UI_BoundingBox ** position_p3;
 /*     ^ support.type.c - entity.name */
-/*                       ^ variable.other - entity.name */
+/*                       ^ entity.name.variable.c */
 
 
 struct UI_BoundingBox ** position_p4, position_p5, * position_p6;
 /*     ^ support.type.c - entity.name */
-/*                       ^ variable.other - entity.name */
+/*                       ^ entity.name.variable.c */
 /*                    ^^ storage.modifier.c */
 /*                                  ^ punctuation.separator */
-/*                                    ^ variable.other - entity.name */
+/*                                    ^ entity.name.variable.c */
 /*                                               ^ punctuation.separator */
 /*                                                 ^ storage.modifier.c */
-/*                                                   ^ variable.other - entity.name */
+/*                                                   ^ entity.name.variable.c */
 
 // Partially-typed
 struct foo
@@ -1194,7 +1194,7 @@ struct rproc_ops {
 
 void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /* <- storage.type.c */
-/*       ^^^^^^^^ variable.other.c */
+/*       ^^^^^^^^ entity.name.variable.c */
 /*                 ^^^^^^ storage.type.c */
 /*                        ^^^^^ support.type.c */
 /*                              ^ storage.modifier.c */
@@ -1207,7 +1207,7 @@ void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 struct resource_table *(*find_loaded_rsc_table)(
 /* <- storage.type.c */
 /*     ^^^^^^^^^^^^^^ support.type.c */
-/*                       ^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                       ^^^^^^^^^^^^^^^^^^^^^ entity.name.variable.c */
             struct rproc *rproc, const struct firmware *fw);
 /*          ^^^^^^ storage.type.c */
 /*                 ^^^^^ support.type.c */
@@ -1247,7 +1247,7 @@ static const struct pci_driver my_driver __pci_driver __driver = {
 /*     ^^^^^ storage.modifier.c */
 /*           ^^^^^^ storage.type.c */
 /*                  ^^^^^^^^^^ support.type.c */
-/*                             ^^^^^^^^^ variable.other.c */
+/*                             ^^^^^^^^^ entity.name.variable.c */
 /*                                       ^^^^^^^^^^^^ constant.other.macro.c */
 /*                                                    ^^^^^^^^ constant.other.macro.c */
   .ops      = &pci_my_device_ops,
@@ -1280,7 +1280,7 @@ static const struct spd_info {
 /*  ^^^^^^ support.type */
 /*         ^^^^^^^ variable.other.member.c */
 } spd_mem_info[] = {
-/*^^^^^^^^^^^^  variable.other.c */
+/*^^^^^^^^^^^^  entity.name.variable.c */
 /*            ^^ meta.brackets.c storage.modifier.c */
     [SPD_INFO_DDR4] = {
 /*   ^^^^^^^^^^^^^ constant.other.macro.c */
@@ -1302,7 +1302,7 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 /* <- storage.type.c */
 /*   ^ storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
-/*           ^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*           ^^^^^^^^^^^^^^^^^^^^^ entity.name.variable.c */
 /*                                ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
 /*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
 /*                                                       ^^^^^^^^^ meta.function-call.c variable.function.c */
@@ -1318,7 +1318,7 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 
 pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
 /* <- support.type.c */
-/*    ^^^^^^^^^^^^^^ variable.other.c */
+/*    ^^^^^^^^^^^^^^ entity.name.variable.c */
 /*                  ^^^^^^^^^^^^^^ meta.brackets.c */
 /*                  ^ punctuation.section.brackets.begin.c storage.modifier.c */
 /*                   ^^^^^^^^^^^^ constant.other.macro.c */
@@ -1419,23 +1419,23 @@ char *__attribute__((aligned(8))) *e,
 /*    ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*    ^^^^^^^^^^^^^ storage.modifier.c */
 /*                                ^ storage.modifier.c */
-/*                                 ^ variable.other.c */
+/*                                 ^ entity.name.variable.c */
 /*                                  ^ punctuation.separator.c */
   *f,
 /*^ storage.modifier.c */
-/* ^ variable.other.c */
+/* ^ entity.name.variable.c */
 /*  ^ punctuation.separator.c */
   __attribute__((aligned(8))) * g,
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*^^^^^^^^^^^^^ storage.modifier.c */
 /*                            ^ storage.modifier.c */
-/*                              ^ variable.other.c */
+/*                              ^ entity.name.variable.c */
 /*                               ^ punctuation.separator.c */
   * __attribute__((aligned(8))) h;
 /*^ storage.modifier.c */
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute.c */
 /*  ^^^^^^^^^^^^^ storage.modifier.c */
-/*                              ^ variable.other.c */
+/*                              ^ entity.name.variable.c */
 /*                               ^ punctuation.terminator.c */
 
 char *MACRO1 *e,
@@ -1443,41 +1443,41 @@ char *MACRO1 *e,
 /*   ^ storage.modifier.c */
 /*    ^^^^^^ constant.other.macro.c */
 /*           ^ storage.modifier.c */
-/*            ^ variable.other.c */
+/*            ^ entity.name.variable.c */
 /*             ^ punctuation.separator.c */
   *f,
 /*^ storage.modifier.c */
-/* ^ variable.other.c */
+/* ^ entity.name.variable.c */
 /*  ^ punctuation.separator.c */
   MACRO1 * g,
 /*^^^^^^ constant.other.macro.c */
 /*       ^ storage.modifier.c */
-/*         ^ variable.other.c */
+/*         ^ entity.name.variable.c */
 /*          ^ punctuation.separator.c */
   * MACRO1 * h;
 /*^ storage.modifier.c */
 /*  ^^^^^^ constant.other.macro.c */
 /*         ^ storage.modifier.c */
-/*           ^ variable.other.c */
+/*           ^ entity.name.variable.c */
 /*            ^ punctuation.terminator.c */
 
 char *MACRO1 e,
 /* <- storage.type.c */
 /*   ^ storage.modifier.c */
 /*    ^^^^^^ constant.other.macro.c */
-/*           ^ variable.other.c */
+/*           ^ entity.name.variable.c */
 /*            ^ punctuation.separator.c */
   f,
-/*^ variable.other.c */
+/*^ entity.name.variable.c */
 /* ^ punctuation.separator.c */
   MACRO1 g,
 /*^^^^^^ constant.other.macro.c */
-/*       ^ variable.other.c */
+/*       ^ entity.name.variable.c */
 /*        ^ punctuation.separator.c */
   * MACRO1 h;
 /*^ storage.modifier.c */
 /*  ^^^^^^ constant.other.macro.c */
-/*         ^ variable.other.c */
+/*         ^ entity.name.variable.c */
 /*          ^ punctuation.terminator.c */
 
 char *__aligned(8) *e,
@@ -1485,59 +1485,59 @@ char *__aligned(8) *e,
 /*   ^ storage.modifier.c */
 /*    ^^^^^^^^^^^^ meta.function-call */
 /*                 ^ storage.modifier.c */
-/*                  ^ variable.other.c */
+/*                  ^ entity.name.variable.c */
 /*                   ^ punctuation.separator.c */
   *f,
 /*^ storage.modifier.c */
-/* ^ variable.other.c */
+/* ^ entity.name.variable.c */
 /*  ^ punctuation.separator.c */
   __aligned(8) * g,
 /*^^^^^^^^^^^^ meta.function-call */
 /*             ^ storage.modifier.c */
-/*               ^ variable.other.c */
+/*               ^ entity.name.variable.c */
 /*                ^ punctuation.separator.c */
   * __aligned(8) h,
 /*^ storage.modifier.c */
 /*  ^^^^^^^^^^^^ meta.function-call */
-/*               ^ variable.other.c */
+/*               ^ entity.name.variable.c */
 /*                ^ punctuation.separator.c */
 
   __aligned(sizeof(int)) * i,
 /*^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
 /*                       ^ storage.modifier.c */
-/*                         ^ variable.other.c */
+/*                         ^ entity.name.variable.c */
 /*                          ^ punctuation.separator.c */
   __aligned(sizeof(void *)) * j,
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
 /*                          ^ storage.modifier.c */
-/*                            ^ variable.other.c */
+/*                            ^ entity.name.variable.c */
 /*                             ^ punctuation.separator.c */
   __aligned(0x8) * k;
 /*^^^^^^^^^^^^^^ meta.function-call */
 /*               ^ storage.modifier.c */
-/*                 ^ variable.other.c */
+/*                 ^ entity.name.variable.c */
 /*                  ^ punctuation.terminator.c */
 
 MACRO1 UPPER_VAR;
 /* <- constant.other.macro.c */
-/*     ^^^^^^^^^ variable.other.c */
+/*     ^^^^^^^^^ entity.name.variable.c */
 /*              ^ punctuation.terminator.c */
 
 __safe UPPER_VAR;
 /* <- constant.other.macro.c */
-/*     ^^^^^^^^^ variable.other.c */
+/*     ^^^^^^^^^ entity.name.variable.c */
 /*              ^ punctuation.terminator.c */
 
 TYPE(int) UPPER_VAR;
 /* <- meta.function-call */
-/*        ^^^^^^^^^ variable.other.c */
+/*        ^^^^^^^^^ entity.name.variable.c */
 /*                 ^ punctuation.terminator.c */
 
 static const struct print_field const err_flags[];
 /*<- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
 /*                              ^^^^^ storage.modifier.c */
-/*                                    ^^^^^^^^^ variable.other.c */
+/*                                    ^^^^^^^^^ entity.name.variable.c */
 /*                                             ^^ storage.modifier.c */
 /*                                               ^ punctuation.terminator.c */
 
@@ -1734,7 +1734,7 @@ MACRO1 void MACRO2 myfuncname (), MACRO2 foo(), UPPER_VAR, UPPERFN();
 /*                                       ^^^ entity.name.function.c */
 /*                                          ^^ meta.function.parameters.c */
 /*                                            ^ punctuation.separator.c */
-/*                                              ^^^^^^^^^ variable.other.c */
+/*                                              ^^^^^^^^^ entity.name.variable.c */
 /*                                                       ^ punctuation.separator.c */
 /*                                                         ^^^^^^^ entity.name.function.c */
 /*                                                                ^^ meta.function.parameters.c */
@@ -1826,14 +1826,14 @@ funcname2
 MACRO_CALL(int) foo;
 /*^^^^^^^^^^^^^ meta.function-call */
 /*        ^^^^^ meta.group */
-/*              ^^^ variable.other.c */
+/*              ^^^ entity.name.variable.c */
 /*                 ^ punctuation.terminator.c */
 MACRO_CALL(int) ALIGNED(8) foo;
 /*^^^^^^^^^^^^^ meta.function-call */
 /*        ^^^^^ meta.function-call.parameters.c */
 /*              ^^^^^^^^^^ meta.function-call */
 /*                     ^^^ meta.function-call.parameters.c */
-/*                         ^^^ variable.other.c */
+/*                         ^^^ entity.name.variable.c */
 /*                            ^ punctuation.terminator.c */
 
 MACRO_CALL(int) ALIGNED(8) macro_prefixed_func(){}
@@ -1871,7 +1871,7 @@ extern NCURSES_EXPORT_VAR(int) COLORS;
 /* <- storage.modifier.c */
 /*     ^^^^^^^^^^^^^^^^^ meta.function-call.c */
 /*                       ^^^^^ meta.function-call.parameters.c */
-/*                             ^^^^^^ variable.other.c */
+/*                             ^^^^^^ entity.name.variable.c */
 
 int* return_type_pointer_no_space(){}
 /* <- storage.type.c */

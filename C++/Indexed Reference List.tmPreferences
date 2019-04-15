@@ -5,7 +5,8 @@
     <key>scope</key>
     <string>
         source.c constant.other.macro.c,
-        source.c support.type.c
+        source.c support.type.c,
+        source.c variable.other.c
     </string>
     <key>settings</key>
     <dict>

@@ -550,9 +550,9 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: variable.other.c debug.variable-identifier-list.function-pointer
+          scope: entity.name.variable.c debug.variable-identifier-list.function-pointer
     - match: '{{identifier}}'
-      scope: variable.other.c debug.variable-identifier-list
+      scope: entity.name.variable.c debug.variable-identifier-list
       push:
         - meta_scope: debug.variable-identifier-list.array-or-assignment
         - match: \[
