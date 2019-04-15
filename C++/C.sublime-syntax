@@ -364,7 +364,7 @@ contexts:
   ## C-specific contexts
 
   global-function-call:
-    - match: (?={{identifier}}\s*\()
+    - match: (?={{identifier}}\s*\((?!\s*\*))
       set:
         - - meta_scope: debug.global-function-call.type-or-terminator
           - include: comments
@@ -537,7 +537,7 @@ contexts:
           - include: comments
           - include: function-definition-params-group
           - include: or_pop
-    - match: \(
+    - match: \((?=\s*\*)
       scope: punctuation.section.group.begin.c debug.variable-identifier-list.function-pointer
       comment: Function pointer declaration
       push:

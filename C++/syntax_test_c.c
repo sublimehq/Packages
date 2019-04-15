@@ -1242,6 +1242,44 @@ void do_pci_scan_bridge(struct device *dev,
 /*                                  ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c - meta.function.c */
 /*                                   ^ punctuation.terminator.c - meta.function */
 
+extern int (*something)(const struct pci_dev *dev);
+/* <- storage.modifier.c */
+/*     ^^^ storage.type.c */
+/*          ^ storage.modifier.c */
+/*           ^^^^^^^^^ entity.name.variable.c */
+/*                     ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
+/*                      ^^^^^ storage.modifier.c */
+/*                            ^^^^^^ storage.type.c */
+/*                                   ^^^^^^^ support.type.c */
+/*                                           ^ storage.modifier.c */
+/*                                            ^^^ variable.parameter.c*/
+/*                                               ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
+/*                                                ^ punctuation.terminator.c */
+
+/* We can't match this as a function */
+static ssize_t function_with_params_on_newline
+/* <- storage.modifier.c */
+/*     ^^^^^^^ support.type.sys-types.c */
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.c*/
+    (struct device *dev,
+/*  ^ meta.group.c punctuation.section.group.begin.c */
+/*   ^^^^^^ storage.type.c */
+/*          ^^^^^^ support.type.c */
+/*                 ^ keyword.operator.c */
+/*                  ^^^ - variable.other.c */
+/*                     ^ punctuation.separator.c */
+     char *buf)
+/*   ^^^^ storage.type.c */
+/*        ^ keyword.operator.c */
+/*         ^^^ - variable.other.c */
+/*            ^ punctuation.section.group.end.c */
+{
+/* <- meta.block.c debug.block punctuation.section.block.begin.c */
+  return 0;
+}
+/* <- meta.block.c debug.block punctuation.section.block.end.c */
+
+
 static const struct pci_driver my_driver __pci_driver __driver = {
 /* <- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
