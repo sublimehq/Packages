@@ -1266,12 +1266,12 @@ static ssize_t function_with_params_on_newline
 /*   ^^^^^^ storage.type.c */
 /*          ^^^^^^ support.type.c */
 /*                 ^ keyword.operator.c */
-/*                  ^^^ - variable.other.c */
+/*                  ^^^ variable.other.c */
 /*                     ^ punctuation.separator.c */
      char *buf)
 /*   ^^^^ storage.type.c */
 /*        ^ keyword.operator.c */
-/*         ^^^ - variable.other.c */
+/*         ^^^ variable.other.c */
 /*            ^ punctuation.section.group.end.c */
 {
 /* <- meta.block.c debug.block punctuation.section.block.begin.c */
@@ -1289,8 +1289,24 @@ static const struct pci_driver my_driver __pci_driver __driver = {
 /*                                       ^^^^^^^^^^^^ constant.other.macro.c */
 /*                                                    ^^^^^^^^ constant.other.macro.c */
   .ops      = &pci_my_device_ops,
+/*^ punctuation.accessor.c */
+/* ^^^ variable.other.member.c */
+/*          ^ keyword.operator.assignment.c */
+/*            ^ keyword.operator.c */
+/*             ^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                              ^ punctuation.separator.c */
   .vendor   = PCI_VENDOR_ID,
+/*^ punctuation.accessor.c */
+/* ^^^^^^ variable.other.member.c */
+/*          ^ keyword.operator.assignment.c */
+/*            ^^^^^^^^^^^^^ constant.other.macro.c */
+/*                         ^ punctuation.separator.c */
   .devices  = pci_device_ids,
+/*^ punctuation.accessor.c */
+/* ^^^^^^^ variable.other.member.c */
+/*          ^ keyword.operator.assignment.c */
+/*            ^^^^^^^^^^^^^^ variable.other.c */
+/*                          ^ punctuation.separator.c */
 };
 
 struct __ec_align4 ec_response_get_version {};
@@ -1329,10 +1345,10 @@ static const struct spd_info {
     },
     [SPD_INFO_DEFAULT] = {
 /*   ^^^^^^^^^^^^^^^^ constant.other.macro.c */
-        .spd_len = SPD_DEFAULT_LENGTH,
-/*                 ^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
-        .spd_part_len = SPD_DEFAULT_PART_LEN,
-/*                      ^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
+        .spd_len = spd_default_length,
+/*                 ^^^^^^^^^^^^^^^^^^ variable.other.c */
+        .spd_part_len = spd_default_part_len,
+/*                      ^^^^^^^^^^^^^^^^^^^^ variable.other.c */
     },
 };
 
@@ -1655,9 +1671,14 @@ int foo(int val, float val2[][])
 {
 /* <- meta.function meta.block */
     myClass *result;
+/*           ^^^^^^ variable.other.c */
     result->kk = func(val);
 /*        ^^ punctuation.accessor */
+/*  ^^^^^^ variable.other.c */
+/*          ^^ variable.other.c */
+/*                    ^^^ variable.other.c */
     if (result != 0) {
+/*      ^^^^^^ variable.other.c */
 /*             ^^ keyword.operator.comparison.c */
         return 0;
 #if CROSS_SCOPE_MACRO
@@ -1673,7 +1694,7 @@ int foo(int val, float val2[][])
 #ifdef FOO
  /* <- keyword.control.import */
     int foobar
-/*      ^^^^^^ - entity.name.function */
+/*      ^^^^^^ variable.other.c */
     ;
 
     if (val == -1) {
@@ -1712,7 +1733,9 @@ GetTextMetrics(
 #endif
 /* <- keyword.control.import */
         hdc,
+/*      ^^^ variable.other.c */
         lptm
+/*      ^^^^ variable.other.c */
         );
 /*      ^ meta.function-call */
 /*       ^ - meta.function-call */
@@ -1829,13 +1852,15 @@ MACRO1 void * MACRO2 myfuncname () {
 /*  ^ storage.type */
 /*         ^ entity.name.struct */
         void* hello;
+/*            ^^^^^ variable.other.member.c */
         void* foobar;
+/*            ^^^^^^ variable.other.member.c */
     };
 
     struct Args args;
 /*  ^ storage.type */
 /*         ^ - entity */
-
+/*              ^^^^ variable.other.c */
 }
 
 static const uint32_t * const MACRO funcname();
@@ -1946,6 +1971,7 @@ __notdeclspec(deprecated("bla")) void func2(int) {}
 func_call(foo
 /*^^^^^^^^^^^ meta.function-call */
 /*       ^^^^ meta.group */
+/*        ^^^ variable.other.c */
 /*       ^ punctuation.section.group.begin */
 );
 /* <- meta.function-call meta.group punctuation.section.group.end */
@@ -2025,6 +2051,8 @@ scanf("%ms %as %*[, ]", &buf);
 /*     ^^^ constant.other.placeholder */
 /*         ^^^ constant.other.placeholder */
 /*             ^^^^^^ constant.other.placeholder */
+/*                      ^ keyword.operator.c */
+/*                       ^^^ variable.other.c */
 
 "foo % baz"
 /*   ^ - invalid */
@@ -2038,6 +2066,7 @@ int control_keywords()
 {
   if (x < 5)
   /* <- keyword.control */
+/*    ^ variable.other.c */
   {}
   else
   /* <- keyword.control */
@@ -2045,6 +2074,7 @@ int control_keywords()
 
   switch (x)
   /* <- keyword.control */
+/*        ^ variable.other.c */
   {
   case 1:
   /* <- keyword.control */
@@ -2060,12 +2090,16 @@ int control_keywords()
   /* <- keyword.control */
   {
       if (y == 3)
+/*        ^ variable.other.c */
           continue;
           /* <- keyword.control.flow.continue */
   } while (y < x);
   /*^ keyword.control */
+/*         ^ variable.other.c */
+/*             ^ variable.other.c */
 
   switch (a) {
+/*        ^ variable.other.c */
       case 1: break;
   /*        ^ punctuation.separator */
       case 100 - 10: break;

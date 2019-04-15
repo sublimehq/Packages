@@ -331,6 +331,8 @@ contexts:
     - include: late-expressions
     - match: '{{macro_identifier}}'
       scope: constant.other.macro.c
+    - match: '{{identifier}}'
+      scope: variable.other.c
 
   early-expressions:
     - include: preprocessor-expressions
