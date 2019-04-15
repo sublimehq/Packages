@@ -579,6 +579,48 @@ contexts:
       pop: true
     - include: or_pop
 
+  member-variable-identifier-list:
+    - meta_scope: debug.member-variable-identifier-list
+    - include: comments
+    - include: modifiers
+    - include: modifiers-parens
+    - include: modifiers-macros
+    - match: \*
+      scope: storage.modifier.c
+    - match: \(
+      scope: punctuation.section.group.begin.c debug.member-variable-identifier-list.function-pointer
+      comment: Function pointer declaration
+      push:
+        - meta_scope: meta.parens
+        - match: \)
+          scope: punctuation.section.parens.end
+          set:
+            - include: function-definition-params-group
+            - include: or_pop
+        - match: \*
+          scope: storage.modifier.c
+        - match: '{{identifier}}'
+          scope: variable.other.member.c debug.member-variable-identifier-list.function-pointer
+    - match: '{{identifier}}'
+      scope: variable.other.member.c debug.member-variable-identifier-list
+      push:
+        - meta_scope: debug.member-variable-identifier-list.array-or-assignment
+        - match: \[
+          scope: punctuation.section.brackets.begin.c storage.modifier.c
+          push:
+            - meta_scope: meta.brackets.c
+            - match: \]
+              scope: punctuation.section.brackets.end.c storage.modifier.c
+              pop: true
+            - include: expressions
+        - include: or_pop
+    - match: ','
+      scope: punctuation.separator.c debug.member-variable-identifier-list
+    - match: ';'
+      scope: punctuation.terminator.c
+      pop: true
+    - include: or_pop
+
   struct-keyword:
     - match: '\bstruct\b'
       scope: storage.type.c
@@ -710,7 +752,7 @@ contexts:
     - include: modifiers-parens
     - match: '(?=\S)'
       push:
-        - variable-identifier-list
+        - member-variable-identifier-list
         - typedef-types
 
   block:
