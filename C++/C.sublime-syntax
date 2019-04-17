@@ -52,7 +52,6 @@ contexts:
       scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.block.c
-          meta_include_prototype: false
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
@@ -66,7 +65,6 @@ contexts:
       scope: punctuation.definition.comment.c
       push:
         - meta_scope: comment.line.double-slash.c
-          meta_include_prototype: false
         - match: '(\\)$\n'
           captures:
             1: punctuation.separator.continuation.c
@@ -79,8 +77,7 @@ contexts:
         1: storage.type.string.c
         2: punctuation.definition.string.begin.c
       push:
-        - meta_include_prototype: false
-          meta_scope: string.quoted.double.c
+        - meta_scope: string.quoted.double.c
         - match: '"'
           scope: punctuation.definition.string.end.c
           pop: true
@@ -92,7 +89,6 @@ contexts:
         2: punctuation.definition.string.begin.c
       push:
         - meta_scope: string.quoted.single.c
-          meta_include_prototype: false
         - match: "'"
           scope: punctuation.definition.string.end.c
           pop: true
@@ -271,7 +267,6 @@ contexts:
       scope: punctuation.definition.comment.c debug.preprocessor-comments
       push:
         - meta_scope: comment.block.c
-        - meta_include_prototype: false
         - match: '\\$\n'
           scope: punctuation.separator.continuation.c
         - match: \*/
@@ -281,7 +276,6 @@ contexts:
       scope: punctuation.definition.comment.c debug.preprocessor-comments
       push:
         - meta_scope: comment.line.double-slash.c
-        - meta_include_prototype: false
         - match: '(\\)$\n'
           captures:
             1: punctuation.separator.continuation.c
@@ -1093,7 +1087,6 @@ contexts:
         1: keyword.control.import.c
       push:
         - meta_scope: meta.preprocessor.c debug.preprocessor-rule-other-global
-        - meta_include_prototype: false
         - include: preprocessor-line-continuation
         - include: preprocessor-comments
         - match: \bdefined\b
