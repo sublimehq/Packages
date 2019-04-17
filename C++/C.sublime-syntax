@@ -312,7 +312,7 @@ contexts:
         # We don't include modifiers-macros because these could be types
         # We only want to include the modifiers that don't identify a type.
         - include: global-function-call
-        - include: global-modifier
+        - include: global-declaration
     - include: late-expressions
 
   statements:
@@ -374,7 +374,7 @@ contexts:
                       a macro invocation followed by a function definition.
             pop: true
           - match: '(?=\S)'
-            set: global-modifier
+            set: global-declaration
         - - meta_scope: debug.global-function-call.params
           - include: function-call-params
         - - meta_scope: meta.function-call.c
@@ -383,11 +383,11 @@ contexts:
             scope: variable.function.c
             pop: true
 
-  global-modifier:
+  global-declaration:
     - match: '(?=\S)'
       set:
         - variable-identifier-list
-        - typedef-types
+        - type-declaration
 
   function-definition-params:
     - meta_content_scope: meta.function.c debug.function-definition-params
@@ -413,7 +413,7 @@ contexts:
         - match: '(?=\S)'
           push:
             - parameter-identifier
-            - typedef-types
+            - type-declaration
 
   parameter-identifier:
     - meta_scope: debug.parameter-identifier
@@ -749,7 +749,7 @@ contexts:
     - match: '(?=\S)'
       push:
         - member-variable-identifier-list
-        - typedef-types
+        - type-declaration
 
   block:
     - match: '\{'
@@ -851,9 +851,9 @@ contexts:
       scope: storage.type.c
       push:
         - typedef-identifier-list
-        - typedef-types
-  typedef-types:
-    - meta_scope: debug.typedef-types
+        - type-declaration
+  type-declaration:
+    - meta_scope: debug.type-declaration
     - include: comments
     - include: modifiers
     - include: modifiers-macros
@@ -861,23 +861,23 @@ contexts:
     # Make sure to pop when a data structure keyword is found
     - match: (?=\bstruct\b)
       set:
-        - meta_scope: debug.typedef-types.struct
+        - meta_scope: debug.type-declaration.struct
         - include: struct-keyword
         - include: or_pop
     - match: (?=\benum\b)
       set:
-        - meta_scope: debug.typedef-types.enum
+        - meta_scope: debug.type-declaration.enum
         - include: enum-keyword
         - include: or_pop
     - match: (?=\bunion\b)
       set:
-        - meta_scope: debug.typedef-types.union
+        - meta_scope: debug.type-declaration.union
         - include: union-keyword
         - include: or_pop
     - include: types
     - match: ({{identifier}})\s*(?={{identifier}}|\(\*|\n|\*)
       captures:
-        1: support.type.c debug.typedef-types.identifier
+        1: support.type.c debug.type-declaration.identifier
     - include: or_pop
   typedef-identifier-list:
     - meta_scope: debug.typedef-identifier-list
