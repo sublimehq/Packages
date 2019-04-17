@@ -379,8 +379,7 @@ contexts:
           - include: function-call-params
         - - meta_scope: meta.function-call.c
           - match: '{{identifier}}'
-            # Really a macro
-            scope: variable.function.c
+            scope: constant.other.macro.c
             pop: true
 
   global-declaration:
@@ -926,6 +925,13 @@ contexts:
     - include: or_pop
 
   function-call:
+    - match: (?=(?:{{macro_identifier}}|{{attr_macro_identifier}})\s*\()
+      push:
+        - meta_content_scope: meta.function-call.c
+        - include: c99
+        - match: '{{identifier}}'
+          scope: constant.other.macro.c
+        - include: function-call-params
     - match: (?={{identifier}}\s*\()
       push:
         - meta_content_scope: meta.function-call.c

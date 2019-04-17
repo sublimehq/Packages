@@ -228,11 +228,11 @@ foo
 ; // fix highlighting
 /* <- punctuation.terminator */
 FOO()
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 FOO();
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 foo()
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 ; // fix highlighting
 /* <- punctuation.terminator */
 
@@ -646,7 +646,7 @@ struct point get_point() {}
 /*                        ^ punctuation.section.block.end */
 
 EXPORT_SYMBOL(get_point);
-/* <- meta.function-call.c variable.function.c*/
+/* <- meta.function-call.c constant.other.macro.c*/
 /*            ^^^^^^^^^ variable.other.c */
 
 inline struct point **alloc_points();
@@ -659,7 +659,7 @@ inline struct point **alloc_points();
 /*                                 ^ punctuation.section.group.end.c */
 /*                                  ^ punctuation.terminator.c */
 EXPORT_SYMBOL(alloc_points);
-/* <- meta.function-call.c variable.function.c*/
+/* <- meta.function-call.c constant.other.macro.c*/
 /*            ^^^^^^^^^^^^ variable.other.c */
 
 struct point* alloc_point();
@@ -725,11 +725,11 @@ int f_with_s(struct { int a; } *s);
 /*                                ^ punctuation.terminator.c */
 
 TRACE_EVENT(mmc_request_start,
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 /*          ^^^^^^^^^^^^^^^^^ variable.other.c */
 /*                           ^ punctuation.separator.c */
   TP_PROTO(struct mmc_host *host, struct mmc_request *mrq)
-/*^^^^^^^^ variable.function */
+/*^^^^^^^^ constant.other.macro.c */
 /*         ^^^^^^ storage.type.c */
 /*                ^^^^^^^^ support.type.c */
 /*                         ^ keyword.operator.c */
@@ -742,7 +742,7 @@ TRACE_EVENT(mmc_request_start,
 );
 
 TRACE_EVENT(802154_rdev_add_virtual_intf,
-/* <-meta.function-call.c variable.function.c */
+/* <-meta.function-call.c constant.other.macro.c */
 /*         ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
 /*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
 /*                                      ^ punctuation.separator.c */
@@ -752,7 +752,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
     WPAN_PHY_ENTRY
 /*  ^^^^^^^^^^^^^^ constant.other.macro.c */
     __string(vir_intf_name, name ? name : "<noname>")
-/*  ^^^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*          ^ punctuation.section.group.begin.c */
 /*           ^^^^^^^^^^^^^ variable.other.c */
 /*                        ^ punctuation.separator.c */
@@ -763,7 +763,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*                                        ^^^^^^^^^^ string.quoted.double.c */
 /*                                                  ^ punctuation.section.group.end.c */
     __field(enum nl802154_iftype, type)
-/*  ^^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*         ^ punctuation.section.group.begin.c */
 /*          ^^^^ storage.type.c */
 /*               ^^^^^^^^^^^^^^^ support.type.c */
@@ -771,7 +771,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*                                ^^^^ variable.other.c */
 /*                                    ^ punctuation.section.group.end.c */
     __field(__le64, extended_addr)
-/*  ^^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*         ^ punctuation.section.group.begin.c */
 /*          ^^^^^^ variable.other.c */
 /*                ^ punctuation.separator.c */
@@ -786,7 +786,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
     WPAN_PHY_ASSIGN;
 /*  ^^^^^^^^^^^^^^^ constant.other.macro.c */
     __assign_str(vir_intf_name, name ? name : "<noname>");
-/*  ^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*              ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
 /*               ^^^^^^^^^^^^^ variable.other.c */
 /*                            ^ punctuation.separator.c */
@@ -816,7 +816,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
       WPAN_PHY_PR_ARG, __get_str(vir_intf_name), __entry->type,
 /*    ^^^^^^^^^^^^^^^ constant.other.macro.c */
 /*                   ^ punctuation.separator.c */
-/*                     ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                     ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                               ^^^^^^^^^^^^^ variable.other.c */
 /*                                             ^ punctuation.separator.c */
 /*                                               ^^^^^^^ variable.other.c */
@@ -824,7 +824,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*                                                        ^^^^ variable.other.c */
 /*                                                            ^ punctuation.separator.c */
       __le64_to_cpu(__entry->extended_addr))
-/*    ^^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*    ^^^^^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                  ^^^^^^^ variable.other.c */
 /*                         ^^ punctuation.accessor.c */
 /*                           ^^^^^^^^^^^^^ variable.other.c */
@@ -836,35 +836,35 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 
 static DEFINE_SPINLOCK(my_lock);
 /* <- storage.modifier.c */
-/*     ^^^^^^^^^^^^^^^ meta.function-call.c variable.function.c */
+/*     ^^^^^^^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                    ^^^^^^^^^ meta.function-call.parameters.c */
 /*                     ^^^^^^^ variable.other.c */
 
 MACRO_CALL_NO_SEMI(
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 /*                ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
   __with_complex_params(34)
-/*^ meta.function-call.c variable.function.c */
+/*^ meta.function-call.c constant.other.macro.c */
 /*                     ^^^^ meta.function-call.parameters.c */
 )
 /* <- meta.function-call.parameters.c punctuation.section.group.end.c */
 
 MACRO_CALL_NO_SEMI(
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 /*                ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
   __with_complex_params(34)
-/*^ meta.function-call.c variable.function.c */
+/*^ meta.function-call.c constant.other.macro.c */
 /*                     ^^^^ meta.function-call.parameters.c */
 )
 /* <- meta.function-call.parameters.c punctuation.section.group.end.c */
 
 SHOW(temp0, temp0)   /* a comment */
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 /*   ^^^^ variable.other.c */
 /*          ^^^^^ variable.other.c */
 /*                   ^^^^^^^^^^^^^^^ comment.block.c */
 SHOW(temp1, temp1)   /* a comment */
-/* <- meta.function-call.c variable.function.c */
+/* <- meta.function-call.c constant.other.macro.c */
 /*   ^^^^ variable.other.c */
 /*          ^^^^^ variable.other.c */
 /*                   ^^^^^^^^^^^^^^^ comment.block.c */
@@ -1439,15 +1439,15 @@ void __attributes(int *bar) __must_hold(&foo)
     SAFE
 /*  ^^^^ constant.other.macro.c */
     __blah(bar)
-/*  ^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^ meta.function-call.c constant.other.macro.c */
 /*         ^^^ variable.other.c */
     __blah(bar, foo)
-/*  ^^^^^^ meta.function-call.c variable.function.c */
+/*  ^^^^^^ meta.function-call.c constant.other.macro.c */
 /*        ^^^^^^^^^^ meta.function-call.parameters.c */
 /*         ^^^ variable.other.c */
 /*              ^^^ variable.other.c */
     __must_hold(&abc->lock)
-/*  ^^^^^^^^^^^ meta.function-call.c */
+/*  ^^^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*             ^^^^^^^^^^^^ meta.function-call.parameters.c */
 /*              ^ keyword.operator.c */
 /*               ^^^ variable.other.c */
@@ -1948,7 +1948,7 @@ int32
 () {}
 
 _declspec(deprecated("bla")) void func2(int) {}
-/* <- meta.function-call variable.function                    */
+/* <- meta.function-call constant.other.macro.c               */
 /*                           ^^^^ storage.type.c */
 /*                                ^ entity.name.function      */
 /*                                      ^^^ storage.type.c */
@@ -1963,7 +1963,7 @@ __declspec(deprecated("bla")) void func2(int) {}
 /*                                 ^ entity.name.function     */
 /*                                       ^^^ storage.type.c */
 __notdeclspec(deprecated("bla")) void func2(int) {}
-/* <- meta.function-call variable.function                    */
+/* <- meta.function-call constant.other.macro.c               */
 /*                               ^^^^ storage.type.c */
 /*                                    ^ entity.name.function  */
 /*                                          ^^^ storage.type.c */
