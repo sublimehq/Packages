@@ -323,8 +323,7 @@ contexts:
   expressions:
     - include: early-expressions
     - include: late-expressions
-    - match: '{{macro_identifier}}'
-      scope: constant.other.macro.c
+    - include: macro-identifiers
     - match: '{{identifier}}'
       scope: variable.other.c
 
@@ -472,8 +471,7 @@ contexts:
 
   macro-identifiers:
     - match: '{{macro_identifier}}'
-      comment: Not sure I think this is a good idea
-      scope: variable.annotation
+      scope: constant.other.macro.c
 
   parameter-variable-identifier:
     - match: \*
