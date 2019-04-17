@@ -238,16 +238,28 @@ foo()
 
 struct X
 {
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     ENABLED("reason")
-    /* <- meta.assumed-macro variable.function.assumed-macro */
+    /* <- meta.function-call.c constant.other.macro.c */
     int foo;
     /* <- storage.type */
+/*      ^^^ variable.other.member.c */
 
     DISABLED("reason")
-    /* <- meta.assumed-macro variable.function.assumed-macro */
+    /* <- meta.function-call.c constant.other.macro.c */
     float bar;
     /* <- storage.type */
+/*        ^^^ variable.other.member.c */
+/*           ^ punctuation.terminator.c */
+
+    EXPORT(int) baz;
+/*  ^^^^^^ meta.function-call.c constant.other.macro.c */
+/*        ^^^^^ meta.function-call.parameters.c */
+/*              ^^^ variable.other.member.c */
+/*                 ^ punctuation.terminator.c */
 };
+/* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
+ /* <- punctuation.terminator.c - meta.struct.body.c - meta.block.c*/
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks

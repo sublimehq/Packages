@@ -388,15 +388,6 @@ contexts:
         - variable-identifier-list
         - type-declaration
 
-  function-definition-params:
-    - meta_content_scope: meta.function.c debug.function-definition-params
-    - include: comments
-    - match: '(?=\()'
-      set:
-        - include: function-definition-params-group
-        - include: function-definition-continue
-    - match: (?=\S)
-      pop: true
   function-definition-params-group:
     - match: \(
       scope: punctuation.section.group.begin.c
@@ -745,10 +736,24 @@ contexts:
     - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
     - include: modifiers
     - include: modifiers-parens
+    - include: data-structures-body-function-call
+    - include: data-structures-body-declaration
+
+  data-structures-body-declaration:
     - match: '(?=\S)'
       push:
         - member-variable-identifier-list
         - type-declaration
+
+  data-structures-body-function-call:
+    - match: (?={{identifier}}\s*\((?!\s*\*))
+      push:
+        - - meta_scope: debug.data-structures-body-function-call.params
+          - include: function-call-params
+        - - meta_scope: meta.function-call.c
+          - match: '{{identifier}}'
+            scope: constant.other.macro.c
+            pop: true
 
   block:
     - match: '\{'
@@ -1409,38 +1414,6 @@ contexts:
       scope: punctuation.section.block.end.c debug.preprocessor-macro-definition.end-block
     - include: expressions
 
-  preprocessor-practical-workarounds:
-    - include: preprocessor-convention-ignore-uppercase-ident-lines
-    - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
-
-  preprocessor-convention-ignore-uppercase-ident-lines:
-    - match: ^(\s*{{macro_identifier}})+\s*$
-      scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-ident-lines
-      push:
-        # It's possible that we are dealing with a function return type on its own line, and the
-        # name of the function is on the subsequent line.
-        - match: \s*({{identifier}})(?=\s*\()
-          captures:
-            1: meta.function.c entity.name.function.c debug.preprocessor-convention-ignore-uppercase-ident-lines.params
-          set: function-definition-params
-        - match: ^
-          pop: true
-
-
-  preprocessor-convention-ignore-uppercase-calls-without-semicolon:
-    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
-      captures:
-        1: variable.function.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
-        2: punctuation.section.group.begin.c
-      push:
-        - meta_scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
-        - match: \)
-          scope: punctuation.section.group.end.c
-          pop: true
-        - include: expressions
-        - match: '{{identifier}}'
-          scope: variable.other.c
-
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
       captures:
@@ -1489,4 +1462,3 @@ contexts:
             - match: ">"
               scope: punctuation.definition.string.end.c
               pop: true
-    # - include: preprocessor-practical-workarounds
