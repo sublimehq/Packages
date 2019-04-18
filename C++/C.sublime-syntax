@@ -219,7 +219,7 @@ contexts:
       scope: invalid.illegal.syntax.c
 
   access:
-    - match: '(\.)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c

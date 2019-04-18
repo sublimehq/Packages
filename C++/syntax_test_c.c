@@ -812,7 +812,7 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
     __entry->type = type;
 /*  ^^^^^^^ variable.other.c */
 /*         ^^ punctuation.accessor.c */
-/*           ^^^^ variable.other.c */
+/*           ^^^^ variable.other.member.c */
 /*                ^ keyword.operator.assignment.c */
 /*                  ^^^^ variable.other.c */
 /*                      ^ punctuation.terminator.c */
@@ -833,13 +833,13 @@ TRACE_EVENT(802154_rdev_add_virtual_intf,
 /*                                             ^ punctuation.separator.c */
 /*                                               ^^^^^^^ variable.other.c */
 /*                                                      ^^ punctuation.accessor.c */
-/*                                                        ^^^^ variable.other.c */
+/*                                                        ^^^^ variable.other.member.c */
 /*                                                            ^ punctuation.separator.c */
       __le64_to_cpu(__entry->extended_addr))
 /*    ^^^^^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                  ^^^^^^^ variable.other.c */
 /*                         ^^ punctuation.accessor.c */
-/*                           ^^^^^^^^^^^^^ variable.other.c */
+/*                           ^^^^^^^^^^^^^ variable.other.member.c */
 /*                                        ^ meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
 /*                                         ^ meta.function-call.parameters.c meta.group.c punctuation.section.group.end.c */
 );
@@ -1464,7 +1464,7 @@ void __attributes(int *bar) __must_hold(&foo)
 /*              ^ keyword.operator.c */
 /*               ^^^ variable.other.c */
 /*                  ^^ punctuation.accessor.c */
-/*                    ^^^^ variable.other.c */
+/*                    ^^^^ variable.other.member.c */
     {}
 /*  ^^ meta.function.c meta.block.c */
 
@@ -1687,7 +1687,7 @@ int foo(int val, float val2[][])
     result->kk = func(val);
 /*        ^^ punctuation.accessor */
 /*  ^^^^^^ variable.other.c */
-/*          ^^ variable.other.c */
+/*          ^^ variable.other.member.c */
 /*                    ^^^ variable.other.c */
     if (result != 0) {
 /*      ^^^^^^ variable.other.c */
@@ -2097,6 +2097,16 @@ int control_keywords()
       break;
       /* <- keyword.control.flow.break */
   }
+  foo->bar.baz->hello("World");
+/*^^^ variable.other.c */
+/*   ^^ punctuation.accessor.c */
+/*     ^^^ variable.other.member.c */
+/*        ^ punctuation.accessor.c */
+/*         ^^^ variable.other.member.c */
+/*            ^^ punctuation.accessor.c */
+/*              ^^^^^ meta.function-call.c variable.function.c */
+/*                   ^^^^^^^^^ meta.function-call.parameters.c */
+/*                            ^ punctuation.terminator.c */
 
   do
   /* <- keyword.control */
