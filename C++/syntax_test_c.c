@@ -1629,6 +1629,7 @@ enum {
 /*            ^ punctuation.separator.c */
 #ifdef ENABLED_FEATURE
 /* <- meta.preprocessor.c keyword.control.import.c */
+/*     ^^^^^^^^^^^^^^^ constant.other.macro.c */
     ENUM_ENABLED,
 /*  ^^^^^^^^^^^^ entity.name.constant.enum.c */
 #else
@@ -2023,6 +2024,7 @@ func_call(foo
 /*               ^ punctuation.definition.string.end */
 
 #ifdef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
+/*     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
 #include_next <math.h>
 /* <- keyword.control.import.include */
 /*            ^ punctuation.definition.string.begin */

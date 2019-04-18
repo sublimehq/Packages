@@ -1116,6 +1116,7 @@ contexts:
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
+        - include: macro-identifiers
         # Enter a new scope where all elif/else branches have their
         # contexts popped by a subsequent elif/else/endif. This ensures that
         # preprocessor branches don't push multiple meta.block scopes on
@@ -1472,6 +1473,7 @@ contexts:
         - include: preprocessor-comments
         - match: \bdefined\b
           scope: keyword.control.c
+        - include: macro-identifiers
     - match: ^\s*(#\s*endif)\b
       captures:
         1: meta.preprocessor.c keyword.control.import.c
