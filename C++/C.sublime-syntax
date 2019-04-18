@@ -352,7 +352,7 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     - include: types
-    - include: function-call
+    - include: function-call-c
     - match: ';'
       scope: punctuation.terminator.c
 
@@ -387,6 +387,15 @@ contexts:
         - variable-identifier-list
         - type-declaration
 
+  function-definition-params:
+    - meta_content_scope: meta.function.c debug.function-definition-params
+    - include: comments
+    - match: '(?=\()'
+      set:
+        - include: function-definition-params-group
+        - include: function-definition-continue
+    - match: (?=\S)
+      pop: true
   function-definition-params-group:
     - match: \(
       scope: punctuation.section.group.begin.c
@@ -513,7 +522,7 @@ contexts:
           - include: comments
           - include: modifiers-parens
           # Macro invocations
-          - include: function-call
+          - include: function-call-c
           - match: '{{identifier}}'
             scope: constant.other.macro.c debug.variable-identifier-list.function-attribute
           - include: or_pop
@@ -731,7 +740,6 @@ contexts:
   data-structures-body:
     - include: preprocessor-data-structures
     - include: preprocessor-expressions
-    - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
     - include: modifiers
     - include: modifiers-parens
     - include: data-structures-body-function-call
@@ -927,7 +935,8 @@ contexts:
       pop: true
     - include: or_pop
 
-  function-call:
+  # Scope used only by the c syntax
+  function-call-c:
     - match: (?=(?:{{macro_identifier}}|{{attr_macro_identifier}})\s*\()
       push:
         - meta_content_scope: meta.function-call.c
@@ -935,6 +944,10 @@ contexts:
         - match: '{{identifier}}'
           scope: constant.other.macro.c
         - include: function-call-params
+    - include: function-call
+
+  # This is used by other syntaxes
+  function-call:
     - match: (?={{identifier}}\s*\()
       push:
         - meta_content_scope: meta.function-call.c
@@ -1411,6 +1424,38 @@ contexts:
     - match: '\}'
       scope: punctuation.section.block.end.c debug.preprocessor-macro-definition.end-block
     - include: expressions
+
+  preprocessor-practical-workarounds:
+    - include: preprocessor-convention-ignore-uppercase-ident-lines
+    - include: preprocessor-convention-ignore-uppercase-calls-without-semicolon
+
+  preprocessor-convention-ignore-uppercase-ident-lines:
+    - match: ^(\s*{{macro_identifier}})+\s*$
+      scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-ident-lines
+      push:
+        # It's possible that we are dealing with a function return type on its own line, and the
+        # name of the function is on the subsequent line.
+        - match: \s*({{identifier}})(?=\s*\()
+          captures:
+            1: meta.function.c entity.name.function.c debug.preprocessor-convention-ignore-uppercase-ident-lines.params
+          set: function-definition-params
+        - match: ^
+          pop: true
+
+
+  preprocessor-convention-ignore-uppercase-calls-without-semicolon:
+    - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
+      captures:
+        1: variable.function.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
+        2: punctuation.section.group.begin.c
+      push:
+        - meta_scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
+        - match: \)
+          scope: punctuation.section.group.end.c
+          pop: true
+        - include: expressions
+        - match: '{{identifier}}'
+          scope: variable.other.c
 
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
