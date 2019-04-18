@@ -243,19 +243,19 @@ struct X
     /* <- meta.function-call.c constant.other.macro.c */
     int foo;
     /* <- storage.type */
-/*      ^^^ variable.other.member.c */
+/*      ^^^ entity.name.member.c */
 
     DISABLED("reason")
     /* <- meta.function-call.c constant.other.macro.c */
     float bar;
     /* <- storage.type */
-/*        ^^^ variable.other.member.c */
+/*        ^^^ entity.name.member.c */
 /*           ^ punctuation.terminator.c */
 
     EXPORT(int) baz;
 /*  ^^^^^^ meta.function-call.c constant.other.macro.c */
 /*        ^^^^^ meta.function-call.parameters.c */
-/*              ^^^ variable.other.member.c */
+/*              ^^^ entity.name.member.c */
 /*                 ^ punctuation.terminator.c */
 };
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
@@ -311,7 +311,7 @@ typedef struct mystruct {
 /*                      ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int a;
 /*^^^ storage.type.c */
-/*    ^ variable.other.member.c */
+/*    ^ entity.name.member.c */
 } mystruct;
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*^^^^^^^^ entity.name.type */
@@ -325,7 +325,7 @@ typedef struct another
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int f;
 /*^^^ storage.type.c */
-/*    ^ variable.other.member.c */
+/*    ^ entity.name.member.c */
 } another_t, another2_t;
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*^^^^^^^^^ entity.name.type */
@@ -395,7 +395,7 @@ typedef struct {
 /*             ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
 /*  ^^^ storage.type.c */
-/*      ^^^^^ variable.other.member.c */
+/*      ^^^^^ entity.name.member.c */
 } newtype;
 /* <- meta.struct.body.c punctuation.section.block.end.c */
 /*^^^^^^^ entity.name.type.typedef.c */
@@ -407,7 +407,7 @@ typedef struct MyStruct {
 /*                      ^ meta.struct.body.c punctuation.section.block.begin.c */
     int data1;
 /*  ^^^ storage.type.c */
-/*      ^^^^^ variable.other.member.c */
+/*      ^^^^^ entity.name.member.c */
 } newtype;
 /* <- meta.struct.body.c punctuation.section.block.end.c */
 /*^^^^^^^ entity.name.type.typedef.c */
@@ -701,7 +701,7 @@ struct {
 /*     ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
   int a;
 /*^^^ storage.type.c */
-/*    ^ variable.other.member.c */
+/*    ^ entity.name.member.c */
 } anon_s, *anon_b, anon_s_f(), anon_c = {
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*^^^^^^ entity.name.variable.c  */
@@ -729,7 +729,7 @@ int f_with_s(struct { int a; } *s);
 /*           ^^^^^^ meta.struct.c storage.type.c */
 /*                  ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
 /*                    ^^^ storage.type.c */
-/*                        ^ variable.other.member.c */
+/*                        ^ entity.name.member.c */
 /*                           ^ meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*                             ^ storage.modifier.c */
 /*                              ^ variable.parameter.c */
@@ -956,58 +956,58 @@ struct UI_MenuBoxData
     struct UI_BoundingBox position;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
-/*                        ^ variable.other.member.c */
+/*                        ^ entity.name.member.c */
 /*                                ^ punctuation.terminator.c */
     struct UI_BoundingBox *position_p;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
-/*                         ^ variable.other.member.c */
+/*                         ^ entity.name.member.c */
 /*                                   ^ punctuation.terminator.c */
     struct UI_BoundingBox * position_p1;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
-/*                          ^ variable.other.member.c */
+/*                          ^ entity.name.member.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox **position_p2;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
-/*                          ^ variable.other.member.c */
+/*                          ^ entity.name.member.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox ** position_p3;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^^ storage.modifier.c */
-/*                           ^ variable.other.member.c */
+/*                           ^ entity.name.member.c */
 /*                                      ^ punctuation.terminator.c */
     struct UI_BoundingBox* position_p4;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^ storage.modifier.c */
-/*                         ^ variable.other.member.c */
+/*                         ^ entity.name.member.c */
 /*                                    ^ punctuation.terminator.c */
     struct UI_BoundingBox** position_p5;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^^ storage.modifier.c */
-/*                          ^ variable.other.member.c */
+/*                          ^ entity.name.member.c */
 /*                                     ^ punctuation.terminator.c */
     struct UI_BoundingBox * * position_p5;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
 /*                          ^ storage.modifier.c */
-/*                            ^ variable.other.member.c */
+/*                            ^ entity.name.member.c */
 /*                                       ^ punctuation.terminator.c */
     struct UI_BoundingBox *pos_1, *pos_1;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                        ^ storage.modifier.c */
-/*                         ^ variable.other.member.c */
+/*                         ^ entity.name.member.c */
 /*                                ^ storage.modifier.c */
-/*                                 ^ variable.other.member.c */
+/*                                 ^ entity.name.member.c */
 /*                                      ^ punctuation.terminator.c */
 
     const volatile struct UI_BoundingBox *cv_p;
@@ -1016,11 +1016,11 @@ struct UI_MenuBoxData
 /*                 ^^^^^^ storage.type */
 /*                        ^ support.type.c - entity.name */
 /*                                       ^ storage.modifier.c */
-/*                                        ^ variable.other.member.c */
+/*                                        ^ entity.name.member.c */
 /*                                            ^ punctuation.terminator.c */
     long resume_done[USB_MAXCHILDREN];
 /*  ^^^^ storage.type.c */
-/*       ^^^^^^^^^^^ variable.other.member.c */
+/*       ^^^^^^^^^^^ entity.name.member.c */
 /*                  ^^^^^^^^^^^^^^^^^ meta.brackets.c */
 /*                  ^ punctuation.section.brackets.begin.c */
 /*                   ^^^^^^^^^^^^^^^ constant.other.macro.c */
@@ -1031,20 +1031,20 @@ struct UI_MenuBoxData
 /*         ^ support.type.c - entity.name */
 /*                       ^ constant.other.macro.c */
 /*                               ^ storage.modifier.c */
-/*                                 ^ variable.other.member.c */
+/*                                 ^ entity.name.member.c */
 /*                                        ^ punctuation.terminator.c */
     struct xhci_run_regs __attribute__((noderef)) *run_regs;
 /*  ^^^^^^ storage.type */
 /*         ^ support.type.c - entity.name */
 /*                       ^ - entity.name */
 /*                                                ^ storage.modifier.c */
-/*                                                 ^ variable.other.member.c */
+/*                                                 ^ entity.name.member.c */
 /*                                                         ^ punctuation.terminator.c */
     struct __attribute__((noderef)) xhci_run_regs *run_regs;
 /*  ^^^^^^ storage.type */
 /*                                  ^ support.type.c - entity.name */
 /*                                                ^ storage.modifier.c */
-/*                                                 ^ - entity.name */
+/*                                                 ^ entity.name.member.c */
 /*                                                         ^ punctuation.terminator.c */
     struct nested_t {
 /*  ^^^^^^ storage.type */
@@ -1052,10 +1052,10 @@ struct UI_MenuBoxData
 /*                  ^ meta.struct.body.c meta.block.c meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
         int bar;
 /*      ^^^ storage.type.c */
-/*          ^^^ variable.other.member.c */
+/*          ^^^ entity.name.member.c */
     } nested;
 /*  ^ meta.struct.body.c meta.block.c meta.struct.body.c meta.block.c punctuation.section.block.end.c */
-/*    ^^^^^^ variable.other.member.c */
+/*    ^^^^^^ entity.name.member.c */
 /*          ^ punctuation.terminator.c */
 
 #define CMD_RING_STATE_RUNNING         (1 << 0)
@@ -1065,29 +1065,29 @@ struct UI_MenuBoxData
     enum UI_BoxCharType borderType;
 /*  ^^^^ storage.type.c */
 /*       ^^^^^^^^^^^^^^ support.type.c - entity.name */
-/*                      ^ variable.other.member.c */
+/*                      ^ entity.name.member.c */
 /*                                ^ punctuation.terminator.c */
     unsigned int paddingX;
 /*  ^^^^^^^^ storage.type.c */
 /*           ^^^ storage.type.c */
-/*               ^^^^^^^^ variable.other.member.c */
+/*               ^^^^^^^^ entity.name.member.c */
 /*                       ^ punctuation.terminator.c */
     unsigned int paddingY;
 /*  ^^^^^^^^ storage.type.c */
 /*           ^^^ storage.type.c */
-/*               ^^^^^^^^ variable.other.member.c */
+/*               ^^^^^^^^ entity.name.member.c */
 /*                       ^ punctuation.terminator.c */
     struct UI_ScrollBoxText boxContents[];
 /*  ^^^^^^ storage.type.c */
 /*         ^^^^^^^^^^^^^^^^ support.type.c */
-/*                          ^^^^^^^^^^^ variable.other.member.c */
+/*                          ^^^^^^^^^^^ entity.name.member.c */
 /*                                     ^ storage.modifier.c */
 /*                                       ^ punctuation.terminator.c */
 
     struct delayed_work monitor_work ____cacheline_aligned_in_smp;
 /*  ^^^^^^ storage.type */
 /*         ^^^^^^^^^^^^ support.type.c */
-/*                      ^^^^^^^^^^^^ variable.other.member.c */
+/*                      ^^^^^^^^^^^^ entity.name.member.c */
 /*                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
 /*                                                               ^ punctuation.terminator.c */
     const struct efx_channel_type *
@@ -1096,7 +1096,7 @@ struct UI_MenuBoxData
 /*               ^^^^^^^^^^^^^^^^ support.type - entity.name */
 /*                                ^ storage.modifier.c */
     extra_channel_type[EFX_MAX_EXTRA_CHANNELS];
-/*  ^^^^^^^^^^^^^^^^^^ variable.other.member.c */
+/*  ^^^^^^^^^^^^^^^^^^ entity.name.member.c */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.c */
 /*                     ^^^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
 /*                    ^ punctuation.section.brackets.begin.c storage.modifier.c */
@@ -1121,7 +1121,7 @@ struct __attribute__((packed)) child_t {
 /*                             ^^^^^^^ entity.name.struct */
     int foo;
 /*  ^^^ storage.type.c */
-/*      ^^^ variable.other.member.c */
+/*      ^^^ entity.name.member.c */
 };
 
 struct child_t child1;
@@ -1133,7 +1133,7 @@ struct __attribute__((packed)) child_t_line
 {
     int foo;
 /*  ^^^ storage.type.c */
-/*      ^^^ variable.other.member.c */
+/*      ^^^ entity.name.member.c */
 };
 
 struct __attribute__((packed))
@@ -1143,7 +1143,7 @@ struct __attribute__((packed))
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int foo;
 /*  ^^^ storage.type.c */
-/*      ^^^ variable.other.member.c */
+/*      ^^^ entity.name.member.c */
 };
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 
@@ -1153,13 +1153,13 @@ struct rproc_ops {
 /*               ^ meta.struct.body.c meta.block.c punctuation.section.block.begin.c */
     int (*start)(struct rproc *rproc);
 /*  ^^^ storage.type.c */
-/*        ^^^^^ variable.other.member.c */
+/*        ^^^^^ entity.name.member.c */
 /*               ^^^^^^ storage.type.c */
 /*                      ^^^^^ support.type.c */
 /*                             ^^^^^ variable.parameter.c */
     int (*start)(struct rproc *);
 /*  ^^^ storage.type.c */
-/*        ^^^^^ variable.other.member.c */
+/*        ^^^^^ entity.name.member.c */
 /*              ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
 /*               ^^^^^^ storage.type.c */
 /*                      ^^^^^ support.type.c */
@@ -1167,7 +1167,7 @@ struct rproc_ops {
 /*                             ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
     u32 (*start)(struct rproc *, struct rproc *);
 /*  ^^^ support.type.c */
-/*        ^^^^^ variable.other.member.c */
+/*        ^^^^^ entity.name.member.c */
 /*              ^ meta.function.parameters.c meta.group.c punctuation.section.group.begin.c */
 /*               ^^^^^^ storage.type.c */
 /*                      ^^^^^ support.type.c */
@@ -1179,7 +1179,7 @@ struct rproc_ops {
 /*                                             ^ meta.function.parameters.c meta.group.c punctuation.section.group.end.c */
     void * (*da_to_va)(struct rproc *rproc, u64 da, int len);
 /*  ^^^ storage.type.c */
-/*           ^^^^^^^^ variable.other.member.c */
+/*           ^^^^^^^^ entity.name.member.c */
 /*                     ^^^^^^ storage.type.c */
 /*                            ^^^^^ support.type.c */
 /*                                   ^^^^^ variable.parameter.c */
@@ -1190,7 +1190,7 @@ struct rproc_ops {
     struct resource_table *(*find_loaded_rsc_table)(
 /*  ^^^^^^ storage.type.c */
 /*         ^^^^^^^^^^^^^^ support.type.c */
-/*                           ^^^^^^^^^^^^^^^^^^^^^ variable.other.member.c */
+/*                           ^^^^^^^^^^^^^^^^^^^^^ entity.name.member.c */
                 struct rproc *rproc, const struct firmware *fw);
 /*              ^^^^^^ storage.type.c */
 /*                     ^^^^^ support.type.c */
@@ -1341,10 +1341,10 @@ static const struct spd_info {
 /*                  ^^^^^^^^ entity.name.struct.c */
     size_t spd_len;
 /*  ^^^^^^ support.type */
-/*         ^^^^^^^ variable.other.member.c */
+/*         ^^^^^^^ entity.name.member.c */
     size_t spd_part_len;
 /*  ^^^^^^ support.type */
-/*         ^^^^^^^ variable.other.member.c */
+/*         ^^^^^^^ entity.name.member.c */
 } spd_mem_info[] = {
 /*^^^^^^^^^^^^  entity.name.variable.c */
 /*            ^^ meta.brackets.c storage.modifier.c */
@@ -1403,7 +1403,7 @@ struct mac_tfm_ctx {
   struct crypto_aes_ctx key;
 /*^^^^^^ storage.type.c */
 /*       ^^^^^^^^^^^^^^ support.type.c */
-/*                      ^^^ variable.other.member.c */
+/*                      ^^^ entity.name.member.c */
 /*                         ^ punctuation.terminator.c */
   struct crypto_aes_ctx __aligned(8) key2;
 /*^^^^^^ storage.type.c */
@@ -1413,7 +1413,7 @@ struct mac_tfm_ctx {
 /*                               ^ meta.group.c punctuation.section.group.begin.c */
 /*                                ^ constant.numeric.c */
 /*                                 ^ meta.group.c punctuation.section.group.end.c */
-/*                                   ^^^^ variable.other.member.c */
+/*                                   ^^^^ entity.name.member.c */
 /*                                       ^ punctuation.terminator.c */
   u8 __aligned(8) consts[];
 /*^^ support.type.c */
@@ -1422,7 +1422,7 @@ struct mac_tfm_ctx {
 /*            ^ meta.group.c punctuation.section.group.begin.c */
 /*             ^ constant.numeric.c */
 /*              ^ meta.group.c punctuation.section.group.end.c */
-/*                ^^^^^^ variable.other.member.c */
+/*                ^^^^^^ entity.name.member.c */
 /*                      ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
 /*                       ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
 /*                        ^ punctuation.terminator.c */
@@ -1864,14 +1864,14 @@ MACRO1 void * MACRO2 myfuncname () {
 /*  ^ storage.type */
 /*         ^ entity.name.struct */
         void* hello;
-/*            ^^^^^ variable.other.member.c */
+/*            ^^^^^ entity.name.member.c */
         void* foobar;
-/*            ^^^^^^ variable.other.member.c */
+/*            ^^^^^^ entity.name.member.c */
     };
 
     struct Args args;
 /*  ^ storage.type */
-/*         ^ - entity */
+/*         ^ support.type.c - entity */
 /*              ^^^^ variable.other.c */
 }
 
