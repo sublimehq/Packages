@@ -447,6 +447,16 @@ typedef enum state {DEAD,ALIVE} State;
 /*                              ^^^^^ entity.name.type.typedef.c */
 /*                                   ^ punctuation.terminator.c */
 
+
+typedef   __u8    u_int8_t;
+/* <- storage.type.c */
+/*        ^^^^ constant.other.macro.c */
+/*                ^^^^^^^^ entity.name.type.typedef.c */
+typedef   __s8    int8_t;
+/* <- storage.type.c */
+/*        ^^^^ constant.other.macro.c */
+/*                ^^^^^^ entity.name.type.typedef.c */
+
 /////////////////////////////////////////////
 // Parameter Declarations
 /////////////////////////////////////////////
@@ -2097,6 +2107,10 @@ int control_keywords()
       break;
       /* <- keyword.control.flow.break */
   }
+  int8_t foo;
+/*^^^^^^ support.type.stdint.c */
+  const int8_t foo;
+/*      ^^^^^^ support.type.stdint.c */
   foo->bar.baz->hello("World");
 /*^^^ variable.other.c */
 /*   ^^ punctuation.accessor.c */
