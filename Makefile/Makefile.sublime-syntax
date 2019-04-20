@@ -411,6 +411,9 @@ contexts:
       push: textual-parenthesis-balancer
     - match: \,
       scope: punctuation.separator.makefile
+    # eat escaped or unbalanced quotation marks in front of the `,` separator
+    # to highlight them as ordinary part of the surrounding unquoted string
+    - match: '\\[''""]|[''""](?=\s*,)'
     - include: variable-substitutions
     - include: quoted-string
 

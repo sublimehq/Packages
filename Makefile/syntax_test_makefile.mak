@@ -840,6 +840,28 @@ LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*
     #               ^ string.quoted.double.makefile punctuation.definition.string.begin.makefile
     #                                                          ^ string.quoted.double.makefile punctuation.definition.string.end.makefile
 
+# FIX: https://github.com/sublimehq/Packages/issues/1941
+escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1))))
+#                    ^^^^^^^^ meta.function-call.makefile
+#                            ^^^^^ meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                 ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.makefile
+#                                         ^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                              ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                      ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                                             ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                                     ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                                                            ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                             ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                              ^ meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                               ^ keyword.other.block.end.makefile
+#                                                                                ^ - meta
+#                            ^ - punctuation
+#                             ^ punctuation.separator.makefile
+#                              ^^ - punctuation
+#                                         ^ - punctuation
+#                                          ^ punctuation.separator.makefile
+#                                           ^^ - punctuation
+
 .SECONDEXPANSION:
 # <- meta.function entity.name.function
 #               ^ keyword.operator.assignment - entity.name.function
