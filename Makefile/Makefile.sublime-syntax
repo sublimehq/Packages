@@ -310,7 +310,7 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-    
+
   shell:
     # Due to how the shell syntax handles comments, we must account for the case
     # where a recipe-line is a single comment in combination with an "@" or "-"
@@ -376,7 +376,8 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments-pop-on-line-end:
-    - match: \n
+    - include: line-continuation
+    - match: $\n?
       pop: true
 
   comments:

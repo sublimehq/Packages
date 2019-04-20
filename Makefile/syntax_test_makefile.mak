@@ -335,6 +335,15 @@ FOO = some \
       here
 #        ^ string.unquoted
 
+#   echo I am a comment \
+    echo I am a comment, too!
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
+#   echo I am a comment \
+    echo I am a comment, too!
+    echo I am no comment...
+#   ^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
+
 reverse = $(2) $(1)
 # <- variable.other
 #       ^ keyword.operator.assignment
