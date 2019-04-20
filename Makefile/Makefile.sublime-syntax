@@ -589,7 +589,7 @@ contexts:
           scope: punctuation.definition.comment.makefile
           set:
             - meta_scope: comment.line.number-sign.makefile
-            - include: pop-on-line-end
+            - include: comments-pop-on-line-end
     - include: variable-substitutions
     - include: continuation-or-pop-on-line-end
 

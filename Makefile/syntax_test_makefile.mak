@@ -62,6 +62,10 @@ foo = bar # a comment
 #        ^ string.unquoted
 #         ^ comment.line punctuation - string.unquoted
 
+foo = bar # a multiline \
+              comment
+#             ^ comment.line
+
 #################################
 # 6.3.2 computed variable names #
 #################################
