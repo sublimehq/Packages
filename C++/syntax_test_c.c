@@ -1359,14 +1359,18 @@ static const struct spd_info {
 /*^^^^^^^^^^^^  entity.name.variable.c */
 /*            ^^ meta.brackets.c storage.modifier.c */
     [SPD_INFO_DDR4] = {
+/*  ^ meta.brackets.c punctuation.section.brackets.begin.c */
 /*   ^^^^^^^^^^^^^ constant.other.macro.c */
+/*                ^ meta.brackets.c punctuation.section.brackets.end.c */
         .spd_len = SPD_DDR4_LENGTH,
 /*                 ^^^^^^^^^^^^^^^ constant.other.macro.c */
         .spd_part_len = SPD_DDR4_PART_LEN,
 /*                      ^^^^^^^^^^^^^^^^^ constant.other.macro.c */
     },
     [SPD_INFO_DEFAULT] = {
+/*  ^ meta.brackets.c punctuation.section.brackets.begin.c */
 /*   ^^^^^^^^^^^^^^^^ constant.other.macro.c */
+/*                   ^ meta.brackets.c punctuation.section.brackets.end.c */
         .spd_len = spd_default_length,
 /*                 ^^^^^^^^^^^^^^^^^^ variable.other.c */
         .spd_part_len = spd_default_part_len,
@@ -1387,6 +1391,16 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 /*                                                                       ^ keyword.operator.assignment.c */
 /*                                                                         ^ meta.block.c punctuation.section.block.begin.c */
   [0 ... __NR_compat_syscalls - 1] = sys_ni_syscall,
+/*^ meta.brackets.c punctuation.section.brackets.begin.c */
+/* ^ constant.numeric.c */
+/*   ^^^ keyword.operator.variadic.c */
+/*       ^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*                            ^ keyword.operator.arithmetic.c */
+/*                              ^ constant.numeric.c */
+/*                               ^ meta.brackets.c punctuation.section.brackets.end.c */
+/*                                 ^ keyword.operator.assignment.c */
+/*                                   ^^^^^^^^^^^^^^ variable.other.c */
+/*                                                 ^ punctuation.separator.c */
 #include <asm/unistd32.h>
 };
 /* <- meta.block.c punctuation.section.block.end.c */

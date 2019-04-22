@@ -439,14 +439,7 @@ contexts:
       scope: variable.parameter.c debug.parameter-identifier
       push:
         - meta_scope: debug.parameter-identifier.array-or-assignment
-        - match: \[
-          scope: punctuation.section.brackets.begin.c storage.modifier.c
-          push:
-            - meta_scope: meta.brackets.c
-            - match: \]
-              scope: punctuation.section.brackets.end.c storage.modifier.c
-              pop: true
-            - include: expressions
+        - include: declaration-brackets
         - include: or_pop
     - include: or_pop
 
@@ -548,14 +541,7 @@ contexts:
       scope: entity.name.variable.c debug.variable-identifier-list
       push:
         - meta_scope: debug.variable-identifier-list.array-or-assignment
-        - match: \[
-          scope: punctuation.section.brackets.begin.c storage.modifier.c
-          push:
-            - meta_scope: meta.brackets.c
-            - match: \]
-              scope: punctuation.section.brackets.end.c storage.modifier.c
-              pop: true
-            - include: expressions
+        - include: declaration-brackets
         - match: \=
           scope: keyword.operator.assignment.c
           set:
@@ -598,14 +584,7 @@ contexts:
       scope: entity.name.member.c debug.member-variable-identifier-list
       push:
         - meta_scope: debug.member-variable-identifier-list.array-or-assignment
-        - match: \[
-          scope: punctuation.section.brackets.begin.c storage.modifier.c
-          push:
-            - meta_scope: meta.brackets.c
-            - match: \]
-              scope: punctuation.section.brackets.end.c storage.modifier.c
-              pop: true
-            - include: expressions
+        - include: declaration-brackets
         - include: or_pop
     - match: ','
       scope: punctuation.separator.c debug.member-variable-identifier-list
@@ -793,6 +772,16 @@ contexts:
           pop: true
         - include: expressions
 
+  declaration-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.c storage.modifier.c
+      push:
+        - meta_scope: meta.brackets.c
+        - match: \]
+          scope: punctuation.section.brackets.end.c storage.modifier.c
+          pop: true
+        - include: expressions
+
   case-default:
     - match: '\b(default|case)\b'
       scope: keyword.control.c
@@ -907,14 +896,7 @@ contexts:
     - match: '{{identifier}}(?=\s*\[)'
       scope: entity.name.type.typedef.c debug.typedef.array
       push:
-        - match: \[
-          scope: punctuation.section.brackets.begin.c storage.modifier.c
-          push:
-            - meta_scope: meta.brackets.c
-            - match: \]
-              scope: punctuation.section.brackets.end.c storage.modifier.c
-              pop: true
-            - include: expressions
+        - include: declaration-brackets
         - include: or_pop
     - match: '\((?=\s*\*)'
       scope: punctuation.section.group.begin.c debug.typedef.function-pointer
