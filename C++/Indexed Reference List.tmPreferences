@@ -6,7 +6,8 @@
     <string>
         source.c constant.other.macro.c,
         source.c support.type.c,
-        source.c variable.other.c
+        source.c variable.other.indexed.c,
+        source.c variable.other.member.indexed.c
     </string>
     <key>settings</key>
     <dict>

@@ -12,6 +12,7 @@ variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   attr_macro_identifier: \b__[[:alnum:]_]{2,}\b # __aligned, __pci_driver
+  common_identifier: \b[[:lower:]]{1,4}\b # host, dev, i, port, attr, buf, args
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   microsoft_types: '__int8|__int16|__int32|__int64'
@@ -219,10 +220,14 @@ contexts:
       scope: invalid.illegal.syntax.c
 
   access:
-    - match: '(\.|->)({{identifier}})(?!\s*\()'
+    - match: '(\.|->)({{common_identifier}})(?!\s*\()'
       captures:
         1: punctuation.accessor.c
         2: variable.other.member.c
+    - match: '(\.|->)({{identifier}})(?!\s*\()'
+      captures:
+        1: punctuation.accessor.c
+        2: variable.other.member.indexed.c
     - include: access-illegal
     - match: \.(?!\.)
       scope: punctuation.accessor.c
@@ -320,12 +325,21 @@ contexts:
     - include: label
     - include: expressions
 
+  # We can't merge this with the variables scope because it will break the C++
+  # syntax.
+  variables-c:
+    - match: '{{common_identifier}}'
+      scope: variable.other.c
+      comment: There are a lot of common variable names 4 characters or under.
+        They cause a lot of noise when indexed. So we skip them.
+    - match: '{{identifier}}'
+      scope: variable.other.indexed.c
+
   expressions:
     - include: early-expressions
     - include: late-expressions
     - include: macro-identifiers
-    - match: '{{identifier}}'
-      scope: variable.other.c
+    - include: variables-c
 
   early-expressions:
     - include: preprocessor-expressions
@@ -536,9 +550,9 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: entity.name.variable.c debug.variable-identifier-list.function-pointer
+          scope: entity.name.variable.indexed.c debug.variable-identifier-list.function-pointer
     - match: '{{identifier}}'
-      scope: entity.name.variable.c debug.variable-identifier-list
+      scope: entity.name.variable.indexed.c debug.variable-identifier-list
       push:
         - meta_scope: debug.variable-identifier-list.array-or-assignment
         - include: declaration-brackets
@@ -579,11 +593,18 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: entity.name.member.c debug.member-variable-identifier-list.function-pointer
-    - match: '{{identifier}}'
+          scope: entity.name.member.indexed.c debug.member-variable-identifier-list.function-pointer
+    - match: '{{common_identifier}}'
       scope: entity.name.member.c debug.member-variable-identifier-list
+      comment: There are a lot of common variable names 4 characters or under.
       push:
-        - meta_scope: debug.member-variable-identifier-list.array-or-assignment
+        - meta_scope: debug.member-variable-identifier-list.array
+        - include: declaration-brackets
+        - include: or_pop
+    - match: '{{identifier}}'
+      scope: entity.name.member.indexed.c debug.member-variable-identifier-list
+      push:
+        - meta_scope: debug.member-variable-identifier-list.array
         - include: declaration-brackets
         - include: or_pop
     - match: ','
@@ -952,8 +973,6 @@ contexts:
         - match: '{{macro_identifier}}(?!\()'
           scope: constant.other.macro.c
         - include: expressions
-        - match: '{{identifier}}'
-          scope: variable.other.c
         - match: '\b\w+\b'
           scope: variable.other.c
           comment: Inside macro params, the identifiers can start with numbers
@@ -1440,8 +1459,6 @@ contexts:
           scope: punctuation.section.group.end.c
           pop: true
         - include: expressions
-        - match: '{{identifier}}'
-          scope: variable.other.c
 
   preprocessor-other:
     - match: ^\s*(#\s*(?:if|ifdef|ifndef|elif|else|line|pragma|undef))\b
