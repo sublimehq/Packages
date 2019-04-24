@@ -104,12 +104,25 @@
 % ^ support.function.cite.latex keyword.other.cite.latex
 %        ^ constant.other.citation
 
-
 \cite[\command]{my:bib:key}
 % ^ meta.function.citation.latex
 % ^ support.function.cite.latex
 %           ^ support.function
 %
+
+\parencite[Propositon~1]{Ref}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%          ^ meta.group.bracket.latex
+%                         ^ constant.other.citation.latex
+
+\parencites[Proposition~1]{Firstref}[p.~2]{SecondRef}
+% ^ meta.function.citation.latex
+% ^ support.function.cite.latex
+%           ^ meta.group.bracket.latex
+%                          ^ constant.other.citation.latex
+%                                     ^ meta.group.bracket.latex
+%                                          ^ constant.other.citation.latex
 
 
 % URL COMMAND
