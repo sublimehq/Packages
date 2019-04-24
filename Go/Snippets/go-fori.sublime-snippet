@@ -1,0 +1,12 @@
+<!--
+Note: the "empty" line in this snippet must include a tab.
+If someone accidentally erases it, the snippet won't work properly.
+-->
+<snippet>
+	<content><![CDATA[for i := 0; i < ${0:_}; i++ {
+	
+}]]></content>
+	<tabTrigger>fori</tabTrigger>
+	<scope>source.go</scope>
+	<description>for i := 0; ...</description>
+</snippet>

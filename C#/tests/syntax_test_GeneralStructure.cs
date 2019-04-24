@@ -22,6 +22,14 @@ namespace YourNamespace
 ///               ^ punctuation.separator
 ///                  ^ variable.other.member
 ///                    ^ keyword.operator.assignment
+        string[][] test = new[] { new[] { "hello", "world" }, new[] { "foo", "bar" }};
+///     ^^^^^^ storage.type
+///           ^ punctuation.section.brackets.begin
+///            ^ punctuation.section.brackets.end
+///             ^ punctuation.section.brackets.begin
+///              ^ punctuation.section.brackets.end
+///                ^^^^ variable.other.member
+///                     ^ keyword.operator.assignment.variable
 
         [ServiceBehavior(Namespace = "http://test/", InstanceContextMode = InstanceContextMode.PerCall)]
 ///                      ^ variable.parameter
@@ -278,6 +286,12 @@ namespace TestNamespace.Test
 ///         ^^ meta.method meta.block meta.block
 ///         ^ punctuation.section.block.begin
 ///          ^ punctuation.section.block.end
+            for (i = 0; i < items.Count; i++) {}
+///         ^^^ keyword.control.loop.for
+///             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                          ^ - meta.group
+///              ^ variable.other
+///                ^ keyword.operator.assignment
 
             if (true)
 ///         ^ keyword.control
@@ -471,8 +485,23 @@ namespace TestNamespace.Test
 ///                                                                 ^ punctuation.section.group.end
             {
 ///         ^ meta.method meta.block meta.block punctuation.section.block.begin
+            } catch (System.ArgumentException e) {
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+///                                             ^ - meta.group
+///                 ^ punctuation.section.group.begin
+///                  ^^^^^^ support.type
+///                        ^ punctuation.accessor.dot.namespace
+///                         ^^^^^^^^^^^^^^^^^ support.type
+///                                           ^ variable.other
+///                                            ^ punctuation.section.group.end
+                System.String blah = "test";
+///             ^^^^^^ support.type
+///                   ^ punctuation.accessor.dot
+///                    ^^^^^^ support.type
+///                           ^^^^ variable.other
             }
 ///         ^ meta.method meta.block meta.block punctuation.section.block.end
+
             finally {
 ///         ^ keyword.control
 ///                 ^ meta.method meta.block meta.block punctuation.section.block.begin
@@ -808,6 +837,34 @@ namespace TestNamespace.Test
 ///                                     ^^^^^^^^^^ meta.function.anonymous
 ///                                       ^^ storage.type.function.lambda
 
+            var changes = refs.ToDictionary(kvp => kvp.key, arg => k + 5);
+///                                         ^^^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                         ^^^ variable.parameter.cs
+///                                             ^^ storage.type.function.lambda.cs
+///                                                ^^^ variable.other.cs
+///                                                       ^ punctuation.separator.argument.cs
+///                                                       ^^ - meta.function.anonymous
+///                                                         ^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                                         ^^^ variable.parameter.cs
+///                                                             ^^ storage.type.function.lambda.cs
+///                                                                ^ variable.other.cs
+///                                                                  ^ keyword.operator.cs
+///                                                                    ^ constant.numeric.integer.decimal.cs
+///                                                                     ^ - meta.function.anonymous
+
+            var shortDigits = digits.Where((digit, index) => digit.Length < index);
+///                                       ^ - meta.function.anonymous
+///                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.cs
+///                                                                              ^ - meta.function.anonymous
+///                                        ^ punctuation.section.group.begin.cs
+///                                        ^^^^^^^^^^^^^^ meta.group.cs
+///                                         ^^^^^ variable.parameter.cs
+///                                              ^ punctuation.separator.parameter.function.cs
+///                                                ^^^^^ variable.parameter.cs
+///                                                     ^ punctuation.section.group.end.cs
+///                                                       ^^ storage.type.function.lambda.cs
+///                                                          ^^^^^ variable.other.cs
+
         }
 
         void CodeContainingConstructors(){
@@ -1018,7 +1075,7 @@ namespace TestNamespace.Test
 ///     ^^^^^^^ keyword.control.trycatch.finally
         {
         }
-        
+
         Func<string, bool, int> test = (a, b) => a.len();
 ///                                    ^^^^^^^^^^^^^^^^^ meta.function.anonymous
 ///                                    ^^^^^^ meta.group
@@ -1055,7 +1112,7 @@ namespace TestNamespace.Test
                 result += 8;
                 break;
         }
-    
+
     int foo;
     int.TryParse(input, out foo);
 ///                     ^^^ storage.modifier.argument
@@ -1063,7 +1120,7 @@ namespace TestNamespace.Test
     int.TryParse(input, out foo /* comment */);
 ///                     ^^^ storage.modifier.argument
 ///                         ^^^ variable.other - support.type
-    
+
         "hello".OfType<char>().Where(c => c == 'l').Count());
 ///                                                        ^ invalid.illegal.stray.brace
 
@@ -1090,7 +1147,7 @@ namespace TestNamespace.Test
         formatted = string.Format("date {0:dddd MMMM}.", DateTime.Now);
 ///                                     ^^^^^^^^^^^^^ constant.other.placeholder
 ///                                                  ^ - constant
-        
+
         string[] names = { "Adam", "Bridgette", "Carla", "Daniel",
                          "Ebenezer", "Francine", "George" };
         decimal[] hours = { 40, 6.667m, 40.39m, 82, 40.333m, 80, 16.75m };
@@ -1132,7 +1189,7 @@ namespace TestNamespace.Test
 ///                        ^ punctuation.definition.placeholder.begin
 ///                            ^ punctuation.definition.placeholder.end
 ///                             ^ punctuation.definition.string.end
-        // The example displays the following output 
+        // The example displays the following output
         // if en-US is the current culture:
         //        $100.00
         formatted = string.Format(@"Price = |{0,-10:C}|", myInt);
@@ -1148,7 +1205,7 @@ namespace TestNamespace.Test
 ///                                ^ punctuation.definition.placeholder.begin
 ///                                  ^^^^ invalid.illegal.unexpected-character-in-placeholder
 ///                                      ^ punctuation.definition.placeholder.end
-        
+
         formatted = string.Format("{0}{1:D}{2}\"{1:", "{", myInt, "}");
 ///                                ^^^^^^^^^^^ constant.other.placeholder - invalid
 ///                                           ^^ constant.character.escape
@@ -1179,6 +1236,25 @@ namespace TestNamespace.Test
 ///                                     ^^^^^ variable.other - variable.parameter
 ///                                                    ^^^^^ variable.other - variable.parameter
 ///                                           ^^ keyword.operator - keyword.operator.assignment
+        formatted = string.Format(@"GMT is {0:yyyyMMdd\THHmmss\Z}", DateTime.Now.ToUniversalTime());
+///                                        ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw constant.other.placeholder
+        formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
+///                                       ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.other.placeholder
+        Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                                              ^ punctuation.separator
+///                                              ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+        Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                                             ^ punctuation.separator
+///                                             ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                      ^ invalid.illegal.lone-escape
+///                                                              ^ invalid.illegal.lone-escape
+        Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.format-spec - invalid
+///                                                       ^^^^^^^ constant.character.escape
+///                                                              ^^^^^^^^^^ - constant.character.escape
+///                                                                        ^^ constant.character.escape
     }
 }
 ///<- punctuation.section.block.end
@@ -1207,4 +1283,45 @@ public class AfterTopLevelMethod {
 ///^^^ storage.modifier.access
 ///    ^^^^^ storage.type.class
 ///          ^^^^^^^^^^^^^^^^^^^ entity.name.class
+
+    // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/how-to-implement-custom-event-accessors
+    protected event EventHandler IDrawingObject.OnDraw
+/// ^^^^^^^^^ storage.modifier.access
+///           ^^^^^ storage.modifier
+///                 ^^^^^^^^^^^^ support.type
+///                              ^^^^^^^^^^^^^^ entity.other.inherited-class
+///                                            ^ punctuation.accessor.dot
+///                                             ^^^^^^ variable.other.member
+    {
+/// ^ punctuation.section.block.begin
+        add
+///     ^^^ meta.method storage.type.function.accessor.add
+        {
+///     ^ punctuation.section.block.begin
+            lock (objectLock)
+///         ^^^^ keyword.control.other.lock
+///               ^^^^^^^^^^ variable.other
+            {
+                PreDrawEvent += value;
+            }
+        }
+///     ^ punctuation.section.block.end
+///      ^ - meta.method
+        remove
+///     ^^^^^^ meta.method storage.type.function.accessor.remove
+        {
+            lock (objectLock)
+            {
+                PreDrawEvent -= value;
+            }
+        }
+    }
+/// ^ punctuation.section.block.end
+
+    public event SampleEventHandler SampleEvent;
+/// ^^^^^^ storage.modifier.access
+///        ^^^^^ storage.modifier
+///              ^^^^^^^^^^^^^^^^^^ support.type
+///                                 ^^^^^^^^^^^ variable.other.member
+///                                            ^ punctuation.terminator.statement
 }

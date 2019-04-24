@@ -1,5 +1,8 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
+
+// Variable declarations
+
 const x = value;
 //    ^ meta.binding.name variable.other.readwrite
 
@@ -37,9 +40,51 @@ const { a, b: c, ...d } = value;
 //               ^^^ keyword.operator.spread
 //                  ^ meta.binding.name variable.other.readwrite
 
+const { 'a': x, "b": y, [c]: z } = value;
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//      ^^^ meta.object-literal.key string.quoted.single
+//         ^ punctuation.separator.key-value
+//           ^ meta.binding.name variable.other.readwrite
+//              ^^^ meta.object-literal.key string.quoted.double
+//                 ^ punctuation.separator.key-value
+//                   ^ meta.binding.name variable.other.readwrite
+//                      ^^^ meta.object-literal.key
+//                       ^ variable.other.readwrite
+//                         ^ punctuation.separator.key-value
+//                           ^ meta.binding.name variable.other.readwrite
+
 const x;
 //    ^ meta.binding.name variable.other.readwrite
 
+let
+// <- storage.type
+w
+//  <- meta.binding.name variable.other.readwrite
+,
+// <- punctuation.separator.comma
+x
+// <- meta.binding.name variable.other.readwrite
+y
+// <- variable.other.readwrite - meta.binding.name
+,
+// <- keyword.operator.comma
+z
+// <- variable.other.readwrite - meta.binding.name
+
+// `let` is only reserved in strict mode, and we can't distinguish that yet.
+
+let let;
+//  ^^^ meta.binding.name variable.other.readwrite
+
+let
+let;
+// <- meta.binding.name variable.other.readwrite
+
+const
+const x = 0;
+// <- storage.type
+
+// Function parameters
 
 function f ([ x, y, ...z, ]) {}
 //          ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
@@ -74,10 +119,27 @@ function f ({ a, b: c, ...d }) {}
 //                     ^^^ keyword.operator.spread
 //                        ^ meta.binding.name variable.parameter.function
 
+function f ({ 'a': x, "b": y, [c]: z }) = value;
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//            ^^^ meta.object-literal.key string.quoted.single
+//               ^ punctuation.separator.key-value
+//                 ^ meta.binding.name variable.parameter.function
+//                    ^^^ meta.object-literal.key string.quoted.double
+//                       ^ punctuation.separator.key-value
+//                         ^ meta.binding.name variable.parameter.function
+//                            ^^^ meta.object-literal.key
+//                             ^ variable.other.readwrite
+//                               ^ punctuation.separator.key-value
+//                                 ^ meta.binding.name variable.parameter.function
+
 function f (a, ...rest) {}
 //          ^ meta.binding.name variable.parameter.function
 //             ^^^ keyword.operator.spread
 //                ^^^^ variable.parameter.function
+
+function f (new) {}
+// ^^^^^^^^^^^^^^^^ meta.function
+//          ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
 
 let f = ([ x, y, ...z, ]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -92,7 +154,7 @@ let f = ([ x, y, ...z, ]) => {};
 
 let f = ([ x, [a, b], z]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //            ^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
 //             ^ meta.binding.name variable.parameter.function
@@ -100,7 +162,7 @@ let f = ([ x, [a, b], z]) => {};
 
 let f = ([ x = 42, y = [a, b, c] ]) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
 //             ^^ meta.binding.destructuring.sequence.js constant.numeric.decimal.js
@@ -110,7 +172,7 @@ let f = ([ x = 42, y = [a, b, c] ]) => {};
 
 let f = ({ a, b: c, ...d }) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
 //         ^ meta.object-literal.key meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -119,9 +181,26 @@ let f = ({ a, b: c, ...d }) => {};
 //                  ^^^ keyword.operator.spread
 //                     ^ meta.binding.name variable.parameter.function
 
+let f = ({ 'a': x, "b": y, [c]: z }) => {};
+//       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
+//         ^^^ meta.object-literal.key string.quoted.single
+//            ^ punctuation.separator.key-value
+//              ^ meta.binding.name variable.parameter.function
+//                 ^^^ meta.object-literal.key string.quoted.double
+//                    ^ punctuation.separator.key-value
+//                      ^ meta.binding.name variable.parameter.function
+//                         ^^^ meta.object-literal.key
+//                          ^ variable.other.readwrite
+//                            ^ punctuation.separator.key-value
+//                              ^ meta.binding.name variable.parameter.function
+
 let f = (a, ...rest) => {};
 //  ^^^^^^^^^^^^^^^^ meta.function.declaration
-//  ^ variable.other.readwrite entity.name.function
+//  ^ entity.name.function variable.other.readwrite
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
 //             ^^^^ meta.binding.name variable.parameter.function
+
+let f = (new) => {};
+//  ^^^^^^^^^^^^^^^ meta.function
+//       ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function

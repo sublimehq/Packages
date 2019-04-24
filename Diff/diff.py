@@ -1,17 +1,39 @@
-import sublime, sublime_plugin
-import difflib
-import time
-import os.path
 import codecs
+import difflib
+import os.path
+import time
+
+import sublime
+import sublime_plugin
+
+
+def read_file_lines(fname):
+    with open(fname, mode="rt", encoding="utf-8", newline=None) as f:
+        lines = f.readlines()
+
+    # as `difflib` doesn't work properly when the file does not end
+    # with a new line character (https://bugs.python.org/issue2142),
+    # we add a warning ourselves to fix it
+    add_no_eol_warning_if_applicable(lines)
+    return lines
+
+
+def add_no_eol_warning_if_applicable(lines):
+    if len(lines) > 0 and not lines[-1].endswith('\n'):
+        # note we update the last line rather than adding a new one
+        # so that the diff will show the warning with the last line
+        lines[-1] += '\n\\ No newline at end of file\n'
+
 
 class DiffFilesCommand(sublime_plugin.WindowCommand):
+
     def run(self, files):
         if len(files) != 2:
             return
 
         try:
-            a = codecs.open(files[1], "r", "utf-8").readlines()
-            b = codecs.open(files[0], "r", "utf-8").readlines()
+            a = read_file_lines(files[1])
+            b = read_file_lines(files[0])
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
@@ -35,7 +57,9 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
     def is_visible(self, files):
         return len(files) == 2
 
+
 class DiffChangesCommand(sublime_plugin.TextCommand):
+
     def run(self, edit):
 
         fname = self.view.file_name()
@@ -45,18 +69,19 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             return
 
         try:
-            with codecs.open(fname, "r", "utf-8") as f:
-                a = f.read().splitlines()
-            b = self.view.substr(sublime.Region(0, self.view.size())).splitlines()
+            a = read_file_lines(fname)
         except UnicodeDecodeError:
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
+        b = self.view.substr(sublime.Region(0, self.view.size())).splitlines(True)
+        add_no_eol_warning_if_applicable(b)
+
         adate = time.ctime(os.stat(fname).st_mtime)
         bdate = time.ctime()
 
-        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate,lineterm='')
-        difftxt = u"\n".join(line for line in diff)
+        diff = difflib.unified_diff(a, b, fname, fname, adate, bdate)
+        difftxt = u"".join(line for line in diff)
 
         if difftxt == "":
             sublime.status_message("No changes")
@@ -81,4 +106,4 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             win.run_command("show_panel", {"panel": "output.unsaved_changes"})
 
     def is_enabled(self):
-        return self.view.is_dirty() and self.view.file_name() != None
+        return self.view.is_dirty() and self.view.file_name() is not None

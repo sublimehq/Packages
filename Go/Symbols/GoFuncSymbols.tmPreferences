@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+  <key>scope</key>
+  <string>
+    <!--
+    Note: `entity.name.function.go` is fully indexed by default. This file just
+    prefixes local symbols with `func` and adds `meta.function.declaration.go`
+    for fancier method definitions.
+    -->
+    entity.name.function.go,
+    meta.function.declaration.go
+  </string>
+  <key>settings</key>
+  <dict>
+    <key>showInSymbolList</key>
+    <integer>1</integer>
+    <key>symbolTransformation</key>
+    <string><![CDATA[/^/func /]]></string>
+  </dict>
+</dict>
+</plist>

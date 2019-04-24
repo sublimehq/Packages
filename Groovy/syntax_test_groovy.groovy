@@ -46,4 +46,27 @@ interpretString("123.0")
 chartHistogram([1,1,2,3])
 // <- meta.method
 //           ^ meta.method
-//              ^ constant.numeric  
+//              ^ constant.numeric
+
+def greeting = "Hello ${true ? 'World' : 'Home'}"
+// <- storage.type.def
+//^ storage.type.def
+//           ^ keyword.operator.assignment
+//             ^ punctuation.definition.string.begin
+//             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                    ^^ punctuation.section.embedded
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ source.groovy.embedded.source
+//                      ^^^^ constant.language
+//                           ^^^^^^^^^^^^^^^^^^ meta.evaluation.ternary
+//                                             ^^ - meta.evaluation.ternary
+//                           ^ keyword.operator.ternary
+//                             ^ punctuation.definition.string.begin
+//                             ^^^^^^^ string.quoted.single
+//                                   ^ punctuation.definition.string.end
+//                                     ^ keyword.operator.ternary.expression-separator
+//                                       ^ punctuation.definition.string.begin
+//                                       ^^^^^^ string.quoted.single
+//                                            ^ punctuation.definition.string.end
+//                                             ^ punctuation.section.embedded
+//                                              ^ punctuation.definition.string.end
+//                                               ^ - string.quoted - invalid

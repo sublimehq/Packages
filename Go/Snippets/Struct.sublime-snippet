@@ -1,8 +1,0 @@
-<snippet>
-	<content><![CDATA[struct {
-	${0:var vartype;}
-}]]></content>
-	<tabTrigger>st</tabTrigger>
-	<scope>source.go</scope>
-	<description>Struct</description>
-</snippet>

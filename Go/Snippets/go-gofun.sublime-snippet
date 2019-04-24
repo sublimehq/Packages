@@ -1,0 +1,8 @@
+<snippet>
+	<content><![CDATA[go func() {
+	$0
+}()]]></content>
+	<tabTrigger>gofun</tabTrigger>
+	<scope>source.go</scope>
+	<description>go func(){}()</description>
+</snippet>

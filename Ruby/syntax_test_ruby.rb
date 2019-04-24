@@ -20,7 +20,8 @@ puts <<-HTML
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
   def #{sym}(*args, &block)
-#     ^^ punctuation.section.embedded
+#     ^^ punctuation.section.interpolation.begin
+#          ^ punctuation.section.interpolation.end
     custom(Mime[:#{sym}], *args, &block)
   end
 RUBY
@@ -61,8 +62,11 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 
   %I[#{ENV['APP_NAME']} apple orange]
 # ^^^ punctuation.definition.string.begin.ruby
+# ^^^ string.quoted.other.literal.upper.ruby
+#    ^^^^^^^^^^^^^^^^^^ meta.interpolation
+#    ^^^^^^ - string
 #      ^ meta.environment-variable.ruby variable.other.constant.ruby
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.literal.upper.ruby
+#                      ^^^^^^^^^^^^^^ string.quoted.other.literal.upper.ruby
 
 ##################
 # Constants
@@ -463,3 +467,9 @@ foo / "bar/bla"
   /foo/ => :foo
 # ^^^^^ string.regexp.classic.ruby
 }
+
+assert_no_match /1/, "2"
+# <- source.ruby
+# <- support.function.builtin.ruby
+#               ^ punctuation.definition.string.ruby
+#                    ^ string.quoted.double.ruby

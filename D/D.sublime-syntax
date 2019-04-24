@@ -8,339 +8,2217 @@ file_extensions:
   - di
 first_line_match: ^#!.*\bg?dmd\b.
 scope: source.d
-contexts:
-  main:
-    - match: /\*\*/
-      scope: comment.block.empty.d punctuation.definition.comment.d
-    - include: scope:text.html.javadoc
-    - match: |-
-        (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract)\b\s*)*) # modifier
-        (class|interface)\s+
-        (\w+)\s* # identifier
-        (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
-        (?:
-          \s*(:)\s*
-          (\w+)
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-          (?:\s*,\s*(\w+))?
-        )? # super class
-      captures:
-        1: storage.modifier.d
-        3: storage.type.d
-        4: entity.name.type.class.d
-        5: storage.type.template.d
-        6: punctuation.separator.inheritance.d
-        7: entity.other.inherited-class.d
-        8: entity.other.inherited-class.d
-        9: entity.other.inherited-class.d
-        10: entity.other.inherited-class.d
-        11: entity.other.inherited-class.d
-        12: entity.other.inherited-class.d
-        13: entity.other.inherited-class.d
-      push:
-        - meta_scope: meta.class.d
-        - match: \b(_|:)\b
-          captures:
-            1: storage.modifier.d
-          push:
-            - meta_scope: meta.definition.class.extends.d
-            - match: "(?={)"
-              captures:
-                1: storage.modifier.d
-              pop: true
-            - include: all-types
-        - match: '(?<=\})'
-          pop: true
-        - include: $top_level_main
-    - match: |-
-        (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|const)\b\s*)*) # modifier
-        (struct)\s+
-        (\w+)\s* # identifier
-        (?:\(\s*([^\)]+)\s*\)|)\s* # Template type
-      captures:
-        1: storage.modifier.d
-        3: storage.type.d
-        4: entity.name.type.struct.d
-        5: storage.type.template.d
-      push:
-        - meta_scope: meta.definition.struct.d
-        - match: "(?={|//|;)"
-          pop: true
-        - match: \b(_|:)\b
-          captures:
-            1: storage.modifier.d
-          push:
-            - meta_scope: meta.definition.class.extends.d
-            - match: "(?={)"
-              captures:
-                1: storage.modifier.d
-              pop: true
-            - include: all-types
-    - match: |-
-        (?x)^\s*
-        ((?:\b(private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|shared|__gshared)\b\s*)*) # modifier
-        (\b(this))\s* # identifier
-        (?!.*;)  # abort if line has a ;
-        (?=\()
-      captures:
-        1: storage.modifier.d
-        3: entity.name.function.constructor.d
-      push:
-        - meta_scope: meta.function.d meta.function.constructor.d
-        - include: function_assertions
-        - include: $top_level_main
-    - match: |-
-        (?x)
-                    (?:  ^                                 # begin-of-line
-                      |  (?: (?<!else|new|=) )             #  or word + space before name
-                    )
-                  ((?:\b(?:private|package|protected|public|export|static|final|native|synchronized|abstract|threadsafe|transient|override)\b\s*)*) # modifier
-                    (~this) # actual name
-                     \s*(\()                           # start bracket or end-of-line
+variables:
+  name: '[[:alpha:]_][[:alpha:]0-9_]*'
+  name_lookahead: '(?=\b{{name}}\b)'
+  identifier_ref: '\.?\s*{{name}}(\s*\.\s*{{name}})*'
+  string_postfix: '[cwd]?'
+  escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
+  hex_char: '[0-9a-fA-F]'
+  hex_or_under: '(?:{{hex_char}}|_)'
 
-      captures:
-        1: storage.modifier.d
-        2: entity.name.function.destructor.d
+  number_lookahead: '(?=(\b|\.)[0-9])'
+  integer_lookahead: '(?=\b[0-9])'
+  integer_suffix: 'L[uU]|[uU]L|[LuU]'
+  integer_float_suffix: '[fF]i?|i'
+  float_suffix: '[fFL]i?|i'
+  float_exponent: '[eE][+\-]?[0-9]+'
+  character_lookahead: (?=')
+  string_lookahead: '(?=`|[rxq]?"|q{)'
+
+  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
+  definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
+
+  type_qualifier: 'const|immutable|inout|shared'
+  type_qualifier_lookahead: '(?=\b({{type_qualifier}})\b)'
+  attribute_lookahead: '(?=@|\b({{attributes}}|extern|align|deprecated|pragma|private|protected|public|export|package)\b)'
+  attributes: 'static|abstract|final|override|synchronized|scope|__gshared|nothrow|pure|ref|return|auto'
+  at_attributes: 'disable|nogc|property|safe|system|trusted'
+  function_attribute_lookahead: '{{attribute_lookahead}}|{{type_qualifier_lookahead}}'
+  parameter_attribute_lookahead: '(?=\b({{parameter_attribute}})\b)'
+  parameter_attribute: 'in|lazy|out|alias'
+
+  construction_lookahead: '(?=~?\s*this\s*\()'
+
+  keyword: 'else|enum|export|extern|debug|default|delegate|delete|deprecated|do|body|break|case|cast|catch|class|const|continue|abstract|alias|align|asm|assert|auto|final|finally|for|foreach|foreach_reverse|function|goto|if|immutable|import|in|inout|interface|invariant|is|lazy|macro|mixin|module|new|nothrow|out|override|package|pragma|private|protected|public|pure|ref|return|scope|shared|static|struct|switch|synchronized|template|throw|try|typeid|typeof|union|unittest|version|while|with|__gshared|__traits|__vector|__parameters'
+  basic_type: 'bool|byte|cdouble|cent|cfloat|char|creal|dchar|double|float|idouble|ifloat|int|ireal|long|real|short|ubyte|ucent|uint|ulong|ushort|void|wchar|string|dstring|wstring'
+  language_constant: 'null|true|false|__FILE__|__FILE_FULL_PATH__|__MODULE__|__LINE__|__FUNCTION__|__PRETTY_FUNCTION__|__DATE__|__EOF__|__TIME__|__TIMESTAMP__|__VENDOR__|__VERSION__|__ctfe'
+  language_variable: 'this|super'
+  reserved: '{{keyword}}|{{basic_type}}|{{language_constant}}|{{language_variable}}'
+
+  operator_overloads: 'opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r'
+
+  block_statement_loohahead: '(?={)'
+
+contexts:
+  prototype:
+    - include: comment-in
+
+  main:
+    - match: '^#!'
+      scope: punctuation.definition.comment.number-sign.d
       push:
-        - meta_scope: meta.function.d meta.function.destructor.d
-        - include: function_assertions
-        - include: $top_level_main
-    - match: |-
-        (?x)^\s*
-        (?!else(?:\s+static)?\s+if\b)
-        ((?:\b(?:private|package|protected|public|export|static|final|native|lazy|synchronized|abstract|threadsafe|transient|override|pure|nothrow)\b\s*)*+) # modifier
-        (\b(?:void|boolean|byte|char|short|int|float|long|double|[\w_]+[\w0-9_]*|(?:\w+\.)*[A-Z]\w+)\b(?:<(?:(?:(?:\w+\.)*[A-Z]\w+)(?:\s*,\s*)?)+>|(?:\[\s*\])*)?|typeof\(.*?\)|const\(.*?\)\*?)\s* # type
-        (\w+)\s* # identifier
-        (?!.*;)  # abort if line has a ;
-        (?=\()
-      captures:
-        1: storage.modifier.d
-        2: storage.type.d
-        3: entity.name.function.d
-      push:
-        - meta_scope: meta.function.d
-        - include: function_assertions
-        - include: $top_level_main
-    - match: '\{'
-      push:
-        - meta_scope: meta.block.d
-        - match: '\}'
+        - meta_include_prototype: false
+        - meta_scope: comment.line.number-sign.d
+        - match: '$\n?'
           pop: true
-        - include: $top_level_main
-    - match: '\b([A-Z][A-Z0-9_]+)\b'
-      scope: constant.other.d
-    - include: comments
-    - include: all-types
-    - match: \b(private|protected|public|export)\b
-      scope: storage.modifier.access-control.d
-    - match: \b(auto|static|override|final|const|abstract|volatile|synchronized|lazy|immutable|shared|__gshared|pure|nothrow|ref)\b
-      scope: storage.modifier.d
-    - match: '@[a-zA-Z]\w+\b'
-      scope: storage.attribute.d
-    - match: \b(template|interface|class|enum|struct|union)\b
-      scope: storage.type.d
-    - match: \b(ushort|int|uint|long|ulong|float|void|byte|ubyte|double|bit|char|wchar|ucent|cent|short|bool|dchar|real|ireal|ifloat|idouble|creal|cfloat|cdouble|string)\b
-      scope: storage.type.d
-    - match: \b(try|catch|finally|throw)\b
-      scope: keyword.control.exception.d
-    - match: \b(return|break|case|continue|default|do|while|for|switch|if|else)\b
-      scope: keyword.control.d
-    - match: \b(if|else|switch|iftype)\b
-      scope: keyword.control.conditional.d
-    - match: \b(goto|break|continue)\b
-      scope: keyword.control.branch.d
-    - match: \b(while|for|foreach(_reverse)?)\b
-      scope: keyword.control.repeat.d
-    - match: \b(version|return|with|invariant|body|scope|in|out|inout|asm|mixin|function|delegate)\b
-      scope: keyword.control.statement.d
-    - match: \b(pragma)\b
-      scope: keyword.control.pragma.d
-    - match: \b(alias|typedef)\b
-      scope: keyword.control.alias.d
-    - match: \b(import)\b
-      scope: keyword.control.import.d
-    - match: '^\s*(module)\s+([^ ;]+?);'
-      scope: meta.module.d
-      captures:
-        1: keyword.control.module.d
-        2: entity.name.function.package.d
-    - match: \b(true|false)\b
-      scope: constant.language.boolean.d
-    - match: \b(__FILE__|__LINE__|__DATE__|__TIME__|__TIMESTAMP__|null)\b
-      scope: constant.language.d
-    - match: \b(this|super)\b
-      scope: variable.language.d
-    - match: |-
-        (?x)
-        (
-          (\b0(x|X)[0-9a-fA-F](_[0-9a-fA-F]+)*)            # 0x0, 0X0, 0x000_000
-          |
-          (
-            (\b[0-9]+(_[0-9]+)*\.?([0-9]+_[0-9]+)?[0-9]*)  # 0.0, 0_0.0, 0.0_0
-            |
-            (\.[0-9]+(_[0-9]+)*)                           # .0, .0_0
-          )((e|E)(\+|-)?[0-9]+)?                           # 0e+5
-        )
-        ([LlFfUuDd]|UL|ul)?                                # 0l, 0U, 0Lu, 0UL
-        \b
-      scope: constant.numeric.d
-    - include: string_escaped_char
-    - include: strings
-    - match: (==|!=|<=|>=|<>|<|>)
-      scope: keyword.operator.comparison.d
-    - match: (\-\-|\+\+)
-      scope: keyword.operator.increment-decrement.d
-    - match: (\-|\+|\*|\/|~|%)
-      scope: keyword.operator.arithmetic.d
-    - match: (!|&&|\|\|)
-      scope: keyword.operator.logical.d
-    - match: \b(opNeg|opCom|opPostInc|opPostDec|opCast|opAdd|opSub|opSub_r|opMul|opDiv|opDiv_r|opMod|opMod_r|opAnd|opOr|opXor|opShl|opShl_r|opShr|opShr_r|opUShr|opUShr_r|opCat|opCat_r|opEquals|opEquals|opCmp|opCmp|opCmp|opCmp|opAddAssign|opSubAssign|opMulAssign|opDivAssign|opModAssign|opAndAssign|opOrAssign|opXorAssign|opShlAssign|opShrAssign|opUShrAssign|opCatAssign|opIndex|opIndexAssign|opCall|opSlice|opSliceAssign|opPos|opAdd_r|opMul_r|opAnd_r|opOr_r|opXor_r)\b
-      scope: keyword.operator.overload.d
-    - match: \b(new|delete|typeof|typeid|cast|align|is)\b
-      scope: keyword.other.d
-    - match: \b(new|throws)\b
-      scope: keyword.other.class-fns.d
-    - match: \b(package|extern)\b
-      scope: keyword.other.external.d
-    - match: \b(deprecated|unittest|debug)\b
-      scope: keyword.other.debug.d
-    - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t)\b
-      scope: support.type.sys-types.c
-    - match: \b(pthread_attr_t|pthread_cond_t|pthread_condattr_t|pthread_mutex_t|pthread_mutexattr_t|pthread_once_t|pthread_rwlock_t|pthread_rwlockattr_t|pthread_t|pthread_key_t)\b
-      scope: support.type.pthread.c
-    - match: \b(int8_t|int16_t|int32_t|int64_t|uint8_t|uint16_t|uint32_t|uint64_t|int_least8_t|int_least16_t|int_least32_t|int_least64_t|uint_least8_t|uint_least16_t|uint_least32_t|uint_least64_t|int_fast8_t|int_fast16_t|int_fast32_t|int_fast64_t|uint_fast8_t|uint_fast16_t|uint_fast32_t|uint_fast64_t|intptr_t|uintptr_t|intmax_t|intmax_t|uintmax_t|uintmax_t)\b
-      scope: support.type.stdint.c
-  all-types:
-    - include: support-type-built-ins-d
-    - include: support-type-d
-    - include: storage-type-d
-  comments:
-    - match: /\*
+    - include: module-in
+    - include: statement-list-in
+  module-in:
+    - match: \bmodule\b
+      scope: keyword.declaration.namespace.d
+      push:
+        - meta_scope: meta.namespace.d
+        - match: '{{name}}(?=\s*(;|$))'
+          scope: meta.path.d entity.name.namespace.d
+        - match: '{{name}}'
+          scope: meta.path.d variable.other.d
+          push:
+            - match: \.
+              scope: meta.path.d punctuation.accessor.dot.d
+              pop: true
+            - include: not-whitespace-illegal
+        - include: expect-end-of-line
+
+  statement-list-in:
+    - include: import-in
+    - include: alias-in
+    - include: class-in
+    - include: interface-in
+    - include: struct-in
+    - include: union-in
+    - include: enum-in
+    - include: conditional-declaration-in
+    - include: static-foreach-in
+    - include: static-assert-in
+    - include: constructions-in
+    - include: invariant-in
+    - include: unittest-in
+    - include: template-in
+    - include: mixin-in
+    - include: block-statement-in
+    - include: conditional-in
+    - include: loop-in
+    - include: flow-statement-in
+    - include: with-in
+    - include: synchronized-in
+    - include: try-in
+    - include: throw-in
+    - include: scope-in
+    - include: asm-in
+    - include: switch-in
+    - include: attribute-specifier-in
+    - include: statement-label-in
+    - include: end-of-line-in
+    - include: check-brackets-in
+    - include: value-or-declaration-in
+
+  block-statement-in:
+    - match: '{{block_statement_loohahead}}'
+      push: block-statement
+  block-statement:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - meta_scope: meta.block.d
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: statement-list-in
+    - include: not-whitespace-illegal
+  optional-block-statement:
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - match: '(?=\S)'
+      pop: true
+
+  optional-block-statement-or-label:
+    - match: ':'
+      scope: punctuation.separator.d
+      pop: true
+    - include: optional-block-statement
+
+  comment-in:
+    - match: /\*\*?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
         - match: \*/
           scope: punctuation.definition.comment.d
           pop: true
-    - match: /\+
+    - match: (///?).*$\n?
+      scope: comment.line.double-slash.d
+      captures:
+        1: punctuation.definition.comment.d
+    - include: nested-comment
+  nested-comment:
+    - match: /\+\+?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
         - match: \+/
           scope: punctuation.definition.comment.d
           pop: true
-    - match: (//).*$\n?
-      scope: comment.line.double-slash.d
+        - include: nested-comment
+
+  number-in:
+    - match: '{{number_lookahead}}'
+      push: number
+  number-opt:
+    - include: floating-point-opt
+    - include: integer-opt
+  number:
+    - include: number-opt
+    - include: not-whitespace-illegal
+
+  integer:
+    - include: integer-opt
+    - include: not-whitespace-illegal
+  integer-opt:
+    - match: '\b(0|[1-9][0-9_]*)({{integer_suffix}})?\b'
       captures:
-        1: punctuation.definition.comment.d
-  constant_placeholder:
-    - match: '(?i:%(\([a-z_]+\))?#?0?\-?[ ]?\+?([0-9]*|\*)(\.([0-9]*|\*))?[hL]?[a-z%])'
-      scope: constant.other.placeholder.d
-  function_assertions:
-    - match: '(in|out)\s*(?=\{)'
-      captures:
-        1: keyword.control.statement.d
-      push:
-        - match: '\{' # Push onto the stack for blocks so that } pops functions/methods/classes properly
-          push:
-            - meta_scope: meta.block.d
-            - match: '\}'
-              pop: true
-            - include: $top_level_main
-        - match: (in|out)
-          scope: keyword.control.statement.d
-        - match: (?=body|do)
-          pop: true
-    - match: '(?<=\})'
+        1: constant.numeric.integer.d
+        2: storage.type.integer.d
       pop: true
-  regular_expressions:
-    - include: scope:source.regexp.python
-  statement-remainder:
-    - match: \(
-      push:
-        - meta_scope: meta.definition.param-list.d
-        - match: (?=\))
-          pop: true
-        - include: all-types
-    - match: (throws)
+    - match: '\b(0[bB])([01][01_]*)({{integer_suffix}})?\b'
       captures:
-        1: keyword.other.class-fns.d
-      push:
-        - meta_scope: meta.definition.throws.d
-        - match: "(?={)"
-          captures:
-            1: keyword.other.class-fns.d
-          pop: true
-        - include: all-types
-  storage-type-d:
-    - match: '\b(void|byte|short|char|int|long|float|double|boolean|([a-z]\w+\.)*[A-Z]\w+(?![\(\.]))\b'
-      scope: storage.type.d
-  string_escaped_char:
-    - match: '\\(\\|[abefnprtv''"?]|[0-3]\d{,2}|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4}|U[0-9a-fA-F]{8}|&\w+;)'
-      scope: constant.character.escape.d
-    - match: \\.
-      scope: invalid.illegal.unknown-escape.d
-  strings:
+        1: punctuation.definition.numeric.binary.d
+        2: constant.numeric.integer.binary.d
+        3: storage.type.integer.d
+      pop: true
+    - match: '\b(0[xX])({{hex_char}}(?:_|{{hex_char}})*)({{integer_suffix}})?\b'
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.d
+        2: constant.numeric.integer.hexadecimal.d
+        3: storage.type.integer.d
+      pop: true
+
+  floating-point:
+    - include: floating-point-opt
+    - include: not-whitespace-illegal
+  floating-point-opt:
+    - match: '\b(0[xX])({{hex_or_under}}*\.?{{hex_or_under}}+)([pP][+\-]?[0-9]+)({{float_suffix}})?\b'
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.d
+        2: constant.numeric.float.hexadecimal.d
+        3: constant.numeric.float.hexadecimal.d
+        4: storage.type.float.d
+      pop: true
+    - match: '\b(0|[1-9][0-9_]*)({{integer_float_suffix}})\b'
+      captures:
+        1: constant.numeric.float.d
+        2: storage.type.float.d
+      pop: true
+    - match: '\b(0[bB])([01][01_]*)({{integer_float_suffix}})\b'
+      captures:
+        1: punctuation.definition.numeric.binary.d
+        2: constant.numeric.float.binary.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b(0[xX])({{hex_char}}{{hex_or_under}}*)({{integer_float_suffix}})\b'
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.d
+        2: constant.numeric.float.hexadecimal.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*\.(?!\.|\s*[a-zA-Z]))({{float_suffix}})?'
+      captures:
+        1: constant.numeric.float.d
+        2: storage.type.float.d
+      pop: true
+    - match: '(\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+    - match: '\b([0-9][0-9_]*)({{float_exponent}})({{float_suffix}})?\b'
+      captures:
+        1: constant.numeric.float.d
+        2: constant.numeric.float.d
+        3: storage.type.float.d
+      pop: true
+
+  character-in:
+    - match: '{{character_lookahead}}'
+      push: character
+  character:
+    - match: \'(?:({{escape_sequence}})|[^\\'])\'
+      scope: meta.string.d string.quoted.single.d
+      captures:
+        1: constant.character.escape.d
+      pop: true
+    - match: \'[^']*\'
+      scope: invalid.illegal.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  string-in:
+    - match: '{{string_lookahead}}'
+      push: string
+  string:
+    - include: string-opt
+    - include: not-whitespace-illegal
+  string-opt:
+    # Regular string
     - match: '"'
       scope: punctuation.definition.string.begin.d
-      push:
-        - meta_scope: string.quoted.double.d
-        - match: '"'
-          scope: punctuation.definition.string.end.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.d
+        - match: '(")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
           pop: true
-        - include: string_escaped_char
+        - match: '{{escape_sequence}}'
+          scope: constant.character.escape.d
+        - match: \\.
+          scope: invalid.illegal.unknown-escape.d
+    # Wysiwyg string
     - match: (r)(")
       captures:
-        1: storage.type.string.d
+        1: storage.modifier.string.d
         2: punctuation.definition.string.begin.d
-      push:
-        - meta_scope: string.quoted.double.raw.d
-        - match: ((?<=")(")|")
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(")({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
-            2: meta.empty-string.double.d
+            2: storage.type.string.d
           pop: true
-        - include: regular_expressions
+    # Alternate Wysiwyg string
     - match: "`"
       scope: punctuation.definition.string.begin.d
-      push:
-        - meta_scope: string.quoted.double.raw.backtick.d
-        - match: ((?<=`)(`)|`)
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.backtick.d
+        - match: '(`)({{string_postfix}})'
           captures:
             1: punctuation.definition.string.end.d
-            2: meta.empty-string.double.d
+            2: storage.type.string.d
           pop: true
-    - match: "'"
-      scope: punctuation.definition.string.begin.d
+    # Deprecated Hex string
+    - match: (x)(")
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
+          pop: true
+        - match: '{{hex_char}}\s*{{hex_char}}'
+          scope: constant.character.escape.d
+        - match: '\S'
+          scope: invalid.illegal.unknown-escape.d
+    # Deliminated string with custom identifier
+    - match: '(q)(")({{name}})(.*)$'
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+        3: constant.other.delimeter.d
+        4: invalid.illegal.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(^\3)(")({{string_postfix}})'
+          captures:
+            1: constant.other.delimeter.d
+            2: punctuation.definition.string.end.d
+            3: storage.type.string.d
+          pop: true
+    # Nested Deliminated string
+    - match: (q)("\[)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(\]")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
+          pop: true
+    - match: (q)("\()
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(\)")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
+          pop: true
+    - match: (q)("<)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(>")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
+          pop: true
+    - match: (q)("{)
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(}")({{string_postfix}})'
+          captures:
+            1: punctuation.definition.string.end.d
+            2: storage.type.string.d
+          pop: true
+    # Other deliminated string
+    - match: '(q)(")(.)'
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+        3: constant.other.delimeter.d
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.d string.quoted.double.raw.d
+        - match: '(\3)(?:(")|(.))({{string_postfix}})'
+          captures:
+            1: constant.other.delimeter.d
+            2: punctuation.definition.string.end.d
+            3: invalid.illegal.d
+            4: storage.type.string.d
+          pop: true
+    # Token string
+    - match: '(q)({)'
+      captures:
+        1: storage.modifier.string.d
+        2: punctuation.definition.string.begin.d
+      scope: string.unquoted.embedded.d
+      set:
+        - meta_scope: meta.string.d
+        - match: '}'
+          scope: string.unquoted.embedded.d punctuation.definition.string.end.d
+          pop: true
+        - include: tokens-in
+
+  # Purely a set of un-verified tokens
+  tokens-in:
+    - match: '\b({{keyword}})\b'
+      scope: keyword.d
+    - match: '\b({{basic_type}})\b'
+      scope: storage.type.d
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+    - include: character-in
+    - include: string-in
+    - include: number-in
+    - match: '{{name}}'
+    - match: '(/|&|\||-|\+|<<|<>|>>|>>>||\*|%|\^|\^\^|~)='
+      scope: keyword.operator.assignment.d
+    - match: '(/|<=|>=|==|!<>=|!<=|!>=|\.\.\.|\.\.|&|&&|\||\|\||-|--|\+|\+\+|<|<<|<>|>|>>|>>>|!|!<>|!<|!>|\?|,|:|\$|\*|%|\^|\^\^|~|@|=>|#)'
+      scope: keyword.operator.d
+    - match: ';'
+      scope: punctuation.terminator.d
+    - match: '\.'
+      scope: punctuation.accessor.dot.d
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
       push:
-        - meta_scope: string.quoted.single.d
-        - match: "'"
-          scope: punctuation.definition.string.end.d
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
           pop: true
-        - include: string_escaped_char
-  support-type-built-ins-classes-d:
-    - match: \b(AbstractServer|ArchiveMember|ArgParser|Barrier|BomSniffer|Buffer|BufferInput|BufferOutput|BufferSlice|BufferedFile|BufferedStream|BzipInput|BzipOutput|CFile|CacheInvalidatee|CacheInvalidator|CacheServer|CacheThread|Certificate|CertificateStore|CertificateStoreCtx|ChunkInput|ChunkOutput|ClassInfo|Cluster|ClusterCache|ClusterQueue|ClusterThread|CmdParser|ComObject|Compress|Condition|Conduit|Cookie|CookieParser|CookieStack|CounterInput|CounterOutput|DataFileInput|DataFileOutput|DataInput|DataOutput|Database|DatagramConduit|DeviceConduit|DigestInput|DigestOutput|DocPrinter|Document|DummyInputStream|DummyOutputStream|EndianInput|EndianOutput|EndianProtocol|EndianStream|EventSeekInputStream|EventSeekOutputStream|FTPConnection|Fiber|Field|File|FileConduit|FileFolder|FileGroup|FileInput|FileOutput|FilePath|FileScan|FilterStream|Foo|FormatOutput|GreedyInput|GreedyOutput|Gregorian|GrowBuffer|HeapCopy|HeapSlice|Hierarchy|HttpClient|HttpCookies|HttpCookiesView|HttpGet|HttpHeaders|HttpHeadersView|HttpParams|HttpPost|HttpStack|HttpTokens|HttpTriplet|IPv4Address|IUnknown|InputFilter|InternetAddress|InternetHost|Layout|LineInput|LineIterator|LinkedFolder|Log|MapInput|MapOutput|MappedBuffer|Md2|Md4|MemoryQueue|MemoryStream|MmFile|MmFileStream|ModuleInfo|MulticastConduit|Mutex|NativeProtocol|NetCall|NetHost|NetworkAlert|NetworkCache|NetworkCall|NetworkClient|NetworkCombo|NetworkMessage|NetworkQueue|NetworkRegistry|NetworkTask|NotImplemented|Object|Observer|OutBuffer|OutputFilter|PersistQueue|Pipe|PipeConduit|Print|PrivateKey|Process|Properties|Protocol|ProtocolReader|ProtocolWriter|PublicKey|PullParser|QueueFile|QueueServer|QueueThread|QueuedCache|QuoteIterator|Random|Range|ReadWriteMutex|Reader|Record|RegExp|RegExpT|RegexIterator|RollCall|SSLCtx|SSLServerSocket|SSLSocketConduit|SaxParser|SelectionKey|Semaphore|ServerSocket|ServerThread|Service|SimpleIterator|SliceInputStream|SliceSeekInputStream|SliceSeekOutputStream|SliceStream|SnoopInput|SnoopOutput|Socket|SocketConduit|SocketListener|SocketSet|SocketStream|Sprint|Stream|StreamIterator|TArrayStream|TaskServer|TaskThread|TcpSocket|Telnet|TempFile|Text|TextFileInput|TextFileOutput|TextView|Thread|ThreadGroup|ThreadLocal|ThreadPool|Token|TypeInfo|TypeInfo_AC|TypeInfo_Aa|TypeInfo_Ab|TypeInfo_Ac|TypeInfo_Ad|TypeInfo_Ae|TypeInfo_Af|TypeInfo_Ag|TypeInfo_Ah|TypeInfo_Ai|TypeInfo_Aj|TypeInfo_Ak|TypeInfo_Al|TypeInfo_Am|TypeInfo_Ao|TypeInfo_Ap|TypeInfo_Aq|TypeInfo_Ar|TypeInfo_Array|TypeInfo_As|TypeInfo_AssociativeArray|TypeInfo_At|TypeInfo_Au|TypeInfo_Av|TypeInfo_Aw|TypeInfo_C|TypeInfo_Class|TypeInfo_D|TypeInfo_Delegate|TypeInfo_Enum|TypeInfo_Function|TypeInfo_Interface|TypeInfo_P|TypeInfo_Pointer|TypeInfo_StaticArray|TypeInfo_Struct|TypeInfo_Tuple|TypeInfo_Typedef|TypeInfo_a|TypeInfo_b|TypeInfo_c|TypeInfo_d|TypeInfo_e|TypeInfo_f|TypeInfo_g|TypeInfo_h|TypeInfo_i|TypeInfo_j|TypeInfo_k|TypeInfo_l|TypeInfo_m|TypeInfo_o|TypeInfo_p|TypeInfo_q|TypeInfo_r|TypeInfo_s|TypeInfo_t|TypeInfo_u|TypeInfo_v|TypeInfo_w|TypedInput|TypedOutput|URIerror|UdpSocket|UnCompress|UniText|UnicodeBom|UnicodeFile|UnknownAddress|Uri|UtfInput|UtfOutput|VirtualFolder|WrapSeekInputStream|WrapSeekOutputStream|Writer|XmlPrinter|ZipArchive|ZipBlockReader|ZipBlockWriter|ZipEntry|ZipEntryVerifier|ZipFile|ZipFileGroup|ZipFolder|ZipSubFolder|ZipSubFolderEntry|ZipSubFolderGroup|ZlibInput|ZlibOutput)\b
-      scope: support.type.built-ins.classes.d
-  support-type-built-ins-d:
-    - include: support-type-built-ins-exceptions-d
-    - include: support-type-built-ins-classes-d
-    - include: support-type-built-ins-interfaces-d
-    - include: support-type-built-ins-structs-d
-  support-type-built-ins-exceptions-d:
-    - match: \b(AddressException|ArrayBoundsError|ArrayBoundsException|AssertError|AssertException|Base64CharException|Base64Exception|BzipClosedException|BzipException|ClusterEmptyException|ClusterFullException|ConvError|ConvOverflowError|ConversionException|CorruptedIteratorException|DatabaseException|DateParseError|Exception|FTPException|FiberException|FileException|FinalizeException|FormatError|HostException|IOException|IllegalArgumentException|IllegalElementException|InvalidKeyException|InvalidTypeException|LocaleException|ModuleCtorError|NoSuchElementException|OpenException|OpenRJException|OutOfMemoryException|PlatformException|ProcessCreateException|ProcessException|ProcessForkException|ProcessKillException|ProcessWaitException|ReadException|RegExpException|RegexException|RegistryException|SeekException|SharedLibException|SocketAcceptException|SocketException|StdioException|StreamException|StreamFileException|StringException|SwitchError|SwitchException|SyncException|TextException|ThreadError|ThreadException|UnboxException|UnicodeException|UtfException|VariantTypeMismatchException|Win32Exception|WriteException|XmlException|ZipChecksumException|ZipException|ZipExhaustedException|ZipNotSupportedException|ZlibClosedException|ZlibException|OurUnwindException|SysError)\b
-      scope: support.type.built-ins.exceptions.d
-  support-type-built-ins-interfaces-d:
-    - match: \b(Buffered|HttpParamsView|ICache|IChannel|IClassFactory|ICluster|IConduit|IConsumer|IEvent|IHierarchy|ILevel|IListener|IMessage|IMessageLoader|IOStream|IReadable|ISelectable|ISelectionSet|ISelector|IServer|IUnknown|IWritable|IXmlPrinter|InputStream|OutputStream|PathView|VfsFile|VfsFiles|VfsFolder|VfsFolderEntry|VfsFolders|VfsHost|VfsSync|ZipReader|ZipWriter)\b
-      scope: support.type.built-ins.interfaces.d
-  support-type-built-ins-structs-d:
-    - match: \b(ABC|ABCFLOAT|ACCEL|ACCESSTIMEOUT|ACCESS_ALLOWED_ACE|ACCESS_DENIED_ACE|ACE_HEADER|ACL|ACL_REVISION_INFORMATION|ACL_SIZE_INFORMATION|ACTION_HEADER|ADAPTER_STATUS|ADDJOB_INFO_1|ANIMATIONINFO|APPBARDATA|Argument|Atomic|Attribute|BITMAP|BITMAPCOREHEADER|BITMAPCOREINFO|BITMAPINFO|BITMAPINFOHEADER|BITMAPV4HEADER|BLOB|BROWSEINFO|BY_HANDLE_FILE_INFORMATION|Bar|Baz|BitArray|Box|BracketResult|ByteSwap|CANDIDATEFORM|CANDIDATELIST|CBTACTIVATESTRUCT|CBT_CREATEWND|CHARFORMAT|CHARRANGE|CHARSET|CHARSETINFO|CHAR_INFO|CIDA|CIEXYZ|CIEXYZTRIPLE|CLIENTCREATESTRUCT|CMINVOKECOMMANDINFO|COLORADJUSTMENT|COLORMAP|COMMCONFIG|COMMPROP|COMMTIMEOUTS|COMPAREITEMSTRUCT|COMPCOLOR|COMPOSITIONFORM|COMSTAT|CONNECTDLGSTRUCT|CONSOLE_CURSOR_INFO|CONTEXT|CONVCONTEXT|CONVINFO|COORD|COPYDATASTRUCT|CPINFO|CPLINFO|CREATESTRUCT|CREATE_PROCESS_DEBUG_INFO|CREATE_THREAD_DEBUG_INFO|CRITICAL_SECTION|CRITICAL_SECTION_DEBUG|CURRENCYFMT|CURSORSHAPE|CWPRETSTRUCT|CWPSTRUCT|CharClass|CharRange|Clock|CodePage|Console|DATATYPES_INFO_1|DCB|DDEACK|DDEADVISE|DDEDATA|DDELN|DDEML_MSG_HOOK_DATA|DDEPOKE|DDEUP|DEBUGHOOKINFO|DEBUG_EVENT|DELETEITEMSTRUCT|DEVMODE|DEVNAMES|DEV_BROADCAST_HDR|DEV_BROADCAST_OEM|DEV_BROADCAST_PORT|DEV_BROADCAST_VOLUME|DIBSECTION|DIR|DISCDLGSTRUCT|DISK_GEOMETRY|DISK_PERFORMANCE|DOCINFO|DOC_INFO_1|DOC_INFO_2|DRAGLISTINFO|DRAWITEMSTRUCT|DRAWTEXTPARAMS|DRIVER_INFO_1|DRIVER_INFO_2|DRIVER_INFO_3|DRIVE_LAYOUT_INFORMATION|Date|DateParse|DateTime|DirEntry|DynArg|EDITSTREAM|EMPTYRECORD|EMR|EMRABORTPATH|EMRANGLEARC|EMRARC|EMRBITBLT|EMRCREATEBRUSHINDIRECT|EMRCREATECOLORSPACE|EMRCREATEDIBPATTERNBRUSHPT|EMRCREATEMONOBRUSH|EMRCREATEPALETTE|EMRCREATEPEN|EMRELLIPSE|EMREOF|EMREXCLUDECLIPRECT|EMREXTCREATEFONTINDIRECTW|EMREXTCREATEPEN|EMREXTFLOODFILL|EMREXTSELECTCLIPRGN|EMREXTTEXTOUTA|EMRFILLPATH|EMRFILLRGN|EMRFORMAT|EMRFRAMERGN|EMRGDICOMMENT|EMRINVERTRGN|EMRLINETO|EMRMASKBLT|EMRMODIFYWORLDTRANSFORM|EMROFFSETCLIPRGN|EMRPLGBLT|EMRPOLYDRAW|EMRPOLYDRAW16|EMRPOLYLINE|EMRPOLYLINE16|EMRPOLYPOLYLINE|EMRPOLYPOLYLINE16|EMRPOLYTEXTOUTA|EMRRESIZEPALETTE|EMRRESTOREDC|EMRROUNDRECT|EMRSCALEVIEWPORTEXTEX|EMRSELECTCLIPPATH|EMRSELECTCOLORSPACE|EMRSELECTOBJECT|EMRSELECTPALETTE|EMRSETARCDIRECTION|EMRSETBKCOLOR|EMRSETCOLORADJUSTMENT|EMRSETDIBITSTODEVICE|EMRSETMAPPERFLAGS|EMRSETMITERLIMIT|EMRSETPALETTEENTRIES|EMRSETPIXELV|EMRSETVIEWPORTEXTEX|EMRSETVIEWPORTORGEX|EMRSETWORLDTRANSFORM|EMRSTRETCHBLT|EMRSTRETCHDIBITS|EMRTEXT|ENCORRECTTEXT|ENDROPFILES|ENHMETAHEADER|ENHMETARECORD|ENOLEOPFAILED|ENPROTECTED|ENSAVECLIPBOARD|ENUMLOGFONT|ENUMLOGFONTEX|ENUM_SERVICE_STATUS|EVENTLOGRECORD|EVENTMSG|EXCEPTION_DEBUG_INFO|EXCEPTION_POINTERS|EXCEPTION_RECORD|EXIT_PROCESS_DEBUG_INFO|EXIT_THREAD_DEBUG_INFO|EXTLOGFONT|EXTLOGPEN|EXT_BUTTON|EmptySlot|EndOfCDRecord|Environment|FILETIME|FILTERKEYS|FINDREPLACE|FINDTEXTEX|FIND_NAME_BUFFER|FIND_NAME_HEADER|FIXED|FLOATING_SAVE_AREA|FMS_GETDRIVEINFO|FMS_GETFILESEL|FMS_LOAD|FMS_TOOLBARLOAD|FOCUS_EVENT_RECORD|FONTSIGNATURE|FORMATRANGE|FORMAT_PARAMETERS|FORM_INFO_1|FileConst|FileHeader|FileRoots|FileSystem|FoldingCaseData|Foo|FtpConnectionDetail|FtpFeature|FtpFileInfo|FtpResponse|GC|GCP_RESULTS|GCStats|GENERIC_MAPPING|GLYPHMETRICS|GLYPHMETRICSFLOAT|GROUP_INFO_2|GUID|HANDLETABLE|HD_HITTESTINFO|HD_ITEM|HD_LAYOUT|HD_NOTIFY|HELPINFO|HELPWININFO|HIGHCONTRAST|HSZPAIR|HeaderElement|HttpConst|HttpHeader|HttpHeaderName|HttpResponses|HttpStatus|HttpToken|ICONINFO|ICONMETRICS|IMAGEINFO|IMAGE_DOS_HEADER|INPUT_RECORD|ITEMIDLIST|IeeeFlags|Interface|JOB_INFO_1|JOB_INFO_2|KERNINGPAIR|LANA_ENUM|LAYERPLANEDESCRIPTOR|LDT_ENTRY|LIST_ENTRY|LOAD_DLL_DEBUG_INFO|LOCALESIGNATURE|LOCALGROUP_INFO_0|LOCALGROUP_MEMBERS_INFO_0|LOCALGROUP_MEMBERS_INFO_3|LOGBRUSH|LOGCOLORSPACE|LOGFONT|LOGFONTA|LOGFONTW|LOGPALETTE|LOGPEN|LUID_AND_ATTRIBUTES|LV_COLUMN|LV_DISPINFO|LV_FINDINFO|LV_HITTESTINFO|LV_ITEM|LV_KEYDOWN|LocalFileHeader|MAT2|MD5_CTX|MDICREATESTRUCT|MEASUREITEMSTRUCT|MEMORYSTATUS|MEMORY_BASIC_INFORMATION|MENUEX_TEMPLATE_HEADER|MENUEX_TEMPLATE_ITEM|MENUITEMINFO|MENUITEMTEMPLATE|MENUITEMTEMPLATEHEADER|MENUTEMPLATE|MENU_EVENT_RECORD|METAFILEPICT|METARECORD|MINIMIZEDMETRICS|MINMAXINFO|MODEMDEVCAPS|MODEMSETTINGS|MONCBSTRUCT|MONCONVSTRUCT|MONERRSTRUCT|MONHSZSTRUCT|MONITOR_INFO_1|MONITOR_INFO_2|MONLINKSTRUCT|MONMSGSTRUCT|MOUSEHOOKSTRUCT|MOUSEKEYS|MOUSE_EVENT_RECORD|MSG|MSGBOXPARAMS|MSGFILTER|MULTIKEYHELP|NAME_BUFFER|NCB|NCCALCSIZE_PARAMS|NDDESHAREINFO|NETCONNECTINFOSTRUCT|NETINFOSTRUCT|NETRESOURCE|NEWCPLINFO|NEWTEXTMETRIC|NEWTEXTMETRICEX|NMHDR|NM_LISTVIEW|NM_TREEVIEW|NM_UPDOWNW|NONCLIENTMETRICS|NS_SERVICE_INFO|NUMBERFMT|OFNOTIFY|OFSTRUCT|OPENFILENAME|OPENFILENAMEA|OPENFILENAMEW|OSVERSIONINFO|OUTLINETEXTMETRIC|OUTPUT_DEBUG_STRING_INFO|OVERLAPPED|OffsetTypeInfo|PAINTSTRUCT|PALETTEENTRY|PANOSE|PARAFORMAT|PARTITION_INFORMATION|PERF_COUNTER_BLOCK|PERF_COUNTER_DEFINITION|PERF_DATA_BLOCK|PERF_INSTANCE_DEFINITION|PERF_OBJECT_TYPE|PIXELFORMATDESCRIPTOR|POINT|POINTFLOAT|POINTFX|POINTL|POINTS|POLYTEXT|PORT_INFO_1|PORT_INFO_2|PREVENT_MEDIA_REMOVAL|PRINTER_DEFAULTS|PRINTER_INFO_1|PRINTER_INFO_2|PRINTER_INFO_3|PRINTER_INFO_4|PRINTER_INFO_5|PRINTER_NOTIFY_INFO|PRINTER_NOTIFY_INFO_DATA|PRINTER_NOTIFY_OPTIONS|PRINTER_NOTIFY_OPTIONS_TYPE|PRINTPROCESSOR_INFO_1|PRIVILEGE_SET|PROCESS_HEAPENTRY|PROCESS_INFORMATION|PROPSHEETHEADER|PROPSHEETHEADER_U1|PROPSHEETHEADER_U2|PROPSHEETHEADER_U3|PROPSHEETPAGE|PROPSHEETPAGE_U1|PROPSHEETPAGE_U2|PROTOCOL_INFO|PROVIDOR_INFO_1|PSHNOTIFY|PUNCTUATION|PassByCopy|PassByRef|Phase1Info|PropertyConfigurator|QUERY_SERVICE_CONFIG|QUERY_SERVICE_LOCK_STATUS|RASAMB|RASCONN|RASCONNSTATUS|RASDIALEXTENSIONS|RASDIALPARAMS|RASENTRYNAME|RASPPPIP|RASPPPIPX|RASPPPNBF|RASTERIZER_STATUS|REASSIGN_BLOCKS|RECT|RECTL|REMOTE_NAME_INFO|REPASTESPECIAL|REQRESIZE|RGBQUAD|RGBTRIPLE|RGNDATA|RGNDATAHEADER|RIP_INFO|Runtime|SCROLLINFO|SECURITY_ATTRIBUTES|SECURITY_DESCRIPTOR|SECURITY_QUALITY_OF_SERVICE|SELCHANGE|SERIALKEYS|SERVICE_ADDRESS|SERVICE_ADDRESSES|SERVICE_INFO|SERVICE_STATUS|SERVICE_TABLE_ENTRY|SERVICE_TYPE_INFO_ABS|SERVICE_TYPE_VALUE_ABS|SESSION_BUFFER|SESSION_HEADER|SET_PARTITION_INFORMATION|SHFILEINFO|SHFILEOPSTRUCT|SHITEMID|SHNAMEMAPPING|SID|SID_AND_ATTRIBUTES|SID_IDENTIFIER_AUTHORITY|SINGLE_LIST_ENTRY|SIZE|SMALL_RECT|SOUNDSENTRY|STARTUPINFO|STICKYKEYS|STRRET|STYLEBUF|STYLESTRUCT|SYSTEMTIME|SYSTEM_AUDIT_ACE|SYSTEM_INFO|SYSTEM_INFO_U|SYSTEM_POWER_STATUS|Signal|SjLj_Function_Context|SpecialCaseData|TAPE_ERASE|TAPE_GET_DRIVE_PARAMETERS|TAPE_GET_MEDIA_PARAMETERS|TAPE_GET_POSITION|TAPE_PREPARE|TAPE_SET_DRIVE_PARAMETERS|TAPE_SET_MEDIA_PARAMETERS|TAPE_SET_POSITION|TAPE_WRITE_MARKS|TBADDBITMAP|TBBUTTON|TBNOTIFY|TBSAVEPARAMS|TCHOOSECOLOR|TCHOOSEFONT|TC_HITTESTINFO|TC_ITEM|TC_ITEMHEADER|TC_KEYDOWN|TEXTMETRIC|TEXTMETRICA|TEXTRANGE|TFINDTEXT|TIME_ZONE_INFORMATION|TOGGLEKEYS|TOKEN_CONTROL|TOKEN_DEFAULT_DACL|TOKEN_GROUPS|TOKEN_OWNER|TOKEN_PRIMARY_GROUP|TOKEN_PRIVILEGES|TOKEN_SOURCE|TOKEN_STATISTICS|TOKEN_USER|TOOLINFO|TOOLTIPTEXT|TPAGESETUPDLG|TPMPARAMS|TRANSMIT_FILE_BUFFERS|TREEITEM|TSMALLPOINT|TTHITTESTINFO|TTPOLYCURVE|TTPOLYGONHEADER|TVARIANT|TV_DISPINFO|TV_HITTESTINFO|TV_INSERTSTRUCT|TV_ITEM|TV_KEYDOWN|TV_SORTCB|Time|TimeOfDay|TimeSpan|Tuple|UDACCEL|ULARGE_INTEGER|UNIVERSAL_NAME_INFO|UNLOAD_DLL_DEBUG_INFO|USEROBJECTFLAGS|USER_INFO_0|USER_INFO_2|USER_INFO_3|UnicodeData|VALENT|VA_LIST|VERIFY_INFORMATION|VS_FIXEDFILEINFO|Variant|VfsFilterInfo|WIN32_FILE_ATTRIBUTE_DATA|WIN32_FIND_DATA|WIN32_FIND_DATAW|WIN32_STREAM_ID|WINDOWINFO|WINDOWPLACEMENT|WINDOWPOS|WINDOW_BUFFER_SIZE_RECORD|WNDCLASS|WNDCLASSA|WNDCLASSEX|WNDCLASSEXA|WSADATA|WallClock|XFORM|ZipEntryInfo)\b
-      scope: support.type.built-ins.structs.d
-  support-type-d:
-    - match: '\b((?:tango|std)\.[\w\.]+)\b'
-      scope: support.type.d
+        - include: tokens-in
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      push:
+        - match: '\]'
+          scope: punctuation.section.brackets.end.d
+          pop: true
+        - include: tokens-in
+    - match: '\{'
+      scope: punctuation.section.braces.begin.d
+      push:
+        - match: '\}'
+          scope: punctuation.section.braces.end.d
+          pop: true
+        - include: tokens-in
+    - include: not-whitespace-illegal
+
+  attribute-specifier-in:
+    - match: '{{attribute_lookahead}}'
+      push: [attribute-specifier-after, attribute]
+    - match: '\b({{type_qualifier}})\b(?!\s*\()'
+      scope: storage.modifier.d
+      push: attribute-specifier-after
+  attribute-specifier-after:
+    - match: ':'
+      scope: punctuation.separator.d
+      pop: true
+    - include: end-of-line
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - match: '{{attribute_lookahead}}'
+      push: attribute
+    - match: '\b({{type_qualifier}})\b(?!\s*\()'
+      scope: storage.modifier.d
+    - match: '(?=\b({{reserved}})\b)'
+      pop: true
+    - match: '{{construction_lookahead}}'
+      set: construction
+    - match: '(?=\b{{name}}\b\s*[,=\()])'
+      set: [function-or-variable-after-type]
+    - match: '(?=\S)'
+      set: [function-or-variable-after-type, type]
+
+  parameter-attribute-in:
+    - match: '{{attribute_lookahead}}'
+      push: [parameter-attribute-after, attribute]
+    - match: '\b({{parameter_attribute}})\b'
+      scope: storage.modifier.d
+      push: parameter-attribute-after
+    - match: '\b({{type_qualifier}})\b(?!\s*\()'
+      scope: storage.modifier.d
+      push: parameter-attribute-after
+  parameter-attribute-after:
+    - match: '{{attribute_lookahead}}'
+      set: [parameter-attribute-after, attribute]
+    - match: '\b({{parameter_attribute}})\b'
+      scope: storage.modifier.d
+      set: parameter-attribute-after
+    - match: '\b({{type_qualifier}})\b(?!\s*\()'
+      scope: storage.modifier.d
+      set: parameter-attribute-after
+    - match: '(?=\S)'
+      pop: true
+
+  function-attribute-in:
+    - include: attribute-in
+    - match: '\b({{type_qualifier}})\b'
+      scope: storage.modifier.d
+
+  attribute-in:
+    - match: '{{attribute_lookahead}}'
+      push: attribute
+
+  attribute:
+    - match: '\b({{attributes}})\b'
+      scope: storage.modifier.d
+      pop: true
+    - match: '@(?=\s*({{at_attributes}})\b)'
+      scope: storage.modifier.d
+      set: at-attribute
+    - match: '@'
+      scope: punctuation.definition.annotation.begin.d
+      set: at-attribute
+    - match: '\b(extern)\s*(\()'
+      captures:
+        1: keyword.other.external.d
+        2: punctuation.section.parens.begin.d
+      set: extern-attribute
+    - match: '\b(align)\b'
+      scope: keyword.other.alignment.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [align-attribute-after, value]
+        - match: '(?=\S)'
+          pop: true
+    - match: '\b(deprecated)\b'
+      scope: keyword.other.deprecated.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [deprecated-attribute-after, value]
+        - match: '(?=\S)'
+          pop: true
+    - match: '\b(private|protected|public|export)\b'
+      scope: storage.modifier.access-control.d
+      pop: true
+    - match: '\b(package)\b'
+      scope: storage.modifier.access-control.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [attribute-parens-after, identifier]
+        - match: (?=\S)
+          pop: true
+    - match: '\b(pragma)\b'
+      scope: keyword.other.pragma.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: pragma-attribute
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
+  attribute-parens-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+  at-attribute:
+    - match: '({{at_attributes}})\b'
+      scope: storage.modifier.d
+      pop: true
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [uda-after, value-list]
+    - match: '({{name}})\s*(\()'
+      scope: meta.function-call.d
+      captures:
+        1: meta.path.d storage.type.d
+        2: punctuation.section.parens.begin.d
+      set: [meta-function-call, uda-after, value-list]
+    - match: '({{name}})\b'
+      scope: meta.path.d storage.type.d
+      pop: true
+  uda-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal
+  extern-attribute:
+    - match: '(C\+\+|C|D|Windows|System|Objective-C)'
+      scope: string.other.d
+      set: extern-attribute-after
+    - match: (?=\S)
+      set: [extern-attribute-after, identifier]
+  extern-attribute-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: extern-attribute
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal
+  align-attribute-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+  deprecated-attribute-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+  pragma-attribute:
+    - match: '\b({{name}})\b'
+      scope: variable.function.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
+          pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: [pragma-attribute-after, value-list]
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal-pop
+  pragma-attribute-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  # TODO: Maybe make imports non-indexed entities (as opposed to variables)
+  import-in:
+    - match: '\b(import)(?!\s*\()\b'
+      scope: keyword.control.import.d
+      push: [import-list, identifier]
+  import-list:
+    - match: ':'
+      scope: punctuation.separator.import-binding.d
+      set: [import-binding-list, identifier]
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-list, identifier]
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [import-list-after-assignment, identifier]
+    - include: expect-end-of-line
+  import-list-after-assignment:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-list, identifier]
+    - include: expect-end-of-line
+  import-binding-list:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-binding-list, identifier]
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [import-binding-list-after-assignment, identifier]
+    - include: expect-end-of-line
+  import-binding-list-after-assignment:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [import-binding-list, identifier]
+    - include: expect-end-of-line
+
+  type:
+    - match: '\b({{type_qualifier}})\b'
+      scope: storage.modifier.d
+      set:
+        - match: '\('
+          scope: punctuation.section.group.begin.d
+          set: [basic-type2, type-storage-modifier-end, type]
+        - match: '(?=\S)'
+          set: type
+    - match: '(?=\S)'
+      set: basic-type
+  type-storage-modifier-end:
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
+    - include: not-whitespace-illegal
+
+  basic-type:
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2, basic-type2-after-parens, typeof-value]
+    - match: '\bauto\b'
+      scope: keyword.other.d
+      pop: true
+    - match: '{{name_lookahead}}'
+      set: [basic-type2, type-identifier-ref]
+    - match: '(?=\S)'
+      pop: true
+
+  basic-type2:
+    - match: '\*'
+      scope: keyword.operator.pointer.d
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      push: [basic-type2-after-brackets, value-list]
+    - match: '\b(delegate|function)\b'
+      scope: keyword.other.d
+      set: [basic-type2, function-type]
+    - match: '!(?!=)'
+      scope: meta.function-call.d keyword.operator.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2, basic-type2-after-call, value-list]
+        - match: '(?=\S)'
+          set: [value-after, meta-function-call, value-template-single]
+    - match: '\.(?!\.\.)'
+      scope: storage.type.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: storage.type.d
+          set: basic-type2
+    - match: '(?=\S)'
+      pop: true
+  basic-type2-after-brackets:
+    - match: '\]'
+      scope: punctuation.section.brackets.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+  basic-type2-after-parens:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+  basic-type2-after-call:
+    - meta_scope: meta.function-call.d
+    - include: basic-type2-after-parens
+
+  typeof-value:
+    - match: '\breturn\b'
+      scope: keyword.other.d
+      pop: true
+    - include: value
+
+  function-type:
+    - match: (?=\()
+      set: [function-type-after, function-type-argument-definition-list]
+    - include: not-whitespace-illegal-pop
+  function-type-after:
+    - include: function-attribute-in
+    - match: '(?=\S)'
+      pop: true
+
+  # Function type arguments are slightly different to regular function
+  # arguments. With regular arguments a standalone "name" is asssumed to be a
+  # template argument, but with function types they must be a type.
+  function-type-argument-definition-list:
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+        - match: '(?=\S)'
+          set: [function-type-argument, function-type-argument-type]
+    - include: not-whitespace-illegal
+  function-type-argument-type:
+    - include: parameter-attribute-in
+    - match: '\.\.\.'
+      scope: keyword.operator.variadic.d
+      pop: true
+    - include: type
+  function-type-argument:
+    - match: '\b{{name}}\b'
+      scope: variable.parameter.d
+      set:
+        - match: '\.\.\.'
+          scope: keyword.operator.variadic.d
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: [function-type-argument, function-type-argument-type]
+        - match: '='
+          scope: keyword.operator.assignment.d
+          push: value
+        - match: ':'
+          scope: keyword.operator.comparison.d
+          push: value
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      push: function-type-argument-type
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
+    - include: not-whitespace-illegal
+
+  function-or-variable-after-type:
+    - match: '\b({{operator_overloads}})\s*(?=\(|$)'
+      scope: meta.function.d
+      captures:
+        1: entity.name.function.operator.d
+      set: function-definition-begin
+    - match: '\b({{name}})\s*(?=\(|$)'
+      scope: meta.function.d
+      captures:
+        1: entity.name.function.d
+      set: function-definition-begin
+    - match: '(?=\S)'
+      set: variable-definition-begin
+  function-definition-begin:
+    - match: '(?=\()'
+      set: [function-definition-after-first-argument-list, function-argument-definition-list]
+    - include: not-whitespace-illegal
+  function-definition-after-first-argument-list:
+    - match: '(?=\()'
+      set: [function-definition-before-after-arguments, function-argument-definition-list]
+    - match: '(?=\S)'
+      set: function-definition-after-arguments
+  function-definition-before-after-arguments:
+    - match: ''
+      set: function-definition-after-arguments
+  function-definition-after-arguments:
+    - meta_scope: meta.function.d
+    - include: function-attribute-in
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [meta-function, expect-end-of-line, value]
+    - match: '\bif\b'
+      scope: keyword.control.conditional.d
+      set: [meta-function, function-definition-after-condition, condition]
+    - match: '(?=\S)'
+      set: [meta-function, function-definition-after-condition]
+  function-definition-after-condition:
+    - match: '\bin\b'
+      scope: keyword.control.conditional.d
+      set:
+        - match: '(?=\()'
+          set: [function-definition-after-condition, assert-arguments]
+        - match: '{{block_statement_loohahead}}'
+          set: [function-definition-after-condition, block-statement]
+        - include: not-whitespace-illegal
+    - match: '\bout\b'
+      scope: keyword.control.conditional.d
+      push: function-out-contract
+    - match: '\b(do|body)\b'
+      scope: keyword.other.d
+      set: block-statement
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - include: end-of-line
+    - include: not-whitespace-illegal-pop
+  function-out-contract:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set:
+        - match: '{{name}}'
+          scope: variable.parameter.d
+          set:
+            - match: ';'
+              scope: punctuation.separator.sequence.d
+              set: [function-out-contract-after, value-list]
+            - match: '(?=\S)'
+              set: [block-statement, function-out-contract-after]
+        - match: ';'
+          scope: punctuation.separator.sequence.d
+          set: [function-out-contract-after, value-list]
+        - include: not-whitespace-illegal-pop
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - include: not-whitespace-illegal-pop
+  function-out-contract-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+  function-argument-definition-list:
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set: function-argument-definition-list-content
+    - include: not-whitespace-illegal
+  function-argument-definition-list-content:
+    - meta_scope: meta.function.parameters.d
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
+    - match: '(?=\S)'
+      set: [meta-function-parameters, function-argument, function-argument-or-type]
+  function-argument-or-type:
+    - include: parameter-attribute-in
+    - match: '\.\.\.'
+      scope: keyword.operator.variadic.d
+      pop: true
+    - match: '(?={{name}}\s*([,=:\)]|\.\.\.))'
+      pop: true
+    - include: type
+  function-argument:
+    - match: '\b{{name}}\b'
+      scope: variable.parameter.d
+      set:
+        - match: '\.\.\.'
+          scope: keyword.operator.variadic.d
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: [function-argument, function-argument-or-type]
+        - match: '='
+          scope: keyword.operator.assignment.d
+          push: value
+        - match: ':'
+          scope: keyword.operator.comparison.d
+          push: value
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      push: type
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      pop: true
+    - include: not-whitespace-illegal
+
+  optional-template-body-block:
+    - match: '{{block_statement_loohahead}}'
+      set: block-statement
+    - match: '\bif\b'
+      scope: keyword.control.conditional.d
+      set: [block-statement, condition]
+    - include: end-of-line
+    - include: not-whitespace-illegal
+
+  variable-definition-begin:
+    - match: '\b{{name}}\b'
+      scope: variable.other.d
+      set:
+        - match: '(?=,)'
+          set: variable-definition-after
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set: [variable-definition-after, value]
+        - include: expect-end-of-line
+    - include: not-whitespace-illegal-pop
+  variable-definition-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: variable-definition-begin
+    - include: expect-end-of-line
+
+  value-or-declaration-in:
+    - match: '{{definitely_value_lookahead}}'
+      push: [maybe-end-of-line, value-list]
+    - match: '{{definitely_declaration_lookahead}}'
+      push: [function-or-variable-after-type, type]
+    - match: '(?=\S)'
+      push: [maybe-end-of-line, first-value]
+
+  # The first value in an expression ending with a * is always a function/variable definition, otherwise it could be either
+  # We highlight as if it were a value, but switch to a definition if it turns out to be one
+  first-value:
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [first-value-parens-after, typeof-value]
+    - match: '\b({{basic_type}})\b'
+      scope: storage.type.d
+      set: first-value-after
+    # Match a regular function call so we properly highlight the name as a
+    # function
+    - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
+      set: value-list
+    - match: '{{name_lookahead}}'
+      scope: variable.other.d
+      set: [first-value-after, value-identifier]
+    - match: '(?=\S)'
+      set: value-list
+  first-value-after:
+    - match: '\.'
+      scope: meta.path.d punctuation.accessor.dot.d
+      push: value-identifier
+    - match: '!(?!=)'
+      scope: meta.function-call.d keyword.operator.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [first-value-call-after, value-list]
+        - match: '(?=\S)'
+          set: [first-value-after, meta-function-call, value-template-single]
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      set: [first-value-bracket-after, value-list]
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-list
+    # Attempt to match pointers
+    - match: '(?=\*\s*([\*\[]|$))'
+      set: [function-or-variable-after-type, basic-type2]
+    - match: '(?=\*\s*{{name}}\s*[=;\(])'
+      set: [function-or-variable-after-type, basic-type2]
+    - match: '(?=\b(function|delegate)\b)'
+      set: [value-list-after, value]
+      scope: keyword.other.d
+    - match: '(?={{name}}\s*([;=\(,]|$))'
+      set: function-or-variable-after-type
+    - match: '(?=\S)'
+      set: [value-list-after, value-after]
+  first-value-bracket-after:
+    - match: '\]'
+      scope: punctuation.section.brackets.end.d
+      set: first-value-after
+    - include: not-whitespace-illegal
+  first-value-parens-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: first-value-after
+    - include: not-whitespace-illegal
+  first-value-call-after:
+    - meta_scope: meta.function-call.d
+    - include: first-value-parens-after
+
+  value:
+    - include: attribute-in
+    - match: '!'
+      scope: keyword.operator.logical.d
+      set: value
+    - match: '~'
+      scope: keyword.operator.bitwise.d
+      set: value
+    - match: '(\+\+|--|\+|-)'
+      scope: keyword.operator.arithmetic.d
+      set: value
+    - match: '(\*|&)'
+      scope: keyword.operator.bitwise.d
+      set: value
+    - match: '\bcast\b'
+      scope: keyword.operator.word.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [cast-after, type]
+        - include: not-whitespace-illegal
+    - match: '\bdelete\b'
+      scope: keyword.operator.word.d
+      set: value
+    - match: '\bnew\b'
+      scope: keyword.operator.word.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [new-after-parens, value-list]
+        - match: '(?=\S)'
+          set: new-after
+    - match: '\bimport\b'
+      scope: keyword.control.import.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-parens-after, value]
+        - include: not-whitespace-illegal
+    - match: '\bmixin\b'
+      scope: keyword.control.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-parens-after, value-list]
+        - include: not-whitespace-illegal
+    - match: \bassert\b
+      scope: keyword.other.assert.d
+      set: [value-after, assert-arguments]
+    - match: '\bis\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-after, is-after-type, type]
+        - include: not-whitespace-illegal-pop
+    - match: '\btypeof\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-parens-after, typeof-value]
+    - match: '\b__traits\b'
+      scope: keyword.other.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set:
+            - match: '\b{{name}}\b'
+              scope: variable.function.d
+              set:
+                - match: ','
+                  scope: punctuation.separator.sequence.d
+                  set: [value-parens-after, value-list]
+    - match: '\b(function|delegate)\b'
+      scope: meta.function.d keyword.other.d
+      set:
+        - meta_scope: meta.function.d
+        - match: '(?=\()'
+          set: [value-after, function-definition-begin]
+        - match: '(?=\S)'
+          set: [value-after, function-definition-begin, meta-function, type]
+    - match: '(\()\s*(\))'
+      scope: meta.function.parameters.d
+      captures:
+        1: punctuation.section.parens.begin.d
+        2: punctuation.section.parens.end.d
+      set: [value-after, value-group-after-parens]
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set:
+        - match: '{{parameter_attribute_lookahead}}'
+          set: [value-group-after-parens, function-argument, function-argument-or-type]
+        - match: '(?=\S)'
+          set: [value-group-after, value]
+    - match: '(?={)'
+      set: [value-after, block-statement]
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      set: [value-bracket-after, value-array-list]
+    - match: '{{type_qualifier_lookahead}}'
+      set: [value-after, type]
+    - match: '{{number_lookahead}}'
+      set: [value-after, number]
+    - match: '{{character_lookahead}}'
+      set: [value-after, character]
+    - match: '{{string_lookahead}}'
+      set: [value-after, string]
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+      set: value-after
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      set: value-after
+    - match: '\$'
+      scope: variable.language.d
+      set: value-after
+    - match: '\b({{basic_type}})\b'
+      scope: storage.type.d
+      set: value-after
+    - match: '\b({{name}})\s*(=>)'
+      captures:
+        1: variable.parameter.d
+        2: storage.type.function.d keyword.declaration.function.lambda.d
+      set: [meta-function, value]
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: [value-after, value-identifier]
+    - match: '{{name_lookahead}}'
+      set: [value-after, value-identifier]
+    - include: not-whitespace-illegal
+  cast-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: value
+    - include: not-whitespace-illegal
+  new-after-parens:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: new-after
+    - include: not-whitespace-illegal
+  new-after:
+    - match: '\bclass\b'
+      scope: meta.class.d storage.type.class.d keyword.declaration.class.d
+      set: [meta-class, new-class]
+    - match: (?={{identifier_ref}}\s*\()
+      set: [new-after-named, new-type-identifier-ref]
+    - match: (?=\S)
+      set: [new-after-named, type]
+    - include: not-whitespace-illegal
+  new-class:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [new-anonymous-after-args, value-list]
+    - match: '(?={)'
+      set: optional-template-body-block
+    - match: '(?=\S)'
+      set: [optional-template-body-block, base-class-list]
+  new-after-named:
+    - meta_scope: meta.function-call.d
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [value-call-parens-after, value-list]
+    - match: (?=\S)
+      set: value-after
+  new-anonymous-after-args:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set:
+        - match: '(?={)'
+          set: optional-template-body-block
+        - match: '(?=\S)'
+          set: [optional-template-body-block, base-class-list]
+    - include: not-whitespace-illegal
+  is-after-type:
+    - match: '\b({{name}})\b'
+      scope: variable.parameter.d
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - match: '\=\=|:'
+      scope: keyword.operator.comparison.d
+      set: [is-after, type-specialization]
+  is-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: function-argument-definition-list-content
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal
+  type-specialization:
+    - match: '\b(?:__vector|function|delegate|__parameters)\b'
+      scope: keyword.other.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\breturn\b'
+      scope: keyword.control.flow.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\bsuper\b'
+      scope: variable.language.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '\b(?:struct|union|class|interface|enum)\b'
+      scope: storage.type.d keyword.declaration.d
+      set:
+        - match: '(?=\))'
+          pop: true
+        - include: type-specialization
+    - match: '(?=\S)'
+      set: type
+    - include: not-whitespace-illegal-pop
+  value-group-after:
+    - match: '\b(function|delegate)\b'
+      scope: keyword.other.d
+      set: [value-group-after, basic-type2, function-type]
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: value-group-after-parens
+    - match: '\b({{name}})\b'
+      scope: variable.parameter.d
+      set: value-group-after
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [value-group-after-parens, function-argument, function-argument-or-type]
+    - match: '\.\.\.'
+      scope: keyword.operator.variadic.d
+    - include: not-whitespace-illegal
+  value-group-after-parens:
+    - match: '{{function_attribute_lookahead}}'
+      set: value-group-after-lambda
+    - match: (?={)
+      set: [value-after, meta-function, block-statement]
+    - match: '=>'
+      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      set: [meta-function, value]
+    - match: (?=\S)
+      set: value-after
+  value-group-after-lambda:
+    - meta_scope: meta.function.d
+    - include: function-attribute-in
+    - match: (?={)
+      set: [value-after, meta-function, block-statement]
+    - match: '=>'
+      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      set: [meta-function, value]
+    - include: not-whitespace-illegal-pop
+  value-identifier:
+    - match: '\b{{name}}\b(?=\s*(\(|!(?!=)))'
+      scope: meta.function-call.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b'
+      scope: meta.path.d variable.other.d
+      set:
+        - match: \.(?!\.)
+          scope: meta.path.d punctuation.accessor.dot.d
+          set: value-identifier
+        - match: (?=\S)
+          pop: true
+    - include: not-whitespace-illegal-pop
+  value-after:
+    - match: '\.\.(?!\.)'
+      scope: keyword.operator.slice.d
+      set: value
+    - match: '\.(?!\.\.)'
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: [value-after, value-identifier]
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [value-call-parens-after, value-list]
+    - match: '\['
+      scope: punctuation.section.brackets.begin.d
+      set: [value-bracket-after, value-list]
+    - match: '(\+\+|--)'
+      scope: keyword.operator.arithmetic.d
+      set: value-after
+    - match: '(&&|\|\|)'
+      scope: keyword.operator.logical.d
+      set: value
+    - match: '(\+|-|/|%|\*|&|\||\^\^|\^|~|<<|>>>|>>)='
+      scope: keyword.operator.assignment.d
+      set: value
+    - match: '(\+|\-|/|%|\^\^)'
+      scope: keyword.operator.arithmetic.d
+      set: value
+    - match: '~'
+      scope: keyword.operator.concatenation.d
+      set: value
+    - match: '(<<|>>>|>>|\||\^|&)'
+      scope: keyword.operator.bitwise.d
+      set: value
+    - match: '(==|!=|\bis\b|!is\b|<=|<|>=|>|\bin\b|!in\b)'
+      scope: keyword.operator.comparison.d
+      set: value
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: value
+    - match: '!'
+      scope: meta.function-call.d punctuation.section.generic.begin.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [value-call-parens-after, value-list]
+        - match: '(?=\S)'
+          set: [value-after, meta-function-call, value-template-single]
+    - match: \*(?=\s*[\),;\]\*])
+      scope: keyword.operator.pointer.d
+      set: value-maybe-pointer-after
+    - match: \*
+      scope: keyword.operator.arithmetic.d
+      set: value-maybe-pointer-after
+    - match: '\?'
+      scope: keyword.operator.ternary.d
+      set: [value-condition-after, value]
+    - match: '(?=function|delegate)'
+      set: [value-after, basic-type2]
+    - match: '(?=\S)'
+      pop: true
+  value-template-single:
+    - match: '\b({{basic_type}})\b'
+      scope: storage.type.d
+      pop: true
+    - match: '{{number_lookahead}}'
+      set: number
+    - match: '{{character_lookahead}}'
+      set: character
+    - match: '{{string_lookahead}}'
+      set: string
+    - match: '\b({{language_constant}})\b'
+      scope: constant.language.d
+      pop: true
+    - match: '\b({{language_variable}})\b'
+      scope: variable.language.d
+      pop: true
+    - match: '{{name_lookahead}}|\.'
+      set: identifier-ref
+    - include: not-whitespace-illegal-pop
+  value-maybe-pointer-after:
+    # This can also be a pointer in some situations
+    - match: '(?=[\),;\]])'
+      pop: true
+    - match: '(?=\*)'
+      set: basic-type2
+    - match: '(?=\S)'
+      set: value
+  value-condition-after:
+    - match: ':'
+      scope: keyword.operator.ternary.d
+      set: value
+    - include: not-whitespace-illegal
+  value-parens-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: value-after
+    - include: not-whitespace-illegal
+  value-call-parens-after:
+    - meta_scope: meta.function-call.d
+    - include: value-parens-after
+  value-bracket-after:
+    - match: '\]'
+      scope: punctuation.section.brackets.end.d
+      set: value-after
+    - include: not-whitespace-illegal
+
+  value-list:
+    - match: '(?=\)|}|]|;)'
+      pop: true
+    - match: '(?=\S)'
+      set: [value-list-after, value]
+  value-list-after:
+    - match: '(?=\)|}|]|;)'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-list
+    - include: not-whitespace-illegal
+
+  value-array-list:
+    - match: '(?=\])'
+      pop: true
+    - match: '(?=\S)'
+      set: [value-array-list-after, value]
+  value-array-list-after:
+    - match: ':'
+      scope: punctuation.separator.mapping.key-value.d
+      set: [value-array-list-after-value, value]
+    - include: value-array-list-after-value
+  value-array-list-after-value:
+    - match: '(?=\])'
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: value-array-list
+    - include: not-whitespace-illegal
+
+  alias-in:
+    - match: '\b(alias)\b(?=[^;]*\bthis\s*;)'
+      scope: keyword.control.alias.d
+      push:  [alias-this-after, identifier]
+    - match: '\b(alias)\b'
+      scope: keyword.control.alias.d
+      push:
+        - match: '{{attribute_lookahead}}'
+          set: [alias-old, type]
+        - match: '\b({{name}})\s*(?=\(|=)'
+          captures:
+            1: entity.name.type.d
+          set: alias-new
+        - match: (?=\S)
+          set: [alias-old, type]
+  alias-this-after:
+    - match: \b(this)\b
+      scope: keyword.control.alias.d
+      set: expect-end-of-line
+    - include: not-whitespace-illegal-pop
+  alias-old:
+    - match: '\b({{name}})\b'
+      scope: entity.name.type.d
+      set:
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: alias-old
+        - include: end-of-line
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  alias-new:
+    - match: '(?=\()'
+      push: function-argument-definition-list
+    - match: '(?==)'
+      set: alias-new-assign
+    - include: not-whitespace-illegal
+  alias-new-assign:
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [alias-new-after-type, value]
+    - include: not-whitespace-illegal
+  alias-new-after-type:
+    - include: end-of-line
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set:
+        - match: '\b{{name}}\b'
+          scope: entity.name.type.d
+          set: alias-new
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+
+  class-in:
+    - match: '\b(class)\b'
+      scope: storage.type.class.d keyword.declaration.class.d
+      push: [meta-class, class-name]
+  class-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.class.d
+      set:
+        - match: '(?=\()'
+          set: [class-after, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: class-after
+    - include: not-whitespace-illegal
+  class-after:
+    - include: end-of-line
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [optional-template-body-block, base-class-list]
+    - match: '(?=\S)'
+      set: optional-template-body-block
+
+  base-class-list:
+    - match: ''
+      set: [base-class-list-after, basic-type]
+  base-class-list-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: base-class-list
+    - match: '(?={)'
+      pop: true
+    - include: not-whitespace-illegal
+
+  interface-in:
+    - match: '\b(interface)\b'
+      scope: storage.type.interface.d keyword.declaration.interface.d
+      push: [meta-interface, interface-name]
+  interface-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.interface.d
+      set:
+        - match: '(?=\()'
+          set: [interface-after, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: interface-after
+    - include: not-whitespace-illegal
+  interface-after:
+    - include: end-of-line
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [optional-template-body-block, base-class-list]
+    - match: '(?={)'
+      set: optional-template-body-block
+    - include: not-whitespace-illegal
+
+  struct-in:
+    - match: '\b(struct)\b'
+      scope: storage.type.struct.d keyword.declaration.struct.d
+      push: [meta-struct, struct-name]
+  struct-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.struct.d
+      set:
+        - match: '(?=\()'
+          set: [optional-template-body-block, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: optional-template-body-block
+    - match: '(?={)'
+      set: optional-template-body-block
+    - include: not-whitespace-illegal
+
+  union-in:
+    - match: '\b(union)\b'
+      scope: storage.type.union.d keyword.declaration.union.d
+      push: [meta-union, union-name]
+  union-name:
+    - match: '\b({{name}})\b'
+      scope: entity.name.union.d
+      set:
+        - match: '(?=\()'
+          set: [optional-template-body-block, function-argument-definition-list]
+        - match: '(?=\S)'
+          set: optional-template-body-block
+    - match: '(?={)'
+      set: optional-template-body-block
+    - include: not-whitespace-illegal
+
+  enum-in:
+    - match: '\b(enum)\b'
+      scope: storage.type.enum.d keyword.declaration.enum.d
+      push: [meta-enum, enum-after-kw]
+  enum-after-kw:
+    - match: '(?=\b({{basic_type}})\b)'
+      push: type
+    - match: '{{type_qualifier_lookahead}}'
+      push: type
+    - match: '\b({{name}})(?=\s*({|:|=|\(|;|$))\b'
+      scope: entity.name.enum.d
+      set: enum-after
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [enum-body, type]
+    - match: '(?={)'
+      set: anonymous-enum-body
+    - match: '(?=\S)'
+      push: type
+  enum-after:
+    - include: end-of-line
+    - match: '(?={)'
+      set: enum-body
+    - match: ':'
+      scope: punctuation.separator.mapping.d
+      set: [enum-body, type]
+    - match: '(?==|\()'
+      set: enum-assignment
+    - match: '\b({{name}})\b'
+      scope: entity.name.enum.d
+    - include: expect-end-of-line
+
+  enum-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - match: '(?=\b({{name}})\b)'
+          push: enum-member
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+
+  enum-assignment:
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: [enum-assignment-after, value]
+    - match: '(?=\()'
+      push: function-argument-definition-list
+    - include: not-whitespace-illegal-pop
+  enum-assignment-after:
+    - include: end-of-line
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: entity.name.enum.d
+          set: enum-assignment
+        - include: not-whitespace-illegal-pop
+    - include: not-whitespace-illegal-pop
+
+  anonymous-enum-body:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: attribute-in
+        - match: '(?=\b({{name}})\s*(=|,|}|$))'
+          push: enum-member
+        - match: '(?=\S)'
+          push: [enum-member, type]
+    - include: not-whitespace-illegal
+
+  enum-member:
+    - match: '\b({{name}})\b'
+      scope: entity.name.constant.d
+      set:
+        - match: '='
+          scope: keyword.operator.assignment.d
+          set: [enum-member-after, value]
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          pop: true
+        - match: '(?=})'
+          pop: true
+        - include: not-whitespace-illegal
+    - include: not-whitespace-illegal
+  enum-member-after:
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      pop: true
+    - match: '(?=})'
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  conditional-declaration-in:
+    - match: '\bversion\b'
+      scope: keyword.control.conditional.d
+      push: version-condition
+    - match: '\bdebug\b'
+      scope: keyword.control.conditional.d
+      push: debug-condition
+  conditional-declaration-after-parens:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: optional-block-statement-or-label
+    - include: not-whitespace-illegal
+  conditional-declaration-assignment:
+    - match: '\b{{name}}\b'
+      scope: entity.name.constant.d
+      set: expect-end-of-line
+    - match: '{{integer_lookahead}}'
+      set: [expect-end-of-line, integer]
+    - include: not-whitespace-illegal
+  version-condition:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set:
+        - match: \bunittest\b
+          scope: keyword.control.conditional.d
+          set: conditional-declaration-after-parens
+        - match: \bassert\b
+          scope: keyword.other.assert.d
+          set: conditional-declaration-after-parens
+        - match: '\b({{name}})\b'
+          scope: constant.other.d
+          set: conditional-declaration-after-parens
+        - match: '{{integer_lookahead}}'
+          set: [conditional-declaration-after-parens, integer]
+        - include: not-whitespace-illegal
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: conditional-declaration-assignment
+    - include: not-whitespace-illegal
+  debug-condition:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set:
+        - match: '\b({{name}})\b'
+          scope: constant.other.d
+          set: conditional-declaration-after-parens
+        - match: '{{integer_lookahead}}'
+          set: [conditional-declaration-after-parens, integer]
+        - include: not-whitespace-illegal
+    - match: '='
+      scope: keyword.operator.assignment.d
+      set: conditional-declaration-assignment
+    - match: '(?=\S)'
+      set: optional-block-statement-or-label
+
+  static-foreach-in:
+    - match: '\b(static)\s+(foreach|foreach_reverse)\b'
+      captures:
+        1: keyword.control.loop.d
+        2: keyword.control.loop.d
+      push: [optional-block-statement, foreach-arguments]
+
+  static-assert-in:
+    - match: '\b(static)\s+(assert)\b'
+      captures:
+        1: keyword.other.assert.d
+        2: keyword.other.assert.d
+      push: [expect-end-of-line, assert-arguments]
+
+  constructions-in:
+    - match: '{{construction_lookahead}}'
+      push: construction
+  construction:
+    # Post-blit constructor
+    - match: '\b(this)\s*(\()\s*(this)\s*(\))'
+      captures:
+        1: meta.function.d entity.name.function.post-blit.d
+        2: meta.function.parameters.d punctuation.section.group.begin.d
+        3: meta.function.parameters.d variable.language.d
+        4: meta.function.parameters.d punctuation.section.group.end.d
+      set: function-definition-after-arguments
+    - match: '\b(this)\s*(?=\(|$)'
+      captures:
+        1: meta.function.d entity.name.function.constructor.d
+        2: punctuation.section.group.begin.d
+      set: constructor-argument-list
+    - match: '~\s*this'
+      scope: meta.function.d entity.name.function.destructor.d
+      set: destructor-arguments
+    - include: not-whitespace-illegal-pop
+  # This could either be function/template parameters or arguments. Assume
+  # arguments and switch to parameters when possible
+  constructor-argument-list:
+    - meta_scope: meta.function.parameters.d
+    - match: '\('
+      scope: punctuation.section.group.begin.d
+      set:
+        - meta_scope: meta.function.parameters.d
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          set: function-definition-after-first-argument-list
+        - match: '{{parameter_attribute_lookahead}}'
+          set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument-definition-list-content]
+        - match: '(?=\S)'
+          set: [constructor-argument-list-after-value, value]
+    - include: not-whitespace-illegal-pop
+  constructor-argument-list-after-value:
+    - meta_scope: meta.function.parameters.d
+    - match: ','
+      scope: punctuation.separator.sequence.d
+      set: [constructor-argument-list-after-value, value]
+    - match: '\)'
+      scope: punctuation.section.group.end.d
+      set: function-definition-after-first-argument-list
+    - match: '(?=\S)'
+      set: [function-definition-after-first-argument-list, meta-function-parameters, function-argument]
+  destructor-arguments:
+    - match: '\('
+      scope: meta.function.parameters.d punctuation.section.group.begin.d
+      set:
+        - meta_scope: meta.function.parameters.d
+        - match: '\)'
+          scope: punctuation.section.group.end.d
+          set: function-definition-after-arguments
+        - include: not-whitespace-illegal-pop
+    - include: not-whitespace-illegal-pop
+
+  invariant-in:
+    - match: '\b(invariant)\b'
+      scope: keyword.other.invariant.d
+      push:
+        - match: '(?=\()'
+          set: [invariant-block, assert-arguments]
+        - match: '(?={)'
+          set: invariant-block
+        - include: not-whitespace-illegal
+  invariant-block:
+    - match: '{'
+      scope: punctuation.section.block.begin.d
+      set:
+        - match: '}'
+          scope: punctuation.section.block.end.d
+          pop: true
+        - include: statement-list-in
+    - include: expect-end-of-line
+
+  unittest-in:
+    - match: '\b(unittest)\b'
+      scope: keyword.control.conditional.d
+      push:
+        - match: '{'
+          scope: punctuation.section.block.begin.d
+          set:
+            - match: '}'
+              scope: punctuation.section.block.end.d
+              pop: true
+            - include: statement-list-in
+        - include: not-whitespace-illegal
+
+  template-in:
+    - match: '\b(template)\b'
+      scope: storage.type.d keyword.declaration.template.d
+      push: template
+  template:
+    - match: '\b({{name}})\b'
+      scope: entity.name.template.d
+      set: template-definition-begin
+    - include: not-whitespace-illegal
+  template-definition-begin:
+    - match: '(?=\()'
+      set: [optional-template-body-block, function-argument-definition-list]
+    - include: not-whitespace-illegal
+
+  mixin-in:
+    - match: '\b(mixin)\s+(template)\b'
+      captures:
+        1: keyword.control.d
+        2: storage.type.d keyword.declaration.template.d
+      push: template
+    - match: '\b(mixin)(?!\s*\()'
+      scope: keyword.control.d
+      push: [mixin-after, value]
+  mixin-after:
+    - match: '\b({{name}})\b'
+      scope: variable.other.d
+      set: expect-end-of-line
+    - include: expect-end-of-line
+
+  statement-label-in:
+    - match: '\b({{name}})\s*(:)'
+      captures:
+        1: entity.name.label.d
+        2: punctuation.separator.d
+
+  conditional-in:
+    - match: '\bif\b'
+      scope: keyword.control.conditional.d
+      push: [optional-block-statement-or-label, condition]
+    - match: '\belse\b'
+      scope: keyword.control.conditional.d
+      push: optional-block-statement-or-label
+
+  loop-in:
+    - match: '\bwhile\b'
+      scope: keyword.control.loop.d
+      push: [optional-block-statement, condition]
+    - match: '\bdo\b'
+      scope: keyword.control.loop.d
+      push: optional-block-statement
+    - match: '\bfor\b'
+      scope: keyword.control.loop.d
+      push: [optional-block-statement, for-arguments]
+    - match: '\b(foreach|foreach_reverse)\b'
+      scope: keyword.control.loop.d
+      push: [optional-block-statement, foreach-arguments]
+
+  flow-statement-in:
+    - match: '\b(continue|break)\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: \b{{name}}\b
+          scope: variable.other.constant.d
+          set: expect-end-of-line
+        - include: expect-end-of-line
+    - match: '\breturn\b'
+      scope: keyword.control.flow.d
+      push:
+        - include: end-of-line
+        - match: '(?=\S)'
+          set: [expect-end-of-line, value]
+    - match: '\bgoto\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: '\bdefault\b'
+          scope: keyword.control.flow.d
+          set: expect-end-of-line
+        - match: '\bcase\b'
+          scope: keyword.control.flow.d
+          set:
+            - include: end-of-line
+            - match: '(?=\S)'
+              set: [expect-end-of-line, value]
+        - match: '\b{{name}}\b'
+          scope: variable.other.constant.d
+          set: expect-end-of-line
+        - include: not-whitespace-illegal
+
+  with-in:
+    - match: '\bwith\b'
+      scope: keyword.other.with.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [with-after, value]
+        - include: not-whitespace-illegal-pop
+  with-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: optional-block-statement
+    - include: not-whitespace-illegal-pop
+
+  synchronized-in:
+    - match: '\bsynchronized\b'
+      scope: keyword.other.synchronized.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [synchronized-after, value]
+        - match: '(?=\S)'
+          set: optional-block-statement
+  synchronized-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: optional-block-statement
+    - include: not-whitespace-illegal-pop
+
+  try-in:
+    - match: '\btry\b'
+      scope: keyword.control.exception.d
+      push: optional-block-statement
+    - match: '\bcatch\b'
+      scope: keyword.control.exception.d
+      push: [optional-block-statement, catch-arguments]
+    - match: '\bfinally\b'
+      scope: keyword.control.exception.d
+      push: optional-block-statement
+  catch-arguments:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [catch-arguments-after, type]
+    - include: not-whitespace-illegal
+  catch-arguments-after:
+    - match: '\b{{name}}\b'
+      scope: variable.parameter.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
+          pop: true
+        - include: not-whitespace-illegal
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal
+
+  throw-in:
+    - match: '\bthrow\b'
+      scope: keyword.control.flow.exception.d
+      push: [expect-end-of-line, value]
+
+  scope-in:
+    - match: '\b(scope)\s*(\()\s*(exit|success|failure)\s*(\))'
+      captures:
+        1: keyword.control.flow.d
+        2: punctuation.section.parens.begin.d
+        3: keyword.control.flow.d
+        4: punctuation.section.parens.end.d
+      push: optional-block-statement
+
+  asm-in:
+    - match: '\basm\b'
+      scope: keyword.declaration.asm.d
+      push:
+        - include: attribute-in
+        - match: '{'
+          scope: punctuation.section.block.begin.d
+          set:
+            - match: '}'
+              scope: punctuation.section.block.end.d
+              pop: true
+            - include: tokens-in
+        - include: not-whitespace-illegal
+
+  switch-in:
+    - match: '\bswitch\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [switch-after, value]
+    - match: '\bcase\b'
+      scope: keyword.control.flow.d
+      push: [case-after, value]
+    - match: '\bdefault\b'
+      scope: keyword.control.flow.d
+      push:
+        - match: ':'
+          scope: punctuation.separator.case-statement.d
+          pop: true
+        - include: not-whitespace-illegal-pop
+  switch-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      set: optional-block-statement
+    - include: not-whitespace-illegal-pop
+  case-after:
+    - match: ':'
+      scope: punctuation.separator.case-statement.d
+      set:
+        - match: '\.\.(?!\.)'
+          scope: keyword.operator.d
+          set:
+            - match: '\bcase\b'
+              scope: keyword.control.flow.d
+              set: [case-after, value]
+            - include: not-whitespace-illegal-pop
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+
+  for-arguments:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set:
+        - match: '\)'
+          scope: punctuation.section.parens.end.d
+          pop: true
+        - include: statement-list-in
+    - include: not-whitespace-illegal-pop
+
+  foreach-arguments:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [foreach-arguments-end, foreach-parameter-list]
+    - include: not-whitespace-illegal
+  foreach-parameter-list:
+    - match: '(?=;)'
+      pop: true
+    - match: '(?=\b{{name}}\s*[;,])'
+      set: foreach-parameter-after-type
+    - include: parameter-attribute-in
+    - match: '(?=\S)'
+      set: [foreach-parameter-after-type, type]
+  foreach-parameter-after-type:
+    - match: '\b({{name}})\b'
+      scope: variable.parameter.d
+      set:
+        - match: ','
+          scope: punctuation.separator.sequence.d
+          set: foreach-parameter-list
+        - match: '(?=;)'
+          pop: true
+        - include: not-whitespace-illegal-pop
+    - include: not-whitespace-illegal-pop
+  foreach-arguments-end:
+    - match: ';'
+      scope: punctuation.separator.sequence.d
+      set: [foreach-arguments-after, value]
+    - include: not-whitespace-illegal-pop
+  foreach-arguments-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  assert-arguments:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [assert-arguments-after, value-list]
+    - include: not-whitespace-illegal-pop
+  assert-arguments-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  condition:
+    - match: '\('
+      scope: punctuation.section.parens.begin.d
+      set: [condition-after, value]
+    - include: not-whitespace-illegal-pop
+  condition-after:
+    - match: '\)'
+      scope: punctuation.section.parens.end.d
+      pop: true
+    - include: not-whitespace-illegal-pop
+
+  identifier:
+    - match: '\b{{name}}\b'
+      scope: meta.path.d variable.other.d
+      set:
+        - match: \.
+          scope: meta.path.d punctuation.accessor.dot.d
+          set: identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  identifier-ref:
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: identifier
+    - match: '(?=\S)'
+      set: identifier
+
+  type-identifier:
+    - match: '\b{{name}}\b(?=\s*!)'
+      scope: meta.function-call.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b'
+      scope: meta.path.d storage.type.d
+      set:
+        - match: \.
+          scope: meta.path.d punctuation.accessor.dot.d
+          set: type-identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  type-identifier-ref:
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: type-identifier
+    - match: '(?=\S)'
+      set: type-identifier
+
+  new-type-identifier:
+    - match: '\b{{name}}(?=\s*\()'
+      scope: meta.function-call.d meta.path.d variable.function.d
+      pop: true
+    - match: '\b{{name}}\b'
+      scope: meta.path.d storage.type.d
+      set:
+        - match: \.
+          scope: meta.path.d punctuation.accessor.dot.d
+          set: new-type-identifier
+        - match: '(?=\S)'
+          pop: true
+    - include: not-whitespace-illegal-pop
+  new-type-identifier-ref:
+    - match: \.
+      scope: meta.path.d punctuation.accessor.dot.d
+      set: new-type-identifier
+    - match: '(?=\S)'
+      set: new-type-identifier
+
+  not-whitespace-illegal:
+    - match: '\S'
+      scope: invalid.illegal.d
+  not-whitespace-illegal-pop:
+    - match: '\S'
+      scope: invalid.illegal.d
+      pop: true
+
+  end-of-line-in:
+    - match: ';'
+      scope: punctuation.terminator.d
+  end-of-line:
+    - match: ';'
+      scope: punctuation.terminator.d
+      pop: true
+  expect-end-of-line:
+    - include: end-of-line
+    - include: not-whitespace-illegal-pop
+  maybe-end-of-line:
+    - include: end-of-line
+    - match: '(?=\S)'
+      pop: true
+
+  check-brackets-in:
+    - match: '[\}\]\)]'
+      scope: invalid.illegal.d
+
+  meta-function:
+    - meta_scope: meta.function.d
+    - match: ''
+      pop: true
+
+  meta-function-parameters:
+    - meta_scope: meta.function.parameters.d
+    - match: ''
+      pop: true
+
+  meta-function-call:
+    - meta_scope: meta.function-call.d
+    - match: ''
+      pop: true
+
+  meta-class:
+    - meta_scope: meta.class.d
+    - match: ''
+      pop: true
+
+  meta-interface:
+    - meta_scope: meta.interface.d
+    - match: ''
+      pop: true
+
+  meta-struct:
+    - meta_scope: meta.struct.d
+    - match: ''
+      pop: true
+
+  meta-union:
+    - meta_scope: meta.union.d
+    - match: ''
+      pop: true
+
+  meta-enum:
+    - meta_scope: meta.enum.d
+    - match: ''
+      pop: true

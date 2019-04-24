@@ -17,8 +17,23 @@
 #^^^^^^^^^^^^^^^ meta.diff.range.unified
 # <-             punctuation.definition.range.diff
 #^               punctuation.definition.range.diff
+# ^ - punctuation
 #  ^^^^^^^^^^    meta.toc-list.line-number.diff
+#            ^ - punctuation
 #             ^^ punctuation.definition.range.diff
+#               ^ - entity - punctuation
+
+@@ -2,8 +2,11 @@ function_hint(int var)
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified
+# <-             punctuation.definition.range.diff
+#^               punctuation.definition.range.diff
+# ^ - punctuation
+#  ^^^^^^^^^^    meta.toc-list.line-number.diff
+#            ^ - punctuation
+#             ^^ punctuation.definition.range.diff
+#               ^ - entity - punctuation
+#                ^^^^^^^^^^^^^^^^^^^^^^ entity.name.section.diff
+#                                      ^ - entity.name.section.diff
 
 --- Range ----
 #^^^^^^^^^^^^^ meta.diff.range.context

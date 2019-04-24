@@ -1,0 +1,7 @@
+{
+  "word_separators": "/\\()[]{}\"'`,:;@#^~.",
+  "smart_indent": false,
+  "detect_indentation": false,
+  "tab_size": 1,
+  "draw_indent_guides": false
+}
