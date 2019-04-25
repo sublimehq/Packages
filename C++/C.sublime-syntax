@@ -135,7 +135,25 @@ contexts:
       scope: storage.modifier.c
 
   modifiers-macros:
-    - match: '(?:{{macro_identifier}}|{{attr_macro_identifier}})(?=\s*\((?:\d+|0x\d+|sizeof\([^\)]*\)|{{macro_identifier}})\))'
+    - match: |-
+        (?x:
+          (?:{{macro_identifier}}|{{attr_macro_identifier}})
+          (?=
+            \(
+            \s*
+            (?>
+              (?>
+                0[xX][[:xdigit:]]+ |
+                \d+ |
+                sizeof\([^\)]*\) |
+                {{macro_identifier}}
+              )
+              \s*
+              (?:,\s*|(?=\)))
+            )+
+            \)
+          )
+        )
       scope: variable.function.c debug.modifiers-macros
       comment: Preprocessor Attributes with parameters.
         We only support a very limited definition so it doesn't gobble up

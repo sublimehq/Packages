@@ -1623,6 +1623,59 @@ TYPE(int) UPPER_VAR;
 /*        ^^^^^^^^^ entity.name.variable.indexed.c */
 /*                 ^ punctuation.terminator.c */
 
+void __printf(1)
+/* <- storage.type.c */
+/*   ^^^^^^^^ meta.function-call.c variable.function.c  */
+/*            ^ constant.numeric.c */
+/*           ^^^ meta.function-call.parameters.c */
+__printf(1,)
+/* ^^^^^ meta.function-call.c variable.function.c */
+/*      ^^^^ meta.function-call.parameters.c */
+/*      ^ punctuation.section.group.begin.c */
+/*       ^ constant.numeric.c */
+/*        ^ punctuation.separator.c */
+/*         ^ punctuation.section.group.end.c */
+__printf(1, )
+/* ^^^^^ meta.function-call.c variable.function.c */
+/*      ^^^^^ meta.function-call.parameters.c */
+/*      ^ punctuation.section.group.begin.c */
+/*       ^ constant.numeric.c */
+/*        ^ punctuation.separator.c */
+/*          ^ punctuation.section.group.end.c */
+__printf(1, 2)
+/* ^^^^^ meta.function-call.c variable.function.c */
+/*      ^^^^^^ meta.function-call.parameters.c */
+/*      ^ punctuation.section.group.begin.c */
+/*       ^ constant.numeric.c */
+/*        ^ punctuation.separator.c */
+/*          ^ constant.numeric.c */
+/*           ^ punctuation.section.group.end.c */
+__printf(1, 2, 3)
+/* ^^^^^ meta.function-call.c variable.function.c */
+/*      ^^^^^^^^^ meta.function-call.parameters.c */
+/*      ^ punctuation.section.group.begin.c */
+/*       ^ constant.numeric.c */
+/*        ^ punctuation.separator.c */
+/*          ^ constant.numeric.c */
+/*           ^ punctuation.separator.c */
+/*             ^ constant.numeric.c */
+/*              ^ punctuation.section.group.end.c */
+__printf(0x1, 0xA, sizeof(int))
+/* ^^^^^ meta.function-call.c variable.function.c */
+/*      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.c */
+/*      ^ punctuation.section.group.begin.c */
+/*       ^^^ constant.numeric.c */
+/*          ^ punctuation.separator.c */
+/*            ^^^ constant.numeric.c */
+/*               ^ punctuation.separator.c */
+/*                 ^^^^^^ keyword.operator */
+/*                        ^^^ storage.type.c */
+/*                            ^ punctuation.section.group.end.c */
+__i915_printk(void);
+/* <- entity.name.function.c */
+/*            ^^^^ storage.type.c */
+/*                 ^ punctuation.terminator.c */
+
 static const struct print_field const err_flags[];
 /*<- storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
