@@ -1337,7 +1337,7 @@ struct __ec_align4 ec_response_get_version {};
 /*                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
 struct __align(4) ec_response_get_version {};
 /* <- storage.type.c */
-/*     ^^^^^^^ meta.function-call.c variable.function.c */
+/*     ^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*            ^^^ meta.function-call.parameters.c  */
 /*                ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.struct.c */
 
@@ -1385,7 +1385,7 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 /*           ^^^^^^^^^^^^^^^^^^^^^ entity.name.variable.indexed.c */
 /*                                ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
 /*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
-/*                                                       ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                                                       ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                                                                ^^^^^^ meta.function-call.parameters.c */
 /*                                                                 ^^^^ constant.numeric.c */
 /*                                                                       ^ keyword.operator.assignment.c */
@@ -1413,7 +1413,7 @@ pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
 /*                  ^ punctuation.section.brackets.begin.c storage.modifier.c */
 /*                   ^^^^^^^^^^^^ constant.other.macro.c */
 /*                               ^ punctuation.section.brackets.end.c storage.modifier.c */
-/*                                 ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                                 ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                                          ^^^^^^^^^^^ meta.function-call.parameters.c */
 /*                                          ^ meta.group.c punctuation.section.group.begin.c */
 /*                                           ^^^^^^^^^ constant.other.macro.c */
@@ -1432,7 +1432,7 @@ struct mac_tfm_ctx {
   struct crypto_aes_ctx __aligned(8) key2;
 /*^^^^^^ storage.type.c */
 /*       ^^^^^^^^^^^^^^ support.type.c */
-/*                      ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*                      ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                               ^^^ meta.function-call.parameters.c */
 /*                               ^ meta.group.c punctuation.section.group.begin.c */
 /*                                ^ constant.numeric.c */
@@ -1441,7 +1441,7 @@ struct mac_tfm_ctx {
 /*                                       ^ punctuation.terminator.c */
   u8 __aligned(8) consts[];
 /*^^ support.type.c */
-/*   ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*   ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*            ^^^ meta.function-call.parameters.c */
 /*            ^ meta.group.c punctuation.section.group.begin.c */
 /*             ^ constant.numeric.c */
@@ -1453,7 +1453,7 @@ struct mac_tfm_ctx {
 } __packed __aligned(4);
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
 /*^^^^^^^^ constant.other.macro.c */
-/*         ^^^^^^^^^ meta.function-call.c variable.function.c */
+/*         ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                  ^^^ meta.function-call.parameters.c */
 /*                  ^ meta.group.c punctuation.section.group.begin.c */
 /*                   ^ constant.numeric.c */
@@ -1625,25 +1625,25 @@ TYPE(int) UPPER_VAR;
 
 void __printf(1)
 /* <- storage.type.c */
-/*   ^^^^^^^^ meta.function-call.c variable.function.c  */
+/*   ^^^^^^^^ meta.function-call.c constant.other.macro.c  */
 /*            ^ constant.numeric.c */
 /*           ^^^ meta.function-call.parameters.c */
 __printf(1,)
-/* ^^^^^ meta.function-call.c variable.function.c */
+/* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
 /*       ^ constant.numeric.c */
 /*        ^ punctuation.separator.c */
 /*         ^ punctuation.section.group.end.c */
 __printf(1, )
-/* ^^^^^ meta.function-call.c variable.function.c */
+/* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
 /*       ^ constant.numeric.c */
 /*        ^ punctuation.separator.c */
 /*          ^ punctuation.section.group.end.c */
 __printf(1, 2)
-/* ^^^^^ meta.function-call.c variable.function.c */
+/* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
 /*       ^ constant.numeric.c */
@@ -1651,7 +1651,7 @@ __printf(1, 2)
 /*          ^ constant.numeric.c */
 /*           ^ punctuation.section.group.end.c */
 __printf(1, 2, 3)
-/* ^^^^^ meta.function-call.c variable.function.c */
+/* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
 /*       ^ constant.numeric.c */
@@ -1661,7 +1661,7 @@ __printf(1, 2, 3)
 /*             ^ constant.numeric.c */
 /*              ^ punctuation.section.group.end.c */
 __printf(0x1, 0xA, sizeof(int))
-/* ^^^^^ meta.function-call.c variable.function.c */
+/* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
 /*       ^^^ constant.numeric.c */

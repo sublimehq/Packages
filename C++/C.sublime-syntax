@@ -154,7 +154,7 @@ contexts:
             \)
           )
         )
-      scope: variable.function.c debug.modifiers-macros
+      scope: constant.other.macro.c debug.modifiers-macros
       comment: Preprocessor Attributes with parameters.
         We only support a very limited definition so it doesn't gobble up
         actual function definitions.
