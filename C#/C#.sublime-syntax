@@ -955,7 +955,7 @@ contexts:
         2: variable.other.cs
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
-    - match: (?=var\s+\()
+    - match: (?=var\s*\()
       push: var_declaration
     - include: lambdas
     - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
@@ -1954,7 +1954,7 @@ contexts:
       pop: true
 
   var_declaration:
-    - match: (var)\s+(\()
+    - match: (var)\s*(\()
       captures:
         1: storage.type.variable.cs
         2: meta.group.tuple.cs punctuation.definition.group.begin.cs
