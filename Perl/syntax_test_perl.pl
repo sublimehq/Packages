@@ -1342,26 +1342,63 @@ EOT
 # ^ support.function.perl
 #   ^ punctuation.section.braces.begin.perl
     bar[a-z]{1,3} \/ .+
-# <- meta.function-call.perl meta.braces.perl string.regexp.perl
-  } [repl]gx; # comment
-# <- meta.function-call.perl meta.braces.perl string.regexp.perl
-#^^^^^^^^ meta.function-call.perl
+# <- meta.function-call.perl meta.braces.perl meta.string.perl string.regexp.perl
+  } [repl $var]gx; # comment
+# <- meta.function-call.perl meta.braces.perl meta.string.perl string.regexp.perl
+#^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ meta.braces.perl punctuation.section.braces.end.perl
-#   ^^^^^^ meta.brackets.perl
+#   ^^^^^^^^^^^ meta.brackets.perl
 #   ^ punctuation.section.brackets.begin.perl
-#    ^^^^ meta.string.perl string.unquoted.perl
-#        ^ punctuation.section.brackets.end.perl
-#         ^^ constant.language.flags.regexp.perl
-#           ^ punctuation.terminator.statement.perl
-#             ^^^^^^^^^ comment.line.number-sign.perl
-#             ^ punctuation.definition.comment.perl
+#    ^^^^^ meta.string.perl string.unquoted.perl
+#         ^^^^ meta.interpolation.perl variable.other.readwrite.perl
+#             ^ punctuation.section.brackets.end.perl
+#              ^^ constant.language.flags.regexp.perl
+#                ^ punctuation.terminator.statement.perl
+#                  ^^^^^^^^^ comment.line.number-sign.perl
+  s {}
+  [repl @var]gx; # comment
+# <- meta.function-call.perl
+#^^^^^^^^^^^^^^ meta.function-call.perl
+# ^^^^^^^^^^^ meta.brackets.perl
+# ^ punctuation.section.brackets.begin.perl
+#  ^^^^^ meta.string.perl string.unquoted.perl
+#       ^^^^ meta.interpolation.perl variable.other.readwrite.perl
+#           ^ punctuation.section.brackets.end.perl
+#            ^^ constant.language.flags.regexp.perl
+#              ^ punctuation.terminator.statement.perl
+#                ^^^^^^^^^ comment.line.number-sign.perl
+
+  # Even though the replacement looks like a valid script
+  # only variables are evaluated at this point.
+  s/L<(.*?)>/
+# ^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#           ^ punctuation.separator.sequence.perl
+     my($text,$page,$sect) = _split_pod_link($1);
+     defined $text
+      ? $text
+      : defined $sect
+         ? italic($sect) . ' in ' . italic($page)
+         : italic($page)
+#^^^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                 ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                      ^^ meta.string.perl string.unquoted.perl
+   /ges;
+#^^^^^^ meta.function-call.perl
+#  ^ punctuation.section.generic.end.perl
+#   ^^^ constant.language.flags.regexp.perl
+#      ^ punctuation.terminator.statement.perl
+
   s/foo[a-z]{1,3} \/ .+/ bar $1 \/ /g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
-#                       ^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
+#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                                  ^ punctuation.section.generic.end.perl
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
@@ -1371,9 +1408,11 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
-#   ^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#   ^^^^^^^^^^^^^^^^^^ string.regexp.perl source.regexp
 #                     ^ punctuation.separator.sequence.perl
-#                      ^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                      ^^^^^ meta.string.perl string.unquoted.perl
+#                           ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl
+#                              ^^ meta.function-call.perl meta.string.perl string.unquoted.perl
 #                                ^ punctuation.section.generic.end.perl
 #                                 ^ constant.language.flags.regexp.perl
 #                                  ^ punctuation.terminator.statement.perl
@@ -1385,7 +1424,9 @@ EOT
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
-#                       ^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
+#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                                  ^ punctuation.section.generic.end.perl
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
@@ -1397,7 +1438,9 @@ EOT
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
-#                       ^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
+#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                                  ^ punctuation.section.generic.end.perl
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
@@ -1409,7 +1452,9 @@ EOT
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
-#                       ^^^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
+#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                                  ^ punctuation.section.generic.end.perl
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
@@ -1451,6 +1496,21 @@ EOT
 #    ^ punctuation.section.generic.end.perl
 #     ^^^^^^^^^^^^^^^ constant.language.flags.regexp.perl
 #                    ^ punctuation.terminator.statement.perl
+  s@/\*.*?\*/@@g;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#            ^ punctuation.separator.sequence.perl - variable
+#             ^ punctuation.section.generic.end.perl - variable
+#              ^ constant.language.flags.regexp.perl
+#               ^ punctuation.terminator.statement.perl
+  s@/\*.*?\*/@\@@g;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#            ^ punctuation.separator.sequence.perl - variable
+#             ^^ meta.string.perl string.unquoted.perl constant.character.escape.perl
+#               ^ punctuation.section.generic.end.perl - variable
+#                ^ constant.language.flags.regexp.perl
+#                 ^ punctuation.terminator.statement.perl
   CORE::s
 # ^^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
@@ -1479,9 +1539,11 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
 #   ^ punctuation.section.generic.begin.perl
-#    ^^^ string.regexp.perl
+#    ^^^ meta.string.perl string.regexp.perl
 #       ^ punctuation.separator.sequence.perl
-#        ^^^^^^^^^^^^ string.unquoted.perl
+#        ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
+#            ^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl - string
+#                ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
 #                    ^ punctuation.section.generic.end.perl
 #                     ^^^^ constant.language.flags.regexp.perl
 #                         ^ punctuation.terminator.statement.perl
@@ -1513,9 +1575,11 @@ EOT
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
-#   ^^^^^^ string.regexp.perl
+#   ^^^^^^ meta.string.perl string.regexp.perl
 #         ^ punctuation.separator.sequence.perl
-#          ^^^^^^^^^^^^^ string.unquoted.perl
+#          ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
+#               ^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl - string
+#                   ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
 #                       ^ punctuation.section.generic.end.perl
 #                        ^^^^ constant.language.flags.regexp.perl
 #                            ^ punctuation.terminator.statement.perl

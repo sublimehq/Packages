@@ -1136,7 +1136,7 @@ contexts:
   quoted-like:
     # SEE: http://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
     - include: quoted-like-match
-    - include: quoted-like-replace
+    - include: quoted-like-substitution
     # fallback
     - match: \b(?:{{quoted_like_keywords}}){{break}}
       scope: support.function.perl
@@ -1159,7 +1159,7 @@ contexts:
       push:
         - quoted-like-meta
         - quoted-like-args-flags
-        - quoted-like-args-find-rexexp
+        - quoted-like-args-pattern
     - match: \b(m|qr)({{regexp_delim}})
       captures:
         0: meta.function-call.perl
@@ -1173,28 +1173,19 @@ contexts:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
 
-  quoted-like-replace:
+  quoted-like-substitution:
     - match: \b(s|tr|y)(?=\s*[\(\[\{<])
       scope: support.function.perl
       push:
         - quoted-like-meta
         - quoted-like-args-flags
-        - quoted-like-args-replace
-        - quoted-like-args-find-rexexp
-    - match: \b(s|tr|y)({{regexp_delim}})
-      captures:
-        0: meta.function-call.perl
-        1: support.function.perl
-        2: punctuation.section.generic.begin.perl
-      embed_scope: meta.function-call.perl meta.string.perl string.regexp.perl
-      embed: scope:source.regexp
-      escape: ((?<!(?<!\\)\\)\2)(.*?)((?<!(?<!\\)\\)\2)({{regexp_flags}})?
-      escape_captures:
-        0: meta.function-call.perl
-        1: punctuation.separator.sequence.perl
-        2: meta.string.perl string.unquoted.perl
-        3: punctuation.section.generic.end.perl
-        4: constant.language.flags.regexp.perl
+        - quoted-like-args-interpolated
+        - quoted-like-args-pattern
+    - match: (?=\b(s|tr|y){{regexp_delim}})
+      push:
+        - quoted-like-meta
+        - quoted-like-args-flags
+        - quoted-like-args-substitution
 
   quoted-like-meta:
     - meta_scope: meta.function-call.perl
@@ -1206,7 +1197,28 @@ contexts:
       pop: true
     - include: immediately-pop
 
-  quoted-like-args-find-rexexp:
+  quoted-like-args-substitution:
+    # the search pattern
+    - match: (s|tr|y)({{regexp_delim}})
+      captures:
+        1: support.function.perl
+        2: punctuation.section.generic.begin.perl
+      embed_scope: meta.string.perl string.regexp.perl
+      embed: scope:source.regexp
+      escape: (?=(?<!(?<!\\)\\)\2)
+    # the replacement with variable interpolation
+    - match: ({{regexp_delim}})
+      scope: punctuation.separator.sequence.perl
+      set:
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \1
+          scope: punctuation.section.generic.end.perl
+          pop: true
+        - include: character-escape
+        - include: variables-interpolation
+    - include: immediately-pop
+
+  quoted-like-args-pattern:
     - match: \{
       scope: punctuation.section.braces.begin.perl
       set:
@@ -1259,13 +1271,6 @@ contexts:
     - include: literal-angle-pop
     - include: literal-parens-pop
     - include: literal-generic-pop
-    - include: else-pop
-
-  quoted-like-args-replace:
-    - include: literal-braces-pop
-    - include: literal-brackets-pop
-    - include: literal-angle-pop
-    - include: literal-parens-pop
     - include: else-pop
 
   interpolated-braces-pop:
