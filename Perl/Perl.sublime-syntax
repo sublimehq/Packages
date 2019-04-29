@@ -149,7 +149,7 @@ contexts:
     - match: \#+
       scope: punctuation.definition.comment.perl
       push:
-        - meta_scope: comment.line.number-sign.perl
+        - meta_scope: meta.comment.perl comment.line.number-sign.perl
         - match: \n
           pop: true
 
@@ -158,16 +158,16 @@ contexts:
     - match: ^{{pod}}
       scope: entity.name.tag.pod.perl
       push:
-        - meta_scope: comment.block.documentation.perl
+        - meta_scope: meta.comment.perl comment.block.documentation.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \n
           set: comment-pod-body
         - include: comment-pod-formatting
 
   comment-pod-body:
-    - meta_content_scope: comment.block.documentation.perl
+    - meta_content_scope: meta.comment.perl comment.block.documentation.perl
     - match: ^=cut\b
-      scope: comment.block.documentation.perl entity.name.tag.pod.perl
+      scope: meta.comment.perl comment.block.documentation.perl entity.name.tag.pod.perl
       pop: true
     - include: comment-pod-embedded
     - include: comment-pod-keyword
@@ -179,6 +179,8 @@ contexts:
     - match: ^=begin\b
       scope: entity.name.tag.pod.perl
       push:
+        - clear_scopes: 1 # remove `comment`
+        - meta_scope: meta.interpolation.perl
         # end embedded section
         - match: ^=end\b
           scope: entity.name.tag.pod.perl
