@@ -1607,6 +1607,61 @@ EOT
 #        ^ punctuation.section.generic.end.perl
 #         ^ constant.language.flags.regexp.perl
 
+###[ REGEXP PATTERN ESCAPES ]#################################################
+
+  /c:\\folder/i;
+# ^ punctuation.section.generic.begin.perl
+#  ^^^^^^^^^^ meta.string.perl string.regexp.perl
+#            ^ punctuation.section.generic.end.perl
+  /c:\\folder\//i;
+# ^ punctuation.section.generic.begin.perl
+#  ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#              ^ punctuation.section.generic.end.perl
+  /c:\\folder\\/i;
+# ^ punctuation.section.generic.begin.perl
+#  ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#              ^ punctuation.section.generic.end.perl
+  /c:\\folder\\\//i;
+# ^ punctuation.section.generic.begin.perl
+#  ^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#                ^ punctuation.section.generic.end.perl
+  m/c:\\folder/i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^ meta.string.perl string.regexp.perl
+#             ^ punctuation.section.generic.end.perl
+  m/c:\\folder\//i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#               ^ punctuation.section.generic.end.perl
+  m/c:\\folder\\/i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#               ^ punctuation.section.generic.end.perl
+  m/c:\\folder\\\//i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#                 ^ punctuation.section.generic.end.perl
+  s/c:\\folder//i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^ meta.string.perl string.regexp.perl
+#             ^ punctuation.separator.sequence.perl
+#              ^ punctuation.section.generic.end.perl
+  s/c:\\folder\///i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#               ^ punctuation.separator.sequence.perl
+#                ^ punctuation.section.generic.end.perl
+  s/c:\\folder\\//i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#               ^ punctuation.separator.sequence.perl
+#                ^ punctuation.section.generic.end.perl
+  s/c:\\folder\\\///i;
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl
+#                 ^ punctuation.separator.sequence.perl
+#                  ^ punctuation.section.generic.end.perl
+
 ###[ REGEXP FLAGS ]###########################################################
 
   /^<pattern>$/g;

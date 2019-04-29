@@ -21,6 +21,13 @@ variables:
   pod: '={{identifier}}'
   regexp_delim: '[^\w\s\)\]\}\>]'
   regexp_flags: '[msixpodualngcer]+\b'
+  # no odd number of backslashes behind (`\` or `\\\`)
+  # note:
+  #  1. For use in `escape` commands only !!
+  #  2. ST's Regex Compatibility Check marks it as incompatible
+  #     as the real usage of the variable is not checked.
+  #     It's a false positive as long as (1.) is respected.
+  no_escape_behind: '(?<![^\\]\\)(?<![^\\][\\]{3})'
 
   # SEE: https://perldoc.perl.org/index-functions.html
   builtin_functions: |-
@@ -93,7 +100,7 @@ contexts:
     - include: expressions
     - match: ^
       push:
-        - match: (?=/.*[^\\]/)
+        - match: (?=/.*?[^\\](?:[\\]{2}|[\\]{4})?/)
           set: maybe-regexp-match
         - include: string-quoted-angle-pop
         - include: else-pop
@@ -1169,7 +1176,7 @@ contexts:
         2: punctuation.section.generic.begin.perl
       embed_scope: meta.function-call.perl meta.string.perl string.regexp.perl
       embed: scope:source.regexp
-      escape: (?<!(?<!\\)\\)(\2)({{regexp_flags}})?
+      escape: '{{no_escape_behind}}(\2)({{regexp_flags}})?'
       escape_captures:
         0: meta.function-call.perl
         1: punctuation.section.generic.end.perl
@@ -1207,7 +1214,7 @@ contexts:
         2: punctuation.section.generic.begin.perl
       embed_scope: meta.string.perl string.regexp.perl
       embed: scope:source.regexp
-      escape: (?=(?<!(?<!\\)\\)\2)
+      escape: (?={{no_escape_behind}}\2)
     # the replacement with variable interpolation
     - match: ({{regexp_delim}})
       scope: punctuation.separator.sequence.perl
@@ -1478,7 +1485,7 @@ contexts:
       scope: punctuation.section.generic.begin.perl
       embed_scope: meta.string.perl string.regexp.perl
       embed: scope:source.regexp
-      escape: (?<!(?<!\\)\\)(/)({{regexp_flags}})?
+      escape: '{{no_escape_behind}}(/)({{regexp_flags}})?'
       escape_captures:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
