@@ -783,24 +783,25 @@ contexts:
         3: keyword.operator.assignment.perl
       push:
         - meta_scope: meta.block.format.perl
-        - meta_content_scope: meta.string.perl string.unquoted.format.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: ^\.(?=\s*$)
           scope: punctuation.terminator.format.perl
           pop: true
+        - match: \.{4,}  # consume any dot sequence longer than 3 chars
         - match: \.{3}
-          scope: constant.character.escape.perl
-        - match: ~{1,2}(?!~)
-          scope: constant.character.escape.perl
-        - match: '[@\^]\*'
-          scope: variable.parameter.multiline-width.perl
-        - match: (\@)[0#\.|<>]+
-          scope: variable.parameter.regular-field.perl
+          scope: constant.other.placeholder.text.perl
+        - match: ~{3,}   # consume any tild sequence longer than 2 chars
+        - match: ~{1,2}
+          scope: constant.other.placeholder.text.perl
+        - match: ([@^])[<|>*]+
+          scope: constant.other.placeholder.text.perl
           captures:
             1: punctuation.definition.placeholder.begin.perl
-        - match: (\^)[0#\.|<>]+
-          scope: variable.parameter.special-field.perl
+        - match: ([@^])0?[.#]+(?![_\d])
+          scope: constant.other.placeholder.numeric.perl
           captures:
             1: punctuation.definition.placeholder.begin.perl
+        - include: qualified-variables
         - include: variables
 
   string-heredoc:

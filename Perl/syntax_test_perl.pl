@@ -152,25 +152,301 @@ format name =
 #^^^^^ storage.type.format.perl
 #      ^^^^ variable.other.readwrite.perl
 #           ^ keyword.operator.assignment.perl
+  ...  terminate a text field, show "..." as truncation evidence
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^ meta.string.perl string.unquoted.perl constant.other.placeholder.text.perl
+#    ^ meta.string.perl string.unquoted.perl - constant
+  ....
+#^^^^^^ meta.string.perl string.unquoted.perl - constant
+  ~    suppress line with all fields empty
+#^ meta.string.perl string.unquoted.perl - constant
+# ^ meta.string.perl string.unquoted.perl constant.other.placeholder.text.perl
+#  ^ meta.string.perl string.unquoted.perl - constant
+  ~~   repeat line until all fields are exhausted
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^ meta.string.perl string.unquoted.perl constant.other.placeholder.text.perl
+#   ^ meta.string.perl string.unquoted.perl - constant
+  ~~~~
+#^^^^^^ meta.string.perl string.unquoted.perl - constant
+  ^0.###
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#       ^ meta.string.perl string.unquoted.perl - constant
+  ^0##.#
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#       ^ meta.string.perl string.unquoted.perl - constant
   ^#.###
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
 # ^ punctuation.definition.placeholder.begin.perl
-# ^^^^^^ variable.parameter.special-field.perl
-  @#.###
+#       ^ meta.string.perl string.unquoted.perl - constant
+  ^<<<<<   ^|||||   ^>>>>>
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
 # ^ punctuation.definition.placeholder.begin.perl
-# ^^^^^^ variable.parameter.regular-field.perl
-  ^*
-# ^^ variable.parameter.multiline-width.perl
-  @*
-# ^^ variable.parameter.multiline-width.perl
-  @variable
-# ^^^^^^^^^ variable.other.readwrite.perl
+#       ^^^ meta.string.perl string.unquoted.perl - constant
+#          ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
+#          ^ punctuation.definition.placeholder.begin.perl
+#                ^^^ meta.string.perl string.unquoted.perl - constant
+#                   ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
+#                   ^ punctuation.definition.placeholder.begin.perl
+#                         ^ meta.string.perl string.unquoted.perl - constant
+  @#.###   @0.###   @0##.#
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#       ^^^ meta.string.perl string.unquoted.perl - constant
+#          ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
+#          ^ punctuation.definition.placeholder.begin.perl
+#                ^^^ meta.string.perl string.unquoted.perl - constant
+#                   ^^^^^^ meta.string.perl constant.other.placeholder.numeric.perl
+#                   ^ punctuation.definition.placeholder.begin.perl
+#                         ^ meta.string.perl string.unquoted.perl - constant
+  @<<<<<   @|||||   @>>>>>
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#       ^^^ meta.string.perl string.unquoted.perl - constant
+#          ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
+#          ^ punctuation.definition.placeholder.begin.perl
+#                ^^^ meta.string.perl string.unquoted.perl - constant
+#                   ^^^^^^ meta.string.perl constant.other.placeholder.text.perl
+#                   ^ punctuation.definition.placeholder.begin.perl
+#                         ^ meta.string.perl string.unquoted.perl - constant
+  ^*   variable width field for next line of a multi-line value
+#^ meta.string.perl string.unquoted.perl - constant
+# ^^ meta.string.perl constant.other.placeholder.text.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#   ^ meta.string.perl string.unquoted.perl - constant
+  @*   variable width field for a multi-line value
+# ^^ meta.string.perl constant.other.placeholder.text.perl
+# ^ punctuation.definition.placeholder.begin.perl
+#   ^ meta.string.perl string.unquoted.perl - constant
+  @variable as test @array[0] @noarray [0]
+#^ meta.string.perl string.unquoted.perl
+# ^^^^^^^^^ meta.string.perl variable.other.readwrite.perl
+#          ^^^^^^^^^ meta.string.perl string.unquoted.perl
+#                   ^^^^^^^^^ meta.string.perl
+#                            ^ meta.string.perl string.unquoted.perl
+#                             ^^^^^^^^ meta.string.perl
+#                                     ^^^^^ meta.string.perl string.unquoted.perl
 # ^ punctuation.definition.variable.perl
-  ...
-# ^^^ constant.character.escape.perl
-  ~
-# ^ constant.character.escape.perl
-  ~~
-# ^^ constant.character.escape.perl
+  $& $&[0] $&{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.regexp.match.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.regexp.match.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $` $`[0] $`{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.regexp.match.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.regexp.match.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $' $'[0] $'{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.regexp.match.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.regexp.match.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $+ $+[0] $+{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.regexp.match-group.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.regexp.match-group.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.regexp.match-group.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $" $"[0] $"{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $0 $0[0] $0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  @0 @0[0] @0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  %0 %0[0] %0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $1 $1[0] $1{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.regexp.match-group.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.regexp.match-group.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.regexp.match-group.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $_ $_[0] $_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  @_ @_[0] @_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  %_ %_[0] %_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^ meta.string.perl variable.language.perl
+# ^ punctuation.definition.variable.perl
+#   ^ meta.string.perl string.unquoted.perl
+#    ^^ meta.string.perl variable.language.perl
+#      ^^^ meta.string.perl meta.item-access.perl
+#         ^ meta.string.perl string.unquoted.perl
+#          ^^ meta.string.perl variable.language.perl
+#            ^^^^^^^ meta.string.perl meta.item-access.perl
+#                   ^ meta.string.perl string.unquoted.perl
+  $#0 $#0[0] $#0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  @#0 @#0[0] @#0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  %#0 %#0[0] %#0{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  $#_ $#_[0] $#_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  @#_ @#_[0] @#_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  %#_ %#_[0] %#_{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^ meta.string.perl variable.language.perl
+#    ^ meta.string.perl string.unquoted.perl
+#     ^^^ meta.string.perl variable.language.perl
+#        ^^^ meta.string.perl meta.item-access.perl
+#           ^ meta.string.perl string.unquoted.perl
+#            ^^^ meta.string.perl variable.language.perl
+#               ^^^^^^^ meta.string.perl meta.item-access.perl
+#                      ^ meta.string.perl string.unquoted.perl
+  $Foo::Bar::baz $Foo::Bar::baz[0] $Foo::Bar::baz{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^^^^^^^^^^^^ meta.string.perl meta.path.perl
+#               ^ meta.string.perl string.unquoted.perl
+#                ^^^^^^^^^^^^^^ meta.string.perl meta.path.perl
+#                              ^^^ meta.string.perl meta.item-access.perl
+#                                 ^ meta.string.perl string.unquoted.perl
+#                                  ^^^^^^^^^^^^^^ meta.string.perl meta.path.perl
+#                                                ^^^^^^^ meta.string.perl meta.item-access.perl
+#                                                       ^ meta.string.perl string.unquoted.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.readwrite.perl
+  ${ $foo[4] + $bar{baz} }[0]{'key'}
+#^ meta.string.perl string.unquoted.perl
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl meta.variable.perl
+#                         ^^^^^^^^^^ meta.string.perl meta.item-access.perl
+#                                   ^ meta.string.perl string.unquoted.perl
 .
 # <- punctuation.terminator.format.perl
 
