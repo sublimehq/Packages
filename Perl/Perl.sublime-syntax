@@ -764,7 +764,7 @@ contexts:
     - match: '{{regexp_flags}}'
       scope: constant.language.flags.regexp.perl
       pop: true
-    - include: else-pop
+    - include: immediately-pop
 
   quoted-like-args-find-rexexp:
     - match: \{
