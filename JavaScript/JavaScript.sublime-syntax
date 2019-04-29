@@ -2264,6 +2264,11 @@ contexts:
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
       pop: true
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: meta.property.object.js
+      pop: true
 
   support-property:
     - include: support-property-ecma
