@@ -741,7 +741,7 @@ contexts:
         - match: \>
           scope: punctuation.definition.string.end.perl
           pop: true
-        - include: literal-angle-nested
+        - include: interpolated-angle-nested
         - include: character-escape
         - include: variables-interpolation
 
@@ -1142,16 +1142,23 @@ contexts:
       scope: support.function.perl
 
   quoted-like-match:
-    - match: \bq[qwx]?\b
+    # qq// and qx// with interpolation
+    - match: \bq[qx]{{break}}
       scope: support.function.perl
       push:
         - quoted-like-meta
-        - quoted-like-args-find-literal
+        - quoted-like-args-interpolated
+    # q// and qw// without interpolation
+    - match: \bqw?{{break}}
+      scope: support.function.perl
+      push:
+        - quoted-like-meta
+        - quoted-like-args-literal
     - match: \b(m|qr)(?=\s*[\(\[\{<])
       scope: support.function.perl
       push:
         - quoted-like-meta
-        - quoted-like-flags
+        - quoted-like-args-flags
         - quoted-like-args-find-rexexp
     - match: \b(m|qr)({{regexp_delim}})
       captures:
@@ -1171,7 +1178,7 @@ contexts:
       scope: support.function.perl
       push:
         - quoted-like-meta
-        - quoted-like-flags
+        - quoted-like-args-flags
         - quoted-like-args-replace
         - quoted-like-args-find-rexexp
     - match: \b(s|tr|y)({{regexp_delim}})
@@ -1193,7 +1200,7 @@ contexts:
     - meta_scope: meta.function-call.perl
     - include: immediately-pop
 
-  quoted-like-flags:
+  quoted-like-args-flags:
     - match: '{{regexp_flags}}'
       scope: constant.language.flags.regexp.perl
       pop: true
@@ -1238,7 +1245,15 @@ contexts:
         - include: scope:source.regexp#base-literal-extended
     - include: else-pop
 
-  quoted-like-args-find-literal:
+  quoted-like-args-interpolated:
+    - include: interpolated-braces-pop
+    - include: interpolated-brackets-pop
+    - include: interpolated-angle-pop
+    - include: interpolated-parens-pop
+    - include: interpolated-generic-pop
+    - include: else-pop
+
+  quoted-like-args-literal:
     - include: literal-braces-pop
     - include: literal-brackets-pop
     - include: literal-angle-pop
@@ -1252,6 +1267,106 @@ contexts:
     - include: literal-angle-pop
     - include: literal-parens-pop
     - include: else-pop
+
+  interpolated-braces-pop:
+    - match: \{
+      scope: punctuation.section.braces.begin.perl
+      set:
+        - meta_scope: meta.braces.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \}
+          scope: punctuation.section.braces.end.perl
+          pop: true
+        - include: interpolated-braces-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-braces-nested:
+    - match: \{
+      push:
+        - match: \}
+          pop: true
+        - include: interpolated-braces-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-brackets-pop:
+    - match: \[
+      scope: punctuation.section.brackets.begin.perl
+      set:
+        - meta_scope: meta.brackets.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \]
+          scope: punctuation.section.brackets.end.perl
+          pop: true
+        - include: interpolated-brackets-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-brackets-nested:
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: interpolated-brackets-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-angle-pop:
+    - match: \<
+      scope: punctuation.section.generic.begin.perl
+      set:
+        - meta_scope: meta.generic.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \>
+          scope: punctuation.section.generic.end.perl
+          pop: true
+        - include: interpolated-angle-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-angle-nested:
+    - match: \<
+      push:
+        - match: \>
+          pop: true
+        - include: interpolated-angle-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-parens-pop:
+    - match: \(
+      scope: punctuation.section.parens.begin.perl
+      set:
+        - meta_scope: meta.parens.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \)
+          scope: punctuation.section.parens.end.perl
+          pop: true
+        - include: interpolated-parens-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-parens-nested:
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: interpolated-parens-nested
+        - include: character-escape
+        - include: variables-interpolation
+
+  interpolated-generic-pop:
+    - match: ({{regexp_delim}})
+      scope: punctuation.section.generic.begin.perl
+      set:
+        - meta_scope: meta.generic.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
+        - match: \1
+          scope: punctuation.section.generic.end.perl
+          pop: true
+        - include: character-escape
+        - include: variables-interpolation
 
   literal-braces-pop:
     - match: \{
