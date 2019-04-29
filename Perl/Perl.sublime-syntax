@@ -159,7 +159,7 @@ contexts:
       scope: entity.name.tag.pod.perl
       push:
         - meta_scope: comment.block.documentation.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \n
           set: comment-pod-body
         - include: comment-pod-formatting
@@ -176,7 +176,7 @@ contexts:
       scope: invalid.deprecated.perl
 
   comment-pod-embedded:
-    - match: ^=begin\s+
+    - match: ^=begin\b
       scope: entity.name.tag.pod.perl
       push:
         # end embedded section
@@ -185,37 +185,37 @@ contexts:
           pop: true
         # embedded css
         - match: \bcss\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.css.perl
           embed: scope:source.css
           embed_scope: source.css.embedded.perl
           escape: (?=^{{pod}})
         # embedded html
         - match: \bhtml\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.html.perl
           embed: scope:text.html.basic
           embed_scope: text.html.embedded.perl
           escape: (?=^{{pod}})
         # embedded javascript
         - match: \b(?:js|javascript)\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.js.perl
           embed: scope:source.js
           embed_scope: source.js.embedded.perl
           escape: (?=^{{pod}})
         # embedded json
         - match: \bjson\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.json.perl
           embed: scope:source.json
           embed_scope: source.json.embedded.perl
           escape: (?=^{{pod}})
         # embedded sql
         - match: \bsql\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.sql.perl
           embed: scope:source.sql
           embed_scope: source.sql.embedded.perl
           escape: (?=^{{pod}})
         # embedded xml
         - match: \bxml\b
-          scope: string.unquoted.perl
+          scope: constant.other.language-name.xml.perl
           embed: scope:text.xml
           embed_scope: text.xml.embedded.perl
           escape: (?=^{{pod}})
@@ -272,7 +272,7 @@ contexts:
         1: entity.name.tag.filename.perl
         2: punctuation.definition.tag.begin.perl
       push:
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - include: comment-pod-format-body
     # hyperlink : L<label|url>
     - match: (L)(<)
@@ -325,7 +325,7 @@ contexts:
 
   package-version:
     - match: (")((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(")
-      scope: string.quoted.double.perl
+      scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.version.perl
@@ -335,7 +335,7 @@ contexts:
         6: punctuation.definition.string.end.perl
       pop: true
     - match: (')((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(')
-      scope: string.quoted.single.perl
+      scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.version.perl
@@ -433,7 +433,7 @@ contexts:
       pop: true
     - include: expressions
     - match: \S
-      scope: string.unquoted.perl
+      scope: meta.string.perl string.unquoted.perl
 
   require-end:
     - meta_scope: meta.preprocessor.require.perl
@@ -630,7 +630,7 @@ contexts:
                          e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
           ) ) (")
         )
-      scope: string.quoted.double.perl
+      scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
@@ -647,7 +647,7 @@ contexts:
                          e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
           ) ) (')
         )
-      scope: string.quoted.single.perl
+      scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
@@ -669,13 +669,13 @@ contexts:
         2: punctuation.separator.decimal.perl
     # decimal integers
     - match: (")([-+]?[\d_]+)(")
-      scope: string.quoted.double.perl
+      scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (')([-+]?[\d_]+)(')
-      scope: string.quoted.single.perl
+      scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
@@ -737,7 +737,7 @@ contexts:
     - match: \<(?!<|=>)(?=.*?>)
       scope: punctuation.definition.string.begin.perl
       set:
-        - meta_scope: string.quoted.angle.perl
+        - meta_scope: meta.string.perl string.quoted.angle.perl
         - match: \>
           scope: punctuation.definition.string.end.perl
           pop: true
@@ -748,7 +748,7 @@ contexts:
     - match: \`
       scope: punctuation.definition.string.begin.perl
       push:
-        - meta_scope: string.quoted.backtick.perl
+        - meta_scope: meta.string.perl string.quoted.backtick.perl
         - match: \`
           scope: punctuation.definition.string.end.perl
           pop: true
@@ -758,7 +758,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.perl
       push:
-        - meta_scope: string.quoted.double.perl
+        - meta_scope: meta.string.perl string.quoted.double.perl
         - match: \"
           scope: punctuation.definition.string.end.perl
           pop: true
@@ -768,7 +768,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.perl
       push:
-        - meta_scope: string.quoted.single.perl
+        - meta_scope: meta.string.perl string.quoted.single.perl
         - match: \'
           scope: punctuation.definition.string.end.perl
           pop: true
@@ -783,7 +783,7 @@ contexts:
         3: keyword.operator.assignment.perl
       push:
         - meta_scope: meta.block.format.perl
-        - meta_content_scope: string.unquoted.format.perl
+        - meta_content_scope: meta.string.perl string.unquoted.format.perl
         - match: ^\.(?=\s*$)
           scope: punctuation.terminator.format.perl
           pop: true
@@ -818,57 +818,57 @@ contexts:
     # embedded css
     - match: ((['"]?)( *CSS)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.css.perl
+        3: constant.other.language-name.css.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-css, string-heredoc-expr]
     # embedded html
     - match: ((['"]?)( *HTML)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.html.perl
+        3: constant.other.language-name.html.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-html, string-heredoc-expr]
     # embedded javascript
     - match: ((['"]?)( *JAVASCRIPT)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.js.perl
+        3: constant.other.language-name.js.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-javascript, string-heredoc-expr]
     # embedded json
     - match: ((['"]?)( *JSON)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.json.perl
+        3: constant.other.language-name.json.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-json, string-heredoc-expr]
     # embedded sql
     - match: ((['"]?)( *SQL)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.sql.perl
+        3: constant.other.language-name.sql.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-sql, string-heredoc-expr]
     # embedded xml
     - match: ((['"]?)( *XML)(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.xml.perl
+        3: constant.other.language-name.xml.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-xml, string-heredoc-expr]
     # any other tag like (EOD, EOT, FOO, ...) is handled as string
     - match: ((['"]?)( *{{identifier}})(\2))
       captures:
-        1: string.other.heredoc.perl
+        1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
-        3: constant.language.heredoc.plain.perl
+        3: constant.other.language-name.plain.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-other, string-heredoc-expr]
     - include: else-pop
@@ -885,7 +885,7 @@ contexts:
     - meta_content_scope: source.css.embedded.perl
     # pop off only, if keyword is indented correctly
     - match: ^\3$
-      scope: constant.language.heredoc.css.perl
+      scope: constant.other.language-name.css.perl
       pop: true
     - match: ''
       embed: scope:source.css
@@ -894,7 +894,7 @@ contexts:
   string-heredoc-html:
     - meta_content_scope: text.html.embedded.perl
     - match: ^\3$
-      scope: constant.language.heredoc.html.perl
+      scope: constant.other.language-name.html.perl
       pop: true
     - match: ''
       embed: scope:text.html.basic
@@ -903,7 +903,7 @@ contexts:
   string-heredoc-javascript:
     - meta_content_scope: source.js.embedded.perl
     - match: ^\3$
-      scope: constant.language.heredoc.js.perl
+      scope: constant.other.language-name.js.perl
       pop: true
     - match: ''
       embed: scope:source.js
@@ -912,7 +912,7 @@ contexts:
   string-heredoc-json:
     - meta_content_scope: source.json.embedded.perl
     - match: ^\3$
-      scope: constant.language.heredoc.json.perl
+      scope: constant.other.language-name.json.perl
       pop: true
     - match: ''
       embed: scope:source.json
@@ -921,7 +921,7 @@ contexts:
   string-heredoc-sql:
     - meta_content_scope: source.sql.embedded.perl
     - match: ^\3$
-      scope: constant.language.heredoc.sql.perl
+      scope: constant.other.language-name.sql.perl
       pop: true
     - match: ''
       embed: scope:source.sql
@@ -930,16 +930,16 @@ contexts:
   string-heredoc-xml:
     - meta_content_scope: text.xml.embedded.perl
     - match: ^\3$
-      scope: constant.language.heredoc.xml.perl
+      scope: constant.other.language-name.xml.perl
       pop: true
     - match: ''
       embed: scope:text.xml
       escape: (?=^ *XML$)
 
   string-heredoc-other:
-    - meta_content_scope: string.quoted.other.perl
+    - meta_content_scope: meta.string.perl string.quoted.other.perl
     - match: ^\3$
-      scope: constant.language.heredoc.plain.perl
+      scope: constant.other.language-name.plain.perl
       pop: true
 
 ###[ KEYWORDS ]###############################################################
@@ -1131,7 +1131,7 @@ contexts:
         0: meta.function-call.perl
         1: support.function.perl
         2: punctuation.section.generic.begin.perl
-      embed_scope: meta.function-call.perl string.regexp.perl
+      embed_scope: meta.function-call.perl meta.string.perl string.regexp.perl
       embed: scope:source.regexp
       escape: (?<!(?<!\\)\\)(\2)({{regexp_flags}})?
       escape_captures:
@@ -1152,13 +1152,13 @@ contexts:
         0: meta.function-call.perl
         1: support.function.perl
         2: punctuation.section.generic.begin.perl
-      embed_scope: meta.function-call.perl string.regexp.perl
+      embed_scope: meta.function-call.perl meta.string.perl string.regexp.perl
       embed: scope:source.regexp
       escape: ((?<!(?<!\\)\\)\2)(.*?)((?<!(?<!\\)\\)\2)({{regexp_flags}})?
       escape_captures:
         0: meta.function-call.perl
         1: punctuation.separator.sequence.perl
-        2: string.unquoted.perl
+        2: meta.string.perl string.unquoted.perl
         3: punctuation.section.generic.end.perl
         4: constant.language.flags.regexp.perl
 
@@ -1177,7 +1177,7 @@ contexts:
       scope: punctuation.section.braces.begin.perl
       set:
         - meta_scope: meta.braces.perl
-        - meta_content_scope: string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
@@ -1186,7 +1186,7 @@ contexts:
       scope: punctuation.section.brackets.begin.perl
       set:
         - meta_scope: meta.brackets.perl
-        - meta_content_scope: string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
@@ -1195,7 +1195,7 @@ contexts:
       scope: punctuation.section.generic.begin.perl
       set:
         - meta_scope: meta.generic.perl
-        - meta_content_scope: string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
@@ -1204,7 +1204,7 @@ contexts:
       scope: punctuation.section.parens.begin.perl
       set:
         - meta_scope: meta.parens.perl
-        - meta_content_scope: string.regexp.perl
+        - meta_content_scope: meta.string.perl string.regexp.perl
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
@@ -1231,7 +1231,7 @@ contexts:
       scope: punctuation.section.braces.begin.perl
       set:
         - meta_scope: meta.braces.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \}
           scope: punctuation.section.braces.end.perl
           pop: true
@@ -1251,7 +1251,7 @@ contexts:
       scope: punctuation.section.brackets.begin.perl
       set:
         - meta_scope: meta.brackets.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \]
           scope: punctuation.section.brackets.end.perl
           pop: true
@@ -1271,7 +1271,7 @@ contexts:
       scope: punctuation.section.generic.begin.perl
       set:
         - meta_scope: meta.generic.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
@@ -1291,7 +1291,7 @@ contexts:
       scope: punctuation.section.parens.begin.perl
       set:
         - meta_scope: meta.parens.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \)
           scope: punctuation.section.parens.end.perl
           pop: true
@@ -1311,7 +1311,7 @@ contexts:
       scope: punctuation.section.generic.begin.perl
       set:
         - meta_scope: meta.generic.perl
-        - meta_content_scope: string.unquoted.perl
+        - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: \1
           scope: punctuation.section.generic.end.perl
           pop: true
@@ -1327,7 +1327,7 @@ contexts:
     # /<pattern>/<flags>
     - match: /
       scope: punctuation.section.generic.begin.perl
-      embed_scope: string.regexp.perl
+      embed_scope: meta.string.perl string.regexp.perl
       embed: scope:source.regexp
       escape: (?<!(?<!\\)\\)(/)({{regexp_flags}})?
       escape_captures:
@@ -1473,7 +1473,7 @@ contexts:
       captures:
         1: keyword.operator.dereference.perl
         2: punctuation.definition.variable.begin.perl
-        3: string.unquoted.perl
+        3: meta.string.perl string.unquoted.perl
         4: punctuation.definition.variable.end.perl
       push: maybe-item-access
     - match: ([$@%*&]#?)(\{)
@@ -1520,7 +1520,7 @@ contexts:
       scope: meta.item-access.perl
       captures:
         1: punctuation.section.item-access.begin.perl
-        2: string.unquoted.perl
+        2: meta.string.perl string.unquoted.perl
         3: punctuation.section.item-access.end.perl
     - match: \{
       scope: punctuation.section.item-access.begin.perl
