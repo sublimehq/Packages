@@ -444,6 +444,33 @@ EOT
   ..
 # ^^ keyword.operator.range.perl
 
+  and or xor as cmp eq gt ge lt le ne not
+#^ - keyword
+# ^^^ keyword.operator.logical.perl
+#    ^ - keyword
+#     ^^ keyword.operator.logical.perl
+#       ^ - keyword
+#        ^^^ keyword.operator.logical.perl
+#           ^ - keyword
+#            ^^ keyword.operator.logical.perl
+#              ^ - keyword
+#               ^^^ keyword.operator.logical.perl
+#                  ^ - keyword
+#                   ^^ keyword.operator.logical.perl
+#                     ^ - keyword
+#                      ^^ keyword.operator.logical.perl
+#                        ^ - keyword
+#                         ^^ keyword.operator.logical.perl
+#                           ^ - keyword
+#                            ^^ keyword.operator.logical.perl
+#                              ^ - keyword
+#                               ^^ keyword.operator.logical.perl
+#                                 ^ - keyword
+#                                  ^^ keyword.operator.logical.perl
+#                                    ^ - keyword
+#                                     ^^^ keyword.operator.logical.perl
+#                                        ^ - keyword
+
 ###[ VARIABLES ]##############################################################
 
   $&
