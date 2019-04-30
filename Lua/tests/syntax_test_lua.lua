@@ -314,6 +314,24 @@
 --     ^ punctuation.section.brackets.begin
 --               ^ punctuation.section.brackets.end
 
+    (not nil)
+--   ^^^ keyword.operator.logical.lua
+--       ^^^ constant.language.null.lua
+
+    (function () return; end)
+--   ^^^^^^^^^^^^^^^^^^^^^^^ - illegal
+
+    (return)
+--   ^^^^^^ meta.group.lua invalid.unexpected-keyword.lua
+
+    foo[return] foo[false]
+--      ^^^^^^ invalid.unexpected-keyword.lua
+--            ^ - meta.brackets
+--                  ^^^^^ constant.language.boolean.true.lua
+
+    some.return
+--       ^^^^^^ invalid.unexpected-keyword.lua
+
 --FUNCTION CALLS
 
     f(42);
@@ -337,6 +355,11 @@
     f {};
 --  ^ variable.function
 --    ^^ meta.function-call.arguments meta.mapping
+
+    f( 'unclosed)
+    return x
+--  ^^^^^^ meta.function-call.arguments.lua meta.group.lua invalid.unexpected-keyword.lua
+--         ^ - meta.function-call
 
 --FUNCTIONS
 
@@ -391,6 +414,9 @@
 
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
+
+    function (return) end;
+--            ^^^^^^ invalid.unexpected-keyword.lua
 
 --STATEMENTS
 
