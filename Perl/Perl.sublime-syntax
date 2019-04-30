@@ -870,14 +870,22 @@ contexts:
         2: punctuation.definition.string.begin.perl
         3: constant.other.language-name.plain.perl
         4: punctuation.definition.string.end.perl
-      set: [string-heredoc-other, string-heredoc-expr]
+      set: [string-heredoc-other, string-heredoc-expr-other]
     - include: else-pop
 
   string-heredoc-expr:
     # The rest of the line right after the heredoc tag needs to be handled
     # as ordinary perl. The embedded syntax starts at the next line.
-    - clear_scopes: 1  # remove 'string.quoted'
-    - match: $
+    - clear_scopes: 1  # remove 'source'
+    - match: ^
+      pop: true
+    - include: expressions
+
+  string-heredoc-expr-other:
+    # The rest of the line right after the heredoc tag needs to be handled
+    # as ordinary perl. The embedded syntax starts at the next line.
+    - clear_scopes: 2  # remove 'meta.string string.quoted'
+    - match: ^
       pop: true
     - include: expressions
 

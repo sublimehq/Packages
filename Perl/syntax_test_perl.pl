@@ -177,10 +177,14 @@ format name =
 ###[ HEREDOC ]################################################################
 
 $var = << CSS;
-#      ^^^^^^^ meta.heredoc.perl
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
+#    ^ keyword.operator.assignment.perl
+#      ^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
 #         ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.css.perl
 #            ^ punctuation.terminator.statement.perl
+#             ^ - source.css.embedded.perl
   a {  };
 # ^^^^^^^ meta.heredoc.perl source.css.embedded.perl source.css
 CSS
@@ -195,6 +199,7 @@ $var = <<HTML;
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.html.perl
 #            ^ punctuation.terminator.statement.perl
+#             ^ - source.html.embedded.perl
   <div />
 # <- meta.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
@@ -213,6 +218,7 @@ $var = <<'HTML';
 #         ^^^^ constant.other.language-name.html.perl
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
+#               ^ - source.html.embedded.perl
   <div />
 # <- meta.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
@@ -231,6 +237,7 @@ $var = <<"HTML";
 #         ^^^^ constant.other.language-name.html.perl
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
+#               ^ - source.html.embedded.perl
   <div />
 # <- meta.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
@@ -249,12 +256,14 @@ $var ? <<HTML : <<HTML;
 #               ^^ keyword.operator.heredoc.perl
 #                 ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.html.perl
 #                     ^ punctuation.terminator.statement.perl
+#                      ^ - source.html.embedded.perl
   <div />
 # <- meta.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
 HTML
 # <- meta.heredoc.perl constant.other.language-name.html.perl
 #^^^ meta.heredoc.perl constant.other.language-name.html.perl
+#   ^ - source.html.embedded.perl
   <div />
 # <- meta.heredoc.perl text.html.embedded.perl
 #^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
@@ -263,6 +272,7 @@ HTML
 HTML
 # <- meta.heredoc.perl constant.other.language-name.html.perl
 #^^^ meta.heredoc.perl constant.other.language-name.html.perl
+#   ^ - meta.heredoc.perl
 HTML
 # <- constant.other.perl
 #^^^ constant.other.perl
@@ -274,6 +284,7 @@ $var = <<JAVASCRIPT;
 #      ^^^^^^^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^^^^^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.js.perl
+#                   ^ - source.js.embedded.perl
   var basic;
 # <- meta.heredoc.perl source.js.embedded.perl source.js
 # ^^^ meta.heredoc.perl source.js.embedded.perl source.js storage.type.js
@@ -286,6 +297,7 @@ $var = <<JSON;
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.json.perl
 #            ^ punctuation.terminator.statement.perl
+#             ^ - source.json.embedded.perl
 JSON
 # <- meta.heredoc.perl constant.other.language-name.json.perl
 #^^^ meta.heredoc.perl constant.other.language-name.json.perl
@@ -295,6 +307,7 @@ $var = <<SQL;
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.sql.perl
 #           ^ punctuation.terminator.statement.perl
+#            ^ - source.sql.embedded.perl
   SELECT * FROM `table`
 # ^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl source.sql.embedded.perl
 SQL
@@ -306,6 +319,7 @@ $var = <<XML;
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.xml.perl
 #           ^ punctuation.terminator.statement.perl
+#            ^ - source.xml.embedded.perl
   <t:tag></t:tag>
 # ^^^^^^^^^^^^^^^ meta.heredoc.perl text.xml.embedded.perl
 XML
@@ -317,6 +331,7 @@ $var = <<_EOD_;
 #      ^^ keyword.operator.heredoc.perl
 #        ^^^^^ constant.other.language-name.plain.perl
 #             ^ punctuation.terminator.statement.perl
+#              ^ - string.quoted.other.perl
   foo bar baz
 # <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
 #^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
@@ -332,6 +347,7 @@ $var = << "    _EOD_";
 #          ^^^^^^^^^ constant.other.language-name.plain.perl
 #                   ^ punctuation.definition.string.end.perl
 #                    ^ punctuation.terminator.statement.perl
+#                     ^ - string.quoted.other.perl
   foo bar baz
 # <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
 #^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
@@ -340,6 +356,24 @@ $var = << "    _EOD_";
     _EOD_
 # <- meta.heredoc.perl constant.other.language-name.plain.perl
 #^^^^^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+
+$var = <<EOF # comment
+# no comment
+# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+EOF
+
+$var = <<'EOF' # comment
+# no comment
+# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+EOF
+
+$var = <<"EOF" # comment
+# no comment
+# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+EOF
 
 chomp (my $common_end = <<"EOF") =~ s/(.*)/$1/g if $opt_o;
 # <- support.function.perl
