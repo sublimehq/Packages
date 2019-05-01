@@ -13,7 +13,7 @@ scope: source.perl
 
 variables:
   break: (?!\w|\s*::)
-  identifier: '\b[_[:alpha:]]\w*{{break}}'
+  identifier: '\b[_[:alpha:]]\w*\b'
   module: '\b[_[:upper:]]\w*\b'
   member: '\b[_[:lower:]]\w*\b'
   pod: '={{identifier}}'
