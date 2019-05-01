@@ -181,6 +181,27 @@ function i(
 ) {};
 
 
+function array_values_from_keys($arr, $keys) {
+    return array_map(fn($x) => $arr[$x], $keys, fn($x) => $arr[$x]);
+//                   ^^ meta.function.arrow-function storage.type.function
+//                     ^ punctuation.section.group.begin
+//                      ^^ variable.parameter
+//                        ^ punctuation.section.group.end
+//                          ^^ punctuation.definition.arrow-function.php
+}
+
+$fn = fn($x) => fn($y) => $x * $y + $z;
+//    ^^ meta.function.arrow-function storage.type.function
+//      ^ punctuation.section.group.begin
+//       ^^ variable.parameter
+//         ^ punctuation.section.group.end
+//           ^^ punctuation.definition.arrow-function.php
+//              ^^ meta.function.arrow-function storage.type.function
+//                ^ punctuation.section.group.begin
+//                 ^^ variable.parameter
+//                   ^ punctuation.section.group.end
+//                     ^^ punctuation.definition.arrow-function.php
+
 $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //     ^^^^^^^^ meta.function.closure

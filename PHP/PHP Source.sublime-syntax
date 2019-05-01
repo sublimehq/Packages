@@ -150,6 +150,7 @@ contexts:
           pop: true
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
+    - include: arrow-function
     - include: closure
     - include: invoke-call
     - match: |-
@@ -564,6 +565,30 @@ contexts:
             - match: \(
               scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
               set: function-parameters
+        # Exit on unexpected content
+        - match: (?=\S)
+          pop: true
+
+  # https://wiki.php.net/rfc/arrow_functions_v2
+  arrow-function:
+    - match: '(?i)\b(fn)\b\s*(&)?\s*(?=\()'
+      scope: meta.function.arrow-function.php
+      captures:
+        1: storage.type.function.php
+        2: storage.modifier.reference.php
+      push:
+        - match: \(
+          scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
+          push:
+            - include: function-parameters
+            - match: (?==>)
+              pop: true
+        - match: "=>"
+          scope: punctuation.definition.arrow-function.php
+          push:
+            - match: '(?=;|,|\)|\s*\?>)'
+              pop: true
+            - include: expressions
         # Exit on unexpected content
         - match: (?=\S)
           pop: true
