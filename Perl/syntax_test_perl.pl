@@ -1161,6 +1161,74 @@ no strict;
 #  ^^^^^^ storage.modifier.perl
 #        ^ punctuation.terminator.statement.perl
 
+###[ PREPROCESSOR ]###########################################################
+
+  BEGIN {
+# ^^^^^^ meta.function.perl - meta.block
+# ^^^^^ entity.name.function.prepocessor.perl
+#       ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  sub BEGIN {
+# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^^^^ entity.name.function.prepocessor.perl
+#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  CHECK {
+# ^^^^^^ meta.function.perl - meta.block
+# ^^^^^ entity.name.function.prepocessor.perl
+#       ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  sub CHECK {
+# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^^^^ entity.name.function.prepocessor.perl
+#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  END {
+# ^^^^ meta.function.perl - meta.block
+# ^^^ entity.name.function.prepocessor.perl
+#     ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  sub END {
+# ^^^^^^^^ meta.function.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^^ entity.name.function.prepocessor.perl
+#         ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  INIT {
+# ^^^^^ meta.function.perl - meta.block
+# ^^^^ entity.name.function.prepocessor.perl
+#      ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  sub INIT {
+# ^^^^^^^^^ meta.function.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.prepocessor.perl
+#          ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  UNITCHECK {
+# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^ entity.name.function.prepocessor.perl
+#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+  sub UNITCHECK {
+# ^^^^^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^^^^^^^^ entity.name.function.prepocessor.perl
+#               ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+  }
+# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+
 ###[ SUB ]####################################################################
 
 sub

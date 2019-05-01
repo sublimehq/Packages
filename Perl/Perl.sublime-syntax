@@ -268,13 +268,13 @@ contexts:
   expressions:
     - include: blocks
     - include: groups
+    - include: sub
     - include: quoted-like
     - include: label
     - include: constants
     - include: class
     - include: operators
     - include: control
-    - include: sub
     - include: variables
     - include: function-call
     - include: comment-line
@@ -993,12 +993,23 @@ contexts:
     - match: \bsub\b
       scope: storage.type.function.perl
       push: sub-name
+    # special functions which are executed at compile time
+    # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
+    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
+      scope: meta.function.perl entity.name.function.prepocessor.perl
+      push: sub-expect-parameters
 
   sub-name:
     - meta_scope: meta.function.perl
-    - match: \b(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
+    # callback hook to auto load or destroy objects/functions
+    - match: \b(AUTOLOAD|DESTROY){{break}}
       scope: entity.name.function.callback.perl
       set: sub-expect-parameters
+    # special functions which are executed at compile time
+    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
+      scope: entity.name.function.prepocessor.perl
+      set: sub-expect-parameters
+    # ordinary function identifier
     - match: '{{identifier}}'
       scope: entity.name.function.perl
       set: sub-expect-parameters
