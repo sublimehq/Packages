@@ -210,7 +210,7 @@ contexts:
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
-    - match: (?i)\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|var|function|interface|object)\b
+    - match: (?i)\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|function|interface|object)\b
       scope: storage.type.php
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
@@ -544,11 +544,11 @@ contexts:
     - include: statements
 
   function:
-    - match: (?i)(?=(?:\b(?:final|abstract|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
+    - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
       push:
         - meta_content_scope: meta.function.php
         - include: comments
-        - match: '(?i)\b(final|abstract|public|private|protected|static)\b'
+        - match: '(?i)\b(final|abstract|var|public|private|protected|static)\b'
           scope: storage.modifier.php
         - match: (?i)\bfunction\b
           scope: storage.type.function.php
@@ -1134,7 +1134,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-    - match: ^\s*\*\s*(@access)\s+((public|private|protected)|(.+))\s*$
+    - match: ^\s*\*\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
       captures:
         1: keyword.other.phpdoc.php
         3: storage.modifier.php
