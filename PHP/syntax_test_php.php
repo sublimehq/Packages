@@ -1066,6 +1066,9 @@ $a += .5;
 $a .= 1;
 // ^^ keyword.operator.assignment.augmented.php
 
+$a ??= 1;
+// ^^^ keyword.operator.assignment.augmented.php
+
 if ($a !== $b);
 //     ^^^ keyword.operator.comparison.php
 

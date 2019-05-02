@@ -222,7 +222,7 @@ contexts:
       scope: punctuation.terminator.expression.php
     - include: heredoc
     - include: numbers
-    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.)=
+    - match: (\+|-|\*|/|%|&|\||\^|>>|<<|\.|\?\?)=
       scope: keyword.operator.assignment.augmented.php
     - match: "=>"
       scope: keyword.operator.key.php
