@@ -912,6 +912,26 @@ class B
 //   ^ - meta.use
 //    ^ storage.modifier
 
+    public static ?Foo $str = '';
+//  ^^^^^^ storage.modifier
+//         ^^^^^^ storage.modifier
+//                ^ storage.type.nullable
+//                 ^^^ support.class
+//                     ^ punctuation.definition.variable
+//                      ^^^ variable.other
+//                          ^ keyword.operator.assignment
+
+    public const STR_1 = '';
+//  ^^^^^^ storage.modifier
+//         ^^^^^ storage.modifier
+//               ^^^^^ constant
+//                     ^ keyword.operator.assignment
+
+    const STR_2 = '';
+//  ^^^^^ storage.modifier
+//        ^^^^^ constant
+//              ^ keyword.operator.assignment
+
     public function abc(callable $var, int $var2, string $var3)
 //                  ^^^ entity.name.function
 //                      ^ storage.type
