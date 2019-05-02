@@ -450,6 +450,238 @@ format name =
 .
 # <- punctuation.terminator.format.perl
 
+###[ SPRINTF FORMAT ]#########################################################
+
+  "%<index>?<flag>?<width>?[<vector>|<precicion>]<size>?<sequence>
+
+  # sequences
+
+   %%    a percent sign
+#  ^^ constant.character.escape.perl
+
+   %c %s %d %u %o %x %e %f %g %i
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^ constant.other.placeholder.perl
+#    ^ - constant.other.placeholder
+#     ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#      ^ constant.other.placeholder.perl
+#       ^ - constant.other.placeholder
+#        ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#         ^ constant.other.placeholder.perl
+#          ^ - constant.other.placeholder
+#           ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#            ^ constant.other.placeholder.perl
+#             ^ - constant.other.placeholder
+#              ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#               ^ constant.other.placeholder.perl
+#                ^ - constant.other.placeholder
+#                 ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                  ^ constant.other.placeholder.perl
+#                   ^ - constant.other.placeholder
+#                    ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                     ^ constant.other.placeholder.perl
+#                      ^ - constant.other.placeholder
+#                       ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                        ^ constant.other.placeholder.perl
+#                         ^ - constant.other.placeholder
+#                          ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                           ^ constant.other.placeholder.perl
+#                            ^ - constant.other.placeholder
+#                             ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                              ^ constant.other.placeholder.perl
+#                               ^ - constant.other.placeholder
+
+   %X %E %G %b %B %p %n %a %A %F
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^ constant.other.placeholder.perl
+#    ^ - constant.other.placeholder
+#     ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#      ^ constant.other.placeholder.perl
+#       ^ - constant.other.placeholder
+#        ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#         ^ constant.other.placeholder.perl
+#          ^ - constant.other.placeholder
+#           ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#            ^ constant.other.placeholder.perl
+#             ^ - constant.other.placeholder
+#              ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#               ^ constant.other.placeholder.perl
+#                ^ - constant.other.placeholder
+#                 ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                  ^ constant.other.placeholder.perl
+#                   ^ - constant.other.placeholder
+#                    ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                     ^ constant.other.placeholder.perl
+#                      ^ - constant.other.placeholder
+#                       ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                        ^ constant.other.placeholder.perl
+#                         ^ - constant.other.placeholder
+#                          ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                           ^ constant.other.placeholder.perl
+#                            ^ - constant.other.placeholder
+#                             ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                              ^ constant.other.placeholder.perl
+#                               ^ - constant.other.placeholder
+
+   %D = %ld %U = %lu %O = %lo %F = %f
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^ constant.other.placeholder.perl
+#    ^^^ - constant.other.placeholder
+#       ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#        ^^ constant.other.placeholder.perl
+#          ^ - constant.other.placeholder
+#           ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#            ^ constant.other.placeholder.perl
+#             ^^^ - constant.other.placeholder
+#                ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                 ^^ constant.other.placeholder.perl
+#                   ^ - constant.other.placeholder
+#                    ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                     ^ constant.other.placeholder.perl
+#                      ^^^ - constant.other.placeholder
+#                         ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                          ^^ constant.other.placeholder.perl
+#                            ^ - constant.other.placeholder
+#                             ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                              ^ constant.other.placeholder.perl
+#                               ^^^ - constant.other.placeholder
+#                                  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                                   ^ constant.other.placeholder.perl
+
+  # flags
+
+   % d %+d %+ d % +d
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+#      ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#       ^^ constant.other.placeholder.perl
+#         ^ - constant.other.placeholder
+#          ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#           ^^^ constant.other.placeholder.perl
+#              ^ - constant.other.placeholder
+#               ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                ^^^ constant.other.placeholder.perl
+#                   ^ - constant.other.placeholder
+   %*s %6s %-6s %06s %*2$s %10.5s
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+#      ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#       ^^ constant.other.placeholder.perl
+#         ^ - constant.other.placeholder
+#          ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#           ^^^ constant.other.placeholder.perl
+#              ^ - constant.other.placeholder
+#               ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                ^^^ constant.other.placeholder.perl
+#                   ^ - constant.other.placeholder
+#                    ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                     ^^^^ constant.other.placeholder.perl
+#                         ^ - constant.other.placeholder
+#                          ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                           ^^^^^ constant.other.placeholder.perl
+#                             ^ punctuation.separator.decimal.perl
+#                                ^ - constant.other.placeholder
+   %#o %#O
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+#      ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#       ^^ constant.other.placeholder.perl
+#         ^ - constant.other.placeholder
+   %#x %#X
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+#      ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#       ^^ constant.other.placeholder.perl
+#         ^ - constant.other.placeholder
+   %#b %#B
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+#      ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#       ^^ constant.other.placeholder.perl
+#         ^ - constant.other.placeholder
+
+  # vector flag
+
+  v%vd
+# ^ - constant.other.placeholder
+#  ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#   ^^ constant.other.placeholder.perl
+#     ^ - constant.other.placeholder
+  %0*v8b
+#^ - constant.other.placeholder
+# ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#  ^^^^^ constant.other.placeholder.perl
+#       ^ - constant.other.placeholder
+  %*4$vX
+#^ - constant.other.placeholder
+# ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#  ^^^^^ constant.other.placeholder.perl
+#       ^ - constant.other.placeholder
+
+  # precicion
+
+  %#.5o
+#^ - constant.other.placeholder
+# ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#  ^^^^ constant.other.placeholder.perl
+#   ^ punctuation.separator.decimal.perl
+#      ^ - constant.other.placeholder
+
+  %f %.1f %.0f %e %0.1e
+#^ - constant.other.placeholder
+# ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#  ^ constant.other.placeholder.perl
+#   ^ - constant.other.placeholder
+#    ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#     ^^^ constant.other.placeholder.perl
+#     ^ punctuation.separator.decimal.perl
+#        ^ - constant.other.placeholder
+#         ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#          ^^^ constant.other.placeholder.perl
+#          ^ punctuation.separator.decimal.perl
+#             ^ - constant.other.placeholder
+#              ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#               ^ constant.other.placeholder.perl
+#                ^ - constant.other.placeholder
+#                 ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                  ^^^^ constant.other.placeholder.perl
+#                   ^ punctuation.separator.decimal.perl
+#                      ^ - constant.other.placeholder
+
+  %-10.6d %#.6x %010.6x %6.*2$x
+#^ - constant.other.placeholder
+# ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#  ^^^^^^ constant.other.placeholder.perl
+#     ^ punctuation.separator.decimal.perl
+#        ^ - constant.other.placeholder
+#         ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#          ^^^^ constant.other.placeholder.perl
+#           ^ punctuation.separator.decimal.perl
+#              ^ - constant.other.placeholder
+#               ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                ^^^^^^ constant.other.placeholder.perl
+#                   ^ punctuation.separator.decimal.perl
+#                      ^ - constant.other.placeholder
+#                       ^ constant.other.placeholder.perl punctuation.definition.placeholder.perl
+#                        ^^^^^^ constant.other.placeholder.perl
+#                         ^ punctuation.separator.decimal.perl
+#                              ^ - constant.other.placeholder
+
+  # placeholder with interpolation (good luck!)
+"
+
 ###[ HEREDOC ]################################################################
 
 $var = << CSS;
@@ -3347,6 +3579,15 @@ our $VERSION = do {
 #                                     ^ constant.language.flags.regexp.perl
   sprintf "%d."."%02d" x $#r, @r
 # ^^^^^^^ support.function.perl
+#         ^^^^^ meta.string.perl string.quoted.double.perl
+#          ^^ constant.other.placeholder
+#              ^ keyword.operator.concat.perl
+#               ^^^^^^ meta.string.perl string.quoted.double.perl
+#                ^^^^ constant.other.placeholder
+#                      ^ keyword.operator.arithmetic.perl
+#                        ^^^ variable.other.readwrite.perl
+#                           ^ punctuation.separator.sequence.perl
+#                             ^^ variable.other.readwrite.perl
 };
 # <- punctuation.section.block.end.perl
 state

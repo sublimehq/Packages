@@ -753,8 +753,7 @@ contexts:
             1: punctuation.definition.string.end.perl
           pop: true
         - include: interpolated-angle-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   string-quoted-backtick:
     - match: \`
@@ -766,8 +765,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.perl
           pop: true
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   string-quoted-double:
     - match: \"
@@ -779,8 +777,7 @@ contexts:
           captures:
             1: punctuation.definition.string.end.perl
           pop: true
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   string-quoted-single:
     - match: \'
@@ -790,7 +787,7 @@ contexts:
         - match: \'
           scope: punctuation.definition.string.end.perl
           pop: true
-        - include: character-escape
+        - include: literal-common
 
   string-format:
     # SEE: http://perldoc.perl.org/perlform.html
@@ -981,8 +978,7 @@ contexts:
     - match: ^\3$
       scope: constant.other.language-name.plain.perl
       pop: true
-    - include: character-escape
-    - include: variables-interpolation
+    - include: interpolated-common
 
 ###[ KEYWORDS ]###############################################################
 
@@ -1232,8 +1228,7 @@ contexts:
             1: meta.string.perl string.unquoted.perl
             2: punctuation.section.generic.end.perl
           pop: true
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
     - include: immediately-pop
 
   quoted-like-args-pattern:
@@ -1304,8 +1299,7 @@ contexts:
             2: punctuation.section.braces.end.perl
           pop: true
         - include: interpolated-braces-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-braces-nested:
     - match: \{
@@ -1314,8 +1308,7 @@ contexts:
         - match: (?:[$@%&*]#?)?\}
           pop: true
         - include: interpolated-braces-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-brackets-pop:
     - match: \[
@@ -1330,8 +1323,7 @@ contexts:
             2: punctuation.section.brackets.end.perl
           pop: true
         - include: interpolated-brackets-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-brackets-nested:
     - match: \[
@@ -1340,8 +1332,7 @@ contexts:
         - match: (?:[$@%&*]#?)?\]
           pop: true
         - include: interpolated-brackets-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-angle-pop:
     - match: \<
@@ -1356,8 +1347,7 @@ contexts:
             2: punctuation.section.generic.end.perl
           pop: true
         - include: interpolated-angle-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-angle-nested:
     - match: \<
@@ -1366,8 +1356,7 @@ contexts:
         - match: (?:[$@%&*]#?)?\>
           pop: true
         - include: interpolated-angle-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-parens-pop:
     - match: \(
@@ -1382,8 +1371,7 @@ contexts:
             2: punctuation.section.parens.end.perl
           pop: true
         - include: interpolated-parens-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-parens-nested:
     - match: \(
@@ -1392,8 +1380,7 @@ contexts:
         - match: (?:[$@%&*]#?)?\)
           pop: true
         - include: interpolated-parens-nested
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
 
   interpolated-generic-pop:
     - match: ({{regexp_delim}})
@@ -1407,8 +1394,11 @@ contexts:
             1: meta.string.perl string.unquoted.perl
             2: punctuation.section.generic.end.perl
           pop: true
-        - include: character-escape
-        - include: variables-interpolation
+        - include: interpolated-common
+
+  interpolated-common:
+    - include: literal-common
+    - include: variables-interpolation
 
   literal-braces-pop:
     - match: \{
@@ -1420,7 +1410,7 @@ contexts:
           scope: punctuation.section.braces.end.perl
           pop: true
         - include: literal-braces-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-braces-nested:
     - match: \{
@@ -1428,7 +1418,7 @@ contexts:
         - match: \}
           pop: true
         - include: literal-braces-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-brackets-pop:
     - match: \[
@@ -1440,7 +1430,7 @@ contexts:
           scope: punctuation.section.brackets.end.perl
           pop: true
         - include: literal-brackets-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-brackets-nested:
     - match: \[
@@ -1448,7 +1438,7 @@ contexts:
         - match: \]
           pop: true
         - include: literal-brackets-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-angle-pop:
     - match: \<
@@ -1460,7 +1450,7 @@ contexts:
           scope: punctuation.section.generic.end.perl
           pop: true
         - include: literal-angle-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-angle-nested:
     - match: \<
@@ -1468,7 +1458,7 @@ contexts:
         - match: \>
           pop: true
         - include: literal-angle-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-parens-pop:
     - match: \(
@@ -1480,7 +1470,7 @@ contexts:
           scope: punctuation.section.parens.end.perl
           pop: true
         - include: literal-parens-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-parens-nested:
     - match: \(
@@ -1488,7 +1478,7 @@ contexts:
         - match: \)
           pop: true
         - include: literal-parens-nested
-        - include: character-escape
+        - include: literal-common
 
   literal-generic-pop:
     - match: ({{regexp_delim}})
@@ -1499,11 +1489,29 @@ contexts:
         - match: \1
           scope: punctuation.section.generic.end.perl
           pop: true
-        - include: character-escape
+        - include: literal-common
 
-  character-escape:
-    - match: \\.
+  literal-common:
+    # SEE: https://perldoc.perl.org/functions/sprintf.html
+    - match: '%%|\\.'
       scope: constant.character.escape.perl
+    - match: |-
+        (?x:
+          (%)                                  # punctuation
+          (?: \d+\$ )?                         # index
+          (?: \s*[-+]\s* | [ #0] )?            # flags
+          (?: \* (?: \d+\$ )? | \d+ )?         # width
+          (?:
+            v\d* |                             # vector flag
+            (\.) (?: \* (?: \d+\$ )? | \d+ )?  # precision
+          )?
+          (?: hh|ll|[hjlLqtz])?                # size
+          [aAbBcdDeEfFgGinoOpsuUxX]            # control sequence
+        )
+      scope: constant.other.placeholder.perl
+      captures:
+        1: punctuation.definition.placeholder.perl
+        2: punctuation.separator.decimal.perl
 
 ###[ REGEXP ]#################################################################
 
