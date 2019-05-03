@@ -679,18 +679,16 @@ EOT
 #                  ^^^^ meta.item-access.perl
 #                     ^ punctuation.section.item-access.end.perl
   $Foo::Bar::baz()
-# ^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+# ^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
 #  ^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ support.class.perl
 #          ^^ punctuation.accessor.double-colon.perl
-#            ^^^ meta.function-call.name.perl variable.function.member.perl
-#               ^ meta.function-call.arguments.perl punctuation.section.arguments.begin.perl
-#                ^ meta.function-call.arguments.perl punctuation.section.arguments.end.perl
+#            ^^^ variable.function.member.perl
+#               ^ punctuation.section.group.begin.perl
+#                ^ punctuation.section.group.end.perl
   $c = C::Scan->new(KEY => 'value')
-#               ^^^ meta.function-call.name.perl
-#                  ^^^^^^^^^^^^^^^^ meta.function-call.arguments.perl
 # ^^ variable.other.readwrite.global.perl
 #    ^ keyword.operator.assignment.perl
 #      ^ support.class.perl
@@ -698,12 +696,12 @@ EOT
 #         ^^^^ support.class.perl
 #             ^^ keyword.accessor.arrow.perl
 #               ^^^ variable.function.member.perl
-#                  ^ punctuation.section.arguments.begin.perl
+#                  ^ punctuation.section.group.begin.perl
 #                   ^^^ constant.other.key.perl
 #                      ^ - constant
 #                       ^^ keyword.operator.assignment.perl
 #                          ^^^^^^^ string.quoted.single.perl
-#                                 ^ punctuation.section.arguments.end.perl
+#                                 ^ punctuation.section.group.end.perl
   ${get_var_name()}
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
 # ^^ punctuation.definition.variable.begin.perl
@@ -2838,42 +2836,62 @@ state
 #                ^ constant.language.flags.regexp.perl
 #                  ^ punctuation.terminator.statement.perl
   function_call(/pattern/g);
-# ^^^^^^^^^^^^^ meta.function-call.name.perl - meta.function-call.arguments.perl
-#              ^^^^^^^^^^^^ meta.function-call.arguments.perl - meta.function-call.name.perl
 # ^^^^^^^^^^^^^ variable.function.perl
-#              ^ punctuation.section.arguments.begin.perl
+#              ^ punctuation.section.group.begin.perl
 #               ^ punctuation.section.generic.begin.perl
 #                ^^^^^^^ string.regexp.perl source.regexp
 #                       ^ punctuation.section.generic.end.perl
 #                        ^ constant.language.flags.regexp.perl
-#                         ^ punctuation.section.arguments.end.perl
+#                         ^ punctuation.section.group.end.perl
 #                          ^ punctuation.terminator.statement.perl
   _function_call($var);
-# ^^^^^^^^^^^^^^ meta.function-call.name.perl - meta.function-call.arguments.perl
-#               ^^^^^^ meta.function-call.arguments.perl - meta.function-call.name.perl
 # ^^^^^^^^^^^^^^ variable.function.perl
-#               ^ punctuation.section.arguments.begin.perl
+#               ^ punctuation.section.group.begin.perl
 #                ^^^^ variable.other.readwrite.global.perl
-#                    ^ punctuation.section.arguments.end.perl
+#                    ^ punctuation.section.group.end.perl
 #                     ^ punctuation.terminator.statement.perl
   no_function_call $var;
 # ^^^^^^^^^^^^^^^^ - variable.function.perl
 
-  function_call(<<_EOD_;
-# ^^^^^^^^^^^^^ meta.function-call.name.perl - meta.function-call.arguments.perl
-#              ^^^^^^^^^^ meta.function-call.arguments.perl - meta.function-call.name.perl
-# ^^^^^^^^^^^^^ variable.function.perl
-#              ^ punctuation.section.arguments.begin.perl
-#               ^^^^^^^^^ meta.heredoc.perl
-#               ^^ keyword.operator.heredoc.perl
-#                 ^^^^^ constant.language.heredoc.plain.perl
-#                      ^ punctuation.terminator.statement.perl
+  # The function call argument list can end after the heredoc content.
+  function_all(<<_EOD_;
+# ^^^^^^^^^^^^ variable.function.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^^^^^^^^^ meta.heredoc.perl
+#              ^^ keyword.operator.heredoc.perl
+#                ^^^^^ constant.language.heredoc.plain.perl
+#                     ^ punctuation.terminator.statement.perl
   foo bar baz
-# <- meta.function-call.arguments.perl meta.heredoc.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.function-call.arguments.perl meta.heredoc.perl string.quoted.other.perl
+# <- meta.heredoc.perl string.quoted.other.perl
+#^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
 _EOD_
+#<- meta.heredoc.perl constant.language.heredoc.plain.perl
+#^^^^ meta.heredoc.perl constant.language.heredoc.plain.perl
+#    ^ - meta.heredoc
+  , $var
+# ^ punctuation.separator.sequence.perl
+#   ^^^^ variable.other.readwrite.global.perl
 )
-# <- meta.function-call.arguments.perl punctuation.section.arguments.end.perl - meta.function-call.name.perl
+# <- punctuation.section.group.end.perl
+
+  # The function call argument list can end at the same line
+  # while the content of the `_EOD_` HEREDOC starts at the next one.
+  functionCall(<<_EOD_, $var);
+# ^^^^^^^^^^^^ variable.function.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^^^^^^^^^ meta.heredoc.perl
+#              ^^ keyword.operator.heredoc.perl
+#                ^^^^^ constant.language.heredoc.plain.perl
+#                     ^ punctuation.separator.sequence.perl
+#                       ^^^^ variable.other.readwrite.global.perl
+#                           ^ punctuation.section.group.end.perl
+#                            ^ punctuation.terminator.statement.perl
+  foo bar baz
+# <- meta.heredoc.perl string.quoted.other.perl
+#^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
+_EOD_
+#<- meta.heredoc.perl constant.language.heredoc.plain.perl
+#^^^^ meta.heredoc.perl constant.language.heredoc.plain.perl
 
 ###[ CONDITIONAL EXPRESSIONS ]################################################
 

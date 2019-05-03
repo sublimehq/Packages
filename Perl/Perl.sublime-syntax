@@ -945,9 +945,8 @@ contexts:
     - match: (::)(({{member}})\s*)(?=\()
       captures:
         1: punctuation.accessor.double-colon.perl
-        2: meta.function-call.name.perl
-        3: variable.function.member.perl
-      set: function-call-arguments
+        2: variable.function.member.perl
+      pop: true
     # member variable
     - match: (::)({{identifier}})
       captures:
@@ -958,11 +957,9 @@ contexts:
 
   object-members-pop:
     # member function
-    - match: ({{member}})\s*(?=\()
-      scope: meta.function-call.name.perl
-      captures:
-        1: variable.function.member.perl
-      set: function-call-arguments
+    - match: '{{member}}(?=\s*\()'
+      scope: variable.function.member.perl
+      pop: true
     # member variable
     - match: '{{identifier}}'
       scope: variable.other.member.perl
@@ -1362,22 +1359,8 @@ contexts:
       scope: support.function.perl
       push: expressions-begin
     # user defined function calls
-    - match: \b({{member}})\s*(?=\()
-      scope: meta.function-call.name.perl
-      captures:
-        1: variable.function.perl
-      push: function-call-arguments
-
-  function-call-arguments:
-    - match: \(
-      scope: punctuation.section.arguments.begin.perl
-      set:
-        - - meta_scope: meta.function-call.arguments.perl
-          - match: \)
-            scope: punctuation.section.arguments.end.perl
-            pop: true
-          - include: main
-        - expressions-begin
+    - match: '{{member}}(?=\s*\()'
+      scope: variable.function.perl
 
 ###[ VARIABLES ]##############################################################
 
