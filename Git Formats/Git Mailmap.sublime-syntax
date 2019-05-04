@@ -19,6 +19,5 @@ contexts:
         - Git Common.sublime-syntax#email-meta
         - Git Common.sublime-syntax#email-name
     # proper name
-    - match: ([^ \t<#][^<#\n]+?)[ \t]*(?=<|$)
-      captures:
-        1: meta.reference.user.git
+    - match: '[^ \t<#][^<#\n]+?(?=[ \t]*(<|$))'
+      scope: meta.reference.user.git
