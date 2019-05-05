@@ -5229,6 +5229,26 @@ _EOD_
 #                    ^^ punctuation.accessor.arrow.perl
 #                      ^^^^^ variable.function.member.perl
 
+  # HEREDOC can start within a normal code block
+  if ($var) { $text = <<_EOT_; } else { $text = "foo"}
+# ^^^^^^^^^^^^^^^^^^^^ - meta.heredoc.perl
+#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl
+#                     ^^ keyword.operator.heredoc.perl
+#                       ^^^^^ constant.other.language-name.plain.perl
+#                            ^ punctuation.terminator.statement.perl
+#                              ^ punctuation.section.block.end.perl
+#                                ^^^^ keyword.control.conditional.else.perl
+#                                     ^ punctuation.section.block.begin.perl
+#                                       ^^^^^ variable.other.readwrite.perl
+#                                             ^ keyword.operator.assignment.perl
+#                                               ^^^^^ meta.string.perl string.quoted.double.perl
+#                                                    ^ punctuation.section.block.end.perl
+_EOT_
+# <- meta.heredoc.perl constant.other.language-name.plain.perl
+#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+
+# <- - meta.heredoc.perl
+
 ###[ LOOP EXPRESSIONS ]#######################################################
 
   for ($i = 1; $i < 10; $i++) {
