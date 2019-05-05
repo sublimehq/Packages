@@ -18,8 +18,6 @@ scope: source.perl
 variables:
   break: \b(?!::)
   identifier: '\b[_[:alpha:]]\w*\b'
-  module: '\b[_[:upper:]]\w*\b'
-  member: '\b[_[:lower:]]\w*\b'
   pod: '={{identifier}}'
   regexp_delim: '[^\w\s\)\]\}\>]'
   regexp_flags: '[msixpodualngcer]+\b'
@@ -100,12 +98,13 @@ contexts:
     - include: sub
     - include: quoted-like
     - include: label
-    - include: constants
-    - include: class
-    - include: operators
     - include: keywords
+    - include: constants
+    - include: qualified-function-call
+    - include: qualified-variables
+    - include: operators
     - include: variables
-    - include: function-call
+    - include: unqualified-function-call
     - include: comment-line
 
   expressions-begin:
@@ -120,11 +119,11 @@ contexts:
       pop: true
 
   else-pop:
-    - match: $|(?=\S)
+    - match: (?=\S)
       pop: true
 
   eol-pop:
-    - match: $|(?=[;#])
+    - match: $
       pop: true
 
 ###[ COMMENTS ]###############################################################
@@ -305,8 +304,7 @@ contexts:
     - include: qualified-namespace
     - include: unqualified-namespace
     - include: comment-line
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   package-version:
     - match: (")((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(")
@@ -337,8 +335,7 @@ contexts:
         3: punctuation.separator.decimal.perl
       pop: true
     - include: comment-line
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
 
   package-end:
     - meta_scope: meta.namespace.perl
@@ -688,13 +685,14 @@ contexts:
   constants-language:
     - match: \b__(?:END|DATA|FILE|LINE|PACKAGE|SUB)__\b
       scope: constant.language.perl
-    - match: \b(?:ARGV|ARGVOUT|STDERR|STDIN|STDOUT|DATA|IN|OUT){{break}}
+    - match: \b(?:ARGV|ARGVOUT|STDERR|STDIN|STDOUT|DATA|IN|OUT)\b
       scope: constant.language.filehandle.perl
 
   constants-other:
     - match: \b\w+(?=\s*=>)
       scope: constant.other.key.perl
-    - match: \b[A-Z0-9_]+{{break}}
+    # Not looking like a namespace, class, object or function?
+    - match: \b[A-Z_][A-Z0-9_]+\b(?!::|\s*(?:\(|->))
       scope: constant.other.perl
 
   constants-version:
@@ -764,7 +762,7 @@ contexts:
     - match: ^\s*(format)\s+(\w+)\s*(=)\s*$
       captures:
         1: storage.type.format.perl
-        2: variable.other.perl
+        2: variable.other.readwrite.perl
         3: keyword.operator.assignment.perl
       push:
         - meta_scope: meta.block.format.perl
@@ -927,48 +925,6 @@ contexts:
       scope: constant.language.heredoc.plain.perl
       pop: true
 
-###[ CLASSES ]################################################################
-
-  class:
-    - match: '{{module}}(?=(?:::|\s*[#;]|\s*$))'
-      scope: support.class.perl
-      push: class-members-pop
-
-  class-members-pop:
-    # nested class
-    - match: (::)({{module}})
-      captures:
-        1: punctuation.accessor.double-colon.perl
-        2: support.class.perl
-      push: maybe-item-access
-    # member function
-    - match: (::)(({{member}})\s*)(?=\()
-      captures:
-        1: punctuation.accessor.double-colon.perl
-        2: variable.function.member.perl
-      pop: true
-    # member variable
-    - match: (::)({{identifier}})
-      captures:
-        1: punctuation.accessor.double-colon.perl
-        2: variable.other.member.perl
-      set: maybe-item-access
-    - include: else-pop
-
-  object-members-pop:
-    # member function
-    - match: '{{member}}(?=\s*\()'
-      scope: variable.function.member.perl
-      pop: true
-    # member variable
-    - match: '{{identifier}}'
-      scope: variable.other.member.perl
-      set: maybe-item-access
-    # item access like $array->[0]
-    - match: (?=[{\[])
-      set: maybe-item-access
-    - include: else-pop
-
 ###[ KEYWORDS ]###############################################################
 
   keywords:
@@ -1080,9 +1036,6 @@ contexts:
     - match: -[rwx0RWXOezsfdlpSbctugkTBMAC]\b
       scope: keyword.operator.filetest.perl
       push: expressions-begin
-    - match: '->'
-      scope: keyword.accessor.arrow.perl
-      push: object-members-pop
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
       push: expressions-begin
@@ -1350,19 +1303,80 @@ contexts:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
     - include: else-pop
+    - include: eol-pop
 
-###[ FUNCTIONS ]##############################################################
+###[ FUNCTION CALL ]##########################################################
 
-  function-call:
+  qualified-function-call:
+    - match: ->
+      scope: punctuation.accessor.arrow.perl
+      push:
+        # member function
+        - match: '{{identifier}}(?!::)'
+          scope: variable.function.member.perl
+          pop: true
+        # item access like $array->[0]
+        - match: (?=[{\[])
+          set: maybe-item-access
+        - include: comment-line
+        - include: else-pop
+    # Class->member
+    - match: '{{identifier}}(?=\s*->)'
+      scope: support.class.perl
+    # Module::SubModule::function
+    # ::SubModule::function
+    - match: ({{identifier}})?(::)
+      captures:
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
+      push:
+        - meta_scope: meta.path.perl
+        - match: '{{identifier}}(?=\s*->)'
+          scope: support.class.perl
+          pop: true
+        - include: qualifier
+        - include: variables
+        - include: function-identifier
+
+  function-identifier:
+    # builtin function calls
+    - match: '{{builtin_functions}}'
+      scope: support.function.perl
+      set: expressions-begin
+    # user defined function calls
+    - match: '{{identifier}}{{break}}'
+      scope: variable.function.perl
+      set: expressions-begin
+    - include: immediately-pop
+
+  unqualified-function-call:
     # builtin function calls
     - match: '{{builtin_functions}}'
       scope: support.function.perl
       push: expressions-begin
     # user defined function calls
-    - match: '{{member}}(?=\s*\()'
+    - match: '{{identifier}}(?=\s*(?:$|[;#/()\]}''"`$@%]|<<|(?!(?:{{operator_keywords}}){{break}})\w))'
       scope: variable.function.perl
+      push: expressions-begin
 
 ###[ VARIABLES ]##############################################################
+
+  qualified-variables:
+    # $Module::SubModule::variable
+    # $::SubModule::variable
+    - match: ([\$\@\%]#?)({{identifier}})?(::)
+      captures:
+        1: punctuation.definition.variable.perl
+        2: support.class.perl
+        3: punctuation.accessor.double-colon.perl
+      push:
+        - meta_scope: meta.path.perl
+        - include: qualifier
+        - match: '{{identifier}}'
+          scope: variable.other.readwrite.perl
+          set: maybe-item-access
+        - include: variables
+        - include: immediately-pop
 
   qualifier:
     - match: ({{identifier}})?(::)
@@ -1407,23 +1421,13 @@ contexts:
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    # $Module::SubModule::member
-    # $::SubModule::member
-    - match: ([\$\@\%]#?)({{module}})?(?=::)
-      captures:
-        1: punctuation.definition.variable.perl
-        2: support.class.perl
-      push:
-        - - meta_scope: variable.other.readwrite.global.perl
-          - include: immediately-pop
-        - class-members-pop
     - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
       scope: variable.other.predefined.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
     - match: ([\$\@\%]#?)\w+\b
-      scope: variable.other.readwrite.global.perl
+      scope: variable.other.readwrite.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access

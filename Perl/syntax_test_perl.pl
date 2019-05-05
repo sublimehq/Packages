@@ -142,7 +142,7 @@ format name =
 # <- meta.block.format.perl storage.type.format.perl
 #^^^^^^^^^^^^^ meta.block.format.perl
 #^^^^^ storage.type.format.perl
-#      ^^^^ variable.other.perl
+#      ^^^^ variable.other.readwrite.perl
 #           ^ keyword.operator.assignment.perl
   ^#.###
 # ^ punctuation.definition.placeholder.begin.perl
@@ -155,7 +155,7 @@ format name =
   @*
 # ^^ variable.parameter.multiline-width.perl
   @variable
-# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^^^^^^^^^ variable.other.readwrite.perl
 # ^ punctuation.definition.variable.perl
   ...
 # ^^^ constant.character.escape.perl
@@ -180,8 +180,8 @@ CSS
 #^^ meta.heredoc.perl constant.language.heredoc.css.perl
 
 $var = <<HTML;
-# <- variable.other.readwrite.global.perl
-#^^^ variable.other.readwrite.global.perl
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
@@ -195,8 +195,8 @@ HTML
 #^^^ meta.heredoc.perl constant.language.heredoc.html.perl
 
 $var = <<'HTML';
-# <- variable.other.readwrite.global.perl
-#^^^ variable.other.readwrite.global.perl
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
@@ -213,8 +213,8 @@ HTML
 #^^^ meta.heredoc.perl constant.language.heredoc.html.perl
 
 $var = <<"HTML";
-# <- variable.other.readwrite.global.perl
-#^^^ variable.other.readwrite.global.perl
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
@@ -231,8 +231,8 @@ HTML
 #^^^ meta.heredoc.perl constant.language.heredoc.html.perl
 
 $var ? <<HTML : <<HTML;
-# <- variable.other.readwrite.global.perl
-#^^^ variable.other.readwrite.global.perl
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.logical.perl
 #      ^^^^^^^^^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
@@ -260,8 +260,8 @@ HTML
 #^^^ constant.other.perl
 
 $var = <<JAVASCRIPT;
-# <- variable.other.readwrite.global.perl punctuation.definition.variable.perl
-#^^^ variable.other.readwrite.global.perl
+# <- variable.other.readwrite.perl punctuation.definition.variable.perl
+#^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
@@ -374,9 +374,9 @@ EOT
   ;
 # ^ punctuation.terminator.statement.perl
   ::
-# ^^ - punctuation.accessor.double-colon.perl
+# ^^ punctuation.accessor.double-colon.perl
   ->
-# ^^ keyword.accessor.arrow.perl
+# ^^ punctuation.accessor.arrow.perl
   **=
 # ^^^ keyword.operator.assignment.perl
   -=
@@ -471,392 +471,10 @@ EOT
 #                                     ^^^ keyword.operator.logical.perl
 #                                        ^ - keyword
 
-###[ VARIABLES ]##############################################################
-
-  $&
-# ^^ variable.other.regexp.match.perl
-# ^ punctuation.definition.variable.perl
-  $`
-# ^^ variable.other.regexp.pre-match.perl
-# ^ punctuation.definition.variable.perl
-  $'
-# ^^ variable.other.regexp.post-match.perl
-# ^ punctuation.definition.variable.perl
-  $+
-# ^^ variable.other.regexp.last-paren-match.perl
-# ^ punctuation.definition.variable.perl
-  $"
-# ^^ variable.other.readwrite.list-separator.perl
-# ^ punctuation.definition.variable.perl
-  $0
-# ^^ variable.other.predefined.program-name.perl
-# ^ punctuation.definition.variable.perl
-  @0
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  %0
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  $1
-# ^^ variable.other.subpattern.perl
-# ^ punctuation.definition.variable.perl
-  @1
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  %1
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  $_
-# ^^ variable.other.predefined.perl
-# ^ punctuation.definition.variable.perl
-  @_
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  %_
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-  $#0
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  @#0
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  %#0
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  $#_
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  @#_
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  %#_
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-  $&[0]
-# ^^ variable.other.regexp.match.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $`[0]
-# ^^ variable.other.regexp.pre-match.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $'[0]
-# ^^ variable.other.regexp.post-match.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $+[0]
-# ^^ variable.other.regexp.last-paren-match.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $"[0]
-# ^^ variable.other.readwrite.list-separator.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $0[0]
-# ^^ variable.other.predefined.program-name.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @0[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %0[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $1[0]
-# ^^ variable.other.subpattern.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @1[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %1[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $_[0]
-# ^^ variable.other.predefined.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @_[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %_[0]
-# ^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $#0[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  @#0[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  %#0[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  $#_[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  @#_[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  %#_[0]
-# ^^^ variable.other.readwrite.global.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  $Foo::Bar::baz
-# ^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ punctuation.accessor.double-colon.perl
-#            ^^^ variable.other.member.perl
-  $Foo::Bar::baz[4]
-# ^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ punctuation.accessor.double-colon.perl
-#            ^^^ variable.other.member.perl - meta.item-access.perl
-#               ^ meta.item-access.perl punctuation.section.item-access.begin.perl
-#                ^ meta.item-access.perl constant.numeric.integer
-#                 ^ meta.item-access.perl punctuation.section.item-access.end.perl
-  $Foo::Bar->baz
-# ^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ keyword.accessor.arrow.perl
-#            ^^^ variable.other.member.perl
-  $Foo::Bar->[0]
-# ^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ keyword.accessor.arrow.perl
-#            ^^^ meta.item-access.perl
-  $Foo::Bar->baz[0]
-# ^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ keyword.accessor.arrow.perl
-#            ^^^ variable.other.member.perl
-#               ^^^ meta.item-access.perl
-  $Foo::Bar->baz{'key'}
-# ^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ keyword.accessor.arrow.perl
-#            ^^^ variable.other.member.perl
-#               ^^^^^^^ meta.item-access.perl
-  $Foo::Bar->$baz->[-1]
-# ^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ keyword.accessor.arrow.perl - variable
-#            ^^^^ variable.other.readwrite.global.perl
-#            ^ punctuation.definition.variable.perl
-#                  ^ punctuation.section.item-access.begin.perl
-#                  ^^^^ meta.item-access.perl
-#                     ^ punctuation.section.item-access.end.perl
-  $Foo::Bar::baz()
-# ^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
-#          ^^ punctuation.accessor.double-colon.perl
-#            ^^^ variable.function.member.perl
-#               ^ punctuation.section.group.begin.perl
-#                ^ punctuation.section.group.end.perl
-  $c = C::Scan->new(KEY => 'value')
-# ^^ variable.other.readwrite.global.perl
-#    ^ keyword.operator.assignment.perl
-#      ^ support.class.perl
-#       ^^ punctuation.accessor.double-colon.perl
-#         ^^^^ support.class.perl
-#             ^^ keyword.accessor.arrow.perl
-#               ^^^ variable.function.member.perl
-#                  ^ punctuation.section.group.begin.perl
-#                   ^^^ constant.other.key.perl
-#                      ^ - constant
-#                       ^^ keyword.operator.assignment.perl
-#                          ^^^^^^^ string.quoted.single.perl
-#                                 ^ punctuation.section.group.end.perl
-  ${get_var_name()}
-# ^^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
-#   ^^^^^^^^^^^^ variable.function.perl
-#                 ^ punctuation.definition.variable.end.perl
-  ${/\w+$/g = $var}
-# ^^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
-#   ^ punctuation.section.generic.begin.perl
-#    ^^^^ string.regexp.perl
-#        ^ punctuation.section.generic.end.perl
-#         ^ constant.language.flags.regexp.perl
-#           ^ keyword.operator.assignment.perl
-#                 ^ punctuation.definition.variable.end.perl
-  ${Foo::Bar::baz}
-# ^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
-#   ^^^ support.class.perl
-#      ^^ punctuation.accessor.double-colon.perl
-#        ^^^ support.class.perl
-#           ^^ punctuation.accessor.double-colon.perl
-#             ^^^ variable.other.member.perl
-#                ^ punctuation.definition.variable.end.perl
-  ${Foo::Bar::baz}[$var]
-# ^^^^^^^^^^^^^^^^ meta.variable.perl
-#                 ^^^^^^ meta.item-access.perl
-  ${
-#^ - variable
-# ^^ punctuation.definition.variable.begin.perl
-# ^^^ meta.variable.perl
-    Foo::bar->baz()
-# <- meta.variable.perl
-#^^^^^^^^^^^^^^^^^^^ meta.variable.perl
-#   ^^^ support.class.perl
-#      ^^ punctuation.accessor.double-colon.perl
-#        ^^^ variable.other.member.perl
-#           ^^ keyword.accessor.arrow.perl
-#             ^^^ variable.function.member.perl
-  }
-# <- meta.variable.perl
-#^^ meta.variable.perl
-# ^ punctuation.definition.variable.end.perl
-#  ^ - variable
-  $::Config{'cf_email'}
-# ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-#          ^^^^^^^^^^^^ meta.item-access.perl
-# ^ punctuation.definition.variable.perl
-#  ^^ punctuation.accessor.double-colon.perl
-#    ^^^^^^ support.class.perl
-#          ^ punctuation.section.item-access.begin.perl
-#           ^^^^^^^^^^ string.quoted.single.perl
-#                     ^ punctuation.section.item-access.end.perl
   -f
 # ^^ keyword.operator.filetest.perl
   -foo
 # ^^ - keyword.operator.filetest.perl
-  $_foo = "bar";
-# ^ punctuation.definition.variable.perl
-# ^^^^^ variable.other.readwrite.global.perl
-#       ^ keyword.operator.assignment.perl
-#         ^ punctuation.definition.string.begin.perl
-#         ^^^^^ string.quoted.double.perl
-#             ^ punctuation.definition.string.end.perl
-#              ^ punctuation.terminator.statement.perl
-  %_foo = "bar";
-# ^ punctuation.definition.variable.perl
-# ^^^^^ variable.other.readwrite.global.perl
-#       ^ keyword.operator.assignment.perl
-#         ^ punctuation.definition.string.begin.perl
-#         ^^^^^ string.quoted.double.perl
-#             ^ punctuation.definition.string.end.perl
-#              ^ punctuation.terminator.statement.perl
-  $foo{bar}
-# ^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#     ^ punctuation.section.item-access.begin.perl
-#     ^^^^^ meta.item-access.perl
-#      ^^^ string.unquoted.perl
-#         ^ punctuation.section.item-access.end.perl
-  $foo{bar()}
-# ^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#     ^ punctuation.section.item-access.begin.perl
-#     ^^^^^ meta.item-access.perl
-#      ^^^ variable.function.perl
-#           ^ punctuation.section.item-access.end.perl
-  $foo{10 + $bar}
-# ^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#     ^ punctuation.section.item-access.begin.perl
-#     ^^^^^^^^^^^ meta.item-access.perl
-#      ^^ constant.numeric.integer.decimal.perl
-#         ^ keyword.operator.arithmetic.perl
-#           ^^^^ variable.other.readwrite.global.perl
-#               ^ punctuation.section.item-access.end.perl
-  %{$foo{bar}{baz}} = 'excl';
-# ^^^^^^^^^^^^^^^^^ meta.variable.perl
-#       ^^^^^^^^^^ meta.item-access.perl
-# ^^ punctuation.definition.variable.begin.perl
-#   ^ punctuation.definition.variable.perl
-#   ^^^^ variable.other.readwrite.global.perl
-#       ^ punctuation.section.item-access.begin.perl
-#        ^^^ string.unquoted.perl
-#           ^ punctuation.section.item-access.end.perl
-#             ^^^ string.unquoted.perl
-#                ^ punctuation.section.item-access.end.perl
-#                 ^ punctuation.definition.variable.end.perl
-#                   ^ keyword.operator.assignment.perl
-#                     ^^^^^^ string.quoted.single.perl
-#                           ^ punctuation.terminator.statement.perl
-  %{$foo{'bar'}{'bar'}} = 'excl';
-# ^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
-#       ^^^^^^^^^^^^^^ meta.item-access.perl
-# ^^ punctuation.definition.variable.begin.perl
-#   ^ punctuation.definition.variable.perl
-#   ^^^^ variable.other.readwrite.global.perl
-#       ^ punctuation.section.item-access.begin.perl
-#        ^^^^^ string.quoted.single.perl
-#             ^ punctuation.section.item-access.end.perl
-#              ^ punctuation.section.item-access.begin.perl
-#               ^^^^^ string.quoted.single.perl
-#                    ^ punctuation.section.item-access.end.perl
-#                     ^ punctuation.definition.variable.end.perl
-#                       ^ keyword.operator.assignment.perl
-#                         ^^^^^^ string.quoted.single.perl
-#                               ^ punctuation.terminator.statement.perl
-
-  # addin items to an array
-  $AoA[$i] = [ somefunc($i) ];
-# ^^^^ variable.other.readwrite.global.perl - meta.item-access
-#     ^^^^ meta.item-access.perl
-#     ^ punctuation.section.item-access.begin.perl
-#      ^^ variable.other.readwrite.global.perl
-#        ^ punctuation.section.item-access.end.perl
-#          ^ keyword.operator.assignment.perl
-#            ^ punctuation.section.brackets.begin.perl
-#                           ^ punctuation.section.brackets.end.perl
-#                            ^ punctuation.terminator.statement.perl
-  # add new columns to an existing row
-  push @{ $AoA[0] }, "wilma", "betty";   # explicit deref
-# ^^^^ support.function.perl
-#      ^^^^^^^^^^^^ meta.variable.perl
-#         ^^^^ variable.other.readwrite.global.perl - meta.item-access
-#             ^^^ meta.item-access.perl
-#      ^^  punctuation.definition.variable.begin.perl
-#         ^ punctuation.definition.variable.perl
-#             ^ punctuation.section.item-access.begin.perl
-#              ^ constant.numeric.integer
-#               ^ punctuation.section.item-access.end.perl
-#                 ^ punctuation.definition.variable.end.perl
-#                  ^ punctuation.separator.sequence.perl
-#                    ^^^^^^^ string.quoted.double.perl
-#                           ^ punctuation.separator.sequence.perl
-#                             ^^^^^^^ string.quoted.double.perl
-#                                    ^ punctuation.terminator.statement.perl
 
 ###[ CONSTANTS ] #############################################################
 
@@ -1075,8 +693,26 @@ EOT
 # ^^^^^^^^ constant.language.perl
   __END__
 # ^^^^^^^ constant.language.perl
+
+  # note: language constants keep their scope
   ARGV
 # ^^^^ constant.language.filehandle.perl
+  ARGV::
+# ^^^^ constant.language.filehandle.perl
+  ARGV->func
+# ^^^^ constant.language.filehandle.perl
+  ARGV()
+# ^^^^ constant.language.filehandle.perl
+
+  # note: user constants adapt their scope
+  URI
+# ^^^ constant.other.perl
+  URI::
+# ^^^ support.class.perl
+  URI->func
+# ^^^ support.class.perl
+  URI()
+# ^^^ variable.function.perl
 
 ###[ STRINGS ]################################################################
 
@@ -1377,6 +1013,462 @@ EOT
   s[<pattern>] [<repl>] g;
 #                       ^ - constant.language.flags.regexp.perl
 
+###[ LANGUAGE VARIABLES ]#####################################################
+
+  $&
+# ^^ variable.other.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+  $`
+# ^^ variable.other.regexp.pre-match.perl
+# ^ punctuation.definition.variable.perl
+  $'
+# ^^ variable.other.regexp.post-match.perl
+# ^ punctuation.definition.variable.perl
+  $+
+# ^^ variable.other.regexp.last-paren-match.perl
+# ^ punctuation.definition.variable.perl
+  $"
+# ^^ variable.other.readwrite.list-separator.perl
+# ^ punctuation.definition.variable.perl
+  $0
+# ^^ variable.other.predefined.program-name.perl
+# ^ punctuation.definition.variable.perl
+  @0
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  %0
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  $1
+# ^^ variable.other.subpattern.perl
+# ^ punctuation.definition.variable.perl
+  @1
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  %1
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  $_
+# ^^ variable.other.predefined.perl
+# ^ punctuation.definition.variable.perl
+  @_
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  %_
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+  $#0
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  @#0
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  %#0
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  $#_
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  @#_
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  %#_
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+  $&[0]
+# ^^ variable.other.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $`[0]
+# ^^ variable.other.regexp.pre-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $'[0]
+# ^^ variable.other.regexp.post-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $+[0]
+# ^^ variable.other.regexp.last-paren-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $"[0]
+# ^^ variable.other.readwrite.list-separator.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $0[0]
+# ^^ variable.other.predefined.program-name.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @0[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %0[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $1[0]
+# ^^ variable.other.subpattern.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @1[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %1[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $_[0]
+# ^^ variable.other.predefined.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @_[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %_[0]
+# ^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $#0[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  @#0[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  %#0[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  $#_[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  @#_[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  %#_[0]
+# ^^^ variable.other.readwrite.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+
+###[ UNQUALIFIED VARIABLES ]##################################################
+
+  $_foo = "bar";
+# ^ punctuation.definition.variable.perl
+# ^^^^^ variable.other.readwrite.perl
+#       ^ keyword.operator.assignment.perl
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^^^ string.quoted.double.perl
+#             ^ punctuation.definition.string.end.perl
+#              ^ punctuation.terminator.statement.perl
+  %_foo = "bar";
+# ^ punctuation.definition.variable.perl
+# ^^^^^ variable.other.readwrite.perl
+#       ^ keyword.operator.assignment.perl
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^^^ string.quoted.double.perl
+#             ^ punctuation.definition.string.end.perl
+#              ^ punctuation.terminator.statement.perl
+  $foo{bar}
+# ^^^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^ meta.item-access.perl
+#      ^^^ string.unquoted.perl
+#         ^ punctuation.section.item-access.end.perl
+  $foo{bar()}
+# ^^^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^ meta.item-access.perl
+#      ^^^ variable.function.perl
+#           ^ punctuation.section.item-access.end.perl
+  $foo{10 + $bar}
+# ^^^^ variable.other.readwrite.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^^^^^^^ meta.item-access.perl
+#      ^^ constant.numeric.integer.decimal.perl
+#         ^ keyword.operator.arithmetic.perl
+#           ^^^^ variable.other.readwrite.perl
+#               ^ punctuation.section.item-access.end.perl
+
+###[ QUALIFIED VARIABLES ]####################################################
+
+  $::var # scalar in the 'main' namespace
+# ^^^^^^ meta.path.perl
+#       ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^ variable.other.readwrite.perl
+  $::Var[$idx] # array in the 'main' namespace
+# ^^^^^^ meta.path.perl - meta.item-access
+#       ^^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^ variable.other.readwrite.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^^ variable.other.readwrite.perl
+#            ^ punctuation.section.item-access.end.perl
+  $::VAR{'key'} # hash in the 'main' namespace
+# ^^^^^^ meta.path.perl - meta.item-access
+#       ^^^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^ variable.other.readwrite.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^^^ string.quoted.single.perl
+#             ^ punctuation.section.item-access.end.perl
+  $::var->[$idx] # reference in the 'main' namespace
+# ^^^^^^ meta.path.perl - meta.item-access
+#       ^^ - meta.path - meta.item-access
+#         ^^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^ variable.other.readwrite.perl
+#       ^^ punctuation.accessor.arrow.perl
+#         ^ punctuation.section.item-access.begin.perl
+#          ^^^^ variable.other.readwrite.perl
+#              ^ punctuation.section.item-access.end.perl
+  $::var->{'key'} # reference in the 'main' namespace
+# ^^^^^^ meta.path.perl - meta.item-access
+#       ^^ - meta.path - meta.item-access
+#         ^^^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^ variable.other.readwrite.perl
+#       ^^ punctuation.accessor.arrow.perl
+#         ^ punctuation.section.item-access.begin.perl
+#          ^^^^^ string.quoted.single.perl
+#               ^ punctuation.section.item-access.end.perl
+  $Foo::bar # 'bar' is a scalar
+# ^^^^^^^^^ meta.path.perl
+#          ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ variable.other.readwrite.perl
+  $Foo::bar->[0] # 'bar' is a reference of an array
+# ^^^^^^^^^ meta.path.perl - meta.item-access
+#          ^^ - meta.path - meta.item-access
+#            ^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ variable.other.readwrite.perl
+#          ^^ punctuation.accessor.arrow.perl
+#            ^^^ meta.item-access.perl
+  $FOO::bar->{key} # 'bar' is a reference of a hash
+# ^^^^^^^^^ meta.path.perl - meta.item-access
+#          ^^ - meta.path - meta.item-access
+#            ^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ variable.other.readwrite.perl
+#          ^^ punctuation.accessor.arrow.perl
+#            ^ punctuation.section.item-access.begin.perl
+#             ^^^ string.unquoted.perl
+#                ^ punctuation.section.item-access.end.perl
+  $Foo::bar->baz # 'Bar' is a reference to a class or namespace
+# ^^^^^^^^^ meta.path.perl
+#          ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ variable.other.readwrite.perl
+#          ^^ punctuation.accessor.arrow.perl
+#            ^^^ variable.function.member.perl
+  $Foo::bar::baz
+# ^^^^^^^^^^^^^^ meta.path.perl
+#               ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.readwrite.perl
+  $Foo::$bar::baz # a part of the qualifier is a variable
+# ^^^^^^^^^^^^^^^ meta.path.perl
+#                ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ variable.other.readwrite.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^ variable.other.readwrite.perl
+  $Foo::${bar}::baz # a part of the qualifier is a variable
+# ^^^^^^^^^^^^^^^^^ meta.path.perl
+#                  ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^^ meta.variable.perl
+#         ^^^ variable.function.perl
+#             ^^ punctuation.accessor.double-colon.perl
+#               ^^^ variable.other.readwrite.perl
+  $Foo::Bar::baz() # baz is not a function
+# ^^^^^^^^^^^^^^ meta.path.perl
+#               ^^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.readwrite.perl
+#               ^ punctuation.section.group.begin.perl
+#                ^ punctuation.section.group.end.perl
+  $foo::Bar::baz[4] # 'baz' is an array
+# ^^^^^^^^^^^^^^ meta.path.perl - meta.item-access
+#               ^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.readwrite.perl
+#               ^ punctuation.section.item-access.begin.perl
+#                ^ constant.numeric.integer
+#                 ^ punctuation.section.item-access.end.perl
+  $FOO::BAR::baz{key} # baz is a hash
+# ^^^^^^^^^^^^^^ meta.path.perl - meta.item-access
+#               ^^^^^ meta.item-access.perl - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.readwrite.perl
+#               ^ punctuation.section.item-access.begin.perl
+#                ^^^ string.unquoted.perl
+#                   ^ punctuation.section.item-access.end.perl
+  $Foo::Bar->$baz->[-1]
+# ^^^^^^^^^ meta.path.perl
+#          ^ - meta.path
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ variable.other.readwrite.perl
+#          ^^ punctuation.accessor.arrow.perl - variable
+#            ^^^^ variable.other.readwrite.perl
+#            ^ punctuation.definition.variable.perl
+#             ^^^ variable.other.readwrite.perl
+#                ^^ punctuation.accessor.arrow.perl
+#                  ^ punctuation.section.item-access.begin.perl
+#                  ^^^^ meta.item-access.perl
+#                     ^ punctuation.section.item-access.end.perl
+
+###[ VARIABLE EXPRESSIONS ]###################################################
+
+  ${get_var_name()}
+# ^^^^^^^^^^^^^^^^^ meta.variable.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^^^^^^^^^^^^ variable.function.perl
+#                 ^ punctuation.definition.variable.end.perl
+  ${/\w+$/g = $var}
+# ^^^^^^^^^^^^^^^^^ meta.variable.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.section.generic.begin.perl
+#    ^^^^ string.regexp.perl
+#        ^ punctuation.section.generic.end.perl
+#         ^ constant.language.flags.regexp.perl
+#           ^ keyword.operator.assignment.perl
+#                 ^ punctuation.definition.variable.end.perl
+  %{$foo{bar}{baz}} = 'excl';
+# ^^^^^^^^^^^^^^^^^ meta.variable.perl
+#       ^^^^^^^^^^ meta.item-access.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^ variable.other.readwrite.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^ string.unquoted.perl
+#           ^ punctuation.section.item-access.end.perl
+#             ^^^ string.unquoted.perl
+#                ^ punctuation.section.item-access.end.perl
+#                 ^ punctuation.definition.variable.end.perl
+#                   ^ keyword.operator.assignment.perl
+#                     ^^^^^^ string.quoted.single.perl
+#                           ^ punctuation.terminator.statement.perl
+  %{$foo{'bar'}{'bar'}} = 'excl';
+# ^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
+#       ^^^^^^^^^^^^^^ meta.item-access.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^ variable.other.readwrite.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^^^ string.quoted.single.perl
+#             ^ punctuation.section.item-access.end.perl
+#              ^ punctuation.section.item-access.begin.perl
+#               ^^^^^ string.quoted.single.perl
+#                    ^ punctuation.section.item-access.end.perl
+#                     ^ punctuation.definition.variable.end.perl
+#                       ^ keyword.operator.assignment.perl
+#                         ^^^^^^ string.quoted.single.perl
+#                               ^ punctuation.terminator.statement.perl
+  ${Foo::Bar::baz}
+# ^^^^^^^^^^^^^^^^ meta.variable.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^^^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^ support.class.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^ variable.function.perl
+#                ^ punctuation.definition.variable.end.perl
+  ${Foo::Bar::baz}[$var]
+# ^^^^^^^^^^^^^^^^ meta.variable.perl
+#                 ^^^^^^ meta.item-access.perl
+  ${
+#^ - variable
+# ^^ punctuation.definition.variable.begin.perl
+# ^^^ meta.variable.perl
+    Foo::bar->baz()
+# <- meta.variable.perl
+#^^^^^^^^^^^^^^^^^^^ meta.variable.perl
+#   ^^^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^ support.class.perl
+#           ^^ punctuation.accessor.arrow.perl
+#             ^^^ variable.function.member.perl
+  }
+# <- meta.variable.perl
+#^^ meta.variable.perl
+# ^ punctuation.definition.variable.end.perl
+#  ^ - variable
+
+  # addin items to an array
+  $AoA[$i] = [ somefunc($i) ];
+# ^^^^ variable.other.readwrite.perl - meta.item-access
+#     ^^^^ meta.item-access.perl
+#     ^ punctuation.section.item-access.begin.perl
+#      ^^ variable.other.readwrite.perl
+#        ^ punctuation.section.item-access.end.perl
+#          ^ keyword.operator.assignment.perl
+#            ^ punctuation.section.brackets.begin.perl
+#                           ^ punctuation.section.brackets.end.perl
+#                            ^ punctuation.terminator.statement.perl
+  # add new columns to an existing row
+  push @{ $AoA[0] }, "wilma", "betty";   # explicit deref
+# ^^^^ support.function.perl
+#      ^^^^^^^^^^^^ meta.variable.perl
+#         ^^^^ variable.other.readwrite.perl - meta.item-access
+#             ^^^ meta.item-access.perl
+#      ^^  punctuation.definition.variable.begin.perl
+#         ^ punctuation.definition.variable.perl
+#             ^ punctuation.section.item-access.begin.perl
+#              ^ constant.numeric.integer
+#               ^ punctuation.section.item-access.end.perl
+#                 ^ punctuation.definition.variable.end.perl
+#                  ^ punctuation.separator.sequence.perl
+#                    ^^^^^^^ string.quoted.double.perl
+#                           ^ punctuation.separator.sequence.perl
+#                             ^^^^^^^ string.quoted.double.perl
+#                                    ^ punctuation.terminator.statement.perl
+
 ###[ PACKAGE DEFINITION ]#####################################################
 
   package;
@@ -1524,7 +1616,7 @@ EOT
 #        ^^^^^^ - meta.namespace
 # ^^^^^^^ storage.type.namespace.perl
   package::name;
-# ^^^^^^^^^^^^^^ - meta.namespace.perl - meta.path
+# ^^^^^^^^^^^^^^ - meta.namespace.perl
 
 ###[ PACKAGE IMPORTS ]########################################################
 
@@ -1632,33 +1724,33 @@ EOT
   require $name;
 # ^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 # ^^^^^^^ keyword.control.import.require.perl
-#         ^^^^^ variable.other.readwrite.global.perl
+#         ^^^^^ variable.other.readwrite.perl
 #              ^ punctuation.terminator.statement.perl
   require foo.$bar.pm;
 # ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 # ^^^^^^^ keyword.control.import.require.perl
 #         ^^^ string.unquoted.perl
 #            ^ keyword.operator.concat.perl
-#             ^^^^ variable.other.readwrite.global.perl
+#             ^^^^ variable.other.readwrite.perl
 #                 ^ keyword.operator.concat.perl
-#                  ^^ string.unquoted.perl
+#                  ^^ variable.function.perl
 #                    ^ punctuation.terminator.statement.perl
   require-name;
 # ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 #             ^ - meta.preprocessor.require
 # ^^^^^^^ keyword.control.import.require.perl
 #        ^ keyword.operator.arithmetic.perl
-#         ^^^^ string.unquoted.perl
+#         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
   require.name;
 # ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
 #             ^ - meta.preprocessor.require
 # ^^^^^^^ keyword.control.import.require.perl
 #        ^ keyword.operator.concat.perl
-#         ^^^^ string.unquoted.perl
+#         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
   require::name;
-# ^^^^^^^^^^^^^^ - meta.preprocessor.require.perl - meta.path
+# ^^^^^^^^^^^^^^ - meta.preprocessor.require.perl
 #              ^ punctuation.terminator.statement.perl
 
 eval { require Mail::Send };
@@ -1718,14 +1810,18 @@ use strict "vars";
 #         ^^^^ entity.name.namespace.perl
 #             ^ punctuation.terminator.statement.perl
   use warnings::register Foo::func;
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.use.perl
+# ^^^^ meta.preprocessor.use.perl - meta.path
+#     ^^^^^^^^^^^^^^^^^^ meta.preprocessor.use.perl meta.path.perl
+#                       ^ meta.preprocessor.use.perl - meta.path
+#                        ^^^^^^^^^ meta.preprocessor.use.perl meta.path.perl
+#                                 ^ - meta.preprocessor - meta.path
 # ^^^ keyword.control.import.use.perl
 #     ^^^^^^^^ entity.name.namespace.perl
 #             ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #               ^^^^^^^^ entity.name.namespace.perl
 #                        ^^^ support.class.perl
 #                           ^^ punctuation.accessor.double-colon.perl
-#                             ^^^^ variable.other.member.perl
+#                             ^^^^ variable.function.perl
 #                                 ^ punctuation.terminator.statement.perl
   no strict;
 # ^^^^^^^^^ meta.preprocessor.no.perl
@@ -1750,13 +1846,13 @@ my $foo;
 # <-  keyword.declaration.variable.perl
 #^ keyword.declaration.variable.perl
 #  ^ punctuation.definition.variable.perl
-#  ^^^^ variable.other.readwrite.global.perl
+#  ^^^^ variable.other.readwrite.perl
 #      ^ punctuation.terminator.statement.perl
 my $foo = "bar";
 # <-  keyword.declaration.variable.perl
 #^ keyword.declaration.variable.perl
 #  ^ punctuation.definition.variable.perl
-#  ^^^^ variable.other.readwrite.global.perl
+#  ^^^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
 #         ^ punctuation.definition.string.begin.perl
 #         ^^^^^ string.quoted.double.perl
@@ -1767,13 +1863,13 @@ my (
 #^ keyword.declaration.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
-# ^^^^ variable.other.readwrite.global.perl
+# ^^^^ variable.other.readwrite.perl
 #     ^ punctuation.separator.sequence.perl
 #       ^ punctuation.definition.variable.perl
-#       ^^^^ variable.other.readwrite.global.perl
+#       ^^^^ variable.other.readwrite.perl
   $baz
 # ^ punctuation.definition.variable.perl
-# ^^^^ variable.other.readwrite.global.perl
+# ^^^^ variable.other.readwrite.perl
   );
 # ^ punctuation.section.group.end.perl
 #  ^ punctuation.terminator.statement.perl
@@ -1781,7 +1877,7 @@ my (
 # ^^^^ support.function.perl
 #      ^ punctuation.section.block.begin.perl
 #        ^^ keyword.declaration.variable.perl
-#           ^^^^ variable.other.readwrite.global.perl
+#           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
 #                   ^^^^^^^ string.regexp.perl source.regexp meta.literal.regexp
@@ -1805,13 +1901,13 @@ our $foo;
 # <-  keyword.declaration.variable.perl
 #^^ keyword.declaration.variable.perl
 #   ^ punctuation.definition.variable.perl
-#   ^^^^ variable.other.readwrite.global.perl
+#   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.terminator.statement.perl
 our $foo = "bar";
 # <-  keyword.declaration.variable.perl
 #^^ keyword.declaration.variable.perl
 #   ^ punctuation.definition.variable.perl
-#   ^^^^ variable.other.readwrite.global.perl
+#   ^^^^ variable.other.readwrite.perl
 #        ^ keyword.operator.assignment.perl
 #          ^ punctuation.definition.string.begin.perl
 #          ^^^^^ string.quoted.double.perl
@@ -1822,26 +1918,26 @@ our (
 #^^ keyword.declaration.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
-# ^^^^ variable.other.readwrite.global.perl
+# ^^^^ variable.other.readwrite.perl
 #     ^ punctuation.separator.sequence.perl
 #       ^ punctuation.definition.variable.perl
-#       ^^^^ variable.other.readwrite.global.perl
+#       ^^^^ variable.other.readwrite.perl
   $baz
 # ^ punctuation.definition.variable.perl
-# ^^^^ variable.other.readwrite.global.perl
+# ^^^^ variable.other.readwrite.perl
   );
 # ^ punctuation.section.group.end.perl
 #  ^ punctuation.terminator.statement.perl
 our $VERSION = do {
 # <- keyword.declaration.variable.perl
 #^^ keyword.declaration.variable.perl
-#   ^^^^^^^^ variable.other.readwrite.global.perl
+#   ^^^^^^^^ variable.other.readwrite.perl
 #            ^ keyword.operator.assignment.perl
 #              ^^ keyword.control.flow.do.perl
 #                 ^ punctuation.section.block.begin.perl
   my @r = (q$Revision: 2.20 $ =~ /\d+/g);
 # ^^ keyword.declaration.variable.perl
-#    ^^ variable.other.readwrite.global.perl
+#    ^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
 #         ^ punctuation.section.group.begin.perl
 #          ^ meta.function-call.perl support.function.perl
@@ -2379,7 +2475,7 @@ state
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^ punctuation.section.parameters.begin.perl
-#             ^^^^ variable.other.readwrite.global.perl
+#             ^^^^ variable.other.readwrite.perl
 #                 ^ punctuation.separator.sequence.perl
 #                   ^ constant.numeric.integer.decimal.perl
 #                    ^ punctuation.section.parameters.end.perl
@@ -2413,7 +2509,7 @@ state
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
 #                 ^ punctuation.section.parameters.begin.perl
-#                  ^^^^ variable.other.readwrite.global.perl
+#                  ^^^^ variable.other.readwrite.perl
 #                      ^ punctuation.separator.sequence.perl
 #                        ^ constant.numeric.integer.decimal.perl
 #                         ^ punctuation.section.parameters.end.perl
@@ -2451,7 +2547,7 @@ state
 #                ^^^^ variable.annotation.attribute.perl
 #                     ^^^ invalid.illegal.identifier.perl
 #                         ^ punctuation.section.parameters.begin.perl
-#                          ^^^^ variable.other.readwrite.global.perl
+#                          ^^^^ variable.other.readwrite.perl
 #                              ^ punctuation.separator.sequence.perl
 #                                ^ constant.numeric.integer.decimal.perl
 #                                 ^ punctuation.section.parameters.end.perl
@@ -2759,11 +2855,11 @@ state
 # ^^^^ keyword.control.flow.next.perl
 #      ^^^^^ variable.label.perl
 #            ^^ keyword.control.conditional.if.perl
-#               ^^^^^^ variable.other.readwrite.global.perl
+#               ^^^^^^ variable.other.readwrite.perl
   next if $retry
 # ^^^^ keyword.control.flow.next.perl
 #      ^^ keyword.control.conditional.if.perl
-#         ^^^^^^ variable.other.readwrite.global.perl
+#         ^^^^^^ variable.other.readwrite.perl
   redo LINE
 # ^^^^ keyword.control.flow.redo.perl
 #      ^^^^ variable.label.perl
@@ -2771,11 +2867,11 @@ state
 # ^^^^ keyword.control.flow.redo.perl
 #      ^^^^ variable.label.perl
 #           ^^ keyword.control.conditional.if.perl
-#              ^^^^^^ variable.other.readwrite.global.perl
+#              ^^^^^^ variable.other.readwrite.perl
   redo unless $retry
 # ^^^^ keyword.control.flow.redo.perl
 #      ^^^^^^ keyword.control.conditional.unless.perl
-#             ^^^^^^ variable.other.readwrite.global.perl
+#             ^^^^^^ variable.other.readwrite.perl
   return
 # ^^^^^^ keyword.control.flow.return.perl
   wait
@@ -2806,21 +2902,20 @@ state
 #           ^ keyword.operator.arithmetic.perl
 #            ^ constant.numeric.integer.decimal.perl
 
-###[ FUNCTION CALLS ]#########################################################
+###[ UNQUALIFIED FUNCTION CALLS ]#############################################
 
-  if(exists($curargs{$index}))
-# ^^ keyword.control.conditional.if.perl
-#   ^ punctuation.section.group.begin.perl
-#    ^^^^^^ support.function.perl
-#          ^ punctuation.section.group.begin.perl
-#           ^^^^^^^^ variable.other.readwrite.global.perl
-#                            ^ punctuation.section.group.end.perl
-  if(exists $curargs{$index})
-# ^^ keyword.control.conditional.if.perl
-#   ^ punctuation.section.group.begin.perl
-#    ^^^^^^ support.function.perl
-#           ^^^^^^^^ variable.other.readwrite.global.perl
-#                           ^ punctuation.section.group.end.perl
+  ## Encapsulating arguments into parentheses is optional,
+  ## if the expression is clearly identified as function-call.
+
+  print
+# ^^^^^ support.function.perl
+  print # comment
+# ^^^^^ support.function.perl
+#      ^ - comment - support
+#       ^ comment.line.number-sign.perl
+  print;
+# ^^^^^ support.function.perl
+#      ^ punctuation.terminator.statement.perl
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
@@ -2828,6 +2923,108 @@ state
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
 #                 ^ punctuation.terminator.statement.perl
+  print "string";
+# ^^^^^ support.function.perl
+#       ^^^^^^^^ string.quoted.double.perl
+#               ^ punctuation.terminator.statement.perl
+  print STDOUT;
+# ^^^^^ support.function.perl
+#       ^^^^^^ constant.language.filehandle.perl
+#             ^ punctuation.terminator.statement.perl
+  print func;
+# ^^^^^ support.function.perl
+#       ^^^^ variable.function.perl
+#           ^ punctuation.terminator.statement.perl
+  print x::func;
+# ^^^^^ support.function.perl
+#       ^^^^^^^ meta.path.perl
+#       ^ support.class.perl
+#        ^^ punctuation.accessor.double-colon.perl
+#          ^^^^ variable.function.perl
+  print + 1
+# ^^^^^ support.function.perl
+#       ^ keyword.operator.arithmetic.perl
+  print x 1
+# ^^^^^ support.function.perl
+#       ^ keyword.operator.arithmetic.perl
+  print and 1
+# ^^^^^ support.function.perl
+#       ^^^ keyword.operator.logical.perl
+  func
+# ^^^^ variable.function.perl
+#     ^ - variable
+  func;
+# ^^^^ variable.function.perl
+#     ^ punctuation.terminator.statement.perl
+  func  # comment
+# ^^^^ variable.function.perl
+#     ^^ - comment - variable
+#         ^ comment.line.number-sign.perl
+  func "string";
+# ^^^^ variable.function.perl
+#      ^^^^^^^^ string.quoted.double.perl
+  func /pattern/g;
+# ^^^^ variable.function.perl
+#      ^ punctuation.section.generic.begin.perl
+#       ^^^^^^^ string.regexp.perl source.regexp
+#              ^ punctuation.section.generic.end.perl
+#               ^ constant.language.flags.regexp.perl
+#                ^ punctuation.terminator.statement.perl
+  Func x::path
+# ^^^^ variable.function.perl
+#      ^^^^^^^ meta.path.perl
+#      ^ support.class.perl
+#       ^^ punctuation.accessor.double-colon.perl
+#         ^^^^ variable.function.perl
+  _func $var;
+# ^^^^^ variable.function.perl
+#       ^^^^ variable.other.readwrite.perl
+#           ^ punctuation.terminator.statement.perl
+  _Func STDOUT, $var;
+# ^^^^^ variable.function.perl
+#       ^^^^^^ constant.language.filehandle.perl
+#             ^ punctuation.separator.sequence.perl
+#               ^^^^ variable.other.readwrite.perl
+#                   ^ punctuation.terminator.statement.perl
+  func join('foo', $bar), $baz;
+# ^^^^ variable.function.perl
+#      ^^^^ support.function.perl
+#          ^ punctuation.section.group.begin.perl
+#           ^^^^^ string.quoted.single.perl
+#                ^ punctuation.separator.sequence.perl
+#                  ^^^^ variable.other.readwrite.perl
+#                      ^ punctuation.section.group.end.perl
+#                       ^ punctuation.separator.sequence.perl
+#                         ^^^^ variable.other.readwrite.perl
+#                             ^ punctuation.terminator.statement.perl
+  func <<_EOD_, $var;
+# ^^^^ variable.function.perl
+#      ^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^ keyword.operator.heredoc.perl
+#        ^^^^^ constant.language.heredoc.plain.perl
+#             ^ punctuation.separator.sequence.perl
+#               ^^^^ variable.other.readwrite.perl
+#                   ^ punctuation.terminator.statement.perl
+  foo bar baz
+# <- meta.heredoc.perl string.quoted.other.perl
+#^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
+_EOD_
+#<- meta.heredoc.perl constant.language.heredoc.plain.perl
+#^^^^ meta.heredoc.perl constant.language.heredoc.plain.perl
+
+  no_func + 1
+# ^^^^^^^ - variable.function
+#         ^ keyword.operator.arithmetic.perl
+  no_func x 1
+# ^^^^^^^ - variable.function
+#         ^ keyword.operator.arithmetic.perl
+  no_func and 1
+# ^^^^^^^ - variable.function
+#         ^^^ keyword.operator.logical.perl
+
+  ## To ensure the interpreter identifies a function correctly,
+  ## the arguments need to be encapsulated in parentheses.
+
   print(/pattern/g);
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
@@ -2835,32 +3032,32 @@ state
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
 #                  ^ punctuation.terminator.statement.perl
-  function_call(/pattern/g);
-# ^^^^^^^^^^^^^ variable.function.perl
-#              ^ punctuation.section.group.begin.perl
-#               ^ punctuation.section.generic.begin.perl
-#                ^^^^^^^ string.regexp.perl source.regexp
-#                       ^ punctuation.section.generic.end.perl
-#                        ^ constant.language.flags.regexp.perl
-#                         ^ punctuation.section.group.end.perl
-#                          ^ punctuation.terminator.statement.perl
-  _function_call($var);
-# ^^^^^^^^^^^^^^ variable.function.perl
-#               ^ punctuation.section.group.begin.perl
-#                ^^^^ variable.other.readwrite.global.perl
-#                    ^ punctuation.section.group.end.perl
-#                     ^ punctuation.terminator.statement.perl
-  no_function_call $var;
-# ^^^^^^^^^^^^^^^^ - variable.function.perl
+  func(/pattern/g);
+# ^^^^ variable.function.perl
+#     ^ punctuation.section.group.begin.perl
+#      ^ punctuation.section.generic.begin.perl
+#       ^^^^^^^ string.regexp.perl source.regexp
+#              ^ punctuation.section.generic.end.perl
+#               ^ constant.language.flags.regexp.perl
+#                ^ punctuation.section.group.end.perl
+#                 ^ punctuation.terminator.statement.perl
+  _func($var);
+# ^^^^^ variable.function.perl
+#      ^ punctuation.section.group.begin.perl
+#       ^^^^ variable.other.readwrite.perl
+#           ^ punctuation.section.group.end.perl
+#            ^ punctuation.terminator.statement.perl
 
-  # The function call argument list can end after the heredoc content.
-  function_all(<<_EOD_;
-# ^^^^^^^^^^^^ variable.function.perl
-#             ^ punctuation.section.group.begin.perl
-#              ^^^^^^^^^ meta.heredoc.perl
-#              ^^ keyword.operator.heredoc.perl
-#                ^^^^^ constant.language.heredoc.plain.perl
-#                     ^ punctuation.terminator.statement.perl
+  ## The function call argument list can contain arbitary arguments
+  ## after the content of the `_EOD_` HEREDOC.
+
+  Func(<<_EOD_;
+# ^^^^ variable.function.perl
+#     ^ punctuation.section.group.begin.perl
+#      ^^^^^^^^^ meta.heredoc.perl
+#      ^^ keyword.operator.heredoc.perl
+#        ^^^^^ constant.language.heredoc.plain.perl
+#             ^ punctuation.terminator.statement.perl
   foo bar baz
 # <- meta.heredoc.perl string.quoted.other.perl
 #^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
@@ -2870,22 +3067,23 @@ _EOD_
 #    ^ - meta.heredoc
   , $var
 # ^ punctuation.separator.sequence.perl
-#   ^^^^ variable.other.readwrite.global.perl
+#   ^^^^ variable.other.readwrite.perl
 )
 # <- punctuation.section.group.end.perl
 
-  # The function call argument list can end at the same line
-  # while the content of the `_EOD_` HEREDOC starts at the next one.
-  functionCall(<<_EOD_, $var);
-# ^^^^^^^^^^^^ variable.function.perl
-#             ^ punctuation.section.group.begin.perl
-#              ^^^^^^^^^ meta.heredoc.perl
-#              ^^ keyword.operator.heredoc.perl
-#                ^^^^^ constant.language.heredoc.plain.perl
-#                     ^ punctuation.separator.sequence.perl
-#                       ^^^^ variable.other.readwrite.global.perl
-#                           ^ punctuation.section.group.end.perl
-#                            ^ punctuation.terminator.statement.perl
+  ## The function call argument list can end at the same line
+  ## while the content of the `_EOD_` HEREDOC starts at the next one.
+
+  func(<<_EOD_, $var);
+# ^^^^ variable.function.perl
+#     ^ punctuation.section.group.begin.perl
+#      ^^^^^^^^^ meta.heredoc.perl
+#      ^^ keyword.operator.heredoc.perl
+#        ^^^^^ constant.language.heredoc.plain.perl
+#             ^ punctuation.separator.sequence.perl
+#               ^^^^ variable.other.readwrite.perl
+#                   ^ punctuation.section.group.end.perl
+#                    ^ punctuation.terminator.statement.perl
   foo bar baz
 # <- meta.heredoc.perl string.quoted.other.perl
 #^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
@@ -2893,18 +3091,331 @@ _EOD_
 #<- meta.heredoc.perl constant.language.heredoc.plain.perl
 #^^^^ meta.heredoc.perl constant.language.heredoc.plain.perl
 
+  func() + 1
+# ^^^^ variable.function.perl
+#     ^ punctuation.section.group.begin.perl
+#      ^ punctuation.section.group.end.perl
+#        ^ keyword.operator.arithmetic.perl
+
+###[ QUALIFIED FUNCTION CALL ]################################################
+
+  ::print
+# ^^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^^ support.function.perl
+  ::print(/pattern/g);
+# ^^^^^^^ meta.path.perl
+#        ^ - meta.path
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^^ support.function.perl
+#         ^ punctuation.section.generic.begin.perl
+#          ^^^^^^^ string.regexp.perl source.regexp
+#                 ^ punctuation.section.generic.end.perl
+#                  ^ constant.language.flags.regexp.perl
+#                    ^ punctuation.terminator.statement.perl
+  ::func
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+  ::func "string";
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^^^^^^^^ string.quoted.double.perl
+  ::func /pattern/g;
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^ punctuation.section.generic.begin.perl
+#         ^^^^^^^ string.regexp.perl source.regexp
+#                ^ punctuation.section.generic.end.perl
+#                 ^ constant.language.flags.regexp.perl
+#                  ^ punctuation.terminator.statement.perl
+  ::Func x::path
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^^^^^^^ meta.path.perl
+#        ^ support.class.perl
+#         ^^ punctuation.accessor.double-colon.perl
+#           ^^^^ variable.function.perl
+  ::_func $var;
+# ^^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^^ variable.function.perl
+#         ^^^^ variable.other.readwrite.perl
+#             ^ punctuation.terminator.statement.perl
+  ::_Func STDOUT, $var;
+# ^^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^^ variable.function.perl
+#         ^^^^^^ constant.language.filehandle.perl
+#               ^ punctuation.separator.sequence.perl
+#                 ^^^^ variable.other.readwrite.perl
+#                     ^ punctuation.terminator.statement.perl
+  ::func + 1
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^ keyword.operator.arithmetic.perl
+  ::func x 1
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^ keyword.operator.arithmetic.perl
+  ::func and 1
+# ^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^^^ variable.function.perl
+#        ^^^ keyword.operator.logical.perl
+  main::print
+# ^^^^^^^^^^^ meta.path.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^ support.function.perl
+  If::func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  If::_Func
+# ^^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  If::Func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  IF::func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  IF::_Func
+# ^^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  IF::Func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  if::func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  if::_Func
+# ^^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  if::Func
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+  ::if::func
+# ^^^^^^^^^^ meta.path.perl
+# ^^ punctuation.accessor.double-colon.perl
+#   ^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ variable.function.perl
+  i::f::func
+# ^^^^^^^^^^ meta.path.perl
+# ^ support.class.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ variable.function.perl
+
+###[ METHOD CALLS ]###########################################################
+
+  $obj = URI->new
+# ^^^^ variable.other.readwrite.perl
+#      ^ keyword.operator.assignment.perl
+#        ^^^ support.class.perl - constant - meta.path
+#           ^^ punctuation.accessor.arrow.perl
+#             ^^^ variable.function.member.perl
+  $obj = Class->new
+# ^^^^ variable.other.readwrite.perl
+#      ^ keyword.operator.assignment.perl
+#        ^^^^^ support.class.perl - meta.path
+#             ^^ punctuation.accessor.arrow.perl
+#               ^^^ variable.function.member.perl
+  $obj = Class::Scan->new
+#       ^ - meta.path
+#        ^^^^^^^^^^^ meta.path.perl
+#                   ^ - meta.path
+# ^^^^ variable.other.readwrite.perl
+#      ^ keyword.operator.assignment.perl
+#        ^^^^^ support.class.perl
+#             ^^ punctuation.accessor.double-colon.perl
+#               ^^^^ support.class.perl
+#                   ^^ punctuation.accessor.arrow.perl
+#                     ^^^ variable.function.member.perl
+  $obj = Class::Scan->new # comment
+#       ^ - meta.path
+#        ^^^^^^^^^^^ meta.path.perl
+#                   ^ - meta.path
+# ^^^^ variable.other.readwrite.perl
+#      ^ keyword.operator.assignment.perl
+#        ^^^^^ support.class.perl
+#             ^^ punctuation.accessor.double-colon.perl
+#               ^^^^ support.class.perl
+#                   ^^ punctuation.accessor.arrow.perl
+#                     ^^^ variable.function.member.perl
+#                         ^^^^^^^^^ comment.line.number-sign.perl
+  $obj = Class::Scan->new(KEY => 'value')
+#       ^ - meta.path
+#        ^^^^^^^^^^^ meta.path.perl
+#                   ^ - meta.path
+# ^^^^ variable.other.readwrite.perl
+#      ^ keyword.operator.assignment.perl
+#        ^^^^^ support.class.perl
+#             ^^ punctuation.accessor.double-colon.perl
+#               ^^^^ support.class.perl
+#                   ^^ punctuation.accessor.arrow.perl
+#                     ^^^ variable.function.member.perl
+#                        ^ punctuation.section.group.begin.perl
+#                         ^^^ constant.other.key.perl
+#                            ^ - constant
+#                             ^^ keyword.operator.assignment.perl
+#                                ^^^^^^^ string.quoted.single.perl
+#                                       ^ punctuation.section.group.end.perl
+  $obj->method
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+  $obj->method # comment
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#              ^^^^^^^^^ comment.line.number-sign.perl
+  $obj->method() # comment
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^ punctuation.section.group.end.perl
+#                ^^^^^^^^^ comment.line.number-sign.perl
+  $obj
+# ^^^^ variable.other.readwrite.perl
+  ->
+# ^^ punctuation.accessor.arrow.perl
+  method() # comment
+# ^^^^^^ variable.function.member.perl
+#       ^ punctuation.section.group.begin.perl
+#        ^ punctuation.section.group.end.perl
+#          ^^^^^^^^^ comment.line.number-sign.perl
+  $obj->method(1, "str", $var)
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^ constant.numeric.integer.decimal.perl
+#               ^ punctuation.separator.sequence.perl
+#                 ^^^^^ string.quoted.double.perl
+#                      ^ punctuation.separator.sequence.perl
+#                        ^^^^ variable.other.readwrite.perl
+#                            ^ punctuation.section.group.end.perl
+  # call method and access first item of the returned array reference
+  $obj->method->[0]
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#             ^^ punctuation.accessor.arrow.perl
+#               ^^^ meta.item-access.perl
+  # call method and access item 'key' of the returned hash reference
+  $obj->method->{key}
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#             ^^ punctuation.accessor.arrow.perl
+#               ^^^^^ meta.item-access.perl
+  # call method and execute the returned function
+  $obj->method->($arg1, "val")
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#             ^^ punctuation.accessor.arrow.perl
+#               ^ punctuation.section.group.begin.perl
+#                ^^^^^ variable.other.readwrite.perl
+#                     ^ punctuation.separator.sequence.perl
+#                       ^^^^^ string.quoted.double.perl
+#                            ^ punctuation.section.group.end.perl
+  # call method and add 1 to the returned number
+  $obj->method + 1
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#              ^ keyword.operator.arithmetic.perl
+#                ^ constant.numeric.integer.decimal.perl
+  # call method and multiply 1 to the returned matrice
+  $obj->method x 1
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#              ^ keyword.operator.arithmetic.perl
+#                ^ constant.numeric.integer.decimal.perl
+  # call method and associate returned bool with TRUE
+  $obj->method and 1
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^^ variable.function.member.perl
+#              ^^^ keyword.operator.logical.perl
+#                  ^ constant.numeric.integer.decimal.perl
+  # call method of an nested object
+  $obj->{bar}->method
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^^^^ meta.item-access.perl
+#            ^^ punctuation.accessor.arrow.perl
+#              ^^^^^^ variable.function.member.perl
+  $obj->if::func
+# ^^^^^^ - meta.path
+#       ^^^^^^^^ meta.path.perl
+#               ^ - meta.path
+# ^^^^ variable.other.readwrite.perl
+#     ^^ punctuation.accessor.arrow.perl
+#       ^^ support.class.perl
+#         ^^ punctuation.accessor.double-colon.perl
+#           ^^^^ variable.function.perl
+
 ###[ CONDITIONAL EXPRESSIONS ]################################################
 
+  if(exists($curargs{$index}))
+# ^^ keyword.control.conditional.if.perl
+#   ^ punctuation.section.group.begin.perl
+#    ^^^^^^ support.function.perl
+#          ^ punctuation.section.group.begin.perl
+#           ^^^^^^^^ variable.other.readwrite.perl
+#                            ^ punctuation.section.group.end.perl
+  if(exists $curargs{$index})
+# ^^ keyword.control.conditional.if.perl
+#   ^ punctuation.section.group.begin.perl
+#    ^^^^^^ support.function.perl
+#           ^^^^^^^^ variable.other.readwrite.perl
+#                           ^ punctuation.section.group.end.perl
+  if(func $curargs{$index})
+# ^^ keyword.control.conditional.if.perl
+#   ^ punctuation.section.group.begin.perl
+#    ^^^^ variable.function.perl
+#         ^^^^^^^^ variable.other.readwrite.perl
+#                         ^ punctuation.section.group.end.perl
   if ($self->value <= $self->other);
-#            ^^^^^ variable.other.member.perl
+#            ^^^^^ variable.function.member.perl
 #                  ^^ keyword.operator.logical.perl
 #                  ^^^^^^^^^^ - string
-#                          ^^ keyword.accessor.arrow.perl
+#                          ^^ punctuation.accessor.arrow.perl
   if ($value <= $self->other);
 #            ^^ keyword.operator.logical.perl
 #            ^^^^^^^^^^ - string
-#                    ^^ keyword.accessor.arrow.perl
-#                      ^^^^^ variable.other.member.perl
+#                    ^^ punctuation.accessor.arrow.perl
+#                      ^^^^^ variable.function.member.perl
 
 ###[ LOOP EXPRESSIONS ]#######################################################
 
@@ -2921,7 +3432,7 @@ _EOD_
   for my $i (0..9) {
 # ^^^ keyword.control.loop.for.perl
 #     ^^ keyword.declaration.variable.perl
-#        ^^ variable.other.readwrite.global.perl
+#        ^^ variable.other.readwrite.perl
 #           ^ punctuation.section.group.begin.perl
 #            ^ constant.numeric.integer.decimal.perl
 #             ^^ keyword.operator.range.perl
@@ -2937,7 +3448,7 @@ _EOD_
 # ^^^^^^^ keyword.control.loop.foreach.perl
 #         ^^ keyword.declaration.variable.perl
 #            ^ punctuation.definition.variable.perl
-#            ^^^^^^^ variable.other.readwrite.global.perl
+#            ^^^^^^^ variable.other.readwrite.perl
 #                    ^ punctuation.section.group.begin.perl
 #                     ^ punctuation.definition.string.begin.perl
 #                     ^^^^^^^^^^^^^^ string.quoted.angle.perl
@@ -2968,13 +3479,13 @@ _EOD_
 # ^^^^ entity.name.label.perl
 #       ^^^^^ keyword.control.loop.while.perl
 #             ^ punctuation.section.group.begin.perl
-#              ^^^^ variable.other.readwrite.global.perl
+#              ^^^^ variable.other.readwrite.perl
 #                  ^^ keyword.operator.arithmetic.perl
 #                     ^ keyword.operator.logical.perl
 #                     ^^^^^^^^^^^^^^ - string
 #                       ^^ constant.numeric.integer.decimal.perl
 #                          ^^ keyword.operator.logical.perl
-#                             ^^^^ variable.other.readwrite.global.perl
+#                             ^^^^ variable.other.readwrite.perl
 #                                  ^ keyword.operator.logical.perl
 #                                    ^ constant.numeric.integer.decimal.perl
 #                                     ^ punctuation.section.group.end.perl
