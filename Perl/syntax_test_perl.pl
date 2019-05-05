@@ -1380,9 +1380,30 @@ sub AUTOLOAD () {}
   next retry
 # ^^^^ keyword.control.flow.next.perl
 #      ^^^^^ variable.label.perl
+  next eval {if $retry}
+# ^^^^ keyword.control.flow.next.perl
+#      ^^^^ support.function.perl
+  next retry if $retry
+# ^^^^ keyword.control.flow.next.perl
+#      ^^^^^ variable.label.perl
+#            ^^ keyword.control.conditional.if.perl
+#               ^^^^^^ variable.other.readwrite.global.perl
+  next if $retry
+# ^^^^ keyword.control.flow.next.perl
+#      ^^ keyword.control.conditional.if.perl
+#         ^^^^^^ variable.other.readwrite.global.perl
   redo LINE
 # ^^^^ keyword.control.flow.redo.perl
 #      ^^^^ variable.label.perl
+  redo LINE if $retry
+# ^^^^ keyword.control.flow.redo.perl
+#      ^^^^ variable.label.perl
+#           ^^ keyword.control.conditional.if.perl
+#              ^^^^^^ variable.other.readwrite.global.perl
+  redo unless $retry
+# ^^^^ keyword.control.flow.redo.perl
+#      ^^^^^^ keyword.control.conditional.unless.perl
+#             ^^^^^^ variable.other.readwrite.global.perl
   return
 # ^^^^^^ keyword.control.flow.return.perl
   wait

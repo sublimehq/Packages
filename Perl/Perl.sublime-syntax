@@ -20,6 +20,40 @@ variables:
   regexp_delim: '[^\w\s\)\]\}\>]'
   regexp_flags: '[msixpodualngcer]+\b'
 
+  # SEE: https://perldoc.perl.org/index-functions.html
+  builtin_functions: |-
+    \b(?x:
+      abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod|
+      chomp|chop|chown|chr|chroot|close|closedir|connect|cos|crypt|
+      dbmclose|dbmopen|defined|delete|each|endgrent|endhostent|
+      endnetent|endprotoent|endpwent|endservent|eof|eval|evalbytes|exec|
+      exists|exp|fc|fcntl|fileno|flock|fork|formline|getc|
+      getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|
+      getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|
+      getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|
+      getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|
+      getsockname|getsockopt|glob|gmtime|grep|hex|index|int|ioctl|join|
+      keys|kill|lc|lcfirst|length|link|listen|localtime|lock|log|
+      lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|oct|open|opendir|ord|
+      pack|pipe|pop|pos|print|printf|prototype|push|quotemeta|
+      rand|read|readdir|readline|readlink|readpipe|recv|ref|rename|
+      reset|reverse|rewinddir|rindex|rmdir|say|scalar|seek|seekdir|select|
+      semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|
+      setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|
+      shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|
+      splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall|
+      sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|time|
+      times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|
+      utime|values|vec|wait|waitpid|wantarray|warn|write
+    ){{break}}
+
+  reserved_words: |-
+    \b(?x:
+      # control keywords
+      default|else|elsif|given|if|unless|when|break|caller|continue|die|
+      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while
+    ){{break}}
+
 contexts:
   main:
     - include: comment-pod
@@ -680,7 +714,7 @@ contexts:
       push: regexp-pop
     - match: \blast{{break}}
       scope: keyword.control.flow.last.perl
-      push: regexp-pop
+      push: label-usage
     - match: \bnext{{break}}
       scope: keyword.control.flow.next.perl
       push: label-usage
@@ -708,6 +742,9 @@ contexts:
       push: regexp-pop
 
   label-usage:
+    # reserved words indicate an expression like label
+    - match: (?={{reserved_words}}|{{builtin_functions}})
+      pop: true
     - match: '{{identifier}}'
       scope: variable.label.perl
       pop: true
@@ -1014,31 +1051,7 @@ contexts:
 
   function-call:
     # builtin function calls
-    - match: |-
-        \b(?x:
-           abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod
-          |chomp|chop|chown|chr|chroot|close|closedir|connect|cos|crypt
-          |dbmclose|dbmopen|defined|delete|each|endgrent|endhostent
-          |endnetent|endprotoent|endpwent|endservent|eof|eval|evalbytes|exec
-          |exists|exp|fc|fcntl|fileno|flock|fork|formline|getc
-          |getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent
-          |getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp
-          |getppid|getpriority|getprotobyname|getprotobynumber|getprotoent
-          |getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent
-          |getsockname|getsockopt|glob|gmtime|grep|hex|index|int|ioctl|join
-          |keys|kill|lc|lcfirst|length|link|listen|localtime|lock|log
-          |lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|oct|open|opendir|ord
-          |pack|pipe|pop|pos|print|printf|prototype|push|quotemeta
-          |rand|read|readdir|readline|readlink|readpipe|recv|ref|rename
-          |reset|reverse|rewinddir|rindex|rmdir|say|scalar|seek|seekdir|select
-          |semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp
-          |setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl
-          |shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort
-          |splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall
-          |sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|time
-          |times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie
-          |utime|values|vec|wait|waitpid|wantarray|warn|write
-        ){{break}}
+    - match: '{{builtin_functions}}'
       scope: support.function.perl
       push: regexp-pop
     # user defined function calls
