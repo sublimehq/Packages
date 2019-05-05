@@ -327,9 +327,8 @@ contexts:
   constants:
     - include: constants-numbers
     - include: constants-language
+    - include: constants-other
     - include: string
-    - match: \b\w+\s*(?==>)
-      scope: constant.other.key.perl
 
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
@@ -377,6 +376,10 @@ contexts:
       scope: constant.language.perl
     - match: \b(?:ARGV|ARGVOUT|STDERR|STDIN|STDOUT|DATA|IN|OUT){{break}}
       scope: constant.language.filehandle.perl
+
+  constants-other:
+    - match: \b\w+(?=\s*=>)
+      scope: constant.other.key.perl
     - match: \b[A-Z0-9_]+{{break}}
       scope: constant.other.perl
 
