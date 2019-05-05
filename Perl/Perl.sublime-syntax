@@ -866,14 +866,22 @@ contexts:
         3: constant.other.language-name.xml.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-xml, string-heredoc-expr]
-    # any other tag like (EOD, EOT, FOO, ...) is handled as string
-    - match: ((['"]?)( *{{identifier}})(\2))
+    # single quoted heredoc string without interpolation
+    - match: ((')( *{{identifier}})('))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
         3: constant.other.language-name.plain.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-other, string-heredoc-expr-other]
+    # unquoted or double quoted heredoc string with interpolation
+    - match: (("?)( *{{identifier}})(\2))
+      captures:
+        1: meta.string.perl string.other.heredoc.perl
+        2: punctuation.definition.string.begin.perl
+        3: constant.other.language-name.plain.perl
+        4: punctuation.definition.string.end.perl
+      set: [string-heredoc-interpolated, string-heredoc-expr-other]
     - include: else-pop
 
   string-heredoc-expr:
@@ -952,6 +960,14 @@ contexts:
     - match: ^\3$
       scope: constant.other.language-name.plain.perl
       pop: true
+
+  string-heredoc-interpolated:
+    - meta_content_scope: meta.string.perl string.quoted.other.perl
+    - match: ^\3$
+      scope: constant.other.language-name.plain.perl
+      pop: true
+    - include: character-escape
+    - include: variables-interpolation
 
 ###[ KEYWORDS ]###############################################################
 

@@ -608,12 +608,33 @@ $var = <<_EOD_;
 #        ^^^^^ constant.other.language-name.plain.perl
 #             ^ punctuation.terminator.statement.perl
 #              ^ - string.quoted.other.perl
-  foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+HEREDOC \$with _&a_$var interpolation.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl
+#^^^^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#       ^^ constant.character.escape.perl
+#                  ^^^^ meta.interpolation.perl - string
+#                      ^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
 _EOD_
 # <- meta.heredoc.perl constant.other.language-name.plain.perl
 #^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+
+$var = << '    _EOD_';
+#      ^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^ keyword.operator.heredoc.perl
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^^^^^^^^^ meta.string.perl string.other.heredoc.perl
+#          ^^^^^^^^^ constant.other.language-name.plain.perl
+#                   ^ punctuation.definition.string.end.perl
+#                    ^ punctuation.terminator.statement.perl
+#                     ^ - string.quoted.other.perl
+HEREDOC \$without $var interpolation.
+# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+  _EOD_
+# ^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+    _EOD_
+# <- meta.heredoc.perl constant.other.language-name.plain.perl
+#^^^^^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
 
 $var = << "    _EOD_";
 #      ^^^^^^^^^^^^^^^ meta.heredoc.perl
@@ -624,9 +645,12 @@ $var = << "    _EOD_";
 #                   ^ punctuation.definition.string.end.perl
 #                    ^ punctuation.terminator.statement.perl
 #                     ^ - string.quoted.other.perl
-  foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+HEREDOC \$with $var interpolation.
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl
+#^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#       ^^ constant.character.escape.perl
+#              ^^^^ meta.interpolation.perl - string
+#                  ^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
   _EOD_
 # ^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
     _EOD_
@@ -665,6 +689,16 @@ EOF
 #^^ meta.heredoc.perl constant.other.language-name.plain.perl
 
 $var ? <<'EOT' : <<'EOT';
+# <- variable.other.readwrite.perl
+#^^^ variable.other.readwrite.perl
+#    ^ keyword.operator.logical.perl
+#      ^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^ keyword.operator.heredoc.perl
+#         ^^^ constant.other.language-name.plain.perl
+#              ^ keyword.operator.logical.perl
+#                ^^ keyword.operator.heredoc.perl
+#                   ^^^ constant.other.language-name.plain.perl
+#                       ^punctuation.terminator.statement.perl
   foo bar baz
 # <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
 # ^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
