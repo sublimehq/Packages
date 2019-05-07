@@ -173,6 +173,12 @@ a = a' % is the conjugate and transpose
 a = a.' % is the transpose
 %   ^ -keyword.operator.transpose.matlab
 %    ^^ keyword.operator.transpose.matlab
+c = a.b' % is the conjugate and transpose of the field b of structure a
+%    ^ punctuation.accessor.dot.matlab
+%      ^ keyword.operator.transpose.matlab
+c = a.b.' % is the transpose of the field b of structure a
+%    ^ punctuation.accessor.dot.matlab
+%      ^^ keyword.operator.transpose.matlab
 x = a[3]' + b(4)' % is the conjugate and transpose
 %       ^ keyword.operator.transpose.matlab
 %               ^ keyword.operator.transpose.matlab

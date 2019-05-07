@@ -29,6 +29,7 @@ contexts:
     - match: ({{id}})(\.)({{id}})
       captures:
         2: punctuation.accessor.dot.matlab
+      push: transpose_post_parens
   all_matlab_comments:
     - match: (%%).*$\n?
       scope: comment.double.percentage.matlab
