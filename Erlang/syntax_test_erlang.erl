@@ -3301,14 +3301,12 @@ preprocessor_record_tests() -> .
 %     ^ punctuation.terminator.clause.erlang
 
     #
-%  ^ - meta.record - variable
-%   ^ meta.record.name.erlang punctuation.definition.record.erlang
-%    ^ - meta.record - variable
+%  ^^^ - meta.record - variable
 
     #record
 %  ^ - meta.record - variable
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ meta.record.name.erlang entity.name.record.erlang
+%    ^^^^^^ meta.record.name.erlang variable.other.record.erlang
 
     #record.
 %   ^^^^^^^ meta.record.name.erlang - meta.record.erlang - meta.record.field
@@ -3438,7 +3436,7 @@ local_record_definition_tests() -> .
 %   ^ punctuation.definition.record.erlang
 %   ^^^^^^^^^^^^^^^^ meta.record.name.erlang - meta.record.fields
 %    ^ punctuation.definition.atom.begin.erlang
-%    ^^^^^^^^^^^^^^^ entity.name.record.erlang
+%    ^^^^^^^^^^^^^^^ variable.other.record.erlang
 %           ^ - keyword - punctuation
 %                  ^ punctuation.definition.atom.end.erlang
 
@@ -3447,7 +3445,7 @@ local_record_definition_tests() -> .
 %          ^^ meta.record.fields.erlang - meta.record.name
 %            ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ entity.name.record.erlang
+%    ^^^^^^ variable.other.record.erlang
 %          ^ punctuation.section.fields.begin.erlang
 %           ^ punctuation.section.fields.end.erlang
 
@@ -3479,7 +3477,7 @@ local_record_definition_tests() -> .
 %                                                                                  ^ - meta.field
 %                                                                                    ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ entity.name.record.erlang
+%    ^^^^^^ variable.other.record.erlang
 %          ^ punctuation.section.fields.begin.erlang
 %           ^^^^^^ entity.name.field.erlang
 %                 ^ keyword.operator.assignment.erlang
@@ -3512,7 +3510,7 @@ local_record_definition_tests() -> .
 %   ^^^^^^^^ meta.record.name.erlang - meta.record.fields.erlang
 %           ^^ meta.record.fields.erlang - meta.record.name
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ entity.name.record.erlang
+%    ^^^^^^ variable.other.record.erlang
 %           ^ punctuation.section.fields.begin.erlang
         field1 = "val1" ,
 %^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.fields.erlang
@@ -3550,7 +3548,7 @@ local_record_definition_tests() -> .
 %                                                                      ^ - meta.record
 %       ^ punctuation.definition.record.erlang
 %        ^ punctuation.definition.atom.begin.erlang
-%         ^^^^^^^^^^^ entity.name.record.erlang
+%         ^^^^^^^^^^^ variable.other.record.erlang
 %               ^ - keyword - punctuation
 %                    ^ punctuation.definition.atom.end.erlang
 %                     ^ punctuation.section.fields.begin.erlang
@@ -3577,7 +3575,7 @@ local_record_definition_tests() -> .
 %                     ^^ meta.record.fields.erlang - meta.record.name
 %       ^ punctuation.definition.record.erlang
 %        ^ punctuation.definition.atom.begin.erlang
-%        ^^^^^^^^^^^^^ entity.name.record.erlang
+%        ^^^^^^^^^^^^^ variable.other.record.erlang
 %               ^ - keyword - punctuation
 %                    ^ punctuation.definition.atom.end.erlang
 %                     ^ punctuation.section.fields.begin.erlang
@@ -3672,7 +3670,7 @@ local_record_definition_tests() -> .
 %                             ^ punctuation.accessor.dot.erlang
 %                              ^^^^^ variable.other.field.erlang
 %                                   ^ punctuation.definition.record.erlang
-%                                    ^^^^^ entity.name.record.erlang
+%                                    ^^^^^ variable.other.record.erlang
 %                                         ^ punctuation.section.fields.begin.erlang
 %                                                           ^ punctuation.section.fields.end.erlang
 %                                                            ^ punctuation.separator.expressions.erlang

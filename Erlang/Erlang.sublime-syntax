@@ -1108,17 +1108,12 @@ contexts:
 
   record:
     # http://erlang.org/doc/reference_manual/records.html
-    - match: \#
-      scope: meta.record.name.erlang punctuation.definition.record.erlang
-      push:
-        - match: (?={{ident}}\s*\.)
-          set: [record-field, record-name, variable-other-record]
-        - match: (?={{ident}})
-          set: [record-body, record-name, entity-name-record]
-        - include: immediatelly-pop
+    - match: \#(?={{ident}})
+      scope: punctuation.definition.record.erlang
+      push: [record-field-or-body, record-name, variable-other-record]
 
   record-name:
-    - meta_content_scope: meta.record.name.erlang
+    - meta_scope: meta.record.name.erlang
     - include: else-pop
 
   variable-other-record:
@@ -1134,7 +1129,7 @@ contexts:
     - include: macro-pop
     - include: atom-expect-end
 
-  record-field:
+  record-field-or-body:
     - match: \.
       scope: meta.record.erlang punctuation.accessor.dot.erlang
       set:
@@ -1152,7 +1147,7 @@ contexts:
           - include: macro-pop
           - include: atom-expect-end
           - include: eol-pop
-    - include: else-pop
+    - include: record-body
 
   record-body:
     - match: \{
