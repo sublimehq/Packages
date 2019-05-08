@@ -3479,7 +3479,7 @@ local_record_definition_tests() -> .
 %   ^ punctuation.definition.record.erlang
 %    ^^^^^^ variable.other.record.erlang
 %          ^ punctuation.section.fields.begin.erlang
-%           ^^^^^^ entity.name.field.erlang
+%           ^^^^^^ variable.other.field.erlang
 %                 ^ keyword.operator.assignment.erlang
 %                  ^^^^^^ string.quoted.double.erlang
 %                        ^ punctuation.separator.expressions.erlang
@@ -3487,10 +3487,10 @@ local_record_definition_tests() -> .
 %                                ^ keyword.operator.assignment.erlang
 %                                 ^ constant.numeric.integer.decimal.erlang
 %                                  ^ punctuation.separator.expressions.erlang
-%                                    ^^^^^^ entity.name.field.erlang
+%                                    ^^^^^^ variable.other.field.erlang
 %                                          ^ punctuation.separator.expressions.erlang
 %                                            ^ punctuation.definition.atom.begin.erlang
-%                                            ^^^^^^^^^ entity.name.field.erlang
+%                                            ^^^^^^^^^ variable.other.field.erlang
 %                                                    ^ punctuation.definition.atom.end.erlang
 %                                                     ^ keyword.operator.assignment.erlang
 %                                                      ^ meta.sequence.tuple.erlang punctuation.section.sequence.begin.erlang
@@ -3514,7 +3514,7 @@ local_record_definition_tests() -> .
 %           ^ punctuation.section.fields.begin.erlang
         field1 = "val1" ,
 %^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.fields.erlang
-%       ^^^^^^ entity.name.field.erlang
+%       ^^^^^^ variable.other.field.erlang
 %              ^ keyword.operator.assignment.erlang
 %                ^^^^^^ string.quoted.double.erlang
 %                       ^ punctuation.separator.expressions.erlang
@@ -3526,7 +3526,7 @@ local_record_definition_tests() -> .
 %                  ^ punctuation.separator.expressions.erlang
         field3 ,
 %^^^^^^^^^^^^^^^ meta.record.fields.erlang
-%       ^^^^^^ entity.name.field.erlang
+%       ^^^^^^ variable.other.field.erlang
 %              ^ punctuation.separator.expressions.erlang
         _ = atom
 %^^^^^^^^^^^^^^^^ meta.record.fields.erlang
@@ -3553,7 +3553,7 @@ local_record_definition_tests() -> .
 %                    ^ punctuation.definition.atom.end.erlang
 %                     ^ punctuation.section.fields.begin.erlang
 %                      ^ punctuation.definition.atom.begin.erlang
-%                       ^^^^^^^^^^ entity.name.field.erlang
+%                       ^^^^^^^^^^ variable.other.field.erlang
 %                                 ^ punctuation.definition.atom.end.erlang
 %                                  ^ keyword.operator.assignment.erlang
 %                                   ^ punctuation.definition.atom.begin.erlang
@@ -3561,7 +3561,7 @@ local_record_definition_tests() -> .
 %                                              ^ punctuation.definition.atom.end.erlang
 %                                               ^ punctuation.separator.expressions.erlang
 %                                                ^ punctuation.definition.atom.begin.erlang
-%                                                 ^^^^^^^^^^ entity.name.field.erlang
+%                                                 ^^^^^^^^^^ variable.other.field.erlang
 %                                                           ^ punctuation.definition.atom.end.erlang
 %                                                            ^ keyword.operator.assignment.erlang
 %                                                             ^ punctuation.definition.string.begin.erlang
@@ -3582,7 +3582,7 @@ local_record_definition_tests() -> .
         'field-name'
 %      ^^^^^^^^^^^^^^ meta.record.fields.erlang meta.field.name.erlang
 %       ^ punctuation.definition.atom.begin.erlang
-%       ^^^^^^^^^^^^ entity.name.field.erlang
+%       ^^^^^^^^^^^^ variable.other.field.erlang
 %                  ^ punctuation.definition.atom.end.erlang
         =
 %      ^^^ meta.record.fields.erlang
@@ -3602,7 +3602,7 @@ local_record_definition_tests() -> .
         'Field-name'
 %      ^^^^^^^^^^^^^^ meta.record.fields.erlang meta.field.name.erlang
 %       ^ punctuation.definition.atom.begin.erlang
-%       ^^^^^^^^^^^ entity.name.field.erlang
+%       ^^^^^^^^^^^ variable.other.field.erlang
 %                  ^ punctuation.definition.atom.end.erlang
         =
 %      ^^^ meta.record.fields.erlang

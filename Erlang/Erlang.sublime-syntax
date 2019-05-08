@@ -557,6 +557,33 @@ contexts:
                   - entity-name-record
           - include: preproc-stray-arguments-end
 
+  record-body:
+    - match: \{
+      scope: punctuation.section.fields.begin.erlang
+      set:
+        - meta_scope: meta.record.fields.erlang
+        - include: record-fields-common
+        - match: ',?'
+          scope: punctuation.separator.expressions.erlang
+          push:
+            - - meta_content_scope: meta.field.name.erlang
+              - include: immediatelly-pop
+            - - match: _{{ident_break}}
+                scope: variable.language.blank.erlang
+                pop: true
+              - match: '{{atom_unquoted}}'
+                scope: entity.name.field.erlang
+                pop: true
+              - match: \'
+                scope: punctuation.definition.atom.begin.erlang
+                set:
+                  - meta_include_prototype: false
+                  - meta_scope: entity.name.field.erlang
+                  - include: atom-quoted-common
+              - include: macro-pop
+              - include: atom-expect-end
+    - include: else-pop
+
 ###[ PREPROCESSOR SPEC ]######################################################
 
   preproc-spec:
@@ -1110,7 +1137,7 @@ contexts:
     # http://erlang.org/doc/reference_manual/records.html
     - match: \#(?={{ident}})
       scope: punctuation.definition.record.erlang
-      push: [record-field-or-body, record-name, variable-other-record]
+      push: [record-fields, record-name, variable-other-record]
 
   record-name:
     - meta_scope: meta.record.name.erlang
@@ -1129,51 +1156,19 @@ contexts:
     - include: macro-pop
     - include: atom-expect-end
 
-  record-field-or-body:
+  record-fields:
     - match: \.
       scope: meta.record.erlang punctuation.accessor.dot.erlang
       set:
         - - meta_content_scope: meta.record.field.erlang
           - include: immediatelly-pop
-        - - match: '{{atom_unquoted}}'
-            scope: variable.other.field.erlang
-            pop: true
-          - match: \'
-            scope: punctuation.definition.atom.begin.erlang
-            set:
-              - meta_include_prototype: false
-              - meta_scope: variable.other.field.erlang
-              - include: atom-quoted-common
-          - include: macro-pop
-          - include: atom-expect-end
+        - - include: variable-other-field
           - include: eol-pop
-    - include: record-body
-
-  record-body:
     - match: \{
       scope: punctuation.section.fields.begin.erlang
       set:
         - meta_scope: meta.record.fields.erlang
-        - match: \}
-          scope: punctuation.section.fields.end.erlang
-          pop: true
-        # field value
-        - match: =
-          scope: meta.field.erlang keyword.operator.assignment.erlang
-          push:
-            - meta_content_scope: meta.field.value.erlang
-            - match: (?=::)
-              pop: true
-            - include: expressions
-            - include: value-end-pop
-        # field type
-        - match: '::'
-          scope: meta.field.erlang punctuation.separator.variable-type.erlang
-          push:
-            - meta_content_scope: meta.field.type.erlang
-            - include: type-expressions
-            - include: value-end-pop
-        # field names
+        - include: record-fields-common
         - match: ',?'
           scope: punctuation.separator.expressions.erlang
           push:
@@ -1182,18 +1177,42 @@ contexts:
             - - match: _{{ident_break}}
                 scope: variable.language.blank.erlang
                 pop: true
-              - match: '{{atom_unquoted}}'
-                scope: entity.name.field.erlang
-                pop: true
-              - match: \'
-                scope: punctuation.definition.atom.begin.erlang
-                set:
-                  - meta_include_prototype: false
-                  - meta_scope: entity.name.field.erlang
-                  - include: atom-quoted-common
-              - include: macro-pop
-              - include: atom-expect-end
+              - include: variable-other-field
     - include: else-pop
+
+  record-fields-common:
+    - match: \}
+      scope: punctuation.section.fields.end.erlang
+      pop: true
+    # field value
+    - match: =
+      scope: meta.field.erlang keyword.operator.assignment.erlang
+      push:
+        - meta_content_scope: meta.field.value.erlang
+        - match: (?=::)
+          pop: true
+        - include: expressions
+        - include: value-end-pop
+    # field type
+    - match: '::'
+      scope: meta.field.erlang punctuation.separator.variable-type.erlang
+      push:
+        - meta_content_scope: meta.field.type.erlang
+        - include: type-expressions
+        - include: value-end-pop
+
+  variable-other-field:
+    - match: '{{atom_unquoted}}'
+      scope: variable.other.field.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: variable.other.field.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
 
 ###[ TUPLES ]#################################################################
 
