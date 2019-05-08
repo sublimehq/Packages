@@ -794,11 +794,8 @@ contexts:
 
   expr-fun:
     # http://erlang.org/doc/reference_manual/expressions.html#fun-expressions
-    - match: (?:({{variable}})\s*(=)\s*)?(fun{{ident_break}})
-      captures:
-        1: entity.name.function.erlang
-        2: keyword.operator.assignment.erlang
-        3: keyword.declaration.function.erlang
+    - match: fun{{ident_break}}
+      scope: keyword.declaration.function.erlang
       push:
         - - meta_scope: meta.fun.erlang
           - include: immediatelly-pop

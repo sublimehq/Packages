@@ -4478,8 +4478,10 @@ fun_expression_tests() ->
 %      ^ - meta.fun
 
     Abs = fun erlang:abs/1,
-%   ^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
-%   ^^^ entity.name.function.erlang
+%        ^ - meta.fun.erlang
+%         ^^^^^^^^^^^^^^^^ meta.fun.erlang
+%                         ^ - meta.fun.erlang
+%   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
 %         ^^^ keyword.declaration.function.erlang
 %             ^^^^^^ support.namespace.erlang
@@ -4489,8 +4491,10 @@ fun_expression_tests() ->
 %                        ^ constant.numeric.integer.decimal.erlang
 
     Abs = fun module:abs/1,
-%   ^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
-%   ^^^ entity.name.function.erlang
+%        ^ - meta.fun.erlang
+%         ^^^^^^^^^^^^^^^^ meta.fun.erlang
+%                         ^ - meta.fun.erlang
+%   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
 %         ^^^ keyword.declaration.function.erlang
 %             ^^^^^^ variable.namespace.erlang
@@ -4501,8 +4505,10 @@ fun_expression_tests() ->
 %                         ^ punctuation.separator.expressions.erlang
 
     Abs = fun abs/1,
-%   ^^^^^^^^^^^^^^^ meta.fun.erlang
-%   ^^^ entity.name.function.erlang
+%        ^ - meta.fun.erlang
+%         ^^^^^^^^^ meta.fun.erlang
+%                  ^ - meta.fun.erlang
+%   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
 %         ^^^ keyword.declaration.function.erlang
 %             ^^^ support.function.erlang
@@ -4510,10 +4516,10 @@ fun_expression_tests() ->
 %                 ^ constant.numeric.integer.decimal.erlang
 
     Fun1 = fun name/10,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^ meta.fun.erlang - meta.fun.name
+%         ^ - meta.fun
+%          ^^^^^^^^^^^ meta.fun.erlang - meta.fun.name
 %                     ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^^^^ variable.function.erlang
@@ -4522,10 +4528,10 @@ fun_expression_tests() ->
 %                     ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun ?MODULE:name/10,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                             ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.definition.macro.erlang
@@ -4537,10 +4543,10 @@ fun_expression_tests() ->
 %                             ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun ?CUSTOM:name/?ARI,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                               ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.definition.macro.erlang
@@ -4553,10 +4559,10 @@ fun_expression_tests() ->
 %                               ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun module:name/Ari,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                             ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^^^^^^ variable.namespace.erlang
@@ -4567,10 +4573,10 @@ fun_expression_tests() ->
 %                             ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun 'my-module':name/10,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                                 ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.definition.atom.begin.erlang
@@ -4583,10 +4589,10 @@ fun_expression_tests() ->
 %                                 ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun 'my-module':?NAME/_,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                                 ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.definition.atom.begin.erlang
@@ -4600,10 +4606,10 @@ fun_expression_tests() ->
 %                                 ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun 'my-\^dule':'m\1func'/10,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang
 %                                      ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.definition.atom.begin.erlang
@@ -4620,24 +4626,25 @@ fun_expression_tests() ->
 % nested anonymous function definition
 
     Fun1 = fun abs(X) -> F = fun(Y) -> X+1 end, F(abs(X)) end,
-%   ^^^^^^^^^^^ meta.fun.erlang
+%         ^ - meta.fun
+%          ^^^^ meta.fun.erlang
 %              ^^^ meta.fun.name.erlang
 %                 ^^^ meta.fun.parameters.erlang
-%                    ^^^^ meta.fun.erlang - meta.fun meta.fun
-%                        ^^^^^^^ meta.fun.erlang meta.fun.erlang
+%                    ^^^^^^^^ meta.fun.erlang - meta.fun meta.fun
+%                            ^^^ meta.fun.erlang meta.fun.erlang
 %                               ^^^ meta.fun.erlang meta.fun.parameters.erlang
 %                                  ^^^^^^^^^^^ meta.fun.erlang meta.fun.erlang
 %                                             ^^^^^^^^^^^^^^^ meta.fun.erlang - meta.fun meta.fun
 %                                               ^^^^^^^^^ meta.function-call
 %                                                            ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^^^ invalid.illegal.expect-variable.erlang
 %                 ^ punctuation.section.parameters.begin.erlang
 %                   ^ punctuation.section.parameters.end.erlang
 %                     ^^ punctuation.separator.clause-head-body.erlang
-%                        ^ entity.name.function.erlang
+%                        ^ variable.other.erlang
 %                          ^ keyword.operator.assignment.erlang
 %                            ^^^ keyword.declaration.function.erlang
 %                               ^ punctuation.section.parameters.begin.erlang
@@ -4658,14 +4665,14 @@ fun_expression_tests() ->
 % guarded, overloaded anonymous functions
 
     Fun2 = fun (X) when X>=5 -> gt; (X) -> lt end,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
+%         ^ - meta.fun
+%          ^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
 %              ^^^ meta.fun.parameters.erlang - meta.fun.erlang - meta.fun.name
 %                 ^^^^^^^^^^^^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters - meta.fun.name
 %                                   ^^^ meta.fun.parameters.erlang - meta.fun.erlang - meta.fun.name
 %                                      ^^^^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
 %                                                ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^ punctuation.section.parameters.begin.erlang
@@ -4688,8 +4695,8 @@ fun_expression_tests() ->
 % recursive anonymous function calls
 
     Fun3 = fun Fact(1) -> 1; Fact(X) when X > 1 -> X * Fact(X - 1) end,
-%  ^ - meta.fun
-%   ^^^^^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
+%         ^ - meta.fun
+%          ^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
 %              ^^^^ meta.fun.name.erlang - meta.fun.erlang - meta.fun.parameters
 %                  ^^^ meta.fun.parameters.erlang - meta.fun.erlang - meta.fun.name
 %                     ^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
@@ -4698,7 +4705,7 @@ fun_expression_tests() ->
 %                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.fun.erlang - meta.fun.name - meta.fun.parameters
 %                                                      ^^^^^^^^^^^ meta.function-call
 %                                                                     ^ - meta.fun
-%   ^^^^ entity.name.function.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
 %              ^^^^ entity.name.function.erlang
@@ -4729,9 +4736,9 @@ fun_expression_tests() ->
 %                                                                     ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun
-%  ^ - meta.fun
-%   ^^^^^^^^^^^ meta.fun.erlang
-%   ^^^^ entity.name.function.erlang
+%         ^ - meta.fun
+%          ^^^^ meta.fun.erlang
+%   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
         (A, B) when A == true; is_tuple(B) ->
@@ -4793,9 +4800,10 @@ fun_expression_tests() ->
 %            ^ punctuation.section.parameters.end.erlang
 %              ^^ punctuation.separator.clause-head-body.erlang
             Fun = fun name/10,
-%           ^^^^^^^^^^^^^^^^^ meta.fun.erlang meta.fun.erlang
-%                            ^ meta.fun.erlang
-%           ^^^ entity.name.function.erlang
+%                ^ meta.fun.erlang - meta.fun.erlang meta.fun.erlang
+%                 ^^^^^^^^^^^ meta.fun.erlang meta.fun.erlang
+%                            ^ meta.fun.erlang - meta.fun.erlang meta.fun.erlang
+%           ^^^ variable.other.erlang
 %               ^ keyword.operator.assignment.erlang
 %                 ^^^ keyword.declaration.function.erlang
 %                     ^^^^ variable.function.erlang
