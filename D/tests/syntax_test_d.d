@@ -2629,3 +2629,13 @@ extern(1)
 //^ invalid.illegal.d
   ]
 //^ invalid.illegal.d
+
+  extern extern(C) int a;
+//^^^^^^ storage.modifier.external.d
+//       ^^^^^^ keyword.other.external.d
+//             ^ punctuation.section.parens.begin.d
+//              ^ string.other.d
+//               ^ punctuation.section.parens.end.d
+//                 ^^^ meta.path.d storage.type.d
+//                     ^ variable.other.d
+//                      ^ punctuation.terminator.d

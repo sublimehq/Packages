@@ -532,6 +532,9 @@ contexts:
         1: keyword.other.external.d
         2: punctuation.section.parens.begin.d
       set: extern-attribute
+    - match: '\b(extern)\b'
+      scope: storage.modifier.external.d
+      pop: true
     - match: '\b(align)\b'
       scope: keyword.other.alignment.d
       set:
