@@ -1349,7 +1349,7 @@ contexts:
     - match: '\?'
       scope: keyword.operator.ternary.d
       set: [value-condition-after, value]
-    - match: '(?=function|delegate)'
+    - match: '(?=\b(function|delegate)\b)'
       set: [value-after, basic-type2]
     - match: '(?=\S)'
       pop: true
