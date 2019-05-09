@@ -222,6 +222,17 @@ $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 };
 // <- meta.function meta.block punctuation.section.block.end
 
+function foo(?stinrg ...$args) {}
+//           ^ storage.type.nullable
+//            ^^^^^^ support.class
+//                   ^^^ keyword.operator.spread
+//                      ^^^^^ variable.parameter
+
+$arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c'];
+//            ^^^ keyword.operator.spread
+//               ^^^^^ variable.other
+//                           ^^^ keyword.operator.spread
+
 $array = [   ];
 //       ^ meta.array.empty.php punctuation.section.array.begin.php
 //           ^ meta.array.empty.php punctuation.section.array.end.php

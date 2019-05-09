@@ -244,6 +244,8 @@ contexts:
     - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
+    - match: \.\.\.
+      scope: keyword.operator.spread.php
     - match: \.
       scope: keyword.operator.string.php
     - match: "="
@@ -630,6 +632,8 @@ contexts:
     # Class name type hint
     - match: '{{identifier}}'
       scope: meta.path.php support.class.php
+    - match: '\.\.\.'
+      scope: keyword.operator.spread.php
     - match: '\?'
       scope: storage.type.nullable.php
     - match: '&'
