@@ -854,8 +854,7 @@ contexts:
               - include: function-parameter
           - include: else-pop
         # 1. function name
-        - - clear_scopes: 1
-          - meta_scope: meta.fun.name.erlang
+        - - meta_scope: meta.fun.name.erlang
           - include: else-pop
         - entity-name-fun
 
