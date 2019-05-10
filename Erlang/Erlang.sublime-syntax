@@ -492,13 +492,13 @@ contexts:
           - include: eol-pop
         # keyword
         - - match: '{{atom_unquoted}}'
-            scope: keyword.control.directive.attribute.erlang
+            scope: meta.atom.erlang keyword.control.directive.attribute.erlang
             pop: true
           - match: \'
             scope: punctuation.definition.atom.begin.erlang
             set:
               - meta_include_prototype: false
-              - meta_scope: keyword.control.directive.attribute.erlang
+              - meta_scope: meta.atom.erlang keyword.control.directive.attribute.erlang
               - include: atom-quoted-common
           - include: macro-pop
           - include: atom-expect-end
@@ -572,13 +572,13 @@ contexts:
                 scope: variable.language.blank.erlang
                 pop: true
               - match: '{{atom_unquoted}}'
-                scope: entity.name.field.erlang
+                scope: meta.atom.erlang entity.name.field.erlang
                 pop: true
               - match: \'
                 scope: punctuation.definition.atom.begin.erlang
                 set:
                   - meta_include_prototype: false
-                  - meta_scope: entity.name.field.erlang
+                  - meta_scope: meta.atom.erlang entity.name.field.erlang
                   - include: atom-quoted-common
               - include: macro-pop
               - include: atom-expect-end
@@ -970,16 +970,16 @@ contexts:
                   - include: arguments-common
                   - include: type-expressions
         - - match: '{{erlang_types}}'
-            scope: support.type.erlang
+            scope: meta.atom.erlang support.type.erlang
             pop: true
           - match: '{{atom_unquoted}}'
-            scope: storage.type.erlang
+            scope: meta.atom.erlang storage.type.erlang
             pop: true
           - match: \'
             scope: punctuation.definition.atom.begin.erlang
             set:
               - meta_include_prototype: false
-              - meta_scope: storage.type.erlang
+              - meta_scope: meta.atom.erlang storage.type.erlang
               - include: atom-quoted-common
           - include: macro-pop
           - include: atom-expect-end
@@ -1143,13 +1143,13 @@ contexts:
 
   variable-other-record:
     - match: '{{atom_unquoted}}'
-      scope: variable.other.record.erlang
+      scope: meta.atom.erlang variable.other.record.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: variable.other.record.erlang
+        - meta_scope: meta.atom.erlang variable.other.record.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1201,13 +1201,13 @@ contexts:
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
-      scope: variable.other.field.erlang
+      scope: meta.atom.erlang variable.other.field.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: variable.other.field.erlang
+        - meta_scope: meta.atom.erlang variable.other.field.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1303,10 +1303,10 @@ contexts:
             scope: punctuation.accessor.double-colon.erlang
             pop: true
         - - match: '{{support_namespaces}}'
-            scope: support.namespace.erlang
+            scope: meta.atom.erlang support.namespace.erlang
             pop: true
           - match: '{{atom_unquoted}}'
-            scope: variable.namespace.erlang
+            scope: meta.atom.erlang variable.namespace.erlang
             pop: true
           - match: '{{variable}}'
             scope: variable.other.erlang
@@ -1315,7 +1315,7 @@ contexts:
             scope: punctuation.definition.atom.begin.erlang
             set:
               - meta_include_prototype: false
-              - meta_scope: variable.namespace.erlang
+              - meta_scope: meta.atom.erlang variable.namespace.erlang
               - include: atom-quoted-common
           - include: macro-pop
 
@@ -1380,24 +1380,24 @@ contexts:
   atom:
     # http://erlang.org/doc/reference_manual/data_types.html#atom
     - match: '{{atom_unquoted}}'
-      scope: constant.other.symbol.erlang
+      scope: meta.atom.erlang constant.other.symbol.erlang
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       push:
         - meta_include_prototype: false
-        - meta_scope: constant.other.symbol.erlang
+        - meta_scope: meta.atom.erlang constant.other.symbol.erlang
         - include: atom-quoted-common
 
   entity-name-fun:
     # function name can be atom or variable for local usage
     - match: '{{variable}}'
-      scope: entity.name.function.erlang
+      scope: meta.atom.erlang entity.name.function.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.function.erlang
+        - meta_scope: meta.atom.erlang entity.name.function.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: variable-expect-end
@@ -1405,93 +1405,93 @@ contexts:
   entity-name-function:
     # function name must be an atom
     - match: '{{atom_unquoted}}'
-      scope: entity.name.function.erlang
+      scope: meta.atom.erlang entity.name.function.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.function.erlang
+        - meta_scope: meta.atom.erlang entity.name.function.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
 
   entity-name-macro:
     - match: '{{ident_unquoted}}'
-      scope: entity.name.constant.macro.erlang
+      scope: meta.atom.erlang entity.name.constant.macro.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.constant.macro.erlang
+        - meta_scope: meta.atom.erlang entity.name.constant.macro.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: ident-expect-end
 
   entity-name-module:
     - match: '{{atom_unquoted}}'
-      scope: entity.name.namespace.erlang
+      scope: meta.atom.erlang entity.name.namespace.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.namespace.erlang
+        - meta_scope: meta.atom.erlang entity.name.namespace.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
 
   entity-name-record:
     - match: '{{atom_unquoted}}'
-      scope: entity.name.record.erlang
+      scope: meta.atom.erlang entity.name.record.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.record.erlang
+        - meta_scope: meta.atom.erlang entity.name.record.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
 
   entity-name-type:
     - match: '{{atom_unquoted}}'
-      scope: entity.name.type.erlang
+      scope: meta.atom.erlang entity.name.type.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: entity.name.type.erlang
+        - meta_scope: meta.atom.erlang entity.name.type.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
 
   constant-other-macro:
     - match: '{{ident_unquoted}}'
-      scope: constant.other.macro.erlang
+      scope: meta.atom.erlang constant.other.macro.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: constant.other.macro.erlang
+        - meta_scope: meta.atom.erlang constant.other.macro.erlang
         - include: atom-quoted-common
     - include: ident-expect-end
 
   variable-function:
     - match: '{{erlang_functions}}'
-      scope: support.function.erlang
+      scope: meta.atom.erlang support.function.erlang
       pop: true
     - match: '{{ident_unquoted}}'
-      scope: variable.function.erlang
+      scope: meta.atom.erlang variable.function.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: variable.function.erlang
+        - meta_scope: meta.atom.erlang variable.function.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: ident-expect-end
