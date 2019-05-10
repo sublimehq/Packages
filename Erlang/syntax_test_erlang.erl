@@ -2651,12 +2651,12 @@ preprocessor_type_tests() -> .
 %  ^^^^ - keyword.control.directive.type.erlang
 
 -type.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %^^^^ keyword.control.directive.type.erlang
 
 - type .
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor
 %^ - keyword
@@ -2664,7 +2664,7 @@ preprocessor_type_tests() -> .
 %     ^ - keyword
 
 -type Foo.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^ source.erlang meta.preprocessor.type.erlang
@@ -2674,7 +2674,7 @@ preprocessor_type_tests() -> .
 %        ^ punctuation.terminator.clause.erlang
 
 -type Foo :: int().
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^^ source.erlang meta.preprocessor.type.name.erlang
 %         ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
@@ -2688,7 +2688,7 @@ preprocessor_type_tests() -> .
 %                 ^ punctuation.terminator.clause.erlang
 
 -type foo.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^ source.erlang meta.preprocessor.type.erlang
 %         ^ - meta.preprocessor
@@ -2697,7 +2697,7 @@ preprocessor_type_tests() -> .
 %        ^ punctuation.terminator.clause.erlang
 
 -type foo ::.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^^ source.erlang meta.preprocessor.type.name.erlang
 %         ^^^ source.erlang meta.preprocessor.type.erlang
@@ -2708,7 +2708,7 @@ preprocessor_type_tests() -> .
 %           ^ punctuation.terminator.clause.erlang
 
 -type foo().
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2721,7 +2721,7 @@ preprocessor_type_tests() -> .
 %          ^ punctuation.terminator.clause.erlang
 
 -type foo()::.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2735,7 +2735,7 @@ preprocessor_type_tests() -> .
 %            ^ punctuation.terminator.clause.erlang
 
 -type foo() illegal.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2749,7 +2749,7 @@ preprocessor_type_tests() -> .
 %                  ^ punctuation.terminator.clause.erlang
 
 -type :: int().
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %^^^^ keyword.control.directive.type.erlang
 %     ^^ punctuation.separator.type-head-body.erlang
@@ -2759,7 +2759,7 @@ preprocessor_type_tests() -> .
 %             ^ punctuation.terminator.clause.erlang
 
 -type Map() :: #{any() => Any}.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2788,7 +2788,7 @@ preprocessor_type_tests() -> .
 %                             ^ punctuation.terminator.clause.erlang
 
 -type map() :: #{ _ => _ }.
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^ source.erlang meta.preprocessor.type.name.erlang
 %        ^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2812,7 +2812,7 @@ preprocessor_type_tests() -> .
 %                         ^ punctuation.terminator.clause.erlang
 
 -type m_int(ListItem, Term) :: integer()
-% <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
 %     ^^^^^ source.erlang meta.preprocessor.type.name.erlang
 %          ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
@@ -2840,8 +2840,8 @@ preprocessor_type_tests() -> .
 %      ^ punctuation.separator.sequence.erlang
 %       ^ - meta.sequence
 %        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.erlang - meta.sequence.tuple.erlang
-%                            ^^^^^^^ meta.type-call.name.erlang - meta.type-call.arguments.erlang
-%                                   ^^ meta.type-call.arguments.erlang - meta.type-call.name.erlang
+%                            ^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang
+%                                   ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang
 %                                        ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.erlang meta.sequence.tuple.erlang
 %                                                           ^^ meta.sequence.list.erlang - meta.sequence.tuple.erlang
 %                                                             ^ - meta.type - meta.sequence
@@ -2871,8 +2871,8 @@ preprocessor_fun_type_tests() -> .
 -type fun() :: fun().
 %     ^^^ entity.name.type.erlang
 %             ^ - meta.type-call
-%              ^^^ meta.type-call.name.erlang - meta.type-call.arguments - meta.fun
-%                 ^^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
+%              ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments - meta.fun
+%                 ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
 %                   ^ - meta.type-call
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
@@ -2881,10 +2881,10 @@ preprocessor_fun_type_tests() -> .
 
 -type fun() :: fun(()).
 %             ^ - meta.type-call
-%              ^^^ meta.type-call.name.erlang - meta.type-call.arguments - meta.fun
-%                 ^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
-%                  ^^ meta.type-call.arguments.erlang meta.fun.parameters.erlang
-%                    ^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
+%              ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments - meta.fun
+%                 ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
+%                  ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.parameters.erlang
+%                    ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun
 %                     ^ - meta.type-call
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
@@ -2894,26 +2894,26 @@ preprocessor_fun_type_tests() -> .
 %                     ^ punctuation.terminator.clause.erlang
 
 -type fun() :: fun( -> () ).
-%                 ^^^^^^^^^ meta.type-call.arguments.erlang
+%                 ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang
 %                   ^^ punctuation.separator.parameters-return-type.erlang
 %                      ^^ meta.fun.return-type.erlang meta.group.erlang
 
 -type fun() :: fun( () () ).
-%                 ^^^^^^^^^ meta.type-call.arguments.erlang
+%                 ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
 %                   ^^ meta.fun.parameters.erlang
 %                      ^^ invalid.illegal.unexpected-group.erlang
 %                         ^ punctuation.section.arguments.end.erlang
 
 -type fun() :: fun(() -> int()).
-%              ^^^ meta.type-call.name.erlang - meta.type-call.arguments.erlang
-%                 ^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
-%                  ^^ meta.type-call.arguments.erlang meta.fun.parameters.erlang
-%                    ^^^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
-%                       ^ meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
-%                        ^^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
-%                           ^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
-%                             ^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%              ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang
+%                 ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
+%                  ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.parameters.erlang
+%                    ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%                       ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
+%                        ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
+%                           ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
+%                             ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
 %                  ^ punctuation.section.parameters.begin.erlang
@@ -2926,14 +2926,14 @@ preprocessor_fun_type_tests() -> .
 %                              ^ punctuation.terminator.clause.erlang
 
 -type fun() :: fun((...) -> int()).
-%              ^^^ meta.type-call.name.erlang - meta.type-call.arguments.erlang
-%                 ^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
-%                  ^^^^^ meta.type-call.arguments.erlang meta.fun.parameters.erlang
-%                       ^^^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
-%                          ^ meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
-%                           ^^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
-%                              ^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
-%                                ^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%              ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang
+%                 ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
+%                  ^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.parameters.erlang
+%                       ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%                          ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang - meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
+%                           ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang meta.type-call.arguments.erlang
+%                              ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
+%                                ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
 %                  ^ punctuation.section.parameters.begin.erlang
@@ -2947,15 +2947,15 @@ preprocessor_fun_type_tests() -> .
 %                                 ^ punctuation.terminator.clause.erlang
 
 -type fun() :: fun( ( Key , int () , AccIn :: bool () ) -> AccOut :: void() ) .
-%              ^^^ meta.type-call.name.erlang
-%                 ^^ meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
-%                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.type-call.arguments.erlang meta.fun.parameters.erlang
-%                                                      ^^^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
-%                                                         ^^^^^^^^^^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang
-%                                                                    ^^^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.name.erlang
-%                                                                        ^^ meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
-%                                                                          ^ meta.type-call.arguments.erlang meta.fun.return-type.erlang
-%                                                                           ^ meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%              ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang
+%                 ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang - meta.fun.parameters.erlang
+%                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.parameters.erlang
+%                                                      ^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
+%                                                         ^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang
+%                                                                    ^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.name.erlang
+%                                                                        ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang meta.type-call.arguments.erlang
+%                                                                          ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang meta.fun.return-type.erlang
+%                                                                           ^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.fun.parameters.erlang - meta.fun.return-type.erlang
 %              ^^^ support.type.erlang
 %                 ^ punctuation.section.arguments.begin.erlang
 %                     ^^^ variable.parameter.erlang
