@@ -3,11 +3,11 @@
 <dict>
 	<key>scope</key>
 	<string>
+		source.erlang meta.preprocessor.define entity.name.macro,
 		source.erlang meta.preprocessor.export variable.function,
 		source.erlang meta.preprocessor.import variable.function,
-		source.erlang meta.preprocessor.record entity.name.record,
 		source.erlang meta.preprocessor.namespace entity.name.namespace,
-		source.erlang entity.name.macro
+		source.erlang meta.preprocessor.record entity.name.record
 	</string>
 	<key>settings</key>
 	<dict>

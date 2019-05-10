@@ -3,7 +3,6 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.erlang meta.record.name entity.name.record,
 		source.erlang meta.record.name variable.other.record,
 		source.erlang meta.function-call.name constant.language.macro,
 		source.erlang meta.function-call.name constant.other.macro,
