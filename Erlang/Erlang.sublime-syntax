@@ -606,7 +606,6 @@ contexts:
             - entity-name-function
 
   preproc-spec-name:
-    - clear_scopes: 1
     - meta_scope: meta.preprocessor.spec.name.erlang
     - include: else-pop
 
@@ -668,7 +667,6 @@ contexts:
               - entity-name-type
 
   preproc-type-name:
-    - clear_scopes: 1
     - meta_scope: meta.preprocessor.type.name.erlang
     - include: else-pop
 

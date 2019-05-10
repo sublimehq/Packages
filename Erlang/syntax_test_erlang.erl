@@ -2388,49 +2388,49 @@ preprocessor_spec_tests() -> .
 
 -spec.
 %<- meta.preprocessor.spec.erlang punctuation.definition.keyword.erlang
-%^^^^^ meta.preprocessor.spec.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 - spec .
-%^^^^^^^ meta.preprocessor.spec.erlang
+%^^^^^^^ source.erlang meta.preprocessor.spec.erlang
 %^ - keyword
 % ^^^^ keyword.control.directive.spec.erlang
 %     ^ - keyword
 
 -spec foo.
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang
-%        ^ meta.preprocessor.spec.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.terminator.clause.erlang
 
 -spec foo() illegal.
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%        ^^ meta.preprocessor.spec.parameters.erlang
-%          ^^^^^^^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%        ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%          ^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
 %           ^^^^^^^ invalid.illegal.expect-separator.erlang
 %                  ^ punctuation.terminator.clause.erlang
 
 -spec foo() when Guard.
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%        ^^ meta.preprocessor.spec.parameters.erlang
-%          ^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%           ^^^^^^^^^^ meta.preprocessor.spec.guards.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
-%                     ^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%        ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%          ^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%           ^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
+%                     ^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
 %           ^^^^ keyword.control.conditional.when.erlang
 %                ^^^^^ variable.other.erlang
 %                     ^ punctuation.terminator.clause.erlang
 
 -spec foo(Pid) -> boolean() when Pid :: pid() | if().
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%        ^^^^^ meta.preprocessor.spec.parameters.erlang
-%             ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
-%                ^^^^^^^^^^^ meta.preprocessor.spec.return-type.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guard
-%                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.guards.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
-%                                                   ^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%        ^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%             ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
+%                ^^^^^^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guard
+%                           ^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang - meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
+%                                                   ^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
 %^^^^ keyword.control.directive.spec.erlang
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -2453,19 +2453,19 @@ preprocessor_spec_tests() -> .
 %                                                   ^ punctuation.terminator.clause.erlang
 
 -spec Foo.
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.terminator.clause.erlang
 
 -spec Foo() -> int().
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^ meta.preprocessor.spec.name.erlang
-%        ^^ meta.preprocessor.spec.parameters.erlang
-%          ^^^ meta.preprocessor.spec.erlang
-%             ^^^^^^ meta.preprocessor.spec.return-type.erlang
-%                   ^ meta.preprocessor.spec.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%          ^^^ source.erlang meta.preprocessor.spec.erlang
+%             ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%                   ^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -2477,59 +2477,59 @@ preprocessor_spec_tests() -> .
 %                   ^ punctuation.terminator.clause.erlang
 
 -spec mod:foo({X, integer()}) -> X when X :: atom()
-%^^^^^^^^^ meta.preprocessor.spec.erlang
-%         ^^^ meta.preprocessor.spec.name.erlang
-%            ^^^^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang
-%                            ^^^ meta.preprocessor.spec.erlang
-%                               ^^^ meta.preprocessor.spec.return-type.erlang
-%                                  ^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.guards.erlang
+%^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
+%         ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%            ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                            ^^^ source.erlang meta.preprocessor.spec.erlang
+%                               ^^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%                                  ^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
 %     ^^^ variable.namespace.erlang
 %        ^ punctuation.accessor.double-colon.erlang
 %         ^^^ entity.name.function.erlang
 
      ; mod:foo(X::string()) -> int()
-%    ^^^^^^ meta.preprocessor.spec.erlang
-%          ^^^ meta.preprocessor.spec.name.erlang
-%             ^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang
-%                          ^^^ meta.preprocessor.spec.erlang
-%                             ^^^^^^ meta.preprocessor.spec.return-type.erlang
+%    ^^^^^^ source.erlang meta.preprocessor.spec.erlang
+%          ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%             ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                          ^^^ source.erlang meta.preprocessor.spec.erlang
+%                             ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %    ^ punctuation.separator.clauses.erlang
 %      ^^^ variable.namespace.erlang
 %         ^ punctuation.accessor.double-colon.erlang
 %          ^^^ entity.name.function.erlang
 
      ; ?mod:?foo(X::string()) -> int()
-%    ^^^^^^^ meta.preprocessor.spec.erlang
-%           ^^^^ meta.preprocessor.spec.name.erlang
-%               ^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang
-%                            ^^^ meta.preprocessor.spec.erlang
-%                               ^^^^^^ meta.preprocessor.spec.return-type.erlang
+%    ^^^^^^^ source.erlang meta.preprocessor.spec.erlang
+%           ^^^^ source.erlang meta.preprocessor.spec.name.erlang
+%               ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                            ^^^ source.erlang meta.preprocessor.spec.erlang
+%                               ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %    ^ punctuation.separator.clauses.erlang
 %      ^^^^ constant.other.macro.erlang
 %          ^ punctuation.accessor.double-colon.erlang
 %           ^^^^ constant.other.macro.erlang
 
      ; ([Y]) -> Y when Y :: number().
-%    ^^ meta.preprocessor.spec.erlang
-%      ^^^^^ meta.preprocessor.spec.parameters.erlang
-%           ^^^ meta.preprocessor.spec.erlang
-%               ^^ meta.preprocessor.spec.return-type.erlang
-%                 ^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.guards.erlang
-%                                   ^ meta.preprocessor.spec.erlang
+%    ^^ source.erlang meta.preprocessor.spec.erlang
+%      ^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%           ^^^ source.erlang meta.preprocessor.spec.erlang
+%               ^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%                 ^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
+%                                   ^ source.erlang meta.preprocessor.spec.erlang
 %                                    ^ - meta.preprocessor.spec
 %    ^ punctuation.separator.clauses.erlang
 
 -spec 'F\1':'\2r'() -> int().
-%     ^^^^^ meta.preprocessor.spec.erlang variable.namespace
-%          ^ meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%           ^^^^^ meta.preprocessor.spec.name.erlang entity.name.function.erlang
-%                ^^ meta.preprocessor.spec.parameters.erlang
-%                  ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
-%                     ^^^^^^ meta.preprocessor.spec.return-type.erlang
+%     ^^^^^ source.erlang meta.preprocessor.spec.erlang variable.namespace
+%          ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
+%           ^^^^^ source.erlang meta.preprocessor.spec.name.erlang entity.name.function.erlang
+%                ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                  ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
+%                     ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                            ^ - meta.preprocessor
 
 -spec ?MODULE:.
-%^^^^^^^^^^^^^^ meta.preprocessor.spec.erlang
+%^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
 %     ^^^^^^^ constant.language.macro.erlang
@@ -2537,9 +2537,9 @@ preprocessor_spec_tests() -> .
 %             ^ punctuation.terminator.clause.erlang
 
 -spec ?MODULE:foo.
-%^^^^^^^^^^^^^ meta.preprocessor.spec.erlang
-%             ^^^ meta.preprocessor.spec.name.erlang
-%                ^ meta.preprocessor.spec.erlang
+%^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
+%             ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%                ^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
 %     ^^^^^^^ constant.language.macro.erlang
@@ -2548,27 +2548,27 @@ preprocessor_spec_tests() -> .
 %                ^ punctuation.terminator.clause.erlang
 
 -spec ?MODULE:?FUNCTION_NAME() -> int().
-%     ^^^^^^^ meta.preprocessor.spec.erlang constant.language.macro.erlang
-%            ^ meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%             ^^^^^^^^^^^^^^ meta.preprocessor.spec.name.erlang constant.language.macro.erlang
-%                           ^^ meta.preprocessor.spec.parameters.erlang
-%                             ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
-%                                ^^^^^^ meta.preprocessor.spec.return-type.erlang
+%     ^^^^^^^ source.erlang meta.preprocessor.spec.erlang constant.language.macro.erlang
+%            ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
+%             ^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang constant.language.macro.erlang
+%                           ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                             ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
+%                                ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                                       ^ - meta.preprocessor
 
 -spec ?FOO:?BAR() -> int().
-%     ^^^^ meta.preprocessor.spec.erlang constant.other.macro.erlang
-%         ^ meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%          ^^^^ meta.preprocessor.spec.name.erlang constant.other.macro.erlang
-%              ^^ meta.preprocessor.spec.parameters.erlang
-%                ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
-%                   ^^^^^^ meta.preprocessor.spec.return-type.erlang
+%     ^^^^ source.erlang meta.preprocessor.spec.erlang constant.other.macro.erlang
+%         ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
+%          ^^^^ source.erlang meta.preprocessor.spec.name.erlang constant.other.macro.erlang
+%              ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
+%                   ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                          ^ - meta.preprocessor
 
 -spec 'fun-\nabled' ( Tag :: trace_status,
-%^^^^^ meta.preprocessor.spec.erlang
-%     ^^^^^^^^^^^^^^ meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters
-%                   ^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters
+%                   ^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^ punctuation.definition.atom.begin.erlang
 %      ^^^^^^^^^^^ entity.name.function.erlang
@@ -2579,9 +2579,9 @@ preprocessor_spec_tests() -> .
 %                            ^^^^^^^^^^^^ constant.other.symbol.erlang
 %                                        ^ punctuation.separator.parameters.erlang
                       Tracee :: tracee()) ->
-%                    ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
-%                                        ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
-%                                           ^ meta.preprocessor.spec.return-type.erlang
+%                    ^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
+%                                        ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
+%                                           ^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                     ^^^^^^ variable.parameter.erlang
 %                            ^^ punctuation.separator.variable-type.erlang
 %                               ^^^^^^ storage.type.erlang
@@ -2590,19 +2590,19 @@ preprocessor_spec_tests() -> .
 %                                       ^ punctuation.section.parameters.end.erlang
 %                                         ^^ punctuation.separator.parameters-return-type.erlang
                 trace | remove;
-%              ^^^^^^^^^^^^^^^ meta.preprocessor.spec.return-type.erlang
-%                             ^ meta.preprocessor.spec.erlang
+%              ^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%                             ^ source.erlang meta.preprocessor.spec.erlang
 %               ^^^^^ constant.other.symbol.erlang
 %                     ^ punctuation.separator.sequence.erlang
 %                       ^^^^^^ constant.other.symbol.erlang
 %                             ^ punctuation.separator.clauses.erlang
                     (
-%                   ^ meta.preprocessor.spec.parameters.erlang punctuation.section.parameters.begin.erlang
+%                   ^ source.erlang meta.preprocessor.spec.parameters.erlang punctuation.section.parameters.begin.erlang
                       Tag :: trace_tag() | seq_trace,
-%                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.parameters.erlang
+%                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %                            ^^^^^^^^^ meta.type-call.name.erlang
 %                                     ^^ meta.type-call.arguments.erlang
-%                                                   ^^ meta.preprocessor.spec.parameters.erlang
+%                                                   ^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %                     ^^^ variable.parameter.erlang
 %                         ^^ punctuation.separator.variable-type.erlang
 %                            ^ storage.type.erlang
@@ -2614,19 +2614,19 @@ preprocessor_spec_tests() -> .
 %                            ^^ punctuation.separator.variable-type.erlang
 %                               ^ storage.type.erlang
                     ) ->
-%                   ^ meta.preprocessor.spec.parameters.erlang
-%                    ^^^ meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
-%                       ^ meta.preprocessor.spec.return-type.erlang
+%                   ^ source.erlang meta.preprocessor.spec.parameters.erlang
+%                    ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters.erlang - meta.preprocessor.spec.return-type.erlang
+%                       ^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                   ^ punctuation.section.parameters.end.erlang
                 trace | discard when
-%              ^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.return-type.erlang
-%                               ^^^^^ meta.preprocessor.spec.guards.erlang
+%              ^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%                               ^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
 %               ^^^^^ constant.other.symbol.erlang
 %                     ^ punctuation.separator.sequence.erlang
 %                       ^^^^^^^ constant.other.symbol.erlang
 %                               ^^^^ keyword.control.conditional.when.erlang
                       Tag :: string(),
-%                    ^^^^^^^^^^^^^^^^^^ meta.preprocessor.spec.guards.erlang
+%                    ^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
 %                            ^^^^^^ meta.type-call.name.erlang - meta.type-call.arguments.erlang
 %                                  ^^ meta.type-call.arguments.erlang
 %                     ^^^ variable.other.erlang
@@ -2634,8 +2634,8 @@ preprocessor_spec_tests() -> .
 %                            ^^^^^^ support.type.erlang
 %                                    ^ punctuation.separator.expressions.erlang
                       Tracee :: 2..36.
-%                    ^^^^^^^^^^^^^^^^ meta.preprocessor.spec.guards.erlang
-%                                    ^ meta.preprocessor.spec.erlang - meta.function
+%                    ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
+%                                    ^ source.erlang meta.preprocessor.spec.erlang - meta.function
 %                     ^^^^^^ variable.other.erlang
 %                            ^^ punctuation.separator.variable-type.erlang
 %                               ^ constant.numeric.integer.decimal.erlang
@@ -2652,12 +2652,12 @@ preprocessor_type_tests() -> .
 
 -type.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
 %^^^^ keyword.control.directive.type.erlang
 
 - type .
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %       ^ - meta.preprocessor
 %^ - keyword
 % ^^^^ keyword.control.directive.type.erlang
@@ -2665,9 +2665,9 @@ preprocessor_type_tests() -> .
 
 -type Foo.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^ source.erlang meta.preprocessor.type.erlang
 %         ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
@@ -2675,9 +2675,9 @@ preprocessor_type_tests() -> .
 
 -type Foo :: int().
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^^ meta.preprocessor.type.name.erlang
-%         ^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^^ source.erlang meta.preprocessor.type.name.erlang
+%         ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %                  ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ invalid.illegal.expect-atom.erlang
@@ -2689,8 +2689,8 @@ preprocessor_type_tests() -> .
 
 -type foo.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^ meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^ source.erlang meta.preprocessor.type.erlang
 %         ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ entity.name.type.erlang
@@ -2698,9 +2698,9 @@ preprocessor_type_tests() -> .
 
 -type foo ::.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^^ meta.preprocessor.type.name.erlang
-%         ^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^^ source.erlang meta.preprocessor.type.name.erlang
+%         ^^^ source.erlang meta.preprocessor.type.erlang
 %            ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ entity.name.type.erlang
@@ -2709,10 +2709,10 @@ preprocessor_type_tests() -> .
 
 -type foo().
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^^ meta.preprocessor.type.parameters.erlang
-%          ^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^ source.erlang meta.preprocessor.type.erlang
 %           ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ entity.name.type.erlang
@@ -2722,10 +2722,10 @@ preprocessor_type_tests() -> .
 
 -type foo()::.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^^ meta.preprocessor.type.parameters.erlang
-%          ^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^ source.erlang meta.preprocessor.type.erlang
 %             ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ entity.name.type.erlang
@@ -2736,10 +2736,10 @@ preprocessor_type_tests() -> .
 
 -type foo() illegal.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^^ meta.preprocessor.type.parameters.erlang
-%          ^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %                   ^ - meta.preprocessor
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^ entity.name.type.erlang
@@ -2750,7 +2750,7 @@ preprocessor_type_tests() -> .
 
 -type :: int().
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %^^^^ keyword.control.directive.type.erlang
 %     ^^ punctuation.separator.type-head-body.erlang
 %        ^^^ storage.type.erlang
@@ -2760,10 +2760,10 @@ preprocessor_type_tests() -> .
 
 -type Map() :: #{any() => Any}.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^^ meta.preprocessor.type.parameters.erlang
-%          ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %              ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
 %                ^^^^^^ meta.mapping.key.erlang - meta.mapping.erlang - meta.mapping.value.erlang
 %                ^^^ meta.type-call.name.erlang - meta.type-call.arguments.erlang
@@ -2789,10 +2789,10 @@ preprocessor_type_tests() -> .
 
 -type map() :: #{ _ => _ }.
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^ meta.preprocessor.type.name.erlang
-%        ^^ meta.preprocessor.type.parameters.erlang
-%          ^^^^^^^^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %              ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
 %                ^^^ meta.mapping.key.erlang - meta.mapping.erlang - meta.mapping.value.erlang
 %                   ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
@@ -2813,10 +2813,10 @@ preprocessor_type_tests() -> .
 
 -type m_int(ListItem, Term) :: integer()
 % <- meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
-%^^^^^ meta.preprocessor.type.erlang
-%     ^^^^^ meta.preprocessor.type.name.erlang
-%          ^^^^^^^^^^^^^^^^ meta.preprocessor.type.parameters.erlang
-%                           ^^^^^^^^^^^^^ meta.preprocessor.type.erlang
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^^^ source.erlang meta.preprocessor.type.name.erlang
+%          ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
+%                           ^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
 %^^^^ keyword.control.directive.type.erlang
 %     ^^^^^ entity.name.type.erlang
 %          ^ punctuation.section.parameters.begin.erlang
