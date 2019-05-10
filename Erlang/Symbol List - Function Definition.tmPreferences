@@ -2,15 +2,17 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.erlang meta.function.name entity.name.function</string>
+	<string>
+		source.erlang meta.function.name constant.other.macro,
+		source.erlang meta.function.name entity.name.function
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/^/Ξ /
-			s/$/\(...\)/
+			s/$/\(\)/
 		</string>
 	</dict>
 </dict>

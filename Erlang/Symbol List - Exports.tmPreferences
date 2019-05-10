@@ -2,15 +2,14 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.erlang meta.preprocessor.export variable.function</string>
+	<string>source.erlang meta.preprocessor.export meta.reference.function</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/^/&lt; /
-			s/$/\(...\)/
+			s/^/-export /
 		</string>
 	</dict>
 </dict>

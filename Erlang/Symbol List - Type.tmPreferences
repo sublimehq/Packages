@@ -9,8 +9,7 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/^/:: /
-			s/$/\(...\)/
+			s/^/-type /
 		</string>
 	</dict>
 </dict>

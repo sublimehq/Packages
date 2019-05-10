@@ -9,11 +9,8 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/^/# /
-			s/$/ {...}/
+			s/^/-record /
 		</string>
-		<key>showInIndexedSymbolList</key>
-		<integer>1</integer>
 	</dict>
 </dict>
 </plist>
