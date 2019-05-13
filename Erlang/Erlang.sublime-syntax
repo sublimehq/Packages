@@ -143,6 +143,7 @@ contexts:
     - include: preproc-type
     - include: preproc-attribute
     - include: function
+    - include: illegal-stray
     # fallback incase preprocessor or function didn't match
     - match: (?=\S)
       push:
@@ -349,11 +350,11 @@ contexts:
   preproc-define-arguments-body:
     - clear_scopes: 1
     - meta_scope: meta.preprocessor.define.arguments.erlang
-    - include: arguments-end
     - include: separator-clauses
     - include: separator-expressions
     - include: separator-union
     - include: expressions
+    - include: arguments-end
 
 ###[ PREPROCESSOR EXPORT ]####################################################
 
@@ -1882,13 +1883,13 @@ contexts:
       scope: punctuation.separator.arguments.erlang
 
   arguments-end:
+    - include: clause-end-pop
     - match: \)
       scope: punctuation.section.arguments.end.erlang
       pop: true
 
   expect-arguments-end:
     - include: arguments-end
-    - include: clause-end-pop
     - include: illegal-group
     - match: \S
       scope: invalid.illegal.expect-arguments-end.erlang
@@ -1905,6 +1906,7 @@ contexts:
 ###[ CONTEXT POP OFFS ]#######################################################
 
   parameters-common:
+    - include: clause-end-pop
     - match: \)
       scope: punctuation.section.parameters.end.erlang
       pop: true
@@ -1938,6 +1940,10 @@ contexts:
 
 ###[ ILLEGALS ]###############################################################
 
+  illegal-stray:
+    - match: '[)\]}]'
+      scope: invalid.illegal.stray.erlang
+
   illegal-group:
     # Note: To try to prevent breaking highlighting it is important to keep
     #       parens/brackets/braces in balance if the opening bracket is not
@@ -1947,33 +1953,36 @@ contexts:
         - meta_scope: invalid.illegal.unexpected-group.erlang
         - match: \)
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body
     - match: \[
       push:
         - meta_scope: invalid.illegal.unexpected-list.erlang
         - match: \]
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body
     - match: \#?\{
       push:
         - meta_scope: invalid.illegal.unexpected-tuple.erlang
         - match: \}
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body
 
-  ignore-group:
+  illegal-group-body:
+    # consume numbers to prevent matching decimal separater as clause-end
+    - match: \d+\.\d*|\.\d+
+    - include: clause-end-pop
     - match: \(
       push:
         - match: \)
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body
     - match: \[
       push:
         - match: \]
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body
     - match: \#?\{
       push:
         - match: \}
           pop: true
-        - include: ignore-group
+        - include: illegal-group-body

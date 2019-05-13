@@ -1397,6 +1397,16 @@ preprocessor_define_tests() -> .
 %            ^ punctuation.section.arguments.end.erlang
 %             ^ invalid.illegal.expect-terminator.erlang
 
+    -define(.)
+%   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
+%          ^ meta.preprocessor.define.arguments.erlang
+%           ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
+%   ^ punctuation.definition.keyword.erlang - keyword
+%    ^^^^^^ keyword.control.directive.define.erlang
+%          ^ punctuation.section.arguments.begin.erlang
+%           ^ punctuation.terminator.clause.erlang
+%            ^ invalid.illegal.stray.erlang
+
     -define(,,)
 %   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %          ^^^^ meta.preprocessor.define.arguments.erlang
@@ -2663,6 +2673,82 @@ preprocessor_type_tests() -> .
 % ^^^^ keyword.control.directive.type.erlang
 %     ^ - keyword
 
+-type (.
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^ source.erlang meta.preprocessor.type.parameters.erlang
+%      ^ source.erlang meta.preprocessor.type.erlang
+%       ^ - meta.preprocessor - invalid
+%^^^^ keyword.control.directive.type.erlang
+%     ^ punctuation.section.parameters.begin.erlang
+%      ^ punctuation.terminator.clause.erlang
+
+-type (.)
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^ source.erlang meta.preprocessor.type.parameters.erlang
+%      ^ source.erlang meta.preprocessor.type.erlang
+%^^^^ keyword.control.directive.type.erlang
+%     ^ punctuation.section.parameters.begin.erlang
+%      ^ punctuation.terminator.clause.erlang
+%       ^ invalid.illegal.stray.erlang - meta.preprocessor 
+
+-type (2.4).
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^ source.erlang meta.preprocessor.type.erlang
+%^^^^ keyword.control.directive.type.erlang
+%     ^ punctuation.section.parameters.begin.erlang
+%      ^^^ constant.numeric.float.decimal.erlang
+%          ^ punctuation.terminator.clause.erlang
+
+-type [.
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%       ^ - meta.preprocessor - invalid
+%^^^^ keyword.control.directive.type.erlang
+%     ^ invalid.illegal.unexpected-list.erlang
+%      ^ punctuation.terminator.clause.erlang
+
+-type [.]
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%^^^^ keyword.control.directive.type.erlang
+%     ^ invalid.illegal.unexpected-list.erlang
+%      ^ punctuation.terminator.clause.erlang
+%       ^ invalid.illegal.stray.erlang - meta.preprocessor 
+
+-type [1.].
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%          ^ - meta.preprocessor - invalid
+%^^^^ keyword.control.directive.type.erlang
+%     ^^^^ invalid.illegal.unexpected-list.erlang
+%         ^ punctuation.terminator.clause.erlang
+
+-type {.
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%       ^ - meta.preprocessor - invalid
+%^^^^ keyword.control.directive.type.erlang
+%     ^ invalid.illegal.unexpected-tuple.erlang
+%      ^ punctuation.terminator.clause.erlang
+-type {.}
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%^^^^ keyword.control.directive.type.erlang
+%     ^ invalid.illegal.unexpected-tuple.erlang
+%      ^ punctuation.terminator.clause.erlang
+%       ^ invalid.illegal.stray.erlang - meta.preprocessor 
+-type {2.4}.
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%           ^ - meta.preprocessor - invalid
+%^^^^ keyword.control.directive.type.erlang
+%     ^^^^^ invalid.illegal.unexpected-tuple.erlang
+%          ^ punctuation.terminator.clause.erlang
+
 -type Foo.
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
@@ -3676,6 +3762,20 @@ local_record_definition_tests() -> .
 %                                                            ^ punctuation.separator.expressions.erlang
 
 % Function tests
+
+func_name(.)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ meta.function.parameters.erlang punctuation.section.parameters.begin.erlang
+%         ^ meta.function.erlang punctuation.terminator.clause.erlang
+%          ^ invalid.illegal.stray.erlang
+
+func_name(;)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ meta.function.parameters.erlang punctuation.section.parameters.begin.erlang
+%         ^ meta.function.erlang punctuation.separator.clauses.erlang
+%          ^ invalid.illegal.stray.erlang
 
 func_name ( )
 % <- meta.function.name.erlang entity.name.function.erlang
