@@ -2844,6 +2844,33 @@ preprocessor_type_tests() -> .
 %            ^ punctuation.section.arguments.end.erlang
 %             ^ punctuation.terminator.clause.erlang
 
+-type map() :: #{ .
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%                 ^ punctuation.terminator.clause.erlang - meta.mapping
+%                  ^ - meta.preprocessor
+
+-type map() :: #{ term( .
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%                       ^ punctuation.terminator.clause.erlang - meta.mapping
+%                        ^ - meta.preprocessor
+
+-type map() :: #{ _ => _ .
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^ source.erlang meta.preprocessor.type.parameters.erlang
+%          ^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang
+%                        ^ punctuation.terminator.clause.erlang - meta.mapping
+%                         ^ - meta.preprocessor
+
 -type Map() :: #{any() => Any}.
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
 %^^^^^ source.erlang meta.preprocessor.type.erlang
@@ -2896,6 +2923,34 @@ preprocessor_type_tests() -> .
 %                      ^ variable.language.blank.erlang
 %                        ^ punctuation.section.mapping.end.erlang
 %                         ^ punctuation.terminator.clause.erlang
+
+-type foo() :: {term(.
+%              ^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                    ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
+
+-type foo() :: {term().
+%              ^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                     ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
+
+-type foo() :: {term(1.5).
+%              ^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                        ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
+
+-type foo() :: {term({{).
+%              ^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                    ^^ punctuation.section.sequence.begin.erlang
+%                      ^ invalid.illegal.stray.erlang
+%                       ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
+
+-type foo() :: {term(), int( }.
+%              ^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                          ^^^ meta.type-call.arguments.erlang
+%                            ^ invalid.illegal.stray.erlang
+%                             ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
+
+-type foo() :: {term(), int()}.
+%              ^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.sequence.tuple.erlang
+%                             ^ source.erlang meta.preprocessor.type.erlang punctuation.terminator.clause.erlang - meta.sequence.tuple.erlang
 
 -type m_int(ListItem, Term) :: integer()
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword

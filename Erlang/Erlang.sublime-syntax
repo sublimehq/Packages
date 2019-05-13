@@ -1026,6 +1026,8 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.erlang
       pop: true
+    - include: clause-end-pop
+    - include: illegal-stray
 
 ###[ LISTS ]##################################################################
 
@@ -1072,6 +1074,8 @@ contexts:
     - include: operator-comprehension
     - include: separator-sequence
     - include: separator-union
+    - include: clause-end-pop
+    - include: illegal-stray
 
 ###[ MAPS ]###################################################################
 
@@ -1081,10 +1085,7 @@ contexts:
     - match: '#{'
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
-        # end
-        - match: \}
-          scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
-          pop: true
+        - include: map-common
         # value
         - match: =>|\:=
           scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
@@ -1108,10 +1109,7 @@ contexts:
     - match: '#{'
       scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
       push:
-        # end
-        - match: \}
-          scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
-          pop: true
+        - include: map-common
         # value
         - match: =>|\:=
           scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
@@ -1128,6 +1126,13 @@ contexts:
               pop: true
             - include: type-expressions
             - include: value-end-pop
+
+  map-common:
+    - match: \}
+      scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
+      pop: true
+    - include: clause-end-pop
+    - include: illegal-stray
 
 ###[ RECORDS ]################################################################
 
@@ -1182,6 +1187,8 @@ contexts:
     - match: \}
       scope: punctuation.section.fields.end.erlang
       pop: true
+    - include: clause-end-pop
+    - include: illegal-stray
     # field value
     - match: =
       scope: meta.field.erlang keyword.operator.assignment.erlang
@@ -1256,6 +1263,8 @@ contexts:
       pop: true
     - include: operator-comprehension
     - include: separator-sequence
+    - include: clause-end-pop
+    - include: illegal-stray
 
 ###[ KEYWORDS ]###############################################################
 
@@ -1883,10 +1892,11 @@ contexts:
       scope: punctuation.separator.arguments.erlang
 
   arguments-end:
-    - include: clause-end-pop
     - match: \)
       scope: punctuation.section.arguments.end.erlang
       pop: true
+    - include: clause-end-pop
+    - include: illegal-stray
 
   expect-arguments-end:
     - include: arguments-end
@@ -1906,12 +1916,13 @@ contexts:
 ###[ CONTEXT POP OFFS ]#######################################################
 
   parameters-common:
-    - include: clause-end-pop
     - match: \)
       scope: punctuation.section.parameters.end.erlang
       pop: true
     - match: ','
       scope: punctuation.separator.parameters.erlang
+    - include: clause-end-pop
+    - include: illegal-stray
 
   immediatelly-pop:
     - match: ''
