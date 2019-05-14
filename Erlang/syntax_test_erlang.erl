@@ -2445,6 +2445,52 @@ preprocessor_spec_tests() -> .
 %     ^^^ entity.name.function.erlang
 %        ^ punctuation.terminator.clause.erlang
 
+-spec foo(.
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^ source.erlang meta.preprocessor.spec.parameters.erlang
+%         ^ source.erlang meta.preprocessor.spec.erlang
+%^^^^ keyword.control.directive.spec.erlang
+%     ^^^ entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%         ^ punctuation.terminator.clause.erlang
+
+-spec foo({.
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%          ^ source.erlang meta.preprocessor.spec.erlang
+%^^^^ keyword.control.directive.spec.erlang
+%     ^^^ entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%         ^ punctuation.section.sequence.begin.erlang
+%          ^ punctuation.terminator.clause.erlang
+
+-spec foo({{.
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%           ^ source.erlang meta.preprocessor.spec.erlang
+%^^^^ keyword.control.directive.spec.erlang
+%     ^^^ entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%         ^^ punctuation.section.sequence.begin.erlang
+%           ^ punctuation.terminator.clause.erlang
+
+-spec foo({ -> int().
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%        ^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%           ^^ source.erlang meta.preprocessor.spec.erlang 
+%              ^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
+%^^^^ keyword.control.directive.spec.erlang
+%     ^^^ entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%         ^ punctuation.section.sequence.begin.erlang
+%           ^^ punctuation.separator.parameters-return-type.erlang
+%              ^^^ storage.type.erlang
+%                   ^ punctuation.terminator.clause.erlang
+
 -spec foo() illegal.
 %^^^^^ source.erlang meta.preprocessor.spec.erlang
 %     ^^^ source.erlang meta.preprocessor.spec.name.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.guards - meta.preprocessor.spec.return-type
@@ -2850,6 +2896,21 @@ preprocessor_type_tests() -> .
 %         ^ punctuation.section.parameters.end.erlang
 %          ^^ punctuation.separator.type-head-body.erlang
 %            ^ punctuation.terminator.clause.erlang
+
+-type foo( :: int( .
+% <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
+%^^^^^ source.erlang meta.preprocessor.type.erlang
+%     ^^^ source.erlang meta.preprocessor.type.name.erlang
+%        ^^^^^^^^^^ source.erlang meta.preprocessor.type.parameters.erlang
+%                  ^ source.erlang meta.preprocessor.type.erlang
+%                   ^ - meta.preprocessor
+%^^^^ keyword.control.directive.type.erlang
+%     ^^^ entity.name.type.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%          ^^ punctuation.separator.variable-type.erlang
+%             ^^^ storage.type.erlang
+%                ^ punctuation.section.arguments.begin.erlang
+%                  ^ punctuation.terminator.clause.erlang
 
 -type foo() illegal.
 % <- source.erlang meta.preprocessor.type.erlang punctuation.definition.keyword.erlang - keyword
@@ -3862,6 +3923,44 @@ func_name(;)
 %        ^ meta.function.parameters.erlang punctuation.section.parameters.begin.erlang
 %         ^ meta.function.erlang punctuation.separator.clauses.erlang
 %          ^ invalid.illegal.stray.erlang
+
+func_name( -> ;)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%        ^^ meta.function.parameters.erlang
+%          ^^ meta.function.erlang punctuation.separator.clause-head-body.erlang
+%             ^ meta.function.erlang punctuation.separator.clauses.erlang
+%              ^ invalid.illegal.stray.erlang
+
+func_name( when .)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%        ^^ meta.function.parameters.erlang
+%          ^^^^ meta.function.erlang keyword.control.conditional.when.erlang
+%              ^^ meta.function.erlang
+%               ^ punctuation.terminator.clause.erlang
+%                ^ invalid.illegal.stray.erlang
+
+func_name({[( -> ;)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%        ^^^^^ meta.function.parameters.erlang
+%             ^^ meta.function.erlang punctuation.separator.clause-head-body.erlang
+%                ^ meta.function.erlang punctuation.separator.clauses.erlang
+%                 ^ invalid.illegal.stray.erlang
+
+func_name({[( when .)
+% <- meta.function.name.erlang entity.name.function.erlang
+%^^^^^^^^ meta.function.name.erlang entity.name.function.erlang
+%        ^ punctuation.section.parameters.begin.erlang
+%        ^^^^^ meta.function.parameters.erlang
+%             ^^^^ meta.function.erlang keyword.control.conditional.when.erlang
+%                 ^^ meta.function.erlang
+%                  ^ punctuation.terminator.clause.erlang
+%                   ^ invalid.illegal.stray.erlang
 
 func_name ( )
 % <- meta.function.name.erlang entity.name.function.erlang

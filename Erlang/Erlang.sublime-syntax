@@ -194,6 +194,7 @@ contexts:
     - include: tuple-of-function-parameters
 
   function-parameter:
+    - include: parameters-end-pop
     - include: function-parameter-nested
     - include: namespace
     - include: common
@@ -225,6 +226,7 @@ contexts:
     - include: type-common
 
   type-parameter:
+    - include: parameters-end-pop
     - include: type-parameter-nested
     - include: namespace
     - include: terms
@@ -1925,6 +1927,11 @@ contexts:
       scope: punctuation.separator.parameters.erlang
     - include: clause-end-pop
     - include: illegal-stray
+
+  parameters-end-pop:
+    # bailout from parameter lists if guard or clause body starts
+    - match: (?=->|when{{ident_break_char}})
+      pop: true
 
   immediatelly-pop:
     - match: ''
