@@ -1,3 +1,3 @@
 {
-	"hidden_extensions": ["rss", "sublime-snippet", "vcproj", "tmLanguage", "tmTheme", "tmSnippet", "tmPreferences", "dae", "csproj"]
+	"hidden_extensions": ["rss", "sublime-snippet", "tmLanguage", "tmTheme", "tmSnippet", "tmPreferences", "dae", "csproj", "fsproj", "sqlproj", "vbproj", "vcproj", "vcxproj", "props", "targets" ]
 }
