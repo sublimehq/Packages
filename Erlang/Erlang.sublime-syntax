@@ -1028,8 +1028,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.erlang
       pop: true
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
 ###[ LISTS ]##################################################################
 
@@ -1076,8 +1075,7 @@ contexts:
     - include: operator-comprehension
     - include: separator-sequence
     - include: separator-union
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
 ###[ MAPS ]###################################################################
 
@@ -1133,8 +1131,7 @@ contexts:
     - match: \}
       scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
       pop: true
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
 ###[ RECORDS ]################################################################
 
@@ -1189,8 +1186,6 @@ contexts:
     - match: \}
       scope: punctuation.section.fields.end.erlang
       pop: true
-    - include: clause-end-pop
-    - include: illegal-stray
     # field value
     - match: =
       scope: meta.field.erlang keyword.operator.assignment.erlang
@@ -1207,6 +1202,7 @@ contexts:
         - meta_content_scope: meta.field.type.erlang
         - include: type-expressions
         - include: value-end-pop
+    - include: clause-end-or-stray
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
@@ -1265,8 +1261,7 @@ contexts:
       pop: true
     - include: operator-comprehension
     - include: separator-sequence
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
 ###[ KEYWORDS ]###############################################################
 
@@ -1899,8 +1894,7 @@ contexts:
     - match: \)
       scope: punctuation.section.arguments.end.erlang
       pop: true
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
   expect-arguments-end:
     - include: arguments-end
@@ -1925,8 +1919,7 @@ contexts:
       pop: true
     - match: ','
       scope: punctuation.separator.parameters.erlang
-    - include: clause-end-pop
-    - include: illegal-stray
+    - include: clause-end-or-stray
 
   parameters-end-pop:
     # bailout from parameter lists if guard or clause body starts
@@ -1949,6 +1942,10 @@ contexts:
     - match: (?=[.;])
       pop: true
 
+  clause-end-or-stray:
+    - include: clause-end-pop
+    - include: illegal-stray
+
   value-end-pop:
     # a `value body` ends with
     # - the end of a clause (`;` or `.`)
@@ -1959,10 +1956,6 @@ contexts:
       pop: true
 
 ###[ ILLEGALS ]###############################################################
-
-  illegal-stray:
-    - match: '[)\]}]'
-      scope: invalid.illegal.stray.erlang
 
   illegal-group:
     # Note: To try to prevent breaking highlighting it is important to keep
@@ -2006,3 +1999,7 @@ contexts:
         - match: \}
           pop: true
         - include: illegal-group-body
+
+  illegal-stray:
+    - match: '[)\]}]'
+      scope: invalid.illegal.stray.erlang
