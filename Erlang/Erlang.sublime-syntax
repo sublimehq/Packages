@@ -895,8 +895,7 @@ contexts:
                     scope: punctuation.section.parameters.begin.erlang
                     set:
                       - meta_scope: meta.fun.parameters.erlang
-                      - match: \.{3}
-                        scope: variable.language.any-arity.erlang
+                      - include: variable-any
                       - include: parameters-common
                       - include: type-parameter
                   - include: else-pop
@@ -1056,6 +1055,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.list.erlang
+        - include: variable-any
         - include: list-common
         - include: type-expressions
 
@@ -1065,6 +1065,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.list.erlang
+        - include: variable-any
         - include: list-common
         - include: type-parameter
 
@@ -1243,6 +1244,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.tuple.erlang
+        - include: variable-any
         - include: tuple-common
         - include: type-expressions
 
@@ -1252,6 +1254,7 @@ contexts:
       scope: punctuation.section.sequence.begin.erlang
       push:
         - meta_scope: meta.sequence.tuple.erlang
+        - include: variable-any
         - include: tuple-common
         - include: type-parameter
 
@@ -1364,6 +1367,10 @@ contexts:
     - include: else-pop
 
 ###[ VARIABLE ]###############################################################
+
+  variable-any:
+    - match: \.{3}
+      scope: variable.language.any.erlang
 
   variable-blank:
     - match: '_{{ident_break}}'
