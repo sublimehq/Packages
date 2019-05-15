@@ -1532,8 +1532,10 @@ preprocessor_define_tests() -> .
     -define(FUNC(X, Y), {a, X, b, Y}).
 %   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
-%           ^^^^ meta.function.name.erlang - meta.function.arguments.erlang
-%               ^^^^^^ meta.function.parameters.erlang
+%          ^ - meta.macro
+%           ^^^^ meta.macro.name.erlang - meta.macro.parameters
+%               ^^^^^^ meta.macro.parameters.erlang
+%                     ^ - meta.macro
 %                       ^^^^^^^^^^^^ meta.sequence.tuple.erlang
 %                                    ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
@@ -1556,6 +1558,10 @@ preprocessor_define_tests() -> .
     -define('E...'(X), ?'2bin'(X)/binary ).
 %   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
 %          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
+%          ^ - meta.macro
+%           ^^^^^^ meta.macro.name.erlang - meta.macro.parameters
+%                 ^^^ meta.macro.parameters.erlang
+%                    ^ - meta.macro
 %                      ^^^^^^^ meta.function-call.name.erlang
 %                             ^^^ meta.function-call.arguments.erlang
 %                                         ^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang

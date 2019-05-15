@@ -339,15 +339,21 @@ contexts:
                 set:
                   - preproc-define-arguments-body
                   - expect-arguments-separator
-                  - preproc-define-arguments-name
+                  - preproc-define-arguments-parameters
+                  - entity-name-macro
           - include: preproc-stray-arguments-end
 
-  preproc-define-arguments-name:
-    # macro function
-    - match: (?={{ident}}\s*\()
-      set: [function-meta, function-parameters, entity-name-macro]
-    # macro constant
-    - include: entity-name-macro
+  preproc-define-arguments-parameters:
+    - meta_content_scope: meta.macro.name.erlang
+    - match: (?=\()
+      set:
+        - match: \(
+          scope: punctuation.section.parameters.begin.erlang
+          set:
+            - meta_scope: meta.macro.parameters.erlang
+            - include: parameters-common
+            - include: function-parameter
+    - include: else-pop
 
   preproc-define-arguments-body:
     - clear_scopes: 1
