@@ -1629,6 +1629,7 @@ contexts:
       scope: punctuation.definition.escape.begin.erlang
       set:
         - meta_scope: constant.character.escape.erlang
+        - include: clause-end-pop
         - match: \}|$
           scope: punctuation.definition.escape.end.erlang
           pop: true

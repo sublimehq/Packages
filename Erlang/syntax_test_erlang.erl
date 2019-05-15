@@ -295,6 +295,17 @@ character_tests() -> .
     $\x{1%0}
 %        ^^^^ comment.line.percentage.erlang
 
+    $\x{1.
+%   ^ constant.character.erlang punctuation.definition.character.erlang
+%    ^^^^ constant.character.escape.erlang
+%        ^ punctuation.terminator.clause.erlang - constant
+    $\x{1
+%   ^ constant.character.erlang punctuation.definition.character.erlang
+%    ^^^^ constant.character.escape.erlang
+%        - constant
+    }
+%   ^ invalid.illegal.stray.erlang
+
     $\a
 %   ^ constant.character.erlang punctuation.definition.character.erlang
 %    ^ punctuation.definition.escape.erlang
