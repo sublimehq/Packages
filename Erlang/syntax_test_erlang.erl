@@ -64,6 +64,26 @@ atom_tests() -> .
 binary_tests() -> .
 
 % Bit String tests
+    
+    << .
+%   ^^^ meta.sequence.binary.erlang
+%   ^^ punctuation.definition.sequence.begin.erlang    
+%      ^ punctuation.terminator.clause.erlang - meta.sequence.binary
+
+    << ;
+%   ^^^ meta.sequence.binary.erlang
+%   ^^ punctuation.definition.sequence.begin.erlang    
+%      ^ punctuation.separator.clauses.erlang - meta.sequence.binary
+
+    <<A:8/.
+%   ^^^^^^ meta.sequence.binary.erlang
+%   ^^ punctuation.definition.sequence.begin.erlang    
+%         ^ punctuation.terminator.clause.erlang - meta.sequence.binary
+
+    <<A:8/;
+%   ^^^^^^ meta.sequence.binary.erlang
+%   ^^ punctuation.definition.sequence.begin.erlang    
+%         ^ punctuation.separator.clauses.erlang - meta.sequence.binary
 
     <<10,20>>
 %   ^^^^^^^^^ meta.sequence.binary.erlang
@@ -172,15 +192,15 @@ binary_tests() -> .
 %                        ^^^^ storage.type.erlang
 %                            ^^ punctuation.definition.sequence.end.erlang
 
-    <<"abc"/utf8>>
-%   ^^^^^^^^^^^^^^ meta.sequence.binary.erlang
+    <<"ab.c"/utf8>>
+%   ^^^^^^^^^^^^^^^ meta.sequence.binary.erlang
 %   ^^ punctuation.definition.sequence.begin.erlang
 %     ^ punctuation.definition.string.begin.erlang
-%     ^^^^^ string.quoted.double.erlang
-%         ^ punctuation.definition.string.end.erlang
-%          ^ punctuation.separator.value-type.erlang
-%           ^^^^ storage.type.erlang
-%               ^^ punctuation.definition.sequence.end.erlang
+%     ^^^^^^ string.quoted.double.erlang
+%          ^ punctuation.definition.string.end.erlang
+%           ^ punctuation.separator.value-type.erlang
+%            ^^^^ storage.type.erlang
+%                ^^ punctuation.definition.sequence.end.erlang
 
 % Bit String Comprehension tests
 

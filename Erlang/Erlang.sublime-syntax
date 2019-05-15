@@ -1572,14 +1572,12 @@ contexts:
     - match: '>>'
       scope: punctuation.definition.sequence.end.erlang
       pop: true
-    - include: operator-comprehension
-    - include: separator-sequence
     - match: ':'
       scope: punctuation.separator.value-size.erlang
     - match: /
       scope: punctuation.separator.value-type.erlang
       push:
-        - match: (?=>>|[,.])
+        - match: (?=>>|[.,;])
           pop: true
         - match: '-'
           scope: punctuation.separator.type-specifiers.erlang
@@ -1595,6 +1593,9 @@ contexts:
           scope: storage.modifier.unit.erlang
         - include: number
         - include: macro
+    - include: operator-comprehension
+    - include: separator-sequence
+    - include: clause-end-pop
 
   character:
     - match: \$
