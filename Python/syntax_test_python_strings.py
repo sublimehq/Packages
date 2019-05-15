@@ -579,6 +579,18 @@ expr = fr"^\s*({label}|{notlabel})"
 #               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
 #                                ^ source.regexp.python meta.group.regexp punctuation.definition.group.end.regexp
 
+line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
+#                  ^^^^^ constant.character.escape.backslash.regexp
+#                   ^^ constant.character.escape.python
+#                          ^^^ constant.character.escape.backslash.regexp
+#                           ^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+
+f"\{{{x}\}} test"
+# ^ invalid.deprecated.character.escape.python
+#  ^^ constant.character.escape.python
+#    ^ punctuation.section.interpolation.begin.python
+
 f"{something}"
 #^^^^^^^^^^^^ meta.string.interpolated
 # <- storage.type.string
