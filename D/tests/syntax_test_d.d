@@ -2667,3 +2667,20 @@ extern(1)
 //                                         ^^^^^ variable.other.d
 //                                              ^ punctuation.accessor.dot.d
 //                                               ^ variable.other.d
+
+  pure Pair!int* makePair(int x) {}
+//^^^^ storage.modifier.d
+//     ^^^^^^^^ meta.function-call.d
+//     ^^^^ meta.path.d variable.function.d
+//         ^ keyword.operator.d
+//          ^^^ storage.type.d
+//             ^ keyword.operator.pointer.d
+//               ^^^^^^^^ meta.function.d entity.name.function.d
+//                       ^^^^^^^ meta.function.parameters.d
+//                       ^ punctuation.section.group.begin.d
+//                        ^^^ meta.path.d storage.type.d
+//                            ^ variable.parameter.d
+//                             ^ punctuation.section.group.end.d
+//                               ^^ meta.function.d meta.block.d
+//                               ^ punctuation.section.block.begin.d
+//                                ^ punctuation.section.block.end.d

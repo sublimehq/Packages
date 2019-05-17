@@ -721,7 +721,7 @@ contexts:
           scope: punctuation.section.parens.begin.d
           set: [basic-type2, basic-type2-after-call, value-list]
         - match: '(?=\S)'
-          set: [value-after, meta-function-call, value-template-single]
+          set: [basic-type2, meta-function-call, value-template-single]
     - match: '\.(?!\.\.)'
       scope: storage.type.d
       set:
