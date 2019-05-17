@@ -690,6 +690,7 @@ contexts:
     - include: not-whitespace-illegal
 
   basic-type:
+    - include: attribute-in
     - match: '\btypeof\b'
       scope: keyword.other.d
       set:

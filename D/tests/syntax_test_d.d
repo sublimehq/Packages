@@ -2648,3 +2648,22 @@ extern(1)
 //               ^^^ meta.path.d variable.other.d
 //                  ^ punctuation.section.parens.end.d
 //                   ^ punctuation.terminator.d
+
+  a = (immutable ref Outer.Inner inner) => inner.x;
+//^ meta.path.d variable.other.d
+//  ^ keyword.operator.assignment.d
+//    ^ punctuation.section.group.begin.d
+//     ^^^^^^^^^ storage.modifier.d
+//               ^^^ storage.modifier.d
+//                   ^^^^^^^^^^^ meta.path.d
+//                   ^^^^^ storage.type.d
+//                        ^ punctuation.accessor.dot.d
+//                         ^^^^^ storage.type.d
+//                               ^^^^^ variable.parameter.d
+//                                    ^ punctuation.section.group.end.d
+//                                      ^^^^^^^^^^ meta.function.d
+//                                      ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//                                         ^^^^^^^ meta.path.d
+//                                         ^^^^^ variable.other.d
+//                                              ^ punctuation.accessor.dot.d
+//                                               ^ variable.other.d
