@@ -23,6 +23,7 @@ variables:
   integer_float_suffix: '[fF]i?|i'
   float_suffix: '[fFL]i?|i'
   float_exponent: '[eE][+\-]?[0-9]+'
+  hex_float_exponent: '[pP][+\-]?[0-9]+'
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
@@ -197,7 +198,7 @@ contexts:
     - include: floating-point-opt
     - include: not-whitespace-illegal
   floating-point-opt:
-    - match: '\b(0[xX])({{hex_or_under}}*\.?{{hex_or_under}}+)([pP][+\-]?[0-9]+)({{float_suffix}})?\b'
+    - match: '\b(0[xX])({{hex_or_under}}*\.?{{hex_or_under}}+)({{hex_float_exponent}})({{float_suffix}})?\b'
       captures:
         1: punctuation.definition.numeric.hexadecimal.d
         2: constant.numeric.float.hexadecimal.d
@@ -215,7 +216,7 @@ contexts:
         2: constant.numeric.float.binary.d
         3: storage.type.float.d
       pop: true
-    - match: '\b(0[xX])({{hex_char}}{{hex_or_under}}*)({{integer_float_suffix}})\b'
+    - match: '\b(0[xX])({{hex_char}}{{hex_or_under}}*)({{hex_float_exponent}})({{integer_float_suffix}})\b'
       captures:
         1: punctuation.definition.numeric.hexadecimal.d
         2: constant.numeric.float.hexadecimal.d

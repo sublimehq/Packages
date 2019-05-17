@@ -188,9 +188,9 @@ bin = 0b10__1;
 bin = 0B1;
 //    ^^ punctuation.definition.numeric.binary.d
 //      ^ constant.numeric.integer.binary.d
-auto hex = 0xF;
+auto hex = 0xFf;
 //         ^^ punctuation.definition.numeric.hexadecimal.d
-//           ^ constant.numeric.integer.hexadecimal.d
+//           ^^ constant.numeric.integer.hexadecimal.d
 hex = 0x012_3;
 //    ^^ punctuation.definition.numeric.hexadecimal.d
 //      ^^^^^ constant.numeric.integer.hexadecimal.d
@@ -215,10 +215,10 @@ f = .4E+4L;
 f =  1f;
 //   ^ constant.numeric.float.d
 //    ^ storage.type.float.d
-f = 0x123f;
+f = 0x123p2f;
 //  ^^ punctuation.definition.numeric.hexadecimal.d
-//    ^^^ constant.numeric.float.hexadecimal.d
-//       ^ storage.type.float.d
+//    ^^^^^ constant.numeric.float.hexadecimal.d
+//         ^ storage.type.float.d
 f = 0b10101101f;
 //  ^^ punctuation.definition.numeric.binary.d
 //    ^^^^^^^^ constant.numeric.float.binary.d
