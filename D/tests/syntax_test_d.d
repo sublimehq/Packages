@@ -2639,3 +2639,12 @@ extern(1)
 //                 ^^^ meta.path.d storage.type.d
 //                     ^ variable.other.d
 //                      ^ punctuation.terminator.d
+
+  assert(foo !is bar);
+//^^^^^^ keyword.other.assert.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^ meta.path.d variable.other.d
+//           ^^^ keyword.operator.comparison.d
+//               ^^^ meta.path.d variable.other.d
+//                  ^ punctuation.section.parens.end.d
+//                   ^ punctuation.terminator.d

@@ -712,7 +712,7 @@ contexts:
     - match: '\b(delegate|function)\b'
       scope: keyword.other.d
       set: [basic-type2, function-type]
-    - match: '!(?!=)'
+    - match: '!(?!=|is\b)'
       scope: meta.function-call.d keyword.operator.d
       set:
         - match: '\('
@@ -988,7 +988,7 @@ contexts:
     - match: '\.'
       scope: meta.path.d punctuation.accessor.dot.d
       push: value-identifier
-    - match: '!(?!=)'
+    - match: '!(?!=|is\b)'
       scope: meta.function-call.d keyword.operator.d
       set:
         - match: '\('
@@ -1283,7 +1283,7 @@ contexts:
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
-    - match: '\b{{name}}\b(?=\s*(\(|!(?!=)))'
+    - match: '\b{{name}}\b(?=\s*(\(|!(?!=|is\b)))'
       scope: meta.function-call.d meta.path.d variable.function.d
       pop: true
     - match: '\b{{name}}\b'
