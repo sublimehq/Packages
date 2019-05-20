@@ -273,6 +273,10 @@
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
+    {[[actually a string]], [=[this too]=]}
+--   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+--                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+
 --PARENS
 
     (foo + bar);

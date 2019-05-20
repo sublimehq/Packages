@@ -486,7 +486,7 @@ contexts:
         - match: '[,;]'
           scope: punctuation.separator.field.lua
 
-        - match: \[
+        - match: \[(?!=*\[)
           scope: punctuation.section.brackets.begin.lua
           push:
             - meta_scope: meta.brackets.lua
