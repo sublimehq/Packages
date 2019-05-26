@@ -163,7 +163,7 @@ contexts:
     - include: record
     - include: string
     - include: operator-unary
-    - include: variable-blank
+    - include: variable-anonymous
     - include: variable-erlang
     - include: atom
 
@@ -578,7 +578,7 @@ contexts:
             - - meta_content_scope: meta.field.name.erlang
               - include: immediatelly-pop
             - - match: _{{ident_break}}
-                scope: variable.language.blank.erlang
+                scope: variable.language.anonymous.erlang
                 pop: true
               - match: '{{atom_unquoted}}'
                 scope: meta.atom.erlang entity.name.field.erlang
@@ -1184,7 +1184,7 @@ contexts:
             - - meta_content_scope: meta.field.name.erlang
               - include: immediatelly-pop
             - - match: _{{ident_break}}
-                scope: variable.language.blank.erlang
+                scope: variable.language.anonymous.erlang
                 pop: true
               - include: variable-other-field
     - include: else-pop
@@ -1360,7 +1360,7 @@ contexts:
             scope: constant.numeric.integer.decimal.erlang
             pop: true
           - match: _{{ident_break}}
-            scope: variable.language.blank.erlang
+            scope: variable.language.anonymous.erlang
             pop: true
           - match: '{{variable}}'
             scope: variable.other.erlang
@@ -1374,13 +1374,13 @@ contexts:
 
 ###[ VARIABLE ]###############################################################
 
+  variable-anonymous:
+    - match: '_{{ident_break}}'
+      scope: variable.language.anonymous.erlang
+
   variable-any:
     - match: \.{3}
       scope: variable.language.any.erlang
-
-  variable-blank:
-    - match: '_{{ident_break}}'
-      scope: variable.language.blank.erlang
 
   variable-erlang:
     - match: erlang{{ident_break}}

@@ -1032,14 +1032,14 @@ variables_tests() -> .
     _1
 %   ^^ variable.other.erlang
     _
-%   ^ variable.language.blank.erlang
+%   ^ variable.language.anonymous.erlang
     _+
-%   ^ variable.language.blank.erlang
+%   ^ variable.language.anonymous.erlang
 %    ^ keyword.operator.arithmetic.erlang
     [_,_,_]
-%    ^ variable.language.blank.erlang
-%      ^ variable.language.blank.erlang
-%        ^ variable.language.blank.erlang
+%    ^ variable.language.anonymous.erlang
+%      ^ variable.language.anonymous.erlang
+%        ^ variable.language.anonymous.erlang
 
     namespace:
 %   ^^^^^^^^^ variable.namespace.erlang
@@ -3021,9 +3021,9 @@ preprocessor_type_tests() -> .
 %         ^ punctuation.section.parameters.end.erlang
 %           ^^ punctuation.separator.type-head-body.erlang
 %              ^^ punctuation.section.mapping.begin.erlang
-%                 ^ variable.language.blank.erlang
+%                 ^ variable.language.anonymous.erlang
 %                   ^^ punctuation.separator.mapping.key-value.erlang
-%                      ^ variable.language.blank.erlang
+%                      ^ variable.language.anonymous.erlang
 %                        ^ punctuation.section.mapping.end.erlang
 %                         ^ punctuation.terminator.clause.erlang
 
@@ -3470,7 +3470,7 @@ preprocessor_record_tests() -> .
 %                                                                                              ^ punctuation.section.arguments.begin.erlang
 %                                                                                               ^ punctuation.section.arguments.end.erlang
 %                                                                                                ^ punctuation.separator.expressions.erlang
-%                                                                                                  ^ variable.language.blank.erlang
+%                                                                                                  ^ variable.language.anonymous.erlang
 %                                                                                                   ^ keyword.operator.assignment.erlang
 %                                                                                                    ^^^^ constant.other.symbol.erlang
 %                                                                                                        ^ punctuation.section.fields.end.erlang
@@ -3532,7 +3532,7 @@ preprocessor_record_tests() -> .
 %                           ^ punctuation.section.arguments.end.erlang
 %                             ^ punctuation.separator.expressions.erlang
             _
-%           ^ variable.language.blank.erlang
+%           ^ variable.language.anonymous.erlang
             =
 %           ^ keyword.operator.assignment.erlang
             atom
@@ -3740,7 +3740,7 @@ local_record_definition_tests() -> .
 %                                                      ^ meta.sequence.tuple.erlang punctuation.section.sequence.begin.erlang
 %                                                       ^ meta.sequence.tuple.erlang punctuation.section.sequence.end.erlang
 %                                                        ^ punctuation.separator.expressions.erlang
-%                                                          ^ variable.language.blank.erlang
+%                                                          ^ variable.language.anonymous.erlang
 %                                                           ^ keyword.operator.assignment.erlang
 %                                                            ^^^^ constant.other.symbol.erlang
 %                                                                ^ punctuation.separator.expressions.erlang
@@ -3774,7 +3774,7 @@ local_record_definition_tests() -> .
 %              ^ punctuation.separator.expressions.erlang
         _ = atom
 %^^^^^^^^^^^^^^^^ meta.record.fields.erlang
-%       ^ variable.language.blank.erlang
+%       ^ variable.language.anonymous.erlang
 %         ^ keyword.operator.assignment.erlang
 %           ^^^^ constant.other.symbol.erlang
     }
@@ -4103,7 +4103,7 @@ func_name(Mod, Name, _, {Enc,Depth}, <<Code:32/little-unsigned>>) ->
 %            ^ punctuation.separator.parameters.erlang
 %              ^^^^ variable.parameter.erlang
 %                  ^ punctuation.separator.parameters.erlang
-%                    ^ variable.language.blank.erlang
+%                    ^ variable.language.anonymous.erlang
 %                     ^ punctuation.separator.parameters.erlang
 %                       ^ punctuation.section.sequence.begin.erlang
 %                        ^^^ variable.parameter.erlang
@@ -4896,7 +4896,7 @@ fun_expression_tests() ->
 %                          ^ punctuation.definition.macro.erlang
 %                          ^^^^^ constant.other.macro.erlang
 %                               ^ punctuation.separator.reference.erlang
-%                                ^ variable.language.blank.erlang
+%                                ^ variable.language.anonymous.erlang
 %                                 ^ punctuation.separator.expressions.erlang
 
     Fun1 = fun 'my-\^dule':'m\1func'/10,
@@ -5185,7 +5185,7 @@ try_catch_tests() ->
 %             ^ meta.exception.try.erlang punctuation.separator.clauses.erlang
         _ ->
 %      ^^^^^^ meta.exception.try.erlang
-%       ^ variable.language.blank.erlang
+%       ^ variable.language.anonymous.erlang
 %         ^^ punctuation.separator.clause-head-body.erlang
             ct:fail()
 %          ^^^^^^^^^^^ meta.exception.try.erlang
