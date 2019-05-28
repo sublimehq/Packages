@@ -948,17 +948,24 @@ contexts:
 
   function-call:
     - match: (?={{ident}}\s*\()
-      push:
-        - - meta_scope: meta.function-call.name.erlang
-          - match: (?=\()
-            set:
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - meta_scope: meta.function-call.arguments.erlang
-                  - include: arguments-common
-                  - include: expressions
-        - variable-function
+      push: [function-call-arguments, function-call-name, variable-function]
+
+  function-call-pop:
+    - match: (?={{ident}}\s*\()
+      set: [function-call-arguments, function-call-name, variable-function]
+
+  function-call-name:
+    - meta_scope: meta.function-call.name.erlang
+    - include: else-pop
+
+  function-call-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - meta_scope: meta.function-call.arguments.erlang
+        - include: arguments-common
+        - include: expressions
+    - include: else-pop
 
 ###[ TYPE CALL ]##############################################################
 
