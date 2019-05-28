@@ -876,34 +876,38 @@ contexts:
     #  fun((TList) -> Type)
     - match: fun{{ident_break}}
       scope: support.type.erlang
-      push:
-        - meta_scope: meta.type-call.name.erlang
-        - match: (?=\()
-          set:
-            - match: \(
-              scope: punctuation.section.arguments.begin.erlang
-              set:
-                - - meta_scope: meta.type-call.arguments.erlang
-                  - include: expect-arguments-end
-                # 2. function return-type
-                - - match: ->
-                    scope: punctuation.separator.parameters-return-type.erlang
-                    set:
-                      - meta_content_scope: meta.fun.return-type.erlang
-                      - match: (?=[.;)])
-                        pop: true
-                      - include: type-expressions
-                  - include: else-pop
-                # 1. function parameters
-                - - match: \(
-                    scope: punctuation.section.parameters.begin.erlang
-                    set:
-                      - meta_scope: meta.fun.parameters.erlang
-                      - include: variable-any
-                      - include: parameters-common
-                      - include: type-parameter
-                  - include: else-pop
-        - include: else-pop
+      push: [type-fun-arguments, type-call-name]
+
+  type-fun-pop:
+    - match: fun{{ident_break}}
+      scope: support.type.erlang
+      set: [type-fun-arguments, type-call-name]
+
+  type-fun-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - - meta_scope: meta.type-call.arguments.erlang
+          - include: expect-arguments-end
+        # 2. function return-type
+        - - match: ->
+            scope: punctuation.separator.parameters-return-type.erlang
+            set:
+              - meta_content_scope: meta.fun.return-type.erlang
+              - match: (?=[.;)])
+                pop: true
+              - include: type-expressions
+          - include: else-pop
+        # 1. function parameters
+        - - match: \(
+            scope: punctuation.section.parameters.begin.erlang
+            set:
+              - meta_scope: meta.fun.parameters.erlang
+              - include: variable-any
+              - include: parameters-common
+              - include: type-parameter
+          - include: else-pop
+    - include: else-pop
 
 ###[ FUNCTION DEFINITION ]####################################################
 
