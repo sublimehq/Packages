@@ -1319,15 +1319,13 @@ contexts:
           - match: '{{atom_unquoted}}'
             scope: meta.atom.erlang variable.namespace.erlang
             pop: true
-          - match: '{{variable}}'
-            scope: variable.other.erlang
-            pop: true
           - match: \'
             scope: punctuation.definition.atom.begin.erlang
             set:
               - meta_include_prototype: false
               - meta_scope: meta.atom.erlang variable.namespace.erlang
               - include: atom-quoted-common
+          - include: variable-other-pop
           - include: macro-pop
 
 ###[ REFERENCE ]##############################################################
@@ -1356,9 +1354,7 @@ contexts:
             scope: constant.numeric.integer.decimal.erlang
             pop: true
           - include: variable-anonymous-pop
-          - match: '{{variable}}'
-            scope: variable.other.erlang
-            pop: true
+          - include: variable-other-pop
           - include: macro-pop
           - match: '{{illegal_ident}}'
             scope: invalid.illegal.expect-integer.erlang
@@ -1388,6 +1384,11 @@ contexts:
   variable-other:
     - match: '{{variable}}'
       scope: variable.other.erlang
+
+  variable-other-pop:
+    - match: '{{variable}}'
+      scope: variable.other.erlang
+      pop: true
 
   variable-parameter:
     - match: '{{variable}}'
