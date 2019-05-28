@@ -577,9 +577,7 @@ contexts:
           push:
             - - meta_content_scope: meta.field.name.erlang
               - include: immediatelly-pop
-            - - match: _{{ident_break}}
-                scope: variable.language.anonymous.erlang
-                pop: true
+            - - include: variable-anonymous-pop
               - match: '{{atom_unquoted}}'
                 scope: meta.atom.erlang entity.name.field.erlang
                 pop: true
@@ -1183,9 +1181,7 @@ contexts:
           push:
             - - meta_content_scope: meta.field.name.erlang
               - include: immediatelly-pop
-            - - match: _{{ident_break}}
-                scope: variable.language.anonymous.erlang
-                pop: true
+            - - include: variable-anonymous-pop
               - include: variable-other-field
     - include: else-pop
 
@@ -1359,9 +1355,7 @@ contexts:
         - - match: \d+
             scope: constant.numeric.integer.decimal.erlang
             pop: true
-          - match: _{{ident_break}}
-            scope: variable.language.anonymous.erlang
-            pop: true
+          - include: variable-anonymous-pop
           - match: '{{variable}}'
             scope: variable.other.erlang
             pop: true
@@ -1375,8 +1369,13 @@ contexts:
 ###[ VARIABLE ]###############################################################
 
   variable-anonymous:
-    - match: '_{{ident_break}}'
+    - match: _{{ident_break}}
       scope: variable.language.anonymous.erlang
+
+  variable-anonymous-pop:
+    - match: _{{ident_break}}
+      scope: variable.language.anonymous.erlang
+      pop: true
 
   variable-any:
     - match: \.{3}
