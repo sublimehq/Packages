@@ -2309,6 +2309,7 @@ preprocessor_onload_tests() -> .
     -on_load(module:function/0).
 %   ^^^^^^^^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %           ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.attribute.arguments.erlang
+%            ^^^^^^^^^^^^^^^^^ meta.path.erlang
 %                              ^ meta.preprocessor.attribute.erlang - meta.preprocessor.attribute.arguments.erlang
 %   ^ punctuation.definition.keyword.erlang - keyword
 %    ^^^^^^^ keyword.control.directive.attribute.erlang
@@ -2575,9 +2576,9 @@ preprocessor_spec_tests() -> .
 %                   ^ punctuation.terminator.clause.erlang
 
 -spec mod:foo({X, integer()}) -> X when X :: atom()
-%^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
-%         ^^^ source.erlang meta.preprocessor.spec.name.erlang
-%            ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang - meta.path
+%     ^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
+%            ^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang - meta.path
 %                            ^^^ source.erlang meta.preprocessor.spec.erlang
 %                               ^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                                  ^^^^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.guards.erlang
@@ -2586,9 +2587,9 @@ preprocessor_spec_tests() -> .
 %         ^^^ entity.name.function.erlang
 
      ; mod:foo(X::string()) -> int()
-%    ^^^^^^ source.erlang meta.preprocessor.spec.erlang
-%          ^^^ source.erlang meta.preprocessor.spec.name.erlang
-%             ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%    ^^ source.erlang meta.preprocessor.spec.erlang - meta.path
+%      ^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
+%             ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang - meta.path
 %                          ^^^ source.erlang meta.preprocessor.spec.erlang
 %                             ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %    ^ punctuation.separator.clauses.erlang
@@ -2597,9 +2598,9 @@ preprocessor_spec_tests() -> .
 %          ^^^ entity.name.function.erlang
 
      ; ?mod:?foo(X::string()) -> int()
-%    ^^^^^^^ source.erlang meta.preprocessor.spec.erlang
-%           ^^^^ source.erlang meta.preprocessor.spec.name.erlang
-%               ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang
+%    ^^ source.erlang meta.preprocessor.spec.erlang - meta.path
+%      ^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
+%               ^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.parameters.erlang - meta.path
 %                            ^^^ source.erlang meta.preprocessor.spec.erlang
 %                               ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %    ^ punctuation.separator.clauses.erlang
@@ -2618,16 +2619,18 @@ preprocessor_spec_tests() -> .
 %    ^ punctuation.separator.clauses.erlang
 
 -spec 'F\1':'\2r'() -> int().
-%     ^^^^^ source.erlang meta.preprocessor.spec.erlang variable.namespace
-%          ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%           ^^^^^ source.erlang meta.preprocessor.spec.name.erlang entity.name.function.erlang
+%     ^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang variable.namespace
+%          ^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang punctuation.accessor.double-colon.erlang
+%           ^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang entity.name.function.erlang
 %                ^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %                  ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
 %                     ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                            ^ - meta.preprocessor
 
 -spec ?MODULE:.
-%^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
+%             ^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
 %     ^^^^^^^ constant.language.macro.erlang
@@ -2635,8 +2638,8 @@ preprocessor_spec_tests() -> .
 %             ^ punctuation.terminator.clause.erlang
 
 -spec ?MODULE:foo.
-%^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.erlang
-%             ^^^ source.erlang meta.preprocessor.spec.name.erlang
+%^^^^^ source.erlang meta.preprocessor.spec.erlang
+%     ^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang
 %                ^ source.erlang meta.preprocessor.spec.erlang
 %^^^^ keyword.control.directive.spec.erlang
 %     ^ punctuation.definition.macro.erlang
@@ -2646,18 +2649,18 @@ preprocessor_spec_tests() -> .
 %                ^ punctuation.terminator.clause.erlang
 
 -spec ?MODULE:?FUNCTION_NAME() -> int().
-%     ^^^^^^^ source.erlang meta.preprocessor.spec.erlang constant.language.macro.erlang
-%            ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%             ^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang constant.language.macro.erlang
+%     ^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang constant.language.macro.erlang
+%            ^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang punctuation.accessor.double-colon.erlang
+%             ^^^^^^^^^^^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang constant.language.macro.erlang
 %                           ^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %                             ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
 %                                ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
 %                                       ^ - meta.preprocessor
 
 -spec ?FOO:?BAR() -> int().
-%     ^^^^ source.erlang meta.preprocessor.spec.erlang constant.other.macro.erlang
-%         ^ source.erlang meta.preprocessor.spec.erlang punctuation.accessor.double-colon.erlang
-%          ^^^^ source.erlang meta.preprocessor.spec.name.erlang constant.other.macro.erlang
+%     ^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang constant.other.macro.erlang
+%         ^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang punctuation.accessor.double-colon.erlang
+%          ^^^^ source.erlang meta.preprocessor.spec.name.erlang meta.path.erlang constant.other.macro.erlang
 %              ^^ source.erlang meta.preprocessor.spec.parameters.erlang
 %                ^^^ source.erlang meta.preprocessor.spec.erlang - meta.preprocessor.spec.parameters - meta.preprocessor.spec.return-type
 %                   ^^^^^^ source.erlang meta.preprocessor.spec.return-type.erlang
@@ -3084,7 +3087,8 @@ preprocessor_type_tests() -> .
 %      ^ punctuation.separator.sequence.erlang
 %       ^ - meta.sequence
 %        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.erlang - meta.sequence.tuple.erlang
-%                            ^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang
+%                     ^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.path.erlang - meta.type-call
+%                            ^^^^^^^ source.erlang meta.preprocessor.type.erlang meta.path.erlang meta.type-call.name.erlang - meta.type-call.arguments.erlang
 %                                   ^^ source.erlang meta.preprocessor.type.erlang meta.type-call.arguments.erlang - meta.type-call.name.erlang
 %                                        ^^^^^^^^^^^^^^^^^^^ meta.sequence.list.erlang meta.sequence.tuple.erlang
 %                                                           ^^ meta.sequence.list.erlang - meta.sequence.tuple.erlang
@@ -4149,9 +4153,9 @@ func_name(Mod, Name, _, {Enc,Depth}, <<Code:32/little-unsigned>>) ->
 %                                                                    ^ punctuation.separator.expressions.erlang
     io:format("~-*s", [Len, Identifier]).
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang
-%     ^ - meta.function-call
-%      ^^^^^^ meta.function-call.name.erlang - meta.function-call.arguments.erlang
-%            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.erlang - meta.function-call.name.erlang
+%   ^^^ meta.path.erlang - meta.function-call
+%      ^^^^^^ meta.path.erlang meta.function-call.name.erlang - meta.function-call.arguments.erlang
+%            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.erlang - meta.function-call.name - meta.path
 %                      ^^^^^^^^^^^^^^^^ meta.sequence.list.erlang
 %                                       ^ - meta.function-call
 %   ^^ variable.namespace.erlang
@@ -4351,14 +4355,17 @@ function_call_tests() ->
 %   ^^^^^^ support.namespace.erlang
 
     erlang:
-%   ^^^^^^ support.namespace.erlang
-%         ^ punctuation.accessor.double-colon.erlang
+%  ^ - meta.path
+%   ^^^^^^ meta.path.erlang support.namespace.erlang
+%         ^ meta.path.erlang punctuation.accessor.double-colon.erlang
+%          ^ - meta.path
 
     erlang:foo(X),
-%         ^ - meta.function-call
-%          ^^^ meta.function-call.name.erlang
-%             ^^^ meta.function-call.arguments.erlang
-%                ^ - meta.function-call
+%  ^ - meta.path
+%   ^^^^^^^ meta.path.erlang - meta.function-call
+%          ^^^ meta.path.erlang meta.function-call.name.erlang
+%             ^^^ meta.function-call.arguments.erlang - meta.path
+%                ^ - meta.path - meta.function-call
 %   ^^^^^^ support.namespace.erlang
 %         ^ punctuation.accessor.double-colon.erlang
 %          ^^^ variable.function.erlang
@@ -4370,10 +4377,10 @@ function_call_tests() ->
 % match builtin functions without respect of preceeded namespace
 
     erlang:abs(X),
-%         ^ - meta.function-call
-%          ^^^ meta.function-call.name.erlang
-%             ^^^ meta.function-call.arguments.erlang
-%                ^ - meta.function-call
+%   ^^^^^^^ meta.path.erlang - meta.function-call
+%          ^^^ meta.path.erlang meta.function-call.name.erlang
+%             ^^^ meta.function-call.arguments.erlang - meta.path
+%                ^ - meta.path - meta.function-call
 %   ^^^^^^ support.namespace.erlang
 %         ^ punctuation.accessor.double-colon.erlang
 %          ^^^ support.function.erlang
@@ -4383,10 +4390,10 @@ function_call_tests() ->
 %                ^ punctuation.separator.expressions.erlang
 
     erlang : abs ( X ) ,
-%           ^ - meta.function-call
-%            ^^^^ meta.function-call.name.erlang
-%                ^^^^^ meta.function-call.arguments.erlang
-%                     ^^^ - meta.function-call
+%   ^^^^^^^^^ meta.path.erlang - meta.function-call
+%            ^^^^ meta.path.erlang meta.function-call.name.erlang
+%                ^^^^^ meta.function-call.arguments.erlang - meta.path
+%                     ^^ - meta.path - meta.function-call
 %   ^^^^^^ support.namespace.erlang
 %         ^^^ - constant - support - variable
 %          ^ punctuation.accessor.double-colon.erlang
@@ -4398,10 +4405,10 @@ function_call_tests() ->
 %                      ^ punctuation.separator.expressions.erlang
 
     module:abs(X),
-%         ^ - meta.function-call
-%          ^^^ meta.function-call.name.erlang
-%             ^^^ meta.function-call.arguments.erlang
-%                ^ - meta.function-call
+%   ^^^^^^^ meta.path.erlang - meta.function-call
+%          ^^^ meta.path.erlang meta.function-call.name.erlang
+%             ^^^ meta.function-call.arguments.erlang - meta.path
+%                ^ - meta.path - meta.function-call
 %   ^^^^^^ variable.namespace.erlang
 %         ^ punctuation.accessor.double-colon.erlang
 %          ^^^ support.function.erlang
@@ -4411,10 +4418,10 @@ function_call_tests() ->
 %                ^ punctuation.separator.expressions.erlang
 
     '\'od%le':abs(X),
-%            ^ - meta.function-call
-%             ^^^ meta.function-call.name.erlang
-%                ^^^ meta.function-call.arguments.erlang
-%                   ^ - meta.function-call
+%   ^^^^^^^^^^ meta.path.erlang - meta.function-call
+%             ^^^ meta.path.erlang meta.function-call.name.erlang
+%                ^^^ meta.function-call.arguments.erlang - meta.path
+%                   ^ - meta.path - meta.function-call
 %   ^^^^^^^^^ variable.namespace.erlang
 %            ^ punctuation.accessor.double-colon.erlang
 %             ^^^ support.function.erlang
@@ -4424,10 +4431,10 @@ function_call_tests() ->
 %                   ^ punctuation.separator.expressions.erlang
 
     'M\'od%le ' : abs ( X ),
-%               ^ - meta.function-call
-%                 ^^^ meta.function-call.name.erlang
-%                     ^^^^^ meta.function-call.arguments.erlang
-%                          ^ - meta.function-call
+%   ^^^^^^^^^^^^^^ meta.path.erlang - meta.function-call
+%                 ^^^^ meta.path.erlang meta.function-call.name.erlang
+%                     ^^^^^ meta.function-call.arguments.erlang - meta.path
+%                          ^ - meta.path - meta.function-call
 %   ^^^^^^^^^^^ variable.namespace.erlang
 %              ^^^ - constant - support - variable
 %               ^ punctuation.accessor.double-colon.erlang
@@ -4439,10 +4446,10 @@ function_call_tests() ->
 %                          ^ punctuation.separator.expressions.erlang
 
     Module:abs(X),
-%         ^ - meta.function-call
-%          ^^^ meta.function-call.name.erlang
-%             ^^^ meta.function-call.arguments.erlang
-%                ^ - meta.function-call
+%   ^^^^^^^ meta.path.erlang - meta.function-call
+%          ^^^ meta.path.erlang meta.function-call.name.erlang
+%             ^^^ meta.function-call.arguments.erlang - meta.path
+%                ^ - meta.path - meta.function-call
 %   ^^^^^^ variable.other.erlang
 %         ^ punctuation.accessor.double-colon.erlang
 %          ^^^ support.function.erlang
@@ -4452,10 +4459,10 @@ function_call_tests() ->
 %                ^ punctuation.separator.expressions.erlang
 
     ?MODULE:abs(X),
-%          ^ - meta.function-call
-%           ^^^ meta.function-call.name.erlang
-%              ^^^ meta.function-call.arguments.erlang
-%                 ^ - meta.function-call
+%   ^^^^^^^^ meta.path.erlang - meta.function-call
+%           ^^^ meta.path.erlang meta.function-call.name.erlang
+%              ^^^ meta.function-call.arguments.erlang - meta.path
+%                 ^ - meta.path - meta.function-call
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^^ constant.language.macro.erlang
 %          ^ punctuation.accessor.double-colon.erlang
@@ -4466,10 +4473,10 @@ function_call_tests() ->
 %                 ^ punctuation.separator.expressions.erlang
 
     ?foo:abs(X),
-%       ^ - meta.function-call
-%        ^^^ meta.function-call.name.erlang
-%           ^^^ meta.function-call.arguments.erlang
-%              ^ - meta.function-call
+%   ^^^^^ meta.path.erlang - meta.function-call
+%        ^^^ meta.path.erlang meta.function-call.name.erlang
+%           ^^^ meta.function-call.arguments.erlang - meta.path
+%              ^ - meta.path - meta.function-call
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^ constant.other.macro.erlang
 %       ^ punctuation.accessor.double-colon.erlang
@@ -4480,10 +4487,10 @@ function_call_tests() ->
 %              ^ punctuation.separator.expressions.erlang
 
     ?'foo\'-%b':abs(X),
-%              ^ - meta.function-call
-%               ^^^ meta.function-call.name.erlang
-%                  ^^^ meta.function-call.arguments.erlang
-%                     ^ - meta.function-call
+%   ^^^^^^^^^^^^ meta.path.erlang - meta.function-call
+%               ^^^ meta.path.erlang meta.function-call.name.erlang
+%                  ^^^ meta.function-call.arguments.erlang - meta.path
+%                     ^ - meta.path - meta.function-call
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^^^^^^ constant.other.macro.erlang
 %    ^ punctuation.definition.atom.begin.erlang
@@ -4499,10 +4506,10 @@ function_call_tests() ->
 % builtins don't need the namespace preceeded
 
     abs(X),
-%  ^ - meta.function-call
-%   ^^^ meta.function-call.name.erlang
-%      ^^^ meta.function-call.arguments.erlang
-%         ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^ meta.function-call.name.erlang - meta.path
+%      ^^^ meta.function-call.arguments.erlang - meta.path
+%         ^ - meta.function-call - meta.path
 %   ^^^ support.function.erlang
 %      ^ punctuation.section.arguments.begin.erlang
 %       ^ variable.other.erlang
@@ -4510,10 +4517,10 @@ function_call_tests() ->
 %         ^ punctuation.separator.expressions.erlang
 
     abs ( X ) ,
-%  ^ - meta.function-call
-%   ^^^^ meta.function-call.name.erlang
-%       ^^^^^ meta.function-call.arguments.erlang
-%            ^^^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^ meta.function-call.name.erlang - meta.path
+%       ^^^^^ meta.function-call.arguments.erlang - meta.path
+%            ^^^ - meta.function-call - meta.path
 %   ^^^ support.function.erlang
 %      ^ - constant - support - variable
 %       ^ punctuation.section.arguments.begin.erlang
@@ -4522,10 +4529,10 @@ function_call_tests() ->
 %             ^ punctuation.separator.expressions.erlang
 
     abs@(X),
-%  ^ - meta.function-call
-%   ^^^^ meta.function-call.name.erlang
-%       ^^^ meta.function-call.arguments.erlang
-%          ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^ meta.function-call.name.erlang - meta.path
+%       ^^^ meta.function-call.arguments.erlang - meta.path
+%          ^ - meta.function-call - meta.path
 %   ^^^^ variable.function.erlang
 %       ^ punctuation.section.arguments.begin.erlang
 %        ^ variable.other.erlang
@@ -4533,10 +4540,10 @@ function_call_tests() ->
 %          ^ punctuation.separator.expressions.erlang
 
     not@abs(X),
-%  ^ - meta.function-call
-%   ^^^^^^^ meta.function-call.name.erlang
-%          ^^^ meta.function-call.arguments.erlang
-%             ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^ meta.function-call.name.erlang - meta.path
+%          ^^^ meta.function-call.arguments.erlang - meta.path
+%             ^ - meta.function-call - meta.path
 %   ^^^^^^^ variable.function.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ variable.other.erlang
@@ -4557,10 +4564,10 @@ function_call_tests() ->
 % match as normal function if name contains escaped unbalanced quotes
 
     'abs\''(X),
-%  ^ - meta.function-call
-%   ^^^^^^^ meta.function-call.name.erlang
-%          ^^^ meta.function-call.arguments.erlang
-%             ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^ meta.function-call.name.erlang - meta.path
+%          ^^^ meta.function-call.arguments.erlang - meta.path
+%             ^ - meta.function-call - meta.path
 %   ^^^^^^^ variable.function.erlang
 %          ^ punctuation.section.arguments.begin.erlang
 %           ^ variable.other.erlang
@@ -4568,10 +4575,10 @@ function_call_tests() ->
 %             ^ punctuation.separator.expressions.erlang
 
     ' abs\' ' ( X ),
-%  ^ - meta.function-call
-%   ^^^^^^^^^^ meta.function-call.name.erlang
-%             ^^^^^ meta.function-call.arguments.erlang
-%                  ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^^^^ meta.function-call.name.erlang - meta.path
+%             ^^^^^ meta.function-call.arguments.erlang - meta.path
+%                  ^ - meta.function-call - meta.path
 %   ^^^^^^^^^ variable.function.erlang
 %            ^ - constant - support - variable
 %             ^ punctuation.section.arguments.begin.erlang
@@ -4607,10 +4614,10 @@ function_call_tests() ->
 % don't match macro names as builin functions
 
     ?FUNC(X),
-%  ^ - meta.function-call
-%   ^^^^^ meta.function-call.name.erlang
-%        ^^^ meta.function-call.arguments.erlang
-%           ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^ meta.function-call.name.erlang - meta.path
+%        ^^^ meta.function-call.arguments.erlang - meta.path
+%           ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^ constant.other.macro.erlang - support.function
 %        ^ punctuation.section.arguments.begin.erlang
@@ -4619,10 +4626,10 @@ function_call_tests() ->
 %           ^ punctuation.separator.expressions.erlang
 
     ?ABS ( X ) ,
-%  ^ - meta.function-call
-%   ^^^^^ meta.function-call.name.erlang
-%        ^^^^^ meta.function-call.arguments.erlang
-%             ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^ meta.function-call.name.erlang - meta.path
+%        ^^^^^ meta.function-call.arguments.erlang - meta.path
+%             ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^ constant.other.macro.erlang - support.function
 %       ^ - constant - support - variable
@@ -4632,10 +4639,10 @@ function_call_tests() ->
 %              ^ punctuation.separator.expressions.erlang
 
     ?'abs'(X),
-%  ^ - meta.function-call
-%   ^^^^^^ meta.function-call.name.erlang
-%         ^^^ meta.function-call.arguments.erlang
-%            ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^ meta.function-call.name.erlang - meta.path
+%         ^^^ meta.function-call.arguments.erlang - meta.path
+%            ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^ constant.other.macro.erlang - support.function
 %    ^ punctuation.definition.atom.begin.erlang
@@ -4646,10 +4653,10 @@ function_call_tests() ->
 %            ^ punctuation.separator.expressions.erlang
 
     ?'abs' ( X ) ,
-%  ^ - meta.function-call
-%   ^^^^^^^ meta.function-call.name.erlang
-%          ^^^^^ meta.function-call.arguments.erlang
-%               ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^ meta.function-call.name.erlang - meta.path
+%          ^^^^^ meta.function-call.arguments.erlang - meta.path
+%               ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^ constant.other.macro.erlang - support.function
 %    ^ punctuation.definition.atom.begin.erlang
@@ -4661,10 +4668,10 @@ function_call_tests() ->
 %                ^ punctuation.separator.expressions.erlang
 
     ?'abs\''(X),
-%  ^ - meta.function-call
-%   ^^^^^^^^ meta.function-call.name.erlang
-%           ^^^ meta.function-call.arguments.erlang
-%              ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^^ meta.function-call.name.erlang - meta.path
+%           ^^^ meta.function-call.arguments.erlang - meta.path
+%              ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^^^ constant.other.macro.erlang - support.function
 %    ^ punctuation.definition.atom.begin.erlang
@@ -4675,10 +4682,10 @@ function_call_tests() ->
 %              ^ punctuation.separator.expressions.erlang
 
     ?' abs\' ' ( X ),
-%  ^ - meta.function-call
-%   ^^^^^^^^^^^ meta.function-call.name.erlang
-%              ^^^^^ meta.function-call.arguments.erlang
-%                   ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^^^^^ meta.function-call.name.erlang - meta.path
+%              ^^^^^ meta.function-call.arguments.erlang - meta.path
+%                   ^ - meta.function-call - meta.path
 %   ^^^^^^^^^^ constant.other.macro.erlang - support.function
 %             ^ - constant - support - variable
 %              ^ punctuation.section.arguments.begin.erlang
@@ -4687,10 +4694,10 @@ function_call_tests() ->
 %                   ^ punctuation.separator.expressions.erlang
 
     ?'\'abs%\''(X),
-%  ^ - meta.function-call
-%   ^^^^^^^^^^^ meta.function-call.name.erlang
-%              ^^^ meta.function-call.arguments.erlang
-%                 ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^^^^^ meta.function-call.name.erlang - meta.path
+%              ^^^ meta.function-call.arguments.erlang - meta.path
+%                 ^ - meta.function-call - meta.path
 %   ^^^^^^^^^^^ constant.other.macro.erlang - support.function
 %              ^ punctuation.section.arguments.begin.erlang
 %               ^ variable.other.erlang
@@ -4698,10 +4705,10 @@ function_call_tests() ->
 %                 ^ punctuation.separator.expressions.erlang
 
     ?' \'abs%\' ' ( X ),
-%  ^ - meta.function-call
-%   ^^^^^^^^^^^^^^ meta.function-call.name.erlang
-%                 ^^^^^ meta.function-call.arguments.erlang
-%                      ^ - meta.function-call
+%  ^ - meta.function-call - meta.path
+%   ^^^^^^^^^^^^^^ meta.function-call.name.erlang - meta.path
+%                 ^^^^^ meta.function-call.arguments.erlang - meta.path
+%                      ^ - meta.function-call - meta.path
 %   ^^^^^^^^^^^^^ constant.other.macro.erlang - support.function
 %                ^ - constant - support - variable
 %                 ^ punctuation.section.arguments.begin.erlang
@@ -4712,10 +4719,10 @@ function_call_tests() ->
 % a quote is an identifier break, so `?abs` is the function only
 
     ?'2Bin'?abs(X),
-%         ^ - meta.function-call
-%          ^^^^ meta.function-call.name.erlang
-%              ^^^ meta.function-call.arguments.erlang
-%                 ^ - meta.function-call
+%         ^ - meta.function-call - meta.path
+%          ^^^^ meta.function-call.name.erlang - meta.path
+%              ^^^ meta.function-call.arguments.erlang - meta.path
+%                 ^ - meta.function-call - meta.path
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^^ constant.other.macro.erlang - variable.function
 %          ^^^^ constant.other.macro.erlang - support.function
@@ -4730,10 +4737,10 @@ function_call_tests() ->
 % a function can be identified by special language macros
 
     ?MODULE : ?FUNCTION_NAME ( X , Y ).
-%            ^ - meta.function-call
-%             ^^^^^^^^^^^^^^^ meta.function-call.name.erlang - meta.function-call.arguments.erlang
-%                            ^^^^^^^^^ meta.function-call.arguments.erlang - meta.function-call.name.erlang
-%                                     ^ - meta.function-call
+%   ^^^^^^^^^^ meta.path.erlang - meta.function-call
+%             ^^^^^^^^^^^^^^^ meta.path.erlang meta.function-call.name.erlang - meta.function-call.arguments.erlang
+%                            ^^^^^^^^^ meta.function-call.arguments.erlang - meta.function-call.name.erlang - meta.path
+%                                     ^ - meta.path - meta.function-call
 %   ^ punctuation.definition.macro.erlang
 %   ^^^^^^^ constant.language.macro.erlang
 %          ^^^ - constant - support - variable
@@ -4773,7 +4780,8 @@ fun_expression_tests() ->
 
     Abs = fun erlang:abs/1,
 %        ^ - meta.fun.erlang
-%         ^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%         ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%             ^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                         ^ - meta.fun.erlang
 %   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
@@ -4786,7 +4794,8 @@ fun_expression_tests() ->
 
     Abs = fun module:abs/1,
 %        ^ - meta.fun.erlang
-%         ^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%         ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%             ^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                         ^ - meta.fun.erlang
 %   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
@@ -4800,7 +4809,7 @@ fun_expression_tests() ->
 
     Abs = fun abs/1,
 %        ^ - meta.fun.erlang
-%         ^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%         ^^^^^^^^^ meta.function.erlang meta.fun.erlang - meta.path
 %                  ^ - meta.fun.erlang
 %   ^^^ variable.other.erlang
 %       ^ keyword.operator.assignment.erlang
@@ -4811,7 +4820,7 @@ fun_expression_tests() ->
 
     Fun1 = fun name/10,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^ meta.function.erlang meta.fun.erlang - meta.fun.name
+%          ^^^^^^^^^^^ meta.function.erlang meta.fun.erlang - meta.fun.name - meta.path
 %                     ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4823,7 +4832,8 @@ fun_expression_tests() ->
 
     Fun1 = fun ?MODULE:name/10,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                             ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4838,7 +4848,8 @@ fun_expression_tests() ->
 
     Fun1 = fun ?CUSTOM:name/?ARI,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                               ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4854,7 +4865,8 @@ fun_expression_tests() ->
 
     Fun1 = fun module:name/Ari,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                             ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4868,7 +4880,8 @@ fun_expression_tests() ->
 
     Fun1 = fun 'my-module':name/10,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                                 ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4884,7 +4897,8 @@ fun_expression_tests() ->
 
     Fun1 = fun 'my-module':?NAME/_,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                                 ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -4901,7 +4915,8 @@ fun_expression_tests() ->
 
     Fun1 = fun 'my-\^dule':'m\1func'/10,
 %         ^ - meta.fun
-%          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang
+%          ^^^^ meta.function.erlang meta.fun.erlang - meta.path
+%              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.erlang meta.fun.erlang meta.path.erlang
 %                                      ^ - meta.fun
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
@@ -5201,9 +5216,9 @@ try_catch_tests() ->
 %       ^^^^^ constant.language.exception.type.erlang
 %            ^ punctuation.separator.patterns.erlang
             ct:fail();
-%           ^^ variable.namespace.erlang
-%             ^ punctuation.accessor.double-colon.erlang
-%              ^^^^ variable.function.erlang
+%           ^^ meta.path.erlang variable.namespace.erlang
+%             ^ meta.path.erlang punctuation.accessor.double-colon.erlang
+%              ^^^^ meta.path.erlang variable.function.erlang
         Class:Cause ->
 %     ^^^^^^^^^^^^^^^^^ meta.exception.catch.erlang
 %       ^^^^^ variable.other.erlang
