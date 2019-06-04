@@ -827,6 +827,14 @@ EOT
 #                             ^^^^^^^ string.quoted.double.perl
 #                                    ^ punctuation.terminator.statement.perl
 
+  \$foo
+# ^ keyword.operator.reference.perl
+#  ^ punctuation.definition.variable.perl
+# ^^^^^ variable.other.readwrite.global.perl
+  $@foo
+# ^^ punctuation.definition.variable.perl
+# ^^^^^ variable.other.readwrite.global.perl
+
 ###[ CONSTANTS ] #############################################################
 
   1234             # decimal integer

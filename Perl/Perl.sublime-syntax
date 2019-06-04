@@ -1231,13 +1231,16 @@ contexts:
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: ([\$\@\%]#?)\w+\b
+    - match: (\\)?([\$\@\%]{1,3}#?)(\w+)\b
       scope: variable.other.readwrite.global.perl
       captures:
-        1: punctuation.definition.variable.perl
+        1: keyword.operator.reference.perl
+        2: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: ([\$\@\%])(\{)
-      scope: punctuation.definition.variable.begin.perl
+    - match: (\\)?([\$\@\%]{1,3}\{)
+      captures:
+        1: keyword.operator.reference.perl
+        2: punctuation.definition.variable.begin.perl
       push:
         - meta_scope: meta.braces.perl variable.other.readwrite.global.perl
         - match: \}
