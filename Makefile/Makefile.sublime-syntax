@@ -12,6 +12,8 @@ name: Makefile
 file_extensions:
   - make
   - GNUmakefile
+  - justfile
+  - Justfile
   - makefile
   - Makefile
   - makefile.am
@@ -310,7 +312,7 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-    
+
   shell:
     # Due to how the shell syntax handles comments, we must account for the case
     # where a recipe-line is a single comment in combination with an "@" or "-"
