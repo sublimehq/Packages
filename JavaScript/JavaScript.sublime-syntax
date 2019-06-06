@@ -898,7 +898,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - match: \'
           scope: punctuation.definition.string.end.js
           pop: true
@@ -910,7 +910,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - match: \"
           scope: punctuation.definition.string.end.js
           pop: true
@@ -929,7 +929,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.template.js
+        - meta_scope: meta.string.js string.template.js
         - match: "`"
           scope: punctuation.definition.string.end.js
           pop: true
@@ -959,12 +959,12 @@ contexts:
 
   regexp:
       - meta_include_prototype: false
-      - meta_scope: string.regexp.js
+      - meta_scope: meta.string.js string.regexp.js
       - match: "/"
         scope: punctuation.definition.string.end.js
         set:
           - meta_include_prototype: false
-          - meta_content_scope: string.regexp.js
+          - meta_content_scope: meta.string.js string.regexp.js
           - match: '[gimyus]'
             scope: keyword.other.js
           - match: '[A-Za-z0-9]' # Ignore unknown flags for future-compatibility
@@ -1553,7 +1553,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - meta_content_scope: entity.name.function.js
         - match: \'
           scope: punctuation.definition.string.end.js
@@ -1566,7 +1566,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - meta_content_scope: entity.name.function.js
         - match: \"
           scope: punctuation.definition.string.end.js
@@ -1594,7 +1594,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - meta_content_scope: variable.other.readwrite.js
         - match: \'
           scope: punctuation.definition.string.end.js
@@ -1607,7 +1607,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - meta_content_scope: variable.other.readwrite.js
         - match: \"
           scope: punctuation.definition.string.end.js
