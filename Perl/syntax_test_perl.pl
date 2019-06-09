@@ -787,7 +787,7 @@ EOT
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.perl
 #                                           ^ punctuation.section.braces.end.perl - string
 #                                            ^ punctuation.terminator.statement.perl
-#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.begin.perl
+#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   m(^\s*(?:(-?\s*)(\d+(?:\.\d+){0,3})/(\d+))); # comment
 # ^ support.function.perl - meta.parens
 #  ^ punctuation.section.parens.begin.perl - string
@@ -795,7 +795,7 @@ EOT
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.perl
 #                                           ^ punctuation.section.parens.end.perl - string
 #                                            ^ punctuation.terminator.statement.perl
-#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.begin.perl
+#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   m[^\s*(?:(-?\s*)(\d+(?:\.\d+){0,3})/(\d+))]; # comment
 # ^ support.function.perl - meta.brackets
 #  ^ punctuation.section.brackets.begin.perl - string
@@ -803,7 +803,7 @@ EOT
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.perl
 #                                           ^ punctuation.section.brackets.end.perl - string
 #                                            ^ punctuation.terminator.statement.perl
-#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.begin.perl
+#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   m<^\s*(?:(-?\s*)(\d+(?:\.\d+){0,3})/(\d+))>; # comment
 # ^ support.function.perl - meta.generic
 #  ^ punctuation.section.generic.begin.perl - string
@@ -811,7 +811,7 @@ EOT
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.regexp.perl
 #                                           ^ punctuation.section.generic.end.perl - string
 #                                            ^ punctuation.terminator.statement.perl
-#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.begin.perl
+#                                              ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   m/^\s*(?:(-?\s*)(\d+(?:\.\d+){0,3})\/(\d+))/g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -820,7 +820,7 @@ EOT
 #                                            ^ punctuation.section.generic.end.perl
 #                                             ^ constant.language.flags.regexp.perl
 #                                              ^ punctuation.terminator.statement.perl
-#                                                ^ comment.line.number-sign.perl punctuation.definition.comment.begin.perl
+#                                                ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   s {
 # ^^^^ meta.function-call.perl
 #   ^^ meta.braces.perl
@@ -839,7 +839,7 @@ EOT
 #          ^^ constant.language.flags.regexp.perl
 #            ^ punctuation.terminator.statement.perl
 #              ^^^^^^^^^ comment.line.number-sign.perl
-#              ^ punctuation.definition.comment.begin.perl
+#              ^ punctuation.definition.comment.perl
   s/foo[a-z]{1,3} \/ .+/ bar $1 \/ /g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -851,7 +851,7 @@ EOT
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
 #                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.begin.perl
+#                                      ^ punctuation.definition.comment.perl
   s#foo[a-z]{1,3} \# .+# bar $1 \# #g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -863,7 +863,7 @@ EOT
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
 #                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.begin.perl
+#                                      ^ punctuation.definition.comment.perl
   s;foo[a-z]{1,3} \; .+; bar $1 \; ;g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -875,7 +875,7 @@ EOT
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
 #                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.begin.perl
+#                                      ^ punctuation.definition.comment.perl
   s!foo[a-z]{1,3} \! .+! bar $1 \! !g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -887,7 +887,7 @@ EOT
 #                                   ^ constant.language.flags.regexp.perl
 #                                    ^ punctuation.terminator.statement.perl
 #                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.begin.perl
+#                                      ^ punctuation.definition.comment.perl
   s:\\:/:;
 # ^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
