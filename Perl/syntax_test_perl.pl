@@ -443,6 +443,10 @@ EOT
 # ^^ keyword.operator.concat.perl
   ..
 # ^^ keyword.operator.range.perl
+  \  \\  \\\
+# ^ keyword.operator.reference.perl
+#    ^^ keyword.operator.reference.perl
+#        ^^^ keyword.operator.reference.perl
 
   and or xor as cmp eq gt ge lt le ne not
 #^ - keyword
@@ -749,6 +753,12 @@ EOT
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
 #                                   ^^ constant.character.escape.perl
 #                                         ^ punctuation.section.generic.end.perl - string
+  q\quoted "interpolated" foo 'bar' / baz\
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl - string
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
+#                                        ^ punctuation.section.generic.end.perl - string
   q{quoted "interpolated" {foo} 'bar' \/ baz}
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -907,6 +917,15 @@ EOT
 #                                             ^ constant.language.flags.regexp.perl
 #                                              ^ punctuation.terminator.statement.perl
 #                                                ^ comment.line.number-sign.perl punctuation.definition.comment.perl
+  m\@pattern\g; # comment
+# ^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^ string.regexp.perl
+#           ^ punctuation.section.generic.end.perl
+#            ^ constant.language.flags.regexp.perl
+#             ^ punctuation.terminator.statement.perl
+#               ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   CORE::m
 # ^^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
@@ -959,6 +978,18 @@ EOT
 #                                    ^ punctuation.terminator.statement.perl
 #                                      ^^^^^^^^^ comment.line.number-sign.perl
 #                                      ^ punctuation.definition.comment.perl
+  s\foo[a-z]{1,3} / .+\ bar $1 / \g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^^^^^^^^^^^^^ string.regexp.perl source.regexp
+#                     ^ punctuation.separator.sequence.perl
+#                      ^^^^^^^^^^ string.unquoted.perl
+#                                ^ punctuation.section.generic.end.perl
+#                                 ^ constant.language.flags.regexp.perl
+#                                  ^ punctuation.terminator.statement.perl
+#                                    ^^^^^^^^^ comment.line.number-sign.perl
+#                                    ^ punctuation.definition.comment.perl
   s#foo[a-z]{1,3} \# .+# bar $1 \# #g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -1882,6 +1913,104 @@ EOT
 #                           ^ punctuation.separator.sequence.perl
 #                             ^^^^^^^ string.quoted.double.perl
 #                                    ^ punctuation.terminator.statement.perl
+
+###[ REFERENCES DEFINITIONS ]#################################################
+
+  *_ = \my $a;
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+#    ^ keyword.operator.assignment.perl
+#      ^ keyword.operator.reference.perl
+#       ^^ keyword.declaration.variable.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#            ^ punctuation.terminator.statement.perl
+  $strref = \"foo";
+# ^ punctuation.definition.variable.perl
+# ^^^^^^^ variable.other.readwrite.perl
+#         ^ keyword.operator.assignment.perl
+#           ^ keyword.operator.reference.perl
+#            ^^^^^ string.quoted.double.perl
+  $refrefref = \\\"foo";
+# ^ punctuation.definition.variable.perl
+# ^^^^^^^^^^ variable.other.readwrite.perl
+#            ^ keyword.operator.assignment.perl
+#              ^^^ keyword.operator.reference.perl
+#                 ^^^^^ string.quoted.double.perl
+  $globref = \*foo;
+#          ^ keyword.operator.assignment.perl
+#            ^ keyword.operator.reference.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^ variable.other.readwrite.perl
+#                 ^ punctuation.terminator.statement.perl
+  $scalarref = \$foo;
+#            ^ keyword.operator.assignment.perl
+#              ^ keyword.operator.reference.perl
+#               ^ punctuation.definition.variable.perl
+#               ^^^^ variable.other.readwrite.perl
+#                   ^ punctuation.terminator.statement.perl
+  $scalarrefref = \\$foo;
+#               ^ keyword.operator.assignment.perl
+#                 ^^ keyword.operator.reference.perl
+#                   ^ punctuation.definition.variable.perl
+#                   ^^^^ variable.other.readwrite.perl
+#                       ^ punctuation.terminator.statement.perl
+  $arrayref = \@ARGV;
+#           ^ keyword.operator.assignment.perl
+#             ^ keyword.operator.reference.perl
+#              ^ punctuation.definition.variable.perl
+#              ^^^^^ variable.language.perl
+#                   ^ punctuation.terminator.statement.perl
+  $arrayrefref = \\@ARGV;
+#              ^ keyword.operator.assignment.perl
+#                ^^ keyword.operator.reference.perl
+#                  ^ punctuation.definition.variable.perl
+#                  ^^^^^ variable.language.perl
+#                       ^ punctuation.terminator.statement.perl
+  $hashref = \%ENV;
+#          ^ keyword.operator.assignment.perl
+#            ^ keyword.operator.reference.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^ variable.language.perl
+#                 ^ punctuation.terminator.statement.perl
+  $hashrefref = \\%ENV;
+#             ^ keyword.operator.assignment.perl
+#               ^^ keyword.operator.reference.perl
+#                 ^ punctuation.definition.variable.perl
+#                 ^^^^ variable.language.perl
+#                     ^ punctuation.terminator.statement.perl
+  @list = (\$a, \@b, \%c);
+#         ^ punctuation.section.group.begin.perl
+#          ^ keyword.operator.reference.perl
+#           ^^ variable.language.perl
+#             ^ punctuation.separator.sequence.perl
+#               ^ keyword.operator.reference.perl
+#                ^^ variable.language.perl
+#                  ^ punctuation.separator.sequence.perl
+#                    ^ keyword.operator.reference.perl
+#                     ^^ variable.other.readwrite.perl
+#                       ^ punctuation.section.group.end.perl
+#                        ^ punctuation.terminator.statement.perl
+  @list = \($a, @b, %c);      # same thing!
+#         ^ keyword.operator.reference.perl
+#          ^ punctuation.section.group.begin.perl
+#           ^^ variable.language.perl
+#             ^ punctuation.separator.sequence.perl
+#               ^^ variable.language.perl
+#                 ^ punctuation.separator.sequence.perl
+#                   ^^ variable.other.readwrite.perl
+#                     ^ punctuation.section.group.end.perl
+#                      ^ punctuation.terminator.statement.perl
+  @list = \\($a, @b, %c);
+#         ^^ keyword.operator.reference.perl
+#           ^ punctuation.section.group.begin.perl
+#            ^^ variable.language.perl
+#              ^ punctuation.separator.sequence.perl
+#                ^^ variable.language.perl
+#                  ^ punctuation.separator.sequence.perl
+#                    ^^ variable.other.readwrite.perl
+#                      ^ punctuation.section.group.end.perl
+#                       ^ punctuation.terminator.statement.perl
 
 ###[ PACKAGE DEFINITION ]#####################################################
 

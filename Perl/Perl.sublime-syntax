@@ -488,7 +488,7 @@ contexts:
         - - clear_scopes: 1
           - meta_scope: meta.function.parameters.perl
           - include: parameters-end
-          - match: '[$@%*]+'
+          - match: '[$@%*\\]+'
             scope: variable.parameter.perl
           - match: ;
             scope: punctuation.separator.sequence.perl
@@ -1086,6 +1086,10 @@ contexts:
       push: expressions-begin
     - match: \.\.
       scope: keyword.operator.range.perl
+      push: expressions-begin
+    # SEE: https://perldoc.perl.org/perlref.html#Making-References
+    - match: \\+
+      scope: keyword.operator.reference.perl
       push: expressions-begin
     # string concat
     - match: \.=?
