@@ -652,6 +652,9 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.other.member.perl
       set: maybe-item-access
+    # item access like $array->[0]
+    - match: (?=[{\[])
+      set: maybe-item-access
     - include: else-pop
 
 ###[ CONTROL KEYWORDS ]#######################################################

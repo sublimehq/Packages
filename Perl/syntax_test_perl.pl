@@ -621,6 +621,14 @@ EOT
 #       ^^^ support.class.perl
 #          ^^ keyword.accessor.arrow.perl
 #            ^^^ variable.other.member.perl
+  $Foo::Bar->[0]
+# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ keyword.accessor.arrow.perl
+#            ^^^ meta.item-access.perl
   $Foo::Bar->baz[0]
 # ^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
@@ -639,7 +647,7 @@ EOT
 #          ^^ keyword.accessor.arrow.perl
 #            ^^^ variable.other.member.perl
 #               ^^^^^^^ meta.item-access.perl
-  $Foo::Bar->$baz
+  $Foo::Bar->$baz->[-1]
 # ^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
 #  ^^^ support.class.perl
@@ -648,6 +656,9 @@ EOT
 #          ^^ keyword.accessor.arrow.perl - variable
 #            ^^^^ variable.other.readwrite.global.perl
 #            ^ punctuation.definition.variable.perl
+#                  ^ punctuation.section.item-access.begin.perl
+#                  ^^^^ meta.item-access.perl
+#                     ^ punctuation.section.item-access.end.perl
   $Foo :: Bar -> $baz
 # ^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
