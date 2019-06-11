@@ -193,7 +193,7 @@ contexts:
     - match: '(?={{path_lookahead}}\s*<)'
       push: global-modifier
     # Take care of comments just before a function definition.
-    - match: /\*\*?
+    - match: /\*
       scope: punctuation.definition.comment.c
       push:
         - - match: \s*(?=\w)
