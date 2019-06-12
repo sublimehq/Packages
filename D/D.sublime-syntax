@@ -146,8 +146,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.d
           pop: true
-        - match: ^\s*\*(?!/)
-          scope: punctuation.definition.comment.d
+        - match: ^\s*(\*)?(?!/)
+          captures:
+            1: punctuation.definition.comment.d
     - match: (///?).*$\n?
       scope: comment.line.double-slash.d
       captures:
@@ -161,8 +162,9 @@ contexts:
         - match: \+/
           scope: punctuation.definition.comment.d
           pop: true
-        - match: ^\s*\+(?!/)
-          scope: punctuation.definition.comment.d
+        - match: ^\s*(\+)?(?!/)
+          captures:
+            1: punctuation.definition.comment.d
         - include: nested-comment
 
   number-in:
