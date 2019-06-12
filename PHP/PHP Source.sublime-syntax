@@ -705,6 +705,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
+        - match: ^\s*(\*)?(?!/)
+          captures:
+            1: punctuation.definition.comment.php
         - include: php_doc
     - match: /\*
       scope: punctuation.definition.comment.begin.php
