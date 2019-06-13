@@ -49,7 +49,7 @@ contexts:
         - meta_include_prototype: false
         - match: \*/
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.json
     - match: /\*
