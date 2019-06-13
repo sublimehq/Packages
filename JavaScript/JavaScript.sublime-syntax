@@ -110,7 +110,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.js
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.js
     - match: /\*
