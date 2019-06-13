@@ -125,7 +125,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.scala
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.scala
         - match: (@\w+\s)

@@ -54,7 +54,7 @@ contexts:
           captures:
             0: punctuation.definition.comment.actionscript.2
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.actionscript.2
     - match: (//).*$\n?

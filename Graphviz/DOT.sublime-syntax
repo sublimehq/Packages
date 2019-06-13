@@ -107,6 +107,6 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.dot
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.dot

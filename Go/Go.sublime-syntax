@@ -133,7 +133,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.go
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.go
 

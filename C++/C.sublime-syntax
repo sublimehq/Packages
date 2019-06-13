@@ -50,7 +50,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
-        - match: ^\s*(\*)?(?!/)
+        - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.c
     - match: \*/(?!\*)
