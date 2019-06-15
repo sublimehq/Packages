@@ -1038,21 +1038,41 @@ $var = 0;
 $var2 = -123.456e10;
 //       ^^^^^^^^^^ constant.numeric.float.decimal
 
+$var2 = -12_3.45_6e1_0;
+//       ^^^^^^^^^^^^^ constant.numeric.float.decimal
+
 $var2 = -123.e10;
 //       ^^^^^^^ constant.numeric.float.decimal
+
+$var2 = -12_3.e1_0;
+//       ^^^^^^^^^ constant.numeric.float.decimal
 
 $var2 = -.123e10;
 //       ^^^^^^^ constant.numeric.float.decimal
 
+$var2 = -.12_3e1_0;
+//       ^^^^^^^^^ constant.numeric.float.decimal
+
 $var2 = -123e10;
 //       ^^^^^^ constant.numeric.float.decimal
+
+$var2 = -12_3e1_0;
+//       ^^^^^^^^ constant.numeric.float.decimal
 
 $var3 = 0x0f;
 //      ^^^^ constant.numeric.integer.hexadecimal
 //      ^^ punctuation.definition.numeric.hexadecimal
 
+$var3 = 0x0_f;
+//      ^^^^ constant.numeric.integer.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+
 $var4 = 0b0111;
 //      ^^^^^^ constant.numeric.integer.binary
+//      ^^ punctuation.definition.numeric.binary
+
+$var4 = 0b0_1_1_1;
+//      ^^^^^^^^^ constant.numeric.integer.binary
 //      ^^ punctuation.definition.numeric.binary
 
   foo_bar:
