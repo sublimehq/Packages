@@ -1583,7 +1583,7 @@ contexts:
     - match: '{{erlang_functions}}'
       scope: meta.atom.erlang support.function.erlang
       pop: true
-    - match: '{{ident_unquoted}}'
+    - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang variable.function.erlang
       pop: true
     - match: \'
@@ -1592,6 +1592,7 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: meta.atom.erlang variable.function.erlang
         - include: atom-quoted-common
+    - include: variable-other-pop
     - include: macro-pop
     - include: ident-expect-end
 
