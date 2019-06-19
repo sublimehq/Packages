@@ -874,7 +874,8 @@ contexts:
         # 1. function name
         - - meta_scope: meta.fun.name.erlang
           - include: else-pop
-        - entity-name-fun
+        - - include: variable-other-pop
+          - include: entity-name-function
 
 ###[ FUNCTION DEFINITION ]####################################################
 
@@ -1471,20 +1472,6 @@ contexts:
         - meta_scope: meta.atom.erlang constant.other.symbol.erlang
         - include: atom-quoted-common
 
-  entity-name-fun:
-    # function name can be atom or variable for local usage
-    - match: '{{variable}}'
-      scope: meta.atom.erlang entity.name.function.erlang
-      pop: true
-    - match: \'
-      scope: punctuation.definition.atom.begin.erlang
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang entity.name.function.erlang
-        - include: atom-quoted-common
-    - include: macro-pop
-    - include: variable-expect-end
-
   entity-name-function:
     # function name must be an atom
     - match: '{{atom_unquoted}}'
@@ -1612,12 +1599,6 @@ contexts:
   ident-expect-end:
     - match: '{{illegal_ident}}'
       scope: invalid.illegal.expect-identifier.erlang
-      pop: true
-    - include: else-pop
-
-  variable-expect-end:
-    - match: '{{illegal_ident}}'
-      scope: invalid.illegal.expect-variable.erlang
       pop: true
     - include: else-pop
 

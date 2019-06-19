@@ -4949,7 +4949,7 @@ fun_expression_tests() ->
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
-%              ^^^ invalid.illegal.expect-variable.erlang
+%              ^^^ entity.name.function.erlang
 %                 ^ punctuation.section.parameters.begin.erlang
 %                   ^ punctuation.section.parameters.end.erlang
 %                     ^^ punctuation.separator.clause-head-body.erlang
@@ -5017,14 +5017,14 @@ fun_expression_tests() ->
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
-%              ^^^^ entity.name.function.erlang
+%              ^^^^ variable.other.erlang
 %                  ^ punctuation.section.parameters.begin.erlang
 %                   ^ constant.numeric.integer.decimal.erlang
 %                    ^ punctuation.section.parameters.end.erlang
 %                      ^^ punctuation.separator.clause-head-body.erlang
 %                         ^ constant.numeric.integer.decimal.erlang
 %                          ^ punctuation.separator.clauses.erlang
-%                            ^^^^ entity.name.function.erlang
+%                            ^^^^ variable.other.erlang
 %                                ^ punctuation.section.parameters.begin.erlang
 %                                 ^ variable.parameter.erlang
 %                                  ^ punctuation.section.parameters.end.erlang
