@@ -875,7 +875,11 @@ contexts:
         - - meta_scope: meta.fun.name.erlang
           - include: else-pop
         - - include: variable-other-pop
-          - include: entity-name-function
+          - include: macro-pop
+          - match: '{{illegal_ident}}'
+            scope: invalid.illegal.expect-variable.erlang
+            pop: true
+          - include: else-pop
 
 ###[ FUNCTION DEFINITION ]####################################################
 

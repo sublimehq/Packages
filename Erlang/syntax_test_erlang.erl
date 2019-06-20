@@ -4949,7 +4949,7 @@ fun_expression_tests() ->
 %   ^^^^ variable.other.erlang
 %        ^ keyword.operator.assignment.erlang
 %          ^^^ keyword.declaration.function.erlang
-%              ^^^ entity.name.function.erlang
+%              ^^^ invalid.illegal.expect-variable.erlang
 %                 ^ punctuation.section.parameters.begin.erlang
 %                   ^ punctuation.section.parameters.end.erlang
 %                     ^^ punctuation.separator.clause-head-body.erlang
