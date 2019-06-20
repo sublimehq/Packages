@@ -1169,6 +1169,10 @@ contexts:
     - match: \#(?={{ident}})
       scope: punctuation.definition.record.erlang
       push: [record-fields, record-name, variable-other-record]
+    # records may look like normal variables in macro definitions
+    - match: '{{variable}}(?=\.{{ident}})'
+      scope: meta.record.name.erlang variable.other.erlang
+      push: record-fields
 
   record-name:
     - meta_scope: meta.record.name.erlang

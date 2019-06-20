@@ -1585,6 +1585,32 @@ preprocessor_define_tests() -> .
 %                                        ^ punctuation.section.arguments.end.erlang
 %                                         ^ punctuation.terminator.clause.erlang
 
+    -define(CALL(Rec, Func, Args),
+%   ^^^^^^^ meta.preprocessor.define.erlang - meta.preprocessor.define.arguments.erlang
+%          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
+            erlang:apply(Rec.mod, Func, Args ++ [Rec.mod_state])
+%           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
+%                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.erlang
+%                                               ^^^^^^^^^^^^^^^ meta.sequence.list.erlang 
+%           ^^^^^^ meta.path.erlang support.namespace.erlang
+%                 ^ meta.path.erlang punctuation.accessor.double-colon.erlang
+%                  ^^^^^ meta.path.erlang meta.function-call.name.erlang support.function.erlang
+%                       ^ punctuation.section.arguments.begin.erlang
+%                        ^^^ variable.other.erlang
+%                           ^ punctuation.accessor.dot.erlang
+%                            ^^^ variable.other.field.erlang
+%                               ^ punctuation.separator.arguments.erlang
+%                                 ^^^^ variable.other.erlang
+%                                     ^ punctuation.separator.arguments.erlang
+%                                       ^^^^ variable.other.erlang
+%                                            ^^ keyword.operator.lists.erlang
+%                                                ^^^ variable.other.erlang
+%                                                   ^ punctuation.accessor.dot.erlang
+%                                                    ^^^^^^^^^ variable.other.field.erlang
+).
+% <- punctuation.section.arguments.end.erlang
+%^ punctuation.terminator.clause.erlang
+
 % directive-export tests
 
 preprocessor_export_tests() -> .
