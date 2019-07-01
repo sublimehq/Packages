@@ -2193,6 +2193,7 @@ contexts:
     # Module-level variables
     - match: (?:__dirname|__filename|exports){{identifier_break}}
       scope: support.constant.node.js
+      pop: true
     - match: module{{identifier_break}}
       scope: support.constant.node.js
       set:
@@ -2286,6 +2287,7 @@ contexts:
       pop: true
     - match: (?:__defineGetter__|__defineSetter__|__lookupGetter__){{identifier_break}}
       scope: invalid.deprecated.js support.function.js
+      pop: true
 
   import-meta-expression:
     - match: import{{identifier_break}}
