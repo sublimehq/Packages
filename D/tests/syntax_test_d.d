@@ -753,6 +753,13 @@ extern(1)
 //                                 ^ keyword.operator.assignment.d
 //                                   ^^^ string.quoted.double.d
 //                                      ^ punctuation.terminator.d
+  enum foo : int;
+//^^^^^^^^^^^^^^^ meta.enum.d
+//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//     ^^^ entity.name.enum.d
+//         ^ punctuation.separator.mapping.d
+//           ^^^ meta.path.d storage.type.d
+//              ^ punctuation.terminator.d
   enum ulong
 //^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
@@ -1776,9 +1783,8 @@ extern(1)
 //        ^ punctuation.section.parens.begin.d
 //         ^^^^^^^^^ storage.type.d
 //                  ^ invalid.illegal.d
-//                    ^^^ variable.parameter.d
-//                        ^ invalid.illegal.d
-//                         ^ punctuation.section.parens.end.d
+//                    ^^^ meta.path.d storage.type.d
+//                         ^ invalid.illegal.d
 //                           ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
