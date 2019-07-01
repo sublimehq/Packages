@@ -1431,9 +1431,10 @@ extern(1)
   unittest {
 //^^^^^^^^ keyword.control.conditional.d
 //         ^ punctuation.section.block.begin.d
-    unittest {
+    unittest @safe {
   //^^^^^^^^ keyword.control.conditional.d
-  //         ^ punctuation.section.block.begin.d
+  //         ^^^^^ meta.block.d storage.modifier.d
+  //               ^ meta.block.d meta.block.d punctuation.section.block.begin.d
     }
   //^ punctuation.section.block.end.d
   }

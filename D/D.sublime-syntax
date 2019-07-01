@@ -1818,13 +1818,9 @@ contexts:
     - match: '\b(unittest)\b'
       scope: keyword.control.conditional.d
       push:
-        - match: '{'
-          scope: punctuation.section.block.begin.d
-          set:
-            - match: '}'
-              scope: punctuation.section.block.end.d
-              pop: true
-            - include: statement-list-in
+        - match: '(?={)'
+          set: block-statement
+        - include: attribute-in
         - include: not-whitespace-illegal
 
   template-in:
