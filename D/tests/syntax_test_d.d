@@ -2691,3 +2691,11 @@ extern(1)
 //                               ^^ meta.function.d meta.block.d
 //                               ^ punctuation.section.block.begin.d
 //                                ^ punctuation.section.block.end.d
+  alias const(int) constInt;
+//^^^^^ keyword.control.alias.d
+//      ^^^^^ storage.modifier.d
+//           ^ punctuation.section.group.begin.d
+//            ^^^ meta.path.d storage.type.d
+//               ^ punctuation.section.group.end.d
+//                 ^^^^^^^^ entity.name.type.d
+//                         ^ punctuation.terminator.d

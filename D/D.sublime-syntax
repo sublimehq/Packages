@@ -1437,7 +1437,7 @@ contexts:
     - match: '\b(alias)\b'
       scope: keyword.control.alias.d
       push:
-        - match: '{{attribute_lookahead}}'
+        - match: '{{type_qualifier_lookahead}}'
           set: [alias-old, type]
         - match: '\b({{name}})\s*(?=\(|=)'
           captures:
