@@ -9,7 +9,7 @@ scope: source.sql
 contexts:
   main:
     - include: comments
-    - match: '(?i:\s*\b(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:(\w+)|''(\w+)''|"(\w+)"|`(\w+)`)'
+    - match: '(?i:\s*\b(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:([\w\.]+)|''(\w+)''|"(\w+)"|`(\w+)`)'
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql

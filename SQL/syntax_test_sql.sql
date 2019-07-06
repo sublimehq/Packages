@@ -32,5 +32,21 @@ multiline comment
 select
 
 
-   <=>  
+   <=>
 -- ^^^ keyword.operator.comparison.sql
+
+CREATE TABLE table_name (
+-- ^^^  meta.create.sql
+--     ^^^^^ keyword.other.sql
+--           ^^^^^^^^^^ entity.name.function.sql
+  d integer NOT NULL
+);
+
+
+CREATE TABLE my_bad_as_schema.table_name (
+-- ^^^  meta.create.sql
+--     ^^^^^ keyword.other.sql
+--           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.sql
+
+  d integer NOT NULL
+);
