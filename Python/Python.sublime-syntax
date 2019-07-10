@@ -624,6 +624,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
+    - match: /
+      scope: storage.modifier.positional-args-only.python
+      push:
+        - match: (?=[,)])
+          pop: true
+        - match: \S
+          scope: invalid.illegal.expected-comma.python
     - match: '(?==)'
       set:
         - match: '='
