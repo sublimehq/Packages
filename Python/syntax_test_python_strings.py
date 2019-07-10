@@ -634,6 +634,33 @@ F""" {} {\} }
 #           ^ invalid.illegal.stray-brace
 """
 
+# Most of these were inspired by
+# https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
+f'{x=:}'
+#   ^ storage.modifier.debug.python
+f'{x=:.2f}'
+#   ^ storage.modifier.debug.python
+f'{x=!r}'
+#   ^ storage.modifier.debug.python
+f'{x=!a}'
+#   ^ storage.modifier.debug.python
+f'{x=!s:*^20}'
+#   ^ storage.modifier.debug.python
+#    ^^ storage.modifier.conversion.python
+#      ^^^^^ meta.format-spec.python
+f'{"Σ"=}'
+#     ^ storage.modifier.debug.python
+f'{0==1}'
+#   ^^ -storage.modifier.debug.python
+f'{0!=1}'
+#    ^ -storage.modifier.debug.python
+f'{0<=1}'
+#    ^ -storage.modifier.debug.python
+f'{0>=1}'
+#    ^ -storage.modifier.debug.python
+f'{f(a="3=")}'
+#     ^^^^ -storage.modifier.debug.python
+
 f" {
 %   ^ invalid.illegal.unclosed-string
    # TODO make this test pass
