@@ -4,7 +4,7 @@
 # Strings and embedded syntaxes
 ###############################
 
-var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -19,14 +19,14 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                            ^^ constant.character.escape
 #                                               ^^ constant.character.escape
 #                                                  ^^ constant.character.escape
-#                                                     ^^^^^^ constant.character.escape.unicode
-#                                                            ^^^^^^^^^^ constant.character.escape.unicode
-#                                                                       ^^^^^^^^^ constant.character.escape.unicode
+#                                                     ^^ constant.character.escape
+#                                                        ^^^^^^ constant.character.escape.unicode
+#                                                               ^^^^^^^^^^ constant.character.escape.unicode
+#                                                                          ^^^^^^^^^ constant.character.escape.unicode
 
-invalid_escapes = "\.  \7 \-"
+invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python
 #                      ^^ invalid.deprecated.character.escape.python
-#                         ^^ invalid.deprecated.character.escape.python
 
 conn.execute("SELECT * FROM foobar")
 #              ^ meta.string.python keyword.other.DML.sql
