@@ -2053,7 +2053,7 @@ contexts:
       scope: support.class.builtin.js
       pop: true
     - match: (?:Eval|Range|Reference|Syntax|Type|URI)?Error{{identifier_break}}
-      scope: support.class.error.js
+      scope: support.class.builtin.js
       pop: true
 
     - match: (?:eval|isFinite|isNaN|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent){{identifier_break}}
