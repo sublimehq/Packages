@@ -70,7 +70,7 @@ variables:
 
   method_lookahead: |-
     (?x:(?=
-      (?: get|set|async ){{identifier_break}}
+      (?: get|set|async ){{identifier_break}}(?!\s*:)
       | \*
       | {{property_name}} \s* \(
     ))
