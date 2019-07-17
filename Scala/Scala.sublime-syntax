@@ -491,6 +491,7 @@ contexts:
     - match: '(?=\()'
       set: function-parameter-list
     - match: '\['
+      scope: punctuation.definition.generic.begin.scala
       push: function-tparams-brackets
     - match: ':'
       set: function-return-type-definition
@@ -507,9 +508,12 @@ contexts:
       set: function-type-parameter-list
 
   function-tparams-brackets:
+    - meta_scope: meta.generic.scala
     - match: '\['
+      scope: punctuation.definition.generic.begin.scala
       push: function-tparams-brackets
     - match: '\]'
+      scope: punctuation.definition.generic.end.scala
       pop: true
     - include: type-constraints
     - include: delimited-type-expression
@@ -530,8 +534,10 @@ contexts:
 
   function-parameter-list:
     - match: '\('
+      scope: punctuation.section.group.begin.scala
       push:
         - match: '\)'
+          scope: punctuation.section.group.end.scala
           pop: true
         - match: '({{alphaid}})(?=\s*:)'
           captures:
@@ -572,6 +578,7 @@ contexts:
     - match: '(?=\()'
       set: class-parameter-list
     - match: '\['
+      scope: punctuation.definition.generic.begin.scala
       push: class-tparams-brackets
     - match: '(?=\b(extends|with)\b)'
       set: class-inheritance-extends
@@ -588,9 +595,12 @@ contexts:
       set: class-type-parameter-list
 
   class-tparams-brackets:
+    - meta_scope: meta.generic.scala
     - match: '\['
+      scope: punctuation.definition.generic.begin.scala
       push: class-tparams-brackets
     - match: '\]'
+      scope: punctuation.definition.generic.end.scala
       pop: true
     - match: '\b(this|super)\b'
       scope: variable.language.scala
@@ -599,8 +609,10 @@ contexts:
 
   class-parameter-list:
     - match: '\('
+      scope: punctuation.section.group.begin.scala
       push:
         - match: '\)'
+          scope: punctuation.section.group.end.scala
           pop: true
         - match: '\b(val)\b'
           scope: storage.type.scala
@@ -905,18 +917,22 @@ contexts:
       pop: true
 
   for-comprehension:
-    - match: '\b(for)\s*\{'
+    - match: '\b(for)\s*(\{)'
       captures:
         1: keyword.control.flow.scala
+        2: punctuation.section.block.begin.scala
       push:
         - match: '\}'
+          scope: punctuation.section.block.end.scala
           pop: true
         - include: for-braces-body
-    - match: '\b(for)\s*\('
+    - match: '\b(for)\s*(\()'
       captures:
         1: keyword.control.flow.scala
+        2: punctuation.section.group.begin.scala
       push:
         - match: '\)'
+          scope: punctuation.section.group.end.scala
           pop: true
         - include: for-parens-body
   for-braces-body:
@@ -1506,18 +1522,24 @@ contexts:
 
   base-type-expression-no-function:
     - match: \(
+      scope: punctuation.definition.group.begin.scala
       push:
         - match: \)
+          scope: punctuation.definition.group.end.scala
           pop: true
         - include: delimited-type-expression
     - match: \[
+      scope: punctuation.definition.generic.begin.scala
       push:
         - match: \]
+          scope: punctuation.definition.generic.end.scala
           pop: true
         - include: delimited-type-expression
     - match: \{
+      scope: punctuation.definition.block.begin.scala
       push:
         - match: \}
+          scope: punctuation.definition.block.end.scala
           pop: true
         - include: declarations
     - match: '_\s*\*'
@@ -1589,8 +1611,10 @@ contexts:
     - match: (?=@{{plainid}})
       set: single-type-expression-tail-no-function
     - match: \(
+      scope: punctuation.definition.generic.begin.scala
       set:
         - match: \)
+          scope: punctuation.definition.generic.end.scala
           set: single-type-expression-tail-no-function
         - include: delimited-type-expression
     - include: base-type-expression-no-function
@@ -1625,8 +1649,10 @@ contexts:
     - match: (?=@{{plainid}})
       set: single-type-expression-tail
     - match: \(
+      scope: punctuation.definition.group.begin.scala
       set:
         - match: \)
+          scope: punctuation.definition.group.end.scala
           set: single-type-expression-tail
         - include: delimited-type-expression
     - include: base-type-expression
@@ -1691,8 +1717,10 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail-no-function-type-expectation
     - match: '\{'
+      scope: punctuation.definition.block.begin.scala
       set:
         - match: \}
+          scope: punctuation.definition.block.end.scala
           set: single-type-expression-tail-no-function
         - include: main
     - match: '(?=\()'
@@ -1749,8 +1777,10 @@ contexts:
       scope: support.type.scala
       set: single-type-expression-tail-type-expectation
     - match: '\{'
+      scope: punctuation.definition.block.begin.scala
       set:
         - match: \}
+          scope: punctuation.definition.block.end.scala
           set: single-type-expression-tail
         - include: main
     - match: '(?=\()'

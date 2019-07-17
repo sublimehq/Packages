@@ -1315,8 +1315,15 @@ def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
 //                                             ^ keyword.operator.varargs.scala
 //                                                         ^ support.type.scala - keyword
 
-def foo(a: Int * String): Unit
-//             ^ support.type.scala - keyword
+def foo[A[_] <: B](a: Int * String): Unit
+//     ^ punctuation.definition.generic.begin.scala
+//       ^ punctuation.definition.generic.begin.scala
+//         ^ punctuation.definition.generic.end.scala
+//               ^ punctuation.definition.generic.end.scala
+//     ^^^^^^^^^^^ meta.generic.scala
+//                ^ punctuation.section.group.begin.scala
+//                                ^ punctuation.section.group.end.scala
+//                        ^ support.type.scala - keyword
 
 class Foo(a: String*)
 //                 ^ keyword.operator.varargs.scala
@@ -1335,6 +1342,7 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 @deprecated("Use D", "1.0") class C { ... }
 // <- meta.annotation
 // ^^ variable.annotation
+//         ^ meta.annotation.parameters.scala punctuation.section.arguments.annotation.begin.scala
 //            ^^ string
 //                        ^ meta.annotation
 //                         ^ - meta.annotation
@@ -1618,10 +1626,18 @@ new Monad[Catenable] with Traverse
 //                        ^^^^^^^^ support.class.scala
 
    final class A
-   final class B
+   final class B[A[_] <: B](a: B)
 // ^^^^^ storage.modifier.other.scala
 //       ^^^^^ storage.type.class.scala
 //             ^ entity.name.class.scala
+//              ^^^^^^^^^^^ meta.generic.scala
+//              ^ punctuation.definition.generic.begin.scala
+//                ^ punctuation.definition.generic.begin.scala
+//                  ^ punctuation.definition.generic.end.scala
+//                    ^^ keyword.operator.bound.scala
+//                        ^ punctuation.definition.generic.end.scala
+//                         ^ punctuation.section.group.begin.scala
+//                              ^ punctuation.section.group.end.scala
 
 abc match {
   case $foo(bar) => ()
@@ -1712,8 +1728,10 @@ import scalaz._
 // ^^^^^^ support.constant.scala
 
    for {
+//     ^ punctuation.section.block.begin.scala
        _ <_
    } yield true
+// ^ punctuation.section.block.end.scala
 //   ^^^^^ keyword.control.flow.scala
 
    x: ResourceError \/ Resource
@@ -1724,6 +1742,16 @@ import scalaz._
    type TS1 = trans.TransSpec1
    import library._
 // ^^^^^^ - support.type
+
+  type Foo = Thing { val a: Int }
+  //               ^ punctuation.definition.block.begin.scala
+  //                            ^ punctuation.definition.block.end.scala
+
+  type Foo = (Bar op (Baz))
+  //         ^ punctuation.definition.group.begin.scala
+  //                 ^ punctuation.definition.group.begin.scala
+  //                     ^ punctuation.definition.group.end.scala
+  //                      ^ punctuation.definition.group.end.scala
 
    def identity: CFId
    override final def equals(other: Any): Boolean
@@ -1739,6 +1767,7 @@ import scalaz._
 //               ^^^^^ variable.language.scala
 
 a match {
+//      ^ punctuation.section.block.begin.scala
   case x: b if Foo =>
 //          ^^ keyword.control.flow.scala
 //             ^^^ support.constant.scala
@@ -1830,12 +1859,14 @@ for {
 }
 
 for (_<- fu; _← fu; _= fu)
+//  ^ punctuation.section.group.begin.scala
 //   ^ variable.language.underscore.scala
 //    ^^ keyword.operator.assignment.scala
 //           ^ variable.language.underscore.scala
 //            ^ keyword.operator.assignment.scala
 //                  ^ variable.language.underscore.scala
 //                   ^ keyword.operator.assignment.scala
+//                       ^ punctuation.section.group.end.scala
 
    raw"foo\nbar\rbaz"
 // ^^^ string.quoted.raw.interpolated.scala support.function.scala
