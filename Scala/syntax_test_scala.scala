@@ -624,7 +624,10 @@ type Foo = Bar[A] forSome { type A }
      back <- Traverse[Option]
 //   ^^^^ variable.parameter
 //           ^^^^^^^^ support.constant
+//                   ^^^^^^^^ meta.generic.scala
+//                   ^ punctuation.definition.generic.begin.scala
 //                    ^^^^^^ support.class
+//                          ^ punctuation.definition.generic.end.scala
        .traverse[Free, Stuff](res) { r => }
 //      ^^^^^^^^ - entity.name
 //                            ^^^ - entity.name
@@ -635,14 +638,16 @@ type Foo = Bar[A] forSome { type A }
   val baseSettings: Seq[Def.Setting[_]] = _
 //    ^^^^^^^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                  ^^^ support.class
-//                                  ^ - keyword
+//                                  ^ variable.language.underscore.scala - keyword
 
   for {
     r <- blah
   } yield r.copy(foo = a)
 //        ^ - entity.name
 //          ^^^^ - entity.name
+//              ^ punctuation.section.group.begin.scala
 //               ^^^ - entity.name
+//                      ^ punctuation.section.group.end.scala
 
   {
     case foo.Bar => 42
@@ -783,8 +788,10 @@ type Foo >: Bar
 //   ^ variable.parameter
 
    { (a, b) => ??? }
-//    ^ variable.parameter
-//       ^ variable.parameter
+//   ^ punctuation.section.group.begin.scala
+//    ^ variable.parameter.scala
+//       ^ variable.parameter.scala
+//        ^ punctuation.section.group.end.scala
 
    { a: Int => ??? }
 //   ^ variable.parameter
@@ -1683,7 +1690,9 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 
 type =?>[A] = Any
 //   ^^^ entity.name.type.scala
-
+//      ^^^ meta.generic.scala
+//      ^ punctuation.definition.generic.begin.scala
+//        ^ punctuation.definition.generic.end.scala
   val x: Foo @> Bar
 //           ^^ support.type.scala
 

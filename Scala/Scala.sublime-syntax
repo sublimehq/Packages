@@ -217,8 +217,10 @@ contexts:
         - include: lambda-declaration
   lambda-declaration-base:
     - match: \(
+      scope: punctuation.section.group.begin.scala
       push:
         - match: \)
+          scope: punctuation.section.group.end.scala
           pop: true
         - include: lambda-declaration-parens
     - match: '{{id}}'
@@ -297,13 +299,18 @@ contexts:
       push: try-dispatch
   try-dispatch:
     - match: '\('
+      scope: punctuation.section.group.begin.scala
       push:
         - match: \)
+          scope: punctuation.section.group.end.scala
           pop: true
         - include: main
     - match: '\['
+      scope: punctuation.definition.generic.begin.scala
       push:
+        - meta_scope: meta.generic.scala
         - match: \]
+          scope: punctuation.definition.generic.end.scala
           pop: true
         - include: delimited-type-expression
     - match: '(?=[\S\n;])'
@@ -330,8 +337,11 @@ contexts:
         - match: '(?=[\n;\}\)\]])'
           pop: true
         - match: '\['
+          scope: punctuation.definition.generic.begin.scala
           push:
+            - meta_scope: meta.generic.scala
             - match: '\]'
+              scope: punctuation.definition.generic.end.scala
               pop: true
             - include: type-constraints
             - include: delimited-type-expression
@@ -1582,6 +1592,7 @@ contexts:
     - match: '{{upperid}}'
       scope: support.class.scala
     - match: _
+      scope: variable.language.underscore.scala
     - match: '{{typeid}}'
       scope: support.type.scala
     - include: base-type-expression
