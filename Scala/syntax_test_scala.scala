@@ -91,7 +91,7 @@ def foo(a: Int, b: Bar): Baz = 42
 
    var foo: Unit
 // ^^^ storage.type.volatile.scala
-//     ^^^ entity.name.var
+//     ^^^ entity.name.var variable.other.readwrite.scala
 //          ^^^^ storage.type.primitive.scala
 
    class Foo[A](a: Bar) extends Baz with Bin
@@ -633,7 +633,7 @@ type Foo = Bar[A] forSome { type A }
 
 
   val baseSettings: Seq[Def.Setting[_]] = _
-//    ^^^^^^^^^^^^ entity.name.val.scala
+//    ^^^^^^^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                  ^^^ support.class
 //                                  ^ - keyword
 
@@ -665,30 +665,30 @@ type Foo = Bar[A] forSome { type A }
 //        ^^^ support.type.scala
 
    val foo_::: abc
-//     ^^^^^^ entity.name.val.scala
+//     ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //           ^ invalid.ascription.following-operator.scala
 
    val ::: abc
 //       ^ invalid.ascription.following-operator.scala
 
    val :: : abc
-//     ^^ entity.name.val.scala
+//     ^^ entity.name.val.scala variable.other.constant.scala
 //        ^ - invalid
 
   val foo_:::: = 42
-//    ^^^^^^^^ entity.name.val.scala
+//    ^^^^^^^^ entity.name.val.scala variable.other.constant.scala
 //           ^ - invalid
 
   val :::: = 42
-//    ^^^^ entity.name.val.scala
+//    ^^^^ entity.name.val.scala variable.other.constant.scala
 //       ^ - invalid
 
    val foo_: : abc
-//     ^^^^^ entity.name.val.scala
+//     ^^^^^ entity.name.val.scala variable.other.constant.scala
 //         ^ - invalid
 //           ^ - invalid
    val foo_:: : abc
-//     ^^^^^^ entity.name.val.scala
+//     ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //          ^ - invalid
 //            ^ - invalid
 
@@ -1058,7 +1058,7 @@ new Config()
 //        ^^ - constant
 
 val A: Foo = stuff
-//  ^ entity.name.val.scala
+//  ^ entity.name.val.scala variable.other.constant.scala
 
 type Maybe[A] = { type Inner = A; def x: Int }
 //                                ^^ storage.type.function.scala
@@ -1115,8 +1115,8 @@ xs: Foo with Bar
 }
 
 val Stuff(thing, other) = ???
-//        ^^^^^ entity.name.val.scala
-//               ^^^^^ entity.name.val.scala
+//        ^^^^^ entity.name.val.scala variable.other.constant.scala
+//               ^^^^^ entity.name.val.scala variable.other.constant.scala
 
    x: List[Int] => ()
 // ^ variable.parameter.scala
@@ -1548,9 +1548,9 @@ final case class
 }
 
   val ~ = 42
-//    ^ entity.name.val.scala
+//    ^ entity.name.val.scala variable.other.constant.scala
   val \/- = 42
-//    ^^^ entity.name.val.scala
+//    ^^^ entity.name.val.scala variable.other.constant.scala
 
 type ~[+A] = A
 //     ^ keyword.operator
@@ -1699,10 +1699,10 @@ val x: = 42
 // ^^ support.constant.scala
 
 val foo' = 42
-//  ^^^^ entity.name.val.scala
+//  ^^^^ entity.name.val.scala variable.other.constant.scala
 
 val foo'' = 42
-//  ^^^^^ entity.name.val.scala
+//  ^^^^^ entity.name.val.scala variable.other.constant.scala
 
 def foo' = ()
 //  ^^^^ entity.name.function.scala
@@ -1796,14 +1796,14 @@ tail: _ *
 
     val Message(
       Address(from),
-//            ^^^^ entity.name.val.scala
+//            ^^^^ entity.name.val.scala variable.other.constant.scala
       Address(to),
-//            ^^ entity.name.val.scala
+//            ^^ entity.name.val.scala variable.other.constant.scala
       subject,
-//    ^^^^^^^ entity.name.val.scala
+//    ^^^^^^^ entity.name.val.scala variable.other.constant.scala
       Content(tpe, value)) = m
-//            ^^^ entity.name.val.scala
-//                 ^^^^^ entity.name.val.scala
+//            ^^^ entity.name.val.scala variable.other.constant.scala
+//                 ^^^^^ entity.name.val.scala variable.other.constant.scala
 
 {
   case Foo() =>
@@ -1962,7 +1962,7 @@ type Foo = (Bar, Baz) => Result
   case _: NumberFormatException =>
     val col = foo
 //  ^^^ storage.type.stable.scala
-//      ^^^ entity.name.val.scala
+//      ^^^ entity.name.val.scala variable.other.constant.scala
 //          ^ keyword.operator.assignment.scala
   case _: (NumberFormatException => Bar) => Bar
   //                                ^^^ support.class.scala
@@ -2025,21 +2025,21 @@ class Foo(bar: Baz)
 //           ^ punctuation.ascription.scala
 
 val firstA :: firstB :: Nil = results
-//  ^^^^^^ entity.name.val.scala
+//  ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //         ^^ - entity
-//            ^^^^^^ entity.name.val.scala
+//            ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                   ^^ - entity
 //                      ^^^ support.constant.scala - entity
 
 val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
-//   ^^^^^^ entity.name.val.scala
+//   ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //          ^^ - entity
-//             ^^^^^^ entity.name.val.scala
+//             ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                    ^^ - entity
 //                       ^^^ support.constant.scala - entity
-//                                ^^^^^^^ entity.name.val.scala
+//                                ^^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                                        ^^ - entity
-//                                            ^^^^^^ entity.name.val.scala
+//                                            ^^^^^^ entity.name.val.scala variable.other.constant.scala
 //                                                      ^^^ support.constant.scala - entity
 //                                                           ^^ - entity
 //                                                              ^^^ support.constant.scala - entity
