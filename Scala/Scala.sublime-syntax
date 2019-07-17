@@ -784,26 +784,27 @@ contexts:
         - match: ',\n'    # TODO operator scoping for , and . in imports
         - match: '(?=[\n;])'
           pop: true
-        - match: '(?:{{id}}\.)+{{id}}?'
-          scope: variable.package.scala
+        - match: '{{upperid}}'
+          scope: support.class.import.scala
         - match: '{{id}}'
-          scope: variable.import.scala
+          scope: support.type.package.scala
+        - match: \.
+          scope: punctuation.accessor.dot.scala
         - match: '_'
           scope: variable.language.underscore.scala
         - match: "{"
+          scope: punctuation.section.group.begin.scala
           push:
             - meta_scope: meta.import.selector.scala
             - match: "}"
+              scope: punctuation.section.group.end.scala
               pop: true
-            - match: '({{id}})\s*({{rightarrow}})\s*({{id}})'
-              captures:
-                1: variable.import.renamed-from.scala
-                2: keyword.operator.arrow.scala
-                3: variable.import.renamed-to.scala
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
+            - match: '{{upperid}}'
+              scope: support.class.import.scala
             - match: '{{id}}'
-              scope: variable.import.scala
+              scope: support.type.package.scala
             - match: '_'
               scope: variable.language.underscore.scala
 

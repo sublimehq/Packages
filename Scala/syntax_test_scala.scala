@@ -14,8 +14,8 @@ package fubar {
 import fubar.{Unit, Foo}
 // ^^^ keyword.other.import
 // <- meta.import.scala
-//     ^^^^^ variable.package.scala
-//            ^^^^ variable.import.scala
+//     ^^^^^ support.type.package.scala
+//            ^^^^ support.class.import.scala
 
 def foo: Baz = 42
 //^ storage.type.function.scala
@@ -926,31 +926,33 @@ class Foo(a: A :: B)
 
 import foo
 // <- meta.import.scala
-//     ^^^ variable.import.scala
+//     ^^^ support.type.package.scala
 
 import foo; import bar
-//     ^^^ variable.import.scala
+//     ^^^ support.type.package.scala
 //          ^^^^^^ keyword.other.import.scala
-//                 ^^^ variable.import.scala
+//                 ^^^ support.type.package.scala
 
 import foo.bar
-//     ^^^^^^^ variable.package.scala
+//     ^^^ support.type.package.scala
+//        ^ punctuation.accessor.dot.scala
+//         ^^^ support.type.package.scala
 
 import foo.{bar, bar => baz, bar=>baz}
 //         ^^^^^^^^^^^^^^^^^ meta.import.selector.scala
-//          ^^^ variable.import.scala
-//               ^^^ variable.import.renamed-from.scala
+//          ^^^ support.type.package.scala
+//               ^^^ support.type.package.scala
 //                   ^^ keyword.operator.arrow.scala
-//                      ^^^ variable.import.renamed-to.scala
-//                           ^^^ variable.import.renamed-from.scala
+//                      ^^^ support.type.package.scala
+//                           ^^^ support.type.package.scala
 //                              ^^ keyword.operator.arrow.scala
-//                                ^^^ variable.import.renamed-to.scala
+//                                ^^^ support.type.package.scala
 
 
 import foo.{
    bar => bin
-// ^^^ variable.import.renamed-from.scala
-//        ^^^ variable.import.renamed-to.scala
+// ^^^ support.type.package.scala
+//        ^^^ support.type.package.scala
 }
 
 import foo._
@@ -1521,7 +1523,7 @@ var foo: Thing =42
 class Foo extends Bar with {
    import Thing._
 // ^^^^^^ keyword.other.import.scala
-//        ^^^^^ variable.package.scala
+//        ^^^^^ support.class.import.scala
 }
 
 class Foo extends Bar.Baz with bin.Baz
@@ -1703,7 +1705,7 @@ type Foo = Monad[Lambda[α => OptionT[IO, α]]]
 
 import scalaz._,
    Scalaz._
-// ^^^^^^^ meta.import.scala variable.package.scala
+// ^^^^^^ meta.import.scala support.class.import.scala
 
 import scalaz._
    Scalaz._
@@ -1914,7 +1916,8 @@ s"testing '$foo' bar"
    new DataCodec {
      import PreciseKeys._
 //   ^^^^^^ meta.import.scala keyword.other.import.scala
-//          ^^^^^^^^^^^^ meta.import.scala variable.package.scala
+//          ^^^^^^^^^^^ meta.import.scala support.class.import.scala
+//                     ^ meta.import.scala punctuation.accessor.dot.scala
 //                      ^ meta.import.scala variable.language.underscore.scala
    } foo
    bar
