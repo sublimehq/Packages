@@ -24,10 +24,11 @@ def foo: Baz = 42
 //           ^ keyword.operator.assignment.scala
 //             ^^ constant.numeric.integer.scala
 
-def foo: Baz => Bar = 42
+def foo: Baz => Bar = 42;
 //       ^^^ support.class
 //              ^^^ support.class
 //                  ^ keyword.operator.assignment.scala
+//                      ^ punctuation.terminator.scala
 
 
 def foo(a: Int, b: Bar): Baz = 42
@@ -84,10 +85,12 @@ def foo(a: Int, b: Bar): Baz = 42
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
 
-   val foo: Unit
+   val foo: Unit; 42
 // ^^^ storage.type.stable.scala
 //     ^^^ entity.name.val
 //          ^^^^ storage.type.primitive.scala
+//              ^ punctuation.terminator.scala
+//                ^^ constant.numeric.integer.scala
 
    var foo: Unit
 // ^^^ storage.type.volatile.scala
