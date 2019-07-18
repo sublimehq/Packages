@@ -36,10 +36,10 @@ variables:
       [:@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
-  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<, +, -}
+  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<}
   typeop: |-
     (?x:
-      [[^:=<@\x{2190}\x{21D2}#+\-]&&{{operator_character}}]{{operator_character}}*|
+      [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
@@ -47,7 +47,7 @@ variables:
       <[:%\-]{{operator_character}}+|
       :[[^<]&&{{operator_character}}]+|
       :<{{operator_character}}+|
-      [@\x{2190}\x{21D2}#+\-]{{operator_character}}+
+      [@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
   idrest: '(?:(?:{{idcont}}|_(?=[^{{operator_character}}]))*(?:_{{operator_character}}+)?)'
@@ -1571,8 +1571,8 @@ contexts:
   delimited-type-expression:
     - include: annotation
     # kind-projector support
-    - match: '\?'
-      scope: variable.language.qmark.scala
+    - match: '\?|\*'
+      scope: variable.language.hole.scala
     # \x{03BB} = λ
     - match: '\bLambda\b|\x{03BB}'
       scope: keyword.operator.type-lambda.scala

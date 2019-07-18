@@ -1325,17 +1325,17 @@ def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
 //               ^ keyword.operator.varargs.scala
 //                                    ^ keyword.operator.varargs.scala
 //                                             ^ keyword.operator.varargs.scala
-//                                                         ^ support.type.scala - keyword
+//                                                         ^ - support
 
-def foo[A[_] <: B](a: Int * String): Unit
+def foo[A[_] <: B](a: Int + String): Unit
 //     ^ punctuation.definition.generic.begin.scala
 //       ^ punctuation.definition.generic.begin.scala
 //         ^ punctuation.definition.generic.end.scala
 //               ^ punctuation.definition.generic.end.scala
 //     ^^^^^^^^^^^ meta.generic.scala
 //                ^ punctuation.section.group.begin.scala
-//                                ^ punctuation.section.group.end.scala
 //                        ^ support.type.scala - keyword
+//                                ^ punctuation.section.group.end.scala
 
 class Foo(a: String*)
 //                 ^ keyword.operator.varargs.scala
@@ -1719,7 +1719,10 @@ val ' = 42
 //  ^ - entity.name
 
 type Foo = Monad[OptionT[IO, ?]]
-//                           ^ variable.language.qmark.scala
+//                           ^ variable.language.hole.scala
+
+type Foo = Monad[OptionT[IO, *]]
+//                           ^ variable.language.hole.scala
 
 type Foo = Monad[λ[α => OptionT[IO, α]]]
 //               ^ keyword.operator.type-lambda.scala
