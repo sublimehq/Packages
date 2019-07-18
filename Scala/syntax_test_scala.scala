@@ -264,7 +264,7 @@ type Foo = Bar[A] forSome { type A }
 
    f"formatted: x: $x%+,.3f ca"
 // ^ support.function
-//                  ^ variable.other.scala
+//                  ^ variable.other.scala - string
 //                   ^^^^^^ constant.other.formatting.scala
 
    f"formatted: date: $x%T "
@@ -1710,14 +1710,8 @@ val x: = 42
    IO
 // ^^ support.constant.scala
 
-val foo' = 42
-//  ^^^^ entity.name.val.scala variable.other.constant.scala
-
-val foo'' = 42
-//  ^^^^^ entity.name.val.scala variable.other.constant.scala
-
-def foo' = ()
-//  ^^^^ entity.name.function.scala
+val a' = 42
+//   ^ - entity.name
 
 val ' = 42
 //  ^ - entity.name

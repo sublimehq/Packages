@@ -18,7 +18,7 @@ variables:
   operator_character: '[\p{Sm}\p{So}[{{disallowed_as_operator}}&&[\x{20}-\x{7E}]]]'
   upper: '[$\p{Lu}]'
   # This is "letter", but without _ so we can ensure it is not last
-  idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9'']'
+  idcont: '[$\p{Lu}\p{Ll}\p{Lt}\p{Lo}\p{Nl}0-9]'
 
   # note the handling of ' characters in identifiers is somewhat conservative
   # TLS doesn't document this feature very well (read: at all), but this is how it's used
@@ -1172,14 +1172,13 @@ contexts:
 
   interpolated-vars-expressions:
     # we duplicate this pattern to encode a greedy ? on the [']
-    - match: '(\$)({{alphaid}})['']'
-      captures:
-        1: punctuation.definition.variable.scala variable.other.scala
-        2: variable.other.scala
-    - match: '(\$){{alphaid}}'
-      scope: variable.other.scala
-      captures:
-        1: punctuation.definition.variable.scala
+    - match: '\$(?={{alphaid}})'
+      scope: punctuation.definition.variable.scala variable.other.scala
+      push:
+        - clear_scopes: 1
+        - match: '{{alphaid}}'
+          scope: variable.other.scala
+          pop: true
     - match: '\$\{'
       scope: punctuation.definition.expression.scala
       push:
