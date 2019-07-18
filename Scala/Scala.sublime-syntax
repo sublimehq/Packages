@@ -821,6 +821,8 @@ contexts:
             - match: "}"
               scope: punctuation.section.group.end.scala
               pop: true
+            - match: ','
+              scope: punctuation.separator.scala
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
             - match: '{{upperid}}'

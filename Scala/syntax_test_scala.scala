@@ -16,6 +16,7 @@ import fubar.{Unit, Foo}
 // <- meta.import.scala
 //     ^^^^^ support.type.package.scala
 //            ^^^^ support.class.import.scala
+//                ^ punctuation.separator.scala
 
 def foo: Baz = 42
 //^ storage.type.function.scala
