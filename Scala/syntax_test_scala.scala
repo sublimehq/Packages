@@ -8,8 +8,10 @@ package fubar
 package fubar {
 // ^^^^ keyword.control.scala
 //      ^^^^^ entity.name.namespace.scoped.scala
+//            ^ punctuation.section.block.begin.scala
 // <- meta.namespace.scala
-}
+   }
+// ^ punctuation.section.block.end.scala
 
 import fubar.{Unit, Foo}
 // ^^^ keyword.other.import

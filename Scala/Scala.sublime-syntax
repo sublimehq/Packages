@@ -367,13 +367,15 @@ contexts:
         2: storage.type.class.scala
         3: entity.name.class.scala
       push: class-inheritance-extends
-    - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*\{'
+    - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*(\{)'
       captures:
         1: keyword.control.scala
         2: entity.name.namespace.scoped.scala
+        3: punctuation.section.block.begin.scala
       push:
         - meta_scope: meta.namespace.scala
         - match: '\}'
+          scope: punctuation.section.block.end.scala
           pop: true
         - include: main
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)'
