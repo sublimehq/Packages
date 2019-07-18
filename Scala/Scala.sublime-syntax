@@ -1582,6 +1582,8 @@ contexts:
       scope: keyword.declaration.scala
     - match: '[\.#]'
       scope: punctuation.accessor.scala
+    - match: ','
+      scope: punctuation.separator.scala
     # - include: literal-constants
     # - include: char-literal
     # - include: scala-symbol

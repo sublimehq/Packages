@@ -149,7 +149,9 @@ object Foo
 
   type Foo[A, B, C] = Bar
 //         ^ support.class
+//          ^ punctuation.separator.scala
 //            ^ support.class
+//             ^ punctuation.separator.scala
 //               ^ support.class
 //                  ^ keyword.operator.assignment.scala
 
