@@ -1244,6 +1244,8 @@ var foo = 1;
 $var
 // <- variable.other.php
 //^^ variable.other.php
+    ($var)
+//   ^^^^ variable.other.php
 JAVASCRIPT;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
