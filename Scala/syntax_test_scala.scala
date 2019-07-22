@@ -87,6 +87,8 @@ def foo(a: Int, b: Bar): Baz = 42
 
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
+//                     ^ punctuation.ascription.scala
+//                           ^ punctuation.ascription.scala
 
    val foo: Unit; 42
 // ^^^ storage.type.stable.scala
