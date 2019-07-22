@@ -104,6 +104,7 @@ variables:
             (~){3,}    #   3 or more tildas
             (?![^~]*~) #   not followed by any more tildas on the same line
           )
+          (?:\s*\{\.)? # Pandoc's notation: https://pandoc.org/MANUAL.html#fenced-code-blocks
           \s*          # allow for whitespace between code block start and info string
         )
     fenced_code_block_trailing_infostring_characters: |-
@@ -112,6 +113,8 @@ variables:
             \s*        # any whitespace, or ..
           |
             \s[^`]*    # any characters (except backticks), separated by whitespace ...
+          |
+            \}         # Pandoc's notation: https://pandoc.org/MANUAL.html#fenced-code-blocks
           )
           $\n?         # ... until EOL
         )

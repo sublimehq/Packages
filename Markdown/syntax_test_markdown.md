@@ -1179,6 +1179,16 @@ for (var i = 0; i < 10; i++) {
 ```
 | <- punctuation.definition.raw.code-fence.end
 
+``` {.js}
+| <- punctuation.definition.raw.code-fence.begin
+|     ^^ constant.other.language-name
+for (var i = 0; i < 10; i++) {
+| ^ keyword.control.loop.js
+    console.log(i);
+}
+```
+| <- punctuation.definition.raw.code-fence.end
+
 ```testing``123```
 | <- punctuation.definition.raw.begin
 |         ^^ - punctuation
