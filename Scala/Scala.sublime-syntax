@@ -357,7 +357,7 @@ contexts:
     - match: '\b(var)\s+({{id}})'
       captures:
         1: storage.type.volatile.scala
-        2: entity.name.var.scala variable.other.readwrite.scala
+        2: variable.other.readwrite.scala
     - match: '\bval\b'
       scope: storage.type.stable.scala
       push: val-simple-body
@@ -1366,7 +1366,7 @@ contexts:
         - match: (?=\S)
           pop: true
     - match: '\b{{varid}}'
-      scope: entity.name.val.scala variable.other.constant.scala
+      scope: variable.other.constant.scala
     - match: \[
       push:
         - match: \]
@@ -1407,17 +1407,17 @@ contexts:
 
     # special form lookahead to prevent invalid operator ascription syntax
     - match: '(?:{{op}}|{{id}}_{{operator_character}}*):(?=\s+:|\s*=|\s*$)'
-      scope: entity.name.val.scala variable.other.constant.scala
+      scope: variable.other.constant.scala
       set: val-simple-body-tail
     - match: '({{op}}|{{id}}_{{operator_character}}*)(:)(?=\s)'
       captures:
-        1: entity.name.val.scala variable.other.constant.scala
+        1: variable.other.constant.scala
         2: invalid.ascription.following-operator.scala
       set: val-simple-ascription
 
     # an id followed by a type, or an =, or EOL
     - match: '{{id}}(?=\s*:{{nonopchar}}|\s*=|\s*$)'
-      scope: entity.name.val.scala variable.other.constant.scala
+      scope: variable.other.constant.scala
       set: val-simple-body-tail
     - match: (?=\S)
       set:
