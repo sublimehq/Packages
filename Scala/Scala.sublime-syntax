@@ -803,7 +803,11 @@ contexts:
       scope: keyword.other.import.scala
       push:
         - meta_scope: meta.import.scala
-        - match: ',\n'    # TODO operator scoping for , and . in imports
+        - match: '(,)[ \t]*\n'    # TODO real newline inference
+          captures:
+            1: punctuation.separator.scala
+        - match: ','
+          scope: punctuation.separator.scala
         - match: '(?=[\n;])'
           pop: true
         - match: '{{upperid}}'

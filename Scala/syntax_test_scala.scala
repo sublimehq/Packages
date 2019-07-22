@@ -945,6 +945,9 @@ import foo
 // <- meta.import.scala
 //     ^^^ support.type.package.scala
 
+import foo, bar
+//        ^ punctuation.separator.scala
+
 import foo; import bar
 //     ^^^ support.type.package.scala
 //          ^^^^^^ keyword.other.import.scala
