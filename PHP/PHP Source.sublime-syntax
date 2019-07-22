@@ -545,21 +545,18 @@ contexts:
         - match: ','
           scope: punctuation.separator.php
     # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:public|private|protected|static)\b)
+    - match: (?=\b(?:var|public|private|protected|static)\b)
       push:
         - match: (?=\b(?:const|function)\b)
           pop: true
-        - match: \b(?:public|private|protected|static)\b
+        - match: \b(?:var|public|private|protected|static)\b
           scope: storage.modifier.php
-        - match: (?=(?:\?\s*)?{{identifier}})
-          set:
-            - match: '(?:(\?)\s*)?({{identifier}})'
-              captures:
-                1: storage.type.nullable.php
-                2: support.class.php
-              pop: true
-            - match: ''
-              pop: true
+        - match: '(?:(\?)\s*)?({{identifier}})'
+          captures:
+            1: storage.type.nullable.php
+            2: support.class.php
+          pop: true
+        # Exit on unexpected content
         - match: (?=\S)
           pop: true
     - include: statements
