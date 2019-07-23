@@ -23,6 +23,14 @@ contexts:
     - match: '\${{identifier}}'
       scope: variable.other.rust
 
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
+  pop-immediately:
+    - match: ''
+      pop: true
+
   statements:
 
     - match: '(''{{identifier}})\s*(:)'
@@ -644,95 +652,111 @@ contexts:
             - include: type-any-identifier
 
   macro-block:
+    # This meta scope requires some juggling
     - meta_scope: meta.macro.rust
-    - match: '\}'
-      scope: meta.block.rust punctuation.section.block.end.rust
-      pop: true
-    - match: '[\])]'
-      scope: punctuation.section.group.end.rust
-      pop: true
-    - match: '\{'
-      scope: punctuation.section.block.begin.rust
-      push:
-        - meta_scope: meta.block.rust
-        - match: '(?=\})'
+    - match: \{
+      scope: meta.block.rust punctuation.section.block.begin.rust
+      set:
+        - meta_content_scope: meta.macro.rust meta.block.rust
+        - match: \}
+          scope: meta.macro.rust meta.block.rust punctuation.section.block.end.rust
           pop: true
         - include: macro-block-contents
-    - match: '\['
-      scope: punctuation.section.group.begin.rust
-      push:
-        - meta_scope: meta.group.rust
-        - match: '(?=\])'
+    - match: \[
+      scope: meta.group.rust punctuation.section.group.begin.rust
+      set:
+        - meta_content_scope: meta.macro.rust meta.group.rust
+        - match: \]
+          scope: meta.macro.rust meta.group.rust punctuation.section.group.end.rust
           pop: true
         - include: macro-block-contents
-    - match: '\('
-      scope: punctuation.section.group.begin.rust
-      push:
-        - meta_scope: meta.group.rust
-        - match: '(?=\))'
+    - match: \(
+      scope: meta.group.rust punctuation.section.group.begin.rust
+      set:
+        - meta_content_scope: meta.macro.rust meta.group.rust
+        - match: \)
+          scope: meta.macro.rust meta.group.rust punctuation.section.group.end.rust
           pop: true
         - include: macro-block-contents
+    - include: else-pop
 
   macro-block-contents:
     - include: comments
-    - match: '\('
-      scope: punctuation.section.group.begin.rust
-      push: macro-matcher
-    - match: ';'
+    - match: (?=\()
+      push:
+        - macro-terminator
+        - macro-body
+        - macro-match-operator
+        - macro-matcher
 
   macro-matcher:
-    - meta_include_prototype: false
-    - meta_scope: meta.group.rust
-    - match: '\)'
-      scope: punctuation.section.group.end.rust
-      set: macro-match-operator
-    - match: '(\$)(\()'
-      captures:
-        1: keyword.operator.rust
-        2: punctuation.section.group.begin.rust
-      push:
-        - match: '(\))[^*+]?([*+])'
-          captures:
-            1: punctuation.section.group.end.rust
-            2: keyword.operator.rust
+    - match: \(
+      scope: punctuation.section.group.begin.rust
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.group.macro-matcher.rust
+        - match: \)
+          scope: punctuation.section.group.end.rust
           pop: true
+        - match: ((\$)\()
+          captures:
+            1: punctuation.section.group.begin.rust
+            2: keyword.operator.rust
+          push:
+            - meta_scope: meta.group.rust
+            - meta_include_prototype: false
+            - match: (\))(?:\s*[^*+]?\s*([*+]))?
+              captures:
+                1: punctuation.section.group.end.rust
+                2: keyword.operator.rust
+              pop: true
+            - include: macro-metavariable
         - include: macro-metavariable
-    - include: macro-metavariable
 
   macro-match-operator:
-    - match: '=>'
+    - match: =>
       scope: keyword.operator.rust
-    - match: '\{'
+      pop: true
+    - include: else-pop
+
+  macro-body:
+    - match: \{
       scope: punctuation.section.block.begin.rust
       set:
-        - meta_scope: meta.block.rust
-        - match: '\}'
+        - meta_scope: meta.block.macro-body.rust
+        - match: \}
           scope: punctuation.section.block.end.rust
           pop: true
         - include: statements
-    - match: '\('
+    - match: \(
       scope: punctuation.section.group.begin.rust
       set:
-        - meta_scope: meta.group.rust
-        - match: '\)'
+        - meta_scope: meta.group.macro-body.rust
+        - match: \)
           scope: punctuation.section.group.end.rust
           pop: true
         - include: statements
-    - match: '\['
+    - match: \[
       scope: punctuation.section.group.begin.rust
       set:
-        - meta_scope: meta.group.rust
-        - match: '\]'
+        - meta_scope: meta.group.macro-body.rust
+        - match: \]
           scope: punctuation.section.group.end.rust
           pop: true
         - include: statements
+    - include: else-pop
 
   macro-metavariable:
     - match: '(\${{identifier}})(:)(ident|path|expr|ty|pat|stmt|block|item|meta|tt)'
       captures:
-        1: variable.parameter.rust
+        1: variable.parameter.macro.rust
         2: punctuation.separator.rust
         3: storage.type.rust
+
+  macro-terminator:
+    - match: ;|,
+      scope: punctuation.terminator.macro-matcher.rust
+    - include: else-pop
 
   impl-definition:
     - meta_scope: meta.impl.rust
