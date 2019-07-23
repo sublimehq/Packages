@@ -1003,8 +1003,8 @@ contexts:
       scope: keyword.other.scala
     - match: \?\?\?
       scope: keyword.other.scala
-    - match: \b(?:eq|ne)\b
-      scope: keyword.operator.word.scala
+    - match: '[!=]=(?={{nonopchar}})|\b(?:eq|ne)\b'
+      scope: keyword.operator.comparison.scala
 
   late-keywords:
     - match: \bextends\b

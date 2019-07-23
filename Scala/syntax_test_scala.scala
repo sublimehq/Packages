@@ -994,8 +994,8 @@ for {} yield ()
 foo: m.type
 //     ^^^^ keyword.other.scala
 
-   ==
-// ^^ - keyword
+   ===
+// ^^^ - keyword
 
 offset >= 0
 //     ^^ - keyword
@@ -1069,10 +1069,10 @@ val (foo, bar) = ???
 //      ^ punctuation.separator.scala
 
 foo eq bar
-//  ^^ keyword.operator.word.scala
+//  ^^ keyword.operator.comparison.scala
 
 foo ne bar
-//  ^^ keyword.operator.word.scala
+//  ^^ keyword.operator.comparison.scala
 
 new Config()
 //        ^^ - constant
@@ -2116,3 +2116,15 @@ val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
    42d
 // ^^^ constant.numeric.float.scala
 //   ^ storage.type.numeric.scala
+
+foo == bar
+//  ^^ keyword.operator.comparison.scala
+
+foo != bar
+//  ^^ keyword.operator.comparison.scala
+
+foo eq bar
+//  ^^ keyword.operator.comparison.scala
+
+foo ne bar
+//  ^^ keyword.operator.comparison.scala
