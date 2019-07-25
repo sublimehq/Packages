@@ -16,8 +16,6 @@ package fubar {
 import fubar.{Unit, Foo}
 // ^^^ keyword.other.import
 // <- meta.import.scala
-//     ^^^^^ support.type.package.scala
-//            ^^^^ support.class.import.scala
 //                ^ punctuation.separator.scala
 
 def foo: Baz = 42
@@ -943,36 +941,27 @@ class Foo(a: A :: B)
 
 import foo
 // <- meta.import.scala
-//     ^^^ support.type.package.scala
 
 import foo, bar
 //        ^ punctuation.separator.scala
 
 import foo; import bar
-//     ^^^ support.type.package.scala
+//        ^ punctuation.terminator.scala
 //          ^^^^^^ keyword.other.import.scala
-//                 ^^^ support.type.package.scala
 
 import foo.bar
-//     ^^^ support.type.package.scala
 //        ^ punctuation.accessor.dot.scala
-//         ^^^ support.type.package.scala
 
 import foo.{bar, bar => baz, bar=>baz}
 //         ^^^^^^^^^^^^^^^^^ meta.import.selector.scala
-//          ^^^ support.type.package.scala
-//               ^^^ support.type.package.scala
 //                   ^^ keyword.operator.arrow.scala
-//                      ^^^ support.type.package.scala
-//                           ^^^ support.type.package.scala
 //                              ^^ keyword.operator.arrow.scala
-//                                ^^^ support.type.package.scala
 
 
 import foo.{
    bar => bin
-// ^^^ support.type.package.scala
-//        ^^^ support.type.package.scala
+// ^^^ meta.import.scala
+//        ^^^ meta.import.scala
 }
 
 import foo._
@@ -1551,7 +1540,6 @@ var foo: Thing =42
 class Foo extends Bar with {
    import Thing._
 // ^^^^^^ keyword.other.import.scala
-//        ^^^^^ support.class.import.scala
 }
 
 class Foo extends Bar.Baz with bin.Baz
@@ -1740,11 +1728,11 @@ type Foo = Monad[Lambda[α => OptionT[IO, α]]]
 
 import scalaz._,
    Scalaz._
-// ^^^^^^ meta.import.scala support.class.import.scala
+// ^^^^^^ meta.import.scala
 
 import scalaz._
    Scalaz._
-// ^^^^^^ support.constant.scala
+// ^^^^^^ support.constant.scala - meta.import
 
    for {
 //     ^ punctuation.section.block.begin.scala
@@ -1966,7 +1954,7 @@ s"testing '$foo' bar"
    new DataCodec {
      import PreciseKeys._
 //   ^^^^^^ meta.import.scala keyword.other.import.scala
-//          ^^^^^^^^^^^ meta.import.scala support.class.import.scala
+//          ^^^^^^^^^^^ meta.import.scala
 //                     ^ meta.import.scala punctuation.accessor.dot.scala
 //                      ^ meta.import.scala variable.language.underscore.scala
    } foo

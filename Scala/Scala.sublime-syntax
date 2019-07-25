@@ -810,10 +810,7 @@ contexts:
           scope: punctuation.separator.scala
         - match: '(?=[\n;])'
           pop: true
-        - match: '{{upperid}}'
-          scope: support.class.import.scala
         - match: '{{id}}'
-          scope: support.type.package.scala
         - match: \.
           scope: punctuation.accessor.dot.scala
         - match: '_'
@@ -829,10 +826,7 @@ contexts:
               scope: punctuation.separator.scala
             - match: '{{rightarrow}}'
               scope: keyword.operator.arrow.scala
-            - match: '{{upperid}}'
-              scope: support.class.import.scala
             - match: '{{id}}'
-              scope: support.type.package.scala
             - match: '_'
               scope: variable.language.underscore.scala
 
