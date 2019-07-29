@@ -985,6 +985,10 @@ class MyClass extends TheirClass {
 //             ^ punctuation.definition.variable
 //              ^ variable.other.readwrite
 //                ^ keyword.operator.arithmetic
+
+        for (const param of this.#data.get('value')) {}
+//                               ^ punctuation.definition.variable
+//                                ^^^^ meta.property.object
     }
 
     constructor(el)
