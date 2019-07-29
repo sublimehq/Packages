@@ -6,15 +6,15 @@
 # <- punctuation.definition.reference.email.begin.git
 # ^^^^^^^^^^^^^ entity.name.reference.email.git
 #   ^ punctuation.separator.email.git
-#           ^ punctuation.separator.email.git
+#           ^ punctuation.separator.domain.git
 #              ^ punctuation.definition.reference.email.end.git
 #               ^^^^^^^^^^^^^^^^^^^^^^^ - meta - entity
 #                                      ^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 #                                      ^ punctuation.definition.reference.email.begin.git
 #                                       ^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                                          ^ punctuation.separator.email.git
-#                                                 ^ punctuation.separator.email.git
-#                                                          ^ punctuation.separator.email.git
+#                                                 ^ punctuation.separator.domain.git
+#                                                          ^ punctuation.separator.domain.git
 #                                                             ^ punctuation.definition.reference.email.end.git
 #                                                               ^^^^^^^^^^^^^^^ comment.line.git - meta - entity
 #                                                               ^ punctuation.definition.comment.git
@@ -24,7 +24,7 @@ Some Dude <some@dude.xx>         nick1 <bugs@company.xx>
 #         ^ punctuation.definition.reference.email.begin.git
 #          ^^^^^^^^^^^^ entity.name.reference.email.git
 #              ^ punctuation.separator.email.git
-#                   ^ punctuation.separator.email.git
+#                   ^ punctuation.separator.domain.git
 #                       ^^^^^^^^^ - meta - entity
 #                                ^^^^^ meta.reference.user.git
 #                                     ^ - meta - entity

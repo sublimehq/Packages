@@ -83,7 +83,7 @@ contexts:
   email-domain:
     - meta_content_scope: entity.name.reference.email.git
     - match: \.
-      scope: punctuation.separator.email.git
+      scope: punctuation.separator.domain.git
     - include: email-end
 
   email-end:
