@@ -2068,11 +2068,6 @@ contexts:
       scope: support.function.js
       pop: true
 
-    # Annex B
-    - match: (?:escape|unescape){{identifier_break}}
-      scope: invalid.deprecated.js support.function.js
-      pop: true
-
   support-property-ecma-array:
     - match: (?:from|isArray|of){{identifier_break}}
       scope: support.function.builtin.js

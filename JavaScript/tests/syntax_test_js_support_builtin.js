@@ -117,11 +117,6 @@
     encodeURIComponent;
 //  ^^^^^^^^^^^^^^^^^^ support.function
 
-    escape;
-//  ^^^^^^ invalid.deprecated support.function
-    unescape;
-//  ^^^^^^^^ invalid.deprecated support.function
-
 
 foo.constructor;
 //  ^^^^^^^^^^^ variable.language.constructor
