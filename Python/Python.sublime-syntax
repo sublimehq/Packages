@@ -1312,6 +1312,14 @@ contexts:
         2: constant.character.escape.unicode.32-bit-hex.python
         3: constant.character.escape.unicode.name.python
 
+  escaped-fstring-escape:
+    # special-case the '\{{' sequence because it has higher priority than the deprecated '\{'
+    - match: (\\)(\{\{|\}\})
+      scope: constant.character.escape.backslash.regexp
+      captures:
+        1: invalid.deprecated.character.escape.python
+        2: constant.character.escape.python
+
   line-continuation-inside-string:
     - match: (\\)$\n?
       captures:
@@ -1389,8 +1397,13 @@ contexts:
     - match: \}
       scope: invalid.illegal.stray-brace.python
 
-  f-string-content-reset:
+  f-string-content-with-regex:
     # Same as f-string-content, but will reset the entire scope stack
+    # and has an additional match.
+    - match: \\(\{\{|\}\})
+      scope: constant.character.escape.backslash.regexp
+      captures:
+        1: constant.character.escape.python
     - match: \{\{|\}\}
       scope: constant.character.escape.python
     - match: \{\s*\}
@@ -1557,9 +1570,9 @@ contexts:
             - match: '(?=""")'
               pop: true
             - include: line-continuation-inside-string
-            - include: f-string-content-reset
+            - include: f-string-content-with-regex
     # Triple-quoted f-string
-    - match: ((?i)f|f)(""")
+    - match: ([fF])(""")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.block.python punctuation.definition.string.begin.python
@@ -1568,6 +1581,7 @@ contexts:
         - match: '"""'
           scope: punctuation.definition.string.begin.python
           set: after-expression
+        - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
         - include: f-string-content
@@ -1715,9 +1729,9 @@ contexts:
             - match: '(?="|\n)'
               pop: true
             - include: line-continuation-inside-string
-            - include: f-string-content-reset
+            - include: f-string-content-with-regex
     # Single-line f-string
-    - match: ((?i)f|f)(")
+    - match: ([fF])(")
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.double.python punctuation.definition.string.begin.python
@@ -1726,6 +1740,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
         - include: line-continuation-inside-string
@@ -1872,7 +1887,7 @@ contexts:
             - match: (?=''')
               pop: true
             - include: line-continuation-inside-string
-            - include: f-string-content-reset
+            - include: f-string-content-with-regex
     # Triple-quoted f-string
     - match: ([fF])(''')
       captures:
@@ -1883,6 +1898,7 @@ contexts:
         - match: "'''"
           scope: punctuation.definition.string.begin.python
           set: after-expression
+        - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
         - include: f-string-content
@@ -2033,9 +2049,9 @@ contexts:
             - match: (?='|\n)
               pop: true
             - include: line-continuation-inside-string
-            - include: f-string-content-reset
+            - include: f-string-content-with-regex
     # Single-line f-string
-    - match: ((?i)f|f)(')
+    - match: ([fF])(')
       captures:
         1: storage.type.string.python
         2: meta.string.interpolated.python string.quoted.single.python punctuation.definition.string.begin.python
@@ -2044,6 +2060,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
         - include: line-continuation-inside-string
